@@ -1,0 +1,1699 @@
+{
+ "_title": "Per-PMID elink probe: did these two series deposit sequences?",
+ "_generated_by": "research/modalities/panagopoulos_elink_probe.py",
+ "_generated_utc": "2026-08-15T21:54:58Z",
+ "_cost": "$0 \u2014 NCBI E-utilities on a free GitHub Actions CPU runner; no GPU, no rental",
+ "_why_this_exists": "research/modalities/nr4a3-nuccore-sweep-inputs.json records elink only as batch totals (n_in: 100, n_linked: 741 and similar), so it cannot say whether any SPECIFIC PMID was answered. Every call here carries exactly one id and checks the id NCBI echoes back.",
+ "_what_this_is_not": [
+  "Not a breakpoint distribution \u2014 a deposit is one tumour or one construct.",
+  "Not a coverage, efficacy, safety, therapeutic-window or clinical-readiness claim.",
+  "Not a patient count.",
+  "Not a statement about what the paywalled full text says."
+ ],
+ "_reading_order_enforced": "For every deposit, the junction is derived from the record's own sequence BEFORE the depositor's annotation is extracted, and the two are reported in separate fields with an explicit agreement verdict.",
+ "control_gate": {
+  "positive": {
+   "what_it_proves": "That elink pubmed->nuccore is answering correctly RIGHT NOW, on this network path, in this job, AND that a real deposit lands under the primary `pubmed_nuccore` linkname rather than the refseq one. Without it a zero from a broken query looks exactly like a zero from a paper that deposited nothing \u2014 and a zero is this probe's expected result.",
+   "observed_primary_deposit_uids": null,
+   "pmid": "11156374",
+   "expected_nuccore_uid": "13540159",
+   "expected_accession": "AF289510.1",
+   "_source": "research/literature/tcf12-nr4a3-breakpoint-primary-sources.json",
+   "result": {
+    "pmid_asked": "11156374",
+    "to_db": "nuccore",
+    "request_url_verbatim": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/elink.fcgi?dbfrom=pubmed&db=nuccore&retmode=json&id=11156374",
+    "http_status": 200,
+    "sha256_of_response_body": "9eeed8916d620a695a6cff8a94f9e96cf7fe837d83dbbb496095be8315f6e1d6",
+    "n_attempts": 1,
+    "n_linksets": 1,
+    "linkset_ids_echoed_by_ncbi": [
+     "11156374"
+    ],
+    "echo_matches_requested_pmid": true,
+    "links_by_linkname": {
+     "pubmed_nuccore": [
+      "13540159"
+     ],
+     "pubmed_nuccore_refseq": [
+      "27894356",
+      "1519243370",
+      "1677498769",
+      "1677499320",
+      "1677500748",
+      "1677500772",
+      "1677500783",
+      "1677501784",
+      "1677531327",
+      "1677531330",
+      "1677531535",
+      "1677537821",
+      "1677538041",
+      "1677538323",
+      "1677538699",
+      "1677538774",
+      "1677703434",
+      "1889489802",
+      "1890259025",
+      "1890269335",
+      "1890270238",
+      "1928917093",
+      "2217302405",
+      "2217302406",
+      "2217302407",
+      "2217302408",
+      "2217302409",
+      "2217302411",
+      "2217302412",
+      "2217302414",
+      "2217302415",
+      "2217302417",
+      "2217302419",
+      "2217302421",
+      "2217302422",
+      "2217302424",
+      "2217302426",
+      "2217302427",
+      "2217379897",
+      "2462545608",
+      "2462545610",
+      "2462545612",
+      "2462545614",
+      "2462545616",
+      "2462545618",
+      "2462545620",
+      "2462545622",
+      "2462545624",
+      "2462545626",
+      "2462545628",
+      "2462545630",
+      "2462545632",
+      "2462545634",
+      "2462545636",
+      "2462545638"
+     ]
+    },
+    "linknames_returned": [
+     "pubmed_nuccore",
+     "pubmed_nuccore_refseq"
+    ],
+    "primary_deposit_linkname": "pubmed_nuccore",
+    "primary_deposit_uids": [
+     "13540159"
+    ],
+    "n_primary_deposits": 1,
+    "refseq_reference_uids": [
+     "27894356",
+     "1519243370",
+     "1677498769",
+     "1677499320",
+     "1677500748",
+     "1677500772",
+     "1677500783",
+     "1677501784",
+     "1677531327",
+     "1677531330",
+     "1677531535",
+     "1677537821",
+     "1677538041",
+     "1677538323",
+     "1677538699",
+     "1677538774",
+     "1677703434",
+     "1889489802",
+     "1890259025",
+     "1890269335",
+     "1890270238",
+     "1928917093",
+     "2217302405",
+     "2217302406",
+     "2217302407",
+     "2217302408",
+     "2217302409",
+     "2217302411",
+     "2217302412",
+     "2217302414",
+     "2217302415",
+     "2217302417",
+     "2217302419",
+     "2217302421",
+     "2217302422",
+     "2217302424",
+     "2217302426",
+     "2217302427",
+     "2217379897",
+     "2462545608",
+     "2462545610",
+     "2462545612",
+     "2462545614",
+     "2462545616",
+     "2462545618",
+     "2462545620",
+     "2462545622",
+     "2462545624",
+     "2462545626",
+     "2462545628",
+     "2462545630",
+     "2462545632",
+     "2462545634",
+     "2462545636",
+     "2462545638"
+    ],
+    "n_refseq_references": 55,
+    "\u26a0 what_the_two_link_sets_mean": "`pubmed_nuccore` = sequence records SUBMITTED with this paper \u2014 the thing being looked for. `pubmed_nuccore_refseq` = curated RefSeq entries that cite this paper in their bibliography; every paper about a gene links to that gene's RefSeq record, so it is not evidence of a deposit.",
+    "linked_uids_all_linknames_merged": [
+     "13540159",
+     "27894356",
+     "1519243370",
+     "1677498769",
+     "1677499320",
+     "1677500748",
+     "1677500772",
+     "1677500783",
+     "1677501784",
+     "1677531327",
+     "1677531330",
+     "1677531535",
+     "1677537821",
+     "1677538041",
+     "1677538323",
+     "1677538699",
+     "1677538774",
+     "1677703434",
+     "1889489802",
+     "1890259025",
+     "1890269335",
+     "1890270238",
+     "1928917093",
+     "2217302405",
+     "2217302406",
+     "2217302407",
+     "2217302408",
+     "2217302409",
+     "2217302411",
+     "2217302412",
+     "2217302414",
+     "2217302415",
+     "2217302417",
+     "2217302419",
+     "2217302421",
+     "2217302422",
+     "2217302424",
+     "2217302426",
+     "2217302427",
+     "2217379897",
+     "2462545608",
+     "2462545610",
+     "2462545612",
+     "2462545614",
+     "2462545616",
+     "2462545618",
+     "2462545620",
+     "2462545622",
+     "2462545624",
+     "2462545626",
+     "2462545628",
+     "2462545630",
+     "2462545632",
+     "2462545634",
+     "2462545636",
+     "2462545638"
+    ],
+    "n_linked": 56,
+    "verdict": "PRIMARY_DEPOSITS_PRESENT",
+    "\u2705 how_to_read_this": "elink pubmed->nuccore for PMID 11156374 returned 1 record(s) under `pubmed_nuccore` \u2014 sequences submitted with this paper. They are analysed below; a link is not yet a junction."
+   },
+   "passed": true,
+   "\u26d4 if_this_failed": "Any 'this paper deposited nothing' statement below is UNSUPPORTED \u2014 an instrument that cannot re-find a known deposit cannot certify an absence."
+  },
+  "negative": {
+   "what_it_proves": "That the pipeline does not manufacture links for an id that indexes nothing.",
+   "pmid": "999999999",
+   "result": {
+    "pmid_asked": "999999999",
+    "to_db": "nuccore",
+    "request_url_verbatim": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/elink.fcgi?dbfrom=pubmed&db=nuccore&retmode=json&id=999999999",
+    "http_status": 200,
+    "sha256_of_response_body": "9784074e4d2d2a4270a35c520824d743423ccfcc8d1b126154483f39b2be3ac5",
+    "n_attempts": 1,
+    "n_linksets": 1,
+    "linkset_ids_echoed_by_ncbi": [
+     "999999999"
+    ],
+    "echo_matches_requested_pmid": true,
+    "links_by_linkname": {},
+    "linknames_returned": [],
+    "primary_deposit_linkname": "pubmed_nuccore",
+    "primary_deposit_uids": [],
+    "n_primary_deposits": 0,
+    "refseq_reference_uids": [],
+    "n_refseq_references": 0,
+    "\u26a0 what_the_two_link_sets_mean": "`pubmed_nuccore` = sequence records SUBMITTED with this paper \u2014 the thing being looked for. `pubmed_nuccore_refseq` = curated RefSeq entries that cite this paper in their bibliography; every paper about a gene links to that gene's RefSeq record, so it is not evidence of a deposit.",
+    "linked_uids_all_linknames_merged": [],
+    "n_linked": 0,
+    "verdict": "MEASURED_ZERO",
+    "\u2705 how_to_read_this": "elink pubmed->nuccore for PMID 999999999 returned 0 records of any kind. The endpoint answered 200, the linkset echoed exactly id 999999999, and it carried no link set at all. A MEASURED zero for THIS paper, not a batch total and not a failed read."
+   },
+   "passed": true
+  }
+ },
+ "control_gate_passed": true,
+ "\u26d4 gate_scope": "A FAILED gate does not make a retrieved record wrong, but it does make any ZERO here unsupported \u2014 an unproven instrument cannot certify an absence.",
+ "findings": [
+  {
+   "pmid": "12378528",
+   "why_this_paper": "The 18-case series that supplies the whole within-partner breakpoint distribution. Its abstract names type 1 (EWS exon 12 :: CHN exon 3) and type 5 (exon 13 :: exon 3) and leaves the remaining EWSR1-rearranged tumours' transcript types unnamed. That unnamed block is the largest remaining piece of unreachable coverage.",
+   "what_a_deposit_would_settle": "A deposited chimeric cDNA from this series would name an exon pair the abstract does not \u2014 turning an inferred distribution row into a sequence-derived one.",
+   "paper_identified_at_runtime": {
+    "request_url_verbatim": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&retmode=json&id=12378528",
+    "http_status": 200,
+    "resolved": true,
+    "title_verbatim": "Molecular genetic characterization of the EWS/CHN and RBP56/CHN fusion genes in extraskeletal myxoid chondrosarcoma.",
+    "journal_verbatim": "Genes, chromosomes & cancer",
+    "pubdate_verbatim": "2002 Dec",
+    "volume": "35",
+    "pages": "340-52",
+    "first_author_verbatim": "Panagopoulos I",
+    "n_authors": 12,
+    "doi": "10.1002/gcc.10127",
+    "pmcid": null
+   },
+   "elink": {
+    "nuccore": {
+     "pmid_asked": "12378528",
+     "to_db": "nuccore",
+     "request_url_verbatim": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/elink.fcgi?dbfrom=pubmed&db=nuccore&retmode=json&id=12378528",
+     "http_status": 200,
+     "sha256_of_response_body": "db019f0e9556e49803182bb67aa880e9362aa2e9c2ac620266a1d9216626c646",
+     "n_attempts": 1,
+     "n_linksets": 1,
+     "linkset_ids_echoed_by_ncbi": [
+      "12378528"
+     ],
+     "echo_matches_requested_pmid": true,
+     "links_by_linkname": {
+      "pubmed_nuccore_refseq": [
+       "27894356",
+       "1519243370",
+       "1519312680",
+       "1674986060",
+       "1890259025",
+       "1928917093",
+       "2217379897"
+      ]
+     },
+     "linknames_returned": [
+      "pubmed_nuccore_refseq"
+     ],
+     "primary_deposit_linkname": "pubmed_nuccore",
+     "primary_deposit_uids": [],
+     "n_primary_deposits": 0,
+     "refseq_reference_uids": [
+      "27894356",
+      "1519243370",
+      "1519312680",
+      "1674986060",
+      "1890259025",
+      "1928917093",
+      "2217379897"
+     ],
+     "n_refseq_references": 7,
+     "\u26a0 what_the_two_link_sets_mean": "`pubmed_nuccore` = sequence records SUBMITTED with this paper \u2014 the thing being looked for. `pubmed_nuccore_refseq` = curated RefSeq entries that cite this paper in their bibliography; every paper about a gene links to that gene's RefSeq record, so it is not evidence of a deposit.",
+     "linked_uids_all_linknames_merged": [
+      "27894356",
+      "1519243370",
+      "1519312680",
+      "1674986060",
+      "1890259025",
+      "1928917093",
+      "2217379897"
+     ],
+     "n_linked": 7,
+     "verdict": "NO_PRIMARY_DEPOSIT_ONLY_REFSEQ_REFERENCES",
+     "\u2705 how_to_read_this": "elink pubmed->nuccore for PMID 12378528 returned 0 records under `pubmed_nuccore` and 7 under `pubmed_nuccore_refseq`. The endpoint answered 200 and the linkset echoed exactly id 12378528, so this is a MEASURED zero for DEPOSITS by this paper specifically \u2014 the records it does link are curated reference entries that cite it, not submissions from it.",
+     "refseq_references_identified": [
+      {
+       "uid": "27894356",
+       "accession": "NM_173198.1",
+       "title_verbatim": "Homo sapiens nuclear receptor subfamily 4, group A, member 3 (NR4A3), transcript variant 2, mRNA"
+      },
+      {
+       "uid": "1519243370",
+       "accession": "NM_006981.4",
+       "title_verbatim": "Homo sapiens nuclear receptor subfamily 4 group A member 3 (NR4A3), transcript variant 1, mRNA"
+      },
+      {
+       "uid": "1519312680",
+       "accession": "NM_139215.3",
+       "title_verbatim": "Homo sapiens TATA-box binding protein associated factor 15 (TAF15), transcript variant 1, mRNA"
+      },
+      {
+       "uid": "1674986060",
+       "accession": "NM_003487.4",
+       "title_verbatim": "Homo sapiens TATA-box binding protein associated factor 15 (TAF15), transcript variant 2, mRNA"
+      },
+      {
+       "uid": "1890259025",
+       "accession": "NM_173200.3",
+       "title_verbatim": "Homo sapiens nuclear receptor subfamily 4 group A member 3 (NR4A3), transcript variant 3, mRNA"
+      },
+      {
+       "uid": "1928917093",
+       "accession": "NM_173199.4",
+       "title_verbatim": "Homo sapiens nuclear receptor subfamily 4 group A member 3 (NR4A3), transcript variant 4, mRNA"
+      },
+      {
+       "uid": "2217379897",
+       "accession": "XM_017015162.2",
+       "title_verbatim": "PREDICTED: Homo sapiens nuclear receptor subfamily 4 group A member 3 (NR4A3), transcript variant X1, mRNA"
+      }
+     ]
+    },
+    "protein": {
+     "pmid_asked": "12378528",
+     "to_db": "protein",
+     "request_url_verbatim": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/elink.fcgi?dbfrom=pubmed&db=protein&retmode=json&id=12378528",
+     "http_status": 200,
+     "sha256_of_response_body": "66375787b0681558da5ac652e7b6808911ace7bf1480db3f0cb43fecc4887010",
+     "n_attempts": 1,
+     "n_linksets": 1,
+     "linkset_ids_echoed_by_ncbi": [
+      "12378528"
+     ],
+     "echo_matches_requested_pmid": true,
+     "links_by_linkname": {
+      "pubmed_protein_refseq": [
+       "4507353",
+       "21327701",
+       "27894355",
+       "27894359",
+       "27894361",
+       "1034671403"
+      ]
+     },
+     "linknames_returned": [
+      "pubmed_protein_refseq"
+     ],
+     "primary_deposit_linkname": "pubmed_protein",
+     "primary_deposit_uids": [],
+     "n_primary_deposits": 0,
+     "refseq_reference_uids": [
+      "4507353",
+      "21327701",
+      "27894355",
+      "27894359",
+      "27894361",
+      "1034671403"
+     ],
+     "n_refseq_references": 6,
+     "\u26a0 what_the_two_link_sets_mean": "`pubmed_protein` = sequence records SUBMITTED with this paper \u2014 the thing being looked for. `pubmed_protein_refseq` = curated RefSeq entries that cite this paper in their bibliography; every paper about a gene links to that gene's RefSeq record, so it is not evidence of a deposit.",
+     "linked_uids_all_linknames_merged": [
+      "4507353",
+      "21327701",
+      "27894355",
+      "27894359",
+      "27894361",
+      "1034671403"
+     ],
+     "n_linked": 6,
+     "verdict": "NO_PRIMARY_DEPOSIT_ONLY_REFSEQ_REFERENCES",
+     "\u2705 how_to_read_this": "elink pubmed->protein for PMID 12378528 returned 0 records under `pubmed_protein` and 6 under `pubmed_protein_refseq`. The endpoint answered 200 and the linkset echoed exactly id 12378528, so this is a MEASURED zero for DEPOSITS by this paper specifically \u2014 the records it does link are curated reference entries that cite it, not submissions from it.",
+     "refseq_references_identified": [
+      {
+       "uid": "4507353",
+       "accession": "NP_003478.1",
+       "title_verbatim": "TATA-binding protein-associated factor 2N isoform 2 [Homo sapiens]"
+      },
+      {
+       "uid": "21327701",
+       "accession": "NP_631961.1",
+       "title_verbatim": "TATA-binding protein-associated factor 2N isoform 1 [Homo sapiens]"
+      },
+      {
+       "uid": "27894355",
+       "accession": "NP_008912.2",
+       "title_verbatim": "nuclear receptor subfamily 4 group A member 3 isoform a [Homo sapiens]"
+      },
+      {
+       "uid": "27894359",
+       "accession": "NP_775291.1",
+       "title_verbatim": "nuclear receptor subfamily 4 group A member 3 isoform c [Homo sapiens]"
+      },
+      {
+       "uid": "27894361",
+       "accession": "NP_775292.1",
+       "title_verbatim": "nuclear receptor subfamily 4 group A member 3 isoform b [Homo sapiens]"
+      },
+      {
+       "uid": "1034671403",
+       "accession": "XP_016870651.1",
+       "title_verbatim": "nuclear receptor subfamily 4 group A member 3 isoform X1 [Homo sapiens]"
+      }
+     ]
+    }
+   },
+   "deposits_analysed": [],
+   "answer_for_the_record": "elink pubmed->nuccore for PMID 12378528 returned 0 records deposited with the paper (linkname pubmed_nuccore) and 7 curated RefSeq records that merely cite it; elink pubmed->protein for PMID 12378528 returned 0 records deposited with the paper (linkname pubmed_protein) and 6 curated RefSeq records that merely cite it",
+   "all_calls_measured": true,
+   "deposited_any_sequence": false
+  },
+  {
+   "pmid": "29937513",
+   "why_this_paper": "The second series in the pooled within-partner basis. A whole-transcriptome cohort may have deposited per-case junctions.",
+   "what_a_deposit_would_settle": "Per-case junction deposits would give a second, independent within-partner distribution rather than a second copy of the same one.",
+   "paper_identified_at_runtime": {
+    "request_url_verbatim": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&retmode=json&id=29937513",
+    "http_status": 200,
+    "resolved": true,
+    "title_verbatim": "Identification of an Actionable Mutation of KIT in a Case of Extraskeletal Myxoid Chondrosarcoma.",
+    "journal_verbatim": "International journal of molecular sciences",
+    "pubdate_verbatim": "2018 Jun 23",
+    "volume": "19",
+    "pages": "",
+    "first_author_verbatim": "Urbini M",
+    "n_authors": 19,
+    "doi": "10.3390/ijms19071855",
+    "pmcid": "PMC6073125"
+   },
+   "elink": {
+    "nuccore": {
+     "pmid_asked": "29937513",
+     "to_db": "nuccore",
+     "request_url_verbatim": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/elink.fcgi?dbfrom=pubmed&db=nuccore&retmode=json&id=29937513",
+     "http_status": 200,
+     "sha256_of_response_body": "abb545fdf8f304ba28dcd49308d688aa48ab25fd219be195ba50f29a53d0bc1d",
+     "n_attempts": 1,
+     "n_linksets": 1,
+     "linkset_ids_echoed_by_ncbi": [
+      "29937513"
+     ],
+     "echo_matches_requested_pmid": true,
+     "links_by_linkname": {
+      "pubmed_nuccore_refseq": [
+       "27894356",
+       "1519243370",
+       "1677499349",
+       "1677500784",
+       "1677530308",
+       "1677530367",
+       "1677530432",
+       "1890259025",
+       "1928917093",
+       "2217339114",
+       "2217339119",
+       "2217339122",
+       "2217339123",
+       "2217339125",
+       "2217339131",
+       "2217339133",
+       "2217339135",
+       "2217339142",
+       "2217339145",
+       "2217339154",
+       "2217339157",
+       "2217339162",
+       "2217339164",
+       "2217339168",
+       "2217379897",
+       "2462584064",
+       "2462584072",
+       "2462584076",
+       "2462584078",
+       "2462584080",
+       "2462584090",
+       "2462584094",
+       "2462584098",
+       "2462584108",
+       "2462584112",
+       "2462584122",
+       "2462584126",
+       "2462584134",
+       "2462584136",
+       "2462584140",
+       "2959927551",
+       "2959937669",
+       "2959965458",
+       "2960096849",
+       "2960096851",
+       "2960096857",
+       "2960096859",
+       "2960096867",
+       "2960096871",
+       "2960096877",
+       "2960096881",
+       "2960096900",
+       "2960096902",
+       "2960096906",
+       "2960096908",
+       "2960096916",
+       "2960096920",
+       "2960096934",
+       "2960096942",
+       "2960096958",
+       "2960096968",
+       "2960096970",
+       "2960096974",
+       "2960096984",
+       "2960096986",
+       "2960096990",
+       "2960096996",
+       "2960097000",
+       "2960097004",
+       "2960097010",
+       "2960097058",
+       "2960097064"
+      ]
+     },
+     "linknames_returned": [
+      "pubmed_nuccore_refseq"
+     ],
+     "primary_deposit_linkname": "pubmed_nuccore",
+     "primary_deposit_uids": [],
+     "n_primary_deposits": 0,
+     "refseq_reference_uids": [
+      "27894356",
+      "1519243370",
+      "1677499349",
+      "1677500784",
+      "1677530308",
+      "1677530367",
+      "1677530432",
+      "1890259025",
+      "1928917093",
+      "2217339114",
+      "2217339119",
+      "2217339122",
+      "2217339123",
+      "2217339125",
+      "2217339131",
+      "2217339133",
+      "2217339135",
+      "2217339142",
+      "2217339145",
+      "2217339154",
+      "2217339157",
+      "2217339162",
+      "2217339164",
+      "2217339168",
+      "2217379897",
+      "2462584064",
+      "2462584072",
+      "2462584076",
+      "2462584078",
+      "2462584080",
+      "2462584090",
+      "2462584094",
+      "2462584098",
+      "2462584108",
+      "2462584112",
+      "2462584122",
+      "2462584126",
+      "2462584134",
+      "2462584136",
+      "2462584140",
+      "2959927551",
+      "2959937669",
+      "2959965458",
+      "2960096849",
+      "2960096851",
+      "2960096857",
+      "2960096859",
+      "2960096867",
+      "2960096871",
+      "2960096877",
+      "2960096881",
+      "2960096900",
+      "2960096902",
+      "2960096906",
+      "2960096908",
+      "2960096916",
+      "2960096920",
+      "2960096934",
+      "2960096942",
+      "2960096958",
+      "2960096968",
+      "2960096970",
+      "2960096974",
+      "2960096984",
+      "2960096986",
+      "2960096990",
+      "2960096996",
+      "2960097000",
+      "2960097004",
+      "2960097010",
+      "2960097058",
+      "2960097064"
+     ],
+     "n_refseq_references": 72,
+     "\u26a0 what_the_two_link_sets_mean": "`pubmed_nuccore` = sequence records SUBMITTED with this paper \u2014 the thing being looked for. `pubmed_nuccore_refseq` = curated RefSeq entries that cite this paper in their bibliography; every paper about a gene links to that gene's RefSeq record, so it is not evidence of a deposit.",
+     "linked_uids_all_linknames_merged": [
+      "27894356",
+      "1519243370",
+      "1677499349",
+      "1677500784",
+      "1677530308",
+      "1677530367",
+      "1677530432",
+      "1890259025",
+      "1928917093",
+      "2217339114",
+      "2217339119",
+      "2217339122",
+      "2217339123",
+      "2217339125",
+      "2217339131",
+      "2217339133",
+      "2217339135",
+      "2217339142",
+      "2217339145",
+      "2217339154",
+      "2217339157",
+      "2217339162",
+      "2217339164",
+      "2217339168",
+      "2217379897",
+      "2462584064",
+      "2462584072",
+      "2462584076",
+      "2462584078",
+      "2462584080",
+      "2462584090",
+      "2462584094",
+      "2462584098",
+      "2462584108",
+      "2462584112",
+      "2462584122",
+      "2462584126",
+      "2462584134",
+      "2462584136",
+      "2462584140",
+      "2959927551",
+      "2959937669",
+      "2959965458",
+      "2960096849",
+      "2960096851",
+      "2960096857",
+      "2960096859",
+      "2960096867",
+      "2960096871",
+      "2960096877",
+      "2960096881",
+      "2960096900",
+      "2960096902",
+      "2960096906",
+      "2960096908",
+      "2960096916",
+      "2960096920",
+      "2960096934",
+      "2960096942",
+      "2960096958",
+      "2960096968",
+      "2960096970",
+      "2960096974",
+      "2960096984",
+      "2960096986",
+      "2960096990",
+      "2960096996",
+      "2960097000",
+      "2960097004",
+      "2960097010",
+      "2960097058",
+      "2960097064"
+     ],
+     "n_linked": 72,
+     "verdict": "NO_PRIMARY_DEPOSIT_ONLY_REFSEQ_REFERENCES",
+     "\u2705 how_to_read_this": "elink pubmed->nuccore for PMID 29937513 returned 0 records under `pubmed_nuccore` and 72 under `pubmed_nuccore_refseq`. The endpoint answered 200 and the linkset echoed exactly id 29937513, so this is a MEASURED zero for DEPOSITS by this paper specifically \u2014 the records it does link are curated reference entries that cite it, not submissions from it.",
+     "refseq_references_identified": [
+      {
+       "uid": "27894356",
+       "accession": "NM_173198.1",
+       "title_verbatim": "Homo sapiens nuclear receptor subfamily 4, group A, member 3 (NR4A3), transcript variant 2, mRNA"
+      },
+      {
+       "uid": "1519243370",
+       "accession": "NM_006981.4",
+       "title_verbatim": "Homo sapiens nuclear receptor subfamily 4 group A member 3 (NR4A3), transcript variant 1, mRNA"
+      },
+      {
+       "uid": "1677499349",
+       "accession": "NM_005243.4",
+       "title_verbatim": "Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant 2, mRNA"
+      },
+      {
+       "uid": "1677500784",
+       "accession": "NM_001163285.2",
+       "title_verbatim": "Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant 3, mRNA"
+      },
+      {
+       "uid": "1677530308",
+       "accession": "NM_001163286.2",
+       "title_verbatim": "Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant 4, mRNA"
+      },
+      {
+       "uid": "1677530367",
+       "accession": "NM_013986.4",
+       "title_verbatim": "Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant 1, mRNA"
+      },
+      {
+       "uid": "1677530432",
+       "accession": "NM_001163287.2",
+       "title_verbatim": "Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant 5, mRNA"
+      },
+      {
+       "uid": "1890259025",
+       "accession": "NM_173200.3",
+       "title_verbatim": "Homo sapiens nuclear receptor subfamily 4 group A member 3 (NR4A3), transcript variant 3, mRNA"
+      },
+      {
+       "uid": "1928917093",
+       "accession": "NM_173199.4",
+       "title_verbatim": "Homo sapiens nuclear receptor subfamily 4 group A member 3 (NR4A3), transcript variant 4, mRNA"
+      },
+      {
+       "uid": "2217339114",
+       "accession": "XM_017028646.3",
+       "title_verbatim": "PREDICTED: Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant X9, mRNA"
+      },
+      {
+       "uid": "2217339119",
+       "accession": "XM_047441187.1",
+       "title_verbatim": "PREDICTED: Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant X13, mRNA"
+      },
+      {
+       "uid": "2217339122",
+       "accession": "XM_017028649.3",
+       "title_verbatim": "PREDICTED: Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant X15, mRNA"
+      },
+      {
+       "uid": "2217339123",
+       "accession": "XM_047441188.1",
+       "title_verbatim": "PREDICTED: Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant X16, mRNA"
+      },
+      {
+       "uid": "2217339125",
+       "accession": "XM_047441189.1",
+       "title_verbatim": "PREDICTED: Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant X17, mRNA"
+      },
+      {
+       "uid": "2217339131",
+       "accession": "XM_011530001.3",
+       "title_verbatim": "PREDICTED: Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant X22, mRNA"
+      },
+      {
+       "uid": "2217339133",
+       "accession": "XM_017028654.2",
+       "title_verbatim": "PREDICTED: Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant X24, mRNA"
+      },
+      {
+       "uid": "2217339135",
+       "accession": "XM_047441190.1",
+       "title_verbatim": "PREDICTED: Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant X26, mRNA"
+      },
+      {
+       "uid": "2217339142",
+       "accession": "XM_047441192.1",
+       "title_verbatim": "PREDICTED: Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant X31, mRNA"
+      },
+      {
+       "uid": "2217339145",
+       "accession": "XM_011530002.4",
+       "title_verbatim": "PREDICTED: Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant X33, mRNA"
+      },
+      {
+       "uid": "2217339154",
+       "accession": "XM_047441197.1",
+       "title_verbatim": "PREDICTED: Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant X38, mRNA"
+      },
+      {
+       "uid": "2217339157",
+       "accession": "XM_024452180.2",
+       "title_verbatim": "PREDICTED: Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant X40, mRNA"
+      },
+      {
+       "uid": "2217339162",
+       "accession": "XM_047441199.1",
+       "title_verbatim": "PREDICTED: Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant X44, mRNA"
+      },
+      {
+       "uid": "2217339164",
+       "accession": "XM_047441200.1",
+       "title_verbatim": "PREDICTED: Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant X45, mRNA"
+      },
+      {
+       "uid": "2217339168",
+       "accession": "XM_047441202.1",
+       "title_verbatim": "PREDICTED: Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant X47, mRNA"
+      },
+      {
+       "uid": "2217379897",
+       "accession": "XM_017015162.2",
+       "title_verbatim": "PREDICTED: Homo sapiens nuclear receptor subfamily 4 group A member 3 (NR4A3), transcript variant X1, mRNA"
+      },
+      {
+       "uid": "2462584064",
+       "accession": "XM_054325236.1",
+       "title_verbatim": "PREDICTED: Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant X9, mRNA"
+      },
+      {
+       "uid": "2462584072",
+       "accession": "XM_054325240.1",
+       "title_verbatim": "PREDICTED: Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant X13, mRNA"
+      },
+      {
+       "uid": "2462584076",
+       "accession": "XM_054325242.1",
+       "title_verbatim": "PREDICTED: Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant X15, mRNA"
+      },
+      {
+       "uid": "2462584078",
+       "accession": "XM_054325243.1",
+       "title_verbatim": "PREDICTED: Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant X16, mRNA"
+      },
+      {
+       "uid": "2462584080",
+       "accession": "XM_054325244.1",
+       "title_verbatim": "PREDICTED: Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant X17, mRNA"
+      },
+      {
+       "uid": "2462584090",
+       "accession": "XM_054325249.1",
+       "title_verbatim": "PREDICTED: Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant X22, mRNA"
+      },
+      {
+       "uid": "2462584094",
+       "accession": "XM_054325251.1",
+       "title_verbatim": "PREDICTED: Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant X24, mRNA"
+      },
+      {
+       "uid": "2462584098",
+       "accession": "XM_054325253.1",
+       "title_verbatim": "PREDICTED: Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant X26, mRNA"
+      },
+      {
+       "uid": "2462584108",
+       "accession": "XM_054325258.1",
+       "title_verbatim": "PREDICTED: Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant X31, mRNA"
+      },
+      {
+       "uid": "2462584112",
+       "accession": "XM_054325260.1",
+       "title_verbatim": "PREDICTED: Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant X33, mRNA"
+      },
+      {
+       "uid": "2462584122",
+       "accession": "XM_054325265.1",
+       "title_verbatim": "PREDICTED: Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant X38, mRNA"
+      },
+      {
+       "uid": "2462584126",
+       "accession": "XM_054325267.1",
+       "title_verbatim": "PREDICTED: Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant X40, mRNA"
+      },
+      {
+       "uid": "2462584134",
+       "accession": "XM_054325271.1",
+       "title_verbatim": "PREDICTED: Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant X44, mRNA"
+      },
+      {
+       "uid": "2462584136",
+       "accession": "XM_054325272.1",
+       "title_verbatim": "PREDICTED: Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant X45, mRNA"
+      },
+      {
+       "uid": "2462584140",
+       "accession": "XM_054325274.1",
+       "title_verbatim": "PREDICTED: Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant X47, mRNA"
+      },
+      {
+       "uid": "2959927551",
+       "accession": "NM_001438463.1",
+       "title_verbatim": "Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant 6, mRNA"
+      },
+      {
+       "uid": "2959937669",
+       "accession": "NM_001438528.1",
+       "title_verbatim": "Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant 8, mRNA"
+      },
+      {
+       "uid": "2959965458",
+       "accession": "NM_001438500.1",
+       "title_verbatim": "Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant 7, mRNA"
+      },
+      {
+       "uid": "2960096849",
+       "accession": "NM_001438549.1",
+       "title_verbatim": "Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant 24, mRNA"
+      },
+      {
+       "uid": "2960096851",
+       "accession": "NM_001438544.1",
+       "title_verbatim": "Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant 19, mRNA"
+      },
+      {
+       "uid": "2960096857",
+       "accession": "NM_001438542.1",
+       "title_verbatim": "Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant 17, mRNA"
+      },
+      {
+       "uid": "2960096859",
+       "accession": "NM_001438545.1",
+       "title_verbatim": "Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant 20, mRNA"
+      },
+      {
+       "uid": "2960096867",
+       "accession": "NM_001438530.1",
+       "title_verbatim": "Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant 9, mRNA"
+      },
+      {
+       "uid": "2960096871",
+       "accession": "NM_001438560.1",
+       "title_verbatim": "Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant 34, mRNA"
+      },
+      {
+       "uid": "2960096877",
+       "accession": "NM_001438559.1",
+       "title_verbatim": "Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant 33, mRNA"
+      },
+      {
+       "uid": "2960096881",
+       "accession": "NM_001438547.1",
+       "title_verbatim": "Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant 22, mRNA"
+      },
+      {
+       "uid": "2960096900",
+       "accession": "NM_001438548.1",
+       "title_verbatim": "Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant 23, mRNA"
+      },
+      {
+       "uid": "2960096902",
+       "accession": "NM_001438539.1",
+       "title_verbatim": "Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant 14, mRNA"
+      },
+      {
+       "uid": "2960096906",
+       "accession": "NM_001438553.1",
+       "title_verbatim": "Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant 29, mRNA"
+      },
+      {
+       "uid": "2960096908",
+       "accession": "NM_001438561.1",
+       "title_verbatim": "Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant 35, mRNA"
+      },
+      {
+       "uid": "2960096916",
+       "accession": "NM_001438556.1",
+       "title_verbatim": "Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant 30, mRNA"
+      },
+      {
+       "uid": "2960096920",
+       "accession": "NM_001438532.1",
+       "title_verbatim": "Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant 11, mRNA"
+      },
+      {
+       "uid": "2960096934",
+       "accession": "NM_001438541.1",
+       "title_verbatim": "Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant 16, mRNA"
+      },
+      {
+       "uid": "2960096942",
+       "accession": "NM_001438536.1",
+       "title_verbatim": "Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant 13, mRNA"
+      },
+      {
+       "uid": "2960096958",
+       "accession": "NM_001438555.1",
+       "title_verbatim": "Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant 28, mRNA"
+      },
+      {
+       "uid": "2960096968",
+       "accession": "NM_001438551.1",
+       "title_verbatim": "Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant 26, mRNA"
+      },
+      {
+       "uid": "2960096970",
+       "accession": "NM_001438562.1",
+       "title_verbatim": "Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant 36, mRNA"
+      },
+      {
+       "uid": "2960096974",
+       "accession": "NM_001438540.1",
+       "title_verbatim": "Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant 15, mRNA"
+      },
+      {
+       "uid": "2960096984",
+       "accession": "NM_001438563.1",
+       "title_verbatim": "Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant 37, mRNA"
+      },
+      {
+       "uid": "2960096986",
+       "accession": "NM_001438546.1",
+       "title_verbatim": "Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant 21, mRNA"
+      },
+      {
+       "uid": "2960096990",
+       "accession": "NM_001438550.1",
+       "title_verbatim": "Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant 25, mRNA"
+      },
+      {
+       "uid": "2960096996",
+       "accession": "NM_001438557.1",
+       "title_verbatim": "Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant 31, mRNA"
+      },
+      {
+       "uid": "2960097000",
+       "accession": "NM_001438554.1",
+       "title_verbatim": "Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant 27, mRNA"
+      },
+      {
+       "uid": "2960097004",
+       "accession": "NM_001438535.1",
+       "title_verbatim": "Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant 12, mRNA"
+      },
+      {
+       "uid": "2960097010",
+       "accession": "NM_001438531.1",
+       "title_verbatim": "Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant 10, mRNA"
+      },
+      {
+       "uid": "2960097058",
+       "accession": "NM_001438543.1",
+       "title_verbatim": "Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant 18, mRNA"
+      },
+      {
+       "uid": "2960097064",
+       "accession": "NM_001438558.1",
+       "title_verbatim": "Homo sapiens EWS RNA binding protein 1 (EWSR1), transcript variant 32, mRNA"
+      }
+     ]
+    },
+    "protein": {
+     "pmid_asked": "29937513",
+     "to_db": "protein",
+     "request_url_verbatim": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/elink.fcgi?dbfrom=pubmed&db=protein&retmode=json&id=29937513",
+     "http_status": 200,
+     "sha256_of_response_body": "3e34af0b58728d8eb4cdc62cc6965682b25637bad03ec4d18815d0ff227ad4d8",
+     "n_attempts": 1,
+     "n_linksets": 1,
+     "linkset_ids_echoed_by_ncbi": [
+      "29937513"
+     ],
+     "echo_matches_requested_pmid": true,
+     "links_by_linkname": {
+      "pubmed_protein_refseq": [
+       "4885225",
+       "27894355",
+       "27894359",
+       "27894361",
+       "253970500",
+       "253970502",
+       "253970504",
+       "253970506",
+       "768023934",
+       "768023941",
+       "1034628465",
+       "1034628471",
+       "1034628483",
+       "1034671403",
+       "1370482007",
+       "2217339120",
+       "2217339124",
+       "2217339126",
+       "2217339136",
+       "2217339143",
+       "2217339155",
+       "2217339163",
+       "2217339165",
+       "2217339169",
+       "2462584065",
+       "2462584073",
+       "2462584077",
+       "2462584079",
+       "2462584081",
+       "2462584091",
+       "2462584095",
+       "2462584099",
+       "2462584109",
+       "2462584113",
+       "2462584123",
+       "2462584127",
+       "2462584135",
+       "2462584137",
+       "2462584141",
+       "2959927552",
+       "2959937670",
+       "2959965459",
+       "2960096850",
+       "2960096852",
+       "2960096858",
+       "2960096860",
+       "2960096868",
+       "2960096872",
+       "2960096878",
+       "2960096882",
+       "2960096901",
+       "2960096903",
+       "2960096907",
+       "2960096909",
+       "2960096917",
+       "2960096921",
+       "2960096935",
+       "2960096943",
+       "2960096959",
+       "2960096969",
+       "2960096971",
+       "2960096975",
+       "2960096985",
+       "2960096987",
+       "2960096991",
+       "2960096997",
+       "2960097001",
+       "2960097005",
+       "2960097011",
+       "2960097059",
+       "2960097065"
+      ]
+     },
+     "linknames_returned": [
+      "pubmed_protein_refseq"
+     ],
+     "primary_deposit_linkname": "pubmed_protein",
+     "primary_deposit_uids": [],
+     "n_primary_deposits": 0,
+     "refseq_reference_uids": [
+      "4885225",
+      "27894355",
+      "27894359",
+      "27894361",
+      "253970500",
+      "253970502",
+      "253970504",
+      "253970506",
+      "768023934",
+      "768023941",
+      "1034628465",
+      "1034628471",
+      "1034628483",
+      "1034671403",
+      "1370482007",
+      "2217339120",
+      "2217339124",
+      "2217339126",
+      "2217339136",
+      "2217339143",
+      "2217339155",
+      "2217339163",
+      "2217339165",
+      "2217339169",
+      "2462584065",
+      "2462584073",
+      "2462584077",
+      "2462584079",
+      "2462584081",
+      "2462584091",
+      "2462584095",
+      "2462584099",
+      "2462584109",
+      "2462584113",
+      "2462584123",
+      "2462584127",
+      "2462584135",
+      "2462584137",
+      "2462584141",
+      "2959927552",
+      "2959937670",
+      "2959965459",
+      "2960096850",
+      "2960096852",
+      "2960096858",
+      "2960096860",
+      "2960096868",
+      "2960096872",
+      "2960096878",
+      "2960096882",
+      "2960096901",
+      "2960096903",
+      "2960096907",
+      "2960096909",
+      "2960096917",
+      "2960096921",
+      "2960096935",
+      "2960096943",
+      "2960096959",
+      "2960096969",
+      "2960096971",
+      "2960096975",
+      "2960096985",
+      "2960096987",
+      "2960096991",
+      "2960096997",
+      "2960097001",
+      "2960097005",
+      "2960097011",
+      "2960097059",
+      "2960097065"
+     ],
+     "n_refseq_references": 71,
+     "\u26a0 what_the_two_link_sets_mean": "`pubmed_protein` = sequence records SUBMITTED with this paper \u2014 the thing being looked for. `pubmed_protein_refseq` = curated RefSeq entries that cite this paper in their bibliography; every paper about a gene links to that gene's RefSeq record, so it is not evidence of a deposit.",
+     "linked_uids_all_linknames_merged": [
+      "4885225",
+      "27894355",
+      "27894359",
+      "27894361",
+      "253970500",
+      "253970502",
+      "253970504",
+      "253970506",
+      "768023934",
+      "768023941",
+      "1034628465",
+      "1034628471",
+      "1034628483",
+      "1034671403",
+      "1370482007",
+      "2217339120",
+      "2217339124",
+      "2217339126",
+      "2217339136",
+      "2217339143",
+      "2217339155",
+      "2217339163",
+      "2217339165",
+      "2217339169",
+      "2462584065",
+      "2462584073",
+      "2462584077",
+      "2462584079",
+      "2462584081",
+      "2462584091",
+      "2462584095",
+      "2462584099",
+      "2462584109",
+      "2462584113",
+      "2462584123",
+      "2462584127",
+      "2462584135",
+      "2462584137",
+      "2462584141",
+      "2959927552",
+      "2959937670",
+      "2959965459",
+      "2960096850",
+      "2960096852",
+      "2960096858",
+      "2960096860",
+      "2960096868",
+      "2960096872",
+      "2960096878",
+      "2960096882",
+      "2960096901",
+      "2960096903",
+      "2960096907",
+      "2960096909",
+      "2960096917",
+      "2960096921",
+      "2960096935",
+      "2960096943",
+      "2960096959",
+      "2960096969",
+      "2960096971",
+      "2960096975",
+      "2960096985",
+      "2960096987",
+      "2960096991",
+      "2960096997",
+      "2960097001",
+      "2960097005",
+      "2960097011",
+      "2960097059",
+      "2960097065"
+     ],
+     "n_linked": 71,
+     "verdict": "NO_PRIMARY_DEPOSIT_ONLY_REFSEQ_REFERENCES",
+     "\u2705 how_to_read_this": "elink pubmed->protein for PMID 29937513 returned 0 records under `pubmed_protein` and 71 under `pubmed_protein_refseq`. The endpoint answered 200 and the linkset echoed exactly id 29937513, so this is a MEASURED zero for DEPOSITS by this paper specifically \u2014 the records it does link are curated reference entries that cite it, not submissions from it.",
+     "refseq_references_identified": [
+      {
+       "uid": "4885225",
+       "accession": "NP_005234.1",
+       "title_verbatim": "RNA-binding protein EWS isoform 2 [Homo sapiens]"
+      },
+      {
+       "uid": "27894355",
+       "accession": "NP_008912.2",
+       "title_verbatim": "nuclear receptor subfamily 4 group A member 3 isoform a [Homo sapiens]"
+      },
+      {
+       "uid": "27894359",
+       "accession": "NP_775291.1",
+       "title_verbatim": "nuclear receptor subfamily 4 group A member 3 isoform c [Homo sapiens]"
+      },
+      {
+       "uid": "27894361",
+       "accession": "NP_775292.1",
+       "title_verbatim": "nuclear receptor subfamily 4 group A member 3 isoform b [Homo sapiens]"
+      },
+      {
+       "uid": "253970500",
+       "accession": "NP_053733.2",
+       "title_verbatim": "RNA-binding protein EWS isoform 1 [Homo sapiens]"
+      },
+      {
+       "uid": "253970502",
+       "accession": "NP_001156757.1",
+       "title_verbatim": "RNA-binding protein EWS isoform 3 [Homo sapiens]"
+      },
+      {
+       "uid": "253970504",
+       "accession": "NP_001156758.1",
+       "title_verbatim": "RNA-binding protein EWS isoform 4 [Homo sapiens]"
+      },
+      {
+       "uid": "253970506",
+       "accession": "NP_001156759.1",
+       "title_verbatim": "RNA-binding protein EWS isoform 5 [Homo sapiens]"
+      },
+      {
+       "uid": "768023934",
+       "accession": "XP_011528303.1",
+       "title_verbatim": "RNA-binding protein EWS isoform X22 [Homo sapiens]"
+      },
+      {
+       "uid": "768023941",
+       "accession": "XP_011528304.1",
+       "title_verbatim": "RNA-binding protein EWS isoform X33 [Homo sapiens]"
+      },
+      {
+       "uid": "1034628465",
+       "accession": "XP_016884135.1",
+       "title_verbatim": "RNA-binding protein EWS isoform X9 [Homo sapiens]"
+      },
+      {
+       "uid": "1034628471",
+       "accession": "XP_016884138.1",
+       "title_verbatim": "RNA-binding protein EWS isoform X15 [Homo sapiens]"
+      },
+      {
+       "uid": "1034628483",
+       "accession": "XP_016884143.1",
+       "title_verbatim": "RNA-binding protein EWS isoform X24 [Homo sapiens]"
+      },
+      {
+       "uid": "1034671403",
+       "accession": "XP_016870651.1",
+       "title_verbatim": "nuclear receptor subfamily 4 group A member 3 isoform X1 [Homo sapiens]"
+      },
+      {
+       "uid": "1370482007",
+       "accession": "XP_024307948.1",
+       "title_verbatim": "RNA-binding protein EWS isoform X40 [Homo sapiens]"
+      },
+      {
+       "uid": "2217339120",
+       "accession": "XP_047297143.1",
+       "title_verbatim": "RNA-binding protein EWS isoform X13 [Homo sapiens]"
+      },
+      {
+       "uid": "2217339124",
+       "accession": "XP_047297144.1",
+       "title_verbatim": "RNA-binding protein EWS isoform X16 [Homo sapiens]"
+      },
+      {
+       "uid": "2217339126",
+       "accession": "XP_047297145.1",
+       "title_verbatim": "RNA-binding protein EWS isoform X17 [Homo sapiens]"
+      },
+      {
+       "uid": "2217339136",
+       "accession": "XP_047297146.1",
+       "title_verbatim": "RNA-binding protein EWS isoform X26 [Homo sapiens]"
+      },
+      {
+       "uid": "2217339143",
+       "accession": "XP_047297148.1",
+       "title_verbatim": "RNA-binding protein EWS isoform X31 [Homo sapiens]"
+      },
+      {
+       "uid": "2217339155",
+       "accession": "XP_047297153.1",
+       "title_verbatim": "RNA-binding protein EWS isoform X38 [Homo sapiens]"
+      },
+      {
+       "uid": "2217339163",
+       "accession": "XP_047297155.1",
+       "title_verbatim": "RNA-binding protein EWS isoform X44 [Homo sapiens]"
+      },
+      {
+       "uid": "2217339165",
+       "accession": "XP_047297156.1",
+       "title_verbatim": "RNA-binding protein EWS isoform X45 [Homo sapiens]"
+      },
+      {
+       "uid": "2217339169",
+       "accession": "XP_047297158.1",
+       "title_verbatim": "RNA-binding protein EWS isoform X47 [Homo sapiens]"
+      },
+      {
+       "uid": "2462584065",
+       "accession": "XP_054181211.1",
+       "title_verbatim": "RNA-binding protein EWS isoform X9 [Homo sapiens]"
+      },
+      {
+       "uid": "2462584073",
+       "accession": "XP_054181215.1",
+       "title_verbatim": "RNA-binding protein EWS isoform X13 [Homo sapiens]"
+      },
+      {
+       "uid": "2462584077",
+       "accession": "XP_054181217.1",
+       "title_verbatim": "RNA-binding protein EWS isoform X15 [Homo sapiens]"
+      },
+      {
+       "uid": "2462584079",
+       "accession": "XP_054181218.1",
+       "title_verbatim": "RNA-binding protein EWS isoform X16 [Homo sapiens]"
+      },
+      {
+       "uid": "2462584081",
+       "accession": "XP_054181219.1",
+       "title_verbatim": "RNA-binding protein EWS isoform X17 [Homo sapiens]"
+      },
+      {
+       "uid": "2462584091",
+       "accession": "XP_054181224.1",
+       "title_verbatim": "RNA-binding protein EWS isoform X22 [Homo sapiens]"
+      },
+      {
+       "uid": "2462584095",
+       "accession": "XP_054181226.1",
+       "title_verbatim": "RNA-binding protein EWS isoform X24 [Homo sapiens]"
+      },
+      {
+       "uid": "2462584099",
+       "accession": "XP_054181228.1",
+       "title_verbatim": "RNA-binding protein EWS isoform X26 [Homo sapiens]"
+      },
+      {
+       "uid": "2462584109",
+       "accession": "XP_054181233.1",
+       "title_verbatim": "RNA-binding protein EWS isoform X31 [Homo sapiens]"
+      },
+      {
+       "uid": "2462584113",
+       "accession": "XP_054181235.1",
+       "title_verbatim": "RNA-binding protein EWS isoform X33 [Homo sapiens]"
+      },
+      {
+       "uid": "2462584123",
+       "accession": "XP_054181240.1",
+       "title_verbatim": "RNA-binding protein EWS isoform X38 [Homo sapiens]"
+      },
+      {
+       "uid": "2462584127",
+       "accession": "XP_054181242.1",
+       "title_verbatim": "RNA-binding protein EWS isoform X40 [Homo sapiens]"
+      },
+      {
+       "uid": "2462584135",
+       "accession": "XP_054181246.1",
+       "title_verbatim": "RNA-binding protein EWS isoform X44 [Homo sapiens]"
+      },
+      {
+       "uid": "2462584137",
+       "accession": "XP_054181247.1",
+       "title_verbatim": "RNA-binding protein EWS isoform X45 [Homo sapiens]"
+      },
+      {
+       "uid": "2462584141",
+       "accession": "XP_054181249.1",
+       "title_verbatim": "RNA-binding protein EWS isoform X47 [Homo sapiens]"
+      },
+      {
+       "uid": "2959927552",
+       "accession": "NP_001425392.1",
+       "title_verbatim": "RNA-binding protein EWS isoform 6 [Homo sapiens]"
+      },
+      {
+       "uid": "2959937670",
+       "accession": "NP_001425457.1",
+       "title_verbatim": "RNA-binding protein EWS isoform 8 [Homo sapiens]"
+      },
+      {
+       "uid": "2959965459",
+       "accession": "NP_001425429.1",
+       "title_verbatim": "RNA-binding protein EWS isoform 7 [Homo sapiens]"
+      },
+      {
+       "uid": "2960096850",
+       "accession": "NP_001425478.1",
+       "title_verbatim": "RNA-binding protein EWS isoform 24 [Homo sapiens]"
+      },
+      {
+       "uid": "2960096852",
+       "accession": "NP_001425473.1",
+       "title_verbatim": "RNA-binding protein EWS isoform 19 [Homo sapiens]"
+      },
+      {
+       "uid": "2960096858",
+       "accession": "NP_001425471.1",
+       "title_verbatim": "RNA-binding protein EWS isoform 17 [Homo sapiens]"
+      },
+      {
+       "uid": "2960096860",
+       "accession": "NP_001425474.1",
+       "title_verbatim": "RNA-binding protein EWS isoform 20 [Homo sapiens]"
+      },
+      {
+       "uid": "2960096868",
+       "accession": "NP_001425459.1",
+       "title_verbatim": "RNA-binding protein EWS isoform 9 [Homo sapiens]"
+      },
+      {
+       "uid": "2960096872",
+       "accession": "NP_001425489.1",
+       "title_verbatim": "RNA-binding protein EWS isoform 34 [Homo sapiens]"
+      },
+      {
+       "uid": "2960096878",
+       "accession": "NP_001425488.1",
+       "title_verbatim": "RNA-binding protein EWS isoform 33 [Homo sapiens]"
+      },
+      {
+       "uid": "2960096882",
+       "accession": "NP_001425476.1",
+       "title_verbatim": "RNA-binding protein EWS isoform 22 [Homo sapiens]"
+      },
+      {
+       "uid": "2960096901",
+       "accession": "NP_001425477.1",
+       "title_verbatim": "RNA-binding protein EWS isoform 23 [Homo sapiens]"
+      },
+      {
+       "uid": "2960096903",
+       "accession": "NP_001425468.1",
+       "title_verbatim": "RNA-binding protein EWS isoform 14 [Homo sapiens]"
+      },
+      {
+       "uid": "2960096907",
+       "accession": "NP_001425482.1",
+       "title_verbatim": "RNA-binding protein EWS isoform 29 [Homo sapiens]"
+      },
+      {
+       "uid": "2960096909",
+       "accession": "NP_001425490.1",
+       "title_verbatim": "RNA-binding protein EWS isoform 35 [Homo sapiens]"
+      },
+      {
+       "uid": "2960096917",
+       "accession": "NP_001425485.1",
+       "title_verbatim": "RNA-binding protein EWS isoform 30 [Homo sapiens]"
+      },
+      {
+       "uid": "2960096921",
+       "accession": "NP_001425461.1",
+       "title_verbatim": "RNA-binding protein EWS isoform 11 [Homo sapiens]"
+      },
+      {
+       "uid": "2960096935",
+       "accession": "NP_001425470.1",
+       "title_verbatim": "RNA-binding protein EWS isoform 16 [Homo sapiens]"
+      },
+      {
+       "uid": "2960096943",
+       "accession": "NP_001425465.1",
+       "title_verbatim": "RNA-binding protein EWS isoform 13 [Homo sapiens]"
+      },
+      {
+       "uid": "2960096959",
+       "accession": "NP_001425484.1",
+       "title_verbatim": "RNA-binding protein EWS isoform 28 [Homo sapiens]"
+      },
+      {
+       "uid": "2960096969",
+       "accession": "NP_001425480.1",
+       "title_verbatim": "RNA-binding protein EWS isoform 26 [Homo sapiens]"
+      },
+      {
+       "uid": "2960096971",
+       "accession": "NP_001425491.1",
+       "title_verbatim": "RNA-binding protein EWS isoform 36 [Homo sapiens]"
+      },
+      {
+       "uid": "2960096975",
+       "accession": "NP_001425469.1",
+       "title_verbatim": "RNA-binding protein EWS isoform 15 [Homo sapiens]"
+      },
+      {
+       "uid": "2960096985",
+       "accession": "NP_001425492.1",
+       "title_verbatim": "RNA-binding protein EWS isoform 37 [Homo sapiens]"
+      },
+      {
+       "uid": "2960096987",
+       "accession": "NP_001425475.1",
+       "title_verbatim": "RNA-binding protein EWS isoform 21 [Homo sapiens]"
+      },
+      {
+       "uid": "2960096991",
+       "accession": "NP_001425479.1",
+       "title_verbatim": "RNA-binding protein EWS isoform 25 [Homo sapiens]"
+      },
+      {
+       "uid": "2960096997",
+       "accession": "NP_001425486.1",
+       "title_verbatim": "RNA-binding protein EWS isoform 31 [Homo sapiens]"
+      },
+      {
+       "uid": "2960097001",
+       "accession": "NP_001425483.1",
+       "title_verbatim": "RNA-binding protein EWS isoform 27 [Homo sapiens]"
+      },
+      {
+       "uid": "2960097005",
+       "accession": "NP_001425464.1",
+       "title_verbatim": "RNA-binding protein EWS isoform 12 [Homo sapiens]"
+      },
+      {
+       "uid": "2960097011",
+       "accession": "NP_001425460.1",
+       "title_verbatim": "RNA-binding protein EWS isoform 10 [Homo sapiens]"
+      },
+      {
+       "uid": "2960097059",
+       "accession": "NP_001425472.1",
+       "title_verbatim": "RNA-binding protein EWS isoform 18 [Homo sapiens]"
+      },
+      {
+       "uid": "2960097065",
+       "accession": "NP_001425487.1",
+       "title_verbatim": "RNA-binding protein EWS isoform 32 [Homo sapiens]"
+      }
+     ]
+    }
+   },
+   "deposits_analysed": [],
+   "answer_for_the_record": "elink pubmed->nuccore for PMID 29937513 returned 0 records deposited with the paper (linkname pubmed_nuccore) and 72 curated RefSeq records that merely cite it; elink pubmed->protein for PMID 29937513 returned 0 records deposited with the paper (linkname pubmed_protein) and 71 curated RefSeq records that merely cite it",
+   "all_calls_measured": true,
+   "deposited_any_sequence": false
+  }
+ ],
+ "_wall_s": 7.5
+}
