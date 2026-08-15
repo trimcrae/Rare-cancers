@@ -436,6 +436,21 @@ def build():
                 "pairing on a T-N transcript. The two seams need two reagents."),
         },
         "does_the_published_panel_reach_this_transcript": panel_reach_check(j["_fusion"]),
+        "⛔_the_honest_bottom_line_for_this_molecule": (
+            "THIS JUNCTION WILL NOT REACH PARITY WITH THE PANEL'S 38, AND THAT IS A PROPERTY OF THE "
+            "INSTRUMENTS RATHER THAN OF THE REAGENT. Three of the five deep screens address a "
+            "junction as (donor gene, donor exon, NR4A3 exon index), and a cryptic exon 5' of the "
+            "NR4A3 ATG is not expressible as an exon index at all — so they cannot be pointed at "
+            "this seam without either an atlas-driven mode in the BLAST module or a weakening of the "
+            "coordinate guard that produced the retracted seam. Architecture, not a missing "
+            "dispatch, and not a defect in the designs. "
+            "⭐ WHAT THIS MOLECULE DOES CARRY: a designed reagent at a REAL PUBLISHED ISOFORM — one "
+            "of the two the source paper calls 'the two major TAF15-NR4A3 isoforms detected in "
+            "human tumors' — screened by the two arms that actually interrogate the compartment "
+            "where an intronic acceptor lives, the pre-mRNA and the genome. Those are the right two "
+            "for this seam, not a consolation subset: the acceptor half of every design is absent "
+            "from every mature transcript, so the mature-transcript screens would have had the "
+            "least to say about it even if they could be run."),
         "⛔_which_of_the_five_deep_screens_can_run_at_this_seam": {
             "_read_this_first": (
                 "⭐ THE PRE-mRNA AND GENOME SCREENS ARE THE ONES THAT COUNT AT THIS SEAM, AND A "

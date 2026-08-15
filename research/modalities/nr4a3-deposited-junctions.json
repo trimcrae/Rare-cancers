@@ -1,0 +1,78 @@
+{
+ "_what": "NR4A3 fusion junctions recovered from DEPOSITED SEQUENCE RECORDS \u2014 the survey that lit-targets-aso-breakpoint-census.json names as missing.",
+ "_why": "That census states in its own words: 'Not a survey of sequence databases. Everything above except the TCF12 deposit comes from papers; the deposit came from NCBI elink, and no comparable sweep of the other partners' deposits has been read into this file.' This is that sweep.",
+ "_cost": "$0 \u2014 NCBI E-utilities on a free GitHub Actions runner (run 31890517984, 9m03s).",
+ "_how_the_exon_pair_is_derived": "By matching each deposit's OWN nucleotide sequence against this repository's committed transcript models (aso-premrna-sequences.json), requiring 16 nt exact on EACH side of the seam. Never read off a title.",
+ "_what_this_is_not": [
+  "NOT a prevalence measurement. Deposit counts are not tumour counts: what gets cloned and deposited is chosen, not sampled.",
+  "NOT a claim any junction is druggable.",
+  "NOT independent patients wherever several records share an originating group or patent family."
+ ],
+ "provenance": {
+  "workflow_run": "31890517984",
+  "head_sha": "6d8f73b823211e66ea524729dc8a32b9c1c9f888",
+  "n_queries": 118,
+  "n_uids_retrieved": 1479,
+  "triage": {
+   "n_uids_before": 1479,
+   "n_kept": 1279,
+   "n_dropped": 200,
+   "max_record_bp": 100000
+  },
+  "efetch": {
+   "stopped_because": "eof",
+   "n_bytes": 19879758,
+   "n_records": 1279
+  },
+  "control_gate_passed": true
+ },
+ "\u2b50_the_alias_finding": "Three of the four TAF15 deposits are titled with RETIRED symbols \u2014 'hTAFII68-CHN' (AF162670.1), 'RBP56/CHN' (AJ243810.1), 'TAF2N-TEC' (AJ245932.1). None contains the string 'NR4A3' or 'TAF15'. A sweep using current gene symbols would have returned none of them. The alias table is the instrument.",
+ "junctions": {
+  "TFG_e7__NR4A3_e3": {
+   "\u2b50 status": "NEW TO THIS REPOSITORY \u2014 the census carried NO exon-resolved TFG breakpoint at all (TFG appears in that file only inside its search string).",
+   "seam_verbatim": "GGTATTCAGTATTCAG|ATATGCCCTGCGTCCA",
+   "records": [
+    "AY532911.1",
+    "DI433544.1",
+    "DI438966.1",
+    "LG067227.1",
+    "LG067228.1"
+   ],
+   "\u26a0 evidence_grade": "ONE primary GenBank mRNA (AY532911.1, 'TFG-NR4A3 fusion protein, partial cds') plus FOUR Korean patent sequences that agree on the identical seam. The patent records are one family from one group \u2014 they are CORROBORATION OF A SEQUENCE, NOT four independent patients. No PMID is attached to any of the five.",
+   "\u26d4 not_a_frequency": "Nothing here says what fraction of TFG-rearranged EMC breaks at exon 7."
+  },
+  "TAF15_e6__NR4A3_e3": {
+   "status": "CONFIRMED at sequence level \u2014 the census had this from papers (k=3/3); these are the underlying deposits.",
+   "seam_verbatim": "AGCCACCACACACAAG|ATATGCCCTGCGTCCA",
+   "records": [
+    "AF162670.1 (PMID 10602520, t(9;17)(q22;q11.2))",
+    "AJ243810.1 (PMID 10602519, tissue: EMC, t(9;17)(q22;q11))",
+    "AJ245932.1 (PMID 10537274, tissue: EMC)",
+    "DI174531.1 (patent)"
+   ],
+   "\u26d4 WHAT IT DOES NOT DO \u2014 READ THIS BEFORE RELAXING THE TAF15 ARM": "It does NOT bound the intron-2 fraction and must not be read as reassurance about the 3/3 pricing. ASCERTAINMENT: all three primary deposits are from 1999\u20132000. The intron-2 acceptor was not described until 2019 (PMID 31020999). Cloning of that era used primers anchored in NR4A3 EXON 3, which STRUCTURALLY CANNOT recover an intron-2 junction \u2014 so zero intron-2 deposits is the EXPECTED result whether or not the variant is common. The absence carries essentially no evidence. The census's named risk on the TAF15 arm stands unchanged."
+  },
+  "EWSR1_e7__NR4A3_e2": {
+   "status": "CONFIRMED at sequence level \u2014 census had k=1/20 from papers; this is an independent deposited patient sequence.",
+   "seam_verbatim": "AGCTACGGGCAGCAGA|AGCCCACTGCGGAAGA",
+   "records": [
+    "S81242.1 (PMID 8570200, 'human, myxoid chondrosarcoma patient')"
+   ],
+   "\u26a0 anchor_note": "The EWSR1 side of this 175 nt record contributes only ~40 nt, so the assignment rests on a shorter donor block than the others (still \u226516 nt exact, the module's floor).",
+   "bearing_on_the_3_unresolved_EWSR1_tumours": "The census leaves 3 of 20 EWSR1 tumours unresolved and notes they are 'likely' type 2. This deposit confirms e7::e2 is a real recurrent junction in a DIFFERENT patient \u2014 it does NOT resolve those three, and 'likely' remains not a count."
+  },
+  "TCF12_e5__NR4A3_e3": {
+   "status": "RE-FOUND INDEPENDENTLY \u2014 the known deposit, recovered blind by the sweep. Serves as the end-to-end positive control.",
+   "seam_verbatim": "AACTCAAATCTGATGG|ATATGCCCTGCGTCCA",
+   "records": [
+    "AF289510.1 (PMID 11156374, tissue: EMC)"
+   ]
+  }
+ },
+ "\u26d4 a_defect_in_my_own_classifier": "classify_material() graded LG067227.1 and LG067228.1 as PATIENT_MATERIAL. That is WRONG. They are Korean patent filings ('Compositions for Preventing or Treating a Tumor Disorder Comprising TFG-TEC Protein Mutant'); the grader matched the word 'Tumor' in a patent title and there is no tissue_type or cell_line field to contradict it. The two sibling records DI433544.1/DI438966.1 were graded ENGINEERED_CONSTRUCT only because their titles happen to contain the token 'Construct'. Fix: treat a DI/LG/PAT accession prefix as a patent record and never grade it patient material. Until fixed, do not read the material field on any patent-prefixed accession.",
+ "what_this_changes": [
+  "TFG gains its first exon-resolved breakpoint, so a TFG arm is designable in principle where before it was not.",
+  "Two existing census entries gain independent sequence-level support.",
+  "NOTHING about coverage percentages changes here \u2014 these are junction identities, not prevalences, and the partner denominators are untouched."
+ ]
+}
