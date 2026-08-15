@@ -1,0 +1,23 @@
+{
+ "_what": "a pre-mRNA screen run that FAILED. Not a result, and not a reading of absence.",
+ "_why_this_file_exists": "the traceback of a CI failure is otherwise unreachable from the dev sandbox, so it was being guessed at",
+ "error_type": "KeyError",
+ "error": "'transcripts'",
+ "traceback": [
+  "Traceback (most recent call last):",
+  "  File \"/home/runner/work/Rare-cancers/Rare-cancers/research/modalities/aso_premrna_offtarget.py\", line 461, in main",
+  "    return _run(argv)",
+  "           ^^^^^^^^^^",
+  "  File \"/home/runner/work/Rare-cancers/Rare-cancers/research/modalities/aso_premrna_offtarget.py\", line 487, in _run",
+  "    transcripts = {g: v[\"transcript\"] for g, v in atlas[\"transcripts\"].items()}",
+  "                                                  ~~~~~^^^^^^^^^^^^^^^",
+  "KeyError: 'transcripts'"
+ ],
+ "argv": [],
+ "env": {
+  "PREMRNA_GENOMIC": "",
+  "PREMRNA_OUT": "aso-premrna-offtarget-taf15intron2.json"
+ },
+ "atlas_present": true,
+ "sequence_cache_present": true
+}
