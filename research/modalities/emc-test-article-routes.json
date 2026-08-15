@@ -1,0 +1,188 @@
+{
+  "_what": "Cost and route to a FUSION-POSITIVE EMC test article — the only kind that can test a junction-spanning ASO.",
+  "_status": "⛔ INCOMPLETE — STOPPED ON INSTRUCTION 2026-08-15 (trimcrae: the pricing question was taking too long; work returned to the paper). Everything below was actually fetched and is quoted verbatim with its source. Nothing here is estimated, and the gaps are named as gaps rather than filled.",
+  "_what_is_missing": [
+    "Gene-synthesis unit price (Twist / GenScript / IDT / VectorBuilder) — pages were fetched but not read before the stop.",
+    "Addgene per-plasmid price.",
+    "Takara pLPCX catalogue number and price — attempted, site search returned nothing to a plain HTTP client (see unresolved_with_reason).",
+    "Any price for the Zurich lines or for NCC-EMC1-C1 — see terms[]; for the Zurich lines there is nothing to price because they are not a catalogue item.",
+    "Whether USZ requires an MTA, a fee, or academic affiliation — NOT ESTABLISHED. The paper is silent, and silence is not a term."
+  ],
+  "_scope_note": "H-EMC-SS (CVCL_1238) is DELIBERATELY NOT PRICED. trimcrae 2026-08-15: 'if there's no NR4A3 fusion, I'd say we ignore it. It's no good to us designing an ASO for actual EMC.' A line with no fusion has no junction for a junction-spanning oligonucleotide to span. Not re-opened as a negative control.",
+  "_cost_of_this_work": "$0 — three GitHub Actions fetches (runs 31903411174, 31903469360, 31903...r3) and reads of on-disk corpora. No vendor was contacted, nothing was purchased, no account was created, no quote was requested.",
+  "date_read": "2026-08-15",
+
+  "how_every_figure_here_was_obtained": "The dev sandbox egress proxy 403s all non-github hosts (verified: WebFetch on cellbank.nibiohn.go.jp returned EGRESS_BLOCKED). Every vendor/registry page below was fetched from a GitHub Actions runner via .github/workflows/fetch-literature.yml with an inline targets_json corpus, and published to the literature-cache branch under literature/emc-procurement-2026-08-15/ and literature/emc-procurement-proxy-2026-08-15/. Each row names its file. NOTHING here is written from recollection.",
+
+  "routes": [
+    {
+      "id": "R1",
+      "name": "USZ20-EMC1 (CVCL_C6MX) and USZ22-EMC2 (CVCL_C6MY) — Zurich patient-derived",
+      "fusion_positive": "YES. FISH-confirmed NR4A3 rearrangement in both; partner confirmed on RNA by FoundationOne HEME — EWSR1 for USZ20-EMC1, TAF15 for USZ22-EMC2.",
+      "channel": "REQUEST TO THE ORIGINATING LABORATORY — no repository deposit exists",
+      "price": "NONE PUBLISHED, AND THERE IS NOTHING TO PRICE — these are not a catalogue item. 'Request required, no price' is the real answer.",
+      "critical_path_runs_through": "a person at USZ answering, then an institution-to-institution transfer",
+      "post_receipt_speed_verbatim": "Inference of their cell growth indicated a doubling time of 5.09 days for USZ20-EMC1 and 6.05 days for USZ22-EMC2 ... The sarco-spheres were passaged every 2–3 weeks",
+      "post_receipt_speed_source": "PMC9813045"
+    },
+    {
+      "id": "R2",
+      "name": "NCC-EMC1-C1 (PMID 40580361, Hum Cell 38:122, 2025)",
+      "fusion_positive": "UNKNOWN — not even the 5' partner is stated in any text that could be read",
+      "channel": "UNRESOLVED",
+      "price": "COULD NOT DETERMINE",
+      "⛔_two_independent_blockers": "(1) the distributing repository could not be read at all (expired certificate, below); (2) the line's junction is unknown, so no junction-spanning reagent can be assigned to it even if it arrived tomorrow. Blocker (2) does not depend on blocker (1) clearing."
+    },
+    {
+      "id": "R3",
+      "name": "Rebuild the engineered arms E-N / T-N* / T-N from the published exon spans (PMID 31020999)",
+      "fusion_positive": "YES BY CONSTRUCTION — the junction is whatever you build",
+      "construct_spec_verbatim": "The following cDNAs, cloned into the retroviral PLPCX vector (Clontech Takara Bio Inc., Kusatsu, Japan), were used: full‐length NR4A3; E‐N, corresponding to EWSR1 (exons 1–12)‐NR4A3 (exons 3–8); T‐N, corresponding to TAF15 (exons 1–6)‐NR4A3 (intron 2–exon 8) and T‐N*, corresponding to the commonest TAF15 (exons 1–6)‐NR4A3 (exons 3–8) fusion. Both T‐N and T‐N* encode the whole coding sequence of NR4A3 (exons 3–8); T‐N retains a short cryptic exon located in NR4A3 intron 2 (ENST00000395097.6 isoform), thus encoding 25 additional amino acids prior to the NR4A3 ATG.",
+      "construct_spec_source": "PMC6766969 line 35 (Brenca et al., J Pathol 2019, PMID 31020999)",
+      "channel": "ORDER SYNTHETIC DNA + A RECIPIENT LINE. Depends on NO other group answering an email.",
+      "price": "PARTLY MEASURED (recipient line, below); synthesis price NOT ESTABLISHED before the stop"
+    }
+  ],
+
+  "prices": [
+    {
+      "item": "BJ human foreskin fibroblast, parental — the parent of the tBJ/ER background",
+      "vendor": "ATCC",
+      "catalogue_no": "CRL-2522",
+      "price_verbatim": "Price: $577.00 EA",
+      "currency": "USD (list, United States location as served)",
+      "lead_time_verbatim": "Generally ships within 1-3 business days",
+      "discount_note_verbatim": "Discounts may be available for our fellow nonprofit organizations. Login to see your price.",
+      "mta_note_verbatim": "Please see the material transfer agreement (MTA) for further details regarding the use of this product. The MTA is available at www.atcc.org.",
+      "url": "https://www.atcc.org/products/crl-2522",
+      "file": "literature-cache:literature/emc-procurement-2026-08-15/atcc_crl2522.txt (run 31903411174)",
+      "date_read": "2026-08-15",
+      "⚠_THIS_IS_NOT_tBJ_ER": "CRL-2522 is the untransformed parent, not the model. The ATCC datasheet states 'They are telomerase negative.' and 'Cells from ATCC ampules have the capacity to proliferate to a maximum of 72 population doublings before the onset of senescence.' PMID 31020999 says only 'tBJ/ER were maintained and engineered by retroviral infections as described' — the transformation steps are by reference, not restated. Buying CRL-2522 buys the parent, not the published background."
+    }
+  ],
+
+  "terms": [
+    {
+      "subject": "USZ20-EMC1 / USZ22-EMC2 — what the source paper actually says",
+      "availability_verbatim": "The datasets used and/or analyzed during the current study are available from the corresponding author on reasonable request. Both cell models USZ20-EMC1 and USZ22-EMC2 can be made available from the Laboratory for Systems Pathology and Functional Tumor Pathology, Department for Pathology and Molecular Parhology, University of Zurich, Zurich.",
+      "source": "PMC9813045, 'Data availability' section — /tmp/.../scratchpad/lit/literature/emc-breakpoint-census/PMC9813045.txt line 70",
+      "named_contact_verbatim": "PauliChantalchantal.pauli@usz.ch ... Department of Pathology and Molecular Pathology, University Hospital Zurich, Schmelzbergstrasse 12, 8006 Zurich, Switzerland",
+      "depositor_or_repository": "NONE — no repository deposit is named anywhere in the paper",
+      "ethics_verbatim": "The study was performed following regional/cantonal and institutional guidelines and in compliance with the Helsinki Declaration and after approval by our cantonal ethical review board Zurich (BASEC-2021-00417).",
+      "biobank_statement_verbatim": "Cells were biobanked in our living biobank in the Department of Pathology and Molecular Pathology, University Hospital Zurich, Switzerland.",
+      "declared_conflict_verbatim": "C.P. reports a consulting/advisory role for Roche outside this work. No conflict of interest, financial or otherwise, is declared by all the other authors.",
+      "MTA_mentioned_in_paper": false,
+      "fee_mentioned_in_paper": false,
+      "academic_use_restriction_stated_in_paper": false,
+      "⚠_absent_is_not_zero": "No MTA, no fee and no academic-only clause appear in the paper. That is the ABSENCE OF A STATEMENT, not a statement of absence. Nothing was fetched that establishes what USZ actually requires. The honest reading is 'unstated — you have to ask them', NOT 'free and unencumbered'."
+    },
+    {
+      "subject": "Addgene — availability restriction on every pLPCX-derived backbone",
+      "quote_verbatim": "Availability  Academic Institutions and Nonprofits only",
+      "scope": "carried on all 20 plasmids visible on page 1 of 49 results, without exception",
+      "search_result_verbatim": "We narrowed to 49 results for: pLPCX",
+      "url": "https://www.addgene.org/search/catalog/plasmids/?q=pLPCX",
+      "file": "literature-cache:literature/emc-procurement-2026-08-15/addgene_search_plpcx.txt (run 31903411174)",
+      "date_read": "2026-08-15",
+      "why_it_matters": "If the recipient of the material is a private individual rather than an academic institution, this restriction bites before any price does."
+    }
+  ],
+
+  "unresolved_with_reason": [
+    {
+      "question": "Is NCC-EMC1-C1 distributed by JCRB, and at what price?",
+      "status": "UNRESOLVED — the repository's own web front end could not be read",
+      "actual_error_verbatim": "URLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1000)'))",
+      "hosts_tried": [
+        "https://cellbank.nibiohn.go.jp/english/",
+        "http://cellbank.nibiohn.go.jp/english/",
+        "https://cellbank.nibiohn.go.jp/~cellbank/cgi-bin/search_res_list.cgi?KEYWORD=EMC"
+      ],
+      "where_from": "GitHub Actions ubuntu-latest runner, run 31903411174 — a DIFFERENT trust store from the dev sandbox, and it returns the same error",
+      "root_cause_reading": "'certificate has expired' is a VALIDITY-DATE failure, which is a property of the server's certificate rather than of any client's root store. Two independent clients both reporting expiry is the observation that discriminates 'their certificate' from 'our network'. This is JCRB's certificate. It is NOT evidence that the line is unavailable.",
+      "also_tried": "r.jina.ai text proxy — HTTPError 403 (see below). A Wayback snapshot of the JCRB English index exists (http://web.archive.org/web/20250316215207/https://cellbank.nibiohn.go.jp/english) and was queued but NOT read before the stop.",
+      "file": "literature-cache:literature/emc-procurement-2026-08-15/_manifest.json"
+    },
+    {
+      "question": "Does NCC-EMC1-C1 have a registry accession?",
+      "status": "NO — query re-run here rather than inherited from an earlier session",
+      "result_verbatim": "## response.numFound: 0",
+      "url": "https://api.cellosaurus.org/search/cell-line?q=NCC-EMC1-C1&format=txt",
+      "file": "literature-cache:literature/emc-procurement-2026-08-15/cellosaurus_ncc_emc1_c1.txt",
+      "date_read": "2026-08-15"
+    },
+    {
+      "question": "Is the 'NCC sarcoma cell line panel' documented as JCRB-deposited anywhere in the literature?",
+      "status": "NOT FOUND by this query — which is a null result for THIS query, not proof of no deposit",
+      "result_verbatim": "{\"version\":\"6.9\",\"hitCount\":0,\"request\":{\"queryString\":\"\\\"NCC sarcoma cell line panel\\\" AND JCRB\",...},\"resultList\":{\"result\":[]}}",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%22NCC%20sarcoma%20cell%20line%20panel%22%20AND%20JCRB&format=json&resultType=core&pageSize=50",
+      "file": "literature-cache:literature/emc-procurement-2026-08-15/epmc_ncc_jcrb_deposit.txt"
+    },
+    {
+      "question": "Is tBJ/ER itself catalogued anywhere?",
+      "status": "NO Cellosaurus record for the human transformed BJ fibroblast",
+      "result_verbatim": "## response.numFound: 3 — and the three hits are TBJ (CVCL_L429, a MOUSE C-1300 neuroblastoma clonal derivative), MFUM-BrTNBC-1 (a breast line) and C-1300 (mouse). None is the human tBJ/ER fibroblast.",
+      "url": "https://api.cellosaurus.org/search/cell-line?q=tBJ&format=txt&rows=50",
+      "file": "literature-cache:literature/emc-procurement-2026-08-15/cellosaurus_tbj.txt",
+      "date_read": "2026-08-15",
+      "consequence": "The PUBLISHED background is obtainable only from the originating laboratory (correspondence: R Maestro, Unit of Oncogenetics and Functional Oncogenomics, CRO Aviano IRCCS, maestro@cro.it — PMC6766969 line 3). A rebuild in a catalogue background would NOT be the same isogenic system and must be declared as such."
+    },
+    {
+      "question": "Takara pLPCX catalogue number and price",
+      "status": "COULD NOT DETERMINE",
+      "result_verbatim": "There are no matches for \"\"",
+      "why": "the site search is JavaScript-driven; the server returned an empty result set to a plain HTTP client, i.e. the query string never reached the search backend",
+      "second_attempt": "https://www.takarabio.com/products/gene-function/viral-transduction/retrovirus/retroviral-vectors returned HTTPError 403",
+      "file": "literature-cache:literature/emc-procurement-2026-08-15/takara_search_plpcx.txt"
+    },
+    {
+      "question": "Gene-synthesis unit price (Twist, GenScript, IDT, VectorBuilder)",
+      "status": "NOT ESTABLISHED — stopped before reading",
+      "what_was_fetched": "twist_genes (HTTP 200), twist_clonal_genes (HTTP 200), qiagen_lna_gapmer (HTTP 200) landed and are on the literature-cache branch unread. genscript_gene_synthesis and genscript_molecular_cloning_price returned HTTPError 404; idt_gblocks returned HTTPError 302; vectorbuilder_pricing and vectorbuilder_retroviral returned HTTPError 404 (guessed paths).",
+      "where_to_resume": "literature-cache:literature/emc-procurement-2026-08-15/{twist_genes,twist_clonal_genes,qiagen_lna_gapmer}.txt — already fetched, $0 to read"
+    },
+    {
+      "question": "r.jina.ai text-proxy fallback for Cloudflare-protected vendor pages",
+      "status": "DEAD ROUTE — all 20 proxied URLs returned HTTPError 403 (the service now requires an API key). Recorded so no future session spends a run re-trying it.",
+      "file": "literature-cache:literature/emc-procurement-proxy-2026-08-15/_manifest.json (run 31903469360)"
+    }
+  ],
+
+  "ranked_by_time_to_first_experiment": [
+    {
+      "rank": 1,
+      "route": "R3 — rebuild E-N / T-N* / T-N from the published exon spans",
+      "why_first": "Its critical path contains NO COUNTERPARTY WHO CAN SAY NO OR SAY NOTHING. Synthetic DNA and a catalogue cell line are transactions, not negotiations; the ATCC line ships in 1-3 business days (measured). Every other route's clock is started by someone else replying to an email.",
+      "second_reason": "The junction is specified BY CONSTRUCTION, and all three constructs' exon spans are stated verbatim by the authors. Two of the three (EWSR1 e12::NR4A3 e3 and TAF15 e6::NR4A3 e3) match junctions this repository has already screened reagents against at full panel depth; the third (TAF15 e6::NR4A3 intron-2 cryptic exon) has designs but not at panel depth. No resolution step stands between ordering and testing.",
+      "⚠_what_it_does_NOT_buy": "A cDNA over-expressed in a heterologous background is not EMC. It can demonstrate junction-selective knockdown of the intended transcript; it cannot show the reagent works in EMC biology, at endogenous expression level, from an endogenous locus. And since tBJ/ER is in no registry, a rebuild would be in a DIFFERENT background from the published one — an isogenic mismatch that has to be declared rather than glossed.",
+      "cost_shape": "REAL MONEY: synthetic DNA (price not established) + recipient line ($577.00 ATCC list for CRL-2522, if that is the recipient chosen) + the ASO itself. BENCH TIME: cloning, virus production, transduction, selection, and an RT-qPCR/knockdown readout — none of which is money we can spend, see the binding constraint below."
+    },
+    {
+      "rank": 2,
+      "route": "R1 — USZ20-EMC1 / USZ22-EMC2 from Zurich",
+      "why_second": "It is the only route to a genuinely patient-derived, identity-clean, fusion-positive EMC cell. But its clock starts when a named individual answers, and then runs through a transfer of human-subject-derived material collected under a cantonal ethics approval (BASEC-2021-00417) — the shape of transfer that in practice needs an institutional recipient. Nothing was fetched that establishes the actual terms, so the duration is UNBOUNDED rather than long.",
+      "second_consideration": "Even after arrival the cells are slow: doubling times of 5.09 and 6.05 days, passaged every 2-3 weeks as sarco-spheres (PMC9813045). Time-to-first-experiment does not end at delivery.",
+      "third_consideration": "The reported acceptor is NR4A3 exon 2 while the screened panel reagents sit at NR4A3 exon 3 — so there is an unresolved matching step between obtaining these cells and choosing a reagent for them."
+    },
+    {
+      "rank": 3,
+      "route": "R2 — NCC-EMC1-C1",
+      "why_last": "Two blockers, and the second one is not about procurement at all. Even granting instant delivery, the line's fusion partner and exons are unknown, so no junction-spanning reagent can be assigned to it — the test article would have to be SEQUENCED before it could be a test article. Ahead of that, the distributing repository's web front end is unreadable (expired certificate) and the line has no registry accession.",
+      "not_a_finding_of_absence": "None of this says NCC-EMC1-C1 is unavailable. It says the questions are unanswered, and names exactly which fetch would answer each."
+    },
+    {
+      "⛔_binding_constraint_on_ALL_THREE": "There is no wet lab. research/manuscripts/modality-census/what-a-civilian-can-buy.md records the standing filter F2 verbatim: 'trimcrae does no bench work. A fully contracted service where he ships nothing and does nothing is acceptable; a \"kit you run yourself\" is not.' Every route above ends at 'someone must culture cells', so the true rate-limiting step for all three is finding a laboratory or a CRO, not finding a cell line or a construct. That ranking is unchanged by any price."
+    }
+  ],
+
+  "sources": [
+    {"what": "USZ availability, contact, ethics, doubling times", "where": "/tmp/claude-0/-home-user-Rare-cancers/ab5928bb-8227-53e1-b556-b45029811853/scratchpad/lit/literature/emc-breakpoint-census/PMC9813045.txt", "read": "2026-08-15"},
+    {"what": "tBJ/ER construct exon spans; why that background was used; correspondence address", "where": "/tmp/claude-0/-home-user-Rare-cancers/ab5928bb-8227-53e1-b556-b45029811853/scratchpad/lit/literature/emc-breakpoint-census/PMC6766969.txt", "read": "2026-08-15"},
+    {"what": "ATCC CRL-2522 price, lead time, MTA note, telomerase-negative statement", "where": "literature-cache:literature/emc-procurement-2026-08-15/atcc_crl2522.txt — https://www.atcc.org/products/crl-2522", "read": "2026-08-15"},
+    {"what": "Addgene pLPCX availability restriction", "where": "literature-cache:literature/emc-procurement-2026-08-15/addgene_search_plpcx.txt", "read": "2026-08-15"},
+    {"what": "JCRB expired-certificate error, verbatim", "where": "literature-cache:literature/emc-procurement-2026-08-15/_manifest.json (GitHub Actions run 31903411174)", "read": "2026-08-15"},
+    {"what": "Cellosaurus nulls for NCC-EMC1-C1 and tBJ/ER", "where": "literature-cache:literature/emc-procurement-2026-08-15/cellosaurus_{ncc_emc1_c1,tbj}.txt", "read": "2026-08-15"},
+    {"what": "r.jina.ai proxy route is dead (403 x20)", "where": "literature-cache:literature/emc-procurement-proxy-2026-08-15/_manifest.json (run 31903469360)", "read": "2026-08-15"},
+    {"what": "standing filter F2 (no bench work)", "where": "/home/user/Rare-cancers/research/manuscripts/modality-census/what-a-civilian-can-buy.md", "read": "2026-08-15"}
+  ]
+}
