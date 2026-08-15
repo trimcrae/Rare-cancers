@@ -1,0 +1,187 @@
+---
+name: repo-gates
+description: This repository's commit gates, linters, architecture graph, deliverable map, and the six-part reviewer-AI review block. Load before committing or pushing, before running preflight, when a preflight or CI gate goes red, when writing or editing a manuscript or its SI, when touching anything under systems/ or the registry, and before any outward-facing step (preprint, submission, release, DOI). Covers: tiered preflight (scoped tests for the commit loop, PREFLIGHT_FULL=1 before publication) and why the selector fails to full; the nine gates in order; lint_claims vs lint_citations (claim strength is orthogonal to citation provenance); why the prose-style gate is scoped to submission texts only; branch drift as a data-loss bug and checking which ref a workflow actually writes to; the generated systems/views; and the retired patient-facing site, which must not be recreated; and the exact six parts a reviewer-AI review block must contain before any outward-facing step.
+---
+
+# Commit gates, architecture and deliverables
+
+Extracted from CLAUDE.md §7 (plus §5's deliverable map) on 2026-08-15, **verbatim**.
+
+⚠ **This file is a `pinned-figures.json` target.**
+
+## Branch hygiene
+
+- **★★ KEEP EVERYTHING SYNCED TO `main`, AND KEEP `main` CURRENT — BRANCH DRIFT IS A DATA-LOSS BUG, NOT AN
+  INCONVENIENCE (trimcrae, 2026-07-29, after it cost a day).** Long-lived feature branches that a *workflow*
+  runs from are the dangerous kind, because they hold **state as well as code**. Measured that morning:
+  `step1-fanout-autoscale.yml` checks out `fleet_branch` and writes its
+  map there. Its default was then `claude/max-effort-2dq11l`, so `main` said the fan-out was **1 of 19 edges,
+  $22.62** while the branch — where the lane really ran — said **14 of 19, $68.98, 197 rentals**. ✅ **CLOSED:
+  the default is now `main` and every fallback in that workflow is `|| 'main'`; `step1-fanout-map.json` is
+  byte-identical on this branch and `origin/main`.** The incident is kept because the *rule* is what binds,
+  not the branch name. Three separate harms, all real:
+  1. **The paper was wrong.** §2.9 was written off `main`'s artifact and understated the work by 13 computed
+     ΔΔG edges. An artifact on the wrong branch is a stale fact that reads as a current one.
+  2. **Fixes landed where nothing runs.** The exclusion-set repair, `leg_failure_breaker` and
+     `teardown_decision` all went to `main`, which that lane did not check out — so they were inert.
+     ⚠ *Superseded, retained: this line carried "(union 58 → 27)". Those numbers have **no home anywhere** —
+     not in `vast_machine_blacklist.py`, not in any artifact, not in history — so rule 1 cannot check them,
+     and the mechanism they describe is itself retired (`DURABLE_EXCLUSIONS_ENABLED = False`). An unhomed
+     figure inside the rule that exists to stop unhomed figures.*
+  3. **Re-pointing the lane became expensive.** Flipping `fleet_branch` to `main` would have shown 13 finished
+     edges as unrun and **re-bought them** (~$46) on a lane that rents unattended.
+  So: **merge to `main` early and often; rebase working branches onto `main` before every push; never let a
+  branch a workflow runs from be the only home of an artifact.** Before writing ANY claim from a committed
+  artifact, check which ref the producing workflow actually writes to — `main` is not automatically it. If a
+  lane must run off a branch, that branch's artifacts belong on `main` too, and reconciling them is
+  **port-then-switch, never switch-then-discover**.
+
+## Evidence and registry
+
+- **Citing & combining studies:** registry data uses a structured citation map (`registry.citations` +
+  `sourceId`/`primaryRef`, primary vs secondary) and a fixed pooling method (crude denominator-weighted
+  proportions + Wilson 95% CIs, non-overlapping cohorts only). Read **[systems/POLICY-evidence.md](./systems/POLICY-evidence.md)** before
+  touching `registry`.
+
+## Preflight
+
+- **★★ PREFLIGHT IS TIERED: FAST GATES ALWAYS, THE TEST SUITE SCOPED TO THE CHANGE, AND THE WHOLE
+  THING ONLY BEFORE PUBLICATION (trimcrae, 2026-08-12: *"not running tests on every single modality,
+  only the ones affected"* and *"not requiring preflight to run on every push to main, only manually
+  before publication"*).** Measured that day: the modalities suite was **745.9 s of a ~15-minute
+  gate — 87 % of preflight** — while the seven doc, systems-model and medical-integrity gates cost
+  about a minute between them, and those are the ones that have actually caught things here. ⚠ And
+  the expensive copy is the WEAKER one: this sandbox lacks numpy, rdkit, boto3, scipy, pymbar and
+  netCDF4, so 48 of those tests fail as missing imports and five modules do not import at all, while
+  `tests.yml` runs `on: push` with the real dependencies. Twelve local minutes bought a degraded
+  rerun of a check that was about to run properly. Scoped, a typical change now runs in **under a
+  second** (measured: a `junction_aso_offtarget.py` edit selects 3 test modules, 39 tests, 0.51 s).
+  - **`./scripts/preflight.sh`** — every fast gate, plus only the tests the change can reach
+    ([`affected_tests.py`](./scripts/affected_tests.py), a static import graph with transitive
+    closure). **This is the commit loop.**
+  - **`PREFLIGHT_FULL=1 ./scripts/preflight.sh`** — everything. **Required before anything
+    outward-facing: a preprint, a submission, a release, a DOI.** Scoping is not a claim that the
+    rest of the suite passes.
+  - ⛔ **THE SELECTOR FAILS TO FULL, AND THAT IS THE ENTIRE SAFETY ARGUMENT.** A changed `conftest`,
+    a changed test helper, an unparseable source, a git that will not answer, or an edit to the
+    selector or to `preflight.sh` all take the whole suite. A gate that quietly runs too little is
+    the "reports while measuring nothing" defect this repository keeps paying for, not a faster
+    gate; `scripts/tests/test_affected_tests.py` asserts each of those directions, and the
+    baseline-pruning readout is suppressed on a scoped run because **a subset cannot say a test it
+    never executed is fixed.**
+- **Before committing:** `./scripts/preflight.sh` must pass. **Nine gates, in this order:** (1) the consistency
+  linter, (2) `systems/systems_check.py --check`, (3) `research/manuscripts/emc_systems_map_check.py --check`,
+  (4) `research/manuscripts/lint_citations.py`, (5) `research/manuscripts/lint_style.py`,
+  (6) `systems/parser_guard.py`, (7) the registry evidence
+  contract (`validate-registry.mjs`), (8) the modalities tests, (9) the manuscripts tests. Its exit code cannot be masked. **Do not
+  re-type an ordinal from memory** — `[P1]` derives it from the script and fails the build on any document
+  that disagrees. *(It did exactly that when gate 4 was inserted, catching four documents in one run.)*
+  ⚠ **`lint_claims.py` is NOT in preflight** — it runs only in CI, so a green preflight does not mean the
+  language rules passed. *Superseded, retained: "It runs the registry evidence contract
+  (`validate-registry.mjs`), the doc linters and the modalities tests" — written before gates 2 and 3 existed,
+  and "the doc linters" plural was never true of this script. And: **"Five gates"**, which listed the map
+  check nowhere, **"Six gates"**, written before citation provenance was one, and **"Seven gates"**, written
+  before manuscript prose style was one, and **"Eight gates"**, written before the manuscript tests
+  were run locally at all — CI had run them since 2026-08-03 and this script had not, so a green
+  preflight was silent about every guard in `research/manuscripts/tests`, the newest of which checks
+  citation numbering.*
+  - **★★ GATE 5 IS ABOUT REGISTER, AND IT IS SCOPED ON PURPOSE (2026-08-09).** This repository's house
+    style — glyph warnings, bold on the load-bearing clause, running commentary on why a rule exists —
+    is correct *here*, in the roadmap and in the artifacts, where the reader is a maintainer or an agent
+    being stopped from repeating a specific mistake. It is wrong in a **manuscript**: a journal reader is
+    not being warned, prose that keeps asserting its own honesty reads as advocacy rather than as a
+    report, and the tics are recognisable as machine-written, which costs a paper credibility it has
+    otherwise earned. So `lint_style.py` checks only the files in its own `TARGETS` — submission texts —
+    and exempts frontmatter, fenced code and **every section under an `Appendix` heading**, because
+    superseded-value bookkeeping is *required* by rule 1.2 and belongs in an appendix rather than in the
+    running text. **A memo, a plan or a findings note is not a submission text and must not be added to
+    `TARGETS`.** Measured the day the gate landed: **81 findings in the one manuscript listed** — 25
+    glyphs, 32 mid-sentence bolds, 14 sentence-shaped headings, bold at 20.1 per 1000 words against a
+    limit of 12 and em-dashes at 11.4 against a limit of 6.
+  - **★★ A HEDGED SENTENCE ON A FABRICATED PMID IS A PERFECT SENTENCE TO `lint_claims` — WHICH IS WHY
+    GATE 4 EXISTS (2026-08-07).** An agent drafting a manuscript wrote a citation from **recollection**:
+    a PMID present in **no committed source anywhere in this repository**. It **passed `lint_claims`
+    twice**, and six invented titles and author-lists went out in the same pass; a human-directed audit
+    of every identifier caught them, and nothing automatic could have. ⚠ **`lint_claims` is not
+    deficient for missing it** — R1–R5 check how strongly a claim is WORDED, and claim STRENGTH is
+    orthogonal to citation PROVENANCE. No other gate read an identifier at all, in a repository whose
+    first golden rule is "never fabricate … citations".
+    [`lint_citations.py`](./research/manuscripts/lint_citations.py) asks the one question an offline
+    checker can answer: does this identifier ALSO appear in a tracked `.json`/`.jsonl`? Those are fetch
+    products — a network read, a registry curation, a graph edit — none of which a model does from
+    memory. ⛔ **It is a LEDGER, not a wall**: the 215 prose-only identifiers found on day one are
+    baselined, because a gate that goes red on everything gets switched off, and **the baseline is the
+    finding** — it names for the first time which citations nobody has checked. The count is meant to
+    fall. **Anything NEW and unanchored fails immediately**, which is the case that actually happened.
+    ⚠ An anchored identifier is **not thereby verified** — an artifact carrying it is evidence of a
+    fetch, not of correctness. This raises the floor; it is not a truth oracle.
+  - **★★ A GREEN PREFLIGHT THAT SKIPS A MEDICAL-INTEGRITY GUARD IS WORSE THAN NO PREFLIGHT (measured
+    2026-08-06, and it turned `main` red).** Gate 3 was **CI-only** until that day, so a session could run
+    this script, read `PREFLIGHT OK`, merge, and only then learn that a newly-generated view named a cell
+    line whose identity is **disputed** — `O4` requires every tracked file naming it to classify the use as
+    invalidated / survives_relabelled / unaffected, and it fired in CI and nowhere else. The gap was not
+    tidiness: gates 2 and 3 are the two checks that enforce **provenance and medical integrity**, and one
+    of them was invisible locally while the other was trusted. ⚠ **When you add a check to `tests.yml`, the
+    question is not "does CI run it" but "would a session that only ran preflight have seen it".**
+
+## Architecture and retired surfaces
+
+- **★★ THE ARCHITECTURE IS [`systems/`](./systems/) — READ
+  [`systems/views/L0-ecosystem.md`](./systems/views/L0-ecosystem.md) FOR THE WHOLE LANDSCAPE IN ONE SCREEN.**
+  `systems/graph/*.json` is the source of truth for every strategy family, route, blocker, technology
+  dependency and forecast; everything under `systems/views/` is **GENERATED** and a hand-edit fails the
+  build (`python3 systems/systems_check.py --write-views` to regenerate). Design and rationale:
+  [`systems/ARCHITECTURE.md`](./systems/ARCHITECTURE.md). Identifiers, glyphs and controlled vocabularies:
+  [`systems/CONVENTIONS.md`](./systems/CONVENTIONS.md).
+- **⛔ THE PATIENT-FACING SITE IS RETIRED AND DELETED (2026-08-05), NOT SHELVED.** *Superseded, retained:
+  "The patient-facing site is shelved — keep it working if you touch it, but don't invest new effort there
+  without being asked."* The HTML, assets, templates, per-cancer data index, the `add-cancer` skill and the
+  Pages workflow are gone. **Two things survived because they were never site tooling:** the cited EMC
+  clinical registry, now [`research/data/emc-clinical-registry.json`](./research/data/emc-clinical-registry.json)
+  — read by `research/meta/meta-analysis.mjs` and `research/hypotheses/enumerate-drugs.mjs`, both of which build
+  the path from segments, so **searching for the DIRECTORY name finds neither; searching for the filename finds
+  both** — and its validator, now `scripts/validate-registry.mjs`, which is **gate 7 of preflight's 9**.
+  **Do not recreate the site.** Full accounting: [`systems/MIGRATION.md`](./systems/MIGRATION.md).
+  ⚠ *Superseded, retained: "both via segment-built paths a text search will not find … which is gate 2 of
+  preflight." The first over-stated the problem — `grep emc-clinical-registry` returns both readers at once,
+  and the precise warning is the one `enumerate-drugs.mjs` itself writes. The second was simply the wrong
+  ordinal, which is worse than vague: it sends a reader to the wrong gate when preflight fails.*
+
+## The deliverable map (from CLAUDE.md §5)
+
+- **ONE FILE PER DELIVERABLE** (from CLAUDE.md §5's OPERATING REGIME bullet; the regime's judgment
+  clauses stay resident in CLAUDE.md, this is the file map):
+  **ONE FILE PER DELIVERABLE:** [nr4a3-degrader-paper.md](./research/manuscripts/degrader/nr4a3-degrader-paper.md) + its
+  SI **is** both the ChemRxiv preprint and the JCIM submission **for the degrader route**. ⚠ *Superseded,
+  retained: **"SINGLE DELIVERABLE"**, unqualified — the anti-duplication rule it protects is live and unchanged,
+  but as written it also said this repository has ONE deliverable, and it has
+  [sixteen publication endpoints](./systems/views/L3-publications.md) covering all forty routes. Reading an
+  anti-duplication rule as a portfolio statement is how every other route's paper became invisible.*
+  `nr4a3-degrader-preprint.md` and
+  `nr4a3-degrader-preprint-si.md` are retired stubs — a
+  parallel condensed draft drifted out of sync and self-contradicted; **don't recreate one.** ⚠ *Superseded,
+  retained: "`nr4a3-degrader-preprint*.md` are retired stubs" — that glob also swept in
+  `nr4a3-degrader-preprint-plan.md`, which is 174 live lines and which this very sentence goes on to cite.*
+  Pre-post checklist:
+  [preprint-plan.md](./research/manuscripts/degrader/nr4a3-degrader-preprint-plan.md); ready-to-send outreach:
+  [outreach-emails.md](./research/manuscripts/degrader/nr4a3-degrader-outreach-emails.md).
+
+## The reviewer-AI review block — its six required parts
+
+CLAUDE.md §3 owns **when** to produce a block (program-shifting decisions, >$50 GPU spend, outward-facing or
+irreversible acts) and the rule that it is the **first thing** in your reply — self-contained, copyable and
+fenced, because the reviewer sees only what is inside the box. This is **what goes in it**:
+
+1. Role + the ask, verbatim: *"approve, or return a specific list of fixes"*.
+2. Project + goal, one paragraph.
+3. What was done, with repo/PR/file paths.
+4. The exact proposed next action(s) needing sign-off, verbatim.
+5. Known risks, uncertainties and judgment calls, stated honestly — over-claim vs verification level, medical
+   integrity, ethics/tone.
+6. Your specific questions.
+
+Apply the returned changes **yourself**, and only then proceed.
+
+⚠ *Superseded, retained: "every hand-off gets a block" (corrected 2026-07-12 after over-escalation). A block is
+NOT for finished free work, curation you can verify, ordering self-doable work, or cheap authorized runs — for
+those, execute and report the result.*

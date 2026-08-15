@@ -1,0 +1,139 @@
+---
+id: DOC-CLAUDE-HISTORY
+title: CLAUDE-history.md
+level: —
+kind: convention
+status: live
+canonical_for: [retired CLAUDE.md rule framings, the incident evidence behind each standing rule]
+purpose: >
+  The correction register for CLAUDE.md. CLAUDE.md rule 1.2 requires that a superseded framing
+  is never silently dropped but also never left inline, because old wording stays quotable.
+  STRATEGY.md Appendix B is the equivalent register for superseded *strategy* framings; this is
+  the one for superseded *operating rules*.
+scope: >
+  History only, and deliberately cited by CLAUDE.md — a correction register has to be reachable
+  to do its job. Nothing here is a live instruction. Where a rule is still live, the live wording
+  is in CLAUDE.md and only its retired phrasing or its full incident narrative is here.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-15
+last_verified: 2026-08-15
+history_only: true
+---
+# CLAUDE.md — retired framings and incident evidence
+
+> **★ HISTORY ONLY. The live rules are [CLAUDE.md](./CLAUDE.md).**
+> Read this when you want to know *why* a rule exists or whether a framing you remember was retired.
+> Never cite it as an instruction.
+
+On 2026-08-15 CLAUDE.md was compressed from ~12,200 words to a resident core. Two things moved here:
+**retired framings** (rule 1.2: a correction goes in an appendix, never inline) and **full incident
+narratives** (the rule keeps a one-clause "why"; the retelling lives here).
+
+---
+
+## A · Retired framings
+
+- **"THE PLAN IS STRATEGY.md."** True until 2026-08-02, when every live section moved into
+  [the roadmap](./research/manuscripts/nr4a3-program-map.md) and STRATEGY.md became two history appendices.
+- **"This file carries no cost figures and no history."** False of CLAUDE.md as written — it carried
+  `$0.006539/ns`, `$0.003412/ns`, `$0.200/hr`, `$22.62`, `$68.98` and dated incident narratives throughout
+  §4, §6 and §7. The distinction that actually holds: **a number stays resident only when it IS a rule**
+  (the buy line you refuse to cross), and **an incident stays only as the evidence a rule rests on**.
+- **§6 "Running compute" and §7 "Repo basics" as ~7,300 words of inline text**, plus §1's in-flight board
+  format and `$/ns` derivation and §5's deliverable file map. All are verbatim in the four project skills
+  (`ci-escape-hatches`, `gpu-compute`, `inflight-reporting`, `repo-gates`), all four are
+  `pinned-figures.json` targets, so `lint_consistency.py` checks them exactly as before.
+- **An eight-file list of `lint_consistency` targets typed into CLAUDE.md.** Nothing in it was wrong; it had
+  silently fallen five short of the registry's 13 — which is what restating a list instead of pointing at it
+  always does.
+- **"A closed route is not exempt — a definitional closure is a publishable negative,"** read as making
+  negative-writing a standing task. Closures are still worth publishing and the field publishes almost none
+  of them; what changed (2026-08-06) is that they wait behind anything live.
+- **"What in-silico can do for an NR4A3-selective degrader"** as the north star, and **"the program is ≈70–80%
+  of repo effort; the broader EMC route portfolio is support beneath it."** Retired 2026-08-06 — see
+  [STRATEGY.md Appendix B](./STRATEGY.md#appendix-b--superseded-strategy-framings). This demoted a *standing*,
+  not a *result*.
+- **"SINGLE DELIVERABLE"**, unqualified. The anti-duplication rule it protects is live and unchanged, but as
+  written it also said this repository has one deliverable, and it has
+  [sixteen publication endpoints](./systems/views/L3-publications.md) across forty routes. Reading an
+  anti-duplication rule as a portfolio statement is how every other route's paper became invisible.
+- **"`nr4a3-degrader-preprint*.md` are retired stubs."** That glob also swept in
+  `nr4a3-degrader-preprint-plan.md`, which is 174 live lines and is cited as the pre-post checklist.
+- **"A frozen gate was ONE leg short of emitting a fabricated verdict."** The board did read 17 of 18 at
+  10:54 AM ET — but the 18th landed sixteen minutes later and the verdict went out. Writing it as a near miss
+  makes the guard sound like it held. It did not: what stopped this was a human reading the numbers.
+- **"Every hand-off gets a reviewer-AI review block."** Corrected 2026-07-12 after over-escalation; blocks are
+  now reserved for program-shifting decisions, >$50 GPU spend, and outward-facing or irreversible acts.
+- **"VMs self-delete on exit, so a dead leg shows `live_vms=0`; `gcp-reap-vms.yml` is the backstop."**
+  Corrected — see [gcp-gpu-facts.md](./research/compute/gcp-gpu-facts.md) §6/§6b.
+
+---
+
+## B · Incident evidence behind the standing rules
+
+**§0 · Axis D ranks finished things first (2026-08-06).** A session took
+[`emc-post-degrader-options.md`](./research/manuscripts/program/emc-post-degrader-options.md)'s Axis D ranking
+at face value and put four parallel agents on a failure-record paper, a closed-route paper and two
+housekeeping sweeps — with the ASO panel retracted, the neoantigen predictions carrying `⛔_RETRACTED_SEAMS`
+and the TCIP route one $0 CI fetch from naming an effector. Zero of four were on a live path, and it took
+trimcrae asking to catch it.
+
+**§1 · One fact, one place (2026-07-25).** A single STRATEGY.md cleanup found: the gated-ladder total written
+as ~$194 twice and ~$128 once in the same file; a high band of ~$544 whose own rows summed to ~$561; a
+dependency spine carrying cumulative $15/$97/$273/$252 against the ladder's $13/$48/$104/$194; a rung recorded
+UNPRICED/BLOCKED in five places and QUALIFIED/PRICED in a sixth; a superseded single-replicate result (−0.552)
+restated four lines under the table that replaced it (−0.370); and a withdrawn per-arm figure cited in a
+preregistration and again in the manuscript paragraph immediately below its own DO-NOT-CITE banner. Every one
+is the same failure: a number lived in several places and a correction reached one of them. The repo had
+already tried to fix this with prose, and prose had already lost — exactly as it lost for language discipline
+before `lint_claims.py` was written.
+
+**§1 · The four-hour ET error (2026-08-07).** trimcrae: *"There's no way that ETA is right. That would mean our
+preflight takes 5 hours."* Measured that evening: `date '+%-I:%M %p'` returned `9:44 PM` and
+`TZ=America/New_York date` returned `5:44 PM EDT` — the same instant, four hours apart. **The rule was being
+obeyed in form and broken in fact**: the reading was measured rather than guessed, then `ET` was typed after a
+UTC number, so the conversion never happened.
+⚠ **The first fix failed in a way worth recording.** Earlier the same day the same complaint was raised (a
+2:31 PM reported at 10:53 AM), diagnosed as *fabricating* timestamps, and fixed by measuring with `date` every
+time. That fix was correct about guessing and left the mislabelling untouched — so the error survived its own
+remediation and looked repaired. **A diagnosis that explains the symptom is not thereby the cause**; the
+discriminating observation cost one shell command nobody ran. Subagents in the same container converted
+correctly, which is how the blast radius stayed in chat: no commit message and no tracked file carried a bad
+ET time.
+
+**§4 · "Watching" is a deferral, not a status (2026-08-01).** trimcrae: *"Is it expensive to investigate? Why
+wouldn't you just take a look now to be sure."* A lane's census was 16 min stale while its host billed. That
+was reported as "one tick past the line, watching" — and one public API call, costing nothing, showed the
+lane's watch loop had **exited 24 minutes earlier and never re-armed**, so the host had been billing
+unsupervised the whole time. The "wait and see" framing was itself the error.
+
+**§4 · A populated field is not a measured one (2026-07-31).** 17 smoke legs echoed `prod_ns: 5.0` and a filled
+`R1_interface` **from their ENV rather than from what ran**; a completeness count believed them,
+`panel_complete` went true, and the frozen gate **emitted a verdict on them**, carrying model-level E1 means
+for all three arms at `tier: INDETERMINATE`. It had to be withdrawn in full; no R1 result exists. An E1 near
+1 Å on a smoke leg is 2 ps of sampling after ZERO equilibration — the minimised starting structure measured
+against itself ([STRATEGY.md Appendix A](./STRATEGY.md#appendix-a--superseded-numbers-and-retracted-claims)
+57; the predicate that closes it is `nrv04_retro_panel.production_leg_check`).
+The same day, hours earlier: a census row reading `targets not in the record` / `no openmmtools rate line` was
+read as evidence a leg was frozen, when it meant the collector could not READ that leg. A card floor was
+applied to a live lane on that misreading and reverted the same hour
+([vast-placement-facts.md §3b](./research/compute/vast-placement-facts.md)).
+
+**§4 · Unproven-pipeline monitoring (2026-07-19).** Tight progress checks caught three silent failures on the
+ternary lane in one session.
+
+**§4 · Reporting "on track" while stuck (2026-07-08).** Repeated status reassurance while a job was stuck,
+until trimcrae noticed.
+
+**§6 · A rule filed where it cannot fire is absent (2026-07-25).** The environment-build rule was filed under a
+heading reading *"CI environments"*, so it did not fire on a rented GPU host and a 4090 billed through a full
+`apt-get`/`pip` build. This is the founding hazard for the 2026-08-15 skill split: a skill that loads only once
+you already realise the topic applies is a stronger version of the same failure, which is why every moved block
+left a tripwire phrased as the thought you will actually be having.
+
+**§7 · Branch drift as data loss (2026-07-29).** `main` said 1 of 19 edges / $22.62 while the branch said 14 of
+19 / $68.98. Cost a day.
+
+**§7 · A hedged sentence on a fabricated PMID passes `lint_claims` (2026-08-07).** It happened twice in one
+pass, and six invented titles and author-lists went out with it. Claim STRENGTH is orthogonal to citation
+PROVENANCE.

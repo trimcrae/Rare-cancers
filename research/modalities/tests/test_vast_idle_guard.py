@@ -335,20 +335,31 @@ def test_no_surviving_code_claims_the_host_can_stop_its_own_billing():
     """CLAUDE.md §6's 'the auto-teardown wrapper guarantees no idle-GPU billing anywhere' was false, and a
     standing rule asserting a guarantee the code does not provide is worse than no rule. The claim was
     removed from the rule AND from the three docstrings that repeated it; this pins that it stays removed —
-    and that `kill -9 1`, which returns 0 while doing nothing, is not silently re-added."""
+    and that `kill -9 1`, which returns 0 while doing nothing, is not silently re-added.
+
+    On 2026-08-15 §6's body moved into the `gpu-compute` skill and CLAUDE.md kept the tripwire that routes
+    to it, so this reads the STANDING-RULES CORPUS — the resident file plus the skills it routes to — rather
+    than CLAUDE.md alone. Scoping it to one path is what let the split silently empty it: the rule is still
+    binding, so the test follows the rule rather than the filename."""
     import pathlib
     root = pathlib.Path(__file__).resolve().parents[3]
     import gpu_backend
     assert "kill -9 1" not in gpu_backend._VAST_SELFSTOP
     assert "kill -9 1" not in " ".join(gpu_backend.VastBackend().self_terminate_cmd())
+    sources = [root / "CLAUDE.md"] + sorted((root / ".claude" / "skills").glob("*/SKILL.md"))
+    assert (root / ".claude" / "skills" / "gpu-compute" / "SKILL.md") in sources, \
+        "the gpu-compute skill is where §6's compute rules live; if it moved, re-point this test"
     # The old wording may still APPEAR — CLAUDE.md §1 says a corrected claim is registered, not silently
     # dropped, so the retraction quotes it. What must never come back is the claim being ASSERTED, so every
     # surviving occurrence has to sit inside its own retraction.
-    claude = (root / "CLAUDE.md").read_text()
     claim = "guarantees no idle-GPU billing"
-    at = -1
-    while (at := claude.find(claim, at + 1)) != -1:
-        context = claude[max(0, at - 300):at]
-        assert "previously said" in context and "that was false" in claude[at:at + 200], \
-            "CLAUDE.md asserts the host-side teardown guarantee again; it is measurably untrue"
-    assert "vast_idle_guard" in claude, "§6 must name what actually provides the guarantee now"
+    for path in sources:
+        text = path.read_text()
+        at = -1
+        while (at := text.find(claim, at + 1)) != -1:
+            context = text[max(0, at - 300):at]
+            assert "previously said" in context and "that was false" in text[at:at + 200], \
+                f"{path.name} asserts the host-side teardown guarantee again; it is measurably untrue"
+    rules = "\n".join(p.read_text() for p in sources)
+    assert "vast_idle_guard" in rules, \
+        "the standing rules must still name what actually provides the guarantee now"
