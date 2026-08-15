@@ -149,6 +149,123 @@ def test_the_pooled_counts_match_the_census_and_account_for_every_case():
         "a case is being counted twice or dropped")
 
 
+def test_the_third_series_refusal_rests_on_an_arithmetic_fact_not_an_opinion():
+    """⛔ THE REFUSAL THAT COSTS 4.5 POINTS, MADE CHECKABLE.
+
+    PMID 11679947 would raise the buildable figure if pooled, and it is refused under
+    POLICY-evidence.md §2.1(3) — its denominator is defined by its own assay's positivity. That is
+    not a matter of judgement and this asserts the arithmetic that decides it: the series' EWSR1 arm
+    is k = n for the junctions the panel covers, because a tumour with any other junction could not
+    have entered a denominator built from that assay's own hits. §2.1(3)'s own example is a cohort
+    whose outcome count is structurally 100%; this is one.
+
+    ⛔ AND THE CONTRAST IS ASSERTED TOO, because "this cohort is structurally 100%" only means
+    something if the cohort that IS pooled is not. PMID 12378528 names 12 of 15, so k < n there.
+
+    ⚠ THE OTHER ORIGINAL GROUND WAS WITHDRAWN ON 2026-08-15 and is deliberately NOT asserted here:
+    the type-nomenclature objection does not reach a series reporting only types 1 and 2, on which
+    PMID 9060841, 12598313 and 22567356 agree. A refusal resting on a ground that has fallen is a
+    refusal waiting to be overturned for the wrong reason, which is why it now rests on this one.
+
+    WHEN THIS FAILS: someone has pooled the third series or changed its arm. Pooling it moves a
+    published figure, so the superseded value goes in pinned-figures.json IN THE SAME COMMIT — and
+    the reason had better not be that the number is attractive.
+    """
+    sens = _ladder()["best_supported_buildable_panel"]["sensitivity_if_the_third_series_were_pooled"]
+    struct = sens["⛔_the_structural_100_percent"]
+    k, n = struct["okamoto_k_over_n_for_the_covered_junctions"].split("/")
+    assert k == n, (
+        f"PMID 11679947's covered-junction arm is {k}/{n}. It was {k}=={n} — structurally 100% — "
+        "which is the whole §2.1(3) ground for refusing it. If that changed, the refusal needs "
+        "re-arguing from the source, not relaxing here.")
+    assert struct["is_it_structurally_one_hundred_percent"] is True
+    pooled_k, pooled_n = struct["the_same_check_on_the_series_that_IS_pooled"]["PMID 12378528"].split("/")
+    assert int(pooled_k) < int(pooled_n), (
+        f"the series that IS pooled is now {pooled_k}/{pooled_n}. If its denominator has become "
+        "structurally complete too, it fails the same §2.1(3) test and the basis must be re-argued.")
+    # the withdrawn ground is recorded as withdrawn, not deleted
+    assert sens["_what_it_is"]
+    third = _ladder()["best_supported_buildable_panel"]["pooling_admissibility"][
+        "third_series_deliberately_not_pooled"]
+    withdrawn = third["⭐_2026_08_15_A_SECOND_GROUND_WAS_TESTED_AND_IT_FELL_—_THE_REFUSAL_NARROWED"]
+    assert len(withdrawn["three_concordant_primary_definitions_of_types_1_and_2"]) == 3
+    assert withdrawn["verdict"].startswith("THE REFUSAL STANDS")
+
+
+def test_the_pooled_partner_sensitivity_is_read_from_the_module_that_owns_it():
+    """⛔ ONE FACT, ONE PLACE, ACROSS TWO PAPERS' MODULES. The pooled EMC partner prevalence belongs
+    to `emc_fusion_partner_pooling.py`, which built it for the TAF15 prognostic synthesis against
+    POLICY-evidence.md §2.1-§2.3. The coverage ladder reads it. If the ladder ever carries counts
+    that artifact does not, someone has retyped a clinical proportion into a second home — which is
+    the failure mode rule 1 exists for, and it would let the two drift silently.
+
+    ⛔ THE DENOMINATORS ARE DELIBERATELY DIFFERENT AND THAT IS ALSO ASSERTED. The pooling artifact
+    pools over PARTNER-ASSIGNED cases; coverage must include the partner-unassigned residue, because
+    a tumour whose partner nobody named is exactly a tumour no junction reagent can engage. The
+    reconstruction must close on the cohorts' own published totals.
+    """
+    import json as _json  # noqa: PLC0415
+
+    pool = _json.load(open(os.path.join(MAN, "fusion-partner", "emc-fusion-partner-pooling.json"),
+                           encoding="utf-8"))
+    sens = _ladder()["best_supported_buildable_panel"][
+        "sensitivity_if_the_partner_denominator_is_pooled"]
+    prev = [c for c in pool["cohorts"] if c["endpoint"] == "partner_prevalence" and c.get("pool")]
+    expect = {}
+    for c in prev:
+        for label, v in c["counts"].items():
+            expect[label.split("::")[0]] = expect.get(label.split("::")[0], 0) + v
+    assert sens["pooled_partner_counts"] == expect, (
+        "the ladder's pooled partner counts disagree with the artifact it claims to read them "
+        "from. One of the two has been hand-edited.")
+    assert sens["n_partner_assigned"] == sum(expect.values())
+    assert sens["n_partner_unassigned"] == sum(c["not_partner_assigned"] for c in prev)
+    assert sens["n_molecularly_confirmed_total"] == sum(c["n_tested"] for c in prev)
+    assert (sens["n_partner_assigned"] + sens["n_partner_unassigned"]
+            == sens["n_molecularly_confirmed_total"]), (
+        "the coverage denominator does not account for its own cases")
+    # the pooling artifact's own headline denominator is the assigned one, and must NOT be the
+    # denominator coverage is priced on
+    assert (pool["analyses"]["C_partner_prevalence"]["pooled"]["EWSR1::NR4A3"]["denom"]
+            == sens["n_partner_assigned"] < sens["n_molecularly_confirmed_total"]), (
+        "the residue has stopped being added back, so this row is now computing coverage of "
+        "partner-assigned EMC while calling it coverage of EMC — the denominator swap that put "
+        "95% in the manuscript's abstract")
+
+
+def test_the_ceiling_crosses_95_percent_on_one_basis_and_not_the_other():
+    """⛔ TRIPWIRE, NOT AN INVARIANT — AND IT GUARDS THE LADDER'S HEADLINE RESULT.
+
+    The ladder's answer to "is 95% reachable?" is basis-dependent, and that was not known until the
+    partner denominator was tested on 2026-08-15. On the single 58-case series the arithmetic
+    ceiling is ABOVE 95%, so 95% is reachable in principle and reaching it requires the TCF12 arm.
+    On the four-series pooled partner denominator the ceiling is BELOW 95%, so no panel of any size
+    reaches it — because more than five percent of molecularly confirmed EMC has no named partner to
+    build a junction reagent against.
+
+    Both are asserted together because the pair IS the result. Quoting either alone overstates what
+    is known: the single-series ceiling makes 95% look like a panel-design problem, and the pooled
+    one makes it look settled, and neither is true on its own.
+
+    WHEN THIS FAILS: a cohort entered or left the partner pool and moved the ceiling across 95%.
+    That changes what the paper can say about its own target, so re-derive it deliberately and
+    register every moved figure in pinned-figures.json IN THE SAME COMMIT.
+    """
+    best = _ladder()["best_supported_buildable_panel"]
+    single = best["distance_to_the_arithmetic_ceiling"]["ceiling_percent"]
+    pooled = best["sensitivity_if_the_partner_denominator_is_pooled"]["arithmetic_ceiling_percent"]
+    assert single > 95.0, (
+        f"the single-series ceiling is now {single}%, at or below 95%. The ladder's 'crossing 95% "
+        "REQUIRES the TCF12 arm' result is stated on this basis and must be re-derived.")
+    assert pooled < 95.0, (
+        f"the pooled-partner ceiling is now {pooled}%, at or above 95%. The sensitivity's "
+        "load-bearing consequence — that no panel of any size reaches 95% on the wider basis — no "
+        "longer holds and the row's own wording must change with it.")
+    assert pooled < single, (pooled, single)
+    # and the buildable figure itself must not have been quietly re-based onto the wider denominator
+    assert best["basis"] == "pooled_two_series", best["basis"]
+
+
 def test_the_taf15_intron2_isoform_still_has_no_count():
     """⛔ TRIPWIRE, NOT AN INVARIANT — AND THE ONE THAT CAN LOWER A PUBLISHED FIGURE.
 

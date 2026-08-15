@@ -960,11 +960,23 @@
     "verbatim": "EWS-CHN or TAF2N-CHN fusion gene transcripts characteristic of EMCS could be detected in 15 (83%) of the 18 cases: EWS-CHN type 1 in 11 cases, EWS-CHN type 2 in 1, and TAF2N-CHN in 3.",
     "verbatim_source": "research/manuscripts/aso/lit-targets-aso-verify.json (abstract_verbatim)",
     "⛔_why_it_is_not_pooled": [
-     "IT REPORTS TYPE NUMBERS, NOT EXON PAIRS, and the two are not interchangeable across sources. PMID 12378528 calls type 5 EWS exon 13 :: CHN exon 3; PMID 12598313 calls 'EMC type 5' EWS exon 10 fused to a 72-bp sequence from TEC intron 2. The census's own denominator note already fixes this: 'The type NUMBERING is not pooled; only exon pairs are.'",
      "⛔ ITS DENOMINATOR IS DEFINED BY ITS OWN ASSAY'S POSITIVITY, which is POLICY-evidence.md §2.1(3) — the outcome must not be the inclusion criterion. Twelve cases are 'EWSR1-rearranged' here only because a type-1 or type-2 primer pair fired; the three fusion-negative cases may be EWSR1-rearranged at a junction the panel had no primer for. The 58-case cohort's 46 are FISH-confirmed, which is a different and wider denominator.",
      "A JUNCTION-SPECIFIC ASSAY CANNOT REPORT A JUNCTION IT HAS NO PRIMER FOR, so its zero for the exon-13 junction is an assay-scope zero, not a measured zero — the same argument the census already makes about PMID 32612944's fixed four-junction panel.",
      "⚠ AND A NEAR-MISS WORTH NAMING: this series and the primary breakpoint series BOTH have n=18 and are different cohorts (Japanese 2001, Scandinavian/Belgian/US 2002). Two 18-case EMC series is exactly the shape of a double-count under §2.3."
     ],
+    "⭐_2026_08_15_A_SECOND_GROUND_WAS_TESTED_AND_IT_FELL_—_THE_REFUSAL_NARROWED": {
+     "the_ground_that_fell": "⚠ SUPERSEDED, RETAINED — this list's FIRST bullet used to read: 'IT REPORTS TYPE NUMBERS, NOT EXON PAIRS, and the two are not interchangeable across sources. PMID 12378528 calls type 5 EWS exon 13 :: CHN exon 3; PMID 12598313 calls \"EMC type 5\" EWS exon 10 fused to a 72-bp sequence from TEC intron 2.' Both halves of that observation are still TRUE, and the inference drawn from them does not reach THIS series. The nomenclature is unreliable AT TYPE 5. It is not unreliable at types 1 and 2, and types 1 and 2 are all this series reports.",
+     "three_concordant_primary_definitions_of_types_1_and_2": [
+      "PMID 9060841 (Brody 1997), read from the OCR layer of PMC1857890's scanned pages: 'In the type 1 fusion, EWS exon 12 is fused to position -2 of the CHN cDNA. The type 2 variant fuses EWS exon 7 to position -176 of the CHN cDNA, resulting in a novel open reading frame of 59 amino acids.' ⭐ THIS ONE PREDATES OKAMOTO 2001, which is what makes it load-bearing: it is the numbering in circulation when this series was written. It fixes the acceptor by cDNA POSITION rather than by exon because, in its own words, 'The exon structure of CHN has not yet been elucidated' — and both positions land where the modern exon assignments put them (NR4A3 exon 3 retains 2 nt of 5'UTR; 176 nt of 5'UTR upstream of the ATG is an exon-2 acceptor).",
+      "PMID 12598313 (Sjögren 2003), read from PMC1868116: 'a type 1 fusion in which EWS exon 12 is fused in frame to TEC exon 3' and 'a type 2 fusion in which EWS exon 7 is fused to TEC exon 2'. ⭐ THE SAME PAPER THAT SUPPLIES THE TYPE-5 CONFLICT AGREES ON TYPES 1 AND 2 — the divergence is not a general unreliability, it is one type.",
+      "PMID 22567356 (Nishio 2011): type 1 = EWSR1 exon 12 :: NR4A3 exon 3, type 2 = EWSR1 exon 7 :: NR4A3 exon 2. Already in the census as the definition of the type 2 transcript."
+     ],
+     "⚠_what_is_still_NOT_verified": "WHICH numbering Okamoto 2001 cites. Its full text is not open access (lit-targets-aso-verify.json records open_access_full_text_retrieved: false), so the argument is that all three extant definitions of types 1 and 2 agree, not that this paper's source was read. That is weaker than a direct check and is stated as weaker.",
+     "⛔_AND_IT_CHANGES_NOTHING_BECAUSE_THE_OTHER_GROUND_IS_SUFFICIENT_ALONE": "§2.1(3) is not a supporting reason here, it is decisive, and the arithmetic says so without argument: this series' EWSR1 arm is 11 type 1 + 1 type 2, the panel covers BOTH types, so k/n = 12/12 = 100% BY CONSTRUCTION. That is exactly the structural 100% §2.1(3) names — its own example is a 'metastatic at diagnosis' cohort whose metastasis count cannot be anything but 100%. Computed rather than asserted in `_the_structural_100_percent`.",
+     "⭐_the_mechanism_is_MEASURED_not_argued": "PMID 9060841 ran both assays on the same tumours and reports the discrepancy: 'Long-range DNA PCR analysis for the type 1 fusion ... EWS/CHN rearrangements were identified in 3 cases of extraskeletal myxoid CS, 2 of which were negative by RT-PCR.' A type-panel RT-PCR denominator DEMONSTRABLY drops rearranged tumours — so 'the three fusion-negative cases may be EWSR1-rearranged' is an observation about this class of assay, not a hypothetical.",
+     "⛔_and_the_primary_series_does_NOT_have_this_defect_—_the_discriminator": "PMID 12378528 names the type of 12 of its 15 EWSR1-rearranged tumours and leaves 3 UNNAMED, so k ≠ n and its denominator is not fixed by its type panel. It can do that because its partner assignment does not come from the type assay at all: the open-access restatement of the same series (PMC2395470) reports 'Cytogenetic analysis was performed after short-term culturing' and 'Chromosomal aberrations were detected in 16/17 cases in our series; 13 with involvement of 9q22 and 22q12, and three with rearrangements of 9q22 and 17q11' — an independent, karyotype-level partner determination. Okamoto worked on PARAFFIN-EMBEDDED tissue by RT-PCR alone, where no such independent determination is possible. That is the whole difference, and it is why one series is pooled and the other is not.",
+     "verdict": "THE REFUSAL STANDS AND THE FIGURE DOES NOT MOVE. One of its two original grounds has been withdrawn on evidence; the remaining one is sufficient by itself. Recorded this way rather than silently rewritten because a refusal that quietly swaps its reasons is indistinguishable from a refusal chosen on the outcome — and this one costs 4.5 points."
+    },
     "_the_sensitivity_it_would_have_produced": "computed in the artifact, not typed here",
     "⛔_the_sensitivity_may_not_be_quoted_as_coverage": "It is reported so that the pooling rule can be seen not to have been chosen on the outcome. Applying the rule COSTS coverage relative to ignoring it, which is the direction that makes the rule credible."
    }
@@ -979,7 +991,142 @@
    },
    "_okamoto_n_derivation": "11 type 1 + 1 type 2 = 12 EWS-CHN-positive cases; the 3 TAF2N cases go to the TAF15 arm, which this series reports at gene level and which therefore does not move; the 3 fusion-negative cases are excluded by the assay, which is the defect.",
    "coverage_percent_it_would_give": 87.4,
-   "⛔_it_is_HIGHER_than_the_reported_figure_and_is_still_refused": "87.4% against the reported figure — so excluding this series is the conservative choice as well as the correct one, and the pooling rule cannot have been chosen to maximise the headline. The reasons it is refused are in `third_series_deliberately_not_pooled` and none of them is the number."
+   "⛔_it_is_HIGHER_than_the_reported_figure_and_is_still_refused": "87.4% against the reported figure — so excluding this series is the conservative choice as well as the correct one, and the pooling rule cannot have been chosen to maximise the headline. The reasons it is refused are in `third_series_deliberately_not_pooled` and none of them is the number.",
+   "⛔_the_structural_100_percent": {
+    "_what_this_shows": "POLICY-evidence.md §2.1(3) refuses a cohort whose outcome is fixed by its own inclusion rule. Whether this series is such a cohort is DECIDED BY ARITHMETIC rather than by reading its methods: if every case admitted to its EWSR1 arm is admitted BECAUSE a covered junction's primer fired, then k equals n exactly.",
+    "okamoto_k_over_n_for_the_covered_junctions": "12/12",
+    "is_it_structurally_one_hundred_percent": true,
+    "⛔_verdict": "YES — every case in this arm carries one of the two junctions the panel covers, because a case with any OTHER junction could not have entered the arm. §2.1(3) fails, and it fails on its own without the type-nomenclature ground that was withdrawn on 2026-08-15.",
+    "the_same_check_on_the_series_that_IS_pooled": {
+     "PMID 12378528": "12/15",
+     "why_it_passes": "k < n. Three of its fifteen EWSR1-rearranged tumours carry types it never names, so membership of its denominator is NOT the outcome — the partner was established by karyotype after short-term culture, independently of the transcript typing."
+    }
+   }
+  },
+  "sensitivity_if_the_partner_denominator_is_pooled": {
+   "_what": "★ LEVER 2, TESTED 2026-08-15 — the best-supported buildable panel priced on the pooled four-series partner prevalence instead of the single 58-case series.",
+   "_it_is_a_SENSITIVITY_and_supersedes_nothing": "⛔ Every rung, bound and figure above is unchanged and rung 0 still reproduces 68.4% exactly. The manuscript's basis is the single series and stays the single series; this row says what the same panel is worth if the partner denominator is widened as far as the retrieved record and POLICY-evidence.md together allow.",
+   "_the_counts_are_READ_not_derived_here": {
+    "artifact": "research/manuscripts/fusion-partner/emc-fusion-partner-pooling.json",
+    "generator": "research/manuscripts/emc_fusion_partner_pooling.py",
+    "selection": "every cohort in that artifact with endpoint == 'partner_prevalence' and pool == true. Its own exclusions are inherited unexamined, which is the point of reading rather than re-deciding: {\"llombart-bosch-2022-prevalence\": \"abstract-only\", \"klubickova-2022-prevalence\": \"population-overlap with lenz-2023-prevalence\"}",
+    "its_non_overlap_argument": "Four geographically and institutionally distinct series -- MSKCC (USA), Taiwanese institutions, Czech Republic, Italian Sarcoma Group -- with no shared authors between them and no shared referral network.",
+    "per_cohort": {
+     "agaram-2014-prevalence": {
+      "label": "MSKCC, 26 consecutive EMC, FISH",
+      "sourceId": "agaram2014",
+      "counts": {
+       "EWSR1::NR4A3": 16,
+       "TAF15::NR4A3": 7,
+       "TCF12::NR4A3": 1
+      },
+      "n_tested": 26,
+      "partner_unassigned": 2
+     },
+     "huang-2023-prevalence": {
+      "label": "Taiwan, 58 FISH-confirmed EMC",
+      "sourceId": "huang2023",
+      "counts": {
+       "EWSR1::NR4A3": 46,
+       "TAF15::NR4A3": 9,
+       "TCF12::NR4A3": 2
+      },
+      "n_tested": 58,
+      "partner_unassigned": 1
+     },
+     "lenz-2023-prevalence": {
+      "label": "Czech Republic, 12 successfully typed EMC of 17",
+      "sourceId": "lenz2023",
+      "counts": {
+       "EWSR1::NR4A3": 8,
+       "TAF15::NR4A3": 2,
+       "TCF12::NR4A3": 1
+      },
+      "n_tested": 12,
+      "partner_unassigned": 1
+     },
+     "paioli-2021-prevalence": {
+      "label": "Italian Sarcoma Group, 62 partner-assigned of 67 localised EMC",
+      "sourceId": "paioli2021",
+      "counts": {
+       "EWSR1::NR4A3": 50,
+       "TAF15::NR4A3": 10,
+       "TCF12::NR4A3": 1,
+       "TFG::NR4A3": 1
+      },
+      "n_tested": 67,
+      "partner_unassigned": 5
+     }
+    }
+   },
+   "⚠_the_denominator_is_NOT_that_artifacts_denominator": "That artifact pools over PARTNER-ASSIGNED cases and reports 154. This row adds each cohort's partner-unassigned residue back, giving 163, because a tumour whose partner nobody could name is a tumour no junction reagent can engage and therefore belongs in a coverage denominator. Quoting that artifact's percentages as coverage shares would compute coverage of partner-assigned EMC and call it coverage of EMC.",
+   "pooled_partner_counts": {
+    "EWSR1": 120,
+    "TAF15": 28,
+    "TCF12": 5,
+    "TFG": 1
+   },
+   "n_partner_assigned": 154,
+   "n_partner_unassigned": 9,
+   "n_molecularly_confirmed_total": 163,
+   "arms_with_a_measured_within_partner_distribution": [
+    {
+     "partner": "EWSR1",
+     "junctions_in_panel": [
+      "EWSR1_e12__NR4A3_e3",
+      "EWSR1_e13__NR4A3_e2",
+      "EWSR1_e13__NR4A3_e3",
+      "EWSR1_e7__NR4A3_e2"
+     ],
+     "partner_share_of_pooled_cohort": 0.7362,
+     "partner_share_counts": "120/163",
+     "breakpoint_fraction_pooled": "17/20",
+     "contribution": 0.6258
+    },
+    {
+     "partner": "TAF15",
+     "junctions_in_panel": [
+      "TAF15_e6__NR4A3_e2",
+      "TAF15_e6__NR4A3_e3"
+     ],
+     "partner_share_of_pooled_cohort": 0.1718,
+     "partner_share_counts": "28/163",
+     "breakpoint_fraction_pooled": "3/3",
+     "contribution": 0.1718
+    }
+   ],
+   "arms_with_NO_measured_within_partner_distribution": [
+    {
+     "partner": "TCF12",
+     "junctions_in_panel": [
+      "TCF12_e5__NR4A3_e3"
+     ],
+     "partner_share_of_pooled_cohort": 0.0307,
+     "partner_share_counts": "5/163",
+     "within_partner_distribution": "UNMEASURED",
+     "contribution_to_the_point_estimate": 0.0,
+     "contribution_if_every_case_of_this_partner_carried_it": 0.0307
+    }
+   ],
+   "arms_with_NO_qualifying_reagent_at_all": [
+    {
+     "partner": "TFG",
+     "junctions_in_panel": [],
+     "partner_share_of_pooled_cohort": 0.0061,
+     "partner_share_counts": "1/163",
+     "⛔_why_it_contributes_zero": "NO junction of this partner has both a published exon-resolved breakpoint and a reagent through all five deep screens, so there is nothing to engage it with. This is not a bound either: a bound needs a reagent whose reach is unmeasured, and here there is no reagent. The partner is visible only because the wider denominator contains it — which is itself the point of widening."
+    }
+   ],
+   "coverage_percent": 79.8,
+   "coverage_percent_range": [
+    54.6,
+    86.9
+   ],
+   "bound_if_the_unmeasured_arms_are_at_their_ceiling_percent": 82.8,
+   "arithmetic_ceiling_percent": 94.5,
+   "⭐_WHAT_IT_ACTUALLY_DOES_TO_THE_FIGURE": "IT LOWERS IT, AND THAT IS REPORTED BECAUSE IT IS WHAT HAPPENED. Widening the partner denominator was expected to be able to move coverage either way — a pooled mix with proportionally more TAF15 would have raised it, since the TAF15 arm is priced at 3/3 against EWSR1's 17/20. The TAF15 share does rise. It is outweighed by the partner-unassigned residue, which rises much further: 1 of 58 in the single series against 9 of 163 pooled. A single cohort that could name the partner in all but one case understates how often the partner cannot be named.",
+   "⛔_AND_IT_MOVES_THE_95_PERCENT_QUESTION_—_THIS_IS_THE_LOAD_BEARING_CONSEQUENCE": "On the single series the arithmetic ceiling is above 95%, so 95% is reachable in principle and the ladder's result is that reaching it REQUIRES the TCF12 arm. On the pooled partner denominator the ceiling itself falls BELOW 95%: no panel of any size, covering every breakpoint of every named partner including TCF12, reaches 95% of molecularly confirmed EMC — because more than five percent of it has no named partner to build a junction reagent against. ⚠ THIS IS A SENSITIVITY, NOT A REPLACEMENT: it does not retract the single-series ceiling, it shows that the ceiling's position relative to 95% depends on a basis choice nobody had tested, and that on the wider basis the 95% target is unreachable rather than merely hard.",
+   "⚠_what_this_row_does_NOT_fix": "The within-partner breakpoint fractions are unchanged — still 20 sequenced EWSR1 tumours and three TAF15 ones, still transported from series that are not these four. Widening the partner denominator makes the PARTNER share better measured and does nothing whatever for the exon distribution inside it, which is the arm carrying the narrower evidence."
   },
   "distance_to_the_arithmetic_ceiling": {
    "ceiling_percent": 98.3,
@@ -1016,7 +1163,8 @@
   "all_named_partners_at_every_breakpoint_percent": 98.3,
   "_what_is_left_over": "1 of 58 cases are NR4A3-rearranged with no identified partner. No junction reagent can be built for a junction nobody has sequenced, so this is a hard ceiling for the modality as specified.",
   "EWSR1_and_TAF15_complete_percent": 94.8,
-  "⛔_the_result_that_decides_the_panel": "A panel covering every EWSR1 and every TAF15 breakpoint reaches 94.8% and stops. It cannot reach 95%. Crossing 95% REQUIRES the TCF12 arm. ⭐ That arm's junction is reported at nucleotide resolution as of 2026-08-15 (GenBank AF289510.1) and its reagent is designed and screened, so the 95% target is no longer a retrieval problem at TCF12. It is now a DISTRIBUTION problem: one TCF12 tumour has ever been sequenced, so the arm is priced at its ceiling and the total above it is an upper bound."
+  "⛔_the_result_that_decides_the_panel": "A panel covering every EWSR1 and every TAF15 breakpoint reaches 94.8% and stops. It cannot reach 95%. Crossing 95% REQUIRES the TCF12 arm. ⭐ That arm's junction is reported at nucleotide resolution as of 2026-08-15 (GenBank AF289510.1) and its reagent is designed and screened, so the 95% target is no longer a retrieval problem at TCF12. It is now a DISTRIBUTION problem: one TCF12 tumour has ever been sequenced, so the arm is priced at its ceiling and the total above it is an upper bound.",
+  "⛔_EVERY_FIGURE_IN_THIS_BLOCK_RESTS_ON_ONE_58_CASE_PARTNER_SERIES": "Including the statement that 95% is reachable at all. That basis was tested on 2026-08-15 against a four-series pooled partner prevalence and the ceiling moved BELOW 95% — see best_supported_buildable_panel.sensitivity_if_the_partner_denominator_is_pooled, which owns that arithmetic and is the only place it is stated. Nothing here is retracted: what changed is that the ceiling's position relative to 95% is now known to depend on the basis."
  },
  "what_would_actually_move_this": [
   {
