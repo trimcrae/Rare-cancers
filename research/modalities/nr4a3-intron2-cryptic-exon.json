@@ -1,0 +1,790 @@
+{
+ "_what": "The cryptic exon in NR4A3 intron 2 that the TAF15::NR4A3 T-N transcript retains — identified from genome annotation and measured from genomic sequence.",
+ "_why": "The manuscript's 38-junction panel joins every donor exon to NR4A3 exon 3, so no reagent in it can engage a T-N transcript. Whether that matters is a coverage question, and it cannot be asked until the T-N seam has a measured sequence.",
+ "_cost": "$0 — CPU only; Ensembl + UCSC reads on a GitHub-hosted runner. No GPU, no rental.",
+ "_utc": "2026-08-15T14:04:02Z",
+ "source_paper": {
+  "pmid": "31020999",
+  "pmc": "PMC6766969",
+  "citation": "Brenca M, et al. NR4A3 fusion proteins trigger an axon guidance switch that marks the difference between EWSR1 and TAF15 translocated extraskeletal myxoid chondrosarcomas. J Pathol. 2019.",
+  "quote_construct": "T-N, corresponding to TAF15 (exons 1-6)-NR4A3 (intron 2-exon 8) and T-N*, corresponding to the commonest TAF15 (exons 1-6)-NR4A3 (exons 3-8) fusion. Both T-N and T-N* encode the whole coding sequence of NR4A3 (exons 3-8); T-N retains a short cryptic exon located in NR4A3 intron 2 (ENST00000395097.6 isoform), thus encoding 25 additional amino acids prior to the NR4A3 ATG.",
+  "quote_prevalence": "we sought to compare the biological behavior of the two major TAF15-NR4A3 isoforms detected in human tumors. Cells were engineered with the T-N* fusion variant (TAF15 exon 6-NR4A3 exon 3) and with the less common T-N variant (TAF15 exon 6-NR4A3 intron 2).",
+  "transcript_named_in_the_paper": "ENST00000395097.6"
+ },
+ "_retrieval_mode": "fetched_cache (ENSEMBL_FETCH_DIR) — Ensembl and UCSC reads performed on a GitHub-hosted runner by fetch-literature.yml and published to the literature-cache branch",
+ "transcript_named_in_the_paper_vs_today": {
+  "paper": "ENST00000395097.6",
+  "ensembl_today_version": 7,
+  "_reading": "⚠ THE PAPER PINS ITS INTRON NUMBERING TO A VERSIONED TRANSCRIPT AND THE VERSION HAS MOVED. Recorded rather than assumed away. The exon identified below is supported by RefSeq and by an aligned mRNA independently of the Ensembl version, so the drift does not by itself invalidate it."
+ },
+ "intron": {
+  "symbol": "NR4A3",
+  "transcript": "ENST00000395097",
+  "chrom": "9",
+  "strand": 1,
+  "intron_name": "NR4A3 intron 2 (5' of TRANSCRIPT exon 3)",
+  "genomic_start": 99825833,
+  "genomic_end": 99828040,
+  "offset_in_fetched_transcript_span": 3948,
+  "length_nt": 2208,
+  "donor_dinucleotide": "GT",
+  "acceptor_dinucleotide": "AG",
+  "gc_percent": 42.1,
+  "_source": "cut from the CI-fetched genomic FASTA by exact matching of the committed exon 2 and exon 3 sequences; both matched uniquely and the cut reads GT...AG",
+  "_cross_check": "length agrees between exon-sequence matching in the genomic payload and exon-coordinate subtraction in the lookup payload",
+  "_transcript_version_today": 7,
+  "_convention": "NR4A3 intron 2 = the intron immediately 5' of TRANSCRIPT exon 3 of the canonical transcript — the coordinate convention hybrid_intron.py fixes for this lane."
+ },
+ "⛔_the_papers_25aa_phrase_is_ambiguous": {
+  "phrase": "thus encoding 25 additional amino acids prior to the NR4A3 ATG",
+  "reading_DIFFERENCE": "T-N has 25 more whole codons before the NR4A3 ATG than T-N* → 75 nt",
+  "reading_ENCODED": "the cryptic exon contributes bases to 25 codons → 72 nt",
+  "both_are_frame_preserving": true,
+  "what_settled_it": "THE ANNOTATION, NOT THE ARITHMETIC. The exon is annotated at 72 nt by a manually curated RefSeq transcript and by an independently aligned mRNA at identical coordinates, which satisfies the ENCODED reading exactly.",
+  "⚠_an_earlier_version_of_this_module_predicted_75": "It derived 75 nt from the DIFFERENCE reading, rejected a third reading on frame grounds, and was internally consistent throughout — and wrong. Recorded here because a later reader who re-derives the length will get 75 again unless the ambiguity is stated. A prediction from an ambiguous sentence is a hypothesis; it never outranks a measurement.",
+  "superseded_prediction": {
+   "derived_length_nt": 75,
+   "donor_coding_nt_through_cut": 484,
+   "acceptor_exon_5utr_nt_retained": 2,
+   "aa_before_nr4a3_atg_in_TNstar": 162,
+   "aa_before_nr4a3_atg_in_TN": 187,
+   "difference_aa": 25,
+   "_reading_A_accepted": "25 codons contributed wholly by the cryptic exon => L = 75; L % 3 = 0, so the NR4A3 reading frame is preserved and the paper's 'both encode the whole coding sequence of NR4A3' holds.",
+   "_reading_B_rejected": "(L + U)/3 = 25 => L = 73; L % 3 = 1 != 0, which shifts the register and destroys the NR4A3 ORF. Rejected by arithmetic.",
+   "_sources": {
+    "donor_transcript": "ENST00000605844",
+    "acceptor_transcript": "ENST00000395097",
+    "transcript_source": {
+     "requested": "cache",
+     "used_per_gene": {
+      "TAF15": "committed_cache",
+      "NR4A3": "committed_cache"
+     },
+     "committed_cache_fetched_utc": "2026-08-12T13:41:57Z",
+     "_caveat": "At least one gene was read from the committed cache (emc-construct-inputs.json), not from Ensembl today. The cache is a dated measurement that passed this module's four self-checks; it is not a statement about Ensembl's current annotation."
+    }
+   }
+  }
+ },
+ "resolved_cryptic_exon": {
+  "sequence": "GCCCTCATCACCTTTTTTCAAGTCAAGATTTCATCCCATACATGCATGACTCAATCAGATTTGGAAATGTGG",
+  "length_nt": 72,
+  "is_a_substring_of_the_fetched_intron": true,
+  "aa_accounting": {
+   "cryptic_exon_length_nt": 72,
+   "donor_coding_nt_through_cut": 484,
+   "acceptor_exon_5utr_nt_retained": 2,
+   "frame_preserved": true,
+   "aa_before_nr4a3_atg_in_TNstar": 162,
+   "aa_before_nr4a3_atg_in_TN": 186,
+   "reading_DIFFERENCE_aa": 24,
+   "reading_ENCODED_aa": 25,
+   "_codon_span_touched_by_the_cryptic_exon": [
+    162,
+    186
+   ]
+  },
+  "reproduces_the_papers_25aa_claim_under": [
+   "reading_ENCODED_aa"
+  ],
+  "how": "annotated_exon_passing_every_independent_check",
+  "supporting_records": [
+   "NM_173200.3",
+   "U12767",
+   "XM_017015162.2"
+  ],
+  "n_independent_records_at_these_coordinates": 3,
+  "_if_null": "No annotated exon in the intron passed every check. That is a measurement, not a failure: it would mean the T-N seam is NAMED in the literature but its sequence is not determined by anything reachable, and no design may be built on it."
+ },
+ "annotation_evidence": {
+  "_method": "Every annotated or aligned exon block wholly inside the intron, from UCSC RefSeq (curated + all), GENCODE knownGene, aligned mRNAs and spliced ESTs, each put through six independent checks. Only a manually curated track may resolve; predictions and alignments corroborate.",
+  "n_exon_blocks_inside_the_intron": 17,
+  "graded": [
+   {
+    "track": "ncbiRefSeqCurated",
+    "authoritative": true,
+    "name": "NM_173200.3",
+    "gene": "NR4A3",
+    "strand": "+",
+    "ucsc_0based_start": 99826729,
+    "ucsc_0based_end": 99826801,
+    "genomic_start_1based": 99826730,
+    "genomic_end_1based": 99826801,
+    "length_nt": 72,
+    "offset_in_intron_0based": 897,
+    "sequence": "GCCCTCATCACCTTTTTTCAAGTCAAGATTTCATCCCATACATGCATGACTCAATCAGATTTGGAAATGTGG",
+    "check_1_authoritative_track": true,
+    "check_2_substring_of_the_ensembl_intron": true,
+    "check_3_splice_flanks": "AG|exon|GT",
+    "check_3_pass": true,
+    "check_4_frame_preserved": true,
+    "check_5_no_stop_in_the_fusion_frame": true,
+    "check_6_readings_matching_the_papers_25aa": [
+     "reading_ENCODED_aa"
+    ],
+    "aa_accounting": {
+     "cryptic_exon_length_nt": 72,
+     "donor_coding_nt_through_cut": 484,
+     "acceptor_exon_5utr_nt_retained": 2,
+     "frame_preserved": true,
+     "aa_before_nr4a3_atg_in_TNstar": 162,
+     "aa_before_nr4a3_atg_in_TN": 186,
+     "reading_DIFFERENCE_aa": 24,
+     "reading_ENCODED_aa": 25,
+     "_codon_span_touched_by_the_cryptic_exon": [
+      162,
+      186
+     ]
+    },
+    "passes_every_check": true
+   },
+   {
+    "track": "ncbiRefSeq",
+    "authoritative": false,
+    "name": "NM_173200.3",
+    "gene": "NR4A3",
+    "strand": "+",
+    "ucsc_0based_start": 99826729,
+    "ucsc_0based_end": 99826801,
+    "genomic_start_1based": 99826730,
+    "genomic_end_1based": 99826801,
+    "length_nt": 72,
+    "offset_in_intron_0based": 897,
+    "sequence": "GCCCTCATCACCTTTTTTCAAGTCAAGATTTCATCCCATACATGCATGACTCAATCAGATTTGGAAATGTGG",
+    "check_1_authoritative_track": false,
+    "check_2_substring_of_the_ensembl_intron": true,
+    "check_3_splice_flanks": "AG|exon|GT",
+    "check_3_pass": true,
+    "check_4_frame_preserved": true,
+    "check_5_no_stop_in_the_fusion_frame": true,
+    "check_6_readings_matching_the_papers_25aa": [
+     "reading_ENCODED_aa"
+    ],
+    "aa_accounting": {
+     "cryptic_exon_length_nt": 72,
+     "donor_coding_nt_through_cut": 484,
+     "acceptor_exon_5utr_nt_retained": 2,
+     "frame_preserved": true,
+     "aa_before_nr4a3_atg_in_TNstar": 162,
+     "aa_before_nr4a3_atg_in_TN": 186,
+     "reading_DIFFERENCE_aa": 24,
+     "reading_ENCODED_aa": 25,
+     "_codon_span_touched_by_the_cryptic_exon": [
+      162,
+      186
+     ]
+    },
+    "passes_every_check": false
+   },
+   {
+    "track": "ncbiRefSeq",
+    "authoritative": false,
+    "name": "XM_017015162.2",
+    "gene": "NR4A3",
+    "strand": "+",
+    "ucsc_0based_start": 99826729,
+    "ucsc_0based_end": 99826801,
+    "genomic_start_1based": 99826730,
+    "genomic_end_1based": 99826801,
+    "length_nt": 72,
+    "offset_in_intron_0based": 897,
+    "sequence": "GCCCTCATCACCTTTTTTCAAGTCAAGATTTCATCCCATACATGCATGACTCAATCAGATTTGGAAATGTGG",
+    "check_1_authoritative_track": false,
+    "check_2_substring_of_the_ensembl_intron": true,
+    "check_3_splice_flanks": "AG|exon|GT",
+    "check_3_pass": true,
+    "check_4_frame_preserved": true,
+    "check_5_no_stop_in_the_fusion_frame": true,
+    "check_6_readings_matching_the_papers_25aa": [
+     "reading_ENCODED_aa"
+    ],
+    "aa_accounting": {
+     "cryptic_exon_length_nt": 72,
+     "donor_coding_nt_through_cut": 484,
+     "acceptor_exon_5utr_nt_retained": 2,
+     "frame_preserved": true,
+     "aa_before_nr4a3_atg_in_TNstar": 162,
+     "aa_before_nr4a3_atg_in_TN": 186,
+     "reading_DIFFERENCE_aa": 24,
+     "reading_ENCODED_aa": 25,
+     "_codon_span_touched_by_the_cryptic_exon": [
+      162,
+      186
+     ]
+    },
+    "passes_every_check": false
+   },
+   {
+    "track": "ncbiRefSeq",
+    "authoritative": false,
+    "name": "XM_017015162.2",
+    "gene": "NR4A3",
+    "strand": "+",
+    "ucsc_0based_start": 99827347,
+    "ucsc_0based_end": 99827466,
+    "genomic_start_1based": 99827348,
+    "genomic_end_1based": 99827466,
+    "length_nt": 119,
+    "offset_in_intron_0based": 1515,
+    "sequence": "ATGGTACAAACTCTCCCGAGTCAATTTCCTGGGCCTATGTCCCCACCTAGCTGACTGAAGTTATCAACAGGGGTCCAGTTTGTGCAGGCTGCTAGCCCTATTGGAAGAGTGGGGATGAG",
+    "check_1_authoritative_track": false,
+    "check_2_substring_of_the_ensembl_intron": true,
+    "check_3_splice_flanks": "AG|exon|GT",
+    "check_3_pass": true,
+    "check_4_frame_preserved": false,
+    "check_5_no_stop_in_the_fusion_frame": false,
+    "check_6_readings_matching_the_papers_25aa": [],
+    "aa_accounting": {
+     "cryptic_exon_length_nt": 119,
+     "donor_coding_nt_through_cut": 484,
+     "acceptor_exon_5utr_nt_retained": 2,
+     "frame_preserved": false,
+     "aa_before_nr4a3_atg_in_TNstar": 162,
+     "aa_before_nr4a3_atg_in_TN": 201,
+     "reading_DIFFERENCE_aa": 39,
+     "reading_ENCODED_aa": 40,
+     "_codon_span_touched_by_the_cryptic_exon": [
+      162,
+      201
+     ]
+    },
+    "passes_every_check": false
+   },
+   {
+    "track": "all_mrna",
+    "authoritative": false,
+    "name": "U12767",
+    "gene": null,
+    "strand": "+",
+    "ucsc_0based_start": 99826729,
+    "ucsc_0based_end": 99826801,
+    "genomic_start_1based": 99826730,
+    "genomic_end_1based": 99826801,
+    "length_nt": 72,
+    "offset_in_intron_0based": 897,
+    "sequence": "GCCCTCATCACCTTTTTTCAAGTCAAGATTTCATCCCATACATGCATGACTCAATCAGATTTGGAAATGTGG",
+    "check_1_authoritative_track": false,
+    "check_2_substring_of_the_ensembl_intron": true,
+    "check_3_splice_flanks": "AG|exon|GT",
+    "check_3_pass": true,
+    "check_4_frame_preserved": true,
+    "check_5_no_stop_in_the_fusion_frame": true,
+    "check_6_readings_matching_the_papers_25aa": [
+     "reading_ENCODED_aa"
+    ],
+    "aa_accounting": {
+     "cryptic_exon_length_nt": 72,
+     "donor_coding_nt_through_cut": 484,
+     "acceptor_exon_5utr_nt_retained": 2,
+     "frame_preserved": true,
+     "aa_before_nr4a3_atg_in_TNstar": 162,
+     "aa_before_nr4a3_atg_in_TN": 186,
+     "reading_DIFFERENCE_aa": 24,
+     "reading_ENCODED_aa": 25,
+     "_codon_span_touched_by_the_cryptic_exon": [
+      162,
+      186
+     ]
+    },
+    "passes_every_check": false
+   },
+   {
+    "track": "all_mrna",
+    "authoritative": false,
+    "name": "MK510719",
+    "gene": null,
+    "strand": "+",
+    "ucsc_0based_start": 99825944,
+    "ucsc_0based_end": 99826940,
+    "genomic_start_1based": 99825945,
+    "genomic_end_1based": 99826940,
+    "length_nt": 996,
+    "offset_in_intron_0based": 112,
+    "sequence": "CTGGCCGCGAATTTCACAACACAGGTGGCTTCCTCACAGGAAGCTCCTCTGTATACCACACCCTGTTGCTACTGAGTGGAGCAGCCAAATTAAATTAAGCTTGCATTGCTCAAAATTAATTTTCCTAAGAGAAATACAAATACACCAATAGATTAGGGTATTTTATACATTTTTAATTTCATTTTTGCTCTTCTTTTATAGCCAGTGTGCACATGTAAGAGTTATGGAATCACTTAGAGCAATACTGAGCATTTTCATTTATATAAAACCCAAATCATTTGGGTGCAGAAGTTTGGATGATTGAAGCTCAGAGGGAAGGAGAAAAGCATTTGAGATGAAAACCAAAGAGTAAATTTGAGTTTGGCAAAAGAACAGATTGCACTTTTGGTTTGTACCACCTCTTTACAAATTTGTTAAAGGAATACTAGGTGCCAAGCCTGTGTGGGCACCATAGATAATGCAGATAAATAGAATACAATCCCAGCAAGCTCATCTTCTAGCTAGAAACCTCAGAAAGACACAAATAAGAGCAGTAAAAAGGGATTGGCCGGAAAGAATGACAGAAAAGAGTAATGGAGAAATCCTAGAGGTGCTGAAGGGAGAAGGAGAATAGATCAAAGATCAGGCAGTGTTCTTTCTTTTAAATGATTAGCCTTTCATTTCATCCCAACAACTGGACAGCAAGATAAGTAACTGGACTTCAAACTAGTGAGTGTATTTTTAAGGCCCTGCTTGTTAAAGAAAGGCTTGAACTGGCCTCTCCTCATCACTGCTTCTTCCAACAGGCCCTCATCACCTTTTTTCAAGTCAAGATTTCATCCCATACATGCATGACTCAATCAGATTTGGAAATGTGGGTAAGAGAAAGATGTCAAAGGAAATGTGAAGTATTCACTTCTCTATTAGTCACACCTTTTACACCATAGACTCCAAAGAGGCGTTAAGCACCTGGTTTTCCTTTGGCTCAGAAAAACCAACCACCAAAAACCGCCGTTT",
+    "check_1_authoritative_track": false,
+    "check_2_substring_of_the_ensembl_intron": true,
+    "check_3_splice_flanks": "TG|exon|TT",
+    "check_3_pass": false,
+    "check_4_frame_preserved": true,
+    "check_5_no_stop_in_the_fusion_frame": false,
+    "check_6_readings_matching_the_papers_25aa": [],
+    "aa_accounting": {
+     "cryptic_exon_length_nt": 996,
+     "donor_coding_nt_through_cut": 484,
+     "acceptor_exon_5utr_nt_retained": 2,
+     "frame_preserved": true,
+     "aa_before_nr4a3_atg_in_TNstar": 162,
+     "aa_before_nr4a3_atg_in_TN": 494,
+     "reading_DIFFERENCE_aa": 332,
+     "reading_ENCODED_aa": 333,
+     "_codon_span_touched_by_the_cryptic_exon": [
+      162,
+      494
+     ]
+    },
+    "passes_every_check": false
+   },
+   {
+    "track": "all_mrna",
+    "authoritative": false,
+    "name": "JD350206",
+    "gene": null,
+    "strand": "+",
+    "ucsc_0based_start": 99827301,
+    "ucsc_0based_end": 99827333,
+    "genomic_start_1based": 99827302,
+    "genomic_end_1based": 99827333,
+    "length_nt": 32,
+    "offset_in_intron_0based": 1469,
+    "sequence": "ATATGGGTGGGTGTTTTGTTGCAGCTGCTGAT",
+    "check_1_authoritative_track": false,
+    "check_2_substring_of_the_ensembl_intron": true,
+    "check_3_splice_flanks": "AT|exon|CT",
+    "check_3_pass": false,
+    "check_4_frame_preserved": false,
+    "check_5_no_stop_in_the_fusion_frame": true,
+    "check_6_readings_matching_the_papers_25aa": [],
+    "aa_accounting": {
+     "cryptic_exon_length_nt": 32,
+     "donor_coding_nt_through_cut": 484,
+     "acceptor_exon_5utr_nt_retained": 2,
+     "frame_preserved": false,
+     "aa_before_nr4a3_atg_in_TNstar": 162,
+     "aa_before_nr4a3_atg_in_TN": 172,
+     "reading_DIFFERENCE_aa": 10,
+     "reading_ENCODED_aa": 11,
+     "_codon_span_touched_by_the_cryptic_exon": [
+      162,
+      172
+     ]
+    },
+    "passes_every_check": false
+   },
+   {
+    "track": "all_mrna",
+    "authoritative": false,
+    "name": "JD267752",
+    "gene": null,
+    "strand": "+",
+    "ucsc_0based_start": 99827329,
+    "ucsc_0based_end": 99827361,
+    "genomic_start_1based": 99827330,
+    "genomic_end_1based": 99827361,
+    "length_nt": 32,
+    "offset_in_intron_0based": 1497,
+    "sequence": "TGATCTTTTTCTTTGCAGATGGTACAAACTCT",
+    "check_1_authoritative_track": false,
+    "check_2_substring_of_the_ensembl_intron": true,
+    "check_3_splice_flanks": "GC|exon|CC",
+    "check_3_pass": false,
+    "check_4_frame_preserved": false,
+    "check_5_no_stop_in_the_fusion_frame": true,
+    "check_6_readings_matching_the_papers_25aa": [],
+    "aa_accounting": {
+     "cryptic_exon_length_nt": 32,
+     "donor_coding_nt_through_cut": 484,
+     "acceptor_exon_5utr_nt_retained": 2,
+     "frame_preserved": false,
+     "aa_before_nr4a3_atg_in_TNstar": 162,
+     "aa_before_nr4a3_atg_in_TN": 172,
+     "reading_DIFFERENCE_aa": 10,
+     "reading_ENCODED_aa": 11,
+     "_codon_span_touched_by_the_cryptic_exon": [
+      162,
+      172
+     ]
+    },
+    "passes_every_check": false
+   },
+   {
+    "track": "all_mrna",
+    "authoritative": false,
+    "name": "JD300491",
+    "gene": null,
+    "strand": "+",
+    "ucsc_0based_start": 99827335,
+    "ucsc_0based_end": 99827367,
+    "genomic_start_1based": 99827336,
+    "genomic_end_1based": 99827367,
+    "length_nt": 32,
+    "offset_in_intron_0based": 1503,
+    "sequence": "TTTTCTTTGCAGATGGTACAAACTCTCCCGAG",
+    "check_1_authoritative_track": false,
+    "check_2_substring_of_the_ensembl_intron": true,
+    "check_3_splice_flanks": "CT|exon|TC",
+    "check_3_pass": false,
+    "check_4_frame_preserved": false,
+    "check_5_no_stop_in_the_fusion_frame": true,
+    "check_6_readings_matching_the_papers_25aa": [],
+    "aa_accounting": {
+     "cryptic_exon_length_nt": 32,
+     "donor_coding_nt_through_cut": 484,
+     "acceptor_exon_5utr_nt_retained": 2,
+     "frame_preserved": false,
+     "aa_before_nr4a3_atg_in_TNstar": 162,
+     "aa_before_nr4a3_atg_in_TN": 172,
+     "reading_DIFFERENCE_aa": 10,
+     "reading_ENCODED_aa": 11,
+     "_codon_span_touched_by_the_cryptic_exon": [
+      162,
+      172
+     ]
+    },
+    "passes_every_check": false
+   },
+   {
+    "track": "all_mrna",
+    "authoritative": false,
+    "name": "JD484249",
+    "gene": null,
+    "strand": "+",
+    "ucsc_0based_start": 99827457,
+    "ucsc_0based_end": 99827489,
+    "genomic_start_1based": 99827458,
+    "genomic_end_1based": 99827489,
+    "length_nt": 32,
+    "offset_in_intron_0based": 1625,
+    "sequence": "GGGGATGAGGTGGGAGAAAGCAACCACAACGT",
+    "check_1_authoritative_track": false,
+    "check_2_substring_of_the_ensembl_intron": true,
+    "check_3_splice_flanks": "GT|exon|GT",
+    "check_3_pass": false,
+    "check_4_frame_preserved": false,
+    "check_5_no_stop_in_the_fusion_frame": false,
+    "check_6_readings_matching_the_papers_25aa": [],
+    "aa_accounting": {
+     "cryptic_exon_length_nt": 32,
+     "donor_coding_nt_through_cut": 484,
+     "acceptor_exon_5utr_nt_retained": 2,
+     "frame_preserved": false,
+     "aa_before_nr4a3_atg_in_TNstar": 162,
+     "aa_before_nr4a3_atg_in_TN": 172,
+     "reading_DIFFERENCE_aa": 10,
+     "reading_ENCODED_aa": 11,
+     "_codon_span_touched_by_the_cryptic_exon": [
+      162,
+      172
+     ]
+    },
+    "passes_every_check": false
+   },
+   {
+    "track": "all_mrna",
+    "authoritative": false,
+    "name": "JD082281",
+    "gene": null,
+    "strand": "+",
+    "ucsc_0based_start": 99827642,
+    "ucsc_0based_end": 99827674,
+    "genomic_start_1based": 99827643,
+    "genomic_end_1based": 99827674,
+    "length_nt": 32,
+    "offset_in_intron_0based": 1810,
+    "sequence": "ATAAACCACTGGCTTTCTCTTTGTCCCCCTAG",
+    "check_1_authoritative_track": false,
+    "check_2_substring_of_the_ensembl_intron": true,
+    "check_3_splice_flanks": "AA|exon|GT",
+    "check_3_pass": false,
+    "check_4_frame_preserved": false,
+    "check_5_no_stop_in_the_fusion_frame": false,
+    "check_6_readings_matching_the_papers_25aa": [],
+    "aa_accounting": {
+     "cryptic_exon_length_nt": 32,
+     "donor_coding_nt_through_cut": 484,
+     "acceptor_exon_5utr_nt_retained": 2,
+     "frame_preserved": false,
+     "aa_before_nr4a3_atg_in_TNstar": 162,
+     "aa_before_nr4a3_atg_in_TN": 172,
+     "reading_DIFFERENCE_aa": 10,
+     "reading_ENCODED_aa": 11,
+     "_codon_span_touched_by_the_cryptic_exon": [
+      162,
+      172
+     ]
+    },
+    "passes_every_check": false
+   },
+   {
+    "track": "all_mrna",
+    "authoritative": false,
+    "name": "JD554478",
+    "gene": null,
+    "strand": "+",
+    "ucsc_0based_start": 99827765,
+    "ucsc_0based_end": 99827797,
+    "genomic_start_1based": 99827766,
+    "genomic_end_1based": 99827797,
+    "length_nt": 32,
+    "offset_in_intron_0based": 1933,
+    "sequence": "TTCCCAAATCTAGTGGAGGACAGGGCAAGGGA",
+    "check_1_authoritative_track": false,
+    "check_2_substring_of_the_ensembl_intron": true,
+    "check_3_splice_flanks": "GT|exon|GG",
+    "check_3_pass": false,
+    "check_4_frame_preserved": false,
+    "check_5_no_stop_in_the_fusion_frame": true,
+    "check_6_readings_matching_the_papers_25aa": [],
+    "aa_accounting": {
+     "cryptic_exon_length_nt": 32,
+     "donor_coding_nt_through_cut": 484,
+     "acceptor_exon_5utr_nt_retained": 2,
+     "frame_preserved": false,
+     "aa_before_nr4a3_atg_in_TNstar": 162,
+     "aa_before_nr4a3_atg_in_TN": 172,
+     "reading_DIFFERENCE_aa": 10,
+     "reading_ENCODED_aa": 11,
+     "_codon_span_touched_by_the_cryptic_exon": [
+      162,
+      172
+     ]
+    },
+    "passes_every_check": false
+   },
+   {
+    "track": "all_mrna",
+    "authoritative": false,
+    "name": "JD352282",
+    "gene": null,
+    "strand": "+",
+    "ucsc_0based_start": 99827772,
+    "ucsc_0based_end": 99827804,
+    "genomic_start_1based": 99827773,
+    "genomic_end_1based": 99827804,
+    "length_nt": 32,
+    "offset_in_intron_0based": 1940,
+    "sequence": "ATCTAGTGGAGGACAGGGCAAGGGAGGAAAGA",
+    "check_1_authoritative_track": false,
+    "check_2_substring_of_the_ensembl_intron": true,
+    "check_3_splice_flanks": "AA|exon|TA",
+    "check_3_pass": false,
+    "check_4_frame_preserved": false,
+    "check_5_no_stop_in_the_fusion_frame": true,
+    "check_6_readings_matching_the_papers_25aa": [],
+    "aa_accounting": {
+     "cryptic_exon_length_nt": 32,
+     "donor_coding_nt_through_cut": 484,
+     "acceptor_exon_5utr_nt_retained": 2,
+     "frame_preserved": false,
+     "aa_before_nr4a3_atg_in_TNstar": 162,
+     "aa_before_nr4a3_atg_in_TN": 172,
+     "reading_DIFFERENCE_aa": 10,
+     "reading_ENCODED_aa": 11,
+     "_codon_span_touched_by_the_cryptic_exon": [
+      162,
+      172
+     ]
+    },
+    "passes_every_check": false
+   },
+   {
+    "track": "all_mrna",
+    "authoritative": false,
+    "name": "JD331632",
+    "gene": null,
+    "strand": "+",
+    "ucsc_0based_start": 99827801,
+    "ucsc_0based_end": 99827833,
+    "genomic_start_1based": 99827802,
+    "genomic_end_1based": 99827833,
+    "length_nt": 32,
+    "offset_in_intron_0based": 1969,
+    "sequence": "AGATAGGTACAGGAGTCCACAGGAGGCCAGGT",
+    "check_1_authoritative_track": false,
+    "check_2_substring_of_the_ensembl_intron": true,
+    "check_3_splice_flanks": "AA|exon|TT",
+    "check_3_pass": false,
+    "check_4_frame_preserved": false,
+    "check_5_no_stop_in_the_fusion_frame": true,
+    "check_6_readings_matching_the_papers_25aa": [],
+    "aa_accounting": {
+     "cryptic_exon_length_nt": 32,
+     "donor_coding_nt_through_cut": 484,
+     "acceptor_exon_5utr_nt_retained": 2,
+     "frame_preserved": false,
+     "aa_before_nr4a3_atg_in_TNstar": 162,
+     "aa_before_nr4a3_atg_in_TN": 172,
+     "reading_DIFFERENCE_aa": 10,
+     "reading_ENCODED_aa": 11,
+     "_codon_span_touched_by_the_cryptic_exon": [
+      162,
+      172
+     ]
+    },
+    "passes_every_check": false
+   },
+   {
+    "track": "all_mrna",
+    "authoritative": false,
+    "name": "JD486269",
+    "gene": null,
+    "strand": "+",
+    "ucsc_0based_start": 99827806,
+    "ucsc_0based_end": 99827838,
+    "genomic_start_1based": 99827807,
+    "genomic_end_1based": 99827838,
+    "length_nt": 32,
+    "offset_in_intron_0based": 1974,
+    "sequence": "GGTACAGGAGTCCACAGGAGGCCAGGTTTTGG",
+    "check_1_authoritative_track": false,
+    "check_2_substring_of_the_ensembl_intron": true,
+    "check_3_splice_flanks": "TA|exon|CA",
+    "check_3_pass": false,
+    "check_4_frame_preserved": false,
+    "check_5_no_stop_in_the_fusion_frame": true,
+    "check_6_readings_matching_the_papers_25aa": [],
+    "aa_accounting": {
+     "cryptic_exon_length_nt": 32,
+     "donor_coding_nt_through_cut": 484,
+     "acceptor_exon_5utr_nt_retained": 2,
+     "frame_preserved": false,
+     "aa_before_nr4a3_atg_in_TNstar": 162,
+     "aa_before_nr4a3_atg_in_TN": 172,
+     "reading_DIFFERENCE_aa": 10,
+     "reading_ENCODED_aa": 11,
+     "_codon_span_touched_by_the_cryptic_exon": [
+      162,
+      172
+     ]
+    },
+    "passes_every_check": false
+   },
+   {
+    "track": "all_mrna",
+    "authoritative": false,
+    "name": "JD178148",
+    "gene": null,
+    "strand": "+",
+    "ucsc_0based_start": 99827918,
+    "ucsc_0based_end": 99827950,
+    "genomic_start_1based": 99827919,
+    "genomic_end_1based": 99827950,
+    "length_nt": 32,
+    "offset_in_intron_0based": 2086,
+    "sequence": "GAGGAGAGGATGACACTTCCTCTCTGTTTCCC",
+    "check_1_authoritative_track": false,
+    "check_2_substring_of_the_ensembl_intron": true,
+    "check_3_splice_flanks": "AG|exon|AG",
+    "check_3_pass": false,
+    "check_4_frame_preserved": false,
+    "check_5_no_stop_in_the_fusion_frame": true,
+    "check_6_readings_matching_the_papers_25aa": [],
+    "aa_accounting": {
+     "cryptic_exon_length_nt": 32,
+     "donor_coding_nt_through_cut": 484,
+     "acceptor_exon_5utr_nt_retained": 2,
+     "frame_preserved": false,
+     "aa_before_nr4a3_atg_in_TNstar": 162,
+     "aa_before_nr4a3_atg_in_TN": 172,
+     "reading_DIFFERENCE_aa": 10,
+     "reading_ENCODED_aa": 11,
+     "_codon_span_touched_by_the_cryptic_exon": [
+      162,
+      172
+     ]
+    },
+    "passes_every_check": false
+   },
+   {
+    "track": "all_mrna",
+    "authoritative": false,
+    "name": "JD234640",
+    "gene": null,
+    "strand": "+",
+    "ucsc_0based_start": 99827981,
+    "ucsc_0based_end": 99828013,
+    "genomic_start_1based": 99827982,
+    "genomic_end_1based": 99828013,
+    "length_nt": 32,
+    "offset_in_intron_0based": 2149,
+    "sequence": "GTTGGCTAGAAAACAAGTGTTAACTTGCTTCT",
+    "check_1_authoritative_track": false,
+    "check_2_substring_of_the_ensembl_intron": true,
+    "check_3_splice_flanks": "CT|exon|GA",
+    "check_3_pass": false,
+    "check_4_frame_preserved": false,
+    "check_5_no_stop_in_the_fusion_frame": false,
+    "check_6_readings_matching_the_papers_25aa": [],
+    "aa_accounting": {
+     "cryptic_exon_length_nt": 32,
+     "donor_coding_nt_through_cut": 484,
+     "acceptor_exon_5utr_nt_retained": 2,
+     "frame_preserved": false,
+     "aa_before_nr4a3_atg_in_TNstar": 162,
+     "aa_before_nr4a3_atg_in_TN": 172,
+     "reading_DIFFERENCE_aa": 10,
+     "reading_ENCODED_aa": 11,
+     "_codon_span_touched_by_the_cryptic_exon": [
+      162,
+      172
+     ]
+    },
+    "passes_every_check": false
+   }
+  ],
+  "ensembl_arm": {
+   "_unavailable": "nr4a3_gene_all_transcripts(.txt|.json) not usable in ENSEMBL_FETCH_DIR='/tmp/claude-0/-home-user-Rare-cancers/ab5928bb-8227-53e1-b556-b45029811853/scratchpad/ens:/tmp/claude-0/-home-user-Rare-cancers/ab5928bb-8227-53e1-b556-b45029811853/scratchpad/ens2:/tmp/claude-0/-home-user-Rare-cancers/ab5928bb-8227-53e1-b556-b45029811853/scratchpad/ucsc' — found but unusable: ['/tmp/claude-0/-home-user-Rare-cancers/ab5928bb-8227-53e1-b556-b45029811853/scratchpad/ens/nr4a3_gene_all_transcripts.txt: HTTP 503', '/tmp/claude-0/-home-user-Rare-cancers/ab5928bb-8227-53e1-b556-b45029811853/scratchpad/ens2/nr4a3_gene_all_transcripts.txt: HTTP 500']",
+   "_reading": "the Ensembl all-transcripts arm did not run; the identification below rests on the UCSC/RefSeq arm, which is an independent annotation source and carries the manually curated track"
+  }
+ },
+ "splice_site_scan_at_the_predicted_length": {
+  "_what": "The enumeration that would have been needed if no annotation existed: every 75-nt AG|exon|GT window with an open reading frame.",
+  "n_candidates": 7,
+  "⛔_reading": "IT SETTLES NOTHING, AND THAT IS THE POINT. Several windows satisfy splice-site consensus plus an open frame, and the best-scoring one by polypyrimidine tract is NOT the real exon — it lies inside it, offset by 22 nt. Splice-site consensus does not identify an exon; annotation and aligned transcript evidence do.",
+  "candidates": [
+   {
+    "intron_offset_0based": 919,
+    "sequence": "TCAAGATTTCATCCCATACATGCATGACTCAATCAGATTTGGAAATGTGGGTAAGAGAAAGATGTCAAAGGAAAT",
+    "flank_5p_intron_3nt": "AAG",
+    "flank_3p_intron_6nt": "GTGAAG",
+    "gc_percent": 36.0
+   },
+   {
+    "intron_offset_0based": 1406,
+    "sequence": "TTAGAATTGGGATATATATATGTGTGTGTGTGTGTGTGTGTGTGTGTGTGTGTATATATATATATATGGGTGGGT",
+    "flank_5p_intron_3nt": "TAG",
+    "flank_3p_intron_6nt": "GTTTTG",
+    "gc_percent": 34.7
+   },
+   {
+    "intron_offset_0based": 1757,
+    "sequence": "GTTTACAAATCAATGTGTATGCCTTGGGGGACCAATGGCCTCTTTCCTCCCAAATAAACCACTGGCTTTCTCTTT",
+    "flank_5p_intron_3nt": "CAG",
+    "flank_3p_intron_6nt": "GTCCCC",
+    "gc_percent": 44.0
+   },
+   {
+    "intron_offset_0based": 1924,
+    "sequence": "ACTTCAAGTTTCCCAAATCTAGTGGAGGACAGGGCAAGGGAGGAAAGATAGGTACAGGAGTCCACAGGAGGCCAG",
+    "flank_5p_intron_3nt": "AAG",
+    "flank_3p_intron_6nt": "GTTTTG",
+    "gc_percent": 52.0
+   },
+   {
+    "intron_offset_0based": 1994,
+    "sequence": "GCCAGGTTTTGGCACCCCTTTGTCAGGAATTCAGCTTCCTTACTAGGGATGAAGAAAATAAGTGTGGGGCTTTGT",
+    "flank_5p_intron_3nt": "GAG",
+    "flank_3p_intron_6nt": "GTCTAT",
+    "gc_percent": 46.7
+   },
+   {
+    "intron_offset_0based": 2056,
+    "sequence": "TGTGGGGCTTTGTGTCTATGCTACCAGAAGGAGGAGAGGATGACACTTCCTCTCTGTTTCCCAGATTAGAGAACA",
+    "flank_5p_intron_3nt": "AAG",
+    "flank_3p_intron_6nt": "GTGAAC",
+    "gc_percent": 48.0
+   },
+   {
+    "intron_offset_0based": 2092,
+    "sequence": "AGGATGACACTTCCTCTCTGTTTCCCAGATTAGAGAACAGTGAACCCAATGCTGCCTGTTGGCTAGAAAACAAGT",
+    "flank_5p_intron_3nt": "GAG",
+    "flank_3p_intron_6nt": "GTTAAC",
+    "gc_percent": 45.3
+   }
+  ]
+ },
+ "_limits": [
+  "Exon arithmetic and sequence composition only. No potency, no knockdown, no delivery, no tolerability and no clinical claim is made or implied.",
+  "The identification rests on genome annotation plus the paper's amino-acid statement. The paper reports no coordinates and no sequence, and no sequenced T-N patient transcript was retrieved, so the seam is CONSISTENT with the published description rather than confirmed against a patient's own read.",
+  "Which isoform a given PATIENT carries is not decidable from exon structure and is not decided here."
+ ]
+}

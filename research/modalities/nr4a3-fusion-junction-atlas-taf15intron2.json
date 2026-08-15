@@ -1,0 +1,165 @@
+{
+ "_title": "Screen-ready side atlas — the TAF15 e6 :: NR4A3-intron-2 cryptic-exon seam ALONE, in the shape the deep off-target screens read.",
+ "_read_this": "⛔ NOT the manuscript panel. This file holds ONE junction, which is NOT among the 38 screened junctions in nr4a3-fusion-junction-atlas.json and whose off-target load is UNKNOWN until the five deep screens are run on it. Point a screen at this file with ATLAS_JSON=<this file>; never merge it into the panel atlas.",
+ "_generated_by": "aso_taf15_intron2_designs.py",
+ "oligo_geometry": {
+  "length": 16,
+  "wing": 5,
+  "gap": 6,
+  "architecture": "5-6-5 (LNA-DNA-LNA)"
+ },
+ "_transcript_source": {
+  "requested": "cache",
+  "used_per_gene": {
+   "EWSR1": "committed_cache",
+   "TAF15": "committed_cache",
+   "TCF12": "committed_cache",
+   "FUS": "committed_cache",
+   "TFG": "committed_cache",
+   "NR4A3": "committed_cache"
+  },
+  "committed_cache_fetched_utc": "2026-08-12T13:41:57Z",
+  "_caveat": "At least one gene was read from the committed cache (emc-construct-inputs.json), not from Ensembl today. The cache is a dated measurement that passed this module's four self-checks; it is not a statement about Ensembl's current annotation."
+ },
+ "panels": [
+  {
+   "junction_label": "TAF15_e6__NR4A3_intron2crypticExon",
+   "donor_symbol": "TAF15",
+   "donor_exon_end": 6,
+   "acceptor_exon_start": "NR4A3 intron-2 cryptic exon",
+   "seam_mRNA": "ACCACACACAAG|GCCCTCATCACC",
+   "nr4a3_first_residue": null,
+   "chimeric_protein_length": 812,
+   "n_tiled": 5,
+   "n_fusion_specific": 5,
+   "best_gap_specificity_margin": 3,
+   "designs": [
+    {
+     "antisense_5to3": "ATGAGGGCCTTGTGTG",
+     "target_mRNA_5to3": "CACACAAGGCCCTCAT",
+     "architecture": "5-6-5 (LNA-DNA-LNA)",
+     "junction_offset_in_oligo": 8,
+     "bases_from_EWSR1": 8,
+     "bases_from_NR4A3": 8,
+     "specificity_margin": 8,
+     "gap_bases_from_EWSR1": 3,
+     "gap_bases_from_NR4A3": 3,
+     "gap_specificity_margin": 3,
+     "gap_centered": true,
+     "gc_percent": 56.2,
+     "has_G4_motif": false,
+     "fusion_specific": true,
+     "exact_parent_hits": [],
+     "parents_screened": [
+      "EWSR1",
+      "FUS",
+      "NR4A3",
+      "TAF15",
+      "TCF12",
+      "TFG"
+     ]
+    },
+    {
+     "antisense_5to3": "TGAGGGCCTTGTGTGT",
+     "target_mRNA_5to3": "ACACACAAGGCCCTCA",
+     "architecture": "5-6-5 (LNA-DNA-LNA)",
+     "junction_offset_in_oligo": 7,
+     "bases_from_EWSR1": 9,
+     "bases_from_NR4A3": 7,
+     "specificity_margin": 7,
+     "gap_bases_from_EWSR1": 4,
+     "gap_bases_from_NR4A3": 2,
+     "gap_specificity_margin": 2,
+     "gap_centered": true,
+     "gc_percent": 56.2,
+     "has_G4_motif": false,
+     "fusion_specific": true,
+     "exact_parent_hits": [],
+     "parents_screened": [
+      "EWSR1",
+      "FUS",
+      "NR4A3",
+      "TAF15",
+      "TCF12",
+      "TFG"
+     ]
+    },
+    {
+     "antisense_5to3": "GATGAGGGCCTTGTGT",
+     "target_mRNA_5to3": "ACACAAGGCCCTCATC",
+     "architecture": "5-6-5 (LNA-DNA-LNA)",
+     "junction_offset_in_oligo": 9,
+     "bases_from_EWSR1": 7,
+     "bases_from_NR4A3": 9,
+     "specificity_margin": 7,
+     "gap_bases_from_EWSR1": 2,
+     "gap_bases_from_NR4A3": 4,
+     "gap_specificity_margin": 2,
+     "gap_centered": true,
+     "gc_percent": 56.2,
+     "has_G4_motif": false,
+     "fusion_specific": true,
+     "exact_parent_hits": [],
+     "parents_screened": [
+      "EWSR1",
+      "FUS",
+      "NR4A3",
+      "TAF15",
+      "TCF12",
+      "TFG"
+     ]
+    },
+    {
+     "antisense_5to3": "TGATGAGGGCCTTGTG",
+     "target_mRNA_5to3": "CACAAGGCCCTCATCA",
+     "architecture": "5-6-5 (LNA-DNA-LNA)",
+     "junction_offset_in_oligo": 10,
+     "bases_from_EWSR1": 6,
+     "bases_from_NR4A3": 10,
+     "specificity_margin": 6,
+     "gap_bases_from_EWSR1": 1,
+     "gap_bases_from_NR4A3": 5,
+     "gap_specificity_margin": 1,
+     "gap_centered": false,
+     "gc_percent": 56.2,
+     "has_G4_motif": false,
+     "fusion_specific": true,
+     "exact_parent_hits": [],
+     "parents_screened": [
+      "EWSR1",
+      "FUS",
+      "NR4A3",
+      "TAF15",
+      "TCF12",
+      "TFG"
+     ]
+    },
+    {
+     "antisense_5to3": "GAGGGCCTTGTGTGTG",
+     "target_mRNA_5to3": "CACACACAAGGCCCTC",
+     "architecture": "5-6-5 (LNA-DNA-LNA)",
+     "junction_offset_in_oligo": 6,
+     "bases_from_EWSR1": 10,
+     "bases_from_NR4A3": 6,
+     "specificity_margin": 6,
+     "gap_bases_from_EWSR1": 5,
+     "gap_bases_from_NR4A3": 1,
+     "gap_specificity_margin": 1,
+     "gap_centered": false,
+     "gc_percent": 62.5,
+     "has_G4_motif": false,
+     "fusion_specific": true,
+     "exact_parent_hits": [],
+     "parents_screened": [
+      "EWSR1",
+      "FUS",
+      "NR4A3",
+      "TAF15",
+      "TCF12",
+      "TFG"
+     ]
+    }
+   ]
+  }
+ ]
+}

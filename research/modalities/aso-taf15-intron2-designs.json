@@ -1,0 +1,193 @@
+{
+ "_what": "Junction-spanning gapmer designs at the TAF15 exon 6 :: NR4A3-intron-2 cryptic-exon seam — the T-N isoform of TAF15::NR4A3, which the manuscript's 38-junction panel cannot express because every junction in it uses NR4A3 exon 3.",
+ "_why": "PMID 31020999 calls T-N and T-N* 'the two major TAF15-NR4A3 isoforms detected in human tumors'. The coverage ladder prices the TAF15 arm as though every TAF15 patient carried T-N*. If any carry T-N, no reagent in the panel reaches them.",
+ "_cost": "$0 — CPU only, committed transcript caches plus the committed measured seam.",
+ "junction_label": "TAF15_e6__NR4A3_intron2crypticExon",
+ "_generic_label_from_the_builder": "TAF15_e6__NR4A3crypt_e1",
+ "transcript_type": "TAF15::NR4A3 T-N",
+ "n_independent_sources": 1,
+ "excluded_from_the_panel_by": "NON_CODING_ACCEPTOR",
+ "⚠_read_this_before_using_the_sequence": "ONE SOURCE, AND IT IS A CELL-MODEL CONSTRUCT PAPER. PMID 31020999 states that T-N is one of two isoforms 'detected in human tumors' and that it is 'less common', but it reports NO count of how many of its five TAF15 tumours carried it, and no independent series in the corpora searched reports one either. So the ISOFORM is published and the PREVALENCE is not. A reagent at this seam is warranted as insurance against a named risk; the risk cannot be turned into a coverage percentage from the published record, and must not be.",
+ "evidence": [
+  "PMID 31020999 (PMC6766969) — 'T-N, corresponding to TAF15 (exons 1-6)-NR4A3 (intron 2-exon 8) ... T-N retains a short cryptic exon located in NR4A3 intron 2 (ENST00000395097.6 isoform), thus encoding 25 additional amino acids prior to the NR4A3 ATG'",
+  "PMID 31020999 (PMC6766969) — 'the two major TAF15-NR4A3 isoforms detected in human tumors ... the T-N* fusion variant (TAF15 exon 6-NR4A3 exon 3) and ... the less common T-N variant (TAF15 exon 6-NR4A3 intron 2)'"
+ ],
+ "one_home_for_the_evidence": "research/modalities/nr4a3-intron2-cryptic-exon.json",
+ "cryptic_exon": {
+  "length_nt": 72,
+  "sequence_5to3": "GCCCTCATCACCTTTTTTCAAGTCAAGATTTCATCCCATACATGCATGACTCAATCAGATTTGGAAATGTGG",
+  "how_it_was_obtained": "annotated_exon_passing_every_independent_check",
+  "measured_in": "nr4a3-intron2-cryptic-exon.json",
+  "genomic_locus": {
+   "chrom": "9",
+   "strand": 1,
+   "genomic_start": 99825833,
+   "genomic_end": 99828040
+  },
+  "aa_accounting": {
+   "cryptic_exon_length_nt": 72,
+   "donor_coding_nt_through_cut": 484,
+   "acceptor_exon_5utr_nt_retained": 2,
+   "frame_preserved": true,
+   "aa_before_nr4a3_atg_in_TNstar": 162,
+   "aa_before_nr4a3_atg_in_TN": 186,
+   "reading_DIFFERENCE_aa": 24,
+   "reading_ENCODED_aa": 25,
+   "_codon_span_touched_by_the_cryptic_exon": [
+    162,
+    186
+   ]
+  },
+  "reproduces_the_papers_25aa_claim_under": [
+   "reading_ENCODED_aa"
+  ],
+  "supporting_records": [
+   "NM_173200.3",
+   "U12767",
+   "XM_017015162.2"
+  ]
+ },
+ "junction_context_mRNA": "ACCACACACAAG|GCCCTCATCACC",
+ "acceptor_exon_is_coding": false,
+ "acceptor_5utr_nt_retained": 74,
+ "in_frame_at_the_mRNA_level": true,
+ "chimeric_protein_length_aa": 812,
+ "_frame_note": "reported because it is a reading, and because the paper makes a frame claim this checks — not because it gates the gapmer. An RNase-H gapmer cleaves the transcript; the frame decides what protein the tumour makes.",
+ "why_a_T_N_star_reagent_does_not_cover_this_seam": {
+  "T_N_star_junction": "TAF15_e6__NR4A3_e3",
+  "T_N_star_seam_mRNA": "ACCACACACAAG|ATATGCCCTGCG",
+  "T_N_seam_mRNA": "ACCACACACAAG|GCCCTCATCACC",
+  "shared_acceptor_side_bases_3prime_of_the_breakpoint": 0,
+  "_reading": "The two isoforms share 0 base(s) immediately 3' of the breakpoint. A 16-mer whose 6-nt catalytic gap straddles the seam needs a continuous duplex across that gap, so a T-N* reagent has no usable acceptor-side pairing on a T-N transcript. The two seams need two reagents."
+ },
+ "does_the_published_panel_reach_this_transcript": {
+  "n_panel_junctions": 38,
+  "n_panel_designs_tested": 190,
+  "n_engaging_the_T_N_transcript": 0,
+  "engaging_designs": [],
+  "_method": "exact presence of each panel design's target window in the modelled T-N chimeric transcript — the same substring test the parent-specificity screen uses. Exact matches only; near-matches are the deep screens' question.",
+  "_reading": "0 means no reagent in the published panel is a perfect complement of any window of a T-N transcript, so a TAF15 patient carrying T-N is not addressed by the panel as it stands."
+ },
+ "geometry": {
+  "oligo_len": 16,
+  "wing": 5,
+  "gap": 6,
+  "architecture": "5-6-5 (LNA-DNA-LNA)",
+  "_same_as": "aso_screen_sets.MANUSCRIPT_GEOMETRY, asserted at build time"
+ },
+ "transcript_source": {
+  "requested": "cache",
+  "used_per_gene": {
+   "EWSR1": "committed_cache",
+   "TAF15": "committed_cache",
+   "TCF12": "committed_cache",
+   "FUS": "committed_cache",
+   "TFG": "committed_cache",
+   "NR4A3": "committed_cache"
+  },
+  "committed_cache_fetched_utc": "2026-08-12T13:41:57Z",
+  "_caveat": "At least one gene was read from the committed cache (emc-construct-inputs.json), not from Ensembl today. The cache is a dated measurement that passed this module's four self-checks; it is not a statement about Ensembl's current annotation."
+ },
+ "provenance_gate_used": {
+  "EWSR1": "graded_exon_audit",
+  "TAF15": "construct_inputs_self_checks_only",
+  "TCF12": "construct_inputs_self_checks_only",
+  "FUS": "construct_inputs_self_checks_only",
+  "TFG": "construct_inputs_self_checks_only",
+  "NR4A3": "graded_exon_audit"
+ },
+ "n_designs_spanning_the_seam": 5,
+ "n_clearing_the_parent_exclusion": 5,
+ "parents_screened": [
+  "EWSR1",
+  "FUS",
+  "NR4A3",
+  "TAF15",
+  "TCF12",
+  "TFG"
+ ],
+ "parents_unavailable": [],
+ "designs": [
+  {
+   "antisense_5to3": "ATGAGGGCCTTGTGTG",
+   "target_mRNA_5to3": "CACACAAGGCCCTCAT",
+   "architecture": "5-6-5 (LNA-DNA-LNA)",
+   "gap_specificity_margin": 3,
+   "gap_bases_donor_side": 3,
+   "gap_bases_acceptor_side": 3,
+   "gc_percent": 56.2,
+   "has_G4_motif": false,
+   "clears_parent_exclusion": true,
+   "exact_parent_hits": [],
+   "⚠_offtarget_screens_run": "see _what_this_is_not"
+  },
+  {
+   "antisense_5to3": "TGAGGGCCTTGTGTGT",
+   "target_mRNA_5to3": "ACACACAAGGCCCTCA",
+   "architecture": "5-6-5 (LNA-DNA-LNA)",
+   "gap_specificity_margin": 2,
+   "gap_bases_donor_side": 4,
+   "gap_bases_acceptor_side": 2,
+   "gc_percent": 56.2,
+   "has_G4_motif": false,
+   "clears_parent_exclusion": true,
+   "exact_parent_hits": [],
+   "⚠_offtarget_screens_run": "see _what_this_is_not"
+  },
+  {
+   "antisense_5to3": "GATGAGGGCCTTGTGT",
+   "target_mRNA_5to3": "ACACAAGGCCCTCATC",
+   "architecture": "5-6-5 (LNA-DNA-LNA)",
+   "gap_specificity_margin": 2,
+   "gap_bases_donor_side": 2,
+   "gap_bases_acceptor_side": 4,
+   "gc_percent": 56.2,
+   "has_G4_motif": false,
+   "clears_parent_exclusion": true,
+   "exact_parent_hits": [],
+   "⚠_offtarget_screens_run": "see _what_this_is_not"
+  },
+  {
+   "antisense_5to3": "TGATGAGGGCCTTGTG",
+   "target_mRNA_5to3": "CACAAGGCCCTCATCA",
+   "architecture": "5-6-5 (LNA-DNA-LNA)",
+   "gap_specificity_margin": 1,
+   "gap_bases_donor_side": 1,
+   "gap_bases_acceptor_side": 5,
+   "gc_percent": 56.2,
+   "has_G4_motif": false,
+   "clears_parent_exclusion": true,
+   "exact_parent_hits": [],
+   "⚠_offtarget_screens_run": "see _what_this_is_not"
+  },
+  {
+   "antisense_5to3": "GAGGGCCTTGTGTGTG",
+   "target_mRNA_5to3": "CACACACAAGGCCCTC",
+   "architecture": "5-6-5 (LNA-DNA-LNA)",
+   "gap_specificity_margin": 1,
+   "gap_bases_donor_side": 5,
+   "gap_bases_acceptor_side": 1,
+   "gc_percent": 62.5,
+   "has_G4_motif": false,
+   "clears_parent_exclusion": true,
+   "exact_parent_hits": [],
+   "⚠_offtarget_screens_run": "see _what_this_is_not"
+  }
+ ],
+ "best_by_gap_specificity_margin": "ATGAGGGCCTTGTGTG",
+ "_coverage_consequence": {
+  "what_changes": "The TAF15 arm of the coverage ladder is priced 3/3 on a three-tumour series, i.e. every TAF15 patient is assumed to carry T-N*. PMID 31020999 names a second isoform 'detected in human tumors', so that assumption is now a NAMED RISK rather than an unexamined default, and the arm's 3/3 is an upper bound on it.",
+  "what_does_not_change": "No number moves. The source paper orders the two isoforms ('the commonest' vs 'the less common') and reports no count of either in its five TAF15 tumours; no series in the corpora searched reports one. A named risk without a denominator cannot be converted into a coverage percentage, and dressing the ordering up as a fraction would be fabricating the very number the paper declines to give.",
+  "what_would_settle_it": "A TAF15::NR4A3 series that reports the acceptor per patient at nucleotide resolution. Until one exists the honest statement is: the panel covers T-N*, a second isoform exists, its prevalence among TAF15 patients is unmeasured, and a reagent for it is designed and screened so the gap is insured rather than open."
+ },
+ "_what_this_is_not": [
+  "Not an efficacy claim and not a claim of activity. Sequence arithmetic and a parent-exclusion screen only. Nothing here has been synthesised or tested.",
+  "⛔ NOT A COVERAGE NUMBER. This file does not raise or lower any published percentage; it converts a silent assumption on the TAF15 arm into a stated, unquantified risk.",
+  "⛔ THE PARENT-EXCLUSION SCREEN IS SPLICED-cDNA ONLY, AND THIS SEAM IS THE CASE WHERE THAT MATTERS MOST. The acceptor half of every design below is NR4A3 INTRONIC sequence, which is present in the NR4A3 pre-mRNA and in the genome even though it is in no mature transcript. A clean parent screen here is therefore weaker evidence than the same result at an exon-exon seam, and the pre-mRNA and genome screens are not optional extras for this junction — they are the ones that count.",
+  "Not a relaxation of the coding-acceptor guard in junction_aso. That guard catches a coordinate slip and still raises; this module reaches its seam through an explicit published-breakpoint whitelist, so it cannot design at a junction nobody sequenced."
+ ],
+ "what_would_make_these_usable": [
+  "Run the five deep screens at this seam — transcript BLAST, pre-mRNA, genome, tissue expression and locus collapse — the same aso-offtarget CI path the panel's 38 junctions used. CPU and network only; no GPU, no rental.",
+  "Confirm the acceptor at nucleotide resolution in any test material, exactly as the manuscript already requires for the exon-3 reagents."
+ ]
+}

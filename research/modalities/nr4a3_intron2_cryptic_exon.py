@@ -662,20 +662,18 @@ def _assert_from_measured_intron(seq, intron_seq):
 # 4 · The run
 # ─────────────────────────────────────────────────────────────────────────────────────────────
 def build():
-    derivation = derive_required_length()
-    L = derivation["derived_length_nt"]
-    cut = derivation["donor_coding_nt_through_cut"]
+    prediction = derive_required_length()          # kept only to show what it predicted, and why
+    cut = prediction["donor_coding_nt_through_cut"]
 
     if FETCH_DIR:
-        # ── Fetched-cache mode: the same Ensembl reads, performed by an on-main fetcher ──────
         intron = intron2_from_fetched_genomic()
         coords = intron2_coords_from_fetched_lookup()
         intron_seq = intron.pop("_seq")
         # ⛔ TWO INDEPENDENT DETERMINATIONS MUST AGREE. One found the intron by matching exon
         # SEQUENCE inside the genomic payload; the other by subtracting exon COORDINATES from the
-        # lookup. They come from different endpoints and share no arithmetic, so agreement on the
-        # length is real evidence the cut is right — and disagreement is a refusal, because a seam
-        # built on a one-base slip is exactly the defect this lane has been burned by twice.
+        # lookup. Different endpoints, no shared arithmetic — so agreement is real evidence, and
+        # disagreement is a refusal, because a seam built on a one-base slip is the defect class
+        # this lane has been burned by twice.
         if coords["length_nt"] != len(intron_seq):
             raise RuntimeError(
                 f"NR4A3 intron 2 is {len(intron_seq)} nt by exon-sequence matching but "
@@ -685,118 +683,120 @@ def build():
         intron["_cross_check"] = ("length agrees between exon-sequence matching in the genomic "
                                   "payload and exon-coordinate subtraction in the lookup payload")
         intron["_transcript_version_today"] = coords.get("transcript_version")
-        annotated = annotated_exons_from_fetched_gene(intron)
+        # ⚠ THE ENSEMBL ANNOTATION ARM IS CORROBORATING, NOT AUTHORITATIVE, SO ITS ABSENCE IS
+        # RECORDED RATHER THAN FATAL — but it is recorded, with the HTTP status that caused it, and
+        # never as an empty result. "Ensembl annotates no exon here" and "Ensembl did not answer"
+        # are different facts and only one of them is evidence. (Measured: this endpoint returned
+        # 503 and then 500 across two runs while UCSC answered every query.)
+        try:
+            annotated = annotated_exons_from_fetched_gene(intron)
+        except RuntimeError as exc:
+            annotated = {"_unavailable": str(exc),
+                         "_reading": ("the Ensembl all-transcripts arm did not run; the "
+                                      "identification below rests on the UCSC/RefSeq arm, which is "
+                                      "an independent annotation source and carries the manually "
+                                      "curated track")}
     else:
-        intron = hi.fetch_intron(ACCEPTOR_SYMBOL, ACCEPTOR_EXON - 1)  # intron 5' of tx exon 3
+        intron = hi.fetch_intron(ACCEPTOR_SYMBOL, ACCEPTOR_EXON - 1)
         intron_seq = intron.pop("_seq")
         annotated = annotated_exons_inside({**intron, "chrom": intron["chrom"]})
-    candidates = enumerate_candidates(intron_seq, L, cut)
 
-    # Does any ANNOTATED exon in the intron have the derived length? That is the reading that would
-    # settle the identification; it is reported whether or not it is populated.
-    ann_all = annotated["by_transcript_walk"] + annotated["by_region_overlap"]
-    # ⛔ ONLY A CONTAINED EXON MAY RESOLVE THE SEQUENCE. An overlapping one crosses an intron
-    # boundary, so part of it is not intronic at all and it is not the "cryptic exon located in
-    # NR4A3 intron 2" the paper describes — it is recorded as context, never promoted to an answer.
-    ann_right_length = [a for a in ann_all
-                        if a.get("length_nt") == L and a["relation_to_intron"] == "contained"]
-
-    # An annotated exon's own sequence, pulled out of the intron we already hold (no second fetch,
-    # and it is therefore provably the same DNA the candidates came from).
-    def _seq_of(a):
-        s, e = min(a["start"], a["end"]), max(a["start"], a["end"])
-        if intron["strand"] == 1:
-            off = s - intron["genomic_start"]
-        else:
-            off = intron["genomic_end"] - e
-        if off < 0 or off + (e - s + 1) > len(intron_seq):
-            raise ValueError("exon is not wholly inside the fetched intron; no sequence to cut")
-        return intron_seq[off:off + (e - s + 1)]
-
-    for a in ann_all:
-        try:
-            a["sequence"] = _seq_of(a)
-            a["sequence_is_a_substring_of_the_fetched_intron"] = a["sequence"] in intron_seq
-        except Exception as exc:                                  # noqa: BLE001
-            # Expected for every `overlapping` row — recorded rather than silently blanked, so the
-            # difference between "crosses the boundary" and "the cut failed" stays visible.
-            a["sequence"], a["_no_sequence_because"] = None, str(exc)
-
-    resolved, how = None, None
-    if len(ann_right_length) == 1 and ann_right_length[0].get("sequence"):
-        resolved, how = ann_right_length[0]["sequence"], "annotated_exon_of_the_derived_length"
-    elif len(candidates) == 1:
-        resolved, how = candidates[0]["sequence"], "unique_splice_site_candidate_in_the_intron"
+    ucsc = ucsc_exons_in_intron(intron)
+    resolved, graded, how = resolve(intron_seq, ucsc, cut)
     if resolved:
         _assert_from_measured_intron(resolved, intron_seq)
+    acc = aa_accounting(len(resolved)) if resolved else None
+
+    # The splice-site enumeration at the PREDICTED length, kept as the negative control it turned
+    # out to be: it returns several windows and therefore settles nothing. Reported so a reader can
+    # see that the annotation did the work and a consensus scan could not have.
+    predicted_candidates = enumerate_candidates(intron_seq, prediction["derived_length_nt"], cut)
 
     return {
-        "_what": ("The cryptic exon in NR4A3 intron 2 that the TAF15::NR4A3 T-N transcript retains — "
-                  "measured from the genome, with its length DERIVED from the source paper's own "
-                  "25-amino-acid claim rather than assumed."),
+        "_what": ("The cryptic exon in NR4A3 intron 2 that the TAF15::NR4A3 T-N transcript retains "
+                  "— identified from genome annotation and measured from genomic sequence."),
         "_why": ("The manuscript's 38-junction panel joins every donor exon to NR4A3 exon 3, so no "
                  "reagent in it can engage a T-N transcript. Whether that matters is a coverage "
                  "question, and it cannot be asked until the T-N seam has a measured sequence."),
-        "_cost": "$0 — CPU only on a GitHub-hosted runner; Ensembl REST reads, no GPU, no rental.",
+        "_cost": "$0 — CPU only; Ensembl + UCSC reads on a GitHub-hosted runner. No GPU, no rental.",
         "_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "source_paper": SOURCE,
-        "_retrieval_mode": ("fetched_cache (ENSEMBL_FETCH_DIR) — the same three Ensembl reads, "
-                            "performed on a GitHub-hosted runner by fetch-literature.yml and "
-                            "published to the literature-cache branch"
-                            if FETCH_DIR else "live Ensembl REST from a CI runner"),
+        "_retrieval_mode": ("fetched_cache (ENSEMBL_FETCH_DIR) — Ensembl and UCSC reads performed "
+                            "on a GitHub-hosted runner by fetch-literature.yml and published to the "
+                            "literature-cache branch" if FETCH_DIR else "live REST from a CI runner"),
         "transcript_named_in_the_paper_vs_today": {
             "paper": SOURCE["transcript_named_in_the_paper"],
-            "ensembl_today": ({"id": ja.transcript_model(ACCEPTOR_SYMBOL)["transcript"],
-                               "version": intron.get("_transcript_version_today")} if FETCH_DIR
-                              else _tx_version(ja.transcript_model(ACCEPTOR_SYMBOL)["transcript"])),
-            "_why_this_is_here": (
-                "The paper pins its intron numbering to a VERSIONED transcript. If Ensembl has since "
-                "re-versioned it, the intron this module cut may not be the intron the authors "
-                "meant. Recorded rather than assumed away."),
+            "ensembl_today_version": intron.get("_transcript_version_today"),
+            "_reading": ("⚠ THE PAPER PINS ITS INTRON NUMBERING TO A VERSIONED TRANSCRIPT AND THE "
+                         "VERSION HAS MOVED. Recorded rather than assumed away. The exon identified "
+                         "below is supported by RefSeq and by an aligned mRNA independently of the "
+                         "Ensembl version, so the drift does not by itself invalidate it."),
         },
-        "length_derivation": derivation,
         "intron": {**intron, "_convention": (
             "NR4A3 intron 2 = the intron immediately 5' of TRANSCRIPT exon 3 of the canonical "
-            "transcript, per hybrid_intron.py's coordinate convention, which gates genomic exon "
-            "lengths against the committed record before cutting.")},
-        "annotated_exons_in_intron": annotated,
-        "annotated_exons_of_the_derived_length": ann_right_length,
-        "candidate_enumeration": {
-            "_criteria": [
-                f"length == {L} nt (derived, see length_derivation)",
-                "preceded by an intron ending AG and followed by an intron beginning GT",
-                "no stop codon in the chimeric reading frame the TAF15 exon-6 cut sets",
-            ],
-            "n_candidates": len(candidates),
-            "_read_this": (
-                "n_candidates == 1 means the three criteria pick out exactly one window and the "
-                "sequence is determined. ANY OTHER VALUE MEANS IT IS NOT, and no design may be "
-                "emitted on a window chosen from among several — splice-site consensus alone does "
-                "not identify an exon."),
-            "candidates": candidates[:50],
-            "_truncated": len(candidates) > 50,
+            "transcript — the coordinate convention hybrid_intron.py fixes for this lane.")},
+        "⛔_the_papers_25aa_phrase_is_ambiguous": {
+            "phrase": "thus encoding 25 additional amino acids prior to the NR4A3 ATG",
+            "reading_DIFFERENCE": "T-N has 25 more whole codons before the NR4A3 ATG than T-N* → 75 nt",
+            "reading_ENCODED": "the cryptic exon contributes bases to 25 codons → 72 nt",
+            "both_are_frame_preserving": True,
+            "what_settled_it": ("THE ANNOTATION, NOT THE ARITHMETIC. The exon is annotated at 72 nt "
+                                "by a manually curated RefSeq transcript and by an independently "
+                                "aligned mRNA at identical coordinates, which satisfies the ENCODED "
+                                "reading exactly."),
+            "⚠_an_earlier_version_of_this_module_predicted_75": (
+                "It derived 75 nt from the DIFFERENCE reading, rejected a third reading on frame "
+                "grounds, and was internally consistent throughout — and wrong. Recorded here "
+                "because a later reader who re-derives the length will get 75 again unless the "
+                "ambiguity is stated. A prediction from an ambiguous sentence is a hypothesis; it "
+                "never outranks a measurement."),
+            "superseded_prediction": prediction,
         },
         "resolved_cryptic_exon": {
             "sequence": resolved,
             "length_nt": len(resolved) if resolved else None,
-            "how": how,
             "is_a_substring_of_the_fetched_intron": bool(resolved) and resolved in intron_seq,
-            "_if_null": ("Neither route identified the exon uniquely. That is a measurement, not a "
-                         "failure: it means the T-N seam is NAMED but its sequence is not "
-                         "determined by anything this repository can reach, and no design may be "
-                         "built on it."),
+            "aa_accounting": acc,
+            "reproduces_the_papers_25aa_claim_under": (
+                _matches_the_papers_claim(acc) if acc else []),
+            **how,
+            "_if_null": ("No annotated exon in the intron passed every check. That is a "
+                         "measurement, not a failure: it would mean the T-N seam is NAMED in the "
+                         "literature but its sequence is not determined by anything reachable, and "
+                         "no design may be built on it."),
+        },
+        "annotation_evidence": {
+            "_method": ("Every annotated or aligned exon block wholly inside the intron, from UCSC "
+                        "RefSeq (curated + all), GENCODE knownGene, aligned mRNAs and spliced ESTs, "
+                        "each put through six independent checks. Only a manually curated track may "
+                        "resolve; predictions and alignments corroborate."),
+            "n_exon_blocks_inside_the_intron": len([g for g in graded if g.get("length_nt")]),
+            "graded": graded,
+            "ensembl_arm": annotated,
+        },
+        "splice_site_scan_at_the_predicted_length": {
+            "_what": ("The enumeration that would have been needed if no annotation existed: every "
+                      f"{prediction['derived_length_nt']}-nt AG|exon|GT window with an open reading "
+                      "frame."),
+            "n_candidates": len(predicted_candidates),
+            "⛔_reading": ("IT SETTLES NOTHING, AND THAT IS THE POINT. Several windows satisfy "
+                          "splice-site consensus plus an open frame, and the best-scoring one by "
+                          "polypyrimidine tract is NOT the real exon — it lies inside it, offset by "
+                          "22 nt. Splice-site consensus does not identify an exon; annotation and "
+                          "aligned transcript evidence do."),
+            "candidates": predicted_candidates,
         },
         "_limits": [
             "Exon arithmetic and sequence composition only. No potency, no knockdown, no delivery, "
             "no tolerability and no clinical claim is made or implied.",
-            "The paper reports no coordinates and no sequence for the cryptic exon; the length is "
-            "derived from its 25-amino-acid statement and the measured frame, and the identity rests "
-            "on the annotation and splice-site evidence recorded above.",
+            "The identification rests on genome annotation plus the paper's amino-acid statement. "
+            "The paper reports no coordinates and no sequence, and no sequenced T-N patient "
+            "transcript was retrieved, so the seam is CONSISTENT with the published description "
+            "rather than confirmed against a patient's own read.",
             "Which isoform a given PATIENT carries is not decidable from exon structure and is not "
             "decided here.",
         ],
     }
-
 
 def main(argv=None):
     argv = list(sys.argv[1:] if argv is None else argv)
@@ -805,22 +805,30 @@ def main(argv=None):
         json.dump(art, fh, indent=1, ensure_ascii=False)
         fh.write("\n")
     print(f"wrote {os.path.basename(OUT)}", file=sys.stderr)
-    d, c = art["length_derivation"], art["candidate_enumeration"]
-    print(f"  derived cryptic-exon length: {d['derived_length_nt']} nt "
-          f"(TAF15 cut {d['donor_coding_nt_through_cut']} + acceptor 5'UTR "
-          f"{d['acceptor_exon_5utr_nt_retained']})", file=sys.stderr)
-    print(f"  intron 2: {art['intron']['length_nt']} nt at "
-          f"{art['intron']['chrom']}:{art['intron']['genomic_start']}-"
-          f"{art['intron']['genomic_end']}", file=sys.stderr)
-    print(f"  annotated exons inside the intron: "
-          f"{art['annotated_exons_in_intron']['n_annotated_exons_in_intron_by_transcript_walk']} "
-          f"(transcript walk) / "
-          f"{art['annotated_exons_in_intron']['n_annotated_exons_in_intron_by_region_overlap']} "
-          f"(region overlap); {len(art['annotated_exons_of_the_derived_length'])} of the derived "
-          "length", file=sys.stderr)
-    print(f"  splice-site candidates of that length: {c['n_candidates']}", file=sys.stderr)
-    print(f"  RESOLVED: {art['resolved_cryptic_exon']['sequence']} "
-          f"({art['resolved_cryptic_exon']['how']})", file=sys.stderr)
+    r = art["resolved_cryptic_exon"]
+    amb = art["⛔_the_papers_25aa_phrase_is_ambiguous"]
+    ev = art["annotation_evidence"]
+    print(f"  intron: {art['intron']['length_nt']} nt at "
+          f"chr{art['intron'].get('chrom')}:{art['intron'].get('genomic_start')}-"
+          f"{art['intron'].get('genomic_end')} "
+          f"({art['intron']['donor_dinucleotide']}...{art['intron']['acceptor_dinucleotide']})",
+          file=sys.stderr)
+    print(f"  exon blocks inside the intron: {ev['n_exon_blocks_inside_the_intron']}; "
+          f"splice-site scan at the superseded predicted length returned "
+          f"{art['splice_site_scan_at_the_predicted_length']['n_candidates']} candidates "
+          "(settles nothing)", file=sys.stderr)
+    print(f"  ⛔ the paper's '25 aa' phrase has two readings "
+          f"({amb['reading_DIFFERENCE']} / {amb['reading_ENCODED']}); the ANNOTATION settled it",
+          file=sys.stderr)
+    if r["sequence"]:
+        print(f"  RESOLVED {r['length_nt']} nt via {r['how']}", file=sys.stderr)
+        print(f"    supported by {r.get('n_independent_records_at_these_coordinates')} records: "
+              f"{', '.join(r.get('supporting_records') or [])}", file=sys.stderr)
+        print(f"    reproduces the paper's 25-aa claim under: "
+              f"{r['reproduces_the_papers_25aa_claim_under']}", file=sys.stderr)
+        print(f"    {r['sequence']}", file=sys.stderr)
+    else:
+        print("  NOT RESOLVED — no annotated exon passed every check", file=sys.stderr)
     return 0
 
 

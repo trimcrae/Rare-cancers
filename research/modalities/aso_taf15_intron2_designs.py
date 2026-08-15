@@ -11,9 +11,9 @@ major TAF15-NR4A3 isoforms detected in human tumors":
     T-N   TAF15 exon 6 - NR4A3 intron 2     "the less common T-N variant"      ← THIS FILE
 
 ★ A T-N* REAGENT CANNOT REACH A T-N TRANSCRIPT. The two seams share their donor half and nothing
-else: 3' of the breakpoint T-N* carries NR4A3 exon 3 while T-N carries 75 nt of cryptic exon. A
-16-mer gapmer whose catalytic gap straddles the seam therefore has no more than five matching bases
-on the acceptor side of a T-N transcript, which is not a duplex and is not a substrate. So a TAF15
+else: 3' of the breakpoint T-N* carries NR4A3 exon 3 while T-N carries a 72-nt cryptic exon. A
+16-mer gapmer whose catalytic gap straddles the seam therefore has almost no matching bases on the
+acceptor side of a T-N transcript, which is not a duplex and is not a substrate. So a TAF15
 patient carrying T-N is a patient the panel does not address, and pricing the arm 3/3 overstates it.
 
 ⚠ THE DESIGNS BELOW DO NOT FIX THAT — THEY MEASURE IT. Emitting a T-N reagent tells us the seam is
@@ -35,8 +35,11 @@ WHAT THIS IS NOT.
 
 ⛔ THE SEQUENCE HAS ONE HOME AND IT IS NOT THIS FILE. The cryptic exon is read out of
 `nr4a3-intron2-cryptic-exon.json`, which `nr4a3_intron2_cryptic_exon.py` MEASURED from the genome on
-a CI runner. A literal 75-mer typed into this module would look exactly like a real design and would
+a CI runner. A literal 72-mer typed into this module would look exactly like a real design and would
 be unfalsifiable, so this module refuses to run without that artifact and re-checks what it reads.
+⚠ AND THE LENGTH IS THE REASON THAT MATTERS: this lane's own arithmetic PREDICTED 75 nt from the
+paper's phrasing, self-consistently and wrongly. The annotation says 72. Had the sequence been
+hand-built to the prediction, all five designs below would be wrong and nothing would have said so.
 
 Output: aso-taf15-intron2-designs.json
 """
@@ -66,8 +69,16 @@ OUT = os.environ.get("TAF15_INTRON2_OUT") or os.path.join(HERE, "aso-taf15-intro
 #: indistinguishable from a screened one at every downstream consumer — the exact failure
 #: `aso_noncoding_acceptor_designs.py` warns about when it says an unscreened design must never be
 #: quoted as though it had been screened.
+#: ⭐ NAMED TO FIT THE EXISTING WORKFLOW, so screening this seam needs NO code change and no new
+#: input. `aso-offtarget.yml` sets `ATLAS_JSON: nr4a3-fusion-junction-atlas${suffix_tag}.json`, so a
+#: dispatch with `screen_mode=premrna` and `suffix_tag=-taf15intron2` reads exactly this file and
+#: writes `aso-premrna-offtarget-taf15intron2.json`. The non-coding-acceptor lane already established
+#: this pattern (`nr4a3-fusion-junction-atlas-noncoding-acceptor.json`); following it rather than
+#: inventing a second convention is what keeps the screens a one-dispatch operation.
+#: ⚠ The suffixed name does NOT make this the panel. Consumers reference panel atlases by explicit
+#: filename, not by a bare glob, and the `_read_this` banner inside says what this file is.
 ATLAS_OUT = os.environ.get("TAF15_INTRON2_ATLAS") or os.path.join(
-    HERE, "aso-taf15-intron2-atlas.json")
+    HERE, "nr4a3-fusion-junction-atlas-taf15intron2.json")
 sys.path.insert(0, HERE)
 
 import junction_aso as ja           # noqa: E402
@@ -152,10 +163,25 @@ def load_seam_record():
     if not rec["resolved_cryptic_exon"].get("is_a_substring_of_the_fetched_intron"):
         raise RuntimeError("the resolved cryptic exon is not a substring of the intron the fetch "
                            "measured — it was constructed, not measured. Refusing.")
-    want = (rec.get("length_derivation") or {}).get("derived_length_nt")
-    if want != len(resolved):
-        raise RuntimeError(f"the resolved cryptic exon is {len(resolved)} nt but the record's own "
-                           f"derivation requires {want} nt. Refusing on a self-inconsistent record.")
+    # ⛔ CHECK 4 IS NOW THE PAPER'S OWN NUMBER, WHICH IS A STRONGER CHECK THAN THE ONE IT REPLACED.
+    # It used to compare the resolved exon against a length this lane DERIVED from the paper's
+    # phrase — and that derivation was wrong (it read "25 additional amino acids" as a difference in
+    # codon count and predicted 75 nt; the annotated exon is 72 nt and satisfies the same phrase read
+    # as "the cryptic exon encodes 25 codons"). Checking a measurement against a hypothesis is how a
+    # correct measurement gets rejected. So the check is now: does the resolved exon reproduce the
+    # paper's stated 25 amino acids under a NAMED reading, and is that reading recorded?
+    matched = rec["resolved_cryptic_exon"].get("reproduces_the_papers_25aa_claim_under") or []
+    if not matched:
+        raise RuntimeError(
+            f"the resolved {len(resolved)} nt cryptic exon does not reproduce PMID 31020999's "
+            "'25 additional amino acids prior to the NR4A3 ATG' under EITHER reading of that "
+            "phrase. The sequence in hand is therefore not the exon the paper describes, and no "
+            "design may be built on it.")
+    acc = rec["resolved_cryptic_exon"].get("aa_accounting") or {}
+    if not acc.get("frame_preserved"):
+        raise RuntimeError(
+            "the resolved cryptic exon does not preserve the chimeric reading frame, contradicting "
+            "PMID 31020999's 'Both T-N and T-N* encode the whole coding sequence of NR4A3'.")
     return rec, resolved.upper()
 
 
@@ -367,7 +393,12 @@ def build():
             "measured_in": os.path.basename(SEAM_RECORD),
             "genomic_locus": {k: seam_rec.get("intron", {}).get(k)
                               for k in ("chrom", "strand", "genomic_start", "genomic_end")},
-            "length_derivation": seam_rec.get("length_derivation"),
+            "aa_accounting": (seam_rec.get("resolved_cryptic_exon") or {}).get("aa_accounting"),
+            "reproduces_the_papers_25aa_claim_under": (
+                (seam_rec.get("resolved_cryptic_exon") or {}).get(
+                    "reproduces_the_papers_25aa_claim_under")),
+            "supporting_records": (seam_rec.get("resolved_cryptic_exon") or {}).get(
+                "supporting_records"),
         },
         "junction_context_mRNA": j["junction_context_mRNA"],
         "acceptor_exon_is_coding": j["nr4a3_acceptor_exon_is_coding"],
