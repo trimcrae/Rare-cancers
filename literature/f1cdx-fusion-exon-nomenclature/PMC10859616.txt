@@ -1,0 +1,252 @@
+2682casCancer ScienceCancer SciWileyPMC1085961610859616108596163811523410.1111/cas.16050Factors predictive of second‐line chemotherapy in soft tissue sarcoma: An analysis of the National Genomic Profiling Database
+MochizukiTakao IkegamiMasachika AkiyamaToru 
+1
+Department of Orthopaedic Surgery, Saitama Medical Center, Jichi Medical University, Saitama, Japan
+2
+Department of Musculoskeletal Oncology, Tokyo Metropolitan Cancer and Infectious Diseases Center, Komagome Hospital, Tokyo, Japan
+3
+Division of Cellular Signaling, National Cancer Center Research Institute, Tokyo, Japan*
+
+Correspondence
+, 
+Masachika Ikegami, Department of Musculoskeletal Oncology, Tokyo Metropolitan Cancer and Infectious Diseases Center, Komagome Hospital, 3‐18‐22 Honkomagome, Bunkyo‐ku, Tokyo 113‐8677, Japan. 
+Email: ikegami-tky@umin.ac.jp
+, 
+Toru Akiyama, Department of Orthopaedic Surgery, Saitama Medical Center, Jichi Medical University, 1‐847 Amanumacho, Omiya, Saitama 330‐8503, Japan. 
+Email: toruakiyama827@jichi.ac.jp
+
+✉Corresponding author.
+191220231152575575–5881322024© 2023 The Authors. Cancer Science published by John Wiley & Sons Australia, Ltd on behalf of Japanese Cancer Association.This is an open access article under the terms of the http://creativecommons.org/licenses/by-nc/4.0/ License, which permits use, distribution and reproduction in any medium, provided the original work is properly cited and is not used for commercial purposes.
+
+## Abstract
+Of the drugs used in second‐line chemotherapy for soft tissue sarcoma (STS), trabectedin is effective for liposarcoma and leiomyosarcoma (L‐sarcoma), eribulin for liposarcoma, and pazopanib for non‐liposarcoma. The indications for these drugs in STS other than L‐sarcoma have not been established. Here we explored the prognosis, mutation profiles, and drug‐response factors in STS using real‐world big data. Clinicogenomic data on 1761 patients with sarcoma who underwent FoundationOne CDx were obtained from a national database in Japan. Patients with TP53 and KDM2D mutations had a significantly shorter survival period of 253 (95% CI, 99–404) and 330 (95% CI, 20–552) days, respectively, than those without mutations. Non‐supervised clustering based on mutation profiles generated 13 tumor clusters. The response rate (RR) to trabectedin was highest in an MDM2‐amplification cluster (odds ratio [OR]: 2.2; p = 0.2). The RR was lowest for eribulin in an MDM2‐amplification cluster (OR: 0.4; p = 0.03) and highest in a TERT‐mutation cluster (OR: 3.0; p = 0.03). The RR was highest for pazopanib in a PIK3CA/PTEN‐wild type cluster (OR: 2.1; p = 0.03). In particular, patients harboring mutations in genes regulating the PI3K/Akt/mTOR pathway had a lower RR than patients without mutations (OR: 0.3; p = 0.04). In STS, mutation profiles were more useful in predicting the drug response than histology. The present study demonstrated the potential of tailored therapy guided by mutation profiles established by comprehensive genomic profiling testing in optimizing second‐line chemotherapy for STS. The findings of this study will hopefully contribute some valuable insights into enhancing STS treatment strategies and outcomes.
+Keywords: comprehensive genomic profiling, eribulin, pazopanib, soft tissue sarcoma, trabectedin
+
+Unsupervised clustering of 1761 soft tissue sarcoma patients based on the detected oncogenic mutations. Two‐dimensional mutational pattern mapping was generated using Uniform Manifold Approximation and Projection (UMAP). Next to each cluster, genetic characteristics that were more common than in the other clusters with an odds ratio of 2 or higher and p < 0.05 are shown.
+ 
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoRevised 2023 Nov 28; Received 2023 Oct 17; Accepted 2023 Dec 6; Collection date 2024 Feb.
+
+## Abbreviations
+ANGSangiosarcoma
+ASPSalveolar soft part sarcoma
+C‐CATCenter for Cancer Genomics and Advanced Therapeutics
+CGPcomprehensive genomic profiling
+CIcredible interval
+CRcomplete response
+DCRdisease control rate
+DDLPSdedifferentiated liposarcoma
+ESEwing sarcoma of soft tissue
+GISTgastrointestinal stromal tumor
+INTSintimal sarcoma
+LMSleiomyosarcoma
+L‐sarcomaliposarcoma and leiomyosarcoma
+MFSmyxofibrosarcoma
+MLPSmyxoid liposarcoma
+ORRobjective response rate
+OSoverall survival
+PFSprogression‐free survival
+PRpartial response
+RMSrhabdomyosarcoma
+SDstable disease
+SFTsolitary fibrous tumor
+SPTsurvival‐prolonging therapy
+STSsoft tissue sarcoma
+SYNSsynovial sarcoma
+TRStranslocation‐related sarcomas
+UPSundifferentiated pleomorphic sarcoma
+1.
+
+## INTRODUCTION
+Soft tissue sarcoma is a rare cancer consisting of more than 50 subtypes of mesenchymal malignant tumor and has an annual incidence rate of three to five cases per 100,000 persons. , Approximately one‐third of STS cases are TRS, in which transcription factors or tyrosine kinases encoded by a fusion gene results in tumorigenesis and proliferation. Each TRS subtype also has a different pattern of genetic abnormalities and evinces a different response to treatment. 
+
+The standard treatment is surgical resection for resectable STS and chemotherapy for locally advanced or metastatic soft tissue sarcoma. Despite several, novel therapeutic agents having become available in the last two decades, the 5‐year OS rate of patients with locally advanced or metastatic STS remains at only 20%–50%. , , The most widely accepted, first‐line chemotherapy regimen for advanced‐stage STS is doxorubicin monotherapy or a combination of doxorubicin with ifosfamide. , , However, the therapeutic effect is disappointing; the ORR for these therapies is ~10%, and the median PFS and median OS are 2–7 months and 11–14 months, respectively. , Furthermore, doxorubicin causes irreversible myocardial damage due to cumulative toxicity, making its long‐term use difficult. 
+
+Trabectedin, eribulin, and pazopanib are commonly used second‐line regimens. , Following clinical trials of trabectedin during drug development, the drug was approved only for the treatment of L‐sarcoma in the United States. Eribulin has been approved as a treatment only for liposarcoma in both the United States and Europe while pazopanib is indicated for non‐liposarcoma STS in the United States. , , , Conversely, all three drugs have been approved in Japan for treating all subtypes of advanced‐stage STS. Recent research has shown that all these agents are effective against a wide range of STS subtypes. , , , , For example, trabectedin has been shown to be effective against TRS, especially myxoid liposarcoma. , , , , However, it remains unclear which regimen is optimal for patients with non‐L‐sarcoma STS on an individual basis. Moreover, although there are reports that biomarkers, such as the neutrophil‐to‐lymphocyte ratio, platelet‐to‐lymphocyte ratio, lymphocyte‐to‐monocyte ratio, and systemic inflammatory index, which can be used as predictors of the prognosis in patients with STS, the information about the relationship between genetic mutations and overall survival is still insufficient. 
+
+Information about genetic mutations in tumor tissue is increasingly being used to help choose treatments for advanced STS. Memorial Sloan Kettering Cancer Center reported that clinical genomic profiling of bone and STS helped provide information crucial for targeted therapy for genetic mutations detected in 29% of patients. Conversely, although gene panel tests search for alterations in hundreds of genes, only a small fraction of genetic variants are used in a companion diagnostic test for molecularly targeted therapy, and most of the information in the mutation profile is discarded. As a result, cancer gene panel testing is not fully used in STS treatment with doxorubicin or the three, second‐line agents.
+In Japan, clinicogenomic data on more than 60,000 patients who have undergone cancer genome profiling are collected in a national central database, the Cancer Genome Information Center (C‐CAT). These big data include information about histology, genetic mutations, and treatment information and are widely used by hospitals, academic institutions, and industries for research and drug discovery purposes. Owing to the unique insurance coverage system for STS treatment in Japan, the database contains much information about the utility and effectiveness of trabectedin and eribulin for non‐L‐sarcoma STS. The present study therefore explored the factors involved in the therapeutic response to second‐line chemotherapy for STS using data in the C‐CAT database, especially those pertaining to non‐L‐sarcoma STS.
+
+2.
+
+## MATERIALS AND METHODS
+2.1.
+
+## Study population
+The present, retrospective cohort study was performed with clinicogenomic, real‐world data on 1784 patients with soft tissue tumors who were registered in the C‐CAT database between June 1, 2019 and February 20, 2023 (C‐CAT data version 20230220). All the patients underwent FoundationOne CDx testing. Certified musculoskeletal oncologists (M.I. and T.A.) performed a manual review of the data, reclassified the diagnoses, and found that 1761 patients had a diagnosis of STS (23 patients with a benign lesion or unknown diagnosis were excluded). The patients were registered by hospitals throughout Japan and provided written informed consent to the secondary use of their clinicogenomic data for research. The present study was approved by the institutional review board at Komagome Hospital (#2819, approved December 8, 2021).
+
+2.2.
+
+## Data collection
+Data on age, sex, histology, tumor purity, sampling site, previous treatment, duration drug administration, best overall response to the drugs based on the RECIST, version 1.1, tumor mutation burden, detected oncogenic mutations, and OS from the first SPT for advanced tumors were collected. At each participating hospital, the attending physician or supervisor confirmed and registered the data in C‐CAT. Mutational landscapes were created using ComplexHeatmap, version 2.16.0 for R. 
+
+2.3.
+
+## Survival analysis
+To evaluate the association between oncogenic mutations and survival, a Bayesian survival simulation based on a semi‐independent, two‐hit model was performed to adjust for left‐truncation bias as previously reported. Two survival curves from the date of commencement of chemotherapy for prolonging survival to the date of CGP and from the CGP testing date to the date of death were fitted with Weibull distribution and log‐logistic distribution, respectively. The overall survival curve from the first SPT was approximated by merging these survival curves. Survival curves were obtained from each of the 8000 iterations of inference, and the median survival and 95% equal‐tailed CIs were calculated. Bayesian inference was performed with the rstan package, version 2.21.8 for R.
+
+2.4.
+
+## Drug‐response analysis
+For TRS, non‐TRS, L‐sarcoma, and non‐L‐sarcoma, and each histology, patients who received trabectedin, eribulin or pazopanib were extracted and evaluated for the best overall response. The treatment effect was derived from the results of the first use of a drug. The ORR and DCR were calculated for each histology. ORR was defined as the sum of the proportion of patients who achieved CR and PR. The DCR was defined as the sum of the proportion of patients who achieved CR, PR, and SD with drug administration ≥180 days (defined as long‐SD). TRS was defined as comprising the following histological subtypes: alveolar rhabdomyosarcoma, alveolar soft part sarcoma, angiomatoid fibrous histiocytoma, CIC‐rearranged sarcoma, clear cell sarcoma, dermatofibrosarcoma protuberance, desmoplastic small‐round‐cell tumor, epithelioid hemangioendothelioma, Ewing sarcoma of soft tissue, extraskeletal myxoid chondrosarcoma, inflammatory myofibroblastic tumor, mesenchymal chondrosarcoma, myxoid liposarcoma, NTRK‐rearranged spindle cell sarcoma, ossifying fibromyxoid tumor, perivascular epithelioid cell tumor (PEComa), pseudomyogenic hemangioendothelioma, sarcoma with BCL6 corepressor (BCOR) genetic alterations, sclerosing epithelioid fibrosarcoma, soft tissue myoepithelial carcinoma, solitary fibrous tumor, and synovial sarcoma.
+Clustering analysis was performed as follows. All pathogenic mutations detected by the FoundationOne CDx panel analyzing 324 cancer‐related genes were assembled into a binary matrix format per patient. The dimension of this input matrix was reduced using Uniform Manifold Approximation and Projection (UMAP) via the umap package, version 0.2.10.0 for R (with default hyperparameters). Clustering analysis was performed using the Hierarchical Density‐Based Spatial Clustering of Applications with Noise (HDBSCAN) via the dbscan package, version 1.1–11 for R (EPS: 1.0; minimum points: 3). From each cluster, genetic variants that were more common than in the other clusters with an OR of 2 or higher and a significance level of p < 0.05 as well as patients who received trabectedin, eribulin or pazopanib and were evaluated for the best overall response were extracted. The ORR and DCR were then estimated. The gene set included in pathway analysis was selected by referring to the Kyoto Encyclopedia of Genes and Genomes. 
+
+2.5.
+
+## Statistical analysis
+All statistical analyses were performed using R, version 4.3.1. Mutual exclusiveness and co‐occurrence were estimated by Rediscover, version 0.3.2 for R. Response rates were compared using Fisher's exact test. Two‐tailed p < 0.05 was considered to indicate statistical significance.
+
+3.
+
+## RESULTS
+3.1.
+
+## Patient characteristics
+The study cohort comprised 1761 patients with STS (835 men, 924 women, and two patients of unknown sex; median [interquartile range] age: 56 [41–69] years). The C‐CAT data included 54 distinct, pathological types, and 13 types with ≥35 patients were used as the core sarcoma group in the subsequent analyses. Of the total, 265 patients had LMS, 224 had DDLPS, 168 had a GIST, 120 had UPS, 115 had RMS, 105 had ANGS, 71 had SYNS, 58 had MLPS, 57 had SFT, 47 had ASPS, 44 had MFS, 38 had ES, 36 had INTS, and 413 had other histological variants of STS (Figure  and Table  ). For most histological types, CGP testing was performed using specimens mainly obtained from the primary tumor, but more than half of the cases of SFT and GIST were tested using specimens from distant metastases. The age and sex distributions varied among the subtypes (Figure  ). Among the core subtypes, MFS had the highest median age of 69.5 years whereas RMS had the lowest median age of 19 years. At least one pathogenic mutation was detected in most of the subtypes whereas pathogenic mutations were not detected in most cases of SYNS or ASPS. As the FoundationOne CDx panel is a DNA panel, fusion genes, such as SS18::SSX1 and ASPSCR1::TFE3, were unable to be detected. The tumor mutation burden was high for endometrial sarcoma (median 3.9/Mb) and ANGS (median 3.8/Mb) and low for TRS.
+ A mutational landscape was created using 30 genes with a high frequency of oncogenic mutations (Figures  and ). Among soft tissue sarcomas, abnormalities in genes related to the cell cycle and cell division predominated. MDM2/CDK4, CDKN2A/B, and RB1 each had mutually exclusive oncogenic mutations (Figure  ).
+ 
+3.2.
+
+## Oncogenic mutations and overall survival
+When performing survival analysis using C‐CAT data, it should be noted that the start date of survival assessment and the start date of follow‐up differ. Left truncation, a phenomenon in which survival information is agnostic prior to the start of follow‐up, causes a non‐negligible bias in survival analysis. Therefore, the association between oncogenic mutations and survival was assessed after correcting for left‐truncation bias. 
+
+Survival information after the first SPT was available for 802 patients. The association between oncogenic mutations and survival was examined for 30 genes with a high frequency of oncogenic mutations (Figure  ). Patients with TP53 or KDM2D mutations had a significantly shorter survival of 253 (95% CI: 99–404) and 330 (95% CI: 20–552) days, respectively, than those without the mutations.
+ To investigate the possibility of survival shortening due to co‐mutations, four genes, TP53, KDR, KDM2D, and CDKN2A, which were most likely to shorten survival with a single mutation, were selected, and the relevant cases were divided into a no‐mutation, a one‐mutation or a multiple‐mutation group. After adjusting for left‐truncation bias, the one‐mutation group was found to have a significantly shorter median survival than the no‐mutation mutation group by 165 (95% CI: 1–351) fewer days, and the multiple‐mutation group had a significantly shorter median survival than the one‐mutation group by 329 (95% CI: 140–527) fewer days.
+
+3.3.
+
+## Tumor subtypes and treatment effect
+Trabectedin was administered to 129 patients. The ORR and DCR for drug treatment were 11% and 20%, respectively (Table  ). Only one patient harboring MLPS achieved CR. For TRS/non‐TRS, the ORR and DCR were 9%/12% (OR: 0.8: p = 0.8) and 21%/20% (OR:1.1: p = 1.0), respectively. For L‐sarcoma/non‐L‐sarcoma, the ORR and DCR were 13%/8% (OR: 1.9: p = 0.4) and 25%/13% (OR: 2.2: p = 0.1), respectively.
+ Eribulin was administered to 245 patients. The ORR and DCR for eribulin treatment was 11% and 22%, respectively (Table  ). Only one patient harboring sarcoma, not other specified, achieved CR. For TRS/non‐TRS, the ORR and DCR were 13%/10% (OR: 1.4; p = 0.5) and 32%/19% (OR: 2.0; p = 0.06), respectively. For L‐sarcoma/non‐L‐sarcoma, the ORR and DCR was 8%/13% (OR: 0.5; p = 0.1) and 22%/22% (OR: 1.0; p = 1.0), respectively.
+ Pazopanib was administered to 219 patients. The ORR and DCR for pazopanib treatment was 11% and 25%, respectively (Table  ). Two patients with a desmoplastic, small‐round‐cell tumor and one patient with sarcoma not otherwise specified achieved CR. For TRS/non‐TRS, the ORR and DCR was 14%/10% (OR: 1.6; p = 0.3) and 30%/21% (OR: 1.6; p = 0.1), respectively. For L‐sarcoma/non‐L‐sarcoma, the ORR and DCR were 8%/14% (OR: 0.5; p = 0.2) and 19%/28% (OR: 0.6; p = 0.1), respectively. For liposarcoma/non‐liposarcoma, the ORR and DCR was 11%/12% (OR: 0.9; p = 1.0) and 22%/25% (OR: 0.8; p = 0.8), respectively.
+ 
+3.4.
+
+## Mutational profiles of subtypes and treatment effect
+Clustering analysis was performed to estimate the association between the mutational patterns detected in the panel test and drug response and it found 13 clusters with characteristic mutation patterns (Figure  ). Histological subtypes known to have driver mutations, such as DDLPS and INTS with MDM2 amplification, GIST with KIT mutation, and epithelioid sarcoma with SMARCB1 deletion, tended to gather into a single cluster (Figures  and ). Conversely, UPS cases were evenly distributed among most clusters, suggesting a mixed histology of tumors with distinct characteristics.
+ For trabectedin, the DCR was highest in the MDM2 (amp)/TP53 (WT)/RB1 (WT) cluster (#6), including DDLPS, at 32% (OR: 2.2; p = 0.2). No abnormalities in the Kyoto Encyclopedia of Genes and Genomes (KEGG) pathways related to the response to trabectedin were found (Table  ).
+For eribulin, the DCR was lowest at 11% in the MDM2 (amp)/TP53 (WT)/RB1 (WT) cluster (#6) (OR: 0.4; p = 0.03). The DCR was highest at 43% in the TERT (mut) cluster (#10), including MLPS and SFT (OR: 3.0; p = 0.03). Patients harboring oncogenic mutations in genes governing the cell cycle pathway had a low DCR (16%; OR: 0.5; p = 0.03; Table  ).
+For pazopanib, the DCR was highest at 33% in the PIK3CA (WT)/PTEN (WT)/TP53 (WT)/RB1 (WT) cluster (#2), including sarcomas harboring EWSR1::non‐ETS fusions (OR: 2.1; p = 0.03). In particular, patients harboring oncogenic mutations in genes governing the PI3K/Akt/mTOR pathway had a low DCR (7%; OR: 0.3; p = 0.04; Table  ).
+
+3.5.
+
+## Analysis of treatment with doxorubicin‐containing regimens
+Regimens containing doxorubicin were administered to 478 patients. The ORR and DCR for the regimens were 26% and 29%, respectively (Table  ); both were higher than the corresponding values for the three, second‐line drugs. The DCR for RMS (50%; OR: 2.5; p = 0.05) and ES (89%; OR: 22.8; p < 0.001) was significantly higher than for other sarcomas, whereas the DCR for LMS (20%; OR: 0.5; p = 0.02) and DDLPS (9%; OR: 0.2; p < 0.001) was significantly lower than for other sarcomas. In clustering analysis, doxorubicin‐containing regimens had a higher DCR in clusters #2 (OR: 1.8; p = 0.008) and #3 (OR: 5.0; p = 0.003), including EWSR fusion gene‐positive sarcomas, and a lower DCR in cluster #6 (OR: 0.4; p < 0.001), including DDLPS. In pathway analysis, patients harboring oncogenic mutations in genes governing the cell cycle pathway (OR: 0.4; p < 0.001; Table  ) or the TP53 gene pathway (OR: 0.5; p < 0.001) had a lower DCR.
+
+4.
+
+## DISCUSSION
+CGP testing is now used as multiple companion diagnostics to search for treatment options for patients with advanced cancer, and 7.8% of patients who underwent CGP testing received genomically matched therapy based on the detected variants. In fact, no difference in efficacy between molecularly targeted therapy and conventional chemotherapy has been demonstrated, and the prognostic benefit of CGP in clinical practice remains uncertain. , In addition to companion diagnostics, CGP testing is also used for patient stratification based on data on hundreds of mutations for which there is currently no genetically matched therapy. The present study, which demonstrated that mutation profiles can predict survival and response to drug therapy for STS, may provide impetus to the use of mutation profiles.
+In Japan, unlike in Europe or the United States, trabectedin, eribulin, and pazopanib are approved by the national health insurance system for use in treating all STS subtypes. Although this flexibility in drug indications is desirable from the standpoint of providing treatment opportunities to patients, there are no clear, predictive biomarkers for the use of these drugs. , While TP53 loss‐of‐function mutations or the neutrophil‐to‐lymphocyte ratio may serve as predictive biomarkers of the response to pazopanib, and the lymphocyte‐to‐monocyte ratio might serve as a predictor of the trabectedin treatment response, no study has yet used mutation profiles derived from CGP testing as a predictive marker of the drug response. , , The findings of the present study suggested that second‐line chemotherapy tailored to the histological type and genetic mutation information may improve treatment outcomes. Given that the turnaround time for CGP testing is 5 weeks, it may be preferable to perform CGP testing before or during first‐line chemotherapy. 
+
+Trabectedin has a unique mechanism of antitumor activity, including the inhibition of nucleotide excision repair and homologous recombination through DNA minor groove binding, indirect anti‐inflammatory and anti‐angiogenic effects via tumor‐associated macrophages, and transcriptional modulation of oncogenic fusion proteins of TRS. , , An in vivo experiment using patient‐derived xenografts demonstrated that trabectedin was effective against L‐sarcoma and UPS via extracellular matrix involvement. In the present study, trabectedin was effective for L‐sarcoma, as in a previous study. Conversely, its efficacy for TRS was comparable with that for non‐TRS. TRS cannot be treated as a single entity, and it is appropriate to choose a treatment based on the type of fusion gene, noting that different types of fusion genes are associated with different therapeutic effects. Interestingly, patients in the MDM2 amplification‐positive cluster, including those with DDLPS, achieved a high DCR, suggesting that the therapeutic effect of trabectedin may be influenced by the pattern of genetic mutations rather than histological type. Trabectedin is associated with a low incidence of serious adverse events and can be administered without compromising the patient's quality of life. It is a useful drug with no known, cumulative toxicity and may contribute to long‐term tumor growth inhibition. 
+
+Eribulin is a fully synthetic, microtubule‐targeting drug that inhibits RNA‐dependent RNA polymerase activity of TERT. , , Eribulin improves survival in patients with L‐sarcoma, especially liposarcoma, but its treatment effect in some non‐L‐sarcoma cases has not been observed in the real‐world, clinical setting. , The present study demonstrated a trend toward a higher response rate in TRS, such as MLPS (DCR 42%) and SYNS (DCR 33%), although there are as of yet no reports of eribulin affecting fusion gene expression in TRS. Eribulin was not highly effective against LMS but had a higher response rate than trabectedin and pazopanib in several, rare sarcomas. STS in the TERT‐mutated cluster, including MLPS and SFT, had a high response rate that was consistent with the findings of previous in vitro and in vivo studies. , , 
+TERT‐mutation status may be a potential, predictive biomarker for eribulin. In clustering analysis, STS associated with the MDM2 (amp)/TP53 (WT)/RB1 (WT) cluster (#6), which generally corresponds to DDLPS, showed a trend toward lower eribulin efficacy. This conflicted with a previous report demonstrating that eribulin prolonged overall survival in patients with DDLPS. Table  shows that DDLPS tended to respond less to doxorubicin than other histological types, suggesting that it is resistant to chemotherapy. Conversely, all three, second‐line agents were more effective against DDLPS than doxorubicin. In a phase III trial conducted during the development of eribulin with dacarbazine as a control, the survival benefit of eribulin in patients with DDLPS was significant although, generally, patients with DDLPS had shorter overall survival than patients with LMS. Therefore, eribulin is an important treatment option for DDLPS.
+Pazopanib, an oral, multitarget tyrosine kinase inhibitor with anti‐angiogenic and antitumorigenic properties, is used for a wide range of STS except liposarcoma. In the European Organisation for Research and Treatment of Cancer (EORTC) study 62043, a phase II study related to pazopanib development, the drug was administered to 19 patients with liposarcoma. The ORR was 0%, and the progression‐free rate at 12 weeks was 26% for liposarcoma, which was lower than for other histological types. As a result, liposarcoma was excluded from the list of target diseases in the PALETTE study, a phase III trial. Considering the relatively high prevalence of liposarcoma among STS cases, it would be premature to dismiss the treatment efficacy of pazopanib based on a review of only 19 cases.
+Recently, a small, phase 2 clinical trial found the potential activity of pazopanib against liposarcoma. , Our present study, which evaluated the response to pazopanib in 37 patients with liposarcoma, found the ORR and DCR to be 11% and 22%, respectively; these figures were comparable to those found for other subtypes. The therapeutic effect of pazopanib in liposarcoma patients is therefore promising. In addition, the DCR was lower in patients with activating mutations in genes governing the PI3K/Akt/mTOR pathway, indicating the usefulness of mutation profiling by CGP testing prior to treatment. An in vitro study indicated that activation of the PI3K‐akt–mTOR pathway may be the mechanism underlying the resistance to pazopanib. A previous study demonstrated the efficacy of a combination of pazopanib with sirolimus, an mTOR inhibitor, in the treatment of soft tissue sarcomas that have relapsed after a previous response to pazopanib. This finding was in line with those of the present study. 
+
+Doxorubicin, a cytotoxic anticancer drug, remains the first‐line agent for perioperative chemotherapy and survival‐prolonging chemotherapy for advanced disease. In the neoadjuvant chemotherapy setting, histotype‐tailored chemotherapy was inferior in terms of disease‐free survival to standard therapy with ifosfamide and epirubicin, an epimer of doxorubicin. , Moreover, postoperative chemotherapy with doxorubicin was shown to prolong survival in patients with positive margins at the time of resection of the primary tumor. Unfortunately, genetic mutation profiling and pathway analysis failed to improve the accuracy of treatment response prediction sufficiently in the present study; however, the treatment efficacy of doxorubicin may be adequately predicted using histological data in the conventional manner.
+Histologically, the drugs with the best response rates were trabectedin for L‐sarcoma, eribulin for MLPS and MFS, eribulin or pazopanib for TRS, and pazopanib for INTS, ASPS, and ANGS. All three agents had a similar response rate for UPS. Since UPS comprised a collection of tumors with multiple‐mutation profiles on clustering analysis, it may be useful to select drugs with reference to the genetic mutation profile established by CGP testing.
+Prior to the availability of trabectedin, eribulin, and pazopanib, second‐line therapy with doxorubicin and ifosfamide was commonly used for STS; a retrospective study published in 2010 reported an ORR of 8% and DCR of 23%, which were comparable with the results of the three drugs in our study. Due to cumulative toxicity, severe bone marrow suppression, and the low response rate to the doxorubicin/ifosfamide regimen in histological types other than liposarcoma and synovial sarcoma, the three novel agents are now preferred for second‐line chemotherapy based on the histological type and genetic mutation profile (Table  ). The present, retrospective study based on clinicogenomic big data has several limitations:
+ (1) The C‐CAT data are an aggregation of real‐world data, and the patients had a variety of backgrounds. In particular, the fact that previous treatments differed from patient to patient may have affected the interpretation of the results.
+(2) Histological subtypes were established on the basis of the diagnoses at individual study centers and were not verified by central diagnosis.
+(3) Although the accuracy of the input information was manually confirmed as often as possible, the data may contain input errors.
+(4) Due to the lack of information on the duration of SD, long‐SD was defined as the achievement of SD with a treatment duration of 180 days or longer, which differs from the usual definition.
+(5) CGP testing in Japan began in 2019, and the maximum, post‐test, follow‐up period for patients is only 4 years. In addition, the registration of prognostic information is left to the discretion of the attending physicians at each hospital; thus, information on the actual date of the last observation may not have been recorded. This would in turn introduce a bias into the analysis of the association between gene alterations and overall survival.
+In summary, the present study identified histological subtypes and genetic mutation profiles associated with the prognosis or response to trabectedin, eribulin, and pazopanib. These findings underscore the potential of tailored therapy guided by CGP testing for optimizing second‐line chemotherapy for STS. Treatments based on the mutation profile may improve the clinical utility and cost‐effectiveness of these second‐line drugs. While the retrospective nature and real‐world data are limitations, it is hoped that the present study will contribute valuable insights into enhancing STS treatment strategies and outcomes.
+
+## AUTHOR CONTRIBUTIONS
+
+Takao Mochizuki: Formal analysis; investigation; visualization; writing – original draft; writing – review and editing. Masachika Ikegami: Conceptualization; data curation; formal analysis; funding acquisition; investigation; methodology; project administration; resources; software; supervision; validation; visualization; writing – original draft; writing – review and editing. Toru Akiyama: Data curation; supervision; validation; writing – original draft; writing – review and editing.
+
+## FUNDING INFORMATION
+This study was supported in part by a grant from the Japan Society for the Promotion of Science KAKENHI (grant number 22K15571) and funding from Komagome Hospital (No. R04030304 and R05040312).
+
+## CONFLICT OF INTEREST STATEMENT
+The authors have no conflicts of interest.
+
+## ETHICS STATEMENT
+Approval of the Research Protocol by an Institutional Review Board: The present study was approved by the institutional review board at Komagome Hospital (No. 2819).
+Informed Consent: All the patients provided clinical and genetic mutation information to C‐CAT after receiving an explanation from their physicians and giving their consent.
+Registry and the Registration No. of the study/trial: N/A.
+Animal Studies: N/A.
+
+## Supporting information
+
+Figure S1.
+
+Click here for additional data file.
+
+Figure S2.
+
+Click here for additional data file.
+
+Figure S3.
+
+Click here for additional data file.
+
+Figure S4.
+
+Click here for additional data file.
+
+Table S1.
+
+Click here for additional data file.
+
+Table S2.
+
+Click here for additional data file.
+
+Table S3.
+
+Click here for additional data file.
+
+## ACKNOWLEDGMENTS
+We thank Shin Ishihara, Koichi Ogura, and Hidetatsu Otani for their valuable comments on the analysis.
+
+Mochizuki T, Ikegami M, Akiyama T. Factors predictive of second‐line chemotherapy in soft tissue sarcoma: An analysis of the National Genomic Profiling Database. Cancer Sci. 2024;115:575‐588. doi: 10.1111/cas.16050
+
+## Contributor Information
+Masachika Ikegami, Email: ikegami-tky@umin.ac.jp.
+Toru Akiyama, Email: toruakiyama827@jichi.ac.jp.
+
+## DATA AVAILABILITY STATEMENT
+Clinicogenomic data can be obtained from the C‐CAT database. Figures and tables can be reproduced using custom R scripts which are available at https://github.com/MANO‐B/C‐CAT_Soft_Tissue_Sarcoma.
+
+## REFERENCES
+ 
+
+## Associated Data
+
+## Supplementary Materials
+
+Figure S1.
+
+Click here for additional data file.
+
+Figure S2.
+
+Click here for additional data file.
+
+Figure S3.
+
+Click here for additional data file.
+
+Figure S4.
+
+Click here for additional data file.
+
+Table S1.
+
+Click here for additional data file.
+
+Table S2.
+
+Click here for additional data file.
+
+Table S3.
+
+Click here for additional data file.
+
+## Data Availability Statement
+Clinicogenomic data can be obtained from the C‐CAT database. Figures and tables can be reproduced using custom R scripts which are available at https://github.com/MANO‐B/C‐CAT_Soft_Tissue_Sarcoma.
