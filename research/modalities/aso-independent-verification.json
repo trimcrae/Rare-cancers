@@ -1,0 +1,195 @@
+{
+ "_what": "A second implementation of the frame grading and the mature-parent screen, sharing no code with the first and reaching each quantity by a different route, run against the committed artifacts.",
+ "_why": "Requested by external review of the submission manuscript (2026-08-15): the Provenance section discloses that an exon-indexing error invalidated an earlier version in full, and the AI-use declaration says one model wrote the code, ran the pipelines and reviewed the drafts.",
+ "_what_this_is_not": [
+  "NOT external review. The same author and the same model wrote both implementations.",
+  "NOT proof against a shared misreading of the method. Two implementations of a wrong specification agree and are both wrong; agreement here bounds implementation error only, and the manuscript states that rather than letting it pass for correctness.",
+  "NOT a check of the screens this verifier does not cover \u2014 the alignment screen, the exhaustive transcript scan, the pre-mRNA screen and the genome scan are untouched."
+ ],
+ "_cost": "$0 \u2014 offline, over committed artifacts, no network and no credentials.",
+ "routes_that_differ_from_the_original": {
+  "A": "genomic unspliced sequence + exon spans, not the cDNA/CDS record",
+  "B": "longest-ORF search for the coding start, not the annotated utr5_len",
+  "C": "frame by arithmetic on exon coding vectors, translation only as a second opinion",
+  "D": "screen 4 by substring search over gap-containing design substrings, not by scanning every parent window and extending outward from the gap"
+ },
+ "verdict": "AGREES",
+ "n_problems": 0,
+ "problems": [],
+ "checks": {
+  "A_transcript_acquisitions_agree": {
+   "EWSR1": {
+    "genomic_spliced_nt": 2400,
+    "cdna_record_nt": 2400,
+    "identical": true
+   },
+   "FUS": {
+    "genomic_spliced_nt": 1824,
+    "cdna_record_nt": 1824,
+    "identical": true
+   },
+   "NR4A3": {
+    "genomic_spliced_nt": 5604,
+    "cdna_record_nt": 5604,
+    "identical": true
+   },
+   "TAF15": {
+    "genomic_spliced_nt": 2162,
+    "cdna_record_nt": 2162,
+    "identical": true
+   },
+   "TCF12": {
+    "genomic_spliced_nt": 6114,
+    "cdna_record_nt": 6114,
+    "identical": true
+   },
+   "TFG": {
+    "genomic_spliced_nt": 1907,
+    "cdna_record_nt": 1907,
+    "identical": true
+   }
+  },
+  "B_coding_start_without_annotation": {
+   "EWSR1": {
+    "orf_offset_found": 69,
+    "annotated_utr5_len": 69,
+    "orf_protein_aa": 656,
+    "annotated_protein_aa": 656,
+    "agrees": true
+   },
+   "FUS": {
+    "orf_offset_found": 76,
+    "annotated_utr5_len": 76,
+    "orf_protein_aa": 526,
+    "annotated_protein_aa": 526,
+    "agrees": true
+   },
+   "NR4A3": {
+    "orf_offset_found": 699,
+    "annotated_utr5_len": 699,
+    "orf_protein_aa": 626,
+    "annotated_protein_aa": 626,
+    "agrees": true
+   },
+   "TAF15": {
+    "orf_offset_found": 86,
+    "annotated_utr5_len": 86,
+    "orf_protein_aa": 592,
+    "annotated_protein_aa": 592,
+    "agrees": true
+   },
+   "TCF12": {
+    "orf_offset_found": 285,
+    "annotated_utr5_len": 285,
+    "orf_protein_aa": 706,
+    "annotated_protein_aa": 706,
+    "agrees": true
+   },
+   "TFG": {
+    "orf_offset_found": 271,
+    "annotated_utr5_len": 271,
+    "orf_protein_aa": 400,
+    "annotated_protein_aa": 400,
+    "agrees": true
+   }
+  },
+  "C_frame_grading": {
+   "pairs_checked": 231,
+   "acceptor_exon_window_taken_from_the_atlas": [
+    2,
+    3,
+    4
+   ],
+   "unrestricted_pairs_graded": 616,
+   "emittable_outside_the_declared_acceptor_window": [],
+   "grade_disagreements": 0,
+   "field_disagreements": 0,
+   "atlas_grade_counts": {
+    "EMITTABLE": 38,
+    "NON_CODING_ACCEPTOR": 77,
+    "OUT_OF_FRAME": 39,
+    "SEAM_NOT_PRODUCED": 77
+   },
+   "independent_grade_counts": {
+    "EMITTABLE": 38,
+    "NON_CODING_ACCEPTOR": 77,
+    "OUT_OF_FRAME": 39,
+    "SEAM_NOT_PRODUCED": 77
+   },
+   "arithmetic_in_frame_but_premature_stop": [
+    "EWSR1_e17__NR4A3_e4",
+    "FUS_e15__NR4A3_e4",
+    "TAF15_e16__NR4A3_e4",
+    "TCF12_e1__NR4A3_e4",
+    "TCF12_e20__NR4A3_e4",
+    "TCF12_e21__NR4A3_e4",
+    "TFG_e1__NR4A3_e4",
+    "TFG_e8__NR4A3_e4"
+   ],
+   "_why_that_class_matters": "The arithmetic route and the translation route are not the same test, and these are the rows where they part: the reading register composes correctly and a stop codon still terminates the chimeric ORF before the acceptor's C-terminus. The original grades these OUT_OF_FRAME on the translation test and says so in its `why` string. Listing them is what makes the agreement above meaningful rather than tautological."
+  },
+  "D_geometry_restated_not_imported": {
+   "oligo_len": 16,
+   "wing": 5,
+   "min_duplex_bp": 10,
+   "atlas_oligo_geometry": {
+    "length": 16,
+    "wing": 5,
+    "gap": 6,
+    "architecture": "5-6-5 (LNA-DNA-LNA)"
+   }
+  },
+  "D_ties": [
+   {
+    "design": "GCATATCAGTGGGAGG",
+    "run_bp": 9,
+    "independent": "NR4A3",
+    "screen4": "EWSR1"
+   },
+   {
+    "design": "GCATATCACCAGGCTT",
+    "run_bp": 7,
+    "independent": "FUS",
+    "screen4": "EWSR1"
+   },
+   {
+    "design": "GCATATCTAGATCAAG",
+    "run_bp": 7,
+    "independent": "TCF12",
+    "screen4": "EWSR1"
+   },
+   {
+    "design": "GCATATCACCAAAATT",
+    "run_bp": 7,
+    "independent": "TCF12",
+    "screen4": "EWSR1"
+   },
+   {
+    "design": "GGCATATCCATCAGAT",
+    "run_bp": 7,
+    "independent": "FUS",
+    "screen4": "EWSR1"
+   },
+   {
+    "design": "GCATATCACCAAATTT",
+    "run_bp": 7,
+    "independent": "TCF12",
+    "screen4": "EWSR1"
+   },
+   {
+    "design": "GCATATCCATGTGAGA",
+    "run_bp": 7,
+    "independent": "TAF15",
+    "screen4": "EWSR1"
+   }
+  ],
+  "D_mature_parent_screen": {
+   "designs_checked": 190,
+   "run_length_disagreements": 0,
+   "independent_n_liable": 87,
+   "screen4_n_liable": 87,
+   "independent_n_liable_against_NR4A3": 61,
+   "screen4_n_liable_against_NR4A3": 61
+  }
+ }
+}

@@ -1,0 +1,554 @@
+#!/usr/bin/env python3
+"""What gap-pairing rate would ARBITRARY 16-mers show against the same six parent transcripts?
+
+⛔ WHY THIS EXISTS. `aso_parent_gap_pairing.py` (the manuscript's screen 4) reports that 87 of 190
+junction designs let a mature wild-type parent pair the whole catalytic gap at >= 10 contiguous base
+pairs, 61 of them against wild-type NR4A3. That count had **no null**. The genome scan (screen 5)
+has one — it states a chance expectation per 16-mer and reads its observations against it — and
+screen 4 did not, so 87/190 was a number with nothing to be large or small relative to. An
+external reviewer put it as the cheapest addition that would materially strengthen the paper, and
+they were right: the whole instrument is a lookup over 20,011 nucleotides of parent transcript, so
+the null costs one CPU-minute and nothing else.
+
+⚠ AND THE ANSWER IS NOT OBVIOUS IN EITHER DIRECTION, WHICH IS WHY IT HAD TO BE MEASURED. Two
+readings were defensible before the run:
+  · "87/190 is trivially high, because a junction design's acceptor half IS wild-type NR4A3
+    sequence, so of course NR4A3 pairs it" — which would make the count a restatement of the design
+    rule rather than a finding; or
+  · "10 contiguous base pairs is 4^-10, so nothing arbitrary ever reaches it" — which would make
+    87/190 enormous.
+Neither survives contact with the arithmetic. A run of >= 10 that CONTAINS the six gap positions can
+sit at five offsets inside a 16-mer window, so an arbitrary 16-mer meets one at roughly
+5 x 4^-10 x 20,011 ~ 0.10 expected sites, i.e. of order one in ten arbitrary 16-mers is "liable"
+by chance alone. That is small against 87/190 and it is emphatically not zero, and no reader could
+have derived which without being told the span.
+
+WHAT THIS MEASURES. Six null ensembles, every one of them pushed through the SAME instrument as the
+real designs — `aso_parent_gap_pairing.longest_run_through_gap`, the same six mature parents spliced
+from the same committed record, forward orientation only, the same `MIN_DUPLEX_BP`. Only the query
+changes; nothing about the screen does.
+
+  scrambled_mononucleotide   each design's target window shuffled, base composition preserved. This
+                             is the reviewer's "scrambled" null, and it is also the scrambled-gapmer
+                             control the manuscript's own section 5.4 asks a laboratory to make.
+  scrambled_dinucleotide     shuffled preserving DINUCLEOTIDE composition (Altschul-Erikson
+                             Eulerian-path shuffle), which is the stricter sequence null: it holds
+                             local base-stacking structure fixed and lets only the arrangement move.
+  random_uniform             16-mers drawn i.i.d. from equal base frequencies — the "randomly-chosen
+                             16-mer" reading, and the ensemble the analytic expectation describes.
+  random_composition_matched 16-mers drawn i.i.d. from the pooled base composition of the 190 real
+                             target windows, which are GC-richer than uniform.
+
+⭐ AND THREE THAT ARE NOT NULLS BUT A DECOMPOSITION, because "is 87 more than chance" is a weaker
+question than "WHERE does 87 come from", and the second is answerable on the same instrument:
+
+  wings_scrambled_gap_held   the six catalytic-gap bases are held EXACTLY where they are and the
+                             ten wing bases are shuffled. Screen 4 admits a window only if all six
+                             gap positions pair, so this arm asks how much of the liability is the
+                             gap 6-mer finding a parent at all, as against the flanking run that
+                             carries it to ten base pairs.
+  gap_scrambled_wings_held   the mirror, and the discriminating one: real wings, scrambled gap.
+  random_parent_chimera      ⭐ THE STRONGEST FORM OF THE ANCHOR. A 16-mer built by joining a random
+                             window of a real donor parent to a random window of real NR4A3, split
+                             at the same offset as the design it is matched to — a fake junction
+                             between two real transcripts. It reproduces the design rule's whole
+                             structure (donor sequence 5', NR4A3 sequence 3', junction inside the
+                             gap) while destroying the one thing that makes a design a design: that
+                             the two pieces meet at a REPORTED breakpoint. If the observed rate is
+                             merely what any parent-to-parent chimera gives, this arm returns it,
+                             and screen 4's headline is a restatement of the design rule rather
+                             than a finding about EMC breakpoints.
+
+⚠ A DECOMPOSITION THAT COULD NOT DISCRIMINATE WAS RUN FIRST AND IS RECORDED SO IT IS NOT RETRIED.
+The first version of this module scrambled the DONOR half and the ACCEPTOR half of each window,
+predicting that holding the real NR4A3 half would keep the rate near the observed one. Both arms
+collapsed to ~8%, and the prediction was not merely wrong but unanswerable by that experiment: at a
+16-mer 5-6-5 the gap spans positions 5 to 10 and the junction sits at position 6, 8 or 10, so BOTH
+halves contribute bases to the gap and scrambling EITHER destroys the gap 6-mer outright. The arms
+were measuring the same thing twice and neither was measuring the intended quantity. The wing/gap
+split above is the version of that question the instrument can actually answer.
+
+⛔ WHAT THIS IS NOT.
+  · Not a significance test. Every rate below is a proportion with a Wilson interval; no p-value is
+    computed and none should be read in, because the 190 design records are not independent draws —
+    they are 176 distinct molecules tiled at overlapping registers across 38 junctions, so any test
+    treating them as 190 independent trials would be wrong about its own denominator. The
+    per-design paired rate below is the honest version of the comparison and is reported instead.
+  · Not a measurement of off-target activity. A duplex is necessary for RNase-H1 cleavage and is not
+    sufficient. Nothing here is a cleavage assay, and a scrambled oligonucleotide that clears this
+    screen is not thereby safe.
+  · Not transcriptome-wide. Six parent transcripts, the same bound screen 4 itself carries.
+  · Not a statement about the OTHER screens. The alignment screen, the exhaustive transcript scan
+    and the genome scan have their own nulls or their own bounds; this one is screen 4's.
+
+DETERMINISM. The pseudo-random stream is a splitmix64 written out in this file rather than
+`random.Random`, so the committed artifact is bit-stable against any interpreter that can run the
+module at all. `random.seed` is reproducible in practice and its guarantee is a CPython
+implementation detail; an artifact that CI re-checks with `--check` should not rest on one.
+"""
+from __future__ import annotations
+
+import json
+import os
+import sys
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE)
+
+import aso_parent_gap_pairing as pgp  # noqa: E402  — the instrument, imported not re-implemented
+
+OUT = os.path.join(HERE, f"aso-parent-null{os.environ.get('OUT_SUFFIX', '')}.json")
+
+#: Draws per design per ensemble. 200 x 190 = 38,000 queries per ensemble; the whole run is under a
+#: minute because the gap lookup is an index rather than a scan (see `_gap_index`).
+N_DRAWS = int(os.environ.get("NULL_DRAWS") or 200)
+
+#: ⚠ ONE SEED, RECORDED IN THE ARTIFACT. Changing it changes every number below, so it is a
+#: configuration value in the sense CLAUDE.md gives that word, not a tuning knob.
+SEED = int(os.environ.get("NULL_SEED") or 20260815)
+
+BASES = "ACGT"
+
+
+# ─────────────────────────────────────────────────────────────────────────── deterministic stream
+class Rng:
+    """splitmix64. Written out so the artifact does not depend on CPython's PRNG staying put."""
+
+    __slots__ = ("s",)
+
+    def __init__(self, seed):
+        self.s = seed & 0xFFFFFFFFFFFFFFFF
+
+    def next_u64(self):
+        self.s = (self.s + 0x9E3779B97F4A7C15) & 0xFFFFFFFFFFFFFFFF
+        z = self.s
+        z = ((z ^ (z >> 30)) * 0xBF58476D1CE4E5B9) & 0xFFFFFFFFFFFFFFFF
+        z = ((z ^ (z >> 27)) * 0x94D049BB133111EB) & 0xFFFFFFFFFFFFFFFF
+        return z ^ (z >> 31)
+
+    def below(self, n):
+        """Uniform on [0, n) by rejection, so no modulo bias enters a count reported as a rate."""
+        if n <= 1:
+            return 0
+        limit = (1 << 64) - ((1 << 64) % n)
+        while True:
+            v = self.next_u64()
+            if v < limit:
+                return v % n
+
+    def shuffled(self, items):
+        a = list(items)
+        for i in range(len(a) - 1, 0, -1):
+            j = self.below(i + 1)
+            a[i], a[j] = a[j], a[i]
+        return a
+
+    def choice_weighted(self, keys, cum, total):
+        v = self.below(total)
+        for k, c in zip(keys, cum):
+            if v < c:
+                return k
+        return keys[-1]
+
+
+# ───────────────────────────────────────────────────────────────────────────── the null ensembles
+def scramble_mono(seq, rng):
+    return "".join(rng.shuffled(seq))
+
+
+def scramble_dinucleotide(seq, rng, tries=64):
+    """Altschul-Erikson Eulerian-path shuffle: same first base, last base and dinucleotide counts.
+
+    The sequence is an Eulerian path through a graph whose vertices are the four bases and whose
+    edges are its dinucleotides. Any other Eulerian path over the same edge multiset is a shuffle
+    with identical dinucleotide composition. The construction is the standard one: choose, for each
+    vertex other than the terminal one, a random outgoing edge to place LAST; retry until those
+    last-edges form a tree rooted at the terminal vertex (otherwise the walk strands itself); then
+    permute each vertex's remaining edges freely.
+
+    Returns `(shuffled, fell_back)`. ⚠ It falls back to the mononucleotide shuffle if the tree
+    condition is not met within `tries`. With a four-letter alphabet that is vanishingly rare, and
+    the artifact RECORDS how often it happened rather than letting a silent fallback quietly change
+    what the ensemble means — a dinucleotide null that is secretly part mononucleotide would be
+    reported as the stricter test while being the looser one.
+    """
+    n = len(seq)
+    if n < 3:
+        return seq, False
+    last = seq[-1]
+    edges = {}
+    for a, b in zip(seq, seq[1:]):
+        edges.setdefault(a, []).append(b)
+    verts = list(edges)
+    for _ in range(tries):
+        chosen = {}
+        for v in verts:
+            if v == last:
+                continue
+            chosen[v] = edges[v][rng.below(len(edges[v]))]
+        # every non-terminal vertex must reach `last` by following its chosen last-edge
+        ok = True
+        for v in chosen:
+            seen, cur = set(), v
+            while cur != last:
+                if cur in seen or cur not in chosen:
+                    ok = False
+                    break
+                seen.add(cur)
+                cur = chosen[cur]
+            if not ok:
+                break
+        if not ok:
+            continue
+        order = {}
+        for v in verts:
+            rest = list(edges[v])
+            if v in chosen:
+                rest.remove(chosen[v])
+                order[v] = rng.shuffled(rest) + [chosen[v]]
+            else:
+                order[v] = rng.shuffled(rest)
+        out, cur, idx = [seq[0]], seq[0], {v: 0 for v in verts}
+        for _ in range(n - 1):
+            nxt = order[cur][idx[cur]]
+            idx[cur] += 1
+            out.append(nxt)
+            cur = nxt
+        return "".join(out), False
+    return scramble_mono(seq, rng), True
+
+
+def scramble_positions(seq, positions, rng):
+    """Shuffle only the listed positions among themselves; every other base stays put."""
+    pool = rng.shuffled([seq[p] for p in positions])
+    out = list(seq)
+    for p, ch in zip(positions, pool):  # noqa: B905 — equal length by construction
+        out[p] = ch
+    return "".join(out)
+
+
+def draw_uniform(rng, k):
+    return "".join(BASES[rng.below(4)] for _ in range(k))
+
+
+def draw_composition(rng, k, keys, cum, total):
+    return "".join(rng.choice_weighted(keys, cum, total) for _ in range(k))
+
+
+def draw_parent_chimera(rng, parents, donor, offset):
+    """A fake junction: `offset` bases from a random donor window, the rest from a random NR4A3 one.
+
+    ⛔ THE POINT IS WHAT IT KEEPS, NOT WHAT IT RANDOMISES. It keeps the donor gene, the acceptor
+    gene, the 5'-donor/3'-NR4A3 order and the split offset — the entire design rule — and randomises
+    only WHERE in each transcript the two pieces are taken from. So it answers the question a
+    reviewer actually asks of screen 4: is 87 of 190 a fact about reported EMC breakpoints, or is it
+    what any chimera of these two transcripts would give?
+    """
+    ds, ns = parents[donor], parents["NR4A3"]
+    tail = pgp.OLIGO_LEN - offset
+    left = right = ""
+    if offset:
+        p = rng.below(len(ds) - offset + 1)
+        left = ds[p:p + offset]
+    if tail:
+        p = rng.below(len(ns) - tail + 1)
+        right = ns[p:p + tail]
+    return left + right
+
+
+# ───────────────────────────────────────────────────────────────────── the instrument, made fast
+def _gap_index(parents):
+    """gap 6-mer -> [(gene, window_start)], so a query touches ~5 candidates instead of 20,011.
+
+    ⛔ THIS IS AN INDEX OVER THE SAME COMPARISON, NOT A DIFFERENT ONE. A window can only pair the
+    whole gap if the parent carries that exact gap 6-mer at the matching offset, so keying on it
+    loses no hit; `_best_run` then calls screen 4's own `longest_run_through_gap` on the survivors.
+    `test_aso_parent_null.py` asserts the indexed path and the brute-force path agree design for
+    design over the real 190, because an index that silently drops hits would make every null rate
+    below too low, which is the direction that flatters the paper.
+    """
+    idx = {}
+    g0, g1 = pgp.GAP.start, pgp.GAP.stop
+    for gene, seq in parents.items():
+        for i in range(len(seq) - pgp.OLIGO_LEN + 1):
+            idx.setdefault(seq[i + g0:i + g1], []).append((gene, i))
+    return idx
+
+
+def _best_run(target, parents, idx):
+    """(longest run through the gap, gene) — the screen-4 quantity, via the index."""
+    best = (0, None)
+    for gene, i in idx.get(target[pgp.GAP.start:pgp.GAP.stop], ()):  # noqa: B905
+        seq = parents[gene]
+        run = pgp.longest_run_through_gap(seq[i:i + pgp.OLIGO_LEN], target)
+        if run > best[0]:
+            best = (run, gene)
+    return best
+
+
+# ─────────────────────────────────────────────────────────────────────────────────────── stats
+def analytic_p_site(gap_nt):
+    """(P all gap positions pair, P the run then reaches MIN_DUPLEX_BP | gap paired), exactly.
+
+    ⛔ THE OBVIOUS FORMULA IS WRONG AND WAS WRITTEN FIRST, so it is spelled out here rather than
+    left as a one-liner. Counting the placements of a 10-wide run inside a 16-mer gives
+    `OLIGO_LEN - MIN_DUPLEX_BP + 1` = 7, but screen 4 does not admit any 10-run: it admits one that
+    CONTAINS all six gap positions, which is 5 of those 7. Summing 4^-10 over placements then
+    overcounts again, because adjacent placements share nine positions and are nowhere near
+    independent. Both errors inflate the null, i.e. both make the observed excess look smaller than
+    it is — the direction that would have flattered a reviewer's objection rather than answering it.
+
+    The exact statement instead: the gap must pair (4^-gap_nt), and the perfect run then extends L
+    positions left and R right, each geometric with success 1/4 and truncated by the wing length.
+    The site counts when gap_nt + L + R >= MIN_DUPLEX_BP.
+    """
+    left_max, right_max = pgp.GAP.start, pgp.OLIGO_LEN - pgp.GAP.stop
+
+    def tail(n_max):
+        d = [0.75 * 0.25 ** k for k in range(n_max)]
+        d.append(0.25 ** n_max)          # ran out of wing: no mismatch can stop it
+        return d
+
+    dl, dr = tail(left_max), tail(right_max)
+    need = pgp.MIN_DUPLEX_BP - gap_nt
+    p_extend = sum(pl * pr
+                   for l, pl in enumerate(dl)
+                   for r, pr in enumerate(dr)
+                   if l + r >= need)
+    return 0.25 ** gap_nt, p_extend
+
+
+def wilson(k, n, z=1.96):
+    """Wilson 95% interval — the repository's fixed convention for a proportion."""
+    if n == 0:
+        return [None, None]
+    p = k / n
+    d = 1 + z * z / n
+    c = (p + z * z / (2 * n)) / d
+    h = z * ((p * (1 - p) / n + z * z / (4 * n * n)) ** 0.5) / d
+    return [round(max(0.0, c - h), 5), round(min(1.0, c + h), 5)]
+
+
+def _summary(hits, nr4a3, runs, n):
+    return {
+        "n_draws": n,
+        "n_liable": hits,
+        "rate_liable": round(hits / n, 5) if n else None,
+        "rate_liable_wilson95": wilson(hits, n),
+        "n_liable_against_NR4A3": nr4a3,
+        "rate_liable_against_NR4A3": round(nr4a3 / n, 5) if n else None,
+        "rate_liable_against_NR4A3_wilson95": wilson(nr4a3, n),
+        "mean_longest_run_bp": round(sum(runs) / n, 4) if n else None,
+        "max_longest_run_bp": max(runs) if runs else 0,
+        "n_pairing_the_gap_at_any_length": sum(1 for r in runs if r > 0),
+    }
+
+
+def build():
+    parents = pgp.mature_parents()
+    idx = _gap_index(parents)
+    atlas = json.load(open(pgp.ATLAS, encoding="utf-8"))
+
+    designs = []
+    for panel in atlas["panels"]:
+        for d in panel.get("designs") or []:
+            if d.get("fusion_specific"):
+                designs.append({
+                    "junction": panel["junction_label"],
+                    "donor": panel["donor_symbol"],
+                    "antisense_5to3": d["antisense_5to3"],
+                    "target": d["target_mRNA_5to3"],
+                    "junction_offset": d["junction_offset_in_oligo"],
+                    "margin": d["gap_specificity_margin"],
+                })
+
+    # the observed arm, re-measured here through the index so the comparison is instrument-identical
+    obs_hits = obs_nr4a3 = 0
+    obs_runs = []
+    for d in designs:
+        run, gene = _best_run(d["target"], parents, idx)
+        obs_runs.append(run)
+        if run >= pgp.MIN_DUPLEX_BP:
+            obs_hits += 1
+            obs_nr4a3 += 1 if gene == "NR4A3" else 0
+    n_obs = len(designs)
+
+    # pooled base composition of the real target windows, for the composition-matched ensemble
+    counts = {b: 0 for b in BASES}
+    for d in designs:
+        for ch in d["target"]:
+            if ch in counts:
+                counts[ch] += 1
+    keys = list(BASES)
+    total = sum(counts[k] for k in keys)
+    cum, acc = [], 0
+    for k in keys:
+        acc += counts[k]
+        cum.append(acc)
+
+    ensembles = {}
+    per_design = []
+    fallbacks = 0
+
+    gap_pos = list(pgp.GAP)
+    wing_pos = [p for p in range(pgp.OLIGO_LEN) if p not in pgp.GAP]
+
+    for name in ("scrambled_mononucleotide", "scrambled_dinucleotide",
+                 "random_uniform", "random_composition_matched",
+                 "wings_scrambled_gap_held", "gap_scrambled_wings_held",
+                 "random_parent_chimera"):
+        # ⚠ One stream per ensemble, seeded from the ensemble NAME, so adding or removing an
+        # ensemble cannot shift the draws of the ones either side of it.
+        rng = Rng(SEED ^ sum((i + 1) * ord(c) for i, c in enumerate(name)))
+        hits = nr4a3 = 0
+        runs = []
+        per_design_rows = []
+        for di, d in enumerate(designs):
+            t, j = d["target"], d["junction_offset"]
+            dh = dn = 0
+            for _ in range(N_DRAWS):
+                if name == "scrambled_mononucleotide":
+                    q = scramble_mono(t, rng)
+                elif name == "scrambled_dinucleotide":
+                    q, fell_back = scramble_dinucleotide(t, rng)
+                    fallbacks += 1 if fell_back else 0
+                elif name == "wings_scrambled_gap_held":
+                    q = scramble_positions(t, wing_pos, rng)
+                elif name == "gap_scrambled_wings_held":
+                    q = scramble_positions(t, gap_pos, rng)
+                elif name == "random_uniform":
+                    q = draw_uniform(rng, pgp.OLIGO_LEN)
+                elif name == "random_composition_matched":
+                    q = draw_composition(rng, pgp.OLIGO_LEN, keys, cum, total)
+                else:  # random_parent_chimera
+                    q = draw_parent_chimera(rng, parents, d["donor"], j)
+                run, gene = _best_run(q, parents, idx)
+                runs.append(run)
+                if run >= pgp.MIN_DUPLEX_BP:
+                    hits += 1
+                    dh += 1
+                    if gene == "NR4A3":
+                        nr4a3 += 1
+                        dn += 1
+            per_design_rows.append(round(dh / N_DRAWS, 4))
+            if name == "scrambled_mononucleotide":
+                per_design.append({
+                    "junction": d["junction"],
+                    "antisense_5to3": d["antisense_5to3"],
+                    "gap_specificity_margin": d["margin"],
+                    "observed_liable": obs_runs[di] >= pgp.MIN_DUPLEX_BP,
+                    "observed_longest_run_bp": obs_runs[di],
+                    "scrambled_rate_liable": round(dh / N_DRAWS, 4),
+                    "scrambled_rate_liable_against_NR4A3": round(dn / N_DRAWS, 4),
+                })
+        s = _summary(hits, nr4a3, runs, len(runs))
+        s["expected_n_liable_designs_if_null"] = round(sum(per_design_rows), 2)
+        ensembles[name] = s
+        if name == "scrambled_dinucleotide":
+            s["_mononucleotide_fallbacks"] = fallbacks
+
+    # the analytic expectation, stated so the measured rate has something to be checked against
+    parent_nt = sum(len(s) for s in parents.values())
+    n_windows = sum(max(0, len(s) - pgp.OLIGO_LEN + 1) for s in parents.values())
+    gap_nt = len(pgp.GAP)
+    p_gap, p_extend = analytic_p_site(gap_nt)
+    p_site = p_gap * p_extend
+    exp_sites = n_windows * p_site
+
+    return {
+        "_what": ("The rate at which ARBITRARY 16-mers let a mature wild-type parent transcript "
+                  "pair the whole catalytic gap at >= "
+                  f"{pgp.MIN_DUPLEX_BP} contiguous base pairs — the null that screen 4's "
+                  f"{obs_hits} of {n_obs} had been reported without."),
+        "_why": ("A count with no null cannot be large or small. The genome scan states a chance "
+                 "expectation per 16-mer; the mature-parent screen did not, so its headline had no "
+                 "anchor. Raised by external review of the submission manuscript, 2026-08-15."),
+        "_what_this_is_not": [
+            "Not a significance test. The 190 design records are 176 distinct molecules tiled at "
+            "overlapping registers across 38 junctions, so they are not independent draws and no "
+            "test treating them as such would be right about its own denominator. Proportions "
+            "carry Wilson intervals; the per-design paired rate is the honest comparison.",
+            "Not a measurement of off-target activity. A duplex is necessary for RNase-H1 cleavage "
+            "and is not sufficient, and a scrambled oligonucleotide clearing this screen is not "
+            "thereby safe.",
+            "Not transcriptome-wide — six parent transcripts, the bound screen 4 itself carries.",
+            "Not a null for any other screen. Screens 1, 2, 3 and 5 have their own bounds.",
+        ],
+        "_cost": "$0 — offline, over two committed artifacts, no network and no credentials.",
+        "method": {
+            "instrument": ("aso_parent_gap_pairing.longest_run_through_gap, unchanged — same six "
+                           "mature parents, forward orientation only, same MIN_DUPLEX_BP. Only the "
+                           "query changes."),
+            "draws_per_design_per_ensemble": N_DRAWS,
+            "seed": SEED,
+            "prng": "splitmix64, written out in aso_parent_null.py for bit-stability",
+            "min_duplex_bp": pgp.MIN_DUPLEX_BP,
+            "oligo_len": pgp.OLIGO_LEN,
+            "wing": pgp.WING,
+            "gap_nt": gap_nt,
+            "parents_searched": sorted(parents),
+            "parent_nt_searched": parent_nt,
+            "parent_windows_searched": n_windows,
+            "pooled_base_composition_of_real_targets": counts,
+            "sources": ["aso-premrna-sequences.json", os.path.basename(pgp.ATLAS)],
+        },
+        "analytic_expectation": {
+            "_what": ("What an independent-uniform-base 16-mer should meet, computed rather than "
+                      "assumed, so the measured ensembles have something to be checked against."),
+            "p_all_gap_positions_pair": p_gap,
+            "p_run_reaches_min_duplex_given_gap_paired": round(p_extend, 8),
+            "p_site_per_parent_window": p_site,
+            "expected_sites_per_16mer": round(exp_sites, 5),
+            "expected_rate_liable_poisson": round(1 - pow(2.718281828459045, -exp_sites), 5),
+            "_checks_the_measured_ensembles": ("This is the quantity `random_uniform` estimates by "
+                                               "sampling, so the two are a check on each other; "
+                                               "Poisson sits slightly high because sites within one "
+                                               "transcript overlap rather than arriving "
+                                               "independently."),
+            "_caveat": ("Independent uniform bases. Real transcript sequence is composition-skewed "
+                        "and repetitive, so this separates 'more than chance' from 'at chance' and "
+                        "nothing finer — the same qualification the manuscript's genome-scan null "
+                        "carries."),
+        },
+        "observed": {
+            "n_designs": n_obs,
+            "n_liable": obs_hits,
+            "rate_liable": round(obs_hits / n_obs, 5),
+            "rate_liable_wilson95": wilson(obs_hits, n_obs),
+            "n_liable_against_NR4A3": obs_nr4a3,
+            "rate_liable_against_NR4A3": round(obs_nr4a3 / n_obs, 5),
+            "mean_longest_run_bp": round(sum(obs_runs) / n_obs, 4),
+            "_agrees_with_screen_4": ("This arm is re-measured through the index rather than copied "
+                                      "from aso-parent-gap-pairing.json; the two agree by test."),
+        },
+        "null_ensembles": ensembles,
+        "per_design_scrambled_mononucleotide": per_design,
+    }
+
+
+def main(argv=None):
+    argv = list(sys.argv[1:] if argv is None else argv)
+    art = build()
+    new = json.dumps(art, indent=1, sort_keys=False) + "\n"
+    if "--check" in argv:
+        cur = open(OUT, encoding="utf-8").read() if os.path.exists(OUT) else ""
+        if cur != new:
+            print("aso-parent-null.json is stale; re-run without --check", file=sys.stderr)
+            return 1
+        print("parent-null artifact is current")
+        return 0
+    with open(OUT, "w", encoding="utf-8") as fh:
+        fh.write(new)
+    o, e = art["observed"], art["null_ensembles"]
+    print(f"wrote {os.path.basename(OUT)}: observed {o['n_liable']}/{o['n_designs']} "
+          f"({o['rate_liable']:.1%}); scrambled {e['scrambled_mononucleotide']['rate_liable']:.1%}; "
+          f"uniform {e['random_uniform']['rate_liable']:.1%}; "
+          f"gap held {e['wings_scrambled_gap_held']['rate_liable']:.1%}; "
+          f"gap scrambled {e['gap_scrambled_wings_held']['rate_liable']:.1%}; "
+          f"parent chimera {e['random_parent_chimera']['rate_liable']:.1%}",
+          file=sys.stderr)
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
