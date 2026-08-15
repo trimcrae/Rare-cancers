@@ -1,0 +1,212 @@
+[
+  {
+    "name": "jcrb_root_https",
+    "url": "https://cellbank.nibiohn.go.jp/english/",
+    "status": null,
+    "error": "URLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1000)'))"
+  },
+  {
+    "name": "jcrb_root_http",
+    "url": "http://cellbank.nibiohn.go.jp/english/",
+    "status": null,
+    "error": "URLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1000)'))"
+  },
+  {
+    "name": "jcrb_search_cgi",
+    "url": "https://cellbank.nibiohn.go.jp/~cellbank/cgi-bin/search_res_list.cgi?KEYWORD=EMC",
+    "status": null,
+    "error": "URLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1000)'))"
+  },
+  {
+    "name": "jcrb_legacy_host",
+    "url": "https://cellbank.brc.riken.jp/",
+    "status": 403,
+    "error": "HTTPError 403",
+    "chars": 80
+  },
+  {
+    "name": "cellosaurus_ncc_emc1_c1",
+    "url": "https://api.cellosaurus.org/search/cell-line?q=NCC-EMC1-C1&format=txt",
+    "status": 200,
+    "final_url": "https://api.cellosaurus.org/search/cell-line?q=NCC-EMC1-C1&format=txt",
+    "content_type": "text/plain; charset=utf-8",
+    "chars": 342
+  },
+  {
+    "name": "cellosaurus_ncc_panel",
+    "url": "https://api.cellosaurus.org/search/cell-line?q=%22NCC%20sarcoma%20cell%20line%20panel%22&format=txt&rows=200",
+    "status": 200,
+    "final_url": "https://api.cellosaurus.org/search/cell-line?q=%22NCC%20sarcoma%20cell%20line%20panel%22&format=txt&rows=200",
+    "content_type": "text/plain; charset=utf-8",
+    "chars": 119871
+  },
+  {
+    "name": "cellosaurus_usz20",
+    "url": "https://api.cellosaurus.org/cell-line/CVCL_C6MX?format=txt",
+    "status": 200,
+    "final_url": "https://api.cellosaurus.org/cell-line/CVCL_C6MX?format=txt",
+    "content_type": "text/plain; charset=utf-8",
+    "chars": 1434
+  },
+  {
+    "name": "cellosaurus_usz22",
+    "url": "https://api.cellosaurus.org/cell-line/CVCL_C6MY?format=txt",
+    "status": 200,
+    "final_url": "https://api.cellosaurus.org/cell-line/CVCL_C6MY?format=txt",
+    "content_type": "text/plain; charset=utf-8",
+    "chars": 1734
+  },
+  {
+    "name": "cellosaurus_bj",
+    "url": "https://api.cellosaurus.org/search/cell-line?q=id:BJ&format=txt&rows=20",
+    "status": 200,
+    "final_url": "https://api.cellosaurus.org/search/cell-line?q=id:BJ&format=txt&rows=20",
+    "content_type": "text/plain; charset=utf-8",
+    "chars": 16099
+  },
+  {
+    "name": "cellosaurus_tbj",
+    "url": "https://api.cellosaurus.org/search/cell-line?q=tBJ&format=txt&rows=50",
+    "status": 200,
+    "final_url": "https://api.cellosaurus.org/search/cell-line?q=tBJ&format=txt&rows=50",
+    "content_type": "text/plain; charset=utf-8",
+    "chars": 6652
+  },
+  {
+    "name": "epmc_ncc_emc1_c1",
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%22NCC-EMC1-C1%22&format=json&resultType=core&pageSize=25",
+    "status": 200,
+    "final_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%22NCC-EMC1-C1%22&format=json&resultType=core&pageSize=25",
+    "content_type": "application/json;charset=UTF-8",
+    "chars": 9429
+  },
+  {
+    "name": "epmc_ncc_jcrb_deposit",
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%22NCC%20sarcoma%20cell%20line%20panel%22%20AND%20JCRB&format=json&resultType=core&pageSize=50",
+    "status": 200,
+    "final_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%22NCC%20sarcoma%20cell%20line%20panel%22%20AND%20JCRB&format=json&resultType=core&pageSize=50",
+    "content_type": "application/json;charset=UTF-8",
+    "chars": 203
+  },
+  {
+    "name": "epmc_refs_PMC6766969",
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC/PMC6766969/references?format=json&pageSize=100",
+    "status": 200,
+    "final_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC/PMC6766969/references?format=json&pageSize=100",
+    "content_type": "application/json;charset=UTF-8",
+    "chars": 25082
+  },
+  {
+    "name": "springer_ncc_emc1_c1",
+    "url": "https://link.springer.com/article/10.1007/s13577-025-01250-7",
+    "status": 200,
+    "final_url": "https://link.springer.com/article/10.1007/s13577-025-01250-7?error=cookies_not_supported&code=dc9346b8-2074-41f6-b455-d676bc94b44c",
+    "content_type": "text/html; charset=utf-8",
+    "chars": 14730
+  },
+  {
+    "name": "atcc_crl2522",
+    "url": "https://www.atcc.org/products/crl-2522",
+    "status": 200,
+    "final_url": "https://www.atcc.org/products/crl-2522",
+    "content_type": "text/html; charset=utf-8",
+    "chars": 27141
+  },
+  {
+    "name": "atcc_search_bj",
+    "url": "https://www.atcc.org/en/search#q=BJ%20fibroblast",
+    "status": 200,
+    "final_url": "https://www.atcc.org/en/search#q=BJ%20fibroblast",
+    "content_type": "text/html; charset=utf-8",
+    "chars": 12818
+  },
+  {
+    "name": "takara_search_plpcx",
+    "url": "https://www.takarabio.com/search-results?q=pLPCX",
+    "status": 200,
+    "final_url": "https://www.takarabio.com/search-results?q=pLPCX",
+    "content_type": "text/html; charset=utf-8",
+    "chars": 18500
+  },
+  {
+    "name": "takara_retroviral_vectors",
+    "url": "https://www.takarabio.com/products/gene-function/viral-transduction/retrovirus/retroviral-vectors",
+    "status": 403,
+    "error": "HTTPError 403",
+    "chars": 16
+  },
+  {
+    "name": "addgene_search_plpcx",
+    "url": "https://www.addgene.org/search/catalog/plasmids/?q=pLPCX",
+    "status": 200,
+    "final_url": "https://www.addgene.org/search/catalog/plasmids/?q=pLPCX",
+    "content_type": "text/html; charset=utf-8",
+    "chars": 22607
+  },
+  {
+    "name": "addgene_pricing",
+    "url": "https://www.addgene.org/faq/plasmid-pricing/",
+    "status": 404,
+    "error": "HTTPError 404",
+    "chars": 13023
+  },
+  {
+    "name": "vectorbuilder_pricing",
+    "url": "https://en.vectorbuilder.com/vector-service-pricing.html",
+    "status": 404,
+    "error": "HTTPError 404",
+    "chars": 208
+  },
+  {
+    "name": "vectorbuilder_retroviral",
+    "url": "https://en.vectorbuilder.com/product/retroviral-vector.html",
+    "status": 404,
+    "error": "HTTPError 404",
+    "chars": 208
+  },
+  {
+    "name": "twist_genes",
+    "url": "https://www.twistbioscience.com/products/genes",
+    "status": 200,
+    "final_url": "https://www.twistbioscience.com/products/genes",
+    "content_type": "text/html;charset=utf-8",
+    "chars": 24607
+  },
+  {
+    "name": "twist_clonal_genes",
+    "url": "https://www.twistbioscience.com/products/genes/clonal-genes",
+    "status": 200,
+    "final_url": "https://www.twistbioscience.com/products/genes/clonal",
+    "content_type": "text/html;charset=utf-8",
+    "chars": 22176
+  },
+  {
+    "name": "genscript_gene_synthesis",
+    "url": "https://www.genscript.com/gene-synthesis.html",
+    "status": 404,
+    "error": "HTTPError 404",
+    "chars": 11618
+  },
+  {
+    "name": "genscript_molecular_cloning_price",
+    "url": "https://www.genscript.com/molecular-cloning.html",
+    "status": 404,
+    "error": "HTTPError 404",
+    "chars": 11618
+  },
+  {
+    "name": "idt_gblocks",
+    "url": "https://www.idtdna.com/pages/products/genes-and-gene-fragments/double-stranded-dna-fragments/gblocks-gene-fragments",
+    "status": 302,
+    "error": "HTTPError 302",
+    "chars": 38
+  },
+  {
+    "name": "qiagen_lna_gapmer",
+    "url": "https://www.qiagen.com/us/products/discovery-and-translational-research/functional-and-epigenetic-analysis/gene-silencing/antisense-lna-gapmers",
+    "status": 200,
+    "final_url": "https://www.qiagen.com/us/products/discovery-and-translational-research/functional-and-epigenetic-analysis/gene-silencing/antisense-lna-gapmers",
+    "content_type": "text/html; charset=utf-8",
+    "chars": 22415
+  }
+]
