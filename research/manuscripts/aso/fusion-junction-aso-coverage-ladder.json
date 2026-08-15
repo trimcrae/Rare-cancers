@@ -1047,7 +1047,7 @@
    "_the_counts_are_READ_not_derived_here": {
     "artifact": "research/manuscripts/fusion-partner/emc-fusion-partner-pooling.json",
     "generator": "research/manuscripts/emc_fusion_partner_pooling.py",
-    "selection": "every cohort in that artifact with endpoint == 'partner_prevalence' and pool == true. Its own exclusions are inherited unexamined, which is the point of reading rather than re-deciding: {\"llombart-bosch-2022-prevalence\": \"abstract-only\", \"klubickova-2022-prevalence\": \"population-overlap with lenz-2023-prevalence\"}",
+    "selection": "every cohort in that artifact with endpoint == 'partner_prevalence' and pool == true. Its own exclusions are inherited unexamined, which is the point of reading rather than re-deciding: {\"llombart-bosch-2022-prevalence\": \"abstract-only\", \"klubickova-2022-prevalence\": \"population-overlap with lenz-2023-prevalence\", \"sjogren-2003-prevalence\": \"outcome-is-the-inclusion-criterion (s2.1(3)): four of its nine patients are in the series because the same group had already published their fusion transcript, so their partner assignment is the entry ticket and its partner-unassigned residue of zero is structural on that half of the cohort\"}",
     "its_non_overlap_argument": "Four geographically and institutionally distinct series -- MSKCC (USA), Taiwanese institutions, Czech Republic, Italian Sarcoma Group -- with no shared authors between them and no shared referral network.",
     "per_cohort": {
      "agaram-2014-prevalence": {
@@ -1167,7 +1167,105 @@
    "arithmetic_ceiling_percent": 94.5,
    "⭐_WHAT_IT_ACTUALLY_DOES_TO_THE_FIGURE": "IT LOWERS IT, AND THAT IS REPORTED BECAUSE IT IS WHAT HAPPENED. Widening the partner denominator was expected to be able to move coverage either way — a pooled mix with proportionally more TAF15 would have raised it, since the TAF15 arm is priced at 3/3 against EWSR1's 17/20. The TAF15 share does rise. It is outweighed by the partner-unassigned residue, which rises much further: 1 of 58 in the single series against 9 of 163 pooled. A single cohort that could name the partner in all but one case understates how often the partner cannot be named.",
    "⛔_AND_IT_MOVES_THE_95_PERCENT_QUESTION_—_THIS_IS_THE_LOAD_BEARING_CONSEQUENCE": "On the single series the arithmetic ceiling is above 95%, so 95% is reachable in principle and the ladder's result is that reaching it REQUIRES the TCF12 arm. On the pooled partner denominator the ceiling itself falls BELOW 95%: no panel of any size, covering every breakpoint of every named partner including TCF12, reaches 95% of molecularly confirmed EMC — because more than five percent of it has no named partner to build a junction reagent against. ⚠ THIS IS A SENSITIVITY, NOT A REPLACEMENT: it does not retract the single-series ceiling, it shows that the ceiling's position relative to 95% depends on a basis choice nobody had tested, and that on the wider basis the 95% target is unreachable rather than merely hard.",
-   "⚠_what_this_row_does_NOT_fix": "The within-partner breakpoint fractions are unchanged — still 20 sequenced EWSR1 tumours and three TAF15 ones, still transported from series that are not these four. Widening the partner denominator makes the PARTNER share better measured and does nothing whatever for the exon distribution inside it, which is the arm carrying the narrower evidence."
+   "⚠_what_this_row_does_NOT_fix": "The within-partner breakpoint fractions are unchanged — still 20 sequenced EWSR1 tumours and three TAF15 ones, still transported from series that are not these four. Widening the partner denominator makes the PARTNER share better measured and does nothing whatever for the exon distribution inside it, which is the arm carrying the narrower evidence.",
+   "fifth_partner_cohort_deliberately_not_pooled": {
+    "_what": "★ LEVER 3, TESTED 2026-08-15 — the fifth candidate partner cohort, PMID 12598313 (Sjögren 2003, Göteborg), named by an earlier pass and left unacted on. It is refused, and what refusing it costs is computed below.",
+    "cohort": {
+     "id": "sjogren-2003-prevalence",
+     "label": "Goteborg, 10 EMCs from nine patients (cytogenetic/SKY/FISH/RT-PCR series)",
+     "sourceId": "sjogren2003",
+     "counts_patient_level": {
+      "EWSR1::NR4A3": 5,
+      "TAF15::NR4A3": 3,
+      "TCF12::NR4A3": 1
+     },
+     "n_patients": 9,
+     "partner_unassigned": 0,
+     "contextReason": "outcome-is-the-inclusion-criterion"
+    },
+    "⭐_the_two_§2.3_adjudications_that_had_to_be_settled_FIRST": {
+     "_why_first": "Both are double-counting questions, and §2.3 calls double-counting the cardinal sin of pooling. Neither could be answered from the abstract, and the earlier pass recorded them as prerequisites rather than settling them. Both are now settled against the full text (PMC1868116, HTTP 200).",
+     "1_is_its_TCF12_case_the_2000_index_tumour": {
+      "answer": "YES — it is not an independent TCF12 observation.",
+      "evidence": "its Discussion cites the 2000 report for that count, its Introduction claims it in the first person, and its Table 3 case 8 carries that tumour's t(9;15)(q22;q21) karyotype. One home: research/literature/tcf12-nr4a3-breakpoint-primary-sources.json.",
+      "⭐_and_it_is_BROADER_than_the_TCF12_case": "The full text's Materials and Methods puts FOUR of the nine patients in that position, not one: 'The remaining five tumors from four patients (cases 6-I and 6-II as well as cases 7 to 9) have been previously reported regarding the expression of EMC-specific fusion transcripts.' That is the finding that decides the poolability, and it decides it at §2.1(3) rather than §2.3.",
+      "⚠_it_does_NOT_bar_the_cohort_under_§2.3": "None of the three prior reports (refs 7, 12, 15) is in the partner-prevalence pool, and §2.3 holds out the SMALLER of an overlapping pair — which would be those reports, not this series. §2.1(4) passes."
+     },
+     "2_are_its_partner_counts_tumour_level_or_patient_level": {
+      "answer": "TUMOUR-level in the abstract, PATIENT-level in the Discussion.",
+      "evidence": "Table 3's title is 'Summary of Cytogenetics, SKY, FISH, and RT-PCR Analyses in 10 EMCs from Nine Patients' and its footnotes are '*Case 4 A, B, and C represent different parts of the same tumor' and '† Case 6 I and II represent two separate metastases from one patient'. The abstract's 5/4/1 sums to ten tumours; the Discussion's 'five, three, and one patient' sums to nine patients.",
+      "what_was_carried_into_the_cohort_row": "the PATIENT-level integers, which is what §2.3's mutually-exclusive-strata rule requires. Pooling the abstract's TAF2N integer would have counted case 6's patient twice."
+     }
+    },
+    "⛔_§2.1_checked_row_by_row": {
+     "1_confirmed_EMC": "MET — molecularly characterised EMC; every case carries a translocation-generated or cryptic fusion, and all but one tumour is karyotyped.",
+     "2_explicit_integer_counts": "MET, AT PATIENT LEVEL ONLY. The Discussion gives the three integers and Table 3's title gives the denominator; no count here is back-derived from a percentage. ⚠ The abstract's integers would NOT satisfy §2.1(2)+§2.3 together — see the adjudication above.",
+     "3_outcome_is_not_the_inclusion_criterion": "⛔ FAILS, AND THIS IS THE WHOLE REFUSAL. Four of the nine patients are in this series because their fusion transcript had already been published by the same group, so for them the outcome — which partner, and whether a partner can be named at all — IS the entry criterion. A tumour whose partner nobody could name could not have been among them, which makes this cohort's headline property, a partner-unassigned residue of ZERO, structural on that half of the cohort rather than measured. Same failure mode as `third_series_deliberately_not_pooled`, reached from the other direction: there the assay fixed the denominator, here the publication history does.",
+     "4_non_overlapping_populations": "MET against the four pooled series — Göteborg 2003 against MSKCC 2014, Taiwan 2023, Czech Republic 2023 and the Italian Sarcoma Group 2021, with no shared authors, institutions or referral network and eighteen years of separation from the nearest.",
+     "verdict": "REFUSED on §2.1(3) alone. Three of the four conditions pass."
+    },
+    "⛔_§2.1(3)_is_DECIDED_BY_ARITHMETIC_NOT_BY_READING": {
+     "_the_test": "partition the cohort by how each patient got in, then compare what each half contains. If the structurally-admitted half is enriched for the outcome, the inclusion rule is doing the work the outcome is supposed to.",
+     "freely_admitted_new_patients": {
+      "cases": [
+       1,
+       2,
+       3,
+       4,
+       5
+      ],
+      "partners": {
+       "EWSR1::NR4A3": 4,
+       "TAF15::NR4A3": 1,
+       "TCF12::NR4A3": 0
+      },
+      "variant_partner_share": "1/5",
+      "variant_partner_percent": 20.0
+     },
+     "structurally_admitted_previously_reported_patients": {
+      "cases": [
+       6,
+       7,
+       8,
+       9
+      ],
+      "partners": {
+       "EWSR1::NR4A3": 1,
+       "TAF15::NR4A3": 2,
+       "TCF12::NR4A3": 1
+      },
+      "variant_partner_share": "3/4",
+      "variant_partner_percent": 75.0
+     },
+     "structurally_admitted_fraction_of_the_cohort": "4/9",
+     "⛔_verdict": "The half admitted on published fusion status is 75.0% variant-partner; the half admitted without it is 20.0%. The group's own index reports of the two RARE partners are what those four patients are, so the inclusion rule imports exactly the partners the prevalence question is asking about. That is §2.1(3), computed."
+    },
+    "the_sensitivity_it_would_have_produced": {
+     "pooled_partner_counts": {
+      "EWSR1": 125,
+      "TAF15": 31,
+      "TCF12": 6,
+      "TFG": 1
+     },
+     "n_partner_assigned": 163,
+     "n_partner_unassigned": 9,
+     "n_molecularly_confirmed_total": 172,
+     "coverage_percent": 79.8,
+     "bound_if_the_unmeasured_arms_are_at_their_ceiling_percent": 83.9,
+     "arithmetic_ceiling_percent": 94.8,
+     "against_the_four_series_row": {
+      "coverage_percent": 79.8,
+      "bound_percent": 83.4,
+      "arithmetic_ceiling_percent": 94.5
+     },
+     "ceiling_movement_percentage_points": 0.29,
+     "⛔_the_residue_is_STILL_IN_THE_DENOMINATOR": "9 of 172. The fifth cohort contributes zero unassigned cases, so the residue COUNT does not move and only the denominator grows — which is precisely why the ceiling rises. The residue was not dropped, and the reconstruction is asserted to close on every cohort's own published total."
+    },
+    "⭐_AND_THE_ANSWER_TO_THE_95_PERCENT_QUESTION_DOES_NOT_CHANGE_EITHER_WAY": "The refused sensitivity puts the arithmetic ceiling at 94.8% against the four-series row's 94.5%. It rises — and it is STILL BELOW 95%. So the load-bearing conclusion of the four-series row survives the strongest lever anyone has named against it: on a pooled partner denominator no panel of any size reaches 95% of molecularly confirmed EMC, and that holds whether or not this cohort is admitted. ⚠ Read as robustness, not as licence — the sensitivity is refused, and one cohort's admission was never going to move a 163-case denominator far.",
+    "⚠_DO_NOT_CONFUSE_THIS_CEILING_WITH_THE_LADDER_S_OTHER_94_8_PERCENT": "The ladder's `ceiling.EWSR1_and_TAF15_complete_percent` is also 94.8%, and it is a DIFFERENT quantity that happens to round to the same value: that one is a PANEL figure on the single 58-case series — what covering every EWSR1 and every TAF15 breakpoint reaches, with TCF12 excluded. This one is a DENOMINATOR figure on a five-series pooled partner prevalence — what every named partner including TCF12 reaches once the partner-unassigned residue is in. They agree by coincidence and diverge the moment either input moves; neither may be quoted for the other.",
+    "⚠_what_it_would_NOT_have_moved": "The buildable figure. 79.8% against 79.8% — the cohort's partner mix is close enough to the pool's that the coverage point estimate is unchanged at one decimal place. The whole effect of this lever is in the ceiling and the bound, which is where the residue lives.",
+    "⛔_it_ALSO_reaches_the_TAF15_PROGNOSTIC_synthesis_and_is_NOT_applied_there": "FLAGGED, NOT DONE. This series publishes a per-patient follow-up string (Table 1) that joins to Table 3's partner column, so a TAF15-vs-EWSR1 outcome arm could be CONSTRUCTED from it — and its three TAF15 patients record no tumour-related death, which would pull the pooled TAF15 disease-specific-death arm DOWN. It is refused on two independent grounds recorded in the pooling module's own cohort row: §2.1(3) as above, and §2.1(2), because the paper publishes no per-partner outcome EVENT COUNTS — only narrative per patient. ⚠ NO PROGNOSTIC FIGURE IN THIS REPOSITORY MOVES, and the direction is named here so that not moving it is a visible decision."
+   }
   },
   "distance_to_the_arithmetic_ceiling": {
    "ceiling_percent": 98.3,
