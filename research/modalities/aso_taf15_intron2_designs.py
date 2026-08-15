@@ -477,9 +477,23 @@ def build():
             "published-breakpoint whitelist, so it cannot design at a junction nobody sequenced.",
         ],
         "what_would_make_these_usable": [
-            "Run the five deep screens at this seam — transcript BLAST, pre-mRNA, genome, tissue "
-            "expression and locus collapse — the same aso-offtarget CI path the panel's 38 "
-            "junctions used. CPU and network only; no GPU, no rental.",
+            # ⛔ CORRECTED 2026-08-15. This line read "transcript BLAST, pre-mRNA, genome, tissue
+            # expression and locus collapse", which substitutes the expression arm for the
+            # parent-gap-pairing screen and CONTRADICTS THE MANUSCRIPT: §3.5 says "All five screens
+            # address hybridisation-dependent liability only" and reports the expression result
+            # separately, as "the expression reading". Expression is an EXPOSURE arm, not a
+            # hybridisation screen, so it cannot be one of the five.
+            # ⚠ THIS WAS NOT A COSMETIC SLIP. The integration board counted screens against this
+            # list and reported EWSR1 e13 and TCF12 e5 at four of five, missing a screen neither
+            # was ever short of — a false deficit on the junction whose parity carries 10.6
+            # percentage points of coverage. Two committed files naming one set differently is
+            # exactly the one-fact-one-place failure CLAUDE.md rule 1 is about.
+            "Run the five deep screens at this seam — transcript BLAST, pre-mRNA, genome, "
+            "mature-parent gap pairing and locus collapse — the same aso-offtarget CI path the "
+            "panel's 38 junctions used. CPU and network only; no GPU, no rental.",
+            "Then take the expression reading, which is a SIXTH arm rather than the fifth screen: "
+            "it grades exposure at the loci the screens return, and answers a different question "
+            "from whether a duplex can form.",
             "Confirm the acceptor at nucleotide resolution in any test material, exactly as the "
             "manuscript already requires for the exon-3 reagents.",
         ],

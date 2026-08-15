@@ -41,9 +41,17 @@ WHAT THIS IS NOT.
   · Not an efficacy claim, and not a claim that any sequence below is active. These are design
     proposals: sequence arithmetic and a parent-exclusion screen, nothing more.
   · Not the full transcriptome screen. The five deep screens the panel's other junctions went
-    through (transcript, pre-mRNA, genome, tissue expression, locus collapse) have NOT been run
-    here — they need BLAST and network, which is a CI job. Every design below is therefore
-    UNSCREENED for off-target load, and must not be compared against a screened design's counts.
+    through — transcript BLAST, pre-mRNA, genome, mature-parent gap pairing, locus collapse — have
+    NOT been run here; they need BLAST and network, which is a CI job. Every design below is
+    therefore UNSCREENED for off-target load, and must not be compared against a screened design's
+    counts.
+    ⛔ CORRECTED 2026-08-15: this list read "transcript, pre-mRNA, genome, tissue expression, locus
+    collapse". Tissue expression is an EXPOSURE arm and not one of the five — the manuscript's §3.5
+    says "All five screens address hybridisation-dependent liability only" and reports the
+    expression result separately, as "the expression reading". The same wrong list also stood in
+    aso_taf15_intron2_designs.py, and between them they had the integration board counting EWSR1
+    e13 and TCF12 e5 at four of five when neither was ever short a screen. One set, named two ways,
+    in two committed files — CLAUDE.md rule 1.
   · Not a coverage claim. What these junctions would add is priced in
     research/manuscripts/aso_coverage_ladder.py, which prices them at zero design availability
     precisely because this file did not exist when it was written.
