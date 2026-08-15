@@ -138,6 +138,12 @@ def retracted_acceptor_seams(audit=None, cds=None):
     return out
 
 
+#: Why `correct_acceptor_seams()` last returned an empty set, or empty if it did not. ⛔ A LIST
+#: RATHER THAN A RETURN VALUE so the function's contract is unchanged for every existing caller —
+#: what is added is that the reason survives the swallow instead of vanishing with the traceback.
+REFERENCE_SET_FAILURE = []
+
+
 def correct_acceptor_seams():
     """`{nr4a3_transcript_exon: seam12}` -- the acceptor seams the corrected model would EMIT.
 
@@ -181,8 +187,21 @@ def correct_acceptor_seams():
             if len(seam) == 2 and len(seam[1]) == 12:
                 out[n] = seam[1]
         out.update(_published_noncoding_acceptor_seams(ja, nr4, ews, out))
+        REFERENCE_SET_FAILURE.clear()
         return out
-    except Exception:                                              # noqa: BLE001
+    except Exception as exc:                                       # noqa: BLE001
+        # ⛔⛔ AN EMPTY REFERENCE SET IS A BROKEN INSTRUMENT, NOT A READING — AND SWALLOWING IT COST
+        # A RUN (measured 2026-08-15, run 31900635494). This `except` returned `{}` silently. With
+        # no correct seams to match against, EVERY real-junction artifact grades UNGRADEABLE, and
+        # `--check` then failed the publish under the message "a retracted junction seam is still
+        # unbannered" — a cause that was not true, sending the reader to hunt a missing banner that
+        # did not exist while 11 minutes of completed NCBI BLAST was discarded. The trigger was a
+        # ModuleNotFoundError from the publish step's hand-maintained import closure, i.e. exactly
+        # the class of fault this must SHOUT about rather than absorb.
+        # ⚠ The return value is unchanged, because callers legitimately grade with an empty set in
+        # `--write` mode; what changes is that the reason is RECORDED and `--check` refuses on it.
+        REFERENCE_SET_FAILURE.clear()
+        REFERENCE_SET_FAILURE.append(f"{type(exc).__name__}: {exc}")
         return {}
 
 
@@ -478,6 +497,22 @@ def main(argv=None):
         print("--check and --write are mutually exclusive", file=sys.stderr)
         return 2
 
+    # ⛔⛔ BUILD THE REFERENCE SET BEFORE THE EMPTY-DIRECTORY EARLY RETURN, so that
+    # `--check --dir <empty>` is the IMPORT/DERIVATION CHECK aso-offtarget.yml's publish step
+    # already believes it is running. It was not: `sweep()` returns [] on an empty directory and
+    # returned below without ever calling `correct_acceptor_seams()`, so the self-test staged at the
+    # top of that step passed with a BROKEN import closure and the real failure surfaced eleven
+    # minutes later, after the science, as a misattributed banner error (run 31900635494,
+    # 2026-08-15). A self-test that cannot fail is the defect this repository keeps paying for.
+    if args.check:
+        correct_acceptor_seams()
+        if REFERENCE_SET_FAILURE:
+            print("\nFAIL: the reference seam set could not be built, so this tool cannot grade "
+                  "anything:\n  %s\n  Most likely an incomplete import closure where it was staged "
+                  "(see aso-offtarget.yml's publish step)." % REFERENCE_SET_FAILURE[0],
+                  file=sys.stderr)
+            return 1
+
     rows = sweep(args.dir, write=args.write)
     if not rows:
         # ⛔ NOT A PASS. A sweep that found nothing to grade is a sweep pointed at the wrong
@@ -497,6 +532,16 @@ def main(argv=None):
     unbannered = [r for r in rows if r["grade"] == GRADE_RETRACTED and not r["bannered"]]
     ungradeable = [r for r in rows if r["grade"] == GRADE_UNGRADEABLE]
     if args.check:
+        # ⛔ THE INSTRUMENT IS CHECKED BEFORE ITS READINGS ARE. If the reference seam set could not
+        # be built, every artifact grades UNGRADEABLE and the two failures below would report a
+        # property of the ARTIFACTS for what is a fault in the GRADER. Named first, with the real
+        # exception, so the operator is not sent to hunt a missing banner that does not exist.
+        if REFERENCE_SET_FAILURE:
+            print("\nFAIL: the reference seam set could not be built, so NOTHING was gradeable and "
+                  "no verdict below is about the artifacts:\n  %s\n  Most likely an incomplete "
+                  "import closure where this tool was staged (see aso-offtarget.yml's publish step)."
+                  % REFERENCE_SET_FAILURE[0], file=sys.stderr)
+            return 1
         if unbannered:
             print("\nFAIL: %d artifact(s) carry a RETRACTED junction seam with no %s banner:\n  %s"
                   % (len(unbannered), BANNER_KEY,

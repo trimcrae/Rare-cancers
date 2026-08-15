@@ -116,7 +116,24 @@ import aso_screen_sets as ass  # noqa: E402
 #: of "cleavage-competent on wild-type NR4A3" and the two would disagree the first time either was
 #: edited. Its `cryptic` argument is the anchor for a cryptic-exon-relative offset and is passed
 #: None here, which is the only difference.
-import aso_taf15_intron2_designs as _wt  # noqa: E402
+#:
+#: ⛔⛔ THE IMPORT IS LAZY, AND THAT IS NOT A STYLE CHOICE — IT COST A CI RUN (measured 2026-08-15,
+#: run 31900635494). As a MODULE-LEVEL import it silently extended this module's import closure, and
+#: `aso-offtarget.yml`'s publish step stages a HAND-MAINTAINED list of files into `$RUNNER_TEMP/tool`
+#: to run the retracted-seam sweep — a list that does not carry `aso_taf15_intron2_designs.py`. So on
+#: the runner `import aso_noncoding_acceptor_designs` raised ModuleNotFoundError inside
+#: `junction_seam_retraction.correct_acceptor_seams`, whose `except Exception: return {}` turned it
+#: into an EMPTY reference seam set; every real-junction artifact then matched neither set, graded
+#: UNGRADEABLE, and `--check` refused to publish — discarding 11 minutes of completed NCBI BLAST.
+#: That is verbatim the failure `aso-offtarget.yml`'s own comment records against `aso_screen_sets`
+#: earlier the same day: "THIS LIST IS A HAND-MAINTAINED IMPORT CLOSURE and that is what failed."
+#: ⭐ KEEPING IT LAZY IS STRICTLY BETTER THAN ADDING A NINTH FILE TO THAT LIST: the sweep never needs
+#: the wild-type scan (only `build()` and the screened table do), so the closure should not grow at
+#: all. `junction_aso.published_noncoding_acceptor_junctions` already imports lazily for the sibling
+#: reason, and this follows it.
+def _wt_module():
+    import aso_taf15_intron2_designs as _m                             # noqa: PLC0415
+    return _m
 
 #: ⛔⛔ RETRACTED — SEAMS THIS MODULE ONCE WHITELISTED AND MUST NEVER REACH AGAIN.
 #:
@@ -635,6 +652,7 @@ def _wild_type_register_table(junction_designs):
     TAF15 exon 6 finds 3-7 mismatches in every register, because TAF15's 3' end does not resemble
     NR4A3 intron 1's, whereas EWSR1 exon 13's does.
     """
+    _wt = _wt_module()
     if not os.path.exists(_wt.PREMRNA_CACHE):
         return {"_status": "NOT RUN — the committed pre-mRNA cache is absent. ABSENT, NOT CLEAN."}
     with open(_wt.PREMRNA_CACHE, encoding="utf-8") as fh:
@@ -725,11 +743,12 @@ def _wild_type_allele_liability(designs, parents):
     ⛔ IF THE CONTROL DOES NOT FIRE, NO 'CLEAN' VERDICT BELOW MAY BE RELIED ON.
     """
     try:
+        _wt = _wt_module()
         _seam_rec, cryptic = _wt.load_seam_record()
         control = _wt._known_positive_control(cryptic, parents)
     except Exception as exc:                                          # noqa: BLE001
         control = {"_status": f"control could not be built: {exc}", "passed": None}
-    scan = _wt.wildtype_nr4a3_liability(sorted(designs), None)
+    scan = _wt_module().wildtype_nr4a3_liability(sorted(designs), None)
     per = scan.get("per_design") or {}
     hits = sorted(a for a, v in per.items()
                   if v["⛔_n_cleavage_competent_sites_in_wild_type_NR4A3"])
