@@ -1,0 +1,80 @@
+---
+name: inflight-reporting
+description: The exact format of the end-of-turn "In flight" board, and the $/ns drift line that doubles as the buy line. Load whenever your final message will leave real compute running (GPU or CI jobs, subagents doing real work), when you need to decide whether a row gets a $/ns column at all, or when you are about to rent, relaunch or refuse a host on price. Covers: one scannable line per item with state, ET ETA, cost and $/ns against its basis; cost is part of the format, not an extra; the absolute buy line $0.006539/ns (approximately 1.92x basis) and why it is an absolute rate rather than a multiple; the drift line IS the buy line, a hard gate; and why a row we are paying and a row the gate refused must never render alike.
+---
+
+# The end-of-turn in-flight board
+
+Extracted from CLAUDE.md §1 on 2026-08-15, **verbatim**. CLAUDE.md keeps the tripwire (a board
+is required at all); this file keeps the format and the buy-line arithmetic.
+
+⚠ **This file is a `pinned-figures.json` target** — it carries `$0.006539/ns`, the superseded
+`$0.004359/ns` basis and the current `$0.003412/ns`, all of which `lint_consistency.py` checks.
+
+- **⏱️ END-OF-TURN "IN FLIGHT" BOARD (trimcrae, 2026-07-11).** Whenever your final message leaves work running,
+  the LAST thing in it is a compact **"In flight:"** board — one scannable line per item (bullet/table, not
+  prose): **what it is · current state · ETA in ET 12-hour · cost · $/ns** (or an explicit "ETA unknown — why"),
+  plus what you'll do when it lands if non-obvious. **List ONLY real compute** (GPU/CI jobs, subagents doing real work).
+  Do **NOT** list your own wake mechanisms (self-timers, pollers, heartbeats) or **scheduled routines** — a
+  schedule is not running compute. Nothing running → "Nothing in flight", one line. This REPLACES long status
+  narration.
+  - **COST IS PART OF THE FORMAT, NOT AN EXTRA (trimcrae, 2026-07-26 — asked for it twice in one session).**
+    Every in-flight row carries what it costs, on the same line as its ETA: the ladder figure for a priced rung,
+    a stated estimate with its range for anything unpriced, `$0` for CI/analysis, and free credit named as such
+    (**GCP trial credit is a SEPARATE LEDGER — never summed into realized or ladder spend**). An ETA without a
+    cost is an incomplete row. Per rule 1 the figure is not typed fresh here: it POINTS at
+    [`vast-ladder-repricing.json`](./research/modalities/vast-ladder-repricing.json) /
+    [pricing.md](./research/compute/pricing.md), and only a genuinely-unpriced item carries an estimate — which
+    then says it is one.
+  - **AND `$/ns`, AGAINST ITS BASIS, ON EVERY GPU ROW (trimcrae, 2026-07-26: *"so that's easier to catch in the
+    future if it drifts"*).** `$/hr` cannot show drift — a cheap slow card and an expensive fast one look the
+    same — so every row on a GPU carries **`$/ns` and the multiple of the ladder basis** it represents, e.g.
+    `$0.0077/ns · 1.8× basis`. **The multiple is the point**; a bare `$/ns` is a number nobody can grade at 3 AM.
+    Basis = the `$/ref-GPU-h` planning rate in [pricing.md](./research/compute/pricing.md) ÷ the reference card's
+    ns/h, and per rule 1 it is DERIVED from the validated card ratios there, never typed fresh — a row quoting a
+    ratio the cost model does not produce is the bug. **The drift line is an ABSOLUTE rate — `$0.006539/ns`,
+    which is ≈1.92× the current basis — and a row at or above it is drift and says so**; that is what the
+    fleet-launch gate in §6 refuses to buy into. Rows with no GPU (CI, analysis, subagents) carry `—`
+    rather than a fabricated figure.
+    ⚠ **THE DASH IS FOR A MIXED BOARD. WITH NO GPU ROW AT ALL, THE COLUMN GOES TOO (trimcrae,
+    2026-08-14: *"Why are you reporting `$/ns` on something that has nothing to do with that?"*).** A
+    `—` earns its place next to a row that IS being billed. A board whose every row is CI or analysis
+    has nothing to compare, so it carries **no `$/ns` column** — a drift guard printed where no drift
+    can occur is one the eye learns to skip, which costs the guard exactly where it matters. And a
+    single $0 row is a **line, not a table**: §1 asks for one scannable line per item, bullet *or*
+    table. *Superseded, retained: the reading under which every board rendered the column.*
+    - **★★ THE LINE IS AN ABSOLUTE `$/ns`, NOT A MULTIPLE — `$0.006539/ns` ≈ **1.92× basis** (trimcrae,
+      2026-07-27, re-expression ruling).** ⚠ **≈1.92× IS NOT A LOOSENING OF THE 1.5× STATED EARLIER THE SAME
+      DAY. IT IS THE SAME DOLLARS PER NANOSECOND.** The throughput table was re-anchored that afternoon; the
+      ladder basis fell 22 % (from a now-**superseded** `$0.004359/ns` to `$0.003412/ns`) because the reference card's measured throughput
+      rose and the widened table admitted 97 more gradeable offers — **no price moved, the yardstick did.**
+      `1.5 ×` the superseded `$0.004359` and `1.92 × $0.003412` are both `$0.006539/ns`. Pinning the rule to a multiple of a
+      correctable denominator silently turned it into a much stricter rule than the one agreed (every board
+      that day failed a line it had been passing), so the **invariant is now the absolute rate** and the
+      multiple is DERIVED from it — [`inflight_usd_per_ns.APPROVED_USD_PER_NS`](./research/modalities/inflight_usd_per_ns.py)
+      and `drift_multiple()`. A future basis change re-derives the multiple instead of breaking the rule.
+      **The flag and the refusal must remain the same number** — if the buy line moved and the ⚠ DRIFT
+      threshold did not, rows would print drift and still be bought, which is the very complaint below.
+      [`tests/test_buy_line_invariant.py`](./research/modalities/tests/test_buy_line_invariant.py) fails if
+      they ever diverge. Superseded, retained: the **1.5×** expression and the **$0.004359/ns** basis.
+    - **★★ THE DRIFT LINE **IS** THE BUY LINE — A HARD GATE, NOT JUST A LABEL (trimcrae, 2026-07-27,
+      ruling on the step 1 fan-out's per-unit ceiling after being shown the derived alternative).** Reason, in
+      his words from earlier the same day: ***"What's the point of tracking that if we don't act on it?"***
+      So **a row that prints `⚠ DRIFT` is a row we do not buy** — the flag and the refusal are the same
+      number, and the gap between "we noticed" and "we declined" is closed. A rental must clear **BOTH** its
+      rung's derived **dollar** ceiling (*is this inside the money that was authorised*) **and** the
+      **rate** line above (*is this a rate we will pay at all*); the effective ceiling is the lower, and a refusal
+      must NAME which one it hit — conflating them is what made an earlier round of hold readouts unreadable.
+      **SUPERSEDED, retained for the record:** until this ruling 1.5× was *reporting only* — the framing "not
+      a hard gate — the fleet-launch gate in the launcher is that" (`inflight_usd_per_ns.py`) — under which
+      the fan-out's hard gate was its derived band top alone, ≈2.25× basis. That framing no longer stands and
+      must not be quoted. Live rule and arithmetic:
+      [`congeneric_fanout.unit_ceiling_components`](./research/modalities/congeneric_fanout.py).
+    - **★★ A ROW WE ARE PAYING AND A ROW THE GATE REFUSED MUST NEVER RENDER ALIKE (trimcrae, 2026-07-27:
+      *"the `$/ns` column still shows several rows over 1.5×. Why? Are we not stopping those runs?"*).** Held
+      lanes at 3.25× and 1.96× printed the same `⚠` as legs actually being billed at 1.51× and 1.82×, so a
+      guard doing its job read as a guard being ignored. **`⚠ PAYING OVER THE …× LINE` = money going out;
+      `⛔ REFUSED at … — $0 spent` = the multiple is what we DECLINED.** One glyph, one meaning.
+      Rendered by [`inflight_usd_per_ns.py`](./research/modalities/inflight_usd_per_ns.py) — **never typed, and
+      never off a launcher's `dph≈` line**, which is the market floor plus the search's disk line and so reads
+      LOW against the rate the instance is actually billed (`vast_rate_forensics.py`).
