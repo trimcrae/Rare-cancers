@@ -600,7 +600,7 @@
   "_why_it_is_an_ADDITIONAL_row": "⛔ IT REPLACES NOTHING. The ladder's rungs and bounds above are unchanged and rung 0 still reproduces the published 68.4% on the manuscript's own single-series basis. This row is better specified — membership is an evidence test rather than a position in an incremental series, and the basis is the whole retrieved record rather than one series of it — and it is reported beside them, never instead of them.",
   "panel_membership": {
    "_rule": "a junction qualifies on TWO independent conditions: (i) clinical_tier == 'published_exon_resolved_breakpoint' in a screened table, and (ii) a reagent through all five deep screens. Both are READ from the tables that own them.",
-   "n_junctions_qualifying": 6,
+   "n_junctions_qualifying": 8,
    "junctions": {
     "EWSR1_e12__NR4A3_e3": {
      "partner": "EWSR1",
@@ -686,6 +686,27 @@
       "gap_specificity_margin": 3
      }
     },
+    "EWSR1_e13__NR4A3_e2": {
+     "partner": "EWSR1",
+     "source_table": "noncoding-acceptor/aso-noncoding-acceptor-screened-table.json",
+     "source_table_is": "the published NON-CANONICAL seams, screened to the panel's depth",
+     "clinical_tier": "published_exon_resolved_breakpoint",
+     "breakpoint_refs": [
+      "PMID 36316541 (PMC9813045), Hum Cell 36:446-455 (2023), Figure 4 legend"
+     ],
+     "five_screen_evidence": {
+      "per_junction_flag": "screens_complete",
+      "value": true,
+      "n_screens_that_ran": 5,
+      "n_screens_outstanding": 0
+     },
+     "n_designs_screened": 5,
+     "n_designs_clearing_the_parent_screen": 5,
+     "best_available": {
+      "antisense_5to3": "AGTGGGCTCTCCACGG",
+      "gap_specificity_margin": 3
+     }
+    },
     "EWSR1_e7__NR4A3_e2": {
      "partner": "EWSR1",
      "source_table": "noncoding-acceptor/aso-noncoding-acceptor-screened-table.json",
@@ -729,9 +750,31 @@
       "antisense_5to3": "AGTGGGCTCTTCCATT",
       "gap_specificity_margin": 3
      }
+    },
+    "TAF15_e6__NR4A3_e2": {
+     "partner": "TAF15",
+     "source_table": "noncoding-acceptor/aso-noncoding-acceptor-screened-table.json",
+     "source_table_is": "the published NON-CANONICAL seams, screened to the panel's depth",
+     "clinical_tier": "published_exon_resolved_breakpoint",
+     "breakpoint_refs": [
+      "PMID 36316541 (PMC9813045), Hum Cell 36:446-455 (2023), Figure 4 legend",
+      "⚠ THE DONOR HALF IS THE ONE HALF NOBODY DISPUTES, AND IT IS THE COMMONEST TAF15 DONOR IN THE DISEASE: PMID 31020999 (PMC6766969) builds 'T-N*, corresponding to the commonest TAF15 (exons 1-6)-NR4A3 (exons 3-8) fusion'. The disagreement between that construct and this report is at the ACCEPTOR only"
+     ],
+     "five_screen_evidence": {
+      "per_junction_flag": "screens_complete",
+      "value": true,
+      "n_screens_that_ran": 5,
+      "n_screens_outstanding": 0
+     },
+     "n_designs_screened": 5,
+     "n_designs_clearing_the_parent_screen": 4,
+     "best_available": {
+      "antisense_5to3": "AGTGGGCTCTTGTGTG",
+      "gap_specificity_margin": 3
+     }
     }
    },
-   "n_junctions_that_can_move_this_cohort": 5,
+   "n_junctions_that_can_move_this_cohort": 7,
    "⛔_qualifying_but_contributing_exactly_zero": {
     "junctions": [
      "PGR_e2__NR4A3_e2"
@@ -751,6 +794,7 @@
     "partner": "EWSR1",
     "junctions_in_panel": [
      "EWSR1_e12__NR4A3_e3",
+     "EWSR1_e13__NR4A3_e2",
      "EWSR1_e13__NR4A3_e3",
      "EWSR1_e7__NR4A3_e2"
     ],
@@ -769,6 +813,7 @@
    {
     "partner": "TAF15",
     "junctions_in_panel": [
+     "TAF15_e6__NR4A3_e2",
      "TAF15_e6__NR4A3_e3"
     ],
     "partner_share_of_cohort": 0.1552,
