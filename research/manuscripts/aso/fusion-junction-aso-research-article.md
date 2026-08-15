@@ -980,9 +980,13 @@ cases of that cohort<sup>44</sup><!--PMID:29937513--> and again in an independen
 patient.<sup>46</sup><!--PMID:35488288--> A frame-based exclusion is correct for a fusion protein
 and does not transfer to an RNase-H mechanism, which cleaves a transcript whether or not its reading
 frame survives. The same applies to the *TAF15* exon 6 to *NR4A3* intron 2 variant used in
-functional work.<sup>47</sup><!--PMID:31020999--> Emitting and screening those acceptors is the
-largest piece of designable but undesigned coverage this analysis identifies; no design at either
-junction is reported here, and none should be assumed to exist.
+functional work.<sup>47</sup><!--PMID:31020999--> Emitting and screening those acceptors was the
+largest piece of designable but undesigned coverage this analysis identified, and the two are no
+longer in the same state. The *EWSR1* exon-2 acceptor is now designed and has been through all five
+screens, and its best reagent is named in §5.1. The *TAF15* intron-2 acceptor is designed but not
+comparably screened: three of the five instruments cannot address it at all, because they resolve a
+junction by exon index and its acceptor is a cryptic exon that has none. Its counts are therefore
+absent rather than low, and must not be read beside the panel's.
 
 Two risks attach, in this order. The first is architectural, and the Methods disclose it. A
 six-nucleotide gap supports noteworthy but incomplete RNase-H1 activity where seven to ten are
