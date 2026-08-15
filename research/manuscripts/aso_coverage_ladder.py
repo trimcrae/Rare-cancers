@@ -61,17 +61,34 @@ COUNTED at least four times in independent cohorts and SEQUENCED once, in 2000. 
 called its TCF12 tumour by FISH, which reports which genes are joined and never where. So recurrence
 at this exon is UNTESTED — not refuted — and "untested" is what a bound is for.
 
+⭐ RESULT 5, 2026-08-15 — THE LADDER'S RUNGS ARE NOT THE BEST-SUPPORTED PANEL, AND THE GAP IS 3.9
+POINTS OF ARITHMETIC PLUS ONE STALE FACT. The rungs are an INCREMENTAL series — each adds one
+reagent to the one before — and the figure quoted from them (79.0%) is rung 1 on the single-series
+basis. That is not the same question as *what does the evidence in hand support today*, because two
+things moved after the rungs were laid out: the *EWSR1* exon 7 :: *NR4A3* exon 2 reagent went
+through all five deep screens (`research/modalities/noncoding-acceptor/`), and the *TCF12* exon 5
+junction was resolved to the nucleotide. So a different row is now computable, and it is not a
+bigger panel — it is the SAME panel priced on the whole retrieved record instead of one series of
+it: `best_supported_buildable_panel` below. **It is an ADDITIONAL row. Every rung and bound above
+it is unchanged, and rung 0 still reproduces 68.4% exactly.**
+
 WHAT THIS IS NOT.
   · Not a coverage measurement and not an efficacy claim. No sequence here has been synthesised or
     tested, and matching a junction is not activity against it.
   · Not a re-pricing of the manuscript's figure. The primary basis is the same single series the
     manuscript uses, so rung 0 is 68.4% and stays 68.4%. The pooled basis is reported beside it as a
     sensitivity and supersedes nothing.
-  · Not a claim that the exon-2 junction is SCREENED. Five designs at that seam now exist
-    (`research/modalities/aso_noncoding_acceptor_designs.py`, added the same day as this note) and
-    all five clear a parent-exclusion test, but none has been through the five deep off-target
-    screens the panel's other junctions went through. Designed is not screened, and the ladder
-    renders the two states differently for that reason.
+  · ⚠ SUPERSEDED, RETAINED: "Not a claim that the exon-2 junction is SCREENED … none has been
+    through the five deep off-target screens the panel's other junctions went through." That was
+    true when written and is false now. All five screens ran at the manuscript geometry and the
+    state is read per junction from
+    `research/modalities/noncoding-acceptor/aso-noncoding-acceptor-screened-table.json`
+    (`screens_complete`), never asserted here. What is still true is the distinction the sentence
+    existed to protect: DESIGNED, SCREENED and NOTHING-AT-ALL are three states, and this module
+    still renders them three ways — it now reads all three from artifacts rather than two.
+  · Not a claim that the best-supported row is a ceiling. It is a point estimate with an unmeasured
+    arm reported beside it as a bound, and its distance to the arithmetic ceiling is decomposed
+    below rather than left as a remainder.
   · Not free of the assumption `aso_reagent_coverage.py` states about transporting a breakpoint
     distribution from an 18-case series to a 58-case one.
 """
@@ -86,6 +103,8 @@ CENSUS = os.path.join(HERE, "aso", "lit-targets-aso-breakpoint-census.json")
 ATLAS = os.path.join(HERE, os.pardir, "modalities", "nr4a3-fusion-junction-atlas.json")
 PER_JUNCTION = os.path.join(HERE, os.pardir, "modalities", "aso-per-junction-table.json")
 NONCODING = os.path.join(HERE, os.pardir, "modalities", "aso-noncoding-acceptor-designs.json")
+NONCODING_SCREENED = os.path.join(HERE, os.pardir, "modalities", "noncoding-acceptor",
+                                  "aso-noncoding-acceptor-screened-table.json")
 
 import aso_reagent_coverage as RC  # noqa: E402  — the one home for the cohort counts
 
@@ -135,13 +154,17 @@ UNDESIGNABLE_IN_THE_CURRENT_PANEL = {
                                "same five screens the other 38 junctions went through. No new "
                                "method, no GPU, no rental."),
         "⭐_status_2026_08_15": (
-            "DESIGNS NOW EXIST, AND ARE NOT YET SCREENED. "
-            "research/modalities/aso_noncoding_acceptor_designs.py emits five 16-mers spanning "
-            "this seam at the manuscript geometry; all five clear the parent-exclusion test "
-            "against six partner transcripts, and the best holds a gap-level margin of 3 — the "
-            "same top margin as both named reagents. ⛔ NONE has been through the five deep "
-            "off-target screens, which need BLAST and network, so their load is UNKNOWN and their "
-            "counts are not comparable with the panel's. A margin is not a clean screen."),
+            "⚠ SUPERSEDED WITHIN THE DAY, RETAINED: 'DESIGNS NOW EXIST, AND ARE NOT YET SCREENED "
+            "… ⛔ NONE has been through the five deep off-target screens, which need BLAST and "
+            "network, so their load is UNKNOWN and their counts are not comparable with the "
+            "panel's.' ⭐ ALL FIVE SCREENS HAVE NOW RUN at the manuscript geometry, in CI, and "
+            "their per-design output is joined into the panel's own field set by "
+            "research/modalities/aso_noncoding_acceptor_screened_table.py. This module reads that "
+            "state per junction from the artifact's `screens_complete` flag and never asserts it. "
+            "⛔ WHAT DOES NOT CHANGE: the junction is still not IN the manuscript's 38-junction "
+            "panel — the atlas filter that drops it is a protein-level grade and the panel is "
+            "reported as 38 — so its screens live in their own directory and its rows are read "
+            "beside the panel's rather than pooled into them."),
     },
     "TAF15_e6__NR4A3_intron2": {
         "why": "same filter — an intronic acceptor carries no CDS either.",
@@ -297,6 +320,79 @@ def _panel_coverage(junctions, basis, complete_partners=()):
     return arms, point, lo, hi
 
 
+#: ⛔ THE STRUCTURAL LIMIT INSIDE THE UNRESOLVED BLOCK, AND IT IS NOT A RETRIEVAL GAP. The three
+#: EWSR1 tumours of the primary series whose transcript type is unnamed are usually written up as a
+#: retrieval problem — get the paywalled full text, name the types, design the reagents. That is
+#: false as a general statement about the EWS/CHN type nomenclature, because at least one named type
+#: has no exon::exon junction to design against AT ALL.
+#: ⚠ PROVENANCE, STATED AT ITS REAL WEIGHT. The quote below was read from the OCR layer of
+#: PMC1857890's scanned page images on 2026-08-15, and its ONLY home in this repository is the
+#: message of commit 218b5fa73 — no committed FILE carries it, which is a provenance weakness and is
+#: named here rather than laundered. The paper's identity IS committed:
+#: research/manuscripts/aso/lit-targets-aso-verify.json holds its abstract verbatim, and
+#: aso/fusion-junction-aso-references.json holds Brody RI et al., Am J Pathol 1997;150(3):1049-1058,
+#: PMID 9060841 / PMC1857890. The abstract does not contain this sentence; the full text does.
+INTRA_EXONIC_VARIANT = {
+    "type": "EWS/CHN type 3",
+    "source": "PMID 9060841 (Brody 1997) / PMC1857890",
+    "verbatim": ("The type 3 variant appears to be a unique, probably nonrecurrent variant "
+                 "resulting from an unusual genomic breakpoint within EWS exon 12."),
+    "verbatim_provenance": ("OCR layer of the scanned PMC full text, read 2026-08-15; recorded in "
+                            "the message of commit 218b5fa73 and in no committed file. The "
+                            "abstract committed in aso/lit-targets-aso-verify.json does NOT "
+                            "contain it."),
+    "⛔_what_it_means_for_this_modality": (
+        "WITHIN exon 12, not between two exons. A junction-spanning oligonucleotide is specified by "
+        "an exon PAIR — every design in this panel is a 16-mer straddling one seam — so a breakpoint "
+        "interior to an exon has no seam for one to be specified against, at any length and in any "
+        "register. This is not 'we have not retrieved the junction yet'; it is 'there is no "
+        "exon::exon junction here'."),
+    "⚠_what_is_NOT_established_and_must_not_be_inferred": (
+        "HOW MANY tumours this accounts for, in any cohort. Type 3 was defined in a different series "
+        "from the one whose three tumours are unresolved here, no source states how many tumours of "
+        "either series carry it, and its own source calls it probably nonrecurrent — a description, "
+        "not a count. So the structurally-undesignable share of the unresolved block is bounded "
+        "below by 'at least one named type' and above by nothing, and is DELIBERATELY NOT "
+        "QUANTIFIED. What it does establish is that the unresolved block cannot be assumed fully "
+        "openable by retrieval alone, which is what pricing it as pure retrieval would assume."),
+}
+
+#: ⛔ A THIRD SERIES WITH EXPLICIT INTEGER COUNTS EXISTS AND IS DELIBERATELY NOT POOLED. Recorded
+#: here, with the reasons and with what pooling it WOULD have produced, because a pooling rule
+#: chosen after seeing the number it yields is not a rule — and this one costs coverage rather than
+#: buying it, which is the check a reader is entitled to make.
+THIRD_SERIES_NOT_POOLED = {
+    "pmid": "11679947",
+    "who": "Okamoto 2001, Hum Pathol — 18 EMCs, RT-PCR on paraffin-embedded tissue",
+    "verbatim": ("EWS-CHN or TAF2N-CHN fusion gene transcripts characteristic of EMCS could be "
+                 "detected in 15 (83%) of the 18 cases: EWS-CHN type 1 in 11 cases, EWS-CHN type 2 "
+                 "in 1, and TAF2N-CHN in 3."),
+    "verbatim_source": "research/manuscripts/aso/lit-targets-aso-verify.json (abstract_verbatim)",
+    "⛔_why_it_is_not_pooled": [
+        "IT REPORTS TYPE NUMBERS, NOT EXON PAIRS, and the two are not interchangeable across "
+        "sources. PMID 12378528 calls type 5 EWS exon 13 :: CHN exon 3; PMID 12598313 calls 'EMC "
+        "type 5' EWS exon 10 fused to a 72-bp sequence from TEC intron 2. The census's own "
+        "denominator note already fixes this: 'The type NUMBERING is not pooled; only exon pairs "
+        "are.'",
+        "⛔ ITS DENOMINATOR IS DEFINED BY ITS OWN ASSAY'S POSITIVITY, which is POLICY-evidence.md "
+        "§2.1(3) — the outcome must not be the inclusion criterion. Twelve cases are 'EWSR1-"
+        "rearranged' here only because a type-1 or type-2 primer pair fired; the three "
+        "fusion-negative cases may be EWSR1-rearranged at a junction the panel had no primer for. "
+        "The 58-case cohort's 46 are FISH-confirmed, which is a different and wider denominator.",
+        "A JUNCTION-SPECIFIC ASSAY CANNOT REPORT A JUNCTION IT HAS NO PRIMER FOR, so its zero for "
+        "the exon-13 junction is an assay-scope zero, not a measured zero — the same argument the "
+        "census already makes about PMID 32612944's fixed four-junction panel.",
+        "⚠ AND A NEAR-MISS WORTH NAMING: this series and the primary breakpoint series BOTH have "
+        "n=18 and are different cohorts (Japanese 2001, Scandinavian/Belgian/US 2002). Two 18-case "
+        "EMC series is exactly the shape of a double-count under §2.3.",
+    ],
+    "_the_sensitivity_it_would_have_produced": "computed in the artifact, not typed here",
+    "⛔_the_sensitivity_may_not_be_quoted_as_coverage": (
+        "It is reported so that the pooling rule can be seen not to have been chosen on the "
+        "outcome. Applying the rule COSTS coverage relative to ignoring it, which is the direction "
+        "that makes the rule credible."),
+}
+
 E12 = "EWSR1_e12__NR4A3_e3"
 E13 = "EWSR1_e13__NR4A3_e3"
 E7X2 = "EWSR1_e7__NR4A3_e2"
@@ -370,6 +466,413 @@ PANELS = [
 ]
 
 
+def screened_published_junctions():
+    """Every junction with BOTH a published exon-resolved breakpoint AND a reagent through all five
+    deep screens — READ from the two screened tables, never listed here.
+
+    ⛔ THE MEMBERSHIP RULE IS THE WHOLE CLAIM OF THE BEST-SUPPORTED ROW, so it is derived from the
+    artifacts that own each half rather than written down as a list of five labels. A hand-typed
+    membership goes stale in the direction that flatters the panel: a junction whose tier is
+    downgraded, or whose screen is later found to have been run at the wrong geometry, would keep
+    contributing coverage from a list nobody re-reads.
+
+    ⚠ THE FIVE-SCREEN EVIDENCE IS DIFFERENT IN SHAPE ON EACH SIDE, AND SAYING SO IS NOT PEDANTRY.
+    The panel's table carries no per-junction screen-state flag: its five-screen claim is a property
+    of the whole artifact, stated in its own `what` field, and the per-junction check available here
+    is that `best_available` exists — which the ranking cannot produce unless the deep alignment
+    screen ran. The non-canonical table carries `screens_complete` PER JUNCTION precisely because a
+    sibling junction's screen succeeding says nothing about this one. Both readings are recorded per
+    junction so a reader can see which one is behind each row.
+    """
+    out = {}
+    sources = [
+        (PER_JUNCTION, "aso-per-junction-table.json", "the manuscript's 38-junction panel", None),
+        (NONCODING_SCREENED, "noncoding-acceptor/aso-noncoding-acceptor-screened-table.json",
+         "the published NON-CANONICAL seams, screened to the panel's depth", "screens_complete"),
+    ]
+    for path, name, what, per_junction_flag in sources:
+        if not os.path.exists(path):
+            continue
+        doc = json.load(open(path, encoding="utf-8"))
+        table_evidence = doc.get("what") or doc.get("_title")
+        for j in doc.get("junctions") or []:
+            if j.get("clinical_tier") != "published_exon_resolved_breakpoint":
+                continue
+            if per_junction_flag and not j.get(per_junction_flag):
+                continue
+            best = j.get("best_available")
+            if not best:
+                continue                       # no ranked reagent ⇒ the alignment screen did not run
+            label = j["junction_label"]
+            out[label] = {
+                "partner": str(label).split("_")[0],
+                "source_table": name,
+                "source_table_is": what,
+                "clinical_tier": j["clinical_tier"],
+                "breakpoint_refs": j.get("breakpoint_refs"),
+                "five_screen_evidence": (
+                    {"per_junction_flag": per_junction_flag, "value": j.get(per_junction_flag),
+                     "n_screens_that_ran": doc.get("n_screens_that_ran"),
+                     "n_screens_outstanding": doc.get("n_screens_outstanding")}
+                    if per_junction_flag else
+                    {"per_junction_flag": None,
+                     "table_level_statement": table_evidence,
+                     "per_junction_check": "best_available is present, so the deep alignment screen "
+                                           "that supplies its rank key ran for this junction"}),
+                "n_designs_screened": j.get("n_designs_screened"),
+                "n_designs_clearing_the_parent_screen":
+                    j.get("n_designs_clearing_the_parent_screen"),
+                "best_available": {"antisense_5to3": best["antisense_5to3"],
+                                   "gap_specificity_margin": best["gap_specificity_margin"]},
+            }
+    return out
+
+
+def _pooling_admissibility():
+    """⛔ POLICY-evidence.md §2.1 CHECKED, NOT ASSUMED — the four conditions, one row each.
+
+    The pooled basis is the headline basis of the best-supported row, so the question "is this
+    legal?" has to be answered against the contract rather than against intuition. Every count below
+    is derived from `BASES` and from the census; the second series' counts are computed as
+    pooled MINUS single-series, which is the identity `tests/test_aso_coverage_ladder.py` already
+    enforces, so this block cannot disagree with the bases without that test failing first.
+    """
+    single, pooled = BASES["single_series"]["EWSR1"], BASES["pooled_two_series"]["EWSR1"]
+    n_second = pooled["n"] - single["n"]
+    second_k = {j: pooled["k"][j] - single["k"].get(j, 0) for j in pooled["k"]}
+    per_series = {}
+    for j, k_pooled in pooled["k"].items():
+        per_series[j] = {
+            "PMID 12378528": {"k": single["k"].get(j, 0), "n": single["n"],
+                              "rate": round(single["k"].get(j, 0) / single["n"], 4)},
+            "PMID 29937513": {"k": second_k[j], "n": n_second,
+                              "rate": round(second_k[j] / n_second, 4)},
+            "pooled": {"k": k_pooled, "n": pooled["n"], "rate": round(k_pooled / pooled["n"], 4)},
+            "between_series_rate_range": sorted(
+                [round(single["k"].get(j, 0) / single["n"], 4), round(second_k[j] / n_second, 4)]),
+        }
+    return {
+        "_governing_policy": "systems/POLICY-evidence.md §2.1 (what may be pooled), §2.2 (the "
+                             "denominator-weighted crude pool and its Wilson interval), §2.3 "
+                             "(double-counting)",
+        "series": [
+            {"pmid": RC.BREAKPOINT_COHORT["pmid"], "role": "primary; the basis rung 0 uses",
+             "n_EWSR1_rearranged": single["n"], "method": "RT-PCR and sequencing"},
+            {"pmid": "29937513", "role": "the only other retrieved cohort resolving EVERY case to "
+                                         "an exon pair by sequencing",
+             "n_EWSR1_rearranged": n_second, "method": "whole-transcriptome sequencing"},
+        ],
+        "§2.1_conditions": {
+            "1_confirmed_EMC": "MET — both series are molecularly characterised EMC, and each "
+                               "resolved its cases' fusion transcripts by sequencing.",
+            "2_explicit_integer_counts": (
+                f"MET — {single['k']} of {single['n']} and {second_k} of {n_second}. No count here "
+                "is back-derived from a published percentage, which §2.1(2) forbids."),
+            "3_outcome_is_not_the_inclusion_criterion": (
+                "MET — entry to each arm is 'this tumour is rearranged for this partner'; the "
+                "outcome is WHICH exon pair. Being EWSR1-rearranged does not determine the exon, so "
+                "the outcome is not structurally fixed by the inclusion rule. ⚠ This is exactly the "
+                "condition the third series below FAILS, which is why it is not pooled."),
+            "4_non_overlapping_populations": (
+                "MET on the evidence available — different countries, different institutions and "
+                "sixteen years apart (a Scandinavian/Belgian/US consortium series published 2002, "
+                "an Italian series published 2018). §2.3 permits distinct populations explicitly. "
+                "⚠ Neither paper publishes patient identifiers, so this is an argument from "
+                "provenance rather than a linkage check, and it is stated as one."),
+        },
+        "§2.2_disclosures": {
+            "one_study_dominates": (
+                f"YES, and §2.2 requires saying so: {single['n']} of {pooled['n']} EWSR1-rearranged "
+                f"tumours ({round(100 * single['n'] / pooled['n'], 1)}%) come from one series, so "
+                "the pooled estimate is close to that series' own wherever the two agree."),
+            "heterogeneity_per_junction": per_series,
+            "_how_to_read_the_range": (
+                "§2.2 asks for the per-cohort rates side by side and their range rather than an I². "
+                "The two series agree closely on the exon-12 and exon-13 junctions and disagree "
+                "completely on exon 7 :: exon 2 — 0/15 against 1/5 — which is the entire reason the "
+                "basis choice matters and is discussed under `_why_the_pooled_basis_is_the_headline`"
+                " below."),
+        },
+        "third_series_deliberately_not_pooled": THIRD_SERIES_NOT_POOLED,
+    }
+
+
+def _three_series_sensitivity(junctions):
+    """What pooling the third series WOULD have produced. ⛔ Not coverage; see the reasons above."""
+    counts, n_cohort = RC.PARTNER_COHORT["counts"], RC.PARTNER_COHORT["n"]
+    pooled = BASES["pooled_two_series"]["EWSR1"]
+    # Okamoto's EWSR1 arm, read off its own verbatim: type 1 in 11, type 2 in 1 → n = 12.
+    okamoto = {E12: 11, E7X2: 1, E13: 0}
+    n3 = sum(okamoto.values())
+    covered = [j for j in junctions if j.startswith("EWSR1_")]
+    k = sum(pooled["k"].get(j, 0) + okamoto.get(j, 0) for j in covered)
+    n = pooled["n"] + n3
+    frac = k / n
+    taf15 = counts["TAF15"] / n_cohort           # unchanged: this series reports TAF2N at gene level
+    total = counts["EWSR1"] / n_cohort * frac + taf15
+    return {
+        "_what_it_is": (
+            "the same panel, priced on THREE series instead of two, by adding PMID 11679947's "
+            "type-numbered counts to the EWSR1 arm."),
+        "EWSR1_arm": f"{k}/{n}",
+        "_okamoto_arm_as_read": okamoto,
+        "_okamoto_n_derivation": (
+            f"11 type 1 + 1 type 2 = {n3} EWS-CHN-positive cases; the 3 TAF2N cases go to the TAF15 "
+            "arm, which this series reports at gene level and which therefore does not move; the 3 "
+            "fusion-negative cases are excluded by the assay, which is the defect."),
+        "coverage_percent_it_would_give": round(100 * total, 1),
+        "⛔_it_is_HIGHER_than_the_reported_figure_and_is_still_refused": (
+            f"{round(100 * total, 1)}% against the reported figure — so excluding this series is "
+            "the conservative choice as well as the correct one, and the pooling rule cannot have "
+            "been chosen to maximise the headline. The reasons it is refused are in "
+            "`third_series_deliberately_not_pooled` and none of them is the number."),
+    }
+
+
+def best_supported_buildable_panel(screened):
+    """★ THE ROW THIS MODULE WAS MISSING: what the evidence ACTUALLY IN HAND supports today.
+
+    ⛔ WHY IT IS NOT A RUNG, AND WHY IT IS NOT A REPLACEMENT EITHER. The ladder is incremental — each
+    rung adds one reagent to the previous panel — and every rung is priced on the single series the
+    manuscript uses, so the ladder answers "what does one more oligonucleotide buy?" This row answers
+    a different question: given every junction that has BOTH a published exon-resolved breakpoint AND
+    a reagent through all five deep screens, and given the whole retrieved breakpoint record rather
+    than one series of it, what fraction of molecularly confirmed EMC could a panel engage today? It
+    sits beside the ladder. It replaces nothing, and rung 0 still reproduces 68.4%.
+
+    ⛔ THE POINT ESTIMATE COVERS ONLY PARTNERS WITH A MEASURED WITHIN-PARTNER DISTRIBUTION, AND THE
+    REST IS A NAMED BOUND RATHER THAN A NUMBER FOLDED IN. That is the whole difference between this
+    row and the bounds above it: a bound that is added into a total stops being visible as a bound.
+    """
+    counts, n_cohort = RC.PARTNER_COHORT["counts"], RC.PARTNER_COHORT["n"]
+    pooled, single = BASES["pooled_two_series"], BASES["single_series"]
+
+    in_cohort = {lab: rec for lab, rec in screened.items() if rec["partner"] in counts}
+    outside = sorted(set(screened) - set(in_cohort))
+
+    measured, unmeasured = [], []
+    point = lo = hi = 0.0
+    single_point = 0.0
+    for partner in sorted({r["partner"] for r in in_cohort.values()}):
+        covered = sorted(l for l, r in in_cohort.items() if r["partner"] == partner)
+        share = counts[partner] / n_cohort
+        spec = pooled.get(partner)
+        if spec is None or partner in PARTNERS_WITH_NO_BREAKPOINT_MEASUREMENT:
+            unmeasured.append({
+                "partner": partner, "junctions_in_panel": covered,
+                "partner_share_of_cohort": round(share, 4),
+                "partner_share_counts": f"{counts[partner]}/{n_cohort}",
+                "reagent_state": "screened and in hand — see `panel_membership`",
+                "within_partner_distribution": "UNMEASURED",
+                "contribution_to_the_point_estimate": 0.0,
+                "contribution_if_every_case_of_this_partner_carried_it": round(share, 4),
+                "⛔_zero_here_is_an_ABSENT_READING_NOT_A_READING_OF_ABSENCE": (
+                    "This arm contributes 0 to the point estimate because nothing measures it, NOT "
+                    "because the reagent reaches nobody. Its whole share is carried in the bound "
+                    "below, which is the honest rendering of an unmeasured arm: a band, not a "
+                    "number chosen inside one."),
+            })
+            continue
+        k = sum(spec["k"].get(j, 0) for j in covered)
+        f_lo, f_hi = RC.wilson(k, spec["n"])
+        s_spec = single.get(partner)
+        s_k = sum(s_spec["k"].get(j, 0) for j in covered) if s_spec else 0
+        measured.append({
+            "partner": partner, "junctions_in_panel": covered,
+            "partner_share_of_cohort": round(share, 4),
+            "partner_share_counts": f"{counts[partner]}/{n_cohort}",
+            "breakpoint_fraction_pooled": f"{k}/{spec['n']}",
+            "breakpoint_fraction_pooled_value": round(k / spec["n"], 4),
+            "breakpoint_fraction_wilson95": [f_lo, f_hi],
+            "breakpoint_fraction_single_series": f"{s_k}/{s_spec['n']}" if s_spec else None,
+            "contribution": round(share * k / spec["n"], 4),
+            "contribution_single_series_basis": round(share * s_k / s_spec["n"], 4) if s_spec else 0,
+        })
+        point += share * k / spec["n"]
+        lo += share * f_lo
+        hi += share * f_hi
+        single_point += share * s_k / s_spec["n"] if s_spec else 0
+
+    bound = point + sum(u["contribution_if_every_case_of_this_partner_carried_it"]
+                        for u in unmeasured)
+    ceiling = sum(counts[p] for p in counts if p != "no_identified_partner") / n_cohort
+
+    # ── the distance to the ceiling, DECOMPOSED rather than left as a remainder ────────────────
+    gap_rows = []
+    ew = pooled["EWSR1"]
+    n_unresolved = ew["n"] - sum(ew["k"].get(j, 0) for j in ew["k"])
+    gap_rows.append({
+        "block": "EWSR1 tumours whose transcript type the retrieved record never names",
+        "counts": f"{n_unresolved}/{ew['n']} of pooled EWSR1-rearranged tumours, "
+                  f"times {counts['EWSR1']}/{n_cohort} EWSR1 prevalence",
+        "percent_points": round(100 * counts["EWSR1"] / n_cohort * n_unresolved / ew["n"], 1),
+        "what_would_close_it": (
+            "the full text of the primary series (PMID 12378528), which is not open access, or a "
+            "deposited junction sequence for those tumours — elink from that record returns no "
+            "direct submission, so the deposit route that resolved TCF12 does not reach it."),
+        "⛔_it_is_NOT_fully_openable_and_this_is_the_structural_part": INTRA_EXONIC_VARIANT,
+    })
+    for u in unmeasured:
+        gap_rows.append({
+            "block": f"{u['partner']} — reagent in hand, within-partner distribution unmeasured",
+            "counts": u["partner_share_counts"],
+            # ⛔ FROM THE COUNTS, NOT FROM THE ROW'S OWN 4-dp SHARE — rounding twice turned 3.4483
+            # into 3.5 and broke the decomposition's own sum by 0.1 pp in the printed summary.
+            "percent_points": round(100 * counts[u["partner"]] / n_cohort, 1),
+            "what_would_close_it": (
+                "a SECOND tumour of this partner sequenced at junction resolution. The archives "
+                "have been searched and hold nothing (see `what_would_actually_move_this`), so the "
+                "assay is RNA sequencing of archival tissue — wet lab, outside this programme's "
+                "operating regime, and not purchasable with compute."),
+            "⚠_it_is_a_BOUND_not_a_target": (
+                "Closing it could also LOWER the figure: if neither of the cohort's tumours carries "
+                "this exon the arm is 0 and this row shrinks the band from the top, not the "
+                "bottom."),
+        })
+    # ⛔ THE GAP IS THE DIFFERENCE, AND THE BLOCKS MUST REPRODUCE IT. Two independent derivations —
+    # ceiling minus coverage, and the sum of the named blocks — computed separately and reconciled.
+    # A decomposition that does not close is a block that is missing or double-counted, and printing
+    # it anyway is how a remainder gets a name it has not earned (CLAUDE.md rule 1.1).
+    # ⚠ THE BLOCKS ARE RECOMPUTED FROM THE COUNTS, NOT READ BACK OUT OF THE ROUNDED ROWS. Reading
+    # the displayed 4-dp shares back in makes the check pass or fail on rounding rather than on
+    # arithmetic — it failed by 0.0017 pp the first time this ran, which is a rounding artefact
+    # wearing the costume of a missing block.
+    gap_from_difference = 100 * (ceiling - point)
+    gap_from_blocks = sum(100 * b for b in (
+        counts["EWSR1"] / n_cohort * n_unresolved / ew["n"],
+        *(counts[u["partner"]] / n_cohort for u in unmeasured)))
+    if abs(gap_from_difference - gap_from_blocks) > 1e-9:
+        raise SystemExit(
+            f"the gap to the ceiling is {gap_from_difference}pp by difference but "
+            f"{gap_from_blocks}pp by the named blocks. A decomposition that does not close means a "
+            "block is missing or a case is counted twice; refusing to publish it.")
+    gap_total = round(gap_from_difference, 1)
+
+    return {
+        "_what": ("★ THE BEST-SUPPORTED BUILDABLE PANEL — the coverage of the junctions that have "
+                  "BOTH a published exon-resolved breakpoint AND a reagent through all five deep "
+                  "screens at the manuscript geometry, priced on the whole retrieved breakpoint "
+                  "record."),
+        "_why_it_is_an_ADDITIONAL_row": (
+            "⛔ IT REPLACES NOTHING. The ladder's rungs and bounds above are unchanged and rung 0 "
+            "still reproduces the published 68.4% on the manuscript's own single-series basis. This "
+            "row is better specified — membership is an evidence test rather than a position in an "
+            "incremental series, and the basis is the whole retrieved record rather than one series "
+            "of it — and it is reported beside them, never instead of them."),
+        "panel_membership": {
+            "_rule": ("a junction qualifies on TWO independent conditions: (i) clinical_tier == "
+                      "'published_exon_resolved_breakpoint' in a screened table, and (ii) a reagent "
+                      "through all five deep screens. Both are READ from the tables that own them."),
+            "n_junctions_qualifying": len(screened),
+            "junctions": screened,
+            "n_junctions_that_can_move_this_cohort": len(in_cohort),
+            "⛔_qualifying_but_contributing_exactly_zero": {
+                "junctions": outside,
+                "why": ("the partner is not in the 58-case cohort's partner counts, so the "
+                        "denominator contains no case such a reagent could engage. It moves "
+                        "coverage by EXACTLY ZERO — not by a small amount, by zero. What it changes "
+                        "is which patients are REACHABLE AT ALL, which is a different statement and "
+                        "must never be added to a coverage percentage. One home for that reading: "
+                        "research/modalities/aso_noncoding_acceptor_designs.py."),
+            },
+        },
+        "basis": "pooled_two_series",
+        "_why_the_pooled_basis_is_the_headline": [
+            "POLICY-evidence.md §2.1's four conditions are MET and are checked row by row in "
+            "`pooling_admissibility` rather than asserted. §2.2's method — a denominator-weighted "
+            "crude pool with a Wilson interval on the summed counts — is the repository's standard "
+            "for a simple proportion, and is what is computed here.",
+            "⛔ THE SINGLE-SERIES BASIS PRICES ONE JUNCTION AT A ZERO ITS OWN SOURCE NEVER "
+            "MEASURED. PMID 12378528 names the transcript type of 12 of its 15 EWSR1 tumours and "
+            "leaves 3 unnamed; the exon 7 :: exon 2 junction gets 0/15 because that series never "
+            "named it, which is an UNNAMED count, not an observed absence. The same series' genomic "
+            "mapping reports one EWS break in intron 7 — the genomic origin a type 2 transcript "
+            "comes from — so its own data points at the junction its transcript typing does not "
+            "name. A basis whose zero is contradicted by its own source is not the conservative "
+            "choice; it is the less informative one, and its error runs one way.",
+            "⚠ BOTH BASES ARE REPORTED. The single-series figure for this identical panel is "
+            "carried in `coverage_percent_single_series_basis` below and in every arm's "
+            "`contribution_single_series_basis`, so a reader who rejects the pooling can read the "
+            "row off the manuscript's own basis without recomputing anything.",
+            "⚠ AND NEITHER BASIS IS LARGE. Twenty sequenced EWSR1 tumours and three TAF15 ones "
+            "carry every fraction here; the interval below is wide for that reason and is not "
+            "cosmetic.",
+        ],
+        "arms_with_a_measured_within_partner_distribution": measured,
+        "arms_with_NO_measured_within_partner_distribution": unmeasured,
+        "coverage_percent": round(100 * point, 1),
+        "coverage_percent_range": [round(100 * lo, 1), round(100 * hi, 1)],
+        "_how_the_range_is_built": (
+            "the same composed-endpoint convention aso_reagent_coverage.py states: coverage is "
+            "increasing in every breakpoint fraction, so the endpoints compose exactly when each "
+            "fraction is taken to its own Wilson bound. That treats the arms as moving together and "
+            "is therefore CONSERVATIVE — wider than letting them vary independently. Partner shares "
+            "are held at their point estimates, as there."),
+        "coverage_percent_single_series_basis": round(100 * single_point, 1),
+        "bound_if_the_unmeasured_arms_are_at_their_ceiling_percent": round(100 * bound, 1),
+        "⛔_the_bound_is_not_a_target": (
+            "The upper figure is what coverage WOULD be if every case of an unmeasured partner "
+            "carried the sequenced exon. Nothing measures that, the band's own top is not more "
+            "likely than its bottom, and quoting it as achievable coverage is the same denominator "
+            "error the 68.4% correction was made to fix, one level up."),
+        "⚠_the_point_estimate_is_not_a_floor_either": (
+            "The TAF15 arm is priced at 3/3 on three tumours, and a functional study calls a second "
+            "acceptor form one of 'the two major TAF15-NR4A3 isoforms detected in human tumors' "
+            "without counting it. If any TAF15 patient carries that form, the single TAF15 reagent "
+            "does not reach them and this figure is optimistic on that arm. So the honest reading "
+            "is a point estimate carrying a NAMED, UNQUANTIFIED downward risk at TAF15 and an "
+            "UNMEASURED upward increment at TCF12 — not a floor, and not a ceiling."),
+        "⛔_downstream_statements_this_row_makes_STALE_and_which_are_NOT_fixed_here": [
+            {"where": "research/manuscripts/aso/fusion-junction-aso-research-article.md §5.1",
+             "the_sentence": ("\"Emitting and screening those acceptors is the largest piece of "
+                              "designable but undesigned coverage this analysis identifies; no "
+                              "design at either junction is reported here, and none should be "
+                              "assumed to exist.\""),
+             "why_it_is_now_wrong": (
+                 "Half of it. The EWSR1 exon 7 :: NR4A3 exon 2 acceptor is no longer UNDESIGNED — "
+                 "five designs exist and all five deep screens have run at the manuscript geometry "
+                 "(research/modalities/noncoding-acceptor/aso-noncoding-acceptor-screened-table"
+                 ".json, `screens_complete: true`). The TAF15 exon 6 :: NR4A3 intron 2 acceptor in "
+                 "the same sentence IS still undesigned, so the sentence is half true, which is "
+                 "the hardest kind to notice."),
+             "⚠_why_it_is_not_edited_here": (
+                 "This module owns the coverage accounting, not the submission text. The "
+                 "manuscript's language passes through its own claim and prose gates and one "
+                 "sentence cannot be corrected in isolation without them. Recorded here so the "
+                 "defect has a home in the tree rather than only in a report."),
+             "what_the_corrected_statement_would_say": (
+                 "the largest piece of designable-but-undesigned coverage is now the TAF15 intron-2 "
+                 "acceptor alone; the exon-2 acceptor is designed and screened, is not in the "
+                 "38-junction panel, and is what moves this row from the single-series 79.0% to the "
+                 "pooled figure above."),
+             },
+        ],
+        "pooling_admissibility": _pooling_admissibility(),
+        "sensitivity_if_the_third_series_were_pooled": _three_series_sensitivity(sorted(in_cohort)),
+        "distance_to_the_arithmetic_ceiling": {
+            "ceiling_percent": round(100 * ceiling, 1),
+            "_what_the_ceiling_is": (
+                f"{sum(counts[p] for p in counts if p != 'no_identified_partner')} of {n_cohort} "
+                f"cases. The remaining {counts['no_identified_partner']} is NR4A3-rearranged with no "
+                "identified partner, so no junction reagent can ever be built for it — a hard limit "
+                "for the modality as specified, not a gap in this panel."),
+            "gap_percent_points": gap_total,
+            "_gap_is_DERIVED_and_checked": (
+                "the blocks below are computed from the same counts as the coverage above and are "
+                "asserted to sum to the gap; a mismatch raises rather than prints."),
+            "⚠_do_not_derive_this_gap_by_subtracting_the_two_DISPLAYED_percentages": (
+                f"They disagree by 0.1 and neither is wrong. The gap is computed from the unrounded "
+                f"quantities ({round(100 * ceiling, 5)} − {round(100 * point, 5)} = "
+                f"{round(gap_from_difference, 5)} → {gap_total}); subtracting the 1-dp figures a "
+                f"reader sees gives {round(round(100 * ceiling, 1) - round(100 * point, 1), 1)}. "
+                "The blocks sum to the derived value, not to the display arithmetic, which is why "
+                "the decomposition can look 0.1 short of a hand subtraction. Quote this field, not "
+                "a subtraction."),
+            "blocks": gap_rows,
+        },
+    }
+
+
 def build():
     ends = _atlas_donor_ends()
     designs = {j["junction_label"]: j
@@ -387,6 +890,7 @@ def build():
                     "n_designs_spanning_the_seam": j["n_designs_spanning_the_seam"],
                     "offtarget_screens_run": "NONE — load unknown, not comparable with the panel",
                     "one_home": "research/modalities/aso-noncoding-acceptor-designs.json"}
+    screened = screened_published_junctions()
     n_cohort = RC.PARTNER_COHORT["n"]
     counts = RC.PARTNER_COHORT["counts"]
 
@@ -397,13 +901,20 @@ def build():
         _, p_pool, _, _ = _panel_coverage(panel["junctions"], BASES["pooled_two_series"],
                                           panel["complete_partners"])
         unnamed = 3 if panel["complete_partners"] else 0
-        # ⚠ THREE STATES, NOT TWO, AND COLLAPSING THEM WOULD OVERSTATE THE PANEL. A junction is
-        # either screened (in the panel's per-junction table), DESIGNED BUT UNSCREENED (emitted by
-        # the non-coding-acceptor lane, off-target load unknown), or has nothing at all. Rendering
-        # the middle state as "designed" would let an unscreened sequence read like a panel member.
+        # ⚠ FOUR STATES, NOT THREE, AND THE NEW ONE IS THE ONE THAT MOVED. A junction the panel
+        # excludes is now in one of three states of its own — SCREENED in the non-canonical lane
+        # (all five screens ran, read from `screens_complete`), DESIGNED BUT UNSCREENED (a
+        # parent-exclusion margin only, off-target load unknown), or NOTHING AT ALL — and a junction
+        # inside the panel is screened by construction. ⛔ SCREENED-OUTSIDE-THE-PANEL MUST NOT
+        # RENDER AS EITHER NEIGHBOUR: as "designed" it would understate a reagent that exists, and
+        # as a panel member it would enlarge a panel the manuscript reports as 38 junctions.
+        outside_screened = [j for j in panel["junctions"]
+                            if j in UNDESIGNABLE_IN_THE_CURRENT_PANEL and j in screened]
+        designed_unscreened = [j for j in panel["junctions"]
+                               if j in noncoding_designed and j not in screened]
         missing = [j for j in panel["junctions"]
-                   if j in UNDESIGNABLE_IN_THE_CURRENT_PANEL and j not in noncoding_designed]
-        designed_unscreened = [j for j in panel["junctions"] if j in noncoding_designed]
+                   if j in UNDESIGNABLE_IN_THE_CURRENT_PANEL
+                   and j not in noncoding_designed and j not in screened]
         ladder.append({
             "panel": panel["name"],
             "kind": panel.get("kind", "rung"),
@@ -418,6 +929,8 @@ def build():
             "junctions_with_no_design_at_all": missing,
             "junctions_designed_but_not_yet_screened": {
                 j: noncoding_designed[j] for j in designed_unscreened},
+            "junctions_screened_outside_the_manuscript_panel": {
+                j: screened[j] for j in outside_screened},
             "status": panel["status"],
             "_note": panel.get("_why_the_single_series_delta_is_zero"),
             "what_it_costs": panel["cost"],
@@ -446,10 +959,19 @@ def build():
             "Not a coverage measurement and not an efficacy claim. Nothing here has been "
             "synthesised or tested, and matching a junction is not activity against it.",
             "Not a re-pricing of the manuscript's figure. Rung 0 is computed on the same single "
-            "series and reproduces 68.4%; the pooled column supersedes nothing.",
-            "Not a claim that the NR4A3 exon-2 junction is designable — nothing has been designed "
-            "or screened there. That is the work this file argues for, not work it reports.",
-            "Not a guess at the unresolved EWSR1 transcript types; they are priced, not named.",
+            "series and reproduces 68.4%; the pooled column supersedes nothing, and neither does "
+            "`best_supported_buildable_panel`, which is an additional and better-specified row "
+            "beside the ladder rather than a replacement for any part of it.",
+            "⚠ SUPERSEDED, RETAINED: 'Not a claim that the NR4A3 exon-2 junction is designable — "
+            "nothing has been designed or screened there. That is the work this file argues for, "
+            "not work it reports.' Both halves are now out of date: designs exist and all five "
+            "deep screens have run at the manuscript geometry. This module reads that state per "
+            "junction rather than asserting it, so the sentence it replaces cannot recur.",
+            "Not a guess at the unresolved EWSR1 transcript types; they are priced, not named. ⛔ "
+            "And not an assumption that pricing them would open them — at least one named EWS/CHN "
+            "variant is INTRA-EXONIC and has no exon::exon seam to design against at all, which is "
+            "recorded under the gap decomposition as a structural limit rather than a retrieval "
+            "gap.",
             "Not free of the assumption aso_reagent_coverage.py states about transporting a "
             "breakpoint distribution from an 18-case series to a 58-case one.",
         ],
@@ -467,6 +989,7 @@ def build():
         },
         "can_better_design_raise_coverage": multiplexing_check(ends),
         "ladder": ladder,
+        "best_supported_buildable_panel": best_supported_buildable_panel(screened),
         "ceiling": {
             "all_named_partners_at_every_breakpoint_percent": round(100 * ceiling_named, 1),
             "_what_is_left_over": (f"{counts['no_identified_partner']} of {n_cohort} cases are "
@@ -493,11 +1016,30 @@ def build():
              "cost": "CPU and CI only — no GPU, no rental",
              "blocked_on": ("nothing. The filter that excludes them is a protein-coding grade the "
                             "ASO lane does not need, and the junction has three independent "
-                            "sources behind it.")},
+                            "sources behind it."),
+             "⭐_done_2026_08_15": (
+                 "DONE. All five deep screens ran at the manuscript geometry and their per-design "
+                 "output is joined into the panel's field set by "
+                 "research/modalities/aso_noncoding_acceptor_screened_table.py. This is the step "
+                 "that makes `best_supported_buildable_panel` computable at all: without a screened "
+                 "reagent the junction has a published breakpoint and nothing to engage it with. "
+                 "⚠ The points it buys are visible only on the pooled basis — on the single series "
+                 "this junction is priced at a zero that series never measured."),
+             "⛔_what_it_does_NOT_do": (
+                 "put the junction into the manuscript's 38-junction panel. The atlas grade that "
+                 "excludes it is unchanged, its screens live in their own directory so the panel's "
+                 "own consumers cannot glob them, and the manuscript still reports 38.")},
             {"step": "Name the remaining unresolved EWSR1 transcript types",
              "buys_percent_points": round(100 * (counts["EWSR1"] / n_cohort) * (3 / 15), 1),
              "cost": "$0 — one more literature retrieval on a free runner",
-             "blocked_on": "the full text of the primary series, which is not open access"},
+             "blocked_on": "the full text of the primary series, which is not open access",
+             "⛔_and_it_would_not_open_all_of_it": (
+                 "This row prices the block as pure retrieval and that is an upper bound on what "
+                 "retrieval can buy. At least one named EWS/CHN variant has no exon::exon junction "
+                 "to retrieve: see the type 3 entry under "
+                 "best_supported_buildable_panel.distance_to_the_arithmetic_ceiling. How much of "
+                 "the block that accounts for is NOT reported by any source and is not guessed "
+                 "here.")},
             {"step": "Establish the TCF12 breakpoint as an exon",
              "buys_percent_points": round(100 * counts["TCF12"] / n_cohort, 1),
              "cost": "$0 retrieval, then one oligonucleotide",
@@ -566,10 +1108,32 @@ def main(argv=None):
         flag = ("  ⛔ BOUND, not a buildable panel" if r["kind"] == "bound"
                 else "  ⛔ no design exists" if r["junctions_with_no_design_at_all"]
                 else "  ⚠ designed, NOT screened" if r["junctions_designed_but_not_yet_screened"]
-                else "")
+                else "  ⚠ includes a junction screened OUTSIDE the 38-junction panel"
+                if r["junctions_screened_outside_the_manuscript_panel"] else "")
         print(f"  {n:>6} reagents  {r['coverage_percent']:>5}%  {d:<8} "
               f"pooled {r['coverage_percent_pooled_basis']:>5}%  {r['panel']}{flag}",
               file=sys.stderr)
+    b = art["best_supported_buildable_panel"]
+    g = b["distance_to_the_arithmetic_ceiling"]
+    print(f"  ★ BEST-SUPPORTED BUILDABLE PANEL  {b['coverage_percent']}% "
+          f"({b['coverage_percent_range'][0]}-{b['coverage_percent_range'][1]}%), pooled basis; "
+          f"{b['coverage_percent_single_series_basis']}% on the single series",
+          file=sys.stderr)
+    print(f"      {b['panel_membership']['n_junctions_that_can_move_this_cohort']} screened "
+          f"reagents at published exon-resolved breakpoints "
+          f"({b['panel_membership']['n_junctions_qualifying']} qualify; "
+          f"{len(b['panel_membership']['⛔_qualifying_but_contributing_exactly_zero']['junctions'])}"
+          " at a partner this cohort does not contain, worth exactly 0)", file=sys.stderr)
+    for u in b["arms_with_NO_measured_within_partner_distribution"]:
+        pp = next(r["percent_points"] for r in g["blocks"] if r["block"].startswith(u["partner"]))
+        print(f"      ⛔ {u['partner']} arm UNMEASURED — 0 in the point estimate, +{pp} pp at "
+              "its ceiling. A BOUND, never a target.", file=sys.stderr)
+    print(f"      bound if every unmeasured arm is at its ceiling: "
+          f"{b['bound_if_the_unmeasured_arms_are_at_their_ceiling_percent']}%   "
+          f"arithmetic ceiling {g['ceiling_percent']}%   gap {g['gap_percent_points']} pp",
+          file=sys.stderr)
+    for row in g["blocks"]:
+        print(f"        {row['percent_points']:>5} pp  {row['block']}", file=sys.stderr)
     m = art["can_better_design_raise_coverage"]
     print(f"  EWSR1 e12 vs e13 donor 3' agreement: "
           f"{m['the_two_junctions_that_matter_most']['shared_3prime_donor_nt']} nt — "

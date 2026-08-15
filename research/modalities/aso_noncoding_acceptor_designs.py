@@ -46,8 +46,13 @@ WHAT THIS IS NOT.
     and locus collapse. ⚠ THE PER-JUNCTION STATE IS NOT WRITTEN HERE. It is emitted per design in
     the artifact's `⚠_offtarget_screens_run` field, which names what ran and what did not, and that
     field is the one home for it — because a docstring cannot know which screens landed after it
-    was written. As of 2026-08-15 EWSR1_e7__NR4A3_e2 has all five and PGR_e2__NR4A3_e2 does not;
-    read the field rather than this paragraph.
+    was written, and this paragraph has now proved that twice.
+    ⚠ SUPERSEDED, RETAINED: "As of 2026-08-15 EWSR1_e7__NR4A3_e2 has all five and PGR_e2__NR4A3_e2
+    does not." Both junctions have all five. The PGR alignment arm landed in commit b977ef616 and
+    the committed artifact was not regenerated, so the JSON kept saying "still INCOMPLETE at
+    PGR_e2__NR4A3_e2" while its own generator, run against the screened table, said COMPLETE at
+    both. Read the field rather than this paragraph — and regenerate the artifact when a screen
+    lands, because a derived sentence is only as fresh as its last build.
     ⛔ WHAT DOES NOT CHANGE: a design here is comparable with a panel design only on the screens
     BOTH have been through, and the expression arm is separate from all five.
     ⚠ The docstring and the artifact disagreed for part of 2026-08-15 — the prose still said
