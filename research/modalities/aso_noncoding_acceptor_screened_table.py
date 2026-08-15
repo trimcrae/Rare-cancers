@@ -54,6 +54,15 @@ sys.path.insert(0, HERE)
 import aso_per_junction_table as APJT  # noqa: E402
 import aso_screen_sets as ass  # noqa: E402
 import junction_seam_retraction as JSR  # noqa: E402
+#: ⛔ THE WILD-TYPE-ALLELE READING TRAVELS WITH THE ROWS, AND IT IS NOT ONE OF THE FIVE SCREENS.
+#: A row here can read "5/5 designs clear the parent screen" while two of those five form a fully
+#: gap-paired duplex on the patient's own UN-REARRANGED NR4A3 allele — measured at
+#: EWSR1_e13__NR4A3_e2 on 2026-08-15. The parent screen searches MATURE cDNA, so it structurally
+#: cannot see a site that spans NR4A3's intron-1/exon-2 boundary, and a table that shows only the
+#: screens it joins would present the condemned designs as clean. So the reading is carried as an
+#: EXTRA column (the panel field-set check is a subset test, so adding one cannot break it) and it
+#: is labelled as not-one-of-the-five wherever it appears.
+import aso_noncoding_acceptor_designs as NCA  # noqa: E402
 
 #: Where this lane's BLAST-family artifacts live. See the docstring: OUT of the panel's glob.
 SCREEN_DIR = os.path.join(HERE, "noncoding-acceptor")
@@ -335,6 +344,36 @@ def build():
         junctions.append(j)
     junctions.sort(key=lambda j: str(j["junction_label"]))
 
+    # ── the wild-type-allele reading, annotated onto BOTH row paths ────────────────────────────
+    # ⛔ ONE INVOCATION, ONE FIXED CONTROL, EVERY ROW. Applied after both paths have produced their
+    # rows so a complete row and a partial row cannot end up graded by different runs of the scan —
+    # and the control's verdict is carried at the top level, because a scan whose known positive did
+    # not fire has condemned nothing and cleared nothing.
+    wt = NCA._wild_type_allele_liability(
+        [d["antisense_5to3"] for j in junctions for d in (j.get("designs") or [])],
+        NCA._parents())
+    condemned = set(wt["designs_cleaving_wild_type_NR4A3"])
+    for j in junctions:
+        for d in j.get("designs") or []:
+            d["⛔_cleaves_wild_type_NR4A3"] = d["antisense_5to3"] in condemned
+        hit = sorted(d["antisense_5to3"] for d in (j.get("designs") or [])
+                     if d["⛔_cleaves_wild_type_NR4A3"])
+        j["n_designs_cleaving_wild_type_NR4A3"] = len(hit)
+        j["designs_cleaving_wild_type_NR4A3"] = hit
+        j["⚠_the_parent_screen_cannot_see_this"] = (
+            "the column above is NOT one of the five screens. It is a scan of NR4A3's own UNSPLICED "
+            "sequence, which the mature-parent screen structurally cannot reach; a design condemned "
+            "there may still read as clearing the parent screen in the same row.")
+        # ⛔ A "BEST" THAT CLEAVES THE PATIENT'S OWN NR4A3 IS NOT A BEST. Re-derived rather than
+        # left standing beside a ⛔ verdict, which is how a condemned sequence gets quoted.
+        elig = [d for d in (j.get("designs") or []) if not d["⛔_cleaves_wild_type_NR4A3"]]
+        if elig and j.get("best_by_gap_specificity_margin"):
+            j["best_by_gap_specificity_margin"] = max(
+                elig, key=lambda r: (r.get("gap_specificity_margin") or -1))["antisense_5to3"]
+        if (j.get("best_available") or {}).get("antisense_5to3") in condemned:
+            j["⛔_best_available_was_withdrawn"] = j.pop("best_available")
+            j["best_available"] = None
+
     # ⛔ EVERY SOURCE SCREEN IS SEAM-GRADED BEFORE ITS NUMBERS ARE QUOTED. The CI publish sweeps the
     # `modalities-cache` tree; the copies committed HERE sit in a subdirectory the repo-level sweep
     # does not reach, and an unswept artifact is exactly the state that let thirteen retracted
@@ -394,6 +433,7 @@ def build():
         "seam_grades_of_the_source_artifacts": seam_grades,
         "n_junctions": len(junctions),
         "junctions": junctions,
+        "⭐_wild_type_NR4A3_cleavage_liability": wt,
     }
 
 

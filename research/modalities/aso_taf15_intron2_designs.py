@@ -462,13 +462,24 @@ def wildtype_nr4a3_liability(designs, cryptic):
     own unspliced sequence — because that is the locus the liability lives at. The genome arm scans
     all of GRCh38 and remains the instrument that decides which designs are usable; an empty result
     here is necessary, not sufficient.
+
+    ⭐ `cryptic` IS AN OPTIONAL ANCHOR SINCE 2026-08-15, AND THE SCAN ITSELF DID NOT CHANGE. The
+    question — does this reagent cleave the patient's own un-rearranged NR4A3? — is not a property
+    of cryptic-exon seams. It is a property of ANY seam whose acceptor half is NR4A3 sequence, which
+    includes every NR4A3 exon-2 acceptor in `aso_noncoding_acceptor_designs`: a design whose 6-nt
+    catalytic gap sits mostly on acceptor bases can pair fully on the wild-type allele there too,
+    across the intron-1/exon-2 boundary instead of inside intron 2. Passing `cryptic=None` runs the
+    identical scan and omits only the cryptic-exon-relative offset, which has no meaning off that
+    seam. ⛔ ONE GRADER, NOT A SECOND COPY OF ONE — a second implementation in the acceptor module
+    would be a second definition of "cleavage-competent on wild-type NR4A3", and the two would
+    disagree the first time either was touched.
     """
     if not os.path.exists(PREMRNA_CACHE):
         return {"_status": "NOT RUN — the committed pre-mRNA cache is absent. ABSENT, NOT CLEAN.",
                 "per_design": None}
     with open(PREMRNA_CACHE, encoding="utf-8") as fh:
         pre = json.load(fh)["genes"]["NR4A3"]["sequence"].upper()
-    if cryptic not in pre:
+    if cryptic is not None and cryptic not in pre:
         return {"_status": ("NOT RUN — the cryptic exon is not a substring of the committed NR4A3 "
                             "pre-mRNA, so this scan would be searching the wrong sequence. ABSENT, "
                             "NOT CLEAN."),
@@ -483,10 +494,12 @@ def wildtype_nr4a3_liability(designs, cryptic):
             mm = [i for i in range(len(tgt)) if w[i] != tgt[i]]
             if len(mm) <= 2:
                 gap_mm = [i for i in mm if gap_lo <= i <= gap_hi]
-                sites.append({"pre_mrna_offset": k, "site_5to3": w, "n_mismatches": len(mm),
-                              "mismatch_positions": mm, "n_gap_mismatches": len(gap_mm),
-                              "gap_fully_paired": not gap_mm,
-                              "offset_relative_to_cryptic_exon_start": k - pre.find(cryptic)})
+                site = {"pre_mrna_offset": k, "site_5to3": w, "n_mismatches": len(mm),
+                        "mismatch_positions": mm, "n_gap_mismatches": len(gap_mm),
+                        "gap_fully_paired": not gap_mm}
+                if cryptic is not None:
+                    site["offset_relative_to_cryptic_exon_start"] = k - pre.find(cryptic)
+                sites.append(site)
         cleavable = [s for s in sites if s["gap_fully_paired"]]
         per[anti] = {
             "n_sites_le2_mismatches": len(sites),

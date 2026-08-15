@@ -180,11 +180,70 @@
    "_what_is_lost_and_what_is_not": ""
   },
   "premrna": {
-   "_status": "NOT RUN — no artifact on disk. ABSENT, NOT CLEAN.",
-   "per_design": null,
-   "⛔_what_absent_means_here": "For this seam the genome screen is the instrument that decides which designs are usable, because the acceptor half of every design is NR4A3 intronic sequence and a spliced-cDNA parent screen structurally cannot see it. Until it has run, NO design in this file may be called clean and NONE may be carried forward. A 5/5 parent-screen pass is not evidence either way — measured at the sibling TAF15 seam, where all five designs passed the parent screen and one of them was then found by the genome screen to form a cleavage-competent duplex on the patient's own un-rearranged NR4A3 allele.",
-   "_why": "not yet dispatched for this seam — run aso-offtarget.yml with screen_mode=premrna and suffix_tag=-ewsr1intron2",
-   "_what_is_lost_and_what_is_not": "The pre-mRNA arm is exhaustive-by-construction over the six PARENT loci and reports compartment and an explicit n_invisible_to_mature_screens. ⭐ ITS CENTRAL QUESTION AT THIS SEAM HAS NEVERTHELESS BEEN ANSWERED, by the genome arm, which is a superset in coverage and annotates every hit from the Ensembl GTF: the wild-type NR4A3 liability was found there (chr9, gap fully paired, hybridisable, compartment intron_exon_spanning, 0 nt to the nearest splice site). So the pre-mRNA arm is missing as a CONFIRMATORY, differently-seeded check — not as the only instrument that could have seen the intronic compartment."
+   "_status": "run",
+   "_method_completeness": "exhaustive for substitutions by construction: three seed blocks over a 16-mer, so a hit at <=2 mismatches must match one block exactly",
+   "per_design": {
+    "ATGAGGGCCTAGATCA": {
+     "n_hits_either_orientation": 1,
+     "n_hybridisable": 0,
+     "n_hybridisable_gap_fully_paired": 0,
+     "n_invisible_to_mature_screens": 0,
+     "compartments": {
+      "intronic": 0,
+      "intron_exon_spanning": 0,
+      "exonic": 0
+     },
+     "hits_truncated": false
+    },
+    "GAGGGCCTAGATCAAG": {
+     "n_hits_either_orientation": 0,
+     "n_hybridisable": 0,
+     "n_hybridisable_gap_fully_paired": 0,
+     "n_invisible_to_mature_screens": 0,
+     "compartments": {
+      "intronic": 0,
+      "intron_exon_spanning": 0,
+      "exonic": 0
+     },
+     "hits_truncated": false
+    },
+    "GATGAGGGCCTAGATC": {
+     "n_hits_either_orientation": 0,
+     "n_hybridisable": 0,
+     "n_hybridisable_gap_fully_paired": 0,
+     "n_invisible_to_mature_screens": 0,
+     "compartments": {
+      "intronic": 0,
+      "intron_exon_spanning": 0,
+      "exonic": 0
+     },
+     "hits_truncated": false
+    },
+    "TGAGGGCCTAGATCAA": {
+     "n_hits_either_orientation": 1,
+     "n_hybridisable": 0,
+     "n_hybridisable_gap_fully_paired": 0,
+     "n_invisible_to_mature_screens": 0,
+     "compartments": {
+      "intronic": 0,
+      "intron_exon_spanning": 0,
+      "exonic": 0
+     },
+     "hits_truncated": false
+    },
+    "TGATGAGGGCCTAGAT": {
+     "n_hits_either_orientation": 1,
+     "n_hybridisable": 0,
+     "n_hybridisable_gap_fully_paired": 0,
+     "n_invisible_to_mature_screens": 0,
+     "compartments": {
+      "intronic": 0,
+      "intron_exon_spanning": 0,
+      "exonic": 0
+     },
+     "hits_truncated": false
+    }
+   }
   }
  },
  "⭐_what_the_screens_actually_found": "GAP SPECIFICITY MARGIN DECIDES WHETHER THIS REAGENT CUTS THE PATIENT'S OWN NR4A3, and that is the finding this junction exists to produce. Because the acceptor half of every design is NR4A3 intronic sequence, a design whose catalytic gap is mostly cryptic-exon bases is, on the wild-type NR4A3 locus, a fully gap-paired hybridisable duplex — RNase-H1-competent on the un-rearranged allele. The genome screen measured exactly that for the margin-1 design TGATGAGGGCCTTGTG (chr9, 2 mismatches, 0 of them in the gap), and measured NO NR4A3 site at all for the margin-3 design ATGAGGGCCTTGTGTG, whose gap carries three TAF15-derived bases the NR4A3 locus lacks. ⚠ SO THE FIVE DESIGNS ARE NOT INTERCHANGEABLE AND MUST NOT BE PRESENTED AS A SET. ATGAGGGCCTTGTGTG is the only one that should be carried forward on this evidence; its sole named-target near-match (TCF12) is NOT gap-paired and so is not cleavage- competent, and its two exact genomic sites sit against a chance expectation of ~1.37 per design, i.e. at background. ⛔ AND THIS IS PRECISELY THE LIABILITY A SPLICED-cDNA PARENT SCREEN CANNOT SEE: all five designs cleared that screen 5/5. Had this junction been reported on the parent screen alone it would have read as uniformly clean, and the margin-1 design would have looked like a legitimate alternative.",
@@ -210,7 +269,7 @@
   "_same_as": "aso_screen_sets.MANUSCRIPT_GEOMETRY, asserted at build time"
  },
  "transcript_source": {
-  "requested": "auto",
+  "requested": "cache",
   "used_per_gene": {
    "EWSR1": "committed_cache",
    "TAF15": "committed_cache",

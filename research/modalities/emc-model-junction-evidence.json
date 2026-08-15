@@ -1,0 +1,250 @@
+{
+ "_what": "The published fusion-junction evidence behind the two NR4A3 exon-2 acceptor seams whitelisted for the identity-clean patient-derived EMC cell models USZ20-EMC1 and USZ22-EMC2 — and the re-derivation of those seams from this repository's committed transcript models.",
+ "_why": "`aso_noncoding_acceptor_designs.PUBLISHED_NONCODING_ACCEPTOR_JUNCTIONS` admits a seam ONLY where a published report places a patient's breakpoint at it, and each entry must name a home for that evidence. The wider EMC breakpoint census (research/manuscripts/aso/lit-targets-aso-breakpoint-census.json) is built from sequenced-junction case series and carries NO row for either USZ model — checked, not assumed — so these two entries had no home and this file is it.",
+ "_what_this_is_not": [
+  "Not an efficacy, activity, potency or safety claim. It is evidence and coordinates.",
+  "Not a resolution of the acceptor exon index. The ambiguity is the subject of this file, not something it settles; the reading a user must hold is the one home'd on `aso_noncoding_acceptor_designs._USZ_ACCEPTOR_AMBIGUITY` and is not restated here.",
+  "Not a coverage claim. Neither junction has a published patient count and neither is in the 58-case partner cohort every rung of aso_coverage_ladder.py is computed against, so a reagent at either seam moves coverage by exactly zero.",
+  "Not a survey of EMC models. It covers only the two junctions the whitelist needs."
+ ],
+ "_cost": "$0 — CPU, committed transcript caches, and reads of the literature-cache branch.",
+ "geometry": {
+  "oligo_len": 16,
+  "wing": 5,
+  "gap_nt": 6,
+  "architecture": "5-6-5 (LNA-DNA-LNA)",
+  "gap_region_1based": [
+   6,
+   11
+  ]
+ },
+ "transcript_source": {
+  "requested": "cache",
+  "used_per_gene": {
+   "NR4A3": "committed_cache",
+   "EWSR1": "committed_cache",
+   "PGR": "committed_cache",
+   "TAF15": "committed_cache"
+  },
+  "committed_cache_fetched_utc": "2026-08-12T13:41:57Z",
+  "_caveat": "At least one gene was read from the committed cache (emc-construct-inputs.json), not from Ensembl today. The cache is a dated measurement that passed this module's four self-checks; it is not a statement about Ensembl's current annotation."
+ },
+ "provenance_gate_per_gene": {
+  "NR4A3": "graded_exon_audit",
+  "EWSR1": "graded_exon_audit",
+  "PGR": "construct_inputs_self_checks_only",
+  "TAF15": "construct_inputs_self_checks_only"
+ },
+ "models": [
+  {
+   "model": "USZ20-EMC1",
+   "rrid": "RRID:CVCL_C6MX",
+   "cellosaurus_id_line_verbatim": "ID USZ20-EMC1",
+   "cellosaurus_ac_line_verbatim": "AC CVCL_C6MX",
+   "cellosaurus_sy_line_verbatim": "SY UniversitatsSpital Zurich 2020-Extraskeletal Myxoid Chondrosarcoma 1",
+   "reported_junction": "EWSR1 exon 13 :: NR4A3 exon 2",
+   "primary_source": "PMID 36316541 / PMC9813045 / DOI 10.1007/s13577-022-00818-x — Bangerter JL, Harnisch KJ, Chen Y, Hagedorn C, Planas-Paz L, Pauli C. Hum Cell 36:446-455 (2023)",
+   "primary_quote_figure4_legend_verbatim": "The rearrangement and fusion partner was confirmed by NGS using the FoundationOne®HEME assay. For USZ20-EMC1; EWSR1 was confirmed as fusion partner having exon 13 for EWSR1 on chr22 and exon 2 from NR4A3 on chr9 involved (B).",
+   "registry_quote_verbatim": "CC Sequence variation: Gene fusion; HGNC; HGNC:3508; EWSR1 + HGNC; HGNC:7982; NR4A3; Name(s)=EWSR1-NR4A3; Note=EWSR1 exon 13 fused to NR4A3 exon 2 (PubMed=36316541)."
+  },
+  {
+   "model": "USZ22-EMC2",
+   "rrid": "RRID:CVCL_C6MY",
+   "cellosaurus_id_line_verbatim": "ID USZ22-EMC2",
+   "cellosaurus_ac_line_verbatim": "AC CVCL_C6MY",
+   "cellosaurus_sy_line_verbatim": "SY UniversitatsSpital Zurich 2022-Extraskeletal Myxoid Chondrosarcoma 2",
+   "reported_junction": "TAF15 exon 6 :: NR4A3 exon 2",
+   "primary_source": "PMID 36316541 / PMC9813045 (the same paper)",
+   "primary_quote_figure4_legend_verbatim": "For USZ22-EMC2; TAF15 was confirmed as fusion partner having exon 6 for TAF15 on chr17 and exon 2 from NR4A3 on chr9 involved (D).",
+   "registry_quote_verbatim": "CC Sequence variation: Gene fusion; HGNC; HGNC:7982; NR4A3 + HGNC; HGNC:11547; TAF15; Name(s)=TAF15-NR4A3; Note=TAF15 exon 6 fused to NR4A3 exon 2 (PubMed=36316541)."
+  }
+ ],
+ "shared_evidence": {
+  "the_call_was_made_in_native_tumour_tissue_too_verbatim": "For USZ20-EMC1, an EWSR1-NR4A3 rearrangement and, for USZ22-EMC2, a TAF15-NR4A3 rearrangement in the native tumor tissue and the corresponding cell model was confirmed on the RNA level (Fig. b, d).",
+  "⭐_why_that_sentence_matters": "The whitelist admits a seam only where a published report places a PATIENT's breakpoint at it. This sentence is what makes these two cell-model junctions patient breakpoints rather than properties of a culture.",
+  "assay_verbatim": "FoundationOne®HEME assay is a next generation sequencing (NGS) assay that uses a hybrid capture methodology and detects base substitutions, insertions, deletions, and copy number (CN) alterations in up to 406 genes and gene rearrangements in up to 265 genes, tumor mutation burden and microsatellite instability using the previously described methods. DNA and RNA was extracted using the Maxwell® Tissue DNA Purification Kit (Promega AS1030).",
+  "identity_authentication_verbatim": "We further authenticated both cell models by analyzing highly polymorphic short tandem repeats (STR) of 16 microsatelllites and confirmed identical STR allel patterns between the native tumor and corresponding cell model. Both STR patterns did not mach those of any other cell line abvaialbel with within public cell banks examined using the cell line database, Cellosaurus",
+  "orthogonal_identity_verbatim": "DNA methylation profiling was performed from cells at passage 8 and confirmed the methylation class for EMC with a score of 0.99 for both cell models using the DKFZ Sarcoma Classifier platform version 12",
+  "availability_verbatim": "Both cell models USZ20-EMC1 and USZ22-EMC2 can be made available from the Laboratory for Systems Pathology and Functional Tumor Pathology, Department for Pathology and Molecular Parhology, University of Zurich, Zurich.",
+  "⛔_n_independent_sources_is_ONE_for_each": "The Cellosaurus rows cite PubMed=36316541, which is the same paper as the figure legend. One report, one assay, one pipeline — and the two models share it, so they are not independent corroboration of each other either.",
+  "⛔_no_nucleotide_resolution": "Neither the paper nor Cellosaurus reports a sequenced exon-exon boundary, a transcript accession or a junction sequence. The exon labels are the assay report's."
+ },
+ "sources_read": [
+  {
+   "what": "PMC9813045 full text (figure 4 legend, methods, results)",
+   "path": "literature-cache:literature/emc-cell-models-round2b-2026-08-15/ftxt_PMC9813045_usz.txt"
+  },
+  {
+   "what": "Cellosaurus records for both models",
+   "path": "literature-cache:literature/emc-cell-models-registry-2026-08-15/cellosaurus_usz20_emc1.txt and cellosaurus_usz22_emc2.txt"
+  },
+  {
+   "what": "UCSC ncbiRefSeqCurated, hg38, chr9:99,815,000-99,900,000 — every curated NR4A3 transcript, read here and re-parsed rather than quoted",
+   "path": "literature-cache:literature/emc-cell-models-round2b-2026-08-15/ucsc_NR4A3_refseq_hg38.txt",
+   "source_url": "https://api.genome.ucsc.edu/getData/track?genome=hg38;track=ncbiRefSeqCurated;chrom=chr9;start=99815000;end=99900000"
+  }
+ ],
+ "⭐_is_there_any_NR4A3_numbering_that_makes_exon_2_the_coding_acceptor": {
+  "_question": "Under any curated NR4A3 transcript model, does the CDS begin in exon 2?",
+  "_method": "every ncbiRefSeqCurated NR4A3 transcript in the window was re-parsed from the cached UCSC response at emit time; the 1-based exon containing cdsStart was computed from exonStarts/exonEnds, and the exonFrames vector is carried beside it as an independent statement of the same thing",
+  "_result": [
+   {
+    "refseq": "NM_173199.4",
+    "strand": "+",
+    "n_exons": 5,
+    "cdsStart": 99828042,
+    "exon_containing_cdsStart_1based": 3,
+    "exon_frames": "-1,-1,0,0,1,",
+    "n_leading_noncoding_exons_by_exonFrames": 2,
+    "exon1_span": [
+     99821884,
+     99822407
+    ],
+    "exon2_span": [
+     99825658,
+     99825832
+    ]
+   },
+   {
+    "refseq": "NM_006981.4",
+    "strand": "+",
+    "n_exons": 8,
+    "cdsStart": 99828042,
+    "exon_containing_cdsStart_1based": 3,
+    "exon_frames": "-1,-1,0,0,1,0,2,1,",
+    "n_leading_noncoding_exons_by_exonFrames": 2,
+    "exon1_span": [
+     99821884,
+     99822407
+    ],
+    "exon2_span": [
+     99825658,
+     99825832
+    ]
+   },
+   {
+    "refseq": "NM_173200.3",
+    "strand": "+",
+    "n_exons": 9,
+    "cdsStart": 99826770,
+    "exon_containing_cdsStart_1based": 3,
+    "exon_frames": "-1,-1,0,1,0,1,0,2,1,",
+    "n_leading_noncoding_exons_by_exonFrames": 2,
+    "exon1_span": [
+     99821884,
+     99822407
+    ],
+    "exon2_span": [
+     99825658,
+     99825832
+    ]
+   }
+  ],
+  "_answer": "NO. Every curated NR4A3 transcript begins its CDS in exon 3, and each carries exactly two leading non-coding exons by its own exonFrames vector. This repository's committed model agrees: nr4a3-exon-audit.json records transcript exons 1 and 2 with coding_nt_in_exon 0 and exon 3 with first_protein_residue 1.",
+  "⚠_what_that_does_and_does_not_settle": "It removes the SIMPLEST form of the breakpoint-label reading — that the report was numbering against some alternative transcript in which the coding acceptor really is exon 2. It does NOT remove that reading, because a breakpoint-flanking label is not a transcript-exon label at all. The full statement, and the reason both acceptors are designed rather than one chosen, is home'd on `aso_noncoding_acceptor_designs._USZ_ACCEPTOR_AMBIGUITY`.",
+  "⚠_NR4A3_numbering_does_diverge_past_exon_2": "In NM_173200.3 the third exon is the ~73-nt NR4A3 intron-2 cryptic exon this repository measured independently at 72 nt (nr4a3-intron2-cryptic-exon.json). So NR4A3 exon numbering genuinely differs between transcripts — it just never makes the canonical coding acceptor 'exon 2'."
+ },
+ "⭐_the_deriver_and_its_validation": {
+  "_why": "A seam handed over as a string is a claim about a coordinate, and this programme has already retracted one junction that came from a vendor exon label. So both seams are rebuilt from junction_aso.transcript_model, and the rebuilder is first required to reproduce four seams this repository already holds committed — two that fix the ACCEPTOR half and two that fix the DONOR half. A deriver validated on nothing is indistinguishable from a broken one.",
+  "validation_cases": [
+   {
+    "junction_label": "EWSR1_e7__NR4A3_e2",
+    "pins": "the NR4A3 exon-2 ACCEPTOR half, at a seam with three independent published sources",
+    "committed_artifact": "aso-noncoding-acceptor-designs.json",
+    "committed_junction_context_mRNA": "ACGGGCAGCAGA|AGCCCACTGCGG",
+    "rederived_junction_context_mRNA": "ACGGGCAGCAGA|AGCCCACTGCGG",
+    "agree": true
+   },
+   {
+    "junction_label": "PGR_e2__NR4A3_e2",
+    "pins": "the NR4A3 exon-2 ACCEPTOR half again, through an unrelated donor gene",
+    "committed_artifact": "aso-noncoding-acceptor-designs.json",
+    "committed_junction_context_mRNA": "GGGCAATGGAAG|AGCCCACTGCGG",
+    "rederived_junction_context_mRNA": "GGGCAATGGAAG|AGCCCACTGCGG",
+    "agree": true
+   },
+   {
+    "junction_label": "EWSR1_e13__NR4A3_e3",
+    "pins": "the EWSR1 exon-13 DONOR half — USZ20-EMC1's donor, at the panel's own acceptor",
+    "committed_artifact": "nr4a3-fusion-junction-atlas.json",
+    "committed_junction_context_mRNA": "CACTCCGTGGAG|ATATGCCCTGCG",
+    "rederived_junction_context_mRNA": "CACTCCGTGGAG|ATATGCCCTGCG",
+    "agree": true
+   },
+   {
+    "junction_label": "TAF15_e6__NR4A3_e3",
+    "pins": "the TAF15 exon-6 DONOR half — USZ22-EMC2's donor, at the panel's own acceptor",
+    "committed_artifact": "nr4a3-fusion-junction-atlas.json",
+    "committed_junction_context_mRNA": "ACCACACACAAG|ATATGCCCTGCG",
+    "rederived_junction_context_mRNA": "ACCACACACAAG|ATATGCCCTGCG",
+    "agree": true
+   }
+  ],
+  "all_validation_cases_agree": true
+ },
+ "seams_derived": [
+  {
+   "junction_label": "EWSR1_e13__NR4A3_e2",
+   "model": "USZ20-EMC1",
+   "rrid": "RRID:CVCL_C6MX",
+   "junction_context_mRNA_12plus12": "CACTCCGTGGAG|AGCCCACTGCGG",
+   "donor_transcript": "ENST00000397938",
+   "acceptor_transcript": "ENST00000395097",
+   "donor_tx_nt_through_cut": 1486,
+   "acceptor_tx_start_0based": 523,
+   "acceptor_exon_is_coding": false,
+   "acceptor_5utr_nt_retained": 176,
+   "measured_grade": "NON_CODING_ACCEPTOR"
+  },
+  {
+   "junction_label": "TAF15_e6__NR4A3_e2",
+   "model": "USZ22-EMC2",
+   "rrid": "RRID:CVCL_C6MY",
+   "junction_context_mRNA_12plus12": "ACCACACACAAG|AGCCCACTGCGG",
+   "donor_transcript": "ENST00000605844",
+   "acceptor_transcript": "ENST00000395097",
+   "donor_tx_nt_through_cut": 570,
+   "acceptor_tx_start_0based": 523,
+   "acceptor_exon_is_coding": false,
+   "acceptor_5utr_nt_retained": 176,
+   "measured_grade": "NON_CODING_ACCEPTOR"
+  }
+ ],
+ "nr4a3_wild_type_acceptor_context": {
+  "_why": "The acceptor half of every design at these seams is NR4A3 exon-2 5'UTR sequence. In the patient's UN-REARRANGED allele that same sequence sits immediately 3' of intron 1, so this is the coordinate a wild-type-allele liability lives at. Measured here so the finding at EWSR1_e13__NR4A3_e2 can be read without re-deriving it.",
+  "nr4a3_exon1_len_nt": 523,
+  "nr4a3_exon2_len_nt": 174,
+  "nr4a3_exon2_start_in_unspliced_0based": 3774,
+  "nr4a3_exon2_is_a_unique_substring_of_the_unspliced_sequence": true,
+  "nr4a3_intron1_last_12_nt": "CCTTGCCTGTAG",
+  "nr4a3_exon2_first_12_nt": "AGCCCACTGCGG",
+  "donor_last_12_nt_vs_nr4a3_intron1_last_12_nt": {
+   "EWSR1_e13": {
+    "donor_last_12_nt": "CACTCCGTGGAG",
+    "identity_over_12": 7,
+    "contiguous_identity_from_the_3_prime_end": 2
+   },
+   "TAF15_e6": {
+    "donor_last_12_nt": "ACCACACACAAG",
+    "identity_over_12": 4,
+    "contiguous_identity_from_the_3_prime_end": 2
+   },
+   "EWSR1_e7": {
+    "donor_last_12_nt": "ACGGGCAGCAGA",
+    "identity_over_12": 3,
+    "contiguous_identity_from_the_3_prime_end": 0
+   },
+   "PGR_e2": {
+    "donor_last_12_nt": "GGGCAATGGAAG",
+    "identity_over_12": 3,
+    "contiguous_identity_from_the_3_prime_end": 2
+   }
+  },
+  "⚠_this_is_a_context_measurement_not_a_verdict": "Which designs are actually condemned is measured by the scan, not by this table: read `⭐_wild_type_NR4A3_cleavage_liability` in aso-noncoding-acceptor-designs.json, which runs against NR4A3's whole unspliced sequence with a fixed known-positive control."
+ },
+ "what_would_settle_the_acceptor": [
+  "One RT-PCR/Sanger read across the junction in either USZ model, published or supplied — the same nucleotide-resolution confirmation §5.4 of the manuscript already requires before any reagent is used.",
+  "The FoundationOne®HEME report's own transcript reference for NR4A3, which would say whether its exon indices are RefSeq transcript indices or breakpoint-flanking labels.",
+  "Supplementary Table 1 of PMC9813045 — Europe PMC supplementaryFiles returned HTTP 200 with 0 bytes after three paced retries, which is an unanswered question rather than an empty one."
+ ]
+}

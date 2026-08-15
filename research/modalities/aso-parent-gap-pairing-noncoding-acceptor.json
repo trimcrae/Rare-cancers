@@ -12,7 +12,7 @@
  "_what_this_is_not": [
   "Not a measurement of off-target activity. A duplex is necessary for RNase-H1 cleavage, not sufficient, and nothing here is a cleavage assay.",
   "Not transcriptome-wide. Six parent transcripts only \u2014 the same bound the pre-mRNA arm carries.",
-  "MIN_DUPLEX_BP is a STATED threshold, not a measured one \u2014 though not an arbitrary one: 10 is the strict end of the 7-to-10 hybridised nucleotides PMID 35664704 reports as the minimum for RNase-H1 hybrid-binding-domain engagement, so this count is a floor and returns 10 of 10 at a threshold of 7. Every design's raw longest run is released so another threshold can be applied without re-running this.",
+  "MIN_DUPLEX_BP is a STATED threshold, not a measured one \u2014 though not an arbitrary one: 10 is the strict end of the 7-to-10 hybridised nucleotides PMID 35664704 reports as the minimum for RNase-H1 hybrid-binding-domain engagement, so this count is a floor and returns 20 of 20 at a threshold of 7. Every design's raw longest run is released so another threshold can be applied without re-running this.",
   "Not a result that turns on that threshold. The two designs surviving every screen in the manuscript have a longest run of ZERO at any length, and the ordering by gap-level margin is monotone at every threshold from 6 to 12."
  ],
  "_cost": "$0 \u2014 offline, over two committed artifacts, no network and no credentials.",
@@ -48,27 +48,73 @@
   ]
  },
  "corpus": {
-  "n_designs": 10,
-  "n_with_parent_duplex_through_gap": 1,
+  "n_designs": 20,
+  "n_with_parent_duplex_through_gap": 2,
   "by_gap_specificity_margin": {
    "3": {
-    "n_designs": 2,
+    "n_designs": 4,
     "n_with_parent_duplex": 0
    },
    "2": {
-    "n_designs": 4,
+    "n_designs": 8,
     "n_with_parent_duplex": 0
    },
    "1": {
-    "n_designs": 4,
-    "n_with_parent_duplex": 1
+    "n_designs": 8,
+    "n_with_parent_duplex": 2
    }
   },
   "which_parent_supplies_it": {
-   "NR4A3": 1
+   "NR4A3": 1,
+   "TAF15": 1
   }
  },
  "per_design": [
+  {
+   "junction": "EWSR1_e13__NR4A3_e2",
+   "antisense_5to3": "AGTGGGCTCTCCACGG",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 8,
+   "parent": "EWSR1",
+   "parent_start_0based": 1046,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "EWSR1_e13__NR4A3_e2",
+   "antisense_5to3": "CAGTGGGCTCTCCACG",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 8,
+   "parent": "NR4A3",
+   "parent_start_0based": 1829,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "EWSR1_e13__NR4A3_e2",
+   "antisense_5to3": "GCAGTGGGCTCTCCAC",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 8,
+   "parent": "NR4A3",
+   "parent_start_0based": 1830,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "EWSR1_e13__NR4A3_e2",
+   "antisense_5to3": "GTGGGCTCTCCACGGA",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 8,
+   "parent": "EWSR1",
+   "parent_start_0based": 1045,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "EWSR1_e13__NR4A3_e2",
+   "antisense_5to3": "TGGGCTCTCCACGGAG",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 8,
+   "parent": "EWSR1",
+   "parent_start_0based": 1044,
+   "counts_as_liability": false
+  },
   {
    "junction": "EWSR1_e7__NR4A3_e2",
    "antisense_5to3": "AGTGGGCTTCTGCTGC",
@@ -158,6 +204,51 @@
    "parent": "TAF15",
    "parent_start_0based": 378,
    "counts_as_liability": false
+  },
+  {
+   "junction": "TAF15_e6__NR4A3_e2",
+   "antisense_5to3": "AGTGGGCTCTTGTGTG",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 9,
+   "parent": "NR4A3",
+   "parent_start_0based": 1828,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TAF15_e6__NR4A3_e2",
+   "antisense_5to3": "CAGTGGGCTCTTGTGT",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 9,
+   "parent": "NR4A3",
+   "parent_start_0based": 1829,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TAF15_e6__NR4A3_e2",
+   "antisense_5to3": "GCAGTGGGCTCTTGTG",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 9,
+   "parent": "NR4A3",
+   "parent_start_0based": 1830,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TAF15_e6__NR4A3_e2",
+   "antisense_5to3": "GTGGGCTCTTGTGTGT",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 8,
+   "parent": "TCF12",
+   "parent_start_0based": 3565,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "TAF15_e6__NR4A3_e2",
+   "antisense_5to3": "TGGGCTCTTGTGTGTG",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 11,
+   "parent": "TAF15",
+   "parent_start_0based": 560,
+   "counts_as_liability": true
   }
  ]
 }

@@ -141,10 +141,10 @@
         "TFG"
       ],
       "corpus": {
-        "designs": 10,
-        "with_any_hit": 1,
-        "with_hybridisable_gap_paired": 0,
-        "with_a_liability_invisible_to_mature_screens": 0
+        "designs": 20,
+        "with_any_hit": 3,
+        "with_hybridisable_gap_paired": 2,
+        "with_a_liability_invisible_to_mature_screens": 2
       },
       "genome_wide_arm": false
     },
@@ -1936,8 +1936,126 @@
     "junction-aso-offtarget-e7n2-deep500.json": "CORRECT",
     "junction-aso-offtarget-pgre2n2-deep500.json": "CORRECT"
   },
-  "n_junctions": 2,
+  "n_junctions": 4,
   "junctions": [
+    {
+      "junction_label": "EWSR1_e13__NR4A3_e2",
+      "clinical_tier": "published_exon_resolved_breakpoint",
+      "breakpoint_refs": [
+        "PMID 36316541 (PMC9813045), Hum Cell 36:446-455 (2023), Figure 4 legend"
+      ],
+      "n_designs_screened": 5,
+      "n_designs_clearing_the_parent_screen": 5,
+      "n_designs_with_no_parent_screen_reading": 0,
+      "best_available": null,
+      "_why_no_best_available": "the rank key is the transcriptome load among designs clearing the parent screen, and the alignment screen that measures it has not run. Ranking on the screens that did run would manufacture a recommendation out of an absence.",
+      "best_by_gap_specificity_margin": "AGTGGGCTCTCCACGG",
+      "⛔_unmeasured_fields": [
+        "gap_paired_loci",
+        "genome_named_target_genes",
+        "genome_named_target_sites",
+        "genome_oe_gap_paired_le2",
+        "n_gap_paired",
+        "n_gap_paired_loci",
+        "n_hybridisable",
+        "n_near_matches"
+      ],
+      "⛔_unmeasured_is_not_clean": "every field listed above is null because the screen that measures it HAS NOT RUN. Null is an absent reading; it is not a reading of absence, and it must never be read as zero off-target load.",
+      "designs": [
+        {
+          "antisense_5to3": "AGTGGGCTCTCCACGG",
+          "gap_specificity_margin": 3,
+          "n_gap_paired": null,
+          "n_gap_paired_loci": null,
+          "gap_paired_loci": null,
+          "n_hybridisable": null,
+          "n_near_matches": null,
+          "parent": "EWSR1",
+          "parent_duplex_bp": 8,
+          "parent_is_liability": false,
+          "premrna_gap_paired_hybridisable": 0,
+          "genome_oe_gap_paired_le2": null,
+          "genome_named_target_sites": null,
+          "genome_named_target_genes": null,
+          "⛔_cleaves_wild_type_NR4A3": false
+        },
+        {
+          "antisense_5to3": "GTGGGCTCTCCACGGA",
+          "gap_specificity_margin": 2,
+          "n_gap_paired": null,
+          "n_gap_paired_loci": null,
+          "gap_paired_loci": null,
+          "n_hybridisable": null,
+          "n_near_matches": null,
+          "parent": "EWSR1",
+          "parent_duplex_bp": 8,
+          "parent_is_liability": false,
+          "premrna_gap_paired_hybridisable": 0,
+          "genome_oe_gap_paired_le2": null,
+          "genome_named_target_sites": null,
+          "genome_named_target_genes": null,
+          "⛔_cleaves_wild_type_NR4A3": false
+        },
+        {
+          "antisense_5to3": "CAGTGGGCTCTCCACG",
+          "gap_specificity_margin": 2,
+          "n_gap_paired": null,
+          "n_gap_paired_loci": null,
+          "gap_paired_loci": null,
+          "n_hybridisable": null,
+          "n_near_matches": null,
+          "parent": "NR4A3",
+          "parent_duplex_bp": 8,
+          "parent_is_liability": false,
+          "premrna_gap_paired_hybridisable": 1,
+          "genome_oe_gap_paired_le2": null,
+          "genome_named_target_sites": null,
+          "genome_named_target_genes": null,
+          "⛔_cleaves_wild_type_NR4A3": true
+        },
+        {
+          "antisense_5to3": "TGGGCTCTCCACGGAG",
+          "gap_specificity_margin": 1,
+          "n_gap_paired": null,
+          "n_gap_paired_loci": null,
+          "gap_paired_loci": null,
+          "n_hybridisable": null,
+          "n_near_matches": null,
+          "parent": "EWSR1",
+          "parent_duplex_bp": 8,
+          "parent_is_liability": false,
+          "premrna_gap_paired_hybridisable": 0,
+          "genome_oe_gap_paired_le2": null,
+          "genome_named_target_sites": null,
+          "genome_named_target_genes": null,
+          "⛔_cleaves_wild_type_NR4A3": false
+        },
+        {
+          "antisense_5to3": "GCAGTGGGCTCTCCAC",
+          "gap_specificity_margin": 1,
+          "n_gap_paired": null,
+          "n_gap_paired_loci": null,
+          "gap_paired_loci": null,
+          "n_hybridisable": null,
+          "n_near_matches": null,
+          "parent": "NR4A3",
+          "parent_duplex_bp": 8,
+          "parent_is_liability": false,
+          "premrna_gap_paired_hybridisable": 1,
+          "genome_oe_gap_paired_le2": null,
+          "genome_named_target_sites": null,
+          "genome_named_target_genes": null,
+          "⛔_cleaves_wild_type_NR4A3": true
+        }
+      ],
+      "screens_complete": false,
+      "n_designs_cleaving_wild_type_NR4A3": 2,
+      "designs_cleaving_wild_type_NR4A3": [
+        "CAGTGGGCTCTCCACG",
+        "GCAGTGGGCTCTCCAC"
+      ],
+      "⚠_the_parent_screen_cannot_see_this": "the column above is NOT one of the five screens. It is a scan of NR4A3's own UNSPLICED sequence, which the mature-parent screen structurally cannot reach; a design condemned there may still read as clearing the parent screen in the same row."
+    },
     {
       "junction_label": "EWSR1_e7__NR4A3_e2",
       "clinical_tier": "published_exon_resolved_breakpoint",
@@ -1970,7 +2088,8 @@
         "premrna_gap_paired_hybridisable": 0,
         "genome_oe_gap_paired_le2": 1.507,
         "genome_named_target_sites": 0,
-        "genome_named_target_genes": []
+        "genome_named_target_genes": [],
+        "⛔_cleaves_wild_type_NR4A3": false
       },
       "best_by_gap_specificity_margin": "AGTGGGCTTCTGCTGC",
       "designs": [
@@ -1996,7 +2115,8 @@
           "premrna_gap_paired_hybridisable": 0,
           "genome_oe_gap_paired_le2": 1.507,
           "genome_named_target_sites": 0,
-          "genome_named_target_genes": []
+          "genome_named_target_genes": [],
+          "⛔_cleaves_wild_type_NR4A3": false
         },
         {
           "antisense_5to3": "AGTGGGCTTCTGCTGC",
@@ -2024,7 +2144,8 @@
           "premrna_gap_paired_hybridisable": 0,
           "genome_oe_gap_paired_le2": 1.401,
           "genome_named_target_sites": 0,
-          "genome_named_target_genes": []
+          "genome_named_target_genes": [],
+          "⛔_cleaves_wild_type_NR4A3": false
         },
         {
           "antisense_5to3": "GTGGGCTTCTGCTGCC",
@@ -2052,7 +2173,8 @@
           "premrna_gap_paired_hybridisable": 0,
           "genome_oe_gap_paired_le2": 1.62,
           "genome_named_target_sites": 0,
-          "genome_named_target_genes": []
+          "genome_named_target_genes": [],
+          "⛔_cleaves_wild_type_NR4A3": false
         },
         {
           "antisense_5to3": "TGGGCTTCTGCTGCCC",
@@ -2084,7 +2206,8 @@
           "premrna_gap_paired_hybridisable": 0,
           "genome_oe_gap_paired_le2": 2.078,
           "genome_named_target_sites": 0,
-          "genome_named_target_genes": []
+          "genome_named_target_genes": [],
+          "⛔_cleaves_wild_type_NR4A3": false
         },
         {
           "antisense_5to3": "GCAGTGGGCTTCTGCT",
@@ -2105,10 +2228,14 @@
           "premrna_gap_paired_hybridisable": 0,
           "genome_oe_gap_paired_le2": 1.425,
           "genome_named_target_sites": 0,
-          "genome_named_target_genes": []
+          "genome_named_target_genes": [],
+          "⛔_cleaves_wild_type_NR4A3": false
         }
       ],
-      "screens_complete": true
+      "screens_complete": true,
+      "n_designs_cleaving_wild_type_NR4A3": 0,
+      "designs_cleaving_wild_type_NR4A3": [],
+      "⚠_the_parent_screen_cannot_see_this": "the column above is NOT one of the five screens. It is a scan of NR4A3's own UNSPLICED sequence, which the mature-parent screen structurally cannot reach; a design condemned there may still read as clearing the parent screen in the same row."
     },
     {
       "junction_label": "PGR_e2__NR4A3_e2",
@@ -2147,7 +2274,8 @@
         "premrna_gap_paired_hybridisable": 0,
         "genome_oe_gap_paired_le2": 1.186,
         "genome_named_target_sites": 0,
-        "genome_named_target_genes": []
+        "genome_named_target_genes": [],
+        "⛔_cleaves_wild_type_NR4A3": false
       },
       "best_by_gap_specificity_margin": "AGTGGGCTCTTCCATT",
       "designs": [
@@ -2180,7 +2308,8 @@
           "premrna_gap_paired_hybridisable": 0,
           "genome_oe_gap_paired_le2": 1.186,
           "genome_named_target_sites": 0,
-          "genome_named_target_genes": []
+          "genome_named_target_genes": [],
+          "⛔_cleaves_wild_type_NR4A3": false
         },
         {
           "antisense_5to3": "CAGTGGGCTCTTCCAT",
@@ -2213,7 +2342,8 @@
           "premrna_gap_paired_hybridisable": 0,
           "genome_oe_gap_paired_le2": 1.39,
           "genome_named_target_sites": 0,
-          "genome_named_target_genes": []
+          "genome_named_target_genes": [],
+          "⛔_cleaves_wild_type_NR4A3": false
         },
         {
           "antisense_5to3": "GTGGGCTCTTCCATTG",
@@ -2246,7 +2376,8 @@
           "premrna_gap_paired_hybridisable": 0,
           "genome_oe_gap_paired_le2": 1.064,
           "genome_named_target_sites": 0,
-          "genome_named_target_genes": []
+          "genome_named_target_genes": [],
+          "⛔_cleaves_wild_type_NR4A3": false
         },
         {
           "antisense_5to3": "GCAGTGGGCTCTTCCA",
@@ -2285,7 +2416,8 @@
           "genome_named_target_sites": 1,
           "genome_named_target_genes": [
             "PGR"
-          ]
+          ],
+          "⛔_cleaves_wild_type_NR4A3": false
         },
         {
           "antisense_5to3": "TGGGCTCTTCCATTGC",
@@ -2327,10 +2459,353 @@
           "genome_named_target_sites": 1,
           "genome_named_target_genes": [
             "NR4A2"
-          ]
+          ],
+          "⛔_cleaves_wild_type_NR4A3": false
         }
       ],
-      "screens_complete": true
+      "screens_complete": true,
+      "n_designs_cleaving_wild_type_NR4A3": 0,
+      "designs_cleaving_wild_type_NR4A3": [],
+      "⚠_the_parent_screen_cannot_see_this": "the column above is NOT one of the five screens. It is a scan of NR4A3's own UNSPLICED sequence, which the mature-parent screen structurally cannot reach; a design condemned there may still read as clearing the parent screen in the same row."
+    },
+    {
+      "junction_label": "TAF15_e6__NR4A3_e2",
+      "clinical_tier": "published_exon_resolved_breakpoint",
+      "breakpoint_refs": [
+        "PMID 36316541 (PMC9813045), Hum Cell 36:446-455 (2023), Figure 4 legend",
+        "⚠ THE DONOR HALF IS THE ONE HALF NOBODY DISPUTES, AND IT IS THE COMMONEST TAF15 DONOR IN THE DISEASE: PMID 31020999 (PMC6766969) builds 'T-N*, corresponding to the commonest TAF15 (exons 1-6)-NR4A3 (exons 3-8) fusion'. The disagreement between that construct and this report is at the ACCEPTOR only"
+      ],
+      "n_designs_screened": 5,
+      "n_designs_clearing_the_parent_screen": 4,
+      "n_designs_with_no_parent_screen_reading": 0,
+      "best_available": null,
+      "_why_no_best_available": "the rank key is the transcriptome load among designs clearing the parent screen, and the alignment screen that measures it has not run. Ranking on the screens that did run would manufacture a recommendation out of an absence.",
+      "best_by_gap_specificity_margin": "AGTGGGCTCTTGTGTG",
+      "⛔_unmeasured_fields": [
+        "gap_paired_loci",
+        "genome_named_target_genes",
+        "genome_named_target_sites",
+        "genome_oe_gap_paired_le2",
+        "n_gap_paired",
+        "n_gap_paired_loci",
+        "n_hybridisable",
+        "n_near_matches"
+      ],
+      "⛔_unmeasured_is_not_clean": "every field listed above is null because the screen that measures it HAS NOT RUN. Null is an absent reading; it is not a reading of absence, and it must never be read as zero off-target load.",
+      "designs": [
+        {
+          "antisense_5to3": "AGTGGGCTCTTGTGTG",
+          "gap_specificity_margin": 3,
+          "n_gap_paired": null,
+          "n_gap_paired_loci": null,
+          "gap_paired_loci": null,
+          "n_hybridisable": null,
+          "n_near_matches": null,
+          "parent": "NR4A3",
+          "parent_duplex_bp": 9,
+          "parent_is_liability": false,
+          "premrna_gap_paired_hybridisable": 0,
+          "genome_oe_gap_paired_le2": null,
+          "genome_named_target_sites": null,
+          "genome_named_target_genes": null,
+          "⛔_cleaves_wild_type_NR4A3": false
+        },
+        {
+          "antisense_5to3": "GTGGGCTCTTGTGTGT",
+          "gap_specificity_margin": 2,
+          "n_gap_paired": null,
+          "n_gap_paired_loci": null,
+          "gap_paired_loci": null,
+          "n_hybridisable": null,
+          "n_near_matches": null,
+          "parent": "TCF12",
+          "parent_duplex_bp": 8,
+          "parent_is_liability": false,
+          "premrna_gap_paired_hybridisable": 0,
+          "genome_oe_gap_paired_le2": null,
+          "genome_named_target_sites": null,
+          "genome_named_target_genes": null,
+          "⛔_cleaves_wild_type_NR4A3": false
+        },
+        {
+          "antisense_5to3": "CAGTGGGCTCTTGTGT",
+          "gap_specificity_margin": 2,
+          "n_gap_paired": null,
+          "n_gap_paired_loci": null,
+          "gap_paired_loci": null,
+          "n_hybridisable": null,
+          "n_near_matches": null,
+          "parent": "NR4A3",
+          "parent_duplex_bp": 9,
+          "parent_is_liability": false,
+          "premrna_gap_paired_hybridisable": 0,
+          "genome_oe_gap_paired_le2": null,
+          "genome_named_target_sites": null,
+          "genome_named_target_genes": null,
+          "⛔_cleaves_wild_type_NR4A3": false
+        },
+        {
+          "antisense_5to3": "TGGGCTCTTGTGTGTG",
+          "gap_specificity_margin": 1,
+          "n_gap_paired": null,
+          "n_gap_paired_loci": null,
+          "gap_paired_loci": null,
+          "n_hybridisable": null,
+          "n_near_matches": null,
+          "parent": "TAF15",
+          "parent_duplex_bp": 11,
+          "parent_is_liability": true,
+          "premrna_gap_paired_hybridisable": 0,
+          "genome_oe_gap_paired_le2": null,
+          "genome_named_target_sites": null,
+          "genome_named_target_genes": null,
+          "⛔_cleaves_wild_type_NR4A3": false
+        },
+        {
+          "antisense_5to3": "GCAGTGGGCTCTTGTG",
+          "gap_specificity_margin": 1,
+          "n_gap_paired": null,
+          "n_gap_paired_loci": null,
+          "gap_paired_loci": null,
+          "n_hybridisable": null,
+          "n_near_matches": null,
+          "parent": "NR4A3",
+          "parent_duplex_bp": 9,
+          "parent_is_liability": false,
+          "premrna_gap_paired_hybridisable": 0,
+          "genome_oe_gap_paired_le2": null,
+          "genome_named_target_sites": null,
+          "genome_named_target_genes": null,
+          "⛔_cleaves_wild_type_NR4A3": false
+        }
+      ],
+      "screens_complete": false,
+      "n_designs_cleaving_wild_type_NR4A3": 0,
+      "designs_cleaving_wild_type_NR4A3": [],
+      "⚠_the_parent_screen_cannot_see_this": "the column above is NOT one of the five screens. It is a scan of NR4A3's own UNSPLICED sequence, which the mature-parent screen structurally cannot reach; a design condemned there may still read as clearing the parent screen in the same row."
     }
-  ]
+  ],
+  "⭐_wild_type_NR4A3_cleavage_liability": {
+    "⛔_the_question": "does this reagent form an RNase-H1-competent duplex on the patient's own UN-REARRANGED NR4A3 allele? The acceptor half of every design here is NR4A3 exon-2 5'UTR sequence, which in the wild-type allele sits immediately 3' of intron 1 — a compartment the spliced-cDNA parent screen cannot see, because a mature transcript has exon 1 there.",
+    "⛔_a_clean_parent_screen_is_not_an_answer": "every design in this module clears the parent exclusion, and that screen searches MATURE cDNA only. At the sibling cryptic-exon seam all five designs cleared it and one was then measured cleaving wild-type NR4A3.",
+    "positive_control": {
+      "control_junction": "TAF15 e6 :: NR4A3 intron-2 cryptic exon",
+      "expected": "exactly 1 cleavage-competent design (TGATGAGGGCCTTGTG), per the genome screen",
+      "observed_n_cleavage_competent_designs": 1,
+      "observed_designs": [
+        "TGATGAGGGCCTTGTG"
+      ],
+      "passed": true,
+      "⛔_if_this_fails": "the wild-type liability scan is not detecting the one case it is known to have to detect, so no 'clean' verdict above may be relied on.",
+      "_full": {
+        "_status": "run",
+        "_source": "aso-premrna-sequences.json -> genes.NR4A3.sequence (unspliced)",
+        "_method": "exhaustive <=2-mismatch scan of the NR4A3 unspliced sequence; the catalytic gap is positions 5..10 of the 16-mer target (5-6-5). A site with zero gap mismatches is treated as cleavage-competent, the same criterion the genome screen applies.",
+        "⚠_scope": "ONE LOCUS ONLY — NR4A3's own pre-mRNA, where this seam's liability lives. NOT a genome-wide result and NOT a substitute for aso_genome_offtarget.py.",
+        "per_design": {
+          "ATGAGGGCCTTGTGTG": {
+            "n_sites_le2_mismatches": 0,
+            "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+            "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+            "sites": []
+          },
+          "TGAGGGCCTTGTGTGT": {
+            "n_sites_le2_mismatches": 0,
+            "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+            "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+            "sites": []
+          },
+          "GATGAGGGCCTTGTGT": {
+            "n_sites_le2_mismatches": 0,
+            "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+            "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+            "sites": []
+          },
+          "TGATGAGGGCCTTGTG": {
+            "n_sites_le2_mismatches": 1,
+            "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 1,
+            "verdict": "⛔ FORMS A GAP-PAIRED DUPLEX ON THE UN-REARRANGED NR4A3 ALLELE — RNase-H1-competent on wild-type NR4A3. DO NOT CARRY FORWARD.",
+            "sites": [
+              {
+                "pre_mrna_offset": 4839,
+                "site_5to3": "CAACAGGCCCTCATCA",
+                "n_mismatches": 2,
+                "mismatch_positions": [
+                  2,
+                  3
+                ],
+                "n_gap_mismatches": 0,
+                "gap_fully_paired": true,
+                "offset_relative_to_cryptic_exon_start": -6
+              }
+            ]
+          },
+          "GAGGGCCTTGTGTGTG": {
+            "n_sites_le2_mismatches": 0,
+            "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+            "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+            "sites": []
+          }
+        }
+      }
+    },
+    "n_designs_scanned": 20,
+    "n_designs_cleaving_wild_type_NR4A3": 2,
+    "designs_cleaving_wild_type_NR4A3": [
+      "CAGTGGGCTCTCCACG",
+      "GCAGTGGGCTCTCCAC"
+    ],
+    "scan": {
+      "_status": "run",
+      "_source": "aso-premrna-sequences.json -> genes.NR4A3.sequence (unspliced)",
+      "_method": "exhaustive <=2-mismatch scan of the NR4A3 unspliced sequence; the catalytic gap is positions 5..10 of the 16-mer target (5-6-5). A site with zero gap mismatches is treated as cleavage-competent, the same criterion the genome screen applies.",
+      "⚠_scope": "ONE LOCUS ONLY — NR4A3's own pre-mRNA, where this seam's liability lives. NOT a genome-wide result and NOT a substitute for aso_genome_offtarget.py.",
+      "per_design": {
+        "AGTGGGCTCTCCACGG": {
+          "n_sites_le2_mismatches": 0,
+          "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+          "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+          "sites": []
+        },
+        "AGTGGGCTCTTCCATT": {
+          "n_sites_le2_mismatches": 0,
+          "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+          "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+          "sites": []
+        },
+        "AGTGGGCTCTTGTGTG": {
+          "n_sites_le2_mismatches": 0,
+          "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+          "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+          "sites": []
+        },
+        "AGTGGGCTTCTGCTGC": {
+          "n_sites_le2_mismatches": 0,
+          "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+          "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+          "sites": []
+        },
+        "CAGTGGGCTCTCCACG": {
+          "n_sites_le2_mismatches": 1,
+          "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 1,
+          "verdict": "⛔ FORMS A GAP-PAIRED DUPLEX ON THE UN-REARRANGED NR4A3 ALLELE — RNase-H1-competent on wild-type NR4A3. DO NOT CARRY FORWARD.",
+          "sites": [
+            {
+              "pre_mrna_offset": 3767,
+              "site_5to3": "CCTGTAGAGCCCACTG",
+              "n_mismatches": 2,
+              "mismatch_positions": [
+                1,
+                4
+              ],
+              "n_gap_mismatches": 0,
+              "gap_fully_paired": true
+            }
+          ]
+        },
+        "CAGTGGGCTCTTCCAT": {
+          "n_sites_le2_mismatches": 0,
+          "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+          "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+          "sites": []
+        },
+        "CAGTGGGCTCTTGTGT": {
+          "n_sites_le2_mismatches": 0,
+          "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+          "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+          "sites": []
+        },
+        "CAGTGGGCTTCTGCTG": {
+          "n_sites_le2_mismatches": 0,
+          "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+          "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+          "sites": []
+        },
+        "GCAGTGGGCTCTCCAC": {
+          "n_sites_le2_mismatches": 1,
+          "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 1,
+          "verdict": "⛔ FORMS A GAP-PAIRED DUPLEX ON THE UN-REARRANGED NR4A3 ALLELE — RNase-H1-competent on wild-type NR4A3. DO NOT CARRY FORWARD.",
+          "sites": [
+            {
+              "pre_mrna_offset": 3768,
+              "site_5to3": "CTGTAGAGCCCACTGC",
+              "n_mismatches": 2,
+              "mismatch_positions": [
+                0,
+                3
+              ],
+              "n_gap_mismatches": 0,
+              "gap_fully_paired": true
+            }
+          ]
+        },
+        "GCAGTGGGCTCTTCCA": {
+          "n_sites_le2_mismatches": 0,
+          "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+          "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+          "sites": []
+        },
+        "GCAGTGGGCTCTTGTG": {
+          "n_sites_le2_mismatches": 0,
+          "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+          "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+          "sites": []
+        },
+        "GCAGTGGGCTTCTGCT": {
+          "n_sites_le2_mismatches": 0,
+          "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+          "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+          "sites": []
+        },
+        "GTGGGCTCTCCACGGA": {
+          "n_sites_le2_mismatches": 0,
+          "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+          "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+          "sites": []
+        },
+        "GTGGGCTCTTCCATTG": {
+          "n_sites_le2_mismatches": 0,
+          "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+          "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+          "sites": []
+        },
+        "GTGGGCTCTTGTGTGT": {
+          "n_sites_le2_mismatches": 0,
+          "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+          "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+          "sites": []
+        },
+        "GTGGGCTTCTGCTGCC": {
+          "n_sites_le2_mismatches": 0,
+          "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+          "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+          "sites": []
+        },
+        "TGGGCTCTCCACGGAG": {
+          "n_sites_le2_mismatches": 0,
+          "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+          "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+          "sites": []
+        },
+        "TGGGCTCTTCCATTGC": {
+          "n_sites_le2_mismatches": 0,
+          "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+          "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+          "sites": []
+        },
+        "TGGGCTCTTGTGTGTG": {
+          "n_sites_le2_mismatches": 0,
+          "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+          "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+          "sites": []
+        },
+        "TGGGCTTCTGCTGCCC": {
+          "n_sites_le2_mismatches": 0,
+          "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+          "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+          "sites": []
+        }
+      }
+    }
+  }
 }

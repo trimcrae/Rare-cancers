@@ -9,6 +9,19 @@ sequenced again in an independent patient (PMID 35488288). The panel cannot expr
 atlas grades every exon-2 acceptor NON_CODING_ACCEPTOR: NR4A3 exon 2 lies upstream of the start
 codon, so the chimera it makes is not the fusion protein.
 
+⭐⭐ AND SINCE 2026-08-15 A THIRD KIND OF ENTRY SITS HERE: A SEAM WHOSE ACCEPTOR EXON INDEX IS
+ITSELF THE OPEN QUESTION. The two identity-clean patient-derived EMC cell models in existence —
+USZ20-EMC1 (CVCL_C6MX) and USZ22-EMC2 (CVCL_C6MY), PMID 36316541 / PMC9813045 — are both reported
+fusing to "exon 2 from NR4A3", from a FoundationOne®HEME report with no sequenced exon-exon
+boundary, no transcript accession and no junction sequence. That label admits two readings and this
+module CANNOT decide between them (the full statement is on each entry's
+`⚠_read_this_before_using_the_sequence`, which is the one home for it). ⛔ THE POINT OF ADDING THEM
+IS NOT THAT THE LITERAL READING WON. It is that designing at BOTH acceptors retires the ambiguity as
+a blocker: the exon-3 seams are already in the manuscript panel and already screened, so once the
+exon-2 seams exist each model has a reagent under EITHER reading, and nothing downstream has to wait
+on an exon index nobody has sequenced. That is a different justification from the other entries here
+and it is written down as one rather than blended into them.
+
 ⭐ AND SINCE 2026-08-15 A SECOND KIND OF EXCLUSION SITS IN THE SAME LANE: A PARTNER GENE THE ATLAS
 DOES NOT MODEL AT ALL. PMID 36103645 reports an EMC fused at "PGR (exon2) to the 5′ untranslated
 region (UTR) of NR4A3 (exon2)" — progesterone receptor, a 5' partner outside the five this
@@ -84,6 +97,26 @@ sys.path.insert(0, HERE)
 
 import junction_aso as ja  # noqa: E402
 import aso_screen_sets as ass  # noqa: E402
+
+
+#: ⭐⭐ THE WILD-TYPE-ALLELE SCAN, BORROWED RATHER THAN REIMPLEMENTED (added 2026-08-15).
+#:
+#: ⛔ WHY IT BELONGS AT THIS SEAM AND NOT ONLY AT THE CRYPTIC-EXON ONE. The acceptor half of every
+#: design in this module is NR4A3 exon-2 5'UTR sequence, and in the patient's UN-REARRANGED NR4A3
+#: allele that same sequence sits immediately 3' of intron 1. So a design whose 6-nt catalytic gap
+#: falls mostly on acceptor bases can form a fully gap-paired, RNase-H1-competent duplex on the
+#: wild-type allele, across the intron-1/exon-2 boundary — in a compartment the spliced-cDNA parent
+#: screen in `design(parents=...)` STRUCTURALLY CANNOT SEE, because a mature NR4A3 transcript has
+#: exon 1 there instead of intron 1. Measured at the sibling cryptic-exon seam: all five designs
+#: cleared the parent screen and the genome screen then found one of them cleaving wild-type NR4A3.
+#: A 5/5 parent-screen pass is therefore not evidence either way, here or there.
+#:
+#: ⛔ AND IT IS THE SAME FUNCTION, NOT A SECOND ONE. `aso_taf15_intron2_designs.wildtype_nr4a3_liability`
+#: is already validated against a known positive; a private copy here would be a second definition
+#: of "cleavage-competent on wild-type NR4A3" and the two would disagree the first time either was
+#: edited. Its `cryptic` argument is the anchor for a cryptic-exon-relative offset and is passed
+#: None here, which is the only difference.
+import aso_taf15_intron2_designs as _wt  # noqa: E402
 
 #: ⛔⛔ RETRACTED — SEAMS THIS MODULE ONCE WHITELISTED AND MUST NEVER REACH AGAIN.
 #:
@@ -259,6 +292,62 @@ RETRACTED_PUBLISHED_BREAKPOINTS = {
     },
 }
 
+#: ⛔⛔ THE ONE HOME FOR THE USZ ACCEPTOR AMBIGUITY — shared verbatim by both USZ entries below.
+#:
+#: It is a CONSTANT and not two paragraphs because it is ONE fact about ONE report: two cell models,
+#: one paper, one FoundationOne®HEME pipeline, one shared acceptor label. Written out twice it would
+#: drift the first time either entry was edited, which is rule 1 exactly. ⚠ AND IT IS NOT A FOOTNOTE
+#: TO THE SEQUENCES — it is the reason the sequences exist, so it travels into every artifact built
+#: from this dict through `⚠_read_this_before_using_the_sequence`.
+_USZ_ACCEPTOR_AMBIGUITY = (
+    "FIVE THINGS A READER MUST HOLD AT ONCE, AND THE SEQUENCE ARITHMETIC RESOLVES NONE OF THEM. "
+    "(1) THE ACCEPTOR EXON INDEX IS NOT SETTLED AND THIS ENTRY DOES NOT SETTLE IT. The only "
+    "statement of these two junctions anywhere is a FoundationOne®HEME report label quoted in a "
+    "figure legend: 'exon 2 from NR4A3'. There is NO sequenced exon-exon boundary, NO transcript "
+    "accession and NO junction sequence behind it. Two readings survive. READING A (literal): the "
+    "acceptor really is NR4A3 transcript exon 2 — not an absurd reading, because NR4A3 exon 2 is a "
+    "genuine sequence-confirmed EMC acceptor, which is what the EWSR1 e7 :: NR4A3 e2 type 2 "
+    "transcript in this same dict is. READING B (breakpoint-flanking label): the number names the "
+    "last exon 5' of the break the assay called, while the spliced transcript still joins the donor "
+    "to NR4A3 exon 3 — the junction the manuscript panel already carries and has already screened. "
+    "⛔ THIS REPOSITORY HAS ALREADY RETRACTED A SEAM FOR EXACTLY THIS CLASS OF ERROR: "
+    "EWSR1_e11__NR4A3_e3, withdrawn 2026-08-15, a vendor exon label read as a reference exon index "
+    "(see RETRACTED_PUBLISHED_BREAKPOINTS above). "
+    "(2) THE MEASUREMENT THAT WAS TAKEN, AND WHAT IT DID AND DID NOT REMOVE. Every NR4A3 transcript "
+    "model that could have made 'exon 2' the coding acceptor was checked, and none does: the three "
+    "curated RefSeq transcripts NM_006981.4, NM_173199.4 and NM_173200.3 all share non-coding exon "
+    "1 and non-coding exon 2 and all three begin their CDS in exon 3 (UCSC ncbiRefSeqCurated, hg38, "
+    "chr9), and this repository's own committed model agrees exon for exon "
+    "(nr4a3-exon-audit.json, ENST00000395097: transcript exons 1 and 2 is_coding=false, exon 3 "
+    "carries first_protein_residue=1). SO NO PUBLISHED NR4A3 NUMBERING MAKES THE CODING ACCEPTOR "
+    "'EXON 2'. That removes the simplest form of reading B — an alternative transcript's numbering "
+    "— and it does NOT remove reading B, because a breakpoint-flanking label is not a transcript-"
+    "exon label at all. ⚠ One difference from the retracted case is real and is recorded without "
+    "being leaned on: F1CDx is a DNA-only panel, whereas the FoundationOne®HEME run here extracted "
+    "DNA AND RNA and the paper reports the rearrangement 'confirmed on the RNA level'. That makes "
+    "reading A more available than it was at the retracted seam; it still produces no accession and "
+    "no boundary, so it does not decide the numbering. "
+    "(3) WHY THE SEAM IS DESIGNED ANYWAY — AND IT IS NOT THAT READING A WON. Designing at BOTH "
+    "acceptors is what retires the ambiguity AS A BLOCKER. The exon-3 seam for each of these two "
+    "donors is already in the manuscript's 38-junction panel and already through all five deep "
+    "screens; adding the exon-2 seam means each model has a reagent under EITHER reading, so no "
+    "downstream step has to wait on an exon index nobody has sequenced. The ambiguity is carried, "
+    "not resolved by assertion, and it stays open until (4)'s condition is met. "
+    "(4) NO PUBLISHED PATIENT COUNT, AND EXACTLY ZERO COVERAGE MOVEMENT. Neither junction has a "
+    "reported prevalence anywhere. Neither donor-acceptor pair is in the 58-case cohort every "
+    "coverage rung in `aso_coverage_ladder.py` is computed against, so a reagent here moves the "
+    "ladder by zero — not by a little, by zero — exactly as recorded for PGR above. What it changes "
+    "is which MODELS are testable at all, which is a different statement from coverage and must "
+    "never be added to a coverage percentage. Under a panel stocked FOR TESTING rather than for "
+    "population coverage, an absent patient count is not an argument against these seams: these are "
+    "the junctions of the only two patient-derived EMC models that are both fusion-annotated and "
+    "free of an identity flag (STR-matched to their native tumours, DNA-methylation class EMC at "
+    "0.99, no Cellosaurus problematic-line record). "
+    "(5) NUCLEOTIDE-RESOLUTION CONFIRMATION IN TEST MATERIAL IS A PRECONDITION, NOT A NICETY — the "
+    "same requirement §5.4 of the manuscript already places on the exon-3 reagents, and here it is "
+    "load-bearing rather than routine, because it is also the observation that would decide between "
+    "readings A and B. One RT-PCR/Sanger read across either model's junction settles it.")
+
 #: ⛔ THE WHITELIST. A junction gets designs here ONLY if a published report places a patient's
 #: breakpoint at it. This is what keeps the module from being a bypass of the coding-acceptor guard:
 #: it cannot reach a seam nobody has sequenced, which is the failure that guard exists to stop.
@@ -336,6 +425,70 @@ PUBLISHED_NONCODING_ACCEPTOR_JUNCTIONS = {
         "n_independent_sources": 3,
         "one_home_for_the_evidence":
             "research/manuscripts/aso/lit-targets-aso-breakpoint-census.json",
+    },
+    ("EWSR1", 13, "NR4A3", 2): {
+        "transcript_type": (
+            "no type number reported — a FoundationOne®HEME exon label in a cell-model "
+            "establishment paper, not a sequenced junction"),
+        "excluded_from_the_panel_by": "NON_CODING_ACCEPTOR",
+        "model_it_makes_testable": "USZ20-EMC1 (RRID:CVCL_C6MX), under reading A of its acceptor",
+        "evidence": [
+            "PMID 36316541 (PMC9813045), Hum Cell 36:446-455 (2023), Figure 4 legend — 'The "
+            "rearrangement and fusion partner was confirmed by NGS using the FoundationOne®HEME "
+            "assay. For USZ20-EMC1; EWSR1 was confirmed as fusion partner having exon 13 for EWSR1 "
+            "on chr22 and exon 2 from NR4A3 on chr9 involved (B).'",
+            "Same report, on the material the call was made in — this is a PATIENT's breakpoint and "
+            "not only a cell line's: 'For USZ20-EMC1, an EWSR1-NR4A3 rearrangement and, for "
+            "USZ22-EMC2, a TAF15-NR4A3 rearrangement in the native tumor tissue and the "
+            "corresponding cell model was confirmed on the RNA level (Fig. b, d).'",
+            "Same report, Methods, on the assay: 'FoundationOne®HEME assay is a next generation "
+            "sequencing (NGS) assay that uses a hybrid capture methodology and detects base "
+            "substitutions, insertions, deletions, and copy number (CN) alterations in up to 406 "
+            "genes and gene rearrangements in up to 265 genes, tumor mutation burden and "
+            "microsatellite instability using the previously described methods. DNA and RNA was "
+            "extracted using the Maxwell® Tissue DNA Purification Kit (Promega AS1030).'",
+            "Cellosaurus curation of the same PubMed record, not an independent observation — 'CC "
+            "Sequence variation: Gene fusion; HGNC; HGNC:3508; EWSR1 + HGNC; HGNC:7982; NR4A3; "
+            "Name(s)=EWSR1-NR4A3; Note=EWSR1 exon 13 fused to NR4A3 exon 2 (PubMed=36316541).' "
+            "(ID USZ20-EMC1 / AC CVCL_C6MX)",
+            "⛔ ONE REPORT, ONE ASSAY, AND THE CELLOSAURUS ROW IS NOT A SECOND SOURCE — it cites "
+            "PubMed=36316541, which is this same paper. n_independent_sources is therefore ONE.",
+        ],
+        "n_independent_sources": 1,
+        "⚠_read_this_before_using_the_sequence": _USZ_ACCEPTOR_AMBIGUITY,
+        "one_home_for_the_evidence":
+            "research/modalities/emc-model-junction-evidence.json",
+    },
+    ("TAF15", 6, "NR4A3", 2): {
+        "transcript_type": (
+            "no type number reported — a FoundationOne®HEME exon label in a cell-model "
+            "establishment paper, not a sequenced junction"),
+        "excluded_from_the_panel_by": "NON_CODING_ACCEPTOR",
+        "model_it_makes_testable": "USZ22-EMC2 (RRID:CVCL_C6MY), under reading A of its acceptor",
+        "evidence": [
+            "PMID 36316541 (PMC9813045), Hum Cell 36:446-455 (2023), Figure 4 legend — 'For "
+            "USZ22-EMC2; TAF15 was confirmed as fusion partner having exon 6 for TAF15 on chr17 "
+            "and exon 2 from NR4A3 on chr9 involved (D).'",
+            "Same report, on the material the call was made in — this is a PATIENT's breakpoint and "
+            "not only a cell line's: 'For USZ20-EMC1, an EWSR1-NR4A3 rearrangement and, for "
+            "USZ22-EMC2, a TAF15-NR4A3 rearrangement in the native tumor tissue and the "
+            "corresponding cell model was confirmed on the RNA level (Fig. b, d).'",
+            "Cellosaurus curation of the same PubMed record, not an independent observation — 'CC "
+            "Sequence variation: Gene fusion; HGNC; HGNC:7982; NR4A3 + HGNC; HGNC:11547; TAF15; "
+            "Name(s)=TAF15-NR4A3; Note=TAF15 exon 6 fused to NR4A3 exon 2 (PubMed=36316541).' "
+            "(ID USZ22-EMC2 / AC CVCL_C6MY)",
+            "⚠ THE DONOR HALF IS THE ONE HALF NOBODY DISPUTES, AND IT IS THE COMMONEST TAF15 DONOR "
+            "IN THE DISEASE: PMID 31020999 (PMC6766969) builds 'T-N*, corresponding to the "
+            "commonest TAF15 (exons 1-6)-NR4A3 (exons 3-8) fusion'. The disagreement between that "
+            "construct and this report is at the ACCEPTOR only — which is the whole of the "
+            "ambiguity below.",
+            "⛔ ONE REPORT, ONE ASSAY, AND THE CELLOSAURUS ROW IS NOT A SECOND SOURCE — it cites "
+            "PubMed=36316541, which is this same paper. n_independent_sources is therefore ONE.",
+        ],
+        "n_independent_sources": 1,
+        "⚠_read_this_before_using_the_sequence": _USZ_ACCEPTOR_AMBIGUITY,
+        "one_home_for_the_evidence":
+            "research/modalities/emc-model-junction-evidence.json",
     },
 }
 
@@ -465,6 +618,114 @@ def _off_target_screening_status():
             f"noncoding-acceptor/{os.path.basename(_SCREENED_TABLE)} and are not restated here.")
 
 
+def _wild_type_register_table(junction_designs):
+    """WHY a design cleaves wild-type NR4A3, computed rather than argued.
+
+    ⭐ THE DISCRIMINATING OBSERVATION, AND IT REFUTES THE OBVIOUS RULE. Every design here spans
+    [donor exon 3' end]|[NR4A3 exon 2]. The patient's UN-REARRANGED allele presents the same acceptor
+    behind a different left half: [NR4A3 intron 1 3' end]|[NR4A3 exon 2]. So for each design this
+    places its target window on the wild-type boundary IN THE SAME REGISTER it occupies on the
+    fusion, and counts mismatches — total, and inside the catalytic gap.
+
+    ⛔ "LOW GAP MARGIN DECIDES" IS FALSE AT THIS SEAM, AND THE TABLE IS HOW YOU SEE IT. At
+    EWSR1 e13 :: NR4A3 e2 the condemned designs are the two with <=2 DONOR bases in the gap — while
+    the margin-1 design with 5 donor bases in the gap is clean. What decides is how much of the
+    catalytic gap is acceptor sequence the wild-type allele also has, not the symmetric margin. And
+    the liability is DONOR-SPECIFIC, not a property of the exon-2 acceptor: the same arithmetic over
+    TAF15 exon 6 finds 3-7 mismatches in every register, because TAF15's 3' end does not resemble
+    NR4A3 intron 1's, whereas EWSR1 exon 13's does.
+    """
+    if not os.path.exists(_wt.PREMRNA_CACHE):
+        return {"_status": "NOT RUN — the committed pre-mRNA cache is absent. ABSENT, NOT CLEAN."}
+    with open(_wt.PREMRNA_CACHE, encoding="utf-8") as fh:
+        pre = json.load(fh)["genes"]["NR4A3"]["sequence"].upper()
+    nr4a3 = ja.transcript_model("NR4A3")
+    e1, e2 = nr4a3["exon_lens"][0], nr4a3["exon_lens"][1]
+    exon2 = nr4a3["cdna"][e1:e1 + e2]
+    if pre.count(exon2) != 1:
+        return {"_status": "NOT RUN — NR4A3 exon 2 is not a unique substring of the committed "
+                           "unspliced sequence, so the boundary offset would be ambiguous."}
+    k = pre.find(exon2)
+    gap_lo, gap_hi = ja.WING, ja.OLIGO_LEN - ja.WING - 1
+    rows = {}
+    for label, left, fusion, oligos in junction_designs:
+        per = []
+        for o in oligos:
+            t = o["target_mRNA_5to3"]
+            n_donor = len(left) - fusion.index(t)
+            w = pre[k - n_donor:k - n_donor + ja.OLIGO_LEN]
+            mm = [i for i, (x, y) in enumerate(zip(t, w)) if x != y]
+            gap_mm = [i for i in mm if gap_lo <= i <= gap_hi]
+            per.append({
+                "antisense_5to3": o["antisense_5to3"],
+                "gap_bases_donor_side": o["gap_bases_from_EWSR1"],
+                "gap_bases_acceptor_side": o["gap_bases_from_NR4A3"],
+                "fusion_target_window": t,
+                "wild_type_window_same_register": w,
+                "n_mismatches_vs_wild_type": len(mm),
+                "mismatch_positions": mm,
+                "n_gap_mismatches": len(gap_mm),
+                "reading": ("⛔ cleavage-competent on the un-rearranged allele: <=2 mismatches over "
+                            "the 16-mer and none in the catalytic gap"
+                            if len(mm) <= 2 and not gap_mm else
+                            f"no site at this register: {len(mm)} mismatches, above the <=2 ceiling "
+                            "matched to the BLAST arm's >=14/16 identity" if len(mm) > 2 else
+                            f"gap not fully paired ({len(gap_mm)} gap mismatch(es))"),
+            })
+        rows[label] = per
+    return {
+        "_method": (f"each design's target window placed on the wild-type NR4A3 intron-1/exon-2 "
+                    f"boundary in the SAME register it occupies on its fusion; catalytic gap is "
+                    f"positions {gap_lo}..{gap_hi} of the {ja.OLIGO_LEN}-mer"),
+        "wild_type_boundary_unspliced_offset_0based": k,
+        "wild_type_boundary_context": f"{pre[k - 8:k]}|{pre[k:k + 10]}",
+        "⚠_scope": ("ONE register at ONE boundary — it explains the scan's verdicts, it does not "
+                    "replace them. The exhaustive scan over the whole NR4A3 unspliced sequence is "
+                    "the measurement; this is the mechanism behind it."),
+        "per_junction": rows,
+    }
+
+
+def _wild_type_allele_liability(designs, parents):
+    """Does any design here cleave the patient's own un-rearranged NR4A3? MEASURED, locally, $0.
+
+    ⛔ AND ITS CONTROL IS A FIXED KNOWN POSITIVE, NEVER "THE OTHER WHITELIST ENTRY". That mistake has
+    already been made once in this repository and is recorded at
+    `aso_taf15_intron2_designs._known_positive_control`: a control that scanned whichever junction
+    was NOT being built reported itself silent while the real liability sat in the same file. The
+    control used here is that module's own — TAF15 e6 :: NR4A3 intron-2 cryptic exon, design
+    TGATGAGGGCCTTGTG, which the GENOME screen measured forming a gap-paired hybridisable duplex on
+    chr9 in wild-type NR4A3. It is a fixed case with a known answer and it is external to every
+    junction in this file, so it cannot be made vacuous by anything this module does.
+    ⛔ IF THE CONTROL DOES NOT FIRE, NO 'CLEAN' VERDICT BELOW MAY BE RELIED ON.
+    """
+    try:
+        _seam_rec, cryptic = _wt.load_seam_record()
+        control = _wt._known_positive_control(cryptic, parents)
+    except Exception as exc:                                          # noqa: BLE001
+        control = {"_status": f"control could not be built: {exc}", "passed": None}
+    scan = _wt.wildtype_nr4a3_liability(sorted(designs), None)
+    per = scan.get("per_design") or {}
+    hits = sorted(a for a, v in per.items()
+                  if v["⛔_n_cleavage_competent_sites_in_wild_type_NR4A3"])
+    return {
+        "⛔_the_question": (
+            "does this reagent form an RNase-H1-competent duplex on the patient's own UN-REARRANGED "
+            "NR4A3 allele? The acceptor half of every design here is NR4A3 exon-2 5'UTR sequence, "
+            "which in the wild-type allele sits immediately 3' of intron 1 — a compartment the "
+            "spliced-cDNA parent screen cannot see, because a mature transcript has exon 1 there."),
+        "⛔_a_clean_parent_screen_is_not_an_answer": (
+            "every design in this module clears the parent exclusion, and that screen searches "
+            "MATURE cDNA only. At the sibling cryptic-exon seam all five designs cleared it and one "
+            "was then measured cleaving wild-type NR4A3."),
+        "positive_control": control,
+        "n_designs_scanned": len(per),
+        "n_designs_cleaving_wild_type_NR4A3": len(hits),
+        "designs_cleaving_wild_type_NR4A3": hits,
+        "scan": scan,
+    }
+
+
 def build():
     geom = ass.MANUSCRIPT_GEOMETRY
     assert (ja.OLIGO_LEN, ja.WING) == (geom.oligo_len, geom.wing), (
@@ -477,7 +738,7 @@ def build():
     screened_against = sorted(s for s, v in parents.items() if v)
     nr4a3 = ja.transcript_model("NR4A3")
 
-    junctions, unbuildable = [], []
+    junctions, unbuildable, register_inputs = [], [], []
     for (d_sym, d_end, a_sym, a_start), meta in PUBLISHED_NONCODING_ACCEPTOR_JUNCTIONS.items():
         label = f"{d_sym}_e{d_end}__{a_sym}_e{a_start}"
         # ⚠ A JUNCTION WHOSE TRANSCRIPT MODEL IS NOT ON DISK IS AN ABSENT READING, NOT AN ABSENT
@@ -526,11 +787,17 @@ def build():
         oligos = ja.design(j["_left"], j["_right"], j["_fusion"],
                            parents={k: v for k, v in parents.items() if v})
         clean = [o for o in oligos if o["fusion_specific"]]
+        register_inputs.append((j["junction_label"], j["_left"], j["_fusion"], oligos))
         junctions.append({
             "junction_label": j["junction_label"],
             "transcript_type": meta["transcript_type"],
             "n_independent_sources": meta["n_independent_sources"],
             "excluded_from_the_panel_by": meta["excluded_from_the_panel_by"],
+            # ⚠ PRESENT ONLY WHERE THE WHITELIST NAMES ONE, AND `None` OTHERWISE RATHER THAN OMITTED:
+            # a reader comparing two junction blocks must be able to see that one seam is tied to a
+            # named, obtainable laboratory model and the other is not, without having to notice the
+            # absence of a key.
+            "model_it_makes_testable": meta.get("model_it_makes_testable"),
             "⚠_read_this_before_using_the_sequence":
                 meta.get("⚠_read_this_before_using_the_sequence"),
             "evidence": meta["evidence"],
@@ -562,6 +829,39 @@ def build():
             "best_by_gap_specificity_margin": (clean[0]["antisense_5to3"] if clean else None),
         })
 
+    # ── the wild-type-allele scan, over every design in the lane, with ONE fixed control ────────
+    # ⛔ RUN AFTER THE LOOP AND ANNOTATED BACK IN, so the control is built once and every junction is
+    # graded by the same invocation. `best_by_gap_specificity_margin` is then RE-DERIVED to exclude
+    # any design the scan condemns: a "best" that cleaves the patient's own NR4A3 is not a best, and
+    # leaving the old value beside a ⛔ verdict is exactly how a condemned sequence gets quoted.
+    wt = _wild_type_allele_liability(
+        [d["antisense_5to3"] for j in junctions for d in j["designs"]], parents)
+    wt["⭐_why_these_and_not_the_others"] = _wild_type_register_table(register_inputs)
+    condemned = set(wt["designs_cleaving_wild_type_NR4A3"])
+    per_design_scan = (wt["scan"].get("per_design") or {})
+    for jrec in junctions:
+        for d in jrec["designs"]:
+            v = per_design_scan.get(d["antisense_5to3"]) or {}
+            d["⛔_cleaves_wild_type_NR4A3"] = d["antisense_5to3"] in condemned
+            d["wild_type_NR4A3_verdict"] = v.get(
+                "verdict", "NOT SCANNED — absent, not clean")
+            d["wild_type_NR4A3_n_cleavage_competent_sites"] = v.get(
+                "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3")
+        hit = sorted(d["antisense_5to3"] for d in jrec["designs"]
+                     if d["⛔_cleaves_wild_type_NR4A3"])
+        jrec["n_designs_cleaving_wild_type_NR4A3"] = len(hit)
+        jrec["designs_cleaving_wild_type_NR4A3"] = hit
+        usable = [d for d in jrec["designs"]
+                  if d["clears_parent_exclusion"] and not d["⛔_cleaves_wild_type_NR4A3"]]
+        jrec["n_clearing_parent_exclusion_AND_the_wild_type_allele"] = len(usable)
+        jrec["best_by_gap_specificity_margin"] = (
+            usable[0]["antisense_5to3"] if usable else None)
+        jrec["_how_best_is_chosen"] = (
+            "highest gap_specificity_margin among designs that clear the parent exclusion AND carry "
+            "no cleavage-competent site in wild-type NR4A3. ⛔ It is NOT a recommendation: the three "
+            "screens that need NCBI or the genome have their own state, reported per design in "
+            "`⚠_offtarget_screens_run`.")
+
     return {
         "_what": ("Junction-spanning gapmer designs at NR4A3 exon-2 acceptor seams — the published "
                   "EMC breakpoints the manuscript's panel excludes by a protein-coding filter."),
@@ -572,7 +872,15 @@ def build():
                  "wrong one for an RNase-H mechanism. The PGR e2 :: NR4A3 e2 seam is excluded by "
                  "the same acceptor grade AND by a second, independent gap: PGR is not one of the "
                  "five 5' partners the atlas models, so no design lane could reach that patient "
-                 "even with the acceptor filter lifted."),
+                 "even with the acceptor filter lifted. ⭐ AND THE TWO USZ SEAMS ARE HERE FOR A "
+                 "THIRD REASON AGAIN: EWSR1 e13 :: NR4A3 e2 and TAF15 e6 :: NR4A3 e2 are the "
+                 "junctions the two identity-clean patient-derived EMC cell models are reported to "
+                 "carry, under the LITERAL reading of an acceptor exon label that has two readings "
+                 "and no sequenced boundary. Designing at both acceptors — the exon-3 seams are "
+                 "already in the manuscript panel and already screened — is what stops that "
+                 "unresolved exon index from blocking anything: under either reading each model "
+                 "then has a reagent. The ambiguity itself is carried on every junction's "
+                 "`⚠_read_this_before_using_the_sequence`, not resolved here."),
         "_what_this_is_not": [
             "Not an efficacy claim and not a claim of activity. Sequence arithmetic and a "
             "parent-exclusion screen only. Nothing here has been synthesised or tested.",
@@ -590,6 +898,7 @@ def build():
         "transcript_source": ja.transcript_source_provenance(),
         "n_junctions": len(junctions),
         "junctions": junctions,
+        "⭐_wild_type_NR4A3_cleavage_liability": wt,
         "n_junctions_not_buildable_in_this_environment": len(unbuildable),
         "junctions_not_buildable_in_this_environment": unbuildable,
         #: ⛔ WITHDRAWN SEAMS TRAVEL WITH THE ARTIFACT, not only with the source. A reader holding

@@ -1,9 +1,7 @@
 {
  "_what": "Exhaustive <=2-mismatch screen of every fusion-specific junction gapmer's target window against the UNSPLICED (pre-mRNA) sequence of 6 parent transcript(s) (EWSR1, FUS, NR4A3, TAF15, TCF12, TFG), both orientations, gap-resolved and classified by compartment.",
  "\u26d4_parents_in_the_atlas_that_were_NOT_scanned": {
-  "genes": [
-   "PGR"
-  ],
+  "genes": [],
   "why": "present in the atlas's parent set but absent from the sequence this run scanned. On an --offline run that means the committed cache (aso-premrna-sequences.json) does not carry them, and closing the gap needs a networked (CI) run that re-fetches the cache with the atlas's full parent set. \u26d4 These genes are UNMEASURED here \u2014 not clean."
  },
  "_why": "The manuscript's Limitations concede that both committed screens search mature transcript only, that RNase-H1 is nuclear, and that the intronic compartment is therefore unmeasured. This measures it for the gene set where a junction gapmer is most likely to find one: the parents that supply its own two halves.",
@@ -449,24 +447,24 @@
   "db": null
  },
  "corpus": {
-  "designs": 20,
-  "with_any_hit": 3,
-  "with_hybridisable_gap_paired": 2,
-  "with_a_liability_invisible_to_mature_screens": 2
+  "designs": 5,
+  "with_any_hit": 1,
+  "with_hybridisable_gap_paired": 1,
+  "with_a_liability_invisible_to_mature_screens": 1
  },
  "per_design": [
   {
-   "junction_label": "EWSR1_e13__NR4A3_e2",
-   "antisense_5to3": "CAGTGGGCTCTCCACG",
-   "gc_percent": 68.8,
-   "gap_specificity_margin": 2,
+   "junction_label": "TAF15_e6__NR4A3_intron2crypticExon",
+   "antisense_5to3": "TGATGAGGGCCTTGTG",
+   "gc_percent": 56.2,
+   "gap_specificity_margin": 1,
    "n_hits_either_orientation": 1,
    "n_hybridisable": 1,
    "n_hybridisable_gap_fully_paired": 1,
    "n_invisible_to_mature_screens": 1,
    "compartments": {
-    "intronic": 0,
-    "intron_exon_spanning": 1,
+    "intronic": 1,
+    "intron_exon_spanning": 0,
     "exonic": 0
    },
    "hits": [
@@ -474,151 +472,8 @@
      "gene": "NR4A3",
      "orientation": "forward",
      "hybridisable": true,
-     "premrna_start_0based": 3767,
-     "premrna_end_0based": 3782,
-     "mismatches": 2,
-     "gap_mismatches": 0,
-     "gap_fully_paired": true,
-     "compartment": "intron_exon_spanning"
-    }
-   ],
-   "hits_truncated": false
-  },
-  {
-   "junction_label": "EWSR1_e13__NR4A3_e2",
-   "antisense_5to3": "GCAGTGGGCTCTCCAC",
-   "gc_percent": 68.8,
-   "gap_specificity_margin": 1,
-   "n_hits_either_orientation": 1,
-   "n_hybridisable": 1,
-   "n_hybridisable_gap_fully_paired": 1,
-   "n_invisible_to_mature_screens": 1,
-   "compartments": {
-    "intronic": 0,
-    "intron_exon_spanning": 1,
-    "exonic": 0
-   },
-   "hits": [
-    {
-     "gene": "NR4A3",
-     "orientation": "forward",
-     "hybridisable": true,
-     "premrna_start_0based": 3768,
-     "premrna_end_0based": 3783,
-     "mismatches": 2,
-     "gap_mismatches": 0,
-     "gap_fully_paired": true,
-     "compartment": "intron_exon_spanning"
-    }
-   ],
-   "hits_truncated": false
-  },
-  {
-   "junction_label": "EWSR1_e13__NR4A3_e2",
-   "antisense_5to3": "AGTGGGCTCTCCACGG",
-   "gc_percent": 68.8,
-   "gap_specificity_margin": 3,
-   "n_hits_either_orientation": 0,
-   "n_hybridisable": 0,
-   "n_hybridisable_gap_fully_paired": 0,
-   "n_invisible_to_mature_screens": 0,
-   "compartments": {
-    "intronic": 0,
-    "intron_exon_spanning": 0,
-    "exonic": 0
-   },
-   "hits": [],
-   "hits_truncated": false
-  },
-  {
-   "junction_label": "EWSR1_e13__NR4A3_e2",
-   "antisense_5to3": "GTGGGCTCTCCACGGA",
-   "gc_percent": 68.8,
-   "gap_specificity_margin": 2,
-   "n_hits_either_orientation": 0,
-   "n_hybridisable": 0,
-   "n_hybridisable_gap_fully_paired": 0,
-   "n_invisible_to_mature_screens": 0,
-   "compartments": {
-    "intronic": 0,
-    "intron_exon_spanning": 0,
-    "exonic": 0
-   },
-   "hits": [],
-   "hits_truncated": false
-  },
-  {
-   "junction_label": "EWSR1_e13__NR4A3_e2",
-   "antisense_5to3": "TGGGCTCTCCACGGAG",
-   "gc_percent": 68.8,
-   "gap_specificity_margin": 1,
-   "n_hits_either_orientation": 0,
-   "n_hybridisable": 0,
-   "n_hybridisable_gap_fully_paired": 0,
-   "n_invisible_to_mature_screens": 0,
-   "compartments": {
-    "intronic": 0,
-    "intron_exon_spanning": 0,
-    "exonic": 0
-   },
-   "hits": [],
-   "hits_truncated": false
-  },
-  {
-   "junction_label": "EWSR1_e7__NR4A3_e2",
-   "antisense_5to3": "AGTGGGCTTCTGCTGC",
-   "gc_percent": 62.5,
-   "gap_specificity_margin": 3,
-   "n_hits_either_orientation": 0,
-   "n_hybridisable": 0,
-   "n_hybridisable_gap_fully_paired": 0,
-   "n_invisible_to_mature_screens": 0,
-   "compartments": {
-    "intronic": 0,
-    "intron_exon_spanning": 0,
-    "exonic": 0
-   },
-   "hits": [],
-   "hits_truncated": false
-  },
-  {
-   "junction_label": "EWSR1_e7__NR4A3_e2",
-   "antisense_5to3": "CAGTGGGCTTCTGCTG",
-   "gc_percent": 62.5,
-   "gap_specificity_margin": 2,
-   "n_hits_either_orientation": 0,
-   "n_hybridisable": 0,
-   "n_hybridisable_gap_fully_paired": 0,
-   "n_invisible_to_mature_screens": 0,
-   "compartments": {
-    "intronic": 0,
-    "intron_exon_spanning": 0,
-    "exonic": 0
-   },
-   "hits": [],
-   "hits_truncated": false
-  },
-  {
-   "junction_label": "EWSR1_e7__NR4A3_e2",
-   "antisense_5to3": "GCAGTGGGCTTCTGCT",
-   "gc_percent": 62.5,
-   "gap_specificity_margin": 1,
-   "n_hits_either_orientation": 1,
-   "n_hybridisable": 0,
-   "n_hybridisable_gap_fully_paired": 0,
-   "n_invisible_to_mature_screens": 0,
-   "compartments": {
-    "intronic": 0,
-    "intron_exon_spanning": 0,
-    "exonic": 0
-   },
-   "hits": [
-    {
-     "gene": "TAF15",
-     "orientation": "reverse_complement",
-     "hybridisable": false,
-     "premrna_start_0based": 9528,
-     "premrna_end_0based": 9543,
+     "premrna_start_0based": 4839,
+     "premrna_end_0based": 4854,
      "mismatches": 2,
      "gap_mismatches": 0,
      "gap_fully_paired": true,
@@ -628,127 +483,8 @@
    "hits_truncated": false
   },
   {
-   "junction_label": "EWSR1_e7__NR4A3_e2",
-   "antisense_5to3": "GTGGGCTTCTGCTGCC",
-   "gc_percent": 68.8,
-   "gap_specificity_margin": 2,
-   "n_hits_either_orientation": 0,
-   "n_hybridisable": 0,
-   "n_hybridisable_gap_fully_paired": 0,
-   "n_invisible_to_mature_screens": 0,
-   "compartments": {
-    "intronic": 0,
-    "intron_exon_spanning": 0,
-    "exonic": 0
-   },
-   "hits": [],
-   "hits_truncated": false
-  },
-  {
-   "junction_label": "EWSR1_e7__NR4A3_e2",
-   "antisense_5to3": "TGGGCTTCTGCTGCCC",
-   "gc_percent": 68.8,
-   "gap_specificity_margin": 1,
-   "n_hits_either_orientation": 0,
-   "n_hybridisable": 0,
-   "n_hybridisable_gap_fully_paired": 0,
-   "n_invisible_to_mature_screens": 0,
-   "compartments": {
-    "intronic": 0,
-    "intron_exon_spanning": 0,
-    "exonic": 0
-   },
-   "hits": [],
-   "hits_truncated": false
-  },
-  {
-   "junction_label": "PGR_e2__NR4A3_e2",
-   "antisense_5to3": "AGTGGGCTCTTCCATT",
-   "gc_percent": 50.0,
-   "gap_specificity_margin": 3,
-   "n_hits_either_orientation": 0,
-   "n_hybridisable": 0,
-   "n_hybridisable_gap_fully_paired": 0,
-   "n_invisible_to_mature_screens": 0,
-   "compartments": {
-    "intronic": 0,
-    "intron_exon_spanning": 0,
-    "exonic": 0
-   },
-   "hits": [],
-   "hits_truncated": false
-  },
-  {
-   "junction_label": "PGR_e2__NR4A3_e2",
-   "antisense_5to3": "CAGTGGGCTCTTCCAT",
-   "gc_percent": 56.2,
-   "gap_specificity_margin": 2,
-   "n_hits_either_orientation": 0,
-   "n_hybridisable": 0,
-   "n_hybridisable_gap_fully_paired": 0,
-   "n_invisible_to_mature_screens": 0,
-   "compartments": {
-    "intronic": 0,
-    "intron_exon_spanning": 0,
-    "exonic": 0
-   },
-   "hits": [],
-   "hits_truncated": false
-  },
-  {
-   "junction_label": "PGR_e2__NR4A3_e2",
-   "antisense_5to3": "GCAGTGGGCTCTTCCA",
-   "gc_percent": 62.5,
-   "gap_specificity_margin": 1,
-   "n_hits_either_orientation": 0,
-   "n_hybridisable": 0,
-   "n_hybridisable_gap_fully_paired": 0,
-   "n_invisible_to_mature_screens": 0,
-   "compartments": {
-    "intronic": 0,
-    "intron_exon_spanning": 0,
-    "exonic": 0
-   },
-   "hits": [],
-   "hits_truncated": false
-  },
-  {
-   "junction_label": "PGR_e2__NR4A3_e2",
-   "antisense_5to3": "GTGGGCTCTTCCATTG",
-   "gc_percent": 56.2,
-   "gap_specificity_margin": 2,
-   "n_hits_either_orientation": 0,
-   "n_hybridisable": 0,
-   "n_hybridisable_gap_fully_paired": 0,
-   "n_invisible_to_mature_screens": 0,
-   "compartments": {
-    "intronic": 0,
-    "intron_exon_spanning": 0,
-    "exonic": 0
-   },
-   "hits": [],
-   "hits_truncated": false
-  },
-  {
-   "junction_label": "PGR_e2__NR4A3_e2",
-   "antisense_5to3": "TGGGCTCTTCCATTGC",
-   "gc_percent": 56.2,
-   "gap_specificity_margin": 1,
-   "n_hits_either_orientation": 0,
-   "n_hybridisable": 0,
-   "n_hybridisable_gap_fully_paired": 0,
-   "n_invisible_to_mature_screens": 0,
-   "compartments": {
-    "intronic": 0,
-    "intron_exon_spanning": 0,
-    "exonic": 0
-   },
-   "hits": [],
-   "hits_truncated": false
-  },
-  {
-   "junction_label": "TAF15_e6__NR4A3_e2",
-   "antisense_5to3": "AGTGGGCTCTTGTGTG",
+   "junction_label": "TAF15_e6__NR4A3_intron2crypticExon",
+   "antisense_5to3": "ATGAGGGCCTTGTGTG",
    "gc_percent": 56.2,
    "gap_specificity_margin": 3,
    "n_hits_either_orientation": 0,
@@ -764,25 +500,8 @@
    "hits_truncated": false
   },
   {
-   "junction_label": "TAF15_e6__NR4A3_e2",
-   "antisense_5to3": "CAGTGGGCTCTTGTGT",
-   "gc_percent": 56.2,
-   "gap_specificity_margin": 2,
-   "n_hits_either_orientation": 0,
-   "n_hybridisable": 0,
-   "n_hybridisable_gap_fully_paired": 0,
-   "n_invisible_to_mature_screens": 0,
-   "compartments": {
-    "intronic": 0,
-    "intron_exon_spanning": 0,
-    "exonic": 0
-   },
-   "hits": [],
-   "hits_truncated": false
-  },
-  {
-   "junction_label": "TAF15_e6__NR4A3_e2",
-   "antisense_5to3": "GCAGTGGGCTCTTGTG",
+   "junction_label": "TAF15_e6__NR4A3_intron2crypticExon",
+   "antisense_5to3": "GAGGGCCTTGTGTGTG",
    "gc_percent": 62.5,
    "gap_specificity_margin": 1,
    "n_hits_either_orientation": 0,
@@ -798,8 +517,8 @@
    "hits_truncated": false
   },
   {
-   "junction_label": "TAF15_e6__NR4A3_e2",
-   "antisense_5to3": "GTGGGCTCTTGTGTGT",
+   "junction_label": "TAF15_e6__NR4A3_intron2crypticExon",
+   "antisense_5to3": "GATGAGGGCCTTGTGT",
    "gc_percent": 56.2,
    "gap_specificity_margin": 2,
    "n_hits_either_orientation": 0,
@@ -815,10 +534,10 @@
    "hits_truncated": false
   },
   {
-   "junction_label": "TAF15_e6__NR4A3_e2",
-   "antisense_5to3": "TGGGCTCTTGTGTGTG",
+   "junction_label": "TAF15_e6__NR4A3_intron2crypticExon",
+   "antisense_5to3": "TGAGGGCCTTGTGTGT",
    "gc_percent": 56.2,
-   "gap_specificity_margin": 1,
+   "gap_specificity_margin": 2,
    "n_hits_either_orientation": 0,
    "n_hybridisable": 0,
    "n_hybridisable_gap_fully_paired": 0,

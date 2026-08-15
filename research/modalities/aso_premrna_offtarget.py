@@ -562,9 +562,27 @@ def _run(argv):
         })
 
     rec = {
-        "_what": ("Exhaustive <=2-mismatch screen of every fusion-specific junction gapmer's target "
-                  "window against the UNSPLICED (pre-mRNA) sequence of all six parent transcripts, "
-                  "both orientations, gap-resolved and classified by compartment."),
+        # ⛔ THE PARENT COUNT IS DERIVED, NOT TYPED (2026-08-15). This read "all six parent
+        # transcripts" as a constant. The atlas's parent set is not always six — the non-coding
+        # acceptor atlas carries SEVEN, because PGR joined it with the PGR::NR4A3 seam — and the
+        # committed pre-mRNA cache holds six, so an offline run over that atlas scans 6 of 7 while
+        # the sentence above it says "all". A hard-coded population is how a partial scan reports
+        # itself as complete.
+        "_what": (f"Exhaustive <=2-mismatch screen of every fusion-specific junction gapmer's "
+                  f"target window against the UNSPLICED (pre-mRNA) sequence of "
+                  f"{len(premrna)} parent transcript(s) ({', '.join(sorted(premrna))}), both "
+                  f"orientations, gap-resolved and classified by compartment."),
+        # ⛔⛔ A PARENT IN THE ATLAS THAT WAS NOT SCANNED IS NAMED, NOT DROPPED. An absent reading is
+        # never a reading of absence: a design could complement a parent's pre-mRNA that this run
+        # never looked at, and the only difference between that and a clean result is this field.
+        "⛔_parents_in_the_atlas_that_were_NOT_scanned": {
+            "genes": sorted(set(transcripts) - set(premrna)),
+            "why": ("present in the atlas's parent set but absent from the sequence this run "
+                    "scanned. On an --offline run that means the committed cache "
+                    f"({os.path.basename(CACHE)}) does not carry them, and closing the gap needs a "
+                    "networked (CI) run that re-fetches the cache with the atlas's full parent set. "
+                    "⛔ These genes are UNMEASURED here — not clean."),
+        },
         "_why": ("The manuscript's Limitations concede that both committed screens search mature "
                  "transcript only, that RNase-H1 is nuclear, and that the intronic compartment is "
                  "therefore unmeasured. This measures it for the gene set where a junction gapmer is "
@@ -577,7 +595,27 @@ def _run(argv):
             "Not a statement about antisense transcription at these loci. A reverse-complement match "
             "is reported and is counted as NOT hybridisable, on the same rule the mature screens use.",
         ],
-        "_cost": "$0 - CPU and one Ensembl read. No GPU, no rental.",
+        "_cost": ("$0 - CPU only, scanning the COMMITTED pre-mRNA cache; no network was used. "
+                  "No GPU, no rental."
+                  if offline else
+                  "$0 - CPU and one Ensembl read. No GPU, no rental."),
+        # ⛔ WHICH SEQUENCE THIS SCANNED, SAID OUT LOUD (added 2026-08-15). Before this the artifact
+        # was byte-for-byte silent about `--offline`: a run over the committed cache and a run over a
+        # live Ensembl fetch produced records that looked identical, and the `_cost` line positively
+        # asserted "one Ensembl read" for both. A plausible-looking record is more dangerous than an
+        # empty one, and provenance is exactly the field a reader cannot reconstruct from the result.
+        "sequence_source": {
+            "mode": "committed_cache" if offline else "ensembl_fetch_this_run",
+            "file": os.path.basename(CACHE) if offline else None,
+            "cache_source_line": (json.load(open(CACHE)).get("_source") if offline else None),
+            "⚠": ("A CACHE IS NOT A MEASUREMENT OF TODAY. The parent arm's completeness is a "
+                  "property of its SEEDING over whatever sequence it was given, so an offline run "
+                  "is exhaustive over the cached sequence and is not a statement about Ensembl's "
+                  "current annotation. The genome-wide arm cannot run offline at all and is "
+                  "reported as not run, which is its honest state."
+                  if offline else
+                  "read live from Ensembl on this run and written back to the cache"),
+        },
         "method": {
             "max_mismatches": MAX_MM,
             "why_this_threshold": ("matched to the BLAST arm's >=14/16 identity so the two arms "

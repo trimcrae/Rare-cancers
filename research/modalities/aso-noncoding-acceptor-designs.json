@@ -1,9 +1,9 @@
 {
  "_what": "Junction-spanning gapmer designs at NR4A3 exon-2 acceptor seams — the published EMC breakpoints the manuscript's panel excludes by a protein-coding filter.",
- "_why": "The EWSR1 type 2 transcript joins EWSR1 exon 7 to NR4A3 exon 2 and is reported in at least two sequenced patients across two series. Every junction in the panel uses NR4A3 exon 3, so no reagent in it can engage those tumours. The exclusion is a frame/coding grade, which is the right filter for a fusion protein and the wrong one for an RNase-H mechanism. The PGR e2 :: NR4A3 e2 seam is excluded by the same acceptor grade AND by a second, independent gap: PGR is not one of the five 5' partners the atlas models, so no design lane could reach that patient even with the acceptor filter lifted.",
+ "_why": "The EWSR1 type 2 transcript joins EWSR1 exon 7 to NR4A3 exon 2 and is reported in at least two sequenced patients across two series. Every junction in the panel uses NR4A3 exon 3, so no reagent in it can engage those tumours. The exclusion is a frame/coding grade, which is the right filter for a fusion protein and the wrong one for an RNase-H mechanism. The PGR e2 :: NR4A3 e2 seam is excluded by the same acceptor grade AND by a second, independent gap: PGR is not one of the five 5' partners the atlas models, so no design lane could reach that patient even with the acceptor filter lifted. ⭐ AND THE TWO USZ SEAMS ARE HERE FOR A THIRD REASON AGAIN: EWSR1 e13 :: NR4A3 e2 and TAF15 e6 :: NR4A3 e2 are the junctions the two identity-clean patient-derived EMC cell models are reported to carry, under the LITERAL reading of an acceptor exon label that has two readings and no sequenced boundary. Designing at both acceptors — the exon-3 seams are already in the manuscript panel and already screened — is what stops that unresolved exon index from blocking anything: under either reading each model then has a reagent. The ambiguity itself is carried on every junction's `⚠_read_this_before_using_the_sequence`, not resolved here.",
  "_what_this_is_not": [
   "Not an efficacy claim and not a claim of activity. Sequence arithmetic and a parent-exclusion screen only. Nothing here has been synthesised or tested.",
-  "⛔ OFF-TARGET SCREENING IS PER JUNCTION, NOT PER LANE. Lane-wide 5 of 5 screens have run; COMPLETE at EWSR1_e7__NR4A3_e2, PGR_e2__NR4A3_e2; still INCOMPLETE at no junction. A junction whose alignment screen has not run carries null transcriptome-load fields, and null is unmeasured — never clean, and never comparable with a panel design that went through all five. The per-design counts live in noncoding-acceptor/aso-noncoding-acceptor-screened-table.json and are not restated here.",
+  "⛔ OFF-TARGET SCREENING IS PER JUNCTION, NOT PER LANE. Lane-wide 5 of 5 screens have run; COMPLETE at EWSR1_e7__NR4A3_e2, PGR_e2__NR4A3_e2; still INCOMPLETE at EWSR1_e13__NR4A3_e2, TAF15_e6__NR4A3_e2. A junction whose alignment screen has not run carries null transcriptome-load fields, and null is unmeasured — never clean, and never comparable with a panel design that went through all five. The per-design counts live in noncoding-acceptor/aso-noncoding-acceptor-screened-table.json and are not restated here.",
   "Not a relaxation of the coding-acceptor guard in junction_aso. That guard catches a coordinate slip and still raises; this module reaches its seams through an explicit published-breakpoint whitelist, so it cannot design at a junction nobody sequenced.",
   "Not a claim that the type 2 chimera makes a protein, or that it is oncogenic. Real questions, and not the gapmer's questions."
  ],
@@ -29,13 +29,14 @@
   "committed_cache_fetched_utc": "2026-08-12T13:41:57Z",
   "_caveat": "At least one gene was read from the committed cache (emc-construct-inputs.json), not from Ensembl today. The cache is a dated measurement that passed this module's four self-checks; it is not a statement about Ensembl's current annotation."
  },
- "n_junctions": 2,
+ "n_junctions": 4,
  "junctions": [
   {
    "junction_label": "PGR_e2__NR4A3_e2",
    "transcript_type": "no type number reported — a novel 5' partner",
    "n_independent_sources": 1,
    "excluded_from_the_panel_by": "NON_CODING_ACCEPTOR",
+   "model_it_makes_testable": null,
    "⚠_read_this_before_using_the_sequence": "FOUR THINGS A READER MUST HOLD AT ONCE, AND NONE OF THEM IS RESOLVED BY THE SEQUENCE ARITHMETIC BELOW. (1) ONE PATIENT, AND ZERO MEASURABLE COVERAGE. This is a single case report. PGR appears in ZERO of the 84 partner-genotyped EMC cases this repository cites — `hormone-partner-lane.json` owns that count and its Wilson interval — and it is NOT a partner of the 58-case cohort (`aso_reagent_coverage.PARTNER_COHORT`: 46 EWSR1, 9 TAF15, 2 TCF12, 1 with no identified partner) that every coverage rung in `aso_coverage_ladder.py` is computed against. A reagent at this seam therefore moves the ladder by EXACTLY ZERO — not by a small amount, by zero — because the denominator contains no case it could engage. What it changes is which patients are REACHABLE AT ALL, and that is a different statement from coverage, must be written as one, and must never be added to a coverage percentage. (2) VENDOR EXON NUMBERING. The report states no transcript accession, so 'PGR (exon2)' is an exon index against an unstated model; this module builds it against the Ensembl CANONICAL PGR transcript, and if the report's model differs the donor cut moves. Same unresolved problem as the EWSR1 ex11 row above, and it is the reason nucleotide-resolution confirmation in test material is a precondition, not a nicety. (3) A PARENT THAT IS EXPRESSED IN NORMAL TISSUE. PGR is a hormone receptor; the parent-exclusion screen below runs against wild-type PGR transcript for that reason, and the tissue-expression screen is the one that matters most at this seam. (4) THE PATIENT BENEFIT IN THAT PAPER CAME FROM TAMOXIFEN, NOT FROM ANYTHING LIKE THIS. The report's own result is 'She began targeted therapy with tamoxifen, a selective estrogen receptor modulator. Since initiation of tamoxifen was over 5 years ago, she has had ongoing decrease in size of her pulmonary nodules and no evidence of disease progression'. That is a hormonal route acting on the ESTROGEN-DRIVEN expression of the PGR promoter the fusion imports; it is not a junction-directed mechanism, and nothing here competes with it, improves on it or is supported by it.",
    "evidence": [
     "PMID 36103645 (PMC9489176), JCO Precis Oncol 2022 — 'The results of next-generation sequencing revealed gene fusion of progesterone receptor, PGR (exon2) to the 5′ untranslated region (UTR) of NR4A3 (exon2)'",
@@ -74,7 +75,10 @@
      "has_G4_motif": false,
      "clears_parent_exclusion": true,
      "exact_parent_hits": [],
-     "⚠_offtarget_screens_run": "ran: exhaustive_transcript_scan, genome_grch38, mature_parent_gap_pairing, premrna, transcriptome_blast_deep; NOT run: none. Per-design counts are in noncoding-acceptor/aso-noncoding-acceptor-screened-table.json, which is the one home for them; they are not restated here."
+     "⚠_offtarget_screens_run": "ran: exhaustive_transcript_scan, genome_grch38, mature_parent_gap_pairing, premrna, transcriptome_blast_deep; NOT run: none. Per-design counts are in noncoding-acceptor/aso-noncoding-acceptor-screened-table.json, which is the one home for them; they are not restated here.",
+     "⛔_cleaves_wild_type_NR4A3": false,
+     "wild_type_NR4A3_verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+     "wild_type_NR4A3_n_cleavage_competent_sites": 0
     },
     {
      "antisense_5to3": "GTGGGCTCTTCCATTG",
@@ -87,7 +91,10 @@
      "has_G4_motif": false,
      "clears_parent_exclusion": true,
      "exact_parent_hits": [],
-     "⚠_offtarget_screens_run": "ran: exhaustive_transcript_scan, genome_grch38, mature_parent_gap_pairing, premrna, transcriptome_blast_deep; NOT run: none. Per-design counts are in noncoding-acceptor/aso-noncoding-acceptor-screened-table.json, which is the one home for them; they are not restated here."
+     "⚠_offtarget_screens_run": "ran: exhaustive_transcript_scan, genome_grch38, mature_parent_gap_pairing, premrna, transcriptome_blast_deep; NOT run: none. Per-design counts are in noncoding-acceptor/aso-noncoding-acceptor-screened-table.json, which is the one home for them; they are not restated here.",
+     "⛔_cleaves_wild_type_NR4A3": false,
+     "wild_type_NR4A3_verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+     "wild_type_NR4A3_n_cleavage_competent_sites": 0
     },
     {
      "antisense_5to3": "CAGTGGGCTCTTCCAT",
@@ -100,7 +107,10 @@
      "has_G4_motif": false,
      "clears_parent_exclusion": true,
      "exact_parent_hits": [],
-     "⚠_offtarget_screens_run": "ran: exhaustive_transcript_scan, genome_grch38, mature_parent_gap_pairing, premrna, transcriptome_blast_deep; NOT run: none. Per-design counts are in noncoding-acceptor/aso-noncoding-acceptor-screened-table.json, which is the one home for them; they are not restated here."
+     "⚠_offtarget_screens_run": "ran: exhaustive_transcript_scan, genome_grch38, mature_parent_gap_pairing, premrna, transcriptome_blast_deep; NOT run: none. Per-design counts are in noncoding-acceptor/aso-noncoding-acceptor-screened-table.json, which is the one home for them; they are not restated here.",
+     "⛔_cleaves_wild_type_NR4A3": false,
+     "wild_type_NR4A3_verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+     "wild_type_NR4A3_n_cleavage_competent_sites": 0
     },
     {
      "antisense_5to3": "TGGGCTCTTCCATTGC",
@@ -113,7 +123,10 @@
      "has_G4_motif": false,
      "clears_parent_exclusion": true,
      "exact_parent_hits": [],
-     "⚠_offtarget_screens_run": "ran: exhaustive_transcript_scan, genome_grch38, mature_parent_gap_pairing, premrna, transcriptome_blast_deep; NOT run: none. Per-design counts are in noncoding-acceptor/aso-noncoding-acceptor-screened-table.json, which is the one home for them; they are not restated here."
+     "⚠_offtarget_screens_run": "ran: exhaustive_transcript_scan, genome_grch38, mature_parent_gap_pairing, premrna, transcriptome_blast_deep; NOT run: none. Per-design counts are in noncoding-acceptor/aso-noncoding-acceptor-screened-table.json, which is the one home for them; they are not restated here.",
+     "⛔_cleaves_wild_type_NR4A3": false,
+     "wild_type_NR4A3_verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+     "wild_type_NR4A3_n_cleavage_competent_sites": 0
     },
     {
      "antisense_5to3": "GCAGTGGGCTCTTCCA",
@@ -126,16 +139,24 @@
      "has_G4_motif": false,
      "clears_parent_exclusion": true,
      "exact_parent_hits": [],
-     "⚠_offtarget_screens_run": "ran: exhaustive_transcript_scan, genome_grch38, mature_parent_gap_pairing, premrna, transcriptome_blast_deep; NOT run: none. Per-design counts are in noncoding-acceptor/aso-noncoding-acceptor-screened-table.json, which is the one home for them; they are not restated here."
+     "⚠_offtarget_screens_run": "ran: exhaustive_transcript_scan, genome_grch38, mature_parent_gap_pairing, premrna, transcriptome_blast_deep; NOT run: none. Per-design counts are in noncoding-acceptor/aso-noncoding-acceptor-screened-table.json, which is the one home for them; they are not restated here.",
+     "⛔_cleaves_wild_type_NR4A3": false,
+     "wild_type_NR4A3_verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+     "wild_type_NR4A3_n_cleavage_competent_sites": 0
     }
    ],
-   "best_by_gap_specificity_margin": "AGTGGGCTCTTCCATT"
+   "best_by_gap_specificity_margin": "AGTGGGCTCTTCCATT",
+   "n_designs_cleaving_wild_type_NR4A3": 0,
+   "designs_cleaving_wild_type_NR4A3": [],
+   "n_clearing_parent_exclusion_AND_the_wild_type_allele": 5,
+   "_how_best_is_chosen": "highest gap_specificity_margin among designs that clear the parent exclusion AND carry no cleavage-competent site in wild-type NR4A3. ⛔ It is NOT a recommendation: the three screens that need NCBI or the genome have their own state, reported per design in `⚠_offtarget_screens_run`."
   },
   {
    "junction_label": "EWSR1_e7__NR4A3_e2",
    "transcript_type": "EWSR1::NR4A3 type 2",
    "n_independent_sources": 3,
    "excluded_from_the_panel_by": "NON_CODING_ACCEPTOR",
+   "model_it_makes_testable": null,
    "⚠_read_this_before_using_the_sequence": null,
    "evidence": [
     "PMID 22567356 — 'exon 7 of EWSR1 is fused to exon 2 of NR4A3 in the type 2 fusion transcript'",
@@ -172,7 +193,10 @@
      "has_G4_motif": false,
      "clears_parent_exclusion": true,
      "exact_parent_hits": [],
-     "⚠_offtarget_screens_run": "ran: exhaustive_transcript_scan, genome_grch38, mature_parent_gap_pairing, premrna, transcriptome_blast_deep; NOT run: none. Per-design counts are in noncoding-acceptor/aso-noncoding-acceptor-screened-table.json, which is the one home for them; they are not restated here."
+     "⚠_offtarget_screens_run": "ran: exhaustive_transcript_scan, genome_grch38, mature_parent_gap_pairing, premrna, transcriptome_blast_deep; NOT run: none. Per-design counts are in noncoding-acceptor/aso-noncoding-acceptor-screened-table.json, which is the one home for them; they are not restated here.",
+     "⛔_cleaves_wild_type_NR4A3": false,
+     "wild_type_NR4A3_verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+     "wild_type_NR4A3_n_cleavage_competent_sites": 0
     },
     {
      "antisense_5to3": "CAGTGGGCTTCTGCTG",
@@ -185,7 +209,10 @@
      "has_G4_motif": false,
      "clears_parent_exclusion": true,
      "exact_parent_hits": [],
-     "⚠_offtarget_screens_run": "ran: exhaustive_transcript_scan, genome_grch38, mature_parent_gap_pairing, premrna, transcriptome_blast_deep; NOT run: none. Per-design counts are in noncoding-acceptor/aso-noncoding-acceptor-screened-table.json, which is the one home for them; they are not restated here."
+     "⚠_offtarget_screens_run": "ran: exhaustive_transcript_scan, genome_grch38, mature_parent_gap_pairing, premrna, transcriptome_blast_deep; NOT run: none. Per-design counts are in noncoding-acceptor/aso-noncoding-acceptor-screened-table.json, which is the one home for them; they are not restated here.",
+     "⛔_cleaves_wild_type_NR4A3": false,
+     "wild_type_NR4A3_verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+     "wild_type_NR4A3_n_cleavage_competent_sites": 0
     },
     {
      "antisense_5to3": "GTGGGCTTCTGCTGCC",
@@ -198,7 +225,10 @@
      "has_G4_motif": false,
      "clears_parent_exclusion": true,
      "exact_parent_hits": [],
-     "⚠_offtarget_screens_run": "ran: exhaustive_transcript_scan, genome_grch38, mature_parent_gap_pairing, premrna, transcriptome_blast_deep; NOT run: none. Per-design counts are in noncoding-acceptor/aso-noncoding-acceptor-screened-table.json, which is the one home for them; they are not restated here."
+     "⚠_offtarget_screens_run": "ran: exhaustive_transcript_scan, genome_grch38, mature_parent_gap_pairing, premrna, transcriptome_blast_deep; NOT run: none. Per-design counts are in noncoding-acceptor/aso-noncoding-acceptor-screened-table.json, which is the one home for them; they are not restated here.",
+     "⛔_cleaves_wild_type_NR4A3": false,
+     "wild_type_NR4A3_verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+     "wild_type_NR4A3_n_cleavage_competent_sites": 0
     },
     {
      "antisense_5to3": "GCAGTGGGCTTCTGCT",
@@ -211,7 +241,10 @@
      "has_G4_motif": false,
      "clears_parent_exclusion": true,
      "exact_parent_hits": [],
-     "⚠_offtarget_screens_run": "ran: exhaustive_transcript_scan, genome_grch38, mature_parent_gap_pairing, premrna, transcriptome_blast_deep; NOT run: none. Per-design counts are in noncoding-acceptor/aso-noncoding-acceptor-screened-table.json, which is the one home for them; they are not restated here."
+     "⚠_offtarget_screens_run": "ran: exhaustive_transcript_scan, genome_grch38, mature_parent_gap_pairing, premrna, transcriptome_blast_deep; NOT run: none. Per-design counts are in noncoding-acceptor/aso-noncoding-acceptor-screened-table.json, which is the one home for them; they are not restated here.",
+     "⛔_cleaves_wild_type_NR4A3": false,
+     "wild_type_NR4A3_verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+     "wild_type_NR4A3_n_cleavage_competent_sites": 0
     },
     {
      "antisense_5to3": "TGGGCTTCTGCTGCCC",
@@ -224,12 +257,838 @@
      "has_G4_motif": false,
      "clears_parent_exclusion": true,
      "exact_parent_hits": [],
-     "⚠_offtarget_screens_run": "ran: exhaustive_transcript_scan, genome_grch38, mature_parent_gap_pairing, premrna, transcriptome_blast_deep; NOT run: none. Per-design counts are in noncoding-acceptor/aso-noncoding-acceptor-screened-table.json, which is the one home for them; they are not restated here."
+     "⚠_offtarget_screens_run": "ran: exhaustive_transcript_scan, genome_grch38, mature_parent_gap_pairing, premrna, transcriptome_blast_deep; NOT run: none. Per-design counts are in noncoding-acceptor/aso-noncoding-acceptor-screened-table.json, which is the one home for them; they are not restated here.",
+     "⛔_cleaves_wild_type_NR4A3": false,
+     "wild_type_NR4A3_verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+     "wild_type_NR4A3_n_cleavage_competent_sites": 0
     }
    ],
-   "best_by_gap_specificity_margin": "AGTGGGCTTCTGCTGC"
+   "best_by_gap_specificity_margin": "AGTGGGCTTCTGCTGC",
+   "n_designs_cleaving_wild_type_NR4A3": 0,
+   "designs_cleaving_wild_type_NR4A3": [],
+   "n_clearing_parent_exclusion_AND_the_wild_type_allele": 5,
+   "_how_best_is_chosen": "highest gap_specificity_margin among designs that clear the parent exclusion AND carry no cleavage-competent site in wild-type NR4A3. ⛔ It is NOT a recommendation: the three screens that need NCBI or the genome have their own state, reported per design in `⚠_offtarget_screens_run`."
+  },
+  {
+   "junction_label": "EWSR1_e13__NR4A3_e2",
+   "transcript_type": "no type number reported — a FoundationOne®HEME exon label in a cell-model establishment paper, not a sequenced junction",
+   "n_independent_sources": 1,
+   "excluded_from_the_panel_by": "NON_CODING_ACCEPTOR",
+   "model_it_makes_testable": "USZ20-EMC1 (RRID:CVCL_C6MX), under reading A of its acceptor",
+   "⚠_read_this_before_using_the_sequence": "FIVE THINGS A READER MUST HOLD AT ONCE, AND THE SEQUENCE ARITHMETIC RESOLVES NONE OF THEM. (1) THE ACCEPTOR EXON INDEX IS NOT SETTLED AND THIS ENTRY DOES NOT SETTLE IT. The only statement of these two junctions anywhere is a FoundationOne®HEME report label quoted in a figure legend: 'exon 2 from NR4A3'. There is NO sequenced exon-exon boundary, NO transcript accession and NO junction sequence behind it. Two readings survive. READING A (literal): the acceptor really is NR4A3 transcript exon 2 — not an absurd reading, because NR4A3 exon 2 is a genuine sequence-confirmed EMC acceptor, which is what the EWSR1 e7 :: NR4A3 e2 type 2 transcript in this same dict is. READING B (breakpoint-flanking label): the number names the last exon 5' of the break the assay called, while the spliced transcript still joins the donor to NR4A3 exon 3 — the junction the manuscript panel already carries and has already screened. ⛔ THIS REPOSITORY HAS ALREADY RETRACTED A SEAM FOR EXACTLY THIS CLASS OF ERROR: EWSR1_e11__NR4A3_e3, withdrawn 2026-08-15, a vendor exon label read as a reference exon index (see RETRACTED_PUBLISHED_BREAKPOINTS above). (2) THE MEASUREMENT THAT WAS TAKEN, AND WHAT IT DID AND DID NOT REMOVE. Every NR4A3 transcript model that could have made 'exon 2' the coding acceptor was checked, and none does: the three curated RefSeq transcripts NM_006981.4, NM_173199.4 and NM_173200.3 all share non-coding exon 1 and non-coding exon 2 and all three begin their CDS in exon 3 (UCSC ncbiRefSeqCurated, hg38, chr9), and this repository's own committed model agrees exon for exon (nr4a3-exon-audit.json, ENST00000395097: transcript exons 1 and 2 is_coding=false, exon 3 carries first_protein_residue=1). SO NO PUBLISHED NR4A3 NUMBERING MAKES THE CODING ACCEPTOR 'EXON 2'. That removes the simplest form of reading B — an alternative transcript's numbering — and it does NOT remove reading B, because a breakpoint-flanking label is not a transcript-exon label at all. ⚠ One difference from the retracted case is real and is recorded without being leaned on: F1CDx is a DNA-only panel, whereas the FoundationOne®HEME run here extracted DNA AND RNA and the paper reports the rearrangement 'confirmed on the RNA level'. That makes reading A more available than it was at the retracted seam; it still produces no accession and no boundary, so it does not decide the numbering. (3) WHY THE SEAM IS DESIGNED ANYWAY — AND IT IS NOT THAT READING A WON. Designing at BOTH acceptors is what retires the ambiguity AS A BLOCKER. The exon-3 seam for each of these two donors is already in the manuscript's 38-junction panel and already through all five deep screens; adding the exon-2 seam means each model has a reagent under EITHER reading, so no downstream step has to wait on an exon index nobody has sequenced. The ambiguity is carried, not resolved by assertion, and it stays open until (4)'s condition is met. (4) NO PUBLISHED PATIENT COUNT, AND EXACTLY ZERO COVERAGE MOVEMENT. Neither junction has a reported prevalence anywhere. Neither donor-acceptor pair is in the 58-case cohort every coverage rung in `aso_coverage_ladder.py` is computed against, so a reagent here moves the ladder by zero — not by a little, by zero — exactly as recorded for PGR above. What it changes is which MODELS are testable at all, which is a different statement from coverage and must never be added to a coverage percentage. Under a panel stocked FOR TESTING rather than for population coverage, an absent patient count is not an argument against these seams: these are the junctions of the only two patient-derived EMC models that are both fusion-annotated and free of an identity flag (STR-matched to their native tumours, DNA-methylation class EMC at 0.99, no Cellosaurus problematic-line record). (5) NUCLEOTIDE-RESOLUTION CONFIRMATION IN TEST MATERIAL IS A PRECONDITION, NOT A NICETY — the same requirement §5.4 of the manuscript already places on the exon-3 reagents, and here it is load-bearing rather than routine, because it is also the observation that would decide between readings A and B. One RT-PCR/Sanger read across either model's junction settles it.",
+   "evidence": [
+    "PMID 36316541 (PMC9813045), Hum Cell 36:446-455 (2023), Figure 4 legend — 'The rearrangement and fusion partner was confirmed by NGS using the FoundationOne®HEME assay. For USZ20-EMC1; EWSR1 was confirmed as fusion partner having exon 13 for EWSR1 on chr22 and exon 2 from NR4A3 on chr9 involved (B).'",
+    "Same report, on the material the call was made in — this is a PATIENT's breakpoint and not only a cell line's: 'For USZ20-EMC1, an EWSR1-NR4A3 rearrangement and, for USZ22-EMC2, a TAF15-NR4A3 rearrangement in the native tumor tissue and the corresponding cell model was confirmed on the RNA level (Fig. b, d).'",
+    "Same report, Methods, on the assay: 'FoundationOne®HEME assay is a next generation sequencing (NGS) assay that uses a hybrid capture methodology and detects base substitutions, insertions, deletions, and copy number (CN) alterations in up to 406 genes and gene rearrangements in up to 265 genes, tumor mutation burden and microsatellite instability using the previously described methods. DNA and RNA was extracted using the Maxwell® Tissue DNA Purification Kit (Promega AS1030).'",
+    "Cellosaurus curation of the same PubMed record, not an independent observation — 'CC Sequence variation: Gene fusion; HGNC; HGNC:3508; EWSR1 + HGNC; HGNC:7982; NR4A3; Name(s)=EWSR1-NR4A3; Note=EWSR1 exon 13 fused to NR4A3 exon 2 (PubMed=36316541).' (ID USZ20-EMC1 / AC CVCL_C6MX)",
+    "⛔ ONE REPORT, ONE ASSAY, AND THE CELLOSAURUS ROW IS NOT A SECOND SOURCE — it cites PubMed=36316541, which is this same paper. n_independent_sources is therefore ONE."
+   ],
+   "one_home_for_the_evidence": "research/modalities/emc-model-junction-evidence.json",
+   "junction_context_mRNA": "CACTCCGTGGAG|AGCCCACTGCGG",
+   "acceptor_exon_is_coding": false,
+   "acceptor_5utr_nt_retained": 176,
+   "in_frame_at_the_mRNA_level": true,
+   "_frame_note": "reported because it is a reading, not because it gates anything here. An RNase-H gapmer cleaves the transcript; the frame decides what protein the tumour makes.",
+   "n_designs_spanning_the_seam": 5,
+   "n_clearing_the_parent_exclusion": 5,
+   "parents_screened": [
+    "EWSR1",
+    "FUS",
+    "NR4A3",
+    "PGR",
+    "TAF15",
+    "TCF12",
+    "TFG"
+   ],
+   "parents_unavailable": [],
+   "designs": [
+    {
+     "antisense_5to3": "AGTGGGCTCTCCACGG",
+     "target_mRNA_5to3": "CCGTGGAGAGCCCACT",
+     "architecture": "5-6-5 (LNA-DNA-LNA)",
+     "gap_specificity_margin": 3,
+     "gap_bases_donor_side": 3,
+     "gap_bases_acceptor_side": 3,
+     "gc_percent": 68.8,
+     "has_G4_motif": false,
+     "clears_parent_exclusion": true,
+     "exact_parent_hits": [],
+     "⚠_offtarget_screens_run": "INCOMPLETE at this junction. Lane-wide: ran exhaustive_transcript_scan, genome_grch38, mature_parent_gap_pairing, premrna, transcriptome_blast_deep; NOT run none — but this seam's own alignment screen has NOT run, so its transcriptome-load fields are null and listed in the table's `⛔_unmeasured_fields`. Unmeasured is not clean.",
+     "⛔_cleaves_wild_type_NR4A3": false,
+     "wild_type_NR4A3_verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+     "wild_type_NR4A3_n_cleavage_competent_sites": 0
+    },
+    {
+     "antisense_5to3": "GTGGGCTCTCCACGGA",
+     "target_mRNA_5to3": "TCCGTGGAGAGCCCAC",
+     "architecture": "5-6-5 (LNA-DNA-LNA)",
+     "gap_specificity_margin": 2,
+     "gap_bases_donor_side": 4,
+     "gap_bases_acceptor_side": 2,
+     "gc_percent": 68.8,
+     "has_G4_motif": false,
+     "clears_parent_exclusion": true,
+     "exact_parent_hits": [],
+     "⚠_offtarget_screens_run": "INCOMPLETE at this junction. Lane-wide: ran exhaustive_transcript_scan, genome_grch38, mature_parent_gap_pairing, premrna, transcriptome_blast_deep; NOT run none — but this seam's own alignment screen has NOT run, so its transcriptome-load fields are null and listed in the table's `⛔_unmeasured_fields`. Unmeasured is not clean.",
+     "⛔_cleaves_wild_type_NR4A3": false,
+     "wild_type_NR4A3_verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+     "wild_type_NR4A3_n_cleavage_competent_sites": 0
+    },
+    {
+     "antisense_5to3": "CAGTGGGCTCTCCACG",
+     "target_mRNA_5to3": "CGTGGAGAGCCCACTG",
+     "architecture": "5-6-5 (LNA-DNA-LNA)",
+     "gap_specificity_margin": 2,
+     "gap_bases_donor_side": 2,
+     "gap_bases_acceptor_side": 4,
+     "gc_percent": 68.8,
+     "has_G4_motif": false,
+     "clears_parent_exclusion": true,
+     "exact_parent_hits": [],
+     "⚠_offtarget_screens_run": "INCOMPLETE at this junction. Lane-wide: ran exhaustive_transcript_scan, genome_grch38, mature_parent_gap_pairing, premrna, transcriptome_blast_deep; NOT run none — but this seam's own alignment screen has NOT run, so its transcriptome-load fields are null and listed in the table's `⛔_unmeasured_fields`. Unmeasured is not clean.",
+     "⛔_cleaves_wild_type_NR4A3": true,
+     "wild_type_NR4A3_verdict": "⛔ FORMS A GAP-PAIRED DUPLEX ON THE UN-REARRANGED NR4A3 ALLELE — RNase-H1-competent on wild-type NR4A3. DO NOT CARRY FORWARD.",
+     "wild_type_NR4A3_n_cleavage_competent_sites": 1
+    },
+    {
+     "antisense_5to3": "TGGGCTCTCCACGGAG",
+     "target_mRNA_5to3": "CTCCGTGGAGAGCCCA",
+     "architecture": "5-6-5 (LNA-DNA-LNA)",
+     "gap_specificity_margin": 1,
+     "gap_bases_donor_side": 5,
+     "gap_bases_acceptor_side": 1,
+     "gc_percent": 68.8,
+     "has_G4_motif": false,
+     "clears_parent_exclusion": true,
+     "exact_parent_hits": [],
+     "⚠_offtarget_screens_run": "INCOMPLETE at this junction. Lane-wide: ran exhaustive_transcript_scan, genome_grch38, mature_parent_gap_pairing, premrna, transcriptome_blast_deep; NOT run none — but this seam's own alignment screen has NOT run, so its transcriptome-load fields are null and listed in the table's `⛔_unmeasured_fields`. Unmeasured is not clean.",
+     "⛔_cleaves_wild_type_NR4A3": false,
+     "wild_type_NR4A3_verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+     "wild_type_NR4A3_n_cleavage_competent_sites": 0
+    },
+    {
+     "antisense_5to3": "GCAGTGGGCTCTCCAC",
+     "target_mRNA_5to3": "GTGGAGAGCCCACTGC",
+     "architecture": "5-6-5 (LNA-DNA-LNA)",
+     "gap_specificity_margin": 1,
+     "gap_bases_donor_side": 1,
+     "gap_bases_acceptor_side": 5,
+     "gc_percent": 68.8,
+     "has_G4_motif": false,
+     "clears_parent_exclusion": true,
+     "exact_parent_hits": [],
+     "⚠_offtarget_screens_run": "INCOMPLETE at this junction. Lane-wide: ran exhaustive_transcript_scan, genome_grch38, mature_parent_gap_pairing, premrna, transcriptome_blast_deep; NOT run none — but this seam's own alignment screen has NOT run, so its transcriptome-load fields are null and listed in the table's `⛔_unmeasured_fields`. Unmeasured is not clean.",
+     "⛔_cleaves_wild_type_NR4A3": true,
+     "wild_type_NR4A3_verdict": "⛔ FORMS A GAP-PAIRED DUPLEX ON THE UN-REARRANGED NR4A3 ALLELE — RNase-H1-competent on wild-type NR4A3. DO NOT CARRY FORWARD.",
+     "wild_type_NR4A3_n_cleavage_competent_sites": 1
+    }
+   ],
+   "best_by_gap_specificity_margin": "AGTGGGCTCTCCACGG",
+   "n_designs_cleaving_wild_type_NR4A3": 2,
+   "designs_cleaving_wild_type_NR4A3": [
+    "CAGTGGGCTCTCCACG",
+    "GCAGTGGGCTCTCCAC"
+   ],
+   "n_clearing_parent_exclusion_AND_the_wild_type_allele": 3,
+   "_how_best_is_chosen": "highest gap_specificity_margin among designs that clear the parent exclusion AND carry no cleavage-competent site in wild-type NR4A3. ⛔ It is NOT a recommendation: the three screens that need NCBI or the genome have their own state, reported per design in `⚠_offtarget_screens_run`."
+  },
+  {
+   "junction_label": "TAF15_e6__NR4A3_e2",
+   "transcript_type": "no type number reported — a FoundationOne®HEME exon label in a cell-model establishment paper, not a sequenced junction",
+   "n_independent_sources": 1,
+   "excluded_from_the_panel_by": "NON_CODING_ACCEPTOR",
+   "model_it_makes_testable": "USZ22-EMC2 (RRID:CVCL_C6MY), under reading A of its acceptor",
+   "⚠_read_this_before_using_the_sequence": "FIVE THINGS A READER MUST HOLD AT ONCE, AND THE SEQUENCE ARITHMETIC RESOLVES NONE OF THEM. (1) THE ACCEPTOR EXON INDEX IS NOT SETTLED AND THIS ENTRY DOES NOT SETTLE IT. The only statement of these two junctions anywhere is a FoundationOne®HEME report label quoted in a figure legend: 'exon 2 from NR4A3'. There is NO sequenced exon-exon boundary, NO transcript accession and NO junction sequence behind it. Two readings survive. READING A (literal): the acceptor really is NR4A3 transcript exon 2 — not an absurd reading, because NR4A3 exon 2 is a genuine sequence-confirmed EMC acceptor, which is what the EWSR1 e7 :: NR4A3 e2 type 2 transcript in this same dict is. READING B (breakpoint-flanking label): the number names the last exon 5' of the break the assay called, while the spliced transcript still joins the donor to NR4A3 exon 3 — the junction the manuscript panel already carries and has already screened. ⛔ THIS REPOSITORY HAS ALREADY RETRACTED A SEAM FOR EXACTLY THIS CLASS OF ERROR: EWSR1_e11__NR4A3_e3, withdrawn 2026-08-15, a vendor exon label read as a reference exon index (see RETRACTED_PUBLISHED_BREAKPOINTS above). (2) THE MEASUREMENT THAT WAS TAKEN, AND WHAT IT DID AND DID NOT REMOVE. Every NR4A3 transcript model that could have made 'exon 2' the coding acceptor was checked, and none does: the three curated RefSeq transcripts NM_006981.4, NM_173199.4 and NM_173200.3 all share non-coding exon 1 and non-coding exon 2 and all three begin their CDS in exon 3 (UCSC ncbiRefSeqCurated, hg38, chr9), and this repository's own committed model agrees exon for exon (nr4a3-exon-audit.json, ENST00000395097: transcript exons 1 and 2 is_coding=false, exon 3 carries first_protein_residue=1). SO NO PUBLISHED NR4A3 NUMBERING MAKES THE CODING ACCEPTOR 'EXON 2'. That removes the simplest form of reading B — an alternative transcript's numbering — and it does NOT remove reading B, because a breakpoint-flanking label is not a transcript-exon label at all. ⚠ One difference from the retracted case is real and is recorded without being leaned on: F1CDx is a DNA-only panel, whereas the FoundationOne®HEME run here extracted DNA AND RNA and the paper reports the rearrangement 'confirmed on the RNA level'. That makes reading A more available than it was at the retracted seam; it still produces no accession and no boundary, so it does not decide the numbering. (3) WHY THE SEAM IS DESIGNED ANYWAY — AND IT IS NOT THAT READING A WON. Designing at BOTH acceptors is what retires the ambiguity AS A BLOCKER. The exon-3 seam for each of these two donors is already in the manuscript's 38-junction panel and already through all five deep screens; adding the exon-2 seam means each model has a reagent under EITHER reading, so no downstream step has to wait on an exon index nobody has sequenced. The ambiguity is carried, not resolved by assertion, and it stays open until (4)'s condition is met. (4) NO PUBLISHED PATIENT COUNT, AND EXACTLY ZERO COVERAGE MOVEMENT. Neither junction has a reported prevalence anywhere. Neither donor-acceptor pair is in the 58-case cohort every coverage rung in `aso_coverage_ladder.py` is computed against, so a reagent here moves the ladder by zero — not by a little, by zero — exactly as recorded for PGR above. What it changes is which MODELS are testable at all, which is a different statement from coverage and must never be added to a coverage percentage. Under a panel stocked FOR TESTING rather than for population coverage, an absent patient count is not an argument against these seams: these are the junctions of the only two patient-derived EMC models that are both fusion-annotated and free of an identity flag (STR-matched to their native tumours, DNA-methylation class EMC at 0.99, no Cellosaurus problematic-line record). (5) NUCLEOTIDE-RESOLUTION CONFIRMATION IN TEST MATERIAL IS A PRECONDITION, NOT A NICETY — the same requirement §5.4 of the manuscript already places on the exon-3 reagents, and here it is load-bearing rather than routine, because it is also the observation that would decide between readings A and B. One RT-PCR/Sanger read across either model's junction settles it.",
+   "evidence": [
+    "PMID 36316541 (PMC9813045), Hum Cell 36:446-455 (2023), Figure 4 legend — 'For USZ22-EMC2; TAF15 was confirmed as fusion partner having exon 6 for TAF15 on chr17 and exon 2 from NR4A3 on chr9 involved (D).'",
+    "Same report, on the material the call was made in — this is a PATIENT's breakpoint and not only a cell line's: 'For USZ20-EMC1, an EWSR1-NR4A3 rearrangement and, for USZ22-EMC2, a TAF15-NR4A3 rearrangement in the native tumor tissue and the corresponding cell model was confirmed on the RNA level (Fig. b, d).'",
+    "Cellosaurus curation of the same PubMed record, not an independent observation — 'CC Sequence variation: Gene fusion; HGNC; HGNC:7982; NR4A3 + HGNC; HGNC:11547; TAF15; Name(s)=TAF15-NR4A3; Note=TAF15 exon 6 fused to NR4A3 exon 2 (PubMed=36316541).' (ID USZ22-EMC2 / AC CVCL_C6MY)",
+    "⚠ THE DONOR HALF IS THE ONE HALF NOBODY DISPUTES, AND IT IS THE COMMONEST TAF15 DONOR IN THE DISEASE: PMID 31020999 (PMC6766969) builds 'T-N*, corresponding to the commonest TAF15 (exons 1-6)-NR4A3 (exons 3-8) fusion'. The disagreement between that construct and this report is at the ACCEPTOR only — which is the whole of the ambiguity below.",
+    "⛔ ONE REPORT, ONE ASSAY, AND THE CELLOSAURUS ROW IS NOT A SECOND SOURCE — it cites PubMed=36316541, which is this same paper. n_independent_sources is therefore ONE."
+   ],
+   "one_home_for_the_evidence": "research/modalities/emc-model-junction-evidence.json",
+   "junction_context_mRNA": "ACCACACACAAG|AGCCCACTGCGG",
+   "acceptor_exon_is_coding": false,
+   "acceptor_5utr_nt_retained": 176,
+   "in_frame_at_the_mRNA_level": true,
+   "_frame_note": "reported because it is a reading, not because it gates anything here. An RNase-H gapmer cleaves the transcript; the frame decides what protein the tumour makes.",
+   "n_designs_spanning_the_seam": 5,
+   "n_clearing_the_parent_exclusion": 5,
+   "parents_screened": [
+    "EWSR1",
+    "FUS",
+    "NR4A3",
+    "PGR",
+    "TAF15",
+    "TCF12",
+    "TFG"
+   ],
+   "parents_unavailable": [],
+   "designs": [
+    {
+     "antisense_5to3": "AGTGGGCTCTTGTGTG",
+     "target_mRNA_5to3": "CACACAAGAGCCCACT",
+     "architecture": "5-6-5 (LNA-DNA-LNA)",
+     "gap_specificity_margin": 3,
+     "gap_bases_donor_side": 3,
+     "gap_bases_acceptor_side": 3,
+     "gc_percent": 56.2,
+     "has_G4_motif": false,
+     "clears_parent_exclusion": true,
+     "exact_parent_hits": [],
+     "⚠_offtarget_screens_run": "INCOMPLETE at this junction. Lane-wide: ran exhaustive_transcript_scan, genome_grch38, mature_parent_gap_pairing, premrna, transcriptome_blast_deep; NOT run none — but this seam's own alignment screen has NOT run, so its transcriptome-load fields are null and listed in the table's `⛔_unmeasured_fields`. Unmeasured is not clean.",
+     "⛔_cleaves_wild_type_NR4A3": false,
+     "wild_type_NR4A3_verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+     "wild_type_NR4A3_n_cleavage_competent_sites": 0
+    },
+    {
+     "antisense_5to3": "GTGGGCTCTTGTGTGT",
+     "target_mRNA_5to3": "ACACACAAGAGCCCAC",
+     "architecture": "5-6-5 (LNA-DNA-LNA)",
+     "gap_specificity_margin": 2,
+     "gap_bases_donor_side": 4,
+     "gap_bases_acceptor_side": 2,
+     "gc_percent": 56.2,
+     "has_G4_motif": false,
+     "clears_parent_exclusion": true,
+     "exact_parent_hits": [],
+     "⚠_offtarget_screens_run": "INCOMPLETE at this junction. Lane-wide: ran exhaustive_transcript_scan, genome_grch38, mature_parent_gap_pairing, premrna, transcriptome_blast_deep; NOT run none — but this seam's own alignment screen has NOT run, so its transcriptome-load fields are null and listed in the table's `⛔_unmeasured_fields`. Unmeasured is not clean.",
+     "⛔_cleaves_wild_type_NR4A3": false,
+     "wild_type_NR4A3_verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+     "wild_type_NR4A3_n_cleavage_competent_sites": 0
+    },
+    {
+     "antisense_5to3": "CAGTGGGCTCTTGTGT",
+     "target_mRNA_5to3": "ACACAAGAGCCCACTG",
+     "architecture": "5-6-5 (LNA-DNA-LNA)",
+     "gap_specificity_margin": 2,
+     "gap_bases_donor_side": 2,
+     "gap_bases_acceptor_side": 4,
+     "gc_percent": 56.2,
+     "has_G4_motif": false,
+     "clears_parent_exclusion": true,
+     "exact_parent_hits": [],
+     "⚠_offtarget_screens_run": "INCOMPLETE at this junction. Lane-wide: ran exhaustive_transcript_scan, genome_grch38, mature_parent_gap_pairing, premrna, transcriptome_blast_deep; NOT run none — but this seam's own alignment screen has NOT run, so its transcriptome-load fields are null and listed in the table's `⛔_unmeasured_fields`. Unmeasured is not clean.",
+     "⛔_cleaves_wild_type_NR4A3": false,
+     "wild_type_NR4A3_verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+     "wild_type_NR4A3_n_cleavage_competent_sites": 0
+    },
+    {
+     "antisense_5to3": "TGGGCTCTTGTGTGTG",
+     "target_mRNA_5to3": "CACACACAAGAGCCCA",
+     "architecture": "5-6-5 (LNA-DNA-LNA)",
+     "gap_specificity_margin": 1,
+     "gap_bases_donor_side": 5,
+     "gap_bases_acceptor_side": 1,
+     "gc_percent": 56.2,
+     "has_G4_motif": false,
+     "clears_parent_exclusion": true,
+     "exact_parent_hits": [],
+     "⚠_offtarget_screens_run": "INCOMPLETE at this junction. Lane-wide: ran exhaustive_transcript_scan, genome_grch38, mature_parent_gap_pairing, premrna, transcriptome_blast_deep; NOT run none — but this seam's own alignment screen has NOT run, so its transcriptome-load fields are null and listed in the table's `⛔_unmeasured_fields`. Unmeasured is not clean.",
+     "⛔_cleaves_wild_type_NR4A3": false,
+     "wild_type_NR4A3_verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+     "wild_type_NR4A3_n_cleavage_competent_sites": 0
+    },
+    {
+     "antisense_5to3": "GCAGTGGGCTCTTGTG",
+     "target_mRNA_5to3": "CACAAGAGCCCACTGC",
+     "architecture": "5-6-5 (LNA-DNA-LNA)",
+     "gap_specificity_margin": 1,
+     "gap_bases_donor_side": 1,
+     "gap_bases_acceptor_side": 5,
+     "gc_percent": 62.5,
+     "has_G4_motif": false,
+     "clears_parent_exclusion": true,
+     "exact_parent_hits": [],
+     "⚠_offtarget_screens_run": "INCOMPLETE at this junction. Lane-wide: ran exhaustive_transcript_scan, genome_grch38, mature_parent_gap_pairing, premrna, transcriptome_blast_deep; NOT run none — but this seam's own alignment screen has NOT run, so its transcriptome-load fields are null and listed in the table's `⛔_unmeasured_fields`. Unmeasured is not clean.",
+     "⛔_cleaves_wild_type_NR4A3": false,
+     "wild_type_NR4A3_verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+     "wild_type_NR4A3_n_cleavage_competent_sites": 0
+    }
+   ],
+   "best_by_gap_specificity_margin": "AGTGGGCTCTTGTGTG",
+   "n_designs_cleaving_wild_type_NR4A3": 0,
+   "designs_cleaving_wild_type_NR4A3": [],
+   "n_clearing_parent_exclusion_AND_the_wild_type_allele": 5,
+   "_how_best_is_chosen": "highest gap_specificity_margin among designs that clear the parent exclusion AND carry no cleavage-competent site in wild-type NR4A3. ⛔ It is NOT a recommendation: the three screens that need NCBI or the genome have their own state, reported per design in `⚠_offtarget_screens_run`."
   }
  ],
+ "⭐_wild_type_NR4A3_cleavage_liability": {
+  "⛔_the_question": "does this reagent form an RNase-H1-competent duplex on the patient's own UN-REARRANGED NR4A3 allele? The acceptor half of every design here is NR4A3 exon-2 5'UTR sequence, which in the wild-type allele sits immediately 3' of intron 1 — a compartment the spliced-cDNA parent screen cannot see, because a mature transcript has exon 1 there.",
+  "⛔_a_clean_parent_screen_is_not_an_answer": "every design in this module clears the parent exclusion, and that screen searches MATURE cDNA only. At the sibling cryptic-exon seam all five designs cleared it and one was then measured cleaving wild-type NR4A3.",
+  "positive_control": {
+   "control_junction": "TAF15 e6 :: NR4A3 intron-2 cryptic exon",
+   "expected": "exactly 1 cleavage-competent design (TGATGAGGGCCTTGTG), per the genome screen",
+   "observed_n_cleavage_competent_designs": 1,
+   "observed_designs": [
+    "TGATGAGGGCCTTGTG"
+   ],
+   "passed": true,
+   "⛔_if_this_fails": "the wild-type liability scan is not detecting the one case it is known to have to detect, so no 'clean' verdict above may be relied on.",
+   "_full": {
+    "_status": "run",
+    "_source": "aso-premrna-sequences.json -> genes.NR4A3.sequence (unspliced)",
+    "_method": "exhaustive <=2-mismatch scan of the NR4A3 unspliced sequence; the catalytic gap is positions 5..10 of the 16-mer target (5-6-5). A site with zero gap mismatches is treated as cleavage-competent, the same criterion the genome screen applies.",
+    "⚠_scope": "ONE LOCUS ONLY — NR4A3's own pre-mRNA, where this seam's liability lives. NOT a genome-wide result and NOT a substitute for aso_genome_offtarget.py.",
+    "per_design": {
+     "ATGAGGGCCTTGTGTG": {
+      "n_sites_le2_mismatches": 0,
+      "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+      "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+      "sites": []
+     },
+     "TGAGGGCCTTGTGTGT": {
+      "n_sites_le2_mismatches": 0,
+      "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+      "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+      "sites": []
+     },
+     "GATGAGGGCCTTGTGT": {
+      "n_sites_le2_mismatches": 0,
+      "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+      "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+      "sites": []
+     },
+     "TGATGAGGGCCTTGTG": {
+      "n_sites_le2_mismatches": 1,
+      "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 1,
+      "verdict": "⛔ FORMS A GAP-PAIRED DUPLEX ON THE UN-REARRANGED NR4A3 ALLELE — RNase-H1-competent on wild-type NR4A3. DO NOT CARRY FORWARD.",
+      "sites": [
+       {
+        "pre_mrna_offset": 4839,
+        "site_5to3": "CAACAGGCCCTCATCA",
+        "n_mismatches": 2,
+        "mismatch_positions": [
+         2,
+         3
+        ],
+        "n_gap_mismatches": 0,
+        "gap_fully_paired": true,
+        "offset_relative_to_cryptic_exon_start": -6
+       }
+      ]
+     },
+     "GAGGGCCTTGTGTGTG": {
+      "n_sites_le2_mismatches": 0,
+      "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+      "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+      "sites": []
+     }
+    }
+   }
+  },
+  "n_designs_scanned": 20,
+  "n_designs_cleaving_wild_type_NR4A3": 2,
+  "designs_cleaving_wild_type_NR4A3": [
+   "CAGTGGGCTCTCCACG",
+   "GCAGTGGGCTCTCCAC"
+  ],
+  "scan": {
+   "_status": "run",
+   "_source": "aso-premrna-sequences.json -> genes.NR4A3.sequence (unspliced)",
+   "_method": "exhaustive <=2-mismatch scan of the NR4A3 unspliced sequence; the catalytic gap is positions 5..10 of the 16-mer target (5-6-5). A site with zero gap mismatches is treated as cleavage-competent, the same criterion the genome screen applies.",
+   "⚠_scope": "ONE LOCUS ONLY — NR4A3's own pre-mRNA, where this seam's liability lives. NOT a genome-wide result and NOT a substitute for aso_genome_offtarget.py.",
+   "per_design": {
+    "AGTGGGCTCTCCACGG": {
+     "n_sites_le2_mismatches": 0,
+     "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+     "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+     "sites": []
+    },
+    "AGTGGGCTCTTCCATT": {
+     "n_sites_le2_mismatches": 0,
+     "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+     "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+     "sites": []
+    },
+    "AGTGGGCTCTTGTGTG": {
+     "n_sites_le2_mismatches": 0,
+     "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+     "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+     "sites": []
+    },
+    "AGTGGGCTTCTGCTGC": {
+     "n_sites_le2_mismatches": 0,
+     "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+     "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+     "sites": []
+    },
+    "CAGTGGGCTCTCCACG": {
+     "n_sites_le2_mismatches": 1,
+     "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 1,
+     "verdict": "⛔ FORMS A GAP-PAIRED DUPLEX ON THE UN-REARRANGED NR4A3 ALLELE — RNase-H1-competent on wild-type NR4A3. DO NOT CARRY FORWARD.",
+     "sites": [
+      {
+       "pre_mrna_offset": 3767,
+       "site_5to3": "CCTGTAGAGCCCACTG",
+       "n_mismatches": 2,
+       "mismatch_positions": [
+        1,
+        4
+       ],
+       "n_gap_mismatches": 0,
+       "gap_fully_paired": true
+      }
+     ]
+    },
+    "CAGTGGGCTCTTCCAT": {
+     "n_sites_le2_mismatches": 0,
+     "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+     "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+     "sites": []
+    },
+    "CAGTGGGCTCTTGTGT": {
+     "n_sites_le2_mismatches": 0,
+     "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+     "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+     "sites": []
+    },
+    "CAGTGGGCTTCTGCTG": {
+     "n_sites_le2_mismatches": 0,
+     "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+     "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+     "sites": []
+    },
+    "GCAGTGGGCTCTCCAC": {
+     "n_sites_le2_mismatches": 1,
+     "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 1,
+     "verdict": "⛔ FORMS A GAP-PAIRED DUPLEX ON THE UN-REARRANGED NR4A3 ALLELE — RNase-H1-competent on wild-type NR4A3. DO NOT CARRY FORWARD.",
+     "sites": [
+      {
+       "pre_mrna_offset": 3768,
+       "site_5to3": "CTGTAGAGCCCACTGC",
+       "n_mismatches": 2,
+       "mismatch_positions": [
+        0,
+        3
+       ],
+       "n_gap_mismatches": 0,
+       "gap_fully_paired": true
+      }
+     ]
+    },
+    "GCAGTGGGCTCTTCCA": {
+     "n_sites_le2_mismatches": 0,
+     "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+     "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+     "sites": []
+    },
+    "GCAGTGGGCTCTTGTG": {
+     "n_sites_le2_mismatches": 0,
+     "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+     "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+     "sites": []
+    },
+    "GCAGTGGGCTTCTGCT": {
+     "n_sites_le2_mismatches": 0,
+     "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+     "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+     "sites": []
+    },
+    "GTGGGCTCTCCACGGA": {
+     "n_sites_le2_mismatches": 0,
+     "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+     "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+     "sites": []
+    },
+    "GTGGGCTCTTCCATTG": {
+     "n_sites_le2_mismatches": 0,
+     "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+     "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+     "sites": []
+    },
+    "GTGGGCTCTTGTGTGT": {
+     "n_sites_le2_mismatches": 0,
+     "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+     "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+     "sites": []
+    },
+    "GTGGGCTTCTGCTGCC": {
+     "n_sites_le2_mismatches": 0,
+     "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+     "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+     "sites": []
+    },
+    "TGGGCTCTCCACGGAG": {
+     "n_sites_le2_mismatches": 0,
+     "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+     "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+     "sites": []
+    },
+    "TGGGCTCTTCCATTGC": {
+     "n_sites_le2_mismatches": 0,
+     "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+     "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+     "sites": []
+    },
+    "TGGGCTCTTGTGTGTG": {
+     "n_sites_le2_mismatches": 0,
+     "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+     "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+     "sites": []
+    },
+    "TGGGCTTCTGCTGCCC": {
+     "n_sites_le2_mismatches": 0,
+     "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+     "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+     "sites": []
+    }
+   }
+  },
+  "⭐_why_these_and_not_the_others": {
+   "_method": "each design's target window placed on the wild-type NR4A3 intron-1/exon-2 boundary in the SAME register it occupies on its fusion; catalytic gap is positions 5..10 of the 16-mer",
+   "wild_type_boundary_unspliced_offset_0based": 3774,
+   "wild_type_boundary_context": "GCCTGTAG|AGCCCACTGC",
+   "⚠_scope": "ONE register at ONE boundary — it explains the scan's verdicts, it does not replace them. The exhaustive scan over the whole NR4A3 unspliced sequence is the measurement; this is the mechanism behind it.",
+   "per_junction": {
+    "PGR_e2__NR4A3_e2": [
+     {
+      "antisense_5to3": "AGTGGGCTCTTCCATT",
+      "gap_bases_donor_side": 3,
+      "gap_bases_acceptor_side": 3,
+      "fusion_target_window": "AATGGAAGAGCCCACT",
+      "wild_type_window_same_register": "GCCTGTAGAGCCCACT",
+      "n_mismatches_vs_wild_type": 5,
+      "mismatch_positions": [
+       0,
+       1,
+       2,
+       3,
+       5
+      ],
+      "n_gap_mismatches": 1,
+      "reading": "no site at this register: 5 mismatches, above the <=2 ceiling matched to the BLAST arm's >=14/16 identity"
+     },
+     {
+      "antisense_5to3": "GTGGGCTCTTCCATTG",
+      "gap_bases_donor_side": 4,
+      "gap_bases_acceptor_side": 2,
+      "fusion_target_window": "CAATGGAAGAGCCCAC",
+      "wild_type_window_same_register": "TGCCTGTAGAGCCCAC",
+      "n_mismatches_vs_wild_type": 6,
+      "mismatch_positions": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       6
+      ],
+      "n_gap_mismatches": 1,
+      "reading": "no site at this register: 6 mismatches, above the <=2 ceiling matched to the BLAST arm's >=14/16 identity"
+     },
+     {
+      "antisense_5to3": "CAGTGGGCTCTTCCAT",
+      "gap_bases_donor_side": 2,
+      "gap_bases_acceptor_side": 4,
+      "fusion_target_window": "ATGGAAGAGCCCACTG",
+      "wild_type_window_same_register": "CCTGTAGAGCCCACTG",
+      "n_mismatches_vs_wild_type": 4,
+      "mismatch_positions": [
+       0,
+       1,
+       2,
+       4
+      ],
+      "n_gap_mismatches": 0,
+      "reading": "no site at this register: 4 mismatches, above the <=2 ceiling matched to the BLAST arm's >=14/16 identity"
+     },
+     {
+      "antisense_5to3": "TGGGCTCTTCCATTGC",
+      "gap_bases_donor_side": 5,
+      "gap_bases_acceptor_side": 1,
+      "fusion_target_window": "GCAATGGAAGAGCCCA",
+      "wild_type_window_same_register": "TTGCCTGTAGAGCCCA",
+      "n_mismatches_vs_wild_type": 7,
+      "mismatch_positions": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       7
+      ],
+      "n_gap_mismatches": 2,
+      "reading": "no site at this register: 7 mismatches, above the <=2 ceiling matched to the BLAST arm's >=14/16 identity"
+     },
+     {
+      "antisense_5to3": "GCAGTGGGCTCTTCCA",
+      "gap_bases_donor_side": 1,
+      "gap_bases_acceptor_side": 5,
+      "fusion_target_window": "TGGAAGAGCCCACTGC",
+      "wild_type_window_same_register": "CTGTAGAGCCCACTGC",
+      "n_mismatches_vs_wild_type": 3,
+      "mismatch_positions": [
+       0,
+       1,
+       3
+      ],
+      "n_gap_mismatches": 0,
+      "reading": "no site at this register: 3 mismatches, above the <=2 ceiling matched to the BLAST arm's >=14/16 identity"
+     }
+    ],
+    "EWSR1_e7__NR4A3_e2": [
+     {
+      "antisense_5to3": "AGTGGGCTTCTGCTGC",
+      "gap_bases_donor_side": 3,
+      "gap_bases_acceptor_side": 3,
+      "fusion_target_window": "GCAGCAGAAGCCCACT",
+      "wild_type_window_same_register": "GCCTGTAGAGCCCACT",
+      "n_mismatches_vs_wild_type": 6,
+      "mismatch_positions": [
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ],
+      "n_gap_mismatches": 3,
+      "reading": "no site at this register: 6 mismatches, above the <=2 ceiling matched to the BLAST arm's >=14/16 identity"
+     },
+     {
+      "antisense_5to3": "CAGTGGGCTTCTGCTG",
+      "gap_bases_donor_side": 2,
+      "gap_bases_acceptor_side": 4,
+      "fusion_target_window": "CAGCAGAAGCCCACTG",
+      "wild_type_window_same_register": "CCTGTAGAGCCCACTG",
+      "n_mismatches_vs_wild_type": 6,
+      "mismatch_positions": [
+       1,
+       2,
+       3,
+       4,
+       5,
+       6
+      ],
+      "n_gap_mismatches": 2,
+      "reading": "no site at this register: 6 mismatches, above the <=2 ceiling matched to the BLAST arm's >=14/16 identity"
+     },
+     {
+      "antisense_5to3": "GTGGGCTTCTGCTGCC",
+      "gap_bases_donor_side": 4,
+      "gap_bases_acceptor_side": 2,
+      "fusion_target_window": "GGCAGCAGAAGCCCAC",
+      "wild_type_window_same_register": "TGCCTGTAGAGCCCAC",
+      "n_mismatches_vs_wild_type": 7,
+      "mismatch_positions": [
+       0,
+       3,
+       4,
+       5,
+       6,
+       7,
+       8
+      ],
+      "n_gap_mismatches": 4,
+      "reading": "no site at this register: 7 mismatches, above the <=2 ceiling matched to the BLAST arm's >=14/16 identity"
+     },
+     {
+      "antisense_5to3": "GCAGTGGGCTTCTGCT",
+      "gap_bases_donor_side": 1,
+      "gap_bases_acceptor_side": 5,
+      "fusion_target_window": "AGCAGAAGCCCACTGC",
+      "wild_type_window_same_register": "CTGTAGAGCCCACTGC",
+      "n_mismatches_vs_wild_type": 6,
+      "mismatch_positions": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5
+      ],
+      "n_gap_mismatches": 1,
+      "reading": "no site at this register: 6 mismatches, above the <=2 ceiling matched to the BLAST arm's >=14/16 identity"
+     },
+     {
+      "antisense_5to3": "TGGGCTTCTGCTGCCC",
+      "gap_bases_donor_side": 5,
+      "gap_bases_acceptor_side": 1,
+      "fusion_target_window": "GGGCAGCAGAAGCCCA",
+      "wild_type_window_same_register": "TTGCCTGTAGAGCCCA",
+      "n_mismatches_vs_wild_type": 8,
+      "mismatch_positions": [
+       0,
+       1,
+       4,
+       5,
+       6,
+       7,
+       8,
+       9
+      ],
+      "n_gap_mismatches": 5,
+      "reading": "no site at this register: 8 mismatches, above the <=2 ceiling matched to the BLAST arm's >=14/16 identity"
+     }
+    ],
+    "EWSR1_e13__NR4A3_e2": [
+     {
+      "antisense_5to3": "AGTGGGCTCTCCACGG",
+      "gap_bases_donor_side": 3,
+      "gap_bases_acceptor_side": 3,
+      "fusion_target_window": "CCGTGGAGAGCCCACT",
+      "wild_type_window_same_register": "GCCTGTAGAGCCCACT",
+      "n_mismatches_vs_wild_type": 3,
+      "mismatch_positions": [
+       0,
+       2,
+       5
+      ],
+      "n_gap_mismatches": 1,
+      "reading": "no site at this register: 3 mismatches, above the <=2 ceiling matched to the BLAST arm's >=14/16 identity"
+     },
+     {
+      "antisense_5to3": "GTGGGCTCTCCACGGA",
+      "gap_bases_donor_side": 4,
+      "gap_bases_acceptor_side": 2,
+      "fusion_target_window": "TCCGTGGAGAGCCCAC",
+      "wild_type_window_same_register": "TGCCTGTAGAGCCCAC",
+      "n_mismatches_vs_wild_type": 3,
+      "mismatch_positions": [
+       1,
+       3,
+       6
+      ],
+      "n_gap_mismatches": 1,
+      "reading": "no site at this register: 3 mismatches, above the <=2 ceiling matched to the BLAST arm's >=14/16 identity"
+     },
+     {
+      "antisense_5to3": "CAGTGGGCTCTCCACG",
+      "gap_bases_donor_side": 2,
+      "gap_bases_acceptor_side": 4,
+      "fusion_target_window": "CGTGGAGAGCCCACTG",
+      "wild_type_window_same_register": "CCTGTAGAGCCCACTG",
+      "n_mismatches_vs_wild_type": 2,
+      "mismatch_positions": [
+       1,
+       4
+      ],
+      "n_gap_mismatches": 0,
+      "reading": "⛔ cleavage-competent on the un-rearranged allele: <=2 mismatches over the 16-mer and none in the catalytic gap"
+     },
+     {
+      "antisense_5to3": "TGGGCTCTCCACGGAG",
+      "gap_bases_donor_side": 5,
+      "gap_bases_acceptor_side": 1,
+      "fusion_target_window": "CTCCGTGGAGAGCCCA",
+      "wild_type_window_same_register": "TTGCCTGTAGAGCCCA",
+      "n_mismatches_vs_wild_type": 4,
+      "mismatch_positions": [
+       0,
+       2,
+       4,
+       7
+      ],
+      "n_gap_mismatches": 1,
+      "reading": "no site at this register: 4 mismatches, above the <=2 ceiling matched to the BLAST arm's >=14/16 identity"
+     },
+     {
+      "antisense_5to3": "GCAGTGGGCTCTCCAC",
+      "gap_bases_donor_side": 1,
+      "gap_bases_acceptor_side": 5,
+      "fusion_target_window": "GTGGAGAGCCCACTGC",
+      "wild_type_window_same_register": "CTGTAGAGCCCACTGC",
+      "n_mismatches_vs_wild_type": 2,
+      "mismatch_positions": [
+       0,
+       3
+      ],
+      "n_gap_mismatches": 0,
+      "reading": "⛔ cleavage-competent on the un-rearranged allele: <=2 mismatches over the 16-mer and none in the catalytic gap"
+     }
+    ],
+    "TAF15_e6__NR4A3_e2": [
+     {
+      "antisense_5to3": "AGTGGGCTCTTGTGTG",
+      "gap_bases_donor_side": 3,
+      "gap_bases_acceptor_side": 3,
+      "fusion_target_window": "CACACAAGAGCCCACT",
+      "wild_type_window_same_register": "GCCTGTAGAGCCCACT",
+      "n_mismatches_vs_wild_type": 5,
+      "mismatch_positions": [
+       0,
+       1,
+       3,
+       4,
+       5
+      ],
+      "n_gap_mismatches": 1,
+      "reading": "no site at this register: 5 mismatches, above the <=2 ceiling matched to the BLAST arm's >=14/16 identity"
+     },
+     {
+      "antisense_5to3": "GTGGGCTCTTGTGTGT",
+      "gap_bases_donor_side": 4,
+      "gap_bases_acceptor_side": 2,
+      "fusion_target_window": "ACACACAAGAGCCCAC",
+      "wild_type_window_same_register": "TGCCTGTAGAGCCCAC",
+      "n_mismatches_vs_wild_type": 6,
+      "mismatch_positions": [
+       0,
+       1,
+       2,
+       4,
+       5,
+       6
+      ],
+      "n_gap_mismatches": 2,
+      "reading": "no site at this register: 6 mismatches, above the <=2 ceiling matched to the BLAST arm's >=14/16 identity"
+     },
+     {
+      "antisense_5to3": "CAGTGGGCTCTTGTGT",
+      "gap_bases_donor_side": 2,
+      "gap_bases_acceptor_side": 4,
+      "fusion_target_window": "ACACAAGAGCCCACTG",
+      "wild_type_window_same_register": "CCTGTAGAGCCCACTG",
+      "n_mismatches_vs_wild_type": 4,
+      "mismatch_positions": [
+       0,
+       2,
+       3,
+       4
+      ],
+      "n_gap_mismatches": 0,
+      "reading": "no site at this register: 4 mismatches, above the <=2 ceiling matched to the BLAST arm's >=14/16 identity"
+     },
+     {
+      "antisense_5to3": "TGGGCTCTTGTGTGTG",
+      "gap_bases_donor_side": 5,
+      "gap_bases_acceptor_side": 1,
+      "fusion_target_window": "CACACACAAGAGCCCA",
+      "wild_type_window_same_register": "TTGCCTGTAGAGCCCA",
+      "n_mismatches_vs_wild_type": 7,
+      "mismatch_positions": [
+       0,
+       1,
+       2,
+       3,
+       5,
+       6,
+       7
+      ],
+      "n_gap_mismatches": 3,
+      "reading": "no site at this register: 7 mismatches, above the <=2 ceiling matched to the BLAST arm's >=14/16 identity"
+     },
+     {
+      "antisense_5to3": "GCAGTGGGCTCTTGTG",
+      "gap_bases_donor_side": 1,
+      "gap_bases_acceptor_side": 5,
+      "fusion_target_window": "CACAAGAGCCCACTGC",
+      "wild_type_window_same_register": "CTGTAGAGCCCACTGC",
+      "n_mismatches_vs_wild_type": 3,
+      "mismatch_positions": [
+       1,
+       2,
+       3
+      ],
+      "n_gap_mismatches": 0,
+      "reading": "no site at this register: 3 mismatches, above the <=2 ceiling matched to the BLAST arm's >=14/16 identity"
+     }
+    ]
+   }
+  }
+ },
  "n_junctions_not_buildable_in_this_environment": 0,
  "junctions_not_buildable_in_this_environment": [],
  "retracted_junctions": [
