@@ -777,8 +777,14 @@ def build(key=None):
         "⭐_liability_scan_positive_control": _known_positive_control(cryptic, parents),
         "deep_screen_results": screen_readout(meta["slug"]),
         "⭐_what_the_screens_actually_found": (
-            "GAP SPECIFICITY MARGIN DECIDES WHETHER THIS REAGENT CUTS THE PATIENT'S OWN NR4A3, and "
-            "that is the finding this junction exists to produce. Because the acceptor half of "
+            "WHETHER THIS REAGENT CUTS THE PATIENT'S OWN NR4A3 IS DECIDED BY HOW MUCH DONOR "
+            "SEQUENCE SITS IN THE CATALYTIC GAP, and that is the finding this junction exists "
+            "to produce. ⚠ THIS FIELD ONCE SAID 'GAP SPECIFICITY MARGIN DECIDES', AND THAT IS "
+            "REFUTED (commit 776836225): at EWSR1_e13__NR4A3_e2 the two condemned designs are "
+            "the ones with the FEWEST donor bases in the gap, while the margin-1 design holding "
+            "five donor bases is clean. Margin and donor-bases-in-gap coincide at THIS seam and "
+            "come apart at that one, so the margin reading was a coincidence of this junction "
+            "rather than a rule. Because the acceptor half of "
             "every design is NR4A3 intronic sequence, a design whose catalytic gap is mostly "
             "cryptic-exon bases is, on the wild-type NR4A3 locus, a fully gap-paired hybridisable "
             "duplex — RNase-H1-competent on the un-rearranged allele. The genome screen measured "

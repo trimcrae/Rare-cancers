@@ -882,6 +882,13 @@ intron-2 cryptic exon, 5′-TGATGAGGGCCTTGTG-3′, likewise gap-paired at two mi
 named here as not to be carried forward, and all three are excluded from every best-design field
 above.
 
+Naming a design not to use is only half of a usable statement, and at both seams the other half
+exists. At *EWSR1* exon 13 to *NR4A3* exon 2 the surviving reagent is 5′-AGTGGGCTCTCCACGG-3′, and at
+*TAF15* exon 6 to the cryptic exon it is 5′-ATGAGGGCCTTGTGTG-3′, whose catalytic gap carries three
+*TAF15*-derived bases the *NR4A3* locus does not have and which returned no wild-type site at all.
+Neither seam is therefore lost to this liability; what is lost is the assumption that designs tiled
+across one seam are interchangeable.
+
 Two things about that finding matter more than the three sequences. The first is how they were
 reached: each of the three had already cleared the mature-parent exclusion, and so had every other
 design tiled at its seam, that exclusion being a screen over spliced cDNA and therefore structurally
