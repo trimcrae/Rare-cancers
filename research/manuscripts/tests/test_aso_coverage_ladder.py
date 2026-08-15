@@ -266,6 +266,81 @@ def test_the_ceiling_crosses_95_percent_on_one_basis_and_not_the_other():
     assert best["basis"] == "pooled_two_series", best["basis"]
 
 
+def test_the_fifth_partner_cohort_is_refused_and_the_refusal_is_priced():
+    """⛔ THE REFUSAL THAT COSTS THE HIGHER CEILING, MADE CHECKABLE.
+
+    PMID 12598313 is the only candidate partner cohort that would RAISE the arithmetic ceiling — its
+    partner-unassigned residue is zero, and the residue is the whole reason the four-series ceiling
+    sits below 95%. A refusal in that direction is exactly the one a reader must be able to audit,
+    so three things are asserted rather than described:
+
+      1. it is still refused, and by the module that OWNS the pooling decision, not by this one;
+      2. the refusal is priced — the sensitivity it would have produced is present, closes on its
+         own totals, and keeps the partner-unassigned residue IN the coverage denominator;
+      3. the direction is stated correctly: admitting it raises the ceiling.
+
+    ⛔ AND THE ROBUSTNESS CLAIM IS ASSERTED TOO. `test_the_ceiling_crosses_95_percent_on_one_basis
+    _and_not_the_other` guards the four-series ceiling. This guards the strongest perturbation
+    anyone has proposed to it: even with the fifth cohort admitted the ceiling stays under 95%. If
+    that ever stops being true, the ladder's headline result becomes basis-dependent in a second
+    way and must be re-derived, not annotated.
+
+    WHEN THIS FAILS: someone pooled the fifth cohort, or the §2.1(3) ground moved. Either changes
+    what the paper can say about 95%, so re-derive it and register every moved figure in
+    pinned-figures.json IN THE SAME COMMIT.
+    """
+    import json as _json  # noqa: PLC0415
+
+    four = _ladder()["best_supported_buildable_panel"][
+        "sensitivity_if_the_partner_denominator_is_pooled"]
+    fifth = four["fifth_partner_cohort_deliberately_not_pooled"]
+    if "_unavailable" in fifth:
+        pytest.skip(fifth["_unavailable"])
+
+    pool = _json.load(open(os.path.join(MAN, "fusion-partner", "emc-fusion-partner-pooling.json"),
+                           encoding="utf-8"))
+    row = next(c for c in pool["cohorts"] if c["id"] == fifth["cohort"]["id"])
+    assert row["pool"] is False, (
+        f"{row['id']} is now pooled. The ladder's fifth-cohort row prices a REFUSAL; if the refusal "
+        "has been lifted the four-series figures are the stale ones and must be rebuilt.")
+    assert row["contextReason"] == "outcome-is-the-inclusion-criterion", row["contextReason"]
+    assert row["id"] in pool["analyses"]["C_partner_prevalence"]["cohorts_excluded"], (
+        "the refusal is not registered in the prevalence analysis' own exclusion list, so a reader "
+        "of the pooling artifact cannot see that this cohort was considered at all")
+
+    # (2) priced, and the reconstruction closes on its own totals
+    s = fifth["the_sensitivity_it_would_have_produced"]
+    assert s["n_partner_assigned"] + s["n_partner_unassigned"] == s["n_molecularly_confirmed_total"]
+    assert s["n_partner_assigned"] == four["n_partner_assigned"] + sum(row["counts"].values())
+    assert s["n_molecularly_confirmed_total"] == four["n_molecularly_confirmed_total"] + row["n_tested"]
+    assert s["n_partner_unassigned"] == four["n_partner_unassigned"] + row["not_partner_assigned"], (
+        "the fifth cohort's partner-unassigned residue has stopped being carried into the coverage "
+        "denominator. Dropping a residue is the denominator swap that put 95% in the abstract.")
+    assert s["n_partner_unassigned"] > 0, (
+        "the coverage denominator now contains no partner-unassigned case at all, which would make "
+        "the ceiling 100% by construction")
+
+    # (3) direction, and the robustness claim
+    assert s["arithmetic_ceiling_percent"] > four["arithmetic_ceiling_percent"], (
+        "admitting a zero-residue cohort must RAISE the ceiling. If it does not, the row's own "
+        "explanation of why the refusal is conservative is wrong.")
+    assert s["arithmetic_ceiling_percent"] < 95.0, (
+        f"with the fifth cohort admitted the ceiling is {s['arithmetic_ceiling_percent']}%, at or "
+        "above 95%. The sensitivity's conclusion no longer survives its own strongest perturbation "
+        "and must be re-derived rather than reworded.")
+
+    # the two §2.3 adjudications this cohort could not be judged without are recorded as settled
+    adj = fifth["⭐_the_two_§2.3_adjudications_that_had_to_be_settled_FIRST"]
+    assert adj["1_is_its_TCF12_case_the_2000_index_tumour"]["answer"].startswith("YES")
+    assert "PATIENT-level" in adj["2_are_its_partner_counts_tumour_level_or_patient_level"]["answer"]
+    # and §2.1(3) is decided by arithmetic, not by reading
+    arith = fifth["⛔_§2.1(3)_is_DECIDED_BY_ARITHMETIC_NOT_BY_READING"]
+    assert (arith["structurally_admitted_previously_reported_patients"]["variant_partner_percent"]
+            > arith["freely_admitted_new_patients"]["variant_partner_percent"]), (
+        "the structurally-admitted half is no longer enriched for variant partners, which is the "
+        "measured fact the §2.1(3) refusal rests on. Re-argue it from the source, do not relax it.")
+
+
 def test_the_taf15_intron2_isoform_still_has_no_count():
     """⛔ TRIPWIRE, NOT AN INVARIANT — AND THE ONE THAT CAN LOWER A PUBLISHED FIGURE.
 

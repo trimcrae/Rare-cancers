@@ -470,6 +470,45 @@ CITATIONS = {
             "NR4A3-TAF15.'"
         ),
     },
+    "sjogren2003": {
+        "short": "Sjogren 2003 (Goteborg EMC series)",
+        "type": "journal-article",
+        "title": (
+            "Studies on the molecular pathogenesis of extraskeletal myxoid "
+            "chondrosarcoma-cytogenetic, molecular genetic, and cDNA microarray analyses."
+        ),
+        "authors": "Sjogren H, Meis-Kindblom JM, Orndal C, Bergh P, Ptaszynski K, Aman P, Kindblom LG, Stenman G.",
+        "journal": "Am J Pathol",
+        "year": 2003,
+        "volume": "162",
+        "issue": "3",
+        "pages": "781-792",
+        "pmid": "12598313",
+        "pmcid": "PMC1868116",
+        "doi": "10.1016/S0002-9440(10)63875-8",
+        "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1868116/",
+        "license": "Copyright (c) 2003, American Society for Investigative Pathology; free in PMC, no reusable licence stated",
+        "openAccess": True,
+        "design": "single-institution cytogenetic / SKY / FISH / RT-PCR and cDNA microarray series",
+        "n": 9,
+        "population": (
+            "Ten EMCs from nine patients, Sahlgrenska University Hospital, Goteborg University, "
+            "Sweden. Five patients new to this report; four previously reported by the same group "
+            "for their fusion transcripts."
+        ),
+        "accessed": "2026-08-15",
+        "verified": True,
+        "verification_note": (
+            "⭐ FULL TEXT READ, NOT THE ABSTRACT, AND THE DIFFERENCE DECIDES THE POOLING. Fetched "
+            "as PMC HTML from https://pmc.ncbi.nlm.nih.gov/articles/PMC1868116/ at HTTP 200 "
+            "(literature-cache:literature/ews-type-nom-fulltext/pmc_html_PMC1868116.txt, whose "
+            "fetch header preserves the status). Europe PMC's fullTextXML endpoint 404s for this "
+            "PMCID and an earlier pass read that 404 as 'the abstract is the record' -- the defect "
+            "CLAUDE.md s4 names. The abstract's partner integers are TUMOUR-level; only the "
+            "Discussion and Table 3 give patient-level ones. This citation is attached to a "
+            "`pool: False` cohort and to nothing else."
+        ),
+    },
     "llombartBosch2022": {
         "short": "Llombart-Bosch 2022 (congress abstract)",
         "type": "conference-abstract",
@@ -948,6 +987,102 @@ COHORTS = [
             "Same Czech group and same institutions as Lenz 2023 (Klubickova is a co-author of "
             "both), published months apart. Almost certainly the same patients; the larger, "
             "peer-reviewed report is the one pooled."
+        ),
+    },
+    {
+        "id": "sjogren-2003-prevalence",
+        "endpoint": "partner_prevalence",
+        "label": "Goteborg, 10 EMCs from nine patients (cytogenetic/SKY/FISH/RT-PCR series)",
+        "sourceId": "sjogren2003",
+        "provenance": "primary",
+        "counts": {"EWSR1::NR4A3": 5, "TAF15::NR4A3": 3, "TCF12::NR4A3": 1},
+        "n_tested": 9,
+        "not_partner_assigned": 0,
+        "pool": False,
+        "contextReason": "outcome-is-the-inclusion-criterion",
+        "counts_are_PATIENT_level_and_the_abstract_s_are_NOT": (
+            "⛔ TWO DIFFERENT SETS OF INTEGERS EXIST IN THIS PAPER AND ONLY ONE OF THEM MAY BE "
+            "POOLED. The abstract counts TUMOURS -- 'EWS-TEC (five cases, of which one was a novel "
+            "fusion), TAF2N-TEC (four cases), and TCF12-TEC (one case)', which sums to the ten of "
+            "its title. The Discussion counts PATIENTS: 'We detected a fusion transcript in all 10 "
+            "EMCs; EWS-TEC, TAF2N-TEC, and TCF12-TEC fusions were found in tumors from five, "
+            "three, and one patient, respectively.' Table 3's own title -- 'Summary of "
+            "Cytogenetics, SKY, FISH, and RT-PCR Analyses in 10 EMCs from Nine Patients' -- and "
+            "its footnotes reconcile them: '*Case 4 A, B, and C represent different parts of the "
+            "same tumor. + Case 6 I and II represent two separate metastases from one patient.' "
+            "The counts above are the PATIENT-level ones, per POLICY-evidence.md s2.3's "
+            "within-study mutually-exclusive-strata rule; pooling the abstract's TAF2N integer "
+            "would count case 6's patient twice."
+        ),
+        "entry_route_per_patient": {
+            "_why_this_field_exists": (
+                "s2.1(3) is decided by HOW EACH PATIENT GOT IN, so the entry route is recorded per "
+                "patient rather than characterised in prose. Read from Materials and Methods: "
+                "'Ten EMCs from nine patients were analyzed (Table 1). The tumors from five of the "
+                "patients (cases 1 to 5) have not been previously reported. The remaining five "
+                "tumors from four patients (cases 6-I and 6-II as well as cases 7 to 9) have been "
+                "previously reported regarding the expression of EMC-specific fusion transcripts, "
+                "and all but two of these (cases 5 and 6-I) have also been cytogenetically "
+                "analyzed. 7,12,15' Partners per case are read from Table 3."
+            ),
+            "new_in_this_series": {
+                "cases": [1, 2, 3, 4, 5],
+                "partners": {"EWSR1::NR4A3": 4, "TAF15::NR4A3": 1, "TCF12::NR4A3": 0},
+                "fusion_status_at_entry": "UNKNOWN -- the series went looking: 'To search for "
+                                          "possible EWS-TEC, TAF2N-TEC, and TCF12-TEC fusion "
+                                          "transcripts in cases 1 to 5, we performed RT-PCR "
+                                          "experiments'. Their 5/5 partner assignment is MEASURED.",
+            },
+            "previously_reported_by_the_same_group": {
+                "cases": [6, 7, 8, 9],
+                "partners": {"EWSR1::NR4A3": 1, "TAF15::NR4A3": 2, "TCF12::NR4A3": 1},
+                "fusion_status_at_entry": (
+                    "ALREADY PUBLISHED -- these four are in because their fusion transcript had "
+                    "been reported, so partner assignment is the entry ticket and a "
+                    "partner-unassigned tumour could not have been among them."
+                ),
+                "the_three_prior_reports": [
+                    "ref 7 -- Stenman G, Andersson H, Mandahl N, Meis-Kindblom JM, Kindblom L-G: "
+                    "Translocation t(9;22)(q22;q12) is a primary cytogenetic abnormality in "
+                    "extraskeletal myxoid chondrosarcoma. Int J Cancer 1995, 62:398-402",
+                    "ref 12 -- Sjogren H, Meis-Kindblom J, Kindblom L-G, Aman P, Stenman G: Fusion "
+                    "of the EWS-related gene TAF2N to TEC in extraskeletal myxoid chondrosarcoma. "
+                    "Cancer Res 1999, 59:5064-5067 (PMID 10537274) -- the TAF2N index report",
+                    "ref 15 -- Sjogren H, Wedell B, Meis-Kindblom JM, Kindblom L-G, Stenman G: "
+                    "Fusion of the NH2-terminal domain of the basic helix-loop-helix protein TCF12 "
+                    "to TEC ... Cancer Res 2000 (PMID 11156374) -- the TCF12 index report, whose "
+                    "tumour is case 8, karyotype 48,X,-Y,t(9;15)(q22;q21),+12,"
+                    "der(15)t(9;15)(q22;q21),+19[18]",
+                ],
+            },
+        },
+        "context_note": (
+            "⛔ REFUSED AT POLICY-evidence.md s2.1(3), AND THE REFUSAL COSTS US THE HIGHER NUMBER. "
+            "Four of the nine patients are in this series BECAUSE the same group had already "
+            "published their fusion transcript (refs 7, 12, 15 above), so for those four the "
+            "outcome -- which partner, and whether a partner can be named at all -- IS the "
+            "inclusion criterion, which is the condition s2.1(3) exists to refuse. It is not an "
+            "argument from provenance: the enrichment is visible in the counts. The four "
+            "structurally-admitted patients are 3/4 variant-partner (2 TAF15 + 1 TCF12); the five "
+            "freely-admitted ones are 1/5. And the consequence that matters for a coverage "
+            "denominator is this series' partner-unassigned residue of ZERO, which is measured on "
+            "five patients and structural on the other four. ⚠ THE DIRECTION IS THE CHECK A READER "
+            "IS ENTITLED TO MAKE: a zero residue RAISES the arithmetic coverage ceiling, so "
+            "applying the rule costs coverage rather than buying it. What it would have produced "
+            "is computed -- never typed -- in research/manuscripts/aso_coverage_ladder.py, "
+            "`fifth_partner_cohort_deliberately_not_pooled`."
+        ),
+        "⚠_it_also_reaches_the_outcome_pool_and_is_barred_there_too": (
+            "Table 1 publishes a free-text follow-up string per case ('LR 13 years; AWD 15 years', "
+            "'LR & pulmonary mets 8 years; TRD 10 years', ...) which joins to Table 3's partner "
+            "column, so a TAF15-vs-EWSR1 outcome arm could be CONSTRUCTED from it. It is not, on "
+            "two independent grounds: s2.1(3) as above, and s2.1(2) -- this paper publishes no "
+            "per-partner outcome EVENT COUNTS, only per-patient narrative, so any arm would be "
+            "this repository's extraction rather than the source's integers. ⛔ THE MOVE IT WOULD "
+            "MAKE IS NAMED SO THAT NOT MAKING IT IS VISIBLE: its three TAF15 patients record no "
+            "tumour-related death, which would pull the pooled TAF15 disease-specific-death arm "
+            "DOWN -- i.e. toward the null the multivariable analysis in huang-2023-outcome already "
+            "warns the crude proportions are confounded by."
         ),
     },
     # ---- mechanism / preclinical context, never pooled ---------------------
@@ -1498,11 +1633,26 @@ def build() -> dict:
         "cohorts_excluded": {
             "llombart-bosch-2022-prevalence": "abstract-only",
             "klubickova-2022-prevalence": "population-overlap with lenz-2023-prevalence",
+            "sjogren-2003-prevalence": (
+                "outcome-is-the-inclusion-criterion (s2.1(3)): four of its nine patients are in "
+                "the series because the same group had already published their fusion transcript, "
+                "so their partner assignment is the entry ticket and its partner-unassigned "
+                "residue of zero is structural on that half of the cohort"
+            ),
         },
         "non_overlap_argument": (
             "Four geographically and institutionally distinct series -- MSKCC (USA), Taiwanese "
             "institutions, Czech Republic, Italian Sarcoma Group -- with no shared authors between "
             "them and no shared referral network."
+        ),
+        "⚠_a_fifth_series_EXISTS_and_is_refused_on_a_DIFFERENT_ground": (
+            "sjogren-2003-prevalence is not held out for overlap or for being an abstract -- it "
+            "is a peer-reviewed, fully-accounted, karyotyped series and it would have PASSED "
+            "s2.1(1), (2) at patient level and (4). It fails s2.1(3) alone. That distinction is "
+            "recorded because the three exclusions are otherwise easy to read as one kind of "
+            "objection, and this one is the kind that a wider denominator makes tempting: it "
+            "would have RAISED the coverage ceiling computed in "
+            "research/manuscripts/aso_coverage_ladder.py, not lowered it."
         ),
         "pooled": {k: wilson(v, tot) for k, v in totals.items()},
         "heterogeneity_TAF15": heterogeneity(

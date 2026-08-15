@@ -103,6 +103,39 @@ closed it had been checked against the evidence contract rather than against mem
   ⚠ Neither result changes a published figure. The manuscript's basis is unchanged, rung 0 still
   reproduces 68.4%, and the buildable row is still 82.9% on that basis.
 
+⭐ RESULT 7, 2026-08-15 — THE LAST UNTESTED LEVER ON THE CEILING WAS PULLED, AND THE CEILING SURVIVES
+IT. Result 6 left the arithmetic ceiling below 95% on the pooled basis and named a FIFTH candidate
+partner cohort — PMID 12598313, Sjögren 2003, Göteborg — without acting on it, because two
+POLICY-evidence.md §2.3 double-counting questions had to be settled first. Both are now settled
+against the paper's full text (PMC1868116, HTTP 200), and the cohort is then checked row by row
+against §2.1.
+  · **THE TWO §2.3 QUESTIONS ARE ANSWERED.** (1) Its TCF12 case IS the 2000 index tumour — and the
+    duplication is BROADER than that one case: its Materials and Methods puts FOUR of its nine
+    patients in that position, "previously reported regarding the expression of EMC-specific fusion
+    transcripts". (2) Its partner counts are TUMOUR-level in the abstract and PATIENT-level in the
+    Discussion; Table 3's title ("10 EMCs from Nine Patients") and its two footnotes reconcile them,
+    and only the patient-level integers may be pooled.
+  · **IT IS REFUSED, ON §2.1(3) ALONE.** §2.1(1), §2.1(2) at patient level and §2.1(4) all pass —
+    this is a peer-reviewed, fully-accounted, karyotyped series, not an abstract and not an overlap
+    case. Four of its nine patients are in it BECAUSE their fusion transcript had already been
+    published, so their partner assignment is the entry ticket and this cohort's headline property —
+    a partner-unassigned residue of ZERO — is structural on that half rather than measured. Decided
+    by arithmetic: the structurally-admitted half is 3/4 variant-partner, the freely-admitted half
+    1/5.
+  · **⛔ AND THE REFUSAL COSTS THE HIGHER NUMBER, WHICH IS WHY IT IS PRICED RATHER THAN ASSERTED.** A
+    zero-residue cohort RAISES the ceiling. Admitting it would move the ceiling UP by a fraction of
+    a point, leave the buildable figure unchanged at one decimal place, and lift the bound slightly
+    — and the ceiling would STILL sit below 95%. So the load-bearing conclusion of Result 6 holds on
+    both sides of the decision. `fifth_partner_cohort_deliberately_not_pooled` owns every number.
+  · ⚠ **IT ALSO REACHES THE TAF15 PROGNOSTIC SYNTHESIS AND IS NOT APPLIED THERE.** Its Table 1
+    per-patient follow-up joins to Table 3's partner column, and its three TAF15 patients record no
+    tumour-related death — which would pull the pooled TAF15 disease-specific-death arm DOWN. Barred
+    by the same §2.1(3), and independently by §2.1(2): the paper publishes no per-partner outcome
+    event counts. No prognostic figure moves; the direction is named so that not moving it is
+    visible.
+  ⚠ Nothing above changes a published figure either. Rung 0 still reproduces 68.4%, the buildable
+  row is still 82.9% on the manuscript's basis, and the pooled row's ceiling is unchanged.
+
 WHAT THIS IS NOT.
   · Not a coverage measurement and not an efficacy claim. No sequence here has been synthesised or
     tested, and matching a junction is not activity against it.
@@ -751,6 +784,231 @@ def _three_series_sensitivity(junctions):
     }
 
 
+#: ⛔ THE FIFTH PARTNER COHORT. `emc_fusion_partner_pooling.py` carries it as a `pool: false`
+#: prevalence row with `contextReason: "outcome-is-the-inclusion-criterion"`; this module PRICES the
+#: refusal. The id is named once, here, so the row below cannot silently start reading a different
+#: cohort than the one the pooling module refused.
+FIFTH_PARTNER_COHORT_ID = "sjogren-2003-prevalence"
+
+
+def _fifth_partner_cohort_not_pooled(doc, screened, counts, residue, tested, classify):
+    """⛔ WHAT THE FIFTH PARTNER COHORT WOULD HAVE DONE TO THE CEILING, COMPUTED NOT ARGUED.
+
+    ⭐ WHY THIS IS THE ROW THAT HAD TO BE WRITTEN. The four-series partner denominator above put the
+    arithmetic ceiling BELOW 95%, and it did so because of one quantity: the partner-unassigned
+    residue, 9 of 163. A fifth cohort with proportionally FEWER unassigned tumours would push the
+    ceiling back UP. Sjögren 2003 (PMID 12598313) is exactly that cohort — every one of its patients
+    is fusion-positive, so its residue is ZERO — and it was named as a candidate and left untested.
+    Leaving it untested is the failure mode: an unpriced refusal is indistinguishable from a refusal
+    chosen on the number it avoids.
+
+    ⛔ IT IS REFUSED, AND THE REFUSAL COSTS US THE HIGHER FIGURE. POLICY-evidence.md §2.1(3) is the
+    single ground; §2.1(1), §2.1(2) at patient level and §2.1(4) all pass. The counts, the entry
+    routes and the reason live in the pooling module's cohort row and are READ here (CLAUDE.md rule
+    1); what this function adds is the arithmetic — the ceiling the refusal declines to claim.
+
+    ⚠ THE RESIDUE STAYS IN THE DENOMINATOR HERE TOO. The sensitivity adds the fifth cohort's
+    partner-assigned counts to the numerator AND its `n_tested` to the denominator, and asserts the
+    reconstruction closes on its own published total, exactly as the four-series row does. A
+    zero-residue cohort is precisely the shape that would tempt a denominator swap.
+    """
+    row = next((c for c in doc["cohorts"] if c["id"] == FIFTH_PARTNER_COHORT_ID), None)
+    if row is None:
+        return {"_unavailable": (f"{FIFTH_PARTNER_COHORT_ID} is not in the pooling artifact; the "
+                                 "refusal has no home to be read from and is not restated here")}
+    if row.get("pool"):
+        raise SystemExit(
+            f"{FIFTH_PARTNER_COHORT_ID} is now pool==true in the pooling artifact. This row prices "
+            "a REFUSAL; if the refusal has been lifted the four-series figures above are the stale "
+            "ones and must be rebuilt, not annotated. Refusing to publish a sensitivity that "
+            "contradicts its own basis.")
+    add = {k.split("::")[0]: v for k, v in row["counts"].items()}
+    if sum(add.values()) + row["not_partner_assigned"] != row["n_tested"]:
+        raise SystemExit(
+            f"{FIFTH_PARTNER_COHORT_ID} does not close: {sum(add.values())} assigned + "
+            f"{row['not_partner_assigned']} unassigned != {row['n_tested']} tested.")
+
+    w_counts = dict(counts)
+    for p, v in add.items():
+        w_counts[p] = w_counts.get(p, 0) + v
+    w_residue = residue + row["not_partner_assigned"]
+    w_tested = tested + row["n_tested"]
+    if sum(w_counts.values()) + w_residue != w_tested:
+        raise SystemExit("the five-series reconstruction does not close on its own totals")
+
+    # ⛔ THE THREE ARM STATES ARE THE CALLER'S, NOT THIS FUNCTION'S. `classify` is the same
+    # membership-and-measurement test the four-series row runs, handed in rather than reimplemented,
+    # so a partner cannot be scored one way there and another way here. A partner with no qualifying
+    # reagent contributes ZERO to the bound as well as to the point estimate — it is not a bound,
+    # because a bound needs a reagent whose reach is unmeasured.
+    def _cov_bound_ceiling(cnt, tot):
+        point = bound = 0.0
+        for p in sorted(cnt):
+            state, frac = classify(p)
+            if state == "measured":
+                point += cnt[p] / tot * frac
+                bound += cnt[p] / tot * frac
+            elif state == "bound_only":
+                bound += cnt[p] / tot
+        return point, bound, sum(cnt.values()) / tot
+
+    now_c, now_b, now_ceil = _cov_bound_ceiling(counts, tested)
+    would_c, would_b, would_ceil = _cov_bound_ceiling(w_counts, w_tested)
+
+    routes = row["entry_route_per_patient"]
+    new, prior = routes["new_in_this_series"], routes["previously_reported_by_the_same_group"]
+
+    def _variant_share(block):
+        p = block["partners"]
+        n = sum(p.values())
+        return f"{n - p.get('EWSR1::NR4A3', 0)}/{n}", round(100 * (n - p.get("EWSR1::NR4A3", 0)) / n, 1)
+
+    return {
+        "_what": ("★ LEVER 3, TESTED 2026-08-15 — the fifth candidate partner cohort, PMID "
+                  "12598313 (Sjögren 2003, Göteborg), named by an earlier pass and left unacted "
+                  "on. It is refused, and what refusing it costs is computed below."),
+        "cohort": {"id": row["id"], "label": row["label"], "sourceId": row["sourceId"],
+                   "counts_patient_level": row["counts"], "n_patients": row["n_tested"],
+                   "partner_unassigned": row["not_partner_assigned"],
+                   "contextReason": row["contextReason"]},
+        "⭐_the_two_§2.3_adjudications_that_had_to_be_settled_FIRST": {
+            "_why_first": (
+                "Both are double-counting questions, and §2.3 calls double-counting the cardinal "
+                "sin of pooling. Neither could be answered from the abstract, and the earlier pass "
+                "recorded them as prerequisites rather than settling them. Both are now settled "
+                "against the full text (PMC1868116, HTTP 200)."),
+            "1_is_its_TCF12_case_the_2000_index_tumour": {
+                "answer": "YES — it is not an independent TCF12 observation.",
+                "evidence": ("its Discussion cites the 2000 report for that count, its "
+                             "Introduction claims it in the first person, and its Table 3 case 8 "
+                             "carries that tumour's t(9;15)(q22;q21) karyotype. One home: "
+                             "research/literature/tcf12-nr4a3-breakpoint-primary-sources.json."),
+                "⭐_and_it_is_BROADER_than_the_TCF12_case": (
+                    "The full text's Materials and Methods puts FOUR of the nine patients in that "
+                    "position, not one: 'The remaining five tumors from four patients (cases 6-I "
+                    "and 6-II as well as cases 7 to 9) have been previously reported regarding the "
+                    "expression of EMC-specific fusion transcripts.' That is the finding that "
+                    "decides the poolability, and it decides it at §2.1(3) rather than §2.3."),
+                "⚠_it_does_NOT_bar_the_cohort_under_§2.3": (
+                    "None of the three prior reports (refs 7, 12, 15) is in the partner-prevalence "
+                    "pool, and §2.3 holds out the SMALLER of an overlapping pair — which would be "
+                    "those reports, not this series. §2.1(4) passes."),
+            },
+            "2_are_its_partner_counts_tumour_level_or_patient_level": {
+                "answer": "TUMOUR-level in the abstract, PATIENT-level in the Discussion.",
+                "evidence": ("Table 3's title is 'Summary of Cytogenetics, SKY, FISH, and RT-PCR "
+                             "Analyses in 10 EMCs from Nine Patients' and its footnotes are "
+                             "'*Case 4 A, B, and C represent different parts of the same tumor' "
+                             "and '† Case 6 I and II represent two separate metastases from one "
+                             "patient'. The abstract's 5/4/1 sums to ten tumours; the Discussion's "
+                             "'five, three, and one patient' sums to nine patients."),
+                "what_was_carried_into_the_cohort_row": (
+                    "the PATIENT-level integers, which is what §2.3's mutually-exclusive-strata "
+                    "rule requires. Pooling the abstract's TAF2N integer would have counted case "
+                    "6's patient twice."),
+            },
+        },
+        "⛔_§2.1_checked_row_by_row": {
+            "1_confirmed_EMC": (
+                "MET — molecularly characterised EMC; every case carries a translocation-generated "
+                "or cryptic fusion, and all but one tumour is karyotyped."),
+            "2_explicit_integer_counts": (
+                "MET, AT PATIENT LEVEL ONLY. The Discussion gives the three integers and Table 3's "
+                "title gives the denominator; no count here is back-derived from a percentage. "
+                "⚠ The abstract's integers would NOT satisfy §2.1(2)+§2.3 together — see the "
+                "adjudication above."),
+            "3_outcome_is_not_the_inclusion_criterion": (
+                "⛔ FAILS, AND THIS IS THE WHOLE REFUSAL. Four of the nine patients are in this "
+                "series because their fusion transcript had already been published by the same "
+                "group, so for them the outcome — which partner, and whether a partner can be "
+                "named at all — IS the entry criterion. A tumour whose partner nobody could name "
+                "could not have been among them, which makes this cohort's headline property, a "
+                "partner-unassigned residue of ZERO, structural on that half of the cohort rather "
+                "than measured. Same failure mode as `third_series_deliberately_not_pooled`, "
+                "reached from the other direction: there the assay fixed the denominator, here the "
+                "publication history does."),
+            "4_non_overlapping_populations": (
+                "MET against the four pooled series — Göteborg 2003 against MSKCC 2014, Taiwan "
+                "2023, Czech Republic 2023 and the Italian Sarcoma Group 2021, with no shared "
+                "authors, institutions or referral network and eighteen years of separation from "
+                "the nearest."),
+            "verdict": "REFUSED on §2.1(3) alone. Three of the four conditions pass.",
+        },
+        "⛔_§2.1(3)_is_DECIDED_BY_ARITHMETIC_NOT_BY_READING": {
+            "_the_test": (
+                "partition the cohort by how each patient got in, then compare what each half "
+                "contains. If the structurally-admitted half is enriched for the outcome, the "
+                "inclusion rule is doing the work the outcome is supposed to."),
+            "freely_admitted_new_patients": {
+                "cases": new["cases"], "partners": new["partners"],
+                "variant_partner_share": _variant_share(new)[0],
+                "variant_partner_percent": _variant_share(new)[1]},
+            "structurally_admitted_previously_reported_patients": {
+                "cases": prior["cases"], "partners": prior["partners"],
+                "variant_partner_share": _variant_share(prior)[0],
+                "variant_partner_percent": _variant_share(prior)[1]},
+            "structurally_admitted_fraction_of_the_cohort":
+                f"{len(prior['cases'])}/{row['n_tested']}",
+            "⛔_verdict": (
+                f"The half admitted on published fusion status is "
+                f"{_variant_share(prior)[1]}% variant-partner; the half admitted without it is "
+                f"{_variant_share(new)[1]}%. The group's own index reports of the two RARE "
+                "partners are what those four patients are, so the inclusion rule imports exactly "
+                "the partners the prevalence question is asking about. That is §2.1(3), computed."),
+        },
+        "the_sensitivity_it_would_have_produced": {
+            "pooled_partner_counts": w_counts,
+            "n_partner_assigned": sum(w_counts.values()),
+            "n_partner_unassigned": w_residue,
+            "n_molecularly_confirmed_total": w_tested,
+            "coverage_percent": round(100 * would_c, 1),
+            "bound_if_the_unmeasured_arms_are_at_their_ceiling_percent": round(100 * would_b, 1),
+            "arithmetic_ceiling_percent": round(100 * would_ceil, 1),
+            "against_the_four_series_row": {
+                "coverage_percent": round(100 * now_c, 1),
+                "bound_percent": round(100 * now_b, 1),
+                "arithmetic_ceiling_percent": round(100 * now_ceil, 1)},
+            "ceiling_movement_percentage_points": round(100 * (would_ceil - now_ceil), 2),
+            "⛔_the_residue_is_STILL_IN_THE_DENOMINATOR": (
+                f"{w_residue} of {w_tested}. The fifth cohort contributes zero unassigned cases, "
+                "so the residue COUNT does not move and only the denominator grows — which is "
+                "precisely why the ceiling rises. The residue was not dropped, and the "
+                "reconstruction is asserted to close on every cohort's own published total."),
+        },
+        "⭐_AND_THE_ANSWER_TO_THE_95_PERCENT_QUESTION_DOES_NOT_CHANGE_EITHER_WAY": (
+            f"The refused sensitivity puts the arithmetic ceiling at "
+            f"{round(100 * would_ceil, 1)}% against the four-series row's "
+            f"{round(100 * now_ceil, 1)}%. It rises — and it is STILL BELOW 95%. So the "
+            "load-bearing conclusion of the four-series row survives the strongest lever anyone "
+            "has named against it: on a pooled partner denominator no panel of any size reaches "
+            "95% of molecularly confirmed EMC, and that holds whether or not this cohort is "
+            "admitted. ⚠ Read as robustness, not as licence — the sensitivity is refused, and one "
+            "cohort's admission was never going to move a 163-case denominator far."),
+        "⚠_DO_NOT_CONFUSE_THIS_CEILING_WITH_THE_LADDER_S_OTHER_94_8_PERCENT": (
+            "The ladder's `ceiling.EWSR1_and_TAF15_complete_percent` is also 94.8%, and it is a "
+            "DIFFERENT quantity that happens to round to the same value: that one is a PANEL "
+            "figure on the single 58-case series — what covering every EWSR1 and every TAF15 "
+            "breakpoint reaches, with TCF12 excluded. This one is a DENOMINATOR figure on a "
+            "five-series pooled partner prevalence — what every named partner including TCF12 "
+            "reaches once the partner-unassigned residue is in. They agree by coincidence and "
+            "diverge the moment either input moves; neither may be quoted for the other."),
+        "⚠_what_it_would_NOT_have_moved": (
+            f"The buildable figure. {round(100 * would_c, 1)}% against "
+            f"{round(100 * now_c, 1)}% — the cohort's partner mix is close enough to the pool's "
+            "that the coverage point estimate is unchanged at one decimal place. The whole effect "
+            "of this lever is in the ceiling and the bound, which is where the residue lives."),
+        "⛔_it_ALSO_reaches_the_TAF15_PROGNOSTIC_synthesis_and_is_NOT_applied_there": (
+            "FLAGGED, NOT DONE. This series publishes a per-patient follow-up string (Table 1) "
+            "that joins to Table 3's partner column, so a TAF15-vs-EWSR1 outcome arm could be "
+            "CONSTRUCTED from it — and its three TAF15 patients record no tumour-related death, "
+            "which would pull the pooled TAF15 disease-specific-death arm DOWN. It is refused on "
+            "two independent grounds recorded in the pooling module's own cohort row: §2.1(3) as "
+            "above, and §2.1(2), because the paper publishes no per-partner outcome EVENT COUNTS "
+            "— only narrative per patient. ⚠ NO PROGNOSTIC FIGURE IN THIS REPOSITORY MOVES, and "
+            "the direction is named here so that not moving it is a visible decision."),
+    }
+
+
 def _pooled_partner_denominator_sensitivity(screened):
     """⭐ THE SAME PANEL, PRICED ON A PARTNER DENOMINATOR OF FOUR SERIES INSTEAD OF ONE.
 
@@ -804,6 +1062,19 @@ def _pooled_partner_denominator_sensitivity(screened):
             "disagree; refusing to publish a denominator that cannot account for its own cases.")
 
     pooled = BASES["pooled_two_series"]
+
+    # ⛔ THE ARM CLASSIFIER IS DEFINED ONCE AND SHARED WITH THE FIFTH-COHORT SENSITIVITY BELOW,
+    # because a partner scored `measured` in one row and `bound_only` in the other would make the
+    # two rows silently incomparable — and the fifth-cohort row's whole job is to be compared.
+    def _classify(partner):
+        if not any(r["partner"] == partner for r in screened.values()):
+            return "no_reagent", None
+        spec = pooled.get(partner)
+        if spec is None or partner in PARTNERS_WITH_NO_BREAKPOINT_MEASUREMENT:
+            return "bound_only", None
+        covered = [l for l, r in screened.items() if r["partner"] == partner]
+        return "measured", sum(spec["k"].get(j, 0) for j in covered) / spec["n"]
+
     measured, unmeasured, no_reagent = [], [], []
     point = lo = hi = 0.0
     for partner in sorted(counts):
@@ -901,6 +1172,8 @@ def _pooled_partner_denominator_sensitivity(screened):
             "Widening the partner denominator makes the PARTNER share better measured and does "
             "nothing whatever for the exon distribution inside it, which is the arm carrying the "
             "narrower evidence."),
+        "fifth_partner_cohort_deliberately_not_pooled":
+            _fifth_partner_cohort_not_pooled(doc, screened, counts, residue, tested, _classify),
     }
 
 
@@ -1473,6 +1746,13 @@ def main(argv=None):
               f"({ps['coverage_percent_range'][0]}-{ps['coverage_percent_range'][1]}%), bound "
               f"{ps['bound_if_the_unmeasured_arms_are_at_their_ceiling_percent']}%, ceiling "
               f"{ps['arithmetic_ceiling_percent']}% — LOWER, and the ceiling is BELOW 95%",
+              file=sys.stderr)
+    f5 = (ps.get("fifth_partner_cohort_deliberately_not_pooled") or {}).get(
+        "the_sensitivity_it_would_have_produced")
+    if f5:
+        print(f"      ⛔ fifth partner cohort (PMID 12598313) REFUSED at POLICY §2.1(3): it would "
+              f"have raised the ceiling to {f5['arithmetic_ceiling_percent']}% "
+              f"(+{f5['ceiling_movement_percentage_points']} pp) — still below 95%",
               file=sys.stderr)
     m = art["can_better_design_raise_coverage"]
     print(f"  EWSR1 e12 vs e13 donor 3' agreement: "
