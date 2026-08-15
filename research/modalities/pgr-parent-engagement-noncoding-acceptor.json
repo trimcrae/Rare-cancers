@@ -1,0 +1,200 @@
+{
+ "_what": "Exhaustive <=2-mismatch scan of every non-coding-acceptor design against the MATURE transcript of every partner the atlas was built on, gap-resolved. The question it exists for: can wild-type PGR — a hormone receptor of normal breast, uterus and ovary — pair the catalytic gap of a PGR::NR4A3 junction gapmer?",
+ "_cost": "$0 — CPU only, committed transcript models, no network, no GPU, no rental.",
+ "_what_this_is_not": [
+  "NOT the tissue-expression screen and no substitute for it. That screen asks where a BLAST search's OFF-TARGET LOCI are expressed and needs both a transcriptome-wide search at this seam and a GTEx fetch — network, therefore CI.",
+  "NOT an expression measurement. No TPM, no tissue, no organ. This repository holds no committed GTEx record for PGR at all, and that is an absent reading, not a low one.",
+  "NOT a cleavage, potency, efficacy, safety, therapeutic-window or clinical-readiness claim. A sequence match at two mismatches is a sequence match.",
+  "NOT a coverage claim. PGR is in neither partner-genotyped EMC cohort this repository counts against; the coverage consequence is zero and aso_coverage_ladder.py owns it."
+ ],
+ "method": {
+  "geometry": {
+   "oligo_len": 16,
+   "wing": 5,
+   "gap_nt": 6,
+   "architecture": "5-6-5 (LNA-DNA-LNA)",
+   "gap_region_1based": [
+    6,
+    11
+   ]
+  },
+  "max_mismatches": 2,
+  "_threshold_note": "<=2 mismatches over 16 nt is the >=14/16 identity the BLAST arm uses, chosen so the two arms are comparable.",
+  "orientation": "forward only",
+  "_orientation_note": "an antisense oligonucleotide hybridises to the SENSE strand of a mature transcript; the reverse complement of an mRNA is not a molecule present in the cell. The genome screen is where the other orientation is real.",
+  "gap_kernel": "aso_parent_gap_pairing.longest_run_through_gap",
+  "stated_hybrid_length_floor_bp": 10,
+  "_floor_note": "a STATED value anchored to PMID 35664704, not a measurement for a 5-6-5 LNA gapmer — see aso_parent_gap_pairing. Hits below it are recorded with their run length rather than filtered.",
+  "atlas": "nr4a3-fusion-junction-atlas-noncoding-acceptor.json",
+  "partners_searched": [
+   "EWSR1",
+   "FUS",
+   "NR4A3",
+   "PGR",
+   "TAF15",
+   "TCF12",
+   "TFG"
+  ],
+  "partner_transcripts": {
+   "EWSR1": "ENST00000397938",
+   "TAF15": "ENST00000605844",
+   "TCF12": "ENST00000333725",
+   "FUS": "ENST00000254108",
+   "TFG": "ENST00000240851",
+   "PGR": "ENST00000325455",
+   "NR4A3": "ENST00000395097"
+  },
+  "partner_cdna_nt": {
+   "EWSR1": 2400,
+   "FUS": 1824,
+   "NR4A3": 5604,
+   "PGR": 13037,
+   "TAF15": 2162,
+   "TCF12": 6114,
+   "TFG": 1907
+  },
+  "_transcript_source": {
+   "requested": "cache",
+   "used_per_gene": {
+    "EWSR1": "committed_cache",
+    "TAF15": "committed_cache",
+    "TCF12": "committed_cache",
+    "FUS": "committed_cache",
+    "TFG": "committed_cache",
+    "PGR": "committed_cache",
+    "NR4A3": "committed_cache"
+   },
+   "committed_cache_fetched_utc": "2026-08-12T13:41:57Z",
+   "_caveat": "At least one gene was read from the committed cache (emc-construct-inputs.json), not from Ensembl today. The cache is a dated measurement that passed this module's four self-checks; it is not a statement about Ensembl's current annotation."
+  }
+ },
+ "headline_pgr": {
+  "_question": "Does any PGR::NR4A3 design engage wild-type PGR transcript?",
+  "n_designs": 5,
+  "n_near_matches_in_wild_type_PGR_le2mm": 0,
+  "n_gap_paired_in_wild_type_PGR": 0,
+  "longest_run_bp_through_gap_in_wild_type_PGR": 0,
+  "⚠_what_a_zero_here_does_and_does_not_mean": "A zero says no window of the wild-type PGR MATURE transcript comes within two mismatches of a design's target window. It does NOT say the reagent is safe in breast, uterus or ovary: pre-mRNA, the rest of the transcriptome and the genome are other compartments, each with its own screen, and none of them has run at this seam."
+ },
+ "n_junctions": 2,
+ "junctions": [
+  {
+   "junction_label": "EWSR1_e7__NR4A3_e2",
+   "donor_symbol": "EWSR1",
+   "n_designs": 5,
+   "n_designs_with_any_partner_near_match": 0,
+   "n_designs_with_a_gap_paired_partner_hit": 0,
+   "designs": [
+    {
+     "antisense_5to3": "AGTGGGCTTCTGCTGC",
+     "target_mRNA_5to3": "GCAGCAGAAGCCCACT",
+     "gap_specificity_margin": 3,
+     "n_partner_near_matches_le2mm": 0,
+     "n_gap_paired": 0,
+     "n_gap_paired_meeting_the_stated_hybrid_floor": 0,
+     "gap_paired_genes": [],
+     "hits": []
+    },
+    {
+     "antisense_5to3": "CAGTGGGCTTCTGCTG",
+     "target_mRNA_5to3": "CAGCAGAAGCCCACTG",
+     "gap_specificity_margin": 2,
+     "n_partner_near_matches_le2mm": 0,
+     "n_gap_paired": 0,
+     "n_gap_paired_meeting_the_stated_hybrid_floor": 0,
+     "gap_paired_genes": [],
+     "hits": []
+    },
+    {
+     "antisense_5to3": "GTGGGCTTCTGCTGCC",
+     "target_mRNA_5to3": "GGCAGCAGAAGCCCAC",
+     "gap_specificity_margin": 2,
+     "n_partner_near_matches_le2mm": 0,
+     "n_gap_paired": 0,
+     "n_gap_paired_meeting_the_stated_hybrid_floor": 0,
+     "gap_paired_genes": [],
+     "hits": []
+    },
+    {
+     "antisense_5to3": "GCAGTGGGCTTCTGCT",
+     "target_mRNA_5to3": "AGCAGAAGCCCACTGC",
+     "gap_specificity_margin": 1,
+     "n_partner_near_matches_le2mm": 0,
+     "n_gap_paired": 0,
+     "n_gap_paired_meeting_the_stated_hybrid_floor": 0,
+     "gap_paired_genes": [],
+     "hits": []
+    },
+    {
+     "antisense_5to3": "TGGGCTTCTGCTGCCC",
+     "target_mRNA_5to3": "GGGCAGCAGAAGCCCA",
+     "gap_specificity_margin": 1,
+     "n_partner_near_matches_le2mm": 0,
+     "n_gap_paired": 0,
+     "n_gap_paired_meeting_the_stated_hybrid_floor": 0,
+     "gap_paired_genes": [],
+     "hits": []
+    }
+   ]
+  },
+  {
+   "junction_label": "PGR_e2__NR4A3_e2",
+   "donor_symbol": "PGR",
+   "n_designs": 5,
+   "n_designs_with_any_partner_near_match": 0,
+   "n_designs_with_a_gap_paired_partner_hit": 0,
+   "designs": [
+    {
+     "antisense_5to3": "AGTGGGCTCTTCCATT",
+     "target_mRNA_5to3": "AATGGAAGAGCCCACT",
+     "gap_specificity_margin": 3,
+     "n_partner_near_matches_le2mm": 0,
+     "n_gap_paired": 0,
+     "n_gap_paired_meeting_the_stated_hybrid_floor": 0,
+     "gap_paired_genes": [],
+     "hits": []
+    },
+    {
+     "antisense_5to3": "GTGGGCTCTTCCATTG",
+     "target_mRNA_5to3": "CAATGGAAGAGCCCAC",
+     "gap_specificity_margin": 2,
+     "n_partner_near_matches_le2mm": 0,
+     "n_gap_paired": 0,
+     "n_gap_paired_meeting_the_stated_hybrid_floor": 0,
+     "gap_paired_genes": [],
+     "hits": []
+    },
+    {
+     "antisense_5to3": "CAGTGGGCTCTTCCAT",
+     "target_mRNA_5to3": "ATGGAAGAGCCCACTG",
+     "gap_specificity_margin": 2,
+     "n_partner_near_matches_le2mm": 0,
+     "n_gap_paired": 0,
+     "n_gap_paired_meeting_the_stated_hybrid_floor": 0,
+     "gap_paired_genes": [],
+     "hits": []
+    },
+    {
+     "antisense_5to3": "TGGGCTCTTCCATTGC",
+     "target_mRNA_5to3": "GCAATGGAAGAGCCCA",
+     "gap_specificity_margin": 1,
+     "n_partner_near_matches_le2mm": 0,
+     "n_gap_paired": 0,
+     "n_gap_paired_meeting_the_stated_hybrid_floor": 0,
+     "gap_paired_genes": [],
+     "hits": []
+    },
+    {
+     "antisense_5to3": "GCAGTGGGCTCTTCCA",
+     "target_mRNA_5to3": "TGGAAGAGCCCACTGC",
+     "gap_specificity_margin": 1,
+     "n_partner_near_matches_le2mm": 0,
+     "n_gap_paired": 0,
+     "n_gap_paired_meeting_the_stated_hybrid_floor": 0,
+     "gap_paired_genes": [],
+     "hits": []
+    }
+   ]
+  }
+ ]
+}

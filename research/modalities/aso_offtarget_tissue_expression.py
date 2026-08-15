@@ -77,17 +77,29 @@ sys.path.insert(0, HERE)
 #: the EWSR1 exon 12 / TAF15 exon 11 / FUS exon 10 seam joined to NR4A3 exon 3.
 REAGENT = "GGGCATATCATCAAAC"
 
-#: ⭐ TWO SEAMS, BECAUSE THE PAPER HAS TWO REAGENTS AND ONLY ONE OF THEM ADDRESSES A JUNCTION
-#: PATIENTS ARE REPORTED TO CARRY.
+#: ⭐ THE PANEL IS EVERY SEAM CARRYING A PUBLISHED EXON-RESOLVED BREAKPOINT, AND THAT IS THE WHOLE
+#: MEMBERSHIP RULE. Expression is the exposure half of a liability assessment, so it is owed to the
+#: junctions patients are reported to carry and to no others.
 #:   · The multi-partner lead covers EWSR1 exon 12 / TAF15 exon 11 / FUS exon 10. Its EWSR1 arm is
 #:     the most commonly reported junction, but its TAF15 arm is exon 11 — and the only
 #:     exon-resolved TAF15::NR4A3 breakpoints published in EMC are exon 6 (PMID 10537274,
 #:     PMID 12378528). So the lead cannot engage the TAF15 junction patients actually carry.
 #:   · The TAF15 exon 6 seam is that junction. Its designs are therefore the second real reagent in
 #:     the paper and their off-target expression matters on the same footing as the lead's.
+#:   · EWSR1 exon 13 is the third, and it was MISSING FOR A CURATION REASON RATHER THAN A SCIENTIFIC
+#:     ONE (added 2026-08-15). Membership is gated on `junction_is_reported_in_patients`, and
+#:     `aso_per_junction_table.PUBLISHED_BREAKPOINTS` tiered this seam
+#:     `partner_published_this_exon_not_reported` until the same abstract it already cited for
+#:     exon 12 was read to the end: PMID 12378528 names exon 13 as the SECOND-most-common EWS/CHN
+#:     transcript (type 5, two of its fifteen EWSR1-rearranged tumours), PMID 29937513 resolves it
+#:     independently in sample #4 of five by whole-transcriptome sequencing, and PMID 32612944
+#:     targets it in a clinical qRT-PCR panel. So the gate was working and its INPUT was wrong, and
+#:     the seam was excluded by the very error that was corrected — which is why this entry exists
+#:     and why nothing about the method changed to admit it.
 #: ⛔ `designs: None` MEANS EVERY SCREENED DESIGN AT THAT SEAM, NOT A CHOSEN ONE. No single design
-#: at the exon 6 seam has been selected, and picking one here would smuggle a recommendation into a
-#: measurement. The union across registers is what the panel has to cover.
+#: at the exon 6 or exon 13 seams has been selected by the paper, and picking one here would smuggle
+#: a recommendation into a measurement — `aso-per-junction-table.json` ranks designs, and a ranking
+#: is not a reagent. The union across registers is what the panel has to cover.
 PANEL = [
     {"seam": "EWSR1_e12__NR4A3_e3",
      "screen": "junction-aso-offtarget-e12n3-deep500-b1.json",
@@ -106,6 +118,51 @@ PANEL = [
      "note": ("Cited at PMID 10537274 (the primary report of the variant fusion) and PMID 12378528 "
               "(all three TAF15-rearranged tumours of an 18-case series). The lead reagent shares a "
               "single donor base with this seam and cannot engage it.")},
+    {"seam": "EWSR1_e13__NR4A3_e3",
+     "screen": "junction-aso-offtarget-e13n3-deep500-b1.json",
+     "designs": None,
+     "role": "the second-most-common EWSR1::NR4A3 transcript reported in EMC (type 5)",
+     "junction_is_reported_in_patients": True,
+     "note": ("Two independent patient series and one clinical assay. PMID 12378528: 'the second "
+              "most common (type 5; two cases) was fusion of EWS exon 13 with CHN exon 3' — two of "
+              "the fifteen EWSR1-rearranged tumours of the same 18-case series that supplies the "
+              "exon 12 count, restated in the open-access CTOS 2001 supplement PMC2395470 "
+              "(PMID 18521326), which is that series again and NOT a second cohort. PMID 29937513 "
+              "IS a second cohort: 'exon13/exon3 and exon7/exon2 were detected respectively in "
+              "samples #4 and #1' of five, by whole-transcriptome sequencing. PMID 32612944 builds "
+              "a qRT-PCR panel around EWSR1(ex13)/NR4A3(ex3) among four junctions. The lead reagent "
+              "shares no register with this seam and cannot engage it.")},
+    # ⭐ ADDED 2026-08-15, AND THE ENTRY CRITERION IS WHY IT WAS ABSENT RATHER THAN AN OVERSIGHT.
+    # This panel is every seam carrying a PUBLISHED EXON-RESOLVED BREAKPOINT, and TCF12 e5 did not
+    # carry one: the primary report describes its chimera by residue count and names no exon, so the
+    # assignment was a conversion against this repository's own transcript model. The authors' own
+    # deposit — GenBank AF289510.1, whose two chromosome-tagged source features split the record AT
+    # the junction — resolves it to the nucleotide, on the same seam this panel's screens already
+    # ran. Derivation: research/manuscripts/tcf12_breakpoint_assignment.py.
+    # ⛔ SO THE GATE WAS WORKING AND ITS INPUT WAS WRONG, exactly as it was for the exon-13 seam
+    # above, and nothing about the criterion changed to admit this one.
+    # ⚠ AND THIS IS THE SEAM WHERE A PER-GENE EXPRESSION READING IS MOST INFORMATIVE, because its
+    # disclosed load is CONCENTRATED rather than broad: the other screens spread their gap-paired
+    # hits over several loci, and this one puts all of them on a single curated gene. ⛔ WHICH IS
+    # NOT A STATEMENT THAT THE SEAM IS RISKIER — this file carries no risk column, deliberately, and
+    # a locus is in it because a 16-mer matched at 14/16, which is not a predicted cleavage event.
+    {"seam": "TCF12_e5__NR4A3_e3",
+     "screen": "junction-aso-offtarget-tcf12e5n3-deep500-b1.json",
+     "designs": None,
+     "role": "the only exon-resolved TCF12::NR4A3 breakpoint published in EMC",
+     "junction_is_reported_in_patients": True,
+     "note": ("Reported at NUCLEOTIDE resolution rather than as an exon, which is why no literature "
+              "sweep found it: GenBank AF289510.1 (421 bp, 'Homo sapiens TCF12-TEC fusion protein "
+              "mRNA, partial cds', submitted 25-JUL-2000, citing PMID 11156374) splits 1..263 on "
+              "chromosome 15 (15q21) and 264..421 on chromosome 9 (9q22). Mapped against the "
+              "committed transcript models the donor side ends at TCF12 exon 5 and no other exon, "
+              "the acceptor side begins at NR4A3 exon 3 and no other exon, and the seam is identical "
+              "to the one the screens ran on. Corroborated independently by PMID 12826747, a TCF12 "
+              "gene-structure paper reporting 21 exons — the same count as the committed model — "
+              "and that 'intron 5 in the TCF12 gene corresponds to the region involved in a "
+              "translocation, t(9;15)(q22;q21)'. ⚠ ONE TUMOUR: neither breakpoint series behind the "
+              "coverage ladder contains a TCF12-rearranged tumour, so this seam has a resolved "
+              "junction and no within-partner distribution.")},
 ]
 
 #: ⭐ THE EXPOSURE TISSUES, and this list is the reason the artifact exists rather than a detail.

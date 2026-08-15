@@ -202,6 +202,41 @@ if [ "${SKIP_TESTS:-0}" != "1" ]; then
   # ⛔ BEFORE ANYTHING OUTWARD-FACING — a preprint, a submission, a release, a DOI — run
   #     PREFLIGHT_FULL=1 ./scripts/preflight.sh
   # Scoping is for the commit loop. It is not a claim that the rest of the suite passes.
+  # ⛔ HOW PYTEST IS INVOKED, AND WHY IT IS NOT `python3 -m pytest` (measured 2026-08-15).
+  # Both test steps below called `python3 -m pytest` and BOTH reported "No module named pytest" in
+  # this sandbox, which the count guard correctly turned into a hard FAILED -- so preflight could
+  # not be run at all, and the only ways past it were to skip tests or to mask the exit code. The
+  # cause is not a missing pytest: `pytest --version` answers 9.0.2. It is installed as a **uv
+  # tool**, in an isolated venv under /root/.local/share/uv/tools/pytest, whose interpreter is not
+  # the `python3` on PATH -- so the console script works and `-m` cannot. Resolved once, here, and
+  # exported, rather than at each call site: a per-call fallback is how one of the two steps ends up
+  # fixed and the other silently left behind. If neither form exists, PYTEST stays as `python3 -m
+  # pytest` so the run still FAILS loudly with the same message rather than skipping quietly --
+  # never resolve this to `true` or to a no-op.
+  #
+  # ⛔ THE ORDER OF THESE TWO BRANCHES IS LOAD-BEARING, AND THE CONSOLE-SCRIPT FALLBACK IS A TRAP
+  # (measured 2026-08-15, the same day, an hour after the block above was written). Resolving to the
+  # bare `pytest` on PATH made the gate report **36 failures that do not exist**: that pytest was a
+  # uv TOOL, and a uv tool runs in its OWN isolated venv, so `import yaml` failed inside the tests
+  # while `python3 -c "import yaml"` succeeded in the shell one line earlier. Every one of the 36 was
+  # a ModuleNotFoundError for a package the repository actually has. They were proved spurious the
+  # expensive way -- a worktree at origin/main, the same eight files, two-sided `comm` on the failure
+  # NAME SETS: 39 on main, 39 on branch, both directions EMPTY.
+  # ⚠ SO A GREEN `python3 -c "import pytest"` IS NOT MERELY THE PREFERRED BRANCH, IT IS THE ONLY ONE
+  # THAT SEES THE REPOSITORY'S DEPENDENCIES. The fix when the first branch is false is to
+  # `python3 -m pip install pytest`, NOT to fall through -- the fallback exists so the gate can still
+  # run somewhere degraded, and its failures must be read as suspect until traced. A gate that
+  # invents failures is as broken as one that hides them: this one nearly got 36 healthy tests
+  # written into the sandbox baseline as permanent known-failures, which would have masked a real
+  # regression in any of them forever.
+  if python3 -c "import pytest" >/dev/null 2>&1; then
+    PYTEST="python3 -m pytest"
+  elif command -v pytest >/dev/null 2>&1; then
+    PYTEST="pytest"
+  else
+    PYTEST="python3 -m pytest"
+  fi
+
   SELECTED=""
   if [ "${PREFLIGHT_FULL:-0}" = "1" ]; then
     echo "== pytest (modalities: FULL, PREFLIGHT_FULL=1) =="
@@ -231,7 +266,7 @@ if [ "${SKIP_TESTS:-0}" != "1" ]; then
   # collection errors are `ModuleNotFoundError: No module named 'numpy'` — not one is scipy, pymbar or rdkit.
   # Superseded, retained (CLAUDE.md rule 1.2): "(scipy, pymbar, rdkit are absent)".
   # ⛔ The cause is deliberately NOT re-typed here now. It is one command, and it answers for today:
-  #     python3 -m pytest research/modalities/tests/ -q --collect-only --continue-on-collection-errors \
+  #     $PYTEST research/modalities/tests/ -q --collect-only --continue-on-collection-errors \
   #       --ignore=research/modalities/tests/test_ternary_endpoint_align.py 2>&1 | grep ModuleNotFoundError
   #
   # ⚠ THAT IS THIS SCRIPT'S OWN HEADER DEFECT, IN THIS SCRIPT. The comment at the top of this file
@@ -242,11 +277,11 @@ if [ "${SKIP_TESTS:-0}" != "1" ]; then
   # exits 5 on "no tests ran", which must not read as a failure. It is handled below.
   if [ -n "$SELECTED" ]; then
     # shellcheck disable=SC2086
-    python3 -m pytest $SELECTED -q --continue-on-collection-errors >"$out" 2>&1 || true
+    $PYTEST $SELECTED -q --continue-on-collection-errors >"$out" 2>&1 || true
   elif [ "${PREFLIGHT_FULL:-0}" != "1" ] && [ "$(python3 scripts/affected_tests.py 2>/dev/null | head -1)" = "" ]; then
     echo "no modality test is affected by this change" >"$out"
   else
-    python3 -m pytest research/modalities/tests/ -q --continue-on-collection-errors \
+    $PYTEST research/modalities/tests/ -q --continue-on-collection-errors \
         --ignore=research/modalities/tests/test_ternary_endpoint_align.py >"$out" 2>&1 || true
   fi
   failed=$(grep -cE '^FAILED' "$out" || true)
@@ -348,7 +383,7 @@ if [ "${SKIP_TESTS:-0}" != "1" ]; then
   # — 151 passed, 0 failed, measured the day this gate was added — so the bar here is simply zero.
   echo "== pytest (manuscripts: endpoints, systems map, pooling, submission citations) =="
   mout=$(mktemp)
-  python3 -m pytest research/manuscripts/tests -q --continue-on-collection-errors >"$mout" 2>&1 || true
+  $PYTEST research/manuscripts/tests -q --continue-on-collection-errors >"$mout" 2>&1 || true
   tail -1 "$mout"
   if ! grep -qE '[0-9]+ (passed|failed)' "$mout"; then
     echo "   FAILED: pytest reported no test count -- the run collected nothing."

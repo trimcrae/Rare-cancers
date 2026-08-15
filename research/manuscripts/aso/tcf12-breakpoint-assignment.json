@@ -1,0 +1,225 @@
+{
+ "_what": "Whether the TCF12::NR4A3 breakpoint this repository designs at is REPORTED or inferred, re-derived from the deposited chimeric cDNA and the committed transcript models.",
+ "_why": "The junction-ASO coverage ladder cannot cross 95% without the TCF12 arm, and that arm's exon was converted from a residue count rather than reported. This settles which it is.",
+ "_what_this_is_not": [
+  "Not a coverage measurement and not an efficacy claim.",
+  "Not a within-partner breakpoint DISTRIBUTION. It is ONE sequenced tumour; nothing here says how a second TCF12-rearranged tumour breaks.",
+  "Not a re-annotation of TCF12. The exon NUMBER is read against this repository's committed transcript model; the seam SEQUENCE is what the deposit itself carries."
+ ],
+ "_cost": "$0 — arithmetic over committed artifacts; the retrieval behind them was one free runner dispatch.",
+ "⭐_verdict": "REPORTED, AT NUCLEOTIDE RESOLUTION — no longer an inference. AF289510.1 splits at base 263|264 into a chromosome 15 (TCF12) and a chromosome 9 (NR4A3) side, and that seam lands on TCF12 transcript exon 5 joined to NR4A3 transcript exon 3 — one exon boundary on each side and no other.",
+ "⚠_what_the_verdict_does_not_license": "The arm is still priced at its CEILING in the coverage ladder, and the reason has CHANGED rather than gone away. Before: the exon was unverified. Now: the exon is verified from ONE sequenced tumour, and no series has resolved a second TCF12-rearranged tumour, so nothing measures whether this junction recurs across the two TCF12 cases of the 58-case partner cohort. A confirmed junction raises the floor under the design; it does not measure the arm.",
+ "deposit": {
+  "accession_version": "AF289510.1",
+  "ncbi_nuccore_uid": "13540159",
+  "definition": "Homo sapiens TCF12-TEC fusion protein mRNA, partial cds",
+  "cites_pmid": "11156374",
+  "length_bp": 421,
+  "junction_after_base": 263,
+  "donor_side": {
+   "span_1based": [
+    1,
+    263
+   ],
+   "chromosome": "15",
+   "map": "t(9;15) (q22;q21)"
+  },
+  "acceptor_side": {
+   "span_1based": [
+    264,
+    421
+   ],
+   "chromosome": "9"
+  },
+  "codon_start": 2,
+  "protein_id": "AAK29329.1",
+  "deposited_translation": "DFSAMFSPPVNSGKTRPTTLGSSQFSGSGIDERGGTTSWGTSGQPSPSYDSSRGFTDSPHYSDHLNDSRLGAHEGLSPTPFMNSNLMDMPCVQAQYSPSPPGSSYAAQTYSSEYTTEIMNPDYTKLTMDLGSTEITATAT"
+ },
+ "sources": {
+  "sequence_deposit": {
+   "accession": "AF289510",
+   "version": "AF289510.1",
+   "ncbi_nuccore_uid": "13540159",
+   "definition": "Homo sapiens TCF12-TEC fusion protein mRNA, partial cds",
+   "length_bp": 421,
+   "protein_id": "AAK29329.1",
+   "submitted": "25-JUL-2000, Lundberg Laboratory for Cancer Research, Dept. of Pathology, Goteborg University, Sahlgrenska University Hospital, Goteborg SE-413 45, Sweden",
+   "cites_pmid": "11156374",
+   "sha256_of_flatfile": "15da3c7f011f452e549e7c9bde46eb9bc69c69c15da29c8aa78e4d46d853e33a",
+   "source_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id=13540159&rettype=gbwithparts&retmode=text"
+  },
+  "primary_report": {
+   "pmid": "11156374",
+   "title": "Fusion of the NH2-terminal domain of the basic helix-loop-helix protein TCF12 to TEC in extraskeletal myxoid chondrosarcoma with translocation t(9;15)(q22;q21).",
+   "journal": "Cancer research",
+   "year": 2000,
+   "abstract_verbatim": "Extraskeletal myxoid chondrosarcomas (EMCs) are characterized by recurrent t(9;22) or t(9;17) translocations resulting in fusions of the NH2-terminal transactivation domains of EWS or TAF2N to the entire TEC protein. We report here an EMC with a novel translocation t(9; 15)(q22;q21) and a third type of TEC-containing fusion gene. The chimeric transcript encodes a protein in which the first 108 amino acids of the NH2-terminus of the basic helix-loop-helix (bHLH) protein TCF12 is linked to the entire TEC protein. The translocation separates the NH2-terminal domain of TCF12 from the bHLH domain as well as from a potential leucine zipper domain located immediately downstream of the breakpoint. These results demonstrate that the NH2-terminal transactivation domains of EWS or TAF2N are not unique in their ability to convert the TEC protein into an oncogenically active fusion protein, and that they may be replaced by a domain from a bHLH protein that presumably endows the fusion protein with similar functions."
+  },
+  "corroborating_primary": {
+   "pmid": "12826747",
+   "title": "Genomic organization of human TCF12 gene and spliced mRNA variants producing isoforms of transcription factor HTF4.",
+   "journal": "Cytogenetic and genome research",
+   "year": 2002,
+   "abstract_verbatim": "The human TCF12 gene, mapping to 15q21, encodes the helix-loop-helix transcription factor 4 (HTF4). A detailed analysis of this genomic region established the organization of the TCF12 gene. The gene includes 21 exons and is significantly larger than an average human gene. Preceding the second exon, two alternative acceptor sites for mRNA splicing yield two distinguishable transcripts (HTF4a and HTF4b) which differ in their 5' untranslated region but share identical coding sequences. Differential utilization of exon 15 in the TCF12 gene may reflect a mechanism producing a cell-type-specific protein (HTF4c). In addition, intron 5 in the TCF12 gene corresponds to the region involved in a translocation, t(9;15)(q22;q21), that results in a form of extraskeletal myxoid chondrosarcoma.",
+   "role": "An INDEPENDENT gene-structure paper, not a fusion paper. It states the TCF12 gene 'includes 21 exons' — the same count as this repository's committed transcript model, which is what makes its exon numbering comparable — and that 'intron 5 in the TCF12 gene corresponds to the region involved in a translocation, t(9;15)(q22;q21), that results in a form of extraskeletal myxoid chondrosarcoma'. A genomic break in intron 5 splices exon 5 to the partner."
+  },
+  "secondary_review": {
+   "pmid": "24714847",
+   "pmcid": "PMC4055444",
+   "verbatim": "Gene TCF12, also known as HTF4, presents different isoforms by alternative splicing and the breakpoint affects the region of intron 5 ( 158 , 159 ).",
+   "role": "A review that states the intron-5 assignment in prose. ⚠ NOT an independent observation: its two citations at that sentence are the primary report and the gene-structure paper above, so it is a COMPOSITION of them, retrieved here to show that the exon assignment is not this repository's invention."
+  },
+  "_one_home": "research/literature/tcf12-nr4a3-breakpoint-primary-sources.json"
+ },
+ "transcript_models": {
+  "TCF12": {
+   "transcript": "ENST00000333725",
+   "n_transcript_exons": 21,
+   "protein_length": 706,
+   "_agrees_with_the_corroborating_paper_on_exon_count": true
+  },
+  "NR4A3": {
+   "transcript": "ENST00000395097",
+   "n_transcript_exons": 8,
+   "protein_length": 626
+  },
+  "source": {
+   "requested": "cache",
+   "used_per_gene": {
+    "TCF12": "committed_cache",
+    "NR4A3": "committed_cache"
+   },
+   "committed_cache_fetched_utc": "2026-08-12T13:41:57Z",
+   "_caveat": "At least one gene was read from the committed cache (emc-construct-inputs.json), not from Ensembl today. The cache is a dated measurement that passed this module's four self-checks; it is not a statement about Ensembl's current annotation."
+  },
+  "provenance_gate_used": {
+   "TCF12": "construct_inputs_self_checks_only",
+   "NR4A3": "graded_exon_audit"
+  }
+ },
+ "tests": {
+  "A_donor_side_ends_at_exactly_one_TCF12_exon": {
+   "_method": "The deposit's chromosome-15 side must be a SUFFIX of the TCF12 cDNA truncated at an exon boundary. Suffix, not substring: a fusion transcript's donor side ends where the exon ends.",
+   "exons_matching": [
+    5
+   ],
+   "unique": true,
+   "donor_side_length_nt": 263
+  },
+  "B_acceptor_side_starts_at_exactly_one_NR4A3_exon": {
+   "_method": "The deposit's chromosome-9 side must be a PREFIX of the NR4A3 cDNA taken from an exon start, including any 5'UTR that exon carries — which is what a fusion transcript actually contains.",
+   "exons_matching": [
+    3
+   ],
+   "unique": true,
+   "acceptor_side_length_nt": 158
+  },
+  "C_the_deposited_seam_equals_the_seam_the_panel_designed_on": {
+   "modelled_junction_label": "TCF12_e5__NR4A3_e3",
+   "modelled_seam": "CAAATCTGATGG|ATATGCCCTGCG",
+   "deposited_seam": "CAAATCTGATGG|ATATGCCCTGCG",
+   "identical": true,
+   "_why_this_is_the_load_bearing_one": "An exon LABEL depends on a transcript model; a seam does not. Every design in the panel hybridises to twelve bases either side of this seam, so a seam that matches the deposit base for base is the statement that matters for a reagent, and it survives any future re-annotation of TCF12's exon numbering."
+  },
+  "D_the_protein": {
+   "our_translation_reproduces_the_deposited_one": true,
+   "deposited_protein_length_aa": 140,
+   "deposited_protein_is_a_substring_of_the_modelled_chimera": true,
+   "spans_chimera_residues": [
+    22,
+    161
+   ],
+   "modelled_chimera_length_aa": 735,
+   "leading_residues_identical_to_TCF12": 108,
+   "residue_at_the_seam": {
+    "position": 109,
+    "in_the_chimera": "D",
+    "in_TCF12": "G",
+    "_what_it_is": "a HYBRID codon. TCF12 exon 5 ends one nucleotide into codon 109, so the chimera keeps 108 whole TCF12 residues and then one codon built from both genes — which is exactly what a report of 'the first 108 amino acids' describes."
+   },
+   "chimera_ends_with_the_entire_NR4A3_protein": true,
+   "_why_both_clauses_matter": "The abstract makes TWO claims — 'the first 108 amino acids' of TCF12, and 'the entire TEC protein'. The residue count alone constrains only the donor side. The modelled junction satisfies both at once, and the second is what pins the ACCEPTOR exon."
+  },
+  "E_the_residue_arithmetic_that_used_to_be_the_only_basis": {
+   "_question": "Which TCF12 transcript exon boundary leaves exactly 108 COMPLETE residues? This was the whole of the old evidence.",
+   "per_exon": [
+    {
+     "transcript_exon": 1,
+     "coding_nt_in_exon": 0,
+     "cumulative_coding_nt": 0,
+     "complete_residues_through_this_exon": 0,
+     "nt_into_the_next_codon": 0
+    },
+    {
+     "transcript_exon": 2,
+     "coding_nt_in_exon": 75,
+     "cumulative_coding_nt": 75,
+     "complete_residues_through_this_exon": 25,
+     "nt_into_the_next_codon": 0
+    },
+    {
+     "transcript_exon": 3,
+     "coding_nt_in_exon": 73,
+     "cumulative_coding_nt": 148,
+     "complete_residues_through_this_exon": 49,
+     "nt_into_the_next_codon": 1
+    },
+    {
+     "transcript_exon": 4,
+     "coding_nt_in_exon": 74,
+     "cumulative_coding_nt": 222,
+     "complete_residues_through_this_exon": 74,
+     "nt_into_the_next_codon": 0
+    },
+    {
+     "transcript_exon": 5,
+     "coding_nt_in_exon": 103,
+     "cumulative_coding_nt": 325,
+     "complete_residues_through_this_exon": 108,
+     "nt_into_the_next_codon": 1
+    },
+    {
+     "transcript_exon": 6,
+     "coding_nt_in_exon": 65,
+     "cumulative_coding_nt": 390,
+     "complete_residues_through_this_exon": 130,
+     "nt_into_the_next_codon": 0
+    },
+    {
+     "transcript_exon": 7,
+     "coding_nt_in_exon": 136,
+     "cumulative_coding_nt": 526,
+     "complete_residues_through_this_exon": 175,
+     "nt_into_the_next_codon": 1
+    },
+    {
+     "transcript_exon": 8,
+     "coding_nt_in_exon": 53,
+     "cumulative_coding_nt": 579,
+     "complete_residues_through_this_exon": 193,
+     "nt_into_the_next_codon": 0
+    }
+   ],
+   "exons_leaving_exactly_108_complete_residues": [
+    5
+   ],
+   "unique": true,
+   "_reading": "Cumulative coding nt through TCF12 exon 5 is 325. 108 whole codons are 324 nt, so the exon ends ONE nucleotide into codon 109 — 108 complete residues and a hybrid codon. The neighbouring boundaries leave 74 (exon 4) and 130 (exon 6), so no other exon is close. ⚠ THE INFERENCE WAS CORRECT, AND THAT IS NOT WHY THE ASSIGNMENT NOW STANDS: it stands on the deposit. An inference that turns out right is still an inference, and the difference is what a reader is entitled to know.",
+   "⚠_what_this_arithmetic_could_never_have_settled": "Residue numbering is isoform-dependent. It happens to be safe here — the committed Ensembl protein and UniProt Q99081 are identical over their first 396 residues, so residue 108 is the same residue in both — but that is a property this repository checked, not one the source stated."
+  }
+ },
+ "what_changes_downstream": [
+  {
+   "file": "research/modalities/aso_per_junction_table.py",
+   "change": "TCF12_e5__NR4A3_e3 moves from clinical tier `no_published_exon_resolved_breakpoint` to `published_exon_resolved_breakpoint`, and TCF12 joins the partners with any published exon — so its OTHER seven junctions become `this exon not reported` rather than merely unreported."
+  },
+  {
+   "file": "research/manuscripts/aso_coverage_ladder.py",
+   "change": "the top row stays a BOUND, and its reason is rewritten: the exon is no longer unverified, the within-partner distribution is still unmeasured at n=1."
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-research-article.md",
+   "change": "§3.3 and the Limitations must stop calling the TCF12 exon an inference from a residue count."
+  }
+ ]
+}

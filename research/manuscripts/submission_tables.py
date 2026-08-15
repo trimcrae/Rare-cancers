@@ -754,6 +754,14 @@ def main():
         return 2
 
     lo_cut, hi_cut = _expression_cuts()
+    # ⛔ THE SEAM COUNT IN TABLE 6's CAPTION IS DERIVED, NEVER TYPED (2026-08-15). It read "the two
+    # junctions with a published exon-resolved EMC breakpoint" while `PUBLISHED_BREAKPOINTS` named
+    # THREE — the caption had been written when EWSR1 exon 13 was still mis-tiered as unreported,
+    # and a hand-typed count cannot notice that its own tiering moved underneath it. The number now
+    # comes from the artifact the table is built from, so a seam added or removed upstream reaches
+    # this sentence instead of leaving it quietly describing a panel that no longer exists.
+    _n_seams = expr["panel"]["n_seams"]
+    n_expr_seams_txt = {1: "one", 2: "two", 3: "three", 4: "four", 5: "five"}.get(_n_seams, str(_n_seams))
     # The exposure tissues are named by the artifact, so a fourth one added upstream reaches this
     # sentence instead of leaving it quietly describing three.
     _et = expr["method"]["exposure_tissues"]
@@ -866,8 +874,8 @@ measurement of cleavage.
 
 {table5(gap)}
 
-**Table 6. Where the two clinically-relevant reagents' off-target loci are expressed.** Every gene
-locus returned by the deeper screens at the two junctions with a published exon-resolved EMC breakpoint,
+**Table 6. Where the clinically-relevant reagents' off-target loci are expressed.** Every gene
+locus returned by the deeper screens at the {n_expr_seams_txt} junctions with a published exon-resolved EMC breakpoint,
 read against reference expression data. The two compartments answer different questions and are
 never combined: a systemically dosed phosphorothioate gapmer distributes predominantly to liver and
 kidney, so {lo_cut_txt} address exposure, while the soft-tissue column is the normal

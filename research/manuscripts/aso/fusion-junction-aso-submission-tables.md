@@ -135,7 +135,7 @@ reported as such rather than given a best row.
 |---|---|---|---|---|---|---|---|
 | EWSR1 e10::NR4A3 e3 | exon not reported | 3 of 5 | 5′-GGCATATCTAGATCAA-3′ | 2 | 7 | 70 → 4 | 0.61 |
 | EWSR1 e12::NR4A3 e3 | published | 4 of 5 | 5′-GGGCATATCATCAAAC-3′ | 3 | 8 | 123 → 6 | 0.62 |
-| EWSR1 e13::NR4A3 e3 | exon not reported | 3 of 5 | 5′-GGGCATATCTCCACGG-3′ | 3 | 8 | 24 → 2 | 0.29 |
+| EWSR1 e13::NR4A3 e3 | published | 3 of 5 | 5′-GGGCATATCTCCACGG-3′ | 3 | 8 | 24 → 2 | 0.29 |
 | EWSR1 e15::NR4A3 e3 | exon not reported | 4 of 5 | 5′-GGGCATATCCGGGGGC-3′ | 3 | 0 | 33 → 1 | 0.06 |
 | EWSR1 e1::NR4A3 e3 | exon not reported | 2 of 5 | 5′-GGGCATATCCGTGGAC-3′ | 3 | 0 | 0 → 0 | 0.07 |
 | EWSR1 e4::NR4A3 e3 | exon not reported | 4 of 5 | 5′-AGGGCATATCAGTGGG-3′ | 2 | 6 | 9 → 3 | 0.71 |
@@ -157,14 +157,14 @@ reported as such rather than given a best row.
 | TAF15 e6::NR4A3 e3 | published | 1 of 5 | 5′-GGGCATATCTTGTGTG-3′ | 3 | 9 | 8 → 5 | 0.60 |
 | TAF15 e8::NR4A3 e3 | exon not reported | 4 of 5 | 5′-GGGCATATCACCAAAA-3′ | 3 | 7 | 36 → 3 | 0.86 |
 | TAF15 e9::NR4A3 e3 | exon not reported | 2 of 5 | 5′-AGGGCATATCAGCATC-3′ | 2 | 6 | 6 → 2 | 1.13 |
-| TCF12 e11::NR4A3 e3 | none published | 3 of 5 | 5′-GGCATATCTAGAATGC-3′ | 2 | 8 | 4 → 3 | 0.69 |
-| TCF12 e13::NR4A3 e3 | none published | 2 of 5 | 5′-GGCATATCTGTGAGAG-3′ | 2 | 7 | 6 → 5 | 1.08 |
-| TCF12 e17::NR4A3 e3 | none published | 3 of 5 | 5′-GGGCATATCTCTATAA-3′ | 3 | 7 | 14 → 5 | 0.83 |
-| TCF12 e19::NR4A3 e3 | none published | 2 of 5 | 5′-GGGCATATCTCTGACT-3′ | 3 | 8 | 75 → 3 | 0.82 |
-| TCF12 e3::NR4A3 e3 | none published | 0 of 5 | — | — | — | — | — |
-| TCF12 e5::NR4A3 e3 | none published | 4 of 5 | 5′-GGGCATATCCATCAGA-3′ | 3 | 7 | 17 → 1 | 0.56 |
-| TCF12 e7::NR4A3 e3 | none published | 2 of 5 | 5′-GGGCATATCAAGCGCT-3′ | 3 | 8 | 0 → 0 | 0.26 |
-| TCF12 e9::NR4A3 e3 | none published | 1 of 5 | 5′-GGGCATATCTTGCATA-3′ | 3 | 8 | 39 → 6 | 0.71 |
+| TCF12 e11::NR4A3 e3 | exon not reported | 3 of 5 | 5′-GGCATATCTAGAATGC-3′ | 2 | 8 | 4 → 3 | 0.69 |
+| TCF12 e13::NR4A3 e3 | exon not reported | 2 of 5 | 5′-GGCATATCTGTGAGAG-3′ | 2 | 7 | 6 → 5 | 1.08 |
+| TCF12 e17::NR4A3 e3 | exon not reported | 3 of 5 | 5′-GGGCATATCTCTATAA-3′ | 3 | 7 | 14 → 5 | 0.83 |
+| TCF12 e19::NR4A3 e3 | exon not reported | 2 of 5 | 5′-GGGCATATCTCTGACT-3′ | 3 | 8 | 75 → 3 | 0.82 |
+| TCF12 e3::NR4A3 e3 | exon not reported | 0 of 5 | — | — | — | — | — |
+| TCF12 e5::NR4A3 e3 | published | 4 of 5 | 5′-GGGCATATCCATCAGA-3′ | 3 | 7 | 17 → 1 | 0.56 |
+| TCF12 e7::NR4A3 e3 | exon not reported | 2 of 5 | 5′-GGGCATATCAAGCGCT-3′ | 3 | 8 | 0 → 0 | 0.26 |
+| TCF12 e9::NR4A3 e3 | exon not reported | 1 of 5 | 5′-GGGCATATCTTGCATA-3′ | 3 | 8 | 39 → 6 | 0.71 |
 | TFG e2::NR4A3 e3 | none published | 0 of 4 | — | — | — | — | — |
 | TFG e3::NR4A3 e3 | none published | 4 of 5 | 5′-GGGCATATCAAATAAT-3′ | 3 | 8 | 18 → 6 | 1.35 |
 | TFG e4::NR4A3 e3 | none published | 1 of 5 | 5′-AGGGCATATCATTTTC-3′ | 2 | 7 | 82 → 12 | 1.77 |
@@ -222,7 +222,7 @@ measurement of cleavage.
 | designs pairing the gap in parent pre-mRNA | 19 of 190 | 11 of 266 | 9 of 342 |
 | median most stable parent ΔG°37 (kcal/mol) | −8.66 | −11.60 | −14.58 |
 
-**Table 6. Where the two clinically-relevant reagents' off-target loci are expressed.** Every gene
+**Table 6. Where the clinically-relevant reagents' off-target loci are expressed.** Every gene
 locus returned by the deeper screens at the two junctions with a published exon-resolved EMC breakpoint,
 read against reference expression data. The two compartments answer different questions and are
 never combined: a systemically dosed phosphorothioate gapmer distributes predominantly to liver and

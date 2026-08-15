@@ -60,6 +60,26 @@ import junction_aso as ja  # noqa: E402
 _SUFFIX = os.environ.get("OUT_SUFFIX", "")
 OUT = os.path.join(os.path.dirname(__file__), f"nr4a3-fusion-junction-atlas{_SUFFIX}.json")
 
+#: ⭐ WHICH JUNCTION SET THIS ATLAS IS ABOUT. Default `frame_compatible` — every seam the grader
+#: calls EMITTABLE — which is the manuscript's panel and is bit-for-bit what this module has always
+#: produced. `published_noncoding_acceptors` builds panels at the PUBLISHED breakpoints the frame
+#: grade excludes instead, and exists because the three screens that read this file
+#: (`aso_premrna_offtarget`, `aso_genome_offtarget`, `aso_parent_gap_pairing`) take their design set
+#: from an atlas and had no other way to reach those seams.
+#:
+#: ⛔ IT IS A SEPARATE MEASUREMENT AND MUST LAND IN A SEPARATE FILE, so this mode REFUSES without an
+#: `OUT_SUFFIX`. That is the deep-rescreen suffix rule (`aso-offtarget.yml`) applied to the file the
+#: whole lane reads FROM: an atlas of eight designs written over the panel atlas would silently
+#: re-base the pre-mRNA screen, the genome screen, the parent-duplex artifact and every manuscript
+#: number derived from them, and the panels would look normal — same schema, different junctions.
+#:
+#: ⛔ AND IT IS NOT A SECOND GRADER. Every junction it admits goes through
+#: `junction_aso.published_breakpoint_waiver`, the same object the design and screen lane uses, so a
+#: whitelist entry whose stated exclusion reason disagrees with the committed transcript model
+#: raises here exactly as it does there. There is one enforcement point, not two.
+ATLAS_JUNCTION_SET = (os.environ.get("ATLAS_JUNCTION_SET") or "frame_compatible").strip()
+PUBLISHED_NONCODING_ACCEPTORS = "published_noncoding_acceptors"
+
 #: The acceptor. In EMC this never varies — the disease is defined by NR4A3 rearrangement.
 ACCEPTOR = "NR4A3"
 
@@ -69,6 +89,21 @@ ACCEPTOR = "NR4A3"
 #: partner in the artifact's `partners_not_scoreable` block, because a partner nobody could read
 #: and a partner with no junctions must never render alike (CLAUDE.md §4).
 PARTNERS = ["EWSR1", "TAF15", "TCF12", "FUS", "TFG"]
+
+#: ⛔ A WHITELISTED DONOR THAT IS NOT IN `PARTNERS` IS LOADED FOR THE PUBLISHED ARM ONLY — AND THE
+#: WORD "ONLY" IS THE WHOLE DESIGN (2026-08-15, added with PGR::NR4A3).
+#: The obvious move is to append the new partner to `PARTNERS`. It is wrong, and silently so: the
+#: grading loop below runs EVERY partner in that list across EVERY donor exon against the acceptor
+#: window, so a sixth partner adds rows to `graded_pairs`, moves `n_pairs_graded`, `grade_counts`
+#: and `by_partner` in the CANONICAL atlas, and — if any of its pairs graded EMITTABLE — would add a
+#: 39th panel to a panel the manuscript reports as 38. A partner reported in ONE case at ONE seam
+#: must not re-base the whole table on its way in.
+#: So the published arm loads exactly the donors ITS OWN whitelist names, and the canonical arm
+#: never sees them. Derived from the whitelist rather than listed here, so the next published
+#: partner needs no edit to this file at all — the failure mode a hand-maintained second list has.
+def _published_arm_donors():
+    return sorted({d for (d, _de, a, _ae) in ja.published_noncoding_acceptor_junctions()
+                   if a == ACCEPTOR and d not in PARTNERS})
 
 #: Why a listed partner may still be unscoreable. ⚠ THIS IS A FALLBACK EXPLANATION, NOT THE
 #: DETECTOR. TFG is in `PARTNERS` as of 2026-08-12 so the model-loading loop below decides its fate
@@ -221,6 +256,45 @@ def build():
                 if grade == ja.EMITTABLE:
                     emittable.append((sym, d_end, a_start, j))
 
+    # ── 1b. or, in the opt-in mode, the PUBLISHED seams the frame grade excludes ──────────────
+    published_waivers = []
+    if ATLAS_JUNCTION_SET == PUBLISHED_NONCODING_ACCEPTORS:
+        if not _SUFFIX:
+            raise SystemExit(
+                f"ATLAS_JUNCTION_SET={PUBLISHED_NONCODING_ACCEPTORS} needs OUT_SUFFIX. It builds a "
+                f"DIFFERENT junction set, and writing it over {os.path.basename(OUT)} would re-base "
+                "the pre-mRNA screen, the genome screen, the parent-duplex artifact and every "
+                "manuscript number derived from them, with panels that look normal. Refusing.")
+        emittable, published_waivers = [], []
+        # ⚠ Donors this arm needs that the canonical `PARTNERS` list does not carry — see
+        # `_published_arm_donors`. Loaded HERE so they exist for this arm and nowhere else; a
+        # failure to load is recorded as an unreadable partner, never as an absent junction.
+        for sym in _published_arm_donors():
+            try:
+                models[sym] = ja.transcript_model(sym)
+            except Exception as exc:                                    # noqa: BLE001
+                unreadable[sym] = (
+                    f"{exc} — a 5' partner named by the published-breakpoint whitelist with no "
+                    "transcript model in emc-construct-inputs.json. "
+                    "`research/modalities/pgr_transcript_fetch.py` (CI, needs Ensembl) is the "
+                    "additive fetch that adds one.")
+        for (d_sym, d_end, a_sym, a_start), _meta in sorted(
+                ja.published_noncoding_acceptor_junctions().items()):
+            if a_sym != ACCEPTOR:
+                continue
+            if d_sym not in models:
+                # an absent transcript model is an absent reading, never a reading of absence —
+                # the junction is reported unscoreable rather than dropped.
+                unreadable.setdefault(d_sym, "no transcript model; published breakpoint unscoreable")
+                continue
+            j = ja.mrna_junction_generic(models[d_sym], acceptor, d_end, a_start)
+            # ⛔ ONE ENFORCEMENT POINT. This raises if the whitelist's stated exclusion reason
+            # disagrees with the committed transcript model's grade, or if the junction is not on
+            # the list at all — the same object the design and screen lane is gated by.
+            published_waivers.append(
+                ja.published_breakpoint_waiver(d_sym, d_end, a_sym, a_start, j, opt_in=True))
+            emittable.append((d_sym, d_end, a_start, j))
+
     # ── 2. design on the emittable rows, screened against EVERY partner transcript ────────────
     # The parent set is the whole partner panel plus the acceptor — strictly stricter than the
     # two-parent test, and the reason is (b) in the module docstring.
@@ -353,9 +427,33 @@ def build():
             "provenance_gate": ja.PROVENANCE_GATE_USED.get(sym),
         }
 
+    published_mode = ATLAS_JUNCTION_SET == PUBLISHED_NONCODING_ACCEPTORS
     result = {
-        "_title": "Pan-partner NR4A3 fusion-junction atlas — every frame-compatible seam, graded, "
-                  "with junction-spanning gapmer panels and cross-junction coverage",
+        "_title": ("PUBLISHED non-canonical NR4A3 fusion-junction atlas — the seams the "
+                   "frame/coding grade excludes from the panel, with junction-spanning gapmer "
+                   "panels, built for the screens that take their design set from an atlas"
+                   if published_mode else
+                   "Pan-partner NR4A3 fusion-junction atlas — every frame-compatible seam, graded, "
+                   "with junction-spanning gapmer panels and cross-junction coverage"),
+        "junction_set": ATLAS_JUNCTION_SET,
+        **({"⛔_this_is_not_the_manuscript_panel": [
+            "The panels below are at breakpoints the manuscript's 38-junction panel EXCLUDES, by a "
+            "protein-level filter (no CDS in the acceptor exon, or an out-of-frame register). They "
+            "are admitted here because an RNase-H1 gapmer cleaves the transcript rather than the "
+            "protein, and only through an explicit published-breakpoint whitelist — a seam nobody "
+            "has sequenced cannot be reached in this mode either.",
+            "Counts from this file are NOT pooled with the panel atlas's and are not comparable "
+            "with them one-for-one: this is a different junction set, measured separately.",
+            "`isoform_coverage` below is computed ACROSS THE JUNCTIONS IN THIS FILE ONLY. It "
+            "cannot see the panel's 38 seams, so an empty cross-junction result here means 'not "
+            "shared with the other published seams', never 'unique in the panel'.",
+        ],
+            "published_breakpoint_waivers": published_waivers,
+            "_one_enforcement_point": (
+                "every junction here passed junction_aso.published_breakpoint_waiver, the same "
+                "object that gates the design and screen lane; a whitelist entry whose stated "
+                "exclusion reason disagrees with the committed transcript model raises there.")}
+           if published_mode else {}),
         "_generated_by": "research/modalities/nr4a3_fusion_atlas.py",
         "_cost": "$0 — CPU only, no GPU, no rental, no network when the committed transcript cache "
                  "answers. Sequence arithmetic over committed Ensembl transcript models.",

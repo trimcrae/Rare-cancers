@@ -180,9 +180,61 @@ def correct_acceptor_seams():
             seam = (j.get("junction_context_mRNA") or "").split("|")
             if len(seam) == 2 and len(seam[1]) == 12:
                 out[n] = seam[1]
+        out.update(_published_noncoding_acceptor_seams(ja, nr4, ews, out))
         return out
     except Exception:                                              # noqa: BLE001
         return {}
+
+
+def _published_noncoding_acceptor_seams(ja, nr4, ews, already):
+    """The acceptor seams of the PUBLISHED breakpoints the in-frame filter above cannot admit.
+
+    ⛔ WHY THE FILTER ABOVE IS NOT ENOUGH, AND WHY THIS IS NOT A HOLE IN IT. That filter keeps only
+    acceptors that are in frame and resume NR4A3 at residue 1, which is the right test for the
+    defect this module grades: an acceptor produced by the off-by-two CODING-exon index. It is the
+    wrong test for the *EWSR1* type 2 transcript, whose acceptor is NR4A3 transcript exon 2 —
+    upstream of the ATG, so no residue and no frame — and which three published reports place in
+    sequenced patients. Without this, a screen artifact at that seam grades UNGRADEABLE ("neither
+    set matched and the file does not say it is modelled"), and since `--check` treats UNGRADEABLE
+    as a failure, the CI publish that owns `modalities-cache` would refuse every artifact of the
+    published junction — a data-integrity guard converted into an outage against a real seam.
+
+    ⛔ THE SEAM IS RE-DERIVED FROM THE COMMITTED TRANSCRIPT MODEL, NEVER READ OFF THE WHITELIST.
+    The whitelist supplies only the (donor, exon, acceptor, exon) COORDINATES a report published; the
+    twelve nucleotides come from `mrna_junction_generic` exactly as every other entry's do. A seam
+    typed beside a PMID would be a sequence from recollection wearing a citation.
+
+    ⛔ AND AN OVERLAP WITH THE RETRACTED SET IS A HARD REFUSAL, not a silent preference. The
+    docstring above records why: a seam in both reference sets is a seam this module could grade
+    either way depending on which test ran first, i.e. no grade at all, and silently. Measured
+    2026-08-15 the two sets are disjoint; if a future curation makes them overlap, this raises.
+    """
+    out = {}
+    for (d_sym, d_end, a_sym, a_start), meta in ja.published_noncoding_acceptor_junctions().items():
+        if a_sym != "NR4A3" or meta.get("excluded_from_the_panel_by") != "NON_CODING_ACCEPTOR":
+            # an OUT_OF_FRAME published breakpoint uses an acceptor exon the loop above already
+            # covers; only the non-coding acceptors are invisible to it.
+            continue
+        try:
+            donor = ews if d_sym == "EWSR1" else ja.transcript_model(d_sym)
+            j = ja.mrna_junction_generic(donor, nr4, d_end, a_start)
+        except Exception:                                          # noqa: BLE001
+            continue
+        seam = (j.get("junction_context_mRNA") or "").split("|")
+        if len(seam) != 2 or len(seam[1]) != 12:
+            continue
+        prior = already.get(a_start, out.get(a_start))
+        if prior is not None and prior != seam[1]:
+            raise RuntimeError(
+                f"two different acceptor seams claim NR4A3 exon {a_start}: {prior} and {seam[1]}. "
+                "A seam this module could grade either way is no grade at all — refusing.")
+        out[a_start] = seam[1]
+    bad = set(out.values()) & set(retracted_acceptor_seams().values())
+    if bad:
+        raise RuntimeError(
+            f"published non-coding acceptor seam(s) {sorted(bad)} are ALSO in the retracted set. "
+            "A citation cannot make a seam the corrected coordinates refuse — refusing to admit it.")
+    return out
 
 
 # ---------------------------------------------------------------------------------------------

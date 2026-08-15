@@ -75,7 +75,7 @@ over mature parent transcript — a compartment none of the others can reach —
 wild-type parent, 61 of them against *NR4A3* itself. Three designs survive everything, two of them
 at any parent-duplex threshold, and all three are at junctions no patient is reported to carry, so
 the manuscript presents them as mechanism controls and ranks within each junction to name the best
-available reagent at the two junctions with a published breakpoint. One 16-mer spans
+available reagent at the two most frequently reported junctions with a published breakpoint. One 16-mer spans
 the seams of three partners at once through a measured ten-base donor identity, which would change
 the deployable artefact for an ultra-rare disease from bespoke oligonucleotides to a stock reagent —
 except that the only exon-resolved *TAF15* breakpoints published fall at a different exon, so the

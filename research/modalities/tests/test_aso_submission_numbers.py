@@ -533,7 +533,8 @@ def test_the_discussion_recommends_the_two_published_junctions():
     d = json.load(open(art, encoding="utf-8"))
     published = {j["junction_label"]: j for j in d["junctions"]
                  if j["clinical_tier"] == "published_exon_resolved_breakpoint"}
-    assert set(published) == {"EWSR1_e12__NR4A3_e3", "TAF15_e6__NR4A3_e3"}, sorted(published)
+    assert set(published) == {"EWSR1_e12__NR4A3_e3", "EWSR1_e13__NR4A3_e3",
+                              "TAF15_e6__NR4A3_e3", "TCF12_e5__NR4A3_e3"}, sorted(published)
     txt = _flat(_paper())
     for label, seq in (("EWSR1_e12__NR4A3_e3", "GGGCATATCATCAAAC"),
                        ("TAF15_e6__NR4A3_e3", "GGGCATATCTTGTGTG")):
@@ -541,8 +542,27 @@ def test_the_discussion_recommends_the_two_published_junctions():
         assert best["antisense_5to3"] == seq, (label, best)
         assert best["gap_specificity_margin"] == 3 and not best["parent_is_liability"], best
         assert f"5′-{seq}-3′" in txt, f"{label}'s reagent is not named in the manuscript"
-    assert "the reagents to synthesise are the best available at the two junctions with a " \
-           "published exon-resolved breakpoint" in txt
+    assert "the reagents to synthesise are the best available at the two most frequently " \
+           "reported junctions with a published exon-resolved breakpoint" in txt
+    # ⛔ AND THE OTHER PUBLISHED JUNCTIONS MUST NOT GO UNMENTIONED. The pilot pair stays two, but a
+    # paper whose own tiering names four published junctions and whose Discussion names reagents at
+    # two owes the reader the rest and what each buys. Asserted against the ladder artifact so the
+    # prose cannot drift off it.
+    assert "*EWSR1* exon 13 to *NR4A3* exon 3" in txt
+    assert "takes the set from 68.4% to 79.0%" in txt
+    # ⭐ THE FOURTH, ADDED 2026-08-15 WITH THE DEPOSIT THAT RESOLVED IT. Two things must both be in
+    # the prose and they pull in opposite directions: the reagent EXISTS and is screened, and its
+    # arm is priced at its CEILING because one tumour has ever been sequenced there. Naming the
+    # first without the second is how 98.3% would start reading as a reachable target.
+    assert "5′-GGGCATATCCATCAGA-3′ at *TCF12* exon 5" in txt
+    assert "resolved\nto the nucleotide by the deposited chimeric cDNA" in _paper()
+    assert "the resulting 98.3% is an upper bound rather than a reachable target" in txt
+    for dead in ("whose junction has never\nbeen published as an exon",
+                 "inference from a residue count against this transcript model"):
+        assert dead not in _paper(), f"superseded TCF12 claim is back: {dead!r}"
+    # the acceptor-side blind spot, and that no design is claimed at it
+    assert "*EWSR1* exon 7 to *NR4A3* exon\n2," in _paper() or "exon 7 to *NR4A3* exon" in txt
+    assert "none should be assumed to exist" in txt
     # the gap-length risk is disclosed in the Methods and must be ranked first in the Discussion
     assert "Two risks attach, in this order. The first is architectural" in txt
     assert "The three designs that survive every screen are mechanism controls" in txt

@@ -38,6 +38,17 @@
 # numpy gap and were among the entries that gap already covered; with numpy present, the NEXT
 # missing import is what they now stop on. A dependency gap that moves is not a gap that closed.
 #
+# ⭐ PRUNED AGAIN 2026-08-15, AND IT IS THE SAME NINE ENTRIES THE 2026-08-09 NOTE ABOVE ALREADY
+# SAYS WERE PRUNED. They were back in the file, so something re-introduced them — a merge that took
+# this side of a conflict, most likely, since nothing else writes here. The gate reported them as
+# "9 baseline entr(y/ies) no longer fail" on a run measuring 57 failures, 53 of which were listed
+# here; removing exactly these nine leaves the list at 53 and the two numbers agree.
+# ⚠ THE LESSON IS ABOUT DIRECTION, NOT ABOUT THESE NINE. Pruning is always safe: a pruned entry that
+# starts failing again fails the build loudly. A stale entry is the dangerous one — it is a standing
+# licence for a test to fail, and this file exists because exactly that licence let a real regression
+# through. A resurrected entry is invisible unless the gate's "no longer fail" line is acted on, so
+# act on it every time rather than reading past it.
+#
 # ⛔⛔ UPDATED 2026-08-12, AND IT REVERSES THE 2026-08-09 PRUNE EXACTLY — WHICH IS THE FINDING, NOT
 # THE FIX. The 9 entries pruned above on the grounds that "numpy is now importable here" were
 # re-added today, because in THIS container numpy is NOT importable:
@@ -69,10 +80,7 @@ research/modalities/tests/test_abfe_diagnostics.py::test_overlap_separated_state
 research/modalities/tests/test_abfe_diagnostics.py::test_overlap_symmetric_and_adjacent_beats_far
 research/modalities/tests/test_abfe_diagnostics.py::test_receptor_dg_bind_matches_combine_legs
 research/modalities/tests/test_apo_pose_recovery.py::test_an_atom_count_mismatch_is_refused_not_guessed
-research/modalities/tests/test_congeneric_fanout.py::test_SEED_0_leaves_the_rng_exactly_as_the_18_landed_edges_had_it
 research/modalities/tests/test_congeneric_fanout.py::test_credential_preflight_fails_closed_on_every_unusable_outcome
-research/modalities/tests/test_congeneric_fanout.py::test_the_engine_applies_the_seed_to_every_stream_it_can_actually_reach
-research/modalities/tests/test_nr4a3_5bt.py::test_a_fetch_that_fails_is_a_refusal_not_a_silent_ternary_fallback
 research/modalities/tests/test_nr4a3_5bt.py::test_build_arm_runs_end_to_end_and_the_snap_masks_are_non_empty
 research/modalities/tests/test_nr4a3_5bt.py::test_every_substructure_role_is_unique
 research/modalities/tests/test_nr4a3_5bt.py::test_no_unserialisable_object_can_reach_the_writer
@@ -84,9 +92,6 @@ research/modalities/tests/test_nr4a3_5bt.py::test_the_e3_binary_detail_is_json_s
 research/modalities/tests/test_nr4a3_5bt.py::test_the_refusal_names_every_offending_path_not_only_the_first
 research/modalities/tests/test_nr4a3_5bt.py::test_the_screening_sdf_is_NOT_a_source_of_the_warhead_pose
 research/modalities/tests/test_nr4a3_ternary_fep.py::test_expected_heavy_map_size_is_derived_from_the_frozen_endpoints
-research/modalities/tests/test_nrv04_pe_stage_probe.py::test_a_heavy_atom_absent_from_the_raw_cofold_is_attributed_to_our_prep
-research/modalities/tests/test_nrv04_pe_stage_probe.py::test_close_contacts_finds_the_clash_excludes_bonded_and_names_who_placed_it
-research/modalities/tests/test_nrv04_pe_stage_probe.py::test_with_no_raw_cofold_nothing_may_be_attributed_to_boltz
 research/modalities/tests/test_nrv04_retro_hold_and_protocol.py::test_a_held_unit_is_reported_every_tick_never_silently
 research/modalities/tests/test_nrv04_retro_hold_and_protocol.py::test_a_quarantine_eligible_unit_ON_A_HOST_is_visible_but_untouched
 research/modalities/tests/test_nrv04_retro_hold_and_protocol.py::test_supervision_does_not_buy_a_unit_that_was_never_authorised
@@ -102,9 +107,6 @@ research/modalities/tests/test_nrv04_retro_launch.py::test_retro_reap_refuses_wi
 research/modalities/tests/test_nrv04_retro_launch.py::test_supervision_refuses_to_condemn_on_a_read_it_did_not_get
 research/modalities/tests/test_nrv04_retro_launch.py::test_supervision_replaces_hostless_unrun_units_through_the_lanes_own_launcher
 research/modalities/tests/test_nrv04_retro_launch.py::test_supervision_without_a_key_buys_and_destroys_nothing
-research/modalities/tests/test_selcal_stage.py::test_audit_ignores_intra_residue_bonds
-research/modalities/tests/test_selcal_stage.py::test_audit_passes_a_normal_assembly
-research/modalities/tests/test_selcal_stage.py::test_audit_refuses_the_measured_failure_signature
 research/modalities/tests/test_short_linker_probe.py::test_the_candidate_has_a_recorded_and_reparsed_structure
 research/modalities/tests/test_short_linker_probe.py::test_the_probe_reproduces_its_committed_artifact
 research/modalities/tests/test_slow_cv.py::test_build_combine_cv_reproduces_standardized_projection

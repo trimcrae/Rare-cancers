@@ -14,7 +14,7 @@ on:
       task:
         description: "which task to run"
         type: choice
-        options: [fusion, vast_smoke, nrv04_cys, nr4a_unique_residues, nr4a_e3_widened, nr4a_basin_search, nr4a_linker_chem, nr4a_e3_stage, e3_recruiter_stage, e3_vhl_recheck, vast_bid_advise, vast_price_history, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_ffcache_status, nrv04_input_audit, nrv04_retro_prespend, nrv04_retro_price_forensics, nrv04_retro_secondaries, nrv04_adduct_build, nrv04_s3_tail, nrv04_bake, fep_bake, nrv04_vast_launch, step1_fanout, bioemu_bake, bioemu_run, bioemu_collect, bioemu_status, bioemu_stop, map_audit, map_diag, energy_probe, s1f_liveness, s_calibrator_survey, cys_chemoproteomics, fusion_census, pgr_transcript, nr4a3_intron2_cryptic]
+        options: [fusion, vast_smoke, nrv04_cys, nr4a_unique_residues, nr4a_e3_widened, nr4a_basin_search, nr4a_linker_chem, nr4a_e3_stage, e3_recruiter_stage, e3_vhl_recheck, vast_bid_advise, vast_price_history, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_ffcache_status, nrv04_input_audit, nrv04_retro_prespend, nrv04_retro_price_forensics, nrv04_retro_secondaries, nrv04_adduct_build, nrv04_s3_tail, nrv04_bake, fep_bake, nrv04_vast_launch, step1_fanout, bioemu_bake, bioemu_run, bioemu_collect, bioemu_status, bioemu_stop, map_audit, map_diag, energy_probe, s1f_liveness, s_calibrator_survey, cys_chemoproteomics, fusion_census, pgr_transcript, pgr_tissue_expression, nr4a3_intron2_cryptic]
         default: fusion
       fanout_mode:
         description: "step1_fanout: plan | stage | precheck | launch (dry) | launch_confirm (SPENDS) | collect | monitor | diag | reap (destroy + BLACKLIST a bad HOST) | block (stop launching a UNIT no host can fix) | stop"
@@ -293,6 +293,42 @@ jobs:
             research/modalities/nr4a3-intron2-cryptic-exon.json \
             research/modalities/aso-taf15-intron2-designs.json \
             research/modalities/aso-taf15-intron2-atlas.json
+
+  # WILD-TYPE PGR EXPRESSION IN NORMAL HORMONE-RESPONSIVE TISSUE — the exposure half of the
+  # PGR::NR4A3 seam's specificity question, and the block the panel's own tissue screen does not
+  # carry. Half of every gapmer at that seam is PGR sequence, and PGR is a hormone receptor of
+  # normal breast, uterus and ovary in a premenopausal woman (the patient of PMID 36103645). Needs
+  # the GTEx v8 release object, which the dev sandbox blocks at CONNECT. $0 CPU, pure stdlib.
+  # ⚠ THIS IS NOT THE PANEL'S OFF-TARGET TISSUE SCREEN and does not stand in for it. That screen's
+  # population is the loci a transcriptome-wide BLAST returned AT THIS SEAM, which requires the
+  # BLAST arm to have run first (aso-offtarget.yml, real_junctions=PGR:2:2:published). This job
+  # measures the PARENTS, which needs no prior screen — so it can run the moment the branch carries
+  # the transcript model, and a reader must not read one as the other.
+  pgr_tissue_expression:
+    if: ${{ github.event.inputs.task == 'pgr_tissue_expression' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "GTEx v8 median TPM for the PGR::NR4A3 parents and the FET partners"
+        working-directory: research/modalities
+        run: python pgr_tissue_expression.py --fetch
+      - name: Commit the expression readings back to the triggering branch
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "wild-type PGR expression in normal hormone-responsive tissue (GTEx v8, CI)" \
+            research/modalities/pgr-tissue-expression.json \
+            research/modalities/pgr-tissue-expression-inputs.json
 
   nr4a_unique_residues:
     if: ${{ github.event.inputs.task == 'nr4a_unique_residues' && github.event.inputs.fanout_mode != 'diag' }}

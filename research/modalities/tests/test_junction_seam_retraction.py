@@ -202,6 +202,54 @@ def test_the_sweep_tool_is_staged_before_the_branch_switch_because_the_branch_ha
         "the staged tool must be pointed at the checked-out artifact tree with --dir")
 
 
+def test_the_staged_tool_actually_RUNS_from_the_files_the_workflow_stages(tmp_path=None):
+    """⛔ STAGE WHAT THE WORKFLOW STAGES, AND RUN IT. The list above is a HAND-MAINTAINED IMPORT
+    CLOSURE, and naming the files a test remembers is exactly how it went stale.
+
+    MEASURED 2026-08-15. `junction_seam_retraction` gained `import aso_screen_sets` on 2026-08-14
+    (commit 538d2ec4) and the workflow's `cp` list was not updated with it. Copying the six files
+    that list named to a temp directory and running `--check --dir <empty>` — which is precisely
+    what the publish step does three lines later, as its self-test — died with
+    `ModuleNotFoundError: No module named 'aso_screen_sets'`. That self-test is a HARD GATE, so
+    every publish from the workflow that owns `modalities-cache` would have refused; it went
+    unnoticed only because no run had been dispatched in the intervening day.
+
+    The test above could not have caught it: it asserts that four remembered dependencies appear in
+    the staged block, and all four still did. So this one does not read the list at all — it parses
+    the paths OUT of the workflow, copies exactly those, and executes the tool. A dependency added
+    to the module and forgotten here now fails the build instead of the next publish.
+    """
+    import re  # noqa: PLC0415
+    import shutil  # noqa: PLC0415
+    import subprocess  # noqa: PLC0415
+    import tempfile  # noqa: PLC0415
+
+    text = open(WORKFLOW, encoding="utf-8").read()
+    i_stage = text.index('cp research/modalities/junction_seam_retraction.py')
+    block = text[i_stage:text.index('"$RUNNER_TEMP/tool/"', i_stage)]
+    paths = re.findall(r'research/modalities/[A-Za-z0-9._-]+', block)
+    assert paths, "no staged paths parsed out of the workflow"
+
+    with tempfile.TemporaryDirectory() as tmp:
+        tool, empty = os.path.join(tmp, "tool"), os.path.join(tmp, "empty")
+        os.makedirs(tool)
+        os.makedirs(empty)
+        for rel in paths:
+            src = os.path.join(REPO, rel)
+            assert os.path.exists(src), f"the workflow stages {rel}, which does not exist"
+            shutil.copy(src, tool)
+        # `--check` over an empty directory grades nothing: this is a pure import/derivation check
+        # of the staged copy, which is the same thing the publish step's self-test is.
+        r = subprocess.run([sys.executable, os.path.join(tool, "junction_seam_retraction.py"),
+                            "--check", "--dir", empty],
+                           capture_output=True, text=True,
+                           env={**os.environ, "TRANSCRIPT_SOURCE": "cache"})
+        assert r.returncode == 0, (
+            "the staged sweep tool cannot run from the files the workflow copies — every publish "
+            f"from aso-offtarget.yml would refuse.\nstdout: {r.stdout[-800:]}\n"
+            f"stderr: {r.stderr[-800:]}")
+
+
 def test_a_sweep_dispatch_stages_nothing_from_the_checkout():
     """⛔ THIS ONE COST DATA BEFORE IT EXISTED, WHICH IS WHY IT IS ASSERTED AND NOT DESCRIBED.
 

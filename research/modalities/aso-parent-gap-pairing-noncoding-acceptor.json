@@ -1,0 +1,163 @@
+{
+ "_what": "For every junction gapmer, the longest contiguous duplex a MATURE wild-type parent transcript can form that pairs the whole 6-nucleotide catalytic gap of a 16-mer 5-6-5 gapmer.",
+ "_why": "None of the manuscript's three screens can see this: the alignment screen filters at >=14/16 identity and excludes parent records, the exhaustive scan admits <=1 mismatch, and the pre-mRNA arm searches unspliced sequence and so cannot reach a mature exon-exon junction.",
+ "_geometry": {
+  "oligo_len": 16,
+  "wing": 5,
+  "gap_nt": 6,
+  "architecture": "5-6-5 (LNA-DNA-LNA)",
+  "atlas": "nr4a3-fusion-junction-atlas-noncoding-acceptor.json",
+  "_note": "MIN_DUPLEX_BP is an ABSOLUTE hybrid length and does NOT scale with the gap. At a gap of 10 the catalytic gap alone is already a 10 bp hybrid, so every gap-pairing window clears the threshold by construction and `n_with_parent_duplex_through_gap` equals the count of gap-pairing windows; at a gap of 6 a window needs four further flanking pairs to reach it. Both readings are real and they are not the same reading, so compare geometries on the raw `longest_parent_duplex_bp_through_gap` distribution as well."
+ },
+ "_what_this_is_not": [
+  "Not a measurement of off-target activity. A duplex is necessary for RNase-H1 cleavage, not sufficient, and nothing here is a cleavage assay.",
+  "Not transcriptome-wide. Six parent transcripts only \u2014 the same bound the pre-mRNA arm carries.",
+  "MIN_DUPLEX_BP is a STATED threshold, not a measured one \u2014 though not an arbitrary one: 10 is the strict end of the 7-to-10 hybridised nucleotides PMID 35664704 reports as the minimum for RNase-H1 hybrid-binding-domain engagement, so this count is a floor and returns 10 of 10 at a threshold of 7. Every design's raw longest run is released so another threshold can be applied without re-running this.",
+  "Not a result that turns on that threshold. The two designs surviving every screen in the manuscript have a longest run of ZERO at any length, and the ordering by gap-level margin is monotone at every threshold from 6 to 12."
+ ],
+ "_cost": "$0 \u2014 offline, over two committed artifacts, no network and no credentials.",
+ "method": {
+  "orientation": "forward only; a reverse-complement match cannot be hybridised",
+  "compartment": "mature (spliced) parent transcript",
+  "parents_searched": [
+   "EWSR1",
+   "FUS",
+   "NR4A3",
+   "TAF15",
+   "TCF12",
+   "TFG"
+  ],
+  "parent_nt_searched": {
+   "EWSR1": 2400,
+   "FUS": 1824,
+   "NR4A3": 5604,
+   "TAF15": 2162,
+   "TCF12": 6114,
+   "TFG": 1907
+  },
+  "gap_positions_0based": [
+   5,
+   10
+  ],
+  "min_duplex_bp": 10,
+  "oligo_len": 16,
+  "wing": 5,
+  "sources": [
+   "aso-premrna-sequences.json",
+   "nr4a3-fusion-junction-atlas-noncoding-acceptor.json"
+  ]
+ },
+ "corpus": {
+  "n_designs": 10,
+  "n_with_parent_duplex_through_gap": 1,
+  "by_gap_specificity_margin": {
+   "3": {
+    "n_designs": 2,
+    "n_with_parent_duplex": 0
+   },
+   "2": {
+    "n_designs": 4,
+    "n_with_parent_duplex": 0
+   },
+   "1": {
+    "n_designs": 4,
+    "n_with_parent_duplex": 1
+   }
+  },
+  "which_parent_supplies_it": {
+   "NR4A3": 1
+  }
+ },
+ "per_design": [
+  {
+   "junction": "EWSR1_e7__NR4A3_e2",
+   "antisense_5to3": "AGTGGGCTTCTGCTGC",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 8,
+   "parent": "TAF15",
+   "parent_start_0based": 1656,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "EWSR1_e7__NR4A3_e2",
+   "antisense_5to3": "CAGTGGGCTTCTGCTG",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 8,
+   "parent": "TAF15",
+   "parent_start_0based": 1657,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "EWSR1_e7__NR4A3_e2",
+   "antisense_5to3": "GCAGTGGGCTTCTGCT",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 11,
+   "parent": "NR4A3",
+   "parent_start_0based": 517,
+   "counts_as_liability": true
+  },
+  {
+   "junction": "EWSR1_e7__NR4A3_e2",
+   "antisense_5to3": "GTGGGCTTCTGCTGCC",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 8,
+   "parent": "TAF15",
+   "parent_start_0based": 1655,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "EWSR1_e7__NR4A3_e2",
+   "antisense_5to3": "TGGGCTTCTGCTGCCC",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 8,
+   "parent": "EWSR1",
+   "parent_start_0based": 693,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "PGR_e2__NR4A3_e2",
+   "antisense_5to3": "AGTGGGCTCTTCCATT",
+   "gap_specificity_margin": 3,
+   "longest_parent_duplex_bp_through_gap": 9,
+   "parent": "NR4A3",
+   "parent_start_0based": 1828,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "PGR_e2__NR4A3_e2",
+   "antisense_5to3": "CAGTGGGCTCTTCCAT",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 9,
+   "parent": "NR4A3",
+   "parent_start_0based": 1829,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "PGR_e2__NR4A3_e2",
+   "antisense_5to3": "GCAGTGGGCTCTTCCA",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 9,
+   "parent": "NR4A3",
+   "parent_start_0based": 1830,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "PGR_e2__NR4A3_e2",
+   "antisense_5to3": "GTGGGCTCTTCCATTG",
+   "gap_specificity_margin": 2,
+   "longest_parent_duplex_bp_through_gap": 9,
+   "parent": "TAF15",
+   "parent_start_0based": 379,
+   "counts_as_liability": false
+  },
+  {
+   "junction": "PGR_e2__NR4A3_e2",
+   "antisense_5to3": "TGGGCTCTTCCATTGC",
+   "gap_specificity_margin": 1,
+   "longest_parent_duplex_bp_through_gap": 9,
+   "parent": "TAF15",
+   "parent_start_0based": 378,
+   "counts_as_liability": false
+  }
+ ]
+}

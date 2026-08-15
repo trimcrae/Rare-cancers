@@ -1,0 +1,194 @@
+{
+  "_note": "Fusion-junction gapmer ASO designs (RNase-H1 mechanism). DESIGN ONLY \u2014 hypotheses for wet-lab knockdown testing; not a validated drug.",
+  "_breakpoint_model": {
+    "assumption": false,
+    "junction_label": "EWSR1_e7__NR4A3_e2",
+    "EWSR1_mRNA": "NM_005243",
+    "NR4A3_mRNA": "NM_006981",
+    "junction_context_mRNA": "ACGGGCAGCAGA|AGCCCACTGCGG",
+    "caveat": "Re-run with a patient's sequenced fusion transcript for clinical design.",
+    "_transcript_source": {
+      "requested": "cache",
+      "used_per_gene": {
+        "EWSR1": "committed_cache",
+        "NR4A3": "committed_cache"
+      },
+      "committed_cache_fetched_utc": "2026-08-12T13:41:57Z",
+      "_caveat": "At least one gene was read from the committed cache (emc-construct-inputs.json), not from Ensembl today. The cache is a dated measurement that passed this module's four self-checks; it is not a statement about Ensembl's current annotation."
+    },
+    "mode": "real_exon_junction_mRNA",
+    "source": "Ensembl MANE/canonical TRANSCRIPT structure (junction_aso.transcript_model): spliced cDNA, exon boundaries in transcript coordinates, CDS located inside the cDNA. Cross-checked exon-for-exon against the committed nr4a3-exon-audit.json before anything is emitted \u2014 \u26a0 for EWSR1 and NR4A3 only; a non-EWSR1 donor rests on the weaker construct-inputs gate, and `provenance_gate` below records which one actually ran.",
+    "donor_gene": "EWSR1",
+    "provenance_gate": {
+      "EWSR1": "graded_exon_audit",
+      "NR4A3": "graded_exon_audit"
+    },
+    "EWSR1_exon_end": 7,
+    "donor_exon_end": 7,
+    "NR4A3_exon_start": 2,
+    "published_breakpoint": {
+      "transcript_type": "EWSR1::NR4A3 type 2",
+      "excluded_from_the_manuscript_panel_by": "NON_CODING_ACCEPTOR",
+      "n_independent_sources": 3,
+      "evidence": [
+        "PMID 22567356 \u2014 'exon 7 of EWSR1 is fused to exon 2 of NR4A3 in the type 2 fusion transcript'",
+        "PMID 29937513 \u2014 whole-transcriptome sequencing; 'exon13/exon3 and exon7/exon2 were detected respectively in samples #4 and #1', one of five EMC cases",
+        "PMID 35488288 \u2014 independent case report; 'An EWSR1 exon 7-NR4A3 exon 2 fusion was subsequently identified'"
+      ],
+      "one_home_for_the_evidence": "research/manuscripts/aso/lit-targets-aso-breakpoint-census.json"
+    },
+    "note": "Real EWSR1::NR4A3 exon junction built at the mRNA level, at a PUBLISHED breakpoint the manuscript's panel excludes by a protein-level filter (NON_CODING_ACCEPTOR) \u2014 the acceptor exon is taken WHOLE, including any 5'UTR it carries, because that is what a fusion transcript contains and what an ASO hybridises to. Self-checked: exon lengths sum to the cDNA, the CDS is a unique substring of the cDNA, translate(CDS)==Ensembl protein. \u26d4 THE CHIMERIC ORF IS **NOT** ASSERTED TO RETAIN THE NR4A3 C-TERMINUS AND IS NOT ASSERTED TO BE IN FRAME: that is the exclusion this junction is admitted in spite of, because an RNase-H1 gapmer cleaves the transcript rather than the protein. NOT the codon-space modelled reference.",
+    "measured_junction": {
+      "junction_label": "EWSR1_e7__NR4A3_e2",
+      "donor_symbol": "EWSR1",
+      "acceptor_symbol": "NR4A3",
+      "donor_exon_end": 7,
+      "acceptor_exon_start": 2,
+      "donor_coding_nt_through_cut": 793,
+      "donor_last_whole_residue": 264,
+      "donor_coding_phase": 1,
+      "nr4a3_acceptor_exon_is_coding": false,
+      "nr4a3_acceptor_exon_5utr_nt_retained": 176,
+      "nr4a3_cds_nt_at_resume": 0,
+      "nr4a3_first_residue": null,
+      "frame_sum_mod3": 0,
+      "in_frame": true,
+      "chimeric_protein_length": 949,
+      "junction_context_mRNA": "ACGGGCAGCAGA|AGCCCACTGCGG",
+      "EWSR1_exon_end": 7,
+      "NR4A3_exon_start": 2,
+      "ewsr1_coding_nt_through_cut": 793,
+      "ewsr1_last_whole_residue": 264,
+      "ewsr1_coding_phase": 1,
+      "\u26d4_published_breakpoint_waiver": {
+        "junction": "EWSR1_e7__NR4A3_e2",
+        "waived_grade": "NON_CODING_ACCEPTOR",
+        "why_the_panel_excludes_it": "acceptor exon carries no CDS",
+        "transcript_type": "EWSR1::NR4A3 type 2",
+        "n_independent_sources": 3,
+        "evidence": [
+          "PMID 22567356 \u2014 'exon 7 of EWSR1 is fused to exon 2 of NR4A3 in the type 2 fusion transcript'",
+          "PMID 29937513 \u2014 whole-transcriptome sequencing; 'exon13/exon3 and exon7/exon2 were detected respectively in samples #4 and #1', one of five EMC cases",
+          "PMID 35488288 \u2014 independent case report; 'An EWSR1 exon 7-NR4A3 exon 2 fusion was subsequently identified'"
+        ],
+        "one_home_for_the_evidence": "research/manuscripts/aso/lit-targets-aso-breakpoint-census.json",
+        "\u26a0_read_this_before_using_the_sequence": null,
+        "_why_this_is_not_a_relaxation": "The grade waived is a PROTEIN-level exclusion and this is an RNase-H1 modality: a gapmer cleaves the transcript whether or not the chimeric ORF survives. The coordinate guards are untouched \u2014 the acceptor's resume residue is still range-checked wherever the acceptor exon has a CDS, and SEAM_NOT_PRODUCED is not waivable at all.",
+        "_screens_are_not_implied": "A waiver admits the junction to the design and screen lane. It says nothing about which screens have actually been run on the designs; read those from the screen artifacts themselves."
+      }
+    }
+  },
+  "oligo_length": 16,
+  "architecture": "5-6-5",
+  "n_candidates": 5,
+  "n_fusion_specific": 5,
+  "n_gap_centered": 3,
+  "_gap_margin_note": "gap_specificity_margin = junction-unique bases INSIDE the 6-nt catalytic gap on the shorter side; it is the operative fusion-vs-parent discriminator (RNase-H cleaves only across the gap). The oligo-wide specificity_margin overstates discrimination (red-team F3). gap_centered = >=2 unique gap bases each side.",
+  "top_designs": [
+    {
+      "antisense_5to3": "AGTGGGCTTCTGCTGC",
+      "target_mRNA_5to3": "GCAGCAGAAGCCCACT",
+      "architecture": "5-6-5 (LNA-DNA-LNA)",
+      "junction_offset_in_oligo": 8,
+      "bases_from_EWSR1": 8,
+      "bases_from_NR4A3": 8,
+      "specificity_margin": 8,
+      "gap_bases_from_EWSR1": 3,
+      "gap_bases_from_NR4A3": 3,
+      "gap_specificity_margin": 3,
+      "gap_centered": true,
+      "gc_percent": 62.5,
+      "has_G4_motif": false,
+      "fusion_specific": true,
+      "exact_parent_hits": [],
+      "parents_screened": [
+        "EWSR1",
+        "NR4A3"
+      ]
+    },
+    {
+      "antisense_5to3": "CAGTGGGCTTCTGCTG",
+      "target_mRNA_5to3": "CAGCAGAAGCCCACTG",
+      "architecture": "5-6-5 (LNA-DNA-LNA)",
+      "junction_offset_in_oligo": 9,
+      "bases_from_EWSR1": 7,
+      "bases_from_NR4A3": 9,
+      "specificity_margin": 7,
+      "gap_bases_from_EWSR1": 2,
+      "gap_bases_from_NR4A3": 4,
+      "gap_specificity_margin": 2,
+      "gap_centered": true,
+      "gc_percent": 62.5,
+      "has_G4_motif": false,
+      "fusion_specific": true,
+      "exact_parent_hits": [],
+      "parents_screened": [
+        "EWSR1",
+        "NR4A3"
+      ]
+    },
+    {
+      "antisense_5to3": "GTGGGCTTCTGCTGCC",
+      "target_mRNA_5to3": "GGCAGCAGAAGCCCAC",
+      "architecture": "5-6-5 (LNA-DNA-LNA)",
+      "junction_offset_in_oligo": 7,
+      "bases_from_EWSR1": 9,
+      "bases_from_NR4A3": 7,
+      "specificity_margin": 7,
+      "gap_bases_from_EWSR1": 4,
+      "gap_bases_from_NR4A3": 2,
+      "gap_specificity_margin": 2,
+      "gap_centered": true,
+      "gc_percent": 68.8,
+      "has_G4_motif": false,
+      "fusion_specific": true,
+      "exact_parent_hits": [],
+      "parents_screened": [
+        "EWSR1",
+        "NR4A3"
+      ]
+    },
+    {
+      "antisense_5to3": "GCAGTGGGCTTCTGCT",
+      "target_mRNA_5to3": "AGCAGAAGCCCACTGC",
+      "architecture": "5-6-5 (LNA-DNA-LNA)",
+      "junction_offset_in_oligo": 10,
+      "bases_from_EWSR1": 6,
+      "bases_from_NR4A3": 10,
+      "specificity_margin": 6,
+      "gap_bases_from_EWSR1": 1,
+      "gap_bases_from_NR4A3": 5,
+      "gap_specificity_margin": 1,
+      "gap_centered": false,
+      "gc_percent": 62.5,
+      "has_G4_motif": false,
+      "fusion_specific": true,
+      "exact_parent_hits": [],
+      "parents_screened": [
+        "EWSR1",
+        "NR4A3"
+      ]
+    },
+    {
+      "antisense_5to3": "TGGGCTTCTGCTGCCC",
+      "target_mRNA_5to3": "GGGCAGCAGAAGCCCA",
+      "architecture": "5-6-5 (LNA-DNA-LNA)",
+      "junction_offset_in_oligo": 6,
+      "bases_from_EWSR1": 10,
+      "bases_from_NR4A3": 6,
+      "specificity_margin": 6,
+      "gap_bases_from_EWSR1": 5,
+      "gap_bases_from_NR4A3": 1,
+      "gap_specificity_margin": 1,
+      "gap_centered": false,
+      "gc_percent": 68.8,
+      "has_G4_motif": false,
+      "fusion_specific": true,
+      "exact_parent_hits": [],
+      "parents_screened": [
+        "EWSR1",
+        "NR4A3"
+      ]
+    }
+  ]
+}

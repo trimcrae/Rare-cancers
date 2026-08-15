@@ -66,6 +66,12 @@ _DONOR_ALIASES = {
     "TAF15": ("TAF15", "TATA-box binding protein associated factor 15", "TAF2N", "RBP56"),
     "FUS": ("FUS", "FUS RNA binding protein", "TLS", "fused in sarcoma"),
     "TCF12": ("TCF12", "transcription factor 12", "HEB"),
+    # ⭐ PGR ADDED 2026-08-15 for the PGR::NR4A3 seam of PMID 36103645. ⚠ THE PHRASE IS A QUOTE,
+    # NOT A RECOLLECTION: that report writes "gene fusion of progesterone receptor, PGR (exon2) to
+    # the 5′ untranslated region (UTR) of NR4A3 (exon2)". No further synonym is listed, because this
+    # repository holds no fetched record of one and inventing an alias would silently EXPAND what
+    # counts as a parent — i.e. silently SHRINK every off-target count this screen reports.
+    "PGR": ("PGR", "progesterone receptor"),
 }
 PARENT_GENES = tuple(_DONOR_ALIASES.get(_DONOR, (_DONOR,))) + (
     "NR4A3", "NOR-1", "nuclear receptor subfamily 4 group A member 3")
