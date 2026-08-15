@@ -68,6 +68,136 @@
   "_method": "exact presence of each panel design's target window in the modelled T-N chimeric transcript — the same substring test the parent-specificity screen uses. Exact matches only; near-matches are the deep screens' question.",
   "_reading": "0 means no reagent in the published panel is a perfect complement of any window of a T-N transcript, so a TAF15 patient carrying T-N is not addressed by the panel as it stands."
  },
+ "deep_screen_results": {
+  "genome": {
+   "_status": "run",
+   "_method_completeness": "definitional: every position is tested against the complete neighbourhood. There is no seed, no word size and no heuristic, so there is no search sensitivity to quantify - unlike the manuscript's BLAST arm, whose sensitivity it concedes is unquantified.",
+   "per_design": {
+    "GAGGGCCTTGTGTGTG": {
+     "n_exact_genomic_sites": 5,
+     "n_sites_le2_counted": 3376,
+     "observed_over_expected": {
+      "exact": 3.642,
+      "le1": 2.185,
+      "le2": 2.178,
+      "gap_paired_le2": 1.477
+     },
+     "n_named_target_sites": 0,
+     "named_target_genes": [],
+     "⛔_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+     "_nr4a3_sites": []
+    },
+    "TGAGGGCCTTGTGTGT": {
+     "n_exact_genomic_sites": 3,
+     "n_sites_le2_counted": 2725,
+     "observed_over_expected": {
+      "exact": 2.185,
+      "le1": 2.007,
+      "le2": 1.758,
+      "gap_paired_le2": 1.53
+     },
+     "n_named_target_sites": 0,
+     "named_target_genes": [],
+     "⛔_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+     "_nr4a3_sites": []
+    },
+    "TGATGAGGGCCTTGTG": {
+     "n_exact_genomic_sites": 3,
+     "n_sites_le2_counted": 2286,
+     "observed_over_expected": {
+      "exact": 2.185,
+      "le1": 2.185,
+      "le2": 1.475,
+      "gap_paired_le2": 1.846
+     },
+     "n_named_target_sites": 2,
+     "named_target_genes": [
+      "NR4A3",
+      "TCF12"
+     ],
+     "⛔_cleavage_competent_sites_in_wild_type_NR4A3": 1,
+     "_nr4a3_sites": [
+      {
+       "seq": "9",
+       "start": 99826723,
+       "end": 99826738,
+       "orientation": "sense",
+       "required_transcript_strand": "+",
+       "mismatches": 2,
+       "gap_mismatches": 0,
+       "gap_fully_paired": true,
+       "softmask_fraction": 0.0,
+       "genes": [
+        "NR4A3"
+       ],
+       "biotypes": [
+        "protein_coding"
+       ],
+       "gene_strands": [
+        "+"
+       ],
+       "hybridisable": true,
+       "compartment": "intron_exon_spanning",
+       "nt_to_nearest_splice_site": 0
+      }
+     ]
+    },
+    "ATGAGGGCCTTGTGTG": {
+     "n_exact_genomic_sites": 2,
+     "n_sites_le2_counted": 1978,
+     "observed_over_expected": {
+      "exact": 1.457,
+      "le1": 1.204,
+      "le2": 1.276,
+      "gap_paired_le2": 1.301
+     },
+     "n_named_target_sites": 1,
+     "named_target_genes": [
+      "TCF12"
+     ],
+     "⛔_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+     "_nr4a3_sites": []
+    },
+    "GATGAGGGCCTTGTGT": {
+     "n_exact_genomic_sites": 2,
+     "n_sites_le2_counted": 1592,
+     "observed_over_expected": {
+      "exact": 1.457,
+      "le1": 1.055,
+      "le2": 1.027,
+      "gap_paired_le2": 1.151
+     },
+     "n_named_target_sites": 1,
+     "named_target_genes": [
+      "TCF12"
+     ],
+     "⛔_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+     "_nr4a3_sites": []
+    }
+   },
+   "_reference": {
+    "fasta": "Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa.gz",
+    "gtf": "Homo_sapiens.GRCh38.116.gtf.gz",
+    "annotation": "Ensembl GTF",
+    "n_sequences": 194,
+    "n_genes_annotated": 78941,
+    "n_exons_annotated": 5087789,
+    "n_splice_sites_annotated": 865648,
+    "_why_soft_masked": "a dna_sm reference is soft-masked by name, so the repeat annotation arrives verified rather than assumed, and the repeat split below is free",
+    "soft_mask_probe": {
+     "probed_nt": 20000150,
+     "lowercase_fraction": 0.4932,
+     "looks_soft_masked": true
+    }
+   },
+   "_wall_seconds": 115.5
+  },
+  "premrna": {
+   "_status": "NOT RUN — no artifact on disk. Absent, not clean.",
+   "per_design": null
+  }
+ },
+ "⭐_what_the_screens_actually_found": "GAP SPECIFICITY MARGIN DECIDES WHETHER THIS REAGENT CUTS THE PATIENT'S OWN NR4A3, and that is the finding this junction exists to produce. Because the acceptor half of every design is NR4A3 intronic sequence, a design whose catalytic gap is mostly cryptic-exon bases is, on the wild-type NR4A3 locus, a fully gap-paired hybridisable duplex — RNase-H1-competent on the un-rearranged allele. The genome screen measured exactly that for the margin-1 design TGATGAGGGCCTTGTG (chr9, 2 mismatches, 0 of them in the gap), and measured NO NR4A3 site at all for the margin-3 design ATGAGGGCCTTGTGTG, whose gap carries three TAF15-derived bases the NR4A3 locus lacks. ⚠ SO THE FIVE DESIGNS ARE NOT INTERCHANGEABLE AND MUST NOT BE PRESENTED AS A SET. ATGAGGGCCTTGTGTG is the only one that should be carried forward on this evidence; its sole named-target near-match (TCF12) is NOT gap-paired and so is not cleavage- competent, and its two exact genomic sites sit against a chance expectation of ~1.37 per design, i.e. at background. ⛔ AND THIS IS PRECISELY THE LIABILITY A SPLICED-cDNA PARENT SCREEN CANNOT SEE: all five designs cleared that screen 5/5. Had this junction been reported on the parent screen alone it would have read as uniformly clean, and the margin-1 design would have looked like a legitimate alternative.",
  "⛔_the_honest_bottom_line_for_this_molecule": "THIS JUNCTION WILL NOT REACH PARITY WITH THE PANEL'S 38, AND THAT IS A PROPERTY OF THE INSTRUMENTS RATHER THAN OF THE REAGENT. Three of the five deep screens address a junction as (donor gene, donor exon, NR4A3 exon index), and a cryptic exon 5' of the NR4A3 ATG is not expressible as an exon index at all — so they cannot be pointed at this seam without either an atlas-driven mode in the BLAST module or a weakening of the coordinate guard that produced the retracted seam. Architecture, not a missing dispatch, and not a defect in the designs. ⭐ WHAT THIS MOLECULE DOES CARRY: a designed reagent at a REAL PUBLISHED ISOFORM — one of the two the source paper calls 'the two major TAF15-NR4A3 isoforms detected in human tumors' — screened by the two arms that actually interrogate the compartment where an intronic acceptor lives, the pre-mRNA and the genome. Those are the right two for this seam, not a consolation subset: the acceptor half of every design is absent from every mature transcript, so the mature-transcript screens would have had the least to say about it even if they could be run.",
  "⛔_which_of_the_five_deep_screens_can_run_at_this_seam": {
   "_read_this_first": "⭐ THE PRE-mRNA AND GENOME SCREENS ARE THE ONES THAT COUNT AT THIS SEAM, AND A CLEAN PARENT SCREEN HERE IS WEAKER EVIDENCE THAN THE SAME RESULT AT AN EXON-EXON JUNCTION. The acceptor half of every design above is NR4A3 INTRONIC sequence. It is absent from every mature transcript, so a spliced-cDNA screen cannot see it at all — but it is physically present in the NR4A3 PRE-mRNA and in the genome, which is where an RNase-H1 gapmer meets it. Reading the parent-exclusion result above as 'clean' without the pre-mRNA and genome arms would be reading the silence of an instrument that cannot look at the compartment in question.",

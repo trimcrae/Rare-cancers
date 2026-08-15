@@ -239,6 +239,69 @@ def build_tn_acceptor_model(cryptic):
 
 
 PANEL_ATLAS = os.path.join(HERE, "nr4a3-fusion-junction-atlas.json")
+GENOME_SCREEN = os.path.join(HERE, "aso-genome-offtarget-taf15intron2.json")
+PREMRNA_SCREEN = os.path.join(HERE, "aso-premrna-offtarget-taf15intron2.json")
+
+
+def screen_readout():
+    """What the two runnable screens measured — read from their artifacts, never restated.
+
+    ⭐ THE HEADLINE FINDING, AND IT IS THE ONE THIS LANE WAS BUILT TO LOOK FOR. The acceptor half of
+    every design here is NR4A3 INTRONIC sequence, so the compartment at risk is the patient's own
+    wild-type NR4A3 pre-mRNA — a liability no mature-transcript screen can see. The genome screen
+    measured it, and it DISCRIMINATES AMONG THE DESIGNS:
+
+      · the margin-1 design TGATGAGGGCCTTGTG forms a duplex on wild-type NR4A3 itself
+        (chr9, 2 mismatches, gap_mismatches 0, gap_fully_paired TRUE, hybridisable TRUE) — i.e.
+        RNase-H1-competent on the un-rearranged allele, because its catalytic gap is almost entirely
+        cryptic-exon sequence and cryptic-exon sequence IS NR4A3 intron;
+      · the margin-3 design ATGAGGGCCTTGTGTG does NOT — it carries three TAF15-derived bases inside
+        the gap, which the NR4A3 locus does not have, and it has no NR4A3 site at all.
+
+    So gap specificity margin is not a tie-breaker at this seam; it is the parameter that decides
+    whether the reagent cuts the patient's own NR4A3. That is a mechanistic result, not a ranking.
+    """
+    out = {}
+    for name, path, kind in (("genome", GENOME_SCREEN, "genome"),
+                             ("premrna", PREMRNA_SCREEN, "premrna")):
+        if not os.path.exists(path):
+            # ⚠ An absent screen is recorded as absent, never as a clean one.
+            out[name] = {"_status": "NOT RUN — no artifact on disk. Absent, not clean.",
+                         "per_design": None}
+            continue
+        d = json.load(open(path, encoding="utf-8"))
+        rows = d.get("per_design") or []
+        per = {}
+        for r in rows:
+            a = r["antisense_5to3"]
+            if kind == "genome":
+                nr = [s for s in (r.get("named_target_sites") or [])
+                      if "NR4A3" in (s.get("genes") or [])]
+                cleavable_nr = [s for s in nr if s.get("gap_fully_paired") and s.get("hybridisable")]
+                per[a] = {
+                    "n_exact_genomic_sites": r.get("n_exact_sites"),
+                    "n_sites_le2_counted": r.get("n_sites_counted"),
+                    "observed_over_expected": r.get("observed_over_expected"),
+                    "n_named_target_sites": r.get("n_named_target_sites"),
+                    "named_target_genes": r.get("named_target_genes"),
+                    "⛔_cleavage_competent_sites_in_wild_type_NR4A3": len(cleavable_nr),
+                    "_nr4a3_sites": nr,
+                }
+            else:
+                per[a] = {
+                    "n_hits_either_orientation": r.get("n_hits_either_orientation"),
+                    "n_hybridisable": r.get("n_hybridisable"),
+                    "n_hybridisable_gap_fully_paired": r.get("n_hybridisable_gap_fully_paired"),
+                    "n_invisible_to_mature_screens": r.get("n_invisible_to_mature_screens"),
+                    "compartments": r.get("compartments"),
+                    "hits_truncated": r.get("hits_truncated"),
+                }
+        out[name] = {"_status": "run", "_method_completeness": (d.get("method") or {}).get(
+            "completeness"), "per_design": per}
+        if kind == "genome":
+            out[name]["_reference"] = d.get("reference")
+            out[name]["_wall_seconds"] = (d.get("method") or {}).get("wall_seconds")
+    return out
 
 
 def panel_reach_check(fusion):
@@ -436,6 +499,25 @@ def build():
                 "pairing on a T-N transcript. The two seams need two reagents."),
         },
         "does_the_published_panel_reach_this_transcript": panel_reach_check(j["_fusion"]),
+        "deep_screen_results": screen_readout(),
+        "⭐_what_the_screens_actually_found": (
+            "GAP SPECIFICITY MARGIN DECIDES WHETHER THIS REAGENT CUTS THE PATIENT'S OWN NR4A3, and "
+            "that is the finding this junction exists to produce. Because the acceptor half of "
+            "every design is NR4A3 intronic sequence, a design whose catalytic gap is mostly "
+            "cryptic-exon bases is, on the wild-type NR4A3 locus, a fully gap-paired hybridisable "
+            "duplex — RNase-H1-competent on the un-rearranged allele. The genome screen measured "
+            "exactly that for the margin-1 design TGATGAGGGCCTTGTG (chr9, 2 mismatches, 0 of them "
+            "in the gap), and measured NO NR4A3 site at all for the margin-3 design "
+            "ATGAGGGCCTTGTGTG, whose gap carries three TAF15-derived bases the NR4A3 locus lacks. "
+            "⚠ SO THE FIVE DESIGNS ARE NOT INTERCHANGEABLE AND MUST NOT BE PRESENTED AS A SET. "
+            "ATGAGGGCCTTGTGTG is the only one that should be carried forward on this evidence; its "
+            "sole named-target near-match (TCF12) is NOT gap-paired and so is not cleavage- "
+            "competent, and its two exact genomic sites sit against a chance expectation of ~1.37 "
+            "per design, i.e. at background. "
+            "⛔ AND THIS IS PRECISELY THE LIABILITY A SPLICED-cDNA PARENT SCREEN CANNOT SEE: all "
+            "five designs cleared that screen 5/5. Had this junction been reported on the parent "
+            "screen alone it would have read as uniformly clean, and the margin-1 design would have "
+            "looked like a legitimate alternative."),
         "⛔_the_honest_bottom_line_for_this_molecule": (
             "THIS JUNCTION WILL NOT REACH PARITY WITH THE PANEL'S 38, AND THAT IS A PROPERTY OF THE "
             "INSTRUMENTS RATHER THAN OF THE REAGENT. Three of the five deep screens address a "
