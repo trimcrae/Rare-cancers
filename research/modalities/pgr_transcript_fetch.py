@@ -55,6 +55,39 @@ REQUIRED_CHECKS = ("exon_lengths_sum_equals_cdna", "coding_nt_sum_equals_cds",
                    "cdna_slice_at_utr5_equals_cds", "cds_translation_equals_protein")
 
 
+#: Outer retries around the WHOLE gene model, and the spacing that made the difference.
+#: ⛔ MEASURED, NOT GUESSED (Actions run 31887415414, 2026-08-15). That run resolved PGR's canonical
+#: transcript, its exon list, its cDNA and its CDS from Ensembl without a hiccup and then died on the
+#: LAST of the five calls — `/sequence/id/ENSP00000325120?type=protein` — with, in order, a read
+#: timeout, `HTTP 503`, `HTTP 500`, `HTTP 500`. Four different failures on one URL while every other
+#: request to the same host in the same job succeeded: that is Ensembl-side transience on one
+#: endpoint, not a wrong identifier and not a code fault. `emc_fet_construct_designs._fetch` already
+#: retries four times at 1/2/4/8 s — about fifteen seconds of patience — and the outage outlasted it.
+#: A longer backoff INSIDE `_fetch` would change the retry behaviour of every lane that shares it, so
+#: the extra patience is added out here where its blast radius is this fetch.
+#: ⚠ A retry loop must not turn a REAL refusal into a slow one. `gene_model` raises `RuntimeError`
+#: only from `_fetch`'s exhausted-retries path; the self-check failures that mean "this model is
+#: wrong" are raised by `main()` below, after this returns, and are never retried.
+OUTER_TRIES = 5
+OUTER_SLEEP_S = 45
+
+
+def _gene_model_with_outer_retry(symbol: str):
+    last = None
+    for attempt in range(1, OUTER_TRIES + 1):
+        try:
+            return efc.gene_model(symbol)
+        except RuntimeError as exc:
+            last = exc
+            print(f"  Ensembl attempt {attempt}/{OUTER_TRIES} failed: {exc}", file=sys.stderr)
+            if attempt < OUTER_TRIES:
+                time.sleep(OUTER_SLEEP_S)
+    raise RuntimeError(
+        f"{symbol}: Ensembl did not serve a complete transcript model in {OUTER_TRIES} attempts "
+        f"spaced {OUTER_SLEEP_S}s apart. Last error: {last}. Nothing was written — an incomplete "
+        "model is not merged, so emc-construct-inputs.json is byte-for-byte unchanged.")
+
+
 def _load():
     with open(INPUTS, encoding="utf-8") as fh:
         return json.load(fh)
@@ -92,7 +125,7 @@ def main(argv=None) -> int:
               "Delete the entry deliberately if a re-fetch is genuinely wanted.", file=sys.stderr)
         return check()
 
-    model = efc.gene_model(SYMBOL)
+    model = _gene_model_with_outer_retry(SYMBOL)
 
     # ⭐ RECORD THE GENE'S OWN NAMES, MEASURED. The off-target screens exclude a hit by matching a
     # transcript's DESCRIPTION against a list of parent-gene names (`junction_aso_offtarget.
