@@ -1083,7 +1083,7 @@ separates "more than chance" from "at chance" and nothing finer.
 three-tumour series. A functional study reports a second isoform of the same fusion, joining *TAF15*
 exon 6 to a cryptic exon within *NR4A3* intron 2, and calls the two "the two major *TAF15*-*NR4A3*
 isoforms detected in human tumors" while ordering them only as commoner and less
-common.<sup>46</sup><!--PMID:31020999--> No count of either has been published, and the number that
+common.<sup>47</sup><!--PMID:31020999--> No count of either has been published, and the number that
 would settle it is not one this work can obtain, so any patient carrying the intron-2 isoform is
 outside the coverage figures rather than inside them, and 68.4% is optimistic on that arm by an
 unmeasured amount. Three measured statements bound the consequence. First, no reagent in this panel
