@@ -126,9 +126,17 @@ def test_a_sequence_that_is_not_in_the_measured_intron_is_refused():
 # The design module's refusals — every route to an unmeasured sequence
 # ─────────────────────────────────────────────────────────────────────────────────────────────
 def _seam_record(tmp_path, **over):
+    # ⚠ THE FIXTURE MUST BE A *VALID* RECORD BY DEFAULT, or every test that needs one gets the
+    # refusal path instead and fails for a reason it is not about. `load_seam_record` now requires
+    # `reproduces_the_papers_25aa_claim_under` to be non-empty — the check that the resolved exon
+    # actually reproduces PMID 31020999's "25 additional amino acids" under a stated reading — and
+    # this fixture predates it, so three tests were failing on a missing key rather than on the
+    # behaviour they assert. Tests that want the refusal clear it explicitly, below.
     exon = over.pop("sequence", "A" * 75)
     rec = {"resolved_cryptic_exon": {"sequence": exon,
                                      "is_a_substring_of_the_fetched_intron": True,
+                                     "reproduces_the_papers_25aa_claim_under": ["reading_ENCODED_aa"],
+                                     "aa_accounting": {"frame_preserved": True},
                                      "how": "unit-test fixture"},
            "length_derivation": {"derived_length_nt": 75},
            "intron": {"chrom": "9", "strand": 1, "genomic_start": 1, "genomic_end": 2},
@@ -166,8 +174,18 @@ def test_the_design_module_refuses_a_sequence_not_drawn_from_the_measured_intron
 
 def test_the_design_module_refuses_a_record_that_contradicts_its_own_derivation(monkeypatch,
                                                                                tmp_path):
-    monkeypatch.setattr(td, "SEAM_RECORD", _seam_record(tmp_path, sequence="A" * 72))
-    with pytest.raises(RuntimeError, match="self-inconsistent"):
+    """⚠ MATCHED ON THE REFUSAL'S SUBJECT, NOT ON ONE ADJECTIVE. This asserted `match=
+    "self-inconsistent"`, and the module's message was rewritten to name the paper's claim and the
+    consequence — "does not reproduce PMID 31020999's '25 additional amino acids' ... no design may
+    be built on it" — which is the better message and dropped the word. The test then failed while
+    the behaviour it guards was intact and improved.
+
+    A refusal test should pin THAT THE MODULE REFUSES and WHAT IT REFUSES ABOUT, not the wording,
+    or every improvement to an error message reads as a regression.
+    """
+    monkeypatch.setattr(td, "SEAM_RECORD", _seam_record(
+        tmp_path, sequence="A" * 72, resolved={"reproduces_the_papers_25aa_claim_under": []}))
+    with pytest.raises(RuntimeError, match="no design may be built on it"):
         td.load_seam_record()
 
 

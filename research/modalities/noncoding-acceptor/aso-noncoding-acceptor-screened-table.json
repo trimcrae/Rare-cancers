@@ -20,7 +20,8 @@
       "artifact": "noncoding-acceptor",
       "ran": true,
       "screens": [
-        "junction-aso-offtarget-e7n2-deep500.json"
+        "junction-aso-offtarget-e7n2-deep500.json",
+        "junction-aso-offtarget-pgre2n2-deep500.json"
       ],
       "geometry": {
         "oligo_len": 16,
@@ -38,7 +39,8 @@
       "artifact": "noncoding-acceptor",
       "ran": true,
       "screens": [
-        "aso-insilico-evaluation-e7n2-deep500.json"
+        "aso-insilico-evaluation-e7n2-deep500.json",
+        "aso-insilico-evaluation-pgre2n2-deep500.json"
       ],
       "geometry": {
         "oligo_len": 16,
@@ -52,10 +54,22 @@
       },
       "per_design": [
         {
+          "antisense_5to3": "AGTGGGCTCTTCCATT",
+          "offtarget_exact": 0,
+          "offtarget_le1mm": 14,
+          "site_accessibility": 0.528
+        },
+        {
           "antisense_5to3": "AGTGGGCTTCTGCTGC",
           "offtarget_exact": 0,
           "offtarget_le1mm": 21,
           "site_accessibility": 0.52
+        },
+        {
+          "antisense_5to3": "CAGTGGGCTCTTCCAT",
+          "offtarget_exact": 0,
+          "offtarget_le1mm": 1,
+          "site_accessibility": 0.517
         },
         {
           "antisense_5to3": "CAGTGGGCTTCTGCTG",
@@ -64,16 +78,34 @@
           "site_accessibility": 0.523
         },
         {
+          "antisense_5to3": "GCAGTGGGCTCTTCCA",
+          "offtarget_exact": 0,
+          "offtarget_le1mm": 11,
+          "site_accessibility": 0.51
+        },
+        {
           "antisense_5to3": "GCAGTGGGCTTCTGCT",
           "offtarget_exact": 0,
           "offtarget_le1mm": 88,
           "site_accessibility": 0.531
         },
         {
+          "antisense_5to3": "GTGGGCTCTTCCATTG",
+          "offtarget_exact": 0,
+          "offtarget_le1mm": 7,
+          "site_accessibility": 0.471
+        },
+        {
           "antisense_5to3": "GTGGGCTTCTGCTGCC",
           "offtarget_exact": 0,
           "offtarget_le1mm": 23,
           "site_accessibility": 0.506
+        },
+        {
+          "antisense_5to3": "TGGGCTCTTCCATTGC",
+          "offtarget_exact": 1,
+          "offtarget_le1mm": 16,
+          "site_accessibility": 0.466
         },
         {
           "antisense_5to3": "TGGGCTTCTGCTGCCC",
@@ -1898,8 +1930,11 @@
   "n_screens_outstanding": 0,
   "seam_grades_of_the_source_artifacts": {
     "aso-insilico-evaluation-e7n2-deep500.json": "CORRECT",
+    "aso-insilico-evaluation-pgre2n2-deep500.json": "CORRECT",
     "junction-aso-designs-e7n2-deep500.json": "CORRECT",
-    "junction-aso-offtarget-e7n2-deep500.json": "CORRECT"
+    "junction-aso-designs-pgre2n2-deep500.json": "CORRECT",
+    "junction-aso-offtarget-e7n2-deep500.json": "CORRECT",
+    "junction-aso-offtarget-pgre2n2-deep500.json": "CORRECT"
   },
   "n_junctions": 2,
   "junctions": [
@@ -2083,27 +2118,62 @@
       ],
       "n_designs_screened": 5,
       "n_designs_clearing_the_parent_screen": 5,
-      "n_designs_with_no_parent_screen_reading": 0,
-      "best_available": null,
-      "_why_no_best_available": "the rank key is the transcriptome load among designs clearing the parent screen, and the alignment screen that measures it has not run. Ranking on the screens that did run would manufacture a recommendation out of an absence.",
+      "best_available": {
+        "antisense_5to3": "AGTGGGCTCTTCCATT",
+        "gap_specificity_margin": 3,
+        "n_gap_paired": 51,
+        "n_gap_paired_loci": 14,
+        "gap_paired_loci": [
+          "CAPS2",
+          "CCDC22",
+          "EDAR",
+          "GLRA4",
+          "GPR143",
+          "HTR1F",
+          "MAGEB4",
+          "MARVELD1",
+          "SCN2B",
+          "SP4",
+          "SPANXN4",
+          "STK16",
+          "TMEM169",
+          "ZNF254"
+        ],
+        "n_hybridisable": 85,
+        "n_near_matches": 181,
+        "parent": "NR4A3",
+        "parent_duplex_bp": 9,
+        "parent_is_liability": false,
+        "premrna_gap_paired_hybridisable": 0,
+        "genome_oe_gap_paired_le2": 1.186,
+        "genome_named_target_sites": 0,
+        "genome_named_target_genes": []
+      },
       "best_by_gap_specificity_margin": "AGTGGGCTCTTCCATT",
-      "⛔_unmeasured_fields": [
-        "gap_paired_loci",
-        "n_gap_paired",
-        "n_gap_paired_loci",
-        "n_hybridisable",
-        "n_near_matches"
-      ],
-      "⛔_unmeasured_is_not_clean": "every field listed above is null because the screen that measures it HAS NOT RUN. Null is an absent reading; it is not a reading of absence, and it must never be read as zero off-target load.",
       "designs": [
         {
           "antisense_5to3": "AGTGGGCTCTTCCATT",
           "gap_specificity_margin": 3,
-          "n_gap_paired": null,
-          "n_gap_paired_loci": null,
-          "gap_paired_loci": null,
-          "n_hybridisable": null,
-          "n_near_matches": null,
+          "n_gap_paired": 51,
+          "n_gap_paired_loci": 14,
+          "gap_paired_loci": [
+            "CAPS2",
+            "CCDC22",
+            "EDAR",
+            "GLRA4",
+            "GPR143",
+            "HTR1F",
+            "MAGEB4",
+            "MARVELD1",
+            "SCN2B",
+            "SP4",
+            "SPANXN4",
+            "STK16",
+            "TMEM169",
+            "ZNF254"
+          ],
+          "n_hybridisable": 85,
+          "n_near_matches": 181,
           "parent": "NR4A3",
           "parent_duplex_bp": 9,
           "parent_is_liability": false,
@@ -2113,29 +2183,30 @@
           "genome_named_target_genes": []
         },
         {
-          "antisense_5to3": "GTGGGCTCTTCCATTG",
-          "gap_specificity_margin": 2,
-          "n_gap_paired": null,
-          "n_gap_paired_loci": null,
-          "gap_paired_loci": null,
-          "n_hybridisable": null,
-          "n_near_matches": null,
-          "parent": "TAF15",
-          "parent_duplex_bp": 9,
-          "parent_is_liability": false,
-          "premrna_gap_paired_hybridisable": 0,
-          "genome_oe_gap_paired_le2": 1.064,
-          "genome_named_target_sites": 0,
-          "genome_named_target_genes": []
-        },
-        {
           "antisense_5to3": "CAGTGGGCTCTTCCAT",
           "gap_specificity_margin": 2,
-          "n_gap_paired": null,
-          "n_gap_paired_loci": null,
-          "gap_paired_loci": null,
-          "n_hybridisable": null,
-          "n_near_matches": null,
+          "n_gap_paired": 80,
+          "n_gap_paired_loci": 16,
+          "gap_paired_loci": [
+            "CA10",
+            "CAPS2",
+            "CCDC22",
+            "ELF1",
+            "GLRA4",
+            "GPR143",
+            "IKBKG",
+            "MAGEB4",
+            "PDILT",
+            "PPME1",
+            "RASL11B",
+            "SCN2B",
+            "SPANXN4",
+            "STK16",
+            "SULT1C4",
+            "ZNF254"
+          ],
+          "n_hybridisable": 155,
+          "n_near_matches": 298,
           "parent": "NR4A3",
           "parent_duplex_bp": 9,
           "parent_is_liability": false,
@@ -2145,31 +2216,67 @@
           "genome_named_target_genes": []
         },
         {
-          "antisense_5to3": "TGGGCTCTTCCATTGC",
-          "gap_specificity_margin": 1,
-          "n_gap_paired": null,
-          "n_gap_paired_loci": null,
-          "gap_paired_loci": null,
-          "n_hybridisable": null,
-          "n_near_matches": null,
+          "antisense_5to3": "GTGGGCTCTTCCATTG",
+          "gap_specificity_margin": 2,
+          "n_gap_paired": 109,
+          "n_gap_paired_loci": 16,
+          "gap_paired_loci": [
+            "ARMCX4",
+            "BDNF",
+            "CRISP1",
+            "CRTC1",
+            "DBH",
+            "DNAH6",
+            "EDAR",
+            "GABPB2",
+            "HTR1F",
+            "LOC124902005",
+            "LOC124905024",
+            "MARVELD1",
+            "PRIMPOL",
+            "SP4",
+            "SYNPO",
+            "TMEM169"
+          ],
+          "n_hybridisable": 122,
+          "n_near_matches": 194,
           "parent": "TAF15",
           "parent_duplex_bp": 9,
           "parent_is_liability": false,
           "premrna_gap_paired_hybridisable": 0,
-          "genome_oe_gap_paired_le2": 1.383,
-          "genome_named_target_sites": 1,
-          "genome_named_target_genes": [
-            "NR4A2"
-          ]
+          "genome_oe_gap_paired_le2": 1.064,
+          "genome_named_target_sites": 0,
+          "genome_named_target_genes": []
         },
         {
           "antisense_5to3": "GCAGTGGGCTCTTCCA",
           "gap_specificity_margin": 1,
-          "n_gap_paired": null,
-          "n_gap_paired_loci": null,
-          "gap_paired_loci": null,
-          "n_hybridisable": null,
-          "n_near_matches": null,
+          "n_gap_paired": 170,
+          "n_gap_paired_loci": 20,
+          "gap_paired_loci": [
+            "CA10",
+            "CCDC22",
+            "ELF1",
+            "GLRA4",
+            "HADHA",
+            "LOC101927060",
+            "LOC124907396",
+            "PAX2",
+            "PDILT",
+            "PPIEL",
+            "PPME1",
+            "RASL11B",
+            "SCN2B",
+            "SETD1B",
+            "SHANK2",
+            "STEAP3",
+            "STK16",
+            "SULT1C4",
+            "SYT13",
+            "ZNF254"
+          ],
+          "n_hybridisable": 229,
+          "n_near_matches": 362,
           "parent": "NR4A3",
           "parent_duplex_bp": 9,
           "parent_is_liability": false,
@@ -2179,9 +2286,51 @@
           "genome_named_target_genes": [
             "PGR"
           ]
+        },
+        {
+          "antisense_5to3": "TGGGCTCTTCCATTGC",
+          "gap_specificity_margin": 1,
+          "n_gap_paired": 111,
+          "n_gap_paired_loci": 23,
+          "gap_paired_loci": [
+            "ARMCX4",
+            "ARTN",
+            "BDNF",
+            "CRISP1",
+            "DBH",
+            "DNAH6",
+            "DPH1",
+            "GOLGA6A",
+            "GOLGA6B",
+            "GOLGA6C",
+            "GOLGA6D",
+            "GOLGA6FP",
+            "LINC01868",
+            "LOC105378100",
+            "LOC124905024",
+            "LOC124907523",
+            "LOC124907524",
+            "MARVELD1",
+            "NBR2",
+            "OVCA2",
+            "PRIMPOL",
+            "SP4",
+            "SYNPO"
+          ],
+          "n_hybridisable": 207,
+          "n_near_matches": 263,
+          "parent": "TAF15",
+          "parent_duplex_bp": 9,
+          "parent_is_liability": false,
+          "premrna_gap_paired_hybridisable": 0,
+          "genome_oe_gap_paired_le2": 1.383,
+          "genome_named_target_sites": 1,
+          "genome_named_target_genes": [
+            "NR4A2"
+          ]
         }
       ],
-      "screens_complete": false
+      "screens_complete": true
     }
   ]
 }
