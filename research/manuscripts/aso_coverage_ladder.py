@@ -57,9 +57,17 @@ a rung. There is none: nuccore returns ONE record for (TCF12 OR HTF4) AND (chond
 and it is AF289510.1 itself, `"t(9;15)"` returns zero, SRA returns zero, and none of the three later
 cohorts that COUNT a TCF12 tumour (PMID 12598313, 24746215, 36948401) deposited anything.
 ⭐ THE REASON IS STRUCTURAL AND IS THE HONEST SENTENCE FOR THE PAPER: TCF12-rearranged EMC has been
-COUNTED at least four times in independent cohorts and SEQUENCED once, in 2000. The 26-case series
-called its TCF12 tumour by FISH, which reports which genes are joined and never where. So recurrence
-at this exon is UNTESTED — not refuted — and "untested" is what a bound is for.
+COUNTED in independent cohorts and SEQUENCED once, in 2000. The 26-case series called its TCF12
+tumour by FISH, which reports which genes are joined and never where. So recurrence at this exon is
+UNTESTED — not refuted — and "untested" is what a bound is for.
+⚠ CORRECTED 2026-08-15, IN THE DIRECTION THAT MAKES THE EVIDENCE THINNER. This read "COUNTED at
+least four times in INDEPENDENT cohorts". One of those four is not independent: PMID 12598313's
+TCF12 case is the 2000 tumour re-reported, which its own Discussion says by citing the 2000 paper
+for that count and its own Table 1 confirms by carrying that tumour's t(9;15)(q22;q21) karyotype.
+The open question was recorded in `tcf12-nr4a3-breakpoint-primary-sources.json` as needing "a
+publisher fetch or an interlibrary request — not a $0 route"; PMC serves the full text as HTML at
+HTTP 200 and it took one GET. Nothing above moves — the arm was already a bound and this only
+removes a count that was never sequenced — but "independent" was doing work it had not earned.
 
 ⭐ RESULT 5, 2026-08-15 — THE LADDER'S RUNGS ARE NOT THE BEST-SUPPORTED PANEL, AND THE GAP IS 3.9
 POINTS OF ARITHMETIC PLUS ONE STALE FACT. The rungs are an INCREMENTAL series — each adds one
@@ -1350,12 +1358,22 @@ def build():
                  "material exists (the 26-case series and the 58-case cohort each hold at least one "
                  "FISH-confirmed TCF12 tumour) and the assay is RNA sequencing of archival tissue."),
              "⛔_why_the_absence_is_structural_rather_than_a_gap_in_retrieval": (
-                 "TCF12-rearranged EMC has been COUNTED at least four times in independent cohorts "
-                 "and SEQUENCED once, in 2000. Every later count used a partner-level assay — the "
-                 "26-case series called its TCF12 tumour by fluorescence in situ hybridization, "
-                 "which reports which genes are joined and never where. So recurrence at this exon "
-                 "is UNTESTED rather than refuted, and nothing in the record licenses calling this "
-                 "junction private, rare or non-recurrent."),
+                 "TCF12-rearranged EMC has been COUNTED in independent cohorts and SEQUENCED once, "
+                 "in 2000. Every later count used a partner-level assay — the 26-case series "
+                 "called its TCF12 tumour by fluorescence in situ hybridization, which reports "
+                 "which genes are joined and never where. So recurrence at this exon is UNTESTED "
+                 "rather than refuted, and nothing in the record licenses calling this junction "
+                 "private, rare or non-recurrent."),
+             "⚠_corrected_2026_08_15_one_of_the_counts_was_not_independent": (
+                 "This said 'COUNTED at least four times in INDEPENDENT cohorts'. PMID 12598313 is "
+                 "not an independent cohort at this partner: it re-reports the 2000 tumour, citing "
+                 "the 2000 paper for that very count and carrying that tumour's t(9;15)(q22;q21) "
+                 "karyotype in its own Table 1. Three independent cohorts (2014, 2021, 2023) count "
+                 "four TCF12 tumours between them, none sequenced. ⛔ THE CORRECTION RUNS TOWARD "
+                 "THE BOUND, NOT AWAY FROM IT — one fewer independent observation of this partner "
+                 "means even less is known about whether the junction recurs, which is the "
+                 "conclusion this row already reached. One home for the evidence: "
+                 "research/literature/tcf12-nr4a3-breakpoint-primary-sources.json."),
              "one_home": "research/literature/tcf12-nr4a3-breakpoint-primary-sources.json"},
         ],
     }
