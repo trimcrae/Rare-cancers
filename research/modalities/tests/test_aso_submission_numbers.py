@@ -981,16 +981,23 @@ def test_section_3_11_expression_figures_are_the_artifacts():
             "all five of that junction's tiling registers return, on five transcript records") in txt
 
     # ── the tumour compartment, which is a SEPARATE axis and ordered differently ───────────────
+    # ⭐ THE PANEL'S HIGHEST MOVED WHEN THE PANEL GREW, AND THAT IS WHY THIS IS DERIVED.
+    # Superseded, retained (CLAUDE.md rule 1.2): LAMA4 at 268.6 TPM was the panel's highest
+    # tumour-compartment value over two seams. At four seams TCF12 e5's HNRNPA2B1 reaches 656.6 in
+    # tibial nerve. A hand-typed "the panel's highest" would still read as true and would be wrong,
+    # so the top locus is taken from the artifact and only then matched against the prose.
+    top = max((L for L in expr["per_locus"]
+               if L["tumour_compartment_normal_tissue_proxy"].get("readable")),
+              key=lambda L: max(L["tumour_compartment_normal_tissue_proxy"]["values"].values()))
+    tu = top["tumour_compartment_normal_tissue_proxy"]
+    top_v = round(max(tu["values"].values()), 1)
+    assert (top["locus"], top_v, tu["max_tissue_in_block"]) == (
+        "HNRNPA2B1", 656.6, "Nerve - Tibial"), (top["locus"], top_v, tu["max_tissue_in_block"])
     lama = next(L for L in expr["per_locus"] if L["locus"] == "LAMA4")
-    tu = lama["tumour_compartment_normal_tissue_proxy"]
-    assert round(max(tu["values"].values()), 1) == 268.6
-    assert tu["max_tissue_in_block"] == "Cells - Cultured fibroblasts"
-    assert max(tu["values"].values()) == max(
-        max(L["tumour_compartment_normal_tissue_proxy"]["values"].values())
-        for L in expr["per_locus"]
-        if L["tumour_compartment_normal_tissue_proxy"].get("readable")), "the panel's highest"
+    assert round(max(lama["tumour_compartment_normal_tissue_proxy"]["values"].values()), 1) == 268.6
     assert lama["tier"] != "EXPRESSED_IN_AN_EXPOSURE_ORGAN", "LAMA4 is the reverse case"
-    assert "*LAMA4* carrying the panel's highest value there at 268.6 TPM" in txt
+    assert (f"*{top['locus']}* carrying the\npanel's highest value there at {top_v} TPM in tibial "
+            "nerve, ahead of *LAMA4* at 268.6 TPM") in _paper()
 
 
 def test_the_expression_limits_are_stated_and_the_unmeasured_loci_are_accounted():

@@ -40,11 +40,20 @@ nobody has sequenced cannot get in here either.
 WHAT THIS IS NOT.
   · Not an efficacy claim, and not a claim that any sequence below is active. These are design
     proposals: sequence arithmetic and a parent-exclusion screen, nothing more.
-  · Not the full transcriptome screen. The five deep screens the panel's other junctions went
-    through — transcript BLAST, pre-mRNA, genome, mature-parent gap pairing, locus collapse — have
-    NOT been run here; they need BLAST and network, which is a CI job. Every design below is
-    therefore UNSCREENED for off-target load, and must not be compared against a screened design's
-    counts.
+  · ⛔ NOT UNIFORMLY SCREENED — AND THIS SENTENCE NO LONGER SAYS "NOT SCREENED", BECAUSE THAT
+    STOPPED BEING TRUE AND A STALE DISCLAIMER IS ITS OWN DEFECT. The five deep screens the panel's
+    other junctions went through are transcript BLAST, pre-mRNA, genome, mature-parent gap pairing
+    and locus collapse. ⚠ THE PER-JUNCTION STATE IS NOT WRITTEN HERE. It is emitted per design in
+    the artifact's `⚠_offtarget_screens_run` field, which names what ran and what did not, and that
+    field is the one home for it — because a docstring cannot know which screens landed after it
+    was written. As of 2026-08-15 EWSR1_e7__NR4A3_e2 has all five and PGR_e2__NR4A3_e2 does not;
+    read the field rather than this paragraph.
+    ⛔ WHAT DOES NOT CHANGE: a design here is comparable with a panel design only on the screens
+    BOTH have been through, and the expression arm is separate from all five.
+    ⚠ The docstring and the artifact disagreed for part of 2026-08-15 — the prose still said
+    "have NOT been run" while the JSON already said the five were complete at the exon-2 seam. A
+    disclaimer that overstates caution reads as harmless and is not: it is the same class of defect
+    as a stale "screened", a claim about another artifact's state made without reading it.
     ⛔ CORRECTED 2026-08-15: this list read "transcript, pre-mRNA, genome, tissue expression, locus
     collapse". Tissue expression is an EXPOSURE arm and not one of the five — the manuscript's §3.5
     says "All five screens address hybridisation-dependent liability only" and reports the

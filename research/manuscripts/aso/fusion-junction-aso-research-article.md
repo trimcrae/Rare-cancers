@@ -669,8 +669,9 @@ the exon 13 reagent at all, which is patient coverage: it is the second-most-com
 takes the reagent set from 68.4% to 79.0%. The *TAF15* exon 6 reagent returns five loci. Of these, *NRP1* reaches
 6.6 to 17.8 TPM across all three exposure tissues and is the only one all five of that junction's tiling
 registers return, on five transcript records, so robustness to register and record count order it
-differently. The tumour-compartment proxy orders them differently again, *LAMA4* carrying the panel's
-highest value there at 268.6 TPM in cultured fibroblasts.
+differently. The tumour-compartment proxy orders them differently again, *HNRNPA2B1* carrying the
+panel's highest value there at 656.6 TPM in tibial nerve, ahead of *LAMA4* at 268.6 TPM in cultured
+fibroblasts.
 
 ### 3.8 · Gap length trades junction specificity against parent-duplex competence
 
@@ -1076,6 +1077,30 @@ screen the claim rests on. All 38 in-frame junctions are screened with the orien
 applied, so no junction here carries an unfiltered count. The chance null is crude: it assumes
 independent uniform bases, where real transcript sequence is composition-skewed and repetitive, so it
 separates "more than chance" from "at chance" and nothing finer.
+
+**The *TAF15* arm's coverage is an upper bound, permanently.** Every coverage figure here prices the
+*TAF15* arm at 3 of 3 — every *TAF15*-rearranged tumour joining exon 6 to *NR4A3* exon 3 — on a
+three-tumour series. A functional study reports a second isoform of the same fusion, joining *TAF15*
+exon 6 to a cryptic exon within *NR4A3* intron 2, and calls the two "the two major *TAF15*-*NR4A3*
+isoforms detected in human tumors" while ordering them only as commoner and less
+common.<sup>46</sup><!--PMID:31020999--> No count of either has been published, and the number that
+would settle it is not one this work can obtain, so any patient carrying the intron-2 isoform is
+outside the coverage figures rather than inside them, and 68.4% is optimistic on that arm by an
+unmeasured amount. Three measured statements bound the consequence. First, no reagent in this panel
+engages that isoform: 0 of the 190 designs place a catalytic gap across its seam. Second, the two
+isoforms share no sequence 3′ of the breakpoint, so this is not a near-miss that a longer or shifted
+oligonucleotide recovers — it is a different target. Third, a design at that seam now exists,
+emitted against a cryptic exon measured from the genome rather than assumed, so the gap is a
+retrieval gap and not a design gap.
+
+***TCF12* recurrence is untested, not refuted.** The *TCF12* arm rests on one sequenced tumour, and
+the 98.3% figure is an upper bound for that reason. It should not be read as evidence that the
+junction is non-recurrent. *TCF12*-rearranged extraskeletal myxoid chondrosarcoma has been counted in
+at least four series and sequenced once, in 2000; the later cohorts identified their cases by
+break-apart fluorescence in situ hybridisation, which reports which genes are joined and never where
+they are joined. A junction that no assay in those cohorts could have resolved cannot be absent from
+their results in any informative sense. The distribution is therefore unmeasured rather than measured
+to be narrow, and it would take sequencing of archival material to move it.
 
 **Which junction a patient actually carries.** Which exon pair a given patient carries is not
 decidable from exon structure. The multi-partner result is therefore conditional on *TAF15* and *FUS*
