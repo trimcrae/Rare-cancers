@@ -155,14 +155,26 @@ def split_tables(tables_md):
     return blocks
 
 
+#: ⚠ A SUPPLEMENTARY FIGURE SORTS AFTER EVERY NUMBERED ONE, WHICH IS WHY IT IS NOT JUST "S1".
+#: `split_figures` keys blocks by a sortable number and the renderer lays them out in that order.
+#: Giving a supplementary panel the key 1 would float it between Figures 1 and 2; this offset puts
+#: S1 after Figure N for any N a paper will ever have, without special-casing the layout code.
+SUPPLEMENTARY_SORT_BASE = 1000
+
+
 def split_figures(body, figures):
     """One block per figure: the SVG markup plus the legend paragraph that describes it."""
     _, end, after_heading = section_span(body, "Figure legends")
     legends = body[after_heading:end]
     blocks = {}
     for prefix, svgname in figures.items():
-        number = int(re.match(r"Figure (\d+)\.", prefix).group(1))
-        match = re.search(r"^\*\*" + re.escape(prefix) + r".*?(?=^\*\*Figure \d+\.|\Z)",
+        m = re.match(r"(?:Supplementary )?Figure S?(\d+)\.", prefix)
+        if not m:
+            raise SystemExit(f"figure key {prefix!r} is neither 'Figure N.' nor "
+                             f"'Supplementary Figure SN.'")
+        number = int(m.group(1)) + (SUPPLEMENTARY_SORT_BASE if "Supplementary" in prefix else 0)
+        match = re.search(r"^\*\*" + re.escape(prefix)
+                          + r".*?(?=^\*\*(?:Supplementary )?Figure S?\d+\.|\Z)",
                           legends, re.M | re.S)
         if not match:
             raise SystemExit(f"no legend found for {svgname}: expected a paragraph "
@@ -263,7 +275,12 @@ def assemble(paper, style="journal"):
     for number in sorted(figures):
         token = f"@@FLOAT:figure{number}@@"
         floats[token] = ("figure", number, figures[number], False)
-        items.append((f"Figure {number}", token))
+        # ⚠ THE CITATION LABEL MUST BE THE STRING THE BODY ACTUALLY USES, not the sort key. A
+        # supplementary panel is keyed above SUPPLEMENTARY_SORT_BASE so it lays out last, and
+        # searching the body for "Figure 1001" would find nothing and report it as uncited.
+        label = (f"Supplementary Figure S{number - SUPPLEMENTARY_SORT_BASE}"
+                 if number >= SUPPLEMENTARY_SORT_BASE else f"Figure {number}")
+        items.append((label, token))
 
     body = place_floats(body, items, paper.get("placement", {}))
     return body, floats
