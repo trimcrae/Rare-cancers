@@ -306,6 +306,9 @@ def test_the_manuscripts_best_supported_figure_is_the_artifacts_and_does_not_dis
     lo, hi = best["coverage_percent_range"]
     assert f"the eight together are {best['coverage_percent']}%" in txt
     assert f"widening that to {lo}–{hi}%" in txt
+    # ⛔ THE ABSTRACT IS A SECOND HOME FOR THIS NUMBER AND IS ASSERTED AGAINST THE SAME ROW. A
+    # headline figure that drifts from its own §5.1 is the one a reviewer reads first.
+    assert f"and the whole set is {best['coverage_percent']}%" in txt
     assert "That figure supersedes nothing" in txt
     assert "68.4% remains the coverage of the two reagents" in txt
     # membership is a derived count, and the manuscript may not carry a different one
@@ -345,3 +348,37 @@ def test_the_manuscripts_within_partner_donor_run_is_the_measured_maximum():
 
 def _word(n):
     return {1: "one", 2: "two", 3: "three", 4: "four", 5: "five"}[n]
+
+
+def test_the_type3_limitation_states_unlocated_and_not_undesignable():
+    """⛔ A RETRACTED CLAIM MUST NOT REACH THE PAPER. The breakpoint census once recorded EWS/CHN
+    type 3 as having "NO exon-to-exon seam ... so no junction-spanning oligonucleotide can be
+    specified for it at any length or register". The second half is a claim about RNase-H1 and it is
+    refuted by measurement: an intra-exonic genomic breakpoint still yields one definite transcript
+    seam, and handing the unchanged builder a donor model cut inside its exon returns the panel's own
+    tiling geometry. What such a junction lacks is an exon INDEX — a property of this repository's
+    design grammar — and a published nucleotide position.
+
+    The Limitations paragraph is asserted against the artifact that measured it, and the refuted
+    wording is asserted ABSENT, because "we corrected the census" is not the same as "the paper never
+    said it" and only one of those is checkable.
+    """
+    art = os.path.join(MAN, "aso", "lit-targets-aso-type3-designability.json")
+    d = _json(art, "the type-3 designability artifact")
+    txt = _paper_flat()
+    assert d["⛔_the_verdict"].startswith("UNLOCATED AND INEXPRESSIBLE — NOT UNDESIGNABLE")
+    rows = d["⭐_the_measurement_that_decides_it"]["intra_exonic_probe_rows"]
+    assert {r["n_tiled"] for r in rows} == {5}, rows
+    assert {r["n_gap_centered"] for r in rows} == {3}, rows
+    assert {r["best_gap_specificity_margin"] for r in rows} == {3}, rows
+    assert all(r["n_fusion_specific"] == r["n_tiled"] for r in rows), rows
+    assert "returns five candidates, all fusion-specific against both parents, three gap-centred " \
+           "and a best gap-level margin of 3" in txt
+    assert "Such a breakpoint is not undesignable" in txt
+    assert "What such a junction lacks is an exon index" in txt
+    # ⛔ the refuted sentence, in the forms it could plausibly reappear in
+    for dead in ("no junction-spanning oligonucleotide can be specified",
+                 "type 3 is undesignable", "has no exon-to-exon seam"):
+        assert dead not in txt, f"the refuted type-3 claim is in the manuscript: {dead!r}"
+    # and the quantity the artifact refuses to supply must not be supplied
+    assert "How many tumours this accounts for is not established by any source" in txt

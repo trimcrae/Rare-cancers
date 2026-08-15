@@ -1520,6 +1520,48 @@
           "classification": "unaffected",
           "why_unaffected": "The memo reads no biological property off the line. Its claim depends on the dispute being REAL, not on how it resolves: whatever this line turns out to be, it cannot ground an EMC-labelled property today. s7.1 exists precisely because the stronger reading -- that published findings studied something that is not EMC -- is NOT supported by this object's own what_this_cannot_settle field.",
           "correction_marker": null
+        },
+        {
+          "file": "research/manuscripts/aso/fusion-junction-aso-research-article.md",
+          "use": "§4's test-article paragraph — names the line as the one an experimenter would reach for first, and states the single operational consequence of the dispute: a junction-spanning gapmer has nothing to span in it, so no reagent named in the paper can be tested there.",
+          "classification": "unaffected",
+          "why_unaffected": "⭐ THE USE IS THE DISPUTE ITSELF, AND THE PAPER REFUSES EVERY READING THAT WOULD DEPEND ON HOW IT RESOLVES. No sequence, count, expression value, coverage figure or screen result anywhere in the manuscript is read off this model — the panel is built from Ensembl transcript models and screened against RefSeq, GRCh38 and six parent transcripts, none of which involves a cell line. The paragraph states in terms that it is NOT a misidentification call, NOT a statement of what the line is instead, and that fusion-negative EMC tumours are a recognised category, so absence of the fusion is not by itself a reclassification. ⛔ AND THE DISPUTE CUTS THE SAME WAY AS THE CLAIM: whatever the line turns out to be, a junction-spanning reagent cannot be tested in a cell with no detectable junction, so the operational statement holds under either resolution. Deleting the mention would be the harmful move — a reader planning an experiment would discover it after ordering.",
+          "correction_marker": "is the only one available from a cell repository, and no *NR4A3*"
+        },
+        {
+          "file": "research/modalities/tests/test_aso_submission_numbers.py",
+          "use": "`test_the_testable_surface_states_the_only_catalogued_line_cannot_test_a_junction_reagent` — pins the manuscript paragraph above to research/modalities/emc-model-junction-evidence.json, and asserts by name the sentences the evidence does NOT support.",
+          "classification": "unaffected",
+          "why_unaffected": "A guard, not a reading. It asserts that the manuscript states the operational consequence AND that it does not state a misidentification, a claim about what the line is instead, a count of affected papers, or an imputation to any author. Naming the line in the test that keeps those four sentences out of the paper is not a use of the line; excluding it by name would leave the paragraph unguarded.",
+          "correction_marker": "identity DISPUTED"
+        },
+        {
+          "file": "research/modalities/emc-model-junction-evidence.json",
+          "use": "`⛔⛔_the_only_purchasable_EMC_line_cannot_test_a_junction_reagent` — reads the ONE cited primary source (PMID 34413129) in full rather than the registry summary of it, and draws the reagent-programme consequence.",
+          "classification": "unaffected",
+          "why_unaffected": "It adds evidence ABOUT the dispute and takes nothing from the line. Its two contributions are (i) a primary-source reading that WEAKENS the citation the registry caution rests on — the negative appears only as a figure-legend parenthetical, with no results sentence, no per-line assay and no stated probe — while leaving the verdict standing on the independent DepMap, expression and Cellosaurus readings, and (ii) the statement that a junction-spanning gapmer has no junction to span here. ⛔ It does not own the verdict: research/modalities/emc-atr-vulnerability.json -> part_a_hemcss_identity does, and this file points at it rather than restating it.",
+          "correction_marker": "NOT FUSION-POSITIVE ON THE PUBLIC RECORD"
+        },
+        {
+          "file": "research/modalities/emc_model_junction_evidence.py",
+          "use": "the module that emits the artifact above, including that block.",
+          "classification": "unaffected",
+          "why_unaffected": "The instrument that produced the reading. It derives the two USZ cell-model seams from committed transcript models and validates the deriver on four already-committed seams; nothing in it reads a property off this line.",
+          "correction_marker": "NOT FUSION-POSITIVE ON THE PUBLIC RECORD"
+        },
+        {
+          "file": "research/modalities/emc-test-article-routes.json",
+          "use": "`_scope_note` — records that this line is DELIBERATELY NOT PRICED as a test-article route, and why.",
+          "classification": "unaffected",
+          "why_unaffected": "A recorded exclusion, not a reading. The file prices routes to a FUSION-POSITIVE test article; a line with no detectable junction has nothing for a junction-spanning oligonucleotide to span, so it is out of scope by the file's own criterion. No route, price, lead time or ranking in it depends on what the line is. ⚠ The exclusion is named rather than silent precisely so that a future session does not re-open it as an unexamined gap.",
+          "correction_marker": "no NR4A3 fusion"
+        },
+        {
+          "file": "research/modalities/hemcss-label-priorart.json",
+          "use": "the prior-art / novelty scan ABOUT the dispute — whether anyone has written on this line's fusion status or on the category of authentic-but-disease-mislabelled models. Names the DepMap accession ACH-001519 inside the accession-search target list. Marked INCOMPLETE: the category half was fetched and never read.",
+          "classification": "unaffected",
+          "why_unaffected": "⭐ THE DISPUTE IS THE SUBJECT, SO NOTHING IN THE FILE CAN REST ON HOW IT RESOLVES. Its `_THE_FRAMING_TO_PRESERVE` block states the distinction this object exists for — the line is authentically ITSELF (18-locus STR concordant across three sources, no problematic-line flag) and what is in doubt is whether it is the DISEASE it is named for — and forbids conflating that with STR misidentification. Its measured finding is that ZERO of 43 retrieved records makes any claim about NR4A3, the fusion, or fusion-driven biology from this line, so no fusion-derived result anywhere depends on it. ⚠ ITS COUNTS MAY NOT BE QUOTED: the triage is abstract-level with one full text read, and the file says so; the manuscript paragraph classified above deliberately carries no count from it.",
+          "correction_marker": "Does not harbor a gene fusion"
         }
       ],
       "distinct_from": [

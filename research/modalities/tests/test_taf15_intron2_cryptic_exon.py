@@ -231,16 +231,46 @@ def test_the_TN_seam_is_not_the_TN_star_seam():
     assert j_star["_right"][:12] != j_tn["_right"][:12]
 
 
+#: ⛔ THE WHITELIST MEMBERSHIP IS PINNED BY HAND ON PURPOSE, AND THIS IS THE ONE PLACE IN THIS SUITE
+#: WHERE THAT IS RIGHT. Everything else here is derived, because a hand-typed value goes stale. This
+#: is the opposite case: the whitelist is the ONLY thing standing between this module and
+#: junction_aso's coding-acceptor guard, so a new entry appearing without anyone noticing is exactly
+#: the failure to catch. Deriving the set from the module would make the test agree with whatever the
+#: module says, which is not a check.
+#: ⭐ GREW 1 -> 2 ON 2026-08-15 (commit abae9502e, EWSR1 e10 :: NR4A3 intron-2 cryptic exon). The
+#: test still asserted a single entry and had been failing since. Superseded, retained (CLAUDE.md
+#: rule 1.2): a whitelist of exactly one, ("TAF15", 6, "NR4A3", "intron2_cryptic_exon").
+EXPECTED_CRYPTIC_WHITELIST = {
+    ("TAF15", 6, "NR4A3", "intron2_cryptic_exon"),
+    ("EWSR1", 10, "NR4A3", "intron2_cryptic_exon"),
+}
+
+
 def test_the_whitelist_is_what_reaches_this_seam_and_it_names_its_source():
     """This module routes AROUND junction_aso's coding-acceptor guard, exactly as
     aso_noncoding_acceptor_designs.py does. What makes that a documented route rather than a bypass
-    is that every junction it can reach is named explicitly, with a published breakpoint."""
-    assert len(td.PUBLISHED_CRYPTIC_ACCEPTOR_JUNCTIONS) == 1
-    (key, meta), = td.PUBLISHED_CRYPTIC_ACCEPTOR_JUNCTIONS.items()
-    assert key == ("TAF15", 6, "NR4A3", "intron2_cryptic_exon")
-    assert meta["excluded_from_the_panel_by"] == "NON_CODING_ACCEPTOR"
-    assert meta["evidence"] and all("PMID" in e for e in meta["evidence"])
-    assert meta["n_independent_sources"] == 1
+    is that every junction it can reach is named explicitly, with a published breakpoint.
+
+    ⚠ THE EVIDENCE FORM IS NOT ALWAYS A PMID, AND REQUIRING ONE WAS TOO NARROW. The EWSR1 exon-10
+    seam's breakpoint was never published as an exon in prose — it was DEPOSITED, and its evidence
+    strings cite GenBank AF524261.1. That is the same shape as the TCF12 junction the coverage ladder
+    resolved from AF289510.1. What the test actually needs is that every entry cites a RETRIEVABLE
+    identifier, so both forms are admitted and an entry citing neither still fails.
+    """
+    got = set(td.PUBLISHED_CRYPTIC_ACCEPTOR_JUNCTIONS)
+    assert got == EXPECTED_CRYPTIC_WHITELIST, (
+        "the cryptic-acceptor whitelist changed. Every entry here bypasses the coding-acceptor "
+        f"guard, so a change is a decision, not a detail: {sorted(got ^ EXPECTED_CRYPTIC_WHITELIST)}")
+    for key, meta in td.PUBLISHED_CRYPTIC_ACCEPTOR_JUNCTIONS.items():
+        assert meta["excluded_from_the_panel_by"] == "NON_CODING_ACCEPTOR", key
+        assert meta["evidence"], key
+        # ⚠ AT LEAST ONE evidence string must carry an identifier, not every one. The EWSR1 entry's
+        # last line is a DERIVATION — how the seam was recomputed from the deposit's own nucleotides
+        # rather than from its annotation notes — and that is corroboration a citation cannot be.
+        # Requiring an identifier on every line would push a redundant accession into a sentence
+        # whose whole point is that it depends on no annotation.
+        assert any("PMID" in e or "GenBank" in e for e in meta["evidence"]), (key, meta["evidence"])
+        assert meta["n_independent_sources"] == 1, key
 
 
 def test_the_guard_in_junction_aso_is_not_weakened():

@@ -2801,7 +2801,12 @@ text rather than the modality artifacts:
   The ladder's membership rule reads that table, so `n_junctions_qualifying` is **8** where the
   deposit would make it 9. The manuscript is written to the ladder's derived 8. ⛔ Whichever way this
   is settled, the coverage figure does not move: no source states what fraction of *TFG*-rearranged
-  EMC breaks at exon 7, and *TFG* is not in the 58-case cohort's partner counts either.
+  EMC breaks at exon 7, and *TFG* is not in the 58-case cohort's partner counts either. **The deposit
+  itself is now reported in §3.3**, beside the *TCF12* one it parallels, with both halves attached —
+  it supplies an exon and not a distribution — and with the four patent records described as
+  corroboration of a sequence rather than of four patients. That paragraph depends on
+  `nr4a3-deposited-junctions.json` and not on the tier field, so it stands whichever way the field is
+  resolved.
 - ⚠ `aso-taf15-intron2-designs.json` and `aso-ewsr1-intron2-designs.json` both still carry
   `⭐_what_the_screens_actually_found` opening *"GAP SPECIFICITY MARGIN DECIDES WHETHER THIS REAGENT
   CUTS THE PATIENT'S OWN NR4A3"*. Commit `776836225` refuted that: at `EWSR1_e13__NR4A3_e2` the two

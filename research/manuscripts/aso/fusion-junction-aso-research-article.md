@@ -65,10 +65,10 @@ Lengthening the gap, the obvious remedy, cannot help, and the reason is arithmet
 empirical: in every design of all three geometries tiled here, the junction-unique bases a longer gap
 wins and the contiguous wild-type-parent duplex it concedes are the same nucleotides. Candidates do
 clear the parent screens at every junction with a published exon-resolved breakpoint, and eight
-junctions now hold both such a breakpoint and a design carried through all five screens. The two most
-frequently reported of them are together roughly two thirds of molecularly confirmed cases once
-partner prevalence is discounted by breakpoint distribution, and the whole eight-junction set is
-82.9%. They do not clear the screens cleanly: the *EWSR1* exon-12 reagent named below carries the
+junctions now hold both such a breakpoint and a design carried through all five screens — four of
+them at acceptors the frame grading excludes and an RNase-H mechanism does not. The two most
+frequently reported of the eight are together roughly two thirds of molecularly confirmed cases once
+partner prevalence is discounted by breakpoint distribution, and the whole set is 82.9%. They do not clear the screens cleanly: the *EWSR1* exon-12 reagent named below carries the
 heaviest disclosed transcriptome load of any design considered here, 123 gap-paired sense-strand
 near-matches at six gene loci, together with a sense-strand near-match in wild-type *TAF15* precursor
 RNA. A liability no parent screen can reach is reported here as well. Where a design's acceptor half
@@ -463,6 +463,16 @@ defined by. That gap is a property of how the disease is diagnosed rather than o
 them, because the assays those cohorts used report which genes are joined and not where they join.
 Whether this exon recurs is therefore untested rather than refuted, and no search of the nucleotide
 or read archives returns a second *TCF12::NR4A3* sequence.
+
+The same archive search resolves *TFG*, the other non-FET partner, in the same way and to the same
+limit. No paper places a *TFG::NR4A3* breakpoint at an exon, but a deposited chimeric mRNA record
+does — GenBank AY532911.1, annotated as a *TFG-NR4A3* fusion protein — and it lands on *TFG* exon 7
+joined to *NR4A3* exon 3, a junction this panel already carries. Four patent sequence records agree
+with it base for base at the seam, and they corroborate a sequence rather than four patients, being
+one family from one group. As at *TCF12*, what the deposit supplies is the exon and not the
+distribution: no source states what fraction of *TFG*-rearranged tumours break there, and *TFG* does
+not appear in the partner counts of the 58-case cohort every coverage figure here is denominated on,
+so this changes which junctions are reported and no percentage.
 
 ### 3.4 · Strand orientation, and designs with no sense-strand near-match
 
@@ -1073,7 +1083,8 @@ is predicted at any of them, and an expressed gene is necessary and not sufficie
 reason to make the exon-13 reagent is coverage, and it is unaffected by either axis.
 
 Eight junctions now carry both a published exon-resolved breakpoint and a design through all five
-screens, and half of them sit outside the 38-junction panel, at the *NR4A3* exon-2 acceptors above.
+screens, and half of them sit outside the 38-junction panel, at the *NR4A3* exon-2 acceptors named
+below.
 Priced on the whole retrieved breakpoint record rather than on the single series the ladder uses,
 the eight together are 82.9% of molecularly confirmed cases, with the same two denominators
 widening that to 57.5–90.7%. That figure supersedes nothing: it answers a different question from the

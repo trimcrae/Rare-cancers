@@ -575,8 +575,19 @@ def test_the_discussion_recommends_the_two_published_junctions():
         screened = [j for j in ncd["junctions"] if j.get("screens_complete")]
         assert len(screened) == 4, [j["junction_label"] for j in screened]
         for j in screened:
-            seq = j["best_available"]["antisense_5to3"]
+            best = j["best_available"]
+            seq = best["antisense_5to3"]
             assert f"5′-{seq}-3′" in txt, (j["junction_label"], seq)
+            # ⛔ THE LOAD TRAVELS WITH THE SEQUENCE OR THE SENTENCE IS AN ADVERTISEMENT. Each of
+            # these four is named for synthesis, and none of them is clean; the margin and the
+            # gap-paired count over its locus recount are what a reader weighs before ordering.
+            assert f"margin {best['gap_specificity_margin']} and " \
+                   f"{best['n_gap_paired']} " in txt or \
+                   f"{best['n_gap_paired']} gap-paired near-matches over " \
+                   f"{best['n_gap_paired_loci']} loci" in txt, (j["junction_label"], best)
+            assert f"{best['n_gap_paired']} over {best['n_gap_paired_loci']}" in txt or \
+                   f"{best['n_gap_paired']} gap-paired near-matches over " \
+                   f"{best['n_gap_paired_loci']} loci" in txt, (j["junction_label"], best)
         assert "are now designed and screened to the panel's depth" in txt
         assert "None of the four is clean" in txt
         # and they must NOT be pooled into the panel's own counts
@@ -1223,6 +1234,10 @@ def test_the_wild_type_allele_liability_is_named_with_the_designs_it_condemns():
 def test_the_testable_surface_states_the_only_catalogued_line_cannot_test_a_junction_reagent():
     """§4's test-article paragraph: the operational fact, and the four things it must not become.
 
+    ⚠ H-EMC-SS (OBJ-LINE-HEMCSS) is registered in research/manuscripts/emc-systems-map.json with
+    identity DISPUTED, and this test exists to keep the manuscript's use of it inside what that
+    verdict supports.
+
     ⛔ WHY THE PROHIBITIONS ARE ASSERTED AND NOT ONLY THE CLAIM. The evidence here is four indirect
     readings and one figure-legend sentence. It supports exactly one operational statement — no
     reagent named here can be tested in that line — and it does NOT support a misidentification
@@ -1259,3 +1274,35 @@ def test_the_testable_surface_states_the_only_catalogued_line_cannot_test_a_junc
     # what a rebuilt construct cannot buy, and the binding constraint
     assert "not to activity at endogenous expression from an endogenous locus" in txt
     assert "the rate-limiting step is a laboratory rather than a line" in txt
+
+
+def test_the_tfg_deposit_is_reported_without_moving_a_coverage_figure():
+    """§3.3's *TFG* paragraph, read off the nuccore sweep that produced it.
+
+    ⛔ TWO HALVES THAT MUST TRAVEL TOGETHER. The deposit supplies an EXON — TFG's first exon-resolved
+    breakpoint anywhere in this repository — and supplies no DISTRIBUTION, and TFG is absent from the
+    58-case cohort the coverage denominators use. A sentence carrying only the first half would read
+    as a partner arm that could be priced.
+
+    ⚠ THE PATENT RECORDS ARE CORROBORATION OF A SEQUENCE, NOT OF FOUR PATIENTS, and the artifact says
+    so in terms. Asserting the prose keeps that qualification attached to the count.
+    """
+    art = os.path.join(MOD, "nr4a3-deposited-junctions.json")
+    if not os.path.exists(art):
+        pytest.skip("the deposited-junction sweep is not present in this checkout")
+    rec = json.load(open(art, encoding="utf-8"))["junctions"]["TFG_e7__NR4A3_e3"]
+    txt = _flat(_paper())
+    assert rec["records"][0] == "AY532911.1", rec["records"]
+    assert len(rec["records"]) - 1 == 4, rec["records"]
+    assert "not_a_frequency" in " ".join(rec.keys())
+    assert "GenBank AY532911.1" in txt
+    assert "*TFG* exon 7\njoined to *NR4A3* exon 3" in _paper() or \
+           "*TFG* exon 7 joined to *NR4A3* exon 3" in txt
+    assert "Four patent sequence records agree" in txt
+    assert "one family from one group" in txt
+    assert "no source states what fraction of *TFG*-rearranged tumours break there" in txt
+    # ⛔ and TFG must remain absent from the coverage denominator, or the paragraph is wrong
+    sys.path.insert(0, os.path.join(REPO, "research", "manuscripts"))
+    import aso_reagent_coverage as RC  # noqa: PLC0415
+    assert "TFG" not in RC.PARTNER_COHORT["counts"], RC.PARTNER_COHORT["counts"]
+    assert "so this changes which junctions are reported and no percentage" in txt
