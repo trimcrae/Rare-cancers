@@ -1,0 +1,41 @@
+[
+  {
+    "name": "nuccore_tcf12_any_partner",
+    "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=nuccore&term=TCF12+AND+%28TEC+OR+CHN+OR+NR4A3+OR+NOR1%29+AND+%28fusion+OR+chimeric+OR+chimaeric%29&retmax=200&retmode=json",
+    "status": 200,
+    "final_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=nuccore&term=TCF12+AND+%28TEC+OR+CHN+OR+NR4A3+OR+NOR1%29+AND+%28fusion+OR+chimeric+OR+chimaeric%29&retmax=200&retmode=json",
+    "content_type": "application/json; charset=UTF-8",
+    "chars": 1514
+  },
+  {
+    "name": "nuccore_tcf12_chondrosarcoma",
+    "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=nuccore&term=%28TCF12+OR+HTF4%29+AND+%28chondrosarcoma+OR+%22myxoid%22%29&retmax=200&retmode=json",
+    "status": 200,
+    "final_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=nuccore&term=%28TCF12+OR+HTF4%29+AND+%28chondrosarcoma+OR+%22myxoid%22%29&retmax=200&retmode=json",
+    "content_type": "application/json; charset=UTF-8",
+    "chars": 648
+  },
+  {
+    "name": "nuccore_t9_15_translocation",
+    "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=nuccore&term=%22t%289%3B15%29%22+AND+%28chondrosarcoma+OR+TEC+OR+NR4A3%29&retmax=200&retmode=json",
+    "status": 200,
+    "final_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=nuccore&term=%22t%289%3B15%29%22+AND+%28chondrosarcoma+OR+TEC+OR+NR4A3%29&retmax=200&retmode=json",
+    "content_type": "application/json; charset=UTF-8",
+    "chars": 367
+  },
+  {
+    "name": "protein_tcf12_tec_fusion",
+    "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=protein&term=TCF12+AND+%28TEC+OR+NR4A3+OR+CHN%29+AND+fusion&retmax=200&retmode=json",
+    "status": 429,
+    "error": "HTTPError 429",
+    "chars": 87
+  },
+  {
+    "name": "epmc_tcf12_emc_case_reports",
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%28TCF12%20AND%20%28%22extraskeletal%20myxoid%20chondrosarcoma%22%20OR%20%22extraosseous%20myxoid%20chondrosarcoma%22%20OR%20%22chordoid%20sarcoma%22%29%29&resultType=core&format=json&pageSize=200",
+    "status": 200,
+    "final_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%28TCF12%20AND%20%28%22extraskeletal%20myxoid%20chondrosarcoma%22%20OR%20%22extraosseous%20myxoid%20chondrosarcoma%22%20OR%20%22chordoid%20sarcoma%22%29%29&resultType=core&format=json&pageSize=200",
+    "content_type": "application/json;charset=UTF-8",
+    "chars": 537907
+  }
+]
