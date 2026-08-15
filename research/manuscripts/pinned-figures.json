@@ -617,6 +617,12 @@
   ],
   "superseded": [
     {
+      "id": "aso_standard_practice_excludes_parents",
+      "pattern": "standard practice does not look|(?:screens?|pipelines?)[^.\\n]{0,60}routinely exclude the parent",
+      "current": "an argument about INSTRUMENTS, not about practice: an identity-ranked alignment screen cannot surface an 11-12 bp contiguous parent duplex, and a mature-transcript screen cannot reach pre-mRNA. See the manuscript Discussion paragraph beginning 'Nothing in that is a claim that the field overlooks the parent genes.'",
+      "retired_by": "trimcrae, 2026-08-15: \"we're claiming we invented it?\" — no, and the paper's own working record already said so (\"This paper's method-level novelty is nil\"). The abstract generalised THIS pipeline's design choice (junction_aso_offtarget.is_parent drops parent records, for a stated reason) into a claim about the field, and it was contradicted by our own citations: refs 13-16 demonstrate parental sparing, and section 5.4 asks for it. No survey of published design pipelines was ever performed."
+    },
+    {
       "id": "aso_reagent_coverage_95pct",
       "pattern": "(?:about|approximately|~)\\s*95\\s*%\\s*of\\s*(?:molecularly\\s+)?confirmed\\s+cases|together\\s+about\\s+95\\s*%",
       "current": "68.4% (39.9-82.8%), from research/manuscripts/aso/fusion-junction-aso-reagent-coverage.json",

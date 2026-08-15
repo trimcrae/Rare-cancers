@@ -51,11 +51,14 @@ occurs in no normal gene. An antisense drug could in principle destroy that tran
 base-pairing alone, sparing both genes the fusion was built from, but none has been reported for this
 disease. Designs prove easy to find. Of the 231 ways the five known partners could join *NR4A3*, 38
 keep the reading frame intact, and all 38 yield candidate gapmers, whose central DNA gap is where
-RNase-H1 cuts. The difficulty lies where standard practice does not look. Specificity screens compare
-a candidate against the transcriptome but routinely exclude the parent genes, which are the most
-dangerous match such a drug can have. Screened against them directly, 87 of 190 candidates pair that
-gap against a mature parent transcript, 61 of those against healthy *NR4A3*, the gene the approach
-exists to spare. That rate is not what arbitrary sequence gives: scrambled and randomly chosen
+RNase-H1 cuts. Sparing the parent genes is the established test of such a design and has been
+demonstrated at several fusions, but it is normally confirmed in cells, after synthesis. The
+difficulty is that the sequence screens which rank candidates beforehand cannot see the form the
+parent liability takes. An alignment screen filtering on identity across the whole oligonucleotide
+cannot surface an eleven-base-pair contiguous duplex, and a screen of mature transcripts cannot
+reach precursor RNA at all. Compared directly against the six parent transcripts, 87 of 190
+candidates pair that gap against a mature parent transcript, 61 of those against healthy *NR4A3*,
+the gene the approach exists to spare. That rate is not what arbitrary sequence gives: scrambled and randomly chosen
 16-mers reach 6.2% and 6.9% on the same screen, and chimeras joining the same two parent transcripts
 at random offsets reach 23.8%, against 45.8% observed. Another 19 candidates pair the gap in
 unspliced precursor RNA, where RNase-H1 is also active and no mature-transcript screen reaches.
@@ -814,7 +817,22 @@ full across the wild-type intron-2/exon-3 boundary, at two mismatches that both 
 and the compartment in which that duplex would form is the nuclear one RNase-H1 occupies. For 87 the
 same is true in mature parent sequence. The general point is that a fusion-junction design's most
 plausible wild-type liability is its own parent, reached either across a splice junction or in the
-mature transcript, and both are invisible to a screen that ranks candidates by global identity. The
+mature transcript, and both are invisible to a screen that ranks candidates by global identity.
+
+Nothing in that is a claim that the field overlooks the parent genes. It plainly does not: parental
+sparing is the standard specificity test for a junction-directed oligonucleotide, it has been
+demonstrated at several fusions,<sup>13–16</sup><!--PMID:33241214,36265509,21846246,23052253--> and
+§5.4 asks for it here. The claim is narrower and is about sequence screening rather than about
+practice. Parental sparing is normally established in cells, on molecules already made, whereas the
+computational screens that decide which molecules to make rank by identity over the whole
+oligonucleotide — and a parent duplex of eleven or twelve contiguous base pairs pairing the whole
+catalytic gap sits below any such threshold while being exactly what RNase-H1 requires. What is
+offered here is that comparison as a pre-synthesis filter, and the observation that it removes
+nearly half the panel. Whether other groups apply an equivalent filter before synthesising is not
+established by this work: no survey of published design pipelines was performed, and the screens
+characterised above are this paper's own.
+
+The
 null of §3.5 is what makes that a finding rather than a restatement of the design rule: arbitrary
 sequence meets this screen at about 6%, and a chimera keeping the whole rule while joining the two
 parents at random offsets meets it at 24%, against 46% for designs at real breakpoints. Roughly half
