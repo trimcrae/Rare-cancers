@@ -1,0 +1,80 @@
+[
+  {
+    "name": "epmc_core_11156374",
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:11156374&resultType=core&format=json",
+    "status": 200,
+    "final_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:11156374&resultType=core&format=json",
+    "content_type": "application/json;charset=UTF-8",
+    "chars": 7114
+  },
+  {
+    "name": "epmc_refs_of_11156374",
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/MED/11156374/references?format=json&pageSize=100",
+    "status": 200,
+    "final_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/MED/11156374/references?format=json&pageSize=100",
+    "content_type": "application/json;charset=UTF-8",
+    "chars": 99
+  },
+  {
+    "name": "epmc_citations_of_11156374",
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/MED/11156374/citations?format=json&pageSize=1000",
+    "status": 200,
+    "final_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/MED/11156374/citations?format=json&pageSize=1000",
+    "content_type": "application/json;charset=UTF-8",
+    "chars": 32549
+  },
+  {
+    "name": "epmc_fulltext_PMC4055444",
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC4055444/fullTextXML",
+    "status": 200,
+    "final_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC4055444/fullTextXML",
+    "content_type": "application/xml",
+    "chars": 283099
+  },
+  {
+    "name": "epmc_refs_of_24714847",
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/MED/24714847/references?format=json&pageSize=200",
+    "status": 200,
+    "final_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/MED/24714847/references?format=json&pageSize=200",
+    "content_type": "application/json;charset=UTF-8",
+    "chars": 89643
+  },
+  {
+    "name": "ncbi_elink_pubmed11156374_to_nuccore",
+    "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/elink.fcgi?dbfrom=pubmed&db=nuccore&id=11156374&retmode=json",
+    "status": 200,
+    "final_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/elink.fcgi?dbfrom=pubmed&db=nuccore&id=11156374&retmode=json",
+    "content_type": "application/json; charset=UTF-8",
+    "chars": 956
+  },
+  {
+    "name": "ncbi_elink_pubmed11156374_to_protein",
+    "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/elink.fcgi?dbfrom=pubmed&db=protein&id=11156374&retmode=json",
+    "status": 200,
+    "final_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/elink.fcgi?dbfrom=pubmed&db=protein&id=11156374&retmode=json",
+    "content_type": "application/json; charset=UTF-8",
+    "chars": 919
+  },
+  {
+    "name": "ncbi_nuccore_search_tcf12_tec",
+    "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=nuccore&term=TCF12+AND+TEC+AND+chondrosarcoma&retmax=100&retmode=json",
+    "status": 200,
+    "final_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=nuccore&term=TCF12+AND+TEC+AND+chondrosarcoma&retmax=100&retmode=json",
+    "content_type": "application/json; charset=UTF-8",
+    "chars": 515
+  },
+  {
+    "name": "ncbi_nuccore_search_tcf12_chn",
+    "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=nuccore&term=%22TCF12%2FTEC%22+OR+%22TCF12-TEC%22+OR+%22TCF12%2FCHN%22+OR+%22TCF12-NR4A3%22&retmax=100&retmode=json",
+    "status": 429,
+    "error": "HTTPError 429",
+    "chars": 86
+  },
+  {
+    "name": "ncbi_pubmed_abstract_11156374",
+    "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id=11156374&retmode=xml",
+    "status": 429,
+    "error": "HTTPError 429",
+    "chars": 86
+  }
+]
