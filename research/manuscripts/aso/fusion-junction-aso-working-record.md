@@ -2755,3 +2755,58 @@ locus recount exists to remove. The chosen design touches 6 loci against 13. Not
 within-partner fraction is keyed on the sequenced exon pair, and neither `e13::e2` nor `e6::e2` is in
 the cohort's measured distribution. Their value is that both identity-clean patient-derived EMC lines
 become testable under *either* reading of an ambiguous vendor exon call.
+
+## Correction, 2026-08-15 — bringing the submission manuscript up to the day's artifacts
+
+The submission text still read as a two-reagent paper after eleven junctions had acquired designs.
+Catching it up surfaced three defects in the manuscript itself, each fixed by taking the artifact's
+value rather than the sentence's.
+
+**1. A within-partner figure that was a per-partner figure.** §5.1 read *"across every pair of
+in-frame junctions of one partner in this panel the longest shared 3′ donor run is three
+nucleotides."* Three is the ***EWSR1*** maximum. The panel-wide within-partner maximum is **five**,
+at *TFG* exons 2 and 6, derived in `aso_coverage_ladder.multiplexing_check` and printed in the ladder
+artifact as `max_within_partner_shared_donor_nt`. The sentence understated the one quantity that
+decides whether one oligonucleotide could ever serve two breakpoints of a partner, in the direction
+that flatters the argument. ⚠ **The conclusion does not move** — five 3′ donor bases is still far too
+few for a junction-spanning 16-mer to straddle two seams — but a figure that is wrong in the
+favourable direction is exactly the class this record exists for. Registered in
+`pinned-figures.json` (`aso_within_partner_shared_donor_run_three_nt`) in the same commit, and the
+pattern was checked adversarially: it fires on the retired sentence and not on the replacement.
+
+**2. Two junctions counted where the artifact now has four.** The abstract and §3.6 both read *"both
+junctions with a published exon-resolved breakpoint"*. `aso-per-junction-table.json` grades four of
+the 38 at `published_exon_resolved_breakpoint` — *EWSR1* exons 12 and 13, *TAF15* exon 6 and *TCF12*
+exon 5 — and §3.7's own expression paragraph had already moved to four. Longest parent runs are 8, 8,
+9 and 7 bp, read from the table.
+
+**3. A cross-reference to a reagent that was never named.** §5.1 said the *EWSR1* exon-2 acceptor's
+*"best reagent is named in §5.1"*. It was not named anywhere. All four exon-2 seams' best designs are
+now named in that section, read from
+`noncoding-acceptor/aso-noncoding-acceptor-screened-table.json`.
+
+**A stale test, failing before this work started.** `test_the_discussion_recommends_the_two_published
+_junctions` asserted `"none should be assumed to exist" in txt` — the manuscript's retracted claim
+that no design existed at the exon-2 acceptors. Commit `e4a3a654c` corrected the prose and left the
+assertion pinning the retracted sentence, so the test had been red since. It now reads the four best
+designs out of the screened table and requires them in the prose, which is the check the old line was
+trying to be.
+
+**Two artifact-level disagreements found and NOT fixed here**, because this pass owns the submission
+text rather than the modality artifacts:
+
+- ⚠ `TFG_e7__NR4A3_e3` has an exon-resolved breakpoint from deposited sequence
+  (`nr4a3-deposited-junctions.json`: GenBank AY532911.1 plus four patent records at an identical
+  seam), while `aso-per-junction-table.json` still grades it `no_published_exon_resolved_breakpoint`.
+  The ladder's membership rule reads that table, so `n_junctions_qualifying` is **8** where the
+  deposit would make it 9. The manuscript is written to the ladder's derived 8. ⛔ Whichever way this
+  is settled, the coverage figure does not move: no source states what fraction of *TFG*-rearranged
+  EMC breaks at exon 7, and *TFG* is not in the 58-case cohort's partner counts either.
+- ⚠ `aso-taf15-intron2-designs.json` and `aso-ewsr1-intron2-designs.json` both still carry
+  `⭐_what_the_screens_actually_found` opening *"GAP SPECIFICITY MARGIN DECIDES WHETHER THIS REAGENT
+  CUTS THE PATIENT'S OWN NR4A3"*. Commit `776836225` refuted that: at `EWSR1_e13__NR4A3_e2` the two
+  condemned designs hold the **fewest donor bases in the gap** (2 and 1) while the margin-1 design
+  holding five is clean, so the decider is donor sequence in the catalytic gap, not the margin. The
+  margin happens to track it at the cryptic-exon seam, which is how the wrong rule was read out of a
+  correct observation. The manuscript states the corrected rule; those two artifact fields still
+  state the refuted one.

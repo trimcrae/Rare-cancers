@@ -560,9 +560,27 @@ def test_the_discussion_recommends_the_two_published_junctions():
     for dead in ("whose junction has never\nbeen published as an exon",
                  "inference from a residue count against this transcript model"):
         assert dead not in _paper(), f"superseded TCF12 claim is back: {dead!r}"
-    # the acceptor-side blind spot, and that no design is claimed at it
+    # the acceptor-side blind spot, and what is now designed at it
     assert "*EWSR1* exon 7 to *NR4A3* exon\n2," in _paper() or "exon 7 to *NR4A3* exon" in txt
-    assert "none should be assumed to exist" in txt
+    # ⭐ SUPERSEDED WITHIN THE DAY AND REPLACED RATHER THAN DROPPED, 2026-08-15. This line used to
+    # assert "none should be assumed to exist" — the manuscript's statement that no design existed at
+    # the exon-2 acceptors. Five designs now exist at each of four such seams and all five deep
+    # screens have run at the manuscript geometry, so pinning the old sentence would pin a retracted
+    # claim. What replaces it is stronger: the reagents the screened table ranks best are READ from
+    # that table and required to appear in the prose, so the paragraph cannot drift off the artifact
+    # the way a hand-typed sentence did.
+    nc = os.path.join(MOD, "noncoding-acceptor", "aso-noncoding-acceptor-screened-table.json")
+    if os.path.exists(nc):
+        ncd = json.load(open(nc, encoding="utf-8"))
+        screened = [j for j in ncd["junctions"] if j.get("screens_complete")]
+        assert len(screened) == 4, [j["junction_label"] for j in screened]
+        for j in screened:
+            seq = j["best_available"]["antisense_5to3"]
+            assert f"5′-{seq}-3′" in txt, (j["junction_label"], seq)
+        assert "are now designed and screened to the panel's depth" in txt
+        assert "None of the four is clean" in txt
+        # and they must NOT be pooled into the panel's own counts
+        assert "reported beside the panel and never\npooled into it" in _paper()
     # the gap-length risk is disclosed in the Methods and must be ranked first in the Discussion
     assert "Two risks attach, in this order. The first is architectural" in txt
     assert "The three designs that survive every screen are mechanism controls" in txt
@@ -1107,3 +1125,137 @@ def test_table6_cells_are_the_artifact_and_its_two_compartments_stay_separate():
     import aso_offtarget_tissue_expression as X  # noqa: PLC0415
     assert f"below {X.PRESENT_TPM:g} TPM in all three exposure" in body
     assert f"at or above {X.EXPRESSED_TPM:g} TPM in any of them" in body
+
+
+# ── the wild-type-allele liability, and the rule that decides it ─────────────────────────────────
+NONCODING_TABLE = os.path.join(MOD, "noncoding-acceptor",
+                               "aso-noncoding-acceptor-screened-table.json")
+CRYPTIC_TAF15 = os.path.join(MOD, "aso-taf15-intron2-designs.json")
+MODEL_EVIDENCE = os.path.join(MOD, "emc-model-junction-evidence.json")
+
+
+def test_the_wild_type_allele_liability_is_named_with_the_designs_it_condemns():
+    """§4's wild-type-*NR4A3* paragraph, read out of the scans that produced it.
+
+    ⛔ WHY EVERY PART OF THIS IS PINNED. The finding's whole content is that a design can PASS the
+    mature-parent screen and still pair its catalytic gap on the patient's un-rearranged allele, so
+    the sequences it condemns are the one thing a reader ordering oligonucleotides acts on. A prose
+    list that drifted from the scan by one sequence would be worse than no list: it would read as a
+    checked exclusion while omitting a molecule the instrument condemned.
+
+    ⚠ THE SCAN'S OWN POSITIVE CONTROL IS ASSERTED TOO. A liability scan that fires on nothing is
+    indistinguishable from a clean panel, and this one is required to fire on exactly one known
+    design at the sibling cryptic-exon seam. If that control stops passing, no verdict above it
+    means anything and the manuscript's exclusions are unsupported.
+    """
+    for p in (NONCODING_TABLE, CRYPTIC_TAF15):
+        if not os.path.exists(p):
+            pytest.skip("the non-canonical acceptor artifacts are not present in this checkout")
+    nc = json.load(open(NONCODING_TABLE, encoding="utf-8"))
+    liab = nc["⭐_wild_type_NR4A3_cleavage_liability"]
+    txt, raw = _flat(_paper()), _paper()
+
+    # the control fired, on exactly the design it had to fire on
+    ctrl = liab["positive_control"]
+    assert ctrl["passed"] and ctrl["observed_designs"] == ["TGATGAGGGCCTTGTG"], ctrl
+    assert ctrl["observed_n_cleavage_competent_designs"] == 1, ctrl
+
+    # every condemned design is named in the manuscript, and none is quietly dropped
+    condemned = list(liab["designs_cleaving_wild_type_NR4A3"]) + list(ctrl["observed_designs"])
+    assert len(condemned) == 3, condemned
+    for seq in condemned:
+        assert f"5′-{seq}-3′" in txt, f"{seq} is condemned by the scan and not named in the paper"
+    assert "named here as not to be carried forward" in txt
+
+    # and no condemned design survives in any best_* field of either artifact
+    for j in nc["junctions"]:
+        best = (j.get("best_available") or {}).get("antisense_5to3")
+        assert best not in liab["designs_cleaving_wild_type_NR4A3"], j["junction_label"]
+    cryptic = json.load(open(CRYPTIC_TAF15, encoding="utf-8"))
+    assert cryptic["best_by_gap_specificity_margin"] not in condemned
+
+    # ⛔ THE DECIDER IS DONOR SEQUENCE IN THE GAP, NOT THE MARGIN, and the paper must say so — an
+    # earlier reading of this repository credited the margin and was refuted by the exon-2 seams.
+    assert "It is not the gap-level margin" in txt
+    assert "how much donor sequence the gap holds" in txt
+    assert "a design at the same seam with a margin of 1 and five donor bases in its gap is clean" \
+        in txt
+    # the mechanism, from the measurement rather than from the sentence
+    ev = json.load(open(MODEL_EVIDENCE, encoding="utf-8"))["nr4a3_wild_type_acceptor_context"]
+    intron1 = ev["nr4a3_intron1_last_12_nt"]
+    e13 = ev["donor_last_12_nt_vs_nr4a3_intron1_last_12_nt"]["EWSR1_e13"]
+    t6 = ev["donor_last_12_nt_vs_nr4a3_intron1_last_12_nt"]["TAF15_e6"]
+    assert f"ends {e13['donor_last_12_nt']} against the" in txt
+    assert f"last twelve nucleotides of *NR4A3* intron 1, {intron1}, matching at " \
+           f"{e13['identity_over_12']} of 12 positions" in txt
+    assert f"ends {t6['donor_last_12_nt']} and matches at {t6['identity_over_12']}" in txt
+
+    # ⛔ THE REASON THE PARENT SCREEN IS NO DEFENCE, DERIVED RATHER THAN ASSERTED. The claim is that
+    # every condemned design cleared the mature-parent exclusion, AND so did every sibling design at
+    # its seam — which is what makes a clean parent column at such a seam uninformative rather than
+    # merely lucky. ⚠ It is NOT the claim that all 20 scanned designs cleared it: two did not, at
+    # seams that condemn nothing, and writing the wider version would have been false.
+    by_seq = {des["antisense_5to3"]: (j, des)
+              for j in nc["junctions"] for des in j["designs"]}
+    for seq in liab["designs_cleaving_wild_type_NR4A3"]:
+        j, des = by_seq[seq]
+        assert des["parent_is_liability"] is False, seq
+        assert j["n_designs_clearing_the_parent_screen"] == j["n_designs_screened"], j["junction_label"]
+    assert cryptic["n_clearing_the_parent_exclusion"] == cryptic["n_designs_spanning_the_seam"]
+    assert "each of the three had already cleared the mature-parent exclusion, and so had every " \
+           "other design tiled at its seam" in txt
+
+    # ⛔ "RETURNED INDEPENDENTLY BY THE GENOME SCAN" IS A SEPARATE INSTRUMENT AND IS CHECKED AS ONE.
+    # The genome screen's named-target stratum is a lookup over the whole assembly rather than over
+    # one locus, so its agreeing on the same designs is corroboration; asserting the prose without
+    # asserting the lookup would let the sentence outlive the arm it credits.
+    gen = os.path.join(MOD, "aso-genome-offtarget-noncoding-acceptor.json")
+    if os.path.exists(gen):
+        st3 = json.load(open(gen, encoding="utf-8"))["headline"]["stratum_3_named_targets"]
+        assert st3["genes_hit_gap_paired_and_hybridisable"] == ["NR4A3"], st3
+        assert st3["n_designs_with_a_named_gap_paired_site"] == \
+            len(liab["designs_cleaving_wild_type_NR4A3"]) == 2
+        assert all(s["gap_fully_paired"] and s["hybridisable"] for s in st3["sites"]), st3["sites"]
+    assert "returned independently by an exhaustive scan" in txt
+    assert "**Some designs cleave the patient's own un-rearranged *NR4A3* allele" in raw
+
+
+def test_the_testable_surface_states_the_only_catalogued_line_cannot_test_a_junction_reagent():
+    """§4's test-article paragraph: the operational fact, and the four things it must not become.
+
+    ⛔ WHY THE PROHIBITIONS ARE ASSERTED AND NOT ONLY THE CLAIM. The evidence here is four indirect
+    readings and one figure-legend sentence. It supports exactly one operational statement — no
+    reagent named here can be tested in that line — and it does NOT support a misidentification
+    call, a statement of what the line is instead, a count of affected papers, or any imputation to
+    an author. Those are the sentences that would be easy to write and impossible to defend, so the
+    test refuses them by name.
+    """
+    if not os.path.exists(MODEL_EVIDENCE):
+        pytest.skip("the model-junction evidence artifact is not present in this checkout")
+    ev = json.load(open(MODEL_EVIDENCE, encoding="utf-8"))
+    block = ev["⛔⛔_the_only_purchasable_EMC_line_cannot_test_a_junction_reagent"]
+    assert block["line"] == "H-EMC-SS"
+    txt = _flat(_paper())
+
+    assert "H-EMC-SS" in txt
+    assert "no reagent named here can be tested in that line" in txt
+    # the fairness constraints, both of which the evidence requires
+    assert "This is not a statement that the line is misidentified" in txt
+    assert "fusion-negative extraskeletal myxoid chondrosarcoma tumours are" in txt
+    # already reported, never examined — the novelty limit
+    assert "The observation is also not new" in txt
+
+    # ⛔ THE FOUR SENTENCES THE EVIDENCE DOES NOT SUPPORT.
+    for banned in ("misidentified line", "wrongly diagnosed", "STR misidentification",
+                   "papers rely on", "contaminated the literature"):
+        assert banned not in txt, banned
+    # no count of affected papers may appear: the triage was abstract-level and says so
+    assert not re.search(r"\b\d+ (?:of \d+ )?(?:papers|records|studies)[^.\n]{0,40}H-EMC-SS", txt)
+
+    # the five test articles, and that each has a reagent
+    assert "five test articles, and each of the five now has a matching reagent" in txt
+    for arm in ("E-N", "T-N*", "T-N"):
+        assert arm in txt, arm
+    # what a rebuilt construct cannot buy, and the binding constraint
+    assert "not to activity at endogenous expression from an endogenous locus" in txt
+    assert "the rate-limiting step is a laboratory rather than a line" in txt

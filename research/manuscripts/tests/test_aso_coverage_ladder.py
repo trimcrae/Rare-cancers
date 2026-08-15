@@ -280,3 +280,68 @@ def test_the_census_reports_at_least_as_many_junction_papers_as_it_lists():
     n_junction_papers = census["source"]["n_reporting_an_exon_resolved_junction"]
     assert n_records >= n_junction_papers, (n_records, n_junction_papers)
     assert census["source"]["n_mentioning_emc"] <= census["source"]["n_papers_retrieved"]
+
+
+PAPER = os.path.join(MAN, "aso", "fusion-junction-aso-research-article.md")
+
+
+def _paper_flat():
+    if not os.path.exists(PAPER):
+        pytest.skip("the submission manuscript is not present in this checkout")
+    return " ".join(open(PAPER, encoding="utf-8").read().split())
+
+
+def test_the_manuscripts_best_supported_figure_is_the_artifacts_and_does_not_displace_68_4():
+    """§5.1's best-supported-panel paragraph, read off the row that derives it.
+
+    ⛔ THE FAILURE THIS PREVENTS IS A SILENT PROMOTION. The best-supported row and the manuscript's
+    published 68.4% answer different questions — one prices a membership-derived set on the whole
+    retrieved breakpoint record, the other prices the two named reagents on the single series the
+    published figure was computed on. A paper that printed the larger figure without keeping the
+    smaller one attached to its own claim would be reporting a better result than it has, so both
+    numbers and the sentence separating them are asserted together.
+    """
+    best = _ladder()["best_supported_buildable_panel"]
+    txt = _paper_flat()
+    lo, hi = best["coverage_percent_range"]
+    assert f"the eight together are {best['coverage_percent']}%" in txt
+    assert f"widening that to {lo}–{hi}%" in txt
+    assert "That figure supersedes nothing" in txt
+    assert "68.4% remains the coverage of the two reagents" in txt
+    # membership is a derived count, and the manuscript may not carry a different one
+    n = best["panel_membership"]["n_junctions_qualifying"]
+    assert n == 8, n
+    assert "eight junctions now hold both such a breakpoint and a design carried through all five " \
+           "screens" in txt
+    # ⛔ THE ZERO-CONTRIBUTING MEMBER MUST BE NAMED AS CONTRIBUTING ZERO. Reading it as a small
+    # positive contribution is exactly the error the row's own note refuses.
+    zero = best["panel_membership"]["⛔_qualifying_but_contributing_exactly_zero"]["junctions"]
+    assert zero == ["PGR_e2__NR4A3_e2"], zero
+    assert "*PGR* exon 2 to *NR4A3* exon 2, moves the figure by exactly zero" in txt
+
+
+def test_the_manuscripts_within_partner_donor_run_is_the_measured_maximum():
+    """⛔ A CORRECTION PINNED SO IT CANNOT REVERT. §5.1 read "the longest shared 3′ donor run is
+    three nucleotides" across every within-partner pair in the panel. Three is the *EWSR1* maximum;
+    the panel-wide within-partner maximum is five, at *TFG* exons 2 and 6. The sentence understated
+    the one quantity that decides whether one oligonucleotide could ever serve two breakpoints of a
+    partner, in the direction that flatters the argument, so both figures are now derived from the
+    multiplexing check rather than typed.
+    """
+    check = _ladder()["can_better_design_raise_coverage"]
+    txt = _paper_flat()
+    worst = max(check["within_partner_best_pair_per_partner"],
+                key=lambda w: w["shared_3prime_donor_nt"])
+    assert worst["shared_3prime_donor_nt"] == check["max_within_partner_shared_donor_nt"]
+    assert f"the longest shared 3′ donor run is {_word(worst['shared_3prime_donor_nt'])} " \
+           "nucleotides" in txt
+    ewsr1 = next(w for w in check["within_partner_best_pair_per_partner"]
+                 if w["partner"] == "EWSR1")
+    assert f"and {_word(ewsr1['shared_3prime_donor_nt'])} within *EWSR1*" in txt
+    # and the two junctions the whole ladder turns on share a single terminal base
+    assert check["the_two_junctions_that_matter_most"]["shared_3prime_donor_nt"] == 1
+    assert "which agree over a single terminal base" in txt
+
+
+def _word(n):
+    return {1: "one", 2: "two", 3: "three", 4: "four", 5: "five"}[n]
