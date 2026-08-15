@@ -107,6 +107,21 @@ PUBLISHED_BREAKPOINTS = {
     # from the report's PubMed record to `nuccore` returns it in one call. Every test:
     # research/manuscripts/tcf12_breakpoint_assignment.py.
     "TCF12_e5__NR4A3_e3": ["PMID: 11156374", "GenBank: AF289510.1"],
+    # ⭐ ADDED 2026-08-15, ON THE PRECEDENT THE TCF12 ROW ABOVE SETS: a deposited chimeric cDNA
+    # resolves a breakpoint to the nucleotide, and this map already accepts one as evidence. The
+    # census carried NO exon-resolved TFG breakpoint at all — TFG appeared in it only inside its own
+    # search string — and the deposited-sequence sweep returned the seam
+    # GGTATTCAGTATTCAG|ATATGCCCTGCGTCCA.
+    # ⚠ AND ITS EVIDENCE GRADE IS WEAKER THAN EVERY OTHER ROW HERE, WHICH IS WHY THIS COMMENT IS
+    # LONGER THAN THE ENTRY. It rests on ONE primary GenBank mRNA — AY532911.1, "TFG-NR4A3 fusion
+    # protein, partial cds" — plus four Korean patent sequences that agree on the identical seam.
+    # Those four are ONE FAMILY FROM ONE GROUP: they are corroboration of a SEQUENCE, not four
+    # independent patients, and NO PMID attaches to any of the five. Every other row here carries a
+    # peer-reviewed report behind it.
+    # ⛔ IT MOVES NO COVERAGE FIGURE. TFG is not a partner of the 58-case cohort the ladder prices
+    # against, so like PGR its contribution is exactly zero; this corrects a tier that contradicted
+    # our own deposit artifact, nothing more.
+    "TFG_e7__NR4A3_e3": ["GenBank: AY532911.1"],
 }
 
 #: partners for which SOME exon-resolved EMC breakpoint is published, so "unreported exon" at that

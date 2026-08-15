@@ -600,7 +600,7 @@
   "_why_it_is_an_ADDITIONAL_row": "⛔ IT REPLACES NOTHING. The ladder's rungs and bounds above are unchanged and rung 0 still reproduces the published 68.4% on the manuscript's own single-series basis. This row is better specified — membership is an evidence test rather than a position in an incremental series, and the basis is the whole retrieved record rather than one series of it — and it is reported beside them, never instead of them.",
   "panel_membership": {
    "_rule": "a junction qualifies on TWO independent conditions: (i) clinical_tier == 'published_exon_resolved_breakpoint' in a screened table, and (ii) a reagent through all five deep screens. Both are READ from the tables that own them.",
-   "n_junctions_qualifying": 8,
+   "n_junctions_qualifying": 9,
    "junctions": {
     "EWSR1_e12__NR4A3_e3": {
      "partner": "EWSR1",
@@ -684,6 +684,26 @@
      "best_available": {
       "antisense_5to3": "GGGCATATCCATCAGA",
       "gap_specificity_margin": 3
+     }
+    },
+    "TFG_e7__NR4A3_e3": {
+     "partner": "TFG",
+     "source_table": "aso-per-junction-table.json",
+     "source_table_is": "the manuscript's 38-junction panel",
+     "clinical_tier": "published_exon_resolved_breakpoint",
+     "breakpoint_refs": [
+      "GenBank: AY532911.1"
+     ],
+     "five_screen_evidence": {
+      "per_junction_flag": null,
+      "table_level_statement": "The best available junction-spanning gapmer for EACH of the frame-compatible NR4A3-fusion junctions, joined across all five specificity screens, with the clinical-occurrence tier of the junction reported separately from specificity.",
+      "per_junction_check": "best_available is present, so the deep alignment screen that supplies its rank key ran for this junction"
+     },
+     "n_designs_screened": 5,
+     "n_designs_clearing_the_parent_screen": 2,
+     "best_available": {
+      "antisense_5to3": "GGCATATCTGAATACT",
+      "gap_specificity_margin": 2
      }
     },
     "EWSR1_e13__NR4A3_e2": {
@@ -774,10 +794,28 @@
      }
     }
    },
-   "n_junctions_that_can_move_this_cohort": 7,
+   "n_junctions_moving_the_point_estimate": 4,
+   "junctions_moving_the_point_estimate": [
+    "EWSR1_e12__NR4A3_e3",
+    "EWSR1_e13__NR4A3_e3",
+    "EWSR1_e7__NR4A3_e2",
+    "TAF15_e6__NR4A3_e3"
+   ],
+   "n_junctions_moving_only_the_bound": 1,
+   "junctions_moving_only_the_bound": [
+    "TCF12_e5__NR4A3_e3"
+   ],
+   "⛔_in_cohort_but_moving_NOTHING": {
+    "junctions": [
+     "EWSR1_e13__NR4A3_e2",
+     "TAF15_e6__NR4A3_e2"
+    ],
+    "why": "the PARTNER is in the cohort but this exon pair carries no count in the measured within-partner distribution, so the reagent engages no case the denominator contains. ⚠ A SECOND WAY TO CONTRIBUTE ZERO, and the one an earlier partner-only test could not see: it counted these among the junctions that can move the cohort while the unchanged total proved they move it by zero."
+   },
    "⛔_qualifying_but_contributing_exactly_zero": {
     "junctions": [
-     "PGR_e2__NR4A3_e2"
+     "PGR_e2__NR4A3_e2",
+     "TFG_e7__NR4A3_e3"
     ],
     "why": "the partner is not in the 58-case cohort's partner counts, so the denominator contains no case such a reagent could engage. It moves coverage by EXACTLY ZERO — not by a small amount, by zero. What it changes is which patients are REACHABLE AT ALL, which is a different statement and must never be added to a coverage percentage. One home for that reading: research/modalities/aso_noncoding_acceptor_designs.py."
    }
@@ -1106,23 +1144,26 @@
      "within_partner_distribution": "UNMEASURED",
      "contribution_to_the_point_estimate": 0.0,
      "contribution_if_every_case_of_this_partner_carried_it": 0.0307
-    }
-   ],
-   "arms_with_NO_qualifying_reagent_at_all": [
+    },
     {
      "partner": "TFG",
-     "junctions_in_panel": [],
+     "junctions_in_panel": [
+      "TFG_e7__NR4A3_e3"
+     ],
      "partner_share_of_pooled_cohort": 0.0061,
      "partner_share_counts": "1/163",
-     "⛔_why_it_contributes_zero": "NO junction of this partner has both a published exon-resolved breakpoint and a reagent through all five deep screens, so there is nothing to engage it with. This is not a bound either: a bound needs a reagent whose reach is unmeasured, and here there is no reagent. The partner is visible only because the wider denominator contains it — which is itself the point of widening."
+     "within_partner_distribution": "UNMEASURED",
+     "contribution_to_the_point_estimate": 0.0,
+     "contribution_if_every_case_of_this_partner_carried_it": 0.0061
     }
    ],
+   "arms_with_NO_qualifying_reagent_at_all": [],
    "coverage_percent": 79.8,
    "coverage_percent_range": [
     54.6,
     86.9
    ],
-   "bound_if_the_unmeasured_arms_are_at_their_ceiling_percent": 82.8,
+   "bound_if_the_unmeasured_arms_are_at_their_ceiling_percent": 83.4,
    "arithmetic_ceiling_percent": 94.5,
    "⭐_WHAT_IT_ACTUALLY_DOES_TO_THE_FIGURE": "IT LOWERS IT, AND THAT IS REPORTED BECAUSE IT IS WHAT HAPPENED. Widening the partner denominator was expected to be able to move coverage either way — a pooled mix with proportionally more TAF15 would have raised it, since the TAF15 arm is priced at 3/3 against EWSR1's 17/20. The TAF15 share does rise. It is outweighed by the partner-unassigned residue, which rises much further: 1 of 58 in the single series against 9 of 163 pooled. A single cohort that could name the partner in all but one case understates how often the partner cannot be named.",
    "⛔_AND_IT_MOVES_THE_95_PERCENT_QUESTION_—_THIS_IS_THE_LOAD_BEARING_CONSEQUENCE": "On the single series the arithmetic ceiling is above 95%, so 95% is reachable in principle and the ladder's result is that reaching it REQUIRES the TCF12 arm. On the pooled partner denominator the ceiling itself falls BELOW 95%: no panel of any size, covering every breakpoint of every named partner including TCF12, reaches 95% of molecularly confirmed EMC — because more than five percent of it has no named partner to build a junction reagent against. ⚠ THIS IS A SENSITIVITY, NOT A REPLACEMENT: it does not retract the single-series ceiling, it shows that the ceiling's position relative to 95% depends on a basis choice nobody had tested, and that on the wider basis the 95% target is unreachable rather than merely hard.",

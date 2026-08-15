@@ -534,7 +534,8 @@ def test_the_discussion_recommends_the_two_published_junctions():
     published = {j["junction_label"]: j for j in d["junctions"]
                  if j["clinical_tier"] == "published_exon_resolved_breakpoint"}
     assert set(published) == {"EWSR1_e12__NR4A3_e3", "EWSR1_e13__NR4A3_e3",
-                              "TAF15_e6__NR4A3_e3", "TCF12_e5__NR4A3_e3"}, sorted(published)
+                              "TAF15_e6__NR4A3_e3", "TCF12_e5__NR4A3_e3",
+                              "TFG_e7__NR4A3_e3"}, sorted(published)
     txt = _flat(_paper())
     for label, seq in (("EWSR1_e12__NR4A3_e3", "GGGCATATCATCAAAC"),
                        ("TAF15_e6__NR4A3_e3", "GGGCATATCTTGTGTG")):

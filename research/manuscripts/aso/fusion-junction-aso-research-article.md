@@ -64,10 +64,10 @@ unspliced precursor RNA, where RNase-H1 is also active and no mature-transcript 
 Lengthening the gap, the obvious remedy, cannot help, and the reason is arithmetic rather than
 empirical: in every design of all three geometries tiled here, the junction-unique bases a longer gap
 wins and the contiguous wild-type-parent duplex it concedes are the same nucleotides. Candidates do
-clear the parent screens at every junction with a published exon-resolved breakpoint, and eight
+clear the parent screens at every junction with a published exon-resolved breakpoint, and nine
 junctions now hold both such a breakpoint and a design carried through all five screens — four of
 them at acceptors the frame grading excludes and an RNase-H mechanism does not. The two most
-frequently reported of the eight are together roughly two thirds of molecularly confirmed cases once
+frequently reported of the nine are together roughly two thirds of molecularly confirmed cases once
 partner prevalence is discounted by breakpoint distribution, and the whole set is 82.9%. They do not clear the screens cleanly: the *EWSR1* exon-12 reagent named below carries the
 heaviest disclosed transcriptome load of any design considered here, 123 gap-paired sense-strand
 near-matches at six gene loci, together with a sense-strand near-match in wild-type *TAF15* precursor
@@ -1089,18 +1089,23 @@ make the exon-12 reagent the safer molecule. Every hit behind both is a 14 of 16
 is predicted at any of them, and an expressed gene is necessary and not sufficient for an effect. The
 reason to make the exon-13 reagent is coverage, and it is unaffected by either axis.
 
-Eight junctions now carry both a published exon-resolved breakpoint and a design through all five
-screens, and half of them sit outside the 38-junction panel, at the *NR4A3* exon-2 acceptors named
-below.
+Nine junctions now carry both a published exon-resolved breakpoint and a design through all five
+screens, and four of them sit outside the 38-junction panel, at the *NR4A3* exon-2 acceptors named
+below. Four of the nine move the estimate; one moves only the bound, its arm having no measured
+within-partner distribution; and four move it by nothing at all — two because their partner is
+absent from this cohort, and two because their partner is present while their exon pair carries no
+count in it. That last pair is the easier of the two zeroes to miss, and a membership test that
+asked only about the partner did miss it.
 Priced on the whole retrieved breakpoint record rather than on the single series the ladder uses,
-the eight together are 82.9% of molecularly confirmed cases, with the same two denominators
+the nine together are 82.9% of molecularly confirmed cases, with the same two denominators
 widening that to 57.5–90.7%. That figure supersedes nothing: it answers a different question from the
 ladder, whose rungs are incremental and priced on the single series 68.4% is computed on, and 68.4%
 remains the coverage of the two reagents named at the head of this section. Its own membership rule
 is an evidence test rather than a list — a junction qualifies where a published report places a
 patient's breakpoint at it and a reagent has been through all five screens — and one qualifying
 junction, *PGR* exon 2 to *NR4A3* exon 2, moves the figure by exactly zero, because the 58-case
-cohort behind the denominator contains no *PGR* case for such a reagent to engage. What that reagent
+cohort behind the denominator contains no *PGR* case for such a reagent to engage. *TFG* exon 7 to
+*NR4A3* exon 3 is the second, on the same ground and from a deposited cDNA rather than a report. What that reagent
 changes is which patients are reachable at all, which is a different statement and is not added to a
 coverage percentage.
 

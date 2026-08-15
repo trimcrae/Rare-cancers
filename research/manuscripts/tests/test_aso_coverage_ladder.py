@@ -421,7 +421,12 @@ def test_the_manuscripts_best_supported_figure_is_the_artifacts_and_does_not_dis
     best = _ladder()["best_supported_buildable_panel"]
     txt = _paper_flat()
     lo, hi = best["coverage_percent_range"]
-    assert f"the eight together are {best['coverage_percent']}%" in txt
+    # ⚠ The count is DERIVED from the row, not spelled in this assertion -- it was "eight" until
+    # TFG_e7__NR4A3_e3 joined the published tier on a deposited cDNA, and a spelled number here
+    # would have had to be chased by hand every time membership moved.
+    _WORD = {8: "eight", 9: "nine", 10: "ten", 11: "eleven", 12: "twelve"}
+    _n = best["panel_membership"]["n_junctions_qualifying"]
+    assert f"the {_WORD[_n]} together are {best['coverage_percent']}%" in txt
     assert f"widening that to {lo}–{hi}%" in txt
     # ⛔ THE ABSTRACT IS A SECOND HOME FOR THIS NUMBER AND IS ASSERTED AGAINST THE SAME ROW. A
     # headline figure that drifts from its own §5.1 is the one a reviewer reads first.
@@ -430,13 +435,17 @@ def test_the_manuscripts_best_supported_figure_is_the_artifacts_and_does_not_dis
     assert "68.4% remains the coverage of the two reagents" in txt
     # membership is a derived count, and the manuscript may not carry a different one
     n = best["panel_membership"]["n_junctions_qualifying"]
-    assert n == 8, n
-    assert "eight junctions now hold both such a breakpoint and a design carried through all five " \
-           "screens" in txt
+    assert n == _n, (n, _n)
+    assert f"{_WORD[n]} junctions now hold both such a breakpoint and a design carried through " \
+           "all five screens" in txt
     # ⛔ THE ZERO-CONTRIBUTING MEMBER MUST BE NAMED AS CONTRIBUTING ZERO. Reading it as a small
     # positive contribution is exactly the error the row's own note refuses.
+    # ⛔ EVERY zero-contributor must be named, not just the first. TFG joined this list when a
+    # deposited cDNA moved it into the published tier, and a test pinning one name would have let
+    # the second go unmentioned in prose while the artifact carried it.
     zero = best["panel_membership"]["⛔_qualifying_but_contributing_exactly_zero"]["junctions"]
-    assert zero == ["PGR_e2__NR4A3_e2"], zero
+    assert zero == ["PGR_e2__NR4A3_e2", "TFG_e7__NR4A3_e3"], zero
+    assert "*TFG* exon 7 to *NR4A3* exon 3 is the second" in txt
     assert "*PGR* exon 2 to *NR4A3* exon 2, moves the figure by exactly zero" in txt
 
 

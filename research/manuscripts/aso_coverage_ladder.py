@@ -925,6 +925,29 @@ def best_supported_buildable_panel(screened):
     in_cohort = {lab: rec for lab, rec in screened.items() if rec["partner"] in counts}
     outside = sorted(set(screened) - set(in_cohort))
 
+    # ⛔ ONE COUNT WAS HIDING THREE STATES, AND IT READ 7 WHERE 5 MOVE THE ESTIMATE.
+    # `n_junctions_that_can_move_this_cohort` tested only whether the PARTNER is in the cohort. Two
+    # junctions -- EWSR1_e13__NR4A3_e2 and TAF15_e6__NR4A3_e2 -- have partners that ARE in it while
+    # their exon pairs are absent from the measured within-partner distribution, so they passed the
+    # test and moved the total by zero. The field's NAME is its contract, so the test is widened to
+    # match the name rather than the name loosened to match the test. Three states, named:
+    #   · moves the POINT ESTIMATE -- partner in the cohort AND its exon pair carries a count
+    #   · moves only the BOUND     -- partner in the cohort but its arm has no measured
+    #                                 distribution at all, so its whole share sits in the band
+    #   · moves NOTHING            -- partner absent from the cohort entirely
+    # ⚠ These are read from the same `k` maps the arithmetic uses, never listed, so a junction
+    # cannot drift into the wrong bucket while the coverage total stays right.
+    def _moves(lab, rec):
+        spec = pooled.get(rec["partner"])
+        if spec is None or rec["partner"] in PARTNERS_WITH_NO_BREAKPOINT_MEASUREMENT:
+            return "bound_only"
+        return "point_estimate" if spec["k"].get(lab, 0) else "neither"
+
+    moves_point = sorted(l for l, r in in_cohort.items() if _moves(l, r) == "point_estimate")
+    moves_bound_only = sorted(l for l, r in in_cohort.items() if _moves(l, r) == "bound_only")
+    in_cohort_but_moves_nothing = sorted(
+        l for l, r in in_cohort.items() if _moves(l, r) == "neither")
+
     measured, unmeasured = [], []
     point = lo = hi = 0.0
     single_point = 0.0
@@ -1040,7 +1063,19 @@ def best_supported_buildable_panel(screened):
                       "through all five deep screens. Both are READ from the tables that own them."),
             "n_junctions_qualifying": len(screened),
             "junctions": screened,
-            "n_junctions_that_can_move_this_cohort": len(in_cohort),
+            "n_junctions_moving_the_point_estimate": len(moves_point),
+            "junctions_moving_the_point_estimate": moves_point,
+            "n_junctions_moving_only_the_bound": len(moves_bound_only),
+            "junctions_moving_only_the_bound": moves_bound_only,
+            "⛔_in_cohort_but_moving_NOTHING": {
+                "junctions": in_cohort_but_moves_nothing,
+                "why": ("the PARTNER is in the cohort but this exon pair carries no count in the "
+                        "measured within-partner distribution, so the reagent engages no case the "
+                        "denominator contains. ⚠ A SECOND WAY TO CONTRIBUTE ZERO, and the one an "
+                        "earlier partner-only test could not see: it counted these among the "
+                        "junctions that can move the cohort while the unchanged total proved they "
+                        "move it by zero."),
+            },
             "⛔_qualifying_but_contributing_exactly_zero": {
                 "junctions": outside,
                 "why": ("the partner is not in the 58-case cohort's partner counts, so the "
@@ -1413,11 +1448,13 @@ def main(argv=None):
           f"({b['coverage_percent_range'][0]}-{b['coverage_percent_range'][1]}%), pooled basis; "
           f"{b['coverage_percent_single_series_basis']}% on the single series",
           file=sys.stderr)
-    print(f"      {b['panel_membership']['n_junctions_that_can_move_this_cohort']} screened "
-          f"reagents at published exon-resolved breakpoints "
-          f"({b['panel_membership']['n_junctions_qualifying']} qualify; "
-          f"{len(b['panel_membership']['⛔_qualifying_but_contributing_exactly_zero']['junctions'])}"
-          " at a partner this cohort does not contain, worth exactly 0)", file=sys.stderr)
+    pm = b["panel_membership"]
+    print(f"      {pm['n_junctions_moving_the_point_estimate']} screened reagents move the estimate "
+          f"({pm['n_junctions_qualifying']} qualify; "
+          f"{pm['n_junctions_moving_only_the_bound']} move only the bound; "
+          f"{len(pm['⛔_in_cohort_but_moving_NOTHING']['junctions'])} in-cohort worth 0; "
+          f"{len(pm['⛔_qualifying_but_contributing_exactly_zero']['junctions'])} at a partner this "
+          "cohort does not contain)", file=sys.stderr)
     for u in b["arms_with_NO_measured_within_partner_distribution"]:
         pp = next(r["percent_points"] for r in g["blocks"] if r["block"].startswith(u["partner"]))
         print(f"      ⛔ {u['partner']} arm UNMEASURED — 0 in the point estimate, +{pp} pp at "

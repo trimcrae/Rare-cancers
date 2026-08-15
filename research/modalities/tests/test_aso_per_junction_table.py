@@ -101,7 +101,8 @@ def test_the_published_junctions_are_tiered_apart_from_the_rest():
     published = {j["junction_label"] for j in _art()["junctions"]
                  if j["clinical_tier"] == "published_exon_resolved_breakpoint"}
     assert published == {"EWSR1_e12__NR4A3_e3", "EWSR1_e13__NR4A3_e3",
-                         "TAF15_e6__NR4A3_e3", "TCF12_e5__NR4A3_e3"}, sorted(published)
+                         "TAF15_e6__NR4A3_e3", "TCF12_e5__NR4A3_e3",
+                         "TFG_e7__NR4A3_e3"}, sorted(published)
     for label in published:
         assert _junction(label)["breakpoint_refs"], f"{label} claims publication with no reference"
     assert _junction("TAF15_e1__NR4A3_e3")["clinical_tier"] == \
