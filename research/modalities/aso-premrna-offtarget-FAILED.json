@@ -2,7 +2,7 @@
  "_what": "a pre-mRNA screen run that FAILED. Not a result, and not a reading of absence.",
  "_why_this_file_exists": "the traceback of a CI failure is otherwise unreachable from the dev sandbox, so it was being guessed at",
  "error_type": "RuntimeError",
- "error": "Ensembl GET failed after 4 attempts: HTTPError: HTTP Error 503: Service Unavailable (https://rest.ensembl.org/lookup/id/ENST00000325455?expand=1)",
+ "error": "Ensembl GET failed after 4 attempts: HTTPError: HTTP Error 500: Internal Server Error (https://rest.ensembl.org/sequence/id/ENST00000333725?type=genomic)",
  "traceback": [
   "Traceback (most recent call last):",
   "  File \"/home/runner/work/Rare-cancers/Rare-cancers/research/modalities/aso_premrna_offtarget.py\", line 461, in main",
@@ -11,17 +11,17 @@
   "  File \"/home/runner/work/Rare-cancers/Rare-cancers/research/modalities/aso_premrna_offtarget.py\", line 499, in _run",
   "    premrna = fetch_premrna(transcripts)",
   "              ^^^^^^^^^^^^^^^^^^^^^^^^^^",
-  "  File \"/home/runner/work/Rare-cancers/Rare-cancers/research/modalities/aso_premrna_offtarget.py\", line 181, in fetch_premrna",
-  "    meta = json.loads(_http(f\"{ENSEMBL}/lookup/id/{tid}?expand=1\"))",
-  "                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+  "  File \"/home/runner/work/Rare-cancers/Rare-cancers/research/modalities/aso_premrna_offtarget.py\", line 173, in fetch_premrna",
+  "    seq = _http(f\"{ENSEMBL}/sequence/id/{tid}?type=genomic\",",
+  "          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
   "  File \"/home/runner/work/Rare-cancers/Rare-cancers/research/modalities/aso_premrna_offtarget.py\", line 158, in _http",
   "    raise RuntimeError(f\"Ensembl GET failed after {tries} attempts: {type(err).__name__}: {err} \"",
-  "RuntimeError: Ensembl GET failed after 4 attempts: HTTPError: HTTP Error 503: Service Unavailable (https://rest.ensembl.org/lookup/id/ENST00000325455?expand=1)"
+  "RuntimeError: Ensembl GET failed after 4 attempts: HTTPError: HTTP Error 500: Internal Server Error (https://rest.ensembl.org/sequence/id/ENST00000333725?type=genomic)"
  ],
  "argv": [],
  "env": {
   "PREMRNA_GENOMIC": "",
-  "PREMRNA_OUT": "aso-premrna-offtarget-noncoding-acceptor.json"
+  "PREMRNA_OUT": "aso-premrna-offtarget-taf15intron2.json"
  },
  "atlas_present": true,
  "sequence_cache_present": true
