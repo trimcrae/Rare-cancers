@@ -355,6 +355,22 @@ def build():
         "_generated_by": os.path.basename(__file__),
         "oligo_geometry": {"length": ja.OLIGO_LEN, "wing": ja.WING, "gap": ja.GAP,
                            "architecture": f"{ja.WING}-{ja.GAP}-{ja.WING} (LNA-DNA-LNA)"},
+        # ⛔ REQUIRED BY THE DEEP SCREENS, AND ITS ABSENCE IS NOT A COSMETIC GAP. Both
+        # `aso_premrna_offtarget` (`atlas["transcripts"]` -> the six parents whose UNSPLICED
+        # sequence it fetches) and `aso_genome_offtarget` (`sorted(atlas["transcripts"].keys())`)
+        # read this block, and the first dispatch of the pre-mRNA screen against this atlas died on
+        # `KeyError: 'transcripts'` for exactly that reason. ⭐ IT IS ALSO THE BLOCK THAT MATTERS
+        # MOST AT THIS SEAM: the acceptor half of every design here is NR4A3 INTRONIC sequence, so
+        # the parent whose pre-mRNA must be searched is NR4A3 itself, and this is what tells the
+        # screen to search it.
+        # Derived from the same transcript models the designs were built from — never transcribed by
+        # hand, so it cannot drift from the sequences it describes.
+        "transcripts": {
+            sym: {"transcript": m["transcript"], "cdna_nt": len(m["cdna"]),
+                  "cds_nt": len(m["cds"]), "utr5_nt": m["utr5_len"],
+                  "n_transcript_exons": m["n_transcript_exons"]}
+            for sym, m in ((s, ja.transcript_model(s)) for s in PARENT_SYMBOLS)
+        },
         "_transcript_source": ja.transcript_source_provenance(),
         "panels": [{
             "junction_label": junction_label,
@@ -420,6 +436,52 @@ def build():
                 "pairing on a T-N transcript. The two seams need two reagents."),
         },
         "does_the_published_panel_reach_this_transcript": panel_reach_check(j["_fusion"]),
+        "⛔_which_of_the_five_deep_screens_can_run_at_this_seam": {
+            "_read_this_first": (
+                "⭐ THE PRE-mRNA AND GENOME SCREENS ARE THE ONES THAT COUNT AT THIS SEAM, AND A "
+                "CLEAN PARENT SCREEN HERE IS WEAKER EVIDENCE THAN THE SAME RESULT AT AN EXON-EXON "
+                "JUNCTION. The acceptor half of every design above is NR4A3 INTRONIC sequence. It "
+                "is absent from every mature transcript, so a spliced-cDNA screen cannot see it at "
+                "all — but it is physically present in the NR4A3 PRE-mRNA and in the genome, which "
+                "is where an RNase-H1 gapmer meets it. Reading the parent-exclusion result above as "
+                "'clean' without the pre-mRNA and genome arms would be reading the silence of an "
+                "instrument that cannot look at the compartment in question."),
+            "runnable_here": {
+                "aso_premrna_offtarget.py": (
+                    "YES — takes its design set from an atlas via ATLAS_JSON, and this module emits "
+                    "one. THE ARM THAT MATTERS MOST: it searches the six parent transcripts' "
+                    "UNSPLICED sequence, and NR4A3's unspliced sequence contains intron 2, hence "
+                    "contains this cryptic exon."),
+                "aso_genome_offtarget.py": (
+                    "YES — also ATLAS_JSON-driven. The second arm that matters: an exhaustive "
+                    "<=2-mismatch scan of GRCh38 covers the intronic acceptor half everywhere else "
+                    "it occurs in the genome."),
+            },
+            "not_runnable_here_without_a_code_change": {
+                "junction_aso_offtarget.py": (
+                    "NO, AND THE REASON IS THE GUARD THIS LANE DELIBERATELY DID NOT WEAKEN. It "
+                    "designs internally through junction_aso.build_parents_and_fusion, which "
+                    "addresses a junction only as (donor gene, donor exon, NR4A3 exon) and RAISES "
+                    "on a non-coding acceptor. This seam's acceptor is a cryptic exon lying 5' of "
+                    "the NR4A3 ATG, so it is non-coding by that test and is not expressible as an "
+                    "NR4A3 exon index at all. Screening it there would mean either weakening the "
+                    "coordinate guard — which is what produced the retracted seam — or teaching "
+                    "that module to take designs from an atlas the way the other two already do. "
+                    "The second is the right fix and is not attempted here."),
+                "junction_aso_locus_collapse.py": (
+                    "NO — derived from the BLAST screen's junction-aso-offtarget-*.json outputs "
+                    "(aso_screen_sets.BLAST_SCREEN), so it inherits the blocker above."),
+                "aso_offtarget_tissue_expression.py": (
+                    "NO — keyed on off-target loci produced upstream, so it likewise inherits it."),
+            },
+            "⚠_what_this_means_for_the_counts": (
+                "This junction can therefore NOT carry the full finished-junction field set that "
+                "aso-per-junction-table.json holds for the panel's 38. n_gap_paired, "
+                "n_hybridisable, n_near_matches, parent_duplex_bp and the locus-collapse fields all "
+                "come from the BLAST arm and will be ABSENT rather than zero. An absent count is "
+                "not a clean count, and this seam's numbers must never be tabulated beside the "
+                "panel's as though the same instruments had been applied."),
+        },
         "geometry": {"oligo_len": ja.OLIGO_LEN, "wing": ja.WING, "gap": ja.GAP,
                      "architecture": f"{ja.WING}-{ja.GAP}-{ja.WING} (LNA-DNA-LNA)",
                      "_same_as": "aso_screen_sets.MANUSCRIPT_GEOMETRY, asserted at build time"},
@@ -455,11 +517,27 @@ def build():
                 "in the corpora searched reports one. A named risk without a denominator cannot be "
                 "converted into a coverage percentage, and dressing the ordering up as a fraction "
                 "would be fabricating the very number the paper declines to give."),
+            "⛔_the_count_is_permanently_unavailable_not_pending": (
+                "There will be NO AUTHOR OUTREACH (trimcrae, 2026-08-15). The only source that "
+                "could state how many TAF15 patients carry the intron-2 acceptor is the group that "
+                "reported both isoforms, and asking them is ruled out. So this is not an open "
+                "question awaiting an answer — it is a CLOSED one with no answer, and the TAF15 "
+                "arm's 3/3 pricing stays an explicit upper bound permanently, not provisionally. "
+                "⚠ Anything that renders this row as 'pending', 'to be confirmed' or 'awaiting "
+                "data' is wrong: nothing is coming."),
             "what_would_settle_it": (
-                "A TAF15::NR4A3 series that reports the acceptor per patient at nucleotide "
-                "resolution. Until one exists the honest statement is: the panel covers T-N*, a "
-                "second isoform exists, its prevalence among TAF15 patients is unmeasured, and a "
-                "reagent for it is designed and screened so the gap is insured rather than open."),
+                "Only a TAF15::NR4A3 series reporting the acceptor per patient at nucleotide "
+                "resolution — i.e. new sequencing published by someone else, not a question anyone "
+                "here can ask. Until such a series exists the honest statement is: the panel covers "
+                "T-N*, a second isoform is on the record as detected in human tumours, its "
+                "prevalence is unmeasured and will stay unmeasured, and a reagent for it is "
+                "designed so the gap is insured rather than open."),
+            "the_measured_mitigation": (
+                "0 of 190 panel designs across all 38 junctions engage a modelled T-N transcript, "
+                "and the two isoforms share 0 bases 3' of the breakpoint. So the exposure is fully "
+                "characterised even though its frequency is not: whatever fraction of TAF15 "
+                "patients carry T-N, the current panel reaches none of them, and the five designs "
+                "here are what would."),
         },
         "_what_this_is_not": [
             "Not an efficacy claim and not a claim of activity. Sequence arithmetic and a "
