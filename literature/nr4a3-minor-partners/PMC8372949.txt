@@ -1,0 +1,513 @@
+440plosonePLoS ONEPLoS OnePLOSPMC8372949837294983729493440714410.1371/journal.pone.0256148RNA-sequencing of AVPV and ARH reveals vastly different temporal and transcriptomic responses to estradiol in the female rat hypothalamus
+MohrMargaret AData curation, Formal analysis, Investigation, Methodology, Visualization, Writing – original draft, Writing – review & editing WongAngela MData curation, Methodology, Writing – review & editing SukumarGauthamanFormal analysis DalgardClifton LFormal analysis HongWeizheFormal analysis, Supervision WuT JohnFormal analysis, Funding acquisition, Resources, Writing – review & editing WuYe EmilyFormal analysis, Writing – review & editing MicevychPaul EConceptualization, Funding acquisition, Investigation, Methodology, Writing – review & editing SimonSidney ArthurEditor 1Dept of Neurobiology, and the Laboratory of Neuroendocrinology of the Brain Research Institute, UCLA DGSOM, Los Angeles, California, United States of America2Dept of Gynecological Surgery and Obstetrics, Uniformed Services University of the Health Sciences, Bethesda, Maryland, United States of America3Duke University School of Medicine, UNITED STATESCompeting Interests: The authors have declared that no competing interests exist.
+✉* E-mail: mmohr@mednet.ucla.edu
+1882021168e0256148e02561481982021© 2021 Mohr et alThis is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
+
+## Abstract
+In females, estrogens have two main modes of action relating to gonadotropin secretion: positive feedback and negative feedback. Estrogen positive and negative feedback are controlled by different regions of the hypothalamus: the preoptic area/anterior portion (mainly the anteroventral periventricular nucleus, AVPV) of the hypothalamus is associated with estrogen positive feedback while the mediobasal hypothalamus (mainly the arcuate nucleus of the hypothalamus, ARH), is associated with estrogen negative feedback. In this study, we examined the temporal pattern of gene transcription in these two regions following estrogen treatment. Adult, ovariectomized, Long Evans rats received doses of estradiol benzoate (EB) or oil every 4 days for 3 cycles. On the last EB priming cycle, hypothalamic tissues were dissected into the AVPV+ and ARH+ at 0 hrs (baseline/oil control), 6 hrs, or 24 hrs after EB treatment. RNA was extracted and sequenced using bulk RNA sequencing. Differential gene analysis, gene ontology, and weighted correlation network analysis (WGCNA) was performed. Overall, we found that the AVPV+ and ARH+ respond differently to estradiol stimulation. In both regions, estradiol treatment resulted in more gene up-regulation than down-regulation. S100g was very strongly up-regulated by estradiol in both regions at 6 and 24 hrs after EB treatment. In the AVPV+ the highest number of differentially expressed genes occurred 24 hrs after EB. In the ARH+, the highest number of genes differentially expressed by EB occurred between 6 and 24 hrs after EB, while in the AVPV+, the fewest genes changed their expression between these time points, demonstrating a temporal difference in the way that EB regulates transcription these two areas. Several genes strongly implicated in gonadotropin release were differentially affected by estradiol including Esr1, encoding estrogen receptor-α and Kiss1, encoding kisspeptin. As an internal validation, Kiss1 was up-regulated in the AVPV+ and down-regulated in the ARH+. Gene network analysis revealed the vastly different clustering of genes modulated by estradiol in the AVPV+ compared with the ARH+. These results indicate that gene expression in these two hypothalamic regions have specific responses to estradiol in timing and direction.
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2021 Feb 23; Accepted 2021 Jul 30; Collection date 2021.
+
+## Introduction
+In females, estrogen signaling in the hypothalamus elicits two different feedback loops that regulate reproduction. Throughout most of the estrous cycle, low amounts of circulating estradiol exert negative feedback action on gonadotropin releasing hormone (GnRH), halting the release of gonadotrophs (luteinizing hormone, LH, and follicle stimulating hormone, FSH). However, on proestrus, rising levels of estradiol initiate positive feedback signaling, causing an increased frequency and amplitude of GnRH release eliciting a surge of LH from the pituitary gland, inducing ovulation. The primary mediator of both estrogen negative and positive feedback appears to be the kisspeptin neurons, Kisspeptin neurons in the arcuate nucleus of the hypothalamus (ARH) mediate estrogen negative feedback and the pulsatile release of GnRH [ – ], while kisspeptin neurons in the anteroventral periventricular nucleus (AVPV) mediate positive feedback [ – ]. Sex differences in these kisspeptin populations correspond to functional sex differences in estrogen feedback. Mirroring estrogen negative feedback that occurs in males and females. While there is no sex difference in number of ARH kisspeptin neurons [ ], in the AVPV, females have a larger population of kisspeptin neurons, which control positive feedback, which is only present females [ ].
+The switch between positive and negative feedback signaling involves a balance of estradiol and progesterone signaling, with coordination of the master circadian clock, regulated by the suprachiasmatic nucleus (SCN; reviewed in [ – ]. While there is rapid regulation of the GnRH neurons involving GABA, glutamate signaling, and kisspeptin, both negative and positive feedback require estrogenic control of transcription. Because GnRH neurons do not express the reproductively critical ERα, or nuclear progesterone receptor (PGR) [ – ], steroid information to GnRH neurons must be transduced by other neurons and glial cells that express the appropriate receptors. Among the various estradiol-responsive inputs to GnRH cells, perhaps the most critical is kisspeptin.
+ARH kisspeptin neurons express neurokinin B (NKB) and dynorphin and are designated KNDy neurons. These neurons appear to be the pulse generator for GnRH release and the site of negative feedback [ – ]. Estradiol inhibits ARH kisspeptin expression and removal of estradiol up-regulates kisspeptin levels [ ]. Lesioning the KNDy neurons with saporin [ ] blocks negative feedback [ , ]. In contrast with the ARH kisspeptin population, kisspeptin expression is up-regulated by estradiol in the AVPV [ ].
+Gene expression studies have not been focused on the AVPV region, nor have they been conducted in animals treated with a hormonal replacement paradigm to simulate estrogen positive feedback. In the ARH, estradiol affected a wide spectrum of genes related to cell communication, metabolism, growth, transcription, and translation [ – ]. These studies examined the estradiol- transcriptome at a single time-point following systemic estradiol treatment and revealed a number of genes related to the regulation of reproduction: (e.g., Pgr, Kiss1, Arc, Pomc, Pdyn, and Tac2).
+The present study compared the temporal pattern of the transcriptome following estradiol treatment in both the AVPV region (AVPV+) and the ARH region (ARH+), cell groups responsible for positive and negative feedback, respectively. The estradiol coordination of activity in the ARH and AVPV is necessary for an appropriate GnRH response, as is gene expression in each region. To determine estradiol-induced transcriptomic responses, we examined the region-specific (AVPV+ and ARH+) and time-dependent responses. We compared estradiol regulation of gene expression between AVPV+ and ARH+ at specific time points after EB treatment, which is a novel approach to studying expression changes within the hypothalamus. Comparisons between time points allowed insights into how the temporal responses to estradiol on transcription differ between the AVPV+ and ARH+.
+
+## Methods
+
+## Ethics statement
+This study was carried out in accordance with the principles and procedures of the National Institute of Health Guide for the Care and Use of Laboratory Animals. The protocol was approved by the Chancellor’s Animal Research Committee at the University of California, Los Angeles (Protocol Number: ARC # 2000–077).
+
+## Animals
+Ovariectomized (ovx) adult (~ 8 weeks of age) female Long-Evans rats (200–250 g) were purchased from Charles River (Wilmington, MA). Rats were shipped one-week post-ovariectomy. Upon arrival, rats were housed two per cage in a climate-controlled room, with a 12-hr light, 12-hr dark cycle (lights on at 0600). The hormone injections were started two weeks after the ovariectomies. Food and water were available ad libitum to the rats.
+
+## Steroid priming
+Estrogen injections began 2 weeks after ovariectomies. 17β-estradiol benzoate (EB) dissolved in safflower oil was injected (subcutaneously, s.c.) in a volume of 0.1 ml per rat. Females received 5 μg EB every 4 days between 0800 and 0900 for three cycles to mimic the natural estrous cycle of female rats as previously described [ ]. Rats were anesthetized with isoflurane 6 hrs (n = 6) or 24 hrs (n = 6) after the third EB injection and brains were quickly isolated after decapitation. Baseline rats received oil for 3 cycles and sacrificed immediately following the last oil injection (n = 6). AVPV+ and ARH+ tissue was microdissected over ice using a matrix and razor blades ( ) and then quick-frozen and stored at -80°C.
+ 
+
+## RNA isolation
+Total RNA from microdissected AVPV+ and ARH+ were isolated using TRIzol reagent (Life Technologies; Carlsbad, CA), according to a protocol recommended by the manufacturer. Briefly, tissue was homogenized in TRIzol® at a ratio of 100 mg tissue/1 mL TRIzol® (Thermo Fisher). Following the chloroform extraction of RNA and precipitation with 100% isopropanol, RNA pellet was washed with 75% ethanol/DEPC-treated water. Pellets were allowed to dry for 10 min at room temperature and were resuspended in 100 μL DEPC water. RNA samples were further purified using the E.Z.N.A. MicroElute RNA Clean Up Kit (Omega Bio-Tek; Norcross, GA) according to manufacturer’s instructions. Briefly, 250 μL QVL Lysis Buffer was added to each RNA sample and subsequently applied to a MicroElute LE RNA Mini Column. The diluent was separated from the RNA bound to the silica column by centrifugation at 10,000 X g for 15 seconds. After washing columns twice with RNA Wash Buffer II, RNA was eluted from the column with 15 μL of DEPC water. RNA concentrations and quality were reassessed using the NanoDrop™ 1000 spectrophotometer (Thermo Scientific, Waltham, MA). RNA concentration was >200 μg/mL, 260/280 (nucleic acid/protein) ratio was between 1.8 and 2.0 and 260/230 (nucleic acid/organic contaminants) ratio was between 2.0 and 2.2.
+
+## RNA-seq
+To test for RNA integrity, samples were initially analyzed on a denaturing agarose gel (1% agarose in 1X MOPS buffer (20 mm MOPS, 5 mM sodium acetate, 1 mM EDTA, 1 mM EGTA) plus 6.7% formaldehyde). Briefly, 0.5-3X volumes of formaldehyde loading dye (62.5% deionized formamide, 1.14 M formaldehyde, 200 μg/ml bromphenol blue, 1.25X MOPS buffer, 0.5% ethidium bromide) was added to 1 μg RNA and samples were heated at 65°C for 10 min. Samples were run on the gel at 5–6 V/cm2. Gels were visualized on a UV illuminator (Fluor ChemE imager; ProteinSimple, San Jose, CA). Intact total RNA samples with sharp 28S and 18S rRNA bands (28S rRNA band was approximately twice as intense as the 18S rRNA band) were further analyzed. Samples were removed when these criteria were not met. Final sample sizes were as follows: ARH baseline n = 6; ARH 6 hr n = 6; ARH 24 hr n = 5; AVPV baseline n = 4; AVPV 6 hr n = 4; AVPV 24 hr n = 4.
+RNA integrity was also assessed using automated capillary electrophoresis on a Fragment Analyzer (Advanced Analytical Technologies, Inc., Ames, IA). Total RNA input of 500ng was used for library preparation using the Truseq Stranded mRNA Library Preparation Kit (Illumina; San Diego, CA, USA). Sequencing libraries were quantified by PCR using KAPA Library Quantification Kit for NGS (Kapa; Wilmington, MA, USA) and assessed for size distribution on a Fragment Analyzer. Sequencing libraries were pooled and sequenced on a HiSeq3000 (Illumina) using 150 cycle SBS kit with paired-end reads at 76 bp length [ , ].
+
+## Read mapping and quantification
+Paired end reads were mapped to the Rattus norvegicus genome (Rnor6.0) using STAR v2.5.0a [ ] with default settings. Read counts were quantified with HTSeq using union exon models [ ]. We obtained 27–45 million uniquely mapped reads for each sample.
+
+## Differential gene expression analysis
+Differential gene expression analysis was performed using the DESeq2 R package [ ]. Genes that were detected in at least two samples with at least 20 total read counts were used for this analysis. Expression values were normalized for library size, and differential expression analysis was performed using the DESeq function. In , base mean is defined as the mean of normalized counts across all samples, normalizing for sequencing depth using the median of ratios method in DESeq2. Counts per million and standard deviation values for all genes used in differential gene expression analysis are provided in . Genes with an FDR (adjusted p value) < 0.1; fold change > = |1.3|; p value < 0.01 were considered to be significantly differentially expressed. Volcano plots of genes were made in R, with -log10(adjusted p value) plotted on the y-axis and log2(fold change) plotted on the x-axis. Genes highly differentially expressed and/or genes of interest were labeled using Adobe Illustrator (HQ). Total numbers of significantly differentially expressed genes were plotted using GraphPad Prism 7 and Venny 2.1 was used to visualize the overlaps of significantly differentially expressed genes [ ].
+
+## Weighted gene coexpression network analysis (WGCNA)
+The WGCNA R package [ ] was used for building signed coexpression networks. Biweight midcorrelation was first used to calculate pair-wise correlations between genes. Next, pair-wise topological overlap was calculated with a power of 14 based on a fit to scale-free topology. Coexpression modules comprised of positively correlated genes with high TO were then identified using the cutreeDynamic function in the dynamicTreeCut R package [ ], with the following parameters: method = "hybrid", deepSplit = 4 for ARH and 2 for AVPV+ and all samples from both regions, pamStage = F, minClusterSize = 50 for ARH and 100 for AVPV+ and all samples from both regions. The expression of each module was summarized by the module eigengene (ME, defined as the first principal component of all genes in a module). Modules whose eigengenes were highly correlated were further merged using the mergeCloseModules function in the WGCNA R package. Pearson correlations between MEs and experimental conditions (treated as binary numeric variables) were calculated. p values were FDR adjusted using Benjamini-Hochberg (BH) correction.
+
+## Gene ontology analysis
+Gene ontology analysis and functional classification were performed for genes in individual co-expression modules identified in WGCNA (module membership > = 0.5, p < 0.05) using the R package goseq [ ], with gene length corrected and all genes expressed used as background. Significance was set at BH adjusted P-value < 0.1. REVIGO50 was used to cluster enriched GO-terms in modules significantly affected by estradiol. GO-terms were visualized by log10 p-value (Y-axes) and Resnik (normalized) semantic similarity of GO-terms (X-axes). Relevant GO-terms were selected in the scatterplots.
+
+## Results
+
+## Genes differentially expressed between the AVPV+ and ARH+ at specific post-EB time points
+To investigate the effects of estradiol on gene expression between the AVPV+ and ARH+, differential gene expression analysis based on the negative binomial distribution was performed. Expression levels of genes in the AVPV+ were compared to expression levels in the ARH+ at oil baseline, 6 hrs post-EB, and 24 hrs post-EB ( ). In each estradiol condition, genes such as Pomc and Npvf were very strongly upregulated in the ARH+, whereas genes such as Gnrh1 and Chat were very strongly upregulated in the AVPV+. The top 10 genes most differentially between the AVPV+ and ARH+ (i.e., highest positive and negative logarithmic fold change) are indicated in .
+ To better visualize the total numbers of differentially expressed genes between the AVPV+ and ARH+, genes that were significantly differentially expressed at each time post-EB were summarized in a bar graph ( ). At baseline (oil) 57% of genes were upregulated in the ARH+ compared with the 43% that were upregulated in the AVPV+ (826 genes higher in ARH+ vs. 632 genes higher in AVPV+). At 6 hrs post-EB, expression patterns changed. Differentially expressed genes increased dramatically with 56% of genes upregulated in the AVPV+ compared with 44% upregulated in the ARH+ (1726 genes higher in AVPV+ vs. 1330 genes higher in ARH+). Twenty-four hours post-EB treatment the percentages of differentially expressed genes between AVPV+ and ARH+ fell. In the AVPV+, 42% were upregulated and in the ARH+, 58% were upregulated (825 genes higher in AVPV+ vs. 1146 genes higher in ARH+).
+Venn diagram analysis compared the overlap of genes whose expression was significantly different between the AVPV+ and the ARH+ at each of the three estradiol conditions ( ). Genes such as Kiss1, Prl, Tac3 (encoding NKB, aka rodent Tac2, Ensembl:ENSRNOG00000004229), Cck, and Gnrhr were of the 382 genes that were different between the AVPV+ and ARH+ at baseline. Six hours post-EB genes such as Tacr3 were differentially expressed between the AVPV+ and ARH+. Pgr was differentially expressed between the AVPV+ and ARH+ but only 24 hrs post-EB. Some genes, regardless of EB treatment, were differentially expressed between the AVPV+ and ARH+, including Cckar, Gnrh1 and Cyp19a1. Differences in Gnrh1 provided an internal validation of our dissections–that they consistently captured these hypothalamic nodes.
+
+## The transcriptomic response to EB is temporally different in the AVPV+ and ARH+
+To investigate the temporal effects of estradiol on gene expression in AVPV+ and ARH+, differential gene expression analysis based on the negative binomial distribution was performed. Pairwise comparisons within the AVPV+ and ARH+ were performed 6 hrs post-EB and 24 hrs post-EB ( ). First, we investigated expression profiles from AVPV+ and ARH+ at these times ( ). Estradiol strongly up regulated Kiss1 in AVPV+ ( ) and down regulated Kiss1 in ARH+ ( ). In distinction, S100g was very strongly up regulated by estradiol in both the AVPV+ and ARH+. The top 10 genes whose expression was most affected by estradiol (i.e., highest positive and negative logarithmic fold change) are indicated in Tables – . Comparing differentially expressed genes between oil and 6 hrs post-EB, Kiss1 was the most up- regulated DE gene in the AVPV+, while it was the 2nd most down-regulated gene in the ARH+ ( ). The differential expression of Kiss1 by observed at 6 hrs and remained changed after 24 hrs: the second most up-regulated gene in the AVPV+ and the most down-regulated gene in the ARH+ at 24 hrs ( ).
+ To compare the up and down regulation of genes by EB relative to baseline, the total numbers of differentially expressed genes were plotted ( ). In the AVPV+ and ARH+, more genes were up-regulated by EB (chi square df = 4.82, 1; z = 2.195, p = 0.0281; ). In the AVPV+, 1142 genes (53%) and in the ARH+, 191 genes (59%) were up-regulated by EB. When less stringent criteria were used to determine whether genes were differentially expressed (e.g., p <0.05), similar numbers of genes are differentially regulated by EB (7823 in AVPV+ vs. 6595 in ARH+). The timing of EB-induced transcription in these two regions was different ( ). In the AVPV+ at 6 hrs post-EB 58 genes were differentially expressed (62% up, 38% down). Then, at 24 hrs post-EB there was a wave of transcription in the AVPV+ with 2111 genes differentially expressed (53% up and 47% down). The smallest number of transcriptional changes occurred in the AVPV+ between 6 and 24 hrs post-EB (2 differentially expressed genes, 0% up and 100% down-regulated). In stark contrast, the most transcriptional changes were observed in the ARH+ between 6 and 24 hrs post-EB (201 DE genes, 57% up and 43% down regulated). The same number of genes were differentially expressed in the ARH+ at baseline or 6 hrs post-EB (61 differentially expressed genes, 56% up and 44% down regulated) and baseline and 24 hrs post-EB (61 differentially expressed genes, 70% up and 30% down regulated).
+Venn diagram analyses compared genes whose expression was significantly different at each time point compared to baseline ( ) and between 6 and 24 hrs post-EB ( ) in the AVPV+ and ARH+. For example, Dbp, Cd93, and Tgm2 were differentially expressed after 6 hrs of estradiol treatment in both the AVPV+ and ARH+ relative to baseline. Only 3 genes, S100g, Sgk1, and Kiss1, were differentially expressed after EB relative to baseline at both 6 and 24 hrs in AVPV+ and ARH+ ( ). When comparing the expression of genes between 6 and 24 hrs post-EB, Ciart was differentially regulated in both the AVPV+ and ARH+ ( ).
+For complete lists of overlapping genes, see – Tables, and for details regarding each differential gene expression analysis, see – Tables. Note that the region/time listed first in the file names for – Tables is the denominator for each comparison.
+
+## Weighted gene co-expression network analysis (WGCNA) revealed networks of genes modulated by EB in the AVPV+ and ARH+
+Weighted gene co-expression network analysis (WGCNA) was used to identify clusters (aka modules) of highly correlated genes modulated by EB from baseline to 6 hrs post-EB, from baseline to 24 hrs post-EB, and from 6 to 24 hrs-post EB within the AVPV+ ( ), ARH+ ( ), or the AVPV+ combined with the ARH+ ( ). Gene networks were clustered into color-coded modules, whose response to EB was similar. AVPV+ modules in all comparisons had approximately equal up- or down-regulation (heatmaps ) and had similar trends within modules. In the AVPV+, 11 modules were determined, with 5 modules responding significantly to EB ( ). REVIGO50 was used to cluster enriched GO-terms in modules significantly affected by EB (Figs and ). Modules significantly affected by EB in the AVPV+ ( ), and AVPV+ and ARH+ together ( ), were assigned a function based on gene ontology. In the AVPV+, modules associated with dendrite spine development, RNA splicing and peptide synthesis, and epigenetic effects such as histone modification and methylation were significantly up-regulated by EB at 6 to 24 hrs post-EB and at 24 hrs. Simultaneously, modules associated with cell death, cell migration, and neuro- and gliogenesis were downregulated ( ).
+ ARH+ gene clusters had different temporal patterns of EB-induced up- and down-regulation. The heatmap patterns of up- and down-regulation by EB ( ) were vastly different when comparing ARH+ 6 hrs and ARH+ 24 hrs. Among the 7 modules in the ARH+, no modules were significantly up- or down-regulated by EB ( ).
+Network analysis of combined gene expression in AVPV+ and ARH+ revealed 9 modules but only 4 modules were significantly affected by EB ( ) and the effect was mostly driven by significant effects in the AVPV+. The tan, pink, salmon and light cyan modules showed significant up or down regulation by EB in the AVPV+, and not in the ARH+. The enriched GO-terms in each module varied when the AVPV+ was analyzed by itself ( ) compared to the combined ARH+ and AVPV+ ( ). For example, the magenta module in the AVPV+ analysis, which was up-regulated at 6 and 24 hrs post-EB contained enriched GO terms that included RNA splicing, peptide synthesis, and ribosome biogenesis, while the light cyan module in the combined analysis contains the same GO terms but is down-regulated at 6 and 24 hrs post-EB. For complete lists of genes within each module and for complete lists of GO-terms, see – Tables.
+
+## Discussion
+Interestingly, but not unexpectedly, the patterns of gene expression in the AVPV+ and ARH+ were different in the baseline, oil-treated condition. This is most likely due to the different functions of these regions of the hypothalamus that may or may not be affected by estradiol. For example, the ARH is a complex nucleus implicated in the control of food intake, metabolism, cardiovascular regulation, and fertility, while the AVPV is mostly involved in the regulation of ovulation. Thus, the present results provide information about estradiol-induced transcriptional changes in different areas of the hypothalamus that contribute to homeostatic maintenance of gene networks that provide clues about their induction throughout the estrous cycle.
+The AVPV and ARH are also critically important for the hypothalamic control of GnRH release, which estradiol regulates. Within the rodent ARH, estradiol exerts a control of GnRH pulsatility and inhibition of release (negative feedback). The AVPV appears less complicated and is concerned with the surge release of GnRH (positive feedback). As hypothesized, these regions have different transcriptomic responses to estradiol treatment. Estradiol induced both different patterns of up- or down-regulation of genes, but also which gene networks were affected. Because estrogen feedback has a specific temporal pattern, it was important that the temporal patterns of gene responses to estradiol were also distinct in each region. Much of the previous work on estradiol action in the AVPV that is associated with positive feedback suggested that there is a lag between EB treatment and the release of GnRH and the subsequent LH surge. The present results provide information about estradiol-induced transcriptional changes in different areas of the hypothalamus that contribute to homeostatic maintenance of gene networks throughout the estrous cycle.
+High-throughput studies investigating the transcriptomic responses to estradiol in the AVPV+ or ARH+ have focused on the perinatal period [ , ], exposure to endocrine disrupting chemicals during prepuberty [ ], or on the ARH exclusively [ ]. The current study is the first high-throughput analysis of the transcriptomic responses to estradiol in the adult female rat AVPV and ARH regions. Moreover, it is becoming clear that estradiol has more rapid actions than those that appear at 48 hours, the time point initially chosen because it correlated with estradiol induction of behavior (e.g., lordosis reflex) or physiological response (e.g., the LH surge). The goal of the present studies was to examine underlying changes in expression both at a regional level and at earlier time points before the final response. The data revealed that the hypothalamus responds very differently based on the region and time point after estradiol treatment suggesting a complex interplay of gene expression in the AVPV+ and ARH+ that regulates female reproductive patterns. Although we restricted our dissections to blocks containing the AVPV and ARH, we are cognizant that these dissections included surrounding tissue and influenced the response we observed. For example, Pmch is not expressed exclusively in the ARH but is also expressed in the lateral hypothalamus. Importantly, these studies confirmed several genes known to be regulated by estradiol (e.g., Kiss1, Pgr, Prl, Esr1) to indicate that our methods had sufficient power to have an accurate picture of estradiol-sensitive gene expression.
+By comparing within animals (i.e., comparing the expression of genes between the AVPV+ and ARH+) and between animals (i.e., comparing the expression of genes after estradiol treatment), a more complete picture estradiol regulation of transcription in the hypothalamus emerged. For example, at baseline, Kiss1 gene expression is 50-fold higher in the ARH+ compared with the AVPV+. It is well established that Kiss1 expression in OVX oil-treated rats is higher in the ARH compared with the AVPV, and estradiol treatment decreases Kiss1 expression in the ARH, but increases expression in the AVPV [ ]. However, at 6 and 24 hrs post-EB, Kiss1 is no longer differentially expressed between the two regions, but is differentially expressed within each region compared to baseline. That is, there are baseline differences in Kiss1 expression, but after estradiol treatment Kiss1 decreased in the ARH+ and increased in the AVPV+, such that the differences between regions disappeared. The observed patterns of up and down regulation of Kiss1 by estradiol in the present study validated our approach.
+Of the genes whose expression is most strongly affected by estradiol is S100g. S100 calcium-binding protein G, S100g, is a gene that encodes calbindin D9k, a cytosolic calcium-binding protein. There is a paucity of information about the role of S100g in the brain, although its protein product is expressed throughout the hypothalamus, brain stem, and cerebellum, and is colocalized with mature, GABAergic, dopaminergic, and oxytocinergic neurons in the prepubertal rat [ ]. Calbindin D9k is expressed in female reproductive tissues and the pituitary gland where its levels fluctuate with estradiol levels and throughout the estrous cycle [ , ]. The expression of S100g in rats depends on the activation of nuclear estrogen receptor-α binding to the estrogen response element within the promotor region of S100g [ , ]. In the present study, the expression of S100g did not differ between the AVPV+ and ARH+, but its expression was highly sensitive to estradiol; S100g was the second and third gene most upregulated by estradiol at 6 hrs post-EB in the AVPV+ and ARH+, respectively. Six hours after estradiol treatment the S100g expression increased 6.5-fold in the ARH+ and 11-fold in the AVPV+, and at 24 hours after estradiol treatment, its expression increased 18-fold in the ARH+ and 31-fold in the AVPV+. At 24 hrs post-EB, S100g was the most upregulated gene in each region ( ). Based on a similar response in the AVPV+ and the ARH+, we surmise that it is unlikely that this gene is involved in the switch between negative and positive feedback. The estradiol-induced transcription of genes such as S100g could identify yet unknown candidates that play significant roles in the homeostatic functions of the hypothalamus.
+While estradiol-regulated Kiss1 gene expression followed patterns previously observed [ ], expression of Tac3 (encoding NKB) and Tacr3 (encoding NKB receptor) in this study did not follow expected patterns. Tac3 and Tacr3 did not emerge as genes differentially expressed by estradiol in the ARH+, where a majority of kisspeptin neurons also express NKB [ ]. Even though the ARH kisspeptin population co-expresses Tac3, in situ hybridization studies in OVX ewes failed to detect any estradiol-induced changes in Tac3 mRNA expression in the ARH [ ], but see [ ]. Given the established role of Tac3 in the ARH, we were surprised that 24 hrs after estradiol treatment, Tac3 and Tacr3 were differentially expressed in the AVPV+, such that Tac3 expression doubles and Tacr3 decreases by 60%, relative to oil baseline. To our knowledge, there is no known role of Tac3 and Tacr3 in the AVPV or close surrounding areas. Navarro et al. found that ~10% of AVPV Kiss1 neurons and ~11% of GnRH neurons express Tac3 mRNA [ ]. Recent evidence suggests that tachykinin signaling may be involved in the onset of puberty (reviewed in [ ]).
+In general, estradiol stimulated transcription of more genes in the AVPV+ compared with the ARH+. Estradiol rapidly altered transcription in the AVPV+ and ARH+. Within 6 hrs of EB treatment, we observe differential expression of hundreds of genes, and the majority of these genes were up-regulated. Interestingly, in the AVPV+, but not the ARH+, a larger second wave of gene transcription occurs 24 hours after EB treatment (i.e. thousands of differentially expressed genes 24 hrs post-EB compared with oil-treatment). However, when the gene expression in the AVPV+ at 6 hrs post-EB was compared to expression patterns at 24 hrs post-EB, only two genes met the criterion to be classified as significantly differentially expressed, and could be due to the variability of expression at 6 hrs. It is likely that if we had chosen different timepoints for our analysis the results would have been clearer. That said, the second wave of transcriptional changes may indicate networks of genes that underlie the switch to positive feedback. Cluster analysis revealed that at 24 hours after EB treatment modules involved in peptide synthesis and dendritic spine development are upregulated in the AVPV+, while modules involved in cell death and axonogenesis are down regulated. These networks of genes could regulate the dynamic relationship between glial cells and kisspeptin and GnRH neurons that are involved in the switch from negative to positive feedback [ ].
+These data contribute to a better understanding of how estradiol differentially affects transcription in hypothalamic loci that control different aspects of estrogen feedback, 6 and 24 hrs after estradiol treatment. While only hundreds of genes in the ARH+ are differentially expressed 6 and 24 hrs after estradiol treatment, thousands of genes in the AVPV+ are differentially expressed 24 hrs after estradiol treatment indicating the highly complex action of estradiol in the AVPV. Importantly, the up-regulation of gene transcription in one region with the coincident down-regulation of gene transcription in the other can mask the effects of estradiol if the hypothalamus is considered as one functional unit. Future studies will further elucidate how estradiol affects transcription involved in the switch between negative and positive feedback using single-cell sequencing on more specific dissections of the AVPV and ARH.
+
+## Supporting information
+S1 Table
+
+## Counts per million.
+(CSV)
+Click here for additional data file.
+S2 Table
+
+## AVPV ARH Venn.
+(XLSX)
+Click here for additional data file.
+S3 Table
+
+## AVPV ARH oil 6 oil 24 Venn.
+(XLSX)
+Click here for additional data file.
+S4 Table
+
+## AVPV ARH 6 24 Venn.
+(XLSX)
+Click here for additional data file.
+S5 Table
+
+## DESeq2 results AVPV oil-ARH oil.
+(XLSX)
+Click here for additional data file.
+S6 Table
+
+## DESeq2 results AVPV 6hr EB-ARH 6hr EB.
+(XLSX)
+Click here for additional data file.
+S7 Table
+
+## DESeq2 results AVPV 24hr EB-ARH 24hr EB.
+(XLSX)
+Click here for additional data file.
+S8 Table
+
+## DESeq2 results AVPV oil-AVPV 6hr EB.
+(XLSX)
+Click here for additional data file.
+S9 Table
+
+## DESeq2 results ARH oil-ARH 6hr EB.
+(XLSX)
+Click here for additional data file.
+S10 Table
+
+## DESeq2 results AVPV oil-AVPV 24hr EB.
+(XLSX)
+Click here for additional data file.
+S11 Table
+
+## DESeq2 results ARH oil-ARH 24hr EB.
+(XLSX)
+Click here for additional data file.
+S12 Table
+
+## DESeq2 results AVPV 6hr EB-AVPV 24hr EB.
+(XLSX)
+Click here for additional data file.
+S13 Table
+
+## DESeq2 results ARH 6hr EB-ARH 24hr EB.
+(XLSX)
+Click here for additional data file.
+S14 Table
+
+## GO module black AVPV.
+(CSV)
+Click here for additional data file.
+S15 Table
+
+## GO module blue AVPV.
+(CSV)
+Click here for additional data file.
+S16 Table
+
+## GO module brown AVPV.
+(CSV)
+Click here for additional data file.
+S17 Table
+
+## GO module cyan AVPV.
+(CSV)
+Click here for additional data file.
+S18 Table
+
+## GO module green AVPV.
+(CSV)
+Click here for additional data file.
+S19 Table
+
+## GO module greenyellow AVPV.
+(CSV)
+Click here for additional data file.
+S20 Table
+
+## GO module grey AVPV.
+(CSV)
+Click here for additional data file.
+S21 Table
+
+## GO module magenta AVPV.
+(CSV)
+Click here for additional data file.
+S22 Table
+
+## GO module pink AVPV.
+(CSV)
+Click here for additional data file.
+S23 Table
+
+## GO module salmon AVPV.
+(CSV)
+Click here for additional data file.
+S24 Table
+
+## GO module tan AVPV.
+(CSV)
+Click here for additional data file.
+S25 Table
+
+## GO module yellow AVPV.
+(CSV)
+Click here for additional data file.
+S26 Table
+
+## GO module black ARH.
+(CSV)
+Click here for additional data file.
+S27 Table
+
+## GO module blue ARH.
+(CSV)
+Click here for additional data file.
+S28 Table
+
+## GO module magenta ARH.
+(CSV)
+Click here for additional data file.
+S29 Table
+
+## GO module pink ARH.
+(CSV)
+Click here for additional data file.
+S30 Table
+
+## GO module purple ARH.
+(CSV)
+Click here for additional data file.
+S31 Table
+
+## GO module red ARH.
+(CSV)
+Click here for additional data file.
+S32 Table
+
+## GO module turquoise ARH.
+(CSV)
+Click here for additional data file.
+S33 Table
+
+## GO module blue all.
+(CSV)
+Click here for additional data file.
+S34 Table
+
+## GO module brown all.
+(CSV)
+Click here for additional data file.
+S35 Table
+
+## GO module green all.
+(CSV)
+Click here for additional data file.
+S36 Table
+
+## GO module grey all.
+(CSV)
+Click here for additional data file.
+S37 Table
+
+## GO module grey60 all.
+(CSV)
+Click here for additional data file.
+S38 Table
+
+## GO module lightcyan all.
+(CSV)
+Click here for additional data file.
+S39 Table
+
+## GO module pink all.
+(CSV)
+Click here for additional data file.
+S40 Table
+
+## GO module salmon all.
+(CSV)
+Click here for additional data file.
+S41 Table
+
+## GO module tan all.
+(CSV)
+Click here for additional data file.
+S42 Table
+
+## GO module yellow all.
+(CSV)
+Click here for additional data file.
+
+## Data Availability
+All relevant data are within the manuscript and its – Tables files.
+
+## Funding Statement
+This research was supported by the National Institutes of Health grants HD042635 and DA013185 to PEM, HD097965 to MAM, and The Collaborative Health Initiative Research Program grant (64532-308431-10.00) for support of this research. The funders had no role in study design, data collection and analysis, decision to publish, or preparation of the manuscript.
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+S1 Table
+
+## Counts per million.
+(CSV)
+Click here for additional data file.
+S2 Table
+
+## AVPV ARH Venn.
+(XLSX)
+Click here for additional data file.
+S3 Table
+
+## AVPV ARH oil 6 oil 24 Venn.
+(XLSX)
+Click here for additional data file.
+S4 Table
+
+## AVPV ARH 6 24 Venn.
+(XLSX)
+Click here for additional data file.
+S5 Table
+
+## DESeq2 results AVPV oil-ARH oil.
+(XLSX)
+Click here for additional data file.
+S6 Table
+
+## DESeq2 results AVPV 6hr EB-ARH 6hr EB.
+(XLSX)
+Click here for additional data file.
+S7 Table
+
+## DESeq2 results AVPV 24hr EB-ARH 24hr EB.
+(XLSX)
+Click here for additional data file.
+S8 Table
+
+## DESeq2 results AVPV oil-AVPV 6hr EB.
+(XLSX)
+Click here for additional data file.
+S9 Table
+
+## DESeq2 results ARH oil-ARH 6hr EB.
+(XLSX)
+Click here for additional data file.
+S10 Table
+
+## DESeq2 results AVPV oil-AVPV 24hr EB.
+(XLSX)
+Click here for additional data file.
+S11 Table
+
+## DESeq2 results ARH oil-ARH 24hr EB.
+(XLSX)
+Click here for additional data file.
+S12 Table
+
+## DESeq2 results AVPV 6hr EB-AVPV 24hr EB.
+(XLSX)
+Click here for additional data file.
+S13 Table
+
+## DESeq2 results ARH 6hr EB-ARH 24hr EB.
+(XLSX)
+Click here for additional data file.
+S14 Table
+
+## GO module black AVPV.
+(CSV)
+Click here for additional data file.
+S15 Table
+
+## GO module blue AVPV.
+(CSV)
+Click here for additional data file.
+S16 Table
+
+## GO module brown AVPV.
+(CSV)
+Click here for additional data file.
+S17 Table
+
+## GO module cyan AVPV.
+(CSV)
+Click here for additional data file.
+S18 Table
+
+## GO module green AVPV.
+(CSV)
+Click here for additional data file.
+S19 Table
+
+## GO module greenyellow AVPV.
+(CSV)
+Click here for additional data file.
+S20 Table
+
+## GO module grey AVPV.
+(CSV)
+Click here for additional data file.
+S21 Table
+
+## GO module magenta AVPV.
+(CSV)
+Click here for additional data file.
+S22 Table
+
+## GO module pink AVPV.
+(CSV)
+Click here for additional data file.
+S23 Table
+
+## GO module salmon AVPV.
+(CSV)
+Click here for additional data file.
+S24 Table
+
+## GO module tan AVPV.
+(CSV)
+Click here for additional data file.
+S25 Table
+
+## GO module yellow AVPV.
+(CSV)
+Click here for additional data file.
+S26 Table
+
+## GO module black ARH.
+(CSV)
+Click here for additional data file.
+S27 Table
+
+## GO module blue ARH.
+(CSV)
+Click here for additional data file.
+S28 Table
+
+## GO module magenta ARH.
+(CSV)
+Click here for additional data file.
+S29 Table
+
+## GO module pink ARH.
+(CSV)
+Click here for additional data file.
+S30 Table
+
+## GO module purple ARH.
+(CSV)
+Click here for additional data file.
+S31 Table
+
+## GO module red ARH.
+(CSV)
+Click here for additional data file.
+S32 Table
+
+## GO module turquoise ARH.
+(CSV)
+Click here for additional data file.
+S33 Table
+
+## GO module blue all.
+(CSV)
+Click here for additional data file.
+S34 Table
+
+## GO module brown all.
+(CSV)
+Click here for additional data file.
+S35 Table
+
+## GO module green all.
+(CSV)
+Click here for additional data file.
+S36 Table
+
+## GO module grey all.
+(CSV)
+Click here for additional data file.
+S37 Table
+
+## GO module grey60 all.
+(CSV)
+Click here for additional data file.
+S38 Table
+
+## GO module lightcyan all.
+(CSV)
+Click here for additional data file.
+S39 Table
+
+## GO module pink all.
+(CSV)
+Click here for additional data file.
+S40 Table
+
+## GO module salmon all.
+(CSV)
+Click here for additional data file.
+S41 Table
+
+## GO module tan all.
+(CSV)
+Click here for additional data file.
+S42 Table
+
+## GO module yellow all.
+(CSV)
+Click here for additional data file.
+
+## Data Availability Statement
+All relevant data are within the manuscript and its – Tables files.

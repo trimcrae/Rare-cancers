@@ -1,0 +1,191 @@
+pmcHepatologyHepatology379blackwellopen8302946HEPHepatology (Baltimore, Md.)0270-91391527-3350pmc-is-collection-domainyespmc-collection-titleWiley Open Access CollectionPMC9790314PMC9790314.1979031497903143534003910.1002/hep.32483HEP324831Original ArticleOriginal ArticlesLiver CancerCellular heterogeneity and transcriptomic profiles during intrahepatic cholangiocarcinoma initiation and progression
+WangTingjie XuChuanrui ZhangZhijing WuHua LiXiujuan ZhangYu DengNan DangNingxin TangGuangbo YangXiaofei ShiBingyin LiZihang LiLei leileilesure@163.comYeKai kaiye@xjtu.edu.cn
+
+1
+
+School of Automation Science and Engineering
+Faculty of Electronic and Information Engineering
+Xi’an Jiaotong University
+Xi’an
+Shaanxi
+China
+
+2
+
+School of Pharmacy
+Tongji Medical College
+Huazhong University of Science and Technology
+Wuhan
+China
+
+3
+
+School of Computer Science and Technology
+Faculty of Electronic and Information Engineering
+Xi’an Jiaotong University
+Xi’an
+Shaanxi
+China
+
+4
+
+Genome Institute
+the First Affiliated Hospital of Xi’an Jiaotong University
+Xi’an
+Shaanxi
+China
+
+5
+
+School of Life Science and Technology
+Xi’an Jiaotong University
+Xi’an
+Shaanxi
+China
+
+6
+
+Faculty of Science
+Leiden University
+Leiden
+the Netherlands
+
+7
+
+MOE Key Lab for Intelligent Networks & Networks Security
+Faculty of Electronic and Information Engineering
+Xi’an Jiaotong University
+Xi’an
+Shaanxi
+China
+
+8
+
+Department of Endocrinology
+the First Affiliated Hospital of Xi’an Jiaotong University
+Xi’an
+Shaanxi
+China
+
+*
+Correspondence
+
+Lei Li, School of Pharmacy, Tongji Medical College, Huazhong University of Science and Technology, Wuhan, China.
+Email: leileilesure@163.com
+
+Kai Ye, School of Automation Science and Engineering, Faculty of Electronic and Information Engineering, Xi’an Jiaotong University, No. 28 Xianning West Road, Xi’an, Shaanxi, China.
+Email: kaiye@xjtu.edu.cn
+
+244202211202276542448410.1002/hep.v76.513021317
+2332022
+14122021
+2432022
+251220222812202208072024© 2022 The Authors. Hepatology published by Wiley Periodicals LLC on behalf of American Association for the Study of Liver Diseases.https://creativecommons.org/licenses/by-nc/4.0/This is an open access article under the terms of the http://creativecommons.org/licenses/by-nc/4.0/ License, which permits use, distribution and reproduction in any medium, provided the original work is properly cited and is not used for commercial purposes.
+
+## Abstract
+
+## Background and Aims
+Intrahepatic cholangiocarcinoma (ICC) is not fully investigated, and how stromal cells contribute to ICC formation is poorly understood. We aimed to uncover ICC origin, cellular heterogeneity, and critical modulators during ICC initiation/progression, and to decipher how fibroblast and endothelial cells in the stromal compartment favor ICC progression.
+
+## Approach and Results
+We performed single‐cell RNA sequencing (scRNA‐seq) using AKT/Notch intracellular domain–induced mouse ICC tissues at early, middle, and late stages. We analyzed the transcriptomic landscape, cellular classification and evolution, and intercellular communication during ICC initiation/progression. We confirmed the findings using quantitative real‐time PCR, western blotting, immunohistochemistry or immunofluorescence, and gene knockout/knockdown analysis. We identified stress‐responding and proliferating subpopulations in late‐stage mouse ICC tissues and validated them using human scRNA‐seq data sets. By integrating weighted correlation network analysis and protein–protein interaction through least absolute shrinkage and selection operator regression, we identified zinc finger, MIZ‐type containing 1 (Zmiz1) and Y box protein 1 (Ybx1) as core transcription factors required by stress‐responding and proliferating ICC cells, respectively. Knockout of either one led to the blockade of ICC initiation/progression. Using two other ICC mouse models (YAP/AKT, KRAS/p19) and human ICC scRNA‐seq data sets, we confirmed the orchestrating roles of Zmiz1 and Ybx1 in ICC occurrence and development. In addition, hes family bHLH transcription factor 1, cofilin 1, and inhibitor of DNA binding 1 were identified as driver genes for ICC. Moreover, periportal liver sinusoidal endothelial cells could differentiate into tip endothelial cells to promote ICC development, and this was Dll4‐Notch4‐Efnb2 signaling–dependent.
+
+## Conclusions
+Stress‐responding and ICC proliferating subtypes were identified, and Zmiz1 and Ybx1 were revealed as core transcription factors in these subtypes. Fibroblast–endothelial cell interaction promotes ICC development.
+
+ 
+
+National Natural Science Foundation of China
+10.13039/5011000018093207066332125009617024068 207309181872253Fundamental Research Funds for the Central Universitiesxzy012020012 
+
+## Stress‐responding and proliferating ICC subtype identification
+To reveal cellular heterogeneity in ICC tissues, we extracted epithelial cells from all stages and characterized their gene‐expression signatures. We obtained eight subclusters, including five epithelial cell adhesion molecule (Epcam)–Alb+ hepatocyte clusters (Glul‐H, Alb‐H, Ass1‐H, Hamp2‐H, and Hamp‐H), two Epcam+Alb‐Krt19+ biliary clusters (AP1 positive cholangiocyte AP1‐C and Mki67 positive cholangiocyte Mki67‐C), and an Epcam+Alb+Krt19‐ epithelial cluster H_C (Figure and Figure A). Cluster distribution analysis (cell enrichment score [Escore]) showed that cells in Glul‐H and Alb‐H were mostly from normal mouse livers, cells in H‐C were from day 17 ICC livers, and cells in AP1‐C and Mki67‐C were from day 31 ICC livers (Figure and Table ). Using Glul‐H and Alb‐H as normal control cells, we calculated the copy number variation (CNV) in other subtype cells. Compared with Glul‐H and Alb‐H, AP1‐C and Mki67‐C cells showed significantly higher CNV scores, indicating that they were ICC cells (Figure ). Of note, AP1‐C cells highly expressed growth receptor genes Fgfr2 and Igf1r, as well as AP1 target genes Jun and Fos, but not Mki67 (Figure and Figure A). In contrast, Mki67‐C cells exhibited high expression of DNA replication–related genes Mki67 and Cdk1 (Figure ). Because Jun and Fos are stress‐responding genes and Fgfr2 and Igf1r respond to extracellular stimuli,[
+ , 
+] we defined AP1‐C cells as the stress‐responding subtype. Likewise, Mki67 and Cdk1 are markers for cell proliferation[
+ 
+]; hence, we referred to Mki67‐C as the proliferating subtype. Immunofluorescence showed that Jun (c‐Jun) and Krt19 were co‐expressed in day 31 mouse ICC tissues (Figure ). Moreover, we identified these two subtypes in human ICC samples, with stress‐responding subtype corresponding to tumor 2 (KRT19+, JUN+) and proliferating subtype corresponding to tumor 1 (KRT19+, MKI67+) using human ICC data set GSE138709 (Figure ).[
+ 
+]
+
+ 
+
+## Distinct epigenetic modification and transcription factors involved in the two ICC subtypes
+To screen hub genes in these two subtypes, we combined weighted correlation network analysis (WGCNA), least absolute shrinkage and selection operator (LASSO), and hypergeometric test (WLH) to analyze the transcription factors (TFs) in the two subtypes (Figure and ). First, we dissected enriched signaling pathways by combining WGCNA with protein–protein interaction (PPI) analysis. Second, we integrated LASSO regression with hypergeometric test to identify critical TFs (Figure ). WGCNA analysis generated five gene modules: pink, brown, green, yellow, and turquoise. The turquoise module was positively correlated with the AP1‐C subtype (R = 0.89, p < 0.001; Figure and Table ). Among AP1‐C subtype‐specific gene modules, stress‐responding mitogen‐activated protein kinase and JNK pathways were enriched (Figure ). In addition, histone methylation–related genes Kdm6b, Jmjd1C, and Ash1l interacted with AP1 target genes (Jun, Fos, and Junb) in the WGCNA‐PPI network (Figure ), indicating that high level of H3K9 demethylation and H3K4 methylation may promote differentiation of ICC cells toward a stress‐responding subtype.[
+ , 
+] We further validated the modified histones via immunofluorescence, and the results showed that c‐Jun was co‐expressed with H3K4 in the stress‐responding subtype (Figure ). The result was also validated using the human data set (Figure B). Using WLH to analyze hub genes in the turquoise module, we found that Zmiz1 was the core modulator in the AP1‐C subtype (Table , Figure A, and Figure ). Using AAV8‐delivered sgRNA‐mediated CRISPR via tail vein injection, we deleted Zmiz1 in mouse hepatocytes (Figure A), and found that ICC formation was significantly blocked and only very minor ICC lesions were formed (Figure ). These results indicate that Zmiz1 was required for ICC formation.
+ Likewise, the green module was correlated with the proliferating subtype Mki67‐C (R = 0.96, p < 0.001; Figure ), and DNA replication pathways were enriched in this module (Figure ). Dnmt1, Ezh2, and Hells expression was positively correlated with Cdk1 expression, indicating that H3K27 methylation was involved in differentiation and growth of proliferating ICC cells (Figure ). We also validated the co‐expression of H3K27 and Ki67 (Mki67) in the proliferating subtype via immunofluorescence, as well as in the human data set (Figure and Figure B). Meanwhile, Ybx1 was identified as a core modulator in this subtype (Table ). AAV8‐delivered CRISPR/sgYbx1 confirmed the essential role of Ybx1 in ICC initiation, and only tiny ICC lesions formed after Ybx1 deletion (Figure and Figure B). Indeed, human ICC single‐cell sequencing and bulk RNA sequencing, as well as additional mouse single‐cell data sets (YAP/AKT, KRAS/p19), all illustrated that Zmiz1 was highly expressed in AP1‐positive cells and Ybx1 was highly expressed in Mki67‐positive cells, further confirming their specific role in stress‐responding and proliferating ICC cells, respectively (Figure B–E).
+ 
+
+## 
+ZMIZ1 and YBX1 act as oncogenes via different downstream genes
+Next, we investigated the oncogenic role of ZMIZ1 and YBX1 using data from patients with ICC. We found that ZMIZ1 and YBX1 expression in patients with ICC was significantly related to survival using data sets GSE89749 and GSE107943. Patients with ICC with high ZMIZ1 expression showed higher JUN and demonstrated better prognosis (Figure ) than those with low ZMIZ1 expression. Of note, NOTCH1, JAG1, and hes family bHLH transcription factor 1 (HES1) were all highly expressed in the ZMIZ1‐high group (Figure ). In comparison, patients with ICC with high YBX1 expression showed increased MKI67 and EZH2 expression but poor prognosis (Figure and Figure ). The gene‐set enrichment analysis (GSEA) results indicated that ZMIZ1‐high cells in humans corresponded to the stress‐responding subtype in mice, and YBX1‐high cells to the proliferating subtype (Figure ). Next, we screened genes regulated by these two TFs in both mouse and human ICC tissues. We first screened common genes from the GSEA pathway and differentially expressed genes from human ICC single‐cell data. Then, we focused on differentially expressed genes and ZMIZ1 target genes from stress‐responding subtype cells of AKT/NICD mouse ICC tissues, and subsequently obtained a 13‐gene ZMIZ1‐regulon (Figure and Table ). We found that Zmiz1 enhanced expression of AP1 target genes (Jun and Jund), and those genes were significantly down‐regulated in Zmiz1‐deficient mouse liver tissues (Figure ). Likewise, we obtained a 16‐gene YBX1 regulon (Figure and Table ). Ybx1 enhanced the expression of Mki67, Top2a, and Ezh2. The expression of these genes was reduced in the Ybx1‐deficient mouse liver tissues (Figure ). Therefore, ZMIZ1 promoted the stress‐responding ICC differentiation by up‐regulating the AP1 target genes, whereas YBX1 promoted ICC proliferation by activating EZH2 and MKI67 expression.
+ We then assessed the drug sensitivity scores (DSSs) for the two ICC subtypes using the above 13‐gene and 16‐gene ZMIZ1 and YBX1 regulon, respectively, using oncoPredict ( ).[
+ 
+] The results showed that Vinblastine, AZD8055, Docetaxel, and BMS.754807 showed high cytotoxicity (lower DSSs) in the stress‐responding subtype (fold change < 0.25). BI.2536, Gemcitabine, Teniposide, and Mitoxantrone showed high cytotoxicity in the proliferating subtype (fold change < 0.25; Table ). Daporinad showed a low DSS (fold change < 0.1) in both subtypes. Therefore, these drugs have the potential to be applied in personalized ICC treatment (Figure ).
+
+## 
+HES1, CFL1, and ID1 promote ICC initiation
+Next, we wanted to seek driver genes in early‐stage ICC. We performed pseudo‐time analysis using both mouse and human ICC scRNA‐seq data (Figure ). The hepatocyte and cholangiocarcinoma scores along the pseudo‐time axis indicated that cells gradually evolved from normal hepatocytes to cholangiocarcinoma along the pseudo‐time axis in both human and mouse data sets (Figure and ). Cells expressing both liver and bile duct marker genes (H_C, Epcam+Alb+; Figure ) were located in the intermediate position along the pseudo‐time axis in mice. The gene modules also presented a chronologic profile along the time axis in both human and mouse data sets. Interestingly, gene modules 3/4 in mouse data and modules 2/3 in human data were active at the intermediated ICC stage, indicating that these gene modules may contain the early ICC driver genes (Figure ). We then intersected the genes in the human and mouse–intermediated modules and obtained 778 genes enriched in protein phosphorylation and cell cycle transition pathways (Figure ). We further screened core driver genes involved in ICC initiation using LASSO regression with ICC scores as a dependent variable and the differential genes from the H_C cluster (Epcam+Alb+) as the independent variable. Next, we obtained 30 genes by overlapping the LASSO genes with the 778 genes, in which hes family bHLH transcription factor 1(HES1), cofilin 1(CFL1), and inhibitor of DNA binding 1, HLH protein (ID1) were associated with cell‐cycle progression and epithelium development, and their expression was increased along with the pseudo‐time axis in both mouse and human data (Figure ). Because HES1 is a known target of NOTCH, we examined whether CFL1 and ID1 were NOTCH targets. Quantitative real‐time PCR and luciferase reporter assay indicated that CFL1 and ID1 transcription was affected by NOTCH1 (Figure ). Identification of HES1 as the core factor and CFL1 and ID1 as NOTCH1 targets confirmed the critical role of Notch signaling in ICC formation, consistent with the overexpression of Notch signaling‐related proteins in ICC. Interestingly, these genes were initially expressed in H_C (Alb+EpCam+) cells corresponding to middle‐stage ICC (the 17th day), further indicating that these cells could be the early origin cells during ICC formation (Figure ).
+ 
+
+## Endothelial cells and fibroblasts interact with each other to promote ICC progression
+Fibroblasts can interact with endothelial cells and thereby promote the proliferation and invasion of cancer cells.[
+ 
+] To explore their roles during ICC initiation and progression, we reclustered tumor endothelial cells (TECs) and grouped them into four subtypes: TEC‐Lyve1, TEC‐Vwf, TEC‐Mki67, and TEC‐NOTCH. Likewise, fibroblasts were grouped into five subtypes: fCAF1, fCAF2, iCAF, apCAF, and myCAF (Table , Figure , and Figure A). Interestingly, endothelial cells Lyve1‐TEC and fibroblasts fCAF, iCAF, and apCAF were enriched in the early‐stage ICC (EScore > 1; Table and Figure ); TEC‐Vwf cells were enriched in the middle‐stage and late‐stage ICC (EScore > 1; Table and Figure ); and TEC_Mki67, TEC‐NOTCH, and fibroblast subtype myCAF were enriched in the late‐stage ICC (EScore > 1; Table and Figure ). In addition, endocytosis and pro‐inflammatory chemokines were enriched in the early endothelial subtypes, and pro‐inflammatory ILs and antigen‐presenting molecules were enriched in TEC_Lyve1 and iCAF (Figure ). These results indicate that both endothelial cells and fibroblasts in early and middle stages have pro‐inflammatory roles in ICC development. In comparison, angiogenesis signaling was enriched in TEC‐NOTCH and fibrosis pathways were enriched in myCAF, suggesting that endothelial cells and fibroblasts promoted tumor growth in late stages of ICC (Figure ).
+ Of note, both TEC‐Vwf and TEC‐NOTCH were classified as periportal liver sinusoidal endothelial cells due to high Mgp, Pecam1, and Vwf expression, but low Lyve1 expression in these cells (Figure A).[
+ 
+] TEC‐Vwf cells were primarily observed in the middle and late tumor stages (EScore > 1; Table ), showing high expression of Kdr (Vegfr2) but low expression of Dll4 (Figure A). TEC‐NOTCH cells dominated the late‐stage ICC and demonstrated active Notch signaling with high expression of Notch4 and Dll4 (Figure A), indicating that TEC‐NOTCH cells were tip endothelial cells.[
+ 
+] In middle‐stage ICC, fCAF2 and iCAF with high expression of Vegfd and Vegfa interacted with TEC‐Vwf overexpressing Kdr (Figure and Figure A). Because the Vegf/Vegfr (Kdr) cascade promotes the expression of Dll4 and induces the formation of tip endothelial cells,[
+ 
+] TEC‐NOTCH cells could be differentiated from TEC‐Vwf cells. Cell velocity and pseudo‐time analysis further confirmed the origin of TEC‐NOTCH cells (Figure ). In the late tumor stage, TEC‐NOTCH interacted with myCAF cells through Pdgfb/Pdgfrb (Figure ). In addition, TGF‐β and calcium signaling were activated in myCAF (Figure ). Because PDGF cooperates with TGF‐β and activates calcium signaling to promote fibrosis,[
+ 
+] we proposed that TEC‐NOTCH promotes the differentiation of fibroblasts into myCAF. In addition, myCAF promoted ICC progression through Igf1/Igf1r signaling (Figure ). Moreover, enriched adhesion molecules integrin a1b1 and a2b1 complex, as well as the collagen synthesis protein Col4a1, indicated that myCAF and TEC_NOTCH cells interacted with both AP1‐C and MKI67‐C ICC cells (Figure ). Critically, endothelial‐fibroblast‐ICC (HUVEC/MRC‐5/HuCCT1) co‐culture–derived conditioned medium significantly promoted ICC cell growth (Figure ). Collectively, these data suggested a frequent communication between stromal and ICC cells in the late tumor stage and the interaction of endothelial cells with fibroblasts to promote ICC cell growth.
+To investigate the role of the tip endothelial cells in ICC progression, we explored hub genes involved in the formation of tip endothelial cells using WGCNA‐PPI analysis. We found that the blue module was correlated with TEC‐NOTCH cells (R = 0.85, p < 0.001; Figure B). WGCNA‐PPI analysis showed that two endothelial cell networks were enriched in TEC‐NOTCH cells as follows: the endothelial differential network (EDN) containing Efnb2, Dll4, and Notch4; the endothelial adhesion network containing Itga5, Itga6, and Lama5 (Figure and Figure C,D).[
+ 
+] EDN may promote tip endothelial cell formation, as Lama5 induces the NOTCH pathway by interacting with integrin.[
+ 
+] In addition, expression of Efnb2, Dll4, and Notch4 increased during this process, suggesting that the EDN network might promote the differentiation of TEC‐Vwf into TEC‐NOTCH (Figure ). Critically, liver‐specific knockdown of Efnb2 or Notch4 using AAV1‐shRNA led to retarded ICC development, indicating that the EDN network favored ICC development (Figure and Figure E).
+Moreover, Dll4‐Notch4‐Efnb2 were highly expressed in YAP/AKT and KRAS/p19 mouse ICC cells and human Dll4+Mgp+ ICC cells, further confirming their important roles in promoting endothelial cell differentiation (Figure F–H). In addition, EFNB2 was highly expressed in human ICC tissues, and its high expression was associated with a poor prognosis in multiple data sets (Figure ). Taken together, our data indicate that fibroblasts interact with endothelial cells and promote their differentiation to promote ICC development.
+
+## DISCUSSION
+In this study, using the ICC mouse model and scRNA‐seq, we identified two distinct ICC cell populations and uncovered central pathways and core TFs governing the development of these two types of ICC cells. In addition, we revealed the pivotal roles of fibroblasts and endothelial cells in ICC progression and how endothelial cells or fibroblasts favor tumor progression. These findings deepen our understanding of ICC formation and evolution, and help improve ICC targeted therapy.
+First, we identified two ICC subtypes and uncovered distinct core signaling in those two subtypes. These two subtypes, proliferating and stress‐responding subtypes, showed different methylation patterns and activation of different core TFs. Proliferating ICC cells showed evident H3K27 methylation by Ezh2 and high expression of Ybx1. Considering that Ybx1 regulates Ezh2, our results suggest that the Ybx1‐Ezh2‐H3K27 methylation axis plays a central role in proliferating ICC cells and may serve as a therapeutic target. Furthermore, YB‐1 phosphorylation regulates cell proliferation and oncogenic transformation.[
+ 
+] Compared with the proliferating subtypes, stress‐responding ICC cells showed H3K4 methylation and high expression of Zmiz1. Zmiz1 has been identified as a prognostic marker in glioblastoma and other cancer types.[
+ 
+]
+Zmiz1 and Notch1 can cooperatively recruit each other to activate histone markers.[
+ 
+] Likewise, Zmiz1 co‐operated with Notch1 to promote the formation of stress‐responding ICC cells in our ICC model. Identification of differential core signaling molecules in these two ICC subpopulations indicates that personalized and combined targeted therapy may be required for different patients.
+Second, our study identified critical genes modulating ICC initiation and progression. Using various genetic mouse models alone or with a lineage tracing system, several groups have proven that ICC originates from hepatoblasts or hepatocytes.[
+ , 
+] Tschaharganeh et al. reported that loss of p53 facilitates dedifferentiation of mature hepatocytes into nestin‐positive progenitor‐like cells, which then differentiate into HCC or ICC cells.[
+ 
+] Tanimizu et al. reported that Notch1 can drive differentiation of hepatoblasts into cholangiocytes by enhancing the expression of liver‐enriched TFs.[
+ 
+] In this study, we screened critical genes mediating NOTCH1‐driven ICC initiation and found three genes (Hes1, Cfl1, and Id1) promoting ICC initiation. ID1 is highly expressed in stomach, colon, prostate, ovary, bladder, pancreas, and brain tumors.[
+ 
+] Seno et al. reported that Hes1 plays a critical role in the induction of ICC.[
+ 
+]
+CFL1 maintains PL‐D1 expression by repressing ubiquitin‐mediated protein degradation, thereby activating AKT signaling in HCC cells.[
+ 
+] The expression levels of these three genes were positively correlated with ICC progression as observed from mouse and human single‐cell data. Meanwhile, these three genes were initially expressed in hepatocyte‐like cells among H_C (Alb+EpCam+) cells primarily isolated from the middle‐stage ICC tissues in mice (17 days), indicating that these cells may be the origin of ICC. However, how these three genes promote ICC progression at the cellular and molecular level warrants further study.
+Third, our study revealed that endothelial cells and fibroblasts interact with each other and adapt themselves to promote ICC development. In response to ICC initiation, fibroblasts promote the development of tip endothelial cells through VEGF expression. At the early stages of ICC, endothelial cells and fibroblasts may block ICC progression. Later, endothelial cells are evolved to stem endothelial cells and lose their inflammatory function and alternatively promote the transformation of fibroblasts to myofibroblasts through Pdgfb expression. Myofibroblasts, in turn, highly express growth factors and therefore promote the growth of ICC cells. Abrogation of Dll4‐Notch4‐Efnb2 would block the maturation of endothelial cells and subsequently inhibit fibrosis formation mediated by CAFs. Consistent with our observation, the Dll4‐Notch‐Efnb2 axis mediates mouse embryonic angiogenesis.[
+ 
+] Therefore, our study corroborated the potential of the Dll4‐Notch4‐Efnb2 axis as a therapeutic target in ICC treatment.
+Our study has several limitations. First, we used a mouse model to identify the critical modulators and required genes for ICC initiation and development rather than human ICC tissues. ICC initiation in mice could be different from that in humans. Thus, the genes or signaling we identified in this study need to be further characterized in human ICC cell lines and tissues, although they have been validated in the human scRNA‐seq data set. Second, the number of ICC cells collected from mouse ICC tissues was lower than we expected, which may have caused some discrepancy in the identification of critical genes. Three reasons may have caused the lower number of ICC cells than immune cells: necrosis of ICC cells in the core ICC tissues; vulnerability of tumor cells compared with immune cells; and the capture immune cells (smaller) by the gel beads in emulsion (10× genomic) rather than tumor cells (larger). However, the imbalance of tumor cell to immune cell does not affect our major conclusions, because our analyses was based on expression profiles of distinct cell types and not dependent on the proportion of each cell type. Finally, we used an ICC mouse model derived from hepatocytes but not cholangiocytes. Therefore, whether these findings obtained here apply to ICC initiated from cholangiocytes needs to be investigated.
+
+## CONFLICT OF INTEREST
+Nothing to report.
+
+## AUTHOR CONTRIBUTIONS
+Kai Ye, Lei Li, Tingjie Wang, Chuanrui Xu, Lei Li and Bingyin Shi were substantial contributions to conception and design. Tingjie Wang, Chuanrui Xu, Zhijing Zhang and Ningxin Dang acquired, analyzed and interpreted the data. Hua Wu, Yu Zhang, Nan Deng, Guangbo Tang, Xiujuan Li and Zihang Li performed animal and cell culture validation. Tingjie Wang, Chuanrui Xu drafted the article. Lei Li and Kai Ye revised the article critically for important intellectual content. Lei Li and Kai Ye final approved the version to be published.
+
+## Supporting information
+Supplementary Material
+Click here for additional data file.
+
+## DATA AVAILABILITY STATEMENT
+The datasets analyzed in this study are available from the Gene Expression Omnibus (GEO) repository under the following accession numbers: GSE138709, GSE154170 (GSM5023597 and GSM4665447), GSE115469, TCGA‐CHOL, GSE107943, GSE76297, GSE89749, GSE109774 and Sequence Read Archive (SRA) with the accession number PRJNA743579 (https://www.ncbi.nlm.nih.gov/bioproject/PRJNA743579). The other data are available from the corresponding author on reasonable request. More information about the data were available in the supplementary material.

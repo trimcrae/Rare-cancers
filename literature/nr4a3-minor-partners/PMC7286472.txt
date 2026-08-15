@@ -1,0 +1,120 @@
+1974canmedCancer MedicineCancer MedWileyPMC7286472728647272864723223980210.1002/cam4.2927Identification of key lncRNAs in the tumorigenesis of intraductal pancreatic mucinous neoplasm by coexpression network analysis
+DingJun LiYi ZhangYong FanBin LiQinghe ZhangJian ZhangJiayao 1Department of Hepatobiliary Surgery, The Central Hospital of Enshi Autonomous Prefecture, Enshi, China*Correspondence, 
+Jiayao Zhang, Department of Hepatobiliary Surgery, The Central Hospital of Enshi Autonomous of Prefecture, Enshi 445000, China. 
+Email: yanjun080918@163.com
+✉Corresponding author.
+24202091138403840–38511162020© 2020 The Authors. Cancer Medicine published by John Wiley & Sons Ltd.This is an open access article under the terms of the http://creativecommons.org/licenses/by/4.0/ License, which permits use, distribution and reproduction in any medium, provided the original work is properly cited.
+
+## Abstract
+Intraductal papillary mucinous neoplasm (IPMN) is an intraepithelial precancerous lesion of pancreatic ductal adenocarcinoma (PDAC) that progresses from adenoma to carcinoma, and long noncoding RNAs (lncRNA) might be involved in the tumorigenesis. In this study, we obtained the expression profiles of more than 4000 lncRNAs by probe reannotation of a microarray dataset. As a correlation network‐based systems biology method, weighted gene coexpression network analysis (WGCNA) was used to find clusters of highly correlated lncRNAs in the tumorigenesis of IPMN, which covered four stepwise stages from normal main pancreatic duct to invasive IPMN. In the most relevant module (R2 = −0.75 and P = 5E‐05), three hub lncRNAs were identified (HAND2‐AS1, CTD‐2033D15.2, and lncRNA‐TFG). HAND2‐AS1 and CTD‐2033D15.2 were negatively correlated with the tumorigenesis (P in one‐way ANOVA test = 1.45E‐07 and 1.39E‐0.5), while lncRNA‐TFG were positively correlated with the tumorigenesis (P = 3.99E‐08). The validation set reached consistent results (P = 2.66E‐03 in HAND2‐AS1, 1.47E‐04 in CTD‐2033D15.2 and 6.23E‐08 in lncRNA‐TFG). In functional enrichment analysis, the target genes of microRNAs targeting also these lncRNAs were overlapped in multiple biological processes, pathways and malignant diseases including pancreatic cancer. In survival analysis, patients with higher expression of HAND2‐AS1‐targeted and CTD‐2033D15.2‐targeted microRNAs showed a significantly poorer prognosis in PDAC, while high expression of lncRNA‐TFG‐targeted microRNAs demonstrated an obviously better prognosis (log‐rank P < .05). In conclusion, by coexpression network analysis of the lncRNA profiles, three key lncRNAs were identified in association with the tumorigenesis of IPMN, and those lncRNAs might act as early diagnostic biomarkers or therapeutic targets in pancreatic cancer.
+Keywords: coexpression network analysis, intraductal papillary mucinous neoplasm, lncRNA, tumorigenesis
+
+Intraductal papillary mucinous neoplasm (IPMN) is an intraepithelial precancerous lesion of pancreatic ductal adenocarcinoma (PDAC) that progresses from adenoma to carcinoma, and long noncoding RNAs (lncRNA) might be involved in the tumorigenesis. In this study, we obtained the expression profiles of more than 4000 lncRNAs by probe reannotation of a microarray dataset. As a correlation network‐based systems biology method, weighted gene coexpression network analysis (WGCNA) was used to find clusters of highly correlated lncRNAs in the tumorigenesis of IPMN, which covered four stepwise stages from normal main pancreatic duct to invasive IPMN. Magenta module was identified as the most relevant module.
+ 
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2019 Feb 18; Revised 2020 Jan 15; Accepted 2020 Jan 31; Collection date 2020 Jun.
+
+1.
+
+## INTRODUCTION
+Pancreatic cancer is one of the common cancers across the world, characterized by a poor prognosis. The dominant subtype of pancreatic ductal adenocarcinoma (PDAC) accounts for more than 90%. As an intraepithelial precancerous lesion of pancreatic cancer, intraductal papillary mucinous neoplasm (IPMN) could progress from adenoma to PDAC. Several factors have been identified in relation with the tumorigenesis of IPMN, like blood type, main duct dilatation, and high‐grade dysplasia, but the mechanism is still unclear. , , As a diverse class of transcribed RNA molecules consisting of more than 200 nucleotides, long noncoding RNAs (lncRNAs) played an important role in the regulation of protein‐coding gene expression, although they did not encode proteins. , Recent studies also reported a regulatory role of lncRNAs in the proliferation, invasion, and metastasis of pancreatic cancer. For example, lncRNA TUSC7, LINC00052, and lncRNA CASC2 modulated miR‐371a‐5p, miR‐330‐3p, and miR‐21, respectively, to suppress pancreatic cancer cell lines. , , High expression of lncRNA MALAT1 was an independent predictor for overall survival in PDAC. However, few studies investigated the role of lncRNAs in IPMN. In the study of Permuth et al, the signature of eight circulating lncRNAs were more accurate than clinical features in the differential diagnosis of malignant and benign IPMN. 
+
+High‐throughput microarray technology develops rapidly in recent years, and several studies adopted the gene expression profiles to find genes associated with the tumorigenesis and prognosis of pancreatic cancer. Nevertheless, most studies focused on the differentially expressed protein‐coding genes in pancreatic cancer, regardless of the vast majority of lncRNAs and the intermediate stages, like IPMN. As a correlation network‐based systems biology method, weighted gene coexpression network analysis (WGCNA) was used to find clusters of highly related genes and clusters to clinical features. In this study, as the lncRNA expression profiles were unavailable, we obtained the lncRNA expression data through an accurate reannotation of the microarray probe. Then, the WGCNA method was used to find network hub lncRNAs related with the tumorigenesis of IPMN.
+
+2.
+
+## MATERIALS AND METHODS
+2.1.
+
+## Data collection
+We obtained the raw data of gene expression profiles (CEL files) and clinical data of dataset GSE19650 and GSE26647 from the database of Gene Expression Omnibus (GEO) (http://www.ncbi.nlm.nih.gov/geo/). , Dataset GSE19650 was conducted on the platform of GPL570 (Affymetrix Human Genome U133 Plus 2.0 Array), and used as a training set to construct the coexpression network and identify hub genes in this study. It had 22 tissue samples which were sufficient for the subsequent WGCNA analysis, and covered four sequential stages, including normal main pancreatic duct (n = 7), intraductal papillary mucinous adenoma (IPMA) (or low‐grade dysplasia in IPMN) (n = 6), intraductal papillary mucinous carcinoma (IPMC) (or high‐grade dysplasia in IPMN) (n = 6), and invasive IPMN (n = 3). All patients undergone initial surgical resection, and received no prior therapy. The tumors were classified according to the combined criteria. , Another dataset GSE26647 was conducted on the platform of GPL5175 (Affymetrix Human Exon 1.0 ST), and used as a validation set to verify the results. It had 28 tissue samples, and covered four sequential stages of IPMN, including low‐grade (n = 10), moderate‐grade (n = 5), high‐grade (n = 6), and invasive IPMN (n = 7).
+
+2.2.
+
+## Data preprocessing
+The R software package of “affy” was used to preprocess the raw expression data according to the RMA method: (a) background correction; (b) log2 transformation; (c) quantile normalization; (d) median polish summarization. In quality assessment, sample outliers were removed using the network method for describing sample relationships in genomic datasets, with the threshold of standardized sample connectivity (Z.K)>−2 and standardized sample clustering coefficient (Z.C) <2. Finally, we found no outliers in both the datasets (Figure A‐D).
+ 
+2.3.
+
+## Probe reannotation
+As for the GPL570 microarray, the fasta file of probe sequences was obtained from the annotation file (http://www.affymetrix.com). In the GENCODE database, we downloaded the fasta file of human genome (GRCh38) and the gtf file of annotation file (GRCh38.p12) (https://www.gencodegenes.org). Probe‐matched lncRNA sequences were identified by the spliced alignment program for reads alignment of HISAT. In this study, we defined the lncRNA transcripts as those with the gene types of "lincRNA", "bidirectional_promoter_lncRNA", "macro_lncRNA", "antisense", "processed_transcript", "TEC", "3prime_overlapping_ncRNA", "sense_intronic", "non_coding", and "sense_overlapping". We included the transcripts according to the following criteria: (a) identified by ≥4 probes; (b) perfect match; (c) specific match. If multiple probes mapped to the same lncRNA, we assigned the mean value to the lncRNA. As for the GPL5175 microarray, the probes were reannotated using the same method and criteria.
+
+2.4.
+
+## Coexpression network construction
+The Pearson's distances of each paired lncRNAs were calculated by the construction of a weighted adjacency matrix, in which we chose a power of 9 to ensure a scale‐free network (scale free R2 = 0.81) (Figure A‐D). In the network, the hubs were defined as the highest‐degree nodes, which usually played certain roles. Then, we transformed the adjacency matrix into the topological overlap matrix (TOM). In TOM, the network connectivity of a lncRNA could be measured by calculating the sum of its adjacency with all other lncRNAs for network generation. Then, average linkage hierarchical clustering were used to divide the lncRNAs with similar expression patterns in the same modules (a minimum size of at least 30). The analysis was conducted by the R software package of “WGCNA”, and the R script used in this study was available on the tutorial website (https://horvath.genetics.ucla.edu/html/CoexpressionNetwork/Rpackages/WGCNA/Tutorials).
+ 
+2.5.
+
+## Significant module identification
+The module in relation to the IPMN tumorigenesis was identified by two methods. The significant module was defined as the module with the module with the maximal absolute module significance (MS) which was the average lncRNA significance in the module. Second, we also calculated the correlation between the first principal component in the principal component analysis for each module and the clinical features to find the most correlative module.
+
+2.6.
+
+## Identification of hub lncRNAs
+As the highly interconnected nodes in a module, hub genes in the coexpression network have been functionally reported. In this study, we calculated the intramodular connectivity of each lncRNA and high module membership (MM) by the Pearson's correlation. Then, we chose the lncRNAs with both high intramodular connectivity and high MM as the hub genes (namely cor.Standard >0.8 and cor.Weighted >0.8). 
+
+2.7.
+
+## Functional enrichment analyses
+The cDNA sequences of hub lncRNAs were obtained from the database of Ensembl (http://asia.ensembl.org). The microRNA targets of these hub lncRNAs were predicted by blasting the sequence with the microRNAs (http://mirdb.org/miRDB/custom.html). The gene targets of the microRNAs were obtained from the experimental validation database of miRTarBase (http://mirtarbase.mbc.nctu.edu.tw/php/index.php), and two computational prediction databases of miRDB (http://mirdb.org/) and TargetScan (http://www.targetscan.org/). To study the potential function of these microRNAs, we performed a gene ontology (GO) analysis of related biological processes, pathways and diseases on their predictive gene targets using the online tool of ToppFun (https://toppgene.cchmc.org/enrichment.jsp). A false discovery rate (FDR) of less than 0.05 was selected as the cut‐off.
+
+2.8.
+
+## Survival analyses
+As the survival data of novel lncRNAs were unavailable, the prognostic role of these lncRNAs in PDAC was indirectly evaluated by investigating the association between their target microRNAs and the prognosis. Kaplan‐Meier plotter (http://kmplot.com) was an online tool based on the RNA‐sequencing data and clinical data of The Cancer Genome Atlas (TCGA) dataset, and was used to study the relationship between the microRNA expression and PDAC prognosis.
+
+3.
+
+## RESULTS
+3.1.
+
+## Network construction and significant module identification
+In the training set, probe annotation identified a total of 4951 probes which were mapped to a total of 4066 lncRNAs. According to the similarity of expression pattern, these lncRNAs were grouped into nine modules (black (lncRNA number: 362), blue (2957), cyan (66), grey (195), grey60 (41), magenta (124), red (155), salmon (71), tan (95)) (Figure A). Additionally, the grey module was the module of lncRNAs not assigned to any module, which was regarded as a special module and not considered. In the magenta module, there shared the highest MS, and the ME also had a higher correlation than other modules in the tumorigenesis (R2 = −0.75 and P = 5E‐05) (Figure B,C). Two methods reached the consistent result, and thus the magenta module was chose as the relevant module in the tumorigenesis of IPMN.
+ 
+3.2.
+
+## Identification and validation of hub lncRNAs
+In the magenta module, hub lncRNAs were defined as the lncRNAs with both high intra‐modular connectivity (cor.Standard > 0.8) and high MM (cor.Weighted > 0.8) (Table ). Finally, three lncRNAs were identified, namely the antisense of HAND2‐AS1, the sense intronic of CTD‐2033D15.2 and the processed transcript of lncRNA‐TFG. HAND2‐AS1 and CTD‐2033D15.2 were negatively correlated with the tumorigenesis (P in one‐way ANOVA test = 1.45E‐07 and 1.39E‐0.5), while lncRNA‐TFG were positively correlated with the tumorigenesis (P = 3.99E‐08) (Figure ). In the validation set, HAND2‐AS1 and CTD‐2033D15.2 were in negative correlation with the four stepwise stages of IPMN (P in one‐way ANOVA test = 2.66E‐03 and 1.47E‐04), and lncRNA‐TFG in positive correlation with the progression (P = 6.23E‐08). The results indicated a protective role of HAND2‐AS1 and CTD‐2033D15.2, and a risk factor of lncRNA‐TFG in the tumorigenesis of IPMN.
+ 
+3.3.
+
+## Functional enrichment analyses
+Fifty‐four microRNAs were identified as the targets of HAND2‐AS1, while 15 microRNAs were in CTD‐2033D15.2 and 56 microRNAs in lncRNA‐TFG. Multiple biological processes, pathways and diseases were, respectively, enriched in the targets genes of microRNAs targeting also these lncRNAs (Figure ). In the overlap analysis, the target genes have the common biological processes of cell differentiation and development especially for neuron, the pathways of axon guidance, membrane trafficking, vesicle‐mediated transport and signaling by NGF, the diseases of mental disorders, and malignant diseases including pancreatic cancer. The results indicated a potential involvement of these lncRNAs in the tumorigenesis of PDAC, including the intermediate stage of IPMN.
+ 
+3.4.
+
+## Expression levels of lncRNA‐targeted microRNAs and PDAC prognosis
+Among 41 (76%) of the 54 HAND2‐AS1‐targeted microRNAs and 13 (87%) of the 15 CTD‐2033D15.2‐targeted microRNAs, patients with higher microRNA expression showed a significantly poorer prognosis in PDAC (log‐rank P < .05) (Figures and ). LncRNA‐TFG was the processed transcript of protein‐coding gene TFG, and 11 specific microRNAs were identified from the 56 lncRNA‐TFG‐targeted microRNAs when compared with TFG mRNA. Among 8 (73%) of the 11 microRNAs, patients with higher microRNA expression showed a significantly better prognosis (Figure ). The results indicated a protective role of HAND2‐AS1 and CTD‐2033D15.2, and a risk factor of lncRNA‐TFG in PDAC.
+ 
+
+4.
+
+## DISCUSSION
+Initially, lncRNAs were thought to be nonfunctional in transcription, but recent studies experimentally validated that multiple lncRNAs could sponge microRNAs to up‐regulate downstream message RNAs. Recently, several studies have reported the regulatory role of lncRNAs in the etiology of pancreatic cancer. Dysregulated expression of multiple lncRNAs has been documented in pancreatic cancer, which might be a major cause of tumorigenesis and progression. Furthermore, epigenetic events were proposed to have an important role in the tumorigenesis of pancreatic cancer, while lncRNAs has already been found as important epigenetic regulators in multiple biological processes, such as cell proliferation, differentiation and apoptosis and subsequent tumorigenesis. Several lncRNAs have been experimentally validated in the tumorigenesis and progression of pancreatic cancer. For example, certain lncRNAs could interact with the WDR5/MLL complex to up‐regulate the expression of multiple 5’ HOXA genes, which played an regulatory role in the progression and chemoresistance of pancreatic cancer. 
+
+The study of Giulietti et al also used the method of coexpression network analysis to identify novel lncRNA biomarkers for PDAC. Finally, 11 lncRNAs were found, namely A2M‐AS1, DLEU2, MIR155HG, SLC25A25‐AS1, ITGB2‐AS1, TSPOAP1‐AS1, LINC01133, LINC00675, PSMB8‐AS1, LINC01857, and LOC642852. However, Giulietti et al extracted the lncRNAs by the microarray annotation file, which was different from the method of probe reannotation. Fu et al study adopted the same method as us and identified three lncRNAs (AFAP1‐AS1, UCA1, and ENSG00000218510) involved in the PDAC progression. However, few studies performed a systematic analysis to find key lncRNAs in relation to the tumorigenesis of IPMN.
+In this study, we combined the method of probe reannotation with coexpression network analysis, and identified three lncRNAs (HAND2‐AS1, CTD‐2033D15.2, and lncRNA‐TFG) in association with the tumorigenesis of IPMN. In functional enrichment analysis, the target genes of microRNAs targeting also these lncRNAs were enriched in multiple biological processes, pathways, and malignant diseases including pancreatic carcinoma. In survival analysis, the target microRNAs of the lncRNAs were also correlated with the prognosis of PDAC. These results suggested a potential role of these lncRNAs in the pancreatic tumorigenesis. In mechanism, these lncRNAs might act though sponging the target microRNAs which were involved in the pathogenesis of pancreatic malignancies. Among these lncRNAs, HAND2‐AS1 has been experimentally validated as a suppressor in multiple cancers, like esophagus squamous cell cancer, nonsmall cell lung cancer, colorectal cancer, osteosarcoma, and endometrioid endometrial cancer. , , , , 
+
+As far as we know, this was the first study that combined the method of probe reannotation with coexpression network analysis to find key lncRNAs in relation to the tumorigenesis of IPMN. However, the limitations should be also acknowledged. First, the method of probe reannotation could help obtain reliable lncRNA data, but not cover all lncRNAs. Second, cellular and molecular experiments were needed to validate our results.
+In conclusion, by coexpression network analysis of the lncRNA profiles, three key lncRNAs were identified in association with the tumorigenesis of IPMN, and those lncRNAs might act as early diagnostic biomarkers or therapeutic targets in pancreatic cancer.
+
+## CONFLICT OF INTERESTS
+None.
+
+## AUTHOR CONTRIBUTIONS
+Jun Ding, Yi Li, and Jiayao Zhang participated in the development of the study concept, performed data analysis and interpretation of the data and participated in the writing of the manuscript. Yong Zhang participated in the development of the study concept, provided data for the study, performed data analysis and interpretation of the data and participated in the writing of the manuscript. Bin Fan participated in the development of the study concept, interpretation of the data and in the writing of the manuscript. Qinghe Li participated in the interpretation of the data, and in the writing of the manuscript. Jian Zhang provided data for the study.
+
+Ding J, Li Y, Zhang Y, et al. Identification of key lncRNAs in the tumorigenesis of intraductal pancreatic mucinous neoplasm by coexpression network analysis. Cancer Med. 2020;9:3840–3851. 10.1002/cam4.2927
+
+Jun Ding and Yi Li contributed equally to this study.
+
+## DATA AVAILABILITY STATEMENT
+Data available on request from the authors.
+
+## REFERENCES
+ 
+
+## Associated Data
+
+## Data Availability Statement
+Data available on request from the authors.

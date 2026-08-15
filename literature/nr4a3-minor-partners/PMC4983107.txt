@@ -1,0 +1,75 @@
+2750dibData in BriefData BriefElsevierPMC4983107498310749831072754780810.1016/j.dib.2016.06.053Data on the expression of cellular lncRNAs in human adenovirus infected cells
+ChenMaoshan ZhaoHongxing LindSara Bergström PetterssonUlf aDepartment of Biochemistry and Genetics, La Trobe Institute for Molecular Science, La Trobe University, Melbourne, Victoria 3086, AustraliabDepartment of Chemistry-BMC, Analytical Chemistry, Science for Life Laboratory, Uppsala University, Box 599, SE-751 24 Uppsala, SwedencThe Beijer Laboratory, Department of Immunology, Genetics and Pathology, Uppsala University, S-751 85 Uppsala, Sweden⁎Corresponding author. Fax: +46 18 471 4808. Hongxing.Zhao@igp.uu.se
+572016812631263–12791982016© 2016 The AuthorsThis is an open access article under the CC BY license (http://creativecommons.org/licenses/by/4.0/).
+
+## Abstract
+Expression of cellular long non-coding RNAs (lncRNAs) in human primary lung fibroblasts (IMR-90) during the course of adenovirus type 2 (Ad2) infection was studied by strand-specific whole transcriptome sequencing. In total, 645 cellular lncRNAs were expressed at a significant level and 398 of them were changed more than 2-fold. The changes in expression followed a distinct temporal pattern. Significantly, 80% of the changes occurred at the late phase and 80% of the de-regulated lncRNAs were up-regulated. The three largest groups of deregulated lncRNAs were 125 antisense RNAs, 111 pseudogenes and 85 long intergenic non-coding RNAs (lincRNAs). Lastly, more than 36% of lncRNAs have been shown to interact with RNA binding proteins.
+Keywords: Adenovirus, Long noncoding RNA, IncRNA, IMR-90
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2016 Apr 26; Revised 2016 May 29; Accepted 2016 Jun 28; Collection date 2016 Sep.
+
+## Specifications Table
+ 
+
+## Value of the data
+•Provide unique insights into the changes in lncRNA expression in human primary lung fibroblasts during an adenovirus infection.
+•Provide a valuable and unique resource for studies of lncRNAs expression and regulation.
+•Provide unique insights in the regulation of cellular gene expression mediated by lncRNAs.
+•Provide clues to our understanding of lncRNA biological function.
+•Since the effect of adenovirus on host cells in the early phase mimics tumorigenesis by promoting cell growth and inhibiting apoptosis, our data are applicable to cancer research.
+
+1.
+
+## Data
+Using pair-end sequencing, 398 cellular lncRNAs were identified as differentially expressed more than 2-fold in IMR-90 cells during the course of Ad2 infection. According to GENCODE, 125 are antisense RNAs, 111 are pseudogenes and 85 are long intergenic non-coding RNAs (lincRNA). Based on their expression profiles, these lncRNAs fell into 10 major clusters. The list of differentially expressed lncRNAs, sequencing reads, fold change, biotypes, expression cluster as well as their lengths and location on the genome are included in . Among differentially expressed lncRNAs, 149 lncRNAs have been shown to interact with RNA binding proteins (RBPs) ( ). In total, 33 RBPs proteins have been proved to interact with these lncRNAs. Furthermore, we showed here that 21 and 15 out of 33 RBPs are detected at mRNA and protein level, respectively ( ).
+ 
+2.
+
+## Experimental design, materials and methods
+2.1.
+
+## Cell culture and Ad2 infection
+Human primary lung fibroblast cells (IMR-90) were cultured in a complete Eagle׳s minimum essential medium (10% fetal bovine serum, 100 U/ml penicillin and 100 µg/ml streptomycin). After reaching confluence, the cells were cultured for two more days to reach growth synchronization . Cells were mock-infected or infected with Ad2 at a multiplicity of infection (MOI) of 100 fluorescence-forming units (FFU) per cell in serum-free medium. After 1 h adsorption at 37 °C, the medium was replaced with complete medium and incubated at 37 °C. Infected cells were collected at 6, 12, 24, and 36 hours post-infection (hpi). Mock-infected cells were collected at 6 hpi.
+
+2.2.
+
+## RNA extraction, cDNA library preparation, and sequencing
+Total RNAs were extracted using TRIZOL Reagent (Invitrogen). The quality of the input RNA was controlled by the Agilent 2100 Bioanalyzer (Agilent Technologies). Purified RNAs were treated with RiboZero (Epicenter) to remove ribosomal RNAs and cDNA libraries were constructed using ScriptSeq™ v2 RNA-Seq library preparation kit according to the manufacturer׳s protocol (Epicenter). The cDNA libraries were sequenced using Illumina HiSeq 2000.
+
+2.3.
+
+## Bioinformatics analysis
+After data cleaning, the reads were aligned to human genome sequences (GRCh38, Ensembl) with TopHat2 software . TopHat2 incorporates Bowtie2 (http://bowtie-bio.sourceforge.net/bowtie2/index.shtml) algorithm to perform the alignment. We used default parameters which allowed a maximum of two mismatches when mapping the reads to the human genome. Cufflinks was then used to profile gene expression at each time point based on human gene annotation by Ensembl . Differentially expressed lncRNAs were identified by three statistical values. 1), fold change was calculated by the FPKM (Fragments per Kilobase of exon per Million fragments mapped) values between Ad2-infected to uninfected cells; 2), based on Poison distribution, p-values were used to present the significances of differentially expressed lncRNAs ; 3), using the NOIseq package, the probability of a differentially expressed lncRNA was calculated . The hierarchical lncRNAs with different expression patterns were analyzed with uncentered correlation and centroid linkage method by Cluster and Tree View software.
+
+2.4.
+
+## Expression of lncRNA binding proteins
+All the proteins that interacted with lncRNAs were downloaded from starBase v2.0 which is based on CHIP-Seq analysis (http://starbase.sysu.edu.cn) . mRNA expression data was extracted from the current data. Whereas the protein expression data was obtained by SILAC-MS using the same cell culture and infection condition (manuscript in preparation). Briefly, IMR-90 cells were cultured in cell culture medium for stable isotope labeling by amino acids in cell culture (SILAC) for at least six population doublings. Cells labeled with heavy or light amino acids were then infected with Ad2 or mock infected, respectively. A biological replicate with swapped labeling was also performed. Mock- and Ad2-infected lysates of different labeling were combined in a 1:1 protein ratio. Proteins were fractionated using SDS-PAGE and each lane was cut into ten pieces. Following in-gel tryptic digestion, peptides were extracted and analyzed using QExactive Orbitrap Plus Mass spectrometer (ThermoFisher Scientific, Bremen, Germany) Acquired data (raw-files) was imported into MaxQuant software (version: 1.4) and searched against a FASTA-file containing both cellular and Ad2 proteins. The ratio of the chromatographic areas of heavy and light peptides matching to specific proteins was used for determining the differences in protein expression. The reported values are the average of two biological replicates.
+
+ 
+
+## Acknowledgments
+Sequencing was performed at the SNP&SEQ Technology Platform in Uppsala University and University Hospital. We thank Ulrika Liljedahl and Johanna Lagensjö for excellent sequencing. Martin Dahlö at UPPMAX is acknowledged for assistance concerning technical and implementational aspects in making the code run on the UPPMAX resources. This work was supported by the Kjell and Märta Beijer Foundation (UP), Åke Wiberg Foundation (SBL) and Magnus Bergvall Foundation (SBL).
+
+## Footnotes
+Transparency DocumentTransparency data associated with this article can be found in the online version at 10.1016/j.dib.2016.06.053.
+Appendix ASupplementary data associated with this article can be found in the online version at 10.1016/j.dib.2016.06.053.
+
+Transparency Document.
+
+## Supplementary material
+Supplementary material
+
+Appendix A.
+
+## Supplementary material
+Supplementary material
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+Supplementary material
+Supplementary material

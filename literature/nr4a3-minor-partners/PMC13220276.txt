@@ -1,0 +1,564 @@
+pmcChem RevChem Rev822acssdcrChemical Reviews0009-26651520-6890pubs.acs.org/CRpmc-is-collection-domainyespmc-collection-titleACS AuthorChoicePMC13220276PMC13220276.113220276132202764213386310.1021/acs.chemrev.5c008001ReviewMethods to Study
+the Molecular Mechanism and Drive
+the Design of Protein Degraders
+7004514https://orcid.org/0000-0003-2068-8255CroweCharlotte913501https://orcid.org/0000-0002-8654-1670CiulliAlessio 
+A), 
+B). 
+C).
+ ), into clinical trials
+against prostate and breast cancer in 2019–2021 constituted
+a milestone in the field. ). Following degradation
+by the 26S proteasome, the degrader molecule can be released from
+its protein complex and recycled, free to undergo another cycle of
+catalysis.
+ PROTACs are typically larger in size than molecular
+glues, with
+many exceeding 1000 Da, which poses a challenge for optimizing their
+pharmacokinetic properties while retaining excellent activity in vivo.
+PROTACs, in particular, as ‘beyond rule of 5’ (bRo5)
+molecules, can be designed and characterized by a wealth of descriptors
+relating to the degrader’s size, lipophilicity, ionization,
+polarity, and chameleonicity, all governing the molecules’
+ability to enter the cell and adequately biodistribute when dosed
+in vivo ( ). 
+A with highlighted binding
+moiety (purple), linker region (blue), and E3 ligase binding moiety
+(green)]. Therefore, they can simultaneously or asynchronously interact
+with the neo-substrate and the E3 ligase ( ). The free energy
+change of forming the ternary complex ΔGcomplex can
+be described by eq (1) ( ). A key parameter which emerges from this equilibrium treatment
+is cooperativity (α), defined by the ratio of a PROTAC’s
+binary to ternary dissociation constant Kd [eq (2), ]. ). They typically have a lower
+molecular weight and therefore more favorable ‘drug-like’
+properties which allow for more facile cell penetration and potentially
+increased oral bioavailability. A key mechanistic difference is that
+molecular glues typically interact with only one of the two proteins
+at binary level: for example, for the archetypical molecular glue
+degrader thalidomide, it interacts exclusively with the E3 ligase
+CRBN, and once that binary complex is formed, it can induce or stabilize
+recruitment of a neo-substrate. ). For these reasons, the ‘hook effect’
+does not apply and does not come into play, at least in the case of
+molecular glues operating via reversible noncovalent interactions
+(for an exception to this, see template-assisted or targeted covalent
+glue degraders that have been found to form covalent adducts in trans
+with the E3 ligase DCAF16 following binary engagement with their respective
+target protein Brd4 or Brd9).
+ 
+A and B). More
+thorough knowledge of how a degrader performs can be obtained by further
+evaluating the rate of degradation, extent of degradation, and longevity
+or duration of the degradation. Riching et al. address this by describing
+additional parameters, illustrated in 
+C. ).
+ Degrader physicochemical properties are commonly used
+as an important
+initial screening method for predicting cellular permeability. These
+parameters can be obtained through simple analysis of the compound
+chemical structure (as is the case for the molecular weight, number
+of carbon atoms, number of rotatable bonds, number of hydrogen bond
+donors and acceptors, etc.), through computation, or experimentally.
+Lipophilicity of a compound is traditionally determined by dissolution
+in a biphasic system – typically n-octanol
+and water – the two phases are shaken until thermodynamic equilibrium
+is reached and the concentration of the compound is quantified in
+each phase. Building on this fundamental methodology but moving away
+from the low-throughput ‘shake-flask’ setup, more modern
+chromatographic methods have been developed to improve throughput,
+material consumption, and sensitivity. In particular, immobilized
+artificial membrane (IAM) chromatography has gained popularity in
+recent years as a method to predict drug permeability, yielding readouts
+on polarity ΔlogkW
+IAM based on the measured
+chromatographic retention time.
+ ). These methods
+inform on a change in molecular weight consistent with an increased
+state of hetero- or homo- oligomerization.
+ SEC analysis reveals a shift in elution volume
+of the injected
+complex correlating with an increase in molecular weight with the
+ternary complex formation (effect illustrated in 
+A). This method
+has been applied to a number of systems, for example, to study homoPROTAC-induced
+dimerization of VHL-EloC-EloB complex (VCB), 
+B),
+and it has the added benefit of being economical in cost, requiring
+only gel electrophoresis apparatus and reagents. Diehl et al. developed
+a native gel electrophoresis method to evaluate the ability of homoPROTACs
+to dimerize recombinant VHL protein under nondenaturing conditions
+and showed a correlation between the percentage of ternary complex
+formation detected and the degradation levels of pVHL30 observed by
+Western blot. 
+C). 
+D and E. Depending on the sensitivity of the instrument,
+nMS is well-suited for high affinity pM-low μM range of dissociation
+constants.
+Overall, these biochemical techniques are valuable
+for visualizing
+which ensembles of species are present. In particular, SEC, EMSA,
+and MP are limited in resolution and are less likely to capture more
+transient interactions. nMS can achieve higher mass resolution and
+sensitivity. Here, detection of higher μM-mM interactions is
+feasible; however, optimization in terms of instrument sensitivity,
+gentle ionization conditions, higher protein concentrations, and stabilizing
+buffer conditions may be required.
+
+4.2
+
+## Biophysical Methods to Evaluate Degrader Binary
+and Ternary Complexes In Vitro
+
+Biophysical
+assays of varying throughput are effectively used to produce the quantitative
+data required for assessing the equilibria of binary and ternary complex
+formation. This information has proven crucial for degrader development.
+Specifically, potent and fast degraders act at low concentrations
+to form ternary complexes of high thermodynamic stability and kinetic
+longevity.
+ ), or direct
+binding, and are summarized in .
+ 4.2.1
+
+## Proximity-Based Assays
+Amplified
+luminescent proximity homogeneous assay-linked immunosorbent assay
+(AlphaLISA) ). In these methods,
+both the E3 ligase and the target protein are labeled with donor and
+acceptor species. Upon proximity induced by a degrader, light excitation
+at the wavelength of the donor species results in energy transfer
+from the donor to the acceptor species, generating an emission signal.
+For AlphaLISA, energy transfer is from a ‘donor’ bead
+which, on excitation, produces short-lived singlet oxygen species
+with a diffusion radius of 200 nm. 
+A). By contrast, in TR-FRET, energy transfer
+is from a donor fluorescent FRET pair dye to its acceptor FRET pair
+dye ( 
+B). The acceptor species is another fluorophore that will
+produce an emission at a wavelength distinct from the donor if it
+is located within the Förster radius (2–9 nm for most
+FRET fluorophore pairs). 
+A). 
+B).
+AlphaLISA ( 
+A) and TR-FRET ( 
+B) can both be used in a competition
+setup to assess binary binding; for example, Guenette and Potts developed
+a high-throughput AlphaLISA assay to identify new ligands for E3 ligases
+by titrating unlabeled degron peptides to displace biotinylated peptides
+bound to E3 ligases. 
+C). Instead, the small molecule probe which binds to the E3 or target
+protein is functionalized with a fluorescent dye (often fluorescein-based,
+or similar). Incubation of the protein and probe in solution results
+in a baseline signal which is attenuated on probe displacement with
+a stronger-binding compound or compound-protein pair. Competition
+FP proved key in developing nonpeptidic small molecules for binding
+VHL competitively to the substrate HIF-1α derived peptides:
+these FP screening campaigns led to the key ligands used for VHL-recruiting
+PROTACs.
+ 
+B), as was the case for a different bromodomain target, SMARCA2/4,
+with VCB and PROTACs leading to the development of ACBI1, 
+A). 
+B). Using this dual-immobilization, degrader-mediated
+ternary complex k
+on and k
+off rates were measured by monitoring FRET from a donor
+dye to an acceptor dye. ).
+ 
+
+4.3
+
+## Biophysical Methods to Identify Degrader Binary
+and Ternary Complexes in Cells
+Given the complexity of the
+intracellular environment, binary binding and ternary complex formation in vitro may not fully reflect a degrader’s efficacy in cellulo and in vivo. Cellular target
+engagement is dependent on several factors, including compound cell
+permeability, export/efflux, sequestration, and target protein compartmentalization.
+Moreover, engagement of the endogenous full-length target protein
+inside the cell may differ from that measured in vitro with recombinant purified protein constructs. Therefore, cellular
+biophysical assays are useful to complement in vitro measurements.
+An opportunity to measure the extent of binary
+binding in a cellular system was presented by Riching et al. with
+the NanoLuc-VHL fusion assay, which monitors nano-bioluminescent resonance
+energy transfer (NanoBRET) between a NanoLuc-protein fusion and a
+HaloTag-labeled reporter ligand. ), .
+ To date, X-ray crystallography has been the main method
+to obtain
+structural information on degrader binary binding and ternary complex
+formation. This method requires a good amount of high-purity protein
+and has some drawbacks; for example, complexes may not crystallize,
+or crystals may not diffract to good enough resolution, or capture
+the complex in just one of many conformations accessible in solution,
+sometimes biased by non-native crystal contacts. Despite these limitations,
+X-ray crystallography is a powerful technique and probably the best
+available for obtaining high-resolution information on the protein
+binding site and binding mode, as well as to reveal the bioactive
+conformation of the small-molecule bound, which can be used for further
+structure-guided drug design. Indeed, a series of studies from Ciulli,
+Crews, and colleagues relied on cocrystal structures to guide the
+design of the first small-molecule ligands for VHL.
+ 
+A).
+ 
+B), the method has undergone widespread application, expanding to
+numerous systems such as endogenous BET bromodomains,
+ , coupled with in vivo studies and proteomics approaches
+described elsewhere, ), coupled with proteomics
+analyses and in vivo and preclinical evaluation studies,
+can produce a species suitable for advancement to lead compounds or
+to the clinic.
+ 
+A). 
+B).
+
+8
+
+## Conclusion and Future Perspectives
+This review provides a comprehensive overview of the current toolbox
+of methods and assays available to characterize and understand the
+mechanism of action of small molecule degraders operating through
+the ubiquitin proteasome system degradation pathway.
+We first
+explore how cellular permeability can be measured directly
+and through fluorescence-based monitoring. We outline techniques for
+estimating cellular permeability using compound physicochemical properties
+and also conformational ensemble prediction of degraders using computational
+and experimental methods, allowing for an appreciation of compound
+flexibility and folding. Cellular uptake of degraders, particularly
+of bifunctional molecules which are typically larger in size and have
+a large exposed polar surface area, is known to be a limiting criterion
+in degrader development. Particularly for PROTACs and other degraders
+which fit the ‘beyond rule-of-five’ descriptor, in silico assessment and consideration for physicochemical
+properties must be a priority before laboratory synthesis, after which
+a range of assays can be deployed to characterize the molecule’s
+complex behavior in a cell.
+We also explored methods to characterize
+degrader binary binding
+to either the target protein or E3 ligase and ternary complex formation.
+We focused on biochemical and biophysical methods to characterize
+ternary complex size and oligomerization state, in-solution proximity-based
+and competition-based methods for screening campaigns, as well as
+biosensor-based and in-solution direct binding methods. These methods
+are compared and contrasted in terms of their relative degrees of
+protein consumption, labeling and immobilization requirements, throughput,
+ranges of detectable Kd, and, crucially, the type of information
+they provide. These in vitro biophysical assays have
+been and continue to prove critical for degrader optimization in terms
+of maximizing the durability (half-life) and stability and cooperativity
+of ternary complex formation and dissociation equilibria, providing
+a wealth of invaluable information that can also inform the prediction
+of PK/PD relationships. These approaches can be complemented by cellular
+biophysical binary and ternary complex studies, which, albeit less
+quantitative, report on engagement with the endogenous full-length
+proteins. Together these assays provide information on compound cell
+permeability, export/efflux, sequestration, and target protein compartmentalization.
+An arsenal of structural biology techniques can be deployed to
+study degrader protein complexes. Protein X-ray crystallography provides
+valuable high-resolution information to guide molecular design of
+optimized binary and ternary complexes; however, it may give an incomplete
+view of a heterogeneous system. Additional methods, such as cryo-EM,
+help elucidate sample heterogeneity and provide useful data on larger
+complexes, including yielding structures of ternary complexes, while
+in-solution methods offer orthogonal insights to improve our understanding
+of these complexes.
+Ubiquitination has been less widely studied
+in the context of TPD
+but constitutes a critical step in the degrader mode of action. Biophysical
+and structural methods have more recently been applied to optimize
+for degrader-mediated target ubiquitinability. Degradation
+methods in cells prove critical to verify the mechanism through which
+degrader molecules act and determine off-target effects, while some
+plate-based degradation assays can provide quantitative and higher
+throughput information for compound profiling and screening.
+Overall, this review provides insights into how to study degrader
+development, from validating their basic mode of action, to optimizing
+for individual steps in the mechanistic pathway. While each and every
+one of the different assay strategies described herein could be, in
+principle, applied to drug discovery campaigns, in reality, limitations
+in the available time and resources mean that only a small subset
+of these assays will end up being used at any given time on drug discovery
+projects, whether in an academic or biopharma industry environment
+– typically based on consideration of throughput, scalability,
+speed of data generation, and material consumption. Despite these
+pragmatic considerations, it is important to also recognize that in-depth
+characterization of the molecular recognition of E3 ligases and target
+proteins and its downstream impact on target ubiquitination and degradation
+has in many cases proven critical for the success of degrader molecules.
+This enablement requires the development and application of in vitro and cellular biochemical, biophysical, and structural
+methods that are often expensive, time-consuming, technically demanding,
+and low-throughput. Such methods are therefore often best applied
+to a small selection of carefully chosen compounds, and the challenge
+is to obtain data within a time scale of a design-make-test-analyze
+(DMTA) cycle that still allows to inform and guide the medicinal chemist’s
+decision-making process. Further innovation in methodology, including
+automation, screening, and computational approaches, will help unlock
+faster and perhaps deeper insights into degrader action.
+The
+majority of the literature cited here has focused on CRL2VHL and CRL4CRBN, and with the repertoire of E3
+ligases currently expanding, an increasing number of degrader molecules
+are being developed to hijack Cullin RING ligases beyond VHL and CRBN. While CRL2VHL and CRL4CRBN systems are well-established, much of the methodology discussed
+here can be applied to degrader development campaigns with other E3
+ligases and to other proteins that are targeted for degradation. It
+is anticipated that the methods discussed in this review will inspire
+further degrader characterization in the context of their mechanism
+of action and overall properties and performance and will guide optimization
+of improved degrader drugs as well as other induced proximity pharmacologies
+beyond TPD.
+
+Research in the Ciulli
+laboratory on PROTACs and
+targeted protein degraders receives funding from the Innovative Medicines
+Initiative 2 (IMI2) Joint Undertaking under grant 875510 (EUbOPEN
+project), which receives support from the European Union’s
+Horizon 2020 research and innovation program; European Federation
+of Pharmaceutical Industries and Associations companies and associated
+partners KTH, OICR, Diamond, and McGill; the KOODAC team supported
+by the Cancer Grand Challenges partnership funded by Cancer Research
+UK (CGCATF-2023/100013), Institut National du Cancer (INCa), and KiKa
+(Children Cancer Free Foundation); and the Michael J. Fox Foundation.
+A.C. is deeply grateful to the many organizations that have funded
+or currently fund research in his laboratory, including the UK Biotechnology
+and Biological Sciences Research Council and other UK Research Councils;
+the European Research Council; the European Commission; and pharmaceutical
+companies Almirall, Amgen, Amphista Therapeutics, Boehringer Ingelheim,
+Eisai, GlaxoSmithKline, Merck KGaA, Nurix Therapeutics, Ono Pharmaceutical,
+and Tocris (a Bio-Techne brand). C.C. was supported by a PhD studentship
+from the UK Medical Research Council (MRC) under the Industrial Cooperative
+Awards in Science & Technology (iCASE award with Tocris Bio-Techne)
+doctoral training programme MR/R015791/1, and is currently a postdoctoral
+researcher funded by the Michael J. Fox Foundation.
+Charlotte Crowe is a postdoctoral
+research associate in the Centre
+for Targeted Protein Degradation at the University of Dundee. She
+obtained a Ph.D. in 2024 under the supervision of Alessio Ciulli from
+the University of Dundee, and a Master in Chemistry in 2020 from the
+University of St Andrews. Her research interests include chemical
+and structural biology approaches to understand the mechanisms of
+small molecule-mediated target protein degradation.
+Alessio Ciulli, FRS studied chemistry in Italy, and
+received his
+Ph.D. from the University of Cambridge in 2006 under the late Professor
+Chris Abell, FRS. Following postdoctoral research, and a brief visit
+at Yale University, in 2009 Ciulli started his own group at Cambridge.
+In 2013, he joined the faculty at the University of Dundee’s
+School of Life Sciences, where he has been full professor and Chair
+of Chemical Structural Biology since 2016. He is founder and director
+of Dundee’s Centre for Targeted Protein Degradation since 2023.
+The manuscript
+was written through contributions of all authors. All authors have
+given approval to the final version of the manuscript.
+The authors
+declare the following competing financial interest(s): A.C. is a scientific
+founder and shareholder of Amphista Therapeutics, a company that is
+developing targeted protein degradation therapeutic platforms. A.C.
+is on the Scientific Advisory Board of ProtOS Bio and TrimTech therapeutics.
+A.C. receives or has received sponsored research funding from Almirall,
+Amgen, Amphista Therapeutics, Boehringer Ingelheim, Eisai, GlaxoSmithKline,
+Merck KGaA, Nurix Therapeutics, Ono Pharmaceutical, and Tocris (a
+Bio-Techne brand).
+
+## Abbreviations
+αcooperativity
+ÅAngstrom
+AlphaLISAamplified luminescent proximity
+homogeneous assay-linked immunosorbent assay
+BETBromodomain and Extra-Terminal motif
+BDbromodomain
+BIRCbaculoviral IAP repeat
+containing
+protein
+BLIBiolayer
+interferometry
+Brdbromodomain-containing protein
+BRETbioluminescence resonance energy
+transfer
+BRlogDbiologically relevant logD
+BTKBruton’s tyrosine kinase
+CAPAchloroalkane penetration assay
+CDKcyclin-dependent kinase
+CDO1cysteine dioxygenase
+type 1
+CETSAcellular
+thermal shift assay
+Chamelogkchameleonicity metric
+CharVolcharacteristic volume
+CHIchromatographic hydrophobicity index
+cIAPcellular inhibitor
+of apoptosis
+protein
+CRBNcereblon
+CRL2VHL
+VHL cullin 2 RING
+E3 ubiquitin ligase
+CRL4CRBN
+CRBN cullin 4 RING
+E3 ubiquitin ligase
+cryo-EMcryo-electron microscopy
+CulCullin protein
+ΔHenthalpy
+ΔGfree energy
+ΔSentropy
+DaDalton(s)
+DDA1DET1 and DDB1 associated protein
+1
+DDB1damage specific
+DNA binding protein
+1
+DC50half-maximal
+degradation constant
+DCAFDDB1 and Cul4 associated factor
+DLSdynamic light scattering
+
+D
+max
+maximum
+degradation efficacy value
+DNADNA
+DSFdifferential scanning fluorimetry
+E1E1 ubiquitin-activating enzymes
+E2E2 ubiquitin-conjugating enzymes
+E3E3 ubiquitin ligases
+eloBelongin B
+eloCelongin C
+EMSAelectrophoretic mobility
+shift
+assay
+EPSAexperimental
+polar surface area
+ERestrogen receptor
+FEM1CFEM-1 homologue C protein
+FIDAflow-induced dispersion analysis
+FITCfluorescein
+fluoPPifluorescent PPi
+FPfluorescence polarization
+FPSfluorescence proximity
+sensing
+FRETFörster
+resonance energy
+transfer
+GFPgreen
+fluorescent protein
+GSPT1G1 to S phase transition protein
+1
+GSTglutathione
+S-transferase
+HADDOCKhigh-ambiguity driven docking
+HaloTaghaloalkane dehalogenase-tagged
+HBAand hydrogen bond acceptor
+HBDnumber of hydrogen
+bond donor
+HDX-MShydrogen–deuterium exchange
+mass spectrometry
+HEKhuman embryonic kidney
+HIF-1hypoxia inducible factor 1
+HPLChigh-performance liquid chromatography
+IAMimmobilized artificial
+membrane
+IC50half-maximal
+concentration of inhibition
+ITCisothermal calorimetry
+Kaassociation constant
+
+K
+d
+dissociation
+constant
+
+K
+i
+inhibitor
+constant
+KLHDC2Kelch domain-containing protein
+2
+koffoff-rate
+konon-rate
+LC/MSliquid chromatography/mass
+spectrometry
+LEDlight-emitting diode
+Log Dlipophilicity distribution coefficient
+of ionizable compounds
+LogPlipophilicity partition coefficient
+LPElipophilic permeability efficiency
+LRRK2leucine rich
+repeat kinase 2
+MDCKMadin-Darby canine kidney
+MSTmicroscale thermophoresis
+MWmolecular weight
+
+m/z
+mass-to-charge
+ratio
+Nstoichiometry
+coefficient
+NanoLucnanoluciferase
+nDSFnanoDSF
+NMRnuclear
+magnetic resonance
+nMSnative mass spectrometry
+NRotBnumber of rotatable bonds
+Ppolarity
+PAMPAparallel artificial membrane permeability
+assay
+Pappapparent
+permeability
+PPiprotein–protein interaction
+PROTACproteolysis targeting chimera
+PSSMposition-specific scoring matrix
+PWMpositional weighted
+matrix
+RBM39RNA-binding
+motif protein 39
+RBRRING-Between-RING
+RbxRING box protein
+RFrandom forest
+RINGreally interesting new gene
+RRCKMDCK-clone Ralph-Russ canine kidney
+Ssolubility
+SARstructure–activity relationships
+SASAsolvent-accessible
+surface area
+SAXSsmall-angle X-ray scattering
+SDS-PAGEsodium dodecyl sulfate-polyacrylamide
+gel electrophoresis
+SECsize exclusion chromatography
+SILACstable isotope labeling by amino
+acids in cell culture
+smFRETsingle molecule FRET
+SOCSsuppressor of cytokine signaling
+SPPIERseparation of phases-based protein
+interaction reporter
+SpSspectral shift assay
+SPRsurface plasmon resonance
+ssDNAsingle-stranded DNA
+STATsignal transducer and activator
+of transcription
+t1/2half-life
+TAMRAtetramethylrhodamine
+TDAthermal denaturation assay
+TECtyrosine protein kinase
+TPDtargeted protein degradation
+TPSAtotal polar surface
+area
+TR-FRETtime-resolved
+Förster
+resonance energy transfer
+TRIP12thyroid hormone receptor interactor
+12
+TSAthermal shift
+assays
+TUBEtandem
+ubiquitin binding entity
+Ububiquitin
+UbC50half-maximal concentration of
+ubiquitination
+Ubmaxmaximum conversion to ubiquitinated
+substrate
+UPSubiquitin
+proteasome system
+VCBpVHL-eloB-eloC complex
+VHLvon Hippel-Lindau
+WDR5WD repeat-containing protein 5
+ On May 1, 2026,
+the U.S. Food and Drug Administration (FDA) approved vepdegestrant
+(ARV-471), an estrogen receptor degrader, for the treatment of patients
+with specific types of breast cancer. ARV-471 represents the first-ever
+FDA-approved PROTAC protein degrader.
