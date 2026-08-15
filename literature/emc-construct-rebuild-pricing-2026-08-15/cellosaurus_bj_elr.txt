@@ -1,0 +1,58 @@
+SOURCE URL: https://api.cellosaurus.org/search/cell-line?q=%22BJ%20ELR%22&format=txt&rows=20
+FINAL URL: https://api.cellosaurus.org/search/cell-line?q=%22BJ%20ELR%22&format=txt&rows=20
+HTTP: 200
+CONTENT-TYPE: text/plain; charset=utf-8
+======================================================================
+## query.q: "BJ ELR"
+## query.defType: edismax
+## query.indent: True
+## query.qf: ac^16 id^16 sy^8 text
+## query.fl: ac
+## query.pf: ac^160 id^160 sy^80 text
+## query.start: 0
+## query.q.op: AND
+## query.sort: score desc
+## query.rows: 20
+## query.wt: json
+## query.fields: (None)
+## query.format: txt
+## QTime: 0
+## response.numFound: 1
+
+ID BJ-TERT/LT/ST/RASV12
+AC CVCL_C8QQ
+SY BJeLR; BJ-ELR; BJ ELR; ELR
+DR CLO; CLO_0037212
+DR EFO; EFO_0007750
+DR GEO; GSM7701462
+DR GEO; GSM7701465
+DR Wikidata; Q123030819
+RX PubMed=18355723;
+CC Part of: Human Protein Atlas, Cell Atlas panel.
+CC Population: Caucasian.
+CC Characteristics: Tumorigenic in nude mice (PubMed=18355723).
+CC Doubling time: 15 hours (PubMed=18355723).
+CC Genetic integration: Method=Transduction; Gene=HGNC; HGNC:5173; HRAS (Note=With p.Gly12Val).
+CC Genetic integration: Method=Transduction; Gene=HGNC; HGNC:11730; TERT.
+CC Genetic integration: Method=Transduction; Gene=UniProtKB; P03070; Simian virus 40 (SV40) large T antigen.
+CC Genetic integration: Method=Transduction; Gene=UniProtKB; P03081; Simian virus 40 (SV40) small T antigen.
+CC Transformant: NCBI_TaxID; 1891767; Simian virus 40 (SV40).
+CC Omics: Proteomics; Expression; Large antibody panel staining analysis.
+CC Omics: Transcriptomics; RNAseq.
+CC Derived from site: In situ; Foreskin, skin; UBERON=UBERON_0001471.
+CC Cell type: Fibroblast of foreskin; CL=CL_1001608.
+OX NCBI_TaxID=9606; ! Homo sapiens (Human)
+HI CVCL_C8QP ! BJ-TERT/LT/ST
+SX Male
+AG <1M
+CA Transformed cell line
+DT Created: 05-10-23; Last updated: 14-08-25; Version: 6
+//
+RX PubMed=18355723; DOI=10.1016/j.chembiol.2008.02.010; PMCID=PMC2683762;
+RA Yang, Wan Seok
+RA Stockwell, Brent Roark
+RT "Synthetic lethal screening identifies compounds activating
+RT iron-dependent, nonapoptotic cell death in oncogenic-RAS-harboring
+RT cancer cells.";
+RL Chem. Biol. 15:234-245(2008).
+//
