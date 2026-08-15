@@ -1,0 +1,82 @@
+[
+  {
+    "name": "A1_labelle_deposit_1165104",
+    "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id=1165104&rettype=gbwithparts&retmode=text",
+    "status": 200,
+    "final_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id=1165104&rettype=gbwithparts&retmode=text",
+    "content_type": "text/plain",
+    "chars": 5083
+  },
+  {
+    "name": "A2_clark_deposit_1311504",
+    "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id=1311504&rettype=gbwithparts&retmode=text",
+    "status": 200,
+    "final_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id=1311504&rettype=gbwithparts&retmode=text",
+    "content_type": "text/plain",
+    "chars": 5318
+  },
+  {
+    "name": "A3_clark_deposit_1311502",
+    "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id=1311502&rettype=gbwithparts&retmode=text",
+    "status": 200,
+    "final_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id=1311502&rettype=gbwithparts&retmode=text",
+    "content_type": "text/plain",
+    "chars": 1469
+  },
+  {
+    "name": "A4_labelle_deposit_fasta",
+    "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id=1165104&rettype=fasta&retmode=text",
+    "status": 429,
+    "error": "HTTPError 429",
+    "chars": 85
+  },
+  {
+    "name": "A5_clark_deposits_fasta",
+    "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id=1311504,1311502&rettype=fasta&retmode=text",
+    "status": 429,
+    "error": "HTTPError 429",
+    "chars": 85
+  },
+  {
+    "name": "A6_esummary_all_three",
+    "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=nuccore&id=1165104,1311504,1311502&retmode=json",
+    "status": 429,
+    "error": "HTTPError 429",
+    "chars": 85
+  },
+  {
+    "name": "A7_nuccore_ews_chn_all",
+    "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=nuccore&term=(EWS+OR+EWSR1)+AND+(CHN+OR+TEC+OR+NR4A3)+AND+(fusion+OR+chimeric)&retmax=300&retmode=json",
+    "status": 429,
+    "error": "HTTPError 429",
+    "chars": 85
+  },
+  {
+    "name": "A8_elink_labelle_protein",
+    "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/elink.fcgi?dbfrom=pubmed&db=protein&id=8634690&retmode=json",
+    "status": 429,
+    "error": "HTTPError 429",
+    "chars": 85
+  },
+  {
+    "name": "A9_elink_clark_protein",
+    "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/elink.fcgi?dbfrom=pubmed&db=protein&id=8570200&retmode=json",
+    "status": 429,
+    "error": "HTTPError 429",
+    "chars": 85
+  },
+  {
+    "name": "B1_elink_panagopoulos_all",
+    "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/elink.fcgi?dbfrom=pubmed&db=nuccore,protein,gene,bioproject&id=12378528&retmode=json",
+    "status": 429,
+    "error": "HTTPError 429",
+    "chars": 85
+  },
+  {
+    "name": "B2_nuccore_panagopoulos_9uids",
+    "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=nuccore&id=1890269313,1890258620,1674986060,300193020,1519312680,1519245539,306774084,2047705749,6624923&retmode=json",
+    "status": 429,
+    "error": "HTTPError 429",
+    "chars": 85
+  }
+]
