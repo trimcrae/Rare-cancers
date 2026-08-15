@@ -124,7 +124,25 @@ def _gap_region():
     return tuple(GAP_REGION_1BASED)
 
 
-def _http(url, timeout=180, accept="application/json", tries=4):
+#: ⛔ TEN, NOT FOUR, AND THE NUMBER IS MEASURED (2026-08-15). Four consecutive CI dispatches of this
+#: screen died in the fetch loop, and the discriminating detail is that they died in DIFFERENT
+#: places every time:
+#:     run 31890657213  503  lookup/id/ENST00000325455   (PGR,   4th gene)
+#:     run 31891448127  503  lookup/id/ENST00000605844   (TAF15, 5th gene)
+#:     run 31891???     500  sequence/id/ENST00000333725 (TCF12, 6th gene, and a DIFFERENT endpoint)
+#:     run 31892621691  503  lookup/id/ENST00000325455   (PGR   again)
+#: Three transcripts, two endpoints, two status codes, four runs: that is an Ensembl-side
+#: instability window, not a bad identifier and not a code fault. `fetch_premrna` makes 2 requests
+#: per transcript, so a 7-transcript atlas is 14 SERIAL calls that must ALL succeed; at four tries
+#: and a 3/6/9 s backoff each call buys about eighteen seconds of patience, and the run is a coin
+#: flip weighted against itself. Engineering effort is free and a re-dispatch is 15 minutes of wall
+#: clock, so the patience is bought here instead: 10 tries with the same widening pause is ~165 s
+#: per call, which spans the outages actually observed. ⚠ It does NOT weaken the failure: the last
+#: error is still raised, still names the URL, and still lands in `aso-premrna-offtarget-FAILED.json`.
+DEFAULT_TRIES = 10
+
+
+def _http(url, timeout=180, accept="application/json", tries=DEFAULT_TRIES):
     """GET with the Accept header Ensembl actually keys on, and a bounded retry.
 
     ⚠ THE HEADER MATTERS AND THE FIRST VERSION SENT THE WRONG ONE. Ensembl REST selects its response
