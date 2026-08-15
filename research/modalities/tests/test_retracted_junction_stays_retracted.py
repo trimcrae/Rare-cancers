@@ -2,8 +2,13 @@
 
 ⛔ WHY THIS IS A TEST AND NOT A COMMENT ON THE RETRACTION RECORD.
 `EWSR1_e11__NR4A3_e3` was withdrawn on 2026-08-15 (see
-`aso_noncoding_acceptor_designs.RETRACTED_PUBLISHED_BREAKPOINTS` for the verdict and the five
-numbering anchors behind it). Removing it from the whitelist stops the DESIGN lane from reaching it,
+`aso_noncoding_acceptor_designs.RETRACTED_PUBLISHED_BREAKPOINTS` for the verdict and the
+numbering anchors behind it). ⚠ THE WITHDRAWAL RESTS ON THE EXON-NUMBERING RECONCILIATION — the
+vendor's "ex11" resolves to this repository's EWSR1 exon 12, the canonical type-1 junction the panel
+already carries — and NOT on the seam's OUT_OF_FRAME grade, which was only ever grounds for
+suspecting the exon assignment. `test_the_retraction_record_is_not_empty_and_names_what_would_reopen_it`
+asserts that distinction rather than trusting prose to preserve it.
+Removing it from the whitelist stops the DESIGN lane from reaching it,
 and `_assert_no_retracted_junction_is_whitelisted()` stops it being re-added there. Neither of those
 protects the OTHER direction: a screen artifact generated from the whitelist BEFORE the retraction,
 sitting in a working tree, and committed afterwards. That artifact would carry oligo sequences at a
@@ -44,6 +49,21 @@ def test_the_retraction_record_is_not_empty_and_names_what_would_reopen_it():
         for field in ("retracted_utc", "verdict", "the_claim_that_was_withdrawn",
                       "what_would_reopen_it", "one_home_for_the_evidence"):
             assert rec.get(field), f"{key} retraction is missing {field!r}"
+        # ⛔ THE BASIS MUST BE STATED, AND IT IS NOT THE FRAME GRADE. This is the one part of the
+        # record most likely to be lost in a later summary: `EWSR1_e11__NR4A3_e3` grades
+        # OUT_OF_FRAME, that grade is vivid, and it is NOT what the withdrawal rests on. It was
+        # grounds for suspecting the exon assignment — the reason to go and check. What settled it
+        # is the numbering reconciliation, because a frame reading can say an assignment looks wrong
+        # and can never say which assignment is right. A retraction that lets those swap places
+        # would be quotable as "withdrawn because it was out of frame", which is a different and
+        # much weaker claim than the one the evidence supports.
+        assert any(k.endswith("basis_of_the_withdrawal") for k in rec), (
+            f"{key} retraction does not state what it rests on")
+        basis = next(v for k, v in rec.items() if k.endswith("basis_of_the_withdrawal"))
+        assert "NUMBERING" in basis.upper(), f"{key} basis does not name the numbering reconciliation"
+        assert "OUT_OF_FRAME" in basis, (
+            f"{key} basis does not say what it is NOT resting on; the frame grade must be named and "
+            "excluded explicitly, or the next reader will promote it")
         # ⭐ THE HONEST RESIDUAL IS MANDATORY. A retraction that states only the evidence FOR itself
         # is the same overclaim as the entry it replaces, in the opposite direction.
         assert any(k.endswith("what_this_does_NOT_establish") for k in rec), (

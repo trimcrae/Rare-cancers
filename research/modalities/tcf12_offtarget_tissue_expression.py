@@ -135,9 +135,16 @@ def derive(inp):
     loci = {}
     for row in inp["loci"]:
         sym = row["locus"]
+        # ⚠ FIELD NAMES ARE READ OFF THE ROW, NOT GUESSED. The first draft of this carried
+        # `row.get("n_hits")`, which does not exist on a locus row, so the artifact shipped a
+        # plausible-looking `n_gap_paired_hits: null` for every locus — a populated field that was
+        # never measured, which CLAUDE.md §4 names as more dangerous than an empty one.
         loci[sym] = {
             "n_transcript_records": row.get("n_transcript_records"),
-            "n_gap_paired_hits": row.get("n_hits"),
+            "n_curated_records": row.get("n_curated_records"),
+            "n_predicted_records": row.get("n_predicted_records"),
+            "n_designs_hitting_it": row.get("n_designs_hitting_it"),
+            "designs_hitting_it": row.get("designs_hitting_it"),
             "exposure_liver_kidney": TE._tissue_block(
                 gtex, sym, TE.EXPOSURE_TISSUES, "exposure_liver_kidney"),
             "tumour_compartment_proxy": TE._tissue_block(
@@ -229,8 +236,11 @@ def main(argv=None):
         e = b["exposure_liver_kidney"]
         if e.get("readable"):
             vals = {t: v for t, v in (e["values"] or {}).items() if v is not None}
+            w = b.get("whole_body_context") or {}
+            top = (w.get("top_tissues") or [{}])[0]
             print(f"  {sym:<14} liver/kidney max: {e.get('max_tissue_in_block')} = "
-                  f"{vals.get(e.get('max_tissue_in_block'))} TPM", file=sys.stderr)
+                  f"{vals.get(e.get('max_tissue_in_block'))} TPM   | whole-body max "
+                  f"{top.get('tissue')} = {top.get('median_tpm')}", file=sys.stderr)
         else:
             print(f"  {sym:<14} UNREADABLE — {e.get('reason')}", file=sys.stderr)
     return 0
