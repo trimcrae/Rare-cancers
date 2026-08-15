@@ -223,7 +223,7 @@ measurement of cleavage.
 | median most stable parent ΔG°37 (kcal/mol) | −8.66 | −11.60 | −14.58 |
 
 **Table 6. Where the clinically-relevant reagents' off-target loci are expressed.** Every gene
-locus returned by the deeper screens at the two junctions with a published exon-resolved EMC breakpoint,
+locus returned by the deeper screens at the four junctions with a published exon-resolved EMC breakpoint,
 read against reference expression data. The two compartments answer different questions and are
 never combined: a systemically dosed phosphorothioate gapmer distributes predominantly to liver and
 kidney, so liver, kidney - cortex and kidney - medulla address exposure, while the soft-tissue column is the normal
@@ -266,3 +266,26 @@ measurement of cleavage, and no expression figure is a predicted cleavage event.
 |  | *LOC124907518* | 1 | 1 of 5 | — | — | — | — | no gene model — not measurable |
 |  | *NRXN3-AS1* | 1 | 1 of 5 | — | — | — | — | no reading taken |
 |  | *ST3GAL1* | 1 | 1 of 5 | 28.58 | 16.36 | 8.06 | 27.2 (Muscle - Skeletal) | at or above the upper cut |
+| EWSR1 e13::NR4A3 e3 | *FNBP1* | 42 | 2 of 5 | 7.08 | 12.12 | 14.06 | 56.5 (Nerve - Tibial) | at or above the upper cut |
+|  | *EHMT2* | 34 | 2 of 5 | 6.89 | 13.23 | 16.70 | 53.0 (Nerve - Tibial) | at or above the upper cut |
+|  | *ZNF215* | 27 | 1 of 5 | 0.13 | 0.67 | 1.27 | 5.2 (Cells - Cultured fibroblasts) | detectable, below the upper cut |
+|  | *ESYT2* | 26 | 2 of 5 | 10.42 | 14.26 | 28.28 | 139.9 (Artery - Tibial) | at or above the upper cut |
+|  | *LRP5L* | 8 | 2 of 5 | 7.83 | 6.32 | 11.16 | 8.0 (Nerve - Tibial) | at or above the upper cut |
+|  | *CDC42SE1* | 6 | 2 of 5 | 22.74 | 44.73 | 78.97 | 187.6 (Nerve - Tibial) | at or above the upper cut |
+|  | *THEMIS* | 6 | 1 of 5 | 0.13 | 0.08 | 0.18 | 0.3 (Adipose - Subcutaneous) | below the lower cut in all three |
+|  | *LOC105374651* | 4 | 1 of 5 | — | — | — | — | no gene model — not measurable |
+|  | *ZC3H4* | 4 | 1 of 5 | 6.41 | 5.89 | 9.71 | 26.2 (Nerve - Tibial) | detectable, below the upper cut |
+|  | *ERBIN* | 2 | 1 of 5 | 9.80 | 9.38 | 14.68 | 43.8 (Cells - Cultured fibroblasts) | at or above the upper cut |
+|  | *ZNF236* | 2 | 1 of 5 | 1.68 | 2.29 | 2.90 | 8.7 (Nerve - Tibial) | detectable, below the upper cut |
+| TCF12 e5::NR4A3 e3 | *HNRNPA2B1* | 100 | 2 of 5 | 184.12 | 247.24 | 457.30 | 656.6 (Nerve - Tibial) | at or above the upper cut |
+|  | *PIK3CG* | 51 | 3 of 5 | 0.14 | 0.17 | 0.37 | 1.2 (Adipose - Subcutaneous) | below the lower cut in all three |
+|  | *MROH2A* | 28 | 1 of 5 | 1.04 | 0.42 | 0.07 | 0.3 (Skin - Sun Exposed (Lower leg)) | detectable, below the upper cut |
+|  | *LINC02940* | 9 | 1 of 5 | — | — | — | — | no reading taken |
+|  | *EXOC2* | 6 | 1 of 5 | 5.27 | 6.54 | 8.87 | 22.5 (Nerve - Tibial) | detectable, below the upper cut |
+|  | *KCNG3* | 4 | 2 of 5 | 0.00 | 0.09 | 0.06 | 1.3 (Nerve - Tibial) | below the lower cut in all three |
+|  | *PLAC8* | 4 | 2 of 5 | 1.43 | 0.32 | 0.30 | 0.7 (Adipose - Subcutaneous) | detectable, below the upper cut |
+|  | *EFCAB11* | 2 | 1 of 5 | 0.37 | 0.92 | 1.20 | 2.1 (Cells - Cultured fibroblasts) | detectable, below the upper cut |
+|  | *LOC107984281* | 2 | 2 of 5 | — | — | — | — | no gene model — not measurable |
+|  | *LOC107985219* | 2 | 2 of 5 | — | — | — | — | no gene model — not measurable |
+|  | *LOC107987169* | 1 | 1 of 5 | — | — | — | — | no gene model — not measurable |
+|  | *LOC124905457* | 1 | 1 of 5 | — | — | — | — | no gene model — not measurable |

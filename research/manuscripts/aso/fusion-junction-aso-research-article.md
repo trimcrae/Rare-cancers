@@ -280,7 +280,7 @@ released so that a laboratory ordering several oligonucleotides at one junction 
 them, which is the use they support.
 
 **Expression of the off-target loci.** No screen above says whether a matched gene is transcribed
-where the drug goes. For the two junctions with a published exon-resolved breakpoint, the gene loci
+where the drug goes. For the four junctions with a published exon-resolved breakpoint, the gene loci
 their deeper screens return in the gap-paired class were read against GTEx v8 median TPM.<sup>28</sup><!--PMID:32913098--> The
 readings are in two blocks, reported separately and never combined. The first is liver and both
 kidney compartments, the organs a systemically dosed phosphorothioate gapmer distributes to. The
@@ -648,11 +648,25 @@ make about them, and it is a statement about predicted hybridisation and not abo
 
 No screen above establishes that a design's off-target gene is transcribed where the drug goes, and
 that discount applies to every count in this paper. Read against reference expression data, the
-gap-paired loci of the best design at each of the two junctions with a published exon-resolved
-breakpoint separate, in the direction opposite to the sizes of their loads (Table 6). The *EWSR1* exon 12 reagent's six loci carry 123 of the panel's
-278 transcript records, and none of the four measurable ones reaches the upper cut in liver or either
+gap-paired loci of the best design at each junction with a published exon-resolved breakpoint
+separate, in the direction opposite to the sizes of their loads (Table 6). The *EWSR1* exon 12 reagent's six loci carry 123 of the panel's
+649 transcript records, and none of the four measurable ones reaches the upper cut in liver or either
 kidney compartment. *ANKS1B* supplies 67 of them and sits below the lower cut in all three, peaking
-instead in brain at 24.9 TPM. The *TAF15* exon 6 reagent returns five loci. Of these, *NRP1* reaches
+instead in brain at 24.9 TPM.
+
+The *EWSR1* exon 13 reagent inverts that comparison, and the inversion is the reading a person
+choosing between them needs. Its load is the smaller of the two by locus count, two against six, but
+both of its loci are transcribed in the compartments a systemic phosphorothioate gapmer distributes
+to: *CDC42SE1* reaches 78.97 TPM in kidney medulla and 22.7 in liver, and *FNBP1* reaches 14.06 in
+kidney medulla on 42 transcript records. The exon 12 reagent's larger load sits away from those
+compartments, its brain- and gut-restricted loci reaching no measurable value at the upper cut in
+liver or either kidney block. So the two axes disagree, and for a reader deciding which oligonucleotide
+to make, the exposure axis is the one that bears on where an off-target effect would be delivered,
+while the count is an annotation property of the loci returned. Neither axis is a risk ranking: every
+hit behind both is a 14/16 match, no cleavage is predicted anywhere here, and an expressed gene is
+necessary but not sufficient for an effect. What the comparison does not touch is the reason to make
+the exon 13 reagent at all, which is patient coverage: it is the second-most-common transcript and
+takes the reagent set from 68.4% to 79.0%. The *TAF15* exon 6 reagent returns five loci. Of these, *NRP1* reaches
 6.6 to 17.8 TPM across all three exposure tissues and is the only one all five of that junction's tiling
 registers return, on five transcript records, so robustness to register and record count order it
 differently. The tumour-compartment proxy orders them differently again, *LAMA4* carrying the panel's
@@ -1090,11 +1104,11 @@ liability only. The sequence-independent liabilities of a phosphorothioate LNA g
 binding and the target-independent hepatotoxicity of this chemistry, are not a function of any
 feature graded here.
 
-**Expression.** The expression reading carries bounds of its own. Seven of the 23 loci returned no
-reading. Three of those are attributable to what the locus is: a brain-associated long non-coding RNA
-host, an antisense transcript and a readthrough. The other four remain uncharacterised and carry 11
-of the panel's 278 records, so for those the exposure question is unanswered rather than answered
-negatively. No
+**Expression.** The expression reading carries bounds of its own. Thirteen of the 46 loci returned no
+reading, and they carry 52 of the panel's 649 records, so for those the exposure question is
+unanswered rather than answered negatively. Several are attributable to what the locus is: a
+brain-associated long non-coding RNA host, an antisense transcript, a readthrough, and uncharacterised
+loci carrying only predicted transcript models. No
 expression figure is a predicted cleavage event, and the step from a gene being expressed in liver to
 that oligonucleotide being a problem needs an argument no screen here supplies (Table 6). Reference
 bulk medians describe normal tissue in a population, not a dosed patient's organ.

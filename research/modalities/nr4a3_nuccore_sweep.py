@@ -130,12 +130,98 @@ def elink(from_db, to_db, ids):
             "linked": sorted(set(linked))}
 
 
-def efetch_genbank(uids):
-    """GenBank flatfile WITH the sequence — `gbwithparts`, the format AF289510 was read in."""
+# ⛔ THE SIZE GATE, AND WHY IT IS NOT OPTIONAL — IT KILLED TWO RUNNERS BEFORE IT EXISTED.
+# The alias table is what makes this sweep work, and it is also what makes it dangerous: `TEC` and
+# `CHN` are all-fields tokens, so the queries return WHOLE-GENOME ASSEMBLIES alongside the deposits
+# (measured by the TCF12 sweep: 35 of 36 hits on one such query were Sus scrofa, eleven bat
+# genomes, Mus musculus GRCm39). Fetched with `rettype=gbwithparts` — which embeds the ENTIRE
+# sequence — and accumulated in a dict, those records exhausted the runner's memory and the OOM
+# killer took down the Actions agent itself. Both runs surfaced as
+# "##[error]The runner has received a shutdown signal", on two DIFFERENT runners, at 12m11s and
+# 8m03s, while a concurrent job on a third runner ran happily for 30+ minutes. A job that kills its
+# host does not get to report a failure, which is why this looked like infrastructure.
+#
+# A deposited fusion cDNA is hundreds of bp to a few kb. AF289510 is 421 bp. Nothing this module
+# wants is large, so the cheap `esummary` triage below is not a heuristic — it is the difference
+# between fetching deposits and fetching genomes.
+MAX_RECORD_BP = 100_000
+MAX_TOTAL_FLATFILE_BYTES = 200 << 20  # hard ceiling on what is held in memory at once
+GENOME_TITLE = re.compile(
+    r"(whole genome shotgun|chromosome\s+\w+,|complete genome|genome assembly|scaffold|contig|"
+    r"unplaced genomic|linkage group)",
+    re.I,
+)
+
+
+def esummary_nuccore(uids):
+    """Title and sequence LENGTH for each UID, so a genome can be dropped before it is fetched."""
+    meta = {}
+    for i in range(0, len(uids), 200):
+        batch = uids[i : i + 200]
+        url = (
+            f"{EUTILS}/esummary.fcgi?db=nuccore&retmode=json"
+            f"&id={','.join(str(u) for u in batch)}"
+        )
+        rec = _get(url, timeout=120)
+        try:
+            res = json.loads(rec["body"])["result"]
+        except Exception:  # noqa: BLE001
+            continue
+        for uid in res.get("uids", []):
+            r = res.get(uid, {})
+            try:
+                slen = int(r.get("slen") or 0)
+            except (TypeError, ValueError):
+                slen = 0
+            meta[str(uid)] = {
+                "uid": str(uid),
+                "title": r.get("title", ""),
+                "slen": slen,
+                "accession": r.get("accessionversion") or r.get("caption"),
+            }
+        time.sleep(0.35)
+    return meta
+
+
+def triage_uids(uids, meta):
+    """Keep only what could plausibly BE a deposited chimeric cDNA. Every drop is recorded."""
+    keep, dropped = [], []
+    for u in uids:
+        m = meta.get(str(u))
+        if m is None:
+            # ⚠ No summary read is NOT a reason to fetch it blind — that is the failure mode this
+            # gate exists for — but it is also not evidence it is a genome. Recorded, not silent.
+            dropped.append({"uid": str(u), "why": "no esummary could be read", "title": None})
+            continue
+        if m["slen"] > MAX_RECORD_BP:
+            dropped.append({"uid": m["uid"], "why": f"slen {m['slen']} > {MAX_RECORD_BP}",
+                            "title": m["title"][:120]})
+            continue
+        if GENOME_TITLE.search(m["title"] or ""):
+            dropped.append({"uid": m["uid"], "why": "title names a genome/assembly record",
+                            "title": m["title"][:120]})
+            continue
+        keep.append(u)
+    return keep, dropped
+
+
+def efetch_genbank(uids, budget_s=None, t0=None):
+    """GenBank flatfile WITH the sequence — `gbwithparts`, the format AF289510 was read in.
+
+    ⛔ Budget-guarded and size-capped. Callers pass the SAME clock the search phase used, so a
+    sweep cannot spend its whole budget searching and then run unbounded here.
+    """
     if not uids:
-        return {}
-    out = {}
+        return {}, {"stopped_because": "no uids", "n_bytes": 0}
+    out, total = {}, 0
+    stop = "eof"
     for i in range(0, len(uids), 20):
+        if budget_s and t0 and (time.time() - t0) > budget_s:
+            stop = "budget_exhausted"
+            break
+        if total >= MAX_TOTAL_FLATFILE_BYTES:
+            stop = "memory_ceiling_reached"
+            break
         batch = uids[i : i + 20]
         url = (
             f"{EUTILS}/efetch.fcgi?db=nuccore&rettype=gbwithparts&retmode=text"
@@ -143,6 +229,7 @@ def efetch_genbank(uids):
         )
         rec = _get(url, timeout=120)
         body = rec["body"]
+        total += len(body)
         for chunk in re.split(r"\n(?=LOCUS\s)", body):
             if not chunk.strip().startswith("LOCUS"):
                 continue
@@ -151,7 +238,7 @@ def efetch_genbank(uids):
             if acc:
                 out[acc] = chunk
         time.sleep(0.4)
-    return out
+    return out, {"stopped_because": stop, "n_bytes": total, "n_records": len(out)}
 
 
 # ------------------------------------------------------------------- GenBank flatfile parsing
@@ -354,9 +441,25 @@ def sweep(budget_s=2400, retmax=200):
         uids.update(e["linked"])
         time.sleep(0.35)
 
-    # ---- fetch and assign
+    # ---- TRIAGE BEFORE FETCH. See the comment on MAX_RECORD_BP: fetching untriaged UIDs with
+    # `gbwithparts` is what killed two runners.
     uids = sorted(uids)
-    flat = efetch_genbank(uids)
+    summ = esummary_nuccore(uids)
+    keep, dropped = triage_uids(uids, summ)
+    inputs["triage"] = {
+        "n_uids_before": len(uids),
+        "n_kept": len(keep),
+        "n_dropped": len(dropped),
+        "max_record_bp": MAX_RECORD_BP,
+        "dropped": dropped[:200],
+        "⛔ why": (
+            "Alias tokens TEC/CHN match whole-genome assemblies. A deposited fusion cDNA is "
+            "hundreds of bp (AF289510 is 421). Dropping large records is what makes this route "
+            "runnable at all — every drop is recorded so the negative stays bounded."
+        ),
+    }
+    flat, fetch_stats = efetch_genbank(keep, budget_s=budget_s, t0=t0)
+    inputs["efetch"] = fetch_stats
     records = []
     for acc, text in sorted(flat.items()):
         rec = parse_flatfile(text)
@@ -400,6 +503,8 @@ def sweep(budget_s=2400, retmax=200):
         ),
         "n_queries": len(inputs["searches"]),
         "n_uids_retrieved": len(uids),
+        "triage": inputs.get("triage"),
+        "efetch": inputs.get("efetch"),
         "n_records_parsed": len(records),
         "n_records_with_an_assigned_junction": len(hits),
         "junctions_by_exon_pair": by_pair,
@@ -483,6 +588,23 @@ def selftest():
     qs = build_queries()
     chk(any("TEC" in q for q, _ in qs), "no query uses the TEC alias — AF289510 would be missed")
     chk(len(qs) > 25, f"only {len(qs)} queries built")
+
+    # the size gate must drop a genome and keep a deposit-sized record
+    meta = {
+        "1": {"uid": "1", "title": "Homo sapiens TCF12-TEC fusion protein mRNA, partial cds", "slen": 421},
+        "2": {"uid": "2", "title": "Sus scrofa breed mixed chromosome 14, Sscrofa11.1", "slen": 141755446},
+        "3": {"uid": "3", "title": "Mus musculus strain C57BL/6J chromosome 4, GRCm39", "slen": 156860686},
+        "4": {"uid": "4", "title": "Homo sapiens EWS-NOR1 fusion mRNA, complete cds", "slen": 2100},
+    }
+    keep, dropped = triage_uids(["1", "2", "3", "4", "5"], meta)
+    chk(set(keep) == {"1", "4"}, f"triage kept the wrong set: {keep}")
+    chk(len(dropped) == 3, f"triage dropped {len(dropped)}, expected 3 (two genomes + one unreadable)")
+    chk(any(d["why"].startswith("slen") for d in dropped), "no record was dropped on length")
+    chk(any("no esummary" in d["why"] for d in dropped),
+        "a UID with no summary must be RECORDED as undecidable, never fetched blind")
+    chk(GENOME_TITLE.search("whole genome shotgun sequence") is not None,
+        "the genome-title pattern lost a form it must catch")
+    chk(efetch_genbank([])[1]["stopped_because"] == "no uids", "empty efetch must report why")
 
     if fails:
         print("SELFTEST FAILED")

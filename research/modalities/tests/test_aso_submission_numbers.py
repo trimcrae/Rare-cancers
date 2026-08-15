@@ -940,12 +940,18 @@ def test_section_3_11_expression_figures_are_the_artifacts():
     lead = _loci_of_design(expr, "GGGCATATCATCAAAC")
     assert len(lead) == 6, [L["locus"] for L in lead]
     assert sum(L["screen_records"]["n_transcript_records"] for L in lead) == 123
-    assert expr["panel"]["n_gap_paired_hybridisable"] == 278
+    # ⭐ 278 -> 649 ON 2026-08-15. Not a re-count of the same panel: the expression panel grew
+    # from two seams to four when EWSR1 e13 and TCF12 e5 got their readings, and this total is
+    # over the panel, not over the lead design. Superseded, retained (CLAUDE.md rule 1.2): 278.
+    assert expr["panel"]["n_gap_paired_hybridisable"] == 649
+    assert expr["panel"]["n_seams"] == 4
+    # and the total must be the sum of its parts rather than a typed figure (rule 1.1)
+    assert sum(L["screen_records"]["n_transcript_records"] for L in expr["per_locus"]) == 649
     readable = [L for L in lead if L["exposure_compartment_liver_kidney"]["readable"]]
     assert len(readable) == 4, [L["locus"] for L in readable]
     # the claim is "none of the four measurable ones reaches the upper cut"
     assert not [L for L in lead if L["tier"] == "EXPRESSED_IN_AN_EXPOSURE_ORGAN"]
-    assert ("The *EWSR1* exon 12 reagent's six loci carry 123 of the panel's 278 transcript "
+    assert ("The *EWSR1* exon 12 reagent's six loci carry 123 of the panel's 649 transcript "
             "records, and none of the four measurable ones reaches the upper cut") in txt
 
     anks = next(L for L in lead if L["locus"] == "ANKS1B")
@@ -990,24 +996,31 @@ def test_section_3_11_expression_figures_are_the_artifacts():
 def test_the_expression_limits_are_stated_and_the_unmeasured_loci_are_accounted():
     """The Limitations sentence: three instruments returning nothing is not a reading of absence.
 
-    ⛔ THE NUMBERS HERE ARE THE ONES THAT MAKE THE LIMIT CHECKABLE. Seven loci carry no exposure
-    reading; three are attributable to what the locus is and four are not, and those four carry 11
-    of the panel's 278 records. Without the record count a reader cannot tell whether the unanswered
-    fraction is trivial or dominant, which is exactly the judgement the limit exists to enable.
+    ⛔ THE NUMBERS HERE ARE THE ONES THAT MAKE THE LIMIT CHECKABLE. Without the record count behind
+    the unread loci a reader cannot tell whether the unanswered fraction is trivial or dominant,
+    which is exactly the judgement the limit exists to enable.
+
+    ⭐ RESTATED FOR A FOUR-SEAM PANEL, 2026-08-15. Superseded, retained (CLAUDE.md rule 1.2): "Seven
+    loci carry no exposure reading; three are attributable to what the locus is and four are not,
+    and those four carry 11 of the panel's 278 records", over 23 loci with 16 readable. The panel
+    grew to four seams when EWSR1 e13 and TCF12 e5 got their readings, so every one of those figures
+    moved together; none of them was a correction to the old panel.
+
+    ⚠ THE ASSERTIONS ARE DERIVED FROM THE ARTIFACT AND ONLY THEN COMPARED WITH THE PROSE, so a
+    changed panel fails on the sentence rather than silently agreeing with a stale one.
     """
     expr, txt = _expression(), _flat(_paper())
     unread = [L for L in expr["per_locus"]
               if not L["exposure_compartment_liver_kidney"]["readable"]]
-    assert len(unread) == 7 and expr["summary"]["n_loci"] == 23
-    assert expr["summary"]["n_loci_with_a_readable_exposure_reading"] == 16
-    uncharacterised = [L for L in unread if L["tier"] == "NOT_MEASURABLE_UNCHARACTERISED"]
-    attributed = [L for L in unread if L["tier"] == "NOT_MEASURED"]
-    assert len(uncharacterised) == 4 and len(attributed) == 3, (
-        [L["locus"] for L in uncharacterised], [L["locus"] for L in attributed])
-    assert sum(L["screen_records"]["n_transcript_records"] for L in uncharacterised) == 11
-    assert "Seven of the 23 loci returned no reading" in txt
-    assert ("four remain uncharacterised and carry 11 of the panel's 278 records, so for those the "
-            "exposure question is unanswered rather than answered negatively") in txt
+    n_loci = expr["summary"]["n_loci"]
+    n_readable = expr["summary"]["n_loci_with_a_readable_exposure_reading"]
+    assert (n_loci, n_readable, len(unread)) == (46, 33, 13), (n_loci, n_readable, len(unread))
+    unread_records = sum(L["screen_records"]["n_transcript_records"] for L in unread)
+    assert unread_records == 52, unread_records
+    assert f"Thirteen of the {n_loci} loci returned no" in txt
+    assert (f"they carry {unread_records} of the panel's "
+            f"{expr['panel']['n_gap_paired_hybridisable']} records, so for those the exposure "
+            "question is unanswered rather than answered negatively") in txt
     assert "No expression figure is a predicted cleavage event" in txt
 
 
