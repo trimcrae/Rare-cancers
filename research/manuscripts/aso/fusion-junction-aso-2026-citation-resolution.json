@@ -1,0 +1,94 @@
+{
+ "_what": "Live resolution check for the three 2026 references in the fusion-junction ASO manuscript, against two independent registries.",
+ "_why": "External review, 2026-08-15: \"Verify the 2026 citations (refs 3, 22, 33) resolve.\" A recent identifier is the one a reader is most likely to find unresolvable, and this repository has already shipped a fabricated PMID once (2026-08-07) which passed lint_claims twice, because claim STRENGTH and citation PROVENANCE are orthogonal.",
+ "_what_this_is_not": [
+  "Not a check that a cited paper SUPPORTS the claim made from it. That is a separate question, and it was asked separately for reference 22: its supporting quote is in lit-targets-aso-gap-length.json, and its status as a design-protocol statement citing prior work rather than a measurement is now stated in the Methods.",
+  "Not a fetch performed here. Every field is copied from records retrieved by fetch-literature.yml and committed on the literature-cache branch at the revision named in `source`. Nothing is written from recollection.",
+  "Not a permanent property. A DOI that resolves today is not a DOI that resolves at review.",
+  "Not a check of the other 36 references. Those are anchored by lint_citations.py against tracked fetch products; this is the live-resolution layer for the three most recent."
+ ],
+ "_cost": "$0 \u2014 one CI dispatch on a free runner, then arithmetic over the retrieved records.",
+ "source": {
+  "branch": "literature-cache",
+  "revision": "92d7c32193f232765572957b609b732fb44a29b8",
+  "corpus": "literature/aso-2026-citation-resolution/",
+  "workflow_run": "31858892887",
+  "verified_utc": "2026-08-15T02:23:41Z"
+ },
+ "n_checked": 3,
+ "n_resolving": 3,
+ "records": [
+  {
+   "reference_number_in_manuscript": "3",
+   "pmid": "41755350",
+   "doi": "10.1111/his.70131",
+   "europepmc": {
+    "http": 200,
+    "hit_count": 1,
+    "title": "A series of extraskeletal myxoid chondrosarcomas with rare morphological and molecular variations.",
+    "journal": "Histopathology",
+    "year": "2026",
+    "doi": "10.1111/his.70131",
+    "pmcid": null
+   },
+   "crossref": {
+    "http": 200,
+    "title": "A series of extraskeletal myxoid chondrosarcomas with rare morphological and molecular variations",
+    "container": "Histopathology",
+    "publisher": "Wiley",
+    "issued_year": 2026
+   },
+   "committed_record_title": "A series of extraskeletal myxoid chondrosarcomas with rare morphological and molecular variations.",
+   "resolves": true,
+   "doi_agrees_between_registries": true
+  },
+  {
+   "reference_number_in_manuscript": "22",
+   "pmid": "41614678",
+   "doi": "10.1002/cpz1.70319",
+   "europepmc": {
+    "http": 200,
+    "hit_count": 1,
+    "title": "Transient Cyclic Structured Oligonucleotide Designs for Therapeutic Applications.",
+    "journal": "Current protocols",
+    "year": "2026",
+    "doi": "10.1002/cpz1.70319",
+    "pmcid": "PMC12908109"
+   },
+   "crossref": {
+    "http": 200,
+    "title": "Transient Cyclic Structured Oligonucleotide Designs for Therapeutic Applications",
+    "container": "Current Protocols",
+    "publisher": "Wiley",
+    "issued_year": 2026
+   },
+   "committed_record_title": "Transient Cyclic Structured Oligonucleotide Designs for Therapeutic Applications.",
+   "resolves": true,
+   "doi_agrees_between_registries": true
+  },
+  {
+   "reference_number_in_manuscript": "33",
+   "pmid": "42327837",
+   "doi": "10.1016/j.omtn.2026.102937",
+   "europepmc": {
+    "http": 200,
+    "hit_count": 1,
+    "title": "Single-base 2'OMe-modified LNA and MOE gapmers selectively silence &lt;i&gt;ACVR1&lt;/i&gt; &lt;sup&gt;&lt;i&gt;R206H&lt;/i&gt;&lt;/sup&gt; in fibrodysplasia ossificans progressiva.",
+    "journal": "Molecular therapy. Nucleic acids",
+    "year": "2026",
+    "doi": "10.1016/j.omtn.2026.102937",
+    "pmcid": "PMC13276142"
+   },
+   "crossref": {
+    "http": 200,
+    "title": "Single-base 2\u2032OMe-modified LNA and MOE gapmers selectively silence ACVR1R206H in fibrodysplasia ossificans progressiva",
+    "container": "Molecular Therapy Nucleic Acids",
+    "publisher": "Elsevier BV",
+    "issued_year": 2026
+   },
+   "committed_record_title": "Single-base 2'OMe-modified LNA and MOE gapmers selectively silence &lt;i&gt;ACVR1&lt;/i&gt; &lt;sup&gt;&lt;i&gt;R206H&lt;/i&gt;&lt;/sup&gt; in fibrodysplasia ossificans progressiva.",
+   "resolves": true,
+   "doi_agrees_between_registries": true
+  }
+ ]
+}
