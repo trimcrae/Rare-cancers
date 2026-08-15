@@ -1,0 +1,277 @@
+{
+  "_note": "In-silico evaluation of EWSR1::NR4A3 junction gapmers: transcriptome off-target screen + target-site accessibility + sequence liabilities. EVALUATION ONLY \u2014 hypotheses for wet-lab testing, not a validated drug. Does NOT address tumour delivery (the route's real bottleneck).",
+  "junction_label": "PGR_e2__NR4A3_e2",
+  "breakpoint": {
+    "mode": "real_exon_junction_mRNA",
+    "source": "Ensembl MANE/canonical TRANSCRIPT structure (junction_aso.transcript_model): spliced cDNA, exon boundaries in transcript coordinates, CDS located inside the cDNA. Cross-checked exon-for-exon against the committed nr4a3-exon-audit.json before anything is emitted \u2014 \u26a0 for EWSR1 and NR4A3 only; a non-EWSR1 donor rests on the weaker construct-inputs gate, and `provenance_gate` below records which one actually ran.",
+    "donor_gene": "PGR",
+    "provenance_gate": {
+      "PGR": "construct_inputs_self_checks_only",
+      "NR4A3": "graded_exon_audit"
+    },
+    "EWSR1_exon_end": 2,
+    "donor_exon_end": 2,
+    "NR4A3_exon_start": 2,
+    "published_breakpoint": {
+      "transcript_type": "no type number reported \u2014 a novel 5' partner",
+      "excluded_from_the_manuscript_panel_by": "NON_CODING_ACCEPTOR",
+      "n_independent_sources": 1,
+      "evidence": [
+        "PMID 36103645 (PMC9489176), JCO Precis Oncol 2022 \u2014 'The results of next-generation sequencing revealed gene fusion of progesterone receptor, PGR (exon2) to the 5\u2032 untranslated region (UTR) of NR4A3 (exon2)'",
+        "Same report, on why a canonical-partner assay would have missed it: 'Fluorescent in situ hybridization was negative for EWSR1 rearrangement.'",
+        "Same report, on the assay that found it: 'RNA sequencing was performed using a lab-developed, exome-capture RNA-sequence protocol.' \u2014 and 'To our knowledge, this fusion would have not been captured by existing commercial vendors which use panel-based approaches that do not include PGR or N4A3.'",
+        "\u26d4 ONE EMC CASE, AND A NEAR-MISS THAT MUST NOT BE COUNTED AS A SECOND. Two corpus sweeps totalling ~1,030 papers returned PMC12730577 as a further PGR::NR4A3 source; it is UTERINE EPITHELIOID LEIOMYOSARCOMA, not EMC, and it does not corroborate this junction in this disease. The case report itself already says the same thing about the same partner in the same other disease: 'Previously, Chiang et al reported four cases of uterine epithelioid leiomyosarcoma also with a PGR-NR4A3 fusion. However, the clinical implications of anti-estrogen treatment were not mentioned.' So n_independent_sources stays at ONE, for EMC.",
+        "\u26a0 CONTEXT \u2014 PGR IS NOT THE ONLY MINOR NR4A3 PARTNER, AND IT IS THE ONLY EXON-RESOLVED ONE. The same sweeps found PRRC1 (one EMC case, conference abstract, no exon reported, so no seam can be built) and GREB1 (UTROSCT, not EMC). A partner with no exon is not designable and is not a gap in this module; it is a gap in the literature."
+      ],
+      "one_home_for_the_evidence": "research/manuscripts/aso/lit-targets-aso-breakpoint-census.json"
+    },
+    "note": "Real PGR::NR4A3 exon junction built at the mRNA level, at a PUBLISHED breakpoint the manuscript's panel excludes by a protein-level filter (NON_CODING_ACCEPTOR) \u2014 the acceptor exon is taken WHOLE, including any 5'UTR it carries, because that is what a fusion transcript contains and what an ASO hybridises to. Self-checked: exon lengths sum to the cDNA, the CDS is a unique substring of the cDNA, translate(CDS)==Ensembl protein. \u26d4 THE CHIMERIC ORF IS **NOT** ASSERTED TO RETAIN THE NR4A3 C-TERMINUS AND IS NOT ASSERTED TO BE IN FRAME: that is the exclusion this junction is admitted in spite of, because an RNase-H1 gapmer cleaves the transcript rather than the protein. NOT the codon-space modelled reference.",
+    "junction_context_mRNA": "GGGCAATGGAAG|AGCCCACTGCGG",
+    "_transcript_source": {
+      "requested": "auto",
+      "used_per_gene": {
+        "PGR": "committed_cache",
+        "NR4A3": "ensembl+cache_agreed"
+      },
+      "committed_cache_fetched_utc": "2026-08-12T13:41:57Z",
+      "_caveat": "At least one gene was read from the committed cache (emc-construct-inputs.json), not from Ensembl today. The cache is a dated measurement that passed this module's four self-checks; it is not a statement about Ensembl's current annotation."
+    },
+    "measured_junction": {
+      "junction_label": "PGR_e2__NR4A3_e2",
+      "donor_symbol": "PGR",
+      "acceptor_symbol": "NR4A3",
+      "donor_exon_end": 2,
+      "acceptor_exon_start": 2,
+      "donor_coding_nt_through_cut": 1789,
+      "donor_last_whole_residue": 596,
+      "donor_coding_phase": 1,
+      "nr4a3_acceptor_exon_is_coding": false,
+      "nr4a3_acceptor_exon_5utr_nt_retained": 176,
+      "nr4a3_cds_nt_at_resume": 0,
+      "nr4a3_first_residue": null,
+      "frame_sum_mod3": 0,
+      "in_frame": true,
+      "chimeric_protein_length": 1281,
+      "junction_context_mRNA": "GGGCAATGGAAG|AGCCCACTGCGG",
+      "\u26d4_published_breakpoint_waiver": {
+        "junction": "PGR_e2__NR4A3_e2",
+        "waived_grade": "NON_CODING_ACCEPTOR",
+        "why_the_panel_excludes_it": "acceptor exon carries no CDS",
+        "transcript_type": "no type number reported \u2014 a novel 5' partner",
+        "n_independent_sources": 1,
+        "evidence": [
+          "PMID 36103645 (PMC9489176), JCO Precis Oncol 2022 \u2014 'The results of next-generation sequencing revealed gene fusion of progesterone receptor, PGR (exon2) to the 5\u2032 untranslated region (UTR) of NR4A3 (exon2)'",
+          "Same report, on why a canonical-partner assay would have missed it: 'Fluorescent in situ hybridization was negative for EWSR1 rearrangement.'",
+          "Same report, on the assay that found it: 'RNA sequencing was performed using a lab-developed, exome-capture RNA-sequence protocol.' \u2014 and 'To our knowledge, this fusion would have not been captured by existing commercial vendors which use panel-based approaches that do not include PGR or N4A3.'",
+          "\u26d4 ONE EMC CASE, AND A NEAR-MISS THAT MUST NOT BE COUNTED AS A SECOND. Two corpus sweeps totalling ~1,030 papers returned PMC12730577 as a further PGR::NR4A3 source; it is UTERINE EPITHELIOID LEIOMYOSARCOMA, not EMC, and it does not corroborate this junction in this disease. The case report itself already says the same thing about the same partner in the same other disease: 'Previously, Chiang et al reported four cases of uterine epithelioid leiomyosarcoma also with a PGR-NR4A3 fusion. However, the clinical implications of anti-estrogen treatment were not mentioned.' So n_independent_sources stays at ONE, for EMC.",
+          "\u26a0 CONTEXT \u2014 PGR IS NOT THE ONLY MINOR NR4A3 PARTNER, AND IT IS THE ONLY EXON-RESOLVED ONE. The same sweeps found PRRC1 (one EMC case, conference abstract, no exon reported, so no seam can be built) and GREB1 (UTROSCT, not EMC). A partner with no exon is not designable and is not a gap in this module; it is a gap in the literature."
+        ],
+        "one_home_for_the_evidence": "research/manuscripts/aso/lit-targets-aso-breakpoint-census.json",
+        "\u26a0_read_this_before_using_the_sequence": "FOUR THINGS A READER MUST HOLD AT ONCE, AND NONE OF THEM IS RESOLVED BY THE SEQUENCE ARITHMETIC BELOW. (1) ONE PATIENT, AND ZERO MEASURABLE COVERAGE. This is a single case report. PGR appears in ZERO of the 84 partner-genotyped EMC cases this repository cites \u2014 `hormone-partner-lane.json` owns that count and its Wilson interval \u2014 and it is NOT a partner of the 58-case cohort (`aso_reagent_coverage.PARTNER_COHORT`: 46 EWSR1, 9 TAF15, 2 TCF12, 1 with no identified partner) that every coverage rung in `aso_coverage_ladder.py` is computed against. A reagent at this seam therefore moves the ladder by EXACTLY ZERO \u2014 not by a small amount, by zero \u2014 because the denominator contains no case it could engage. What it changes is which patients are REACHABLE AT ALL, and that is a different statement from coverage, must be written as one, and must never be added to a coverage percentage. (2) VENDOR EXON NUMBERING. The report states no transcript accession, so 'PGR (exon2)' is an exon index against an unstated model; this module builds it against the Ensembl CANONICAL PGR transcript, and if the report's model differs the donor cut moves. Same unresolved problem as the EWSR1 ex11 row above, and it is the reason nucleotide-resolution confirmation in test material is a precondition, not a nicety. (3) A PARENT THAT IS EXPRESSED IN NORMAL TISSUE. PGR is a hormone receptor; the parent-exclusion screen below runs against wild-type PGR transcript for that reason, and the tissue-expression screen is the one that matters most at this seam. (4) THE PATIENT BENEFIT IN THAT PAPER CAME FROM TAMOXIFEN, NOT FROM ANYTHING LIKE THIS. The report's own result is 'She began targeted therapy with tamoxifen, a selective estrogen receptor modulator. Since initiation of tamoxifen was over 5 years ago, she has had ongoing decrease in size of her pulmonary nodules and no evidence of disease progression'. That is a hormonal route acting on the ESTROGEN-DRIVEN expression of the PGR promoter the fusion imports; it is not a junction-directed mechanism, and nothing here competes with it, improves on it or is supported by it.",
+        "_why_this_is_not_a_relaxation": "The grade waived is a PROTEIN-level exclusion and this is an RNase-H1 modality: a gapmer cleaves the transcript whether or not the chimeric ORF survives. The coordinate guards are untouched \u2014 the acceptor's resume residue is still range-checked wherever the acceptor exon has a CDS, and SEAM_NOT_PRODUCED is not waivable at all.",
+        "_screens_are_not_implied": "A waiver admits the junction to the design and screen lane. It says nothing about which screens have actually been run on the designs; read those from the screen artifacts themselves."
+      }
+    }
+  },
+  "n_evaluated": 5,
+  "accessibility": {
+    "status": "ok",
+    "window_mRNA_span": [
+      2442,
+      2622
+    ],
+    "window_len": 180
+  },
+  "offtarget_screen": {
+    "status": "ok",
+    "transcripts_scanned": 186185,
+    "scanned_nt": 718571139,
+    "_why_scanned_nt": "the nucleotide span this scan covered. It is the denominator of the chance null the manuscript reports, which otherwise carries an ASSUMED 3e8-8e8 nt range because this corpus was counted in records rather than bases.",
+    "source": "https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/405/GCF_000001405.40_GRCh38.p14/GCF_000001405.40_GRCh38.p14_rna.fna.gz"
+  },
+  "n_candidates_zero_offtarget": 0,
+  "n_candidates_fusion_specific_sirna_seed": 2,
+  "sirna_note": "For a dedicated siRNA, design the duplex so the junction falls inside the guide seed (g2-g8) \u2014 these gapmer-derived windows are evaluated as-is, so seed-straddling is reported, not enforced.",
+  "ranking_key": "fewest gapmer off-targets > most accessible site > fusion-specific siRNA seed > lower RISC seed load > balanced junction > mid-GC > no G4 > fewer CpG",
+  "top_designs": [
+    {
+      "antisense_5to3": "CAGTGGGCTCTTCCAT",
+      "target_mRNA_5to3": "ATGGAAGAGCCCACTG",
+      "architecture": "5-6-5 (LNA-DNA-LNA)",
+      "specificity_margin": 7,
+      "gc_percent": 56.2,
+      "site_accessibility": 0.517,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 1,
+      "offtarget_hits": [
+        {
+          "acc": "NM_004588.5",
+          "mm": 1
+        }
+      ],
+      "sirna_guide_seed_7mer": "GCCCACT",
+      "sirna_seed_spans_junction": false,
+      "sirna_seed_offtarget_sites": 46503,
+      "cpg_count": 0,
+      "has_G4_motif": false,
+      "max_homopolymer": 3,
+      "fusion_specific": true
+    },
+    {
+      "antisense_5to3": "GTGGGCTCTTCCATTG",
+      "target_mRNA_5to3": "CAATGGAAGAGCCCAC",
+      "architecture": "5-6-5 (LNA-DNA-LNA)",
+      "specificity_margin": 7,
+      "gc_percent": 56.2,
+      "site_accessibility": 0.471,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 7,
+      "offtarget_hits": [
+        {
+          "acc": "NM_000787.4",
+          "mm": 1
+        },
+        {
+          "acc": "NM_001109974.3",
+          "mm": 1
+        },
+        {
+          "acc": "NM_001166208.2",
+          "mm": 1
+        },
+        {
+          "acc": "NM_001166209.2",
+          "mm": 1
+        },
+        {
+          "acc": "NM_031484.4",
+          "mm": 1
+        }
+      ],
+      "sirna_guide_seed_7mer": "GAGCCCA",
+      "sirna_seed_spans_junction": true,
+      "sirna_seed_offtarget_sites": 90992,
+      "cpg_count": 0,
+      "has_G4_motif": false,
+      "max_homopolymer": 3,
+      "fusion_specific": true
+    },
+    {
+      "antisense_5to3": "GCAGTGGGCTCTTCCA",
+      "target_mRNA_5to3": "TGGAAGAGCCCACTGC",
+      "architecture": "5-6-5 (LNA-DNA-LNA)",
+      "specificity_margin": 6,
+      "gc_percent": 62.5,
+      "site_accessibility": 0.51,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 11,
+      "offtarget_hits": [
+        {
+          "acc": "NM_015375.3",
+          "mm": 1
+        },
+        {
+          "acc": "NM_199462.3",
+          "mm": 1
+        },
+        {
+          "acc": "NR_164162.1",
+          "mm": 1
+        },
+        {
+          "acc": "XM_011509392.3",
+          "mm": 1
+        },
+        {
+          "acc": "XM_011509394.3",
+          "mm": 1
+        }
+      ],
+      "sirna_guide_seed_7mer": "CCCACTG",
+      "sirna_seed_spans_junction": false,
+      "sirna_seed_offtarget_sites": 80262,
+      "cpg_count": 0,
+      "has_G4_motif": false,
+      "max_homopolymer": 3,
+      "fusion_specific": true
+    },
+    {
+      "antisense_5to3": "AGTGGGCTCTTCCATT",
+      "target_mRNA_5to3": "AATGGAAGAGCCCACT",
+      "architecture": "5-6-5 (LNA-DNA-LNA)",
+      "specificity_margin": 8,
+      "gc_percent": 50.0,
+      "site_accessibility": 0.528,
+      "offtarget_exact": 0,
+      "offtarget_le1mm": 14,
+      "offtarget_hits": [
+        {
+          "acc": "NM_000273.3",
+          "mm": 1
+        },
+        {
+          "acc": "NM_000866.5",
+          "mm": 1
+        },
+        {
+          "acc": "NM_001322208.2",
+          "mm": 1
+        },
+        {
+          "acc": "NM_001322209.2",
+          "mm": 1
+        },
+        {
+          "acc": "NM_001322210.2",
+          "mm": 1
+        }
+      ],
+      "sirna_guide_seed_7mer": "AGCCCAC",
+      "sirna_seed_spans_junction": false,
+      "sirna_seed_offtarget_sites": 63094,
+      "cpg_count": 0,
+      "has_G4_motif": false,
+      "max_homopolymer": 3,
+      "fusion_specific": true
+    },
+    {
+      "antisense_5to3": "TGGGCTCTTCCATTGC",
+      "target_mRNA_5to3": "GCAATGGAAGAGCCCA",
+      "architecture": "5-6-5 (LNA-DNA-LNA)",
+      "specificity_margin": 6,
+      "gc_percent": 56.2,
+      "site_accessibility": 0.466,
+      "offtarget_exact": 1,
+      "offtarget_le1mm": 16,
+      "offtarget_hits": [
+        {
+          "acc": "NM_001370.2",
+          "mm": 1
+        },
+        {
+          "acc": "NM_031484.4",
+          "mm": 0
+        },
+        {
+          "acc": "NR_003108.2",
+          "mm": 1
+        },
+        {
+          "acc": "XM_005246643.5",
+          "mm": 1
+        },
+        {
+          "acc": "XM_006711956.3",
+          "mm": 1
+        }
+      ],
+      "sirna_guide_seed_7mer": "AGAGCCC",
+      "sirna_seed_spans_junction": true,
+      "sirna_seed_offtarget_sites": 77170,
+      "cpg_count": 0,
+      "has_G4_motif": false,
+      "max_homopolymer": 3,
+      "fusion_specific": true
+    }
+  ]
+}

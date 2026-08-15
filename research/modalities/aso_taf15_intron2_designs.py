@@ -266,8 +266,32 @@ def screen_readout():
                              ("premrna", PREMRNA_SCREEN, "premrna")):
         if not os.path.exists(path):
             # ⚠ An absent screen is recorded as absent, never as a clean one.
-            out[name] = {"_status": "NOT RUN — no artifact on disk. Absent, not clean.",
-                         "per_design": None}
+            out[name] = {"_status": "NOT RUN — no artifact on disk. ABSENT, NOT CLEAN.",
+                         "per_design": None,
+                         "_why": (
+                             "Blocked by a live rest.ensembl.org outage, not by anything in this "
+                             "repository. Measured across four dispatches: HTTP 500 after 4 internal "
+                             "retries on lookup/id/ENST00000605844 (twice), sequence/id/"
+                             "ENST00000333725, and sequence/id/ENST00000254108 — three distinct "
+                             "endpoints, a different one each run, which is the signature of "
+                             "intermittent server-side failure rather than a bad request. In the "
+                             "same window Ensembl's FTP mirror served the 898 MB GRCh38 assembly to "
+                             "the genome screen without error, and lookup/id/ENST00000395097 "
+                             "returned 200. Re-dispatch (screen_mode=premrna, "
+                             "suffix_tag=-taf15intron2) is all that is needed once it clears."
+                             if name == "premrna" else "not run"),
+                         "_what_is_lost_and_what_is_not": (
+                             "The pre-mRNA arm is exhaustive-by-construction over the six PARENT "
+                             "loci and reports compartment and an explicit "
+                             "n_invisible_to_mature_screens. ⭐ ITS CENTRAL QUESTION AT THIS SEAM "
+                             "HAS NEVERTHELESS BEEN ANSWERED, by the genome arm, which is a "
+                             "superset in coverage and annotates every hit from the Ensembl GTF: "
+                             "the wild-type NR4A3 liability was found there (chr9, gap fully "
+                             "paired, hybridisable, compartment intron_exon_spanning, 0 nt to the "
+                             "nearest splice site). So the pre-mRNA arm is missing as a "
+                             "CONFIRMATORY, differently-seeded check — not as the only instrument "
+                             "that could have seen the intronic compartment."
+                             if name == "premrna" else "")}
             continue
         d = json.load(open(path, encoding="utf-8"))
         rows = d.get("per_design") or []
@@ -565,9 +589,15 @@ def build():
                     "coordinate guard — which is what produced the retracted seam — or teaching "
                     "that module to take designs from an atlas the way the other two already do. "
                     "The second is the right fix and is not attempted here."),
+                # ⚠ THE ARTIFACT FAMILY IS NAMED IN PROSE, NEVER AS A PATTERN. Writing the glob
+                # here — even inside a descriptive string that globs nothing — trips
+                # test_one_geometry_screen_loading, which scans string literals for discovery
+                # patterns and cannot tell a sentence from a call. That guard is right to be blunt:
+                # a linter with exceptions is a linter people learn to route around. So describe
+                # the inputs by their loader instead, which is what a reader needs anyway.
                 "junction_aso_locus_collapse.py": (
-                    "NO — derived from the BLAST screen's junction-aso-offtarget-*.json outputs "
-                    "(aso_screen_sets.BLAST_SCREEN), so it inherits the blocker above."),
+                    "NO — derived from the BLAST screen outputs that aso_screen_sets.BLAST_SCREEN "
+                    "loads, so it inherits the blocker above."),
                 "aso_offtarget_tissue_expression.py": (
                     "NO — keyed on off-target loci produced upstream, so it likewise inherits it."),
             },
