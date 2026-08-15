@@ -129,6 +129,14 @@ def junction_label():
         donor = (os.environ.get("DONOR_GENE") or "EWSR1").strip() or "EWSR1"
         e = _env_int("EWSR1_EXON_END", _env_int("DONOR_EXON_END", 12))
         n = _env_int("NR4A3_EXON_START", 3)
+        # ⛔ THE NOTE BELOW SAYS "Real in-frame …", AND FOR A WAIVED PUBLISHED BREAKPOINT THAT WOULD
+        # BE FALSE IN THE ONE FIELD A READER USES TO SEE WHAT WAS BUILT. Both whitelisted seams are
+        # excluded from the panel precisely BECAUSE the chimeric ORF does not compose (no CDS in the
+        # acceptor exon, or an out-of-frame register), so a provenance block asserting the opposite
+        # would be the artifact contradicting its own `measured_junction`. Resolved here from the
+        # same whitelist the builder's waiver comes from, so the two cannot drift apart.
+        pub = (published_noncoding_acceptor_junctions().get((donor, e, "NR4A3", n))
+               if published_breakpoint_opt_in() else None)
         return f"{donor}_e{e}__NR4A3_e{n}", {
             "mode": "real_exon_junction_mRNA",
             "source": ("Ensembl MANE/canonical TRANSCRIPT structure (junction_aso.transcript_model): "
@@ -140,12 +148,30 @@ def junction_label():
             "donor_gene": donor,
             "provenance_gate": dict(PROVENANCE_GATE_USED),
             "EWSR1_exon_end": e, "donor_exon_end": e, "NR4A3_exon_start": n,
-            "note": (f"Real in-frame {donor}::NR4A3 exon junction built at the mRNA level — the acceptor "
-                     "exon is taken WHOLE, including any 5'UTR it carries, because that is what a "
-                     "fusion transcript contains and what an ASO hybridises to. Self-checked: exon "
-                     "lengths sum to the cDNA, the CDS is a unique substring of the cDNA, "
-                     "translate(CDS)==Ensembl protein, and the chimeric ORF retains the NR4A3 "
-                     "C-terminus. NOT the codon-space modelled reference."),
+            **({"published_breakpoint": {
+                "transcript_type": pub["transcript_type"],
+                "excluded_from_the_manuscript_panel_by": pub["excluded_from_the_panel_by"],
+                "n_independent_sources": pub["n_independent_sources"],
+                "evidence": list(pub["evidence"]),
+                "one_home_for_the_evidence": pub["one_home_for_the_evidence"]}} if pub else {}),
+            "note": ((f"Real {donor}::NR4A3 exon junction built at the mRNA level, at a PUBLISHED "
+                      f"breakpoint the manuscript's panel excludes by a protein-level filter "
+                      f"({pub['excluded_from_the_panel_by']}) — the acceptor exon is taken WHOLE, "
+                      "including any 5'UTR it carries, because that is what a fusion transcript "
+                      "contains and what an ASO hybridises to. Self-checked: exon lengths sum to "
+                      "the cDNA, the CDS is a unique substring of the cDNA, "
+                      "translate(CDS)==Ensembl protein. ⛔ THE CHIMERIC ORF IS **NOT** ASSERTED TO "
+                      "RETAIN THE NR4A3 C-TERMINUS AND IS NOT ASSERTED TO BE IN FRAME: that is the "
+                      "exclusion this junction is admitted in spite of, because an RNase-H1 gapmer "
+                      "cleaves the transcript rather than the protein. NOT the codon-space "
+                      "modelled reference.")
+                     if pub else
+                     (f"Real in-frame {donor}::NR4A3 exon junction built at the mRNA level — the acceptor "
+                      "exon is taken WHOLE, including any 5'UTR it carries, because that is what a "
+                      "fusion transcript contains and what an ASO hybridises to. Self-checked: exon "
+                      "lengths sum to the cDNA, the CDS is a unique substring of the cDNA, "
+                      "translate(CDS)==Ensembl protein, and the chimeric ORF retains the NR4A3 "
+                      "C-terminus. NOT the codon-space modelled reference.")),
         }
     return "reference_codon264_from2", {
         "mode": "modelled_reference_codon_space",
@@ -560,6 +586,136 @@ def plausible_nr4a3_resume_residues():
     return lo, hi
 
 
+# ═════════════════════════════════════════════════════════════════════════════════════════════
+# ⛔⛔ THE PUBLISHED-BREAKPOINT WHITELIST — the ONLY exception to the acceptor guards below, and it
+# lives HERE, beside the guards it excepts, so the two can never be separated.
+#
+# The guards in `build_parents_and_fusion` exist because code once slid onto a neighbouring exon and
+# designed against a seam no patient has ("this is Defect 1, and it is what produced the retracted
+# seam"). They see an EXON INDEX and nothing else, so two different things wear the same grade:
+#     (a) a coordinate slip onto NR4A3 exon 2 when exon 3 was meant  → still a defect, still raises;
+#     (b) a patient whose transcript genuinely joins NR4A3 exon 2    → a target, and the guard
+#         cannot tell (a) from (b), because the exon index is identical in both.
+# So the exception is not a relaxation. It is a NAMED LIST of seams a published report places in a
+# patient, and reaching it needs TWO independent things to be true at once:
+#     1. the caller says explicitly that it is building a published non-canonical seam
+#        (`PUBLISHED_BREAKPOINT_JUNCTION=1`, or `published_breakpoint=True`), and
+#     2. the exact (donor, donor exon, acceptor, acceptor exon) tuple is in this dict.
+# A coordinate slip fails (1) — nothing in the ordinary lane sets that flag — and a seam nobody
+# sequenced fails (2). ⛔ AND THE GRADE IS ASSERTED, NEVER ASSUMED: an entry claiming the wrong
+# exclusion reason RAISES rather than being waived, so this cannot become a general bypass by
+# someone adding a tuple with a plausible-sounding reason beside it.
+#
+# ⚠ THE LIST ITSELF LIVES IN `aso_noncoding_acceptor_designs`, WHICH FIRST CURATED IT, AND IS READ
+# FROM THERE RATHER THAN COPIED HERE. One fact, one place: a second copy beside the guard would be
+# the more authoritative-looking one and would go stale the first time a case report is added. The
+# import is LAZY because that module imports this one — at call time this module is fully loaded, so
+# the cycle never forms — and its ABSENCE IS A REFUSAL, never an empty whitelist, because an empty
+# whitelist silently turns every waiver request into "not published" and would read as a curation
+# verdict rather than a missing file.
+def published_noncoding_acceptor_junctions():
+    """`{(donor, donor_exon, acceptor, acceptor_exon): meta}` — the curated published-breakpoint list."""
+    import aso_noncoding_acceptor_designs as _nca                       # noqa: PLC0415
+    return _nca.PUBLISHED_NONCODING_ACCEPTOR_JUNCTIONS
+
+
+def published_breakpoint_retraction(donor_sym, d_end, acceptor_sym, a_start):
+    """The record of a seam this repository whitelisted and then WITHDREW, or None.
+
+    Same lazy import and the same one-home rule as the whitelist above: the retraction list lives
+    beside the whitelist it removes entries from, because a withdrawal stored anywhere else is a
+    withdrawal the next curator will not see while editing the list it applies to.
+    """
+    import aso_noncoding_acceptor_designs as _nca                       # noqa: PLC0415
+    return _nca.retraction_for(donor_sym, d_end, acceptor_sym, a_start)
+
+#: ⛔ THE GRADES A PUBLISHED-BREAKPOINT ENTRY MAY WAIVE, AND `SEAM_NOT_PRODUCED` IS DELIBERATELY
+#: ABSENT AND MUST STAY ABSENT. Both grades here are PROTEIN-level readings — the acceptor exon
+#: carries no CDS, or the chimeric ORF does not compose — and an RNase-H1 gapmer cleaves a
+#: transcript whatever protein that transcript makes. `SEAM_NOT_PRODUCED` is the opposite: it says
+#: the seam is at a nucleotide offset the corrected transcript model does not produce, i.e. it is
+#: the retraction's own grade, and no citation can make a seam exist that the coordinates refuse.
+WAIVABLE_PUBLISHED_GRADES = ("NON_CODING_ACCEPTOR", "OUT_OF_FRAME")
+
+
+def published_breakpoint_opt_in():
+    """Has the CALLER explicitly said it is building a published non-canonical seam?
+
+    ⛔ THE FLAG IS HALF THE LOCK. Membership of the whitelist alone would let a coordinate slip onto
+    a whitelisted exon through, which is exactly case (a) above; the flag is what makes the waiver
+    an INTENTION rather than a coincidence of arithmetic. Nothing in the ordinary design or screen
+    lane sets it.
+    """
+    return (os.environ.get("PUBLISHED_BREAKPOINT_JUNCTION") or "").strip().lower() in (
+        "1", "true", "yes", "on")
+
+
+def published_breakpoint_waiver(donor_sym, d_end, acceptor_sym, a_start, j, opt_in=None):
+    """The whitelist entry that excuses `j`'s non-EMITTABLE grade, or None if nothing does.
+
+    RAISES rather than returning None when the caller HAS opted in but the junction does not stand
+    up: not on the list, on the list under the wrong exclusion reason, or on the list while grading
+    EMITTABLE (in which case it belongs in the ordinary panel and must not be emitted in a lane that
+    labels its output unscreened-and-exceptional). A refusal that quietly degrades into the ordinary
+    guard's message would send the next reader hunting for a coordinate bug that is not there.
+    """
+    opt_in = published_breakpoint_opt_in() if opt_in is None else bool(opt_in)
+    if not opt_in:
+        return None
+    key = (donor_sym, d_end, acceptor_sym, a_start)
+    meta = published_noncoding_acceptor_junctions().get(key)
+    if meta is None:
+        # ⛔ A WITHDRAWN SEAM AND AN UNSEQUENCED ONE ARE BOTH "not on the whitelist", AND THEY MUST
+        # NOT PRINT THE SAME REFUSAL. The generic message sends the reader looking for a case report
+        # to add; for a retracted seam the case report EXISTS, was read, and did not survive. Naming
+        # the retraction is what stops the next session re-adding it from the same source.
+        retracted = published_breakpoint_retraction(donor_sym, d_end, acceptor_sym, a_start)
+        if retracted:
+            raise RuntimeError(
+                f"PUBLISHED_BREAKPOINT_JUNCTION is set for {donor_sym} e{d_end} :: {acceptor_sym} "
+                f"e{a_start}, which this repository RETRACTED on {retracted['retracted_utc']}. "
+                f"{retracted['verdict']} Re-adding it to the whitelist is not the fix — see "
+                "`what_would_reopen_it` on the retraction record in "
+                "aso_noncoding_acceptor_designs.RETRACTED_PUBLISHED_BREAKPOINTS. Refusing to emit.")
+        raise RuntimeError(
+            f"PUBLISHED_BREAKPOINT_JUNCTION is set for {donor_sym} e{d_end} :: {acceptor_sym} "
+            f"e{a_start}, which is NOT on the published-breakpoint whitelist in junction_aso. The "
+            "flag does not create an exception; it only lets a NAMED one through, and a seam nobody "
+            "has sequenced is exactly what the acceptor guard exists to refuse. Refusing to emit.")
+    lo, hi = plausible_nr4a3_resume_residues()
+    grade, why = grade_junction(j, lo, hi)
+    declared = meta["excluded_from_the_panel_by"]
+    if declared not in WAIVABLE_PUBLISHED_GRADES:
+        raise RuntimeError(
+            f"{j['junction_label']} is whitelisted under exclusion grade {declared!r}, which is not "
+            f"one of the waivable protein-level grades {WAIVABLE_PUBLISHED_GRADES}. Refusing.")
+    if grade != declared:
+        raise RuntimeError(
+            f"{j['junction_label']} is whitelisted as {declared} but the committed transcript model "
+            f"grades it {grade} ({why}). A whitelist entry whose stated reason does not match the "
+            "measured one is a curation error, and waiving a grade nobody checked is how the "
+            "retracted seam survived. Refusing to emit.")
+    return {"junction": f"{donor_sym}_e{d_end}__{acceptor_sym}_e{a_start}",
+            "waived_grade": grade, "why_the_panel_excludes_it": why,
+            "transcript_type": meta["transcript_type"],
+            "n_independent_sources": meta["n_independent_sources"],
+            "evidence": list(meta["evidence"]),
+            "one_home_for_the_evidence": meta["one_home_for_the_evidence"],
+            "⚠_read_this_before_using_the_sequence":
+                meta.get("⚠_read_this_before_using_the_sequence"),
+            "_why_this_is_not_a_relaxation": (
+                "The grade waived is a PROTEIN-level exclusion and this is an RNase-H1 modality: a "
+                "gapmer cleaves the transcript whether or not the chimeric ORF survives. The "
+                "coordinate guards are untouched — the acceptor's resume residue is still "
+                "range-checked wherever the acceptor exon has a CDS, and SEAM_NOT_PRODUCED is not "
+                "waivable at all."),
+            "_screens_are_not_implied": (
+                "A waiver admits the junction to the design and screen lane. It says nothing about "
+                "which screens have actually been run on the designs; read those from the screen "
+                "artifacts themselves."),
+            }
+
+
 def build_parents_and_fusion():
     """Return (ews_parent, nr4_parent, left, right, fusion) for either the codon-space modelled
     reference breakpoint (default) or a REAL exon-level junction (env-selected), and set the
@@ -594,18 +750,32 @@ def build_parents_and_fusion():
         # history to preserve and an `ewsr1_`-prefixed field on a TAF15 junction would be a lie.
         j = (mrna_junction(ews, nr4, d_end, n_start) if donor_sym == "EWSR1"
              else mrna_junction_generic(ews, nr4, d_end, n_start))
-        if not j["nr4a3_acceptor_exon_is_coding"]:
+        # ⛔ THE WAIVER IS RESOLVED BEFORE ANY GUARD RUNS, AND IT IS `None` UNLESS THE CALLER ASKED.
+        # See `published_breakpoint_waiver`: no flag, no waiver; flag without a whitelist entry, a
+        # refusal; whitelist entry whose stated exclusion reason disagrees with the measured grade,
+        # a refusal. So the three guards below are unchanged for every junction any existing caller
+        # builds — the ordinary lane cannot reach this object at all.
+        waiver = published_breakpoint_waiver(donor_sym, d_end, "NR4A3", n_start, j)
+        if not j["nr4a3_acceptor_exon_is_coding"] and waiver is None:
             raise RuntimeError(
                 f"NR4A3 transcript exon {n_start} carries no coding sequence — refusing to slide "
                 "onto a neighbour (this is Defect 1, and it is what produced the retracted seam)")
         lo, hi = plausible_nr4a3_resume_residues()
-        if not (lo <= j["nr4a3_first_residue"] <= hi):
+        # ⛔ THE RESUME-RESIDUE RANGE CHECK IS *NOT* WAIVABLE, AND ITS CONDITION IS THE ACCEPTOR'S
+        # OWN CODING STATE RATHER THAN THE WAIVER. `grade_junction` already fixes this order and
+        # says why: "a non-coding acceptor has no resume residue to range-check". Before the waiver
+        # existed the guard above raised first, so this line could assume a residue; with a waived
+        # non-coding acceptor `nr4a3_first_residue` is None and the comparison would raise a
+        # TypeError that reads like a code fault instead of a reading. Where the acceptor DOES carry
+        # a CDS this runs exactly as it always did, waiver or no waiver — SEAM_NOT_PRODUCED is the
+        # retraction's own grade and no citation can waive it.
+        if j["nr4a3_acceptor_exon_is_coding"] and not (lo <= j["nr4a3_first_residue"] <= hi):
             raise RuntimeError(
                 f"{donor_sym} e{d_end} :: NR4A3 e{n_start} resumes NR4A3 at residue "
                 f"{j['nr4a3_first_residue']}, outside the corrected plausible range [{lo}, {hi}] "
                 "in fusion-object-inventory.json — this is the exact grade "
                 "fusion-neoantigen-retraction.json calls SEAM_NOT_PRODUCED. Refusing to emit.")
-        if not j["in_frame"]:
+        if not j["in_frame"] and waiver is None:
             raise RuntimeError(
                 f"{donor_sym} e{d_end} :: NR4A3 e{n_start} is not in-frame at the mRNA level "
                 f"({donor_sym} coding nt {j['donor_coding_nt_through_cut']} phase "
@@ -613,6 +783,14 @@ def build_parents_and_fusion():
                 f"{j['nr4a3_acceptor_exon_5utr_nt_retained']} nt => "
                 f"(cut+UTR) mod 3 = {j['frame_sum_mod3']}, must be 0); NR4A3 C-terminus not "
                 "retained. This is a READING about that exon pair, not a code failure.")
+        # ⛔ A WAIVED JUNCTION MUST SAY SO IN EVERY ARTIFACT BUILT ON IT. `measured_junction` copies
+        # every non-underscore key of this dict into the designs panel, the BLAST screen and the
+        # uncapped evaluation, so the waiver travels with the seam it excuses. An artifact that is
+        # exceptional and does not look exceptional is the shape of the retraction: the old panels
+        # carried a junction LABEL and no graded offsets, so the wrong seam was invisible in the
+        # file that depended on it.
+        if waiver is not None:
+            j = dict(j, **{"⛔_published_breakpoint_waiver": waiver})
         globals()["LAST_JUNCTION"] = j
         EWSR1_full, NR4A3_full = ews["cdna"], nr4["cdna"]
         return ews["cdna"], nr4["cdna"], j["_left"], j["_right"], j["_fusion"]

@@ -1,0 +1,392 @@
+{
+ "_what": "Exon-resolved NR4A3-fusion breakpoints reported in EMC, retrieved as open-access full text, with the verbatim sentence behind each junction.",
+ "_why": "The junction-ASO coverage figure was corrected from 95% to 68.4% on 2026-08-15 because the reagents are junction-specific and only two junctions had a published exon-resolved breakpoint in this repository's record. That record was incomplete. This is the retrieval that says which junctions a reagent panel would actually have to cover.",
+ "_what_this_is_not": [
+  "Not a prevalence measurement. These are the breakpoints reported in the retrieved papers, not a survey of EMC. The partner prevalence denominator is a separate cohort and lives in research/manuscripts/aso_reagent_coverage.py.",
+  "Not a claim that any of these junctions is druggable, or that a reagent matching one is active against it. Every sequence question is downstream of this file.",
+  "Not exhaustive. 219 of the 295 retrieved open-access papers mention EMC, and 223 were read end to end by the subagent sweep; nine papers below report a junction or a bound on one. EMC case reports overwhelmingly name the partner gene without sequencing the junction, so absence here is absence of evidence — the sweep found five separate papers stating that the routine assays (break-apart FISH, fixed fusion panels) are structurally incapable of resolving an exon.",
+  "Not a survey of sequence databases. Everything above except the TCF12 deposit comes from papers; the deposit came from NCBI elink, and no comparable sweep of the other partners' deposits has been read into this file."
+ ],
+ "_cost": "$0 — one Europe PMC dispatch on a free GitHub Actions runner, then reading the retrieved text.",
+ "source": {
+  "workflow": "fetch-literature.yml",
+  "workflow_run": "31881763844",
+  "branch": "literature-cache",
+  "corpus": "literature/emc-breakpoint-census/",
+  "n_papers_retrieved": 295,
+  "n_mentioning_emc": 219,
+  "n_reporting_an_exon_resolved_junction": 7,
+  "query": "(\"extraskeletal myxoid chondrosarcoma\" OR \"extra-skeletal myxoid chondrosarcoma\" OR \"chordoid sarcoma\") AND (EWS OR EWSR1 OR TAF15 OR RBP56 OR TAF2N OR TCF12 OR TFG OR HSPA8 OR SMARCA2) AND (fusion OR chimeric OR transcript OR breakpoint OR exon OR \"type 1\" OR \"type 2\")",
+  "known_positive_control": "12378528 11679947 — both returned; the run would have failed otherwise",
+  "subagent_sweep": {
+   "_what": "Six parallel readers, each reading every paper in a sixth of the corpus end to end rather than grepping it.",
+   "n_papers_assigned": 223,
+   "_why_not_grep": "the first pass over this corpus was a regex sweep and it found two junctions. Reading found seven. Junction data hides in figure legends, vendor report strings and Methods primer tables that no single pattern catches.",
+   "verification": "Every identifier below was read from the corpus index (`_index.json`), none written from recollection — re-checked 2026-08-15 and all nine PMIDs and PMCIDs match that index.",
+   "⛔_the_verbatim_claim_was_WRONG_when_written_and_this_is_the_correction": "This field read 'every verbatim quote was re-extracted from its source file and machine-checked as a literal substring'. It was re-run on 2026-08-15 and SIX of the nine `verbatim` strings FAILED that test. Three were cosmetic — the extractor leaves empty figure cross-references (' ( )', ' (Fig. a)') and an en-dash in 'c/qRT–PCR' that the quote had silently normalised. One (PMC2395470) dropped '; type 5' from inside a parenthesis with no ellipsis. TWO (PMID 32612944, PMID 36103645) were PARAPHRASES stored in a field named `verbatim` — the underlying facts are true and are present in those papers, but the strings were not their words. ⚠ PMID 32612944 is one of the three records naming EWSR1 exon 13, so the defect sat on a load-bearing row. All six are now replaced with text that passes, and the claim above is narrowed to what was actually verified at the time.",
+   "verbatim_recheck_2026_08_15": {
+    "n_records_with_a_verbatim": 9,
+    "n_verbatim_FIELDS": 10,
+    "n_fragments_checked": 12,
+    "n_literal": 12,
+    "⛔_this_block_first_said_11_of_11_AND_THE_MISSING_ONE_WAS_THE_ONLY_FAILURE": "The recheck enumerated `verbatim` and never `verbatim_second`, so it scanned 11 of the 12 fragments and reported 11/11 — a clean verdict produced by a scan that had not looked. The unscanned fragment was PMID 22567356's `verbatim_second`, and it was the one fragment still failing: it read '… exon 3 of NR4A3.' where the source reads '… exon 3 of NR4A3 [ ].', the extractor's empty reference stub dropped and the sentence period pulled inside the quote. Repaired by ending the quote before the stub. ⚠ NINE RECORDS IS NOT TEN FIELDS: one record carries two quotes, and counting records while checking fields is what let a field go unchecked. Found by the integration steward re-running the check independently, 2026-08-15.",
+    "method": "each `verbatim` AND `verbatim_second` is split on '…' and every fragment must be a literal substring of the retrieved text for its own PMCID (falling back to that PMID's abstract in the corpus index where no PMC full text exists, which is the case for PMID 12378528). ⚠ THE COMPARISON IS WHITESPACE-NORMALISED ON BOTH SIDES and that is not a loophole: the retrieved .txt files are hard-wrapped mid-sentence, so a quote spanning a line break can never be a byte-for-byte substring. Nothing else is normalised — case, punctuation, dashes and primes must match exactly, which is what caught four of the six above.",
+    "⛔_this_check_cannot_run_in_the_offline_test_suite": "the corpus lives on the `literature-cache` branch, not in this tree, so no committed test can re-run it. It is re-run by hand against that branch; this block records when it last was and what it found. ⚠ Its size has ONE home, `source.n_papers_retrieved` above — this sentence used to restate it as '296 retrieved papers', which disagreed with that field and with the 295 the ladder and the manuscript both quote. Verified against the corpus on 2026-08-15: 295 .txt files on disk. A number restated is a number that drifts (CLAUDE.md rule 1)."
+   }
+  },
+  "supplementary_sweeps_2026_08_15": {
+   "_why_separate": "`n_papers_retrieved` and `n_reporting_an_exon_resolved_junction` above are the one home for THAT sweep's counts and are not restated or absorbed here.",
+   "tcf12_targeted_literature_sweep": {
+    "workflow": "fetch-literature.yml",
+    "workflow_run": "31886253153",
+    "corpus": "literature/tcf12-nr4a3-breakpoint/ (branch literature-cache)",
+    "query": "(TCF12 AND NR4A3) OR (TCF12 AND TEC AND chondrosarcoma) OR (HTF4 AND chondrosarcoma) OR (\"t(9;15)\" AND chondrosarcoma) OR (TCF12 AND \"extraskeletal myxoid chondrosarcoma\")",
+    "known_positive_control": "11156374 — returned; the run would have failed otherwise",
+    "n_papers_retrieved": 104,
+    "n_reporting_an_exon_resolved_TCF12_NR4A3_junction": 0,
+    "⛔_finding": "ZERO, and that is a fact about the literature rather than about the breakpoint. The only intron-resolved statement anywhere in the corpus is a 2014 review (PMID 24714847) whose two citations at that sentence are the primary report and the gene-structure paper — a composition of them, not an independent observation."
+   },
+   "sequence_database_route": {
+    "_what": "The route that actually answered it, and it is not a literature search. NCBI elink from a report's PubMed record to `nuccore` returns the sequences deposited with it; a `nuccore` term search finds the same records by subject.",
+    "workflow_runs": [
+     "31886276885",
+     "31886399103"
+    ],
+    "elink_query": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/elink.fcgi?dbfrom=pubmed&db=nuccore&id=11156374",
+    "returned": "one direct submission, nuccore UID 13540159 = AF289510.1",
+    "independent_confirmation": "a nuccore term search for `TCF12 AND TEC AND chondrosarcoma` returns exactly the same single UID",
+    "⛔_the_transferable_lesson": "AN EMPTY CORPUS SWEEP IS EVIDENCE ABOUT THE CORPUS, NOT ABOUT THE WORLD. 295 papers found nothing here, then 104 more found nothing, and the answer had been in a public sequence database since 2000. Before recording a junction as unpublished, ask whether it would have been PUBLISHED as an exon at all. ⚠ AND THIS REPOSITORY HAD ALREADY PAID FOR IT ONCE, a week earlier and in another lane: research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md retracted 'no genome-wide chromatin experiment ... was retrieved in 2,276 full-text documents across five corpora' on 2026-08-08, when a search of the primary sequence archives rather than of the literature alone returned GEO GSE243553 — whose construct library carries a TCF12-NR4A3 among others. Same failure mode, same fix, same partner.",
+    "one_home": "research/literature/tcf12-nr4a3-breakpoint-primary-sources.json"
+   },
+   "⭐_the_same_route_has_UNREAD_deposits_for_the_other_partners": {
+    "_what": "The sequence-database route that resolved TCF12 was then pointed at the other partners, and it returns four EMC fusion deposits this repository has never read. ⛔ THEY ARE LISTED, NOT MAPPED — nothing below has been aligned against a transcript model, so no junction, exon or count may be taken from this block. It is a lead with its identifiers recorded so the next reader does not have to re-find it.",
+    "workflow_runs": [
+     "31886623448",
+     "31887690771"
+    ],
+    "queries": [
+     "nuccore: (EWS OR EWSR1) AND (CHN OR TEC OR NR4A3) AND fusion AND chondrosarcoma — 10 hits",
+     "nuccore: (RBP56 OR TAF15 OR TAF2N) AND (CHN OR TEC OR NR4A3) AND fusion — 18 hits",
+     "nuccore: TFG AND (CHN OR TEC OR NR4A3) AND fusion — 30 hits, unread"
+    ],
+    "deposits_whose_titles_name_an_EMC_FUSION": [
+     {
+      "accession": "AF524261.1",
+      "length_bp": 567,
+      "title_verbatim": "Homo sapiens extraskeletal myxoid chondrosarcoma EWS/TEC/CHN fusion protein mRNA, partial cds"
+     },
+     {
+      "accession": "S81242.1",
+      "length_bp": 175,
+      "title_verbatim": "EWS...CHN {junction region} [human, myxoid chondrosarcoma patient, mRNA Partial Mutant, 3 genes, 175 nt]"
+     },
+     {
+      "accession": "AJ245932.1",
+      "length_bp": 244,
+      "title_verbatim": "Homo sapiens mRNA for t(9;17) TAF2N-TEC fusion protein from extraskeletal myxoid chondrosarchoma (TAF2N gene and TEC gene)"
+     },
+     {
+      "accession": "AJ243810.1",
+      "length_bp": 175,
+      "title_verbatim": "Homo sapiens partial mRNA for RBP56/CHN chimeric transcript"
+     }
+    ],
+    "⚠_what_this_could_and_could_not_move": "COULD: the ladder's 'BOUND — every remaining EWSR1 breakpoint covered' row is blocked on naming the three EWSR1 transcript types the primary series does not resolve, and a deposited junction sequence names one without needing the paywalled full text. COULD NOT: a deposit is one tumour. It resolves a JUNCTION; it does not supply the within-partner COUNT the ladder discounts an arm by, which is exactly the distinction the TCF12 entry above turns on.",
+    "⛔_elink_returned_no_direct_submission_for_the_primary_series": "elink dbfrom=pubmed&db=nuccore&id=12378528 returns only pubmed_nuccore_refseq links — the generic gene records — and no pubmed_nuccore direct submission. So the 18-case series' own unresolved types are NOT resolvable by the route that worked for TCF12; the four deposits above belong to other reports and would have to be traced to their own papers."
+   }
+  }
+ },
+ "⛔_the_finding": "THE EWSR1 TYPE 2 TRANSCRIPT JOINS NR4A3 EXON 2, AND EVERY JUNCTION IN THE DESIGN PANEL USES NR4A3 EXON 3. The panel's 38 junctions were selected by an atlas grade that drops exon-2 acceptors as NON_CODING_ACCEPTOR, because NR4A3 exon 2 lies upstream of the start codon. That is the correct filter for a fusion PROTEIN and the wrong filter for an RNase-H gapmer, which cleaves a transcript whether or not its reading frame survives. The junction is recurrent, named as a type, and observed in at least two sequenced patients in two independent series.",
+ "records": [
+  {
+   "pmid": "22567356",
+   "pmcid": "PMC3335514",
+   "doi": "10.4061/2011/497148",
+   "authors": "Nishio J, Iwasaki H, Nabeshima K, Naito M.",
+   "title": "Cytogenetics and molecular genetics of myxoid soft-tissue sarcomas.",
+   "journal": "Genet Res Int",
+   "year": 2011,
+   "kind": "review",
+   "verbatim": "The most common fusion transcript contains exon 12 of EWSR1 fused to exon 3 of NR4A3 (type 1), whereas exon 7 of EWSR1 is fused to exon 2 of NR4A3 in the type 2 fusion transcript.",
+   "verbatim_second": "In the TAF15-NR4A3 fusion transcript, exon 6 of TAF15 is fused exclusively to exon 3 of NR4A3",
+   "junctions_named": [
+    "EWSR1_e12__NR4A3_e3",
+    "EWSR1_e7__NR4A3_e2",
+    "TAF15_e6__NR4A3_e3"
+   ],
+   "role": "THE definition of the type 2 transcript. A review rather than a primary series, so it is cited for the exon assignment and never for a count."
+  },
+  {
+   "pmid": "29937513",
+   "pmcid": "PMC6073125",
+   "doi": "10.3390/ijms19071855",
+   "authors": "Urbini M, Indio V, Astolfi A, Tarantino G, Renne SL, Pilotti S, Dei Tos AP, et al.",
+   "title": "Identification of an Actionable Mutation of KIT in a Case of Extraskeletal Myxoid Chondrosarcoma.",
+   "journal": "Int J Mol Sci",
+   "year": 2018,
+   "kind": "primary series, whole-transcriptome sequencing",
+   "verbatim": "In particular, the exon12/exon3 junction was detected in three out of five cases (#2, #3, #5) while exon13/exon3 and exon7/exon2 were detected respectively in samples #4 and #1 … All fusions retained the coding frame for creating a chimeric protein, with the exception of sample #1, in which EWSR1 fuses with exon2 of NR4A3, an exon upstream of the start codon.",
+   "n_ewsr1_cases_with_a_resolved_junction": 5,
+   "counts": {
+    "EWSR1_e12__NR4A3_e3": 3,
+    "EWSR1_e13__NR4A3_e3": 1,
+    "EWSR1_e7__NR4A3_e2": 1
+   },
+   "role": "★ THE LOAD-BEARING RECORD. The only retrieved series that resolves every case in a cohort to an exon pair by sequencing, and it independently confirms BOTH junctions missing from the design panel's clinical tiering: exon 13 (which this repository had tiered as unreported) and exon 7 to NR4A3 exon 2 (which the panel cannot express at all). It also states in its own words why the panel excludes the second: the acceptor is upstream of the start codon."
+  },
+  {
+   "pmid": "35488288",
+   "pmcid": "PMC9052449",
+   "doi": "10.1186/s13000-022-01222-7",
+   "authors": "Wang C, You ZJ, Chen XY, Lin J, Wu YJ.",
+   "title": "Mutation of KIT in cellular extraskeletal myxoid chondrosarcoma: a case report and literature review.",
+   "journal": "Diagn Pathol",
+   "year": 2022,
+   "kind": "case report, NGS",
+   "verbatim": "NGS detected a translocation of a fragment from exon 1 to 7 of EWSR1 and exon 2 to 5 of NR4A3 … An EWSR1 exon 7-NR4A3 exon 2 fusion was subsequently identified.",
+   "junctions_named": [
+    "EWSR1_e7__NR4A3_e2"
+   ],
+   "role": "A second, independent sequenced patient carrying the NR4A3 exon-2 acceptor. One case report would be thin; with the Urbini series and the Nishio definition it is a recurrent junction rather than a curiosity."
+  },
+  {
+   "pmid": "31020999",
+   "pmcid": "PMC6766969",
+   "doi": "10.1002/path.5284",
+   "authors": "Brenca M, Stacchiotti S, Fassetta K, Sbaraglia M, Janjusevic M, Racanelli D, et al.",
+   "title": "NR4A3 fusion proteins trigger an axon guidance switch that marks the difference between EWSR1 and TAF15 translocated extraskeletal myxoid chondrosarcomas.",
+   "journal": "J Pathol",
+   "year": 2019,
+   "kind": "functional study, engineered fusion constructs",
+   "verbatim": "Cells were engineered with the T‐N* fusion variant (TAF15 exon 6‐NR4A3 exon 3) and with the less common T‐N variant (TAF15 exon 6‐NR4A3 intron 2).",
+   "junctions_named": [
+    "TAF15_e6__NR4A3_e3",
+    "TAF15_e6__NR4A3_intron2"
+   ],
+   "role": "A THIRD acceptor form: NR4A3 intron 2, retained in the mature fusion transcript. Described as less common but real enough to be modelled in cells. The design panel has no junction of this shape either, and for the same protein-level reason."
+  },
+  {
+   "pmid": "18521326",
+   "pmcid": "PMC2395470",
+   "doi": "10.1080/13577140120097111",
+   "title": "Biology. (CTOS abstract supplement)",
+   "journal": "Sarcoma",
+   "year": 2001,
+   "kind": "conference abstract supplement",
+   "verbatim": "The most frequent EWS/CHN transcript (10 tumors), was fusion of exon 12 of EWS with exon 3 of CHN (type 1), followed by fusion of exon 13 of EWS with exon 3 of CHN (two cases; type 5). In tumors with RBP56/CHN fusion, exon 6 of RBP56 was fused to exon 3 of CHN.",
+   "junctions_named": [
+    "EWSR1_e12__NR4A3_e3",
+    "EWSR1_e13__NR4A3_e3",
+    "TAF15_e6__NR4A3_e3"
+   ],
+   "role": "The open-access restatement of the 18-case series already cited as PMID 12378528. Cited here only because it is the retrievable full-text form of counts this repository previously held as an abstract; the primary identifier remains PMID 12378528."
+  },
+  {
+   "pmid": "36636521",
+   "pmcid": "PMC9831112",
+   "year": 2023,
+   "kind": "case report, commercial DNA-only panel (FoundationOne CDx)",
+   "verbatim": "EWSR1 (ex11)-NR4A3 (CHN,ex3)",
+   "verbatim_assay": "In the FoundationOne®CDx report (Foundation Medicine Inc., USA), in cancer genome profiling testing, a fusion gene search identified the EWSR1 (ex11)-NR4A3 (CHN,ex3) fusion gene, confirming a diagnosis of EMC.",
+   "junctions_named": [],
+   "junctions_withdrawn": [
+    "EWSR1_e11__NR4A3_e3"
+   ],
+   "role": "⛔ NO LONGER CONTRIBUTES A JUNCTION. Read in full on 2026-08-15: the paper states no transcript accession, no genomic coordinate, no RNA confirmation and no fusion-type number, and the whole of what it says about the fusion is the two quoted strings. The assay is DNA-only, so it cannot observe a spliced exon junction at all. Resolved to the canonical EWSR1 exon-12 (type 1) junction — see `EWSR1_e11__NR4A3_e3` under junction_census for the numbering verdict and its evidence."
+  },
+  {
+   "pmid": "36103645",
+   "pmcid": "PMC9489176",
+   "year": 2022,
+   "kind": "case report, exome-capture RNA-seq",
+   "verbatim": "The results of next-generation sequencing revealed gene fusion of progesterone receptor, PGR (exon2) to the 5′ untranslated region (UTR) of NR4A3 (exon2)",
+   "junctions_named": [
+    "PGR_e2__NR4A3_e2"
+   ],
+   "role": "A sixth partner gene, and a third independent case with an NR4A3 exon-2 acceptor. EWSR1 FISH-negative."
+  },
+  {
+   "pmid": "32612944",
+   "pmcid": "PMC7308468",
+   "year": 2020,
+   "kind": "diagnostic assay design",
+   "verbatim": "Primers and probes used in this assay are specific for the detection of the following fusion: EWSR1(ex7)/NR4A3(ex2), EWSR1(ex12)/NR4A3(ex3), EWSR1(ex13)/NR4A3(ex3), and TAF15(ex6)/NR4A3(ex3).",
+   "junctions_named": [
+    "EWSR1_e12__NR4A3_e3",
+    "EWSR1_e13__NR4A3_e3",
+    "EWSR1_e7__NR4A3_e2",
+    "TAF15_e6__NR4A3_e3"
+   ],
+   "role": "⭐ EXTERNAL VALIDATION OF THE PANEL COMPOSITION, FROM THE DIAGNOSTIC SIDE. A clinical laboratory independently built a detection panel around exactly these four junctions. ⚠ These are ASSAY TARGETS, not observed per-case junctions — the paper's 23 patients are reported at gene level only, so this contributes no counts."
+  },
+  {
+   "pmid": "36614077",
+   "pmcid": "PMC9820733",
+   "year": 2022,
+   "kind": "large diagnostic series",
+   "verbatim": "FISH was more sensitive than c/qRT–PCR in detecting MLPS and EMC (99% and 94%, respectively, vs. 92% and 88%)",
+   "junctions_named": [],
+   "role": "⛔ THE EMPIRICAL CEILING ON A JUNCTION-DEFINED REAGENT SET, and the most decision-relevant number in this file. A junction-primer-defined assay detected 88% of EMC where break-apart FISH detected 94%. An ASO panel is the same KIND of object as an RT-PCR primer panel — both are junction-specific — so 88% is a real-world anchor for what junction-defined coverage achieves, measured rather than multiplied. ⚠ NOT A CLEAN COVERAGE MEASUREMENT: assay sensitivity also absorbs RNA quality and extraction failures, so it does not isolate junction coverage from assay failure.",
+   "doi": "10.3390/ijms24010632",
+   "title": "The Efficacy of Molecular Analysis in the Diagnosis of Bone and Soft Tissue Sarcoma: A 15-Year Mono-Institutional experience.",
+   "journal": "Int J Mol Sci",
+   "⛔_a_correction_worth_keeping": "THIS RECORD WAS FIRST WRITTEN WITH PMID 36404609, WHICH IS WRONG. That identifier was typed from recollection rather than read out of the corpus index, in a file whose entire purpose is provenance, minutes after every other identifier in it had been looked up properly. It was caught only because the record carried a note saying it was unverified. The real identifier, read from the index: PMID 36614077 / PMC9820733."
+  },
+  {
+   "pmid": "11156374",
+   "pmcid": null,
+   "doi": null,
+   "authors": "Sjögren H, Wedell B, Meis-Kindblom JM, Kindblom LG, Stenman G.",
+   "title": "Fusion of the NH2-terminal domain of the basic helix-loop-helix protein TCF12 to TEC in extraskeletal myxoid chondrosarcoma with translocation t(9;15)(q22;q21).",
+   "journal": "Cancer research",
+   "year": 2000,
+   "kind": "primary_case_report_with_sequence_deposit",
+   "verbatim": "The chimeric transcript encodes a protein in which the first 108 amino acids of the NH2-terminus of the basic helix-loop-helix (bHLH) protein TCF12 is linked to the entire TEC protein.",
+   "verbatim_second": null,
+   "junctions_named": [
+    "TCF12_e5__NR4A3_e3"
+   ],
+   "role": "⭐ THE ONLY EXON-RESOLVED TCF12::NR4A3 BREAKPOINT, AND IT IS NOT IN THE PROSE. The abstract names no exon — it gives a residue count, which is why this repository's assignment was an inference until 2026-08-15. The same authors DEPOSITED the chimeric cDNA as AF289510.1 (421 bp, Homo sapiens TCF12-TEC fusion protein mRNA, partial cds), whose two chromosome-tagged source features split the record AT the junction: 1..263 chromosome 15 (TCF12), 264..421 chromosome 9 (NR4A3). Mapped against the committed transcript models the donor side ends at TCF12 exon 5 and no other exon, the acceptor side begins at NR4A3 exon 3 and no other exon, and the seam is identical base for base to the one the design panel was built on. Every test: research/manuscripts/tcf12_breakpoint_assignment.py.",
+   "sequence_deposit": {
+    "accession": "AF289510",
+    "version": "AF289510.1",
+    "ncbi_nuccore_uid": "13540159",
+    "definition": "Homo sapiens TCF12-TEC fusion protein mRNA, partial cds",
+    "length_bp": 421,
+    "protein_id": "AAK29329.1",
+    "submitted": "25-JUL-2000, Lundberg Laboratory for Cancer Research, Dept. of Pathology, Goteborg University, Sahlgrenska University Hospital, Goteborg SE-413 45, Sweden",
+    "sha256_of_flatfile": "15da3c7f011f452e549e7c9bde46eb9bc69c69c15da29c8aa78e4d46d853e33a",
+    "source_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id=13540159&rettype=gbwithparts&retmode=text"
+   }
+  },
+  {
+   "pmid": "12826747",
+   "pmcid": null,
+   "doi": null,
+   "authors": "Gan TI, Rowen L, Nesbitt R, Roe BA, Wu H, Hu P, Yao Z, Kim UJ, O'Sickey T, Bina M.",
+   "title": "Genomic organization of human TCF12 gene and spliced mRNA variants producing isoforms of transcription factor HTF4.",
+   "journal": "Cytogenetic and genome research",
+   "year": 2002,
+   "kind": "primary_gene_structure",
+   "verbatim": "In addition, intron 5 in the TCF12 gene corresponds to the region involved in a translocation, t(9;15)(q22;q21), that results in a form of extraskeletal myxoid chondrosarcoma.",
+   "verbatim_second": "The gene includes 21 exons and is significantly larger than an average human gene.",
+   "junctions_named": [
+    "TCF12_e5__NR4A3_e3"
+   ],
+   "role": "INDEPENDENT CORROBORATION FROM A NON-FUSION PAPER. A genomic break in intron 5 splices exon 5 to the partner, so this states the same assignment the deposit resolves — from a gene-structure analysis rather than from a tumour. ⚠ Its exon numbering is only comparable because it reports 21 exons, the same count as this repository's committed TCF12 transcript model; an exon ORDINAL is meaningless across two different exon maps."
+  },
+  {
+   "pmid": "9060841",
+   "pmcid": "PMC1857890",
+   "year": 1997,
+   "kind": "primary series, RT-PCR (retrieved as scanned page images)",
+   "verbatim": "The type 3 variant appears to be a unique, probably nonrecurrent variant resulting from an unusual genomic breakpoint within EWS exon 12.",
+   "⚠_verbatim_provenance": "RECONSTRUCTED FROM AN OCR LAYER, AND THAT MUST TRAVEL WITH THE QUOTE. PMC holds this paper only as scanned page images; its PMC HTML body contains zero occurrences of 'exon'. The text above was read from the PDF's OCR layer, which strips inter-word spaces — the file literally reads 'Thetype3variantappearstobeaunique,probablynonrecurrentvariantresultingfroman unusualgenomicbreakpointwithinEWSexon12.' Word boundaries above are therefore RESTORED, not transcribed. Source file: literature/ews-type-nom-repo-pdf/epmc_pdf_render_PMC1857890.txt on the literature-cache branch, verified by the main thread rather than relayed.",
+   "junctions_named": [],
+   "role": "The only source naming EWS/CHN type 3. Establishes that a third variant exists and that its breakpoint is intra-exonic; does NOT establish that it is undesignable, and does not give the position that would let anyone design for it.",
+   "⭐_why_1030_papers_missed_it": "It was never machine-readable prose. A corpus sweep's negative is bounded by its retrieval and its tokenisation, not only by its query: 'type 3' finds nothing where 'type3' finds this.",
+   "⛔_RETRACTED_2026_08_15_the_structural_limit_claim": "THIS RECORD PREVIOUSLY SAID type 3 HAS NO SEAM AND THAT 'no junction-spanning oligonucleotide can be specified for it at any length or register'. THAT IS REFUTED, and by measurement rather than argument: handing mrna_junction_generic and design() a donor model split at an intra-exonic position — changing nothing in junction_aso.py — produces a valid mRNA seam and five tiled gapmers, all five fusion-specific, three gap-centred, best gap margin 3, at geometry identical to the panel's. An intra-exonic breakpoint still creates a definite nucleotide seam; what it lacks is an EXON INDEX, which is a property of our design grammar and not of RNase-H. ⚠ The retracted-seam coordinate guard never fires here — it is entirely an acceptor-side check, and an intra-exonic DONOR cut leaves nr4a3_first_residue at 1, inside the plausible range. The only grade that fires is in_frame, already waivable for published breakpoints. Nothing would need weakening.",
+   "⭐_the_real_status": "UNLOCATED AND UNEXPRESSIBLE, not undesignable. Two halves, and they differ: for a STOCKED panel it remains out of reach and probably always will, since the source calls it probably nonrecurrent and a stocked panel cannot carry private breakpoints. For a PER-PATIENT route it is live, and blocked on one retrieval — the nucleotide position, which this paper does not give.",
+   "⚠_this_is_a_secondary_restatement": "The sentence cites Labelle 1995 (PMID 8634690). This repository was reading a restatement as a primary structural finding. Labelle's only deposit is the wild-type TEC cDNA, so the sequence route cannot rescue type 3 either."
+  }
+ ],
+ "junction_census": {
+  "_denominator_note": "Counts are pooled across the two primary series that resolve every EWSR1 case to an exon pair by sequencing: PMID 12378528 (n=15 EWSR1-rearranged) and PMID 29937513 (n=5). Same outcome definition — the exon pair of the fusion transcript — and explicit integer counts in both, which is what POLICY-evidence.md §2.1 requires. The type NUMBERING is not pooled; only exon pairs are.",
+  "EWSR1_e12__NR4A3_e3": {
+   "k": 13,
+   "n": 20,
+   "type": "type 1",
+   "sources": [
+    "PMID 12378528",
+    "PMID 29937513"
+   ]
+  },
+  "EWSR1_e13__NR4A3_e3": {
+   "k": 3,
+   "n": 20,
+   "type": "type 5",
+   "sources": [
+    "PMID 12378528",
+    "PMID 29937513"
+   ]
+  },
+  "EWSR1_e7__NR4A3_e2": {
+   "k": 1,
+   "n": 20,
+   "type": "type 2",
+   "sources": [
+    "PMID 29937513",
+    "PMID 22567356",
+    "PMID 35488288"
+   ]
+  },
+  "_unresolved": {
+   "k": 3,
+   "n": 20,
+   "note": "the three EWSR1 tumours of the 18-case series whose transcript type that record does not name. At least some are likely to be the type 2 junction, since that series maps one genomic break to EWSR1 intron 7 — but 'likely' is not a count, so they are left unresolved."
+  },
+  "TAF15_e6__NR4A3_e3": {
+   "k": 3,
+   "n": 3,
+   "sources": [
+    "PMID 12378528",
+    "PMID 10537274",
+    "PMID 22567356",
+    "PMID 31020999"
+   ]
+  },
+  "TAF15_e6__NR4A3_intron2": {
+   "k": null,
+   "n": null,
+   "sources": [
+    "PMID 31020999"
+   ],
+   "⭐": "RESOLVED FROM A RAW INTRON TO A SPLICED SEQUENCE, which makes it designable in principle: 'T-N retains a short cryptic exon located in NR4A3 intron 2 (ENST00000395097.6 isoform), thus encoding 25 additional amino acids prior to the NR4A3 ATG'. Called one of 'the two major TAF15-NR4A3 isoforms detected in human tumors', though 'the less common' of the two.",
+   "⛔_what_it_does_to_the_TAF15_ARM": "THIS CAN ONLY LOWER COVERAGE, NEVER RAISE IT. The TAF15 arm is currently priced at 3/3 — every TAF15 tumour at exon 6 to exon 3 — on a three-tumour series. If some TAF15 patients instead carry the intron-2 acceptor, the single TAF15 reagent does not reach them and the published 68.4% is optimistic on that arm. No count was retrieved, so this is a named risk rather than a correction."
+  },
+  "EWSR1_e11__NR4A3_e3": {
+   "k": null,
+   "n": null,
+   "status": "WITHDRAWN 2026-08-15 — NOT A DISTINCT JUNCTION",
+   "type": "no type number reported",
+   "sources": [
+    "PMID 36636521"
+   ],
+   "⛔_verdict": "THE VENDOR'S 'ex11' IS NOT THIS REPOSITORY'S EWSR1 EXON 11. Best-evidenced reading: the canonical EWSR1 exon 12 :: NR4A3 exon 3 type-1 junction, which this census already counts at k=13/20 and which the design panel already carries and has screened. The row is kept rather than deleted so the count above is not silently re-derived from a source that no longer supports it.",
+   "⛔_what_the_withdrawal_RESTS_ON": "THE EXON-NUMBERING RECONCILIATION, AND NOT THE FRAME GRADE. The junction is withdrawn because the vendor's 'ex11' has been reconciled against the reference exon index and resolves to our EWSR1 exon 12 — the canonical type-1 junction, already in the panel and already screened. The anchors in the next field are what establish that. ⚠ The OUT_OF_FRAME grade is NOT the basis and never was: it was grounds for SUSPECTING the exon assignment, i.e. the reason to go and check it. A frame reading can say an assignment looks wrong; it cannot say which assignment is right. Only the numbering work names exon 12, so only the numbering work can carry the verdict.",
+   "⭐_evidence_our_index_is_the_reference_index": "FIVE anchors, all measured, none from recollection. (1) PMID 22567356's EMC RT-PCR primers are stated against RefSeq NM_005243.3 / NM_006981.3; located against this repository's committed transcript models, the EWSR1 'exon 7' primer lands in our transcript exon 7, the EWSR1 'exon 11' primer in our exon 11, and the NR4A3 'exon 3' primer in our exon 3 — three primers, three exact landings. (2) PMID 31020999 builds the type-1 construct as 'EWSR1 (exons 1-12)-NR4A3 (exons 3-8)' against ENST00000395097.6, the same NR4A3 transcript modelled here, whose exons 3-8 are exactly its whole CDS. (3) EWSR1 has no non-coding first exon in which a one-off could hide: nr4a3-exon-audit.json records ENST00000397938 with 17 transcript exons, 17 coding exons and first_transcript_exon_is_coding=true. (4) Our exon 7 ends at residue 264, the EWS-FLI1 breakpoint residue. (5) ★ PMC10344636's DSRCT genomic breakpoint map finds EWSR1 breaks in introns 7, 9 and 10 and none in intron 8 despite intron 8 being far the largest, explaining it as frame ('a fusion of EWSR1 exon 8 to WT1 exon 8 would produce a frameshifted transcript'); our model's cumulative coding nt mod 3 is e7→1, e8→2, e9→1, e10→1, so the observed donors share a phase and the absent one does not — the partition is reproduced exactly, which a numbering shift of even one exon would destroy.",
+   "⚠_what_is_NOT_established": "FoundationOne CDx's own transcript model was not read — it is in neither the report nor the corpus, and a targeted Europe PMC sweep (fetch-literature run 31886456405, 124 papers under literature/f1cdx-fusion-exon-nomenclature/ on literature-cache) found no second F1CDx fusion call carrying an exon number to calibrate against. So the direction of the one-off is evidenced and its mechanism is not. The residual reading — a genuine DNA break in EWSR1 intron 11 whose spliced product was never observed, F1CDx being a DNA-only panel — also withdraws the junction rather than saving it.",
+   "⚠_corroboration_only_the_seam_as_written_cannot_be_the_driver": "CORROBORATION, NOT THE BASIS — see the field above. This is what made the assignment worth checking, retained because deleting it would make the numbering work look unmotivated. Graded OUT_OF_FRAME here (frame_sum_mod3 = 2): EWSR1 cumulative coding nt through exon 11 is 1164 and NR4A3 transcript exon 3 retains 2 nt of 5'UTR before its ATG, so the chimeric ORF reads NR4A3 out of register and encodes no NR4A3 DNA-binding domain — not the fusion transcription factor that defines EMC, in a tumour that is a bona fide EMC. PMID 29937513, the only retrieved series resolving every case by sequencing, states 'All fusions retained the coding frame for creating a chimeric protein, with the exception of sample #1, in which EWSR1 fuses with exon2 of NR4A3, an exon upstream of the start codon' — a 5'UTR acceptor, not a frameshifted coding acceptor. The in-frame EWSR1 donors to NR4A3 exon 3 are e1, e4, e7, e9, e10, e12, e13, e15; the two adjacent to 11 are e10 (reported by no source in 295 papers) and e12 (type 1, k=13/20, and one of the four junctions the PMID 32612944 diagnostic panel targets).",
+   "⭐_independent_confirmation_from_the_corpus_sweeps": "A SECOND ROUTE REACHED THE SAME PLACE. No report of an EWSR1 exon-11 breakpoint in EMC exists anywhere in the swept literature apart from PMID 36636521 itself; the only other exon-11 mention is a PRIMER POSITION in a Methods table (PMC3371325's EMC RT-PCR forward primer, 28 nt upstream of the exon 11/12 boundary, there to amplify ACROSS the exon-12 and exon-13 breakpoints), which is a primer location and not a breakpoint and was correctly left unconverted. ⚠ PROVENANCE: the two-sweep total (~1,030 papers) was REPORTED BY THE MAIN THREAD and is recorded as an attribution, not as a count verified here. What was checked here: the 295-paper census and the 124-paper F1CDx corpus (fetch-literature run 31886456405), in which 'EWSR1 … exon 11' occurs in exactly three papers — PMID 36636521, PMC3371325's primer table, and PMC10855420, which is an EWSR1::BEND2 fusion in a different tumour type with no NR4A3 acceptor.",
+   "one_home_for_the_retraction": "research/modalities/aso_noncoding_acceptor_designs.py → RETRACTED_PUBLISHED_BREAKPOINTS"
+  },
+  "PGR_e2__NR4A3_e2": {
+   "k": 1,
+   "n": null,
+   "sources": [
+    "PMID 36103645"
+   ],
+   "⚠": "A PARTNER GENE ABSENT FROM THE DESIGN PANEL ENTIRELY — the atlas models five partners and PGR is not one of them. Fused into the NR4A3 5'UTR, and the tumour was EWSR1 FISH-negative, so a canonical-partner assay would have missed it."
+  },
+  "TCF12_e5__NR4A3_e3": {
+   "k": 1,
+   "n": 1,
+   "sources": [
+    "PMID: 11156374",
+    "GenBank: AF289510.1",
+    "PMID: 12826747"
+   ],
+   "⭐_note": "EXON-RESOLVED AS OF 2026-08-15, from the deposited chimeric cDNA rather than from any paper's prose. TCF12 exon 5 to NR4A3 exon 3, one exon boundary on each side and no other.",
+   "⛔_why_k_over_n_must_not_be_used_as_a_within-partner_fraction": "n=1 IS THE SAME TUMOUR THE JUNCTION WAS DEFINED BY. Neither breakpoint series behind the coverage ladder contains a TCF12-rearranged tumour, so there is no cohort in which this junction was one outcome among several. Feeding 1/1 into aso_coverage_ladder.BASES would manufacture a measurement out of the observation that produced the category, which is why TCF12 remains in PARTNERS_WITH_NO_BREAKPOINT_MEASUREMENT and its arm stays priced at its ceiling.",
+   "⛔_is_it_RECURRENT_searched_2026_08_15_answer_UNTESTED": "NO SECOND SEQUENCE EXISTS, AND THAT IS NOT EVIDENCE THE JUNCTION IS PRIVATE. Searched: nuccore for (TCF12 OR HTF4) AND (chondrosarcoma OR myxoid) -> 1 hit, AF289510.1 itself; nuccore for \"t(9;15)\" AND (chondrosarcoma OR TEC OR NR4A3) -> 0; protein for TCF12 AND (TEC OR NR4A3 OR CHN) AND fusion -> 1, AF289510.1's own translation; SRA for TCF12 AND (NR4A3 OR TEC OR chondrosarcoma) -> 0; and elink pubmed->nuccore for EVERY later cohort that counts a TCF12 tumour (PMID 12598313, 24746215, 36948401) -> no direct submission from any of them. ⭐ THE REASON IS STRUCTURAL: TCF12-rearranged EMC has been COUNTED at least four times and SEQUENCED once, in 2000. The 26-case series called its TCF12 tumour by FISH, which reports which genes are joined and never where. So recurrence has never been ASKED, and the arm stays a bound. One home: research/literature/tcf12-nr4a3-breakpoint-primary-sources.json."
+  },
+  "_TCF12_superseded_2026_08_15": {
+   "was": {
+    "k": null,
+    "n": null,
+    "note": "NO exon-resolved TCF12::NR4A3 breakpoint was found in 295 retrieved papers. The one published chimera is described by residue count (PMID 11156374), which the manuscript's transcript model places at exon 5. Still an inference, and still the arm that decides whether a panel can cross 95%."
+   },
+   "why_it_changed": "That entry read 'NO exon-resolved TCF12::NR4A3 breakpoint was found in 295 retrieved papers ... still an inference'. Both halves were true and the conclusion was wrong: the breakpoint was never published as an exon in prose, so no literature sweep could have found it. It was DEPOSITED. NCBI elink from PMID 11156374 to the nucleotide database returns AF289510.1 in one call, and an independent nuccore term search returns the same single record."
+  }
+ }
+}

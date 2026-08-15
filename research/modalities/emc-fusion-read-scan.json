@@ -1,0 +1,75 @@
+{
+ "_title": "NR4A3 fusion breakpoints recovered from deposited raw reads",
+ "_generated_by": "research/modalities/emc_fusion_read_scan.py",
+ "_cost": "$0 \u2014 CPU only on a GitHub-hosted runner; reads are streamed, never stored",
+ "_generated_utc": "2026-08-15T15:44:53Z",
+ "_what_this_is_not": [
+  "Not a fusion caller \u2014 only named partner x NR4A3 seams are looked for.",
+  "Not a breakpoint distribution; one deposit is not a population.",
+  "Not an efficacy, potency, safety, therapeutic-window or clinical claim.",
+  "Not a patient count \u2014 runs are not samples and samples are not people."
+ ],
+ "flank_nt_each_side": 16,
+ "runs": [
+  {
+   "run_accession": "SRR33903995",
+   "library_strategy": "RNA-Seq",
+   "library_layout": "PAIRED",
+   "experiment_title": "Illumina NovaSeq X sequencing: GSM9037837: USZ-23_EMC3 Homo sapiens RNA-Seq",
+   "read_count": "26945017",
+   "base_count": "8137395134",
+   "derived_read_length_nt": 151.0,
+   "assay_capable_of_spanning_a_junction": true,
+   "assay_gate_reason": "whole-transcriptome RNA-seq; a read can in principle cross a junction",
+   "state": "SCANNED",
+   "files": [
+    {
+     "url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR339/095/SRR33903995/SRR33903995_1.fastq.gz",
+     "status": "read",
+     "stopped_because": "eof"
+    },
+    {
+     "url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR339/095/SRR33903995/SRR33903995_2.fastq.gz",
+     "status": "read",
+     "stopped_because": "budget_exhausted"
+    }
+   ],
+   "wall_s": 6001.7,
+   "uncompressed_bytes_scanned": 19594068149,
+   "flank_nt_each_side": 16,
+   "depth_counts_per_gene": {
+    "NR4A3": 43,
+    "TCF12": 5,
+    "EWSR1": 17,
+    "TAF15": 438,
+    "FUS": 47,
+    "TFG": 305
+   },
+   "acceptor_site_hits": {
+    "NR4A3_exon2_start": 5,
+    "NR4A3_exon3_start": 190,
+    "NR4A3_intron2_start": 0
+   },
+   "wildtype_context_reads": {
+    "NR4A3_exon2_start": 0,
+    "NR4A3_exon3_start": 0,
+    "NR4A3_intron2_start": 0
+   },
+   "junctions_found": [
+    {
+     "donor": "EWSR1_exon12",
+     "acceptor_site": "NR4A3_exon3_start",
+     "n_reads": 176,
+     "example_reads": [
+      "TGAAGACCCACCCACTGCCAAGGCTGCCGTGGAATGGTTTGATGATATGCCCTGCGTCCAAGCCCAATATAGCCCTTCCCCTCCAGGTTCCAGTTATGCGGCGCAGACATACAGCTCGGAATACACCACGGAGATCATGAACCCCGACTAC",
+      "TGAAGACCCACCCACTGCCAAGGCTGCCGTGGAATGGTTTGATGATATGCCCTGCGTCCAAGCCCAATATAGCCCTTCCCCTCCAGGTTCCAGTTATGCGGCGCAGACATACAGCTCGGAATACACCACGGAGATCATGAACCCCGACTAC",
+      "AACAGGAAAGCCCAAAGGCGATGCCACAGTGTCCTATGAAGACCCACCCACTGCCAAGGCTGCCGTGGAATGGTTTGATGATATGCCCTGCGTCCAAGCCCAATATAGCCCTTCCCCTCCAGGTTCCAGTTATGCGGCGCAGACATACAGC",
+      "AACAGGAAAGCCCAAAGGCGATGCCACAGTGTCCTATGAAGACCCACCCACTGCCAAGGCTGCCGTGGAATGGTTTGATGATATGCCCTGCGTCCAAGCCCAATATAGCCCTTCCCCTCCAGGTTCCAGTTATGCGGCGCAGACATACAGC"
+     ],
+     "seam_verbatim": "GTGGAATGGTTTGATG|ATATGCCCTGCGTCCA"
+    }
+   ],
+   "informative": true
+  }
+ ]
+}

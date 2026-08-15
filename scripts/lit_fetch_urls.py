@@ -12,7 +12,9 @@ import json
 import os
 import re
 import sys
+import time
 import urllib.error
+import urllib.parse
 import urllib.request
 
 OUT = os.path.join(".cache", "literature")
@@ -271,16 +273,82 @@ def resolve_targets() -> dict:
     return extra
 
 
+#: ⛔ PER-HOST PACING, AND IT IS NOT A NICETY — IT SILENTLY LOST 19 OF 50 FETCHES (2026-08-15).
+#: Two NR4A3 deposit sweeps dispatched 31 and 19 targets through this module. NCBI answered HTTP 429
+#: to 11 and then 8 of them, this module recorded the 429 as an ordinary row, and BOTH RUNS REPORTED
+#: SUCCESS. The nine questions behind those rows — including the broad nuccore EWS x NR4A3 alias
+#: search, the one most likely to hold another fusion deposit — read afterwards as though they had
+#: been asked and had returned nothing. ⚠ THAT IS THE ABSENT-READING-IS-NOT-A-READING-OF-ABSENCE
+#: FAILURE ARRIVING THROUGH THE TRANSPORT: a rate-limited query and a genuinely empty one are
+#: indistinguishable downstream unless the transport refuses to let it happen.
+#: NCBI permits ~3 requests/second without an API key; the gap below is per HOST, so unrelated hosts
+#: in the same corpus are not slowed by it.
+HOST_MIN_INTERVAL_S = {"eutils.ncbi.nlm.nih.gov": 0.40, "www.ncbi.nlm.nih.gov": 0.40,
+                       "pmc.ncbi.nlm.nih.gov": 0.40, "www.ebi.ac.uk": 0.20}
+DEFAULT_MIN_INTERVAL_S = 0.10
+RETRY_STATUSES = (429, 500, 502, 503, 504)
+MAX_RETRIES = 4
+
+_last_hit: dict = {}
+
+
+def _pace(url: str) -> None:
+    host = urllib.parse.urlsplit(url).netloc.lower()
+    gap = HOST_MIN_INTERVAL_S.get(host, DEFAULT_MIN_INTERVAL_S)
+    prev = _last_hit.get(host)
+    if prev is not None:
+        wait = gap - (time.monotonic() - prev)
+        if wait > 0:
+            time.sleep(wait)
+    _last_hit[host] = time.monotonic()
+
+
+def fetch_paced(name: str, url: str) -> dict:
+    """`fetch` plus per-host pacing and a backoff retry on the statuses that mean 'ask again'.
+
+    ⛔ A ROW THAT EXHAUSTS ITS RETRIES IS MARKED `unanswered: True`, so a reader can tell a question
+    that was ASKED AND ANSWERED EMPTY from one that never got through. Nothing downstream should
+    have to infer that from an HTTP code buried in a manifest.
+    """
+    rec = None
+    for attempt in range(1, MAX_RETRIES + 1):
+        _pace(url)
+        rec = fetch(name, url)
+        if rec.get("status") not in RETRY_STATUSES:
+            if attempt > 1:
+                rec["n_attempts"] = attempt
+            return rec
+        if attempt < MAX_RETRIES:
+            back = 1.5 * (2 ** (attempt - 1))
+            print(f"  ⏳ {rec.get('status')} on {name}; retry {attempt}/{MAX_RETRIES - 1} "
+                  f"in {back:.1f}s", flush=True)
+            time.sleep(back)
+    rec["n_attempts"] = MAX_RETRIES
+    rec["unanswered"] = True
+    rec["⛔ why"] = (f"HTTP {rec.get('status')} after {MAX_RETRIES} paced attempts. THIS QUESTION "
+                    "WAS NOT ANSWERED — it must not be read as an empty result.")
+    return rec
+
+
 def main() -> int:
     os.makedirs(OUT, exist_ok=True)
     manifest = []
     for name, url in resolve_targets().items():
-        rec = fetch(name, url)
+        rec = fetch_paced(name, url)
         manifest.append(rec)
         print(f"{rec.get('status')}\t{rec.get('chars', 0)}\t{name}\t{url}"
               f"\t{rec.get('error', '')}", flush=True)
     with open(os.path.join(OUT, "_manifest.json"), "w", encoding="utf-8") as fh:
         json.dump(manifest, fh, indent=2)
+    # ⛔ AN UNANSWERED FETCH IS A LOUD FAILURE, NOT A MANIFEST ROW. Both 2026-08-15 sweeps went
+    # green with a third of their questions never asked; a reader of the run conclusion alone would
+    # have concluded the searches came back empty.
+    unanswered = [r["name"] for r in manifest if r.get("unanswered")]
+    if unanswered:
+        print(f"::error::{len(unanswered)} of {len(manifest)} targets were NEVER ANSWERED after "
+              f"paced retries: {', '.join(unanswered)}. These are unanswered questions, NOT empty "
+              "results, and nothing may be recorded as absent on their basis.")
+        return 1
     return 0
 
 

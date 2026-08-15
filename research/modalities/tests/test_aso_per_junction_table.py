@@ -76,18 +76,40 @@ def test_ties_on_locus_breadth_break_on_margin_not_on_raw_hits():
     assert j["best_available"]["antisense_5to3"] == "GGGCATATCATCAAAC", j["best_available"]
 
 
-def test_the_two_published_junctions_are_tiered_apart_from_the_rest():
+def test_the_published_junctions_are_tiered_apart_from_the_rest():
     """⚠ ABSENCE OF EVIDENCE IS NOT EVIDENCE OF ABSENCE, AND THE TIERS MUST KEEP THEM APART.
-    Only EWSR1 e12 and TAF15 e6 carry a published exon-resolved EMC breakpoint. A TAF15 design at
-    another exon is CONTRADICTED by the resolved ones; a FUS design is merely unreported, because
-    no exon-resolved FUS breakpoint has been published at all. Collapsing those two into one
-    'unreported' bucket would let a contradicted design pass as an unobserved one."""
+    A TAF15 design at an unreported exon is CONTRADICTED by the resolved ones; a FUS design is
+    merely unreported, because no exon-resolved FUS breakpoint has been published at all.
+    Collapsing those two into one 'unreported' bucket would let a contradicted design pass as an
+    unobserved one.
+
+    ⛔ THIS TEST USED TO ASSERT TWO JUNCTIONS AND WAS ASSERTING A CURATION BUG. EWSR1 e13 is the
+    second-most-common EWS/CHN transcript (type 5), named in the same abstract this repository
+    already cited for e12 and confirmed independently by a whole-transcriptome cohort
+    (PMID 29937513). Tiering it 'this exon not reported' said the opposite of the source, and
+    because the tier gates which junctions the manuscript will name a reagent at, the miss cost
+    10.6 percentage points of coverage at a junction whose design was already screened. A test
+    that pins a wrong curation is worse than no test: it makes the bug look deliberate.
+
+    ⭐ AND IT GREW A FOURTH ON 2026-08-15, FROM A SEQUENCE DATABASE RATHER THAN FROM A PAPER.
+    TCF12 e5 sat in the bottom tier because the primary report describes its chimera by residue
+    count and names no exon. The same authors deposited the chimeric cDNA (GenBank AF289510.1),
+    which resolves the junction to the nucleotide; 295 + 104 retrieved papers could not have found
+    it, because it was never published as an exon in prose. Derivation:
+    research/manuscripts/tcf12_breakpoint_assignment.py. ⚠ Superseded, retained: this set was
+    {EWSR1 e12, EWSR1 e13, TAF15 e6}."""
     published = {j["junction_label"] for j in _art()["junctions"]
                  if j["clinical_tier"] == "published_exon_resolved_breakpoint"}
-    assert published == {"EWSR1_e12__NR4A3_e3", "TAF15_e6__NR4A3_e3"}, sorted(published)
+    assert published == {"EWSR1_e12__NR4A3_e3", "EWSR1_e13__NR4A3_e3",
+                         "TAF15_e6__NR4A3_e3", "TCF12_e5__NR4A3_e3"}, sorted(published)
     for label in published:
         assert _junction(label)["breakpoint_refs"], f"{label} claims publication with no reference"
     assert _junction("TAF15_e1__NR4A3_e3")["clinical_tier"] == \
+        "partner_published_this_exon_not_reported"
+    # ⛔ TCF12's OTHER exons moved tier too, and that is the point of the tier rather than a side
+    # effect: a design at TCF12 exon 7 is now CONTRADICTED by a resolved exon of its own partner,
+    # where before it was merely unobserved. §5.4 of the manuscript names that design as a control.
+    assert _junction("TCF12_e7__NR4A3_e3")["clinical_tier"] == \
         "partner_published_this_exon_not_reported"
     assert _junction("FUS_e8__NR4A3_e3")["clinical_tier"] == "no_published_exon_resolved_breakpoint"
 

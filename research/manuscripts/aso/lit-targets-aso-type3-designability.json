@@ -1,0 +1,158 @@
+{
+ "_what": "Is EWS/CHN type 3 UNDESIGNABLE for a junction-spanning gapmer, or merely UNLOCATED and inexpressible by this repository's design grammar? Measured, $0, against committed transcript models plus one free-runner literature fetch.",
+ "_why": "lit-targets-aso-breakpoint-census.json records PMID 9060841 under the role '⛔ THE STRUCTURAL LIMIT ON THIS MODALITY', asserting that type 3 'has NO exon-to-exon seam: the breakpoint is INSIDE exon 12, so no junction-spanning oligonucleotide can be specified for it at any length or register.' The second half of that sentence is a claim about RNase-H1 and it is WRONG. The first half is a claim about exon boundaries and it is right. This file separates them.",
+ "_cost": "$0 — CPU against the committed emc-construct-inputs.json cache, plus fetch-literature.yml dispatches on free GitHub-hosted runners.",
+ "_status": "VERDICT REACHED. Nothing here is a design, and no nucleotide position for the type-3 seam is stated, because none has been retrieved.",
+
+ "⛔_the_verdict": "UNLOCATED AND INEXPRESSIBLE — NOT UNDESIGNABLE. An intra-exonic genomic breakpoint still yields a chimeric transcript with one definite nucleotide seam, and an RNase-H1 gapmer cleaves a transcript, not an exon boundary. What blocks a type-3 reagent is (a) the nucleotide position, which no retrieved source states, and (b) this repository's design grammar, which can only name a junction as (donor gene, donor EXON, acceptor EXON). (b) is a limitation of our tooling and is demonstrably removable; (a) is a real external retrieval dependency.",
+
+ "⭐_the_measurement_that_decides_it": {
+  "_what": "The existing builder was handed a donor transcript model whose exon 12 is SPLIT at an intra-exonic position, and asked to build and tile the seam. Nothing in junction_aso.py was modified.",
+  "_method": "The same device aso_taf15_intron2_designs.build_tn_acceptor_model already uses on the ACCEPTOR side: express the irregular side AS a transcript model and hand it to the unchanged builder. Here the donor's exon-length vector is re-partitioned so that exon_tx_end(donor, 12) lands inside exon 12; cdna, cds, protein and utr5_len are untouched.",
+  "probe_script": "NOT COMMITTED — held at scratchpad/type3_grammar_probe.py. It is deliberately not in the tree: the offsets it uses are ARBITRARY probe positions, and a module that can build an intra-exonic seam must be gated by an explicit whitelist BEFORE it exists, not after.",
+  "reference_model": "EWSR1 ENST00000397938, transcript exon 12 = transcript nt [1233, 1363), 130 nt. NR4A3 ENST00000395097. Both read from the committed cache; junction_aso PROVENANCE_GATE_USED reported 'graded_exon_audit' for both genes, i.e. the strong gate ran.",
+  "control_row": {
+   "junction": "EWSR1 e12 :: NR4A3 e3 (type 1), through the unchanged exon-boundary path",
+   "seam_mRNA": "AATGGTTTGATG|ATATGCCCTGCG",
+   "grade": "EMITTABLE"
+  },
+  "intra_exonic_probe_rows": [
+   {"cut": "40 nt into EWSR1 exon 12 (tx 1273)", "seam_mRNA": "TCCACATCTACC|ATATGCCCTGCG", "donor_coding_phase": 1, "grade": "EMITTABLE", "n_tiled": 5, "n_fusion_specific": 5, "n_gap_centered": 3, "best_gap_specificity_margin": 3},
+   {"cut": "65 nt into EWSR1 exon 12 (tx 1298)", "seam_mRNA": "AGGAAAGCCCAA|ATATGCCCTGCG", "donor_coding_phase": 2, "grade": "OUT_OF_FRAME", "n_tiled": 5, "n_fusion_specific": 5, "n_gap_centered": 3, "best_gap_specificity_margin": 3},
+   {"cut": "90 nt into EWSR1 exon 12 (tx 1323)", "seam_mRNA": "GTGTCCTATGAA|ATATGCCCTGCG", "donor_coding_phase": 0, "grade": "OUT_OF_FRAME", "n_tiled": 5, "n_fusion_specific": 5, "n_gap_centered": 3, "best_gap_specificity_margin": 3}
+  ],
+  "⚠_these_seams_are_NOT_designs": "The three cut offsets are ARBITRARY. They exist to exercise the arithmetic and nothing else. No source states where the type-3 breakpoint lies inside EWS exon 12, so none of these seams corresponds to any patient and NONE may be carried into a reagent, an atlas or a screen. They are printed only because a capability claim with no measurement behind it is exactly what this file is correcting.",
+  "_reading": "The tiling geometry is IDENTICAL to the panel's — 5 candidates, all fusion-specific against both parents, 3 gap-centred, best gap-specificity margin 3. An intra-exonic seam is not a degraded target for this modality; at the sequence level it is indistinguishable from an exon-boundary one, because the oligo meets a spliced transcript and has no way to know where the exon boundaries were."
+ },
+
+ "⛔_what_the_guards_actually_do_at_an_intra_exonic_cut": {
+  "_why_this_matters": "The instruction was: do NOT weaken the coordinate guard that produced the retracted seam. It turns out nothing needs weakening — the coordinate guard does not fire on this class of junction at all.",
+  "coding_acceptor_guard": "NOT TRIGGERED. nr4a3_acceptor_exon_is_coding is True; a type-3 transcript's acceptor is unchanged, so Defect 1's guard is untouched.",
+  "resume_residue_range_check_SEAM_NOT_PRODUCED": "NOT TRIGGERED. nr4a3_first_residue = 1, inside the corrected plausible range [1, 1] read from fusion-object-inventory.json. This is THE guard that produced and then caught the retracted seam, and it is entirely a statement about the ACCEPTOR side. An intra-exonic DONOR cut does not touch it, and it must stay non-waivable exactly as it is.",
+  "in_frame_guard": "THE ONLY ONE THAT FIRES, and only for two of the three phases. It is a PROTEIN-level reading, i.e. the same class already listed in junction_aso.WAIVABLE_PUBLISHED_GRADES ('NON_CODING_ACCEPTOR', 'OUT_OF_FRAME'). An RNase-H1 gapmer cleaves the transcript whatever protein it makes.",
+  "⭐_the_consequence": "A type-3 design needs NO new waiver class and NO relaxation of any coordinate check. It needs a whitelist entry that can express the seam, and — depending on the real cut's phase — either nothing further or the OUT_OF_FRAME waiver that already exists."
+ },
+
+ "code_paths_that_would_have_to_change": [
+  {
+   "path": "research/modalities/junction_aso.py :: mrna_junction_generic",
+   "change": "NONE. Measured: the donor-side dependence is exactly one call, exon_tx_end(donor, d_end) -> donor['tx_ends'][d_end-1]. Feed it a donor model whose tx_ends land inside an exon and every downstream quantity — donor_coding_nt_through_cut, donor_coding_phase, frame_sum_mod3, junction_context_mRNA — is already correct.",
+   "blocking": false
+  },
+  {
+   "path": "research/modalities/junction_aso.py :: build_parents_and_fusion",
+   "change": "THE ACTUAL BLOCKER. d_end is read as an integer exon index from _env_int('EWSR1_EXON_END', _env_int('DONOR_EXON_END', 12)); n_start from _env_int('NR4A3_EXON_START', 3). There is no input of any kind that can carry a within-exon offset or a caller-supplied seam. It also hard-codes transcript_model(donor_sym) as the donor, so a re-cut donor model cannot be injected.",
+   "blocking": true
+  },
+  {
+   "path": "research/modalities/junction_aso.py :: junction_label",
+   "change": "Formats f'{donor}_e{e}__NR4A3_e{n}'. An intra-exonic donor has no such label, and the module's own comment warns that a mislabelled panel is 'not a missing result, it is a MISATTRIBUTED one'. Needs a label form that cannot be mistaken for an exon-boundary junction — the cryptic-exon lane's precedent is f'{d_sym}_e{d_end}__NR4A3_intron2crypticExon'.",
+   "blocking": true
+  },
+  {
+   "path": "research/modalities/aso_noncoding_acceptor_designs.py :: PUBLISHED_NONCODING_ACCEPTOR_JUNCTIONS and RETRACTED_PUBLISHED_BREAKPOINTS",
+   "change": "Keys are 4-tuples (donor, donor_exon:int, acceptor, acceptor_exon:int). The donor slot must be able to carry a non-index. ⭐ THE ACCEPTOR SLOT ALREADY CAN: aso_taf15_intron2_designs.PUBLISHED_CRYPTIC_ACCEPTOR_JUNCTIONS keys on ('TAF15', 6, 'NR4A3', 'intron2_cryptic_exon') and ('EWSR1', 10, 'NR4A3', 'intron2_cryptic_exon') — a string tag, not an exon index. So the whitelist grammar has already been extended once, on the other side of the seam, and the pattern is established rather than hypothetical.",
+   "blocking": true
+  },
+  {
+   "path": "research/modalities/junction_aso.py :: published_breakpoint_waiver / WAIVABLE_PUBLISHED_GRADES",
+   "change": "NONE REQUIRED. OUT_OF_FRAME is already waivable and is the only grade an intra-exonic donor cut raises. SEAM_NOT_PRODUCED stays non-waivable and is not reached.",
+   "blocking": false
+  },
+  {
+   "path": "research/modalities/nr4a3_fusion_atlas.py",
+   "change": "Enumerates the panel over exon windows, so an irregular junction cannot enter the atlas by enumeration. This is CORRECT and should stay — the cryptic-exon lane's answer is a SEPARATE side atlas (nr4a3-fusion-junction-atlas-<slug>.json) that the existing screens read via ATLAS_JSON, never a row merged into the panel atlas. Same answer here.",
+   "blocking": false
+  },
+  {
+   "path": "research/modalities/fusion_neoantigen.py, hybrid_intron.py, junction_sirna.py",
+   "change": "All read EWSR1_EXON_END / NR4A3_EXON_START as integers. They inherit the same limitation, so this is a portfolio-wide grammar constraint rather than an ASO-lane one. None of them blocks the ASO route.",
+   "blocking": false
+  }
+ ],
+
+ "⭐_what_a_PER_PATIENT_design_path_would_have_to_ACCEPT_as_input": {
+  "_why_this_is_now_the_question": "Per-patient design is in scope (trimcrae, 2026-08-15). A private, non-recurrent breakpoint is precisely what a personalized route is for, so 'probably nonrecurrent' stops being a reason to close type 3 and becomes the reason to keep it open.",
+  "option_A_nucleotide_coordinate": {
+   "input": "a transcript-coordinate cut position on a named donor transcript, plus the acceptor's resume offset — e.g. (donor='EWSR1', donor_transcript='ENST00000397938', donor_cut_tx_nt=<int>, acceptor='NR4A3', acceptor_resume_tx_nt=<int>)",
+   "what_it_needs": "build_parents_and_fusion must accept a cut OFFSET rather than only an exon index. mrna_junction_generic needs no change if the caller passes a re-cut donor model.",
+   "⚠_provenance_requirement": "The offset must be resolvable against the SAME committed transcript model the rest of the lane uses, or two labs' coordinates silently disagree. That is what the exon-audit provenance gate does today and it must keep doing it."
+  },
+  "option_B_raw_seam_sequence": {
+   "input": "the patient's own chimeric read — a nucleotide string spanning the junction, from RNA-seq or RT-PCR",
+   "⭐_this_path_ALREADY_HALF_EXISTS": "research/modalities/nr4a3_nuccore_sweep.py :: discover_junction(seq, genes) takes a raw sequence and DERIVES the junction with no acceptor named in advance. Its helper _offset_to_exon already reports an intra-exonic landing explicitly — {'exon': i, 'exact_boundary': False, 'where': 'inside exon {i}, {n} nt from its 5\\' end'} — and discover_junction grades the call CLEAN / INSERT / AMBIGUOUS and reports a microhomology_interval saying which splits are indistinguishable.",
+   "⛔_the_gap": "The DISCOVERY half of the pipeline can already name an intra-exonic breakpoint. The DESIGN half cannot consume it. Nothing carries an exact_boundary=False donor call from discover_junction into mrna_junction_generic, because the only donor input the builder has is an integer exon index. That is the single seam where a per-patient route is severed today.",
+   "⚠_what_it_does_not_solve": "A microhomology interval means several splits reproduce the same read equally well. For an exon-boundary junction the boundary breaks the tie; for an intra-exonic one nothing does, so the reported seam has an ambiguity that must travel with it into any design built on it."
+  },
+  "⛔_the_guard_that_must_survive_either_option": "A seam must never be reachable BY ACCIDENT. Today that is enforced by two independent conditions at once (PUBLISHED_BREAKPOINT_JUNCTION set by the caller, AND membership of a named whitelist). A per-patient path replaces 'published' with 'this patient's sequenced read, with its provenance recorded' — it must NOT replace it with 'whatever offset the caller passed'. The retracted seam happened because arithmetic slid onto a neighbouring exon with nothing asserting intent; a caller-supplied nucleotide offset is a strictly larger space to slide in."
+ },
+
+ "⭐_the_type_3_primary_source_is_NOT_the_paper_the_census_cites": {
+  "_finding": "PMID 9060841's type-3 sentence carries a citation marker, and it is not that paper's own observation. Read from the OCR: the sentence ends '...within EWS exon 12.16' and its reference 16 is a different paper.",
+  "reference_16_verbatim_from_the_OCR_reference_list": "LabelleY,ZucmanJ,StenmanG,KindblomL-G,KnightJ,Turc-CarelC,Dockhorn-DworniczakB,MandahlN,DesmazeC,PeterM,AuriasA,Delattre0,ThomasG:Oncogenicconversionofanovelorphannuclearreceptorbychromosometranslocation.HumMolGenet1995,4:2219-2226",
+  "⚠_ocr_provenance": "Word boundaries in the string above are AS THE OCR LAYER RENDERS THEM (inter-word spaces stripped), not transcribed. Source file: literature/ews-type-nom-repo-pdf/epmc_pdf_render_PMC1857890.txt on the literature-cache branch.",
+  "resolved_by_a_fetch_never_from_recollection": {
+   "route": "fetch-literature.yml query dispatch, slug ews-chn-type3-primary-sources, Europe PMC TITLE: search",
+   "pmid": "8634690",
+   "doi": "10.1093/hmg/4.12.2219",
+   "journal": "Human molecular genetics",
+   "year": 1995,
+   "volume_issue_pages": "4(12):2219-2226",
+   "isOpenAccess": false,
+   "pmcid": null,
+   "citedBy": 139
+  },
+  "the_other_primary": {
+   "pmid": "8570200",
+   "doi": null,
+   "authors": "Clark J, Benjamin H, Gill S, Sidhar S, Goodwin G, Crew J, Gusterson BA, Shipley J, Cooper CS.",
+   "title": "Fusion of the EWS gene to CHN, a member of the steroid/thyroid receptor gene superfamily, in a human myxoid chondrosarcoma.",
+   "journal": "Oncogene", "year": 1996, "volume_issue_pages": "12(2):229-235",
+   "isOpenAccess": false,
+   "role": "reference 17 of PMC1857890 — cited alongside 16 for the type-2 definition, not for type 3."
+  },
+  "⛔_what_this_changes": "The census's own note says a corpus sweep's negative is bounded by its retrieval. This is a second instance: the repository has been reading a SECONDARY restatement of type 3 and recording it as the structural limit, while the primary description — the only document that could carry the nucleotide position — has never been retrieved. PMID 8634690 is now the named retrieval target for the type-3 breakpoint, and it is a different paywall from the Panagopoulos one.",
+  "⛔_AND_THE_SEQUENCE_DATABASE_ROUTE_DOES_NOT_RESCUE_IT": {
+   "_why_this_had_to_be_asked": "The deposited-sequence route is what resolved TCF12 after 399 papers found nothing, so it is the first thing to try on any unresolved junction. It was pointed at all three type-nomenclature papers.",
+   "measured_elink_pubmed_to_nuccore": {
+    "8634690_Labelle_1995_the_type3_primary": "pubmed_nuccore -> ONE direct submission, UID 1165104 = GenBank X89894.1",
+    "8570200_Clark_1996": "pubmed_nuccore -> TWO direct submissions, UIDs 1311504 (S81243.1) and 1311502 (S81242.1)",
+    "9060841_Brody_1997": "NO linksetdbs at all — that paper deposited nothing"
+   },
+   "⛔_what_X89894_actually_is": "NOT a fusion. 'H.sapiens mRNA for nuclear receptor', 2546 bp, /clone='TEC 1 and TEC 5', /tissue_type='heart', /dev_stage='20-26 week old fetus', CDS 688..2019. It is the NATIVE TEC/CHN cDNA — the reference transcript the -2 / -176 nomenclature was defined against — and it was mapped against the committed models here, correctly returning no partner+NR4A3 co-occurrence.",
+   "⭐_verdict": "LABELLE ET AL. DEPOSITED THE WILD-TYPE cDNA AND NO CHIMERA. So the type-3 seam is not in a public sequence database under that paper, and the route that rescued TCF12 CANNOT rescue type 3. The nucleotide position exists, if anywhere, only inside the paywalled full text of PMID 8634690 — which is now the single named, bounded retrieval dependency for this route.",
+   "⚠_the_Clark_deposits_are_a_different_finding": "S81242.1 IS a patient junction and it resolves to EWSR1 exon 7 :: NR4A3 exon 2 — the type-2 junction, not type 3. Full derivation and its consequences: research/manuscripts/aso/lit-targets-aso-s81242-type2-deposit.json."
+  }
+ },
+
+ "⭐_the_1997_nomenclature_IS_NUCLEOTIDE_LEVEL_AND_OUR_MODEL_REPRODUCES_IT_EXACTLY": {
+  "_what": "The same OCR shows that types 1 and 2 were originally defined in CHN cDNA NUCLEOTIDE positions, not in exon indices. Verbatim (OCR word boundaries restored, as above): 'Inthetype1fusion,EWS exon12isfusedtoposition-2oftheCHNcDNA.16Thetype2variantfusesEWS exon 7toposition-176ofthe CHN cDNA,resultinginanovelopen readingframeof59aminoacids.16'17TheexonstructureofCHNhasnotyetbeenelucidated.'",
+  "measured_against_the_committed_model": {
+   "transcript": "NR4A3 ENST00000395097, utr5_len 699 (emc-construct-inputs.json cache, graded_exon_audit gate)",
+   "exon_2_transcript_start": 523,
+   "exon_2_position_relative_to_ATG": -176,
+   "exon_3_transcript_start": 697,
+   "exon_3_position_relative_to_ATG": -2
+  },
+  "⭐_reading": "TWO INDEPENDENT NUCLEOTIDE COORDINATES FROM 1995/1997 LAND EXACTLY ON THIS REPOSITORY'S NR4A3 EXON 2 AND EXON 3 STARTS. Three consequences. (1) A SIXTH anchor that our exon index is the reference index, independent of the five in lit-targets-aso-breakpoint-census.json — and this one is nucleotide-level rather than primer- or frame-based. (2) Independent corroboration, from the ORIGINAL nomenclature rather than from a review, that the type-2 acceptor is NR4A3 exon 2 — the junction the manuscript panel structurally cannot express. (3) ⛔ THE SOURCE LITERATURE SPEAKS IN NUCLEOTIDES AND OUR GRAMMAR SPEAKS IN EXONS, which is the whole finding of this file: the (donor gene, donor exon, acceptor exon) triple is STRICTLY LESS EXPRESSIVE than the record it was built from, and the 1997 paper says so in its own words — 'The exon structure of CHN has not yet been elucidated.' The types were named before anyone had an exon map.",
+  "⚠_not_a_new_junction": "This adds no junction and moves no coverage number. It corroborates an assignment the census already holds and it re-grades a claim about our tooling."
+ },
+
+ "⚠_what_is_still_NOT_known_and_must_not_be_guessed": [
+  "WHERE inside EWS exon 12 the type-3 breakpoint lies. No retrieved source states it. PMID 8634690 has not been read.",
+  "WHAT the type-3 transcript joins on its 3' side. An intra-exonic genomic break does not imply the canonical CHN exon-3 acceptor; it could join a cryptic acceptor, retained intron, or CHN exon 2. The probe above assumed NR4A3 exon 3 purely to exercise the arithmetic and that assumption has NO evidential support.",
+  "HOW MANY tumours are type 3. Its own source calls it 'probably nonrecurrent'; the census deliberately does not quantify it and neither does this file.",
+  "Whether the three unresolved EWSR1 tumours of PMID 12378528 include a type 3 at all. Nothing links them."
+ ],
+
+ "⛔_coverage_consequence": {
+  "buildable_coverage_percent": "UNCHANGED — read fusion-junction-aso-coverage-ladder.json; nothing here adds a reagent or a count.",
+  "what_changes_is_the_LANGUAGE": "The census's role field for PMID 9060841 asserts that 'no junction-spanning oligonucleotide can be specified for it at any length or register'. That is not supported and the measurement above contradicts it. The supportable statement is narrower and has two halves that must not be merged: (i) a STOCKED panel cannot carry a reagent for a breakpoint whose position is unpublished and which its own source calls probably nonrecurrent; (ii) a PER-PATIENT design is a different clinical object, and for it type 3 is blocked on one nucleotide position and one grammar extension, neither of which is a property of RNase-H1.",
+  "⚠_and_the_ceiling_is_unaffected_either_way": "The 98.3% arithmetic ceiling is computed over the pooled breakpoint census, in which type 3 appears in no counted tumour. Reopening type 3 does not raise the ceiling; it removes a false structural claim from the paper and names a live per-patient route."
+ },
+
+ "one_home_for_the_census_and_the_quote": "research/manuscripts/aso/lit-targets-aso-breakpoint-census.json",
+ "one_home_for_the_coverage_arithmetic": "research/manuscripts/aso/fusion-junction-aso-coverage-ladder.json",
+ "one_home_for_the_whitelist_pattern": "research/modalities/aso_taf15_intron2_designs.py :: PUBLISHED_CRYPTIC_ACCEPTOR_JUNCTIONS",
+ "one_home_for_the_sequence_first_discovery": "research/modalities/nr4a3_nuccore_sweep.py :: discover_junction"
+}

@@ -1,0 +1,7311 @@
+{
+ "_title": "Genome-wide off-target screen for junction-spanning gapmers (exhaustive, GRCh38)",
+ "_generated_by": "research/modalities/aso_genome_offtarget.py",
+ "_what": "Exhaustive <=2-mismatch screen of every distinct fusion-specific junction gapmer target window, and its reverse complement, against every position of the reference genome. Every hit is annotated with overlapping gene and biotype, strand agreement with the transcription unit, compartment, distance to the nearest true splice site, and soft-mask fraction.",
+ "_why": "The committed pre-mRNA screen covers six parent transcripts' unspliced sequence, which is a small fraction of the genome, and the manuscript's most decision-relevant off-target finding was in intronic sequence. RNase-H1 is nuclear, so every other gene's introns were an unmeasured compartment of the same kind. The one prior attempt at this ran against NCBI core_nt, which has no defined nucleotide span and therefore no null, at a 50-hit cap below the null's own lower bound.",
+ "_what_this_is_not": [
+  "NOT a safety assessment, and the raw totals here are NOT a finding. At this threshold the expected number of genomic near-matches is of order 10^3 per design for ANY 16-mer whatever, a scrambled control included. Read the stratified headline and the observed-over-expected ratios; a total is a restatement of 4**16.",
+  "NOT a measurement of cleavage. A fully paired catalytic gap is necessary for RNase-H1 and is not sufficient, and no wet-lab experiment has been performed.",
+  "NOT a significance test. The null assumes independent uniform bases; real genomic sequence is composition-skewed, massively repetitive and full of paralogues, which is why the soft-mask split is reported beside every ratio rather than as a caveat.",
+  "NOT complete for insertions or deletions. The neighbourhood is substitutions only, which is the same restriction both committed screens carry.",
+  "NOT a statement about unannotated transcription. `hybridisable` is measured against an annotation; a hit in unannotated sequence is reported as intergenic and not hybridisable, which is a statement about the annotation rather than about the DNA.",
+  "NOT a claim about any sequence absent from the reference. A screen against one assembly says nothing about a patient's private variation."
+ ],
+ "_cost": "$0 - one CI runner, CPU only, no GPU and no rental.",
+ "method": {
+  "algorithm": "2-bit-packed uint32 codes; the complete <=2-substitution neighbourhood of every target window AND its reverse complement is set in a 4**16-bit membership bitmap; the plus strand is streamed once with one rolling code and one bitmap probe per position, and every candidate's distance is re-measured exactly.",
+  "completeness": "definitional: every position is tested against the complete neighbourhood. There is no seed, no word size and no heuristic, so there is no search sensitivity to quantify - unlike the manuscript's BLAST arm, whose sensitivity it concedes is unquantified.",
+  "kernel": "bitwise_count(((a^b) | ((a^b)>>1)) & 0x55555555), verified against brute force",
+  "gap_mask": "0x3ffc00",
+  "oligo_len": 16,
+  "wing": 5,
+  "gap_region_1based": [
+   6,
+   11
+  ],
+  "gap_region_source": "derived from junction_aso.OLIGO_LEN and .WING",
+  "max_mismatches": 2,
+  "max_mismatches_source": "junction_aso_offtarget.MAX_MISMATCHES_PER_NEAR_MATCH",
+  "restriction_rule": "scanned unrestricted and restricted only at labelling time, so the denominator stays complete and any future restriction is re-appliable from this artifact without re-running the scan",
+  "orientation_rule": "a plus-strand match to the target sequence needs a plus-strand transcription unit to be hybridisable; a match to the reverse complement needs a minus-strand one. Strand agreement is therefore MEASURED per hit rather than assumed.",
+  "compartment_rule": "computed over the exons of the genes running in the orientation the hit would need; if none, over the overlapping genes on the other strand; if no gene overlaps, intergenic",
+  "splice_site_rule": "transcript-terminal exon boundaries (TSS, polyA) are excluded, so the distance is to a real splice site rather than to any exon edge",
+  "chunk_nt": 2000000,
+  "chunk_overlap_nt": 15,
+  "checkpoint_interval_s": 30.0,
+  "retained_sites_per_window": 40,
+  "retention_rule": "counts are complete and uncapped; exact and named-target sites are retained in full; other individual site records are capped per window and both n_counted and n_retained are reported",
+  "blind_to": [
+   "insertions and deletions",
+   "unannotated transcription",
+   "sequence absent from this assembly",
+   "any question about cleavage activity",
+   "chromatin accessibility and nuclear concentration"
+  ],
+  "wall_seconds": 115.5
+ },
+ "reference": {
+  "fasta": "Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa.gz",
+  "gtf": "Homo_sapiens.GRCh38.116.gtf.gz",
+  "annotation": "Ensembl GTF",
+  "n_sequences": 194,
+  "n_genes_annotated": 78941,
+  "n_exons_annotated": 5087789,
+  "n_splice_sites_annotated": 865648,
+  "_why_soft_masked": "a dna_sm reference is soft-masked by name, so the repeat annotation arrives verified rather than assumed, and the repeat split below is free",
+  "soft_mask_probe": {
+   "probed_nt": 20000150,
+   "lowercase_fraction": 0.4932,
+   "looks_soft_masked": true
+  }
+ },
+ "bitmap": {
+  "n_target_windows": 5,
+  "n_slots": 10,
+  "n_codes_per_sequence": 1129,
+  "n_distinct_codes": 11290,
+  "bitmap_bytes": 536870912,
+  "build_seconds": 0.04
+ },
+ "denominator": {
+  "_why_this_matters": "the manuscript currently carries an ASSUMED 3e8-8e8 nucleotide transcriptome span because the screens record transcripts scanned rather than nucleotides. This screen measures its own denominator, so every expectation below is referred to a number that was counted.",
+  "total_nt": 3099750718,
+  "softmasked_nt": 1594222653,
+  "softmask_fraction": 0.5143,
+  "windows_total": 3099747808,
+  "windows_with_N": 151138112,
+  "windows_scanned": 2948609696,
+  "n_fraction": 0.0488,
+  "per_sequence": [
+   {
+    "name": "1",
+    "nt": 248956422,
+    "softmasked_nt": 123071754,
+    "windows_total": 248956407,
+    "windows_with_N": 18477621,
+    "windows_scanned": 230478786,
+    "n_hits_le2": 988
+   },
+   {
+    "name": "10",
+    "nt": 133797422,
+    "softmasked_nt": 68966731,
+    "windows_total": 133797407,
+    "windows_with_N": 535616,
+    "windows_scanned": 133261791,
+    "n_hits_le2": 566
+   },
+   {
+    "name": "11",
+    "nt": 135086622,
+    "softmasked_nt": 72642444,
+    "windows_total": 135086607,
+    "windows_with_N": 553105,
+    "windows_scanned": 134533502,
+    "n_hits_le2": 545
+   },
+   {
+    "name": "12",
+    "nt": 133275309,
+    "softmasked_nt": 72687370,
+    "windows_total": 133275294,
+    "windows_with_N": 137913,
+    "windows_scanned": 133137381,
+    "n_hits_le2": 438
+   },
+   {
+    "name": "13",
+    "nt": 114364328,
+    "softmasked_nt": 50264556,
+    "windows_total": 114364313,
+    "windows_with_N": 16381504,
+    "windows_scanned": 97982809,
+    "n_hits_le2": 320
+   },
+   {
+    "name": "14",
+    "nt": 107043718,
+    "softmasked_nt": 48164170,
+    "windows_total": 107043703,
+    "windows_with_N": 16475914,
+    "windows_scanned": 90567789,
+    "n_hits_le2": 357
+   },
+   {
+    "name": "15",
+    "nt": 101991189,
+    "softmasked_nt": 44934450,
+    "windows_total": 101991174,
+    "windows_with_N": 17350108,
+    "windows_scanned": 84641066,
+    "n_hits_le2": 398
+   },
+   {
+    "name": "16",
+    "nt": 90338345,
+    "softmasked_nt": 44385457,
+    "windows_total": 90338330,
+    "windows_with_N": 8532702,
+    "windows_scanned": 81805628,
+    "n_hits_le2": 393
+   },
+   {
+    "name": "17",
+    "nt": 83257441,
+    "softmasked_nt": 44744340,
+    "windows_total": 83257426,
+    "windows_with_N": 337927,
+    "windows_scanned": 82919499,
+    "n_hits_le2": 317
+   },
+   {
+    "name": "18",
+    "nt": 80373285,
+    "softmasked_nt": 42290603,
+    "windows_total": 80373270,
+    "windows_with_N": 284400,
+    "windows_scanned": 80088870,
+    "n_hits_le2": 283
+   },
+   {
+    "name": "19",
+    "nt": 58617616,
+    "softmasked_nt": 36302496,
+    "windows_total": 58617601,
+    "windows_with_N": 176963,
+    "windows_scanned": 58440638,
+    "n_hits_le2": 352
+   },
+   {
+    "name": "2",
+    "nt": 242193529,
+    "softmasked_nt": 122380791,
+    "windows_total": 242193514,
+    "windows_with_N": 1645774,
+    "windows_scanned": 240547740,
+    "n_hits_le2": 884
+   },
+   {
+    "name": "20",
+    "nt": 64444167,
+    "softmasked_nt": 35787350,
+    "windows_total": 64444152,
+    "windows_with_N": 501230,
+    "windows_scanned": 63942922,
+    "n_hits_le2": 366
+   },
+   {
+    "name": "21",
+    "nt": 46709983,
+    "softmasked_nt": 22752430,
+    "windows_total": 46709968,
+    "windows_with_N": 6622114,
+    "windows_scanned": 40087854,
+    "n_hits_le2": 203
+   },
+   {
+    "name": "22",
+    "nt": 50818468,
+    "softmasked_nt": 22607031,
+    "windows_total": 50818453,
+    "windows_with_N": 11659396,
+    "windows_scanned": 39159057,
+    "n_hits_le2": 277
+   },
+   {
+    "name": "3",
+    "nt": 198295559,
+    "softmasked_nt": 104745563,
+    "windows_total": 198295544,
+    "windows_with_N": 195829,
+    "windows_scanned": 198099715,
+    "n_hits_le2": 754
+   },
+   {
+    "name": "4",
+    "nt": 190214555,
+    "softmasked_nt": 101502268,
+    "windows_total": 190214540,
+    "windows_with_N": 462128,
+    "windows_scanned": 189752412,
+    "n_hits_le2": 590
+   },
+   {
+    "name": "5",
+    "nt": 181538259,
+    "softmasked_nt": 96185585,
+    "windows_total": 181538244,
+    "windows_with_N": 273406,
+    "windows_scanned": 181264838,
+    "n_hits_le2": 685
+   },
+   {
+    "name": "6",
+    "nt": 170805979,
+    "softmasked_nt": 87820685,
+    "windows_total": 170805964,
+    "windows_with_N": 727667,
+    "windows_scanned": 170078297,
+    "n_hits_le2": 738
+   },
+   {
+    "name": "7",
+    "nt": 159345973,
+    "softmasked_nt": 84868605,
+    "windows_total": 159345958,
+    "windows_with_N": 376112,
+    "windows_scanned": 158969846,
+    "n_hits_le2": 618
+   },
+   {
+    "name": "8",
+    "nt": 145138636,
+    "softmasked_nt": 76903503,
+    "windows_total": 145138621,
+    "windows_with_N": 370650,
+    "windows_scanned": 144767971,
+    "n_hits_le2": 596
+   },
+   {
+    "name": "9",
+    "nt": 138394717,
+    "softmasked_nt": 65652839,
+    "windows_total": 138394702,
+    "windows_with_N": 16604827,
+    "windows_scanned": 121789875,
+    "n_hits_le2": 510
+   },
+   {
+    "name": "GL000008.2",
+    "nt": 209709,
+    "softmasked_nt": 131509,
+    "windows_total": 209694,
+    "windows_with_N": 0,
+    "windows_scanned": 209694,
+    "n_hits_le2": 1
+   },
+   {
+    "name": "GL000009.2",
+    "nt": 201709,
+    "softmasked_nt": 122003,
+    "windows_total": 201694,
+    "windows_with_N": 0,
+    "windows_scanned": 201694,
+    "n_hits_le2": 2
+   },
+   {
+    "name": "GL000194.1",
+    "nt": 191469,
+    "softmasked_nt": 111783,
+    "windows_total": 191454,
+    "windows_with_N": 0,
+    "windows_scanned": 191454,
+    "n_hits_le2": 1
+   },
+   {
+    "name": "GL000195.1",
+    "nt": 182896,
+    "softmasked_nt": 104018,
+    "windows_total": 182881,
+    "windows_with_N": 0,
+    "windows_scanned": 182881,
+    "n_hits_le2": 1
+   },
+   {
+    "name": "GL000205.2",
+    "nt": 185591,
+    "softmasked_nt": 129054,
+    "windows_total": 185576,
+    "windows_with_N": 0,
+    "windows_scanned": 185576,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "GL000208.1",
+    "nt": 92689,
+    "softmasked_nt": 92202,
+    "windows_total": 92674,
+    "windows_with_N": 0,
+    "windows_scanned": 92674,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "GL000213.1",
+    "nt": 164239,
+    "softmasked_nt": 77103,
+    "windows_total": 164224,
+    "windows_with_N": 0,
+    "windows_scanned": 164224,
+    "n_hits_le2": 3
+   },
+   {
+    "name": "GL000214.1",
+    "nt": 137718,
+    "softmasked_nt": 89748,
+    "windows_total": 137703,
+    "windows_with_N": 0,
+    "windows_scanned": 137703,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "GL000216.2",
+    "nt": 176608,
+    "softmasked_nt": 148190,
+    "windows_total": 176593,
+    "windows_with_N": 251,
+    "windows_scanned": 176342,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "GL000218.1",
+    "nt": 161147,
+    "softmasked_nt": 94786,
+    "windows_total": 161132,
+    "windows_with_N": 0,
+    "windows_scanned": 161132,
+    "n_hits_le2": 3
+   },
+   {
+    "name": "GL000219.1",
+    "nt": 179198,
+    "softmasked_nt": 119378,
+    "windows_total": 179183,
+    "windows_with_N": 0,
+    "windows_scanned": 179183,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "GL000220.1",
+    "nt": 161802,
+    "softmasked_nt": 104182,
+    "windows_total": 161787,
+    "windows_with_N": 0,
+    "windows_scanned": 161787,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "GL000221.1",
+    "nt": 155397,
+    "softmasked_nt": 95331,
+    "windows_total": 155382,
+    "windows_with_N": 0,
+    "windows_scanned": 155382,
+    "n_hits_le2": 3
+   },
+   {
+    "name": "GL000224.1",
+    "nt": 179693,
+    "softmasked_nt": 150996,
+    "windows_total": 179678,
+    "windows_with_N": 0,
+    "windows_scanned": 179678,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "GL000225.1",
+    "nt": 211173,
+    "softmasked_nt": 157586,
+    "windows_total": 211158,
+    "windows_with_N": 0,
+    "windows_scanned": 211158,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "GL000226.1",
+    "nt": 15008,
+    "softmasked_nt": 15003,
+    "windows_total": 14993,
+    "windows_with_N": 0,
+    "windows_scanned": 14993,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270302.1",
+    "nt": 2274,
+    "softmasked_nt": 2272,
+    "windows_total": 2259,
+    "windows_with_N": 0,
+    "windows_scanned": 2259,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270303.1",
+    "nt": 1942,
+    "softmasked_nt": 1942,
+    "windows_total": 1927,
+    "windows_with_N": 0,
+    "windows_scanned": 1927,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270304.1",
+    "nt": 2165,
+    "softmasked_nt": 2165,
+    "windows_total": 2150,
+    "windows_with_N": 0,
+    "windows_scanned": 2150,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270305.1",
+    "nt": 1472,
+    "softmasked_nt": 1472,
+    "windows_total": 1457,
+    "windows_with_N": 0,
+    "windows_scanned": 1457,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270310.1",
+    "nt": 1201,
+    "softmasked_nt": 1201,
+    "windows_total": 1186,
+    "windows_with_N": 0,
+    "windows_scanned": 1186,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270311.1",
+    "nt": 12399,
+    "softmasked_nt": 12397,
+    "windows_total": 12384,
+    "windows_with_N": 9448,
+    "windows_scanned": 2936,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270312.1",
+    "nt": 998,
+    "softmasked_nt": 996,
+    "windows_total": 983,
+    "windows_with_N": 0,
+    "windows_scanned": 983,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270315.1",
+    "nt": 2276,
+    "softmasked_nt": 2276,
+    "windows_total": 2261,
+    "windows_with_N": 0,
+    "windows_scanned": 2261,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270316.1",
+    "nt": 1444,
+    "softmasked_nt": 1443,
+    "windows_total": 1429,
+    "windows_with_N": 0,
+    "windows_scanned": 1429,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270317.1",
+    "nt": 37690,
+    "softmasked_nt": 37688,
+    "windows_total": 37675,
+    "windows_with_N": 34081,
+    "windows_scanned": 3594,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270320.1",
+    "nt": 4416,
+    "softmasked_nt": 4414,
+    "windows_total": 4401,
+    "windows_with_N": 0,
+    "windows_scanned": 4401,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270322.1",
+    "nt": 21476,
+    "softmasked_nt": 21461,
+    "windows_total": 21461,
+    "windows_with_N": 15298,
+    "windows_scanned": 6163,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270329.1",
+    "nt": 1040,
+    "softmasked_nt": 1038,
+    "windows_total": 1025,
+    "windows_with_N": 0,
+    "windows_scanned": 1025,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270330.1",
+    "nt": 1652,
+    "softmasked_nt": 542,
+    "windows_total": 1637,
+    "windows_with_N": 0,
+    "windows_scanned": 1637,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270333.1",
+    "nt": 2699,
+    "softmasked_nt": 2699,
+    "windows_total": 2684,
+    "windows_with_N": 0,
+    "windows_scanned": 2684,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270334.1",
+    "nt": 1368,
+    "softmasked_nt": 1366,
+    "windows_total": 1353,
+    "windows_with_N": 0,
+    "windows_scanned": 1353,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270335.1",
+    "nt": 1048,
+    "softmasked_nt": 1048,
+    "windows_total": 1033,
+    "windows_with_N": 0,
+    "windows_scanned": 1033,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270336.1",
+    "nt": 1026,
+    "softmasked_nt": 1025,
+    "windows_total": 1011,
+    "windows_with_N": 0,
+    "windows_scanned": 1011,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270337.1",
+    "nt": 1121,
+    "softmasked_nt": 1121,
+    "windows_total": 1106,
+    "windows_with_N": 0,
+    "windows_scanned": 1106,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270338.1",
+    "nt": 1428,
+    "softmasked_nt": 1428,
+    "windows_total": 1413,
+    "windows_with_N": 0,
+    "windows_scanned": 1413,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270340.1",
+    "nt": 1428,
+    "softmasked_nt": 1428,
+    "windows_total": 1413,
+    "windows_with_N": 0,
+    "windows_scanned": 1413,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270362.1",
+    "nt": 3530,
+    "softmasked_nt": 3530,
+    "windows_total": 3515,
+    "windows_with_N": 0,
+    "windows_scanned": 3515,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270363.1",
+    "nt": 1803,
+    "softmasked_nt": 1803,
+    "windows_total": 1788,
+    "windows_with_N": 0,
+    "windows_scanned": 1788,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270364.1",
+    "nt": 2855,
+    "softmasked_nt": 2853,
+    "windows_total": 2840,
+    "windows_with_N": 0,
+    "windows_scanned": 2840,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270366.1",
+    "nt": 8320,
+    "softmasked_nt": 8301,
+    "windows_total": 8305,
+    "windows_with_N": 0,
+    "windows_scanned": 8305,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270371.1",
+    "nt": 2805,
+    "softmasked_nt": 2805,
+    "windows_total": 2790,
+    "windows_with_N": 0,
+    "windows_scanned": 2790,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270372.1",
+    "nt": 1650,
+    "softmasked_nt": 1649,
+    "windows_total": 1635,
+    "windows_with_N": 0,
+    "windows_scanned": 1635,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270373.1",
+    "nt": 1451,
+    "softmasked_nt": 1451,
+    "windows_total": 1436,
+    "windows_with_N": 0,
+    "windows_scanned": 1436,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270374.1",
+    "nt": 2656,
+    "softmasked_nt": 2655,
+    "windows_total": 2641,
+    "windows_with_N": 0,
+    "windows_scanned": 2641,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270375.1",
+    "nt": 2378,
+    "softmasked_nt": 2377,
+    "windows_total": 2363,
+    "windows_with_N": 0,
+    "windows_scanned": 2363,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270376.1",
+    "nt": 1136,
+    "softmasked_nt": 1135,
+    "windows_total": 1121,
+    "windows_with_N": 0,
+    "windows_scanned": 1121,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270378.1",
+    "nt": 1048,
+    "softmasked_nt": 1048,
+    "windows_total": 1033,
+    "windows_with_N": 0,
+    "windows_scanned": 1033,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270379.1",
+    "nt": 1045,
+    "softmasked_nt": 1045,
+    "windows_total": 1030,
+    "windows_with_N": 0,
+    "windows_scanned": 1030,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270381.1",
+    "nt": 1930,
+    "softmasked_nt": 1930,
+    "windows_total": 1915,
+    "windows_with_N": 0,
+    "windows_scanned": 1915,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270382.1",
+    "nt": 4215,
+    "softmasked_nt": 4214,
+    "windows_total": 4200,
+    "windows_with_N": 0,
+    "windows_scanned": 4200,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270383.1",
+    "nt": 1750,
+    "softmasked_nt": 1748,
+    "windows_total": 1735,
+    "windows_with_N": 0,
+    "windows_scanned": 1735,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270384.1",
+    "nt": 1658,
+    "softmasked_nt": 1657,
+    "windows_total": 1643,
+    "windows_with_N": 0,
+    "windows_scanned": 1643,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270385.1",
+    "nt": 990,
+    "softmasked_nt": 990,
+    "windows_total": 975,
+    "windows_with_N": 0,
+    "windows_scanned": 975,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270386.1",
+    "nt": 1788,
+    "softmasked_nt": 1787,
+    "windows_total": 1773,
+    "windows_with_N": 0,
+    "windows_scanned": 1773,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270387.1",
+    "nt": 1537,
+    "softmasked_nt": 1537,
+    "windows_total": 1522,
+    "windows_with_N": 0,
+    "windows_scanned": 1522,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270388.1",
+    "nt": 1216,
+    "softmasked_nt": 1215,
+    "windows_total": 1201,
+    "windows_with_N": 0,
+    "windows_scanned": 1201,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270389.1",
+    "nt": 1298,
+    "softmasked_nt": 1298,
+    "windows_total": 1283,
+    "windows_with_N": 0,
+    "windows_scanned": 1283,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270390.1",
+    "nt": 2387,
+    "softmasked_nt": 2387,
+    "windows_total": 2372,
+    "windows_with_N": 0,
+    "windows_scanned": 2372,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270391.1",
+    "nt": 1484,
+    "softmasked_nt": 1484,
+    "windows_total": 1469,
+    "windows_with_N": 0,
+    "windows_scanned": 1469,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270392.1",
+    "nt": 971,
+    "softmasked_nt": 969,
+    "windows_total": 956,
+    "windows_with_N": 0,
+    "windows_scanned": 956,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270393.1",
+    "nt": 1308,
+    "softmasked_nt": 1307,
+    "windows_total": 1293,
+    "windows_with_N": 0,
+    "windows_scanned": 1293,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270394.1",
+    "nt": 970,
+    "softmasked_nt": 970,
+    "windows_total": 955,
+    "windows_with_N": 0,
+    "windows_scanned": 955,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270395.1",
+    "nt": 1143,
+    "softmasked_nt": 1139,
+    "windows_total": 1128,
+    "windows_with_N": 0,
+    "windows_scanned": 1128,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270396.1",
+    "nt": 1880,
+    "softmasked_nt": 1878,
+    "windows_total": 1865,
+    "windows_with_N": 0,
+    "windows_scanned": 1865,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270411.1",
+    "nt": 2646,
+    "softmasked_nt": 2644,
+    "windows_total": 2631,
+    "windows_with_N": 0,
+    "windows_scanned": 2631,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270412.1",
+    "nt": 1179,
+    "softmasked_nt": 1178,
+    "windows_total": 1164,
+    "windows_with_N": 0,
+    "windows_scanned": 1164,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270414.1",
+    "nt": 2489,
+    "softmasked_nt": 2489,
+    "windows_total": 2474,
+    "windows_with_N": 0,
+    "windows_scanned": 2474,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270417.1",
+    "nt": 2043,
+    "softmasked_nt": 2039,
+    "windows_total": 2028,
+    "windows_with_N": 0,
+    "windows_scanned": 2028,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270418.1",
+    "nt": 2145,
+    "softmasked_nt": 2142,
+    "windows_total": 2130,
+    "windows_with_N": 0,
+    "windows_scanned": 2130,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270419.1",
+    "nt": 1029,
+    "softmasked_nt": 1027,
+    "windows_total": 1014,
+    "windows_with_N": 0,
+    "windows_scanned": 1014,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270420.1",
+    "nt": 2321,
+    "softmasked_nt": 2321,
+    "windows_total": 2306,
+    "windows_with_N": 0,
+    "windows_scanned": 2306,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270422.1",
+    "nt": 1445,
+    "softmasked_nt": 1445,
+    "windows_total": 1430,
+    "windows_with_N": 0,
+    "windows_scanned": 1430,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270423.1",
+    "nt": 981,
+    "softmasked_nt": 977,
+    "windows_total": 966,
+    "windows_with_N": 0,
+    "windows_scanned": 966,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270424.1",
+    "nt": 2140,
+    "softmasked_nt": 2137,
+    "windows_total": 2125,
+    "windows_with_N": 0,
+    "windows_scanned": 2125,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270425.1",
+    "nt": 1884,
+    "softmasked_nt": 1878,
+    "windows_total": 1869,
+    "windows_with_N": 0,
+    "windows_scanned": 1869,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270429.1",
+    "nt": 1361,
+    "softmasked_nt": 1361,
+    "windows_total": 1346,
+    "windows_with_N": 0,
+    "windows_scanned": 1346,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270435.1",
+    "nt": 92983,
+    "softmasked_nt": 92942,
+    "windows_total": 92968,
+    "windows_with_N": 126,
+    "windows_scanned": 92842,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270438.1",
+    "nt": 112505,
+    "softmasked_nt": 108417,
+    "windows_total": 112490,
+    "windows_with_N": 28584,
+    "windows_scanned": 83906,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270442.1",
+    "nt": 392061,
+    "softmasked_nt": 343611,
+    "windows_total": 392046,
+    "windows_with_N": 21272,
+    "windows_scanned": 370774,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270448.1",
+    "nt": 7992,
+    "softmasked_nt": 6861,
+    "windows_total": 7977,
+    "windows_with_N": 0,
+    "windows_scanned": 7977,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270465.1",
+    "nt": 1774,
+    "softmasked_nt": 1774,
+    "windows_total": 1759,
+    "windows_with_N": 0,
+    "windows_scanned": 1759,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270466.1",
+    "nt": 1233,
+    "softmasked_nt": 1233,
+    "windows_total": 1218,
+    "windows_with_N": 0,
+    "windows_scanned": 1218,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270467.1",
+    "nt": 3920,
+    "softmasked_nt": 3915,
+    "windows_total": 3905,
+    "windows_with_N": 0,
+    "windows_scanned": 3905,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270468.1",
+    "nt": 4055,
+    "softmasked_nt": 4055,
+    "windows_total": 4040,
+    "windows_with_N": 0,
+    "windows_scanned": 4040,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270507.1",
+    "nt": 5353,
+    "softmasked_nt": 5353,
+    "windows_total": 5338,
+    "windows_with_N": 0,
+    "windows_scanned": 5338,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270508.1",
+    "nt": 1951,
+    "softmasked_nt": 1951,
+    "windows_total": 1936,
+    "windows_with_N": 0,
+    "windows_scanned": 1936,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270509.1",
+    "nt": 2318,
+    "softmasked_nt": 2317,
+    "windows_total": 2303,
+    "windows_with_N": 0,
+    "windows_scanned": 2303,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270510.1",
+    "nt": 2415,
+    "softmasked_nt": 2414,
+    "windows_total": 2400,
+    "windows_with_N": 0,
+    "windows_scanned": 2400,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270511.1",
+    "nt": 8127,
+    "softmasked_nt": 8123,
+    "windows_total": 8112,
+    "windows_with_N": 0,
+    "windows_scanned": 8112,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270512.1",
+    "nt": 22689,
+    "softmasked_nt": 22667,
+    "windows_total": 22674,
+    "windows_with_N": 0,
+    "windows_scanned": 22674,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270515.1",
+    "nt": 6361,
+    "softmasked_nt": 6361,
+    "windows_total": 6346,
+    "windows_with_N": 0,
+    "windows_scanned": 6346,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270516.1",
+    "nt": 1300,
+    "softmasked_nt": 1296,
+    "windows_total": 1285,
+    "windows_with_N": 0,
+    "windows_scanned": 1285,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270517.1",
+    "nt": 3253,
+    "softmasked_nt": 3250,
+    "windows_total": 3238,
+    "windows_with_N": 0,
+    "windows_scanned": 3238,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270518.1",
+    "nt": 2186,
+    "softmasked_nt": 2184,
+    "windows_total": 2171,
+    "windows_with_N": 0,
+    "windows_scanned": 2171,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270519.1",
+    "nt": 138126,
+    "softmasked_nt": 138047,
+    "windows_total": 138111,
+    "windows_with_N": 518,
+    "windows_scanned": 137593,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270521.1",
+    "nt": 7642,
+    "softmasked_nt": 6381,
+    "windows_total": 7627,
+    "windows_with_N": 0,
+    "windows_scanned": 7627,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270522.1",
+    "nt": 5674,
+    "softmasked_nt": 5666,
+    "windows_total": 5659,
+    "windows_with_N": 0,
+    "windows_scanned": 5659,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270528.1",
+    "nt": 2983,
+    "softmasked_nt": 2979,
+    "windows_total": 2968,
+    "windows_with_N": 0,
+    "windows_scanned": 2968,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270529.1",
+    "nt": 1899,
+    "softmasked_nt": 1899,
+    "windows_total": 1884,
+    "windows_with_N": 0,
+    "windows_scanned": 1884,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270530.1",
+    "nt": 2168,
+    "softmasked_nt": 2168,
+    "windows_total": 2153,
+    "windows_with_N": 0,
+    "windows_scanned": 2153,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270538.1",
+    "nt": 91309,
+    "softmasked_nt": 91298,
+    "windows_total": 91294,
+    "windows_with_N": 27772,
+    "windows_scanned": 63522,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270539.1",
+    "nt": 993,
+    "softmasked_nt": 986,
+    "windows_total": 978,
+    "windows_with_N": 0,
+    "windows_scanned": 978,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270544.1",
+    "nt": 1202,
+    "softmasked_nt": 1202,
+    "windows_total": 1187,
+    "windows_with_N": 0,
+    "windows_scanned": 1187,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270548.1",
+    "nt": 1599,
+    "softmasked_nt": 1597,
+    "windows_total": 1584,
+    "windows_with_N": 0,
+    "windows_scanned": 1584,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270579.1",
+    "nt": 31033,
+    "softmasked_nt": 30331,
+    "windows_total": 31018,
+    "windows_with_N": 0,
+    "windows_scanned": 31018,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270580.1",
+    "nt": 1553,
+    "softmasked_nt": 1551,
+    "windows_total": 1538,
+    "windows_with_N": 0,
+    "windows_scanned": 1538,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270581.1",
+    "nt": 7046,
+    "softmasked_nt": 6967,
+    "windows_total": 7031,
+    "windows_with_N": 0,
+    "windows_scanned": 7031,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270582.1",
+    "nt": 6504,
+    "softmasked_nt": 6429,
+    "windows_total": 6489,
+    "windows_with_N": 0,
+    "windows_scanned": 6489,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270583.1",
+    "nt": 1400,
+    "softmasked_nt": 1147,
+    "windows_total": 1385,
+    "windows_with_N": 0,
+    "windows_scanned": 1385,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270584.1",
+    "nt": 4513,
+    "softmasked_nt": 4501,
+    "windows_total": 4498,
+    "windows_with_N": 0,
+    "windows_scanned": 4498,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270587.1",
+    "nt": 2969,
+    "softmasked_nt": 2969,
+    "windows_total": 2954,
+    "windows_with_N": 0,
+    "windows_scanned": 2954,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270588.1",
+    "nt": 6158,
+    "softmasked_nt": 6153,
+    "windows_total": 6143,
+    "windows_with_N": 0,
+    "windows_scanned": 6143,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270589.1",
+    "nt": 44474,
+    "softmasked_nt": 44455,
+    "windows_total": 44459,
+    "windows_with_N": 9138,
+    "windows_scanned": 35321,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270590.1",
+    "nt": 4685,
+    "softmasked_nt": 4669,
+    "windows_total": 4670,
+    "windows_with_N": 0,
+    "windows_scanned": 4670,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270591.1",
+    "nt": 5796,
+    "softmasked_nt": 5782,
+    "windows_total": 5781,
+    "windows_with_N": 0,
+    "windows_scanned": 5781,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270593.1",
+    "nt": 3041,
+    "softmasked_nt": 3041,
+    "windows_total": 3026,
+    "windows_with_N": 0,
+    "windows_scanned": 3026,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270706.1",
+    "nt": 175055,
+    "softmasked_nt": 109721,
+    "windows_total": 175040,
+    "windows_with_N": 0,
+    "windows_scanned": 175040,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270707.1",
+    "nt": 32032,
+    "softmasked_nt": 28436,
+    "windows_total": 32017,
+    "windows_with_N": 0,
+    "windows_scanned": 32017,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270708.1",
+    "nt": 127682,
+    "softmasked_nt": 106707,
+    "windows_total": 127667,
+    "windows_with_N": 0,
+    "windows_scanned": 127667,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270709.1",
+    "nt": 66860,
+    "softmasked_nt": 44010,
+    "windows_total": 66845,
+    "windows_with_N": 0,
+    "windows_scanned": 66845,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270710.1",
+    "nt": 40176,
+    "softmasked_nt": 19527,
+    "windows_total": 40161,
+    "windows_with_N": 0,
+    "windows_scanned": 40161,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270711.1",
+    "nt": 42210,
+    "softmasked_nt": 15919,
+    "windows_total": 42195,
+    "windows_with_N": 0,
+    "windows_scanned": 42195,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270712.1",
+    "nt": 176043,
+    "softmasked_nt": 103894,
+    "windows_total": 176028,
+    "windows_with_N": 0,
+    "windows_scanned": 176028,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270713.1",
+    "nt": 40745,
+    "softmasked_nt": 16973,
+    "windows_total": 40730,
+    "windows_with_N": 0,
+    "windows_scanned": 40730,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270714.1",
+    "nt": 41717,
+    "softmasked_nt": 15153,
+    "windows_total": 41702,
+    "windows_with_N": 0,
+    "windows_scanned": 41702,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270715.1",
+    "nt": 161471,
+    "softmasked_nt": 161469,
+    "windows_total": 161456,
+    "windows_with_N": 0,
+    "windows_scanned": 161456,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270716.1",
+    "nt": 153799,
+    "softmasked_nt": 153778,
+    "windows_total": 153784,
+    "windows_with_N": 0,
+    "windows_scanned": 153784,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270717.1",
+    "nt": 40062,
+    "softmasked_nt": 24473,
+    "windows_total": 40047,
+    "windows_with_N": 0,
+    "windows_scanned": 40047,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270718.1",
+    "nt": 38054,
+    "softmasked_nt": 19980,
+    "windows_total": 38039,
+    "windows_with_N": 0,
+    "windows_scanned": 38039,
+    "n_hits_le2": 2
+   },
+   {
+    "name": "KI270719.1",
+    "nt": 176845,
+    "softmasked_nt": 92355,
+    "windows_total": 176830,
+    "windows_with_N": 0,
+    "windows_scanned": 176830,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270720.1",
+    "nt": 39050,
+    "softmasked_nt": 22904,
+    "windows_total": 39035,
+    "windows_with_N": 0,
+    "windows_scanned": 39035,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270721.1",
+    "nt": 100316,
+    "softmasked_nt": 15606,
+    "windows_total": 100301,
+    "windows_with_N": 0,
+    "windows_scanned": 100301,
+    "n_hits_le2": 2
+   },
+   {
+    "name": "KI270722.1",
+    "nt": 194050,
+    "softmasked_nt": 151287,
+    "windows_total": 194035,
+    "windows_with_N": 0,
+    "windows_scanned": 194035,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270723.1",
+    "nt": 38115,
+    "softmasked_nt": 20542,
+    "windows_total": 38100,
+    "windows_with_N": 0,
+    "windows_scanned": 38100,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270724.1",
+    "nt": 39555,
+    "softmasked_nt": 19776,
+    "windows_total": 39540,
+    "windows_with_N": 0,
+    "windows_scanned": 39540,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270725.1",
+    "nt": 172810,
+    "softmasked_nt": 95823,
+    "windows_total": 172795,
+    "windows_with_N": 0,
+    "windows_scanned": 172795,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270726.1",
+    "nt": 43739,
+    "softmasked_nt": 24885,
+    "windows_total": 43724,
+    "windows_with_N": 0,
+    "windows_scanned": 43724,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270727.1",
+    "nt": 448248,
+    "softmasked_nt": 230081,
+    "windows_total": 448233,
+    "windows_with_N": 0,
+    "windows_scanned": 448233,
+    "n_hits_le2": 4
+   },
+   {
+    "name": "KI270728.1",
+    "nt": 1872759,
+    "softmasked_nt": 1310953,
+    "windows_total": 1872744,
+    "windows_with_N": 300090,
+    "windows_scanned": 1572654,
+    "n_hits_le2": 7
+   },
+   {
+    "name": "KI270729.1",
+    "nt": 280839,
+    "softmasked_nt": 247477,
+    "windows_total": 280824,
+    "windows_with_N": 11477,
+    "windows_scanned": 269347,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270730.1",
+    "nt": 112551,
+    "softmasked_nt": 102319,
+    "windows_total": 112536,
+    "windows_with_N": 6059,
+    "windows_scanned": 106477,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270731.1",
+    "nt": 150754,
+    "softmasked_nt": 61827,
+    "windows_total": 150739,
+    "windows_with_N": 0,
+    "windows_scanned": 150739,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270732.1",
+    "nt": 41543,
+    "softmasked_nt": 23270,
+    "windows_total": 41528,
+    "windows_with_N": 0,
+    "windows_scanned": 41528,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270733.1",
+    "nt": 179772,
+    "softmasked_nt": 114845,
+    "windows_total": 179757,
+    "windows_with_N": 0,
+    "windows_scanned": 179757,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270734.1",
+    "nt": 165050,
+    "softmasked_nt": 61037,
+    "windows_total": 165035,
+    "windows_with_N": 0,
+    "windows_scanned": 165035,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270735.1",
+    "nt": 42811,
+    "softmasked_nt": 22811,
+    "windows_total": 42796,
+    "windows_with_N": 0,
+    "windows_scanned": 42796,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270736.1",
+    "nt": 181920,
+    "softmasked_nt": 155995,
+    "windows_total": 181905,
+    "windows_with_N": 12388,
+    "windows_scanned": 169517,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270737.1",
+    "nt": 103838,
+    "softmasked_nt": 93607,
+    "windows_total": 103823,
+    "windows_with_N": 426,
+    "windows_scanned": 103397,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270738.1",
+    "nt": 99375,
+    "softmasked_nt": 84351,
+    "windows_total": 99360,
+    "windows_with_N": 3660,
+    "windows_scanned": 95700,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270739.1",
+    "nt": 73985,
+    "softmasked_nt": 73967,
+    "windows_total": 73970,
+    "windows_with_N": 1607,
+    "windows_scanned": 72363,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270740.1",
+    "nt": 37240,
+    "softmasked_nt": 36967,
+    "windows_total": 37225,
+    "windows_with_N": 0,
+    "windows_scanned": 37225,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270741.1",
+    "nt": 157432,
+    "softmasked_nt": 136407,
+    "windows_total": 157417,
+    "windows_with_N": 1902,
+    "windows_scanned": 155515,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270742.1",
+    "nt": 186739,
+    "softmasked_nt": 113302,
+    "windows_total": 186724,
+    "windows_with_N": 0,
+    "windows_scanned": 186724,
+    "n_hits_le2": 1
+   },
+   {
+    "name": "KI270743.1",
+    "nt": 210658,
+    "softmasked_nt": 150058,
+    "windows_total": 210643,
+    "windows_with_N": 0,
+    "windows_scanned": 210643,
+    "n_hits_le2": 1
+   },
+   {
+    "name": "KI270744.1",
+    "nt": 168472,
+    "softmasked_nt": 71851,
+    "windows_total": 168457,
+    "windows_with_N": 0,
+    "windows_scanned": 168457,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270745.1",
+    "nt": 41891,
+    "softmasked_nt": 25679,
+    "windows_total": 41876,
+    "windows_with_N": 0,
+    "windows_scanned": 41876,
+    "n_hits_le2": 1
+   },
+   {
+    "name": "KI270746.1",
+    "nt": 66486,
+    "softmasked_nt": 30013,
+    "windows_total": 66471,
+    "windows_with_N": 0,
+    "windows_scanned": 66471,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270747.1",
+    "nt": 198735,
+    "softmasked_nt": 175884,
+    "windows_total": 198720,
+    "windows_with_N": 0,
+    "windows_scanned": 198720,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270748.1",
+    "nt": 93321,
+    "softmasked_nt": 63130,
+    "windows_total": 93306,
+    "windows_with_N": 0,
+    "windows_scanned": 93306,
+    "n_hits_le2": 46
+   },
+   {
+    "name": "KI270749.1",
+    "nt": 158759,
+    "softmasked_nt": 83245,
+    "windows_total": 158744,
+    "windows_with_N": 0,
+    "windows_scanned": 158744,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270750.1",
+    "nt": 148850,
+    "softmasked_nt": 77765,
+    "windows_total": 148835,
+    "windows_with_N": 0,
+    "windows_scanned": 148835,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270751.1",
+    "nt": 150742,
+    "softmasked_nt": 92787,
+    "windows_total": 150727,
+    "windows_with_N": 0,
+    "windows_scanned": 150727,
+    "n_hits_le2": 1
+   },
+   {
+    "name": "KI270752.1",
+    "nt": 27745,
+    "softmasked_nt": 5430,
+    "windows_total": 27730,
+    "windows_with_N": 0,
+    "windows_scanned": 27730,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270753.1",
+    "nt": 62944,
+    "softmasked_nt": 30841,
+    "windows_total": 62929,
+    "windows_with_N": 0,
+    "windows_scanned": 62929,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270754.1",
+    "nt": 40191,
+    "softmasked_nt": 28357,
+    "windows_total": 40176,
+    "windows_with_N": 0,
+    "windows_scanned": 40176,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270755.1",
+    "nt": 36723,
+    "softmasked_nt": 23504,
+    "windows_total": 36708,
+    "windows_with_N": 0,
+    "windows_scanned": 36708,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270756.1",
+    "nt": 79590,
+    "softmasked_nt": 75117,
+    "windows_total": 79575,
+    "windows_with_N": 81,
+    "windows_scanned": 79494,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "KI270757.1",
+    "nt": 71251,
+    "softmasked_nt": 71235,
+    "windows_total": 71236,
+    "windows_with_N": 9445,
+    "windows_scanned": 61791,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "MT",
+    "nt": 16569,
+    "softmasked_nt": 177,
+    "windows_total": 16554,
+    "windows_with_N": 16,
+    "windows_scanned": 16538,
+    "n_hits_le2": 0
+   },
+   {
+    "name": "X",
+    "nt": 156040895,
+    "softmasked_nt": 98695438,
+    "windows_total": 156040880,
+    "windows_with_N": 1148328,
+    "windows_scanned": 154892552,
+    "n_hits_le2": 617
+   },
+   {
+    "name": "Y",
+    "nt": 57227415,
+    "softmasked_nt": 17816651,
+    "windows_total": 57227400,
+    "windows_with_N": 30813239,
+    "windows_scanned": 26414161,
+    "n_hits_le2": 83
+   }
+  ]
+ },
+ "null_model": {
+  "assumption": "independent, uniformly distributed bases; both orientations per position",
+  "n_strings_within_max_mismatches": 1129,
+  "n_strings_within_1": 49,
+  "n_strings_gap_paired_within_max_mismatches": 436,
+  "p_per_position_le_max_mismatches": 2.628657966852188e-07,
+  "expected_per_design": {
+   "exact": 1.37305,
+   "le1": 67.2796,
+   "le2": 1550.18,
+   "gap_paired_le2": 598.651
+  },
+  "_read_this_first": "these expectations are what ANY 16-mer returns against a genome of this measured size, including a scrambled control. They are the reason a raw count is not a finding and the reason every count below is reported as a ratio to them."
+ },
+ "headline": {
+  "_read_this_first": "A raw genome-wide count at this threshold is a restatement of 4**16, not a result. offtarget_chance_baseline.py killed exactly that error at transcriptome scale. The four strata below are what this screen can actually say.",
+  "stratum_1_exact_matches": {
+   "_what": "exact 16/16 matches, where chance expectation is O(1) per design over the whole genome and both orientations, so an individual site is checkable by hand and an excess is real. This is the class the core_nt arm could never reach.",
+   "expected_per_design": 1.37305,
+   "n_designs_with_at_least_one": 5,
+   "n_target_windows": 5,
+   "total_exact_sites": 15,
+   "max_per_design": 5,
+   "sites": [
+    {
+     "seq": "2",
+     "start": 7331443,
+     "end": 7331458,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 0,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "ENSG00000229727"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 954
+    },
+    {
+     "seq": "3",
+     "start": 67583746,
+     "end": 67583761,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 0,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "SUCLG2"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": false,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 21043
+    },
+    {
+     "seq": "2",
+     "start": 181717324,
+     "end": 181717339,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 0,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [],
+     "biotypes": [],
+     "gene_strands": [],
+     "hybridisable": false,
+     "compartment": "intergenic",
+     "nt_to_nearest_splice_site": null
+    },
+    {
+     "seq": "20",
+     "start": 63424069,
+     "end": 63424084,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 0,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "ENSG00000280936"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 2
+    },
+    {
+     "seq": "5",
+     "start": 160346576,
+     "end": 160346591,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 0,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [],
+     "biotypes": [],
+     "gene_strands": [],
+     "hybridisable": false,
+     "compartment": "intergenic",
+     "nt_to_nearest_splice_site": null
+    },
+    {
+     "seq": "2",
+     "start": 7331444,
+     "end": 7331459,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 0,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "ENSG00000229727"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 953
+    },
+    {
+     "seq": "4",
+     "start": 16978155,
+     "end": 16978170,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 0,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "ENSG00000249998"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": false,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 4585
+    },
+    {
+     "seq": "5",
+     "start": 78995211,
+     "end": 78995226,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 0,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [],
+     "biotypes": [],
+     "gene_strands": [],
+     "hybridisable": false,
+     "compartment": "intergenic",
+     "nt_to_nearest_splice_site": null
+    },
+    {
+     "seq": "1",
+     "start": 172638173,
+     "end": 172638188,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 0,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [],
+     "biotypes": [],
+     "gene_strands": [],
+     "hybridisable": false,
+     "compartment": "intergenic",
+     "nt_to_nearest_splice_site": null
+    },
+    {
+     "seq": "19",
+     "start": 55242709,
+     "end": 55242724,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 0,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "PPP6R1"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": false,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 222
+    },
+    {
+     "seq": "13",
+     "start": 99312794,
+     "end": 99312809,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 0,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "UBAC2"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": false,
+     "compartment": "exonic",
+     "nt_to_nearest_splice_site": 577
+    },
+    {
+     "seq": "16",
+     "start": 84852729,
+     "end": 84852744,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 0,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "ENSG00000285848"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 1984
+    },
+    {
+     "seq": "2",
+     "start": 181717325,
+     "end": 181717340,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 0,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [],
+     "biotypes": [],
+     "gene_strands": [],
+     "hybridisable": false,
+     "compartment": "intergenic",
+     "nt_to_nearest_splice_site": null
+    },
+    {
+     "seq": "20",
+     "start": 63424068,
+     "end": 63424083,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 0,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "ENSG00000280936"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 3
+    },
+    {
+     "seq": "3",
+     "start": 72316662,
+     "end": 72316677,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 0,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "ENSG00000287882"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 217
+    }
+   ]
+  },
+  "stratum_2_observed_over_expected": {
+   "_what": "the grammar section 3.6 and Figure 3 already use. A ratio near 1 means no worse than an arbitrary 16-mer of this length, which is the defensible statement; a ratio well above 1 is an excess to explain. This is what discriminates BETWEEN designs, which a total cannot.",
+   "median_ratio_le2": 1.475,
+   "min_ratio_le2": 1.027,
+   "max_ratio_le2": 2.178,
+   "n_at_or_below_1": 0,
+   "n_above_2": 1,
+   "n_windows": 5
+  },
+  "stratum_3_named_targets": {
+   "_what": "a LOOKUP, not a count: does any design have a gap-paired, strand-agreeing site in wild-type NR4A3, in any of the six parent genes, or in the NR4A paralogues? One named hit outranks the entire total, and the total cannot answer it.",
+   "parent_genes": [
+    "EWSR1",
+    "FUS",
+    "NR4A3",
+    "TAF15",
+    "TCF12",
+    "TFG"
+   ],
+   "nr4a_family_matched_from_annotation": [
+    "NR4A1",
+    "NR4A1AS",
+    "NR4A2",
+    "NR4A3"
+   ],
+   "named_gene_set": [
+    "EWSR1",
+    "FUS",
+    "NR4A1",
+    "NR4A1AS",
+    "NR4A2",
+    "NR4A3",
+    "TAF15",
+    "TCF12",
+    "TFG"
+   ],
+   "n_named_sites_any": 4,
+   "n_named_sites_gap_paired_and_hybridisable": 1,
+   "genes_hit_gap_paired_and_hybridisable": [
+    "NR4A3"
+   ],
+   "nr4a_family_genes_hit_gap_paired": [
+    "NR4A3"
+   ],
+   "n_designs_with_a_named_gap_paired_site": 1,
+   "sites": [
+    {
+     "seq": "9",
+     "start": 99826723,
+     "end": 99826738,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 2,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "NR4A3"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intron_exon_spanning",
+     "nt_to_nearest_splice_site": 0
+    }
+   ]
+  },
+  "stratum_4_repeat_split": {
+   "_what": "free from a soft-masked reference: hits partitioned by the repeat annotation the assembly already carries, which converts the null's single largest inflation source from a caveat into a measurement.",
+   "genome_softmask_fraction": 0.5143,
+   "hits_by_softmask": {
+    "none": 6257,
+    "partial": 816,
+    "full": 4884
+   },
+   "fraction_of_hits_fully_softmasked": 0.4085,
+   "_reading": "if the fully soft-masked share of hits far exceeds the genome's soft-masked share, the excess over the uniform null is repeat structure rather than anything about these designs"
+  }
+ },
+ "per_design": [
+  {
+   "target_mRNA_5to3": "CACACACAAGGCCCTC",
+   "antisense_5to3": "GAGGGCCTTGTGTGTG",
+   "junction_labels": [
+    "TAF15_e6__NR4A3_intron2crypticExon"
+   ],
+   "n_junctions": 1,
+   "gap_specificity_margin": [
+    1
+   ],
+   "gc_percent": 62.5,
+   "counts": {
+    "exact": 5,
+    "le1": 147,
+    "le2": 3376,
+    "gap_paired_le2": 884,
+    "hybridisable_le2": 1113,
+    "hybridisable_gap_paired_le2": 342
+   },
+   "observed_over_expected": {
+    "exact": 3.642,
+    "le1": 2.185,
+    "le2": 2.178,
+    "gap_paired_le2": 1.477
+   },
+   "by_compartment": {
+    "intronic": 2222,
+    "exonic": 263,
+    "intron_exon_spanning": 8,
+    "intergenic": 883
+   },
+   "by_softmask": {
+    "none": 1643,
+    "partial": 310,
+    "full": 1423
+   },
+   "n_sites_counted": 3376,
+   "n_sites_retained": 40,
+   "n_exact_sites": 5,
+   "n_named_target_sites": 0,
+   "named_target_genes": [],
+   "exact_sites": [
+    {
+     "seq": "13",
+     "start": 99312794,
+     "end": 99312809,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 0,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "UBAC2"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": false,
+     "compartment": "exonic",
+     "nt_to_nearest_splice_site": 577
+    },
+    {
+     "seq": "16",
+     "start": 84852729,
+     "end": 84852744,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 0,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "ENSG00000285848"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 1984
+    },
+    {
+     "seq": "2",
+     "start": 181717325,
+     "end": 181717340,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 0,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [],
+     "biotypes": [],
+     "gene_strands": [],
+     "hybridisable": false,
+     "compartment": "intergenic",
+     "nt_to_nearest_splice_site": null
+    },
+    {
+     "seq": "20",
+     "start": 63424068,
+     "end": 63424083,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 0,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "ENSG00000280936"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 3
+    },
+    {
+     "seq": "3",
+     "start": 72316662,
+     "end": 72316677,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 0,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "ENSG00000287882"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 217
+    }
+   ],
+   "named_target_sites": [],
+   "sites": [
+    {
+     "seq": "16",
+     "start": 84852729,
+     "end": 84852744,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 0,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "ENSG00000285848"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 1984
+    },
+    {
+     "seq": "20",
+     "start": 63424068,
+     "end": 63424083,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 0,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "ENSG00000280936"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 3
+    },
+    {
+     "seq": "3",
+     "start": 72316662,
+     "end": 72316677,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 0,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "ENSG00000287882"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 217
+    },
+    {
+     "seq": "13",
+     "start": 99312794,
+     "end": 99312809,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 0,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "UBAC2"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": false,
+     "compartment": "exonic",
+     "nt_to_nearest_splice_site": 577
+    },
+    {
+     "seq": "2",
+     "start": 181717325,
+     "end": 181717340,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 0,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [],
+     "biotypes": [],
+     "gene_strands": [],
+     "hybridisable": false,
+     "compartment": "intergenic",
+     "nt_to_nearest_splice_site": null
+    },
+    {
+     "seq": "1",
+     "start": 170532090,
+     "end": 170532105,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "GORAB-AS1"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 107
+    },
+    {
+     "seq": "11",
+     "start": 8239616,
+     "end": 8239631,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "LMO1"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 9113
+    },
+    {
+     "seq": "11",
+     "start": 32499547,
+     "end": 32499562,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "WT1-AS"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 359
+    },
+    {
+     "seq": "12",
+     "start": 47087074,
+     "end": 47087089,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "PCED1B"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 6318
+    },
+    {
+     "seq": "16",
+     "start": 23880320,
+     "end": 23880335,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "PRKCB"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 11207
+    },
+    {
+     "seq": "16",
+     "start": 68384567,
+     "end": 68384582,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "SMPD3"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 2015
+    },
+    {
+     "seq": "16",
+     "start": 85336802,
+     "end": 85336817,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "GSE1"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 8754
+    },
+    {
+     "seq": "18",
+     "start": 69542055,
+     "end": 69542070,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "ENSG00000265643"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 9198
+    },
+    {
+     "seq": "2",
+     "start": 8346618,
+     "end": 8346633,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "LINC00299"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 11629
+    },
+    {
+     "seq": "2",
+     "start": 106845145,
+     "end": 106845160,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "ST6GAL2"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 2111
+    },
+    {
+     "seq": "2",
+     "start": 218342047,
+     "end": 218342062,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "PNKD"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "exonic",
+     "nt_to_nearest_splice_site": 67
+    },
+    {
+     "seq": "22",
+     "start": 25058568,
+     "end": 25058583,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "ENSG00000279110"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "exonic",
+     "nt_to_nearest_splice_site": 9205
+    },
+    {
+     "seq": "3",
+     "start": 36934119,
+     "end": 36934134,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "TRANK1"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 4705
+    },
+    {
+     "seq": "3",
+     "start": 133469341,
+     "end": 133469356,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "BFSP2"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 1448
+    },
+    {
+     "seq": "4",
+     "start": 7806365,
+     "end": 7806380,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "ENSG00000287164"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 1266
+    },
+    {
+     "seq": "8",
+     "start": 54617945,
+     "end": 54617960,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "RP1"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 1744
+    },
+    {
+     "seq": "8",
+     "start": 61285682,
+     "end": 61285697,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "ENSG00000254222"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 2440
+    },
+    {
+     "seq": "1",
+     "start": 58955583,
+     "end": 58955598,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.3125,
+     "genes": [
+      "ENSG00000241042"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 1665
+    },
+    {
+     "seq": "2",
+     "start": 9765927,
+     "end": 9765942,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.5,
+     "genes": [
+      "ENSG00000243491"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 4256
+    },
+    {
+     "seq": "10",
+     "start": 86951436,
+     "end": 86951451,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "MMRN2"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 2586
+    },
+    {
+     "seq": "2",
+     "start": 190729718,
+     "end": 190729733,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "ENSG00000228509"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "exonic",
+     "nt_to_nearest_splice_site": 29
+    },
+    {
+     "seq": "7",
+     "start": 138724367,
+     "end": 138724382,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "ATP6V0A4"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 2343
+    },
+    {
+     "seq": "1",
+     "start": 25199363,
+     "end": 25199378,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [],
+     "biotypes": [],
+     "gene_strands": [],
+     "hybridisable": false,
+     "compartment": "intergenic",
+     "nt_to_nearest_splice_site": null
+    },
+    {
+     "seq": "1",
+     "start": 33958948,
+     "end": 33958963,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "CSMD2"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": false,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 13793
+    },
+    {
+     "seq": "1",
+     "start": 99427821,
+     "end": 99427836,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [],
+     "biotypes": [],
+     "gene_strands": [],
+     "hybridisable": false,
+     "compartment": "intergenic",
+     "nt_to_nearest_splice_site": null
+    },
+    {
+     "seq": "1",
+     "start": 203557336,
+     "end": 203557351,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "ENSG00000307117"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": false,
+     "compartment": "exonic",
+     "nt_to_nearest_splice_site": 32
+    },
+    {
+     "seq": "1",
+     "start": 203557661,
+     "end": 203557676,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [],
+     "biotypes": [],
+     "gene_strands": [],
+     "hybridisable": false,
+     "compartment": "intergenic",
+     "nt_to_nearest_splice_site": null
+    },
+    {
+     "seq": "11",
+     "start": 61265227,
+     "end": 61265242,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "VWCE"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": false,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 16
+    },
+    {
+     "seq": "12",
+     "start": 120231842,
+     "end": 120231857,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "PXN"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": false,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 4726
+    },
+    {
+     "seq": "16",
+     "start": 9550386,
+     "end": 9550401,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "LINC02177"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": false,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 4046
+    },
+    {
+     "seq": "18",
+     "start": 27865562,
+     "end": 27865577,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [],
+     "biotypes": [],
+     "gene_strands": [],
+     "hybridisable": false,
+     "compartment": "intergenic",
+     "nt_to_nearest_splice_site": null
+    },
+    {
+     "seq": "2",
+     "start": 91980735,
+     "end": 91980750,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [],
+     "biotypes": [],
+     "gene_strands": [],
+     "hybridisable": false,
+     "compartment": "intergenic",
+     "nt_to_nearest_splice_site": null
+    },
+    {
+     "seq": "2",
+     "start": 158605115,
+     "end": 158605130,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "PKP4"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": false,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 2012
+    },
+    {
+     "seq": "20",
+     "start": 41172169,
+     "end": 41172184,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "PLCG1"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": false,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 8
+    },
+    {
+     "seq": "5",
+     "start": 160346577,
+     "end": 160346592,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [],
+     "biotypes": [],
+     "gene_strands": [],
+     "hybridisable": false,
+     "compartment": "intergenic",
+     "nt_to_nearest_splice_site": null
+    }
+   ]
+  },
+  {
+   "target_mRNA_5to3": "ACACACAAGGCCCTCA",
+   "antisense_5to3": "TGAGGGCCTTGTGTGT",
+   "junction_labels": [
+    "TAF15_e6__NR4A3_intron2crypticExon"
+   ],
+   "n_junctions": 1,
+   "gap_specificity_margin": [
+    2
+   ],
+   "gc_percent": 56.2,
+   "counts": {
+    "exact": 3,
+    "le1": 135,
+    "le2": 2725,
+    "gap_paired_le2": 916,
+    "hybridisable_le2": 971,
+    "hybridisable_gap_paired_le2": 344
+   },
+   "observed_over_expected": {
+    "exact": 2.185,
+    "le1": 2.007,
+    "le2": 1.758,
+    "gap_paired_le2": 1.53
+   },
+   "by_compartment": {
+    "intronic": 1799,
+    "exonic": 219,
+    "intron_exon_spanning": 4,
+    "intergenic": 703
+   },
+   "by_softmask": {
+    "none": 1464,
+    "partial": 200,
+    "full": 1061
+   },
+   "n_sites_counted": 2725,
+   "n_sites_retained": 40,
+   "n_exact_sites": 3,
+   "n_named_target_sites": 0,
+   "named_target_genes": [],
+   "exact_sites": [
+    {
+     "seq": "2",
+     "start": 181717324,
+     "end": 181717339,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 0,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [],
+     "biotypes": [],
+     "gene_strands": [],
+     "hybridisable": false,
+     "compartment": "intergenic",
+     "nt_to_nearest_splice_site": null
+    },
+    {
+     "seq": "20",
+     "start": 63424069,
+     "end": 63424084,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 0,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "ENSG00000280936"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 2
+    },
+    {
+     "seq": "5",
+     "start": 160346576,
+     "end": 160346591,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 0,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [],
+     "biotypes": [],
+     "gene_strands": [],
+     "hybridisable": false,
+     "compartment": "intergenic",
+     "nt_to_nearest_splice_site": null
+    }
+   ],
+   "named_target_sites": [],
+   "sites": [
+    {
+     "seq": "20",
+     "start": 63424069,
+     "end": 63424084,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 0,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "ENSG00000280936"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 2
+    },
+    {
+     "seq": "5",
+     "start": 160346576,
+     "end": 160346591,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 0,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [],
+     "biotypes": [],
+     "gene_strands": [],
+     "hybridisable": false,
+     "compartment": "intergenic",
+     "nt_to_nearest_splice_site": null
+    },
+    {
+     "seq": "2",
+     "start": 181717324,
+     "end": 181717339,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 0,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [],
+     "biotypes": [],
+     "gene_strands": [],
+     "hybridisable": false,
+     "compartment": "intergenic",
+     "nt_to_nearest_splice_site": null
+    },
+    {
+     "seq": "10",
+     "start": 3362482,
+     "end": 3362497,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "ENSG00000286610"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 12908
+    },
+    {
+     "seq": "10",
+     "start": 133026680,
+     "end": 133026695,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "ENSG00000289039"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 2716
+    },
+    {
+     "seq": "11",
+     "start": 3323824,
+     "end": 3323839,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "ENSG00000306997"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 394
+    },
+    {
+     "seq": "11",
+     "start": 32499548,
+     "end": 32499563,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "WT1-AS"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 358
+    },
+    {
+     "seq": "11",
+     "start": 99550610,
+     "end": 99550625,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "CNTN5"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 5519
+    },
+    {
+     "seq": "16",
+     "start": 23880321,
+     "end": 23880336,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "PRKCB"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 11208
+    },
+    {
+     "seq": "16",
+     "start": 84852728,
+     "end": 84852743,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "ENSG00000285848"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 1985
+    },
+    {
+     "seq": "16",
+     "start": 85336803,
+     "end": 85336818,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "GSE1"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 8753
+    },
+    {
+     "seq": "2",
+     "start": 106845144,
+     "end": 106845159,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "ST6GAL2"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 2110
+    },
+    {
+     "seq": "20",
+     "start": 3936165,
+     "end": 3936180,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "RNF24"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 1093
+    },
+    {
+     "seq": "3",
+     "start": 72316661,
+     "end": 72316676,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "ENSG00000287882"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 218
+    },
+    {
+     "seq": "4",
+     "start": 7806366,
+     "end": 7806381,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "ENSG00000287164"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 1265
+    },
+    {
+     "seq": "4",
+     "start": 168640481,
+     "end": 168640496,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "PALLD"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 7603
+    },
+    {
+     "seq": "6",
+     "start": 74632898,
+     "end": 74632913,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "ENSG00000272243"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 3649
+    },
+    {
+     "seq": "6",
+     "start": 90308785,
+     "end": 90308800,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "ENSG00000260271"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 4975
+    },
+    {
+     "seq": "7",
+     "start": 151241830,
+     "end": 151241845,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "SMARCD3"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "exonic",
+     "nt_to_nearest_splice_site": 31
+    },
+    {
+     "seq": "8",
+     "start": 54617946,
+     "end": 54617961,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "RP1"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 1745
+    },
+    {
+     "seq": "9",
+     "start": 94318228,
+     "end": 94318243,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "ZNF169"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 1006
+    },
+    {
+     "seq": "9",
+     "start": 96939369,
+     "end": 96939384,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "SLC71A3P"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 173
+    },
+    {
+     "seq": "X",
+     "start": 38059956,
+     "end": 38059971,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "ENSG00000250349",
+      "SYTL5"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 5535
+    },
+    {
+     "seq": "3",
+     "start": 123630903,
+     "end": 123630918,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.25,
+     "genes": [
+      "MYLK"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 240
+    },
+    {
+     "seq": "2",
+     "start": 182787002,
+     "end": 182787017,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "DNAJC10"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "exonic",
+     "nt_to_nearest_splice_site": 9882
+    },
+    {
+     "seq": "2",
+     "start": 190729717,
+     "end": 190729732,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "ENSG00000228509"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "exonic",
+     "nt_to_nearest_splice_site": 30
+    },
+    {
+     "seq": "6",
+     "start": 55466701,
+     "end": 55466716,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "ENSG00000296793"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 11560
+    },
+    {
+     "seq": "7",
+     "start": 65946133,
+     "end": 65946148,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "VKORC1L1"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 2522
+    },
+    {
+     "seq": "7",
+     "start": 138724366,
+     "end": 138724381,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "ATP6V0A4"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 2342
+    },
+    {
+     "seq": "8",
+     "start": 4148598,
+     "end": 4148613,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "CSMD1"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 116500
+    },
+    {
+     "seq": "9",
+     "start": 90990689,
+     "end": 90990704,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "LINC02937"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 422
+    },
+    {
+     "seq": "1",
+     "start": 99427820,
+     "end": 99427835,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [],
+     "biotypes": [],
+     "gene_strands": [],
+     "hybridisable": false,
+     "compartment": "intergenic",
+     "nt_to_nearest_splice_site": null
+    },
+    {
+     "seq": "1",
+     "start": 172638172,
+     "end": 172638187,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [],
+     "biotypes": [],
+     "gene_strands": [],
+     "hybridisable": false,
+     "compartment": "intergenic",
+     "nt_to_nearest_splice_site": null
+    },
+    {
+     "seq": "1",
+     "start": 203557335,
+     "end": 203557350,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "ENSG00000307117"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": false,
+     "compartment": "exonic",
+     "nt_to_nearest_splice_site": 31
+    },
+    {
+     "seq": "1",
+     "start": 203557660,
+     "end": 203557675,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [],
+     "biotypes": [],
+     "gene_strands": [],
+     "hybridisable": false,
+     "compartment": "intergenic",
+     "nt_to_nearest_splice_site": null
+    },
+    {
+     "seq": "10",
+     "start": 14206203,
+     "end": 14206218,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "FRMD4A"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": false,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 32192
+    },
+    {
+     "seq": "10",
+     "start": 52768416,
+     "end": 52768431,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "MBL2"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": false,
+     "compartment": "exonic",
+     "nt_to_nearest_splice_site": 78
+    },
+    {
+     "seq": "11",
+     "start": 3278008,
+     "end": 3278023,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [],
+     "biotypes": [],
+     "gene_strands": [],
+     "hybridisable": false,
+     "compartment": "intergenic",
+     "nt_to_nearest_splice_site": null
+    },
+    {
+     "seq": "11",
+     "start": 61265228,
+     "end": 61265243,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "VWCE"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": false,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 17
+    },
+    {
+     "seq": "11",
+     "start": 84618345,
+     "end": 84618360,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "DLG2"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": false,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 31035
+    }
+   ]
+  },
+  {
+   "target_mRNA_5to3": "CACAAGGCCCTCATCA",
+   "antisense_5to3": "TGATGAGGGCCTTGTG",
+   "junction_labels": [
+    "TAF15_e6__NR4A3_intron2crypticExon"
+   ],
+   "n_junctions": 1,
+   "gap_specificity_margin": [
+    1
+   ],
+   "gc_percent": 56.2,
+   "counts": {
+    "exact": 3,
+    "le1": 147,
+    "le2": 2286,
+    "gap_paired_le2": 1105,
+    "hybridisable_le2": 874,
+    "hybridisable_gap_paired_le2": 410
+   },
+   "observed_over_expected": {
+    "exact": 2.185,
+    "le1": 2.185,
+    "le2": 1.475,
+    "gap_paired_le2": 1.846
+   },
+   "by_compartment": {
+    "intronic": 1460,
+    "exonic": 227,
+    "intron_exon_spanning": 11,
+    "intergenic": 588
+   },
+   "by_softmask": {
+    "none": 1109,
+    "partial": 88,
+    "full": 1089
+   },
+   "n_sites_counted": 2286,
+   "n_sites_retained": 40,
+   "n_exact_sites": 3,
+   "n_named_target_sites": 2,
+   "named_target_genes": [
+    "NR4A3",
+    "TCF12"
+   ],
+   "exact_sites": [
+    {
+     "seq": "2",
+     "start": 7331444,
+     "end": 7331459,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 0,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "ENSG00000229727"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 953
+    },
+    {
+     "seq": "4",
+     "start": 16978155,
+     "end": 16978170,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 0,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "ENSG00000249998"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": false,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 4585
+    },
+    {
+     "seq": "5",
+     "start": 78995211,
+     "end": 78995226,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 0,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [],
+     "biotypes": [],
+     "gene_strands": [],
+     "hybridisable": false,
+     "compartment": "intergenic",
+     "nt_to_nearest_splice_site": null
+    }
+   ],
+   "named_target_sites": [
+    {
+     "seq": "15",
+     "start": 57292013,
+     "end": 57292028,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 1,
+     "gap_fully_paired": false,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "TCF12"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "exonic",
+     "nt_to_nearest_splice_site": 1185
+    },
+    {
+     "seq": "9",
+     "start": 99826723,
+     "end": 99826738,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 2,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "NR4A3"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intron_exon_spanning",
+     "nt_to_nearest_splice_site": 0
+    }
+   ],
+   "sites": [
+    {
+     "seq": "2",
+     "start": 7331444,
+     "end": 7331459,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 0,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "ENSG00000229727"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 953
+    },
+    {
+     "seq": "4",
+     "start": 16978155,
+     "end": 16978170,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 0,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "ENSG00000249998"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": false,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 4585
+    },
+    {
+     "seq": "5",
+     "start": 78995211,
+     "end": 78995226,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 0,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [],
+     "biotypes": [],
+     "gene_strands": [],
+     "hybridisable": false,
+     "compartment": "intergenic",
+     "nt_to_nearest_splice_site": null
+    },
+    {
+     "seq": "10",
+     "start": 114581807,
+     "end": 114581822,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "ABLIM1"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 6209
+    },
+    {
+     "seq": "11",
+     "start": 6169602,
+     "end": 6169617,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "ENSG00000254444",
+      "OR52B2"
+     ],
+     "biotypes": [
+      "lncRNA",
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "exonic",
+     "nt_to_nearest_splice_site": 15673
+    },
+    {
+     "seq": "15",
+     "start": 33767919,
+     "end": 33767934,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "RYR3"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 723
+    },
+    {
+     "seq": "16",
+     "start": 24928746,
+     "end": 24928761,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "ARHGAP17"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 851
+    },
+    {
+     "seq": "16",
+     "start": 47873729,
+     "end": 47873744,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "LINC02133"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 5454
+    },
+    {
+     "seq": "17",
+     "start": 231866,
+     "end": 231881,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "RPH3AL"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 2518
+    },
+    {
+     "seq": "19",
+     "start": 33554140,
+     "end": 33554155,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "ENSG00000305929"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "exonic",
+     "nt_to_nearest_splice_site": 162
+    },
+    {
+     "seq": "2",
+     "start": 178564705,
+     "end": 178564720,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "TTN-AS1"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 5395
+    },
+    {
+     "seq": "3",
+     "start": 7167301,
+     "end": 7167316,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "GRM7"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 20634
+    },
+    {
+     "seq": "5",
+     "start": 176395325,
+     "end": 176395340,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "ARL10"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 1138
+    },
+    {
+     "seq": "6",
+     "start": 5726207,
+     "end": 5726222,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "FARS2"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 22529
+    },
+    {
+     "seq": "8",
+     "start": 76742828,
+     "end": 76742843,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "ZFHX4"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 33731
+    },
+    {
+     "seq": "9",
+     "start": 126962948,
+     "end": 126962963,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "RALGPS1"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 603
+    },
+    {
+     "seq": "X",
+     "start": 29074190,
+     "end": 29074205,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "IL1RAPL1"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 131991
+    },
+    {
+     "seq": "3",
+     "start": 123630900,
+     "end": 123630915,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0625,
+     "genes": [
+      "MYLK"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 237
+    },
+    {
+     "seq": "1",
+     "start": 202294577,
+     "end": 202294592,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "LGR6"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 2915
+    },
+    {
+     "seq": "10",
+     "start": 64032151,
+     "end": 64032166,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "ENSG00000226426"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "exonic",
+     "nt_to_nearest_splice_site": 8
+    },
+    {
+     "seq": "11",
+     "start": 18783784,
+     "end": 18783799,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "PTPN5"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 7133
+    },
+    {
+     "seq": "11",
+     "start": 79658770,
+     "end": 79658785,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "ENSG00000302828"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 31356
+    },
+    {
+     "seq": "11",
+     "start": 93359932,
+     "end": 93359947,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "DEUP1"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 2890
+    },
+    {
+     "seq": "11",
+     "start": 118707951,
+     "end": 118707966,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "ENSG00000255422"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 415
+    },
+    {
+     "seq": "12",
+     "start": 58625420,
+     "end": 58625435,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "LINC02388"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 8293
+    },
+    {
+     "seq": "13",
+     "start": 95648794,
+     "end": 95648809,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "DNAJC3-DT"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "exonic",
+     "nt_to_nearest_splice_site": 24
+    },
+    {
+     "seq": "13",
+     "start": 100788076,
+     "end": 100788091,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "NALCN-AS1"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 20989
+    },
+    {
+     "seq": "2",
+     "start": 233834905,
+     "end": 233834920,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "HJURP"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "exonic",
+     "nt_to_nearest_splice_site": 1174
+    },
+    {
+     "seq": "20",
+     "start": 853681,
+     "end": 853696,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "FAM110A"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 3052
+    },
+    {
+     "seq": "3",
+     "start": 63558149,
+     "end": 63558164,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "SYNPR"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 1607
+    },
+    {
+     "seq": "3",
+     "start": 72141438,
+     "end": 72141453,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "LINC00877"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 9964
+    },
+    {
+     "seq": "3",
+     "start": 132322991,
+     "end": 132323006,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "ACP3"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 2416
+    },
+    {
+     "seq": "4",
+     "start": 39114241,
+     "end": 39114256,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "ENSG00000249207"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 902
+    },
+    {
+     "seq": "4",
+     "start": 131470987,
+     "end": 131471002,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "LINC02377"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 1365
+    },
+    {
+     "seq": "4",
+     "start": 137697751,
+     "end": 137697766,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "ENSG00000250126"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 3053
+    },
+    {
+     "seq": "5",
+     "start": 161347587,
+     "end": 161347602,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "GABRB2"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 10819
+    },
+    {
+     "seq": "6",
+     "start": 137675674,
+     "end": 137675689,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "LINC03004"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 1287
+    },
+    {
+     "seq": "7",
+     "start": 112599248,
+     "end": 112599263,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "ENSG00000301323"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 1880
+    },
+    {
+     "seq": "7",
+     "start": 147339454,
+     "end": 147339469,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "CNTNAP2"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 39165
+    },
+    {
+     "seq": "8",
+     "start": 105665083,
+     "end": 105665098,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "ENSG00000253420",
+      "ZFPM2-AS1"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 2143
+    }
+   ]
+  },
+  {
+   "target_mRNA_5to3": "CACACAAGGCCCTCAT",
+   "antisense_5to3": "ATGAGGGCCTTGTGTG",
+   "junction_labels": [
+    "TAF15_e6__NR4A3_intron2crypticExon"
+   ],
+   "n_junctions": 1,
+   "gap_specificity_margin": [
+    3
+   ],
+   "gc_percent": 56.2,
+   "counts": {
+    "exact": 2,
+    "le1": 81,
+    "le2": 1978,
+    "gap_paired_le2": 779,
+    "hybridisable_le2": 744,
+    "hybridisable_gap_paired_le2": 308
+   },
+   "observed_over_expected": {
+    "exact": 1.457,
+    "le1": 1.204,
+    "le2": 1.276,
+    "gap_paired_le2": 1.301
+   },
+   "by_compartment": {
+    "intronic": 1308,
+    "exonic": 167,
+    "intron_exon_spanning": 4,
+    "intergenic": 499
+   },
+   "by_softmask": {
+    "none": 1132,
+    "partial": 150,
+    "full": 696
+   },
+   "n_sites_counted": 1978,
+   "n_sites_retained": 40,
+   "n_exact_sites": 2,
+   "n_named_target_sites": 1,
+   "named_target_genes": [
+    "TCF12"
+   ],
+   "exact_sites": [
+    {
+     "seq": "1",
+     "start": 172638173,
+     "end": 172638188,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 0,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [],
+     "biotypes": [],
+     "gene_strands": [],
+     "hybridisable": false,
+     "compartment": "intergenic",
+     "nt_to_nearest_splice_site": null
+    },
+    {
+     "seq": "19",
+     "start": 55242709,
+     "end": 55242724,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 0,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "PPP6R1"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": false,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 222
+    }
+   ],
+   "named_target_sites": [
+    {
+     "seq": "15",
+     "start": 57292011,
+     "end": 57292026,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 2,
+     "gap_mismatches": 1,
+     "gap_fully_paired": false,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "TCF12"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "exonic",
+     "nt_to_nearest_splice_site": 1183
+    }
+   ],
+   "sites": [
+    {
+     "seq": "1",
+     "start": 172638173,
+     "end": 172638188,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 0,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [],
+     "biotypes": [],
+     "gene_strands": [],
+     "hybridisable": false,
+     "compartment": "intergenic",
+     "nt_to_nearest_splice_site": null
+    },
+    {
+     "seq": "19",
+     "start": 55242709,
+     "end": 55242724,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 0,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "PPP6R1"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": false,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 222
+    },
+    {
+     "seq": "11",
+     "start": 15497729,
+     "end": 15497744,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "ENSG00000304856"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 4293
+    },
+    {
+     "seq": "16",
+     "start": 47873727,
+     "end": 47873742,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "LINC02133"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 5456
+    },
+    {
+     "seq": "16",
+     "start": 77292344,
+     "end": 77292359,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "ENSG00000260922"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 716
+    },
+    {
+     "seq": "18",
+     "start": 39774640,
+     "end": 39774655,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "MIR924HG"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 2034
+    },
+    {
+     "seq": "2",
+     "start": 160046792,
+     "end": 160046807,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "PLA2R1"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 1636
+    },
+    {
+     "seq": "20",
+     "start": 63424070,
+     "end": 63424085,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "ENSG00000280936"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 1
+    },
+    {
+     "seq": "5",
+     "start": 129861692,
+     "end": 129861707,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "CHSY3-AS1"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 24540
+    },
+    {
+     "seq": "7",
+     "start": 151241829,
+     "end": 151241844,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "SMARCD3"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "exonic",
+     "nt_to_nearest_splice_site": 32
+    },
+    {
+     "seq": "8",
+     "start": 54617947,
+     "end": 54617962,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "RP1"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 1746
+    },
+    {
+     "seq": "3",
+     "start": 123630902,
+     "end": 123630917,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.1875,
+     "genes": [
+      "MYLK"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 239
+    },
+    {
+     "seq": "1",
+     "start": 213893226,
+     "end": 213893241,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "PROX1-AS1"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 1501
+    },
+    {
+     "seq": "1",
+     "start": 248578737,
+     "end": 248578752,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "ENSG00000229255"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 15043
+    },
+    {
+     "seq": "2",
+     "start": 7331442,
+     "end": 7331457,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "ENSG00000229727"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 955
+    },
+    {
+     "seq": "2",
+     "start": 88306432,
+     "end": 88306447,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "ENSG00000299410"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 1801
+    },
+    {
+     "seq": "7",
+     "start": 138724365,
+     "end": 138724380,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "ATP6V0A4"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 2341
+    },
+    {
+     "seq": "8",
+     "start": 32995522,
+     "end": 32995537,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "ENSG00000247134"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 663
+    },
+    {
+     "seq": "1",
+     "start": 30729918,
+     "end": 30729933,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [],
+     "biotypes": [],
+     "gene_strands": [],
+     "hybridisable": false,
+     "compartment": "intergenic",
+     "nt_to_nearest_splice_site": null
+    },
+    {
+     "seq": "1",
+     "start": 203557659,
+     "end": 203557674,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [],
+     "biotypes": [],
+     "gene_strands": [],
+     "hybridisable": false,
+     "compartment": "intergenic",
+     "nt_to_nearest_splice_site": null
+    },
+    {
+     "seq": "11",
+     "start": 7621060,
+     "end": 7621075,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "PPFIBP2"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": false,
+     "compartment": "exonic",
+     "nt_to_nearest_splice_site": 34
+    },
+    {
+     "seq": "11",
+     "start": 19168620,
+     "end": 19168635,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "ZDHHC13"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": false,
+     "compartment": "exonic",
+     "nt_to_nearest_splice_site": 189
+    },
+    {
+     "seq": "11",
+     "start": 84618346,
+     "end": 84618361,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "DLG2"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": false,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 31036
+    },
+    {
+     "seq": "12",
+     "start": 47325780,
+     "end": 47325795,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [],
+     "biotypes": [],
+     "gene_strands": [],
+     "hybridisable": false,
+     "compartment": "intergenic",
+     "nt_to_nearest_splice_site": null
+    },
+    {
+     "seq": "12",
+     "start": 111186384,
+     "end": 111186399,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "CUX2"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": false,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 27800
+    },
+    {
+     "seq": "14",
+     "start": 59158632,
+     "end": 59158647,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "LINC01500"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": false,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 25015
+    },
+    {
+     "seq": "14",
+     "start": 59177377,
+     "end": 59177392,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "LINC01500"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": false,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 6270
+    },
+    {
+     "seq": "20",
+     "start": 32664840,
+     "end": 32664855,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "C20orf203",
+      "ENSG00000285382"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": false,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 6873
+    },
+    {
+     "seq": "5",
+     "start": 160346575,
+     "end": 160346590,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [],
+     "biotypes": [],
+     "gene_strands": [],
+     "hybridisable": false,
+     "compartment": "intergenic",
+     "nt_to_nearest_splice_site": null
+    },
+    {
+     "seq": "7",
+     "start": 29807801,
+     "end": 29807816,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "WIPF3"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": false,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 1124
+    },
+    {
+     "seq": "1",
+     "start": 17830736,
+     "end": 17830751,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [],
+     "biotypes": [],
+     "gene_strands": [],
+     "hybridisable": false,
+     "compartment": "intergenic",
+     "nt_to_nearest_splice_site": null
+    },
+    {
+     "seq": "1",
+     "start": 248469381,
+     "end": 248469396,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [],
+     "biotypes": [],
+     "gene_strands": [],
+     "hybridisable": false,
+     "compartment": "intergenic",
+     "nt_to_nearest_splice_site": null
+    },
+    {
+     "seq": "10",
+     "start": 48592659,
+     "end": 48592674,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "ARHGAP22"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": false,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 9508
+    },
+    {
+     "seq": "10",
+     "start": 55400648,
+     "end": 55400663,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "ENSG00000236744",
+      "PCDH15"
+     ],
+     "biotypes": [
+      "lncRNA",
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": false,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 34436
+    },
+    {
+     "seq": "15",
+     "start": 85070728,
+     "end": 85070743,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "PDE8A"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": false,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 3525
+    },
+    {
+     "seq": "2",
+     "start": 181717323,
+     "end": 181717338,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [],
+     "biotypes": [],
+     "gene_strands": [],
+     "hybridisable": false,
+     "compartment": "intergenic",
+     "nt_to_nearest_splice_site": null
+    },
+    {
+     "seq": "20",
+     "start": 16608719,
+     "end": 16608734,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [],
+     "biotypes": [],
+     "gene_strands": [],
+     "hybridisable": false,
+     "compartment": "intergenic",
+     "nt_to_nearest_splice_site": null
+    },
+    {
+     "seq": "3",
+     "start": 67583745,
+     "end": 67583760,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "SUCLG2"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": false,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 21044
+    },
+    {
+     "seq": "3",
+     "start": 194234629,
+     "end": 194234644,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "LINC00887"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": false,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 3384
+    },
+    {
+     "seq": "3",
+     "start": 194888678,
+     "end": 194888693,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [],
+     "biotypes": [],
+     "gene_strands": [],
+     "hybridisable": false,
+     "compartment": "intergenic",
+     "nt_to_nearest_splice_site": null
+    }
+   ]
+  },
+  {
+   "target_mRNA_5to3": "ACACAAGGCCCTCATC",
+   "antisense_5to3": "GATGAGGGCCTTGTGT",
+   "junction_labels": [
+    "TAF15_e6__NR4A3_intron2crypticExon"
+   ],
+   "n_junctions": 1,
+   "gap_specificity_margin": [
+    2
+   ],
+   "gc_percent": 56.2,
+   "counts": {
+    "exact": 2,
+    "le1": 71,
+    "le2": 1592,
+    "gap_paired_le2": 689,
+    "hybridisable_le2": 617,
+    "hybridisable_gap_paired_le2": 260
+   },
+   "observed_over_expected": {
+    "exact": 1.457,
+    "le1": 1.055,
+    "le2": 1.027,
+    "gap_paired_le2": 1.151
+   },
+   "by_compartment": {
+    "intronic": 1052,
+    "exonic": 144,
+    "intron_exon_spanning": 5,
+    "intergenic": 391
+   },
+   "by_softmask": {
+    "none": 909,
+    "partial": 68,
+    "full": 615
+   },
+   "n_sites_counted": 1592,
+   "n_sites_retained": 40,
+   "n_exact_sites": 2,
+   "n_named_target_sites": 1,
+   "named_target_genes": [
+    "TCF12"
+   ],
+   "exact_sites": [
+    {
+     "seq": "2",
+     "start": 7331443,
+     "end": 7331458,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 0,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "ENSG00000229727"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 954
+    },
+    {
+     "seq": "3",
+     "start": 67583746,
+     "end": 67583761,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 0,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "SUCLG2"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": false,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 21043
+    }
+   ],
+   "named_target_sites": [
+    {
+     "seq": "15",
+     "start": 57292012,
+     "end": 57292027,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 2,
+     "gap_mismatches": 1,
+     "gap_fully_paired": false,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "TCF12"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "exonic",
+     "nt_to_nearest_splice_site": 1184
+    }
+   ],
+   "sites": [
+    {
+     "seq": "2",
+     "start": 7331443,
+     "end": 7331458,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 0,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "ENSG00000229727"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 954
+    },
+    {
+     "seq": "3",
+     "start": 67583746,
+     "end": 67583761,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 0,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "SUCLG2"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": false,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 21043
+    },
+    {
+     "seq": "1",
+     "start": 11833299,
+     "end": 11833314,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "CLCN6"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 200
+    },
+    {
+     "seq": "16",
+     "start": 47873728,
+     "end": 47873743,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "LINC02133"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 5455
+    },
+    {
+     "seq": "16",
+     "start": 90037577,
+     "end": 90037592,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "DRC4"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "exonic",
+     "nt_to_nearest_splice_site": 169
+    },
+    {
+     "seq": "2",
+     "start": 178564704,
+     "end": 178564719,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "TTN-AS1"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 5394
+    },
+    {
+     "seq": "20",
+     "start": 49595035,
+     "end": 49595050,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "ENSG00000298888"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 207
+    },
+    {
+     "seq": "X",
+     "start": 29074189,
+     "end": 29074204,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "IL1RAPL1"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 131990
+    },
+    {
+     "seq": "1",
+     "start": 213893225,
+     "end": 213893240,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "PROX1-AS1"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 1502
+    },
+    {
+     "seq": "10",
+     "start": 115777726,
+     "end": 115777741,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "ATRNL1"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 50372
+    },
+    {
+     "seq": "11",
+     "start": 18783785,
+     "end": 18783800,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "PTPN5"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 7132
+    },
+    {
+     "seq": "13",
+     "start": 100788075,
+     "end": 100788090,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "NALCN-AS1"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 20988
+    },
+    {
+     "seq": "14",
+     "start": 73161782,
+     "end": 73161797,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "PSEN1"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "exonic",
+     "nt_to_nearest_splice_site": 623
+    },
+    {
+     "seq": "4",
+     "start": 131470986,
+     "end": 131471001,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "LINC02377"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": true,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 1364
+    },
+    {
+     "seq": "1",
+     "start": 37674563,
+     "end": 37674578,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [],
+     "biotypes": [],
+     "gene_strands": [],
+     "hybridisable": false,
+     "compartment": "intergenic",
+     "nt_to_nearest_splice_site": null
+    },
+    {
+     "seq": "1",
+     "start": 172638174,
+     "end": 172638189,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [],
+     "biotypes": [],
+     "gene_strands": [],
+     "hybridisable": false,
+     "compartment": "intergenic",
+     "nt_to_nearest_splice_site": null
+    },
+    {
+     "seq": "1",
+     "start": 203557658,
+     "end": 203557673,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [],
+     "biotypes": [],
+     "gene_strands": [],
+     "hybridisable": false,
+     "compartment": "intergenic",
+     "nt_to_nearest_splice_site": null
+    },
+    {
+     "seq": "11",
+     "start": 19168619,
+     "end": 19168634,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "ZDHHC13"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": false,
+     "compartment": "exonic",
+     "nt_to_nearest_splice_site": 190
+    },
+    {
+     "seq": "11",
+     "start": 33898241,
+     "end": 33898256,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "ENSG00000308500"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": false,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 1056
+    },
+    {
+     "seq": "12",
+     "start": 47325779,
+     "end": 47325794,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [],
+     "biotypes": [],
+     "gene_strands": [],
+     "hybridisable": false,
+     "compartment": "intergenic",
+     "nt_to_nearest_splice_site": null
+    },
+    {
+     "seq": "12",
+     "start": 52339611,
+     "end": 52339626,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [],
+     "biotypes": [],
+     "gene_strands": [],
+     "hybridisable": false,
+     "compartment": "intergenic",
+     "nt_to_nearest_splice_site": null
+    },
+    {
+     "seq": "12",
+     "start": 67326112,
+     "end": 67326127,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [],
+     "biotypes": [],
+     "gene_strands": [],
+     "hybridisable": false,
+     "compartment": "intergenic",
+     "nt_to_nearest_splice_site": null
+    },
+    {
+     "seq": "12",
+     "start": 131610058,
+     "end": 131610073,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [],
+     "biotypes": [],
+     "gene_strands": [],
+     "hybridisable": false,
+     "compartment": "intergenic",
+     "nt_to_nearest_splice_site": null
+    },
+    {
+     "seq": "14",
+     "start": 57361313,
+     "end": 57361328,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "ENSG00000286355"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": false,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 8093
+    },
+    {
+     "seq": "14",
+     "start": 59158631,
+     "end": 59158646,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "LINC01500"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": false,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 25016
+    },
+    {
+     "seq": "15",
+     "start": 25528512,
+     "end": 25528527,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "LINC02250"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": false,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 11868
+    },
+    {
+     "seq": "19",
+     "start": 55242710,
+     "end": 55242725,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "PPP6R1"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": false,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 223
+    },
+    {
+     "seq": "2",
+     "start": 175804541,
+     "end": 175804556,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "ENSG00000289349"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": false,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 5768
+    },
+    {
+     "seq": "22",
+     "start": 28908861,
+     "end": 28908876,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "ZNRF3"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": false,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 8604
+    },
+    {
+     "seq": "3",
+     "start": 133769744,
+     "end": 133769759,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "TF"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": false,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 748
+    },
+    {
+     "seq": "7",
+     "start": 69320634,
+     "end": 69320649,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "ENSG00000225718"
+     ],
+     "biotypes": [
+      "lncRNA"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": false,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 16546
+    },
+    {
+     "seq": "9",
+     "start": 96417263,
+     "end": 96417278,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.0,
+     "genes": [
+      "ENSG00000286835",
+      "ZNF367"
+     ],
+     "biotypes": [
+      "lncRNA",
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": false,
+     "compartment": "exonic",
+     "nt_to_nearest_splice_site": 334
+    },
+    {
+     "seq": "18",
+     "start": 49934165,
+     "end": 49934180,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 0.625,
+     "genes": [
+      "MYO5B"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "-"
+     ],
+     "hybridisable": false,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 2071
+    },
+    {
+     "seq": "1",
+     "start": 17830735,
+     "end": 17830750,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [],
+     "biotypes": [],
+     "gene_strands": [],
+     "hybridisable": false,
+     "compartment": "intergenic",
+     "nt_to_nearest_splice_site": null
+    },
+    {
+     "seq": "11",
+     "start": 25160236,
+     "end": 25160251,
+     "orientation": "sense",
+     "required_transcript_strand": "+",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [],
+     "biotypes": [],
+     "gene_strands": [],
+     "hybridisable": false,
+     "compartment": "intergenic",
+     "nt_to_nearest_splice_site": null
+    },
+    {
+     "seq": "12",
+     "start": 19529217,
+     "end": 19529232,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "AEBP2"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": false,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 10543
+    },
+    {
+     "seq": "15",
+     "start": 59753618,
+     "end": 59753633,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [],
+     "biotypes": [],
+     "gene_strands": [],
+     "hybridisable": false,
+     "compartment": "intergenic",
+     "nt_to_nearest_splice_site": null
+    },
+    {
+     "seq": "19",
+     "start": 3444085,
+     "end": 3444100,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "NFIC"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": false,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 4913
+    },
+    {
+     "seq": "19",
+     "start": 3444158,
+     "end": 3444173,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "NFIC"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": false,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 4840
+    },
+    {
+     "seq": "19",
+     "start": 3444227,
+     "end": 3444242,
+     "orientation": "antisense",
+     "required_transcript_strand": "-",
+     "mismatches": 1,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "softmask_fraction": 1.0,
+     "genes": [
+      "NFIC"
+     ],
+     "biotypes": [
+      "protein_coding"
+     ],
+     "gene_strands": [
+      "+"
+     ],
+     "hybridisable": false,
+     "compartment": "intronic",
+     "nt_to_nearest_splice_site": 4771
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,287 @@
+{
+ "_what": "The primary, nucleotide-resolved record of the TCF12::NR4A3 (TCF12/TEC) breakpoint in extraskeletal myxoid chondrosarcoma, plus the two corroborating sources, committed here so no claim depends on the literature-cache branch.",
+ "_why": "The junction-ASO coverage ladder's top row turned on whether the TCF12 exon assignment was reported or inferred. It said inferred, from a residue count. The authors of the primary report also DEPOSITED the chimeric cDNA, which resolves the junction to the nucleotide, and this repository had never retrieved it.",
+ "_what_this_is_not": [
+  "Not a coverage measurement and not an efficacy claim.",
+  "Not a within-partner breakpoint DISTRIBUTION. It is ONE sequenced tumour; nothing here says how a second TCF12-rearranged tumour breaks.",
+  "Not a re-annotation of TCF12. The exon NUMBER is read against this repository's committed transcript model; the seam SEQUENCE is what the deposit itself carries."
+ ],
+ "_cost": "$0 — three Europe PMC / NCBI E-utilities reads on a free GitHub Actions runner.",
+ "how_it_was_found": "NCBI elink from the primary report's PubMed record to the nucleotide database (dbfrom=pubmed&db=nuccore&id=11156374) returned one direct submission, UID 13540159. An independent nuccore search for `TCF12 AND TEC AND chondrosarcoma` returned the same single UID. Neither route is a literature search, which is why 295 + 104 retrieved papers had not surfaced it: the breakpoint was never published as an exon in prose, it was DEPOSITED.",
+ "records": [
+  {
+   "kind": "sequence_deposit",
+   "accession": "AF289510",
+   "version": "AF289510.1",
+   "ncbi_nuccore_uid": "13540159",
+   "definition": "Homo sapiens TCF12-TEC fusion protein mRNA, partial cds",
+   "length_bp": 421,
+   "protein_id": "AAK29329.1",
+   "submitted": "25-JUL-2000, Lundberg Laboratory for Cancer Research, Dept. of Pathology, Goteborg University, Sahlgrenska University Hospital, Goteborg SE-413 45, Sweden",
+   "cites_pmid": "11156374",
+   "role": "⭐ THE PRIMARY EXON-RESOLVED EVIDENCE. Its two chromosome-tagged source features split the record at the junction: 1..263 is chromosome 15 (15q21, TCF12) and 264..421 is chromosome 9 (9q22, TEC/NR4A3).",
+   "source_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id=13540159&rettype=gbwithparts&retmode=text",
+   "http_status": "200",
+   "sha256_of_flatfile": "15da3c7f011f452e549e7c9bde46eb9bc69c69c15da29c8aa78e4d46d853e33a",
+   "genbank_flatfile_verbatim": "LOCUS AF289510 421 bp mRNA linear PRI 15-JUL-2016\nDEFINITION Homo sapiens TCF12-TEC fusion protein mRNA, partial cds.\nACCESSION AF289510\nVERSION AF289510.1\nKEYWORDS .\nSOURCE Homo sapiens (human)\n ORGANISM Homo sapiens\n Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi;\n Mammalia; Eutheria; Euarchontoglires; Primates; Haplorrhini;\n Catarrhini; Hominidae; Homo.\nREFERENCE 1 (bases 1 to 421)\n AUTHORS Sjogren,H., Wedell,B., Meis-Kindblom,J.M., Kindblom,L.G.,\n Stenman,G. and Kindblom,J.M.\n TITLE Fusion of the NH2-terminal domain of the basic helix-loop-helix\n protein TCF12 to TEC in extraskeletal myxoid chondrosarcoma with\n translocation t(9;15)(q22;q21)\n JOURNAL Cancer Res. 60 (24), 6832-6835 (2000)\n PUBMED 11156374\nREFERENCE 2 (bases 1 to 421)\n AUTHORS Sjogren,H., Wedell,B., Meis-Kindblom,J.M., Kindblom,L.G. and\n Stenman,G.\n TITLE Direct Submission\n JOURNAL Submitted (25-JUL-2000) Lundberg Laboratory for Cancer Research,\n Dept. of Pathology, Goteborg University, Sahlgrenska University\n Hospital, Goteborg SE-413 45, Sweden\nFEATURES Location/Qualifiers\n source 1..421\n /organism=\"Homo sapiens\"\n /mol_type=\"mRNA\"\n /db_xref=\"taxon:9606\"\n /map=\"t(9;15) (q22;q21)\"\n /tissue_type=\"extraskeletal myxoid chondrosarcoma\"\n source 1..263\n /organism=\"Homo sapiens\"\n /mol_type=\"mRNA\"\n /db_xref=\"taxon:9606\"\n /chromosome=\"15\"\n /map=\"15q21\"\n source 264..421\n /organism=\"Homo sapiens\"\n /mol_type=\"mRNA\"\n /db_xref=\"taxon:9606\"\n /chromosome=\"9\"\n /map=\"9q22\"\n CDS 421\n /codon_start=2\n /product=\"TCF12-TEC fusion protein\"\n /protein_id=\"AAK29329.1\"\n /translation=\"DFSAMFSPPVNSGKTRPTTLGSSQFSGSGIDERGGTTSWGTSGQ\n PSPSYDSSRGFTDSPHYSDHLNDSRLGAHEGLSPTPFMNSNLMDMPCVQAQYSPSPPG\n SSYAAQTYSSEYTTEIMNPDYTKLTMDLGSTEITATAT\"\nORIGIN \n 1 ggacttcagt gcgatgtttt ccccacctgt taatagtggg aaaactagac caactacact\n 61 gggaagcagt caattcagtg gatcaggtat tgatgaaaga ggaggtacaa catcttgggg\n 121 aacaagtggt caaccaagtc cttcctatga ttcatctaga ggttttacag acagccctca\n 181 ttacagtgat cacttgaatg acagtcgatt aggagcccat gaaggcttgt ccccaacacc\n 241 tttcatgaac tcaaatctga tggatatgcc ctgcgtccaa gcccaatata gcccttcccc\n 301 tccaggttcc agttatgcgg cgcagacata cagctcggaa tacaccacgg agatcatgaa\n 361 ccccgactac accaagctga ccatggacct tggcagcact gagatcacgg ctacagccac\n 421 c\n//",
+   "fasta_verbatim": ">AF289510.1 Homo sapiens TCF12-TEC fusion protein mRNA, partial cds\nGGACTTCAGTGCGATGTTTTCCCCACCTGTTAATAGTGGGAAAACTAGACCAACTACACTGGGAAGCAGT\nCAATTCAGTGGATCAGGTATTGATGAAAGAGGAGGTACAACATCTTGGGGAACAAGTGGTCAACCAAGTC\nCTTCCTATGATTCATCTAGAGGTTTTACAGACAGCCCTCATTACAGTGATCACTTGAATGACAGTCGATT\nAGGAGCCCATGAAGGCTTGTCCCCAACACCTTTCATGAACTCAAATCTGATGGATATGCCCTGCGTCCAA\nGCCCAATATAGCCCTTCCCCTCCAGGTTCCAGTTATGCGGCGCAGACATACAGCTCGGAATACACCACGG\nAGATCATGAACCCCGACTACACCAAGCTGACCATGGACCTTGGCAGCACTGAGATCACGGCTACAGCCAC\nC"
+  },
+  {
+   "kind": "primary_report",
+   "pmid": "11156374",
+   "title": "Fusion of the NH2-terminal domain of the basic helix-loop-helix protein TCF12 to TEC in extraskeletal myxoid chondrosarcoma with translocation t(9;15)(q22;q21).",
+   "authors": "Sjögren H, Wedell B, Meis-Kindblom JM, Kindblom LG, Stenman G.",
+   "journal": "Cancer research",
+   "year": 2000,
+   "volume": "60",
+   "issue": "24",
+   "pages": "6832-6835",
+   "is_open_access": "N",
+   "abstract_verbatim": "Extraskeletal myxoid chondrosarcomas (EMCs) are characterized by recurrent t(9;22) or t(9;17) translocations resulting in fusions of the NH2-terminal transactivation domains of EWS or TAF2N to the entire TEC protein. We report here an EMC with a novel translocation t(9; 15)(q22;q21) and a third type of TEC-containing fusion gene. The chimeric transcript encodes a protein in which the first 108 amino acids of the NH2-terminus of the basic helix-loop-helix (bHLH) protein TCF12 is linked to the entire TEC protein. The translocation separates the NH2-terminal domain of TCF12 from the bHLH domain as well as from a potential leucine zipper domain located immediately downstream of the breakpoint. These results demonstrate that the NH2-terminal transactivation domains of EWS or TAF2N are not unique in their ability to convert the TEC protein into an oncogenically active fusion protein, and that they may be replaced by a domain from a bHLH protein that presumably endows the fusion protein with similar functions.",
+   "role": "The report the deposit belongs to. Its ABSTRACT describes the chimera by residue count — 'the first 108 amino acids' — and names no exon, which is why this repository's assignment was an inference until the deposit was retrieved.",
+   "source_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:11156374&resultType=core&format=json",
+   "http_status": "200"
+  },
+  {
+   "kind": "corroborating_primary",
+   "pmid": "12826747",
+   "title": "Genomic organization of human TCF12 gene and spliced mRNA variants producing isoforms of transcription factor HTF4.",
+   "authors": "Gan TI, Rowen L, Nesbitt R, Roe BA, Wu H, Hu P, Yao Z, Kim UJ, O'Sickey T, Bina M.",
+   "journal": "Cytogenetic and genome research",
+   "year": 2002,
+   "volume": "98",
+   "pages": "245-248",
+   "is_open_access": "N",
+   "abstract_verbatim": "The human TCF12 gene, mapping to 15q21, encodes the helix-loop-helix transcription factor 4 (HTF4). A detailed analysis of this genomic region established the organization of the TCF12 gene. The gene includes 21 exons and is significantly larger than an average human gene. Preceding the second exon, two alternative acceptor sites for mRNA splicing yield two distinguishable transcripts (HTF4a and HTF4b) which differ in their 5' untranslated region but share identical coding sequences. Differential utilization of exon 15 in the TCF12 gene may reflect a mechanism producing a cell-type-specific protein (HTF4c). In addition, intron 5 in the TCF12 gene corresponds to the region involved in a translocation, t(9;15)(q22;q21), that results in a form of extraskeletal myxoid chondrosarcoma.",
+   "role": "An INDEPENDENT gene-structure paper, not a fusion paper. It states the TCF12 gene 'includes 21 exons' — the same count as this repository's committed transcript model, which is what makes its exon numbering comparable — and that 'intron 5 in the TCF12 gene corresponds to the region involved in a translocation, t(9;15)(q22;q21), that results in a form of extraskeletal myxoid chondrosarcoma'. A genomic break in intron 5 splices exon 5 to the partner.",
+   "source_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:12826747&resultType=core&format=json",
+   "http_status": "200"
+  },
+  {
+   "kind": "secondary_review",
+   "pmid": "24714847",
+   "pmcid": "PMC4055444",
+   "title": "Molecular strategies for detecting chromosomal translocations in soft tissue tumors (review).",
+   "verbatim": "Gene TCF12, also known as HTF4, presents different isoforms by alternative splicing and the breakpoint affects the region of intron 5 ( 158 , 159 ).",
+   "role": "A review that states the intron-5 assignment in prose. ⚠ NOT an independent observation: its two citations at that sentence are the primary report and the gene-structure paper above, so it is a COMPOSITION of them, retrieved here to show that the exon assignment is not this repository's invention.",
+   "cited_references_at_that_sentence": {
+    "b158-ijmm-33-06-1379": "158 Sjögren H Wedell B Meis-Kindblom JM Kindblom LG Stenman G Fusion of the NH2-terminal domain of the basic helix-loop-helix protein TCF12 to TEC in extraskeletal myxoid chondrosarcoma with translocation t(9;15)(q22;q21) Cancer Res 60 6832 6835 2000 11156374",
+    "b159-ijmm-33-06-1379": "159 Gan TI Rowen L Nesbitt R Roe BA Wu H Hu P Yao Z Kim UJ O’Sickey T Bina M Genomic organization of human TCF12 gene and spliced mRNA variants producing isoforms of transcription factor HTF4 Cytogenet Genome Res 98 245 248 2002 12826747 10.1159/000071042"
+   },
+   "source_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC4055444/fullTextXML",
+   "http_status": "200"
+  }
+ ],
+ "elink_pubmed_to_nuccore_verbatim": {
+  "header": {
+   "type": "elink",
+   "version": "0.3"
+  },
+  "linksets": [
+   {
+    "dbfrom": "pubmed",
+    "ids": [
+     "11156374"
+    ],
+    "linksetdbs": [
+     {
+      "dbto": "nuccore",
+      "linkname": "pubmed_nuccore",
+      "links": [
+       "13540159"
+      ]
+     },
+     {
+      "dbto": "nuccore",
+      "linkname": "pubmed_nuccore_refseq",
+      "links": [
+       "2462545638",
+       "2462545636",
+       "2462545634",
+       "2462545632",
+       "2462545630",
+       "2462545628",
+       "2462545626",
+       "2462545624",
+       "2462545622",
+       "2462545620",
+       "2462545618",
+       "2462545616",
+       "2462545614",
+       "2462545612",
+       "2462545610",
+       "2462545608",
+       "2217379897",
+       "2217302427",
+       "2217302426",
+       "2217302424",
+       "2217302422",
+       "2217302421",
+       "2217302419",
+       "2217302417",
+       "2217302415",
+       "2217302414",
+       "2217302412",
+       "2217302411",
+       "2217302409",
+       "2217302408",
+       "2217302407",
+       "2217302406",
+       "2217302405",
+       "1928917093",
+       "1890270238",
+       "1890269335",
+       "1890259025",
+       "1889489802",
+       "1677703434",
+       "1677538774",
+       "1677538699",
+       "1677538323",
+       "1677538041",
+       "1677537821",
+       "1677531535",
+       "1677531330",
+       "1677531327",
+       "1677501784",
+       "1677500783",
+       "1677500772",
+       "1677500748",
+       "1677499320",
+       "1677498769",
+       "1519243370",
+       "27894356"
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "elink_source_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/elink.fcgi?dbfrom=pubmed&db=nuccore&id=11156374&retmode=json",
+ "is_there_a_second_sequenced_TCF12_case": {
+  "⭐_question": "The 58-case partner cohort contains TWO TCF12 tumours and AF289510.1 is ONE sequenced chimera. A second deposit matching exon 5 would make the TCF12 arm a buildable RUNG instead of a bound priced at its ceiling — the difference between 95% being reachable for a junction-reagent panel and ~94.8% being the honest ceiling.",
+  "⛔_answer": "NO. No second TCF12::NR4A3 sequence has been deposited, and the arm stays a bound. ⚠ THAT IS NOT A FINDING THAT THE JUNCTION IS PRIVATE — recurrence is UNTESTED, not refuted. Every later cohort that counted a TCF12 tumour counted it with an assay that cannot resolve an exon.",
+  "_cost": "$0 — NCBI E-utilities and Europe PMC reads on a free GitHub Actions runner.",
+  "workflow_runs": [
+   "31888284676",
+   "31888302684",
+   "31888314969"
+  ],
+  "what_was_searched_and_what_came_back": [
+   {
+    "database": "NCBI nuccore",
+    "query": "(TCF12 OR HTF4) AND (chondrosarcoma OR \"myxoid\")",
+    "hit_count": 1,
+    "reading": "the single hit is UID 13540159 = AF289510.1, the record already held here"
+   },
+   {
+    "database": "NCBI nuccore",
+    "query": "\"t(9;15)\" AND (chondrosarcoma OR TEC OR NR4A3)",
+    "hit_count": 0,
+    "reading": "no deposit anywhere is indexed against this translocation"
+   },
+   {
+    "database": "NCBI nuccore",
+    "query": "TCF12 AND (TEC OR CHN OR NR4A3 OR NOR1) AND (fusion OR chimeric OR chimaeric)",
+    "hit_count": 36,
+    "reading": "⚠ TRIAGED RATHER THAN ASSUMED TO BE NOISE. An esummary of all 36 shows 35 are whole-genome assemblies of other species — Sus scrofa, eleven bat genomes, Mus musculus GRCm39 and so on — matching because `TEC` and `CHN` are all-fields tokens. The 36th is AF289510.1."
+   },
+   {
+    "database": "NCBI protein",
+    "query": "TCF12 AND (TEC OR NR4A3 OR CHN) AND fusion",
+    "hit_count": 1,
+    "reading": "UID 13540160 = AAK29329.1, which is AF289510.1's own conceptual translation"
+   },
+   {
+    "database": "NCBI elink, pubmed -> nuccore",
+    "query": "every later cohort that counts a TCF12 tumour: PMID 12598313, 24746215, 36948401",
+    "hit_count": 0,
+    "reading": "NONE of the three has a `pubmed_nuccore` DIRECT SUBMISSION link. All three return only `pubmed_nuccore_refseq` — the generic gene records PubMed auto-links, which are not deposits. ⛔ THE DISTINCTION IS THE WHOLE TEST: it is exactly the `pubmed_nuccore` link on PMID 11156374 that returned AF289510.1."
+   },
+   {
+    "database": "NCBI nuccore",
+    "query": "(TCF12 OR HTF4) AND (\"extraskeletal myxoid\" OR \"extraosseous myxoid\" OR \"chordoid sarcoma\" OR EMC)",
+    "hit_count": 4,
+    "reading": "triaged by esummary: a Chionoecetes opilio (snow crab) whole-genome project, two insect transcriptome shotgun assemblies, and AF289510.1. `EMC` is an all-fields token that also means ER membrane complex, which is where the three non-human records come from."
+   },
+   {
+    "database": "NCBI SRA",
+    "query": "TCF12 AND (NR4A3 OR TEC OR chondrosarcoma)",
+    "hit_count": 0,
+    "reading": "⭐ THE ARM THAT COULD HAVE CHANGED THE ANSWER, AND IT IS EMPTY. A second junction need not be a cloned cDNA — a whole-transcriptome run from a TCF12-rearranged EMC would carry it. No sequencing run in SRA is indexed against TCF12 and this disease."
+   }
+  ],
+  "⭐_why_no_second_sequence_EXISTS_and_it_is_structural": "TCF12-rearranged EMC has been COUNTED at least four times in independent cohorts and SEQUENCED once, in 2000. Every later count comes from a partner-level assay that cannot resolve an exon even in principle — the 26-case series called its TCF12 tumour by fluorescence in situ hybridization, and a break-apart or fusion FISH probe reports which genes are joined, never where. So the absence of a second junction is a property of how this disease is diagnosed, not evidence about how the second tumour breaks.",
+  "the_cohorts_that_count_a_TCF12_tumour": [
+   {
+    "pmid": "11156374",
+    "year": 2000,
+    "n_emc": 1,
+    "n_tcf12": 1,
+    "how_the_tcf12_case_was_resolved": "cloned and SEQUENCED; deposited as AF289510.1",
+    "verbatim": "The chimeric transcript encodes a protein in which the first 108 amino acids of the NH2-terminus of the basic helix-loop-helix (bHLH) protein TCF12 is linked to the entire TEC protein.",
+    "note": "the only sequenced TCF12::NR4A3 junction in existence"
+   },
+   {
+    "pmid": "12598313",
+    "year": 2003,
+    "n_emc": 10,
+    "n_tcf12": 1,
+    "journal": "The American journal of pathology",
+    "how_the_tcf12_case_was_resolved": "spectral karyotyping, FISH and RT-PCR — a fusion CALL, with no junction reported and no sequence deposited",
+    "verbatim": "All tumors contained translocation-generated or cryptic gene fusions, including EWS-TEC (five cases, of which one was a novel fusion), TAF2N-TEC (four cases), and TCF12-TEC (one case).",
+    "⚠_probably_not_an_independent_tumour": "SAME GROUP, SAME INSTITUTION as the 2000 report — Sjögren, Meis-Kindblom, Kindblom, Stenman, Göteborg — and it reports the same t(9;15)(q22;q21) in one case. It is likely the SAME tumour re-reported in a series, and this file does NOT assert either way: the abstract does not say, and counting it as a second case would double-count a patient, which is the failure POLICY-evidence.md §2.3 exists to prevent."
+   },
+   {
+    "pmid": "24746215",
+    "year": 2014,
+    "n_emc": 26,
+    "n_tcf12": 1,
+    "journal": "Human pathology",
+    "how_the_tcf12_case_was_resolved": "FLUORESCENCE IN SITU HYBRIDIZATION — cannot resolve an exon",
+    "verbatim": "Fluorescence in situ hybridization analysis showed EWSR1-NR4A3 gene fusion in 16 cases (62%), TAF15-NR4A3 gene fusion in 7 cases (27%), and TCF12-NR4A3 gene fusion in 1 case (4%).",
+    "note": "An INDEPENDENT tumour (Memorial Sloan Kettering, 2014) with no junction. This is the clearest example of the structural point: the case exists, is published, and is unusable for design."
+   },
+   {
+    "pmid": "32572850",
+    "year": 2021,
+    "n_emc": 67,
+    "n_tcf12": 1,
+    "journal": "Annals of surgical oncology",
+    "how_the_tcf12_case_was_resolved": "molecular confirmation of NR4A3 rearrangement and partner; no junction",
+    "verbatim": "Numbers and type of translocation were: 50 (80%) NR4A3-EWS, 10 (16%) NR4A3-TAF15, 1 (2%) NR4A3-TCF12, and 1 (2%) NR4A3-TFG."
+   },
+   {
+    "pmid": "36948401",
+    "year": 2023,
+    "n_emc": 58,
+    "n_tcf12": 2,
+    "journal": "Modern pathology",
+    "how_the_tcf12_case_was_resolved": "partner identification only — this is the ladder's partner denominator",
+    "note": "the two TCF12 tumours whose reachability the whole 95% question turns on"
+   }
+  ],
+  "⛔_what_this_licenses_and_what_it_does_not": "LICENSES: keeping the TCF12 row a BOUND, and saying WHY in a way that survives review — the junction is resolved, the reagent exists and is screened, and the within-partner distribution rests on one tumour. DOES NOT LICENSE: calling the junction private, rare, or non-recurrent. Four cohorts counted a TCF12 tumour and none of them looked at the junction, so the recurrence question has never been ASKED, let alone answered.",
+  "what_would_answer_it": [
+   {
+    "step": "Sequence the junction in an archival TCF12-rearranged EMC",
+    "who_holds_the_material": "the 26-case series (PMID 24746215) and the 58-case cohort (PMID 36948401) each hold at least one, already FISH-confirmed",
+    "cost": "wet lab — outside this programme's operating regime (no wet lab)",
+    "what_it_buys": "one confirming case turns the TCF12 arm from a ceiling-priced bound into a measured 2/2, and the ladder's top row into a rung"
+   },
+   {
+    "step": "Read a whole-transcriptome deposit from a TCF12-rearranged EMC",
+    "status": "NOT AVAILABLE. The SRA arm of this search was rate-limited and is the one unfinished query; but no EMC whole-transcriptome deposit retrieved anywhere in this repository is annotated as TCF12-rearranged.",
+    "cost": "$0 if such a deposit is ever found — a read scan, not a rental"
+   }
+  ],
+  "⚠_the_two_full_texts_that_would_settle_the_double_counting": {
+   "_what": "Whether PMID 12598313's TCF12 case IS the 2000 tumour is the one question this search leaves open, and it decides whether the world holds two TCF12 tumours with a junction call or one.",
+   "attempted": [
+    "PMC1868116 (PMID 12598313) fullTextXML — HTTP 404",
+    "PMC4015728 (PMID 24746215) fullTextXML — HTTP 404"
+   ],
+   "reading": "Both carry a PMCID and neither is in Europe PMC's open-access full-text subset, so the abstracts are the record. ⛔ THIS DOES NOT WEAKEN THE ANSWER: neither paper reports a junction, so neither can supply a second exon-resolved breakpoint whatever its full text says. The open question is a COUNT, not a junction.",
+   "cost_to_close": "a publisher fetch or an interlibrary request — not a $0 route"
+  }
+ }
+}

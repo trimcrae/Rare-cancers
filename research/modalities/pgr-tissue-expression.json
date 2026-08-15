@@ -1,0 +1,896 @@
+{
+ "_what": "Where the PGR::NR4A3 seam's two parents, and the five FET partners, are expressed in normal human tissue — GTEx v8 median TPM, with a HORMONE-RESPONSIVE block the panel's screen does not carry.",
+ "_why": "Half of every gapmer at the PGR e2 :: NR4A3 e2 seam is PGR sequence, and PGR is a hormone receptor of normal breast, uterus and ovary in a premenopausal woman — the patient of PMID 36103645. The parent's expression is therefore the exposure half of this seam's specificity question and it belongs beside the designs.",
+ "_cost": "$0 — one GTEx release read on a GitHub-hosted CPU runner. No GPU, no rental.",
+ "_what_this_is_not": [
+  "NOT a safety, tolerability, therapeutic-window or clinical-readiness statement.",
+  "NOT a cleavage or knockdown prediction, and not joined to any oligonucleotide here. The sequence half of the question is `pgr_parent_engagement.py`; expression is a NECESSARY condition for an off-target effect and never a sufficient one.",
+  "NOT the panel's off-target tissue-expression screen. That screen's population is the loci a transcriptome-wide search returned at this seam, which requires the BLAST arm to have run; this file's population is the PARENTS, which it does not.",
+  "NOT a tumour reading. GTEx contains no EMC and no sarcoma of any kind; the tumour_compartment_proxy block is normal tissue of the anatomical compartment EMC arises in and says so.",
+  "NOT a coverage claim, and not a risk ranking. There is no risk column in this file."
+ ],
+ "method": {
+  "source": "GTEx v8 gene-level median TPM",
+  "release": "GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_median_tpm",
+  "unit": "median TPM across that tissue's donors",
+  "endpoint_used": "release_gct",
+  "url": "https://storage.googleapis.com/adult-gtex/bulk-gex/v8/rna-seq/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_median_tpm.gct.gz",
+  "url_attempts": [
+   {
+    "url": "https://storage.googleapis.com/adult-gtex/bulk-gex/v8/rna-seq/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_median_tpm.gct.gz",
+    "result": "read"
+   }
+  ],
+  "status": "read",
+  "known_answer_controls": {
+   "ran": true,
+   "passed": true,
+   "controls": {
+    "ALB": {
+     "found": true,
+     "max_tissue": "Liver",
+     "max_median_tpm": 25201.3,
+     "expected_max_in": [
+      "Liver"
+     ],
+     "passed": true,
+     "why": "albumin is the canonical hepatocyte-restricted transcript"
+    },
+    "UMOD": {
+     "found": true,
+     "max_tissue": "Kidney - Medulla",
+     "max_median_tpm": 2116.02,
+     "expected_max_in": [
+      "Kidney - Medulla",
+      "Kidney - Cortex"
+     ],
+     "passed": true,
+     "why": "uromodulin is made only by the thick ascending limb of the nephron"
+    },
+    "MYH7": {
+     "found": true,
+     "max_tissue": "Heart - Left Ventricle",
+     "max_median_tpm": 4513.66,
+     "expected_max_in": [
+      "Muscle - Skeletal",
+      "Heart - Left Ventricle"
+     ],
+     "passed": true,
+     "why": "beta-myosin heavy chain is restricted to slow skeletal muscle and ventricle"
+    }
+   },
+   "_meaning": "These assert that the tissue COLUMNS are aligned to the values. A failure means the parse is shifted and every tissue figure below is wrong; it does not mean the genes are unusual."
+  },
+  "_controls_note": "ALB -> Liver, UMOD -> a kidney tissue, MYH7 -> muscle/heart. A run whose controls fail must not be read as a measurement: a one-column shift in a GCT produces entirely plausible profiles.",
+  "hormone_responsive_tissues": [
+   "Breast - Mammary Tissue",
+   "Uterus",
+   "Ovary",
+   "Cervix - Ectocervix",
+   "Cervix - Endocervix",
+   "Fallopian Tube",
+   "Vagina"
+  ],
+  "exposure_tissues": [
+   "Liver",
+   "Kidney - Cortex",
+   "Kidney - Medulla"
+  ],
+  "tumour_compartment_proxy_tissues": [
+   "Muscle - Skeletal",
+   "Adipose - Subcutaneous",
+   "Nerve - Tibial",
+   "Cells - Cultured fibroblasts",
+   "Artery - Tibial",
+   "Skin - Sun Exposed (Lower leg)"
+  ],
+  "_tissue_lists_are_imported": "the exposure and proxy lists come from aso_offtarget_tissue_expression, not re-typed"
+ },
+ "genes": {
+  "PGR": {
+   "hormone_responsive_tissues": {
+    "readable": true,
+    "block": "hormone_responsive",
+    "values": {
+     "Breast - Mammary Tissue": 3.54968,
+     "Uterus": 80.6411,
+     "Ovary": 19.0705,
+     "Cervix - Ectocervix": 75.8812,
+     "Cervix - Endocervix": 111.013,
+     "Fallopian Tube": 45.1429,
+     "Vagina": 18.3565
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000082175.14",
+      "median_tpm": {
+       "Breast - Mammary Tissue": 3.54968,
+       "Uterus": 80.6411,
+       "Ovary": 19.0705,
+       "Cervix - Ectocervix": 75.8812,
+       "Cervix - Endocervix": 111.013,
+       "Fallopian Tube": 45.1429,
+       "Vagina": 18.3565
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Cervix - Endocervix",
+    "any_present_at_cut": true
+   },
+   "exposure_liver_kidney": {
+    "readable": true,
+    "block": "exposure_liver_kidney",
+    "values": {
+     "Liver": 0.108455,
+     "Kidney - Cortex": 0.861067,
+     "Kidney - Medulla": 0.681998
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000082175.14",
+      "median_tpm": {
+       "Liver": 0.108455,
+       "Kidney - Cortex": 0.861067,
+       "Kidney - Medulla": 0.681998
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Kidney - Cortex",
+    "any_present_at_cut": false
+   },
+   "tumour_compartment_proxy": {
+    "readable": true,
+    "block": "tumour_compartment_proxy",
+    "values": {
+     "Muscle - Skeletal": 0.422668,
+     "Adipose - Subcutaneous": 3.02304,
+     "Nerve - Tibial": 2.44132,
+     "Cells - Cultured fibroblasts": 0.0966189,
+     "Artery - Tibial": 13.8671,
+     "Skin - Sun Exposed (Lower leg)": 0.88155
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000082175.14",
+      "median_tpm": {
+       "Muscle - Skeletal": 0.422668,
+       "Adipose - Subcutaneous": 3.02304,
+       "Nerve - Tibial": 2.44132,
+       "Cells - Cultured fibroblasts": 0.0966189,
+       "Artery - Tibial": 13.8671,
+       "Skin - Sun Exposed (Lower leg)": 0.88155
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Artery - Tibial",
+    "any_present_at_cut": true
+   },
+   "whole_body_context": {
+    "top_tissues": [
+     {
+      "tissue": "Cervix - Endocervix",
+      "median_tpm": 111.013
+     },
+     {
+      "tissue": "Uterus",
+      "median_tpm": 80.6411
+     },
+     {
+      "tissue": "Cervix - Ectocervix",
+      "median_tpm": 75.8812
+     },
+     {
+      "tissue": "Fallopian Tube",
+      "median_tpm": 45.1429
+     },
+     {
+      "tissue": "Ovary",
+      "median_tpm": 19.0705
+     },
+     {
+      "tissue": "Vagina",
+      "median_tpm": 18.3565
+     }
+    ],
+    "n_tissues_at_or_above_cut": 27,
+    "n_tissues_read": 54
+   }
+  },
+  "NR4A3": {
+   "hormone_responsive_tissues": {
+    "readable": true,
+    "block": "hormone_responsive",
+    "values": {
+     "Breast - Mammary Tissue": 6.35507,
+     "Uterus": 3.4366,
+     "Ovary": 31.6392,
+     "Cervix - Ectocervix": 8.3195,
+     "Cervix - Endocervix": 6.11363,
+     "Fallopian Tube": 16.5697,
+     "Vagina": 3.31508
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000119508.17",
+      "median_tpm": {
+       "Breast - Mammary Tissue": 6.35507,
+       "Uterus": 3.4366,
+       "Ovary": 31.6392,
+       "Cervix - Ectocervix": 8.3195,
+       "Cervix - Endocervix": 6.11363,
+       "Fallopian Tube": 16.5697,
+       "Vagina": 3.31508
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Ovary",
+    "any_present_at_cut": true
+   },
+   "exposure_liver_kidney": {
+    "readable": true,
+    "block": "exposure_liver_kidney",
+    "values": {
+     "Liver": 0.582076,
+     "Kidney - Cortex": 1.68036,
+     "Kidney - Medulla": 4.95741
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000119508.17",
+      "median_tpm": {
+       "Liver": 0.582076,
+       "Kidney - Cortex": 1.68036,
+       "Kidney - Medulla": 4.95741
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Kidney - Medulla",
+    "any_present_at_cut": true
+   },
+   "tumour_compartment_proxy": {
+    "readable": true,
+    "block": "tumour_compartment_proxy",
+    "values": {
+     "Muscle - Skeletal": 15.2918,
+     "Adipose - Subcutaneous": 6.37628,
+     "Nerve - Tibial": 7.79156,
+     "Cells - Cultured fibroblasts": 1.00477,
+     "Artery - Tibial": 41.6165,
+     "Skin - Sun Exposed (Lower leg)": 2.11506
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000119508.17",
+      "median_tpm": {
+       "Muscle - Skeletal": 15.2918,
+       "Adipose - Subcutaneous": 6.37628,
+       "Nerve - Tibial": 7.79156,
+       "Cells - Cultured fibroblasts": 1.00477,
+       "Artery - Tibial": 41.6165,
+       "Skin - Sun Exposed (Lower leg)": 2.11506
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Artery - Tibial",
+    "any_present_at_cut": true
+   },
+   "whole_body_context": {
+    "top_tissues": [
+     {
+      "tissue": "Artery - Tibial",
+      "median_tpm": 41.6165
+     },
+     {
+      "tissue": "Adipose - Visceral (Omentum)",
+      "median_tpm": 35.6186
+     },
+     {
+      "tissue": "Ovary",
+      "median_tpm": 31.6392
+     },
+     {
+      "tissue": "Heart - Atrial Appendage",
+      "median_tpm": 21.7429
+     },
+     {
+      "tissue": "Fallopian Tube",
+      "median_tpm": 16.5697
+     },
+     {
+      "tissue": "Muscle - Skeletal",
+      "median_tpm": 15.2918
+     }
+    ],
+    "n_tissues_at_or_above_cut": 47,
+    "n_tissues_read": 54
+   }
+  },
+  "EWSR1": {
+   "hormone_responsive_tissues": {
+    "readable": true,
+    "block": "hormone_responsive",
+    "values": {
+     "Breast - Mammary Tissue": 173.845,
+     "Uterus": 247.647,
+     "Ovary": 230.851,
+     "Cervix - Ectocervix": 228.057,
+     "Cervix - Endocervix": 248.944,
+     "Fallopian Tube": 201.957,
+     "Vagina": 192.369
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000182944.17",
+      "median_tpm": {
+       "Breast - Mammary Tissue": 173.845,
+       "Uterus": 247.647,
+       "Ovary": 230.851,
+       "Cervix - Ectocervix": 228.057,
+       "Cervix - Endocervix": 248.944,
+       "Fallopian Tube": 201.957,
+       "Vagina": 192.369
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Cervix - Endocervix",
+    "any_present_at_cut": true
+   },
+   "exposure_liver_kidney": {
+    "readable": true,
+    "block": "exposure_liver_kidney",
+    "values": {
+     "Liver": 77.5591,
+     "Kidney - Cortex": 83.7175,
+     "Kidney - Medulla": 122.876
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000182944.17",
+      "median_tpm": {
+       "Liver": 77.5591,
+       "Kidney - Cortex": 83.7175,
+       "Kidney - Medulla": 122.876
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Kidney - Medulla",
+    "any_present_at_cut": true
+   },
+   "tumour_compartment_proxy": {
+    "readable": true,
+    "block": "tumour_compartment_proxy",
+    "values": {
+     "Muscle - Skeletal": 93.4613,
+     "Adipose - Subcutaneous": 167.42,
+     "Nerve - Tibial": 217.354,
+     "Cells - Cultured fibroblasts": 220.789,
+     "Artery - Tibial": 182.881,
+     "Skin - Sun Exposed (Lower leg)": 162.762
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000182944.17",
+      "median_tpm": {
+       "Muscle - Skeletal": 93.4613,
+       "Adipose - Subcutaneous": 167.42,
+       "Nerve - Tibial": 217.354,
+       "Cells - Cultured fibroblasts": 220.789,
+       "Artery - Tibial": 182.881,
+       "Skin - Sun Exposed (Lower leg)": 162.762
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Cells - Cultured fibroblasts",
+    "any_present_at_cut": true
+   },
+   "whole_body_context": {
+    "top_tissues": [
+     {
+      "tissue": "Cells - EBV-transformed lymphocytes",
+      "median_tpm": 278.522
+     },
+     {
+      "tissue": "Brain - Cerebellar Hemisphere",
+      "median_tpm": 273.759
+     },
+     {
+      "tissue": "Testis",
+      "median_tpm": 272.28
+     },
+     {
+      "tissue": "Spleen",
+      "median_tpm": 257.825
+     },
+     {
+      "tissue": "Cervix - Endocervix",
+      "median_tpm": 248.944
+     },
+     {
+      "tissue": "Uterus",
+      "median_tpm": 247.647
+     }
+    ],
+    "n_tissues_at_or_above_cut": 54,
+    "n_tissues_read": 54
+   }
+  },
+  "TAF15": {
+   "hormone_responsive_tissues": {
+    "readable": true,
+    "block": "hormone_responsive",
+    "values": {
+     "Breast - Mammary Tissue": 92.1865,
+     "Uterus": 137.953,
+     "Ovary": 127.507,
+     "Cervix - Ectocervix": 132.44,
+     "Cervix - Endocervix": 136.149,
+     "Fallopian Tube": 123.447,
+     "Vagina": 126.536
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000270647.5",
+      "median_tpm": {
+       "Breast - Mammary Tissue": 92.1865,
+       "Uterus": 137.953,
+       "Ovary": 127.507,
+       "Cervix - Ectocervix": 132.44,
+       "Cervix - Endocervix": 136.149,
+       "Fallopian Tube": 123.447,
+       "Vagina": 126.536
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Uterus",
+    "any_present_at_cut": true
+   },
+   "exposure_liver_kidney": {
+    "readable": true,
+    "block": "exposure_liver_kidney",
+    "values": {
+     "Liver": 46.4413,
+     "Kidney - Cortex": 40.4184,
+     "Kidney - Medulla": 69.6382
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000270647.5",
+      "median_tpm": {
+       "Liver": 46.4413,
+       "Kidney - Cortex": 40.4184,
+       "Kidney - Medulla": 69.6382
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Kidney - Medulla",
+    "any_present_at_cut": true
+   },
+   "tumour_compartment_proxy": {
+    "readable": true,
+    "block": "tumour_compartment_proxy",
+    "values": {
+     "Muscle - Skeletal": 67.9551,
+     "Adipose - Subcutaneous": 97.7866,
+     "Nerve - Tibial": 129.236,
+     "Cells - Cultured fibroblasts": 180.02,
+     "Artery - Tibial": 98.2961,
+     "Skin - Sun Exposed (Lower leg)": 116.328
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000270647.5",
+      "median_tpm": {
+       "Muscle - Skeletal": 67.9551,
+       "Adipose - Subcutaneous": 97.7866,
+       "Nerve - Tibial": 129.236,
+       "Cells - Cultured fibroblasts": 180.02,
+       "Artery - Tibial": 98.2961,
+       "Skin - Sun Exposed (Lower leg)": 116.328
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Cells - Cultured fibroblasts",
+    "any_present_at_cut": true
+   },
+   "whole_body_context": {
+    "top_tissues": [
+     {
+      "tissue": "Cells - EBV-transformed lymphocytes",
+      "median_tpm": 199.62
+     },
+     {
+      "tissue": "Testis",
+      "median_tpm": 191.92
+     },
+     {
+      "tissue": "Cells - Cultured fibroblasts",
+      "median_tpm": 180.02
+     },
+     {
+      "tissue": "Esophagus - Muscularis",
+      "median_tpm": 141.225
+     },
+     {
+      "tissue": "Uterus",
+      "median_tpm": 137.953
+     },
+     {
+      "tissue": "Cervix - Endocervix",
+      "median_tpm": 136.149
+     }
+    ],
+    "n_tissues_at_or_above_cut": 54,
+    "n_tissues_read": 54
+   }
+  },
+  "FUS": {
+   "hormone_responsive_tissues": {
+    "readable": true,
+    "block": "hormone_responsive",
+    "values": {
+     "Breast - Mammary Tissue": 89.275,
+     "Uterus": 148.527,
+     "Ovary": 193.194,
+     "Cervix - Ectocervix": 155.522,
+     "Cervix - Endocervix": 152.733,
+     "Fallopian Tube": 141.875,
+     "Vagina": 99.1093
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000089280.18",
+      "median_tpm": {
+       "Breast - Mammary Tissue": 89.275,
+       "Uterus": 148.527,
+       "Ovary": 193.194,
+       "Cervix - Ectocervix": 155.522,
+       "Cervix - Endocervix": 152.733,
+       "Fallopian Tube": 141.875,
+       "Vagina": 99.1093
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Ovary",
+    "any_present_at_cut": true
+   },
+   "exposure_liver_kidney": {
+    "readable": true,
+    "block": "exposure_liver_kidney",
+    "values": {
+     "Liver": 21.4023,
+     "Kidney - Cortex": 41.8664,
+     "Kidney - Medulla": 88.4752
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000089280.18",
+      "median_tpm": {
+       "Liver": 21.4023,
+       "Kidney - Cortex": 41.8664,
+       "Kidney - Medulla": 88.4752
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Kidney - Medulla",
+    "any_present_at_cut": true
+   },
+   "tumour_compartment_proxy": {
+    "readable": true,
+    "block": "tumour_compartment_proxy",
+    "values": {
+     "Muscle - Skeletal": 43.7743,
+     "Adipose - Subcutaneous": 78.7933,
+     "Nerve - Tibial": 137.707,
+     "Cells - Cultured fibroblasts": 110.379,
+     "Artery - Tibial": 85.0536,
+     "Skin - Sun Exposed (Lower leg)": 77.0396
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000089280.18",
+      "median_tpm": {
+       "Muscle - Skeletal": 43.7743,
+       "Adipose - Subcutaneous": 78.7933,
+       "Nerve - Tibial": 137.707,
+       "Cells - Cultured fibroblasts": 110.379,
+       "Artery - Tibial": 85.0536,
+       "Skin - Sun Exposed (Lower leg)": 77.0396
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Nerve - Tibial",
+    "any_present_at_cut": true
+   },
+   "whole_body_context": {
+    "top_tissues": [
+     {
+      "tissue": "Ovary",
+      "median_tpm": 193.194
+     },
+     {
+      "tissue": "Brain - Cerebellar Hemisphere",
+      "median_tpm": 173.589
+     },
+     {
+      "tissue": "Brain - Cerebellum",
+      "median_tpm": 158.981
+     },
+     {
+      "tissue": "Cervix - Ectocervix",
+      "median_tpm": 155.522
+     },
+     {
+      "tissue": "Cervix - Endocervix",
+      "median_tpm": 152.733
+     },
+     {
+      "tissue": "Uterus",
+      "median_tpm": 148.527
+     }
+    ],
+    "n_tissues_at_or_above_cut": 54,
+    "n_tissues_read": 54
+   }
+  },
+  "TCF12": {
+   "hormone_responsive_tissues": {
+    "readable": true,
+    "block": "hormone_responsive",
+    "values": {
+     "Breast - Mammary Tissue": 21.1382,
+     "Uterus": 32.34,
+     "Ovary": 28.123,
+     "Cervix - Ectocervix": 38.1036,
+     "Cervix - Endocervix": 39.6901,
+     "Fallopian Tube": 25.9801,
+     "Vagina": 22.9124
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000140262.17",
+      "median_tpm": {
+       "Breast - Mammary Tissue": 21.1382,
+       "Uterus": 32.34,
+       "Ovary": 28.123,
+       "Cervix - Ectocervix": 38.1036,
+       "Cervix - Endocervix": 39.6901,
+       "Fallopian Tube": 25.9801,
+       "Vagina": 22.9124
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Cervix - Endocervix",
+    "any_present_at_cut": true
+   },
+   "exposure_liver_kidney": {
+    "readable": true,
+    "block": "exposure_liver_kidney",
+    "values": {
+     "Liver": 4.76442,
+     "Kidney - Cortex": 7.11856,
+     "Kidney - Medulla": 11.559
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000140262.17",
+      "median_tpm": {
+       "Liver": 4.76442,
+       "Kidney - Cortex": 7.11856,
+       "Kidney - Medulla": 11.559
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Kidney - Medulla",
+    "any_present_at_cut": true
+   },
+   "tumour_compartment_proxy": {
+    "readable": true,
+    "block": "tumour_compartment_proxy",
+    "values": {
+     "Muscle - Skeletal": 7.86255,
+     "Adipose - Subcutaneous": 24.0712,
+     "Nerve - Tibial": 28.3765,
+     "Cells - Cultured fibroblasts": 37.0889,
+     "Artery - Tibial": 27.7169,
+     "Skin - Sun Exposed (Lower leg)": 17.3003
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000140262.17",
+      "median_tpm": {
+       "Muscle - Skeletal": 7.86255,
+       "Adipose - Subcutaneous": 24.0712,
+       "Nerve - Tibial": 28.3765,
+       "Cells - Cultured fibroblasts": 37.0889,
+       "Artery - Tibial": 27.7169,
+       "Skin - Sun Exposed (Lower leg)": 17.3003
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Cells - Cultured fibroblasts",
+    "any_present_at_cut": true
+   },
+   "whole_body_context": {
+    "top_tissues": [
+     {
+      "tissue": "Cervix - Endocervix",
+      "median_tpm": 39.6901
+     },
+     {
+      "tissue": "Cervix - Ectocervix",
+      "median_tpm": 38.1036
+     },
+     {
+      "tissue": "Cells - Cultured fibroblasts",
+      "median_tpm": 37.0889
+     },
+     {
+      "tissue": "Uterus",
+      "median_tpm": 32.34
+     },
+     {
+      "tissue": "Nerve - Tibial",
+      "median_tpm": 28.3765
+     },
+     {
+      "tissue": "Ovary",
+      "median_tpm": 28.123
+     }
+    ],
+    "n_tissues_at_or_above_cut": 54,
+    "n_tissues_read": 54
+   }
+  },
+  "TFG": {
+   "hormone_responsive_tissues": {
+    "readable": true,
+    "block": "hormone_responsive",
+    "values": {
+     "Breast - Mammary Tissue": 42.9527,
+     "Uterus": 52.7923,
+     "Ovary": 47.8585,
+     "Cervix - Ectocervix": 49.4635,
+     "Cervix - Endocervix": 48.0826,
+     "Fallopian Tube": 50.5033,
+     "Vagina": 50.4497
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000114354.13",
+      "median_tpm": {
+       "Breast - Mammary Tissue": 42.9527,
+       "Uterus": 52.7923,
+       "Ovary": 47.8585,
+       "Cervix - Ectocervix": 49.4635,
+       "Cervix - Endocervix": 48.0826,
+       "Fallopian Tube": 50.5033,
+       "Vagina": 50.4497
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Uterus",
+    "any_present_at_cut": true
+   },
+   "exposure_liver_kidney": {
+    "readable": true,
+    "block": "exposure_liver_kidney",
+    "values": {
+     "Liver": 32.0978,
+     "Kidney - Cortex": 24.3745,
+     "Kidney - Medulla": 35.6197
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000114354.13",
+      "median_tpm": {
+       "Liver": 32.0978,
+       "Kidney - Cortex": 24.3745,
+       "Kidney - Medulla": 35.6197
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Kidney - Medulla",
+    "any_present_at_cut": true
+   },
+   "tumour_compartment_proxy": {
+    "readable": true,
+    "block": "tumour_compartment_proxy",
+    "values": {
+     "Muscle - Skeletal": 21.7462,
+     "Adipose - Subcutaneous": 43.8828,
+     "Nerve - Tibial": 55.2945,
+     "Cells - Cultured fibroblasts": 86.6442,
+     "Artery - Tibial": 49.4144,
+     "Skin - Sun Exposed (Lower leg)": 43.471
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000114354.13",
+      "median_tpm": {
+       "Muscle - Skeletal": 21.7462,
+       "Adipose - Subcutaneous": 43.8828,
+       "Nerve - Tibial": 55.2945,
+       "Cells - Cultured fibroblasts": 86.6442,
+       "Artery - Tibial": 49.4144,
+       "Skin - Sun Exposed (Lower leg)": 43.471
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Cells - Cultured fibroblasts",
+    "any_present_at_cut": true
+   },
+   "whole_body_context": {
+    "top_tissues": [
+     {
+      "tissue": "Cells - Cultured fibroblasts",
+      "median_tpm": 86.6442
+     },
+     {
+      "tissue": "Cells - EBV-transformed lymphocytes",
+      "median_tpm": 61.6419
+     },
+     {
+      "tissue": "Thyroid",
+      "median_tpm": 60.1058
+     },
+     {
+      "tissue": "Nerve - Tibial",
+      "median_tpm": 55.2945
+     },
+     {
+      "tissue": "Artery - Aorta",
+      "median_tpm": 53.8431
+     },
+     {
+      "tissue": "Pituitary",
+      "median_tpm": 53.2935
+     }
+    ],
+    "n_tissues_at_or_above_cut": 54,
+    "n_tissues_read": 54
+   }
+  }
+ }
+}

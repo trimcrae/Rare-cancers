@@ -14,7 +14,7 @@ on:
       task:
         description: "which task to run"
         type: choice
-        options: [fusion, vast_smoke, nrv04_cys, nr4a_unique_residues, nr4a_e3_widened, nr4a_basin_search, nr4a_linker_chem, nr4a_e3_stage, e3_recruiter_stage, e3_vhl_recheck, vast_bid_advise, vast_price_history, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_ffcache_status, nrv04_input_audit, nrv04_retro_prespend, nrv04_retro_price_forensics, nrv04_retro_secondaries, nrv04_adduct_build, nrv04_s3_tail, nrv04_bake, fep_bake, nrv04_vast_launch, step1_fanout, bioemu_bake, bioemu_run, bioemu_collect, bioemu_status, bioemu_stop, map_audit, map_diag, energy_probe, s1f_liveness, s_calibrator_survey, cys_chemoproteomics, fusion_census]
+        options: [fusion, vast_smoke, nrv04_cys, nr4a_unique_residues, nr4a_e3_widened, nr4a_basin_search, nr4a_linker_chem, nr4a_e3_stage, e3_recruiter_stage, e3_vhl_recheck, vast_bid_advise, vast_price_history, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_ffcache_status, nrv04_input_audit, nrv04_retro_prespend, nrv04_retro_price_forensics, nrv04_retro_secondaries, nrv04_adduct_build, nrv04_s3_tail, nrv04_bake, fep_bake, nrv04_vast_launch, step1_fanout, bioemu_bake, bioemu_run, bioemu_collect, bioemu_status, bioemu_stop, map_audit, map_diag, energy_probe, s1f_liveness, s_calibrator_survey, cys_chemoproteomics, fusion_census, pgr_transcript, pgr_tissue_expression, nr4a3_intron2_cryptic]
         default: fusion
       fanout_mode:
         description: "step1_fanout: plan | stage | precheck | launch (dry) | launch_confirm (SPENDS) | collect | monitor | diag | reap (destroy + BLACKLIST a bad HOST) | block (stop launching a UNIT no host can fix) | stop"
@@ -191,6 +191,144 @@ jobs:
           bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
             "cysteine-chemoproteomics NR4A coverage precheck (IC-3, CI)" \
             research/modalities/cys-chemoproteomics-precheck.json
+
+  # PGR TRANSCRIPT MODEL — the 5' partner of the PGR::NR4A3 fusion in PMID 36103645, the only
+  # reported EMC case with a hormone-receptor partner, and a gene this repository holds NO transcript
+  # model for. Without it the junction cannot be built at all: `junction_aso.transcript_model` reads
+  # `emc-construct-inputs.json`, which carries EWSR1, TAF15, FUS, TCF12, TFG and NR4A3 only.
+  # Needs Ensembl REST, 403'd at CONNECT by the dev sandbox → runs here. $0 CPU, pure stdlib.
+  # ⛔ ADDITIVE: `pgr_transcript_fetch.py` refuses to touch a gene already in the file and leaves the
+  # file-level `_fetched_utc` alone, so the six committed models `junction_aso._diff_live_against_cache`
+  # compares live reads against are not overwritten by this run.
+  pgr_transcript:
+    if: ${{ github.event.inputs.task == 'pgr_transcript' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Fetch PGR canonical transcript from Ensembl and merge it into the construct inputs
+        working-directory: research/modalities
+        run: python pgr_transcript_fetch.py
+      # ⛔ THIS JOB FETCHES AND PUBLISHES THE MODEL ONLY — IT DOES NOT BUILD THE DESIGN PANEL, AND
+      # THAT IS DELIBERATE. `aso_noncoding_acceptor_designs.py` is edited concurrently by more than
+      # one lane on this branch; a CI job that regenerated its artifact would publish whatever
+      # half-finished state of that module happened to be pushed, under a commit message announcing
+      # a PGR fetch. The transcript model is the thing only the network can produce; the panel is a
+      # $0 CPU build any session can run once the model is committed.
+      # ⚠ QUOTED NAMES BELOW WHERE A `::` APPEARS. An unquoted YAML scalar containing ": " is parsed
+      # as a nested mapping key, so `PGR e2 :: NR4A3 e2` raised `ScannerError: mapping values are
+      # not allowed here` and made THE WHOLE FILE unparseable — every task in it, not just this one.
+      - name: "Confirm the merged record loads through junction_aso (the four cache self-checks)"
+        working-directory: research/modalities
+        env:
+          TRANSCRIPT_SOURCE: cache
+        run: |
+          python pgr_transcript_fetch.py --check
+          python - <<'PY'
+          import junction_aso as ja
+          m = ja.transcript_model("PGR")
+          print("PGR", m["transcript"], len(m["cdna"]), "nt cDNA,", len(m["cds"]), "nt CDS,",
+                len(m["protein"]), "aa, utr5", m["utr5_len"], ",", m["n_transcript_exons"], "exons")
+          print("provenance gate:", ja.PROVENANCE_GATE_USED)
+          print("exon lens:", m["exon_lens"])
+          print("coding nt per exon:", ja.coding_nt_per_exon(m))
+          PY
+      - name: Commit the transcript model back to the triggering branch
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "PGR canonical transcript model merged into emc-construct-inputs.json (Ensembl, CI)" \
+            research/modalities/emc-construct-inputs.json
+
+  # NR4A3 INTRON-2 CRYPTIC EXON — the acceptor of the TAF15::NR4A3 *T-N* transcript, which PMID
+  # 31020999 calls one of "the two major TAF15-NR4A3 isoforms detected in human tumors". Every one of
+  # the manuscript panel's 38 junctions joins its donor to NR4A3 exon 3, so no reagent in it can
+  # engage a T-N transcript, and the TAF15 arm of the coverage ladder is priced as though none
+  # existed. Measuring the seam is the only way to price that arm honestly — and it can only ever
+  # LOWER the headline, which is why it is being measured rather than skipped.
+  # Needs Ensembl REST (genomic intron cut + the annotated-exon queries), 403'd at CONNECT by the dev
+  # sandbox → runs here. $0 CPU, pure stdlib, no GPU, no rental.
+  nr4a3_intron2_cryptic:
+    if: ${{ github.event.inputs.task == 'nr4a3_intron2_cryptic' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Measure NR4A3 intron 2 and identify the cryptic exon T-N retains
+        working-directory: research/modalities
+        run: python nr4a3_intron2_cryptic_exon.py
+      - name: "Build the TAF15 e6 :: cryptic-exon gapmer panel from the measured sequence"
+        working-directory: research/modalities
+        env:
+          TRANSCRIPT_SOURCE: cache
+        # ⚠ NOT `|| true`. If the retrieval did not resolve the exon, this step MUST fail rather
+        # than publish a panel built on an unresolved seam — the fail-quiet wrapper that let a
+        # geometry crash republish retracted artifacts (junction_aso.py's `_env_int` block) is
+        # exactly the pattern being avoided here.
+        run: python aso_taf15_intron2_designs.py
+      - name: Commit the measured seam and the designs back to the triggering branch
+        if: always()
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "NR4A3 intron-2 cryptic exon (Ensembl, CI) + the TAF15 e6::cryptic-exon gapmer panel" \
+            research/modalities/nr4a3-intron2-cryptic-exon.json \
+            research/modalities/aso-taf15-intron2-designs.json \
+            research/modalities/aso-taf15-intron2-atlas.json
+
+  # WILD-TYPE PGR EXPRESSION IN NORMAL HORMONE-RESPONSIVE TISSUE — the exposure half of the
+  # PGR::NR4A3 seam's specificity question, and the block the panel's own tissue screen does not
+  # carry. Half of every gapmer at that seam is PGR sequence, and PGR is a hormone receptor of
+  # normal breast, uterus and ovary in a premenopausal woman (the patient of PMID 36103645). Needs
+  # the GTEx v8 release object, which the dev sandbox blocks at CONNECT. $0 CPU, pure stdlib.
+  # ⚠ THIS IS NOT THE PANEL'S OFF-TARGET TISSUE SCREEN and does not stand in for it. That screen's
+  # population is the loci a transcriptome-wide BLAST returned AT THIS SEAM, which requires the
+  # BLAST arm to have run first (aso-offtarget.yml, real_junctions=PGR:2:2:published). This job
+  # measures the PARENTS, which needs no prior screen — so it can run the moment the branch carries
+  # the transcript model, and a reader must not read one as the other.
+  pgr_tissue_expression:
+    if: ${{ github.event.inputs.task == 'pgr_tissue_expression' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "GTEx v8 median TPM for the PGR::NR4A3 parents and the FET partners"
+        working-directory: research/modalities
+        run: python pgr_tissue_expression.py --fetch
+      - name: Commit the expression readings back to the triggering branch
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "wild-type PGR expression in normal hormone-responsive tissue (GTEx v8, CI)" \
+            research/modalities/pgr-tissue-expression.json \
+            research/modalities/pgr-tissue-expression-inputs.json
 
   nr4a_unique_residues:
     if: ${{ github.event.inputs.task == 'nr4a_unique_residues' && github.event.inputs.fanout_mode != 'diag' }}

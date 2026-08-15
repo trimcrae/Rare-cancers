@@ -533,7 +533,8 @@ def test_the_discussion_recommends_the_two_published_junctions():
     d = json.load(open(art, encoding="utf-8"))
     published = {j["junction_label"]: j for j in d["junctions"]
                  if j["clinical_tier"] == "published_exon_resolved_breakpoint"}
-    assert set(published) == {"EWSR1_e12__NR4A3_e3", "TAF15_e6__NR4A3_e3"}, sorted(published)
+    assert set(published) == {"EWSR1_e12__NR4A3_e3", "EWSR1_e13__NR4A3_e3",
+                              "TAF15_e6__NR4A3_e3", "TCF12_e5__NR4A3_e3"}, sorted(published)
     txt = _flat(_paper())
     for label, seq in (("EWSR1_e12__NR4A3_e3", "GGGCATATCATCAAAC"),
                        ("TAF15_e6__NR4A3_e3", "GGGCATATCTTGTGTG")):
@@ -541,8 +542,56 @@ def test_the_discussion_recommends_the_two_published_junctions():
         assert best["antisense_5to3"] == seq, (label, best)
         assert best["gap_specificity_margin"] == 3 and not best["parent_is_liability"], best
         assert f"5′-{seq}-3′" in txt, f"{label}'s reagent is not named in the manuscript"
-    assert "the reagents to synthesise are the best available at the two junctions with a " \
-           "published exon-resolved breakpoint" in txt
+    assert "the reagents to synthesise are the best available at the two most frequently " \
+           "reported junctions with a published exon-resolved breakpoint" in txt
+    # ⛔ AND THE OTHER PUBLISHED JUNCTIONS MUST NOT GO UNMENTIONED. The pilot pair stays two, but a
+    # paper whose own tiering names four published junctions and whose Discussion names reagents at
+    # two owes the reader the rest and what each buys. Asserted against the ladder artifact so the
+    # prose cannot drift off it.
+    assert "*EWSR1* exon 13 to *NR4A3* exon 3" in txt
+    assert "takes the set from 68.4% to 79.0%" in txt
+    # ⭐ THE FOURTH, ADDED 2026-08-15 WITH THE DEPOSIT THAT RESOLVED IT. Two things must both be in
+    # the prose and they pull in opposite directions: the reagent EXISTS and is screened, and its
+    # arm is priced at its CEILING because one tumour has ever been sequenced there. Naming the
+    # first without the second is how 98.3% would start reading as a reachable target.
+    assert "5′-GGGCATATCCATCAGA-3′ at *TCF12* exon 5" in txt
+    assert "resolved\nto the nucleotide by the deposited chimeric cDNA" in _paper()
+    assert "the resulting 98.3% is an upper bound rather than a reachable target" in txt
+    for dead in ("whose junction has never\nbeen published as an exon",
+                 "inference from a residue count against this transcript model"):
+        assert dead not in _paper(), f"superseded TCF12 claim is back: {dead!r}"
+    # the acceptor-side blind spot, and what is now designed at it
+    assert "*EWSR1* exon 7 to *NR4A3* exon\n2," in _paper() or "exon 7 to *NR4A3* exon" in txt
+    # ⭐ SUPERSEDED WITHIN THE DAY AND REPLACED RATHER THAN DROPPED, 2026-08-15. This line used to
+    # assert "none should be assumed to exist" — the manuscript's statement that no design existed at
+    # the exon-2 acceptors. Five designs now exist at each of four such seams and all five deep
+    # screens have run at the manuscript geometry, so pinning the old sentence would pin a retracted
+    # claim. What replaces it is stronger: the reagents the screened table ranks best are READ from
+    # that table and required to appear in the prose, so the paragraph cannot drift off the artifact
+    # the way a hand-typed sentence did.
+    nc = os.path.join(MOD, "noncoding-acceptor", "aso-noncoding-acceptor-screened-table.json")
+    if os.path.exists(nc):
+        ncd = json.load(open(nc, encoding="utf-8"))
+        screened = [j for j in ncd["junctions"] if j.get("screens_complete")]
+        assert len(screened) == 4, [j["junction_label"] for j in screened]
+        for j in screened:
+            best = j["best_available"]
+            seq = best["antisense_5to3"]
+            assert f"5′-{seq}-3′" in txt, (j["junction_label"], seq)
+            # ⛔ THE LOAD TRAVELS WITH THE SEQUENCE OR THE SENTENCE IS AN ADVERTISEMENT. Each of
+            # these four is named for synthesis, and none of them is clean; the margin and the
+            # gap-paired count over its locus recount are what a reader weighs before ordering.
+            assert f"margin {best['gap_specificity_margin']} and " \
+                   f"{best['n_gap_paired']} " in txt or \
+                   f"{best['n_gap_paired']} gap-paired near-matches over " \
+                   f"{best['n_gap_paired_loci']} loci" in txt, (j["junction_label"], best)
+            assert f"{best['n_gap_paired']} over {best['n_gap_paired_loci']}" in txt or \
+                   f"{best['n_gap_paired']} gap-paired near-matches over " \
+                   f"{best['n_gap_paired_loci']} loci" in txt, (j["junction_label"], best)
+        assert "are now designed and screened to the panel's depth" in txt
+        assert "None of the four is clean" in txt
+        # and they must NOT be pooled into the panel's own counts
+        assert "reported beside the panel and never\npooled into it" in _paper()
     # the gap-length risk is disclosed in the Methods and must be ranked first in the Discussion
     assert "Two risks attach, in this order. The first is architectural" in txt
     assert "The three designs that survive every screen are mechanism controls" in txt
@@ -920,12 +969,18 @@ def test_section_3_11_expression_figures_are_the_artifacts():
     lead = _loci_of_design(expr, "GGGCATATCATCAAAC")
     assert len(lead) == 6, [L["locus"] for L in lead]
     assert sum(L["screen_records"]["n_transcript_records"] for L in lead) == 123
-    assert expr["panel"]["n_gap_paired_hybridisable"] == 278
+    # ⭐ 278 -> 649 ON 2026-08-15. Not a re-count of the same panel: the expression panel grew
+    # from two seams to four when EWSR1 e13 and TCF12 e5 got their readings, and this total is
+    # over the panel, not over the lead design. Superseded, retained (CLAUDE.md rule 1.2): 278.
+    assert expr["panel"]["n_gap_paired_hybridisable"] == 649
+    assert expr["panel"]["n_seams"] == 4
+    # and the total must be the sum of its parts rather than a typed figure (rule 1.1)
+    assert sum(L["screen_records"]["n_transcript_records"] for L in expr["per_locus"]) == 649
     readable = [L for L in lead if L["exposure_compartment_liver_kidney"]["readable"]]
     assert len(readable) == 4, [L["locus"] for L in readable]
     # the claim is "none of the four measurable ones reaches the upper cut"
     assert not [L for L in lead if L["tier"] == "EXPRESSED_IN_AN_EXPOSURE_ORGAN"]
-    assert ("The *EWSR1* exon 12 reagent's six loci carry 123 of the panel's 278 transcript "
+    assert ("The *EWSR1* exon 12 reagent's six loci carry 123 of the panel's 649 transcript "
             "records, and none of the four measurable ones reaches the upper cut") in txt
 
     anks = next(L for L in lead if L["locus"] == "ANKS1B")
@@ -955,39 +1010,53 @@ def test_section_3_11_expression_figures_are_the_artifacts():
             "all five of that junction's tiling registers return, on five transcript records") in txt
 
     # ── the tumour compartment, which is a SEPARATE axis and ordered differently ───────────────
+    # ⭐ THE PANEL'S HIGHEST MOVED WHEN THE PANEL GREW, AND THAT IS WHY THIS IS DERIVED.
+    # Superseded, retained (CLAUDE.md rule 1.2): LAMA4 at 268.6 TPM was the panel's highest
+    # tumour-compartment value over two seams. At four seams TCF12 e5's HNRNPA2B1 reaches 656.6 in
+    # tibial nerve. A hand-typed "the panel's highest" would still read as true and would be wrong,
+    # so the top locus is taken from the artifact and only then matched against the prose.
+    top = max((L for L in expr["per_locus"]
+               if L["tumour_compartment_normal_tissue_proxy"].get("readable")),
+              key=lambda L: max(L["tumour_compartment_normal_tissue_proxy"]["values"].values()))
+    tu = top["tumour_compartment_normal_tissue_proxy"]
+    top_v = round(max(tu["values"].values()), 1)
+    assert (top["locus"], top_v, tu["max_tissue_in_block"]) == (
+        "HNRNPA2B1", 656.6, "Nerve - Tibial"), (top["locus"], top_v, tu["max_tissue_in_block"])
     lama = next(L for L in expr["per_locus"] if L["locus"] == "LAMA4")
-    tu = lama["tumour_compartment_normal_tissue_proxy"]
-    assert round(max(tu["values"].values()), 1) == 268.6
-    assert tu["max_tissue_in_block"] == "Cells - Cultured fibroblasts"
-    assert max(tu["values"].values()) == max(
-        max(L["tumour_compartment_normal_tissue_proxy"]["values"].values())
-        for L in expr["per_locus"]
-        if L["tumour_compartment_normal_tissue_proxy"].get("readable")), "the panel's highest"
+    assert round(max(lama["tumour_compartment_normal_tissue_proxy"]["values"].values()), 1) == 268.6
     assert lama["tier"] != "EXPRESSED_IN_AN_EXPOSURE_ORGAN", "LAMA4 is the reverse case"
-    assert "*LAMA4* carrying the panel's highest value there at 268.6 TPM" in txt
+    assert (f"*{top['locus']}* carrying the\npanel's highest value there at {top_v} TPM in tibial "
+            "nerve, ahead of *LAMA4* at 268.6 TPM") in _paper()
 
 
 def test_the_expression_limits_are_stated_and_the_unmeasured_loci_are_accounted():
     """The Limitations sentence: three instruments returning nothing is not a reading of absence.
 
-    ⛔ THE NUMBERS HERE ARE THE ONES THAT MAKE THE LIMIT CHECKABLE. Seven loci carry no exposure
-    reading; three are attributable to what the locus is and four are not, and those four carry 11
-    of the panel's 278 records. Without the record count a reader cannot tell whether the unanswered
-    fraction is trivial or dominant, which is exactly the judgement the limit exists to enable.
+    ⛔ THE NUMBERS HERE ARE THE ONES THAT MAKE THE LIMIT CHECKABLE. Without the record count behind
+    the unread loci a reader cannot tell whether the unanswered fraction is trivial or dominant,
+    which is exactly the judgement the limit exists to enable.
+
+    ⭐ RESTATED FOR A FOUR-SEAM PANEL, 2026-08-15. Superseded, retained (CLAUDE.md rule 1.2): "Seven
+    loci carry no exposure reading; three are attributable to what the locus is and four are not,
+    and those four carry 11 of the panel's 278 records", over 23 loci with 16 readable. The panel
+    grew to four seams when EWSR1 e13 and TCF12 e5 got their readings, so every one of those figures
+    moved together; none of them was a correction to the old panel.
+
+    ⚠ THE ASSERTIONS ARE DERIVED FROM THE ARTIFACT AND ONLY THEN COMPARED WITH THE PROSE, so a
+    changed panel fails on the sentence rather than silently agreeing with a stale one.
     """
     expr, txt = _expression(), _flat(_paper())
     unread = [L for L in expr["per_locus"]
               if not L["exposure_compartment_liver_kidney"]["readable"]]
-    assert len(unread) == 7 and expr["summary"]["n_loci"] == 23
-    assert expr["summary"]["n_loci_with_a_readable_exposure_reading"] == 16
-    uncharacterised = [L for L in unread if L["tier"] == "NOT_MEASURABLE_UNCHARACTERISED"]
-    attributed = [L for L in unread if L["tier"] == "NOT_MEASURED"]
-    assert len(uncharacterised) == 4 and len(attributed) == 3, (
-        [L["locus"] for L in uncharacterised], [L["locus"] for L in attributed])
-    assert sum(L["screen_records"]["n_transcript_records"] for L in uncharacterised) == 11
-    assert "Seven of the 23 loci returned no reading" in txt
-    assert ("four remain uncharacterised and carry 11 of the panel's 278 records, so for those the "
-            "exposure question is unanswered rather than answered negatively") in txt
+    n_loci = expr["summary"]["n_loci"]
+    n_readable = expr["summary"]["n_loci_with_a_readable_exposure_reading"]
+    assert (n_loci, n_readable, len(unread)) == (46, 33, 13), (n_loci, n_readable, len(unread))
+    unread_records = sum(L["screen_records"]["n_transcript_records"] for L in unread)
+    assert unread_records == 52, unread_records
+    assert f"Thirteen of the {n_loci} loci returned no" in txt
+    assert (f"they carry {unread_records} of the panel's "
+            f"{expr['panel']['n_gap_paired_hybridisable']} records, so for those the exposure "
+            "question is unanswered rather than answered negatively") in txt
     assert "No expression figure is a predicted cleavage event" in txt
 
 
@@ -1067,3 +1136,173 @@ def test_table6_cells_are_the_artifact_and_its_two_compartments_stay_separate():
     import aso_offtarget_tissue_expression as X  # noqa: PLC0415
     assert f"below {X.PRESENT_TPM:g} TPM in all three exposure" in body
     assert f"at or above {X.EXPRESSED_TPM:g} TPM in any of them" in body
+
+
+# ── the wild-type-allele liability, and the rule that decides it ─────────────────────────────────
+NONCODING_TABLE = os.path.join(MOD, "noncoding-acceptor",
+                               "aso-noncoding-acceptor-screened-table.json")
+CRYPTIC_TAF15 = os.path.join(MOD, "aso-taf15-intron2-designs.json")
+MODEL_EVIDENCE = os.path.join(MOD, "emc-model-junction-evidence.json")
+
+
+def test_the_wild_type_allele_liability_is_named_with_the_designs_it_condemns():
+    """§4's wild-type-*NR4A3* paragraph, read out of the scans that produced it.
+
+    ⛔ WHY EVERY PART OF THIS IS PINNED. The finding's whole content is that a design can PASS the
+    mature-parent screen and still pair its catalytic gap on the patient's un-rearranged allele, so
+    the sequences it condemns are the one thing a reader ordering oligonucleotides acts on. A prose
+    list that drifted from the scan by one sequence would be worse than no list: it would read as a
+    checked exclusion while omitting a molecule the instrument condemned.
+
+    ⚠ THE SCAN'S OWN POSITIVE CONTROL IS ASSERTED TOO. A liability scan that fires on nothing is
+    indistinguishable from a clean panel, and this one is required to fire on exactly one known
+    design at the sibling cryptic-exon seam. If that control stops passing, no verdict above it
+    means anything and the manuscript's exclusions are unsupported.
+    """
+    for p in (NONCODING_TABLE, CRYPTIC_TAF15):
+        if not os.path.exists(p):
+            pytest.skip("the non-canonical acceptor artifacts are not present in this checkout")
+    nc = json.load(open(NONCODING_TABLE, encoding="utf-8"))
+    liab = nc["⭐_wild_type_NR4A3_cleavage_liability"]
+    txt, raw = _flat(_paper()), _paper()
+
+    # the control fired, on exactly the design it had to fire on
+    ctrl = liab["positive_control"]
+    assert ctrl["passed"] and ctrl["observed_designs"] == ["TGATGAGGGCCTTGTG"], ctrl
+    assert ctrl["observed_n_cleavage_competent_designs"] == 1, ctrl
+
+    # every condemned design is named in the manuscript, and none is quietly dropped
+    condemned = list(liab["designs_cleaving_wild_type_NR4A3"]) + list(ctrl["observed_designs"])
+    assert len(condemned) == 3, condemned
+    for seq in condemned:
+        assert f"5′-{seq}-3′" in txt, f"{seq} is condemned by the scan and not named in the paper"
+    assert "named here as not to be carried forward" in txt
+
+    # and no condemned design survives in any best_* field of either artifact
+    for j in nc["junctions"]:
+        best = (j.get("best_available") or {}).get("antisense_5to3")
+        assert best not in liab["designs_cleaving_wild_type_NR4A3"], j["junction_label"]
+    cryptic = json.load(open(CRYPTIC_TAF15, encoding="utf-8"))
+    assert cryptic["best_by_gap_specificity_margin"] not in condemned
+
+    # ⛔ THE DECIDER IS DONOR SEQUENCE IN THE GAP, NOT THE MARGIN, and the paper must say so — an
+    # earlier reading of this repository credited the margin and was refuted by the exon-2 seams.
+    assert "It is not the gap-level margin" in txt
+    assert "how much donor sequence the gap holds" in txt
+    assert "a design at the same seam with a margin of 1 and five donor bases in its gap is clean" \
+        in txt
+    # the mechanism, from the measurement rather than from the sentence
+    ev = json.load(open(MODEL_EVIDENCE, encoding="utf-8"))["nr4a3_wild_type_acceptor_context"]
+    intron1 = ev["nr4a3_intron1_last_12_nt"]
+    e13 = ev["donor_last_12_nt_vs_nr4a3_intron1_last_12_nt"]["EWSR1_e13"]
+    t6 = ev["donor_last_12_nt_vs_nr4a3_intron1_last_12_nt"]["TAF15_e6"]
+    assert f"ends {e13['donor_last_12_nt']} against the" in txt
+    assert f"last twelve nucleotides of *NR4A3* intron 1, {intron1}, matching at " \
+           f"{e13['identity_over_12']} of 12 positions" in txt
+    assert f"ends {t6['donor_last_12_nt']} and matches at {t6['identity_over_12']}" in txt
+
+    # ⛔ THE REASON THE PARENT SCREEN IS NO DEFENCE, DERIVED RATHER THAN ASSERTED. The claim is that
+    # every condemned design cleared the mature-parent exclusion, AND so did every sibling design at
+    # its seam — which is what makes a clean parent column at such a seam uninformative rather than
+    # merely lucky. ⚠ It is NOT the claim that all 20 scanned designs cleared it: two did not, at
+    # seams that condemn nothing, and writing the wider version would have been false.
+    by_seq = {des["antisense_5to3"]: (j, des)
+              for j in nc["junctions"] for des in j["designs"]}
+    for seq in liab["designs_cleaving_wild_type_NR4A3"]:
+        j, des = by_seq[seq]
+        assert des["parent_is_liability"] is False, seq
+        assert j["n_designs_clearing_the_parent_screen"] == j["n_designs_screened"], j["junction_label"]
+    assert cryptic["n_clearing_the_parent_exclusion"] == cryptic["n_designs_spanning_the_seam"]
+    assert "each of the three had already cleared the mature-parent exclusion, and so had every " \
+           "other design tiled at its seam" in txt
+
+    # ⛔ "RETURNED INDEPENDENTLY BY THE GENOME SCAN" IS A SEPARATE INSTRUMENT AND IS CHECKED AS ONE.
+    # The genome screen's named-target stratum is a lookup over the whole assembly rather than over
+    # one locus, so its agreeing on the same designs is corroboration; asserting the prose without
+    # asserting the lookup would let the sentence outlive the arm it credits.
+    gen = os.path.join(MOD, "aso-genome-offtarget-noncoding-acceptor.json")
+    if os.path.exists(gen):
+        st3 = json.load(open(gen, encoding="utf-8"))["headline"]["stratum_3_named_targets"]
+        assert st3["genes_hit_gap_paired_and_hybridisable"] == ["NR4A3"], st3
+        assert st3["n_designs_with_a_named_gap_paired_site"] == \
+            len(liab["designs_cleaving_wild_type_NR4A3"]) == 2
+        assert all(s["gap_fully_paired"] and s["hybridisable"] for s in st3["sites"]), st3["sites"]
+    assert "returned independently by an exhaustive scan" in txt
+    assert "**Some designs cleave the patient's own un-rearranged *NR4A3* allele" in raw
+
+
+def test_the_testable_surface_states_the_only_catalogued_line_cannot_test_a_junction_reagent():
+    """§4's test-article paragraph: the operational fact, and the four things it must not become.
+
+    ⚠ H-EMC-SS (OBJ-LINE-HEMCSS) is registered in research/manuscripts/emc-systems-map.json with
+    identity DISPUTED, and this test exists to keep the manuscript's use of it inside what that
+    verdict supports.
+
+    ⛔ WHY THE PROHIBITIONS ARE ASSERTED AND NOT ONLY THE CLAIM. The evidence here is four indirect
+    readings and one figure-legend sentence. It supports exactly one operational statement — no
+    reagent named here can be tested in that line — and it does NOT support a misidentification
+    call, a statement of what the line is instead, a count of affected papers, or any imputation to
+    an author. Those are the sentences that would be easy to write and impossible to defend, so the
+    test refuses them by name.
+    """
+    if not os.path.exists(MODEL_EVIDENCE):
+        pytest.skip("the model-junction evidence artifact is not present in this checkout")
+    ev = json.load(open(MODEL_EVIDENCE, encoding="utf-8"))
+    block = ev["⛔⛔_the_only_purchasable_EMC_line_cannot_test_a_junction_reagent"]
+    assert block["line"] == "H-EMC-SS"
+    txt = _flat(_paper())
+
+    assert "H-EMC-SS" in txt
+    assert "no reagent named here can be tested in that line" in txt
+    # the fairness constraints, both of which the evidence requires
+    assert "This is not a statement that the line is misidentified" in txt
+    assert "fusion-negative extraskeletal myxoid chondrosarcoma tumours are" in txt
+    # already reported, never examined — the novelty limit
+    assert "The observation is also not new" in txt
+
+    # ⛔ THE FOUR SENTENCES THE EVIDENCE DOES NOT SUPPORT.
+    for banned in ("misidentified line", "wrongly diagnosed", "STR misidentification",
+                   "papers rely on", "contaminated the literature"):
+        assert banned not in txt, banned
+    # no count of affected papers may appear: the triage was abstract-level and says so
+    assert not re.search(r"\b\d+ (?:of \d+ )?(?:papers|records|studies)[^.\n]{0,40}H-EMC-SS", txt)
+
+    # the five test articles, and that each has a reagent
+    assert "five test articles, and each of the five now has a matching reagent" in txt
+    for arm in ("E-N", "T-N*", "T-N"):
+        assert arm in txt, arm
+    # what a rebuilt construct cannot buy, and the binding constraint
+    assert "not to activity at endogenous expression from an endogenous locus" in txt
+    assert "the rate-limiting step is a laboratory rather than a line" in txt
+
+
+def test_the_tfg_deposit_is_reported_without_moving_a_coverage_figure():
+    """§3.3's *TFG* paragraph, read off the nuccore sweep that produced it.
+
+    ⛔ TWO HALVES THAT MUST TRAVEL TOGETHER. The deposit supplies an EXON — TFG's first exon-resolved
+    breakpoint anywhere in this repository — and supplies no DISTRIBUTION, and TFG is absent from the
+    58-case cohort the coverage denominators use. A sentence carrying only the first half would read
+    as a partner arm that could be priced.
+
+    ⚠ THE PATENT RECORDS ARE CORROBORATION OF A SEQUENCE, NOT OF FOUR PATIENTS, and the artifact says
+    so in terms. Asserting the prose keeps that qualification attached to the count.
+    """
+    art = os.path.join(MOD, "nr4a3-deposited-junctions.json")
+    if not os.path.exists(art):
+        pytest.skip("the deposited-junction sweep is not present in this checkout")
+    rec = json.load(open(art, encoding="utf-8"))["junctions"]["TFG_e7__NR4A3_e3"]
+    txt = _flat(_paper())
+    assert rec["records"][0] == "AY532911.1", rec["records"]
+    assert len(rec["records"]) - 1 == 4, rec["records"]
+    assert "not_a_frequency" in " ".join(rec.keys())
+    assert "GenBank AY532911.1" in txt
+    assert "*TFG* exon 7\njoined to *NR4A3* exon 3" in _paper() or \
+           "*TFG* exon 7 joined to *NR4A3* exon 3" in txt
+    assert "Four patent sequence records agree" in txt
+    assert "one family from one group" in txt
+    assert "no source states what fraction of *TFG*-rearranged tumours break there" in txt
+    # ⛔ and TFG must remain absent from the coverage denominator, or the paragraph is wrong
+    sys.path.insert(0, os.path.join(REPO, "research", "manuscripts"))
+    import aso_reagent_coverage as RC  # noqa: PLC0415
+    assert "TFG" not in RC.PARTNER_COHORT["counts"], RC.PARTNER_COHORT["counts"]
+    assert "so this changes which junctions are reported and no percentage" in txt

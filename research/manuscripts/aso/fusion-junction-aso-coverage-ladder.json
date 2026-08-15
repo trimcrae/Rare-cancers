@@ -1,0 +1,1061 @@
+{
+ "_what": "What each additional junction reagent would add to EMC coverage, where the ceiling is, and whether 95% is reachable at all.",
+ "_why": "The manuscript's coverage was corrected from 95% to 68.4% on 2026-08-15. The question that follows is whether better design can recover it. It cannot; a bigger panel can, up to a ceiling computed here.",
+ "_what_this_is_not": [
+  "Not a coverage measurement and not an efficacy claim. Nothing here has been synthesised or tested, and matching a junction is not activity against it.",
+  "Not a re-pricing of the manuscript's figure. Rung 0 is computed on the same single series and reproduces 68.4%; the pooled column supersedes nothing, and neither does `best_supported_buildable_panel`, which is an additional and better-specified row beside the ladder rather than a replacement for any part of it.",
+  "⚠ SUPERSEDED, RETAINED: 'Not a claim that the NR4A3 exon-2 junction is designable — nothing has been designed or screened there. That is the work this file argues for, not work it reports.' Both halves are now out of date: designs exist and all five deep screens have run at the manuscript geometry. This module reads that state per junction rather than asserting it, so the sentence it replaces cannot recur.",
+  "Not a guess at the unresolved EWSR1 transcript types; they are priced, not named. ⛔ And not an assumption that pricing them would open them — at least one named EWS/CHN variant is INTRA-EXONIC and has no exon::exon seam to design against at all, which is recorded under the gap decomposition as a structural limit rather than a retrieval gap.",
+  "Not free of the assumption aso_reagent_coverage.py states about transporting a breakpoint distribution from an 18-case series to a 58-case one."
+ ],
+ "_cost": "$0 — arithmetic over committed artifacts plus one free-runner literature fetch.",
+ "inputs": {
+  "partner_prevalence": {
+   "pmid": "36948401",
+   "n": 58,
+   "counts": {
+    "EWSR1": 46,
+    "TAF15": 9,
+    "TCF12": 2,
+    "no_identified_partner": 1
+   },
+   "_one_home": "research/manuscripts/aso_reagent_coverage.py"
+  },
+  "breakpoint_bases": {
+   "single_series": {
+    "_what": "PMID 12378528 alone — the basis the manuscript's 68.4% is computed on.",
+    "EWSR1": {
+     "n": 15,
+     "k": {
+      "EWSR1_e12__NR4A3_e3": 10,
+      "EWSR1_e13__NR4A3_e3": 2,
+      "EWSR1_e7__NR4A3_e2": 0
+     }
+    },
+    "TAF15": {
+     "n": 3,
+     "k": {
+      "TAF15_e6__NR4A3_e3": 3
+     }
+    }
+   },
+   "pooled_two_series": {
+    "_what": "PMID 12378528 + PMID 29937513, pooled on exon pairs. Both report explicit integer counts against the same outcome definition, which is what POLICY-evidence.md §2.1 requires. Type NUMBERING is not pooled; only exon pairs.",
+    "EWSR1": {
+     "n": 20,
+     "k": {
+      "EWSR1_e12__NR4A3_e3": 13,
+      "EWSR1_e13__NR4A3_e3": 3,
+      "EWSR1_e7__NR4A3_e2": 1
+     }
+    },
+    "TAF15": {
+     "n": 3,
+     "k": {
+      "TAF15_e6__NR4A3_e3": 3
+     }
+    }
+   }
+  },
+  "breakpoint_census": {
+   "_one_home": "aso/lit-targets-aso-breakpoint-census.json",
+   "n_papers_retrieved": 295,
+   "n_reporting_an_exon_resolved_junction": 7
+  },
+  "undesignable_in_the_current_panel": {
+   "EWSR1_e7__NR4A3_e2": {
+    "why": "the atlas grades every NR4A3 exon-2 acceptor NON_CODING_ACCEPTOR, because NR4A3 exon 2 carries no CDS — it is upstream of the start codon. A protein-level exclusion, correct for a degrader or a neoantigen and wrong for a gapmer.",
+    "evidence": [
+     "PMID 22567356 defines it as the type 2 transcript",
+     "PMID 29937513 sequenced it as sample #1 of five",
+     "PMID 35488288 sequenced it in an independent patient"
+    ],
+    "what_it_would_take": "emit exon-2 acceptors for the ASO lane specifically, then run the same five screens the other 38 junctions went through. No new method, no GPU, no rental.",
+    "⭐_status_2026_08_15": "⚠ SUPERSEDED WITHIN THE DAY, RETAINED: 'DESIGNS NOW EXIST, AND ARE NOT YET SCREENED … ⛔ NONE has been through the five deep off-target screens, which need BLAST and network, so their load is UNKNOWN and their counts are not comparable with the panel's.' ⭐ ALL FIVE SCREENS HAVE NOW RUN at the manuscript geometry, in CI, and their per-design output is joined into the panel's own field set by research/modalities/aso_noncoding_acceptor_screened_table.py. This module reads that state per junction from the artifact's `screens_complete` flag and never asserts it. ⛔ WHAT DOES NOT CHANGE: the junction is still not IN the manuscript's 38-junction panel — the atlas filter that drops it is a protein-level grade and the panel is reported as 38 — so its screens live in their own directory and its rows are read beside the panel's rather than pooled into them."
+   },
+   "TAF15_e6__NR4A3_intron2": {
+    "why": "same filter — an intronic acceptor carries no CDS either.",
+    "evidence": [
+     "PMID 31020999 calls T-N and T-N* 'the two major TAF15-NR4A3 isoforms detected in human tumors', and describes T-N as 'TAF15 (exons 1-6)-NR4A3 (intron 2-exon 8)'",
+     "PMID 31020999 engineered both isoforms into cells and found them 'essentially indistinguishable' in colony formation"
+    ],
+    "what_it_would_take": "emit the cryptic-exon acceptor for the ASO lane, then run the same five screens the other 38 junctions went through. No new method, no GPU, no rental — the same shape as the exon-2 case.",
+    "⭐_corrected_2026_08_15": "THE ACCEPTOR IS NOT A RETAINED INTRON, AND THAT CHANGES WHAT THIS ROW COSTS. This entry previously called for 'a retained-intron acceptor model, which the atlas does not currently build', and priced the row as more work than the exon-2 case. PMID 31020999 says otherwise in its own words: 'T-N retains a short cryptic exon located in NR4A3 intron 2 (ENST00000395097.6 isoform), thus encoding 25 additional amino acids prior to the NR4A3 ATG.' A SPLICED cryptic exon has a definite length and definite boundaries, and junction_aso.mrna_junction_generic builds it unchanged — no retained-intron model is needed. The length is not a free parameter either: TAF15 contributes 484 coding nt through exon 6 and NR4A3 exon 3 retains 2 nt of 5'UTR, so the paper's '25 additional amino acids' is reproduced at exactly one exon length, 75 nt, and at no other (74 and 76 both destroy the NR4A3 reading frame the same sentence asserts). One home for the derivation and the measured sequence: research/modalities/nr4a3-intron2-cryptic-exon.json.",
+    "⛔_prevalence_is_still_unmeasured": "The paper orders the two isoforms — 'the commonest' T-N* against 'the less common' T-N — and reports NO count of either among its five TAF15-NR4A3 tumours. A search of 782 unique full texts across the three retrieved corpora finds the intron-2 form mentioned in that one paper alone, never with a count. ⚠ AND THE ABSENCE IS PARTLY STRUCTURAL: PMID 32612944's 59-patient series states its 'Primers and probes used in this assay are specific for the detection of the following fusion: ... TAF15(ex6)/NR4A3(ex3)', so a junction-specific assay of that design cannot report an intron-2 acceptor as such — the same junction-spanning specificity that makes a T-N* gapmer miss T-N makes that assay miss it too. So the TAF15 arm's 3/3 is an UPPER BOUND carrying a named, unquantified risk, and no number here moves: converting 'less common' into a fraction would fabricate the one quantity the literature declines to give."
+   }
+  }
+ },
+ "can_better_design_raise_coverage": {
+  "_question": "Can one oligonucleotide cover two breakpoints, so that coverage rises without the panel growing? This is the ONLY way better design could raise coverage, and it is decided by sequence rather than by skill.",
+  "_method": "Shared 3'-terminal bases between the donor exons of two junctions, over the 12-nt donor context the atlas emits per seam. The acceptor side is excluded because these junctions share their acceptor exon and would agree trivially.",
+  "the_two_junctions_that_matter_most": {
+   "EWSR1_e12__NR4A3_e3_donor_3prime": "AATGGTTTGATG",
+   "EWSR1_e13__NR4A3_e3_donor_3prime": "CACTCCGTGGAG",
+   "shared_3prime_donor_nt": 1
+  },
+  "within_partner_best_pair_per_partner": [
+   {
+    "partner": "EWSR1",
+    "junction_a": "EWSR1_e1__NR4A3_e3",
+    "junction_b": "EWSR1_e15__NR4A3_e3",
+    "shared_3prime_donor_nt": 3
+   },
+   {
+    "partner": "FUS",
+    "junction_a": "FUS_e5__NR4A3_e3",
+    "junction_b": "FUS_e11__NR4A3_e3",
+    "shared_3prime_donor_nt": 4
+   },
+   {
+    "partner": "TAF15",
+    "junction_a": "TAF15_e12__NR4A3_e3",
+    "junction_b": "TAF15_e14__NR4A3_e3",
+    "shared_3prime_donor_nt": 3
+   },
+   {
+    "partner": "TCF12",
+    "junction_a": "TCF12_e17__NR4A3_e3",
+    "junction_b": "TCF12_e19__NR4A3_e3",
+    "shared_3prime_donor_nt": 4
+   },
+   {
+    "partner": "TFG",
+    "junction_a": "TFG_e2__NR4A3_e3",
+    "junction_b": "TFG_e6__NR4A3_e3",
+    "shared_3prime_donor_nt": 5
+   }
+  ],
+  "max_within_partner_shared_donor_nt": 5,
+  "cross_partner_pairs_sharing_8_or_more": [
+   {
+    "junction_a": "EWSR1_e12__NR4A3_e3",
+    "junction_b": "FUS_e10__NR4A3_e3",
+    "shared_3prime_donor_nt": 10,
+    "shared_run": "TGGTTTGATG"
+   },
+   {
+    "junction_a": "EWSR1_e12__NR4A3_e3",
+    "junction_b": "TAF15_e11__NR4A3_e3",
+    "shared_3prime_donor_nt": 10,
+    "shared_run": "TGGTTTGATG"
+   },
+   {
+    "junction_a": "FUS_e10__NR4A3_e3",
+    "junction_b": "TAF15_e11__NR4A3_e3",
+    "shared_3prime_donor_nt": 12,
+    "shared_run": "ACTGGTTTGATG"
+   }
+  ],
+  "_answer": "NO. Within a partner the best pair shares far too few 3' donor bases for one oligonucleotide to straddle both seams, so every additional breakpoint costs an additional reagent. The long shared runs are all CROSS-partner, at the FET donors' paralogous exons — §3.2's result — and no patient is reported at those partner exons."
+ },
+ "ladder": [
+  {
+   "panel": "as published — the two named reagents",
+   "kind": "rung",
+   "_why_a_bound_and_not_a_rung": null,
+   "n_reagents_named": 2,
+   "n_reagents_additional_unnamed": 0,
+   "coverage_percent": 68.4,
+   "coverage_percent_range": [
+    39.9,
+    82.8
+   ],
+   "coverage_percent_pooled_basis": 67.1,
+   "delta_percent_vs_previous": null,
+   "junctions": [
+    "EWSR1_e12__NR4A3_e3",
+    "TAF15_e6__NR4A3_e3"
+   ],
+   "junctions_with_no_design_at_all": [],
+   "junctions_designed_but_not_yet_screened": {},
+   "junctions_screened_outside_the_manuscript_panel": {},
+   "status": "both named in §5.1, both screened, both designable today",
+   "_note": null,
+   "what_it_costs": "nothing new — this is the manuscript's panel",
+   "arms": [
+    {
+     "partner": "EWSR1",
+     "junctions_in_panel": [
+      "EWSR1_e12__NR4A3_e3"
+     ],
+     "partner_share_of_cohort": 0.7931,
+     "breakpoint_fraction_covered": 0.6667,
+     "basis": "10/15 of this partner's rearranged tumours",
+     "contribution": 0.5287
+    },
+    {
+     "partner": "TAF15",
+     "junctions_in_panel": [
+      "TAF15_e6__NR4A3_e3"
+     ],
+     "partner_share_of_cohort": 0.1552,
+     "breakpoint_fraction_covered": 1.0,
+     "basis": "3/3 of this partner's rearranged tumours",
+     "contribution": 0.1552
+    }
+   ],
+   "designs_available_today": {
+    "EWSR1_e12__NR4A3_e3": {
+     "antisense_5to3": "GGGCATATCATCAAAC",
+     "gap_specificity_margin": 3,
+     "n_gap_paired_at_deep_ceiling": 123,
+     "n_gap_paired_loci": 6,
+     "clinical_tier": "published_exon_resolved_breakpoint"
+    },
+    "TAF15_e6__NR4A3_e3": {
+     "antisense_5to3": "GGGCATATCTTGTGTG",
+     "gap_specificity_margin": 3,
+     "n_gap_paired_at_deep_ceiling": 8,
+     "n_gap_paired_loci": 5,
+     "clinical_tier": "published_exon_resolved_breakpoint"
+    }
+   }
+  },
+  {
+   "panel": "+ EWSR1 exon 13 → NR4A3 exon 3",
+   "kind": "rung",
+   "_why_a_bound_and_not_a_rung": null,
+   "n_reagents_named": 3,
+   "n_reagents_additional_unnamed": 0,
+   "coverage_percent": 79.0,
+   "coverage_percent_range": [
+    50.3,
+    89.2
+   ],
+   "coverage_percent_pooled_basis": 79.0,
+   "delta_percent_vs_previous": 10.6,
+   "junctions": [
+    "EWSR1_e12__NR4A3_e3",
+    "EWSR1_e13__NR4A3_e3",
+    "TAF15_e6__NR4A3_e3"
+   ],
+   "junctions_with_no_design_at_all": [],
+   "junctions_designed_but_not_yet_screened": {},
+   "junctions_screened_outside_the_manuscript_panel": {},
+   "status": "AVAILABLE NOW, AND IT WAS A CURATION MISS. The second-most-common EWS/CHN transcript, named in the same abstract that establishes exon 12 and confirmed independently by a whole-transcriptome series. Already screened; its best design holds the same top gap-level margin of 3 and carries a LIGHTER disclosed transcriptome load than the exon-12 reagent.",
+   "_note": null,
+   "what_it_costs": "one oligonucleotide; no new screen, no new retrieval",
+   "arms": [
+    {
+     "partner": "EWSR1",
+     "junctions_in_panel": [
+      "EWSR1_e12__NR4A3_e3",
+      "EWSR1_e13__NR4A3_e3"
+     ],
+     "partner_share_of_cohort": 0.7931,
+     "breakpoint_fraction_covered": 0.8,
+     "basis": "12/15 of this partner's rearranged tumours",
+     "contribution": 0.6345
+    },
+    {
+     "partner": "TAF15",
+     "junctions_in_panel": [
+      "TAF15_e6__NR4A3_e3"
+     ],
+     "partner_share_of_cohort": 0.1552,
+     "breakpoint_fraction_covered": 1.0,
+     "basis": "3/3 of this partner's rearranged tumours",
+     "contribution": 0.1552
+    }
+   ],
+   "designs_available_today": {
+    "EWSR1_e12__NR4A3_e3": {
+     "antisense_5to3": "GGGCATATCATCAAAC",
+     "gap_specificity_margin": 3,
+     "n_gap_paired_at_deep_ceiling": 123,
+     "n_gap_paired_loci": 6,
+     "clinical_tier": "published_exon_resolved_breakpoint"
+    },
+    "EWSR1_e13__NR4A3_e3": {
+     "antisense_5to3": "GGGCATATCTCCACGG",
+     "gap_specificity_margin": 3,
+     "n_gap_paired_at_deep_ceiling": 24,
+     "n_gap_paired_loci": 2,
+     "clinical_tier": "published_exon_resolved_breakpoint"
+    },
+    "TAF15_e6__NR4A3_e3": {
+     "antisense_5to3": "GGGCATATCTTGTGTG",
+     "gap_specificity_margin": 3,
+     "n_gap_paired_at_deep_ceiling": 8,
+     "n_gap_paired_loci": 5,
+     "clinical_tier": "published_exon_resolved_breakpoint"
+    }
+   }
+  },
+  {
+   "panel": "+ EWSR1 exon 7 → NR4A3 exon 2 (the type 2 transcript)",
+   "kind": "rung",
+   "_why_a_bound_and_not_a_rung": null,
+   "n_reagents_named": 4,
+   "n_reagents_additional_unnamed": 0,
+   "coverage_percent": 79.0,
+   "coverage_percent_range": [
+    50.3,
+    89.2
+   ],
+   "coverage_percent_pooled_basis": 82.9,
+   "delta_percent_vs_previous": 0.0,
+   "junctions": [
+    "EWSR1_e12__NR4A3_e3",
+    "EWSR1_e13__NR4A3_e3",
+    "EWSR1_e7__NR4A3_e2",
+    "TAF15_e6__NR4A3_e3"
+   ],
+   "junctions_with_no_design_at_all": [],
+   "junctions_designed_but_not_yet_screened": {},
+   "junctions_screened_outside_the_manuscript_panel": {
+    "EWSR1_e7__NR4A3_e2": {
+     "partner": "EWSR1",
+     "source_table": "noncoding-acceptor/aso-noncoding-acceptor-screened-table.json",
+     "source_table_is": "the published NON-CANONICAL seams, screened to the panel's depth",
+     "clinical_tier": "published_exon_resolved_breakpoint",
+     "breakpoint_refs": [
+      "PMID 22567356",
+      "PMID 29937513",
+      "PMID 35488288"
+     ],
+     "five_screen_evidence": {
+      "per_junction_flag": "screens_complete",
+      "value": true,
+      "n_screens_that_ran": 5,
+      "n_screens_outstanding": 0
+     },
+     "n_designs_screened": 5,
+     "n_designs_clearing_the_parent_screen": 4,
+     "best_available": {
+      "antisense_5to3": "CAGTGGGCTTCTGCTG",
+      "gap_specificity_margin": 2
+     }
+    }
+   },
+   "status": "⛔ NOT DESIGNABLE IN THE CURRENT PANEL, and the obstacle is a filter rather than the sequence. Every panel junction uses NR4A3 exon 3; this one uses exon 2, which the atlas drops as a non-coding acceptor. Lifting that filter for the ASO lane is the single largest piece of designable-but-undesigned coverage.",
+   "_note": "⚠ READ THE TWO COLUMNS TOGETHER ON THIS RUNG. The single-series basis prices this junction at ZERO because that series never named the type 2 transcript — an UNNAMED count, not a measured absence, and the same series maps one genomic break to EWSR1 intron 7, which is where a type 2 fusion would come from. The pooled basis, which includes the only cohort that resolved every case by sequencing, prices it at 1 in 20. A rung whose value is invisible on the manuscript's own basis is exactly the rung a single-cohort estimate is worst at seeing.",
+   "what_it_costs": "emit exon-2 acceptors, then the same five screens the other junctions ran. CPU and CI only — no GPU, no rental",
+   "arms": [
+    {
+     "partner": "EWSR1",
+     "junctions_in_panel": [
+      "EWSR1_e12__NR4A3_e3",
+      "EWSR1_e13__NR4A3_e3",
+      "EWSR1_e7__NR4A3_e2"
+     ],
+     "partner_share_of_cohort": 0.7931,
+     "breakpoint_fraction_covered": 0.8,
+     "basis": "12/15 of this partner's rearranged tumours",
+     "contribution": 0.6345
+    },
+    {
+     "partner": "TAF15",
+     "junctions_in_panel": [
+      "TAF15_e6__NR4A3_e3"
+     ],
+     "partner_share_of_cohort": 0.1552,
+     "breakpoint_fraction_covered": 1.0,
+     "basis": "3/3 of this partner's rearranged tumours",
+     "contribution": 0.1552
+    }
+   ],
+   "designs_available_today": {
+    "EWSR1_e12__NR4A3_e3": {
+     "antisense_5to3": "GGGCATATCATCAAAC",
+     "gap_specificity_margin": 3,
+     "n_gap_paired_at_deep_ceiling": 123,
+     "n_gap_paired_loci": 6,
+     "clinical_tier": "published_exon_resolved_breakpoint"
+    },
+    "EWSR1_e13__NR4A3_e3": {
+     "antisense_5to3": "GGGCATATCTCCACGG",
+     "gap_specificity_margin": 3,
+     "n_gap_paired_at_deep_ceiling": 24,
+     "n_gap_paired_loci": 2,
+     "clinical_tier": "published_exon_resolved_breakpoint"
+    },
+    "EWSR1_e7__NR4A3_e2": null,
+    "TAF15_e6__NR4A3_e3": {
+     "antisense_5to3": "GGGCATATCTTGTGTG",
+     "gap_specificity_margin": 3,
+     "n_gap_paired_at_deep_ceiling": 8,
+     "n_gap_paired_loci": 5,
+     "clinical_tier": "published_exon_resolved_breakpoint"
+    }
+   }
+  },
+  {
+   "panel": "BOUND — every remaining EWSR1 breakpoint covered",
+   "kind": "bound",
+   "_why_a_bound_and_not_a_rung": "⛔ THIS IS NOT A PANEL ANYONE CAN BUILD, AND RENDERING IT AS A RUNG OVERSTATED IT. Three of the 15 EWSR1-rearranged tumours carry transcript types the retrieved record does not name, so the number of reagents needed is unknown — and if those breakpoints are PRIVATE rather than recurrent, no stocked panel reaches them at any size. A per-patient design-and-manufacture route is a different clinical object, not a bigger panel. What makes this a bound rather than a guess is that the primary series DID sequence them: its genomic mapping reports EWSR1 breaks in introns 7, 12 and 13, so the junctions exist and are documented — in a paper that is not open access.",
+   "n_reagents_named": 4,
+   "n_reagents_additional_unnamed": 3,
+   "coverage_percent": 94.8,
+   "coverage_percent_range": [
+    94.8,
+    94.8
+   ],
+   "coverage_percent_pooled_basis": 94.8,
+   "delta_percent_vs_previous": 15.9,
+   "junctions": [
+    "EWSR1_e12__NR4A3_e3",
+    "EWSR1_e13__NR4A3_e3",
+    "EWSR1_e7__NR4A3_e2",
+    "TAF15_e6__NR4A3_e3"
+   ],
+   "junctions_with_no_design_at_all": [],
+   "junctions_designed_but_not_yet_screened": {},
+   "junctions_screened_outside_the_manuscript_panel": {
+    "EWSR1_e7__NR4A3_e2": {
+     "partner": "EWSR1",
+     "source_table": "noncoding-acceptor/aso-noncoding-acceptor-screened-table.json",
+     "source_table_is": "the published NON-CANONICAL seams, screened to the panel's depth",
+     "clinical_tier": "published_exon_resolved_breakpoint",
+     "breakpoint_refs": [
+      "PMID 22567356",
+      "PMID 29937513",
+      "PMID 35488288"
+     ],
+     "five_screen_evidence": {
+      "per_junction_flag": "screens_complete",
+      "value": true,
+      "n_screens_that_ran": 5,
+      "n_screens_outstanding": 0
+     },
+     "n_designs_screened": 5,
+     "n_designs_clearing_the_parent_screen": 4,
+     "best_available": {
+      "antisense_5to3": "CAGTGGGCTTCTGCTG",
+      "gap_specificity_margin": 2
+     }
+    }
+   },
+   "status": "BLOCKED ON RETRIEVAL, NOT ON DESIGN. Three of the 15 EWSR1-rearranged tumours of the primary series carry transcript types that record does not name. Naming them names the junctions.",
+   "_note": null,
+   "what_it_costs": "one retrieval, then roughly one to three additional oligonucleotides",
+   "arms": [
+    {
+     "partner": "EWSR1",
+     "junctions_in_panel": [
+      "EWSR1_e12__NR4A3_e3",
+      "EWSR1_e13__NR4A3_e3",
+      "EWSR1_e7__NR4A3_e2"
+     ],
+     "partner_share_of_cohort": 0.7931,
+     "breakpoint_fraction_covered": 1.0,
+     "basis": "every breakpoint of this partner, by construction",
+     "contribution": 0.7931
+    },
+    {
+     "partner": "TAF15",
+     "junctions_in_panel": [
+      "TAF15_e6__NR4A3_e3"
+     ],
+     "partner_share_of_cohort": 0.1552,
+     "breakpoint_fraction_covered": 1.0,
+     "basis": "every breakpoint of this partner, by construction",
+     "contribution": 0.1552
+    }
+   ],
+   "designs_available_today": {
+    "EWSR1_e12__NR4A3_e3": {
+     "antisense_5to3": "GGGCATATCATCAAAC",
+     "gap_specificity_margin": 3,
+     "n_gap_paired_at_deep_ceiling": 123,
+     "n_gap_paired_loci": 6,
+     "clinical_tier": "published_exon_resolved_breakpoint"
+    },
+    "EWSR1_e13__NR4A3_e3": {
+     "antisense_5to3": "GGGCATATCTCCACGG",
+     "gap_specificity_margin": 3,
+     "n_gap_paired_at_deep_ceiling": 24,
+     "n_gap_paired_loci": 2,
+     "clinical_tier": "published_exon_resolved_breakpoint"
+    },
+    "EWSR1_e7__NR4A3_e2": null,
+    "TAF15_e6__NR4A3_e3": {
+     "antisense_5to3": "GGGCATATCTTGTGTG",
+     "gap_specificity_margin": 3,
+     "n_gap_paired_at_deep_ceiling": 8,
+     "n_gap_paired_loci": 5,
+     "clinical_tier": "published_exon_resolved_breakpoint"
+    }
+   }
+  },
+  {
+   "panel": "BOUND — the above plus TCF12",
+   "kind": "bound",
+   "_why_a_bound_and_not_a_rung": "⛔ THE TCF12 ARM IS PRICED AT ITS CEILING BECAUSE THERE IS NOTHING TO DISCOUNT IT BY, and the total silently inherits that. Neither breakpoint series behind this ladder contains a TCF12-rearranged tumour, so no within-partner fraction exists to apply. ⭐ WHAT IS NO LONGER TRUE, AS OF 2026-08-15: that the exon itself is unverified. The junction is reported at nucleotide resolution in GenBank AF289510.1, the chimeric cDNA the primary report's own authors deposited, and it lands on TCF12 exon 5 joined to NR4A3 exon 3 and on no other exon pair. So this figure is an upper bound resting on an unmeasured within-partner DISTRIBUTION — one sequenced tumour against the cohort's two — rather than on an unverified exon, and it must still never be quoted as a reachable coverage target.",
+   "n_reagents_named": 5,
+   "n_reagents_additional_unnamed": 3,
+   "coverage_percent": 98.3,
+   "coverage_percent_range": [
+    98.3,
+    98.3
+   ],
+   "coverage_percent_pooled_basis": 98.3,
+   "delta_percent_vs_previous": 3.4,
+   "junctions": [
+    "EWSR1_e12__NR4A3_e3",
+    "EWSR1_e13__NR4A3_e3",
+    "EWSR1_e7__NR4A3_e2",
+    "TAF15_e6__NR4A3_e3",
+    "TCF12_e5__NR4A3_e3"
+   ],
+   "junctions_with_no_design_at_all": [],
+   "junctions_designed_but_not_yet_screened": {},
+   "junctions_screened_outside_the_manuscript_panel": {
+    "EWSR1_e7__NR4A3_e2": {
+     "partner": "EWSR1",
+     "source_table": "noncoding-acceptor/aso-noncoding-acceptor-screened-table.json",
+     "source_table_is": "the published NON-CANONICAL seams, screened to the panel's depth",
+     "clinical_tier": "published_exon_resolved_breakpoint",
+     "breakpoint_refs": [
+      "PMID 22567356",
+      "PMID 29937513",
+      "PMID 35488288"
+     ],
+     "five_screen_evidence": {
+      "per_junction_flag": "screens_complete",
+      "value": true,
+      "n_screens_that_ran": 5,
+      "n_screens_outstanding": 0
+     },
+     "n_designs_screened": 5,
+     "n_designs_clearing_the_parent_screen": 4,
+     "best_available": {
+      "antisense_5to3": "CAGTGGGCTTCTGCTG",
+      "gap_specificity_margin": 2
+     }
+    }
+   },
+   "status": "REQUIRED TO CROSS 95%. The junction is now published at nucleotide resolution (GenBank AF289510.1, deposited with PMID 11156374), and the exon-5 design was already screened through all five screens and holds a gap-level margin of 3 — so the reagent is available today. What is missing is the distribution: one TCF12 tumour has ever been sequenced at this junction.",
+   "_note": null,
+   "what_it_costs": "one oligonucleotide — designed and screened already; nothing further to retrieve",
+   "arms": [
+    {
+     "partner": "EWSR1",
+     "junctions_in_panel": [
+      "EWSR1_e12__NR4A3_e3",
+      "EWSR1_e13__NR4A3_e3",
+      "EWSR1_e7__NR4A3_e2"
+     ],
+     "partner_share_of_cohort": 0.7931,
+     "breakpoint_fraction_covered": 1.0,
+     "basis": "every breakpoint of this partner, by construction",
+     "contribution": 0.7931
+    },
+    {
+     "partner": "TAF15",
+     "junctions_in_panel": [
+      "TAF15_e6__NR4A3_e3"
+     ],
+     "partner_share_of_cohort": 0.1552,
+     "breakpoint_fraction_covered": 1.0,
+     "basis": "every breakpoint of this partner, by construction",
+     "contribution": 0.1552
+    },
+    {
+     "partner": "TCF12",
+     "junctions_in_panel": [
+      "TCF12_e5__NR4A3_e3"
+     ],
+     "partner_share_of_cohort": 0.0345,
+     "breakpoint_fraction_covered": 1.0,
+     "basis": "⚠ NO measured within-partner fraction exists for this partner — the arm is priced at its CEILING, which makes the total an upper bound rather than an estimate",
+     "contribution": 0.0345
+    }
+   ],
+   "designs_available_today": {
+    "EWSR1_e12__NR4A3_e3": {
+     "antisense_5to3": "GGGCATATCATCAAAC",
+     "gap_specificity_margin": 3,
+     "n_gap_paired_at_deep_ceiling": 123,
+     "n_gap_paired_loci": 6,
+     "clinical_tier": "published_exon_resolved_breakpoint"
+    },
+    "EWSR1_e13__NR4A3_e3": {
+     "antisense_5to3": "GGGCATATCTCCACGG",
+     "gap_specificity_margin": 3,
+     "n_gap_paired_at_deep_ceiling": 24,
+     "n_gap_paired_loci": 2,
+     "clinical_tier": "published_exon_resolved_breakpoint"
+    },
+    "EWSR1_e7__NR4A3_e2": null,
+    "TAF15_e6__NR4A3_e3": {
+     "antisense_5to3": "GGGCATATCTTGTGTG",
+     "gap_specificity_margin": 3,
+     "n_gap_paired_at_deep_ceiling": 8,
+     "n_gap_paired_loci": 5,
+     "clinical_tier": "published_exon_resolved_breakpoint"
+    },
+    "TCF12_e5__NR4A3_e3": {
+     "antisense_5to3": "GGGCATATCCATCAGA",
+     "gap_specificity_margin": 3,
+     "n_gap_paired_at_deep_ceiling": 17,
+     "n_gap_paired_loci": 1,
+     "clinical_tier": "published_exon_resolved_breakpoint"
+    }
+   }
+  }
+ ],
+ "best_supported_buildable_panel": {
+  "_what": "★ THE BEST-SUPPORTED BUILDABLE PANEL — the coverage of the junctions that have BOTH a published exon-resolved breakpoint AND a reagent through all five deep screens at the manuscript geometry, priced on the whole retrieved breakpoint record.",
+  "_why_it_is_an_ADDITIONAL_row": "⛔ IT REPLACES NOTHING. The ladder's rungs and bounds above are unchanged and rung 0 still reproduces the published 68.4% on the manuscript's own single-series basis. This row is better specified — membership is an evidence test rather than a position in an incremental series, and the basis is the whole retrieved record rather than one series of it — and it is reported beside them, never instead of them.",
+  "panel_membership": {
+   "_rule": "a junction qualifies on TWO independent conditions: (i) clinical_tier == 'published_exon_resolved_breakpoint' in a screened table, and (ii) a reagent through all five deep screens. Both are READ from the tables that own them.",
+   "n_junctions_qualifying": 8,
+   "junctions": {
+    "EWSR1_e12__NR4A3_e3": {
+     "partner": "EWSR1",
+     "source_table": "aso-per-junction-table.json",
+     "source_table_is": "the manuscript's 38-junction panel",
+     "clinical_tier": "published_exon_resolved_breakpoint",
+     "breakpoint_refs": [
+      "PMID: 12378528",
+      "PMID: 29937513"
+     ],
+     "five_screen_evidence": {
+      "per_junction_flag": null,
+      "table_level_statement": "The best available junction-spanning gapmer for EACH of the frame-compatible NR4A3-fusion junctions, joined across all five specificity screens, with the clinical-occurrence tier of the junction reported separately from specificity.",
+      "per_junction_check": "best_available is present, so the deep alignment screen that supplies its rank key ran for this junction"
+     },
+     "n_designs_screened": 5,
+     "n_designs_clearing_the_parent_screen": 4,
+     "best_available": {
+      "antisense_5to3": "GGGCATATCATCAAAC",
+      "gap_specificity_margin": 3
+     }
+    },
+    "EWSR1_e13__NR4A3_e3": {
+     "partner": "EWSR1",
+     "source_table": "aso-per-junction-table.json",
+     "source_table_is": "the manuscript's 38-junction panel",
+     "clinical_tier": "published_exon_resolved_breakpoint",
+     "breakpoint_refs": [
+      "PMID: 12378528",
+      "PMID: 29937513"
+     ],
+     "five_screen_evidence": {
+      "per_junction_flag": null,
+      "table_level_statement": "The best available junction-spanning gapmer for EACH of the frame-compatible NR4A3-fusion junctions, joined across all five specificity screens, with the clinical-occurrence tier of the junction reported separately from specificity.",
+      "per_junction_check": "best_available is present, so the deep alignment screen that supplies its rank key ran for this junction"
+     },
+     "n_designs_screened": 5,
+     "n_designs_clearing_the_parent_screen": 3,
+     "best_available": {
+      "antisense_5to3": "GGGCATATCTCCACGG",
+      "gap_specificity_margin": 3
+     }
+    },
+    "TAF15_e6__NR4A3_e3": {
+     "partner": "TAF15",
+     "source_table": "aso-per-junction-table.json",
+     "source_table_is": "the manuscript's 38-junction panel",
+     "clinical_tier": "published_exon_resolved_breakpoint",
+     "breakpoint_refs": [
+      "PMID: 10537274",
+      "PMID: 12378528"
+     ],
+     "five_screen_evidence": {
+      "per_junction_flag": null,
+      "table_level_statement": "The best available junction-spanning gapmer for EACH of the frame-compatible NR4A3-fusion junctions, joined across all five specificity screens, with the clinical-occurrence tier of the junction reported separately from specificity.",
+      "per_junction_check": "best_available is present, so the deep alignment screen that supplies its rank key ran for this junction"
+     },
+     "n_designs_screened": 5,
+     "n_designs_clearing_the_parent_screen": 1,
+     "best_available": {
+      "antisense_5to3": "GGGCATATCTTGTGTG",
+      "gap_specificity_margin": 3
+     }
+    },
+    "TCF12_e5__NR4A3_e3": {
+     "partner": "TCF12",
+     "source_table": "aso-per-junction-table.json",
+     "source_table_is": "the manuscript's 38-junction panel",
+     "clinical_tier": "published_exon_resolved_breakpoint",
+     "breakpoint_refs": [
+      "PMID: 11156374",
+      "GenBank: AF289510.1"
+     ],
+     "five_screen_evidence": {
+      "per_junction_flag": null,
+      "table_level_statement": "The best available junction-spanning gapmer for EACH of the frame-compatible NR4A3-fusion junctions, joined across all five specificity screens, with the clinical-occurrence tier of the junction reported separately from specificity.",
+      "per_junction_check": "best_available is present, so the deep alignment screen that supplies its rank key ran for this junction"
+     },
+     "n_designs_screened": 5,
+     "n_designs_clearing_the_parent_screen": 4,
+     "best_available": {
+      "antisense_5to3": "GGGCATATCCATCAGA",
+      "gap_specificity_margin": 3
+     }
+    },
+    "EWSR1_e13__NR4A3_e2": {
+     "partner": "EWSR1",
+     "source_table": "noncoding-acceptor/aso-noncoding-acceptor-screened-table.json",
+     "source_table_is": "the published NON-CANONICAL seams, screened to the panel's depth",
+     "clinical_tier": "published_exon_resolved_breakpoint",
+     "breakpoint_refs": [
+      "PMID 36316541 (PMC9813045), Hum Cell 36:446-455 (2023), Figure 4 legend"
+     ],
+     "five_screen_evidence": {
+      "per_junction_flag": "screens_complete",
+      "value": true,
+      "n_screens_that_ran": 5,
+      "n_screens_outstanding": 0
+     },
+     "n_designs_screened": 5,
+     "n_designs_clearing_the_parent_screen": 5,
+     "best_available": {
+      "antisense_5to3": "AGTGGGCTCTCCACGG",
+      "gap_specificity_margin": 3
+     }
+    },
+    "EWSR1_e7__NR4A3_e2": {
+     "partner": "EWSR1",
+     "source_table": "noncoding-acceptor/aso-noncoding-acceptor-screened-table.json",
+     "source_table_is": "the published NON-CANONICAL seams, screened to the panel's depth",
+     "clinical_tier": "published_exon_resolved_breakpoint",
+     "breakpoint_refs": [
+      "PMID 22567356",
+      "PMID 29937513",
+      "PMID 35488288"
+     ],
+     "five_screen_evidence": {
+      "per_junction_flag": "screens_complete",
+      "value": true,
+      "n_screens_that_ran": 5,
+      "n_screens_outstanding": 0
+     },
+     "n_designs_screened": 5,
+     "n_designs_clearing_the_parent_screen": 4,
+     "best_available": {
+      "antisense_5to3": "CAGTGGGCTTCTGCTG",
+      "gap_specificity_margin": 2
+     }
+    },
+    "PGR_e2__NR4A3_e2": {
+     "partner": "PGR",
+     "source_table": "noncoding-acceptor/aso-noncoding-acceptor-screened-table.json",
+     "source_table_is": "the published NON-CANONICAL seams, screened to the panel's depth",
+     "clinical_tier": "published_exon_resolved_breakpoint",
+     "breakpoint_refs": [
+      "PMID 36103645 (PMC9489176), JCO Precis Oncol 2022"
+     ],
+     "five_screen_evidence": {
+      "per_junction_flag": "screens_complete",
+      "value": true,
+      "n_screens_that_ran": 5,
+      "n_screens_outstanding": 0
+     },
+     "n_designs_screened": 5,
+     "n_designs_clearing_the_parent_screen": 5,
+     "best_available": {
+      "antisense_5to3": "AGTGGGCTCTTCCATT",
+      "gap_specificity_margin": 3
+     }
+    },
+    "TAF15_e6__NR4A3_e2": {
+     "partner": "TAF15",
+     "source_table": "noncoding-acceptor/aso-noncoding-acceptor-screened-table.json",
+     "source_table_is": "the published NON-CANONICAL seams, screened to the panel's depth",
+     "clinical_tier": "published_exon_resolved_breakpoint",
+     "breakpoint_refs": [
+      "PMID 36316541 (PMC9813045), Hum Cell 36:446-455 (2023), Figure 4 legend",
+      "⚠ THE DONOR HALF IS THE ONE HALF NOBODY DISPUTES, AND IT IS THE COMMONEST TAF15 DONOR IN THE DISEASE: PMID 31020999 (PMC6766969) builds 'T-N*, corresponding to the commonest TAF15 (exons 1-6)-NR4A3 (exons 3-8) fusion'. The disagreement between that construct and this report is at the ACCEPTOR only"
+     ],
+     "five_screen_evidence": {
+      "per_junction_flag": "screens_complete",
+      "value": true,
+      "n_screens_that_ran": 5,
+      "n_screens_outstanding": 0
+     },
+     "n_designs_screened": 5,
+     "n_designs_clearing_the_parent_screen": 4,
+     "best_available": {
+      "antisense_5to3": "AGTGGGCTCTTGTGTG",
+      "gap_specificity_margin": 3
+     }
+    }
+   },
+   "n_junctions_that_can_move_this_cohort": 7,
+   "⛔_qualifying_but_contributing_exactly_zero": {
+    "junctions": [
+     "PGR_e2__NR4A3_e2"
+    ],
+    "why": "the partner is not in the 58-case cohort's partner counts, so the denominator contains no case such a reagent could engage. It moves coverage by EXACTLY ZERO — not by a small amount, by zero. What it changes is which patients are REACHABLE AT ALL, which is a different statement and must never be added to a coverage percentage. One home for that reading: research/modalities/aso_noncoding_acceptor_designs.py."
+   }
+  },
+  "basis": "pooled_two_series",
+  "_why_the_pooled_basis_is_the_headline": [
+   "POLICY-evidence.md §2.1's four conditions are MET and are checked row by row in `pooling_admissibility` rather than asserted. §2.2's method — a denominator-weighted crude pool with a Wilson interval on the summed counts — is the repository's standard for a simple proportion, and is what is computed here.",
+   "⛔ THE SINGLE-SERIES BASIS PRICES ONE JUNCTION AT A ZERO ITS OWN SOURCE NEVER MEASURED. PMID 12378528 names the transcript type of 12 of its 15 EWSR1 tumours and leaves 3 unnamed; the exon 7 :: exon 2 junction gets 0/15 because that series never named it, which is an UNNAMED count, not an observed absence. The same series' genomic mapping reports one EWS break in intron 7 — the genomic origin a type 2 transcript comes from — so its own data points at the junction its transcript typing does not name. A basis whose zero is contradicted by its own source is not the conservative choice; it is the less informative one, and its error runs one way.",
+   "⚠ BOTH BASES ARE REPORTED. The single-series figure for this identical panel is carried in `coverage_percent_single_series_basis` below and in every arm's `contribution_single_series_basis`, so a reader who rejects the pooling can read the row off the manuscript's own basis without recomputing anything.",
+   "⚠ AND NEITHER BASIS IS LARGE. Twenty sequenced EWSR1 tumours and three TAF15 ones carry every fraction here; the interval below is wide for that reason and is not cosmetic."
+  ],
+  "arms_with_a_measured_within_partner_distribution": [
+   {
+    "partner": "EWSR1",
+    "junctions_in_panel": [
+     "EWSR1_e12__NR4A3_e3",
+     "EWSR1_e13__NR4A3_e2",
+     "EWSR1_e13__NR4A3_e3",
+     "EWSR1_e7__NR4A3_e2"
+    ],
+    "partner_share_of_cohort": 0.7931,
+    "partner_share_counts": "46/58",
+    "breakpoint_fraction_pooled": "17/20",
+    "breakpoint_fraction_pooled_value": 0.85,
+    "breakpoint_fraction_wilson95": [
+     0.6396,
+     0.9476
+    ],
+    "breakpoint_fraction_single_series": "12/15",
+    "contribution": 0.6741,
+    "contribution_single_series_basis": 0.6345
+   },
+   {
+    "partner": "TAF15",
+    "junctions_in_panel": [
+     "TAF15_e6__NR4A3_e2",
+     "TAF15_e6__NR4A3_e3"
+    ],
+    "partner_share_of_cohort": 0.1552,
+    "partner_share_counts": "9/58",
+    "breakpoint_fraction_pooled": "3/3",
+    "breakpoint_fraction_pooled_value": 1.0,
+    "breakpoint_fraction_wilson95": [
+     0.4385,
+     1.0
+    ],
+    "breakpoint_fraction_single_series": "3/3",
+    "contribution": 0.1552,
+    "contribution_single_series_basis": 0.1552
+   }
+  ],
+  "arms_with_NO_measured_within_partner_distribution": [
+   {
+    "partner": "TCF12",
+    "junctions_in_panel": [
+     "TCF12_e5__NR4A3_e3"
+    ],
+    "partner_share_of_cohort": 0.0345,
+    "partner_share_counts": "2/58",
+    "reagent_state": "screened and in hand — see `panel_membership`",
+    "within_partner_distribution": "UNMEASURED",
+    "contribution_to_the_point_estimate": 0.0,
+    "contribution_if_every_case_of_this_partner_carried_it": 0.0345,
+    "⛔_zero_here_is_an_ABSENT_READING_NOT_A_READING_OF_ABSENCE": "This arm contributes 0 to the point estimate because nothing measures it, NOT because the reagent reaches nobody. Its whole share is carried in the bound below, which is the honest rendering of an unmeasured arm: a band, not a number chosen inside one."
+   }
+  ],
+  "coverage_percent": 82.9,
+  "coverage_percent_range": [
+   57.5,
+   90.7
+  ],
+  "_how_the_range_is_built": "the same composed-endpoint convention aso_reagent_coverage.py states: coverage is increasing in every breakpoint fraction, so the endpoints compose exactly when each fraction is taken to its own Wilson bound. That treats the arms as moving together and is therefore CONSERVATIVE — wider than letting them vary independently. Partner shares are held at their point estimates, as there.",
+  "coverage_percent_single_series_basis": 79.0,
+  "bound_if_the_unmeasured_arms_are_at_their_ceiling_percent": 86.4,
+  "⛔_the_bound_is_not_a_target": "The upper figure is what coverage WOULD be if every case of an unmeasured partner carried the sequenced exon. Nothing measures that, the band's own top is not more likely than its bottom, and quoting it as achievable coverage is the same denominator error the 68.4% correction was made to fix, one level up.",
+  "⚠_the_point_estimate_is_not_a_floor_either": "The TAF15 arm is priced at 3/3 on three tumours, and a functional study calls a second acceptor form one of 'the two major TAF15-NR4A3 isoforms detected in human tumors' without counting it. If any TAF15 patient carries that form, the single TAF15 reagent does not reach them and this figure is optimistic on that arm. So the honest reading is a point estimate carrying a NAMED, UNQUANTIFIED downward risk at TAF15 and an UNMEASURED upward increment at TCF12 — not a floor, and not a ceiling.",
+  "⛔_downstream_statements_this_row_makes_STALE_and_which_are_NOT_fixed_here": [
+   {
+    "where": "research/manuscripts/aso/fusion-junction-aso-research-article.md §5.1",
+    "the_sentence": "\"Emitting and screening those acceptors is the largest piece of designable but undesigned coverage this analysis identifies; no design at either junction is reported here, and none should be assumed to exist.\"",
+    "why_it_is_now_wrong": "Half of it. The EWSR1 exon 7 :: NR4A3 exon 2 acceptor is no longer UNDESIGNED — five designs exist and all five deep screens have run at the manuscript geometry (research/modalities/noncoding-acceptor/aso-noncoding-acceptor-screened-table.json, `screens_complete: true`). The TAF15 exon 6 :: NR4A3 intron 2 acceptor in the same sentence IS still undesigned, so the sentence is half true, which is the hardest kind to notice.",
+    "⚠_why_it_is_not_edited_here": "This module owns the coverage accounting, not the submission text. The manuscript's language passes through its own claim and prose gates and one sentence cannot be corrected in isolation without them. Recorded here so the defect has a home in the tree rather than only in a report.",
+    "what_the_corrected_statement_would_say": "the largest piece of designable-but-undesigned coverage is now the TAF15 intron-2 acceptor alone; the exon-2 acceptor is designed and screened, is not in the 38-junction panel, and is what moves this row from the single-series 79.0% to the pooled figure above."
+   }
+  ],
+  "pooling_admissibility": {
+   "_governing_policy": "systems/POLICY-evidence.md §2.1 (what may be pooled), §2.2 (the denominator-weighted crude pool and its Wilson interval), §2.3 (double-counting)",
+   "series": [
+    {
+     "pmid": "12378528",
+     "role": "primary; the basis rung 0 uses",
+     "n_EWSR1_rearranged": 15,
+     "method": "RT-PCR and sequencing"
+    },
+    {
+     "pmid": "29937513",
+     "role": "the only other retrieved cohort resolving EVERY case to an exon pair by sequencing",
+     "n_EWSR1_rearranged": 5,
+     "method": "whole-transcriptome sequencing"
+    }
+   ],
+   "§2.1_conditions": {
+    "1_confirmed_EMC": "MET — both series are molecularly characterised EMC, and each resolved its cases' fusion transcripts by sequencing.",
+    "2_explicit_integer_counts": "MET — {'EWSR1_e12__NR4A3_e3': 10, 'EWSR1_e13__NR4A3_e3': 2, 'EWSR1_e7__NR4A3_e2': 0} of 15 and {'EWSR1_e12__NR4A3_e3': 3, 'EWSR1_e13__NR4A3_e3': 1, 'EWSR1_e7__NR4A3_e2': 1} of 5. No count here is back-derived from a published percentage, which §2.1(2) forbids.",
+    "3_outcome_is_not_the_inclusion_criterion": "MET — entry to each arm is 'this tumour is rearranged for this partner'; the outcome is WHICH exon pair. Being EWSR1-rearranged does not determine the exon, so the outcome is not structurally fixed by the inclusion rule. ⚠ This is exactly the condition the third series below FAILS, which is why it is not pooled.",
+    "4_non_overlapping_populations": "MET on the evidence available — different countries, different institutions and sixteen years apart (a Scandinavian/Belgian/US consortium series published 2002, an Italian series published 2018). §2.3 permits distinct populations explicitly. ⚠ Neither paper publishes patient identifiers, so this is an argument from provenance rather than a linkage check, and it is stated as one."
+   },
+   "§2.2_disclosures": {
+    "one_study_dominates": "YES, and §2.2 requires saying so: 15 of 20 EWSR1-rearranged tumours (75.0%) come from one series, so the pooled estimate is close to that series' own wherever the two agree.",
+    "heterogeneity_per_junction": {
+     "EWSR1_e12__NR4A3_e3": {
+      "PMID 12378528": {
+       "k": 10,
+       "n": 15,
+       "rate": 0.6667
+      },
+      "PMID 29937513": {
+       "k": 3,
+       "n": 5,
+       "rate": 0.6
+      },
+      "pooled": {
+       "k": 13,
+       "n": 20,
+       "rate": 0.65
+      },
+      "between_series_rate_range": [
+       0.6,
+       0.6667
+      ]
+     },
+     "EWSR1_e13__NR4A3_e3": {
+      "PMID 12378528": {
+       "k": 2,
+       "n": 15,
+       "rate": 0.1333
+      },
+      "PMID 29937513": {
+       "k": 1,
+       "n": 5,
+       "rate": 0.2
+      },
+      "pooled": {
+       "k": 3,
+       "n": 20,
+       "rate": 0.15
+      },
+      "between_series_rate_range": [
+       0.1333,
+       0.2
+      ]
+     },
+     "EWSR1_e7__NR4A3_e2": {
+      "PMID 12378528": {
+       "k": 0,
+       "n": 15,
+       "rate": 0.0
+      },
+      "PMID 29937513": {
+       "k": 1,
+       "n": 5,
+       "rate": 0.2
+      },
+      "pooled": {
+       "k": 1,
+       "n": 20,
+       "rate": 0.05
+      },
+      "between_series_rate_range": [
+       0.0,
+       0.2
+      ]
+     }
+    },
+    "_how_to_read_the_range": "§2.2 asks for the per-cohort rates side by side and their range rather than an I². The two series agree closely on the exon-12 and exon-13 junctions and disagree completely on exon 7 :: exon 2 — 0/15 against 1/5 — which is the entire reason the basis choice matters and is discussed under `_why_the_pooled_basis_is_the_headline` below."
+   },
+   "third_series_deliberately_not_pooled": {
+    "pmid": "11679947",
+    "who": "Okamoto 2001, Hum Pathol — 18 EMCs, RT-PCR on paraffin-embedded tissue",
+    "verbatim": "EWS-CHN or TAF2N-CHN fusion gene transcripts characteristic of EMCS could be detected in 15 (83%) of the 18 cases: EWS-CHN type 1 in 11 cases, EWS-CHN type 2 in 1, and TAF2N-CHN in 3.",
+    "verbatim_source": "research/manuscripts/aso/lit-targets-aso-verify.json (abstract_verbatim)",
+    "⛔_why_it_is_not_pooled": [
+     "IT REPORTS TYPE NUMBERS, NOT EXON PAIRS, and the two are not interchangeable across sources. PMID 12378528 calls type 5 EWS exon 13 :: CHN exon 3; PMID 12598313 calls 'EMC type 5' EWS exon 10 fused to a 72-bp sequence from TEC intron 2. The census's own denominator note already fixes this: 'The type NUMBERING is not pooled; only exon pairs are.'",
+     "⛔ ITS DENOMINATOR IS DEFINED BY ITS OWN ASSAY'S POSITIVITY, which is POLICY-evidence.md §2.1(3) — the outcome must not be the inclusion criterion. Twelve cases are 'EWSR1-rearranged' here only because a type-1 or type-2 primer pair fired; the three fusion-negative cases may be EWSR1-rearranged at a junction the panel had no primer for. The 58-case cohort's 46 are FISH-confirmed, which is a different and wider denominator.",
+     "A JUNCTION-SPECIFIC ASSAY CANNOT REPORT A JUNCTION IT HAS NO PRIMER FOR, so its zero for the exon-13 junction is an assay-scope zero, not a measured zero — the same argument the census already makes about PMID 32612944's fixed four-junction panel.",
+     "⚠ AND A NEAR-MISS WORTH NAMING: this series and the primary breakpoint series BOTH have n=18 and are different cohorts (Japanese 2001, Scandinavian/Belgian/US 2002). Two 18-case EMC series is exactly the shape of a double-count under §2.3."
+    ],
+    "_the_sensitivity_it_would_have_produced": "computed in the artifact, not typed here",
+    "⛔_the_sensitivity_may_not_be_quoted_as_coverage": "It is reported so that the pooling rule can be seen not to have been chosen on the outcome. Applying the rule COSTS coverage relative to ignoring it, which is the direction that makes the rule credible."
+   }
+  },
+  "sensitivity_if_the_third_series_were_pooled": {
+   "_what_it_is": "the same panel, priced on THREE series instead of two, by adding PMID 11679947's type-numbered counts to the EWSR1 arm.",
+   "EWSR1_arm": "29/32",
+   "_okamoto_arm_as_read": {
+    "EWSR1_e12__NR4A3_e3": 11,
+    "EWSR1_e7__NR4A3_e2": 1,
+    "EWSR1_e13__NR4A3_e3": 0
+   },
+   "_okamoto_n_derivation": "11 type 1 + 1 type 2 = 12 EWS-CHN-positive cases; the 3 TAF2N cases go to the TAF15 arm, which this series reports at gene level and which therefore does not move; the 3 fusion-negative cases are excluded by the assay, which is the defect.",
+   "coverage_percent_it_would_give": 87.4,
+   "⛔_it_is_HIGHER_than_the_reported_figure_and_is_still_refused": "87.4% against the reported figure — so excluding this series is the conservative choice as well as the correct one, and the pooling rule cannot have been chosen to maximise the headline. The reasons it is refused are in `third_series_deliberately_not_pooled` and none of them is the number."
+  },
+  "distance_to_the_arithmetic_ceiling": {
+   "ceiling_percent": 98.3,
+   "_what_the_ceiling_is": "57 of 58 cases. The remaining 1 is NR4A3-rearranged with no identified partner, so no junction reagent can ever be built for it — a hard limit for the modality as specified, not a gap in this panel.",
+   "gap_percent_points": 15.3,
+   "_gap_is_DERIVED_and_checked": "the blocks below are computed from the same counts as the coverage above and are asserted to sum to the gap; a mismatch raises rather than prints.",
+   "⚠_do_not_derive_this_gap_by_subtracting_the_two_DISPLAYED_percentages": "They disagree by 0.1 and neither is wrong. The gap is computed from the unrounded quantities (98.27586 − 82.93103 = 15.34483 → 15.3); subtracting the 1-dp figures a reader sees gives 15.4. The blocks sum to the derived value, not to the display arithmetic, which is why the decomposition can look 0.1 short of a hand subtraction. Quote this field, not a subtraction.",
+   "blocks": [
+    {
+     "block": "EWSR1 tumours whose transcript type the retrieved record never names",
+     "counts": "3/20 of pooled EWSR1-rearranged tumours, times 46/58 EWSR1 prevalence",
+     "percent_points": 11.9,
+     "what_would_close_it": "the full text of the primary series (PMID 12378528), which is not open access, or a deposited junction sequence for those tumours — elink from that record returns no direct submission, so the deposit route that resolved TCF12 does not reach it.",
+     "⛔_it_is_NOT_fully_openable_and_this_is_the_structural_part": {
+      "type": "EWS/CHN type 3",
+      "source": "PMID 9060841 (Brody 1997) / PMC1857890",
+      "verbatim": "The type 3 variant appears to be a unique, probably nonrecurrent variant resulting from an unusual genomic breakpoint within EWS exon 12.",
+      "verbatim_provenance": "OCR layer of the scanned PMC full text, read 2026-08-15; recorded in the message of commit 218b5fa73 and in no committed file. The abstract committed in aso/lit-targets-aso-verify.json does NOT contain it.",
+      "⛔_what_it_means_for_this_modality": "WITHIN exon 12, not between two exons. A junction-spanning oligonucleotide is specified by an exon PAIR — every design in this panel is a 16-mer straddling one seam — so a breakpoint interior to an exon has no seam for one to be specified against, at any length and in any register. This is not 'we have not retrieved the junction yet'; it is 'there is no exon::exon junction here'.",
+      "⚠_what_is_NOT_established_and_must_not_be_inferred": "HOW MANY tumours this accounts for, in any cohort. Type 3 was defined in a different series from the one whose three tumours are unresolved here, no source states how many tumours of either series carry it, and its own source calls it probably nonrecurrent — a description, not a count. So the structurally-undesignable share of the unresolved block is bounded below by 'at least one named type' and above by nothing, and is DELIBERATELY NOT QUANTIFIED. What it does establish is that the unresolved block cannot be assumed fully openable by retrieval alone, which is what pricing it as pure retrieval would assume."
+     }
+    },
+    {
+     "block": "TCF12 — reagent in hand, within-partner distribution unmeasured",
+     "counts": "2/58",
+     "percent_points": 3.4,
+     "what_would_close_it": "a SECOND tumour of this partner sequenced at junction resolution. The archives have been searched and hold nothing (see `what_would_actually_move_this`), so the assay is RNA sequencing of archival tissue — wet lab, outside this programme's operating regime, and not purchasable with compute.",
+     "⚠_it_is_a_BOUND_not_a_target": "Closing it could also LOWER the figure: if neither of the cohort's tumours carries this exon the arm is 0 and this row shrinks the band from the top, not the bottom."
+    }
+   ]
+  }
+ },
+ "ceiling": {
+  "all_named_partners_at_every_breakpoint_percent": 98.3,
+  "_what_is_left_over": "1 of 58 cases are NR4A3-rearranged with no identified partner. No junction reagent can be built for a junction nobody has sequenced, so this is a hard ceiling for the modality as specified.",
+  "EWSR1_and_TAF15_complete_percent": 94.8,
+  "⛔_the_result_that_decides_the_panel": "A panel covering every EWSR1 and every TAF15 breakpoint reaches 94.8% and stops. It cannot reach 95%. Crossing 95% REQUIRES the TCF12 arm. ⭐ That arm's junction is reported at nucleotide resolution as of 2026-08-15 (GenBank AF289510.1) and its reagent is designed and screened, so the 95% target is no longer a retrieval problem at TCF12. It is now a DISTRIBUTION problem: one TCF12 tumour has ever been sequenced, so the arm is priced at its ceiling and the total above it is an upper bound."
+ },
+ "what_would_actually_move_this": [
+  {
+   "step": "Add the EWSR1 exon-13 reagent",
+   "buys_percent_points": 10.6,
+   "cost": "one oligonucleotide; the design and its screen already exist",
+   "blocked_on": null
+  },
+  {
+   "step": "Emit and screen NR4A3 exon-2 acceptor junctions for the ASO lane",
+   "buys_percent_points": 4.0,
+   "cost": "CPU and CI only — no GPU, no rental",
+   "blocked_on": "nothing. The filter that excludes them is a protein-coding grade the ASO lane does not need, and the junction has three independent sources behind it.",
+   "⭐_done_2026_08_15": "DONE. All five deep screens ran at the manuscript geometry and their per-design output is joined into the panel's field set by research/modalities/aso_noncoding_acceptor_screened_table.py. This is the step that makes `best_supported_buildable_panel` computable at all: without a screened reagent the junction has a published breakpoint and nothing to engage it with. ⚠ The points it buys are visible only on the pooled basis — on the single series this junction is priced at a zero that series never measured.",
+   "⛔_what_it_does_NOT_do": "put the junction into the manuscript's 38-junction panel. The atlas grade that excludes it is unchanged, its screens live in their own directory so the panel's own consumers cannot glob them, and the manuscript still reports 38."
+  },
+  {
+   "step": "Name the remaining unresolved EWSR1 transcript types",
+   "buys_percent_points": 15.9,
+   "cost": "$0 — one more literature retrieval on a free runner",
+   "blocked_on": "the full text of the primary series, which is not open access",
+   "⛔_and_it_would_not_open_all_of_it": "This row prices the block as pure retrieval and that is an upper bound on what retrieval can buy. At least one named EWS/CHN variant has no exon::exon junction to retrieve: see the type 3 entry under best_supported_buildable_panel.distance_to_the_arithmetic_ceiling. How much of the block that accounts for is NOT reported by any source and is not guessed here."
+  },
+  {
+   "step": "Establish the TCF12 breakpoint as an exon",
+   "buys_percent_points": 3.4,
+   "cost": "$0 retrieval, then one oligonucleotide",
+   "blocked_on": null,
+   "⭐_done_2026_08_15": "GenBank AF289510.1, the chimeric cDNA deposited with PMID 11156374, resolves the junction to the nucleotide: TCF12 exon 5 to NR4A3 exon 3, one exon boundary on each side and no other, with a seam identical to the one the panel designed on. The reagent already exists and is already through all five screens. ⚠ WHAT REMAINS is not retrieval but sampling: one TCF12 tumour has ever been sequenced at this junction, so the arm stays priced at its ceiling. See research/manuscripts/tcf12_breakpoint_assignment.py.",
+   "⚠_why_295_papers_missed_it": "The breakpoint was never published as an exon in prose. A literature sweep of any width therefore could not find it, and a second sweep of 104 more papers did not either. NCBI elink from the report's PubMed record to the nucleotide database returns it in one call, and a nuccore term search returns the same single record. ⛔ AN EMPTY CORPUS SWEEP IS EVIDENCE ABOUT THE CORPUS, NOT ABOUT THE WORLD."
+  },
+  {
+   "step": "Sequence the junction in a SECOND TCF12-rearranged EMC",
+   "buys_percent_points": 3.4,
+   "cost": "wet lab — outside this programme's operating regime",
+   "blocked_on": "material. ⛔ THE ARCHIVES HAVE BEEN SEARCHED AND HOLD NOTHING: nuccore returns one record for (TCF12 OR HTF4) AND (chondrosarcoma OR myxoid) and it is AF289510.1 itself, `t(9;15)` returns zero, SRA returns zero, and none of the three later cohorts that COUNT a TCF12 tumour (PMID 12598313, 24746215, 36948401) deposited a sequence.",
+   "⭐_why_this_is_the_step_that_decides_the_95_percent_question": "It is the ONLY step that turns this row from a BOUND into a RUNG. Everything else at TCF12 is done: the junction is resolved, the reagent is designed and screened. What is missing is a second observation — whether the two TCF12 tumours of the 58-case cohort share this exon. ⚠ AND IT CANNOT BE BOUGHT WITH COMPUTE: the material exists (the 26-case series and the 58-case cohort each hold at least one FISH-confirmed TCF12 tumour) and the assay is RNA sequencing of archival tissue.",
+   "⛔_why_the_absence_is_structural_rather_than_a_gap_in_retrieval": "TCF12-rearranged EMC has been COUNTED at least four times in independent cohorts and SEQUENCED once, in 2000. Every later count used a partner-level assay — the 26-case series called its TCF12 tumour by fluorescence in situ hybridization, which reports which genes are joined and never where. So recurrence at this exon is UNTESTED rather than refuted, and nothing in the record licenses calling this junction private, rare or non-recurrent.",
+   "one_home": "research/literature/tcf12-nr4a3-breakpoint-primary-sources.json"
+  }
+ ]
+}

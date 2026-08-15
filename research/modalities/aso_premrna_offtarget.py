@@ -124,7 +124,25 @@ def _gap_region():
     return tuple(GAP_REGION_1BASED)
 
 
-def _http(url, timeout=180, accept="application/json", tries=4):
+#: ⛔ TEN, NOT FOUR, AND THE NUMBER IS MEASURED (2026-08-15). Four consecutive CI dispatches of this
+#: screen died in the fetch loop, and the discriminating detail is that they died in DIFFERENT
+#: places every time:
+#:     run 31890657213  503  lookup/id/ENST00000325455   (PGR,   4th gene)
+#:     run 31891448127  503  lookup/id/ENST00000605844   (TAF15, 5th gene)
+#:     run 31891???     500  sequence/id/ENST00000333725 (TCF12, 6th gene, and a DIFFERENT endpoint)
+#:     run 31892621691  503  lookup/id/ENST00000325455   (PGR   again)
+#: Three transcripts, two endpoints, two status codes, four runs: that is an Ensembl-side
+#: instability window, not a bad identifier and not a code fault. `fetch_premrna` makes 2 requests
+#: per transcript, so a 7-transcript atlas is 14 SERIAL calls that must ALL succeed; at four tries
+#: and a 3/6/9 s backoff each call buys about eighteen seconds of patience, and the run is a coin
+#: flip weighted against itself. Engineering effort is free and a re-dispatch is 15 minutes of wall
+#: clock, so the patience is bought here instead: 10 tries with the same widening pause is ~165 s
+#: per call, which spans the outages actually observed. ⚠ It does NOT weaken the failure: the last
+#: error is still raised, still names the URL, and still lands in `aso-premrna-offtarget-FAILED.json`.
+DEFAULT_TRIES = 10
+
+
+def _http(url, timeout=180, accept="application/json", tries=DEFAULT_TRIES):
     """GET with the Accept header Ensembl actually keys on, and a bounded retry.
 
     ⚠ THE HEADER MATTERS AND THE FIRST VERSION SENT THE WRONG ONE. Ensembl REST selects its response
@@ -544,9 +562,27 @@ def _run(argv):
         })
 
     rec = {
-        "_what": ("Exhaustive <=2-mismatch screen of every fusion-specific junction gapmer's target "
-                  "window against the UNSPLICED (pre-mRNA) sequence of all six parent transcripts, "
-                  "both orientations, gap-resolved and classified by compartment."),
+        # ⛔ THE PARENT COUNT IS DERIVED, NOT TYPED (2026-08-15). This read "all six parent
+        # transcripts" as a constant. The atlas's parent set is not always six — the non-coding
+        # acceptor atlas carries SEVEN, because PGR joined it with the PGR::NR4A3 seam — and the
+        # committed pre-mRNA cache holds six, so an offline run over that atlas scans 6 of 7 while
+        # the sentence above it says "all". A hard-coded population is how a partial scan reports
+        # itself as complete.
+        "_what": (f"Exhaustive <=2-mismatch screen of every fusion-specific junction gapmer's "
+                  f"target window against the UNSPLICED (pre-mRNA) sequence of "
+                  f"{len(premrna)} parent transcript(s) ({', '.join(sorted(premrna))}), both "
+                  f"orientations, gap-resolved and classified by compartment."),
+        # ⛔⛔ A PARENT IN THE ATLAS THAT WAS NOT SCANNED IS NAMED, NOT DROPPED. An absent reading is
+        # never a reading of absence: a design could complement a parent's pre-mRNA that this run
+        # never looked at, and the only difference between that and a clean result is this field.
+        "⛔_parents_in_the_atlas_that_were_NOT_scanned": {
+            "genes": sorted(set(transcripts) - set(premrna)),
+            "why": ("present in the atlas's parent set but absent from the sequence this run "
+                    "scanned. On an --offline run that means the committed cache "
+                    f"({os.path.basename(CACHE)}) does not carry them, and closing the gap needs a "
+                    "networked (CI) run that re-fetches the cache with the atlas's full parent set. "
+                    "⛔ These genes are UNMEASURED here — not clean."),
+        },
         "_why": ("The manuscript's Limitations concede that both committed screens search mature "
                  "transcript only, that RNase-H1 is nuclear, and that the intronic compartment is "
                  "therefore unmeasured. This measures it for the gene set where a junction gapmer is "
@@ -559,7 +595,27 @@ def _run(argv):
             "Not a statement about antisense transcription at these loci. A reverse-complement match "
             "is reported and is counted as NOT hybridisable, on the same rule the mature screens use.",
         ],
-        "_cost": "$0 - CPU and one Ensembl read. No GPU, no rental.",
+        "_cost": ("$0 - CPU only, scanning the COMMITTED pre-mRNA cache; no network was used. "
+                  "No GPU, no rental."
+                  if offline else
+                  "$0 - CPU and one Ensembl read. No GPU, no rental."),
+        # ⛔ WHICH SEQUENCE THIS SCANNED, SAID OUT LOUD (added 2026-08-15). Before this the artifact
+        # was byte-for-byte silent about `--offline`: a run over the committed cache and a run over a
+        # live Ensembl fetch produced records that looked identical, and the `_cost` line positively
+        # asserted "one Ensembl read" for both. A plausible-looking record is more dangerous than an
+        # empty one, and provenance is exactly the field a reader cannot reconstruct from the result.
+        "sequence_source": {
+            "mode": "committed_cache" if offline else "ensembl_fetch_this_run",
+            "file": os.path.basename(CACHE) if offline else None,
+            "cache_source_line": (json.load(open(CACHE)).get("_source") if offline else None),
+            "⚠": ("A CACHE IS NOT A MEASUREMENT OF TODAY. The parent arm's completeness is a "
+                  "property of its SEEDING over whatever sequence it was given, so an offline run "
+                  "is exhaustive over the cached sequence and is not a statement about Ensembl's "
+                  "current annotation. The genome-wide arm cannot run offline at all and is "
+                  "reported as not run, which is its honest state."
+                  if offline else
+                  "read live from Ensembl on this run and written back to the cache"),
+        },
         "method": {
             "max_mismatches": MAX_MM,
             "why_this_threshold": ("matched to the BLAST arm's >=14/16 identity so the two arms "

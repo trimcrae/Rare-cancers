@@ -1,0 +1,554 @@
+{
+ "_what": "Exhaustive <=2-mismatch screen of every fusion-specific junction gapmer's target window against the UNSPLICED (pre-mRNA) sequence of 6 parent transcript(s) (EWSR1, FUS, NR4A3, TAF15, TCF12, TFG), both orientations, gap-resolved and classified by compartment.",
+ "\u26d4_parents_in_the_atlas_that_were_NOT_scanned": {
+  "genes": [],
+  "why": "present in the atlas's parent set but absent from the sequence this run scanned. On an --offline run that means the committed cache (aso-premrna-sequences.json) does not carry them, and closing the gap needs a networked (CI) run that re-fetches the cache with the atlas's full parent set. \u26d4 These genes are UNMEASURED here \u2014 not clean."
+ },
+ "_why": "The manuscript's Limitations concede that both committed screens search mature transcript only, that RNase-H1 is nuclear, and that the intronic compartment is therefore unmeasured. This measures it for the gene set where a junction gapmer is most likely to find one: the parents that supply its own two halves.",
+ "_what_this_is_not": [
+  "Not a genome-wide screen. It covers six parent transcripts' pre-mRNA exhaustively and says nothing about the other ~20,000 genes' introns.",
+  "Not a measurement of cleavage. A fully paired gap is necessary for RNase-H1 and is not sufficient, and no wet-lab experiment has been performed.",
+  "Not a statement about antisense transcription at these loci. A reverse-complement match is reported and is counted as NOT hybridisable, on the same rule the mature screens use."
+ ],
+ "_cost": "$0 - CPU only, scanning the COMMITTED pre-mRNA cache; no network was used. No GPU, no rental.",
+ "sequence_source": {
+  "mode": "committed_cache",
+  "file": "aso-premrna-sequences.json",
+  "cache_source_line": "Ensembl REST /sequence/id/{ENST}?type=genomic + /lookup expand",
+  "\u26a0": "A CACHE IS NOT A MEASUREMENT OF TODAY. The parent arm's completeness is a property of its SEEDING over whatever sequence it was given, so an offline run is exhaustive over the cached sequence and is not a statement about Ensembl's current annotation. The genome-wide arm cannot run offline at all and is reported as not run, which is its honest state."
+ },
+ "method": {
+  "max_mismatches": 2,
+  "why_this_threshold": "matched to the BLAST arm's >=14/16 identity so the two arms describe the same liability class",
+  "gap_region_1based": [
+   6,
+   11
+  ],
+  "completeness": "exhaustive for substitutions by construction: three seed blocks over a 16-mer, so a hit at <=2 mismatches must match one block exactly",
+  "blind_to": [
+   "insertions and deletions",
+   "genes other than the six parents",
+   "unannotated transcription",
+   "any question about cleavage activity"
+  ],
+  "orientation_rule": "pre-mRNA is transcribed in transcript orientation, so a forward match is hybridisable and a reverse-complement match is not"
+ },
+ "genes": {
+  "EWSR1": {
+   "transcript": "ENST00000397938",
+   "strand": 1,
+   "genomic_start": 29268268,
+   "genomic_end": 29300521,
+   "premrna_nt": 32254,
+   "n_exons": 17,
+   "exonic_nt": 2400,
+   "exon_spans_0based_inclusive": [
+    [
+     0,
+     81
+    ],
+    [
+     3948,
+     3984
+    ],
+    [
+     4112,
+     4163
+    ],
+    [
+     5473,
+     5596
+    ],
+    [
+     9762,
+     9948
+    ],
+    [
+     14122,
+     14289
+    ],
+    [
+     18655,
+     18866
+    ],
+    [
+     20338,
+     20518
+    ],
+    [
+     23294,
+     23331
+    ],
+    [
+     23869,
+     23901
+    ],
+    [
+     24220,
+     24338
+    ],
+    [
+     27971,
+     28100
+    ],
+    [
+     29559,
+     29681
+    ],
+    [
+     30465,
+     30627
+    ],
+    [
+     30966,
+     31063
+    ],
+    [
+     31331,
+     31583
+    ],
+    [
+     31854,
+     32253
+    ]
+   ]
+  },
+  "FUS": {
+   "transcript": "ENST00000254108",
+   "strand": 1,
+   "genomic_start": 31180139,
+   "genomic_end": 31191605,
+   "premrna_nt": 11467,
+   "n_exons": 15,
+   "exonic_nt": 1824,
+   "exon_spans_0based_inclusive": [
+    [
+     0,
+     88
+    ],
+    [
+     2259,
+     2283
+    ],
+    [
+     2374,
+     2525
+    ],
+    [
+     3719,
+     3863
+    ],
+    [
+     4070,
+     4257
+    ],
+    [
+     4800,
+     5040
+    ],
+    [
+     6663,
+     6697
+    ],
+    [
+     8186,
+     8218
+    ],
+    [
+     8984,
+     9087
+    ],
+    [
+     9526,
+     9655
+    ],
+    [
+     9901,
+     10002
+    ],
+    [
+     10136,
+     10259
+    ],
+    [
+     10603,
+     10703
+    ],
+    [
+     10824,
+     10971
+    ],
+    [
+     11260,
+     11466
+    ]
+   ]
+  },
+  "NR4A3": {
+   "transcript": "ENST00000395097",
+   "strand": 1,
+   "genomic_start": 99821885,
+   "genomic_end": 99866891,
+   "premrna_nt": 45007,
+   "n_exons": 8,
+   "exonic_nt": 5604,
+   "exon_spans_0based_inclusive": [
+    [
+     0,
+     522
+    ],
+    [
+     3774,
+     3947
+    ],
+    [
+     6156,
+     7108
+    ],
+    [
+     10804,
+     10933
+    ],
+    [
+     11397,
+     11569
+    ],
+    [
+     22764,
+     22963
+    ],
+    [
+     25552,
+     25730
+    ],
+    [
+     41735,
+     45006
+    ]
+   ]
+  },
+  "TAF15": {
+   "transcript": "ENST00000605844",
+   "strand": 1,
+   "genomic_start": 35809484,
+   "genomic_end": 35847242,
+   "premrna_nt": 37759,
+   "n_exons": 16,
+   "exonic_nt": 2162,
+   "exon_spans_0based_inclusive": [
+    [
+     0,
+     92
+    ],
+    [
+     8232,
+     8271
+    ],
+    [
+     10540,
+     10591
+    ],
+    [
+     10680,
+     10764
+    ],
+    [
+     10848,
+     10953
+    ],
+    [
+     13156,
+     13349
+    ],
+    [
+     14594,
+     14714
+    ],
+    [
+     24423,
+     24457
+    ],
+    [
+     25082,
+     25114
+    ],
+    [
+     26648,
+     26757
+    ],
+    [
+     28940,
+     29069
+    ],
+    [
+     32883,
+     32975
+    ],
+    [
+     34593,
+     34674
+    ],
+    [
+     34796,
+     34884
+    ],
+    [
+     34993,
+     35554
+    ],
+    [
+     37422,
+     37758
+    ]
+   ]
+  },
+  "TCF12": {
+   "transcript": "ENST00000333725",
+   "strand": 1,
+   "genomic_start": 56918644,
+   "genomic_end": 57289853,
+   "premrna_nt": 371210,
+   "n_exons": 21,
+   "exonic_nt": 6114,
+   "exon_spans_0based_inclusive": [
+    [
+     0,
+     262
+    ],
+    [
+     1248,
+     1344
+    ],
+    [
+     2382,
+     2454
+    ],
+    [
+     145106,
+     145179
+    ],
+    [
+     173145,
+     173247
+    ],
+    [
+     247758,
+     247822
+    ],
+    [
+     273514,
+     273649
+    ],
+    [
+     279129,
+     279181
+    ],
+    [
+     312508,
+     312613
+    ],
+    [
+     313647,
+     313786
+    ],
+    [
+     314068,
+     314212
+    ],
+    [
+     315399,
+     315463
+    ],
+    [
+     324828,
+     324906
+    ],
+    [
+     332706,
+     332779
+    ],
+    [
+     333777,
+     333848
+    ],
+    [
+     334618,
+     334824
+    ],
+    [
+     343450,
+     343564
+    ],
+    [
+     344468,
+     344630
+    ],
+    [
+     354386,
+     354618
+    ],
+    [
+     363801,
+     363954
+    ],
+    [
+     367513,
+     371209
+    ]
+   ]
+  },
+  "TFG": {
+   "transcript": "ENST00000240851",
+   "strand": 1,
+   "genomic_start": 100709494,
+   "genomic_end": 100748964,
+   "premrna_nt": 39471,
+   "n_exons": 8,
+   "exonic_nt": 1907,
+   "exon_spans_0based_inclusive": [
+    [
+     0,
+     227
+    ],
+    [
+     4149,
+     4375
+    ],
+    [
+     10481,
+     10564
+    ],
+    [
+     19218,
+     19364
+    ],
+    [
+     23014,
+     23178
+    ],
+    [
+     27082,
+     27222
+    ],
+    [
+     35339,
+     35437
+    ],
+    [
+     38655,
+     39470
+    ]
+   ]
+  }
+ },
+ "genome_wide_arm": {
+  "ran": false,
+  "why": "not requested (set PREMRNA_GENOMIC=1 to run)",
+  "db": null
+ },
+ "corpus": {
+  "designs": 5,
+  "with_any_hit": 1,
+  "with_hybridisable_gap_paired": 1,
+  "with_a_liability_invisible_to_mature_screens": 1
+ },
+ "per_design": [
+  {
+   "junction_label": "TAF15_e6__NR4A3_intron2crypticExon",
+   "antisense_5to3": "TGATGAGGGCCTTGTG",
+   "gc_percent": 56.2,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 1,
+   "n_hybridisable": 1,
+   "n_hybridisable_gap_fully_paired": 1,
+   "n_invisible_to_mature_screens": 1,
+   "compartments": {
+    "intronic": 1,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [
+    {
+     "gene": "NR4A3",
+     "orientation": "forward",
+     "hybridisable": true,
+     "premrna_start_0based": 4839,
+     "premrna_end_0based": 4854,
+     "mismatches": 2,
+     "gap_mismatches": 0,
+     "gap_fully_paired": true,
+     "compartment": "intronic"
+    }
+   ],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e6__NR4A3_intron2crypticExon",
+   "antisense_5to3": "ATGAGGGCCTTGTGTG",
+   "gc_percent": 56.2,
+   "gap_specificity_margin": 3,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e6__NR4A3_intron2crypticExon",
+   "antisense_5to3": "GAGGGCCTTGTGTGTG",
+   "gc_percent": 62.5,
+   "gap_specificity_margin": 1,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e6__NR4A3_intron2crypticExon",
+   "antisense_5to3": "GATGAGGGCCTTGTGT",
+   "gc_percent": 56.2,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  },
+  {
+   "junction_label": "TAF15_e6__NR4A3_intron2crypticExon",
+   "antisense_5to3": "TGAGGGCCTTGTGTGT",
+   "gc_percent": 56.2,
+   "gap_specificity_margin": 2,
+   "n_hits_either_orientation": 0,
+   "n_hybridisable": 0,
+   "n_hybridisable_gap_fully_paired": 0,
+   "n_invisible_to_mature_screens": 0,
+   "compartments": {
+    "intronic": 0,
+    "intron_exon_spanning": 0,
+    "exonic": 0
+   },
+   "hits": [],
+   "hits_truncated": false
+  }
+ ]
+}

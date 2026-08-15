@@ -59,22 +59,95 @@ GEOMETRY = ass.MANUSCRIPT_GEOMETRY
 #: occur. The two are different and the paper must not blur them: for *TAF15* the published
 #: breakpoint is exon 6, so a design at *TAF15* exon 1 is CONTRADICTED by the literature, whereas
 #: *FUS* has no exon-resolved EMC breakpoint published at all and its junctions are merely unreported.
+#: ⛔ AND A SECOND COHORT IS A SECOND REFERENCE, NOT A FOOTNOTE (2026-08-15). PMID 29937513 resolves
+#: every case of a five-tumour series to an exon pair by whole-transcriptome sequencing — exon12/exon3
+#: in #2, #3, #5 and exon13/exon3 in #4 — so ONE literal sentence supports the exon 12 and exon 13
+#: rows alike, and it was cited in neither. It is added to both in the same edit for that reason:
+#: citing it only at exon 13 would make the newly-corrected junction look better-sourced than the
+#: manuscript's lead, which is a comparison artefact rather than a fact about the evidence.
+#: ⚠ NOT ADDED, DELIBERATELY: PMID 32612944, whose clinical qRT-PCR panel targets EWSR1(ex13)/
+#: NR4A3(ex3). Those are ASSAY TARGETS chosen by a laboratory, not junctions observed in its
+#: patients — the paper reports its 23 molecularly analysed cases at gene level only. It corroborates
+#: that the field considers this junction worth detecting; it is not a patient breakpoint, and this
+#: map holds patient breakpoints. Its verbatim sentence is in lit-targets-aso-breakpoint-census.json.
 PUBLISHED_BREAKPOINTS = {
-    # type 1, 10 of the 15 EWSR1-rearranged tumours of an 18-case series
-    "EWSR1_e12__NR4A3_e3": ["PMID: 12378528"],
+    # type 1, 10 of the 15 EWSR1-rearranged tumours of an 18-case series; and 3 of the 5 cases of
+    # the independent whole-transcriptome series (#2, #3, #5)
+    "EWSR1_e12__NR4A3_e3": ["PMID: 12378528", "PMID: 29937513"],
+    # ⛔ ADDED 2026-08-15, AND IT WAS A CURATION MISS RATHER THAN A NEW RETRIEVAL. type 5, 2 of the
+    # same 15 EWSR1-rearranged tumours — the SECOND-most-common EWS/CHN transcript, named in the
+    # very sentence of the very abstract this map already cited for exon 12, and committed verbatim
+    # in this repository since then: "The most frequent EWS/CHN transcript (type 1; 10 tumors),
+    # involved fusion of EWS exon 12 with CHN exon 3, and the second most common (type 5; two
+    # cases) was fusion of EWS exon 13 with CHN exon 3."  Tiering it
+    # `partner_published_this_exon_not_reported` asserted the opposite of the source, and because
+    # the tier drives which junctions the manuscript is willing to name a reagent at, the miss cost
+    # real coverage: this junction is 2 of 15 EWSR1 tumours, or 10.6 percentage points of
+    # molecularly confirmed EMC, and its best design already existed and already cleared the
+    # screens. See research/manuscripts/aso_coverage_ladder.py for what the correction buys.
+    # ⚠ THE OPEN-ACCESS PMC2395470 IS THE SAME SERIES, NOT A SECOND ONE. It is the CTOS 2001
+    # abstract supplement (PMID 18521326, Sarcoma 2001;5(Suppl 1)), whose abstract 035 is this same
+    # 18-case Panagopoulos series restated — "followed by fusion of exon 13 of EWS with exon 3 of
+    # CHN (two cases; type 5)". Retrievable as full text where PMID 12378528 is not, which is why
+    # the census carries it; counting it as independent support would double-count two patients.
+    # The independent confirmation is PMID 29937513, sample #4 of five.
+    "EWSR1_e13__NR4A3_e3": ["PMID: 12378528", "PMID: 29937513"],
     # primary report of the variant fusion, and all three TAF15-rearranged tumours of that series
     "TAF15_e6__NR4A3_e3": ["PMID: 10537274", "PMID: 12378528"],
+    # ⭐ ADDED 2026-08-15, AND IT WAS A RETRIEVAL GAP RATHER THAN A CURATION MISS. This junction sat
+    # at `no_published_exon_resolved_breakpoint` because the primary report describes its chimera by
+    # RESIDUE COUNT — "the first 108 amino acids" of TCF12 — and names no exon, so this repository's
+    # exon-5 assignment was a conversion against its own transcript model. The same authors also
+    # DEPOSITED the chimeric cDNA: GenBank AF289510.1, 421 bp, whose two chromosome-tagged source
+    # features split the record AT the junction (1..263 chr15/TCF12, 264..421 chr9/NR4A3). That
+    # resolves the breakpoint to the NUCLEOTIDE, and the deposited seam is identical, base for base,
+    # to the seam this panel already designed on.
+    # ⚠ NO LITERATURE SWEEP OF ANY WIDTH WOULD HAVE FOUND IT — 295 + 104 retrieved papers did not,
+    # because the breakpoint was never published as an exon in prose; it was deposited. NCBI `elink`
+    # from the report's PubMed record to `nuccore` returns it in one call. Every test:
+    # research/manuscripts/tcf12_breakpoint_assignment.py.
+    "TCF12_e5__NR4A3_e3": ["PMID: 11156374", "GenBank: AF289510.1"],
 }
 
 #: partners for which SOME exon-resolved EMC breakpoint is published, so "unreported exon" at that
-#: partner is a weaker statement than at a partner with none
-PARTNERS_WITH_ANY_PUBLISHED_EXON = {"EWSR1", "TAF15"}
+#: partner is a weaker statement than at a partner with none. ⭐ TCF12 joined 2026-08-15 on the
+#: strength of AF289510.1, which also moves its other seven junctions from "unreported" to "this
+#: exon not reported while another exon of this partner is" — a stronger negative, and the right one.
+PARTNERS_WITH_ANY_PUBLISHED_EXON = {"EWSR1", "TAF15", "TCF12"}
+
+
+def _published_noncanonical_tiers():
+    """`{label: [refs]}` for the published breakpoints the manuscript's PANEL cannot express.
+
+    ⛔ DERIVED FROM THE WHITELIST, NEVER RE-TYPED HERE. `junction_aso`'s published-breakpoint
+    whitelist is the curated list of seams a report places in a patient at exon resolution — the
+    same object that gates whether the design and screen lane may build them at all. Those seams are
+    excluded from the panel by a PROTEIN-level filter, not by an absence of clinical evidence, so
+    scoring them `partner_published_this_exon_not_reported` would state the opposite of three
+    published sources. ⚠ NEITHER whitelisted junction is in the 38-junction panel (measured
+    2026-08-15: the panel holds EWSR1 e1/e4/e7/e9/e10/e12/e13/e15 :: NR4A3 e3 and no exon-2
+    acceptor), so this changes no row of the committed table; it is here for the tables built over
+    the non-canonical lane, which share this grader rather than forking a second one.
+    """
+    try:
+        import junction_aso as _ja                                   # noqa: PLC0415
+        wl = _ja.published_noncoding_acceptor_junctions()
+    except Exception:                                                # noqa: BLE001
+        return {}
+    out = {}
+    for (d_sym, d_end, a_sym, a_start), meta in wl.items():
+        refs = [e.split("—")[0].strip() for e in meta.get("evidence") or [] if "PMID" in e]
+        out[f"{d_sym}_e{d_end}__{a_sym}_e{a_start}"] = sorted({r for r in refs if r})
+    return out
 
 
 def _clinical_tier(label):
     """Three tiers, reported separately from specificity. See PUBLISHED_BREAKPOINTS."""
     if label in PUBLISHED_BREAKPOINTS:
         return "published_exon_resolved_breakpoint", PUBLISHED_BREAKPOINTS[label]
+    noncanonical = _published_noncanonical_tiers()
+    if label in noncanonical:
+        return "published_exon_resolved_breakpoint", noncanonical[label]
     partner = str(label).split("_")[0]
     if partner in PARTNERS_WITH_ANY_PUBLISHED_EXON:
         # the partner is established and other exons of it are resolved, so this exon is contradicted
@@ -83,8 +156,15 @@ def _clinical_tier(label):
     return "no_published_exon_resolved_breakpoint", []
 
 
-def _deep_screens():
+def _deep_screens(root=None):
     """Every deep re-screen as (junction, design) PAIRS, with gap-paired hits recounted to loci.
+
+    ⭐ `root` IS A PARAMETER AS OF 2026-08-15, AND IT DEFAULTS TO THIS DIRECTORY SO THE PANEL TABLE
+    IS UNMOVED. The published NON-CANONICAL seams (`aso_noncoding_acceptor_screened_table`) are
+    screened into their own directory precisely so they cannot be globbed into the panel's
+    population, and they must be counted by THIS function rather than by a second copy of it — the
+    whole value of putting an excluded junction beside the panel's is that the two numbers were
+    produced by one grader.
 
     ⛔ NOT KEYED BY DESIGN. Nine designs span the seam of more than one junction exactly — that is
     §3.2's whole cross-partner-coverage result — so one sequence legitimately belongs to three
@@ -115,7 +195,8 @@ def _deep_screens():
     list, not of a geometry, and it is what stops a lower bound being reported as a measurement.
     """
     pairs = []
-    for screen in ass.load_screens(GEOMETRY, ass.BLAST_SCREEN, root=HERE, select=ass.is_deep):
+    for screen in ass.load_screens(GEOMETRY, ass.BLAST_SCREEN, root=(root or HERE),
+                                   select=ass.is_deep):
         d = screen.artifact
         label = d.get("junction_label")
         lo, hi = screen.geometry.gap_region_1based
@@ -143,19 +224,22 @@ def _deep_screens():
     return pairs
 
 
-def _load(name, key="per_design"):
-    path = os.path.join(HERE, name)
+def _load(name, key="per_design", root=None):
+    path = os.path.join(root or HERE, name)
     if not os.path.exists(path):
         return {}
     return {r["antisense_5to3"]: r for r in json.load(open(path, encoding="utf-8"))[key]}
 
 
-def build():
-    deep = _deep_screens()
-    parent = _load("aso-parent-gap-pairing.json")
-    premrna = _load("aso-premrna-offtarget.json")
-    genome = _load("aso-genome-offtarget.json")
+def junction_rows(deep, parent, premrna, genome):
+    """The per-junction rows and their ranking — ONE grader, shared by every table in this lane.
 
+    ⛔ EXTRACTED 2026-08-15 SO THE PUBLISHED NON-CANONICAL SEAMS ARE SCORED BY THIS CODE AND NOT BY
+    A COPY OF IT. The whole point of screening an excluded junction to the panel's depth is to make
+    its numbers comparable with the panel's; two functions computing "the same" fields is exactly
+    how that comparability quietly stops being true — a field added here and not there, a tie-break
+    changed on one side. `build()` below is unchanged in behaviour and simply calls this.
+    """
     by_junction = defaultdict(list)
     seen = set()
     for label, seq, dp in deep:
@@ -220,6 +304,15 @@ def build():
                 rows, key=lambda r: (r["gap_specificity_margin"] or -1))["antisense_5to3"],
             "designs": rows,
         })
+    return junctions
+
+
+def build():
+    deep = _deep_screens()
+    parent = _load("aso-parent-gap-pairing.json")
+    premrna = _load("aso-premrna-offtarget.json")
+    genome = _load("aso-genome-offtarget.json")
+    junctions = junction_rows(deep, parent, premrna, genome)
 
     return {
         "what": ("The best available junction-spanning gapmer for EACH of the frame-compatible "

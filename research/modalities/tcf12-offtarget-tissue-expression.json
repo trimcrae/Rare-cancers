@@ -1,0 +1,1262 @@
+{
+ "_what": "Where the off-target loci of the TCF12_e5__NR4A3_e3 junction gapmer are expressed in normal human tissue — GTEx v8 median TPM, in the two dosed compartments and a tumour-bed proxy.",
+ "_why": "This seam entered the panel's expression screen on 2026-08-15, when GenBank AF289510.1 resolved its junction to the nucleotide and it became the fourth seam with a published exon-resolved breakpoint. Its loci had no expression reading of any kind. GTEx answers from the dev sandbox and the panel's other three arms do not, so this delivers the exposure arm rather than waiting for all four.",
+ "_cost": "$0 — one GTEx release read. No GPU, no rental, no CI dispatch.",
+ "_what_this_is_not": [
+  "NOT the panel's screen and NOT parity with it. Arms B (EMC array series), C (NCBI Gene identity) and D (HPA) are 403 at this box's egress proxy and are absent here. Parity arrives when aso_offtarget_tissue_expression.py --fetch next runs on a runner with this seam committed into its PANEL.",
+  "NOT a cleavage or knockdown prediction, and not joined to any oligonucleotide. Every hit behind these loci sits at 14/16 identity — two mismatches in a 16-mer — and whether such a duplex is a substrate at all is an affinity question no screen here and no expression value anywhere can answer.",
+  "NOT a safety, tolerability, therapeutic-window or clinical-readiness statement.",
+  "NOT a tumour reading. GTEx contains no EMC and no sarcoma of any kind.",
+  "NOT a risk ranking. There is no risk column in this file, deliberately.",
+  "NOT a reading of absence. An unreadable locus says so, with its reason."
+ ],
+ "seam": "TCF12_e5__NR4A3_e3",
+ "seam_breakpoint_provenance": {
+  "reported_at": "nucleotide resolution",
+  "accession": "AF289510.1",
+  "cites_pmid": "11156374",
+  "one_home": "research/manuscripts/tcf12_breakpoint_assignment.py",
+  "⚠_one_tumour": "the junction is resolved and its recurrence is UNTESTED: one TCF12-rearranged tumour has ever been sequenced at it."
+ },
+ "method": {
+  "source": "GTEx v8 gene-level median TPM",
+  "release": "GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_median_tpm",
+  "unit": "median TPM across that tissue's donors",
+  "endpoint_used": "release_gct",
+  "url": "https://storage.googleapis.com/adult-gtex/bulk-gex/v8/rna-seq/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_median_tpm.gct.gz",
+  "url_attempts": [
+   {
+    "url": "https://storage.googleapis.com/adult-gtex/bulk-gex/v8/rna-seq/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_median_tpm.gct.gz",
+    "result": "read"
+   }
+  ],
+  "status": "read",
+  "⛔_known_answer_controls": {
+   "ran": true,
+   "passed": true,
+   "controls": {
+    "ALB": {
+     "found": true,
+     "max_tissue": "Liver",
+     "max_median_tpm": 25201.3,
+     "expected_max_in": [
+      "Liver"
+     ],
+     "passed": true,
+     "why": "albumin is the canonical hepatocyte-restricted transcript"
+    },
+    "UMOD": {
+     "found": true,
+     "max_tissue": "Kidney - Medulla",
+     "max_median_tpm": 2116.02,
+     "expected_max_in": [
+      "Kidney - Medulla",
+      "Kidney - Cortex"
+     ],
+     "passed": true,
+     "why": "uromodulin is made only by the thick ascending limb of the nephron"
+    },
+    "MYH7": {
+     "found": true,
+     "max_tissue": "Heart - Left Ventricle",
+     "max_median_tpm": 4513.66,
+     "expected_max_in": [
+      "Muscle - Skeletal",
+      "Heart - Left Ventricle"
+     ],
+     "passed": true,
+     "why": "beta-myosin heavy chain is restricted to slow skeletal muscle and ventricle"
+    }
+   },
+   "_meaning": "These assert that the tissue COLUMNS are aligned to the values. A failure means the parse is shifted and every tissue figure below is wrong; it does not mean the genes are unusual."
+  },
+  "_controls_note": "ALB -> Liver, UMOD -> a kidney tissue, MYH7 -> ventricle or skeletal muscle, read from the same matrix in the same call. A run whose controls fail must not be read as a measurement: a one-column shift in a GCT produces entirely plausible profiles.",
+  "exposure_tissues": [
+   "Liver",
+   "Kidney - Cortex",
+   "Kidney - Medulla"
+  ],
+  "tumour_compartment_proxy_tissues": [
+   "Muscle - Skeletal",
+   "Adipose - Subcutaneous",
+   "Nerve - Tibial",
+   "Cells - Cultured fibroblasts",
+   "Artery - Tibial",
+   "Skin - Sun Exposed (Lower leg)"
+  ],
+  "_lists_and_reader_are_imported": "every tissue label, the GTEx fetcher, the GCT parse and the block builders come from aso_offtarget_tissue_expression; nothing is re-implemented or re-typed here",
+  "loci_are_derived_from": [
+   {
+    "seam": "EWSR1_e12__NR4A3_e3",
+    "screen": "junction-aso-offtarget-e12n3-deep500-b1.json",
+    "role": "lead — the multi-partner reagent (EWSR1 e12 / TAF15 e11 / FUS e10)",
+    "junction_is_reported_in_patients": true,
+    "note": "The identical 123-hit / 6-locus load is returned independently by the TAF15 e11 and FUS e10 screens of the same molecule, under three different BLAST request ids and three different parent-exclusion sets — so the load is a property of the sequence, not of one screen.",
+    "junction_label": "EWSR1_e12__NR4A3_e3",
+    "n_designs": 1,
+    "designs": [
+     {
+      "antisense_5to3": "GGGCATATCATCAAAC",
+      "gc_percent": 43.8,
+      "specificity_margin": 8,
+      "blast_rid": "7W03YWBN016",
+      "n_near_matches_reported": 189,
+      "n_minus_strand_not_hybridisable": 48,
+      "n_gap_disrupted_no_cleavage": 18,
+      "n_gap_paired_hybridisable": 123,
+      "loci": [
+       "ANKS1B",
+       "CHST5",
+       "GMCL1",
+       "LOC105370997",
+       "LOC105374140",
+       "ZNF667"
+      ]
+     }
+    ],
+    "n_gap_paired_hybridisable": 123,
+    "risk_class_read": "true_cleavage_risk",
+    "n_loci": 6
+   },
+   {
+    "seam": "TAF15_e6__NR4A3_e3",
+    "screen": "junction-aso-offtarget-taf15e6n3-deep500-b1.json",
+    "role": "the only exon-resolved TAF15::NR4A3 breakpoint published in EMC",
+    "junction_is_reported_in_patients": true,
+    "note": "Cited at PMID 10537274 (the primary report of the variant fusion) and PMID 12378528 (all three TAF15-rearranged tumours of an 18-case series). The lead reagent shares a single donor base with this seam and cannot engage it.",
+    "junction_label": "TAF15_e6__NR4A3_e3",
+    "n_designs": 5,
+    "designs": [
+     {
+      "antisense_5to3": "GGGCATATCTTGTGTG",
+      "gc_percent": 50.0,
+      "specificity_margin": 8,
+      "blast_rid": "7W0F8E93016",
+      "n_near_matches_reported": 62,
+      "n_minus_strand_not_hybridisable": 52,
+      "n_gap_disrupted_no_cleavage": 2,
+      "n_gap_paired_hybridisable": 8,
+      "loci": [
+       "CA5B",
+       "CA5BP1-CA5B",
+       "LOC124907518",
+       "NRP1",
+       "ZFPM2"
+      ]
+     },
+     {
+      "antisense_5to3": "GGCATATCTTGTGTGT",
+      "gc_percent": 43.8,
+      "specificity_margin": 7,
+      "blast_rid": "7W0FCR2B016",
+      "n_near_matches_reported": 92,
+      "n_minus_strand_not_hybridisable": 34,
+      "n_gap_disrupted_no_cleavage": 10,
+      "n_gap_paired_hybridisable": 48,
+      "loci": [
+       "CA5B",
+       "CA5BP1-CA5B",
+       "G3BP2",
+       "GNAL",
+       "MIR9-2HG",
+       "NRP1",
+       "NRXN3-AS1",
+       "SLC17A3"
+      ]
+     },
+     {
+      "antisense_5to3": "AGGGCATATCTTGTGT",
+      "gc_percent": 43.8,
+      "specificity_margin": 7,
+      "blast_rid": "7W0FGTAU016",
+      "n_near_matches_reported": 82,
+      "n_minus_strand_not_hybridisable": 63,
+      "n_gap_disrupted_no_cleavage": 3,
+      "n_gap_paired_hybridisable": 16,
+      "loci": [
+       "LINC02030",
+       "NRP1",
+       "ZFPM2"
+      ]
+     },
+     {
+      "antisense_5to3": "CAGGGCATATCTTGTG",
+      "gc_percent": 50.0,
+      "specificity_margin": 6,
+      "blast_rid": "7W0FMRM8016",
+      "n_near_matches_reported": 80,
+      "n_minus_strand_not_hybridisable": 55,
+      "n_gap_disrupted_no_cleavage": 8,
+      "n_gap_paired_hybridisable": 17,
+      "loci": [
+       "GBP4",
+       "LINC02030",
+       "NRP1",
+       "ZFPM2"
+      ]
+     },
+     {
+      "antisense_5to3": "GCATATCTTGTGTGTG",
+      "gc_percent": 43.8,
+      "specificity_margin": 6,
+      "blast_rid": "7W0FSTV9016",
+      "n_near_matches_reported": 260,
+      "n_minus_strand_not_hybridisable": 159,
+      "n_gap_disrupted_no_cleavage": 35,
+      "n_gap_paired_hybridisable": 66,
+      "loci": [
+       "ANKRD26P3",
+       "CA5B",
+       "CA5BP1-CA5B",
+       "EEFSEC",
+       "G3BP2",
+       "GNAL",
+       "LAMA4",
+       "LOC105376349",
+       "MIR9-2HG",
+       "NRP1",
+       "SLC17A3",
+       "ST3GAL1"
+      ]
+     }
+    ],
+    "n_gap_paired_hybridisable": 155,
+    "risk_class_read": "true_cleavage_risk",
+    "n_loci": 17
+   },
+   {
+    "seam": "EWSR1_e13__NR4A3_e3",
+    "screen": "junction-aso-offtarget-e13n3-deep500-b1.json",
+    "role": "the second-most-common EWSR1::NR4A3 transcript reported in EMC (type 5)",
+    "junction_is_reported_in_patients": true,
+    "note": "Two independent patient series and one clinical assay. PMID 12378528: 'the second most common (type 5; two cases) was fusion of EWS exon 13 with CHN exon 3' — two of the fifteen EWSR1-rearranged tumours of the same 18-case series that supplies the exon 12 count, restated in the open-access CTOS 2001 supplement PMC2395470 (PMID 18521326), which is that series again and NOT a second cohort. PMID 29937513 IS a second cohort: 'exon13/exon3 and exon7/exon2 were detected respectively in samples #4 and #1' of five, by whole-transcriptome sequencing. PMID 32612944 builds a qRT-PCR panel around EWSR1(ex13)/NR4A3(ex3) among four junctions. The lead reagent shares no register with this seam and cannot engage it.",
+    "junction_label": "EWSR1_e13__NR4A3_e3",
+    "n_designs": 5,
+    "designs": [
+     {
+      "antisense_5to3": "GGGCATATCTCCACGG",
+      "gc_percent": 62.5,
+      "specificity_margin": 8,
+      "blast_rid": "7W06DZGN016",
+      "n_near_matches_reported": 63,
+      "n_minus_strand_not_hybridisable": 16,
+      "n_gap_disrupted_no_cleavage": 23,
+      "n_gap_paired_hybridisable": 24,
+      "loci": [
+       "CDC42SE1",
+       "FNBP1"
+      ]
+     },
+     {
+      "antisense_5to3": "GGCATATCTCCACGGA",
+      "gc_percent": 56.2,
+      "specificity_margin": 7,
+      "blast_rid": "7W06H2EG016",
+      "n_near_matches_reported": 65,
+      "n_minus_strand_not_hybridisable": 17,
+      "n_gap_disrupted_no_cleavage": 6,
+      "n_gap_paired_hybridisable": 42,
+      "loci": [
+       "EHMT2",
+       "FNBP1",
+       "LRP5L"
+      ]
+     },
+     {
+      "antisense_5to3": "AGGGCATATCTCCACG",
+      "gc_percent": 56.2,
+      "specificity_margin": 7,
+      "blast_rid": "7W06NVP2016",
+      "n_near_matches_reported": 76,
+      "n_minus_strand_not_hybridisable": 23,
+      "n_gap_disrupted_no_cleavage": 31,
+      "n_gap_paired_hybridisable": 22,
+      "loci": [
+       "CDC42SE1",
+       "ESYT2",
+       "THEMIS"
+      ]
+     },
+     {
+      "antisense_5to3": "GCATATCTCCACGGAG",
+      "gc_percent": 56.2,
+      "specificity_margin": 6,
+      "blast_rid": "7W06T8BG016",
+      "n_near_matches_reported": 41,
+      "n_minus_strand_not_hybridisable": 10,
+      "n_gap_disrupted_no_cleavage": 0,
+      "n_gap_paired_hybridisable": 31,
+      "loci": [
+       "EHMT2",
+       "LOC105374651",
+       "LRP5L",
+       "ZC3H4",
+       "ZNF236"
+      ]
+     },
+     {
+      "antisense_5to3": "CAGGGCATATCTCCAC",
+      "gc_percent": 56.2,
+      "specificity_margin": 6,
+      "blast_rid": "7W0718M5016",
+      "n_near_matches_reported": 115,
+      "n_minus_strand_not_hybridisable": 33,
+      "n_gap_disrupted_no_cleavage": 40,
+      "n_gap_paired_hybridisable": 42,
+      "loci": [
+       "ERBIN",
+       "ESYT2",
+       "ZNF215"
+      ]
+     }
+    ],
+    "n_gap_paired_hybridisable": 161,
+    "risk_class_read": "true_cleavage_risk",
+    "n_loci": 11
+   },
+   {
+    "seam": "TCF12_e5__NR4A3_e3",
+    "screen": "junction-aso-offtarget-tcf12e5n3-deep500-b1.json",
+    "role": "the only exon-resolved TCF12::NR4A3 breakpoint published in EMC",
+    "junction_is_reported_in_patients": true,
+    "note": "Reported at NUCLEOTIDE resolution rather than as an exon, which is why no literature sweep found it: GenBank AF289510.1 (421 bp, 'Homo sapiens TCF12-TEC fusion protein mRNA, partial cds', submitted 25-JUL-2000, citing PMID 11156374) splits 1..263 on chromosome 15 (15q21) and 264..421 on chromosome 9 (9q22). Mapped against the committed transcript models the donor side ends at TCF12 exon 5 and no other exon, the acceptor side begins at NR4A3 exon 3 and no other exon, and the seam is identical to the one the screens ran on. Corroborated independently by PMID 12826747, a TCF12 gene-structure paper reporting 21 exons — the same count as the committed model — and that 'intron 5 in the TCF12 gene corresponds to the region involved in a translocation, t(9;15)(q22;q21)'. ⚠ ONE TUMOUR: neither breakpoint series behind the coverage ladder contains a TCF12-rearranged tumour, so this seam has a resolved junction and no within-partner distribution.",
+    "junction_label": "TCF12_e5__NR4A3_e3",
+    "n_designs": 5,
+    "designs": [
+     {
+      "antisense_5to3": "GGGCATATCCATCAGA",
+      "gc_percent": 50.0,
+      "specificity_margin": 8,
+      "blast_rid": "7W0WRVXM016",
+      "n_near_matches_reported": 83,
+      "n_minus_strand_not_hybridisable": 13,
+      "n_gap_disrupted_no_cleavage": 53,
+      "n_gap_paired_hybridisable": 17,
+      "loci": [
+       "PIK3CG"
+      ]
+     },
+     {
+      "antisense_5to3": "AGGGCATATCCATCAG",
+      "gc_percent": 50.0,
+      "specificity_margin": 7,
+      "blast_rid": "7W0WVY1R016",
+      "n_near_matches_reported": 67,
+      "n_minus_strand_not_hybridisable": 21,
+      "n_gap_disrupted_no_cleavage": 15,
+      "n_gap_paired_hybridisable": 31,
+      "loci": [
+       "EFCAB11",
+       "KCNG3",
+       "LINC02940",
+       "LOC107985219",
+       "PIK3CG"
+      ]
+     },
+     {
+      "antisense_5to3": "GGCATATCCATCAGAT",
+      "gc_percent": 43.8,
+      "specificity_margin": 7,
+      "blast_rid": "7W0WZ825016",
+      "n_near_matches_reported": 168,
+      "n_minus_strand_not_hybridisable": 43,
+      "n_gap_disrupted_no_cleavage": 55,
+      "n_gap_paired_hybridisable": 70,
+      "loci": [
+       "HNRNPA2B1",
+       "LOC107984281",
+       "PIK3CG",
+       "PLAC8"
+      ]
+     },
+     {
+      "antisense_5to3": "CAGGGCATATCCATCA",
+      "gc_percent": 50.0,
+      "specificity_margin": 6,
+      "blast_rid": "7W0X3299016",
+      "n_near_matches_reported": 44,
+      "n_minus_strand_not_hybridisable": 22,
+      "n_gap_disrupted_no_cleavage": 19,
+      "n_gap_paired_hybridisable": 3,
+      "loci": [
+       "KCNG3",
+       "LOC107985219"
+      ]
+     },
+     {
+      "antisense_5to3": "GCATATCCATCAGATT",
+      "gc_percent": 37.5,
+      "specificity_margin": 6,
+      "blast_rid": "7W0X724U016",
+      "n_near_matches_reported": 199,
+      "n_minus_strand_not_hybridisable": 53,
+      "n_gap_disrupted_no_cleavage": 57,
+      "n_gap_paired_hybridisable": 89,
+      "loci": [
+       "EXOC2",
+       "HNRNPA2B1",
+       "LOC107984281",
+       "LOC107987169",
+       "LOC124905457",
+       "MROH2A",
+       "PLAC8"
+      ]
+     }
+    ],
+    "n_gap_paired_hybridisable": 210,
+    "risk_class_read": "true_cleavage_risk",
+    "n_loci": 12
+   }
+  ]
+ },
+ "⚠_which_designs_touch_which_locus_stated_WITHOUT_the_expression_join": {
+  "_why_this_is_separate": "⛔ THIS FILE DOES NOT JOIN EXPRESSION TO AN OLIGONUCLEOTIDE, and the panel's module refuses the same join for the same reason: a locus is in this population because a 16-mer matched it at 14/16, so a median TPM is evidence about the GENE and the step from 'this gene is expressed in kidney' to 'this reagent does something in kidney' needs an affinity argument no screen here has made. What IS reportable is set membership — which designs touch which locus — and a reader can hold that beside the expression blocks without either of us making the inference for them.",
+  "by_locus": {
+   "HNRNPA2B1": {
+    "n_designs_hitting_it": 2,
+    "designs_hitting_it": [
+     "GCATATCCATCAGATT",
+     "GGCATATCCATCAGAT"
+    ]
+   },
+   "PIK3CG": {
+    "n_designs_hitting_it": 3,
+    "designs_hitting_it": [
+     "AGGGCATATCCATCAG",
+     "GGCATATCCATCAGAT",
+     "GGGCATATCCATCAGA"
+    ]
+   },
+   "MROH2A": {
+    "n_designs_hitting_it": 1,
+    "designs_hitting_it": [
+     "GCATATCCATCAGATT"
+    ]
+   },
+   "LINC02940": {
+    "n_designs_hitting_it": 1,
+    "designs_hitting_it": [
+     "AGGGCATATCCATCAG"
+    ]
+   },
+   "EXOC2": {
+    "n_designs_hitting_it": 1,
+    "designs_hitting_it": [
+     "GCATATCCATCAGATT"
+    ]
+   },
+   "KCNG3": {
+    "n_designs_hitting_it": 2,
+    "designs_hitting_it": [
+     "AGGGCATATCCATCAG",
+     "CAGGGCATATCCATCA"
+    ]
+   },
+   "PLAC8": {
+    "n_designs_hitting_it": 2,
+    "designs_hitting_it": [
+     "GCATATCCATCAGATT",
+     "GGCATATCCATCAGAT"
+    ]
+   },
+   "EFCAB11": {
+    "n_designs_hitting_it": 1,
+    "designs_hitting_it": [
+     "AGGGCATATCCATCAG"
+    ]
+   },
+   "LOC107984281": {
+    "n_designs_hitting_it": 2,
+    "designs_hitting_it": [
+     "GCATATCCATCAGATT",
+     "GGCATATCCATCAGAT"
+    ]
+   },
+   "LOC107985219": {
+    "n_designs_hitting_it": 2,
+    "designs_hitting_it": [
+     "AGGGCATATCCATCAG",
+     "CAGGGCATATCCATCA"
+    ]
+   },
+   "LOC107987169": {
+    "n_designs_hitting_it": 1,
+    "designs_hitting_it": [
+     "GCATATCCATCAGATT"
+    ]
+   },
+   "LOC124905457": {
+    "n_designs_hitting_it": 1,
+    "designs_hitting_it": [
+     "GCATATCCATCAGATT"
+    ]
+   }
+  }
+ },
+ "n_loci": 12,
+ "n_loci_readable_in_gtex": 7,
+ "loci_not_readable_in_gtex": {
+  "LINC02940": "no row for this symbol in the GTEx v8 gene model — the locus is not measured by this instrument. ⚠ THIS IS NOT A READING OF ZERO.",
+  "LOC107984281": "no row for this symbol in the GTEx v8 gene model — the locus is not measured by this instrument. ⚠ THIS IS NOT A READING OF ZERO.",
+  "LOC107985219": "no row for this symbol in the GTEx v8 gene model — the locus is not measured by this instrument. ⚠ THIS IS NOT A READING OF ZERO.",
+  "LOC107987169": "no row for this symbol in the GTEx v8 gene model — the locus is not measured by this instrument. ⚠ THIS IS NOT A READING OF ZERO.",
+  "LOC124905457": "no row for this symbol in the GTEx v8 gene model — the locus is not measured by this instrument. ⚠ THIS IS NOT A READING OF ZERO."
+ },
+ "_reading_the_unreadable_five": "All five are LOC/LINC entries with no row in the GTEx v8 gene model. That is a property of the reference the instrument was built on, not of the loci: they are annotated in RefSeq, which is where the screen found them, and absent from a 2017 gene model. ⛔ THEY ARE NOT READ AS ZERO, and the exposure question is UNANSWERED for them rather than answered negatively. Arms C and D of the panel's screen exist to characterise exactly this class, and neither is reachable from this box.",
+ "loci": {
+  "HNRNPA2B1": {
+   "n_transcript_records": 100,
+   "n_curated_records": 28,
+   "n_predicted_records": 72,
+   "n_designs_hitting_it": 2,
+   "designs_hitting_it": [
+    "GCATATCCATCAGATT",
+    "GGCATATCCATCAGAT"
+   ],
+   "exposure_liver_kidney": {
+    "readable": true,
+    "block": "exposure_liver_kidney",
+    "values": {
+     "Liver": 184.122,
+     "Kidney - Cortex": 247.244,
+     "Kidney - Medulla": 457.303
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000122566.20",
+      "median_tpm": {
+       "Liver": 184.122,
+       "Kidney - Cortex": 247.244,
+       "Kidney - Medulla": 457.303
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Kidney - Medulla",
+    "any_present_at_cut": true
+   },
+   "tumour_compartment_proxy": {
+    "readable": true,
+    "block": "tumour_compartment_proxy",
+    "values": {
+     "Muscle - Skeletal": 345.481,
+     "Adipose - Subcutaneous": 383.377,
+     "Nerve - Tibial": 656.577,
+     "Cells - Cultured fibroblasts": 487.473,
+     "Artery - Tibial": 406.872,
+     "Skin - Sun Exposed (Lower leg)": 300.003
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000122566.20",
+      "median_tpm": {
+       "Muscle - Skeletal": 345.481,
+       "Adipose - Subcutaneous": 383.377,
+       "Nerve - Tibial": 656.577,
+       "Cells - Cultured fibroblasts": 487.473,
+       "Artery - Tibial": 406.872,
+       "Skin - Sun Exposed (Lower leg)": 300.003
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Nerve - Tibial",
+    "any_present_at_cut": true
+   },
+   "whole_body_context": {
+    "top_tissues": [
+     {
+      "tissue": "Ovary",
+      "median_tpm": 889.442
+     },
+     {
+      "tissue": "Cells - EBV-transformed lymphocytes",
+      "median_tpm": 838.365
+     },
+     {
+      "tissue": "Uterus",
+      "median_tpm": 763.298
+     },
+     {
+      "tissue": "Cervix - Endocervix",
+      "median_tpm": 691.186
+     },
+     {
+      "tissue": "Cervix - Ectocervix",
+      "median_tpm": 681.891
+     },
+     {
+      "tissue": "Brain - Cerebellar Hemisphere",
+      "median_tpm": 661.842
+     }
+    ],
+    "n_tissues_at_or_above_cut": 54,
+    "n_tissues_read": 54
+   }
+  },
+  "PIK3CG": {
+   "n_transcript_records": 51,
+   "n_curated_records": 9,
+   "n_predicted_records": 42,
+   "n_designs_hitting_it": 3,
+   "designs_hitting_it": [
+    "AGGGCATATCCATCAG",
+    "GGCATATCCATCAGAT",
+    "GGGCATATCCATCAGA"
+   ],
+   "exposure_liver_kidney": {
+    "readable": true,
+    "block": "exposure_liver_kidney",
+    "values": {
+     "Liver": 0.143094,
+     "Kidney - Cortex": 0.168719,
+     "Kidney - Medulla": 0.368569
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000105851.10",
+      "median_tpm": {
+       "Liver": 0.143094,
+       "Kidney - Cortex": 0.168719,
+       "Kidney - Medulla": 0.368569
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Kidney - Medulla",
+    "any_present_at_cut": false
+   },
+   "tumour_compartment_proxy": {
+    "readable": true,
+    "block": "tumour_compartment_proxy",
+    "values": {
+     "Muscle - Skeletal": 0.0673436,
+     "Adipose - Subcutaneous": 1.20027,
+     "Nerve - Tibial": 0.675902,
+     "Cells - Cultured fibroblasts": 0.0,
+     "Artery - Tibial": 0.356232,
+     "Skin - Sun Exposed (Lower leg)": 0.280024
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000105851.10",
+      "median_tpm": {
+       "Muscle - Skeletal": 0.0673436,
+       "Adipose - Subcutaneous": 1.20027,
+       "Nerve - Tibial": 0.675902,
+       "Cells - Cultured fibroblasts": 0.0,
+       "Artery - Tibial": 0.356232,
+       "Skin - Sun Exposed (Lower leg)": 0.280024
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Adipose - Subcutaneous",
+    "any_present_at_cut": true
+   },
+   "whole_body_context": {
+    "top_tissues": [
+     {
+      "tissue": "Whole Blood",
+      "median_tpm": 7.5024
+     },
+     {
+      "tissue": "Spleen",
+      "median_tpm": 5.79015
+     },
+     {
+      "tissue": "Testis",
+      "median_tpm": 4.96589
+     },
+     {
+      "tissue": "Cells - EBV-transformed lymphocytes",
+      "median_tpm": 4.37447
+     },
+     {
+      "tissue": "Lung",
+      "median_tpm": 2.39191
+     },
+     {
+      "tissue": "Small Intestine - Terminal Ileum",
+      "median_tpm": 2.24336
+     }
+    ],
+    "n_tissues_at_or_above_cut": 8,
+    "n_tissues_read": 54
+   }
+  },
+  "MROH2A": {
+   "n_transcript_records": 28,
+   "n_curated_records": 2,
+   "n_predicted_records": 26,
+   "n_designs_hitting_it": 1,
+   "designs_hitting_it": [
+    "GCATATCCATCAGATT"
+   ],
+   "exposure_liver_kidney": {
+    "readable": true,
+    "block": "exposure_liver_kidney",
+    "values": {
+     "Liver": 1.03575,
+     "Kidney - Cortex": 0.421763,
+     "Kidney - Medulla": 0.0668723
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000185038.14",
+      "median_tpm": {
+       "Liver": 1.03575,
+       "Kidney - Cortex": 0.421763,
+       "Kidney - Medulla": 0.0668723
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Liver",
+    "any_present_at_cut": true
+   },
+   "tumour_compartment_proxy": {
+    "readable": true,
+    "block": "tumour_compartment_proxy",
+    "values": {
+     "Muscle - Skeletal": 0.0,
+     "Adipose - Subcutaneous": 0.0216765,
+     "Nerve - Tibial": 0.0,
+     "Cells - Cultured fibroblasts": 0.0,
+     "Artery - Tibial": 0.0,
+     "Skin - Sun Exposed (Lower leg)": 0.271726
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000185038.14",
+      "median_tpm": {
+       "Muscle - Skeletal": 0.0,
+       "Adipose - Subcutaneous": 0.0216765,
+       "Nerve - Tibial": 0.0,
+       "Cells - Cultured fibroblasts": 0.0,
+       "Artery - Tibial": 0.0,
+       "Skin - Sun Exposed (Lower leg)": 0.271726
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Skin - Sun Exposed (Lower leg)",
+    "any_present_at_cut": false
+   },
+   "whole_body_context": {
+    "top_tissues": [
+     {
+      "tissue": "Testis",
+      "median_tpm": 6.15044
+     },
+     {
+      "tissue": "Thyroid",
+      "median_tpm": 2.4173
+     },
+     {
+      "tissue": "Liver",
+      "median_tpm": 1.03575
+     },
+     {
+      "tissue": "Stomach",
+      "median_tpm": 0.530088
+     },
+     {
+      "tissue": "Kidney - Cortex",
+      "median_tpm": 0.421763
+     },
+     {
+      "tissue": "Skin - Sun Exposed (Lower leg)",
+      "median_tpm": 0.271726
+     }
+    ],
+    "n_tissues_at_or_above_cut": 3,
+    "n_tissues_read": 54
+   }
+  },
+  "LINC02940": {
+   "n_transcript_records": 9,
+   "n_curated_records": 0,
+   "n_predicted_records": 9,
+   "n_designs_hitting_it": 1,
+   "designs_hitting_it": [
+    "AGGGCATATCCATCAG"
+   ],
+   "exposure_liver_kidney": {
+    "readable": false,
+    "reason": "no row for this symbol in the GTEx v8 gene model — the locus is not measured by this instrument. ⚠ THIS IS NOT A READING OF ZERO.",
+    "block": "exposure_liver_kidney",
+    "values": null
+   },
+   "tumour_compartment_proxy": {
+    "readable": false,
+    "reason": "no row for this symbol in the GTEx v8 gene model — the locus is not measured by this instrument. ⚠ THIS IS NOT A READING OF ZERO.",
+    "block": "tumour_compartment_proxy",
+    "values": null
+   },
+   "whole_body_context": null
+  },
+  "EXOC2": {
+   "n_transcript_records": 6,
+   "n_curated_records": 0,
+   "n_predicted_records": 6,
+   "n_designs_hitting_it": 1,
+   "designs_hitting_it": [
+    "GCATATCCATCAGATT"
+   ],
+   "exposure_liver_kidney": {
+    "readable": true,
+    "block": "exposure_liver_kidney",
+    "values": {
+     "Liver": 5.26716,
+     "Kidney - Cortex": 6.53647,
+     "Kidney - Medulla": 8.87489
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000112685.13",
+      "median_tpm": {
+       "Liver": 5.26716,
+       "Kidney - Cortex": 6.53647,
+       "Kidney - Medulla": 8.87489
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Kidney - Medulla",
+    "any_present_at_cut": true
+   },
+   "tumour_compartment_proxy": {
+    "readable": true,
+    "block": "tumour_compartment_proxy",
+    "values": {
+     "Muscle - Skeletal": 7.51036,
+     "Adipose - Subcutaneous": 18.6834,
+     "Nerve - Tibial": 22.464,
+     "Cells - Cultured fibroblasts": 18.8293,
+     "Artery - Tibial": 18.3438,
+     "Skin - Sun Exposed (Lower leg)": 17.8356
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000112685.13",
+      "median_tpm": {
+       "Muscle - Skeletal": 7.51036,
+       "Adipose - Subcutaneous": 18.6834,
+       "Nerve - Tibial": 22.464,
+       "Cells - Cultured fibroblasts": 18.8293,
+       "Artery - Tibial": 18.3438,
+       "Skin - Sun Exposed (Lower leg)": 17.8356
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Nerve - Tibial",
+    "any_present_at_cut": true
+   },
+   "whole_body_context": {
+    "top_tissues": [
+     {
+      "tissue": "Testis",
+      "median_tpm": 26.8649
+     },
+     {
+      "tissue": "Nerve - Tibial",
+      "median_tpm": 22.464
+     },
+     {
+      "tissue": "Cervix - Ectocervix",
+      "median_tpm": 20.4883
+     },
+     {
+      "tissue": "Cervix - Endocervix",
+      "median_tpm": 19.9944
+     },
+     {
+      "tissue": "Cells - EBV-transformed lymphocytes",
+      "median_tpm": 19.3341
+     },
+     {
+      "tissue": "Cells - Cultured fibroblasts",
+      "median_tpm": 18.8293
+     }
+    ],
+    "n_tissues_at_or_above_cut": 54,
+    "n_tissues_read": 54
+   }
+  },
+  "KCNG3": {
+   "n_transcript_records": 4,
+   "n_curated_records": 0,
+   "n_predicted_records": 4,
+   "n_designs_hitting_it": 2,
+   "designs_hitting_it": [
+    "AGGGCATATCCATCAG",
+    "CAGGGCATATCCATCA"
+   ],
+   "exposure_liver_kidney": {
+    "readable": true,
+    "block": "exposure_liver_kidney",
+    "values": {
+     "Liver": 0.0,
+     "Kidney - Cortex": 0.09125,
+     "Kidney - Medulla": 0.0629553
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000171126.7",
+      "median_tpm": {
+       "Liver": 0.0,
+       "Kidney - Cortex": 0.09125,
+       "Kidney - Medulla": 0.0629553
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Kidney - Cortex",
+    "any_present_at_cut": false
+   },
+   "tumour_compartment_proxy": {
+    "readable": true,
+    "block": "tumour_compartment_proxy",
+    "values": {
+     "Muscle - Skeletal": 0.0,
+     "Adipose - Subcutaneous": 0.0548882,
+     "Nerve - Tibial": 1.2765,
+     "Cells - Cultured fibroblasts": 0.0,
+     "Artery - Tibial": 0.0,
+     "Skin - Sun Exposed (Lower leg)": 0.19542
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000171126.7",
+      "median_tpm": {
+       "Muscle - Skeletal": 0.0,
+       "Adipose - Subcutaneous": 0.0548882,
+       "Nerve - Tibial": 1.2765,
+       "Cells - Cultured fibroblasts": 0.0,
+       "Artery - Tibial": 0.0,
+       "Skin - Sun Exposed (Lower leg)": 0.19542
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Nerve - Tibial",
+    "any_present_at_cut": true
+   },
+   "whole_body_context": {
+    "top_tissues": [
+     {
+      "tissue": "Testis",
+      "median_tpm": 1.47449
+     },
+     {
+      "tissue": "Nerve - Tibial",
+      "median_tpm": 1.2765
+     },
+     {
+      "tissue": "Adrenal Gland",
+      "median_tpm": 1.21374
+     },
+     {
+      "tissue": "Brain - Nucleus accumbens (basal ganglia)",
+      "median_tpm": 1.17718
+     },
+     {
+      "tissue": "Brain - Frontal Cortex (BA9)",
+      "median_tpm": 1.02713
+     },
+     {
+      "tissue": "Brain - Caudate (basal ganglia)",
+      "median_tpm": 0.838839
+     }
+    ],
+    "n_tissues_at_or_above_cut": 5,
+    "n_tissues_read": 54
+   }
+  },
+  "PLAC8": {
+   "n_transcript_records": 4,
+   "n_curated_records": 4,
+   "n_predicted_records": 0,
+   "n_designs_hitting_it": 2,
+   "designs_hitting_it": [
+    "GCATATCCATCAGATT",
+    "GGCATATCCATCAGAT"
+   ],
+   "exposure_liver_kidney": {
+    "readable": true,
+    "block": "exposure_liver_kidney",
+    "values": {
+     "Liver": 1.43106,
+     "Kidney - Cortex": 0.316492,
+     "Kidney - Medulla": 0.303712
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000145287.10",
+      "median_tpm": {
+       "Liver": 1.43106,
+       "Kidney - Cortex": 0.316492,
+       "Kidney - Medulla": 0.303712
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Liver",
+    "any_present_at_cut": true
+   },
+   "tumour_compartment_proxy": {
+    "readable": true,
+    "block": "tumour_compartment_proxy",
+    "values": {
+     "Muscle - Skeletal": 0.0966863,
+     "Adipose - Subcutaneous": 0.722753,
+     "Nerve - Tibial": 0.43831,
+     "Cells - Cultured fibroblasts": 0.310058,
+     "Artery - Tibial": 0.235023,
+     "Skin - Sun Exposed (Lower leg)": 0.192068
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000145287.10",
+      "median_tpm": {
+       "Muscle - Skeletal": 0.0966863,
+       "Adipose - Subcutaneous": 0.722753,
+       "Nerve - Tibial": 0.43831,
+       "Cells - Cultured fibroblasts": 0.310058,
+       "Artery - Tibial": 0.235023,
+       "Skin - Sun Exposed (Lower leg)": 0.192068
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Adipose - Subcutaneous",
+    "any_present_at_cut": false
+   },
+   "whole_body_context": {
+    "top_tissues": [
+     {
+      "tissue": "Cells - EBV-transformed lymphocytes",
+      "median_tpm": 118.903
+     },
+     {
+      "tissue": "Spleen",
+      "median_tpm": 45.8588
+     },
+     {
+      "tissue": "Whole Blood",
+      "median_tpm": 44.3663
+     },
+     {
+      "tissue": "Small Intestine - Terminal Ileum",
+      "median_tpm": 20.2123
+     },
+     {
+      "tissue": "Esophagus - Mucosa",
+      "median_tpm": 17.7646
+     },
+     {
+      "tissue": "Colon - Transverse",
+      "median_tpm": 15.5966
+     }
+    ],
+    "n_tissues_at_or_above_cut": 13,
+    "n_tissues_read": 54
+   }
+  },
+  "EFCAB11": {
+   "n_transcript_records": 2,
+   "n_curated_records": 2,
+   "n_predicted_records": 0,
+   "n_designs_hitting_it": 1,
+   "designs_hitting_it": [
+    "AGGGCATATCCATCAG"
+   ],
+   "exposure_liver_kidney": {
+    "readable": true,
+    "block": "exposure_liver_kidney",
+    "values": {
+     "Liver": 0.36777,
+     "Kidney - Cortex": 0.918216,
+     "Kidney - Medulla": 1.20132
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000140025.15",
+      "median_tpm": {
+       "Liver": 0.36777,
+       "Kidney - Cortex": 0.918216,
+       "Kidney - Medulla": 1.20132
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Kidney - Medulla",
+    "any_present_at_cut": true
+   },
+   "tumour_compartment_proxy": {
+    "readable": true,
+    "block": "tumour_compartment_proxy",
+    "values": {
+     "Muscle - Skeletal": 0.208811,
+     "Adipose - Subcutaneous": 1.04734,
+     "Nerve - Tibial": 0.958414,
+     "Cells - Cultured fibroblasts": 2.05269,
+     "Artery - Tibial": 0.849163,
+     "Skin - Sun Exposed (Lower leg)": 0.873109
+    },
+    "n_gene_models": 1,
+    "per_gene_model": [
+     {
+      "gencode_id": "ENSG00000140025.15",
+      "median_tpm": {
+       "Muscle - Skeletal": 0.208811,
+       "Adipose - Subcutaneous": 1.04734,
+       "Nerve - Tibial": 0.958414,
+       "Cells - Cultured fibroblasts": 2.05269,
+       "Artery - Tibial": 0.849163,
+       "Skin - Sun Exposed (Lower leg)": 0.873109
+      }
+     }
+    ],
+    "tissue_labels_not_found": [],
+    "max_tissue_in_block": "Cells - Cultured fibroblasts",
+    "any_present_at_cut": true
+   },
+   "whole_body_context": {
+    "top_tissues": [
+     {
+      "tissue": "Testis",
+      "median_tpm": 8.39163
+     },
+     {
+      "tissue": "Cells - EBV-transformed lymphocytes",
+      "median_tpm": 2.1403
+     },
+     {
+      "tissue": "Cells - Cultured fibroblasts",
+      "median_tpm": 2.05269
+     },
+     {
+      "tissue": "Brain - Spinal cord (cervical c-1)",
+      "median_tpm": 2.02967
+     },
+     {
+      "tissue": "Brain - Amygdala",
+      "median_tpm": 1.5767
+     },
+     {
+      "tissue": "Brain - Substantia nigra",
+      "median_tpm": 1.54888
+     }
+    ],
+    "n_tissues_at_or_above_cut": 30,
+    "n_tissues_read": 54
+   }
+  },
+  "LOC107984281": {
+   "n_transcript_records": 2,
+   "n_curated_records": 2,
+   "n_predicted_records": 0,
+   "n_designs_hitting_it": 2,
+   "designs_hitting_it": [
+    "GCATATCCATCAGATT",
+    "GGCATATCCATCAGAT"
+   ],
+   "exposure_liver_kidney": {
+    "readable": false,
+    "reason": "no row for this symbol in the GTEx v8 gene model — the locus is not measured by this instrument. ⚠ THIS IS NOT A READING OF ZERO.",
+    "block": "exposure_liver_kidney",
+    "values": null
+   },
+   "tumour_compartment_proxy": {
+    "readable": false,
+    "reason": "no row for this symbol in the GTEx v8 gene model — the locus is not measured by this instrument. ⚠ THIS IS NOT A READING OF ZERO.",
+    "block": "tumour_compartment_proxy",
+    "values": null
+   },
+   "whole_body_context": null
+  },
+  "LOC107985219": {
+   "n_transcript_records": 2,
+   "n_curated_records": 0,
+   "n_predicted_records": 2,
+   "n_designs_hitting_it": 2,
+   "designs_hitting_it": [
+    "AGGGCATATCCATCAG",
+    "CAGGGCATATCCATCA"
+   ],
+   "exposure_liver_kidney": {
+    "readable": false,
+    "reason": "no row for this symbol in the GTEx v8 gene model — the locus is not measured by this instrument. ⚠ THIS IS NOT A READING OF ZERO.",
+    "block": "exposure_liver_kidney",
+    "values": null
+   },
+   "tumour_compartment_proxy": {
+    "readable": false,
+    "reason": "no row for this symbol in the GTEx v8 gene model — the locus is not measured by this instrument. ⚠ THIS IS NOT A READING OF ZERO.",
+    "block": "tumour_compartment_proxy",
+    "values": null
+   },
+   "whole_body_context": null
+  },
+  "LOC107987169": {
+   "n_transcript_records": 1,
+   "n_curated_records": 0,
+   "n_predicted_records": 1,
+   "n_designs_hitting_it": 1,
+   "designs_hitting_it": [
+    "GCATATCCATCAGATT"
+   ],
+   "exposure_liver_kidney": {
+    "readable": false,
+    "reason": "no row for this symbol in the GTEx v8 gene model — the locus is not measured by this instrument. ⚠ THIS IS NOT A READING OF ZERO.",
+    "block": "exposure_liver_kidney",
+    "values": null
+   },
+   "tumour_compartment_proxy": {
+    "readable": false,
+    "reason": "no row for this symbol in the GTEx v8 gene model — the locus is not measured by this instrument. ⚠ THIS IS NOT A READING OF ZERO.",
+    "block": "tumour_compartment_proxy",
+    "values": null
+   },
+   "whole_body_context": null
+  },
+  "LOC124905457": {
+   "n_transcript_records": 1,
+   "n_curated_records": 0,
+   "n_predicted_records": 1,
+   "n_designs_hitting_it": 1,
+   "designs_hitting_it": [
+    "GCATATCCATCAGATT"
+   ],
+   "exposure_liver_kidney": {
+    "readable": false,
+    "reason": "no row for this symbol in the GTEx v8 gene model — the locus is not measured by this instrument. ⚠ THIS IS NOT A READING OF ZERO.",
+    "block": "exposure_liver_kidney",
+    "values": null
+   },
+   "tumour_compartment_proxy": {
+    "readable": false,
+    "reason": "no row for this symbol in the GTEx v8 gene model — the locus is not measured by this instrument. ⚠ THIS IS NOT A READING OF ZERO.",
+    "block": "tumour_compartment_proxy",
+    "values": null
+   },
+   "whole_body_context": null
+  }
+ }
+}

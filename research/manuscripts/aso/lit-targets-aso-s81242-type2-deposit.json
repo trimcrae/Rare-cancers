@@ -1,0 +1,102 @@
+{
+ "_what": "GenBank S81242.1 — 'EWS...CHN {junction region} [human, myxoid chondrosarcoma patient, mRNA Partial Mutant, 3 genes, 175 nt]' — RESOLVED to EWSR1 exon 7 :: NR4A3 exon 2, the type-2 junction, from its own nucleotides against this repository's committed transcript models.",
+ "_why": "Two things at once. (1) The breakpoint census lists S81242.1 among 'deposits_whose_titles_name_an_EMC_FUSION' and marks the whole block '⛔ THEY ARE LISTED, NOT MAPPED'. It is now mapped. (2) This repository's own nuccore sweep RETRIEVED this record on 2026-08-15 and graded it INSERT with a 102-nt segment 'placed nowhere' (found_in: []). That grade is WRONG, and the reason it is wrong is a real defect worth keeping.",
+ "_cost": "$0 — one eutils efetch on a free GitHub-hosted runner, then ungapped alignment against the committed emc-construct-inputs.json cache. No network from the sandbox, no GPU.",
+
+ "how_it_was_found": {
+  "route": "NCBI elink pubmed->nuccore, pointed at the EWS/CHN TYPE-NOMENCLATURE primaries rather than at the EMC case series",
+  "why_that_route_was_new": "The census records that elink for PMID 12378528 'returns only pubmed_nuccore_refseq links ... and no pubmed_nuccore direct submission'. Nobody had run the same elink against the papers that DEFINED the type numbering. They have direct submissions and PMID 12378528 does not.",
+  "measured": {
+   "elink_pubmed_to_nuccore_8634690_Labelle_1995": "pubmed_nuccore -> UID 1165104 (one direct submission)",
+   "elink_pubmed_to_nuccore_8570200_Clark_1996": "pubmed_nuccore -> UIDs 1311504, 1311502 (two direct submissions)",
+   "elink_pubmed_to_nuccore_9060841_Brody_1997": "NO linksetdbs at all — no deposit"
+  },
+  "how_the_primaries_were_identified": "By chasing the citation on the type-3 sentence itself — see lit-targets-aso-type3-designability.json. Every identifier here was read from a fetch, never from recollection."
+ },
+
+ "the_record": {
+  "accession": "S81242.1",
+  "ncbi_nuccore_uid": "1311502",
+  "length_bp": 175,
+  "definition_verbatim": "EWS...CHN {junction region} [human, myxoid chondrosarcoma patient, mRNA Partial Mutant, 3 genes, 175 nt]",
+  "paper": {"pmid": "8570200", "authors": "Clark,J., Benjamin,H., Gill,S., Sidhar,S., Goodwin,G., Crew,J., Gusterson,B.A., Shipley,J. and Cooper,C.S.", "title": "Fusion of the EWS gene to CHN, a member of the steroid/thyroid receptor gene superfamily, in a human myxoid chondrosarcoma", "journal": "Oncogene 12 (2), 229-235 (1996)"},
+  "depositor_annotation_verbatim": ["gene 1..40 /gene=\"EWS\"", "gene 41..175 /gene=\"CHN\"", "CDS 1..174 /gene=\"EWS-CHN fusion gene\" /protein_id=\"AAB36005.1\""],
+  "⚠_provenance_caveat_that_matters": "REMARK on the record: 'GenBank staff at the National Library of Medicine created this entry [NCBI gibbsq 176286] from the original journal article.' This is a record TRANSCRIBED FROM PRINT, not an electronic submission by the authors. That is the mechanism behind the single-base discrepancy below, and it is evidence, not a guess — the sibling record S81243.1 carries the identical REMARK.",
+  "source_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id=1311502&rettype=gbwithparts&retmode=text"
+ },
+
+ "⭐_the_derivation": {
+  "_method": "Ungapped alignment of the deposit's own nucleotides against the committed spliced transcript models (junction_aso.transcript_model, TRANSCRIPT_SOURCE=cache; PROVENANCE_GATE_USED reported 'graded_exon_audit' for both EWSR1 and NR4A3). The depositor's gene annotations were NOT consulted while deriving, and are used below only as an independent check.",
+  "donor_side": {
+   "deposit_nt": "1..40",
+   "sequence_verbatim": "AGTCAATATAGCCAACAGAGCAGCAGCTACGGGCAGCAGA",
+   "result": "an EXACT substring of spliced EWSR1 (ENST00000397938), ending at transcript nt 862",
+   "placement": "862 == the cumulative 3' END of EWSR1 transcript exon 7. EXACT BOUNDARY.",
+   "n_mismatches": 0
+  },
+  "acceptor_side": {
+   "deposit_nt": "41..175",
+   "length_nt": 135,
+   "result": "aligns to NR4A3 (ENST00000395097) transcript exon 2 from its 5' START (transcript nt 523)",
+   "placement": "EXACT BOUNDARY — the 5' start of NR4A3 transcript exon 2",
+   "n_mismatches": 1,
+   "identity": "134/135 = 99.3%",
+   "the_single_mismatch": "deposit nt 142 = A; NR4A3 transcript nt 624 = G. One base, in a record typed from print.",
+   "⛔_this_is_reported_not_corrected": "The discrepancy is recorded as measured. It is NOT patched, and no design is derived from the deposit's base at that position — the seam itself is 121 nt away from it and is identical in both."
+  },
+  "seam": "40|41 in deposit coordinates",
+  "⭐_independent_agreement": "The depositor's own annotation splits the record at exactly the same point — gene 1..40 = EWS, gene 41..175 = CHN — and was not used to derive it. Same double-confirmation pattern the repository applied to AF524261.1.",
+  "junction": "EWSR1_e7__NR4A3_e2",
+  "transcript_type": "type 2"
+ },
+
+ "⛔_it_corrects_a_grade_this_repository_already_published": {
+  "the_wrong_grade": "nr4a3-deposited-junctions.json / the 2026-08-15 nuccore sweep graded S81242.1 as INSERT with '+102 nt' and found_in: [] — a segment 'placed nowhere'. The sweep's own note groups it with DI174531.1 and LG067228.1 as records whose signature is a disagreement between the seam matcher and the maximal alignment.",
+  "why_it_happened": "nr4a3_nuccore_sweep aligns by EXACT SUBSTRING (_longest_prefix_in / _shortest_suffix_start_in binary-search on `in`). A single base difference anywhere in the acceptor block truncates the matchable suffix to whatever follows the mismatch — here 33 nt — and everything 5' of it becomes an 'unexplained segment'. The +102 is exactly the offset of the mismatch, not a biological insert.",
+  "⚠_the_failure_shape": "AN EXACT-MATCH ALIGNER CANNOT DISTINGUISH A NOVEL SEGMENT FROM A ONE-BASE DISCREPANCY, and it reports both as 'placed nowhere'. That is an absent reading wearing the costume of a finding — the same class as the census's own '⛔_the_transferable_lesson'. Reproduced here by the same arithmetic plus one mismatch-tolerant pass.",
+  "what_would_fix_it": "give the placement step a small mismatch budget (>=1 per 100 nt) and REPORT the mismatches, rather than requiring exact containment. The other two records (DI174531.1 +1018 nt, LG067228.1 +1027 nt) are patent accessions with far larger segments and are NOT re-graded here — nothing about this finding speaks to them, and they must be re-tested rather than assumed.",
+  "⛔_not_done_here": "The fix is NOT applied and nr4a3-deposited-junctions.json is NOT edited. That artifact is a published record of a sweep; changing it needs the sweep re-run, not a hand edit."
+ },
+
+ "what_it_does_and_does_not_change": {
+  "junction_confirmed": "EWSR1_e7__NR4A3_e2 gains a FOURTH independent source, and it is the EARLIEST and the only one that is a patient's actual sequence rather than prose. The census currently lists three: PMID 22567356 (a review), PMID 29937513 (one of five sequenced cases), PMID 35488288 (a case report). This adds PMID 8570200 / GenBank S81242.1, 1996.",
+  "⭐_the_modelled_seam_is_now_confirmed_against_a_PATIENT": "nr4a3-fusion-junction-atlas-noncoding-acceptor.json models this seam as ACGGGCAGCAGA|AGCCCACTGCGG. The deposit reads ...AGCTACGGGCAGCAGA|AGCCCACTGCGGAAGA... — BYTE-IDENTICAL across the seam. The five designs at this junction were built on a modelled chimera; that model now has a 1996 patient sequence behind it.",
+  "⛔_NO_COVERAGE_NUMBER_MOVES": "k=1/20 for this junction is a count from the two pooled series, and a fourth report with no cohort denominator cannot change it — the same rule the census applies to TCF12's 1/1. 82.9% best-supported buildable and the 98.3% ceiling are unchanged. One home for the arithmetic: fusion-junction-aso-coverage-ladder.json.",
+  "does_not_resolve_the_three_unnamed_tumours": "S81242.1 is a different report by a different group with no patient identifier linking it to PMID 12378528's series. It says nothing about the three unresolved EWSR1 tumours."
+ },
+
+ "screened_design_already_on_disk_at_this_junction": {
+  "_note": "The task asked whether a screened design already exists at any recovered junction. It does — this junction is NOT in the manuscript's 38-junction panel (every one of those uses NR4A3 exon 3; aso-per-junction-table.json contains no NR4A3 exon-2 acceptor at all), but it IS carried by the non-coding-acceptor lane and has been through all five deep screens.",
+  "atlas": "research/modalities/nr4a3-fusion-junction-atlas-noncoding-acceptor.json",
+  "seam_mRNA": "ACGGGCAGCAGA|AGCCCACTGCGG",
+  "n_tiled": 5,
+  "n_clearing_the_parent_exclusion": 5,
+  "parents_screened": ["EWSR1", "FUS", "NR4A3", "PGR", "TAF15", "TCF12", "TFG"],
+  "best_by_gap_specificity_margin": {
+   "antisense_5to3": "AGTGGGCTTCTGCTGC",
+   "target_mRNA_5to3": "GCAGCAGAAGCCCACT",
+   "architecture": "5-6-5 (LNA-DNA-LNA), 16-mer",
+   "gap_specificity_margin": 3,
+   "gap_bases_donor_side": 3,
+   "gap_bases_acceptor_side": 3,
+   "oligo_wide_specificity_margin": 8,
+   "gc_percent": 62.5,
+   "has_G4_motif": false,
+   "exact_parent_hits": [],
+   "screens_run_verbatim": "ran: exhaustive_transcript_scan, genome_grch38, mature_parent_gap_pairing, premrna, transcriptome_blast_deep; NOT run: none",
+   "genome_screen_load": {"n_exact_genomic_sites": 3, "n_sites_le2_counted": 2212, "observed_over_expected": {"exact": 2.185, "le1": 1.635, "le2": 1.427, "gap_paired_le2": 1.401}, "n_named_target_sites": 0, "named_target_genes": [], "cleavage_competent_sites_in_a_named_gene": 0},
+   "premrna_screen_load": {"n_hits_either_orientation": 0, "n_hybridisable": 0, "n_hybridisable_gap_fully_paired": 0, "n_invisible_to_mature_screens": 0, "compartments": {"intronic": 0, "intron_exon_spanning": 0, "exonic": 0}}
+  },
+  "⚠_what_this_is_not": "Not an efficacy claim and not a clinical claim. A screened design is sequence arithmetic plus off-target scans; nothing here has been synthesised or tested, and no statement about potency, delivery, tolerability or a therapeutic window is made or implied. One home for the per-design counts: research/modalities/noncoding-acceptor/aso-noncoding-acceptor-screened-table.json."
+ },
+
+ "the_other_two_deposits_retrieved_in_the_same_call": [
+  {"accession": "X89894.1", "uid": "1165104", "length_bp": 2546, "definition_verbatim": "H.sapiens mRNA for nuclear receptor.", "paper": "PMID 8634690 (Labelle et al., Hum Mol Genet 1995)", "clone": "TEC 1 and TEC 5, fetal heart, lambda GT11", "cds": "688..2019", "⭐_what_it_is": "the NATIVE TEC/CHN cDNA, not a fusion — and therefore THE REFERENCE cDNA against which the original type nomenclature's nucleotide positions ('position -2', 'position -176') were defined. It is not a junction and adds no coverage.", "mapped": "no partner+NR4A3 co-occurrence — correct, it is a wild-type transcript"},
+  {"accession": "S81243.1", "uid": "1311504", "length_bp": 2714, "definition_verbatim": "CHN=steroid/thyroid orphan receptor homolog gene [human, fetal brain, mRNA Partial, 2714 nt].", "paper": "PMID 8570200 (Clark et al., Oncogene 1996)", "cds_note_verbatim": "steroid/thyroid orphan receptor homolog gene; No start codon was found. N-terminal of protein truncated by chromosomal breakpoint 2 nucleotides 5' of first (Pro) codon", "⭐_why_the_note_matters": "'2 nucleotides 5' of the first codon' is the type-1 'position -2' statement, made independently inside a GenBank record. It corroborates, from a third document, the nucleotide-level reading that lit-targets-aso-type3-designability.json shows lands exactly on this repository's NR4A3 transcript exon 3 start."}
+ ],
+
+ "one_home_for_the_census": "research/manuscripts/aso/lit-targets-aso-breakpoint-census.json",
+ "one_home_for_the_coverage_arithmetic": "research/manuscripts/aso/fusion-junction-aso-coverage-ladder.json",
+ "one_home_for_the_sweep_this_corrects": "research/modalities/nr4a3-deposited-junctions.json",
+ "one_home_for_the_per_design_screen_counts": "research/modalities/noncoding-acceptor/aso-noncoding-acceptor-screened-table.json"
+}

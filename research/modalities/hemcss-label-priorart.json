@@ -1,0 +1,322 @@
+{
+ "_TITLE": "H-EMC-SS (CVCL_1238) prior-art / novelty scan \u2014 INCOMPLETE, STOPPED BY THE COORDINATOR MID-SEARCH",
+ "_status": "INCOMPLETE. Stopped 2026-08-15 ~3:35 PM ET on instruction from the main thread. This is a PARTIAL record with honest boundaries, NOT a survey. Sections marked NOT_COVERED were never run or never read \u2014 do not cite them as absence. \u26a0 UPDATE at 3:25 PM ET: the re-dispatched fetch (run 31903660047) came back SUCCESSFUL after this file was first written, so the entire unread category corpus is now retrievable from the literature-cache branch at zero cost.",
+ "_question_as_asked": "Has anyone ever written a paper about the implications of the ~37 papers that rely on the no-fusion 'EMC' line H-EMC-SS being wrong?",
+ "_THE_FRAMING_TO_PRESERVE": {
+  "this_is_NOT_an_STR_identity_problem": "The 18-locus STR profile is concordant across three independent sources (Cosmic-CLP=907290; DepMap=ACH-001519; RCB=RCB0508) and Cellosaurus carries NO 'CC Problematic cell line:' flag for CVCL_1238. The line is authentically itself.",
+  "it_IS_a_disease_label_problem": "What is in doubt is whether the line is the DISEASE it is named for. EMC is defined by NR4A3 rearrangement under current criteria.",
+  "why_the_two_must_not_be_conflated": "The large cell-line-integrity literature (ICLAC, the Register of Misidentified Cell Lines, HeLa cross-contamination, STR authentication mandates) is almost entirely about a line being A DIFFERENT LINE. A line that is correctly itself but mislabelled AS TO DISEASE is a distinct failure mode. Any future search that lets these collapse together will return a false 'already covered'. THIS IS THE MOST LIKELY WAY TO GET THE WRONG ANSWER.",
+  "the_fairness_constraint": "Fusion-negative EMC TUMOURS are a recognised entity in the clinical literature (see established_findings.fusion_negative_emc_is_a_real_category). So 'H-EMC-SS is fusion-negative' does not by itself mean 'wrongly diagnosed'. Any write-up must engage this honestly rather than treating the label as simply an error, and must never impute error or bad faith to named authors."
+ },
+ "searches_run": [
+  {
+   "id": "S1",
+   "status": "RUN AND READ",
+   "tool": "Europe PMC REST search (on disk from an earlier session, 2026-08-15 19:02)",
+   "query": "\"H-EMC-SS\" OR \"HEMC-SS\" OR \"HEMCSS\" OR \"H-EMC SS\"",
+   "hitCount": 43,
+   "file": "/tmp/claude-0/-home-user-Rare-cancers/ab5928bb-8227-53e1-b556-b45029811853/scratchpad/mycorp/epmc_hemcss_all_asc.txt",
+   "parsed_to": "/tmp/claude-0/-home-user-Rare-cancers/ab5928bb-8227-53e1-b556-b45029811853/scratchpad/pa_hemcss_rows.json",
+   "note": "THE WORKING UNIVERSE. The '~37' in the framing is this population."
+  },
+  {
+   "id": "S2",
+   "status": "RUN AND READ",
+   "tool": "Europe PMC REST search",
+   "query": "(\"H-EMC-SS\" OR \"HEMC-SS\" OR \"HEMCSS\") AND (NR4A3 OR NR4A2 OR CHN OR TEC OR EWSR1 OR EWS OR TAF15 OR fusion OR translocation OR karyotype OR cytogenetic OR RT-PCR OR FISH OR SMARCB1 OR INI1)",
+   "hitCount": 24,
+   "file": "/tmp/claude-0/-home-user-Rare-cancers/ab5928bb-8227-53e1-b556-b45029811853/scratchpad/mycorp/epmc_hemcss_molecular.txt"
+  },
+  {
+   "id": "S3",
+   "status": "RUN AND READ",
+   "tool": "Europe PMC REST search",
+   "query": "(\"H-EMC-SS\" OR \"HEMCSS\" OR \"HEMC-SS\") AND (NR4A3 OR EWSR1 OR \"EWS/CHN\" OR TAF15 OR fusion)",
+   "hitCount": 12,
+   "file": "/tmp/claude-0/-home-user-Rare-cancers/ab5928bb-8227-53e1-b556-b45029811853/scratchpad/epmc_hemcss_fusion.txt"
+  },
+  {
+   "id": "S4",
+   "status": "RUN AND READ",
+   "tool": "Europe PMC REST search",
+   "query": "\"EMC-SS\"",
+   "hitCount": 23,
+   "file": "/tmp/claude-0/-home-user-Rare-cancers/ab5928bb-8227-53e1-b556-b45029811853/scratchpad/mycorp/epmc_emcss_named.txt",
+   "note": "adds only MED:28972578 (FANTOM5 CAGEscan) and MED:40927310 to the S1 union"
+  },
+  {
+   "id": "S5",
+   "status": "RUN AND READ",
+   "tool": "Europe PMC REST search",
+   "query": "(\"extraskeletal myxoid chondrosarcoma\" OR \"chordoid sarcoma\" OR \"extraskeletal myxoid chondro sarcoma\") AND (\"cell line\" OR \"cell-line\" OR establishment) AND (PUB_YEAR:[1980 TO 1999])",
+   "hitCount": 6,
+   "file": "/tmp/claude-0/-home-user-Rare-cancers/ab5928bb-8227-53e1-b556-b45029811853/scratchpad/mycorp/epmc_emc_cellline_old.txt"
+  },
+  {
+   "id": "S6",
+   "status": "RUN AND READ",
+   "tool": "Europe PMC REST search",
+   "query": "\"extraskeletal myxoid chondrosarcoma\" AND (\"fusion-negative\" OR \"fusion negative\" OR \"NR4A3-negative\" OR \"negative for NR4A3\" OR \"lacking NR4A3\")",
+   "hitCount": 51,
+   "file": "/tmp/claude-0/-home-user-Rare-cancers/ab5928bb-8227-53e1-b556-b45029811853/scratchpad/mycorp/epmc_emc_fusionneg.txt",
+   "note": "about fusion-negative EMC TUMOURS, not the cell line \u2014 but decisive for the fairness constraint above"
+  },
+  {
+   "id": "S7",
+   "status": "RUN AND READ",
+   "tool": "Cellosaurus API",
+   "query": "https://api.cellosaurus.org/cell-line/CVCL_1238 (txt + json + HTML page)",
+   "file": "/tmp/claude-0/-home-user-Rare-cancers/ab5928bb-8227-53e1-b556-b45029811853/scratchpad/mycorp/cellosaurus_CVCL_1238_txt.txt"
+  },
+  {
+   "id": "S8",
+   "status": "RUN AND READ",
+   "tool": "ECACC catalogue",
+   "query": "https://www.culturecollections.org.uk/nop/product/h-emc-ss",
+   "file": "/tmp/claude-0/-home-user-Rare-cancers/ab5928bb-8227-53e1-b556-b45029811853/scratchpad/mycorp/ecacc_94042258.txt"
+  },
+  {
+   "id": "S9",
+   "status": "RUN AND READ",
+   "tool": "Europe PMC full text",
+   "query": "PMC8571037 (PMID 34413129, Gartrell 2021) full text",
+   "file": "/tmp/claude-0/-home-user-Rare-cancers/ab5928bb-8227-53e1-b556-b45029811853/scratchpad/litcache/emc-cell-models-round2b-2026-08-15__pmc_PMC8571037_gartrell.txt"
+  },
+  {
+   "id": "S10",
+   "status": "FETCHED BUT NEVER READ \u2014 DO NOT TREAT AS ABSENCE",
+   "tool": "GitHub Actions fetch-literature.yml run 31903449704 (slug hemcss-priorart-novelty)",
+   "query": "28 targets covering: Gartrell citations; alias+Letter/Comment/Editorial/Retraction/Erratum; alias+preprints; alias FULL_TEXT; accession search (CVCL_1238/ACH-001519/SIDM00535/RCB0508/94042258/907290); OpenAlex fulltext x2; Semantic Scholar; Cellosaurus 'hallmark' + cc:caution + EMC-disease censuses; EPMC category searches (lacks-the-hallmark/defining/pathognomonic; misannotated-or-reclassified-disease; ICLAC; citation-impact-of-misidentified-lines; STR-insufficiency; sarcoma-line-identity; sarcoma-line-fusion-not-detected; misannotation-terminology; rare-cancer-model-scarcity; EMC models); 5 full texts; NCBI esummary for fusion-era PMIDs",
+   "outcome": "RUN FAILED, exit 1. ROOT CAUSE, from the job log (job 95057607596): 27 of 28 targets returned HTTP 200 and fetched successfully; the single failure was c8_s2 (Semantic Scholar) returning 429 after three paced retries, and lit_fetch_urls.py correctly refuses to record a never-answered target as an empty result. Because the fetch step failed, BOTH the publish-to-literature-cache step and the upload-artifact step were skipped, so none of the 27 successful fetches was retained.",
+   "targets_file": "/tmp/claude-0/-home-user-Rare-cancers/ab5928bb-8227-53e1-b556-b45029811853/scratchpad/pa_final.min",
+   "byte_counts_from_the_log_ONLY": {
+    "_warning": "These are HTTP status + response byte counts read off the job log. THE CONTENT WAS NEVER READ. A small byte count is CONSISTENT WITH zero hits but is NOT a reading of zero hits. Do not cite these as findings.",
+    "c2_alias_letters": "200, 390 bytes",
+    "c3_alias_ppr": "200, 3963 bytes",
+    "c4_alias_ft": "200, 235 bytes",
+    "c1_cites_gartrell": "200, 8958 bytes",
+    "c9_cs_hallmark": "200, 14782 bytes",
+    "c10_cs_caution": "200, 2423787 bytes",
+    "c23_ft_zalto": "404 (PMC10054153 has no open-access full text in Europe PMC)"
+   }
+  },
+  {
+   "id": "S11",
+   "status": "COMPLETED SUCCESSFULLY \u2014 CORPUS IS ON DISK REMOTELY AND WAS NEVER READ",
+   "tool": "GitHub Actions fetch-literature.yml, re-dispatch of S10 with the 429-ing Semantic Scholar target removed and Crossref substituted",
+   "note": "Queued ~3:31 PM ET 2026-08-15 on branch claude/emc-aso-coverage-design-fefnhh, slug hemcss-priorart-novelty. Stopped before the result was read. IF IT SUCCEEDED its corpus is on the literature-cache branch under literature/hemcss-priorart-novelty/ \u2014 a future session should look there FIRST before re-running anything, since this is the whole category search.",
+   "run_id": "31903660047",
+   "outcome": "conclusion=success, verified 3:25 PM ET 2026-08-15 by a single Actions API read. The 25-target corpus therefore PUBLISHED to the literature-cache branch under literature/hemcss-priorart-novelty/. IT WAS NOT READ \u2014 this session was stopped before reading it. Everything in papers_on_the_category remains UNANSWERED, but the answer is now sitting in the repo at zero further cost.",
+   "how_to_get_it": "git fetch origin literature-cache && git show origin/literature-cache:literature/hemcss-priorart-novelty/<name>.txt  (or check out the branch and list that directory)"
+  }
+ ],
+ "papers_on_this_line": {
+  "_verdict_ESTABLISHED": "Exactly one published sentence reports this line's fusion status, and it is incidental. No paper, letter, comment, editorial, preprint or commentary found IN THE SEARCHES ACTUALLY READ (S1\u2013S6) takes H-EMC-SS's identity, fusion status or disease classification as its SUBJECT. \u26a0 The dedicated Letter/Comment/Editorial/Retraction search, the preprint search, the full-text search and the accession search were all fetched in S10 but NEVER READ \u2014 so this verdict rests on S1\u2013S6 only.",
+  "the_one_published_observation": {
+   "pmid": "34413129",
+   "pmcid": "PMC8571037",
+   "year": "2021",
+   "journal": "Molecular cancer therapeutics",
+   "doi": "10.1158/1535-7163.mct-21-0089",
+   "title": "SLFN11 is Widely Expressed in Pediatric Sarcoma and Induces Variable Sensitization to Replicative Stress Caused By DNA-Damaging Agents.",
+   "authorString": "Gartrell J, Mellado-Largarde M, Clay MR, Bahrami A, Sahr NA, Sykes A, Blankenship K, Hoffmann L, Xie J, Cho HP, Twarog N, Connelly M, Yan KK, Yu J, Yu J, Porter SN, Pruett-Miller SM, Neale G, Tinkle CL, Federico SM, Stewart EA, Shelat AA.",
+   "verbatim_quote": "Although extraskeletal myxoid chondrosarcoma (EMC) cancers such as H-EMC-SS typically have EWSR1-NR4A3 fusions, we did not detect a EWSR1 -translocation in this line.",
+   "location": "Figure 2A legend. Verified verbatim in the fetched full text (S9).",
+   "what_it_is_not": "Not an EMC paper and not an identity paper. Its subject is SLFN11 in paediatric sarcoma across a ~20-line panel in which H-EMC-SS is one member. Repo commit 842961ad2 established: no results sentence, figure, table or supplement reports the assay for this line; the 'n >= 2' in that legend is the drug-assay replicate count; the methods' PCR/FISH sentence is a blanket statement over the whole panel naming no probe, no primer and no per-line result; and the paper does not state whether an EWSR1 break-apart FISH (which WOULD exclude EWSR1::NR4A3 whatever the partner) or an EWSR1-FLI1 RT-PCR (which would NOT) was performed.",
+   "significance": "THIS IS THE NEAR-MISS AND IT IS LOAD-BEARING FOR ANY NOVELTY CLAIM. The observation is in print. 'Nobody has ever reported this' would be FALSE. What is true is that it has never been the subject of anything, nothing downstream follows from it, and it is not discoverable by anyone searching on EMC model validity."
+  },
+  "the_database_annotation": {
+   "source": "Cellosaurus CVCL_1238 (S7)",
+   "verbatim_quote": "Caution: Does not harbor a gene fusion involving EWSR1 which is a hallmark of extraskeletal myxoid chondrosarcoma (PubMed=34413129).",
+   "the_internal_contradiction_ESTABLISHED": "The same record still carries, unchanged, 'DI NCIt; C27502; Extraskeletal myxoid chondrosarcoma' and 'DI ORDO; Orphanet_209916; Extraskeletal myxoid chondrosarcoma'. The caution and the disease assignment contradict each other inside one record.",
+   "the_asymmetry_ESTABLISHED": "The record ships the DISEASE ASSIGNMENT to every downstream consumer via 29 DR cross-references (DepMap ACH-001519; Cell_Model_Passport SIDM00535; Cosmic/Cosmic-CLP/GDSC 907290; ECACC 94042258; RCB RCB0508; PharmacoDB HEMCSS_419_2019; ChEMBL; LINCS_LDP LCL-1458; FANTOM5_SSTAR; Progenetix; PubChem_Cell_line; Wikidata Q54871889; ICLC HTL99016; and others). The CAUTION travels with none of them. This asymmetry \u2014 a silent flag in one registry against a disease label propagated everywhere \u2014 is, on the evidence gathered, the most defensible core of any write-up.",
+   "note": "So the answer to 'how is this handled in practice' is, for this one line: a database caution field, citing a figure legend, with no correspondence, no erratum and no change to the disease assignment."
+  }
+ },
+ "papers_on_the_category": {
+  "_status": "NOT_COVERED \u2014 never read. \u26a0 BUT THE DATA NOW EXISTS: Actions run 31903660047 completed SUCCESSFULLY and published the full category corpus to the literature-cache branch under literature/hemcss-priorart-novelty/. A future session can answer this section by READING that directory \u2014 no new fetch, no dispatch, no cost.",
+  "_what_this_means": "The central novelty question \u2014 does the CATEGORY 'authentic cell line that lacks the defining molecular lesion of the tumour type it represents' have a literature, a name, or an established handling convention \u2014 IS UNANSWERED. Nothing here may be reported as absence.",
+  "_the_searches_that_were_built_and_would_answer_it": [
+   "EPMC: (\"cell line\" OR \"cell lines\") AND (\"does not harbor\"/\"lacks the hallmark\"/\"lacks the characteristic\"/\"lacks the defining\"/\"lacks the pathognomonic\"/\"lacks the canonical\") AND (fusion OR translocation OR rearrangement OR mutation)",
+   "EPMC: (\"cell line\" OR \"cell lines\") AND (misannotat*/mislabel*/misclassif*/reclassif*/\"wrongly attributed\"/\"incorrectly assigned\") AND (diagnosis/\"tumor type\"/histotype/\"disease of origin\"/subtype)",
+   "EPMC: ICLAC OR \"International Cell Line Authentication Committee\" OR \"Register of Misidentified Cell Lines\"  [to establish what the adjacent literature actually covers, and confirm it is about line-identity not disease-label]",
+   "EPMC: (\"misidentified cell line*\" OR \"contaminated cell lines\") AND (citation*/citing/\"the literature\"/propagat*/\"how many\")  [the citation-impact methodology that a 'papers affected' analysis would have to follow]",
+   "EPMC: (\"STR profiling\"/\"STR authentication\"/\"short tandem repeat\") AND (\"not sufficient\"/insufficient/\"does not detect\"/\"cannot detect\"/limitation*)  [does anyone already argue STR is not enough?]",
+   "EPMC: sarcoma AND (\"cell line\" OR \"cell lines\") AND (misidentif*/authenticat*/\"STR profiling\"/mislabel*/contaminat*)",
+   "EPMC: \"cell line misannotation\"/\"misannotated cell line*\"/\"functional authentication\"/\"phenotypic authentication\"  [is there a NAME for this failure mode?]",
+   "Cellosaurus: q=\"hallmark\" and q=cc:caution censuses  [HOW MANY OTHER LINES carry a comparable 'does not harbor the hallmark lesion' caution \u2014 this would turn an anecdote into a category with an N, and is probably the single highest-value unread result]"
+  ],
+  "_also_never_searched": [
+   "Google Scholar or any non-Europe-PMC index",
+   "conference abstracts and proceedings not in Europe PMC",
+   "Japanese-language literature",
+   "the line's own origin paper (Dokkyo J Med Sci, not PubMed-indexed)",
+   "ICLAC's own website and register contents",
+   "retraction/correction databases (Retraction Watch, Crossref event data)"
+  ]
+ },
+ "exposure_triage": {
+  "_status": "PARTIAL \u2014 TITLE/ABSTRACT LEVEL ONLY. Only one of the 43 papers (Gartrell, PMID 34413129) was read in full text. Five further full texts were fetched in S10 and never read (PMC9813045, PMC5509331, PMC13273627, PMC6516718; PMC10054153 returned 404).",
+  "_universe": "43 Europe PMC records name the line under any of H-EMC-SS / HEMC-SS / HEMCSS / H-EMC SS (S1). Union with \"EMC-SS\" adds 2.",
+  "_criterion_used": "TIER A \u2014 the paper's stated conclusion is about EMC as a disease entity or about NR4A3/the fusion, and H-EMC-SS is the or a principal experimental basis; relabelling changes what the conclusion is ABOUT. TIER B \u2014 the paper attaches a disease label to the line but its claim is about chondrosarcoma generally, or the line is one of a panel; relabelling changes a descriptor, not a result. TIER C \u2014 no disease-specific claim; the line is used as a generic human/chondrocytic/mesenchymal cell. DELIBERATELY CONSERVATIVE: one line among fourteen in a drug panel is NOT an EMC claim.",
+  "FINDING_1_the_most_important_one": {
+   "statement": "ZERO of the 43 papers makes a claim about NR4A3, the fusion, or fusion-driven biology derived from this line. Exactly ONE of 43 abstracts contains any fusion term at all (MED:36316541), and there the fusion terms describe EMC tumours in general and the authors' two NEW ex vivo models \u2014 not H-EMC-SS.",
+   "measured_how": "regex over all 43 abstracts for NR4A3|EWSR1|EWS-|EWS/|CHN|TEC|TAF15|TCF12|fusion|translocat|t(9;22)",
+   "consequence": "THE EXPOSURE IS NOT 'CONCLUSIONS ABOUT FUSION BIOLOGY ARE WRONG'. Nobody drew any. The exposure is narrower and different in kind: therapeutic and phenotypic claims are ATTRIBUTED TO A DISEASE the model may not represent. Any write-up that implies the fusion literature is contaminated by this line would be overstating it, and the triage does not support that."
+  },
+  "FINDING_2_label_distribution_from_abstracts": {
+   "EMC_or_extraskeletal_named_in_abstract": [
+    "PPR:PPR336378",
+    "MED:36636023",
+    "MED:30199705",
+    "MED:32948981",
+    "MED:36316541",
+    "MED:42165630"
+   ],
+   "called_chondrosarcoma_in_abstract": [
+    "MED:19812376",
+    "MED:21499733",
+    "MED:24972007",
+    "MED:27150070",
+    "MED:28704566",
+    "MED:29221170",
+    "MED:29398371",
+    "MED:36582458",
+    "MED:31139331",
+    "MED:37689817",
+    "MED:41200572",
+    "MED:30519452",
+    "MED:32707689",
+    "MED:34307011",
+    "MED:35002404",
+    "MED:36901967",
+    "MED:37265425"
+   ],
+   "line_not_characterised_in_abstract": "the remainder \u2014 many use it as a generic human cell (e.g. GH/UCP signalling, heparan-sulfate epigenetics, Hsp90 solvent mapping, fibrillin/LTBP profiling)"
+  },
+  "FINDING_3_highest_exposure_candidates_TIER_A_provisional": [
+   {
+    "key": "MED:32948981",
+    "pmid": "32948981",
+    "pmcid": null,
+    "year": "2021",
+    "journal": "Investigational new drugs",
+    "title": "Relevance of the combination of external beam radiotherapy with the hypoxia-activated prodrug ICF05016 in an experimental model of extraskeletal myxoid chondrosarcoma.",
+    "why": "Title and abstract place the work in EMC explicitly \u2014 'in an experimental model of extraskeletal myxoid chondrosarcoma' \u2014 and the abstract states verbatim: 'in previous preclinical studies our lab demonstrated the potential of the hypoxia-activated prodrug (HAP) ICF05016 on EMC murine model inoculated with the H-EMC-SS human cell line.' The therapeutic claim is attributed to EMC and rests on this line.",
+    "full_text_read": false
+   },
+   {
+    "key": "PPR:PPR336378",
+    "pmid": null,
+    "pmcid": null,
+    "year": "2021",
+    "journal": null,
+    "title": "A Nonsteroidal Anti-inflammatory Drug, Zaltoprofen, Inhibits the Growth of Extraskeletal Chondrosarcoma Cells by Inducing PPAR\u03b3, p21, p27, and p53",
+    "why": "Preprint of the zaltoprofen work; abstract verbatim: 'in human extraskeletal chondrosarcoma cells, H-EMC-SS'.",
+    "full_text_read": false
+   },
+   {
+    "key": "MED:36636023",
+    "pmid": "36636023",
+    "pmcid": "PMC10054153",
+    "year": "2023",
+    "journal": "Cell cycle (Georgetown, Tex.)",
+    "title": "A nonsteroidal anti-inflammatory drug, zaltoprofen, inhibits the growth of extraskeletal chondrosarcoma cells by inducing PPAR\u03b3, p21, p27, and p53.",
+    "why": "Published version of the same; abstract verbatim: 'in human extraskeletal chondrosarcoma H-EMC-SS cells'.",
+    "full_text_read": false
+   },
+   {
+    "key": "MED:30199705",
+    "pmid": "30199705",
+    "pmcid": null,
+    "year": "2018",
+    "journal": "European journal of medicinal chemistry",
+    "title": "Structure-activity relationship study of hypoxia-activated prodrugs for proteoglycan-targeted chemotherapy in chondrosarcoma.",
+    "why": "Abstract verbatim: 'using the human extraskeletal myeloid chondrosarcoma cell line (HEMC-SS)' \u2014 'myeloid' appears to be a typographical slip for 'myxoid'; the label attached is nonetheless extraskeletal.",
+    "full_text_read": false
+   }
+  ],
+  "FINDING_4_a_concentrated_single_group_exposure": {
+   "observation": "A substantial share of the corpus is one research programme (proteoglycan/quaternary-ammonium targeting and hypoxia-activated prodrugs) using this line as its principal in vitro and xenograft model across many years: MED:21499733 (2012), MED:24972007 (2014), MED:29221170 (2017), MED:30199705 (2018), MED:32948981 (2021), MED:36582458 (2022), MED:37689817 (2023).",
+   "why_it_matters": "If a correction is ever warranted, its practical weight falls disproportionately on one group's model choice rather than being diffuse across the field. \u26a0 STATE THIS NEUTRALLY. These authors mostly describe the line as 'chondrosarcoma', consistent with the supplier's own catalogue entry, and the fusion-status information did not exist in an accessible form until 2021 at the earliest.",
+   "counted_how": "membership read off titles/abstracts in S1; NOT verified against author lists or affiliations"
+  },
+  "FINDING_5_a_second_independent_label_question": {
+   "observation": "Most of the corpus uses the line as a model of CHONDROSARCOMA (a cartilage tumour). EMC is not classified as a cartilaginous tumour under current criteria \u2014 MED:36316541's abstract states verbatim: 'Extraskeletal myxoid chondrosarcoma (EMC) is a malignant mesenchymal neoplasm of uncertain differentiation as classified by the WHO Classification of Tumours 2020.'",
+   "why_it_matters": "This is a SEPARATE labelling issue from the fusion question and predates it. A paper that framed everything as 'the fusion is missing' would miss that the larger exposure by paper count is the chondrosarcoma-vs-EMC gap, which does not depend on the fusion finding at all.",
+   "status": "observation from abstracts; NOT developed"
+  },
+  "_counts_NOT_FINALISED": "Tier A/B/C counts were not finalised because the five fetched full texts were never read. Provisional Tier A is 4 of 43 on abstract evidence. Do not publish a count from this file."
+ },
+ "established_findings": {
+  "fusion_negative_emc_is_a_real_category": {
+   "why_it_matters": "Decisive for fairness \u2014 'no fusion' does not automatically mean 'not EMC'.",
+   "verbatim_evidence_from_S6": [
+    {
+     "pmid": "11679947",
+     "title": "Extraskeletal myxoid chondrosarcoma: a clinicopathologic, immunohistochemical, and molecular analysis of 18 cases.",
+     "quote": "Three fusion-negative cases included 2 conventional EMCSs and 1 considered a \"cellular\" variant of the tumor."
+    },
+    {
+     "pmid": "15262426",
+     "title": "Coexpression of NOR1 and SIX3 proteins in extraskeletal myxoid chondrosarcomas without detectable NR4A3 fusion genes.",
+     "quote": "In our survey of another 18 EMCs, we identified one more case expressing both NOR1 and SIX3 but lacking NR4A3 fusion."
+    },
+    {
+     "pmid": "16220270",
+     "title": "MRI features of extraskeletal myxoid chondrosarcoma.",
+     "quote": "There were six fusion-negative cases."
+    }
+   ],
+   "the_counterweight": "MED:36316541 abstract, verbatim: 'EMCs are translocation sarcomas and harbor in > 90% of the cases an NR4A3 rearrangement.' So fusion-negative EMC is a minority but recognised category."
+  },
+  "side_question_Q6_does_the_line_predate_the_fusion": {
+   "answer": "PARTIALLY ESTABLISHED, and it points YES.",
+   "line_origin_verbatim_from_ECACC_S8": "Oohima, Fumio. Establishment of A New Cell Line from Human Extraskeletal Myxoid Chondrosarcoma. Dokkyo Journal of Medical Sciences 1992; 19:1",
+   "also_from_ECACC_S8": "This extraskeletal myxoid chondrosarcoma has been derived from the muscle of a 77 year old female with metastases found in lymph nodes and lung.",
+   "the_fusion_side": "A 1997 paper in the S5 corpus \u2014 MED:9060841, 'Molecular analysis of the fusion of EWS to an orphan nuclear receptor gene in extraskeletal myxoid chondrosarcoma' \u2014 states verbatim in its abstract: 'A recurrent translocation, t(9;22) (q22;q12), has been recognized in CS, specifically in extraskeletal myxoid CS. Recently, this translocation has been shown to represent a rearrangement of the EWS gene at 22q12 with a novel gene at 9q22 designated CHN (or TEC).' The word 'Recently' as of 1997 places the molecular characterisation after the line's 1992 publication.",
+   "NOT_ESTABLISHED": "The exact first-description date of the EWS\u2013CHN/TEC fusion was NOT verified \u2014 the NCBI esummary that would have dated PMIDs 7635565/7773957/8548119/1782363/2713817/3422040/3567883/8634690/9037350/9060841 was fetched in S10/S11 and never read. Do NOT write a date from recollection.",
+   "if_it_holds": "'An EMC line with no fusion' would resolve substantially as a NAME PREDATING THE CRITERIA rather than as a contradiction \u2014 which materially softens the framing and should be stated up front in anything written."
+  }
+ },
+ "novelty_verdict": {
+  "_status": "CANNOT BE ISSUED \u2014 the category search (the half that decides it) was never read.",
+  "what_IS_established": "On this LINE: the fusion-negative observation exists in print (Gartrell 2021 figure legend) and as a Cellosaurus caution. It has never been the subject of a paper, letter or commentary in the searches actually read (S1\u2013S6). A claim of 'never reported' would be false; a claim of 'never examined, and never propagated to the databases that carry the disease label' is supported by what was read.",
+  "what_is_NOT_established": "Whether the CATEGORY (authentic-but-disease-mislabelled models) already has a literature, a name, or a handling convention. This is the question that decides whether there is a paper here at all, and it is exactly the question left open.",
+  "the_honest_state": "NEAR-MISS CONFIRMED, GAP UNCONFIRMED."
+ },
+ "paper_or_letter": {
+  "_status": "PROVISIONAL \u2014 do not act on this without the category search.",
+  "reasoning_from_what_was_established": "The narrow finding is small: one line lacks one lesion, already noted once in print and already flagged in one database. On its own that is CORRESPONDENCE, not a paper \u2014 and arguably not even that, since Gartrell 2021 and Cellosaurus between them have already said it. The thing that could carry a paper is the ASYMMETRY (see papers_on_this_line.the_database_annotation.the_asymmetry): a caution that stops at one registry while the disease label propagates through ~29 cross-referenced resources into DepMap, GDSC/COSMIC, PharmacoDB, LINCS and FANTOM5. Whether that is novel depends entirely on the unread category search \u2014 specifically the Cellosaurus 'hallmark'/cc:caution censuses, which would establish whether this is one instance or a class with an N.",
+  "what_would_make_it_a_LETTER": "if the category turns out to be well described and only this line's instance is new",
+  "what_would_make_it_a_PAPER": "if the Cellosaurus census shows a class of such lines, and no existing literature names or monitors the failure mode",
+  "what_would_make_it_NEITHER": "if a model-fidelity or authentication paper already covers disease-label mismatch as a recognised category \u2014 the outcome the framing note warns is easiest to miss"
+ },
+ "what_it_would_argue": {
+  "_status": "SKETCH ONLY, not validated against the category literature.",
+  "the_one_sentence": "STR authentication certifies that a cell line is itself, and nothing in the current authentication regime asks whether it is still the disease it is named for \u2014 so a line can be flawlessly authenticated, sold as the reference model for a rare cancer, and lack that cancer's defining lesion, with the disease label propagating through every downstream resource while the doubt stays in a single caution field.",
+  "what_it_must_NOT_claim": [
+   "that the ~37 papers' results are wrong \u2014 the triage found zero fusion-derived claims among them",
+   "that this is a misidentification or contamination \u2014 it is not, and conflating them is the central error to avoid",
+   "that any author erred \u2014 the supplier catalogue, the databases and the publication timeline all supported the label they used",
+   "any count, date or identifier not re-verified from a source"
+  ],
+  "the_honest_missing_piece": "No wet-lab confirmation is possible here. The fusion-negative call rests on DepMap's filtered fusion caller (2 calls, neither naming NR4A3 nor any FET gene), floor-level NR4A3 expression, the absence of a Cellosaurus gene-fusion line, and one figure-legend sentence whose assay is not specified. That is suggestive and consistent, not definitive, and must be stated as such."
+ },
+ "sources": [
+  "/home/user/Rare-cancers/research/modalities/emc-atr-vulnerability.json -> part_a_hemcss_identity",
+  "git commit 842961ad2 \u2014 'H-EMC-SS: the verdict stands, but not on the evidence the registry cites for it' (the dissection of the Gartrell citation)",
+  "/tmp/claude-0/-home-user-Rare-cancers/ab5928bb-8227-53e1-b556-b45029811853/scratchpad/mycorp/ \u2014 Cellosaurus, ECACC, RIKEN, Cell Model Passports, Wikidata, Europe PMC, fetched 2026-08-15 19:02",
+  "/tmp/claude-0/-home-user-Rare-cancers/ab5928bb-8227-53e1-b556-b45029811853/scratchpad/litcache/emc-cell-models-round2b-2026-08-15__pmc_PMC8571037_gartrell.txt \u2014 Gartrell 2021 full text",
+  "/tmp/claude-0/-home-user-Rare-cancers/ab5928bb-8227-53e1-b556-b45029811853/scratchpad/pa_hemcss_rows.json \u2014 the 43-record alias universe, parsed",
+  "/tmp/claude-0/-home-user-Rare-cancers/ab5928bb-8227-53e1-b556-b45029811853/scratchpad/pa_final.min \u2014 the 28-target category corpus that was built and fetched but never read",
+  "GitHub Actions run 31903449704 (failed on a 429, publish skipped) and its re-dispatch ~3:31 PM ET, both on branch claude/emc-aso-coverage-design-fefnhh, slug hemcss-priorart-novelty"
+ ],
+ "_FOR_WHOEVER_PICKS_THIS_UP": [
+  "1. \u2705 THE CATEGORY CORPUS IS ALREADY FETCHED AND WAITING. Actions run 31903660047 completed with conclusion=success and published to the literature-cache branch under literature/hemcss-priorart-novelty/. Start by reading that directory \u2014 it contains the ICLAC, misannotation-terminology, lacks-the-hallmark, STR-insufficiency, sarcoma-line-identity, citation-impact, rare-cancer-model and Cellosaurus census results, plus 4 full texts (PMC9813045 USZ EMC models, PMC5509331 3D chondrosarcoma, PMC13273627 sarcoma drug screen, PMC6516718 EGFR) and the NCBI esummary that dates the fusion-discovery PMIDs. Do NOT re-fetch.",
+  "2. If it is not there, re-dispatch S10's target list (saved at /tmp/claude-0/-home-user-Rare-cancers/ab5928bb-8227-53e1-b556-b45029811853/scratchpad/pa_final.min) MINUS the Semantic Scholar target, which 429s reliably and fails the whole run.",
+  "3. Read the Cellosaurus 'hallmark' and cc:caution censuses first \u2014 they are the cheapest path to turning this from an anecdote into a category with an N, and they decide paper-vs-letter.",
+  "4. Hold the framing in _THE_FRAMING_TO_PRESERVE. The single most likely wrong answer is a false 'already covered' produced by a search that collapses disease-mislabelling into STR misidentification.",
+  "5. Do not publish any count from this file. The triage is abstract-level and its Tier A/B/C counts were never finalised."
+ ]
+}

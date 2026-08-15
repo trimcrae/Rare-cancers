@@ -222,9 +222,33 @@ jobs:
           # bug, and the fix is to accept both.
           JUNCS="$(printf '%s' "$JUNCS" | tr ',' ' ')"
           for jpair in $JUNCS; do
+            # ⭐ FOUR-FIELD FORM ADDED 2026-08-15: `DONOR:donorExon:acceptorExon:published`.
+            # ⛔ IT IS A FIELD OF THIS INPUT RATHER THAN AN ELEVENTH `workflow_dispatch` INPUT, AND
+            # THAT IS FORCED: this file sits AT GitHub's cap of ten, and over the cap GitHub
+            # delivers EVERY input as empty with no error (test_workflow_dispatch_input_cap.py), so
+            # an eleventh would silently run every mode on defaults.
+            # ⛔ AND THE FLAG IS PER JUNCTION, NOT PER DISPATCH, WHICH IS THE WHOLE POINT. It routes
+            # to `PUBLISHED_BREAKPOINT_JUNCTION`, which `junction_aso.published_breakpoint_waiver`
+            # treats as half a lock: the flag says the dispatcher MEANT a published non-canonical
+            # seam, and the whitelist in `aso_noncoding_acceptor_designs` says a report places that
+            # exact seam in a patient. Neither half alone opens the acceptor guard, because the
+            # guard exists to catch a coordinate slip onto a neighbouring exon — which is
+            # indistinguishable from a real breakpoint by exon index alone, and would sail through
+            # a whitelist test if intent were not also required. A dispatch that sets the flag on a
+            # junction nobody sequenced FAILS; a dispatch that omits it hits the ordinary guard.
+            pubflag=""
+            case "$jpair" in
+              *:*:*:*) pubflag="${jpair##*:}"; jpair="${jpair%:*}" ;;
+            esac
             case "$jpair" in
               *:*:*) donor="${jpair%%:*}"; rest="${jpair#*:}"; e="${rest%%:*}"; n="${rest##*:}" ;;
               *)     donor="EWSR1"; e="${jpair%%:*}"; n="${jpair##*:}" ;;
+            esac
+            case "$pubflag" in
+              "")        unset PUBLISHED_BREAKPOINT_JUNCTION ;;
+              published) export PUBLISHED_BREAKPOINT_JUNCTION=1
+                         echo "published-breakpoint waiver REQUESTED for ${donor} e${e} :: NR4A3 e${n} — the whitelist in junction_aso decides whether it is granted" ;;
+              *)         echo "::error::unknown fourth field '${pubflag}' in '${jpair}:${pubflag}' — the only accepted value is 'published'"; exit 1 ;;
             esac
             case "$donor" in
               EWSR1) sfx="-e${e}n${n}${SUFFIX_TAG}" ;;
@@ -241,7 +265,7 @@ jobs:
             NR4A3_EXON_START="$n" OUT_SUFFIX="$sfx" python junction_aso.py          || echo "design failed ${donor} e${e} n${n}"
             NR4A3_EXON_START="$n" OUT_SUFFIX="$sfx" python junction_aso_offtarget.py || echo "offtarget failed ${donor} e${e} n${n}"
             NR4A3_EXON_START="$n" OUT_SUFFIX="$sfx" python aso_insilico.py           || echo "insilico failed ${donor} e${e} n${n}"
-            unset DONOR_GENE EWSR1_EXON_END DONOR_EXON_END
+            unset DONOR_GENE EWSR1_EXON_END DONOR_EXON_END PUBLISHED_BREAKPOINT_JUNCTION
             echo "::endgroup::"
           done
 
@@ -304,6 +328,15 @@ jobs:
           # a transcript database, which would reproduce the defect this step exists to close.
           PREMRNA_GENOMIC: ${{ inputs.screen_mode == 'premrna_genomic' && '1' || '' }}
           PREMRNA_OUT: aso-premrna-offtarget${{ inputs.suffix_tag }}.json
+          # ⛔ THE ATLAS MUST FOLLOW THE SUFFIX TOO, OR A SUFFIXED RUN SCREENS THE WRONG DESIGNS
+          # UNDER THE RIGHT FILENAME. This screen takes its design set FROM an atlas; `suffix_tag`
+          # already moved the OUTPUT aside but left the INPUT on the panel atlas, so a dispatch for
+          # a different junction set would have re-screened the 38-junction panel and written the
+          # result under the new junction set's name — a full, plausible, wrong artifact, which is
+          # the exact failure mode `aso_screen_sets` exists for. A blank suffix resolves to the
+          # committed panel atlas, so every existing dispatch is bit-for-bit unchanged, and it is
+          # spelled the same way `aso_parent_gap_pairing` already resolves its own default.
+          ATLAS_JSON: nr4a3-fusion-junction-atlas${{ inputs.suffix_tag }}.json
         run: python aso_premrna_offtarget.py
 
       - name: Uncapped full-transcriptome evaluation (off-target + accessibility + siRNA seed)
@@ -339,8 +372,22 @@ jobs:
           # `--dir` pointing at the checked-out artifact tree. The module resolves its imports and
           # its exon audit relative to its OWN directory, which is why the inputs travel with it.
           mkdir -p "$RUNNER_TEMP/tool"
+          # ⛔ `aso_screen_sets.py` AND `aso_noncoding_acceptor_designs.py` ARE STAGED BECAUSE THE
+          # TOOL IMPORTS THEM, AND THE FIRST OF THEM WAS MISSING FOR A DAY (measured 2026-08-15).
+          # `junction_seam_retraction` gained `import aso_screen_sets` on 2026-08-14 (commit
+          # 538d2ec4) and this list was not updated with it, so the self-test three lines below
+          # died on `ModuleNotFoundError: No module named 'aso_screen_sets'` — reproduced by copying
+          # exactly these six files to a temp directory and running `--check --dir <empty>`. Since
+          # the self-test is a hard gate, EVERY publish from this workflow would have refused; it
+          # went unnoticed only because no run has been dispatched since. `junction_aso` now reads
+          # the published-breakpoint whitelist out of `aso_noncoding_acceptor_designs`, so that
+          # module travels too. ⚠ THIS LIST IS A HAND-MAINTAINED IMPORT CLOSURE and that is what
+          # failed: `tests/test_junction_seam_retraction.py` asserts the closure is complete by
+          # actually staging and running it, rather than by naming the files it remembers.
           cp research/modalities/junction_seam_retraction.py \
              research/modalities/junction_aso.py \
+             research/modalities/aso_screen_sets.py \
+             research/modalities/aso_noncoding_acceptor_designs.py \
              research/modalities/fusion_breakpoints.py \
              research/modalities/nr4a3-exon-audit.json \
              research/modalities/emc-construct-inputs.json \
@@ -660,6 +707,12 @@ jobs:
         working-directory: research/modalities
         env:
           GENOME_CKPT_DIR: ${{ runner.temp }}/genome-ckpt
+          # ⛔ INPUT AND OUTPUT MOVE TOGETHER OR NOT AT ALL — see the note on the pre-mRNA step's
+          # `ATLAS_JSON`. A suffixed output over the panel's design set would be a wrong artifact
+          # wearing a new name; a panel-suffixed input under the panel's output name would overwrite
+          # the committed screen the manuscript quotes. Blank suffix = the committed pair, unchanged.
+          ATLAS_JSON: nr4a3-fusion-junction-atlas${{ inputs.suffix_tag }}.json
+          GENOME_OUT: aso-genome-offtarget${{ inputs.suffix_tag }}.json
         run: |
           set -euo pipefail
           python aso_genome_offtarget.py \
@@ -701,9 +754,11 @@ jobs:
       # nothing. `PUBLISH_FAIL_HARD=1` because a screen that ran for twenty minutes and never left
       # the runner must be red, and this job is dispatch-only so nothing is emailed on a schedule.
       - name: Publish the genome screen to modalities-cache
+        env:
+          GENOME_OUT: aso-genome-offtarget${{ inputs.suffix_tag }}.json
         run: |
           set -euo pipefail
-          test -s research/modalities/aso-genome-offtarget.json
+          test -s "research/modalities/$GENOME_OUT"
 
           # ⛔⛔ STAGE THE SWEEP TOOL FIRST — `modalities-cache` CARRIES NO CODE. Measured
           # 2026-08-08: `git ls-tree -r origin/modalities-cache | grep -c '\.py$'` returns ZERO, and
@@ -711,8 +766,22 @@ jobs:
           # sweep invoked from `research/modalities` afterwards would fail on a missing file. The
           # tool and every input it reads travel to an absolute path outside the reset.
           mkdir -p "$RUNNER_TEMP/tool" "$RUNNER_TEMP/selftest"
+          # ⛔ `aso_screen_sets.py` AND `aso_noncoding_acceptor_designs.py` ARE STAGED BECAUSE THE
+          # TOOL IMPORTS THEM, AND THE FIRST OF THEM WAS MISSING FOR A DAY (measured 2026-08-15).
+          # `junction_seam_retraction` gained `import aso_screen_sets` on 2026-08-14 (commit
+          # 538d2ec4) and this list was not updated with it, so the self-test three lines below
+          # died on `ModuleNotFoundError: No module named 'aso_screen_sets'` — reproduced by copying
+          # exactly these six files to a temp directory and running `--check --dir <empty>`. Since
+          # the self-test is a hard gate, EVERY publish from this workflow would have refused; it
+          # went unnoticed only because no run has been dispatched since. `junction_aso` now reads
+          # the published-breakpoint whitelist out of `aso_noncoding_acceptor_designs`, so that
+          # module travels too. ⚠ THIS LIST IS A HAND-MAINTAINED IMPORT CLOSURE and that is what
+          # failed: `tests/test_junction_seam_retraction.py` asserts the closure is complete by
+          # actually staging and running it, rather than by naming the files it remembers.
           cp research/modalities/junction_seam_retraction.py \
              research/modalities/junction_aso.py \
+             research/modalities/aso_screen_sets.py \
+             research/modalities/aso_noncoding_acceptor_designs.py \
              research/modalities/fusion_breakpoints.py \
              research/modalities/nr4a3-exon-audit.json \
              research/modalities/emc-construct-inputs.json \
@@ -734,4 +803,4 @@ jobs:
           export PUBLISH_FAIL_HARD=1
           bash research/compute/publish_artifacts.sh modalities-cache \
             "genome-wide ASO off-target screen: exhaustive <=2-mismatch scan of every junction gapmer target window against GRCh38, both orientations, annotated and null-referenced" \
-            research/modalities/aso-genome-offtarget.json
+            "research/modalities/$GENOME_OUT"

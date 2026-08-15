@@ -1,0 +1,3002 @@
+{
+  "_title": "The published NON-CANONICAL NR4A3 fusion junctions, screened to the panel's depth and joined into the panel's field set",
+  "_generated_by": "research/modalities/aso_noncoding_acceptor_screened_table.py",
+  "⛔_this_is_not_the_manuscript_panel": "Every junction here is one the manuscript's 38-junction panel EXCLUDES, by a protein-level filter: the acceptor exon carries no CDS, or the chimeric register does not compose. They are screened because an RNase-H1 gapmer cleaves a transcript rather than a protein. Do not pool these rows into the panel's counts.",
+  "⚠_not_a_measurement_of_its_own": "Nothing here was re-screened. A junction with `screens_complete: true` had its rows built by aso_per_junction_table.junction_rows — the same grader the panel's table uses, called with a different root — and every field is joined from a screen artifact that ran. A junction with `screens_complete: false` has NOT had its alignment screen run: its rows come from this module's `_partial_rows`, carry the same field names (checked against the panel artifact's own row keys), leave every field of an unrun screen null and listed in `⛔_unmeasured_fields`, and have no `best_available`, because the rank key is one of the unmeasured fields. ⛔ The flag is PER JUNCTION: a sibling junction's screen succeeding says nothing about this one.",
+  "⛔_two_axes_not_one": "gap_specificity_margin (fusion-versus-parent discrimination) and the transcriptome load move in opposite directions at some seams and are never combined into a single score. Ranking is by load among designs clearing the parent screen; margin is printed beside it, exactly as in the panel's table.",
+  "geometry": {
+    "oligo_len": 16,
+    "wing": 5,
+    "gap_nt": 6,
+    "architecture": "5-6-5 (LNA-DNA-LNA)",
+    "gap_region_1based": [
+      6,
+      11
+    ]
+  },
+  "_geometry_is_asserted": "load_screens(GEOMETRY, …) refuses any BLAST-family artifact of another geometry, and the parent-duplex and pre-mRNA and genome artifacts are checked against the same geometry from the block each of them states about itself.",
+  "screens": {
+    "transcriptome_blast_deep": {
+      "artifact": "noncoding-acceptor",
+      "ran": true,
+      "screens": [
+        "junction-aso-offtarget-e13n2-deep500.json",
+        "junction-aso-offtarget-e7n2-deep500.json",
+        "junction-aso-offtarget-pgre2n2-deep500.json",
+        "junction-aso-offtarget-taf15e6n2-deep500.json"
+      ],
+      "geometry": {
+        "oligo_len": 16,
+        "wing": 5,
+        "gap_nt": 6,
+        "architecture": "5-6-5 (LNA-DNA-LNA)",
+        "gap_region_1based": [
+          6,
+          11
+        ]
+      },
+      "_geometry_is_measured": "from the designs in each artifact, then checked against the geometry the artifact states about itself"
+    },
+    "exhaustive_transcript_scan": {
+      "artifact": "noncoding-acceptor",
+      "ran": true,
+      "screens": [
+        "aso-insilico-evaluation-e13n2-deep500.json",
+        "aso-insilico-evaluation-e7n2-deep500.json",
+        "aso-insilico-evaluation-pgre2n2-deep500.json",
+        "aso-insilico-evaluation-taf15e6n2-deep500.json"
+      ],
+      "geometry": {
+        "oligo_len": 16,
+        "wing": 5,
+        "gap_nt": 6,
+        "architecture": "5-6-5 (LNA-DNA-LNA)",
+        "gap_region_1based": [
+          6,
+          11
+        ]
+      },
+      "per_design": [
+        {
+          "antisense_5to3": "AGTGGGCTCTCCACGG",
+          "offtarget_exact": 0,
+          "offtarget_le1mm": 1,
+          "site_accessibility": 0.352
+        },
+        {
+          "antisense_5to3": "AGTGGGCTCTTCCATT",
+          "offtarget_exact": 0,
+          "offtarget_le1mm": 14,
+          "site_accessibility": 0.528
+        },
+        {
+          "antisense_5to3": "AGTGGGCTCTTGTGTG",
+          "offtarget_exact": 0,
+          "offtarget_le1mm": 1,
+          "site_accessibility": 0.641
+        },
+        {
+          "antisense_5to3": "AGTGGGCTTCTGCTGC",
+          "offtarget_exact": 0,
+          "offtarget_le1mm": 21,
+          "site_accessibility": 0.52
+        },
+        {
+          "antisense_5to3": "CAGTGGGCTCTCCACG",
+          "offtarget_exact": 0,
+          "offtarget_le1mm": 4,
+          "site_accessibility": 0.353
+        },
+        {
+          "antisense_5to3": "CAGTGGGCTCTTCCAT",
+          "offtarget_exact": 0,
+          "offtarget_le1mm": 1,
+          "site_accessibility": 0.517
+        },
+        {
+          "antisense_5to3": "CAGTGGGCTCTTGTGT",
+          "offtarget_exact": 0,
+          "offtarget_le1mm": 3,
+          "site_accessibility": 0.613
+        },
+        {
+          "antisense_5to3": "CAGTGGGCTTCTGCTG",
+          "offtarget_exact": 0,
+          "offtarget_le1mm": 42,
+          "site_accessibility": 0.523
+        },
+        {
+          "antisense_5to3": "GCAGTGGGCTCTCCAC",
+          "offtarget_exact": 0,
+          "offtarget_le1mm": 82,
+          "site_accessibility": 0.363
+        },
+        {
+          "antisense_5to3": "GCAGTGGGCTCTTCCA",
+          "offtarget_exact": 0,
+          "offtarget_le1mm": 11,
+          "site_accessibility": 0.51
+        },
+        {
+          "antisense_5to3": "GCAGTGGGCTCTTGTG",
+          "offtarget_exact": 0,
+          "offtarget_le1mm": 3,
+          "site_accessibility": 0.584
+        },
+        {
+          "antisense_5to3": "GCAGTGGGCTTCTGCT",
+          "offtarget_exact": 0,
+          "offtarget_le1mm": 88,
+          "site_accessibility": 0.531
+        },
+        {
+          "antisense_5to3": "GTGGGCTCTCCACGGA",
+          "offtarget_exact": 0,
+          "offtarget_le1mm": 9,
+          "site_accessibility": 0.384
+        },
+        {
+          "antisense_5to3": "GTGGGCTCTTCCATTG",
+          "offtarget_exact": 0,
+          "offtarget_le1mm": 7,
+          "site_accessibility": 0.471
+        },
+        {
+          "antisense_5to3": "GTGGGCTCTTGTGTGT",
+          "offtarget_exact": 0,
+          "offtarget_le1mm": 96,
+          "site_accessibility": 0.702
+        },
+        {
+          "antisense_5to3": "GTGGGCTTCTGCTGCC",
+          "offtarget_exact": 0,
+          "offtarget_le1mm": 23,
+          "site_accessibility": 0.506
+        },
+        {
+          "antisense_5to3": "TGGGCTCTCCACGGAG",
+          "offtarget_exact": 0,
+          "offtarget_le1mm": 5,
+          "site_accessibility": 0.422
+        },
+        {
+          "antisense_5to3": "TGGGCTCTTCCATTGC",
+          "offtarget_exact": 1,
+          "offtarget_le1mm": 16,
+          "site_accessibility": 0.466
+        },
+        {
+          "antisense_5to3": "TGGGCTCTTGTGTGTG",
+          "offtarget_exact": 0,
+          "offtarget_le1mm": 15,
+          "site_accessibility": 0.741
+        },
+        {
+          "antisense_5to3": "TGGGCTTCTGCTGCCC",
+          "offtarget_exact": 0,
+          "offtarget_le1mm": 76,
+          "site_accessibility": 0.493
+        }
+      ],
+      "_not_in_the_field_set": "these columns are not part of aso-per-junction-table.json's field set and are not joined into the rows below; they are here so the fifth screen's state is readable rather than inferred"
+    },
+    "mature_parent_gap_pairing": {
+      "artifact": "aso-parent-gap-pairing-noncoding-acceptor.json",
+      "ran": true,
+      "parents_searched": [
+        "EWSR1",
+        "FUS",
+        "NR4A3",
+        "TAF15",
+        "TCF12",
+        "TFG"
+      ],
+      "min_duplex_bp": 10
+    },
+    "premrna": {
+      "artifact": "aso-premrna-offtarget-noncoding-acceptor.json",
+      "ran": true,
+      "genes": [
+        "EWSR1",
+        "FUS",
+        "NR4A3",
+        "TAF15",
+        "TCF12",
+        "TFG"
+      ],
+      "corpus": {
+        "designs": 20,
+        "with_any_hit": 3,
+        "with_hybridisable_gap_paired": 2,
+        "with_a_liability_invisible_to_mature_screens": 2
+      },
+      "genome_wide_arm": false
+    },
+    "genome_grch38": {
+      "artifact": "aso-genome-offtarget-noncoding-acceptor.json",
+      "ran": true,
+      "reference": {
+        "fasta": "Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa.gz",
+        "gtf": "Homo_sapiens.GRCh38.116.gtf.gz",
+        "annotation": "Ensembl GTF",
+        "n_sequences": 194,
+        "n_genes_annotated": 78941,
+        "n_exons_annotated": 5087789,
+        "n_splice_sites_annotated": 865648,
+        "_why_soft_masked": "a dna_sm reference is soft-masked by name, so the repeat annotation arrives verified rather than assumed, and the repeat split below is free",
+        "soft_mask_probe": {
+          "probed_nt": 20000150,
+          "lowercase_fraction": 0.4932,
+          "looks_soft_masked": true
+        }
+      },
+      "denominator": {
+        "_why_this_matters": "the manuscript currently carries an ASSUMED 3e8-8e8 nucleotide transcriptome span because the screens record transcripts scanned rather than nucleotides. This screen measures its own denominator, so every expectation below is referred to a number that was counted.",
+        "total_nt": 3099750718,
+        "softmasked_nt": 1594222653,
+        "softmask_fraction": 0.5143,
+        "windows_total": 3099747808,
+        "windows_with_N": 151138112,
+        "windows_scanned": 2948609696,
+        "n_fraction": 0.0488,
+        "per_sequence": [
+          {
+            "name": "1",
+            "nt": 248956422,
+            "softmasked_nt": 123071754,
+            "windows_total": 248956407,
+            "windows_with_N": 18477621,
+            "windows_scanned": 230478786,
+            "n_hits_le2": 3339
+          },
+          {
+            "name": "10",
+            "nt": 133797422,
+            "softmasked_nt": 68966731,
+            "windows_total": 133797407,
+            "windows_with_N": 535616,
+            "windows_scanned": 133261791,
+            "n_hits_le2": 2049
+          },
+          {
+            "name": "11",
+            "nt": 135086622,
+            "softmasked_nt": 72642444,
+            "windows_total": 135086607,
+            "windows_with_N": 553105,
+            "windows_scanned": 134533502,
+            "n_hits_le2": 2050
+          },
+          {
+            "name": "12",
+            "nt": 133275309,
+            "softmasked_nt": 72687370,
+            "windows_total": 133275294,
+            "windows_with_N": 137913,
+            "windows_scanned": 133137381,
+            "n_hits_le2": 1696
+          },
+          {
+            "name": "13",
+            "nt": 114364328,
+            "softmasked_nt": 50264556,
+            "windows_total": 114364313,
+            "windows_with_N": 16381504,
+            "windows_scanned": 97982809,
+            "n_hits_le2": 1204
+          },
+          {
+            "name": "14",
+            "nt": 107043718,
+            "softmasked_nt": 48164170,
+            "windows_total": 107043703,
+            "windows_with_N": 16475914,
+            "windows_scanned": 90567789,
+            "n_hits_le2": 1174
+          },
+          {
+            "name": "15",
+            "nt": 101991189,
+            "softmasked_nt": 44934450,
+            "windows_total": 101991174,
+            "windows_with_N": 17350108,
+            "windows_scanned": 84641066,
+            "n_hits_le2": 1316
+          },
+          {
+            "name": "16",
+            "nt": 90338345,
+            "softmasked_nt": 44385457,
+            "windows_total": 90338330,
+            "windows_with_N": 8532702,
+            "windows_scanned": 81805628,
+            "n_hits_le2": 1442
+          },
+          {
+            "name": "17",
+            "nt": 83257441,
+            "softmasked_nt": 44744340,
+            "windows_total": 83257426,
+            "windows_with_N": 337927,
+            "windows_scanned": 82919499,
+            "n_hits_le2": 1344
+          },
+          {
+            "name": "18",
+            "nt": 80373285,
+            "softmasked_nt": 42290603,
+            "windows_total": 80373270,
+            "windows_with_N": 284400,
+            "windows_scanned": 80088870,
+            "n_hits_le2": 969
+          },
+          {
+            "name": "19",
+            "nt": 58617616,
+            "softmasked_nt": 36302496,
+            "windows_total": 58617601,
+            "windows_with_N": 176963,
+            "windows_scanned": 58440638,
+            "n_hits_le2": 1080
+          },
+          {
+            "name": "2",
+            "nt": 242193529,
+            "softmasked_nt": 122380791,
+            "windows_total": 242193514,
+            "windows_with_N": 1645774,
+            "windows_scanned": 240547740,
+            "n_hits_le2": 3380
+          },
+          {
+            "name": "20",
+            "nt": 64444167,
+            "softmasked_nt": 35787350,
+            "windows_total": 64444152,
+            "windows_with_N": 501230,
+            "windows_scanned": 63942922,
+            "n_hits_le2": 1174
+          },
+          {
+            "name": "21",
+            "nt": 46709983,
+            "softmasked_nt": 22752430,
+            "windows_total": 46709968,
+            "windows_with_N": 6622114,
+            "windows_scanned": 40087854,
+            "n_hits_le2": 594
+          },
+          {
+            "name": "22",
+            "nt": 50818468,
+            "softmasked_nt": 22607031,
+            "windows_total": 50818453,
+            "windows_with_N": 11659396,
+            "windows_scanned": 39159057,
+            "n_hits_le2": 902
+          },
+          {
+            "name": "3",
+            "nt": 198295559,
+            "softmasked_nt": 104745563,
+            "windows_total": 198295544,
+            "windows_with_N": 195829,
+            "windows_scanned": 198099715,
+            "n_hits_le2": 2429
+          },
+          {
+            "name": "4",
+            "nt": 190214555,
+            "softmasked_nt": 101502268,
+            "windows_total": 190214540,
+            "windows_with_N": 462128,
+            "windows_scanned": 189752412,
+            "n_hits_le2": 2086
+          },
+          {
+            "name": "5",
+            "nt": 181538259,
+            "softmasked_nt": 96185585,
+            "windows_total": 181538244,
+            "windows_with_N": 273406,
+            "windows_scanned": 181264838,
+            "n_hits_le2": 2234
+          },
+          {
+            "name": "6",
+            "nt": 170805979,
+            "softmasked_nt": 87820685,
+            "windows_total": 170805964,
+            "windows_with_N": 727667,
+            "windows_scanned": 170078297,
+            "n_hits_le2": 2222
+          },
+          {
+            "name": "7",
+            "nt": 159345973,
+            "softmasked_nt": 84868605,
+            "windows_total": 159345958,
+            "windows_with_N": 376112,
+            "windows_scanned": 158969846,
+            "n_hits_le2": 2183
+          },
+          {
+            "name": "8",
+            "nt": 145138636,
+            "softmasked_nt": 76903503,
+            "windows_total": 145138621,
+            "windows_with_N": 370650,
+            "windows_scanned": 144767971,
+            "n_hits_le2": 1883
+          },
+          {
+            "name": "9",
+            "nt": 138394717,
+            "softmasked_nt": 65652839,
+            "windows_total": 138394702,
+            "windows_with_N": 16604827,
+            "windows_scanned": 121789875,
+            "n_hits_le2": 1840
+          },
+          {
+            "name": "GL000008.2",
+            "nt": 209709,
+            "softmasked_nt": 131509,
+            "windows_total": 209694,
+            "windows_with_N": 0,
+            "windows_scanned": 209694,
+            "n_hits_le2": 2
+          },
+          {
+            "name": "GL000009.2",
+            "nt": 201709,
+            "softmasked_nt": 122003,
+            "windows_total": 201694,
+            "windows_with_N": 0,
+            "windows_scanned": 201694,
+            "n_hits_le2": 5
+          },
+          {
+            "name": "GL000194.1",
+            "nt": 191469,
+            "softmasked_nt": 111783,
+            "windows_total": 191454,
+            "windows_with_N": 0,
+            "windows_scanned": 191454,
+            "n_hits_le2": 1
+          },
+          {
+            "name": "GL000195.1",
+            "nt": 182896,
+            "softmasked_nt": 104018,
+            "windows_total": 182881,
+            "windows_with_N": 0,
+            "windows_scanned": 182881,
+            "n_hits_le2": 8
+          },
+          {
+            "name": "GL000205.2",
+            "nt": 185591,
+            "softmasked_nt": 129054,
+            "windows_total": 185576,
+            "windows_with_N": 0,
+            "windows_scanned": 185576,
+            "n_hits_le2": 4
+          },
+          {
+            "name": "GL000208.1",
+            "nt": 92689,
+            "softmasked_nt": 92202,
+            "windows_total": 92674,
+            "windows_with_N": 0,
+            "windows_scanned": 92674,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "GL000213.1",
+            "nt": 164239,
+            "softmasked_nt": 77103,
+            "windows_total": 164224,
+            "windows_with_N": 0,
+            "windows_scanned": 164224,
+            "n_hits_le2": 1
+          },
+          {
+            "name": "GL000214.1",
+            "nt": 137718,
+            "softmasked_nt": 89748,
+            "windows_total": 137703,
+            "windows_with_N": 0,
+            "windows_scanned": 137703,
+            "n_hits_le2": 5
+          },
+          {
+            "name": "GL000216.2",
+            "nt": 176608,
+            "softmasked_nt": 148190,
+            "windows_total": 176593,
+            "windows_with_N": 251,
+            "windows_scanned": 176342,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "GL000218.1",
+            "nt": 161147,
+            "softmasked_nt": 94786,
+            "windows_total": 161132,
+            "windows_with_N": 0,
+            "windows_scanned": 161132,
+            "n_hits_le2": 1
+          },
+          {
+            "name": "GL000219.1",
+            "nt": 179198,
+            "softmasked_nt": 119378,
+            "windows_total": 179183,
+            "windows_with_N": 0,
+            "windows_scanned": 179183,
+            "n_hits_le2": 8
+          },
+          {
+            "name": "GL000220.1",
+            "nt": 161802,
+            "softmasked_nt": 104182,
+            "windows_total": 161787,
+            "windows_with_N": 0,
+            "windows_scanned": 161787,
+            "n_hits_le2": 3
+          },
+          {
+            "name": "GL000221.1",
+            "nt": 155397,
+            "softmasked_nt": 95331,
+            "windows_total": 155382,
+            "windows_with_N": 0,
+            "windows_scanned": 155382,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "GL000224.1",
+            "nt": 179693,
+            "softmasked_nt": 150996,
+            "windows_total": 179678,
+            "windows_with_N": 0,
+            "windows_scanned": 179678,
+            "n_hits_le2": 4
+          },
+          {
+            "name": "GL000225.1",
+            "nt": 211173,
+            "softmasked_nt": 157586,
+            "windows_total": 211158,
+            "windows_with_N": 0,
+            "windows_scanned": 211158,
+            "n_hits_le2": 1
+          },
+          {
+            "name": "GL000226.1",
+            "nt": 15008,
+            "softmasked_nt": 15003,
+            "windows_total": 14993,
+            "windows_with_N": 0,
+            "windows_scanned": 14993,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270302.1",
+            "nt": 2274,
+            "softmasked_nt": 2272,
+            "windows_total": 2259,
+            "windows_with_N": 0,
+            "windows_scanned": 2259,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270303.1",
+            "nt": 1942,
+            "softmasked_nt": 1942,
+            "windows_total": 1927,
+            "windows_with_N": 0,
+            "windows_scanned": 1927,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270304.1",
+            "nt": 2165,
+            "softmasked_nt": 2165,
+            "windows_total": 2150,
+            "windows_with_N": 0,
+            "windows_scanned": 2150,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270305.1",
+            "nt": 1472,
+            "softmasked_nt": 1472,
+            "windows_total": 1457,
+            "windows_with_N": 0,
+            "windows_scanned": 1457,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270310.1",
+            "nt": 1201,
+            "softmasked_nt": 1201,
+            "windows_total": 1186,
+            "windows_with_N": 0,
+            "windows_scanned": 1186,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270311.1",
+            "nt": 12399,
+            "softmasked_nt": 12397,
+            "windows_total": 12384,
+            "windows_with_N": 9448,
+            "windows_scanned": 2936,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270312.1",
+            "nt": 998,
+            "softmasked_nt": 996,
+            "windows_total": 983,
+            "windows_with_N": 0,
+            "windows_scanned": 983,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270315.1",
+            "nt": 2276,
+            "softmasked_nt": 2276,
+            "windows_total": 2261,
+            "windows_with_N": 0,
+            "windows_scanned": 2261,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270316.1",
+            "nt": 1444,
+            "softmasked_nt": 1443,
+            "windows_total": 1429,
+            "windows_with_N": 0,
+            "windows_scanned": 1429,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270317.1",
+            "nt": 37690,
+            "softmasked_nt": 37688,
+            "windows_total": 37675,
+            "windows_with_N": 34081,
+            "windows_scanned": 3594,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270320.1",
+            "nt": 4416,
+            "softmasked_nt": 4414,
+            "windows_total": 4401,
+            "windows_with_N": 0,
+            "windows_scanned": 4401,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270322.1",
+            "nt": 21476,
+            "softmasked_nt": 21461,
+            "windows_total": 21461,
+            "windows_with_N": 15298,
+            "windows_scanned": 6163,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270329.1",
+            "nt": 1040,
+            "softmasked_nt": 1038,
+            "windows_total": 1025,
+            "windows_with_N": 0,
+            "windows_scanned": 1025,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270330.1",
+            "nt": 1652,
+            "softmasked_nt": 542,
+            "windows_total": 1637,
+            "windows_with_N": 0,
+            "windows_scanned": 1637,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270333.1",
+            "nt": 2699,
+            "softmasked_nt": 2699,
+            "windows_total": 2684,
+            "windows_with_N": 0,
+            "windows_scanned": 2684,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270334.1",
+            "nt": 1368,
+            "softmasked_nt": 1366,
+            "windows_total": 1353,
+            "windows_with_N": 0,
+            "windows_scanned": 1353,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270335.1",
+            "nt": 1048,
+            "softmasked_nt": 1048,
+            "windows_total": 1033,
+            "windows_with_N": 0,
+            "windows_scanned": 1033,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270336.1",
+            "nt": 1026,
+            "softmasked_nt": 1025,
+            "windows_total": 1011,
+            "windows_with_N": 0,
+            "windows_scanned": 1011,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270337.1",
+            "nt": 1121,
+            "softmasked_nt": 1121,
+            "windows_total": 1106,
+            "windows_with_N": 0,
+            "windows_scanned": 1106,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270338.1",
+            "nt": 1428,
+            "softmasked_nt": 1428,
+            "windows_total": 1413,
+            "windows_with_N": 0,
+            "windows_scanned": 1413,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270340.1",
+            "nt": 1428,
+            "softmasked_nt": 1428,
+            "windows_total": 1413,
+            "windows_with_N": 0,
+            "windows_scanned": 1413,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270362.1",
+            "nt": 3530,
+            "softmasked_nt": 3530,
+            "windows_total": 3515,
+            "windows_with_N": 0,
+            "windows_scanned": 3515,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270363.1",
+            "nt": 1803,
+            "softmasked_nt": 1803,
+            "windows_total": 1788,
+            "windows_with_N": 0,
+            "windows_scanned": 1788,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270364.1",
+            "nt": 2855,
+            "softmasked_nt": 2853,
+            "windows_total": 2840,
+            "windows_with_N": 0,
+            "windows_scanned": 2840,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270366.1",
+            "nt": 8320,
+            "softmasked_nt": 8301,
+            "windows_total": 8305,
+            "windows_with_N": 0,
+            "windows_scanned": 8305,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270371.1",
+            "nt": 2805,
+            "softmasked_nt": 2805,
+            "windows_total": 2790,
+            "windows_with_N": 0,
+            "windows_scanned": 2790,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270372.1",
+            "nt": 1650,
+            "softmasked_nt": 1649,
+            "windows_total": 1635,
+            "windows_with_N": 0,
+            "windows_scanned": 1635,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270373.1",
+            "nt": 1451,
+            "softmasked_nt": 1451,
+            "windows_total": 1436,
+            "windows_with_N": 0,
+            "windows_scanned": 1436,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270374.1",
+            "nt": 2656,
+            "softmasked_nt": 2655,
+            "windows_total": 2641,
+            "windows_with_N": 0,
+            "windows_scanned": 2641,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270375.1",
+            "nt": 2378,
+            "softmasked_nt": 2377,
+            "windows_total": 2363,
+            "windows_with_N": 0,
+            "windows_scanned": 2363,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270376.1",
+            "nt": 1136,
+            "softmasked_nt": 1135,
+            "windows_total": 1121,
+            "windows_with_N": 0,
+            "windows_scanned": 1121,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270378.1",
+            "nt": 1048,
+            "softmasked_nt": 1048,
+            "windows_total": 1033,
+            "windows_with_N": 0,
+            "windows_scanned": 1033,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270379.1",
+            "nt": 1045,
+            "softmasked_nt": 1045,
+            "windows_total": 1030,
+            "windows_with_N": 0,
+            "windows_scanned": 1030,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270381.1",
+            "nt": 1930,
+            "softmasked_nt": 1930,
+            "windows_total": 1915,
+            "windows_with_N": 0,
+            "windows_scanned": 1915,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270382.1",
+            "nt": 4215,
+            "softmasked_nt": 4214,
+            "windows_total": 4200,
+            "windows_with_N": 0,
+            "windows_scanned": 4200,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270383.1",
+            "nt": 1750,
+            "softmasked_nt": 1748,
+            "windows_total": 1735,
+            "windows_with_N": 0,
+            "windows_scanned": 1735,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270384.1",
+            "nt": 1658,
+            "softmasked_nt": 1657,
+            "windows_total": 1643,
+            "windows_with_N": 0,
+            "windows_scanned": 1643,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270385.1",
+            "nt": 990,
+            "softmasked_nt": 990,
+            "windows_total": 975,
+            "windows_with_N": 0,
+            "windows_scanned": 975,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270386.1",
+            "nt": 1788,
+            "softmasked_nt": 1787,
+            "windows_total": 1773,
+            "windows_with_N": 0,
+            "windows_scanned": 1773,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270387.1",
+            "nt": 1537,
+            "softmasked_nt": 1537,
+            "windows_total": 1522,
+            "windows_with_N": 0,
+            "windows_scanned": 1522,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270388.1",
+            "nt": 1216,
+            "softmasked_nt": 1215,
+            "windows_total": 1201,
+            "windows_with_N": 0,
+            "windows_scanned": 1201,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270389.1",
+            "nt": 1298,
+            "softmasked_nt": 1298,
+            "windows_total": 1283,
+            "windows_with_N": 0,
+            "windows_scanned": 1283,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270390.1",
+            "nt": 2387,
+            "softmasked_nt": 2387,
+            "windows_total": 2372,
+            "windows_with_N": 0,
+            "windows_scanned": 2372,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270391.1",
+            "nt": 1484,
+            "softmasked_nt": 1484,
+            "windows_total": 1469,
+            "windows_with_N": 0,
+            "windows_scanned": 1469,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270392.1",
+            "nt": 971,
+            "softmasked_nt": 969,
+            "windows_total": 956,
+            "windows_with_N": 0,
+            "windows_scanned": 956,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270393.1",
+            "nt": 1308,
+            "softmasked_nt": 1307,
+            "windows_total": 1293,
+            "windows_with_N": 0,
+            "windows_scanned": 1293,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270394.1",
+            "nt": 970,
+            "softmasked_nt": 970,
+            "windows_total": 955,
+            "windows_with_N": 0,
+            "windows_scanned": 955,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270395.1",
+            "nt": 1143,
+            "softmasked_nt": 1139,
+            "windows_total": 1128,
+            "windows_with_N": 0,
+            "windows_scanned": 1128,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270396.1",
+            "nt": 1880,
+            "softmasked_nt": 1878,
+            "windows_total": 1865,
+            "windows_with_N": 0,
+            "windows_scanned": 1865,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270411.1",
+            "nt": 2646,
+            "softmasked_nt": 2644,
+            "windows_total": 2631,
+            "windows_with_N": 0,
+            "windows_scanned": 2631,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270412.1",
+            "nt": 1179,
+            "softmasked_nt": 1178,
+            "windows_total": 1164,
+            "windows_with_N": 0,
+            "windows_scanned": 1164,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270414.1",
+            "nt": 2489,
+            "softmasked_nt": 2489,
+            "windows_total": 2474,
+            "windows_with_N": 0,
+            "windows_scanned": 2474,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270417.1",
+            "nt": 2043,
+            "softmasked_nt": 2039,
+            "windows_total": 2028,
+            "windows_with_N": 0,
+            "windows_scanned": 2028,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270418.1",
+            "nt": 2145,
+            "softmasked_nt": 2142,
+            "windows_total": 2130,
+            "windows_with_N": 0,
+            "windows_scanned": 2130,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270419.1",
+            "nt": 1029,
+            "softmasked_nt": 1027,
+            "windows_total": 1014,
+            "windows_with_N": 0,
+            "windows_scanned": 1014,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270420.1",
+            "nt": 2321,
+            "softmasked_nt": 2321,
+            "windows_total": 2306,
+            "windows_with_N": 0,
+            "windows_scanned": 2306,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270422.1",
+            "nt": 1445,
+            "softmasked_nt": 1445,
+            "windows_total": 1430,
+            "windows_with_N": 0,
+            "windows_scanned": 1430,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270423.1",
+            "nt": 981,
+            "softmasked_nt": 977,
+            "windows_total": 966,
+            "windows_with_N": 0,
+            "windows_scanned": 966,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270424.1",
+            "nt": 2140,
+            "softmasked_nt": 2137,
+            "windows_total": 2125,
+            "windows_with_N": 0,
+            "windows_scanned": 2125,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270425.1",
+            "nt": 1884,
+            "softmasked_nt": 1878,
+            "windows_total": 1869,
+            "windows_with_N": 0,
+            "windows_scanned": 1869,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270429.1",
+            "nt": 1361,
+            "softmasked_nt": 1361,
+            "windows_total": 1346,
+            "windows_with_N": 0,
+            "windows_scanned": 1346,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270435.1",
+            "nt": 92983,
+            "softmasked_nt": 92942,
+            "windows_total": 92968,
+            "windows_with_N": 126,
+            "windows_scanned": 92842,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270438.1",
+            "nt": 112505,
+            "softmasked_nt": 108417,
+            "windows_total": 112490,
+            "windows_with_N": 28584,
+            "windows_scanned": 83906,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270442.1",
+            "nt": 392061,
+            "softmasked_nt": 343611,
+            "windows_total": 392046,
+            "windows_with_N": 21272,
+            "windows_scanned": 370774,
+            "n_hits_le2": 3
+          },
+          {
+            "name": "KI270448.1",
+            "nt": 7992,
+            "softmasked_nt": 6861,
+            "windows_total": 7977,
+            "windows_with_N": 0,
+            "windows_scanned": 7977,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270465.1",
+            "nt": 1774,
+            "softmasked_nt": 1774,
+            "windows_total": 1759,
+            "windows_with_N": 0,
+            "windows_scanned": 1759,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270466.1",
+            "nt": 1233,
+            "softmasked_nt": 1233,
+            "windows_total": 1218,
+            "windows_with_N": 0,
+            "windows_scanned": 1218,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270467.1",
+            "nt": 3920,
+            "softmasked_nt": 3915,
+            "windows_total": 3905,
+            "windows_with_N": 0,
+            "windows_scanned": 3905,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270468.1",
+            "nt": 4055,
+            "softmasked_nt": 4055,
+            "windows_total": 4040,
+            "windows_with_N": 0,
+            "windows_scanned": 4040,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270507.1",
+            "nt": 5353,
+            "softmasked_nt": 5353,
+            "windows_total": 5338,
+            "windows_with_N": 0,
+            "windows_scanned": 5338,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270508.1",
+            "nt": 1951,
+            "softmasked_nt": 1951,
+            "windows_total": 1936,
+            "windows_with_N": 0,
+            "windows_scanned": 1936,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270509.1",
+            "nt": 2318,
+            "softmasked_nt": 2317,
+            "windows_total": 2303,
+            "windows_with_N": 0,
+            "windows_scanned": 2303,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270510.1",
+            "nt": 2415,
+            "softmasked_nt": 2414,
+            "windows_total": 2400,
+            "windows_with_N": 0,
+            "windows_scanned": 2400,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270511.1",
+            "nt": 8127,
+            "softmasked_nt": 8123,
+            "windows_total": 8112,
+            "windows_with_N": 0,
+            "windows_scanned": 8112,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270512.1",
+            "nt": 22689,
+            "softmasked_nt": 22667,
+            "windows_total": 22674,
+            "windows_with_N": 0,
+            "windows_scanned": 22674,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270515.1",
+            "nt": 6361,
+            "softmasked_nt": 6361,
+            "windows_total": 6346,
+            "windows_with_N": 0,
+            "windows_scanned": 6346,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270516.1",
+            "nt": 1300,
+            "softmasked_nt": 1296,
+            "windows_total": 1285,
+            "windows_with_N": 0,
+            "windows_scanned": 1285,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270517.1",
+            "nt": 3253,
+            "softmasked_nt": 3250,
+            "windows_total": 3238,
+            "windows_with_N": 0,
+            "windows_scanned": 3238,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270518.1",
+            "nt": 2186,
+            "softmasked_nt": 2184,
+            "windows_total": 2171,
+            "windows_with_N": 0,
+            "windows_scanned": 2171,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270519.1",
+            "nt": 138126,
+            "softmasked_nt": 138047,
+            "windows_total": 138111,
+            "windows_with_N": 518,
+            "windows_scanned": 137593,
+            "n_hits_le2": 1
+          },
+          {
+            "name": "KI270521.1",
+            "nt": 7642,
+            "softmasked_nt": 6381,
+            "windows_total": 7627,
+            "windows_with_N": 0,
+            "windows_scanned": 7627,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270522.1",
+            "nt": 5674,
+            "softmasked_nt": 5666,
+            "windows_total": 5659,
+            "windows_with_N": 0,
+            "windows_scanned": 5659,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270528.1",
+            "nt": 2983,
+            "softmasked_nt": 2979,
+            "windows_total": 2968,
+            "windows_with_N": 0,
+            "windows_scanned": 2968,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270529.1",
+            "nt": 1899,
+            "softmasked_nt": 1899,
+            "windows_total": 1884,
+            "windows_with_N": 0,
+            "windows_scanned": 1884,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270530.1",
+            "nt": 2168,
+            "softmasked_nt": 2168,
+            "windows_total": 2153,
+            "windows_with_N": 0,
+            "windows_scanned": 2153,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270538.1",
+            "nt": 91309,
+            "softmasked_nt": 91298,
+            "windows_total": 91294,
+            "windows_with_N": 27772,
+            "windows_scanned": 63522,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270539.1",
+            "nt": 993,
+            "softmasked_nt": 986,
+            "windows_total": 978,
+            "windows_with_N": 0,
+            "windows_scanned": 978,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270544.1",
+            "nt": 1202,
+            "softmasked_nt": 1202,
+            "windows_total": 1187,
+            "windows_with_N": 0,
+            "windows_scanned": 1187,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270548.1",
+            "nt": 1599,
+            "softmasked_nt": 1597,
+            "windows_total": 1584,
+            "windows_with_N": 0,
+            "windows_scanned": 1584,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270579.1",
+            "nt": 31033,
+            "softmasked_nt": 30331,
+            "windows_total": 31018,
+            "windows_with_N": 0,
+            "windows_scanned": 31018,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270580.1",
+            "nt": 1553,
+            "softmasked_nt": 1551,
+            "windows_total": 1538,
+            "windows_with_N": 0,
+            "windows_scanned": 1538,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270581.1",
+            "nt": 7046,
+            "softmasked_nt": 6967,
+            "windows_total": 7031,
+            "windows_with_N": 0,
+            "windows_scanned": 7031,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270582.1",
+            "nt": 6504,
+            "softmasked_nt": 6429,
+            "windows_total": 6489,
+            "windows_with_N": 0,
+            "windows_scanned": 6489,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270583.1",
+            "nt": 1400,
+            "softmasked_nt": 1147,
+            "windows_total": 1385,
+            "windows_with_N": 0,
+            "windows_scanned": 1385,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270584.1",
+            "nt": 4513,
+            "softmasked_nt": 4501,
+            "windows_total": 4498,
+            "windows_with_N": 0,
+            "windows_scanned": 4498,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270587.1",
+            "nt": 2969,
+            "softmasked_nt": 2969,
+            "windows_total": 2954,
+            "windows_with_N": 0,
+            "windows_scanned": 2954,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270588.1",
+            "nt": 6158,
+            "softmasked_nt": 6153,
+            "windows_total": 6143,
+            "windows_with_N": 0,
+            "windows_scanned": 6143,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270589.1",
+            "nt": 44474,
+            "softmasked_nt": 44455,
+            "windows_total": 44459,
+            "windows_with_N": 9138,
+            "windows_scanned": 35321,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270590.1",
+            "nt": 4685,
+            "softmasked_nt": 4669,
+            "windows_total": 4670,
+            "windows_with_N": 0,
+            "windows_scanned": 4670,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270591.1",
+            "nt": 5796,
+            "softmasked_nt": 5782,
+            "windows_total": 5781,
+            "windows_with_N": 0,
+            "windows_scanned": 5781,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270593.1",
+            "nt": 3041,
+            "softmasked_nt": 3041,
+            "windows_total": 3026,
+            "windows_with_N": 0,
+            "windows_scanned": 3026,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270706.1",
+            "nt": 175055,
+            "softmasked_nt": 109721,
+            "windows_total": 175040,
+            "windows_with_N": 0,
+            "windows_scanned": 175040,
+            "n_hits_le2": 6
+          },
+          {
+            "name": "KI270707.1",
+            "nt": 32032,
+            "softmasked_nt": 28436,
+            "windows_total": 32017,
+            "windows_with_N": 0,
+            "windows_scanned": 32017,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270708.1",
+            "nt": 127682,
+            "softmasked_nt": 106707,
+            "windows_total": 127667,
+            "windows_with_N": 0,
+            "windows_scanned": 127667,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270709.1",
+            "nt": 66860,
+            "softmasked_nt": 44010,
+            "windows_total": 66845,
+            "windows_with_N": 0,
+            "windows_scanned": 66845,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270710.1",
+            "nt": 40176,
+            "softmasked_nt": 19527,
+            "windows_total": 40161,
+            "windows_with_N": 0,
+            "windows_scanned": 40161,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270711.1",
+            "nt": 42210,
+            "softmasked_nt": 15919,
+            "windows_total": 42195,
+            "windows_with_N": 0,
+            "windows_scanned": 42195,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270712.1",
+            "nt": 176043,
+            "softmasked_nt": 103894,
+            "windows_total": 176028,
+            "windows_with_N": 0,
+            "windows_scanned": 176028,
+            "n_hits_le2": 6
+          },
+          {
+            "name": "KI270713.1",
+            "nt": 40745,
+            "softmasked_nt": 16973,
+            "windows_total": 40730,
+            "windows_with_N": 0,
+            "windows_scanned": 40730,
+            "n_hits_le2": 1
+          },
+          {
+            "name": "KI270714.1",
+            "nt": 41717,
+            "softmasked_nt": 15153,
+            "windows_total": 41702,
+            "windows_with_N": 0,
+            "windows_scanned": 41702,
+            "n_hits_le2": 5
+          },
+          {
+            "name": "KI270715.1",
+            "nt": 161471,
+            "softmasked_nt": 161469,
+            "windows_total": 161456,
+            "windows_with_N": 0,
+            "windows_scanned": 161456,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270716.1",
+            "nt": 153799,
+            "softmasked_nt": 153778,
+            "windows_total": 153784,
+            "windows_with_N": 0,
+            "windows_scanned": 153784,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270717.1",
+            "nt": 40062,
+            "softmasked_nt": 24473,
+            "windows_total": 40047,
+            "windows_with_N": 0,
+            "windows_scanned": 40047,
+            "n_hits_le2": 1
+          },
+          {
+            "name": "KI270718.1",
+            "nt": 38054,
+            "softmasked_nt": 19980,
+            "windows_total": 38039,
+            "windows_with_N": 0,
+            "windows_scanned": 38039,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270719.1",
+            "nt": 176845,
+            "softmasked_nt": 92355,
+            "windows_total": 176830,
+            "windows_with_N": 0,
+            "windows_scanned": 176830,
+            "n_hits_le2": 4
+          },
+          {
+            "name": "KI270720.1",
+            "nt": 39050,
+            "softmasked_nt": 22904,
+            "windows_total": 39035,
+            "windows_with_N": 0,
+            "windows_scanned": 39035,
+            "n_hits_le2": 3
+          },
+          {
+            "name": "KI270721.1",
+            "nt": 100316,
+            "softmasked_nt": 15606,
+            "windows_total": 100301,
+            "windows_with_N": 0,
+            "windows_scanned": 100301,
+            "n_hits_le2": 12
+          },
+          {
+            "name": "KI270722.1",
+            "nt": 194050,
+            "softmasked_nt": 151287,
+            "windows_total": 194035,
+            "windows_with_N": 0,
+            "windows_scanned": 194035,
+            "n_hits_le2": 1
+          },
+          {
+            "name": "KI270723.1",
+            "nt": 38115,
+            "softmasked_nt": 20542,
+            "windows_total": 38100,
+            "windows_with_N": 0,
+            "windows_scanned": 38100,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270724.1",
+            "nt": 39555,
+            "softmasked_nt": 19776,
+            "windows_total": 39540,
+            "windows_with_N": 0,
+            "windows_scanned": 39540,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270725.1",
+            "nt": 172810,
+            "softmasked_nt": 95823,
+            "windows_total": 172795,
+            "windows_with_N": 0,
+            "windows_scanned": 172795,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270726.1",
+            "nt": 43739,
+            "softmasked_nt": 24885,
+            "windows_total": 43724,
+            "windows_with_N": 0,
+            "windows_scanned": 43724,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270727.1",
+            "nt": 448248,
+            "softmasked_nt": 230081,
+            "windows_total": 448233,
+            "windows_with_N": 0,
+            "windows_scanned": 448233,
+            "n_hits_le2": 4
+          },
+          {
+            "name": "KI270728.1",
+            "nt": 1872759,
+            "softmasked_nt": 1310953,
+            "windows_total": 1872744,
+            "windows_with_N": 300090,
+            "windows_scanned": 1572654,
+            "n_hits_le2": 10
+          },
+          {
+            "name": "KI270729.1",
+            "nt": 280839,
+            "softmasked_nt": 247477,
+            "windows_total": 280824,
+            "windows_with_N": 11477,
+            "windows_scanned": 269347,
+            "n_hits_le2": 2
+          },
+          {
+            "name": "KI270730.1",
+            "nt": 112551,
+            "softmasked_nt": 102319,
+            "windows_total": 112536,
+            "windows_with_N": 6059,
+            "windows_scanned": 106477,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270731.1",
+            "nt": 150754,
+            "softmasked_nt": 61827,
+            "windows_total": 150739,
+            "windows_with_N": 0,
+            "windows_scanned": 150739,
+            "n_hits_le2": 2
+          },
+          {
+            "name": "KI270732.1",
+            "nt": 41543,
+            "softmasked_nt": 23270,
+            "windows_total": 41528,
+            "windows_with_N": 0,
+            "windows_scanned": 41528,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270733.1",
+            "nt": 179772,
+            "softmasked_nt": 114845,
+            "windows_total": 179757,
+            "windows_with_N": 0,
+            "windows_scanned": 179757,
+            "n_hits_le2": 3
+          },
+          {
+            "name": "KI270734.1",
+            "nt": 165050,
+            "softmasked_nt": 61037,
+            "windows_total": 165035,
+            "windows_with_N": 0,
+            "windows_scanned": 165035,
+            "n_hits_le2": 4
+          },
+          {
+            "name": "KI270735.1",
+            "nt": 42811,
+            "softmasked_nt": 22811,
+            "windows_total": 42796,
+            "windows_with_N": 0,
+            "windows_scanned": 42796,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270736.1",
+            "nt": 181920,
+            "softmasked_nt": 155995,
+            "windows_total": 181905,
+            "windows_with_N": 12388,
+            "windows_scanned": 169517,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270737.1",
+            "nt": 103838,
+            "softmasked_nt": 93607,
+            "windows_total": 103823,
+            "windows_with_N": 426,
+            "windows_scanned": 103397,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270738.1",
+            "nt": 99375,
+            "softmasked_nt": 84351,
+            "windows_total": 99360,
+            "windows_with_N": 3660,
+            "windows_scanned": 95700,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270739.1",
+            "nt": 73985,
+            "softmasked_nt": 73967,
+            "windows_total": 73970,
+            "windows_with_N": 1607,
+            "windows_scanned": 72363,
+            "n_hits_le2": 1
+          },
+          {
+            "name": "KI270740.1",
+            "nt": 37240,
+            "softmasked_nt": 36967,
+            "windows_total": 37225,
+            "windows_with_N": 0,
+            "windows_scanned": 37225,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270741.1",
+            "nt": 157432,
+            "softmasked_nt": 136407,
+            "windows_total": 157417,
+            "windows_with_N": 1902,
+            "windows_scanned": 155515,
+            "n_hits_le2": 3
+          },
+          {
+            "name": "KI270742.1",
+            "nt": 186739,
+            "softmasked_nt": 113302,
+            "windows_total": 186724,
+            "windows_with_N": 0,
+            "windows_scanned": 186724,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270743.1",
+            "nt": 210658,
+            "softmasked_nt": 150058,
+            "windows_total": 210643,
+            "windows_with_N": 0,
+            "windows_scanned": 210643,
+            "n_hits_le2": 7
+          },
+          {
+            "name": "KI270744.1",
+            "nt": 168472,
+            "softmasked_nt": 71851,
+            "windows_total": 168457,
+            "windows_with_N": 0,
+            "windows_scanned": 168457,
+            "n_hits_le2": 8
+          },
+          {
+            "name": "KI270745.1",
+            "nt": 41891,
+            "softmasked_nt": 25679,
+            "windows_total": 41876,
+            "windows_with_N": 0,
+            "windows_scanned": 41876,
+            "n_hits_le2": 3
+          },
+          {
+            "name": "KI270746.1",
+            "nt": 66486,
+            "softmasked_nt": 30013,
+            "windows_total": 66471,
+            "windows_with_N": 0,
+            "windows_scanned": 66471,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270747.1",
+            "nt": 198735,
+            "softmasked_nt": 175884,
+            "windows_total": 198720,
+            "windows_with_N": 0,
+            "windows_scanned": 198720,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270748.1",
+            "nt": 93321,
+            "softmasked_nt": 63130,
+            "windows_total": 93306,
+            "windows_with_N": 0,
+            "windows_scanned": 93306,
+            "n_hits_le2": 1
+          },
+          {
+            "name": "KI270749.1",
+            "nt": 158759,
+            "softmasked_nt": 83245,
+            "windows_total": 158744,
+            "windows_with_N": 0,
+            "windows_scanned": 158744,
+            "n_hits_le2": 1
+          },
+          {
+            "name": "KI270750.1",
+            "nt": 148850,
+            "softmasked_nt": 77765,
+            "windows_total": 148835,
+            "windows_with_N": 0,
+            "windows_scanned": 148835,
+            "n_hits_le2": 4
+          },
+          {
+            "name": "KI270751.1",
+            "nt": 150742,
+            "softmasked_nt": 92787,
+            "windows_total": 150727,
+            "windows_with_N": 0,
+            "windows_scanned": 150727,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270752.1",
+            "nt": 27745,
+            "softmasked_nt": 5430,
+            "windows_total": 27730,
+            "windows_with_N": 0,
+            "windows_scanned": 27730,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270753.1",
+            "nt": 62944,
+            "softmasked_nt": 30841,
+            "windows_total": 62929,
+            "windows_with_N": 0,
+            "windows_scanned": 62929,
+            "n_hits_le2": 1
+          },
+          {
+            "name": "KI270754.1",
+            "nt": 40191,
+            "softmasked_nt": 28357,
+            "windows_total": 40176,
+            "windows_with_N": 0,
+            "windows_scanned": 40176,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270755.1",
+            "nt": 36723,
+            "softmasked_nt": 23504,
+            "windows_total": 36708,
+            "windows_with_N": 0,
+            "windows_scanned": 36708,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270756.1",
+            "nt": 79590,
+            "softmasked_nt": 75117,
+            "windows_total": 79575,
+            "windows_with_N": 81,
+            "windows_scanned": 79494,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "KI270757.1",
+            "nt": 71251,
+            "softmasked_nt": 71235,
+            "windows_total": 71236,
+            "windows_with_N": 9445,
+            "windows_scanned": 61791,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "MT",
+            "nt": 16569,
+            "softmasked_nt": 177,
+            "windows_total": 16554,
+            "windows_with_N": 16,
+            "windows_scanned": 16538,
+            "n_hits_le2": 0
+          },
+          {
+            "name": "X",
+            "nt": 156040895,
+            "softmasked_nt": 98695438,
+            "windows_total": 156040880,
+            "windows_with_N": 1148328,
+            "windows_scanned": 154892552,
+            "n_hits_le2": 1786
+          },
+          {
+            "name": "Y",
+            "nt": 57227415,
+            "softmasked_nt": 17816651,
+            "windows_total": 57227400,
+            "windows_with_N": 30813239,
+            "windows_scanned": 26414161,
+            "n_hits_le2": 322
+          }
+        ]
+      }
+    }
+  },
+  "n_screens_that_ran": 5,
+  "n_screens_outstanding": 0,
+  "seam_grades_of_the_source_artifacts": {
+    "aso-insilico-evaluation-e13n2-deep500.json": "CORRECT",
+    "aso-insilico-evaluation-e7n2-deep500.json": "CORRECT",
+    "aso-insilico-evaluation-pgre2n2-deep500.json": "CORRECT",
+    "aso-insilico-evaluation-taf15e6n2-deep500.json": "CORRECT",
+    "junction-aso-designs-e13n2-deep500.json": "CORRECT",
+    "junction-aso-designs-e7n2-deep500.json": "CORRECT",
+    "junction-aso-designs-pgre2n2-deep500.json": "CORRECT",
+    "junction-aso-designs-taf15e6n2-deep500.json": "CORRECT",
+    "junction-aso-offtarget-e13n2-deep500.json": "CORRECT",
+    "junction-aso-offtarget-e7n2-deep500.json": "CORRECT",
+    "junction-aso-offtarget-pgre2n2-deep500.json": "CORRECT",
+    "junction-aso-offtarget-taf15e6n2-deep500.json": "CORRECT"
+  },
+  "n_junctions": 4,
+  "junctions": [
+    {
+      "junction_label": "EWSR1_e13__NR4A3_e2",
+      "clinical_tier": "published_exon_resolved_breakpoint",
+      "breakpoint_refs": [
+        "PMID 36316541 (PMC9813045), Hum Cell 36:446-455 (2023), Figure 4 legend"
+      ],
+      "n_designs_screened": 5,
+      "n_designs_clearing_the_parent_screen": 5,
+      "best_available": {
+        "antisense_5to3": "AGTGGGCTCTCCACGG",
+        "gap_specificity_margin": 3,
+        "n_gap_paired": 25,
+        "n_gap_paired_loci": 6,
+        "gap_paired_loci": [
+          "ECSCR",
+          "HSPG2",
+          "KLHL29",
+          "LOC124902665",
+          "NPHP4",
+          "TAFA5"
+        ],
+        "n_hybridisable": 40,
+        "n_near_matches": 138,
+        "parent": "EWSR1",
+        "parent_duplex_bp": 8,
+        "parent_is_liability": false,
+        "premrna_gap_paired_hybridisable": 0,
+        "genome_oe_gap_paired_le2": 0.6565,
+        "genome_named_target_sites": 0,
+        "genome_named_target_genes": [],
+        "⛔_cleaves_wild_type_NR4A3": false
+      },
+      "best_by_gap_specificity_margin": "AGTGGGCTCTCCACGG",
+      "designs": [
+        {
+          "antisense_5to3": "AGTGGGCTCTCCACGG",
+          "gap_specificity_margin": 3,
+          "n_gap_paired": 25,
+          "n_gap_paired_loci": 6,
+          "gap_paired_loci": [
+            "ECSCR",
+            "HSPG2",
+            "KLHL29",
+            "LOC124902665",
+            "NPHP4",
+            "TAFA5"
+          ],
+          "n_hybridisable": 40,
+          "n_near_matches": 138,
+          "parent": "EWSR1",
+          "parent_duplex_bp": 8,
+          "parent_is_liability": false,
+          "premrna_gap_paired_hybridisable": 0,
+          "genome_oe_gap_paired_le2": 0.6565,
+          "genome_named_target_sites": 0,
+          "genome_named_target_genes": [],
+          "⛔_cleaves_wild_type_NR4A3": false
+        },
+        {
+          "antisense_5to3": "GTGGGCTCTCCACGGA",
+          "gap_specificity_margin": 2,
+          "n_gap_paired": 30,
+          "n_gap_paired_loci": 7,
+          "gap_paired_loci": [
+            "HSPG2",
+            "LOC105374334",
+            "LOC124902665",
+            "LOC124906740",
+            "NPHP4",
+            "SIRPA",
+            "TAFA5"
+          ],
+          "n_hybridisable": 42,
+          "n_near_matches": 155,
+          "parent": "EWSR1",
+          "parent_duplex_bp": 8,
+          "parent_is_liability": false,
+          "premrna_gap_paired_hybridisable": 0,
+          "genome_oe_gap_paired_le2": 0.6749,
+          "genome_named_target_sites": 0,
+          "genome_named_target_genes": [],
+          "⛔_cleaves_wild_type_NR4A3": false
+        },
+        {
+          "antisense_5to3": "TGGGCTCTCCACGGAG",
+          "gap_specificity_margin": 1,
+          "n_gap_paired": 92,
+          "n_gap_paired_loci": 17,
+          "gap_paired_loci": [
+            "BFSP2",
+            "CPEB1",
+            "CYP2S1",
+            "DAPK1",
+            "DIDO1",
+            "KANK2",
+            "LINC01973",
+            "LINC01978",
+            "LOC105374334",
+            "LOC124900660",
+            "LOC124906262",
+            "LOC124906740",
+            "PTP4A3",
+            "SHANK2",
+            "SIRPA",
+            "TAFA5",
+            "USP42"
+          ],
+          "n_hybridisable": 94,
+          "n_near_matches": 227,
+          "parent": "EWSR1",
+          "parent_duplex_bp": 8,
+          "parent_is_liability": false,
+          "premrna_gap_paired_hybridisable": 0,
+          "genome_oe_gap_paired_le2": 0.8736,
+          "genome_named_target_sites": 0,
+          "genome_named_target_genes": [],
+          "⛔_cleaves_wild_type_NR4A3": false
+        },
+        {
+          "antisense_5to3": "GCAGTGGGCTCTCCAC",
+          "gap_specificity_margin": 1,
+          "n_gap_paired": 164,
+          "n_gap_paired_loci": 9,
+          "gap_paired_loci": [
+            "CLASP1",
+            "CRMP1",
+            "ECSCR",
+            "KLHL29",
+            "LINC03117",
+            "LOC101927060",
+            "NPHP4",
+            "PPIEL",
+            "SLC22A23"
+          ],
+          "n_hybridisable": 166,
+          "n_near_matches": 340,
+          "parent": "NR4A3",
+          "parent_duplex_bp": 8,
+          "parent_is_liability": false,
+          "premrna_gap_paired_hybridisable": 1,
+          "genome_oe_gap_paired_le2": 1.959,
+          "genome_named_target_sites": 2,
+          "genome_named_target_genes": [
+            "NR4A3",
+            "PGR"
+          ],
+          "⛔_cleaves_wild_type_NR4A3": true
+        },
+        {
+          "antisense_5to3": "CAGTGGGCTCTCCACG",
+          "gap_specificity_margin": 2,
+          "n_gap_paired": 113,
+          "n_gap_paired_loci": 10,
+          "gap_paired_loci": [
+            "CLASP1",
+            "ECSCR",
+            "HSPG2",
+            "KLHL29",
+            "LINC00639",
+            "LINC03117",
+            "NPHP4",
+            "PWWP2B",
+            "SLC22A23",
+            "SYNGAP1"
+          ],
+          "n_hybridisable": 119,
+          "n_near_matches": 357,
+          "parent": "NR4A3",
+          "parent_duplex_bp": 8,
+          "parent_is_liability": false,
+          "premrna_gap_paired_hybridisable": 1,
+          "genome_oe_gap_paired_le2": 0.7584,
+          "genome_named_target_sites": 1,
+          "genome_named_target_genes": [
+            "NR4A3"
+          ],
+          "⛔_cleaves_wild_type_NR4A3": true
+        }
+      ],
+      "screens_complete": true,
+      "n_designs_cleaving_wild_type_NR4A3": 2,
+      "designs_cleaving_wild_type_NR4A3": [
+        "CAGTGGGCTCTCCACG",
+        "GCAGTGGGCTCTCCAC"
+      ],
+      "⚠_the_parent_screen_cannot_see_this": "the column above is NOT one of the five screens. It is a scan of NR4A3's own UNSPLICED sequence, which the mature-parent screen structurally cannot reach; a design condemned there may still read as clearing the parent screen in the same row."
+    },
+    {
+      "junction_label": "EWSR1_e7__NR4A3_e2",
+      "clinical_tier": "published_exon_resolved_breakpoint",
+      "breakpoint_refs": [
+        "PMID 22567356",
+        "PMID 29937513",
+        "PMID 35488288"
+      ],
+      "n_designs_screened": 5,
+      "n_designs_clearing_the_parent_screen": 4,
+      "best_available": {
+        "antisense_5to3": "CAGTGGGCTTCTGCTG",
+        "gap_specificity_margin": 2,
+        "n_gap_paired": 51,
+        "n_gap_paired_loci": 7,
+        "gap_paired_loci": [
+          "AFF1",
+          "CEP104",
+          "LOC107985957",
+          "LOC107986735",
+          "LOC124906238",
+          "PROCA1",
+          "TOP3A"
+        ],
+        "n_hybridisable": 71,
+        "n_near_matches": 132,
+        "parent": "TAF15",
+        "parent_duplex_bp": 8,
+        "parent_is_liability": false,
+        "premrna_gap_paired_hybridisable": 0,
+        "genome_oe_gap_paired_le2": 1.507,
+        "genome_named_target_sites": 0,
+        "genome_named_target_genes": [],
+        "⛔_cleaves_wild_type_NR4A3": false
+      },
+      "best_by_gap_specificity_margin": "AGTGGGCTTCTGCTGC",
+      "designs": [
+        {
+          "antisense_5to3": "CAGTGGGCTTCTGCTG",
+          "gap_specificity_margin": 2,
+          "n_gap_paired": 51,
+          "n_gap_paired_loci": 7,
+          "gap_paired_loci": [
+            "AFF1",
+            "CEP104",
+            "LOC107985957",
+            "LOC107986735",
+            "LOC124906238",
+            "PROCA1",
+            "TOP3A"
+          ],
+          "n_hybridisable": 71,
+          "n_near_matches": 132,
+          "parent": "TAF15",
+          "parent_duplex_bp": 8,
+          "parent_is_liability": false,
+          "premrna_gap_paired_hybridisable": 0,
+          "genome_oe_gap_paired_le2": 1.507,
+          "genome_named_target_sites": 0,
+          "genome_named_target_genes": [],
+          "⛔_cleaves_wild_type_NR4A3": false
+        },
+        {
+          "antisense_5to3": "AGTGGGCTTCTGCTGC",
+          "gap_specificity_margin": 3,
+          "n_gap_paired": 164,
+          "n_gap_paired_loci": 11,
+          "gap_paired_loci": [
+            "AFF1",
+            "ARHGAP20",
+            "BPTF",
+            "FBXO22",
+            "KCNA2",
+            "KIAA0825",
+            "LOC101929444",
+            "LOC105378741",
+            "LOC107985957",
+            "LOC124906238",
+            "LOC124907518"
+          ],
+          "n_hybridisable": 231,
+          "n_near_matches": 292,
+          "parent": "TAF15",
+          "parent_duplex_bp": 8,
+          "parent_is_liability": false,
+          "premrna_gap_paired_hybridisable": 0,
+          "genome_oe_gap_paired_le2": 1.401,
+          "genome_named_target_sites": 0,
+          "genome_named_target_genes": [],
+          "⛔_cleaves_wild_type_NR4A3": false
+        },
+        {
+          "antisense_5to3": "GTGGGCTTCTGCTGCC",
+          "gap_specificity_margin": 2,
+          "n_gap_paired": 152,
+          "n_gap_paired_loci": 11,
+          "gap_paired_loci": [
+            "AFF1",
+            "ARHGAP20",
+            "ARID5B",
+            "BPTF",
+            "FBXO22",
+            "KCNA2",
+            "KIAA0825",
+            "LOC101929444",
+            "LOC107985957",
+            "LOC124906238",
+            "PDIA5"
+          ],
+          "n_hybridisable": 153,
+          "n_near_matches": 219,
+          "parent": "TAF15",
+          "parent_duplex_bp": 8,
+          "parent_is_liability": false,
+          "premrna_gap_paired_hybridisable": 0,
+          "genome_oe_gap_paired_le2": 1.62,
+          "genome_named_target_sites": 0,
+          "genome_named_target_genes": [],
+          "⛔_cleaves_wild_type_NR4A3": false
+        },
+        {
+          "antisense_5to3": "TGGGCTTCTGCTGCCC",
+          "gap_specificity_margin": 1,
+          "n_gap_paired": 123,
+          "n_gap_paired_loci": 15,
+          "gap_paired_loci": [
+            "AFF1",
+            "ARID5B",
+            "CACFD1",
+            "DCDC2",
+            "DPP10",
+            "FBXO22",
+            "HS1BP3",
+            "KCNA2",
+            "KIAA0825",
+            "LINC00115",
+            "LOC101929444",
+            "PDIA5",
+            "RFX5",
+            "SECISBP2L",
+            "ZNF596"
+          ],
+          "n_hybridisable": 141,
+          "n_near_matches": 288,
+          "parent": "EWSR1",
+          "parent_duplex_bp": 8,
+          "parent_is_liability": false,
+          "premrna_gap_paired_hybridisable": 0,
+          "genome_oe_gap_paired_le2": 2.078,
+          "genome_named_target_sites": 0,
+          "genome_named_target_genes": [],
+          "⛔_cleaves_wild_type_NR4A3": false
+        },
+        {
+          "antisense_5to3": "GCAGTGGGCTTCTGCT",
+          "gap_specificity_margin": 1,
+          "n_gap_paired": 35,
+          "n_gap_paired_loci": 4,
+          "gap_paired_loci": [
+            "AFF1",
+            "CEP104",
+            "LOC124900852",
+            "TKTL1"
+          ],
+          "n_hybridisable": 110,
+          "n_near_matches": 150,
+          "parent": "NR4A3",
+          "parent_duplex_bp": 11,
+          "parent_is_liability": true,
+          "premrna_gap_paired_hybridisable": 0,
+          "genome_oe_gap_paired_le2": 1.425,
+          "genome_named_target_sites": 0,
+          "genome_named_target_genes": [],
+          "⛔_cleaves_wild_type_NR4A3": false
+        }
+      ],
+      "screens_complete": true,
+      "n_designs_cleaving_wild_type_NR4A3": 0,
+      "designs_cleaving_wild_type_NR4A3": [],
+      "⚠_the_parent_screen_cannot_see_this": "the column above is NOT one of the five screens. It is a scan of NR4A3's own UNSPLICED sequence, which the mature-parent screen structurally cannot reach; a design condemned there may still read as clearing the parent screen in the same row."
+    },
+    {
+      "junction_label": "PGR_e2__NR4A3_e2",
+      "clinical_tier": "published_exon_resolved_breakpoint",
+      "breakpoint_refs": [
+        "PMID 36103645 (PMC9489176), JCO Precis Oncol 2022"
+      ],
+      "n_designs_screened": 5,
+      "n_designs_clearing_the_parent_screen": 5,
+      "best_available": {
+        "antisense_5to3": "AGTGGGCTCTTCCATT",
+        "gap_specificity_margin": 3,
+        "n_gap_paired": 51,
+        "n_gap_paired_loci": 14,
+        "gap_paired_loci": [
+          "CAPS2",
+          "CCDC22",
+          "EDAR",
+          "GLRA4",
+          "GPR143",
+          "HTR1F",
+          "MAGEB4",
+          "MARVELD1",
+          "SCN2B",
+          "SP4",
+          "SPANXN4",
+          "STK16",
+          "TMEM169",
+          "ZNF254"
+        ],
+        "n_hybridisable": 85,
+        "n_near_matches": 181,
+        "parent": "NR4A3",
+        "parent_duplex_bp": 9,
+        "parent_is_liability": false,
+        "premrna_gap_paired_hybridisable": 0,
+        "genome_oe_gap_paired_le2": 1.186,
+        "genome_named_target_sites": 0,
+        "genome_named_target_genes": [],
+        "⛔_cleaves_wild_type_NR4A3": false
+      },
+      "best_by_gap_specificity_margin": "AGTGGGCTCTTCCATT",
+      "designs": [
+        {
+          "antisense_5to3": "AGTGGGCTCTTCCATT",
+          "gap_specificity_margin": 3,
+          "n_gap_paired": 51,
+          "n_gap_paired_loci": 14,
+          "gap_paired_loci": [
+            "CAPS2",
+            "CCDC22",
+            "EDAR",
+            "GLRA4",
+            "GPR143",
+            "HTR1F",
+            "MAGEB4",
+            "MARVELD1",
+            "SCN2B",
+            "SP4",
+            "SPANXN4",
+            "STK16",
+            "TMEM169",
+            "ZNF254"
+          ],
+          "n_hybridisable": 85,
+          "n_near_matches": 181,
+          "parent": "NR4A3",
+          "parent_duplex_bp": 9,
+          "parent_is_liability": false,
+          "premrna_gap_paired_hybridisable": 0,
+          "genome_oe_gap_paired_le2": 1.186,
+          "genome_named_target_sites": 0,
+          "genome_named_target_genes": [],
+          "⛔_cleaves_wild_type_NR4A3": false
+        },
+        {
+          "antisense_5to3": "CAGTGGGCTCTTCCAT",
+          "gap_specificity_margin": 2,
+          "n_gap_paired": 80,
+          "n_gap_paired_loci": 16,
+          "gap_paired_loci": [
+            "CA10",
+            "CAPS2",
+            "CCDC22",
+            "ELF1",
+            "GLRA4",
+            "GPR143",
+            "IKBKG",
+            "MAGEB4",
+            "PDILT",
+            "PPME1",
+            "RASL11B",
+            "SCN2B",
+            "SPANXN4",
+            "STK16",
+            "SULT1C4",
+            "ZNF254"
+          ],
+          "n_hybridisable": 155,
+          "n_near_matches": 298,
+          "parent": "NR4A3",
+          "parent_duplex_bp": 9,
+          "parent_is_liability": false,
+          "premrna_gap_paired_hybridisable": 0,
+          "genome_oe_gap_paired_le2": 1.39,
+          "genome_named_target_sites": 0,
+          "genome_named_target_genes": [],
+          "⛔_cleaves_wild_type_NR4A3": false
+        },
+        {
+          "antisense_5to3": "GTGGGCTCTTCCATTG",
+          "gap_specificity_margin": 2,
+          "n_gap_paired": 109,
+          "n_gap_paired_loci": 16,
+          "gap_paired_loci": [
+            "ARMCX4",
+            "BDNF",
+            "CRISP1",
+            "CRTC1",
+            "DBH",
+            "DNAH6",
+            "EDAR",
+            "GABPB2",
+            "HTR1F",
+            "LOC124902005",
+            "LOC124905024",
+            "MARVELD1",
+            "PRIMPOL",
+            "SP4",
+            "SYNPO",
+            "TMEM169"
+          ],
+          "n_hybridisable": 122,
+          "n_near_matches": 194,
+          "parent": "TAF15",
+          "parent_duplex_bp": 9,
+          "parent_is_liability": false,
+          "premrna_gap_paired_hybridisable": 0,
+          "genome_oe_gap_paired_le2": 1.064,
+          "genome_named_target_sites": 0,
+          "genome_named_target_genes": [],
+          "⛔_cleaves_wild_type_NR4A3": false
+        },
+        {
+          "antisense_5to3": "GCAGTGGGCTCTTCCA",
+          "gap_specificity_margin": 1,
+          "n_gap_paired": 170,
+          "n_gap_paired_loci": 20,
+          "gap_paired_loci": [
+            "CA10",
+            "CCDC22",
+            "ELF1",
+            "GLRA4",
+            "HADHA",
+            "LOC101927060",
+            "LOC124907396",
+            "PAX2",
+            "PDILT",
+            "PPIEL",
+            "PPME1",
+            "RASL11B",
+            "SCN2B",
+            "SETD1B",
+            "SHANK2",
+            "STEAP3",
+            "STK16",
+            "SULT1C4",
+            "SYT13",
+            "ZNF254"
+          ],
+          "n_hybridisable": 229,
+          "n_near_matches": 362,
+          "parent": "NR4A3",
+          "parent_duplex_bp": 9,
+          "parent_is_liability": false,
+          "premrna_gap_paired_hybridisable": 0,
+          "genome_oe_gap_paired_le2": 1.687,
+          "genome_named_target_sites": 1,
+          "genome_named_target_genes": [
+            "PGR"
+          ],
+          "⛔_cleaves_wild_type_NR4A3": false
+        },
+        {
+          "antisense_5to3": "TGGGCTCTTCCATTGC",
+          "gap_specificity_margin": 1,
+          "n_gap_paired": 111,
+          "n_gap_paired_loci": 23,
+          "gap_paired_loci": [
+            "ARMCX4",
+            "ARTN",
+            "BDNF",
+            "CRISP1",
+            "DBH",
+            "DNAH6",
+            "DPH1",
+            "GOLGA6A",
+            "GOLGA6B",
+            "GOLGA6C",
+            "GOLGA6D",
+            "GOLGA6FP",
+            "LINC01868",
+            "LOC105378100",
+            "LOC124905024",
+            "LOC124907523",
+            "LOC124907524",
+            "MARVELD1",
+            "NBR2",
+            "OVCA2",
+            "PRIMPOL",
+            "SP4",
+            "SYNPO"
+          ],
+          "n_hybridisable": 207,
+          "n_near_matches": 263,
+          "parent": "TAF15",
+          "parent_duplex_bp": 9,
+          "parent_is_liability": false,
+          "premrna_gap_paired_hybridisable": 0,
+          "genome_oe_gap_paired_le2": 1.383,
+          "genome_named_target_sites": 1,
+          "genome_named_target_genes": [
+            "NR4A2"
+          ],
+          "⛔_cleaves_wild_type_NR4A3": false
+        }
+      ],
+      "screens_complete": true,
+      "n_designs_cleaving_wild_type_NR4A3": 0,
+      "designs_cleaving_wild_type_NR4A3": [],
+      "⚠_the_parent_screen_cannot_see_this": "the column above is NOT one of the five screens. It is a scan of NR4A3's own UNSPLICED sequence, which the mature-parent screen structurally cannot reach; a design condemned there may still read as clearing the parent screen in the same row."
+    },
+    {
+      "junction_label": "TAF15_e6__NR4A3_e2",
+      "clinical_tier": "published_exon_resolved_breakpoint",
+      "breakpoint_refs": [
+        "PMID 36316541 (PMC9813045), Hum Cell 36:446-455 (2023), Figure 4 legend",
+        "⚠ THE DONOR HALF IS THE ONE HALF NOBODY DISPUTES, AND IT IS THE COMMONEST TAF15 DONOR IN THE DISEASE: PMID 31020999 (PMC6766969) builds 'T-N*, corresponding to the commonest TAF15 (exons 1-6)-NR4A3 (exons 3-8) fusion'. The disagreement between that construct and this report is at the ACCEPTOR only"
+      ],
+      "n_designs_screened": 5,
+      "n_designs_clearing_the_parent_screen": 4,
+      "best_available": {
+        "antisense_5to3": "AGTGGGCTCTTGTGTG",
+        "gap_specificity_margin": 3,
+        "n_gap_paired": 128,
+        "n_gap_paired_loci": 6,
+        "gap_paired_loci": [
+          "ARHGEF1",
+          "CELF2",
+          "KIAA0319L",
+          "NFIB-AS1",
+          "SOBP",
+          "ZAN"
+        ],
+        "n_hybridisable": 218,
+        "n_near_matches": 401,
+        "parent": "NR4A3",
+        "parent_duplex_bp": 9,
+        "parent_is_liability": false,
+        "premrna_gap_paired_hybridisable": 0,
+        "genome_oe_gap_paired_le2": 1.206,
+        "genome_named_target_sites": 0,
+        "genome_named_target_genes": [],
+        "⛔_cleaves_wild_type_NR4A3": false
+      },
+      "best_by_gap_specificity_margin": "AGTGGGCTCTTGTGTG",
+      "designs": [
+        {
+          "antisense_5to3": "AGTGGGCTCTTGTGTG",
+          "gap_specificity_margin": 3,
+          "n_gap_paired": 128,
+          "n_gap_paired_loci": 6,
+          "gap_paired_loci": [
+            "ARHGEF1",
+            "CELF2",
+            "KIAA0319L",
+            "NFIB-AS1",
+            "SOBP",
+            "ZAN"
+          ],
+          "n_hybridisable": 218,
+          "n_near_matches": 401,
+          "parent": "NR4A3",
+          "parent_duplex_bp": 9,
+          "parent_is_liability": false,
+          "premrna_gap_paired_hybridisable": 0,
+          "genome_oe_gap_paired_le2": 1.206,
+          "genome_named_target_sites": 0,
+          "genome_named_target_genes": [],
+          "⛔_cleaves_wild_type_NR4A3": false
+        },
+        {
+          "antisense_5to3": "GTGGGCTCTTGTGTGT",
+          "gap_specificity_margin": 2,
+          "n_gap_paired": 136,
+          "n_gap_paired_loci": 6,
+          "gap_paired_loci": [
+            "CELF2",
+            "KIAA0319L",
+            "LOC105379854",
+            "LOC107987429",
+            "SOBP",
+            "TPRG1"
+          ],
+          "n_hybridisable": 309,
+          "n_near_matches": 486,
+          "parent": "TCF12",
+          "parent_duplex_bp": 8,
+          "parent_is_liability": false,
+          "premrna_gap_paired_hybridisable": 0,
+          "genome_oe_gap_paired_le2": 1.204,
+          "genome_named_target_sites": 0,
+          "genome_named_target_genes": [],
+          "⛔_cleaves_wild_type_NR4A3": false
+        },
+        {
+          "antisense_5to3": "CAGTGGGCTCTTGTGT",
+          "gap_specificity_margin": 2,
+          "n_gap_paired": 124,
+          "n_gap_paired_loci": 7,
+          "gap_paired_loci": [
+            "CELF2",
+            "EIF1B-AS1",
+            "IFT88",
+            "LOC107986292",
+            "LOC124901339",
+            "LOC124907751",
+            "SFTPB"
+          ],
+          "n_hybridisable": 141,
+          "n_near_matches": 276,
+          "parent": "NR4A3",
+          "parent_duplex_bp": 9,
+          "parent_is_liability": false,
+          "premrna_gap_paired_hybridisable": 0,
+          "genome_oe_gap_paired_le2": 1.188,
+          "genome_named_target_sites": 0,
+          "genome_named_target_genes": [],
+          "⛔_cleaves_wild_type_NR4A3": false
+        },
+        {
+          "antisense_5to3": "GCAGTGGGCTCTTGTG",
+          "gap_specificity_margin": 1,
+          "n_gap_paired": 38,
+          "n_gap_paired_loci": 13,
+          "gap_paired_loci": [
+            "BMS1P2",
+            "EIF1B-AS1",
+            "HSD17B1-AS1",
+            "IFT88",
+            "LOC101928866",
+            "LOC102723370",
+            "LOC124901339",
+            "LOC124904707",
+            "MVB12A",
+            "NOTCH3",
+            "RBM4B",
+            "REC8",
+            "TBX4"
+          ],
+          "n_hybridisable": 150,
+          "n_near_matches": 246,
+          "parent": "NR4A3",
+          "parent_duplex_bp": 9,
+          "parent_is_liability": false,
+          "premrna_gap_paired_hybridisable": 0,
+          "genome_oe_gap_paired_le2": 1.463,
+          "genome_named_target_sites": 0,
+          "genome_named_target_genes": [],
+          "⛔_cleaves_wild_type_NR4A3": false
+        },
+        {
+          "antisense_5to3": "TGGGCTCTTGTGTGTG",
+          "gap_specificity_margin": 1,
+          "n_gap_paired": 43,
+          "n_gap_paired_loci": 5,
+          "gap_paired_loci": [
+            "LDLRAD4",
+            "LOC105375271",
+            "LOC107987429",
+            "PRDM8",
+            "TPRG1"
+          ],
+          "n_hybridisable": 224,
+          "n_near_matches": 344,
+          "parent": "TAF15",
+          "parent_duplex_bp": 11,
+          "parent_is_liability": true,
+          "premrna_gap_paired_hybridisable": 0,
+          "genome_oe_gap_paired_le2": 1.584,
+          "genome_named_target_sites": 0,
+          "genome_named_target_genes": [],
+          "⛔_cleaves_wild_type_NR4A3": false
+        }
+      ],
+      "screens_complete": true,
+      "n_designs_cleaving_wild_type_NR4A3": 0,
+      "designs_cleaving_wild_type_NR4A3": [],
+      "⚠_the_parent_screen_cannot_see_this": "the column above is NOT one of the five screens. It is a scan of NR4A3's own UNSPLICED sequence, which the mature-parent screen structurally cannot reach; a design condemned there may still read as clearing the parent screen in the same row."
+    }
+  ],
+  "⭐_wild_type_NR4A3_cleavage_liability": {
+    "⛔_the_question": "does this reagent form an RNase-H1-competent duplex on the patient's own UN-REARRANGED NR4A3 allele? The acceptor half of every design here is NR4A3 exon-2 5'UTR sequence, which in the wild-type allele sits immediately 3' of intron 1 — a compartment the spliced-cDNA parent screen cannot see, because a mature transcript has exon 1 there.",
+    "⛔_a_clean_parent_screen_is_not_an_answer": "every design in this module clears the parent exclusion, and that screen searches MATURE cDNA only. At the sibling cryptic-exon seam all five designs cleared it and one was then measured cleaving wild-type NR4A3.",
+    "positive_control": {
+      "control_junction": "TAF15 e6 :: NR4A3 intron-2 cryptic exon",
+      "expected": "exactly 1 cleavage-competent design (TGATGAGGGCCTTGTG), per the genome screen",
+      "observed_n_cleavage_competent_designs": 1,
+      "observed_designs": [
+        "TGATGAGGGCCTTGTG"
+      ],
+      "passed": true,
+      "⛔_if_this_fails": "the wild-type liability scan is not detecting the one case it is known to have to detect, so no 'clean' verdict above may be relied on.",
+      "_full": {
+        "_status": "run",
+        "_source": "aso-premrna-sequences.json -> genes.NR4A3.sequence (unspliced)",
+        "_method": "exhaustive <=2-mismatch scan of the NR4A3 unspliced sequence; the catalytic gap is positions 5..10 of the 16-mer target (5-6-5). A site with zero gap mismatches is treated as cleavage-competent, the same criterion the genome screen applies.",
+        "⚠_scope": "ONE LOCUS ONLY — NR4A3's own pre-mRNA, where this seam's liability lives. NOT a genome-wide result and NOT a substitute for aso_genome_offtarget.py.",
+        "per_design": {
+          "ATGAGGGCCTTGTGTG": {
+            "n_sites_le2_mismatches": 0,
+            "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+            "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+            "sites": []
+          },
+          "TGAGGGCCTTGTGTGT": {
+            "n_sites_le2_mismatches": 0,
+            "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+            "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+            "sites": []
+          },
+          "GATGAGGGCCTTGTGT": {
+            "n_sites_le2_mismatches": 0,
+            "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+            "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+            "sites": []
+          },
+          "TGATGAGGGCCTTGTG": {
+            "n_sites_le2_mismatches": 1,
+            "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 1,
+            "verdict": "⛔ FORMS A GAP-PAIRED DUPLEX ON THE UN-REARRANGED NR4A3 ALLELE — RNase-H1-competent on wild-type NR4A3. DO NOT CARRY FORWARD.",
+            "sites": [
+              {
+                "pre_mrna_offset": 4839,
+                "site_5to3": "CAACAGGCCCTCATCA",
+                "n_mismatches": 2,
+                "mismatch_positions": [
+                  2,
+                  3
+                ],
+                "n_gap_mismatches": 0,
+                "gap_fully_paired": true,
+                "offset_relative_to_cryptic_exon_start": -6
+              }
+            ]
+          },
+          "GAGGGCCTTGTGTGTG": {
+            "n_sites_le2_mismatches": 0,
+            "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+            "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+            "sites": []
+          }
+        }
+      }
+    },
+    "n_designs_scanned": 20,
+    "n_designs_cleaving_wild_type_NR4A3": 2,
+    "designs_cleaving_wild_type_NR4A3": [
+      "CAGTGGGCTCTCCACG",
+      "GCAGTGGGCTCTCCAC"
+    ],
+    "scan": {
+      "_status": "run",
+      "_source": "aso-premrna-sequences.json -> genes.NR4A3.sequence (unspliced)",
+      "_method": "exhaustive <=2-mismatch scan of the NR4A3 unspliced sequence; the catalytic gap is positions 5..10 of the 16-mer target (5-6-5). A site with zero gap mismatches is treated as cleavage-competent, the same criterion the genome screen applies.",
+      "⚠_scope": "ONE LOCUS ONLY — NR4A3's own pre-mRNA, where this seam's liability lives. NOT a genome-wide result and NOT a substitute for aso_genome_offtarget.py.",
+      "per_design": {
+        "AGTGGGCTCTCCACGG": {
+          "n_sites_le2_mismatches": 0,
+          "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+          "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+          "sites": []
+        },
+        "AGTGGGCTCTTCCATT": {
+          "n_sites_le2_mismatches": 0,
+          "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+          "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+          "sites": []
+        },
+        "AGTGGGCTCTTGTGTG": {
+          "n_sites_le2_mismatches": 0,
+          "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+          "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+          "sites": []
+        },
+        "AGTGGGCTTCTGCTGC": {
+          "n_sites_le2_mismatches": 0,
+          "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+          "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+          "sites": []
+        },
+        "CAGTGGGCTCTCCACG": {
+          "n_sites_le2_mismatches": 1,
+          "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 1,
+          "verdict": "⛔ FORMS A GAP-PAIRED DUPLEX ON THE UN-REARRANGED NR4A3 ALLELE — RNase-H1-competent on wild-type NR4A3. DO NOT CARRY FORWARD.",
+          "sites": [
+            {
+              "pre_mrna_offset": 3767,
+              "site_5to3": "CCTGTAGAGCCCACTG",
+              "n_mismatches": 2,
+              "mismatch_positions": [
+                1,
+                4
+              ],
+              "n_gap_mismatches": 0,
+              "gap_fully_paired": true
+            }
+          ]
+        },
+        "CAGTGGGCTCTTCCAT": {
+          "n_sites_le2_mismatches": 0,
+          "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+          "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+          "sites": []
+        },
+        "CAGTGGGCTCTTGTGT": {
+          "n_sites_le2_mismatches": 0,
+          "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+          "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+          "sites": []
+        },
+        "CAGTGGGCTTCTGCTG": {
+          "n_sites_le2_mismatches": 0,
+          "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+          "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+          "sites": []
+        },
+        "GCAGTGGGCTCTCCAC": {
+          "n_sites_le2_mismatches": 1,
+          "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 1,
+          "verdict": "⛔ FORMS A GAP-PAIRED DUPLEX ON THE UN-REARRANGED NR4A3 ALLELE — RNase-H1-competent on wild-type NR4A3. DO NOT CARRY FORWARD.",
+          "sites": [
+            {
+              "pre_mrna_offset": 3768,
+              "site_5to3": "CTGTAGAGCCCACTGC",
+              "n_mismatches": 2,
+              "mismatch_positions": [
+                0,
+                3
+              ],
+              "n_gap_mismatches": 0,
+              "gap_fully_paired": true
+            }
+          ]
+        },
+        "GCAGTGGGCTCTTCCA": {
+          "n_sites_le2_mismatches": 0,
+          "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+          "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+          "sites": []
+        },
+        "GCAGTGGGCTCTTGTG": {
+          "n_sites_le2_mismatches": 0,
+          "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+          "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+          "sites": []
+        },
+        "GCAGTGGGCTTCTGCT": {
+          "n_sites_le2_mismatches": 0,
+          "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+          "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+          "sites": []
+        },
+        "GTGGGCTCTCCACGGA": {
+          "n_sites_le2_mismatches": 0,
+          "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+          "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+          "sites": []
+        },
+        "GTGGGCTCTTCCATTG": {
+          "n_sites_le2_mismatches": 0,
+          "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+          "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+          "sites": []
+        },
+        "GTGGGCTCTTGTGTGT": {
+          "n_sites_le2_mismatches": 0,
+          "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+          "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+          "sites": []
+        },
+        "GTGGGCTTCTGCTGCC": {
+          "n_sites_le2_mismatches": 0,
+          "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+          "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+          "sites": []
+        },
+        "TGGGCTCTCCACGGAG": {
+          "n_sites_le2_mismatches": 0,
+          "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+          "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+          "sites": []
+        },
+        "TGGGCTCTTCCATTGC": {
+          "n_sites_le2_mismatches": 0,
+          "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+          "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+          "sites": []
+        },
+        "TGGGCTCTTGTGTGTG": {
+          "n_sites_le2_mismatches": 0,
+          "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+          "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+          "sites": []
+        },
+        "TGGGCTTCTGCTGCCC": {
+          "n_sites_le2_mismatches": 0,
+          "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": 0,
+          "verdict": "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches",
+          "sites": []
+        }
+      }
+    }
+  }
+}
