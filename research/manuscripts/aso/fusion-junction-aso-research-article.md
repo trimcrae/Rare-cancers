@@ -351,8 +351,8 @@ offline against the archive: the retrieved unspliced sequence and exon coordinat
 The results are ordered for a laboratory deciding what to make. Sections 3.1 to 3.3 ask whether
 designs exist at all, whether one can serve more than one patient group, and whether the partner gene
 predicts a clean design. Section 3.4 gives the designs that survive the transcriptome screens, 3.5
-what they would do to the parent genes, and 3.6 the candidates left once every screen has been
-applied. Sections 3.7 to 3.9 carry what a bench decision turns on next: where the off-target loci are
+what they would do to the parent genes and how that compares with what arbitrary sequence does, and
+3.6 the candidates left once every screen has been applied. Sections 3.7 to 3.9 carry what a bench decision turns on next: where the off-target loci are
 expressed, which catalytic gap to build, and whether duplex free energy or the conventional design
 rules would select different molecules. Section 3.10 states how far the counts themselves can be
 trusted, and it bounds everything above it.
@@ -814,7 +814,12 @@ full across the wild-type intron-2/exon-3 boundary, at two mismatches that both 
 and the compartment in which that duplex would form is the nuclear one RNase-H1 occupies. For 87 the
 same is true in mature parent sequence. The general point is that a fusion-junction design's most
 plausible wild-type liability is its own parent, reached either across a splice junction or in the
-mature transcript, and both are invisible to a screen that ranks candidates by global identity.
+mature transcript, and both are invisible to a screen that ranks candidates by global identity. The
+null of §3.5 is what makes that a finding rather than a restatement of the design rule: arbitrary
+sequence meets this screen at about 6%, and a chimera keeping the whole rule while joining the two
+parents at random offsets meets it at 24%, against 46% for designs at real breakpoints. Roughly half
+the liability is therefore inherent in joining these two transcripts at all, and roughly half is
+specific to where the disease joins them.
 
 Free-energy calculation does not narrow the interval either. Every design discriminates amply at the
 level of duplex formation, so what is unresolved is specifically the catalytic step, not the binding

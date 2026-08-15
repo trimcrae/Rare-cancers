@@ -208,11 +208,26 @@ def _pct(art, path):
 
 
 def test_the_manuscript_states_the_null_and_states_it_from_the_artifact():
+    """⛔ NO SKIP CONDITION. The null is in the paper; a test that could quietly opt out of checking
+    it would be exactly the "reports while measuring nothing" defect the manuscript is about."""
     a = _art()
     txt = _paper()
-    if "parent-screen null" not in txt and "aso-parent-null" not in txt:
-        pytest.skip("the null has not been written into the manuscript yet")
-    scram = round(100 * a["null_ensembles"]["scrambled_mononucleotide"]["rate_liable"], 1)
-    chim = round(100 * a["null_ensembles"]["random_parent_chimera"]["rate_liable"], 1)
-    for val in (scram, chim):
-        assert re.search(rf"\b{val:.1f}\s*%", txt), f"{val}% is not in the manuscript"
+    for key in ("scrambled_mononucleotide", "scrambled_dinucleotide", "random_uniform",
+                "random_composition_matched", "wings_scrambled_gap_held",
+                "gap_scrambled_wings_held", "random_parent_chimera"):
+        val = round(100 * a["null_ensembles"][key]["rate_liable"], 1)
+        assert re.search(rf"\b{val:.1f}\s*%", txt), \
+            f"{key} = {val}% is not stated anywhere in the manuscript"
+    obs = round(100 * a["observed"]["rate_liable"], 1)
+    assert re.search(rf"\b{obs:.1f}\s*%", txt), f"the observed {obs}% is not in the manuscript"
+
+
+def test_the_manuscript_does_not_present_the_null_as_a_significance_test():
+    """The artifact refuses a p-value for a stated reason; the prose must not smuggle one back."""
+    txt = _paper().lower()
+    where = txt.find("without a null")
+    assert where > 0, "the null paragraph has moved or been removed from the manuscript"
+    window = txt[where:where + 2600]
+    for banned in ("p < 0.", "p = 0.", "p-value", "significantly more", "statistically significant"):
+        assert banned not in window, f"the null section claims significance: {banned!r}"
+    assert "not independent draws" in window or "independent draws" in window
