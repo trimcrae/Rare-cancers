@@ -1,18 +1,22 @@
 {
- "_what": "Junction-spanning gapmer designs at the TAF15 exon 6 :: NR4A3-intron-2 cryptic-exon seam, which the manuscript's 38-junction panel cannot express because every junction in it uses NR4A3 exon 3.",
+ "_what": "Junction-spanning gapmer designs at the EWSR1 exon 10 :: NR4A3-intron-2 cryptic-exon seam, which the manuscript's 38-junction panel cannot express because every junction in it uses NR4A3 exon 3.",
  "_why": "PMID 31020999 calls T-N and T-N* 'the two major TAF15-NR4A3 isoforms detected in human tumors'. The coverage ladder prices the TAF15 arm as though every TAF15 patient carried T-N*. If any carry T-N, no reagent in the panel reaches them.",
  "_cost": "$0 — CPU only, committed transcript caches plus the committed measured seam.",
- "junction_label": "TAF15_e6__NR4A3_intron2crypticExon",
- "_generic_label_from_the_builder": "TAF15_e6__NR4A3crypt_e1",
- "transcript_type": "TAF15::NR4A3 T-N",
+ "junction_label": "EWSR1_e10__NR4A3_intron2crypticExon",
+ "_generic_label_from_the_builder": "EWSR1_e10__NR4A3crypt_e1",
+ "transcript_type": "EWSR1::NR4A3, exon 10 donor, intron-2 cryptic-exon acceptor",
  "n_independent_sources": 1,
  "excluded_from_the_panel_by": "NON_CODING_ACCEPTOR",
- "⚠_read_this_before_using_the_sequence": "ONE SOURCE, AND IT IS A CELL-MODEL CONSTRUCT PAPER. PMID 31020999 states that T-N is one of two isoforms 'detected in human tumors' and that it is 'less common', but it reports NO count of how many of its five TAF15 tumours carried it, and no independent series in the corpora searched reports one either. So the ISOFORM is published and the PREVALENCE is not. A reagent at this seam is warranted as insurance against a named risk; the risk cannot be turned into a coverage percentage from the published record, and must not be.",
+ "⚠_read_this_before_using_the_sequence": "ONE DEPOSIT, ONE TUMOUR, NO DENOMINATOR — and no PMID is attached to the record. The deposit establishes that this junction EXISTS in a patient; it says nothing whatever about how many EWSR1-rearranged EMC patients carry an exon-10 donor or an intron-2 acceptor, and it must never be converted into a coverage percentage. ⚠ IT ALSO DOES NOT RESOLVE THE THREE UNRESOLVED EWSR1 TUMOURS in PMID 12378528: this is a different report by a different group (Sjogren, Meis-Kindblom, Orndal, Bergh, Ptaszynski, Aman, Kindblom, Stenman) with no patient identifier linking it to that series, and elink from PMID 12378528 returns no direct submission at all.",
  "evidence": [
-  "PMID 31020999 (PMC6766969) — 'T-N, corresponding to TAF15 (exons 1-6)-NR4A3 (intron 2-exon 8) ... T-N retains a short cryptic exon located in NR4A3 intron 2 (ENST00000395097.6 isoform), thus encoding 25 additional amino acids prior to the NR4A3 ATG'",
-  "PMID 31020999 (PMC6766969) — 'the two major TAF15-NR4A3 isoforms detected in human tumors ... the T-N* fusion variant (TAF15 exon 6-NR4A3 exon 3) and ... the less common T-N variant (TAF15 exon 6-NR4A3 intron 2)'"
+  "GenBank AF524261.1 — DEFINITION 'Homo sapiens extraskeletal myxoid chondrosarcoma EWS/TEC/CHN fusion protein mRNA, partial cds'; source 1..567 /isolation_source=\"extraskeletal myxoid chondrosarcoma patient\"",
+  "GenBank AF524261.1 — misc_feature <1..337 /note=\"contains exons 7 through 10 of EWS\"",
+  "GenBank AF524261.1 — misc_recomb 337..338 /note=\"fusion junction of EWS to TEC\"",
+  "GenBank AF524261.1 — misc_feature 338..>567 /note=\"contains exons 2b and 3 of TEC\"",
+  "GenBank AF524261.1 — CDS <1..>567 /protein_id=\"AAQ08876.1\" (189 aa), a single ORF annotated across the junction",
+  "DERIVED INDEPENDENTLY OF THOSE NOTES, from the deposit's own nucleotide sequence against this repository's committed transcript models: the 5' block is an exact substring of spliced EWSR1 ending at offset 1114 == the cumulative END of EWSR1 exon 10; a 72-nt segment belonging to neither spliced transcript is an exact substring of NR4A3 intron 2 at offset 897, flanked 5' by AG and 3' by GT, and is byte-identical to the cryptic exon in nr4a3-intron2-cryptic-exon.json; the 3' block resumes at offset 697 == the cumulative START of NR4A3 exon 3."
  ],
- "one_home_for_the_evidence": "research/modalities/nr4a3-intron2-cryptic-exon.json",
+ "one_home_for_the_evidence": "research/modalities/nr4a3-deposited-junctions.json",
  "cryptic_exon": {
   "length_nt": 72,
   "sequence_5to3": "GCCCTCATCACCTTTTTTCAAGTCAAGATTTCATCCCATACATGCATGACTCAATCAGATTTGGAAATGTGG",
@@ -47,16 +51,16 @@
    "XM_017015162.2"
   ]
  },
- "junction_context_mRNA": "ACCACACACAAG|GCCCTCATCACC",
+ "junction_context_mRNA": "ATCTTGATCTAG|GCCCTCATCACC",
  "acceptor_exon_is_coding": false,
  "acceptor_5utr_nt_retained": 74,
  "in_frame_at_the_mRNA_level": true,
- "chimeric_protein_length_aa": 812,
+ "chimeric_protein_length_aa": 999,
  "_frame_note": "reported because it is a reading, and because the paper makes a frame claim this checks — not because it gates the gapmer. An RNase-H gapmer cleaves the transcript; the frame decides what protein the tumour makes.",
  "why_a_T_N_star_reagent_does_not_cover_this_seam": {
-  "T_N_star_junction": "TAF15_e6__NR4A3_e3",
-  "T_N_star_seam_mRNA": "ACCACACACAAG|ATATGCCCTGCG",
-  "T_N_seam_mRNA": "ACCACACACAAG|GCCCTCATCACC",
+  "T_N_star_junction": "EWSR1_e10__NR4A3_e3",
+  "T_N_star_seam_mRNA": "ATCTTGATCTAG|ATATGCCCTGCG",
+  "T_N_seam_mRNA": "ATCTTGATCTAG|GCCCTCATCACC",
   "shared_acceptor_side_bases_3prime_of_the_breakpoint": 0,
   "_reading": "The two isoforms share 0 base(s) immediately 3' of the breakpoint. A 16-mer whose 6-nt catalytic gap straddles the seam needs a continuous duplex across that gap, so a T-N* reagent has no usable acceptor-side pairing on a T-N transcript. The two seams need two reagents."
  },
@@ -70,133 +74,17 @@
  },
  "deep_screen_results": {
   "genome": {
-   "_status": "run",
-   "_method_completeness": "definitional: every position is tested against the complete neighbourhood. There is no seed, no word size and no heuristic, so there is no search sensitivity to quantify - unlike the manuscript's BLAST arm, whose sensitivity it concedes is unquantified.",
-   "per_design": {
-    "GAGGGCCTTGTGTGTG": {
-     "n_exact_genomic_sites": 5,
-     "n_sites_le2_counted": 3376,
-     "observed_over_expected": {
-      "exact": 3.642,
-      "le1": 2.185,
-      "le2": 2.178,
-      "gap_paired_le2": 1.477
-     },
-     "n_named_target_sites": 0,
-     "named_target_genes": [],
-     "⛔_cleavage_competent_sites_in_wild_type_NR4A3": 0,
-     "_nr4a3_sites": []
-    },
-    "TGAGGGCCTTGTGTGT": {
-     "n_exact_genomic_sites": 3,
-     "n_sites_le2_counted": 2725,
-     "observed_over_expected": {
-      "exact": 2.185,
-      "le1": 2.007,
-      "le2": 1.758,
-      "gap_paired_le2": 1.53
-     },
-     "n_named_target_sites": 0,
-     "named_target_genes": [],
-     "⛔_cleavage_competent_sites_in_wild_type_NR4A3": 0,
-     "_nr4a3_sites": []
-    },
-    "TGATGAGGGCCTTGTG": {
-     "n_exact_genomic_sites": 3,
-     "n_sites_le2_counted": 2286,
-     "observed_over_expected": {
-      "exact": 2.185,
-      "le1": 2.185,
-      "le2": 1.475,
-      "gap_paired_le2": 1.846
-     },
-     "n_named_target_sites": 2,
-     "named_target_genes": [
-      "NR4A3",
-      "TCF12"
-     ],
-     "⛔_cleavage_competent_sites_in_wild_type_NR4A3": 1,
-     "_nr4a3_sites": [
-      {
-       "seq": "9",
-       "start": 99826723,
-       "end": 99826738,
-       "orientation": "sense",
-       "required_transcript_strand": "+",
-       "mismatches": 2,
-       "gap_mismatches": 0,
-       "gap_fully_paired": true,
-       "softmask_fraction": 0.0,
-       "genes": [
-        "NR4A3"
-       ],
-       "biotypes": [
-        "protein_coding"
-       ],
-       "gene_strands": [
-        "+"
-       ],
-       "hybridisable": true,
-       "compartment": "intron_exon_spanning",
-       "nt_to_nearest_splice_site": 0
-      }
-     ]
-    },
-    "ATGAGGGCCTTGTGTG": {
-     "n_exact_genomic_sites": 2,
-     "n_sites_le2_counted": 1978,
-     "observed_over_expected": {
-      "exact": 1.457,
-      "le1": 1.204,
-      "le2": 1.276,
-      "gap_paired_le2": 1.301
-     },
-     "n_named_target_sites": 1,
-     "named_target_genes": [
-      "TCF12"
-     ],
-     "⛔_cleavage_competent_sites_in_wild_type_NR4A3": 0,
-     "_nr4a3_sites": []
-    },
-    "GATGAGGGCCTTGTGT": {
-     "n_exact_genomic_sites": 2,
-     "n_sites_le2_counted": 1592,
-     "observed_over_expected": {
-      "exact": 1.457,
-      "le1": 1.055,
-      "le2": 1.027,
-      "gap_paired_le2": 1.151
-     },
-     "n_named_target_sites": 1,
-     "named_target_genes": [
-      "TCF12"
-     ],
-     "⛔_cleavage_competent_sites_in_wild_type_NR4A3": 0,
-     "_nr4a3_sites": []
-    }
-   },
-   "_reference": {
-    "fasta": "Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa.gz",
-    "gtf": "Homo_sapiens.GRCh38.116.gtf.gz",
-    "annotation": "Ensembl GTF",
-    "n_sequences": 194,
-    "n_genes_annotated": 78941,
-    "n_exons_annotated": 5087789,
-    "n_splice_sites_annotated": 865648,
-    "_why_soft_masked": "a dna_sm reference is soft-masked by name, so the repeat annotation arrives verified rather than assumed, and the repeat split below is free",
-    "soft_mask_probe": {
-     "probed_nt": 20000150,
-     "lowercase_fraction": 0.4932,
-     "looks_soft_masked": true
-    }
-   },
-   "_wall_seconds": 115.5
+   "_status": "NOT RUN — no artifact on disk. ABSENT, NOT CLEAN.",
+   "per_design": null,
+   "⛔_what_absent_means_here": "For this seam the genome screen is the instrument that decides which designs are usable, because the acceptor half of every design is NR4A3 intronic sequence and a spliced-cDNA parent screen structurally cannot see it. Until it has run, NO design in this file may be called clean and NONE may be carried forward. A 5/5 parent-screen pass is not evidence either way — measured at the sibling TAF15 seam, where all five designs passed the parent screen and one of them was then found by the genome screen to form a cleavage-competent duplex on the patient's own un-rearranged NR4A3 allele.",
+   "_why": "not yet dispatched for this seam — run aso-offtarget.yml with screen_mode=genome and suffix_tag=-ewsr1intron2",
+   "_what_is_lost_and_what_is_not": ""
   },
   "premrna": {
    "_status": "NOT RUN — no artifact on disk. ABSENT, NOT CLEAN.",
    "per_design": null,
-   "⛔_what_absent_means_here": "an absent screen is recorded as absent, never as a clean one",
-   "_why": "Blocked by a live rest.ensembl.org outage, not by anything in this repository. Measured across four dispatches: HTTP 500 after 4 internal retries on lookup/id/ENST00000605844 (twice), sequence/id/ENST00000333725, and sequence/id/ENST00000254108 — three distinct endpoints, a different one each run, which is the signature of intermittent server-side failure rather than a bad request. In the same window Ensembl's FTP mirror served the 898 MB GRCh38 assembly to the genome screen without error, and lookup/id/ENST00000395097 returned 200. Re-dispatch (screen_mode=premrna, suffix_tag=-taf15intron2) is all that is needed once it clears.",
+   "⛔_what_absent_means_here": "For this seam the genome screen is the instrument that decides which designs are usable, because the acceptor half of every design is NR4A3 intronic sequence and a spliced-cDNA parent screen structurally cannot see it. Until it has run, NO design in this file may be called clean and NONE may be carried forward. A 5/5 parent-screen pass is not evidence either way — measured at the sibling TAF15 seam, where all five designs passed the parent screen and one of them was then found by the genome screen to form a cleavage-competent duplex on the patient's own un-rearranged NR4A3 allele.",
+   "_why": "not yet dispatched for this seam — run aso-offtarget.yml with screen_mode=premrna and suffix_tag=-ewsr1intron2",
    "_what_is_lost_and_what_is_not": "The pre-mRNA arm is exhaustive-by-construction over the six PARENT loci and reports compartment and an explicit n_invisible_to_mature_screens. ⭐ ITS CENTRAL QUESTION AT THIS SEAM HAS NEVERTHELESS BEEN ANSWERED, by the genome arm, which is a superset in coverage and annotates every hit from the Ensembl GTF: the wild-type NR4A3 liability was found there (chr9, gap fully paired, hybridisable, compartment intron_exon_spanning, 0 nt to the nearest splice site). So the pre-mRNA arm is missing as a CONFIRMATORY, differently-seeded check — not as the only instrument that could have seen the intronic compartment."
   }
  },
@@ -256,34 +144,34 @@
  "parents_unavailable": [],
  "designs": [
   {
-   "antisense_5to3": "ATGAGGGCCTTGTGTG",
-   "target_mRNA_5to3": "CACACAAGGCCCTCAT",
+   "antisense_5to3": "ATGAGGGCCTAGATCA",
+   "target_mRNA_5to3": "TGATCTAGGCCCTCAT",
    "architecture": "5-6-5 (LNA-DNA-LNA)",
    "gap_specificity_margin": 3,
    "gap_bases_donor_side": 3,
    "gap_bases_acceptor_side": 3,
-   "gc_percent": 56.2,
+   "gc_percent": 50.0,
    "has_G4_motif": false,
    "clears_parent_exclusion": true,
    "exact_parent_hits": [],
    "⚠_offtarget_screens_run": "see _what_this_is_not"
   },
   {
-   "antisense_5to3": "TGAGGGCCTTGTGTGT",
-   "target_mRNA_5to3": "ACACACAAGGCCCTCA",
+   "antisense_5to3": "TGAGGGCCTAGATCAA",
+   "target_mRNA_5to3": "TTGATCTAGGCCCTCA",
    "architecture": "5-6-5 (LNA-DNA-LNA)",
    "gap_specificity_margin": 2,
    "gap_bases_donor_side": 4,
    "gap_bases_acceptor_side": 2,
-   "gc_percent": 56.2,
+   "gc_percent": 50.0,
    "has_G4_motif": false,
    "clears_parent_exclusion": true,
    "exact_parent_hits": [],
    "⚠_offtarget_screens_run": "see _what_this_is_not"
   },
   {
-   "antisense_5to3": "GATGAGGGCCTTGTGT",
-   "target_mRNA_5to3": "ACACAAGGCCCTCATC",
+   "antisense_5to3": "GATGAGGGCCTAGATC",
+   "target_mRNA_5to3": "GATCTAGGCCCTCATC",
    "architecture": "5-6-5 (LNA-DNA-LNA)",
    "gap_specificity_margin": 2,
    "gap_bases_donor_side": 2,
@@ -295,33 +183,33 @@
    "⚠_offtarget_screens_run": "see _what_this_is_not"
   },
   {
-   "antisense_5to3": "TGATGAGGGCCTTGTG",
-   "target_mRNA_5to3": "CACAAGGCCCTCATCA",
+   "antisense_5to3": "TGATGAGGGCCTAGAT",
+   "target_mRNA_5to3": "ATCTAGGCCCTCATCA",
    "architecture": "5-6-5 (LNA-DNA-LNA)",
    "gap_specificity_margin": 1,
    "gap_bases_donor_side": 1,
    "gap_bases_acceptor_side": 5,
-   "gc_percent": 56.2,
+   "gc_percent": 50.0,
    "has_G4_motif": false,
    "clears_parent_exclusion": true,
    "exact_parent_hits": [],
    "⚠_offtarget_screens_run": "see _what_this_is_not"
   },
   {
-   "antisense_5to3": "GAGGGCCTTGTGTGTG",
-   "target_mRNA_5to3": "CACACACAAGGCCCTC",
+   "antisense_5to3": "GAGGGCCTAGATCAAG",
+   "target_mRNA_5to3": "CTTGATCTAGGCCCTC",
    "architecture": "5-6-5 (LNA-DNA-LNA)",
    "gap_specificity_margin": 1,
    "gap_bases_donor_side": 5,
    "gap_bases_acceptor_side": 1,
-   "gc_percent": 62.5,
+   "gc_percent": 56.2,
    "has_G4_motif": false,
    "clears_parent_exclusion": true,
    "exact_parent_hits": [],
    "⚠_offtarget_screens_run": "see _what_this_is_not"
   }
  ],
- "best_by_gap_specificity_margin": "ATGAGGGCCTTGTGTG",
+ "best_by_gap_specificity_margin": "ATGAGGGCCTAGATCA",
  "_coverage_consequence": {
   "what_changes": "The TAF15 arm of the coverage ladder is priced 3/3 on a three-tumour series, i.e. every TAF15 patient is assumed to carry T-N*. PMID 31020999 names a second isoform 'detected in human tumors', so that assumption is now a NAMED RISK rather than an unexamined default, and the arm's 3/3 is an upper bound on it.",
   "what_does_not_change": "No number moves. The source paper orders the two isoforms ('the commonest' vs 'the less common') and reports no count of either in its five TAF15 tumours; no series in the corpora searched reports one. A named risk without a denominator cannot be converted into a coverage percentage, and dressing the ordering up as a fraction would be fabricating the very number the paper declines to give.",

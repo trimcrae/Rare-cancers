@@ -1,5 +1,5 @@
 {
- "_title": "Screen-ready side atlas — the TAF15 e6 :: NR4A3-intron-2 cryptic-exon seam ALONE, in the shape the deep off-target screens read.",
+ "_title": "Screen-ready side atlas — the EWSR1 e10 :: NR4A3-intron-2 cryptic-exon seam ALONE, in the shape the deep off-target screens read.",
  "_read_this": "⛔ NOT the manuscript panel. This file holds ONE junction, which is NOT among the 38 screened junctions in nr4a3-fusion-junction-atlas.json and whose off-target load is UNKNOWN until the five deep screens are run on it. Point a screen at this file with ATLAS_JSON=<this file>; never merge it into the panel atlas.",
  "_generated_by": "aso_taf15_intron2_designs.py",
  "oligo_geometry": {
@@ -67,20 +67,20 @@
  },
  "panels": [
   {
-   "junction_label": "TAF15_e6__NR4A3_intron2crypticExon",
-   "donor_symbol": "TAF15",
-   "donor_exon_end": 6,
+   "junction_label": "EWSR1_e10__NR4A3_intron2crypticExon",
+   "donor_symbol": "EWSR1",
+   "donor_exon_end": 10,
    "acceptor_exon_start": "NR4A3 intron-2 cryptic exon",
-   "seam_mRNA": "ACCACACACAAG|GCCCTCATCACC",
+   "seam_mRNA": "ATCTTGATCTAG|GCCCTCATCACC",
    "nr4a3_first_residue": null,
-   "chimeric_protein_length": 812,
+   "chimeric_protein_length": 999,
    "n_tiled": 5,
    "n_fusion_specific": 5,
    "best_gap_specificity_margin": 3,
    "designs": [
     {
-     "antisense_5to3": "ATGAGGGCCTTGTGTG",
-     "target_mRNA_5to3": "CACACAAGGCCCTCAT",
+     "antisense_5to3": "ATGAGGGCCTAGATCA",
+     "target_mRNA_5to3": "TGATCTAGGCCCTCAT",
      "architecture": "5-6-5 (LNA-DNA-LNA)",
      "junction_offset_in_oligo": 8,
      "bases_from_EWSR1": 8,
@@ -90,7 +90,7 @@
      "gap_bases_from_NR4A3": 3,
      "gap_specificity_margin": 3,
      "gap_centered": true,
-     "gc_percent": 56.2,
+     "gc_percent": 50.0,
      "has_G4_motif": false,
      "fusion_specific": true,
      "exact_parent_hits": [],
@@ -104,8 +104,8 @@
      ]
     },
     {
-     "antisense_5to3": "TGAGGGCCTTGTGTGT",
-     "target_mRNA_5to3": "ACACACAAGGCCCTCA",
+     "antisense_5to3": "TGAGGGCCTAGATCAA",
+     "target_mRNA_5to3": "TTGATCTAGGCCCTCA",
      "architecture": "5-6-5 (LNA-DNA-LNA)",
      "junction_offset_in_oligo": 7,
      "bases_from_EWSR1": 9,
@@ -115,7 +115,7 @@
      "gap_bases_from_NR4A3": 2,
      "gap_specificity_margin": 2,
      "gap_centered": true,
-     "gc_percent": 56.2,
+     "gc_percent": 50.0,
      "has_G4_motif": false,
      "fusion_specific": true,
      "exact_parent_hits": [],
@@ -129,8 +129,8 @@
      ]
     },
     {
-     "antisense_5to3": "GATGAGGGCCTTGTGT",
-     "target_mRNA_5to3": "ACACAAGGCCCTCATC",
+     "antisense_5to3": "GATGAGGGCCTAGATC",
+     "target_mRNA_5to3": "GATCTAGGCCCTCATC",
      "architecture": "5-6-5 (LNA-DNA-LNA)",
      "junction_offset_in_oligo": 9,
      "bases_from_EWSR1": 7,
@@ -154,8 +154,8 @@
      ]
     },
     {
-     "antisense_5to3": "TGATGAGGGCCTTGTG",
-     "target_mRNA_5to3": "CACAAGGCCCTCATCA",
+     "antisense_5to3": "TGATGAGGGCCTAGAT",
+     "target_mRNA_5to3": "ATCTAGGCCCTCATCA",
      "architecture": "5-6-5 (LNA-DNA-LNA)",
      "junction_offset_in_oligo": 10,
      "bases_from_EWSR1": 6,
@@ -165,7 +165,7 @@
      "gap_bases_from_NR4A3": 5,
      "gap_specificity_margin": 1,
      "gap_centered": false,
-     "gc_percent": 56.2,
+     "gc_percent": 50.0,
      "has_G4_motif": false,
      "fusion_specific": true,
      "exact_parent_hits": [],
@@ -179,8 +179,8 @@
      ]
     },
     {
-     "antisense_5to3": "GAGGGCCTTGTGTGTG",
-     "target_mRNA_5to3": "CACACACAAGGCCCTC",
+     "antisense_5to3": "GAGGGCCTAGATCAAG",
+     "target_mRNA_5to3": "CTTGATCTAGGCCCTC",
      "architecture": "5-6-5 (LNA-DNA-LNA)",
      "junction_offset_in_oligo": 6,
      "bases_from_EWSR1": 10,
@@ -190,7 +190,7 @@
      "gap_bases_from_NR4A3": 1,
      "gap_specificity_margin": 1,
      "gap_centered": false,
-     "gc_percent": 62.5,
+     "gc_percent": 56.2,
      "has_G4_motif": false,
      "fusion_specific": true,
      "exact_parent_hits": [],

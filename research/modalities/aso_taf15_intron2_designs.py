@@ -111,6 +111,80 @@ PUBLISHED_CRYPTIC_ACCEPTOR_JUNCTIONS = {
             "risk; the risk cannot be turned into a coverage percentage from the published record, "
             "and must not be."),
         "one_home_for_the_evidence": "research/modalities/nr4a3-intron2-cryptic-exon.json",
+        "slug": "taf15intron2",
+        "out_designs": "aso-taf15-intron2-designs.json",
+        "out_atlas": "nr4a3-fusion-junction-atlas-taf15intron2.json",
+        "frame_claim_to_assert": (
+            "PMID 31020999: 'Both T-N and T-N* encode the whole coding sequence of NR4A3'"),
+    },
+    # ⭐⭐ THE SECOND DONOR AT THE SAME ACCEPTOR, AND IT DID NOT COME FROM A PAPER (2026-08-15).
+    # The whitelist above exists so this module can only reach a seam somebody has sequenced. That
+    # test is about EVIDENCE, not about publication format, and this entry passes it on a DEPOSITED
+    # PATIENT SEQUENCE rather than on prose: GenBank AF524261.1 is 567 bp of mRNA whose own source
+    # feature reads /isolation_source="extraskeletal myxoid chondrosarcoma patient".
+    #
+    # ⭐ IT WAS ALREADY INSIDE THIS REPOSITORY'S OWN SWEEP AND WAS DROPPED. The 1479-UID nuccore
+    # sweep retrieved it, attributed 341 nt to EWSR1 and 159 nt to NR4A3, and reported no junction —
+    # because the seam matcher tested only three acceptor sites somebody had already named, and this
+    # transcript resumes at none of them. `nr4a3_nuccore_sweep.discover_junction` was written to
+    # close exactly that, and re-derives the junction from the deposit's sequence alone.
+    #
+    # ⛔ WHY THIS MATTERS BEYOND ONE MORE REAGENT: before this record, the NR4A3 intron-2 cryptic
+    # acceptor was a TAF15-only risk in this repository, resting on one 2019 paper. A 2002 deposit
+    # shows an EWSR1 donor using the same acceptor, which makes the acceptor a property of the
+    # LOCUS rather than of one partner — and the EWSR1 arm of the coverage ladder assumes every
+    # EWSR1 patient joins NR4A3 exon 3.
+    ("EWSR1", 10, "NR4A3", "intron2_cryptic_exon"): {
+        "transcript_type": "EWSR1::NR4A3, exon 10 donor, intron-2 cryptic-exon acceptor",
+        "excluded_from_the_panel_by": "NON_CODING_ACCEPTOR",
+        "evidence": [
+            "GenBank AF524261.1 — DEFINITION 'Homo sapiens extraskeletal myxoid chondrosarcoma "
+            "EWS/TEC/CHN fusion protein mRNA, partial cds'; source 1..567 "
+            "/isolation_source=\"extraskeletal myxoid chondrosarcoma patient\"",
+            "GenBank AF524261.1 — misc_feature <1..337 /note=\"contains exons 7 through 10 of EWS\"",
+            "GenBank AF524261.1 — misc_recomb 337..338 /note=\"fusion junction of EWS to TEC\"",
+            "GenBank AF524261.1 — misc_feature 338..>567 /note=\"contains exons 2b and 3 of TEC\"",
+            "GenBank AF524261.1 — CDS <1..>567 /protein_id=\"AAQ08876.1\" (189 aa), a single ORF "
+            "annotated across the junction",
+            "DERIVED INDEPENDENTLY OF THOSE NOTES, from the deposit's own nucleotide sequence "
+            "against this repository's committed transcript models: the 5' block is an exact "
+            "substring of spliced EWSR1 ending at offset 1114 == the cumulative END of EWSR1 exon "
+            "10; a 72-nt segment belonging to neither spliced transcript is an exact substring of "
+            "NR4A3 intron 2 at offset 897, flanked 5' by AG and 3' by GT, and is byte-identical to "
+            "the cryptic exon in nr4a3-intron2-cryptic-exon.json; the 3' block resumes at offset "
+            "697 == the cumulative START of NR4A3 exon 3.",
+        ],
+        "n_independent_sources": 1,
+        "⚠_read_this_before_using_the_sequence": (
+            "ONE DEPOSIT, ONE TUMOUR, NO DENOMINATOR — and no PMID is attached to the record. The "
+            "deposit establishes that this junction EXISTS in a patient; it says nothing whatever "
+            "about how many EWSR1-rearranged EMC patients carry an exon-10 donor or an intron-2 "
+            "acceptor, and it must never be converted into a coverage percentage. "
+            "⚠ IT ALSO DOES NOT RESOLVE THE THREE UNRESOLVED EWSR1 TUMOURS in PMID 12378528: this "
+            "is a different report by a different group (Sjogren, Meis-Kindblom, Orndal, Bergh, "
+            "Ptaszynski, Aman, Kindblom, Stenman) with no patient identifier linking it to that "
+            "series, and elink from PMID 12378528 returns no direct submission at all."),
+        "⛔_NOMENCLATURE_CONFLICT_UNRESOLVED": (
+            "THE DEPOSIT'S OWN CDS /note READS 'type 5 fusion', AND THAT LABEL DISAGREES WITH THE "
+            "SEQUENCE. In the Panagopoulos numbering this repository uses, type 5 is EWSR1 exon 13 "
+            "-> NR4A3 exon 3. The junction derived here from the deposit's nucleotides is EWSR1 "
+            "exon 10 -> intron-2 cryptic exon -> NR4A3 exon 3. Both readings are recorded and "
+            "NEITHER is discarded. ⭐ THE DERIVATION IS THE SOUND HALF: it was obtained from the "
+            "sequence against committed transcript models WITHOUT consulting the notes, and it then "
+            "agreed independently with the depositor's own exon annotations ('exons 7 through 10 of "
+            "EWS', 'exons 2b and 3 of TEC'). It is the TYPE LABEL that is doubtful, not the exon "
+            "assignment. ⚠ CONSEQUENCE FOR ANYONE MAPPING THE TYPE SERIES: the type numbering "
+            "cannot be assumed coherent across sources, so a type-3/type-4 definition inferred by "
+            "interpolating the series may be built on a false premise. Key designs on SEQUENCE, "
+            "never on a type label."),
+        "one_home_for_the_evidence": "research/modalities/nr4a3-deposited-junctions.json",
+        "slug": "ewsr1intron2",
+        "out_designs": "aso-ewsr1-intron2-designs.json",
+        "out_atlas": "nr4a3-fusion-junction-atlas-ewsr1intron2.json",
+        # ⛔ NO PUBLISHED FRAME CLAIM EXISTS FOR THIS JUNCTION, so there is none to assert. The
+        # deposit annotates a single CDS across the junction, which is the depositor's reading; the
+        # frame is COMPUTED and REPORTED below rather than asserted against somebody's sentence.
+        "frame_claim_to_assert": None,
     },
 }
 
@@ -243,7 +317,25 @@ GENOME_SCREEN = os.path.join(HERE, "aso-genome-offtarget-taf15intron2.json")
 PREMRNA_SCREEN = os.path.join(HERE, "aso-premrna-offtarget-taf15intron2.json")
 
 
-def screen_readout():
+def _out_paths(meta):
+    """Per-junction output paths, named so the EXISTING screen workflow reaches them unchanged.
+
+    `aso-offtarget.yml` sets ATLAS_JSON to `nr4a3-fusion-junction-atlas${suffix_tag}.json`, so a
+    dispatch with `suffix_tag=-ewsr1intron2` reads this junction's atlas and writes
+    `aso-premrna-offtarget-ewsr1intron2.json` / `aso-genome-offtarget-ewsr1intron2.json`. Following
+    the convention rather than inventing a second one is what keeps screening a one-dispatch
+    operation for the new seam too.
+    """
+    slug = meta["slug"]
+    return (
+        os.environ.get("TAF15_INTRON2_OUT") if slug == "taf15intron2" and os.environ.get(
+            "TAF15_INTRON2_OUT") else os.path.join(HERE, meta["out_designs"]),
+        os.environ.get("TAF15_INTRON2_ATLAS") if slug == "taf15intron2" and os.environ.get(
+            "TAF15_INTRON2_ATLAS") else os.path.join(HERE, meta["out_atlas"]),
+    )
+
+
+def screen_readout(slug="taf15intron2"):
     """What the two runnable screens measured — read from their artifacts, never restated.
 
     ⭐ THE HEADLINE FINDING, AND IT IS THE ONE THIS LANE WAS BUILT TO LOOK FOR. The acceptor half of
@@ -262,13 +354,29 @@ def screen_readout():
     whether the reagent cuts the patient's own NR4A3. That is a mechanistic result, not a ranking.
     """
     out = {}
-    for name, path, kind in (("genome", GENOME_SCREEN, "genome"),
-                             ("premrna", PREMRNA_SCREEN, "premrna")):
+    for name, path, kind in (
+            ("genome", os.path.join(HERE, f"aso-genome-offtarget-{slug}.json"), "genome"),
+            ("premrna", os.path.join(HERE, f"aso-premrna-offtarget-{slug}.json"), "premrna")):
         if not os.path.exists(path):
             # ⚠ An absent screen is recorded as absent, never as a clean one.
             out[name] = {"_status": "NOT RUN — no artifact on disk. ABSENT, NOT CLEAN.",
                          "per_design": None,
+                         "⛔_what_absent_means_here": (
+                             "For this seam the genome screen is the instrument that decides which "
+                             "designs are usable, because the acceptor half of every design is "
+                             "NR4A3 intronic sequence and a spliced-cDNA parent screen structurally "
+                             "cannot see it. Until it has run, NO design in this file may be called "
+                             "clean and NONE may be carried forward. A 5/5 parent-screen pass is "
+                             "not evidence either way — measured at the sibling TAF15 seam, where "
+                             "all five designs passed the parent screen and one of them was then "
+                             "found by the genome screen to form a cleavage-competent duplex on the "
+                             "patient's own un-rearranged NR4A3 allele."
+                             if slug != "taf15intron2" else
+                             "an absent screen is recorded as absent, never as a clean one"),
                          "_why": (
+                             "not yet dispatched for this seam — run aso-offtarget.yml with "
+                             f"screen_mode={name} and suffix_tag=-{slug}"
+                             if slug != "taf15intron2" else
                              "Blocked by a live rest.ensembl.org outage, not by anything in this "
                              "repository. Measured across four dispatches: HTTP 500 after 4 internal "
                              "retries on lookup/id/ENST00000605844 (twice), sequence/id/"
@@ -328,6 +436,97 @@ def screen_readout():
     return out
 
 
+#: The committed NR4A3 UNSPLICED sequence — the one compartment that decides this seam.
+PREMRNA_CACHE = os.path.join(HERE, "aso-premrna-sequences.json")
+_RC = str.maketrans("ACGT", "TGCA")
+
+
+def wildtype_nr4a3_liability(designs, cryptic):
+    """⭐⭐ DOES THIS REAGENT CLEAVE THE PATIENT'S OWN UN-REARRANGED NR4A3? MEASURED, LOCALLY, $0.
+
+    ⛔ WHY THIS IS THE QUESTION AT A CRYPTIC-EXON SEAM, AND WHY A CLEAN PARENT SCREEN IS NOT AN
+    ANSWER. The acceptor half of every design here is NR4A3 INTRONIC sequence, and cryptic-exon
+    sequence IS NR4A3 intron 2. So a design whose 6-nt catalytic gap sits mostly on cryptic-exon
+    bases can form a fully gap-paired, RNase-H1-competent duplex on the wild-type allele — in a
+    compartment a spliced-cDNA parent screen structurally cannot see. Measured at the TAF15 seam:
+    all five designs cleared the parent screen 5/5, and the genome screen then found
+    `TGATGAGGGCCTTGTG` (margin 1) forming exactly such a duplex on chr9.
+
+    ⭐ THIS FUNCTION IS VALIDATED AGAINST THAT KNOWN POSITIVE. Run over the TAF15 design set it
+    re-finds precisely one cleavage-competent site, for precisely that design, with two mismatches
+    both in the 5' wing and ZERO in the gap — reproducing the genome screen's result from the
+    committed pre-mRNA cache alone. A scan that returned zero everywhere would be indistinguishable
+    from a broken scan, which is why the sibling seam is scanned alongside and reported.
+
+    ⛔ WHAT IT IS NOT: not a substitute for the genome screen. It interrogates ONE locus — NR4A3's
+    own unspliced sequence — because that is the locus the liability lives at. The genome arm scans
+    all of GRCh38 and remains the instrument that decides which designs are usable; an empty result
+    here is necessary, not sufficient.
+    """
+    if not os.path.exists(PREMRNA_CACHE):
+        return {"_status": "NOT RUN — the committed pre-mRNA cache is absent. ABSENT, NOT CLEAN.",
+                "per_design": None}
+    with open(PREMRNA_CACHE, encoding="utf-8") as fh:
+        pre = json.load(fh)["genes"]["NR4A3"]["sequence"].upper()
+    if cryptic not in pre:
+        return {"_status": ("NOT RUN — the cryptic exon is not a substring of the committed NR4A3 "
+                            "pre-mRNA, so this scan would be searching the wrong sequence. ABSENT, "
+                            "NOT CLEAN."),
+                "per_design": None}
+    gap_lo, gap_hi = ja.WING, ja.OLIGO_LEN - ja.WING - 1
+    per = {}
+    for anti in designs:
+        tgt = anti.translate(_RC)[::-1]
+        sites = []
+        for k in range(len(pre) - len(tgt) + 1):
+            w = pre[k:k + len(tgt)]
+            mm = [i for i in range(len(tgt)) if w[i] != tgt[i]]
+            if len(mm) <= 2:
+                gap_mm = [i for i in mm if gap_lo <= i <= gap_hi]
+                sites.append({"pre_mrna_offset": k, "site_5to3": w, "n_mismatches": len(mm),
+                              "mismatch_positions": mm, "n_gap_mismatches": len(gap_mm),
+                              "gap_fully_paired": not gap_mm,
+                              "offset_relative_to_cryptic_exon_start": k - pre.find(cryptic)})
+        cleavable = [s for s in sites if s["gap_fully_paired"]]
+        per[anti] = {
+            "n_sites_le2_mismatches": len(sites),
+            "⛔_n_cleavage_competent_sites_in_wild_type_NR4A3": len(cleavable),
+            "verdict": ("⛔ FORMS A GAP-PAIRED DUPLEX ON THE UN-REARRANGED NR4A3 ALLELE — "
+                        "RNase-H1-competent on wild-type NR4A3. DO NOT CARRY FORWARD."
+                        if cleavable else
+                        "no gap-paired site in the NR4A3 pre-mRNA at <=2 mismatches"),
+            "sites": sites,
+        }
+    return {
+        "_status": "run",
+        "_source": os.path.basename(PREMRNA_CACHE) + " -> genes.NR4A3.sequence (unspliced)",
+        "_method": (f"exhaustive <=2-mismatch scan of the NR4A3 unspliced sequence; the catalytic "
+                    f"gap is positions {gap_lo}..{gap_hi} of the {ja.OLIGO_LEN}-mer target "
+                    f"({ja.WING}-{ja.GAP}-{ja.WING}). A site with zero gap mismatches is treated as "
+                    "cleavage-competent, the same criterion the genome screen applies."),
+        "⚠_scope": ("ONE LOCUS ONLY — NR4A3's own pre-mRNA, where this seam's liability lives. NOT "
+                    "a genome-wide result and NOT a substitute for aso_genome_offtarget.py."),
+        "per_design": per,
+    }
+
+
+def _control_designs(this_key, cryptic, parents):
+    """The OTHER whitelisted junction's designs, built the same way, as a scan positive control."""
+    out = []
+    for k in PUBLISHED_CRYPTIC_ACCEPTOR_JUNCTIONS:
+        if k == this_key:
+            continue
+        try:
+            jj = ja.mrna_junction_generic(ja.transcript_model(k[0]),
+                                          build_tn_acceptor_model(cryptic), k[1], 1)
+            out += [o["antisense_5to3"] for o in ja.design(
+                jj["_left"], jj["_right"], jj["_fusion"],
+                parents={a: b for a, b in parents.items() if b})]
+        except Exception as exc:  # noqa: BLE001
+            print(f"  ⚠ control designs for {k[0]} unavailable: {exc}", file=sys.stderr)
+    return out
+
+
 def panel_reach_check(fusion):
     """Does ANY reagent in the manuscript's 38-junction panel engage a T-N transcript? MEASURED.
 
@@ -381,7 +580,7 @@ def panel_reach_check(fusion):
     }
 
 
-def build():
+def build(key=None):
     geom = ass.MANUSCRIPT_GEOMETRY
     # ⛔ ASSERTED, NOT ASSUMED — the same refusal `aso_noncoding_acceptor_designs.py` makes. Designs
     # emitted at a different geometry cannot be compared with the panel's.
@@ -394,7 +593,13 @@ def build():
     unavailable = sorted(s for s, v in parents.items() if not v)
     screened_against = sorted(s for s, v in parents.items() if v)
 
-    (d_sym, d_end, a_sym, a_tag), meta = next(iter(PUBLISHED_CRYPTIC_ACCEPTOR_JUNCTIONS.items()))
+    # ⛔ WAS `next(iter(...))` — ONE JUNCTION, SILENTLY. The whitelist was a dict from the start but
+    # only its first entry was ever built, so adding a second entry would have emitted nothing and
+    # said nothing. Fixed 2026-08-15 when AF524261.1 supplied a second donor at this acceptor.
+    if key is None:
+        key = next(iter(PUBLISHED_CRYPTIC_ACCEPTOR_JUNCTIONS))
+    meta = PUBLISHED_CRYPTIC_ACCEPTOR_JUNCTIONS[key]
+    (d_sym, d_end, a_sym, a_tag) = key
     donor = ja.transcript_model(d_sym)
     acceptor = build_tn_acceptor_model(cryptic)
     j = ja.mrna_junction_generic(donor, acceptor, d_end, 1)
@@ -413,10 +618,16 @@ def build():
     # whole coding sequence of NR4A3". If the chimeric ORF did not reach NR4A3's C-terminus, the
     # sequence in hand would not be the exon the paper describes — which is a retrieval failure, not
     # a biological finding, and must stop the run rather than be reported as one.
-    assert j["in_frame"], (
-        "the T-N chimeric ORF does not retain the NR4A3 C-terminus, contradicting PMID 31020999's "
-        "'Both T-N and T-N* encode the whole coding sequence of NR4A3'. The retrieved cryptic exon "
-        "is therefore not the one the paper describes. Refusing to emit designs on it.")
+    # ⛔ ASSERTED ONLY WHERE A SOURCE ACTUALLY MAKES THE CLAIM. For TAF15 the frame is PMID
+    # 31020999's own statement and a failure would mean the retrieved exon is not the one the paper
+    # describes — a retrieval failure that must stop the run. For the EWSR1 e10 donor NO published
+    # frame claim exists, so there is nothing to check the arithmetic against; the frame is computed
+    # and reported instead. Asserting a claim nobody made would be inventing the source.
+    if meta.get("frame_claim_to_assert"):
+        assert j["in_frame"], (
+            f"the chimeric ORF does not retain the NR4A3 C-terminus, contradicting "
+            f"{meta['frame_claim_to_assert']}. The retrieved cryptic exon is therefore not the one "
+            "the source describes. Refusing to emit designs on it.")
 
     # The T-N* seam, built by the same code, so the two can be compared rather than asserted apart.
     j_star = ja.mrna_junction_generic(donor, ja.transcript_model("NR4A3"), d_end, 3)
@@ -432,8 +643,8 @@ def build():
 
     junction_label = f"{d_sym}_e{d_end}__NR4A3_intron2crypticExon"
     atlas = {
-        "_title": ("Screen-ready side atlas — the TAF15 e6 :: NR4A3-intron-2 cryptic-exon seam "
-                   "ALONE, in the shape the deep off-target screens read."),
+        "_title": (f"Screen-ready side atlas — the {d_sym} e{d_end} :: NR4A3-intron-2 "
+                   "cryptic-exon seam ALONE, in the shape the deep off-target screens read."),
         "_read_this": (
             "⛔ NOT the manuscript panel. This file holds ONE junction, which is NOT among the 38 "
             "screened junctions in nr4a3-fusion-junction-atlas.json and whose off-target load is "
@@ -474,9 +685,9 @@ def build():
         }],
     }
     return atlas, {
-        "_what": ("Junction-spanning gapmer designs at the TAF15 exon 6 :: NR4A3-intron-2 "
-                  "cryptic-exon seam — the T-N isoform of TAF15::NR4A3, which the manuscript's "
-                  "38-junction panel cannot express because every junction in it uses NR4A3 exon 3."),
+        "_what": (f"Junction-spanning gapmer designs at the {d_sym} exon {d_end} :: NR4A3-"
+                  "intron-2 cryptic-exon seam, which the manuscript's 38-junction panel cannot "
+                  "express because every junction in it uses NR4A3 exon 3."),
         "_why": ("PMID 31020999 calls T-N and T-N* 'the two major TAF15-NR4A3 isoforms detected in "
                  "human tumors'. The coverage ladder prices the TAF15 arm as though every TAF15 "
                  "patient carried T-N*. If any carry T-N, no reagent in the panel reaches them."),
@@ -523,7 +734,24 @@ def build():
                 "pairing on a T-N transcript. The two seams need two reagents."),
         },
         "does_the_published_panel_reach_this_transcript": panel_reach_check(j["_fusion"]),
-        "deep_screen_results": screen_readout(),
+        # ⭐⭐ THE READING THAT DECIDES WHICH DESIGN IS USABLE AT A CRYPTIC-EXON SEAM. Reported
+        # BEFORE deep_screen_results because it is answerable now, offline, from committed
+        # sequence — and because the parent-exclusion result immediately above is exactly the
+        # reading that looks reassuring and is not.
+        "⭐_wild_type_NR4A3_cleavage_liability": wildtype_nr4a3_liability(
+            [o["antisense_5to3"] for o in oligos], cryptic),
+        "⭐_the_same_scan_over_the_SIBLING_seam_as_a_positive_control": {
+            "_why": ("A liability scan that returns zero everywhere is indistinguishable from a "
+                     "broken one. The sibling cryptic-acceptor junction has a KNOWN positive — the "
+                     "genome screen found TGATGAGGGCCTTGTG forming a gap-paired duplex on chr9 — so "
+                     "the same function is run over that design set here. If this control stops "
+                     "showing exactly one cleavage-competent design, the scan above is not "
+                     "trustworthy and neither is any 'clean' verdict it gives."),
+            "control_junction": [f"{k[0]} e{k[1]}" for k in PUBLISHED_CRYPTIC_ACCEPTOR_JUNCTIONS
+                                 if k != key],
+            "result": wildtype_nr4a3_liability(_control_designs(key, cryptic, parents), cryptic),
+        },
+        "deep_screen_results": screen_readout(meta["slug"]),
         "⭐_what_the_screens_actually_found": (
             "GAP SPECIFICITY MARGIN DECIDES WHETHER THIS REAGENT CUTS THE PATIENT'S OWN NR4A3, and "
             "that is the finding this junction exists to produce. Because the acceptor half of "
@@ -707,36 +935,52 @@ def build():
 
 def main(argv=None):
     argv = list(sys.argv[1:] if argv is None else argv)
-    atlas, art = build()
-    new = json.dumps(art, indent=1, sort_keys=False, ensure_ascii=False) + "\n"
-    new_atlas = json.dumps(atlas, indent=1, sort_keys=False, ensure_ascii=False) + "\n"
-    if "--check" in argv:
-        stale = [p for p, want in ((OUT, new), (ATLAS_OUT, new_atlas))
-                 if (open(p, encoding="utf-8").read() if os.path.exists(p) else "") != want]
-        if stale:
-            print(f"stale, re-run without --check: {', '.join(os.path.basename(p) for p in stale)}",
-                  file=sys.stderr)
-            return 1
-        print("TAF15 intron-2 designs + side atlas are current")
-        return 0
-    with open(OUT, "w", encoding="utf-8") as fh:
-        fh.write(new)
-    with open(ATLAS_OUT, "w", encoding="utf-8") as fh:
-        fh.write(new_atlas)
-    print(f"wrote {os.path.basename(OUT)} + {os.path.basename(ATLAS_OUT)}", file=sys.stderr)
-    print(f"  {art['junction_label']}  ({art['transcript_type']}, "
-          f"{art['n_independent_sources']} independent source)", file=sys.stderr)
-    print(f"    cryptic exon {art['cryptic_exon']['length_nt']} nt "
-          f"({art['cryptic_exon']['how_it_was_obtained']})", file=sys.stderr)
-    print(f"    seam {art['junction_context_mRNA']}   "
-          f"{art['n_clearing_the_parent_exclusion']}/{art['n_designs_spanning_the_seam']} designs "
-          "clear the parent exclusion", file=sys.stderr)
-    for o in art["designs"][:6]:
-        print(f"      {o['antisense_5to3']}  margin={o['gap_specificity_margin']}  "
-              f"GC={o['gc_percent']}%  "
-              f"{'clean' if o['clears_parent_exclusion'] else 'HITS ' + ','.join(o['exact_parent_hits'])}",
+    # ⛔ EVERY WHITELISTED JUNCTION, NOT JUST THE FIRST. Before 2026-08-15 this built
+    # `next(iter(...))` and wrote two fixed paths, so a second whitelist entry would have been
+    # accepted, documented, and silently never emitted — a file that reads as covering a junction it
+    # does not. Each junction now owns its own designs + atlas file, named to the `suffix_tag`
+    # convention `aso-offtarget.yml` already uses, so screening the new seam needs no code change.
+    rc, wrote = 0, []
+    for key, meta in PUBLISHED_CRYPTIC_ACCEPTOR_JUNCTIONS.items():
+        out_designs, out_atlas = _out_paths(meta)
+        atlas, art = build(key)
+        new = json.dumps(art, indent=1, sort_keys=False, ensure_ascii=False) + "\n"
+        new_atlas = json.dumps(atlas, indent=1, sort_keys=False, ensure_ascii=False) + "\n"
+        if "--check" in argv:
+            stale = [p for p, want in ((out_designs, new), (out_atlas, new_atlas))
+                     if (open(p, encoding="utf-8").read() if os.path.exists(p) else "") != want]
+            if stale:
+                print("stale, re-run without --check: "
+                      f"{', '.join(os.path.basename(p) for p in stale)}", file=sys.stderr)
+                rc = 1
+            continue
+        with open(out_designs, "w", encoding="utf-8") as fh:
+            fh.write(new)
+        with open(out_atlas, "w", encoding="utf-8") as fh:
+            fh.write(new_atlas)
+        wrote += [os.path.basename(out_designs), os.path.basename(out_atlas)]
+        print(f"\n{art['junction_label']}  ({art['transcript_type']}, "
+              f"{art['n_independent_sources']} independent source)", file=sys.stderr)
+        print(f"  -> {os.path.basename(out_designs)} + {os.path.basename(out_atlas)}",
               file=sys.stderr)
-    return 0
+        print(f"  cryptic exon {art['cryptic_exon']['length_nt']} nt "
+              f"({art['cryptic_exon']['how_it_was_obtained']})", file=sys.stderr)
+        print(f"  seam {art['junction_context_mRNA']}   "
+              f"{art['n_clearing_the_parent_exclusion']}/{art['n_designs_spanning_the_seam']} "
+              "designs clear the parent exclusion", file=sys.stderr)
+        pr = art["does_the_published_panel_reach_this_transcript"]
+        print(f"  panel reach: {pr.get('n_engaging_the_T_N_transcript')} of "
+              f"{pr.get('n_panel_designs_tested')} panel designs engage this transcript",
+              file=sys.stderr)
+        for o in art["designs"][:6]:
+            hit = ("clean" if o["clears_parent_exclusion"]
+                   else "HITS " + ",".join(o["exact_parent_hits"]))
+            print(f"    {o['antisense_5to3']}  margin={o['gap_specificity_margin']}  "
+                  f"GC={o['gc_percent']}%  gap {o['gap_bases_donor_side']}donor/"
+                  f"{o['gap_bases_acceptor_side']}acceptor  {hit}", file=sys.stderr)
+    if "--check" in argv and not rc:
+        print("cryptic-acceptor designs + side atlases are current")
+    return rc
 
 
 if __name__ == "__main__":
