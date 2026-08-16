@@ -483,9 +483,10 @@ the compartment in question. The same three were returned independently by an ex
 control that fired on exactly the one design it was required to fire on. The second is what decides
 it, because the obvious answer is wrong. It is not the gap-level margin this paper ranks by: the two
 condemned *EWSR1* designs carry 2 and 1 donor bases inside the catalytic gap, while a design at the
-same seam with a margin of 1 and five donor bases is clean. What decides is how much donor sequence
-the gap holds, the rest being acceptor sequence the wild-type allele already carries verbatim — a
-property of the donor rather than of the acceptor. The sequence bears it out: *EWSR1* exon 13 ends
+same seam with a margin of 1 and five donor bases in its gap is clean. What decides is how much
+donor sequence the gap holds, the rest being acceptor sequence the wild-type allele already carries
+verbatim — a property of the donor rather than of the acceptor. The sequence bears it out: *EWSR1*
+exon 13 ends
 CACTCCGTGGAG against the last twelve nucleotides of *NR4A3* intron 1, CCTTGCCTGTAG, matching at 7 of
 12 positions with a shared terminal AG, whereas *TAF15* exon 6 ends ACCACACACAAG and matches at 4,
 mismatching in every register — which is why the *TAF15* exon-2 seam returns no such design and the
@@ -1128,8 +1129,9 @@ cleanliness.
 
 **Records are not genes, and one assembly is not a genome.** RefSeq carries one accession per
 annotated variant, so a match to a constitutive exon is counted once per variant: over the 44 designs
-whose hit lists permit a locus recount the median inflation is 2.25 records per locus and the maximum
-11.0, more than doubling the apparent number of distinct genes. A design's *load* is its predicted
+of the 38 junction screens whose hit lists permit a locus recount the median inflation is 2.25
+records per locus and the maximum 11.0, more than doubling the apparent number of distinct genes.
+A design's *load* is its predicted
 off-target burden counted as near-matches, and where it sits matters as much as its size: `NM_`/`NR_`
 records are curated, `XM_`/`XR_` computationally predicted. Both compound on
 5′-GGGCATATCATCAAAC-3′, whose 123 gap-paired near-matches at the deeper ceiling recount to six loci:
