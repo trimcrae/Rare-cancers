@@ -893,8 +893,10 @@ reported as such rather than given a best row.
 same junctions tiled and screened at three gapmer geometries, wing held at five nucleotides so that only
 the catalytic gap changes. Inside the gap the junction-unique bases on the shorter side and the
 bases one wild-type parent pairs on the longer side are complements: they sum to the gap, which the
-generating module asserts for every design rather than assuming. Each nucleotide of gap-level margin
-therefore costs one nucleotide of contiguous wild-type-parent duplex, and the two directions are
+generating module asserts for every design rather than assuming. Within one geometry the gap is
+fixed, so each nucleotide of gap-level margin is one FEWER nucleotide of contiguous
+wild-type-parent duplex; what raises the parent-paired run at every register is a longer gap, which
+is the only way past a geometry's ceiling of half its gap rounded down. The two directions are
 reported separately and never combined into a score. Near-match counts fall partly for a reason the
 instrument guarantees rather than measures: at a fixed budget of two mismatches every locus a longer
 design can reach is also reached by each of its own shorter sub-windows, so the set can only shrink,
@@ -914,7 +916,7 @@ measurement of cleavage.
 {table5(gap)}
 
 **Table 6. Where the clinically-relevant reagents' off-target loci are expressed.** Every gene
-locus returned by the deeper screens at the {n_expr_seams_txt} junctions with a published exon-resolved EMC breakpoint,
+locus returned by the deeper screens at {n_expr_seams_txt} of the five junctions with a published exon-resolved EMC breakpoint,
 read against reference expression data. The two compartments answer different questions and are
 never combined: a systemically dosed phosphorothioate gapmer distributes predominantly to liver and
 kidney, so {lo_cut_txt} address exposure, while the soft-tissue column is the normal

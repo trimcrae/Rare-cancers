@@ -19,9 +19,11 @@ pair and the artifact carries no composite rank.
 
 ⭐ AND THE SHARPEST FORM OF THE COST IS ARITHMETIC, NOT A SEARCH RESULT. Inside the catalytic gap,
 the junction-unique bases on the shorter side and the bases a WILD-TYPE PARENT pairs on the longer
-side are complements: they sum to the gap. Raising the margin therefore raises, by the same
-nucleotide, the contiguous DNA that one wild-type parent transcript pairs at the design's own seam —
-the quantity RNase-H1's own minimum is stated in. That is not a coincidence a better search could
+side are complements: they sum to the gap. ⛔ WITHIN A GEOMETRY THAT MAKES THEM MOVE INVERSELY —
+raising the margin LOWERS, by the same nucleotide, the contiguous DNA one wild-type parent pairs at
+the design's own seam. What costs is a LONGER GAP, which is the only way to raise the margin past a
+geometry's ceiling of half its gap rounded down, and which raises the parent-paired run at every
+register — the quantity RNase-H1's own minimum is stated in. That is not a coincidence a better search could
 dodge and no screen in this repository was measuring it, because it is a property of the geometry
 rather than of the transcriptome.
 
@@ -727,9 +729,16 @@ def build():
             "_the_identity": (
                 "Inside the catalytic gap the junction-unique bases on the shorter side and the "
                 "bases one wild-type parent pairs on the longer side are COMPLEMENTS: they sum to "
-                "the gap, which this module asserts per design rather than assuming. So the "
-                "gap-level margin and the contiguous parent-paired DNA rise together, nucleotide "
-                "for nucleotide, and a design centred on its seam has them equal."),
+                "the gap, which this module asserts per design rather than assuming. ⛔ THEY "
+                "THEREFORE MOVE INVERSELY WITHIN A GEOMETRY, NOT TOGETHER: at a fixed gap each "
+                "nucleotide of gap-level margin is one FEWER nucleotide of contiguous "
+                "parent-paired DNA, and a design centred on its seam has them equal. What the "
+                "identity forbids is raising the margin past the geometry's ceiling of half its "
+                "gap, rounded down; that takes a longer gap, and a longer gap raises the "
+                "parent-paired run at every register. ⚠ Superseded, retained (round 5, 2026-08-15): "
+                "'the gap-level margin and the contiguous parent-paired DNA rise together, "
+                "nucleotide for nucleotide' — true across geometries, backwards within one, and "
+                "contradicted by this module's own `parent_dna = max(gl, gr)  # = gap - margin`."),
             "improves_with_a_longer_gap": {
                 "best_available_gap_margin": {g["architecture"]: max(int(k) for k in
                                                                      g["gap_margin_distribution"])

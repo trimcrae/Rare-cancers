@@ -880,7 +880,12 @@ def test_the_corpus_parent_liability_numbers_in_section_3_10():
     txt = _flat(_paper())
     assert "from 76 of 190 to 228 of 266 to 342 of 342" in txt
     assert "−8.66 to −14.58 kcal/mol" in txt
-    assert "the smaller half of a gap of ten cannot be under five" in txt
+    # ⚠ "smaller" -> "larger", round 6. The counted quantity is `max(gl, gr)`
+    # (aso_gap_length_tradeoff.py: `parent_dna = max(gl, gr)`), so what cannot be under five at a gap
+    # of ten is the LARGER half; the smaller half runs 1 to 5. This guard pinned the wrong word and
+    # would have held the error in place -- it is the second time in two rounds that a test asserted
+    # a defective sentence, which is worth knowing about substring-pinned guards generally.
+    assert "the larger half of a gap of ten cannot be under five" in txt
     assert "At 5-6-5, 114 of 190 designs keep the parent below it" in txt
     # ⚠ THE CRITERION MUST TRAVEL WITH THESE THREE COUNTS. "Pair the whole gap" is a 6-nt condition at
     # 5-6-5 and a 10-nt one at 5-10-5, so 181/190 against 87/342 is not one test read three times —
