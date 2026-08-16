@@ -109,10 +109,14 @@ def test_an_uncited_display_item_must_be_declared_not_guessed():
 
 
 def test_the_declared_fallback_for_figure_3_still_points_at_a_real_section():
+    """⚠ Matches heading TEXT at any level, not a `### <number>`. Updated 2026-08-16 with the
+    builder: the number form asserted that §3.10 existed, so an editorial pass that merged that
+    subsection into a renamed one turned a placement question into a spurious failure about
+    numbering. What must hold is that the declared anchor still names a section that exists."""
     body, _ = bsp.assemble(PAPER, "journal")
     for label, rule in PAPER["placement"].items():
-        assert re.search(rf"^###\s+{re.escape(rule['after_heading'])}\s", body, re.M), (
-            f"{label}'s declared placement section has been renamed")
+        assert re.search(rf"^#{{2,4}}\s+.*{re.escape(rule['after_heading'])}.*$", body, re.M | re.I), (
+            f"{label}'s declared placement anchor {rule['after_heading']!r} matches no heading")
 
 
 def test_float_anchors_are_computed_before_any_insertion():

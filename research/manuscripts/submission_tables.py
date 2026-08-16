@@ -849,7 +849,7 @@ None of these numbers is a measurement of off-target activity.\n\n¹ Counted ove
 
 **Table 3. The {n_clean} designs with no sense-strand near-match at the default search depth.** Six of
 these lose the property when the same junctions are re-screened at a tenfold deeper alignment
-ceiling, three of them having returned no near-match at all here; §3.10 reports that
+ceiling, three of them having returned no near-match at all here; §2.4 reports that
 measurement and names the three that survive it. This table is the default-depth result, retained
 because it is the depth at which the corpus-wide counts elsewhere in the paper were computed. Every design at the {n_clean_junctions} junctions
 where one exists. A design qualifies only
@@ -866,7 +866,7 @@ bounds agree.\n\n⁴ Of four conventional antisense design rules: GC within 40�
 motif, no homopolymer run of four, no CpG dinucleotide.\n\n⁵ Whether the design still carries no
 sense-strand near-match once its junction is re-screened at the tenfold deeper ceiling. The verdict
 is computed from the three deep columns beside it, not asserted, so this table cannot come to
-disagree with §3.10 about which designs survive. The six that do not are the reason this table's
+disagree with §2.4 about which designs survive. The six that do not are the reason this table's
 default-depth zeros must not be read on their own.
 
 {t3}
