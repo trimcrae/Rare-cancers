@@ -9,9 +9,14 @@ that one wild-type parent transcript can pair is the count on the LONGER side. T
 complements: they tile the gap, so they sum to it exactly, for every design in every geometry.
 
 ⛔ SO IT IS AN IDENTITY, NOT A CORRELATION, AND THE FIGURE MUST NOT LOOK LIKE A CORRELATION. A
-scatter with a fitted line would say "these tend to trade off". What is true is stronger and worse:
-no design can gain a nucleotide of margin without handing RNase-H1 one more nucleotide of contiguous
-wild-type-parent duplex, and no choice of register or gap length avoids it. Panel A draws the
+scatter with a fitted line would say "these tend to trade off". What is true is stronger and more
+exact: margin and the contiguous wild-type-parent duplex sum to the gap, so within one geometry they
+move INVERSELY along a line of slope −1 — a higher-margin register concedes a SHORTER parent duplex.
+What a geometry fixes is the ceiling on margin, at half its gap rounded down; passing it takes a
+longer gap, and a longer gap raises the parent-paired run at every register. ⚠ Superseded, retained
+(round 5, 2026-08-15): "no design can gain a nucleotide of margin without handing RNase-H1 one more
+nucleotide of contiguous wild-type-parent duplex, and no choice of register or gap length avoids
+it" — register choice is precisely what avoids it within a geometry. Panel A draws the
 mechanism on one real junction so the reader can see WHY; panel B shows every design in all three
 geometries falling on the three exact lines, with no scatter to fit.
 

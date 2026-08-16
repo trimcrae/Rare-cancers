@@ -117,8 +117,14 @@ I intend to deposit the manuscript as a preprint on bioRxiv, consistent with the
 policy, and will link the preprint to the published version. I am the sole author, an unaffiliated
 independent researcher with no institutional address. Analysis code, the screening pipelines and
 drafting were carried out with substantial AI assistance under my direction, which is disclosed in
-the manuscript; no AI tool is an author, every quantitative statement is produced by code in the
-released archive, and I take full responsibility for the content.
+the manuscript; no AI tool is an author, every quantitative statement derived from sequence or from a
+screen is produced by code in the released archive and is reproducible from it, the clinical figures
+are transcribed from the publications cited for them, and I take full responsibility for the content.
+
+⚠ *Superseded, retained: "every quantitative statement is produced by code in the released archive".
+Retired 2026-08-15 — it is not true of the clinical statistics, which are read out of cited
+publications. The manuscript's Declarations were corrected in the same round and this line was not,
+which is why the two now say the same thing rather than one of them being right.*
 
 The work is original, has not been published, and is not under consideration elsewhere. I received
 no funding and have no financial competing interests. I declare one non-financial interest: I am a
