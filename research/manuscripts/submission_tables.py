@@ -336,10 +336,14 @@ def table2(collapse, chance, atlas):
     # gap-spanning resolved to LOCI but not to transcripts, so that is the column that exists.
     deep = _deep_lookup()
     hdr = ("| junction | designs screened | best gap-level margin | that design | near-matches, "
-           "either strand (transcripts → loci) | of the retained hits, on the sense strand² | loci with a "
-           "gap-spanning hit | of those, predicted models only¹ | "
-           "at the deeper ceiling: near-matches⁵ | of those, on the sense strand⁵ | "
-           "loci with a gap-spanning hit⁵ | "
+           # ⛔ THE MARKERS USED TO RUN ¹ ² ⁵ AND ² ¹ ⁵ ⁵ ⁵ ACROSS THE HEADER (round-7 review,
+           # 2026-08-16). ³ and ⁴ belong to Table 3, so a reader of Table 2 hunting for them found
+           # nothing, and the two Table 2 markers appeared out of order in the header besides. They
+           # now ascend in reading order and run contiguously, and Table 3's continue from them.
+           "either strand (transcripts → loci) | of the retained hits, on the sense strand¹ | loci with a "
+           "gap-spanning hit | of those, predicted models only² | "
+           "at the deeper ceiling: near-matches³ | of those, on the sense strand³ | "
+           "loci with a gap-spanning hit³ | "
            "≤1-mismatch matches across that junction's designs, median (max) |")
     sep = "|---|---|---|---|---|---|---|---|---|---|---|---|"
     rows = []
@@ -410,6 +414,125 @@ _TIER_LABELS = {
     "partner_published_this_exon_not_reported": "exon not reported",
     "no_published_exon_resolved_breakpoint": "none published",
 }
+
+
+#: ⛔ TABLE 7 IS A ROW SPEC, NOT A DATA TABLE. Each entry names a reagent's EDITORIAL ROLE and where
+#: to READ it from; every number in the rendered row is fetched from the artifact named here and none
+#: is typed. The order is the order §4 makes the decisions in: the two leads first, then each rung of
+#: the coverage ladder, then the seams reported beside the panel, then the two contrast arms.
+#: ⚠ THE ROLE IS THE ONLY EDITORIAL FIELD. If a role and its artifact ever disagree — a "lead reagent"
+#: whose junction is no longer in ladder rung 0 — the coverage cell will say so, because the coverage
+#: cell is read from the ladder rather than from this list.
+_TABLE7_ROWS = (
+    ("lead reagent", "panel", "EWSR1_e12__NR4A3_e3", None),
+    ("lead reagent", "panel", "TAF15_e6__NR4A3_e3", None),
+    ("coverage rung", "panel", "EWSR1_e13__NR4A3_e3", None),
+    ("coverage rung", "noncoding", "EWSR1_e7__NR4A3_e2", None),
+    ("coverage bound", "panel", "TCF12_e5__NR4A3_e3", None),
+    ("beside the panel", "noncoding", "EWSR1_e13__NR4A3_e2", None),
+    ("beside the panel", "noncoding", "TAF15_e6__NR4A3_e2", None),
+    ("beside the panel", "noncoding", "PGR_e2__NR4A3_e2", None),
+    ("gap-length control", "geometry", "EWSR1_e12__NR4A3_e3", "5-8-5"),
+    ("margin contrast arm", "design", "EWSR1_e12__NR4A3_e3", "GCATATCATCAAACCA"),
+)
+
+
+def _ladder_coverage(ladder):
+    """junction_label -> (cumulative coverage cell, basis cell), READ from the coverage ladder.
+
+    ⛔ THE COVERAGE CELL IS THE LADDER'S, NOT THE ROW SPEC'S. A junction's cumulative figure is the
+    coverage of the FIRST rung that contains it, because that is what "cumulative through this row"
+    means; the two leads are one rung and therefore carry one figure between them, which the caption
+    says. A junction that qualifies for the best-supported panel but moves the estimate by nothing
+    prints WHY it moves nothing rather than a zero, since the two reasons are different — the partner
+    is absent from the 58-case cohort, or the partner is present and this exon pair carries no count
+    in the measured within-partner distribution. Both are in the artifact and neither is inferred.
+    """
+    out = {}
+    for rung in ladder["ladder"]:
+        cell = f"{rung['coverage_percent']:.1f}%"
+        lo, hi = rung["coverage_percent_range"]
+        if lo != hi:
+            cell += f" ({lo:.1f}–{hi:.1f})"
+        # ⚠ A RUNG THAT BUYS NOTHING MUST SAY SO IN ITS OWN CELL. Two consecutive rungs print the
+        # same cumulative figure when the second adds zero, and a reader who does not compare rows
+        # reads the second as having bought it. The delta is in the artifact; print it.
+        delta = rung.get("delta_percent_vs_previous")
+        if rung["kind"] == "rung" and delta is not None:
+            cell += f" (+{delta:.1f})"
+        basis = ("arithmetic bound" if rung["kind"] == "bound"
+                 else "single series, cumulative")
+        for j in rung["junctions"]:
+            out.setdefault(j, (cell, basis))
+    pm = ladder["best_supported_buildable_panel"]["panel_membership"]
+    for key, why in (("⛔_in_cohort_but_moving_NOTHING",
+                      "partner in the cohort, this exon pair uncounted in it"),
+                     ("⛔_qualifying_but_contributing_exactly_zero",
+                      "partner absent from the cohort behind the denominator")):
+        for j in pm[key]["junctions"]:
+            out.setdefault(j, ("adds nothing", why))
+    return out
+
+
+def table7(per_junction, noncoding, gap, ladder):
+    """Every reagent §4 names, with what it costs on each screen and what it buys in coverage.
+
+    ⛔ WHY A SEVENTH TABLE. The coverage apparatus was ~1,430 words of prose carrying five
+    percentages on two incompatible bases, a ladder, a refused third series and a per-design recital
+    of margins, loads and parent duplexes. Every one of those is a cell. What a table cannot carry is
+    the two facts the prose keeps: that no oligonucleotide serves two breakpoints of the same
+    partner, and that the exon-2 acceptor rows are reported beside the panel and never pooled into
+    it — so those stay in prose and everything else moves here.
+
+    ⚠ ROWS FROM FOUR ARTIFACTS, AND THE ROW SAYS WHICH. The panel rows come from the manuscript's
+    38-junction table; the exon-2 acceptor rows from the non-canonical-acceptor table, which is a
+    different table for a stated reason and is never pooled with the first; the gap-length control
+    from the geometry trade-off artifact; the margin arm from the per-design list at its own
+    junction. A row's coverage cell always comes from the coverage ladder, never from its screen.
+    """
+    panel = {j["junction_label"]: j for j in per_junction["junctions"]}
+    nonc = {j["junction_label"]: j for j in noncoding["junctions"]}
+    lead = gap["lead_reagent_at_the_most_commonly_reported_seam"]["by_geometry"]
+    cover = _ladder_coverage(ladder)
+    default_arch = GEOMETRY.architecture
+
+    def _duplex(bp, gene):
+        if not bp:
+            return "none"
+        return f"{bp} bp (*{gene}*)" if gene else f"{bp} bp"
+
+    rows = []
+    for role, src, label, key in _TABLE7_ROWS:
+        if src in ("panel", "noncoding"):
+            j = (panel if src == "panel" else nonc)[label]
+            b = j["best_available"]
+            seq, margin, arch = b["antisense_5to3"], b["gap_specificity_margin"], default_arch
+            load = f"{b['n_gap_paired']} → {b['n_gap_paired_loci']}"
+            dup = _duplex(b["parent_duplex_bp"], b["parent"])
+        elif src == "geometry":
+            g = lead[key]
+            seq, margin, arch = g["antisense_5to3"], g["gap_specificity_margin"], g["architecture"]
+            load = (f"{g['alignment_screen']['n_true_cleavage_risk']} → "
+                    f"{g['alignment_screen']['loci']['n_loci_with_a_gap_spanning_hit']}")
+            dup = _duplex(g["mature_parent_duplex_through_whole_gap_bp"],
+                          g["mature_parent_duplex_gene"])
+        else:
+            d = next(x for x in panel[label]["designs"] if x["antisense_5to3"] == key)
+            seq, margin, arch = d["antisense_5to3"], d["gap_specificity_margin"], default_arch
+            load = f"{d['n_gap_paired']} → {d['n_gap_paired_loci']}"
+            dup = _duplex(d["parent_duplex_bp"], d["parent"])
+        # ⚠ A CONTRAST ARM HAS NO COVERAGE AND MUST NOT BORROW ITS JUNCTION'S. Both arms sit at a
+        # junction already in the table; printing that junction's cumulative figure again would
+        # count the same patients twice, which is the exact error the ladder exists to prevent.
+        cov, basis = (("—", "not a coverage row") if src in ("geometry", "design")
+                      else cover.get(label, ("adds nothing", "not in the ladder")))
+        lab = label.replace("__", "::").replace("_", " ")
+        rows.append(f"| {role} | {lab} | 5′-{seq}-3′ | {arch} | {margin} | {load} | "
+                    f"{dup} | {cov} | {basis} |")
+    hdr = ("| reagent | junction | sequence | geometry | gap-level margin | gap-paired near-matches "
+           "→ loci at the deeper ceiling | longest mature-parent duplex through the gap | "
+           "cumulative coverage | basis |")
+    return "\n".join([hdr, "|---|---|---|---|---|---|---|---|---|"] + rows)
 
 
 def table4(per_junction):
@@ -557,11 +680,28 @@ def table5(gap):
         row("a mature parent can pair the whole gap",
             lambda d: f"{d['mature_parent_whole_gap_duplex']['n_with_any_gap_pairing_window']} of "
                       f"{d['n_fusion_specific_designs']}", geom),
+        # ⛔ THE PAPER'S KEY THRESHOLD-CONTROLLED RESULT WAS IN NO TABLE (round-7 review, 2026-08-16).
+        # §2.9 neutralises the gap-length win with "held to the ten-base-pair criterion applied
+        # everywhere else here, the liability is flat: 87 of 190, 88 of 266 and 87 of 342" — the
+        # sentence the title's "nearly half" survives on — and `88 of 266` appeared NOWHERE in this
+        # file. A reviewer spot-checking it found the row above (181/130/87, a different quantity)
+        # and the row below (76/228/342, a different quantity again), both plausible and neither the
+        # one quoted. Printing the two neighbours of a number and not the number is worse than
+        # printing none of the three, because it reads as a contradiction rather than as an omission.
+        row("…and that duplex reaches ten base pairs, the criterion applied throughout",
+            lambda d: f"{d['mature_parent_whole_gap_duplex']['n_at_or_above_min_duplex_bp']} of "
+                      f"{d['n_fusion_specific_designs']}", geom),
         # ⚠ ONE ROW, NOT TWO, BECAUSE THESE ARE THE SAME CONDITION AND PRINTING BOTH READS AS A
         # COPY-PASTE FAULT. The parent's junction hybrid is the wing plus its share of the gap, and the
         # wing is five at every geometry compared, so "hybrid reaches ten base pairs" and "the DNA
         # run reaches five nucleotides" are the same inequality. Asserted below rather than trusted.
-        row("parent pairs ≥5 nt of contiguous gap DNA, a ten-base-pair hybrid",
+        # ⛔ AND THE LABEL NOW SAYS *WHERE* THAT HYBRID IS (round-7 review, 2026-08-16). It read
+        # "parent pairs ≥5 nt of contiguous gap DNA, a ten-base-pair hybrid", which reuses the
+        # paper's headline phrase — a ten-base-pair criterion — against a DIFFERENT quantity: this
+        # row is the parent's hybrid at the design's OWN seam, an arithmetic property of the
+        # junction, while 87 of 190 is the mature-parent SEARCH over every window of all six parents.
+        # Two quantities, one form of words, adjacent rows.
+        row("at the design's own seam, the parent pairs ≥5 nt of contiguous gap DNA",
             lambda d: f"{d['n_reaching_reported_dna_minimum']['5']} of "
                       f"{d['n_fusion_specific_designs']}", geom),
         row("designs pairing the gap in parent pre-mRNA",
@@ -667,9 +807,12 @@ def table3(collapse, chance, thermo, graded):
     deep = _deep_lookup()
     hdr = ("| design | junction | GC (%) | gap-level margin | ΔΔG°37 (kcal/mol) | near-matches, "
            "either strand | of those, on the sense strand | exact / ≤1-mismatch matches | residual "
-           "cleavage load, both bounds³ | conventional rules failed⁴ | "
+           # ⛔ CONTINUES TABLE 2's RUN. Markers are unique across the file so a lifted table cannot
+           # collide with its neighbour's notes, and each table's own set is contiguous — see the
+           # note on Table 2's header, which used to leave ³ and ⁴ dangling inside Table 2.
+           "cleavage load, both bounds⁴ | conventional rules failed⁵ | "
            "at the deeper ceiling: near-matches | of those, on the sense strand | "
-           "loci with a gap-spanning hit | survives⁵ |")
+           "loci with a gap-spanning hit | survives⁶ |")
     sep = "|---|---|---|---|---|---|---|---|---|---|---|---|---|---|"
     rows = []
     for lab, o in _clean_designs(collapse):
@@ -788,7 +931,15 @@ def main():
     per_junction = _load("aso-per-junction-table.json")
     gap = _load("aso-gap-length-tradeoff.json")
     expr = _load("aso-offtarget-tissue-expression.json")
-    if not (atlas and collapse and chance and thermo and per_junction and gap and expr):
+    # Table 7's two extra sources. The exon-2 acceptor rows live in their own table for the reason
+    # that table states — their junctions are not the manuscript's panel — and the coverage cells
+    # come from the ladder, which is the one place that owns the arithmetic.
+    noncoding = _load(os.path.join("noncoding-acceptor",
+                                   "aso-noncoding-acceptor-screened-table.json"))
+    ladder = json.load(open(os.path.join(HERE, "aso",
+                                         "fusion-junction-aso-coverage-ladder.json")))
+    if not (atlas and collapse and chance and thermo and per_junction and gap and expr
+            and noncoding and ladder):
         print("a required artifact is missing", file=sys.stderr)
         return 2
 
@@ -843,13 +994,13 @@ accession per annotated variant. A “≥” marks a right-censored count: the s
 {SAVED_HITS} hits per design, so a design with more is a lower bound. All {sum(1 for s in collapse["screens"] if s.get("junction_label"))} junction screens
 are filtered by alignment orientation. `XM_`/`XR_` records are computationally
 predicted gene models rather than curated transcripts, and are counted separately for that reason.
-None of these numbers is a measurement of off-target activity.\n\n¹ Counted over the gap-spanning loci only, not over all of that design's near-match loci.\n\n² A near-match count is what the search returned on EITHER strand; a match on the strand opposite the target window cannot be hybridised by an antisense oligonucleotide and is not a liability. Across this corpus {pct}% of apparent gap-spanning hits ({minus} of {tot:,}) are of that kind, which is why the two columns differ and why the raw count alone should not be read as load. This column counts only the {SAVED_HITS} RETAINED hits. The gap-spanning locus column is recounted from those hits wherever they are the complete list, and is exact there; a “≤” marks a truncated design, where the column instead carries the screen's own count over every ranked hit, computed under a locus assignment since corrected that split some genes across accessions and therefore over-counts. The two columns are not in conflict where a truncated design shows “≥0” sense-strand hits and a non-zero gap-spanning locus count: the sense-strand hits are real and simply fall outside the stored window, which is precisely why such a design cannot be called clean.\n\n⁵ The same design re-screened at a tenfold deeper alignment ceiling, with retention raised to match it so that no hit list is truncated. Because no list is truncated, the gap-spanning locus column at this depth is recounted from the complete stored hits under the current locus assignment and is exact; it is not the screen's own stored figure, which was computed before that assignment was corrected and splits any gene whose description carries a comma across one accession per transcript variant. It is therefore the same quantity, counted the same way, as the locus figures in Table 4 and in the Results. The three columns are the counterparts of the default-depth columns to their left, given beside them rather than in place of them because the default depth is where the corpus-wide counts elsewhere in the paper were computed and the two must stay comparable. Read together they are the paper's censoring result at the level of a single row: a default-depth count is a lower bound whether or not it reached the 50-hit cap, and three junctions whose default cell reads zero in the gap-spanning column carry gap-spanning hits at ten times the depth. A “—” means the deeper re-screen returned no result for that design and is not a count of zero; three of the panel's 190 records failed at this ceiling.{dagger}
+None of these numbers is a measurement of off-target activity.\n\n¹ A near-match count is what the search returned on EITHER strand; a match on the strand opposite the target window cannot be hybridised by an antisense oligonucleotide and is not a liability. Across this corpus {pct}% of apparent gap-spanning hits ({minus} of {tot:,}) are of that kind, which is why the two columns differ and why the raw count alone should not be read as load. This column counts only the {SAVED_HITS} RETAINED hits. The gap-spanning locus column is recounted from those hits wherever they are the complete list, and is exact there; a “≤” marks a truncated design, where the column instead carries the screen's own count over every ranked hit, computed under a locus assignment since corrected that split some genes across accessions and therefore over-counts. The two columns are not in conflict where a truncated design shows “≥0” sense-strand hits and a non-zero gap-spanning locus count: the sense-strand hits are real and simply fall outside the stored window, which is precisely why such a design cannot be called clean.\n\n² Counted over the gap-spanning loci only, not over all of that design's near-match loci.\n\n³ The same design re-screened at a tenfold deeper alignment ceiling, with retention raised to match it so that no hit list is truncated. Because no list is truncated, the gap-spanning locus column at this depth is recounted from the complete stored hits under the current locus assignment and is exact; it is not the screen's own stored figure, which was computed before that assignment was corrected and splits any gene whose description carries a comma across one accession per transcript variant. It is therefore the same quantity, counted the same way, as the locus figures in Table 4 and in the Results. The three columns are the counterparts of the default-depth columns to their left, given beside them rather than in place of them because the default depth is where the corpus-wide counts elsewhere in the paper were computed and the two must stay comparable. Read together they are the paper's censoring result at the level of a single row: a default-depth count is a lower bound whether or not it reached the 50-hit cap, and three junctions whose default cell reads zero in the gap-spanning column carry gap-spanning hits at ten times the depth. A “—” means the deeper re-screen returned no result for that design and is not a count of zero; three of the panel's 190 records failed at this ceiling.{dagger}
 
 {t2}
 
 **Table 3. The {n_clean} designs with no sense-strand near-match at the default search depth.** Six of
 these lose the property when the same junctions are re-screened at a tenfold deeper alignment
-ceiling, three of them having returned no near-match at all here; §3.10 reports that
+ceiling, three of them having returned no near-match at all here; §2.4 reports that
 measurement and names the three that survive it. This table is the default-depth result, retained
 because it is the depth at which the corpus-wide counts elsewhere in the paper were computed. Every design at the {n_clean_junctions} junctions
 where one exists. A design qualifies only
@@ -860,13 +1011,13 @@ near-match lists are shortest, not the designs whose lists are known to be exhau
 duplex either parent can form, for an unmodified DNA:RNA hybrid; because the fusion duplex pairs
 both LNA wings and each parent duplex only one, it is a lower bound on the modified
 oligonucleotide's discrimination rather than an upper one. None of these numbers is a measurement of off-target
-activity, and none speaks to cleavage.\n\n³ Under the optimistic five-fold and the pessimistic
+activity, and none speaks to cleavage.\n\n⁴ Under the optimistic five-fold and the pessimistic
 no-discrimination bound on RNase-H1 single-mismatch discrimination. A single value means the two
-bounds agree.\n\n⁴ Of four conventional antisense design rules: GC within 40–60%, no G-quadruplex
-motif, no homopolymer run of four, no CpG dinucleotide.\n\n⁵ Whether the design still carries no
+bounds agree.\n\n⁵ Of four conventional antisense design rules: GC within 40–60%, no G-quadruplex
+motif, no homopolymer run of four, no CpG dinucleotide.\n\n⁶ Whether the design still carries no
 sense-strand near-match once its junction is re-screened at the tenfold deeper ceiling. The verdict
 is computed from the three deep columns beside it, not asserted, so this table cannot come to
-disagree with §3.10 about which designs survive. The six that do not are the reason this table's
+disagree with §2.4 about which designs survive. The six that do not are the reason this table's
 default-depth zeros must not be read on their own.
 
 {t3}
@@ -905,10 +1056,13 @@ the fall and which designs reach zero are measurements. The three blocks carry d
 denominators and are not comparable across blocks: the junction block is one molecule, the matched-junction
 block is the six junctions every geometry was screened at, and the corpus block is each geometry's
 whole design space, which is not screened at the same junctions. The exhaustive GRCh38 genome scan
-is unavailable at 18 and 20 nucleotides by construction, so no row reports it. Because the wing is
-five throughout, a parent's junction hybrid is five base pairs plus its share of the gap, so pairing
-five nucleotides of contiguous gap DNA and reaching a ten-base-pair hybrid are the same condition
-and are reported as one row. ΔG°37 values are for
+is unavailable at 18 and 20 nucleotides by construction, so no row reports it. Two of the corpus rows
+carry a ten-base-pair criterion and they are not the same measurement. “…and that duplex reaches ten
+base pairs” is the mature-parent screen, a search over every window of all six parent transcripts,
+and it is the row §2.5's 87 of 190 and §2.9's 87 / 88 / 87 are read from. “At the design's own seam”
+is arithmetic on the junction itself: because the wing is five throughout, a parent's hybrid at that
+seam is five base pairs plus its share of the gap, so pairing five nucleotides of contiguous gap DNA
+and reaching a ten-base-pair seam hybrid are the same condition and are reported as one row. ΔG°37 values are for
 an unmodified DNA:RNA hybrid; the wing is five at every geometry, so LNA affinity enters each parent
 duplex identically and cannot explain a difference between the columns. None of these numbers is a
 measurement of cleavage.
@@ -935,6 +1089,26 @@ nothing here distinguishes these loci from one another on affinity. None of thes
 measurement of cleavage, and no expression figure is a predicted cleavage event.
 
 {table6(expr)}
+
+**Table 7. Every reagent named in §4, what it costs on each screen and what it buys in coverage.**
+The rows are in the order §4 decides them: the two lead reagents, the rungs of the coverage ladder
+above them, the four *NR4A3* exon-2 acceptor seams reported beside the panel, and the two contrast
+arms. Cumulative coverage is the coverage of the reagent set through that row, so the two leads are
+one rung and carry one figure between them; it is discounted by the breakpoint distribution of a
+single series and is not a partner figure, and its interval is composed from each breakpoint
+fraction's own Wilson bound rather than from the point estimate. A bound row is what coverage would
+be if every remaining breakpoint of that partner were covered, which nothing measures. A row that
+adds nothing prints why, because the two reasons differ: the partner is absent from the 58-case
+cohort behind the denominator, or the partner is present and that exon pair carries no count in the
+measured within-partner distribution. The exon-2 acceptor rows are from the non-canonical-acceptor
+table and are never pooled into the panel, since the grade that excludes their junctions from the 38
+is unchanged. A contrast arm carries no coverage figure and must not borrow its junction's, which is
+already counted a row above. Gap-paired near-matches are at the tenfold deeper alignment ceiling
+where every hit list is complete, and the parent duplex is the longest contiguous run containing the
+whole catalytic gap, at the ten-base-pair criterion applied throughout. None of these numbers is a
+measurement of off-target activity, and no row is a claim of efficacy.
+
+{table7(per_junction, noncoding, gap, ladder)}
 """
     open(OUT, "w").write(doc)
     print(f"wrote {OUT}")

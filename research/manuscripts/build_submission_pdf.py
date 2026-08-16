@@ -76,14 +76,16 @@ PAPERS = {
             "Supplementary Figure S1.": "aso-chance-baseline.svg",
         },
         #: ⚠ THE CHANCE-BASELINE PANEL IS NEVER CITED BY NAME IN THE BODY, so the journal style
-        #: has no anchor to float it to and would otherwise place it arbitrarily. §3.10 is the
-        #: section that derives the baseline it draws — the 8.2 expectation, the 186,185
-        #: transcripts and the 718,571,139-nucleotide span are all that section's numbers.
-        #: Declared here rather than guessed at render time, and the build fails if an uncited item
-        #: has no declaration.
+        #: has no anchor to float it to and would otherwise place it arbitrarily. It floats to the
+        #: section that states the baseline it draws — the 8.2 expectation against the measured
+        #: 718,571,139-nucleotide span. Declared here rather than guessed at render time, and the
+        #: build fails if an uncited item has no declaration.
         #: ⚠ RENUMBERED 2026-08-15: it was Figure 3 until the gap-length identity took Figure 2 and
         #: the multi-partner seam moved to Figure 3, which pushed this panel to the supplement.
-        "placement": {"Supplementary Figure S1": {"after_heading": "3.10"}},
+        #: ⚠ RE-ANCHORED 2026-08-16 from the number "3.10" to heading TEXT: the editorial pass
+        #: merged that subsection away and the build failed on a stale number. Numbers drift here
+        #: roughly every restructure; the title travels with the argument.
+        "placement": {"Supplementary Figure S1": {"after_heading": "conditions for falsification"}},
         "journal": {
             "article_type": "Research article",
             "section": "Cancer genomics · RNA therapeutics",
@@ -203,12 +205,22 @@ def first_citation_end(body, label):
     return len(body) if end == -1 else end
 
 
-def heading_section_end(body, number):
-    """End offset of the `### <number> · …` subsection, for a declared fallback placement."""
-    match = re.search(rf"^###\s+{re.escape(number)}\s", body, re.M)
+def heading_section_end(body, phrase):
+    """End offset of the section whose heading contains `phrase`, for a declared placement.
+
+    ⚠ ANCHOR ON HEADING TEXT, NEVER ON A SECTION NUMBER. This took a number until 2026-08-16 and
+    broke when an editorial pass merged §3.10 into a renumbered section — the same drift that makes
+    this repo forbid citing a § number anywhere a quote would do. A title moves with its content;
+    a number does not. The match is case-insensitive and may name any heading level.
+    """
+    match = re.search(rf"^#{{2,4}}\s+.*{re.escape(phrase)}.*$", body, re.M | re.I)
     if not match:
-        raise SystemExit(f"declared placement anchor '### {number}' not found")
-    nxt = re.search(r"^#{2,3}\s", body[match.end():], re.M)
+        raise SystemExit(
+            f"declared placement anchor — a heading containing {phrase!r} — not found. The section "
+            f"was renamed or removed; update the paper's `placement` map to the heading that now "
+            f"carries this content, rather than deleting the declaration.")
+    level = len(re.match(r"^#+", match.group(0)).group(0))
+    nxt = re.search(rf"^#{{2,{level}}}\s", body[match.end():], re.M)
     return match.end() + (nxt.start() if nxt else len(body) - match.end())
 
 

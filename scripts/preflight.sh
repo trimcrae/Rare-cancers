@@ -237,18 +237,39 @@ if [ "${SKIP_TESTS:-0}" != "1" ]; then
     PYTEST="python3 -m pytest"
   fi
 
+  # ⛔ THE SELECTOR IS ASKED ONCE, AND ITS THREE ANSWERS ARE KEPT APART (measured 2026-08-16).
+  # This block used to call `affected_tests.py` here, discard the result, and call it AGAIN below to
+  # decide whether an empty selection meant "nothing affected". That conflated two opposite answers:
+  #   "" from a selector that RAN and found nothing   -> correctly green, run nothing
+  #   "" from a selector that DIED before printing    -> must run everything
+  # The first call caught the second case safely (`|| echo FULL`) and the second call then threw that
+  # away, because a dead selector's stdout is also empty. MEASURED CONSEQUENCE: an editorial pass
+  # broke 11 tests in `test_aso_submission_numbers.py` -- all 35 pass at c131f5a30, 11 fail after --
+  # and preflight printed "FULL -- the change could not be scoped" IMMEDIATELY followed by "no
+  # modality test is affected by this change" and exited 0, having run zero modality tests. Four
+  # commits were made against that green.
+  # ⚠ This is the header defect of this very file, for the fifth time: a gate that reports while
+  # measuring nothing. The rule it violates is the one the block below already states -- an empty
+  # selection is a real answer -- but only when the selector actually answered.
   SELECTED=""
+  SEL_STATUS=full
   if [ "${PREFLIGHT_FULL:-0}" = "1" ]; then
     echo "== pytest (modalities: FULL, PREFLIGHT_FULL=1) =="
-  else
-    SELECTED="$(python3 scripts/affected_tests.py 2>/dev/null || echo FULL)"
-    if [ "$SELECTED" = "FULL" ] || [ -z "$SELECTED" ]; then
+  elif SELECTED="$(python3 scripts/affected_tests.py 2>/dev/null)"; then
+    if [ "$SELECTED" = "FULL" ]; then
       SELECTED=""
-      echo "== pytest (modalities: FULL -- the change could not be scoped) =="
+      echo "== pytest (modalities: FULL -- the selector asked for the full suite) =="
+    elif [ -z "$SELECTED" ]; then
+      SEL_STATUS=none
+      echo "== pytest (modalities: none -- the selector ran and this change affects no module) =="
     else
+      SEL_STATUS=scoped
       n=$(printf '%s\n' "$SELECTED" | grep -c . || true)
       echo "== pytest (modalities: $n module(s) affected by this change; PREFLIGHT_FULL=1 for all) =="
     fi
+  else
+    SELECTED=""
+    echo "== pytest (modalities: FULL -- the selector FAILED, so nothing is assumed) =="
   fi
   out=$(mktemp)
   # ⛔ `--continue-on-collection-errors` ADDED 2026-08-05, AND WITHOUT IT THIS STEP MEASURED NOTHING.
@@ -275,10 +296,13 @@ if [ "${SKIP_TESTS:-0}" != "1" ]; then
   # an explicit exit code do not help when the thing being counted is never produced.
   # ⚠ AN EMPTY SELECTION IS A REAL ANSWER — "this change touches no modality test" — and pytest
   # exits 5 on "no tests ran", which must not read as a failure. It is handled below.
-  if [ -n "$SELECTED" ]; then
+  # ⛔ BRANCH ON SEL_STATUS, NEVER ON EMPTINESS, AND NEVER RE-ASK THE SELECTOR. `$SELECTED` is empty
+  # for BOTH "nothing affected" and "run everything"; only SEL_STATUS distinguishes them, and it was
+  # decided once, above, where the selector's exit code was still in hand.
+  if [ "$SEL_STATUS" = "scoped" ]; then
     # shellcheck disable=SC2086
     $PYTEST $SELECTED -q --continue-on-collection-errors >"$out" 2>&1 || true
-  elif [ "${PREFLIGHT_FULL:-0}" != "1" ] && [ "$(python3 scripts/affected_tests.py 2>/dev/null | head -1)" = "" ]; then
+  elif [ "$SEL_STATUS" = "none" ]; then
     echo "no modality test is affected by this change" >"$out"
   else
     $PYTEST research/modalities/tests/ -q --continue-on-collection-errors \

@@ -28,13 +28,13 @@ are filtered by alignment orientation. `XM_`/`XR_` records are computationally
 predicted gene models rather than curated transcripts, and are counted separately for that reason.
 None of these numbers is a measurement of off-target activity.
 
-¹ Counted over the gap-spanning loci only, not over all of that design's near-match loci.
+¹ A near-match count is what the search returned on EITHER strand; a match on the strand opposite the target window cannot be hybridised by an antisense oligonucleotide and is not a liability. Across this corpus 44% of apparent gap-spanning hits (738 of 1,677) are of that kind, which is why the two columns differ and why the raw count alone should not be read as load. This column counts only the 15 RETAINED hits. The gap-spanning locus column is recounted from those hits wherever they are the complete list, and is exact there; a “≤” marks a truncated design, where the column instead carries the screen's own count over every ranked hit, computed under a locus assignment since corrected that split some genes across accessions and therefore over-counts. The two columns are not in conflict where a truncated design shows “≥0” sense-strand hits and a non-zero gap-spanning locus count: the sense-strand hits are real and simply fall outside the stored window, which is precisely why such a design cannot be called clean.
 
-² A near-match count is what the search returned on EITHER strand; a match on the strand opposite the target window cannot be hybridised by an antisense oligonucleotide and is not a liability. Across this corpus 44% of apparent gap-spanning hits (738 of 1,677) are of that kind, which is why the two columns differ and why the raw count alone should not be read as load. This column counts only the 15 RETAINED hits. The gap-spanning locus column is recounted from those hits wherever they are the complete list, and is exact there; a “≤” marks a truncated design, where the column instead carries the screen's own count over every ranked hit, computed under a locus assignment since corrected that split some genes across accessions and therefore over-counts. The two columns are not in conflict where a truncated design shows “≥0” sense-strand hits and a non-zero gap-spanning locus count: the sense-strand hits are real and simply fall outside the stored window, which is precisely why such a design cannot be called clean.
+² Counted over the gap-spanning loci only, not over all of that design's near-match loci.
 
-⁵ The same design re-screened at a tenfold deeper alignment ceiling, with retention raised to match it so that no hit list is truncated. Because no list is truncated, the gap-spanning locus column at this depth is recounted from the complete stored hits under the current locus assignment and is exact; it is not the screen's own stored figure, which was computed before that assignment was corrected and splits any gene whose description carries a comma across one accession per transcript variant. It is therefore the same quantity, counted the same way, as the locus figures in Table 4 and in the Results. The three columns are the counterparts of the default-depth columns to their left, given beside them rather than in place of them because the default depth is where the corpus-wide counts elsewhere in the paper were computed and the two must stay comparable. Read together they are the paper's censoring result at the level of a single row: a default-depth count is a lower bound whether or not it reached the 50-hit cap, and three junctions whose default cell reads zero in the gap-spanning column carry gap-spanning hits at ten times the depth. A “—” means the deeper re-screen returned no result for that design and is not a count of zero; three of the panel's 190 records failed at this ceiling.
+³ The same design re-screened at a tenfold deeper alignment ceiling, with retention raised to match it so that no hit list is truncated. Because no list is truncated, the gap-spanning locus column at this depth is recounted from the complete stored hits under the current locus assignment and is exact; it is not the screen's own stored figure, which was computed before that assignment was corrected and splits any gene whose description carries a comma across one accession per transcript variant. It is therefore the same quantity, counted the same way, as the locus figures in Table 4 and in the Results. The three columns are the counterparts of the default-depth columns to their left, given beside them rather than in place of them because the default depth is where the corpus-wide counts elsewhere in the paper were computed and the two must stay comparable. Read together they are the paper's censoring result at the level of a single row: a default-depth count is a lower bound whether or not it reached the 50-hit cap, and three junctions whose default cell reads zero in the gap-spanning column carry gap-spanning hits at ten times the depth. A “—” means the deeper re-screen returned no result for that design and is not a count of zero; three of the panel's 190 records failed at this ceiling.
 
-| junction | designs screened | best gap-level margin | that design | near-matches, either strand (transcripts → loci) | of the retained hits, on the sense strand² | loci with a gap-spanning hit | of those, predicted models only¹ | at the deeper ceiling: near-matches⁵ | of those, on the sense strand⁵ | loci with a gap-spanning hit⁵ | ≤1-mismatch matches across that junction's designs, median (max) |
+| junction | designs screened | best gap-level margin | that design | near-matches, either strand (transcripts → loci) | of the retained hits, on the sense strand¹ | loci with a gap-spanning hit | of those, predicted models only² | at the deeper ceiling: near-matches³ | of those, on the sense strand³ | loci with a gap-spanning hit³ | ≤1-mismatch matches across that junction's designs, median (max) |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | EWSR1 e10::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTAGATCA-3′ | 35 → ≥2 | ≥15 | ≤4 | 0 | 138 | 137 | 5 | 4 (32) |
 | EWSR1 e12::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCATCAAAC-3′ | 9 → 4 | 6 | 1 | 1 | 189 | 141 | 6 | 2 (22) |
@@ -77,7 +77,7 @@ None of these numbers is a measurement of off-target activity.
 
 **Table 3. The 9 designs with no sense-strand near-match at the default search depth.** Six of
 these lose the property when the same junctions are re-screened at a tenfold deeper alignment
-ceiling, three of them having returned no near-match at all here; §3.10 reports that
+ceiling, three of them having returned no near-match at all here; §2.4 reports that
 measurement and names the three that survive it. This table is the default-depth result, retained
 because it is the depth at which the corpus-wide counts elsewhere in the paper were computed. Every design at the 6 junctions
 where one exists. A design qualifies only
@@ -90,20 +90,20 @@ both LNA wings and each parent duplex only one, it is a lower bound on the modif
 oligonucleotide's discrimination rather than an upper one. None of these numbers is a measurement of off-target
 activity, and none speaks to cleavage.
 
-³ Under the optimistic five-fold and the pessimistic
+⁴ Under the optimistic five-fold and the pessimistic
 no-discrimination bound on RNase-H1 single-mismatch discrimination. A single value means the two
 bounds agree.
 
-⁴ Of four conventional antisense design rules: GC within 40–60%, no G-quadruplex
+⁵ Of four conventional antisense design rules: GC within 40–60%, no G-quadruplex
 motif, no homopolymer run of four, no CpG dinucleotide.
 
-⁵ Whether the design still carries no
+⁶ Whether the design still carries no
 sense-strand near-match once its junction is re-screened at the tenfold deeper ceiling. The verdict
 is computed from the three deep columns beside it, not asserted, so this table cannot come to
-disagree with §3.10 about which designs survive. The six that do not are the reason this table's
+disagree with §2.4 about which designs survive. The six that do not are the reason this table's
 default-depth zeros must not be read on their own.
 
-| design | junction | GC (%) | gap-level margin | ΔΔG°37 (kcal/mol) | near-matches, either strand | of those, on the sense strand | exact / ≤1-mismatch matches | residual cleavage load, both bounds³ | conventional rules failed⁴ | at the deeper ceiling: near-matches | of those, on the sense strand | loci with a gap-spanning hit | survives⁵ |
+| design | junction | GC (%) | gap-level margin | ΔΔG°37 (kcal/mol) | near-matches, either strand | of those, on the sense strand | exact / ≤1-mismatch matches | residual cleavage load, both bounds⁴ | conventional rules failed⁵ | at the deeper ceiling: near-matches | of those, on the sense strand | loci with a gap-spanning hit | survives⁶ |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | 5′-GCATATCCGTGGACGC-3′ | EWSR1 e1::NR4A3 e3 | 62.5 | 1 | 7.981 | 0 | 0 | 0 / 0 | 0 | GC outside 40–60%, contains a CpG | 84 | 83 | 1 | **no** |
 | 5′-GGCATATCCGTGGACG-3′ | EWSR1 e1::NR4A3 e3 | 62.5 | 2 | 10.085 | 0 | 0 | 0 / 0 | 0 | GC outside 40–60%, contains a CpG | 29 | 22 | 0 | **no** |
@@ -188,10 +188,13 @@ the fall and which designs reach zero are measurements. The three blocks carry d
 denominators and are not comparable across blocks: the junction block is one molecule, the matched-junction
 block is the six junctions every geometry was screened at, and the corpus block is each geometry's
 whole design space, which is not screened at the same junctions. The exhaustive GRCh38 genome scan
-is unavailable at 18 and 20 nucleotides by construction, so no row reports it. Because the wing is
-five throughout, a parent's junction hybrid is five base pairs plus its share of the gap, so pairing
-five nucleotides of contiguous gap DNA and reaching a ten-base-pair hybrid are the same condition
-and are reported as one row. ΔG°37 values are for
+is unavailable at 18 and 20 nucleotides by construction, so no row reports it. Two of the corpus rows
+carry a ten-base-pair criterion and they are not the same measurement. “…and that duplex reaches ten
+base pairs” is the mature-parent screen, a search over every window of all six parent transcripts,
+and it is the row §2.5's 87 of 190 and §2.9's 87 / 88 / 87 are read from. “At the design's own seam”
+is arithmetic on the junction itself: because the wing is five throughout, a parent's hybrid at that
+seam is five base pairs plus its share of the gap, so pairing five nucleotides of contiguous gap DNA
+and reaching a ten-base-pair seam hybrid are the same condition and are reported as one row. ΔG°37 values are for
 an unmodified DNA:RNA hybrid; the wing is five at every geometry, so LNA affinity enters each parent
 duplex identically and cannot explain a difference between the columns. None of these numbers is a
 measurement of cleavage.
@@ -220,7 +223,8 @@ measurement of cleavage.
 | fusion-specific designs | 190 | 266 | 342 |
 | best gap-level margin available | 3 | 4 | 5 |
 | a mature parent can pair the whole gap | 181 of 190 | 130 of 266 | 87 of 342 |
-| parent pairs ≥5 nt of contiguous gap DNA, a ten-base-pair hybrid | 76 of 190 | 228 of 266 | 342 of 342 |
+| …and that duplex reaches ten base pairs, the criterion applied throughout | 87 of 190 | 88 of 266 | 87 of 342 |
+| at the design's own seam, the parent pairs ≥5 nt of contiguous gap DNA | 76 of 190 | 228 of 266 | 342 of 342 |
 | designs pairing the gap in parent pre-mRNA | 19 of 190 | 11 of 266 | 9 of 342 |
 | median most stable parent ΔG°37 (kcal/mol) | −8.66 | −11.60 | −14.58 |
 
@@ -291,3 +295,34 @@ measurement of cleavage, and no expression figure is a predicted cleavage event.
 |  | *LOC107985219* | 2 | 2 of 5 | — | — | — | — | no gene model — not measurable |
 |  | *LOC107987169* | 1 | 1 of 5 | — | — | — | — | no gene model — not measurable |
 |  | *LOC124905457* | 1 | 1 of 5 | — | — | — | — | no gene model — not measurable |
+
+**Table 7. Every reagent named in §4, what it costs on each screen and what it buys in coverage.**
+The rows are in the order §4 decides them: the two lead reagents, the rungs of the coverage ladder
+above them, the four *NR4A3* exon-2 acceptor seams reported beside the panel, and the two contrast
+arms. Cumulative coverage is the coverage of the reagent set through that row, so the two leads are
+one rung and carry one figure between them; it is discounted by the breakpoint distribution of a
+single series and is not a partner figure, and its interval is composed from each breakpoint
+fraction's own Wilson bound rather than from the point estimate. A bound row is what coverage would
+be if every remaining breakpoint of that partner were covered, which nothing measures. A row that
+adds nothing prints why, because the two reasons differ: the partner is absent from the 58-case
+cohort behind the denominator, or the partner is present and that exon pair carries no count in the
+measured within-partner distribution. The exon-2 acceptor rows are from the non-canonical-acceptor
+table and are never pooled into the panel, since the grade that excludes their junctions from the 38
+is unchanged. A contrast arm carries no coverage figure and must not borrow its junction's, which is
+already counted a row above. Gap-paired near-matches are at the tenfold deeper alignment ceiling
+where every hit list is complete, and the parent duplex is the longest contiguous run containing the
+whole catalytic gap, at the ten-base-pair criterion applied throughout. None of these numbers is a
+measurement of off-target activity, and no row is a claim of efficacy.
+
+| reagent | junction | sequence | geometry | gap-level margin | gap-paired near-matches → loci at the deeper ceiling | longest mature-parent duplex through the gap | cumulative coverage | basis |
+|---|---|---|---|---|---|---|---|---|
+| lead reagent | EWSR1 e12::NR4A3 e3 | 5′-GGGCATATCATCAAAC-3′ | 5-6-5 | 3 | 123 → 6 | 8 bp (*TFG*) | 68.4% (39.9–82.8) | single series, cumulative |
+| lead reagent | TAF15 e6::NR4A3 e3 | 5′-GGGCATATCTTGTGTG-3′ | 5-6-5 | 3 | 8 → 5 | 9 bp (*TFG*) | 68.4% (39.9–82.8) | single series, cumulative |
+| coverage rung | EWSR1 e13::NR4A3 e3 | 5′-GGGCATATCTCCACGG-3′ | 5-6-5 | 3 | 24 → 2 | 8 bp (*TCF12*) | 79.0% (50.3–89.2) (+10.6) | single series, cumulative |
+| coverage rung | EWSR1 e7::NR4A3 e2 | 5′-CAGTGGGCTTCTGCTG-3′ | 5-6-5 | 2 | 51 → 7 | 8 bp (*TAF15*) | 79.0% (50.3–89.2) (+0.0) | single series, cumulative |
+| coverage bound | TCF12 e5::NR4A3 e3 | 5′-GGGCATATCCATCAGA-3′ | 5-6-5 | 3 | 17 → 1 | 7 bp (*EWSR1*) | 98.3% | arithmetic bound |
+| beside the panel | EWSR1 e13::NR4A3 e2 | 5′-AGTGGGCTCTCCACGG-3′ | 5-6-5 | 3 | 25 → 6 | 8 bp (*EWSR1*) | adds nothing | partner in the cohort, this exon pair uncounted in it |
+| beside the panel | TAF15 e6::NR4A3 e2 | 5′-AGTGGGCTCTTGTGTG-3′ | 5-6-5 | 3 | 128 → 6 | 9 bp (*NR4A3*) | adds nothing | partner in the cohort, this exon pair uncounted in it |
+| beside the panel | PGR e2::NR4A3 e2 | 5′-AGTGGGCTCTTCCATT-3′ | 5-6-5 | 3 | 51 → 14 | 9 bp (*NR4A3*) | adds nothing | partner absent from the cohort behind the denominator |
+| gap-length control | EWSR1 e12::NR4A3 e3 | 5′-AGGGCATATCATCAAACC-3′ | 5-8-5 | 4 | 3 → 1 | none | — | not a coverage row |
+| margin contrast arm | EWSR1 e12::NR4A3 e3 | 5′-GCATATCATCAAACCA-3′ | 5-6-5 | 1 | 34 → 6 | 8 bp (*FUS*) | — | not a coverage row |
