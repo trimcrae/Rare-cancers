@@ -32,19 +32,19 @@ None of these numbers is a measurement of off-target activity.
 
 ² A near-match count is what the search returned on EITHER strand; a match on the strand opposite the target window cannot be hybridised by an antisense oligonucleotide and is not a liability. Across this corpus 44% of apparent gap-spanning hits (738 of 1,677) are of that kind, which is why the two columns differ and why the raw count alone should not be read as load. This column counts only the 15 RETAINED hits. The gap-spanning locus column is recounted from those hits wherever they are the complete list, and is exact there; a “≤” marks a truncated design, where the column instead carries the screen's own count over every ranked hit, computed under a locus assignment since corrected that split some genes across accessions and therefore over-counts. The two columns are not in conflict where a truncated design shows “≥0” sense-strand hits and a non-zero gap-spanning locus count: the sense-strand hits are real and simply fall outside the stored window, which is precisely why such a design cannot be called clean.
 
-⁵ The same design re-screened at a tenfold deeper alignment ceiling, with retention raised to match it so that no hit list is truncated. The three columns are the counterparts of the default-depth columns to their left, given beside them rather than in place of them because the default depth is where the corpus-wide counts elsewhere in the paper were computed and the two must stay comparable. Read together they are the paper's censoring result at the level of a single row: a default-depth count is a lower bound whether or not it reached the 50-hit cap, and three junctions whose default cell reads zero in the gap-spanning column carry gap-spanning hits at ten times the depth. A “—” means the deeper re-screen returned no result for that design and is not a count of zero; three of the panel's 190 records failed at this ceiling.
+⁵ The same design re-screened at a tenfold deeper alignment ceiling, with retention raised to match it so that no hit list is truncated. Because no list is truncated, the gap-spanning locus column at this depth is recounted from the complete stored hits under the current locus assignment and is exact; it is not the screen's own stored figure, which was computed before that assignment was corrected and splits any gene whose description carries a comma across one accession per transcript variant. It is therefore the same quantity, counted the same way, as the locus figures in Table 4 and in the Results. The three columns are the counterparts of the default-depth columns to their left, given beside them rather than in place of them because the default depth is where the corpus-wide counts elsewhere in the paper were computed and the two must stay comparable. Read together they are the paper's censoring result at the level of a single row: a default-depth count is a lower bound whether or not it reached the 50-hit cap, and three junctions whose default cell reads zero in the gap-spanning column carry gap-spanning hits at ten times the depth. A “—” means the deeper re-screen returned no result for that design and is not a count of zero; three of the panel's 190 records failed at this ceiling.
 
 | junction | designs screened | best gap-level margin | that design | near-matches, either strand (transcripts → loci) | of the retained hits, on the sense strand² | loci with a gap-spanning hit | of those, predicted models only¹ | at the deeper ceiling: near-matches⁵ | of those, on the sense strand⁵ | loci with a gap-spanning hit⁵ | ≤1-mismatch matches across that junction's designs, median (max) |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | EWSR1 e10::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTAGATCA-3′ | 35 → ≥2 | ≥15 | ≤4 | 0 | 138 | 137 | 5 | 4 (32) |
-| EWSR1 e12::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCATCAAAC-3′ | 9 → 4 | 6 | 1 | 1 | 189 | 141 | 14 | 2 (22) |
+| EWSR1 e12::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCATCAAAC-3′ | 9 → 4 | 6 | 1 | 1 | 189 | 141 | 6 | 2 (22) |
 | EWSR1 e13::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTCCACGG-3′ | 31 → ≥3 | ≥12 | ≤2 | 0 | 63 | 47 | 2 | 2 (25) |
 | EWSR1 e15::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCCGGGGGC-3′ | 36 → ≥2 | ≥12 | ≤1 | 0 | 93 | 62 | 1 | 1 (10) |
 | EWSR1 e1::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCCGTGGAC-3′ | 0 → 0 | 0 | 0 | 0 | 27 | 18 | 0 | 0 (0) |
 | EWSR1 e4::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCAGTGGGA-3′ | 11 → 4 | 11 | 3 | 2 | 90 | 67 | 8 | 4 (10) |
 | EWSR1 e7::NR4A3 e3 | 5 | 3 | 5′-GGGCATATTCTGCTGC-3′ | 32 → ≥9 | ≥6 | ≤2 | 0 | 300 | 65 | 6 | 9 (21) |
 | EWSR1 e9::NR4A3 e3 | 2 | 3 | 5′-GGGCATATCACCAGGC-3′ | 29 → ≥2 | ≥6 | ≤2 | 0 | 165 | 81 | 7 | 1 (22) |
-| FUS e10::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCATCAAAC-3′ | 9 → 4 | 6 | 1 | 1 | 189 | 141 | 14 | 2 (22) |
+| FUS e10::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCATCAAAC-3′ | 9 → 4 | 6 | 1 | 1 | 189 | 141 | 6 | 2 (22) |
 | FUS e11::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTCCTCGC-3′ | 30 → ≥1 | ≥15 | ≤1 | 0 | 60 | 30 | 1 | 0 (3) |
 | FUS e13::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCCATGTGA-3′ | 6 → 5 | 2 | 2 | 1 | 20 | 8 | 2 | 1 (9) |
 | FUS e1::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCGTTTGAG-3′ | ≥50 → ≥7 | ≥13 | ≤1 | 0 | 129 | 116 | 2 | 10 (38) |
@@ -52,26 +52,26 @@ None of these numbers is a measurement of off-target activity.
 | FUS e5::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTCCACCT-3′ | 32 → ≥8 | ≥8 | ≤2 | 1 | 127 | 47 | 4 | 2 (3) |
 | FUS e7::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCACCAAAT-3′ | 34 → ≥5 | ≥8 | ≤0 | 0 | 141 | 107 | 4 | 12 (39) |
 | FUS e8::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCGGAGTCA-3′ | 4 → 3 | 3 | 1 | 0 | 4 | 3 | 1 | 0 (1) |
-| TAF15 e11::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCATCAAAC-3′ | 9 → 4 | 6 | 1 | 1 | 189 | 141 | 14 | 2 (22) |
+| TAF15 e11::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCATCAAAC-3′ | 9 → 4 | 6 | 1 | 1 | 189 | 141 | 6 | 2 (22) |
 | TAF15 e12::NR4A3 e3 | 4 | 2 | 5′-AGGGCATATCTCGCCG-3′ | 42 → ≥4 | ≥11 | ≤3 | 0 | 42 | 33 | 3 | 3 (4) |
 | TAF15 e14::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTCCTCCT-3′ | ≥50 → ≥2 | ≥11 | ≤2 | 0 | 174 | 95 | 6 | 19 (40) |
 | TAF15 e1::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCCGACATG-3′ | 5 → 2 | 0 | 0 | 0 | 5 | 0 | 0 | 0 (0) |
 | TAF15 e4::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTGACTGA-3′ | 34 → ≥3 | ≥15 | ≤4 | 1 | 78 | 57 | 7 | 10 (53) |
-| TAF15 e6::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTTGTGTG-3′ | 11 → 7 | 7 | 4 | 2 | 62 | 10 | 8 | 2 (2) |
+| TAF15 e6::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTTGTGTG-3′ | 11 → 7 | 7 | 4 | 2 | 62 | 10 | 5 | 2 (2) |
 | TAF15 e8::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCACCAAAA-3′ | 41 → ≥4 | ≥13 | ≤2 | 0 | 133 | 93 | 3 | 10 (17) |
 | TAF15 e9::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCAGCATCT-3′ | 23 → ≥7 | ≥0 | ≤2 | 0 | 68 | 48 | 5 | 1 (4) |
 | TCF12 e11::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTAGAATG-3′ | 15 → 5 | 2 | 1 | 1 | 46 | 17 | 4 | 2 (6) |
 | TCF12 e13::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTGTGAGA-3′ | 17 → ≥8 | ≥6 | ≤1 | 1 | 170 | 80 | 4 | 1 (12) |
 | TCF12 e17::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTCTATAA-3′ | 8 → 3 | 0 | 0 | 0 | 118 | 101 | 5 | 1 (6) |
 | TCF12 e19::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTCTGACT-3′ | 12 → 4 | 8 | 1 | 1 | 102 | 79 | 3 | 1 (2) |
-| TCF12 e3::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTGATCCA-3′ | 15 → 4 | 10 | 2 | 2 | 374 | 246 | 56 | 2 (35) |
-| TCF12 e5::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCCATCAGA-3′ | 26 → ≥1 | ≥15 | ≤17 | 0 | 83 | 70 | 17 | 2 (32) |
+| TCF12 e3::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTGATCCA-3′ | 15 → 4 | 10 | 2 | 2 | 374 | 246 | 6 | 2 (35) |
+| TCF12 e5::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCCATCAGA-3′ | 26 → ≥1 | ≥15 | ≤17 | 0 | 83 | 70 | 1 | 2 (32) |
 | TCF12 e7::NR4A3 e3 | 4 | 2 | 5′-GGCATATCAAGCGCTG-3′ | 2 → 2 | 0 | 0 | 0 | 2 | 0 | 0 | 0 (1) |
 | TCF12 e9::NR4A3 e3 | 4 | 3 | 5′-GGGCATATCTTGCATA-3′ | 14 → 2 | 8 | 1 | 0 | 86 | 64 | 6 | 8 (23) |
 | TFG e2::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTTCATCT-3′ | ≥50 → ≥1 | ≥15 | ≤2 | 0 | 207 | 117 | 5 | 35 (87) |
 | TFG e3::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCAAATAAT-3′ | 14 → 6 | 9 | 3 | 0 | 217 | 161 | 6 | 9 (17) |
 | TFG e4::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCATTTTCA-3′ | ≥50 → ≥3 | ≥15 | ≤5 | 2 | 318 | 238 | 15 | 41 (100) |
-| TFG e5::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTGAAACC-3′ | 41 → ≥6 | ≥11 | ≤7 | 1 | 112 | 72 | 11 | 3 (21) |
+| TFG e5::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTGAAACC-3′ | 41 → ≥6 | ≥11 | ≤7 | 1 | 112 | 72 | 10 | 3 (21) |
 | TFG e6::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTTCAATC-3′ | 37 → ≥3 | ≥2 | ≤0 | 0 | 238 | 193 | 3 | 11 (21) |
 | TFG e7::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTGAATAC-3′ | 27 → ≥3 | ≥3 | ≤3 | 1 | 43 | 12 | 4 | 4 (26) |
 
@@ -170,7 +170,7 @@ reported as such rather than given a best row.
 | TFG e4::NR4A3 e3 | none published | 1 of 5 | 5′-AGGGCATATCATTTTC-3′ | 2 | 7 | 82 → 12 | 1.77 |
 | TFG e5::NR4A3 e3 | none published | 2 of 5 | 5′-GGCATATCTGAAACCT-3′ | 2 | 8 | 34 → 7 | 1.38 |
 | TFG e6::NR4A3 e3 | none published | 3 of 5 | 5′-GGGCATATCTTCAATC-3′ | 3 | 9 | 29 → 3 | 0.73 |
-| TFG e7::NR4A3 e3 | none published | 2 of 5 | 5′-GGCATATCTGAATACT-3′ | 2 | 9 | 24 → 6 | 1.24 |
+| TFG e7::NR4A3 e3 | published | 2 of 5 | 5′-GGCATATCTGAATACT-3′ | 2 | 9 | 24 → 6 | 1.24 |
 
 **Table 5. Gap length against junction specificity, at one junction and across the design space.** The
 same junctions tiled and screened at three gapmer geometries, wing held at five nucleotides so that only

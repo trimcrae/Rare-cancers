@@ -794,7 +794,15 @@ def test_the_gap_length_trade_is_an_identity_and_the_paper_states_it_as_one():
 
     txt = _flat(_paper())
     assert "are complements: they sum to the gap" in txt
-    assert "one more nucleotide of contiguous" in txt and "wild-type-parent duplex" in txt
+    assert "move inversely" in txt and "parent-paired gap DNA" in txt
+    # ⛔ THE SIGN ERROR THIS REPLACED, PINNED AS AN ABSENCE SO IT CANNOT COME BACK. The paper used to
+    # say no design could gain a nucleotide of margin "without handing RNase-H1 one more nucleotide of
+    # contiguous wild-type-parent duplex". That is true ACROSS geometries and backwards WITHIN one:
+    # margin + parent-paired gap DNA = gap length (aso_gap_length_tradeoff.py:373,
+    # `parent_dna = max(gl, gr)  # = gap - margin`), so at fixed gap the two move inversely — 38
+    # designs at margin 3 concede three nucleotides, 76 at margin 2 concede four, 76 at margin 1
+    # concede five. Found and verified round 5, 2026-08-15.
+    assert "one more nucleotide of contiguous wild-type-parent duplex" not in txt
 
 
 def test_the_lead_reagent_row_of_section_3_10_is_the_artifacts():
@@ -874,7 +882,13 @@ def test_the_corpus_parent_liability_numbers_in_section_3_10():
     assert "−8.66 to −14.58 kcal/mol" in txt
     assert "the smaller half of a gap of ten cannot be under five" in txt
     assert "At 5-6-5, 114 of 190 designs keep the parent below it" in txt
-    assert "181 of 190 designs at 5-6-5 but 87 of 342 at 5-10-5" in txt
+    # ⚠ THE CRITERION MUST TRAVEL WITH THESE THREE COUNTS. "Pair the whole gap" is a 6-nt condition at
+    # 5-6-5 and a 10-nt one at 5-10-5, so 181/190 against 87/342 is not one test read three times —
+    # comparing them without saying so reads as a liability that falls with gap length when, held to
+    # the ten-base-pair criterion used everywhere else, it is flat. Both halves are asserted together
+    # for that reason; pinning only the first would re-open the gap round 5 closed.
+    assert "181 of 190 designs at 5-6-5, 130 of 266 at 5-8-5 and 87 of 342 at 5-10-5" in txt
+    assert "87 of 190, 88 of 266 and 87 of 342" in txt
     assert "from 19 of 190 to 9 of 342" in txt
 
 

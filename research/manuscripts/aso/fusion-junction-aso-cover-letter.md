@@ -47,7 +47,14 @@ addressed to a venue its own planning document had already ruled out.*
 
 **Date:** [DATE]
 
-**Re:** Submission of an Article — *"In-silico design and predicted specificity limits of junction-spanning gapmers against NR4A3 fusions in extraskeletal myxoid chondrosarcoma"*
+**Re:** Submission of an Article — "Nearly half of junction-spanning gapmer designs against the *NR4A3* fusions of extraskeletal myxoid chondrosarcoma pair a wild-type parent gene, and a longer catalytic gap cannot separate them"
+
+⚠ *Superseded, retained: "In-silico design and predicted specificity limits of junction-spanning
+gapmers against NR4A3 fusions in extraskeletal myxoid chondrosarcoma". That was the pre-rename
+title, and it survived here after the manuscript was retitled to its finding, so this letter named
+a paper the submission does not contain — the one line an editor reads first. The title has ONE
+home, the manuscript's own H1, and the line above is copied from it verbatim; retitle the
+manuscript and this line must be recopied, not retyped.*
 
 Dear Editor,
 

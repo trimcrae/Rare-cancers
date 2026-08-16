@@ -108,11 +108,18 @@ VENUES = {
     #
     # ⚠ AND THERE IS NO "SHORT COMMUNICATION" AT THIS JOURNAL. The types are Article, Review,
     # Brief Communication (2 pages, one display item, 10 references), Perspective and
-    # Correspondence. The manuscript's shape fits Article on words, display items and references —
-    # the measured values are in this module's own output and are deliberately not repeated here —
-    # but the abstract must be UNSTRUCTURED and at most 200 words, and this manuscript's is
-    # structured and longer. Both would have to change, and neither is worth doing until the venue
-    # is settled.
+    # Correspondence. ⛔ AND THE MANUSCRIPT NO LONGER FITS ARTICLE EITHER: graded against the limits
+    # in this row it is OVER on main words and OVER on display items, and inside only on references,
+    # with an abstract far over the 200-word cap. The measured values are in this module's own output
+    # and are deliberately not repeated here; the comparison is NOT one this module makes, because
+    # `MANUSCRIPTS` grades the ASO paper against `bioRxiv-preprint`, which sets no limits, so its
+    # `over_limit` is empty by construction and is silent about CGT.
+    # ⚠ Superseded, retained: "The manuscript's shape fits Article on words, display items and
+    # references", and "this manuscript's is structured and longer. Both would have to change". The
+    # first was retired 2026-08-15 by the regenerated measurement — the paper roughly quadrupled
+    # after that comment was written and crossed two of the three caps. The second was retired on
+    # 2026-08-14, when the abstract was made UNSTRUCTURED (submission-plan Sec 1c): the format is
+    # already right for this journal, and only the length would still have to change.
     "CGT-Article": {
         "journal": "Cancer Gene Therapy (Springer Nature)",
         "limits": {"main_words": 12000, "abstract_words": 200, "display_items": 7,
@@ -123,9 +130,11 @@ VENUES = {
                       "⛔ FEE-DISQUALIFIED: the same page states a MANDATORY charge of "
                       "£145 / $238 per page on the subscription route, waived only for authors who "
                       "pay the open-access APC. The $0 constraint is binding, so this venue cannot "
-                      "be used. ⚠ The abstract limit is for an UNSTRUCTURED abstract; this "
-                      "manuscript's is structured, so the format as well as the length is wrong "
-                      "for this journal.",
+                      "be used. ⚠ The abstract limit is for an UNSTRUCTURED abstract, which is the "
+                      "form the ASO abstract now has, so length is the only remaining gap on the "
+                      "abstract. ⚠ Superseded, retained: 'this manuscript's is structured, so the "
+                      "format as well as the length is wrong for this journal' — retired 2026-08-14 "
+                      "when the abstract was made unstructured (submission-plan Sec 1c).",
     },
 }
 

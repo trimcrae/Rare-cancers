@@ -502,11 +502,18 @@ def test_the_manuscripts_best_supported_figure_is_the_artifacts_and_does_not_dis
     _WORD = {8: "eight", 9: "nine", 10: "ten", 11: "eleven", 12: "twelve"}
     _n = best["panel_membership"]["n_junctions_qualifying"]
     assert f"the {_WORD[_n]} together are {best['coverage_percent']}%" in txt
-    assert f"widening that to {lo}–{hi}%" in txt
+    # ⚠ "widening that to" -> "widening to" (round 5). The preceding clause used to read "with the
+    # same two denominators", which was false: 82.9% pools the EWSR1 arm to 17/20 where 68.4% uses
+    # 10/15. Rewriting that clause dropped the "that". The interval itself is unchanged and is what
+    # this assertion exists to pin.
+    assert f"widening to {lo}–{hi}%" in txt
     # ⛔ THE ABSTRACT IS A SECOND HOME FOR THIS NUMBER AND IS ASSERTED AGAINST THE SAME ROW. A
     # headline figure that drifts from its own §5.1 is the one a reviewer reads first.
     assert f"and the whole set is {best['coverage_percent']}%" in txt
-    assert "That figure supersedes nothing" in txt
+    # ⚠ "That figure" -> "The figure" (round 5), same rewrite as the "widening to" pin above. The
+    # property — that 82.9% is stated as answering a different question rather than displacing 68.4%
+    # — is unchanged, and is what this line exists to hold.
+    assert "figure supersedes nothing" in txt
     assert "68.4% remains the coverage of the two reagents" in txt
     # membership is a derived count, and the manuscript may not carry a different one
     n = best["panel_membership"]["n_junctions_qualifying"]
@@ -521,7 +528,13 @@ def test_the_manuscripts_best_supported_figure_is_the_artifacts_and_does_not_dis
     zero = best["panel_membership"]["⛔_qualifying_but_contributing_exactly_zero"]["junctions"]
     assert zero == ["PGR_e2__NR4A3_e2", "TFG_e7__NR4A3_e3"], zero
     assert "*TFG* exon 7 to *NR4A3* exon 3 is the second" in txt
-    assert "*PGR* exon 2 to *NR4A3* exon 2, moves the figure by exactly zero" in txt
+    # ⚠ ASSERTED AS TWO FRAGMENTS, NOT ONE STRING. Round 5 added the breakpoint citation for this
+    # junction between the two halves — "…*NR4A3* exon 2, reported in a single patient,<sup>N</sup>
+    # moves the figure by exactly zero" — which broke a contiguous pin without changing anything it
+    # was guarding. A superscript is a legitimate thing to insert into any sentence in this paper, so
+    # pinning across a spot where one can land makes the assertion fragile rather than strict.
+    assert "*PGR* exon 2 to *NR4A3* exon 2" in txt
+    assert "moves the figure by exactly zero" in txt
 
 
 def test_the_manuscripts_within_partner_donor_run_is_the_measured_maximum():

@@ -14,8 +14,8 @@ scope: >
   evidence that any cited paper supports the sentence it is attached to, and it makes
   no scientific, clinical or efficacy claim of any kind.
 audience: [maintainers, external reviewers, autonomous research agents]
-date: 2026-08-12
-last_verified: 2026-08-12
+date: 2026-08-16
+last_verified: 2026-08-16
 ---
 
 <!-- GENERATED FILE — DO NOT EDIT. Regenerate with:

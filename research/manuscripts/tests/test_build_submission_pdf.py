@@ -140,7 +140,13 @@ def test_front_matter_captures_whole_paragraphs_not_first_lines(journal):
     # made this test fail on a rewrap rather than on the defect it is for — a first-line-only
     # match dropping the tail. The tail is what is checked; how it wraps is not.
     assert " ".join(front["abstract"].split()).endswith(
-        "the selectivity value that would falsify the ranking used here.")
+        # ⚠ Re-pinned round 5: the abstract gained a closing scope sentence, so its last words moved.
+        # It previously ended "…the selectivity value that would falsify the ranking used here." The
+        # abstract is the artifact that travels alone to a reader, and it carried no statement that
+        # the work is computational — the one in the repository frontmatter is stripped from both
+        # rendered PDFs. This assertion still does its original job: proving the builder captured the
+        # WHOLE paragraph rather than its first line.
+        "nothing here asserts efficacy, safety, delivery to a tumour or clinical readiness.")
 
 
 def test_citation_markers_render_and_their_pmid_comments_do_not(journal):

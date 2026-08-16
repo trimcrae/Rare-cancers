@@ -264,8 +264,16 @@ def _union_rows(cands, chosen):
     return merged
 
 
-def _recount_loci(oligo):
+def recount_loci(oligo):
     """Distinct loci and gap-spanning-risk loci, RECOUNTED from the stored hits with today's parser.
+
+    ⭐ PUBLIC, AND IT BECAME PUBLIC BECAUSE A SECOND CONSUMER NEEDED IT AND DID NOT HAVE IT
+    (2026-08-16). `research/manuscripts/submission_tables.py` was reading the screens'
+    `n_loci_with_a_gap_spanning_hit` straight into Tables 2 and 3's deep columns — the very field
+    the block below says must not be read — so Table 2 printed 17 gap-spanning loci for TCF12 e5
+    where Table 4 and §3.3 printed 1, for the same molecule at the same depth. The remedy is this
+    function, imported; a second implementation of the recount is how the two tables come to
+    disagree again with nobody able to say which is right.
 
     ⛔⛔ THE STORED `n_distinct_loci` AND `n_loci_with_a_gap_spanning_hit` ARE NOT USED, BECAUSE THEY
     WERE COMPUTED AT SCREEN TIME BY A PARSER THAT WAS WRONG (2026-08-13, fixed in 5233cf867).
@@ -317,7 +325,7 @@ def _blast_rows(screen):
             continue
         near = o.get("n_offtarget_near_matches")
         saved = len(o.get("offtargets") or [])
-        loci = _recount_loci(o)
+        loci = recount_loci(o)
         rows[o["antisense_5to3"]] = {
             "status": "screened",
             "n_offtarget_near_matches": near,
@@ -327,8 +335,21 @@ def _blast_rows(screen):
             "loci": loci,
             # ⚠ WHAT THE SCREEN ITSELF RECORDED, KEPT BESIDE THE RECOUNT AND NEVER INSTEAD OF IT.
             # Retained so a reader can see the size and direction of the parser correction on this
-            # exact design rather than having to take the recount on trust; it is superseded, and
-            # nothing downstream reads it.
+            # exact design rather than having to take the recount on trust.
+            # ⛔ THIS BLOCK ONCE ENDED "it is superseded, and nothing downstream reads it", AND THAT
+            # SECOND CLAUSE WAS FALSE WHEN IT WAS WRITTEN (corrected 2026-08-16). The field was
+            # superseded here and nowhere else: `research/manuscripts/submission_tables._deep_lookup`
+            # read `n_loci_with_a_gap_spanning_hit` straight off the screens into the deep columns of
+            # Tables 2 and 3, so 30 of the 187 deep 16-mer records printed the inflated figure —
+            # TCF12 e5 / GGGCATATCCATCAGA at 17 where the recount is 1, TCF12 e3 / GGGCATATCTGATCCA
+            # at 56 where it is 6, and the lead reagent GGGCATATCATCAAAC at 14 where it is 6, the
+            # same three numbers Table 4 and the Results already carried corrected. A note asserting
+            # that a superseded field has no readers is a claim about every other module in the
+            # repository, which a comment here cannot check and cannot keep true. What replaced it is
+            # `research/manuscripts/tests/test_deep_locus_cells_are_the_recount.py`: it holds the two
+            # tables' rendered cells against this recount and refuses the one reader that had gone
+            # wrong. A new reader elsewhere would still be unguarded — so the honest statement is
+            # that this field is superseded, not that nobody reads it.
             "_superseded_locus_counts_from_the_old_parser": {
                 "n_distinct_loci": o.get("n_distinct_loci"),
                 "n_loci_with_a_gap_spanning_hit": o.get("n_loci_with_a_gap_spanning_hit"),
