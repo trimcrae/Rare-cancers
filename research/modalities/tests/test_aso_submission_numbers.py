@@ -936,8 +936,28 @@ def test_table5_cells_are_the_artifacts_and_the_paper_points_at_it():
     assert "| sense-strand gap-spanning cleavage risks | 123 | 3 | 0 |" in txt
     assert "| designs carrying none | 8 of 30 | 28 of 42 | 54 of 54 |" in txt
     assert "| a mature parent can pair the whole gap | 181 of 190 | 130 of 266 | 87 of 342 |" in txt
-    # the merged row rests on wing == 5; the generator refuses if that stops holding
-    assert "| parent pairs ≥5 nt of contiguous gap DNA, a ten-base-pair hybrid |" in txt
+    # ⛔ THE ROW BELOW WAS ADDED AND THE ONE UNDER IT RENAMED (round-7 review, 2026-08-16), AND THIS
+    # GUARD MOVED WITH THEM RATHER THAN BEING LOOSENED. §2.9 neutralises the whole gap-length win
+    # with "held to the ten-base-pair criterion applied everywhere else here, the liability is flat:
+    # 87 of 190, 88 of 266 and 87 of 342" — the sentence the title's "nearly half" survives on — and
+    # `88 of 266` was in no table at all. Its two NEIGHBOURS were: 181/130/87 above and 76/228/342
+    # below, both plausible, neither the quoted number, and the second wearing the headline's own
+    # words ("a ten-base-pair hybrid") against a different quantity. A reviewer checking the
+    # sentence landed on a contradiction rather than on an omission.
+    # ⚠ DERIVED FROM THE ARTIFACT, NOT TYPED, so a re-screen that moves the counts fails on the
+    # sentence rather than agreeing with a stale cell.
+    tenbp = " | ".join(f"{g['mature_parent_whole_gap_duplex']['n_at_or_above_min_duplex_bp']} of "
+                       f"{g['n_fusion_specific_designs']}"
+                       for g in sorted((g for g in gap["geometries"] if g.get("present")),
+                                       key=lambda g: g["gap_nt"]))
+    assert ("| …and that duplex reaches ten base pairs, the criterion applied throughout | "
+            f"{tenbp} |") in txt
+    assert f"87 of 190, 88 of 266 and 87 of 342" in _flat(_paper()), (
+        "the paper's threshold-controlled sentence and the row that carries it must agree")
+    # the merged row rests on wing == 5; the generator refuses if that stops holding. Its label now
+    # says WHERE the hybrid is, because the two ten-base-pair rows are different measurements: this
+    # one is arithmetic at the design's own seam, the one above is the mature-parent search.
+    assert "| at the design's own seam, the parent pairs ≥5 nt of contiguous gap DNA |" in txt
     assert _flat(_paper()).count("Table 5") >= 1
 
     # ⛔ AND THE POINTER MUST COVER EVERY TABLE THAT EXISTS. The manuscript keeps its tables in a

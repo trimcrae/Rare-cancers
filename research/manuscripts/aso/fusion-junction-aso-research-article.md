@@ -188,7 +188,7 @@ candidate sequences is therefore not the constraint on this modality in this dis
 
 ### 2.2 · Cross-partner coverage by a single oligonucleotide
 
-Nine designs span the junction of more than one junction exactly, and all nine draw from *EWSR1*, *TAF15*
+Nine designs span more than one partner's junction exactly, and all nine draw from *EWSR1*, *TAF15*
 and *FUS* (Figure 3). Five cover the same three-partner set, differing only in register across the
 junction. The best by gap-level margin is 5′-GGGCATATCATCAAAC-3′ (43.8% GC, gap-level margin 3), which
 divides eight donor and eight acceptor bases at the junction of *EWSR1* exon 12, *TAF15* exon 11 and
@@ -227,8 +227,10 @@ the oligonucleotide wings. That check had little power to fail, since any non-ho
 be excluded, so it does not separate FET paralogy from incidental exon homology. The stronger
 evidence for paralogy is that four additional two-partner sets are also FET-only.
 
-Specificity does not sort by partner (Table 2). Taking at each junction the lowest count any of its
-designs achieves after the orientation filter, every one of the five partners has at least one
+Specificity does not sort by partner. Taking at each junction the lowest count any of its
+designs achieves after the orientation filter — a per-design minimum, which is in the released
+per-junction screens and not in Table 2, whose row is that junction's highest-margin design and not
+its cleanest — every one of the five partners has at least one
 junction whose best design carries no sense-strand near-match across the catalytic gap at the
 default search ceiling: three of eight at both *TCF12* and *FUS*, two of eight at *EWSR1*, one of
 eight at *TAF15* and one of six at *TFG*. At the tenfold deeper ceiling that becomes four partners:
@@ -317,8 +319,9 @@ sense-strand matches: 64 for 5′-GCATATCCGTGGACGC-3′, 14 for 5′-GGGCATATCTC
 sharpest form of the bound §5 sets out.
 
 The deeper pass also decided what the default one could not. Seven of the 190 designs had failed at
-the remote service and carried no count at all; all seven returned at the deeper ceiling, six of them
-dirty and one — 5′-GGGCATATCAAGCGCT-3′ at *TCF12* exon 7 — with three near-matches and none
+the remote service and carried no count at all — a different seven from the seven §5 reports as
+withheld by retention alone, which do carry default-depth counts; all seven returned at the deeper
+ceiling, six of them dirty and one — 5′-GGGCATATCAAGCGCT-3′ at *TCF12* exon 7 — with three near-matches and none
 on the sense strand. So the set of designs with a complete hit list and no sense-strand near-match is four
 at this depth rather than three: a design the shallower pass never screened joins the three that
 survived it. The deeper counts are reported as their own
@@ -485,8 +488,8 @@ the gap holds, the rest being acceptor sequence the wild-type allele already car
 property of the donor rather than of the acceptor. The sequence bears it out: *EWSR1* exon 13 ends
 CACTCCGTGGAG against the last twelve nucleotides of *NR4A3* intron 1, CCTTGCCTGTAG, matching at 7 of
 12 positions with a shared terminal AG, whereas *TAF15* exon 6 ends ACCACACACAAG and matches at 4,
-mismatching in every register — which is why that seam returns no such design and the *EWSR1*
-exon-13 seam returns two. A design must therefore be checked against the acceptor gene's unspliced
+mismatching in every register — which is why the *TAF15* exon-2 seam returns no such design and the
+*EWSR1* exon-13 seam returns two. A design must therefore be checked against the acceptor gene's unspliced
 sequence whenever its acceptor half is not exonic in the mature transcript, and no spliced-transcript
 screen substitutes for it.
 
@@ -544,14 +547,20 @@ make about them, and it is a statement about predicted hybridisation and not abo
 No screen above establishes that a design's off-target gene is transcribed where the drug goes, and
 that discount applies to every count in this paper. Read against reference expression data (Table 6),
 the gap-paired loci of the best design at each of the four junctions covered separate in the
-direction opposite to the sizes of their loads. The *EWSR1* exon 12 reagent's six loci carry 123 of
+direction opposite to the sizes of their loads. Table 6 lists every locus the deeper screens return
+across the tiling registers read at a junction, so its rows are a union over registers and can
+outnumber the per-reagent counts below, which are each best design's own. The *EWSR1* exon 12 reagent's six loci carry 123 of
 the panel's 649 transcript records, and none of the four measurable ones reaches the upper cut in
 liver or either kidney compartment; *ANKS1B* supplies 67 of them and sits below the lower cut in all
-three, peaking instead in brain at 24.9 TPM. The *EWSR1* exon 13 reagent inverts that, at two loci
+three, peaking instead in brain at 24.9 TPM — GTEx's cervical spinal cord, a whole-body reading
+carried in the released artefact rather than in either of Table 6's two compartments. The *EWSR1*
+exon 13 reagent inverts that, at two loci
 against six, both of them transcribed at the upper cut in the compartments a systemic
-phosphorothioate gapmer distributes to. The *TAF15* exon 6 reagent's five loci include *NRP1*, above
-the upper cut in all three and the only one all five of that junction's tiling registers return, so
-robustness to register orders them differently again; the tumour-compartment proxy orders them a
+phosphorothioate gapmer distributes to. The *TAF15* exon 6 reagent's five loci separate the other
+way: *NRP1* reaches 6.6 to 17.8 TPM across all three exposure tissues and is the only one all five of
+that junction's tiling registers return, on five transcript records. It is at or above the upper cut
+in two of those three, and robustness to register orders the loci differently again; the
+tumour-compartment proxy orders them a
 third way. What these readings can and cannot decide between two reagents is stated where that
 choice is made (§4.1).
 
@@ -890,8 +899,10 @@ The second risk is transcriptome load, and it differs sharply between the two re
 reagent carries the heavier load of the two named here: 123 gap-paired
 sense-strand near-matches at the deeper ceiling, recounting to six gene loci, all at the screen's
 loosest admitted identity and none on a parent transcript (§5). It is not the heaviest in the
-panel — fourteen design records carry more, to a maximum of 240, and Table 2 prints them. The *TAF15* reagent carries 8 such
-near-matches at five loci.
+panel — fourteen of the 187 design records re-screened at that ceiling carry more, to a maximum of
+240 at *TCF12* exon 3. Table 2 prints one row per junction rather than one per design record, so
+those per-record counts are in the released screens rather than in a table. The *TAF15* reagent
+carries 8 such near-matches at five loci.
 
 The parent compartments qualify that, in a way the transcript screens cannot show. The *EWSR1*
 reagent carries a sense-strand intron–exon-spanning near-match in wild-type *TAF15* pre-mRNA at two
@@ -918,8 +929,8 @@ The three designs that survive every screen are mechanism controls rather than c
 5′-AGGGCATATCGGAGTC-3′ at *FUS* exon 8, 5′-GGGCATATCCGACATG-3′ at *TAF15* exon 1 and
 5′-GGGCATATCAAGCGCT-3′ at *TCF12* exon 7, tiered as §2.7 describes. None sits at a junction a patient
 is reported to carry (§2.7), which is what makes them controls rather than
-candidates. 5′-GGGCATATCTCTATAA-3′ at *TCF12* exon 17, which an earlier
-draft of this work put forward for that role, is not among them. At ten times the default search
+candidates. 5′-GGGCATATCTCTATAA-3′ at *TCF12* exon 17, which the default-depth screen returns as
+clean (Table 3), is not among them. At ten times the default search
 depth it carries 101 sense-strand near-matches, 14 of them spanning the catalytic gap.
 
 Transferability depends on how that experiment is set up. The breakpoint of the cell line or patient
@@ -1050,7 +1061,9 @@ clean designs lose the property at the deeper ceiling, three having returned no 
 the default one (§2.4). Only 47 of the 183 hit lists are short enough to assess for cleanliness, so
 nine is a floor over that subset and an over-count of it at once, and their own raw counts, zero to
 eight hits each, are not a measurement either. Retention alone withheld a verdict on seven further
-records, of which the deeper pass decided six and none is clean; the nine are untouched by that test.
+records — a different seven from the seven whose default-depth query failed at the remote service
+(§2.4) — and the deeper pass decided six of the seven; none of the six is clean, and the seventh
+re-screen did not return, so that record remains undecided. The nine are untouched by that test.
 BLAST's sensitivity at ≥14/16 is unquantified here, so "no sense-strand near-match" is a property of this search and not of the
 transcriptome; the exhaustive transcript scan, complete for substitutions by construction, is the
 screen the claim rests on.
@@ -1076,8 +1089,10 @@ not established here, and the five partners are not the catalogue:
 *ACTB*<sup>3</sup><!--PMID:41755350--> and others are reported, and 2% of one cohort carried no
 identified partner.<sup>9</sup><!--PMID:36948401--> Three of the 15 *EWSR1*-rearranged tumours of the
 primary breakpoint series carry transcript types the retrieved record does not name, so retrieval is
-an upper bound on what would open that block. At least one named variant arises from a genomic breakpoint interior to *EWSR1* exon 12 rather than between two
-exons.<sup>39</sup><!--PMID:9060841--> Such a breakpoint is not undesignable: handing the same
+an upper bound on what would open that block. At least one named variant is reported to arise from a
+genomic breakpoint interior to *EWSR1* exon 12 rather than between two exons, in a source that
+carries a citation marker on that sentence and is therefore restating an earlier
+report.<sup>39</sup><!--PMID:9060841--> Such a breakpoint is not undesignable: handing the same
 builder a donor model cut inside its exon returns five candidates, all fusion-specific against both
 parents, three gap-centred and a best gap-level margin of 3. What such a junction lacks is an exon
 index, which is how every design here is specified, and a published nucleotide position, which no
@@ -1117,9 +1132,12 @@ whose hit lists permit a locus recount the median inflation is 2.25 records per 
 11.0, more than doubling the apparent number of distinct genes. A design's *load* is its predicted
 off-target burden counted as near-matches, and where it sits matters as much as its size: `NM_`/`NR_`
 records are curated, `XM_`/`XR_` computationally predicted. Both compound on
-5′-GGGCATATCATCAAAC-3′, whose 123 gap-paired near-matches at the deeper ceiling recount to six loci
-with 82 of them predicted models, and whose one curated sense-strand hit is *H2AP*, mismatched inside
-the catalytic gap and so counted in full under the pessimistic bound. The genome scan decides
+5′-GGGCATATCATCAAAC-3′, whose 123 gap-paired near-matches at the deeper ceiling recount to six loci:
+82 of the 123 are predicted models and the other 41 are curated records, and those 41 are themselves
+inflated, 32 of them *ANKS1B* accessions and three *ZNF667*. The curated share moves with depth as
+well. At the default ceiling that design carried a single curated sense-strand hit, *H2AP*,
+mismatched inside the catalytic gap and so counted in full under the pessimistic bound; at the deeper
+ceiling it carries 43. The genome scan decides
 sense-strand membership against an annotation, so unannotated transcription is uncounted; it is one
 assembly, silent on a patient's private variation; and every exhaustive screen here is complete for
 substitutions by construction and blind to insertions and deletions.
