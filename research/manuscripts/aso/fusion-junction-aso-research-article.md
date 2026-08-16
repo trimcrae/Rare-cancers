@@ -66,68 +66,66 @@ tested, and nothing here asserts efficacy, safety, delivery to a tumour or clini
 ## 1 · Introduction
 
 EMC is defined in the large majority of cases by an in-frame fusion of *EWSR1* to the orphan nuclear
-receptor *NR4A3*,<sup>1</sup><!--PMID:8634690--> with *TAF15* accounting for a substantial minority
-and *TCF12* and *TFG* reported rarely.<sup>2</sup><!--PMID:32572850--> *FUS::NR4A3* is reported in
-a recent series that identified it by sequencing in two of five variant EMCs.<sup>3</sup><!--PMID:41755350--> Next-generation sequencing of six EMCs finds
-few recurrent secondary mutations beyond the fusion,<sup>4</sup><!--PMID:28423517--> so it is to a
-first approximation the single clonal driver. In every junction type described, the predicted
-product joins the amino-terminal transactivation domain of the partner to essentially the
-entire NR4A3 protein, including its nuclear-receptor DNA-binding domain.<sup>1,5</sup><!--PMID:8634690,11156374-->
+receptor *NR4A3*,<sup>1</sup><!--PMID:8634690--> with *TAF15* a substantial minority and *TCF12* and
+*TFG* rare.<sup>2</sup><!--PMID:32572850--> *FUS::NR4A3* is reported in a recent series that
+identified it by sequencing in two of five variant EMCs.<sup>3</sup><!--PMID:41755350-->
+Next-generation sequencing of six EMCs finds few recurrent secondary mutations beyond the
+fusion,<sup>4</sup><!--PMID:28423517--> so it is to a first approximation the single clonal driver. In
+every junction type described, the predicted product joins the partner's amino-terminal
+transactivation domain to essentially the entire NR4A3 protein, including its nuclear-receptor
+DNA-binding domain.<sup>1,5</sup><!--PMID:8634690,11156374-->
 
 That driver is currently untargeted. Surgery with clear margins is the backbone of localised disease,
 and for advanced disease no clinically validated agent directly targets
-*NR4A3*.<sup>6</sup><!--PMID:41055792--> The largest EMC-specific prospective study, a single-arm phase 2
-of pazopanib in centrally confirmed *NR4A3*-translocated disease, returned four objective responses
-in 22 evaluable patients.<sup>7</sup><!--PMID:31331701--> Anthracycline-based
-chemotherapy returned four responses in ten evaluable patients in a molecularly confirmed
-retrospective series of eleven, a result that series presents as running counter to the prior
-record.<sup>8</sup><!--PMID:24345066--> The two sources cited above report a low
-objective response rate to that chemotherapy and low sensitivity to cytotoxic chemotherapy
-generally,<sup>6,7</sup><!--PMID:41055792,31331701--> and none of the three publishes a response rate
-by line of therapy. The population a fusion-directed agent would address is close
-to the whole disease: across 58 molecularly confirmed cases, 79% carried *EWSR1::NR4A3*, 16%
+*NR4A3*.<sup>6</sup><!--PMID:41055792--> The largest EMC-specific prospective study, a single-arm
+phase 2 of pazopanib in centrally confirmed *NR4A3*-translocated disease, returned four objective
+responses in 22 evaluable patients;<sup>7</sup><!--PMID:31331701--> anthracycline-based chemotherapy
+returned four in ten evaluable patients in a molecularly confirmed retrospective series of eleven, a
+result that series presents as running counter to the prior record.<sup>8</sup><!--PMID:24345066-->
+Two of those sources report a low objective response rate to that chemotherapy and low sensitivity to
+cytotoxic chemotherapy generally,<sup>6,7</sup><!--PMID:41055792,31331701--> and none of the three
+publishes a response rate by line of therapy. The population a fusion-directed agent would address is
+close to the whole disease: across 58 molecularly confirmed cases, 79% carried *EWSR1::NR4A3*, 16%
 *TAF15::NR4A3* and 3% *TCF12::NR4A3*.<sup>9</sup><!--PMID:36948401-->
 
 The chimeric mRNA offers a discrimination handle its protein product does not. The *NR4A3*
-ligand-binding domain is retained near-intact in the chimera and is identical in sequence to
-wild-type NR4A3, so a ligand that engages it cannot distinguish fusion from wild type. The
-breakpoint junction can: it is a contiguous stretch of sequence present in no normal transcript, and
-absent from both parent transcripts, so selectivity can in principle be enforced by base-pairing
-rather than by protein conformation. That junction is the target of every design in this paper.
+ligand-binding domain is retained near-intact and identical in sequence to wild-type NR4A3, so a
+ligand that engages it cannot distinguish fusion from wild type. The breakpoint junction can: it is a
+contiguous stretch of sequence present in no normal transcript and absent from both parent
+transcripts, so selectivity can in principle be enforced by base-pairing rather than by protein
+conformation. It is the target of every design here.
 
 Targeting a fusion breakpoint with an oligonucleotide is not new. The approach has a continuous
 lineage from 1991,<sup>10</sup><!--PMID:1794439--> including RNase-H-dependent antisense at a sarcoma
 fusion breakpoint in 1997,<sup>11</sup><!--PMID:9049825--> and the fusion-exclusivity rationale was
 stated as a general principle in 2005.<sup>12</sup><!--PMID:16083345--> Parental sparing has been
-reported at four fusions, two of the four with a readout on the wild-type parent transcript and the
-other two asserting junction specificity without
-one.<sup>13–16</sup><!--PMID:33241214,36265509,21846246,23052253--> A bi-shRNA lipoplex directed
-at the *EWSR1::FLI1* junction was taken to preclinical
+reported at four fusions, two with a readout on the wild-type parent transcript and two asserting
+junction specificity without one.<sup>13–16</sup><!--PMID:33241214,36265509,21846246,23052253--> A
+bi-shRNA lipoplex against the *EWSR1::FLI1* junction reached preclinical
 justification,<sup>17</sup><!--PMID:27166877--> and a GalNAc-conjugated junction siRNA in
 fibrolamellar hepatocellular carcinoma passed the delivery gate in a rare fusion-driven
-cancer.<sup>18</sup><!--PMID:37980543--> The contribution here is therefore not the modality but the
-indication. Across 5,153 unique records retrieved from Europe PMC, four mention *EWSR1::NR4A3* at
-title or abstract level, resolving to three papers, none an oligonucleotide study.
+cancer.<sup>18</sup><!--PMID:37980543--> The contribution here is the indication rather than the
+modality: across 5,153 unique records retrieved from Europe PMC, four mention *EWSR1::NR4A3* at title
+or abstract level, resolving to three papers, none an oligonucleotide study.
 
-Two questions follow that the field has not asked of this disease. The first is that prior design
-work has addressed only *EWSR1*, while the partner varies. Partner identity may not be clinically
-inert: across the two series of antiangiogenic tyrosine-kinase inhibition in advanced EMC that report
-a partner breakdown at all, no objective response is reported in a *TAF15* patient, on a *TAF15* arm
-of three to five patients whose Wilson upper bound remains compatible with equal
+Two questions follow that the field has not asked of this disease. Prior design work has addressed
+only *EWSR1*, while the partner varies, and partner identity may not be clinically inert: across the
+two series of antiangiogenic tyrosine-kinase inhibition in advanced EMC that report a partner
+breakdown at all, no objective response is reported in a *TAF15* patient, on a *TAF15* arm of three
+to five patients whose Wilson upper bound remains compatible with equal
 response.<sup>7,19</sup><!--PMID:31331701,24703573--> Neither primary report states the per-arm
 denominators; the sunitinib report states the partner split only qualitatively, and both denominators
-are read from published reviews of the two
-series.<sup>20,21</sup><!--PMID:32967265,33799327--> The
+are read from published reviews of the two series.<sup>20,21</sup><!--PMID:32967265,33799327--> The
 second is whether a junction oligonucleotide must be bespoke per patient, or whether one sequence can
-serve more than one fusion. That determines whether the deployable artefact for an ultra-rare disease
+serve more than one fusion, which decides whether the deployable artefact for an ultra-rare disease
 is a stock reagent or a panel.
 
-This paper answers both questions from sequence, sets out where a computational screen stops being
-able to answer them, and ends by naming the oligonucleotides to synthesise, the controls that make a
-knockdown result interpretable, and the pre-registrable threshold that would falsify the ranking every
-candidate here is ordered by (§4). The design and screening procedure behind them is released with
-the artefacts, so a candidate can be designed by the same route for a breakpoint the panel does not
-carry (§4.5).
+This paper answers both from sequence, sets out where a computational screen stops being able to
+answer them, and ends by naming the oligonucleotides to synthesise, the controls that make a
+knockdown result interpretable, and the pre-registrable threshold that would falsify the ranking
+every candidate here is ordered by (§4). The design and screening procedure is released with the
+artefacts, so a candidate can be designed by the same route for a breakpoint the panel does not carry
+(§4.5).
 
 ## Box 1 · Sequences, cautions and the void condition
 
