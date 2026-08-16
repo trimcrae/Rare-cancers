@@ -60,7 +60,15 @@ def test_every_table_survives_into_the_journal_layout(journal):
                    if ln.strip().startswith("|") and not re.match(r"^\|[\s:|-]+\|?$", ln.strip())]
     assert len(source_rows) > 100
     assert len(re.findall(r"<tr>", rendered)) == len(source_rows), "a table row was dropped"
-    assert sum(1 for v in floats.values() if v[0] == "table") == 6
+    # ⚠ DERIVED FROM THE GENERATED TABLES FILE, NOT TYPED (2026-08-16). This asserted `== 6` and had
+    # to be chased by hand the moment Table 7 was generated. A typed count is the same defect
+    # `_geometry_columns` names in submission_tables.py: it cannot notice a table added upstream, and
+    # when one is added it fails for a reason that has nothing to do with the layout. The expectation
+    # is now the count of captions the tables file itself carries, so a table added upstream must
+    # still reach the layout, and a table dropped from the layout still fails.
+    captions = set(re.findall(r"^\*\*Table (\d+)\.", bsp.read(PAPER["tables"]), re.M))
+    assert len(captions) >= 6, captions
+    assert sum(1 for v in floats.values() if v[0] == "table") == len(captions)
 
 
 def test_every_figure_is_placed_with_the_legend_that_describes_it(journal):

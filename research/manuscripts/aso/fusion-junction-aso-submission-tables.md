@@ -291,3 +291,34 @@ measurement of cleavage, and no expression figure is a predicted cleavage event.
 |  | *LOC107985219* | 2 | 2 of 5 | — | — | — | — | no gene model — not measurable |
 |  | *LOC107987169* | 1 | 1 of 5 | — | — | — | — | no gene model — not measurable |
 |  | *LOC124905457* | 1 | 1 of 5 | — | — | — | — | no gene model — not measurable |
+
+**Table 7. Every reagent named in §4, what it costs on each screen and what it buys in coverage.**
+The rows are in the order §4 decides them: the two lead reagents, the rungs of the coverage ladder
+above them, the four *NR4A3* exon-2 acceptor seams reported beside the panel, and the two contrast
+arms. Cumulative coverage is the coverage of the reagent set through that row, so the two leads are
+one rung and carry one figure between them; it is discounted by the breakpoint distribution of a
+single series and is not a partner figure, and its interval is composed from each breakpoint
+fraction's own Wilson bound rather than from the point estimate. A bound row is what coverage would
+be if every remaining breakpoint of that partner were covered, which nothing measures. A row that
+adds nothing prints why, because the two reasons differ: the partner is absent from the 58-case
+cohort behind the denominator, or the partner is present and that exon pair carries no count in the
+measured within-partner distribution. The exon-2 acceptor rows are from the non-canonical-acceptor
+table and are never pooled into the panel, since the grade that excludes their junctions from the 38
+is unchanged. A contrast arm carries no coverage figure and must not borrow its junction's, which is
+already counted a row above. Gap-paired near-matches are at the tenfold deeper alignment ceiling
+where every hit list is complete, and the parent duplex is the longest contiguous run containing the
+whole catalytic gap, at the ten-base-pair criterion applied throughout. None of these numbers is a
+measurement of off-target activity, and no row is a claim of efficacy.
+
+| reagent | junction | sequence | geometry | gap-level margin | gap-paired near-matches → loci at the deeper ceiling | longest mature-parent duplex through the gap | cumulative coverage | basis |
+|---|---|---|---|---|---|---|---|---|
+| lead reagent | EWSR1 e12::NR4A3 e3 | 5′-GGGCATATCATCAAAC-3′ | 5-6-5 | 3 | 123 → 6 | 8 bp (*TFG*) | 68.4% (39.9–82.8) | single series, cumulative |
+| lead reagent | TAF15 e6::NR4A3 e3 | 5′-GGGCATATCTTGTGTG-3′ | 5-6-5 | 3 | 8 → 5 | 9 bp (*TFG*) | 68.4% (39.9–82.8) | single series, cumulative |
+| coverage rung | EWSR1 e13::NR4A3 e3 | 5′-GGGCATATCTCCACGG-3′ | 5-6-5 | 3 | 24 → 2 | 8 bp (*TCF12*) | 79.0% (50.3–89.2) (+10.6) | single series, cumulative |
+| coverage rung | EWSR1 e7::NR4A3 e2 | 5′-CAGTGGGCTTCTGCTG-3′ | 5-6-5 | 2 | 51 → 7 | 8 bp (*TAF15*) | 79.0% (50.3–89.2) (+0.0) | single series, cumulative |
+| coverage bound | TCF12 e5::NR4A3 e3 | 5′-GGGCATATCCATCAGA-3′ | 5-6-5 | 3 | 17 → 1 | 7 bp (*EWSR1*) | 98.3% | arithmetic bound |
+| beside the panel | EWSR1 e13::NR4A3 e2 | 5′-AGTGGGCTCTCCACGG-3′ | 5-6-5 | 3 | 25 → 6 | 8 bp (*EWSR1*) | adds nothing | partner in the cohort, this exon pair uncounted in it |
+| beside the panel | TAF15 e6::NR4A3 e2 | 5′-AGTGGGCTCTTGTGTG-3′ | 5-6-5 | 3 | 128 → 6 | 9 bp (*NR4A3*) | adds nothing | partner in the cohort, this exon pair uncounted in it |
+| beside the panel | PGR e2::NR4A3 e2 | 5′-AGTGGGCTCTTCCATT-3′ | 5-6-5 | 3 | 51 → 14 | 9 bp (*NR4A3*) | adds nothing | partner absent from the cohort behind the denominator |
+| gap-length control | EWSR1 e12::NR4A3 e3 | 5′-AGGGCATATCATCAAACC-3′ | 5-8-5 | 4 | 3 → 1 | none | — | not a coverage row |
+| margin contrast arm | EWSR1 e12::NR4A3 e3 | 5′-GCATATCATCAAACCA-3′ | 5-6-5 | 1 | 34 → 6 | 8 bp (*FUS*) | — | not a coverage row |

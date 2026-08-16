@@ -475,12 +475,26 @@ def test_the_census_reports_at_least_as_many_junction_papers_as_it_lists():
 
 
 PAPER = os.path.join(MAN, "aso", "fusion-junction-aso-research-article.md")
+#: ⚠ WIDENED TO THE SUBMISSION, NOT LOOSENED, 2026-08-16. The 2026-08-16 editorial pass generated
+#: Table 7 and moved the coverage ladder's SECOND BASIS — the pooled-basis 82.9%, the refused third
+#: series, and the two ways a qualifying junction contributes exactly zero — out of the main text and
+#: into SI §S6, verbatim. Every string below is still asserted, character for character; what changed
+#: is which file of the same submission holds it. Reading only the main text would have made this
+#: guard fire on a move it has no opinion about, and the pressure would then have been to delete the
+#: assertion rather than to follow the sentence. The property it protects is unchanged and is
+#: file-independent: the larger figure may not displace 68.4%, and both must be present with the
+#: sentence separating them. Note the abstract-specific pin below still lands in the main text,
+#: because the abstract is only there.
+SI = os.path.join(MAN, "aso", "fusion-junction-aso-supplementary-information.md")
 
 
 def _paper_flat():
     if not os.path.exists(PAPER):
         pytest.skip("the submission manuscript is not present in this checkout")
-    return " ".join(open(PAPER, encoding="utf-8").read().split())
+    text = open(PAPER, encoding="utf-8").read()
+    if os.path.exists(SI):
+        text += "\n" + open(SI, encoding="utf-8").read()
+    return " ".join(text.split())
 
 
 def test_the_manuscripts_best_supported_figure_is_the_artifacts_and_does_not_displace_68_4():

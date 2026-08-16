@@ -412,6 +412,125 @@ _TIER_LABELS = {
 }
 
 
+#: ⛔ TABLE 7 IS A ROW SPEC, NOT A DATA TABLE. Each entry names a reagent's EDITORIAL ROLE and where
+#: to READ it from; every number in the rendered row is fetched from the artifact named here and none
+#: is typed. The order is the order §4 makes the decisions in: the two leads first, then each rung of
+#: the coverage ladder, then the seams reported beside the panel, then the two contrast arms.
+#: ⚠ THE ROLE IS THE ONLY EDITORIAL FIELD. If a role and its artifact ever disagree — a "lead reagent"
+#: whose junction is no longer in ladder rung 0 — the coverage cell will say so, because the coverage
+#: cell is read from the ladder rather than from this list.
+_TABLE7_ROWS = (
+    ("lead reagent", "panel", "EWSR1_e12__NR4A3_e3", None),
+    ("lead reagent", "panel", "TAF15_e6__NR4A3_e3", None),
+    ("coverage rung", "panel", "EWSR1_e13__NR4A3_e3", None),
+    ("coverage rung", "noncoding", "EWSR1_e7__NR4A3_e2", None),
+    ("coverage bound", "panel", "TCF12_e5__NR4A3_e3", None),
+    ("beside the panel", "noncoding", "EWSR1_e13__NR4A3_e2", None),
+    ("beside the panel", "noncoding", "TAF15_e6__NR4A3_e2", None),
+    ("beside the panel", "noncoding", "PGR_e2__NR4A3_e2", None),
+    ("gap-length control", "geometry", "EWSR1_e12__NR4A3_e3", "5-8-5"),
+    ("margin contrast arm", "design", "EWSR1_e12__NR4A3_e3", "GCATATCATCAAACCA"),
+)
+
+
+def _ladder_coverage(ladder):
+    """junction_label -> (cumulative coverage cell, basis cell), READ from the coverage ladder.
+
+    ⛔ THE COVERAGE CELL IS THE LADDER'S, NOT THE ROW SPEC'S. A junction's cumulative figure is the
+    coverage of the FIRST rung that contains it, because that is what "cumulative through this row"
+    means; the two leads are one rung and therefore carry one figure between them, which the caption
+    says. A junction that qualifies for the best-supported panel but moves the estimate by nothing
+    prints WHY it moves nothing rather than a zero, since the two reasons are different — the partner
+    is absent from the 58-case cohort, or the partner is present and this exon pair carries no count
+    in the measured within-partner distribution. Both are in the artifact and neither is inferred.
+    """
+    out = {}
+    for rung in ladder["ladder"]:
+        cell = f"{rung['coverage_percent']:.1f}%"
+        lo, hi = rung["coverage_percent_range"]
+        if lo != hi:
+            cell += f" ({lo:.1f}–{hi:.1f})"
+        # ⚠ A RUNG THAT BUYS NOTHING MUST SAY SO IN ITS OWN CELL. Two consecutive rungs print the
+        # same cumulative figure when the second adds zero, and a reader who does not compare rows
+        # reads the second as having bought it. The delta is in the artifact; print it.
+        delta = rung.get("delta_percent_vs_previous")
+        if rung["kind"] == "rung" and delta is not None:
+            cell += f" (+{delta:.1f})"
+        basis = ("arithmetic bound" if rung["kind"] == "bound"
+                 else "single series, cumulative")
+        for j in rung["junctions"]:
+            out.setdefault(j, (cell, basis))
+    pm = ladder["best_supported_buildable_panel"]["panel_membership"]
+    for key, why in (("⛔_in_cohort_but_moving_NOTHING",
+                      "partner in the cohort, this exon pair uncounted in it"),
+                     ("⛔_qualifying_but_contributing_exactly_zero",
+                      "partner absent from the cohort behind the denominator")):
+        for j in pm[key]["junctions"]:
+            out.setdefault(j, ("adds nothing", why))
+    return out
+
+
+def table7(per_junction, noncoding, gap, ladder):
+    """Every reagent §4 names, with what it costs on each screen and what it buys in coverage.
+
+    ⛔ WHY A SEVENTH TABLE. The coverage apparatus was ~1,430 words of prose carrying five
+    percentages on two incompatible bases, a ladder, a refused third series and a per-design recital
+    of margins, loads and parent duplexes. Every one of those is a cell. What a table cannot carry is
+    the two facts the prose keeps: that no oligonucleotide serves two breakpoints of the same
+    partner, and that the exon-2 acceptor rows are reported beside the panel and never pooled into
+    it — so those stay in prose and everything else moves here.
+
+    ⚠ ROWS FROM FOUR ARTIFACTS, AND THE ROW SAYS WHICH. The panel rows come from the manuscript's
+    38-junction table; the exon-2 acceptor rows from the non-canonical-acceptor table, which is a
+    different table for a stated reason and is never pooled with the first; the gap-length control
+    from the geometry trade-off artifact; the margin arm from the per-design list at its own
+    junction. A row's coverage cell always comes from the coverage ladder, never from its screen.
+    """
+    panel = {j["junction_label"]: j for j in per_junction["junctions"]}
+    nonc = {j["junction_label"]: j for j in noncoding["junctions"]}
+    lead = gap["lead_reagent_at_the_most_commonly_reported_seam"]["by_geometry"]
+    cover = _ladder_coverage(ladder)
+    default_arch = GEOMETRY.architecture
+
+    def _duplex(bp, gene):
+        if not bp:
+            return "none"
+        return f"{bp} bp (*{gene}*)" if gene else f"{bp} bp"
+
+    rows = []
+    for role, src, label, key in _TABLE7_ROWS:
+        if src in ("panel", "noncoding"):
+            j = (panel if src == "panel" else nonc)[label]
+            b = j["best_available"]
+            seq, margin, arch = b["antisense_5to3"], b["gap_specificity_margin"], default_arch
+            load = f"{b['n_gap_paired']} → {b['n_gap_paired_loci']}"
+            dup = _duplex(b["parent_duplex_bp"], b["parent"])
+        elif src == "geometry":
+            g = lead[key]
+            seq, margin, arch = g["antisense_5to3"], g["gap_specificity_margin"], g["architecture"]
+            load = (f"{g['alignment_screen']['n_true_cleavage_risk']} → "
+                    f"{g['alignment_screen']['loci']['n_loci_with_a_gap_spanning_hit']}")
+            dup = _duplex(g["mature_parent_duplex_through_whole_gap_bp"],
+                          g["mature_parent_duplex_gene"])
+        else:
+            d = next(x for x in panel[label]["designs"] if x["antisense_5to3"] == key)
+            seq, margin, arch = d["antisense_5to3"], d["gap_specificity_margin"], default_arch
+            load = f"{d['n_gap_paired']} → {d['n_gap_paired_loci']}"
+            dup = _duplex(d["parent_duplex_bp"], d["parent"])
+        # ⚠ A CONTRAST ARM HAS NO COVERAGE AND MUST NOT BORROW ITS JUNCTION'S. Both arms sit at a
+        # junction already in the table; printing that junction's cumulative figure again would
+        # count the same patients twice, which is the exact error the ladder exists to prevent.
+        cov, basis = (("—", "not a coverage row") if src in ("geometry", "design")
+                      else cover.get(label, ("adds nothing", "not in the ladder")))
+        lab = label.replace("__", "::").replace("_", " ")
+        rows.append(f"| {role} | {lab} | 5′-{seq}-3′ | {arch} | {margin} | {load} | "
+                    f"{dup} | {cov} | {basis} |")
+    hdr = ("| reagent | junction | sequence | geometry | gap-level margin | gap-paired near-matches "
+           "→ loci at the deeper ceiling | longest mature-parent duplex through the gap | "
+           "cumulative coverage | basis |")
+    return "\n".join([hdr, "|---|---|---|---|---|---|---|---|---|"] + rows)
+
+
 def table4(per_junction):
     """One best-available reagent per junction, joined across all five screens.
 
@@ -788,7 +907,15 @@ def main():
     per_junction = _load("aso-per-junction-table.json")
     gap = _load("aso-gap-length-tradeoff.json")
     expr = _load("aso-offtarget-tissue-expression.json")
-    if not (atlas and collapse and chance and thermo and per_junction and gap and expr):
+    # Table 7's two extra sources. The exon-2 acceptor rows live in their own table for the reason
+    # that table states — their junctions are not the manuscript's panel — and the coverage cells
+    # come from the ladder, which is the one place that owns the arithmetic.
+    noncoding = _load(os.path.join("noncoding-acceptor",
+                                   "aso-noncoding-acceptor-screened-table.json"))
+    ladder = json.load(open(os.path.join(HERE, "aso",
+                                         "fusion-junction-aso-coverage-ladder.json")))
+    if not (atlas and collapse and chance and thermo and per_junction and gap and expr
+            and noncoding and ladder):
         print("a required artifact is missing", file=sys.stderr)
         return 2
 
@@ -935,6 +1062,26 @@ nothing here distinguishes these loci from one another on affinity. None of thes
 measurement of cleavage, and no expression figure is a predicted cleavage event.
 
 {table6(expr)}
+
+**Table 7. Every reagent named in §4, what it costs on each screen and what it buys in coverage.**
+The rows are in the order §4 decides them: the two lead reagents, the rungs of the coverage ladder
+above them, the four *NR4A3* exon-2 acceptor seams reported beside the panel, and the two contrast
+arms. Cumulative coverage is the coverage of the reagent set through that row, so the two leads are
+one rung and carry one figure between them; it is discounted by the breakpoint distribution of a
+single series and is not a partner figure, and its interval is composed from each breakpoint
+fraction's own Wilson bound rather than from the point estimate. A bound row is what coverage would
+be if every remaining breakpoint of that partner were covered, which nothing measures. A row that
+adds nothing prints why, because the two reasons differ: the partner is absent from the 58-case
+cohort behind the denominator, or the partner is present and that exon pair carries no count in the
+measured within-partner distribution. The exon-2 acceptor rows are from the non-canonical-acceptor
+table and are never pooled into the panel, since the grade that excludes their junctions from the 38
+is unchanged. A contrast arm carries no coverage figure and must not borrow its junction's, which is
+already counted a row above. Gap-paired near-matches are at the tenfold deeper alignment ceiling
+where every hit list is complete, and the parent duplex is the longest contiguous run containing the
+whole catalytic gap, at the ten-base-pair criterion applied throughout. None of these numbers is a
+measurement of off-target activity, and no row is a claim of efficacy.
+
+{table7(per_junction, noncoding, gap, ladder)}
 """
     open(OUT, "w").write(doc)
     print(f"wrote {OUT}")
