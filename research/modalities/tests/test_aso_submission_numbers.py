@@ -1161,6 +1161,18 @@ def test_section_3_11_expression_figures_are_the_artifacts():
     assert "*ANKS1B* supplies 67 of them and sits below the lower cut in all" in txt
     assert "peaking instead in brain at 24.9 TPM" in txt
 
+    # ⭐ THE GUT READING MOVED HERE FROM §4.1, 2026-08-16. §4.1 used to close its exposure comparison
+    # with "its largest sitting instead in brain and gut", which was the ONLY home of the gut half —
+    # Table 6's soft-tissue column carries neither. Collapsing that comparison to one site would have
+    # deleted a reading, so it landed in §2.8 beside the brain one, and is pinned against the same
+    # whole-body block rather than typed: which locus, and that its top tissue really is gut.
+    chst5 = next(L for L in lead if L["locus"] == "CHST5")
+    assert chst5["screen_records"]["n_transcript_records"] == min(
+        L["screen_records"]["n_transcript_records"] for L in lead), "CHST5 is the smallest of the six"
+    gut = chst5["whole_body_context"]["top_tissues"][0]["tissue"]
+    assert any(w in gut for w in ("Intestine", "Colon", "Stomach")), gut
+    assert "*CHST5*, the smallest of the six by record count, peaks in gut" in txt
+
     # ── the TAF15 exon 6 reagent ──────────────────────────────────────────────────────────────
     taf = _loci_of_design(expr, "GGGCATATCTTGTGTG")
     assert len(taf) == 5, [L["locus"] for L in taf]
@@ -1316,7 +1328,16 @@ def test_section_4_separates_the_two_reagents_without_making_a_safety_claim():
     assert (len(at_upper), n_tiss) == (2, 3), (at_upper, vals)
     assert min(vals.values()) < X.EXPRESSED_TPM, vals    # liver, at 6.62 — the refuting reading
     assert min(vals.values()) >= X.PRESENT_TPM, vals     # but above the LOWER cut in all three
-    assert ("none of the *EWSR1* reagent's four measurable loci is expressed at the upper cut in "
+    # ⚠ "four measurable" -> "measurable" IN §4.3 ONLY, 2026-08-16. The count of readable loci was
+    # printed at THREE sites — §2.8, §4.1 and here — and the editorial pass collapsed the
+    # exposure-vs-count comparison to one home. What this guard exists for is the word "measurable",
+    # not the word "four": a sentence saying none of the SIX is expressed converts an absent reading
+    # into a reading of absence, and "measurable" is what refuses that. The number itself is still
+    # pinned against the artifact three lines above (two unreadable of six) and still printed in
+    # §2.8, whose sentence is asserted verbatim in
+    # `test_section_3_11_expression_figures_are_the_artifacts`.
+    assert "reagent's four measurable loci" not in txt or txt.count("four measurable") == 1
+    assert ("none of the *EWSR1* reagent's measurable loci is expressed at the upper cut in "
             "the organs a systemic dose reaches, while the *TAF15* reagent's five include *NRP1*, "
             "which is.") in txt
     # the exact count lives in §2.8, and is derived here so it can never drift back to "all three"

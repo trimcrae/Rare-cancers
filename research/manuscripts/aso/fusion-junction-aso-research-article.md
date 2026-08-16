@@ -259,31 +259,31 @@ for specificity than which gene it breaks into.
 The same tension the *TAF15* result carries applies to *TCF12*, and in the same direction. The one
 published *TCF12::NR4A3* breakpoint describes a chimera retaining the first 108 TCF12
 residues,<sup>5</sup><!--PMID:11156374--> and names no exon; the same authors deposited the chimeric
-cDNA, and that deposit resolves the junction to the nucleotide. GenBank AF289510.1 is 421 bases long
-and carries two chromosome-tagged source features that meet at the junction, bases 1 to 263 on
-chromosome 15 and bases 264 to 421 on chromosome 9. Mapped against the transcript models used here,
-the donor side ends at *TCF12* exon 5 and at no other exon, the acceptor side begins at *NR4A3* exon
-3 and at no other exon, and the twelve bases either side of the seam are identical to the seam the
-panel was designed on. Translating the deposit reproduces its own recorded protein, which is a
-substring of the modelled chimera. That junction is in-frame and designable, and its best-margin
-design retains 17 gap-spanning near-matches at the deeper ceiling, every one of them a variant of a
-single curated locus, *PIK3CG* (Table 4). None of the four *TCF12* designs with no sense-strand
-near-match is at that exon. So for *TCF12* as for *TAF15*, the junction a patient is reported to
-carry is designable and is not among the clean ones, while the clean junctions have no reported
-patient. What remains unmeasured at *TCF12* is not the exon but the distribution: one
-*TCF12*-rearranged tumour has been sequenced at this junction, and it is the tumour the junction was
-defined by. No search of the nucleotide or read archives returns a second *TCF12::NR4A3* sequence,
-and what that leaves the coverage estimate resting on is stated with the estimate (§4.1).
+cDNA, and that deposit resolves the junction to the nucleotide. GenBank AF289510.1 carries two
+chromosome-tagged source features that meet at the junction. Mapped against the transcript models
+used here, the donor side ends at *TCF12* exon 5 and at no other exon, the acceptor side begins at
+*NR4A3* exon 3 and at no other exon, and the twelve bases either side of the seam are identical to
+the seam the panel was designed on. The base-level assignment, its chromosome-tagged coordinates and
+the translation check that reproduces the deposit's own recorded protein are in the released
+artefact. That junction is in-frame and designable, and its best-margin design retains 17
+gap-spanning near-matches at the deeper ceiling, every one of them a variant of a single curated
+locus, *PIK3CG* (Table 4). None of the four *TCF12* designs with no sense-strand near-match is at
+that exon. So for *TCF12* as for *TAF15*, the junction a patient is reported to carry is designable
+and is not among the clean ones, while the clean junctions have no reported patient. What remains
+unmeasured at *TCF12* is not the exon but the distribution: one *TCF12*-rearranged tumour has been
+sequenced at this junction, and it is the tumour the junction was defined by. No search of the
+nucleotide or read archives returns a second *TCF12::NR4A3* sequence, and what that leaves the
+coverage estimate resting on is stated with the estimate (§4.1).
 
 The same archive search resolves *TFG*, the other non-FET partner, in the same way and to the same
 limit. No paper places a *TFG::NR4A3* breakpoint at an exon, but a deposited chimeric mRNA record
 does — GenBank AY532911.1, annotated as a *TFG-NR4A3* fusion protein — and it lands on *TFG* exon 7
 joined to *NR4A3* exon 3, a junction this panel already carries. Four patent sequence records agree
-with it base for base at the seam, and they corroborate a sequence rather than four patients, being
-one family from one group. As at *TCF12*, what the deposit supplies is the exon and not the
-distribution: no source states what fraction of *TFG*-rearranged tumours break there, and *TFG* does
-not appear in the partner counts of the 58-case cohort every coverage figure here is denominated on,
-so this changes which junctions are reported and no percentage.
+at the seam, corroborating a sequence rather than four patients, being one family from one group. As
+at *TCF12*, what the deposit supplies is the exon and not the distribution: no source states what
+fraction of *TFG*-rearranged tumours break there, and *TFG* does not appear in the partner counts of
+the 58-case cohort every coverage figure here is denominated on, so this changes which junctions are
+reported and no percentage.
 
 ### 2.4 · Strand orientation, and designs with no sense-strand near-match
 
@@ -464,16 +464,16 @@ intron 2 variant.<sup>27</sup><!--PMID:31020999-->
 Those acceptors are now designed and screened to the panel's depth, at four seams with a published
 exon-resolved breakpoint, each tiled by the same five registers and graded by the same five screens.
 Their best available designs are 5′-CAGTGGGCTTCTGCTG-3′ at *EWSR1* exon 7, the type 2 transcript, at
-gap-level margin 2 and 51 gap-paired near-matches over 7 loci; 5′-AGTGGGCTCTCCACGG-3′ at *EWSR1* exon
-13, at margin 3 and 25 over 6; 5′-AGTGGGCTCTTGTGTG-3′ at *TAF15* exon 6, at margin 3 and 128 over 6;
-and 5′-AGTGGGCTCTTCCATT-3′ at *PGR* exon 2, a seam reported in a single
-patient,<sup>28</sup><!--PMID:36103645--> at margin 3 and 51 over 14. None of the four is clean,
-and the least loaded is the least dirty of five dirty designs rather than a different kind of result.
-They are reported beside the panel and never pooled into it, because the grade that excludes their
-junctions from the 38 is unchanged. *PGR* carries a further caveat: it is a sixth partner, outside
-the five modelled here, and §6 lists no transcript accession for it, so its design is screened
-against the non-canonical-acceptor table rather than derived through the panel's own transcript
-models.
+gap-level margin 2 and 51 gap-paired near-matches over 7 loci; 5′-AGTGGGCTCTCCACGG-3′ at *EWSR1*
+exon 13, at margin 3 and 25 over 6; 5′-AGTGGGCTCTTGTGTG-3′ at *TAF15* exon 6, at margin 3 and 128
+over 6; and 5′-AGTGGGCTCTTCCATT-3′ at *PGR* exon 2, a seam reported in a single
+patient,<sup>28</sup><!--PMID:36103645--> at margin 3 and 51 over 14 (Table 7). None of the four is
+clean, and the least loaded is the least dirty of five dirty designs rather than a different kind of
+result. They are reported beside the panel and never pooled into it, because the grade that excludes
+their junctions from the 38 is unchanged. *PGR* carries a further caveat: it is a sixth partner,
+outside the five modelled here, and §6 lists no transcript accession for it, so its design is
+screened against the non-canonical-acceptor table rather than derived through the panel's own
+transcript models.
 
 **Some designs cleave the patient's own un-rearranged *NR4A3* allele, and the parent screen passes
 every one of them.** This is the result most consequential for anyone ordering these
@@ -562,24 +562,23 @@ make about them, and it is a statement about predicted hybridisation and not abo
 ### 2.8 · Expression of the off-target loci
 
 No screen above establishes that a design's off-target gene is transcribed where the drug goes, and
-that discount applies to every count in this paper. Read against reference expression data (Table 6),
-the gap-paired loci of the best design at each of the four junctions covered separate in the
+that discount applies to every count in this paper. Read against reference expression data (Table
+6), the gap-paired loci of the best design at each of the four junctions covered separate in the
 direction opposite to the sizes of their loads. Table 6 lists every locus the deeper screens return
 across the tiling registers read at a junction, so its rows are a union over registers and can
-outnumber the per-reagent counts below, which are each best design's own. The *EWSR1* exon 12 reagent's six loci carry 123 of
-the panel's 649 transcript records, and none of the four measurable ones reaches the upper cut in
-liver or either kidney compartment; *ANKS1B* supplies 67 of them and sits below the lower cut in all
-three, peaking instead in brain at 24.9 TPM — GTEx's cervical spinal cord, a whole-body reading
-carried in the released artefact rather than in either of Table 6's two compartments. The *EWSR1*
-exon 13 reagent inverts that, at two loci
-against six, both of them transcribed at the upper cut in the compartments a systemic
-phosphorothioate gapmer distributes to. The *TAF15* exon 6 reagent's five loci separate the other
-way: *NRP1* reaches 6.6 to 17.8 TPM across all three exposure tissues and is the only one all five of
-that junction's tiling registers return, on five transcript records. It is at or above the upper cut
-in two of those three, and robustness to register orders the loci differently again; the
-tumour-compartment proxy orders them a
-third way. What these readings can and cannot decide between two reagents is stated where that
-choice is made (§4.1).
+outnumber the per-reagent counts below, which are each best design's own. The *EWSR1* exon 12
+reagent's six loci carry 123 of the panel's 649 transcript records, and none of the four measurable
+ones reaches the upper cut in liver or either kidney compartment; *ANKS1B* supplies 67 of them and
+sits below the lower cut in all three, peaking instead in brain at 24.9 TPM — GTEx's cervical spinal
+cord, a whole-body reading carried in the released artefact rather than in either of Table 6's two
+compartments, and *CHST5*, the smallest of the six by record count, peaks in gut on the same
+reading. The *EWSR1* exon 13 reagent's two loci are both transcribed at the upper cut in those same
+compartments. The *TAF15* exon 6 reagent's five loci separate the other way: *NRP1* reaches 6.6 to
+17.8 TPM across all three exposure tissues and is the only one all five of that junction's tiling
+registers return, on five transcript records. It is at or above the upper cut in two of those three,
+and robustness to register orders the loci differently again; the tumour-compartment proxy orders
+them a third way. What these readings can and cannot decide between two reagents is stated where
+that choice is made (§4.1).
 
 ### 2.9 · Gap length trades junction specificity against parent-duplex competence
 
@@ -640,11 +639,10 @@ at that junction returns three.
 ### 2.10 · Duplex thermodynamics and conventional design rules
 
 Scored as free energies, every one of the 190 designs favours the fusion duplex over the best duplex
-either parent can form, by 4.8 to 13.1 kcal/mol with a median of 9.6. The denominator is 190 here
-rather than the 183 of the specificity screens for the reason given at the head of §2. Every design
-favours the fusion because a parent pairs roughly half the oligonucleotide, and half a duplex is much
-the weaker one. That separates two things a base count conflates. Discrimination at the level of
-*binding* is not marginal here, and is not what constrains the modality. What remains unresolved is
+either parent can form, by 4.8 to 13.1 kcal/mol with a median of 9.6. Every design favours the
+fusion because a parent pairs roughly half the oligonucleotide, and half a duplex is much the weaker
+one. That separates two things a base count conflates. Discrimination at the level of *binding* is
+not marginal here, and is not what constrains the modality. What remains unresolved is
 discrimination at the level of *catalysis*, where RNase-H1 requires a paired DNA gap and where the
 literature bounds span one- to five-fold. The thermodynamic result therefore narrows the paper's
 central uncertainty rather than relieving it.
@@ -658,18 +656,19 @@ ranking, and the same caution applies to the margin's agreement with the parent 
 
 Conventional design rules select differently, and against the paper's own candidates. Of the 190
 designs, 106 satisfy all four rules; the rules bind at different rates, with every design free of a
-G-quadruplex motif but 13 carrying a homopolymer run of four, 43 a CpG dinucleotide and 58
-falling outside the 40–60% GC window. The failures overlap, so they do not sum to the 84 designs
-that fail at least one.
-The disagreement is sharpest exactly where it matters most. Of the nine designs with no sense-strand
+G-quadruplex motif but 13 carrying a homopolymer run of four, 43 a CpG dinucleotide and 58 falling
+outside the 40–60% GC window. The failures overlap, so they do not sum to the 84 designs that fail
+at least one.
+
+The disagreement is sharpest where it matters most. Of the nine designs with no sense-strand
 near-match (Table 3), exactly one satisfies all four rules. Seven contain a CpG dinucleotide, the
-canonical TLR9 immunostimulatory motif; four fall outside the 40–60% GC window — the three *EWSR1* exon-1 designs above
-it at 62.5% and 5′-GGGCATATCTCTATAA-3′ below it at 37.5%. Only 5′-CAGGGCATATCTTGCA-3′ at *TCF12*
-exon 9 passes every rule, and the multi-partner candidate 5′-GGGCATATCATCAAAC-3′, which is not among
-the nine, also passes all four. So the two filters disagree where it matters: the cleanest
-designs this work found are, with one exception, molecules conventional triage would flag, in six of
-the seven cases for a CpG a base substitution removes. Both are reported rather than composed into a
-single score.
+canonical TLR9 immunostimulatory motif; four fall outside the 40–60% GC window — the three *EWSR1*
+exon-1 designs above it at 62.5% and 5′-GGGCATATCTCTATAA-3′ below it at 37.5%. Only
+5′-CAGGGCATATCTTGCA-3′ at *TCF12* exon 9 passes every rule, and the multi-partner candidate
+5′-GGGCATATCATCAAAC-3′, which is not among the nine, also passes all four. The cleanest designs this
+work found are, with one exception, molecules conventional triage would flag, in six of the seven
+cases for a CpG a base substitution removes. Both are reported rather than composed into a single
+score.
 
 ## 3 · Discussion
 
@@ -864,10 +863,9 @@ Two things sit outside the table. Coverage rises only by adding reagents, becaus
 can serve two breakpoints of the same partner: *EWSR1* exon 12 ending AATGGTTTGATG against exon 13's
 CACTCCGTGGAG, which agree over a single terminal base. Taken across every pair of in-frame junctions
 of one partner in this panel, the longest shared 3′ donor run is five nucleotides, at *TFG* exons 2
-and 6, and three within *EWSR1*. The cross-partner coverage of §2.2 is the exception that shows the rule, needing the
-ten identical donor bases the FET paralogues share. And the *NR4A3* exon-2 acceptor rows of §2.6 are
-reported beside the panel and never pooled into it, so they sit in Table 7 without entering the
-panel's own counts.
+and 6, and three within *EWSR1*. The cross-partner coverage of §2.2 is the exception that shows the
+rule, needing the ten identical donor bases the FET paralogues share. And the *NR4A3* exon-2
+acceptor rows of §2.6 sit in Table 7 without entering the panel's own counts.
 
 Two further reagents extend the set, both at the top gap-level margin of 3: 5′-GGGCATATCTCCACGG-3′ at
 *EWSR1* exon 13 to *NR4A3* exon 3, and 5′-GGGCATATCCATCAGA-3′ at *TCF12* exon 5 to *NR4A3* exon 3,
@@ -882,15 +880,14 @@ The *EWSR1* exon-13 reagent should not be recommended on its transcriptome count
 axes that separate it from the exon-12 reagent point in opposite directions and only one of them
 bears on where an effect would land. On count it is the lighter of the two, 24 gap-paired
 near-matches at 2 loci against 123 at 6. On exposure it is the heavier: both of its loci are
-transcribed at the upper cut in the organs a systemic phosphorothioate gapmer distributes to, while
-none of the exon-12 reagent's four measurable loci reaches that cut in liver or either kidney
-compartment, its largest sitting instead in brain and gut (§2.8, Table 6). For a laboratory choosing between them, the
-exposure reading is the one that speaks to the question a count cannot: a locus matched but not
-transcribed where the drug goes has no route to an effect, whereas the count is a property of how
-densely the returned loci are annotated. Neither axis is a risk ranking, and this comparison does not
-make the exon-12 reagent the safer molecule. Every hit behind both is a 14 of 16 match, no cleavage
-is predicted at any of them, and an expressed gene is necessary and not sufficient for an effect. The
-reason to make the exon-13 reagent is coverage, and it is unaffected by either axis.
+transcribed at the upper cut in the organs a systemic phosphorothioate gapmer distributes to, where
+none of the exon-12 reagent's measurable loci is (§2.8, Table 6). For a laboratory choosing between
+them, the exposure reading is the one that speaks to the question a count cannot: a locus matched
+but not transcribed where the drug goes has no route to an effect, whereas the count is a property
+of how densely the returned loci are annotated. Neither axis is a risk ranking, and this comparison
+does not make the exon-12 reagent the safer molecule. Every hit behind both is a 14 of 16 match, no
+cleavage is predicted at any of them, and an expressed gene is necessary and not sufficient for an
+effect. The reason to make the exon-13 reagent is coverage, and it is unaffected by either axis.
 
 Two risks attach, in this order. The first is architectural, and the Methods (§6) disclose it. A
 six-nucleotide gap supports noteworthy but incomplete RNase-H1 activity where seven to ten are
@@ -941,7 +938,7 @@ That load should travel with the reagent. It is a liability to disclose and to c
 than a disqualification, because on the genome scan the same design falls below chance in both
 directions that matter: 0.69 times the expected number of near-matches at two mismatches, and 0.62
 times the expected number of gap-paired ones. Expression separates the two reagents the other way
-(§2.8, §4.1): none of the *EWSR1* reagent's four measurable loci is expressed at the upper cut in the
+(§2.8, Table 6): none of the *EWSR1* reagent's measurable loci is expressed at the upper cut in the
 organs a systemic dose reaches, while the *TAF15* reagent's five include *NRP1*, which is. That does
 not reverse the ranking, since no screen here establishes that a two-mismatch duplex engages any of
 them, and it is not a statement about safety.
