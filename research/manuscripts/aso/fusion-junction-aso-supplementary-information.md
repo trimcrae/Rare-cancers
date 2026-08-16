@@ -134,7 +134,8 @@ absent from this cohort, and two because their partner is present while their ex
 count in it. That last pair is the easier of the two zeroes to miss, and a membership test that
 asked only about the partner did miss it.
 Priced on a pooled breakpoint basis rather than on the single series the ladder uses,
-the nine together are 82.9% of molecularly confirmed cases, widening to 57.5–90.7%. The denominators
+the nine together are 82.9% of molecularly confirmed cases, widening to 57.5–90.7%, and the two
+reagents of §4.1 are 67.1% rather than the ladder's 68.4%. The denominators
 are not the ladder's: the *EWSR1* arm moves from 10 of 15 to 17 of 20 by pooling the 18-case series
 with the five-case whole-transcriptome cohort,<sup>25</sup><!--PMID:29937513--> while the *TAF15* arm
 stays at 3 of 3. Three things follow. Fifteen of those 20 tumours come from one series, so

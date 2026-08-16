@@ -41,46 +41,25 @@ myxoid chondrosarcoma
 ## Abstract
 
 Extraskeletal myxoid chondrosarcoma is an ultra-rare sarcoma in which a variable partner gene fuses
-to *NR4A3*. The fusion transcript carries a short sequence spanning the breakpoint junction that
-occurs in no normal gene. An antisense drug could in principle destroy that transcript by
-base-pairing alone, sparing both genes the fusion was built from, but none has been reported for this
-disease. Designs prove easy to find. Of the 231 ways the five known partners could join *NR4A3*, 38
-keep the reading frame intact, and all 38 yield candidate gapmers, whose central DNA gap is where
-RNase-H1 cuts. Sparing the parent genes is the established test of such a design, and the sequence
-screens that rank candidates beforehand cannot see the form the liability takes: an identity-filtered
-alignment screen cannot surface an eleven-base-pair contiguous duplex, and a mature-transcript screen
-cannot reach precursor RNA.
-Compared directly against the six parent transcripts, 87 of 190 candidates pair that gap against a
-mature parent transcript over a contiguous duplex of at least ten base pairs, 61 of those against
-healthy *NR4A3*, the gene the approach exists to spare. That rate is not what arbitrary sequence gives: scrambled and randomly chosen
-16-mers reach 6.2% and 6.9% on the same screen, and chimeras joining the same two parent transcripts
-at random offsets reach 23.8%, against 45.8% observed. Another 19 candidates pair the gap in
-unspliced precursor RNA, where RNase-H1 is also active and no mature-transcript screen reaches.
-Designs that look clean mostly stop looking clean: six of the nine carrying no sense-strand
-near-match lose the property at ten times the search depth.
-Lengthening the gap, the obvious remedy, cannot help, and the reason is arithmetic rather than
-empirical: in every design of all three geometries tiled here, the junction-unique bases a longer gap
-wins and the contiguous wild-type-parent duplex it concedes are the same nucleotides. Candidates do
-clear the parent screens at every junction with a published exon-resolved breakpoint, and nine
-junctions now hold both such a breakpoint and a design carried through all five screens — four of
-them at acceptors the frame grading excludes and an RNase-H mechanism does not. The two most
-frequently reported of the nine are together 68.4% of molecularly confirmed cases, roughly two
-thirds, once partner prevalence is discounted by the breakpoint distribution of a single series, on
-which the whole set is 79.0%; discounted instead by a distribution pooled across two series the same
-two are 67.1% and the whole set is 82.9% (57.5–90.7%). They do not clear the screens cleanly: the *EWSR1* exon-12 reagent named below carries the
-heavier of the two reagents' disclosed transcriptome loads, 123 gap-paired sense-strand
-near-matches at six gene loci, together with a sense-strand near-match in wild-type *TAF15* precursor
-RNA. A liability no parent screen can reach is reported here as well. Where a design's acceptor half
-is *NR4A3* intronic or 5′ untranslated sequence, the same sequence sits immediately downstream of an
-intron in the patient's un-rearranged *NR4A3* allele, and three designs that had each passed the
-spliced-cDNA parent screen pair their whole catalytic gap there. Which designs do so is decided by
-how much donor sequence the gap holds, not by the gap-level margin they are ranked on. Two reagents
-are named for synthesis with those loads attached — 5′-GGGCATATCATCAAAC-3′ at *EWSR1* exon 12 and
-5′-GGGCATATCTTGTGTG-3′ at *TAF15* exon 6 — with those three named as not to be used, alongside the
-controls that make a knockdown experiment interpretable and the selectivity value that would falsify
-the ranking used here. The work is computational: no wet-lab experiment was performed, no sequence
-named has been synthesised or tested, and nothing here asserts efficacy, safety, delivery to a tumour
-or clinical readiness.
+to *NR4A3*. Its breakpoint junction is present in no normal gene, so an antisense gapmer could in
+principle cleave the fusion transcript while sparing both parent genes; none has been reported for
+this disease, and designs are easy to find. Of 190 candidates across the 38 in-frame junctions of the
+five known partners, 87 pair their catalytic gap against a mature parent transcript over a contiguous
+duplex of at least ten base pairs, 61 against healthy *NR4A3*; another 19 pair it in precursor RNA,
+where RNase-H1 is also active and a mature-transcript screen cannot
+reach. Arbitrary sequence does not: scrambles reach 6.2% on the same screen
+and chimeras joining the same two parents at random offsets 23.8%, against 45.8% observed. Designs
+that look clean mostly stop looking clean: six of the nine with no sense-strand near-match lose the
+property at ten times the search depth. Lengthening the gap cannot help, for an arithmetic rather
+than an empirical reason: in every design of all three geometries tiled here, the junction-unique
+bases a longer gap wins and the wild-type-parent duplex it concedes are the same nucleotides. Two
+reagents are named for synthesis with their off-target loads attached, 5′-GGGCATATCATCAAAC-3′ at
+*EWSR1* exon 12 and 5′-GGGCATATCTTGTGTG-3′ at *TAF15* exon 6, three as not to be used because each
+pairs its whole catalytic gap against the patient's own un-rearranged *NR4A3* allele, with the
+controls and the selectivity value that would falsify the ranking. The design and screening pipeline is
+released, so a reagent can be designed for a breakpoint outside this panel by the same procedure. The
+work is computational: no wet-lab experiment was performed, no sequence named has been synthesised or
+tested, and nothing here asserts efficacy, safety, delivery to a tumour or clinical readiness.
 
 ---
 
@@ -149,6 +128,33 @@ knockdown result interpretable, and the pre-registrable threshold that would fal
 candidate here is ordered by (§4). The design and screening procedure behind them is released with
 the artefacts, so a candidate can be designed by the same route for a breakpoint the panel does not
 carry (§4.5).
+
+## Box 1 · Sequences, cautions and the void condition
+
+Every line below points at a fuller statement in the section cited, and none of it is argued here.
+
+**The two reagents to synthesise (§4.1, Table 4).** 5′-GGGCATATCATCAAAC-3′ at *EWSR1* exon 12 joined
+to *NR4A3* exon 3, carrying 123 gap-paired sense-strand near-matches at six gene loci at the deeper
+search ceiling together with a sense-strand near-match in wild-type *TAF15* precursor RNA (§4.3); and
+5′-GGGCATATCTTGTGTG-3′ at *TAF15* exon 6, carrying 8 such near-matches at five loci and no
+sense-strand pre-mRNA site. Both hold the top gap-level margin of 3, and neither has been synthesised
+or tested.
+
+**Three designs not to be used (§2.6).** 5′-CAGTGGGCTCTCCACG-3′ and 5′-GCAGTGGGCTCTCCAC-3′ at *EWSR1*
+exon 13 joined to *NR4A3* exon 2, and 5′-TGATGAGGGCCTTGTG-3′ at *TAF15* exon 6 joined to the *NR4A3*
+intron-2 cryptic exon. Each cleared the spliced-cDNA parent screen, and each pairs its whole
+catalytic gap against the patient's own un-rearranged *NR4A3* allele, which that screen cannot see.
+
+**The cell line (§3).** No *NR4A3* fusion is detectable in H-EMC-SS on the public record, so no
+reagent named here can be tested in it. That is not a statement that the line is misidentified.
+
+**The replicate floor and the void condition (§4.4).** Selectivity is the wild-type *NR4A3*
+half-maximal knockdown concentration divided by the fusion's, from a matched dose–response in the
+same wells, and the cut is 5.0. Three biological replicates are a floor and not a target: above a
+replicate standard deviation of about 0.65 on the log scale, no observed ratio can place a 95% upper
+bound below that cut at three replicates, so the test cannot fail and the design is void rather than
+negative. The controls, the assay placement and the limit-of-quantification condition without which
+the ratio is not reportable are in §4.4.
 
 ## 2 · Results
 
