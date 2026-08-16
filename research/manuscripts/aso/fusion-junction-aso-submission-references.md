@@ -2,7 +2,7 @@
 
 # References — fusion-junction ASO submission
 
-*49 entries, numbered by first citation in the submission manuscript. Metadata is read from retrieved bibliographic records; an unretrieved field is left absent rather than completed.*
+*50 entries, numbered by first citation in the submission manuscript. Metadata is read from retrieved bibliographic records; an unretrieved field is left absent rather than completed.*
 
 1. Labelle Y, Zucman J, Stenman G, Kindblom LG, Knight J, Turc-Carel C, Dockhorn-Dworniczak B, Mandahl N, Desmaze C, Peter M. Oncogenic conversion of a novel orphan nuclear receptor by chromosome translocation. Human molecular genetics. 1995;4(12):2219-2226. PMID: 8634690. doi:10.1093/hmg/4.12.2219
 2. Paioli A, Stacchiotti S, Campanacci D, Palmerini E, Frezza AM, Longhi A, Radaelli S, Donati DM, Beltrami G, Bianchi G, et al. Extraskeletal Myxoid Chondrosarcoma with Molecularly Confirmed Diagnosis: A Multicenter Retrospective Study Within the Italian Sarcoma Group. Ann Surg Oncol. 2021. PMID: 32572850. doi:10.1245/s10434-020-08737-7
@@ -50,6 +50,7 @@
 44. Bangerter JL, Harnisch KJ, Chen Y, Hagedorn C, Planas-Paz L, Pauli C. Establishment, characterization and functional testing of two novel ex vivo extraskeletal myxoid chondrosarcoma (EMC) cell models. Human cell. 2023;36(1):446-455. PMID: 36316541. doi:10.1007/s13577-022-00818-x
 45. Li Y, Nguyen JT, Ammanamanchi M, Zhou Z, Harbut EF, Mondaza-Hernandez JL, Meyer CA, Moura DS, Martin-Broto J, Hayenga HN, Bleris L. Reduction of Tumor Growth with RNA-Targeting Treatment of the NAB2-STAT6 Fusion Transcript in Solitary Fibrous Tumor Models. Cancers. 2023;15(12):3127. PMID: 37370737. doi:10.3390/cancers15123127
 46. Urbini M, Indio V, Astolfi A, Tarantino G, Renne SL, Pilotti S, Dei Tos AP, Maestro R, Collini P, Nannini M, Saponara M, Murrone L, Dagrada GP, Colombo C, Gronchi A, Pession A, Casali PG, Stacchiotti S, Pantaleo MA. Identification of an Actionable Mutation of KIT in a Case of Extraskeletal Myxoid Chondrosarcoma. International journal of molecular sciences. 2018;19(7):E1855. PMID: 29937513. doi:10.3390/ijms19071855
-47. Nishio J, Iwasaki H, Nabeshima K, Naito M. Cytogenetics and molecular genetics of myxoid soft-tissue sarcomas. Genetics research international. 2011. PMID: 22567356. doi:10.4061/2011/497148
-48. Wang C, You ZJ, Chen XY, Lin J, Wu YJ. Mutation of KIT in cellular extraskeletal myxoid chondrosarcoma: a case report and literature review. Diagnostic pathology. 2022. PMID: 35488288. doi:10.1186/s13000-022-01222-7
-49. Brody RI, Ueda T, Hamelin A, Jhanwar SC, Bridge JA, Healey JH, Huvos AG, Gerald WL, Ladanyi M. Molecular analysis of the fusion of EWS to an orphan nuclear receptor gene in extraskeletal myxoid chondrosarcoma. The American journal of pathology. 1997;150(3):1049-1058. PMID: 9060841.
+47. Wilbur HC, Robinson DR, Wu YM, Kumar-Sinha C, Chinnaiyan AM, Chugh R. Identification of Novel PGR-NR4A3 Fusion in Extraskeletal Myxoid Chondrosarcoma and Resultant Patient Benefit From Tamoxifen Therapy. JCO precision oncology. 2022;6:e2200039. PMID: 36103645. doi:10.1200/po.22.00039
+48. Nishio J, Iwasaki H, Nabeshima K, Naito M. Cytogenetics and molecular genetics of myxoid soft-tissue sarcomas. Genetics research international. 2011. PMID: 22567356. doi:10.4061/2011/497148
+49. Wang C, You ZJ, Chen XY, Lin J, Wu YJ. Mutation of KIT in cellular extraskeletal myxoid chondrosarcoma: a case report and literature review. Diagnostic pathology. 2022. PMID: 35488288. doi:10.1186/s13000-022-01222-7
+50. Brody RI, Ueda T, Hamelin A, Jhanwar SC, Bridge JA, Healey JH, Huvos AG, Gerald WL, Ladanyi M. Molecular analysis of the fusion of EWS to an orphan nuclear receptor gene in extraskeletal myxoid chondrosarcoma. The American journal of pathology. 1997;150(3):1049-1058. PMID: 9060841.

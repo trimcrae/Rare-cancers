@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
-"""Derive the deposit manifest for the fusion-junction ASO short communication. ($0, offline.)
+"""Derive the deposit manifest for the fusion-junction ASO submission. ($0, offline.)
+
+⚠ *Superseded, retained: "the fusion-junction ASO short communication". The short-communication
+    framing was withdrawn on 2026-08-15; the submission is a full research article. Neither the
+    title nor the article type is restated here any longer — both have one home, the manuscript
+    itself at research/manuscripts/aso/fusion-junction-aso-research-article.md, and a description
+    that repeats them drifts the moment either changes.
+    Round 5 found this string still saying "short communication" 186 commits after the retitle.*
 
 ⛔ WHY THIS EXISTS. The submission manuscript carries two unresolved placeholders — "[ARCHIVE DOI]"
 in Methods -> Availability and "[ARCHIVE DOI]" in Declarations -> Data and code availability — and
@@ -726,8 +733,10 @@ def build():
 
     return {
         "_what_this_is": (
-            "The deposit manifest for 'Fusion-junction antisense oligonucleotides in extraskeletal "
-            "myxoid chondrosarcoma' (short communication). It names every file the manuscript's "
+            "The deposit manifest for the fusion-junction ASO submission, whose title and article "
+            "type are not restated here — they have one home, "
+            "research/manuscripts/aso/fusion-junction-aso-research-article.md. "
+            "It names every file the manuscript's "
             "availability statements promise, proves each one exists at a stated size and SHA-256, "
             "says in one line what each contributes, and records the gaps. It is the working list "
             "a human uses to make the deposit and mint the DOI that fills the manuscript's two "

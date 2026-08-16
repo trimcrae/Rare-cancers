@@ -124,8 +124,30 @@ def _deep_lookup():
     reader cannot tell a pooled cell from a real one by looking. Narrowing the guard to one column
     would have made this pass and would have re-opened the hole. The separator is the problem, so
     the separator is what changed.
+
+    ⛔⛔ AND THE LOCUS COLUMN WAS THE SCREEN'S OWN FIELD, WHICH IS THE ONE FIELD IN THESE ARTIFACTS
+    THAT MAY NOT BE READ (round-5 review, P0.3, fixed 2026-08-16). `n_loci_with_a_gap_spanning_hit`
+    was computed at screen time under a `locus_of` that split any gene whose description carries a
+    comma into one accession fallback per transcript variant, corrected in 5233cf867 — and the
+    correction cannot be backfilled into a committed screen without re-running the search, so every
+    committed screen still carries the inflated figure. Reading it here put 30 of the 187 deep
+    16-mer records into Tables 2 and 3 over-counted, in the direction that makes a reagent look
+    dirtier than the evidence supports, and — worse — put them there BESIDE the corrected figures:
+    Table 4 and §3.3 print 1 locus for TCF12 e5 / `GGGCATATCCATCAGA` where Table 2 printed 17, and
+    Table 4 prints 6 for the lead `GGGCATATCATCAAAC` where Table 2 printed 14. Same molecule, same
+    depth, two numbers, one paper.
+
+    ⭐ THE RECOUNT IS IMPORTED, NOT REIMPLEMENTED. `aso_gap_length_tradeoff.recount_loci` already
+    does exactly this — `locus_of` over the stored hits, exact where the stored list is the complete
+    one and a LOWER BOUND where it is truncated — and a second copy here is how the two tables come
+    to disagree a second time. The deep screens retain every hit by construction
+    (`aso_per_junction_table` refuses to build if one does not), so `exact` is true for all 187
+    records today; the flag is carried anyway rather than assumed, because "all deep lists are
+    complete" is a property of the current corpus and not of this function.
     """
     out = {}
+    sys.path.insert(0, os.path.abspath(MOD))
+    from aso_gap_length_tradeoff import recount_loci  # noqa: PLC0415
     try:
         screens = ass.load_screens(GEOMETRY, ass.BLAST_SCREEN, select=ass.is_deep)
     except Exception:                                        # noqa: BLE001
@@ -137,12 +159,33 @@ def _deep_lookup():
         for o in (s.artifact.get("oligos") or []):
             if o.get("status") != "screened":
                 continue
+            loci = recount_loci(o)
             out[(lab, o["antisense_5to3"])] = {
                 "n": o.get("n_offtarget_near_matches"),
                 "hyb": _hybridisable(o),
-                "gap_loci": o.get("n_loci_with_a_gap_spanning_hit"),
+                "gap_loci": loci["n_loci_with_a_gap_spanning_hit"],
+                # ⚠ A RECOUNT OVER A TRUNCATED LIST IS A LOWER BOUND, SO IT TAKES THIS TABLE'S
+                # LOWER-BOUND MARKER — "≥", the same one the default-depth distinct-loci column
+                # uses — and NOT the "≤" beside it. The two markers are not interchangeable and
+                # mean opposite things: "≤" marks a cell still carrying the screen's frozen
+                # over-counting figure, "≥" a count made over a sample of the hits. Rendering a
+                # lower bound as "≤" would contradict this table's own legend.
+                "gap_loci_is_exact": loci["exact"],
             }
     return out
+
+
+def _deep_cells(d):
+    """The three deep columns for one design, or three em-dashes where there is no deep reading.
+
+    ⚠ "—" MEANS THE DEEP RE-SCREEN HAS NO READING FOR THIS DESIGN, NOT THAT IT FOUND NOTHING. Three
+    of the 190 records failed at the deeper ceiling; rendering that as 0 would be the flattering
+    direction and the one these tables have gone wrong in twice before.
+    """
+    if d is None:
+        return "— | — | —"
+    mark = "" if d["gap_loci_is_exact"] else "≥"
+    return f"{d['n']} | {d['hyb']} | {mark}{d['gap_loci']}"
 
 
 def _clean_designs(collapse):
@@ -345,11 +388,7 @@ def table2(collapse, chance, atlas):
         # opposite of what the screen knows.
         hyb = hyb_by_j.get(lab, {}).get(best["antisense_5to3"])
         hyb_cell = "—" if hyb is None else f"{'≥' if best['right_censored'] else ''}{hyb}"
-        # ⚠ "—" HERE MEANS THE DEEP RE-SCREEN HAS NO READING FOR THIS DESIGN, NOT THAT IT FOUND
-        # NOTHING. Three of the 190 records failed at the deeper ceiling; rendering that as 0 would
-        # be the flattering direction and the one this table has gone wrong in twice before.
-        d = deep.get((lab, best["antisense_5to3"]))
-        deep_cell = "— | — | —" if d is None else f"{d['n']} | {d['hyb']} | {d['gap_loci']}"
+        deep_cell = _deep_cells(deep.get((lab, best["antisense_5to3"])))
         rows.append(
             f"| {lab.replace('__', '::').replace('_', ' ')}{mark} | {len(ol)} | "
             f"{gm if gm is not None else '—'} | 5′-{best['antisense_5to3']}-3′ | "
@@ -645,7 +684,7 @@ def table3(collapse, chance, thermo, graded):
         # membership test would go stale silently, which is the failure this whole table is a
         # response to.
         d = deep.get((lab, seq))
-        deep_cell = "— | — | —" if d is None else f"{d['n']} | {d['hyb']} | {d['gap_loci']}"
+        deep_cell = _deep_cells(d)
         verdict = "not re-screened" if d is None else ("yes" if d["hyb"] == 0 else "**no**")
         rows.append(
             f"| 5′-{seq}-3′ | {lab.replace('__', '::').replace('_', ' ')} | "
@@ -804,7 +843,7 @@ accession per annotated variant. A “≥” marks a right-censored count: the s
 {SAVED_HITS} hits per design, so a design with more is a lower bound. All {sum(1 for s in collapse["screens"] if s.get("junction_label"))} junction screens
 are filtered by alignment orientation. `XM_`/`XR_` records are computationally
 predicted gene models rather than curated transcripts, and are counted separately for that reason.
-None of these numbers is a measurement of off-target activity.\n\n¹ Counted over the gap-spanning loci only, not over all of that design's near-match loci.\n\n² A near-match count is what the search returned on EITHER strand; a match on the strand opposite the target window cannot be hybridised by an antisense oligonucleotide and is not a liability. Across this corpus {pct}% of apparent gap-spanning hits ({minus} of {tot:,}) are of that kind, which is why the two columns differ and why the raw count alone should not be read as load. This column counts only the {SAVED_HITS} RETAINED hits. The gap-spanning locus column is recounted from those hits wherever they are the complete list, and is exact there; a “≤” marks a truncated design, where the column instead carries the screen's own count over every ranked hit, computed under a locus assignment since corrected that split some genes across accessions and therefore over-counts. The two columns are not in conflict where a truncated design shows “≥0” sense-strand hits and a non-zero gap-spanning locus count: the sense-strand hits are real and simply fall outside the stored window, which is precisely why such a design cannot be called clean.\n\n⁵ The same design re-screened at a tenfold deeper alignment ceiling, with retention raised to match it so that no hit list is truncated. The three columns are the counterparts of the default-depth columns to their left, given beside them rather than in place of them because the default depth is where the corpus-wide counts elsewhere in the paper were computed and the two must stay comparable. Read together they are the paper's censoring result at the level of a single row: a default-depth count is a lower bound whether or not it reached the 50-hit cap, and three junctions whose default cell reads zero in the gap-spanning column carry gap-spanning hits at ten times the depth. A “—” means the deeper re-screen returned no result for that design and is not a count of zero; three of the panel's 190 records failed at this ceiling.{dagger}
+None of these numbers is a measurement of off-target activity.\n\n¹ Counted over the gap-spanning loci only, not over all of that design's near-match loci.\n\n² A near-match count is what the search returned on EITHER strand; a match on the strand opposite the target window cannot be hybridised by an antisense oligonucleotide and is not a liability. Across this corpus {pct}% of apparent gap-spanning hits ({minus} of {tot:,}) are of that kind, which is why the two columns differ and why the raw count alone should not be read as load. This column counts only the {SAVED_HITS} RETAINED hits. The gap-spanning locus column is recounted from those hits wherever they are the complete list, and is exact there; a “≤” marks a truncated design, where the column instead carries the screen's own count over every ranked hit, computed under a locus assignment since corrected that split some genes across accessions and therefore over-counts. The two columns are not in conflict where a truncated design shows “≥0” sense-strand hits and a non-zero gap-spanning locus count: the sense-strand hits are real and simply fall outside the stored window, which is precisely why such a design cannot be called clean.\n\n⁵ The same design re-screened at a tenfold deeper alignment ceiling, with retention raised to match it so that no hit list is truncated. Because no list is truncated, the gap-spanning locus column at this depth is recounted from the complete stored hits under the current locus assignment and is exact; it is not the screen's own stored figure, which was computed before that assignment was corrected and splits any gene whose description carries a comma across one accession per transcript variant. It is therefore the same quantity, counted the same way, as the locus figures in Table 4 and in the Results. The three columns are the counterparts of the default-depth columns to their left, given beside them rather than in place of them because the default depth is where the corpus-wide counts elsewhere in the paper were computed and the two must stay comparable. Read together they are the paper's censoring result at the level of a single row: a default-depth count is a lower bound whether or not it reached the 50-hit cap, and three junctions whose default cell reads zero in the gap-spanning column carry gap-spanning hits at ten times the depth. A “—” means the deeper re-screen returned no result for that design and is not a count of zero; three of the panel's 190 records failed at this ceiling.{dagger}
 
 {t2}
 
