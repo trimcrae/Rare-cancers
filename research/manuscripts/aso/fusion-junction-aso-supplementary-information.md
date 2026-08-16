@@ -38,7 +38,8 @@ Section numbers here are prefixed "S". -->
 Section numbers here are prefixed **S**. Cross-references of the form "§n" point to the **main text**
 (`fusion-junction-aso-research-article.md`); "SI §Sn" points within this document. All numbered
 references are those of the main text's reference list, which is generated from the identifiers
-carried in the main text.
+carried in the main text. This document carries no figure: Supplementary Figure S1 travels with the
+archive, and its legend is with the main text's figure legends.
 
 ## S1 · Target-site accessibility, and why nothing is ranked on it
 

@@ -1513,7 +1513,15 @@ def test_the_testable_surface_states_the_only_catalogued_line_cannot_test_a_junc
     assert "no reagent named here can be tested in that line" in txt
     # the fairness constraints, both of which the evidence requires
     assert "This is not a statement that the line is misidentified" in txt
-    assert "fusion-negative extraskeletal myxoid chondrosarcoma tumours are" in txt
+    # ⚠ ABBREVIATED 2026-08-16: "fusion-negative extraskeletal myxoid chondrosarcoma tumours are"
+    # became "fusion-negative EMC tumours are" when §3 was made consistent with the rest of the
+    # paper, which defines (EMC) at first use in the abstract and uses the abbreviation everywhere
+    # else. The CLAUSE this guard exists for — that a fusion-negative tumour is a recognised
+    # category, so absence of the fusion is not a reclassification — is unchanged; only the disease
+    # name's spelling moved. Pinned on the load-bearing half so a respelling cannot silently
+    # delete the fairness constraint with it.
+    assert "fusion-negative EMC tumours are" in txt
+    assert "themselves a recognised minority category" in txt
     # already reported, never examined — the novelty limit
     assert "The observation is also not new" in txt
 
