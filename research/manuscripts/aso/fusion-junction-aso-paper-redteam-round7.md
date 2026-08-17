@@ -573,6 +573,50 @@ earlier, under a slug named for the question it was asked rather than for the pa
 
 ---
 
+### 2l · ✅ ALL FIVE STOPPING-RULE CONDITIONS HOLD — 2026-08-17
+
+**Condition 5, round 2: 0 blockers, 0 majors, 6 minors.** The screen was run cold on the rebuilt PDF
+— no knowledge that a first round existed, and explicitly told not to audit a fix list, because a
+reader checking whether someone else's findings were addressed is not a reader.
+
+It verified positively, under BOTH extractors, the property the whole session turned on: **all 155
+sequence tokens match `5′-[ACGT]{16,20}-3′` with no internal whitespace** — no line breaks, no
+hyphenation, no fusion with a neighbouring cell. 69 distinct molecules, every one present verbatim in
+both machine-readable files, the three condemned designs each carrying a non-empty `do_not_order`
+reason. It re-derived the arithmetic that is easiest to get wrong — the 93-not-106 union, Table 6
+summing to 649 over 46 loci, three Wilson intervals, the 4⁻⁶ × 1/64 chance figure, and the void
+threshold at t₍₂₎ = 4.303 — and reconstructed Figure 2's reverse complement base by base.
+
+**All six minors were fixed rather than deferred**, and one was worth the round on its own: **Table 3
+prints 38 orderable sequences and carried neither the chemistry nor the canonical-file pointer**,
+while its own footnote — *"Do not order the sequence in a marked row"* — reads as licence for the 35
+unmarked ones. Tables 2 and 4 already carried the clause; Table 3 did not, and it is the table §2.10
+calls the one a reagent is chosen from. Also closed: a degenerate range rendering as *"(8.2–8.2
+hits)"*, four patent accessions the Data sources preamble promised were cited in the text and were
+not, the Supplementary Information having no stated location behind six §S references, and the
+DepMap model identifier splitting across a page break — which no source-side check could see, because
+the break fell on the identifier's own hyphen and the Markdown is correct.
+
+**THE FIVE CONDITIONS, EACH WITH ITS EVIDENCE:**
+
+| # | condition | state |
+|---|---|---|
+| 1 | every P0/P1 dispositioned, zero open | **MET** — §2c, with D2-U1 closed in §2f |
+| 2 | every gate green, `PREFLIGHT_FULL=1` and the generated-artifact `--check` modes | **MET** — 8m57 |
+| 3 | firewalled cold reader returns nothing above `minor` | **MET** — §2i, by measurement |
+| 4 | adversarial reviewer with artifact access | **MET** — §2h, ~700 numbers, zero errors |
+| 5 | blind screen of the BUILT PDF returns nothing above `minor` | **MET** — this section |
+
+⛔ **AND THE FLOOR, STATED RATHER THAN PRETENDED PAST.** This method has systematic blind spots and
+cannot certify that no errors remain. No reviewer in any round has been a wet-lab scientist who has
+run one of these experiments; every bench perspective is simulated, and no amount of further
+simulated review closes that. What the five conditions establish is a defined done-state, not an
+absence of defects — and this session found three separate classes that were invisible to every check
+reading the source, which is the best evidence available that a sixth class exists and has not been
+found.
+
+---
+
 ### 2k · ⭐ CONDITION 5, RUN TO A VERDICT — and the gate I over-satisfied into a falsehood
 
 **Verdict: 1 blocker, 1 major.** The blocker is the two placeholders — the ORCID and the reserved

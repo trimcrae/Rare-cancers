@@ -91,8 +91,14 @@ def main(argv=None):
     # the chance band, drawn first so every point sits on top of it
     p.append(f'<rect x="{L}" y="{y(hi):.1f}" width="{PLOT_W}" height="{y(lo) - y(hi):.1f}" '
              f'fill="#e8f0fe" stroke="#1565c0" stroke-width="0.8" stroke-dasharray="4 3"/>')
+    # ⛔ A DEGENERATE RANGE READS AS A FORMATTING FAILURE (blind screen of the built PDF,
+    # 2026-08-17). When the two endpoints coincide this printed "(8.2–8.2 hits)", which a reader
+    # takes for a broken template rather than for a band of zero width — and the subtitle above
+    # still speaks of a "chance upper bound" as though a band existed. Print the single value when
+    # there is one value; print the band only when it IS a band.
+    _band = f'{lo} hits' if f'{lo}' == f'{hi}' else f'{lo}–{hi} hits'
     p.append(f'<text x="{L + 8}" y="{y(hi) - 6:.1f}" font-size="11" fill="#1565c0">'
-             f'expected from chance alone for any 16-mer ({lo}–{hi} hits)</text>')
+             f'expected from chance alone for any 16-mer ({_band})</text>')
 
     # axes
     p.append(f'<line x1="{L}" y1="{T + PLOT_H}" x2="{L + PLOT_W}" y2="{T + PLOT_H}" '

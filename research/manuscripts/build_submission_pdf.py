@@ -324,6 +324,18 @@ TAG_RE = re.compile(r"</?(?:" + "|".join(KEEP_TAGS) + r")>", re.I)
 #: moves to the next line intact.
 SEQUENCE_RE = re.compile(r"5[′']-[ACGTUacgtu]{8,40}-3[′']")
 
+#: Identifiers that must never be split by a line or page break. A reader copy-pasting one
+#: that broke across a page picks up the running header and the page number between its
+#: halves, and the result resolves to nothing.
+#: ⛔ MEASURED IN THE BUILT PDF (blind screen, 2026-08-17): the DepMap model identifier split
+#: across the p.15/16 boundary as "model ACH-" ... "001519". The break fell on the
+#: identifier's own hyphen, so no spurious character was introduced — which is exactly why it
+#: survived every source-side check: the MARKDOWN is correct and the defect is created by
+#: typesetting.
+#: Covers DepMap models (ACH-######), Cellosaurus RRIDs (with or without the RRID: prefix)
+#: and GEO series (GSE#####).
+ATOMIC_ID_RE = re.compile(r"\b(?:RRID:CVCL_[A-Za-z0-9]+|CVCL_[A-Za-z0-9]+|ACH-\d{6}|GSE\d{4,6})\b")
+
 #: Where a long inline-code token MAY break, if it has to. Breaking is offered after a separator,
 #: never inside a run of word characters — `word-break: break-all` used to allow the latter and
 #: produced "as / o-premrna-offtarget-genomic.json", "PRE / FLIGHT_FULL=1",
@@ -383,6 +395,7 @@ def inline(text):
     # escaping cannot change it and stashing it here keeps a `*` in the surrounding sentence from
     # ever reaching inside the span.
     text = SEQUENCE_RE.sub(lambda m: keep('<span class="seq">' + m.group(0) + "</span>"), text)
+    text = ATOMIC_ID_RE.sub(lambda m: keep('<span class="seq">' + m.group(0) + "</span>"), text)
     text = re.sub(r"\*\*(?=\S)(.+?)(?<=\S)\*\*", r"<strong>\1</strong>", text, flags=re.S)
     text = re.sub(r"(?<!\*)\*(?=\S)([^*]+?)(?<=\S)\*(?!\*)", r"<em>\1</em>", text)
     return re.sub(r"\x00(\d+)\x00", lambda m: stash[int(m.group(1))], text)

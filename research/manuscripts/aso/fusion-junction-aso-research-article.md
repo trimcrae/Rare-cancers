@@ -299,7 +299,8 @@ The same archive search resolves *TFG*, the other non-FET partner, in the same w
 limit. No paper places a *TFG::NR4A3* breakpoint at an exon, but a deposited chimeric mRNA record
 does — GenBank AY532911.1, annotated as a *TFG-NR4A3* fusion protein — and it lands on *TFG* exon 7
 joined to *NR4A3* exon 3, a junction this panel already carries. Four patent sequence records agree
-at the seam, corroborating a sequence rather than four patients, being one family from one group. As
+at the seam — GenBank DI433544.1, DI438966.1, LG067227.1 and LG067228.1 — corroborating a sequence
+rather than four patients, being one family from one group. As
 at *TCF12*, what the deposit supplies is the exon and not the distribution: no source states what
 fraction of *TFG*-rearranged tumours break there, and *TFG* does not appear in the partner counts of
 the 58-case cohort every coverage figure here is denominated on, so this changes which junctions are
@@ -1704,6 +1705,10 @@ oligonucleotide synthesis is commercially available, so the sequences here are o
 that is a fact about the supply chain and not a statement about what they are fit for. A person with
 extraskeletal myxoid chondrosarcoma seeking treatment should be directed to a clinical trial or a
 sarcoma centre.
+
+**Supplementary Information.** The sections cited above as SI §S1 to §S6 are in
+`fusion-junction-aso-supplementary-information.md`, deposited as a separate file beside this
+manuscript and included in the archive below.
 
 **Data and code availability.** [ARCHIVE DOI — PLACEHOLDER, AUTHOR TO SUPPLY BEFORE DEPOSIT: no
 digital object identifier has been reserved and this citation does not yet resolve], deposited from
