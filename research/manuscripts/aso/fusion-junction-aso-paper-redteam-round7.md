@@ -573,6 +573,46 @@ earlier, under a slug named for the question it was asked rather than for the pa
 
 ---
 
+### 2j · ⛔ THE BLIND SCREEN OF THE PDF — every seat before it read the wrong artifact, 2026-08-17
+
+**All five stopping-rule conditions as they then stood were met, this ledger said deposit-ready, and
+an outside screen of the built PDF found a WRONG-REAGENT HAZARD.** That is the most important entry
+in this file, and the defect is the process rather than the paper.
+
+**⛔ WHAT WAS WRONG WITH THE METHOD.** Seven adversarial rounds, the firewalled cold reader and the
+adversarial reviewer with artifact access **all read the Markdown**. The PDF is the only artifact a
+depositor uploads and a screener opens, and it is DERIVED — so the entire class of defect that
+typesetting *creates* was invisible by construction. Verifying a source and inferring the deliverable
+is fine is precisely the inference §4's rules forbid everywhere else: *an absent reading is not a
+reading of absence*, and nobody had read the deliverable.
+
+**THE HAZARD.** In the PDF's text layer, Table 5's sequence cells arrived as bare base strings with
+no `5′-`/`-3′` delimiters, sitting directly against a numeric cell —
+`CAGGGCATATCATCAAACCA   3   123   6   189`. A reader copy-pasting an oligo can carry a trailing digit
+into a synthesis order, and every number in this paper is false of the molecule they would receive.
+
+**⚠ AND THE OBVIOUS GUARD WOULD HAVE PASSED.** With `pdfminer` those cells separate with newlines and
+nothing fuses; with the extractor that found it they fused. **Same bytes, opposite verdicts.** So the
+standing instrument asserts the DOCUMENT's property — every sequence carries its delimiters — not one
+tool's behaviour. Measured: 14 undelimited occurrences, all and only Table 5's three cells, which the
+generator fix then removed. A guard written against the tool at hand would have gone green on a
+document that corrupts sequences for somebody else's reader.
+
+**THE DURABLE FIX IS NOT PADDING THE CELLS.** Padding satisfies the extractor we happened to test.
+The deposit now ships **780 sequences as CSV and FASTA**, generated from the same artifacts as the
+tables, with the three condemned designs included and flagged on the FASTA defline — the line that
+travels into an order form. ⭐ **Its coverage contract caught two omissions in its own first draft**:
+an 18-mer at *TCF12* exon 7 that lives in `per_design` rather than the lead-seam block, and the
+cryptic-exon reagent that lives in a different artifact from the exon-2 table. It refuses to build if
+any sequence the three documents print is absent from it.
+
+**⭐ CONDITION 5 ADDED TO THE STOPPING RULE**, with the reason recorded there: a blind screen of the
+built PDF must return nothing above `minor`. The rule now says *deposit when all five hold*, and the
+old "all four" is retained as superseded, because a rule that only ever checked the source is what
+produced a premature done.
+
+---
+
 ### 2i · ⭐ THE CLEAN RE-READ — condition 3 met by measurement, 2026-08-17
 
 §2h records condition 3 being met by FIXING a major rather than by a clean re-read, on the stopping

@@ -17,7 +17,7 @@ scope: >
   tables — for a bioRxiv deposit specifically. ⛔ It governs WHEN REVIEW STOPS and nothing else: it
   is not a quality claim about the manuscript, not a checklist of deposit steps (that is
   fusion-junction-aso-preprint-checklist.md), and it says nothing about any other paper in the
-  portfolio. Its four conditions and its one headline-falsifying exception are binding; everything
+  portfolio. Its five conditions and its one headline-falsifying exception are binding; everything
   else here is the reasoning that produced them.
 audience: [maintainers, external reviewers, autonomous research agents]
 date: 2026-08-16
@@ -45,7 +45,7 @@ condition fixed in advance.
 
 ## 2 · The rule
 
-**Deposit when all four hold.**
+**Deposit when all five hold.** ⚠ *Superseded, retained: "all four" — condition 5 was added 2026-08-17 after conditions 1-4 all held and an outside screen of the built PDF found a wrong-reagent hazard none of them could see.*
 
 1. **Every P0 and P1 item has a recorded disposition** — applied, declined with a stated reason, or
    refuted with evidence. **Zero OPEN.** A deferred item is only permissible where its trigger is
@@ -57,8 +57,24 @@ condition fixed in advance.
    no plan — **returns nothing above `minor`.**
 4. **One adversarial reviewer with artifact access**, explicitly permitted to report that it found
    nothing, returns findings that are all either refuted or already in the ledger.
+5. **⭐ ONE BLIND SCREEN OF THE BUILT PDF** — the artifact a depositor actually uploads — returns
+   nothing above `minor`. **Added 2026-08-17, and it was earned the expensive way.** Conditions 1–4
+   were all met, this rule declared the paper deposit-ready, and an outside screen of the PDF then
+   found a **wrong-reagent hazard**: table sequences printed with no `5′-`/`-3′` delimiters against a
+   numeric cell, so one extractor returned a 16-mer carrying a trailing digit. Nothing in conditions
+   1–4 could have seen it, because **every seat read the Markdown** and the defect is created by
+   typesetting.
+   ⛔ **The lesson is not "add a reader", it is that VERIFYING A SOURCE AND INFERRING THE DELIVERABLE
+   IS FINE is the inference this repository forbids everywhere else.** A PDF is derived, and a
+   derivation can change what a sequence *is*.
+   ⚠ The screen must cover, at minimum: the text layer as a reader copy-pastes it; display-item
+   numbering against citation order; what the front matter looks like to a screener skimming it; and
+   whether anything a laboratory would order from survives extraction intact. The standing instrument
+   is `tests/test_pdf_text_layer_is_orderable.py`, which asserts the document's property rather than
+   one extractor's behaviour — ⛔ because the fusion is **extractor-dependent**, and a guard written
+   against the tool that happened to be at hand would have gone green on a corrupting document.
 
-### Why those two seats specifically
+### Why those seats specifically
 
 - **The cold reader was the highest-yield seat in round 7.** It found that `gap-level margin` — the
   statistic the entire ranking rests on — is first used at character 9,605 and defined at 92,817, and
