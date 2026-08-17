@@ -65,13 +65,12 @@ and it must not be administered to any person or animal. Two reagents are named 
 their off-target loads, 5′-GGGCATATCATCAAAC-3′ at *EWSR1* exon 12 and 5′-GGGCATATCTTGTGTG-3′ at
 *TAF15* exon 6; three as not to be used because each pairs its whole catalytic gap against the
 patient's own un-rearranged *NR4A3* allele, with the controls and the selectivity value that would
-falsify the ranking. What share of patients those two junctions represent is arithmetic over two
+falsify the ranking at its top margin. What share of patients those two junctions represent is arithmetic over two
 published cohorts and not a screening result: no patient was screened with either sequence.
-Discounting the partner prevalence of 58 molecularly confirmed cases by the within-partner
-breakpoint distribution of a separate 18-case series gives roughly two thirds, spanning 40–83% when
-each breakpoint fraction is taken to its own Wilson bound with the partner shares held fixed; the
-*TAF15* arm is three tumours, so one tumour moves it about five points, and what fraction of EMC
-reaches molecular confirmation at all is stated by no source retrieved here. The design and
+Discounting the partner prevalence of 58 molecularly confirmed cases by a separate 18-case series'
+breakpoint distribution gives roughly two thirds, spanning 40–83% on Wilson bounds with the partner
+shares held fixed; the *TAF15* arm is three tumours, so one moves it about five points, and what
+fraction of EMC is molecularly confirmed at all is stated by no source retrieved here. The design and
 screening pipeline is released, so a candidate can be designed for a breakpoint outside this panel by
 the same procedure.
 
@@ -146,7 +145,7 @@ is a stock reagent or a panel.
 
 This paper answers both from sequence, sets out where a computational screen stops being able to
 answer them, and ends by naming the oligonucleotides to synthesise, the controls that make a
-knockdown result interpretable, and the pre-registrable threshold that would falsify the ranking
+knockdown result interpretable, and the pre-registrable threshold that would falsify, at its top margin, the ranking
 every candidate here is ordered by (§4). The design and screening procedure is released with the
 artefacts, so a candidate can be designed by the same route for a breakpoint the panel does not
 carry (§4.5). Box 1 collects the sequences, the cautions and the terms of art the sections below use
@@ -618,7 +617,7 @@ The decisive reading is a lookup rather than a count: does any design have a gap
 strand-agreeing site in *NR4A3*, in a parent gene, or in an *NR4A* paralogue anywhere in the genome?
 Twenty of 176 do. No candidate above is among them, and the two secure at any parent-duplex
 threshold carry a load well below chance — 0.33 and 0.24 of expectation at ≤2 mismatches,
-ranking 26th and 13th of 176 on that axis, and 0.06 and 0.04 for gap-paired sites. That is the strongest statement this work can
+ranking 26th and 13th of 176 on that axis, and 0.06 and 0.04 for gap-paired sites, ranking 5th and 1st. That is the strongest statement this work can
 make about them, and it is a statement about predicted hybridisation and not about cleavage.
 
 ### 2.8 · Expression of the off-target loci
@@ -879,15 +878,20 @@ is not discoverable by anyone searching on model validity.
 What remains is five test articles, and each of the five now has a matching reagent. Three are the
 engineered constructs of the functional study cited above,<sup>27</sup><!--PMID:31020999--> E-N,
 T-N* and T-N, whose exon spans that paper states verbatim; two of the three are junctions this work
-screened at full panel depth and the third is the intron-2 cryptic-exon seam of §2.6. The other two
+screened at full panel depth and the third is the intron-2 cryptic-exon seam of §2.6, whose reagent
+cannot be certified under the criterion §4.5 states, three of the five screens being unable to
+address a cryptic-exon acceptor at all. The other two
 are the patient-derived, identity-clean models reported with two EMC
 tumours,<sup>36</sup><!--PMID:36316541--> whose fusions are reported as *EWSR1* exon 13 and *TAF15*
 exon 6 joined to *NR4A3* exon 2 rather than exon 3; reagents exist at both acceptors, so each line
 has one under either reading of that exon label.
 
 The two routes are not interchangeable and their limits run in opposite directions. Rebuilding the
-constructs is the faster route and the only one whose critical path contains no third party who can
-decline or not reply, since the junction is specified by construction. What it cannot buy is
+constructs is the faster route and the only one whose critical path contains no laboratory that has
+to answer an email, since the junction is specified by construction. It is not unconditioned: the
+published recipient background is a catalogue item supplied under a material transfer agreement, and
+every plasmid carrying the published retroviral backbone that could be read here is distributed to
+academic institutions and non-profits only, a restriction that binds before any price does. What it cannot buy is
 biological relevance: a complementary DNA over-expressed in a heterologous background is not the
 disease, so such an experiment could speak to junction-selective knockdown of the intended
 transcript and not to activity at endogenous expression from an endogenous locus. The published
@@ -913,7 +917,7 @@ it does with it and what its result is worth, which is a candidate rather than a
 This section is the paper's output for a laboratory. It names six things: the oligonucleotides to
 make, the arm that separates the two ways a weak result could arise, the predicted off-target load
 each carries, the controls without which the readout does not mean what it appears to mean, the
-number that would falsify the ranking every candidate here is ordered by, and — for the patients no
+number that would falsify, at its top margin, the ranking every candidate here is ordered by, and — for the patients no
 named reagent reaches — the released procedure by which a candidate can be designed for a breakpoint
 outside this panel. Nothing in it is a claim of efficacy. No sequence named below has been
 synthesised or tested.
@@ -1091,7 +1095,10 @@ Three controls are required, and a knockdown assay alone distinguishes none of t
 - a positive control gapmer against an abundant housekeeping transcript in the same cells, to
   separate failed delivery from failed discrimination;
 - a scrambled gapmer of matched chemistry, to separate sequence-specific cleavage from the
-  non-specific toxicity of this chemistry;
+  non-specific toxicity of this chemistry — and the scramble actually ordered must itself be put
+  through the mature-parent screen before it is made, because on this paper's own null 6.2% of
+  scrambles pair a parent's whole catalytic gap at the ten-base-pair criterion and 1.8% do so
+  against wild-type *NR4A3* (§2.5), which is the one transcript a control must not engage;
 - a fusion-negative isogenic comparator, since wild-type *NR4A3* may be too weakly expressed in an
   EMC line for the selectivity readout to be defined at all.
 
@@ -1323,7 +1330,7 @@ records are curated, `XM_`/`XR_` computationally predicted. Both compound on
 5′-GGGCATATCATCAAAC-3′, whose 123 gap-paired near-matches at the deeper ceiling recount to six loci:
 82 of the 123 are predicted models and the other 41 are curated records, and those 41 are themselves
 inflated, 32 of them *ANKS1B* accessions and three *ZNF667*. The curated share moves with depth as
-well. At the default ceiling that design carried a single curated sense-strand hit, *H2AP*,
+well. At the default ceiling that design carried a single curated sense-strand hit, *H2AP* (NM_012274),
 mismatched inside the catalytic gap and so counted in full under the pessimistic bound; at the deeper
 ceiling it carries 43. The genome scan decides
 sense-strand membership against an annotation, so unannotated transcription is uncounted; it is one

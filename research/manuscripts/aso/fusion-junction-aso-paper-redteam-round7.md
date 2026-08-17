@@ -414,6 +414,163 @@ overproduction rather than a test failure later, so the chain now compares on-di
 
 ---
 
+
+### 2c · ⭐ THE FULL DISPOSITION RECORD — every finding ID, 2026-08-17
+
+⛔ **CORRECTION FIRST, because it is the reason this section exists.** The commit
+`533386f55` is titled *"all 93 remaining findings dispositioned"*. **That was wrong when written.**
+Three disposition passes were commissioned; **only one returned**, covering 28 IDs. Completion was
+inferred from having *commissioned* three rather than from having *received* three — an absent
+reading treated as a reading of absence, which is the same defect this round's own P0.9 and the PGR
+finding below are about. The two missing passes were recoverable and were recovered. The table below
+is the real record; the commit title is not.
+
+**Key:** APPLIED — landed in the working tree. REFUTED — the charge does not stand on the artifacts.
+DECLINE — real observation, deliberately not acted on, reason given. AUTHOR — decided here rather
+than deferred (see §2d).
+
+| id | disposition | note |
+|---|---|---|
+| **A1** (16 items) | REFUTED as a class | A1 returned zero findings: 16 of 16 protected items present, one checked byte-for-byte. |
+| A2-F1 | APPLIED | abstract coverage sentence rewritten (P0.7). |
+| A2-F2 | APPLIED | the strict-end label collision is gone. |
+| A2-F3 | APPLIED | both leads' parent runs now named — 8 bp and 9 bp, both against wild-type *TFG*. |
+| A2-F4 | APPLIED | Box 1 states the 5.0 cut as a convention. |
+| A2-F5 | APPLIED | the hit-cap's direction restored in §6. |
+| A2-F6 | APPLIED | the deeper-ceiling depth label, plus a new *PGR* absent-reading caveat. |
+| A2-F7 | APPLIED | the abstract now carries the corrected exon-terminus null at 40.6%. |
+| A3-F1 | APPLIED | the 47 → 196 / 21 → 161 records separated (P0.2). |
+| A3-F2 | APPLIED | the uninterpretable genome screen's disclosure restored (P0.9). |
+| A3-F3 | APPLIED | the censoring worked examples restored in measured form — 47 untruncated, 37 rose, none fell. |
+| A3-F4 | APPLIED | the 1,129-neighbour derivation behind 2.6 × 10⁻⁷ stated. |
+| A3-F5 | APPLIED | *H2AP* now carries NM_012274. |
+| A3-F6 | APPLIED | the 13 unread loci carry their attribution again. |
+| A3-F7 | APPLIED | abstract loads (see B4-F1). |
+| A4-F1 | APPLIED | "Supporting" → "Supplementary" everywhere. |
+| A4-F2 | APPLIED | Table 7's caption scope, at the generator. |
+| A5-F1 | APPLIED | §2.7 now composes the mature-parent screen, which is what excludes the fourth design. |
+| A5-F2 | APPLIED | Table 7 gained the *TFG* e7::*NR4A3* e3 row, plus a build gate against the spec diverging. |
+| A5-F3 | DECLINE | the chain survives at its single home in §4.1; a second copy is the drift this pass removed. |
+| B1-F1 | REFUTED | 181 of 190 **is** in Results (§2.9), and the threshold's stated-not-measured character has three homes. |
+| B1-F2 | APPLIED | "exactly what RNase-H1 requires" was false — §6 records this architecture at six RNA:DNA nt, below the source's 7–10. |
+| B1-F3 | APPLIED | the free-energy claim scoped to the measured 19.9% cross-margin discordance. |
+| B1-F4 | DECLINE | the −8.66 median has a home in §2.10's artifact; adding it to prose duplicates a fact without changing a conclusion. |
+| **B1-F5** | **REFUTED — and inverted** | the artifact field is a wild-type-parent LIABILITY counter, so the omitted 6-nt reading is the count that **flatters** the paper. The paper printed the pessimistic series. |
+| B1-F6 | APPLIED | the CpG numeral now attaches to what it counts. |
+| B1-F7 | DECLINE | the 5-8-5 confound is real but §4.2 already calls the arm a control rather than a test of gap length alone. |
+| B1-F8 | DECLINE | a direction would be an LNA claim §6 explicitly declines to compute; the current form is the pessimistic reading. |
+| B1-F9 | APPLIED | the biodistribution premise now states that no measurement or citation was retrieved for it. |
+| B1-F10 | DECLINE | discretionary generator column; the liability audit has homes at §2.10 and §6. |
+| B1-F11 | DECLINE | the 5-8-5 datum is real; it strengthens §4.2 and is held for a refuter rather than added on one reading. |
+| B2-F1 | REFUTED | no total is stated anywhere; the sharper replacement was taken instead. |
+| B2-F2 | APPLIED | 13 of the 19 pre-mRNA designs are already among the 87; the abstract says so. |
+| B2-F3 | APPLIED | corroborated B5-F1 in the opposite direction; superseded by the measurement in §1.1a. |
+| B2-F4 | APPLIED | the null intervals now carry the same clustering caveat as the observed rate. |
+| B2-F5 | APPLIED | Table 6's column renamed to gap-paired hits; the annotation-depth claim removed. |
+| B3-F1 | **half APPLIED, half REFUTED** | the 98.3% bound has two reasons, and that is now stated. ⛔ "the 94.8% row is invisible in Table 7" is **false** — the row prints in full. |
+| B3-F2 | APPLIED | ⭐ the two *TAF15* series are not shown to be independent cohorts; the arm may be as few as three. |
+| B3-F3 | APPLIED | "five known partners" → "five modelled partners". |
+| B3-F4 | REFUTED | the quotation is anchored on `origin/literature-cache`; a locality item, not a provenance failure. |
+| B3-F5 | APPLIED | folded into P0.7. |
+| B3-F6 | APPLIED | candidates/controls reconciled. |
+| B4-F1 | APPLIED | the abstract promised loads and gave none. |
+| B4-F2 | APPLIED | the ten-base-pair threshold is named as adopted. |
+| B4-F3 | P3 | venue-triggered; bioRxiv has no IMRaD template. |
+| B4-F4 | APPLIED | the repository document stripped (P0.5). |
+| B4-F5 | APPLIED | the abstract's do-not-use clause no longer attaches the controls to the condemned three. |
+| B4-F6 | APPLIED | the disclaimer moved ahead of the sequences (P0.8). |
+| B4-F7 | P3 | ⚔ direct conflict with D4; recorded, not resolved. |
+| B4-F8 | P3 | venue-triggered. |
+| B4-F9 | DECLINE | the re-derivation command is right, but its wall time must be measured, not typed; held rather than asserted. |
+| **B5-F1** | **APPLIED — measured** | the round's top finding. See §1.1a: the apportionment is deleted, not restated. |
+| **B5-F2** | **APPLIED** | ⭐ the *PGR* seam's pre-mRNA compartment is UNMEASURED, not clean. Three homes, one of which this pass had added. |
+| B5-F3 | APPLIED | the cleavage claim lowered to hybridisation. |
+| B5-F4 | DECLINE | the procedure's two unreachable classes are stated at §2.6; a second statement in §4.5 duplicates it. |
+| B5-F5 | DECLINE | Table 6's "1 of 1" denominator is honest as printed; the caption change risks more confusion than it removes. |
+| B5-F6 | DECLINE | Table 2's margin cell follows the screened set by design, and Table 4 prints the margin-3 designs. |
+| B6-F1 | **APPLIED — CI fetch** | three of the four precedents reached in vivo mouse models. Committed evidence. |
+| B6-F2 | **APPLIED — CI fetch** | the GalNAc route is liver-restricted via ASGPR and does not transfer. |
+| B6-F3 | DECLINE | the 12-antigen negative is real and worth citing; held for a refuter because it adds a released claim. |
+| B6-F4 | REFUTED | all four sites already condition on systemic dosing. |
+| B6-F5 | REFUTED | the two sentences are adjacent and reconciled by the next one. |
+| B7-F1 | DECLINE | see B1-F5 — the charge is inverted; both series may be worth printing, but not on this reading. |
+| B7-F2 | APPLIED | folded into P0.7. |
+| B7-F3 | APPLIED | the Discussion's four rounded figures returned to their artifact values. |
+| B7-F4 | APPLIED | 95% → 94.8%, matching the SI and Table 7. |
+| B7-F5 | APPLIED | same clustering caveat as B2-F4. |
+| B7-F6 | APPLIED | the gap-paired ranks (5th, 1st) added; the ≤2-mismatch ranks re-attached to their own axis. |
+| C1-F1 | DECLINE | the exon-label ambiguity is real and is stated at §2.3; the second half is refuted — the alternative-reading reagents are Table 7 rows. |
+| C1-F2 | DECLINE | same as B5-F6. |
+| C1-F3 | P3 | the paper deliberately prescribes no assay. |
+| C1-F4 | DECLINE | naming a curve-fit model prescribes the assay §4.4 declines to prescribe. |
+| C1-F5 | DECLINE | the scramble is specified as an orderable class; naming one sequence would oblige it through all five screens. |
+| C2-F1 | REFUTED | every number the charge says is unstated is printed — §2.6 and Table 7. |
+| C2-F2 | APPLIED | "sits at floor" replaced by the measured 0.941 at the 83rd percentile of 1,673 lines. |
+| C2-F3 | DECLINE | "exactly one route" is refuted by the paper's own cited analogue. |
+| C2-F4 | **APPLIED — CI read** | `GSE299349` is public; `GSM9037837` is a patient-derived EMC cell model. ⚠ its series' own design lists five sarcoma types and not EMC — recorded, and no fusion call made. |
+| C2-F5 | DECLINE | the two usable models are named in the artifact with RRIDs; adding them to the paper is C5-F1's edit and lands there. |
+| C2-F6 | APPLIED | the cryptic-exon test article's reagent cannot be certified under §4.5's own rule, and now says so. |
+| C2-F7 | APPLIED | the STR profile is concordant at every locus but one, which is now named. |
+| C2-F8 | APPLIED | "no third party who can decline" was false; the backbone is academic and non-profit only. |
+| C2-F9 | APPLIED | the fusion caller is named — DepMap 24Q4, model ACH-001519, both calls quoted. ⚠ **H-EMC-SS identity is DISPUTED** (OBJ-LINE-HEMCSS): the model ID is cited only to make the caller checkable, and §3's conclusion that the line cannot serve as a test article does not rest on it. |
+| C2-F10 | DECLINE | §4.4's nucleotide-resolution rule already closes the line independently; a second reason is redundant. |
+| C3-F1 | **REFUTED — 3 of 3** | §6.5. |
+| C3-F2 | **REFUTED — 3 of 3** | §6.6. Its remedy would have reinstated a defect round 6 fixed. |
+| C3-F3 | DECLINE | the placement contradiction is stated; prescribing one is outside §4.4's scope. |
+| C3-F4 | APPLIED | the cut now states it reads only the acceptor parent, and requires the donor measurement beside it against no threshold. |
+| C3-F5 | DECLINE | the comparator is the fallback where the ratio is void; the charge's 1× figure is not verifiable on disk. |
+| C3-F6 | APPLIED | the scrambled control is now routed to the parent screen this paper generated the number for. |
+| C3-F7 | APPLIED | "no observed ratio" → "no observed ratio at or above one". Two sites. |
+| C4-F1 | APPLIED | the falsification claim is scoped to the top margin, in all four homes. |
+| C4-F2 | DECLINE | the unguarded fusion direction is real; guarding it prescribes an assay §4.4 declines to prescribe. |
+| C4-F3 | APPLIED | a multiplicity paragraph, stating why no correction is imposed. |
+| C4-F4 | DECLINE | "independent biological replicates" already carries the variance structure. |
+| C4-F5 | REFUTED | the 30% figure at three replicates is already stated. |
+| C4-F6 | APPLIED | the pilot's required return and a stop rule, without inventing an n. |
+| C4-F7 | APPLIED | with C3-F7. |
+| C5-F1 | DECLINE | the construct-to-lead mapping is the highest-value edit in the ledger and is held for a refuter, not dropped. |
+| C5-F2 | REFUTED | panel coverage, not ordering; §4.4's rule is unqualified. |
+| C5-F3 | REFUTED | all four numbers are printed in Table 7 and §2.6. |
+| C5-F4 | APPLIED | with A2-F3. |
+| C5-F5 | APPLIED | the modal-outcome contradiction resolved. |
+| C5-F6 | REFUTED | the comparator establishes the void state; it is not claimed to raise abundance. |
+| C5-F7 | APPLIED | with C4-F6. |
+| C5-F8 | APPLIED | the §4 heading no longer claims a decisiveness the section disclaims. |
+| C5-F9 | DECLINE | stating experiment scale needs prices this repository has deliberately not retrieved. |
+| C5-F10 | APPLIED | Table 7's title narrowed at the generator, with the three controls named. |
+| C5-F11 | DECLINE | ⛔ would commit the author to run the pipeline for third parties — an outward-facing commitment this pass may not make. |
+| D1-F1 | REFUTED | §6.1. |
+| D1-F2 | REFUTED | §6.2. |
+| D1-F3 | APPLIED | P0.7. |
+| D1-F4 | APPLIED | P0.8. |
+| D1-F5 | APPLIED | P0.6 — research-use statements, now including the generated tables file. |
+| D1-F6 | APPLIED | candidates/controls. |
+| D1-F7 | APPLIED | the cleavage claim. |
+| D1-F8 | APPLIED | "reagent" → "candidate". |
+| D1-F9 | APPLIED | "where the drug goes" → "in the organs a systemic dose reaches", four sites. |
+| D1-F10 | APPLIED | the abstract's do-not-use clause. |
+| D2-F1 | APPLIED | the ~5-fold figure is disclosed as a restatement. |
+| D2-F2 | APPLIED | the "We previously discovered" clause disclosed. |
+| D2-F3 | APPLIED | two of the four paralogue sources are reviews. |
+| D2-U1 | **UNVERIFIED** | ref 39 is not open access; a full-text fetch was dispatched and its result is not in hand. Recorded as unverified rather than guessed. |
+| D3-F1 | APPLIED | P0.3. |
+| D3-F2 | APPLIED | P0.2. |
+| D3-F3 | APPLIED | P0.4. |
+| D4-F1 | APPLIED | beat 3 promoted qualitatively; 82.9% stays at its single home. |
+| D4-F2 | APPLIED | with D1-F6. |
+| D4-F3 | P3 | figure budget. |
+| D4-F4 | DECLINE | naming the two modules is right; held with B4-F9, which shares its verification. |
+| D4-F5 | APPLIED | the Introduction's second question no longer excludes the paper's own answer. |
+| D4-F6 | **DECIDED** | title half declined with reason; keywords half applied. |
+| D4-F7 | DECLINE | a closing renewal is advocacy the language discipline forbids. |
+| D4-F8 | APPLIED | §4.5 now points at its one worked case outside the panel. |
+
+**ZERO OPEN**, with one honest exception: **D2-U1 is UNVERIFIED**, not dispositioned, because its
+source is not open access and the fetch has not returned. It is recorded that way rather than
+guessed, which is the rule this repository is built on.
+
+---
+
 ## 3 · P1 — wrong, unsupported or unexecutable; not deposit-blocking
 
 ### 3.1 · The lead reagents' own parent liability — four reviewers, one defect

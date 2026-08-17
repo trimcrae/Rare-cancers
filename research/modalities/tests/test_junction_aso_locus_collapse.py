@@ -275,8 +275,13 @@ def test_the_clinically_relevant_reagents_deep_load_is_six_loci_not_123_transcri
         s_cur = [h for h in s_plus if C.accession_class(h) == "curated"]
         d_cur = [h for h in plus if C.accession_class(h) == "curated"]
         assert (len(s_cur), len(d_cur)) == (1, 43), (len(s_cur), len(d_cur))
+        # ⚠ MATCHED AROUND THE ACCESSION, NOT THROUGH IT (2026-08-17). *H2AP* now carries
+        # NM_012274 at this, its only mention — a cold reader found the single curated hit named
+        # with no accession, in a paper whose own rule is that an identifier is never written
+        # from recollection. The gene symbol and the "single curated sense-strand hit" claim are
+        # what this pin is for; the parenthetical between them may vary.
         assert (f"At the default ceiling that design carried a single curated sense-strand hit, "
-                f"*H2AP*,") in txt
+                f"*H2AP*") in txt
         assert f"at the deeper ceiling it carries {len(d_cur)}" in txt
 
 
