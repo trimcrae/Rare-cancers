@@ -9,13 +9,13 @@
     "Not a claim that the archived predictions are correct. Every count in the deposit is a prediction from sequence search; no off-target activity and no RNase-H cleavage was measured anywhere in this work.",
     "Not a licence statement. The depositor chooses the licence at step 4 below."
   ],
-  "git_revision": "f4a8d027a5722d59c96d9c694164c0753cea1846",
+  "git_revision": "ed9bbc935fcc98ef2ff2af1e9020b75e83140684",
   "git_tree_is_clean_apart_from_this_manifest": false,
   "inventory_limited_to_tracked_files": true,
-  "archive_content_digest": "8942505411d26825da9b3265dada44bc1972e10d351f512377f15077290c790b",
+  "archive_content_digest": "c1d5649a4e917145ea28030ca23680c63b62e4fc9d90d55dc6a6cfc88dd484a5",
   "n_files": 383,
-  "total_bytes": 23889801,
-  "total_mib": 22.783,
+  "total_bytes": 23893877,
+  "total_mib": 22.787,
   "how_to_deposit_and_mint_the_doi": [
     "1. Check out the revision named in `git_revision` and confirm `git status` is clean. The manifest's hashes are only meaningful against that tree.",
     "2. Re-run this module (`python3 research/manuscripts/aso_archive_manifest.py --check`). A non-zero exit means the tree moved after the manifest was written; regenerate before depositing.",
@@ -805,8 +805,8 @@
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-sequences.csv",
-      "bytes": 70769,
-      "sha256": "c016ba59eb95dc694c35b2b5d07906a78aa42d8c7c7b36622e8f50fffb35f5fe",
+      "bytes": 72460,
+      "sha256": "238cb45bdf0f0ebe0bff5c7ccf4a3cd014ebe4e4165ad30f39fc27e773c0b765",
       "serves": "canonical_sequence_record",
       "also_serves": [],
       "contributes": "Every design the three deposit documents name, in CSV and FASTA, with its geometry, junction, gap-level margin, longest wild-type-parent duplex and an explicit do-not-order flag on the three designs that pair their whole catalytic gap against the un-rearranged NR4A3 allele. The generator refuses to build if any sequence the documents print is absent, so the file cannot quietly stop being canonical."
@@ -837,8 +837,8 @@
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-submission-tables.md",
-      "bytes": 45082,
-      "sha256": "6e0c2f5f465e415f90a0377e2b6d192eff97af877cb760d38fb3ef43a06e25b5",
+      "bytes": 45826,
+      "sha256": "51be67adbb304ba673f377b626c99046f624e00c8e2cbb80d9f2e6591594593a",
       "serves": "per_design_tables",
       "also_serves": [],
       "contributes": "The manuscript tables and the generator that derives every cell of them from the artifacts, plus the per-locus re-count and the chance baseline the tables and the chance-expectation panel are read from."
@@ -909,8 +909,8 @@
     },
     {
       "path": "research/manuscripts/aso_sequence_manifest.py",
-      "bytes": 15258,
-      "sha256": "e5c029e0348d0ebe8722a95930805d7d75c8f3c297a2a421608b8bee12727d61",
+      "bytes": 16436,
+      "sha256": "9c5ffdf7a86fc5b868b9b69702ab2a85ae35121dc61a48baeabc1890b016f961",
       "serves": "canonical_sequence_record",
       "also_serves": [],
       "contributes": "Every design the three deposit documents name, in CSV and FASTA, with its geometry, junction, gap-level margin, longest wild-type-parent duplex and an explicit do-not-order flag on the three designs that pair their whole catalytic gap against the un-rearranged NR4A3 allele. The generator refuses to build if any sequence the documents print is absent, so the file cannot quietly stop being canonical."
@@ -1077,8 +1077,8 @@
     },
     {
       "path": "research/manuscripts/submission_tables.py",
-      "bytes": 125866,
-      "sha256": "f1b421fff4400a8bf1bce3e7fdbda3210774a9fb92e98f0a9b0b4a7e9c425e45",
+      "bytes": 126329,
+      "sha256": "3a584b16f603156bd29d7a1730ce42576b31bc6caec35f7980b9defc856d80f4",
       "serves": "per_design_tables",
       "also_serves": [],
       "contributes": "The manuscript tables and the generator that derives every cell of them from the artifacts, plus the per-locus re-count and the chance baseline the tables and the chance-expectation panel are read from."

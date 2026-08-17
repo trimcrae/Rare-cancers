@@ -113,7 +113,8 @@ def _rows():
                 junction=label,
                 geometry="5-6-5",
                 gap_level_margin=d.get("gap_specificity_margin"),
-                longest_parent_duplex_bp=d.get("parent_duplex_bp"),
+                parent_seam_duplex_bp=d.get("parent_duplex_bp"),
+                parent_paired_gap_dna_nt="",
                 parent_gene=d.get("parent"),
                 # ⚠ THE POLARITY IS THE ARTIFACT'S, NOT A RE-DERIVATION. `parent_is_liability` true
                 # means the design pairs a wild-type parent through the whole catalytic gap, which
@@ -137,7 +138,8 @@ def _rows():
         add(sequence=seq, junction=d.get("junction", ""),
             geometry={16: "5-6-5", 18: "5-8-5", 20: "5-10-5"}.get(n, ""),
             gap_level_margin=d.get("gap_specificity_margin"),
-            longest_parent_duplex_bp=d.get("parent_seam_hybrid_bp"),
+            parent_seam_duplex_bp=d.get("parent_seam_hybrid_bp"),
+            parent_paired_gap_dna_nt=d.get("parent_paired_gap_dna_nt"),
             parent_gene=d.get("donor", ""), pairs_a_wild_type_parent_through_the_gap="",
             role="screened design", do_not_order="", clinical_tier="")
 
@@ -160,7 +162,8 @@ def _rows():
             bad = seq in condemned
             add(sequence=seq, junction=j.get("junction_label", ""), geometry=nc_geom,
                 gap_level_margin=d.get("gap_specificity_margin"),
-                longest_parent_duplex_bp=d.get("parent_duplex_bp"),
+                parent_seam_duplex_bp=d.get("parent_duplex_bp"),
+                parent_paired_gap_dna_nt="",
                 parent_gene=d.get("parent") or "",
                 pairs_a_wild_type_parent_through_the_gap=bool(d.get("parent_is_liability")),
                 role="non-canonical acceptor seam",
@@ -183,7 +186,7 @@ def _rows():
             bad = seq in condemned
             add(sequence=seq, junction=label, geometry=d.get("architecture", ""),
                 gap_level_margin=d.get("gap_specificity_margin"),
-                longest_parent_duplex_bp="", parent_gene="",
+                parent_seam_duplex_bp="", parent_paired_gap_dna_nt="", parent_gene="",
                 pairs_a_wild_type_parent_through_the_gap=bool(bad),
                 role="intron-2 cryptic-exon seam",
                 do_not_order=("DO NOT ORDER — pairs its whole catalytic gap against the patient's "
@@ -195,7 +198,7 @@ def _rows():
     # manifest exists to prevent — so they are added explicitly, last, and only if still missing.
     for seq in sorted(condemned):
         add(sequence=seq, junction="", geometry="5-6-5", gap_level_margin="",
-            longest_parent_duplex_bp="", parent_gene="",
+            parent_seam_duplex_bp="", parent_paired_gap_dna_nt="", parent_gene="",
             pairs_a_wild_type_parent_through_the_gap=True, role="condemned design",
             do_not_order=("DO NOT ORDER — pairs its whole catalytic gap against the patient's own "
                           "un-rearranged NR4A3 allele"), clinical_tier="")
@@ -204,8 +207,15 @@ def _rows():
     return rows
 
 
+#: ⛔ TWO PARENT-DUPLEX QUANTITIES, NAMED APART (2026-08-17). This shipped one column called
+#: `longest_parent_duplex_bp`, carrying the SEAM HYBRID length — while Table 5 prints a
+#: column headed "longest mature-parent duplex THROUGH THE GAP", which is a different
+#: measurement. For the lead design they read 8 and 3; for the 5-8-5 control, 9 and none.
+#: A reader joining the table to this file on the obvious-looking column therefore got a
+#: number that answered a question they had not asked. Both are carried, each named for
+#: what it is, and neither name can be mistaken for the other.
 _FIELDS = ("sequence", "length_nt", "geometry", "junction", "gap_level_margin",
-           "longest_parent_duplex_bp", "parent_gene",
+           "parent_seam_duplex_bp", "parent_paired_gap_dna_nt", "parent_gene",
            "pairs_a_wild_type_parent_through_the_gap", "role", "clinical_tier", "do_not_order")
 
 _HEADER = [
@@ -221,6 +231,11 @@ _HEADER = [
     "# gap and five LNA nucleotides, on a phosphorothioate backbone; 5-8-5 and 5-10-5 are the same",
     "# five-nucleotide LNA wings around gaps of eight and ten. Ordering the bases without the",
     "# modifications gives a different molecule, about which nothing in the paper is true.",
+    "#",
+    "# COLUMNS: parent_seam_duplex_bp is the longest duplex the design forms with a wild-type",
+    "# parent across its seam; parent_paired_gap_dna_nt is the contiguous DNA of the catalytic",
+    "# gap that one parent pairs. They are DIFFERENT quantities and the paper's tables print",
+    "# the second. Do not join one to the other.",
     "#",
     "# READ do_not_order FIRST. A non-empty value means the paper names that design as one NOT to be",
     "# carried forward.",

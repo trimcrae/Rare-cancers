@@ -95,7 +95,13 @@ PAPERS = {
         "journal": {
             "article_type": "Research article",
             "section": "Cancer genomics · RNA therapeutics",
-            "preprint_note": "Preprint — not peer reviewed. Posted to bioRxiv under CC-BY.",
+            # ⛔ THE MASTHEAD MUST NOT ASSERT A POSTING THAT HAS NOT HAPPENED (blind screen of the
+            # journal build, 2026-08-17). It read "Posted to bioRxiv under CC-BY" on page 1
+            # while the author block on the SAME page carried "the deposit is blocked until it
+            # is replaced" and Availability said no DOI has been reserved — two contradictory
+            # statements about the document's own publication status, side by side. The licence
+            # is also chosen AT submission, so pre-declaring it is a second small untruth.
+            "preprint_note": "Preprint — not peer reviewed. Prepared for deposit; not yet posted.",
         },
         "out": "aso/fusion-junction-aso-research-article.pdf",
     },

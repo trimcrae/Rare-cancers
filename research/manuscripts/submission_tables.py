@@ -60,7 +60,12 @@ def _ordering_clause():
     sentence rather than leaving it describing a panel that no longer exists.
     """
     return (f"Every sequence in this table is an antisense {GEOMETRY.oligo_len}-mer, tiled in the "
-            f"{GEOMETRY.architecture} LNA/DNA/LNA architecture on a phosphorothioate backbone that "
+            # ⚠ "LNA" EXPANDED HERE, AT ITS FIRST USE IN THE TABLES. In the journal build the
+            # abbreviation appears from Table 2 on page 5 and is expanded only in §3 on page
+            # 23 — and a caption is the part of a paper most likely to be read on its own, so
+            # the chemistry note a reader meets first must not itself need a glossary.
+            f"{GEOMETRY.architecture} locked-nucleic-acid (LNA)/DNA/LNA architecture on a "
+            f"phosphorothioate backbone that "
             f"§6 specifies; the bases alone, ordered as unmodified DNA, are a different molecule. "
             f"The canonical machine-readable copy of every sequence is "
             f"`{os.path.basename(_manifest.OUT_CSV)}`.")
@@ -1703,7 +1708,7 @@ these lose the property when the same junctions are re-screened at a tenfold dee
 ceiling, three of them having returned no near-match at all here; §2.4 reports that
 measurement and names the three that survive it. This table is the default-depth result, retained
 because it is the depth at which the corpus-wide counts elsewhere in the paper were computed. Every design at the {n_clean_junctions} junctions
-where one exists. A design qualifies only
+where one exists is listed. A design qualifies only
 if its retained hit list is not truncated — no more near-matches than the {SAVED_HITS} the screens store — because the
 strand of an unstored hit cannot be recovered, so a truncated list cannot establish that nothing
 on the sense strand remains. The underlying search is itself capped, so these are the designs whose
@@ -1759,7 +1764,7 @@ and the scrambled control is a draw from a stated shuffling procedure rather tha
 None of the three therefore has a sequence, a geometry or a screen result for these columns. Gap-paired near-matches are at the tenfold deeper alignment ceiling
 where every hit list is complete, and the parent duplex is the longest contiguous run containing the
 whole catalytic gap, at the ten-base-pair criterion applied throughout. None of these numbers is a
-measurement of off-target activity, and no row is a claim of efficacy.
+measurement of off-target activity, and no row is a claim of efficacy. {_ordering_clause()}
 
 {t5}
 
@@ -1814,7 +1819,7 @@ seam is five base pairs plus its share of the gap, so pairing five nucleotides o
 and reaching a ten-base-pair seam hybrid are the same condition and are reported as one row. ΔG°37 values are for
 an unmodified DNA:RNA hybrid; the wing is five at every geometry, so LNA affinity enters each parent
 duplex identically and cannot explain a difference between the columns. None of these numbers is a
-measurement of cleavage.
+measurement of cleavage. {_ordering_clause()}
 
 {t7}
 """

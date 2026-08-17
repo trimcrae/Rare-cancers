@@ -71,7 +71,7 @@ four-rule conventional audit as Table 4 (note ⁵), computed for whichever desig
 from the same artifact and by the same code. It is reported beside the ranking and is never folded
 into it: the two orderings select different molecules, which is the disagreement §2.10 is about, and
 this is the table one reagent is chosen from. A design the audit does not cover would read “not
-audited” rather than blank, since a blank in a rules column reads as breaking none. Every sequence in this table is an antisense 16-mer, tiled in the 5-6-5 LNA/DNA/LNA architecture on a phosphorothioate backbone that §6 specifies; the bases alone, ordered as unmodified DNA, are a different molecule. The canonical machine-readable copy of every sequence is `fusion-junction-aso-sequences.csv`.
+audited” rather than blank, since a blank in a rules column reads as breaking none. Every sequence in this table is an antisense 16-mer, tiled in the 5-6-5 locked-nucleic-acid (LNA)/DNA/LNA architecture on a phosphorothioate backbone that §6 specifies; the bases alone, ordered as unmodified DNA, are a different molecule. The canonical machine-readable copy of every sequence is `fusion-junction-aso-sequences.csv`.
 
 | junction | exon-resolved breakpoint | designs clearing the parent screen | best available design | gap-level margin | longest parent duplex through the gap (bp) | gap-paired near-matches at the deeper ceiling (transcripts → loci) | genome-wide gap-paired load, observed/expected | conventional rules failed |
 |---|---|---|---|---|---|---|---|---|
@@ -132,7 +132,7 @@ None of these numbers is a measurement of off-target activity.
 
 ² Counted over the gap-spanning loci only, not over all of that design's near-match loci.
 
-³ The same design re-screened at a tenfold deeper alignment ceiling, with retention raised to match it so that no hit list is truncated. Because no list is truncated, the gap-spanning locus column at this depth is recounted from the complete stored hits under the current locus assignment and is exact; it is not the screen's own stored figure, which was computed before that assignment was corrected and splits any gene whose description carries a comma across one accession per transcript variant. It is therefore the same quantity, counted the same way, as the locus figures in Table 2 and in the Results. The three columns are the counterparts of the default-depth columns to their left, given beside them rather than in place of them because the default depth is where the corpus-wide counts elsewhere in the paper were computed and the two must stay comparable. Read together they are the paper's censoring result at the level of a single row: a default-depth count is a lower bound whether or not it reached the 50-hit cap, and three junctions whose default cell reads zero in the gap-spanning column carry gap-spanning hits at ten times the depth. Three of the panel's 190 records failed at this ceiling; they are absent from the deep set rather than counted as zero in it. Every sequence in this table is an antisense 16-mer, tiled in the 5-6-5 LNA/DNA/LNA architecture on a phosphorothioate backbone that §6 specifies; the bases alone, ordered as unmodified DNA, are a different molecule. The canonical machine-readable copy of every sequence is `fusion-junction-aso-sequences.csv`.
+³ The same design re-screened at a tenfold deeper alignment ceiling, with retention raised to match it so that no hit list is truncated. Because no list is truncated, the gap-spanning locus column at this depth is recounted from the complete stored hits under the current locus assignment and is exact; it is not the screen's own stored figure, which was computed before that assignment was corrected and splits any gene whose description carries a comma across one accession per transcript variant. It is therefore the same quantity, counted the same way, as the locus figures in Table 2 and in the Results. The three columns are the counterparts of the default-depth columns to their left, given beside them rather than in place of them because the default depth is where the corpus-wide counts elsewhere in the paper were computed and the two must stay comparable. Read together they are the paper's censoring result at the level of a single row: a default-depth count is a lower bound whether or not it reached the 50-hit cap, and three junctions whose default cell reads zero in the gap-spanning column carry gap-spanning hits at ten times the depth. Three of the panel's 190 records failed at this ceiling; they are absent from the deep set rather than counted as zero in it. Every sequence in this table is an antisense 16-mer, tiled in the 5-6-5 locked-nucleic-acid (LNA)/DNA/LNA architecture on a phosphorothioate backbone that §6 specifies; the bases alone, ordered as unmodified DNA, are a different molecule. The canonical machine-readable copy of every sequence is `fusion-junction-aso-sequences.csv`.
 
 † No design screened at this junction clears the parent screen: every one of them pairs a wild-type parent gene through the whole catalytic gap, at the parent-duplex criterion applied throughout. This table ranks by gap-level margin, so the sequence in such a row is that junction's highest-margin design and nothing more; it is not a design any screen passes, and Table 2 gives the same junction no best-available reagent for that reason — its “designs clearing the parent screen” cell reads 0. Do not order the sequence in a marked row.
 
@@ -182,7 +182,7 @@ these lose the property when the same junctions are re-screened at a tenfold dee
 ceiling, three of them having returned no near-match at all here; §2.4 reports that
 measurement and names the three that survive it. This table is the default-depth result, retained
 because it is the depth at which the corpus-wide counts elsewhere in the paper were computed. Every design at the 6 junctions
-where one exists. A design qualifies only
+where one exists is listed. A design qualifies only
 if its retained hit list is not truncated — no more near-matches than the 15 the screens store — because the
 strand of an unstored hit cannot be recovered, so a truncated list cannot establish that nothing
 on the sense strand remains. The underlying search is itself capped, so these are the designs whose
@@ -190,7 +190,7 @@ near-match lists are shortest, not the designs whose lists are known to be exhau
 duplex either parent can form, for an unmodified DNA:RNA hybrid; because the fusion duplex pairs
 both LNA wings and each parent duplex only one, it is a lower bound on the modified
 oligonucleotide's discrimination rather than an upper one. None of these numbers is a measurement of off-target
-activity, and none speaks to cleavage. Every sequence in this table is an antisense 16-mer, tiled in the 5-6-5 LNA/DNA/LNA architecture on a phosphorothioate backbone that §6 specifies; the bases alone, ordered as unmodified DNA, are a different molecule. The canonical machine-readable copy of every sequence is `fusion-junction-aso-sequences.csv`.
+activity, and none speaks to cleavage. Every sequence in this table is an antisense 16-mer, tiled in the 5-6-5 locked-nucleic-acid (LNA)/DNA/LNA architecture on a phosphorothioate backbone that §6 specifies; the bases alone, ordered as unmodified DNA, are a different molecule. The canonical machine-readable copy of every sequence is `fusion-junction-aso-sequences.csv`.
 
 ⁴ Under the optimistic five-fold and the pessimistic
 no-discrimination bound on RNase-H1 single-mismatch discrimination. A single value means the two
@@ -254,7 +254,7 @@ and the scrambled control is a draw from a stated shuffling procedure rather tha
 None of the three therefore has a sequence, a geometry or a screen result for these columns. Gap-paired near-matches are at the tenfold deeper alignment ceiling
 where every hit list is complete, and the parent duplex is the longest contiguous run containing the
 whole catalytic gap, at the ten-base-pair criterion applied throughout. None of these numbers is a
-measurement of off-target activity, and no row is a claim of efficacy.
+measurement of off-target activity, and no row is a claim of efficacy. Every sequence in this table is an antisense 16-mer, tiled in the 5-6-5 locked-nucleic-acid (LNA)/DNA/LNA architecture on a phosphorothioate backbone that §6 specifies; the bases alone, ordered as unmodified DNA, are a different molecule. The canonical machine-readable copy of every sequence is `fusion-junction-aso-sequences.csv`.
 
 | reagent | junction | sequence | geometry | gap-level margin | gap-paired near-matches → loci at the deeper ceiling | longest mature-parent duplex through the gap | cumulative coverage | basis |
 |---|---|---|---|---|---|---|---|---|
@@ -373,7 +373,7 @@ seam is five base pairs plus its share of the gap, so pairing five nucleotides o
 and reaching a ten-base-pair seam hybrid are the same condition and are reported as one row. ΔG°37 values are for
 an unmodified DNA:RNA hybrid; the wing is five at every geometry, so LNA affinity enters each parent
 duplex identically and cannot explain a difference between the columns. None of these numbers is a
-measurement of cleavage.
+measurement of cleavage. Every sequence in this table is an antisense 16-mer, tiled in the 5-6-5 locked-nucleic-acid (LNA)/DNA/LNA architecture on a phosphorothioate backbone that §6 specifies; the bases alone, ordered as unmodified DNA, are a different molecule. The canonical machine-readable copy of every sequence is `fusion-junction-aso-sequences.csv`.
 
 | | 5-6-5 (16-mer) | 5-8-5 (18-mer) | 5-10-5 (20-mer) |
 |---|---|---|---|
