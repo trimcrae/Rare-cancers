@@ -45,8 +45,7 @@ and NOT for that junction's cleanest design — the two are often different mole
 cleanest ones are in Table 3. The margin column is therefore the best among the designs that
 RETURNED a screen at this depth: 7 of the panel's 190 default-depth submissions
 failed at the remote service, which is why a junction can show fewer than five designs screened
-here, and why Table 4 — which selects from the deeper re-screens — can name a design of higher
-margin at the same junction. Near-match counts are of RefSeq
+here, and why Table 4 — which selects from the deeper re-screens — can name a design of HIGHER margin at the same junction. Table 4 can also name one of LOWER margin, for a different reason and not a disagreement: it ranks by parent liability, then pre-mRNA sites, then gene loci, and reaches gap-level margin only as a tie-break, so a cleaner design outranks the highest-margin one this table names. Near-match counts are of RefSeq
 transcript accessions and are also given collapsed to distinct gene loci, since RefSeq carries one
 accession per annotated variant. A “≥” marks a right-censored count: the screens store the top
 15 hits per design, so a design with more is a lower bound. All 38 junction screens
@@ -139,7 +138,7 @@ default-depth zeros must not be read on their own.
 | 5′-AGGGCATATCGGAGTC-3′ | FUS e8::NR4A3 e3 | 56.2 | 2 | 10.895 | 3 | 0 | 0 / 0 | 0 | contains a CpG | 3 | 0 | 0 | yes |
 | 5′-GGGCATATCCGACATG-3′ | TAF15 e1::NR4A3 e3 | 56.2 | 3 | 11.894 | 5 | 0 | 0 / 0 | 0 | contains a CpG | 5 | 0 | 0 | yes |
 | 5′-GGGCATATCTCTATAA-3′ | TCF12 e17::NR4A3 e3 | 37.5 | 3 | 8.556 | 8 | 0 | 0 / 0 | 0 | GC outside 40–60% | 118 | 101 | 5 | **no** |
-| 5′-GCATATCAAGCGCTGC-3′ | TCF12 e7::NR4A3 e3 | 56.2 | 1 | 7.98 | 1 | 0 | 0 / 0 | 0 | contains a CpG | 18 | 2 | 0 | **no** |
+| 5′-GCATATCAAGCGCTGC-3′ | TCF12 e7::NR4A3 e3 | 56.2 | 1 | 7.980 | 1 | 0 | 0 / 0 | 0 | contains a CpG | 18 | 2 | 0 | **no** |
 | 5′-GGCATATCAAGCGCTG-3′ | TCF12 e7::NR4A3 e3 | 56.2 | 2 | 10.085 | 2 | 0 | 0 / 0 | 0 | contains a CpG | 2 | 0 | 0 | yes |
 | 5′-CAGGGCATATCTTGCA-3′ | TCF12 e9::NR4A3 e3 | 50.0 | 1 | 9.325 | 7 | 0 | 0 / 0 | 0 | none | 67 | 18 | 4 | **no** |
 
@@ -148,7 +147,15 @@ select across the panel; this table selects within each junction, which is the q
 fusion poses. Designs are ranked by parent liability first, since sparing the wild-type parents is
 what the modality exists for, then by pre-mRNA sites, then by distinct gene loci, with ties broken
 on gap-level margin rather than on raw hit counts. Nothing was re-screened: every field is joined
-from a screen already reported above. Whether a junction has a published exon-resolved breakpoint is
+from a screen already reported above. The denominator of the “designs clearing the parent screen”
+column is not a parent-screen figure: it is how many of that junction's designs RETURNED a deep
+alignment screen, which is the screen supplying every rank key here. Each seam of this panel is
+tiled by five junction-spanning registers (Table 5), and 3 of the
+190 deep submissions failed at the remote service, so a design whose submission
+failed is absent from its junction's row set and appears in neither half of the cell — the only
+reason a denominator here reads below five, and an identity this generator checks
+before building the table. The parent screen itself is offline and exhaustive over every design, so
+the numerator alone is what it decided. Whether a junction has a published exon-resolved breakpoint is
 reported separately from specificity and never folded into the ranking — “published” means an
 exon-resolved EMC breakpoint is reported for that exon pair; “published (deposit)” that the exon is
 resolved by a deposited chimeric mRNA record with no peer-reviewed report behind it, which §2.3
@@ -240,7 +247,7 @@ measurement of cleavage.
 | | 5-6-5 (16-mer) | 5-8-5 (18-mer) | 5-10-5 (20-mer) |
 |---|---|---|---|
 | **At the *EWSR1* e12 / *TAF15* e11 / *FUS* e10 junction** | | | |
-| design (5′→3′) | GGGCATATCATCAAAC | AGGGCATATCATCAAACC | CAGGGCATATCATCAAACCA |
+| design | 5′-GGGCATATCATCAAAC-3′ | 5′-AGGGCATATCATCAAACC-3′ | 5′-CAGGGCATATCATCAAACCA-3′ |
 | gap-level margin | 3 | 4 | 5 |
 | sense-strand gap-spanning cleavage risks | 123 | 3 | 0 |
 | gene loci carrying one | 6 | 1 | 0 |
@@ -347,12 +354,13 @@ measurement of cleavage, and no expression figure is a predicted cleavage event.
 arms beside them, what each costs on each screen and what each buys in coverage.** The rows are in the order §4 decides them:
 the two lead reagents, the rungs of the coverage ladder above them, the bounds above those, the
 remaining junction with a published exon-resolved breakpoint and a reagent through all five deep
-screens, the four *NR4A3* exon-2 acceptor seams reported beside the panel, and the two contrast
-arms. Membership is the coverage ladder's and not this table's: every junction its best-supported
-buildable panel qualifies — a published exon-resolved breakpoint and five completed deep screens,
-each read from the table that owns it — has a row here whether or not §4 names its reagent, and the
-generator refuses to build if one is missing. A row can therefore qualify and still buy no coverage,
-which is a statement about the denominator and not about the reagent. Cumulative coverage is the
+screens, the three *NR4A3* exon-2 acceptor seams the ladder carries no entry for, reported
+beside the panel, and the two contrast arms. Membership is the coverage ladder's and not this table's: every junction its best-supported
+buildable panel qualifies — a published exon-resolved breakpoint, and all five specificity screens
+run to completion over that junction's designs, each condition read from the table that owns it —
+has a row here whether or not §4 names its reagent, and the generator refuses to build if a
+qualifying junction has no row. A row can therefore qualify and still buy no coverage,
+which is a statement about the denominator and not about the reagent. The screen condition counts screens that RAN over a junction's designs and not compartments measured for every gene a row names: the pre-mRNA screen behind the exon-2 acceptor rows carried unspliced sequence for six parent genes — *EWSR1*, *FUS*, *NR4A3*, *TAF15*, *TCF12* and *TFG* — so a seam whose donor is outside that set has an absent reading of its own donor's introns in that compartment rather than a clean one. *PGR* is that case here, for the reason §2.6 gives, and the row is in this table on the same footing as the others. The reagent column is editorial, but which of the two membership classes a row falls in is the ladder's decision as well, and it is legible in the last two columns: a junction the ladder NAMES IN ONE OF ITS ENTRIES carries that entry's cumulative figure and increment, and a junction that qualifies but appears in no entry carries “adds nothing” and the reason instead. That is why one *NR4A3* exon-2 acceptor seam — EWSR1 e7::NR4A3 e2 — is a rung here while the other three are reported beside the panel: the ladder prices the type 2 transcript's breakpoint on the same single series, and such a rung can still print an increment of zero, because that series never named the transcript — an unnamed count rather than a measured absence. Being a rung of the ladder is not being pooled into the panel, which is the separate statement below and is unchanged. Cumulative coverage is the
 coverage of the reagent set through that row, so the two leads are
 one rung and carry one figure between them; it is discounted by the breakpoint distribution of a
 single series and is not a partner figure, and its interval is composed from each breakpoint

@@ -160,6 +160,13 @@ run_step "submission tables"   "python3 $MAN/submission_tables.py"   "python3 $M
 run_step "submission references" "python3 $MAN/submission_citations.py --write" "python3 $MAN/submission_citations.py --check"
 run_step "submission metrics"  "python3 $MAN/submission_metrics.py"  "python3 $MAN/submission_metrics.py --check"
 run_step "submission packet"   "python3 $MAN/submission_packet.py"                   ""
+# ⛔ THE CANONICAL SEQUENCE FILE IS DERIVED, AND IT RUNS BEFORE THE MANIFEST HASHES IT. Added
+# 2026-08-17: the deposited PDF prints table sequences without their delimiters, so whether a
+# copy-pasted oligo carries a trailing digit is a property of the reader's PDF extractor. The
+# durable fix is a machine-readable copy that was never typeset, and its generator ASSERTS that
+# every sequence the three documents name is present -- so this step fails rather than shipping a
+# "canonical" file that is missing a sequence the paper prints.
+run_step "canonical sequences" "python3 $MAN/aso_sequence_manifest.py" "python3 $MAN/aso_sequence_manifest.py --check"
 run_step "prior-art evidence"  "python3 $MAN/aso_priorart_evidence.py" "python3 $MAN/aso_priorart_evidence.py --check"
 # ⛔ LAST, ALWAYS. It hashes every artifact above; run it earlier and the deposit describes a tree
 # that no longer exists.

@@ -37,7 +37,13 @@ jobs:
       # made test_the_16mer_thermo_artifact_still_reproduces read as an artifact drift when it was
       # a missing dependency. Verified 2026-08-14: with biopython the check answers "thermo
       # artifact is current". A guard that cannot run is not a guard that passed.
-      - run: pip install pytest numpy scipy pymbar rdkit pyyaml boto3 jsonschema biopython
+      # pdfminer.six reads the TEXT LAYER of the built submission PDF, which is the only artifact a
+      # depositor uploads and a screener opens. Added 2026-08-17 after a blind screen of the PDF
+      # found table sequences printed without their 5′-/-3′ delimiters, adjacent to numeric cells —
+      # a wrong-reagent hazard for a paper whose deliverable is orderable oligos, and one that seven
+      # rounds of review over the MARKDOWN could not see. Same rule as boto3 and biopython above:
+      # the test needs no credentials and no network, so the fix is to install the dependency.
+      - run: pip install pytest numpy scipy pymbar rdkit pyyaml boto3 jsonschema biopython pdfminer.six
       # Run the doc linters FIRST and standalone. Both are also asserted inside the pytest
       # suite, but a doc author who breaks one should see the offending file:line as a
       # failing step named after the linter, not a traceback buried in ~1500 tests.

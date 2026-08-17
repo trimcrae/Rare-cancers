@@ -212,6 +212,7 @@ gen_fail=""
 for g in "research/manuscripts/submission_tables.py|submission tables|--check" \
          "research/manuscripts/submission_citations.py|submission references|--check" \
          "research/manuscripts/submission_metrics.py|submission metrics|--check" \
+         "research/manuscripts/aso_sequence_manifest.py|canonical sequence file|--check" \
          "research/manuscripts/aso_archive_manifest.py|archive manifest|--check-archive"; do
   gen="${g%%|*}"; rest="${g#*|}"; label="${rest%%|*}"; mode="${rest##*|}"
   if python3 "$gen" "$mode" >/dev/null 2>&1; then

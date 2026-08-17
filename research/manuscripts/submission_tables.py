@@ -351,6 +351,45 @@ def _default_depth_failures(collapse):
     return failed, attempted
 
 
+def _deep_depth_failures(per_junction, registers):
+    """(deep submissions that failed, records attempted) — and the identity Table 4's denominator rests on.
+
+    ⛔ TABLE 4's "designs clearing the parent screen" DENOMINATOR WAS UNEXPLAINED AND READ AS A
+    PARENT-SCREEN FIGURE (built-PDF finding, 2026-08-17). The column prints `n of m`, and m is 5 at
+    most junctions, 4 at `TFG e2` and 3 at `FUS e5`. A reader has no way to know that the parent
+    screen is offline and exhaustive over all 190 designs: as printed, the two short rows read as
+    though the parent screen saw fewer designs at those seams, when what is short is the DEEP
+    ALIGNMENT screen that supplies each row's rank key — `aso_per_junction_table._deep_screens` skips
+    a record whose `status` is not `screened`, so a design whose deep submission failed at the remote
+    service is absent from the junction's row set entirely and cannot be in either half of the cell.
+
+    ⚠ THE IDENTITY IS ASSERTED, NOT TRUSTED, because the sentence this feeds is only true while it
+    holds. Every seam of this panel admits the same number of junction-spanning registers, so the
+    shortfall summed over the junctions must equal the number of failed deep submissions; if it ever
+    does not, some junction is short a design for a reason the legend does not state, and printing
+    the legend anyway would explain the shortfall away rather than report it.
+    """
+    failed = attempted = 0
+    try:
+        screens = ass.load_screens(GEOMETRY, ass.BLAST_SCREEN, select=ass.is_deep)
+    except Exception:                                        # noqa: BLE001
+        return 0, 0
+    for s in screens:
+        if not s.junction_label:
+            continue
+        for o in (s.artifact.get("oligos") or []):
+            attempted += 1
+            failed += o.get("status") != "screened"
+    shortfall = sum(registers - j["n_designs_screened"] for j in per_junction["junctions"])
+    if shortfall != failed:
+        raise SystemExit(
+            f"Table 4: the panel is short {shortfall} design row(s) against {registers} registers a "
+            f"seam, and {failed} deep submission(s) failed; the legend explains the denominator by "
+            "the failures alone, so re-derive it before regenerating rather than printing a "
+            "sentence that accounts for a shortfall it cannot see")
+    return failed, attempted
+
+
 def _orientation_filtered(status):
     """Whether a screen's counts were actually filtered by alignment orientation.
 
@@ -434,6 +473,22 @@ def table2(collapse, chance, atlas, per_junction):
     # junctions: a seam that gains a clearing design upstream loses the marker here without an edit.
     no_design_clears = {j["junction_label"] for j in per_junction["junctions"]
                         if j["n_designs_clearing_the_parent_screen"] == 0}
+
+    # ⛔ THE LEGEND ANTICIPATED ONE DIRECTION AND THE TABLE GOES BOTH WAYS (built-PDF finding,
+    # 2026-08-17). It told a reader that Table 4 may name a design of HIGHER margin at the same
+    # junction — the censoring reconciliation `_default_depth_failures` documents — and at `EWSR1
+    # e10` and `EWSR1 e4`, where all five designs returned at this depth, Table 4 names a design of
+    # LOWER margin instead. That direction has a different cause and is not a discrepancy: Table 4
+    # ranks by parent liability, then pre-mRNA sites, then gene loci, and reaches margin only as a
+    # tie-break, so a cleaner design of lower margin outranks this table's highest-margin one. A
+    # reader who has been given one explanation and meets the opposite case has to assume one of the
+    # two tables is wrong.
+    # ⚠ WHICH DIRECTIONS OCCUR IS MEASURED HERE, not asserted in the legend, so a corpus in which one
+    # of them stops happening does not leave a sentence explaining a case the table no longer has —
+    # the same rule as the ‡, † and ³ blocks.
+    t4_margin = {j["junction_label"]: (j.get("best_available") or {}).get("gap_specificity_margin")
+                 for j in per_junction["junctions"]}
+    margin_up = margin_down = False
 
     gap_margin = {}
     for pan in atlas["panels"]:
@@ -532,6 +587,10 @@ def table2(collapse, chance, atlas, per_junction):
         ranked = sorted(ol, key=lambda o: -(gap_margin.get((lab, o["antisense_5to3"])) or -1))
         best = ranked[0]
         gm = gap_margin.get((lab, best["antisense_5to3"]))
+        t4 = t4_margin.get(lab)
+        if gm is not None and t4 is not None:
+            margin_up = margin_up or t4 > gm
+            margin_down = margin_down or t4 < gm
         # ⛔ THREE COLUMNS SHARED ONE CENSORING MARKER AND ONLY ONE OF THEM EARNED IT
         # (2026-08-12). `right_censored` means the design has more near-matches than the 15 this
         # module retains, and that bounds ONLY the locus recount, which is done from the retained
@@ -574,7 +633,7 @@ def table2(collapse, chance, atlas, per_junction):
             f"{len(set(best.get('loci_with_a_gap_spanning_hit') or []) & set(best.get('loci_seen_only_as_predicted_models') or []))} | "
             f"{deep_cell} | {med} ({mx}) |")
     return ("\n".join([hdr, sep] + rows), any(not v for v in filtered.values()), deep_missing,
-            no_design_clears_marked)
+            no_design_clears_marked, margin_up, margin_down)
 
 
 #: Clinical-occurrence tiers, rendered for a reader. The tier vocabulary is owned by
@@ -641,6 +700,45 @@ _TABLE7_ROWS = (
     ("gap-length control", "geometry", "EWSR1_e12__NR4A3_e3", "5-8-5"),
     ("margin contrast arm", "design", "EWSR1_e12__NR4A3_e3", "GCATATCATCAAACCA"),
 )
+
+
+def _premrna_unscanned_donors(noncoding):
+    """(donor genes of Table 7's exon-2 rows the pre-mRNA screen never searched, the genes it did).
+
+    ⛔ TABLE 7's MEMBERSHIP SENTENCE WAS UNTRUE OF ONE OF ITS OWN ROWS (built-PDF finding,
+    2026-08-17). The caption said membership needs "five completed deep screens", and the *PGR* row
+    has a pre-mRNA compartment the article states plainly is unmeasured — §2.6: the screen's parent
+    set does not include *PGR*, whose unspliced sequence the committed cache does not carry.
+
+    ⭐ THE ROW IS NOT AN EXCEPTION AND THE GUARD IS NOT WRONG; THE SENTENCE WAS COUNTING THE WRONG
+    THING. `table7`'s guard refuses on a qualifying junction with no ROW, never on a missing screen,
+    and the ladder's condition (ii) is read from each source table's own completeness flag —
+    `screens_complete`, which the non-canonical-acceptor table sets from `n_screens_outstanding == 0`,
+    i.e. five screens that RAN over the seam's designs. A screen can run over a design and search
+    nothing of that design's own donor: `screens.premrna.genes` lists the six parents the pre-mRNA
+    scan carried sequence for, and *PGR* is a sixth partner outside them. So the condition is a
+    statement about screens run, not about compartments measured for every gene a row names, and the
+    legend now says which.
+
+    ⚠ READ, NEVER TYPED, and it refuses rather than printing the unqualified sentence: if the screen
+    block stops naming its parent set this cannot tell whether a donor was searched, and the flatter
+    legend — the one with no caveat — is the wrong thing to fall back to.
+    """
+    scanned = sorted((noncoding.get("screens") or {}).get("premrna", {}).get("genes") or [])
+    if not scanned:
+        raise SystemExit(
+            "Table 7: the non-canonical-acceptor table's pre-mRNA screen block names no parent set, "
+            "so the legend cannot say which of its rows have a pre-mRNA reading of their own donor. "
+            "Re-derive that block rather than regenerating a caption that claims five completed "
+            "screens for every row.")
+    donors = []
+    for _, src, label, _ in _TABLE7_ROWS:
+        if src != "noncoding":
+            continue
+        gene = label.split("_")[0]
+        if gene not in scanned and gene not in donors:
+            donors.append(gene)
+    return sorted(donors), scanned
 
 
 def _ladder_cell(rung):
@@ -741,7 +839,8 @@ def table7(per_junction, noncoding, gap, ladder):
         raise SystemExit(
             "Table 7 omits " + ", ".join(sorted(qualifying - named)) + ": the coverage ladder's "
             "best-supported buildable panel qualifies it on a published exon-resolved breakpoint "
-            "and five completed deep screens, and this table's caption claims every such seam. Add "
+            "and five specificity screens run over its designs, and this table's caption claims "
+            "every such seam. Add "
             "the row to _TABLE7_ROWS, or state in the caption why it is out of scope.")
 
     def _duplex(bp, gene):
@@ -762,6 +861,20 @@ def table7(per_junction, noncoding, gap, ladder):
         seq = f"— ({n} further reagents, none named)" if n else "—"
         return (f"| coverage bound | {rung['panel']} | {seq} | — | — | — | — | "
                 f"{cell} | {basis} |")
+
+    # ⛔ TWO MEMBERSHIP CLASSES, NO STATED RULE (built-PDF finding, 2026-08-17). This table calls one
+    # *NR4A3* exon-2 acceptor seam a "coverage rung" and the other three "beside the panel", while
+    # the caption says exon-2 rows are never pooled into the panel — so the two classes looked like
+    # a contradiction, and the rung contributes +0.0 besides, which makes it look like the mistake.
+    # ⭐ THE RULE IS THE LADDER'S AND IS COLLECTED HERE RATHER THAN DESCRIBED: a junction the ladder
+    # NAMES IN ONE OF ITS ENTRIES carries that entry's cumulative figure, and a junction that
+    # qualifies for the best-supported buildable panel but appears in no entry carries "adds
+    # nothing". `EWSR1 e7::NR4A3 e2` is in rung 2 — the ladder prices the type 2 transcript on the
+    # same single series — while the other three exon-2 seams are in no entry at all. "Pooled into
+    # the panel" is a different question with an unchanged answer: none of them is in the 38.
+    ladder_backed_noncoding = [label for _, src, label, _ in _TABLE7_ROWS
+                               if src == "noncoding" and (cover.get(label) or (None, None, None))[2]
+                               is not None]
 
     rows, pending = [], list(unclaimed)
     for role, src, label, key in _TABLE7_ROWS:
@@ -802,7 +915,7 @@ def table7(per_junction, noncoding, gap, ladder):
     hdr = ("| reagent | junction | sequence | geometry | gap-level margin | gap-paired near-matches "
            "→ loci at the deeper ceiling | longest mature-parent duplex through the gap | "
            "cumulative coverage | basis |")
-    return "\n".join([hdr, "|---|---|---|---|---|---|---|---|---|"] + rows)
+    return "\n".join([hdr, "|---|---|---|---|---|---|---|---|---|"] + rows), ladder_backed_noncoding
 
 
 def table4(per_junction, thermo):
@@ -934,7 +1047,17 @@ def table5(gap):
 
     rows = [
         "| **At the *EWSR1* e12 / *TAF15* e11 / *FUS* e10 junction** | | | |",
-        row("design (5′→3′)", lambda d: d["antisense_5to3"], lead),
+        # ⛔ THE ONLY BARE SEQUENCE CELLS IN THE DOCUMENT, AND THE PDF TEXT LAYER FUSED THEM WITH THE
+        # CELL BELOW (built-PDF finding, 2026-08-17). Every other table wraps its sequences in
+        # `5′-…-3′`; this row printed them bare and relied on its ROW LABEL to carry the orientation,
+        # which survives in the rendered table and does not survive extraction: pulled out of the
+        # deposit PDF, `CAGGGCATATCATCAAACCA` came out immediately adjacent to the numeric cell
+        # underneath it, and extractors that drop the cell boundary hand a reader `…CAAACCA3` — a
+        # transcribed 20-mer with a trailing digit, ordered as a 21-mer that is not this molecule.
+        # The delimiters are what BOUND the string, so they belong in the cell rather than in a label
+        # a text extractor is free to separate from it. The label loses the parenthetical it no
+        # longer needs to carry.
+        row("design", lambda d: f"5′-{d['antisense_5to3']}-3′", lead),
         row("gap-level margin", lambda d: d["gap_specificity_margin"], lead),
         row("sense-strand gap-spanning cleavage risks",
             lambda d: d["alignment_screen"]["n_true_cleavage_risk"], lead),
@@ -1204,10 +1327,18 @@ def table3(collapse, chance, thermo, graded):
         d = deep.get((lab, seq))
         deep_cell = _deep_cells(d)
         verdict = "not re-screened" if d is None else ("yes" if d["hyb"] == 0 else "**no**")
+        # ⚠ FIXED TO THE ARTIFACT'S OWN PRECISION, NOT TO JSON'S RENDERING OF IT (built-PDF finding,
+        # 2026-08-17). `junction_aso_thermo` rounds this to three decimals; JSON then drops a
+        # trailing zero, so 7.980 printed as `7.98` one row above a genuine `7.981` and the column
+        # read as a rounding slip in a table where two rows legitimately share a value (10.085 is
+        # 32 of the 190 designs — the nearest-neighbour arithmetic returns the same ΔΔG for many
+        # registers). The values were the artifact's throughout; only the number of decimals moved.
+        ddg_val = t.get("ddg37_discrimination")
         rows.append(
             f"| 5′-{seq}-3′ | {lab.replace('__', '::').replace('_', ' ')} | "
             f"{o.get('gc_percent')} | {t.get('gap_specificity_margin', '—')} | "
-            f"{t.get('ddg37_discrimination', '—')} | {o.get('n_offtarget_near_matches')} | "
+            f"{'—' if ddg_val is None else f'{ddg_val:.3f}'} | "
+            f"{o.get('n_offtarget_near_matches')} | "
             f"{_hybridisable(o)} | {ex} / {l1} | "
             f"{'—' if load is None else load} | "
             f"{', '.join(failed) if failed else 'none'} | {deep_cell} | {verdict} |")
@@ -1346,13 +1477,72 @@ def main(argv=None):
     # comes to a condemned one — and a header that describes the body cannot be written before the
     # body exists. Nothing else about the output changes.
     t1 = table1(atlas)
-    t2, any_unfiltered, deep_missing, any_no_parent = table2(collapse, chance, atlas, per_junction)
+    (t2, any_unfiltered, deep_missing, any_no_parent,
+     margin_up, margin_down) = table2(collapse, chance, atlas, per_junction)
     t3, n_clean, n_clean_junctions = table3(collapse, chance, thermo, _graded_loads())
     t4 = table4(per_junction, thermo)
     t5 = table5(gap)
     t6 = table6(expr, per_junction)
-    t7 = table7(per_junction, noncoding, gap, ladder)
+    t7, ladder_backed_noncoding = table7(per_junction, noncoding, gap, ladder)
     pct, minus, tot = _minus_strand_share(collapse)
+
+    # ⚠ TABLE 4's DENOMINATOR RULE AND THE COUNT BEHIND IT — see `_deep_depth_failures`, which
+    # asserts that the shortfall and the failures are the same three records before this is printed.
+    n_deep_failed, n_deep_attempted = _deep_depth_failures(per_junction, _registers)
+    # ⚠ AND THE ROWS TABLE 7's MEMBERSHIP SENTENCE CANNOT CLAIM FIVE MEASURED COMPARTMENTS FOR.
+    unscanned_donors, premrna_genes = _premrna_unscanned_donors(noncoding)
+    # ⚠ THE ROW-ORDER SENTENCE COUNTED ALL FOUR EXON-2 SEAMS AS "beside the panel" AND ONE OF THEM
+    # IS NOT THERE — it is a rung, several rows higher. Derived from the same two facts the class
+    # rule is derived from, so the count and the rule cannot come apart.
+    n_beside_txt = _word(sum(1 for _, s, _, _ in _TABLE7_ROWS if s == "noncoding")
+                         - len(ladder_backed_noncoding))
+
+    def _join(names, fmt="*{}*"):
+        """A derived list of gene or junction names, rendered for a sentence rather than typed."""
+        xs = [fmt.format(n) for n in names]
+        return xs[0] if len(xs) == 1 else ", ".join(xs[:-1]) + " and " + xs[-1]
+
+    # ⚠ EMITTED PER DIRECTION THAT THE TABLE ACTUALLY SHOWS, never as a pair of sentences describing
+    # a case the corpus no longer has. `margin_up` is the censoring reconciliation the paragraph
+    # above already sets up; `margin_down` is Table 4's ranking, which is a different cause.
+    margin_both = ("" if not margin_down else
+                   " Table 4 can also name one of LOWER margin, for a different reason and not a "
+                   "disagreement: it ranks by parent liability, then pre-mRNA sites, then gene "
+                   "loci, and reaches gap-level margin only as a tie-break, so a cleaner design "
+                   "outranks the highest-margin one this table names.")
+    margin_up_txt = ("" if not margin_up else
+                     ", and why Table 4 — which selects from the deeper re-screens — can name a "
+                     "design of HIGHER margin at the same junction")
+
+    # ⚠ SAME RULE: the pre-mRNA caveat is emitted only where a row's donor is outside the set the
+    # screen searched, so a re-fetch that closes the gap removes the sentence rather than leaving it
+    # describing a limitation the table no longer has.
+    premrna_caveat = ("" if not unscanned_donors else
+                      " The screen condition counts screens that RAN over a junction's designs and "
+                      "not compartments measured for every gene a row names: the pre-mRNA screen behind "
+                      f"the exon-2 acceptor rows carried unspliced sequence for {_word(len(premrna_genes))} "
+                      f"parent genes — {_join(premrna_genes)} — so a seam whose donor is outside "
+                      f"that set has an absent reading of its own donor's introns in that "
+                      f"compartment rather than a clean one. {_join(unscanned_donors)} is that case "
+                      "here, for the reason §2.6 gives, and the row is in this table on the same "
+                      "footing as the others.")
+
+    # ⚠ AND THE TWO MEMBERSHIP CLASSES ARE NAMED FROM THE LADDER — see `table7`. The clause is
+    # emitted only while an exon-2 seam is actually one of the ladder's entries.
+    exon2_rung = ("" if not ladder_backed_noncoding else
+                  " The reagent column is editorial, but which of the two membership classes a row "
+                  "falls in is the ladder's decision as well, and it is legible in the last two "
+                  "columns: a junction the ladder NAMES IN ONE OF ITS ENTRIES carries that entry's "
+                  "cumulative figure and increment, and a junction that qualifies but appears in no "
+                  "entry carries “adds nothing” and the reason instead. "
+                  "That is why one *NR4A3* exon-2 acceptor seam — "
+                  f"{_join([lb.replace('__', '::').replace('_', ' ') for lb in ladder_backed_noncoding], '{}')}"
+                  " — is a rung here while the other three are reported beside the panel: the "
+                  "ladder prices the type 2 transcript's breakpoint on the same single series, and "
+                  "such a rung can still print an increment of zero, because that series never "
+                  "named the transcript — an unnamed count rather than a measured absence. Being a "
+                  "rung of the ladder is not being pooled into the panel, which is the separate "
+                  "statement below and is unchanged.")
 
     # ⛔ THE DO-NOT-ORDER LIST, AND THE MEASUREMENT THAT SAYS WHY IT HAS TO BE PRINTED. Two of the
     # three condemned designs are register shifts of a reagent Table 7 prints; the run below is how
@@ -1431,9 +1621,8 @@ design with the highest gap-level margin at that junction, which is the ranking 
 and NOT for that junction's cleanest design — the two are often different molecules, and the
 cleanest ones are in Table 3. The margin column is therefore the best among the designs that
 RETURNED a screen at this depth: {n_failed} of the panel's {n_attempted} default-depth submissions
-failed at the remote service, which is why a junction can show fewer than five designs screened
-here, and why Table 4 — which selects from the deeper re-screens — can name a design of higher
-margin at the same junction. Near-match counts are of RefSeq
+failed at the remote service, which is why a junction can show fewer than {_word(_registers)} designs screened
+here{margin_up_txt}.{margin_both} Near-match counts are of RefSeq
 transcript accessions and are also given collapsed to distinct gene loci, since RefSeq carries one
 accession per annotated variant. A “≥” marks a right-censored count: the screens store the top
 {SAVED_HITS} hits per design, so a design with more is a lower bound. All {sum(1 for s in collapse["screens"] if s.get("junction_label"))} junction screens
@@ -1472,7 +1661,15 @@ select across the panel; this table selects within each junction, which is the q
 fusion poses. Designs are ranked by parent liability first, since sparing the wild-type parents is
 what the modality exists for, then by pre-mRNA sites, then by distinct gene loci, with ties broken
 on gap-level margin rather than on raw hit counts. Nothing was re-screened: every field is joined
-from a screen already reported above. Whether a junction has a published exon-resolved breakpoint is
+from a screen already reported above. The denominator of the “designs clearing the parent screen”
+column is not a parent-screen figure: it is how many of that junction's designs RETURNED a deep
+alignment screen, which is the screen supplying every rank key here. Each seam of this panel is
+tiled by {_word(_registers)} junction-spanning registers (Table 5), and {n_deep_failed} of the
+{n_deep_attempted} deep submissions failed at the remote service, so a design whose submission
+failed is absent from its junction's row set and appears in neither half of the cell — the only
+reason a denominator here reads below {_word(_registers)}, and an identity this generator checks
+before building the table. The parent screen itself is offline and exhaustive over every design, so
+the numerator alone is what it decided. Whether a junction has a published exon-resolved breakpoint is
 reported separately from specificity and never folded into the ranking — “published” means an
 exon-resolved EMC breakpoint is reported for that exon pair; “published (deposit)” that the exon is
 resolved by a deposited chimeric mRNA record with no peer-reviewed report behind it, which §2.3
@@ -1554,12 +1751,13 @@ measurement of cleavage, and no expression figure is a predicted cleavage event.
 arms beside them, what each costs on each screen and what each buys in coverage.** The rows are in the order §4 decides them:
 the two lead reagents, the rungs of the coverage ladder above them, the bounds above those, the
 remaining junction with a published exon-resolved breakpoint and a reagent through all five deep
-screens, the four *NR4A3* exon-2 acceptor seams reported beside the panel, and the two contrast
-arms. Membership is the coverage ladder's and not this table's: every junction its best-supported
-buildable panel qualifies — a published exon-resolved breakpoint and five completed deep screens,
-each read from the table that owns it — has a row here whether or not §4 names its reagent, and the
-generator refuses to build if one is missing. A row can therefore qualify and still buy no coverage,
-which is a statement about the denominator and not about the reagent. Cumulative coverage is the
+screens, the {n_beside_txt} *NR4A3* exon-2 acceptor seams the ladder carries no entry for, reported
+beside the panel, and the two contrast arms. Membership is the coverage ladder's and not this table's: every junction its best-supported
+buildable panel qualifies — a published exon-resolved breakpoint, and all five specificity screens
+run to completion over that junction's designs, each condition read from the table that owns it —
+has a row here whether or not §4 names its reagent, and the generator refuses to build if a
+qualifying junction has no row. A row can therefore qualify and still buy no coverage,
+which is a statement about the denominator and not about the reagent.{premrna_caveat}{exon2_rung} Cumulative coverage is the
 coverage of the reagent set through that row, so the two leads are
 one rung and carry one figure between them; it is discounted by the breakpoint distribution of a
 single series and is not a partner figure, and its interval is composed from each breakpoint

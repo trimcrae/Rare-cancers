@@ -17,8 +17,9 @@ scope: >
   clinical readiness for any sequence. Every sequence named is a research reagent for laboratory
   investigation only and must not be administered to any person or animal. ⚠ THIS BLOCK IS STRIPPED
   FROM BOTH PDF BUILDS by build_submission_pdf.py and reaches no reader of the deposited article, so
-  it is a routing copy: the operative statements live in the Abstract, in Box 1, in section 4.1 and
-  in Declarations, and deleting them from there deletes them from the paper.
+  it is a routing copy: the operative statements live in the Abstract, in section 4.1 and in
+  Declarations, and deleting them from there deletes them from the paper. Box 1 points at
+  Declarations rather than restating it.
 audience: [external reviewers, collaborators, maintainers]
 date: 2026-08-15
 last_verified: 2026-08-15
@@ -42,37 +43,24 @@ myxoid chondrosarcoma; oligonucleotide design pipeline; off-target screening
 ## Abstract
 
 Extraskeletal myxoid chondrosarcoma (EMC) is an ultra-rare sarcoma in which a variable partner gene
-fuses to *NR4A3*. Its breakpoint junction is present in no normal gene, so an antisense gapmer could
-in principle cleave the fusion transcript while sparing both parent genes; none has been reported,
-and designs are easy to find. Of 190 junction-spanning designs across the 38 in-frame junctions of the five
-modelled partners, 87 pair their catalytic gap against a mature parent transcript over a contiguous
-duplex of at least ten base pairs, 61 against wild-type *NR4A3*; 19 pair a parent in precursor RNA,
-where RNase-H1 is also active and a mature-transcript screen cannot reach, and 13 of those 19 are
-already among the 87. Arbitrary sequence does not pair a parent nearly as often: scrambles reach 6.2% on the same screen and chimeras joining the same
-two parents at random offsets 23.8%, against 45.8% observed. Nor does this panel resolve that excess
-as specific to the disease's own breakpoints: a chimera drawn at real exon termini of the same two
-transcripts, at junctions no patient is reported to carry, reaches 40.6%, and the observed rate's
-own interval contains it. Designs that look clean mostly stop looking clean: six of the nine
-with no sense-strand *near-match* (≥14 of 16 positions) lose the property at ten times the search
-depth. Lengthening the gap quiets the transcriptome but cannot separate the fusion from its parents, for an
-arithmetic rather than an empirical reason: in every
-design of all three geometries tiled here, the junction-unique bases a longer gap wins and the
+fuses to *NR4A3*, creating a junction present in no normal transcript. An antisense gapmer could in
+principle cleave the fusion and spare both parent genes; none is reported. Of 190 junction-spanning
+designs across the 38 in-frame junctions of five modelled partners, 87 pair their catalytic gap
+against a mature parent transcript over a contiguous duplex of at least ten base pairs, 61 against
+wild-type *NR4A3*. Arbitrary sequence pairs a parent far less often: scrambles reach 6.2% and
+random-offset chimeras of the same two parents 23.8%, against 45.8% observed. Nor is that excess
+resolved as specific to the disease's own breakpoints: an exon-terminus chimera no patient is
+reported to carry reaches 40.6%. Lengthening the catalytic gap quiets the transcriptome but cannot
+separate the fusion from its parents: the junction-unique bases a longer gap wins and the
 wild-type-parent duplex it concedes are the same nucleotides. The work is computational: no wet-lab
-experiment was performed, no sequence named has been synthesised or tested, and nothing here asserts
-efficacy, safety, delivery to a tumour or clinical readiness. Every sequence named below is a
-research reagent for laboratory investigation only; it is not a medicine and not a candidate drug,
-and it must not be administered to any person or animal. Two reagents are named for synthesis with
-their off-target loads, 5′-GGGCATATCATCAAAC-3′ at *EWSR1* exon 12 and 5′-GGGCATATCTTGTGTG-3′ at
-*TAF15* exon 6; three as not to be used because each pairs its whole catalytic gap against the
-patient's own un-rearranged *NR4A3* allele, with the controls and the selectivity value that would
-falsify the ranking at its top margin. What share of patients those two junctions represent is arithmetic over two
-published cohorts and not a screening result: no patient was screened with either sequence.
-Discounting the partner prevalence of 58 molecularly confirmed cases by a separate 18-case series'
-breakpoint distribution gives roughly two thirds, spanning 40–83% on Wilson bounds with the partner
-shares held fixed; the *TAF15* arm is three tumours, so one moves it about five points, and what
-fraction of EMC is molecularly confirmed at all is stated by no source retrieved here. The design and
-screening pipeline is released, so a candidate can be designed for a breakpoint outside this panel by
-the same procedure.
+experiment was performed, nothing has been synthesised or tested, and nothing here asserts efficacy,
+safety, delivery to a tumour or clinical readiness. Every sequence named below is a research reagent
+for laboratory investigation only and must not be administered to any person or animal. Two are
+named for synthesis with their off-target loads, 5′-GGGCATATCATCAAAC-3′ at *EWSR1* exon 12 and
+5′-GGGCATATCTTGTGTG-3′ at *TAF15* exon 6, and three as not to be used, each pairing its whole
+catalytic gap against the patient's own un-rearranged *NR4A3* allele. The design and screening
+pipeline is released, so a candidate can be designed for a breakpoint outside this panel by the same
+procedure.
 
 ---
 
@@ -154,14 +142,8 @@ before the Methods (§6) define them.
 
 ## Box 1 · Sequences, cautions and the void condition
 
-**Research use only — read before ordering anything.** Every sequence in this paper, in Box 1, in
-§4.1 and in Tables 4 and 7, is a research reagent intended for laboratory investigation only. None
-is a medicine, an investigational medicinal product or a candidate drug; none has been synthesised
-or tested by anyone; and none may be administered to any human being or animal, compounded for such
-use, or supplied to anyone for such use. Custom oligonucleotide synthesis is commercially available
-to anyone who can pay for it, so the restriction is on use and not on access, and no result reported
-here lifts it. A person with EMC seeking treatment should be directed to a clinical trial or a
-sarcoma centre, not to this table.
+**Research use only.** Every sequence in this box is a research reagent for laboratory investigation
+only, and the operative statement is in Declarations.
 
 Every line below points at a fuller statement in the section cited, and none of it is argued here.
 
@@ -554,8 +536,10 @@ mismatches. All three are named here as not to be carried forward and are exclud
 best-design field above. Both seams keep a reagent, 5′-AGTGGGCTCTCCACGG-3′ and
 5′-ATGAGGGCCTTGTGTG-3′, the second's catalytic gap carrying three *TAF15*-derived bases the *NR4A3*
 locus does not have and returning no wild-type site at all on the two screens that reach this seam.
-What is lost is not a seam but the assumption that designs tiled across one seam are
-interchangeable.
+That second reagent is not certifiable under the criterion §4.5 states, and §3 withdraws it on that
+ground: its acceptor is a cryptic exon, which three of the five screens cannot address at all, so
+what it holds is a quiet reading on two instruments rather than a clearance. What is lost is not a
+seam but the assumption that designs tiled across one seam are interchangeable.
 
 Two things about that finding matter more than the three sequences. The first is how they were
 reached. Each had already cleared the mature-parent exclusion, and so had every other design at its
@@ -1023,9 +1007,11 @@ assumes every remaining *EWSR1* breakpoint covered, which is the larger of the t
 points and needs three further reagents the retrieved record does not resolve to an exon (Table 7).
 One fact about the screened set is invisible in the ladder, which prices rungs rather than counting
 seams: every junction with a published exon-resolved breakpoint in the retrieved record now carries
-a design taken through all five screens — the five in this panel (§2.7) and the four *NR4A3* exon-2
-acceptor seams reported beside it (§2.6), with the *PGR* seam's pre-mRNA compartment unmeasured for
-the reason §2.6 gives. That is a statement about how far the screening reached
+a screened design, the five in this panel (§2.7) and the four *NR4A3* exon-2 acceptor seams reported
+beside it (§2.6). Eight of those nine designs are taken through all five screens. The ninth, at the
+*PGR* seam, is graded on four of them, because the pre-mRNA screen's parent set does not carry that
+donor's unspliced sequence, so its pre-mRNA compartment is unmeasured rather than clean for the
+reason §2.6 gives. That is a statement about how far the screening reached
 and not a coverage figure, and it displaces nothing above it: how many patients a reagent set
 reaches is the ladder's question, priced on the single series behind it. SI §S6 carries the rest
 of the ladder's bookkeeping — the count of those seams, a second basis that prices them on the whole
@@ -1617,6 +1603,17 @@ antisense design rules: GC within 40–60%, no G-quadruplex motif, no homopolyme
 CpG dinucleotide. The audit is not there to grade the designs, but to ask whether conventional triage
 and the gap-level margin would select the same molecules.
 
+**Sequences.** **Do not order an oligonucleotide by copying it out of this PDF.** Every sequence
+named here travels with the archive as `fusion-junction-aso-sequences.csv` and
+`fusion-junction-aso-sequences.fasta`, which are the canonical record: they are generated from the
+same artefacts as the tables, they carry each design's geometry, junction and gap-level margin, and
+they flag the three designs §2.6 names as not to be carried forward. A typeset table cell is not a
+machine-readable record — whether a sequence and the column beside it stay separate on extraction is
+a property of the reader's software — and the sequences here are 16 to 20 bases in which a single
+substitution changes what the molecule does. The bases alone are also not the reagent: the geometry
+column denotes locked-nucleic-acid wings around a DNA gap on a phosphorothioate backbone (§6), and
+unmodified DNA of the same sequence is a different molecule about which nothing reported here holds.
+
 **Availability.** All code, graded artefacts and per-design tables are released under a single
 archived version, deposited from the public repository at `github.com/trimcrae/Rare-cancers`
 [ARCHIVE DOI — PLACEHOLDER, AUTHOR TO SUPPLY BEFORE DEPOSIT: the archive has not been deposited and
@@ -1756,7 +1753,11 @@ taken from published reports and are cited.
 
 **Use of AI tools.** A large language model (Claude, Anthropic) was used throughout this work: to
 write the analysis code, to run the graded design and screening pipelines, to draft and revise this
-manuscript, and to conduct internal critical review of earlier drafts. Every quantitative statement
+manuscript, and to conduct internal critical review of earlier drafts. The work ran from 21 June
+2026, the first commit of the design code, to 17 August 2026, and the repository's commit record
+names two model versions over that span and no other: Claude Opus 4.8 for the design and screening
+code committed between 21 June and 3 July 2026, and Claude Opus 5 for everything committed from
+6 August 2026 onward, which includes every version of this manuscript. Every quantitative statement
 derived from sequence or from a screen is produced by code in the released archive and is reproducible
 from it, while the clinical figures are transcribed from the publications cited for them; no numerical
 result was generated by a language model directly. Every literature identifier was checked against a

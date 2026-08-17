@@ -404,6 +404,25 @@ PROMISES = [
                      "research/manuscripts/aso/aso-delivery-antigen-2026-08-08.md"],
     },
     {
+        "id": "canonical_sequence_record",
+        # ⛔ THE DEPOSIT MUST CARRY A COPY OF THE SEQUENCES THAT WAS NEVER TYPESET (2026-08-17).
+        # A blind screen of the built PDF found table sequences printed with no 5′-/-3′ delimiters,
+        # sitting against a numeric cell, so one extractor returned a 16-mer with a trailing digit.
+        # For a paper whose deliverable is orderable oligos that is a wrong-reagent hazard, and
+        # padding the cells only fixes the extractor we happened to test.
+        "promise": "the canonical machine-readable record of every sequence this deposit names",
+        "contributes": ("Every design the three deposit documents name, in CSV and FASTA, with its "
+                        "geometry, junction, gap-level margin, longest wild-type-parent duplex and "
+                        "an explicit do-not-order flag on the three designs that pair their whole "
+                        "catalytic gap against the un-rearranged NR4A3 allele. The generator "
+                        "refuses to build if any sequence the documents print is absent, so the "
+                        "file cannot quietly stop being canonical."),
+        "patterns": ["research/manuscripts/aso/fusion-junction-aso-sequences.csv",
+                     "research/manuscripts/aso/fusion-junction-aso-sequences.fasta",
+                     "research/manuscripts/aso_sequence_manifest.py",
+                     "research/manuscripts/tests/test_pdf_text_layer_is_orderable.py"],
+    },
+    {
         "id": "reproduction_guards",
         "promise": ("Every quantitative statement here is produced by code in the released "
                     "archive and is reproducible from it"),
