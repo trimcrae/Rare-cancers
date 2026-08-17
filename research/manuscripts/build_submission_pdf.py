@@ -69,10 +69,14 @@ PAPERS = {
         #: Legend prefix -> the SVG that legend describes. Stated rather than inferred from
         #: filename order, because `aso_figure_provenance.py` is explicit that nothing checks
         #: whether a legend describes its figure, and a silent mis-pairing is unreadable in a PDF.
+        #: ⚠ RENUMBERED 2026-08-17 TO CITATION ORDER. The multi-partner seam is cited in §2.2 and
+        #: the gap-length identity in §2.9, so numbering them 2 and 3 the other way round made the
+        #: paper cite Figure 3 before Figure 2 — the order every journal style and every reader
+        #: expects display items to run in. Was: Figure 2 = gap-length, Figure 3 = multi-partner.
         "figures": {
             "Figure 1.": "aso-junction-space.svg",
-            "Figure 2.": "aso-gap-length-tradeoff.svg",
-            "Figure 3.": "aso-multipartner-seam.svg",
+            "Figure 2.": "aso-multipartner-seam.svg",
+            "Figure 3.": "aso-gap-length-tradeoff.svg",
             "Supplementary Figure S1.": "aso-chance-baseline.svg",
         },
         #: ⚠ THE CHANCE-BASELINE PANEL IS NEVER CITED BY NAME IN THE BODY, so the journal style
@@ -80,8 +84,9 @@ PAPERS = {
         #: section that states the baseline it draws — the 8.2 expectation against the measured
         #: 718,571,139-nucleotide span. Declared here rather than guessed at render time, and the
         #: build fails if an uncited item has no declaration.
-        #: ⚠ RENUMBERED 2026-08-15: it was Figure 3 until the gap-length identity took Figure 2 and
-        #: the multi-partner seam moved to Figure 3, which pushed this panel to the supplement.
+        #: ⚠ RENUMBERED 2026-08-15: it was Figure 3 until a fourth panel was added and pushed it to
+        #: the supplement. Which of the other two is Figure 2 changed again on 2026-08-17; this
+        #: panel is supplementary either way, because it is cited nowhere in the body.
         #: ⚠ RE-ANCHORED 2026-08-16 from the number "3.10" to heading TEXT: the editorial pass
         #: merged that subsection away and the build failed on a stale number. Numbers drift here
         #: roughly every restructure; the title travels with the argument.

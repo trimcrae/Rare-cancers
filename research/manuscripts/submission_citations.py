@@ -46,6 +46,18 @@ OUT_MD = os.path.join(HERE, "aso", "fusion-junction-aso-submission-references.md
 #: silently numbered, because the main text's list is generated from the MAIN TEXT.
 SI = os.path.join(HERE, "aso", "fusion-junction-aso-supplementary-information.md")
 OUT_JSON = os.path.join(HERE, "aso", "fusion-junction-aso-submission-references.json")
+#: ⛔ THE DATA A PAPER USES IS A CITATION, AND THESE HAD NO ENTRY AT ALL (added 2026-08-17).
+#: bioRxiv asks authors to cite the laboratory, website and accession numbers for the data they use.
+#: Six external records — a GEO series, two GenBank deposits, four patent sequence records, a DepMap
+#: release and three Cellosaurus records — appeared in the manuscript ONLY as bare inline
+#: identifiers, so a reader could see WHICH record was used and not whose it is or where it lives.
+#: ⚠ THEY ARE NOT NUMBERED INTO THE MAIN LIST, AND THAT IS DELIBERATE. The numbering above is
+#: derived from the PubMed identifiers carried in the manuscript's superscript comments, which is
+#: the whole reason a superscript and its reference cannot drift apart. A database record has no
+#: PMID, so numbering one would mean inventing an annotation this module cannot check — trading a
+#: real guarantee for a cosmetic one. They are cited in the text by accession, which is the form the
+#: repositories and the Resource Identification Initiative specify, and listed in full here.
+DATA_SOURCES = os.path.join(HERE, "aso", "fusion-junction-aso-data-sources.json")
 
 #: `<sup>8–11</sup><!--PMID:33241214,36265509,21846246,23052253-->`
 CITE = re.compile(r"<sup>([0-9,–\-\s]+)</sup>\s*<!--\s*PMID:\s*([0-9,\s]+?)\s*-->")
@@ -175,7 +187,10 @@ def load_meta():
     harvested = _harvested_records()
     for p, src in harvested.items():
         e = out.setdefault(p, {"pmid": p})
-        for k in ("authors", "title", "journal", "volume", "issue", "year", "doi"):
+        # ⚠ `pages` BELONGS IN THIS LIST AND WAS MISSING FROM IT — see the `_ALIASES` note. A field
+        # the normaliser now carries is still dropped if the gap-filling loop does not name it, so
+        # the two lists have to move together.
+        for k in ("authors", "title", "journal", "volume", "issue", "pages", "year", "doi"):
             if not e.get(k) and src.get(k):
                 e[k] = src[k]
     return out
@@ -192,12 +207,30 @@ HARVEST_SOURCES = [
     # corpus was frozen, so no source above can see them — which the `_literature_cache` docstring
     # names as a reason to fetch again and never a reason to type an author list.
     os.path.join(HERE, "aso", "lit-targets-nr4a-redundancy.json"),
+    # ⛔ ADDED 2026-08-17, AFTER A BLIND SCREEN OF THE BUILT PDF. Twenty of the 52 entries rendered
+    # with no volume, no page range or — for four of them — no journal name at all, because the
+    # record that first claimed each PMID came from a curated registry row or a pre-2026-08-09
+    # corpus that never carried those fields. Every one was completable from a fetch, and the only
+    # alternative to fetching was typing a volume number from memory. Retrieved in one Europe PMC
+    # dispatch (workflow run 32063358095) and committed HERE rather than left on literature-cache,
+    # because CI checks that branch out for nothing — the 2026-08-13 red build on PMID 7545436 was
+    # exactly a record reachable only from a machine that happened to have fetched it.
+    os.path.join(HERE, "aso", "lit-targets-aso-bibliography-completion.json"),
 ]
 
 #: Europe PMC, Crossref, OpenAlex and PubMed disagree on the spelling of the same three fields.
 _ALIASES = {"authors": ("authors", "authorString"),
             "journal": ("journal", "journalTitle"),
-            "year": ("year", "pubYear")}
+            "year": ("year", "pubYear"),
+            #: ⛔ `pages` WAS THE ONE FIELD THE HARVESTER COULD NOT SEE, AND IT IS THE ONE A BLIND
+            #: SCREEN OF THE PDF NAMED (measured 2026-08-17). `scripts/fetch-paper.mjs` has emitted
+            #: `pages: r.pageInfo` since the 2026-08-09 journal fix, and `build_reference_list.py`
+            #: lists it in NICE — but this module's normaliser and its gap-filling loop both
+            #: enumerated their fields by hand and both omitted it. So a page range could be sitting
+            #: in a harvested record and still print as nothing, and six entries that had a volume
+            #: and an issue rendered with no pages for exactly that reason. Europe PMC spells it
+            #: `pageInfo`; a fetch product of ours spells it `pages`.
+            "pages": ("pages", "pageInfo")}
 
 
 def _normalise(rec, pmid):
@@ -288,6 +321,27 @@ def _literature_cache():
     return out
 
 
+def load_data_sources():
+    """The external data records the paper uses, as citable entries. Read, never composed here.
+
+    ⛔ EVERY FIELD IN THAT FILE IS COPIED FROM A COMMITTED FETCH PRODUCT and says which one, exactly
+    as the bibliographic records above do. A database record's citation has different parts from a
+    paper's — repository, accession, release, depositor — and a field a fetch did not capture (a
+    DepMap release DOI, a Cellosaurus version) is ABSENT there with the absence stated, rather than
+    reconstructed from a plausible URL pattern. That is the same rule as `[METADATA NOT RETRIEVED]`
+    wearing the clothes of a different record type: ⚠ never invent a journal for a database.
+    """
+    if not os.path.exists(DATA_SOURCES):
+        return []
+    return (json.load(open(DATA_SOURCES)).get("entries") or [])
+
+
+def format_data_source(e):
+    """One data citation. The `citation` string is the record's own; this only labels its kind."""
+    kind = e.get("kind")
+    return f"- **{e.get('key')}** — {e['citation']}" + (f" *({kind}.)*" if kind else "")
+
+
 def format_entry(n, pmid, meta):
     e = meta.get(pmid)
     if not e:
@@ -357,13 +411,25 @@ def main(argv=None):
                 open(SI, "w", encoding="utf-8").write(si_new)
                 print(f"  renumbered superscripts in {os.path.basename(SI)}")
         lines = [format_entry(n, p, meta) for p, n in sorted(order.items(), key=lambda kv: kv[1])]
+        data = load_data_sources()
+        block = ""
+        if data:
+            block = ("\n\n## Data sources\n\n"
+                     "*The external data records this work uses, cited in the text by accession. "
+                     "They carry no PubMed identifier and so take no number in the list above; "
+                     "each entry names its repository and, where the record type has one, its "
+                     "release. A field the retrieval did not return is absent and said to be "
+                     "absent — no journal is invented for a database.*\n\n"
+                     + "\n".join(format_data_source(e) for e in data) + "\n")
         open(OUT_MD, "w", encoding="utf-8").write(
             "<!-- GENERATED — DO NOT EDIT. Regenerate: python3 "
             "research/manuscripts/submission_citations.py --write -->\n\n"
             "# References — fusion-junction ASO submission\n\n"
             f"*{len(order)} entries, numbered by first citation in the submission manuscript. "
             "Metadata is read from retrieved bibliographic records; an unretrieved field is left "
-            "absent rather than completed.*\n\n" + "\n".join(lines) + "\n")
+            "absent rather than completed."
+            + (f" {len(data)} data sources follow, unnumbered." if data else "")
+            + "*\n\n" + "\n".join(lines) + "\n" + block)
         json.dump({"_what": ("Every reference cited by the submission manuscript, numbered by "
                              "order of first citation, with the bibliographic record each entry "
                              "was rendered from."),
@@ -376,7 +442,15 @@ def main(argv=None):
                    "numbering": {p: n for p, n in sorted(order.items(), key=lambda kv: kv[1])},
                    "records": {p: meta[p] for p in order if p in meta},
                    "without_fetched_metadata": sorted(missing),
-                   "unannotated_superscripts": sorted(set(bare))},
+                   "unannotated_superscripts": sorted(set(bare)),
+                   "n_data_sources": len(data),
+                   "data_sources": data,
+                   "_data_source_provenance": (
+                       "Copied from fusion-junction-aso-data-sources.json, whose every field is in "
+                       "turn copied from a committed fetch product named per entry. Data sources "
+                       "are cited in the text by accession and take no number in the list above, "
+                       "because the numbering is derived from PubMed identifiers and a database "
+                       "record has none.")},
                   open(OUT_JSON, "w"), indent=2)
         print(f"  wrote {os.path.basename(OUT_MD)} and {os.path.basename(OUT_JSON)}")
     elif "--check" in argv:

@@ -215,19 +215,19 @@ def test_the_clinically_relevant_reagents_deep_load_is_six_loci_not_123_transcri
     # 189 is this design's raw deep near-match count AND, by coincidence, the chance expectation the
     # Methods quote — "189 near-matches for any 16-mer whatever over the exhaustive scan's measured
     # span". When the editorial restructure moved this design's raw count out of the prose and into
-    # generated Table 2, the assertion went on passing against the chance sentence, which is a
+    # the generated per-junction specificity table, the assertion went on passing against the chance sentence, which is a
     # different quantity about a different population. A substring that two unrelated claims can both
-    # satisfy is not a guard. The count is now checked WHERE IT LIVES — Table 2's deeper-ceiling
+    # satisfy is not a guard. The count is now checked WHERE IT LIVES — that table's deeper-ceiling
     # columns, generated from the screens — and against the design's own row.
     tables = os.path.join(REPO, "research", "manuscripts", "aso",
                           "fusion-junction-aso-submission-tables.md")
     if os.path.exists(tables):
         whole = open(tables, encoding="utf-8").read()
-        assert "**Table 2." in whole, "Table 2 is not in the generated tables file"
-        # ⚠ SCOPED TO TABLE 2's OWN BLOCK. This molecule has a row in four of the seven tables, and
+        assert "**Table 3." in whole, "the per-junction specificity table is not in the generated tables file"
+        # ⚠ SCOPED TO THAT TABLE's OWN BLOCK. This molecule has a row in four of the seven tables, and
         # they carry different quantities under similar-looking columns.
-        body = whole[whole.index("**Table 2."):]
-        body = body[:body.index("**Table 3.")] if "**Table 3." in body else body
+        body = whole[whole.index("**Table 3."):]
+        body = body[:body.index("**Table 4.")] if "**Table 4." in body else body
         rows = [r for r in body.splitlines()
                 if "5′-GGGCATATCATCAAAC-3′" in r and "::NR4A3 e3 |" in r]
         assert len(rows) == 3, rows          # the one molecule spans EWSR1 e12, TAF15 e11, FUS e10

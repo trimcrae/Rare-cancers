@@ -181,7 +181,8 @@ def test_a_sequence_beyond_the_threshold_is_not_in_the_neighbourhood():
 
 def test_the_null_arithmetic_agrees_with_the_committed_chance_baseline():
     """⛔ ONE FACT, ONE PLACE applies to a FORMULA too. `offtarget_chance_baseline.n_within` is what
-    the manuscript's Figure 3 and section 3.6 are computed from; a genome arm that quietly used a
+    the manuscript's chance-expectation panel (Supplementary Figure S1) and section 3.6 are
+    computed from; a genome arm that quietly used a
     different combinatorial would put two incompatible nulls in one paper."""
     base = pytest.importorskip("offtarget_chance_baseline")
     for k in (0, 1, 2, 3):

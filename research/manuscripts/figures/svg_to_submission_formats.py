@@ -100,16 +100,19 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 # The figures of the ASO research article, in manuscript order. Named explicitly rather than
 # globbed, because this directory also holds matplotlib-authored figures that already have their
 # PDF and PNG and must not be re-rendered through a different pipeline.
-# ⚠ THE ORDER CHANGED ON 2026-08-15 AND THE ORDER IS THE POINT. External review observed that the
-# paper's most original result — the gap-length identity of section 3.8 — was buried with no figure,
-# while Figure 2 was given to the multi-partner molecule, which section 3.2 states is a hypothesis
-# about junctions no patient is known to carry. Visual emphasis was contradicting the paper's own
-# caveat. The gap-length figure is now Figure 2, the multi-partner seam is Figure 3, and the
-# chance-expectation bar chart moved to the supplement.
+# ⚠ THE ORDER CHANGED ON 2026-08-15 AND AGAIN ON 2026-08-17, AND THE ORDER IS THE POINT.
+# 2026-08-15: external review observed that the paper's most original result — the gap-length
+# identity — was buried with no figure, so a panel was drawn for it and the chance-expectation bar
+# chart moved to the supplement. That pass ALSO gave the gap-length panel the number 2 for
+# emphasis, which is the wrong axis to number on: a blind screen of the built PDF found the paper
+# citing Figure 3 before Figure 2, because the multi-partner seam is cited in §2.2 and the
+# gap-length identity in §2.9. Display items are numbered in order of first citation, and
+# prominence is bought with placement and legend, not with a number. So the multi-partner seam is
+# now Figure 2 and the gap-length figure Figure 3, which is the order a reader meets them in.
 ASO_FIGURES = [
     "aso-junction-space.svg",         # Figure 1
-    "aso-gap-length-tradeoff.svg",    # Figure 2  (was: none — the result had no figure)
-    "aso-multipartner-seam.svg",      # Figure 3  (was: Figure 2)
+    "aso-multipartner-seam.svg",      # Figure 2  (was: Figure 3; before that, Figure 2)
+    "aso-gap-length-tradeoff.svg",    # Figure 3  (was: Figure 2 — cited last, numbered second)
     "aso-chance-baseline.svg",        # Supplementary Figure S1 (was: Figure 3)
 ]
 

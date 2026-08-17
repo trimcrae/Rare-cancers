@@ -60,6 +60,40 @@ def _canonical_sequences():
     return {r["sequence"] for r in rows}
 
 
+#: Everything the deposited PDF is built FROM. If any is newer than the PDF, the PDF is stale and
+#: every assertion below is being made about a document that is not the one a depositor would upload.
+_SOURCES = (
+    os.path.join(ASO, "fusion-junction-aso-research-article.md"),
+    os.path.join(ASO, "fusion-junction-aso-submission-tables.md"),
+    os.path.join(ASO, "fusion-junction-aso-submission-references.md"),
+    SEQ_CSV,
+)
+
+
+def test_the_deposited_pdf_is_not_stale():
+    """⛔ A GUARD THAT PASSES AGAINST A STALE PDF IS WORSE THAN NO GUARD, AND THIS ONE DID.
+
+    Measured 2026-08-17: a rebuild of the manuscript-style PDF failed with a FileNotFoundError while
+    the journal-style build succeeded, and every check in this file then went GREEN — against the
+    PREVIOUS PDF, still sitting on disk. The document being asserted about was not the document the
+    build had just failed to produce.
+
+    ⚠ That is the same shape as every defect this file exists for: a check that reports while
+    measuring something other than what it claims. The freshness question has to be asked FIRST and
+    separately, because a passing text-layer assertion carries no information about which text layer
+    it read.
+    """
+    assert os.path.exists(PDF), f"{PDF} is missing — the file a depositor uploads does not exist."
+    pdf_mtime = os.path.getmtime(PDF)
+    newer = [os.path.basename(s) for s in _SOURCES
+             if os.path.exists(s) and os.path.getmtime(s) > pdf_mtime]
+    assert not newer, (
+        f"the deposited PDF is older than {newer}, so it does not contain the current manuscript and "
+        "every other check in this file would be asserting about the wrong document. Rebuild with "
+        "`python3 research/manuscripts/build_submission_pdf.py --paper aso --style manuscript` and "
+        "confirm it reports a page count rather than a traceback.")
+
+
 @pytest.fixture(scope="module")
 def pdf_text():
     assert os.path.exists(PDF), (

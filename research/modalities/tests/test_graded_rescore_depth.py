@@ -5,7 +5,7 @@ column on `(source_screen, sequence)` and carried no depth. Step 0 of
 `scripts/regenerate_aso_chain.sh` re-scores every screen it finds, which produces 53 graded
 artifacts of the DEEP re-screens alongside the 39 committed default-depth ones. A default and a
 deep re-score of the same seam and the same design then wrote to the same key, and the "if the two
-MODELS disagree, say so" fold joined them: Table 3 read `31.4 / 101 / 0 / 0` for
+MODELS disagree, say so" fold joined them: the clean-designs table read `31.4 / 101 / 0 / 0` for
 `GGGCATATCTCTATAA` — the deep screen's two bounds and the default screen's two bounds in one cell,
 in a table whose legend's first sentence says it is the default-depth result. Six of the nine rows
 moved that way.
@@ -142,7 +142,7 @@ def test_a_graded_rescore_inherits_the_depth_of_the_screen_it_rescored(tmp_path)
 
 
 # ═════════════════════════════════════════════════════════════════════════════════════════════
-# 3 · Table 3's column, which is what the defect actually corrupted
+# 3 · the clean-designs table's column, which is what the defect actually corrupted
 # ═════════════════════════════════════════════════════════════════════════════════════════════
 def test_table3_residual_loads_are_default_depth_only_when_both_depths_are_present(tmp_path,
                                                                                    monkeypatch):
@@ -167,7 +167,7 @@ def test_table3_residual_loads_are_default_depth_only_when_both_depths_are_prese
 
     assert both, "no residual loads were read at all"
     assert both == default_only, (
-        "Table 3's residual-load column changed when the deeper re-scores appeared on disk. It is "
+        "the clean-designs table's residual-load column changed when the deeper re-scores appeared on disk. It is "
         "the default-depth result by its own legend, so it must not.")
 
     # ⚠ THE TEST ONLY PROVES SOMETHING IF THE TWO DEPTHS DIFFER. Show that they do — read straight
@@ -192,11 +192,11 @@ def test_no_residual_load_cell_pools_two_depths():
     """The committed table, read as a reader reads it: one number or one model-disagreement pair.
 
     ⚠ `a / b` IS THE *MODEL* DISAGREEMENT FORM and is legitimate. `a / b / c / d` is two depths
-    wearing that costume, which is exactly how `31.4 / 101 / 0 / 0` got into Table 3.
+    wearing that costume, which is exactly how `31.4 / 101 / 0 / 0` got into the clean-designs table.
     """
     tables = REPO / "research/manuscripts/aso/fusion-junction-aso-submission-tables.md"
     rows = [ln for ln in tables.read_text().splitlines() if ln.startswith("| 5′-")]
-    assert rows, "no Table 3 design rows were found"
+    assert rows, "no clean-designs table rows were found"
     for ln in rows:
         cells = [c.strip() for c in ln.split("|")]
         for c in cells:
@@ -218,7 +218,7 @@ def test_the_deeper_rescores_are_not_committed():
     legitimately materialises all 92 in the working tree — that is what step 0 does — so a
     disk-count assertion would go red on a developer who had just run the chain and would say
     nothing about what is actually deposited. What must stay true is that the deposit ships 39.
-    Both consumers that read these files are invariant to the other 53 being present: Table 3
+    Both consumers that read these files are invariant to the other 53 being present: that table
     filters on measured depth, and the archive manifest lists tracked files only.
     """
     committed = _committed_graded_names()

@@ -416,7 +416,7 @@ def test_section_3_3_partner_minima_match():
     assert "Specificity does not sort by partner" in txt
     assert "three of eight at both" in _flat(txt)
     # ⛔ AND THE DENOMINATORS MUST SUM TO THE CORPUS. The paper read "one of five at *TFG*" while
-    # the atlas, Table 1 and Table 2's six TFG rows all say six, so §3.3's five per-partner
+    # the atlas, Table 1 and the per-junction specificity table's six TFG rows all say six, so §3.3's five per-partner
     # denominators summed to 37 against a 38-junction corpus. An arithmetic error a reviewer finds
     # by adding a row, in the one paragraph whose whole point is a per-partner comparison.
     atlas = json.load(open(os.path.join(MOD, "nr4a3-fusion-junction-atlas.json")))
@@ -690,13 +690,14 @@ def test_the_discussion_recommends_the_two_published_junctions():
     # two owes the reader the rest and what each buys. Asserted against the ladder artifact so the
     # prose cannot drift off it.
     assert "*EWSR1* exon 13 to *NR4A3* exon 3" in txt
-    # ⭐ WHAT THAT REAGENT BUYS MOVED INTO GENERATED TABLE 7, 2026-08-16, AND THIS GUARD MOVED WITH
+    # ⭐ WHAT THAT REAGENT BUYS MOVED INTO THE GENERATED COVERAGE-LADDER TABLE, 2026-08-16 (it was
+    # Table 7 then and is Table 5 since the 2026-08-17 renumber), AND THIS GUARD MOVED WITH
     # IT. The prose used to carry "takes the set from 68.4% to 79.0%"; the editorial pass replaced
     # the whole hand-typed coverage ladder with a generated table and a pointer at it. That is an
     # improvement rather than a loss — the increment now travels with its Wilson interval and its
     # rung, and a table generated from `fusion-junction-aso-coverage-ladder.json` cannot go stale the
     # way the sentence could. So the same fact is asserted three ways: the ladder artifact says the
-    # rung, generated Table 7 prints it, and the main text still states the base figure and sends the
+    # rung, the generated coverage-ladder table prints it, and the main text still states the base figure and sends the
     # reader to the table for the rungs above it.
     lad = json.load(open(os.path.join(REPO, "research", "manuscripts", "aso",
                                       "fusion-junction-aso-coverage-ladder.json"),
@@ -710,12 +711,12 @@ def test_the_discussion_recommends_the_two_published_junctions():
         rung["coverage_percent"] - base["coverage_percent"], 1), rung
     if os.path.exists(TABLES):
         tab = open(TABLES, encoding="utf-8").read()
-        assert "**Table 7." in tab, "Table 7 is not in the generated tables file"
+        assert "**Table 5." in tab, "the coverage-ladder table is not in the generated tables file"
         for r, suffix in ((base, ""), (rung, f" (+{rung['delta_percent_vs_previous']})")):
             lo, hi = r["coverage_percent_range"]
             assert f"| {r['coverage_percent']}% ({lo}–{hi}){suffix} |" in tab, r["panel"]
     assert f"the two are {base['coverage_percent']}%" in txt
-    assert "Table 7 gives that figure, the rungs above it and the reagent at each" in txt
+    assert "Table 5 gives that figure, the rungs above it and the reagent at each" in txt
     # ⭐ THE FOURTH, ADDED 2026-08-15 WITH THE DEPOSIT THAT RESOLVED IT. Two things must both be in
     # the prose and they pull in opposite directions: the reagent EXISTS and is screened, and its
     # arm is priced at its CEILING because one tumour has ever been sequenced there. Naming the
@@ -826,7 +827,9 @@ def test_the_chance_baseline_legend_matches_the_series_it_describes():
     ⚠ Named for the FIGURE, not its number. This was `test_the_figure_3_legend_...` until
     2026-08-15, when the chance-baseline chart moved to Supplementary Figure S1 and a new Figure 2
     took the gap-length identity. A test named after an ordinal goes stale the first time a figure
-    is reordered, and then points a future reader at the wrong panel.
+    is reordered, and then points a future reader at the wrong panel. ⚠ Vindicated on 2026-08-17:
+    the deposit was renumbered to first-citation order, the gap-length panel became Figure 3 and the
+    multi-partner seam Figure 2 — the second reshuffle in three days, and this test needed no edit.
 
     The legend said 125 design records collapse to 114 molecules, 77 at or below the chance band and
     37 above, from six multi-seam designs. The artifact says 190 records, 176 molecules, 125 at or
@@ -1116,13 +1119,20 @@ def test_the_paper_states_the_two_bounds_that_make_the_fall_partly_arithmetic():
     assert "every result reported here is specific to that geometry" not in txt
 
 
-def test_table5_cells_are_the_artifacts_and_the_paper_points_at_it():
-    """Table 5 is generated; this asserts the generated file agrees with the artifact it reads."""
+def test_the_gap_length_table_cells_are_the_artifacts_and_the_paper_points_at_it():
+    """The gap-length table is generated; this asserts it agrees with the artifact it reads.
+
+    ⚠ NAMED FOR WHAT THE TABLE SHOWS, NOT FOR ITS NUMBER. It was `test_table5_…` until the deposit
+    was renumbered to citation order on 2026-08-17 and this table became Table 7 — the same
+    staleness a figure test next door was renamed out of on 2026-08-15. The number below is a pin
+    on the generated file and has to move with it; the test's NAME does not have to be a second
+    copy of that number.
+    """
     if not os.path.exists(TABLES):
         pytest.skip("submission tables are not present in this checkout")
     gap, txt = _gaplen(), open(TABLES, encoding="utf-8").read()
     lead = gap["lead_reagent_at_the_most_commonly_reported_seam"]["by_geometry"]
-    assert "**Table 5. Gap length against junction specificity" in txt
+    assert "**Table 7. Gap length against junction specificity" in txt
     # ⛔ THE COLUMN SET IS DERIVED FROM THE ARTIFACT, NOT TYPED (2026-08-14). It was
     # `("5-6-5", "5-8-5", "5-10-5")` here and the identical tuple in the generator — two copies of
     # one list, so a fourth geometry would have been omitted from the table AND from the check that
@@ -1158,7 +1168,7 @@ def test_table5_cells_are_the_artifacts_and_the_paper_points_at_it():
     # says WHERE the hybrid is, because the two ten-base-pair rows are different measurements: this
     # one is arithmetic at the design's own seam, the one above is the mature-parent search.
     assert "| at the design's own seam, the parent pairs ≥5 nt of contiguous gap DNA |" in txt
-    assert _flat(_paper()).count("Table 5") >= 1
+    assert _flat(_paper()).count("Table 7") >= 1
 
     # ⛔ AND THE POINTER MUST COVER EVERY TABLE THAT EXISTS. The manuscript keeps its tables in a
     # generated companion file and names the range in one sentence; that sentence read "Tables 1 to

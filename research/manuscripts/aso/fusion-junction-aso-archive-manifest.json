@@ -9,13 +9,13 @@
     "Not a claim that the archived predictions are correct. Every count in the deposit is a prediction from sequence search; no off-target activity and no RNase-H cleavage was measured anywhere in this work.",
     "Not a licence statement. The depositor chooses the licence at step 4 below."
   ],
-  "git_revision": "4193b194e0e634a22e162038086b1fda09f02426",
+  "git_revision": "8eb0c21618e40c7fe3f2ce4fa4d8e63781216990",
   "git_tree_is_clean_apart_from_this_manifest": false,
   "inventory_limited_to_tracked_files": true,
-  "archive_content_digest": "647e38414615647d95890ebc704ef1b3e4711ca96d126c6735ec33daa14a06a6",
+  "archive_content_digest": "000b818b53e88f9e44ad026337340595c37ce0fac69a58b94edb6ccf5cb18c86",
   "n_files": 383,
-  "total_bytes": 23772108,
-  "total_mib": 22.671,
+  "total_bytes": 23800783,
+  "total_mib": 22.698,
   "how_to_deposit_and_mint_the_doi": [
     "1. Check out the revision named in `git_revision` and confirm `git status` is clean. The manifest's hashes are only meaningful against that tree.",
     "2. Re-run this module (`python3 research/manuscripts/aso_archive_manifest.py --check`). A non-zero exit means the tree moved after the manifest was written; regenerate before depositing.",
@@ -797,8 +797,8 @@
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-research-article.md",
-      "bytes": 144869,
-      "sha256": "5ecbaf7379a62faa87a022ef45c24b3dc95b8f8a1695fce84fd5a37b90b8a39c",
+      "bytes": 145304,
+      "sha256": "cbae78758d81aea791d2946fb8999bdd84cc4d02296997c2291dff11fe2dd1c1",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
@@ -821,16 +821,16 @@
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-submission-references.json",
-      "bytes": 70248,
-      "sha256": "eff185920fd3d0f6e9a1614b69e94c4d77467c882799250b84477b1596a83c0c",
+      "bytes": 85431,
+      "sha256": "ab4fcbf70e2b87a4dc126eec2cb201b6be7a7009155912143036960e49015e57",
       "serves": "retrieval_records",
       "also_serves": [],
       "contributes": "Bibliographic record each numbered reference was rendered from, and the retrieval products those records were harvested out of. No field in the reference list is typed from recollection."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-submission-references.md",
-      "bytes": 16529,
-      "sha256": "4a005dec125dc5b0e85121a0c27eed93b377c9b271f78e0d9b54e703c32561db",
+      "bytes": 20833,
+      "sha256": "e73e847ba4dd4939ce1a53c6ebfe902e193a57abe780653e3bb060b46292d05c",
       "serves": "retrieval_records",
       "also_serves": [],
       "contributes": "Bibliographic record each numbered reference was rendered from, and the retrieval products those records were harvested out of. No field in the reference list is typed from recollection."
@@ -838,15 +838,15 @@
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-submission-tables.md",
       "bytes": 44146,
-      "sha256": "b7dee8d95abd613760f69a981b11406c5d8a04f52f73e6f3391e2acee013c557",
+      "sha256": "eb7c664dd3206b62ec5a1d8d43faef4970ee0c5ad8147760fa5c979e13b5474d",
       "serves": "per_design_tables",
       "also_serves": [],
-      "contributes": "The two manuscript tables and the generator that derives every cell of them from the artifacts, plus the per-locus re-count and the chance baseline the tables and Figure 3 are read from."
+      "contributes": "The manuscript tables and the generator that derives every cell of them from the artifacts, plus the per-locus re-count and the chance baseline the tables and the chance-expectation panel are read from."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-supplementary-information.md",
       "bytes": 10763,
-      "sha256": "8f6fd3ea106a157c1e46e0ba4b6c6590ecd6340774ea08037f4b60cc1140e07b",
+      "sha256": "8ea57115623acca754544b436f8a09a1c2fe51a2bc54a857e1cbf6f95faac59d",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
@@ -893,8 +893,8 @@
     },
     {
       "path": "research/manuscripts/aso_archive_manifest.py",
-      "bytes": 69102,
-      "sha256": "f4cecd0bc8d52e0abe29a01b6861158aa944b68b5c8240e505675d00aed35b65",
+      "bytes": 69497,
+      "sha256": "98bade41a69534e5a6266febcabe6fb8313e6c787d296cf282cd83cba195ad98",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
@@ -1069,19 +1069,19 @@
     },
     {
       "path": "research/manuscripts/submission_citations.py",
-      "bytes": 20755,
-      "sha256": "e7d7a4722bc0d186687c359fc89bae3ea7354e9936e1b9e88743d8a89e793bc5",
+      "bytes": 26275,
+      "sha256": "8c1feb0919986057606bca3090423d893eae127069a458035bd261fa23ca83c3",
       "serves": "retrieval_records",
       "also_serves": [],
       "contributes": "Bibliographic record each numbered reference was rendered from, and the retrieval products those records were harvested out of. No field in the reference list is typed from recollection."
     },
     {
       "path": "research/manuscripts/submission_tables.py",
-      "bytes": 123823,
-      "sha256": "91ac5b79957cd5776866d57e1cae60f475fbbd9eddf5f0787fe9a89415257436",
+      "bytes": 123847,
+      "sha256": "7657f2449544bf52358d5ebff6ef115a7661d07012102c65289a3915a12dda83",
       "serves": "per_design_tables",
       "also_serves": [],
-      "contributes": "The two manuscript tables and the generator that derives every cell of them from the artifacts, plus the per-locus re-count and the chance baseline the tables and Figure 3 are read from."
+      "contributes": "The manuscript tables and the generator that derives every cell of them from the artifacts, plus the per-locus re-count and the chance baseline the tables and the chance-expectation panel are read from."
     },
     {
       "path": "research/manuscripts/tests/test_aso_figure_provenance.py",
@@ -1101,8 +1101,8 @@
     },
     {
       "path": "research/manuscripts/tests/test_pdf_text_layer_is_orderable.py",
-      "bytes": 9226,
-      "sha256": "2845ebd3096e41ed5077a00a8f1a7b1009145ceeb1c59f90f7e8fd71e07a3186",
+      "bytes": 11114,
+      "sha256": "e262b7d0fcb1d73ef7c23996fbbcd05856867daebfc2f69a75f05dc300c13174",
       "serves": "canonical_sequence_record",
       "also_serves": [],
       "contributes": "Every design the three deposit documents name, in CSV and FASTA, with its geometry, junction, gap-level margin, longest wild-type-parent duplex and an explicit do-not-order flag on the three designs that pair their whole catalytic gap against the un-rearranged NR4A3 allele. The generator refuses to build if any sequence the documents print is absent, so the file cannot quietly stop being canonical."
@@ -3167,7 +3167,7 @@
       "sha256": "1044747cf8469fe30ad3ac4f70acb1eb0228813acdab03ba5cc17f459f7ee3cf",
       "serves": "per_design_tables",
       "also_serves": [],
-      "contributes": "The two manuscript tables and the generator that derives every cell of them from the artifacts, plus the per-locus re-count and the chance baseline the tables and Figure 3 are read from."
+      "contributes": "The manuscript tables and the generator that derives every cell of them from the artifacts, plus the per-locus re-count and the chance baseline the tables and the chance-expectation panel are read from."
     },
     {
       "path": "research/modalities/junction-aso-offtarget-taf15e11n3-18mer-deep500.json",
@@ -3671,7 +3671,7 @@
       "sha256": "4e5e3877ce26288abe5db5c0c5df128ba89000026ba4b0c15e06c3dd2d82cb01",
       "serves": "per_design_tables",
       "also_serves": [],
-      "contributes": "The two manuscript tables and the generator that derives every cell of them from the artifacts, plus the per-locus re-count and the chance baseline the tables and Figure 3 are read from."
+      "contributes": "The manuscript tables and the generator that derives every cell of them from the artifacts, plus the per-locus re-count and the chance baseline the tables and the chance-expectation panel are read from."
     },
     {
       "path": "research/modalities/junction_aso_offtarget.py",
@@ -3751,7 +3751,7 @@
       "sha256": "d53fac074eeb82edc182a40e592a889fb5334cb04ef84b1f0ff671d01293b4bf",
       "serves": "per_design_tables",
       "also_serves": [],
-      "contributes": "The two manuscript tables and the generator that derives every cell of them from the artifacts, plus the per-locus re-count and the chance baseline the tables and Figure 3 are read from."
+      "contributes": "The manuscript tables and the generator that derives every cell of them from the artifacts, plus the per-locus re-count and the chance baseline the tables and the chance-expectation panel are read from."
     },
     {
       "path": "research/modalities/offtarget_chance_baseline.py",
@@ -3759,12 +3759,12 @@
       "sha256": "ee62fb4f208eaa8b8493c0f3d06e259c5bd902f33dbfcb7a9613ba7349b54ce7",
       "serves": "per_design_tables",
       "also_serves": [],
-      "contributes": "The two manuscript tables and the generator that derives every cell of them from the artifacts, plus the per-locus re-count and the chance baseline the tables and Figure 3 are read from."
+      "contributes": "The manuscript tables and the generator that derives every cell of them from the artifacts, plus the per-locus re-count and the chance baseline the tables and the chance-expectation panel are read from."
     },
     {
       "path": "research/modalities/tests/test_aso_genome_offtarget.py",
-      "bytes": 43669,
-      "sha256": "c2c9db921bff70d022b58f9c49d078a182816e42fdc4605347dfaf32b7ae41c6",
+      "bytes": 43715,
+      "sha256": "415152238e9e1c99b88af18cdbdb89021e9c240177cb3ec617bf148b72d3a9c7",
       "serves": "genome_wide_screen",
       "also_serves": [],
       "contributes": "Every distinct target window and its reverse complement tested against every position of GRCh38 in both orientations at ≤2 mismatches — a measured 3.10e9 nt, no seed and no word size, so completeness is definitional rather than argued. ⛔ THE RAW TOTAL IS NOT THE DELIVERABLE and the artifact says so first: at this threshold chance predicts of order 10^3 near-matches per 16-mer for ANY 16-mer. The readings are stratified — exact matches, where chance is of order one; observed-over-expected, which discriminates between designs; the named-target lookup, which one hit settles; and the repeat split, free from a soft-masked reference. Also carries the gap-length anchors, ported from the literature-cache branch where gate 4 cannot see them."
@@ -3787,8 +3787,8 @@
     },
     {
       "path": "research/modalities/tests/test_aso_submission_numbers.py",
-      "bytes": 111445,
-      "sha256": "071313f4c5a8ddc9e87d9b974e7533aabd806797f4c8d5bc08f5d35eacb62be8",
+      "bytes": 112265,
+      "sha256": "48d4d27653ec5464ae82be15d1850c71c89dd550c2321ff85bbbda31e9f2361a",
       "serves": "reproduction_guards",
       "also_serves": [],
       "contributes": "Test that re-derives a manuscript number from the artifacts and fails if the two diverge; this is the check a reader runs to confirm the archive reproduces the paper."
@@ -3803,8 +3803,8 @@
     },
     {
       "path": "research/modalities/tests/test_junction_aso_locus_collapse.py",
-      "bytes": 24000,
-      "sha256": "3b3081b2088e4ed1620b35eb2deccee9cd19fa03f926fd8d239f829ea01a15e8",
+      "bytes": 24060,
+      "sha256": "55cfe530ef0f7c86b3b3c87d07b97cc0018d426d1da816bf0603ea50f71b4f12",
       "serves": "reproduction_guards",
       "also_serves": [],
       "contributes": "Test that re-derives a manuscript number from the artifacts and fails if the two diverge; this is the check a reader runs to confirm the archive reproduces the paper."

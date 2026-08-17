@@ -62,7 +62,9 @@ if [ "$CHECK" = 0 ]; then
   # adds nothing where no hit list is truncated". Sweeping them in took the corpus from the
   # committed 39 to 92 and made three released sentences false; the round-7 ledger §2b traced it to
   # the end and CLOSED it as "keep 39", having confirmed the deeper screens' one extra clean design
-  # (GGGCATATCAAGCGCT at TCF12 exon 7) is already reported in the manuscript and in Table 7.
+  # (GGGCATATCAAGCGCT at TCF12 exon 7) is already reported in the manuscript and in the
+  # best-available-design-per-junction table. ⚠ NAMED BY CONTENT, NOT BY NUMBER: this read "Table 7"
+  # and the design has never been in that table — it is the TCF12 e7 row of what is now Table 2.
   # ⚠ SO THE EXCLUSION BELONGS HERE, AT THE GENERATOR. Leaving the sweep wide and catching it with
   # the guard below meant a referee cloning the archive and running this script got exit 1 and 53
   # untracked files on a repository that was CORRECT. A verification command that fails on a clean
@@ -143,9 +145,15 @@ run_step() {
 run_step "locus collapse"      "python3 $MOD/junction_aso_locus_collapse.py --write" ""
 run_step "chance baseline"     "python3 $MOD/offtarget_chance_baseline.py"           ""
 run_step "duplex thermodynamics" "python3 $MOD/junction_aso_thermo.py"   "python3 $MOD/junction_aso_thermo.py --check"
-run_step "figure 1 junction space"   "python3 $FIG/aso_junction_space_figure.py"     ""
-run_step "figure 2 multipartner seam" "python3 $FIG/aso_multipartner_seam_figure.py" ""
-run_step "figure 3 chance baseline"  "python3 $FIG/aso_chance_baseline_figure.py"    ""
+# ⚠ LABELLED BY WHAT EACH PANEL SHOWS, NEVER BY ITS FIGURE NUMBER (re-anchored 2026-08-17). These
+# read "figure 1/2/3" until the numbering moved twice underneath them — the chance-baseline panel
+# became Supplementary Figure S1 on 2026-08-15, and the seam and gap-length panels swapped on
+# 2026-08-17 when the deposit was renumbered to citation order — leaving a step label that named a
+# figure this chain was not drawing. A title travels with its content; a number does not, and the
+# manuscript's `Figure legends` section is the one home for which number each panel carries.
+run_step "figure · junction space"     "python3 $FIG/aso_junction_space_figure.py"     ""
+run_step "figure · multipartner seam"  "python3 $FIG/aso_multipartner_seam_figure.py"  ""
+run_step "figure · chance baseline"    "python3 $FIG/aso_chance_baseline_figure.py"    ""
 run_step "figure submission formats" "python3 $FIG/svg_to_submission_formats.py"     ""
 # ⛔ RECORD THE FIGURES' PROVENANCE IMMEDIATELY AFTER DRAWING THEM, AND BEFORE ANYTHING HASHES THEM.
 # Omitted until 2026-08-14, which made this script report `ASO CHAIN OK` while leaving a gate red:

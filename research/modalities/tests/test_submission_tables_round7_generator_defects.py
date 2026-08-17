@@ -10,7 +10,7 @@ never against a number typed here.
 The three (round-7 ledger §3.7):
   1. B2-F5 — Table 6's "transcript records" column is the per-locus gap-paired HIT count, captioned
      as RefSeq annotation depth.
-  2. A5-F2 — Table 7 omits `TFG_e7__NR4A3_e3`, which the coverage ladder qualifies exactly as it
+  2. A5-F2 — the coverage-ladder table omits `TFG_e7__NR4A3_e3`, which the coverage ladder qualifies exactly as it
      qualifies rows the table keeps.
   3. B3-F1 — a `setdefault` in `_ladder_coverage` let a ladder entry reach the table only through a
      junction no earlier entry contained, so the 94.8% bound — which adds three UNNAMED reagents and
@@ -114,34 +114,34 @@ def test_the_generator_refuses_to_build_if_the_record_column_stops_being_a_hit_c
 
 
 # ──────────────────────────────────────────────────────────────────────────────
-# 2 · A5-F2 — every junction the ladder qualifies has a Table 7 row
+# 2 · A5-F2 — every junction the ladder qualifies has a coverage-ladder row
 # ──────────────────────────────────────────────────────────────────────────────
 
-def assert_every_qualifying_junction_has_a_table7_row(text, ladder):
-    t7 = _section(text, 7)
+def assert_every_qualifying_junction_has_a_ladder_row(text, ladder):
+    t5 = _section(text, 5)
     for j in ladder["best_supported_buildable_panel"]["panel_membership"]["junctions"]:
         lab = j.replace("__", "::").replace("_", " ")
-        assert f"| {lab} |" in t7, f"Table 7 has no row for {j}, which the ladder qualifies"
+        assert f"| {lab} |" in t5, f"the coverage-ladder table has no row for {j}, which the ladder qualifies"
 
 
-def test_table7_carries_every_junction_the_coverage_ladder_qualifies():
+def test_the_ladder_table_carries_every_junction_the_coverage_ladder_qualifies():
     """⛔ TFG e7::NR4A3 e3 WAS THE MISSING ONE, AND NOTHING COULD NOTICE.
 
     The ladder's `panel_membership` applies two conditions, both read from the tables that own them:
     a published exon-resolved breakpoint, and a reagent through all five deep screens. Nine junctions
-    satisfy both; `_TABLE7_ROWS` named eight. TFG e7 is in the same
+    satisfy both; `_TABLE5_ROWS` named eight. TFG e7 is in the same
     `⛔_qualifying_but_contributing_exactly_zero` bucket as PGR e2::NR4A3 e2, which HAS a row, and
     §2.3 resolves its exon from a deposited chimeric mRNA exactly as it resolves TCF12 e5's.
     """
     ladder = _ladder()
-    assert_every_qualifying_junction_has_a_table7_row(_tables(), ladder)
+    assert_every_qualifying_junction_has_a_ladder_row(_tables(), ladder)
     assert "TFG_e7__NR4A3_e3" in (
         ladder["best_supported_buildable_panel"]["panel_membership"]["junctions"])
     # the row's cells are the artifact's, not typed here
     per = json.load(open(os.path.join(MOD, "aso-per-junction-table.json"), encoding="utf-8"))
     tfg = next(j for j in per["junctions"] if j["junction_label"] == "TFG_e7__NR4A3_e3")
     b = tfg["best_available"]
-    row = next(ln for ln in _section(_tables(), 7).splitlines()
+    row = next(ln for ln in _section(_tables(), 5).splitlines()
                if ln.startswith("| published seam in the panel | TFG e7::NR4A3 e3 |"))
     assert f"5′-{b['antisense_5to3']}-3′" in row, row
     assert f"| {b['gap_specificity_margin']} |" in row, row
@@ -153,18 +153,18 @@ def test_table7_carries_every_junction_the_coverage_ladder_qualifies():
 def test_dropping_a_qualifying_junction_from_the_row_spec_fails_the_build(monkeypatch):
     """⚠ FIRES: the row spec is editorial and typed, so the guard is what makes it checkable.
 
-    Removing TFG e7 restores the exact pre-fix state of `_TABLE7_ROWS`; the generator must refuse
+    Removing TFG e7 restores the exact pre-fix state of `_TABLE5_ROWS`; the generator must refuse
     rather than emit a table captioned as complete and short a row.
     """
-    monkeypatch.setattr(ST, "_TABLE7_ROWS",
-                        tuple(r for r in ST._TABLE7_ROWS if r[2] != "TFG_e7__NR4A3_e3"))
+    monkeypatch.setattr(ST, "_TABLE5_ROWS",
+                        tuple(r for r in ST._TABLE5_ROWS if r[2] != "TFG_e7__NR4A3_e3"))
     per = json.load(open(os.path.join(MOD, "aso-per-junction-table.json"), encoding="utf-8"))
     nonc = json.load(open(os.path.join(MOD, "noncoding-acceptor",
                                        "aso-noncoding-acceptor-screened-table.json"),
                           encoding="utf-8"))
     gap = json.load(open(os.path.join(MOD, "aso-gap-length-tradeoff.json"), encoding="utf-8"))
     with pytest.raises(SystemExit) as e:
-        ST.table7(per, nonc, gap, _ladder())
+        ST.table5(per, nonc, gap, _ladder())
     assert "TFG_e7__NR4A3_e3" in str(e.value)
 
 
@@ -172,14 +172,14 @@ def test_dropping_a_qualifying_junction_from_the_row_spec_fails_the_build(monkey
 # 3 · B3-F1 — no ladder entry may be deleted by first-rung-wins
 # ──────────────────────────────────────────────────────────────────────────────
 
-def assert_every_ladder_entry_reaches_table7(text, ladder):
-    t7 = _section(text, 7)
+def assert_every_ladder_entry_reaches_the_ladder_table(text, ladder):
+    t5 = _section(text, 5)
     for rung in ladder["ladder"]:
         cell = f"{rung['coverage_percent']:.1f}%"
-        assert cell in t7, f"the ladder's {rung['panel']!r} figure {cell} is in no Table 7 row"
+        assert cell in t5, f"the ladder's {rung['panel']!r} figure {cell} is in no coverage-ladder row"
         delta = rung.get("delta_percent_vs_previous")
         if delta is not None:
-            assert f"{cell}" in t7 and f"(+{delta:.1f})" in t7, (rung["panel"], delta)
+            assert f"{cell}" in t5 and f"(+{delta:.1f})" in t5, (rung["panel"], delta)
 
 
 def test_the_94_8_bound_is_deleted_by_first_rung_wins_and_the_generator_no_longer_does_that():
@@ -207,13 +207,13 @@ def test_the_94_8_bound_is_deleted_by_first_rung_wins_and_the_generator_no_longe
 
     cover, unclaimed = ST._ladder_coverage(ladder)
     assert [i for i, _ in unclaimed] == orphan, (unclaimed, orphan)
-    assert_every_ladder_entry_reaches_table7(_tables(), ladder)
+    assert_every_ladder_entry_reaches_the_ladder_table(_tables(), ladder)
 
     # the orphan's row names no reagent, because there is none to name
-    t7 = _section(_tables(), 7)
+    t5 = _section(_tables(), 5)
     for i in orphan:
         r = ladder["ladder"][i]
-        row = next(ln for ln in t7.splitlines() if f"{r['coverage_percent']:.1f}%" in ln)
+        row = next(ln for ln in t5.splitlines() if f"{r['coverage_percent']:.1f}%" in ln)
         assert r["panel"] in row, row
         assert f"{r['n_reagents_additional_unnamed']} further reagents, none named" in row, row
         assert "5′-" not in row, "a bound with no named reagent must print no sequence"
@@ -223,7 +223,7 @@ def test_every_junction_row_still_carries_its_own_first_rung_figure():
     """⚠ THE FIX MUST NOT MOVE THE JUNCTION ROWS. "Cumulative through this row" is the coverage of
     the FIRST rung containing that junction — the two leads share one figure — and a repair that
     gave each junction its LAST rung would inflate every early row."""
-    ladder, t7 = _ladder(), _section(_tables(), 7)
+    ladder, t5 = _ladder(), _section(_tables(), 5)
     cover, _ = ST._ladder_coverage(ladder)
     for i, rung in enumerate(ladder["ladder"]):
         for j in rung["junctions"]:
@@ -232,6 +232,6 @@ def test_every_junction_row_still_carries_its_own_first_rung_figure():
         if idx is None:
             continue
         lab = j.replace("__", "::").replace("_", " ")
-        row = next((ln for ln in t7.splitlines() if ln.startswith(f"| lead reagent | {lab} |")
+        row = next((ln for ln in t5.splitlines() if ln.startswith(f"| lead reagent | {lab} |")
                     or f"| {lab} | 5′-" in ln), None)
         assert row and cell in row, (j, cell, row)

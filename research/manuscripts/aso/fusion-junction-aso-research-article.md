@@ -161,12 +161,13 @@ are applied, numbered here as in §6: (1) the
 alignment screen, (2) the exhaustive transcript scan, (3) the pre-mRNA screen, (4) the mature-parent
 screen and (5) the genome scan.
 
-**The two reagents to synthesise (§4.1, Table 4).** 5′-GGGCATATCATCAAAC-3′ at *EWSR1* exon 12 joined
+**The two reagents to synthesise (§4.1).** 5′-GGGCATATCATCAAAC-3′ at *EWSR1* exon 12 joined
 to *NR4A3* exon 3, carrying 123 gap-paired sense-strand near-matches at six gene loci at the deeper
 search ceiling together with a sense-strand near-match in wild-type *TAF15* precursor RNA (§4.3); and
 5′-GGGCATATCTTGTGTG-3′ at *TAF15* exon 6, carrying 8 such near-matches at five loci and no
 sense-strand pre-mRNA site. Both hold the top gap-level margin of 3, and neither has been synthesised
-or tested. Between them they reach roughly two thirds of molecularly confirmed cases (Table 7).
+or tested. Between them they reach roughly two thirds of molecularly confirmed cases, on the
+coverage ladder that prices every rung and bound above them (§4.1).
 
 **Three designs not to be used (§2.6).** 5′-CAGTGGGCTCTCCACG-3′ and 5′-GCAGTGGGCTCTCCAC-3′ at *EWSR1*
 exon 13 joined to *NR4A3* exon 2, and 5′-TGATGAGGGCCTTGTG-3′ at *TAF15* exon 6 joined to the *NR4A3*
@@ -225,7 +226,7 @@ candidate sequences is therefore not the constraint on this modality in this dis
 ### 2.2 · Cross-partner coverage by a single oligonucleotide
 
 Nine designs span more than one partner's junction exactly, and all nine draw from *EWSR1*, *TAF15*
-and *FUS* (Figure 3). Five cover the same three-partner set, differing only in register across the
+and *FUS* (Figure 2). Five cover the same three-partner set, differing only in register across the
 junction. The best by gap-level margin is 5′-GGGCATATCATCAAAC-3′ (43.8% GC, gap-level margin 3), which
 divides eight donor and eight acceptor bases at the junction of *EWSR1* exon 12, *TAF15* exon 11 and
 *FUS* exon 10 joined to *NR4A3* exon 3, and occurs in none of the six wild-type parent transcripts.
@@ -244,7 +245,7 @@ That junction is itself in-frame and yields five fusion-specific designs (43.8�
 five screened and orientation-filtered. Every one of them retains a sense-strand near-match spanning
 the catalytic gap. At the tenfold deeper ceiling, where every hit list is complete, those recount to
 three gene loci at best, and five for the design its gap-level margin ranks first, three of those
-five annotated only as predicted gene models (Table 4). Two of the five nonetheless return no exact
+five annotated only as predicted gene models (Table 2). Two of the five nonetheless return no exact
 and no single-mismatch match on the exhaustive transcript scan.
 
 So the one *TAF15* junction with a published breakpoint is designable and is not among the cleaner
@@ -265,7 +266,7 @@ evidence for paralogy is that four additional two-partner sets are also FET-only
 
 Specificity does not sort by partner. Taking at each junction the lowest count any of its
 designs achieves after the orientation filter — a per-design minimum, which is in the released
-per-junction screens and not in Table 2, whose row is that junction's highest-margin design and not
+per-junction screens and not in Table 3, whose row is that junction's highest-margin design and not
 its cleanest — every one of the five partners has at least one
 junction whose cleanest design carries no sense-strand near-match across the catalytic gap at the
 default search ceiling: three of eight at both *TCF12* and *FUS*, two of eight at *EWSR1*, one of
@@ -286,7 +287,7 @@ the seam the panel was designed on. The base-level assignment, its chromosome-ta
 the translation check that reproduces the deposit's own recorded protein are in the released
 artefact. That junction is in-frame and designable, and its best-margin design retains 17
 gap-spanning near-matches at the deeper ceiling, every one of them a variant of a single curated
-locus, *PIK3CG* (Table 4). None of the four *TCF12* designs with no sense-strand near-match is at
+locus, *PIK3CG* (Table 2). None of the four *TCF12* designs with no sense-strand near-match is at
 that exon. So for *TCF12* as for *TAF15*, the junction a patient is reported to carry is designable
 and is not among the clean ones, while the clean junctions have no reported patient. What remains
 unmeasured at *TCF12* is not the exon but the distribution: one *TCF12*-rearranged tumour has been
@@ -306,7 +307,7 @@ reported and no percentage.
 
 ### 2.4 · Strand orientation, and designs with no sense-strand near-match
 
-All 38 in-frame junctions were screened with orientation filtered, covering 183 designs, and Table 2
+All 38 in-frame junctions were screened with orientation filtered, covering 183 designs, and Table 3
 gives the per-junction result. Of the 1,677 apparent cleavage risks across the retained hit lists,
 738 sit on the minus strand, or 44%. An antisense oligonucleotide cannot base-pair with those at all.
 
@@ -319,7 +320,7 @@ at 6 and 53.
 
 Under the stricter criterion — no sense-strand near-match anywhere, not merely across the catalytic gap
 as in §2.3 — nine designs at six junctions carry none among non-parent transcripts after filtering
-(Table 3), spanning four of the five partners: three at *EWSR1* exon 1
+(Table 4), spanning four of the five partners: three at *EWSR1* exon 1
 (5′-GGGCATATCCGTGGAC-3′, 5′-GGCATATCCGTGGACG-3′, 5′-GCATATCCGTGGACGC-3′), one at *FUS* exon 8
 (5′-AGGGCATATCGGAGTC-3′), one at *TAF15* exon 1 (5′-GGGCATATCCGACATG-3′), and four at *TCF12* —
 5′-GGGCATATCTCTATAA-3′ at exon 17, 5′-CAGGGCATATCTTGCA-3′ at exon 9, and
@@ -514,7 +515,7 @@ Their best available designs are 5′-CAGTGGGCTTCTGCTG-3′ at *EWSR1* exon 7, t
 gap-level margin 2 and 51 gap-paired near-matches over 7 loci; 5′-AGTGGGCTCTCCACGG-3′ at *EWSR1*
 exon 13, at margin 3 and 25 over 6; 5′-AGTGGGCTCTTGTGTG-3′ at *TAF15* exon 6, at margin 3 and 128
 over 6; and 5′-AGTGGGCTCTTCCATT-3′ at *PGR* exon 2, a seam reported in a single
-patient,<sup>28</sup><!--PMID:36103645--> at margin 3 and 51 over 14 (Table 7). None of the four is
+patient,<sup>28</sup><!--PMID:36103645--> at margin 3 and 51 over 14 (Table 5). None of the four is
 clean, and the least loaded is the least dirty of five dirty designs rather than a different kind of
 result. They are reported beside the panel and never pooled into it, because the grade that excludes
 their junctions from the 38 is unchanged. *PGR* carries a further caveat: it is a sixth partner,
@@ -588,7 +589,7 @@ a published patient breakpoint, which is why §4.4 uses all three as mechanism c
 candidates —
 the exon-resolved *TAF15* breakpoints reported in EMC are exon 6, no *TCF12* breakpoint is reported
 at exon 7, and for *FUS* none has been published at all. Selecting within each junction rather than
-across the panel changes what is available, not what is clean: Table 4 applies the same criteria at
+across the panel changes what is available, not what is clean: Table 2 applies the same criteria at
 all 38, where 35 have a design that clears the parent screen and *TAF15* exon 14, *TCF12* exon 3
 and *TFG* exon 2 have none.
 All five junctions of the panel with a published exon-resolved breakpoint have one: four of them at
@@ -648,7 +649,7 @@ that choice is made (§4.1).
 ### 2.9 · Gap length trades junction specificity against parent-duplex competence
 
 The panel above is one geometry. Tiling the same junctions at 5-8-5 and 5-10-5, wing fixed at five
-nucleotides, resolves what a longer catalytic gap buys and what it costs (Table 5, Figure 2).
+nucleotides, resolves what a longer catalytic gap buys and what it costs (Table 7, Figure 3).
 
 What a longer gap buys and what it costs are the same nucleotide. Inside the gap, the junction-unique
 bases on the shorter side and the bases one wild-type parent pairs on the longer side are
@@ -730,7 +731,7 @@ outside the 40–60% GC window. The failures overlap, so they do not sum to the 
 at least one.
 
 The disagreement is sharpest where it matters most. Of the nine designs with no sense-strand
-near-match (Table 3), exactly one satisfies all four rules. Seven contain a CpG dinucleotide, the
+near-match (Table 4), exactly one satisfies all four rules. Seven contain a CpG dinucleotide, the
 canonical TLR9 immunostimulatory motif; four fall outside the 40–60% GC window — the three *EWSR1*
 exon-1 designs above it at 62.5% and 5′-GGGCATATCTCTATAA-3′ below it at 37.5%. Only
 5′-CAGGGCATATCTTGCA-3′ at *TCF12* exon 9 passes every rule, and the multi-partner candidate
@@ -944,15 +945,15 @@ fibrous tumour, evaluated against CRISPR-engineered isogenic fusion-positive and
 cells, reduced fusion expression by 58% and proliferation by 22% in
 vitro.<sup>37</sup><!--PMID:37370737-->
 
-**Research use only.** Both sequences named in the next paragraph, and every sequence in Tables 4
-and 7, are research reagents for laboratory investigation only. Neither is a medicine or a candidate
+**Research use only.** Both sequences named in the next paragraph, and every sequence in Tables 2
+and 5, are research reagents for laboratory investigation only. Neither is a medicine or a candidate
 drug, neither has been synthesised or tested, and neither may be administered to any human being or
 animal or supplied to anyone for that purpose. Ordering either from a commercial synthesis service
 is possible for anyone; doing so does not make it a treatment, and nothing in this section should be
 read as licensing use in a patient.
 
 Applied here, the reagents to synthesise are the best available at the two most frequently reported
-junctions with a published exon-resolved breakpoint (Table 4): 5′-GGGCATATCATCAAAC-3′ at *EWSR1* exon 12 and
+junctions with a published exon-resolved breakpoint (Table 2): 5′-GGGCATATCATCAAAC-3′ at *EWSR1* exon 12 and
 5′-GGGCATATCTTGTGTG-3′ at *TAF15* exon 6. Both hold the top gap-level margin of 3, and neither pairs
 a parent through the catalytic gap at the ten-base-pair threshold, although the *TAF15* reagent's
 longest parent run is nine. The first also tests the multi-partner prediction, against a synthetic
@@ -962,7 +963,7 @@ How much of the disease those two junctions represent is a junction figure, not 
 the two differ: 46 *EWSR1* and 9 *TAF15* among 58 molecularly confirmed cases is 94.8% between the
 partners,<sup>9</sup><!--PMID:36948401--> while each reagent spans one exon pair. Discounted by the
 breakpoint distribution of an 18-case series<sup>22</sup><!--PMID:12378528--> the two are 68.4%,
-roughly two thirds; Table 7 gives that figure, the rungs above it and the reagent at each.
+roughly two thirds; Table 5 gives that figure, the rungs above it and the reagent at each.
 
 What that figure is, and what it is not, has to be said in terms, because the arithmetic is easy to
 read as a result. **It is not a coverage measurement.** No patient was screened with either
@@ -993,7 +994,7 @@ CACTCCGTGGAG, which agree over a single terminal base. Taken across every pair o
 of one partner in this panel, the longest shared 3′ donor run is five nucleotides, at *TFG* exons 2
 and 6, and three within *EWSR1*. The cross-partner coverage of §2.2 is the exception that shows the
 rule, needing the ten identical donor bases the FET paralogues share. And the *NR4A3* exon-2
-acceptor rows of §2.6 sit in Table 7 without entering the panel's own counts.
+acceptor rows of §2.6 sit in Table 5 without entering the panel's own counts.
 
 Two further reagents extend the set, both at the top gap-level margin of 3: 5′-GGGCATATCTCCACGG-3′ at
 *EWSR1* exon 13 to *NR4A3* exon 3, and 5′-GGGCATATCCATCAGA-3′ at *TCF12* exon 5 to *NR4A3* exon 3,
@@ -1004,7 +1005,7 @@ locates no seam within the *NR4A3* locus, so recurrence there is untested rather
 98.3% above these reagents is an upper bound rather than a reachable target for two reasons and not
 one: that *TCF12* arm is priced at its ceiling, worth 3.4 percentage points, and the figure also
 assumes every remaining *EWSR1* breakpoint covered, which is the larger of the two steps at 15.9
-points and needs three further reagents the retrieved record does not resolve to an exon (Table 7).
+points and needs three further reagents the retrieved record does not resolve to an exon (Table 5).
 One fact about the screened set is invisible in the ladder, which prices rungs rather than counting
 seams: every junction with a published exon-resolved breakpoint in the retrieved record now carries
 a screened design, the five in this panel (§2.7) and the four *NR4A3* exon-2 acceptor seams reported
@@ -1041,7 +1042,7 @@ caveat.
 5′-AGGGCATATCATCAAACC-3′ is the 5-8-5 design at the same *EWSR1* exon 12 junction. It spans the same
 three partners' breakpoints and sits inside the reported activity optimum. It holds a gap-level
 margin of 4 where the 16-mer holds 3, and carries 3 sense-strand near-matches across the gap at one
-gene locus, against the 16-mer's 123 at six (§2.9, Table 5).
+gene locus, against the 16-mer's 123 at six (§2.9, Table 7).
 
 Synthesised alongside the 16-mer, at one extra oligonucleotide and one extra well per condition, it
 separates the two explanations a weak result would otherwise confound. A 5-8-5 arm that knocks down
@@ -1061,7 +1062,7 @@ reagent carries the heavier load of the two named here: 123 gap-paired
 sense-strand near-matches at the deeper ceiling, recounting to six gene loci, all at the screen's
 loosest admitted identity and none on a parent transcript (§5). It is not the heaviest in the
 panel — fourteen of the 187 design records re-screened at that ceiling carry more, to a maximum of
-240 at *TCF12* exon 3. Table 2 prints one row per junction rather than one per design record, so
+240 at *TCF12* exon 3. Table 3 prints one row per junction rather than one per design record, so
 those per-record counts are in the released screens rather than in a table. The *TAF15* reagent
 carries 8 such near-matches at five loci.
 
@@ -1091,7 +1092,7 @@ The three designs that survive every screen are mechanism controls rather than c
 5′-GGGCATATCAAGCGCT-3′ at *TCF12* exon 7, tiered as §2.7 describes. None sits at a junction a patient
 is reported to carry (§2.7), which is what makes them controls rather than
 candidates. 5′-GGGCATATCTCTATAA-3′ at *TCF12* exon 17, which the default-depth screen returns as
-clean (Table 3), is not among them. At ten times the default search
+clean (Table 4), is not among them. At ten times the default search
 depth it carries 101 sense-strand near-matches, 14 of them spanning the catalytic gap.
 
 What a knockdown experiment with these reagents can transfer to depends on how it is set up, and the
@@ -1142,7 +1143,7 @@ it is the half of the argument §3 rests the modality on. Wild-type *NR4A3* is t
 no donor parent is read by this ratio, and neither is any other gene. So a reagent can clear the cut
 while pairing a parent transcript through its whole catalytic gap — the case §2.7 excludes a fourth
 *TCF12* design for, at eleven base pairs against its own donor — and each reagent of §4.1 carries
-its longest mature-parent duplex against a gene this ratio does not read (§4.3, Table 7). The remedy
+its longest mature-parent duplex against a gene this ratio does not read (§4.3, Table 5). The remedy
 is not a second cut. No retrieved measurement bounds the parent case (§3), so a threshold on a donor
 ratio would be a number with nothing behind it, where this one at least has a stated convention. It
 is a reporting requirement instead: wild-type transcript for the reagent's own donor parent and for
@@ -1441,7 +1442,7 @@ parent duplex identically (§2.9).
 identity across the whole oligonucleotide, because the gap is where the enzyme cuts. Designs were
 therefore ranked by their *gap-level margin*: the junction-unique bases inside the gap on the shorter
 side of the junction. That is the panel-level statistic, which compares designs across junctions.
-Selecting within one junction is a different question, and Table 4 — from which the reagents of §4.1
+Selecting within one junction is a different question, and Table 2 — from which the reagents of §4.1
 are taken — orders designs by parent liability first, then pre-mRNA sites, then distinct gene loci,
 with the margin breaking ties. Each candidate was screened against all six parent transcripts rather
 than the two of its own fusion, because the FET-family donors (FUS, EWSR1 and TAF15) are paralogues
@@ -1652,7 +1653,17 @@ Rows are donor exons grouped by partner; columns are *NR4A3* acceptor exons. Two
 are refused in every pair for structural reasons, so the 38 in-frame junctions lie in a
 single column.
 
-**Figure 2. The margin a longer catalytic gap wins is the parent duplex it concedes.** (A) The
+**Figure 2. One 16-mer spans three partners' breakpoints.** The junction windows of *EWSR1* exon
+12, *TAF15* exon 11 and *FUS* exon 10 joined to *NR4A3* exon 3, aligned at the breakpoint. Blue,
+donor exon; green, acceptor exon; positions at which the three donors differ are boxed as well as
+coloured, for greyscale and colour-blind readers. The shaded box is
+the target window of 5′-GGGCATATCATCAAAC-3′, with the 5-6-5 gapmer architecture below it and its
+gap-level margin of three alongside. The three
+donors are identical over the ten nucleotides before the breakpoint, which is what makes one
+oligonucleotide junction-spanning at all three junctions.
+Coverage is predicted from sequence and has not been measured.
+
+**Figure 3. The margin a longer catalytic gap wins is the parent duplex it concedes.** (A) The
 best-margin design at *EWSR1* exon 12 joined to *NR4A3* exon 3, drawn at 5-6-5, 5-8-5 and 5-10-5
 with the wings held at five nucleotides. Every base inside the catalytic gap comes from the donor
 exon or from the acceptor exon, so the junction-unique bases on the shorter side and the bases one
@@ -1662,17 +1673,7 @@ contiguous run of gap DNA a wild-type parent can pair. Marker area is the number
 point and the label is that count; the three lines are drawn from the identity, not fitted, and it
 holds for each design individually rather than on average. Within one geometry the two move
 inversely along a line of slope −1; a geometry's ceiling on margin is half its gap rounded down, and
-clearing it means a longer gap and a higher parent-paired run at every register (§2.9, Table 5).
-
-**Figure 3. One 16-mer spans three partners' breakpoints.** The junction windows of *EWSR1* exon
-12, *TAF15* exon 11 and *FUS* exon 10 joined to *NR4A3* exon 3, aligned at the breakpoint. Blue,
-donor exon; green, acceptor exon; positions at which the three donors differ are boxed as well as
-coloured, for greyscale and colour-blind readers. The shaded box is
-the target window of 5′-GGGCATATCATCAAAC-3′, with the 5-6-5 gapmer architecture below it and its
-gap-level margin of three alongside. The three
-donors are identical over the ten nucleotides before the breakpoint, which is what makes one
-oligonucleotide junction-spanning at all three junctions.
-Coverage is predicted from sequence and has not been measured.
+clearing it means a longer gap and a higher parent-paired run at every register (§2.9, Table 7).
 
 **Supplementary Figure S1. Transcriptome load per design against chance expectation.** Each bar is one distinct
 oligonucleotide's count of exact plus ≤1-mismatch matches over 186,185 transcripts, ranked. The 190
@@ -1709,7 +1710,7 @@ sarcoma centre.
 digital object identifier has been reserved and this citation does not yet resolve], deposited from
 `github.com/trimcrae/Rare-cancers`.
 A manifest listing every archived file with its SHA-256 travels with the deposit. Artefacts include the graded junction
-atlas, per-junction design panels, all five screens, the per-junction reagent table behind Table 4,
+atlas, per-junction design panels, all five screens, the per-junction reagent table behind Table 2,
 the graded re-scores under
 both discrimination bounds, and the retrieval records for every literature claim.
 
@@ -1775,4 +1776,8 @@ correctness of the code and for the interpretation of the results.
 *The numbered entries are listed in `fusion-junction-aso-submission-references.md`, generated
 from retrieved bibliographic records. Each superscript above carries its PubMed identifier in a
 non-rendering comment, and the numbering is assigned from those identifiers by order of first
-citation, so a superscript and its reference cannot drift apart.*
+citation, so a superscript and its reference cannot drift apart. The external data records this work
+uses — a Gene Expression Omnibus series, two GenBank deposits, four GenBank patent sequence records,
+a DepMap release and three Cellosaurus cell-line records — are cited in the text by accession and
+are listed in full, with their repositories, under `Data sources` in the same file. They carry no
+PubMed identifier and so take no number.*

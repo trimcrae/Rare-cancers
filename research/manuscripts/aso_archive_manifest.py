@@ -149,9 +149,13 @@ PROMISES = [
     {
         "id": "per_design_tables",
         "promise": "per-design tables",
-        "contributes": ("The two manuscript tables and the generator that derives every cell of "
+        # ⚠ THE PANEL IS NAMED BY CONTENT, NOT BY NUMBER. This read "Figure 3", which stopped being
+        # the chance-baseline panel on 2026-08-15 (it became Supplementary Figure S1) and named a
+        # different panel again after the 2026-08-17 renumber to citation order. A figure number is
+        # owned by the manuscript's `Figure legends` section and nowhere else.
+        "contributes": ("The manuscript tables and the generator that derives every cell of "
                         "them from the artifacts, plus the per-locus re-count and the chance "
-                        "baseline the tables and Figure 3 are read from."),
+                        "baseline the tables and the chance-expectation panel are read from."),
         "patterns": ["research/manuscripts/aso/fusion-junction-aso-submission-tables.md",
                      "research/manuscripts/submission_tables.py",
                      "research/modalities/junction-aso-offtarget-locus-collapse.json",

@@ -1,0 +1,163 @@
+{
+ "_what": "The external data records the submission manuscript uses, each as a citable entry with its repository, accession and the committed fetch product every field was copied from. Rendered into the `Data sources` block of fusion-junction-aso-submission-references.md by research/manuscripts/submission_citations.py.",
+ "_why": "bioRxiv asks authors to cite the laboratory, website and accession numbers for data they use. These records appeared in the manuscript only as bare inline identifiers — GSE28866, AF289510.1, ACH-001519, RRID:CVCL_1238 — with no entry a reader could resolve, so a reader could see WHICH record was used and not WHOSE it is, WHAT it contains, or WHERE it lives.",
+ "_provenance": {
+  "compiled_utc": "2026-08-17T20:15Z",
+  "compiled_date": "2026-08-17",
+  "note": "EVERY FIELD BELOW IS COPIED FROM A COMMITTED FETCH PRODUCT IN THIS REPOSITORY, named per entry in `copied_from`. No depositor name, title, accession, date, patent number or file name here was written from recollection. Where a field a citation would normally carry was not captured by the fetch that produced the record — a database release version, say — it is ABSENT and the absence is stated in the entry rather than filled from a plausible value.",
+  "no_new_network_read_was_needed": "All six sources had already been retrieved for other parts of this work; this file gives their records a citable home beside the manuscript rather than only inside an analysis artifact."
+ },
+ "_what_this_is_not": [
+  "NOT numbered into the main reference list. That list is generated from the PubMed identifiers carried in the manuscript's superscript comments, and a database record has no PMID; giving one a number would mean inventing an annotation the numbering machinery cannot check. These are cited in the text by accession, which is the citation form the repositories and the Resource Identification Initiative specify, and listed here in full.",
+  "NOT a claim that any of these records supports the sentence it is attached to. It is a claim about what the record IS and where it lives.",
+  "NOT a re-reading of any of them. The readings stay in the analysis artifacts that own them."
+ ],
+ "entries": [
+  {
+   "key": "GSE28866",
+   "kind": "Gene Expression Omnibus series",
+   "citation": "Brunner AL, Beck AH, Edris B, Sweeney RT, Zhu SX, Li R, Montgomery K, Varma S, Gilks T, Guo X, Foley JW, et al. Transcriptional profiling of lncRNAs and novel transcribed regions across a diverse panel of archived human cancers. Gene Expression Omnibus, series accession GSE28866. Stanford School of Medicine. Submitted 26 April 2011, last updated 15 May 2019. Platform GPL10999 (Illumina Genome Analyzer IIx). https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE28866",
+   "accession": "GSE28866",
+   "repository": "Gene Expression Omnibus (NCBI)",
+   "contact_institute_verbatim": "Stanford School of Medicine",
+   "series_title_verbatim": "Transcriptional profiling of lncRNAs and novel transcribed regions across a diverse panel of archived human cancers",
+   "submission_date_verbatim": "Apr 26 2011",
+   "last_update_date_verbatim": "May 15 2019",
+   "platforms_verbatim": [
+    "GPL10999"
+   ],
+   "associated_pubmed_id_verbatim": [
+    "22929540"
+   ],
+   "used_for": "the measured EMC tumour-versus-normal-organ contrast behind the surface-antigen paragraph of §3 — four EMC and 27 normal-organ libraries across six organs",
+   "copied_from": "research/modalities/atr-hrd-sarcoma-series.json (`series_record`, fetched_utc 2026-08-07T17:26:52Z)",
+   "⚠_note": "The contributor list is truncated with `et al.` here and is recorded in full, in the depositor's own `Last,Middle,First` form, in the source artifact. Nothing was reordered or expanded."
+  },
+  {
+   "key": "AF289510.1",
+   "kind": "GenBank nucleotide record",
+   "citation": "Sjogren H, Wedell B, Meis-Kindblom JM, Kindblom LG, Stenman G, Kindblom JM. Homo sapiens TCF12-TEC fusion protein mRNA, partial cds. GenBank accession AF289510, version AF289510.1, 421 bp mRNA, record dated 15 July 2016. https://www.ncbi.nlm.nih.gov/nuccore/AF289510.1",
+   "accession": "AF289510",
+   "version": "AF289510.1",
+   "repository": "GenBank (NCBI Nucleotide)",
+   "definition_verbatim": "Homo sapiens TCF12-TEC fusion protein mRNA, partial cds.",
+   "locus_line_verbatim": "LOCUS       AF289510                 421 bp    mRNA    linear   PRI 15-JUL-2016",
+   "authors_verbatim": "Sjogren,H., Wedell,B., Meis-Kindblom,J.M., Kindblom,L.G., Stenman,G. and Kindblom,J.M.",
+   "linked_pubmed_id_verbatim": [
+    "11156374"
+   ],
+   "used_for": "the base-level TCF12::NR4A3 junction assignment of §2.3 — TCF12 exon 5 joined to NR4A3 exon 3",
+   "copied_from": "research/modalities/nr4a3-nuccore-sweep.json (`records_with_a_junction`, _generated_utc 2026-08-15T16:14:36Z) and research/literature/tcf12-nr4a3-breakpoint-primary-sources.json"
+  },
+  {
+   "key": "AY532911.1",
+   "kind": "GenBank nucleotide record",
+   "citation": "Hisaoka M, Ishida T, Imamura T, Hashimoto H. Homo sapiens TFG-NR4A3 fusion protein (TFG-NR4A3 fusion) mRNA, partial cds. GenBank accession AY532911, version AY532911.1, 174 bp mRNA, record dated 23 February 2004. https://www.ncbi.nlm.nih.gov/nuccore/AY532911.1",
+   "accession": "AY532911",
+   "version": "AY532911.1",
+   "repository": "GenBank (NCBI Nucleotide)",
+   "definition_verbatim": "Homo sapiens TFG-NR4A3 fusion protein (TFG-NR4A3 fusion) mRNA, partial cds.",
+   "locus_line_verbatim": "LOCUS       AY532911                 174 bp    mRNA    linear   PRI 23-FEB-2004",
+   "authors_verbatim": "Hisaoka,M., Ishida,T., Imamura,T. and Hashimoto,H.",
+   "linked_pubmed_id_verbatim": [],
+   "⚠_no_linked_publication": "The record carries a REFERENCE block naming a paper title but NCBI returns no linked PubMed identifier for it, so none is asserted. The deposit is cited as a deposit.",
+   "used_for": "the TFG::NR4A3 junction assignment of §2.3 — TFG exon 7 joined to NR4A3 exon 3",
+   "copied_from": "research/modalities/nr4a3-nuccore-sweep.json (`records_with_a_junction`, _generated_utc 2026-08-15T16:14:36Z)"
+  },
+  {
+   "key": "DI433544.1",
+   "kind": "GenBank patent sequence record",
+   "citation": "Kim JH, Lim BB, Kim A. KR 1020140113135-A/3: Screening Methods of a Substance for Preventing or Treating a Tumor Disorder Using a TFG-TEC Fusion Construct and Uses Thereof. GenBank patent division accession DI433544, version DI433544.1, 2,700 bp synthetic construct, record dated 20 August 2015. https://www.ncbi.nlm.nih.gov/nuccore/DI433544.1",
+   "accession": "DI433544",
+   "version": "DI433544.1",
+   "repository": "GenBank patent division (NCBI Nucleotide)",
+   "patent_publication_number_verbatim": "KR 1020140113135-A/3",
+   "definition_verbatim": "KR 1020140113135-A/3: Screening Methods of a Substance for Preventing or Treating a Tumor Disorder Using a TFG-TEC Fusion Construct and Uses Thereof.",
+   "authors_verbatim": "Kim,J.H., Lim,B.B. and Kim,A.",
+   "source_organism_verbatim": "synthetic construct",
+   "used_for": "one of the four patent sequence records that agree with AY532911.1 at the TFG exon 7 :: NR4A3 exon 3 seam (§2.3)",
+   "copied_from": "research/modalities/nr4a3-nuccore-sweep.json (`records_with_a_junction`, _generated_utc 2026-08-15T16:14:36Z)"
+  },
+  {
+   "key": "DI438966.1",
+   "kind": "GenBank patent sequence record",
+   "citation": "Kim JH, Lim BB, Kim A. KR 1020140117324-A/3: Screening Methods of a Substance for Preventing or Treating a Tumor Disorder Using a TFG-TEC Fusion Construct and Uses Thereof. GenBank patent division accession DI438966, version DI438966.1, 2,700 bp synthetic construct, record dated 20 August 2015. https://www.ncbi.nlm.nih.gov/nuccore/DI438966.1",
+   "accession": "DI438966",
+   "version": "DI438966.1",
+   "repository": "GenBank patent division (NCBI Nucleotide)",
+   "patent_publication_number_verbatim": "KR 1020140117324-A/3",
+   "definition_verbatim": "KR 1020140117324-A/3: Screening Methods of a Substance for Preventing or Treating a Tumor Disorder Using a TFG-TEC Fusion Construct and Uses Thereof.",
+   "authors_verbatim": "Kim,J.H., Lim,B.B. and Kim,A.",
+   "source_organism_verbatim": "synthetic construct",
+   "used_for": "one of the four patent sequence records that agree with AY532911.1 at the TFG exon 7 :: NR4A3 exon 3 seam (§2.3)",
+   "copied_from": "research/modalities/nr4a3-nuccore-sweep.json (`records_with_a_junction`, _generated_utc 2026-08-15T16:14:36Z)"
+  },
+  {
+   "key": "LG067227.1",
+   "kind": "GenBank patent sequence record",
+   "citation": "Kim JH, Lim BB, Kim A. KR 1020150084469-A/1: Compositions for Preventing or Treating a Tumor Disorder Comprising TFG-TEC Protein Mutant or Nucleotide Sequence Encoding the Same. GenBank patent division accession LG067227, version LG067227.1, 2,700 bp synthetic construct, record dated 29 June 2016. https://www.ncbi.nlm.nih.gov/nuccore/LG067227.1",
+   "accession": "LG067227",
+   "version": "LG067227.1",
+   "repository": "GenBank patent division (NCBI Nucleotide)",
+   "patent_publication_number_verbatim": "KR 1020150084469-A/1",
+   "definition_verbatim": "KR 1020150084469-A/1: Compositions for Preventing or Treating a Tumor Disorder Comprising TFG-TEC Protein Mutant or Nucleotide Sequence Encoding the Same.",
+   "authors_verbatim": "Kim,J.H., Lim,B.B. and Kim,A.",
+   "source_organism_verbatim": "synthetic construct",
+   "used_for": "one of the four patent sequence records that agree with AY532911.1 at the TFG exon 7 :: NR4A3 exon 3 seam (§2.3)",
+   "copied_from": "research/modalities/nr4a3-nuccore-sweep.json (`records_with_a_junction`, _generated_utc 2026-08-15T16:14:36Z)"
+  },
+  {
+   "key": "LG067228.1",
+   "kind": "GenBank patent sequence record",
+   "citation": "Kim JH, Lim BB, Kim A. KR 1020150084469-A/3: Compositions for Preventing or Treating a Tumor Disorder Comprising TFG-TEC Protein Mutant or Nucleotide Sequence Encoding the Same. GenBank patent division accession LG067228, version LG067228.1, 2,700 bp synthetic construct, record dated 29 June 2016. https://www.ncbi.nlm.nih.gov/nuccore/LG067228.1",
+   "accession": "LG067228",
+   "version": "LG067228.1",
+   "repository": "GenBank patent division (NCBI Nucleotide)",
+   "patent_publication_number_verbatim": "KR 1020150084469-A/3",
+   "definition_verbatim": "KR 1020150084469-A/3: Compositions for Preventing or Treating a Tumor Disorder Comprising TFG-TEC Protein Mutant or Nucleotide Sequence Encoding the Same.",
+   "authors_verbatim": "Kim,J.H., Lim,B.B. and Kim,A.",
+   "source_organism_verbatim": "synthetic construct",
+   "used_for": "one of the four patent sequence records that agree with AY532911.1 at the TFG exon 7 :: NR4A3 exon 3 seam (§2.3)",
+   "copied_from": "research/modalities/nr4a3-nuccore-sweep.json (`records_with_a_junction`, _generated_utc 2026-08-15T16:14:36Z)",
+   "⚠_the_four_are_one_family_from_one_group": "DI433544.1 and DI438966.1 are two Korean applications and LG067227.1 and LG067228.1 are two segments of a third; all four name the same three inventors. The manuscript already states that they corroborate a sequence rather than four patients. Listing them separately gives each accession its resolvable entry; it does not make them four independent observations."
+  },
+  {
+   "key": "DepMap-24Q4",
+   "kind": "database release (cell-line omics), no journal",
+   "citation": "Broad Institute Cancer Dependency Map. DepMap Public 24Q4. Files used: OmicsFusionFiltered.csv, OmicsExpressionProteinCodingGenesTPMLogp1.csv and Model.csv; model ACH-001519 (H-EMC-SS; H-EMC-SS identity is DISPUTED — see §3, which cites this record to make its cell-line caution checkable and draws no conclusion resting on the line being EMC). Release hosted on Figshare+ as article 27993248. https://depmap.org/portal/",
+   "release": "24Q4",
+   "repository": "Broad Institute Cancer Dependency Map (DepMap)",
+   "model_accession": "ACH-001519",
+   "files_used_verbatim": [
+    "OmicsFusionFiltered.csv",
+    "OmicsExpressionProteinCodingGenesTPMLogp1.csv",
+    "Model.csv"
+   ],
+   "figshare_article_id": 27993248,
+   "used_for": "the two filtered fusion calls for ACH-001519 and its NR4A3 expression percentile, in the test-article paragraph of §3",
+   "copied_from": "research/modalities/emc-atr-vulnerability.json (`part_a_hemcss_identity.depmap_fusion_calls` and `.depmap_expression`, release_used 24Q4) and research/modalities/fet-ddr-axis-scan.json (`depmap_release_file_inventory['24Q4:27993248']`, the retrieved 73-file inventory in which all three files used here appear)",
+   "⛔_no_doi_is_asserted": "DepMap quarterly releases are distributed through Figshare+ and each carries a DOI, but no fetch in this repository captured one — the inventory read was against the Figshare API's article endpoint, which returned the file list this citation names and which was not stored with its DOI field. A DOI reconstructed from a Figshare article number is a guess, so the article number is given as the hosting location and no DOI is written. This is the correct citation form for a database release: repository, release label, files, accession."
+  },
+  {
+   "key": "Cellosaurus-records",
+   "kind": "cell-line knowledge-resource records, no journal",
+   "citation": "Cellosaurus (SIB Swiss Institute of Bioinformatics). Cell-line records H-EMC-SS (RRID:CVCL_1238), USZ20-EMC1 (RRID:CVCL_C6MX) and USZ22-EMC2 (RRID:CVCL_C6MY). https://www.cellosaurus.org/",
+   "repository": "Cellosaurus (SIB Swiss Institute of Bioinformatics)",
+   "accessions": [
+    "CVCL_1238",
+    "CVCL_C6MX",
+    "CVCL_C6MY"
+   ],
+   "api_url_verbatim": "https://api.cellosaurus.org/search/cell-line?q=H-EMC-SS&format=txt&rows=10",
+   "record_id_lines_verbatim": [
+    "ID H-EMC-SS / AC CVCL_1238",
+    "ID USZ20-EMC1 / AC CVCL_C6MX",
+    "ID USZ22-EMC2 / AC CVCL_C6MY"
+   ],
+   "used_for": "the short tandem repeat profile and the explicit caution on H-EMC-SS, and the curated fusion annotations on the two USZ models, all in §3",
+   "copied_from": "research/modalities/emc-atr-vulnerability.json (`part_a_hemcss_identity.cellosaurus.record`) and research/modalities/emc-model-junction-evidence.json (`models[].cellosaurus_*_verbatim`)",
+   "⚠_why_this_gets_one_entry_and_not_three": "An RRID is designed to be the citation: cited inline it resolves to exactly one record, which is why the Resource Identification Initiative asks authors to write the RRID in the text rather than to add a reference. The three RRIDs in the manuscript are therefore already in correct form and are NOT defective citations. This entry exists for the second thing the manuscript does with them — it READS data out of the records (a STR profile, a caution, two curated fusion annotations) — and that use names a data source a reader should be able to attribute to a laboratory and a website.",
+   "⛔_no_release_version_is_asserted": "Cellosaurus is versioned and a complete data citation would name the release the records were read from. The two fetches that produced these records did not capture the version field, so none is written. The retrieval is dated in the artifacts named above; the version is absent because it was not read, not because Cellosaurus has none."
+  }
+ ]
+}

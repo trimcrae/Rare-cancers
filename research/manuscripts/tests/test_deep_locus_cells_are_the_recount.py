@@ -3,16 +3,16 @@
 
 ⛔ WHY THIS EXISTS (round-5 review, P0.3, 2026-08-16). `submission_tables._deep_lookup` read
 `n_loci_with_a_gap_spanning_hit` straight off the deep screens into the third deep column of Tables
-2 and 3. That field was computed at SCREEN time under a `locus_of` that took the symbol as the last
+3 and 4. That field was computed at SCREEN time under a `locus_of` that took the symbol as the last
 parenthesised token before the first comma, so every gene whose own description carries a comma lost
 its symbol and each transcript variant fell back to its own accession — corrected in 5233cf867, and
-uncorrectable in a committed screen without re-running the search. Table 4 and the Results already
+uncorrectable in a committed screen without re-running the search. Table 2 and the Results already
 counted loci with the fixed parser. The two therefore printed different numbers for the SAME
 molecule at the SAME depth:
 
-    TCF12 e5  GGGCATATCCATCAGA   Table 2: 17   Table 4 and §3.3: 1   (seventeen PIK3CG variants)
-    TCF12 e3  GGGCATATCTGATCCA   Table 2: 56   recount: 6
-    the lead  GGGCATATCATCAAAC   Table 2: 14   Table 4 and §5.3: 6
+    TCF12 e5  GGGCATATCCATCAGA   Table 3: 17   Table 2 and §3.3: 1   (seventeen PIK3CG variants)
+    TCF12 e3  GGGCATATCTGATCCA   Table 3: 56   recount: 6
+    the lead  GGGCATATCATCAAAC   Table 3: 14   Table 2 and §5.3: 6
 
 ⛔ AND THE DEFECT WAS INVISIBLE TO EVERY EXISTING GUARD, WHICH IS WHY THE GUARD IS THIS SHAPE. The
 generator was consistent with itself, the artifact it read was committed and current, and each table
@@ -64,7 +64,7 @@ def _seq(cell):
 
 #: Every marker glyph a junction cell may carry, stripped before the cell becomes an artifact key.
 #: ⛔ STRIPPED BY CLASS, NOT ONE GLYPH AT A TIME (fixed 2026-08-17). This stripped only " ‡", so
-#: when Table 2 gained a "†" marking the three junctions where no design clears the parent screen,
+#: when Table 3 gained a "†" marking the three junctions where no design clears the parent screen,
 #: those cells produced keys like `TAF15_e14__NR4A3_e3_†`, matched no artifact, and dropped silently
 #: out of the lookup. NOTHING FAILED: this file's global `assert checked` / `assert inflated` guards
 #: are satisfied by the other rows, so 3 of 38 cells stopped being checked against the recount while
@@ -92,10 +92,10 @@ def _count(cell):
     return int(cell.lstrip("≥≤").strip())
 
 
-def _table2():
-    """{(junction, design): deep gap-spanning locus cell} from the rendered Table 2."""
+def _table3():
+    """{(junction, design): deep gap-spanning locus cell} from the rendered Table 3."""
     out = {}
-    for r in _block(_tables_text(), 2, 3):
+    for r in _block(_tables_text(), 3, 4):
         seq = _seq(r[3])
         if seq is None:                       # the all-submissions-failed row carries no design
             continue
@@ -103,9 +103,9 @@ def _table2():
     return out
 
 
-def _table3():
+def _table4():
     out = {}
-    for r in _block(_tables_text(), 3, 4):
+    for r in _block(_tables_text(), 4, 5):
         seq = _seq(r[0])
         if seq is None:
             continue
@@ -113,10 +113,10 @@ def _table3():
     return out
 
 
-def _table4():
-    """{(junction, design): deep gap-paired (transcripts, loci)} from the rendered Table 4."""
+def _table2():
+    """{(junction, design): deep gap-paired (transcripts, loci)} from the rendered Table 2."""
     out = {}
-    for r in _block(_tables_text(), 4, 5):
+    for r in _block(_tables_text(), 2, 3):
         seq = _seq(r[3])
         if seq is None:                       # a junction with no design clearing the parent screen
             continue
@@ -150,22 +150,22 @@ def _deep_records():
 # ─────────────────────────────────────────────────────────────────────────────────────────────
 # The guard the defect asked for: the two tables, read as a reader reads them
 # ─────────────────────────────────────────────────────────────────────────────────────────────
-def test_table2_and_table4_agree_on_every_design_they_both_carry():
+def test_table3_and_table2_agree_on_every_design_they_both_carry():
     """⛔ THE ONE CHECK THAT WOULD HAVE CAUGHT P0.3, AND IT IS A CHECK BETWEEN TABLES.
 
-    Table 2's representative design at a junction is chosen by gap-level margin and Table 4's by
+    Table 3's representative design at a junction is chosen by gap-level margin and Table 2's by
     parent liability, so the two carry the same molecule at only some junctions — which is exactly
     the population where a reader can put the two cells side by side. Every one of them must agree,
     because both columns are the same quantity at the same depth for the same molecule.
     """
-    t2, t4 = _table2(), _table4()
-    shared = sorted(set(t2) & set(t4))
-    assert shared, "Tables 2 and 4 share no design; the comparison this guard exists for is vacuous"
-    bad = [(k, t2[k], t4[k][1]) for k in shared if t2[k] != t4[k][1]]
+    t3, t2 = _table3(), _table2()
+    shared = sorted(set(t3) & set(t2))
+    assert shared, "Tables 2 and 3 share no design; the comparison this guard exists for is vacuous"
+    bad = [(k, t3[k], t2[k][1]) for k in shared if t3[k] != t2[k][1]]
     assert not bad, (
-        "Table 2 and Table 4 print different gap-spanning locus counts at the deeper ceiling for "
+        "Table 3 and Table 2 print different gap-spanning locus counts at the deeper ceiling for "
         "the same molecule — one of them is not the recount. "
-        + "; ".join(f"{lab}/{seq}: Table 2 {a}, Table 4 {b}" for (lab, seq), a, b in bad))
+        + "; ".join(f"{lab}/{seq}: Table 3 {a}, Table 2 {b}" for (lab, seq), a, b in bad))
     # the lead reagent is the row a clinical reader goes to, so it is named rather than left to
     # the population above
     lead = [k for k in shared if k[1] == "GGGCATATCATCAAAC"]
@@ -177,13 +177,13 @@ def test_every_deep_locus_cell_is_the_recount_and_not_the_screens_stored_field()
 
     ⛔ THE STORED FIELD IS AN OVER-COUNT AND THE ERROR IS ONE-DIRECTIONAL: a failed symbol parse can
     only SPLIT a locus, never merge two. So a cell matching the stored field where the two differ is
-    always the inflated one, and this asserts the recount on every rendered deep cell of Tables 2
-    and 3 — not only on the ones Table 4 happens to share.
+    always the inflated one, and this asserts the recount on every rendered deep cell of Tables 3
+    and 4 — not only on the ones Table 2 happens to share.
     """
     from aso_gap_length_tradeoff import recount_loci  # noqa: PLC0415
 
     deep = _deep_records()
-    cells = {**_table2(), **_table3()}
+    cells = {**_table3(), **_table4()}
     checked = inflated = 0
     for key, printed in cells.items():
         rec = deep.get(key)
@@ -269,11 +269,11 @@ def test_the_lead_reagent_does_not_carry_the_panels_heaviest_gap_paired_load():
     """⛔ THE FACT THAT FALSIFIES "the heaviest disclosed transcriptome load of any design here".
 
     The lead `GGGCATATCATCAAAC` carries 123 gap-paired sense-strand near-matches at the deeper
-    ceiling. That is the maximum among the designs TABLE 4 prints, and Table 4 prints one design per
-    junction; it is NOT the maximum among the designs the paper discloses, because Table 2 prints a
+    ceiling. That is the maximum among the designs TABLE 2 prints, and Table 2 prints one design per
+    junction; it is NOT the maximum among the designs the paper discloses, because Table 3 prints a
     different representative at most junctions and the panel is tiled five registers deep. A
     superlative scoped to "any design considered here" is therefore false, and the counter-example
-    is in the paper's own Table 2.
+    is in the paper's own Table 3.
 
     ⚠ ASSERTED AS A PROPERTY, NOT AS A PINNED NUMBER. Pinning 240 would go stale the moment a screen
     is re-run; the property "the lead is not the maximum" is what any such sentence rests on, and
@@ -311,7 +311,7 @@ def test_the_lead_reagent_does_not_carry_the_panels_heaviest_gap_paired_load():
 
 
 def test_the_paper_and_the_tables_have_one_home_for_the_lead_reagents_locus_count():
-    """§5.3, Table 2 and Table 4 all state the lead's deep locus count; it is one number.
+    """§5.3, Table 3 and Table 2 all state the lead's deep locus count; it is one number.
 
     ⚠ THE MANUSCRIPT IS READ HERE, NOT WRITTEN. This asserts the three agree — the P0.3 defect was
     that they did not — and says nothing about how the sentence is worded.
@@ -327,13 +327,13 @@ def test_the_paper_and_the_tables_have_one_home_for_the_lead_reagents_locus_coun
     assert len(counts) == 1, f"the lead's three seams disagree about its locus count: {counts}"
     n = counts.pop()
 
+    t3 = {k: v for k, v in _table3().items() if k[1] == LEAD}
     t2 = {k: v for k, v in _table2().items() if k[1] == LEAD}
-    t4 = {k: v for k, v in _table4().items() if k[1] == LEAD}
-    assert t2 and t4, "the lead reagent is missing from Table 2 or Table 4"
-    assert set(t2.values()) == {n}, (f"Table 2 prints {set(t2.values())} for the lead; the recount "
+    assert t3 and t2, "the lead reagent is missing from Table 3 or Table 2"
+    assert set(t3.values()) == {n}, (f"Table 3 prints {set(t3.values())} for the lead; the recount "
                                      f"is {n}")
-    assert {loci for _, loci in t4.values()} == {n}, (
-        f"Table 4 prints {sorted({loci for _, loci in t4.values()})} for the lead; the recount is {n}")
+    assert {loci for _, loci in t2.values()} == {n}, (
+        f"Table 2 prints {sorted({loci for _, loci in t2.values()})} for the lead; the recount is {n}")
 
 
 if __name__ == "__main__":  # standalone run, the convention the other test files here follow

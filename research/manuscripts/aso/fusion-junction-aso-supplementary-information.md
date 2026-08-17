@@ -108,7 +108,7 @@ reported anywhere in the main text is taken from them.
 
 ## S6 · The coverage ladder's second basis, and two zero-contribution junctions
 
-Table 7 prices every rung on the breakpoint distribution of a single 18-case
+Table 5 prices every rung on the breakpoint distribution of a single 18-case
 series,<sup>22</sup><!--PMID:12378528--> which is the basis 68.4% is computed on. Every figure in
 this section is arithmetic over published cohorts rather than a coverage measurement — no patient
 was screened with any sequence named here — and §4.1 states in full what that figure is, what it is
