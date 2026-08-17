@@ -44,7 +44,7 @@ myxoid chondrosarcoma; oligonucleotide design pipeline; off-target screening
 Extraskeletal myxoid chondrosarcoma (EMC) is an ultra-rare sarcoma in which a variable partner gene
 fuses to *NR4A3*. Its breakpoint junction is present in no normal gene, so an antisense gapmer could
 in principle cleave the fusion transcript while sparing both parent genes; none has been reported,
-and designs are easy to find. Of 190 candidates across the 38 in-frame junctions of the five
+and designs are easy to find. Of 190 junction-spanning designs across the 38 in-frame junctions of the five
 modelled partners, 87 pair their catalytic gap against a mature parent transcript over a contiguous
 duplex of at least ten base pairs, 61 against wild-type *NR4A3*; 19 pair a parent in precursor RNA,
 where RNase-H1 is also active and a mature-transcript screen cannot reach, and 13 of those 19 are
@@ -127,11 +127,12 @@ contribution here is the indication rather than the
 modality: across 5,153 unique records retrieved from Europe PMC, four mention *EWSR1::NR4A3* at title
 or abstract level, resolving to three papers, none an oligonucleotide study.
 
-Two questions follow that the field has not asked of this disease. Prior design work has addressed
-only *EWSR1*, while the partner varies, and partner identity may not be clinically inert: across the
-two series of antiangiogenic tyrosine-kinase inhibition in advanced EMC that report a partner
-breakdown at all, no objective response is reported in a *TAF15* patient, on a *TAF15* arm of three
-to five patients whose Wilson upper bound remains compatible with equal
+Two questions follow that the field has not asked of this disease. The first is whether specificity
+sorts by partner at all. Prior design work has addressed only *EWSR1*, while the partner varies, and
+partner identity may not be clinically inert: across the two series of antiangiogenic
+tyrosine-kinase inhibition in advanced EMC that report a partner breakdown at all, no objective
+response is reported in a *TAF15* patient, on a *TAF15* arm of three to five patients whose Wilson
+upper bound remains compatible with equal
 response.<sup>7,19</sup><!--PMID:31331701,24703573--> The two series are not shown to be independent cohorts, which is why the count is a range and why
 they are not pooled: the smaller ran at an institution that was a site of the larger trial, under
 the same senior investigator, so the same patients may appear in both and the distinct *TAF15* arm
@@ -171,7 +172,10 @@ count of junction-unique bases inside that gap on the shorter side of the breakp
 ranking here is built on it. A *near-match* is a transcript window pairing a design at 14 or more of
 its 16 positions, and is *gap-paired* where the six gap positions are themselves paired, which is the
 class RNase-H1 could cleave. A design is *clean* where a complete hit list at a stated search depth
-returns no sense-strand near-match. Five screens are applied, numbered here as in §6: (1) the
+returns no sense-strand near-match, and a design's *load* is its predicted off-target burden counted
+as near-matches. Counts from that hit list come at one of two search depths, a default alignment
+ceiling and a tenfold deeper one, and each is reported with the depth it was taken at. Five screens
+are applied, numbered here as in §6: (1) the
 alignment screen, (2) the exhaustive transcript scan, (3) the pre-mRNA screen, (4) the mature-parent
 screen and (5) the genome scan.
 
@@ -420,8 +424,9 @@ reaches that same exon across its own splice junction. So a design whose donor h
 wild-type *NR4A3* engagement which does not pass through the fusion at all, in the compartment where
 RNase-H1 is active. It is the discrimination question this paper is about. The other ten are wholly
 intronic and every one is in *TCF12*, which contributes 365,096 of the 517,157 intronic nucleotides
-searched. That is 71% of the search space accounting for 100% of the class, which is what sequence
-volume alone predicts and should not be read as anything about *TCF12*.
+searched. That is 71% of the search space accounting for 100% of the class: volume alone predicts
+about seven of the ten, so it accounts for most of the concentration and the remainder should not be
+read as anything about *TCF12*.
 
 The liability tracks the tiling register, of which the gap-level margin is a function. At margin 1,
 12 of 76 designs carry a pre-mRNA site; at margin 2, 7 of 76; at margin 3, none of 38. Eight of the
@@ -465,7 +470,7 @@ from uniform bases give 6.9% (6.7–7.2%), and from the panel's pooled base comp
 (6.9–7.4%). A calculation agrees with the sampled
 figure rather than the sampled figure standing alone: the gap must pair, at 4⁻⁶, and the run must
 then extend four further nucleotides across the two wings, at 1/64, which over the 19,921 parent
-windows searched predicts 7.3%. The observed rate is about sevenfold that, and the arm the modality
+windows searched predicts 7.3%. The observed rate is about sixfold that, and the arm the modality
 actually turns on separates further still: 32.1% of designs pair the gap against wild-type *NR4A3*
 specifically, against 1.8% of scrambles. Scrambles are the weakest null run here; against the
 structural chimera nulls below, that same arm separates 32.1% from 9.3%.
@@ -502,7 +507,8 @@ would be wrong about its own denominator.
 
 ### 2.6 · The *NR4A3* exon-2 acceptors, and the un-rearranged allele
 
-Every junction above joins a donor exon to *NR4A3* exon 3, because the atlas that emits them drops
+Every junction above joins a donor exon to *NR4A3* exon 3, because the graded exon-pair atlas that
+emits them (§2.1) drops
 exon-2 acceptors as non-coding: *NR4A3* exon 2 lies upstream of the start codon, so a junction at
 that acceptor cannot be built from the 38-junction panel at all. A frame-based exclusion is correct
 for a fusion protein and does not transfer to an RNase-H mechanism, which cleaves a transcript
@@ -577,10 +583,10 @@ ranking them.
 
 ### 2.7 · The surviving candidates, and a genome-wide check
 
-Composing the mature-parent screen of §2.5 with the deeper re-screen of §2.4 leaves three of those four
-candidates in the whole panel, and they are not equally secure. The un-rearranged-allele exclusions of
-§2.6 remove none of them, because the seams they condemn cannot be built from the 38-junction panel at
-all. 5′-AGGGCATATCGGAGTC-3′ at *FUS* exon
+Composing the mature-parent screen of §2.5 with the deeper re-screen of §2.4 leaves three of the four
+designs that re-screen returns clean as candidates in the whole panel, and they are not equally
+secure. The un-rearranged-allele exclusions of §2.6 remove none of them, because the seams they
+condemn cannot be built from the 38-junction panel at all. 5′-AGGGCATATCGGAGTC-3′ at *FUS* exon
 8 and 5′-GGGCATATCCGACATG-3′ at *TAF15* exon 1 carry no sense-strand near-match at ten times the
 default search depth, no single-mismatch match on the exhaustive transcript scan, no pre-mRNA site
 and no mature-parent duplex. Neither depends on the ten-base-pair threshold, because no window of
@@ -644,8 +650,9 @@ compartments. The *TAF15* exon 6 reagent's five loci separate the other way: *NR
 registers return, on five gap-paired hits to a single accession. It is at or above the upper cut in
 two of those three, and robustness to register orders the loci differently again — though not
 independently of the hit count, since a locus returned by more registers accrues more hits by
-construction, which is why *NRP1* leads on register robustness and sits near the bottom on hits; the
-tumour-compartment proxy orders them a third way. What these readings can and cannot decide between two reagents is stated where
+construction, and the two still do not order the loci together: *NRP1* leads on register robustness
+and sits near the bottom on hits, its five records being one accession returned once per register;
+the tumour-compartment proxy orders them a third way. What these readings can and cannot decide between two reagents is stated where
 that choice is made (§4.1).
 
 ### 2.9 · Gap length trades junction specificity against parent-duplex competence
@@ -738,7 +745,7 @@ exon-1 designs above it at 62.5% and 5′-GGGCATATCTCTATAA-3′ below it at 37.5
 5′-CAGGGCATATCTTGCA-3′ at *TCF12* exon 9 passes every rule, and the multi-partner candidate
 5′-GGGCATATCATCAAAC-3′, which is not among the nine, also passes all four. The cleanest designs this
 work found are, with one exception, molecules conventional triage would flag, in six of the seven
-cases for a CpG that sits inside the catalytic gap, so the substitution that would remove it changes
+cases for a CpG that reaches into the catalytic gap, so the substitution that would remove it changes
 one of the bases the gap-level margin is computed on. Both are reported rather than composed into a single
 score.
 
@@ -773,7 +780,7 @@ mature transcript, and both are invisible to a screen that ranks candidates by g
 third compartment is invisible to all of them: at a seam whose acceptor half is not exonic in the
 mature transcript, the patient's own un-rearranged *NR4A3* allele carries the same sequence behind an
 intron, and three designs every parent screen passed pair their whole catalytic gap there (§2.6).
-The four demonstrations of parental sparing cited here were all made on molecules already
+The four reports of parental sparing cited here were all made on molecules already
 synthesised, and three of the four went further than cells: an shRNA to the *FGFR3* side of
 *FGFR3::TACC3* improved survival in glioma-bearing
 mice,<sup>13</sup><!--PMID:33241214--> a *PML::RARα*-specific siRNA prevented disease in NOD/SCID
@@ -848,7 +855,8 @@ wider normal-tissue prior, or left ungraded by that prior's absence. That bounds
 rather than establishing that no antigen exists: 86 of the 100 genes on the committed surface panel
 carry no row in that deposit and are unmeasured rather than excluded, every reading is
 transcript-level, and none of it speaks to protein, surface localisation, antigen density or
-internalisation. For the inhaled route, EMC's
+internalisation. Every reading in this paragraph is released as `aso-delivery-antigen.json`. For the
+inhaled route, EMC's
 distant spread is lung-dominant, at 35–45% of patients and a median of approximately 28 months to
 metastasis.<sup>6</sup><!--PMID:41055792--> Inhaled oligonucleotides have reached human dosing in
 non-oncology indications. An inhaled antisense oligonucleotide has been dosed in healthy volunteers
@@ -883,7 +891,9 @@ about what the line is instead, and fusion-negative EMC tumours are
 themselves a recognised minority category, so absence of the fusion is not by itself a
 reclassification. The observation is also not new: it is in print in one figure legend and is carried
 as a caution field in the reference registry. No retrieved source examines it as a subject, and it
-is not discoverable by anyone searching on model validity.
+is not discoverable by anyone searching on model validity. Both halves are released: the fusion-caller,
+expression and registry readings in `emc-atr-vulnerability.json`, which owns them, and the reading of
+that figure legend together with the reagent consequence in `emc-model-junction-evidence.json`.
 
 What remains is five test articles, and each of the five now has a matching reagent. Three are the
 engineered constructs of the functional study cited above,<sup>27</sup><!--PMID:31020999--> E-N,
@@ -1142,7 +1152,8 @@ while pairing a parent transcript through its whole catalytic gap — the case �
 its longest mature-parent duplex against a gene this ratio does not read (§4.3, Table 7). The remedy
 is not a second cut. No retrieved measurement bounds the parent case (§3), so a threshold on a donor
 ratio would be a number with nothing behind it, where this one at least has a stated convention. It
-is a reporting requirement instead: wild-type transcript for the reagent's own donor parent,
+is a reporting requirement instead: wild-type transcript for the reagent's own donor parent and for
+the parent carrying its longest duplex,
 measured in the same wells on the same dose–response, reported beside the ratio and against no cut —
 the requirement the margin-contrast arm below already carries, stated for every arm rather than for
 that one. A design whose donor knockdown tracks its fusion knockdown has lost what §3 says the
@@ -1237,8 +1248,8 @@ on that panel: `junction_aso_offtarget.py` the alignment
 screen against human RefSeq RNA, classifying each near-match by whether the catalytic gap is paired;
 `aso_insilico.py` the exhaustive transcript scan, the target-site accessibility fold and the
 sequence-liability filters; `aso_premrna_offtarget.py` the parents' unspliced sequence;
-`aso_genome_offtarget.py` every position of GRCh38; and `aso_parent_gap_pairing.py` the mature-parent
-screen. A new design must clear all five, and the parent screens matter most: pairing a parent
+`aso_parent_gap_pairing.py` the mature-parent screen; and `aso_genome_offtarget.py` every position of
+GRCh38. A new design must clear all five, and the parent screens matter most: pairing a parent
 through the whole catalytic gap is this paper's central negative and surrenders the only advantage
 the modality has. Where the acceptor half is not exonic in the mature transcript, the
 un-rearranged-allele scan of §2.6 applies as well, and it lives in two further modules rather than in
@@ -1255,7 +1266,10 @@ and a design it returns is ordered by the ranking §4.4 states a falsification t
 ## 5 · Bounds on every claim, and the conditions for falsification
 
 Seven bounds sit under everything above, ordered by how much a decision would change if one of them
-bit. None alters the ranking by gap-level margin; each alters what a count taken from it means.
+bit. None alters the ranking by gap-level margin; each alters what a count taken from it means. The
+block that closes the section is not one of them: it records a released artefact that had no reading
+to give. The conditions under which the ranking would be falsified are stated with the experiment
+that would test it (§4.4), not here.
 
 **Counts are lower bounds, and a zero is not exempt.** The alignment screen is heuristic and stores
 at most 50 hits per query, so 136 of the 183 filtered designs carry right-censored counts: 35 at the
@@ -1293,7 +1307,8 @@ the four bounds on it. It prices *TAF15* at 3 of 3 on a three-tumour series, whi
 study reports a second isoform at a cryptic exon within *NR4A3* intron 2 and calls the two "the two
 major *TAF15*-*NR4A3* isoforms detected in human tumors" without counting
 either,<sup>27</sup><!--PMID:31020999--> so that arm's coverage is an upper bound and 68.4% is
-optimistic on it by an unmeasured amount; no design in the panel crosses that seam, 0 of 190, and the
+optimistic on it by an unmeasured amount; no design in the 38-junction panel crosses that seam (0 of
+190; the designs §2.6 reports at it sit outside the panel), and the
 two isoforms share no sequence 3′ of the breakpoint, so it is a different target and not a near-miss.
 The
 multi-partner result is conditional on *TAF15* and *FUS* breaking at the homologous exons, which is
@@ -1342,15 +1357,14 @@ cleanliness.
 annotated variant, so a match to a constitutive exon is counted once per variant: over the 44 designs
 of the 38 junction screens whose hit lists permit a locus recount the median inflation is 2.25
 records per locus and the maximum 11.0, more than doubling the apparent number of distinct genes.
-A design's *load* is its predicted
-off-target burden counted as near-matches, and where it sits matters as much as its size: `NM_`/`NR_`
+Where a load sits matters as much as its size: `NM_`/`NR_`
 records are curated, `XM_`/`XR_` computationally predicted. Both compound on
 5′-GGGCATATCATCAAAC-3′, whose 123 gap-paired near-matches at the deeper ceiling recount to six loci:
 82 of the 123 are predicted models and the other 41 are curated records, and those 41 are themselves
 inflated, 32 of them *ANKS1B* accessions and three *ZNF667*. The curated share moves with depth as
 well. At the default ceiling that design carried a single curated sense-strand hit, *H2AP* (NM_012274),
 mismatched inside the catalytic gap and so counted in full under the pessimistic bound; at the deeper
-ceiling it carries 43. The genome scan decides
+ceiling it carries 43 curated sense-strand hits, 41 of them gap-paired. The genome scan decides
 sense-strand membership against an annotation, so unannotated transcription is uncounted; it is one
 assembly, silent on a patient's private variation; and every exhaustive screen here is complete for
 substitutions by construction and blind to insertions and deletions.
@@ -1368,7 +1382,7 @@ returned exactly 50 records and the eighth 52.
 
 The per-design rows in that file therefore look like off-target findings and are none. Of its 402
 retained rows, six are exact 16-of-16 matches, four of them to genomic clone records and two to
-annotation records on chromosome 6, and 55 are immunoglobulin heavy-chain variable-region records,
+annotation records on chromosome 6, and 55 are immunoglobulin variable-region records,
 every one of them at 14 or fewer of 16. A corpus of this kind carries one stretch of sequence once
 per record that contains it, so those rows are largely redundant copies of one another, and there is
 no denominator against which to say whether any of them is more than arithmetic. No count, ratio,

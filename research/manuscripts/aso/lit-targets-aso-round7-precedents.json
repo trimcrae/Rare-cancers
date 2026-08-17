@@ -13,6 +13,11 @@
    "retrieved_utc": "2026-08-16T23:57Z",
    "corpus_path": "literature/aso-round7-ref39-fulltext/",
    "purpose": "full text for D2-U1 (PMID 9060841 / PMC1857890) and for B6-F2 (PMC10787139)"
+  },
+  "third_run": {
+   "workflow_run_id": 32040704252,
+   "corpus_path": "literature/aso-emc-review-fulltext/",
+   "purpose": "anchor for the one manuscript quotation that traced to no committed file — \"irrespective of partner\" at section 4.1, attributed to PMID 41055792. Found by the round-7 adversarial reviewer, which is the seat that reads identifiers against artifacts rather than reading prose."
   }
  },
  "_what_this_is_not": [
@@ -168,5 +173,17 @@
    "is_open_access": "N",
    "abstract_verbatim": "The pathogenesis of myxoid chondrosarcoma (CS) is poorly understood. A recurrent translocation, t(9;22) (q22;q12), has been recognized in CS, specifically in extraskeletal myxoid CS. Recently, this translocation has been shown to represent a rearrangement of the EWS gene at 22q12 with a novel gene at 9q22 designated CHN (or TEC). Sequence analysis suggests that CHN encodes a novel orphan nuclear receptor with a zinc finger DNA-binding domain. The structure of this gene fusion has been characterized in only a limited number of extraskeletal myxoid CSs and its presence in other types of CS has not been extensively examined. We studied 46 cases of CS (8 extraskeletal myxoid, 4 skeletal myxoid, 4 mesenchymal, and 30 other) for the EWS/CHN gene fusion by reverse transcriptase polymerase chain reaction, Southern blotting, and long-range DNA polymerase chain reaction. The EWS/CHN gene fusion was present in 6 of 8 extraskeletal myxoid CSs and was not detected in any of the remaining cases, including the 4 skeletal myxoid CSs. The negative findings in the latter cases suggest that skeletal myxoid CS is pathogenetically distinct from its extraskeletal counterpart. Notably, 2 cases of extraskeletal myxoid CS showed neither an EWS/CHN fusion transcript nor EWS/CHN genomic fusion nor EWS or CHN genomic rearrangement, suggesting genetic heterogeneity within extraskeletal myxoid CS. Finally, we also provide evidence for alternative splicing of the 3' end of the fusion transcript. Extraskeletal myxoid CS thus represents yet another sarcoma type containing a gene fusion involving EWS."
   }
+ },
+ "MAJOR_the_one_unanchored_quotation": {
+  "⛔_the_defect": "The manuscript quotes this review verbatim and the only committed record for the PMID was its ABSTRACT, which does not contain the phrase. lint_citations passed throughout and structurally had to: the PMID is anchored, so gate 4 sees an anchored identifier. Claim provenance and QUOTATION provenance are different questions, and only the first was gated.",
+  "pmid": "41055792",
+  "pmcid": "PMC12504171",
+  "quoted_fragment": "irrespective of partner",
+  "n_occurrences_in_full_text": 2,
+  "context_verbatim_first": " (93%) tested positive for an EWSR1 gene rearrangement. In all positive cases, more than 50% of the tumour nuclei showed the rearrangement, with a median of 80%. Break-apart NR4A3 FISH is the preferred single assay for EMC because it detects any NR4A3 rearrangement irrespective of partner; EWSR1 break-apart FISH identifies only the EWSR1-rearranged subset and lacks disease specificity. In addition to its diagnostic specificity, FISH is also a pr",
+  "context_verbatim_second": "ories. While highly sensitive, RT-PCR has limitations because different EMC cases may have different fusion partners for NR4A3, requiring multiple primer sets for accurate detection. Break-apart FISH for NR4A3 is the preferred single assay because it detects any NR4A3 rearrangement irrespective of partner; by contrast, EWSR1 break-apart FISH identifies only the EWSR1-rearranged subset and lacks specificity across sarcomas. Another major advantage of FISH is its applicability to ",
+  "⭐_why_both_are_kept": "The review states it twice, in the FISH-validation passage and again in the assay-comparison passage. Both are recorded because a single window would leave a later reader unable to tell a quotation from a paraphrase of a nearby sentence.",
+  "⚠_markup": "Inline <italic> tags from the JATS full text were stripped so the sentences read as prose; no word, space or punctuation mark was otherwise altered.",
+  "verdict": "VERIFIED VERBATIM. The quotation is exactly what the source says, so no word of the manuscript changed — what changed is that a reader of the deposit can now check it."
  }
 }

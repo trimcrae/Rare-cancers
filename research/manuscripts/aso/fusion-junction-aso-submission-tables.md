@@ -7,10 +7,10 @@ sequence named in these tables is a research reagent intended solely for laborat
 None is a medicine or a candidate drug, none has been synthesised or tested by anyone, and none may
 be administered to any human being or animal, compounded for such use, or supplied to any person for
 such use. Custom oligonucleotide synthesis is commercially available, so the restriction is on use
-rather than on access. Three of the sequences below are named in the main text as designs NOT to be
-carried forward, because each pairs its whole catalytic gap against the patient's own un-rearranged
-*NR4A3* allele; a table row is not a recommendation. The full statement is in the main text's
-Declarations.
+rather than on access. The three designs the main text names as NOT to be carried forward — each
+pairs its whole catalytic gap against the patient's own un-rearranged *NR4A3* allele — are **not** in
+these tables; a table row is nevertheless not a recommendation, and the full statement is in the main
+text's Declarations.
 
 **Table 1. The in-frame junction space across five *NR4A3* fusion partners.** Every
 donor-exon × *NR4A3*-acceptor-exon pair was graded against the frame condition before any design was
@@ -30,7 +30,11 @@ structure and is not a claim about which junctions patients carry.
 **Table 2. Predicted specificity per screened junction.** One row per junction; figures are for the
 design with the highest gap-level margin at that junction, which is the ranking the Methods define,
 and NOT for that junction's cleanest design — the two are often different molecules, and the
-cleanest ones are in Table 3. Near-match counts are of RefSeq
+cleanest ones are in Table 3. The margin column is therefore the best among the designs that
+RETURNED a screen at this depth: 7 of the panel's 190 default-depth submissions
+failed at the remote service, which is why a junction can show fewer than five designs screened
+here, and why Table 4 — which selects from the deeper re-screens — can name a design of higher
+margin at the same junction. Near-match counts are of RefSeq
 transcript accessions and are also given collapsed to distinct gene loci, since RefSeq carries one
 accession per annotated variant. A “≥” marks a right-censored count: the screens store the top
 15 hits per design, so a design with more is a lower bound. All 38 junction screens
@@ -42,7 +46,7 @@ None of these numbers is a measurement of off-target activity.
 
 ² Counted over the gap-spanning loci only, not over all of that design's near-match loci.
 
-³ The same design re-screened at a tenfold deeper alignment ceiling, with retention raised to match it so that no hit list is truncated. Because no list is truncated, the gap-spanning locus column at this depth is recounted from the complete stored hits under the current locus assignment and is exact; it is not the screen's own stored figure, which was computed before that assignment was corrected and splits any gene whose description carries a comma across one accession per transcript variant. It is therefore the same quantity, counted the same way, as the locus figures in Table 4 and in the Results. The three columns are the counterparts of the default-depth columns to their left, given beside them rather than in place of them because the default depth is where the corpus-wide counts elsewhere in the paper were computed and the two must stay comparable. Read together they are the paper's censoring result at the level of a single row: a default-depth count is a lower bound whether or not it reached the 50-hit cap, and three junctions whose default cell reads zero in the gap-spanning column carry gap-spanning hits at ten times the depth. A “—” means the deeper re-screen returned no result for that design and is not a count of zero; three of the panel's 190 records failed at this ceiling.
+³ The same design re-screened at a tenfold deeper alignment ceiling, with retention raised to match it so that no hit list is truncated. Because no list is truncated, the gap-spanning locus column at this depth is recounted from the complete stored hits under the current locus assignment and is exact; it is not the screen's own stored figure, which was computed before that assignment was corrected and splits any gene whose description carries a comma across one accession per transcript variant. It is therefore the same quantity, counted the same way, as the locus figures in Table 4 and in the Results. The three columns are the counterparts of the default-depth columns to their left, given beside them rather than in place of them because the default depth is where the corpus-wide counts elsewhere in the paper were computed and the two must stay comparable. Read together they are the paper's censoring result at the level of a single row: a default-depth count is a lower bound whether or not it reached the 50-hit cap, and three junctions whose default cell reads zero in the gap-spanning column carry gap-spanning hits at ten times the depth. Three of the panel's 190 records failed at this ceiling; they are absent from the deep set rather than counted as zero in it.
 
 | junction | designs screened | best gap-level margin | that design | near-matches, either strand (transcripts → loci) | of the retained hits, on the sense strand¹ | loci with a gap-spanning hit | of those, predicted models only² | at the deeper ceiling: near-matches³ | of those, on the sense strand³ | loci with a gap-spanning hit³ | ≤1-mismatch matches across that junction's designs, median (max) |
 |---|---|---|---|---|---|---|---|---|---|---|---|
@@ -132,9 +136,13 @@ what the modality exists for, then by pre-mRNA sites, then by distinct gene loci
 on gap-level margin rather than on raw hit counts. Nothing was re-screened: every field is joined
 from a screen already reported above. Whether a junction has a published exon-resolved breakpoint is
 reported separately from specificity and never folded into the ranking — “published” means an
-exon-resolved EMC breakpoint is reported for that exon pair, “exon not reported” that the partner
-has a resolved breakpoint at a different exon, and “none published” that no exon-resolved breakpoint
-has been reported for that partner at all. The last of those is absence of evidence: EMC case
+exon-resolved EMC breakpoint is reported for that exon pair; “published (deposit)” that the exon is
+resolved by a deposited chimeric mRNA record with no peer-reviewed report behind it, which §2.3
+describes; “exon not reported” that a published report resolves a breakpoint of that partner at a
+different exon; and “none published” that no published report resolves any breakpoint of that
+partner to an exon. The last two are drawn on the published record alone, so one partner can carry
+a “published (deposit)” row and “none published” rows at once — *TFG* is that case here, and the
+deposit is why its exon-7 row is not one of them. “None published” is absence of evidence: EMC case
 reports usually name the partner gene without sequencing to nucleotide resolution. Gap-paired
 near-matches are at the tenfold deeper alignment ceiling, where every hit list is complete. The
 genome column is the observed number of gap-paired sites at ≤2 mismatches over the number expected
@@ -180,7 +188,7 @@ reported as such rather than given a best row.
 | TFG e4::NR4A3 e3 | none published | 1 of 5 | 5′-AGGGCATATCATTTTC-3′ | 2 | 7 | 82 → 12 | 1.77 |
 | TFG e5::NR4A3 e3 | none published | 2 of 5 | 5′-GGCATATCTGAAACCT-3′ | 2 | 8 | 34 → 7 | 1.38 |
 | TFG e6::NR4A3 e3 | none published | 3 of 5 | 5′-GGGCATATCTTCAATC-3′ | 3 | 9 | 29 → 3 | 0.73 |
-| TFG e7::NR4A3 e3 | published | 2 of 5 | 5′-GGCATATCTGAATACT-3′ | 2 | 9 | 24 → 6 | 1.24 |
+| TFG e7::NR4A3 e3 | published (deposit) | 2 of 5 | 5′-GGCATATCTGAATACT-3′ | 2 | 9 | 24 → 6 | 1.24 |
 
 **Table 5. Gap length against junction specificity, at one junction and across the design space.** The
 same junctions tiled and screened at three gapmer geometries, wing held at five nucleotides so that only
@@ -261,44 +269,48 @@ than a zero, because an absent reading is not a reading of absence. Every hit be
 nothing here distinguishes these loci from one another on affinity. None of these numbers is a
 measurement of cleavage, and no expression figure is a predicted cleavage event.
 
-| junction | gene locus | gap-paired hit records | tiling registers returning it | Liver | Kidney - Cortex | Kidney - Medulla | soft-tissue proxy maximum | exposure-organ reading |
+⁷ The denominator is how many designs at that seam THIS TABLE READS, and not how many junction-spanning registers the seam admits — 5 at every junction of this panel (Table 5). At the lead seam the multi-partner reagent's own screen is the only one read, so those rows carry a denominator of one; at the other seams no design is selected and every screened register is read, because a ranking is not a reagent and the union across registers is what the panel has to cover.
+
+◆ A locus returned by the design Table 4 names as the best available at that seam, which is the molecule Table 7 prices and §4 names. The unmarked rows are returned by other registers tiled across the same junction and not by that reagent. The marker identifies and does not rank: every locus keeps its row, the union is still what this table reports, and a reagent's own loci are neither cleaner nor dirtier for being its own.
+
+| junction | gene locus | gap-paired hit records | tiling registers returning it⁷ | Liver | Kidney - Cortex | Kidney - Medulla | soft-tissue proxy maximum | exposure-organ reading |
 |---|---|---|---|---|---|---|---|---|
-| EWSR1 e12::NR4A3 e3 | *ANKS1B* | 67 | 1 of 1 | 0.03 | 0.46 | 0.28 | 3.6 (Artery - Tibial) | below the lower cut in all three |
-|  | *ZNF667* | 37 | 1 of 1 | 0.31 | 1.63 | 2.58 | 6.2 (Nerve - Tibial) | detectable, below the upper cut |
-|  | *GMCL1* | 9 | 1 of 1 | 4.52 | 4.98 | 6.72 | 18.3 (Artery - Tibial) | detectable, below the upper cut |
-|  | *LOC105374140* | 5 | 1 of 1 | — | — | — | — | no gene model — not measurable |
-|  | *LOC105370997* | 4 | 1 of 1 | — | — | — | — | no gene model — not measurable |
-|  | *CHST5* | 1 | 1 of 1 | 0.07 | 0.35 | 0.78 | 0.8 (Nerve - Tibial) | below the lower cut in all three |
+| EWSR1 e12::NR4A3 e3 | *ANKS1B* ◆ | 67 | 1 of 1 | 0.03 | 0.46 | 0.28 | 3.6 (Artery - Tibial) | below the lower cut in all three |
+|  | *ZNF667* ◆ | 37 | 1 of 1 | 0.31 | 1.63 | 2.58 | 6.2 (Nerve - Tibial) | detectable, below the upper cut |
+|  | *GMCL1* ◆ | 9 | 1 of 1 | 4.52 | 4.98 | 6.72 | 18.3 (Artery - Tibial) | detectable, below the upper cut |
+|  | *LOC105374140* ◆ | 5 | 1 of 1 | — | — | — | — | no gene model — not measurable |
+|  | *LOC105370997* ◆ | 4 | 1 of 1 | — | — | — | — | no gene model — not measurable |
+|  | *CHST5* ◆ | 1 | 1 of 1 | 0.07 | 0.35 | 0.78 | 0.8 (Nerve - Tibial) | below the lower cut in all three |
 | TAF15 e6::NR4A3 e3 | *G3BP2* | 56 | 2 of 5 | 11.92 | 17.03 | 23.12 | 77.0 (Cells - Cultured fibroblasts) | at or above the upper cut |
 |  | *LINC02030* | 22 | 2 of 5 | 0.00 | 0.00 | 0.02 | 0.3 (Skin - Sun Exposed (Lower leg)) | below the lower cut in all three |
 |  | *MIR9-2HG* | 18 | 2 of 5 | — | — | — | — | no reading taken |
 |  | *LAMA4* | 13 | 1 of 5 | 1.28 | 3.13 | 6.06 | 268.6 (Cells - Cultured fibroblasts) | detectable, below the upper cut |
-|  | *ZFPM2* | 12 | 3 of 5 | 0.64 | 0.55 | 0.40 | 9.6 (Artery - Tibial) | below the lower cut in all three |
+|  | *ZFPM2* ◆ | 12 | 3 of 5 | 0.64 | 0.55 | 0.40 | 9.6 (Artery - Tibial) | below the lower cut in all three |
 |  | *GNAL* | 10 | 2 of 5 | 0.66 | 1.74 | 1.81 | 8.6 (Artery - Tibial) | detectable, below the upper cut |
-|  | *NRP1* | 5 | 5 of 5 | 6.62 | 16.87 | 17.81 | 104.7 (Cells - Cultured fibroblasts) | at or above the upper cut |
+|  | *NRP1* ◆ | 5 | 5 of 5 | 6.62 | 16.87 | 17.81 | 104.7 (Cells - Cultured fibroblasts) | at or above the upper cut |
 |  | *SLC17A3* | 4 | 2 of 5 | 9.14 | 33.61 | 8.09 | 0.0 (Adipose - Subcutaneous) | at or above the upper cut |
-|  | *CA5B* | 3 | 3 of 5 | 0.66 | 1.57 | 1.96 | 11.7 (Artery - Tibial) | detectable, below the upper cut |
-|  | *CA5BP1-CA5B* | 3 | 3 of 5 | — | — | — | — | no reading taken |
+|  | *CA5B* ◆ | 3 | 3 of 5 | 0.66 | 1.57 | 1.96 | 11.7 (Artery - Tibial) | detectable, below the upper cut |
+|  | *CA5BP1-CA5B* ◆ | 3 | 3 of 5 | — | — | — | — | no reading taken |
 |  | *EEFSEC* | 3 | 1 of 5 | 16.15 | 14.37 | 15.57 | 39.1 (Nerve - Tibial) | at or above the upper cut |
 |  | *ANKRD26P3* | 1 | 1 of 5 | 0.00 | 0.00 | 0.00 | 0.0 (Muscle - Skeletal) | below the lower cut in all three |
 |  | *GBP4* | 1 | 1 of 5 | 3.12 | 5.59 | 10.08 | 18.2 (Adipose - Subcutaneous) | at or above the upper cut |
 |  | *LOC105376349* | 1 | 1 of 5 | — | — | — | — | no gene model — not measurable |
-|  | *LOC124907518* | 1 | 1 of 5 | — | — | — | — | no gene model — not measurable |
+|  | *LOC124907518* ◆ | 1 | 1 of 5 | — | — | — | — | no gene model — not measurable |
 |  | *NRXN3-AS1* | 1 | 1 of 5 | — | — | — | — | no reading taken |
 |  | *ST3GAL1* | 1 | 1 of 5 | 28.58 | 16.36 | 8.06 | 27.2 (Muscle - Skeletal) | at or above the upper cut |
-| EWSR1 e13::NR4A3 e3 | *FNBP1* | 42 | 2 of 5 | 7.08 | 12.12 | 14.06 | 56.5 (Nerve - Tibial) | at or above the upper cut |
+| EWSR1 e13::NR4A3 e3 | *FNBP1* ◆ | 42 | 2 of 5 | 7.08 | 12.12 | 14.06 | 56.5 (Nerve - Tibial) | at or above the upper cut |
 |  | *EHMT2* | 34 | 2 of 5 | 6.89 | 13.23 | 16.70 | 53.0 (Nerve - Tibial) | at or above the upper cut |
 |  | *ZNF215* | 27 | 1 of 5 | 0.13 | 0.67 | 1.27 | 5.2 (Cells - Cultured fibroblasts) | detectable, below the upper cut |
 |  | *ESYT2* | 26 | 2 of 5 | 10.42 | 14.26 | 28.28 | 139.9 (Artery - Tibial) | at or above the upper cut |
 |  | *LRP5L* | 8 | 2 of 5 | 7.83 | 6.32 | 11.16 | 8.0 (Nerve - Tibial) | at or above the upper cut |
-|  | *CDC42SE1* | 6 | 2 of 5 | 22.74 | 44.73 | 78.97 | 187.6 (Nerve - Tibial) | at or above the upper cut |
+|  | *CDC42SE1* ◆ | 6 | 2 of 5 | 22.74 | 44.73 | 78.97 | 187.6 (Nerve - Tibial) | at or above the upper cut |
 |  | *THEMIS* | 6 | 1 of 5 | 0.13 | 0.08 | 0.18 | 0.3 (Adipose - Subcutaneous) | below the lower cut in all three |
 |  | *LOC105374651* | 4 | 1 of 5 | — | — | — | — | no gene model — not measurable |
 |  | *ZC3H4* | 4 | 1 of 5 | 6.41 | 5.89 | 9.71 | 26.2 (Nerve - Tibial) | detectable, below the upper cut |
 |  | *ERBIN* | 2 | 1 of 5 | 9.80 | 9.38 | 14.68 | 43.8 (Cells - Cultured fibroblasts) | at or above the upper cut |
 |  | *ZNF236* | 2 | 1 of 5 | 1.68 | 2.29 | 2.90 | 8.7 (Nerve - Tibial) | detectable, below the upper cut |
 | TCF12 e5::NR4A3 e3 | *HNRNPA2B1* | 100 | 2 of 5 | 184.12 | 247.24 | 457.30 | 656.6 (Nerve - Tibial) | at or above the upper cut |
-|  | *PIK3CG* | 51 | 3 of 5 | 0.14 | 0.17 | 0.37 | 1.2 (Adipose - Subcutaneous) | below the lower cut in all three |
+|  | *PIK3CG* ◆ | 51 | 3 of 5 | 0.14 | 0.17 | 0.37 | 1.2 (Adipose - Subcutaneous) | below the lower cut in all three |
 |  | *MROH2A* | 28 | 1 of 5 | 1.04 | 0.42 | 0.07 | 0.3 (Skin - Sun Exposed (Lower leg)) | detectable, below the upper cut |
 |  | *LINC02940* | 9 | 1 of 5 | — | — | — | — | no reading taken |
 |  | *EXOC2* | 6 | 1 of 5 | 5.27 | 6.54 | 8.87 | 22.5 (Nerve - Tibial) | detectable, below the upper cut |
@@ -310,8 +322,8 @@ measurement of cleavage, and no expression figure is a predicted cleavage event.
 |  | *LOC107987169* | 1 | 1 of 5 | — | — | — | — | no gene model — not measurable |
 |  | *LOC124905457* | 1 | 1 of 5 | — | — | — | — | no gene model — not measurable |
 
-**Table 7. Every junction-spanning reagent named in §4 and every other seam that qualifies beside
-them, what each costs on each screen and what each buys in coverage.** The rows are in the order §4 decides them:
+**Table 7. Every seam the coverage ladder qualifies, with the ladder's bounds and §4's two contrast
+arms beside them, what each costs on each screen and what each buys in coverage.** The rows are in the order §4 decides them:
 the two lead reagents, the rungs of the coverage ladder above them, the bounds above those, the
 remaining junction with a published exon-resolved breakpoint and a reagent through all five deep
 screens, the four *NR4A3* exon-2 acceptor seams reported beside the panel, and the two contrast
@@ -324,7 +336,10 @@ coverage of the reagent set through that row, so the two leads are
 one rung and carry one figure between them; it is discounted by the breakpoint distribution of a
 single series and is not a partner figure, and its interval is composed from each breakpoint
 fraction's own Wilson bound rather than from the point estimate. Every rung and every bound prints
-the increment it adds over the row above it, so no figure reads as bought by the row it sits on. A
+the increment it adds over the row above it, so no figure reads as bought by the row it sits on.
+Each coverage figure and each increment is rounded to one decimal independently, from the unrounded
+fraction rather than from each other, so a row's figure plus the increment printed on the row below
+it need not reproduce that row's figure in the last place. A
 bound row is what coverage would be if every remaining breakpoint of that partner were covered,
 which nothing measures. A bound that names no reagent still has a row, and the *EWSR1* one is the
 larger of the two steps between the last buildable rung and the table's top figure: the three

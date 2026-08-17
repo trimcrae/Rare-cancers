@@ -573,6 +573,75 @@ earlier, under a slug named for the question it was asked rather than for the pa
 
 ---
 
+### 2h · ⭐ THE STOPPING RULE'S TWO SEATS, RUN — 2026-08-17
+
+The pre-registered rule requires two reviewers beyond the ledger: a **firewalled cold reader** given
+only the three deposit documents, which must return nothing above `minor`, and an **adversarial
+reviewer with artifact access**, explicitly permitted to find nothing. Both were run. Both were
+scoped to consistency, correctness and writing — the computational design is settled and was not
+under review.
+
+**⛔ THE COLD READER RETURNED ONE MAJOR, AND IT WAS IN THE FILE A LABORATORY ORDERS FROM.** The
+generated tables' research-use header — its safety notice — read *"Three of the sequences below are
+named in the main text as designs NOT to be carried forward"*. **None of the three is in the file.**
+Verified: zero occurrences of `CAGTGGGCTCTCCACG`, `GCAGTGGGCTCTCCAC` or `TGATGAGGGCCTTGTG` anywhere
+in Tables 1–7. A reader taking the notice at face value goes hunting for three unsafe rows, finds
+none, and the nearest lookalike is `CAGTGGGCTTCTGCTG` — a reagent the paper **recommends**, one
+glance from a condemned sequence.
+
+⚠ **It was wrong in the safe direction and that is not a defence.** Pointing at danger that is not
+there teaches a reader to discount the one notice that would matter if a condemned design ever did
+reach a table. Fixed at the generator, and both directions are now pinned by
+`test_condemned_designs_are_absent_from_the_tables.py`, which **reads the condemned list out of
+§2.6** rather than holding its own copy — a guard with a private list keeps passing after §2.6
+condemns a fourth design, which is the failure it exists to prevent.
+
+**THE ADVERSARIAL SEAT RECOMPUTED ~700 NUMBERS AND FOUND NO ARITHMETIC ERROR.** Every row of Tables
+1, 2, 4, 5 and 7, most of Table 6, all of Table 3, and ~130 prose and SI figures were re-derived from
+the artifacts. **Zero** arithmetic, set-arithmetic, table-to-prose or direction-of-effect errors. It
+probed the direction question specifically — the screens carry two same-named margin fields, and
+every table and sentence uses the gap one where it says *"gap-level margin"*; `counts_as_liability` is
+used with the correct polarity in Table 4's numerators. ⭐ **It also re-simulated §4.4 independently
+and got 81.4%, 30.5% and 0.648** — the same three figures, from a separate implementation, which is
+what turns the refutation below from an argument into a replication.
+
+**Its five findings, one MAJOR, all verified here before being applied:**
+
+- **⛔ MAJOR — a direct quotation with no committed anchor.** §4.1 quotes a review as saying
+  break-apart FISH detects any rearrangement *"irrespective of partner"*. The only committed record
+  for that PMID is its ABSTRACT, which does not contain the phrase, and a repository-wide scan finds
+  it nowhere but the manuscript. ⚠ **This is the golden-rule class** — never write an identifier or a
+  quotation from recollection — and it is the one defect `lint_citations` structurally cannot catch,
+  because the PMID *is* anchored; only the words are not. The paper's other three quotations all
+  trace. Resolved by fetching the source, which is open access, rather than by paraphrasing away a
+  claim that is true.
+- **"about sevenfold that"** — the antecedent is the 7.3% closed-form prediction, and 45.8/7.3 =
+  **6.26**. Sevenfold is right only against the sampled scramble rate two sentences earlier. Now
+  sixfold.
+- **A CpG "sits inside the catalytic gap" in six of seven** — wholly inside in **five**; a sixth has
+  its C on the last gap base and its G in the wing. The *consequence* holds for six, so the number
+  survives and the verb changes to "reaches into".
+- **"55 immunoglobulin heavy-chain records"** — 55 and the ≤14/16 bound are exact; two of the rows
+  are a kappa LIGHT chain. "Heavy-chain" dropped.
+- **An SI fraction move attributed to pooling that pooling does not produce** — the *EWSR1* arm going
+  10 of 15 → 17 of 20 is **two** changes, not one: the panel carries four *EWSR1* junctions where the
+  ladder carries one (12 of the same 15 before any pooling), and only then does pooling widen the
+  denominator. Both fractions were right; the causal clause was not.
+
+**⭐ AND THE COLD READER'S ONE QUANTITATIVE CHARGE WAS REFUTED BY COMPUTING IT.** It argued §4.4's
+power figures could not share a convention: given the void standard deviation of 0.65, three
+replicates should give 4–11% rather than the stated 30%. **All three figures reproduce under a single
+two-sided 95% convention** — 81.3% at n = 6, **30.6% at n = 3**, void sd 0.648 — so nothing changed.
+The charge treated the sample standard deviation as KNOWN; the paper's rule is that the upper bound
+of the 95% *confidence interval* lies below the cut, and that interval's half-width uses the
+ESTIMATED sd, so both the mean and the sd are random. At n = 3 there are two degrees of freedom, the
+sample sd is wildly variable, and the draws that return a small sd produce a narrow interval that
+falsifies. That variability is the whole difference between 11% and 31%. **Fifth instance of the
+confident-quantitative-and-wrong shape**, and the first where the discriminating step was arithmetic
+rather than a file read.
+
+---
+
 ### 2g · ⭐ A HOSTILE READ OF THIS PASS'S OWN EDITS — 13 findings, all applied, 2026-08-17
 
 **Every fix above was itself reviewed before the gate ran**, by a reader scoped to consistency,

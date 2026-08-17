@@ -212,6 +212,34 @@ def _clean_designs(collapse):
     return sorted(out, key=lambda t: (t[0], t[1]["antisense_5to3"]))
 
 
+def _default_depth_failures(collapse):
+    """(submissions that failed at the default depth, records attempted) over the panel.
+
+    ⛔ TABLE 2 AND TABLE 4 PRINTED DIFFERENT "best gap-level margin" FOR THE SAME JUNCTION AND
+    NEITHER SAID WHY (cold-reader finding, 2026-08-17). `TCF12 e7::NR4A3 e3` reads margin 2 in
+    Table 2 and 3 in Table 4; `TAF15 e12::NR4A3 e3` the same. A column headed *best* margin cannot
+    be beaten by a design in the next table without one of the two being wrong.
+
+    Both are right and the reconciliation is censoring, not ranking: the margin-3 design at each of
+    those junctions is a `screen_failed` record at the default depth — "Remote end closed connection
+    without response" — so it is absent from the collapse the whole of Table 2 is built from, and
+    the only visible trace is a `designs screened` cell reading 4 where every other row reads 5.
+    Table 4 selects from the deeper re-screens, where all seven of these designs did return.
+
+    So the count is derived here and stated in Table 2's own legend. It is read from the screens the
+    collapse names rather than globbed off disk, so it is the population the table is built from and
+    cannot drift from it.
+    """
+    attempted = failed = 0
+    for s in collapse["screens"]:
+        if not s.get("junction_label"):
+            continue
+        for o in (_screen(s["screen"]) or {}).get("oligos") or []:
+            attempted += 1
+            failed += o.get("status") != "screened"
+    return failed, attempted
+
+
 def _orientation_filtered(status):
     """Whether a screen's counts were actually filtered by alignment orientation.
 
@@ -335,6 +363,13 @@ def table2(collapse, chance, atlas):
     # near-matches are both worth printing and are printed separately; the collapse artifact stores
     # gap-spanning resolved to LOCI but not to transcripts, so that is the column that exists.
     deep = _deep_lookup()
+    # ⛔ A LEGEND FOR A MARKER NO ROW CARRIES IS WORSE THAN NO LEGEND, AND FOOTNOTE ³ HAD BECOME ONE
+    # (cold-reader finding, 2026-08-17). It explained that "—" means the deeper re-screen returned
+    # no result — and no cell of this table has carried a "—" since the representative design at
+    # every junction gained a deep record. The three deep failures are all at NON-representative
+    # designs, so they reach Table 2 nowhere. Same defect the `‡` block was fixed for, same fix:
+    # the sentence is emitted only where a row actually carries the marker.
+    deep_missing = False
     hdr = ("| junction | designs screened | best gap-level margin | that design | near-matches, "
            # ⛔ THE MARKERS USED TO RUN ¹ ² ⁵ AND ² ¹ ⁵ ⁵ ⁵ ACROSS THE HEADER (round-7 review,
            # 2026-08-16). ³ and ⁴ belong to Table 3, so a reader of Table 2 hunting for them found
@@ -360,6 +395,7 @@ def table2(collapse, chance, atlas):
             rows.append(f"| {lab.replace('__', '::').replace('_', ' ')} | 0 of 5 — every BLAST "
                         f"submission failed at the remote service | — | — | — | — | — | — | — | "
                         f"— | — | — |")
+            deep_missing = True
             continue
         ranked = sorted(ol, key=lambda o: -(gap_margin.get((lab, o["antisense_5to3"])) or -1))
         best = ranked[0]
@@ -392,7 +428,9 @@ def table2(collapse, chance, atlas):
         # opposite of what the screen knows.
         hyb = hyb_by_j.get(lab, {}).get(best["antisense_5to3"])
         hyb_cell = "—" if hyb is None else f"{'≥' if best['right_censored'] else ''}{hyb}"
-        deep_cell = _deep_cells(deep.get((lab, best["antisense_5to3"])))
+        deep_rec = deep.get((lab, best["antisense_5to3"]))
+        deep_missing = deep_missing or deep_rec is None
+        deep_cell = _deep_cells(deep_rec)
         rows.append(
             f"| {lab.replace('__', '::').replace('_', ' ')}{mark} | {len(ol)} | "
             f"{gm if gm is not None else '—'} | 5′-{best['antisense_5to3']}-3′ | "
@@ -404,7 +442,7 @@ def table2(collapse, chance, atlas):
             f"{cens_gap}{best['n_loci_with_a_gap_spanning_hit']} | "
             f"{len(set(best.get('loci_with_a_gap_spanning_hit') or []) & set(best.get('loci_seen_only_as_predicted_models') or []))} | "
             f"{deep_cell} | {med} ({mx}) |")
-    return "\n".join([hdr, sep] + rows), any(not v for v in filtered.values())
+    return "\n".join([hdr, sep] + rows), any(not v for v in filtered.values()), deep_missing
 
 
 #: Clinical-occurrence tiers, rendered for a reader. The tier vocabulary is owned by
@@ -414,6 +452,32 @@ _TIER_LABELS = {
     "partner_published_this_exon_not_reported": "exon not reported",
     "no_published_exon_resolved_breakpoint": "none published",
 }
+
+
+def _tier_cell(j):
+    """The clinical-occurrence cell, with a deposit-resolved row marked as one.
+
+    ⛔ TABLE 4's LEGEND CONTRADICTED ITS OWN ROWS (cold-reader finding, 2026-08-17). The legend
+    defined “none published” as "no exon-resolved breakpoint has been reported for that partner at
+    all", and the table printed `TFG e7::NR4A3 e3` as **published** beside five *TFG* rows reading
+    **none published**. Both cannot hold of one partner under that definition, and a reader has no
+    way to see which of the two is the loose one.
+
+    Neither is wrong; the labels were. `aso_per_junction_table.PUBLISHED_BREAKPOINTS` resolves the
+    *TFG* seam from ONE deposited chimeric mRNA — `breakpoint_refs` carries a GenBank accession and
+    no PMID — while `PARTNERS_WITH_ANY_PUBLISHED_EXON`, which decides the other five rows, contains
+    only partners a PAPER resolves to an exon. So the three tiers are drawn on two different
+    records, and the row that sits on the deposit alone is the one that has to say so. The
+    predicate is the ABSENCE OF A PMID in the artifact's own refs, never a typed list of junctions:
+    a seam that gains a peer-reviewed report upstream loses the marker here without an edit.
+    """
+    tier = _TIER_LABELS.get(j["clinical_tier"], j["clinical_tier"])
+    if j["clinical_tier"] != "published_exon_resolved_breakpoint":
+        return tier
+    refs = j.get("breakpoint_refs") or []
+    if any(str(r).upper().startswith("PMID") for r in refs):
+        return tier
+    return f"{tier} (deposit)"
 
 
 #: ⛔ TABLE 7 IS A ROW SPEC, NOT A DATA TABLE. Each entry names a reagent's EDITORIAL ROLE and where
@@ -629,7 +693,7 @@ def table4(per_junction):
     rows = []
     for j in per_junction["junctions"]:
         lab = j["junction_label"].replace("__", "::").replace("_", " ")
-        tier = _TIER_LABELS.get(j["clinical_tier"], j["clinical_tier"])
+        tier = _tier_cell(j)
         b = j["best_available"]
         n = f"{j['n_designs_clearing_the_parent_screen']} of {j['n_designs_screened']}"
         if b is None:
@@ -841,7 +905,44 @@ def _gap_paired_records(expr):
     return total
 
 
-def table6(expr):
+def _reagent_loci(expr, per_junction):
+    """{seam: the loci returned by the reagent Table 4 names there}, for Table 6's ◆ marker.
+
+    ⛔ TABLE 6 COULD NOT SUPPORT A CLAIM MADE FROM IT (cold-reader finding, 2026-08-17). §4.1 says
+    the *EWSR1* exon-13 reagent's TWO loci are both transcribed at the upper cut — and Table 6 lists
+    ELEVEN loci at that seam, because it is the UNION over every register tiled across the junction
+    (`aso_offtarget_tissue_expression.PANEL` sets `designs: None` there for a stated reason: the
+    union is what the panel has to cover). Nothing in the table said which two were the reagent's,
+    so a reader checking the sentence against the table it cites could not.
+
+    ⭐ THE TABLE CAN TELL, AND FROM AN ARTIFACT IT ALREADY HAS. The expression artifact stores each
+    seam's per-DESIGN locus list, and `aso-per-junction-table.json` names the best available design
+    at each seam — the same molecule Table 7 prices. The intersection is exact, not inferred.
+
+    ⚠ AND IT REFUSES RATHER THAN MARKING NOTHING. A named reagent absent from the designs this table
+    reads would leave the ◆ legend describing a marker no row carries, which is the defect footnote ³
+    was just cleared of. The union framing is untouched: every locus keeps its row, and the marker
+    identifies rather than ranks.
+    """
+    panel = {j["junction_label"]: j for j in per_junction["junctions"]}
+    out = {}
+    for seam in expr["panel"]["panel"]:
+        lab = seam["junction_label"]
+        best = (panel.get(lab) or {}).get("best_available")
+        if not best:
+            continue
+        seq = best["antisense_5to3"]
+        mine = [d for d in seam["designs"] if d["antisense_5to3"] == seq]
+        if not mine:
+            raise SystemExit(
+                f"Table 6: the best available design at {lab} ({seq}) is not among the designs this "
+                "table reads at that seam, so the ◆ marker its legend defines would mark no row. "
+                "Re-derive the marker against whatever design the expression panel now reads.")
+        out[lab] = set(mine[0]["loci"])
+    return out
+
+
+def table6(expr, per_junction):
     """Where each off-target locus of the two clinically-relevant reagents is expressed.
 
     ⛔ TWO COMPARTMENTS, NEVER ONE COLUMN. The organs a systemically dosed gapmer distributes to and
@@ -866,6 +967,7 @@ def table6(expr):
     # contributes a single design and the other five, so a bare "1" and a bare "5" read as a
     # thirteen-fold difference in robustness when one of them is every register there is.
     n_des = {s["junction_label"]: s["n_designs"] for s in expr["panel"]["panel"]}
+    mine = _reagent_loci(expr, per_junction)
     per = sorted(expr["per_locus"],
                  key=lambda L: (order.get(L["seams"][0], 99),
                                 -L["screen_records"]["n_transcript_records"], L["locus"]))
@@ -885,11 +987,16 @@ def table6(expr):
         else:
             soft = "—"
         reading = _EXPOSURE_READING.get(L["tier"], L["tier"])
-        rows.append(f"| {lab} | *{L['locus']}* | "
+        mark = " ◆" if L["locus"] in mine.get(junction, ()) else ""
+        rows.append(f"| {lab} | *{L['locus']}*{mark} | "
                     f"{L['screen_records']['n_transcript_records']} | "
                     f"{L['n_designs_hitting_it']} of {n_des.get(junction, '?')} | "
                     + " | ".join(cells) + f" | {soft} | {reading} |")
-    hdr = ("| junction | gene locus | gap-paired hit records | tiling registers returning it | "
+    # ⚠ THE ◆ IS EXPLAINED BY A SYMBOL-KEYED NOTE, NOT BY A SUPERSCRIPT ON THIS HEADER. The header's
+    # opening is the anchor `test_table6_record_column_is_named_for_what_the_generator_counts` finds
+    # this table by, and a marker inside it would break that guard while changing nothing a reader
+    # sees. The symbol lives in the cells it marks, which is where a reader meets it.
+    hdr = ("| junction | gene locus | gap-paired hit records | tiling registers returning it⁷ | "
            + " | ".join(tiss) + " | soft-tissue proxy maximum | exposure-organ reading |")
     sep = "|---|---|---|---|" + "---|" * (len(tiss) + 2)
     return "\n".join([hdr, sep] + rows)
@@ -1066,7 +1173,13 @@ def main(argv=None):
                   if len(_et) > 1 else _et[0].lower())
 
     _n_records = _gap_paired_records(expr)
-    t2, any_unfiltered = table2(collapse, chance, atlas)
+    # ⚠ TABLE 6's REGISTER DENOMINATOR NEEDS THE NUMBER IT IS *NOT*. "1 of 1" is unreadable beside
+    # "2 of 5" unless the note says how many registers the seam admits, and that count belongs to
+    # the geometry artifact Table 5 is built from — read, never typed.
+    _registers = next(g["junction_spanning_registers_per_seam"] for g in gap["geometries"]
+                      if g["architecture"] == GEOMETRY.architecture)
+    n_failed, n_attempted = _default_depth_failures(collapse)
+    t2, any_unfiltered, deep_missing = table2(collapse, chance, atlas)
     t3, n_clean, n_clean_junctions = table3(collapse, chance, thermo, _graded_loads())
     pct, minus, tot = _minus_strand_share(collapse)
 
@@ -1081,6 +1194,12 @@ def main(argv=None):
               "gap-spanning hits. Its numbers are upper bounds and are NOT comparable with the "
               "unmarked rows.")
 
+    # ⚠ EMITTED ONLY WHERE A CELL CARRIES THE MARKER — see the note beside `deep_missing` in
+    # `table2`. The count of failures is derived either way and stays in the sentence above it.
+    no_deep = ("" if not deep_missing else
+               " A “—” means the deeper re-screen returned no result for that design and is not a "
+               "count of zero.")
+
     doc = f"""<!-- GENERATED — DO NOT EDIT. Regenerate: python3 research/manuscripts/submission_tables.py -->
 
 # Tables — fusion-junction ASO submission
@@ -1090,10 +1209,10 @@ sequence named in these tables is a research reagent intended solely for laborat
 None is a medicine or a candidate drug, none has been synthesised or tested by anyone, and none may
 be administered to any human being or animal, compounded for such use, or supplied to any person for
 such use. Custom oligonucleotide synthesis is commercially available, so the restriction is on use
-rather than on access. Three of the sequences below are named in the main text as designs NOT to be
-carried forward, because each pairs its whole catalytic gap against the patient's own un-rearranged
-*NR4A3* allele; a table row is not a recommendation. The full statement is in the main text's
-Declarations.
+rather than on access. The three designs the main text names as NOT to be carried forward — each
+pairs its whole catalytic gap against the patient's own un-rearranged *NR4A3* allele — are **not** in
+these tables; a table row is nevertheless not a recommendation, and the full statement is in the main
+text's Declarations.
 
 **Table 1. The in-frame junction space across five *NR4A3* fusion partners.** Every
 donor-exon × *NR4A3*-acceptor-exon pair was graded against the frame condition before any design was
@@ -1106,13 +1225,17 @@ structure and is not a claim about which junctions patients carry.
 **Table 2. Predicted specificity per screened junction.** One row per junction; figures are for the
 design with the highest gap-level margin at that junction, which is the ranking the Methods define,
 and NOT for that junction's cleanest design — the two are often different molecules, and the
-cleanest ones are in Table 3. Near-match counts are of RefSeq
+cleanest ones are in Table 3. The margin column is therefore the best among the designs that
+RETURNED a screen at this depth: {n_failed} of the panel's {n_attempted} default-depth submissions
+failed at the remote service, which is why a junction can show fewer than five designs screened
+here, and why Table 4 — which selects from the deeper re-screens — can name a design of higher
+margin at the same junction. Near-match counts are of RefSeq
 transcript accessions and are also given collapsed to distinct gene loci, since RefSeq carries one
 accession per annotated variant. A “≥” marks a right-censored count: the screens store the top
 {SAVED_HITS} hits per design, so a design with more is a lower bound. All {sum(1 for s in collapse["screens"] if s.get("junction_label"))} junction screens
 are filtered by alignment orientation. `XM_`/`XR_` records are computationally
 predicted gene models rather than curated transcripts, and are counted separately for that reason.
-None of these numbers is a measurement of off-target activity.\n\n¹ A near-match count is what the search returned on EITHER strand; a match on the strand opposite the target window cannot be hybridised by an antisense oligonucleotide and is not a liability. Across this corpus {pct}% of apparent gap-spanning hits ({minus} of {tot:,}) are of that kind, which is why the two columns differ and why the raw count alone should not be read as load. This column counts only the {SAVED_HITS} RETAINED hits. The gap-spanning locus column is recounted from those hits wherever they are the complete list, and is exact there; a “≤” marks a truncated design, where the column instead carries the screen's own count over every ranked hit, computed under a locus assignment since corrected that split some genes across accessions and therefore over-counts. The two columns are not in conflict where a truncated design shows “≥0” sense-strand hits and a non-zero gap-spanning locus count: the sense-strand hits are real and simply fall outside the stored window, which is precisely why such a design cannot be called clean.\n\n² Counted over the gap-spanning loci only, not over all of that design's near-match loci.\n\n³ The same design re-screened at a tenfold deeper alignment ceiling, with retention raised to match it so that no hit list is truncated. Because no list is truncated, the gap-spanning locus column at this depth is recounted from the complete stored hits under the current locus assignment and is exact; it is not the screen's own stored figure, which was computed before that assignment was corrected and splits any gene whose description carries a comma across one accession per transcript variant. It is therefore the same quantity, counted the same way, as the locus figures in Table 4 and in the Results. The three columns are the counterparts of the default-depth columns to their left, given beside them rather than in place of them because the default depth is where the corpus-wide counts elsewhere in the paper were computed and the two must stay comparable. Read together they are the paper's censoring result at the level of a single row: a default-depth count is a lower bound whether or not it reached the 50-hit cap, and three junctions whose default cell reads zero in the gap-spanning column carry gap-spanning hits at ten times the depth. A “—” means the deeper re-screen returned no result for that design and is not a count of zero; three of the panel's 190 records failed at this ceiling.{dagger}
+None of these numbers is a measurement of off-target activity.\n\n¹ A near-match count is what the search returned on EITHER strand; a match on the strand opposite the target window cannot be hybridised by an antisense oligonucleotide and is not a liability. Across this corpus {pct}% of apparent gap-spanning hits ({minus} of {tot:,}) are of that kind, which is why the two columns differ and why the raw count alone should not be read as load. This column counts only the {SAVED_HITS} RETAINED hits. The gap-spanning locus column is recounted from those hits wherever they are the complete list, and is exact there; a “≤” marks a truncated design, where the column instead carries the screen's own count over every ranked hit, computed under a locus assignment since corrected that split some genes across accessions and therefore over-counts. The two columns are not in conflict where a truncated design shows “≥0” sense-strand hits and a non-zero gap-spanning locus count: the sense-strand hits are real and simply fall outside the stored window, which is precisely why such a design cannot be called clean.\n\n² Counted over the gap-spanning loci only, not over all of that design's near-match loci.\n\n³ The same design re-screened at a tenfold deeper alignment ceiling, with retention raised to match it so that no hit list is truncated. Because no list is truncated, the gap-spanning locus column at this depth is recounted from the complete stored hits under the current locus assignment and is exact; it is not the screen's own stored figure, which was computed before that assignment was corrected and splits any gene whose description carries a comma across one accession per transcript variant. It is therefore the same quantity, counted the same way, as the locus figures in Table 4 and in the Results. The three columns are the counterparts of the default-depth columns to their left, given beside them rather than in place of them because the default depth is where the corpus-wide counts elsewhere in the paper were computed and the two must stay comparable. Read together they are the paper's censoring result at the level of a single row: a default-depth count is a lower bound whether or not it reached the 50-hit cap, and three junctions whose default cell reads zero in the gap-spanning column carry gap-spanning hits at ten times the depth. Three of the panel's 190 records failed at this ceiling; they are absent from the deep set rather than counted as zero in it.{no_deep}{dagger}
 
 {t2}
 
@@ -1147,9 +1270,13 @@ what the modality exists for, then by pre-mRNA sites, then by distinct gene loci
 on gap-level margin rather than on raw hit counts. Nothing was re-screened: every field is joined
 from a screen already reported above. Whether a junction has a published exon-resolved breakpoint is
 reported separately from specificity and never folded into the ranking — “published” means an
-exon-resolved EMC breakpoint is reported for that exon pair, “exon not reported” that the partner
-has a resolved breakpoint at a different exon, and “none published” that no exon-resolved breakpoint
-has been reported for that partner at all. The last of those is absence of evidence: EMC case
+exon-resolved EMC breakpoint is reported for that exon pair; “published (deposit)” that the exon is
+resolved by a deposited chimeric mRNA record with no peer-reviewed report behind it, which §2.3
+describes; “exon not reported” that a published report resolves a breakpoint of that partner at a
+different exon; and “none published” that no published report resolves any breakpoint of that
+partner to an exon. The last two are drawn on the published record alone, so one partner can carry
+a “published (deposit)” row and “none published” rows at once — *TFG* is that case here, and the
+deposit is why its exon-7 row is not one of them. “None published” is absence of evidence: EMC case
 reports usually name the partner gene without sequencing to nucleotide resolution. Gap-paired
 near-matches are at the tenfold deeper alignment ceiling, where every hit list is complete. The
 genome column is the observed number of gap-paired sites at ≤2 mismatches over the number expected
@@ -1208,12 +1335,12 @@ two columns therefore move together rather than being independent axes, and neit
 neither is expression and neither is affinity. A locus with no reading carries the reason rather
 than a zero, because an absent reading is not a reading of absence. Every hit behind this table sits at 14 of 16 identity, the loosest the screen admits, so
 nothing here distinguishes these loci from one another on affinity. None of these numbers is a
-measurement of cleavage, and no expression figure is a predicted cleavage event.
+measurement of cleavage, and no expression figure is a predicted cleavage event.\n\n⁷ The denominator is how many designs at that seam THIS TABLE READS, and not how many junction-spanning registers the seam admits — {_registers} at every junction of this panel (Table 5). At the lead seam the multi-partner reagent's own screen is the only one read, so those rows carry a denominator of one; at the other seams no design is selected and every screened register is read, because a ranking is not a reagent and the union across registers is what the panel has to cover.\n\n◆ A locus returned by the design Table 4 names as the best available at that seam, which is the molecule Table 7 prices and §4 names. The unmarked rows are returned by other registers tiled across the same junction and not by that reagent. The marker identifies and does not rank: every locus keeps its row, the union is still what this table reports, and a reagent's own loci are neither cleaner nor dirtier for being its own.
 
-{table6(expr)}
+{table6(expr, per_junction)}
 
-**Table 7. Every junction-spanning reagent named in §4 and every other seam that qualifies beside
-them, what each costs on each screen and what each buys in coverage.** The rows are in the order §4 decides them:
+**Table 7. Every seam the coverage ladder qualifies, with the ladder's bounds and §4's two contrast
+arms beside them, what each costs on each screen and what each buys in coverage.** The rows are in the order §4 decides them:
 the two lead reagents, the rungs of the coverage ladder above them, the bounds above those, the
 remaining junction with a published exon-resolved breakpoint and a reagent through all five deep
 screens, the four *NR4A3* exon-2 acceptor seams reported beside the panel, and the two contrast
@@ -1226,7 +1353,10 @@ coverage of the reagent set through that row, so the two leads are
 one rung and carry one figure between them; it is discounted by the breakpoint distribution of a
 single series and is not a partner figure, and its interval is composed from each breakpoint
 fraction's own Wilson bound rather than from the point estimate. Every rung and every bound prints
-the increment it adds over the row above it, so no figure reads as bought by the row it sits on. A
+the increment it adds over the row above it, so no figure reads as bought by the row it sits on.
+Each coverage figure and each increment is rounded to one decimal independently, from the unrounded
+fraction rather than from each other, so a row's figure plus the increment printed on the row below
+it need not reproduce that row's figure in the last place. A
 bound row is what coverage would be if every remaining breakpoint of that partner were covered,
 which nothing measures. A bound that names no reagent still has a row, and the *EWSR1* one is the
 larger of the two steps between the last buildable rung and the table's top figure: the three

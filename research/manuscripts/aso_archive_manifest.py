@@ -176,6 +176,13 @@ PROMISES = [
                      "research/manuscripts/fusion-partner/emc-fusion-partner-pooling.json",
                      "research/data/emc-clinical-registry.json",
                      "research/manuscripts/aso/lit-targets-aso-verify.json",
+                     # ⛔ FOURTH INSTANCE IN ONE DAY OF A CLAIM RELEASED WITHOUT ITS EVIDENCE
+                     # (2026-08-17). This file is the committed CI-fetch evidence behind B6-F1's
+                     # in-vivo precedent scope, B6-F2's liver-restricted GalNAc route, C2-F4's GEO
+                     # sample identity, D2-U1's citation marker, and — added the same day — the two
+                     # verbatim windows for the paper's one previously unanchored quotation. Every
+                     # one of those is a statement the manuscript makes; none was in the deposit.
+                     "research/manuscripts/aso/lit-targets-aso-round7-precedents.json",
                      "research/manuscripts/aso/aso-citations-priorart-2026-08-08.md"],
     },
     {
@@ -313,6 +320,37 @@ PROMISES = [
                         "evidence the claim actually needs."),
         "patterns": ["research/manuscripts/aso/fusion-junction-aso-priorart-evidence.json",
                      "research/manuscripts/aso_priorart_evidence.py"],
+    },
+    {
+        "id": "test_articles_and_cell_models",
+        "verbatim": False,
+        # ⛔ THE THIRD INSTANCE OF THE SAME DEFECT IN ONE DAY, AND IT ARRIVED WITH THE FIX FOR THE
+        # FIRST TWO (2026-08-17). Section 3 was given pointers naming the artifacts behind its
+        # cell-model and test-article readings — which is right, and is what a reader needs — but
+        # naming an artifact as RELEASED while it sits outside the manifest converts a helpful
+        # pointer into a broken promise. Two of the three named files were not in the deposit.
+        # ⚠ THE PATTERN IS WORTH STATING: every time a claim gains its evidence pointer, the
+        # manifest is the second half of that edit. A pointer and a promise are the same sentence to
+        # a reader; only one of them was being kept.
+        # ⭐ `emc-test-article-routes.json` is included although no section names it: it is where the
+        # three published constructs' exon spans are quoted verbatim, which is the evidence behind
+        # section 3's construct-to-lead mapping. An unnamed source that a stated fact rests on still
+        # has to travel with the deposit.
+        "promise": "the test articles and cell models section 3 names, and what is known about each",
+        "contributes": ("The evidence behind section 3: the three published constructs with their "
+                        "author-stated exon spans, the two identity-clean patient-derived models "
+                        "with their RRIDs and the figure-legend fusion calls they rest on, the "
+                        "third line whose availability could not be established, and the fusion "
+                        "caller, expression reading and registry caution behind the statement that "
+                        "no NR4A3 fusion is detectable in H-EMC-SS on the public record. "
+                        "H-EMC-SS identity is DISPUTED (OBJ-LINE-HEMCSS): the evidence in this row "
+                        "is what makes that dispute checkable, and section 3's operative "
+                        "conclusion -- that the line cannot serve as a test article for any reagent "
+                        "named here -- does not rest on the line being EMC."),
+        "patterns": ["research/modalities/emc-test-article-routes.json",
+                     "research/modalities/emc-model-junction-evidence.json",
+                     "research/modalities/emc_model_junction_evidence.py",
+                     "research/modalities/emc-atr-vulnerability.json"],
     },
     {
         "id": "unrearranged_allele_scan",
@@ -907,12 +945,54 @@ def build():
     }
 
 
+#: Fields that move with the REPOSITORY rather than with the archive. `git_revision` advances on
+#: every commit, including commits touching no archived file, and the cleanliness flag flips while a
+#: session has edits in progress. Neither says anything about whether the hash list is right.
+_REPO_STATE_FIELDS = ("git_revision", "git_tree_is_clean_apart_from_this_manifest")
+
+
+def _archive_only(art):
+    """The manifest with the two repository-state fields dropped.
+
+    ⛔ THIS EXISTS BECAUSE `--check` WAS WIRED INTO PREFLIGHT AND CRIED WOLF ON THE FIRST COMMIT
+    AFTER IT (2026-08-17). The header above this function's caller had already predicted it in
+    words — "`--check` goes red after any commit and must NOT be wired into preflight as a gate: it
+    would cry wolf on every push and be switched off, which is how a real staleness would then be
+    missed" — and a session added it to preflight's generated-artifact gate anyway, then watched
+    PREFLIGHT_FULL fail on a manifest that had been regenerated and committed minutes earlier.
+    ⚠ THE PREDICTED CONSEQUENCE WAS THE DANGEROUS ONE, NOT THE FAILURE. A gate that is red for a
+    reason nobody can act on gets relaxed, and the next relaxation would have been to drop the
+    manifest from the gate entirely — leaving a real hash-list staleness unwatched.
+    ⭐ So the two questions are separated instead of one being dropped:
+      * `--check-archive` asks "does the FILE LIST still describe the tree?" — stable across
+        commits, safe in preflight, and it is the question that catches a real staleness.
+      * `--check` keeps asking the strict question, including the revision, and stays the
+        PRE-DEPOSIT check a human runs at the moment the hashes have to be true.
+    """
+    return {k: v for k, v in art.items() if k not in _REPO_STATE_FIELDS}
+
+
 def main(argv):
     art = build()
     text = json.dumps(art, indent=2, ensure_ascii=False) + "\n"
-    if "--check" in argv:
-        old = open(OUT, "r", encoding="utf-8").read() if os.path.exists(OUT) else None
-        if old != text:
+    if "--check" in argv or "--check-archive" in argv:
+        old_text = open(OUT, "r", encoding="utf-8").read() if os.path.exists(OUT) else None
+        if old_text is None:
+            print("STALE: no manifest on disk", file=sys.stderr)
+            return 1
+        if "--check-archive" in argv:
+            try:
+                old = json.loads(old_text)
+            except ValueError:
+                print("STALE: manifest on disk is not readable JSON", file=sys.stderr)
+                return 1
+            if _archive_only(old) != _archive_only(art):
+                print("STALE: the archive inventory would change — re-run without --check",
+                      file=sys.stderr)
+                return 1
+            print("manifest inventory is current (repository-state fields not compared)")
+            return 0
+        if old_text != text:
             print("STALE: manifest would change — re-run without --check", file=sys.stderr)
             return 1
         print("manifest is current")

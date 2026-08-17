@@ -129,9 +129,12 @@ count in it. That last pair is the easier of the two zeroes to miss, and a membe
 asked only about the partner did miss it. Priced on a pooled breakpoint basis rather than on the
 single series the ladder uses, the nine together are 82.9% of molecularly confirmed cases, widening
 to 57.5–90.7%, and the two reagents of §4.1 are 67.1% rather than the ladder's 68.4%. The
-denominators are not the ladder's: the *EWSR1* arm moves from 10 of 15 to 17 of 20 by pooling the
-18-case series with the five-case whole-transcriptome cohort,<sup>25</sup><!--PMID:29937513--> while
-the *TAF15* arm stays at 3 of 3. Three things follow. Fifteen of those 20 tumours come from one
+denominators are not the ladder's, and neither are the numerators: the *EWSR1* arm is 17 of 20 here
+against the ladder's 10 of 15, and two changes make that move rather than one. The denominator widens
+by pooling the 18-case series with the five-case whole-transcriptome
+cohort,<sup>25</sup><!--PMID:29937513--> and the numerator rises because this panel carries four
+*EWSR1* junctions where the ladder carries one, reaching 12 of the same 15 tumours before any
+pooling. The *TAF15* arm stays at 3 of 3. Three things follow. Fifteen of those 20 tumours come from one
 series, so the pool stays close to it; the two series agree at *EWSR1* exons 12 and 13 and disagree
 completely at exon 7 to *NR4A3* exon 2, 0 of 15 against 1 of 5; and a third series was refused
 because every case in its *EWSR1* arm carries a covered junction by construction, which would fix

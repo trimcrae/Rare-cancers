@@ -198,12 +198,23 @@ fi
 # ordinal that four documents hard-code.
 echo "== generated deposit artifacts reproduce from their generators =="
 gen_fail=""
-for g in "research/manuscripts/submission_tables.py|submission tables" \
-         "research/manuscripts/submission_citations.py|submission references" \
-         "research/manuscripts/submission_metrics.py|submission metrics" \
-         "research/manuscripts/aso_archive_manifest.py|archive manifest"; do
-  gen="${g%%|*}"; label="${g##*|}"
-  if python3 "$gen" --check >/dev/null 2>&1; then
+# ⛔ THE MANIFEST TAKES `--check-archive`, NOT `--check`, AND THE DIFFERENCE IS NOT COSMETIC.
+# `aso_archive_manifest.py` stamps `git_revision`, which advances on EVERY commit — including
+# commits touching no archived file — so `--check` is red the instant you commit the manifest you
+# just regenerated. Measured 2026-08-17: PREFLIGHT_FULL=1 failed on exactly that, one commit after
+# the manifest was regenerated and committed. The generator's own header had predicted it in words
+# and said not to wire `--check` into preflight; this gate did anyway.
+# ⚠ THE FIX IS NOT TO DROP THE MANIFEST FROM THE GATE. A cry-wolf gate gets relaxed, and the
+# relaxation that suggests itself is removing the row — which is how a REAL hash-list staleness
+# would then go unwatched. `--check-archive` compares everything except the two repository-state
+# fields, so it still fails when the inventory, the hashes or the promises move, and no longer
+# fails because a commit happened. The strict `--check` remains the pre-deposit check.
+for g in "research/manuscripts/submission_tables.py|submission tables|--check" \
+         "research/manuscripts/submission_citations.py|submission references|--check" \
+         "research/manuscripts/submission_metrics.py|submission metrics|--check" \
+         "research/manuscripts/aso_archive_manifest.py|archive manifest|--check-archive"; do
+  gen="${g%%|*}"; rest="${g#*|}"; label="${rest%%|*}"; mode="${rest##*|}"
+  if python3 "$gen" "$mode" >/dev/null 2>&1; then
     echo "   OK   $label"
   else
     echo "   STALE $label -- rerun 'python3 $gen' and commit the result"

@@ -65,7 +65,14 @@ def test_the_corpus_counts_match_the_manuscript():
     assert c["n_designs"] == 190
     nr4a3 = c["which_parent_supplies_it"]["NR4A3"]
     assert re.search(
-        rf"Of {c['n_designs']} candidates[^.]{{0,160}}?"
+        # ⚠ "candidates" -> "junction-spanning designs" 2026-08-17, and the pin follows the PROPERTY
+        # rather than the noun. A cold reader found the abstract using "candidate" for a design
+        # record while §2.7 and §4.5 reserve it for a design that has CLEARED the screens, so a
+        # reader meets the loose sense first and the strict sense twenty pages later. This guard
+        # exists for the three FIGURES and the ten-base-pair criterion they were counted under; the
+        # word in front of them was never what it was protecting, and pinning it blocked a correct
+        # edit until someone noticed. Either noun satisfies it.
+        rf"Of {c['n_designs']} (?:candidates|junction-spanning designs)[^.]{{0,160}}?"
         rf"{c['n_with_parent_duplex_through_gap']} pair their catalytic gap against a mature parent "
         rf"transcript over a contiguous duplex of at least ten base pairs, "
         # ⚠ "healthy" -> "wild-type" 2026-08-17: a cold reader found the abstract was the only
