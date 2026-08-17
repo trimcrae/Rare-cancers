@@ -71,7 +71,7 @@ four-rule conventional audit as Table 4 (note ⁵), computed for whichever desig
 from the same artifact and by the same code. It is reported beside the ranking and is never folded
 into it: the two orderings select different molecules, which is the disagreement §2.10 is about, and
 this is the table one reagent is chosen from. A design the audit does not cover would read “not
-audited” rather than blank, since a blank in a rules column reads as breaking none.
+audited” rather than blank, since a blank in a rules column reads as breaking none. Every sequence in this table is an antisense 16-mer, tiled in the 5-6-5 LNA/DNA/LNA architecture on a phosphorothioate backbone that §6 specifies; the bases alone, ordered as unmodified DNA, are a different molecule. The canonical machine-readable copy of every sequence is `fusion-junction-aso-sequences.csv`.
 
 | junction | exon-resolved breakpoint | designs clearing the parent screen | best available design | gap-level margin | longest parent duplex through the gap (bp) | gap-paired near-matches at the deeper ceiling (transcripts → loci) | genome-wide gap-paired load, observed/expected | conventional rules failed |
 |---|---|---|---|---|---|---|---|---|
@@ -190,7 +190,7 @@ near-match lists are shortest, not the designs whose lists are known to be exhau
 duplex either parent can form, for an unmodified DNA:RNA hybrid; because the fusion duplex pairs
 both LNA wings and each parent duplex only one, it is a lower bound on the modified
 oligonucleotide's discrimination rather than an upper one. None of these numbers is a measurement of off-target
-activity, and none speaks to cleavage.
+activity, and none speaks to cleavage. Every sequence in this table is an antisense 16-mer, tiled in the 5-6-5 LNA/DNA/LNA architecture on a phosphorothioate backbone that §6 specifies; the bases alone, ordered as unmodified DNA, are a different molecule. The canonical machine-readable copy of every sequence is `fusion-junction-aso-sequences.csv`.
 
 ⁴ Under the optimistic five-fold and the pessimistic
 no-discrimination bound on RNase-H1 single-mismatch discrimination. A single value means the two

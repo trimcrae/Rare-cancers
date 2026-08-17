@@ -21,7 +21,7 @@ mechanism on one real junction so the reader can see WHY; panel B shows every de
 geometries falling on the three exact lines, with no scatter to fit.
 
 ⚠ AND THE FIGURE MUST NOT SELL THE 5-10-5. A longer gap buys a markedly quieter transcriptome
-(section 3.8, Table 5) and that is real. This figure is about what it costs, which is the half a
+(section 3.8, Table 7) and that is real. This figure is about what it costs, which is the half a
 designer reaching for a longer gap does not see. The caption line says both.
 
 ⛔ EVERY NUMBER IS READ FROM THE THREE COMMITTED ATLASES, never typed. The per-design gap split is
@@ -217,7 +217,7 @@ def main(argv=None):
 
     p.append(f'<text x="40" y="{H - 26}" font-size="11" fill="#555">'
              f'The identity holds for every design individually, not on average. A longer gap also '
-             f'buys a markedly quieter transcriptome (Table 5); this figure is what it costs.</text>')
+             f'buys a markedly quieter transcriptome (Table 7); this figure is what it costs.</text>')
     p.append("</svg>")
 
     with open(OUT, "w", encoding="utf-8") as fh:

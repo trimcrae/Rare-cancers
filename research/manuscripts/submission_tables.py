@@ -30,11 +30,40 @@ OUT = os.path.join(HERE, "aso", "fusion-junction-aso-submission-tables.md")
 sys.path.insert(0, os.path.abspath(MOD))
 import aso_screen_sets as ass                                            # noqa: E402
 
+sys.path.insert(0, HERE)
+#: Imported for ONE fact: the name of the canonical machine-readable sequence file. Rule 1 — the
+#: manifest owns that filename, so a rename reaches these captions instead of leaving them pointing
+#: at a file the archive no longer carries.
+import aso_sequence_manifest as _manifest                                # noqa: E402
+
 #: The geometry Tables 2 to 4 are about — the panel the manuscript reports. ⚠ TABLE 7 IS THE
 #: EXCEPTION AND IS SUPPOSED TO BE: it is the gap-length trade, one column per geometry, and it
 #: reads `aso-gap-length-tradeoff.json`, which is the artifact that owns the cross-geometry
 #: comparison. A per-geometry TABLE built from a per-geometry ARTIFACT is not pooling.
 GEOMETRY = ass.MANUSCRIPT_GEOMETRY
+
+
+def _ordering_clause():
+    """What a reader ordering from THIS table has to know: the chemistry, and where the file is.
+
+    ⛔ TABLES 2 AND 4 PRINTED BARE BASE STRINGS WITH NEITHER (blind screen of the built PDF,
+    2026-08-17). Table 5 carries a `geometry` column and the banner at the top of this file expands
+    it; these two carry no geometry column and no chemistry in their captions — and they are
+    precisely the tables a laboratory would order from, Table 2 being the best design at each
+    junction and Table 4 the designs with no sense-strand near-match. A caption that prints an
+    orderable sequence and says nothing about the backbone invites an order for unmodified DNA,
+    which is a different molecule and one about which nothing measured here holds. A caption travels
+    without the banner: a table is the part of a paper most likely to be read on its own.
+
+    ⚠ DERIVED, NOT TYPED. The length and the architecture come from `MANUSCRIPT_GEOMETRY` and the
+    filename from the manifest that writes it, so a geometry change or a rename reaches this
+    sentence rather than leaving it describing a panel that no longer exists.
+    """
+    return (f"Every sequence in this table is an antisense {GEOMETRY.oligo_len}-mer, tiled in the "
+            f"{GEOMETRY.architecture} LNA/DNA/LNA architecture on a phosphorothioate backbone that "
+            f"§6 specifies; the bases alone, ordered as unmodified DNA, are a different molecule. "
+            f"The canonical machine-readable copy of every sequence is "
+            f"`{os.path.basename(_manifest.OUT_CSV)}`.")
 
 
 def _load(name):
@@ -1649,7 +1678,7 @@ four-rule conventional audit as Table 4 (note ⁵), computed for whichever desig
 from the same artifact and by the same code. It is reported beside the ranking and is never folded
 into it: the two orderings select different molecules, which is the disagreement §2.10 is about, and
 this is the table one reagent is chosen from. A design the audit does not cover would read “not
-audited” rather than blank, since a blank in a rules column reads as breaking none.
+audited” rather than blank, since a blank in a rules column reads as breaking none. {_ordering_clause()}
 
 {t2}
 
@@ -1682,7 +1711,7 @@ near-match lists are shortest, not the designs whose lists are known to be exhau
 duplex either parent can form, for an unmodified DNA:RNA hybrid; because the fusion duplex pairs
 both LNA wings and each parent duplex only one, it is a lower bound on the modified
 oligonucleotide's discrimination rather than an upper one. None of these numbers is a measurement of off-target
-activity, and none speaks to cleavage.\n\n⁴ Under the optimistic five-fold and the pessimistic
+activity, and none speaks to cleavage. {_ordering_clause()}\n\n⁴ Under the optimistic five-fold and the pessimistic
 no-discrimination bound on RNase-H1 single-mismatch discrimination. A single value means the two
 bounds agree.\n\n⁵ Of four conventional antisense design rules: GC within 40–60%, no G-quadruplex
 motif, no homopolymer run of four, no CpG dinucleotide.\n\n⁶ Whether the design still carries no

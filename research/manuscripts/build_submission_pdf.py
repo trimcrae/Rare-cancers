@@ -269,13 +269,17 @@ def assemble(paper, style="journal"):
     if style == "manuscript":
         body = splice(body, "Tables", "\n\n".join(tables[n] for n in sorted(tables)), "the tables")
         body = splice(body, "References", references, "the reference list")
-        for prefix, svgname in paper["figures"].items():
+        # ⚠ THE FIRST FIGURE IS MARKED, because it is the one that must NOT start a fresh page:
+        # the section opens with a heading and a two-sentence preamble, and forcing a page break
+        # ahead of every figure left those three lines alone on a page of their own.
+        for index, (prefix, svgname) in enumerate(paper["figures"].items()):
             svg = open(os.path.join(FIGDIR, svgname), encoding="utf-8").read().strip()
             anchor = "**" + prefix
             if anchor not in body:
                 raise SystemExit(f"no legend found for {svgname}: expected '{anchor}'")
-            body = body.replace(anchor, f'\n<figure class="figure">\n{svg}\n</figure>\n\n' + anchor,
-                                1)
+            klass = "figure lead" if index == 0 else "figure"
+            body = body.replace(
+                anchor, f'\n<figure class="{klass}">\n{svg}\n</figure>\n\n' + anchor, 1)
         return body, {}
 
     figures = split_figures(body, paper["figures"])
@@ -308,6 +312,34 @@ def assemble(paper, style="journal"):
 KEEP_TAGS = ("sup", "sub", "i", "em", "b", "strong")
 TAG_RE = re.compile(r"</?(?:" + "|".join(KEEP_TAGS) + r")>", re.I)
 
+#: A delimited oligonucleotide as the paper prints it: `5′-BASES-3′`. Bounded at both ends so a
+#: bare base run in prose is not caught, and generous on length so an 18-mer or a 20-mer from the
+#: gap-length comparison is wrapped by the same rule as a 16-mer.
+#: ⛔ MEASURED 2026-08-17 IN THE BUILT PDF, NOT IN THE MARKDOWN. The hyphens either side of the
+#: bases are ordinary line-break opportunities, so justified prose and narrow table cells both broke
+#: after `5′-` — 50 times in the manuscript-style PDF and 57 times in the journal-style one. No base
+#: string was ever split, so the orderable-sequence guard stayed green, but the delimiter that makes
+#: the string unambiguous ended up on the previous line and a copy-paste carried a newline through
+#: the middle of the reagent name. The span below is set `white-space: nowrap` so the whole token
+#: moves to the next line intact.
+SEQUENCE_RE = re.compile(r"5[′']-[ACGTUacgtu]{8,40}-3[′']")
+
+#: Where a long inline-code token MAY break, if it has to. Breaking is offered after a separator,
+#: never inside a run of word characters — `word-break: break-all` used to allow the latter and
+#: produced "as / o-premrna-offtarget-genomic.json", "PRE / FLIGHT_FULL=1",
+#: "github.com/tr / imcrae/Rare-cancers", "emc-atr-vulnerability.j / son" and
+#: "aso_genome_offtarg / et.py" in the deposited PDF. A break after `/`, `_`, `.` or `-` leaves both
+#: halves readable as fragments of a path, and the CSS beside it forbids every other break point.
+CODE_BREAK_AFTER = re.compile(r"(?<=[/_.=-])(?=[^\s/_.=-])")
+
+#: Above this many characters a code span stops being set `nowrap` and is given the break
+#: opportunities above instead. The narrowest container either style produces is the journal's
+#: 88 mm text column, which holds about 53 characters of 7.74 pt DejaVu Sans Mono, so a span at or
+#: under this length cannot overflow it. ⚠ The threshold is what keeps `nowrap` from becoming an
+#: overflow bug the day a longer path is cited: today's longest span is 39 characters, and nothing
+#: about that is guaranteed to hold.
+CODE_NOWRAP_MAX = 44
+
 
 def escape_text(text):
     out, last = [], 0
@@ -319,6 +351,20 @@ def escape_text(text):
     return "".join(out)
 
 
+def code_span(literal):
+    """One `<code>` element, set so it can never break in the middle of an identifier.
+
+    Short spans are atomic — `nowrap` moves the whole token to the next line rather than splitting
+    it. A span too long to guarantee it fits the narrowest column is allowed to wrap, but only at
+    the separators `CODE_BREAK_AFTER` names, and `<wbr/>` is used rather than a zero-width space so
+    nothing extra lands in the PDF's text layer for a reader to copy out.
+    """
+    escaped = _html.escape(literal, quote=False)
+    if len(literal) <= CODE_NOWRAP_MAX:
+        return "<code>" + escaped + "</code>"
+    return '<code class="brk">' + CODE_BREAK_AFTER.sub("<wbr/>", escaped) + "</code>"
+
+
 def inline(text):
     """Inline markdown. Code spans are protected first so their contents are never re-parsed."""
     text = _html.unescape(text)
@@ -328,13 +374,15 @@ def inline(text):
         stash.append(fragment)
         return f"\x00{len(stash) - 1}\x00"
 
-    text = re.sub(r"`([^`]+)`",
-                  lambda m: keep("<code>" + _html.escape(m.group(1), quote=False) + "</code>"),
-                  text)
+    text = re.sub(r"`([^`]+)`", lambda m: keep(code_span(m.group(1))), text)
     text = re.sub(r"\[([^\]]+)\]\(([^)\s]+)\)",
                   lambda m: keep('<a href="' + _html.escape(m.group(2), quote=True) + '">'
                                  + escape_text(m.group(1)) + "</a>"), text)
     text = escape_text(text)
+    # ⚠ AFTER escaping and BEFORE emphasis: the pattern is pure ASCII bases between two primes, so
+    # escaping cannot change it and stashing it here keeps a `*` in the surrounding sentence from
+    # ever reaching inside the span.
+    text = SEQUENCE_RE.sub(lambda m: keep('<span class="seq">' + m.group(0) + "</span>"), text)
     text = re.sub(r"\*\*(?=\S)(.+?)(?<=\S)\*\*", r"<strong>\1</strong>", text, flags=re.S)
     text = re.sub(r"(?<!\*)\*(?=\S)([^*]+?)(?<=\S)\*(?!\*)", r"<em>\1</em>", text)
     return re.sub(r"\x00(\d+)\x00", lambda m: stash[int(m.group(1))], text)
@@ -437,7 +485,14 @@ def markdown_to_html(text, floats=None):
             i += 1
         if para:
             joined = " ".join(para)
-            css = ' class="legend"' if re.match(r"^\*\*(Figure|Table) \d+\.", joined) else ""
+            opener = re.match(r"^\*\*(Figure|Table) \d+\.", joined)
+            # ⚠ A TABLE CAPTION AND A FIGURE LEGEND SIT ON OPPOSITE SIDES OF THEIR ITEM, so they
+            # cannot carry the same break rule: a legend must stay with the figure ABOVE it and a
+            # caption with the table BELOW it. They shared one class until 2026-08-17 and the
+            # caption therefore had no rule at all.
+            css = ""
+            if opener:
+                css = ' class="legend caption"' if opener.group(1) == "Table" else ' class="legend"'
             out.append(f"<p{css}>{inline(joined)}</p>")
         else:
             i += 1
@@ -460,6 +515,33 @@ def render_float(kind, number, payload, wide):
 
 
 # --------------------------------------------------------------------------- front matter
+
+def label_paragraph(body, label, what=None):
+    """The text under a `**Label.**` front-matter line, whole paragraph, emphasis stripped.
+
+    ⚠ CAPTURE THE WHOLE PARAGRAPH, NOT THE FIRST LINE — these fields wrap in the source.
+    """
+    match = re.search(rf"^\*\*{re.escape(label)}\.\*\*[^\n]*(?:\n(?!\s*\n)[^\n]*)*", body, re.M)
+    if not match:
+        raise SystemExit(f"front matter {what or f'label {label!r}'} not found")
+    text = re.sub(r"\s*\n\s*", " ", match.group(0)).strip()
+    return text[len(f"**{label}.**"):].strip()
+
+
+def declared_running_title(body):
+    """The short title the manuscript DECLARES, for the head of every page.
+
+    ⛔ IT IS PARSED, NEVER TYPED HERE. The manuscript states "**Running title.** …" in its front
+    matter precisely so the header and the declaration cannot diverge; a string retyped in the
+    builder is a second home for the same fact and would go stale silently (rule 1).
+
+    ⛔ AND THE MANUSCRIPT STYLE USED TO IGNORE IT (measured 2026-08-17). The journal style read the
+    declaration; the manuscript style passed the H1, so all 54 pages of the file a depositor
+    actually uploads carried the full 30-word title, set at 5.2 pt to make it fit — declaring a
+    running title on page 1 and then not using it anywhere.
+    """
+    return re.sub(r"[*_`]", "", label_paragraph(body, "Running title", "the running title"))
+
 
 def parse_front_matter(body):
     """Pull the title block and abstract out of the manuscript head.
@@ -484,8 +566,7 @@ def parse_front_matter(body):
 
     for key, label in (("author", "Author"), ("running", "Running title"),
                        ("keywords", "Keywords")):
-        text = paragraph(rf"^\*\*{label}\.\*\*", f"label '**{label}.**'")
-        front[key] = text[len(f"**{label}.**"):].strip()
+        front[key] = label_paragraph(body, label, f"label '**{label}.**'")
 
     front["affiliation"] = paragraph(r"^\*Independent researcher", "the affiliation line")
 
@@ -505,8 +586,19 @@ def parse_front_matter(body):
 COMMON = """
 html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 sup { font-size: 0.72em; line-height: 0; }
+/* ⛔ `word-break: break-all` USED TO BE HERE AND IT BROKE FILENAMES MID-TOKEN. Measured in the
+   built PDF 2026-08-17: "as / o-premrna-offtarget-genomic.json", "PRE / FLIGHT_FULL=1",
+   "github.com/tr / imcrae/Rare-cancers", "emc-atr-vulnerability.j / son", "aso_genome_offtarg /
+   et.py". A path a reader cannot retype is worse than a ragged line, so a code span is atomic and
+   only `code.brk` — a span long enough to risk overflowing a column — may wrap, at the `<wbr/>`
+   boundaries the builder puts after its separators and nowhere else. */
 code { font-family: 'DejaVu Sans Mono', Consolas, monospace; font-size: 0.86em;
-       background: #f4f4f4; padding: 0 2px; border-radius: 2px; word-break: break-all; }
+       background: #f4f4f4; padding: 0 2px; border-radius: 2px;
+       white-space: nowrap; word-break: normal; overflow-wrap: normal; hyphens: none; }
+code.brk { white-space: normal; }
+/* A delimited oligonucleotide is one token: `5′-` must never be left on the line above its bases,
+   because the newline a reader then copies is invisible in a synthesis order form. */
+.seq { white-space: nowrap; hyphens: none; }
 a { color: #14507d; text-decoration: none; }
 table { border-collapse: collapse; width: 100%; font-family: 'Liberation Sans', Helvetica, Arial,
         sans-serif; line-height: 1.28; }
@@ -537,12 +629,31 @@ hr { border: 0; border-top: 0.5pt solid #ddd; margin: 14pt 0; }
 ol, ul { margin: 0 0 8pt 0; padding-left: 18pt; }
 li { margin-bottom: 4pt; text-align: justify; }
 #references-list li { text-align: left; }
-.tablewrap { break-inside: auto; margin: 0 0 12pt 0; }
+/* ⛔ `break-inside: auto` LET A TABLE ORPHAN ITS LAST ROW (measured 2026-08-17). Table 4's caption
+   reads "The 9 designs with no sense-strand near-match" and eight rows printed on one landscape
+   page, the ninth alone on the next directly above Table 5's caption, while the page it came from
+   ended roughly 40% blank. A reader skimming the first page counts eight designs and the table
+   contradicts its own title. A table taller than a page still breaks — the browser cannot honour
+   this when it is impossible — and `thead { display: table-header-group }` above repeats the column
+   heads onto each fragment when it does. */
+/* ⚠ AND THE BOX THAT AVOIDS BREAKING IS THE TABLE ALONE, NOT THE CAPTION BLOCK WITH IT. Grouping
+   caption, footnotes and table into one unbreakable box was tried and measured on 2026-08-17: it
+   cost two pages and four extra pages under 45% full, and it did not even bind Table 4 — that
+   caption plus its footnotes plus its nine rows is taller than a landscape page, so the group broke
+   anyway and only the page before it was left short. The caption is instead held to what follows it
+   by `break-after: avoid` below, which is free when the two do fit and harmless when they cannot. */
+.tablewrap { break-inside: avoid; margin: 0 0 12pt 0; }
 table { font-size: 7.4pt; }
+/* Each display item takes its own page, EXCEPT the first: `break-before: page` on every figure left
+   the "Figure legends" heading and its two-sentence preamble alone on a page with nothing under
+   them (measured 2026-08-17). The first figure now follows the preamble it belongs to. */
 figure.figure { margin: 0 0 6pt 0; text-align: center; break-inside: avoid; break-before: page; }
+figure.figure.lead { break-before: auto; }
 figure.figure svg { max-height: 218mm; width: auto; }
 p.legend { font-size: 9pt; text-align: left; margin-bottom: 16pt; break-before: avoid;
            break-inside: avoid; }
+/* A table caption must not be stranded at the foot of a page away from its table. */
+p.legend.caption { break-before: auto; break-after: avoid; margin-bottom: 4pt; }
 section.landscape { page: landscape; }
 """
 
@@ -742,7 +853,10 @@ class WS:
 
 
 def templates(running_head):
-    style = ("font-size:7px;font-family:'Liberation Sans',Helvetica,sans-serif;color:#7c8b99;"
+    # 8px = 6 pt, the floor below which a screen reader called the header unreadable. It was 7px
+    # (5.2 pt) because the full 30-word title had to be squeezed in; the declared running title is
+    # five words and needs no squeezing.
+    style = ("font-size:8px;font-family:'Liberation Sans',Helvetica,sans-serif;color:#7c8b99;"
              "width:100%;padding:0 14mm;display:flex;justify-content:space-between;")
     header = (f'<div style="{style}"><span>{_html.escape(running_head)}</span>'
               '<span></span></div>')
@@ -794,15 +908,17 @@ def print_pdf(chrome, html_path, pdf_path, running_head):
 
 def build(name, paper, style="journal", html_only=False):
     body, floats = assemble(paper, style)
+    # ⛔ ONE SOURCE FOR THE RUNNING HEAD IN BOTH STYLES. The manuscript declares it; neither
+    # renderer may substitute anything else, and a manuscript that stops declaring one fails the
+    # build rather than falling back to the full title.
+    running = declared_running_title(body)
     if style == "journal":
         front = parse_front_matter(body)
         page = wrap_journal(paper, front, markdown_to_html(front["body"], floats))
-        running = re.sub(r"[*_`]", "", front["running"])
         out_name = paper["out"]
     else:
         title = re.sub(r"[*_`]", "", re.search(r"^#\s+(.*)$", body, re.M).group(1))
         page = wrap_manuscript(title, markdown_to_html(body, floats))
-        running = title
         out_name = paper["out"].replace(".pdf", "-manuscript.pdf")
 
     html_path = os.path.join(HERE, out_name.replace(".pdf", ".build.html"))

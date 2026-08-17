@@ -573,6 +573,46 @@ earlier, under a slug named for the question it was asked rather than for the pa
 
 ---
 
+### 2k · ⭐ CONDITION 5, RUN TO A VERDICT — and the gate I over-satisfied into a falsehood
+
+**Verdict: 1 blocker, 1 major.** The blocker is the two placeholders — the ORCID and the reserved
+archive DOI — i.e. **the deposit's only remaining blocker is the author-only gate**, which is the
+useful thing a run-to-verdict tells you and a hedge does not. The screen found the science clean:
+~30 quantities re-derived from the PDF alone, all 69 sequences intact and present in both
+machine-readable files, no screening risk, display items in citation order, references gapless.
+
+**⛔ THE MAJOR WAS MINE, MADE THIS SESSION, WHILE SATISFYING ONE OF THIS REPOSITORY'S OWN GATES.**
+The `O3` disputed-identity rule wants a visible correction marker in any file naming
+`ACH-001519`. I supplied a per-use `correction_marker` on the bibliography entries, which pasted the
+repository's internal string into the **published** back matter:
+
+> model ACH-001519 (H-EMC-SS; **H-EMC-SS identity is DISPUTED** …)
+
+while §3 says twice, in terms, *"This is not a statement that the line is misidentified"* — the line
+carries an STR profile concordant at every locus but one and no problematic-line flag. So the deposit
+asserted a registry status for a real, distributed cell line that its own evidence contradicts, and
+pointed the reader at the section that contradicts it. **A researcher deciding whether to cite or buy
+H-EMC-SS would have got opposite answers from one document.**
+
+⚠ **THE CHECKER HAD WARNED ME IN ITS OWN SOURCE**, and the warning is worth quoting because it names
+the failure mode exactly: an `unaffected` use *"does not need a disclaimer pasted into it; it needs a
+recorded REASON… Demanding a marker everywhere would push boilerplate into artifacts and files this
+pass has no business editing, and boilerplate is how a marker stops meaning anything."* The gate did
+not require what I gave it. **Over-satisfying a gate is not a safe direction** — here it converted a
+provenance flag into a false claim about a real reagent.
+
+Fixed by removing the per-use markers from all five affected read_by entries, keeping the recorded
+reason, and stating what §3 actually establishes: the record's filtered fusion calls name no *NR4A3*
+fusion. Map check: 0 errors.
+
+**⭐ THE RENUMBER MISSED A CROSS-REFERENCE INSIDE A FIGURE PANEL** — the in-panel note still cited
+`Table 5` where its own legend cited `Table 7`. Neither the citation-order re-derivation nor any lint
+could see it, because it lives in SVG text emitted by a generator. Also caught: a Python list literal
+reaching the rendered figure (*"spanning [2, 3] partners' seams"*), a design §2.4 never quantified,
+and a sentence sending readers to the archive for a figure printed two pages later.
+
+---
+
 ### 2j · ⛔ THE BLIND SCREEN OF THE PDF — every seat before it read the wrong artifact, 2026-08-17
 
 **All five stopping-rule conditions as they then stood were met, this ledger said deposit-ready, and

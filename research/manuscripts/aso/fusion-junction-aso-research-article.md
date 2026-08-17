@@ -351,7 +351,7 @@ three of the nine still carry no sense-strand near-match: 5′-AGGGCATATCGGAGTC-
 returned the same count at both depths. The other six did not. The three *EWSR1* exon-1 designs had
 returned no near-match at all at the default ceiling and return 27, 29 and 84; 5′-GGGCATATCTCTATAA-3′
 at *TCF12* exon 17 goes from 8 to 118 on either strand, and 5′-CAGGGCATATCTTGCA-3′ at *TCF12*
-exon 9 from 7 to 67. Three of the six carry hits that span the catalytic gap and so are cleavage
+exon 9 from 7 to 67; and 5′-GCATATCAAGCGCTGC-3′ at *TCF12* exon 7, which had one near-match and none on the sense strand, returns 18 with two. Three of the six carry hits that span the catalytic gap and so are cleavage
 risks rather than merely sense-strand matches: 64 for 5′-GCATATCCGTGGACGC-3′, 14 for
 5′-GGGCATATCTCTATAA-3′ and 11 for 5′-CAGGGCATATCTTGCA-3′. A count of zero at the default ceiling
 was not a count of zero, which is the sharpest form of the bound §5 sets out.
@@ -1642,9 +1642,8 @@ need in order to re-derive a design or re-run a screen, and the coverage ladder'
 
 ## Figure legends
 
-Figures 1 to 3 are the main-text figures. Supplementary Figure S1 travels with the archive rather
-than with the Supplementary Information, which carries no figure, and its legend is given here with
-theirs.
+Figures 1 to 3 are the main-text figures. Supplementary Figure S1 is printed here with them and
+travels with the archive; the Supplementary Information carries no figure of its own.
 
 **Figure 1. Reading-frame compatibility across the NR4A3 fusion junction space.** All 231 donor-exon ×
 acceptor-exon pairs across *EWSR1*, *TAF15*, *TCF12*, *FUS* and *TFG*, graded against the frame

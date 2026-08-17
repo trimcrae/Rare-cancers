@@ -47,6 +47,22 @@ L, R, T, B = 78, 28, 72, 104         # margins
 PLOT_W, PLOT_H = W - L - R, H - T - B
 
 
+
+#: ⛔ A PYTHON LIST LITERAL REACHED THE RENDERED FIGURE (fixed 2026-08-17). The subtitle interpolated
+#: `multi_junction_span` straight into the SVG, so a blind screen of the deposit PDF read
+#: "spanning [2, 3] partners' seams — one molecule, plotted once, not [2, 3] times". The legend
+#: beneath said it correctly in words. A reader of the figure alone saw source code.
+#: ⚠ The old wording also overran the panel and clipped its final glyph; saying it once, shorter,
+#: fixes both.
+def _span_words(span):
+    """[2, 3] -> "two or three"; a scalar -> its own word. Never a bracketed literal."""
+    words = {1: "one", 2: "two", 3: "three", 4: "four", 5: "five"}
+    vals = sorted(span) if isinstance(span, (list, tuple, set)) else [span]
+    names = [words.get(v, str(v)) for v in vals]
+    if len(names) == 1:
+        return names[0]
+    return " or ".join([", ".join(names[:-1]), names[-1]]) if len(names) > 2 else " or ".join(names)
+
 def esc(s):
     return str(s).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
@@ -119,8 +135,8 @@ def main(argv=None):
     p.append(f'<text x="{L + 14}" y="58" font-size="12" fill="#555">'
              f'{esc(n_at_or_below)} of {esc(n)} fall at or below the chance upper bound. Marked: '
              f'the {esc(fs["n_multi_junction_sequences"])} designs spanning '
-             f'{esc(fs["multi_junction_span"])} partners’ seams — one molecule, plotted once, not '
-             f'{esc(fs["multi_junction_span"])} times.</text>')
+             f'{_span_words(fs["multi_junction_span"])} partners’ seams: one molecule, '
+             f'plotted once.</text>')
     p.append(f'<text x="{L + PLOT_W / 2:.0f}" y="{H - 66}" font-size="12" fill="#333" '
              f'text-anchor="middle">distinct oligonucleotides, ranked by observed load</text>')
     p.append(f'<text x="18" y="{T + PLOT_H / 2:.0f}" font-size="12" fill="#333" '
