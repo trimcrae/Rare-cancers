@@ -41,6 +41,7 @@ import argparse
 import base64
 import html as _html
 import json
+import hashlib
 import os
 import re
 import shutil
@@ -919,6 +920,42 @@ def print_pdf(chrome, html_path, pdf_path, running_head):
 
 # --------------------------------------------------------------------------- driver
 
+
+#: The documents a built PDF is a rendering OF. A stamp beside each PDF records the sha256 of each
+#: at build time, so "is this PDF current?" is answered by CONTENT rather than by mtime.
+STAMP_SOURCES = (
+    "aso/fusion-junction-aso-research-article.md",
+    "aso/fusion-junction-aso-submission-tables.md",
+    "aso/fusion-junction-aso-submission-references.md",
+    "aso/fusion-junction-aso-sequences.csv",
+)
+
+
+def _write_build_stamp(pdf_path, paper):
+    """Record what this PDF was built from, by content hash.
+
+    ⛔ AN MTIME TEST CRIES WOLF ON IDEMPOTENT REGENERATION, AND A GATE THAT CRIES WOLF GETS RELAXED
+    (measured 2026-08-17, twice in one day). The regeneration chain rewrites its outputs byte-for-byte
+    whether or not anything changed, so every chain run moves their mtimes past the PDFs' and a
+    timestamp comparison reports a staleness that does not exist. The archive manifest's `--check`
+    had the same shape earlier the same day, for the same reason, and the fix there was the same:
+    compare what the artifact IS, not when it was touched.
+    ⚠ THE FALSE-POSITIVE DIRECTION IS THE DANGEROUS ONE HERE. A guard that fires on a correct tree
+    trains its reader to rebuild-and-move-on, which is exactly the reflex that would carry a genuinely
+    stale PDF into a deposit.
+    """
+    stamp = {"built_from": {}}
+    for rel in STAMP_SOURCES:
+        src = os.path.join(HERE, rel)
+        if os.path.exists(src):
+            stamp["built_from"][rel] = hashlib.sha256(open(src, "rb").read()).hexdigest()
+    stamp["_what"] = ("sha256 of each document this PDF renders, written by build_submission_pdf.py. "
+                      "A PDF is current when every hash here matches the file on disk; mtimes are "
+                      "not evidence, because the regeneration chain rewrites unchanged files.")
+    with open(pdf_path.replace(".pdf", ".build-stamp.json"), "w", encoding="utf-8") as fh:
+        json.dump(stamp, fh, indent=1, sort_keys=True)
+        fh.write("\n")
+
 def build(name, paper, style="journal", html_only=False):
     body, floats = assemble(paper, style)
     # ⛔ ONE SOURCE FOR THE RUNNING HEAD IN BOTH STYLES. The manuscript declares it; neither
@@ -949,6 +986,7 @@ def build(name, paper, style="journal", html_only=False):
     pdf_path = os.path.join(HERE, out_name)
     print_pdf(chrome, html_path, pdf_path, running)
     os.remove(html_path)
+    _write_build_stamp(pdf_path, paper)
     size = os.path.getsize(pdf_path)
     pages = open(pdf_path, "rb").read().count(b"/Type /Page\n") or None
     print(f"{name} [{style}]: wrote {os.path.relpath(pdf_path, REPO)} "

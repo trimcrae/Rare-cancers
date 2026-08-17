@@ -28,6 +28,8 @@ A guard that cannot run is not a guard that passed." `pdfminer.six` is installed
 that reason, and a missing import fails here rather than passing quietly.
 """
 import csv
+import hashlib
+import json
 import os
 import re
 
@@ -37,8 +39,21 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(os.path.dirname(os.path.dirname(HERE)))
 ASO = os.path.join(REPO, "research", "manuscripts", "aso")
 
-#: The submission-format PDF is the one bioRxiv asks for and the one a depositor uploads.
-PDF = os.path.join(ASO, "fusion-junction-aso-research-article-manuscript.pdf")
+#: BOTH BUILT PDFs, and covering only one of them was itself a gap (found 2026-08-17, by the author
+#: asking "on ANY of the PDF formats?"). The submission-format build is what bioRxiv asks for and what
+#: a depositor uploads; the journal-format build is tracked, ships with the repository, and prints the
+#: SAME orderable sequences through a DIFFERENT typesetting path — two columns, floats placed at first
+#: citation, a narrower measure. Two columns is the layout MORE likely to fuse a cell with its
+#: neighbour, so guarding only the single-column build guarded the easier case.
+#: ⚠ Measured when this was parametrised: both builds were already clean — 155 delimited tokens each,
+#: zero fused, zero split, zero undelimited. The gap was in ENFORCEMENT, not in the artifacts, which
+#: is the kind of gap that stays invisible until the day something regresses.
+PDFS = {
+    "manuscript": os.path.join(ASO, "fusion-junction-aso-research-article-manuscript.pdf"),
+    "journal": os.path.join(ASO, "fusion-junction-aso-research-article.pdf"),
+}
+#: The one a depositor uploads, for the checks that are about the deposit rather than the typesetting.
+PDF = PDFS["manuscript"]
 SEQ_CSV = os.path.join(ASO, "fusion-junction-aso-sequences.csv")
 
 
@@ -70,36 +85,54 @@ _SOURCES = (
 )
 
 
-def test_the_deposited_pdf_is_not_stale():
+def test_the_deposited_pdfs_are_not_stale():
     """⛔ A GUARD THAT PASSES AGAINST A STALE PDF IS WORSE THAN NO GUARD, AND THIS ONE DID.
 
     Measured 2026-08-17: a rebuild of the manuscript-style PDF failed with a FileNotFoundError while
     the journal-style build succeeded, and every check in this file then went GREEN — against the
     PREVIOUS PDF, still sitting on disk. The document being asserted about was not the document the
-    build had just failed to produce.
+    build had just failed to produce. The freshness question has to be asked FIRST and separately,
+    because a passing text-layer assertion carries no information about which text layer it read.
 
-    ⚠ That is the same shape as every defect this file exists for: a check that reports while
-    measuring something other than what it claims. The freshness question has to be asked FIRST and
-    separately, because a passing text-layer assertion carries no information about which text layer
-    it read.
+    ⛔ AND IT MUST BE ASKED OF CONTENT, NOT OF MTIME. The first version compared timestamps and
+    promptly cried wolf: the regeneration chain rewrites its outputs byte-for-byte whether or not
+    anything changed, so every chain run pushes their mtimes past the PDFs' and a correct tree reports
+    stale. The archive manifest's `--check` had the identical shape earlier the same day. A gate that
+    fires on a correct tree trains its reader to rebuild-and-move-on, which is the reflex that would
+    carry a genuinely stale PDF into a deposit.
     """
-    assert os.path.exists(PDF), f"{PDF} is missing — the file a depositor uploads does not exist."
-    pdf_mtime = os.path.getmtime(PDF)
-    newer = [os.path.basename(s) for s in _SOURCES
-             if os.path.exists(s) and os.path.getmtime(s) > pdf_mtime]
-    assert not newer, (
-        f"the deposited PDF is older than {newer}, so it does not contain the current manuscript and "
-        "every other check in this file would be asserting about the wrong document. Rebuild with "
-        "`python3 research/manuscripts/build_submission_pdf.py --paper aso --style manuscript` and "
-        "confirm it reports a page count rather than a traceback.")
+    for style, path in sorted(PDFS.items()):
+        assert os.path.exists(path), f"{path} is missing — a built format does not exist."
+        stamp_path = path.replace(".pdf", ".build-stamp.json")
+        assert os.path.exists(stamp_path), (
+            f"the {style}-format PDF has no build stamp, so there is no way to tell what it was "
+            "built from. Rebuild it with build_submission_pdf.py, which writes one.")
+        with open(stamp_path, encoding="utf-8") as fh:
+            built_from = json.load(fh)["built_from"]
+        drifted = []
+        for rel, want in sorted(built_from.items()):
+            src = os.path.join(ASO, os.path.basename(rel))
+            if not os.path.exists(src):
+                drifted.append(f"{rel} (missing)")
+                continue
+            got = hashlib.sha256(open(src, "rb").read()).hexdigest()
+            if got != want:
+                drifted.append(os.path.basename(rel))
+        assert not drifted, (
+            f"the {style}-format PDF was built from a different version of {drifted}, so it does not "
+            "contain the current manuscript and every other check in this file would be asserting "
+            "about the wrong document. Rebuild with `python3 "
+            f"research/manuscripts/build_submission_pdf.py --paper aso --style {style}`.")
 
 
-@pytest.fixture(scope="module")
-def pdf_text():
-    assert os.path.exists(PDF), (
-        f"{PDF} is missing. It is the file a depositor uploads; its absence is not a reason to skip "
+@pytest.fixture(scope="module", params=sorted(PDFS), ids=sorted(PDFS))
+def pdf_text(request):
+    """Every text-layer assertion runs against BOTH built formats."""
+    path = PDFS[request.param]
+    assert os.path.exists(path), (
+        f"{path} is missing. Both built formats ship; the absence of one is not a reason to skip "
         "the check.")
-    return _extract(PDF)
+    return _extract(path)
 
 
 def test_no_sequence_in_the_pdf_is_fused_to_the_next_column(pdf_text):

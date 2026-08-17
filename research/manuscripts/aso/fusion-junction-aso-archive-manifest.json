@@ -9,13 +9,13 @@
     "Not a claim that the archived predictions are correct. Every count in the deposit is a prediction from sequence search; no off-target activity and no RNase-H cleavage was measured anywhere in this work.",
     "Not a licence statement. The depositor chooses the licence at step 4 below."
   ],
-  "git_revision": "336a4cef52b88ca70f258feea6c5f51f11f31425",
+  "git_revision": "f4a8d027a5722d59c96d9c694164c0753cea1846",
   "git_tree_is_clean_apart_from_this_manifest": false,
   "inventory_limited_to_tracked_files": true,
-  "archive_content_digest": "b19efa69416c111160dc4425d2a0838badef53d2f32dfbf7aa11cbd9ca88eec8",
+  "archive_content_digest": "8942505411d26825da9b3265dada44bc1972e10d351f512377f15077290c790b",
   "n_files": 383,
-  "total_bytes": 23887549,
-  "total_mib": 22.781,
+  "total_bytes": 23889801,
+  "total_mib": 22.783,
   "how_to_deposit_and_mint_the_doi": [
     "1. Check out the revision named in `git_revision` and confirm `git status` is clean. The manifest's hashes are only meaningful against that tree.",
     "2. Re-run this module (`python3 research/manuscripts/aso_archive_manifest.py --check`). A non-zero exit means the tree moved after the manifest was written; regenerate before depositing.",
@@ -1101,8 +1101,8 @@
     },
     {
       "path": "research/manuscripts/tests/test_pdf_text_layer_is_orderable.py",
-      "bytes": 11114,
-      "sha256": "e262b7d0fcb1d73ef7c23996fbbcd05856867daebfc2f69a75f05dc300c13174",
+      "bytes": 13366,
+      "sha256": "a5e0fade7f03662e7d0716cda776383dd984ce5ad1e5a04770378ba54113f6f4",
       "serves": "canonical_sequence_record",
       "also_serves": [],
       "contributes": "Every design the three deposit documents name, in CSV and FASTA, with its geometry, junction, gap-level margin, longest wild-type-parent duplex and an explicit do-not-order flag on the three designs that pair their whole catalytic gap against the un-rearranged NR4A3 allele. The generator refuses to build if any sequence the documents print is absent, so the file cannot quietly stop being canonical."
