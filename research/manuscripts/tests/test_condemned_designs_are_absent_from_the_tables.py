@@ -59,15 +59,49 @@ def _condemned_sequences():
     return out
 
 
-def test_no_condemned_design_appears_in_the_ordering_tables():
-    tables = _flat(TABLES)
-    present = [s for s in _condemned_sequences() if s in tables]
+def _table_rows(path):
+    """Only the pipe-delimited table rows — the lines a laboratory orders from.
+
+    ⛔ THIS WAS A WHOLE-DOCUMENT SCAN AND THAT WAS TOO BROAD (fixed 2026-08-17). The property this
+    guard exists for is "no condemned design sits in an ORDERABLE ROW". Scanning the flattened file
+    also swept the research-use banner, so the moment the banner gained an explicit DO-NOT-ORDER list
+    naming the three sequences — which a cold reader asked for, because two of them are one- and
+    two-position register shifts of a listed reagent sharing 15 of 16 bases, and a reader cannot
+    check a transcription against a list the document does not carry — this test failed on the fix.
+    ⚠ A GUARD THAT FIRES ON ITS OWN REMEDY IS MIS-SCOPED, NOT VINDICATED. The tempting move is to
+    weaken the assertion; the correct one is to narrow what it reads, so the substantive property
+    stays exactly as strict as it was. Naming a sequence in order to forbid it and printing it in a
+    row to be ordered are opposite acts, and only the second is the defect.
+    """
+    return "\n".join(ln for ln in open(path, encoding="utf-8").read().splitlines()
+                     if ln.lstrip().startswith("|"))
+
+
+def test_no_condemned_design_appears_in_an_orderable_table_row():
+    rows = _table_rows(TABLES)
+    present = [s for s in _condemned_sequences() if s in rows]
     assert not present, (
-        f"{len(present)} design(s) the main text condemns are printed in the ordering tables: "
+        f"{len(present)} design(s) the main text condemns are printed in an orderable table row: "
         f"{present}. Each pairs its whole catalytic gap against the patient's own un-rearranged "
         "NR4A3 allele. Remove the row at the GENERATOR (research/manuscripts/submission_tables.py) "
         "— a table a laboratory orders from must not carry a sequence the paper says not to carry "
         "forward.")
+
+
+def test_the_banner_prints_the_condemned_designs_as_a_do_not_order_list():
+    """Naming them is load-bearing, and the reason is a near-neighbour hazard, not tidiness.
+
+    A reader who transcribes `5′-AGTGGGCTCTCCACGG-3′` from Table 7 has no way to notice they have
+    written one of the condemned register shifts instead unless the document carries the forbidden
+    strings. The banner is the only place that can hold them without becoming an orderable row.
+    """
+    banner = "\n".join(ln for ln in open(TABLES, encoding="utf-8").read().splitlines()
+                       if not ln.lstrip().startswith("|"))
+    missing = [s for s in _condemned_sequences() if s not in banner]
+    assert not missing, (
+        f"the research-use banner no longer names {len(missing)} of the condemned design(s): "
+        f"{missing}. They must be printed somewhere outside the tables so a reader can check a "
+        "transcribed sequence against them.")
 
 
 def test_the_research_use_header_describes_the_absence_rather_than_asserting_a_presence():

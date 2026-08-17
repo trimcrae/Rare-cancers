@@ -213,8 +213,15 @@ def test_unfiltered_screens_are_disclosed_and_counted():
                 if not screen_counts_are_orientation_filtered(s["orientation"])]
     assert all(s["junction_label"] is None for s in releases), [s["screen"] for s in releases]
     txt = _flat(_paper())
-    assert (f"Only {_spelt(len(releases))} released screens are unfiltered, and neither carries a "
-            "junction or supports a claim here") in txt, [s["screen"] for s in releases]
+    # ⚠ THE NOUN IS FLEXIBLE, THE FACTS ARE NOT (re-anchored 2026-08-17). A cold reader found the
+    # bare "carries no junction" ambiguous, because these two ARE modelled control junctions — what
+    # they carry no junction FROM is the 38-junction panel. The SI was clarified and this pin blocked
+    # the same clarification in section 6, so the pin now accepts either phrasing while still
+    # requiring the derived count, the no-junction fact and the no-claim fact in ONE sentence.
+    assert re.search(
+        rf"Only {_spelt(len(releases))} released screens are unfiltered, and neither carries a "
+        rf"junction(?: from the 38-junction panel)? or supports a claim here", txt), (
+        [s["screen"] for s in releases])
 
 
 # ─────────────────────────────────────────────────────── the strand arithmetic

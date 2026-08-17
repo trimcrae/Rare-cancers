@@ -62,9 +62,21 @@ def _seq(cell):
     return m.group(1) if m else None
 
 
+#: Every marker glyph a junction cell may carry, stripped before the cell becomes an artifact key.
+#: ⛔ STRIPPED BY CLASS, NOT ONE GLYPH AT A TIME (fixed 2026-08-17). This stripped only " ‡", so
+#: when Table 2 gained a "†" marking the three junctions where no design clears the parent screen,
+#: those cells produced keys like `TAF15_e14__NR4A3_e3_†`, matched no artifact, and dropped silently
+#: out of the lookup. NOTHING FAILED: this file's global `assert checked` / `assert inflated` guards
+#: are satisfied by the other rows, so 3 of 38 cells stopped being checked against the recount while
+#: the suite stayed green. That is the shape this repository keeps paying for — a check that
+#: narrows its own coverage and still reports success — and a per-glyph strip list guarantees the
+#: next marker repeats it. A class regex cannot.
+_MARKERS = re.compile(r"[‡†*※]+\s*$")
+
+
 def _label(cell):
     """`EWSR1 e12::NR4A3 e3 ‡` → `EWSR1_e12__NR4A3_e3` — the junction key the artifacts use."""
-    return cell.replace(" ‡", "").strip().replace("::", "__").replace(" ", "_")
+    return _MARKERS.sub("", cell.strip()).strip().replace("::", "__").replace(" ", "_")
 
 
 def _count(cell):

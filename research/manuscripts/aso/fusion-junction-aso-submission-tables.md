@@ -7,10 +7,22 @@ sequence named in these tables is a research reagent intended solely for laborat
 None is a medicine or a candidate drug, none has been synthesised or tested by anyone, and none may
 be administered to any human being or animal, compounded for such use, or supplied to any person for
 such use. Custom oligonucleotide synthesis is commercially available, so the restriction is on use
-rather than on access. The three designs the main text names as NOT to be carried forward — each
-pairs its whole catalytic gap against the patient's own un-rearranged *NR4A3* allele — are **not** in
-these tables; a table row is nevertheless not a recommendation, and the full statement is in the main
+rather than on access. A table row is not a recommendation, and the full statement is in the main
 text's Declarations.
+
+**Chemistry — what the `geometry` column and Table 5's columns denote.** Every design named in these
+tables is a gapmer of locked-nucleic-acid (LNA) wings around a central DNA gap, on a phosphorothioate
+backbone, and each geometry is written wing–gap–wing: `5-6-5` is five LNA nucleotides, a six-nucleotide DNA gap and five LNA nucleotides; `5-8-5` and `5-10-5` the same five-nucleotide LNA wings around gaps of eight and ten. That architecture is what
+the main text's Methods specify, and it is the chemistry every screen, every design rule and every
+duplex figure in these tables assumes. The bare base sequence of a row ordered as unmodified DNA is a
+different molecule, and nothing reported here is about it.
+
+**Do not order these three sequences.** The main text names them as NOT to be
+carried forward — each pairs its whole catalytic gap against the patient's own un-rearranged *NR4A3*
+allele — and none of them is in any row of these tables: 5′-CAGTGGGCTCTCCACG-3′, 5′-GCAGTGGGCTCTCCAC-3′, 5′-TGATGAGGGCCTTGTG-3′. They are printed here
+because excluding them by description leaves a reader with a transcribed sequence nothing to check it
+against, and the margin for a slip is small: the closest sequence these tables DO print shares a run
+of 15 contiguous bases with one of the three, whose own length is 16.
 
 **Table 1. The in-frame junction space across five *NR4A3* fusion partners.** Every
 donor-exon × *NR4A3*-acceptor-exon pair was graded against the frame condition before any design was
@@ -48,6 +60,8 @@ None of these numbers is a measurement of off-target activity.
 
 ³ The same design re-screened at a tenfold deeper alignment ceiling, with retention raised to match it so that no hit list is truncated. Because no list is truncated, the gap-spanning locus column at this depth is recounted from the complete stored hits under the current locus assignment and is exact; it is not the screen's own stored figure, which was computed before that assignment was corrected and splits any gene whose description carries a comma across one accession per transcript variant. It is therefore the same quantity, counted the same way, as the locus figures in Table 4 and in the Results. The three columns are the counterparts of the default-depth columns to their left, given beside them rather than in place of them because the default depth is where the corpus-wide counts elsewhere in the paper were computed and the two must stay comparable. Read together they are the paper's censoring result at the level of a single row: a default-depth count is a lower bound whether or not it reached the 50-hit cap, and three junctions whose default cell reads zero in the gap-spanning column carry gap-spanning hits at ten times the depth. Three of the panel's 190 records failed at this ceiling; they are absent from the deep set rather than counted as zero in it.
 
+† No design screened at this junction clears the parent screen: every one of them pairs a wild-type parent gene through the whole catalytic gap, at the parent-duplex criterion applied throughout. This table ranks by gap-level margin, so the sequence in such a row is that junction's highest-margin design and nothing more; it is not a design any screen passes, and Table 4 gives the same junction no best-available reagent for that reason — its “designs clearing the parent screen” cell reads 0. Do not order the sequence in a marked row.
+
 | junction | designs screened | best gap-level margin | that design | near-matches, either strand (transcripts → loci) | of the retained hits, on the sense strand¹ | loci with a gap-spanning hit | of those, predicted models only² | at the deeper ceiling: near-matches³ | of those, on the sense strand³ | loci with a gap-spanning hit³ | ≤1-mismatch matches across that junction's designs, median (max) |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | EWSR1 e10::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTAGATCA-3′ | 35 → ≥2 | ≥15 | ≤4 | 0 | 138 | 137 | 5 | 4 (32) |
@@ -68,7 +82,7 @@ None of these numbers is a measurement of off-target activity.
 | FUS e8::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCGGAGTCA-3′ | 4 → 3 | 3 | 1 | 0 | 4 | 3 | 1 | 0 (1) |
 | TAF15 e11::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCATCAAAC-3′ | 9 → 4 | 6 | 1 | 1 | 189 | 141 | 6 | 2 (22) |
 | TAF15 e12::NR4A3 e3 | 4 | 2 | 5′-AGGGCATATCTCGCCG-3′ | 42 → ≥4 | ≥11 | ≤3 | 0 | 42 | 33 | 3 | 3 (4) |
-| TAF15 e14::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTCCTCCT-3′ | ≥50 → ≥2 | ≥11 | ≤2 | 0 | 174 | 95 | 6 | 19 (40) |
+| TAF15 e14::NR4A3 e3 † | 5 | 3 | 5′-GGGCATATCTCCTCCT-3′ | ≥50 → ≥2 | ≥11 | ≤2 | 0 | 174 | 95 | 6 | 19 (40) |
 | TAF15 e1::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCCGACATG-3′ | 5 → 2 | 0 | 0 | 0 | 5 | 0 | 0 | 0 (0) |
 | TAF15 e4::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTGACTGA-3′ | 34 → ≥3 | ≥15 | ≤4 | 1 | 78 | 57 | 7 | 10 (53) |
 | TAF15 e6::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTTGTGTG-3′ | 11 → 7 | 7 | 4 | 2 | 62 | 10 | 5 | 2 (2) |
@@ -78,11 +92,11 @@ None of these numbers is a measurement of off-target activity.
 | TCF12 e13::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTGTGAGA-3′ | 17 → ≥8 | ≥6 | ≤1 | 1 | 170 | 80 | 4 | 1 (12) |
 | TCF12 e17::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTCTATAA-3′ | 8 → 3 | 0 | 0 | 0 | 118 | 101 | 5 | 1 (6) |
 | TCF12 e19::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTCTGACT-3′ | 12 → 4 | 8 | 1 | 1 | 102 | 79 | 3 | 1 (2) |
-| TCF12 e3::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTGATCCA-3′ | 15 → 4 | 10 | 2 | 2 | 374 | 246 | 6 | 2 (35) |
+| TCF12 e3::NR4A3 e3 † | 5 | 3 | 5′-GGGCATATCTGATCCA-3′ | 15 → 4 | 10 | 2 | 2 | 374 | 246 | 6 | 2 (35) |
 | TCF12 e5::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCCATCAGA-3′ | 26 → ≥1 | ≥15 | ≤17 | 0 | 83 | 70 | 1 | 2 (32) |
 | TCF12 e7::NR4A3 e3 | 4 | 2 | 5′-GGCATATCAAGCGCTG-3′ | 2 → 2 | 0 | 0 | 0 | 2 | 0 | 0 | 0 (1) |
 | TCF12 e9::NR4A3 e3 | 4 | 3 | 5′-GGGCATATCTTGCATA-3′ | 14 → 2 | 8 | 1 | 0 | 86 | 64 | 6 | 8 (23) |
-| TFG e2::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTTCATCT-3′ | ≥50 → ≥1 | ≥15 | ≤2 | 0 | 207 | 117 | 5 | 35 (87) |
+| TFG e2::NR4A3 e3 † | 5 | 3 | 5′-GGGCATATCTTCATCT-3′ | ≥50 → ≥1 | ≥15 | ≤2 | 0 | 207 | 117 | 5 | 35 (87) |
 | TFG e3::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCAAATAAT-3′ | 14 → 6 | 9 | 3 | 0 | 217 | 161 | 6 | 9 (17) |
 | TFG e4::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCATTTTCA-3′ | ≥50 → ≥3 | ≥15 | ≤5 | 2 | 318 | 238 | 15 | 41 (100) |
 | TFG e5::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTGAAACC-3′ | 41 → ≥6 | ≥11 | ≤7 | 1 | 112 | 72 | 10 | 3 (21) |
@@ -147,48 +161,54 @@ reports usually name the partner gene without sequencing to nucleotide resolutio
 near-matches are at the tenfold deeper alignment ceiling, where every hit list is complete. The
 genome column is the observed number of gap-paired sites at ≤2 mismatches over the number expected
 for an arbitrary 16-mer, so 1.00 is chance. A junction with no design clearing the parent screen is
-reported as such rather than given a best row.
+reported as such rather than given a best row, and Table 2 marks those junctions too, since Table 2
+ranks by margin instead and does print a sequence at each of them. The last column is the same
+four-rule conventional audit as Table 3 (note ⁵), computed for whichever design this table names
+from the same artifact and by the same code. It is reported beside the ranking and is never folded
+into it: the two orderings select different molecules, which is the disagreement §2.10 is about, and
+this is the table one reagent is chosen from. A design the audit does not cover would read “not
+audited” rather than blank, since a blank in a rules column reads as breaking none.
 
-| junction | exon-resolved breakpoint | designs clearing the parent screen | best available design | gap-level margin | longest parent duplex through the gap (bp) | gap-paired near-matches at the deeper ceiling (transcripts → loci) | genome-wide gap-paired load, observed/expected |
-|---|---|---|---|---|---|---|---|
-| EWSR1 e10::NR4A3 e3 | exon not reported | 3 of 5 | 5′-GGCATATCTAGATCAA-3′ | 2 | 7 | 70 → 4 | 0.61 |
-| EWSR1 e12::NR4A3 e3 | published | 4 of 5 | 5′-GGGCATATCATCAAAC-3′ | 3 | 8 | 123 → 6 | 0.62 |
-| EWSR1 e13::NR4A3 e3 | published | 3 of 5 | 5′-GGGCATATCTCCACGG-3′ | 3 | 8 | 24 → 2 | 0.29 |
-| EWSR1 e15::NR4A3 e3 | exon not reported | 4 of 5 | 5′-GGGCATATCCGGGGGC-3′ | 3 | 0 | 33 → 1 | 0.06 |
-| EWSR1 e1::NR4A3 e3 | exon not reported | 2 of 5 | 5′-GGGCATATCCGTGGAC-3′ | 3 | 0 | 0 → 0 | 0.07 |
-| EWSR1 e4::NR4A3 e3 | exon not reported | 4 of 5 | 5′-AGGGCATATCAGTGGG-3′ | 2 | 6 | 9 → 3 | 0.71 |
-| EWSR1 e7::NR4A3 e3 | exon not reported | 5 of 5 | 5′-CAGGGCATATTCTGCT-3′ | 1 | 8 | 14 → 5 | 1.08 |
-| EWSR1 e9::NR4A3 e3 | exon not reported | 4 of 5 | 5′-GGCATATCACCAGGCT-3′ | 2 | 7 | 15 → 4 | 0.73 |
-| FUS e10::NR4A3 e3 | none published | 4 of 5 | 5′-GGGCATATCATCAAAC-3′ | 3 | 8 | 123 → 6 | 0.62 |
-| FUS e11::NR4A3 e3 | none published | 3 of 5 | 5′-GGGCATATCTCCTCGC-3′ | 3 | 9 | 30 → 1 | 0.22 |
-| FUS e13::NR4A3 e3 | none published | 4 of 5 | 5′-GGGCATATCCATGTGA-3′ | 3 | 7 | 2 → 2 | 0.75 |
-| FUS e1::NR4A3 e3 | none published | 2 of 5 | 5′-GGGCATATCGTTTGAG-3′ | 3 | 8 | 5 → 2 | 0.12 |
-| FUS e3::NR4A3 e3 | none published | 5 of 5 | 5′-GGCATATTGTTCTGGC-3′ | 2 | 7 | 18 → 3 | 0.76 |
-| FUS e5::NR4A3 e3 | none published | 2 of 3 | 5′-GGGCATATCTCCACCT-3′ | 3 | 8 | 33 → 4 | 0.65 |
-| FUS e7::NR4A3 e3 | none published | 4 of 5 | 5′-GGCATATCACCAAATT-3′ | 2 | 7 | 10 → 3 | 0.92 |
-| FUS e8::NR4A3 e3 | none published | 3 of 5 | 5′-AGGGCATATCGGAGTC-3′ | 2 | 0 | 0 → 0 | 0.06 |
-| TAF15 e11::NR4A3 e3 | exon not reported | 4 of 5 | 5′-GGGCATATCATCAAAC-3′ | 3 | 8 | 123 → 6 | 0.62 |
-| TAF15 e12::NR4A3 e3 | exon not reported | 3 of 5 | 5′-GGGCATATCTCGCCGC-3′ | 3 | 6 | 4 → 2 | 0.04 |
-| TAF15 e14::NR4A3 e3 | exon not reported | 0 of 5 | — | — | — | — | — |
-| TAF15 e1::NR4A3 e3 | exon not reported | 2 of 5 | 5′-GGGCATATCCGACATG-3′ | 3 | 0 | 0 → 0 | 0.04 |
-| TAF15 e4::NR4A3 e3 | exon not reported | 2 of 5 | 5′-GGCATATCTGACTGAC-3′ | 2 | 8 | 12 → 2 | 0.69 |
-| TAF15 e6::NR4A3 e3 | published | 1 of 5 | 5′-GGGCATATCTTGTGTG-3′ | 3 | 9 | 8 → 5 | 0.60 |
-| TAF15 e8::NR4A3 e3 | exon not reported | 4 of 5 | 5′-GGGCATATCACCAAAA-3′ | 3 | 7 | 36 → 3 | 0.86 |
-| TAF15 e9::NR4A3 e3 | exon not reported | 2 of 5 | 5′-AGGGCATATCAGCATC-3′ | 2 | 6 | 6 → 2 | 1.13 |
-| TCF12 e11::NR4A3 e3 | exon not reported | 3 of 5 | 5′-GGCATATCTAGAATGC-3′ | 2 | 8 | 4 → 3 | 0.69 |
-| TCF12 e13::NR4A3 e3 | exon not reported | 2 of 5 | 5′-GGCATATCTGTGAGAG-3′ | 2 | 7 | 6 → 5 | 1.08 |
-| TCF12 e17::NR4A3 e3 | exon not reported | 3 of 5 | 5′-GGGCATATCTCTATAA-3′ | 3 | 7 | 14 → 5 | 0.83 |
-| TCF12 e19::NR4A3 e3 | exon not reported | 2 of 5 | 5′-GGGCATATCTCTGACT-3′ | 3 | 8 | 75 → 3 | 0.82 |
-| TCF12 e3::NR4A3 e3 | exon not reported | 0 of 5 | — | — | — | — | — |
-| TCF12 e5::NR4A3 e3 | published | 4 of 5 | 5′-GGGCATATCCATCAGA-3′ | 3 | 7 | 17 → 1 | 0.56 |
-| TCF12 e7::NR4A3 e3 | exon not reported | 2 of 5 | 5′-GGGCATATCAAGCGCT-3′ | 3 | 8 | 0 → 0 | 0.26 |
-| TCF12 e9::NR4A3 e3 | exon not reported | 1 of 5 | 5′-GGGCATATCTTGCATA-3′ | 3 | 8 | 39 → 6 | 0.71 |
-| TFG e2::NR4A3 e3 | none published | 0 of 4 | — | — | — | — | — |
-| TFG e3::NR4A3 e3 | none published | 4 of 5 | 5′-GGGCATATCAAATAAT-3′ | 3 | 8 | 18 → 6 | 1.35 |
-| TFG e4::NR4A3 e3 | none published | 1 of 5 | 5′-AGGGCATATCATTTTC-3′ | 2 | 7 | 82 → 12 | 1.77 |
-| TFG e5::NR4A3 e3 | none published | 2 of 5 | 5′-GGCATATCTGAAACCT-3′ | 2 | 8 | 34 → 7 | 1.38 |
-| TFG e6::NR4A3 e3 | none published | 3 of 5 | 5′-GGGCATATCTTCAATC-3′ | 3 | 9 | 29 → 3 | 0.73 |
-| TFG e7::NR4A3 e3 | published (deposit) | 2 of 5 | 5′-GGCATATCTGAATACT-3′ | 2 | 9 | 24 → 6 | 1.24 |
+| junction | exon-resolved breakpoint | designs clearing the parent screen | best available design | gap-level margin | longest parent duplex through the gap (bp) | gap-paired near-matches at the deeper ceiling (transcripts → loci) | genome-wide gap-paired load, observed/expected | conventional rules failed |
+|---|---|---|---|---|---|---|---|---|
+| EWSR1 e10::NR4A3 e3 | exon not reported | 3 of 5 | 5′-GGCATATCTAGATCAA-3′ | 2 | 7 | 70 → 4 | 0.61 | GC outside 40–60% |
+| EWSR1 e12::NR4A3 e3 | published | 4 of 5 | 5′-GGGCATATCATCAAAC-3′ | 3 | 8 | 123 → 6 | 0.62 | none |
+| EWSR1 e13::NR4A3 e3 | published | 3 of 5 | 5′-GGGCATATCTCCACGG-3′ | 3 | 8 | 24 → 2 | 0.29 | GC outside 40–60%, contains a CpG |
+| EWSR1 e15::NR4A3 e3 | exon not reported | 4 of 5 | 5′-GGGCATATCCGGGGGC-3′ | 3 | 0 | 33 → 1 | 0.06 | GC outside 40–60%, homopolymer run of four, contains a CpG |
+| EWSR1 e1::NR4A3 e3 | exon not reported | 2 of 5 | 5′-GGGCATATCCGTGGAC-3′ | 3 | 0 | 0 → 0 | 0.07 | GC outside 40–60%, contains a CpG |
+| EWSR1 e4::NR4A3 e3 | exon not reported | 4 of 5 | 5′-AGGGCATATCAGTGGG-3′ | 2 | 6 | 9 → 3 | 0.71 | none |
+| EWSR1 e7::NR4A3 e3 | exon not reported | 5 of 5 | 5′-CAGGGCATATTCTGCT-3′ | 1 | 8 | 14 → 5 | 1.08 | none |
+| EWSR1 e9::NR4A3 e3 | exon not reported | 4 of 5 | 5′-GGCATATCACCAGGCT-3′ | 2 | 7 | 15 → 4 | 0.73 | none |
+| FUS e10::NR4A3 e3 | none published | 4 of 5 | 5′-GGGCATATCATCAAAC-3′ | 3 | 8 | 123 → 6 | 0.62 | none |
+| FUS e11::NR4A3 e3 | none published | 3 of 5 | 5′-GGGCATATCTCCTCGC-3′ | 3 | 9 | 30 → 1 | 0.22 | GC outside 40–60%, contains a CpG |
+| FUS e13::NR4A3 e3 | none published | 4 of 5 | 5′-GGGCATATCCATGTGA-3′ | 3 | 7 | 2 → 2 | 0.75 | none |
+| FUS e1::NR4A3 e3 | none published | 2 of 5 | 5′-GGGCATATCGTTTGAG-3′ | 3 | 8 | 5 → 2 | 0.12 | contains a CpG |
+| FUS e3::NR4A3 e3 | none published | 5 of 5 | 5′-GGCATATTGTTCTGGC-3′ | 2 | 7 | 18 → 3 | 0.76 | none |
+| FUS e5::NR4A3 e3 | none published | 2 of 3 | 5′-GGGCATATCTCCACCT-3′ | 3 | 8 | 33 → 4 | 0.65 | none |
+| FUS e7::NR4A3 e3 | none published | 4 of 5 | 5′-GGCATATCACCAAATT-3′ | 2 | 7 | 10 → 3 | 0.92 | GC outside 40–60% |
+| FUS e8::NR4A3 e3 | none published | 3 of 5 | 5′-AGGGCATATCGGAGTC-3′ | 2 | 0 | 0 → 0 | 0.06 | contains a CpG |
+| TAF15 e11::NR4A3 e3 | exon not reported | 4 of 5 | 5′-GGGCATATCATCAAAC-3′ | 3 | 8 | 123 → 6 | 0.62 | none |
+| TAF15 e12::NR4A3 e3 | exon not reported | 3 of 5 | 5′-GGGCATATCTCGCCGC-3′ | 3 | 6 | 4 → 2 | 0.04 | GC outside 40–60%, contains a CpG |
+| TAF15 e14::NR4A3 e3 | exon not reported | 0 of 5 | — | — | — | — | — | — |
+| TAF15 e1::NR4A3 e3 | exon not reported | 2 of 5 | 5′-GGGCATATCCGACATG-3′ | 3 | 0 | 0 → 0 | 0.04 | contains a CpG |
+| TAF15 e4::NR4A3 e3 | exon not reported | 2 of 5 | 5′-GGCATATCTGACTGAC-3′ | 2 | 8 | 12 → 2 | 0.69 | none |
+| TAF15 e6::NR4A3 e3 | published | 1 of 5 | 5′-GGGCATATCTTGTGTG-3′ | 3 | 9 | 8 → 5 | 0.60 | none |
+| TAF15 e8::NR4A3 e3 | exon not reported | 4 of 5 | 5′-GGGCATATCACCAAAA-3′ | 3 | 7 | 36 → 3 | 0.86 | homopolymer run of four |
+| TAF15 e9::NR4A3 e3 | exon not reported | 2 of 5 | 5′-AGGGCATATCAGCATC-3′ | 2 | 6 | 6 → 2 | 1.13 | none |
+| TCF12 e11::NR4A3 e3 | exon not reported | 3 of 5 | 5′-GGCATATCTAGAATGC-3′ | 2 | 8 | 4 → 3 | 0.69 | none |
+| TCF12 e13::NR4A3 e3 | exon not reported | 2 of 5 | 5′-GGCATATCTGTGAGAG-3′ | 2 | 7 | 6 → 5 | 1.08 | none |
+| TCF12 e17::NR4A3 e3 | exon not reported | 3 of 5 | 5′-GGGCATATCTCTATAA-3′ | 3 | 7 | 14 → 5 | 0.83 | GC outside 40–60% |
+| TCF12 e19::NR4A3 e3 | exon not reported | 2 of 5 | 5′-GGGCATATCTCTGACT-3′ | 3 | 8 | 75 → 3 | 0.82 | none |
+| TCF12 e3::NR4A3 e3 | exon not reported | 0 of 5 | — | — | — | — | — | — |
+| TCF12 e5::NR4A3 e3 | published | 4 of 5 | 5′-GGGCATATCCATCAGA-3′ | 3 | 7 | 17 → 1 | 0.56 | none |
+| TCF12 e7::NR4A3 e3 | exon not reported | 2 of 5 | 5′-GGGCATATCAAGCGCT-3′ | 3 | 8 | 0 → 0 | 0.26 | contains a CpG |
+| TCF12 e9::NR4A3 e3 | exon not reported | 1 of 5 | 5′-GGGCATATCTTGCATA-3′ | 3 | 8 | 39 → 6 | 0.71 | none |
+| TFG e2::NR4A3 e3 | none published | 0 of 4 | — | — | — | — | — | — |
+| TFG e3::NR4A3 e3 | none published | 4 of 5 | 5′-GGGCATATCAAATAAT-3′ | 3 | 8 | 18 → 6 | 1.35 | GC outside 40–60% |
+| TFG e4::NR4A3 e3 | none published | 1 of 5 | 5′-AGGGCATATCATTTTC-3′ | 2 | 7 | 82 → 12 | 1.77 | GC outside 40–60%, homopolymer run of four |
+| TFG e5::NR4A3 e3 | none published | 2 of 5 | 5′-GGCATATCTGAAACCT-3′ | 2 | 8 | 34 → 7 | 1.38 | none |
+| TFG e6::NR4A3 e3 | none published | 3 of 5 | 5′-GGGCATATCTTCAATC-3′ | 3 | 9 | 29 → 3 | 0.73 | none |
+| TFG e7::NR4A3 e3 | published (deposit) | 2 of 5 | 5′-GGCATATCTGAATACT-3′ | 2 | 9 | 24 → 6 | 1.24 | GC outside 40–60% |
 
 **Table 5. Gap length against junction specificity, at one junction and across the design space.** The
 same junctions tiled and screened at three gapmer geometries, wing held at five nucleotides so that only
@@ -246,11 +266,12 @@ measurement of cleavage.
 | designs pairing the gap in parent pre-mRNA | 19 of 190 | 11 of 266 | 9 of 342 |
 | median most stable parent ΔG°37 (kcal/mol) | −8.66 | −11.60 | −14.58 |
 
-**Table 6. Where the clinically-relevant reagents' off-target loci are expressed.** Every gene
+**Table 6. Where the off-target loci at the junctions with a published breakpoint are expressed.** Every gene
 locus returned by the deeper screens at four of the five junctions with a published exon-resolved EMC breakpoint,
 read against reference expression data. The two compartments answer different questions and are
-never combined: a systemically dosed phosphorothioate gapmer distributes predominantly to liver and
-kidney, so liver, kidney - cortex and kidney - medulla address exposure, while the soft-tissue column is the normal
+never combined: a systemically dosed phosphorothioate gapmer is taken to distribute predominantly to
+liver and kidney — a premise taken from the chemistry, for which no measurement or citation was
+retrieved here — so liver, kidney - cortex and kidney - medulla are read as the exposure compartment, while the soft-tissue column is the normal
 tissue of the compartment EMC arises in and stands in for a tumour no reference atlas contains.
 Values are GTEx v8 median TPM across each tissue's donors. The two cuts behind the last column are
 stated for legibility and are not thresholds of concern: below 1 TPM in all three exposure

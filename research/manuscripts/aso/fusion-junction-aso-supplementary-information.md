@@ -103,8 +103,8 @@ an already-filtered one.
 ## S5 · The two unfiltered control screens
 
 The two screens §6 records as unfiltered are modelled control junctions built in amino-acid rather
-than transcript coordinates. They carry no junction, and no count reported anywhere in the main text
-is taken from them.
+than transcript coordinates. They carry no junction from the 38-junction panel, and no count
+reported anywhere in the main text is taken from them.
 
 ## S6 · The coverage ladder's second basis, and two zero-contribution junctions
 
@@ -121,8 +121,9 @@ two partners reaches 95%, and the remaining reachable cases are the two *TCF12* 
 fourth reagent of §4.1 addresses.
 
 Nine junctions now carry both a published exon-resolved breakpoint and a design through all five
-screens, and four of them sit outside the 38-junction panel, at the *NR4A3* exon-2 acceptors of
-§2.6. Four of the nine move the estimate; one moves only the bound, its arm having no measured
+screens, with the *PGR* seam's pre-mRNA compartment unmeasured for the reason main text §2.6 gives,
+and four of them sit outside the 38-junction panel, at the *NR4A3* exon-2 acceptors of §2.6. Four
+of the nine move the estimate; one moves only the bound, its arm having no measured
 within-partner distribution; and four move it by nothing at all — two because their partner is
 absent from this cohort, and two because their partner is present while their exon pair carries no
 count in it. That last pair is the easier of the two zeroes to miss, and a membership test that

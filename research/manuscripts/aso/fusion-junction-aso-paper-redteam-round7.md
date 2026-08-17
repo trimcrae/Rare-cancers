@@ -573,6 +573,57 @@ earlier, under a slug named for the question it was asked rather than for the pa
 
 ---
 
+### 2i · ⭐ THE CLEAN RE-READ — condition 3 met by measurement, 2026-08-17
+
+§2h records condition 3 being met by FIXING a major rather than by a clean re-read, on the stopping
+rule's own corollary. **trimcrae asked for the clean re-read anyway, and was right to.** A second
+firewalled cold reader was given the corrected documents and nothing else — no history, no diff, no
+knowledge that a first pass existed, because a reader told what was already fixed is not firewalled.
+
+**Verdict: no blockers, no majors, 17 minors.** Condition 3 now holds on its own terms. The reader
+recorded what the verdict rests on rather than asserting it: every named design reverse-complements
+onto the exon termini the prose quotes, 231 = 77 × 3, 190/266/342 = 38 × 5/7/9, the coverage ladder
+and its increments, the null expectations, and §4.4 at ≈32% and ≈80% under a noncentral t. ⭐ It
+reports nearly filing the 7.3% chance figure as an arithmetic error before checking that `1/64` is
+exactly P(two geometric extensions sum to ≥ 4 at p = ¼) — a fifth near-miss, self-caught.
+
+**⛔ FOUR OF THE 17 WERE ORDERING HAZARDS IN THE FILE A LABORATORY ORDERS FROM, AND THE FIRST IS THE
+ONE THAT MATTERS.** The tables document never stated the chemistry: `phosphorothioate` appeared once,
+buried in a Table 6 aside, `LNA` twice in captions unexpanded, `backbone` never, and the geometry
+column said only `5-6-5`. **A laboratory ordering from Table 7 alone would order unmodified DNA** —
+a different molecule, about which nothing in the paper is true. Also: Table 2 printed a sequence at
+each of the three junctions where *no* design clears the parent screen; the banner excluded the three
+condemned designs by description without printing them, while two are register shifts of a listed
+reagent sharing a **measured** 15 contiguous bases of 16; and Table 6 was titled *"the
+clinically-relevant reagents'"* four inches under a banner saying none is a medicine. All fixed at the
+generator, with the chemistry line DERIVED from the same geometry block Table 5's columns come from,
+so a fourth geometry documents itself.
+
+**⛔ AND ACTING ON THEM BROKE TWO OF THIS REPOSITORY'S OWN INSTRUMENTS, BOTH IN THE QUIET DIRECTION.**
+
+1. **A guard fired on its own remedy.** `test_condemned_designs_are_absent_from_the_tables.py`
+   scanned the whole flattened document, so printing the forbidden sequences *in order to forbid
+   them* tripped a test written to stop them appearing in an orderable row. ⚠ **A guard that fires on
+   its own remedy is mis-scoped, not vindicated** — and the tempting repair is to weaken the
+   assertion. The scan was narrowed to pipe-delimited rows, leaving the substantive property exactly
+   as strict, and a second test now requires the banner to carry them.
+2. **A new table marker silently cut test coverage, and nothing went red.** Marking Table 2's three
+   condemned junctions with `†` made those cells key as `TAF15_e14__NR4A3_e3_†`, matching no
+   artifact, so **3 of 38 cells stopped being checked against the recount while the suite stayed
+   green** — the file's global `assert checked` was satisfied by the other 35. The per-glyph strip
+   list became a class regex, and the fix was PROVEN rather than inferred from a pass: the old
+   labeller returns `TAF15_e14__NR4A3_e3_†`, the new one returns the real key.
+
+**Two findings were REFUTED with evidence** rather than applied — a Table 2/§2.2 cross-reference
+(repointing it would have aimed a reader at the number 2 under a sentence saying three, because the
+table's column is default-depth and the sentence is about the deeper ceiling), and one heading change
+that would have broken the PDF build, `build_submission_pdf.py` anchoring Supplementary Figure S1 on
+the substring `"conditions for falsification"`. **Three test pins were re-anchored on the property
+rather than the wording** so a correct edit could land: the abstract's noun, the §6 unfiltered-screens
+sentence, and the marker class above.
+
+---
+
 ### 2h · ⭐ THE STOPPING RULE'S TWO SEATS, RUN — 2026-08-17
 
 The pre-registered rule requires two reviewers beyond the ledger: a **firewalled cold reader** given
