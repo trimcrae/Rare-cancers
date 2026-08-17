@@ -165,7 +165,10 @@ def test_front_matter_captures_whole_paragraphs_not_first_lines(journal):
         # sequences and dropped the disclaimer. It was MOVED, not copied, to sit immediately ahead
         # of them, which is why the tail moved with it. The whole-paragraph property this assertion
         # exists for is unchanged and is now pinned on the released-pipeline sentence that ends it.
-        "so a reagent can be designed for a breakpoint outside this panel by the same procedure.")
+        # ⛔ "reagent" -> "candidate" (round-7 D1-F8, applied 2026-08-17). The abstract twice promised a
+        # "reagent" where the body three times refuses that word — §4.5 releases a procedure that
+        # returns "a candidate, not a validated reagent". This pin held the overclaiming form in place.
+        "so a candidate can be designed for a breakpoint outside this panel by the same procedure.")
     # ⛔ AND THE ORDERING IS THE POINT, so it is asserted rather than left to the tail above: the
     # disclaimer and the research-use statement must both PRECEDE the first named sequence. A future
     # edit that moves either behind the sequences reinstates round 7's P0.8 and P0.6 together, and

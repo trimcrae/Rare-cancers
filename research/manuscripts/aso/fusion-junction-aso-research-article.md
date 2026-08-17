@@ -69,7 +69,7 @@ breakpoint distribution of a separate 18-case series gives roughly two thirds, s
 each breakpoint fraction is taken to its own Wilson bound with the partner shares held fixed; the
 *TAF15* arm is three tumours, so one tumour moves it about five points, and what fraction of EMC
 reaches molecular confirmation at all is stated by no source retrieved here. The design and
-screening pipeline is released, so a reagent can be designed for a breakpoint outside this panel by
+screening pipeline is released, so a candidate can be designed for a breakpoint outside this panel by
 the same procedure.
 
 ---
@@ -186,7 +186,7 @@ reagent named here can be tested in it. That is not a statement that the line is
 
 **The replicate floor and the void condition (§4.4).** Selectivity is the wild-type *NR4A3*
 half-maximal knockdown concentration divided by the fusion's, from a matched dose–response in the
-same wells, and the cut is 5.0. Three biological replicates are a floor and not a target: above a
+same wells, and the cut is 5.0, taken as a convention rather than measured for this comparison (§4.4). Three biological replicates are a floor and not a target: above a
 replicate standard deviation of about 0.65 on the log scale, no observed ratio at or above one can
 place a 95% upper bound below that cut at three replicates, so the test can fail only where the
 reagent is anti-selective and the design is otherwise void rather than negative. The controls, the assay placement and the limit-of-quantification condition without which
@@ -432,7 +432,7 @@ while being exactly what RNase-H1 requires.
 Screen 4 compares every design's target window to every window of all six mature parents. 87 of 190
 designs have a duplex of at least ten base pairs, and 61 of those 87 are against wild-type
 *NR4A3*, the transcript this modality must spare. The count is a floor at the threshold chosen, and
-seven base pairs is the strict end of the same cited range (§6): at seven the same screen returns
+seven base pairs is the shortest end of the same cited range (§6), and so the more inclusive reading of the liability: at seven the same screen returns
 175 of 190 rather than 87. Those 61 are not 61 distinct sites: 59 of them are
 the same one, the mature exon-2/exon-3 seam every design's acceptor half reaches, which is the
 mature-transcript counterpart of the pre-mRNA concentration above. A 62nd pairs *NR4A3* at eleven base pairs but
@@ -506,7 +506,8 @@ patient,<sup>26</sup><!--PMID:35488288--> while functional work uses the *TAF15*
 intron 2 variant.<sup>27</sup><!--PMID:31020999-->
 
 Those acceptors are now designed and screened to the panel's depth, at four seams with a published
-exon-resolved breakpoint, each tiled by the same five registers and graded by the same five screens.
+exon-resolved breakpoint, each tiled by the same five registers and graded by the same five screens,
+and every count below is at the tenfold deeper alignment ceiling.
 Their best available designs are 5′-CAGTGGGCTTCTGCTG-3′ at *EWSR1* exon 7, the type 2 transcript, at
 gap-level margin 2 and 51 gap-paired near-matches over 7 loci; 5′-AGTGGGCTCTCCACGG-3′ at *EWSR1*
 exon 13, at margin 3 and 25 over 6; 5′-AGTGGGCTCTTGTGTG-3′ at *TAF15* exon 6, at margin 3 and 128
@@ -519,7 +520,7 @@ outside the five modelled here, and §6 lists no transcript accession for it, so
 screened against the non-canonical-acceptor table rather than derived through the panel's own
 transcript models.
 
-**Some designs cleave the patient's own un-rearranged *NR4A3* allele, and the parent screen passes
+**Some designs pair their whole catalytic gap against the patient's own un-rearranged *NR4A3* allele, and the parent screen passes
 every one of them.** This is the result most consequential for anyone ordering these
 oligonucleotides, and it applies wherever a design's acceptor half is *NR4A3* sequence that is not
 exonic in the mature transcript: the 5′ untranslated exon 2, and the cryptic exon within intron 2. In
@@ -575,7 +576,9 @@ Its longest parent run is eight base pairs against wild-type *NR4A3*, which is b
 rather than absent, so it is a candidate at the stated cut and not at a stricter one. The fourth
 design with a clean deep screen, 5′-GGCATATCAAGCGCTG-3′ at the same junction, is excluded by an
 eleven-base-pair duplex with wild-type *TCF12* — its own donor parent, not the acceptor. That is the
-honest size of the candidate set, and no junction among them has a published patient breakpoint —
+honest size of the candidate set by screen, and it is not a set to make: no junction among them has
+a published patient breakpoint, which is why §4.4 uses all three as mechanism controls rather than
+candidates —
 the exon-resolved *TAF15* breakpoints reported in EMC are exon 6, and for *FUS* and *TCF12* exon 7
 none has been published at all. Selecting within each junction rather than across the panel changes
 what is available, not what is clean: Table 4 applies the same criteria at all 38, where 35 have a
@@ -605,7 +608,7 @@ make about them, and it is a statement about predicted hybridisation and not abo
 
 ### 2.8 · Expression of the off-target loci
 
-No screen above establishes that a design's off-target gene is transcribed where the drug goes, and
+No screen above establishes that a design's off-target gene is transcribed in the organs a systemic dose reaches, and
 that discount applies to every count in this paper. Read against reference expression data (Table
 6), the gap-paired loci of the best design at each of the four junctions covered separate in the
 direction opposite to the sizes of their loads. Table 6 lists every locus the deeper screens return
@@ -788,9 +791,10 @@ atherosclerosis, NR4A1 and NR4A2 attenuate lesion formation while NR4A3 aggravat
 it<sup>32</sup><!--PMID:24005216--> — so paralogue redundancy cannot be assumed to be
 substitution.
 
-Two limits on that reading matter more than the reading itself. Every study cited here is
-haematopoietic or vascular, and none addresses the tissue an EMC arises in; and all describe
-germline or conditional gene deletion, which is a different and more complete perturbation than
+Two limits on that reading matter more than the reading itself. Every source cited here is
+haematopoietic or vascular, and none addresses the tissue an EMC arises in; two of the four are
+reviews rather than primary reports; and the perturbation described throughout is germline or
+conditional gene deletion, which is a different and more complete perturbation than
 partial, reversible, dose-limited knockdown by an oligonucleotide. The honest position is therefore
 that wild-type *NR4A3* knockdown has an unquantified cost that is probably not zero and probably not
 catastrophic, and that the case for junction selectivity does not rest on it. It rests on the
@@ -834,8 +838,12 @@ span, so the test article has to carry one. The EMC line a reader
 would reach for first, H-EMC-SS, is the only one this work could establish as available from a cell
 repository, a third line's distributor being unreadable and its availability therefore unanswered
 rather than answered, and no *NR4A3* fusion is detectable in it on the public record: a filtered
-fusion caller that ran against it returned
-two calls, neither naming *NR4A3* nor any FET gene; its *NR4A3* expression sits at floor; the
+fusion caller that ran against it — DepMap's filtered fusion
+call set, release 24Q4, model ACH-001519 — returned two calls, `AL158209.1--NEBL` and
+`VIM--RPS25`, neither naming *NR4A3* nor any FET gene; its *NR4A3* expression is 0.941 on a log2(TPM + 1) scale, near the floor in absolute terms while
+sitting at the 83rd percentile of the 1,673-line panel, whose median is 0.214, so it is weak
+corroboration and is graded as such, expression alone being able neither to establish nor to exclude
+a fusion; the
 reference registry that records a gene fusion for other EMC models
 records none for this one; and no retrieved source reports a positive junction in it. The operative
 consequence is narrow and is the only one this paper draws: no reagent named here can be tested in
@@ -885,7 +893,7 @@ This section is the paper's output for a laboratory. It names six things: the ol
 make, the arm that separates the two ways a weak result could arise, the predicted off-target load
 each carries, the controls without which the readout does not mean what it appears to mean, the
 number that would falsify the ranking every candidate here is ordered by, and — for the patients no
-named reagent reaches — the released procedure by which a reagent can be designed for a breakpoint
+named reagent reaches — the released procedure by which a candidate can be designed for a breakpoint
 outside this panel. Nothing in it is a claim of efficacy. No sequence named below has been
 synthesised or tested.
 
@@ -912,7 +920,7 @@ longest parent run is nine. The first also tests the multi-partner prediction, a
 target only.
 
 How much of the disease those two junctions represent is a junction figure, not a partner figure, and
-the two differ: 46 *EWSR1* and 9 *TAF15* among 58 molecularly confirmed cases is 95% between the
+the two differ: 46 *EWSR1* and 9 *TAF15* among 58 molecularly confirmed cases is 94.8% between the
 partners,<sup>9</sup><!--PMID:36948401--> while each reagent spans one exon pair. Discounted by the
 breakpoint distribution of an 18-case series<sup>22</sup><!--PMID:12378528--> the two are 68.4%,
 roughly two thirds; Table 7 gives that figure, the rungs above it and the reagent at each.
@@ -967,7 +975,7 @@ near-matches at 2 loci against 123 at 6. On exposure it is the heavier: both of 
 transcribed at the upper cut in the organs a systemic phosphorothioate gapmer distributes to, where
 none of the exon-12 reagent's measurable loci is (§2.8, Table 6). For a laboratory choosing between
 them, the exposure reading is the one that speaks to the question a count cannot: a locus matched
-but not transcribed where the drug goes has no route to an effect, whereas the count says only how
+but not transcribed in the organs a systemic dose reaches has no route to an effect, whereas the count says only how
 many gap-paired windows the screen returned there. Neither axis is a risk ranking, and this comparison
 does not make the exon-12 reagent the safer molecule. Every hit behind both is a 14 of 16 match, no
 cleavage is predicted at any of them, and an expressed gene is necessary and not sufficient for an
@@ -1218,7 +1226,7 @@ assay distinguishes these geometries here.
 liability only, and the free-energy calculation speaks to duplex formation rather than to cleavage.
 Every parent count requires the catalytic gap paired in full, an inclusion criterion adopted because
 no retrieved measurement grades a partly-paired parent duplex; the class it excludes is the 21
-designs of §2.5. Nothing here establishes that a matched gene is transcribed where the drug goes: 13
+designs of §2.5. Nothing here establishes that a matched gene is transcribed in the organs a systemic dose reaches: 13
 of the 46 loci returned no reading and carry 52 of the panel's 649 records, so there the exposure
 question is unanswered rather than answered negatively, and reference bulk medians describe a population's normal tissue rather than a dosed
 patient's organ (Table 6). The sequence-independent liabilities of this chemistry, protein binding
@@ -1340,7 +1348,7 @@ another catches. No single screen supports any claim here on its own.
    of its 16 positions is a *near-match*, classified by whether the six-nucleotide gap is itself
    base-paired: one that pairs the gap is *gap-paired*, or gap-spanning, and RNase-H1 could cleave
    there; one pairing only the wings could not. This is a heuristic search retaining only a limited
-   number of hits per query, an effect §5 measures. Records of the six parent genes are counted
+   number of hits per query, so every count it yields is a lower bound — an effect §5 measures. Records of the six parent genes are counted
    separately and excluded from every near-match count reported here, since each parent pairs one
    wing by construction and would otherwise dominate the list; the parents are assessed instead by
    the gap-level margin and by screen 4.
@@ -1420,7 +1428,7 @@ on potency, which is not claimed for any sequence, rather than on the discrimina
 about — and SI §S1 gives the three reasons in full.
 
 **Expression of the off-target loci.** No screen above says whether a matched gene is transcribed
-where the drug goes. For four of the five junctions with a published exon-resolved breakpoint — those
+in the organs a systemic dose reaches. For four of the five junctions with a published exon-resolved breakpoint — those
 Table 6 covers — the gene loci their deeper screens return in the gap-paired class were read against
 GTEx v8 median TPM.<sup>47</sup><!--PMID:32913098--> No such reading was taken at *TFG* exon 7, so
 that junction carries no expression reading rather than a negative one. The readings are in two
@@ -1497,7 +1505,7 @@ need in order to re-derive a design or re-run a screen, and the coverage ladder'
 ## Figure legends
 
 Figures 1 to 3 are the main-text figures. Supplementary Figure S1 travels with the archive rather
-than with the Supporting Information, which carries no figure, and its legend is given here with
+than with the Supplementary Information, which carries no figure, and its legend is given here with
 theirs.
 
 **Figure 1. Reading-frame compatibility across the NR4A3 fusion junction space.** All 231 donor-exon ×
@@ -1547,7 +1555,7 @@ predictions from sequence search, not measured off-target activity.
 ## Declarations
 
 **Research use only, and not for administration to any person or animal.** Every oligonucleotide
-sequence in this manuscript, its Supporting Information and its tables — the two reagents named for
+sequence in this manuscript, its Supplementary Information and its tables — the two reagents named for
 synthesis, the three named as not to be used, the second-geometry and scrambled controls, and every
 design in the released panel — is a research reagent intended solely for laboratory investigation.
 None is a medicine, an investigational medicinal product or a candidate drug. None has been

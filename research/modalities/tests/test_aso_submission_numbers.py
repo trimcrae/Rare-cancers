@@ -1546,7 +1546,12 @@ def test_the_wild_type_allele_liability_is_named_with_the_designs_it_condemns():
             len(liab["designs_cleaving_wild_type_NR4A3"]) == 2
         assert all(s["gap_fully_paired"] and s["hybridisable"] for s in st3["sites"]), st3["sites"]
     assert "returned independently by an exhaustive scan" in txt
-    assert "**Some designs cleave the patient's own un-rearranged *NR4A3* allele" in raw
+    # ⛔ "cleave" -> "pair their whole catalytic gap against" (round-7 D1-F7/B5-F3, applied
+    # 2026-08-17). §5 says all five screens address hybridisation only, and the producing artifact's
+    # own verdict string is a competence statement. The abstract and Box 1 always had it right; this
+    # pin was holding the one hazard claim stated above its evidence.
+    assert ("**Some designs pair their whole catalytic gap against the patient's own un-rearranged "
+            "*NR4A3* allele") in raw
 
 
 def test_the_testable_surface_states_the_only_catalogued_line_cannot_test_a_junction_reagent():

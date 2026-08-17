@@ -7,7 +7,7 @@ status: live
 canonical_for:
   - the method detail split out of the fusion-junction ASO submission manuscript
 purpose: >
-  The Supporting Information for PUB-ASO. It holds the Methods material that a reader does not
+  The Supplementary Information for PUB-ASO. It holds the Methods material that a reader does not
   need in order to re-derive a design or re-run a screen: the target-site accessibility rationale,
   the melting-temperature cross-check of the duplex thermodynamics, the provenance of the three
   gap-length figures, the graded re-score's screen-by-screen bookkeeping, the two unfiltered
@@ -32,7 +32,7 @@ last_verified: 2026-08-16
 *Independent researcher, unaffiliated.* Correspondence: trimcrae@gmail.com
 
 **Research use only, and not for administration to any person or animal.** Every oligonucleotide
-sequence named in this Supporting Information, in the main text and in their tables is a research
+sequence named in this Supplementary Information, in the main text and in their tables is a research
 reagent intended solely for laboratory investigation. None is a medicine or a candidate drug, none
 has been synthesised or tested by anyone, and none may be administered to any human being or animal,
 compounded for such use, or supplied to any person for such use. Custom oligonucleotide synthesis is
