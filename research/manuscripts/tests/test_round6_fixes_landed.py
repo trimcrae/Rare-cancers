@@ -24,6 +24,8 @@ that is what rule 1.2 requires of them. Asserting repo-wide absence would forbid
 correction, so each check names the files the deposit actually carries.
 """
 import os
+import re
+
 import pytest
 
 REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
@@ -38,6 +40,12 @@ assert os.path.exists(os.path.join(REPO, "CLAUDE.md")), (
     "otherwise pass by skipping"
 )
 ART = os.path.join(REPO, "research/manuscripts/aso/fusion-junction-aso-research-article.md")
+# ⛔ THE SUPPORTING INFORMATION, ADDED 2026-08-16. Until then it was read by three tools and was in
+# NONE of the four instruments — not lint_style's TARGETS, not lint_claims' DEFAULT_TARGETS, not the
+# archive manifest, and not this file. The 2026-08-16 restructure moved six Methods blocks into it,
+# including the gap-length citation provenance, which is the material the sign error below lived in.
+# So the defect this module exists to chase now has a home that nothing was watching.
+SI = os.path.join(REPO, "research/manuscripts/aso/fusion-junction-aso-supplementary-information.md")
 TABLES = os.path.join(REPO, "research/manuscripts/aso/fusion-junction-aso-submission-tables.md")
 LETTER = os.path.join(REPO, "research/manuscripts/aso/fusion-junction-aso-cover-letter.md")
 GEN_TABLES = os.path.join(REPO, "research/manuscripts/submission_tables.py")
@@ -55,7 +63,17 @@ def _read(p):
 
 
 def _flat(s):
-    return " ".join(s.split())
+    """Collapse whitespace AND strip markdown emphasis before comparing.
+
+    ⛔ THE EMPHASIS HALF WAS ADDED 2026-08-16, AFTER THE SECOND FALSE READING IN THE OTHER
+    DIRECTION. A substring guard over markdown is brittle both ways: it has held a defective
+    sentence in place, and it has reported a protected sentence DESTROYED when the text merely
+    gained italics (`*TAF15*` against `TAF15`). Neither is a change in what the paper says, so
+    emphasis is removed here and every phrase below is written in the words an author would read
+    aloud. ⚠ Only asterisk runs — underscores are load-bearing (`EWSR1_e12__NR4A3_e3`), and a
+    flattener that stripped them would rewrite one junction label into another.
+    """
+    return re.sub(r"\*+", "", " ".join(s.split()))
 
 
 # --------------------------------------------------------------------------------------------
@@ -70,7 +88,41 @@ SIGN_ERROR_PHRASINGS = (
 )
 
 
-@pytest.mark.parametrize("path", [ART, TABLES, GEN_TABLES, GEN_TRADE, GEN_FIG, TRADE_JSON])
+def _live_claims_of(body, phrases):
+    """Every occurrence of `phrases` in `body` that is NOT inside a supersession block.
+
+    ⚠ The window is CHARACTERS around the occurrence, not the line containing it: these files wrap,
+    and a line-scoped check reports a correctly-retired quotation as a live claim. Emphasis is
+    stripped by `_flat` first, so a phrase that gained italics is still found — a guard that reads
+    `*TAF15*` and `TAF15` as different strings fails in the direction that looks green.
+    """
+    flat = _flat(body)
+    live, start = [], 0
+    for phrase in phrases:
+        start = 0
+        while (i := flat.find(phrase, start)) != -1:
+            if "uperseded" not in flat[max(0, i - 400):i + len(phrase) + 120]:
+                live.append(phrase)
+            start = i + len(phrase)
+    return live
+
+
+def test_the_sign_error_scan_rejects_a_defective_document():
+    """⛔ THE GUARD'S OWN PROOF. A check that cannot fail reports coverage it does not have, so the
+    scan above is run against a constructed defective string and against the correctly-retired form
+    of the same sentence. Both directions, because a scan that flagged the retraction would be
+    switched off within a day.
+    """
+    defective = "At a fixed gap the two " + SIGN_ERROR_PHRASINGS[0] + ", so a longer gap helps."
+    assert _live_claims_of(defective, SIGN_ERROR_PHRASINGS) == [SIGN_ERROR_PHRASINGS[0]]
+    retired = "Superseded, retained: the claim that they " + SIGN_ERROR_PHRASINGS[0] + "."
+    assert _live_claims_of(retired, SIGN_ERROR_PHRASINGS) == []
+    # And the emphasis direction: italics inside the phrase must not hide it.
+    italicised = defective.replace("nucleotide for", "*nucleotide* for")
+    assert _live_claims_of(italicised, SIGN_ERROR_PHRASINGS) == [SIGN_ERROR_PHRASINGS[0]]
+
+
+@pytest.mark.parametrize("path", [ART, SI, TABLES, GEN_TABLES, GEN_TRADE, GEN_FIG, TRADE_JSON])
 def test_the_sign_error_is_absent_from_every_home_it_was_found_in(path):
     """Margin + parent-paired gap DNA = gap, so WITHIN a geometry they move inversely.
 
@@ -78,21 +130,12 @@ def test_the_sign_error_is_absent_from_every_home_it_was_found_in(path):
     manuscript and left the artifact, both generators and the generated tables emitting the wrong
     direction -- which the deposit carries, since build_submission_pdf bundles the tables markdown.
     """
-    body = _read(path)
-    for phrase in SIGN_ERROR_PHRASINGS:
-        # A supersession block is allowed to quote it; a live claim is not. ⚠ The window is
-        # CHARACTERS around the occurrence, not the line containing it: these files wrap, and a
-        # line-scoped check reports a correctly-retired quotation as a live claim.
-        flat = _flat(body)
-        start = 0
-        while (i := flat.find(phrase, start)) != -1:
-            window = flat[max(0, i - 400):i + len(phrase) + 120]
-            assert "uperseded" in window, (
-                f"{os.path.relpath(path, REPO)} still asserts the sign error: {phrase!r}. "
-                "Margin and parent-paired gap DNA are complements, so at a fixed gap they "
-                "move INVERSELY (aso_gap_length_tradeoff.py: parent_dna = gap - margin)."
-            )
-            start = i + len(phrase)
+    live = _live_claims_of(_read(path), SIGN_ERROR_PHRASINGS)
+    assert not live, (
+        f"{os.path.relpath(path, REPO)} still asserts the sign error: {live!r}. "
+        "Margin and parent-paired gap DNA are complements, so at a fixed gap they "
+        "move INVERSELY (aso_gap_length_tradeoff.py: parent_dna = gap - margin)."
+    )
 
 
 def test_the_corrected_direction_is_actually_stated_in_the_manuscript():
@@ -150,10 +193,61 @@ def test_selectivity_is_defined_so_that_larger_is_more_selective():
     As written it scored a perfectly selective reagent as falsifying the ranking.
     """
     txt = _flat(_read(ART))
-    assert "ratio of wild-type *NR4A3* knockdown to fusion knockdown" not in txt, (
+    assert "ratio of wild-type NR4A3 knockdown to fusion knockdown" not in txt, (
         "the selectivity ratio is inverted: a selective reagent scores below the cut and falsifies"
     )
     assert "larger number is a more selective reagent" in txt
+
+
+def test_the_limit_of_quantification_gates_the_change_and_not_the_abundance():
+    """Round-6 finding 6.6 — the one round-6 fix this file never pinned.
+
+    ⛔ FOUND BY THE ROUND-7 REFUTERS, NOT BY A REVIEWER, and found by all three of them
+    independently while REFUTING C3-F2. Round 5 gated the ratio on wild-type *NR4A3* ABUNDANCE:
+    "reportable only where vehicle-treated wild-type *NR4A3* exceeds a pre-stated limit of
+    quantification". That gate is blind to the case it most needs to catch -- a transcript that is
+    abundantly expressed and PERFECTLY SPARED returns an unbounded ratio and passes by default.
+    Round 6 rekeyed it to the CHANGE (commit 0108074dd), which is the quantity that can approach
+    zero and therefore the one an LOQ has to watch.
+
+    ⚠ NOTHING PINNED THAT, so the round-5 wording could return silently -- and C3-F2 proposed
+    exactly that, in good faith, as a blocker-grade fix. Both directions are asserted, because
+    asserting only the arrival of the new wording would pass on a file carrying both.
+    """
+    txt = _flat(_read(ART))
+    assert "vehicle-treated wild-type NR4A3 exceeds a pre-stated limit of quantification" not in txt, (
+        "the limit-of-quantification guard has reverted to gating ABUNDANCE (round-5 wording); a "
+        "perfectly spared transcript then returns an unbounded selectivity that passes by default"
+    )
+    assert "the change in wild-type transcript and not its vehicle-well abundance" in txt, (
+        "the round-6 fix for finding 6.6 is missing: the LOQ must gate the change, not the abundance"
+    )
+
+
+#: The two absence phrases above are the ones that carried markdown emphasis in the manuscript
+#: (`wild-type *NR4A3*`), so they are the ones the emphasis change to `_flat` could have quietly
+#: neutralised — an assertion that can no longer match its own defect is a green build about
+#: nothing. Each is written here in BOTH the plain and the emphasised form the round-5 text used.
+_ROUND5_REVERSIONS = (
+    "ratio of wild-type NR4A3 knockdown to fusion knockdown",
+    "vehicle-treated wild-type NR4A3 exceeds a pre-stated limit of quantification",
+)
+
+
+@pytest.mark.parametrize("phrase", _ROUND5_REVERSIONS)
+@pytest.mark.parametrize("emphasis", ["NR4A3", "*NR4A3*", "**NR4A3**"])
+def test_the_round5_reversion_guards_still_match_their_own_defect(phrase, emphasis):
+    """⛔ PROVE THE ABSENCE ASSERTIONS FIRE, IN EVERY EMPHASIS THE DEFECT COULD COME BACK WEARING.
+
+    Both wordings are checked with `not in`, which passes on a file that no longer contains the
+    phrase for ANY reason — including the phrase having been mistyped here. So the defective
+    sentence is reconstructed and the same comparison is required to find it, italicised or not.
+    """
+    reverted = _flat("Reportable only where " + phrase.replace("NR4A3", emphasis) + ".")
+    assert phrase in reverted, (
+        f"the guard for {phrase!r} can no longer match the defect it was written for when the "
+        f"manuscript writes the gene as {emphasis}"
+    )
 
 
 def test_the_replicate_count_is_derived_from_a_variance_rather_than_asserted():

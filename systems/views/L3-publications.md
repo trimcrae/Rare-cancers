@@ -37,7 +37,7 @@ last_verified: 2026-08-06
 | endpoint | state | aimed at | routes | what is still missing |
 |---|---|---|---:|---|
 | **PUB-ANDGATE**<br/>[A coincidence-detection ("AND-gate") bivalent degrader for protein-leve…](../../research/manuscripts/degrader/fusion-selective-andgate-degrader-paper.md) | ◐ `drafted` | `preprint` | 1 | — |
-| **PUB-ASO**<br/>[Working record — fusion-junction ASO analyses, provenance and correctio…](../../research/manuscripts/aso/fusion-junction-aso-working-record.md) | ◐ `drafted` | `journal_submission` | 2 | — |
+| **PUB-ASO**<br/>[Nearly half of junction-spanning gapmer designs against the NR4A3 fusio…](../../research/manuscripts/aso/fusion-junction-aso-research-article.md) | ◐ `drafted` | `preprint` | 2 | — |
 | **PUB-ATR**<br/>[The in-silico ATR vulnerability assessment for EMC](../../research/manuscripts/dependency/emc-atr-vulnerability-assessment.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-ATR-PANEL-ASK**<br/>[Transcript-level models of the NR4A3 fusions of extraskeletal myxoid ch…](../../research/manuscripts/dependency/emc-atr-collaborator-package.md) | ◐ `drafted` | `experimental_proposal` | 1 | — |
 | **PUB-BIOMARKER-DEP**<br/>[Biomarker-selected therapeutic classes in an ultra-rare sarcoma — what …](../../research/manuscripts/dependency/emc-biomarker-selected-classes.md) | ◐ `drafted` | `preprint` | 5 | — |
@@ -86,11 +86,11 @@ Coincidence detection across both halves of the fusion is a design that would co
 |---|---|---|
 | [RT-ANDGATE](L2-rt-andgate.md) — AND-gate bivalent degrader (avidity coincidence dete | `primary` | The coincidence-detection design and the statement of exactly what does not exist for it to be built. |
 
-### PUB-ASO — Working record — fusion-junction ASO analyses, provenance and correction history
+### PUB-ASO — Nearly half of junction-spanning gapmer designs against the NR4A3 fusions of extraskeletal myxoid chondrosarcoma pair a wild-type parent gene, and a longer catalytic gap cannot separate them
 
-**◐ `drafted` · aimed at `journal_submission` · [`research/manuscripts/aso/fusion-junction-aso-working-record.md`](../../research/manuscripts/aso/fusion-junction-aso-working-record.md)**
+**◐ `drafted` · aimed at `preprint` · [`research/manuscripts/aso/fusion-junction-aso-research-article.md`](../../research/manuscripts/aso/fusion-junction-aso-research-article.md)**
 
-The EWSR1::NR4A3 breakpoint junction is the one truly tumour-exclusive feature of this disease at the RNA level, an oligonucleotide can be designed to read it rather than a shape, and transcriptome-wide specificity screening finds no competing match — with delivery named as the outstanding gate rather than assumed away.
+The NR4A3 fusion junction is the one tumour-exclusive feature of this disease at the RNA level and an oligonucleotide can be designed to read it rather than a shape — but the screen that matters returns a NEGATIVE: 87 of 190 junction-spanning gapmer designs let a mature wild-type parent transcript pair their whole catalytic gap over at least ten contiguous base pairs, 61 of them against wild-type NR4A3 itself, and lengthening the catalytic gap cannot separate the two for an arithmetic rather than an empirical reason. Delivery is named as an outstanding gate rather than assumed away, and nothing here has been synthesised or tested.
 
 **Blocks on the PAPER** — deliberately not the same set its routes inherit, because a route can be blocked on a capability while its paper is publishable today as an honest negative:
 
@@ -529,8 +529,8 @@ For each parked modality there is a single named capability — a glue design me
 | route | family | readiness today | endpoint | aimed at | role |
 |---|---|---|---|---|---|
 | [RT-ANDGATE](L2-rt-andgate.md) | [ST-PROXIMITY](L1-st-proximity.md) | `internal_note` | **PUB-ANDGATE** ◐ | `preprint` | `primary` |
-| [RT-ASO](L2-rt-aso.md) | [ST-NUCLEIC-ACID](L1-st-nucleic-acid.md) | `chemrxiv` | **PUB-ASO** ◐ | `journal_submission` | `primary` |
-| [RT-ASO-ASK](L2-rt-aso-ask.md) | [ST-NUCLEIC-ACID](L1-st-nucleic-acid.md) | `experimental_proposal` | **PUB-ASO** ◐ | `journal_submission` | `contributing` |
+| [RT-ASO](L2-rt-aso.md) | [ST-NUCLEIC-ACID](L1-st-nucleic-acid.md) | `chemrxiv` | **PUB-ASO** ◐ | `preprint` | `primary` |
+| [RT-ASO-ASK](L2-rt-aso-ask.md) | [ST-NUCLEIC-ACID](L1-st-nucleic-acid.md) | `experimental_proposal` | **PUB-ASO** ◐ | `preprint` | `contributing` |
 | [RT-ATR-ASSESS](L2-rt-atr-assess.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `preprint` | **PUB-ATR** ◐ | `preprint` | `primary` |
 | [RT-ATR-PANEL](L2-rt-atr-panel.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `experimental_proposal` | **PUB-ATR-PANEL-ASK** ◐ | `experimental_proposal` | `primary` |
 | [RT-APOPTOSIS-DEP](L2-rt-apoptosis-dep.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-BIOMARKER-DEP** ◐ | `preprint` | `contributing` |

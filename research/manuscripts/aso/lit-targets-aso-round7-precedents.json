@@ -1,0 +1,189 @@
+{
+ "_what": "Committed fetch products for the four round-7 items that were deferred ONLY because the dev sandbox egress proxy blocks PMC, Europe PMC and NCBI on CONNECT. Retrieved on a GitHub Actions runner (unrestricted egress) and recorded here so the claims they support have an anchor BESIDE the manuscript rather than on the literature-cache branch.",
+ "_why": "This repository's citation rule is that a claim needs a committed fetch product, not a WebSearch snippet. B6-F1 and B6-F2 were filed on snippets and the round-7 ledger correctly refused to let them be applied as written. C2-F4 was deferred on a GEO release date that had already passed, so the read cost $0 and had simply never been taken.",
+ "_provenance": {
+  "retrieved_utc": "2026-08-16T23:54Z",
+  "workflow": ".github/workflows/fetch-literature.yml",
+  "workflow_run_id": 31980436811,
+  "corpus_branch": "origin/literature-cache",
+  "corpus_path": "literature/aso-round7-precedents-and-geo/",
+  "note": "Every value below is copied from the fetched payload. No identifier here was written from recollection.",
+  "second_run": {
+   "workflow_run_id": 31980574036,
+   "retrieved_utc": "2026-08-16T23:57Z",
+   "corpus_path": "literature/aso-round7-ref39-fulltext/",
+   "purpose": "full text for D2-U1 (PMID 9060841 / PMC1857890) and for B6-F2 (PMC10787139)"
+  },
+  "third_run": {
+   "workflow_run_id": 32040704252,
+   "corpus_path": "literature/aso-emc-review-fulltext/",
+   "purpose": "anchor for the one manuscript quotation that traced to no committed file — \"irrespective of partner\" at section 4.1, attributed to PMID 41055792. Found by the round-7 adversarial reviewer, which is the seat that reads identifiers against artifacts rather than reading prose."
+  }
+ },
+ "_what_this_is_not": [
+  "Not a systematic review. Six records, chosen because four round-7 findings named them.",
+  "Not a re-grading of the cited work. Whether a precedent reached an animal model is a scope fact about the citation, not a judgement of its quality.",
+  "Not evidence that the EMC cell model below is fusion-positive. GEO records its cell type; no fusion call is made here, and none should be read in."
+ ],
+ "B6_F1_parental_sparing_precedent_scope": {
+  "manuscript_sentence_under_test": "The four demonstrations of parental sparing cited here were made in cells, on molecules already synthesised",
+  "verdict": "SURVIVES on committed evidence — the sentence is wrong for three of the four.",
+  "per_reference": {
+   "33241214": {
+    "reached_animal_model": true,
+    "evidence_verbatim": "depleting F3-T3 using shRNA to FGFR3 resulted in decreased cell viability and improved survival in glioma-bearing mice"
+   },
+   "21846246": {
+    "reached_animal_model": true,
+    "evidence_verbatim": "Intraperitoneal injection of NB4 cells transduced with lentiviral vectors delivering PML-RARα-specific siRNA but not control siRNA prevented development of disease in nonobese diabetic/severe combined immunodeficient (NOD/SCID) mice"
+   },
+   "23052253": {
+    "reached_animal_model": true,
+    "evidence_verbatim": "specific siRNAs in liposomal nanovectors were used to treat mice bearing orthotopic or subcutaneous xenograft tumors expressing the targeted fusion"
+   },
+   "36265509": {
+    "reached_animal_model": false,
+    "evidence_verbatim": "No in vivo model is described in the retrieved abstract."
+   }
+  }
+ },
+ "B6_F2_galnac_route_is_liver_restricted": {
+  "verdict": "SURVIVES on committed evidence.",
+  "pmid": "37980543",
+  "evidence_verbatim": "Fibrolamellar hepatocellular carcinoma (FLC) is a rare liver cancer caused by a dominant recurrent fusion of the heat shock protein (DNAJB1) and the catalytic subunit of protein kinase A (PRKACA). Current therapies such as chemotherapy and radiation have limited efficacy, and new treatment options are needed urgently. We have previously shown that FLC tumors are dependent on the fusion kinase DNAJB1::PRKACA, making the oncokinase an ideal drug target. mRNA degrading modalities such as antisense oligonucleotides or small interfering RNAs (siRNAs) provide an opportunity to specifically target the fusion junction. Here, we identify a potent and specific siRNA that inhibits DNAJB1::PRKACA expression. We found expression of the asialoglycoprotein receptor in FLC to be maintained at sufficient levels to effectively deliver siRNA conjugated to the GalNAc ligand. We observe productive uptake and siRNA activity in FLC patient-derived xenografts (PDX) models in vitro and in vivo. Knockdown of DNAJB1::PRKACA results in durable growth inhibition of FLC PDX in vivo with no detectable toxicities. Our results suggest that this approach could be a treatment option for FLC patients.",
+  "reading": "The route works BECAUSE fibrolamellar hepatocellular carcinoma is a liver tumour that retains the asialoglycoprotein receptor, which is the ligand's whole basis. It is therefore not transferable to an extraskeletal soft-tissue sarcoma, and citing it as a delivery precedent for EMC needs that scope stated.",
+  "full_text_confirmation": {
+   "pmcid": "PMC10787139",
+   "source": "origin/literature-cache:literature/aso-round7-ref39-fulltext/pmc_PMC10787139_galnac_fulltext.txt",
+   "verbatim": [
+    "Most prominently, siRNAs conjugated to the ligand N-acetylgalactosamine (GalNAc) bind to the asialoglycoprotein receptor (ASGR), which is highly expressed on liver cells.",
+    "We observed that ASGR1 protein in primary tumors and metastasis was similar in localization and abundance compared to healthy hepatocytes.",
+    "Using the asialoglycoprotein receptor, siRNA could be effectively delivered to FLC cells, inhibiting tumor growth in patient-derived xenografts, demonstrating its potential as a treatment option for FLC patients."
+   ],
+   "reading": "Confirmed on full text, not on an abstract. The route's basis is a receptor the paper itself describes as highly expressed on LIVER cells, and its applicability to FLC rests on FLC tumours retaining hepatocyte-level ASGR1. Neither premise holds for an extraskeletal soft-tissue sarcoma. ⚠ Note this precedent ALSO reached an in vivo model (patient-derived xenografts), which is a second scope fact worth stating wherever it is cited."
+  }
+ },
+ "C2_F4_geo_series_status_and_sample_identity": {
+  "verdict": "READ TAKEN — the series is public and the sample's identity is now established.",
+  "series": {
+   "accession": "GSE299349",
+   "status": "Public on Jun 04 2026",
+   "title": "Targeting ATR signaling in sarcoma with homologous recombination deficiency",
+   "overall_design": "RNAseq of USZ sarcoma patient cohort including 12 leiomyosarcoma, 12 synovial sarcoma, 13 undifferentiated pleomorphic sarcoma, 14 myxofibrosarcoma and 11 malignant peripheral nerve sheath tumors",
+   "last_update": "Jun 04 2026"
+  },
+  "sample": {
+   "accession": "GSM9037837",
+   "title": "USZ-23_EMC3",
+   "status": "Public on Jun 04 2026",
+   "source_name": "cells",
+   "characteristics": [
+    "tissue: cells",
+    "cell type: extraskelletal myxoid chondrosarcoma"
+   ],
+   "instrument": "Illumina NovaSeq X",
+   "contact": "Lara,,Planas-Paz",
+   "contact_institute": "University Hospital Zurich",
+   "biosample": "SAMN48975760",
+   "run": "SRR33903995"
+  },
+  "⭐_the_finding": "The sample is a PATIENT-DERIVED CELL MODEL, not a tumour: GEO records `tissue: cells`, `cell type: extraskelletal myxoid chondrosarcoma` (sic, the source's spelling) and a complete organoid-style growth protocol. A named contact and institute are on the record.",
+  "⚠_the_nuance_that_needs_stating": "The series' own `overall_design` enumerates 12 leiomyosarcoma, 12 synovial sarcoma, 13 undifferentiated pleomorphic sarcoma, 14 myxofibrosarcoma and 11 MPNST and does NOT list EMC. So this sample sits outside the cohort composition its own series states. That is a discrepancy in the deposit, not a finding about EMC, and nothing should be built on the sample without resolving it with the depositor.",
+  "⛔_what_this_does_not_establish": "No fusion call. Whether this model carries an NR4A3 fusion, and which junction, is NOT established by the GEO metadata and is not asserted here. One deposit is also not a distribution: availability would have to be arranged with the named contact."
+ },
+ "D2_U1_ref39_citation_marker": {
+  "verdict": "⛔ UNVERIFIED — and it stays that way. Both retrieval routes were tried from a runner with unrestricted egress and BOTH FAILED, with the failure recorded rather than assumed.",
+  "pmid": "9060841",
+  "pmcid": "PMC1857890",
+  "is_open_access": "N",
+  "routes_tried": [
+   {
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC1857890/fullTextXML",
+    "http": 404,
+    "reading": "Europe PMC has no full text for this record — it is outside the open-access subset. A 404 here is a licensing fact, not a network failure."
+   },
+   {
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC1857890/",
+    "http": 200,
+    "reading": "HTTP 200 but the body is a reCAPTCHA interstitial ('Checking your browser before accessing pmc.ncbi.nlm.nih.gov'). ⚠ A 200 that carries a challenge page is the most dangerous retrieval outcome available: it reads as success to any checker keyed on status code, and its body would have been cached as if it were the paper."
+   }
+  ],
+  "⛔_the_disposition": "The manuscript's own disclosure about this source — that it carries a citation marker and is restating an earlier report — is therefore NEITHER confirmed NOR contradicted. It is left standing and marked unverified. It must not be strengthened, weakened or removed on the strength of an abstract, and no sentence anywhere may be written as though the full text had been read.",
+  "what_would_close_it": "A headless-Chromium fetch clears the reCAPTCHA class (the repository already does this for publisher policy pages via scripts/venue_policy_browser_fetch.py), or a copy obtained through an institutional subscription. Neither is a blocker for a preprint deposit.",
+  "abstract_retrieved": true
+ },
+ "records": {
+  "33241214": {
+   "pmid": "33241214",
+   "pmcid": "PMC7680176",
+   "doi": "10.1093/noajnl/vdaa132",
+   "title": "RNAi technology targeting the &lt;i&gt;FGFR3-TACC3&lt;/i&gt; fusion breakpoint: an opportunity for precision medicine.",
+   "journal": "Neuro-oncology advances",
+   "year": "2020",
+   "is_open_access": "Y",
+   "abstract_verbatim": "BackgroundFusion genes form as a result of abnormal chromosomal rearrangements linking previously separate genes into one transcript. The FGFR3-TACC3 fusion gene (F3-T3) has been shown to drive gliomagenesis in glioblastoma (GBM), a cancer that is notoriously resistant to therapy. However, successful targeting of F3-T3 via small molecular inhibitors has not revealed robust therapeutic responses, and specific targeting of F3-T3 has not been achieved heretofore. Here, we demonstrate that depleting F3-T3 using custom siRNA to the fusion breakpoint junction results in successful inhibition of F3-T3+ GBMs, and that exosomes can successfully deliver these siRNAs.MethodsWe engineered 10 unique siRNAs (iF3T3) that specifically spanned the most common F3-T3 breakpoint with varying degrees of overlap, and assayed depletion by qPCR and immunoblotting. Cell viability assays were performed. Mesenchymal stem cell-derived exosomes (UC-MSC) were electroporated with iF3T3, added to cells, and F3-T3 depletion measured by qPCR.ResultsWe verified that depleting F3-T3 using shRNA to FGFR3 resulted in decreased cell viability and improved survival in glioma-bearing mice. We then demonstrated that 7/10 iF3T3 depleted F3-T3, and importantly, did not affect levels of wild-type (WT) FGFR3 or TACC3. iF3T3 decreased cell viability in both F3T3+ GBM and bladder cancer cell lines. UC-MSC exosomes successfully delivered iF3T3 in vitro, resulting in F3-T3 depletion.ConclusionTargeting F3-T3 using siRNAs specific to the fusion breakpoint is capable of eradicating F3T3+ cancers without toxicity related to inhibition of WT FGFR3 or TACC3, and UC-MSC exosomes may be a plausible vehicle to deliver iF3T3."
+  },
+  "36265509": {
+   "pmid": "36265509",
+   "pmcid": "PMC10101799",
+   "doi": "10.4143/crt.2022.910",
+   "title": "Cancer-Specific Sequences in the Diagnosis and Treatment of NUT Carcinoma.",
+   "journal": "Cancer research and treatment",
+   "year": "2023",
+   "is_open_access": "Y",
+   "abstract_verbatim": "PurposeNUT carcinoma (NC) is a solid tumor caused by the rearrangement of NUTM1 that usually develops in midline structures, such as the thorax. No standard treatment has been established despite high lethality. Thus, we investigated whether targeting the junction region of NUTM1 fusion breakpoints could serve as a potential treatment option for NC.Materials and methodsWe designed and evaluated a series of small interfering RNAs (siRNAs) targeting the junction region of BRD4-NUTM1 fusion (B4N), the most common form of NUTM1 fusion. Droplet digital polymerase chain reaction using the blood of patients was also tested to evaluate the treatment responses by the junction sequence of the B4N fusion transcripts.ResultsAs expected, the majority of NC fusion types were B4N (12 of 18, 67%). B4N fusion-specific siRNA treatment on NC cells showed specific inhibitory effects on the B4N fusion transcript and fusion protein without affecting the endogenous expression of the parent genes, resulting in decreased relative cell growth and attenuation of tumor size. In addition, the fusion transcript levels in platelet-rich-plasma samples of the NC patients with systemic metastasis showed a negative correlation with therapeutic effect, suggesting its potential as a measure of treatment responsiveness.ConclusionThis study suggests that tumor-specific sequences could be used to treat patients with fusion genes as part of precision medicine for a rare but deadly disease."
+  },
+  "21846246": {
+   "pmid": "21846246",
+   "pmcid": "PMC3237690",
+   "doi": "10.1089/hum.2011.079",
+   "title": "Targeting expression of the leukemogenic PML-RARα fusion protein by lentiviral vector-mediated small interfering RNA results in leukemic cell differentiation and apoptosis.",
+   "journal": "Human gene therapy",
+   "year": "2011",
+   "is_open_access": "N",
+   "abstract_verbatim": "Acute promyelocytic leukemia (APL) results from a chromosomal translocation that gives rise to the leukemogenic fusion protein PML-RARα (promyelocytic leukemia-retinoic acid α receptor). Differentiation of leukemic cells and complete remission of APL are achieved by treatment of patients with pharmacological doses of all-trans retinoic acid (ATRA), making APL a model disease for differentiation therapy. However, because patients are resistant to further treatment with ATRA on relapse, it is necessary to develop alternative treatment strategies to specifically target APL. We therefore sought to develop a treatment strategy based on lentiviral vector-mediated delivery of small interfering RNA (siRNA) that specifically targets the breakpoint region of PML-RARα. Unlike treatment with ATRA, which resulted in differentiation of leukemic NB4 cells, delivery of siRNA targeting PML-RARα into NB4 cells resulted in both differentiation and apoptosis, consistent with the specific knockdown of PML-RARα. Intraperitoneal injection of NB4 cells transduced with lentiviral vectors delivering PML-RARα-specific siRNA but not control siRNA prevented development of disease in nonobese diabetic/severe combined immunodeficient (NOD/SCID) mice. Taken together, these results indicate that development of PML-RARα-specific siRNA may represent a promising treatment strategy for ATRA-resistant APL."
+  },
+  "23052253": {
+   "pmid": "23052253",
+   "pmcid": "PMC3525716",
+   "doi": "10.1158/1078-0432.ccr-12-2715",
+   "title": "Highly specific targeting of the TMPRSS2/ERG fusion gene using liposomal nanovectors.",
+   "journal": "Clinical cancer research : an official journal of the American Association for Cancer Research",
+   "year": "2012",
+   "is_open_access": "N",
+   "abstract_verbatim": "PurposeThe TMPRSS2/ERG (T/E) fusion gene is present in half of all prostate cancer tumors. Fusion of the oncogenic ERG gene with the androgen-regulated TMPRSS2 gene promoter results in expression of fusion mRNAs in prostate cancer cells. The junction of theTMPRSS2- and ERG-derived portions of the fusion mRNA constitutes a cancer-specific target in cells containing the T/E fusion gene. Targeting the most common alternatively spliced fusion gene mRNA junctional isoforms in vivo using siRNAs in liposomal nanovectors may potentially be a novel, low-toxicity treatment for prostate cancer.Experimental designWe designed and optimized siRNAs targeting the two most common T/E fusion gene mRNA junctional isoforms (type III or type VI). Specificity of siRNAs was assessed by transient co-transfection in vitro. To test their ability to inhibit growth of prostate cancer cells expressing these fusion gene isoforms in vivo, specific siRNAs in liposomal nanovectors were used to treat mice bearing orthotopic or subcutaneous xenograft tumors expressing the targeted fusion isoforms.ResultsThe targeting siRNAs were both potent and highly specific in vitro. In vivo they significantly inhibited tumor growth. The degree of growth inhibition was variable and was correlated with the extent of fusion gene knockdown. The growth inhibition was associated with marked inhibition of angiogenesis and, to a lesser degree, proliferation and a marked increase in apoptosis of tumor cells. No toxicity was observed.ConclusionsTargeting the T/E fusion junction in vivo with specific siRNAs delivered via liposomal nanovectors is a promising therapy for men with prostate cancer."
+  },
+  "37980543": {
+   "pmid": "37980543",
+   "pmcid": "PMC10787139",
+   "doi": "10.1016/j.ymthe.2023.11.012",
+   "title": "GalNAc-conjugated siRNA targeting the DNAJB1-PRKACA fusion junction in fibrolamellar hepatocellular carcinoma.",
+   "journal": "Molecular therapy : the journal of the American Society of Gene Therapy",
+   "year": "2024",
+   "is_open_access": "Y",
+   "abstract_verbatim": "Fibrolamellar hepatocellular carcinoma (FLC) is a rare liver cancer caused by a dominant recurrent fusion of the heat shock protein (DNAJB1) and the catalytic subunit of protein kinase A (PRKACA). Current therapies such as chemotherapy and radiation have limited efficacy, and new treatment options are needed urgently. We have previously shown that FLC tumors are dependent on the fusion kinase DNAJB1::PRKACA, making the oncokinase an ideal drug target. mRNA degrading modalities such as antisense oligonucleotides or small interfering RNAs (siRNAs) provide an opportunity to specifically target the fusion junction. Here, we identify a potent and specific siRNA that inhibits DNAJB1::PRKACA expression. We found expression of the asialoglycoprotein receptor in FLC to be maintained at sufficient levels to effectively deliver siRNA conjugated to the GalNAc ligand. We observe productive uptake and siRNA activity in FLC patient-derived xenografts (PDX) models in vitro and in vivo. Knockdown of DNAJB1::PRKACA results in durable growth inhibition of FLC PDX in vivo with no detectable toxicities. Our results suggest that this approach could be a treatment option for FLC patients."
+  },
+  "9060841": {
+   "pmid": "9060841",
+   "pmcid": "PMC1857890",
+   "doi": null,
+   "title": "Molecular analysis of the fusion of EWS to an orphan nuclear receptor gene in extraskeletal myxoid chondrosarcoma.",
+   "journal": "The American journal of pathology",
+   "year": "1997",
+   "is_open_access": "N",
+   "abstract_verbatim": "The pathogenesis of myxoid chondrosarcoma (CS) is poorly understood. A recurrent translocation, t(9;22) (q22;q12), has been recognized in CS, specifically in extraskeletal myxoid CS. Recently, this translocation has been shown to represent a rearrangement of the EWS gene at 22q12 with a novel gene at 9q22 designated CHN (or TEC). Sequence analysis suggests that CHN encodes a novel orphan nuclear receptor with a zinc finger DNA-binding domain. The structure of this gene fusion has been characterized in only a limited number of extraskeletal myxoid CSs and its presence in other types of CS has not been extensively examined. We studied 46 cases of CS (8 extraskeletal myxoid, 4 skeletal myxoid, 4 mesenchymal, and 30 other) for the EWS/CHN gene fusion by reverse transcriptase polymerase chain reaction, Southern blotting, and long-range DNA polymerase chain reaction. The EWS/CHN gene fusion was present in 6 of 8 extraskeletal myxoid CSs and was not detected in any of the remaining cases, including the 4 skeletal myxoid CSs. The negative findings in the latter cases suggest that skeletal myxoid CS is pathogenetically distinct from its extraskeletal counterpart. Notably, 2 cases of extraskeletal myxoid CS showed neither an EWS/CHN fusion transcript nor EWS/CHN genomic fusion nor EWS or CHN genomic rearrangement, suggesting genetic heterogeneity within extraskeletal myxoid CS. Finally, we also provide evidence for alternative splicing of the 3' end of the fusion transcript. Extraskeletal myxoid CS thus represents yet another sarcoma type containing a gene fusion involving EWS."
+  }
+ },
+ "MAJOR_the_one_unanchored_quotation": {
+  "⛔_the_defect": "The manuscript quotes this review verbatim and the only committed record for the PMID was its ABSTRACT, which does not contain the phrase. lint_citations passed throughout and structurally had to: the PMID is anchored, so gate 4 sees an anchored identifier. Claim provenance and QUOTATION provenance are different questions, and only the first was gated.",
+  "pmid": "41055792",
+  "pmcid": "PMC12504171",
+  "quoted_fragment": "irrespective of partner",
+  "n_occurrences_in_full_text": 2,
+  "context_verbatim_first": " (93%) tested positive for an EWSR1 gene rearrangement. In all positive cases, more than 50% of the tumour nuclei showed the rearrangement, with a median of 80%. Break-apart NR4A3 FISH is the preferred single assay for EMC because it detects any NR4A3 rearrangement irrespective of partner; EWSR1 break-apart FISH identifies only the EWSR1-rearranged subset and lacks disease specificity. In addition to its diagnostic specificity, FISH is also a pr",
+  "context_verbatim_second": "ories. While highly sensitive, RT-PCR has limitations because different EMC cases may have different fusion partners for NR4A3, requiring multiple primer sets for accurate detection. Break-apart FISH for NR4A3 is the preferred single assay because it detects any NR4A3 rearrangement irrespective of partner; by contrast, EWSR1 break-apart FISH identifies only the EWSR1-rearranged subset and lacks specificity across sarcomas. Another major advantage of FISH is its applicability to ",
+  "⭐_why_both_are_kept": "The review states it twice, in the FISH-validation passage and again in the assay-comparison passage. Both are recorded because a single window would leave a later reader unable to tell a quotation from a paraphrase of a nearby sentence.",
+  "⚠_markup": "Inline <italic> tags from the JATS full text were stripped so the sentences read as prose; no word, space or punctuation mark was otherwise altered.",
+  "verdict": "VERIFIED VERBATIM. The quotation is exactly what the source says, so no word of the manuscript changed — what changed is that a reader of the deposit can now check it."
+ }
+}

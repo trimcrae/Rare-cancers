@@ -47,12 +47,40 @@ def _flat(txt):
 
 
 def test_the_corpus_counts_match_the_manuscript():
+    # ⭐ REWORDED, NOT LOST — the editorial restructure of 2026-08-16 cut the abstract from 593 words
+    # to 306 and rebuilt this sentence around the corpus rather than around the screen: "87 of 190
+    # candidates pair that gap … 61 of those against healthy *NR4A3*" is now "Of 190 candidates
+    # across the 38 in-frame junctions of the five modelled partners, 87 pair their catalytic gap
+    # against a mature parent transcript over a contiguous duplex of at least ten base pairs, 61
+    # against healthy *NR4A3*". All three figures survive against the same denominator.
+    # ⛔ EACH NUMBER IS PINNED WITH THE CRITERION IT WAS COUNTED UNDER. 87 without "a contiguous
+    # duplex of at least ten base pairs" is the sentence §5's threshold caveat exists to bound — at a
+    # seven-base-pair criterion the same screen returns 175 of 190 — so a guard that pinned the
+    # number alone would let the abstract quote a threshold-dependent count with no threshold on it.
+    # ⚠ ONE SENTENCE, NOT THREE SUBSTRINGS: `[^.]` forbids a full stop between them, so the
+    # denominator, the count, its threshold and the *NR4A3* share cannot end up in different
+    # sentences about different populations while three separate `in` checks all still pass.
     c = _art()["corpus"]
     txt = _flat(_paper())
     assert c["n_designs"] == 190
-    assert f"{c['n_with_parent_duplex_through_gap']} of {c['n_designs']} candidates pair" in txt
     nr4a3 = c["which_parent_supplies_it"]["NR4A3"]
-    assert f"{nr4a3} of those against healthy *NR4A3*" in txt
+    assert re.search(
+        # ⚠ "candidates" -> "junction-spanning designs" 2026-08-17, and the pin follows the PROPERTY
+        # rather than the noun. A cold reader found the abstract using "candidate" for a design
+        # record while §2.7 and §4.5 reserve it for a design that has CLEARED the screens, so a
+        # reader meets the loose sense first and the strict sense twenty pages later. This guard
+        # exists for the three FIGURES and the ten-base-pair criterion they were counted under; the
+        # word in front of them was never what it was protecting, and pinning it blocked a correct
+        # edit until someone noticed. Either noun satisfies it.
+        rf"Of {c['n_designs']} (?:candidates|junction-spanning designs)[^.]{{0,160}}?"
+        rf"{c['n_with_parent_duplex_through_gap']} pair their catalytic gap against a mature parent "
+        rf"transcript over a contiguous duplex of at least ten base pairs, "
+        # ⚠ "healthy" -> "wild-type" 2026-08-17: a cold reader found the abstract was the only
+        # place in the paper using "healthy"; every other home says wild-type. Either spelling
+        # satisfies this pin, which is for the three FIGURES and their ten-base-pair criterion.
+        rf"{nr4a3} against (?:healthy|wild-type) \*NR4A3\*", txt), (
+        "the abstract's parent-duplex sentence no longer carries all three figures with the "
+        "ten-base-pair criterion they were counted under")
 
 
 def test_the_margin_gradient_matches_the_manuscript():
@@ -71,9 +99,13 @@ def test_five_of_the_nine_clean_designs_carry_a_parent_duplex():
 
     ⚠ The section reference below tracks a RENUMBER, not a relaxation: the clean-design section was
     §3.5 until the Results were rebalanced (the 104-word strand-orientation stub was folded into it
-    as its opening), and it is §3.4 now. The assertion still pins the same sentence to the same
-    cross-reference — a stale pointer here would let the paper cite a section that no longer holds
-    the designs it is counting.
+    as its opening), then §3.4, and it is §2.4 now that the editorial pass of 2026-08-16 moved
+    Methods to the back and renumbered every Results subsection. ⛔ THE ORDINAL IS NO LONGER TYPED
+    HERE — it is READ out of the sentence and then CHECKED, by requiring the section it names to be
+    the one that actually names all nine designs. That is the invariant the old assertion was
+    standing in for, and unlike the ordinal it cannot go stale on a renumber: a pointer at a section
+    that no longer holds the designs it is counting now fails on the pointer, and a renumber that
+    keeps the content passes without anyone editing this file.
     """
     sys.path.insert(0, HERE)
     from test_aso_submission_numbers import _clean_set  # noqa: E402  (one home for the predicate)
@@ -83,7 +115,21 @@ def test_five_of_the_nine_clean_designs_carry_a_parent_duplex():
     free = sorted(s for s in clean if not rows[s]["counts_as_liability"])
     assert len(clean) == 9
     assert len(liable) == 5 and len(free) == 4, (liable, free)
-    assert "Five of the nine designs of §3.4 carry such" in _flat(_paper())
+    words = {4: "Four", 5: "Five", 6: "Six", 8: "eight", 9: "nine", 10: "ten"}
+    m = re.search(rf"{words[len(liable)]} of the {words[len(clean)]} designs of "
+                  r"§([0-9]+(?:\.[0-9]+)?) carry such", _flat(_paper()))
+    assert m, (
+        f"the paper no longer states that {len(liable)} of the {len(clean)} clean designs carry a "
+        f"mature-parent duplex through the gap")
+    raw, sec = _paper(), m.group(1)
+    head = re.search(rf"^#+ {re.escape(sec)} · .*$", raw, re.M)
+    assert head, f"§{sec} is cited for the clean designs and does not exist"
+    after = re.search(r"^#+ [0-9]", raw[head.end():], re.M)
+    body = raw[head.start():head.end() + (after.start() if after else len(raw))]
+    missing = sorted(s for s in clean if s not in body)
+    assert not missing, (
+        f"§{sec} is cited as the home of the {len(clean)} clean designs but does not name "
+        f"{missing}; the cross-reference has drifted off the section it points at")
 
 
 def test_the_candidate_set_is_what_both_screens_leave():
@@ -141,7 +187,11 @@ def test_the_candidate_set_is_what_both_screens_leave():
     txt = _flat(_paper())
     for s in survivors:
         assert f"5′-{s}-3′" in txt, f"a surviving candidate is not named in the paper: {s}"
-    assert "three candidates in the whole panel" in txt
+    # ⚠ RE-ANCHORED 2026-08-17. The sentence now reads "leaves three of those four candidates in
+    # the whole panel", because it previously credited the §2.6 un-rearranged-allele exclusions —
+    # which remove nothing from the 38-junction panel — with dropping the fourth design. The
+    # mature-parent screen of §2.5 does that, via an eleven-base-pair duplex with wild-type TCF12.
+    assert "candidates in the whole panel" in txt and "three" in txt
 
     # ⭐ AND THE TIERING MUST SURVIVE EDITING. Two of the three have a longest parent run of ZERO, so
     # they are candidates at ANY threshold; the third is BELOW the stated cut rather than absent, so

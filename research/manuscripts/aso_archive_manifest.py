@@ -176,6 +176,13 @@ PROMISES = [
                      "research/manuscripts/fusion-partner/emc-fusion-partner-pooling.json",
                      "research/data/emc-clinical-registry.json",
                      "research/manuscripts/aso/lit-targets-aso-verify.json",
+                     # ⛔ FOURTH INSTANCE IN ONE DAY OF A CLAIM RELEASED WITHOUT ITS EVIDENCE
+                     # (2026-08-17). This file is the committed CI-fetch evidence behind B6-F1's
+                     # in-vivo precedent scope, B6-F2's liver-restricted GalNAc route, C2-F4's GEO
+                     # sample identity, D2-U1's citation marker, and — added the same day — the two
+                     # verbatim windows for the paper's one previously unanchored quotation. Every
+                     # one of those is a statement the manuscript makes; none was in the deposit.
+                     "research/manuscripts/aso/lit-targets-aso-round7-precedents.json",
                      "research/manuscripts/aso/aso-citations-priorart-2026-08-08.md"],
     },
     {
@@ -227,7 +234,7 @@ PROMISES = [
     {
         "id": "premrna_compartment_screen",
         "verbatim": False,
-        "promise": ("the pre-mRNA screen behind §3.8, and the sequence it ran against, so the "
+        "promise": ("the pre-mRNA screen behind §2.5, and the sequence it ran against, so the "
                     "compartment the transcript screens cannot see is re-derivable offline"),
         "contributes": ("The exhaustive ≤2-mismatch scan of every design against the unspliced "
                         "sequence of all six parent transcripts, gap-resolved, orientation-filtered "
@@ -235,7 +242,7 @@ PROMISES = [
                         "SEQUENCE TRAVELS WITH IT, which is what makes this the one screen in the "
                         "paper that recomputes with no network at all: the other two need NCBI BLAST "
                         "and a RefSeq download. Re-running the module with --offline against the "
-                        "committed cache reproduces every number in §3.8 exactly."),
+                        "committed cache reproduces every number in §2.5 exactly."),
         "patterns": ["research/modalities/aso-premrna-offtarget.json",
                      "research/modalities/aso-premrna-sequences.json",
                      "research/modalities/aso_premrna_offtarget.py",
@@ -244,7 +251,7 @@ PROMISES = [
     {
         "id": "mature_parent_gap_pairing_screen",
         "verbatim": False,
-        "promise": ("the mature-parent screen behind §3.8's second class — the liability that "
+        "promise": ("the mature-parent screen behind §2.5's second class — the liability that "
                     "none of the other three screens is able to see"),
         "contributes": ("For every design, the longest contiguous duplex a MATURE wild-type parent "
                         "transcript can form that pairs the whole six-nucleotide catalytic gap. "
@@ -315,6 +322,88 @@ PROMISES = [
                      "research/manuscripts/aso_priorart_evidence.py"],
     },
     {
+        "id": "test_articles_and_cell_models",
+        "verbatim": False,
+        # ⛔ THE THIRD INSTANCE OF THE SAME DEFECT IN ONE DAY, AND IT ARRIVED WITH THE FIX FOR THE
+        # FIRST TWO (2026-08-17). Section 3 was given pointers naming the artifacts behind its
+        # cell-model and test-article readings — which is right, and is what a reader needs — but
+        # naming an artifact as RELEASED while it sits outside the manifest converts a helpful
+        # pointer into a broken promise. Two of the three named files were not in the deposit.
+        # ⚠ THE PATTERN IS WORTH STATING: every time a claim gains its evidence pointer, the
+        # manifest is the second half of that edit. A pointer and a promise are the same sentence to
+        # a reader; only one of them was being kept.
+        # ⭐ `emc-test-article-routes.json` is included although no section names it: it is where the
+        # three published constructs' exon spans are quoted verbatim, which is the evidence behind
+        # section 3's construct-to-lead mapping. An unnamed source that a stated fact rests on still
+        # has to travel with the deposit.
+        "promise": "the test articles and cell models section 3 names, and what is known about each",
+        "contributes": ("The evidence behind section 3: the three published constructs with their "
+                        "author-stated exon spans, the two identity-clean patient-derived models "
+                        "with their RRIDs and the figure-legend fusion calls they rest on, the "
+                        "third line whose availability could not be established, and the fusion "
+                        "caller, expression reading and registry caution behind the statement that "
+                        "no NR4A3 fusion is detectable in H-EMC-SS on the public record. "
+                        "H-EMC-SS identity is DISPUTED (OBJ-LINE-HEMCSS): the evidence in this row "
+                        "is what makes that dispute checkable, and section 3's operative "
+                        "conclusion -- that the line cannot serve as a test article for any reagent "
+                        "named here -- does not rest on the line being EMC."),
+        "patterns": ["research/modalities/emc-test-article-routes.json",
+                     "research/modalities/emc-model-junction-evidence.json",
+                     "research/modalities/emc_model_junction_evidence.py",
+                     "research/modalities/emc-atr-vulnerability.json"],
+    },
+    {
+        "id": "unrearranged_allele_scan",
+        "verbatim": False,
+        # ⛔ THE DEPOSIT SHIPPED THE TEST AND NOT THE CODE UNDER TEST (found 2026-08-17, D4-F4).
+        # `test_aso_submission_numbers.py` is in this manifest and pins the scan's positive control,
+        # so the archive proved a result whose producer it did not contain. Section 2.6's central
+        # negative — three designs pairing their whole catalytic gap against the patient's own
+        # un-rearranged NR4A3 allele — rested on five artifacts none of which was released.
+        # ⚠ BOTH MODULES, NOT ONE. The grader has exactly one implementation, in
+        # `aso_taf15_intron2_designs.py`, which `aso_noncoding_acceptor_designs.py` reaches through a
+        # LAZY import — so an import-closure walk over the five procedure modules of section 4.5
+        # finds neither, which is why this stayed invisible.
+        "promise": "the un-rearranged-allele scan and the designs it condemns",
+        "contributes": ("The scan that asks whether a design whose acceptor half is not exonic in "
+                        "the mature transcript pairs its whole catalytic gap against the patient's "
+                        "un-rearranged NR4A3 allele, at both seams it can reach: within intron 2 "
+                        "for the cryptic-exon acceptor and across the intron-1/exon-2 boundary for "
+                        "the exon-2 acceptors. Carries the three condemned designs, the two seams "
+                        "that keep a reagent, and the positive control the released tests pin."),
+        "patterns": ["research/modalities/aso_taf15_intron2_designs.py",
+                     "research/modalities/aso_noncoding_acceptor_designs.py",
+                     "research/modalities/aso-taf15-intron2-designs.json",
+                     "research/modalities/aso-ewsr1-intron2-designs.json",
+                     "research/modalities/aso-noncoding-acceptor-designs.json",
+                     "research/modalities/nr4a3-fusion-junction-atlas-taf15intron2.json",
+                     "research/modalities/nr4a3-fusion-junction-atlas-ewsr1intron2.json"],
+    },
+    {
+        "id": "delivery_antigen_negative",
+        # ⛔ ADDED WITH THE CLAIM, NOT AFTER IT (2026-08-17). The Discussion now reports that no
+        # surface antigen could be named when the two-axis question was put to EMC tissue. That is a
+        # released NEGATIVE, and a negative without its evidence in the deposit is the worst kind of
+        # promise to break: a reader cannot check what was looked at, so cannot tell a bounded search
+        # from an unbounded conclusion. The producer, the screen and its four named inputs travel
+        # together because the artifact's own `_inputs` block names all four and it is $0 to run.
+        "promise": "No such antigen could be named when the question was put to the disease's own",
+        "contributes": ("The two-axis surface-antigen screen behind the Discussion's delivery "
+                        "negative: the twelve antigens scoreable on both axes, the measured EMC "
+                        "tumour-versus-normal-organ exposure contrast from GSE28866, the three "
+                        "that clear the measured axes and the reason each is still refused, and "
+                        "the ceiling field recording that 86 further surface-board genes are "
+                        "unmeasured rather than excluded. Released so the bound on what was "
+                        "examined is checkable rather than taken on trust."),
+        "patterns": ["research/modalities/aso-delivery-antigen.json",
+                     "research/modalities/aso_delivery_antigen.py",
+                     "research/modalities/gse28866-tumour-vs-normal.json",
+                     "research/modalities/emc-expression-panels.json",
+                     "research/modalities/emc-surface-normal-window.json",
+                     "research/modalities/emc-surfaceome-scan.json",
+                     "research/manuscripts/aso/aso-delivery-antigen-2026-08-08.md"],
+    },
+    {
         "id": "reproduction_guards",
         "promise": ("Every quantitative statement here is produced by code in the released "
                     "archive and is reproducible from it"),
@@ -334,15 +423,31 @@ PROMISES = [
         # statement. Kept in the same table so there is one list, not two.
         "verbatim": False,
         "promise": "the manuscript itself and the figures it prints",
-        "contributes": ("The submission text, its cover letter, and the figure generators with "
-                        "their vector and raster output. The figures are generated from the same "
-                        "artifacts as the tables, so a reader can regenerate them."),
+        "contributes": ("The submission text, its Supporting Information, its cover letter, and "
+                        "the figure generators with their vector and raster output. The figures "
+                        "are generated from the same artifacts as the tables, so a reader can "
+                        "regenerate them."),
+        # ⛔ THE SUPPORTING INFORMATION WAS ABSENT FROM THIS ROW UNTIL 2026-08-16, AND A DEPOSIT
+        # MISSING IT IS THE WORST KIND OF HOLE: the main text points into it ("SI §S1") from six
+        # places, so a reader following a cross-reference finds nothing and cannot tell whether the
+        # method was withdrawn or never written. The row's globs are literal paths, so the split
+        # that CREATED the SI could not add it — which is this table's own hand-list warning,
+        # firing on the one row whose patterns cannot glob.
         "patterns": ["research/manuscripts/aso/fusion-junction-aso-research-article.md",
+                     "research/manuscripts/aso/fusion-junction-aso-supplementary-information.md",
                      "research/manuscripts/aso/fusion-junction-aso-cover-letter.md",
                      "research/manuscripts/figures/aso_*_figure.py",
                      "research/manuscripts/figures/aso-*.pdf",
                      "research/manuscripts/figures/aso-*.png",
                      "research/manuscripts/figures/aso-*.svg",
+                     # ⛔ THE FIGURES' TWO GUARDS SHIP WITH THE FIGURES (added 2026-08-17). The
+                     # deposit asserts that these PDFs are vector with live text, and that each was
+                     # drawn from the artifact currently on disk. An archive carrying the assertion
+                     # and not the check leaves a reader unable to falsify either — the same defect
+                     # as shipping a test whose code under test is absent, in the other direction.
+                     "research/manuscripts/figures/aso_figure_provenance.py",
+                     "research/manuscripts/tests/test_aso_figure_provenance.py",
+                     "research/manuscripts/tests/test_aso_figures_are_vector_not_raster.py",
                      "research/manuscripts/aso_archive_manifest.py"],
     },
 ]
@@ -840,12 +945,54 @@ def build():
     }
 
 
+#: Fields that move with the REPOSITORY rather than with the archive. `git_revision` advances on
+#: every commit, including commits touching no archived file, and the cleanliness flag flips while a
+#: session has edits in progress. Neither says anything about whether the hash list is right.
+_REPO_STATE_FIELDS = ("git_revision", "git_tree_is_clean_apart_from_this_manifest")
+
+
+def _archive_only(art):
+    """The manifest with the two repository-state fields dropped.
+
+    ⛔ THIS EXISTS BECAUSE `--check` WAS WIRED INTO PREFLIGHT AND CRIED WOLF ON THE FIRST COMMIT
+    AFTER IT (2026-08-17). The header above this function's caller had already predicted it in
+    words — "`--check` goes red after any commit and must NOT be wired into preflight as a gate: it
+    would cry wolf on every push and be switched off, which is how a real staleness would then be
+    missed" — and a session added it to preflight's generated-artifact gate anyway, then watched
+    PREFLIGHT_FULL fail on a manifest that had been regenerated and committed minutes earlier.
+    ⚠ THE PREDICTED CONSEQUENCE WAS THE DANGEROUS ONE, NOT THE FAILURE. A gate that is red for a
+    reason nobody can act on gets relaxed, and the next relaxation would have been to drop the
+    manifest from the gate entirely — leaving a real hash-list staleness unwatched.
+    ⭐ So the two questions are separated instead of one being dropped:
+      * `--check-archive` asks "does the FILE LIST still describe the tree?" — stable across
+        commits, safe in preflight, and it is the question that catches a real staleness.
+      * `--check` keeps asking the strict question, including the revision, and stays the
+        PRE-DEPOSIT check a human runs at the moment the hashes have to be true.
+    """
+    return {k: v for k, v in art.items() if k not in _REPO_STATE_FIELDS}
+
+
 def main(argv):
     art = build()
     text = json.dumps(art, indent=2, ensure_ascii=False) + "\n"
-    if "--check" in argv:
-        old = open(OUT, "r", encoding="utf-8").read() if os.path.exists(OUT) else None
-        if old != text:
+    if "--check" in argv or "--check-archive" in argv:
+        old_text = open(OUT, "r", encoding="utf-8").read() if os.path.exists(OUT) else None
+        if old_text is None:
+            print("STALE: no manifest on disk", file=sys.stderr)
+            return 1
+        if "--check-archive" in argv:
+            try:
+                old = json.loads(old_text)
+            except ValueError:
+                print("STALE: manifest on disk is not readable JSON", file=sys.stderr)
+                return 1
+            if _archive_only(old) != _archive_only(art):
+                print("STALE: the archive inventory would change — re-run without --check",
+                      file=sys.stderr)
+                return 1
+            print("manifest inventory is current (repository-state fields not compared)")
+            return 0
+        if old_text != text:
             print("STALE: manifest would change — re-run without --check", file=sys.stderr)
             return 1
         print("manifest is current")

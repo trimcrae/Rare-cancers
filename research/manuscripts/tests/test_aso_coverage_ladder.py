@@ -475,12 +475,26 @@ def test_the_census_reports_at_least_as_many_junction_papers_as_it_lists():
 
 
 PAPER = os.path.join(MAN, "aso", "fusion-junction-aso-research-article.md")
+#: ⚠ WIDENED TO THE SUBMISSION, NOT LOOSENED, 2026-08-16. The 2026-08-16 editorial pass generated
+#: Table 7 and moved the coverage ladder's SECOND BASIS — the pooled-basis 82.9%, the refused third
+#: series, and the two ways a qualifying junction contributes exactly zero — out of the main text and
+#: into SI §S6, verbatim. Every string below is still asserted, character for character; what changed
+#: is which file of the same submission holds it. Reading only the main text would have made this
+#: guard fire on a move it has no opinion about, and the pressure would then have been to delete the
+#: assertion rather than to follow the sentence. The property it protects is unchanged and is
+#: file-independent: the larger figure may not displace 68.4%, and both must be present with the
+#: sentence separating them. Note the abstract-specific pin below still lands in the main text,
+#: because the abstract is only there.
+SI = os.path.join(MAN, "aso", "fusion-junction-aso-supplementary-information.md")
 
 
 def _paper_flat():
     if not os.path.exists(PAPER):
         pytest.skip("the submission manuscript is not present in this checkout")
-    return " ".join(open(PAPER, encoding="utf-8").read().split())
+    text = open(PAPER, encoding="utf-8").read()
+    if os.path.exists(SI):
+        text += "\n" + open(SI, encoding="utf-8").read()
+    return " ".join(text.split())
 
 
 def test_the_manuscripts_best_supported_figure_is_the_artifacts_and_does_not_displace_68_4():
@@ -507,9 +521,17 @@ def test_the_manuscripts_best_supported_figure_is_the_artifacts_and_does_not_dis
     # 10/15. Rewriting that clause dropped the "that". The interval itself is unchanged and is what
     # this assertion exists to pin.
     assert f"widening to {lo}–{hi}%" in txt
-    # ⛔ THE ABSTRACT IS A SECOND HOME FOR THIS NUMBER AND IS ASSERTED AGAINST THE SAME ROW. A
-    # headline figure that drifts from its own §5.1 is the one a reviewer reads first.
-    assert f"and the whole set is {best['coverage_percent']}%" in txt
+    # ⭐ THE ABSTRACT'S SECOND COPY OF THIS NUMBER IS GONE, AND THE ASSERTION THAT PINNED IT GOES
+    # WITH IT (2026-08-16, editorial pass stage 7). It used to read
+    #     assert f"and the whole set is {best['coverage_percent']}%" in txt
+    # with the note "THE ABSTRACT IS A SECOND HOME FOR THIS NUMBER … a headline figure that drifts
+    # from its own §5.1 is the one a reviewer reads first". That guard existed because the number had
+    # TWO homes and could drift between them. The abstract carried four renderings of the coverage
+    # percentage — 68.4%, 79.0%, 67.1% and 82.9% (57.5–90.7%) — and the editorial pass cut all four,
+    # leaving 82.9% and its interval in SI §S6 alone, priced off this same row. A drift guard whose
+    # second home no longer exists cannot fire, and keeping it would have forced the duplicate back
+    # into the abstract to satisfy a linter. The first two assertions above still pin the surviving
+    # home to the artifact, which is the property that mattered.
     # ⚠ "That figure" -> "The figure" (round 5), same rewrite as the "widening to" pin above. The
     # property — that 82.9% is stated as answering a different question rather than displacing 68.4%
     # — is unchanged, and is what this line exists to hold.
@@ -518,8 +540,17 @@ def test_the_manuscripts_best_supported_figure_is_the_artifacts_and_does_not_dis
     # membership is a derived count, and the manuscript may not carry a different one
     n = best["panel_membership"]["n_junctions_qualifying"]
     assert n == _n, (n, _n)
-    assert f"{_WORD[n]} junctions now hold both such a breakpoint and a design carried through " \
-           "all five screens" in txt
+    # ⭐ RE-POINTED AT THE SURVIVING HOME, NOT DELETED (2026-08-16, editorial pass stage 7). This
+    # used to read
+    #     assert f"{_WORD[n]} junctions now hold both such a breakpoint and a design carried
+    #             through all five screens" in txt
+    # which pinned the ABSTRACT's recital of the membership count. That recital went with the four
+    # coverage renderings the same pass cut from the abstract; SI §S6 states the same derived count
+    # and is now its only home. The property guarded is unchanged — the manuscript must carry the
+    # count this row derives and no other — so the assertion follows the sentence. Matched
+    # case-insensitively because the surviving phrasing opens a sentence.
+    assert f"{_WORD[n]} junctions now carry both a published exon-resolved breakpoint and a " \
+           "design through all five screens" in txt.lower()
     # ⛔ THE ZERO-CONTRIBUTING MEMBER MUST BE NAMED AS CONTRIBUTING ZERO. Reading it as a small
     # positive contribution is exactly the error the row's own note refuses.
     # ⛔ EVERY zero-contributor must be named, not just the first. TFG joined this list when a

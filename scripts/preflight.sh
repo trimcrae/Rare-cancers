@@ -178,6 +178,51 @@ else
   echo "   FAILED -- rerun 'node scripts/validate-registry.mjs' to see why"; rc=1
 fi
 
+# ⛔ A FILE MARKED "GENERATED" WAS AN INSTRUCTION TO HUMANS BACKED BY NOTHING (added 2026-08-16).
+# Four deposit artifacts are produced by generators and carry GENERATED banners, and no gate ever
+# re-derived any of them. Round 7 measured THREE of the four stale at once: the archive manifest 78
+# commits behind HEAD (so the recorded manuscript hash described a pre-restructure file), and
+# submission-metrics.json under-counting by 263 main words while every other deposit document
+# defers to it as "the one home" for those counts. Both had been wrong for weeks under nine green
+# gates, because "is this file current?" was a question nothing could ask.
+# ⚠ THE MANIFEST ALREADY HAD A --check MODE AND NO GATE RAN IT. Two of the others were given one in
+# the same pass that added this block; the fourth (submission_packet.py) still has none and is
+# named as unverified by scripts/regenerate_aso_chain.sh rather than silently assumed current.
+# ⚠ POSITION IS LOAD-BEARING, AND NOT FOR A TECHNICAL REASON. This gate was first inserted BEFORE
+# the parser guard, which pushed the registry validator from gate 7 to gate 8 -- and four documents
+# (README.md, CONTRIBUTING.md, systems/POLICY-evidence.md and .claude/skills/repo-gates/SKILL.md)
+# state its ordinal in prose. systems_check's P1 rule caught all four immediately, which is the
+# one-fact-one-place rule doing its job on a change that looked purely additive. Appending here
+# leaves every existing ordinal untouched; it still runs before the test steps, which is all this
+# gate's placement actually requires. ⛔ Insert a new gate ABOVE this line and you will move an
+# ordinal that four documents hard-code.
+echo "== generated deposit artifacts reproduce from their generators =="
+gen_fail=""
+# ⛔ THE MANIFEST TAKES `--check-archive`, NOT `--check`, AND THE DIFFERENCE IS NOT COSMETIC.
+# `aso_archive_manifest.py` stamps `git_revision`, which advances on EVERY commit — including
+# commits touching no archived file — so `--check` is red the instant you commit the manifest you
+# just regenerated. Measured 2026-08-17: PREFLIGHT_FULL=1 failed on exactly that, one commit after
+# the manifest was regenerated and committed. The generator's own header had predicted it in words
+# and said not to wire `--check` into preflight; this gate did anyway.
+# ⚠ THE FIX IS NOT TO DROP THE MANIFEST FROM THE GATE. A cry-wolf gate gets relaxed, and the
+# relaxation that suggests itself is removing the row — which is how a REAL hash-list staleness
+# would then go unwatched. `--check-archive` compares everything except the two repository-state
+# fields, so it still fails when the inventory, the hashes or the promises move, and no longer
+# fails because a commit happened. The strict `--check` remains the pre-deposit check.
+for g in "research/manuscripts/submission_tables.py|submission tables|--check" \
+         "research/manuscripts/submission_citations.py|submission references|--check" \
+         "research/manuscripts/submission_metrics.py|submission metrics|--check" \
+         "research/manuscripts/aso_archive_manifest.py|archive manifest|--check-archive"; do
+  gen="${g%%|*}"; rest="${g#*|}"; label="${rest%%|*}"; mode="${rest##*|}"
+  if python3 "$gen" "$mode" >/dev/null 2>&1; then
+    echo "   OK   $label"
+  else
+    echo "   STALE $label -- rerun 'python3 $gen' and commit the result"
+    gen_fail="$gen_fail $label"; rc=1
+  fi
+done
+[ -n "$gen_fail" ] && echo "   ⛔ a stale generated file ships a claim its own artifacts no longer support:$gen_fail"
+
 if [ "${SKIP_TESTS:-0}" != "1" ]; then
   # ⭐ CHANGE-SCOPED BY DEFAULT, FULL ON DEMAND (trimcrae, 2026-08-12: the suite was the bottleneck,
   # and "only the ones affected by the changes" plus "not on every push, manually before
@@ -237,18 +282,56 @@ if [ "${SKIP_TESTS:-0}" != "1" ]; then
     PYTEST="python3 -m pytest"
   fi
 
+  # ⛔ THE GATE WAS SINGLE-THREADED ON A FOUR-CORE BOX, AND THAT COST 16 MINUTES A RUN.
+  # Measured 2026-08-17 on this tree: the modalities suite is 968.9s serial and 336.9s at `-n 4
+  # --dist loadfile`, a 2.9x saving, with the verdict IDENTICAL -- 14 failed, 7,756 passed, 58
+  # skipped both ways, the same 14 tests by name, every one already in sandbox-failure-baseline.txt,
+  # and the working tree clean afterwards.
+  # ⚠ `--dist loadfile` IS LOAD-BEARING, NOT A TUNING CHOICE. Several tests regenerate a committed
+  # artifact and then assert against it; distributing by TEST rather than by FILE would let two
+  # workers race the same file and produce failures that are real-looking and untrue. Keeping every
+  # test in a file on one worker preserves the within-file ordering those tests rely on. The clean
+  # tree after the parallel run is the evidence that no regeneration raced.
+  # ⛔ IF XDIST IS ABSENT, RUN SERIAL. A missing plugin must slow the gate down, never skip it.
+  PYTEST_PAR=""
+  if [ "${PREFLIGHT_SERIAL:-0}" != "1" ] && python3 -c "import xdist" >/dev/null 2>&1; then
+    _cores=$(nproc 2>/dev/null || echo 1)
+    [ "$_cores" -gt 1 ] && PYTEST_PAR="-n $_cores --dist loadfile"
+  fi
+
+  # ⛔ THE SELECTOR IS ASKED ONCE, AND ITS THREE ANSWERS ARE KEPT APART (measured 2026-08-16).
+  # This block used to call `affected_tests.py` here, discard the result, and call it AGAIN below to
+  # decide whether an empty selection meant "nothing affected". That conflated two opposite answers:
+  #   "" from a selector that RAN and found nothing   -> correctly green, run nothing
+  #   "" from a selector that DIED before printing    -> must run everything
+  # The first call caught the second case safely (`|| echo FULL`) and the second call then threw that
+  # away, because a dead selector's stdout is also empty. MEASURED CONSEQUENCE: an editorial pass
+  # broke 11 tests in `test_aso_submission_numbers.py` -- all 35 pass at c131f5a30, 11 fail after --
+  # and preflight printed "FULL -- the change could not be scoped" IMMEDIATELY followed by "no
+  # modality test is affected by this change" and exited 0, having run zero modality tests. Four
+  # commits were made against that green.
+  # ⚠ This is the header defect of this very file, for the fifth time: a gate that reports while
+  # measuring nothing. The rule it violates is the one the block below already states -- an empty
+  # selection is a real answer -- but only when the selector actually answered.
   SELECTED=""
+  SEL_STATUS=full
   if [ "${PREFLIGHT_FULL:-0}" = "1" ]; then
     echo "== pytest (modalities: FULL, PREFLIGHT_FULL=1) =="
-  else
-    SELECTED="$(python3 scripts/affected_tests.py 2>/dev/null || echo FULL)"
-    if [ "$SELECTED" = "FULL" ] || [ -z "$SELECTED" ]; then
+  elif SELECTED="$(python3 scripts/affected_tests.py 2>/dev/null)"; then
+    if [ "$SELECTED" = "FULL" ]; then
       SELECTED=""
-      echo "== pytest (modalities: FULL -- the change could not be scoped) =="
+      echo "== pytest (modalities: FULL -- the selector asked for the full suite) =="
+    elif [ -z "$SELECTED" ]; then
+      SEL_STATUS=none
+      echo "== pytest (modalities: none -- the selector ran and this change affects no module) =="
     else
+      SEL_STATUS=scoped
       n=$(printf '%s\n' "$SELECTED" | grep -c . || true)
       echo "== pytest (modalities: $n module(s) affected by this change; PREFLIGHT_FULL=1 for all) =="
     fi
+  else
+    SELECTED=""
+    echo "== pytest (modalities: FULL -- the selector FAILED, so nothing is assumed) =="
   fi
   out=$(mktemp)
   # ⛔ `--continue-on-collection-errors` ADDED 2026-08-05, AND WITHOUT IT THIS STEP MEASURED NOTHING.
@@ -266,7 +349,7 @@ if [ "${SKIP_TESTS:-0}" != "1" ]; then
   # collection errors are `ModuleNotFoundError: No module named 'numpy'` — not one is scipy, pymbar or rdkit.
   # Superseded, retained (CLAUDE.md rule 1.2): "(scipy, pymbar, rdkit are absent)".
   # ⛔ The cause is deliberately NOT re-typed here now. It is one command, and it answers for today:
-  #     $PYTEST research/modalities/tests/ -q --collect-only --continue-on-collection-errors \
+  #     $PYTEST $PYTEST_PAR research/modalities/tests/ -q --collect-only --continue-on-collection-errors \
   #       --ignore=research/modalities/tests/test_ternary_endpoint_align.py 2>&1 | grep ModuleNotFoundError
   #
   # ⚠ THAT IS THIS SCRIPT'S OWN HEADER DEFECT, IN THIS SCRIPT. The comment at the top of this file
@@ -275,13 +358,16 @@ if [ "${SKIP_TESTS:-0}" != "1" ]; then
   # an explicit exit code do not help when the thing being counted is never produced.
   # ⚠ AN EMPTY SELECTION IS A REAL ANSWER — "this change touches no modality test" — and pytest
   # exits 5 on "no tests ran", which must not read as a failure. It is handled below.
-  if [ -n "$SELECTED" ]; then
+  # ⛔ BRANCH ON SEL_STATUS, NEVER ON EMPTINESS, AND NEVER RE-ASK THE SELECTOR. `$SELECTED` is empty
+  # for BOTH "nothing affected" and "run everything"; only SEL_STATUS distinguishes them, and it was
+  # decided once, above, where the selector's exit code was still in hand.
+  if [ "$SEL_STATUS" = "scoped" ]; then
     # shellcheck disable=SC2086
-    $PYTEST $SELECTED -q --continue-on-collection-errors >"$out" 2>&1 || true
-  elif [ "${PREFLIGHT_FULL:-0}" != "1" ] && [ "$(python3 scripts/affected_tests.py 2>/dev/null | head -1)" = "" ]; then
+    $PYTEST $PYTEST_PAR $SELECTED -q --continue-on-collection-errors >"$out" 2>&1 || true
+  elif [ "$SEL_STATUS" = "none" ]; then
     echo "no modality test is affected by this change" >"$out"
   else
-    $PYTEST research/modalities/tests/ -q --continue-on-collection-errors \
+    $PYTEST $PYTEST_PAR research/modalities/tests/ -q --continue-on-collection-errors \
         --ignore=research/modalities/tests/test_ternary_endpoint_align.py >"$out" 2>&1 || true
   fi
   failed=$(grep -cE '^FAILED' "$out" || true)
@@ -383,7 +469,7 @@ if [ "${SKIP_TESTS:-0}" != "1" ]; then
   # — 151 passed, 0 failed, measured the day this gate was added — so the bar here is simply zero.
   echo "== pytest (manuscripts: endpoints, systems map, pooling, submission citations) =="
   mout=$(mktemp)
-  $PYTEST research/manuscripts/tests -q --continue-on-collection-errors >"$mout" 2>&1 || true
+  $PYTEST $PYTEST_PAR research/manuscripts/tests -q --continue-on-collection-errors >"$mout" 2>&1 || true
   tail -1 "$mout"
   if ! grep -qE '[0-9]+ (passed|failed)' "$mout"; then
     echo "   FAILED: pytest reported no test count -- the run collected nothing."

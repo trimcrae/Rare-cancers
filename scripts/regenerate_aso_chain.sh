@@ -42,6 +42,7 @@ cd "$(dirname "$0")/.."
 
 CHECK=0
 [ "${1:-}" = "--check" ] && CHECK=1
+unverified=""
 
 MOD=research/modalities
 MAN=research/manuscripts
@@ -56,16 +57,73 @@ fail=0
 # design and that refusal must not abort the chain.
 if [ "$CHECK" = 0 ]; then
   say "graded re-scores (screens -> -graded.json)"
-  # shellcheck disable=SC2046
-  python3 $MOD/junction_aso_offtarget.py --rescore \
-    $(ls $MOD/junction-aso-offtarget-*.json 2>/dev/null | grep -v -- '-graded' | grep -v 'locus-collapse' | tr '\n' ' ') \
+  # ⛔ THE DEEPER RE-SCREENS ARE EXCLUDED BY THE RELEASE'S OWN RULE, NOT BY AN OVERSIGHT.
+  # The SI states the reason: the deeper re-screens "are released ungraded because the graded model
+  # adds nothing where no hit list is truncated". Sweeping them in took the corpus from the
+  # committed 39 to 92 and made three released sentences false; the round-7 ledger §2b traced it to
+  # the end and CLOSED it as "keep 39", having confirmed the deeper screens' one extra clean design
+  # (GGGCATATCAAGCGCT at TCF12 exon 7) is already reported in the manuscript and in Table 7.
+  # ⚠ SO THE EXCLUSION BELONGS HERE, AT THE GENERATOR. Leaving the sweep wide and catching it with
+  # the guard below meant a referee cloning the archive and running this script got exit 1 and 53
+  # untracked files on a repository that was CORRECT. A verification command that fails on a clean
+  # clone cannot be the one the paper names.
+  # ⭐ THE GLOB'S VIRTUE SURVIVES: a new junction screen still enters the corpus with nobody
+  # remembering to add it here. Only the depth variant the release deliberately leaves ungraded is
+  # filtered, the skip is COUNTED AND PRINTED so the decision stays visible at the moment it is
+  # taken, and the count guard below still fires if the corpus diverges for any other reason.
+  _sweep=$(ls $MOD/junction-aso-offtarget-*.json 2>/dev/null \
+    | grep -v -- '-graded' | grep -v 'locus-collapse' | grep -v 'deep500' || true)
+  _skipped=$(ls $MOD/junction-aso-offtarget-*.json 2>/dev/null \
+    | grep -v -- '-graded' | grep -v 'locus-collapse' | grep -c 'deep500' || true)
+  # shellcheck disable=SC2046,SC2086
+  python3 $MOD/junction_aso_offtarget.py --rescore $(echo $_sweep | tr '\n' ' ') \
     >/dev/null 2>&1 || true
   echo "   $(ls $MOD/junction-aso-offtarget-*-graded.json 2>/dev/null | wc -l | tr -d ' ') graded artifact(s)"
+  echo "   $_skipped deeper re-screen(s) skipped — released ungraded by SI §S4's stated rule"
+
+  # ⛔ THIS STEP SILENTLY OVERPRODUCED AGAINST A DOCUMENTED DECISION (measured 2026-08-17).
+  # The glob above regrades EVERY screen, so a chain run took the graded corpus from the committed
+  # 39 to 92 — 53 new untracked artifacts. The repository does not merely tolerate 39: the SI states
+  # a reason for it, that "the 53 deeper re-screens are released ungraded because the graded model
+  # adds nothing where no hit list is truncated". So the chain and the submission documents
+  # disagreed about what the corpus IS, and running the chain quietly made three released sentences
+  # false plus two pinned counts stale.
+  # ⚠ AND IT IS NOT PURELY A DENOMINATOR. Grading the deeper re-screens extends the predicted-clean
+  # set by one design, GGGCATATCAAGCGCT — the TCF12 exon 7 design section 2.7 discusses by name —
+  # because that design had no graded record at all before. Whether it BELONGS there is a question
+  # about the paper, not about this script, and it is filed in the round-7 ledger rather than
+  # decided here.
+  # ⭐ The count guard in test_aso_submission_numbers.py caught this, which is why the state was
+  # recoverable. This warning exists so the chain says so at the moment it happens, instead of
+  # leaving a later test to discover it.
+  # ⚠ THE SWEEP ABOVE NOW EXCLUDES THE DELIBERATELY-UNGRADED SCREENS, SO THIS GUARD NO LONGER FIRES
+  # ON A CORRECT TREE — and that is the point. It is kept, not retired, because it is the only check
+  # that reads the corpus rather than the rule: it catches a graded artifact arriving by any route
+  # the filter above does not model.
+  _tracked=$(git ls-files "$MOD" 2>/dev/null | grep -c -- '-graded.json' || true)
+  _ondisk=$(ls $MOD/junction-aso-offtarget-*-graded.json 2>/dev/null | wc -l | tr -d ' ')
+  if [ -n "$_tracked" ] && [ "$_tracked" -gt 0 ] && [ "$_ondisk" != "$_tracked" ]; then
+    echo "   ⚠ $_ondisk graded artifacts on disk against $_tracked tracked."
+    echo "     The submission documents state a reason for the tracked count, so this is a"
+    echo "     DECISION to make and not a diff to commit. Either delete the untracked artifacts"
+    echo "     (git clean -n $MOD to see them first), or update the SI's rationale, the three"
+    echo "     released sentences that state the count, and the pins in"
+    echo "     test_aso_submission_numbers.py — together, in one commit."
+    fail=1
+  fi
 fi
 
 # ── 1 · producers, in dependency order ───────────────────────────────────────────────────────
 # Each entry: "label|command|check-command". An empty check-command means the producer has no
 # --check mode and is verified by regenerating and diffing the tree instead.
+# ⛔ THIS FUNCTION USED TO PRINT A VERIFICATION THAT DID NOT EXIST (fixed 2026-08-16).
+# For every producer with no --check mode it printed "(no --check mode; verified by the tree diff
+# below)" -- and there was NO tree diff, anywhere in this file. `grep -n "git " ` returned nothing.
+# So `--check` reported a clean chain while silently vouching for artifacts it had never compared,
+# which is the same shape as the gates round 7 found reporting green over stale deposit files.
+# ⚠ Fixed by making the gap VISIBLE rather than by inventing a diff: an unverifiable step is now
+# named as unverified, counted, and reprinted in the summary, so `--check` can no longer end in an
+# unqualified OK while producers remain uninspected.
 run_step() {
   local label="$1" cmd="$2" chk="$3"
   say "$label"
@@ -73,7 +131,8 @@ run_step() {
     if [ -n "$chk" ]; then
       if eval "$chk" >/dev/null 2>&1; then echo "   current"; else echo "   STALE"; fail=1; fi
     else
-      echo "   (no --check mode; verified by the tree diff below)"
+      echo "   ⚠ NOT VERIFIED -- this producer has no --check mode"
+      unverified="$unverified $label"
     fi
   else
     eval "$cmd" >/dev/null 2>&1 || { echo "   FAILED: $cmd"; fail=1; }
@@ -97,9 +156,9 @@ run_step "figure submission formats" "python3 $FIG/svg_to_submission_formats.py"
 # green chain. A regeneration script that leaves a checker stale is worse than no script: it is the
 # one place a maintainer trusts not to have to remember the order.
 run_step "figure provenance"   "python3 $FIG/aso_figure_provenance.py" "python3 $FIG/aso_figure_provenance.py --check"
-run_step "submission tables"   "python3 $MAN/submission_tables.py"                   ""
-run_step "submission references" "python3 $MAN/submission_citations.py --write"      ""
-run_step "submission metrics"  "python3 $MAN/submission_metrics.py"                  ""
+run_step "submission tables"   "python3 $MAN/submission_tables.py"   "python3 $MAN/submission_tables.py --check"
+run_step "submission references" "python3 $MAN/submission_citations.py --write" "python3 $MAN/submission_citations.py --check"
+run_step "submission metrics"  "python3 $MAN/submission_metrics.py"  "python3 $MAN/submission_metrics.py --check"
 run_step "submission packet"   "python3 $MAN/submission_packet.py"                   ""
 run_step "prior-art evidence"  "python3 $MAN/aso_priorart_evidence.py" "python3 $MAN/aso_priorart_evidence.py --check"
 # ⛔ LAST, ALWAYS. It hashes every artifact above; run it earlier and the deposit describes a tree
@@ -115,5 +174,10 @@ done
 if [ "$fail" != 0 ]; then
   printf '\nASO CHAIN: something is stale or failed -- see above.\n'
   exit 1
+fi
+if [ "$CHECK" = 1 ] && [ -n "$unverified" ]; then
+  printf '\nASO CHAIN: every checkable producer is current, but --check CANNOT VOUCH FOR:%s\n' "$unverified"
+  printf 'Give each of those a --check mode; until then a green --check is a partial answer.\n'
+  exit 0
 fi
 printf '\nASO CHAIN OK\n'

@@ -351,7 +351,8 @@ def measure(path, companion_paths=()):
             "references": count_references([body] + companions)}
 
 
-def main():
+def main(argv=None):
+    argv = list(sys.argv[1:] if argv is None else argv)
     rows, over, unread = [], 0, 0
     for fname, vkey in MANUSCRIPTS.items():
         v = VENUES[vkey]
@@ -395,8 +396,7 @@ def main():
               f"items={m['display_items']:2d}  refs={m['references']:2d}  {state}")
 
     out = os.path.join(REPO, "research", "manuscripts", "submission-metrics.json")
-    with open(out, "w", encoding="utf-8") as fh:
-        json.dump({
+    payload = {
             "_what": "What each submission-form manuscript actually is, measured, against the limits "
                      "its venue is believed to set.",
             "_why": "Most of these venues block automated retrieval of their author guidelines with "
@@ -438,8 +438,40 @@ def main():
                     "numbered list anywhere else in the file is not a reference.",
             "⚠_superseded_measurements": SUPERSEDED_MEASUREMENTS,
             "rows": rows,
-        }, fh, indent=2, ensure_ascii=False)
-        fh.write("\n")
+    }
+    doc = json.dumps(payload, indent=2, ensure_ascii=False) + "\n"
+
+    # ⛔ `--check` EXISTS BECAUSE main() USED TO OPEN THIS FILE FOR WRITE UNCONDITIONALLY.
+    # Every other deposit document defers to submission-metrics.json as "the one home" for the word
+    # counts, so when it goes stale they are all confidently wrong in one place — which is exactly
+    # what round 7 measured (263 main words and 9 abstract words out). There was no way to ASK
+    # whether it was current: the only way to find out was to regenerate it and read the diff, which
+    # is not something a gate can do without also writing.
+    if "--check" in argv:
+        if not os.path.exists(out):
+            print(f"⛔ {out} does not exist; run without --check to generate it", file=sys.stderr)
+            return 1
+        have = open(out, encoding="utf-8").read()
+        if have == doc:
+            print(f"OK {os.path.relpath(out, REPO)} reproduces byte-for-byte")
+            return 0
+        try:
+            hv = {r["file"]: r["measured"] for r in json.loads(have).get("rows", [])}
+        except Exception:  # noqa: BLE001 — a corrupt file is a failure, not a crash
+            hv = {}
+        print(f"⛔ {os.path.relpath(out, REPO)} DOES NOT reproduce — the counts every other "
+              "deposit document defers to are stale:", file=sys.stderr)
+        for r in rows:
+            was, now = hv.get(r["file"]), r["measured"]
+            if was != now:
+                for k in sorted(set(was or {}) | set(now or {})):
+                    a, b = (was or {}).get(k), (now or {}).get(k)
+                    if a != b:
+                        print(f"   {r['file']}: {k} {a} -> {b}", file=sys.stderr)
+        return 1
+
+    with open(out, "w", encoding="utf-8") as fh:
+        fh.write(doc)
     print(f"\nwrote {os.path.relpath(out, REPO)} — {over} limit(s) exceeded, "
           f"{unread} paper(s) ungraded because the venue's limits are unread")
     return 0

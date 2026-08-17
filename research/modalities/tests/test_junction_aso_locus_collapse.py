@@ -210,12 +210,79 @@ def test_the_clinically_relevant_reagents_deep_load_is_six_loci_not_123_transcri
     if not os.path.exists(paper):
         pytest.skip("submission manuscript is not present in this checkout")
     txt = re.sub(r"\s+", " ", open(paper, encoding="utf-8").read())
-    assert "189 near-matches" in txt
-    assert "123 pair the catalytic gap perfectly" in txt
-    assert "six gene loci" in txt
-    assert "*ANKS1B* and *ZNF667*" in txt
-    assert "Of the 123, 82 are `XM_`/`XR_` predicted models" in txt
-    assert "no parent transcript is among them" in txt
+
+    # ⛔⛔ `assert "189 near-matches" in txt` WAS MEASURING THE WRONG SENTENCE (found 2026-08-16).
+    # 189 is this design's raw deep near-match count AND, by coincidence, the chance expectation the
+    # Methods quote — "189 near-matches for any 16-mer whatever over the exhaustive scan's measured
+    # span". When the editorial restructure moved this design's raw count out of the prose and into
+    # generated Table 2, the assertion went on passing against the chance sentence, which is a
+    # different quantity about a different population. A substring that two unrelated claims can both
+    # satisfy is not a guard. The count is now checked WHERE IT LIVES — Table 2's deeper-ceiling
+    # columns, generated from the screens — and against the design's own row.
+    tables = os.path.join(REPO, "research", "manuscripts", "aso",
+                          "fusion-junction-aso-submission-tables.md")
+    if os.path.exists(tables):
+        whole = open(tables, encoding="utf-8").read()
+        assert "**Table 2." in whole, "Table 2 is not in the generated tables file"
+        # ⚠ SCOPED TO TABLE 2's OWN BLOCK. This molecule has a row in four of the seven tables, and
+        # they carry different quantities under similar-looking columns.
+        body = whole[whole.index("**Table 2."):]
+        body = body[:body.index("**Table 3.")] if "**Table 3." in body else body
+        rows = [r for r in body.splitlines()
+                if "5′-GGGCATATCATCAAAC-3′" in r and "::NR4A3 e3 |" in r]
+        assert len(rows) == 3, rows          # the one molecule spans EWSR1 e12, TAF15 e11, FUS e10
+        for r in rows:
+            assert f"| {len(hits)} | {len(plus)} | {len(loci)} |" in r, r
+
+    # ⭐ THE THREE BOUNDING FACTS MOVED TO §4.3 AND KEPT ALL THREE, 2026-08-16. "123 pair the
+    # catalytic gap perfectly … They recount to six gene loci … no parent transcript is among them"
+    # is now one clause where the reagent is recommended: "123 gap-paired sense-strand near-matches
+    # at the deeper ceiling, recounting to six gene loci, all at the screen's loosest admitted
+    # identity and none on a parent transcript". Asserted as one string, because the docstring above
+    # is right that dropping any one of them changes the conclusion — and three separate substring
+    # checks would let the sentence be split up until the bounds no longer travel with the number.
+    words = {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six", 7: "seven"}
+    assert (f"{len(paired)} gap-paired sense-strand near-matches at the deeper ceiling, recounting "
+            f"to {words[len(loci)]} gene loci, all at the screen's loosest admitted identity and "
+            f"none on a parent transcript") in txt
+    # ⭐ AND THE PREDICTED/CURATED SPLIT, WHICH MOVED TO §5 AND GAINED ITS COMPLEMENT. "Of the 123,
+    # 82 are `XM_`/`XR_` predicted models" is now "82 of the 123 are predicted models and the other
+    # 41 are curated records", under a paragraph that has just defined the two namespaces — so the
+    # curated count is stated rather than left to be subtracted, and both are derived here.
+    assert (f"{cls['predicted']} of the {len(paired)} are predicted models and the other "
+            f"{cls['curated']} are curated records") in txt
+    # ⭐ THE TWO DOMINANT LOCI ARE STILL NAMED, ON THE CURATED SUBSET RATHER THAN ON ALL 123.
+    # "*ANKS1B* and *ZNF667* supply 104 between them" became "those 41 are themselves inflated, 32 of
+    # them *ANKS1B* accessions and three *ZNF667*" — the same two loci making the same
+    # records-are-not-genes point, cut over the records where it bites hardest, since 32 curated
+    # accessions of one gene is the sharper instance of inflation than 67 mixed ones. ⚠ MEASURED
+    # OVER THE CURATED HITS HERE so the prose cannot borrow the all-123 figure for this sentence:
+    # ANKS1B is 67 of 123 overall and 32 of the 41 curated, and those are different numbers.
+    cur = Counter(C.locus_of(h) for h in paired if C.accession_class(h) == "curated")
+    assert sum(cur.values()) == cls["curated"], cur
+    assert (f"those {cls['curated']} are themselves inflated, {cur['ANKS1B']} of them *ANKS1B* "
+            f"accessions and {words[cur['ZNF667']]} *ZNF667*") in txt
+    # ⛔ AND THE DEPTH-DEPENDENCE OF THE CURATED SHARE, WHICH IS WHY THE DEFAULT-DEPTH READING OF THIS
+    # DESIGN CANNOT BE CARRIED FORWARD. The prose used to say its one curated sense-strand hit is
+    # *H2AP* while naming the deeper ceiling, which is false at that depth: at the default ceiling
+    # the design has 1 curated sense-strand hit and at the deeper one it has 43. Both are counted
+    # here from the two screens rather than taken from the sentence.
+    shallow = os.path.join(MOD, "junction-aso-offtarget-e12n3.json")
+    if os.path.exists(shallow):
+        so = next(x for x in json.load(open(shallow, encoding="utf-8"))["oligos"]
+                  if x["antisense_5to3"] == "GGGCATATCATCAAAC")
+        s_plus = [h for h in so["offtargets"] if not h.get("is_minus_strand")]
+        s_cur = [h for h in s_plus if C.accession_class(h) == "curated"]
+        d_cur = [h for h in plus if C.accession_class(h) == "curated"]
+        assert (len(s_cur), len(d_cur)) == (1, 43), (len(s_cur), len(d_cur))
+        # ⚠ MATCHED AROUND THE ACCESSION, NOT THROUGH IT (2026-08-17). *H2AP* now carries
+        # NM_012274 at this, its only mention — a cold reader found the single curated hit named
+        # with no accession, in a paper whose own rule is that an identifier is never written
+        # from recollection. The gene symbol and the "single curated sense-strand hit" claim are
+        # what this pin is for; the parenthetical between them may vary.
+        assert (f"At the default ceiling that design carried a single curated sense-strand hit, "
+                f"*H2AP*") in txt
+        assert f"at the deeper ceiling it carries {len(d_cur)}" in txt
 
 
 if __name__ == "__main__":

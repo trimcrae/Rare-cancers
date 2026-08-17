@@ -37,6 +37,14 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 PAPER = os.path.join(HERE, "aso", "fusion-junction-aso-research-article.md")
 REFS_JSON = os.path.join(HERE, "aso", "fusion-junction-aso-references.json")
 OUT_MD = os.path.join(HERE, "aso", "fusion-junction-aso-submission-references.md")
+#: ⛔ THE SI CITES THE MAIN TEXT'S NUMBERS AND CANNOT ASSIGN ANY OF ITS OWN. Its header tells a reader
+#: so in as many words. But it was split out of the main text by hand, and every renumber since has
+#: left its superscripts pointing at whatever they meant on the day of the split — measured
+#: 2026-08-16, five of five were wrong, one by seventeen. A document that says "these are the main
+#: text's numbers" and carries different ones is worse than one that carries none, so --write now
+#: renumbers the SI from the SAME map, and a PMID cited only in the SI is reported rather than
+#: silently numbered, because the main text's list is generated from the MAIN TEXT.
+SI = os.path.join(HERE, "aso", "fusion-junction-aso-supplementary-information.md")
 OUT_JSON = os.path.join(HERE, "aso", "fusion-junction-aso-submission-references.json")
 
 #: `<sup>8–11</sup><!--PMID:33241214,36265509,21846246,23052253-->`
@@ -330,11 +338,24 @@ def main(argv=None):
     if missing:
         print(f"  ⚠ no fetched record for: {sorted(missing)} — entries print as gaps, never guessed")
 
+    si_text = open(SI, encoding="utf-8").read() if os.path.exists(SI) else None
+    si_cites = parse(si_text) if si_text else []
+    si_only = sorted({p for _s, _pr, pm in si_cites for p in pm if p not in order})
+    if si_only:
+        # A reference cited nowhere in the main text has no number in a list generated from the
+        # main text. Report it; never invent one.
+        print(f"  ⛔ cited only in the SI, so absent from the numbered list: {si_only}")
+
     if "--write" in argv:
         new = rewrite(text, cites, order)
         if new != text:
             open(PAPER, "w", encoding="utf-8").write(new)
             print(f"  renumbered superscripts in {os.path.basename(PAPER)}")
+        if si_cites and not si_only:
+            si_new = rewrite(si_text, si_cites, order)
+            if si_new != si_text:
+                open(SI, "w", encoding="utf-8").write(si_new)
+                print(f"  renumbered superscripts in {os.path.basename(SI)}")
         lines = [format_entry(n, p, meta) for p, n in sorted(order.items(), key=lambda kv: kv[1])]
         open(OUT_MD, "w", encoding="utf-8").write(
             "<!-- GENERATED — DO NOT EDIT. Regenerate: python3 "

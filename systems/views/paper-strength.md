@@ -59,16 +59,16 @@ last_verified: 2026-08-09
 | 6 | **PUB-EMC-CLASSIFICATION** | ⭐ could still help a patient | 🏥 clinical adoption | **11.5** | 2 | 0 | 0 | 33% of 3 | ◔ `outlined` |
 | 7 | [**PUB-STRATEGY-ARCH**](../../research/manuscripts/care-delivery/emc-trial-reachability.md) | ⭐ could still help a patient | ⭐ **no bench needed** | **11.5** | 1 | 2 | 0 | 57% of 7 | ◐ `drafted` · ✎ short report |
 | 8 | **PUB-IPD-SURVIVAL** | ⭐ could still help a patient | ⭐ **no bench needed** | **11.0** | 1 | 0 | 0 | 50% of 2 | ○ `unwritten` |
-| 9 | [**PUB-ASO**](../../research/manuscripts/aso/fusion-junction-aso-working-record.md) | ⭐ could still help a patient | 🧪 bench, to build | **9.5** | 1 | 0 | 0 | 64% of 11 | ◐ `drafted` |
-| 10 | [**PUB-ATR**](../../research/manuscripts/dependency/emc-atr-vulnerability-assessment.md) | ⭐ could still help a patient | 🧪 bench, to build | **8.0** | 1 | 0 | 0 | 0% of 1 | ◐ `drafted` |
-| 11 | [**PUB-FUSION-PARTNER**](../../research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md) | ⭐ could still help a patient | 🏥 clinical adoption | **8.0** | 1 | 0 | 0 | 25% of 4 | ◐ `drafted` |
-| 12 | **PUB-LOCOREGIONAL** | ⭐ could still help a patient | 🏥 clinical adoption | **5.5** | 0 | 0 | ⚠ 4 | 50% of 8 | ◔ `outlined` |
-| 13 | [**PUB-TXN-DEPENDENCY**](../../research/manuscripts/dependency/emc-transcriptional-proteostatic-dependency.md) | ⭐ could still help a patient | 🧪 bench, to build | **5.0** | 0 | 0 | ⚠ 2 | 60% of 5 | ◐ `drafted` |
-| 14 | **PUB-KINASE-LEADS** | ⭐ could still help a patient | 🧪 bench, to build | **4.5** | 0 | 0 | ⚠ 4 | 55% of 11 | ◔ `outlined` |
-| 15 | [**PUB-MONOVALENT**](../../research/manuscripts/occupancy/nr4a3-monovalent-pocket-route.md) | ⭐ could still help a patient | 🧪 bench, to build | **4.0** | 0 | 1 | 0 | 50% of 2 | ◐ `drafted` |
-| 16 | [**PUB-MODALITY-CENSUS**](../../research/manuscripts/modality-census/cancer-modality-census.md) | ⭐ could still help a patient | — | **2.0** | 0 | 0 | ⚠ 1 | 0% of 1 | ◐ `drafted` |
-| 17 | [**PUB-EMC-PROGRAM**](../../research/manuscripts/program/emc-treatment-roadmap.md) | ⭐ could still help a patient | — | **1** | 0 | 0 | 0 | — | ◐ `drafted` · ⚠ 2 cited-only |
-| 18 | [**PUB-DEGRADER**](../../research/manuscripts/degrader/nr4a3-degrader-paper.md) | ⛔ known negative / methods | — | **10.5** | 2 | 3 | 0 | 38% of 8 | ◐ `drafted` |
+| 9 | [**PUB-ATR**](../../research/manuscripts/dependency/emc-atr-vulnerability-assessment.md) | ⭐ could still help a patient | 🧪 bench, to build | **8.0** | 1 | 0 | 0 | 0% of 1 | ◐ `drafted` |
+| 10 | [**PUB-FUSION-PARTNER**](../../research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md) | ⭐ could still help a patient | 🏥 clinical adoption | **8.0** | 1 | 0 | 0 | 25% of 4 | ◐ `drafted` |
+| 11 | **PUB-LOCOREGIONAL** | ⭐ could still help a patient | 🏥 clinical adoption | **5.5** | 0 | 0 | ⚠ 4 | 50% of 8 | ◔ `outlined` |
+| 12 | [**PUB-TXN-DEPENDENCY**](../../research/manuscripts/dependency/emc-transcriptional-proteostatic-dependency.md) | ⭐ could still help a patient | 🧪 bench, to build | **5.0** | 0 | 0 | ⚠ 2 | 60% of 5 | ◐ `drafted` |
+| 13 | **PUB-KINASE-LEADS** | ⭐ could still help a patient | 🧪 bench, to build | **4.5** | 0 | 0 | ⚠ 4 | 55% of 11 | ◔ `outlined` |
+| 14 | [**PUB-MONOVALENT**](../../research/manuscripts/occupancy/nr4a3-monovalent-pocket-route.md) | ⭐ could still help a patient | 🧪 bench, to build | **4.0** | 0 | 1 | 0 | 50% of 2 | ◐ `drafted` |
+| 15 | [**PUB-MODALITY-CENSUS**](../../research/manuscripts/modality-census/cancer-modality-census.md) | ⭐ could still help a patient | — | **2.0** | 0 | 0 | ⚠ 1 | 0% of 1 | ◐ `drafted` |
+| 16 | [**PUB-EMC-PROGRAM**](../../research/manuscripts/program/emc-treatment-roadmap.md) | ⭐ could still help a patient | — | **1** | 0 | 0 | 0 | — | ◐ `drafted` · ⚠ 2 cited-only |
+| 17 | [**PUB-DEGRADER**](../../research/manuscripts/degrader/nr4a3-degrader-paper.md) | ⛔ known negative / methods | — | **10.5** | 2 | 3 | 0 | 38% of 8 | ◐ `drafted` |
+| 18 | [**PUB-ASO**](../../research/manuscripts/aso/fusion-junction-aso-research-article.md) | ⛔ known negative / methods | 🧪 bench, to build | **9.5** | 1 | 0 | 0 | 64% of 11 | ◐ `drafted` |
 | 19 | [**PUB-METHODS**](../../research/manuscripts/methods-record/degrader-methods-failure-record.md) | ⛔ known negative / methods | — | **9.0** | 1 | 0 | 0 | 100% of 1 | ◐ `drafted` |
 | 20 | [**PUB-ENDPOINT**](../../research/manuscripts/endpoint/response-endpoint-indolent-tumours.md) | ⛔ known negative / methods | — | **7.0** | 1 | 0 | 0 | 67% of 3 | ◐ `drafted` |
 | 21 | [**PUB-FUSION-OUTPUT**](../../research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md) | ⛔ known negative / methods | — | **6.0** | 1 | 0 | 0 | 50% of 6 | ◐ `drafted` |
@@ -114,9 +114,6 @@ last_verified: 2026-08-09
 **PUB-IPD-SURVIVAL** — score 11.0
 - [RT-IPD-SURVIVAL](L2-rt-ipd-survival.md) — *Can the time-to-event data this disease's clinical questions all require be recovered from the curves already published?* — `ready` / `computed` / confidence `low` · last verified `2026-08-09`
 
-**PUB-ASO** — score 9.5
-- [RT-ASO](L2-rt-aso.md) — *Can an RNase-H gapmer or siRNA against the EWSR1::NR4A3 breakpoint junction silence the chimera while sparing wild-type NR4A3?* — `blocked` / `scoped` / confidence `moderate` · last verified `2026-08-13`
-
 **PUB-ATR** — score 8.0
 - [RT-ATR-ASSESS](L2-rt-atr-assess.md) — *Does EMC inherit a replication-stress vulnerability from its FET-fusion class, and can that be assessed computationally?* — `ready` / `computed` / confidence `low` · last verified `2026-08-06`
 
@@ -126,6 +123,9 @@ last_verified: 2026-08-09
 **PUB-DEGRADER** — score 10.5
 - [RT-ASYMMETRIC](L2-rt-asymmetric.md) — *Are the two paralogue-sparing requirements actually the same requirement — and what changes if they are not?* — `ready` / `computed` / confidence `high` · last verified `2026-08-06`
 - [RT-PANNR4A-EXVIVO](L2-rt-pannr4a-exvivo.md) — *Could pan-NR4A engagement be useful EX VIVO — during T-cell manufacturing — where selectivity does not matter?* — `ready` / `computed` / confidence `moderate` · last verified `2026-08-05`
+
+**PUB-ASO** — score 9.5
+- [RT-ASO](L2-rt-aso.md) — *Can an RNase-H gapmer or siRNA against the EWSR1::NR4A3 breakpoint junction silence the chimera while sparing wild-type NR4A3?* — `blocked` / `scoped` / confidence `moderate` · last verified `2026-08-13`
 
 **PUB-METHODS** — score 9.0
 - [RT-METHODS-PAPER](L2-rt-methods-paper.md) — *What is the honest, publishable content of a computation-only program's own failure record?* — `ready` / `scoped` / confidence `high` · last verified `2026-08-05`

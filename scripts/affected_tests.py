@@ -193,6 +193,35 @@ def select(explain=False):
                 chosen |= hits
                 say(f"{f} -> {len(hits)} test module(s) name it")
             continue
+        # ⛔ A MANUSCRIPT IS AN INPUT TO THE MODALITIES SUITE, AND THIS SELECTOR USED TO SAY IT WAS
+        # NOT (found 2026-08-16, round-7 Phase 3.4). `research/manuscripts/**/*.md` fell through to
+        # the "outside the modalities test domain" line below, so a MANUSCRIPT-ONLY commit selected
+        # ZERO modality tests -- and `test_aso_submission_numbers.py`, the 35-assertion guard whose
+        # entire job is to pin the manuscript's numbers to the artifacts, lives in that suite. The
+        # gate that exists to catch a number drifting out of the paper was the one guaranteed not to
+        # run when only the paper changed.
+        # ⚠ THIS IS THE SECOND INSTANCE OF THE BUG COMMIT 233783c1a FIXED. That commit closed the
+        # dead-selector case (a selector that answered "nothing to run" and was believed); this is
+        # the same failure reached by a different route -- a real answer, computed over a file class
+        # the selector declined to map. Bound BY NAME, exactly as the .json branch above binds
+        # artifacts, because that is already how these tests find what they read.
+        if f.startswith("research/manuscripts/") and f.endswith(".md"):
+            hits = set()
+            for t in test_edges:
+                try:
+                    if base in open(os.path.join(TESTS, t), encoding="utf-8").read():
+                        hits.add(t)
+                except Exception:  # noqa: BLE001
+                    return None
+            if hits:
+                chosen |= hits
+                say(f"{f} -> {len(hits)} test module(s) name it")
+            else:
+                # ⚠ NOT "ignored". A submission-bound document that no test names is UNGUARDED, and
+                # saying so is the point -- a silent skip here is what let the SI ship outside every
+                # instrument.
+                say(f"{f} -> NO test names it; this document is unguarded")
+            continue
         say(f"{f} — outside the modalities test domain, ignored")
 
     if unmapped and explain:

@@ -30,6 +30,12 @@ MOD = os.path.dirname(HERE)
 REPO = os.path.dirname(os.path.dirname(MOD))
 PAPER = os.path.join(REPO, "research", "manuscripts", "aso",
                      "fusion-junction-aso-research-article.md")
+# ⭐ THE SUBMISSION'S SUPPLEMENTARY INFORMATION, ADDED 2026-08-16. The editorial restructure moved
+# apparatus — not claims — out of the main text and into this companion file, which ships with the
+# submission. RELOCATION IS NOT LOSS, but it is only not-loss while something still asserts the fact
+# where it landed, so the guards below read the SI directly rather than dropping what moved.
+SUPPLEMENT = os.path.join(REPO, "research", "manuscripts", "aso",
+                          "fusion-junction-aso-supplementary-information.md")
 COLLAPSE = os.path.join(MOD, "junction-aso-offtarget-locus-collapse.json")
 sys.path.insert(0, MOD)
 
@@ -49,6 +55,28 @@ def _paper():
     if not os.path.exists(PAPER):
         pytest.skip("submission manuscript is not present in this checkout")
     return open(PAPER, encoding="utf-8").read()
+
+
+def _supplement():
+    if not os.path.exists(SUPPLEMENT):
+        pytest.skip("the supplementary information is not present in this checkout")
+    return open(SUPPLEMENT, encoding="utf-8").read()
+
+
+# ⚠ ONE TABLE FOR THE SPELT-OUT COUNTS THE PROSE USES. Several guards below derive a count from an
+# artifact and then have to find it in a sentence that spells it, and the manuscript's own house
+# style spells a number that opens a sentence and prints a numeral that does not — so a guard has to
+# accept whichever form the sentence happens to need. Kept in one place so a count that grows past a
+# guard's private little dict fails with a KeyError naming the number rather than passing on a
+# `.get()` that quietly returned None.
+_NUMBER_WORDS = {0: "no", 1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six",
+                 7: "seven", 8: "eight", 9: "nine", 10: "ten", 11: "eleven", 12: "twelve",
+                 13: "thirteen", 14: "fourteen", 15: "fifteen"}
+
+
+def _spelt(n):
+    """`n` as the manuscript may spell it, capitalised or not — KeyError if nobody has spelt it."""
+    return _NUMBER_WORDS[n]
 
 
 def _screens(orientation=None):
@@ -154,8 +182,12 @@ def test_the_methods_do_not_still_describe_the_sixteen_junction_corpus():
     failure mode is a stale number surviving beside a correct one. So both directions are asserted:
     the artifact-true count is in the paper, and the superseded framing is not.
     """
-    txt = _paper()
-    assert "in all 38 junction\nscreens" in txt or "in all 38 junction screens" in txt
+    # ⚠ THE DEAD-PHRASE CHECKS ARE FLATTENED, 2026-08-16. They were run against the RAW text, which
+    # is the unsafe direction for an ABSENCE: a superseded sentence returning across a line break
+    # would have passed a raw `not in` silently. Verified clean against the flattened text when the
+    # change was made, so this tightens the guard rather than moving it.
+    txt = _flat(_paper())
+    assert "in all 38 junction screens" in txt
     for dead in ("the sixteen screens", "The remaining eight are reported as upper",
                  "25 of the 27", "marked in Table 2"):
         assert dead not in txt, f"superseded Methods phrasing is back: {dead!r}"
@@ -166,8 +198,30 @@ def test_unfiltered_screens_are_disclosed_and_counted():
                   if s["junction_label"] and s["n_oligos"]
                   and not screen_counts_are_orientation_filtered(s["orientation"])]
     assert unfiltered == [], [s["junction_label"] for s in unfiltered]
-    txt = _paper()
-    assert "no junction here carries an unfiltered count" in txt
+    # ⭐ RELOCATED AND SHARPENED, NOT LOST — the editorial restructure of 2026-08-16. This guard
+    # pinned the Results sentence "All 38 in-frame junctions are screened with the orientation filter
+    # applied, so no junction here carries an unfiltered count". That disclosure now sits in the
+    # Methods' strand-orientation paragraph and states the same fact from the other side, naming the
+    # exceptions instead of denying them: "Only two released screens are unfiltered, and neither
+    # carries a junction or supports a claim here (SI §S5)". Read with the sibling assertion in
+    # `test_manuscript_corpus_counts_match_the_artifact` ("parsed and filtered in all 38 junction
+    # screens and the 183 designs they hold") it is strictly more than the old wording said.
+    # ⚠ DERIVED FROM THE ARTIFACT, NOT TYPED: the count of unfiltered releases and the fact that none
+    # of them carries a junction label are both read off the collapse file, so a third unfiltered
+    # screen — or an unfiltered screen that acquired a junction — fails on the sentence.
+    releases = [s for s in _collapse()["screens"]
+                if not screen_counts_are_orientation_filtered(s["orientation"])]
+    assert all(s["junction_label"] is None for s in releases), [s["screen"] for s in releases]
+    txt = _flat(_paper())
+    # ⚠ THE NOUN IS FLEXIBLE, THE FACTS ARE NOT (re-anchored 2026-08-17). A cold reader found the
+    # bare "carries no junction" ambiguous, because these two ARE modelled control junctions — what
+    # they carry no junction FROM is the 38-junction panel. The SI was clarified and this pin blocked
+    # the same clarification in section 6, so the pin now accepts either phrasing while still
+    # requiring the derived count, the no-junction fact and the no-claim fact in ONE sentence.
+    assert re.search(
+        rf"Only {_spelt(len(releases))} released screens are unfiltered, and neither carries a "
+        rf"junction(?: from the 38-junction panel)? or supports a claim here", txt), (
+        [s["screen"] for s in releases])
 
 
 # ─────────────────────────────────────────────────────── the strand arithmetic
@@ -240,16 +294,30 @@ def test_censoring_counts_match_the_manuscript():
     censored = sum(1 for c in counts if c > 15)
     uncensored = sum(1 for c in counts if c <= 15)
     assert (at_cap, censored, uncensored) == (35, 136, 47), (at_cap, censored, uncensored)
-    txt = _paper()
-    assert "35 of the 183 filtered designs reach that cap" in _flat(txt)
-    assert "A further 101 exceed the 15 hits" in _flat(txt)
-    assert "136 in all carry right-censored counts" in _flat(txt)
+    txt = _flat(_paper())
+    # ⭐ REWORDED, NOT LOST — the editorial restructure of 2026-08-16. §3.6's three sentences ("The
+    # alignment screen returns at most 50 hits per query, and 35 of the 183 filtered designs reach
+    # that cap. A further 101 exceed the 15 hits retained per design, so 136 in all carry
+    # right-censored counts") are one clause in §5: "so 136 of the 183 filtered designs carry
+    # right-censored counts: 35 at the cap, 101 more past the 15 hits retained". The same three
+    # counts against the same denominator, in the same order. ⚠ EVERY NUMBER IS DERIVED FROM THE
+    # ARTIFACT AND ONLY THEN MATCHED AGAINST THE PROSE, including the 101, which is now a
+    # subtraction in the sentence and so must be one here too — typing it would let the three
+    # published figures stop summing without anything failing.
+    assert (f"{censored} of the {len(counts)} filtered designs carry right-censored counts: "
+            f"{at_cap} at the cap, {censored - at_cap} more past the 15 hits retained") in txt
     # ⚠ THE CENSORING DENOMINATOR IS 47, NOT 44, AND THE PAPER SAID 44 (2026-08-13). 44 is the
     # subset with a computable locus `inflation_factor`, which is the LOCUS claim's denominator in
     # the test below; the number of designs whose hit list is complete enough to be assessed for
     # cleanliness at all is 47. Two nearby quantities, one of them borrowed for the other's
     # sentence — and the smaller one made the paper sound more cautious than its evidence required.
-    assert f"only {uncensored} of those 183" in _flat(txt)
+    # ⚠ "those" ADMITTED 2026-08-17. A3-F3's restoration introduces the same 47 one sentence
+    # earlier, so the bare "Only 47 …" became a second introduction of a number that now has an
+    # antecedent — the one-fact-one-place rule reaching into grammar. The count is still asserted
+    # from the artifact; only the article in front of it is optional.
+    assert (f"Only {uncensored} of the {len(counts)} hit lists are short enough to assess" in txt
+            or f"Only those {uncensored} of the {len(counts)} hit lists are short enough to assess"
+            in txt)
 
 
 def test_locus_inflation_matches_the_manuscript():
@@ -260,9 +328,22 @@ def test_locus_inflation_matches_the_manuscript():
     assert len(infl) == 44, len(infl)
     assert round(statistics.median(infl), 2) == 2.25, statistics.median(infl)
     assert max(infl) == 11.0, max(infl)
-    txt = _paper()
+    # ⚠ WHITESPACE-TOLERANT FROM 2026-08-16: the manuscript hard-wraps and the population qualifier
+    # now straddles a line break, so a raw-text match silently found neither half.
+    txt = _flat(_paper())
+    # ⛔ THE POPULATION QUALIFIER WAS DROPPED BY THE EDITORIAL PASS AND RESTORED RATHER THAN
+    # UNPINNED (2026-08-16). The compressed sentence read "over the 44 designs whose hit lists permit
+    # a locus recount", which names the predicate but not the corpus — and the corpus is the whole
+    # point, for the reason recorded below: the artifact's own headline median is 2.25 as well, over
+    # 49 uncensored oligos that include two modelled control screens. Without "of the 38 junction
+    # screens" the paper's 44 and the artifact's 49 read as one predicate over one corpus returning
+    # two different sizes. The prose was put back.
     assert f"over the {len(infl)} designs of the 38 junction screens" in txt
-    assert "inflation of 2.25 transcript records" in txt
+    # ⭐ "2.25 transcript records per locus" is now "2.25 records per locus", under a paragraph head
+    # that defines the unit ("Records are not genes"), and the maximum travels in the same clause —
+    # so both are derived from the artifact here rather than only the median.
+    assert (f"the median inflation is {statistics.median(infl):.2f} records per locus and the "
+            f"maximum {max(infl):.1f}") in txt
     # ⚠ SUPERSEDED, RETAINED: 2.20 over these same 44 designs, and 2.14 as the artifact's headline.
     # Both were computed with a `locus_of` that split the definition on its FIRST comma, which lost
     # the symbol for every gene whose DESCRIPTION contains one — `germ cell-less 1, spermatogenesis
@@ -383,6 +464,17 @@ def _flat(txt):
     return re.sub(r"\s+", " ", txt)
 
 
+
+def _collapse_censored():
+    """(junction, antisense) -> right_censored, from the collapse artifact.
+
+    Separate from the count map above because `right_censored` is the pipeline's OWN judgement that
+    a hit list is complete — which is exactly the claim the worked examples test.
+    """
+    return {(s["junction_label"], o["antisense_5to3"]): o["right_censored"]
+            for s in _collapse()["screens"] if s["junction_label"] for o in s["per_oligo"]}
+
+
 def test_the_deeper_ceiling_raises_counts_across_the_whole_corpus():
     """§3.6's censoring bound, over every design screened at both ceilings.
 
@@ -406,10 +498,45 @@ def test_the_deeper_ceiling_raises_counts_across_the_whole_corpus():
     assert (len(comparable), len(higher), len(not_at_cap)) == (180, 164, 129), (
         len(comparable), len(higher), len(not_at_cap))
     txt = _flat(_paper())
-    assert f"raised the count of {len(higher)} of the {len(comparable)} designs screened at both " \
-           f"depths, and {len(not_at_cap)} of those had not approached the 50-hit cap" in txt
+    # ⭐ REWORDED, NOT LOST — the editorial restructure of 2026-08-16. "raised the count of 164 of the
+    # 180 designs screened at both depths, and 129 of those had not approached the 50-hit cap" is now
+    # "raised the count for 164 of the 180 designs screened at both depths, 129 of which had never
+    # approached the cap", in a sentence whose own preceding clause establishes that the cap is 50
+    # hits. Same two populations, same denominator, same conclusion drawn from them.
+    assert f"raised the count for {len(higher)} of the {len(comparable)} designs screened at both " \
+           f"depths, {len(not_at_cap)} of which had never approached the cap" in txt
+    # ⛔ AND THE CAP MUST STILL BE NAMED, or "the cap" in the sentence above bounds nothing.
+    assert "stores at most 50 hits per query" in txt
     for dead in ("23 designs at a tenfold deeper ceiling", "141 of 157 comparable designs"):
         assert dead not in txt, f"superseded censoring population is back: {dead!r}"
+
+    # ⛔ THE WORKED EXAMPLES, RESTORED 2026-08-17 AND NOW GUARDED (round-7 A3-F3).
+    # The docstring above has said "The three worked examples in that sentence were correct and are
+    # kept" since the restructure — and it was FALSE: commit 1076707f4 deleted them, and nothing
+    # here noticed, because the guard asserted the two POPULATIONS and never the demonstration
+    # those populations exist to support. A claim in a test's own docstring is not a check.
+    # ⭐ THEY ARE THE ONLY PLACE THE PAPER SHOWS, AT THE LEVEL OF ONE DESIGN, THAT REACHING THE CAP
+    # IS NOT WHAT CENSORS A COUNT: a list the pipeline marks UNCENSORED still grew ~14-fold. Every
+    # value below is re-derived from the artifacts, never typed, so a corpus change fails the gate
+    # instead of quietly falsifying the sentence.
+    uncensored = [k for k in comparable if not _collapse_censored()[k]]
+    rose = [k for k in uncensored if deep[k]["n_offtarget_near_matches"] > default[k]]
+    fell = [k for k in uncensored if deep[k]["n_offtarget_near_matches"] < default[k]]
+    assert not fell, f"a deeper ceiling returned FEWER hits, which the sentence says never happens: {fell}"
+    assert f"of the {len(uncensored)} designs whose" in txt, (
+        f"the untruncated population ({len(uncensored)}) is no longer stated")
+    assert f"{len(rose)} returned more at the deeper ceiling and none" in txt, (
+        f"the {len(rose)}-rose/0-fell result is no longer stated")
+    # the four worked examples, each (default -> deep) read from the artifacts
+    by_default = {}
+    for k in uncensored:
+        by_default.setdefault(default[k], []).append(deep[k]["n_offtarget_near_matches"])
+    for reported, shown in ((9, 34), (10, 110), (15, 204), (15, 374)):
+        assert shown in by_default.get(reported, []), (
+            f"no design reporting {reported} returns {shown} at depth any more; the manuscript's "
+            f"worked example is stale. Available: {sorted(by_default.get(reported, []))}")
+        assert f"returned {shown}" in txt or f"returning {shown}" in txt, (
+            f"the worked example {reported} -> {shown} has left the manuscript")
 
 
 def test_the_released_screen_and_graded_counts_are_the_ones_on_disk():
@@ -438,10 +565,21 @@ def test_the_released_screen_and_graded_counts_are_the_ones_on_disk():
     txt = _flat(_paper())
     assert (f"all 38 junction screens, and {len(graded)} of the {len(screens)} screens released in "
             f"total") in txt
-    assert f"the {len(deep)} deeper re-screens, which are released ungraded" in txt
+    # ⭐ THE UNGRADED BREAKDOWN MOVED TO SI §S4, 2026-08-16, AND THIS GUARD FOLLOWED IT. The main text
+    # keeps the load-bearing total (39 of 93) and hands the screen-by-screen bookkeeping to the
+    # supplement — which is where "the 53 deeper re-screens are released ungraded" now lives, beside
+    # the one coverage-only control. Both halves are still asserted, and the POINTER is asserted too:
+    # a supplement nobody is sent to would make this a deletion wearing a relocation's clothes.
+    assert "(SI §S4)" in txt, "the main text no longer points at the release inventory"
+    si = _flat(_supplement())
+    assert (f"all 38 junction screens, and {len(graded)} of the {len(screens)} screens released in "
+            f"total") in si
+    assert f"the {len(deep)} deeper re-screens are released ungraded" in si
+    assert "One coverage-only control screen records no gap-mismatch depth" in si
     for dead in ("39 of the 45 screens", "the five deeper re-screens",
                  "twenty-two of them screened or re-screened"):
         assert dead not in txt, f"superseded release inventory is back: {dead!r}"
+        assert dead not in si, f"superseded release inventory is back in the SI: {dead!r}"
 
 
 def test_the_taf15_exon6_locus_counts_are_the_deep_ceiling_ones():
@@ -486,7 +624,9 @@ def test_the_taf15_exon6_locus_counts_are_the_deep_ceiling_ones():
     txt = _flat(_paper())
     assert ("those recount to three gene loci at best, and five for the design its gap-level "
             "margin ranks first, three of those five annotated only as predicted gene models") in txt
-    assert "four\nloci at best" not in _paper() and "four loci at best" not in txt
+    # ⚠ ONE FLATTENED CHECK, 2026-08-16: the raw half of this pair only caught the phrase when it
+    # wrapped at exactly that word, so it added nothing the flattened half does not already do.
+    assert "four loci at best" not in txt
 
 
 def test_the_tcf12_exon5_gap_spanning_load_is_one_locus_not_seventeen():
@@ -550,19 +690,70 @@ def test_the_discussion_recommends_the_two_published_junctions():
     # two owes the reader the rest and what each buys. Asserted against the ladder artifact so the
     # prose cannot drift off it.
     assert "*EWSR1* exon 13 to *NR4A3* exon 3" in txt
-    assert "takes the set from 68.4% to 79.0%" in txt
+    # ⭐ WHAT THAT REAGENT BUYS MOVED INTO GENERATED TABLE 7, 2026-08-16, AND THIS GUARD MOVED WITH
+    # IT. The prose used to carry "takes the set from 68.4% to 79.0%"; the editorial pass replaced
+    # the whole hand-typed coverage ladder with a generated table and a pointer at it. That is an
+    # improvement rather than a loss — the increment now travels with its Wilson interval and its
+    # rung, and a table generated from `fusion-junction-aso-coverage-ladder.json` cannot go stale the
+    # way the sentence could. So the same fact is asserted three ways: the ladder artifact says the
+    # rung, generated Table 7 prints it, and the main text still states the base figure and sends the
+    # reader to the table for the rungs above it.
+    lad = json.load(open(os.path.join(REPO, "research", "manuscripts", "aso",
+                                      "fusion-junction-aso-coverage-ladder.json"),
+                         encoding="utf-8"))["ladder"]
+    base = lad[0]
+    rung = next(r for r in lad[1:] if "EWSR1_e13__NR4A3_e3" in r["junctions"])
+    assert set(base["junctions"]) == set(published) - {
+        "EWSR1_e13__NR4A3_e3", "TCF12_e5__NR4A3_e3", "TFG_e7__NR4A3_e3"}, base["junctions"]
+    assert (base["coverage_percent"], rung["coverage_percent"]) == (68.4, 79.0), (base, rung)
+    assert rung["delta_percent_vs_previous"] == round(
+        rung["coverage_percent"] - base["coverage_percent"], 1), rung
+    if os.path.exists(TABLES):
+        tab = open(TABLES, encoding="utf-8").read()
+        assert "**Table 7." in tab, "Table 7 is not in the generated tables file"
+        for r, suffix in ((base, ""), (rung, f" (+{rung['delta_percent_vs_previous']})")):
+            lo, hi = r["coverage_percent_range"]
+            assert f"| {r['coverage_percent']}% ({lo}–{hi}){suffix} |" in tab, r["panel"]
+    assert f"the two are {base['coverage_percent']}%" in txt
+    assert "Table 7 gives that figure, the rungs above it and the reagent at each" in txt
     # ⭐ THE FOURTH, ADDED 2026-08-15 WITH THE DEPOSIT THAT RESOLVED IT. Two things must both be in
     # the prose and they pull in opposite directions: the reagent EXISTS and is screened, and its
     # arm is priced at its CEILING because one tumour has ever been sequenced there. Naming the
     # first without the second is how 98.3% would start reading as a reachable target.
     assert "5′-GGGCATATCCATCAGA-3′ at *TCF12* exon 5" in txt
-    assert "resolved\nto the nucleotide by the deposited chimeric cDNA" in _paper()
-    assert "the resulting 98.3% is an upper bound rather than a reachable target" in txt
-    for dead in ("whose junction has never\nbeen published as an exon",
+    # ⚠ WHITESPACE-TOLERANT FROM 2026-08-16. These four were pinned against the RAW text with a
+    # hard-coded newline inside them, which made every one of them a hostage to the line wrap: the
+    # editorial pass re-flowed the paragraph and the claim went on reading identically while the
+    # assertion stopped finding it. Worse in the dead-phrase direction — a superseded sentence that
+    # came back on ONE line would have passed a raw check silently. Flattened both ways.
+    assert "resolved to the nucleotide by the deposited chimeric cDNA" in txt
+    # ⭐ RE-PINNED 2026-08-17, round 7 P1 (B3-F1 first half). The old assertion read
+    #     "the resulting 98.3% is an upper bound rather than a reachable target"
+    # and it pinned a sentence that named ONE reason for the bound. The ladder reaches 98.3 by two
+    # steps and the TCF12 arm is the SMALLER of them: +15.9 points for "every remaining EWSR1
+    # breakpoint covered" (three further reagents the retrieved record does not resolve to an exon)
+    # and +3.4 for TCF12. Attributing the whole bound to TCF12 made the EWSR1 step invisible, which
+    # is the larger unbuildable assumption. The upper-bound property is still pinned; what is added
+    # is that BOTH reasons are named, with each step's size derived from the ladder rather than
+    # spelled here, so a re-priced rung cannot leave this assertion asserting a stale number.
+    assert "is an upper bound rather than a reachable target for two reasons and not one" in txt
+    _ewsr1_step = next(r for r in lad
+                       if r["panel"] == "BOUND — every remaining EWSR1 breakpoint covered")
+    _tcf12_step = next(r for r in lad
+                       if r["panel"] == "BOUND — the above plus TCF12")
+    assert f"{_tcf12_step['delta_percent_vs_previous']} percentage points" in txt, _tcf12_step
+    assert f"{_ewsr1_step['delta_percent_vs_previous']}" in txt, _ewsr1_step
+    _num_word = {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six"}
+    assert (f"needs {_num_word[_ewsr1_step['n_reagents_additional_unnamed']]} further reagents"
+            in txt), _ewsr1_step
+    for dead in ("whose junction has never been published as an exon",
                  "inference from a residue count against this transcript model"):
-        assert dead not in _paper(), f"superseded TCF12 claim is back: {dead!r}"
+        assert dead not in txt, f"superseded TCF12 claim is back: {dead!r}"
     # the acceptor-side blind spot, and what is now designed at it
-    assert "*EWSR1* exon 7 to *NR4A3* exon\n2," in _paper() or "exon 7 to *NR4A3* exon" in txt
+    # ⚠ WHITESPACE-TOLERANT AND TIGHTENED, 2026-08-16. This was a raw newline match with a fallback
+    # so loose ("exon 7 to *NR4A3* exon") that the fallback carried the assertion and the exon number
+    # was never actually checked. Flattened, the full phrase can be required.
+    assert "*EWSR1* exon 7 to *NR4A3* exon 2" in txt
     # ⭐ SUPERSEDED WITHIN THE DAY AND REPLACED RATHER THAN DROPPED, 2026-08-15. This line used to
     # assert "none should be assumed to exist" — the manuscript's statement that no design existed at
     # the exon-2 acceptors. Five designs now exist at each of four such seams and all five deep
@@ -592,7 +783,9 @@ def test_the_discussion_recommends_the_two_published_junctions():
         assert "are now designed and screened to the panel's depth" in txt
         assert "None of the four is clean" in txt
         # and they must NOT be pooled into the panel's own counts
-        assert "reported beside the panel and never\npooled into it" in _paper()
+        # ⚠ WHITESPACE-TOLERANT FROM 2026-08-16, for the same reason as above: the sentence is
+        # unchanged, the line wrap around it is not.
+        assert "reported beside the panel and never pooled into it" in txt
     # the gap-length risk is disclosed in the Methods and must be ranked first in the Discussion
     assert "Two risks attach, in this order. The first is architectural" in txt
     assert "The three designs that survive every screen are mechanism controls" in txt
@@ -911,7 +1104,14 @@ def test_the_paper_states_the_two_bounds_that_make_the_fall_partly_arithmetic():
     assert "fractionally stricter test at 20 nucleotides than at 16" in txt
     assert "Only the size of the fall, and which designs reach zero, are measurements" in txt
     assert "unavailable at 18 and 20 nucleotides by construction rather than merely unrun" in txt
-    assert "an available next step and not a result" in txt
+    # ⭐ REWORDED, NOT LOST — the editorial restructure of 2026-08-16. "so that bound is an available
+    # next step and not a result" is now "so the nesting bound on a longer design's genome liability
+    # is a next step and not a result". The load-bearing half is "and not a result"; "available"
+    # said only that the scan could be run, which the clause it now shares a sentence with already
+    # establishes. Pinned on the half that keeps the bound from reading as a finding, and the
+    # SUBJECT is pinned with it so the sentence cannot start disclaiming something else.
+    assert "the nesting bound on a longer design's genome liability is a next step and not a " \
+           "result" in txt
     # and the placeholder it replaced must not come back
     assert "every result reported here is specific to that geometry" not in txt
 
@@ -936,8 +1136,28 @@ def test_table5_cells_are_the_artifacts_and_the_paper_points_at_it():
     assert "| sense-strand gap-spanning cleavage risks | 123 | 3 | 0 |" in txt
     assert "| designs carrying none | 8 of 30 | 28 of 42 | 54 of 54 |" in txt
     assert "| a mature parent can pair the whole gap | 181 of 190 | 130 of 266 | 87 of 342 |" in txt
-    # the merged row rests on wing == 5; the generator refuses if that stops holding
-    assert "| parent pairs ≥5 nt of contiguous gap DNA, a ten-base-pair hybrid |" in txt
+    # ⛔ THE ROW BELOW WAS ADDED AND THE ONE UNDER IT RENAMED (round-7 review, 2026-08-16), AND THIS
+    # GUARD MOVED WITH THEM RATHER THAN BEING LOOSENED. §2.9 neutralises the whole gap-length win
+    # with "held to the ten-base-pair criterion applied everywhere else here, the liability is flat:
+    # 87 of 190, 88 of 266 and 87 of 342" — the sentence the title's "nearly half" survives on — and
+    # `88 of 266` was in no table at all. Its two NEIGHBOURS were: 181/130/87 above and 76/228/342
+    # below, both plausible, neither the quoted number, and the second wearing the headline's own
+    # words ("a ten-base-pair hybrid") against a different quantity. A reviewer checking the
+    # sentence landed on a contradiction rather than on an omission.
+    # ⚠ DERIVED FROM THE ARTIFACT, NOT TYPED, so a re-screen that moves the counts fails on the
+    # sentence rather than agreeing with a stale cell.
+    tenbp = " | ".join(f"{g['mature_parent_whole_gap_duplex']['n_at_or_above_min_duplex_bp']} of "
+                       f"{g['n_fusion_specific_designs']}"
+                       for g in sorted((g for g in gap["geometries"] if g.get("present")),
+                                       key=lambda g: g["gap_nt"]))
+    assert ("| …and that duplex reaches ten base pairs, the criterion applied throughout | "
+            f"{tenbp} |") in txt
+    assert f"87 of 190, 88 of 266 and 87 of 342" in _flat(_paper()), (
+        "the paper's threshold-controlled sentence and the row that carries it must agree")
+    # the merged row rests on wing == 5; the generator refuses if that stops holding. Its label now
+    # says WHERE the hybrid is, because the two ten-base-pair rows are different measurements: this
+    # one is arithmetic at the design's own seam, the one above is the mature-parent search.
+    assert "| at the design's own seam, the parent pairs ≥5 nt of contiguous gap DNA |" in txt
     assert _flat(_paper()).count("Table 5") >= 1
 
     # ⛔ AND THE POINTER MUST COVER EVERY TABLE THAT EXISTS. The manuscript keeps its tables in a
@@ -1000,8 +1220,19 @@ def test_section_3_11_expression_figures_are_the_artifacts():
     assert len(readable) == 4, [L["locus"] for L in readable]
     # the claim is "none of the four measurable ones reaches the upper cut"
     assert not [L for L in lead if L["tier"] == "EXPRESSED_IN_AN_EXPOSURE_ORGAN"]
-    assert ("The *EWSR1* exon 12 reagent's six loci carry 123 of the panel's 649 transcript "
-            "records, and none of the four measurable ones reaches the upper cut") in txt
+    # ⛔ THE NOUN, CORRECTED 2026-08-16. `n_transcript_records` is incremented once per gap-paired
+    # hit PER DESIGN (aso_offtarget_tissue_expression._seam_rows), and the module's own selftest
+    # asserts `n_gap_paired_hybridisable == sum(n_transcript_records)`. So it is a HIT COUNT, not
+    # annotation depth, and the paper said the latter in four places. NRP1 is the clinching case:
+    # five records over ONE accession, one per design — annotation depth cannot depend on how many
+    # designs were run. This pin follows the corrected noun; it previously pinned the wrong one.
+    # ⚠ AND THE DENOMINATOR, CORRECTED 2026-08-17. 649 is the gap-paired hit total over the FOUR
+    # junctions of Table 6, not over the 38-junction panel: `panel.n_seams` is 4 and the per-locus
+    # records sum to exactly 649. "the panel's 649" read as one reagent carrying 19% of the whole
+    # panel's off-target burden, which is not what the artifact says.
+    assert ("The *EWSR1* exon 12 reagent's six loci carry 123 of the 649 gap-paired hits returned "
+            "across the four junctions of Table 6, and none of the four measurable ones reaches "
+            "the upper cut") in txt
 
     anks = next(L for L in lead if L["locus"] == "ANKS1B")
     assert anks["screen_records"]["n_transcript_records"] == 67
@@ -1009,7 +1240,23 @@ def test_section_3_11_expression_figures_are_the_artifacts():
     top = anks["whole_body_context"]["top_tissues"][0]
     assert top["tissue"].startswith("Brain") and round(top["median_tpm"], 1) == 24.9, top
     assert "*ANKS1B* supplies 67 of them and sits below the lower cut in all" in txt
-    assert "peaking instead in brain at 24.9 TPM" in txt
+    # ⚠ MATCHED AROUND THE UNIT, NOT THROUGH IT (2026-08-17). TPM is now expanded at this, its
+    # first use — a firewalled cold reader reported it, GTEx and LNA as never expanded anywhere in
+    # the three documents. The value and its tissue are what this pin is for, so it asserts those
+    # and lets the gloss between them vary.
+    assert "peaking instead in brain at 24.9" in txt and "TPM" in txt
+
+    # ⭐ THE GUT READING MOVED HERE FROM §4.1, 2026-08-16. §4.1 used to close its exposure comparison
+    # with "its largest sitting instead in brain and gut", which was the ONLY home of the gut half —
+    # Table 6's soft-tissue column carries neither. Collapsing that comparison to one site would have
+    # deleted a reading, so it landed in §2.8 beside the brain one, and is pinned against the same
+    # whole-body block rather than typed: which locus, and that its top tissue really is gut.
+    chst5 = next(L for L in lead if L["locus"] == "CHST5")
+    assert chst5["screen_records"]["n_transcript_records"] == min(
+        L["screen_records"]["n_transcript_records"] for L in lead), "CHST5 is the smallest of the six"
+    gut = chst5["whole_body_context"]["top_tissues"][0]["tissue"]
+    assert any(w in gut for w in ("Intestine", "Colon", "Stomach")), gut
+    assert "*CHST5*, the smallest of the six by hit count, peaks in gut" in txt
 
     # ── the TAF15 exon 6 reagent ──────────────────────────────────────────────────────────────
     taf = _loci_of_design(expr, "GGGCATATCTTGTGTG")
@@ -1019,7 +1266,10 @@ def test_section_3_11_expression_figures_are_the_artifacts():
     assert round(min(vals.values()), 1) == 6.6 and round(max(vals.values()), 1) == 17.8, vals
     assert all(v >= 1.0 for v in vals.values()), "the sentence says across all three"
     assert nrp1["tier"] == "EXPRESSED_IN_AN_EXPOSURE_ORGAN"
-    # recurrence: every tiling register at that seam, on five records — two different axes
+    # ⚠ NOT TWO AXES — THAT WAS THE DEFECT. At NRP1 "five registers" and "five records" are the
+    # SAME fact stated twice: the record count is per design, so five designs returning one
+    # accession yield five records. The equality asserted below is therefore an identity, not a
+    # coincidence, and the manuscript now says "five gap-paired hits to a single accession".
     n_des = {s["junction_label"]: s["n_designs"] for s in expr["panel"]["panel"]}
     assert nrp1["n_designs_hitting_it"] == n_des["TAF15_e6__NR4A3_e3"] == 5
     assert nrp1["screen_records"]["n_transcript_records"] == 5
@@ -1027,7 +1277,8 @@ def test_section_3_11_expression_figures_are_the_artifacts():
             if L["n_designs_hitting_it"] == n_des.get(L["seams"][0])
             and L["seams"][0] == "TAF15_e6__NR4A3_e3"] == ["NRP1"], "NRP1 is the only such locus"
     assert ("*NRP1* reaches 6.6 to 17.8 TPM across all three exposure tissues and is the only one "
-            "all five of that junction's tiling registers return, on five transcript records") in txt
+            "all five of that junction's tiling registers return, on five gap-paired hits to a "
+            "single accession") in txt
 
     # ── the tumour compartment, which is a SEPARATE axis and ordered differently ───────────────
     # ⭐ THE PANEL'S HIGHEST MOVED WHEN THE PANEL GREW, AND THAT IS WHY THIS IS DERIVED.
@@ -1045,8 +1296,40 @@ def test_section_3_11_expression_figures_are_the_artifacts():
     lama = next(L for L in expr["per_locus"] if L["locus"] == "LAMA4")
     assert round(max(lama["tumour_compartment_normal_tissue_proxy"]["values"].values()), 1) == 268.6
     assert lama["tier"] != "EXPRESSED_IN_AN_EXPOSURE_ORGAN", "LAMA4 is the reverse case"
-    assert (f"*{top['locus']}* carrying the\npanel's highest value there at {top_v} TPM in tibial "
-            "nerve, ahead of *LAMA4* at 268.6 TPM") in _paper()
+    # ⭐ THE EXEMPLAR MOVED INTO GENERATED TABLE 6, 2026-08-16, AND THE HAND-TYPED SUPERLATIVE LEFT
+    # THE PROSE WITH IT. This pinned "*HNRNPA2B1* carrying the panel's highest value there at 656.6
+    # TPM in tibial nerve, ahead of *LAMA4* at 268.6 TPM"; §2.8 now states the claim that sentence
+    # was an instance of — that the tumour compartment orders the loci a third way — and leaves the
+    # values to the table. That removes the exact hazard the comment above records, since a
+    # superlative nobody types cannot go stale, but only if something still checks the values where
+    # they landed. So the SAME fact is asserted against the generated table: both cells are its own
+    # artifact's, and the artifact's top locus is required to be the top of the PRINTED column, which
+    # is a stronger statement than the prose ever made.
+    # ⛔ AND THE "THREE ORDERINGS" CLAIM WAS ITSELF PART OF THE MISLABEL (corrected 2026-08-16).
+    # Presenting register-robustness and the record count as independent axes was wrong for the same
+    # reason the noun was: the count is per design, so a locus returned by more registers accrues
+    # more hits BY CONSTRUCTION. NRP1 is the proof — top on register robustness, near the bottom on
+    # hits, five records over one accession. The prose now states that dependence instead of
+    # implying independence, so this pin follows the corrected claim and asserts the DEPENDENCE
+    # clause specifically, which is the part a future shortening pass would drop first.
+    assert "robustness to register orders the loci differently again" in txt
+    assert ("not\nindependently of the hit count" in _paper()
+            or "not independently of the hit count" in txt), (
+        "§2.8 no longer states that register robustness and the hit count are dependent — the "
+        "sentence has reverted to implying three independent orderings"
+    )
+    assert "the tumour-compartment proxy orders them a third way" in txt
+    if os.path.exists(TABLES):
+        tab = open(TABLES, encoding="utf-8").read()
+        body = tab[tab.index("**Table 6."):]
+        body = body[:body.index("**Table 7.")] if "**Table 7." in body else body
+        for L in (top, lama):
+            t = L["tumour_compartment_normal_tissue_proxy"]
+            v = round(max(t["values"].values()), 1)
+            row = next(r for r in body.splitlines() if f"*{L['locus']}*" in r)
+            assert f"| {v} ({t['max_tissue_in_block']}) |" in row, (L["locus"], row)
+        printed = [float(x) for x in re.findall(r"\| (\d+(?:\.\d+)?) \([A-Z][^)|]*\) \|", body)]
+        assert printed and max(printed) == top_v, (top["locus"], top_v, sorted(printed)[-3:])
 
 
 def test_the_expression_limits_are_stated_and_the_unmeasured_loci_are_accounted():
@@ -1073,11 +1356,33 @@ def test_the_expression_limits_are_stated_and_the_unmeasured_loci_are_accounted(
     assert (n_loci, n_readable, len(unread)) == (46, 33, 13), (n_loci, n_readable, len(unread))
     unread_records = sum(L["screen_records"]["n_transcript_records"] for L in unread)
     assert unread_records == 52, unread_records
-    assert f"Thirteen of the {n_loci} loci returned no" in txt
-    assert (f"they carry {unread_records} of the panel's "
-            f"{expr['panel']['n_gap_paired_hybridisable']} records, so for those the exposure "
+    # ⭐ REWORDED, NOT LOST — the editorial restructure of 2026-08-16. "Thirteen of the 46 loci
+    # returned no reading, and they carry 52 of the panel's 649 records, so for those the exposure
+    # question is unanswered rather than answered negatively" now reads "13 of the 46 loci returned
+    # no reading and carry 52 of the panel's 649 records, so there the exposure question is
+    # unanswered rather than answered negatively" — the count is a numeral because the clause no
+    # longer starts the sentence, and "for those" is "there". Both figures and the whole
+    # unanswered-not-negative distinction are intact, so the count is matched in either spelling and
+    # everything after it verbatim.
+    assert (f"{len(unread)} of the {n_loci} loci returned no" in txt
+            or f"{_spelt(len(unread)).capitalize()} of the {n_loci} loci returned no"
+            in txt), len(unread)
+    # ⚠ DENOMINATOR CORRECTED 2026-08-17: 649 is the four-junction total of this table, not the
+    # 38-junction panel's — `panel.n_seams` is 4 in aso-offtarget-tissue-expression.json.
+    assert (f"carry {unread_records} of those "
+            f"{expr['panel']['n_gap_paired_hybridisable']} hits, so there the exposure "
             "question is unanswered rather than answered negatively") in txt
-    assert "No expression figure is a predicted cleavage event" in txt
+    # ⭐ "No expression figure is a predicted cleavage event" MOVED TO WHERE THE CHOICE IS MADE. The
+    # de-duplication sweep collapsed three copies of the exposure-vs-count comparison into one, in
+    # §4.1, and this firewall travelled with it: "no cleavage is predicted at any of them, and an
+    # expressed gene is necessary and not sufficient for an effect". The Limitations paragraph that
+    # carries the 13/46 and 52/649 figures keeps the same claim as its own thesis, in its heading.
+    # ⛔ BOTH ARE ASSERTED. The firewall standing only beside the numbers would let a reader take the
+    # recommendation without it; standing only beside the recommendation would let the numbers be
+    # read as predicted events. It has to be in both places, so both are required here.
+    assert "Hybridisation, not cleavage, and not exposure." in txt
+    assert "no cleavage is predicted at any of them, and an expressed gene is necessary and not " \
+           "sufficient for an effect" in txt
 
 
 def test_section_4_separates_the_two_reagents_without_making_a_safety_claim():
@@ -1089,7 +1394,23 @@ def test_section_4_separates_the_two_reagents_without_making_a_safety_claim():
     loci are expressed and may say the two reagents differ, and may not call either one risky, safe,
     concerning or a hazard. It must also keep the ranking it had, because expression is not
     cleavage and nothing here establishes that a two-mismatch duplex engages any locus.
+
+    ⛔⛔ THIS GUARD PINNED A FALSE CLAUSE FOR THREE DAYS AND THE CLAUSE WAS CORRECTED, NOT RESTORED
+    (2026-08-16). It required §4 to read "the *TAF15* reagent's five include *NRP1*, which is
+    expressed at that level in all three" — "that level" being the upper cut, and "all three" the
+    exposure tissues. *NRP1* is at 6.62 TPM in liver against an upper cut of 10.0, so it is at or
+    above the cut in TWO of the three, not all three; Table 6 has printed the disagreeing number the
+    whole time. The manuscript now says "which is", with §2.8 carrying the exact count.
+
+    ⚠ AND THE FALSE VERSION IS PINNED AS AN ABSENCE. A guard that merely stopped requiring the wrong
+    sentence would let it come back on the next edit for symmetry. THIS IS THE THIRD TIME IN THIS
+    FILE that a substring-pinned guard has held a defective sentence in place — see
+    `test_the_corpus_parent_liability_numbers_in_section_3_10` on "smaller" for "larger", and
+    `test_the_taf15_exon6_locus_counts_are_the_deep_ceiling_ones` on the split-locus counts. The
+    lesson each time is the same: pin the fact against the artifact, and pin the prose only as the
+    place the fact has to appear.
     """
+    import aso_offtarget_tissue_expression as X  # noqa: PLC0415
     expr, txt = _expression(), _flat(_paper())
     lead = _loci_of_design(expr, "GGGCATATCATCAAAC")
     taf = _loci_of_design(expr, "GGGCATATCTTGTGTG")
@@ -1101,15 +1422,46 @@ def test_section_4_separates_the_two_reagents_without_making_a_safety_claim():
     # absence — in the one paragraph a reader takes a recommendation from.
     assert len([L for L in lead
                 if not L["exposure_compartment_liver_kidney"]["readable"]]) == 2, "two unreadable"
-    assert ("None of the *EWSR1* reagent's four measurable loci is expressed at the upper cut in "
+    # ⛔ HOW MANY EXPOSURE TISSUES *NRP1* ACTUALLY REACHES THE UPPER CUT IN, COUNTED FROM THE
+    # ARTIFACT. Everything below is written against this number rather than against a remembered one.
+    nrp1 = next(L for L in taf if L["locus"] == "NRP1")
+    vals = nrp1["exposure_compartment_liver_kidney"]["values"]
+    n_tiss = len(expr["method"]["exposure_tissues"])
+    at_upper = sorted(t for t, v in vals.items() if v >= X.EXPRESSED_TPM)
+    assert (len(at_upper), n_tiss) == (2, 3), (at_upper, vals)
+    assert min(vals.values()) < X.EXPRESSED_TPM, vals    # liver, at 6.62 — the refuting reading
+    assert min(vals.values()) >= X.PRESENT_TPM, vals     # but above the LOWER cut in all three
+    # ⚠ "four measurable" -> "measurable" IN §4.3 ONLY, 2026-08-16. The count of readable loci was
+    # printed at THREE sites — §2.8, §4.1 and here — and the editorial pass collapsed the
+    # exposure-vs-count comparison to one home. What this guard exists for is the word "measurable",
+    # not the word "four": a sentence saying none of the SIX is expressed converts an absent reading
+    # into a reading of absence, and "measurable" is what refuses that. The number itself is still
+    # pinned against the artifact three lines above (two unreadable of six) and still printed in
+    # §2.8, whose sentence is asserted verbatim in
+    # `test_section_3_11_expression_figures_are_the_artifacts`.
+    assert "reagent's four measurable loci" not in txt or txt.count("four measurable") == 1
+    assert ("none of the *EWSR1* reagent's measurable loci is expressed at the upper cut in "
             "the organs a systemic dose reaches, while the *TAF15* reagent's five include *NRP1*, "
-            "which is expressed at that level in all three") in _flat(txt)
+            "which is.") in txt
+    # the exact count lives in §2.8, and is derived here so it can never drift back to "all three"
+    assert (f"It is at or above the upper cut in {_spelt(len(at_upper))} of those "
+            f"{_spelt(n_tiss)}") in txt
+    for dead in ("which is expressed at that level in all three",
+                 f"reaches the upper cut in all {_spelt(n_tiss)}"):
+        assert dead not in txt, (
+            f"the refuted *NRP1* claim is back: {dead!r}. Liver is {vals['Liver']:.2f} TPM against "
+            f"an upper cut of {X.EXPRESSED_TPM:g}; the reagent's locus is at or above it in "
+            f"{len(at_upper)} of {n_tiss} exposure tissues, not all of them.")
     assert "reagent's six loci is expressed" not in txt
     assert "That does not reverse the ranking" in txt
     assert "it is not a statement about safety" in txt
 
     # the paragraph that carries the expression result must not acquire a hazard vocabulary
-    para = txt[txt.index("Expression reads the two loads differently"):]
+    # ⚠ THE ANCHOR MOVED WITH THE PARAGRAPH, 2026-08-16: "Expression reads the two loads
+    # differently" became "Expression separates the two reagents the other way" when the three copies
+    # of this comparison were collapsed into one. The span is the same span — from the expression
+    # sentence to the start of the controls paragraph.
+    para = txt[txt.index("Expression separates the two reagents the other way"):]
     para = para[:para.index("The three designs that survive every screen")]
     for banned in ("high-risk", "high risk", "concerning", "dangerous", "unsafe", "hazard",
                    "toxic", "safety concern", "safer", "riskier"):
@@ -1233,8 +1585,17 @@ def test_the_wild_type_allele_liability_is_named_with_the_designs_it_condemns():
         assert des["parent_is_liability"] is False, seq
         assert j["n_designs_clearing_the_parent_screen"] == j["n_designs_screened"], j["junction_label"]
     assert cryptic["n_clearing_the_parent_exclusion"] == cryptic["n_designs_spanning_the_seam"]
-    assert "each of the three had already cleared the mature-parent exclusion, and so had every " \
-           "other design tiled at its seam" in txt
+    # ⭐ REWORDED, NOT LOST — the editorial restructure of 2026-08-16 promoted this finding out of the
+    # Discussion and into Results, where the three sequences are named in the sentence before it, so
+    # "each of the three" became "Each" and "every other design tiled at its seam" lost the redundant
+    # participle. Both halves of the claim survive verbatim in substance: each condemned design had
+    # cleared the mature-parent exclusion, AND so had every sibling at its seam — which is what makes
+    # a clean parent column at such a seam uninformative rather than lucky.
+    assert "had already cleared the mature-parent exclusion, and so had every other design at " \
+           "its seam" in txt
+    # ⛔ AND THE ANTECEDENT MUST STILL BE THE THREE. "Each had already cleared…" bounds nothing if the
+    # sentence before it stopped counting them, so the count is required in the same paragraph.
+    assert f"matter more than the {_spelt(len(condemned))} sequences" in txt, len(condemned)
 
     # ⛔ "RETURNED INDEPENDENTLY BY THE GENOME SCAN" IS A SEPARATE INSTRUMENT AND IS CHECKED AS ONE.
     # The genome screen's named-target stratum is a lookup over the whole assembly rather than over
@@ -1248,7 +1609,12 @@ def test_the_wild_type_allele_liability_is_named_with_the_designs_it_condemns():
             len(liab["designs_cleaving_wild_type_NR4A3"]) == 2
         assert all(s["gap_fully_paired"] and s["hybridisable"] for s in st3["sites"]), st3["sites"]
     assert "returned independently by an exhaustive scan" in txt
-    assert "**Some designs cleave the patient's own un-rearranged *NR4A3* allele" in raw
+    # ⛔ "cleave" -> "pair their whole catalytic gap against" (round-7 D1-F7/B5-F3, applied
+    # 2026-08-17). §5 says all five screens address hybridisation only, and the producing artifact's
+    # own verdict string is a competence statement. The abstract and Box 1 always had it right; this
+    # pin was holding the one hazard claim stated above its evidence.
+    assert ("**Some designs pair their whole catalytic gap against the patient's own un-rearranged "
+            "*NR4A3* allele") in raw
 
 
 def test_the_testable_surface_states_the_only_catalogued_line_cannot_test_a_junction_reagent():
@@ -1276,7 +1642,15 @@ def test_the_testable_surface_states_the_only_catalogued_line_cannot_test_a_junc
     assert "no reagent named here can be tested in that line" in txt
     # the fairness constraints, both of which the evidence requires
     assert "This is not a statement that the line is misidentified" in txt
-    assert "fusion-negative extraskeletal myxoid chondrosarcoma tumours are" in txt
+    # ⚠ ABBREVIATED 2026-08-16: "fusion-negative extraskeletal myxoid chondrosarcoma tumours are"
+    # became "fusion-negative EMC tumours are" when §3 was made consistent with the rest of the
+    # paper, which defines (EMC) at first use in the abstract and uses the abbreviation everywhere
+    # else. The CLAUSE this guard exists for — that a fusion-negative tumour is a recognised
+    # category, so absence of the fusion is not a reclassification — is unchanged; only the disease
+    # name's spelling moved. Pinned on the load-bearing half so a respelling cannot silently
+    # delete the fairness constraint with it.
+    assert "fusion-negative EMC tumours are" in txt
+    assert "themselves a recognised minority category" in txt
     # already reported, never examined — the novelty limit
     assert "The observation is also not new" in txt
 

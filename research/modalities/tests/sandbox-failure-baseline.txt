@@ -13,9 +13,7 @@
 # ⚠ THIS IS NOT AN IGNORE LIST. An ignore list suppresses; this one NAMES what is tolerated, fails the
 # build on anything absent from it, and reports entries that have started passing so the list shrinks.
 # A test may only be added here after its failure is traced to a missing module IN THIS SANDBOX -- not
-# because it is inconvenient. Every entry below was traced on 2026-08-08: all are ModuleNotFoundError for
-# rdkit, boto3 or numpy, including test_vast_machine_blacklist.py::test_clear_requires_snapshot, whose
-# AssertionError is a subprocess exit code that differs only because boto3 is missing inside it.
+# because it is inconvenient.
 #
 # Regenerate deliberately, in a commit, when the sandbox's installed packages change:
 #   python3 -m pytest research/modalities/tests/ -q --continue-on-collection-errors \
@@ -23,51 +21,29 @@
 #   | grep '^FAILED' | sed 's/^FAILED //; s/ - .*//' | sort > research/modalities/tests/sandbox-failure-baseline.txt
 #   (then re-add this header)
 #
-# 5 further modules cannot be IMPORTED here and are counted separately by the gate, not listed here.
+# ⭐ PRUNED 53 -> 14 ON 2026-08-17, AND THE PRUNE IS THE DIRECTION THIS FILE IS BUILT TO WELCOME.
+# A deposit session installed numpy, rdkit, boto3, biopython and jsonschema, so 39 entries stopped
+# failing. The gate had been REPORTING that for several runs -- "39 baseline entr(y/ies) no longer fail
+# -- prune them" -- and a green build that always carries a notice is a notice nobody reads, which is
+# how the next real one gets missed. The list is now what the sandbox actually does.
 #
-# ⭐ UPDATED 2026-08-09, AND THE UPDATE IS IN BOTH DIRECTIONS — WHICH IS THE POINT OF A LIST.
-# The sandbox's package set moved: numpy is now importable here, so 9 entries stopped failing and
-# were PRUNED (test_congeneric_fanout seed tests, test_nr4a3_5bt, test_nrv04_pe_stage_probe,
-# test_selcal_stage). In the same pass 14 entries were ADDED, each traced to a module before being
-# written down, not assumed:
-#   * 11 in test_abfe_diagnostics.py -> ModuleNotFoundError: No module named 'pymbar'
-#     (research/modalities/nr4a3_abfe.py:69 and :683)
-#   * 3 in test_slow_cv.py           -> ModuleNotFoundError: No module named 'scipy'
-#     (research/modalities/nr4a3_slow_cv.py:114)
-# ⚠ These 14 did not appear in the 2026-08-08 baseline because they were then failing for the
-# numpy gap and were among the entries that gap already covered; with numpy present, the NEXT
-# missing import is what they now stop on. A dependency gap that moves is not a gap that closed.
+# ⛔ THE PRUNE WAS GATED ON A SET COMPARISON, NEVER ON A COUNT (the rule preflight.sh states for the
+# dangerous direction applies to this one too, because a prune that quietly drops a REAL failure is
+# indistinguishable from a prune that drops fixed ones). Measured on the run that produced this file:
+#   14 failed, 7,756 passed, 58 skipped
+#   comm -23 <new failures> <old baseline>  ->  EMPTY. Not one failure is new; all 14 are a strict
+#   subset of the 53, so nothing was absorbed by the shrink.
 #
-# ⭐ PRUNED AGAIN 2026-08-15, AND IT IS THE SAME NINE ENTRIES THE 2026-08-09 NOTE ABOVE ALREADY
-# SAYS WERE PRUNED. They were back in the file, so something re-introduced them — a merge that took
-# this side of a conflict, most likely, since nothing else writes here. The gate reported them as
-# "9 baseline entr(y/ies) no longer fail" on a run measuring 57 failures, 53 of which were listed
-# here; removing exactly these nine leaves the list at 53 and the two numbers agree.
-# ⚠ THE LESSON IS ABOUT DIRECTION, NOT ABOUT THESE NINE. Pruning is always safe: a pruned entry that
-# starts failing again fails the build loudly. A stale entry is the dangerous one — it is a standing
-# licence for a test to fail, and this file exists because exactly that licence let a real regression
-# through. A resurrected entry is invisible unless the gate's "no longer fail" line is acted on, so
-# act on it every time rather than reading past it.
+# ⭐ ALL 14 WERE TRACED TO A MODULE, NOT ASSUMED. From this run's own output:
+#   10  ModuleNotFoundError: No module named 'pymbar'  (test_abfe_diagnostics.py)
+#    3  ModuleNotFoundError: No module named 'scipy'   (test_slow_cv.py)
+#    1  test_abfe_diagnostics.py::test_receptor_dg_bind_matches_combine_legs -- same pymbar gap,
+#       reported without a ModuleNotFoundError line because it fails inside a helper that catches it.
+# Verified directly: `import pymbar` and `import scipy` both fail here; numpy, rdkit and boto3 now
+# all import, which is exactly why the 39 could go.
 #
-# ⛔⛔ UPDATED 2026-08-12, AND IT REVERSES THE 2026-08-09 PRUNE EXACTLY — WHICH IS THE FINDING, NOT
-# THE FIX. The 9 entries pruned above on the grounds that "numpy is now importable here" were
-# re-added today, because in THIS container numpy is NOT importable:
-#   `python3 -c "import numpy"` -> ModuleNotFoundError. Traced per file before re-adding, never
-#   assumed: test_selcal_stage -> selcal_stage.py:335 (numpy); test_nrv04_pe_stage_probe ->
-#   test_nrv04_pe_stage_probe.py:315/343/356 (numpy); test_nr4a3_5bt -> nr4a3_5bt_assemble.py:398
-#   (numpy) and :453 (rdkit); test_congeneric_fanout -> test_congeneric_fanout.py:1671/1705
-#   (numpy, boto3).
-# ⚠ THE MECHANISM ASSUMES A STABLE SANDBOX AND THE SANDBOX IS NOT STABLE. This file is a per-
-#   CONTAINER fact being stored as a per-REPOSITORY one, so it oscillates: the same 9 tests were
-#   pruned on the 9th and re-added on the 12th with no code change between, and each flip fails a
-#   preflight for someone. That is a cost worth naming rather than quietly paying every time.
-#   It does NOT make the list wrong — a list that names what is tolerated still beats a count that
-#   hides it, which is why this file exists (2026-08-08 incident above). What it means is that a
-#   red pytest gate whose named failures are all ModuleNotFoundError is a statement about the
-#   container, and the FIRST diagnostic is `python3 -c "import numpy"`, not a hunt through the diff.
-#   ⭐ The 14 pymbar/scipy entries added on the 9th are DELIBERATELY LEFT IN PLACE: today they do not
-#   fail, they fail to be COLLECTED (numpy is missing upstream of pymbar), and the gate counts a
-#   collection error separately. Pruning them would only guarantee re-adding them next container.
+# THIS NUMBER SHOULD KEEP FALLING as the sandbox gains packages. It describes a deficient
+# environment; it is not a tolerance for broken tests, and every entry is a missing import.
 research/modalities/tests/test_abfe_diagnostics.py::test_autocorr_inefficiency_correlated_is_large
 research/modalities/tests/test_abfe_diagnostics.py::test_ess_report_shape_and_fields
 research/modalities/tests/test_abfe_diagnostics.py::test_forward_reverse_converged_leg_agrees
@@ -79,45 +55,6 @@ research/modalities/tests/test_abfe_diagnostics.py::test_overlap_identical_state
 research/modalities/tests/test_abfe_diagnostics.py::test_overlap_separated_states_near_identity
 research/modalities/tests/test_abfe_diagnostics.py::test_overlap_symmetric_and_adjacent_beats_far
 research/modalities/tests/test_abfe_diagnostics.py::test_receptor_dg_bind_matches_combine_legs
-research/modalities/tests/test_apo_pose_recovery.py::test_an_atom_count_mismatch_is_refused_not_guessed
-research/modalities/tests/test_congeneric_fanout.py::test_credential_preflight_fails_closed_on_every_unusable_outcome
-research/modalities/tests/test_nr4a3_5bt.py::test_build_arm_runs_end_to_end_and_the_snap_masks_are_non_empty
-research/modalities/tests/test_nr4a3_5bt.py::test_every_substructure_role_is_unique
-research/modalities/tests/test_nr4a3_5bt.py::test_no_unserialisable_object_can_reach_the_writer
-research/modalities/tests/test_nr4a3_5bt.py::test_plan_mode_resolves_every_committed_input
-research/modalities/tests/test_nr4a3_5bt.py::test_resolve_e3_binary_runs_end_to_end_offline
-research/modalities/tests/test_nr4a3_5bt.py::test_the_docked_warhead_is_a_substructure_of_the_degrader
-research/modalities/tests/test_nr4a3_5bt.py::test_the_docking_box_is_derived_not_typed
-research/modalities/tests/test_nr4a3_5bt.py::test_the_e3_binary_detail_is_json_serialisable_and_keeps_the_molecule_identity
-research/modalities/tests/test_nr4a3_5bt.py::test_the_refusal_names_every_offending_path_not_only_the_first
-research/modalities/tests/test_nr4a3_5bt.py::test_the_screening_sdf_is_NOT_a_source_of_the_warhead_pose
-research/modalities/tests/test_nr4a3_ternary_fep.py::test_expected_heavy_map_size_is_derived_from_the_frozen_endpoints
-research/modalities/tests/test_nrv04_retro_hold_and_protocol.py::test_a_held_unit_is_reported_every_tick_never_silently
-research/modalities/tests/test_nrv04_retro_hold_and_protocol.py::test_a_quarantine_eligible_unit_ON_A_HOST_is_visible_but_untouched
-research/modalities/tests/test_nrv04_retro_hold_and_protocol.py::test_supervision_does_not_buy_a_unit_that_was_never_authorised
-research/modalities/tests/test_nrv04_retro_hold_and_protocol.py::test_supervision_still_re_places_a_unit_that_lost_its_host
-research/modalities/tests/test_nrv04_retro_hold_and_protocol.py::test_the_40_percent_deadlock_is_broken_end_to_end
-research/modalities/tests/test_nrv04_retro_hold_and_protocol.py::test_the_breaker_denominator_is_the_streak_not_the_lifetime_count
-research/modalities/tests/test_nrv04_retro_hold_and_protocol.py::test_the_quarantine_costs_nothing_and_is_visible
-research/modalities/tests/test_nrv04_retro_launch.py::test_a_blocked_unit_is_never_re_bought_by_the_replacer
-research/modalities/tests/test_nrv04_retro_launch.py::test_a_launch_that_rented_nothing_does_not_report_success
-research/modalities/tests/test_nrv04_retro_launch.py::test_an_explicit_pilot_that_gets_skipped_fails_the_job
-research/modalities/tests/test_nrv04_retro_launch.py::test_default_pilot_rents_the_unrun_unit_when_the_pinned_one_has_landed
-research/modalities/tests/test_nrv04_retro_launch.py::test_retro_reap_refuses_without_a_key_instead_of_silently_doing_nothing
-research/modalities/tests/test_nrv04_retro_launch.py::test_supervision_refuses_to_condemn_on_a_read_it_did_not_get
-research/modalities/tests/test_nrv04_retro_launch.py::test_supervision_replaces_hostless_unrun_units_through_the_lanes_own_launcher
-research/modalities/tests/test_nrv04_retro_launch.py::test_supervision_without_a_key_buys_and_destroys_nothing
-research/modalities/tests/test_short_linker_probe.py::test_the_candidate_has_a_recorded_and_reparsed_structure
-research/modalities/tests/test_short_linker_probe.py::test_the_probe_reproduces_its_committed_artifact
 research/modalities/tests/test_slow_cv.py::test_build_combine_cv_reproduces_standardized_projection
 research/modalities/tests/test_slow_cv.py::test_tica_identifies_slow_feature
 research/modalities/tests/test_slow_cv.py::test_tica_timescale_recovers_ou_constant
-research/modalities/tests/test_step1_map_diag.py::test_exactly_one_fanout_edge_has_a_strict_map_below_its_floor
-research/modalities/tests/test_step1_map_diag.py::test_the_escalation_is_dead_code_for_edges_whose_strict_map_already_clears_its_floor[COC(=O)c1c[nH]c2ccc(Br)cc12-COC(=O)c1c[nH]c2ccc(N)cc12-cw_ev_5nh2]
-research/modalities/tests/test_step1_map_diag.py::test_the_escalation_is_dead_code_for_edges_whose_strict_map_already_clears_its_floor[COC(=O)c1c[nH]c2ccc(Br)cc12-COC(=O)c1c[nH]c2ccc(O)cc12-cw_ev_5oh]
-research/modalities/tests/test_step1_map_diag.py::test_the_provable_floor_condemns_the_strict_map_and_admits_the_agnostic_one
-research/modalities/tests/test_step1_map_diag.py::test_the_strict_map_is_severed_by_the_ester_to_amide_substitution
-research/modalities/tests/test_vast_machine_blacklist.py::test_clear_refuses_without_a_snapshot
-research/modalities/tests/test_vast_machine_blacklist.py::test_snapshot_refuses_to_overwrite_an_existing_record
-research/modalities/tests/test_vast_machine_blacklist.py::test_the_cli_actually_reads_its_command_line
-research/modalities/tests/test_vast_machine_blacklist.py::test_the_cli_runs_as_a_SCRIPT_not_just_as_an_import

@@ -153,6 +153,19 @@ DEFAULT_TARGETS = [
     # paper was added (the outward-facing document needs the strictest check) applies before a
     # document is outward-facing, not after.
     "research/manuscripts/microenv/emc-hypoxia-reading.md",
+    # ⛔ ADDED 2026-08-16 — THE DEGRADER-SI HOLE ABOVE, REPRODUCED EXACTLY, IN THE PAPER NEXT TO BE
+    # DEPOSITED. `_publication_documents()` resolves PUB-ASO to the research article and to nothing
+    # else, so when the 2026-08-16 restructure split six Methods blocks out into
+    # `fusion-junction-aso-supplementary-information.md`, that half left the linted set and no
+    # count moved to say so — the working record is here by hand for the same reason.
+    #
+    # ⚠ AND IT IS THE HALF WHERE R4 LIVES. The blocks that moved are the ones that JUSTIFY: the
+    # accessibility rationale, the melting-temperature cross-check, the gap-length citation
+    # provenance, the graded re-score's bookkeeping and the two unfiltered control screens. A
+    # sentence explaining why a method is adequate is the one most likely to slide from "concordant
+    # with" into "confirms". Measured on entry: 0 ERROR, 1 WARN (R4 'molecularly confirmed cases',
+    # a diagnostic-status idiom, not a claim about this work's results).
+    "research/manuscripts/aso/fusion-junction-aso-supplementary-information.md",
 ]
 
 # ⛔ ADDED 2026-08-06 — THE THIRD TIME THIS EXACT HOLE HAS BEEN FOUND, AND THE LARGEST.

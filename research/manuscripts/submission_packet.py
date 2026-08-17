@@ -101,6 +101,35 @@ def figures_for(stem, declared=()):
     return out
 
 
+#: Suffixes a manuscript stem may carry that its companion documents drop. Ordered longest-first so
+#: `-research-article` is stripped before a hypothetical `-article` could match a prefix of it.
+_STEM_TAILS = ("-research-article", "-manuscript", "-paper")
+
+
+def _companion(stem, suffixes):
+    """The sibling document playing `role` for this manuscript, or "" if there is none.
+
+    ⛔ RETURNS THE PATH IT FOUND, NOT A BOOLEAN, so the generated row can print the real filename —
+    a checklist that says "present" without saying WHICH file is one lookup short of useless, and
+    the previous version printed a name it had CONSTRUCTED rather than one it had found, which is
+    how it managed to print a filename that did not exist beside a verdict that was wrong.
+    ⚠ Matching is anchored at BOTH ends — `startswith(base)` and `endswith(suffix)` — so a companion
+    belonging to a different paper in the same directory cannot be claimed by this one.
+    """
+    d = os.path.join(HERE, os.path.dirname(stem))
+    base = os.path.basename(stem)
+    for tail in _STEM_TAILS:
+        if base.endswith(tail):
+            base = base[: -len(tail)]
+            break
+    if not os.path.isdir(d):
+        return ""
+    for name in sorted(os.listdir(d)):
+        if name.startswith(base) and any(name.endswith(s) for s in suffixes):
+            return os.path.join(os.path.dirname(stem), name)
+    return ""
+
+
 def main():
     metrics = _load("research/manuscripts/submission-metrics.json") or {}
     fees = _load("research/literature/venue-fee-routes-2026-08-10.json") or {}
@@ -137,10 +166,24 @@ def main():
         m, lim = row["measured"], row["limits"]
         vk = venue_key.get(row["venue"], "")
         v = verdicts.get(vk, {})
-        letter = os.path.exists(os.path.join(HERE, stem + "-cover-letter.md"))
+        # ⛔ THIS REPORTED "MISSING" FOR FILES THAT EXIST (measured 2026-08-17). The lookup was
+        # `stem + "-cover-letter.md"`, and `stem` is the MANUSCRIPT's full basename — so for
+        # `aso/fusion-junction-aso-research-article.md` it asked for
+        # `aso/fusion-junction-aso-research-article-cover-letter.md`, while the real file is
+        # `aso/fusion-junction-aso-cover-letter.md`. Four of the five papers happened to name their
+        # letter after the manuscript stem exactly, so four rows were right and the fifth read
+        # MISSING on a 9.4 kB file sitting beside it. The SI lookup had the same shape and the same
+        # outcome: `-SI.md`/`-si.md` next to a real `-supplementary-information.md`.
+        # ⚠ A SUBMISSION CHECKLIST'S FALSE NEGATIVE IS THE EXPENSIVE DIRECTION — it tells the
+        # depositor to write a document that already exists, and this one had been printing MISSING
+        # into a generated packet that four other rows made look trustworthy.
+        # ⭐ Fixed by asking the DIRECTORY what is there rather than guessing one name: any sibling
+        # file whose name starts with a shortened stem and ends in the role's suffix counts. The
+        # shortened stem drops a trailing `-research-article`/`-manuscript`/`-paper`, which is the
+        # only thing that differed.
+        letter = _companion(stem, ("-cover-letter.md",))
         figs = figures_for(stem, row.get("figure_files") or ())
-        si = os.path.exists(os.path.join(HERE, stem + "-SI.md")) or \
-            os.path.exists(os.path.join(HERE, stem + "-si.md"))
+        si = bool(_companion(stem, ("-SI.md", "-si.md", "-supplementary-information.md")))
 
         L += [f"## {row['venue']}", "", f"**Manuscript** `{row['file']}`", ""]
         L += ["| field | value |", "|---|---|",
@@ -152,7 +195,7 @@ def main():
               f"{' (limit ' + str(lim['display_items']) + ')' if lim.get('display_items') else ''} |",
               f"| References | {m['references']}"
               f"{' (limit ' + str(lim['references']) + ')' if lim.get('references') else ''} |",
-              f"| Cover letter | {'`' + stem + '-cover-letter.md`' if letter else 'MISSING'} |",
+              f"| Cover letter | {'`' + letter + '`' if letter else 'MISSING'} |",
               f"| Supplementary file | {'yes' if si else 'none'} |",
               f"| Fee route | {v.get('zero_dollar_route', 'not recorded')} |", ""]
         if row.get("over_limit"):
