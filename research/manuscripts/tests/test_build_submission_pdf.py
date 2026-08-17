@@ -146,7 +146,14 @@ def test_a_missing_front_matter_label_fails_the_build():
 def test_front_matter_captures_whole_paragraphs_not_first_lines(journal):
     """⚠ These fields wrap in the source. A first-line-only match silently dropped the tail."""
     front, _, _, _ = journal
-    assert front["keywords"].endswith("myxoid chondrosarcoma")
+    # ⚠ ASSERT THE WRAP IS CROSSED, NOT WHAT THE LAST WORD IS (fixed 2026-08-17). This read
+    # `.endswith("myxoid chondrosarcoma")`, which used the final keyword as a proxy for "the whole
+    # paragraph was captured" — so appending a keyword failed the test while the defect it exists
+    # for was absent. That is the same brittleness the comment below already records for the
+    # affiliation field, left unfixed one assertion higher up. The keyword list straddles the source
+    # line break at "extraskeletal / myxoid chondrosarcoma", so requiring that span proves the tail
+    # was read and stays true however many keywords are added after it.
+    assert "extraskeletal myxoid chondrosarcoma" in " ".join(front["keywords"].split())
     assert "ORCID" in front["affiliation"]
     # ⚠ Compared with whitespace normalised. The source wraps, and asserting a literal ending
     # made this test fail on a rewrap rather than on the defect it is for — a first-line-only

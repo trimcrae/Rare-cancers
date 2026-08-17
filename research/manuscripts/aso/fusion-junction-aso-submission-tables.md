@@ -2,6 +2,16 @@
 
 # Tables — fusion-junction ASO submission
 
+**Research use only, and not for administration to any person or animal.** Every oligonucleotide
+sequence named in these tables is a research reagent intended solely for laboratory investigation.
+None is a medicine or a candidate drug, none has been synthesised or tested by anyone, and none may
+be administered to any human being or animal, compounded for such use, or supplied to any person for
+such use. Custom oligonucleotide synthesis is commercially available, so the restriction is on use
+rather than on access. Three of the sequences below are named in the main text as designs NOT to be
+carried forward, because each pairs its whole catalytic gap against the patient's own un-rearranged
+*NR4A3* allele; a table row is not a recommendation. The full statement is in the main text's
+Declarations.
+
 **Table 1. The in-frame junction space across five *NR4A3* fusion partners.** Every
 donor-exon × *NR4A3*-acceptor-exon pair was graded against the frame condition before any design was
 emitted. The gap-level margin is the number of junction-unique bases inside the six-nucleotide
@@ -240,8 +250,8 @@ tissues reads as below detection, at or above 10 TPM in any of them as the level
 off-target hypothesis would have to be tested. Every raw median is released so another cut can be
 applied without re-running. Gap-paired hit records are the gap-paired near-matches the deeper
 screens returned at that locus, one per accession per design, added up over every design tiled
-across the junction; the column totals 649, which is the panel's entire gap-paired hit
-count. It is a count of what the search returned and not of how many accessions RefSeq lists for
+across the junction; the column totals 649, which is the gap-paired hit count over the
+four junctions of this table and not over the whole 38-junction panel. It is a count of what the search returned and not of how many accessions RefSeq lists for
 the gene, so it is not annotation depth and not a property of the locus on its own: a locus that
 every register returns is counted once per register. Tiling registers is how many of the designs
 tiled across that junction return the locus, which is robustness to where the window is placed; the
@@ -300,8 +310,8 @@ measurement of cleavage, and no expression figure is a predicted cleavage event.
 |  | *LOC107987169* | 1 | 1 of 5 | — | — | — | — | no gene model — not measurable |
 |  | *LOC124905457* | 1 | 1 of 5 | — | — | — | — | no gene model — not measurable |
 
-**Table 7. Every reagent named in §4 and every other seam that qualifies beside them, what each
-costs on each screen and what each buys in coverage.** The rows are in the order §4 decides them:
+**Table 7. Every junction-spanning reagent named in §4 and every other seam that qualifies beside
+them, what each costs on each screen and what each buys in coverage.** The rows are in the order §4 decides them:
 the two lead reagents, the rungs of the coverage ladder above them, the bounds above those, the
 remaining junction with a published exon-resolved breakpoint and a reagent through all five deep
 screens, the four *NR4A3* exon-2 acceptor seams reported beside the panel, and the two contrast
@@ -326,7 +336,11 @@ cohort behind the denominator, or the partner is present and that exon pair carr
 measured within-partner distribution. The exon-2 acceptor rows are from the non-canonical-acceptor
 table and are never pooled into the panel, since the grade that excludes their junctions from the 38
 is unchanged. A contrast arm carries no coverage figure and must not borrow its junction's, which is
-already counted a row above. Gap-paired near-matches are at the tenfold deeper alignment ceiling
+already counted a row above. The three controls §4 requires have no row and can have none: the
+fusion-negative isogenic comparator is a cell line rather than a reagent; the positive control is
+specified as a class rather than a sequence, a gapmer against an abundant housekeeping transcript;
+and the scrambled control is a draw from a stated shuffling procedure rather than one oligonucleotide.
+None of the three therefore has a sequence, a geometry or a screen result for these columns. Gap-paired near-matches are at the tenfold deeper alignment ceiling
 where every hit list is complete, and the parent duplex is the longest contiguous run containing the
 whole catalytic gap, at the ten-base-pair criterion applied throughout. None of these numbers is a
 measurement of off-target activity, and no row is a claim of efficacy.

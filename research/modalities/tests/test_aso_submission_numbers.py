@@ -304,7 +304,13 @@ def test_censoring_counts_match_the_manuscript():
     # the test below; the number of designs whose hit list is complete enough to be assessed for
     # cleanliness at all is 47. Two nearby quantities, one of them borrowed for the other's
     # sentence — and the smaller one made the paper sound more cautious than its evidence required.
-    assert f"Only {uncensored} of the {len(counts)} hit lists are short enough to assess" in txt
+    # ⚠ "those" ADMITTED 2026-08-17. A3-F3's restoration introduces the same 47 one sentence
+    # earlier, so the bare "Only 47 …" became a second introduction of a number that now has an
+    # antecedent — the one-fact-one-place rule reaching into grammar. The count is still asserted
+    # from the artifact; only the article in front of it is optional.
+    assert (f"Only {uncensored} of the {len(counts)} hit lists are short enough to assess" in txt
+            or f"Only those {uncensored} of the {len(counts)} hit lists are short enough to assess"
+            in txt)
 
 
 def test_locus_inflation_matches_the_manuscript():
@@ -451,6 +457,17 @@ def _flat(txt):
     return re.sub(r"\s+", " ", txt)
 
 
+
+def _collapse_censored():
+    """(junction, antisense) -> right_censored, from the collapse artifact.
+
+    Separate from the count map above because `right_censored` is the pipeline's OWN judgement that
+    a hit list is complete — which is exactly the claim the worked examples test.
+    """
+    return {(s["junction_label"], o["antisense_5to3"]): o["right_censored"]
+            for s in _collapse()["screens"] if s["junction_label"] for o in s["per_oligo"]}
+
+
 def test_the_deeper_ceiling_raises_counts_across_the_whole_corpus():
     """§3.6's censoring bound, over every design screened at both ceilings.
 
@@ -485,6 +502,34 @@ def test_the_deeper_ceiling_raises_counts_across_the_whole_corpus():
     assert "stores at most 50 hits per query" in txt
     for dead in ("23 designs at a tenfold deeper ceiling", "141 of 157 comparable designs"):
         assert dead not in txt, f"superseded censoring population is back: {dead!r}"
+
+    # ⛔ THE WORKED EXAMPLES, RESTORED 2026-08-17 AND NOW GUARDED (round-7 A3-F3).
+    # The docstring above has said "The three worked examples in that sentence were correct and are
+    # kept" since the restructure — and it was FALSE: commit 1076707f4 deleted them, and nothing
+    # here noticed, because the guard asserted the two POPULATIONS and never the demonstration
+    # those populations exist to support. A claim in a test's own docstring is not a check.
+    # ⭐ THEY ARE THE ONLY PLACE THE PAPER SHOWS, AT THE LEVEL OF ONE DESIGN, THAT REACHING THE CAP
+    # IS NOT WHAT CENSORS A COUNT: a list the pipeline marks UNCENSORED still grew ~14-fold. Every
+    # value below is re-derived from the artifacts, never typed, so a corpus change fails the gate
+    # instead of quietly falsifying the sentence.
+    uncensored = [k for k in comparable if not _collapse_censored()[k]]
+    rose = [k for k in uncensored if deep[k]["n_offtarget_near_matches"] > default[k]]
+    fell = [k for k in uncensored if deep[k]["n_offtarget_near_matches"] < default[k]]
+    assert not fell, f"a deeper ceiling returned FEWER hits, which the sentence says never happens: {fell}"
+    assert f"of the {len(uncensored)} designs whose" in txt, (
+        f"the untruncated population ({len(uncensored)}) is no longer stated")
+    assert f"{len(rose)} returned more at the deeper ceiling and none" in txt, (
+        f"the {len(rose)}-rose/0-fell result is no longer stated")
+    # the four worked examples, each (default -> deep) read from the artifacts
+    by_default = {}
+    for k in uncensored:
+        by_default.setdefault(default[k], []).append(deep[k]["n_offtarget_near_matches"])
+    for reported, shown in ((9, 34), (10, 110), (15, 204), (15, 374)):
+        assert shown in by_default.get(reported, []), (
+            f"no design reporting {reported} returns {shown} at depth any more; the manuscript's "
+            f"worked example is stale. Available: {sorted(by_default.get(reported, []))}")
+        assert f"returned {shown}" in txt or f"returning {shown}" in txt, (
+            f"the worked example {reported} -> {shown} has left the manuscript")
 
 
 def test_the_released_screen_and_graded_counts_are_the_ones_on_disk():
@@ -1174,8 +1219,13 @@ def test_section_3_11_expression_figures_are_the_artifacts():
     # annotation depth, and the paper said the latter in four places. NRP1 is the clinching case:
     # five records over ONE accession, one per design — annotation depth cannot depend on how many
     # designs were run. This pin follows the corrected noun; it previously pinned the wrong one.
-    assert ("The *EWSR1* exon 12 reagent's six loci carry 123 of the panel's 649 gap-paired "
-            "hits, and none of the four measurable ones reaches the upper cut") in txt
+    # ⚠ AND THE DENOMINATOR, CORRECTED 2026-08-17. 649 is the gap-paired hit total over the FOUR
+    # junctions of Table 6, not over the 38-junction panel: `panel.n_seams` is 4 and the per-locus
+    # records sum to exactly 649. "the panel's 649" read as one reagent carrying 19% of the whole
+    # panel's off-target burden, which is not what the artifact says.
+    assert ("The *EWSR1* exon 12 reagent's six loci carry 123 of the 649 gap-paired hits returned "
+            "across the four junctions of Table 6, and none of the four measurable ones reaches "
+            "the upper cut") in txt
 
     anks = next(L for L in lead if L["locus"] == "ANKS1B")
     assert anks["screen_records"]["n_transcript_records"] == 67
@@ -1183,7 +1233,11 @@ def test_section_3_11_expression_figures_are_the_artifacts():
     top = anks["whole_body_context"]["top_tissues"][0]
     assert top["tissue"].startswith("Brain") and round(top["median_tpm"], 1) == 24.9, top
     assert "*ANKS1B* supplies 67 of them and sits below the lower cut in all" in txt
-    assert "peaking instead in brain at 24.9 TPM" in txt
+    # ⚠ MATCHED AROUND THE UNIT, NOT THROUGH IT (2026-08-17). TPM is now expanded at this, its
+    # first use — a firewalled cold reader reported it, GTEx and LNA as never expanded anywhere in
+    # the three documents. The value and its tissue are what this pin is for, so it asserts those
+    # and lets the gloss between them vary.
+    assert "peaking instead in brain at 24.9" in txt and "TPM" in txt
 
     # ⭐ THE GUT READING MOVED HERE FROM §4.1, 2026-08-16. §4.1 used to close its exposure comparison
     # with "its largest sitting instead in brain and gut", which was the ONLY home of the gut half —
@@ -1306,8 +1360,10 @@ def test_the_expression_limits_are_stated_and_the_unmeasured_loci_are_accounted(
     assert (f"{len(unread)} of the {n_loci} loci returned no" in txt
             or f"{_spelt(len(unread)).capitalize()} of the {n_loci} loci returned no"
             in txt), len(unread)
-    assert (f"carry {unread_records} of the panel's "
-            f"{expr['panel']['n_gap_paired_hybridisable']} records, so there the exposure "
+    # ⚠ DENOMINATOR CORRECTED 2026-08-17: 649 is the four-junction total of this table, not the
+    # 38-junction panel's — `panel.n_seams` is 4 in aso-offtarget-tissue-expression.json.
+    assert (f"carry {unread_records} of those "
+            f"{expr['panel']['n_gap_paired_hybridisable']} hits, so there the exposure "
             "question is unanswered rather than answered negatively") in txt
     # ⭐ "No expression figure is a predicted cleavage event" MOVED TO WHERE THE CHOICE IS MADE. The
     # de-duplication sweep collapsed three copies of the exposure-vs-count comparison into one, in

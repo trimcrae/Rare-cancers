@@ -1407,6 +1407,12 @@
    "pattern": "(?:about|roughly)\\s+half\\s+(?:the\\s+)?(?:observed\\s+)?liability\\s+is\\s+(?:generic|inherent)|half\\s+is\\s+specific\\s+to\\s+(?:the\\s+real\\s+junctions|where\\s+the\\s+disease\\s+joins)|generic\\s+(?:share|half)[^.\\n]{0,40}(?:52\\s*%|94\\s*%)",
    "current": "DELETED, not replaced. The corrected null in research/modalities/aso-parent-null.json puts an exon-terminus chimera at 40.6% (40.1-41.1%) against 45.8% observed, and 40.5% with the NR4A3 exon-3 acceptor excluded; the observed rate's own Wilson interval contains both, so no share is attributable to the reported breakpoints at this panel's n. See the manuscript paragraph beginning 'That arm, however, destroys more than the breakpoint'.",
    "retired_by": "Round-7 finding B5-F1, MEASURED 2026-08-16. The published random_parent_chimera arm drew BOTH halves at uniform interior windows of the parent transcripts, so it destroyed exon-terminal context along with the breakpoint and could not support an apportionment. Three corrected arms were added to aso_parent_null.py. The mechanism is narrower than the charge as filed: the DONOR terminus moves the rate not at all (22.5% against the uniform draw's 23.8%); the whole effect is the NR4A3 ACCEPTOR terminus. 87/190, 61 against wild-type NR4A3, and the title are untouched."
+  },
+  {
+   "id": "aso_thermo_cross_margin_discordance",
+   "pattern": "composition reverses the\\s+order in\\s+([0-9]{1,2}\\.[0-9])\\s*%\\s*of cross-margin",
+   "artifact": "research/modalities/junction-aso-thermo.json",
+   "note": "19.9% — 2,298 of 11,552 cross-margin design pairs ordered oppositely by ddg37_discrimination. Derived, not typed: re-computed from per_design[*].{gap_specificity_margin, ddg37_discrimination}. Added 2026-08-17 after a hostile reviewer showed the paper's 'not an independent ranking' claim was false design-by-design — an error that ran AGAINST the paper, withholding credit from its own instrument, which is why six review rounds had no reason to look at it."
   }
  ],
  "subset_checks": [

@@ -374,27 +374,36 @@ is truncated"*. So the chain and the submission documents disagree about what th
 and running the chain quietly makes three released sentences false (article §6 and SI §S4 twice) and
 two pinned counts stale.
 
-**⚠ AND IT IS NOT ONLY A DENOMINATOR — that is the part that matters.** With the 53 graded, the
-predicted-clean set gains one design, **`GGGCATATCAAGCGCT`**, the *TCF12* exon 7 design §2.7 discusses
-by name. Verified directly:
+**⚠ IT LOOKED LIKE MORE THAN A DENOMINATOR, AND IT IS NOT. RESOLVED 2026-08-17.** With the 53
+graded, the predicted-clean set gains one design, **`GGGCATATCAAGCGCT`** at *TCF12* exon 7 —
 `test_junction_aso_graded.py::test_exactly_the_orientation_clean_designs_reach_zero_predicted_cleavage_load`
-fails with *"Extra items in the left set: 'GGGCATATCAAGCGCT'"*.
+fails with *"Extra items in the left set"*. That was escalated here as a possible open question about
+the paper. **It is not one, and the escalation was wrong.** Traced:
 
-⭐ **The mechanism is coverage, not a changed verdict, and the difference is the whole question.** That
-design previously had **no graded record at all**, so it could not appear in the clean set on any
-reading. Grading its screen did not overturn a judgement; it extended the instrument to a design the
-instrument had never been run on. Whether the design therefore BELONGS in the released clean set — and
-whether the SI's "adds nothing" rationale survives the observation that it added one — is a question
-about the paper's own claims.
+- In the base screen `junction-aso-offtarget-tcf12e7n3.json` the design carries
+  `status: screen_failed`, `n_true_cleavage_risk: null` and no histogram — the remote service failed
+  for that oligo, so `screen_is_gap_resolved` correctly refuses it and it was never graded there.
+- Its successful record is in `junction-aso-offtarget-tcf12e7n3-clean9-deep500.json`:
+  `status: screened`, `n_true_cleavage_risk: 0`, histogram present.
+- ⭐ **And the manuscript already reports exactly that**, at the sentence beginning *"all seven
+  returned at the deeper ceiling"*: *"six of them dirty and one — 5′-GGGCATATCAAGCGCT-3′ at *TCF12*
+  exon 7 — with three near-matches and none on the sense strand. So the set of designs with a
+  complete hit list and no sense-strand near-match is **four at this depth rather than three**: a
+  design the shallower pass never screened joins the three."* It is discussed again where its
+  eight-base-pair parent run is given, named among the three mechanism controls, and printed in
+  generated Table 7 with `0 → 0`. **Round 3 verified the same fact independently** — *"the seven
+  default-depth failures all return at depth | six dirty, one clean (`GGGCATATCAAGCGCT`)"*.
 
-**Disposition: RESTORED AND FILED, not decided.** The 53 untracked artifacts were deleted, returning
-the tree to the committed 39 and the three sentences to being true. ⛔ **It is deliberately NOT
-resolved under application-pass time pressure**, because deciding it means either (a) releasing 53
-more graded artifacts and rewriting the rationale, the three sentences and two pins together, or
-(b) keeping 39 and stating why a design the deeper screen would call clean is excluded. Both are
-claims about the paper and both need the verification standard §1 describes. **It does not block the
-deposit** — the released corpus is internally consistent as it stands, and the paper does not claim
-the graded set is exhaustive.
+**So grading the 53 adds no FINDING the paper does not already state — it adds artifacts.** The SI's
+rationale stands as written, and the correct reading of the test is narrower than it first appeared:
+its expected set describes the GRADED CORPUS, which is a smaller object than the paper's clean set,
+and the paper's clean set is the one that carries the claim.
+
+**Disposition: CLOSED — keep 39, and the reason is positive rather than an omission.** Every result
+the deeper re-screens carry is already reported, with its depth caveat, in the manuscript and in
+Table 7. The 53 untracked artifacts were deleted. ⛔ **What remains is a real hazard and is fixed:**
+the chain regenerated them silently, and a reader comparing the graded corpus against the paper's
+clean set would have found a discrepancy with no note explaining it.
 
 **Instrument.** The class — *a regeneration script silently producing artifacts that contradict a
 documented decision* — was already caught, by
@@ -670,7 +679,7 @@ certified under §4.5's own rule (C2-F6) · two keywords that would make the rel
 | **B4-F7** — delete four of Box 1's five blocks as conclusions asserted ahead of their evidence | ⚔ **Direct conflict with D4**, which measures Box 1 as the only home of beats 2, 3 and 4 ahead of line 825 of 1499, and warns that a journal cutting the box moves the reader's first encounter with all three behind everything withdrawal-shaped. **Recorded as a conflict, not resolved.** Trigger: a venue that cuts or relocates boxes. |
 | **B4-F8** — the Introduction is 687 words against §4's 3,074 | Same trigger as B4-F3. No cut is proposed; the brief excludes length. |
 | **D4-F3** — no figure carries beats 2, 3 or 4; promote the coverage ladder to a fourth main figure | Costs a new figure plus a provenance regeneration. Trigger: the figure budget at the chosen venue. |
-| **D4-F6, title half** — a third title clause naming the released procedure | An author call. The keywords half is cheap and sits at P2. |
+| **D4-F6, title half** — a third title clause naming the released procedure | ⛔ **DECIDED: DECLINED, not deferred (2026-08-17).** §4.5 grades its own output *"a candidate, not a validated reagent"*, so a title clause would headline an unvalidated deliverable on a paper whose value is a well-made negative; and the title has eight homes, three of them generated views under `systems/views/` where a hand-edit fails the build. The discoverability this finding is actually about is bought by the keywords half at P2 and at no claim cost. Do not re-raise without a new argument that is not discoverability. |
 | **C1-F3** — supply an actual primer/probe pair and name a platform | The paper deliberately prescribes no assay; **C3-F3's half is P1 because it is a contradiction, not a request for new work.** Trigger: a decision that the paper prescribes an assay at all. |
 | **C2-F4's fix** — cite `SRR33903995` | ⚠ **The stated release date of the parent GEO series has passed, so the read is now $0 and has not been taken.** Nothing may be written about that deposit until its status is read. |
 | **B6-F1, B6-F2** — the precedent-scope corrections | **A committed CI fetch** of the four PMIDs. Both were retrieved via WebSearch snippets because PMC is proxy-blocked, and this repository's rule is that a claim needs a committed fetch product. |

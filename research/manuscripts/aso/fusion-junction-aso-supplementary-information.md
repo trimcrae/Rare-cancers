@@ -140,8 +140,9 @@ every case to an exon pair, so this is a pooled record and not the whole one. Th
 nothing: it answers a different question from the ladder, whose rungs are incremental and priced on
 the single series 68.4% is computed on, and 68.4% remains the coverage of the two reagents named in
 §4.1. Its own membership rule is an evidence test rather than a list — a junction qualifies where a
-published report places a patient's breakpoint at it and a reagent has been through all five screens
-— and one qualifying junction, *PGR* exon 2 to *NR4A3* exon 2, reported in a single
+published report places a patient's breakpoint at it and a reagent has been through all five screens,
+four of the five for the *PGR* seam whose pre-mRNA compartment is unmeasured rather than clean (main
+text §2.6) — and one qualifying junction, *PGR* exon 2 to *NR4A3* exon 2, reported in a single
 patient,<sup>28</sup><!--PMID:36103645--> moves the figure by exactly zero, because the 58-case
 cohort behind the denominator contains no *PGR* case for such a reagent to engage. The further
 caveat on that reagent — a sixth partner, with no transcript accession of its own — is in §2.6.

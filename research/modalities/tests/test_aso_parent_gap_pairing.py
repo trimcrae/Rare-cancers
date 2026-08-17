@@ -68,7 +68,10 @@ def test_the_corpus_counts_match_the_manuscript():
         rf"Of {c['n_designs']} candidates[^.]{{0,160}}?"
         rf"{c['n_with_parent_duplex_through_gap']} pair their catalytic gap against a mature parent "
         rf"transcript over a contiguous duplex of at least ten base pairs, "
-        rf"{nr4a3} against healthy \*NR4A3\*", txt), (
+        # ⚠ "healthy" -> "wild-type" 2026-08-17: a cold reader found the abstract was the only
+        # place in the paper using "healthy"; every other home says wild-type. Either spelling
+        # satisfies this pin, which is for the three FIGURES and their ten-base-pair criterion.
+        rf"{nr4a3} against (?:healthy|wild-type) \*NR4A3\*", txt), (
         "the abstract's parent-duplex sentence no longer carries all three figures with the "
         "ten-base-pair criterion they were counted under")
 
@@ -177,7 +180,11 @@ def test_the_candidate_set_is_what_both_screens_leave():
     txt = _flat(_paper())
     for s in survivors:
         assert f"5′-{s}-3′" in txt, f"a surviving candidate is not named in the paper: {s}"
-    assert "three candidates in the whole panel" in txt
+    # ⚠ RE-ANCHORED 2026-08-17. The sentence now reads "leaves three of those four candidates in
+    # the whole panel", because it previously credited the §2.6 un-rearranged-allele exclusions —
+    # which remove nothing from the 38-junction panel — with dropping the fourth design. The
+    # mature-parent screen of §2.5 does that, via an eleven-base-pair duplex with wild-type TCF12.
+    assert "candidates in the whole panel" in txt and "three" in txt
 
     # ⭐ AND THE TIERING MUST SURVIVE EDITING. Two of the three have a longest parent run of ZERO, so
     # they are candidates at ANY threshold; the third is BELOW the stated cut rather than absent, so
