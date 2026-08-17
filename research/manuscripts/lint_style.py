@@ -62,6 +62,18 @@ TARGETS = [
     # reading as a current measurement. That is the exact failure rule 1 exists to stop, sitting
     # inside the gate that enforces it.
     "research/manuscripts/aso/fusion-junction-aso-research-article.md",
+    # ⭐ THE ASO SUPPORTING INFORMATION, ADDED 2026-08-16 — THE SAME SPLIT-HALVES HOLE
+    # `lint_claims.py` records for the degrader SI, in the paper that is next to be deposited. The
+    # 2026-08-16 editorial restructure moved six Methods blocks out of the research article and into
+    # `fusion-junction-aso-supplementary-information.md`, and the moment it did, half the submission
+    # left this gate: TARGETS names one file per paper, so a split narrows coverage silently while
+    # the pass rate stays green — the shrinking-scope failure this list has now seen three times.
+    # ⛔ AND THE SI IS NOT THE SAFE HALF FOR *REGISTER* EITHER. What a split moves out is the method
+    # detail, which is where the house register survives longest: the bookkeeping voice ("Section
+    # numbers here are prefixed **S**") is exactly the machine-written tell a reviewer meets first.
+    # Measured on entry: 4 ERROR (2 bold-midsentence, 2 heading-style). They are SI-side text fixes
+    # and are reported rather than silenced — a gate added with an exemption is not a gate.
+    "research/manuscripts/aso/fusion-junction-aso-supplementary-information.md",
 ]
 
 # ⛔ fusion-junction-aso-working-record.md IS DELIBERATELY NOT IN `TARGETS`, AND THAT IS NOW CORRECT
@@ -333,7 +345,14 @@ def lint_file(path):
                              f"{mm.group(0)!r} addresses the reader directly"))
 
         if heading:
-            h = re.sub(r"\*\*|`|[0-9]+\s*·\s*", "", heading).strip()
+            # ⚠ THE SECTION LABEL IS STRIPPED BEFORE THE NOUN-PHRASE TEST, AND A SUPPORTING-
+            # INFORMATION LABEL CARRIES A LETTER. `S1 · Target-site accessibility` lost only the
+            # `1 · ` under the old pattern, so the finding printed `'STarget-site accessibility …'`
+            # — a mangled quotation of the heading the author has to find and fix. The label also
+            # counts toward the >10-word test, so an unstripped prefix is not purely cosmetic.
+            # Anchored at the start: only a leading `S1 ·` / `S12.3 ·` label is a label; a `·` mid-
+            # heading is punctuation and must survive.
+            h = re.sub(r"\*\*|`|^\s*[A-Za-z]?\d[\d.]*\s*·\s*|[0-9]+\s*·\s*", "", heading).strip()
             if h.endswith("?"):
                 findings.append((lineno, "ERROR", "heading-style",
                                  f"heading is a question: {h[:60]!r}"))

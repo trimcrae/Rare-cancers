@@ -227,7 +227,7 @@ PROMISES = [
     {
         "id": "premrna_compartment_screen",
         "verbatim": False,
-        "promise": ("the pre-mRNA screen behind §3.8, and the sequence it ran against, so the "
+        "promise": ("the pre-mRNA screen behind §2.5, and the sequence it ran against, so the "
                     "compartment the transcript screens cannot see is re-derivable offline"),
         "contributes": ("The exhaustive ≤2-mismatch scan of every design against the unspliced "
                         "sequence of all six parent transcripts, gap-resolved, orientation-filtered "
@@ -235,7 +235,7 @@ PROMISES = [
                         "SEQUENCE TRAVELS WITH IT, which is what makes this the one screen in the "
                         "paper that recomputes with no network at all: the other two need NCBI BLAST "
                         "and a RefSeq download. Re-running the module with --offline against the "
-                        "committed cache reproduces every number in §3.8 exactly."),
+                        "committed cache reproduces every number in §2.5 exactly."),
         "patterns": ["research/modalities/aso-premrna-offtarget.json",
                      "research/modalities/aso-premrna-sequences.json",
                      "research/modalities/aso_premrna_offtarget.py",
@@ -244,7 +244,7 @@ PROMISES = [
     {
         "id": "mature_parent_gap_pairing_screen",
         "verbatim": False,
-        "promise": ("the mature-parent screen behind §3.8's second class — the liability that "
+        "promise": ("the mature-parent screen behind §2.5's second class — the liability that "
                     "none of the other three screens is able to see"),
         "contributes": ("For every design, the longest contiguous duplex a MATURE wild-type parent "
                         "transcript can form that pairs the whole six-nucleotide catalytic gap. "
@@ -334,10 +334,18 @@ PROMISES = [
         # statement. Kept in the same table so there is one list, not two.
         "verbatim": False,
         "promise": "the manuscript itself and the figures it prints",
-        "contributes": ("The submission text, its cover letter, and the figure generators with "
-                        "their vector and raster output. The figures are generated from the same "
-                        "artifacts as the tables, so a reader can regenerate them."),
+        "contributes": ("The submission text, its Supporting Information, its cover letter, and "
+                        "the figure generators with their vector and raster output. The figures "
+                        "are generated from the same artifacts as the tables, so a reader can "
+                        "regenerate them."),
+        # ⛔ THE SUPPORTING INFORMATION WAS ABSENT FROM THIS ROW UNTIL 2026-08-16, AND A DEPOSIT
+        # MISSING IT IS THE WORST KIND OF HOLE: the main text points into it ("SI §S1") from six
+        # places, so a reader following a cross-reference finds nothing and cannot tell whether the
+        # method was withdrawn or never written. The row's globs are literal paths, so the split
+        # that CREATED the SI could not add it — which is this table's own hand-list warning,
+        # firing on the one row whose patterns cannot glob.
         "patterns": ["research/manuscripts/aso/fusion-junction-aso-research-article.md",
+                     "research/manuscripts/aso/fusion-junction-aso-supplementary-information.md",
                      "research/manuscripts/aso/fusion-junction-aso-cover-letter.md",
                      "research/manuscripts/figures/aso_*_figure.py",
                      "research/manuscripts/figures/aso-*.pdf",

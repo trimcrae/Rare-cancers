@@ -83,7 +83,8 @@ journal still under consideration.
   and BJC still mandates those headings; what changed is that the abstract is now unstructured
   (2026-08-14, see submission-plan §1c), so the parenthetical no longer describes it. The second
   sentence is retired for a different reason: both results are still reported, but compactly, the
-  pre-mRNA compartment as "another 19" and the censoring test as "designs that look clean mostly
+  pre-mRNA compartment as "19 pair a parent in precursor RNA … and 13 of those 19 are already among
+  the 87" and the censoring test as "designs that look clean mostly
   stop looking clean under a tenfold deeper search". ⛔ **DO NOT STATE THE DISTANCE TO A CAP HERE.**
   ⚠ *Superseded, retained, one commit after it was written: "The measured distance to a 200-word cap
   is now a few words, not seventy."* It was true at 223 words and false at the next edit, which

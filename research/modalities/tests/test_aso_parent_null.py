@@ -222,12 +222,109 @@ def test_the_manuscript_states_the_null_and_states_it_from_the_artifact():
     assert re.search(rf"\b{obs:.1f}\s*%", txt), f"the observed {obs}% is not in the manuscript"
 
 
+def test_the_exon_terminus_arms_exist_and_the_acceptor_is_what_moves_the_rate():
+    """⛔ ROUND-7 B5-F1, PINNED. The published chimera draws BOTH halves at uniform interior
+    windows, so it destroys exon-terminal context along with the breakpoint and cannot support an
+    apportionment between "generic" and "specific to the real junctions".
+
+    The three corrected arms are asserted here so the apportionment cannot be re-derived from the
+    uniform arm by a later edit, and so the ORDERING that carries the conclusion is pinned:
+    requiring the DONOR half to end at a real exon 3' terminus moves nothing, and requiring the
+    *NR4A3* half to BEGIN at a real exon 5' terminus is what lifts the null to near the observed
+    rate. The mechanism is the acceptor boundary, which is narrower than the filed charge.
+    """
+    a = _art()
+    e = a["null_ensembles"]
+    for k in ("donor_terminus_chimera", "exon_terminus_chimera",
+              "exon_terminus_chimera_novel_acceptor"):
+        assert k in e, f"the corrected null arm {k} is gone"
+
+    uniform = e["random_parent_chimera"]["rate_liable"]
+    donor = e["donor_terminus_chimera"]["rate_liable"]
+    both = e["exon_terminus_chimera"]["rate_liable"]
+    novel = e["exon_terminus_chimera_novel_acceptor"]["rate_liable"]
+    obs = a["observed"]["rate_liable"]
+
+    assert abs(donor - uniform) < 0.05, (
+        "the donor terminus is supposed to move the rate hardly at all; if it now does, the "
+        "acceptor-boundary mechanism recorded in the ledger no longer holds"
+    )
+    assert both > uniform + 0.10, "requiring both exon termini must lift the null well above uniform"
+    assert both > 0.85 * obs, (
+        "the corrected null no longer reproduces most of the observed rate -- the apportionment "
+        "question is reopened and the manuscript sentences must be re-derived, not left standing"
+    )
+    # ⚠ THE SENSITIVITY THAT LICENSES THE CONCLUSION. Every reported junction uses the NR4A3 exon-3
+    # acceptor, which is one of the seven the arm draws from; if excluding it mattered, the null
+    # would be partly reproducing the disease's own junction.
+    assert abs(both - novel) < 0.01, (
+        "excluding the real acceptor now changes the null materially, so the exon-terminus result "
+        "rests on drawing the disease's own acceptor and cannot be reported as it stands"
+    )
+
+
+def test_the_junction_offset_is_an_antisense_offset_not_a_donor_base_count():
+    """⛔ THE SPLIT `draw_parent_chimera` USES IS THE MIRROR OF EACH DESIGN'S OWN SPLIT.
+
+    `junction_offset_in_oligo` counts bases in the ANTISENSE oligo, in which the *NR4A3* half comes
+    first -- it equals `bases_from_NR4A3` for all 190 records. `draw_parent_chimera` takes that many
+    bases from the DONOR, so it builds each design's mirror.
+
+    ⭐ ITS TOTALS SURVIVE, AND THAT IS THE PROPERTY ASSERTED HERE rather than described: every
+    junction tiles offsets 6..10, symmetric about 8, so the multiset of donor lengths drawn per
+    junction is identical either way and the published 23.8% is unaffected. If a future atlas breaks
+    that symmetry -- a different tiling, an odd oligo length -- the published arm silently stops
+    being the ensemble it claims to be, and this test is what says so.
+    """
+    pgp, _ = _mods()
+    atlas = json.load(open(pgp.ATLAS, encoding="utf-8"))
+    seen = 0
+    for panel in atlas["panels"]:
+        designs = [d for d in panel.get("designs") or [] if d.get("fusion_specific")]
+        if not designs:
+            continue
+        seen += 1
+        offsets = sorted(d["junction_offset_in_oligo"] for d in designs)
+        donor_lens = sorted(pgp.OLIGO_LEN - d["junction_offset_in_oligo"] for d in designs)
+        assert offsets == donor_lens, (
+            f"{panel['junction_label']}: the offset tiling is no longer symmetric, so the chimera "
+            "arm's mirrored split now changes its own ensemble totals"
+        )
+        for d in designs:
+            assert d["junction_offset_in_oligo"] == d["bases_from_NR4A3"], (
+                f"{panel['junction_label']}: junction_offset_in_oligo has stopped meaning "
+                "'bases from NR4A3', which is the premise the corrected arms are built on"
+            )
+    assert seen == 38, f"expected 38 junction panels with designs, saw {seen}"
+
+
 def test_the_manuscript_does_not_present_the_null_as_a_significance_test():
     """The artifact refuses a p-value for a stated reason; the prose must not smuggle one back."""
+    # ⛔ THE WINDOW IS BOUNDED BY THE SECTION'S OWN TEXT, NOT BY A CHARACTER COUNT (fixed
+    # 2026-08-16). This read 2,600 characters forward from "without a null", which made the guard a
+    # hostage to section LENGTH: the 2026-08-16 corrected-null work added three ensembles and a
+    # paragraph, the non-independence statement moved to 179 characters BEFORE the anchor and to the
+    # section's close 3,465 after it, and the guard went red while the manuscript said the required
+    # thing MORE clearly and in TWO places. A guard that fails when the text improves gets widened
+    # reflexively until it checks nothing; anchoring it on the section's real end instead means the
+    # span grows with the section.
     txt = _paper().lower()
-    where = txt.find("without a null")
-    assert where > 0, "the null paragraph has moved or been removed from the manuscript"
-    window = txt[where:where + 2600]
+    start = txt.find("a nominal binomial")
+    if start < 0:                                  # the Wilson sentence opens the null discussion
+        start = txt.find("without a null")
+    assert start > 0, "the null paragraph has moved or been removed from the manuscript"
+    end = txt.find("none of these rates is a significance", start)
+    assert end > start, (
+        "the null section's closing sentence is gone — it is the one that refuses a p-value, so "
+        "its absence is itself the defect this test exists to catch"
+    )
+    window = txt[start:end + 400]
     for banned in ("p < 0.", "p = 0.", "p-value", "significantly more", "statistically significant"):
         assert banned not in window, f"the null section claims significance: {banned!r}"
-    assert "not independent draws" in window or "independent draws" in window
+    # ⚠ The 190 records are 176 molecules tiled at overlapping registers across 38 junctions, so a
+    # binomial interval on them is narrower than the truth. The paper must say so somewhere in this
+    # span; WHERE it says it is an editorial choice and not this test's business.
+    assert "independent draws" in window, (
+        "the null section no longer states that the 190 design records are not independent draws, "
+        "so its Wilson intervals now read as if they were"
+    )

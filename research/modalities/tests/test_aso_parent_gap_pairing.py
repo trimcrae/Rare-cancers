@@ -50,7 +50,7 @@ def test_the_corpus_counts_match_the_manuscript():
     # ⭐ REWORDED, NOT LOST — the editorial restructure of 2026-08-16 cut the abstract from 593 words
     # to 306 and rebuilt this sentence around the corpus rather than around the screen: "87 of 190
     # candidates pair that gap … 61 of those against healthy *NR4A3*" is now "Of 190 candidates
-    # across the 38 in-frame junctions of the five known partners, 87 pair their catalytic gap
+    # across the 38 in-frame junctions of the five modelled partners, 87 pair their catalytic gap
     # against a mature parent transcript over a contiguous duplex of at least ten base pairs, 61
     # against healthy *NR4A3*". All three figures survive against the same denominator.
     # ⛔ EACH NUMBER IS PINNED WITH THE CRITERION IT WAS COUNTED UNDER. 87 without "a contiguous

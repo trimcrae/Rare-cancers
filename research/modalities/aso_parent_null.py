@@ -256,6 +256,93 @@ def draw_parent_chimera(rng, parents, donor, offset):
     return left + right
 
 
+# ─────────────────────────────────────────── exon termini: what the interior-window chimera destroys
+def mature_exon_boundaries():
+    """gene -> (internal exon 3' termini, internal exon 5' termini), in MATURE coordinates.
+
+    ⛔ WHY THIS EXISTS, AND IT IS THE ROUND-7 FINDING B5-F1. `draw_parent_chimera` above takes the
+    donor half at a UNIFORM INTERIOR OFFSET (`p = rng.below(len(ds) - offset + 1)`). A real design's
+    donor half does not sit at an arbitrary interior position: it ENDS at an exon 3' terminus,
+    because that is what a splice donor is. So the interior-window chimera destroys 5'-splice-donor
+    consensus at the same time as it destroys the breakpoint, and the excess of the observed rate
+    over that arm cannot be read as "specific to where the disease joins them" — some unmeasured part
+    of it is a property of exon termini that every exon-exon junction in the genome shares.
+
+    ⚠ MEASURED, NOT ASSERTED, and the measurement is what the two arms below exist to take.
+
+    Boundaries are derived from the SAME committed record the mature transcripts are spliced from
+    (`exon_spans_0based_inclusive` in aso-premrna-sequences.json), by cumulative exon length, so a
+    terminus here is the same nucleotide the splice uses and nothing is re-derived from coordinates
+    this module owns.
+
+    ⛔ THE FIRST AND LAST BOUNDARIES ARE EXCLUDED ON PURPOSE. The final exon's 3' end is the
+    transcript's 3' end, not a splice donor, and the first exon's 5' end is the transcript's 5' end,
+    not a splice acceptor. Including them would put transcript ends into an ensemble whose whole
+    subject is splice junctions.
+    """
+    genes = json.load(open(pgp.SEQS, encoding="utf-8"))["genes"]
+    out = {}
+    for g, v in genes.items():
+        ends, acc = [], 0
+        for a, b in v["exon_spans_0based_inclusive"]:
+            acc += b - a + 1
+            ends.append(acc)
+        # ends[:-1] are internal 3' termini; the same cut points are the internal 5' termini.
+        out[g] = (ends[:-1], ends[:-1])
+    return out
+
+
+def draw_donor_terminus_chimera(rng, parents, donor, donor_len, bounds):
+    """Chimera whose donor half ENDS AT A REAL EXON 3' TERMINUS; NR4A3 half uniform interior.
+
+    This is `draw_parent_chimera` with exactly one thing changed — the donor window is no longer
+    drawn uniformly over the interior, it is drawn over the real splice donors. Everything else is
+    held: the donor gene, the acceptor gene, the 5'-donor/3'-NR4A3 order, the split.
+    """
+    ds, ns = parents[donor], parents["NR4A3"]
+    tail = pgp.OLIGO_LEN - donor_len
+    left = right = ""
+    if donor_len:
+        ends = [e for e in bounds[donor][0] if e >= donor_len]
+        e = ends[rng.below(len(ends))]
+        left = ds[e - donor_len:e]
+    if tail:
+        p = rng.below(len(ns) - tail + 1)
+        right = ns[p:p + tail]
+    return left + right
+
+
+#: The mature-coordinate 5' terminus of NR4A3 exon 3 — the acceptor EVERY ONE of the 38 reported
+#: in-frame junctions uses. `exon_terminus_chimera_novel_acceptor` excludes it, so that arm cannot
+#: draw the disease's own acceptor even by accident. ⚠ DERIVED, NOT TYPED: asserted against the
+#: designs themselves in test_aso_parent_null.py rather than trusted as a constant here.
+NR4A3_EXON3_START = 697
+
+
+def draw_exon_terminus_chimera(rng, parents, donor, donor_len, bounds, exclude_real_acceptor=False):
+    """⭐ THE STRICTEST NULL: a chimera between two REAL exon termini of the two real parents.
+
+    Donor half ends at a real donor exon 3' terminus; NR4A3 half begins at a real NR4A3 exon 5'
+    terminus. It is a syntactically valid exon-exon junction between the same two genes that is
+    NOT a reported EMC breakpoint. If the observed rate is what THIS arm gives, then screen 4's
+    excess is a property of joining two exon termini and not of where the disease joins them.
+    """
+    ds, ns = parents[donor], parents["NR4A3"]
+    tail = pgp.OLIGO_LEN - donor_len
+    left = right = ""
+    if donor_len:
+        ends = [e for e in bounds[donor][0] if e >= donor_len]
+        e = ends[rng.below(len(ends))]
+        left = ds[e - donor_len:e]
+    if tail:
+        starts = [s for s in bounds["NR4A3"][1]
+                  if s + tail <= len(ns)
+                  and not (exclude_real_acceptor and s == NR4A3_EXON3_START)]
+        s = starts[rng.below(len(starts))]
+        right = ns[s:s + tail]
+    return left + right
+
+
 # ───────────────────────────────────────────────────────────────────── the instrument, made fast
 def _gap_index(parents):
     """gap 6-mer -> [(gene, window_start)], so a query touches ~5 candidates instead of 20,011.
@@ -353,12 +440,29 @@ def build():
     for panel in atlas["panels"]:
         for d in panel.get("designs") or []:
             if d.get("fusion_specific"):
+                # ⚠ `junction_offset_in_oligo` IS AN OFFSET IN THE ANTISENSE OLIGO, NOT A DONOR
+                # BASE COUNT, and the two differ for 152 of the 190 designs. The oligo is the
+                # reverse complement of the target, so the NR4A3 half comes FIRST in it: the field
+                # equals `bases_from_NR4A3` for all 190 records, which is asserted below rather
+                # than described. The donor half of the TARGET is therefore the complement,
+                # `OLIGO_LEN - junction_offset_in_oligo`.
+                # ⛔ `draw_parent_chimera` above is called with the offset and takes that many
+                # bases from the DONOR, i.e. it builds each design's MIRROR split. Its ensemble
+                # totals are unaffected — every junction's five designs tile offsets 6..10, which
+                # is symmetric about 8, so the multiset of donor lengths drawn per junction is
+                # identical either way (asserted in test_aso_parent_null.py) — but the two arms
+                # below take the split they mean, because a per-design terminus draw is not
+                # symmetric and the mirror would silently pair the wrong window length.
+                donor_len = pgp.OLIGO_LEN - d["junction_offset_in_oligo"]
+                if "bases_from_NR4A3" in d:
+                    assert d["junction_offset_in_oligo"] == d["bases_from_NR4A3"], panel["junction_label"]
                 designs.append({
                     "junction": panel["junction_label"],
                     "donor": panel["donor_symbol"],
                     "antisense_5to3": d["antisense_5to3"],
                     "target": d["target_mRNA_5to3"],
                     "junction_offset": d["junction_offset_in_oligo"],
+                    "donor_len": donor_len,
                     "margin": d["gap_specificity_margin"],
                 })
 
@@ -393,10 +497,14 @@ def build():
     gap_pos = list(pgp.GAP)
     wing_pos = [p for p in range(pgp.OLIGO_LEN) if p not in pgp.GAP]
 
+    bounds = mature_exon_boundaries()
+
     for name in ("scrambled_mononucleotide", "scrambled_dinucleotide",
                  "random_uniform", "random_composition_matched",
                  "wings_scrambled_gap_held", "gap_scrambled_wings_held",
-                 "random_parent_chimera"):
+                 "random_parent_chimera",
+                 "donor_terminus_chimera", "exon_terminus_chimera",
+                 "exon_terminus_chimera_novel_acceptor"):
         # ⚠ One stream per ensemble, seeded from the ensemble NAME, so adding or removing an
         # ensemble cannot shift the draws of the ones either side of it.
         rng = Rng(SEED ^ sum((i + 1) * ord(c) for i, c in enumerate(name)))
@@ -420,6 +528,13 @@ def build():
                     q = draw_uniform(rng, pgp.OLIGO_LEN)
                 elif name == "random_composition_matched":
                     q = draw_composition(rng, pgp.OLIGO_LEN, keys, cum, total)
+                elif name == "donor_terminus_chimera":
+                    q = draw_donor_terminus_chimera(rng, parents, d["donor"], d["donor_len"], bounds)
+                elif name == "exon_terminus_chimera":
+                    q = draw_exon_terminus_chimera(rng, parents, d["donor"], d["donor_len"], bounds)
+                elif name == "exon_terminus_chimera_novel_acceptor":
+                    q = draw_exon_terminus_chimera(rng, parents, d["donor"], d["donor_len"], bounds,
+                                                   exclude_real_acceptor=True)
                 else:  # random_parent_chimera
                     q = draw_parent_chimera(rng, parents, d["donor"], j)
                 run, gene = _best_run(q, parents, idx)

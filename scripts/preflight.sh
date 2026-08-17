@@ -178,6 +178,40 @@ else
   echo "   FAILED -- rerun 'node scripts/validate-registry.mjs' to see why"; rc=1
 fi
 
+# ⛔ A FILE MARKED "GENERATED" WAS AN INSTRUCTION TO HUMANS BACKED BY NOTHING (added 2026-08-16).
+# Four deposit artifacts are produced by generators and carry GENERATED banners, and no gate ever
+# re-derived any of them. Round 7 measured THREE of the four stale at once: the archive manifest 78
+# commits behind HEAD (so the recorded manuscript hash described a pre-restructure file), and
+# submission-metrics.json under-counting by 263 main words while every other deposit document
+# defers to it as "the one home" for those counts. Both had been wrong for weeks under nine green
+# gates, because "is this file current?" was a question nothing could ask.
+# ⚠ THE MANIFEST ALREADY HAD A --check MODE AND NO GATE RAN IT. Two of the others were given one in
+# the same pass that added this block; the fourth (submission_packet.py) still has none and is
+# named as unverified by scripts/regenerate_aso_chain.sh rather than silently assumed current.
+# ⚠ POSITION IS LOAD-BEARING, AND NOT FOR A TECHNICAL REASON. This gate was first inserted BEFORE
+# the parser guard, which pushed the registry validator from gate 7 to gate 8 -- and four documents
+# (README.md, CONTRIBUTING.md, systems/POLICY-evidence.md and .claude/skills/repo-gates/SKILL.md)
+# state its ordinal in prose. systems_check's P1 rule caught all four immediately, which is the
+# one-fact-one-place rule doing its job on a change that looked purely additive. Appending here
+# leaves every existing ordinal untouched; it still runs before the test steps, which is all this
+# gate's placement actually requires. ⛔ Insert a new gate ABOVE this line and you will move an
+# ordinal that four documents hard-code.
+echo "== generated deposit artifacts reproduce from their generators =="
+gen_fail=""
+for g in "research/manuscripts/submission_tables.py|submission tables" \
+         "research/manuscripts/submission_citations.py|submission references" \
+         "research/manuscripts/submission_metrics.py|submission metrics" \
+         "research/manuscripts/aso_archive_manifest.py|archive manifest"; do
+  gen="${g%%|*}"; label="${g##*|}"
+  if python3 "$gen" --check >/dev/null 2>&1; then
+    echo "   OK   $label"
+  else
+    echo "   STALE $label -- rerun 'python3 $gen' and commit the result"
+    gen_fail="$gen_fail $label"; rc=1
+  fi
+done
+[ -n "$gen_fail" ] && echo "   ⛔ a stale generated file ships a claim its own artifacts no longer support:$gen_fail"
+
 if [ "${SKIP_TESTS:-0}" != "1" ]; then
   # ⭐ CHANGE-SCOPED BY DEFAULT, FULL ON DEMAND (trimcrae, 2026-08-12: the suite was the bottleneck,
   # and "only the ones affected by the changes" plus "not on every push, manually before

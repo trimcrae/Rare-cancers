@@ -675,7 +675,25 @@ def test_the_discussion_recommends_the_two_published_junctions():
     # assertion stopped finding it. Worse in the dead-phrase direction — a superseded sentence that
     # came back on ONE line would have passed a raw check silently. Flattened both ways.
     assert "resolved to the nucleotide by the deposited chimeric cDNA" in txt
-    assert "the resulting 98.3% is an upper bound rather than a reachable target" in txt
+    # ⭐ RE-PINNED 2026-08-17, round 7 P1 (B3-F1 first half). The old assertion read
+    #     "the resulting 98.3% is an upper bound rather than a reachable target"
+    # and it pinned a sentence that named ONE reason for the bound. The ladder reaches 98.3 by two
+    # steps and the TCF12 arm is the SMALLER of them: +15.9 points for "every remaining EWSR1
+    # breakpoint covered" (three further reagents the retrieved record does not resolve to an exon)
+    # and +3.4 for TCF12. Attributing the whole bound to TCF12 made the EWSR1 step invisible, which
+    # is the larger unbuildable assumption. The upper-bound property is still pinned; what is added
+    # is that BOTH reasons are named, with each step's size derived from the ladder rather than
+    # spelled here, so a re-priced rung cannot leave this assertion asserting a stale number.
+    assert "is an upper bound rather than a reachable target for two reasons and not one" in txt
+    _ewsr1_step = next(r for r in lad
+                       if r["panel"] == "BOUND — every remaining EWSR1 breakpoint covered")
+    _tcf12_step = next(r for r in lad
+                       if r["panel"] == "BOUND — the above plus TCF12")
+    assert f"{_tcf12_step['delta_percent_vs_previous']} percentage points" in txt, _tcf12_step
+    assert f"{_ewsr1_step['delta_percent_vs_previous']}" in txt, _ewsr1_step
+    _num_word = {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six"}
+    assert (f"needs {_num_word[_ewsr1_step['n_reagents_additional_unnamed']]} further reagents"
+            in txt), _ewsr1_step
     for dead in ("whose junction has never been published as an exon",
                  "inference from a residue count against this transcript model"):
         assert dead not in txt, f"superseded TCF12 claim is back: {dead!r}"
@@ -1150,8 +1168,14 @@ def test_section_3_11_expression_figures_are_the_artifacts():
     assert len(readable) == 4, [L["locus"] for L in readable]
     # the claim is "none of the four measurable ones reaches the upper cut"
     assert not [L for L in lead if L["tier"] == "EXPRESSED_IN_AN_EXPOSURE_ORGAN"]
-    assert ("The *EWSR1* exon 12 reagent's six loci carry 123 of the panel's 649 transcript "
-            "records, and none of the four measurable ones reaches the upper cut") in txt
+    # ⛔ THE NOUN, CORRECTED 2026-08-16. `n_transcript_records` is incremented once per gap-paired
+    # hit PER DESIGN (aso_offtarget_tissue_expression._seam_rows), and the module's own selftest
+    # asserts `n_gap_paired_hybridisable == sum(n_transcript_records)`. So it is a HIT COUNT, not
+    # annotation depth, and the paper said the latter in four places. NRP1 is the clinching case:
+    # five records over ONE accession, one per design — annotation depth cannot depend on how many
+    # designs were run. This pin follows the corrected noun; it previously pinned the wrong one.
+    assert ("The *EWSR1* exon 12 reagent's six loci carry 123 of the panel's 649 gap-paired "
+            "hits, and none of the four measurable ones reaches the upper cut") in txt
 
     anks = next(L for L in lead if L["locus"] == "ANKS1B")
     assert anks["screen_records"]["n_transcript_records"] == 67
@@ -1171,7 +1195,7 @@ def test_section_3_11_expression_figures_are_the_artifacts():
         L["screen_records"]["n_transcript_records"] for L in lead), "CHST5 is the smallest of the six"
     gut = chst5["whole_body_context"]["top_tissues"][0]["tissue"]
     assert any(w in gut for w in ("Intestine", "Colon", "Stomach")), gut
-    assert "*CHST5*, the smallest of the six by record count, peaks in gut" in txt
+    assert "*CHST5*, the smallest of the six by hit count, peaks in gut" in txt
 
     # ── the TAF15 exon 6 reagent ──────────────────────────────────────────────────────────────
     taf = _loci_of_design(expr, "GGGCATATCTTGTGTG")
@@ -1181,7 +1205,10 @@ def test_section_3_11_expression_figures_are_the_artifacts():
     assert round(min(vals.values()), 1) == 6.6 and round(max(vals.values()), 1) == 17.8, vals
     assert all(v >= 1.0 for v in vals.values()), "the sentence says across all three"
     assert nrp1["tier"] == "EXPRESSED_IN_AN_EXPOSURE_ORGAN"
-    # recurrence: every tiling register at that seam, on five records — two different axes
+    # ⚠ NOT TWO AXES — THAT WAS THE DEFECT. At NRP1 "five registers" and "five records" are the
+    # SAME fact stated twice: the record count is per design, so five designs returning one
+    # accession yield five records. The equality asserted below is therefore an identity, not a
+    # coincidence, and the manuscript now says "five gap-paired hits to a single accession".
     n_des = {s["junction_label"]: s["n_designs"] for s in expr["panel"]["panel"]}
     assert nrp1["n_designs_hitting_it"] == n_des["TAF15_e6__NR4A3_e3"] == 5
     assert nrp1["screen_records"]["n_transcript_records"] == 5
@@ -1189,7 +1216,8 @@ def test_section_3_11_expression_figures_are_the_artifacts():
             if L["n_designs_hitting_it"] == n_des.get(L["seams"][0])
             and L["seams"][0] == "TAF15_e6__NR4A3_e3"] == ["NRP1"], "NRP1 is the only such locus"
     assert ("*NRP1* reaches 6.6 to 17.8 TPM across all three exposure tissues and is the only one "
-            "all five of that junction's tiling registers return, on five transcript records") in txt
+            "all five of that junction's tiling registers return, on five gap-paired hits to a "
+            "single accession") in txt
 
     # ── the tumour compartment, which is a SEPARATE axis and ordered differently ───────────────
     # ⭐ THE PANEL'S HIGHEST MOVED WHEN THE PANEL GREW, AND THAT IS WHY THIS IS DERIVED.
@@ -1216,8 +1244,20 @@ def test_section_3_11_expression_figures_are_the_artifacts():
     # they landed. So the SAME fact is asserted against the generated table: both cells are its own
     # artifact's, and the artifact's top locus is required to be the top of the PRINTED column, which
     # is a stronger statement than the prose ever made.
-    assert ("robustness to register orders the loci differently again; the tumour-compartment "
-            "proxy orders them a third way") in txt
+    # ⛔ AND THE "THREE ORDERINGS" CLAIM WAS ITSELF PART OF THE MISLABEL (corrected 2026-08-16).
+    # Presenting register-robustness and the record count as independent axes was wrong for the same
+    # reason the noun was: the count is per design, so a locus returned by more registers accrues
+    # more hits BY CONSTRUCTION. NRP1 is the proof — top on register robustness, near the bottom on
+    # hits, five records over one accession. The prose now states that dependence instead of
+    # implying independence, so this pin follows the corrected claim and asserts the DEPENDENCE
+    # clause specifically, which is the part a future shortening pass would drop first.
+    assert "robustness to register orders the loci differently again" in txt
+    assert ("not\nindependently of the hit count" in _paper()
+            or "not independently of the hit count" in txt), (
+        "§2.8 no longer states that register robustness and the hit count are dependent — the "
+        "sentence has reverted to implying three independent orderings"
+    )
+    assert "the tumour-compartment proxy orders them a third way" in txt
     if os.path.exists(TABLES):
         tab = open(TABLES, encoding="utf-8").read()
         body = tab[tab.index("**Table 6."):]

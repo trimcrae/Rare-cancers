@@ -429,6 +429,16 @@ _TABLE7_ROWS = (
     ("coverage rung", "panel", "EWSR1_e13__NR4A3_e3", None),
     ("coverage rung", "noncoding", "EWSR1_e7__NR4A3_e2", None),
     ("coverage bound", "panel", "TCF12_e5__NR4A3_e3", None),
+    # ⛔ THIS ROW WAS MISSING AND THE TABLE COULD NOT NOTICE (round-7 review, A5-F2, 2026-08-16).
+    # TFG e7::NR4A3 e3 qualifies for the best-supported buildable panel on both of the ladder's
+    # conditions — `clinical_tier == "published_exon_resolved_breakpoint"` and a reagent through all
+    # five deep screens — and the ladder lists it in `⛔_qualifying_but_contributing_exactly_zero`
+    # beside PGR e2, which HAS a row. §2.3 resolves this seam exactly as it resolves TCF12 e5, from a
+    # deposited chimeric mRNA rather than from a paper, and §2.7 names its margin and parent run
+    # among the five published seams. It was absent for no reason but that this list is typed: the
+    # spec is editorial, the qualifying set is the artifact's, and nothing compared them. The guard
+    # in `table7` now does, so the next qualifying junction cannot be dropped in silence.
+    ("published seam in the panel", "panel", "TFG_e7__NR4A3_e3", None),
     ("beside the panel", "noncoding", "EWSR1_e13__NR4A3_e2", None),
     ("beside the panel", "noncoding", "TAF15_e6__NR4A3_e2", None),
     ("beside the panel", "noncoding", "PGR_e2__NR4A3_e2", None),
@@ -437,8 +447,28 @@ _TABLE7_ROWS = (
 )
 
 
+def _ladder_cell(rung):
+    """One ladder entry rendered as its (coverage cell, basis cell). One home for the formatting."""
+    cell = f"{rung['coverage_percent']:.1f}%"
+    lo, hi = rung["coverage_percent_range"]
+    if lo != hi:
+        cell += f" ({lo:.1f}–{hi:.1f})"
+    # ⚠ A RUNG THAT BUYS NOTHING MUST SAY SO IN ITS OWN CELL. Two consecutive rungs print the
+    # same cumulative figure when the second adds zero, and a reader who does not compare rows
+    # reads the second as having bought it. The delta is in the artifact; print it.
+    # ⛔ AND THE DELTA WAS GATED ON `kind == "rung"`, WHICH SUPPRESSED IT WHERE IT MATTERS MOST
+    # (round-7 review, B3-F1, 2026-08-16). The two bounds carry +15.9 and +3.4 between the last
+    # buildable rung and 98.3%, so the larger of the two steps to the ladder's top figure is the
+    # one the table declined to print. A bound's increment is exactly as derived as a rung's.
+    delta = rung.get("delta_percent_vs_previous")
+    if delta is not None:
+        cell += f" (+{delta:.1f})"
+    basis = "arithmetic bound" if rung["kind"] == "bound" else "single series, cumulative"
+    return cell, basis
+
+
 def _ladder_coverage(ladder):
-    """junction_label -> (cumulative coverage cell, basis cell), READ from the coverage ladder.
+    """(junction -> (coverage cell, basis, ladder index), the ladder entries no junction claims).
 
     ⛔ THE COVERAGE CELL IS THE LADDER'S, NOT THE ROW SPEC'S. A junction's cumulative figure is the
     coverage of the FIRST rung that contains it, because that is what "cumulative through this row"
@@ -447,31 +477,36 @@ def _ladder_coverage(ladder):
     prints WHY it moves nothing rather than a zero, since the two reasons are different — the partner
     is absent from the 58-case cohort, or the partner is present and this exon pair carries no count
     in the measured within-partner distribution. Both are in the artifact and neither is inferred.
+
+    ⛔⛔ AND FIRST-RUNG-WINS SILENTLY DELETED A LADDER ROW (round-7 review, B3-F1, fixed 2026-08-16).
+    The claim was a `setdefault` per junction, so a ladder entry could only reach the table THROUGH a
+    junction no earlier entry contained. The 94.8% bound — "every remaining *EWSR1* breakpoint
+    covered" — adds no junction at all: it adds THREE UNNAMED reagents at breakpoints the retrieved
+    record does not resolve, so its junction list is identical to the rung below it and every one of
+    its junctions was already claimed. The row vanished, and with it the fact that 15.9 of the 19.3
+    points between the last buildable rung and 98.3% come from an assumption about breakpoints
+    nothing here reaches. What was left read as though *TCF12* bought the whole step.
+    A ladder entry that no junction claims is returned here so the table can render it on its own
+    terms — a bound with no reagent to name is still a row, and its cell is the reason the figure
+    above it is not a target.
     """
-    out = {}
-    for rung in ladder["ladder"]:
-        cell = f"{rung['coverage_percent']:.1f}%"
-        lo, hi = rung["coverage_percent_range"]
-        if lo != hi:
-            cell += f" ({lo:.1f}–{hi:.1f})"
-        # ⚠ A RUNG THAT BUYS NOTHING MUST SAY SO IN ITS OWN CELL. Two consecutive rungs print the
-        # same cumulative figure when the second adds zero, and a reader who does not compare rows
-        # reads the second as having bought it. The delta is in the artifact; print it.
-        delta = rung.get("delta_percent_vs_previous")
-        if rung["kind"] == "rung" and delta is not None:
-            cell += f" (+{delta:.1f})"
-        basis = ("arithmetic bound" if rung["kind"] == "bound"
-                 else "single series, cumulative")
+    out, claimed = {}, set()
+    for i, rung in enumerate(ladder["ladder"]):
+        cell, basis = _ladder_cell(rung)
         for j in rung["junctions"]:
-            out.setdefault(j, (cell, basis))
+            if j not in out:
+                out[j] = (cell, basis, i)
+                claimed.add(i)
     pm = ladder["best_supported_buildable_panel"]["panel_membership"]
     for key, why in (("⛔_in_cohort_but_moving_NOTHING",
                       "partner in the cohort, this exon pair uncounted in it"),
                      ("⛔_qualifying_but_contributing_exactly_zero",
                       "partner absent from the cohort behind the denominator")):
         for j in pm[key]["junctions"]:
-            out.setdefault(j, ("adds nothing", why))
-    return out
+            if j not in out:
+                out[j] = ("adds nothing", why, None)
+    unclaimed = [(i, r) for i, r in enumerate(ladder["ladder"]) if i not in claimed]
+    return out, unclaimed
 
 
 def table7(per_junction, noncoding, gap, ladder):
@@ -493,15 +528,44 @@ def table7(per_junction, noncoding, gap, ladder):
     panel = {j["junction_label"]: j for j in per_junction["junctions"]}
     nonc = {j["junction_label"]: j for j in noncoding["junctions"]}
     lead = gap["lead_reagent_at_the_most_commonly_reported_seam"]["by_geometry"]
-    cover = _ladder_coverage(ladder)
+    cover, unclaimed = _ladder_coverage(ladder)
     default_arch = GEOMETRY.architecture
+
+    # ⛔ THE ROW SPEC IS TYPED, SO SOMETHING MUST COMPARE IT WITH THE ARTIFACT (round-7, A5-F2).
+    # `_TABLE7_ROWS` is an editorial ordering and the set of junctions that BELONG in it is not:
+    # the ladder's `panel_membership` names every junction with a published exon-resolved breakpoint
+    # AND a reagent through all five deep screens, both conditions read from the tables that own
+    # them. TFG e7::NR4A3 e3 satisfied both and was absent for a year of revisions because no check
+    # existed. A missing row in a table captioned as complete is unfindable by reading the table.
+    qualifying = set(ladder["best_supported_buildable_panel"]["panel_membership"]["junctions"])
+    named = {lb for _, src, lb, _ in _TABLE7_ROWS if src in ("panel", "noncoding")}
+    if qualifying - named:
+        raise SystemExit(
+            "Table 7 omits " + ", ".join(sorted(qualifying - named)) + ": the coverage ladder's "
+            "best-supported buildable panel qualifies it on a published exon-resolved breakpoint "
+            "and five completed deep screens, and this table's caption claims every such seam. Add "
+            "the row to _TABLE7_ROWS, or state in the caption why it is out of scope.")
 
     def _duplex(bp, gene):
         if not bp:
             return "none"
         return f"{bp} bp (*{gene}*)" if gene else f"{bp} bp"
 
-    rows = []
+    def _bound_row(rung):
+        """A ladder entry that no junction row carries, rendered on its own terms.
+
+        ⚠ EVERY REAGENT CELL IS AN EM-DASH AND THAT IS THE POINT: the bound is priced on breakpoints
+        for which this work names no oligonucleotide, and the count of reagents it would take is the
+        artifact's own `n_reagents_additional_unnamed`. A row that filled those cells from anywhere
+        would be inventing a panel.
+        """
+        cell, basis = _ladder_cell(rung)
+        n = rung.get("n_reagents_additional_unnamed") or 0
+        seq = f"— ({n} further reagents, none named)" if n else "—"
+        return (f"| coverage bound | {rung['panel']} | {seq} | — | — | — | — | "
+                f"{cell} | {basis} |")
+
+    rows, pending = [], list(unclaimed)
     for role, src, label, key in _TABLE7_ROWS:
         if src in ("panel", "noncoding"):
             j = (panel if src == "panel" else nonc)[label]
@@ -524,11 +588,19 @@ def table7(per_junction, noncoding, gap, ladder):
         # ⚠ A CONTRAST ARM HAS NO COVERAGE AND MUST NOT BORROW ITS JUNCTION'S. Both arms sit at a
         # junction already in the table; printing that junction's cumulative figure again would
         # count the same patients twice, which is the exact error the ladder exists to prevent.
-        cov, basis = (("—", "not a coverage row") if src in ("geometry", "design")
-                      else cover.get(label, ("adds nothing", "not in the ladder")))
+        cov, basis, idx = (("—", "not a coverage row", None) if src in ("geometry", "design")
+                           else cover.get(label, ("adds nothing", "not in the ladder", None)))
+        # A ladder entry no junction claims goes in ITS OWN PLACE IN THE LADDER, immediately above
+        # the first row that carries a later entry — and the contrast arms are not coverage rows, so
+        # anything still pending is flushed before them rather than after the table's last figure.
+        while pending and (src in ("geometry", "design")
+                           or (idx is not None and pending[0][0] < idx)):
+            rows.append(_bound_row(pending.pop(0)[1]))
         lab = label.replace("__", "::").replace("_", " ")
         rows.append(f"| {role} | {lab} | 5′-{seq}-3′ | {arch} | {margin} | {load} | "
                     f"{dup} | {cov} | {basis} |")
+    for _, rung in pending:                     # a ladder that ends above every named reagent
+        rows.append(_bound_row(rung))
     hdr = ("| reagent | junction | sequence | geometry | gap-level margin | gap-paired near-matches "
            "→ loci at the deeper ceiling | longest mature-parent duplex through the gap | "
            "cumulative coverage | basis |")
@@ -736,6 +808,37 @@ _EXPOSURE_READING = {
 }
 
 
+def _gap_paired_records(expr):
+    """Table 6's record column, totalled — and the guard that it is a HIT count, not a gene property.
+
+    ⛔ THE COLUMN WAS HEADED "transcript records" AND CAPTIONED AS ANNOTATION DEPTH — "how many
+    accessions RefSeq lists for the gene" — and it is neither (round-7 review, B2-F5, 2026-08-16).
+    `aso_offtarget_tissue_expression._seam_rows` increments `n_transcript_records` once per
+    GAP-PAIRED HIT, once for every design tiled at the seam, then merges the per-seam rows by
+    addition. So the column sums to the panel's whole gap-paired hit count, and a locus returned by
+    five registers is counted five times. *NRP1* is the demonstration: five records over ONE
+    accession, because all five of its junction's designs return it. *HNRNPA2B1*'s hundred are fifty
+    accessions returned by two designs.
+
+    Under the old label a reader took the column for a property of the GENE, fixed by RefSeq. It is a
+    property of what the SEARCH returned, and it is therefore not the independent second axis the
+    caption claimed it was — it moves with the register column beside it. The header and the caption
+    now name the quantity the code computes.
+
+    ⚠ THE IDENTITY IS ASSERTED, NOT TRUSTED, because the new label is only correct while it holds. If
+    the upstream module ever makes this the gene's annotation depth, the sum stops matching the
+    panel's hit total and this refuses to build rather than re-acquiring the old defect silently.
+    """
+    total = sum(L["screen_records"]["n_transcript_records"] for L in expr["per_locus"])
+    hits = sum(s["n_gap_paired_hybridisable"] for s in expr["panel"]["panel"])
+    if total != hits:
+        raise SystemExit(
+            f"Table 6: the record column sums to {total} while the panel's screens returned {hits} "
+            "gap-paired hits; the column is no longer the per-locus gap-paired hit count its header "
+            "names, so the header is wrong again — re-derive the label before regenerating")
+    return total
+
+
 def table6(expr):
     """Where each off-target locus of the two clinically-relevant reagents is expressed.
 
@@ -745,8 +848,9 @@ def table6(expr):
     printed side by side and never combined, exactly as Table 5 keeps the two directions of the
     gap-length trade apart.
 
-    ⛔ NO RISK COLUMN, AND NO ORDERING BY EXPRESSION. Rows are grouped by junction and then by transcript
-    record count, which is annotation depth. Every hit behind this table is at the screen's loosest
+    ⛔ NO RISK COLUMN, AND NO ORDERING BY EXPRESSION. Rows are grouped by junction and then by the
+    per-locus gap-paired hit-record count — see `_gap_paired_records` for what that column is and for
+    the label it used to carry. Every hit behind this table is at the screen's loosest
     admitted identity, so nothing here distinguishes the loci on affinity, and an expression figure
     is not a predicted cleavage event. The artifact refuses a hazard ordering and so does its table.
 
@@ -783,7 +887,7 @@ def table6(expr):
                     f"{L['screen_records']['n_transcript_records']} | "
                     f"{L['n_designs_hitting_it']} of {n_des.get(junction, '?')} | "
                     + " | ".join(cells) + f" | {soft} | {reading} |")
-    hdr = ("| junction | gene locus | transcript records | tiling registers returning it | "
+    hdr = ("| junction | gene locus | gap-paired hit records | tiling registers returning it | "
            + " | ".join(tiss) + " | soft-tissue proxy maximum | exposure-organ reading |")
     sep = "|---|---|---|---|" + "---|" * (len(tiss) + 2)
     return "\n".join([hdr, sep] + rows)
@@ -923,7 +1027,8 @@ def _minus_strand_share(collapse):
     return (round(100 * minus / tot) if tot else None), minus, tot
 
 
-def main():
+def main(argv=None):
+    argv = list(sys.argv[1:] if argv is None else argv)
     atlas = _load("nr4a3-fusion-junction-atlas.json")
     collapse = _load("junction-aso-offtarget-locus-collapse.json")
     chance = _load("offtarget-chance-baseline.json")
@@ -958,6 +1063,7 @@ def main():
     lo_cut_txt = (", ".join(t.lower() for t in _et[:-1]) + " and " + _et[-1].lower()
                   if len(_et) > 1 else _et[0].lower())
 
+    _n_records = _gap_paired_records(expr)
     t2, any_unfiltered = table2(collapse, chance, atlas)
     t3, n_clean, n_clean_junctions = table3(collapse, chance, thermo, _graded_loads())
     pct, minus, tot = _minus_strand_share(collapse)
@@ -1079,25 +1185,42 @@ Values are GTEx v8 median TPM across each tissue's donors. The two cuts behind t
 stated for legibility and are not thresholds of concern: below {lo_cut:g} TPM in all three exposure
 tissues reads as below detection, at or above {hi_cut:g} TPM in any of them as the level at which an
 off-target hypothesis would have to be tested. Every raw median is released so another cut can be
-applied without re-running. Tiling registers is how many of the designs tiled across that junction
-return the locus, which is robustness to where the window is placed and is a different axis from the
-record count beside it; neither is ranked on. Transcript records are how many accessions RefSeq
-lists for the gene, that is annotation depth, not expression and not affinity. A locus with no
-reading carries the reason rather than a zero, because an absent reading is not a reading of
-absence. Every hit behind this table sits at 14 of 16 identity, the loosest the screen admits, so
+applied without re-running. Gap-paired hit records are the gap-paired near-matches the deeper
+screens returned at that locus, one per accession per design, added up over every design tiled
+across the junction; the column totals {_n_records}, which is the panel's entire gap-paired hit
+count. It is a count of what the search returned and not of how many accessions RefSeq lists for
+the gene, so it is not annotation depth and not a property of the locus on its own: a locus that
+every register returns is counted once per register. Tiling registers is how many of the designs
+tiled across that junction return the locus, which is robustness to where the window is placed; the
+two columns therefore move together rather than being independent axes, and neither is ranked on,
+neither is expression and neither is affinity. A locus with no reading carries the reason rather
+than a zero, because an absent reading is not a reading of absence. Every hit behind this table sits at 14 of 16 identity, the loosest the screen admits, so
 nothing here distinguishes these loci from one another on affinity. None of these numbers is a
 measurement of cleavage, and no expression figure is a predicted cleavage event.
 
 {table6(expr)}
 
-**Table 7. Every reagent named in §4, what it costs on each screen and what it buys in coverage.**
-The rows are in the order §4 decides them: the two lead reagents, the rungs of the coverage ladder
-above them, the four *NR4A3* exon-2 acceptor seams reported beside the panel, and the two contrast
-arms. Cumulative coverage is the coverage of the reagent set through that row, so the two leads are
+**Table 7. Every reagent named in §4 and every other seam that qualifies beside them, what each
+costs on each screen and what each buys in coverage.** The rows are in the order §4 decides them:
+the two lead reagents, the rungs of the coverage ladder above them, the bounds above those, the
+remaining junction with a published exon-resolved breakpoint and a reagent through all five deep
+screens, the four *NR4A3* exon-2 acceptor seams reported beside the panel, and the two contrast
+arms. Membership is the coverage ladder's and not this table's: every junction its best-supported
+buildable panel qualifies — a published exon-resolved breakpoint and five completed deep screens,
+each read from the table that owns it — has a row here whether or not §4 names its reagent, and the
+generator refuses to build if one is missing. A row can therefore qualify and still buy no coverage,
+which is a statement about the denominator and not about the reagent. Cumulative coverage is the
+coverage of the reagent set through that row, so the two leads are
 one rung and carry one figure between them; it is discounted by the breakpoint distribution of a
 single series and is not a partner figure, and its interval is composed from each breakpoint
-fraction's own Wilson bound rather than from the point estimate. A bound row is what coverage would
-be if every remaining breakpoint of that partner were covered, which nothing measures. A row that
+fraction's own Wilson bound rather than from the point estimate. Every rung and every bound prints
+the increment it adds over the row above it, so no figure reads as bought by the row it sits on. A
+bound row is what coverage would be if every remaining breakpoint of that partner were covered,
+which nothing measures. A bound that names no reagent still has a row, and the *EWSR1* one is the
+larger of the two steps between the last buildable rung and the table's top figure: the three
+breakpoints it prices are ones the retrieved record does not resolve to an exon, so no sequence,
+geometry or screen result exists for them and every such cell is empty. If those breakpoints are
+private rather than recurrent, no stocked panel reaches them at any size. A row that
 adds nothing prints why, because the two reasons differ: the partner is absent from the 58-case
 cohort behind the denominator, or the partner is present and that exon pair carries no count in the
 measured within-partner distribution. The exon-2 acceptor rows are from the non-canonical-acceptor
@@ -1110,6 +1233,36 @@ measurement of off-target activity, and no row is a claim of efficacy.
 
 {table7(per_junction, noncoding, gap, ladder)}
 """
+    # ⛔ `--check` EXISTS BECAUSE THE FILE IS MARKED GENERATED AND NOTHING VERIFIED THAT.
+    # `-submission-tables.md` carries a GENERATED banner telling a reader not to hand-edit it, and
+    # until 2026-08-16 no gate re-derived it. So the banner was an instruction to humans backed by
+    # nothing: an edit to any upstream artifact left the committed tables silently stale, and an
+    # edit to the tables themselves survived every gate the repository runs. Three deposit artifacts
+    # were measured stale in round 7 by exactly that route.
+    # ⚠ The comparison is byte-for-byte against the committed file, and the diff is SUMMARISED
+    # rather than printed in full — a check that dumps 900 lines gets skimmed, which is the failure
+    # mode it exists to prevent.
+    if "--check" in (argv or []):
+        if not os.path.exists(OUT):
+            print(f"⛔ {OUT} does not exist; run without --check to generate it", file=sys.stderr)
+            return 1
+        have = open(OUT, encoding="utf-8").read()
+        if have == doc:
+            print(f"OK {os.path.basename(OUT)} reproduces byte-for-byte")
+            return 0
+        import difflib
+        diff = list(difflib.unified_diff(have.splitlines(), doc.splitlines(),
+                                         "committed", "regenerated", lineterm="", n=1))
+        changed = [ln for ln in diff if ln[:1] in "+-" and ln[:3] not in ("+++", "---")]
+        print(f"⛔ {os.path.basename(OUT)} DOES NOT reproduce: {len(changed)} changed line(s). "
+              "Re-run this generator and commit the result; never hand-edit the file.",
+              file=sys.stderr)
+        for ln in changed[:20]:
+            print("   " + ln[:160], file=sys.stderr)
+        if len(changed) > 20:
+            print(f"   … and {len(changed) - 20} more", file=sys.stderr)
+        return 1
+
     open(OUT, "w").write(doc)
     print(f"wrote {OUT}")
     return 0

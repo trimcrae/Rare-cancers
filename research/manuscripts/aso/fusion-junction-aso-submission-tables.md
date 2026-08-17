@@ -238,16 +238,20 @@ Values are GTEx v8 median TPM across each tissue's donors. The two cuts behind t
 stated for legibility and are not thresholds of concern: below 1 TPM in all three exposure
 tissues reads as below detection, at or above 10 TPM in any of them as the level at which an
 off-target hypothesis would have to be tested. Every raw median is released so another cut can be
-applied without re-running. Tiling registers is how many of the designs tiled across that junction
-return the locus, which is robustness to where the window is placed and is a different axis from the
-record count beside it; neither is ranked on. Transcript records are how many accessions RefSeq
-lists for the gene, that is annotation depth, not expression and not affinity. A locus with no
-reading carries the reason rather than a zero, because an absent reading is not a reading of
-absence. Every hit behind this table sits at 14 of 16 identity, the loosest the screen admits, so
+applied without re-running. Gap-paired hit records are the gap-paired near-matches the deeper
+screens returned at that locus, one per accession per design, added up over every design tiled
+across the junction; the column totals 649, which is the panel's entire gap-paired hit
+count. It is a count of what the search returned and not of how many accessions RefSeq lists for
+the gene, so it is not annotation depth and not a property of the locus on its own: a locus that
+every register returns is counted once per register. Tiling registers is how many of the designs
+tiled across that junction return the locus, which is robustness to where the window is placed; the
+two columns therefore move together rather than being independent axes, and neither is ranked on,
+neither is expression and neither is affinity. A locus with no reading carries the reason rather
+than a zero, because an absent reading is not a reading of absence. Every hit behind this table sits at 14 of 16 identity, the loosest the screen admits, so
 nothing here distinguishes these loci from one another on affinity. None of these numbers is a
 measurement of cleavage, and no expression figure is a predicted cleavage event.
 
-| junction | gene locus | transcript records | tiling registers returning it | Liver | Kidney - Cortex | Kidney - Medulla | soft-tissue proxy maximum | exposure-organ reading |
+| junction | gene locus | gap-paired hit records | tiling registers returning it | Liver | Kidney - Cortex | Kidney - Medulla | soft-tissue proxy maximum | exposure-organ reading |
 |---|---|---|---|---|---|---|---|---|
 | EWSR1 e12::NR4A3 e3 | *ANKS1B* | 67 | 1 of 1 | 0.03 | 0.46 | 0.28 | 3.6 (Artery - Tibial) | below the lower cut in all three |
 |  | *ZNF667* | 37 | 1 of 1 | 0.31 | 1.63 | 2.58 | 6.2 (Nerve - Tibial) | detectable, below the upper cut |
@@ -296,14 +300,27 @@ measurement of cleavage, and no expression figure is a predicted cleavage event.
 |  | *LOC107987169* | 1 | 1 of 5 | — | — | — | — | no gene model — not measurable |
 |  | *LOC124905457* | 1 | 1 of 5 | — | — | — | — | no gene model — not measurable |
 
-**Table 7. Every reagent named in §4, what it costs on each screen and what it buys in coverage.**
-The rows are in the order §4 decides them: the two lead reagents, the rungs of the coverage ladder
-above them, the four *NR4A3* exon-2 acceptor seams reported beside the panel, and the two contrast
-arms. Cumulative coverage is the coverage of the reagent set through that row, so the two leads are
+**Table 7. Every reagent named in §4 and every other seam that qualifies beside them, what each
+costs on each screen and what each buys in coverage.** The rows are in the order §4 decides them:
+the two lead reagents, the rungs of the coverage ladder above them, the bounds above those, the
+remaining junction with a published exon-resolved breakpoint and a reagent through all five deep
+screens, the four *NR4A3* exon-2 acceptor seams reported beside the panel, and the two contrast
+arms. Membership is the coverage ladder's and not this table's: every junction its best-supported
+buildable panel qualifies — a published exon-resolved breakpoint and five completed deep screens,
+each read from the table that owns it — has a row here whether or not §4 names its reagent, and the
+generator refuses to build if one is missing. A row can therefore qualify and still buy no coverage,
+which is a statement about the denominator and not about the reagent. Cumulative coverage is the
+coverage of the reagent set through that row, so the two leads are
 one rung and carry one figure between them; it is discounted by the breakpoint distribution of a
 single series and is not a partner figure, and its interval is composed from each breakpoint
-fraction's own Wilson bound rather than from the point estimate. A bound row is what coverage would
-be if every remaining breakpoint of that partner were covered, which nothing measures. A row that
+fraction's own Wilson bound rather than from the point estimate. Every rung and every bound prints
+the increment it adds over the row above it, so no figure reads as bought by the row it sits on. A
+bound row is what coverage would be if every remaining breakpoint of that partner were covered,
+which nothing measures. A bound that names no reagent still has a row, and the *EWSR1* one is the
+larger of the two steps between the last buildable rung and the table's top figure: the three
+breakpoints it prices are ones the retrieved record does not resolve to an exon, so no sequence,
+geometry or screen result exists for them and every such cell is empty. If those breakpoints are
+private rather than recurrent, no stocked panel reaches them at any size. A row that
 adds nothing prints why, because the two reasons differ: the partner is absent from the 58-case
 cohort behind the denominator, or the partner is present and that exon pair carries no count in the
 measured within-partner distribution. The exon-2 acceptor rows are from the non-canonical-acceptor
@@ -320,7 +337,9 @@ measurement of off-target activity, and no row is a claim of efficacy.
 | lead reagent | TAF15 e6::NR4A3 e3 | 5′-GGGCATATCTTGTGTG-3′ | 5-6-5 | 3 | 8 → 5 | 9 bp (*TFG*) | 68.4% (39.9–82.8) | single series, cumulative |
 | coverage rung | EWSR1 e13::NR4A3 e3 | 5′-GGGCATATCTCCACGG-3′ | 5-6-5 | 3 | 24 → 2 | 8 bp (*TCF12*) | 79.0% (50.3–89.2) (+10.6) | single series, cumulative |
 | coverage rung | EWSR1 e7::NR4A3 e2 | 5′-CAGTGGGCTTCTGCTG-3′ | 5-6-5 | 2 | 51 → 7 | 8 bp (*TAF15*) | 79.0% (50.3–89.2) (+0.0) | single series, cumulative |
-| coverage bound | TCF12 e5::NR4A3 e3 | 5′-GGGCATATCCATCAGA-3′ | 5-6-5 | 3 | 17 → 1 | 7 bp (*EWSR1*) | 98.3% | arithmetic bound |
+| coverage bound | BOUND — every remaining EWSR1 breakpoint covered | — (3 further reagents, none named) | — | — | — | — | 94.8% (+15.9) | arithmetic bound |
+| coverage bound | TCF12 e5::NR4A3 e3 | 5′-GGGCATATCCATCAGA-3′ | 5-6-5 | 3 | 17 → 1 | 7 bp (*EWSR1*) | 98.3% (+3.4) | arithmetic bound |
+| published seam in the panel | TFG e7::NR4A3 e3 | 5′-GGCATATCTGAATACT-3′ | 5-6-5 | 2 | 24 → 6 | 9 bp (*TAF15*) | adds nothing | partner absent from the cohort behind the denominator |
 | beside the panel | EWSR1 e13::NR4A3 e2 | 5′-AGTGGGCTCTCCACGG-3′ | 5-6-5 | 3 | 25 → 6 | 8 bp (*EWSR1*) | adds nothing | partner in the cohort, this exon pair uncounted in it |
 | beside the panel | TAF15 e6::NR4A3 e2 | 5′-AGTGGGCTCTTGTGTG-3′ | 5-6-5 | 3 | 128 → 6 | 9 bp (*NR4A3*) | adds nothing | partner in the cohort, this exon pair uncounted in it |
 | beside the panel | PGR e2::NR4A3 e2 | 5′-AGTGGGCTCTTCCATT-3′ | 5-6-5 | 3 | 51 → 14 | 9 bp (*NR4A3*) | adds nothing | partner absent from the cohort behind the denominator |

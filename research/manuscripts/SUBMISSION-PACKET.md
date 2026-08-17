@@ -106,11 +106,11 @@ last_verified: 2026-08-10
 
 | field | value |
 |---|---|
-| Word count, main text | 9754 (no limit found) |
-| Abstract | 459 words  |
-| Display items | 9 (3 figures, 6 tables) |
-| References | 35 |
-| Cover letter | `aso/fusion-junction-aso-cover-letter.md` |
+| Word count, main text | 18327 (no limit found) |
+| Abstract | 448 words  |
+| Display items | 10 (3 figures, 7 tables) |
+| References | 52 |
+| Cover letter | MISSING |
 | Supplementary file | none |
 | Fee route | not recorded |
 

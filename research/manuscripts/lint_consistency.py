@@ -252,6 +252,22 @@ def _nums(text):
     return [float(m) for m in re.findall(r"-?\d+(?:\.\d+)?", text)]
 
 
+# ★★ EMPHASIS IS NOT CONTENT, AND A GUARD THAT THINKS IT IS FAILS IN BOTH DIRECTIONS.
+#
+# A line-and-substring check over markdown has two failure modes, and this repository has now met
+# both. It reports a protected sentence DESTROYED when the text merely gained italics — `*TAF15*`
+# against `TAF15` — and it reports a defective sentence ABSENT when a hard wrap moved four words to
+# the next line. Neither is a change in what the paper says. So a registry entry may ask to be
+# matched against the FLATTENED document: whitespace collapsed to single spaces, markdown emphasis
+# markers removed, so a pattern is written in the words an author would read aloud.
+#
+# ⚠ ONLY `*` RUNS ARE STRIPPED. Underscores are load-bearing in this corpus — every junction label
+# is `EWSR1_e12__NR4A3_e3` — so stripping `_` would silently rewrite identifiers into other
+# identifiers, which is a worse defect than the one being fixed.
+def _flat_text(lines):
+    return re.sub(r"\*+", "", " ".join("\n".join(lines).split()))
+
+
 # ---------------------------------------------------------------------------
 # D: derivations -- a total must equal its parts
 # ---------------------------------------------------------------------------
@@ -340,6 +356,48 @@ def check_derivations(reg, repo=REPO):
 # someone runs `realised_spend.py --write` -- so this fires exactly when a refresh
 # happened and the doc was not updated in the same commit, which is the real failure mode.
 # ---------------------------------------------------------------------------
+#: How much text either side of a flattened-context match is searched for the figure, when the
+#: entry's pattern does not capture the number itself. Small on purpose: the wider this is, the more
+#: likely some UNRELATED number in the sentence happens to equal the artifact's and vouches for a
+#: figure nobody checked. Prefer a capturing pattern, which does not use this at all.
+_FLAT_WINDOW = 90
+
+
+def _check_flattened(a, rel, lines, value, shown, tol):
+    """Rule A against the flattened document rather than line by line.
+
+    ★ A CAPTURING PATTERN IS THE STRONG FORM, AND IS WHAT NEW ENTRIES SHOULD USE. With a capture
+    group the entry names the exact digits the document prints for this quantity, so the check can
+    only pass if THAT number is right. Without one, the check falls back to "some number near the
+    match equals the artifact's", which passes when a neighbouring figure coincidentally matches —
+    the too-narrow-pattern failure this registry's own scoping_note warns about, wearing the costume
+    of a green build.
+    """
+    out = []
+    flat = _flat_text(lines)
+    rx = re.compile(a["context"])
+    hits = list(rx.finditer(flat))
+    if not hits:
+        return [_finding(
+            "A-figure-not-stated", "ERROR", rel, 0,
+            f"{a['id']}: nothing in the flattened text matches the declared context "
+            f"/{a['context']}/, so the figure this doc is supposed to carry ({shown}) is not "
+            "there at all",
+            a.get("regenerate", ""))]
+    for m in hits:
+        if rx.groups:
+            quoted = _nums(m.group(1))
+        else:
+            quoted = _nums(flat[max(0, m.start() - _FLAT_WINDOW):m.end() + _FLAT_WINDOW])
+        if not any(abs(q - value) <= tol for q in quoted):
+            out.append(_finding(
+                "A-figure-mismatch", "ERROR", rel, 0,
+                f"{a['id']}: this passage quotes {quoted} but {a['artifact']}:{a['key']} "
+                f"is {shown}",
+                (m.group(0)[:160] + " | " + a.get("regenerate", "")).strip(" |")))
+    return out
+
+
 def check_artifact_figures(reg, repo=REPO):
     out = []
     for a in reg.get("artifact_figures", []):
@@ -358,12 +416,23 @@ def check_artifact_figures(reg, repo=REPO):
                                 f"{a['id']}: cannot read key {a['key']!r} ({type(e).__name__})",
                                 a.get("regenerate", "")))
             continue
+        # ⚠ `scale` EXISTS BECAUSE A DOCUMENT AND AN ARTIFACT MAY LEGITIMATELY USE DIFFERENT UNITS,
+        # and the alternative was worse. An artifact that stores a rate as a fraction (0.45789) is
+        # quoted by a manuscript as a percentage (45.8%), and without a declared conversion the only
+        # ways to pin it are to store a second, redundant percent field in the artifact — a second
+        # home for one fact, which is the rule this file enforces — or to leave the number unpinned.
+        # The conversion is declared per entry and applied BEFORE formatting and comparison, so the
+        # tolerance is always read in the units the document prints.
+        value *= float(a.get("scale", 1.0))
         shown = a.get("format", "${:.2f}").format(value)
         tol = a.get("tolerance", 0.005)
         for rel in a.get("must_appear_in", []):
             lines = _read_lines(repo, rel)
             if lines is None:
                 out.append(_finding("A-target-missing", "ERROR", rel, 0, "declared target file not found"))
+                continue
+            if a.get("match") == "flattened":
+                out += _check_flattened(a, rel, lines, value, shown, tol)
                 continue
             hits = [(i, ln) for i, ln in enumerate(lines, 1) if re.search(a["context"], ln)]
             if not hits:

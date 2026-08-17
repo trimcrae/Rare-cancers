@@ -10,14 +10,16 @@ purpose: >
   The Supporting Information for PUB-ASO. It holds the Methods material that a reader does not
   need in order to re-derive a design or re-run a screen: the target-site accessibility rationale,
   the melting-temperature cross-check of the duplex thermodynamics, the provenance of the three
-  gap-length figures, the graded re-score's screen-by-screen bookkeeping, and the two unfiltered
-  control screens. No claim, number or caveat was lost in the split. Each block now carries only
-  what §6 does not, and points back at §6 for the method it elaborates, so a statement has one home
-  rather than two; the main text keeps a pointer where each block used to sit.
+  gap-length figures, the graded re-score's screen-by-screen bookkeeping, the two unfiltered
+  control screens, and the coverage ladder's second basis. Each block carries only what the main
+  text's Methods does not, and points back at it for the method it elaborates.
 scope: >
   Computational design and specificity screening only. No wet-lab experiment was performed, and
   nothing here asserts efficacy, potency, safety, a therapeutic window, delivery to a tumour, or
-  clinical readiness for any sequence.
+  clinical readiness for any sequence. Every sequence named is a research reagent for laboratory
+  investigation only and must not be administered to any person or animal. ⚠ THIS DOCUMENT IS IN
+  NEITHER PDF BUILD, so nothing in it is stripped before a reader sees it: the operative research-use
+  statement is the one in the body below, not this block.
 audience: [external reviewers, collaborators, maintainers]
 date: 2026-08-16
 last_verified: 2026-08-16
@@ -29,22 +31,21 @@ last_verified: 2026-08-16
 
 *Independent researcher, unaffiliated.* Correspondence: trimcrae@gmail.com
 
-<!-- EDITORIAL, NOT FOR SUBMISSION: this Supporting Information was split out of
-fusion-junction-aso-research-article.md in the 2026-08-16 editorial restructure. It holds the Methods
-material demoted from the main-text spine: the target-site accessibility rationale, the melting-
-temperature cross-check, the gap-length citation provenance, the graded re-score's screen bookkeeping,
-and the two unfiltered control screens. No scientific claim, number or caveat was lost in the move.
-Five of the six sections were reduced to what §6 does not already say on 2026-08-16, because the
-extraction had duplicated the Methods rather than moved them.
-Section numbers here are prefixed "S". -->
+**Research use only, and not for administration to any person or animal.** Every oligonucleotide
+sequence named in this Supporting Information, in the main text and in their tables is a research
+reagent intended solely for laboratory investigation. None is a medicine or a candidate drug, none
+has been synthesised or tested by anyone, and none may be administered to any human being or animal,
+compounded for such use, or supplied to any person for such use. Custom oligonucleotide synthesis is
+commercially available, so the restriction is on use rather than on access. The full statement is in
+the main text's Declarations.
 
-Section numbers here are prefixed **S**. Cross-references of the form "§n" point to the **main text**
+Section numbers here are prefixed S. Cross-references of the form "§n" point to the main text
 (`fusion-junction-aso-research-article.md`); "SI §Sn" points within this document. All numbered
 references are those of the main text's reference list, which is generated from the identifiers
 carried in the main text. This document carries no figure: Supplementary Figure S1 travels with the
 archive, and its legend is with the main text's figure legends.
 
-## S1 · Target-site accessibility, and why nothing is ranked on it
+## S1 · Target-site accessibility, and its exclusion from every ranking
 
 §6 gives the estimator, the range across the panel and the fact that nothing in the main text is
 ranked on it. Here are the three reasons for that omission, in decreasing order of force.
@@ -105,12 +106,14 @@ The two screens §6 records as unfiltered are modelled control junctions built i
 than transcript coordinates. They carry no junction, and no count reported anywhere in the main text
 is taken from them.
 
-## S6 · The coverage ladder's second basis, and the two ways a junction adds nothing
+## S6 · The coverage ladder's second basis, and two zero-contribution junctions
 
 Table 7 prices every rung on the breakpoint distribution of a single 18-case
-series,<sup>22</sup><!--PMID:12378528--> which is the basis 68.4% is computed on. Two things sit
-around that ladder: where its arithmetic runs out, and a second basis that answers a different
-question and supersedes nothing.
+series,<sup>22</sup><!--PMID:12378528--> which is the basis 68.4% is computed on. Every figure in
+this section is arithmetic over published cohorts rather than a coverage measurement — no patient
+was screened with any sequence named here — and §4.1 states in full what that figure is, what it is
+not, and the four bounds on it. Two things sit around that ladder: where its arithmetic runs out,
+and a second basis that answers a different question and supersedes nothing.
 
 The arithmetic runs out before the target does. A set covering every *EWSR1* and every *TAF15*
 breakpoint reaches 94.8% of molecularly confirmed cases and stops, so no panel restricted to those

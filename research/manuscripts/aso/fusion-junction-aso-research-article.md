@@ -7,18 +7,18 @@ status: live
 canonical_for:
   - the submitted form of the fusion-junction ASO work
 purpose: >
-  The submission manuscript for PUB-ASO, going first to bioRxiv as a preprint — free, verified at
-  primary source, and compatible with every journal still under consideration. The journal venue is
-  OPEN: Cancer Gene Therapy was eliminated once its own guide to authors was read, because it levies
-  a mandatory £145/$238 per typeset page on the subscription route. See
-  fusion-junction-aso-submission-plan.md §1c and fusion-junction-aso-preprint-checklist.md. Its
-  provenance archive, including every superseded value and the full correction
-  history, is fusion-junction-aso-working-record.md; the numbers themselves live in the artifacts
-  under research/modalities/ and are not duplicated here.
+  The submission manuscript for PUB-ASO, deposited first to bioRxiv as a preprint. Its provenance
+  archive, including every superseded value and the full correction history, is
+  fusion-junction-aso-working-record.md; the numbers themselves live in the artifacts under
+  research/modalities/ and are not duplicated here.
 scope: >
   Computational design and specificity screening only. No wet-lab experiment was performed, and
   nothing here asserts efficacy, potency, safety, a therapeutic window, delivery to a tumour, or
-  clinical readiness for any sequence.
+  clinical readiness for any sequence. Every sequence named is a research reagent for laboratory
+  investigation only and must not be administered to any person or animal. ⚠ THIS BLOCK IS STRIPPED
+  FROM BOTH PDF BUILDS by build_submission_pdf.py and reaches no reader of the deposited article, so
+  it is a routing copy: the operative statements live in the Abstract, in Box 1, in section 4.1 and
+  in Declarations, and deleting them from there deletes them from the paper.
 audience: [external reviewers, collaborators, maintainers]
 date: 2026-08-15
 last_verified: 2026-08-15
@@ -29,7 +29,8 @@ last_verified: 2026-08-15
 **Author.** Tristan D. McRae
 
 *Independent researcher, unaffiliated.* Correspondence: trimcrae@gmail.com
-ORCID: [to be inserted]
+ORCID: [PLACEHOLDER — AUTHOR TO SUPPLY BEFORE DEPOSIT. This is not an identifier, and the deposit is
+blocked until it is replaced.]
 
 **Running title.** Junction gapmers across NR4A3 fusions
 
@@ -43,24 +44,33 @@ myxoid chondrosarcoma
 Extraskeletal myxoid chondrosarcoma (EMC) is an ultra-rare sarcoma in which a variable partner gene
 fuses to *NR4A3*. Its breakpoint junction is present in no normal gene, so an antisense gapmer could
 in principle cleave the fusion transcript while sparing both parent genes; none has been reported,
-and designs are easy to find. Of 190 candidates across the 38 in-frame junctions of the five known
-partners, 87 pair their catalytic gap against a mature parent transcript over a contiguous duplex of
-at least ten base pairs, 61 against healthy *NR4A3*; another 19 pair it in precursor RNA, where
-RNase-H1 is also active and a mature-transcript screen cannot reach. Arbitrary sequence does not:
+and designs are easy to find. Of 190 candidates across the 38 in-frame junctions of the five
+modelled partners, 87 pair their catalytic gap against a mature parent transcript over a contiguous
+duplex of at least ten base pairs, 61 against healthy *NR4A3*; 19 pair a parent in precursor RNA,
+where RNase-H1 is also active and a mature-transcript screen cannot reach, and 13 of those 19 are
+already among the 87. Arbitrary sequence does not:
 scrambles reach 6.2% on the same screen and chimeras joining the same two parents at random offsets
 23.8%, against 45.8% observed. Designs that look clean mostly stop looking clean: six of the nine
 with no sense-strand *near-match* (≥14 of 16 positions) lose the property at ten times the search
 depth. Lengthening the gap cannot help, for an arithmetic rather than an empirical reason: in every
 design of all three geometries tiled here, the junction-unique bases a longer gap wins and the
-wild-type-parent duplex it concedes are the same nucleotides. Two reagents are named for synthesis
-with their off-target loads, 5′-GGGCATATCATCAAAC-3′ at *EWSR1* exon 12 and 5′-GGGCATATCTTGTGTG-3′ at
-*TAF15* exon 6, together reaching 68.4% of molecularly confirmed cases (39.9–82.8%); three as not to
-be used because each pairs its whole catalytic gap against the patient's own un-rearranged *NR4A3*
-allele, with the controls and the selectivity value that would falsify the ranking. The design and
+wild-type-parent duplex it concedes are the same nucleotides. The work is computational: no wet-lab
+experiment was performed, no sequence named has been synthesised or tested, and nothing here asserts
+efficacy, safety, delivery to a tumour or clinical readiness. Every sequence named below is a
+research reagent for laboratory investigation only; it is not a medicine and not a candidate drug,
+and it must not be administered to any person or animal. Two reagents are named for synthesis with
+their off-target loads, 5′-GGGCATATCATCAAAC-3′ at *EWSR1* exon 12 and 5′-GGGCATATCTTGTGTG-3′ at
+*TAF15* exon 6; three as not to be used because each pairs its whole catalytic gap against the
+patient's own un-rearranged *NR4A3* allele, with the controls and the selectivity value that would
+falsify the ranking. What share of patients those two junctions represent is arithmetic over two
+published cohorts and not a screening result: no patient was screened with either sequence.
+Discounting the partner prevalence of 58 molecularly confirmed cases by the within-partner
+breakpoint distribution of a separate 18-case series gives roughly two thirds, spanning 40–83% when
+each breakpoint fraction is taken to its own Wilson bound with the partner shares held fixed; the
+*TAF15* arm is three tumours, so one tumour moves it about five points, and what fraction of EMC
+reaches molecular confirmation at all is stated by no source retrieved here. The design and
 screening pipeline is released, so a reagent can be designed for a breakpoint outside this panel by
-the same procedure. The work is computational: no wet-lab experiment was performed, no sequence
-named has been synthesised or tested, and nothing here asserts efficacy, safety, delivery to a
-tumour or clinical readiness.
+the same procedure.
 
 ---
 
@@ -104,8 +114,14 @@ reported at four fusions, two with a readout on the wild-type parent transcript 
 junction specificity without one.<sup>13–16</sup><!--PMID:33241214,36265509,21846246,23052253--> A
 bi-shRNA lipoplex against the *EWSR1::FLI1* junction reached preclinical
 justification,<sup>17</sup><!--PMID:27166877--> and a GalNAc-conjugated junction siRNA in
-fibrolamellar hepatocellular carcinoma passed the delivery gate in a rare fusion-driven
-cancer.<sup>18</sup><!--PMID:37980543--> The contribution here is the indication rather than the
+fibrolamellar hepatocellular carcinoma passed the delivery gate in a rare fusion-driven cancer,
+reaching durable growth inhibition in patient-derived
+xenografts.<sup>18</sup><!--PMID:37980543--> That last precedent does not transfer to this disease
+and is cited for the junction, not for the route: GalNAc conjugates enter cells through the
+asialoglycoprotein receptor, which is a liver receptor, and the report's own basis for using it is
+that fibrolamellar tumours retain that receptor at hepatocyte levels. An extraskeletal soft-tissue
+sarcoma satisfies neither premise, and no delivery route is proposed anywhere in this paper. The
+contribution here is the indication rather than the
 modality: across 5,153 unique records retrieved from Europe PMC, four mention *EWSR1::NR4A3* at title
 or abstract level, resolving to three papers, none an oligonucleotide study.
 
@@ -130,6 +146,15 @@ carry (§4.5). Box 1 collects the sequences, the cautions and the terms of art t
 before the Methods (§6) define them.
 
 ## Box 1 · Sequences, cautions and the void condition
+
+**Research use only — read before ordering anything.** Every sequence in this paper, in Box 1, in
+§4.1 and in Tables 4 and 7, is a research reagent intended for laboratory investigation only. None
+is a medicine, an investigational medicinal product or a candidate drug; none has been synthesised
+or tested by anyone; and none may be administered to any human being or animal, compounded for such
+use, or supplied to anyone for such use. Custom oligonucleotide synthesis is commercially available
+to anyone who can pay for it, so the restriction is on use and not on access, and no result reported
+here lifts it. A person with EMC seeking treatment should be directed to a clinical trial or a
+sarcoma centre, not to this table.
 
 Every line below points at a fuller statement in the section cited, and none of it is argued here.
 
@@ -162,9 +187,9 @@ reagent named here can be tested in it. That is not a statement that the line is
 **The replicate floor and the void condition (§4.4).** Selectivity is the wild-type *NR4A3*
 half-maximal knockdown concentration divided by the fusion's, from a matched dose–response in the
 same wells, and the cut is 5.0. Three biological replicates are a floor and not a target: above a
-replicate standard deviation of about 0.65 on the log scale, no observed ratio can place a 95% upper
-bound below that cut at three replicates, so the test cannot fail and the design is void rather than
-negative. The controls, the assay placement and the limit-of-quantification condition without which
+replicate standard deviation of about 0.65 on the log scale, no observed ratio at or above one can
+place a 95% upper bound below that cut at three replicates, so the test can fail only where the
+reagent is anti-selective and the design is otherwise void rather than negative. The controls, the assay placement and the limit-of-quantification condition without which
 the ratio is not reportable are in §4.4.
 
 **A design procedure for a breakpoint outside this panel (§4.5).** The pipeline that produced the
@@ -362,6 +387,13 @@ all three conditions that would make it dangerous: it is on the sense strand, it
 full, and it touches intronic sequence. That third condition is what makes such a site invisible to
 both transcript screens, rather than a re-count of something already reported.
 
+The two liability classes are not disjoint designs, and the arithmetic has to be done as a union
+rather than a sum. Thirteen of those 19 are already among the 87 that pair a mature parent through
+the gap, so the pre-mRNA compartment adds six designs the mature screen misses entirely and the two
+screens together condemn 93 of 190, not 106. What the compartment adds is therefore a liability class
+invisible to every mature screen, not a second population of comparable size: the six are the number
+that matters for a laboratory choosing among designs that already passed the mature-parent screen.
+
 The step from 53 to 19 is a threshold rather than a measurement, and the class it removes is the one
 the Methods (§6) decline to dismiss. Forty designs carry a sense-strand parent pre-mRNA site. The 19
 counted here are those pairing the catalytic gap in full; the remaining 21 pair all of it but one or
@@ -435,12 +467,24 @@ design rule. Joining a random window of a real donor parent to a random window o
 at a junction offset the panel's registers use, reproduces everything the rule specifies, namely
 donor sequence 5′, *NR4A3* sequence 3′ and the junction inside the catalytic gap, while destroying
 only the fact that the two pieces meet where a tumour joins them. Those chimeras reach 23.8%
-(23.3–24.2%). At the ten-base-pair threshold, therefore, about
-half the observed liability is generic to any chimera of these two transcripts, and about
-half is specific to the real junctions. That apportionment is a property of the threshold rather than
-a stable share: across the seven-to-ten window the threshold comes from, the generic half runs from
-52% at ten to 94% at seven, so at the loose end of the cited range almost all of the liability is what
-any parent-to-parent chimera gives.
+(23.3–24.2%).
+
+That arm, however, destroys more than the breakpoint, and the excess over it should not be read as a
+share attributable to where the disease joins the two genes. A real design's halves do not sit at
+arbitrary interior positions: the donor half ends at an exon 3′ terminus and the *NR4A3* half begins
+at an exon 5′ terminus, because that is what a splice junction is. Drawing both halves at real exon
+termini of the same two transcripts — a syntactically valid exon–exon junction that no patient is
+reported to carry — gives 40.6% (40.1–41.1%), against 45.8% observed, and 40.5% (40.0–41.0%) when the
+*NR4A3* exon-3 acceptor that every junction tiled here uses is excluded from the draw altogether. The
+observed rate's own interval contains both. The liability is therefore a property of joining two exon
+termini of these two transcripts, and this panel does not resolve a residual specific to the reported
+breakpoints.
+
+The two termini do not contribute equally, and the asymmetry is the informative part. Requiring only
+the donor half to end at a real exon terminus leaves the rate at 22.5% (22.1–23.0%), indistinguishable
+from the arbitrary-offset draw; the whole of the difference appears when the *NR4A3* half is required
+to begin at a real acceptor. What the screen is detecting tracks the acceptor boundary of wild-type
+*NR4A3* — the transcript the modality exists to spare — rather than the donor consensus.
 Two further arms locate it no more finely: holding the six
 gap bases and scrambling the wings gives 9.1%, and the mirror gives 8.8%, because a run reaching ten
 base pairs needs the real gap and the real flanks together. None of these rates is a significance
@@ -566,18 +610,24 @@ that discount applies to every count in this paper. Read against reference expre
 6), the gap-paired loci of the best design at each of the four junctions covered separate in the
 direction opposite to the sizes of their loads. Table 6 lists every locus the deeper screens return
 across the tiling registers read at a junction, so its rows are a union over registers and can
-outnumber the per-reagent counts below, which are each best design's own. The *EWSR1* exon 12
-reagent's six loci carry 123 of the panel's 649 transcript records, and none of the four measurable
+outnumber the per-reagent counts below, which are each best design's own. Its record column counts
+gap-paired hits summed over every design read at that seam, one per hit, not the number of
+transcript variants the locus is annotated with — a distinction the two extremes make plain, since
+*NRP1*'s five records are one accession returned by five designs while *HNRNPA2B1*'s hundred are
+fifty accessions returned by two. The *EWSR1* exon 12
+reagent's six loci carry 123 of the panel's 649 gap-paired hits, and none of the four measurable
 ones reaches the upper cut in liver or either kidney compartment; *ANKS1B* supplies 67 of them and
 sits below the lower cut in all three, peaking instead in brain at 24.9 TPM — GTEx's cervical spinal
 cord, a whole-body reading carried in the released artefact rather than in either of Table 6's two
-compartments, and *CHST5*, the smallest of the six by record count, peaks in gut on the same
+compartments, and *CHST5*, the smallest of the six by hit count, peaks in gut on the same
 reading. The *EWSR1* exon 13 reagent's two loci are both transcribed at the upper cut in those same
 compartments. The *TAF15* exon 6 reagent's five loci separate the other way: *NRP1* reaches 6.6 to
 17.8 TPM across all three exposure tissues and is the only one all five of that junction's tiling
-registers return, on five transcript records. It is at or above the upper cut in two of those three,
-and robustness to register orders the loci differently again; the tumour-compartment proxy orders
-them a third way. What these readings can and cannot decide between two reagents is stated where
+registers return, on five gap-paired hits to a single accession. It is at or above the upper cut in
+two of those three, and robustness to register orders the loci differently again — though not
+independently of the hit count, since a locus returned by more registers accrues more hits by
+construction, which is why *NRP1* leads on register robustness and sits near the bottom on hits; the
+tumour-compartment proxy orders them a third way. What these readings can and cannot decide between two reagents is stated where
 that choice is made (§4.1).
 
 ### 2.9 · Gap length trades junction specificity against parent-duplex competence
@@ -701,18 +751,25 @@ mature transcript, and both are invisible to a screen that ranks candidates by g
 third compartment is invisible to all of them: at a seam whose acceptor half is not exonic in the
 mature transcript, the patient's own un-rearranged *NR4A3* allele carries the same sequence behind an
 intron, and three designs every parent screen passed pair their whole catalytic gap there (§2.6).
-The four demonstrations of parental sparing cited here were made in cells, on molecules already
-synthesised; the comparison above is
-available before anything is synthesised. Whether other groups apply an equivalent comparison before
+The four demonstrations of parental sparing cited here were all made on molecules already
+synthesised, and three of the four went further than cells: an shRNA to the *FGFR3* side of
+*FGFR3::TACC3* improved survival in glioma-bearing
+mice,<sup>13</sup><!--PMID:33241214--> a *PML::RARα*-specific siRNA prevented disease in NOD/SCID
+mice,<sup>15</sup><!--PMID:21846246--> and liposomal siRNAs against *TMPRSS2::ERG* treated mice
+bearing orthotopic and subcutaneous xenografts.<sup>16</sup><!--PMID:23052253--> Only the
+fourth<sup>14</sup><!--PMID:36265509--> describes no in vivo model in its retrieved record. That
+raises rather than lowers the bar the comparison above has to clear, and the point stands
+unchanged: every one of those readouts required the molecule to exist first, and the comparison
+above is available before anything is synthesised. Whether other groups apply an equivalent comparison before
 synthesising is not established here: no survey of published design pipelines was performed, and the
 argument above is about what particular instruments can see rather than about what the field
 does. The null of §2.5 is what makes that a finding rather than a restatement of the design rule: arbitrary
 sequence meets this screen at about 6%, and a chimera keeping the whole rule while joining the two
-parents at random offsets meets it at 24%, against 46% for designs at real breakpoints. At the
-ten-base-pair threshold, roughly half
-the liability is therefore inherent in joining these two transcripts at all, and roughly half is
-specific to where the disease joins them — a split that holds at that threshold and not across it,
-the generic share reaching 94% at the loose end of the cited window (§2.5).
+parents at random offsets meets it at 24%, against 46% for designs at real breakpoints. That last
+comparison overstates what is specific to the disease, and the stricter null says so: a chimera drawn
+at real exon termini of the same two transcripts, at junctions no patient is reported to carry, meets
+the screen at 41% — so most of the liability is what joining two exon termini of these genes gives,
+and the excess at the reported breakpoints is not resolved at this panel's size (§2.5).
 
 All of that presumes that sparing wild-type *NR4A3* is worth the specificity cost, and that premise
 deserves examination rather than assumption. The published evidence cuts both ways and neither way
@@ -840,6 +897,13 @@ fibrous tumour, evaluated against CRISPR-engineered isogenic fusion-positive and
 cells, reduced fusion expression by 58% and proliferation by 22% in
 vitro.<sup>37</sup><!--PMID:37370737-->
 
+**Research use only.** Both sequences named in the next paragraph, and every sequence in Tables 4
+and 7, are research reagents for laboratory investigation only. Neither is a medicine or a candidate
+drug, neither has been synthesised or tested, and neither may be administered to any human being or
+animal or supplied to anyone for that purpose. Ordering either from a commercial synthesis service
+is possible for anyone; doing so does not make it a treatment, and nothing in this section should be
+read as licensing use in a patient.
+
 Applied here, the reagents to synthesise are the best available at the two most frequently reported
 junctions with a published exon-resolved breakpoint (Table 4): 5′-GGGCATATCATCAAAC-3′ at *EWSR1* exon 12 and
 5′-GGGCATATCTTGTGTG-3′ at *TAF15* exon 6. Both hold the top gap-level margin of 3, and neither pairs
@@ -851,13 +915,30 @@ How much of the disease those two junctions represent is a junction figure, not 
 the two differ: 46 *EWSR1* and 9 *TAF15* among 58 molecularly confirmed cases is 95% between the
 partners,<sup>9</sup><!--PMID:36948401--> while each reagent spans one exon pair. Discounted by the
 breakpoint distribution of an 18-case series<sup>22</sup><!--PMID:12378528--> the two are 68.4%,
-roughly two thirds; Table 7 gives that figure, the rungs above it and the reagent at each. The
-interval is wide for the denominators rather than the estimate: taking each breakpoint fraction to
-its own Wilson bound spans 39.9% to 82.8%, the *EWSR1* arm resting on 15 tumours and the *TAF15* arm
-on three. It assumes too that the breakpoint distribution within *EWSR1*-rearranged tumours is the
-same in the 58-case cohort as in the 18-case one, which nothing here tests and which no published
-series is large enough to settle. Breakpoint sequencing of archival material would sharpen it; no
-further analysis of sequence will.
+roughly two thirds; Table 7 gives that figure, the rungs above it and the reagent at each.
+
+What that figure is, and what it is not, has to be said in terms, because the arithmetic is easy to
+read as a result. **It is not a coverage measurement.** No patient was screened with either
+sequence, and a sequence that matches a reported junction is not thereby active against a tumour
+carrying it, so the number prices which published junctions the two reagents address and nothing
+about what they would do in a patient. It is also not a pooled proportion: the two cohorts are
+combined multiplicatively, a partner prevalence times a conditional within-partner fraction, which
+is a composition the repository's pooling policy does not reach. Four bounds sit on it, and they run
+in different directions. The interval is wide for the denominators rather than the estimate: taking
+each breakpoint fraction to its own Wilson bound spans 39.9% to 82.8%, the *EWSR1* arm resting on 15
+tumours and the *TAF15* arm on three. **That interval propagates the breakpoint fractions only.** The
+partner shares are held at their point estimates, and their own Wilson intervals are 67.2–87.8% for
+*EWSR1* and 8.4–26.9% for *TAF15*, so an interval that varied all four quantities would be wider
+than the one reported. The third decimal is not resolved by the data behind it: the *TAF15* arm is
+three tumours out of three, so one tumour breaking elsewhere moves the total by about 5.2 percentage
+points, which is why the plain-language reading is roughly two thirds and why nothing here should be
+compared at one-tenth of a point. And the denominator has a denominator: every figure in this
+paragraph is a fraction of *molecularly confirmed* EMC, while what fraction of EMC reaches molecular
+confirmation at all is stated by no source retrieved here, so the population these percentages
+describe is a tested population and not the disease. It assumes too that the breakpoint distribution
+within *EWSR1*-rearranged tumours is the same in the 58-case cohort as in the 18-case one, 21 years
+apart, which nothing here tests and which no published series is large enough to settle. Breakpoint
+sequencing of archival material would sharpen it; no further analysis of sequence will.
 
 Two things sit outside the table. Coverage rises only by adding reagents, because no oligonucleotide
 can serve two breakpoints of the same partner: *EWSR1* exon 12 ending AATGGTTTGATG against exon 13's
@@ -872,9 +953,12 @@ Two further reagents extend the set, both at the top gap-level margin of 3: 5′
 whose junction is resolved to the nucleotide by the deposited chimeric cDNA of §2.3. The second comes
 with no distribution: one *TCF12*-rearranged tumour has ever been sequenced at this junction, neither
 breakpoint series contains a *TCF12* tumour at all, and the break-apart assay the later cohorts used
-locates no seam within the *NR4A3* locus, so recurrence there is untested rather than refuted and the
-resulting 98.3% is an upper bound rather than a reachable target. SI §S6 carries the rest of the
-ladder's bookkeeping.
+locates no seam within the *NR4A3* locus, so recurrence there is untested rather than refuted. The
+98.3% above these reagents is an upper bound rather than a reachable target for two reasons and not
+one: that *TCF12* arm is priced at its ceiling, worth 3.4 percentage points, and the figure also
+assumes every remaining *EWSR1* breakpoint covered, which is the larger of the two steps at 15.9
+points and needs three further reagents the retrieved record does not resolve to an exon (Table 7).
+SI §S6 carries the rest of the ladder's bookkeeping.
 
 The *EWSR1* exon-13 reagent should not be recommended on its transcriptome count, because the two
 axes that separate it from the exon-12 reagent point in opposite directions and only one of them
@@ -883,8 +967,8 @@ near-matches at 2 loci against 123 at 6. On exposure it is the heavier: both of 
 transcribed at the upper cut in the organs a systemic phosphorothioate gapmer distributes to, where
 none of the exon-12 reagent's measurable loci is (§2.8, Table 6). For a laboratory choosing between
 them, the exposure reading is the one that speaks to the question a count cannot: a locus matched
-but not transcribed where the drug goes has no route to an effect, whereas the count is a property
-of how densely the returned loci are annotated. Neither axis is a risk ranking, and this comparison
+but not transcribed where the drug goes has no route to an effect, whereas the count says only how
+many gap-paired windows the screen returned there. Neither axis is a risk ranking, and this comparison
 does not make the exon-12 reagent the safer molecule. Every hit behind both is a 14 of 16 match, no
 cleavage is predicted at any of them, and an expressed gene is necessary and not sufficient for an
 effect. The reason to make the exon-13 reagent is coverage, and it is unaffected by either axis.
@@ -1004,8 +1088,9 @@ The replicate count follows from the variance rather than being asserted. Select
 four normalised measurements, so the replicate standard deviation of its logarithm is the quantity to
 estimate in a pilot. At a standard deviation of 0.35 on that scale, six independent biological
 replicates give about 80% power to falsify a true selectivity of 3, and three give about 30%; above a
-standard deviation of about 0.65 no observed ratio can place a 95% upper bound below 5 at three
-replicates, so the test cannot fail at all and the design is void rather than negative. The number of
+standard deviation of about 0.65 no observed ratio at or above one can place a 95% upper bound below
+5 at three replicates, so the test can fail only where the reagent is anti-selective and the design
+is otherwise void rather than negative. The number of
 replicates should therefore be set from the pilot estimate, with three as a floor and not a target,
 and the ranking is falsified only where the upper bound of the 95% confidence interval lies below the
 cut, never where a point estimate does. The ratio is reportable only where the wild-type *NR4A3*
@@ -1094,11 +1179,14 @@ wild-type *NR4A3* — is taken at a contiguous duplex of ten base pairs, a crite
 rather than measured for this architecture, so the count is a floor at that choice: at the
 seven-base-pair end of the same cited range the screen returns 175 of 190. Nor does the criterion
 transfer cleanly, ten being a whole-duplex length where the source counts RNA:DNA nucleotides, which
-this architecture holds at six (§6). What it apportions moves with it: the generic share of parent
-liability runs from 52% at ten base pairs to 94% at seven (§2.5).
+this architecture holds at six (§6). The threshold also sets how much of the liability the nulls
+account for, and at ten they account for nearly all of it: the exon-terminus chimera reaches 40.6%
+against 45.8% observed, so no share is attributed here to the reported breakpoints themselves (§2.5).
 
 **The patient may not carry these junctions.** Which exon pair a patient carries is not decidable
-from exon structure. Coverage prices *TAF15* at 3 of 3 on a three-tumour series, while a functional
+from exon structure. The coverage figure of §4.1 is arithmetic over two published cohorts and not a
+measurement of anything — no patient was screened with any sequence named here, and §4.1 sets out
+the four bounds on it. It prices *TAF15* at 3 of 3 on a three-tumour series, while a functional
 study reports a second isoform at a cryptic exon within *NR4A3* intron 2 and calls the two "the two
 major *TAF15*-*NR4A3* isoforms detected in human tumors" without counting
 either,<sup>27</sup><!--PMID:31020999--> so that arm's coverage is an upper bound and 68.4% is
@@ -1163,6 +1251,30 @@ ceiling it carries 43. The genome scan decides
 sense-strand membership against an annotation, so unannotated transcription is uncounted; it is one
 assembly, silent on a patient's private variation; and every exhaustive screen here is complete for
 substitutions by construction and blind to insertions and deletions.
+
+**An earlier genome-wide attempt is released, is uninterpretable, and is not screen 5.** Before the
+exhaustive scan was built, one genome-wide query per design was run against a public mixed corpus of
+assemblies, genomic clones, patent sequence and transcripts rather than against a genome reference.
+Its output is released with the artefacts, as `aso-premrna-offtarget-genomic.json`, so that nobody
+repeats it. It could not have yielded an interpretable number under any outcome, for two structural
+reasons. That corpus has no defined nucleotide span, so no chance expectation can be formed against
+it, and at this threshold an off-target count that cannot be referenced to chance is not a reading
+at all. And its retrieval ceiling sat far below what chance alone predicts, so every query that
+returned came back at the ceiling: of nine designs queried, one failed at the remote service, seven
+returned exactly 50 records and the eighth 52.
+
+The per-design rows in that file therefore look like off-target findings and are none. Of its 402
+retained rows, six are exact 16-of-16 matches, four of them to genomic clone records and two to
+annotation records on chromosome 6, and 55 are immunoglobulin heavy-chain variable-region records,
+every one of them at 14 or fewer of 16. A corpus of this kind carries one stretch of sequence once
+per record that contains it, so those rows are largely redundant copies of one another, and there is
+no denominator against which to say whether any of them is more than arithmetic. No count, ratio,
+load or cleanliness statement in this paper is taken from that file. Nor does it bear on screen 5,
+which is a different object that shares the word
+genome-wide: screen 5 is the exhaustive GRCh38 scan of §2.7 and §6, whose denominator is measured at
+3.10 × 10⁹ nucleotides, whose expectations are computed from that denominator, and which caps
+nothing at scan time. The earlier attempt is retained as the record of an instrument that had no
+reading to give, and it should be read as nothing else.
 
 ## 6 · Methods
 
@@ -1366,7 +1478,9 @@ and the gap-level margin would select the same molecules.
 
 **Availability.** All code, graded artefacts and per-design tables are released under a single
 archived version, deposited from the public repository at `github.com/trimcrae/Rare-cancers`
-[ARCHIVE DOI]. Every result reported here is re-derived from the committed artefacts in that archive
+[ARCHIVE DOI — PLACEHOLDER, AUTHOR TO SUPPLY BEFORE DEPOSIT: the archive has not been deposited and
+no digital object identifier has been reserved, so this citation does not yet resolve]. Every result
+reported here is re-derived from the committed artefacts in that archive
 without network access or credentials. Regenerating the specificity screens from scratch is not
 offline, because the alignment screen queries NCBI BLAST and the exhaustive transcript scan downloads
 the GRCh38.p14 RefSeq RNA set, but no reported number requires it: each screen's hit set is archived
@@ -1432,7 +1546,23 @@ predictions from sequence search, not measured off-target activity.
 
 ## Declarations
 
-**Data and code availability.** [ARCHIVE DOI], deposited from `github.com/trimcrae/Rare-cancers`.
+**Research use only, and not for administration to any person or animal.** Every oligonucleotide
+sequence in this manuscript, its Supporting Information and its tables — the two reagents named for
+synthesis, the three named as not to be used, the second-geometry and scrambled controls, and every
+design in the released panel — is a research reagent intended solely for laboratory investigation.
+None is a medicine, an investigational medicinal product or a candidate drug. None has been
+synthesised, formulated, tested in any cell, tissue or animal, or evaluated for potency, purity,
+stability, immunogenicity or toxicity by anyone. None may be administered to any human being or
+animal, compounded or formulated for such use, or supplied to any person for such use, and nothing
+in this manuscript should be read as recommending, authorising or enabling that. Custom
+oligonucleotide synthesis is commercially available, so the sequences here are orderable by anyone;
+that is a fact about the supply chain and not a statement about what they are fit for. A person with
+extraskeletal myxoid chondrosarcoma seeking treatment should be directed to a clinical trial or a
+sarcoma centre.
+
+**Data and code availability.** [ARCHIVE DOI — PLACEHOLDER, AUTHOR TO SUPPLY BEFORE DEPOSIT: no
+digital object identifier has been reserved and this citation does not yet resolve], deposited from
+`github.com/trimcrae/Rare-cancers`.
 A manifest listing every archived file with its SHA-256 travels with the deposit. Artefacts include the graded junction
 atlas, per-junction design panels, all five screens, the per-junction reagent table behind Table 4,
 the graded re-scores under

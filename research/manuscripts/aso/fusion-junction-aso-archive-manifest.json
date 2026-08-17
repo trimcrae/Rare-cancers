@@ -9,13 +9,13 @@
     "Not a claim that the archived predictions are correct. Every count in the deposit is a prediction from sequence search; no off-target activity and no RNase-H cleavage was measured anywhere in this work.",
     "Not a licence statement. The depositor chooses the licence at step 4 below."
   ],
-  "git_revision": "78c2b29ed1de04875015d9cfed50f421a4e852fc",
+  "git_revision": "61b7a267be21eb63f59c1a24371308681388fd3f",
   "git_tree_is_clean_apart_from_this_manifest": false,
   "inventory_limited_to_tracked_files": true,
-  "archive_content_digest": "f7624fe663aeaf1954f32261184d9e2cfd91200f0210f9e2a9617e7728f11dbf",
-  "n_files": 356,
-  "total_bytes": 15737562,
-  "total_mib": 15.009,
+  "archive_content_digest": "cb9d613fccfc3b9313f1c221472f7ebf2b98751d7ff966a928af1682a4f05cf4",
+  "n_files": 357,
+  "total_bytes": 15813362,
+  "total_mib": 15.081,
   "how_to_deposit_and_mint_the_doi": [
     "1. Check out the revision named in `git_revision` and confirm `git status` is clean. The manifest's hashes are only meaningful against that tree.",
     "2. Re-run this module (`python3 research/manuscripts/aso_archive_manifest.py --check`). A non-zero exit means the tree moved after the manifest was written; regenerate before depositing.",
@@ -505,7 +505,7 @@
     },
     {
       "id": "premrna_compartment_screen",
-      "promise_text": "the pre-mRNA screen behind §3.8, and the sequence it ran against, so the compartment the transcript screens cannot see is re-derivable offline",
+      "promise_text": "the pre-mRNA screen behind §2.5, and the sequence it ran against, so the compartment the transcript screens cannot see is re-derivable offline",
       "n_files": 4,
       "files": [
         "research/modalities/aso-premrna-offtarget.json",
@@ -518,7 +518,7 @@
     },
     {
       "id": "mature_parent_gap_pairing_screen",
-      "promise_text": "the mature-parent screen behind §3.8's second class — the liability that none of the other three screens is able to see",
+      "promise_text": "the mature-parent screen behind §2.5's second class — the liability that none of the other three screens is able to see",
       "n_files": 3,
       "files": [
         "research/modalities/aso-parent-gap-pairing.json",
@@ -625,10 +625,11 @@
     {
       "id": "manuscript_and_figures",
       "promise_text": "the manuscript itself and the figures it prints",
-      "n_files": 19,
+      "n_files": 20,
       "files": [
         "research/manuscripts/aso/fusion-junction-aso-cover-letter.md",
         "research/manuscripts/aso/fusion-junction-aso-research-article.md",
+        "research/manuscripts/aso/fusion-junction-aso-supplementary-information.md",
         "research/manuscripts/aso_archive_manifest.py",
         "research/manuscripts/figures/aso-chance-baseline.pdf",
         "research/manuscripts/figures/aso-chance-baseline.png",
@@ -690,7 +691,7 @@
       "sha256": "d0b6130ea88efd233646db322b04adfaa67a2fa061fcf85fcc8e3c2463e2ace1",
       "serves": "manuscript_and_figures",
       "also_serves": [],
-      "contributes": "The submission text, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
+      "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-paper-redteam.md",
@@ -726,16 +727,16 @@
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-research-article.md",
-      "bytes": 130154,
-      "sha256": "0aa694df60563511a9fa2f5ef985f8bce75eb3291a6de334ea1df090df1a8bc3",
+      "bytes": 130714,
+      "sha256": "c46f08cdfc8ea865176da966c700c825a43755912af8d52e71cc0af0d55b8686",
       "serves": "manuscript_and_figures",
       "also_serves": [],
-      "contributes": "The submission text, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
+      "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-submission-references.json",
       "bytes": 70248,
-      "sha256": "85a5cce018947e375302d7531c65e446ec4935a0d75e4116c07c873ca6e90357",
+      "sha256": "eff185920fd3d0f6e9a1614b69e94c4d77467c882799250b84477b1596a83c0c",
       "serves": "retrieval_records",
       "also_serves": [],
       "contributes": "Bibliographic record each numbered reference was rendered from, and the retrieval products those records were harvested out of. No field in the reference list is typed from recollection."
@@ -743,18 +744,26 @@
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-submission-references.md",
       "bytes": 16529,
-      "sha256": "11796ec58065608bedf70fe7d8f1b7ab6f3319d38b41f26af1aaa7b92052fa80",
+      "sha256": "4a005dec125dc5b0e85121a0c27eed93b377c9b271f78e0d9b54e703c32561db",
       "serves": "retrieval_records",
       "also_serves": [],
       "contributes": "Bibliographic record each numbered reference was rendered from, and the retrieval products those records were harvested out of. No field in the reference list is typed from recollection."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-submission-tables.md",
-      "bytes": 29113,
-      "sha256": "96af3ce2b7bb427c3bac71f5cc33662df5b8543570352b487514f3e9cbc68bab",
+      "bytes": 35130,
+      "sha256": "05ff074279b5a4dfdefe56abb5922a814d71ca3f539275798710b7da70466470",
       "serves": "per_design_tables",
       "also_serves": [],
       "contributes": "The two manuscript tables and the generator that derives every cell of them from the artifacts, plus the per-locus re-count and the chance baseline the tables and Figure 3 are read from."
+    },
+    {
+      "path": "research/manuscripts/aso/fusion-junction-aso-supplementary-information.md",
+      "bytes": 10252,
+      "sha256": "b72e0853ed34d04c33f51584227e2edb1368260c9a0085968690c3d977127b1b",
+      "serves": "manuscript_and_figures",
+      "also_serves": [],
+      "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-working-record.md",
@@ -790,11 +799,11 @@
     },
     {
       "path": "research/manuscripts/aso_archive_manifest.py",
-      "bytes": 56280,
-      "sha256": "e58e347c9dfff8bf9224d42a4e2477dad8594b3397fabca23fc9736bfd7b5b04",
+      "bytes": 56982,
+      "sha256": "5bc17ca3b1d374bb50e313866af59ce8e16cd1f18c95096506270c4bcd473591",
       "serves": "manuscript_and_figures",
       "also_serves": [],
-      "contributes": "The submission text, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
+      "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/aso_priorart_evidence.py",
@@ -810,7 +819,7 @@
       "sha256": "58b44d4cd885d27a8612921d68cd02f8fe5838f05398bb8a0e0d2e657eaeb373",
       "serves": "manuscript_and_figures",
       "also_serves": [],
-      "contributes": "The submission text, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
+      "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/figures/aso-chance-baseline.png",
@@ -818,7 +827,7 @@
       "sha256": "af9a17888a71db1b7cf1bd8d9e2ef3e720efee2cea8162632ac9bc4fcacbb5e6",
       "serves": "manuscript_and_figures",
       "also_serves": [],
-      "contributes": "The submission text, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
+      "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/figures/aso-chance-baseline.svg",
@@ -826,7 +835,7 @@
       "sha256": "90ba10ce7233e08521f1c435f58a7b43b18b649a707c13d5cc68e3bdfabf7be1",
       "serves": "manuscript_and_figures",
       "also_serves": [],
-      "contributes": "The submission text, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
+      "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/figures/aso-gap-length-tradeoff.pdf",
@@ -834,7 +843,7 @@
       "sha256": "b036e26b5169b8e4f75839a8c53c06fe9298944aaf5a2325ef13a6236c621d10",
       "serves": "manuscript_and_figures",
       "also_serves": [],
-      "contributes": "The submission text, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
+      "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/figures/aso-gap-length-tradeoff.png",
@@ -842,7 +851,7 @@
       "sha256": "d68912850323ebd3d87d644c2aaf9384de8132276ec5e33f49afed72bd84f01c",
       "serves": "manuscript_and_figures",
       "also_serves": [],
-      "contributes": "The submission text, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
+      "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/figures/aso-gap-length-tradeoff.svg",
@@ -850,7 +859,7 @@
       "sha256": "67db51b389095b6750582d4bc3ef4b369ac1f71fd07420d76420c9cdd173d5d0",
       "serves": "manuscript_and_figures",
       "also_serves": [],
-      "contributes": "The submission text, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
+      "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/figures/aso-junction-space.pdf",
@@ -858,7 +867,7 @@
       "sha256": "3fe3e2a7f8eeeb49c384a48734ebaa5537cc20e54bc092559a3d1ad18230fe2d",
       "serves": "manuscript_and_figures",
       "also_serves": [],
-      "contributes": "The submission text, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
+      "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/figures/aso-junction-space.png",
@@ -866,7 +875,7 @@
       "sha256": "446b583dc9a847be87e30e4d2bdbcb7fe483438995827e4b3e4b5e27e4d20bcd",
       "serves": "manuscript_and_figures",
       "also_serves": [],
-      "contributes": "The submission text, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
+      "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/figures/aso-junction-space.svg",
@@ -874,7 +883,7 @@
       "sha256": "ea7878f20390890f6bc5da1f2cdbabf81693c2d101ab5e9516078f6558c57b75",
       "serves": "manuscript_and_figures",
       "also_serves": [],
-      "contributes": "The submission text, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
+      "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/figures/aso-multipartner-seam.pdf",
@@ -882,7 +891,7 @@
       "sha256": "879cd923cb27312392e2461a05e7c9b1a127750c87e4a7b6104066c2460db359",
       "serves": "manuscript_and_figures",
       "also_serves": [],
-      "contributes": "The submission text, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
+      "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/figures/aso-multipartner-seam.png",
@@ -890,7 +899,7 @@
       "sha256": "a7ba9b5c993965369189c23ac109fc0a892e4311316b41357b2054b9d779b6e6",
       "serves": "manuscript_and_figures",
       "also_serves": [],
-      "contributes": "The submission text, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
+      "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/figures/aso-multipartner-seam.svg",
@@ -898,7 +907,7 @@
       "sha256": "002c8cf4abcbaa4258d194c9379cb5ef26d6229ac666721ff0e4dca2b72115f1",
       "serves": "manuscript_and_figures",
       "also_serves": [],
-      "contributes": "The submission text, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
+      "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/figures/aso_chance_baseline_figure.py",
@@ -906,7 +915,7 @@
       "sha256": "26831550704774ab6d3b11fcc35d7482ec5a7e3a9b49f894b4713988d12255c0",
       "serves": "manuscript_and_figures",
       "also_serves": [],
-      "contributes": "The submission text, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
+      "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/figures/aso_gap_length_figure.py",
@@ -914,7 +923,7 @@
       "sha256": "43a7fb59d479dfdc1141262873949b7167947a9f39357c6401c055d20fcd092d",
       "serves": "manuscript_and_figures",
       "also_serves": [],
-      "contributes": "The submission text, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
+      "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/figures/aso_junction_space_figure.py",
@@ -922,7 +931,7 @@
       "sha256": "e52ff4e124b06ce27b9403466ffdf9ca261fc3cdf310a6664bfb5d774b1484f2",
       "serves": "manuscript_and_figures",
       "also_serves": [],
-      "contributes": "The submission text, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
+      "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/figures/aso_multipartner_seam_figure.py",
@@ -930,7 +939,7 @@
       "sha256": "cf23b5e9821961f62dd83a5f78cc08e21daf272644be521a7b515a4a2fc83c4e",
       "serves": "manuscript_and_figures",
       "also_serves": [],
-      "contributes": "The submission text, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
+      "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/fusion-partner/emc-fusion-partner-pooling.json",
@@ -950,16 +959,16 @@
     },
     {
       "path": "research/manuscripts/submission_citations.py",
-      "bytes": 19266,
-      "sha256": "77efab7911a90605ad5f3cb1cf75652db26a11125732db6945512f7cb5c5efcc",
+      "bytes": 20755,
+      "sha256": "e7d7a4722bc0d186687c359fc89bae3ea7354e9936e1b9e88743d8a89e793bc5",
       "serves": "retrieval_records",
       "also_serves": [],
       "contributes": "Bibliographic record each numbered reference was rendered from, and the retrieval products those records were harvested out of. No field in the reference list is typed from recollection."
     },
     {
       "path": "research/manuscripts/submission_tables.py",
-      "bytes": 61179,
-      "sha256": "4bb0d608ccfd96116e9acae552fb67ac576181444e9588f1e378420f8f4f9901",
+      "bytes": 84572,
+      "sha256": "f85bef2ca62724bd7d2c4aebd1ce3a29ca867049d842a74e12fbb3d8b8251ed0",
       "serves": "per_design_tables",
       "also_serves": [],
       "contributes": "The two manuscript tables and the generator that derives every cell of them from the artifacts, plus the per-locus re-count and the chance baseline the tables and Figure 3 are read from."
@@ -1768,7 +1777,7 @@
       "sha256": "a9f222541aef918f9d48f63ac98d8f69a5a5201a34f800414a2ce548de2590a6",
       "serves": "premrna_compartment_screen",
       "also_serves": [],
-      "contributes": "The exhaustive ≤2-mismatch scan of every design against the unspliced sequence of all six parent transcripts, gap-resolved, orientation-filtered and classified as intronic / exonic / intron–exon-spanning. ⭐ THE RETRIEVED SEQUENCE TRAVELS WITH IT, which is what makes this the one screen in the paper that recomputes with no network at all: the other two need NCBI BLAST and a RefSeq download. Re-running the module with --offline against the committed cache reproduces every number in §3.8 exactly."
+      "contributes": "The exhaustive ≤2-mismatch scan of every design against the unspliced sequence of all six parent transcripts, gap-resolved, orientation-filtered and classified as intronic / exonic / intron–exon-spanning. ⭐ THE RETRIEVED SEQUENCE TRAVELS WITH IT, which is what makes this the one screen in the paper that recomputes with no network at all: the other two need NCBI BLAST and a RefSeq download. Re-running the module with --offline against the committed cache reproduces every number in §2.5 exactly."
     },
     {
       "path": "research/modalities/aso-premrna-sequences.json",
@@ -1776,7 +1785,7 @@
       "sha256": "a09945a47d505473f72be195e5101fcfec78fd94d3fb77e448385ec02e9a32c8",
       "serves": "premrna_compartment_screen",
       "also_serves": [],
-      "contributes": "The exhaustive ≤2-mismatch scan of every design against the unspliced sequence of all six parent transcripts, gap-resolved, orientation-filtered and classified as intronic / exonic / intron–exon-spanning. ⭐ THE RETRIEVED SEQUENCE TRAVELS WITH IT, which is what makes this the one screen in the paper that recomputes with no network at all: the other two need NCBI BLAST and a RefSeq download. Re-running the module with --offline against the committed cache reproduces every number in §3.8 exactly."
+      "contributes": "The exhaustive ≤2-mismatch scan of every design against the unspliced sequence of all six parent transcripts, gap-resolved, orientation-filtered and classified as intronic / exonic / intron–exon-spanning. ⭐ THE RETRIEVED SEQUENCE TRAVELS WITH IT, which is what makes this the one screen in the paper that recomputes with no network at all: the other two need NCBI BLAST and a RefSeq download. Re-running the module with --offline against the committed cache reproduces every number in §2.5 exactly."
     },
     {
       "path": "research/modalities/aso_genome_offtarget.py",
@@ -1808,7 +1817,7 @@
       "sha256": "ecec46b26763d8d7920afb456e4cb592dba42dbf64f7bc92cb61f0478f8fe927",
       "serves": "premrna_compartment_screen",
       "also_serves": [],
-      "contributes": "The exhaustive ≤2-mismatch scan of every design against the unspliced sequence of all six parent transcripts, gap-resolved, orientation-filtered and classified as intronic / exonic / intron–exon-spanning. ⭐ THE RETRIEVED SEQUENCE TRAVELS WITH IT, which is what makes this the one screen in the paper that recomputes with no network at all: the other two need NCBI BLAST and a RefSeq download. Re-running the module with --offline against the committed cache reproduces every number in §3.8 exactly."
+      "contributes": "The exhaustive ≤2-mismatch scan of every design against the unspliced sequence of all six parent transcripts, gap-resolved, orientation-filtered and classified as intronic / exonic / intron–exon-spanning. ⭐ THE RETRIEVED SEQUENCE TRAVELS WITH IT, which is what makes this the one screen in the paper that recomputes with no network at all: the other two need NCBI BLAST and a RefSeq download. Re-running the module with --offline against the committed cache reproduces every number in §2.5 exactly."
     },
     {
       "path": "research/modalities/emc-construct-inputs.json",
@@ -3492,8 +3501,8 @@
     },
     {
       "path": "research/modalities/tests/test_aso_parent_gap_pairing.py",
-      "bytes": 10133,
-      "sha256": "4befb42520b44c3dca6e6af3c7aaf663c045becdbd7fe219bd69230ae9b1c7a6",
+      "bytes": 13034,
+      "sha256": "c5b4238651ecbf268db1b9939f3db928022d5e3a9e6a70fbf3b3314305f3c4c1",
       "serves": "mature_parent_gap_pairing_screen",
       "also_serves": [],
       "contributes": "For every design, the longest contiguous duplex a MATURE wild-type parent transcript can form that pairs the whole six-nucleotide catalytic gap. ⭐ IT EXISTS BECAUSE THE OTHER THREE SCREENS STRUCTURALLY CANNOT ANSWER IT: the alignment screen excludes parent records and filters at ≥14/16 identity, the exhaustive scan admits ≤1 mismatch, and the pre-mRNA arm searches unspliced sequence and so cannot reach a mature exon–exon junction. It is fully offline against the same cached sequence the pre-mRNA arm uses, and `--check` re-derives it."
@@ -3504,12 +3513,12 @@
       "sha256": "1c2185c1b551e1bb866a00347bb4cbd9741cd73d5e49807baae2a4acb1b00a71",
       "serves": "premrna_compartment_screen",
       "also_serves": [],
-      "contributes": "The exhaustive ≤2-mismatch scan of every design against the unspliced sequence of all six parent transcripts, gap-resolved, orientation-filtered and classified as intronic / exonic / intron–exon-spanning. ⭐ THE RETRIEVED SEQUENCE TRAVELS WITH IT, which is what makes this the one screen in the paper that recomputes with no network at all: the other two need NCBI BLAST and a RefSeq download. Re-running the module with --offline against the committed cache reproduces every number in §3.8 exactly."
+      "contributes": "The exhaustive ≤2-mismatch scan of every design against the unspliced sequence of all six parent transcripts, gap-resolved, orientation-filtered and classified as intronic / exonic / intron–exon-spanning. ⭐ THE RETRIEVED SEQUENCE TRAVELS WITH IT, which is what makes this the one screen in the paper that recomputes with no network at all: the other two need NCBI BLAST and a RefSeq download. Re-running the module with --offline against the committed cache reproduces every number in §2.5 exactly."
     },
     {
       "path": "research/modalities/tests/test_aso_submission_numbers.py",
-      "bytes": 81136,
-      "sha256": "6e3fe7c5efea5caf3bc5cccfad52d26fb18f78512e101b618f175bcf960333eb",
+      "bytes": 106424,
+      "sha256": "2de65933bda11c005c08f7459d86de0944bcb24317643f55abde39f978b5b7d6",
       "serves": "reproduction_guards",
       "also_serves": [],
       "contributes": "Test that re-derives a manuscript number from the artifacts and fails if the two diverge; this is the check a reader runs to confirm the archive reproduces the paper."
@@ -3524,8 +3533,8 @@
     },
     {
       "path": "research/modalities/tests/test_junction_aso_locus_collapse.py",
-      "bytes": 18348,
-      "sha256": "ab2a4ff9da6c3ffdc045361c56711a991dda0a4007a11f6a32d2da2f3863a33c",
+      "bytes": 23546,
+      "sha256": "0bab53d766193854d0fc6513f8bef2b6c80c8ced678adbcfd65b194abc08bb96",
       "serves": "reproduction_guards",
       "also_serves": [],
       "contributes": "Test that re-derives a manuscript number from the artifacts and fails if the two diverge; this is the check a reader runs to confirm the archive reproduces the paper."

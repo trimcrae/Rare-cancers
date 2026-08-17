@@ -65,8 +65,16 @@ the one that survived verification was downgraded. Two of the five were never ve
 | **D1-F1** | the three condemned sequences are in no table, and Table 7 prints a 15/16 neighbour of one | blocker | **REFUTED** | dropped |
 | **D1-F2** | the *TAF15*-response sentence drops a caveat the repository's artefacts require | blocker | **REFUTED** | residual minor |
 | **B2-F1** | the abstract's "another 19" implies a false total | major | **REFUTED** | minor clarity, re-aimed |
-| **C3-F1** | the pre-registered selectivity estimator is undefined between two readings | blocker | ⚠ **UNVERIFIED — no refuter run** | **OPEN at filed grade** |
-| **C3-F2** | the limit-of-quantification guard emits a failed assay as a selectivity success | blocker | ⚠ **UNVERIFIED — no refuter run** | **OPEN at filed grade** |
+| **C3-F1** | the pre-registered selectivity estimator is undefined between two readings | blocker | **REFUTED — 3 refuters of 3** (2026-08-16) | dropped; residual P2 (§6.5) |
+| **C3-F2** | the limit-of-quantification guard emits a failed assay as a selectivity success | blocker | **REFUTED — 3 refuters of 3** (2026-08-16) | dropped; it would reinstate a round-6 fix (§6.6) |
+
+⭐ **UPDATE, 2026-08-16 — the two unverified blockers were verified and both fell.** §1.3 below is
+retained as written because it is the record of the state this round shipped in; what it asks for has
+since been done. **Six refuters, three per charge, distinct lenses, refute-by-default: 6 of 6 returned
+REFUTED.** So the round's final verification tally is **1 of 6 blocker-grade charges surviving, and
+that one downgraded** — and the measured base rate for confident, quantitative, well-evidenced charges
+at blocker grade in this project moves from roughly one in two to **five of six failing**. **P0.10 is
+closed and does not reach the deposit.**
 
 ### 1.1 · B5-F1 — SURVIVES, and it is the round's most important finding
 
@@ -124,6 +132,58 @@ B2 reads the specific share as **larger** than stated (62–64%); B5 reads the s
 **≈0**. They agree the apportionment sentence is unsupportable. They do not agree which way it moves.
 **Any fix must not silently pick a side**; the smallest honest edit deletes the apportionment and
 reports the chimera as the strictest null, which §2.5 already calls it.
+
+### 1.1a · ⭐ B5-F1, MEASURED — the corrected null, and what it does to the apportionment
+
+**Run 2026-08-16, $0, 4.4 s of CPU, offline.** The ledger above argued the mechanism; this is the
+measurement, and it was taken before any sentence was rewritten so the result could not be chosen to
+fit the prose. Three arms were added to `research/modalities/aso_parent_null.py`; the seven existing
+arms are **bit-identical** (each ensemble seeds its own stream from its name), which is asserted rather
+than asked for on trust.
+
+| arm | what it holds fixed | rate liable | 95% CI | against wild-type *NR4A3* |
+|---|---|---|---|---|
+| **OBSERVED** (87/190) | the real reported breakpoints | **0.4579** | [0.3886, 0.5289] | 0.3211 |
+| `random_parent_chimera` (published) | donor + acceptor at **uniform interior** windows | 0.2376 | [0.2333, 0.2419] | 0.0933 |
+| `donor_terminus_chimera` | donor half ends at a **real exon 3′ terminus** | 0.2253 | [0.2212, 0.2296] | 0.0849 |
+| `exon_terminus_chimera` | **both** halves at real exon termini | **0.4057** | [0.4008, 0.4106] | 0.2876 |
+| `exon_terminus_chimera_novel_acceptor` | both termini, and **never** *NR4A3* exon 3 | **0.4051** | [0.4002, 0.4101] | 0.2832 |
+
+**⭐ THE APPORTIONMENT IS DELETED, NOT RE-STATED.** A null that joins two real exon termini of the same
+two transcripts at a junction **no patient is reported to carry** reproduces **0.405 of the observed
+0.458** — about 88% of it — and the observed rate's own 95% interval **contains** the null's. The
+residual is not resolved at this panel's n. So "roughly half is inherent in joining these two
+transcripts, roughly half is specific to where the disease joins them" is false in both directions it
+could be read: the specific share is neither a half nor demonstrably non-zero.
+
+**⭐ AND THE MECHANISM IS NARROWER THAN THE CHARGE SAID — it is the ACCEPTOR terminus, not the donor.**
+B5-F1 named 5′ splice-**donor** consensus. The donor-terminus arm moves the rate **not at all** (0.2253
+against the uniform draw's 0.2376 — if anything slightly down). Everything happens when the *NR4A3*
+half is required to begin at a real exon 5′ terminus: 0.2253 → 0.4057. That is a **more specific and
+more useful** statement than the one filed, and it points where the paper's own argument does: the
+liability tracks the acceptor boundary of **wild-type *NR4A3*, the transcript the modality exists to
+spare.**
+
+**⚠ The sensitivity that had to be taken before any of this could be said.** Every one of the 38
+reported junctions uses the *NR4A3* exon-3 acceptor, and that acceptor is one of the seven internal
+*NR4A3* exon starts the arm draws from — so ~1 in 7 draws could have been landing on the disease's own
+acceptor and inflating the null toward the observed. Excluding it entirely changes the rate by **0.0006**
+(0.4057 → 0.4051). The result does not rest on it.
+
+**⚠ B5 and B2 disagreed on the sign and this does not adjudicate their arm.** B2 randomised one half at
+a time; the arms above randomise *position* while holding both genes, both termini and the split. The
+two measure different things and the ledger's instruction not to silently pick a side is honoured by
+reporting the corrected null as the strictest comparator rather than by re-deriving a split.
+
+**⛔ A SEPARATE DEFECT FOUND WHILE BUILDING THIS, AND IT IS NOT IN ANY ROUND'S FINDING LIST.**
+`junction_offset_in_oligo` is an offset in the **antisense oligo**, where the *NR4A3* half comes first —
+it equals `bases_from_NR4A3` for all 190 records and differs from the donor base count for **152 of
+them**. `draw_parent_chimera` is called with it and takes that many bases **from the donor**, so every
+published chimera draw is its design's **mirror** split. ⭐ **Its totals are unaffected and that is
+measurable, not arguable:** each junction tiles offsets 6–10, symmetric about 8, so the multiset of
+donor lengths drawn per junction is identical either way — verified for all 38 junctions. The published
+23.8% therefore stands. The three new arms take the split they mean, because a per-design terminus draw
+is **not** symmetric and the mirror would pair the wrong window length.
 
 ### 1.2 · The three refutations, with the observation that decided each
 
@@ -205,7 +265,7 @@ Each becomes permanent and citable the moment the deposit lands, or ships wrong 
 
 | # | finding | evidence |
 |---|---|---|
-| **P0.1** | **The chimera null's apportionment is a label the null cannot support** (B5-F1, corroborated in the opposite direction by B2-F3). Four sentences become false. **Does not touch 87, 61 or the title.** | §1.1 above |
+| **P0.1** | **The chimera null's apportionment is a label the null cannot support** (B5-F1, corroborated in the opposite direction by B2-F3). Four sentences become false. **Does not touch 87, 61 or the title.** ⭐ **MEASURED 2026-08-16 — see §1.1a.** The corrected null reproduces **40.5%** of the observed **45.8%**, so the apportionment is deleted rather than re-stated. | §1.1, §1.1a |
 | **P0.2** | **The archive manifest is both stale and wrong.** `aso_archive_manifest.py --check` exits **1**; `git_revision` is 77 commits behind HEAD, so the recorded manuscript hash is a pre-restructure file. Separately, `.files[*].contributes` pairs *"one design's 21 near-matches become 196 with 119 hybridisable"* — the artefacts give **47 → 196 (119 sense)** and **21 → 161 (5 sense)**, two different records conflated. The correct statement of that measurement left the paper in the cut, so the manifest is now its **only** home. | D3-F2 + A3-F1 |
 | **P0.3** | **`submission-metrics.json` under-counts by 263 main words and 9 abstract words**, and every other deposit document points at it as "the one home" for those counts. | D3-F1 |
 | **P0.4** | **The registry's `PUB-ASO` record states the opposite of the paper's headline** — *"specificity screening finds no competing match"* — and its `document.file` points at the working record, whose own first line disclaims it as not the submission. Propagates verbatim into two generated views. `systems/graph/*.json` is the repo's source of truth. | D3-F3 |
@@ -214,7 +274,134 @@ Each becomes permanent and citable the moment the deposit lands, or ships wrong 
 | **P0.7** | **The abstract's coverage sentence, found independently by four reviewers.** (a) *"reaching 68.4% of molecularly confirmed cases"* is the reading its own artefact forbids in terms — `_what_this_is_not[0]`: "Not a coverage measurement. No patient was screened." (b) The basis clause — that partner prevalence is discounted by a *different* 18-case series' breakpoint distribution — was in the baseline abstract and is now ~800 lines away. (c) The parenthetical propagates no partner-share uncertainty. (d) Three significant figures rest on a *TAF15* arm of **n = 3**, whose own quantum is ~5.2 points. (e) The denominator's own denominator — what fraction of EMC is molecularly confirmed — is stated nowhere. | D1-F3, A2-F1, B7-F2, B3-F5 |
 | **P0.8** | **The abstract names two orderable sequences roughly five sentences ahead of the clause saying nothing has been made, and the YAML `scope:` block is stripped from both PDFs by the builder.** Every venue that truncates an abstract keeps the sequences and the percentage and drops the disclaimer, because the disclaimer is last. This is the round-5 P0.6 defect in its new position. The fix is a **move**, not a copy. | D1-F4, B4-F6 |
 | **P0.9** | **A released genome-wide screen ships with no statement that it is uninterpretable.** The disclosure was deleted; `aso-premrna-offtarget-genomic.json` is still in the manifest and carries per-design 16/16 hits to BAC clones and immunoglobulin variable regions, which read as off-target findings. The paper's *other* genome scan is described at length, so the two are easy to conflate. | A3-F2 |
-| **P0.10** | ⚠ **UNVERIFIED, filed blocker — the §4.4 estimator and its guard.** Recorded at filed grade with no refuter run. See §1.3. **Do not apply without verification.** | C3-F1, C3-F2 |
+| ~~**P0.10**~~ | ⛔ **CLOSED — REFUTED 6 refuters of 6, 2026-08-16.** The §4.4 estimator (C3-F1) and its limit-of-quantification guard (C3-F2) both stand. **Nothing in §4.4 is edited for this item**, and C3-F2's remedy would have reinstated a defect round 6 fixed. Full reasoning: **§6.5 and §6.6**. | C3-F1, C3-F2 |
+
+---
+
+### 2a · Dispositions — what was applied to the manuscript, 2026-08-17
+
+⛔ **NOTHING BELOW IS COMMITTED.** These are working-tree edits to
+`fusion-junction-aso-research-article.md` and `fusion-junction-aso-supplementary-information.md`,
+plus the two test re-pins each move forced. Every row names the fix and every other home of the fact
+it changed.
+
+| # | disposition | where it landed |
+|---|---|---|
+| **P0.5** | **APPLIED.** The `purpose:` block's eliminated-venue sentence and its per-page charge, and the two internal planning links, are gone; the SI's `EDITORIAL, NOT FOR SUBMISSION` comment is deleted and the SI's `purpose:` trimmed of editorial-process narration. `ORCID:` and both `[ARCHIVE DOI]` placeholders are **kept and flagged** — each now reads `PLACEHOLDER — AUTHOR TO SUPPLY BEFORE DEPOSIT` with the reason it blocks, because deleting them would hide a required author action. Both YAML `scope:` blocks now state in terms that they are stripped (article) or shipped whole (SI), so neither can be mistaken for the operative statement. | article frontmatter, author block, Methods → Availability, Declarations; SI frontmatter and head |
+| **P0.6** | **APPLIED, four homes in the article and one in the SI**, each a statement about USE rather than about past fact. Box 1 opens with **Research use only — read before ordering anything**; §4.1 carries a **Research use only** block immediately ahead of the two sequences; Declarations carries the full **Research use only, and not for administration to any person or animal**; the abstract carries the short form ahead of the sequences; the SI carries it at its head. Each says the sequences are research reagents, not a medicine and not a candidate drug, that none may be administered to a person or animal or supplied for that purpose, and that commercial synthesis availability is a fact about access and not about fitness. `grep -in "must not be administered\|not a medicine\|research reagent"` now returns 10 lines across the two files, against 0 before. | Box 1, §4.1, Abstract, Declarations, SI head |
+| **P0.7** | **APPLIED, all five defects.** (a) The abstract no longer says "reaching 68.4% of molecularly confirmed cases"; it says the figure "is arithmetic over two published cohorts and not a screening result: no patient was screened with either sequence". (b) The basis clause travels with the number in the abstract now, not 800 lines away. (c) §4.1 states that the interval propagates the **breakpoint fractions only** and gives the two partner-share Wilson intervals that are *not* propagated (67.2–87.8% and 8.4–26.9%). (d) Three significant figures are gone from the abstract — "roughly two thirds", with the *TAF15* arm's ~5.2-point quantum stated in §4.1 and "about five points" in the abstract. (e) The denominator's denominator is now stated in the abstract, §4.1 and §5: what fraction of EMC reaches molecular confirmation is **stated by no source retrieved here**. ⚠ **Other homes of 68.4%:** §4.1 keeps it (it is the derivation home, and `test_aso_submission_numbers.py` pins "the two are 68.4%"); §5 keeps it and now opens with the not-a-measurement framing; SI §S6 keeps all three (the ladder's basis, and a test pins "68.4% remains the coverage of the two reagents") and now points at §4.1 for what the figure is not. Generated Table 7 is untouched. | Abstract, §4.1, §5, SI §S6 |
+| **P0.8** | **APPLIED as a MOVE.** "The work is computational: no wet-lab experiment was performed, no sequence named has been synthesised or tested, and nothing here asserts efficacy, safety, delivery to a tumour or clinical readiness." was the abstract's **last** sentence and is now the sentence **immediately preceding** the two named sequences; the research-use statement follows it and still precedes them. Verified through the PDF path rather than asserted: `parse_front_matter` on the built body puts the disclaimer at flattened offset 1274 and the research-use clause at 1586, against 1702 for `5′-GGGCATATCATCAAAC-3′`. `build_submission_pdf.py::strip_frontmatter` drops the YAML block from **both** styles, which is why the frontmatter copy is now labelled as routing-only. `test_build_submission_pdf.py` was re-pinned to the new tail **and given an ordering assertion**, so a future edit that moves either clause back behind the sequences fails the gate. | Abstract; `research/manuscripts/tests/test_build_submission_pdf.py` |
+| **P0.9** | **APPLIED, restored in the restructured document's voice.** The deleted sentence at `c131f5a30` read *"An earlier genome-wide attempt against a mixed public corpus returned nothing interpretable and is released with the artefacts; it could not have done otherwise, having no defined nucleotide span to form a null against."* It is back in §5 as a two-paragraph block that also does what the deletion made necessary: **it names the file** (`aso-premrna-offtarget-genomic.json`), gives **both** structural reasons (no defined nucleotide span; a retrieval ceiling below chance — of nine designs queried, one failed at the service, seven returned exactly 50 records and the eighth 52), and states in terms that the per-design rows **look like off-target findings and are none**. ⭐ Counts re-derived from the artifact rather than from the ledger: 402 retained rows; six exact 16-of-16, four to genomic clone records and two to chromosome-6 annotation records; 55 immunoglobulin heavy-chain variable-region rows, **every one at 14 or fewer of 16** — the ledger's "16/16 hits to … immunoglobulin variable regions" is not what the file contains. The two genome scans are separated explicitly: screen 5 is the exhaustive GRCh38 scan with a measured 3.10 × 10⁹-nucleotide denominator and no scan-time cap. | §5 |
+
+**The four P1 fixes verified by the parallel refuter, all APPLIED:**
+
+| # | disposition |
+|---|---|
+| **B3-F3 + B2-F2** | **APPLIED as one abstract edit, reconciled with the P0.7/P0.8 rewrite.** "the five **known** partners" → "the five **modelled** partners", which is what `:503` ("a sixth partner, outside the five modelled here") and `:1166` ("the five partners are not the catalogue") already say. "another 19" → "19 pair a parent in precursor RNA … **and 13 of those 19 are already among the 87**". ⭐ The intersection was **re-derived here** rather than taken on trust, keying `aso-premrna-offtarget.json` and `aso-parent-gap-pairing.json` on (junction, antisense): 19 ∩ 87 = **13**, union **93**, so the compartment adds **six**. That union is now stated at its own home in §2.5 as well as in the abstract. The four correct "the five partners" scoping statements at `:207`, `:268`, `:320` and `:707` are untouched. |
+| **C3-F7 / C4-F7** | **APPLIED at both sites**, Box 1 and §4.4. "no observed ratio can place a 95% upper bound below that cut" → "no observed ratio **at or above one** can place a 95% upper bound below that cut … so the test **can fail only where the reagent is anti-selective** and the design is otherwise void rather than negative". ⭐ The algebra was re-derived: t(0.975, df 2) = 4.302653, t/√3 = 2.484138, exp(2.484138 × 0.65) = 5.0263, so UCL < 5 whenever R̂ < 0.99476 — and R̂ = 0.50 gives UCL = 2.513. The paper's own "about 0.65" is exactly log 5 / 2.484138 = 0.64789, i.e. it is *defined* at R̂ = 1, which is where the dropped qualifier lived. |
+| **B3-F1, first half** | **APPLIED.** The 98.3% bound now names **two** reasons and not one: the *TCF12* arm priced at its ceiling (+3.4 points) and the assumption that every remaining *EWSR1* breakpoint is covered (+15.9 points, needing three further reagents the retrieved record does not resolve to an exon). Both deltas and the reagent count are read from `fusion-junction-aso-coverage-ladder.json`, and `test_aso_submission_numbers.py` was re-pinned to derive them from that artifact rather than to spell them. ⚠ This is now consistent with `submission_tables.py`, which another agent had already fixed to print a bound's increment. The second half — "the 94.8% row is invisible in Table 7" — was **not acted on** and no generated table was touched. |
+| **B6-F1 / B6-F2** | **APPLIED, both.** B6-F1: "were made in cells, on molecules already synthesised" was wrong for three of four, and now names each — an shRNA to the *FGFR3* side of *FGFR3::TACC3* improving survival in glioma-bearing mice (PMID 33241214), a *PML::RARα* siRNA preventing disease in NOD/SCID mice (PMID 21846246), and liposomal siRNAs against *TMPRSS2::ERG* in orthotopic and subcutaneous xenografts (PMID 23052253), with only PMID 36265509 describing no in vivo model. The paragraph's point survives and is stated: every one of those readouts needed the molecule to exist first. Every identifier and fusion name was copied from `lit-targets-aso-round7-precedents.json`, none written from recollection. B6-F2: the GalNAc precedent (PMID 37980543) now carries its scope at the one place it is cited — it reached patient-derived xenografts, the route works through the asialoglycoprotein receptor, which is a liver receptor, its applicability rests on fibrolamellar tumours retaining that receptor at hepatocyte levels, and an extraskeletal soft-tissue sarcoma satisfies neither premise. |
+
+**The Table 6 record-count noun — APPLIED at all four article sites, and one more.** The column
+`n_transcript_records` is incremented once per gap-paired hit per design
+(`aso_offtarget_tissue_expression.py::_seam_rows`), so it is a **hit count summed over designs**, not
+annotation depth. ⭐ **Re-derived here rather than taken on report**, by calling `_seam_rows` directly:
+*NRP1* is 5 records over **1 distinct accession** returned by **5 designs**, and *HNRNPA2B1* is 100
+records over **50 accessions** returned by **2 designs** — annotation depth cannot depend on how many
+designs were run. The panel total re-sums to 649. Fixed: "123 of the panel's 649 **transcript
+records**" → "**gap-paired hits**", with the distinction stated once at its home in §2.8 and both
+extremes named; "smallest of the six by **record count**" → "**by hit count**"; "on five **transcript
+records**" → "on five **gap-paired hits to a single accession**"; and the false explanation "the count
+is a property of how densely the returned loci are annotated" → "the count says only how many
+gap-paired windows the screen returned there". ⚠ **A fifth site, not in the list and wrong the same
+way:** "robustness to register orders the loci differently again" implied an independent axis, and the
+two are coupled by construction — a locus returned by more registers accrues more hits — so the
+sentence now says so and names *NRP1* as the case that makes the orderings diverge anyway. **No figure
+was changed: 123, 649, 67, 24 and the rest all stand.** ⛔ **This breaks one pin and the break is
+expected and left in place:** `test_aso_submission_numbers.py::test_section_3_11_expression_figures_are_the_artifacts`
+(line ~1171) asserts the old noun verbatim. It is the coordinator's to re-pin, and the new sentence
+reads *"The \*EWSR1\* exon 12 reagent's six loci carry 123 of the panel's 649 gap-paired hits, and none
+of the four measurable ones reaches the upper cut in liver or either kidney compartment"*.
+
+⛔ **A CROSS-AGENT COLLISION THAT IS NOT MINE TO RESOLVE, LEFT UNTOUCHED AND FLAGGED (2026-08-17,
+00:29).** While this pass was finishing, another agent regenerated the graded re-scores: **53 new
+untracked `research/modalities/junction-aso-offtarget-*-graded.json` files**, all with mtime `00:29`,
+taking the graded count from **39 to 92 of 93**. Evidence, not inference: `ls research/modalities/*-graded.json | wc -l`
+returns 92, `git status` shows all 53 as `??`, and every one post-dates the last edit in this pass.
+**Two tests are red because of it and neither is caused by anything here:**
+
+- `test_aso_submission_numbers.py::test_the_released_screen_and_graded_counts_are_the_ones_on_disk`
+  — `assert (len(screens), len(graded)) == (93, 39)` now gets `(93, 92)`.
+- `test_junction_aso_graded.py::test_exactly_the_orientation_clean_designs_reach_zero_predicted_cleavage_load`
+  — the predicted-clean set gained **`GGGCATATCAAGCGCT`**, the *TCF12* exon 7 design §2.7 discusses by
+  name.
+
+⚠ **Three sentences in the submission go stale the moment that regeneration lands, and they were
+deliberately NOT edited here** — restating a count off a half-written, untracked artifact set is the
+error rule 1 exists to stop, and the second failure suggests a *result* may move and not merely a
+denominator:
+
+- article `:1451` — *"and 39 of the 93 screens released in total (SI §S4)"*
+- SI `:91` — *"The re-score of §6 covers all 38 junction screens, and 39 of the 93 screens released in total."*
+- SI `:93` — *"the 53 deeper re-screens are released ungraded because the graded model adds nothing where no hit list is truncated"* — the whole rationale, retired if they are now graded.
+
+**Whoever owns that regeneration owns these three sentences and the two pins**, and must check whether
+the abstract's "six of the nine with no sense-strand near-match … lose the property at ten times the
+search depth" still holds against the new graded set before the deposit.
+
+**Other homes updated for these facts, outside the three documents:** the stale abstract quotation in
+`research/modalities/tests/test_aso_parent_gap_pairing.py` (a comment, not an assertion), and the
+`"another 19"` quotation in `fusion-junction-aso-preprint-checklist.md`. Nothing under
+`submission_tables.py`, `lint_*.py`, `pinned-figures.json` or `test_round6_fixes_landed.py` was
+touched, and no generated file was hand-edited.
+
+---
+
+### 2b · ⭐ NEW — a defect found by RUNNING the repository's own chain, in no round's finding list
+
+**Found 2026-08-17, during the application pass, by `./scripts/regenerate_aso_chain.sh`.** It is
+recorded here because it is a finding about the paper, not only about the tooling, and because no
+reviewer in seven rounds could have seen it: it is invisible until the chain is actually run.
+
+**What happened.** The chain's step 0 regrades **every** screen by glob — deliberately so, per its own
+comment: *"Globbed, never listed: a screen added by a dispatch must enter the corpus without anyone
+remembering to add it here."* Running it took the graded corpus from the committed **39** to **92**,
+writing 53 untracked artifacts.
+
+**⛔ The repository does not merely happen to hold 39 — it states a REASON for 39.** The SI says the
+53 deeper re-screens *"are released ungraded because the graded model adds nothing where no hit list
+is truncated"*. So the chain and the submission documents disagree about what the released corpus is,
+and running the chain quietly makes three released sentences false (article §6 and SI §S4 twice) and
+two pinned counts stale.
+
+**⚠ AND IT IS NOT ONLY A DENOMINATOR — that is the part that matters.** With the 53 graded, the
+predicted-clean set gains one design, **`GGGCATATCAAGCGCT`**, the *TCF12* exon 7 design §2.7 discusses
+by name. Verified directly:
+`test_junction_aso_graded.py::test_exactly_the_orientation_clean_designs_reach_zero_predicted_cleavage_load`
+fails with *"Extra items in the left set: 'GGGCATATCAAGCGCT'"*.
+
+⭐ **The mechanism is coverage, not a changed verdict, and the difference is the whole question.** That
+design previously had **no graded record at all**, so it could not appear in the clean set on any
+reading. Grading its screen did not overturn a judgement; it extended the instrument to a design the
+instrument had never been run on. Whether the design therefore BELONGS in the released clean set — and
+whether the SI's "adds nothing" rationale survives the observation that it added one — is a question
+about the paper's own claims.
+
+**Disposition: RESTORED AND FILED, not decided.** The 53 untracked artifacts were deleted, returning
+the tree to the committed 39 and the three sentences to being true. ⛔ **It is deliberately NOT
+resolved under application-pass time pressure**, because deciding it means either (a) releasing 53
+more graded artifacts and rewriting the rationale, the three sentences and two pins together, or
+(b) keeping 39 and stating why a design the deeper screen would call clean is excluded. Both are
+claims about the paper and both need the verification standard §1 describes. **It does not block the
+deposit** — the released corpus is internally consistent as it stands, and the paper does not claim
+the graded set is exhaustive.
+
+**Instrument.** The class — *a regeneration script silently producing artifacts that contradict a
+documented decision* — was already caught, by
+`test_aso_submission_numbers.py::test_the_released_screen_and_graded_counts_are_the_ones_on_disk`,
+which is why the state was recoverable at all. What was missing is a warning at the moment of
+overproduction rather than a test failure later, so the chain now compares on-disk against tracked and
+**fails** with the decision spelled out.
 
 ---
 
@@ -525,12 +712,77 @@ quotation is sound. What survives is a **locality** item: this paper's one quota
 on a branch rather than beside the manuscript is invisible to a reviewer reading the working tree —
 which is the branch-drift shape this repository already names as a data-loss risk. P3.
 
-### 6.5 · D2's own near-miss — a gap-length characterisation read as inverted
+### 6.5 · C3-F1 — "the §4.4 estimator is undefined between a relative and an absolute reading"
+
+**REFUTED, 3 refuters of 3, run 2026-08-16** — the verification §1.3 said had to happen before this
+could be applied. Filed blocker; **P0.10's first half is closed and does not reach the deposit.**
+
+Three independent legs, any one sufficient. **(a)** *"Half-maximal"* is the term of art for the fitted
+midpoint; the absolute variant is called *absolute* IC50 precisely because the unqualified term already
+means the midpoint. **(b) The limit-of-quantification clause is coherent under one reading only.** It
+gates on the wild-type knockdown *amplitude* — "the change in wild-type transcript and not its
+vehicle-well abundance". Under the absolute reading that clause is dead text, because an absolute IC50
+only exists once the wild-type plateau exceeds 50%, orders of magnitude above any LOQ on a fractional
+change; under the relative reading it is exactly the identifiability condition for the midpoint. A
+clause written to guard one reading's only failure mode is evidence of which reading is meant.
+**(c) Provenance closes it.** `git show 0108074dd` — the pre-fix sentence carried **two** estimators in
+explicit contrast, *"a ratio of half-maximal knockdown concentrations … and otherwise of residual
+transcript at a stated dose"*, and round 6 (item 6.7) deleted the amplitude-axis fallback and wrote the
+exclusion clause in its place. **The charge re-imports, as a live reading of the survivor, the exact
+amplitude contamination that commit was written to remove.**
+
+⭐ **And the charge's own crux arithmetic is what refutes it.** Working the ratio gives
+`S_abs = S_rel · [(E_F − 0.5)/(E_W − 0.5)]^(1/h)`, so the two readings genuinely do **not** cancel —
+the reviewer was right about that. But the divergence runs entirely through knockdown *depth*: at
+`m_W = m_F` with plateaus 0.90 and 0.55, the absolute reading scores a reagent of **zero potency
+separation** at **8.0** and clears the cut of 5.0. That is verbatim the *"falsification as arithmetic
+rather than as biology"* the paper forbids three lines earlier, so **the paper's own stated
+commensurability test already excludes the absolute reading.** The second conjunct — that both readings
+break *on the paper's own reagents* — is unfalsifiable as filed: nothing has been synthesised, no assay
+is prescribed, and no dose–response exists.
+
+⛔ Do not re-raise as *"the estimator must say whether it is relative or absolute"*. The residual is a
+discretionary four-word gloss. **Two genuine adjacent gaps were surfaced and are carried forward:**
+C1-F4 (no curve-fit model or CI-construction method) is already filed at P1; and a **new minor** — the
+dose series is nowhere required to *bracket* the wild-type midpoint, so an unreached midpoint yields an
+extrapolated ratio that the amplitude gate cannot catch. Logged at P2 below.
+
+### 6.6 · C3-F2 — "the limit-of-quantification guard collapses three states into one bound"
+
+**REFUTED, 3 refuters of 3, run 2026-08-16. P0.10's second half is closed.** ⚠ **It is a request to
+reinstate a defect round 6 fixed**, and all three refuters found that independently.
+
+`git log -S "vehicle-well abundance"` returns exactly one commit, `0108074dd`, whose body lists *"Its
+limit-of-quantification guard named the wrong term"* — round-6 finding 6.6. Round 5 had gated the ratio
+on **abundance**: *"reportable only where vehicle-treated wild-type *NR4A3* exceeds a pre-stated limit
+of quantification"*. Round 6 established that the quantity which can approach zero is the *denominator*
+— the **change** — not the abundance, because a well-expressed transcript that is perfectly spared
+returns an unbounded ratio the abundance gate lets pass by default. **C3-F2's own words, "gates the
+change and disclaims the abundance", are a neutral description of that correction; applying it would
+restore the pass-by-default hole round 6 closed.**
+
+The three-state conflation fails on text forty lines above the clause, which states outright that *"a
+knockdown assay alone distinguishes none of them"* and then mandates a control for each: a positive-
+control gapmer against a housekeeping transcript for the **failed-assay** state, and a fusion-negative
+isogenic comparator for the **too-weakly-expressed** state, whose stated consequence is that the
+readout is *"not defined at all"* — the paper's *void* category, not a bound. Only genuine perfect
+sparing reaches the guard, where a one-sided lower bound is the arithmetically correct report and
+non-falsifiability is the desired behaviour: falsifying a perfectly selective reagent would be a Type I
+error against a criterion defined as a CI upper bound below the cut. The escalated framing *"emits a
+failed assay as a selectivity success"* is contradicted by the clause's own closing words, *"which
+cannot falsify"*, and by the fact that the paper defines **no** success endpoint at all.
+
+⭐ **The live defect on this ground is C4-F2, already filed at P1** — the *fusion* direction is
+unguarded, and C3-F2 aims at the direction that is guarded. **Residual carried forward:** round-6
+finding 6.6 is **not machine-pinned**, so the round-5 abundance wording can return silently. That gate
+is added in this pass.
+
+### 6.7 · D2's own near-miss — a gap-length characterisation read as inverted
 
 **REFUTED by the cached full text, and self-recorded before filing.** See §1.4. **The fourth instance
 of this shape in the paper's review history, and the first one a reviewer caught on itself.**
 
-### 6.6 · Prior coverage, honoured — and four reviewers re-derived rather than deferring
+### 6.8 · Prior coverage, honoured — and four reviewers re-derived rather than deferring
 
 **No reviewer re-raised a settled item.** Four went further and re-tested rather than taking the
 disposition on trust:
@@ -545,7 +797,7 @@ disposition on trust:
   before writing anything up.
 - **A2 re-checked the declined junction-clustered CI and found no new reason to reopen it.**
 
-### 6.7 · Attacks tried by the hostile reviewer and abandoned, with its reasons
+### 6.9 · Attacks tried by the hostile reviewer and abandoned, with its reasons
 
 Recorded so the same ground is not re-walked. **De-duplicating the headline moves the number the wrong
 way for the attacker**: 176 distinct molecules, 82 liable, **46.6% against 45.8%**, because the
