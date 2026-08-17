@@ -16,16 +16,22 @@ import os
 import subprocess
 import sys
 
-import pytest
-
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(os.path.dirname(os.path.dirname(HERE)))
 CHECKER = os.path.join(REPO, "research", "manuscripts", "figures", "aso_figure_provenance.py")
 
 
 def test_the_aso_figures_are_drawn_from_the_current_artifacts():
-    if not os.path.exists(CHECKER):
-        pytest.skip("aso_figure_provenance.py is not present in this checkout")
+    # ⛔ WAS A SKIP UNTIL 2026-08-17, AND A SKIP HERE IS A FAIL-QUIET. `aso_figure_provenance.py` is
+    # TRACKED, so it cannot be legitimately absent: the only ways to reach that branch are a broken
+    # checkout or someone deleting the checker — and in the second case both guards in this file
+    # would go green-by-skipping while the property they exist to hold silently stopped being
+    # checked. That is the exact shape this repository has shipped twice (a gate obeying an input
+    # nothing supplied; a guard that no-opped into the previous behaviour). An assertion turns a
+    # missing checker into a red build, which is the only reading that is not a lie.
+    assert os.path.exists(CHECKER), (
+        f"{CHECKER} is missing. It is a tracked file, so this is a deleted or broken checkout, not "
+        "a configuration this test may skip — the ASO figures' provenance is unchecked right now.")
     p = subprocess.run([sys.executable, CHECKER, "--check"], capture_output=True, text=True)
     assert p.returncode == 0, (
         "an artifact has moved since the ASO figures were drawn, so at least one figure in the "
@@ -39,8 +45,16 @@ def test_the_provenance_record_covers_every_aso_figure_in_the_submission():
     The manuscript has three numbered figures. If a fourth is added and not registered here, the
     check above would pass while saying nothing about it, which reads as coverage.
     """
-    if not os.path.exists(CHECKER):
-        pytest.skip("aso_figure_provenance.py is not present in this checkout")
+    # ⛔ WAS A SKIP UNTIL 2026-08-17, AND A SKIP HERE IS A FAIL-QUIET. `aso_figure_provenance.py` is
+    # TRACKED, so it cannot be legitimately absent: the only ways to reach that branch are a broken
+    # checkout or someone deleting the checker — and in the second case both guards in this file
+    # would go green-by-skipping while the property they exist to hold silently stopped being
+    # checked. That is the exact shape this repository has shipped twice (a gate obeying an input
+    # nothing supplied; a guard that no-opped into the previous behaviour). An assertion turns a
+    # missing checker into a red build, which is the only reading that is not a lie.
+    assert os.path.exists(CHECKER), (
+        f"{CHECKER} is missing. It is a tracked file, so this is a deleted or broken checkout, not "
+        "a configuration this test may skip — the ASO figures' provenance is unchecked right now.")
     sys.path.insert(0, os.path.dirname(CHECKER))
     import aso_figure_provenance as prov  # noqa: PLC0415
 

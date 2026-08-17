@@ -57,11 +57,29 @@ fail=0
 # design and that refusal must not abort the chain.
 if [ "$CHECK" = 0 ]; then
   say "graded re-scores (screens -> -graded.json)"
-  # shellcheck disable=SC2046
-  python3 $MOD/junction_aso_offtarget.py --rescore \
-    $(ls $MOD/junction-aso-offtarget-*.json 2>/dev/null | grep -v -- '-graded' | grep -v 'locus-collapse' | tr '\n' ' ') \
+  # ⛔ THE DEEPER RE-SCREENS ARE EXCLUDED BY THE RELEASE'S OWN RULE, NOT BY AN OVERSIGHT.
+  # The SI states the reason: the deeper re-screens "are released ungraded because the graded model
+  # adds nothing where no hit list is truncated". Sweeping them in took the corpus from the
+  # committed 39 to 92 and made three released sentences false; the round-7 ledger §2b traced it to
+  # the end and CLOSED it as "keep 39", having confirmed the deeper screens' one extra clean design
+  # (GGGCATATCAAGCGCT at TCF12 exon 7) is already reported in the manuscript and in Table 7.
+  # ⚠ SO THE EXCLUSION BELONGS HERE, AT THE GENERATOR. Leaving the sweep wide and catching it with
+  # the guard below meant a referee cloning the archive and running this script got exit 1 and 53
+  # untracked files on a repository that was CORRECT. A verification command that fails on a clean
+  # clone cannot be the one the paper names.
+  # ⭐ THE GLOB'S VIRTUE SURVIVES: a new junction screen still enters the corpus with nobody
+  # remembering to add it here. Only the depth variant the release deliberately leaves ungraded is
+  # filtered, the skip is COUNTED AND PRINTED so the decision stays visible at the moment it is
+  # taken, and the count guard below still fires if the corpus diverges for any other reason.
+  _sweep=$(ls $MOD/junction-aso-offtarget-*.json 2>/dev/null \
+    | grep -v -- '-graded' | grep -v 'locus-collapse' | grep -v 'deep500' || true)
+  _skipped=$(ls $MOD/junction-aso-offtarget-*.json 2>/dev/null \
+    | grep -v -- '-graded' | grep -v 'locus-collapse' | grep -c 'deep500' || true)
+  # shellcheck disable=SC2046,SC2086
+  python3 $MOD/junction_aso_offtarget.py --rescore $(echo $_sweep | tr '\n' ' ') \
     >/dev/null 2>&1 || true
   echo "   $(ls $MOD/junction-aso-offtarget-*-graded.json 2>/dev/null | wc -l | tr -d ' ') graded artifact(s)"
+  echo "   $_skipped deeper re-screen(s) skipped — released ungraded by SI §S4's stated rule"
 
   # ⛔ THIS STEP SILENTLY OVERPRODUCED AGAINST A DOCUMENTED DECISION (measured 2026-08-17).
   # The glob above regrades EVERY screen, so a chain run took the graded corpus from the committed
@@ -78,6 +96,10 @@ if [ "$CHECK" = 0 ]; then
   # ⭐ The count guard in test_aso_submission_numbers.py caught this, which is why the state was
   # recoverable. This warning exists so the chain says so at the moment it happens, instead of
   # leaving a later test to discover it.
+  # ⚠ THE SWEEP ABOVE NOW EXCLUDES THE DELIBERATELY-UNGRADED SCREENS, SO THIS GUARD NO LONGER FIRES
+  # ON A CORRECT TREE — and that is the point. It is kept, not retired, because it is the only check
+  # that reads the corpus rather than the rule: it catches a graded artifact arriving by any route
+  # the filter above does not model.
   _tracked=$(git ls-files "$MOD" 2>/dev/null | grep -c -- '-graded.json' || true)
   _ondisk=$(ls $MOD/junction-aso-offtarget-*-graded.json 2>/dev/null | wc -l | tr -d ' ')
   if [ -n "$_tracked" ] && [ "$_tracked" -gt 0 ] && [ "$_ondisk" != "$_tracked" ]; then

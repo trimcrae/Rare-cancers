@@ -271,6 +271,23 @@ if [ "${SKIP_TESTS:-0}" != "1" ]; then
     PYTEST="python3 -m pytest"
   fi
 
+  # ⛔ THE GATE WAS SINGLE-THREADED ON A FOUR-CORE BOX, AND THAT COST 16 MINUTES A RUN.
+  # Measured 2026-08-17 on this tree: the modalities suite is 968.9s serial and 336.9s at `-n 4
+  # --dist loadfile`, a 2.9x saving, with the verdict IDENTICAL -- 14 failed, 7,756 passed, 58
+  # skipped both ways, the same 14 tests by name, every one already in sandbox-failure-baseline.txt,
+  # and the working tree clean afterwards.
+  # ⚠ `--dist loadfile` IS LOAD-BEARING, NOT A TUNING CHOICE. Several tests regenerate a committed
+  # artifact and then assert against it; distributing by TEST rather than by FILE would let two
+  # workers race the same file and produce failures that are real-looking and untrue. Keeping every
+  # test in a file on one worker preserves the within-file ordering those tests rely on. The clean
+  # tree after the parallel run is the evidence that no regeneration raced.
+  # ⛔ IF XDIST IS ABSENT, RUN SERIAL. A missing plugin must slow the gate down, never skip it.
+  PYTEST_PAR=""
+  if [ "${PREFLIGHT_SERIAL:-0}" != "1" ] && python3 -c "import xdist" >/dev/null 2>&1; then
+    _cores=$(nproc 2>/dev/null || echo 1)
+    [ "$_cores" -gt 1 ] && PYTEST_PAR="-n $_cores --dist loadfile"
+  fi
+
   # ⛔ THE SELECTOR IS ASKED ONCE, AND ITS THREE ANSWERS ARE KEPT APART (measured 2026-08-16).
   # This block used to call `affected_tests.py` here, discard the result, and call it AGAIN below to
   # decide whether an empty selection meant "nothing affected". That conflated two opposite answers:
@@ -321,7 +338,7 @@ if [ "${SKIP_TESTS:-0}" != "1" ]; then
   # collection errors are `ModuleNotFoundError: No module named 'numpy'` — not one is scipy, pymbar or rdkit.
   # Superseded, retained (CLAUDE.md rule 1.2): "(scipy, pymbar, rdkit are absent)".
   # ⛔ The cause is deliberately NOT re-typed here now. It is one command, and it answers for today:
-  #     $PYTEST research/modalities/tests/ -q --collect-only --continue-on-collection-errors \
+  #     $PYTEST $PYTEST_PAR research/modalities/tests/ -q --collect-only --continue-on-collection-errors \
   #       --ignore=research/modalities/tests/test_ternary_endpoint_align.py 2>&1 | grep ModuleNotFoundError
   #
   # ⚠ THAT IS THIS SCRIPT'S OWN HEADER DEFECT, IN THIS SCRIPT. The comment at the top of this file
@@ -335,11 +352,11 @@ if [ "${SKIP_TESTS:-0}" != "1" ]; then
   # decided once, above, where the selector's exit code was still in hand.
   if [ "$SEL_STATUS" = "scoped" ]; then
     # shellcheck disable=SC2086
-    $PYTEST $SELECTED -q --continue-on-collection-errors >"$out" 2>&1 || true
+    $PYTEST $PYTEST_PAR $SELECTED -q --continue-on-collection-errors >"$out" 2>&1 || true
   elif [ "$SEL_STATUS" = "none" ]; then
     echo "no modality test is affected by this change" >"$out"
   else
-    $PYTEST research/modalities/tests/ -q --continue-on-collection-errors \
+    $PYTEST $PYTEST_PAR research/modalities/tests/ -q --continue-on-collection-errors \
         --ignore=research/modalities/tests/test_ternary_endpoint_align.py >"$out" 2>&1 || true
   fi
   failed=$(grep -cE '^FAILED' "$out" || true)
@@ -441,7 +458,7 @@ if [ "${SKIP_TESTS:-0}" != "1" ]; then
   # — 151 passed, 0 failed, measured the day this gate was added — so the bar here is simply zero.
   echo "== pytest (manuscripts: endpoints, systems map, pooling, submission citations) =="
   mout=$(mktemp)
-  $PYTEST research/manuscripts/tests -q --continue-on-collection-errors >"$mout" 2>&1 || true
+  $PYTEST $PYTEST_PAR research/manuscripts/tests -q --continue-on-collection-errors >"$mout" 2>&1 || true
   tail -1 "$mout"
   if ! grep -qE '[0-9]+ (passed|failed)' "$mout"; then
     echo "   FAILED: pytest reported no test count -- the run collected nothing."

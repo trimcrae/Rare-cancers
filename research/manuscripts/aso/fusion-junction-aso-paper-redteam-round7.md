@@ -461,7 +461,7 @@ than deferred (see §2d).
 | B1-F8 | DECLINE | a direction would be an LNA claim §6 explicitly declines to compute; the current form is the pessimistic reading. |
 | B1-F9 | APPLIED | the biodistribution premise now states that no measurement or citation was retrieved for it. |
 | B1-F10 | DECLINE | discretionary generator column; the liability audit has homes at §2.10 and §6. |
-| B1-F11 | DECLINE | the 5-8-5 datum is real; it strengthens §4.2 and is held for a refuter rather than added on one reading. |
+| B1-F11 | **APPLIED — refuter returned, 2026-08-17** | the 5-8-5 exception is in the cached full text and had no home. §6 now carries it **with its counterweight** — the same source reports 5-8-5 increasing off-target knockdown for several genes — and with the TMO-not-LNA, allele-not-junction scope attached. See §2e. |
 | B2-F1 | REFUTED | no total is stated anywhere; the sharper replacement was taken instead. |
 | B2-F2 | APPLIED | 13 of the 19 pre-mRNA designs are already among the 87; the abstract says so. |
 | B2-F3 | APPLIED | corroborated B5-F1 in the opposite direction; superseded by the measurement in §1.1a. |
@@ -470,7 +470,7 @@ than deferred (see §2d).
 | B3-F1 | **half APPLIED, half REFUTED** | the 98.3% bound has two reasons, and that is now stated. ⛔ "the 94.8% row is invisible in Table 7" is **false** — the row prints in full. |
 | B3-F2 | APPLIED | ⭐ the two *TAF15* series are not shown to be independent cohorts; the arm may be as few as three. |
 | B3-F3 | APPLIED | "five known partners" → "five modelled partners". |
-| B3-F4 | REFUTED | the quotation is anchored on `origin/literature-cache`; a locality item, not a provenance failure. |
+| B3-F4 | **REFUTED, and its residual is now CLOSED too (2026-08-17)** | the quotation was never unanchored. Its residual locality item is closed as well: the deposit documents carry exactly one external quotation, *"six or more bases"*, and its verbatim window is on the WORKING branch in `lit-targets-aso-gap-length.json`, beside the manuscript. Re-checked by enumerating every quoted string in all three documents rather than by trusting the earlier reading. |
 | B3-F5 | APPLIED | folded into P0.7. |
 | B3-F6 | APPLIED | candidates/controls reconciled. |
 | B4-F1 | APPLIED | the abstract promised loads and gave none. |
@@ -481,7 +481,7 @@ than deferred (see §2d).
 | B4-F6 | APPLIED | the disclaimer moved ahead of the sequences (P0.8). |
 | B4-F7 | P3 | ⚔ direct conflict with D4; recorded, not resolved. |
 | B4-F8 | P3 | venue-triggered. |
-| B4-F9 | DECLINE | the re-derivation command is right, but its wall time must be measured, not typed; held rather than asserted. |
+| B4-F9 | **APPLIED — measured, 2026-08-17** | the chain was timed three times on four cores — 33.8 s, 33.2 s, 33.1 s — and verified idempotent. Availability now names the command, what a green run means, and the guard suite behind it. ⚠ times are stated as bounds on a named machine, not pinned figures, because they are machine-dependent. |
 | **B5-F1** | **APPLIED — measured** | the round's top finding. See §1.1a: the apportionment is deleted, not restated. |
 | **B5-F2** | **APPLIED** | ⭐ the *PGR* seam's pre-mRNA compartment is UNMEASURED, not clean. Three homes, one of which this pass had added. |
 | B5-F3 | APPLIED | the cleavage claim lowered to hybridisation. |
@@ -490,10 +490,10 @@ than deferred (see §2d).
 | B5-F6 | DECLINE | Table 2's margin cell follows the screened set by design, and Table 4 prints the margin-3 designs. |
 | B6-F1 | **APPLIED — CI fetch** | three of the four precedents reached in vivo mouse models. Committed evidence. |
 | B6-F2 | **APPLIED — CI fetch** | the GalNAc route is liver-restricted via ASGPR and does not transfer. |
-| B6-F3 | DECLINE | the 12-antigen negative is real and worth citing; held for a refuter because it adds a released claim. |
+| B6-F3 | **APPLIED — refuter returned, 2026-08-17** | the negative is a committed $0 artifact on the route the paper names, and the paper nowhere said the question had been asked. Applied with its ceiling attached, and the seven-file evidence chain added to the archive manifest **in the same commit** — a released negative whose evidence is not in the deposit is unfalsifiable. |
 | B6-F4 | REFUTED | all four sites already condition on systemic dosing. |
 | B6-F5 | REFUTED | the two sentences are adjacent and reconciled by the next one. |
-| B7-F1 | DECLINE | see B1-F5 — the charge is inverted; both series may be worth printing, but not on this reading. |
+| B7-F1 | **REFUTED — refuter returned, 2026-08-17** | the counter sits under the artifact key `worsens_with_a_longer_gap` and is built from `parent_paired_gap_dna_nt`, so 0 of 190 at 6 nt is the FLATTERING count. The 6-nt series runs 0 → 152 → 304, the same conclusion as the printed 76 → 228 → 342, and the second minimum is already cited verbatim in §6. Printing both changes no conclusion. |
 | B7-F2 | APPLIED | folded into P0.7. |
 | B7-F3 | APPLIED | the Discussion's four rounded figures returned to their artifact values. |
 | B7-F4 | APPLIED | 95% → 94.8%, matching the SI and Table 7. |
@@ -508,7 +508,7 @@ than deferred (see §2d).
 | C2-F2 | APPLIED | "sits at floor" replaced by the measured 0.941 at the 83rd percentile of 1,673 lines. |
 | C2-F3 | DECLINE | "exactly one route" is refuted by the paper's own cited analogue. |
 | C2-F4 | **APPLIED — CI read** | `GSE299349` is public; `GSM9037837` is a patient-derived EMC cell model. ⚠ its series' own design lists five sarcoma types and not EMC — recorded, and no fusion call made. |
-| C2-F5 | DECLINE | the two usable models are named in the artifact with RRIDs; adding them to the paper is C5-F1's edit and lands there. |
+| C2-F5 | **half APPLIED, half DECLINED — refuter returned, 2026-08-17** | the two models are now named with their RRIDs, and H-EMC-SS gained its own so the section's identifier treatment is uniform. ⛔ **the named contact is deliberately NOT printed**: a third party's personal address in a manuscript is an outward-facing act about someone who has not agreed to it, and the paper already routes the reader to the originating laboratory. The third line stays unnamed: naming it responsibly means citing it, which renumbers a generated file — filed, not folded in. |
 | C2-F6 | APPLIED | the cryptic-exon test article's reagent cannot be certified under §4.5's own rule, and now says so. |
 | C2-F7 | APPLIED | the STR profile is concordant at every locus but one, which is now named. |
 | C2-F8 | APPLIED | "no third party who can decline" was false; the backbone is academic and non-profit only. |
@@ -528,7 +528,7 @@ than deferred (see §2d).
 | C4-F5 | REFUTED | the 30% figure at three replicates is already stated. |
 | C4-F6 | APPLIED | the pilot's required return and a stop rule, without inventing an n. |
 | C4-F7 | APPLIED | with C3-F7. |
-| C5-F1 | DECLINE | the construct-to-lead mapping is the highest-value edit in the ledger and is held for a refuter, not dropped. |
+| C5-F1 | **APPLIED — refuter returned, 2026-08-17** | ⭐ the artifact states the mapping in so many words and the manuscript said only *"two of the three are junctions this work screened at full panel depth"*, which is true of any two of 38 and identifies nothing. §3 now names E-N and T-N\* against the two lead junctions. ⚠ the charge said *two* published constructs; there are **three**, and the applied text says so. |
 | C5-F2 | REFUTED | panel coverage, not ordering; §4.4's rule is unqualified. |
 | C5-F3 | REFUTED | all four numbers are printed in Table 7 and §2.6. |
 | C5-F4 | APPLIED | with A2-F3. |
@@ -552,22 +552,140 @@ than deferred (see §2d).
 | D2-F1 | APPLIED | the ~5-fold figure is disclosed as a restatement. |
 | D2-F2 | APPLIED | the "We previously discovered" clause disclosed. |
 | D2-F3 | APPLIED | two of the four paralogue sources are reviews. |
-| D2-U1 | **UNVERIFIED** | ref 39 is not open access; a full-text fetch was dispatched and its result is not in hand. Recorded as unverified rather than guessed. |
+| D2-U1 | **VERIFIED — 2026-08-17, and the fetch was never the blocker** | ⛔ the charge and its own disposition were both wrong about what this repository holds. Ref 39 is indeed not open access — a fresh Europe PMC dispatch returns `isOpenAccess: false` and both full-text routes fail (europepmc 404, NCBI 200 at 169 bytes, i.e. a block page). **But the paper's PDF render has been committed since an earlier session**, under the slug `ews-type-nom-repo-pdf` rather than under any name containing the PMID, and the claim reads straight off it. See §2f. |
 | D3-F1 | APPLIED | P0.3. |
 | D3-F2 | APPLIED | P0.2. |
 | D3-F3 | APPLIED | P0.4. |
 | D4-F1 | APPLIED | beat 3 promoted qualitatively; 82.9% stays at its single home. |
 | D4-F2 | APPLIED | with D1-F6. |
 | D4-F3 | P3 | figure budget. |
-| D4-F4 | DECLINE | naming the two modules is right; held with B4-F9, which shares its verification. |
+| D4-F4 | **APPLIED — and it was larger than filed, 2026-08-17** | both modules found: `aso_taf15_intron2_designs.py` holds the single grader, `aso_noncoding_acceptor_designs.py` reaches it through a LAZY import — which is why an import-closure walk over §4.5's five modules finds neither. ⛔ **Neither the modules nor their five artifacts were in the archive manifest**, so the deposit shipped the test that pins the scan's control and not the code under test. §4.5 names both; the manifest gained a row. |
 | D4-F5 | APPLIED | the Introduction's second question no longer excludes the paper's own answer. |
 | D4-F6 | **DECIDED** | title half declined with reason; keywords half applied. |
 | D4-F7 | DECLINE | a closing renewal is advocacy the language discipline forbids. |
 | D4-F8 | APPLIED | §4.5 now points at its one worked case outside the panel. |
 
-**ZERO OPEN**, with one honest exception: **D2-U1 is UNVERIFIED**, not dispositioned, because its
-source is not open access and the fetch has not returned. It is recorded that way rather than
-guessed, which is the rule this repository is built on.
+**ZERO OPEN, and now with no exception** — D2-U1 was the last one and it is **VERIFIED** as of
+2026-08-17 (§2f). ⚠ *Superseded, retained: "with one honest exception: D2-U1 is UNVERIFIED, not
+dispositioned, because its source is not open access and the fetch has not returned."* The first
+clause is still true and the second was the error: the fetch that mattered had returned months
+earlier, under a slug named for the question it was asked rather than for the paper it retrieved.
+
+---
+
+### 2g · ⭐ A HOSTILE READ OF THIS PASS'S OWN EDITS — 13 findings, all applied, 2026-08-17
+
+**Every fix above was itself reviewed before the gate ran**, by a reader scoped to consistency,
+correctness and writing only, over the six passages this pass changed and nothing else. It confirmed
+every number and identifier against its artifact — the twelve antigens, the 4/27/6 library counts,
+GSE28866, the three residual antigens, the E-N / T-N\* exon spans, all three RRIDs, and that both
+named modules really do share one grader through a lazy import — **and then returned 13 findings on
+the prose around them.** All 13 are applied. The three worth recording as classes:
+
+- **⛔ A WALL TIME I HAD JUST MEASURED WAS STILL WRONG, BECAUSE IT WAS CONDITIONAL.** *"about seven
+  minutes on the same machine"* is true only with `pytest-xdist` present; `preflight.sh` falls back
+  to serial by design, which its own header records as roughly four times slower. **Measuring a
+  number does not make a sentence about it true** — the measurement was of one configuration and the
+  sentence quantified over the machine. Now states both.
+- **⛔ "RE-DERIVES EVERY ARTEFACT" WAS CONTRADICTED BY THE SCRIPT'S OWN HEADER**, which says it does
+  not run the screens and regenerates only what is offline-derivable — and, since this pass,
+  deliberately skips the 53 deeper re-screens. An absolute written one screen away from the
+  exclusion that refutes it. Now *"every offline-derivable artefact"*.
+- **⚠ A NEW SENTENCE OVERLOADED A WORD THE PAPER ALREADY USES.** *"Exposure"* means off-target-locus
+  expression in the organs a systemic dose reaches at four existing sites; the antigen sentence
+  reused it for antigen level in tumour versus normal organs. Renamed to *contrast*, leaving the
+  established sense alone.
+
+The rest were antecedents and register: *"the same surface board"* pointing at nothing, *"held by"*
+parsing two ways against an artifact whose verb is *refuses*, *"the third"* re-attaching to the wrong
+noun after an interposed clause, *"a sixth and seventh module"* being both plural-for-singular and
+off by one against §4.5's own count, a dropped comparator on an off-target claim, mixed numerals in
+one sentence, a doubled citation, and a nine-line insertion that separated the inhaled route from the
+sentence motivating it. ⭐ **One finding was outside the requested target and raised anyway** — a
+dangling *"Arbitrary sequence does not:"* in the **abstract**, unchanged today and missed by seven
+rounds. Fixed.
+
+**⚠ `lint_claims.py` WAS RUN BY HAND, BECAUSE IT IS NOT IN PREFLIGHT.** A green preflight is silent
+about the language rules — the gate runs in CI only — so a deposit checked with preflight alone has
+not been checked against R1–R5. Result: **0 ERROR** repo-wide. The three deposit documents raise
+**seven R4-confirms warnings and all seven are false positives**, reviewed one by one and recorded
+here so no later round re-opens them: six are the clinical term *"molecularly confirmed cases"*,
+which describes how a patient's fusion was assayed and makes no claim about this work, and the
+seventh is *"a candidate rather than a validated reagent"* — a disclaimer, i.e. the rule's own
+preferred direction, caught by a matcher that reads the word and not the polarity.
+
+---
+
+### 2f · ⭐ D2-U1 CLOSED — and the lesson is about SEARCH, not about access
+
+**The claim under test.** §4.1 says a named variant arises from a genomic breakpoint interior to
+*EWSR1* exon 12 *"in a source that carries a citation marker on that sentence and is therefore
+restating an earlier report"*, citing ref 39 (PMID 9060841).
+
+**Verified against the primary document, 2026-08-17.** The PDF render of PMC1857890 is committed at
+`literature/ews-type-nom-repo-pdf/epmc_pdf_render_PMC1857890.txt` on the `literature-cache` branch.
+The sentence reads, in the OCR's own space-stripped rendering:
+
+> `Thetype3variantappearstobeaunique,probablynonrecurrentvariantresultingfromanunusualgenomicbreakpointwithinEWSexon12.16`
+
+The trailing `.16` is the citation marker, and the reference it points to is resolved on the working
+branch in `lit-targets-aso-type3-designability.json` — Labelle *et al.*, *Hum Mol Genet* 1995,
+PMID 8634690, itself reached by a dispatch and not from recollection. Both halves of the manuscript's
+clause are therefore anchored: the marker exists, and the earlier report is identified.
+
+**⛔ THE FAILURE WAS A SEARCH STRATEGY, AND IT COST THIS ITEM SEVEN ROUNDS.** Access was never the
+obstacle — a fresh dispatch confirms `isOpenAccess: false` and both full-text routes fail, exactly as
+recorded, and the document was on disk the whole time. It was invisible because **every attempt to
+find it searched for the paper's NAME** — the PMID, the PMC ID, a slug containing either — while the
+file had been fetched under a slug named for the *question* that session was asking
+(`ews-type-nom-repo-pdf`). A second fetch was even dispatched *for this item*, landed in
+`aso-round7-ref39-fulltext`, returned a 169-byte block page, and its failure was then read as
+evidence that the text was unobtainable.
+
+⚠ **The class, stated so it generalises:** *a corpus indexed by the question that produced it cannot
+be found by searching for the answer it contains.* A name-keyed search over a question-keyed cache
+returns nothing and looks exactly like absence — which is §4's rule in a new costume: **an absent
+reading is not a reading of absence, and that applies to your own repository as much as to a
+deposit.** Search the CONTENT before concluding a fetch is needed:
+`git grep` over the cache branch would have closed this in one command.
+
+---
+
+### 2e · ⭐ THE HELD-FOR-A-REFUTER ITEMS, RETURNED — 2026-08-17
+
+Seven rows above read DECLINE with the reason *"held for a refuter"*. **A provisional disposition is
+not a disposition**, so three read-only refuters were run — read-only deliberately, because a
+refuter working in a shared tree cannot tell *"the charge was always false"* from *"a sibling already
+fixed it"*, which is a confusion this session already produced once. Verdicts: **B6-F3 SURVIVES,
+B1-F11 SURVIVES, C5-F1 SURVIVES, C2-F5 half survives, B7-F1/B1-F5 REFUTED.** Every surviving edit was
+re-verified against the artifacts here before it was applied.
+
+**⛔ Two defects the refuters found that no round had filed, both larger than the charge that
+uncovered them:**
+
+1. **The archive promised evidence it did not contain, twice.** Applying B6-F3 releases a negative
+   whose seven-file evidence chain was outside the manifest; D4-F4's two modules and their five
+   artifacts were outside it as well. The second is the sharper one — `test_aso_submission_numbers.py`
+   **is** in the manifest and pins the un-rearranged-allele scan's positive control, so the deposit
+   shipped a test whose code under test it omitted. A reader could have run the released archive and
+   watched a guard fail for a missing module. Both rows are now in the manifest, added in the same
+   commit as the claims that need them.
+2. **A cited clause outran its committed anchor.** §6 says a series *"shortened a 5-10-5 gapmer to
+   5-6-5"* and reported *"lower off-target knockdown"*. Round 7 §1.4 records D2 verifying all three
+   clauses against the cached full text, and that verification was **correct** — the full text carries
+   *"The AOs with the six-base gap regions (7-6-7) and (5-6-5) caused the least knockdown of the
+   off-target genes"* and *"but was still much less effective than the original 5-10-5 AO design"*.
+   ⚠ **But the working branch could not show it.** The quotes stored in
+   `lit-targets-aso-gap-length.json` stopped at *"reduced selectivity and AO activity in most cases"*,
+   so on the branch the gates can see, two of the three clauses had no anchor. Three further
+   fragments were ported verbatim from the cache branch at its pinned revision; nothing was retyped.
+   **The class is worth naming: a claim verified once, by a reviewer, against a source the gates
+   cannot reach, is not an anchored claim.** Verification is not provenance.
+
+**⚠ What was deliberately NOT applied, each with its reason**, because a refuter that only ever says
+yes is a rubber stamp: the named laboratory contact (outward-facing, about a third party who has not
+agreed); the third cell line (naming it responsibly means citing it, which renumbers a generated
+file); and the 6-nt series (it reaches the same conclusion as the printed one, so it is duplication).
 
 ---
 
@@ -840,8 +958,8 @@ certified under §4.5's own rule (C2-F6) · two keywords that would make the rel
 | **C1-F3** — supply an actual primer/probe pair and name a platform | The paper deliberately prescribes no assay; **C3-F3's half is P1 because it is a contradiction, not a request for new work.** Trigger: a decision that the paper prescribes an assay at all. |
 | **C2-F4's fix** — cite `SRR33903995` | ⚠ **The stated release date of the parent GEO series has passed, so the read is now $0 and has not been taken.** Nothing may be written about that deposit until its status is read. |
 | **B6-F1, B6-F2** — the precedent-scope corrections | **A committed CI fetch** of the four PMIDs. Both were retrieved via WebSearch snippets because PMC is proxy-blocked, and this repository's rule is that a claim needs a committed fetch product. |
-| **D2-U1** — whether ref 39's source carries a citation marker on the sentence the paper says it does | The full text is not open access and the proxy blocks Europe PMC. Recorded as unverified rather than guessed. |
-| **B3-F4's residual** — the one manuscript quotation whose verbatim window lives on `origin/literature-cache` rather than beside the manuscript | See §6.4. A locality problem, not a provenance failure. |
+| **D2-U1** — whether ref 39's source carries a citation marker on the sentence the paper says it does | ✅ **CLOSED 2026-08-17.** It does: the OCR reads `...withinEWSexon12.16`. The full text is not open access, and that turned out not to matter — a committed PDF render already held it. §2f. |
+| **B3-F4's residual** — the one manuscript quotation whose verbatim window lives on `origin/literature-cache` rather than beside the manuscript | ✅ **CLOSED 2026-08-17.** Every quoted string in the article, the SI and the tables was enumerated; the only external quotation is *"six or more bases"* and it is anchored on the working branch. Three further fragments were ported on-branch in the same pass (§2e). |
 
 ---
 

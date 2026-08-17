@@ -48,7 +48,7 @@ and designs are easy to find. Of 190 candidates across the 38 in-frame junctions
 modelled partners, 87 pair their catalytic gap against a mature parent transcript over a contiguous
 duplex of at least ten base pairs, 61 against wild-type *NR4A3*; 19 pair a parent in precursor RNA,
 where RNase-H1 is also active and a mature-transcript screen cannot reach, and 13 of those 19 are
-already among the 87. Arbitrary sequence does not: scrambles reach 6.2% on the same screen and chimeras joining the same
+already among the 87. Arbitrary sequence does not pair a parent nearly as often: scrambles reach 6.2% on the same screen and chimeras joining the same
 two parents at random offsets 23.8%, against 45.8% observed. Nor is that excess specific to the
 disease's own breakpoints: a chimera drawn at real exon termini of the same two transcripts, at
 junctions no patient is reported to carry, reaches 40.6%, and the observed rate's own interval
@@ -838,7 +838,17 @@ evaluate.
 
 Delivery remains unsolved for a tumour, and separates into three routes with different
 requirements. A characterised EMC-enriched surface antigen is a prerequisite of
-the systemic receptor-targeted route only; local and inhaled administration require none. EMC's
+the systemic receptor-targeted route only; local and inhaled administration require none. No such
+antigen could be named when the question was put to the disease's own tissue: of the twelve candidate
+surface antigens for which both a lineage reading against comparator sarcomas and a measured EMC
+tumour-versus-normal-organ contrast exist — the latter from four EMC and 27 normal-organ libraries
+across six organs in GEO deposit GSE28866 — none cleared both axes on every instrument that could
+read it, and the three that cleared the two measured axes (*CD44*, *CSPG4*, *RET*) were refused by a
+wider normal-tissue prior, or left ungraded by that prior's absence. That bounds what was examined
+rather than establishing that no antigen exists: 86 of the 100 genes on the committed surface panel
+carry no row in that deposit and are unmeasured rather than excluded, every reading is
+transcript-level, and none of it speaks to protein, surface localisation, antigen density or
+internalisation. For the inhaled route, EMC's
 distant spread is lung-dominant, at 35–45% of patients and a median of approximately 28 months to
 metastasis.<sup>6</sup><!--PMID:41055792--> Inhaled oligonucleotides have reached human dosing in
 non-oncology indications. An inhaled antisense oligonucleotide has been dosed in healthy volunteers
@@ -854,7 +864,7 @@ and not for this target.
 **The testable surface is narrower than the literature makes it look, and a reader planning an
 experiment should know that before ordering anything.** A junction-spanning gapmer needs a junction to
 span, so the test article has to carry one. The EMC line a reader
-would reach for first, H-EMC-SS, is the only one this work could establish as available from a cell
+would reach for first, H-EMC-SS (RRID:CVCL_1238), is the only one this work could establish as available from a cell
 repository, a third line's distributor being unreadable and its availability therefore unanswered
 rather than answered, and no *NR4A3* fusion is detectable in it on the public record: a filtered
 fusion caller that ran against it — DepMap's filtered fusion
@@ -877,12 +887,15 @@ is not discoverable by anyone searching on model validity.
 
 What remains is five test articles, and each of the five now has a matching reagent. Three are the
 engineered constructs of the functional study cited above,<sup>27</sup><!--PMID:31020999--> E-N,
-T-N* and T-N, whose exon spans that paper states verbatim; two of the three are junctions this work
-screened at full panel depth and the third is the intron-2 cryptic-exon seam of §2.6, whose reagent
+T-N* and T-N, whose exon spans that paper states verbatim; two of the three, E-N and T-N*, carry the
+same two junctions the reagents of §4.1 span — *EWSR1* exon 12 and *TAF15* exon 6, each joined to
+*NR4A3* exon 3 — so both of those reagents have a stated test article; the third construct, T-N,
+carries the intron-2 cryptic-exon seam of §2.6, whose reagent
 cannot be certified under the criterion §4.5 states, three of the five screens being unable to
 address a cryptic-exon acceptor at all. The other two
 are the patient-derived, identity-clean models reported with two EMC
-tumours,<sup>36</sup><!--PMID:36316541--> whose fusions are reported as *EWSR1* exon 13 and *TAF15*
+tumours,<sup>36</sup><!--PMID:36316541--> USZ20-EMC1 (RRID:CVCL_C6MX) and USZ22-EMC2
+(RRID:CVCL_C6MY), whose fusions are reported as *EWSR1* exon 13 and *TAF15*
 exon 6 joined to *NR4A3* exon 2 rather than exon 3; reagents exist at both acceptors, so each line
 has one under either reading of that exon label.
 
@@ -1228,7 +1241,12 @@ sequence-liability filters; `aso_premrna_offtarget.py` the parents' unspliced se
 screen. A new design must clear all five, and the parent screens matter most: pairing a parent
 through the whole catalytic gap is this paper's central negative and surrenders the only advantage
 the modality has. Where the acceptor half is not exonic in the mature transcript, the
-un-rearranged-allele scan of §2.6 applies as well.
+un-rearranged-allele scan of §2.6 applies as well, and it lives in two further modules rather than in
+a step within the five screens: `aso_taf15_intron2_designs.py` holds the single implementation of that scan,
+which grades a design cleavage-competent on the un-rearranged allele when it pairs the unspliced
+*NR4A3* sequence with no mismatch inside the catalytic gap, and `aso_noncoding_acceptor_designs.py`
+calls that same implementation at the exon-2 acceptor, where the register runs across the
+intron-1/exon-2 boundary instead of within intron 2.
 
 What that yields is a candidate, not a validated reagent. Nothing designed this way has been
 synthesised or tested, the procedure has been run at the junctions reported here and at no others,
@@ -1400,7 +1418,13 @@ usable range and below the reported optimum. It was retained because it admits e
 junction-spanning registers per junction. No claim is made that a short gap improves
 fusion-versus-parent discrimination: one series that shortened a 5-10-5 gapmer to 5-6-5 reported
 lower off-target knockdown but also lower on-target activity and lower allele
-selectivity.<sup>41</sup><!--PMID:39126066--> Because that trade is the modality's central one,
+selectivity.<sup>41</sup><!--PMID:39126066--> Within that same series 5-8-5 was the one shortened
+design reported to give a small increase in activity or allele selectivity in some cases, and it also
+increased off-target knockdown relative to 5-10-5 for several of the genes tested, so the exception
+is not a free one. Those gapmers carry thiomorpholino rather than LNA wings and are directed at a
+single-nucleotide polymorphism distinguishing two alleles rather than at a fusion junction, so
+neither the rule nor its exception is evidence about gap length in this architecture. Because that
+trade is the modality's central one,
 5-8-5 and 5-10-5 were tiled over the same junctions by the same rule and carried through the same
 screens, wings held at five nucleotides so that only the gap changed and LNA affinity enters every
 parent duplex identically (§2.9).
@@ -1576,7 +1600,14 @@ archived version, deposited from the public repository at `github.com/trimcrae/R
 [ARCHIVE DOI — PLACEHOLDER, AUTHOR TO SUPPLY BEFORE DEPOSIT: the archive has not been deposited and
 no digital object identifier has been reserved, so this citation does not yet resolve]. Every result
 reported here is re-derived from the committed artefacts in that archive
-without network access or credentials. Regenerating the specificity screens from scratch is not
+without network access or credentials. That claim is meant to be checked rather than accepted:
+`./scripts/regenerate_aso_chain.sh` re-derives every offline-derivable artefact in dependency order
+and re-runs the consistency, citation and style gates in about half a minute on four cores with no
+network, and the archive is current if it reports `ASO CHAIN OK` and leaves the working tree
+unchanged. The guard suite behind it, `PREFLIGHT_FULL=1 ./scripts/preflight.sh`, contains the tests
+that re-derive each reported number from its artefact and fail if the two diverge, and takes about
+seven minutes on the same machine with `pytest-xdist` installed, or roughly four times that
+single-threaded. Regenerating the specificity screens from scratch is not
 offline, because the alignment screen queries NCBI BLAST and the exhaustive transcript scan downloads
 the GRCh38.p14 RefSeq RNA set, but no reported number requires it: each screen's hit set is archived
 and the re-scores hold it fixed. The pre-mRNA and mature-parent screens are fully offline against the

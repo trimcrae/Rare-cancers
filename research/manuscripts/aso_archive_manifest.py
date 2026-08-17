@@ -315,6 +315,57 @@ PROMISES = [
                      "research/manuscripts/aso_priorart_evidence.py"],
     },
     {
+        "id": "unrearranged_allele_scan",
+        "verbatim": False,
+        # ⛔ THE DEPOSIT SHIPPED THE TEST AND NOT THE CODE UNDER TEST (found 2026-08-17, D4-F4).
+        # `test_aso_submission_numbers.py` is in this manifest and pins the scan's positive control,
+        # so the archive proved a result whose producer it did not contain. Section 2.6's central
+        # negative — three designs pairing their whole catalytic gap against the patient's own
+        # un-rearranged NR4A3 allele — rested on five artifacts none of which was released.
+        # ⚠ BOTH MODULES, NOT ONE. The grader has exactly one implementation, in
+        # `aso_taf15_intron2_designs.py`, which `aso_noncoding_acceptor_designs.py` reaches through a
+        # LAZY import — so an import-closure walk over the five procedure modules of section 4.5
+        # finds neither, which is why this stayed invisible.
+        "promise": "the un-rearranged-allele scan and the designs it condemns",
+        "contributes": ("The scan that asks whether a design whose acceptor half is not exonic in "
+                        "the mature transcript pairs its whole catalytic gap against the patient's "
+                        "un-rearranged NR4A3 allele, at both seams it can reach: within intron 2 "
+                        "for the cryptic-exon acceptor and across the intron-1/exon-2 boundary for "
+                        "the exon-2 acceptors. Carries the three condemned designs, the two seams "
+                        "that keep a reagent, and the positive control the released tests pin."),
+        "patterns": ["research/modalities/aso_taf15_intron2_designs.py",
+                     "research/modalities/aso_noncoding_acceptor_designs.py",
+                     "research/modalities/aso-taf15-intron2-designs.json",
+                     "research/modalities/aso-ewsr1-intron2-designs.json",
+                     "research/modalities/aso-noncoding-acceptor-designs.json",
+                     "research/modalities/nr4a3-fusion-junction-atlas-taf15intron2.json",
+                     "research/modalities/nr4a3-fusion-junction-atlas-ewsr1intron2.json"],
+    },
+    {
+        "id": "delivery_antigen_negative",
+        # ⛔ ADDED WITH THE CLAIM, NOT AFTER IT (2026-08-17). The Discussion now reports that no
+        # surface antigen could be named when the two-axis question was put to EMC tissue. That is a
+        # released NEGATIVE, and a negative without its evidence in the deposit is the worst kind of
+        # promise to break: a reader cannot check what was looked at, so cannot tell a bounded search
+        # from an unbounded conclusion. The producer, the screen and its four named inputs travel
+        # together because the artifact's own `_inputs` block names all four and it is $0 to run.
+        "promise": "No such antigen could be named when the question was put to the disease's own",
+        "contributes": ("The two-axis surface-antigen screen behind the Discussion's delivery "
+                        "negative: the twelve antigens scoreable on both axes, the measured EMC "
+                        "tumour-versus-normal-organ exposure contrast from GSE28866, the three "
+                        "that clear the measured axes and the reason each is still refused, and "
+                        "the ceiling field recording that 86 further surface-board genes are "
+                        "unmeasured rather than excluded. Released so the bound on what was "
+                        "examined is checkable rather than taken on trust."),
+        "patterns": ["research/modalities/aso-delivery-antigen.json",
+                     "research/modalities/aso_delivery_antigen.py",
+                     "research/modalities/gse28866-tumour-vs-normal.json",
+                     "research/modalities/emc-expression-panels.json",
+                     "research/modalities/emc-surface-normal-window.json",
+                     "research/modalities/emc-surfaceome-scan.json",
+                     "research/manuscripts/aso/aso-delivery-antigen-2026-08-08.md"],
+    },
+    {
         "id": "reproduction_guards",
         "promise": ("Every quantitative statement here is produced by code in the released "
                     "archive and is reproducible from it"),
@@ -351,6 +402,14 @@ PROMISES = [
                      "research/manuscripts/figures/aso-*.pdf",
                      "research/manuscripts/figures/aso-*.png",
                      "research/manuscripts/figures/aso-*.svg",
+                     # ⛔ THE FIGURES' TWO GUARDS SHIP WITH THE FIGURES (added 2026-08-17). The
+                     # deposit asserts that these PDFs are vector with live text, and that each was
+                     # drawn from the artifact currently on disk. An archive carrying the assertion
+                     # and not the check leaves a reader unable to falsify either — the same defect
+                     # as shipping a test whose code under test is absent, in the other direction.
+                     "research/manuscripts/figures/aso_figure_provenance.py",
+                     "research/manuscripts/tests/test_aso_figure_provenance.py",
+                     "research/manuscripts/tests/test_aso_figures_are_vector_not_raster.py",
                      "research/manuscripts/aso_archive_manifest.py"],
     },
 ]

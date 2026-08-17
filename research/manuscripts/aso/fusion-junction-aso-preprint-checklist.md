@@ -45,6 +45,31 @@ journal still under consideration.
 
 ## 1 · Ready, and needs nothing further
 
+⭐ **§1 was walked row by row on 2026-08-17 and three rows were not what they said.** Recorded here
+because a checklist nobody re-runs is a memory, not a check.
+
+- **The vector-PDF row was an ASSERTION with no instrument.** "No image XObjects, subsetted fonts,
+  live text" was true — verified by parsing all four PDFs, **zero** image XObjects — but nothing
+  would have gone red if a converter option had rasterised a panel. It is now held by
+  [`tests/test_aso_figures_are_vector_not_raster.py`](../tests/test_aso_figures_are_vector_not_raster.py),
+  which also catches the failure the raster check is blind to: glyphs converted to outlines, which
+  is vector and still unsearchable. ⚠ *The first diagnostic that looked at this was WRONG and said
+  the figures were rasterised — `/ImageB`, `/ImageC` and `/ImageI` are legacy ProcSet tokens, not
+  embedded images. The discriminating observation is `/Subtype /Image` in an object dictionary.*
+- **The provenance row's own guard could skip itself.** `test_aso_figure_provenance.py` began both
+  tests with `if not os.path.exists(CHECKER): pytest.skip(...)` on a **tracked** file — so deleting
+  the checker would have turned the provenance guarantee off with a green build. Now an assertion.
+- **The packet reported a cover letter and an SI that both exist as `MISSING` / `none`.**
+  `submission_packet.py` looked for `<manuscript-stem>-cover-letter.md`, and this paper's letter and
+  SI drop the `-research-article` segment. Four of five papers happened to match, which is what made
+  the fifth row's false negative look trustworthy. Fixed at the generator, which now asks the
+  directory instead of guessing a name and prints the file it actually found.
+
+**Verified clean in the same pass:** all 52 references cited in the body with no gaps and none
+uncited (`<sup>7,19</sup>`-style compound markers expanded before counting — a naive per-number grep
+reports four false gaps); competing-interests, funding, ethics and AI-use statements all present.
+
+
 | item | state |
 |---|---|
 | Manuscript | `fusion-junction-aso-research-article.md`. Word and abstract counts are measured, not asserted: `submission-metrics.json` is their one home (`python3 research/manuscripts/submission_metrics.py`). bioRxiv sets no limit on either. ⚠ *Superseded, retained: "4,244 words main text, structured abstract at 265 words" — both were typed here and both drifted; the measured main text is over a thousand words longer.* |

@@ -106,12 +106,12 @@ last_verified: 2026-08-10
 
 | field | value |
 |---|---|
-| Word count, main text | 18327 (no limit found) |
-| Abstract | 448 words  |
+| Word count, main text | 20333 (no limit found) |
+| Abstract | 495 words  |
 | Display items | 10 (3 figures, 7 tables) |
 | References | 52 |
-| Cover letter | MISSING |
-| Supplementary file | none |
+| Cover letter | `aso/fusion-junction-aso-cover-letter.md` |
+| Supplementary file | yes |
 | Fee route | not recorded |
 
 ⚠ Limits provenance: VERIFIED at primary source: bioRxiv sets no word, abstract or display-item limit and its deposit is free — the one venue fact in this table that was read rather than searched. ⚠ ALL-`None` IS A STATEMENT, NOT A GAP: it means this manuscript is measured and ungated, which is the honest state while the journal is undecided. A journal's limits apply when one is chosen, and cutting the abstract to any particular cap before then means cutting twice, because the venues under consideration disagree on both length AND whether a structured abstract is wanted at all..
