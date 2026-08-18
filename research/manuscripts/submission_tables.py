@@ -1889,7 +1889,9 @@ screens returned at that locus, one per accession per design, added up over ever
 across the junction; the column totals {_n_records}, which is the gap-paired hit count over the
 four junctions of this table and not over the whole 38-junction panel. It is a count of what the search returned and not of how many accessions RefSeq lists for
 the gene, so it is not annotation depth and not a property of the locus on its own: a locus that
-every register returns is counted once per register. Tiling registers is how many of the designs
+every register returns at one accession is counted once per register, and a locus returned at
+several accessions is counted once per accession per register — *HNRNPA2B1*'s hundred records
+over two registers are fifty accessions each, which §2.8 works through. Tiling registers is how many of the designs
 tiled across that junction return the locus, which is robustness to where the window is placed; the
 two columns therefore move together rather than being independent axes, and neither is ranked on,
 neither is expression and neither is affinity. A locus with no reading carries the reason rather

@@ -430,7 +430,8 @@ nine *NR4A3* boundary sites are at the shortest donor-side register, which needs
 bases to match. None of the nine designs with no sense-strand near-match on either transcript screen
 carries one.
 
-The second class is in mature parent transcript, and it is larger. Each of the first three screens
+The second of the two liability compartments — mature parent transcript rather than pre-mRNA — is
+the larger. Each of the first three screens
 misses it for its own reason. The alignment screen excludes parent records by design and filters at
 ≥14/16 identity. The exhaustive transcript scan admits only one mismatch. The pre-mRNA screen
 searches unspliced sequence and so cannot reach a mature exon–exon junction. A parent duplex of 11
@@ -745,7 +746,8 @@ size of the difference; it is not purely a restatement of the margin, because co
 the order in 19.9% of cross-margin design pairs and the margin-3 range sits inside the margin-1
 range, and the same caution applies to the margin's agreement with the parent screens of §2.5.
 
-Conventional design rules select differently, and against the paper's own candidates. Of the 190
+Conventional design rules select differently, and against three of the designs this paper calls
+candidates — though not against the two reagents §4.1 names, which fail no rule. Of the 190
 designs, 106 satisfy all four rules; the rules bind at different rates, with every design free of a
 G-quadruplex motif but 13 carrying a homopolymer run of four, 43 a CpG dinucleotide and 58 falling
 outside the 40–60% GC window. The failures overlap, so they do not sum to the 84 designs that fail
@@ -849,9 +851,12 @@ level of duplex formation, so what is unresolved is specifically the catalytic s
 one. Two things could narrow that interval, and no further sequence analysis is either of them: a
 measurement, or a physics-based estimate of cleavage geometry on the RNase-H1·heteroduplex complex,
 for which experimental structures exist. Neither is attempted here. Gap length is not a third, for
-the arithmetic reason §2.9 gives: a longer gap buys a markedly quieter transcriptome by making
-RNase-H1 more competent against the parent as well as against the fusion, which is the same limit
-reached from the other side rather than a way around it. The field's own answer to poor single-base discrimination has been
+the arithmetic reason §2.9 gives: a longer gap buys a markedly quieter transcriptome while at the
+same time pairing more of one wild-type parent through the gap. The two are not one effect: the
+transcriptome quiets because at a fixed two-mismatch budget a longer design can reach no locus its
+own shorter sub-windows do not, so the reachable set only shrinks, while the parent duplex grows
+out of the gap identity itself. It is the same limit reached from the other side rather than a way
+around it. The field's own answer to poor single-base discrimination has been
 positional chemical modification of the gap rather than
 length,<sup>33</sup><!--PMID:23963702--> and that is the design direction this result points to, now
 for a demonstrated reason rather than by analogy. A steric-block
@@ -1569,9 +1574,10 @@ statement about a complete hit list at a stated search depth. Both qualification
 the cap truncated is not complete, so no verdict is available for that design, and a design clean at
 one depth need not be clean at another. §2.4 and §5 report both effects.
 
-**Target-site accessibility.** Estimated as mean unpaired probability over a local fold of up to 180
-nucleotides, computed with the ViennaRNA partition function,<sup>46</sup><!--PMID:22115189--> and
-spanning 0.160 to 0.707 across all 190 designs at real exon junctions with a median of 0.477. It is
+**Target-site accessibility.** Accessibility was estimated as the mean unpaired probability over a
+local fold of up to 180 nucleotides, computed with the ViennaRNA partition
+function,<sup>46</sup><!--PMID:22115189--> and it spans 0.160 to 0.707
+across all 190 designs at real exon junctions, with a median of 0.477. It is
 released with the artefacts and ranks nothing here. That omission is deliberate — accessibility bears
 on potency, which is not claimed for any sequence, rather than on the discrimination this work is
 about — and SI §S1 gives the three reasons in full.

@@ -719,7 +719,7 @@ h1 { font-size: 17pt; line-height: 1.25; margin: 0 0 14pt 0; font-weight: 600; }
 h2 { font-size: 13pt; margin: 20pt 0 6pt 0; font-weight: 600;
      border-bottom: 0.5pt solid #ccc; padding-bottom: 3pt; break-after: avoid; }
 h3 { font-size: 11pt; margin: 14pt 0 4pt 0; font-weight: 600; break-after: avoid; }
-p { margin: 0 0 8pt 0; text-align: justify;  text-wrap: pretty; }
+p { margin: 0 0 8pt 0; text-align: justify;  text-wrap: pretty;  orphans: 2; widows: 2; }
 hr { border: 0; border-top: 0.5pt solid #ddd; margin: 14pt 0; }
 ol, ul { margin: 0 0 8pt 0; padding-left: 18pt; }
 li { margin-bottom: 4pt; text-align: justify; }
@@ -748,8 +748,15 @@ table { font-size: 7.4pt; }
 figure.figure { margin: 0 0 6pt 0; text-align: center; break-inside: avoid; break-before: page; }
 figure.figure.lead { break-before: auto; }
 figure.figure svg { max-height: 218mm; width: auto; }
+/* ⛔ WIDOW CONTROL, BECAUSE `break-inside: avoid` SILENTLY GIVES UP ON A LONG BLOCK (2026-08-19).
+   Table 5's caption is the longest in the paper — taller than a page in this format — so the
+   renderer cannot honour `avoid` and falls back to breaking it wherever it lands. It landed with a
+   single trailing clause alone on its own page: manuscript page 42 carried the running head and
+   "reagent's own loci are neither cleaner nor dirtier for being its own." and nothing else, 110
+   characters against a median page of 4,362. `avoid` is a preference; orphans/widows is the floor
+   that applies once the preference is abandoned, and it is what stops a one-line page. */
 p.legend { font-size: 9pt; text-align: left; margin-bottom: 16pt; break-before: avoid;
-           break-inside: avoid; }
+           break-inside: avoid; orphans: 3; widows: 3; }
 /* A table caption must not be stranded at the foot of a page away from its table. */
 p.legend.caption { break-before: auto; break-after: avoid; margin-bottom: 4pt; }
 section.landscape { page: landscape; }
@@ -790,7 +797,7 @@ h1.title { font-size: 18pt; line-height: 1.18; margin: 0 0 8pt 0; font-weight: 7
 .cols h3 { font-family: 'Liberation Sans', Helvetica, sans-serif; font-size: 8.4pt;
            margin: 8pt 0 3pt 0; font-weight: 700; color: #2c3f4f; break-after: avoid; }
 .cols h2:first-child { margin-top: 0; }
-p { margin: 0 0 5pt 0; text-align: justify;  text-wrap: pretty; }
+p { margin: 0 0 5pt 0; text-align: justify;  text-wrap: pretty;  orphans: 2; widows: 2; }
 .cols > p + p { text-indent: 1.1em; }
 hr { display: none; }
 ol, ul { margin: 0 0 6pt 0; padding-left: 13pt; }

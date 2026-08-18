@@ -1349,7 +1349,13 @@ def test_section_3_11_expression_figures_are_the_artifacts():
         for L in (top, lama):
             t = L["tumour_compartment_normal_tissue_proxy"]
             v = round(max(t["values"].values()), 1)
-            row = next(r for r in body.splitlines() if f"*{L['locus']}*" in r)
+            #: ⚠ A TABLE ROW, NOT ANY LINE NAMING THE LOCUS (2026-08-19). Table 6's caption was
+            #: corrected to work an example through — "*HNRNPA2B1*'s hundred records over two
+            #: registers are fifty accessions each" — and `next()` then selected the CAPTION,
+            #: which carries no cells, so the assertion below failed against prose. The row is
+            #: what this test means; a row starts with a pipe.
+            row = next(r for r in body.splitlines()
+                       if r.startswith("|") and f"*{L['locus']}*" in r)
             assert f"| {v} ({t['max_tissue_in_block']}) |" in row, (L["locus"], row)
         printed = [float(x) for x in re.findall(r"\| (\d+(?:\.\d+)?) \([A-Z][^)|]*\) \|", body)]
         assert printed and max(printed) == top_v, (top["locus"], top_v, sorted(printed)[-3:])
