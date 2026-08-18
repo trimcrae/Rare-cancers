@@ -84,10 +84,11 @@ phase 2 of pazopanib in centrally confirmed *NR4A3*-translocated disease, return
 responses in 22 evaluable patients;<sup>7</sup><!--PMID:31331701--> anthracycline-based chemotherapy
 returned four in ten evaluable patients in a molecularly confirmed retrospective series of eleven, a
 result that series presents as running counter to the prior record.<sup>8</sup><!--PMID:24345066-->
-Two of those three sources — the untargeted-driver review, the pazopanib study and the
-anthracycline series just cited — report a low objective response rate to that chemotherapy and low
-sensitivity to cytotoxic chemotherapy generally,<sup>6,7</sup><!--PMID:41055792,31331701--> and none
-of the three publishes a response rate by line of therapy. The population a fusion-directed agent would address is
+Three sources are now in play: the untargeted-driver review, the pazopanib study and the
+anthracycline series just cited. The first two report a low objective response rate to that
+chemotherapy and low sensitivity to cytotoxic chemotherapy
+generally,<sup>6,7</sup><!--PMID:41055792,31331701--> and none of the three publishes a response
+rate by line of therapy. The population a fusion-directed agent would address is
 close to the whole disease: across 58 molecularly confirmed cases, 79% carried *EWSR1::NR4A3*, 16%
 *TAF15::NR4A3* and 3% *TCF12::NR4A3*.<sup>9</sup><!--PMID:36948401-->
 
@@ -830,7 +831,8 @@ suppressors of acute myeloid leukaemia, and the three receptors are highly
 homologous.<sup>29,30</sup><!--PMID:29343483,25446259--> A conditional double knockout of *Nr4a1*
 and *Nr4a3* disturbs haematopoietic stem-cell homeostasis, and even then the cells
 retain regenerative and differentiation capacity;<sup>29</sup><!--PMID:29343483--> no single-knockout
-arm is reported there, so the double deletion is shown to be sufficient and not to be necessary. On the
+arm is reported there, so the double deletion is shown to be sufficient and is not shown either
+way on necessity. On the
 restrictive side, a separate study makes the loss of *NR4A3* consequential rather than silent when
 paralogue reserve is reduced: mice hypoallelic across the two genes develop a myelodysplastic or
 myeloproliferative neoplasm, and abrogation of both leads to rapid postnatal
@@ -1477,8 +1479,9 @@ is not a free one. Those gapmers carry thiomorpholino rather than LNA wings and 
 single-nucleotide polymorphism distinguishing two alleles rather than at a fusion junction, so
 neither the rule nor its exception is evidence about gap length in this architecture. Because that
 trade is the modality's central one,
-5-8-5 and 5-10-5 were tiled over the same junctions by the same rule and carried through the same
-screens, wings held at five nucleotides so that only the gap changed and LNA affinity enters every
+5-8-5 and 5-10-5 were tiled over the same junctions by the same rule and carried through four of
+the five screens below — the exhaustive genome scan is unavailable at 18 and 20 nucleotides by
+construction, as §5 and Table 7 both state — wings held at five nucleotides so that only the gap changed and LNA affinity enters every
 parent duplex identically (§2.9).
 
 **Ranking.** What separates the fusion from a parent is the junction-unique bases inside the gap, not
@@ -1709,7 +1712,10 @@ coloured, for greyscale and colour-blind readers. The shaded box is
 the target window of 5′-GGGCATATCATCAAAC-3′, with the 5-6-5 locked-nucleic-acid (LNA)/DNA/LNA gapmer architecture below it; the
 note beneath the panel gives its gap-level margin of three. The three donors are the FET family — *FUS*, *EWSR1* and *TAF15* — and they are identical over
 the ten nucleotides before the breakpoint, which is what makes one oligonucleotide
-junction-spanning at all three junctions.
+junction-spanning at all three junctions. Two of the three drawn junctions are not reported in
+any patient: the exon-resolved *TAF15* breakpoints in this disease are at exon 6 rather than exon 11,
+and no exon-resolved *FUS* breakpoint has been published at all (§2.2). This is a statement about
+sequence, not a claim that one reagent serves three patient groups.
 Coverage is predicted from sequence and has not been measured.
 
 **Figure 3. The margin a longer catalytic gap wins is the parent duplex it concedes.** (A) The
@@ -1748,8 +1754,9 @@ predictions from sequence search, not measured off-target activity.
 
 **Research use only, and not for administration to any person or animal.** Every oligonucleotide
 sequence in this manuscript, its Supplementary Information and its tables — the two lead reagents and the two
-named for coverage, the three named as not to be used, the second-geometry and scrambled controls, and every
-design in the released panel — is a research reagent intended solely for laboratory investigation.
+named for coverage, the three named as not to be used, the second-geometry and scrambled controls,
+every design in the released panel, and the non-canonical-acceptor designs reported beside that panel
+rather than pooled into it — is a research reagent intended solely for laboratory investigation.
 None is a medicine, an investigational medicinal product or a candidate drug. None has been
 synthesised, formulated, tested in any cell, tissue or animal, or evaluated for potency, purity,
 stability, immunogenicity or toxicity by anyone. None may be administered to any human being or

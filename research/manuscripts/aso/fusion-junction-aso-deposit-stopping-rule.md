@@ -47,8 +47,43 @@ condition fixed in advance.
 
 ### ⭐ CONDITION 6 — TWO READERS, AND ONLY THE OVERLAP COUNTS (added 2026-08-19, trimcrae)
 
-**A minor is actionable only if TWO independent readers of the SAME build both raise it.** A minor
-one reader raises and the other does not is recorded and NOT fixed.
+#### Round 12 — the first round run under this condition, and what it filtered
+
+Two readers, same build, different briefs (one a bioRxiv screener working a scope list, one a
+copy-editor reading for sense), neither seeing the other. Between them they raised **two majors and
+five distinct minors. Exactly one minor was raised by both.**
+
+| finding | reader A | reader B | action |
+|---|---|---|---|
+| "clean" carries four senses in §2.6 | MAJOR | — | FIXED — a major stands on one reader |
+| Methods says the longer geometries went through "the same screens" | — | MAJOR | FIXED — a major stands on one reader |
+| "Two of those three sources" followed by a three-item list | MINOR | MINOR | **FIXED — the overlap** |
+| Figure 2 not standalone-readable without §2.2's correction | MINOR | — | FIXED |
+| "shown to be sufficient and not to be necessary" | — | MINOR | FIXED |
+| Declarations enumeration misses the five non-panel designs | — | MINOR | FIXED |
+
+⚠ **ALL THREE SINGLE-READER MINORS WERE SUBSEQUENTLY FIXED**, under the corrected reading of this
+condition. They are listed as "held" above only because that was their status for the hour between
+the round landing and the correction. Nothing from round 12 is unrepaired.
+
+★ **THE FILTER DID WHAT IT WAS ADDED TO DO.** Under the old rule all five minors would have been
+fixed, and on the measured rate of this loop roughly one of those five repairs would have seeded the
+next round's finding. ⛔ And the one that survived was itself a repair: the "two of those three
+sources" sentence was written in round 11 to fix a DIFFERENT antecedent defect in the same sentence,
+and both readers independently found the replacement worse than what it replaced. That is the
+clearest evidence in this ledger for why single-reader minors are not worth chasing — and for why
+the overlap is worth fixing.
+
+
+**Every minor raised is fixed. The two-reader test is the STOPPING condition, not a filter on what
+gets repaired:** the loop ends when a two-reader round returns no minor that BOTH readers raise.
+A minor only one reader sees is still fixed; it simply does not, on its own, keep the loop open.
+
+⚠ *Superseded, retained: this condition was first written as "a minor one reader raises and the
+other does not is recorded and NOT fixed" — a filter on repairs. trimcrae corrected it the same
+day: "You should still try to fix every minor that is raised. Just don't let a minor that isn't
+shared by both agents block you." The distinction matters — under the first reading three real
+observations would have been left in the deposit because only one reader happened to see each.*
 
 ⛔ **WHY, AND IT IS MEASURED RATHER THAN ARGUED.** Across nine screened rounds of both built formats:
 
