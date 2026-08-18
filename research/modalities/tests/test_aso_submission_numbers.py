@@ -622,8 +622,15 @@ def test_the_taf15_exon6_locus_counts_are_the_deep_ceiling_ones():
     assert min(loci.values()) == 3 and min(loci, key=loci.get) == "AGGGCATATCTTGTGT", loci
     assert loci[leader] == 5 and predicted_only[leader] == 3, (loci, predicted_only)
     txt = _flat(_paper())
+    #: ⚠ SPLIT IN TWO, 2026-08-17. The sentence used to cite "(Table 2)" for the whole clause, and a
+    #: blind screen of the built PDF pointed out that Table 2 has no predicted-gene-model column —
+    #: the annotation is a property of the deep hit list, which no table here prints. The locus
+    #: counts DO come from Table 2, so the citation moved to cover only them and the clause was
+    #: separated. Both halves are still pinned; only the punctuation between them changed, and the
+    #: artifact assertions above are what actually establish the numbers.
     assert ("those recount to three gene loci at best, and five for the design its gap-level "
-            "margin ranks first, three of those five annotated only as predicted gene models") in txt
+            "margin ranks first") in txt
+    assert "three of those five are annotated only as predicted gene models" in txt
     # ⚠ ONE FLATTENED CHECK, 2026-08-16: the raw half of this pair only caught the phrase when it
     # wrapped at exactly that word, so it added nothing the flattened half does not already do.
     assert "four loci at best" not in txt

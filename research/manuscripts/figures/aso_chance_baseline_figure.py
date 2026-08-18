@@ -67,6 +67,69 @@ def esc(s):
     return str(s).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
 
+#: ⛔⛔ SVG DOES NOT WRAP, AND A LONGER SENTENCE IS THEREFORE A CLIPPED ONE (blind screen of the
+#: built journal PDF, 2026-08-17, filed as a MAJOR). The round before, this figure's annotations were
+#: reworded to fix a real defect — they called an expected value an "upper bound". The corrected
+#: wording is longer, `<text>` has no width to wrap against, and two lines ran past the canvas and
+#: stopped mid-word: "one mole" and 'It separates "more than chance"'. Confirmed at 300 dpi as a
+#: RENDERING fact, not an extraction artifact.
+#:
+#: ★ SO THE FIX IS NOT A SHORTER SENTENCE. Editing the prose back under the limit leaves the next
+#: edit free to cross it again, which is how this arrived: a wording fix with no width budget behind
+#: it. Text is now wrapped against the canvas at emit time, so the figure CANNOT produce a line that
+#: overruns, whatever anyone writes.
+#:
+#: ⚠ ESTIMATED ADVANCE WIDTHS, DELIBERATELY PESSIMISTIC. There is no font metric available here
+#: (no matplotlib, no network — see the module docstring), so this uses a coarse per-class width for
+#: Helvetica and rounds UP. Wrapping one word early is invisible; wrapping one word late is the
+#: defect. `tests/test_aso_figure_text_fits.py` measures the emitted SVG against the real canvas.
+_NARROW = set("iljItf.,;:'\"|!()[]{}-`")
+_WIDE = set("mwMW@%")
+
+
+def _text_width(text, font_size):
+    """Pessimistic advance width of `text` at `font_size`, in user units."""
+    ems = 0.0
+    for ch in text:
+        if ch in _NARROW:
+            ems += 0.30
+        elif ch in _WIDE:
+            ems += 0.90
+        elif ch.isupper() or ch.isdigit():
+            ems += 0.62
+        elif ch == " ":
+            ems += 0.28
+        else:
+            ems += 0.53
+    return ems * font_size
+
+
+def _wrap(text, font_size, max_width):
+    """`text` split into the fewest lines that each fit `max_width`. Never splits a word."""
+    lines, current = [], ""
+    for word in text.split():
+        trial = f"{current} {word}".strip()
+        if current and _text_width(trial, font_size) > max_width:
+            lines.append(current)
+            current = word
+        else:
+            current = trial
+    if current:
+        lines.append(current)
+    return lines or [""]
+
+
+def _wrapped_text(x, y, text, font_size, max_width, fill, leading=1.25, **attrs):
+    """One `<text>` per wrapped line, stacked downward. Returns (svg_elements, height_used)."""
+    extra = "".join(f' {k.replace("_", "-")}="{v}"' for k, v in attrs.items())
+    step = font_size * leading
+    out = []
+    for i, line in enumerate(_wrap(text, font_size, max_width)):
+        out.append(f'<text x="{x}" y="{y + i * step:.1f}" font-size="{font_size}" '
+                   f'fill="{fill}"{extra}>{line}</text>')
+    return out, len(out) * step
+
+
 def main(argv=None):
     d = json.load(open(SRC))
     lo, hi = d["null_model"]["expected_hits_per_oligo_ge_15_of_16"]
@@ -78,11 +141,29 @@ def main(argv=None):
     n = fs["n_plotted"]
     ymax = max(obs + [hi]) * 1.08
 
+    n_at_or_below = fs["n_at_or_below_chance_upper"]
+    scanned = f'{fs["transcripts_scanned"]:,}'
+    _at_or_below = "fall at or below it"
+
+    # ⛔ THE HEADER'S HEIGHT FOLLOWS ITS TEXT, OR A WRAPPED KEY LANDS ON THE PLOT. Wrapping fixed
+    # the clipped lines and immediately created the next problem: the key's second line sat at a
+    # baseline one unit below the plot's top edge, where a tall bar is. The plot now starts below
+    # whatever the key actually occupies, measured rather than assumed, so an edit to the key text
+    # moves the axes instead of colliding with them.
+    _key = (f'{esc(n_at_or_below)} of {esc(n)} {{at_or_below}}; the line is what chance alone '
+            f'predicts, not a ceiling. Marked: '
+            f'the {esc(fs["n_multi_junction_sequences"])} designs spanning '
+            f'{_span_words(fs["multi_junction_span"])} partners’ seams: one molecule, '
+            f'plotted once.').replace("{at_or_below}", _at_or_below)
+    _key_lines = _wrap(_key, 12, W - R - (L + 14))
+    _top = T + max(0, len(_key_lines) - 1) * 15
+    _plot_h = H - _top - B
+
     def x(i):
         return L + (i + 0.5) * PLOT_W / n
 
     def y(v):
-        return T + PLOT_H - (v / ymax) * PLOT_H
+        return _top + _plot_h - (v / ymax) * _plot_h
 
     p = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" '
          f'viewBox="0 0 {W} {H}" font-family="Helvetica,Arial,sans-serif">',
@@ -116,9 +197,9 @@ def main(argv=None):
              f'expected from chance alone for any 16-mer ({_band})</text>')
 
     # axes
-    p.append(f'<line x1="{L}" y1="{T + PLOT_H}" x2="{L + PLOT_W}" y2="{T + PLOT_H}" '
+    p.append(f'<line x1="{L}" y1="{_top + _plot_h}" x2="{L + PLOT_W}" y2="{_top + _plot_h}" '
              f'stroke="#444" stroke-width="1"/>')
-    p.append(f'<line x1="{L}" y1="{T}" x2="{L}" y2="{T + PLOT_H}" stroke="#444" stroke-width="1"/>')
+    p.append(f'<line x1="{L}" y1="{T}" x2="{L}" y2="{_top + _plot_h}" stroke="#444" stroke-width="1"/>')
     step = 20 if ymax > 60 else 5
     v = 0
     while v <= ymax:
@@ -135,14 +216,12 @@ def main(argv=None):
         above = val > hi
         col = "#c62828" if above else "#2e7d32"
         p.append(f'<rect x="{x(i) - bw / 2:.1f}" y="{y(val):.1f}" width="{bw:.1f}" '
-                 f'height="{T + PLOT_H - y(val):.1f}" fill="{col}" opacity="0.85"/>')
+                 f'height="{_top + _plot_h - y(val):.1f}" fill="{col}" opacity="0.85"/>')
         if multi[i]:
             cx, cy, s = x(i), y(val) - 7, 4.0
             p.append(f'<polygon points="{cx:.1f},{cy - s:.1f} {cx + s:.1f},{cy:.1f} '
                      f'{cx:.1f},{cy + s:.1f} {cx - s:.1f},{cy:.1f}" fill="#111"/>')
 
-    n_at_or_below = fs["n_at_or_below_chance_upper"]
-    scanned = f'{fs["transcripts_scanned"]:,}'
     p.append(f'<text x="{L}" y="24" font-size="15" fill="#111" font-weight="600">'
              f'Transcriptome load per junction gapmer against chance expectation</text>')
     p.append(f'<text x="{L}" y="42" font-size="12" fill="#555">'
@@ -153,34 +232,39 @@ def main(argv=None):
     # invisible until a proof arrives; the polygon is the same shape the plot itself draws.
     p.append(f'<polygon points="{L + 4.5},50 {L + 8.5},54 {L + 4.5},58 {L + 0.5},54" '
              f'fill="#111"/>')
-    p.append(f'<text x="{L + 14}" y="58" font-size="12" fill="#555">'
-             f'{esc(n_at_or_below)} of {esc(n)} {_at_or_below}; the line is what chance alone '
-             f'predicts, not a ceiling. Marked: '
-             f'the {esc(fs["n_multi_junction_sequences"])} designs spanning '
-             f'{_span_words(fs["multi_junction_span"])} partners’ seams: one molecule, '
-             f'plotted once.</text>')
+    for _i, _line in enumerate(_key_lines):
+        p.append(f'<text x="{L + 14}" y="{58 + _i * 15}" font-size="12" fill="#555">{_line}</text>')
     p.append(f'<text x="{L + PLOT_W / 2:.0f}" y="{H - 66}" font-size="12" fill="#333" '
              f'text-anchor="middle">distinct oligonucleotides, ranked by observed load</text>')
-    p.append(f'<text x="18" y="{T + PLOT_H / 2:.0f}" font-size="12" fill="#333" '
-             f'text-anchor="middle" transform="rotate(-90 18 {T + PLOT_H / 2:.0f})">'
+    p.append(f'<text x="18" y="{_top + _plot_h / 2:.0f}" font-size="12" fill="#333" '
+             f'text-anchor="middle" transform="rotate(-90 18 {_top + _plot_h / 2:.0f})">'
              f'transcriptome matches at ≤1 mismatch</text>')
 
     # ⚠ the caveats travel ON the figure, because a figure is what gets reused without its caption
     gc_lo, gc_hi = exc["above_gc_percent_range"]
     hit_lo, hit_hi = exc["above_offtarget_le1mm_range"]
-    p.append(f'<text x="{L}" y="{H - 46}" font-size="10.5" fill="#666">'
-             f'The {_ref} assumes independent uniform bases; the transcriptome span it is computed '
-             f'over is the exhaustive scan\'s measured one. It separates "more than chance" from '
-             f'"at chance" and is not a significance test.</text>')
-    p.append(f'<text x="{L}" y="{H - 30}" font-size="10.5" fill="#666">'
-             f'Counts are predictions from sequence search, not measured off-target activity. '
-             f'{esc(fs["n_above_chance_upper"])} of the {esc(n)} plotted designs {_above}; on the '
-             f'mean the set comes in at chance.</text>')
-    p.append(f'<text x="{L}" y="{H - 14}" font-size="10.5" fill="#666">'
-             f'Not plotted: {esc(exc["n_excluded"])} designs at {esc(exc["n_breakpoints"])} '
-             f'modelled breakpoints rather than real exon junctions; '
-             f'{esc(exc["n_above_chance_upper"])} of those {_above}, at '
-             f'{esc(hit_lo)}–{esc(hit_hi)} matches and {esc(gc_lo)}–{esc(gc_hi)}% GC.</text>')
+    _caveats = [
+        (f'The {_ref} assumes independent uniform bases; the transcriptome span it is computed '
+         f'over is the exhaustive scan\'s measured one. It separates "more than chance" from '
+         f'"at chance" and is not a significance test.'),
+        (f'Counts are predictions from sequence search, not measured off-target activity. '
+         f'{esc(fs["n_above_chance_upper"])} of the {esc(n)} plotted designs {_above}; on the '
+         f'mean the set comes in at chance.'),
+        (f'Not plotted: {esc(exc["n_excluded"])} designs at {esc(exc["n_breakpoints"])} '
+         f'modelled breakpoints rather than real exon junctions; '
+         f'{esc(exc["n_above_chance_upper"])} of those {_above}, at '
+         f'{esc(hit_lo)}–{esc(hit_hi)} matches and {esc(gc_lo)}–{esc(gc_hi)}% GC.'),
+    ]
+    # ⚠ MEASURE THE BLOCK, THEN PLACE IT. Wrapping turns three lines into more, so the caveats are
+    # laid out from a computed total rather than from three offsets hard-counted up from H — which
+    # is what pinned them to a height the text had already outgrown.
+    _avail = W - R - L
+    _lines = [line for caveat in _caveats for line in _wrap(caveat, 10.5, _avail)]
+    _step = 10.5 * 1.30
+    _cursor = H - 8 - len(_lines) * _step + 10.5
+    for _line in _lines:
+        p.append(f'<text x="{L}" y="{_cursor:.1f}" font-size="10.5" fill="#666">{_line}</text>')
+        _cursor += _step
     p.append('</svg>')
 
     svg = "\n".join(p)

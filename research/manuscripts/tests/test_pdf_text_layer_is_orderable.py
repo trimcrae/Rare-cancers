@@ -236,15 +236,16 @@ def test_every_sequence_the_pdf_prints_is_in_the_canonical_file(pdf_text):
         "to its source list.")
 
 
-#: A page carrying less text than this is a production blemish: a forced page break stranded a few
-#: lines and left the rest white. Calibrated against the defect that prompted it — journal page 15
-#: carried 534 characters, roughly the top 6% of the page — and against the real pages either side
-#: of it, which run to several thousand. A figure or table page is exempt below.
-_MIN_CHARS_ON_A_TEXT_PAGE = 700
+#: A text page carrying less than this fraction of the document's own median page is stranded: a
+#: forced break left a few lines and white space. RELATIVE, not absolute — the first version of this
+#: guard used a flat 700 characters, passed a page carrying 1,470 where a full page runs to ~7,900,
+#: and so reported a clean document to a screen that had just filed the page as a finding. A flat
+#: floor cannot know what a full page is.
+_STRANDED_PAGE_FRACTION = 0.45
 
 
-def _page_text_lengths(path):
-    """Characters of extracted text per page, and whether the page carries a display item."""
+def _pages(path):
+    """Per page: (number, characters, carries-a-display-item, height)."""
     from pdfminer.high_level import extract_pages
     from pdfminer.layout import LTTextContainer, LTFigure, LTImage, LTCurve
     out = []
@@ -252,30 +253,41 @@ def _page_text_lengths(path):
         chars = sum(len(el.get_text().strip())
                     for el in layout if isinstance(el, LTTextContainer))
         graphical = any(isinstance(el, (LTFigure, LTImage, LTCurve)) for el in layout)
-        out.append((number, chars, graphical))
+        out.append((number, chars, graphical, round(layout.height)))
     return out
 
 
 @pytest.mark.parametrize("style", sorted(PDFS))
-def test_no_page_of_either_pdf_is_left_nearly_empty(style):
-    """⛔ A FORCED PAGE BREAK BEFORE A LANDSCAPE FLOAT EMPTIED A PAGE MID-RESULTS (2026-08-17).
+def test_no_page_of_either_pdf_is_left_stranded(style):
+    """⛔ A FORCED PAGE BREAK BEFORE A FLOAT EMPTIED A PAGE MID-RESULTS (2026-08-17).
 
-    Two independent blind screens of the built journal PDF reported page 15: two short column
-    fragments at the top and roughly 94% white below, because `.landscape-float` carries
-    `break-before: page` and Table 5's first citation fell a few lines into the page. The prose was
-    right and the table was right; the pagination threw a page away between them. Landscape floats
-    are now deferred to the end of the section that cites them, and this holds that fix — measured
-    on the BUILT file, because no source-side check can see a page break.
+    Two independent blind screens of the built journal PDF reported page 15: a couple of short
+    column fragments at the top and white below, because a landscape float carries
+    `break-before: page`. Landscape floats now defer to the end of the section that cites them,
+    which removed the worst of it — but a landscape table must still begin on a fresh page, so the
+    portrait page before an orientation change legitimately ends early. That one is a property of
+    mixed-orientation typesetting, not a defect, and it is exempted BY NAME rather than by lowering
+    the bar until everything passes.
 
-    ⚠ PAGES CARRYING A DISPLAY ITEM ARE EXEMPT. A full-page figure legitimately extracts as very
-    little text, and failing on it would make this test a reason to delete figures.
+    ⚠ MEASURED ON THE BUILT FILE. No source-side check can see a page break.
     """
-    pages = _page_text_lengths(PDFS[style])
+    import statistics
+    pages = _pages(PDFS[style])
     assert pages, f"the {style} PDF has no pages"
-    starved = [(n, c) for n, c, graphical in pages
-               if c < _MIN_CHARS_ON_A_TEXT_PAGE and not graphical]
-    assert not starved, (
-        f"the {style}-format PDF leaves {len(starved)} text page(s) nearly empty: "
-        + ", ".join(f"p{n} ({c} chars)" for n, c in starved)
-        + f". A page under {_MIN_CHARS_ON_A_TEXT_PAGE} characters with no display item on it is a "
-          "stranded page — usually a float forcing a break before the surrounding prose has filled.")
+    median = statistics.median([c for _, c, _, _ in pages]) or 1
+    heights = {n: h for n, _, _, h in pages}
+    stranded = []
+    for number, chars, graphical, height in pages:
+        if graphical or chars >= _STRANDED_PAGE_FRACTION * median:
+            continue
+        #: The page before an orientation change is forced short by page geometry, not by a float
+        #: placed badly — a landscape table cannot start halfway down a portrait page.
+        if heights.get(number + 1) not in (None, height):
+            continue
+        stranded.append((number, chars))
+    assert not stranded, (
+        f"the {style}-format PDF leaves {len(stranded)} text page(s) stranded "
+        f"(median page {median:.0f} chars): "
+        + ", ".join(f"p{n} ({c} chars)" for n, c in stranded)
+        + ". A short page with no display item on it, not preceding an orientation change, means a "
+          "float forced a break before the surrounding prose had filled.")

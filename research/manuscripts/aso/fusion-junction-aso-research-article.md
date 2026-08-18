@@ -116,7 +116,8 @@ modality: across 5,153 unique records retrieved from Europe PMC, four mention *E
 or abstract level, resolving to three papers, none an oligonucleotide study.
 
 Two questions follow that the field has not asked of this disease. The first is whether specificity
-sorts by partner at all. Prior design work has addressed only *EWSR1*, while the partner varies, and
+sorts by partner at all. The junction-oligonucleotide precedents this work builds on address
+*EWSR1* fusions in other sarcomas and no other partner, while in this disease the partner varies, and
 partner identity may not be clinically inert: across the two series of antiangiogenic
 tyrosine-kinase inhibition in advanced EMC that report a partner breakdown at all, no objective
 response is reported in a *TAF15* patient, on a *TAF15* arm of three to five patients whose Wilson
@@ -150,8 +151,9 @@ Every line below points at a fuller statement in the section cited, and none of 
 **The terms of art (§6).** Each design is one *register* of its junction, one way of sliding the
 16-mer while the breakpoint still falls inside the six-nucleotide DNA *catalytic gap* RNase-H1
 cleaves within; the 5-6-5 geometry admits five per junction. A design's *gap-level margin* is the
-count of junction-unique bases inside that gap on the shorter side of the breakpoint, and every
-ranking here is built on it. A *near-match* is a transcript window pairing a design at 14 or more of
+count of junction-unique bases inside that gap on the shorter side of the breakpoint. It is the
+axis this paper's central negative is stated on; where a table instead ranks by predicted
+liability, or by the conventional design rules of §2.10, that table's caption says so. A *near-match* is a transcript window pairing a design at 14 or more of
 its 16 positions, and is *gap-paired* where the six gap positions are themselves paired, which is the
 class RNase-H1 could cleave. A design is *clean* where a complete hit list at a stated search depth
 returns no sense-strand near-match, and a design's *load* is its predicted off-target burden counted
@@ -244,8 +246,9 @@ so this oligonucleotide cannot engage the *TAF15* junction that patients are rep
 That junction is itself in-frame and yields five fusion-specific designs (43.8–50.0% GC), all
 five screened and orientation-filtered. Every one of them retains a sense-strand near-match spanning
 the catalytic gap. At the tenfold deeper ceiling, where every hit list is complete, those recount to
-three gene loci at best, and five for the design its gap-level margin ranks first, three of those
-five annotated only as predicted gene models (Table 2). Two of the five nonetheless return no exact
+three gene loci at best, and five for the design its gap-level margin ranks first (Table 2);
+three of those five are annotated only as predicted gene models, which is a property of the
+deep hit list rather than a column of any table here. Two of the five nonetheless return no exact
 and no single-mismatch match on the exhaustive transcript scan.
 
 So the one *TAF15* junction with a published breakpoint is designable and is not among the cleaner
@@ -315,9 +318,10 @@ gives the per-junction result. Of the 1,677 apparent cleavage risks across the r
 The proportion is not uniform. It runs from 0% at *TFG* exon 4, where no apparent risk is
 minus-strand, to 100% at both *EWSR1* exon 1 and *TCF12* exon 7, where every one is. That
 non-uniformity is what makes the filter worth applying rather than approximating. A uniform
-inflation would rescale every junction and leave their ordering intact; this one reorders them.
-*EWSR1* exons 7 and 13 return 55 and 57 apparent gap-spanning hits, and after filtering they stand
-at 6 and 53.
+inflation would rescale every junction and leave the distances between them intact; this one does
+not, so an apparent count is not a proxy for the filtered one even between neighbours. *EWSR1*
+exons 7 and 13 return 55 and 57 apparent gap-spanning hits — all but indistinguishable — and
+after filtering they stand at 6 and 53.
 
 Under the stricter criterion — no sense-strand near-match anywhere, not merely across the catalytic gap
 as in §2.3 — nine designs at six junctions carry none among non-parent transcripts after filtering
@@ -599,7 +603,8 @@ All five junctions of the panel with a published exon-resolved breakpoint have o
 the top gap-level margin, with longest parent runs of eight, eight, nine and seven base pairs, and
 *TFG* exon 7 at a margin of two with a longest parent run of nine.
 
-Both classes were bounded the same way: exhaustive over six parent transcripts and silent about every
+Both parent-liability classes of §2.5 — the pre-mRNA sites and the mature-transcript duplexes —
+were bounded the same way: exhaustive over six parent transcripts and silent about every
 other gene. The genome scan, screen 5, removes that bound.
 
 A raw genome-wide count is not a result at this threshold. Chance alone predicts of order 10³
@@ -607,7 +612,7 @@ near-matches per 16-mer over a genome for any 16-mer whatever, so the informativ
 stratified. Exact 16/16 matches are the class where chance expectation is of order one: 1.37 expected
 per design against 236 observed across 176 windows, which is at chance. Load relative to that
 expectation separates designs where a total cannot — the median design sits at 0.98 of its
-expectation and 14 of 176 exceed twice it. And the repeat split, free from a soft-masked reference,
+expectation and 14 of 176 exceed twice it. And the repeat split, which a soft-masked reference supplies at no extra cost,
 shows 52.5% of hits fully repeat-masked against a genome that is 51.4% masked, so the load is not
 repeat-driven.
 
@@ -768,8 +773,9 @@ only partly so: they bound the near-match case, and no retrieved measurement bou
 The two parent compartments of §2.5 sharpen that rather than softening it. For nine designs the route
 to wild-type *NR4A3* is not a gap-level discrimination problem at all. They pair the catalytic gap in
 full across the wild-type intron-2/exon-3 boundary, at two mismatches that both fall in the locked-nucleic-acid (LNA) wing,
-and the compartment in which that duplex would form is the nuclear one RNase-H1 occupies. For 87 the
-same is true in mature parent sequence, over a contiguous duplex of at least ten base pairs. The general point is that a fusion-junction design's most
+and the compartment in which that duplex would form is the nuclear one RNase-H1 occupies. In
+mature parent sequence 87 designs pair a wild-type parent — any of the six, not *NR4A3* alone,
+which 61 of them pair — over a contiguous duplex of at least ten base pairs. The general point is that a fusion-junction design's most
 plausible wild-type liability is its own parent, reached either across a splice junction or in the
 mature transcript, and both are invisible to a screen that ranks candidates by global identity. A
 third compartment is invisible to all of them: at a seam whose acceptor half is not exonic in the
