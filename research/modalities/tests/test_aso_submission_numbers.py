@@ -1672,7 +1672,13 @@ def test_the_testable_surface_states_the_only_catalogued_line_cannot_test_a_junc
     # category, so absence of the fusion is not a reclassification — is unchanged; only the disease
     # name's spelling moved. Pinned on the load-bearing half so a respelling cannot silently
     # delete the fairness constraint with it.
-    assert "fusion-negative EMC tumours are" in txt
+    #: ⚠ CASE-INSENSITIVE, 2026-08-19. An editorial pass untangled four nested em-dashes in this
+    #: paragraph and the clause became the head of its own sentence, so the pinned lowercase
+    #: "and fusion-negative…" no longer matched a document that still says exactly this. What
+    #: the test is for is that the sentence is PRESENT — the paper must not assert the fusion
+    #: is absent without noting that fusion-negative EMC is itself recognised — and that does
+    #: not depend on where a sentence boundary falls.
+    assert "fusion-negative emc tumours are" in txt.lower()
     assert "themselves a recognised minority category" in txt
     # already reported, never examined — the novelty limit
     assert "The observation is also not new" in txt

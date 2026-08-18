@@ -587,6 +587,14 @@ def render_float(kind, number, payload, wide):
         #: recoverable by turning back; this one is the wrong-reagent hazard the whole deposit is
         #: built around, so it rides in the <thead>, which paged media repeats on every page.
         _label = f"Table {number}"
+        #: ⚠ A CONTINUATION PAGE REPEATS THE MARKED COLUMN HEADERS AND NOT THE NOTES THAT DEFINE
+        #: THEM. Superscript note markers ride in the header row, so a reader landing on page two of
+        #: a three-page table meets "on the sense strand¹" with note ¹ a page back. The notes
+        #: themselves are too long to repeat on every page without swamping the table, so the header
+        #: says where they are instead — which is the difference between a reader who knows to turn
+        #: back and one who does not know anything is missing.
+        if isinstance(payload, str) and re.search(r"[¹²³⁴⁵⁶⁷⁸⁹]", payload):
+            _label += "  ·  numbered notes are under the caption, on this table's first page"
         if isinstance(payload, str) and "†" in payload:
             _label += ("  —  † no design at this junction clears the parent screen; "
                        "do not order the sequence in a marked row")

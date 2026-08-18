@@ -117,8 +117,10 @@ modality: across 5,153 unique records retrieved from Europe PMC, four mention *E
 or abstract level, resolving to three papers, none an oligonucleotide study.
 
 Two questions follow that the field has not asked of this disease. The first is whether specificity
-sorts by partner at all. The junction-oligonucleotide precedents this work builds on address
-*EWSR1* fusions in other sarcomas and no other partner, while in this disease the partner varies, and
+sorts by partner at all. No junction-directed oligonucleotide study has compared specificity across fusion partners: each
+precedent addresses one fusion — a bi-shRNA lipoplex against the *EWSR1::FLI1* junction in Ewing
+sarcoma, antisense oligonucleotides against *NAB2::STAT6* in solitary fibrous tumour (§4.1) — and
+none asks whether the partner changes what is achievable. In this disease the partner varies, and
 partner identity may not be clinically inert: across the two series of antiangiogenic
 tyrosine-kinase inhibition in advanced EMC that report a partner breakdown at all, no objective
 response is reported in a *TAF15* patient, on a *TAF15* arm of three to five patients whose Wilson
@@ -261,7 +263,7 @@ sequencing of archival *TAF15*- and *FUS*-positive cases.
 ### 2.3 · The non-FET partners: coverage and specificity
 
 *TCF12* and *TFG* are the partners in this panel that are not FET-family proteins, and neither
-appears in any of the nine multi-partner sets: all nine draw only on *EWSR1*, *TAF15* and *FUS*.
+appears in any of the nine multi-partner designs: all nine draw only on *EWSR1*, *TAF15* and *FUS*.
 *TCF12* reaches multi-partner coverage only under a relaxed criterion that tolerates mismatches in
 the oligonucleotide wings. That check had little power to fail, because a donor sharing the last bases before the
 breakpoint by coincidence passes it as readily as a paralogue does, so it does not separate FET
@@ -397,10 +399,12 @@ screens together condemn 93 of 190, not 106. What the compartment adds is theref
 invisible to every mature screen, not a second population of comparable size: the six are the number
 that matters for a laboratory choosing among designs that already passed the mature-parent screen.
 
-The step from 53 to 19 is a threshold rather than a measurement, and the class it removes is the one
-the Methods (§6) decline to dismiss. Forty designs carry a sense-strand parent pre-mRNA site. The 19
-counted here are those pairing the catalytic gap in full; the remaining 21 pair all of it but one or
-two positions. Of their 28 sites, 26 are a single gap mismatch short, and five are in *NR4A3* itself.
+The step from 53 to 19 runs through two filters and only the second is a threshold. Thirteen of the
+53 carry their pre-mRNA sites on the minus strand alone, which an antisense oligonucleotide cannot
+pair at all, leaving forty with a sense-strand parent pre-mRNA site. The step from forty to 19 is
+then a threshold rather than a measurement, and the class it removes is the one the Methods (§6)
+decline to dismiss: the 19 are those pairing the catalytic gap in full, and the remaining 21 pair
+all of it but one or two positions. Of their 28 sites, 26 are a single gap mismatch short, and five are in *NR4A3* itself.
 Under the bounds this work adopts, a single mismatch inside the gap does not abolish cleavage, so
 those 21 are not a null result. They are excluded because a graded count over this compartment would
 need a discrimination model the literature does not supply for a parent duplex. The same condition
@@ -706,9 +710,12 @@ reading survives one fixed criterion. A mature parent can pair
 the whole gap for 181 of 190 designs at 5-6-5, 130 of 266 at 5-8-5 and 87 of 342 at 5-10-5, but the
 whole gap is a six-nucleotide coincidence in the first and a ten-nucleotide one in the
 last, so the three counts are not the same test. Held
-to the ten-base-pair criterion applied everywhere else here, the
-liability is flat: 87 of 190, 88 of 266 and 87 of 342, the two criteria coinciding at a gap of ten
-because the gap alone is then already a ten-base-pair hybrid.
+to the ten-base-pair criterion applied everywhere else here, the count of liable designs does
+not fall: 87 of 190, 88 of 266 and 87 of 342, the two criteria coinciding at a gap of ten
+because the gap alone is then already a ten-base-pair hybrid. As a share those are 45.8%, 33.1%
+and 25.4%, and the share falls only because a longer oligonucleotide has more junction-spanning
+registers per seam — five, seven and nine — so each geometry offers more designs to divide by.
+The number a laboratory has to screen out is the count, and it is the count that is flat.
 Designs pairing the gap in
 parent pre-mRNA fall from 19 of 190 to 9 of 342, but that arm is a search at a fixed two-mismatch
 budget and inherits the nesting bound above rather than the parent-side quantities' freedom from it.
@@ -892,10 +899,10 @@ a fusion; the
 reference registry that records a gene fusion for other EMC models
 records none for this one; and no retrieved source reports a positive junction in it. The operative
 consequence is narrow and is the only one this paper draws: no reagent named here can be tested in
-that line. This is not a statement that the line is misidentified — it carries a short tandem repeat profile concordant across three independent sources at every locus
-but one — D13S317, recorded as a single allele by one and as two by the other two — and no
-problematic-line flag — nor a statement
-about what the line is instead, and fusion-negative EMC tumours are
+that line. This is not a statement that the line is misidentified, nor a statement about what the line is
+instead. It carries a short tandem repeat profile concordant across three independent sources at
+every locus but one (D13S317, recorded as a single allele by one source and as two by the other
+two), and no problematic-line flag. Fusion-negative EMC tumours are
 themselves a recognised minority category, so absence of the fusion is not by itself a
 reclassification. The observation is also not new: it is in print in one figure legend and is carried
 as a caution field in the reference registry. No retrieved source examines it as a subject, and it
@@ -1331,7 +1338,7 @@ two isoforms share no sequence 3′ of the breakpoint, so it is a different targ
 The
 multi-partner result is conditional on *TAF15* and *FUS* breaking at the homologous exons, which is
 not established here, and the five partners are not the catalogue:
-*ACTB*<sup>3</sup><!--PMID:41755350--> and others are reported, and 2% of one cohort carried no
+*ACTB*,<sup>3</sup><!--PMID:41755350--> and others are reported, and 2% of one cohort carried no
 identified partner.<sup>9</sup><!--PMID:36948401--> Three of the 15 *EWSR1*-rearranged tumours of the
 primary breakpoint series carry transcript types the retrieved record does not name, so retrieval is
 an upper bound on what would open that block. At least one named variant is reported to arise from a
