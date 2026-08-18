@@ -47,6 +47,53 @@ condition fixed in advance.
 
 ### ⭐ CONDITION 6 — TWO READERS, AND ONLY THE OVERLAP COUNTS (added 2026-08-19, trimcrae)
 
+#### ⭐ Round 14 — condition 6 MET with ZERO overlap, condition 5 open on the author-only block alone
+
+Two readers, the same deposit PDF (58 pages), different angles: A swept the document linearly, B worked
+**backwards from every display item to the prose that cites it**. Between them, **1 blocker, 0 majors,
+4 minors — and not one minor in common.**
+
+| | reader A | reader B |
+|---|---|---|
+| blocker | ORCID + archive-DOI placeholders | the same three placeholders |
+| majors | 0 | 0 |
+| minors | §3's two disjoint "nine designs" sets | §2.4 attaching the 21's property to the count 40; "A sixty-second design"; Table 6's one-line page |
+
+**The only blocker is the author-only set** — ORCID and the reserved archive DOI, open since round 1 and
+listed in §5 as the three things only trimcrae can supply. Both readers independently derived that it
+blocks deposit *from the document's own text*, which is the placeholder doing its job.
+
+**All four minors are fixed**, per trimcrae's rule that the overlap is the stopping test and not a repair
+filter. Two were substantive (a count conflation and a referent left open), one readability, one layout.
+
+⭐ **AND B FOUND A CONTRADICTION INSIDE THE BLOCKER THAT WAS MINE TO FIX.** Availability read that the
+artefacts "are released under a single archived version, **deposited** from the public repository" with a
+bracket appended to the same clause saying "the archive **has not been deposited**". The DOI is the
+author's; the tense was not. Both Availability and Data-and-code availability now read in the tense the
+deposit is actually in.
+
+##### ⛔⛔ THE LAYOUT MINOR EXPOSED A FIX THAT HAD NEVER WORKED
+
+B's one-line page (110 characters against a median of 4,235) already had a fix in the stylesheet, written
+that morning, whose comment named *that exact sentence and that exact character count* and added
+`orphans: 3; widows: 3` as the remedy. **It could not have worked.** Only the paragraph matching
+`**Table n.` was ever given the `legend` class; every caption footnote — including the one that orphaned
+— rendered as a bare `<p>` the rule never reached.
+
+Two further attempts were made and **refuted by measurement**, not by argument:
+
+| attempt | result |
+|---|---|
+| class the footnote `legend` | page 42 still 110 chars — Chromium ignores `widows`/`orphans` inside a box already abandoned for `break-inside: avoid` |
+| tighten `p.legend.note` margins | page 42 still 110 chars — the class was still never applied: **manuscript style never calls `render_float`**, so a flag keyed to the float path was False for every table in the deposit artefact |
+| track the caption span in `markdown_to_html`, opener → first pipe row | 9 footnotes classed, page gone, **58 → 57 pages**, no page under 400 characters |
+
+★ **THE LESSON IS NOT THE CSS.** It is that a comment naming a symptom is not evidence the symptom is
+gone, and that two of three plausible fixes changed the stylesheet without changing the artefact.
+[`test_no_page_is_nearly_empty.py`](../tests/test_no_page_is_nearly_empty.py) therefore measures the
+**rendered PDF**, and a second guard asserts the class is actually emitted — the join whose absence made
+the original fix inert.
+
 #### Round 13 — condition 6 MET, condition 5 not
 
 Two readers, same build, same briefs as round 12. **Zero minors were raised by both** — reader A's
@@ -114,6 +161,43 @@ sentences with a universal or counted quantifier (104 "every", 94 "all", 48 "non
 A dedicated agent checks every one against the rest of the manuscript and its tables, with each
 finding required to quote the text that contradicts it. That converts "how many more are there?"
 from a worry into a number.
+
+##### ⭐ THE AUDIT RAN, AND THE NUMBER IS SIX (2026-08-19)
+
+**AUDITED: 251 universal/counted claims examined, 6 findings** — two CONFIRMED CONTRADICTIONS, three
+NARROWER-THAN-STATED, one UNSUPPORTED. All six are fixed. Every one was a scope defect rather than a
+wrong number: the arithmetic held in all six, which is why no numeric test had ever fired on them.
+
+| # | severity | where | the open quantifier | what it actually covered |
+|---|---|---|---|---|
+| 1 | contradiction | §2.10, Table 4 caption | ΔΔG°37 is the margin over "the best duplex **either parent can form**" | the generator scores only the two **seam** runs, ≤10 bp by the paper's own identity; 87 designs pair a mature parent at ≥10 bp elsewhere |
+| 2 | contradiction | §4.3, §5 | "falls outside **every parent count**" / "**Every parent count** requires the gap paired in full" | the hit is sense-strand, intron–exon-spanning, one gap mismatch short — inside §2.5's 53, forty and 21. §5 named "the 21 designs of §2.5" as a count in the sentence denying such counts exist |
+| 3 | narrower | §2.9 | "**the** 16-mer surviving at that junction" | two survive at *TCF12* exon 7, returning three and two |
+| 4 | unsupported | §4.4 | the margin arm, "and **only** at *EWSR1* exon 12" | defended against *TAF15* exon 6 alone; Table 2 shows 3-of-5 and 4-of-5 at the other two §4.1 junctions |
+| 5 | narrower | §2.7 | "The genome scan, screen 5, **removes that bound**" (of both classes) | screen 5 runs at ≤2 mismatches; an 11–12 bp run inside a 16-mer carries 4–5, so the mature-duplex class stays bounded |
+| 6 | narrower | §5 | "**Every** screened count outside §2.9 is for one architecture" | §4.2 and Table 5 both print 5-8-5 counts |
+
+**★ A SEVENTH AND AN EIGHTH WERE FOUND BY THE INSTRUMENT, NOT THE AUDIT.** Converting the class into
+[`test_universal_claims_are_scoped_to_what_was_measured.py`](../tests/test_universal_claims_are_scoped_to_what_was_measured.py)
+fired immediately on §5's *"**Every parent count** — 87 of 190, 61 of them against wild-type NR4A3 — is
+taken at a contiguous duplex of ten base pairs"*, which the 251-claim audit had not flagged. That is the
+argument for the instrument over the audit: **the audit is a sample of one reader's attention; the test
+runs on every build.**
+
+The **eighth** came from generalising that same governs-the-noun pattern by hand across the paper's
+other counted nouns (*screen*, *design*, *criterion*, *duplex*, *site*, *register*, …) — 877 sentences,
+103 candidates, 102 correctly scoped and one not: §6 excluded the six parent genes' records from
+*"**every near-match count** reported here"*, while §2.5 opens *"Of the 190 designs, **53 have a
+near-match somewhere in parent pre-mRNA**"*. The exclusion belongs to screen 1; screen 3's near-match
+counts **are** counts of parent sites. ⚠ **Both late finds were in the same sentence shape the audit
+was built to catch** — which is the measure of how thin the audit's coverage of one reading actually is.
+Nine guards now hold the corrected scope of all eight.
+
+⚠ **AND THE FIRST DRAFT OF THAT GUARD OVER-FIRED.** Its regex matched any universal ANYWHERE in a
+sentence containing "parent count", so it flagged the corrected form ("the mature-parent counts … so
+**each** is a floor"). It was narrowed to require the quantifier to GOVERN the noun — then re-checked
+against all three original defect strings, which it still catches. Narrowing a check until it passes is
+the failure mode; narrowing it and re-proving it on the defects it exists to catch is not.
 
 #### Round 12 — the first round run under this condition, and what it filtered
 

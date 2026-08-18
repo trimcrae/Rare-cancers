@@ -42,6 +42,19 @@
 # Verified directly: `import pymbar` and `import scipy` both fail here; numpy, rdkit and boto3 now
 # all import, which is exactly why the 39 could go.
 #
+#
+# ⭐ PRUNED 14 -> 11 ON 2026-08-19: scipy now imports here, so the three test_slow_cv entries
+# stopped failing. The gate had reported it for four consecutive runs -- the same "a notice nobody
+# reads" drift the 2026-08-17 prune above was written about, arriving again.
+#
+# ⛔ GATED ON THE SET COMPARISON, NOT THE COUNT, per the rule stated above. The evidence is
+# preflight's own output on this tree (PREFLIGHT_FULL=1, 7,760 passed):
+#   "11 failure(s), every one named in the sandbox baseline as dep-related"  -> new failures are a
+#   strict SUBSET of the baseline; nothing new was absorbed by the shrink.
+#   "3 baseline entr(y/ies) no longer fail"                                  -> and they are named,
+#   all three in test_slow_cv.py, matching the scipy group traced in the 2026-08-17 block.
+#   14 baseline - 3 no-longer-failing = 11 observed. The arithmetic closes on both sides.
+# No separate serial re-run was needed: preflight performs exactly this comparison every build.
 # THIS NUMBER SHOULD KEEP FALLING as the sandbox gains packages. It describes a deficient
 # environment; it is not a tolerance for broken tests, and every entry is a missing import.
 research/modalities/tests/test_abfe_diagnostics.py::test_autocorr_inefficiency_correlated_is_large
@@ -55,6 +68,3 @@ research/modalities/tests/test_abfe_diagnostics.py::test_overlap_identical_state
 research/modalities/tests/test_abfe_diagnostics.py::test_overlap_separated_states_near_identity
 research/modalities/tests/test_abfe_diagnostics.py::test_overlap_symmetric_and_adjacent_beats_far
 research/modalities/tests/test_abfe_diagnostics.py::test_receptor_dg_bind_matches_combine_legs
-research/modalities/tests/test_slow_cv.py::test_build_combine_cv_reproduces_standardized_projection
-research/modalities/tests/test_slow_cv.py::test_tica_identifies_slow_feature
-research/modalities/tests/test_slow_cv.py::test_tica_timescale_recovers_ou_constant

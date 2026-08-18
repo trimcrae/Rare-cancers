@@ -1823,8 +1823,9 @@ is not one row per junction, and it is not every design at those junctions, whic
 if its retained hit list is not truncated — no more near-matches than the {SAVED_HITS} the screens store — because the
 strand of an unstored hit cannot be recovered, so a truncated list cannot establish that nothing
 on the sense strand remains. The underlying search is itself capped, so these are the designs whose
-near-match lists are shortest, not the designs whose lists are known to be exhaustive. ΔΔG°37 is the margin by which the fusion duplex is favoured over the best
-duplex either parent can form, for an unmodified DNA:RNA hybrid; because the fusion duplex pairs
+near-match lists are shortest, not the designs whose lists are known to be exhaustive. ΔΔG°37 is the margin by which the fusion duplex is favoured over the better of the
+two runs a parent pairs at the junction itself, for an unmodified DNA:RNA hybrid; it does not score the
+mature-parent duplexes of §2.5, which lie elsewhere in a parent. Because the fusion duplex pairs
 both LNA wings and each parent duplex only one, it is a lower bound on the modified
 oligonucleotide's discrimination rather than an upper one. None of these numbers is a measurement of off-target
 activity, and none speaks to cleavage. {_ordering_clause()}\n\n⁴ Under the optimistic five-fold and the pessimistic

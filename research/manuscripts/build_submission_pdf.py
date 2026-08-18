@@ -472,9 +472,18 @@ def markdown_to_html(text, floats=None):
     text = re.sub(r"<!--.*?-->", "", text, flags=re.S)          # PMID markers: non-rendering
     lines = text.split("\n")
     out, i = [], 0
+    #: True from a "**Table n." / "**Figure n." opener until the display item itself (a pipe row or
+    #: an <svg>) or the next heading. Everything in that span is a caption FOOTNOTE and has to break
+    #: like part of the caption, not like body prose. Tracked here rather than by the render_float
+    #: flag because MANUSCRIPT style never calls render_float -- `assemble` returns an empty float
+    #: map and splices the tables straight into the body, which is why keying this off the float
+    #: path silently did nothing to the deposit PDF.
+    in_caption = False
     while i < len(lines):
         line = lines[i]
         stripped = line.strip()
+        if stripped.startswith("|") or stripped.startswith("#") or stripped.startswith("<svg"):
+            in_caption = False
 
         if not stripped:
             i += 1
@@ -553,7 +562,22 @@ def markdown_to_html(text, floats=None):
             # caption therefore had no rule at all.
             css = ""
             if opener:
+                in_caption = True
                 css = ' class="legend caption"' if opener.group(1) == "Table" else ' class="legend"'
+            elif in_caption or _IN_FLOAT_CAPTION:
+                #: ⛔ A FOOTNOTE UNDER A CAPTION IS PART OF THE CAPTION BLOCK AND MUST BREAK LIKE ONE
+                #: (blind screen of the deposit PDF, 2026-08-19). Only the paragraph matching
+                #: "**Table n." got a class; every numbered note and marker note after it fell
+                #: through to a BARE <p>, so `p.legend { break-inside: avoid; orphans: 3; widows: 3 }`
+                #: never applied to them. Table 6's "◆" note split across the page boundary and left
+                #: its last line alone: manuscript page 42 carried 110 characters against a median of
+                #: 4,235, with the table it describes not starting until page 43.
+                #:
+                #: ⚠⚠ AND THE WIDOW RULE ADDED THAT SAME MORNING WAS WRITTEN AS THE FIX FOR THIS
+                #: PAGE, in a comment naming the exact orphaned sentence. It could not have worked:
+                #: the rule was keyed to a class the orphaned element did not carry. A fix whose
+                #: comment names the symptom is not evidence the symptom is gone — the PDF is.
+                css = ' class="legend note"'
             out.append(f"<p{css}>{inline(joined)}</p>")
         else:
             i += 1
@@ -565,6 +589,10 @@ def markdown_to_html(text, floats=None):
 #: grid without knowing which display item it belongs to.
 _CURRENT_TABLE_LABEL = None
 
+#: True while `render_float` is rendering a display item's caption block, so `markdown_to_html`
+#: can tell a caption footnote from body prose. Body paragraphs must NOT gain `.legend`.
+_IN_FLOAT_CAPTION = False
+
 
 def render_float(kind, number, payload, wide):
     """A table or figure set as a float, with its caption."""
@@ -573,10 +601,14 @@ def render_float(kind, number, payload, wide):
         classes.append("landscape-float")
     else:
         classes.append("span-float")
-    global _CURRENT_TABLE_LABEL
+    global _CURRENT_TABLE_LABEL, _IN_FLOAT_CAPTION
     if kind == "figure":
         svg, legend = payload
-        inner = f'<div class="panel">{svg}</div>' + markdown_to_html(legend)
+        _IN_FLOAT_CAPTION = True
+        try:
+            inner = f'<div class="panel">{svg}</div>' + markdown_to_html(legend)
+        finally:
+            _IN_FLOAT_CAPTION = False
     else:
         #: ⛔ A SAFETY MARKER MUST TRAVEL WITH THE ROWS IT MARKS, NOT ONLY WITH ITS CAPTION (blind
         #: screen of the built journal PDF, 2026-08-18). Table 3 runs over three pages; its "†"
@@ -599,10 +631,12 @@ def render_float(kind, number, payload, wide):
             _label += ("  —  † no design at this junction clears the parent screen; "
                        "do not order the sequence in a marked row")
         _CURRENT_TABLE_LABEL = _label
+        _IN_FLOAT_CAPTION = True
         try:
             inner = markdown_to_html(payload)
         finally:
             _CURRENT_TABLE_LABEL = None
+            _IN_FLOAT_CAPTION = False
     return f'<div class="{" ".join(classes)}" id="{kind}{number}">{inner}</div>'
 
 
@@ -759,6 +793,15 @@ p.legend { font-size: 9pt; text-align: left; margin-bottom: 16pt; break-before: 
            break-inside: avoid; orphans: 3; widows: 3; }
 /* A table caption must not be stranded at the foot of a page away from its table. */
 p.legend.caption { break-before: auto; break-after: avoid; margin-bottom: 4pt; }
+/* ⛔ CAPTION FOOTNOTES ARE SET TIGHTER THAN FIGURE LEGENDS, AND THIS IS A MEASURED FIX, NOT A
+   PREFERENCE (2026-08-19). Chromium's print path does not honour `widows`/`orphans` inside a box
+   it has already given up on for `break-inside: avoid`, so no widow rule could stop Table 6's
+   caption block spilling one line onto its own page. The block simply has to FIT. Table 6 carries
+   seven notes under its caption at 16pt of margin each -- about eight lines of pure inter-paragraph
+   space where one line had to be recovered. Tightening only these (never the caption itself, never
+   a figure legend) reclaims it structurally, and `test_no_page_is_nearly_empty` measures the
+   result on every build so the next content change cannot quietly bring the page back. */
+p.legend.note { margin-bottom: 7pt; }
 section.landscape { page: landscape; }
 """
 
