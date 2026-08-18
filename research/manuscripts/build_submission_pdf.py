@@ -846,11 +846,30 @@ hr { display: none; }
 ol, ul { margin: 0 0 6pt 0; padding-left: 13pt; }
 li { margin-bottom: 3pt; text-align: justify; }
 
-/* ⚠ JUSTIFIED LINES BEFORE AN UNBREAKABLE 16-20-MER STRETCH, AND THERE IS NO SAFE LEVER. Two
-   blind screens flagged the inter-word rivers. `hyphens: auto` is already on, and the remaining
-   cause is a 20-character token that must NOT break — breaking a sequence is the wrong-reagent
-   hazard this whole deposit is built to prevent. `text-wrap: pretty` is the one improvement that
-   cannot alter content; the residual stretching is accepted and recorded here. */
+/* ⚠ JUSTIFIED LINES BEFORE AN UNBREAKABLE 16-20-MER STRETCH, AND THERE IS NO SAFE LEVER. Three
+   blind screens have now flagged the inter-word rivers, in both styles. `hyphens: auto` is already
+   on WITH `lang="en"` on the root element (checked — Chromium silently declines to hyphenate
+   without it), and the remaining cause is a 20-character token that must NOT break: breaking a
+   sequence is the wrong-reagent hazard this whole deposit is built to prevent.
+
+   ⭐ THE "NO SAFE LEVER" CLAIM IS NOW MEASURED RATHER THAN ASSERTED (2026-08-19). Baseline over
+   BODY PROSE ONLY (spans >=10 pt; table and caption lines are set at 6.9-9 pt and measuring them
+   alongside body text moves the median enough to change a verdict): 1,520 lines, median inter-word
+   gap 3.12 pt, worst line 11.02 pt, 20 lines above 2x median and 3 above 3x.
+
+   Two content-safe levers were tried and NEITHER HELPED:
+     hyphenate-limit-chars: 5 2 2   -> identical on every figure. A no-op in this Chromium.
+     .seq { font-size: 0.94em }     -> max 10.95, >2x 22, >2.5x 8, >3x 5. MIXED, not an improvement
+                                      and not a clear regression either: narrowing the token
+                                      re-wraps whole paragraphs and merely relocates the stretch.
+   ⚠ An earlier note here called that second result "strictly worse". It was not — that reading came
+   from an instrument that included table lines. Both levers are within noise of the baseline, which
+   is a stronger statement of the same conclusion: the cause really is the unbreakable token, and
+   nothing that leaves the token intact moves it.
+
+   `text-wrap: pretty` remains the one improvement that cannot alter content. The residual
+   stretching is an ACCEPTED limitation, and `test_justification_does_not_degrade` pins the
+   measurement so a future change cannot make it worse unnoticed. */
 /* --- floats: tables and figures set where they are first cited --- */
 .float { break-inside: avoid; margin: 4pt 0 9pt 0; }
 .span-float { column-span: all; }

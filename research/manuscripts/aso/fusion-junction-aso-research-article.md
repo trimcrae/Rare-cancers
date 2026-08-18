@@ -624,7 +624,8 @@ the top gap-level margin, with longest parent runs of eight, eight, nine and sev
 Both parent-liability classes of §2.5 — the pre-mRNA sites and the mature-transcript duplexes —
 were bounded the same way: exhaustive over six parent transcripts and silent about every
 other gene. The genome scan, screen 5, removes that bound for the pre-mRNA class alone. It runs at two
-mismatches, and an eleven- or twelve-base-pair contiguous run inside a 16-mer carries four or five, so the
+mismatches, and a contiguous run of eleven or twelve base pairs inside a 16-mer leaves five or four
+positions unpaired respectively, so the
 mature-transcript duplexes stay bounded by the six transcripts searched — the same reason §2.5 gives for
 their being invisible to the alignment screens.
 
@@ -1167,8 +1168,10 @@ Three assay controls are required, and a knockdown assay alone distinguishes non
 
 - a positive control gapmer against an abundant housekeeping transcript in the same cells, to
   separate failed delivery from a test reagent that reached its target and did not cleave it;
-  it says nothing about discrimination, which is fusion-versus-parent selectivity and is what
-  §4.2's gap-length arm is for;
+  it says nothing about discrimination, which is fusion-versus-parent selectivity and is what the
+  margin-contrast arm below bears on. §4.2's gap-length arm does not bear on it: that arm separates a
+  failure to cleave from a failure of sequence, and §4.2 states that a longer gap buys no parental
+  sparing at all;
 - a scrambled gapmer of matched chemistry, to separate sequence-specific cleavage from the
   non-specific toxicity of this chemistry — and the scramble actually ordered must itself be put
   through the mature-parent screen before it is made, because on this paper's own null 6.2% of
