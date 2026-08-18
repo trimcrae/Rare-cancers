@@ -291,8 +291,8 @@ the seam the panel was designed on. The base-level assignment, its chromosome-ta
 the translation check that reproduces the deposit's own recorded protein are in the released
 artefact. That junction is in-frame and designable, and its best-margin design retains 17
 gap-spanning near-matches at the deeper ceiling, every one of them a variant of a single
-locus (Table 2). That locus is the curated *PIK3CG*, read from the deep hit list and from Table 6;
-Table 2 carries no gene column. None of the four *TCF12* designs with no sense-strand near-match is at
+locus (Table 2). That locus is the curated *PIK3CG*, which is read from the deep hit
+list; Table 2 carries no gene column. None of the four *TCF12* designs with no sense-strand near-match is at
 that exon. So for *TCF12* as for *TAF15*, the junction a patient is reported to carry is designable
 and is not among the clean ones, while the clean junctions have no reported patient. What remains
 unmeasured at *TCF12* is not the exon but the distribution: one *TCF12*-rearranged tumour has been
