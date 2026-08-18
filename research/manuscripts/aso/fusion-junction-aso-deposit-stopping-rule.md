@@ -73,6 +73,18 @@ condition fixed in advance.
    is `tests/test_pdf_text_layer_is_orderable.py`, which asserts the document's property rather than
    one extractor's behaviour — ⛔ because the fusion is **extractor-dependent**, and a guard written
    against the tool that happened to be at hand would have gone green on a corrupting document.
+   ⛔⛔ **BOTH BUILT FORMATS, SCREENED SEPARATELY, AND THE SCREEN RE-RUN AFTER EVERY FIX ROUND**
+   (added 2026-08-17, second revision). Two things were learned the same way the condition itself
+   was. **First, one format is not the other document.** The build emits a journal typesetting and a
+   submission-format manuscript from the same sources; page geometry differs, so float placement,
+   page breaks and what a caption sits beside all differ. A round that screened only one returned six
+   minors the other did not have, and a later round's blocker — a caption misstating the architecture
+   of a named oligonucleotide — was visible in the manuscript format and not the journal one.
+   **Second, a fix round is a new document and needs its own screen.** The blocker just described
+   was CREATED by the previous round's remedy for a different finding: a chemistry clause written
+   for the all-5-6-5 tables, pasted onto two tables whose subject is that the geometry varies. A
+   screen that ran before the fixes cannot see the fixes' own defects, and "we already screened it"
+   is the inference that let it through.
 
 ### Why those seats specifically
 

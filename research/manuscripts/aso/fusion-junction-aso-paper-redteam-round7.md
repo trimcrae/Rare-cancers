@@ -573,6 +573,73 @@ earlier, under a slug named for the question it was asked rather than for the pa
 
 ---
 
+### 2o · ⛔⛔ THE SAFETY FIX WAS THE BLOCKER — 2026-08-17, both PDF formats screened cold
+
+Two blind screens, one per built format, each told not to audit a fix list. **Manuscript format: 1
+blocker, 2 majors, 6 minors. Journal format: 1 blocker, 1 major, 4 minors** — the journal blocker
+being the ORCID and archive-DOI placeholders, which are author-only and deliberate.
+
+**THE BLOCKER WAS MINE, AND IT CAME OUT OF THE PREVIOUS ROUND'S FIX.** §2l closed a finding that
+Tables 5 and 7 print orderable sequences with no chemistry stated. The remedy was `_ordering_clause()`
+— written for Tables 2 and 4, which are the 5-6-5 panel and nothing else — pasted onto them
+unchanged. It asserts *"Every sequence in this table is an antisense 16-mer, tiled in the 5-6-5 …
+architecture"*. Table 7's entire subject is that the geometry VARIES: its columns are headed
+5-8-5 (18-mer) and 5-10-5 (20-mer) and its design row prints both. Table 5 carries a 5-8-5 control.
+
+⚠ **AND IT IS THE WORST SENTENCE IN THE PAPER TO BE WRONG IN.** Its own next clause is *"the bases
+alone, ordered as unmodified DNA, are a different molecule"* — the paper's position is that the
+architecture, not the base string, IS the reagent. A clause that exists to stop a wrong-reagent order
+misstated the architecture of two named oligonucleotides.
+
+★ **THIS IS THE O3 LESSON A SECOND TIME**, and the second time inside two days: a remedy pasted
+uniformly across items it was not written for does not become safe by being about safety. First it
+was a disputed-identity marker pasted into five bibliography entries until it said something false;
+now a chemistry clause pasted onto two tables it did not describe.
+`tests/test_table_captions_state_the_right_geometry.py` reads every built caption against the LENGTHS
+OF THE SEQUENCES THAT TABLE ACTUALLY PRINTS — proven to fire on exactly Tables 5 and 7 in the
+pre-fix state.
+
+**THE MAJOR BOTH SEATS FOUND INDEPENDENTLY — one per format, no shared context.** Table 2 marked
+*TCF12* e5 **published** while §2.3 says the report *"describes a chimera retaining the first 108
+TCF12 residues, and names no exon; the same authors deposited the chimeric cDNA, and that deposit
+resolves the junction to the nucleotide"*. *TFG* e7 — the identical situation — read **published
+(deposit)**. Root cause: the marker's predicate was "no PMID among the refs", and TCF12 carries
+`PMID: 11156374` AND `GenBank: AF289510.1`. **The presence of a PMID is not the question; what
+resolves the exon is.** A report can establish a fusion and still name no exon, which is exactly what
+happened. The predicate now keys on a SEQUENCE ACCESSION, which separates all five published rows
+correctly and stays derived rather than a typed list.
+
+The partner-level half was the same asymmetry running the other way: TCF12's seven other seams read
+"exon not reported" and TFG's five read "none published", though one seam of each is resolved.
+⚠ **MEASURED BEFORE CHANGING A CLINICAL GRADE:** the only consumer that gates on the tier
+(`aso_coverage_ladder.py`) tests `== "published_exon_resolved_breakpoint"` alone, so the distinction
+between the two NEGATIVE tiers reaches no coverage figure, no panel membership and no count in §2.7.
+Exactly 5 junctions changed and only their `clinical_tier` field. Grading the two alike is explicitly
+**not** a claim their evidence is equally strong — the caption now says so, and points at §2.3.
+
+**THE SECOND MAJOR: A FIGURE THAT ARGUED AGAINST ITS OWN PAPER.** Supplementary Figure S1 called its
+reference line a *"chance upper bound"* and a *"band"*, and its own footnote read *"58 of the 176
+plotted designs exceed the band"*. 8.2 is the EXPECTED value for an arbitrary 16-mer, drawn as a
+single line because the endpoints coincide. **Nothing exceeds an upper bound**, so a reader taking
+the word at face value concludes 58 designs are above chance — the opposite of the caption and of §5
+(*"on the mean it comes in at chance"*). The noun now follows the geometry, and the transcriptome
+span is described as measured, which two other places already said it was.
+
+**CHAIN GAPS, three of one class.** `aso-per-junction-table.json` supplies every clinical tier,
+best-available design and parent-duplex figure that five downstream artifacts read — and no chain
+step regenerated it, so half of the tier fix reached the tables and not the artifact. The figure
+provenance step re-pinned four figures while the chain redrew three. `FIGURE_FILES` named 3 of 4
+figure files, so the upload checklist omitted a main-text figure.
+
+**MINORS, all applied.** The *EWSR1* partner-share Wilson upper bound printed 87.8% where 46/58 gives
+87.7485% — the *TAF15* interval beside it matched its own computation exactly, so the method was
+right and one digit was wrong; the old value is registered in `pinned-figures.json` and a test now
+recomputes both from the counts. Table 4's completeness claim; the "five dirty designs" antecedent;
+"Each had already returned 23, 41 and 31" over three designs; "four additional two-partner sets"
+reading as four beyond nine; LNA, FET, CDS and SI expanded at first use; the two S-numbered series
+disambiguated. Landscape floats now defer to the end of the section that cites them: journal page 15
+was 94% white, and the rebuilt file has no page under 700 characters and one page fewer.
+
 ### 2m · ⛔ THE CANONICAL SEQUENCE FILE CONTRADICTED THE PAPER'S GAP-LENGTH RESULT — 2026-08-17
 
 Found by reading Tables 5 and 7 side by side to settle a cosmetic screener note (`none` in one, `0`
