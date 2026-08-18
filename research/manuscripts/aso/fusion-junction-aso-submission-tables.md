@@ -281,9 +281,11 @@ measurement of off-target activity, and no row is a claim of efficacy. The seque
 | margin contrast arm | EWSR1 e12::NR4A3 e3 | 5′-GCATATCATCAAACCA-3′ | 5-6-5 | 1 | 34 → 6 | 8 bp (*FUS*) | — | not a coverage row |
 
 **Table 6. Where the off-target loci at the junctions with a published breakpoint are expressed.** Every gene
-locus returned by the deeper screens that were READ at four of the five junctions with a
-published exon-resolved EMC breakpoint, over the tiling registers read at each, against reference
-expression data. ⚠ That is not every screen at every junction: at the *EWSR1* exon-12 lead seam only the
+locus returned by the deeper screens that were READ at four of the five junctions of the
+38-junction panel with a published exon-resolved EMC breakpoint, over the tiling registers read at
+each, against reference expression data. The four *NR4A3* exon-2 acceptor seams of §2.6 also carry a
+published exon-resolved breakpoint and carry no expression reading here, so this is four of nine such
+seams in the paper and not four of five. ⚠ That is not every screen at every junction: at the *EWSR1* exon-12 lead seam only the
 multi-partner reagent's own screen is read, so its rows carry a denominator of one, which note ⁷ states per row. The two compartments answer different questions and are
 never combined: a systemically dosed phosphorothioate gapmer is taken to distribute predominantly to
 liver and kidney — a premise taken from the chemistry, for which no measurement or citation was

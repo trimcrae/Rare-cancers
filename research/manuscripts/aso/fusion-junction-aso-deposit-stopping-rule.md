@@ -47,6 +47,44 @@ condition fixed in advance.
 
 ### ⭐ CONDITION 6 — TWO READERS, AND ONLY THE OVERLAP COUNTS (added 2026-08-19, trimcrae)
 
+#### ⛔ Round 15 — condition 6 FAILS on one shared major, and TWO of the findings were fixes from round 14
+
+Same 57-page deposit PDF, two readers. A swept linearly; B chased every pointer, referent and term-sense.
+
+| | reader A | reader B |
+|---|---|---|
+| blockers | 0 | 0 |
+| majors | 1 — §4.4's discrimination clause mis-points to §4.2's gap-length arm | 4 — the same clause; "every design here is specific to one exon pair"; §3's pre-mRNA scope; §5 resting the claim on the one-mismatch scan |
+| minors | §2.7's inverted mismatch pairing; justification blowout | Table 6's dropped scope; "load" carrying two senses; Declarations naming a scrambled sequence that does not exist |
+
+**⛔⛔ TWO OF THESE WERE INTRODUCED BY ROUND-14 FIXES. THIS IS THE COST OF REPAIR, MEASURED.**
+
+1. **§3's pre-mRNA scope (major, B).** Round 14 fixed A's "two disjoint nines" minor by writing
+   *"none of which carries a parent pre-mRNA site **at all** (§2.5)"*. §2.5 supports only the strict
+   class — line 433 says so in terms, *"the 19, not the 53 or the 40"* — and is silent on the wider
+   forty. **The paper's own lead reagent sits in that forty** (§4.3). A scope-widening defect was
+   introduced by a fix for a referent defect, in the very class the 251-claim audit existed to close.
+2. **§2.7's inverted pairing (minor, A).** Audit fix 5 transcribed the diagnosis's *"4–5 mismatches"*
+   — true as a RANGE over {11, 12} — into a sentence already enumerating *"eleven- or twelve-"*. A
+   range became a mapping, and because run length and unpaired count are anti-correlated, writing both
+   lists ascending inverted it: 11+4=15, 12+5=17, in a 16-mer. Now guarded by
+   [`test_paired_numeric_lists_are_bound_in_the_right_order.py`](../tests/test_paired_numeric_lists_are_bound_in_the_right_order.py),
+   which was **proved against the original defective sentence** before being kept.
+
+★ **AND MY ROUND-15 FIX OF THE SHARED MAJOR WAS ITSELF WRONG.** Reader A flagged §4.4's clause; I
+re-pointed it at the margin-contrast arm. B, arriving later, showed the right target is the
+**fusion-negative isogenic comparator** — §4.2 says outright *"Both arms therefore need the
+fusion-negative comparator below"*, and the comparator is §4.4's own third control. Re-fixed to B's
+target. ⚠ Two readers disagreeing about the REMEDY, where both agreed on the DEFECT, is an argument
+for the overlap rule and against acting on one reader's proposed wording.
+
+⭐ **THE HONEST READING OF THE ROUND.** Zero blockers from two independent readers is real progress —
+that is four consecutive readers finding none beyond the author-only ORCID/DOI pair. But the majors
+did not go to zero, condition 6 fails on the shared §4.4 clause, and **the repair process is now a
+measurable source of defects**: 2 of 7 findings this round were created by the previous round's
+repairs, and one of this round's repairs was wrong on first attempt. A round is not evidence of
+convergence if the round's own fixes generate the next round's findings.
+
 #### ⭐ Round 14 — condition 6 MET with ZERO overlap, condition 5 open on the author-only block alone
 
 Two readers, the same deposit PDF (58 pages), different angles: A swept the document linearly, B worked

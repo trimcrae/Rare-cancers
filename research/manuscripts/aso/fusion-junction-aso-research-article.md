@@ -698,8 +698,10 @@ geometry escapes that, though it does trade the two against each other.
 
 Both directions are large. The best available gap-level margin rises from 3 to 4 to 5, and the
 junction-spanning registers per junction from five to seven to nine. At the *EWSR1* exon 12, *TAF15* exon
-11 and *FUS* exon 10 junction, the design carrying that margin sheds its transcriptome load completely:
-123 sense-strand cleavage risks across the gap at six gene loci become 3 at one locus and then none.
+11 and *FUS* exon 10 junction, the design carrying that margin sheds its gap-spanning cleavage risks
+completely: 123 sense-strand cleavage risks across the gap at six gene loci become 3 at one locus and
+then none, though 20 near-matches remain (Table 7), so it is that risk class and not the load of Box 1
+that goes to zero.
 Over the six junctions screened at every geometry, designs carrying no such risk rise from 8 of 30 to 28
 of 42 to 54 of 54, and the most risk loci on any one design falls from seven to two to none.
 
@@ -802,8 +804,9 @@ Both cited bounds are measured against a single substitution in an otherwise ful
 Neither transfers to a parent that leaves half the oligonucleotide unpaired and the catalytic gap
 only partly so: they bound the near-match case, and no retrieved measurement bounds the parent case.
 The two parent compartments of §2.5 sharpen that rather than softening it. For nine designs of the
-panel — a different nine from the nine of Table 4 discussed above, none of which carries a parent
-pre-mRNA site at all (§2.5) — the route
+panel — a different nine from the nine of Table 4 discussed above, none of which carries a
+gap-paired sense-strand pre-mRNA site of the strict class §2.5 defines, that section being silent on
+whether any sits in the wider sense-strand forty — the route
 to wild-type *NR4A3* is not a gap-level discrimination problem at all. They pair the catalytic gap in
 full across the wild-type intron-2/exon-3 boundary, at two mismatches that both fall in the locked-nucleic-acid (LNA) wing,
 and the compartment in which that duplex would form is the nuclear one RNase-H1 occupies. In
@@ -1155,7 +1158,8 @@ depth it carries 101 sense-strand near-matches, 14 of them spanning the catalyti
 What a knockdown experiment with these reagents can transfer to depends on how it is set up, and the
 first requirement is upstream of the assay. The breakpoint of the cell line or patient sample must
 be established at nucleotide resolution by RNA sequencing before any oligonucleotide is ordered:
-every design here is specific to one exon pair, and none is valid for an unverified junction.
+every design here is specific to the exon pair or pairs it was tiled at — nine span more than one
+(§2.2) — and none is valid for an unverified junction.
 Routine diagnosis does not supply it: break-apart *NR4A3* fluorescence in situ hybridisation is the
 preferred single assay because it detects any rearrangement "irrespective of
 partner",<sup>6</sup><!--PMID:41055792--> so on its own it does not locate the seam, and the 58-case
@@ -1169,9 +1173,9 @@ Three assay controls are required, and a knockdown assay alone distinguishes non
 - a positive control gapmer against an abundant housekeeping transcript in the same cells, to
   separate failed delivery from a test reagent that reached its target and did not cleave it;
   it says nothing about discrimination, which is fusion-versus-parent selectivity and is what the
-  margin-contrast arm below bears on. §4.2's gap-length arm does not bear on it: that arm separates a
-  failure to cleave from a failure of sequence, and §4.2 states that a longer gap buys no parental
-  sparing at all;
+  fusion-negative isogenic comparator below is for. §4.2's gap-length arm is not that control: it
+  separates gap length from sequence as explanations of weak knockdown, and §4.2 states that it buys
+  no parental sparing, both arms needing the comparator too;
 - a scrambled gapmer of matched chemistry, to separate sequence-specific cleavage from the
   non-specific toxicity of this chemistry — and the scramble actually ordered must itself be put
   through the mature-parent screen before it is made, because on this paper's own null 6.2% of
@@ -1347,8 +1351,9 @@ records — a different seven from the seven whose default-depth query failed at
 (§2.4) — and the deeper pass decided six of the seven; none of the six is clean, and the seventh
 re-screen did not return, so that record remains undecided. The nine are untouched by that test.
 BLAST's sensitivity at ≥14/16 is unquantified here, so "no sense-strand near-match" is a property of this search and not of the
-transcriptome; the exhaustive transcript scan, complete for substitutions by construction, is the
-screen the claim rests on.
+transcriptome; the exhaustive transcript scan is complete for substitutions only within its
+one-mismatch budget, so it corroborates the exact and single-mismatch part of the claim, and no
+screen here establishes the absence of two-mismatch sense-strand near-matches.
 
 **The parent threshold is stated, not measured.** The mature-parent counts — 87 of 190, 61 of them against
 wild-type *NR4A3* — are taken at a contiguous duplex of ten base pairs, a criterion adopted here
@@ -1618,7 +1623,7 @@ on potency, which is not claimed for any sequence, rather than on the discrimina
 about — and SI §S1 gives the three reasons in full.
 
 **Expression of the off-target loci.** No screen above says whether a matched gene is transcribed
-in the organs a systemic dose reaches. For four of the five junctions with a published exon-resolved breakpoint — those
+in the organs a systemic dose reaches. For four of the five junctions of the 38-junction panel with a published exon-resolved breakpoint — those
 Table 6 covers — the gene loci their deeper screens return in the gap-paired class were read against
 GTEx v8 median TPM.<sup>47</sup><!--PMID:32913098--> No such reading was taken at *TFG* exon 7, so
 that junction carries no expression reading rather than a negative one. The readings are in two
@@ -1779,7 +1784,8 @@ predictions from sequence search, not measured off-target activity.
 
 **Research use only, and not for administration to any person or animal.** Every oligonucleotide
 sequence in this manuscript, its Supplementary Information and its tables — the two lead reagents and the two
-named for coverage, the three named as not to be used, the second-geometry and scrambled controls,
+named for coverage, the three named as not to be used, the second-geometry control and any scrambled
+control drawn by the procedure of §4.4,
 every design in the released panel, and the non-canonical-acceptor designs reported beside that panel
 rather than pooled into it — is a research reagent intended solely for laboratory investigation.
 None is a medicine, an investigational medicinal product or a candidate drug. None has been
