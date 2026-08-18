@@ -562,13 +562,15 @@ seam but the assumption that designs tiled across one seam are interchangeable.
 Two things about that finding matter more than the three sequences. The first is how they were
 reached. Each had already cleared the mature-parent exclusion, and so had every other design at its
 seam, that exclusion being a screen over spliced cDNA and structurally unable to see intronic
-sequence: a clean parent screen at such a seam is the silence of an instrument that cannot look at
+sequence: a parent screen that returns nothing at such a seam is the silence of an instrument that cannot
+look at
 the compartment in question. The same three were returned independently by an exhaustive scan of the
 *NR4A3* unspliced sequence, by the pre-mRNA screen and by the genome scan, on a fixed known-positive
 control that fired on exactly the one design it was required to fire on. The second is what decides
 it, because the obvious answer is wrong. It is not the gap-level margin this paper ranks by: the two
 condemned *EWSR1* designs carry 2 and 1 donor bases inside the catalytic gap, while a design at the
-same seam with a margin of 1 and five donor bases in its gap is clean. What decides is how much
+same seam with a margin of 1 and five donor bases in its gap does not cleave the un-rearranged
+allele at all. What decides is how much
 donor sequence the gap holds, the rest being acceptor sequence the wild-type allele already carries
 verbatim — a property of the donor rather than of the acceptor. The sequence bears it out: *EWSR1*
 exon 13 ends

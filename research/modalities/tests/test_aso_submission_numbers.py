@@ -1590,8 +1590,14 @@ def test_the_wild_type_allele_liability_is_named_with_the_designs_it_condemns():
     # earlier reading of this repository credited the margin and was refuted by the exon-2 seams.
     assert "It is not the gap-level margin" in txt
     assert "how much donor sequence the gap holds" in txt
-    assert "a design at the same seam with a margin of 1 and five donor bases in its gap is clean" \
-        in txt
+    #: ⚠ THE PIN HELD A SENTENCE THAT WAS ITSELF THE DEFECT (2026-08-19). It ended "...is clean",
+    #: and a blind screen showed §6 defines "clean" as carrying no sense-strand near-match at a
+    #: stated depth — under which this sentence flatly contradicted one on the same page saying
+    #: no register at these seams is clean. The design IS a counter-example, but to cleavage on
+    #: the un-rearranged allele, not to the near-match screen. The counter-example is what this
+    #: test protects and it is intact; only the word that named the wrong property changed.
+    assert ("a design at the same seam with a margin of 1 and five donor bases in its gap does "
+            "not cleave the un-rearranged allele") in txt
     # the mechanism, from the measurement rather than from the sentence
     ev = json.load(open(MODEL_EVIDENCE, encoding="utf-8"))["nr4a3_wild_type_acceptor_context"]
     intron1 = ev["nr4a3_intron1_last_12_nt"]
