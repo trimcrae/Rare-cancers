@@ -130,6 +130,30 @@ def _wrapped_text(x, y, text, font_size, max_width, fill, leading=1.25, **attrs)
     return out, len(out) * step
 
 
+def _caveat_texts(fs, exc, n, ref, above):
+    """The three lines that travel ON the figure, because a figure is reused without its caption.
+
+    ⚠ A FUNCTION, NOT AN INLINE BLOCK, so `main` can MEASURE them before it decides the canvas
+    height. Measuring after drawing is what let a one-sentence addition overprint the axis title.
+    """
+    gc_lo, gc_hi = exc["above_gc_percent_range"]
+    hit_lo, hit_hi = exc["above_offtarget_le1mm_range"]
+    return [
+        (f'The {ref} assumes independent uniform bases; the transcriptome span it is computed over '
+         f'is the exhaustive scan\'s measured one. It separates "more than chance" from "at chance" '
+         f'and is not a significance test. {esc(fs["n_at_or_below_chance_upper"])} of {esc(n)} bars fall at or below that line.'),
+        (f'Counts are predictions from sequence search, not measured off-target activity. Bars are '
+         f'green at or below the line and red above it, which repeats each bar\'s own height and '
+         f'carries no information of its own. '
+         f'{esc(fs["n_above_chance_upper"])} of the {esc(n)} plotted designs {above}; on the mean '
+         f'the set comes in at chance.'),
+        (f'Not plotted: {esc(exc["n_excluded"])} designs at {esc(exc["n_breakpoints"])} modelled '
+         f'breakpoints rather than real exon junctions; {esc(exc["n_above_chance_upper"])} of those '
+         f'{above}, at {esc(hit_lo)}\u2013{esc(hit_hi)} matches and '
+         f'{esc(gc_lo)}\u2013{esc(gc_hi)}% GC.'),
+    ]
+
+
 def main(argv=None):
     d = json.load(open(SRC))
     lo, hi = d["null_model"]["expected_hits_per_oligo_ge_15_of_16"]
@@ -144,6 +168,9 @@ def main(argv=None):
     n_at_or_below = fs["n_at_or_below_chance_upper"]
     scanned = f'{fs["transcripts_scanned"]:,}'
     _at_or_below = "fall at or below it"
+    _is_band = f"{lo}" != f"{hi}"
+    _ref = "chance band" if _is_band else "chance expectation"
+    _above = "exceed that band" if _is_band else "sit above it"
 
     # ⛔ THE HEADER'S HEIGHT FOLLOWS ITS TEXT, OR A WRAPPED KEY LANDS ON THE PLOT. Wrapping fixed
     # the clipped lines and immediately created the next problem: the key's second line sat at a
@@ -153,13 +180,31 @@ def main(argv=None):
     #: ⚠ THE MARKER KEYS THE CLAUSE IT PREFIXES. The diamond is the plot's marker key, and this line
     #: used to open with the 118/176 split — so the glyph appeared to define the split rather than
     #: the marked designs, which is the one thing it does define. The keyed clause now comes first.
+    #: ⚠ THE KEY LINE KEYS THE MARKER AND NOTHING ELSE. It used to carry the 118/176 split as well,
+    #: grafted onto a diamond legend it has nothing to do with, and with a pronoun ("at or below
+    #: it") whose referent arrived only in the following clause. The split now sits with the
+    #: caveats, where the line it refers to has already been named.
     _key = (f'the {esc(fs["n_multi_junction_sequences"])} designs spanning '
             f'{_span_words(fs["multi_junction_span"])} partners’ seams, each one molecule plotted '
-            f'once. {esc(n_at_or_below)} of {esc(n)} {{at_or_below}}; the line is what chance alone '
-            f'predicts, not a ceiling.').replace("{at_or_below}", _at_or_below)
+            f'once.')
     _key_lines = _wrap(_key, 12, W - R - (L + 14))
     _top = T + max(0, len(_key_lines) - 1) * 15
-    _plot_h = H - _top - B
+    #: ⛔⛔ THE CANVAS GROWS TO FIT THE FOOTNOTES; THE FOOTNOTES DO NOT CLIMB INTO THE PLOT
+    #: (2026-08-18, filed as a BLOCKER). The caveat block was laid out UPWARD from a fixed H, so
+    #: adding one sentence to it — a colour key, itself a fix for a different finding — pushed the
+    #: block's first line onto the x-axis title's baseline. Both printed on top of each other and
+    #: neither was legible: the figure's only horizontal axis label was destroyed, and so was the
+    #: first caveat, mid-sentence. Bottom-anchored layout means every future edit to this text is
+    #: one line away from doing it again, so the geometry is now anchored at the TOP and the height
+    #: is DERIVED from what the text actually needs.
+    _plot_h = 284                                    # the design's plot height, held fixed
+    _caveat_step = 10.5 * 1.30
+    _avail = W - R - L
+    _caveat_lines = [line for caveat in _caveat_texts(fs, exc, n, _ref, _above)
+                     for line in _wrap(caveat, 10.5, _avail)]
+    _axis_title_y = _top + _plot_h + 38
+    _caveats_top = _axis_title_y + 16
+    H_eff = int(_caveats_top + len(_caveat_lines) * _caveat_step + 10)
 
     def x(i):
         return L + (i + 0.5) * PLOT_W / n
@@ -167,9 +212,9 @@ def main(argv=None):
     def y(v):
         return _top + _plot_h - (v / ymax) * _plot_h
 
-    p = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" '
-         f'viewBox="0 0 {W} {H}" font-family="Helvetica,Arial,sans-serif">',
-         f'<rect width="{W}" height="{H}" fill="#ffffff"/>']
+    p = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H_eff}" '
+         f'viewBox="0 0 {W} {H_eff}" font-family="Helvetica,Arial,sans-serif">',
+         f'<rect width="{W}" height="{H_eff}" fill="#ffffff"/>']
 
     # the chance band, drawn first so every point sits on top of it
     # ⛔⛔ A ZERO-HEIGHT <rect> DRAWS NOTHING AT ALL — NOT EVEN ITS STROKE (blind screen of the built
@@ -253,7 +298,7 @@ def main(argv=None):
              f'fill="#111"/>')
     for _i, _line in enumerate(_key_lines):
         p.append(f'<text x="{L + 14}" y="{58 + _i * 15}" font-size="12" fill="#555">{_line}</text>')
-    p.append(f'<text x="{L + PLOT_W / 2:.0f}" y="{H - 66}" font-size="12" fill="#333" '
+    p.append(f'<text x="{L + PLOT_W / 2:.0f}" y="{_axis_title_y}" font-size="12" fill="#333" '
              f'text-anchor="middle">distinct oligonucleotides, ranked by observed load</text>')
     p.append(f'<text x="18" y="{_top + _plot_h / 2:.0f}" font-size="12" fill="#333" '
              f'text-anchor="middle" transform="rotate(-90 18 {_top + _plot_h / 2:.0f})">'
@@ -262,30 +307,11 @@ def main(argv=None):
     # ⚠ the caveats travel ON the figure, because a figure is what gets reused without its caption
     gc_lo, gc_hi = exc["above_gc_percent_range"]
     hit_lo, hit_hi = exc["above_offtarget_le1mm_range"]
-    _caveats = [
-        (f'The {_ref} assumes independent uniform bases; the transcriptome span it is computed '
-         f'over is the exhaustive scan\'s measured one. It separates "more than chance" from '
-         f'"at chance" and is not a significance test.'),
-        (f'Counts are predictions from sequence search, not measured off-target activity. Bars are '
-         f'green at or below the line and red above it, which repeats each bar\'s own height and '
-         f'carries no information of its own. '
-         f'{esc(fs["n_above_chance_upper"])} of the {esc(n)} plotted designs {_above}; on the '
-         f'mean the set comes in at chance.'),
-        (f'Not plotted: {esc(exc["n_excluded"])} designs at {esc(exc["n_breakpoints"])} '
-         f'modelled breakpoints rather than real exon junctions; '
-         f'{esc(exc["n_above_chance_upper"])} of those {_above}, at '
-         f'{esc(hit_lo)}–{esc(hit_hi)} matches and {esc(gc_lo)}–{esc(gc_hi)}% GC.'),
-    ]
-    # ⚠ MEASURE THE BLOCK, THEN PLACE IT. Wrapping turns three lines into more, so the caveats are
-    # laid out from a computed total rather than from three offsets hard-counted up from H — which
-    # is what pinned them to a height the text had already outgrown.
-    _avail = W - R - L
-    _lines = [line for caveat in _caveats for line in _wrap(caveat, 10.5, _avail)]
-    _step = 10.5 * 1.30
-    _cursor = H - 8 - len(_lines) * _step + 10.5
-    for _line in _lines:
+    _cursor = _caveats_top
+    for _line in _caveat_lines:
         p.append(f'<text x="{L}" y="{_cursor:.1f}" font-size="10.5" fill="#666">{_line}</text>')
-        _cursor += _step
+        _cursor += _caveat_step
+
     p.append('</svg>')
 
     svg = "\n".join(p)

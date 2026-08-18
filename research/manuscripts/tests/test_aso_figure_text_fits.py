@@ -130,9 +130,13 @@ def test_the_chance_figure_key_does_not_overlap_its_plot_area():
     svg = _read("aso-chance-baseline.svg")
     frame = re.search(r'<line x1="[\d.]+" y1="([\d.]+)" x2="[\d.]+" y2="([\d.]+)"', svg)
     assert frame, "the chance figure no longer draws an axis line to measure against"
+    #: ⚠ MATCH THE MARKER LEGEND ONLY. This used to also match "fall at or below", which later
+    #: moved into the bottom caveats — so the test began measuring a line at the FOOT of the figure
+    #: against the plot's top and failed on a correct drawing. (It also had an `and`/`or`
+    #: precedence bug that made the first clause's `a.get("y")` guard apply to only one branch.)
     keys = [float(a["y"]) for a, t in _elements(svg)
-            if a.get("y") and "fall at or below" in t or "plotted once" in t]
-    assert keys, "the chance figure's key text was not found"
+            if a.get("y") and ("partners" in t or "plotted once" in t)]
+    assert keys, "the chance figure's marker legend was not found"
     plot_top = min(float(m.group(1)) for m in
                    re.finditer(r'<rect x="[\d.]+" y="([\d.]+)"', svg))
     assert max(keys) < plot_top + 1, (
@@ -177,3 +181,52 @@ def test_the_chance_figure_actually_draws_the_reference_its_caption_describes():
         if "dasharray" in m.group(1) and float(a.get("height", 1) or 0) == 0:
             pytest.fail("the chance reference is still a zero-height dashed rect, which does not "
                         "render; emit a <line> when the null's two endpoints coincide")
+
+
+@pytest.mark.parametrize("name", FIGURES)
+def test_no_two_text_lines_are_drawn_on_top_of_each_other(name):
+    """⛔ ONE SENTENCE ADDED TO A BOTTOM-ANCHORED BLOCK OVERPRINTED THE AXIS TITLE (2026-08-18).
+
+    Supplementary Figure S1's caveat block was laid out UPWARD from a fixed canvas height, so
+    adding a colour key to it — itself the fix for a different finding — pushed the block's first
+    line onto the x-axis title's baseline. Both rendered on top of each other and neither could be
+    read: the figure's only horizontal axis label was destroyed and so was the caveat, mid-sentence.
+    A blind screen filed it as a BLOCKER and measured the overlap at 87% of the smaller box.
+
+    ⚠ THE EXISTING GUARDS COULD NOT SEE IT. One checks text against the CANVAS edges and one checks
+    the key against the PLOT; neither compares text to text, so a collision entirely inside the
+    canvas passed both. The canvas height is now derived from what the text needs, and this asserts
+    the property that failure had: no two lines may share a baseline band and overlap horizontally.
+    """
+    svg = _read(name)
+    boxes = []
+    for attrs, text in _elements(svg):
+        if "transform" in attrs:
+            continue
+        try:
+            x, y = float(attrs.get("x", 0)), float(attrs.get("y", 0))
+        except ValueError:
+            continue
+        size = float(attrs.get("font-size", 12))
+        width = _text_width(text, size)
+        anchor = attrs.get("text-anchor")
+        if anchor == "middle":
+            x -= width / 2
+        elif anchor == "end":
+            x -= width
+        boxes.append((y, x, x + width, size, text))
+
+    clashes = []
+    for i, (y1, a1, b1, s1, t1) in enumerate(boxes):
+        for y2, a2, b2, s2, t2 in boxes[i + 1:]:
+            #: Two lines collide when their baselines sit within the taller glyph height of each
+            #: other AND their horizontal extents overlap by more than a hair.
+            if abs(y1 - y2) >= max(s1, s2) * 0.75:
+                continue
+            overlap = min(b1, b2) - max(a1, a2)
+            if overlap > 2:
+                clashes.append((round(overlap), t1[:44], t2[:44]))
+    assert not clashes, (
+        f"{name} draws {len(clashes)} pair(s) of text on top of each other, which render as "
+        "overprinted and unreadable:\n"
+        + "\n".join(f"  {o} units of overlap: {a!r} over {b!r}" for o, a, b in clashes[:4]))

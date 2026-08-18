@@ -51,7 +51,7 @@ wild-type *NR4A3*. Arbitrary sequence pairs a parent far less often: scrambles r
 random-offset chimeras of the same two parents 23.8%, against 45.8% observed. Nor is that excess
 resolved as specific to the disease's own breakpoints: an exon-terminus chimera no patient is
 reported to carry reaches 40.6%. Lengthening the catalytic gap quiets the transcriptome but cannot
-separate the fusion from its parents: the junction-unique bases a longer gap wins and the
+separate the fusion from its parents. The junction-unique bases a longer gap wins and the
 wild-type-parent duplex it concedes are complements within one gap: every base won on one side
 is a base conceded on the other. The work is computational: no wet-lab
 experiment was performed, nothing has been synthesised or tested, and nothing here asserts efficacy,
@@ -567,9 +567,10 @@ verbatim — a property of the donor rather than of the acceptor. The sequence b
 exon 13 ends
 CACTCCGTGGAG against the last twelve nucleotides of *NR4A3* intron 1, CCTTGCCTGTAG, matching at 7 of
 12 positions with a shared terminal AG, whereas *TAF15* exon 6 ends ACCACACACAAG and matches at 4,
-mismatching in every register — which is why the *TAF15* exon-6 seam returns no such design and the
-*EWSR1* exon-13 seam returns two. Both join *NR4A3* exon 2, and both are named here by their donor
-exon. A design must therefore be checked against the acceptor gene's unspliced
+mismatching in every register — which is why *TAF15* exon 6 joined to *NR4A3* exon 2
+returns no such design while *EWSR1* exon 13 joined to *NR4A3* exon 2 returns two. Both are
+named here by donor and acceptor together, because *TAF15* exon 6 is also the donor of the
+intron-2 cryptic-exon seam above, which is a different seam and does return one. A design must therefore be checked against the acceptor gene's unspliced
 sequence whenever its acceptor half is not exonic in the mature transcript, and no spliced-transcript
 screen substitutes for it.
 

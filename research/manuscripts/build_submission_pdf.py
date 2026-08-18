@@ -408,7 +408,15 @@ def inline(text):
     return re.sub(r"\x00(\d+)\x00", lambda m: stash[int(m.group(1))], text)
 
 
-def render_table(rows):
+def render_table(rows, label=None):
+    """`label` rides in the <thead>, which paged media REPEATS on every continuation page.
+
+    ⛔ A CONTINUATION PAGE CARRIED NO TABLE IDENTITY (blind screen of the built journal PDF,
+    2026-08-18). Four of the seven tables run over two or three landscape pages, and each
+    continuation opened directly with a repeated column-header row — no number, no "(continued)".
+    A reader landing on one had to page backwards to learn which table they were in. The column
+    headers repeat because they are in <thead>; the table's own name was not, so it did not.
+    """
     def cells(line):
         line = line.strip()
         if line.startswith("|"):
@@ -418,7 +426,10 @@ def render_table(rows):
         return [c.strip() for c in line.split("|")]
 
     head, body = cells(rows[0]), [cells(r) for r in rows[2:]]
-    out = ["<table>", "<thead><tr>"]
+    out = ["<table>", "<thead>"]
+    if label:
+        out.append(f'<tr class="tablename"><th colspan="{len(head)}">{inline(label)}</th></tr>')
+    out.append("<tr>")
     out += [f"<th>{inline(c)}</th>" for c in head]
     out.append("</tr></thead><tbody>")
     for row in body:
@@ -475,7 +486,8 @@ def markdown_to_html(text, floats=None):
             while i < len(lines) and lines[i].strip().startswith("|"):
                 rows.append(lines[i])
                 i += 1
-            out.append('<div class="tablewrap">' + render_table(rows) + "</div>")
+            out.append('<div class="tablewrap">'
+                       + render_table(rows, _CURRENT_TABLE_LABEL) + "</div>")
             continue
 
         item = re.match(r"^(\s*)([-*]|\d+\.)\s+(.*)$", line)
@@ -519,6 +531,12 @@ def markdown_to_html(text, floats=None):
     return "\n".join(out)
 
 
+#: The label a continuation page carries, e.g. "Table 5 (continued on this page)". Set by
+#: `render_float` for the duration of one table's render, because `markdown_to_html` reaches the
+#: grid without knowing which display item it belongs to.
+_CURRENT_TABLE_LABEL = None
+
+
 def render_float(kind, number, payload, wide):
     """A table or figure set as a float, with its caption."""
     classes = ["float", kind]
@@ -526,11 +544,16 @@ def render_float(kind, number, payload, wide):
         classes.append("landscape-float")
     else:
         classes.append("span-float")
+    global _CURRENT_TABLE_LABEL
     if kind == "figure":
         svg, legend = payload
         inner = f'<div class="panel">{svg}</div>' + markdown_to_html(legend)
     else:
-        inner = markdown_to_html(payload)
+        _CURRENT_TABLE_LABEL = f"Table {number}"
+        try:
+            inner = markdown_to_html(payload)
+        finally:
+            _CURRENT_TABLE_LABEL = None
     return f'<div class="{" ".join(classes)}" id="{kind}{number}">{inner}</div>'
 
 
@@ -624,6 +647,9 @@ table { border-collapse: collapse; width: 100%; font-family: 'Liberation Sans', 
         sans-serif; line-height: 1.28; }
 thead { display: table-header-group; }
 tr { break-inside: avoid; }
+tr.tablename th { text-align: left; font-weight: 700; background: #eef3f8; color: #123a5e;
+                  border-bottom: 0; letter-spacing: 0.01em; }
+
 /* ⚠ `overflow-wrap: anywhere` — the obvious choice for a twelve-column table — also shrinks a
    cell's MIN-CONTENT width to a single character, so the browser sized every column far too narrow
    and broke headers mid-word ("designs screene / d"). `break-word` wraps at spaces and breaks only
@@ -663,6 +689,9 @@ li { margin-bottom: 4pt; text-align: justify; }
    anyway and only the page before it was left short. The caption is instead held to what follows it
    by `break-after: avoid` below, which is free when the two do fit and harmless when they cannot. */
 .tablewrap { break-inside: avoid; margin: 0 0 12pt 0; }
+tr.tablename th { text-align: left; font-weight: 700; background: #eef3f8; color: #123a5e;
+                  border-bottom: 0; letter-spacing: 0.01em; }
+
 table { font-size: 7.4pt; }
 /* Each display item takes its own page, EXCEPT the first: `break-before: page` on every figure left
    the "Figure legends" heading and its two-sentence preamble alone on a page with nothing under
