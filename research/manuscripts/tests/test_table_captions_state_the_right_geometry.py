@@ -114,3 +114,57 @@ def test_every_table_printing_a_sequence_states_a_backbone(name, text):
     assert "phosphorothioate" in text, (
         f"{name} prints orderable sequences without naming the backbone; ordering the bases as "
         "unmodified DNA gives a different molecule")
+
+
+# ── the other caption claims in the reagent-hazard family ─────────────────────────────────────
+#
+# ⚠ DELIBERATELY NARROW. The repository's own linter lesson is that a checker which flags true
+# statements gets ignored, which is worse than no checker. So this does NOT parse arbitrary
+# "every/all/none" English out of the captions — it asserts the specific structural claims whose
+# failure would put a wrong reagent in a reader's hands, which is the class the geometry defect
+# belonged to.
+
+_CONTROLS_HAVE_NO_ROW = "The three controls §4 requires have no row and can have none"
+
+#: The three §4 controls, as Table 5's caption names them. If one ever gained a row it would appear
+#: with a sequence cell like every other row, and a reader would order a control that is specified
+#: as a CLASS — "a gapmer against an abundant housekeeping transcript" — or as a draw from a
+#: shuffling procedure, neither of which is one molecule.
+_CONTROL_ROW_LABELS = ("isogenic comparator", "positive control", "scrambled control")
+
+
+def _table(name):
+    for found, text in TABLES_FOUND:
+        if found == name:
+            return text
+    pytest.skip(f"{name} is not in the built document")
+
+
+def test_the_controls_that_have_no_row_really_have_none():
+    text = _table("Table 5")
+    if _CONTROLS_HAVE_NO_ROW not in text:
+        pytest.skip("Table 5's caption no longer makes this claim")
+    rows = [line for line in text.splitlines() if line.startswith("|")]
+    for label in _CONTROL_ROW_LABELS:
+        offenders = [r for r in rows if label in r.lower()]
+        assert not offenders, (
+            f"Table 5's caption says the three §4 controls have no row, but a row names "
+            f"{label!r}: {offenders[0][:120]}. Either the row is wrong or the caption is.")
+
+
+def test_no_table_row_carries_a_sequence_without_a_geometry_the_document_defines():
+    """A sequence cell is orderable; a length the document never names is not interpretable.
+
+    Every sequence this deposit prints is 16, 18 or 20 nucleotides, which are the three
+    architectures §6 specifies. A cell of any other length means either a typesetting corruption or
+    a design from a geometry nothing in the paper describes — and both reach a reader as an
+    orderable string.
+    """
+    stray = {}
+    for name, text in TABLES_FOUND:
+        for seq in set(_SEQUENCE.findall(text)):
+            if len(seq) not in set(_ARCHITECTURE_LENGTH.values()):
+                stray.setdefault(name, []).append(f"{seq} ({len(seq)}-mer)")
+    assert not stray, (
+        "sequences printed at a length no architecture in this paper defines: "
+        + "; ".join(f"{k}: {', '.join(v)}" for k, v in sorted(stray.items())))
