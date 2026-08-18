@@ -82,6 +82,38 @@ def _named_in_documents():
     return out
 
 
+#: ⛔⛔ ONE GEOMETRY VOCABULARY, BECAUSE THE THREE CONDEMNED DESIGNS WERE THE ONES OUTSIDE IT
+#: (2026-08-17). The source artifacts spell the same architecture two ways: the panel and gap
+#: artifacts write `5-6-5`, the non-canonical-acceptor screen writes `5-6-5 (LNA-DNA-LNA)`. The
+#: shipped CSV inherited both — 176 rows against 30 — and ALL THREE `do_not_order` designs were in
+#: the 30. So a reader filtering `geometry == "5-6-5"`, the spelling 85% of the file uses, received
+#: a list of 5-6-5 designs with every design the paper condemns silently removed from it. That is
+#: this manifest's own founding hazard turned inward, and it is worse than the PDF one it was built
+#: to fix, because a filtered CSV looks complete.
+#:
+#: ⚠ NORMALISED, NOT REWRITTEN AT SOURCE. The parenthetical is correct where the screen writes it;
+#: what cannot stand is two vocabularies in one column of one file. The chemistry it spells out is
+#: in this file's header for every row, so nothing is lost by dropping it here.
+_GEOMETRY_SYNONYMS = {"5-6-5 (LNA-DNA-LNA)": "5-6-5",
+                      "5-8-5 (LNA-DNA-LNA)": "5-8-5",
+                      "5-10-5 (LNA-DNA-LNA)": "5-10-5"}
+
+
+def _geometry(raw):
+    """The one spelling of a gapmer architecture this file uses."""
+    text = str(raw or "").strip()
+    return _GEOMETRY_SYNONYMS.get(text, text)
+
+
+#: Fields where two sources naming the same sequence MUST agree, and where a disagreement is a
+#: defect to surface rather than a tie to break. Deliberately not the whole record: `role`,
+#: `junction` and `clinical_tier` are the naming source's editorial view of the design and the
+#: blocks legitimately word them differently — the first source's stands.
+_MERGED_FIELDS = ("gap_level_margin", "mature_parent_duplex_through_gap_bp",
+                  "mature_parent_duplex_gene", "parent_paired_gap_dna_nt",
+                  "parent_seam_hybrid_bp", "geometry", "length_nt")
+
+
 def _rows():
     """Every design the deposit can name, with the properties its tables print.
 
@@ -91,15 +123,40 @@ def _rows():
       * the noncoding-acceptor screen — the exon-2 and cryptic-exon seams, including the three
         designs condemned on the un-rearranged allele.
     """
-    rows, seen = [], set()
+    rows, by_sequence = [], {}
 
     def add(**kw):
+        """First source to name a sequence owns its row; later sources FILL ITS BLANKS.
+
+        ⛔ WHY NOT FIRST-WINS-AND-DISCARD (2026-08-17). Each artifact computes a different subset of
+        the parent-duplex quantities: the per-junction table has the mature-parent SEARCH and not
+        the seam arithmetic, the gap-length artifact has all three. A design present in both — the
+        lead 16-mer is — was written from whichever block ran first and the other block's columns
+        were dropped on the floor, so the lead shipped with `parent_paired_gap_dna_nt` empty while
+        the number sat in an artifact this generator had already opened. An empty cell would then
+        have meant "the block that won the race did not compute this", which is not a fact about
+        the design and is not what the header says a blank means.
+
+        ⚠ FILLS ONLY WHAT IS EMPTY, AND NEVER OVERWRITES. If two artifacts disagree about a value
+        the merge must not silently pick one, so a conflict raises instead — that disagreement
+        would be a real defect upstream and hiding it here is how it would ship.
+        """
         seq = kw["sequence"]
-        if seq in seen:
-            return
-        seen.add(seq)
         kw["length_nt"] = len(seq)
-        rows.append(kw)
+        first = by_sequence.get(seq)
+        if first is None:
+            by_sequence[seq] = kw
+            rows.append(kw)
+            return
+        for field, value in kw.items():
+            if value in ("", None):
+                continue
+            held = first.get(field)
+            if held in ("", None):
+                first[field] = value
+            elif held != value and field in _MERGED_FIELDS:
+                raise RuntimeError(
+                    f"{seq}: sources disagree on {field}: {held!r} vs {value!r}")
 
     per = _load("aso-per-junction-table.json")
     for j in per["junctions"]:
@@ -113,9 +170,14 @@ def _rows():
                 junction=label,
                 geometry="5-6-5",
                 gap_level_margin=d.get("gap_specificity_margin"),
-                parent_seam_duplex_bp=d.get("parent_duplex_bp"),
+                # ⚠ `parent_duplex_bp`/`parent` in THIS artifact are the search quantity — the same
+                # measurement the gap artifact calls `mature_parent_duplex_through_whole_gap_bp`,
+                # under a shorter name. The seam arithmetic is not computed here, so it stays blank
+                # rather than being back-derived: a value this table never held would be ours.
+                mature_parent_duplex_through_gap_bp=d.get("parent_duplex_bp"),
+                mature_parent_duplex_gene=d.get("parent") or "",
                 parent_paired_gap_dna_nt="",
-                parent_gene=d.get("parent"),
+                parent_seam_hybrid_bp="",
                 # ⚠ THE POLARITY IS THE ARTIFACT'S, NOT A RE-DERIVATION. `parent_is_liability` true
                 # means the design pairs a wild-type parent through the whole catalytic gap, which
                 # is this paper's central negative — not a quality score.
@@ -138,9 +200,15 @@ def _rows():
         add(sequence=seq, junction=d.get("junction", ""),
             geometry={16: "5-6-5", 18: "5-8-5", 20: "5-10-5"}.get(n, ""),
             gap_level_margin=d.get("gap_specificity_margin"),
-            parent_seam_duplex_bp=d.get("parent_seam_hybrid_bp"),
+            # ⚠ THE ONLY BLOCK THAT CARRIES ALL THREE. `donor` is NOT a parent-duplex gene — it is
+            # the design's own donor partner — and it used to be written into the gene column
+            # beside a duplex length it has nothing to do with. The duplex gene here is the one the
+            # search returned, which is null when the search found nothing.
+            mature_parent_duplex_through_gap_bp=d.get("mature_parent_duplex_through_whole_gap_bp"),
+            mature_parent_duplex_gene=d.get("mature_parent_duplex_gene") or "",
             parent_paired_gap_dna_nt=d.get("parent_paired_gap_dna_nt"),
-            parent_gene=d.get("donor", ""), pairs_a_wild_type_parent_through_the_gap="",
+            parent_seam_hybrid_bp=d.get("parent_seam_hybrid_bp"),
+            pairs_a_wild_type_parent_through_the_gap="",
             role="screened design", do_not_order="", clinical_tier="")
 
     nc = _load("noncoding-acceptor", "aso-noncoding-acceptor-screened-table.json")
@@ -150,7 +218,7 @@ def _rows():
     nc_geom = nc.get("geometry")
     if isinstance(nc_geom, dict):
         nc_geom = nc_geom.get("architecture") or nc_geom.get("oligo_len") or ""
-    nc_geom = str(nc_geom or "")
+    nc_geom = _geometry(nc_geom)
     wt = nc.get("⭐_wild_type_NR4A3_cleavage_liability", {})
     condemned = set(wt.get("designs_cleaving_wild_type_NR4A3") or [])
     condemned |= set((wt.get("positive_control") or {}).get("observed_designs") or [])
@@ -162,9 +230,9 @@ def _rows():
             bad = seq in condemned
             add(sequence=seq, junction=j.get("junction_label", ""), geometry=nc_geom,
                 gap_level_margin=d.get("gap_specificity_margin"),
-                parent_seam_duplex_bp=d.get("parent_duplex_bp"),
-                parent_paired_gap_dna_nt="",
-                parent_gene=d.get("parent") or "",
+                mature_parent_duplex_through_gap_bp=d.get("parent_duplex_bp"),
+                mature_parent_duplex_gene=d.get("parent") or "",
+                parent_paired_gap_dna_nt="", parent_seam_hybrid_bp="",
                 pairs_a_wild_type_parent_through_the_gap=bool(d.get("parent_is_liability")),
                 role="non-canonical acceptor seam",
                 do_not_order=("DO NOT ORDER — pairs its whole catalytic gap against the patient's "
@@ -184,9 +252,10 @@ def _rows():
             if not seq:
                 continue
             bad = seq in condemned
-            add(sequence=seq, junction=label, geometry=d.get("architecture", ""),
+            add(sequence=seq, junction=label, geometry=_geometry(d.get("architecture")),
                 gap_level_margin=d.get("gap_specificity_margin"),
-                parent_seam_duplex_bp="", parent_paired_gap_dna_nt="", parent_gene="",
+                mature_parent_duplex_through_gap_bp="", mature_parent_duplex_gene="",
+                parent_paired_gap_dna_nt="", parent_seam_hybrid_bp="",
                 pairs_a_wild_type_parent_through_the_gap=bool(bad),
                 role="intron-2 cryptic-exon seam",
                 do_not_order=("DO NOT ORDER — pairs its whole catalytic gap against the patient's "
@@ -198,7 +267,8 @@ def _rows():
     # manifest exists to prevent — so they are added explicitly, last, and only if still missing.
     for seq in sorted(condemned):
         add(sequence=seq, junction="", geometry="5-6-5", gap_level_margin="",
-            parent_seam_duplex_bp="", parent_paired_gap_dna_nt="", parent_gene="",
+            mature_parent_duplex_through_gap_bp="", mature_parent_duplex_gene="",
+            parent_paired_gap_dna_nt="", parent_seam_hybrid_bp="",
             pairs_a_wild_type_parent_through_the_gap=True, role="condemned design",
             do_not_order=("DO NOT ORDER — pairs its whole catalytic gap against the patient's own "
                           "un-rearranged NR4A3 allele"), clinical_tier="")
@@ -207,15 +277,36 @@ def _rows():
     return rows
 
 
-#: ⛔ TWO PARENT-DUPLEX QUANTITIES, NAMED APART (2026-08-17). This shipped one column called
-#: `longest_parent_duplex_bp`, carrying the SEAM HYBRID length — while Table 5 prints a
-#: column headed "longest mature-parent duplex THROUGH THE GAP", which is a different
-#: measurement. For the lead design they read 8 and 3; for the 5-8-5 control, 9 and none.
-#: A reader joining the table to this file on the obvious-looking column therefore got a
-#: number that answered a question they had not asked. Both are carried, each named for
-#: what it is, and neither name can be mistaken for the other.
+#: ⛔⛔ THREE PARENT-DUPLEX QUANTITIES, AND TWO OF THEM READ 8 FOR THE LEAD DESIGN (2026-08-17).
+#: This file first shipped ONE column, `longest_parent_duplex_bp`; a first correction split it into
+#: two and asserted in the header that "the paper's tables print the second". Reading the tables
+#: against the artifacts showed that claim was FALSE and the split still wrong, because there are
+#: three quantities, not two, and they are computed two different ways:
+#:
+#:   mature_parent_duplex_through_gap_bp  a SEARCH over every window of all six mature parent
+#:                                        transcripts for a duplex spanning the design's whole
+#:                                        catalytic gap. The parent it finds is usually NOT the
+#:                                        design's own parent. ⭐ THIS is the quantity Tables 2, 3,
+#:                                        5 and 7 print. 0 means the search found none.
+#:   parent_paired_gap_dna_nt             ARITHMETIC on the design's own seam: max(donor, acceptor)
+#:                                        bases of gap DNA, guaranteed by construction rather than
+#:                                        found. Complement of the gap-level margin.
+#:   parent_seam_hybrid_bp                that run plus the LNA wing on the same side — the whole
+#:                                        contiguous hybrid the design presents to its own parent.
+#:
+#: For the lead 5-6-5 the first and third BOTH read 8, from different genes (*TFG* by search;
+#: *EWSR1*/*NR4A3* by arithmetic) — so a wrong join looks right on the very design a reader is most
+#: likely to check. They separate on the 5-8-5 control, where the search returns 0 and the seam
+#: hybrid is 9. Worse, the two-column version carried the SEARCH quantity for rows sourced from the
+#: per-junction and non-canonical-acceptor tables and the ARITHMETIC one for rows sourced from the
+#: gap-length artifact — one column name, two quantities, decided by a provenance the CSV did not
+#: print. Each now has its own column, populated only where that quantity is actually measured.
+#:
+#: `test_aso_sequence_manifest.py` holds the join: every duplex figure the submission tables print
+#: must equal this file's `mature_parent_duplex_through_gap_bp` for the same sequence.
 _FIELDS = ("sequence", "length_nt", "geometry", "junction", "gap_level_margin",
-           "parent_seam_duplex_bp", "parent_paired_gap_dna_nt", "parent_gene",
+           "mature_parent_duplex_through_gap_bp", "mature_parent_duplex_gene",
+           "parent_paired_gap_dna_nt", "parent_seam_hybrid_bp",
            "pairs_a_wild_type_parent_through_the_gap", "role", "clinical_tier", "do_not_order")
 
 _HEADER = [
@@ -232,10 +323,17 @@ _HEADER = [
     "# five-nucleotide LNA wings around gaps of eight and ten. Ordering the bases without the",
     "# modifications gives a different molecule, about which nothing in the paper is true.",
     "#",
-    "# COLUMNS: parent_seam_duplex_bp is the longest duplex the design forms with a wild-type",
-    "# parent across its seam; parent_paired_gap_dna_nt is the contiguous DNA of the catalytic",
-    "# gap that one parent pairs. They are DIFFERENT quantities and the paper's tables print",
-    "# the second. Do not join one to the other.",
+    "# ⛔ THREE PARENT-DUPLEX COLUMNS, AND THEY ARE NOT INTERCHANGEABLE. Join on the right one:",
+    "#   mature_parent_duplex_through_gap_bp — a SEARCH over all six mature parent transcripts for a",
+    "#     duplex spanning this design's whole catalytic gap, with the gene it found in",
+    "#     mature_parent_duplex_gene. 0 means the search found none. ⭐ This is the quantity the",
+    "#     paper's tables print under 'longest mature-parent duplex through the gap'.",
+    "#   parent_paired_gap_dna_nt — ARITHMETIC on the design's OWN seam: gap nucleotides one of its",
+    "#     own two parents pairs by construction. Not a search result.",
+    "#   parent_seam_hybrid_bp — that run plus the LNA wing beside it.",
+    "# For the lead 16-mer the first and third both read 8, from DIFFERENT genes, so a wrong join",
+    "# looks right on that design; they separate elsewhere. A blank means the source artifact for",
+    "# that row does not compute the quantity — not that it is zero.",
     "#",
     "# READ do_not_order FIRST. A non-empty value means the paper names that design as one NOT to be",
     "# carried forward.",

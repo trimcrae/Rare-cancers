@@ -262,7 +262,7 @@ appears in any of the nine multi-partner sets: all nine draw only on *EWSR1*, *T
 *TCF12* reaches multi-partner coverage only under a relaxed criterion that tolerates mismatches in
 the oligonucleotide wings. That check had little power to fail, since any non-homologous donor would
 be excluded, so it does not separate FET paralogy from incidental exon homology. The stronger
-evidence for paralogy is that four additional two-partner sets are also FET-only.
+evidence for paralogy is that the remaining four of the nine, which span two partners rather than three, are also FET-only.
 
 Specificity does not sort by partner. Taking at each junction the lowest count any of its
 designs achieves after the orientation filter — a per-design minimum, which is in the released
@@ -345,7 +345,7 @@ independent measurement: it follows from their having no sense-strand hit to sco
 Every junction was then re-screened at a tenfold deeper alignment ceiling, with retention raised to
 match so that no hit list is truncated: 38 junctions and 187 design records. The result withdraws
 most of the set above. The 187 are the panel's 190 less three that failed at the remote service on
-this pass, two at *FUS* exon 5 and one at *TFG* exon 2. Each had already returned 23, 41 and 31
+this pass, two at *FUS* exon 5 and one at *TFG* exon 2. They had returned 23, 41 and 31
 near-matches at the default depth, so none was a candidate and no count below depends on them. Only
 three of the nine still carry no sense-strand near-match: 5′-AGGGCATATCGGAGTC-3′ at *FUS* exon 8,
 5′-GGGCATATCCGACATG-3′ at *TAF15* exon 1 and 5′-GGCATATCAAGCGCTG-3′ at *TCF12* exon 7, each of which
@@ -517,7 +517,9 @@ gap-level margin 2 and 51 gap-paired near-matches over 7 loci; 5′-AGTGGGCTCTCC
 exon 13, at margin 3 and 25 over 6; 5′-AGTGGGCTCTTGTGTG-3′ at *TAF15* exon 6, at margin 3 and 128
 over 6; and 5′-AGTGGGCTCTTCCATT-3′ at *PGR* exon 2, a seam reported in a single
 patient,<sup>28</sup><!--PMID:36103645--> at margin 3 and 51 over 14 (Table 5). None of the four is
-clean, and the least loaded is the least dirty of five dirty designs rather than a different kind of
+clean. Each of these seams is tiled by five junction-spanning registers and no register at any of
+them is clean either, so the least loaded of the four is the least dirty of its own seam's five
+rather than a different kind of
 result. They are reported beside the panel and never pooled into it, because the grade that excludes
 their junctions from the 38 is unchanged. *PGR* carries a further caveat: it is a sixth partner,
 outside the five modelled here, and §6 lists no transcript accession for it, so its design is
@@ -976,7 +978,7 @@ is a composition the repository's pooling policy does not reach. Four bounds sit
 in different directions. The interval is wide for the denominators rather than the estimate: taking
 each breakpoint fraction to its own Wilson bound spans 39.9% to 82.8%, the *EWSR1* arm resting on 15
 tumours and the *TAF15* arm on three. **That interval propagates the breakpoint fractions only.** The
-partner shares are held at their point estimates, and their own Wilson intervals are 67.2–87.8% for
+partner shares are held at their point estimates, and their own Wilson intervals are 67.2–87.7% for
 *EWSR1* and 8.4–26.9% for *TAF15*, so an interval that varied all four quantities would be wider
 than the one reported. The third decimal is not resolved by the data behind it: the *TAF15* arm is
 three tumours out of three, so one tumour breaking elsewhere moves the total by about 5.2 percentage
@@ -1015,7 +1017,8 @@ beside it (§2.6). Eight of those nine designs are taken through all five screen
 donor's unspliced sequence, so its pre-mRNA compartment is unmeasured rather than clean for the
 reason §2.6 gives. That is a statement about how far the screening reached
 and not a coverage figure, and it displaces nothing above it: how many patients a reagent set
-reaches is the ladder's question, priced on the single series behind it. SI §S6 carries the rest
+reaches is the ladder's question, priced on the single series behind it. The Supplementary
+Information (SI) §S6 carries the rest
 of the ladder's bookkeeping — the count of those seams, a second basis that prices them on the whole
 retrieved breakpoint record, and the two that move the figure by exactly zero.
 
@@ -1393,8 +1396,8 @@ reading to give, and it should be read as nothing else.
 
 **Transcript models.** Canonical transcripts for the five partner genes and for *NR4A3* were obtained
 from Ensembl.<sup>40</sup><!--PMID:39656687--> Each model was self-checked before use: exon lengths must sum to the spliced cDNA, the
-CDS must occur exactly once within it, and translation of the CDS must reproduce the annotated
-protein. Per-exon coding content was additionally cross-checked against an independent exon audit for
+coding sequence (CDS) must occur exactly once within it, and translation of the CDS must
+reproduce the annotated protein. Per-exon coding content was additionally cross-checked against an independent exon audit for
 *EWSR1* and *NR4A3*; for the other four partners that audit does not exist, and the weaker check is
 recorded per gene in the released artefacts. Every exon number, coordinate and length in this paper
 is relative to one specific model per gene, and the canonical transcript of a gene can change between
@@ -1644,7 +1647,10 @@ need in order to re-derive a design or re-run a screen, and the coverage ladder'
 ## Figure legends
 
 Figures 1 to 3 are the main-text figures. Supplementary Figure S1 is printed here with them and
-travels with the archive; the Supplementary Information carries no figure of its own.
+travels with the archive; the Supplementary Information carries no figure of its own. The two
+S-numbered series are independent and both start at S1: Supplementary Figure S1 is the single
+supplementary figure, and SI §S1 to §S6 are the numbered sections of the Supplementary Information.
+Neither is a cross-reference to the other.
 
 **Figure 1. Reading-frame compatibility across the NR4A3 fusion junction space.** All 231 donor-exon ×
 acceptor-exon pairs across *EWSR1*, *TAF15*, *TCF12*, *FUS* and *TFG*, graded against the frame
@@ -1657,10 +1663,10 @@ single column.
 12, *TAF15* exon 11 and *FUS* exon 10 joined to *NR4A3* exon 3, aligned at the breakpoint. Blue,
 donor exon; green, acceptor exon; positions at which the three donors differ are boxed as well as
 coloured, for greyscale and colour-blind readers. The shaded box is
-the target window of 5′-GGGCATATCATCAAAC-3′, with the 5-6-5 gapmer architecture below it and its
-gap-level margin of three alongside. The three
-donors are identical over the ten nucleotides before the breakpoint, which is what makes one
-oligonucleotide junction-spanning at all three junctions.
+the target window of 5′-GGGCATATCATCAAAC-3′, with the 5-6-5 locked-nucleic-acid (LNA)/DNA/LNA gapmer architecture below it and its
+gap-level margin of three alongside. The three donors are the FET family — *FUS*, *EWSR1* and *TAF15* — and they are identical over
+the ten nucleotides before the breakpoint, which is what makes one oligonucleotide
+junction-spanning at all three junctions.
 Coverage is predicted from sequence and has not been measured.
 
 **Figure 3. The margin a longer catalytic gap wins is the parent duplex it concedes.** (A) The

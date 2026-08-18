@@ -145,13 +145,31 @@ run_step() {
 run_step "locus collapse"      "python3 $MOD/junction_aso_locus_collapse.py --write" ""
 run_step "chance baseline"     "python3 $MOD/offtarget_chance_baseline.py"           ""
 run_step "duplex thermodynamics" "python3 $MOD/junction_aso_thermo.py"   "python3 $MOD/junction_aso_thermo.py --check"
+# ⛔ THE PER-JUNCTION TABLE WAS NOT IN THIS CHAIN, AND FIVE ARTIFACTS DOWNSTREAM READ IT (2026-08-17).
+# `aso-per-junction-table.json` supplies every clinical tier, best-available design and parent-duplex
+# figure that Tables 2, 3 and 5, the coverage ladder and the canonical sequence file are built from —
+# and editing its generator changed nothing, because nothing regenerated it. The tier correction two
+# blind screens filed as a MAJOR reached the submission tables (which re-read the refs) and NOT the
+# artifact, so the deposit would have shipped with the two halves of one fix disagreeing. Runs
+# offline in 0.3 s and is byte-deterministic on rerun; it belongs before every consumer below.
+run_step "per-junction table"  "python3 $MOD/aso_per_junction_table.py"              ""
+run_step "non-canonical acceptor table" "python3 $MOD/aso_noncoding_acceptor_screened_table.py" ""
 # ⚠ LABELLED BY WHAT EACH PANEL SHOWS, NEVER BY ITS FIGURE NUMBER (re-anchored 2026-08-17). These
 # read "figure 1/2/3" until the numbering moved twice underneath them — the chance-baseline panel
 # became Supplementary Figure S1 on 2026-08-15, and the seam and gap-length panels swapped on
 # 2026-08-17 when the deposit was renumbered to citation order — leaving a step label that named a
 # figure this chain was not drawing. A title travels with its content; a number does not, and the
 # manuscript's `Figure legends` section is the one home for which number each panel carries.
+#
+# ⛔ ALL FOUR PANELS, NOT THREE (2026-08-17). The gap-length panel was missing from this list and
+# from the `_regenerate` recipe inside `aso-figure-provenance.json`, while the provenance step
+# BELOW re-pinned its source hashes on every run. A chain that redraws three figures and blesses
+# four is worse than one that redraws none: it makes `--check` pass over a stale panel. The set of
+# steps here is now asserted against `aso_figure_provenance.GENERATORS` by
+# `research/manuscripts/tests/test_aso_figure_chain_is_complete.py`, so adding a fifth figure
+# without adding its step here fails preflight rather than shipping a figure nobody redrew.
 run_step "figure · junction space"     "python3 $FIG/aso_junction_space_figure.py"     ""
+run_step "figure · gap-length tradeoff" "python3 $FIG/aso_gap_length_figure.py"        ""
 run_step "figure · multipartner seam"  "python3 $FIG/aso_multipartner_seam_figure.py"  ""
 run_step "figure · chance baseline"    "python3 $FIG/aso_chance_baseline_figure.py"    ""
 run_step "figure submission formats" "python3 $FIG/svg_to_submission_formats.py"     ""

@@ -1,0 +1,193 @@
+"""The canonical sequence file must be joinable to the deposit's tables without a wrong answer.
+
+⛔ WHY. `fusion-junction-aso-sequences.csv` exists so that nobody has to copy an oligonucleotide out
+of a PDF. That only helps if a reader who joins it to a table gets the table's number back. Two
+defects found on 2026-08-17 broke that in opposite directions, and neither was visible in any check:
+
+  1. THREE PARENT-DUPLEX QUANTITIES, ONE COLUMN NAME. A mature-parent duplex found by SEARCH over
+     all six parent transcripts, the gap DNA a design's OWN parent pairs by arithmetic, and that run
+     plus its wing are three different measurements. The file shipped one column carrying the search
+     quantity for rows sourced from the per-junction table and the arithmetic one for rows sourced
+     from the gap-length artifact — the same header over two measurements, chosen by a provenance
+     the CSV never printed. For the lead 16-mer two of the three read 8, from DIFFERENT genes, so
+     the wrong join returns a right-looking number on the design a reader is likeliest to spot-check.
+
+  2. TWO SPELLINGS OF ONE GEOMETRY, AND THE CONDEMNED DESIGNS WERE IN THE MINORITY SPELLING. 176
+     rows said `5-6-5` and 30 said `5-6-5 (LNA-DNA-LNA)`; all three `do_not_order` designs were in
+     the 30. Filtering on the majority spelling returned a 5-6-5 list with every design the paper
+     condemns silently absent — a complete-looking list that is missing exactly the rows whose
+     purpose is to stop somebody ordering them.
+
+★ WHAT THIS ASSERTS. That the join works and the filters are safe, against the built tables document
+rather than against the generator's own idea of itself.
+"""
+from __future__ import annotations
+
+import csv
+import os
+import re
+
+import pytest
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+MAN = os.path.abspath(os.path.join(HERE, ".."))
+ASO = os.path.join(MAN, "aso")
+CSV_PATH = os.path.join(ASO, "fusion-junction-aso-sequences.csv")
+TABLES = os.path.join(ASO, "fusion-junction-aso-submission-tables.md")
+
+
+def _rows():
+    if not os.path.exists(CSV_PATH):
+        pytest.fail(f"the canonical sequence file is missing: {CSV_PATH}")
+    with open(CSV_PATH, encoding="utf-8") as fh:
+        return list(csv.DictReader(line for line in fh if not line.startswith("#")))
+
+
+ROWS = _rows()
+BY_SEQUENCE = {r["sequence"]: r for r in ROWS}
+
+
+def test_the_file_has_rows_at_all():
+    assert len(ROWS) > 500, f"only {len(ROWS)} rows — the generator has lost a source block"
+
+
+# ── 1. the three parent-duplex quantities stay distinguishable ────────────────────────────────
+
+def test_each_parent_duplex_quantity_has_its_own_column():
+    for column in ("mature_parent_duplex_through_gap_bp", "mature_parent_duplex_gene",
+                   "parent_paired_gap_dna_nt", "parent_seam_hybrid_bp"):
+        assert column in ROWS[0], (
+            f"{column} is not a column. The three parent-duplex quantities must each be named for "
+            "what they are; one shared column silently carries two measurements.")
+
+
+def test_no_column_is_named_so_vaguely_that_it_invites_the_wrong_join():
+    """The names this file shipped under, both of which read as 'the parent duplex' and were not."""
+    for retired in ("longest_parent_duplex_bp", "parent_seam_duplex_bp", "parent_gene"):
+        assert retired not in ROWS[0], (
+            f"{retired} is back. It does not say WHICH parent-duplex quantity it holds, which is "
+            "how one column came to carry two measurements decided by row provenance.")
+
+
+def test_the_seam_arithmetic_is_the_complement_of_the_gap_level_margin():
+    """`parent_paired_gap_dna_nt` is arithmetic, so it is checkable rather than merely carried."""
+    gaps = {"5-6-5": 6, "5-8-5": 8, "5-10-5": 10}
+    checked = 0
+    for r in ROWS:
+        paired, margin, gap = (r["parent_paired_gap_dna_nt"], r["gap_level_margin"],
+                               gaps.get(r["geometry"]))
+        if not paired or not margin or gap is None:
+            continue
+        checked += 1
+        assert int(paired) + int(margin) == gap, (
+            f"{r['sequence']}: {paired} + {margin} != {gap}. The margin and the parent-paired run "
+            "are complements within the gap; if they are not, one of them is the other quantity.")
+    assert checked > 100, f"only {checked} rows carried both — the merge has stopped filling blanks"
+
+
+def test_the_seam_hybrid_is_the_paired_run_plus_one_five_nucleotide_wing():
+    checked = 0
+    for r in ROWS:
+        paired, hybrid = r["parent_paired_gap_dna_nt"], r["parent_seam_hybrid_bp"]
+        if not paired or not hybrid:
+            continue
+        checked += 1
+        assert int(hybrid) - int(paired) == 5, (
+            f"{r['sequence']}: seam hybrid {hybrid} is not the paired run {paired} plus a "
+            "five-nucleotide wing — these are not the quantities their names claim")
+    assert checked > 100, f"only {checked} rows carried both"
+
+
+def test_a_design_carrying_both_eight_values_names_two_different_genes():
+    """The coincidence that makes a wrong join look right must be visible in the file itself."""
+    lead = BY_SEQUENCE.get("GGGCATATCATCAAAC")
+    assert lead is not None, "the lead 16-mer is not in the canonical file"
+    assert lead["mature_parent_duplex_through_gap_bp"] == "8"
+    assert lead["parent_seam_hybrid_bp"] == "8"
+    assert lead["mature_parent_duplex_gene"] == "TFG", (
+        "the search quantity's gene is what distinguishes it from the seam arithmetic; without it "
+        "the two 8s are indistinguishable")
+
+
+# ── 2. one vocabulary per column, so a filter cannot silently drop rows ────────────────────────
+
+def test_geometry_uses_one_spelling_per_architecture():
+    spellings = {r["geometry"] for r in ROWS if r["geometry"]}
+    assert spellings <= {"5-6-5", "5-8-5", "5-10-5"}, (
+        f"geometry is spelled {sorted(spellings)}. Two spellings of one architecture make a filter "
+        "on the common one return a list that looks complete and is not.")
+
+
+def test_every_condemned_design_survives_a_filter_on_its_own_geometry():
+    """The filter-safety property, stated as the hazard rather than as the spelling."""
+    condemned = [r for r in ROWS if r["do_not_order"]]
+    assert len(condemned) == 3, f"expected 3 do_not_order designs, found {len(condemned)}"
+    for r in condemned:
+        kept = [x for x in ROWS if x["geometry"] == r["geometry"]]
+        assert r in kept, (
+            f"{r['sequence']} is condemned but is dropped by a filter on its own geometry "
+            f"{r['geometry']!r} — the spelling is inconsistent with the rest of the file")
+        assert len(kept) > 50, (
+            f"{r['sequence']}'s geometry {r['geometry']!r} matches only {len(kept)} rows, so it is "
+            "in a minority spelling that a reader filtering the common one would miss")
+
+
+# ── 3. the join to the built tables actually returns the table's number ────────────────────────
+
+#: Table cells print the duplex as `8 bp (*TFG*)` or `8 (*TFG*)`, and a measured zero as `0 bp`
+#: or `0` with no gene.
+#:
+#: ⛔ THE ZERO FORM IS THE ONE THAT CAUGHT THE DEFECT, so it is matched here rather than skipped as
+#: an unparseable cell. The shipped canonical file gave 9 bp and 10 bp for the 5-8-5 and 5-10-5
+#: gap-length controls — designs Table 5 prints as named rows — where the paper prints no duplex at
+#: all. Those two rows ARE the paper's gap-length result: a longer gap removes the through-gap
+#: parent duplex. A reader checking that result against the deposit's own machine-readable record
+#: would have found it contradicted, and a parser that only matched `N (*GENE*)` cells would have
+#: passed over exactly the two rows where the file and the paper disagreed.
+_DUPLEX_CELL = re.compile(r"^\s*(\d+)(?:\s*bp)?\s*(?:\(\*([A-Z0-9]+)\*\))?\s*$")
+
+
+def _table_duplex_claims():
+    """(sequence, bp, gene) for every table row printing both a sequence and a parent duplex."""
+    if not os.path.exists(TABLES):
+        pytest.skip("the submission tables document has not been generated")
+    claims = []
+    for line in open(TABLES, encoding="utf-8"):
+        if not line.startswith("|"):
+            continue
+        cells = [c.strip() for c in line.strip().strip("|").split("|")]
+        seqs = [re.sub(r"^5[′']-|-3[′']$", "", c) for c in cells
+                if re.fullmatch(r"5[′']-[ACGT]{12,25}-3[′']", c)]
+        if len(seqs) != 1:
+            continue
+        for cell in cells:
+            #: ⚠ A BARE NUMERAL IS NOT NECESSARILY A DUPLEX CELL — margins, counts and coverage
+            #: figures are numerals too. Only cells carrying the unit or a gene are duplex claims;
+            #: a bare `0` would otherwise sweep in every zero in the row.
+            if not (re.search(r"\bbp\b", cell) or "(*" in cell):
+                continue
+            m = _DUPLEX_CELL.match(cell)
+            if m:
+                claims.append((seqs[0], int(m.group(1)), m.group(2) or ""))
+    return claims
+
+
+def test_the_tables_print_duplex_figures_this_file_can_be_joined_to():
+    claims = _table_duplex_claims()
+    assert len(claims) >= 8, (
+        f"only {len(claims)} table rows pair a sequence with a parent-duplex cell — the parser has "
+        "lost the tables' shape and this join test is no longer checking anything")
+
+
+@pytest.mark.parametrize("claim", _table_duplex_claims(), ids=lambda c: f"{c[0]}:{c[1]}bp")
+def test_every_duplex_figure_a_table_prints_matches_the_canonical_file(claim):
+    seq, bp, gene = claim
+    row = BY_SEQUENCE.get(seq)
+    assert row is not None, f"{seq} is printed in a table and is not in the canonical file"
+    assert row["mature_parent_duplex_through_gap_bp"] == str(bp), (
+        f"{seq}: the tables print {bp} bp, the canonical file says "
+        f"{row['mature_parent_duplex_through_gap_bp']!r} for the same quantity. A reader joining "
+        "the two gets a different number than the paper printed.")
+    assert row["mature_parent_duplex_gene"] == gene, (
+        f"{seq}: the tables name {gene or 'no gene'} as the parent forming the duplex, the "
+        f"canonical file names {row['mature_parent_duplex_gene']!r}")

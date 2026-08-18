@@ -52,6 +52,55 @@ FIGURES = {
     "aso-chance-baseline": ["offtarget-chance-baseline.json"],
 }
 
+#: figure stem -> the script that draws it.
+#:
+#: ⛔ WHY THIS IS DECLARED RATHER THAN LEFT INSIDE A PROSE RECIPE (2026-08-17). The `_regenerate`
+#: line this feeds was a hand-typed string naming THREE generators, and there are four. Following it
+#: redrew the junction-space, seam and chance-baseline panels, then ran this module, which re-pinned
+#: the hashes of ALL FOUR — including `aso-gap-length-tradeoff`, whose SVG had not been redrawn. So
+#: the one instrument that exists to distinguish a stale figure from a current one would have
+#: certified a stale one as current, and gone green doing it. `scripts/regenerate_aso_chain.sh` had
+#: the same three-of-four omission, from the same missing fact.
+#:
+#: The recipe below is now derived from this map, the chain script is asserted against it by
+#: `tests/test_aso_figure_chain_is_complete.py`, and `_assert_every_figure_has_a_generator` refuses
+#: to write a record at all if a fifth figure is ever added without one — because the failure mode
+#: is not a missing figure, it is a hash pinned over a drawing nobody made.
+GENERATORS = {
+    "aso-junction-space": "aso_junction_space_figure.py",
+    "aso-gap-length-tradeoff": "aso_gap_length_figure.py",
+    "aso-multipartner-seam": "aso_multipartner_seam_figure.py",
+    "aso-chance-baseline": "aso_chance_baseline_figure.py",
+}
+
+#: Run after every panel, in this order: the rasteriser turns whatever the drawing scripts just
+#: wrote into the PDF/PNG a portal wants, and this module pins the hashes only once both have run.
+FIGURE_POSTSTEPS = ("svg_to_submission_formats.py", "aso_figure_provenance.py")
+
+
+def _assert_every_figure_has_a_generator():
+    orphans = sorted(set(FIGURES) - set(GENERATORS))
+    if orphans:
+        raise SystemExit(
+            "⛔ these figures have provenance pinned but no declared generator: "
+            + ", ".join(orphans)
+            + "\n   Pinning a hash for a figure nobody redraws is how a stale panel passes --check."
+            + "\n   Add each to GENERATORS in this file, and add its step to "
+              "scripts/regenerate_aso_chain.sh.")
+    strays = sorted(set(GENERATORS) - set(FIGURES))
+    if strays:
+        raise SystemExit("⛔ GENERATORS names figures that have no provenance entry: "
+                         + ", ".join(strays))
+    for stem, script in sorted(GENERATORS.items()):
+        if not os.path.exists(os.path.join(HERE, script)):
+            raise SystemExit(f"⛔ {stem}: declared generator {script} does not exist")
+
+
+def regenerate_recipe():
+    """The command that actually rebuilds every figure this module pins — all of them."""
+    scripts = [GENERATORS[stem] for stem in sorted(FIGURES)] + list(FIGURE_POSTSTEPS)
+    return " && ".join(f"python3 research/manuscripts/figures/{s}" for s in scripts)
+
 
 def _hash(path):
     """Content hash of an artifact, or None if it is absent.
@@ -75,15 +124,11 @@ def _sources():
 
 def _record():
     return {
-        "_what": "content hashes of every artifact the three ASO figures were drawn from",
+        "_what": f"content hashes of every artifact the {len(FIGURES)} ASO figures were drawn from",
         "_why": ("nothing in CI regenerates these figures, so a reader cannot otherwise tell a "
                  "stale figure from a current one. `--check` compares these hashes against the "
                  "artifacts on disk."),
-        "_regenerate": ("python3 research/manuscripts/figures/aso_junction_space_figure.py && "
-                        "python3 research/manuscripts/figures/aso_multipartner_seam_figure.py && "
-                        "python3 research/manuscripts/figures/aso_chance_baseline_figure.py && "
-                        "python3 research/manuscripts/figures/svg_to_submission_formats.py && "
-                        "python3 research/manuscripts/figures/aso_figure_provenance.py"),
+        "_regenerate": regenerate_recipe(),
         "_what_this_does_not_check": ("whether a figure's LEGEND in the manuscript describes the "
                                      "figure. That is a separate failure and it happened: see this "
                                      "module's docstring and test_aso_submission_numbers.py."),
@@ -96,6 +141,7 @@ def _record():
 
 
 def main(argv):
+    _assert_every_figure_has_a_generator()
     rec = _record()
     if "--check" in argv:
         if not os.path.exists(OUT):

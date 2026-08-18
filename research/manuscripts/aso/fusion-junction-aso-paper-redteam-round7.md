@@ -573,6 +573,78 @@ earlier, under a slug named for the question it was asked rather than for the pa
 
 ---
 
+### 2m · ⛔ THE CANONICAL SEQUENCE FILE CONTRADICTED THE PAPER'S GAP-LENGTH RESULT — 2026-08-17
+
+Found by reading Tables 5 and 7 side by side to settle a cosmetic screener note (`none` in one, `0`
+in the other, same molecule, same quantity). The note was cosmetic. What it exposed was not.
+
+**The defect.** `fusion-junction-aso-sequences.csv` — the file the manuscript names as the CANONICAL
+machine-readable record, built precisely so no reader has to copy a sequence out of a PDF — gave
+**9 bp** and **10 bp** for the 5-8-5 and 5-10-5 gap-length controls, where the paper prints **no
+through-gap parent duplex at all**. Those two rows are not incidental: they ARE §2.9's result, that
+a longer catalytic gap removes the mature-parent duplex. A reader checking the paper's central
+gap-length claim against the deposit's own machine-readable record would have found it contradicted.
+
+**Root cause — three quantities under two column names, resolved by a provenance the file never
+printed.** The artifacts carry (a) `mature_parent_duplex_through_whole_gap_bp`, a SEARCH over every
+window of all six mature parent transcripts, (b) `parent_paired_gap_dna_nt`, ARITHMETIC on the
+design's own seam, and (c) `parent_seam_hybrid_bp`, that run plus its wing. The manifest wrote (a)
+into its duplex column for rows sourced from the per-junction and non-canonical-acceptor tables and
+(c) for rows sourced from the gap-length artifact. **For the lead 16-mer (a) and (c) both read 8 —
+from DIFFERENT genes**, *TFG* by search against *EWSR1*/*NR4A3* by arithmetic — so the wrong join
+returns a right-looking number on the one design a reader is likeliest to spot-check, and diverges
+only on the 18- and 20-mers, which is exactly where the paper's argument lives.
+
+⚠ **A correction made earlier the same day made it worse, not better.** The first pass split the
+column in two and wrote into the CSV header that *"the paper's tables print the second"*. Checked
+against the tables, that sentence was **false** — they print the first — so the header now told a
+reader to join on the wrong column in plain language. A confident note on an unverified claim is
+worse than no note.
+
+**Second defect, found by the conflict guard added while fixing the first.** The geometry column
+carried two spellings of one architecture: **176 rows `5-6-5`, 30 rows `5-6-5 (LNA-DNA-LNA)`** — and
+**all three `do_not_order` designs were among the 30**. Filtering on the spelling 85% of the file
+uses returned a complete-looking list of 5-6-5 designs with every design the paper condemns silently
+removed from it. This manifest's founding hazard, reproduced inside the manifest.
+
+**Fixed and instrumented.** Each quantity has its own column; sources now MERGE rather than
+first-wins-and-discard, with a conflict raising instead of silently resolving (that guard is what
+found the geometry defect); geometry is normalised to one vocabulary.
+`tests/test_aso_sequence_manifest_joins.py` holds all of it — 20 checks including a parametrized join
+of every duplex figure the built tables print against the canonical file. Proven to fire: against the
+CSV as it was actually committed, the geometry filter check and the join fail; restoring the shipped
+`9` for the 5-8-5 control fails the row that carries the paper's result.
+
+⚠ **Honest scope.** For the ten table cells printing a duplex **with a gene**, the shipped file
+agreed on all ten. The disagreement was confined to the zero-valued rows — which a join parser
+matching only `N (*GENE*)` cells would have skipped, and which are the rows the gap-length result
+rests on.
+
+### 2n · THE FIGURE CHAIN BLESSED A PANEL IT NEVER REDREW — 2026-08-17
+
+`scripts/regenerate_aso_chain.sh` ran **three** of the four ASO figure generators and then ran the
+provenance step, which re-pins the source hashes of **all four**. The `_regenerate` recipe printed
+inside `aso-figure-provenance.json` named the same three, so a person following the file's own
+instructions reproduced it exactly. `aso-gap-length-tradeoff` — Figure 3 — was pinned to atlases it
+had not been redrawn from, which converts the one instrument that distinguishes a stale figure from a
+current one into a rubber stamp that goes green.
+
+⚠ **The panel itself was NOT stale.** Redrawing it produced a byte-identical SVG, so nothing wrong
+shipped. The defect was latent, and is recorded because a latent instrument failure is exactly what
+`--check` exists to be trusted about.
+
+Fixed: generators are now DECLARED (`aso_figure_provenance.GENERATORS`), the recipe is derived from
+that declaration rather than typed, the module refuses to write a record if a pinned figure has no
+generator, and the chain gained the missing step.
+`tests/test_aso_figure_chain_is_complete.py` asserts the three lists agree and that every drawing
+step precedes the pin — proven to fire on the pre-fix chain, and proven not to be satisfiable by a
+commented-out step.
+
+**Same defect class, third instance, different file:** `submission_metrics.FIGURE_FILES` listed
+**3 of 4** figure files, so the upload checklist told the author to submit three figures and omitted
+a main-text one. Now derived from `build_submission_pdf.PAPERS`, which is the committed
+legend-to-SVG map the PDF build already fails on.
+
 ### 2l · ✅ ALL FIVE STOPPING-RULE CONDITIONS HOLD — 2026-08-17
 
 **Condition 5, round 2: 0 blockers, 0 majors, 6 minors.** The screen was run cold on the rebuilt PDF

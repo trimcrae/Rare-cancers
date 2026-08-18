@@ -106,7 +106,7 @@ last_verified: 2026-08-10
 
 | field | value |
 |---|---|
-| Word count, main text | 20794 (no limit found) |
+| Word count, main text | 20831 (no limit found) |
 | Abstract | 270 words  |
 | Display items | 10 (3 figures, 7 tables) |
 | References | 52 |
@@ -120,6 +120,7 @@ last_verified: 2026-08-10
 
 - `aso-junction-space.svg` — raster present, vector present
 - `aso-multipartner-seam.svg` — raster present, vector present
+- `aso-gap-length-tradeoff.svg` — raster present, vector present
 - `aso-chance-baseline.svg` — raster present, vector present
 
 ## Outstanding for every paper, and only the author can supply these

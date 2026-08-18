@@ -171,17 +171,38 @@ COMPANIONS = {
 #: tables" for a paper with three figures whose PDFs sit committed beside the manuscript. The
 #: consequence is not cosmetic: that line is the upload checklist, so it told the author to submit
 #: nothing.
-#: ⚠ DECLARED, NOT INFERRED. There is no committed link between "Figure 1" in the prose and
-#: `aso-junction-space.svg`; a prefix guess would be a convention nobody wrote down. Paths are
-#: relative to this directory, and `submission_packet` reports each one MISSING if it is absent, so
-#: a wrong entry here fails loudly rather than silently shrinking the checklist.
-FIGURE_FILES = {
-    "aso/fusion-junction-aso-research-article.md": [
-        "figures/aso-junction-space.svg",
-        "figures/aso-multipartner-seam.svg",
-        "figures/aso-chance-baseline.svg",
-    ],
-}
+#: ⛔ DERIVED FROM THE PDF BUILDER'S FIGURE MAP, NOT RETYPED (2026-08-17). This list was hand-kept
+#: and drifted: it named the junction-space, multi-partner-seam and chance-baseline panels and
+#: omitted `aso-gap-length-tradeoff.svg` — the paper's FIGURE 3, the panel behind the gap-length
+#: identity in §2.9. The upload checklist therefore told the author to submit three of four figure
+#: files, and the missing one was a main-text figure, not a supplementary panel. The header note
+#: this replaces asserted "there is no committed link between 'Figure 1' in the prose and
+#: `aso-junction-space.svg`" — which stopped being true when `build_submission_pdf.PAPERS` began
+#: pairing each legend opener to its SVG so the renderer could not mis-set a legend. That map is
+#: the committed link, and it is the one a build failure already polices, so this reads it rather
+#: than keeping a second copy that only a reader would notice going stale.
+#: ⚠ SUPPLEMENTARY PANELS COUNT. `Supplementary Figure S1` is a file the portal still wants
+#: uploaded, so no legend prefix is filtered out here. Paths stay relative to this directory, and
+#: `submission_packet` reports each one MISSING if it is absent, so a wrong entry in the source map
+#: fails loudly rather than silently shrinking the checklist.
+def _figure_files_from_the_pdf_builder():
+    #: This module is normally run as a script, which puts its own directory on the path. It is not
+    #: always, so the sibling import is made to work from any working directory rather than
+    #: degrading to an empty checklist the one time somebody imports it.
+    _here = os.path.dirname(os.path.abspath(__file__))
+    if _here not in sys.path:
+        sys.path.insert(0, _here)
+    from build_submission_pdf import PAPERS
+    out = {}
+    for spec in PAPERS.values():
+        manuscript = spec.get("manuscript")
+        figures = spec.get("figures") or {}
+        if manuscript and figures:
+            out[manuscript] = ["figures/" + svg for svg in figures.values()]
+    return out
+
+
+FIGURE_FILES = _figure_files_from_the_pdf_builder()
 
 #: ⚠ THE APPENDIX RULE 1.2 REQUIRES: values this file used to emit, why they were wrong, and what
 #: replaced them. None of these changed a verdict — every affected row was and remains within every

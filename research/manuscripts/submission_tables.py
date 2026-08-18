@@ -43,30 +43,56 @@ import aso_sequence_manifest as _manifest                                # noqa:
 GEOMETRY = ass.MANUSCRIPT_GEOMETRY
 
 
-def _ordering_clause():
+def _ordering_clause(mixed_geometry=False):
     """What a reader ordering from THIS table has to know: the chemistry, and where the file is.
 
-    ⛔ TABLES 2 AND 4 PRINTED BARE BASE STRINGS WITH NEITHER (blind screen of the built PDF,
-    2026-08-17). Table 5 carries a `geometry` column and the banner at the top of this file expands
-    it; these two carry no geometry column and no chemistry in their captions — and they are
-    precisely the tables a laboratory would order from, Table 2 being the best design at each
-    junction and Table 4 the designs with no sense-strand near-match. A caption that prints an
-    orderable sequence and says nothing about the backbone invites an order for unmodified DNA,
-    which is a different molecule and one about which nothing measured here holds. A caption travels
-    without the banner: a table is the part of a paper most likely to be read on its own.
+    ⛔⛔ `mixed_geometry=True` FOR ANY TABLE THAT IS NOT ALL ONE ARCHITECTURE, AND THE DEFAULT ONCE
+    SHIPPED A FALSE STATEMENT ABOUT A REAGENT (blind screen of the built manuscript PDF, 2026-08-17,
+    filed as a BLOCKER). This clause was written for Tables 2 and 4, which are the 5-6-5 panel and
+    nothing else, so it asserted "every sequence in this table is an antisense 16-mer, tiled in the
+    5-6-5 … architecture" as a flat fact. It was then applied unchanged to Tables 5 and 7 to close a
+    different finding — that those tables printed orderable sequences with no chemistry at all.
+    Table 7's whole subject is that the geometry VARIES: its columns are headed 5-6-5 (16-mer),
+    5-8-5 (18-mer) and 5-10-5 (20-mer), and its design row prints an 18-mer and a 20-mer. Table 5
+    carries a 5-8-5 gap-length control. So the sentence added to make those tables safe to order
+    from told a reader that an 18-mer and a 20-mer are 16-mers at 5-6-5.
+
+    ⚠ AND IT IS THE WORST PLACE FOR IT TO BE WRONG. This paper's position is that the geometry, not
+    the base string, is the reagent — "the bases alone, ordered as unmodified DNA, are a different
+    molecule" is in this very sentence. A caption that misstates the architecture of a named
+    oligonucleotide is the exact error the clause exists to prevent, committed by the clause.
+
+    ★ THE LESSON, WHICH IS THE O3 LESSON AGAIN: a remedy pasted uniformly across items it was not
+    written for does not become safe by being about safety. Tables that carry a geometry column now
+    say so and point at it; only tables that really are one architecture state one.
+
+    ⛔ WHY THE CLAUSE EXISTS AT ALL. Tables 2 and 4 printed bare base strings with neither the
+    chemistry nor a pointer to the machine-readable file (blind screen of the built PDF,
+    2026-08-17), and they are precisely the tables a laboratory would order from — Table 2 the best
+    design at each junction, Table 4 the designs with no sense-strand near-match. A caption that
+    prints an orderable sequence and says nothing about the backbone invites an order for unmodified
+    DNA, which is a different molecule and one about which nothing measured here holds. A caption
+    travels without the banner: a table is the part of a paper most likely to be read on its own.
 
     ⚠ DERIVED, NOT TYPED. The length and the architecture come from `MANUSCRIPT_GEOMETRY` and the
     filename from the manifest that writes it, so a geometry change or a rename reaches this
     sentence rather than leaving it describing a panel that no longer exists.
     """
-    return (f"Every sequence in this table is an antisense {GEOMETRY.oligo_len}-mer, tiled in the "
-            # ⚠ "LNA" EXPANDED HERE, AT ITS FIRST USE IN THE TABLES. In the journal build the
-            # abbreviation appears from Table 2 on page 5 and is expanded only in §3 on page
-            # 23 — and a caption is the part of a paper most likely to be read on its own, so
-            # the chemistry note a reader meets first must not itself need a glossary.
-            f"{GEOMETRY.architecture} locked-nucleic-acid (LNA)/DNA/LNA architecture on a "
-            f"phosphorothioate backbone that "
-            f"§6 specifies; the bases alone, ordered as unmodified DNA, are a different molecule. "
+    if mixed_geometry:
+        opener = ("The sequences in this table are antisense gapmers at more than one geometry, and "
+                  "each row's own geometry is the one stated beside it: the architecture gives the "
+                  "locked-nucleic-acid (LNA) wing, DNA gap and LNA wing in nucleotides, so 5-6-5 is "
+                  "a 16-mer, 5-8-5 an 18-mer and 5-10-5 a 20-mer, each on a phosphorothioate "
+                  "backbone that §6 specifies")
+    else:
+        opener = (f"Every sequence in this table is an antisense {GEOMETRY.oligo_len}-mer, tiled in "
+                  # ⚠ "LNA" EXPANDED HERE, AT ITS FIRST USE IN THE TABLES. In the journal build the
+                  # abbreviation appears from Table 2 on page 5 and is expanded only in §3 on page
+                  # 23 — and a caption is the part of a paper most likely to be read on its own, so
+                  # the chemistry note a reader meets first must not itself need a glossary.
+                  f"the {GEOMETRY.architecture} locked-nucleic-acid (LNA)/DNA/LNA architecture on a "
+                  f"phosphorothioate backbone that §6 specifies")
+    return (f"{opener}; the bases alone, ordered as unmodified DNA, are a different molecule. "
             f"The canonical machine-readable copy of every sequence is "
             f"`{os.path.basename(_manifest.OUT_CSV)}`.")
 
@@ -680,6 +706,13 @@ _TIER_LABELS = {
 }
 
 
+#: A reference that is a SEQUENCE DEPOSIT rather than a report. `breakpoint_refs` entries are
+#: written `"<source>: <accession>"`, and only these sources resolve a breakpoint by carrying the
+#: chimeric sequence itself. A source added upstream and not named here reads as a report, which is
+#: the safe direction: it withholds the deposit marker rather than asserting one.
+_DEPOSIT_ACCESSION = re.compile(r"^\s*(GenBank|RefSeq|ENA|DDBJ|INSDC)\s*:", re.I)
+
+
 def _tier_cell(j):
     """The clinical-occurrence cell, with a deposit-resolved row marked as one.
 
@@ -690,20 +723,37 @@ def _tier_cell(j):
     way to see which of the two is the loose one.
 
     Neither is wrong; the labels were. `aso_per_junction_table.PUBLISHED_BREAKPOINTS` resolves the
-    *TFG* seam from ONE deposited chimeric mRNA — `breakpoint_refs` carries a GenBank accession and
-    no PMID — while `PARTNERS_WITH_ANY_PUBLISHED_EXON`, which decides the other five rows, contains
-    only partners a PAPER resolves to an exon. So the three tiers are drawn on two different
-    records, and the row that sits on the deposit alone is the one that has to say so. The
-    predicate is the ABSENCE OF A PMID in the artifact's own refs, never a typed list of junctions:
-    a seam that gains a peer-reviewed report upstream loses the marker here without an edit.
+    *TFG* seam from ONE deposited chimeric mRNA, while `PARTNERS_WITH_ANY_PUBLISHED_EXON`, which
+    decides the other five rows, contains only partners a PAPER resolves to an exon. So the three
+    tiers are drawn on two different records, and the row that sits on a deposit is the one that has
+    to say so.
+
+    ⛔⛔ AND THE FIRST PREDICATE FOR THAT — "no PMID among the refs" — GRADED THE TWO DEPOSIT-
+    RESOLVED SEAMS DIFFERENTLY (filed as a MAJOR by two independent blind screens of the built PDF,
+    2026-08-17, one per format). *TCF12* e5 carries BOTH `PMID: 11156374` and
+    `GenBank: AF289510.1`, so the PMID suppressed the marker and the row printed a bare
+    **published** — while §2.3 says in terms that that report "describes a chimera retaining the
+    first 108 TCF12 residues, and names no exon; the same authors deposited the chimeric cDNA, and
+    that deposit resolves the junction to the nucleotide". `PUBLISHED_BREAKPOINTS`' own note beside
+    the entry says the same thing at greater length. *TFG* e7 is the identical situation and printed
+    **published (deposit)** only because its refs happen to carry no PMID at all.
+
+    ★ THE PRESENCE OF A PMID IS NOT THE QUESTION; WHAT RESOLVES THE EXON IS. A report can establish
+    the fusion and still not name an exon, which is exactly what happened at *TCF12*, so a predicate
+    that reads "a paper is cited" as "a paper resolved the exon" answers a different question than
+    the label asks. The predicate is now the PRESENCE OF A SEQUENCE ACCESSION among the refs, which
+    separates the five published rows correctly and stays derived rather than a typed list of
+    junctions: measured over `PUBLISHED_BREAKPOINTS`, the two deposit-resolved seams are exactly the
+    two carrying an accession and the other three carry PMIDs alone. A seam whose exon is later
+    named in prose loses the marker upstream, where the refs live.
     """
     tier = _TIER_LABELS.get(j["clinical_tier"], j["clinical_tier"])
     if j["clinical_tier"] != "published_exon_resolved_breakpoint":
         return tier
-    refs = j.get("breakpoint_refs") or []
-    if any(str(r).upper().startswith("PMID") for r in refs):
-        return tier
-    return f"{tier} (deposit)"
+    refs = [str(r) for r in (j.get("breakpoint_refs") or [])]
+    if any(_DEPOSIT_ACCESSION.match(r) for r in refs):
+        return f"{tier} (deposit)"
+    return tier
 
 
 #: ⛔ TABLE 5 IS A ROW SPEC, NOT A DATA TABLE. Each entry names a reagent's EDITORIAL ROLE and where
@@ -879,8 +929,15 @@ def table5(per_junction, noncoding, gap, ladder):
             "the row to _TABLE5_ROWS, or state in the caption why it is out of scope.")
 
     def _duplex(bp, gene):
+        #: ⚠ `0 bp`, NOT `none` (2026-08-17). This column and Table 7's "mature-parent duplex
+        #: through the whole gap (bp)" are the same measurement on the same molecules, and for the
+        #: 5-8-5 control they printed "none" here and "0" there — one value, two renderings, in
+        #: adjacent display items. `none` is also the weaker of the two words in a paper that
+        #: insists an absent reading is not a reading of absence: this IS a reading, the search ran
+        #: over all six parent transcripts and returned nothing, and a numeral says so where a word
+        #: leaves room for "not screened".
         if not bp:
-            return "none"
+            return "0 bp"
         return f"{bp} bp (*{gene}*)" if gene else f"{bp} bp"
 
     def _bound_row(rung):
@@ -1077,6 +1134,9 @@ def table7(gap):
         return f"| {label} | " + " | ".join(str(fn(src[g])) for g in columns) + " |"
 
     def parent_duplex(d):
+        #: The same measurement Table 5's `_duplex` renders; the unit lives in this table's row
+        #: label rather than in the cell, so the number is bare here and carries `bp` there. A zero
+        #: is a measured zero in both — see the note beside `_duplex`.
         bp = d["mature_parent_duplex_through_whole_gap_bp"]
         return f"{bp} (*{d['mature_parent_duplex_gene']}*)" if bp else "0"
 
@@ -1166,12 +1226,39 @@ def table7(gap):
 
 
 #: The rule audit's field names are code identifiers; a manuscript table needs the rule, not the key.
-_RULE_LABELS = {
-    "gc_in_band": "GC outside 40–60%",
-    "no_g_quadruplex_motif": "G-quadruplex motif",
-    "no_run_of_four": "homopolymer run of four",
-    "no_cpg": "contains a CpG",
-}
+#:
+#: ⚠ TWO PHRASINGS OF THE SAME RULE, AND BOTH ARE NEEDED. A cell names what the design DID WRONG
+#: ("GC outside 40–60%"); the table note names the rule that was APPLIED ("GC within 40–60%"). They
+#: are not each other's negation as strings, so neither can be generated from the other — but they
+#: must never disagree about WHICH four rules the audit runs, which is why they now sit in one
+#: record per rule instead of a cell map here and a hand-typed sentence 500 lines below.
+_RULES = (
+    ("gc_in_band", "GC outside 40–60%", "GC within 40–60%"),
+    ("no_g_quadruplex_motif", "G-quadruplex motif", "no G-quadruplex motif"),
+    ("no_run_of_four", "homopolymer run of four", "no homopolymer run of four"),
+    ("no_cpg", "contains a CpG", "no CpG dinucleotide"),
+)
+
+_RULE_LABELS = {key: violation for key, violation, _ in _RULES}
+
+
+def _rule_audit_note():
+    """The four-rule definition, worded once and printed under every table that audits against it.
+
+    ⛔ WHY IT IS PRINTED TWICE RATHER THAN CROSS-REFERENCED (2026-08-17). Table 2's last column is
+    this audit, and its note used to define the column by pointing at Table 4's note ⁵ — four pages
+    away in the journal build, and in the manuscript build a different display item entirely. A
+    table that cannot be read without another table is not standalone-readable, which is the one
+    property a display item has to have. The rules themselves stay a single fact: this function is
+    their only home, and `_RULE_LABELS` above draws the cell wording from the same records.
+    """
+    #: ⚠ A COMPLETE SENTENCE, because it is printed in two positions. As note ⁵ it stands alone
+    #: under a column heading; in Table 2's note it runs mid-paragraph, where the older footnote
+    #: phrasing ("Of four conventional antisense design rules: …") is a verbless fragment.
+    rules = [rule for _, _, rule in _RULES]
+    listed = ", ".join(rules[:-1]) + ", and " + rules[-1]
+    return (f"The {_word(len(rules))} conventional antisense design rules audited are "
+            f"{listed}.")
 
 
 #: How the expression artifact's tiers read in a table cell. The artifact owns the thresholds and
@@ -1666,21 +1753,25 @@ reason a denominator here reads below {_word(_registers)}, and an identity this 
 before building the table. The parent screen itself is offline and exhaustive over every design, so
 the numerator alone is what it decided. Whether a junction has a published exon-resolved breakpoint is
 reported separately from specificity and never folded into the ranking — “published” means an
-exon-resolved EMC breakpoint is reported for that exon pair; “published (deposit)” that the exon is
-resolved by a deposited chimeric mRNA record with no peer-reviewed report behind it, which §2.3
-describes; “exon not reported” that a published report resolves a breakpoint of that partner at a
-different exon; and “none published” that no published report resolves any breakpoint of that
-partner to an exon. The last two are drawn on the published record alone, so one partner can carry
-a “published (deposit)” row and “none published” rows at once — *TFG* is that case here, and the
-deposit is why its exon-7 row is not one of them. “None published” is absence of evidence: EMC case
+exon-resolved EMC breakpoint is reported for that exon pair in prose; “published (deposit)” that the
+exon is resolved instead by a deposited chimeric record, which §2.3 describes; “exon not reported”
+that a breakpoint of that partner is resolved at a different exon, by either route; and “none
+published” that no breakpoint of that partner is resolved to an exon anywhere on the public record.
+*TCF12* and *TFG* are both the deposit case, and they are the same case: one seam each, resolved by
+a deposited chimeric record — AF289510.1 and AY532911.1 — rather than by an exon named in prose, so
+each carries one “published (deposit)” row and reads “exon not reported” elsewhere. That the two are
+graded alike is not a statement that their evidence is equally strong: the *TFG* record rests on one
+primary sequence plus four patent sequences that are one family from one group, with no report
+behind any of them, which §2.3 states and this column does not. “None published” is absence of
+evidence: EMC case
 reports usually name the partner gene without sequencing to nucleotide resolution. Gap-paired
 near-matches are at the tenfold deeper alignment ceiling, where every hit list is complete. The
 genome column is the observed number of gap-paired sites at ≤2 mismatches over the number expected
 for an arbitrary 16-mer, so 1.00 is chance. A junction with no design clearing the parent screen is
 reported as such rather than given a best row, and Table 3 marks those junctions too, since Table 3
-ranks by margin instead and does print a sequence at each of them. The last column is the same
-four-rule conventional audit as Table 4 (note ⁵), computed for whichever design this table names
-from the same artifact and by the same code. It is reported beside the ranking and is never folded
+ranks by margin instead and does print a sequence at each of them. The last column is a conventional
+design audit, computed for whichever design this table names from the same artifact and by the same
+code Table 4 uses. {_rule_audit_note()} It is reported beside the ranking and is never folded
 into it: the two orderings select different molecules, which is the disagreement §2.10 is about, and
 this is the table one reagent is chosen from. A design the audit does not cover would read “not
 audited” rather than blank, since a blank in a rules column reads as breaking none. {_ordering_clause()}
@@ -1707,8 +1798,10 @@ None of these numbers is a measurement of off-target activity.\n\n¹ A near-matc
 these lose the property when the same junctions are re-screened at a tenfold deeper alignment
 ceiling, three of them having returned no near-match at all here; §2.4 reports that
 measurement and names the three that survive it. This table is the default-depth result, retained
-because it is the depth at which the corpus-wide counts elsewhere in the paper were computed. Every design at the {n_clean_junctions} junctions
-where one exists is listed. A design qualifies only
+because it is the depth at which the corpus-wide counts elsewhere in the paper were computed. Every
+design that QUALIFIES is listed, at each of the {n_clean_junctions} junctions where one does; this
+is not one row per junction, and it is not every design at those junctions, which are tiled by
+{_word(_registers)} registers each. A design qualifies only
 if its retained hit list is not truncated — no more near-matches than the {SAVED_HITS} the screens store — because the
 strand of an unstored hit cannot be recovered, so a truncated list cannot establish that nothing
 on the sense strand remains. The underlying search is itself capped, so these are the designs whose
@@ -1718,8 +1811,7 @@ both LNA wings and each parent duplex only one, it is a lower bound on the modif
 oligonucleotide's discrimination rather than an upper one. None of these numbers is a measurement of off-target
 activity, and none speaks to cleavage. {_ordering_clause()}\n\n⁴ Under the optimistic five-fold and the pessimistic
 no-discrimination bound on RNase-H1 single-mismatch discrimination. A single value means the two
-bounds agree.\n\n⁵ Of four conventional antisense design rules: GC within 40–60%, no G-quadruplex
-motif, no homopolymer run of four, no CpG dinucleotide.\n\n⁶ Whether the design still carries no
+bounds agree.\n\n⁵ {_rule_audit_note()}\n\n⁶ Whether the design still carries no
 sense-strand near-match once its junction is re-screened at the tenfold deeper ceiling. The verdict
 is computed from the three deep columns beside it, not asserted, so this table cannot come to
 disagree with §2.4 about which designs survive. The six that do not are the reason this table's
@@ -1764,7 +1856,7 @@ and the scrambled control is a draw from a stated shuffling procedure rather tha
 None of the three therefore has a sequence, a geometry or a screen result for these columns. Gap-paired near-matches are at the tenfold deeper alignment ceiling
 where every hit list is complete, and the parent duplex is the longest contiguous run containing the
 whole catalytic gap, at the ten-base-pair criterion applied throughout. None of these numbers is a
-measurement of off-target activity, and no row is a claim of efficacy. {_ordering_clause()}
+measurement of off-target activity, and no row is a claim of efficacy. {_ordering_clause(mixed_geometry=True)}
 
 {t5}
 
@@ -1819,7 +1911,7 @@ seam is five base pairs plus its share of the gap, so pairing five nucleotides o
 and reaching a ten-base-pair seam hybrid are the same condition and are reported as one row. ΔG°37 values are for
 an unmodified DNA:RNA hybrid; the wing is five at every geometry, so LNA affinity enters each parent
 duplex identically and cannot explain a difference between the columns. None of these numbers is a
-measurement of cleavage. {_ordering_clause()}
+measurement of cleavage. {_ordering_clause(mixed_geometry=True)}
 
 {t7}
 """

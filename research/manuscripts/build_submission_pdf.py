@@ -755,6 +755,56 @@ def wrap_manuscript(front_title, body_html):
     return page_shell(front_title, MANUSCRIPT_CSS, body_html)
 
 
+#: One `<div class="float … landscape-float" id="…">…</div>`, matched by its opening tag and closed
+#: by depth counting rather than by a lazy `.*?`: a float contains nested divs, so a non-greedy
+#: match closes on the FIRST `</div>` and truncates the table.
+_LANDSCAPE_FLOAT_OPEN = re.compile(r'<div class="[^"]*landscape-float[^"]*"[^>]*>')
+_DIV_TAG = re.compile(r"<div\b[^>]*>|</div>")
+
+
+def _extract_div(html, start):
+    """(end_index) of the `</div>` closing the div that opens at `start`."""
+    depth = 0
+    for m in _DIV_TAG.finditer(html, start):
+        depth += 1 if m.group(0) != "</div>" else -1
+        if depth == 0:
+            return m.end()
+    raise SystemExit("a landscape float is unclosed — the float renderer emitted unbalanced HTML")
+
+
+def _defer_landscape_floats(main):
+    """Move each landscape float to the end of the section it is cited in, not its citation point.
+
+    ⛔ WHY. `.landscape-float` carries `break-before: page`, so a landscape table set at the exact
+    paragraph that first cites it ends the current page THERE. Two independent blind screens of the
+    built journal PDF reported the consequence: page 15 carried two short column fragments and was
+    otherwise white, because Table 5's citation fell a few lines into a page and the forced break
+    took the rest of it. The table is right, the prose is right, and the page is 94% empty.
+
+    ★ DEFERRED, NOT RELOCATED WHOLESALE. The float still lands inside the section that cites it and
+    still precedes the next heading, so the journal style's property — a display item appears with
+    the argument that uses it, rather than being collected at the back — survives. What changes is
+    that the prose between the citation and the end of the section flows first and fills the page.
+
+    ⚠ IF A SECTION HAS NO FOLLOWING HEADING the float stays where it is: the end of the section and
+    its current position are the same place, and a fallback that moved it to the end of the document
+    would silently undo the property above.
+    """
+    while True:
+        opening = _LANDSCAPE_FLOAT_OPEN.search(main)
+        if not opening or "data-deferred" in opening.group(0):
+            break
+        end = _extract_div(main, opening.start())
+        block = main[opening.start():end].replace("<div class=", '<div data-deferred="1" class=', 1)
+        rest = main[end:]
+        heading = re.search(r"<h[23]\b", rest)
+        if not heading:
+            main = main[:opening.start()] + block + rest
+            continue
+        main = main[:opening.start()] + rest[:heading.start()] + block + rest[heading.start():]
+    return main.replace(' data-deferred="1"', "")
+
+
 def wrap_journal(paper, front, body_html):
     meta = paper.get("journal", {})
     body_html = re.sub(r"(<h2>References</h2>.*?)<ol", r'\1<ol id="references-list"',
@@ -764,6 +814,7 @@ def wrap_journal(paper, front, body_html):
     if not split:
         raise SystemExit("no '## Declarations' heading — the back matter split is anchored on it")
     main, back = body_html[:split.start()], body_html[split.start():]
+    main = _defer_landscape_floats(main)
 
     head = (
         '<div class="masthead"><div>' + _html.escape(meta.get("article_type", "Article"))

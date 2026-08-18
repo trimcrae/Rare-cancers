@@ -124,11 +124,31 @@ PUBLISHED_BREAKPOINTS = {
     "TFG_e7__NR4A3_e3": ["GenBank: AY532911.1"],
 }
 
-#: partners for which SOME exon-resolved EMC breakpoint is published, so "unreported exon" at that
-#: partner is a weaker statement than at a partner with none. ⭐ TCF12 joined 2026-08-15 on the
-#: strength of AF289510.1, which also moves its other seven junctions from "unreported" to "this
-#: exon not reported while another exon of this partner is" — a stronger negative, and the right one.
-PARTNERS_WITH_ANY_PUBLISHED_EXON = {"EWSR1", "TAF15", "TCF12"}
+#: partners for which SOME exon-resolved EMC breakpoint is on the public record, so "unreported
+#: exon" at that partner is a weaker statement than at a partner with none. ⭐ TCF12 joined
+#: 2026-08-15 on the strength of AF289510.1, which also moves its other seven junctions from
+#: "unreported" to "this exon not reported while another exon of this partner is" — a stronger
+#: negative, and the right one.
+#:
+#: ⛔ TFG JOINED 2026-08-17, BECAUSE THE RULE THAT ADMITTED TCF12 ALWAYS ADMITTED IT TOO. Two
+#: independent blind screens of the built PDF filed the asymmetry as a MAJOR: TCF12 and TFG are the
+#: same case — one seam each, resolved by a DEPOSITED chimeric record rather than by an exon named
+#: in prose (AF289510.1 and AY532911.1) — and the two were graded by different rules. TCF12's other
+#: seven junctions read "exon not reported" while TFG's other five read "none published", which
+#: says no breakpoint of TFG is resolved anywhere. One is resolved; this file resolves it, three
+#: entries above.
+#:
+#: ⚠ THIS MOVES NO NUMBER. Measured before the change: the only consumer that gates on the tier is
+#: `aso_coverage_ladder.py`, and it tests `== "published_exon_resolved_breakpoint"` only, so the
+#: distinction between the two NEGATIVE tiers reaches no coverage figure, no panel membership and
+#: no count in §2.7. It is a labelling correction and nothing else.
+#:
+#: ⚠ AND IT DOES NOT EQUATE THE TWO PARTNERS' EVIDENCE. TFG's grade is weaker than TCF12's — see the
+#: entry above: one primary GenBank mRNA plus four patent sequences from ONE group, and no PMID
+#: attaches to any of the five. That difference is carried where it belongs, in the refs behind the
+#: published row and in the prose that reads them, not smuggled into a tier whose definition says
+#: nothing about it.
+PARTNERS_WITH_ANY_PUBLISHED_EXON = {"EWSR1", "TAF15", "TCF12", "TFG"}
 
 
 def _published_noncanonical_tiers():

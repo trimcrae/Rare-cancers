@@ -234,3 +234,48 @@ def test_every_sequence_the_pdf_prints_is_in_the_canonical_file(pdf_text):
         f"machine-readable file: {missing[:6]}. Re-run "
         "research/manuscripts/aso_sequence_manifest.py, or add the artifact the design comes from "
         "to its source list.")
+
+
+#: A page carrying less text than this is a production blemish: a forced page break stranded a few
+#: lines and left the rest white. Calibrated against the defect that prompted it — journal page 15
+#: carried 534 characters, roughly the top 6% of the page — and against the real pages either side
+#: of it, which run to several thousand. A figure or table page is exempt below.
+_MIN_CHARS_ON_A_TEXT_PAGE = 700
+
+
+def _page_text_lengths(path):
+    """Characters of extracted text per page, and whether the page carries a display item."""
+    from pdfminer.high_level import extract_pages
+    from pdfminer.layout import LTTextContainer, LTFigure, LTImage, LTCurve
+    out = []
+    for number, layout in enumerate(extract_pages(path), 1):
+        chars = sum(len(el.get_text().strip())
+                    for el in layout if isinstance(el, LTTextContainer))
+        graphical = any(isinstance(el, (LTFigure, LTImage, LTCurve)) for el in layout)
+        out.append((number, chars, graphical))
+    return out
+
+
+@pytest.mark.parametrize("style", sorted(PDFS))
+def test_no_page_of_either_pdf_is_left_nearly_empty(style):
+    """⛔ A FORCED PAGE BREAK BEFORE A LANDSCAPE FLOAT EMPTIED A PAGE MID-RESULTS (2026-08-17).
+
+    Two independent blind screens of the built journal PDF reported page 15: two short column
+    fragments at the top and roughly 94% white below, because `.landscape-float` carries
+    `break-before: page` and Table 5's first citation fell a few lines into the page. The prose was
+    right and the table was right; the pagination threw a page away between them. Landscape floats
+    are now deferred to the end of the section that cites them, and this holds that fix — measured
+    on the BUILT file, because no source-side check can see a page break.
+
+    ⚠ PAGES CARRYING A DISPLAY ITEM ARE EXEMPT. A full-page figure legitimately extracts as very
+    little text, and failing on it would make this test a reason to delete figures.
+    """
+    pages = _page_text_lengths(PDFS[style])
+    assert pages, f"the {style} PDF has no pages"
+    starved = [(n, c) for n, c, graphical in pages
+               if c < _MIN_CHARS_ON_A_TEXT_PAGE and not graphical]
+    assert not starved, (
+        f"the {style}-format PDF leaves {len(starved)} text page(s) nearly empty: "
+        + ", ".join(f"p{n} ({c} chars)" for n, c in starved)
+        + f". A page under {_MIN_CHARS_ON_A_TEXT_PAGE} characters with no display item on it is a "
+          "stranded page — usually a float forcing a break before the surrounding prose has filled.")

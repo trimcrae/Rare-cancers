@@ -54,21 +54,25 @@ reason a denominator here reads below five, and an identity this generator check
 before building the table. The parent screen itself is offline and exhaustive over every design, so
 the numerator alone is what it decided. Whether a junction has a published exon-resolved breakpoint is
 reported separately from specificity and never folded into the ranking — “published” means an
-exon-resolved EMC breakpoint is reported for that exon pair; “published (deposit)” that the exon is
-resolved by a deposited chimeric mRNA record with no peer-reviewed report behind it, which §2.3
-describes; “exon not reported” that a published report resolves a breakpoint of that partner at a
-different exon; and “none published” that no published report resolves any breakpoint of that
-partner to an exon. The last two are drawn on the published record alone, so one partner can carry
-a “published (deposit)” row and “none published” rows at once — *TFG* is that case here, and the
-deposit is why its exon-7 row is not one of them. “None published” is absence of evidence: EMC case
+exon-resolved EMC breakpoint is reported for that exon pair in prose; “published (deposit)” that the
+exon is resolved instead by a deposited chimeric record, which §2.3 describes; “exon not reported”
+that a breakpoint of that partner is resolved at a different exon, by either route; and “none
+published” that no breakpoint of that partner is resolved to an exon anywhere on the public record.
+*TCF12* and *TFG* are both the deposit case, and they are the same case: one seam each, resolved by
+a deposited chimeric record — AF289510.1 and AY532911.1 — rather than by an exon named in prose, so
+each carries one “published (deposit)” row and reads “exon not reported” elsewhere. That the two are
+graded alike is not a statement that their evidence is equally strong: the *TFG* record rests on one
+primary sequence plus four patent sequences that are one family from one group, with no report
+behind any of them, which §2.3 states and this column does not. “None published” is absence of
+evidence: EMC case
 reports usually name the partner gene without sequencing to nucleotide resolution. Gap-paired
 near-matches are at the tenfold deeper alignment ceiling, where every hit list is complete. The
 genome column is the observed number of gap-paired sites at ≤2 mismatches over the number expected
 for an arbitrary 16-mer, so 1.00 is chance. A junction with no design clearing the parent screen is
 reported as such rather than given a best row, and Table 3 marks those junctions too, since Table 3
-ranks by margin instead and does print a sequence at each of them. The last column is the same
-four-rule conventional audit as Table 4 (note ⁵), computed for whichever design this table names
-from the same artifact and by the same code. It is reported beside the ranking and is never folded
+ranks by margin instead and does print a sequence at each of them. The last column is a conventional
+design audit, computed for whichever design this table names from the same artifact and by the same
+code Table 4 uses. The four conventional antisense design rules audited are GC within 40–60%, no G-quadruplex motif, no homopolymer run of four, and no CpG dinucleotide. It is reported beside the ranking and is never folded
 into it: the two orderings select different molecules, which is the disagreement §2.10 is about, and
 this is the table one reagent is chosen from. A design the audit does not cover would read “not
 audited” rather than blank, since a blank in a rules column reads as breaking none. Every sequence in this table is an antisense 16-mer, tiled in the 5-6-5 locked-nucleic-acid (LNA)/DNA/LNA architecture on a phosphorothioate backbone that §6 specifies; the bases alone, ordered as unmodified DNA, are a different molecule. The canonical machine-readable copy of every sequence is `fusion-junction-aso-sequences.csv`.
@@ -104,14 +108,14 @@ audited” rather than blank, since a blank in a rules column reads as breaking 
 | TCF12 e17::NR4A3 e3 | exon not reported | 3 of 5 | 5′-GGGCATATCTCTATAA-3′ | 3 | 7 | 14 → 5 | 0.83 | GC outside 40–60% |
 | TCF12 e19::NR4A3 e3 | exon not reported | 2 of 5 | 5′-GGGCATATCTCTGACT-3′ | 3 | 8 | 75 → 3 | 0.82 | none |
 | TCF12 e3::NR4A3 e3 | exon not reported | 0 of 5 | — | — | — | — | — | — |
-| TCF12 e5::NR4A3 e3 | published | 4 of 5 | 5′-GGGCATATCCATCAGA-3′ | 3 | 7 | 17 → 1 | 0.56 | none |
+| TCF12 e5::NR4A3 e3 | published (deposit) | 4 of 5 | 5′-GGGCATATCCATCAGA-3′ | 3 | 7 | 17 → 1 | 0.56 | none |
 | TCF12 e7::NR4A3 e3 | exon not reported | 2 of 5 | 5′-GGGCATATCAAGCGCT-3′ | 3 | 8 | 0 → 0 | 0.26 | contains a CpG |
 | TCF12 e9::NR4A3 e3 | exon not reported | 1 of 5 | 5′-GGGCATATCTTGCATA-3′ | 3 | 8 | 39 → 6 | 0.71 | none |
-| TFG e2::NR4A3 e3 | none published | 0 of 4 | — | — | — | — | — | — |
-| TFG e3::NR4A3 e3 | none published | 4 of 5 | 5′-GGGCATATCAAATAAT-3′ | 3 | 8 | 18 → 6 | 1.35 | GC outside 40–60% |
-| TFG e4::NR4A3 e3 | none published | 1 of 5 | 5′-AGGGCATATCATTTTC-3′ | 2 | 7 | 82 → 12 | 1.77 | GC outside 40–60%, homopolymer run of four |
-| TFG e5::NR4A3 e3 | none published | 2 of 5 | 5′-GGCATATCTGAAACCT-3′ | 2 | 8 | 34 → 7 | 1.38 | none |
-| TFG e6::NR4A3 e3 | none published | 3 of 5 | 5′-GGGCATATCTTCAATC-3′ | 3 | 9 | 29 → 3 | 0.73 | none |
+| TFG e2::NR4A3 e3 | exon not reported | 0 of 4 | — | — | — | — | — | — |
+| TFG e3::NR4A3 e3 | exon not reported | 4 of 5 | 5′-GGGCATATCAAATAAT-3′ | 3 | 8 | 18 → 6 | 1.35 | GC outside 40–60% |
+| TFG e4::NR4A3 e3 | exon not reported | 1 of 5 | 5′-AGGGCATATCATTTTC-3′ | 2 | 7 | 82 → 12 | 1.77 | GC outside 40–60%, homopolymer run of four |
+| TFG e5::NR4A3 e3 | exon not reported | 2 of 5 | 5′-GGCATATCTGAAACCT-3′ | 2 | 8 | 34 → 7 | 1.38 | none |
+| TFG e6::NR4A3 e3 | exon not reported | 3 of 5 | 5′-GGGCATATCTTCAATC-3′ | 3 | 9 | 29 → 3 | 0.73 | none |
 | TFG e7::NR4A3 e3 | published (deposit) | 2 of 5 | 5′-GGCATATCTGAATACT-3′ | 2 | 9 | 24 → 6 | 1.24 | GC outside 40–60% |
 
 **Table 3. Predicted specificity per screened junction.** One row per junction; figures are for the
@@ -181,8 +185,10 @@ None of these numbers is a measurement of off-target activity.
 these lose the property when the same junctions are re-screened at a tenfold deeper alignment
 ceiling, three of them having returned no near-match at all here; §2.4 reports that
 measurement and names the three that survive it. This table is the default-depth result, retained
-because it is the depth at which the corpus-wide counts elsewhere in the paper were computed. Every design at the 6 junctions
-where one exists is listed. A design qualifies only
+because it is the depth at which the corpus-wide counts elsewhere in the paper were computed. Every
+design that QUALIFIES is listed, at each of the 6 junctions where one does; this
+is not one row per junction, and it is not every design at those junctions, which are tiled by
+five registers each. A design qualifies only
 if its retained hit list is not truncated — no more near-matches than the 15 the screens store — because the
 strand of an unstored hit cannot be recovered, so a truncated list cannot establish that nothing
 on the sense strand remains. The underlying search is itself capped, so these are the designs whose
@@ -196,8 +202,7 @@ activity, and none speaks to cleavage. Every sequence in this table is an antise
 no-discrimination bound on RNase-H1 single-mismatch discrimination. A single value means the two
 bounds agree.
 
-⁵ Of four conventional antisense design rules: GC within 40–60%, no G-quadruplex
-motif, no homopolymer run of four, no CpG dinucleotide.
+⁵ The four conventional antisense design rules audited are GC within 40–60%, no G-quadruplex motif, no homopolymer run of four, and no CpG dinucleotide.
 
 ⁶ Whether the design still carries no
 sense-strand near-match once its junction is re-screened at the tenfold deeper ceiling. The verdict
@@ -254,7 +259,7 @@ and the scrambled control is a draw from a stated shuffling procedure rather tha
 None of the three therefore has a sequence, a geometry or a screen result for these columns. Gap-paired near-matches are at the tenfold deeper alignment ceiling
 where every hit list is complete, and the parent duplex is the longest contiguous run containing the
 whole catalytic gap, at the ten-base-pair criterion applied throughout. None of these numbers is a
-measurement of off-target activity, and no row is a claim of efficacy. Every sequence in this table is an antisense 16-mer, tiled in the 5-6-5 locked-nucleic-acid (LNA)/DNA/LNA architecture on a phosphorothioate backbone that §6 specifies; the bases alone, ordered as unmodified DNA, are a different molecule. The canonical machine-readable copy of every sequence is `fusion-junction-aso-sequences.csv`.
+measurement of off-target activity, and no row is a claim of efficacy. The sequences in this table are antisense gapmers at more than one geometry, and each row's own geometry is the one stated beside it: the architecture gives the locked-nucleic-acid (LNA) wing, DNA gap and LNA wing in nucleotides, so 5-6-5 is a 16-mer, 5-8-5 an 18-mer and 5-10-5 a 20-mer, each on a phosphorothioate backbone that §6 specifies; the bases alone, ordered as unmodified DNA, are a different molecule. The canonical machine-readable copy of every sequence is `fusion-junction-aso-sequences.csv`.
 
 | reagent | junction | sequence | geometry | gap-level margin | gap-paired near-matches → loci at the deeper ceiling | longest mature-parent duplex through the gap | cumulative coverage | basis |
 |---|---|---|---|---|---|---|---|---|
@@ -268,7 +273,7 @@ measurement of off-target activity, and no row is a claim of efficacy. Every seq
 | beside the panel | EWSR1 e13::NR4A3 e2 | 5′-AGTGGGCTCTCCACGG-3′ | 5-6-5 | 3 | 25 → 6 | 8 bp (*EWSR1*) | adds nothing | partner in the cohort, this exon pair uncounted in it |
 | beside the panel | TAF15 e6::NR4A3 e2 | 5′-AGTGGGCTCTTGTGTG-3′ | 5-6-5 | 3 | 128 → 6 | 9 bp (*NR4A3*) | adds nothing | partner in the cohort, this exon pair uncounted in it |
 | beside the panel | PGR e2::NR4A3 e2 | 5′-AGTGGGCTCTTCCATT-3′ | 5-6-5 | 3 | 51 → 14 | 9 bp (*NR4A3*) | adds nothing | partner absent from the cohort behind the denominator |
-| gap-length control | EWSR1 e12::NR4A3 e3 | 5′-AGGGCATATCATCAAACC-3′ | 5-8-5 | 4 | 3 → 1 | none | — | not a coverage row |
+| gap-length control | EWSR1 e12::NR4A3 e3 | 5′-AGGGCATATCATCAAACC-3′ | 5-8-5 | 4 | 3 → 1 | 0 bp | — | not a coverage row |
 | margin contrast arm | EWSR1 e12::NR4A3 e3 | 5′-GCATATCATCAAACCA-3′ | 5-6-5 | 1 | 34 → 6 | 8 bp (*FUS*) | — | not a coverage row |
 
 **Table 6. Where the off-target loci at the junctions with a published breakpoint are expressed.** Every gene
@@ -373,7 +378,7 @@ seam is five base pairs plus its share of the gap, so pairing five nucleotides o
 and reaching a ten-base-pair seam hybrid are the same condition and are reported as one row. ΔG°37 values are for
 an unmodified DNA:RNA hybrid; the wing is five at every geometry, so LNA affinity enters each parent
 duplex identically and cannot explain a difference between the columns. None of these numbers is a
-measurement of cleavage. Every sequence in this table is an antisense 16-mer, tiled in the 5-6-5 locked-nucleic-acid (LNA)/DNA/LNA architecture on a phosphorothioate backbone that §6 specifies; the bases alone, ordered as unmodified DNA, are a different molecule. The canonical machine-readable copy of every sequence is `fusion-junction-aso-sequences.csv`.
+measurement of cleavage. The sequences in this table are antisense gapmers at more than one geometry, and each row's own geometry is the one stated beside it: the architecture gives the locked-nucleic-acid (LNA) wing, DNA gap and LNA wing in nucleotides, so 5-6-5 is a 16-mer, 5-8-5 an 18-mer and 5-10-5 a 20-mer, each on a phosphorothioate backbone that §6 specifies; the bases alone, ordered as unmodified DNA, are a different molecule. The canonical machine-readable copy of every sequence is `fusion-junction-aso-sequences.csv`.
 
 | | 5-6-5 (16-mer) | 5-8-5 (18-mer) | 5-10-5 (20-mer) |
 |---|---|---|---|

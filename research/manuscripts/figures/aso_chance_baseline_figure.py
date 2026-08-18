@@ -97,6 +97,21 @@ def main(argv=None):
     # still speaks of a "chance upper bound" as though a band existed. Print the single value when
     # there is one value; print the band only when it IS a band.
     _band = f'{lo} hits' if f'{lo}' == f'{hi}' else f'{lo}–{hi} hits'
+    # ⛔⛔ IT IS A MEAN, NOT AN UPPER BOUND, AND ONE THIRD OF THE DESIGNS SIT ABOVE IT (blind screen
+    # of the built manuscript PDF, 2026-08-17, filed as a MAJOR). The figure's own subtitle read
+    # "N of 176 fall at or below the chance UPPER BOUND" and its footnote "58 of the 176 plotted
+    # designs exceed the BAND" — of a reference that is the EXPECTED value for an arbitrary 16-mer,
+    # 8.2, drawn as a single line because `lo` and `hi` coincide. Nothing can exceed an upper bound,
+    # so a reader who takes the word at face value concludes that 58 designs are above chance, which
+    # is the opposite of what the caption and §5 say ("the observed mean is 9.2, a ratio of 1.12";
+    # "on the mean it comes in at chance"). A figure is the element most often read alone, and this
+    # one argued against its own paper.
+    # ★ THE NOUN NOW FOLLOWS THE GEOMETRY: a line when the endpoints coincide, a band only when
+    # there really are two, so the words cannot drift from what is drawn.
+    _is_band = f'{lo}' != f'{hi}'
+    _ref = "chance band" if _is_band else "chance expectation"
+    _above = "exceed that band" if _is_band else "sit above it"
+    _at_or_below = "fall at or below it"
     p.append(f'<text x="{L + 8}" y="{y(hi) - 6:.1f}" font-size="11" fill="#1565c0">'
              f'expected from chance alone for any 16-mer ({_band})</text>')
 
@@ -139,7 +154,8 @@ def main(argv=None):
     p.append(f'<polygon points="{L + 4.5},50 {L + 8.5},54 {L + 4.5},58 {L + 0.5},54" '
              f'fill="#111"/>')
     p.append(f'<text x="{L + 14}" y="58" font-size="12" fill="#555">'
-             f'{esc(n_at_or_below)} of {esc(n)} fall at or below the chance upper bound. Marked: '
+             f'{esc(n_at_or_below)} of {esc(n)} {_at_or_below}; the line is what chance alone '
+             f'predicts, not a ceiling. Marked: '
              f'the {esc(fs["n_multi_junction_sequences"])} designs spanning '
              f'{_span_words(fs["multi_junction_span"])} partners’ seams: one molecule, '
              f'plotted once.</text>')
@@ -153,16 +169,17 @@ def main(argv=None):
     gc_lo, gc_hi = exc["above_gc_percent_range"]
     hit_lo, hit_hi = exc["above_offtarget_le1mm_range"]
     p.append(f'<text x="{L}" y="{H - 46}" font-size="10.5" fill="#666">'
-             f'Chance band assumes independent uniform bases over an assumed transcriptome span; it '
-             f'separates "more than chance" from "at chance" and is not a significance test.</text>')
+             f'The {_ref} assumes independent uniform bases; the transcriptome span it is computed '
+             f'over is the exhaustive scan\'s measured one. It separates "more than chance" from '
+             f'"at chance" and is not a significance test.</text>')
     p.append(f'<text x="{L}" y="{H - 30}" font-size="10.5" fill="#666">'
              f'Counts are predictions from sequence search, not measured off-target activity. '
-             f'{esc(fs["n_above_chance_upper"])} of the {esc(n)} plotted designs exceed the '
-             f'band.</text>')
+             f'{esc(fs["n_above_chance_upper"])} of the {esc(n)} plotted designs {_above}; on the '
+             f'mean the set comes in at chance.</text>')
     p.append(f'<text x="{L}" y="{H - 14}" font-size="10.5" fill="#666">'
              f'Not plotted: {esc(exc["n_excluded"])} designs at {esc(exc["n_breakpoints"])} '
              f'modelled breakpoints rather than real exon junctions; '
-             f'{esc(exc["n_above_chance_upper"])} of those exceed the band, at '
+             f'{esc(exc["n_above_chance_upper"])} of those {_above}, at '
              f'{esc(hit_lo)}–{esc(hit_hi)} matches and {esc(gc_lo)}–{esc(gc_hi)}% GC.</text>')
     p.append('</svg>')
 
