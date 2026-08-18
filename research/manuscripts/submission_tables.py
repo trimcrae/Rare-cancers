@@ -668,7 +668,14 @@ def table3(collapse, chance, atlas, per_junction):
         # truncated list still carries the frozen figure, and it is marked "≤" rather than bare.
         cens_loci = "≥" if best["right_censored"] else ""
         cens_near = "≥" if (best["n_transcript_near_matches_reported"] or 0) >= HITLIST_SIZE else ""
-        cens_gap = "≤" if best.get("n_loci_with_a_gap_spanning_hit_is_from_the_screen") else ""
+        #: ⚠ "≤0" IS SELF-CANCELLING AND READS AS A TYPESETTING ERROR (blind screen, 2026-08-19).
+        #: The marker means the screen's own figure may OVER-count, so the printed value is an
+        #: upper bound. For a non-negative count an upper bound of zero IS zero — there is
+        #: nothing left for the marker to say, and the prose reads those cells as plain zeros
+        #: anyway ("its single default-depth zero"). The marker is therefore suppressed at
+        #: zero, where it carries no information, and kept everywhere it does.
+        cens_gap = ("≤" if (best.get("n_loci_with_a_gap_spanning_hit_is_from_the_screen")
+                            and best.get("n_loci_with_a_gap_spanning_hit")) else "")
         vals = sorted(le1.get(lab, []))
         med = vals[len(vals) // 2] if vals else "—"
         mx = max(vals) if vals else "—"

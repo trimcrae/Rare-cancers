@@ -340,7 +340,9 @@ independently: each returns no exact and no single-mismatch match anywhere in 18
 The two screens fail in different ways, so their agreement is not a restatement. One is a heuristic
 alignment search over both strands; the other an exhaustive substitution scan over the sense
 orientation only. The pre-mRNA screen, over a compartment neither of those reaches, does not
-overturn them either: none of the nine has a sense-strand site in parent pre-mRNA (§2.5).
+overturn them either: none of the nine carries a pre-mRNA site of the strict class §2.5 defines —
+gap-paired, sense-strand — though §2.5 is silent on the wider forty that pair all of the gap but one
+or two positions.
 
 The graded re-score agrees, with one instructive exception. Scoring every retained hit by the
 residual cleavage a gap-internal mismatch is predicted to permit, under both literature bounds,
@@ -802,7 +804,8 @@ plausible wild-type liability is its own parent, reached either across a splice 
 mature transcript, and both are invisible to a screen that ranks candidates by global identity. A
 third compartment is invisible to all of them: at a seam whose acceptor half is not exonic in the
 mature transcript, the patient's own un-rearranged *NR4A3* allele carries the same sequence behind an
-intron, and three designs every parent screen passed pair their whole catalytic gap there (§2.6).
+intron, and three designs the mature-parent screen passed — the pre-mRNA screen returned all three, as
+§2.6 reports — pair their whole catalytic gap there.
 The four reports of parental sparing cited here were all made on molecules already
 synthesised, and three of the four went further than cells: an shRNA to the *FGFR3* side of
 *FGFR3::TACC3* improved survival in glioma-bearing
@@ -985,10 +988,10 @@ cells, reduced fusion expression by 58% and proliferation by 22% in
 vitro.<sup>37</sup><!--PMID:37370737-->
 
 **Research use only.** Both sequences named in the next paragraph, and every sequence in Tables 2
-and 5, are research reagents for laboratory investigation only. Neither is a medicine or a candidate
-drug, neither has been synthesised or tested, and neither may be administered to any human being or
-animal or supplied to anyone for that purpose. Ordering either from a commercial synthesis service
-is possible for anyone; doing so does not make it a treatment, and nothing in this section should be
+and 5, are research reagents for laboratory investigation only. None is a medicine or a candidate
+drug, none has been synthesised or tested, and none may be administered to any human being or
+animal or supplied to anyone for that purpose. Ordering any of them from a commercial synthesis
+service is possible for anyone; doing so does not make it a treatment, and nothing in this section should be
 read as licensing use in a patient.
 
 Applied here, the reagents to synthesise are the best available at the two most frequently reported
@@ -1449,8 +1452,9 @@ ENST00000397938 (*EWSR1*), ENST00000605844 (*TAF15*), ENST00000333725 (*TCF12*),
 **Chimera construction.** Chimeras were built from transcript sequence rather than by joining coding
 sequences. A fusion keeps the whole *NR4A3* acceptor exon, so any bases of that exon lying ahead of
 the *NR4A3* start codon are still present in the fusion transcript, and they are the first bases an
-oligonucleotide meets on the *NR4A3* side of the junction. At the exon-3 acceptor, the only one that
-yields designs here, there are two. Joining coding sequences alone would omit them, shifting every
+oligonucleotide meets on the *NR4A3* side of the junction. At the exon-3 acceptor, the only one the
+38-junction panel yields designs at — §2.6 designs and screens at *NR4A3* exon 2 and at the
+intron-2 cryptic exon besides — there are two. Joining coding sequences alone would omit them, shifting every
 design by two positions. A pair of exons is *in frame* when the partner's coding bases, plus those
 retained bases, sum to a multiple of three. Every declared exon pair was graded by that rule before
 any design was emitted, and only the in-frame pairs were carried forward, since only those describe a
@@ -1468,8 +1472,10 @@ of "six or more bases" to activate the enzyme<sup>42</sup><!--PMID:41614678--> �
 gapmers specifically a six-nucleotide gap gives noteworthy but incomplete activity, with seven to ten
 reported as optimal.<sup>38</sup><!--PMID:24981949--> None of the three figures is a titration in
 this architecture, and SI §S3 gives the provenance of each. Six therefore sits at the short end of the
-usable range and below the reported optimum. It was retained because it admits exactly five
-junction-spanning registers per junction. No claim is made that a short gap improves
+usable range and below the reported optimum. It was retained as the panel's fixed baseline rather than as an optimum, and the two longer
+geometries were tiled and screened beside it precisely so the trade it makes is measured rather
+than assumed (§2.9, Table 7). The five junction-spanning registers per junction it admits are a
+consequence of that gap length, not a reason for it: 5-8-5 and 5-10-5 admit seven and nine. No claim is made that a short gap improves
 fusion-versus-parent discrimination: one series that shortened a 5-10-5 gapmer to 5-6-5 reported
 lower off-target knockdown but also lower on-target activity and lower allele
 selectivity.<sup>41</sup><!--PMID:39126066--> Within that same series 5-8-5 was the one shortened

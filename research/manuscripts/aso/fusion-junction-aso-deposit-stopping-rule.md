@@ -47,6 +47,74 @@ condition fixed in advance.
 
 ### ⭐ CONDITION 6 — TWO READERS, AND ONLY THE OVERLAP COUNTS (added 2026-08-19, trimcrae)
 
+#### Round 13 — condition 6 MET, condition 5 not
+
+Two readers, same build, same briefs as round 12. **Zero minors were raised by both** — reader A's
+three and reader B's two are entirely disjoint sets. That is condition 6 satisfied for the first
+time.
+
+⛔ **THE ROUND STILL DOES NOT PASS, BECAUSE READER B RETURNED A MAJOR.** Condition 5 requires nothing
+above `minor`, and both conditions have to hold. §3 said three designs "every parent screen passed"
+pair their whole catalytic gap against the un-rearranged allele — but this paper has TWO parent
+screens, and §2.6 says in terms that only the mature-parent one passed them: "The same three were
+returned independently by an exhaustive scan of the *NR4A3* unspliced sequence, by the pre-mRNA
+screen and by the genome scan." Box 1 had it right and narrow ("Each cleared the spliced-cDNA parent
+screen"); §3 generalised it into a falsehood about the designs this paper condemns.
+
+⚠ **AND ONE OF READER B'S MINORS TRACES TO A ROUND-11 REPAIR.** §2.4 pointed at §2.5 for "none of the
+nine has a sense-strand site in parent pre-mRNA". Round 11 NARROWED §2.5 to the strict 19-design
+class — correctly, on a different finding — which left the §2.4 pointer claiming more than its target
+now says. Fixing a section can invalidate a cross-reference into it, and nothing in the build checks
+that.
+
+All six findings of round 13 are fixed. Round 14 is the next test.
+
+#### Round 13 — condition 6 MET, condition 5 not
+
+Two readers, same build, same briefs as round 12. **Zero minors were raised by both** — reader A's
+three and reader B's two are disjoint sets. Condition 6 satisfied for the first time.
+
+⛔ **THE ROUND STILL FAILS, BECAUSE READER B RETURNED A MAJOR**, and condition 5 requires nothing
+above `minor`. §3 said three designs "every parent screen passed" pair their whole catalytic gap
+against the un-rearranged allele. This paper has TWO parent screens, and §2.6 says only the
+mature-parent one passed them: "The same three were returned independently by an exhaustive scan of
+the *NR4A3* unspliced sequence, by the pre-mRNA screen and by the genome scan." Box 1 had it right
+and narrow — "Each cleared the spliced-cDNA parent screen" — and §3 generalised it into a falsehood
+about the three designs this paper condemns.
+
+⚠ **ONE OF READER B'S MINORS TRACES TO A ROUND-11 REPAIR.** §2.4 cited §2.5 for "none of the nine has
+a sense-strand site in parent pre-mRNA". Round 11 NARROWED §2.5 to the strict 19-design class —
+correctly, on a different finding — leaving the §2.4 pointer claiming more than its target now says.
+Fixing a section can invalidate a cross-reference INTO it, and nothing in the build checks that.
+
+#### ⛔⛔ WHY THE MAJORS APPEARED LATE, AND WHAT THAT SAYS ABOUT THE EARLIER CLEAN ROUNDS
+
+trimcrae, 2026-08-19: *"Where are all these majors coming from all of a sudden? Why were these missed
+so many times before?"* The answer is not that the paper got worse. **The brief got wider.**
+
+From round 11 the screening scope gained: *a universal or counted claim ("no other", "only",
+"every", "none", "the two", "the three", "the same screens") that the paper's own content
+contradicts.* Every major since is that class — "clean" carrying four senses, "the same screens"
+where four of five ran, "every parent screen passed" where one screen caught all three. Two of the
+three PREDATE this session; only the "clean" collision involved a sentence written during it.
+
+★ **SO ROUNDS 4, 7, 8 AND 10 WERE PARTLY MEASURING THE PROMPT, NOT THE PAPER.** They were reported at
+the time as evidence of convergence. They were weaker evidence than that: the instrument was not
+looking for this class. ⚠ **A "0 majors" round is only as strong as the categories the reader was
+asked to check** — which is an argument for widening a brief when a new class appears, and against
+reading a clean round as a property of the document.
+
+The class is also structurally hard to see linearly: §3's universal contradicts §2.6 four pages back,
+and only a reader holding both at once catches it. The copy-editor brief — *follow every
+cross-reference to see whether the target says what the pointer promises* — found two of the three;
+the scope-list screener found one.
+
+⭐ **SO THE CLASS IS NOW BEING AUDITED EXHAUSTIVELY RATHER THAN SAMPLED.** The body carries **251**
+sentences with a universal or counted quantifier (104 "every", 94 "all", 48 "none", and the rest).
+A dedicated agent checks every one against the rest of the manuscript and its tables, with each
+finding required to quote the text that contradicts it. That converts "how many more are there?"
+from a worry into a number.
+
 #### Round 12 — the first round run under this condition, and what it filtered
 
 Two readers, same build, different briefs (one a bioRxiv screener working a scope list, one a

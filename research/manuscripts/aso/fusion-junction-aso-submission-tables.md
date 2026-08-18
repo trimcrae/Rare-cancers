@@ -159,7 +159,7 @@ None of these numbers is a measurement of off-target activity.
 | FUS e1::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCGTTTGAG-3′ | ≥50 → ≥7 | ≥13 | ≤1 | 0 | 129 | 116 | 2 | 10 (38) |
 | FUS e3::NR4A3 e3 | 4 | 3 | 5′-GGGCATATTGTTCTGG-3′ | 18 → ≥4 | ≥1 | ≤2 | 0 | 148 | 34 | 4 | 3 (23) |
 | FUS e5::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTCCACCT-3′ | 32 → ≥8 | ≥8 | ≤2 | 1 | 127 | 47 | 4 | 2 (3) |
-| FUS e7::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCACCAAAT-3′ | 34 → ≥5 | ≥8 | ≤0 | 0 | 141 | 107 | 4 | 12 (39) |
+| FUS e7::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCACCAAAT-3′ | 34 → ≥5 | ≥8 | 0 | 0 | 141 | 107 | 4 | 12 (39) |
 | FUS e8::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCGGAGTCA-3′ | 4 → 3 | 3 | 1 | 0 | 4 | 3 | 1 | 0 (1) |
 | TAF15 e11::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCATCAAAC-3′ | 9 → 4 | 6 | 1 | 1 | 189 | 141 | 6 | 2 (22) |
 | TAF15 e12::NR4A3 e3 | 4 | 2 | 5′-AGGGCATATCTCGCCG-3′ | 42 → ≥4 | ≥11 | ≤3 | 0 | 42 | 33 | 3 | 3 (4) |
@@ -181,7 +181,7 @@ None of these numbers is a measurement of off-target activity.
 | TFG e3::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCAAATAAT-3′ | 14 → 6 | 9 | 3 | 0 | 217 | 161 | 6 | 9 (17) |
 | TFG e4::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCATTTTCA-3′ | ≥50 → ≥3 | ≥15 | ≤5 | 2 | 318 | 238 | 15 | 41 (100) |
 | TFG e5::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTGAAACC-3′ | 41 → ≥6 | ≥11 | ≤7 | 1 | 112 | 72 | 10 | 3 (21) |
-| TFG e6::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTTCAATC-3′ | 37 → ≥3 | ≥2 | ≤0 | 0 | 238 | 193 | 3 | 11 (21) |
+| TFG e6::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTTCAATC-3′ | 37 → ≥3 | ≥2 | 0 | 0 | 238 | 193 | 3 | 11 (21) |
 | TFG e7::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTGAATAC-3′ | 27 → ≥3 | ≥3 | ≤3 | 1 | 43 | 12 | 4 | 4 (26) |
 
 **Table 4. The 9 designs with no sense-strand near-match at the default search depth.** Six of
