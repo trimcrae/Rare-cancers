@@ -687,7 +687,7 @@ Over the six junctions screened at every geometry, designs carrying no such risk
 of 42 to 54 of 54, and the most risk loci on any one design falls from seven to two to none.
 
 Against that, the contiguous DNA a wild-type parent pairs at the same junction rises from 3 to 4 to 5
-nucleotides, and the most stable parent duplex from −7.77 to −8.66 to −10.25 kcal/mol. The corpus
+nucleotides, and the most stable parent duplex falls from −7.77 to −8.66 to −10.25 kcal/mol. The corpus
 shows the same trade. Designs whose parent pairs at least five nucleotides of contiguous gap DNA, the
 shorter of the two reported minima for RNase-H1, rise from 76 of 190 to 228 of 266 to 342 of 342, and
 the median most stable parent duplex falls from −8.66 to −14.58 kcal/mol. At 5-10-5 that count is
@@ -762,7 +762,8 @@ fusion junction, though at three of them every design pairs a wild-type parent t
 gap. Nor does specificity sort by partner. With all 38 junctions screened, four of the five partners
 have a junction whose cleanest design carries no sense-strand near-match across the gap at the
 deeper ceiling, and all five do at the default one. It is therefore the exon a fusion breaks at, not
-the gene it breaks into, that predicts a clean design — and the count of clean junctions is itself a
+the gene it breaks into, that predicts a design clean ACROSS THE GAP in that sense — and the count
+of such junctions is itself a
 function of search depth, as §5 sets out.
 
 Clean designs are much scarcer than the default search depth implies, and two independent findings
@@ -1027,7 +1028,9 @@ assumes every remaining *EWSR1* breakpoint covered, which is the larger of the t
 points and needs three further reagents the retrieved record does not resolve to an exon (Table 5).
 One fact about the screened set is invisible in the ladder, which prices rungs rather than counting
 seams: every junction with a published exon-resolved breakpoint in the retrieved record now carries
-a screened design, the five in this panel (§2.7) and the four *NR4A3* exon-2 acceptor seams reported
+a screened design, the five in this panel (§2.7) and the four *NR4A3* exon-2 acceptor seams of §2.6,
+of which Table 5 carries three under its own “beside the panel” label and the fourth as a coverage
+rung, reported
 beside it (§2.6). Eight of those nine designs are taken through all five screens. The ninth, at the
 *PGR* seam, is graded on four of them, because the pre-mRNA screen's parent set does not carry that
 donor's unspliced sequence, so its pre-mRNA compartment is unmeasured rather than clean for the
@@ -1671,7 +1674,10 @@ Neither is a cross-reference to the other.
 **Figure 1. Reading-frame compatibility across the NR4A3 fusion junction space.** All 231 donor-exon ×
 acceptor-exon pairs across *EWSR1*, *TAF15*, *TCF12*, *FUS* and *TFG*, graded against the frame
 condition.
-Rows are donor exons grouped by partner; columns are *NR4A3* acceptor exons. Two acceptor columns
+Green marks the 38 frame-compatible pairs the panel is emitted at; the three refusal classes are
+greys, lightest to darkest: out of frame (39), acceptor exon carries no coding sequence (77), and
+acceptor outside the plausible resumption range (77). The panel repeats this key and these counts
+beside the grid, so it can be read without this caption. Rows are donor exons grouped by partner; columns are *NR4A3* acceptor exons. Two acceptor columns
 are refused in every pair for structural reasons, so the 38 in-frame junctions lie in a
 single column.
 
@@ -1761,7 +1767,7 @@ giving the same 87 and the same 61 against *NR4A3*. The two transcript acquisiti
 base for all six genes, and the annotation-free coding start reproduces the annotated one for all
 six. Both implementations, the comparison and its deliberate-corruption tests are in the archive.
 
-Two things that check should not be read as follow. It is not external review: the same author prepared
+That check should not be read as either of two things. It is not external review: the same author prepared
 both implementations. And it bounds implementation error only — two implementations of a
 specification that is itself wrong will agree with each other and both be wrong, so agreement here is
 not evidence that the longest contiguous run containing the catalytic gap is the right quantity to

@@ -71,7 +71,7 @@ genome column is the observed number of gap-paired sites at ≤2 mismatches over
 for an arbitrary 16-mer, so 1.00 is chance. A junction with no design clearing the parent screen is
 reported as such rather than given a best row, and Table 3 marks those junctions too, since Table 3
 ranks by margin instead and does print a sequence at each of them. The last column is a conventional
-design audit, computed for whichever design this table names from the same artifact and by the same
+design audit, computed for whichever design this table names from the same artefact and by the same
 code Table 4 uses. The four conventional antisense design rules audited are GC within 40–60%, no G-quadruplex motif, no homopolymer run of four, and no CpG dinucleotide. It is reported beside the ranking and is never folded
 into it: the two orderings select different molecules, which is the disagreement §2.10 is about, and
 this is the table one reagent is chosen from. A design the audit does not cover would read “not
@@ -282,7 +282,7 @@ measurement of off-target activity, and no row is a claim of efficacy. The seque
 **Table 6. Where the off-target loci at the junctions with a published breakpoint are expressed.** Every gene
 locus returned by the deeper screens that were READ at four of the five junctions with a
 published exon-resolved EMC breakpoint, over the tiling registers read at each, against reference
-expression data. ⚠ That is not every screen at every junction: at the lead seam only the
+expression data. ⚠ That is not every screen at every junction: at the *EWSR1* exon-12 lead seam only the
 multi-partner reagent's own screen is read, so its rows carry a denominator of one, which note ⁷ states per row. The two compartments answer different questions and are
 never combined: a systemically dosed phosphorothioate gapmer is taken to distribute predominantly to
 liver and kidney — a premise taken from the chemistry, for which no measurement or citation was
@@ -305,7 +305,7 @@ than a zero, because an absent reading is not a reading of absence. Every hit be
 nothing here distinguishes these loci from one another on affinity. None of these numbers is a
 measurement of cleavage, and no expression figure is a predicted cleavage event.
 
-⁷ The denominator is how many designs at that seam THIS TABLE READS, and not how many junction-spanning registers the seam admits — 5 at every junction of this panel (Table 7). At the lead seam the multi-partner reagent's own screen is the only one read, so those rows carry a denominator of one; at the other seams no design is selected and every screened register is read, because a ranking is not a reagent and the union across registers is what the panel has to cover.
+⁷ The denominator is how many designs at that seam THIS TABLE READS, and not how many junction-spanning registers the seam admits — 5 at every junction of this panel (Table 7). At the *EWSR1* exon-12 lead seam the multi-partner reagent's own screen is the only one read, so those rows carry a denominator of one; at the other seams no design is selected and every screened register is read, because a ranking is not a reagent and the union across registers is what the panel has to cover.
 
 ◆ A locus returned by the design Table 2 names as the best available at that seam, which is the molecule Table 5 prices and §4 names. The unmarked rows are returned by other registers tiled across the same junction and not by that reagent. The marker identifies and does not rank: every locus keeps its row, the union is still what this table reports, and a reagent's own loci are neither cleaner nor dirtier for being its own.
 
