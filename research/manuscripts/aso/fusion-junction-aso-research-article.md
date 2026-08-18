@@ -473,8 +473,9 @@ forward orientation, the same ten-base-pair threshold. Scrambling each design's 
 which preserves its base composition and is the scrambled-gapmer control §4.4 asks a laboratory to
 make, gives 6.2% (5.9–6.4%); a dinucleotide-preserving shuffle gives 10.0% (9.7–10.3%); 16-mers drawn
 from uniform bases give 6.9% (6.7–7.2%), and from the panel's pooled base composition 7.2%
-(6.9–7.4%). A calculation agrees with the sampled
-figure rather than the sampled figure standing alone: the gap must pair, at 4⁻⁶, and the run must
+(6.9–7.4%). The uniform-base figure does not stand alone; a calculation on the same uniform bases
+agrees with it: the gap must pair,
+at 4⁻⁶, and the run must
 then extend four further nucleotides across the two wings, at 1/64, which over the 19,921 parent
 windows searched predicts 7.3%. The observed rate is about sixfold that, and the arm the modality
 actually turns on separates further still: 32.1% of designs pair the gap against wild-type *NR4A3*
