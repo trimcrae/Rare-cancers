@@ -45,7 +45,47 @@ condition fixed in advance.
 
 ## 2 · The rule
 
-**Deposit when all five hold.** ⚠ *Superseded, retained: "all four" — condition 5 was added 2026-08-17 after conditions 1-4 all held and an outside screen of the built PDF found a wrong-reagent hazard none of them could see.*
+### ⭐ CONDITION 6 — TWO READERS, AND ONLY THE OVERLAP COUNTS (added 2026-08-19, trimcrae)
+
+**A minor is actionable only if TWO independent readers of the SAME build both raise it.** A minor
+one reader raises and the other does not is recorded and NOT fixed.
+
+⛔ **WHY, AND IT IS MEASURED RATHER THAN ARGUED.** Across nine screened rounds of both built formats:
+
+| round | blockers | majors | minors |
+|---|---|---|---|
+| 3 | 1 | 3 | 8 |
+| 4 | 0 | 0 | 11 |
+| 5 | 0 | 1 | 8 |
+| 6 | 2 | 1 | 5 |
+| 7 | 0 | 0 | 7 |
+| 8 | 0 | 0 | 5 |
+| 9 | 0 | 2 | 6 |
+| 10 | 0 | 0 | 5 |
+| 11 | 0 | 0 | 4 |
+
+Blockers and majors CONVERGED — zero of both in six of the last seven format-rounds. **Minors did
+not.** They oscillate between 4 and 7 with no trend that survives the noise, and the mechanism is
+visible in the ledger: **roughly one finding per round was created by the previous round's fix**
+(round 6's blocker, round 7's fragment, round 8's all-caps emphasis, round 9's precedent major,
+round 11's "the two reagents"). The screener finds ~4, the repair introduces ~1, and the count sits
+at a fixed point. That is a sampling rate, not a defect count.
+
+★ **THIS IS WHAT §1 ALREADY PREDICTED**, and the prediction is now quantified rather than asserted:
+"the same model family, reviewing the same document, with the same blind spots, will keep returning
+findings for as long as it is asked to." Chasing single-reader minors is an indefinite loop whose
+marginal finding was, by the end, a gene abbreviation left unexpanded and a source set not announced
+as three.
+
+⚠ **THE CRITERION WAS FIXED BEFORE THE ROUND THAT TESTS IT.** Written while round 12's two readers
+were still reading and their findings were unknown — a stopping rule chosen after seeing the data is
+not a stopping rule. Both readers get the same build and neither sees the other.
+
+⚠ **THIS RELAXES NOTHING ABOVE MINOR.** A blocker or a major from EITHER reader is actionable on its
+own; the two-reader test applies to minors only, which is exactly the class that stopped converging.
+
+
+**Deposit when all six hold.** ⚠ *Superseded, retained: "all five", and before it "all four" — condition 6 was added 2026-08-19 after the minor count was measured across nine rounds and found not to converge; condition 5 was added 2026-08-17 after conditions 1-4 all held and an outside screen of the built PDF found a wrong-reagent hazard none of them could see.*
 
 1. **Every P0 and P1 item has a recorded disposition** — applied, declined with a stated reason, or
    refuted with evidence. **Zero OPEN.** A deferred item is only permissible where its trigger is
