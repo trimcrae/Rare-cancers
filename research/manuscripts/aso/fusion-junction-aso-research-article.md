@@ -654,7 +654,7 @@ registers return, on five gap-paired hits to a single accession. It is at or abo
 two of those three, and robustness to register orders the loci differently again — though not
 independently of the hit count, since a locus returned by more registers accrues more hits by
 construction, and the two still do not order the loci together: *NRP1* leads on register robustness
-and sits near the bottom on hits, its five records being one accession returned once per register;
+and sits mid-range on hits, its five records being one accession returned once per register;
 the tumour-compartment proxy orders them a third way. What these readings can and cannot decide between two reagents is stated where
 that choice is made (§4.1).
 
@@ -823,7 +823,7 @@ atherosclerosis, NR4A1 and NR4A2 attenuate lesion formation while NR4A3 aggravat
 it<sup>32</sup><!--PMID:24005216--> — so paralogue redundancy cannot be assumed to be
 substitution.
 
-Two limits on that reading matter more than the reading itself. Every source cited here is
+Three limits on that reading matter more than the reading itself. Every source cited here is
 haematopoietic or vascular, and none addresses the tissue an EMC arises in; two of the four are
 reviews rather than primary reports; and the perturbation described throughout is germline or
 conditional gene deletion, which is a different and more complete perturbation than
@@ -1696,7 +1696,9 @@ holds for each design individually rather than on average. Within one geometry t
 inversely along a line of slope −1; a geometry's ceiling on margin is half its gap rounded down, and
 clearing it means a longer gap and a higher parent-paired run at every register (§2.9, Table 7).
 
-**Supplementary Figure S1. Transcriptome load per design against chance expectation.** Each bar is one distinct
+**Supplementary Figure S1. Transcriptome load per design against chance expectation.** Bars are
+green at or below the chance line and red above it, which is redundant with each bar's height
+against that line and carries no information of its own. Each bar is one distinct
 oligonucleotide's count of exact plus ≤1-mismatch matches over 186,185 transcripts, ranked. The 190
 design records at real exon junctions collapse to 176 molecules, because nine of the 16-mers are
 junction-spanning at more than one partner's junction at once — five at three junctions and four at two — and
@@ -1758,7 +1760,7 @@ giving the same 87 and the same 61 against *NR4A3*. The two transcript acquisiti
 base for all six genes, and the annotation-free coding start reproduces the annotated one for all
 six. Both implementations, the comparison and its deliberate-corruption tests are in the archive.
 
-Two things that check should not be read as. It is not external review: the same author prepared
+Two things that check should not be read as follow. It is not external review: the same author prepared
 both implementations. And it bounds implementation error only — two implementations of a
 specification that is itself wrong will agree with each other and both be wrong, so agreement here is
 not evidence that the longest contiguous run containing the catalytic gap is the right quantity to

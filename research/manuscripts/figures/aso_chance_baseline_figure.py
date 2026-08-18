@@ -266,7 +266,9 @@ def main(argv=None):
         (f'The {_ref} assumes independent uniform bases; the transcriptome span it is computed '
          f'over is the exhaustive scan\'s measured one. It separates "more than chance" from '
          f'"at chance" and is not a significance test.'),
-        (f'Counts are predictions from sequence search, not measured off-target activity. '
+        (f'Counts are predictions from sequence search, not measured off-target activity. Bars are '
+         f'green at or below the line and red above it, which repeats each bar\'s own height and '
+         f'carries no information of its own. '
          f'{esc(fs["n_above_chance_upper"])} of the {esc(n)} plotted designs {_above}; on the '
          f'mean the set comes in at chance.'),
         (f'Not plotted: {esc(exc["n_excluded"])} designs at {esc(exc["n_breakpoints"])} '

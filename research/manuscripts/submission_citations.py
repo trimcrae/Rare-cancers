@@ -425,7 +425,11 @@ def main(argv=None):
             "<!-- GENERATED — DO NOT EDIT. Regenerate: python3 "
             "research/manuscripts/submission_citations.py --write -->\n\n"
             "# References — fusion-junction ASO submission\n\n"
-            f"*{len(order)} entries, numbered by first citation in the submission manuscript. "
+            #: ⚠ "IN THIS MANUSCRIPT", NOT "IN THE SUBMISSION MANUSCRIPT" (2026-08-17). This list is spliced
+            #: INTO the built PDF, where "the submission manuscript" names no document the reader
+            #: has and reads as a pointer to a separate file — inviting doubt about numbering
+            #: that a blind screen confirmed is correct, 1 to 52 in first-citation order.
+            f"*{len(order)} entries, numbered by first citation in this manuscript. "
             "Metadata is read from retrieved bibliographic records; an unretrieved field is left "
             "absent rather than completed."
             + (f" {len(data)} data sources follow, unnumbered." if data else "")

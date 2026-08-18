@@ -2,7 +2,7 @@
 
 # References — fusion-junction ASO submission
 
-*52 entries, numbered by first citation in the submission manuscript. Metadata is read from retrieved bibliographic records; an unretrieved field is left absent rather than completed. 9 data sources follow, unnumbered.*
+*52 entries, numbered by first citation in this manuscript. Metadata is read from retrieved bibliographic records; an unretrieved field is left absent rather than completed. 9 data sources follow, unnumbered.*
 
 1. Labelle Y, Zucman J, Stenman G, Kindblom LG, Knight J, Turc-Carel C, Dockhorn-Dworniczak B, Mandahl N, Desmaze C, Peter M. Oncogenic conversion of a novel orphan nuclear receptor by chromosome translocation. Human molecular genetics. 1995;4(12):2219-2226. PMID: 8634690. doi:10.1093/hmg/4.12.2219
 2. Paioli A, Stacchiotti S, Campanacci D, Palmerini E, Frezza AM, Longhi A, Radaelli S, Donati DM, Beltrami G, Bianchi G, et al. Extraskeletal Myxoid Chondrosarcoma with Molecularly Confirmed Diagnosis: A Multicenter Retrospective Study Within the Italian Sarcoma Group. Ann Surg Oncol. 2021;28(2):1142-1150. PMID: 32572850. doi:10.1245/s10434-020-08737-7

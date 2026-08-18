@@ -1380,7 +1380,15 @@ def table6(expr, per_junction):
                                 -L["screen_records"]["n_transcript_records"], L["locus"]))
     for L in per:
         junction = L["seams"][0]
-        lab = "" if junction in seen else junction.replace("__", "::").replace("_", " ")
+        #: ⛔ THE LABEL IS REPEATED ON EVERY ROW, NOT ONLY THE FIRST OF EACH BLOCK (2026-08-17). It
+        #: used to be blanked after the block's first row, which reads well on one page and fails at
+        #: a page break: a blind screen of the built journal PDF found the continuation page opening
+        #: with two unlabelled loci — one of them the highest liver reading on the page, the sort of
+        #: row a reader most wants to attribute — belonging to a block that started overleaf. Tables
+        #: 2, 3 and 5 all repeat their row identity across their own breaks, so blanking here was
+        #: also out of the document's convention. Where the break falls is a typesetting decision
+        #: this generator cannot see, so the label cannot be omitted on the assumption it is visible.
+        lab = junction.replace("__", "::").replace("_", " ")
         seen.add(junction)
         ex, tu = L["exposure_compartment_liver_kidney"], L["tumour_compartment_normal_tissue_proxy"]
         if ex.get("readable") and ex.get("values"):
@@ -1867,13 +1875,12 @@ measurement of off-target activity, and no row is a claim of efficacy. {_orderin
 locus returned by the deeper screens that were READ at {n_expr_seams_txt} of the five junctions with a
 published exon-resolved EMC breakpoint, over the tiling registers read at each, against reference
 expression data. ⚠ That is not every screen at every junction: at the lead seam only the
-multi-partner reagent's own screen is read, so its rows carry a denominator of one, which note ⁷
-states per row and §2.8 states in full. The two compartments answer different questions and are
+multi-partner reagent's own screen is read, so its rows carry a denominator of one, which note ⁷ states per row. The two compartments answer different questions and are
 never combined: a systemically dosed phosphorothioate gapmer is taken to distribute predominantly to
 liver and kidney — a premise taken from the chemistry, for which no measurement or citation was
 retrieved here — so {lo_cut_txt} are read as the exposure compartment, while the soft-tissue column is the normal
 tissue of the compartment EMC arises in and stands in for a tumour no reference atlas contains.
-Values are GTEx v8 median TPM across each tissue's donors. The two cuts behind the last column are
+Values are median transcripts per million (TPM) from version 8 of the Genotype-Tissue Expression project (GTEx) across each tissue's donors. The two cuts behind the last column are
 stated for legibility and are not thresholds of concern: below {lo_cut:g} TPM in all three exposure
 tissues reads as below detection, at or above {hi_cut:g} TPM in any of them as the level at which an
 off-target hypothesis would have to be tested. Every raw median is released so another cut can be
