@@ -1088,7 +1088,12 @@ def test_the_corpus_parent_liability_numbers_in_section_3_10():
 
     txt = _flat(_paper())
     assert "from 76 of 190 to 228 of 266 to 342 of 342" in txt
-    assert "−8.66 to −14.58 kcal/mol" in txt
+    # ⛔ RE-PINNED 2026-08-19 (round-18 reader A): the prose printed only the FIRST and LAST of
+    # three geometry values while the count series beside it printed all three, so a reader
+    # mapped the lists 1:1 and read −14.58 as the 5-8-5 figure. This very test already had all
+    # three from the artefact on the line above — the pin held the truncated prose while the
+    # derived list knew better, which is how a pin freezes a defect instead of catching it.
+    assert "−8.66 to −11.60 to −14.58 kcal/mol" in txt
     # ⚠ "smaller" -> "larger", round 6. The counted quantity is `max(gl, gr)`
     # (aso_gap_length_tradeoff.py: `parent_dna = max(gl, gr)`), so what cannot be under five at a gap
     # of ten is the LARGER half; the smaller half runs 1 to 5. This guard pinned the wrong word and
@@ -1410,8 +1415,15 @@ def test_the_expression_limits_are_stated_and_the_unmeasured_loci_are_accounted(
     # recommendation without it; standing only beside the recommendation would let the numbers be
     # read as predicted events. It has to be in both places, so both are required here.
     assert "Hybridisation, not cleavage, and not exposure." in txt
-    assert "no cleavage is predicted at any of them, and an expressed gene is necessary and not " \
-           "sufficient for an effect" in txt
+    # ⛔ RE-PINNED 2026-08-19 (round-18 reader B): the firewall is unchanged in substance but the
+    # old wording contradicted the paper's own definitions. The hits it is about are GAP-PAIRED,
+    # and Box 1 and §6 both define that class as "the class RNase-H1 could cleave", with Table 7
+    # labelling the same 123 "cleavage risks". Saying "no cleavage is predicted at any of them"
+    # of the cleavable class reads as a safety claim about those sites. The true statement is
+    # about the INSTRUMENTS: no screen here predicts cleavage, because all five grade
+    # hybridisation only. Both placements are still required, for the reason above.
+    assert "no screen here predicts cleavage at any of them because all five grade " \
+           "hybridisation only" in txt
 
 
 def test_section_4_separates_the_two_reagents_without_making_a_safety_claim():

@@ -358,7 +358,9 @@ Every junction was then re-screened at a tenfold deeper alignment ceiling, with 
 match so that no hit list is truncated: 38 junctions and 187 design records. The result withdraws
 most of the set above. The 187 are the panel's 190 less three that failed at the remote service on
 this pass, two at *FUS* exon 5 and one at *TFG* exon 2. They had returned 23, 41 and 31
-near-matches at the default depth, so none was a candidate and no count below depends on them. Only
+near-matches at the default depth, but a raw either-strand count decides nothing about sense-strand
+cleanliness (§5); what disqualifies them is that none carries a deep hit list at all, which §2.7
+requires of a candidate, and no count below depends on them. Only
 three of the nine still carry no sense-strand near-match: 5′-AGGGCATATCGGAGTC-3′ at *FUS* exon 8,
 5′-GGGCATATCCGACATG-3′ at *TAF15* exon 1 and 5′-GGCATATCAAGCGCTG-3′ at *TCF12* exon 7, each of which
 returned the same count at both depths. The other six did not. The three *EWSR1* exon-1 designs had
@@ -713,7 +715,7 @@ Against that, the contiguous DNA a wild-type parent pairs at the same junction r
 nucleotides, and the most stable parent duplex falls from −7.77 to −8.66 to −10.25 kcal/mol. The corpus
 shows the same trade. Designs whose parent pairs at least five nucleotides of contiguous gap DNA, the
 shorter of the two reported minima for RNase-H1, rise from 76 of 190 to 228 of 266 to 342 of 342, and
-the median most stable parent duplex falls from −8.66 to −14.58 kcal/mol. At 5-10-5 that count is
+the median most stable parent duplex falls from −8.66 to −11.60 to −14.58 kcal/mol. At 5-10-5 that count is
 every design, and necessarily so, since the larger half of a gap of ten cannot be under five. At
 5-6-5, 114 of 190 designs keep the parent below it.
 
@@ -1094,9 +1096,9 @@ none of the exon-12 reagent's measurable loci is (§2.8, Table 6). For a laborat
 them, the exposure reading is the one that speaks to the question a count cannot: a locus matched
 but not transcribed in the organs a systemic dose reaches has no route to an effect, whereas the count says only how
 many gap-paired windows the screen returned there. Neither axis is a risk ranking, and this comparison
-does not make the exon-12 reagent the safer molecule. Every hit behind both is a 14 of 16 match, no
-cleavage is predicted at any of them, and an expressed gene is necessary and not sufficient for an
-effect. The reason to make the exon-13 reagent is coverage, and it is unaffected by either axis.
+does not make the exon-12 reagent the safer molecule. Every hit behind both is a 14 of 16 match, no screen
+here predicts cleavage at any of them because all five grade hybridisation only (§5), and an
+expressed gene is necessary and not sufficient for an effect. The reason to make the exon-13 reagent is coverage, and it is unaffected by either axis.
 
 Two risks attach, in this order. The first is architectural, and the Methods (§6) disclose it. A
 six-nucleotide gap supports noteworthy but incomplete RNase-H1 activity where seven to ten are
@@ -1462,9 +1464,9 @@ per record that contains it, so those rows are largely redundant copies of one a
 no denominator against which to say whether any of them is more than arithmetic. No count, ratio,
 load or cleanliness statement in this paper is taken from that file. Nor does it bear on screen 5,
 which is a different object that shares the word
-genome-wide: screen 5 is the exhaustive GRCh38 scan of §2.7 and §6, whose denominator is measured at
-3.10 × 10⁹ nucleotides, whose expectations are computed from that denominator, and which caps
-nothing at scan time. The earlier attempt is retained as the record of an instrument that had no
+genome-wide: screen 5 is the exhaustive GRCh38 scan of §2.7 and §6, whose expectations are computed from the
+2,948,609,696 windows it actually searched over a measured 3.10 × 10⁹ nucleotides of assembly, and
+which caps nothing at scan time. The earlier attempt is retained as the record of an instrument that had no
 reading to give, and it should be read as nothing else.
 
 ## 6 · Methods
