@@ -56,10 +56,10 @@ wild-type-parent duplex it concedes are complements within one gap: every base w
 is a base conceded on the other. The work is computational: no wet-lab
 experiment was performed, nothing has been synthesised or tested, and nothing here asserts efficacy,
 safety, delivery to a tumour or clinical readiness. Every sequence named below is a research reagent
-for laboratory investigation only and must not be administered to any person or animal. Two are
-named for synthesis with their off-target loads, 5′-GGGCATATCATCAAAC-3′ at *EWSR1* exon 12 and
-5′-GGGCATATCTTGTGTG-3′ at *TAF15* exon 6, and three as not to be used, each pairing its whole
-catalytic gap against the patient's own un-rearranged *NR4A3* allele. The design and screening
+for laboratory investigation only and must not be administered to any person or animal. Two are named as leads for synthesis with their off-target loads, 5′-GGGCATATCATCAAAC-3′ at *EWSR1* exon 12 and
+5′-GGGCATATCTTGTGTG-3′ at *TAF15* exon 6, with two more named for coverage in §4.1; and three as
+not to be used, each pairing its whole catalytic gap against the patient's own un-rearranged
+*NR4A3* allele. The design and screening
 pipeline is released, so a candidate can be designed for a breakpoint outside this panel by the same
 procedure.
 
@@ -166,7 +166,7 @@ are applied, numbered here as in §6: (1) the
 alignment screen, (2) the exhaustive transcript scan, (3) the pre-mRNA screen, (4) the mature-parent
 screen and (5) the genome scan.
 
-**The two reagents to synthesise (§4.1).** 5′-GGGCATATCATCAAAC-3′ at *EWSR1* exon 12 joined
+**The two lead reagents to synthesise (§4.1, which names two more for coverage).** 5′-GGGCATATCATCAAAC-3′ at *EWSR1* exon 12 joined
 to *NR4A3* exon 3, carrying 123 gap-paired sense-strand near-matches at six gene loci at the deeper
 search ceiling together with a sense-strand near-match in wild-type *TAF15* precursor RNA (§4.3); and
 5′-GGGCATATCTTGTGTG-3′ at *TAF15* exon 6, carrying 8 such near-matches at five loci and no
@@ -841,7 +841,8 @@ conditional gene deletion, which is a different and more complete perturbation t
 partial, reversible, dose-limited knockdown by an oligonucleotide. The honest position is therefore
 that wild-type *NR4A3* knockdown has an unquantified cost that is probably not zero and probably not
 catastrophic, and that the case for junction selectivity does not rest on it. It rests on the
-*EWSR1* and *TAF15* side: the fusion's partner genes are essential RNA-binding proteins, and a
+*EWSR1* and *TAF15* side, whose partner genes are essential RNA-binding proteins — *TCF12* and
+*TFG*, the two non-FET partners of §2.3, are not — and a
 reagent cleaving a parent transcript is failing at the one thing that distinguishes this modality
 from knocking down *NR4A3* directly, which requires no junction at all. A design that cannot spare
 the parents has no advantage left to trade.
@@ -1145,7 +1146,9 @@ assay; what no part of that workflow supplies is the exon pair.
 Three assay controls are required, and a knockdown assay alone distinguishes none of them:
 
 - a positive control gapmer against an abundant housekeeping transcript in the same cells, to
-  separate failed delivery from failed discrimination;
+  separate failed delivery from a test reagent that reached its target and did not cleave it;
+  it says nothing about discrimination, which is fusion-versus-parent selectivity and is what
+  §4.2's gap-length arm is for;
 - a scrambled gapmer of matched chemistry, to separate sequence-specific cleavage from the
   non-specific toxicity of this chemistry — and the scramble actually ordered must itself be put
   through the mature-parent screen before it is made, because on this paper's own null 6.2% of
