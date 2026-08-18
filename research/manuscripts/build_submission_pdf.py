@@ -644,7 +644,7 @@ h1 { font-size: 17pt; line-height: 1.25; margin: 0 0 14pt 0; font-weight: 600; }
 h2 { font-size: 13pt; margin: 20pt 0 6pt 0; font-weight: 600;
      border-bottom: 0.5pt solid #ccc; padding-bottom: 3pt; break-after: avoid; }
 h3 { font-size: 11pt; margin: 14pt 0 4pt 0; font-weight: 600; break-after: avoid; }
-p { margin: 0 0 8pt 0; text-align: justify; }
+p { margin: 0 0 8pt 0; text-align: justify;  text-wrap: pretty; }
 hr { border: 0; border-top: 0.5pt solid #ddd; margin: 14pt 0; }
 ol, ul { margin: 0 0 8pt 0; padding-left: 18pt; }
 li { margin-bottom: 4pt; text-align: justify; }
@@ -712,12 +712,17 @@ h1.title { font-size: 18pt; line-height: 1.18; margin: 0 0 8pt 0; font-weight: 7
 .cols h3 { font-family: 'Liberation Sans', Helvetica, sans-serif; font-size: 8.4pt;
            margin: 8pt 0 3pt 0; font-weight: 700; color: #2c3f4f; break-after: avoid; }
 .cols h2:first-child { margin-top: 0; }
-p { margin: 0 0 5pt 0; text-align: justify; }
+p { margin: 0 0 5pt 0; text-align: justify;  text-wrap: pretty; }
 .cols > p + p { text-indent: 1.1em; }
 hr { display: none; }
 ol, ul { margin: 0 0 6pt 0; padding-left: 13pt; }
 li { margin-bottom: 3pt; text-align: justify; }
 
+/* ⚠ JUSTIFIED LINES BEFORE AN UNBREAKABLE 16-20-MER STRETCH, AND THERE IS NO SAFE LEVER. Two
+   blind screens flagged the inter-word rivers. `hyphens: auto` is already on, and the remaining
+   cause is a 20-character token that must NOT break — breaking a sequence is the wrong-reagent
+   hazard this whole deposit is built to prevent. `text-wrap: pretty` is the one improvement that
+   cannot alter content; the residual stretching is accepted and recorded here. */
 /* --- floats: tables and figures set where they are first cited --- */
 .float { break-inside: avoid; margin: 4pt 0 9pt 0; }
 .span-float { column-span: all; }

@@ -660,8 +660,14 @@ def test_the_tcf12_exon5_gap_spanning_load_is_one_locus_not_seventeen():
     assert dict(loci) == {"PIK3CG": 17}, loci
     assert {C.accession_class(h) for h in paired} != {"predicted"}, "the sentence says curated"
     txt = _flat(_paper())
-    assert ("retains 17 gap-spanning near-matches at the deeper ceiling, every one of them a "
-            "variant of a single curated locus, *PIK3CG*") in txt
+    #: ⚠ SPLIT IN TWO, 2026-08-17. The sentence used to run "...a variant of a single curated locus,
+    #: *PIK3CG* (Table 2)", and a blind screen of the built PDF pointed out that Table 2 has neither
+    #: a gene-name column nor a curated/predicted one — it gives "17 → 1", which supports the count
+    #: and the single locus and nothing else. The gene and its curated status come from the deep hit
+    #: list and Table 6. Both facts are still pinned; the attribution between them moved.
+    assert "retains 17 gap-spanning near-matches at the deeper ceiling" in txt
+    assert "every one of them a variant of a single" in txt
+    assert "That locus is the curated *PIK3CG*" in txt
     for dead in ("highest gap-spanning near-match load in the panel", "17 loci for its best-margin"):
         assert dead not in txt, f"superseded TCF12 e5 claim is back: {dead!r}"
 

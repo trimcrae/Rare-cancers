@@ -200,8 +200,7 @@ The results are ordered for a laboratory deciding what to make. How far any of t
 be trusted is stated in §5, which bounds all of them.
 
 **How the counts are denominated.** Six numbers recur below and they are not interchangeable. 231 is
-the donor-exon by acceptor-exon pairs graded for frame. 38 are the in-frame junctions among
-them. Those 38 carry 190 design records, which are 176 distinct molecules, because nine of the
+the number of donor-exon by acceptor-exon pairs graded for frame. 38 are the in-frame junctions among them. Those 38 carry 190 design records, which are 176 distinct molecules, because nine of the
 16-mers span more than one partner's junction and are recorded once per junction. Of the 190, 183 have a
 returned specificity screen; the other seven failed at the remote service, which matters because a
 free energy needs only a sequence where a screen needs a query that came back. 187 is the count
@@ -291,8 +290,9 @@ used here, the donor side ends at *TCF12* exon 5 and at no other exon, the accep
 the seam the panel was designed on. The base-level assignment, its chromosome-tagged coordinates and
 the translation check that reproduces the deposit's own recorded protein are in the released
 artefact. That junction is in-frame and designable, and its best-margin design retains 17
-gap-spanning near-matches at the deeper ceiling, every one of them a variant of a single curated
-locus, *PIK3CG* (Table 2). None of the four *TCF12* designs with no sense-strand near-match is at
+gap-spanning near-matches at the deeper ceiling, every one of them a variant of a single
+locus (Table 2). That locus is the curated *PIK3CG*, read from the deep hit list and from Table 6;
+Table 2 carries no gene column. None of the four *TCF12* designs with no sense-strand near-match is at
 that exon. So for *TCF12* as for *TAF15*, the junction a patient is reported to carry is designable
 and is not among the clean ones, while the clean junctions have no reported patient. What remains
 unmeasured at *TCF12* is not the exon but the distribution: one *TCF12*-rearranged tumour has been
@@ -869,8 +869,8 @@ non-oncology indications. An inhaled antisense oligonucleotide has been dosed in
 in phase 1,<sup>34</sup><!--PMID:39500647--> though that was a splice-switching oligonucleotide rather
 than an RNase-H1-active gapmer, so it establishes the route and not the mechanism used here. An
 inhaled siRNA has reached phase 2b–3 in patients.<sup>35</sup><!--PMID:40028836--> Both target airway
-epithelium or parenchyma, which is the compartment inhalation naturally reaches. A hypocellular,
-matrix-rich parenchymal sarcoma nodule is not. Inhaled delivery to lung tumours is an active
+epithelium or alveolar parenchyma, which is the compartment inhalation naturally reaches. A
+hypocellular, matrix-rich sarcoma nodule sitting within that parenchyma is not. Inhaled delivery to lung tumours is an active
 preclinical field, with 68 records in the retrieval corpus behind this section, but only two of those
 carry clinical-stage language and neither is a trial. The route is therefore established in humans
 and not for this target.
@@ -988,7 +988,7 @@ sequence, and a sequence that matches a reported junction is not thereby active 
 carrying it, so the number prices which published junctions the two reagents address and nothing
 about what they would do in a patient. It is also not a pooled proportion: the two cohorts are
 combined multiplicatively, a partner prevalence times a conditional within-partner fraction, which
-is a composition the repository's pooling policy does not reach. Four bounds sit on it, and they run
+is a composition no pooling rule for proportions applies to. Four bounds sit on it, and they run
 in different directions. The interval is wide for the denominators rather than the estimate: taking
 each breakpoint fraction to its own Wilson bound spans 39.9% to 82.8%, the *EWSR1* arm resting on 15
 tumours and the *TAF15* arm on three. **That interval propagates the breakpoint fractions only.** The
@@ -1391,7 +1391,7 @@ repeats it. It could not have yielded an interpretable number under any outcome,
 reasons. That corpus has no defined nucleotide span, so no chance expectation can be formed against
 it, and at this threshold an off-target count that cannot be referenced to chance is not a reading
 at all. And its retrieval ceiling sat far below what chance alone predicts, so every query that
-returned came back at the ceiling: of nine designs queried, one failed at the remote service, seven
+returned came back at or above the ceiling: of nine designs queried, one failed at the remote service, seven
 returned exactly 50 records and the eighth 52.
 
 The per-design rows in that file therefore look like off-target findings and are none. Of its 402
@@ -1678,8 +1678,8 @@ single column.
 12, *TAF15* exon 11 and *FUS* exon 10 joined to *NR4A3* exon 3, aligned at the breakpoint. Blue,
 donor exon; green, acceptor exon; positions at which the three donors differ are boxed as well as
 coloured, for greyscale and colour-blind readers. The shaded box is
-the target window of 5′-GGGCATATCATCAAAC-3′, with the 5-6-5 locked-nucleic-acid (LNA)/DNA/LNA gapmer architecture below it and its
-gap-level margin of three alongside. The three donors are the FET family — *FUS*, *EWSR1* and *TAF15* — and they are identical over
+the target window of 5′-GGGCATATCATCAAAC-3′, with the 5-6-5 locked-nucleic-acid (LNA)/DNA/LNA gapmer architecture below it; the
+note beneath the panel gives its gap-level margin of three. The three donors are the FET family — *FUS*, *EWSR1* and *TAF15* — and they are identical over
 the ten nucleotides before the breakpoint, which is what makes one oligonucleotide
 junction-spanning at all three junctions.
 Coverage is predicted from sequence and has not been measured.

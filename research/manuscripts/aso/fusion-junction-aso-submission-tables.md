@@ -126,8 +126,11 @@ RETURNED a screen at this depth: 7 of the panel's 190 default-depth submissions
 failed at the remote service, which is why a junction can show fewer than five designs screened
 here, and why Table 2 — which selects from the deeper re-screens — can name a design of HIGHER margin at the same junction. Table 2 can also name one of LOWER margin, for a different reason and not a disagreement: it ranks by parent liability, then pre-mRNA sites, then gene loci, and reaches gap-level margin only as a tie-break, so a cleaner design outranks the highest-margin one this table names. Near-match counts are of RefSeq
 transcript accessions and are also given collapsed to distinct gene loci, since RefSeq carries one
-accession per annotated variant. A “≥” marks a right-censored count: the screens store the top
-15 hits per design, so a design with more is a lower bound. All 38 junction screens
+accession per annotated variant. A “≥” marks a right-censored count, and the two columns are
+censored by DIFFERENT caps, which is why an uncensored transcript count here can exceed the retained
+15: the alignment screen itself returns at most 50 hits per query, so a transcript count at
+50 is a lower bound, while the locus column is recounted from the 15 hits the screens
+RETAIN, so a locus count from a design with more than 15 hits is a lower bound too. All 38 junction screens
 are filtered by alignment orientation. `XM_`/`XR_` records are computationally
 predicted gene models rather than curated transcripts, and are counted separately for that reason.
 None of these numbers is a measurement of off-target activity.

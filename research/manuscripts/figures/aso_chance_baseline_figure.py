@@ -150,11 +150,13 @@ def main(argv=None):
     # baseline one unit below the plot's top edge, where a tall bar is. The plot now starts below
     # whatever the key actually occupies, measured rather than assumed, so an edit to the key text
     # moves the axes instead of colliding with them.
-    _key = (f'{esc(n_at_or_below)} of {esc(n)} {{at_or_below}}; the line is what chance alone '
-            f'predicts, not a ceiling. Marked: '
-            f'the {esc(fs["n_multi_junction_sequences"])} designs spanning '
-            f'{_span_words(fs["multi_junction_span"])} partners’ seams: one molecule, '
-            f'plotted once.').replace("{at_or_below}", _at_or_below)
+    #: ⚠ THE MARKER KEYS THE CLAUSE IT PREFIXES. The diamond is the plot's marker key, and this line
+    #: used to open with the 118/176 split — so the glyph appeared to define the split rather than
+    #: the marked designs, which is the one thing it does define. The keyed clause now comes first.
+    _key = (f'the {esc(fs["n_multi_junction_sequences"])} designs spanning '
+            f'{_span_words(fs["multi_junction_span"])} partners’ seams, each one molecule plotted '
+            f'once. {esc(n_at_or_below)} of {esc(n)} {{at_or_below}}; the line is what chance alone '
+            f'predicts, not a ceiling.').replace("{at_or_below}", _at_or_below)
     _key_lines = _wrap(_key, 12, W - R - (L + 14))
     _top = T + max(0, len(_key_lines) - 1) * 15
     _plot_h = H - _top - B
