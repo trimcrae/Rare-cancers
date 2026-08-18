@@ -170,8 +170,25 @@ def main(argv=None):
          f'<rect width="{W}" height="{H}" fill="#ffffff"/>']
 
     # the chance band, drawn first so every point sits on top of it
-    p.append(f'<rect x="{L}" y="{y(hi):.1f}" width="{PLOT_W}" height="{y(lo) - y(hi):.1f}" '
-             f'fill="#e8f0fe" stroke="#1565c0" stroke-width="0.8" stroke-dasharray="4 3"/>')
+    # ⛔⛔ A ZERO-HEIGHT <rect> DRAWS NOTHING AT ALL — NOT EVEN ITS STROKE (blind screen of the built
+    # journal PDF, 2026-08-17, filed as a MAJOR and confirmed by the screener at 600 dpi against the
+    # page's vector content: the only horizontal path spanning the plot was the axis baseline).
+    # This reference was always emitted as a rect from y(hi) to y(lo). Those coincide — the null
+    # gives ONE expected value, 8.2 — so the rect shipped with `height="0.0"`, and the SVG spec is
+    # explicit that a zero value for width or height disables rendering of the element. The panel
+    # therefore had no line on it, while its own subtitle said "the line is what chance alone
+    # predicts" and the caption said "118 of the 176 fall at or below it". A reader had nothing to
+    # fall at or below.
+    # ⚠ THE EARLIER ROUND FIXED THE WORDS AND NOT THE GEOMETRY. It changed the degenerate "8.2–8.2
+    # hits" label to a single value and renamed "band" to "expectation" — correct, and it left the
+    # element that draws nothing exactly as it was, because the defect was read as a labelling one.
+    # A degenerate range needs BOTH: the right noun and a mark to attach it to.
+    if f"{lo}" == f"{hi}":
+        p.append(f'<line x1="{L}" y1="{y(hi):.1f}" x2="{L + PLOT_W}" y2="{y(hi):.1f}" '
+                 f'stroke="#1565c0" stroke-width="1.1" stroke-dasharray="4 3"/>')
+    else:
+        p.append(f'<rect x="{L}" y="{y(hi):.1f}" width="{PLOT_W}" height="{y(lo) - y(hi):.1f}" '
+                 f'fill="#e8f0fe" stroke="#1565c0" stroke-width="0.8" stroke-dasharray="4 3"/>')
     # ⛔ A DEGENERATE RANGE READS AS A FORMATTING FAILURE (blind screen of the built PDF,
     # 2026-08-17). When the two endpoints coincide this printed "(8.2–8.2 hits)", which a reader
     # takes for a broken template rather than for a band of zero width — and the subtitle above

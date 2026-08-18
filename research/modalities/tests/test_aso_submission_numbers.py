@@ -1678,8 +1678,18 @@ def test_the_testable_surface_states_the_only_catalogued_line_cannot_test_a_junc
     # no count of affected papers may appear: the triage was abstract-level and says so
     assert not re.search(r"\b\d+ (?:of \d+ )?(?:papers|records|studies)[^.\n]{0,40}H-EMC-SS", txt)
 
-    # the five test articles, and that each has a reagent
-    assert "five test articles, and each of the five now has a matching reagent" in txt
+    # the five test articles, and that each has a reagent at its junction
+    #
+    # ⛔ THE OLD PIN HELD A SENTENCE ITS OWN PARAGRAPH CONTRADICTED (2026-08-17). It read "five test
+    # articles, and each of the five now has a matching reagent" — and four lines later the same
+    # paragraph says the third construct's reagent "cannot be certified under the criterion §4.5
+    # states", while §2.6 says that reagent is not certifiable. A blind screen of the built PDF
+    # filed the pair as a MAJOR: a reader cannot tell whether the deliverable set is five reagents
+    # or four. The headline now states the count AND the qualification, so what is pinned is the
+    # honest version rather than the tidier one.
+    assert "five test articles" in txt
+    assert "Each of the five has a reagent at its junction" in txt
+    assert "four certifiable reagents and a fifth carried under that qualification" in txt
     for arm in ("E-N", "T-N*", "T-N"):
         assert arm in txt, arm
     # what a rebuilt construct cannot buy, and the binding constraint

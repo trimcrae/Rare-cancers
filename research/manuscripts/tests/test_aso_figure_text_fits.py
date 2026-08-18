@@ -138,3 +138,42 @@ def test_the_chance_figure_key_does_not_overlap_its_plot_area():
     assert max(keys) < plot_top + 1, (
         f"the key's last baseline is at {max(keys):.0f} and the plot area starts at "
         f"{plot_top:.0f}; the key is drawn over the bars")
+
+
+def test_the_chance_figure_actually_draws_the_reference_its_caption_describes():
+    """⛔ A ZERO-HEIGHT <rect> RENDERS NOTHING, STROKE INCLUDED (2026-08-17, filed as a MAJOR).
+
+    The chance reference was emitted as a rect from y(hi) to y(lo). The null gives ONE expected
+    value, so those coincide and the rect shipped with `height="0.0"` — which the SVG spec says
+    disables rendering of the element entirely. The panel carried no line while its own subtitle
+    read "the line is what chance alone predicts" and the caption read "118 of the 176 fall at or
+    below it". A reader had nothing to fall at or below, and a screen confirmed it at 600 dpi.
+
+    ⚠ THE ROUND BEFORE FIXED THE WORDS AND NOT THE GEOMETRY — it corrected the degenerate
+    "8.2–8.2 hits" label and the noun "band", and left the element that draws nothing untouched,
+    because the defect was read as a labelling one. So this asserts a MARK EXISTS, not a wording.
+    """
+    svg = _read("aso-chance-baseline.svg")
+    marks = []
+    for m in re.finditer(r'<line\b([^>]*)/>', svg):
+        a = dict(_ATTR.findall(m.group(1)))
+        try:
+            x1, x2, y1, y2 = (float(a["x1"]), float(a["x2"]), float(a["y1"]), float(a["y2"]))
+        except (KeyError, ValueError):
+            continue
+        #: The reference: horizontal, spanning most of the plot, and not the axis frame (which is
+        #: drawn in grey; the reference is the blue dashed one).
+        if abs(y1 - y2) < 0.5 and (x2 - x1) > 200 and "dasharray" in m.group(1):
+            marks.append((round(y1), round(x2 - x1)))
+    assert marks, (
+        "the chance figure draws no horizontal reference mark, but its subtitle and caption both "
+        "describe 'the line'. A zero-height <rect> is not a line — it renders nothing at all.")
+
+    #: And nothing that is supposed to be visible may be emitted at zero size. Bars for designs
+    #: with no hits are legitimately zero-height, so this checks the reference specifically rather
+    #: than banning zero sizes outright.
+    for m in re.finditer(r'<rect\b([^>]*)/>', svg):
+        a = dict(_ATTR.findall(m.group(1)))
+        if "dasharray" in m.group(1) and float(a.get("height", 1) or 0) == 0:
+            pytest.fail("the chance reference is still a zero-height dashed rect, which does not "
+                        "render; emit a <line> when the null's two endpoints coincide")

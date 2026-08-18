@@ -52,7 +52,8 @@ random-offset chimeras of the same two parents 23.8%, against 45.8% observed. No
 resolved as specific to the disease's own breakpoints: an exon-terminus chimera no patient is
 reported to carry reaches 40.6%. Lengthening the catalytic gap quiets the transcriptome but cannot
 separate the fusion from its parents: the junction-unique bases a longer gap wins and the
-wild-type-parent duplex it concedes are the same nucleotides. The work is computational: no wet-lab
+wild-type-parent duplex it concedes are complements within one gap: every base won on one side
+is a base conceded on the other. The work is computational: no wet-lab
 experiment was performed, nothing has been synthesised or tested, and nothing here asserts efficacy,
 safety, delivery to a tumour or clinical readiness. Every sequence named below is a research reagent
 for laboratory investigation only and must not be administered to any person or animal. Two are
@@ -263,8 +264,9 @@ sequencing of archival *TAF15*- and *FUS*-positive cases.
 *TCF12* and *TFG* are the partners in this panel that are not FET-family proteins, and neither
 appears in any of the nine multi-partner sets: all nine draw only on *EWSR1*, *TAF15* and *FUS*.
 *TCF12* reaches multi-partner coverage only under a relaxed criterion that tolerates mismatches in
-the oligonucleotide wings. That check had little power to fail, since any non-homologous donor would
-be excluded, so it does not separate FET paralogy from incidental exon homology. The stronger
+the oligonucleotide wings. That check had little power to fail, because a donor sharing the last bases before the
+breakpoint by coincidence passes it as readily as a paralogue does, so it does not separate FET
+paralogy from incidental exon homology. The stronger
 evidence for paralogy is that the remaining four of the nine, which span two partners rather than three, are also FET-only.
 
 Specificity does not sort by partner. Taking at each junction the lowest count any of its
@@ -544,9 +546,10 @@ mismatches. All three are named here as not to be carried forward and are exclud
 best-design field above. Both seams keep a reagent, 5′-AGTGGGCTCTCCACGG-3′ and
 5′-ATGAGGGCCTTGTGTG-3′, the second's catalytic gap carrying three *TAF15*-derived bases the *NR4A3*
 locus does not have and returning no wild-type site at all on the two screens that reach this seam.
-That second reagent is not certifiable under the criterion §4.5 states, and §3 withdraws it on that
-ground: its acceptor is a cryptic exon, which three of the five screens cannot address at all, so
-what it holds is a quiet reading on two instruments rather than a clearance. What is lost is not a
+That second reagent is not certifiable under the criterion §4.5 states, and §3 carries it only
+under that qualification rather than as a cleared reagent: its acceptor is a cryptic exon, which
+three of the five screens cannot address at all, so what it holds is a quiet reading on two
+instruments rather than a clearance. What is lost is not a
 seam but the assumption that designs tiled across one seam are interchangeable.
 
 Two things about that finding matter more than the three sequences. The first is how they were
@@ -564,8 +567,9 @@ verbatim — a property of the donor rather than of the acceptor. The sequence b
 exon 13 ends
 CACTCCGTGGAG against the last twelve nucleotides of *NR4A3* intron 1, CCTTGCCTGTAG, matching at 7 of
 12 positions with a shared terminal AG, whereas *TAF15* exon 6 ends ACCACACACAAG and matches at 4,
-mismatching in every register — which is why the *TAF15* exon-2 seam returns no such design and the
-*EWSR1* exon-13 seam returns two. A design must therefore be checked against the acceptor gene's unspliced
+mismatching in every register — which is why the *TAF15* exon-6 seam returns no such design and the
+*EWSR1* exon-13 seam returns two. Both join *NR4A3* exon 2, and both are named here by their donor
+exon. A design must therefore be checked against the acceptor gene's unspliced
 sequence whenever its acceptor half is not exonic in the mature transcript, and no spliced-transcript
 screen substitutes for it.
 
@@ -610,7 +614,7 @@ other gene. The genome scan, screen 5, removes that bound.
 A raw genome-wide count is not a result at this threshold. Chance alone predicts of order 10³
 near-matches per 16-mer over a genome for any 16-mer whatever, so the informative readings are
 stratified. Exact 16/16 matches are the class where chance expectation is of order one: 1.37 expected
-per design against 236 observed across 176 windows, which is at chance. Load relative to that
+per design against 236 observed over the 176 designs, or 1.34 each, which is at chance. Load relative to that
 expectation separates designs where a total cannot — the median design sits at 0.98 of its
 expectation and 14 of 176 exceed twice it. And the repeat split, which a soft-masked reference supplies at no extra cost,
 shows 52.5% of hits fully repeat-masked against a genome that is 51.4% masked, so the load is not
@@ -659,7 +663,8 @@ that choice is made (§4.1).
 The panel above is one geometry. Tiling the same junctions at 5-8-5 and 5-10-5, wing fixed at five
 nucleotides, resolves what a longer catalytic gap buys and what it costs (Table 7, Figure 3).
 
-What a longer gap buys and what it costs are the same nucleotide. Inside the gap, the junction-unique
+What a longer gap buys and what it costs are the two halves of one gap, so the trade is exact
+rather than approximate. Inside the gap, the junction-unique
 bases on the shorter side and the bases one wild-type parent pairs on the longer side are
 complements: they sum to the gap. That holds for every design in all three panels rather than on
 average, and it fixes the direction of both trades. Within one geometry the gap is fixed, so the two
@@ -850,7 +855,7 @@ the systemic receptor-targeted route only; local and inhaled administration requ
 antigen could be named when the question was put to the disease's own tissue: of the twelve candidate
 surface antigens for which both a lineage reading against comparator sarcomas and a measured EMC
 tumour-versus-normal-organ contrast exist — the latter from four EMC and 27 normal-organ libraries
-across six organs in GEO deposit GSE28866 — none cleared both axes on every instrument that could
+across six organs in Gene Expression Omnibus (GEO) deposit GSE28866 — none cleared both axes on every instrument that could
 read it, and the three that cleared the two measured axes (*CD44*, *CSPG4*, *RET*) were refused by a
 wider normal-tissue prior, or left ungraded by that prior's absence. That bounds what was examined
 rather than establishing that no antigen exists: 86 of the 100 genes on the committed surface panel
@@ -896,7 +901,9 @@ is not discoverable by anyone searching on model validity. Both halves are relea
 expression and registry readings in `emc-atr-vulnerability.json`, which owns them, and the reading of
 that figure legend together with the reagent consequence in `emc-model-junction-evidence.json`.
 
-What remains is five test articles, and each of the five now has a matching reagent. Three are the
+What remains is five test articles. Each of the five has a reagent at its junction, but one of
+those reagents — the cryptic-exon one below — is not certifiable under the criterion §4.5
+states, so the set is four certifiable reagents and a fifth carried under that qualification. Three are the
 engineered constructs of the functional study cited above,<sup>27</sup><!--PMID:31020999--> E-N,
 T-N* and T-N, whose exon spans that paper states verbatim; two of the three, E-N and T-N*, carry the
 same two junctions the reagents of §4.1 span — *EWSR1* exon 12 and *TAF15* exon 6, each joined to
@@ -925,9 +932,10 @@ patient-derived models are the only route to a fusion-positive EMC cell, and are
 request from the originating laboratory with no repository deposit; what a transfer requires is
 stated nowhere that could be read, which is an absent statement rather than an absence of
 conditions, and the cells are slow once received, at reported doubling times of five to six days as
-sarco-spheres passaged every two to three weeks, which constrains any exposure window. A third
-reported line cannot serve as a test article at all on current evidence, because its fusion partner
-and exons are unstated anywhere readable and it would have to be sequenced first. One constraint
+sarco-spheres passaged every two to three weeks, which constrains any exposure window. One further
+reported line — the one whose distributor could not be read, above — cannot serve as a test article
+at all on current evidence, because its fusion partner and exons are unstated anywhere readable and
+it would have to be sequenced first. One constraint
 sits above all of them and no reagent choice moves it: every route ends at someone culturing cells,
 and this work has no laboratory, so the rate-limiting step is a laboratory rather than a line, a
 construct or an oligonucleotide.
@@ -1008,8 +1016,9 @@ acceptor rows of §2.6 sit in Table 5 without entering the panel's own counts.
 Two further reagents extend the set, both at the top gap-level margin of 3: 5′-GGGCATATCTCCACGG-3′ at
 *EWSR1* exon 13 to *NR4A3* exon 3, and 5′-GGGCATATCCATCAGA-3′ at *TCF12* exon 5 to *NR4A3* exon 3,
 whose junction is resolved to the nucleotide by the deposited chimeric cDNA of §2.3. The second comes
-with no distribution: one *TCF12*-rearranged tumour has ever been sequenced at this junction, neither
-breakpoint series contains a *TCF12* tumour at all, and the break-apart assay the later cohorts used
+with no distribution: one *TCF12*-rearranged tumour has ever been sequenced at this junction, no
+breakpoint series retrieved here contains a *TCF12* tumour at all, and the break-apart assay the
+later cohorts used
 locates no seam within the *NR4A3* locus, so recurrence there is untested rather than refuted. The
 98.3% above these reagents is an upper bound rather than a reachable target for two reasons and not
 one: that *TCF12* arm is priced at its ceiling, worth 3.4 percentage points, and the figure also

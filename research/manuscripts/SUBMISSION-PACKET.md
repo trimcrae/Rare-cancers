@@ -106,8 +106,8 @@ last_verified: 2026-08-10
 
 | field | value |
 |---|---|
-| Word count, main text | 20938 (no limit found) |
-| Abstract | 270 words  |
+| Word count, main text | 21036 (no limit found) |
+| Abstract | 284 words  |
 | Display items | 10 (3 figures, 7 tables) |
 | References | 52 |
 | Cover letter | `aso/fusion-junction-aso-cover-letter.md` |
