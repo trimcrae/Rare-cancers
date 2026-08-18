@@ -162,7 +162,14 @@ def test_the_manuscript_matches_the_committed_premrna_screen():
     # ⚠ WHITESPACE-TOLERANT: the manuscript hard-wraps, so any of these phrases can straddle a
     # newline. A test that only passes on one line-break position is a test of the reflow.
     flat = " ".join(txt.split())
-    for phrase in (f"margin 1, {by_margin[1][1]} of {by_margin[1][0]} designs carry a pre-mRNA site",
+    #: ⚠ THE CLASS IS NAMED IN THE PROSE NOW, SO THE PIN NAMES IT TOO (2026-08-19). §2.5 separates
+    #: three nested populations — 53 with any pre-mRNA near-match, 40 with a sense-strand one, 19
+    #: pairing the gap in full — and this breakdown is the third, which is the field counted above
+    #: (`n_invisible_to_mature_screens`). The sentence used to say only "carry a pre-mRNA site",
+    #: which a blind screen flagged: a reader adding 12 + 7 + 0 against 53 stalls. The numbers are
+    #: still derived from the artifact; only the noun phrase they sit in grew.
+    for phrase in (f"margin 1, {by_margin[1][1]} of {by_margin[1][0]} designs carry a gap-paired "
+                   f"sense-strand pre-mRNA site",
                    f"margin 2, {by_margin[2][1]} of {by_margin[2][0]}",
                    f"margin 3, none of {by_margin[3][0]}"):
         assert phrase in flat, phrase

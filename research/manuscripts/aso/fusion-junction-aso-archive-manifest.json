@@ -9,13 +9,13 @@
     "Not a claim that the archived predictions are correct. Every count in the deposit is a prediction from sequence search; no off-target activity and no RNase-H cleavage was measured anywhere in this work.",
     "Not a licence statement. The depositor chooses the licence at step 4 below."
   ],
-  "git_revision": "744958db1bba26c0694467c252e2c2a6e7bf7986",
+  "git_revision": "4eea1cc4d805d10f92231e9a95c078c5ebfef2d5",
   "git_tree_is_clean_apart_from_this_manifest": false,
   "inventory_limited_to_tracked_files": true,
-  "archive_content_digest": "54247430c27898eeca30901907c45d5c3f2a2c63fadc264941e0bd1ef9e77d5f",
+  "archive_content_digest": "12277ccb74cd1cd82807fa39cbab91406ca75803b07aa9f852ce9e248fbb969b",
   "n_files": 383,
-  "total_bytes": 23958990,
-  "total_mib": 22.849,
+  "total_bytes": 23959917,
+  "total_mib": 22.85,
   "how_to_deposit_and_mint_the_doi": [
     "1. Check out the revision named in `git_revision` and confirm `git status` is clean. The manifest's hashes are only meaningful against that tree.",
     "2. Re-run this module (`python3 research/manuscripts/aso_archive_manifest.py --check`). A non-zero exit means the tree moved after the manifest was written; regenerate before depositing.",
@@ -797,8 +797,8 @@
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-research-article.md",
-      "bytes": 150260,
-      "sha256": "51d71b1651ace811cd87dfcaf5e22cc4793c46d75013db57075fe3e3a45d0f34",
+      "bytes": 150562,
+      "sha256": "892b7aec08849f9ea52f82bad0e183418666c3653a6af36e9f975ec6439cf903",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
@@ -3779,8 +3779,8 @@
     },
     {
       "path": "research/modalities/tests/test_aso_premrna_offtarget.py",
-      "bytes": 14023,
-      "sha256": "1c2185c1b551e1bb866a00347bb4cbd9741cd73d5e49807baae2a4acb1b00a71",
+      "bytes": 14648,
+      "sha256": "217338db0fc4565b93ca141472c404be41e5e2f1a07be68293457a47e7bbdf09",
       "serves": "premrna_compartment_screen",
       "also_serves": [],
       "contributes": "The exhaustive ≤2-mismatch scan of every design against the unspliced sequence of all six parent transcripts, gap-resolved, orientation-filtered and classified as intronic / exonic / intron–exon-spanning. ⭐ THE RETRIEVED SEQUENCE TRAVELS WITH IT, which is what makes this the one screen in the paper that recomputes with no network at all: the other two need NCBI BLAST and a RefSeq download. Re-running the module with --offline against the committed cache reproduces every number in §2.5 exactly."

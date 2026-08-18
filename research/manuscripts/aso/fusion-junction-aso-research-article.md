@@ -84,9 +84,10 @@ phase 2 of pazopanib in centrally confirmed *NR4A3*-translocated disease, return
 responses in 22 evaluable patients;<sup>7</sup><!--PMID:31331701--> anthracycline-based chemotherapy
 returned four in ten evaluable patients in a molecularly confirmed retrospective series of eleven, a
 result that series presents as running counter to the prior record.<sup>8</sup><!--PMID:24345066-->
-Two of those sources report a low objective response rate to that chemotherapy and low sensitivity to
-cytotoxic chemotherapy generally,<sup>6,7</sup><!--PMID:41055792,31331701--> and none of the three
-publishes a response rate by line of therapy. The population a fusion-directed agent would address is
+Two of those three sources — the untargeted-driver review, the pazopanib study and the
+anthracycline series just cited — report a low objective response rate to that chemotherapy and low
+sensitivity to cytotoxic chemotherapy generally,<sup>6,7</sup><!--PMID:41055792,31331701--> and none
+of the three publishes a response rate by line of therapy. The population a fusion-directed agent would address is
 close to the whole disease: across 58 molecularly confirmed cases, 79% carried *EWSR1::NR4A3*, 16%
 *TAF15::NR4A3* and 3% *TCF12::NR4A3*.<sup>9</sup><!--PMID:36948401-->
 
@@ -104,7 +105,7 @@ stated as a general principle in 2005.<sup>12</sup><!--PMID:16083345--> Parental
 reported at four fusions, two with a readout on the wild-type parent transcript and two asserting
 junction specificity without one.<sup>13–16</sup><!--PMID:33241214,36265509,21846246,23052253--> A
 bi-shRNA lipoplex against the *EWSR1::FLI1* junction reached preclinical
-justification,<sup>17</sup><!--PMID:27166877--> and a GalNAc-conjugated junction siRNA in
+justification,<sup>17</sup><!--PMID:27166877--> and an *N*-acetylgalactosamine (GalNAc)-conjugated junction siRNA in
 fibrolamellar hepatocellular carcinoma passed the delivery gate in a rare fusion-driven cancer,
 reaching durable growth inhibition in patient-derived
 xenografts.<sup>18</sup><!--PMID:37980543--> That last precedent does not transfer to this disease
@@ -425,7 +426,8 @@ about seven of the ten, so it accounts for most of the concentration and the rem
 read as anything about *TCF12*.
 
 The liability tracks the tiling register, of which the gap-level margin is a function. At margin 1,
-12 of 76 designs carry a pre-mRNA site; at margin 2, 7 of 76; at margin 3, none of 38. Eight of the
+12 of 76 designs carry a gap-paired sense-strand pre-mRNA site of the strict class just
+defined — the 19, not the 53 or the 40; at margin 2, 7 of 76; at margin 3, none of 38. Eight of the
 nine *NR4A3* boundary sites are at the shortest donor-side register, which needs the fewest intronic
 bases to match. None of the nine designs with no sense-strand near-match on either transcript screen
 carries one.
@@ -747,7 +749,8 @@ the order in 19.9% of cross-margin design pairs and the margin-3 range sits insi
 range, and the same caution applies to the margin's agreement with the parent screens of §2.5.
 
 Conventional design rules select differently, and against three of the designs this paper calls
-candidates — though not against the two reagents §4.1 names, which fail no rule. Of the 190
+candidates — though not against the two lead reagents of §4.1, which fail no rule; the *EWSR1* exon-13
+reagent §4.1 adds for coverage fails two. Of the 190
 designs, 106 satisfy all four rules; the rules bind at different rates, with every design free of a
 G-quadruplex motif but 13 carrying a homopolymer run of four, 43 a CpG dinucleotide and 58 falling
 outside the 40–60% GC window. The failures overlap, so they do not sum to the 84 designs that fail
@@ -1742,8 +1745,8 @@ predictions from sequence search, not measured off-target activity.
 ## Declarations
 
 **Research use only, and not for administration to any person or animal.** Every oligonucleotide
-sequence in this manuscript, its Supplementary Information and its tables — the two reagents named for
-synthesis, the three named as not to be used, the second-geometry and scrambled controls, and every
+sequence in this manuscript, its Supplementary Information and its tables — the two lead reagents and the two
+named for coverage, the three named as not to be used, the second-geometry and scrambled controls, and every
 design in the released panel — is a research reagent intended solely for laboratory investigation.
 None is a medicine, an investigational medicinal product or a candidate drug. None has been
 synthesised, formulated, tested in any cell, tissue or animal, or evaluated for potency, purity,
