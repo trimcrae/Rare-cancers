@@ -762,7 +762,7 @@ fusion junction, though at three of them every design pairs a wild-type parent t
 gap. Nor does specificity sort by partner. With all 38 junctions screened, four of the five partners
 have a junction whose cleanest design carries no sense-strand near-match across the gap at the
 deeper ceiling, and all five do at the default one. It is therefore the exon a fusion breaks at, not
-the gene it breaks into, that predicts a design clean ACROSS THE GAP in that sense — and the count
+the gene it breaks into, that predicts a design clean across the gap in that sense — and the count
 of such junctions is itself a
 function of search depth, as §5 sets out.
 
@@ -1697,7 +1697,10 @@ with the wings held at five nucleotides. Every base inside the catalytic gap com
 exon or from the acceptor exon, so the junction-unique bases on the shorter side and the bases one
 wild-type parent pairs on the longer side tile the gap and sum to it. (B) Every fusion-specific
 design in all three geometries, 798 over 38 junctions, plotted as gap-level margin against the
-contiguous run of gap DNA a wild-type parent can pair. Marker area is the number of designs at that
+contiguous run of gap DNA a wild-type parent can pair. In (A) red marks the junction-unique bases
+that make the margin, green the bases one wild-type parent pairs, and pale grey the LNA wings,
+which are not cleaved; in (B) the three geometries are blue (5-6-5), orange (5-8-5) and purple
+(5-10-5). Both panels repeat these keys beside the drawing. Marker area is the number of designs at that
 point and the label is that count; the three lines are drawn from the identity, not fitted, and it
 holds for each design individually rather than on average. Within one geometry the two move
 inversely along a line of slope −1; a geometry's ceiling on margin is half its gap rounded down, and

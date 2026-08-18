@@ -359,6 +359,33 @@ CODE_BREAK_AFTER = re.compile(r"(?<=[/_.=-])(?=[^\s/_.=-])")
 #: about that is guaranteed to hold.
 CODE_NOWRAP_MAX = 44
 
+#: Below this, a token is short enough that moving it whole to the next line costs little. Above it,
+#: an identifier that HAS a safe break point should take one.
+#:
+#: ⛔ THE LENGTH THRESHOLD ALONE LEFT TWO LINES STRETCHED TO NEAR-ILLEGIBILITY (blind screen of the
+#: built manuscript PDF, 2026-08-18). `emc-atr-vulnerability.json` is 26 characters and
+#: `aso_parent_gap_pairing.py` is 25 — both under 44, so both stayed atomic, and the justified line
+#: BEFORE each carried about ten word-spaces of stretch. The screen made the distinction this code
+#: had missed: the paper's blanket refusal to break an unbreakable token is a SEQUENCE-safety rule,
+#: because a newline a reader copies out of a base string is invisible in a synthesis order form.
+#: A filename or a module name carries no such hazard and can break at a separator.
+#:
+#: ⚠ AND A SEQUENCE CANNOT BE BROKEN BY THIS CHANGE, WHICH IS WHY IT IS SAFE. `CODE_BREAK_AFTER`
+#: inserts `<wbr/>` only after `/ _ . = -`; a bare base string contains none of them, so it receives
+#: no break opportunity at any length. `code.brk` relaxes `white-space` only — `word-break` and
+#: `overflow-wrap` stay `normal`, so nothing breaks anywhere a `<wbr/>` was not placed. Held by
+#: `tests/test_code_spans_never_break_a_sequence.py`.
+CODE_BREAKABLE_MIN = 12
+
+#: ⛔⛔ A TOKEN CARRYING A BASE STRING IS NEVER BREAKABLE, WHATEVER SEPARATORS IT HAS. Checked while
+#: relaxing the rule above: `5′-GGGCATATCATCAAAC-3′` contains two hyphens, so the separator rule
+#: would have given it break opportunities after `5′-` and before `3′` — leaving the delimiter on
+#: the line above its bases, which is precisely the invisible-newline hazard the `.seq` rule exists
+#: to prevent and the one this whole deposit was rebuilt around. Delimited sequences normally reach
+#: the page as `.seq` spans rather than code spans, so this is a belt on top of a brace; it is here
+#: because "it does not currently take that path" is not a property anyone can rely on later.
+_LOOKS_LIKE_A_SEQUENCE = re.compile(r"[ACGT]{12,}")
+
 
 def escape_text(text):
     out, last = [], 0
@@ -379,7 +406,9 @@ def code_span(literal):
     nothing extra lands in the PDF's text layer for a reader to copy out.
     """
     escaped = _html.escape(literal, quote=False)
-    if len(literal) <= CODE_NOWRAP_MAX:
+    breakable = (CODE_BREAK_AFTER.search(escaped) is not None
+                 and not _LOOKS_LIKE_A_SEQUENCE.search(literal))
+    if len(literal) <= CODE_NOWRAP_MAX and not (breakable and len(literal) > CODE_BREAKABLE_MIN):
         return "<code>" + escaped + "</code>"
     return '<code class="brk">' + CODE_BREAK_AFTER.sub("<wbr/>", escaped) + "</code>"
 
@@ -549,7 +578,19 @@ def render_float(kind, number, payload, wide):
         svg, legend = payload
         inner = f'<div class="panel">{svg}</div>' + markdown_to_html(legend)
     else:
-        _CURRENT_TABLE_LABEL = f"Table {number}"
+        #: ⛔ A SAFETY MARKER MUST TRAVEL WITH THE ROWS IT MARKS, NOT ONLY WITH ITS CAPTION (blind
+        #: screen of the built journal PDF, 2026-08-18). Table 3 runs over three pages; its "†"
+        #: rows appear on the continuation pages while the key — the sentence saying not to order
+        #: the sequence in a marked row — is printed only under the caption on the first. A reader
+        #: opening at a continuation page saw a printed 16-mer flagged with a bare dagger and no
+        #: statement of what the dagger meant. Everything else on a continuation page is
+        #: recoverable by turning back; this one is the wrong-reagent hazard the whole deposit is
+        #: built around, so it rides in the <thead>, which paged media repeats on every page.
+        _label = f"Table {number}"
+        if isinstance(payload, str) and "†" in payload:
+            _label += ("  —  † no design at this junction clears the parent screen; "
+                       "do not order the sequence in a marked row")
+        _CURRENT_TABLE_LABEL = _label
         try:
             inner = markdown_to_html(payload)
         finally:

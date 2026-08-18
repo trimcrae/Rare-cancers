@@ -200,7 +200,13 @@ def main(argv=None):
         p.append(f'<polyline points="{pts}" fill="none" stroke="{g["colour"]}" '
                  f'stroke-width="1.4" stroke-dasharray="5 3"/>')
         for (mx, run), k in sorted(counts.items()):
-            r = 3.0 + 8.4 * (k / max(counts.values())) ** 0.5
+            #: ⛔ NO CONSTANT OFFSET — THE CAPTION SAYS AREA IS THE COUNT (2026-08-18). This
+            #: read `3.0 + 8.4 * sqrt(k/max)`, whose area ratio between the 38- and 76-design
+            #: points is about 0.60 where proportional area requires 0.50; a blind screen
+            #: measured the drawn diameters and caught it. Radius proportional to the square
+            #: root of the count makes area proportional to the count, which is what the
+            #: caption claims and what a reader decodes a bubble by.
+            r = 11.4 * (k / max(counts.values())) ** 0.5
             p.append(f'<circle cx="{px(mx):.1f}" cy="{py(run):.1f}" r="{r:.1f}" '
                      f'fill="{g["colour"]}" opacity="0.55" stroke="{g["colour"]}"/>')
             p.append(f'<text x="{px(mx):.1f}" y="{py(run) + 3.6:.1f}" font-size="9.5" '
