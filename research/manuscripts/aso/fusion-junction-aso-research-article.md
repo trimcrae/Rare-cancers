@@ -414,7 +414,10 @@ those 21 are not a null result. They are excluded because a graded count over th
 need a discrimination model the literature does not supply for a parent duplex. The same condition
 governs the mature-parent screen below, which considers only windows pairing the whole gap. The
 headline counts of this section should be read as the fully-paired class, not as the whole parent
-liability; the 53, the forty and the 21 are the wider tallies they are drawn from.
+liability: the 19 is drawn from the forty and the forty from the 53, while the 21 the 19 leaves out
+is counted separately rather than being a tally it comes from. The mature-parent counts below carry
+the same exclusion, and their own wider tally is the 181 designs a parent can pair the whole gap for
+at any length (§2.9).
 
 Those 19 sites fall into two classes that do not mix, and only one is mechanistically interesting.
 Nine are intron–exon-spanning, and every one is in *NR4A3* at the same place: six or seven
@@ -743,7 +746,9 @@ surviving at that junction return three and two.
 Scored as free energies, every one of the 190 designs favours the fusion duplex over the better of the
 two runs a parent can pair at the junction itself, by 4.8 to 13.1 kcal/mol with a median of 9.6. The
 comparison is to the seam and not to the transcriptome: the mature-parent duplexes of §2.5, which for
-87 of the 190 run to ten base pairs or more somewhere else in a parent, are not scored here. Every
+87 of the 190 reach ten base pairs or more against a parent — and for 59 of them that duplex is not
+elsewhere at all, but runs past the seam into the wild-type *NR4A3* exon-2/exon-3 junction the
+acceptor half already meets — are not scored here. Every
 design favours the fusion because a parent pairs roughly half the oligonucleotide, and half a duplex is
 much the weaker one. That separates two things a base count conflates. Discrimination at the level of *binding* is
 not marginal here, and is not what constrains the modality. What remains unresolved is
@@ -804,12 +809,12 @@ Both cited bounds are measured against a single substitution in an otherwise ful
 Neither transfers to a parent that leaves half the oligonucleotide unpaired and the catalytic gap
 only partly so: they bound the near-match case, and no retrieved measurement bounds the parent case.
 The two parent compartments of §2.5 sharpen that rather than softening it. For nine designs of the
-panel — a different nine from the nine of Table 4 discussed above, none of which carries a
-gap-paired sense-strand pre-mRNA site of the strict class §2.5 defines, that section being silent on
-whether any sits in the wider sense-strand forty — the route
-to wild-type *NR4A3* is not a gap-level discrimination problem at all. They pair the catalytic gap in
+panel — a different nine from the nine of Table 4 discussed above — the route
+to wild-type *NR4A3* is not a gap-level discrimination problem at all. Those nine pair the catalytic gap in
 full across the wild-type intron-2/exon-3 boundary, at two mismatches that both fall in the locked-nucleic-acid (LNA) wing,
-and the compartment in which that duplex would form is the nuclear one RNase-H1 occupies. In
+and the compartment in which that duplex would form is the nuclear one RNase-H1 occupies. None of
+Table 4's nine carries such a site of the strict class §2.5 defines, and that section is silent on
+whether any sits in the wider sense-strand forty. In
 mature parent sequence 87 designs pair a wild-type parent — any of the six, not *NR4A3* alone,
 which 61 of them pair — over a contiguous duplex of at least ten base pairs. The general point is that a fusion-junction design's most
 plausible wild-type liability is its own parent, reached either across a splice junction or in the
@@ -1696,11 +1701,11 @@ unmodified DNA of the same sequence is a different molecule about which nothing 
 from it
 [ARCHIVE DOI — PLACEHOLDER, AUTHOR TO SUPPLY BEFORE DEPOSIT: the archive has not been deposited and
 no digital object identifier has been reserved, so this citation does not yet resolve]. Every result
-reported here is re-derived from the committed artefacts in that archive
-without network access or credentials. That claim is meant to be checked rather than accepted:
+reported here is re-derived, without network access or credentials, from the committed artefacts in
+that repository, which is what a reader can check today. That claim is meant to be checked rather than accepted:
 `./scripts/regenerate_aso_chain.sh` re-derives every offline-derivable artefact in dependency order
 and re-runs the consistency, citation and style gates in about half a minute on four cores with no
-network, and the archive is current if it reports `ASO CHAIN OK` and leaves the working tree
+network, and the artefacts are current if it reports `ASO CHAIN OK` and leaves the working tree
 unchanged. The guard suite behind it, `PREFLIGHT_FULL=1 ./scripts/preflight.sh`, contains the tests
 that re-derive each reported number from its artefact and fail if the two diverge, and takes about
 seven minutes on the same machine with `pytest-xdist` installed, or roughly four times that
@@ -1708,7 +1713,8 @@ single-threaded. Regenerating the specificity screens from scratch is not
 offline, because the alignment screen queries NCBI BLAST and the exhaustive transcript scan downloads
 the GRCh38.p14 RefSeq RNA set, but no reported number requires it: each screen's hit set is archived
 and the re-scores hold it fixed. The pre-mRNA and mature-parent screens are fully offline against the
-archive, since the retrieved unspliced sequence and exon coordinates travel with it.
+repository, since the retrieved unspliced sequence and exon coordinates are committed to it and will
+travel into the archive unchanged.
 
 ## Tables
 
