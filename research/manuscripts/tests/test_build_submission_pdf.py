@@ -59,7 +59,13 @@ def test_every_table_survives_into_the_journal_layout(journal):
     source_rows = [ln for ln in bsp.read(PAPER["tables"]).split("\n")
                    if ln.strip().startswith("|") and not re.match(r"^\|[\s:|-]+\|?$", ln.strip())]
     assert len(source_rows) > 100
-    assert len(re.findall(r"<tr>", rendered)) == len(source_rows), "a table row was dropped"
+    # ⚠ MATCH ANY <tr, NOT THE LITERAL "<tr>". Block-heading rows gained class="blockhead" on
+    # 2026-08-19 so each block could travel as its own <tbody>, and a literal matcher counted
+    # 179 where 182 rows were present — a passing-to-failing flip with nothing dropped. The
+    # table-name rows in <thead> are excluded because they are not source rows.
+    body_rows = [m for m in re.findall(r'<tr(?:\s+class="([^"]*)")?>', rendered)
+                 if m != "tablename"]
+    assert len(body_rows) == len(source_rows), "a table row was dropped"
     # ⚠ DERIVED FROM THE GENERATED TABLES FILE, NOT TYPED (2026-08-16). This asserted `== 6` and had
     # to be chased by hand the moment Table 7 was generated. A typed count is the same defect
     # `_geometry_columns` names in submission_tables.py: it cannot notice a table added upstream, and
@@ -175,7 +181,14 @@ def test_front_matter_captures_whole_paragraphs_not_first_lines(journal):
         # ⛔ "reagent" -> "candidate" (round-7 D1-F8, applied 2026-08-17). The abstract twice promised a
         # "reagent" where the body three times refuses that word — §4.5 releases a procedure that
         # returns "a candidate, not a validated reagent". This pin held the overclaiming form in place.
-        "so a candidate can be designed for a breakpoint outside this panel by the same procedure.")
+        # ⛔ "candidate" -> "design" (round-17 reader B, 2026-08-19). The paper uses "candidate" in
+        # TWO senses: §2.7's screened set of exactly three ("the honest size of the candidate set by
+        # screen"), and Box 1/§4.5's "a candidate, not a validated reagent" for whatever the
+        # procedure emits. The abstract meant the second, but a reader arriving from §2.7 reads the
+        # first. "A design can be made" is the paper's neutral term (190 designs) and belongs to
+        # neither sense, so it keeps the round-7 intent — not promising a "reagent" — without the
+        # collision. The whole-paragraph property this assertion exists for is untouched.
+        "so a design can be made for a breakpoint outside this panel by the same procedure.")
     # ⛔ AND THE ORDERING IS THE POINT, so it is asserted rather than left to the tail above: the
     # disclaimer and the research-use statement must both PRECEDE the first named sequence. A future
     # edit that moves either behind the sequences reinstates round 7's P0.8 and P0.6 together, and

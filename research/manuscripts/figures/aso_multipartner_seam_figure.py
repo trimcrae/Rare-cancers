@@ -27,7 +27,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 SRC = os.path.join(HERE, "..", "..", "modalities", "nr4a3-fusion-junction-atlas.json")
 OUT = os.path.join(HERE, "aso-multipartner-seam.svg")
 
-OLIGO = "GGGCATATCATCAAAC"          # the multi-partner candidate, looked up in the artifact
+OLIGO = "GGGCATATCATCAAAC"          # the multi-partner lead reagent, looked up in the artifact
 CW = 17                              # per-base cell width
 W, T, L = 880, 84, 150
 
@@ -152,7 +152,7 @@ def main(argv=None):
              f'three donors differ. Shaded box, the oligonucleotide’s target window.</text>')
     p.append(f'<text x="32" y="{H - 36}" font-size="10.5" fill="#666">'
              f'The same paralogy that lets one reagent cover three fusions is why these designs are '
-             f'hard to discriminate from the parent transcripts: this candidate’s gap-level</text>')
+             f'hard to discriminate from the parent transcripts: this reagent’s gap-level</text>')
     p.append(f'<text x="32" y="{H - 22}" font-size="10.5" fill="#666">'
              f'margin is {esc(entry["gap_specificity_margin"])} junction-unique '
              f'bases inside the six-nucleotide catalytic gap. Coverage is predicted from sequence '

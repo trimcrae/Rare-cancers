@@ -460,10 +460,32 @@ def render_table(rows, label=None):
         out.append(f'<tr class="tablename"><th colspan="{len(head)}">{inline(label)}</th></tr>')
     out.append("<tr>")
     out += [f"<th>{inline(c)}</th>" for c in head]
-    out.append("</tr></thead><tbody>")
+    out.append("</tr></thead>")
+    #: ⛔ ONE <tbody> PER BLOCK, BECAUSE `break-after: avoid` ON A <tr> IS IGNORED HERE. Measured
+    #: 2026-08-19: with the rule on the heading row, page 45 still ended with the heading plus
+    #: exactly one row and page 46 still carried the other five. Chromium honours `break-inside`
+    #: on a row GROUP, so each block becomes its own tbody and travels whole.
+    open_body = False
     for row in body:
-        out.append("<tr>" + "".join(f"<td>{inline(c)}</td>" for c in row) + "</tr>")
-    out.append("</tbody></table>")
+        #: ⛔ A BLOCK HEADING MUST NOT BE THE LAST ROW ON A PAGE (blind screen, 2026-08-19). Table 7
+        #: is three blocks with DIFFERENT denominators, and its caption exists to say they are not
+        #: comparable. Page 45 ended with the bolded heading "Over each geometry's whole design
+        #: space" plus exactly one row; the block's remaining seven rows opened page 46 under a bare
+        #: repeated column header, so a reader met "87 of 190 | 88 of 266 | 87 of 342" with no way
+        #: to tell which of the three denominators applied — the precise confusion the caption is
+        #: written to prevent. A block heading is a row whose only filled cell is its first and is
+        #: bold; `break-after: avoid` keeps it with what it labels.
+        is_head = bool(row) and row[0].startswith("**") and not any(c.strip() for c in row[1:])
+        if is_head or not open_body:
+            if open_body:
+                out.append("</tbody>")
+            out.append('<tbody class="rowblock">')
+            open_body = True
+        klass = ' class="blockhead"' if is_head else ""
+        out.append(f"<tr{klass}>" + "".join(f"<td>{inline(c)}</td>" for c in row) + "</tr>")
+    if open_body:
+        out.append("</tbody>")
+    out.append("</table>")
     return "".join(out)
 
 
@@ -730,6 +752,9 @@ table { border-collapse: collapse; width: 100%; font-family: 'Liberation Sans', 
         sans-serif; line-height: 1.28; }
 thead { display: table-header-group; }
 tr { break-inside: avoid; }
+/* A block heading row belongs to the rows beneath it, never to the page above. */
+tr.blockhead { break-after: avoid; break-before: auto; }
+tbody.rowblock { break-inside: avoid; }
 tr.tablename th { text-align: left; font-weight: 700; background: #eef3f8; color: #123a5e;
                   border-bottom: 0; letter-spacing: 0.01em; }
 

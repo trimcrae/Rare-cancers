@@ -76,6 +76,12 @@ def _git(*args):
 def added_hunks(rev_range, targets):
     """[(path, joined_text)] — one entry per contiguous run of ADDED lines, joined into prose.
 
+    Returns (path, neighbourhood, added_only). The neighbourhood carries context so a sentence that
+    wraps across lines can be parsed whole; `added_only` carries just the new text, because a warning
+    about a NEW claim must not fire on an unchanged line that merely sits nearby. Two of the first
+    three warnings this file ever raised came from context lines, and a warning that fires on text
+    the author did not touch is one the author learns to skip.
+
     ⛔ JOINED, NOT PER-LINE, AND THAT IS THE WHOLE POINT. The manuscript is hard-wrapped at about
     100 columns, so a single sentence routinely spans two or three source lines. The first version
     of this file matched per line and therefore could not see the very defect it was written for:
@@ -95,19 +101,19 @@ def added_hunks(rev_range, targets):
         args.append(rev_range)
     args += ["--", *targets]
     out, path, hunks = _git(*args), None, []
-    current, touched = [], False
+    current, added = [], []
     def _flush():
-        if current and touched:
-            hunks.append((path, " ".join(current)))
-        current.clear()
+        if added:
+            hunks.append((path, " ".join(current), " ".join(added)))
+        current.clear(); added.clear()
     for line in out.splitlines():
         if line.startswith("+++ b/"):
-            _flush(); touched = False
+            _flush()
             path = line[6:]
         elif line.startswith("@@"):
-            _flush(); touched = False
+            _flush()
         elif line.startswith("+") and not line.startswith("+++"):
-            current.append(line[1:].strip()); touched = True
+            current.append(line[1:].strip()); added.append(line[1:].strip())
         elif line.startswith(" "):
             current.append(line[1:].strip())
     _flush()
@@ -144,7 +150,7 @@ def main(argv):
     rows = added_hunks(rev_range, targets)
     errors, warnings = [], []
 
-    for path, line in rows:
+    for path, line, added in rows:
         base = os.path.basename(path)
 
         for ref in re.findall(r"§(\d+(?:\.\d+)?)", line):
@@ -170,9 +176,9 @@ def main(argv):
                         + " and ".join(f"{a}+{b}={a + b}" for a, b in bad)
                         + f" (each must total {n}) — {line.strip()[:110]}")
 
-        m = _GOVERNS.search(line)
+        m = _GOVERNS.search(added)
         if m:
-            warnings.append(f"{base}: new universal '{m.group(0).strip()}' — {line.strip()[:110]}")
+            warnings.append(f"{base}: new universal '{m.group(0).strip()}' — {added.strip()[:110]}")
 
     print(f"lint_changed_prose: {len(rows)} changed passage(s) over "
           f"{rev_range or 'the working tree'}")

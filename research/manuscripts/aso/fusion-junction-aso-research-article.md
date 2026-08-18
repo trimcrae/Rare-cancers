@@ -47,7 +47,7 @@ fuses to *NR4A3*, creating a junction present in no normal transcript. An antise
 principle cleave the fusion and spare both parent genes; none is reported. Of 190 junction-spanning
 designs across the 38 in-frame junctions of five modelled partners, 87 pair their catalytic gap
 against a mature parent transcript over a contiguous duplex of at least ten base pairs, 61 against
-wild-type *NR4A3*. Arbitrary sequence pairs a parent far less often: scrambles reach 6.2% and
+wild-type *NR4A3*. That cut is adopted, not measured: at seven base pairs, 175 of 190. Arbitrary sequence pairs a parent far less often: scrambles reach 6.2% and
 random-offset chimeras of the same two parents 23.8%, against 45.8% observed. Nor is that excess
 resolved as specific to the disease's own breakpoints: an exon-terminus chimera no patient is
 reported to carry reaches 40.6%. Lengthening the catalytic gap quiets the transcriptome but cannot
@@ -56,11 +56,11 @@ wild-type-parent duplex it concedes are complements within one gap: every base w
 is a base conceded on the other. The work is computational: no wet-lab
 experiment was performed, nothing has been synthesised or tested, and nothing here asserts efficacy,
 safety, delivery to a tumour or clinical readiness. Every sequence named below is a research reagent
-for laboratory investigation only and must not be administered to any person or animal. Two are named as leads for synthesis with their off-target loads, 5′-GGGCATATCATCAAAC-3′ at *EWSR1* exon 12 and
+for laboratory investigation only and must not be administered to any person or animal. Two leads are named with their off-target loads, 5′-GGGCATATCATCAAAC-3′ at *EWSR1* exon 12 and
 5′-GGGCATATCTTGTGTG-3′ at *TAF15* exon 6, with two more named for coverage in §4.1; and three as
 not to be used, each pairing its whole catalytic gap against the patient's own un-rearranged
 *NR4A3* allele. The design and screening
-pipeline is released, so a candidate can be designed for a breakpoint outside this panel by the same
+pipeline is released, so a design can be made for a breakpoint outside this panel by the same
 procedure.
 
 ---
@@ -173,7 +173,7 @@ to *NR4A3* exon 3, carrying 123 gap-paired sense-strand near-matches at six gene
 search ceiling together with a sense-strand near-match in wild-type *TAF15* precursor RNA (§4.3); and
 5′-GGGCATATCTTGTGTG-3′ at *TAF15* exon 6, carrying 8 such near-matches at five loci and no
 sense-strand pre-mRNA site. Both hold the top gap-level margin of 3, and neither has been synthesised
-or tested. Between them they reach roughly two thirds of molecularly confirmed cases, on the
+or tested. Between them they address the published breakpoints of roughly two thirds of molecularly confirmed cases, on the
 coverage ladder that prices every rung and bound above them (§4.1).
 
 **Three designs not to be used (§2.6).** 5′-CAGTGGGCTCTCCACG-3′ and 5′-GCAGTGGGCTCTCCAC-3′ at *EWSR1*
@@ -780,7 +780,7 @@ The disagreement is sharpest where it matters most. Of the nine designs with no 
 near-match (Table 4), exactly one satisfies all four rules. Seven contain a CpG dinucleotide, the
 canonical TLR9 immunostimulatory motif; four fall outside the 40–60% GC window — the three *EWSR1*
 exon-1 designs above it at 62.5% and 5′-GGGCATATCTCTATAA-3′ below it at 37.5%. Only
-5′-CAGGGCATATCTTGCA-3′ at *TCF12* exon 9 passes every rule, and the multi-partner candidate
+5′-CAGGGCATATCTTGCA-3′ at *TCF12* exon 9 passes every rule, and the multi-partner lead reagent
 5′-GGGCATATCATCAAAC-3′, which is not among the nine, also passes all four. The cleanest designs this
 work found are, with one exception, molecules conventional triage would flag, in six of the seven
 cases for a CpG that reaches into the catalytic gap, so the substitution that would remove it changes
@@ -898,9 +898,9 @@ the systemic receptor-targeted route only; local and inhaled administration requ
 antigen could be named when the question was put to the disease's own tissue: of the twelve candidate
 surface antigens for which both a lineage reading against comparator sarcomas and a measured EMC
 tumour-versus-normal-organ contrast exist — the latter from four EMC and 27 normal-organ libraries
-across six organs in Gene Expression Omnibus (GEO) deposit GSE28866 — none cleared both axes on every instrument that could
-read it, and the three that cleared the two measured axes (*CD44*, *CSPG4*, *RET*) were refused by a
-wider normal-tissue prior, or left ungraded by that prior's absence. That bounds what was examined
+across six organs in Gene Expression Omnibus (GEO) deposit GSE28866 — none cleared the two measured axes and the wider
+normal-tissue prior together; the three that cleared the two measured axes (*CD44*, *CSPG4*, *RET*)
+were refused by that prior, or left ungraded by its absence. That bounds what was examined
 rather than establishing that no antigen exists: 86 of the 100 genes on the committed surface panel
 carry no row in that deposit and are unmeasured rather than excluded, every reading is
 transcript-level, and none of it speaks to protein, surface localisation, antigen density or
@@ -999,8 +999,10 @@ synthesised or tested.
 
 ### 4.1 · The reagents to synthesise, and their population coverage
 
-The experiment that would resolve the central uncertainty has been published in an
-analogous disease. Fusion-specific antisense oligonucleotides against *NAB2::STAT6* in solitary
+The experimental design that would resolve the central uncertainty — an isogenic
+fusion-positive/fusion-negative comparison — has been published in an
+analogous disease, though with a single-dose knockdown readout rather than the matched dose-response
+and wild-type-parent measurement §4.4 requires. Fusion-specific antisense oligonucleotides against *NAB2::STAT6* in solitary
 fibrous tumour, evaluated against CRISPR-engineered isogenic fusion-positive and fusion-negative
 cells, reduced fusion expression by 58% and proliferation by 22% in
 vitro.<sup>37</sup><!--PMID:37370737-->
@@ -1015,8 +1017,9 @@ read as licensing use in a patient.
 Applied here, the reagents to synthesise are the best available at the two most frequently reported
 junctions with a published exon-resolved breakpoint (Table 2): 5′-GGGCATATCATCAAAC-3′ at *EWSR1* exon 12 and
 5′-GGGCATATCTTGTGTG-3′ at *TAF15* exon 6. Both hold the top gap-level margin of 3, and neither pairs
-a parent through the catalytic gap at the ten-base-pair threshold, although the *TAF15* reagent's
-longest parent run is nine. The first also tests the multi-partner prediction, against a synthetic
+a parent through the catalytic gap at the ten-base-pair threshold, though both sit close to it: the
+*EWSR1* reagent's longest parent run is eight and the *TAF15* reagent's nine, each above the
+seven-base-pair end of the range §5 bounds this criterion by. The first also tests the multi-partner prediction, against a synthetic
 target only.
 
 How much of the disease those two junctions represent is a junction figure, not a partner figure, and
@@ -1112,17 +1115,17 @@ Synthesised alongside the 16-mer, at one extra oligonucleotide and one extra wel
 separates the two explanations a weak result would otherwise confound. A 5-8-5 arm that knocks down
 where the 5-6-5 arm does not attributes the failure to gap length rather than to sequence. What it
 does not buy is parental sparing, since the same two nucleotides lengthen each parent's contiguous
-duplex from 3 to 4 nucleotides of gap DNA, its whole contiguous hybrid at that seam from 8 to 9 base
-pairs, and its free energy from −7.77 to −8.66 kcal/mol. Its longest mature-parent duplex through the
+duplex from 3 to 4 nucleotides of gap DNA and its whole contiguous hybrid at that seam from 8 to 9
+base pairs, and drive its free energy from −7.77 to −8.66 kcal/mol. Its longest mature-parent duplex through the
 whole gap does fall from 8 base pairs to none, but 8 sits below the ten-base-pair threshold applied
 throughout, so neither design counted as a mature-parent liability at this seam and that fall removes
 nothing the screens had counted. Both arms therefore need
 the fusion-negative comparator below.
 
-### 4.3 · The predicted off-target load of each reagent
+### 4.3 · The predicted off-target load of the two lead reagents
 
-The second risk is transcriptome load, and it differs sharply between the two reagents. The *EWSR1*
-reagent carries the heavier load of the two named here: 123 gap-paired
+The second risk is transcriptome load, and it differs sharply between the two leads. The *EWSR1*
+exon-12 reagent carries the heavier load of the two: 123 gap-paired
 sense-strand near-matches at the deeper ceiling, recounting to six gene loci, all at the screen's
 loosest admitted identity and none on a parent transcript (§5). It is not the heaviest in the
 panel — fourteen of the 187 design records re-screened at that ceiling carry more, to a maximum of
@@ -1214,7 +1217,7 @@ it is the half of the argument §3 rests the modality on. Wild-type *NR4A3* is t
 no donor parent is read by this ratio, and neither is any other gene. So a reagent can clear the cut
 while pairing a parent transcript through its whole catalytic gap — the case §2.7 excludes a fourth
 *TCF12* design for, at eleven base pairs against its own donor — and each reagent of §4.1 carries
-its longest mature-parent duplex against a gene this ratio does not read (§4.3, Table 5). The remedy
+its longest mature-parent duplex against a gene this ratio does not read (Table 5). The remedy
 is not a second cut. No retrieved measurement bounds the parent case (§3), so a threshold on a donor
 ratio would be a number with nothing behind it, where this one at least has a stated convention. It
 is a reporting requirement instead: wild-type transcript for the reagent's own donor parent and for
@@ -1302,7 +1305,7 @@ this section states no rule.
 
 ### 4.5 · A design procedure for a breakpoint outside this panel
 
-The reagents named above do not reach every patient: the two leads cover roughly two thirds of
+The reagents named above do not reach every patient: the two leads address the published breakpoints of roughly two thirds of
 molecularly confirmed cases, and the panel is bounded by what has been sequenced rather than by what
 can be designed. The deliverable is therefore the procedure as well as the reagents, and it is the
 procedure that produced this paper's 190 designs, released unchanged with the artefacts.
