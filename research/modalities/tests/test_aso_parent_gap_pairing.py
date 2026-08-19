@@ -78,11 +78,20 @@ def test_the_corpus_counts_match_the_manuscript():
         # edit until someone noticed. Either noun satisfies it.
         rf"Of {c['n_designs']} (?:candidates|junction-spanning designs)[^.]{{0,160}}?"
         rf"{c['n_with_parent_duplex_through_gap']} pair their catalytic gap against a mature parent "
-        rf"transcript over a contiguous duplex of at least ten base pairs, "
+        # ⚠ "over a contiguous duplex of at least ten base pairs" -> "over ten or more contiguous
+        # base pairs" (found 2026-08-19, red on main). Third rewording to trip this pin, and the two
+        # alternations above are the precedent: the guard follows the PROPERTY, which is the three
+        # figures and the ten-base-pair criterion they were counted under, never the sentence that
+        # carries them. Both phrasings state the same threshold, so both satisfy it.
+        rf"transcript over (?:a contiguous duplex of at least ten base pairs"
+        rf"|ten or more contiguous base pairs), "
         # ⚠ "healthy" -> "wild-type" 2026-08-17: a cold reader found the abstract was the only
         # place in the paper using "healthy"; every other home says wild-type. Either spelling
         # satisfies this pin, which is for the three FIGURES and their ten-base-pair criterion.
-        rf"{nr4a3} against (?:healthy|wild-type) \*NR4A3\*", txt), (
+        # ⚠ "61 against" -> "61 of those 87 against" (2026-08-19): the restatement of the
+        # denominator is a clarification, and 61 stays pinned either way.
+        rf"{nr4a3}(?: of those {c['n_with_parent_duplex_through_gap']})? "
+        rf"against (?:healthy|wild-type) \*NR4A3\*", txt), (
         "the abstract's parent-duplex sentence no longer carries all three figures with the "
         "ten-base-pair criterion they were counted under")
 

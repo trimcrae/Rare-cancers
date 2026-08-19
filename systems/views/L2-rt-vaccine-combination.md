@@ -96,7 +96,7 @@ Nothing here is measured in EMC. The deliverable is a development path with expl
 
 ## Where this route ends — the paper
 
-**[PUB-VACCINE-PATH](L3-publications.md)** — [Toward a fusion-junction vaccine in extraskeletal myxoid chondrosarcoma: a blocker-by-blocker development path](../../research/manuscripts/neoantigen/emc-vaccine-development-path.md)
+**[PUB-VACCINE-PATH](L3-publications.md)** — [A fusion-junction vaccine in extraskeletal myxoid chondrosarcoma: what can be established today, and the capabilities that would change it](../../research/manuscripts/neoantigen/emc-vaccine-development-path.md)
 
 `primary` · ◐ `drafted` · aimed at `preprint`
 
