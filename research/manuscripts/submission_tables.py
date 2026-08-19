@@ -108,8 +108,38 @@ def _load(name):
     return json.load(open(p)) if os.path.exists(p) else None
 
 
+_PARENT_CUT_BP = None
+
+
+def _parent_cut_bp():
+    """The base-pair cut every ⚑ in this document is set at, from the artifact that applies it.
+
+    ⛔ IT WAS TYPED IN SIX PLACES (audit, 2026-08-19). `_parent_dup_cell` compared against a literal
+    `10`; Table 3's ⚑ note said "ten base pairs"; Table 4's note ⁷ said it again; Table 5's caption a
+    fourth time; Table 7 carried it in a row LABEL and in its caption. Six copies of one number whose
+    only home is `aso-parent-gap-pairing.json`'s `method.min_duplex_bp` — which is where the screen
+    applies it, and which `aso-gap-length-tradeoff.json` already points at rather than restating
+    (`thresholds.min_duplex_bp_for_hybrid_binding_domain._home`). Rule 1: a threshold restated is a
+    threshold that can move in the screen and not in the caption, and the direction that failure runs
+    is a caption promising ten over a column screened at something looser.
+
+    ⚠ IT REFUSES RATHER THAN DEFAULTING. ⚑ is a do-not-order verdict, so rendering markers under a
+    criterion no screen actually applied is worse than not rendering the table at all.
+    """
+    global _PARENT_CUT_BP
+    if _PARENT_CUT_BP is None:
+        bp = ((_load("aso-parent-gap-pairing.json") or {}).get("method") or {}).get("min_duplex_bp")
+        if not bp:
+            raise SystemExit(
+                "the ⚑ do-not-order marker is set at the parent screen's own criterion, and "
+                "aso-parent-gap-pairing.json reports no `method.min_duplex_bp` in this checkout. "
+                "Re-derive that artifact rather than marking do-not-order rows at a typed cut.")
+        _PARENT_CUT_BP = int(bp)
+    return _PARENT_CUT_BP
+
+
 def _parent_dup_cell(entry):
-    """Render Table 3's longest-parent-duplex cell, flagging the ten-base-pair criterion in place.
+    """Render a longest-parent-duplex cell, flagging the criterion in place.
 
     ⛔ The bare number is not enough here. Table 3's † marks JUNCTIONS where no design clears the
     parent screen; a reader therefore reads an unmarked row as clean, and six unmarked rows printed
@@ -123,7 +153,63 @@ def _parent_dup_cell(entry):
     if not bp:
         return "0"
     cell = f"{bp} (*{gene}*)"
-    return cell + " ⚑" if bp >= 10 else cell
+    return cell + " ⚑" if bp >= _parent_cut_bp() else cell
+
+
+def _cut_sensitivity():
+    """The same parent screen read at the LOOSE end of the cited range, from the artifact that read it.
+
+    ⛔ THE CAPTIONS TYPED THIS AND ONLY HALF OF IT (audit, 2026-08-19). Table 3's ⚑ note carried
+    "175 of the 190" and "181 … at any length" as literals, and Table 2 — the table a reagent is
+    actually chosen from — carried the cut caveat nowhere at all. The whole point of the sentence is
+    that the marker is a reading at ONE cut: at seven base pairs almost the entire panel is liable
+    and only nine of the thirty-eight seams have a design that clears, against thirty-five at ten.
+    A number typed into that sentence is a number that can stop matching the screen it describes.
+
+    ⭐ `aso-parent-null.json`'s `cut_sensitivity` block is the one place that reads both cuts, and
+    its counts reproduce exactly from `aso-parent-gap-pairing.json`'s per-design runs (190 designs;
+    87 at ≥10, 175 at ≥7, 181 non-zero; 35 and 9 junctions clearing). It refuses rather than falling
+    back, because the flatter sentence — the one without the caveat — is the wrong thing to print.
+    """
+    cs = (_load("aso-parent-null.json") or {}).get("cut_sensitivity") or {}
+    try:
+        loose = min(int(c) for c in cs["cuts_bp"] if int(c) < _parent_cut_bp())
+        key = str(loose)
+        return {
+            "loose_bp": loose,
+            "n_designs": int(cs["n_designs"]),
+            "n_junctions": int(cs["n_junctions"]),
+            "n_liable_loose": int(cs["observed_n_liable"][key]),
+            "n_junctions_clearing_loose": int(cs["n_junctions_with_a_clearing_design"][key]),
+            "n_junctions_clearing_strict": int(
+                cs["n_junctions_with_a_clearing_design"][str(_parent_cut_bp())]),
+        }
+    except (KeyError, ValueError) as exc:
+        raise SystemExit(
+            "the ⚑ notes state that the do-not-order marker is a reading at one cut, and the "
+            "counts behind that come from aso-parent-null.json's `cut_sensitivity` block, which "
+            f"this checkout does not carry usably ({exc}). Re-derive it rather than printing a "
+            "marker with no statement of what an unmarked row does and does not mean.") from exc
+
+
+def _parent_liability_definition():
+    """What "parent liability" IS, operationally, from the screen's own method block.
+
+    ⛔ TABLE 2's PRIMARY SORT KEY WAS NAMED AND NEVER DEFINED (audit, 2026-08-19). The caption said
+    designs are "ranked by parent liability first" and nothing in the document said what a parent
+    liability is, which parents were searched, in which compartment, or at what length — while the
+    same table prints a "longest parent duplex through the gap (bp)" column whose relation to that
+    ranking a reader had to guess. The definition is the screen's, so it is read from the screen.
+    """
+    m = (_load("aso-parent-gap-pairing.json") or {}).get("method") or {}
+    parents = list(m.get("parents_searched") or [])
+    compartment = str(m.get("compartment") or "")
+    if not parents or not compartment:
+        raise SystemExit(
+            "Table 2's caption defines parent liability from aso-parent-gap-pairing.json's method "
+            "block, which no longer names the parents searched or the compartment. Re-derive it "
+            "rather than printing a ranking whose first key the document does not define.")
+    return parents, compartment
 
 
 def _expression_cuts():
