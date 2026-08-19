@@ -49,7 +49,7 @@ geometry's ceiling — half the gap rounded down, which Table 7 gives — and no
 **Table 2. The best available design at each in-frame junction that has one — 35 of the 38.** Table 4
 selects across the panel and Table 3 selects within each junction by gap-level margin; this table
 selects within each junction by parent liability, which is the question a patient's
-fusion poses. Rows are in ascending order of partner, then of donor exon number, then of *NR4A3* acceptor exon number. A design's parent liability is the length of the longest contiguous duplex any of the six wild-type parent transcripts — *EWSR1*, *FUS*, *NR4A3*, *TAF15*, *TCF12* and *TFG* — forms through its whole catalytic gap, searched in the mature (spliced) parent transcript in the forward orientation only, and it disqualifies at ten base pairs; the “longest parent duplex through the gap” column is that same length for the design the row names. Designs are ranked by parent liability first, since sparing the wild-type parents is
+fusion poses. Rows are in ascending order of partner, then of donor exon number, then of *NR4A3* acceptor exon number. The gap-level margin is the count of bases inside the six-nucleotide catalytic gap that no wild-type parent carries at that position, taken on the shorter side of the junction; it runs from 1 to 3, the geometry's ceiling of half the gap rounded down, and it is a count of bases and not a score. A design's parent liability is the length of the longest contiguous duplex any of the six wild-type parent transcripts — *EWSR1*, *FUS*, *NR4A3*, *TAF15*, *TCF12* and *TFG* — forms through its whole catalytic gap, searched in the mature (spliced) parent transcript in the forward orientation only, and it disqualifies at ten base pairs; the “longest parent duplex through the gap” column is that same length for the design the row names. Designs are ranked by parent liability first, since sparing the wild-type parents is
 what the modality exists for, then by pre-mRNA sites, then by distinct gene loci, with ties broken
 on gap-level margin rather than on raw hit counts. Nothing was re-screened: every field is joined
 from a screen already reported above. The denominator of the “designs clearing the parent screen”
@@ -135,7 +135,7 @@ audited” rather than blank, since a blank in a rules column reads as breaking 
 **Table 3. Predicted specificity per screened junction.** One row per junction, in Table 2's order. Rows are in ascending order of partner, then of donor exon number, then of *NR4A3* acceptor exon number. Figures are for the
 design with the highest gap-level margin at that junction, which is the ranking the Methods define,
 and NOT for that junction's cleanest design — the two are often different molecules, and the
-cleanest ones are in Table 4. Every figure in a row is that named design's own EXCEPT the last
+cleanest ones are in Table 4. The gap-level margin is the count of bases inside the six-nucleotide catalytic gap that no wild-type parent carries at that position, taken on the shorter side of the junction; it runs from 1 to 3, the geometry's ceiling of half the gap rounded down, and it is a count of bases and not a score. Every figure in a row is that named design's own EXCEPT the last
 column, which is a median and a maximum over every design screened at the junction and is therefore
 a junction aggregate rather than a property of the molecule beside it: at EWSR1 e9::NR4A3 e3 the cell
 reads 1 (22) while the design the row names returns 9, and the two part company at
@@ -208,7 +208,7 @@ None of these numbers is a measurement of off-target activity.
 these lose the property when the same junctions are re-screened at a tenfold deeper alignment
 ceiling, three of them having returned no near-match at all here; §2.4 reports that
 measurement and names the three that survive it. This table is the default-depth result, retained
-because it is the depth at which the corpus-wide counts elsewhere in the paper were computed. Every
+because it is the depth at which the corpus-wide counts elsewhere in the paper were computed. The gap-level margin is the count of bases inside the six-nucleotide catalytic gap that no wild-type parent carries at that position, taken on the shorter side of the junction; it runs from 1 to 3, the geometry's ceiling of half the gap rounded down, and it is a count of bases and not a score. Every
 design that QUALIFIES is listed, at each of the 6 junctions where one does; this
 is not one row per junction, and it is not every design at those junctions, which are tiled by
 five registers each. A design qualifies only
@@ -217,8 +217,10 @@ strand of an unstored hit cannot be recovered, so a truncated list cannot establ
 on the sense strand remains. The underlying search is itself capped, so these are the designs whose
 near-match lists are shortest, not the designs whose lists are known to be exhaustive. ΔΔG°37 is the margin by which the fusion duplex is favoured over the better of the
 two runs a parent pairs at the junction itself, for an unmodified DNA:RNA hybrid; it does not score the
-mature-parent duplexes of §2.5, whose duplex for 59 of the 87 is not elsewhere in a parent at all but
-runs past the seam into the wild-type *NR4A3* exon-2/exon-3 junction. Because the fusion duplex pairs
+mature-parent duplexes of §2.5, of which 87 designs of the panel carry one, 61 of them
+against wild-type *NR4A3*, and 59 of THOSE 61 at one recurring site rather than
+anywhere else in a parent — the mature *NR4A3* exon-2/exon-3 seam every design's acceptor half
+reaches. Because the fusion duplex pairs
 both LNA wings and each parent duplex only one, it is a lower bound on the modified
 oligonucleotide's discrimination rather than an upper one. None of these numbers is a measurement of off-target
 activity, and none speaks to cleavage. **This table condemns nothing and clears nothing.** Its final
@@ -269,7 +271,7 @@ arms beside them, what each costs on each screen and what each buys in coverage.
 the two lead reagents, the rungs of the coverage ladder above them, the bounds above those, the
 remaining junction with a published exon-resolved breakpoint and a reagent through all five deep
 screens, the three *NR4A3* exon-2 acceptor seams the ladder carries no entry for, reported
-beside the panel, and the two contrast arms. Membership is the coverage ladder's and not this table's: every junction its best-supported
+beside the panel, and the two contrast arms. The gap-level margin is the count of bases inside the six-nucleotide catalytic gap that no wild-type parent carries at that position, taken on the shorter side of the junction; it runs from 1 to 3, the geometry's ceiling of half the gap rounded down, and it is a count of bases and not a score. Membership is the coverage ladder's and not this table's: every junction its best-supported
 buildable panel qualifies — a published exon-resolved breakpoint, and all five specificity screens
 run to completion over that junction's designs, each condition read from the table that owns it —
 has a row here whether or not §4 names its reagent, and the generator refuses to build if a

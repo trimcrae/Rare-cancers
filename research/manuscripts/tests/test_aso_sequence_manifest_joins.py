@@ -23,6 +23,7 @@ rather than against the generator's own idea of itself.
 """
 from __future__ import annotations
 
+import collections
 import csv
 import os
 import re
@@ -59,6 +60,14 @@ def _rows():
 ROWS = _rows()
 BY_SEQUENCE = {r["sequence"]: r for r in ROWS}
 
+_ARCHITECTURE = re.compile(r"\d+-\d+-\d+")
+
+
+def _architecture(geometry):
+    """The bare wing-gap-wing architecture, with any parenthetical spelling variant stripped."""
+    m = _ARCHITECTURE.search(geometry or "")
+    return m.group(0) if m else (geometry or "")
+
 
 def test_the_file_has_rows_at_all():
     assert len(ROWS) > 500, f"only {len(ROWS)} rows — the generator has lost a source block"
@@ -82,33 +91,55 @@ def test_no_column_is_named_so_vaguely_that_it_invites_the_wrong_join():
             "how one column came to carry two measurements decided by row provenance.")
 
 
+#: The share of rows that must actually carry both halves of an arithmetic identity before the
+#: identity has been checked on anything. ⛔ A SHARE, NOT A COUNT (2026-08-19): these read
+#: `checked > 100` against yields of 750 of 780, so seven eighths of the file could have stopped
+#: carrying the quantity — which is exactly the "the merge has stopped filling blanks" failure the
+#: message names — and the assertion would still have passed. Same defect as the `>= 8` floor
+#: against a yield of 36 one section below.
+MIN_ARITHMETIC_COVERAGE = 0.80
+
+
 def test_the_seam_arithmetic_is_the_complement_of_the_gap_level_margin():
     """`parent_paired_gap_dna_nt` is arithmetic, so it is checkable rather than merely carried."""
     gaps = {"5-6-5": 6, "5-8-5": 8, "5-10-5": 10}
+    eligible = [r for r in ROWS if gaps.get(r["geometry"]) is not None]
+    assert eligible, "no row carries a geometry this identity is defined for"
     checked = 0
-    for r in ROWS:
+    for r in eligible:
         paired, margin, gap = (r["parent_paired_gap_dna_nt"], r["gap_level_margin"],
-                               gaps.get(r["geometry"]))
-        if not paired or not margin or gap is None:
+                               gaps[r["geometry"]])
+        if not paired or not margin:
             continue
         checked += 1
         assert int(paired) + int(margin) == gap, (
             f"{r['sequence']}: {paired} + {margin} != {gap}. The margin and the parent-paired run "
             "are complements within the gap; if they are not, one of them is the other quantity.")
-    assert checked > 100, f"only {checked} rows carried both — the merge has stopped filling blanks"
+    share = checked / len(eligible)
+    assert share >= MIN_ARITHMETIC_COVERAGE, (
+        f"only {checked} of {len(eligible)} rows with a known geometry ({share:.0%}) carry both a "
+        f"parent-paired run and a gap-level margin, against a floor of "
+        f"{MIN_ARITHMETIC_COVERAGE:.0%} — the merge has stopped filling blanks, and the identity "
+        "above is being checked on whatever is left")
 
 
 def test_the_seam_hybrid_is_the_paired_run_plus_one_five_nucleotide_wing():
+    eligible = [r for r in ROWS if r["parent_paired_gap_dna_nt"]]
+    assert eligible, "no row carries a parent-paired run at all"
     checked = 0
-    for r in ROWS:
-        paired, hybrid = r["parent_paired_gap_dna_nt"], r["parent_seam_hybrid_bp"]
-        if not paired or not hybrid:
+    for r in eligible:
+        hybrid = r["parent_seam_hybrid_bp"]
+        if not hybrid:
             continue
         checked += 1
-        assert int(hybrid) - int(paired) == 5, (
-            f"{r['sequence']}: seam hybrid {hybrid} is not the paired run {paired} plus a "
-            "five-nucleotide wing — these are not the quantities their names claim")
-    assert checked > 100, f"only {checked} rows carried both"
+        assert int(hybrid) - int(r["parent_paired_gap_dna_nt"]) == 5, (
+            f"{r['sequence']}: seam hybrid {hybrid} is not the paired run "
+            f"{r['parent_paired_gap_dna_nt']} plus a five-nucleotide wing — these are not the "
+            "quantities their names claim")
+    share = checked / len(eligible)
+    assert share >= MIN_ARITHMETIC_COVERAGE, (
+        f"only {checked} of {len(eligible)} rows carrying a parent-paired run ({share:.0%}) also "
+        f"carry a seam hybrid, against a floor of {MIN_ARITHMETIC_COVERAGE:.0%}")
 
 
 def test_a_design_carrying_both_eight_values_names_two_different_genes():
@@ -156,9 +187,21 @@ def test_every_condemned_design_survives_a_filter_on_its_own_geometry():
         assert r in kept, (
             f"{r['sequence']} is condemned but is dropped by a filter on its own geometry "
             f"{r['geometry']!r} — the spelling is inconsistent with the rest of the file")
-        assert len(kept) > 50, (
-            f"{r['sequence']}'s geometry {r['geometry']!r} matches only {len(kept)} rows, so it is "
-            "in a minority spelling that a reader filtering the common one would miss")
+        #: ⛔ THE MINORITY IS RELATIVE TO ITS OWN ARCHITECTURE, NOT TO THE FILE. This read
+        #: `len(kept) > 50`, an absolute count that says nothing about whether a spelling is the
+        #: minority one: the historical defect was 30 rows saying "5-6-5 (LNA-DNA-LNA)" beside 176
+        #: saying "5-6-5", and a variant holding 87 of 206 rows of one architecture would clear any
+        #: fixed count while still being the spelling a reader's filter misses. What has to hold is
+        #: that a condemned row carries the DOMINANT spelling of its own architecture.
+        architecture = _architecture(r["geometry"])
+        siblings = collections.Counter(
+            x["geometry"] for x in ROWS if _architecture(x["geometry"]) == architecture)
+        dominant, dominant_n = siblings.most_common(1)[0]
+        assert r["geometry"] == dominant, (
+            f"{r['sequence']} is condemned and carries geometry {r['geometry']!r} "
+            f"({siblings[r['geometry']]} rows) while the dominant spelling of the {architecture} "
+            f"architecture is {dominant!r} ({dominant_n} rows). A reader filtering on the common "
+            "spelling gets a list that looks complete and is missing exactly the forbidden rows.")
 
 
 # ── 3. the join to the built tables actually returns the table's number ────────────────────────

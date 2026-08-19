@@ -432,8 +432,13 @@ PROMISES = [
         "promise": "the canonical machine-readable record of every sequence this deposit names",
         "contributes": ("Every design the three deposit documents name, in CSV and FASTA, with its "
                         "geometry, junction, gap-level margin, longest wild-type-parent duplex and "
-                        "an explicit do-not-order flag on the three designs that pair their whole "
-                        "catalytic gap against the un-rearranged NR4A3 allele. The generator "
+                        "an explicit do-not-order flag on every record the paper condemns. ⚠ THAT "
+                        "FLAG IS ON 252 OF THE 780 RECORDS, NOT ON THREE: 249 pair a wild-type "
+                        "parent through the whole catalytic gap at the ten-base-pair criterion, "
+                        "and 3 more pair the patient's own un-rearranged NR4A3 allele. This "
+                        "sentence named only the second class until 2026-08-19, which described "
+                        "the smaller hazard and left the larger one sounding like a clean file. "
+                        "The generator "
                         "refuses to build if any sequence the documents print is absent, so the "
                         "file cannot quietly stop being canonical."),
         "patterns": ["research/manuscripts/aso/fusion-junction-aso-sequences.csv",

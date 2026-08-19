@@ -56,8 +56,15 @@ _VERDICT_COLUMNS = (_DUPLEX, _FLAG, _VERDICT)
 _NOT_MEASURED = re.compile(
     r"\bno reading\b|\bnot a reading\b|\bnot computed\b|\bdoes not compute\b|\bnot screened\b"
     r"|\bnot (?:been )?measured\b|\bno measurement\b|\bnever (?:run|measured|screened)\b"
-    r"|\bwas not run\b|\bdid not run\b|\babsent rather than\b|\bnot applicable\b|\bunmeasured\b",
+    r"|\bwas not run\b|\bdid not run\b|\bnever ran\b|\babsent rather than\b|\bnot applicable\b"
+    r"|\bunmeasured\b|\bno reading to be\b",
     re.I)
+
+#: How far from a column's name the header may explain that column's blank. A header that groups the
+#: three states into one block is the clearest form there is, so the scope is a NEIGHBOURHOOD rather
+#: than one sentence — "NOT SCREENED — … the search never ran on them … an empty do_not_order on
+#: such a row means only that no OTHER screen condemned it" is exactly right and spans three.
+_NEIGHBOURHOOD = 400
 
 #: A claim that an absent cell IS a reading — true of a cleared row and false of an unmeasured one.
 _BLANK_IS_A_READING = re.compile(
@@ -126,26 +133,34 @@ def test_the_file_holds_three_verdict_states_and_not_two():
 def test_no_unmeasured_row_reads_as_a_clearance_or_as_a_condemnation():
     """⭐ THE SUBSTANTIVE PROPERTY. A reader compares cells; the cells must differ.
 
-    Asserted on the verdict columns as a tuple, so it holds whatever token the third state is given
-    — and it fires if the third state is ever filled in with the zeros and Falses of a measured
-    clearance, which is the shape the flag column carried until 2026-08-19.
+    ⛔ COMPARED ON THE VERDICT PAIR, NOT ON THE COLUMN THE PARTITION IS TAKEN FROM. An earlier draft
+    of this guard compared all three columns including the duplex cell — and since the duplex cell
+    is what puts a row in the unmeasured class, no two rows in different classes could ever share
+    it, so the assertion was one no input could violate. What a reader actually acts on is the
+    verdict pair: `do_not_order`, and the flag beside it.
+
+    ⛔ AND THIS IS A DEFECT THAT ACTUALLY HAPPENED. Until 2026-08-19 the flag column was written as
+    `bool(bad)` for these rows, so nine records where the mature-parent screen never ran announced
+    `False` — the same cell a measured clearance carries. §2.6 says the opposite in terms: at these
+    seams "their counts are absent rather than low and must not be read beside the panel's".
     """
     condemned, cleared, unmeasured = _states()
+    assert unmeasured, "no unmeasured rows: this comparison would be vacuous"
+    pair = [_FLAG, _VERDICT]
 
     def cells(row):
-        return tuple(row[c].strip() for c in _VERDICT_COLUMNS)
+        return tuple(row[c].strip() for c in pair)
 
-    clear_shapes = {cells(r) for r in cleared}
-    collisions = sorted({cells(r) for r in unmeasured} & clear_shapes)
+    shapes = {cells(r) for r in unmeasured}
+    collisions = sorted(shapes & {cells(r) for r in cleared})
     assert not collisions, (
-        f"{len(collisions)} unmeasured row shape(s) are cell-for-cell identical, across "
-        f"{list(_VERDICT_COLUMNS)}, to a row where the screen RAN and cleared: {collisions}. A "
-        "reader cannot tell an absent reading from a measured clearance, and only one of the two is "
-        "safe to act on.")
-    condemned_shapes = {cells(r) for r in condemned}
-    assert not ({cells(r) for r in unmeasured} & condemned_shapes), (
-        "an unmeasured row is cell-for-cell identical to a condemned one, so the file condemns a "
-        "design on a screen that never ran over it.")
+        f"{len(collisions)} unmeasured row shape(s) carry the same {pair} cells as a row where the "
+        f"screen RAN and cleared: {collisions}. A reader taking the verdict from those two columns "
+        "cannot tell an absent reading from a measured clearance, and only one of the two is safe "
+        "to act on.")
+    assert not (shapes & {cells(r) for r in condemned}), (
+        f"an unmeasured row carries the same {pair} cells as a condemned one, so the file condemns "
+        "a design on a screen that never ran over it.")
 
 
 def test_the_header_gives_the_third_states_own_markers_a_meaning():
@@ -166,11 +181,13 @@ def test_the_header_gives_the_third_states_own_markers_a_meaning():
                 if marker not in header:
                     undefined.append(f"{column}={marker!r} (sentinel not defined in the header)")
             elif not marker:
-                where = [s for s in re.split(r"(?<=\.)\s+", header) if column in s]
-                if not any(_NOT_MEASURED.search(s) for s in where):
+                near = [header[max(0, m.start() - _NEIGHBOURHOOD):m.end() + _NEIGHBOURHOOD]
+                        for m in re.finditer(re.escape(column), header)]
+                if not any(_NOT_MEASURED.search(window) for window in near):
                     undefined.append(
-                        f"{column}='' (no sentence naming this column says a blank can mean the "
-                        f"quantity was never measured; {len(where)} sentence(s) name it)")
+                        f"{column}='' (nowhere within {_NEIGHBOURHOOD} characters of this column's "
+                        f"{len(near)} mention(s) does the header say a blank can mean the quantity "
+                        "was never measured)")
     assert not undefined, (
         f"the canonical file's header does not define what the {len(unmeasured)} unmeasured rows "
         "hold:\n  " + "\n  ".join(undefined)

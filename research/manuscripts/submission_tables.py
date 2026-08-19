@@ -569,6 +569,63 @@ def _highest_duplex_printed(rendered, prefix):
     return max(vals) if vals else 0
 
 
+def _one_seam_share():
+    """(designs whose parent duplex is the ONE recurring wild-type *NR4A3* seam, the *NR4A3*-attributed
+    designs, every liable design).
+
+    ⛔ THE DENOMINATOR WAS THE WRONG ONE (audit, 2026-08-19). Table 4's ΔΔG note read "whose duplex
+    for 59 of the 87 is not elsewhere in a parent at all but runs past the seam into the wild-type
+    *NR4A3* exon-2/exon-3 junction". §2.5 states the same 59 against a different denominator — "Those
+    61 are not 61 distinct sites: 59 of them are the same one" — and 61, not 87, is the population
+    the property is defined over: it is a property of the designs whose duplex is ATTRIBUTED TO
+    *NR4A3*, and 87 is every liable design whatever parent it pairs. The looser figure is not false
+    as a subset statement and it is the flattering framing, because it makes a recurrence in one
+    parent read as a property of two thirds of the panel.
+
+    ⚠ RECOMPUTED, NOT TAKEN FROM THE PROSE. The 61 *NR4A3*-attributed designs' duplexes start at
+    0-based 689, 690, 691 (36 + 18 + 5 = 59 — three register shifts of one window) and at 3412, 3413
+    (1 + 1 = 2). "The same site" is therefore defined here as a cluster of starts whose windows
+    overlap, never as a typed count.
+    """
+    pd = (_load("aso-parent-gap-pairing.json") or {}).get("per_design") or []
+    cut = _parent_cut_bp()
+    liable = [r for r in pd if (r.get("longest_parent_duplex_bp_through_gap") or 0) >= cut]
+    attributed = [r for r in liable if r.get("parent") == "NR4A3"]
+    starts = sorted(r["parent_start_0based"] for r in attributed)
+    if not starts:
+        raise SystemExit(
+            "Table 4's ΔΔG note says which of the mature-parent duplexes are one recurring site, and "
+            "aso-parent-gap-pairing.json reports no wild-type NR4A3 attribution to cluster. "
+            "Re-derive it rather than printing a share over a population nothing measures.")
+    clusters, cur = [], [starts[0]]
+    for prev, nxt in zip(starts, starts[1:]):
+        if nxt - prev < GEOMETRY.oligo_len:      # the two duplex windows overlap: one site
+            cur.append(nxt)
+        else:
+            clusters.append(cur)
+            cur = [nxt]
+    clusters.append(cur)
+    return max(len(c) for c in clusters), len(attributed), len(liable)
+
+
+def _margin_gloss():
+    """What the "gap-level margin" column IS, worded once and printed under every table with one.
+
+    ⛔ IT WAS DEFINED IN TABLE 1's CAPTION AND NOWHERE ELSE (audit, 2026-08-19), while Tables 2, 3,
+    4 and 5 all print the column — and Table 3 makes it the RANKING every one of its rows is chosen
+    by. A caption is the part of a paper most likely to be read on its own, so a column whose
+    definition is four tables back is an undefined column in every carrier but one. Printed rather
+    than cross-referenced for the same reason `_rule_audit_note` is.
+
+    ⚠ DERIVED FROM THE GEOMETRY, so a gap change reaches the sentence rather than leaving it
+    describing a catalytic gap the panel no longer has.
+    """
+    return (f"The gap-level margin is the count of bases inside the {_word(GEOMETRY.gap_nt)}-nucleotide "
+            f"catalytic gap that no wild-type parent carries at that position, taken on the shorter "
+            f"side of the junction; it runs from 1 to {GEOMETRY.gap_nt // 2}, the geometry's ceiling "
+            f"of half the gap rounded down, and it is a count of bases and not a score.")
+
+
 def _junction_sort_key(label):
     """Partner alphabetically, then donor exon NUMERICALLY, then acceptor exon numerically.
 
@@ -2111,6 +2168,8 @@ def main(argv=None):
     # and twenty of the thirty-eight rows carry both marks — so a reader scanning the row is
     # asked to hold two opposite conventions from a paragraph they may be pages away from.
     # The counts are measured off the rendered rows so the sentence cannot outlive the marks.
+    # ⛔ AND THE ΔΔG NOTE'S DENOMINATOR WAS 87 WHERE §2.5's IS 61 — see `_one_seam_share`.
+    n_one_seam, n_nr4a3, n_liable = _one_seam_share()
     _t3_rows = _md_table(t3)[1]
     t3_rows = len(_t3_rows)
     t3_ge = sum(1 for r in _t3_rows if any("≥" in c for c in r))
@@ -2375,7 +2434,7 @@ geometry's ceiling — half the gap rounded down, which Table 7 gives — and no
 **Table 2. The best available design at each in-frame junction that has one — {n_t2_rows} of the {per_junction["n_junctions"]}.** Table 4
 selects across the panel and Table 3 selects within each junction by gap-level margin; this table
 selects within each junction by parent liability, which is the question a patient's
-fusion poses. {_JUNCTION_SORT_NOTE} {t2_liability} Designs are ranked by parent liability first, since sparing the wild-type parents is
+fusion poses. {_JUNCTION_SORT_NOTE} {_margin_gloss()} {t2_liability} Designs are ranked by parent liability first, since sparing the wild-type parents is
 what the modality exists for, then by pre-mRNA sites, then by distinct gene loci, with ties broken
 on gap-level margin rather than on raw hit counts. Nothing was re-screened: every field is joined
 from a screen already reported above. The denominator of the “designs clearing the parent screen”
@@ -2422,7 +2481,7 @@ audited” rather than blank, since a blank in a rules column reads as breaking 
 **Table 3. Predicted specificity per screened junction.** One row per junction, in Table 2's order. {_JUNCTION_SORT_NOTE} Figures are for the
 design with the highest gap-level margin at that junction, which is the ranking the Methods define,
 and NOT for that junction's cleanest design — the two are often different molecules, and the
-cleanest ones are in Table 4. Every figure in a row is that named design's own EXCEPT the last
+cleanest ones are in Table 4. {_margin_gloss()} Every figure in a row is that named design's own EXCEPT the last
 column, which is a median and a maximum over every design screened at the junction and is therefore
 a junction aggregate rather than a property of the molecule beside it: at {t3_agg_junction} the cell
 reads {t3_agg_cell} while the design the row names returns {t3_agg_own}, and the two part company at
@@ -2446,7 +2505,7 @@ None of these numbers is a measurement of off-target activity.\n\n¹ A near-matc
 these lose the property when the same junctions are re-screened at a tenfold deeper alignment
 ceiling, {_word(n_lost_zero)} of them having returned no near-match at all here; §2.4 reports that
 measurement and names the {_word(n_clean - n_lost)} that survive it. This table is the default-depth result, retained
-because it is the depth at which the corpus-wide counts elsewhere in the paper were computed. Every
+because it is the depth at which the corpus-wide counts elsewhere in the paper were computed. {_margin_gloss()} Every
 design that QUALIFIES is listed, at each of the {n_clean_junctions} junctions where one does; this
 is not one row per junction, and it is not every design at those junctions, which are tiled by
 {_word(_registers)} registers each. A design qualifies only
@@ -2455,8 +2514,10 @@ strand of an unstored hit cannot be recovered, so a truncated list cannot establ
 on the sense strand remains. The underlying search is itself capped, so these are the designs whose
 near-match lists are shortest, not the designs whose lists are known to be exhaustive. ΔΔG°37 is the margin by which the fusion duplex is favoured over the better of the
 two runs a parent pairs at the junction itself, for an unmodified DNA:RNA hybrid; it does not score the
-mature-parent duplexes of §2.5, whose duplex for 59 of the 87 is not elsewhere in a parent at all but
-runs past the seam into the wild-type *NR4A3* exon-2/exon-3 junction. Because the fusion duplex pairs
+mature-parent duplexes of §2.5, of which {n_liable} designs of the panel carry one, {n_nr4a3} of them
+against wild-type *NR4A3*, and {n_one_seam} of THOSE {n_nr4a3} at one recurring site rather than
+anywhere else in a parent — the mature *NR4A3* exon-2/exon-3 seam every design's acceptor half
+reaches. Because the fusion duplex pairs
 both LNA wings and each parent duplex only one, it is a lower bound on the modified
 oligonucleotide's discrimination rather than an upper one. None of these numbers is a measurement of off-target
 activity, and none speaks to cleavage. **This table condemns nothing and clears nothing.** Its final
@@ -2489,7 +2550,7 @@ arms beside them, what each costs on each screen and what each buys in coverage.
 the two lead reagents, the rungs of the coverage ladder above them, the bounds above those, the
 remaining junction with a published exon-resolved breakpoint and a reagent through all five deep
 screens, the {n_beside_txt} *NR4A3* exon-2 acceptor seams the ladder carries no entry for, reported
-beside the panel, and the two contrast arms. Membership is the coverage ladder's and not this table's: every junction its best-supported
+beside the panel, and the two contrast arms. {_margin_gloss()} Membership is the coverage ladder's and not this table's: every junction its best-supported
 buildable panel qualifies — a published exon-resolved breakpoint, and all five specificity screens
 run to completion over that junction's designs, each condition read from the table that owns it —
 has a row here whether or not §4 names its reagent, and the generator refuses to build if a

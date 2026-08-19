@@ -2232,8 +2232,10 @@ supplementary figure, and SI §S1 to §S6 are the numbered sections of the Suppl
 Neither is a cross-reference to the other.
 
 **Figure 1. Reading-frame compatibility across the NR4A3 fusion junction space.** All 231 donor-exon ×
-acceptor-exon pairs across *EWSR1*, *TAF15*, *TCF12*, *FUS* and *TFG*, graded against the frame
-condition.
+acceptor-exon pairs across *EWSR1*, *FUS*, *TAF15*, *TCF12* and *TFG* — named here in the order the
+panels draw them — graded against the frame condition. The grid is one grid, drawn as two
+side-by-side continuations to fit the page, so the three acceptor columns appear twice; a pair is
+not duplicated by appearing in the second block.
 Green marks the 38 frame-compatible pairs the panel is emitted at; the three refusal classes are
 greys, lightest to darkest: out of frame (39), acceptor exon carries no coding sequence (77), and
 acceptor outside the plausible resumption range (77). The panel repeats this key and these counts
@@ -2257,13 +2259,21 @@ and no exon-resolved *FUS* breakpoint has been published at all (§2.2). This is
 sequence, not a claim that one reagent serves three patient groups.
 Coverage is predicted from sequence and has not been measured.
 
-**Figure 3. The margin a longer catalytic gap wins is the parent duplex it concedes.** (A) The
+**Figure 3. The margin a longer catalytic gap wins is the gap DNA a parent pairs at the design's own seam.** (A) The
 best-margin design at *EWSR1* exon 12 joined to *NR4A3* exon 3, drawn at 5-6-5, 5-8-5 and 5-10-5
 with the wings held at five nucleotides. Every base inside the catalytic gap comes from the donor
 exon or from the acceptor exon, so the junction-unique bases on the shorter side and the bases one
 wild-type parent pairs on the longer side tile the gap and sum to it. (B) Every fusion-specific
-design in all three geometries, 798 over 38 junctions, plotted as gap-level margin against the
-contiguous run of gap DNA a wild-type parent can pair. In (A) red marks the gap bases contributed by the donor exon,
+design in all three geometries, 798 over 38 junctions, plotted as gap-level margin (abscissa) against
+the contiguous run of gap DNA one of the design's OWN two parents pairs at its seam (ordinate).
+⛔ THAT IS NOT THE QUANTITY THE ⚑ MARKERS AND THE do-not-order VERDICTS ARE SET ON. Those come
+from a SEARCH over all six mature parent transcripts, and the two separate: for the molecule drawn
+in (A) this figure draws 3 nucleotides where Tables 2, 3, 5 and 7 print an 8 bp duplex against
+wild-type *TFG*. The two also move in opposite directions across the geometries — the searched
+duplex FALLS (181 of 190, then 130 of 266, then 87 of 342 pair a parent at any length) and is flat
+at the ten-base-pair criterion (87, 88, 87), while the quantity drawn here RISES (76 of 190, 228 of
+266, 342 of 342). A longer gap concedes seam-level parent DNA; it does not concede more of the
+liability this paper condemns. In (A) red marks the gap bases contributed by the donor exon,
 green those contributed by *NR4A3*, and pale grey the LNA wings, which are not cleaved; the shorter
 of the two coloured runs is the margin and the longer is what a wild-type parent can pair, so which
 colour is which depends on the register — the junction drawn here divides its gap evenly in all three
@@ -2271,10 +2281,13 @@ geometries, and 76 of the 190 designs at 5-6-5 have the longer run on the donor 
 (5-10-5). Both panels repeat these keys beside the drawing. Marker area is the number of designs at that
 point and the label is that count; the three lines are drawn from the identity, not fitted, and it
 holds for each design individually rather than on average. Within one geometry the two move
-inversely along a line of slope −1; a geometry's ceiling on margin is half its gap rounded down, and
+inversely along a line of slope −1, and the panel is drawn square so that slope is true as plotted;
+a geometry's ceiling on margin is half its gap rounded down, and
 clearing it means a longer gap and a higher parent-paired run at every register (§2.9, Table 7).
 
-**Supplementary Figure S1. Transcriptome load per design against chance expectation.** Bars are
+**Supplementary Figure S1. Transcriptome load per molecule against chance expectation.** ⚠ Per
+MOLECULE, not per design record: the 190 records are 176 distinct oligonucleotides and each is
+plotted once, so this series is 176 bars and not 190. Bars are
 green at or below the chance line and red above it, which is redundant with each bar's height
 against that line and carries no information of its own. Each bar is one distinct
 oligonucleotide's count of exact plus ≤1-mismatch matches over 186,185 transcripts, ranked. The 190

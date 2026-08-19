@@ -1313,7 +1313,7 @@ def _defer_landscape_floats(main):
     return main.replace(' data-deferred="1"', "")
 
 
-def wrap_journal(paper, front, body_html):
+def wrap_journal(paper, front, body_html, doc_title=None):
     meta = paper.get("journal", {})
     body_html = re.sub(r"(<h2>References</h2>.*?)<ol", r'\1<ol id="references-list"',
                        body_html, count=1, flags=re.S)
@@ -1336,7 +1336,7 @@ def wrap_journal(paper, front, body_html):
         f'<p>{inline(front["abstract"])}</p></div>'
         f'<p class="kw"><strong>Keywords</strong> &nbsp;{inline(front["keywords"])}</p>'
     )
-    return page_shell(re.sub(r"[*_`]", "", front["title"]), JOURNAL_CSS,
+    return page_shell(doc_title or re.sub(r"[*_`]", "", front["title"]), JOURNAL_CSS,
                       head + f'<div class="cols">{main}</div>'
                       + f'<div class="backmatter">{back}</div>')
 
@@ -1432,7 +1432,33 @@ class WS:
                 return frame.get("result", {})
 
 
-def templates(running_head):
+#: The documents a built PDF is a rendering OF. A stamp beside each PDF records the sha256 of each
+#: at build time, so "is this PDF current?" is answered by CONTENT rather than by mtime.
+STAMP_SOURCES = (
+    "aso/fusion-junction-aso-research-article.md",
+    "aso/fusion-junction-aso-submission-tables.md",
+    "aso/fusion-junction-aso-submission-references.md",
+    "aso/fusion-junction-aso-sequences.csv",
+)
+
+
+#: The file the paper tells a reader to order from, read out of the stamped source list above so the
+#: running footer and the build stamp cannot come to name different files (rule 1).
+ORDER_FROM = next(os.path.basename(p) for p in STAMP_SOURCES if p.endswith(".csv"))
+
+#: The handling statement in both lengths. ⛔ THE FULL SENTENCE IS THE ONE THAT MATTERS AND IT IS NOT
+#: FREE. It carries the destination — order from the CSV, never from this PDF — and at 110
+#: characters, repeated on every page, it is also the string that splices into a body sentence at
+#: every page boundary in content order (measured: 27 sentences in the journal build, 50 in the
+#: manuscript build, in the order pypdf and every non-layout indexer reads). The short rule keeps
+#: the prohibition and drops the destination, and is used ONLY on pages from which nothing can be
+#: ordered: no sequence, no table, not page 1. `_postprocess` verifies that split page by page.
+FOOTER_FULL = ("Research use only — not for administration. "
+               f"Order from {ORDER_FROM}, never from this PDF.")
+FOOTER_SHORT = "Research use only — not for administration."
+
+
+def templates(running_head, footer_text):
     # 8px = 6 pt, the floor below which a screen reader called the header unreadable. It was 7px
     # (5.2 pt) because the full 30-word title had to be squeezed in; the declared running title is
     # five words and needs no squeezing.
@@ -1447,13 +1473,90 @@ def templates(running_head):
     #: per-table safeguard silently dropped out on them. A running footer is the only element paged
     #: media puts on every page unconditionally.
     footer = (f'<div style="{style}">'
-              '<span>Research use only — not for administration. '
-              'Order from fusion-junction-aso-sequences.csv, never from this PDF.</span>'
+              f"<span>{_html.escape(footer_text)}</span>"
               '<span class="pageNumber"></span></div>')
     return header, footer
 
 
-def print_pdf(chrome, html_path, pdf_path, running_head):
+#: A page from which something could be ordered keeps the FULL handling sentence. The test is on the
+#: RENDERED page, not on the source: what matters is what a reader holding that one sheet can see.
+_PAGE_HAS_SEQUENCE = re.compile(r"5[′'’]\s?-\s?[ACGTUacgtu]{8,40}\s?-\s?3[′'’]|\b[ACGT]{12,}\b")
+_PAGE_HAS_TABLE = re.compile(r"^\s*Table \d+", re.M)
+
+
+def _pages_needing_the_full_footer(reader):
+    keep = {0}                                              # page 1 always states the destination
+    for index, page in enumerate(reader.pages):
+        text = page.extract_text() or ""
+        if _PAGE_HAS_SEQUENCE.search(text) or _PAGE_HAS_TABLE.search(text):
+            keep.add(index)
+    return keep
+
+
+def _body_of(page, head):
+    """A page's text with the running head, either footer and the page number removed."""
+    text = re.sub(r"\s+", " ", page.extract_text() or "")
+    for chrome_bit in (head, FOOTER_FULL, FOOTER_SHORT):
+        text = text.replace(re.sub(r"\s+", " ", chrome_bit), " ")
+    return re.sub(r"[^A-Za-z0-9]", "", text)
+
+
+def _postprocess(full_pdf, short_pdf, pdf_path, running_head, meta):
+    """Assemble the delivered PDF: short rule on body pages, and a real Info dictionary.
+
+    ⛔ TWO RENDERS, ONE LAYOUT, AND THE EQUALITY IS CHECKED RATHER THAN ASSUMED. The two prints
+    differ only in a footer template, which sits in the page margin and cannot reflow the content
+    box — but "cannot" is the word this file's history keeps disproving, so every page's body text
+    is compared between the two renders and any difference at all aborts the splice and ships the
+    full-footer render unchanged. A wrong page grafted into a deposit is far worse than a long
+    footer on it.
+
+    ⛔ AND THE METADATA IS THE OTHER HALF. Before this, all three PDFs carried `/Creator` =
+    a headless-Chrome UA string, no `/Author`, no `/Subject`, no `/Keywords`, and — between the two
+    full builds — a byte-identical `/Title`, so the deposit contained two 200-page-equivalent
+    documents that Document Properties could not tell apart.
+    """
+    try:
+        import pypdf
+    except ImportError as exc:                              # pragma: no cover - env dependent
+        raise SystemExit(
+            f"pypdf is not importable ({exc}), so this build could set no PDF metadata and could "
+            "not vary the handling footer by page. Both are deposit requirements — install pypdf "
+            "rather than shipping a PDF whose Document Properties name headless Chrome.")
+    import io
+
+    full = pypdf.PdfReader(io.BytesIO(full_pdf))
+    writer = pypdf.PdfWriter(clone_from=io.BytesIO(full_pdf))
+    grafted = 0
+    if short_pdf:
+        short = pypdf.PdfReader(io.BytesIO(short_pdf))
+        keep = _pages_needing_the_full_footer(full)
+        same_length = len(short.pages) == len(full.pages)
+        bodies_match = same_length and all(
+            _body_of(full.pages[i], running_head) == _body_of(short.pages[i], running_head)
+            for i in range(len(full.pages)))
+        if not bodies_match:
+            print("  ⚠ the two footer renders do not paginate identically — shipping the full "
+                  "handling sentence on every page", file=sys.stderr)
+        else:
+            for index in range(len(full.pages)):
+                if index in keep:
+                    continue
+                writer.add_page(short.pages[index])
+                donor = writer.pages[-1]
+                writer.pages[index][pypdf.generic.NameObject("/Contents")] = donor.raw_get(
+                    "/Contents")
+                writer.pages[index][pypdf.generic.NameObject("/Resources")] = donor.raw_get(
+                    "/Resources")
+                del writer.pages[len(writer.pages) - 1]
+                grafted += 1
+    writer.add_metadata({k: v for k, v in meta.items() if v})
+    with open(pdf_path, "wb") as fh:
+        writer.write(fh)
+    return grafted, len(full.pages)
+
+
+def print_pdf(chrome, html_path, pdf_path, running_head, meta=None, split_footer=True):
     profile = tempfile.mkdtemp(prefix="ccpdf-")
     proc = subprocess.Popen(
         [chrome, "--headless", "--disable-gpu", "--no-sandbox", "--no-first-run",
@@ -1478,11 +1581,20 @@ def print_pdf(chrome, html_path, pdf_path, running_head):
         ws.call("Page.enable")
         ws.call("Page.navigate", url="file://" + os.path.abspath(html_path))
         time.sleep(2.5)
-        header, footer = templates(running_head)
-        result = ws.call("Page.printToPDF", printBackground=True, preferCSSPageSize=True,
-                         displayHeaderFooter=True, headerTemplate=header, footerTemplate=footer)
-        with open(pdf_path, "wb") as fh:
-            fh.write(base64.b64decode(result["data"]))
+
+        def render(footer_text):
+            header, footer = templates(running_head, footer_text)
+            #: ⛔ `generateDocumentOutline` IS THE WHOLE FIX FOR "NO BOOKMARKS" AND IT IS ONE FLAG.
+            #: Measured 2026-08-19: 0 outline entries across 116 pages with six numbered sections,
+            #: seven tables, four figures, Declarations and 52 references. Chromium builds the
+            #: outline from the heading elements the builder already emits.
+            return base64.b64decode(ws.call(
+                "Page.printToPDF", printBackground=True, preferCSSPageSize=True,
+                generateDocumentOutline=True, displayHeaderFooter=True,
+                headerTemplate=header, footerTemplate=footer)["data"])
+
+        full_pdf = render(FOOTER_FULL)
+        short_pdf = render(FOOTER_SHORT) if split_footer else None
     finally:
         proc.terminate()
         try:
@@ -1490,19 +1602,10 @@ def print_pdf(chrome, html_path, pdf_path, running_head):
         except subprocess.TimeoutExpired:
             proc.kill()
         shutil.rmtree(profile, ignore_errors=True)
+    return _postprocess(full_pdf, short_pdf, pdf_path, running_head, meta or {})
 
 
 # --------------------------------------------------------------------------- driver
-
-
-#: The documents a built PDF is a rendering OF. A stamp beside each PDF records the sha256 of each
-#: at build time, so "is this PDF current?" is answered by CONTENT rather than by mtime.
-STAMP_SOURCES = (
-    "aso/fusion-junction-aso-research-article.md",
-    "aso/fusion-junction-aso-submission-tables.md",
-    "aso/fusion-junction-aso-submission-references.md",
-    "aso/fusion-junction-aso-sequences.csv",
-)
 
 
 def _write_build_stamp(pdf_path, paper):
@@ -1575,8 +1678,20 @@ def build_supplementary(paper, html_only=False):
         print(f"SI: no chromium found; HTML is at {os.path.relpath(html_path, REPO)}")
         return 1
     pdf_path = os.path.join(HERE, out_name)
+    meta = {
+        "/Title": f"Supplementary Information — {re.sub(r'[*_`]', '', article_title.group(1))}",
+        "/Subject": ("Supplementary Information to a preprint manuscript, not peer reviewed. The "
+                     f"main text is {article_pdf}."),
+        "/Author": re.sub(r"[*_`]", "",
+                          label_paragraph(strip_frontmatter(read(paper["manuscript"])), "Author")),
+        "/Keywords": re.sub(r"[*_`]", "",
+                            label_paragraph(strip_frontmatter(read(paper["manuscript"])),
+                                            "Keywords")),
+        "/Creator": "build_submission_pdf.py (supplementary), Chromium print-to-PDF",
+        "/CreationDate": time.strftime("D:%Y%m%d%H%M%S+00'00'", time.gmtime()),
+    }
     print_pdf(chrome, html_path, pdf_path, declared_running_title(body)
-              if re.search(r"running[- ]title", body, re.I) else title[:60])
+              if re.search(r"running[- ]title", body, re.I) else title[:60], meta)
     #: ⚠ THE INTERMEDIATE IS DELETED HERE, AS IT IS IN `build` (2026-08-19). Without this the SI
     #: build left a `.build.html` beside the deposit artefacts on every run — untracked, so it
     #: turned up as a new file in `git status` and invited being committed as though it were a
@@ -1587,20 +1702,49 @@ def build_supplementary(paper, html_only=False):
     return 0
 
 
+#: ⛔ THE TWO FULL BUILDS MUST NOT BE INTERCHANGEABLE IN A FILE MANAGER (blind screen of the deposit,
+#: 2026-08-19). Both carried a byte-identical `/Title` and 99.76% identical text, neither named the
+#: other, and the shorter, more canonical-looking filename is the typeset PREVIEW while the one to
+#: upload is `…-manuscript.pdf`. A downloader taking the obvious file deposits the wrong artefact.
+#: Each format now says in its own title and subject what it is and which file the other one is.
+FORMATS = {
+    "journal": ("[typeset preview]",
+                "Typeset preview of a preprint manuscript. NOT the deposited version — the file to "
+                "cite and deposit is {other}."),
+    "manuscript": ("[submission manuscript]",
+                   "Submission-format preprint manuscript: the version of record for this deposit. "
+                   "A typeset preview of the same text is {other}."),
+}
+
+
 def build(name, paper, style="journal", html_only=False):
     body, floats = assemble(paper, style)
     # ⛔ ONE SOURCE FOR THE RUNNING HEAD IN BOTH STYLES. The manuscript declares it; neither
     # renderer may substitute anything else, and a manuscript that stops declaring one fails the
     # build rather than falling back to the full title.
     running = declared_running_title(body)
+    suffix, subject = FORMATS[style]
+    other = os.path.basename(paper["out"].replace(".pdf", "-manuscript.pdf")
+                             if style == "journal" else paper["out"])
+    plain_title = re.sub(r"[*_`]", "", re.search(r"^#\s+(.*)$", body, re.M).group(1))
+    meta = {
+        "/Title": f"{plain_title} {suffix}",
+        "/Subject": subject.format(other=other),
+        "/Author": re.sub(r"[*_`]", "", label_paragraph(body, "Author")),
+        "/Keywords": re.sub(r"[*_`]", "", label_paragraph(body, "Keywords")),
+        #: ⛔ NOT A BROWSER UA STRING. `/Creator` is what a screener reads under "Application", and
+        #: it said `Mozilla/5.0 … HeadlessChrome/141.0.0.0`. `/Producer` stays Skia, which is true.
+        "/Creator": f"build_submission_pdf.py ({style} style), Chromium print-to-PDF",
+        "/CreationDate": time.strftime("D:%Y%m%d%H%M%S+00'00'", time.gmtime()),
+    }
     if style == "journal":
         front = parse_front_matter(body)
-        page = wrap_journal(paper, front, markdown_to_html(front["body"], floats))
+        page = wrap_journal(paper, front, markdown_to_html(front["body"], floats),
+                            meta["/Title"])
         out_name = paper["out"]
     else:
-        title = re.sub(r"[*_`]", "", re.search(r"^#\s+(.*)$", body, re.M).group(1))
         page = wrap_manuscript(
-            title, markdown_to_html(body, floats),
+            meta["/Title"], markdown_to_html(body, floats),
             f'<p class="version">{_html.escape(provenance_line(paper, "manuscript"))}</p>')
         out_name = paper["out"].replace(".pdf", "-manuscript.pdf")
 
@@ -1617,13 +1761,13 @@ def build(name, paper, style="journal", html_only=False):
               file=sys.stderr)
         return 1
     pdf_path = os.path.join(HERE, out_name)
-    print_pdf(chrome, html_path, pdf_path, running)
+    grafted, pages = print_pdf(chrome, html_path, pdf_path, running, meta)
     os.remove(html_path)
     _write_build_stamp(pdf_path, paper)
     size = os.path.getsize(pdf_path)
-    pages = open(pdf_path, "rb").read().count(b"/Type /Page\n") or None
     print(f"{name} [{style}]: wrote {os.path.relpath(pdf_path, REPO)} "
-          f"({size / 1024:.0f} KB{f', {pages} pages' if pages else ''})")
+          f"({size / 1024:.0f} KB, {pages} pages; the full handling sentence is on "
+          f"{pages - grafted} of them and the short rule on {grafted})")
     return 0
 
 

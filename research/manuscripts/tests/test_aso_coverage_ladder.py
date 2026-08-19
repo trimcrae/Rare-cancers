@@ -88,13 +88,50 @@ def test_a_bound_is_never_rendered_as_a_reachable_target():
 
 
 def test_no_rung_claims_a_junction_that_has_no_design_at_all():
-    """A rung that silently includes an undesignable junction prices coverage nobody can order."""
+    """A rung that silently includes an undesignable junction prices coverage nobody can order.
+
+    ⛔ AND IT ASSERTED NOTHING UNTIL 2026-08-19. It read
+
+        assert not (undesigned and not designed_unscreened) or row["what_it_costs"]
+
+    over a ladder in which `junctions_with_no_design_at_all` is `[]` on every rung — so the left
+    operand was `not []`, which is `True`, and the whole expression short-circuited before reaching
+    anything. The loop under it iterated `junctions_designed_but_not_yet_screened`, also empty on
+    every rung. Both were true statements about the four-state accounting being currently clean, and
+    neither could become false: no input to this ladder could have made this test fail.
+
+    What replaces it is the ACCOUNTING ITSELF, which is checkable while the exceptional states are
+    empty: every junction a rung names is in exactly one of the four states, the three exceptional
+    lists are disjoint, and a state that is not empty carries what its own row promises.
+    """
+    membership = set(_ladder()["best_supported_buildable_panel"]["panel_membership"]["junctions"])
+    assert membership, "the screened membership is empty, so nothing below can be checked against it"
     for row in _ladder()["ladder"]:
+        named = row["junctions"]
+        undesigned = set(row["junctions_with_no_design_at_all"])
+        designed_unscreened = row["junctions_designed_but_not_yet_screened"]
+        outside = row["junctions_screened_outside_the_manuscript_panel"]
+        # ⛔ THE FOUR STATES MUST PARTITION THE ROW. A junction in two of them is being counted
+        # twice; a junction in none of them is a reagent this row prices and no artifact places.
+        for state in (undesigned, set(designed_unscreened), set(outside)):
+            assert state <= set(named), (row["panel"], sorted(state - set(named)))
+        assert not (undesigned & set(designed_unscreened)), row["panel"]
+        assert not (undesigned & set(outside)), row["panel"]
+        assert not (set(designed_unscreened) & set(outside)), row["panel"]
+        unplaced = [j for j in named
+                    if j not in membership and j not in designed_unscreened and j not in undesigned]
+        assert not unplaced, (
+            f"{row['panel']!r} prices {unplaced}, which is neither in the screened membership nor "
+            "recorded as designed-but-unscreened nor as having no design at all. A rung that names "
+            "a reagent no artifact places is coverage nobody can order.")
+        # ⛔ SCREENED-OUTSIDE-THE-PANEL IS A SCREENED JUNCTION, and must be readable as one.
+        for label in outside:
+            assert label in membership, (row["panel"], label)
         if row["kind"] != "rung":
             continue
-        undesigned = row["junctions_with_no_design_at_all"]
-        designed_unscreened = row["junctions_designed_but_not_yet_screened"]
-        assert not (undesigned and not designed_unscreened) or row["what_it_costs"], row["panel"]
+        assert not undesigned or row["what_it_costs"], (
+            f"{row['panel']!r} includes {sorted(undesigned)}, for which no design exists, and says "
+            "nothing about what building one costs.")
         # ⛔ A DESIGNED-BUT-UNSCREENED JUNCTION MUST SAY SO ON ITS OWN RECORD. Collapsing the three
         # states (screened / designed-unscreened / nothing) into two is how an unscreened sequence
         # gets read as a panel member.

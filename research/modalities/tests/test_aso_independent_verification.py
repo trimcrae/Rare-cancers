@@ -110,6 +110,20 @@ def test_a_corrupted_screen_4_artifact_makes_the_verifier_fail():
             pytest.skip("inputs to the verifier are not present in this checkout")
     good = v.run()
     assert good["verdict"] == "AGREES"
+    #: ⛔⛔ AND THE LIVE RUN IS COMPARED TO THE DEPOSITED ARTIFACT, WHICH NOTHING DID (2026-08-19).
+    #: Every other assertion in this file reads `aso-independent-verification.json` and checks the
+    #: numbers written into it — 231 pairs, 190 designs, 87, 61 — so the whole file could pass
+    #: against a committed artifact that the verifier, run today over today's inputs, would no
+    #: longer produce. A stale verdict is exactly what a verifier is for, and the one thing this
+    #: file was not checking was whether the verifier still says what the deposit says it says.
+    #: The comparison is over `checks`, not the whole document, because the artifact carries a
+    #: timestamp and other run metadata that differ by construction on every run.
+    assert good["checks"] == _art()["checks"], (
+        "the verifier's LIVE output differs from the committed aso-independent-verification.json, "
+        "so the deposited verification is stale: it describes inputs that have since changed. "
+        "Re-run research/modalities/aso_independent_verification.py and register any moved figure "
+        "in pinned-figures.json in the same commit.")
+    assert good["verdict"] == _art()["verdict"] and good["problems"] == _art()["problems"]
 
     real = json.load(open(v.SCREEN4, encoding="utf-8"))
     real["per_design"][0]["longest_parent_duplex_bp_through_gap"] += 1
