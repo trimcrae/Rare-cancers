@@ -145,8 +145,18 @@ def main(argv=None):
                  f'margin {min(dn, ac)} + parent run {max(dn, ac)} = gap {gap}</text>')
 
     ky = top + 3 * rowh + 2
-    for dx, fill, lab in ((0, "#c62828", "junction-unique bases (the margin)"),
-                          (250, "#2e7d32", "bases one wild-type parent pairs"),
+    #: ⛔ THE KEY NAMES WHAT THE CODE DRAWS, NOT WHAT THE ARGUMENT IS ABOUT (figure-integrity screen,
+    #: 2026-08-19). It read "junction-unique bases (the margin)" and "bases one wild-type parent
+    #: pairs", but the fill above is chosen by WHICH EXON a base comes from: red is donor-side, green
+    #: acceptor-side. Red is the margin only when the donor side is the shorter one. The panel's own
+    #: junction is a perfect tie in all three geometries (3+3, 4+4, 5+5), so the asymmetry the caption
+    #: asserts is never visible, and a reader carrying the key to any other register reads it
+    #: backwards for the 76 of 190, 114 of 266 and 152 of 342 designs whose donor side is longer.
+    for dx, fill, lab in ((0, "#c62828", "donor-exon gap bases"),
+                          #: ⚠ NO MARKDOWN IN SVG TEXT. These labels are drawn verbatim: an
+                          #: asterisk-wrapped gene name renders as literal asterisks, not italics,
+                          #: and every other figure here sets gene names plain for that reason.
+                          (250, "#2e7d32", "NR4A3 gap bases"),
                           (530, "#eceff1", "LNA wing, not cleaved")):
         p.append(f'<rect x="{200 + dx}" y="{ky}" width="13" height="13" fill="{fill}" '
                  f'opacity="0.82" stroke="#37474f" stroke-width="0.6"/>')
@@ -189,10 +199,22 @@ def main(argv=None):
     p.append(f'<text x="32" y="{T + PH / 2:.0f}" font-size="12" fill="#111" text-anchor="middle" '
              f'transform="rotate(-90 32 {T + PH / 2:.0f})">contiguous parent gap DNA</text>')
 
+    #: ⛔ ONE SCALE FOR ALL THREE SERIES (2026-08-19). The radius was normalised against
+    #: `max(counts.values())` INSIDE the per-geometry loop, so each series was scaled by its own
+    #: peak. Area was proportional to count within a series and comparable across series only
+    #: because all three geometries happen to peak at the same 76 designs — a coincidence of this
+    #: panel, not a property of the encoding. The caption says marker area is the number of designs,
+    #: full stop, so the denominator has to be the maximum over every series drawn.
+    counts_by_geometry = {}
     for g in geoms:
         counts = {}
         for _junction, margin, dn, ac in g["rows"]:
             counts[(margin, max(dn, ac))] = counts.get((margin, max(dn, ac)), 0) + 1
+        counts_by_geometry[id(g)] = counts
+    peak = max(k for counts in counts_by_geometry.values() for k in counts.values())
+
+    for g in geoms:
+        counts = counts_by_geometry[id(g)]
         xs = sorted({k[0] for k in counts})
         pts = " ".join(f"{px(x):.1f},{py(g['gap'] - x):.1f}" for x in
                        range(min(xs), max(xs) + 1))
@@ -206,7 +228,7 @@ def main(argv=None):
             #: measured the drawn diameters and caught it. Radius proportional to the square
             #: root of the count makes area proportional to the count, which is what the
             #: caption claims and what a reader decodes a bubble by.
-            r = 11.4 * (k / max(counts.values())) ** 0.5
+            r = 11.4 * (k / peak) ** 0.5
             p.append(f'<circle cx="{px(mx):.1f}" cy="{py(run):.1f}" r="{r:.1f}" '
                      f'fill="{g["colour"]}" opacity="0.55" stroke="{g["colour"]}"/>')
             p.append(f'<text x="{px(mx):.1f}" y="{py(run) + 3.6:.1f}" font-size="9.5" '

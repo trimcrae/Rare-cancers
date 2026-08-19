@@ -149,7 +149,12 @@ def test_the_manuscript_matches_the_committed_premrna_screen():
                 classes.setdefault((h["gene"], h["compartment"]), 0)
                 classes[(h["gene"], h["compartment"])] += 1
     assert classes == {("NR4A3", "intron_exon_spanning"): 9, ("TCF12", "intronic"): 10}, classes
-    assert "Nine are intron–exon-spanning, and every one is in *NR4A3*" in txt
+    #: ⚠ RE-ANCHORED 2026-08-19, AND THE REWORDING IS THE POINT. The pin read "Nine are
+    #: intron–exon-spanning, and every one is in *NR4A3*". Those nine are nine DESIGNS reading TWO
+    #: sites, and §2.5 now says so; "every one" left a reader free to hear nine sites. `classes`
+    #: above counts hit RECORDS, one per design, so it can never tell the two apart on its own —
+    #: which is why the sentence has to carry the distinction and this pin has to hold it there.
+    assert "Nine are intron–exon-spanning, and all nine read the same two sites in *NR4A3*" in txt
     assert "The other ten are wholly intronic and every one is in *TCF12*" in txt
 
     # The margin trend, which is what makes this a third instrument agreeing with the ranking.

@@ -69,7 +69,11 @@ def main(argv=None):
         "the oligonucleotide's target window is not the seam window the artifact records")
 
     ncols = len(donors[0]) + len(acceptors[0])
-    H = T + len(labels) * 30 + 150
+    #: +166 rather than +150 since 2026-08-19: the handling note added below the margin sentence
+    #: is a fourth footer line, and at the old height its baseline sat 8 px from the canvas edge
+    #: with descenders inside the last few pixels. An SVG has no overflow, so a line that does
+    #: not fit is simply not drawn — the failure mode the chance-baseline panel already hit.
+    H = T + len(labels) * 30 + 166
     seam_x = L + len(donors[0]) * CW
 
     p = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" '
@@ -157,6 +161,13 @@ def main(argv=None):
              f'margin is {esc(entry["gap_specificity_margin"])} junction-unique '
              f'bases inside the six-nucleotide catalytic gap. Coverage is predicted from sequence '
              f'and has not been measured.</text>')
+    #: ⛔ THE PANEL NAMES A SEQUENCE AND CARRIED NO HANDLING NOTE (figure-integrity and safety
+    #: screens, 2026-08-19). Every table caption carries the chemistry-and-canonical-file note;
+    #: this figure prints the lead reagent and three raw target windows and carried none, while
+    #: being one of the most extractable elements in the document.
+    p.append(f'<text x="32" y="{H - 8}" font-size="10.5" fill="#666">'
+             f'Research use only, not for administration. The bases alone, ordered as unmodified '
+             f'DNA, are a different molecule; order from fusion-junction-aso-sequences.csv.</text>')
     p.append('</svg>')
 
     with open(OUT, "w") as fh:

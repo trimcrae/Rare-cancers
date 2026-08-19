@@ -280,7 +280,7 @@ def test_the_reordering_example_is_exact():
     a13, m13 = per["EWSR1_e13__NR4A3_e3"]
     assert (a7, a13) == (55, 57), (a7, a13)
     assert (a7 - m7, a13 - m13) == (6, 53), (a7 - m7, a13 - m13)
-    assert "return 55 and 57 apparent gap-spanning hits" in _flat(_paper())
+    assert "return 55 and 57 apparent gap-paired hits" in _flat(_paper())
     assert "they stand at 6 and 53" in _flat(_paper())
 
 
@@ -665,11 +665,16 @@ def test_the_tcf12_exon5_gap_spanning_load_is_one_locus_not_seventeen():
     #: a gene-name column nor a curated/predicted one — it gives "17 → 1", which supports the count
     #: and the single locus and nothing else. The gene and its curated status come from the deep hit
     #: list and Table 6. Both facts are still pinned; the attribution between them moved.
-    assert "retains 17 gap-spanning near-matches at the deeper ceiling" in txt
+    assert "retains 17 gap-paired near-matches at the deeper ceiling" in txt
     assert "every one of them a variant of a single" in txt
     assert "That locus is the curated *PIK3CG*" in txt
-    for dead in ("highest gap-spanning near-match load in the panel", "17 loci for its best-margin"):
-        assert dead not in txt, f"superseded TCF12 e5 claim is back: {dead!r}"
+    #: ⚠ TERM-AGNOSTIC, 2026-08-19. The dead phrases were pinned with the word "gap-spanning" in
+    #: them. When the manuscript standardised on "gap-paired" (one class had three names), a
+    #: reinstated "highest gap-paired near-match load in the panel" would have walked straight past
+    #: a guard that only knew the old noun. Match the claim, not the vocabulary it was made in.
+    for dead in (r"highest gap-(spanning|paired) near-match load in the panel",
+                 r"17 loci for its best-margin"):
+        assert not re.search(dead, txt), f"superseded TCF12 e5 claim is back: {dead!r}"
 
 
 def test_the_discussion_recommends_the_two_published_junctions():
@@ -1161,7 +1166,7 @@ def test_the_gap_length_table_cells_are_the_artifacts_and_the_paper_points_at_it
     assert len(present) >= 3, present
     for arch in present:
         assert lead[arch]["antisense_5to3"] in txt, arch
-    assert "| sense-strand gap-spanning cleavage risks | 123 | 3 | 0 |" in txt
+    assert "| sense-strand gap-paired cleavage risks | 123 | 3 | 0 |" in txt
     assert "| designs carrying none | 8 of 30 | 28 of 42 | 54 of 54 |" in txt
     assert "| a mature parent can pair the whole gap | 181 of 190 | 130 of 266 | 87 of 342 |" in txt
     # ⛔ THE ROW BELOW WAS ADDED AND THE ONE UNDER IT RENAMED (round-7 review, 2026-08-16), AND THIS

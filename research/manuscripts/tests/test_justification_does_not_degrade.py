@@ -47,10 +47,22 @@ DEPOSIT_PDF = os.path.join(MANUSCRIPTS, "aso",
                            "fusion-junction-aso-research-article-manuscript.pdf")
 
 #: Baseline worst line is 11.02 pt against a 3.12 pt median. 13 pt leaves room for one new sequence
-#: citation landing badly without licensing a visibly worse page.
+#: citation landing badly without licensing a visibly worse page. This one stays ABSOLUTE: a single
+#: page with a visible river is a defect however long the paper is.
 MAX_GAP_PT = 13.0
-#: Baseline is 20 lines above 2x the median. 26 is the ceiling on the broader, milder class.
-MAX_LINES_ABOVE_2X = 26
+
+#: ⛔ A RATE, NOT A COUNT (2026-08-19). This was `MAX_LINES_ABOVE_2X = 26` against a baseline of 20
+#: lines. A round of substantive corrections grew the body from 1,520 measured lines to 1,721 and
+#: the tally went 20 -> 26, landing exactly on the ceiling — so the next legitimate sentence would
+#: have failed the build for adding length rather than for degrading typography. An absolute count
+#: over a growing document measures two things at once and cannot separate them.
+#:
+#: ⚠ AND THE CONVERSION IS NOT AN AMNESTY. Normalised, the same two builds read 13.2 and 15.1 blown
+#: lines per 1,000 body lines: the rate rose by about a seventh, because the new material names more
+#: sequences and accessions and each unbreakable token stretches the line before it. That is a real
+#: if small regression and it is recorded here rather than absorbed. 16.0 is the ceiling — under a
+#: point of headroom on the current build, which is deliberately tight.
+MAX_BLOWN_LINES_PER_1000 = 16.0
 
 
 def _line_gaps():
@@ -107,6 +119,11 @@ def test_justification_does_not_degrade_past_the_accepted_baseline():
         "Do NOT fix this by letting sequence tokens break — that is the wrong-reagent hazard. Two "
         "content-safe levers were measured and neither helped (hyphenate-limit-chars: no effect; a "
         "smaller .seq font: within noise). If a change caused this, revert it.")
-    assert len(over2) <= MAX_LINES_ABOVE_2X, (
-        f"{len(over2)} body lines exceed 2x the median inter-word gap ({2*median:.2f} pt); the "
-        f"measured baseline is 20 and the ceiling is {MAX_LINES_ABOVE_2X}.")
+    rate = 1000 * len(over2) / len(rows)
+    assert rate <= MAX_BLOWN_LINES_PER_1000, (
+        f"{len(over2)} of {len(rows)} body lines exceed 2x the median inter-word gap "
+        f"({2*median:.2f} pt) — {rate:.2f} per 1,000 against a ceiling of "
+        f"{MAX_BLOWN_LINES_PER_1000} and a baseline of 13.2. This is a rate, so the paper getting "
+        "longer cannot trip it; something made the typography worse. The usual cause is new prose "
+        "naming a sequence or an accession, whose unbreakable token stretches the line before it — "
+        "moving the token off a line end fixes it, breaking the token never does.")

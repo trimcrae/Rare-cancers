@@ -103,6 +103,7 @@ PAPERS = {
             # is also chosen AT submission, so pre-declaring it is a second small untruth.
             "preprint_note": "Preprint — not peer reviewed. Prepared for deposit; not yet posted.",
         },
+        "supplementary": "aso/fusion-junction-aso-supplementary-information.md",
         "out": "aso/fusion-junction-aso-research-article.pdf",
     },
 }
@@ -1246,6 +1247,48 @@ def _write_build_stamp(pdf_path, paper):
         json.dump(stamp, fh, indent=1, sort_keys=True)
         fh.write("\n")
 
+def build_supplementary(paper, html_only=False):
+    """Render the Supplementary Information to PDF, with the repository front matter stripped.
+
+    ⛔ WHY THIS EXISTS. The manuscript names `fusion-junction-aso-supplementary-information.md` as the
+    file deposited beside it, and until 2026-08-19 there was no build for it at all — so the SI would
+    have been uploaded as raw markdown carrying its YAML front matter: `id: DOC-...`, `level: L3`,
+    `status: live`, `canonical_for:`, `audience:`, `last_verified:`, and a build note reading "THIS
+    DOCUMENT IS IN NEITHER PDF BUILD, so nothing in it is stripped before a reader sees it". That note
+    was true and was the bug. It is the one place the "no internal repository artefacts in a deposited
+    document" rule failed, and `.md` is not a format bioRxiv expects for supplementary material.
+    """
+    src = paper.get("supplementary")
+    if not src:
+        return 0
+    body = strip_frontmatter(read(src))
+    title_m = re.search(r"^#\s+(.*)$", body, re.M)
+    title = re.sub(r"[*_`]", "", title_m.group(1)) if title_m else "Supplementary Information"
+    page = wrap_manuscript(title, markdown_to_html(body))
+    out_name = paper["out"].replace(".pdf", "-supplementary-information.pdf")
+    html_path = os.path.join(HERE, out_name.replace(".pdf", ".build.html"))
+    with open(html_path, "w", encoding="utf-8") as fh:
+        fh.write(page)
+    if html_only:
+        print(f"SI: wrote {os.path.relpath(html_path, REPO)} (--html-only)")
+        return 0
+    chrome = find_chrome()
+    if not chrome:
+        print(f"SI: no chromium found; HTML is at {os.path.relpath(html_path, REPO)}")
+        return 1
+    pdf_path = os.path.join(HERE, out_name)
+    print_pdf(chrome, html_path, pdf_path, declared_running_title(body)
+              if re.search(r"running[- ]title", body, re.I) else title[:60])
+    #: ⚠ THE INTERMEDIATE IS DELETED HERE, AS IT IS IN `build` (2026-08-19). Without this the SI
+    #: build left a `.build.html` beside the deposit artefacts on every run — untracked, so it
+    #: turned up as a new file in `git status` and invited being committed as though it were a
+    #: deliverable. No `.build.html` is tracked anywhere in this repository, and none should be.
+    os.remove(html_path)
+    print(f"SI: wrote {os.path.relpath(pdf_path, REPO)} "
+          f"({os.path.getsize(pdf_path) // 1024} KB)")
+    return 0
+
+
 def build(name, paper, style="journal", html_only=False):
     body, floats = assemble(paper, style)
     # ⛔ ONE SOURCE FOR THE RUNNING HEAD IN BOTH STYLES. The manuscript declares it; neither
@@ -1292,7 +1335,10 @@ def main(argv):
     ap.add_argument("--html-only", action="store_true")
     args = ap.parse_args(argv)
     names = [args.paper] if args.paper else sorted(PAPERS)
-    return max(build(n, PAPERS[n], args.style, args.html_only) for n in names)
+    rc = max(build(n, PAPERS[n], args.style, args.html_only) for n in names)
+    for n in names:
+        rc = max(rc, build_supplementary(PAPERS[n], args.html_only))
+    return rc
 
 
 if __name__ == "__main__":

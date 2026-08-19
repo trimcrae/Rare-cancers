@@ -294,12 +294,12 @@ def _deep_lookup():
 
     ⛔ WHY TABLES 3 AND 4 NEEDED THIS COLUMN (round-3 review, 2026-08-14). Both tables are the
     DEFAULT-depth result, and the Results withdraw part of what they print: three Table 3 rows
-    showed `0 on the sense strand, 0 gap-spanning loci` for designs carrying 14, 29 and 30 hybridisable
-    hits at ten times the ceiling, and every one of Table 4's nine rows printed a zero that §3.10
+    showed `0 on the sense strand, 0 gap-paired loci` for designs carrying 14, 29 and 30 hybridisable
+    hits at ten times the ceiling, and every one of Table 4's nine rows printed a zero that §2.4
     withdraws for six of them. The captions said so in prose. **A caption is not where a reader
     checks a number** — the cell is, and a cell that reads clean beside a text that calls the
     design dirty reads as the text being wrong. `GGGCATATCTCTATAA` was the sharpest case: named in
-    §4 as withdrawn with 14 gap-spanning risks, and shown in Table 3 with none.
+    §4 as withdrawn with 14 gap-paired risks, and shown in Table 3 with none.
 
     The default-depth columns STAY, because they are the depth the corpus-wide counts elsewhere in
     the paper were computed at and dropping them would break that correspondence. This adds the
@@ -635,11 +635,11 @@ def table3(collapse, chance, atlas, per_junction):
             continue
         le1.setdefault(j, []).append(r.get("offtarget_le1mm") or 0)
 
-    # ⚠ THE COLUMN NAMES ARE THE THIRD THING THIS TABLE GOT WRONG. A column headed "gap-spanning
+    # ⚠ THE COLUMN NAMES ARE THE THIRD THING THIS TABLE GOT WRONG. A column headed "gap-paired
     # near-matches" was filled with the design's TOTAL near-match count, which is larger — the lead
-    # candidate reads 9 there and has 8 gap-spanning. Total near-matches and gap-spanning
+    # candidate reads 9 there and has 8 gap-paired. Total near-matches and gap-paired
     # near-matches are both worth printing and are printed separately; the collapse artifact stores
-    # gap-spanning resolved to LOCI but not to transcripts, so that is the column that exists.
+    # gap-paired resolved to LOCI but not to transcripts, so that is the column that exists.
     deep = _deep_lookup()
     # ⛔ A LEGEND FOR A MARKER NO ROW CARRIES IS WORSE THAN NO LEGEND, AND FOOTNOTE ³ HAD BECOME ONE
     # (cold-reader finding, 2026-08-17). It explained that "—" means the deeper re-screen returned
@@ -654,9 +654,9 @@ def table3(collapse, chance, atlas, per_junction):
            # nothing, and the two Table 3 markers appeared out of order in the header besides. They
            # now ascend in reading order and run contiguously, and Table 4's continue from them.
            "either strand (transcripts → loci) | of the retained hits, on the sense strand¹ | loci with a "
-           "gap-spanning hit | of those, predicted models only² | "
+           "gap-paired hit | of those, predicted models only² | "
            "at the deeper ceiling: near-matches³ | of those, on the sense strand³ | "
-           "loci with a gap-spanning hit³ | "
+           "loci with a gap-paired hit³ | "
            "longest parent duplex through the gap (bp) | "
            "≤1-mismatch matches across that junction's designs, median (max) |")
     sep = "|---|---|---|---|---|---|---|---|---|---|---|---|---|"
@@ -695,7 +695,7 @@ def table3(collapse, chance, atlas, per_junction):
         # module retains, and that bounds ONLY the locus recount, which is done from the retained
         # hits. The other two are not bounded by it: the reported near-match count is the screen's
         # complete figure and is bounded instead by BLAST's own 50-hit hitlist, and the
-        # gap-spanning locus count now comes from the screen, computed over every ranked hit before
+        # gap-paired locus count now comes from the screen, computed over every ranked hit before
         # truncation, so it is exact. Marking an exact 0 as "≥0" is not a harmless over-caution —
         # it is unreadable, because "≥0" is true of every number and says nothing.
         # ⚠ AND THE FROZEN FIGURE IS AN UPPER BOUND, NOT AN EXACT ONE (2026-08-13). The screen's
@@ -1200,7 +1200,7 @@ def table7(gap):
         # longer needs to carry.
         row("design", lambda d: f"5′-{d['antisense_5to3']}-3′", lead),
         row("gap-level margin", lambda d: d["gap_specificity_margin"], lead),
-        row("sense-strand gap-spanning cleavage risks",
+        row("sense-strand gap-paired cleavage risks",
             lambda d: d["alignment_screen"]["n_true_cleavage_risk"], lead),
         row("gene loci carrying one",
             lambda d: d["alignment_screen"]["loci"]["n_loci_with_a_gap_spanning_hit"], lead),
@@ -1216,7 +1216,7 @@ def table7(gap):
         "| **Over the six junctions screened at every geometry** | | | |",
         row("designs screened", lambda d: d["n_designs_with_alignment_counts"], matched),
         row("median near-matches", lambda d: f"{d['near_matches']['median']:g}", matched),
-        row("median gap-spanning cleavage risks",
+        row("median gap-paired cleavage risks",
             lambda d: f"{d['hybridisable_gap_spanning_risks']['median']:g}", matched),
         row("designs carrying none",
             lambda d: f"{d['n_with_zero_hybridisable_gap_spanning_risk']} of "
@@ -1469,9 +1469,9 @@ def table4(collapse, chance, thermo, graded):
     ⛔ WHY THIS TABLE WAS MISSING AND WHY THAT MATTERED. The headline result — nine designs with no
     sense-strand near-match — had no table, and Table 3's convention is the highest-gap-level-margin
     design per junction, which is a different selection: only four of the nine appear there, and
-    Table 3's six zero-gap-spanning junctions are not the same six. So a reader sent to a table to
+    Table 3's six zero-gap-paired junctions are not the same six. So a reader sent to a table to
     check the central claim could not find five of the molecules it is about, and would find two
-    junctions (FUS e8, TCF12 e9) whose Table 3 row shows a gap-spanning locus for a DIFFERENT
+    junctions (FUS e8, TCF12 e9) whose Table 3 row shows a gap-paired locus for a DIFFERENT
     design at the same junction. Prose naming nine sequences is not a substitute for a table.
     """
     ddg = {r["antisense_5to3"]: r for r in thermo["per_design"]}
@@ -1486,7 +1486,7 @@ def table4(collapse, chance, thermo, graded):
            # note on Table 3's header, which used to leave ³ and ⁴ dangling inside Table 3.
            "cleavage load, both bounds⁴ | conventional rules failed⁵ | "
            "at the deeper ceiling: near-matches | of those, on the sense strand | "
-           "loci with a gap-spanning hit | survives⁶ |")
+           "loci with a gap-paired hit | survives⁶ |")
     sep = "|---|---|---|---|---|---|---|---|---|---|---|---|---|---|"
     rows = []
     for lab, o in _clean_designs(collapse):
@@ -1585,7 +1585,7 @@ def _graded_loads():
 
 
 def _minus_strand_share(collapse):
-    """The share of apparent gap-spanning hits that lie on the minus strand, across the corpus.
+    """The share of apparent gap-paired hits that lie on the minus strand, across the corpus.
 
     ⛔ THIS WAS A HARDCODED "47%" IN THIS FILE'S TABLE 3 LEGEND, and it stayed 47% while the corpus
     grew from sixteen junctions to thirty-eight and the true figure became 44%. A generated table is
@@ -1737,7 +1737,7 @@ def main(argv=None):
     dagger = ("" if not any_unfiltered else
               "\n\n‡ This junction's counts were not filtered by alignment orientation, so they "
               f"still include minus-strand hits — across the filtered corpus, {pct}% of all apparent "
-              "gap-spanning hits. Its numbers are upper bounds and are NOT comparable with the "
+              "gap-paired hits. Its numbers are upper bounds and are NOT comparable with the "
               "unmarked rows.")
 
     # ⚠ EMITTED ONLY WHERE A CELL CARRIES THE MARKER — see the note beside `deep_missing` in
@@ -1829,7 +1829,9 @@ evidence: EMC case
 reports usually name the partner gene without sequencing to nucleotide resolution. Gap-paired
 near-matches are at the tenfold deeper alignment ceiling, where every hit list is complete. The
 genome column is the observed number of gap-paired sites at ≤2 mismatches over the number expected
-for an arbitrary 16-mer, so 1.00 is chance. A junction with no design clearing the parent screen is
+for an arbitrary 16-mer, so 1.00 is chance. It is counted EITHER ORIENTATION against an
+either-orientation null, unlike the sense-filtered near-match columns beside it, so it includes
+sites on the strand an antisense oligonucleotide cannot pair; §2.7 gives the share for the lead. A junction with no design clearing the parent screen is
 reported as such rather than given a best row, and Table 3 marks those junctions too, since Table 3
 ranks by margin instead and does print a sequence at each of them. The last column is a conventional
 design audit, computed for whichever design this table names from the same artefact and by the same
@@ -1855,7 +1857,7 @@ censored by DIFFERENT caps, which is why an uncensored transcript count here can
 RETAIN, so a locus count from a design with more than {SAVED_HITS} hits is a lower bound too. All {sum(1 for s in collapse["screens"] if s.get("junction_label"))} junction screens
 are filtered by alignment orientation. `XM_`/`XR_` records are computationally
 predicted gene models rather than curated transcripts, and are counted separately for that reason.
-None of these numbers is a measurement of off-target activity.\n\n¹ A near-match count is what the search returned on EITHER strand; a match on the strand opposite the target window cannot be hybridised by an antisense oligonucleotide and is not a liability. Across this corpus {pct}% of apparent gap-spanning hits ({minus} of {tot:,}) are of that kind, which is why the two columns differ and why the raw count alone should not be read as load. This column counts only the {SAVED_HITS} RETAINED hits. The gap-spanning locus column is recounted from those hits wherever they are the complete list, and is exact there; a “≤” marks a truncated design, where the column instead carries the screen's own count over every ranked hit, computed under a locus assignment since corrected that split some genes across accessions and therefore over-counts. The two columns are not in conflict where a truncated design shows “≥0” sense-strand hits and a non-zero gap-spanning locus count: the sense-strand hits are real and simply fall outside the stored window, which is precisely why such a design cannot be called clean.\n\n² Counted over the gap-spanning loci only, not over all of that design's near-match loci.\n\n³ The same design re-screened at a tenfold deeper alignment ceiling, with retention raised to match it so that no hit list is truncated. Because no list is truncated, the gap-spanning locus column at this depth is recounted from the complete stored hits under the current locus assignment and is exact; it is not the screen's own stored figure, which was computed before that assignment was corrected and splits any gene whose description carries a comma across one accession per transcript variant. It is therefore the same quantity, counted the same way, as the locus figures in Table 2 and in the Results. The three columns are the counterparts of the default-depth columns to their left, given beside them rather than in place of them because the default depth is where the corpus-wide counts elsewhere in the paper were computed and the two must stay comparable. Read together they are the paper's censoring result at the level of a single row: a default-depth count is a lower bound whether or not it reached the 50-hit cap, and three junctions whose default cell reads zero in the gap-spanning column carry gap-spanning hits at ten times the depth. Three of the panel's 190 records failed at this ceiling; they are absent from the deep set rather than counted as zero in it.{no_deep} {_ordering_clause()}{no_parent}{dagger}
+None of these numbers is a measurement of off-target activity.\n\n¹ A near-match count is what the search returned on EITHER strand; a match on the strand opposite the target window cannot be hybridised by an antisense oligonucleotide and is not a liability. Across this corpus {pct}% of apparent gap-paired hits ({minus} of {tot:,}) are of that kind, which is why the two columns differ and why the raw count alone should not be read as load. This column counts only the {SAVED_HITS} RETAINED hits. The gap-paired locus column is recounted from those hits wherever they are the complete list, and is exact there; a “≤” marks a truncated design, where the column instead carries the screen's own count over every ranked hit, computed under a locus assignment since corrected that split some genes across accessions and therefore over-counts. The two columns are not in conflict where a truncated design shows “≥0” sense-strand hits and a non-zero gap-paired locus count: the sense-strand hits are real and simply fall outside the stored window, which is precisely why such a design cannot be called clean.\n\n² Counted over the gap-paired loci only, not over all of that design's near-match loci.\n\n³ The same design re-screened at a tenfold deeper alignment ceiling, with retention raised to match it so that no hit list is truncated. Because no list is truncated, the gap-paired locus column at this depth is recounted from the complete stored hits under the current locus assignment and is exact; it is not the screen's own stored figure, which was computed before that assignment was corrected and splits any gene whose description carries a comma across one accession per transcript variant. It is therefore the same quantity, counted the same way, as the locus figures in Table 2 and in the Results. The three columns are the counterparts of the default-depth columns to their left, given beside them rather than in place of them because the default depth is where the corpus-wide counts elsewhere in the paper were computed and the two must stay comparable. Read together they are the paper's censoring result at the level of a single row: a default-depth count is a lower bound whether or not it reached the 50-hit cap, and three junctions whose default cell reads zero in the gap-paired column carry gap-paired hits at ten times the depth. Three of the panel's 190 records failed at this ceiling; they are absent from the deep set rather than counted as zero in it.{no_deep} {_ordering_clause()}{no_parent}{dagger}
 
 {t3}
 
@@ -1899,8 +1901,10 @@ qualifying junction has no row. A row can therefore qualify and still buy no cov
 which is a statement about the denominator and not about the reagent.{premrna_caveat}{exon2_rung} Cumulative coverage is the
 coverage of the reagent set through that row, so the two leads are
 one rung and carry one figure between them; it is discounted by the breakpoint distribution of a
-single series and is not a partner figure, and its interval is composed from each breakpoint
-fraction's own Wilson bound rather than from the point estimate. Every rung and every bound prints
+single series and is not a partner figure, and its parenthetical range is composed from each
+breakpoint fraction's own Wilson bound rather than from the point estimate. That range is a
+composed endpoint and carries no nominal coverage level: it is not a confidence interval, and
+§4.1 gives the reason the four quantities cannot be composed to one. Every rung and every bound prints
 the increment it adds over the row above it, so no figure reads as bought by the row it sits on.
 Each coverage figure and each increment is rounded to one decimal independently, from the unrounded
 fraction rather than from each other, so a row's figure plus the increment printed on the row below

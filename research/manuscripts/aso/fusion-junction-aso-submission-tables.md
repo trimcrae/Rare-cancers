@@ -68,7 +68,9 @@ evidence: EMC case
 reports usually name the partner gene without sequencing to nucleotide resolution. Gap-paired
 near-matches are at the tenfold deeper alignment ceiling, where every hit list is complete. The
 genome column is the observed number of gap-paired sites at ≤2 mismatches over the number expected
-for an arbitrary 16-mer, so 1.00 is chance. A junction with no design clearing the parent screen is
+for an arbitrary 16-mer, so 1.00 is chance. It is counted EITHER ORIENTATION against an
+either-orientation null, unlike the sense-filtered near-match columns beside it, so it includes
+sites on the strand an antisense oligonucleotide cannot pair; §2.7 gives the share for the lead. A junction with no design clearing the parent screen is
 reported as such rather than given a best row, and Table 3 marks those junctions too, since Table 3
 ranks by margin instead and does print a sequence at each of them. The last column is a conventional
 design audit, computed for whichever design this table names from the same artefact and by the same
@@ -135,17 +137,17 @@ are filtered by alignment orientation. `XM_`/`XR_` records are computationally
 predicted gene models rather than curated transcripts, and are counted separately for that reason.
 None of these numbers is a measurement of off-target activity.
 
-¹ A near-match count is what the search returned on EITHER strand; a match on the strand opposite the target window cannot be hybridised by an antisense oligonucleotide and is not a liability. Across this corpus 44% of apparent gap-spanning hits (738 of 1,677) are of that kind, which is why the two columns differ and why the raw count alone should not be read as load. This column counts only the 15 RETAINED hits. The gap-spanning locus column is recounted from those hits wherever they are the complete list, and is exact there; a “≤” marks a truncated design, where the column instead carries the screen's own count over every ranked hit, computed under a locus assignment since corrected that split some genes across accessions and therefore over-counts. The two columns are not in conflict where a truncated design shows “≥0” sense-strand hits and a non-zero gap-spanning locus count: the sense-strand hits are real and simply fall outside the stored window, which is precisely why such a design cannot be called clean.
+¹ A near-match count is what the search returned on EITHER strand; a match on the strand opposite the target window cannot be hybridised by an antisense oligonucleotide and is not a liability. Across this corpus 44% of apparent gap-paired hits (738 of 1,677) are of that kind, which is why the two columns differ and why the raw count alone should not be read as load. This column counts only the 15 RETAINED hits. The gap-paired locus column is recounted from those hits wherever they are the complete list, and is exact there; a “≤” marks a truncated design, where the column instead carries the screen's own count over every ranked hit, computed under a locus assignment since corrected that split some genes across accessions and therefore over-counts. The two columns are not in conflict where a truncated design shows “≥0” sense-strand hits and a non-zero gap-paired locus count: the sense-strand hits are real and simply fall outside the stored window, which is precisely why such a design cannot be called clean.
 
-² Counted over the gap-spanning loci only, not over all of that design's near-match loci.
+² Counted over the gap-paired loci only, not over all of that design's near-match loci.
 
-³ The same design re-screened at a tenfold deeper alignment ceiling, with retention raised to match it so that no hit list is truncated. Because no list is truncated, the gap-spanning locus column at this depth is recounted from the complete stored hits under the current locus assignment and is exact; it is not the screen's own stored figure, which was computed before that assignment was corrected and splits any gene whose description carries a comma across one accession per transcript variant. It is therefore the same quantity, counted the same way, as the locus figures in Table 2 and in the Results. The three columns are the counterparts of the default-depth columns to their left, given beside them rather than in place of them because the default depth is where the corpus-wide counts elsewhere in the paper were computed and the two must stay comparable. Read together they are the paper's censoring result at the level of a single row: a default-depth count is a lower bound whether or not it reached the 50-hit cap, and three junctions whose default cell reads zero in the gap-spanning column carry gap-spanning hits at ten times the depth. Three of the panel's 190 records failed at this ceiling; they are absent from the deep set rather than counted as zero in it. Every sequence in this table is an antisense 16-mer, tiled in the 5-6-5 locked-nucleic-acid (LNA)/DNA/LNA architecture on a phosphorothioate backbone that §6 specifies; the bases alone, ordered as unmodified DNA, are a different molecule. Research use only: not for administration to any person or animal (Declarations). The canonical machine-readable copy of every sequence is `fusion-junction-aso-sequences.csv`, which is what to order from rather than this PDF.
+³ The same design re-screened at a tenfold deeper alignment ceiling, with retention raised to match it so that no hit list is truncated. Because no list is truncated, the gap-paired locus column at this depth is recounted from the complete stored hits under the current locus assignment and is exact; it is not the screen's own stored figure, which was computed before that assignment was corrected and splits any gene whose description carries a comma across one accession per transcript variant. It is therefore the same quantity, counted the same way, as the locus figures in Table 2 and in the Results. The three columns are the counterparts of the default-depth columns to their left, given beside them rather than in place of them because the default depth is where the corpus-wide counts elsewhere in the paper were computed and the two must stay comparable. Read together they are the paper's censoring result at the level of a single row: a default-depth count is a lower bound whether or not it reached the 50-hit cap, and three junctions whose default cell reads zero in the gap-paired column carry gap-paired hits at ten times the depth. Three of the panel's 190 records failed at this ceiling; they are absent from the deep set rather than counted as zero in it. Every sequence in this table is an antisense 16-mer, tiled in the 5-6-5 locked-nucleic-acid (LNA)/DNA/LNA architecture on a phosphorothioate backbone that §6 specifies; the bases alone, ordered as unmodified DNA, are a different molecule. Research use only: not for administration to any person or animal (Declarations). The canonical machine-readable copy of every sequence is `fusion-junction-aso-sequences.csv`, which is what to order from rather than this PDF.
 
 † No design screened at this junction clears the parent screen: every one of them pairs a wild-type parent gene through the whole catalytic gap, at the parent-duplex criterion applied throughout. This table ranks by gap-level margin, so the sequence in such a row is that junction's highest-margin design and nothing more; it is not a design any screen passes, and Table 2 gives the same junction no best-available reagent for that reason — its “designs clearing the parent screen” cell reads 0. Do not order the sequence in a marked row.
 
 ⚑ This design pairs a wild-type parent gene through the whole catalytic gap at the ten-base-pair criterion applied throughout, and the gene it pairs is named beside the length. The marker is on the DESIGN, where † is on the JUNCTION: a row can be unmarked by † and still carry ⚑, because this table prints each junction's highest-margin design rather than its cleanest. Do not order the sequence in a row marked ⚑ — pairing a parent through the whole gap is this paper's central negative (§4.5) and surrenders the only advantage the modality has.
 
-| junction | designs screened | best gap-level margin | that design | near-matches, either strand (transcripts → loci) | of the retained hits, on the sense strand¹ | loci with a gap-spanning hit | of those, predicted models only² | at the deeper ceiling: near-matches³ | of those, on the sense strand³ | loci with a gap-spanning hit³ | longest parent duplex through the gap (bp) | ≤1-mismatch matches across that junction's designs, median (max) |
+| junction | designs screened | best gap-level margin | that design | near-matches, either strand (transcripts → loci) | of the retained hits, on the sense strand¹ | loci with a gap-paired hit | of those, predicted models only² | at the deeper ceiling: near-matches³ | of those, on the sense strand³ | loci with a gap-paired hit³ | longest parent duplex through the gap (bp) | ≤1-mismatch matches across that junction's designs, median (max) |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
 | EWSR1 e10::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTAGATCA-3′ | 35 → ≥2 | ≥15 | ≤4 | 0 | 138 | 137 | 5 | 7 (*NR4A3*) | 4 (32) |
 | EWSR1 e12::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCATCAAAC-3′ | 9 → 4 | 6 | 1 | 1 | 189 | 141 | 6 | 8 (*TFG*) | 2 (22) |
@@ -217,7 +219,7 @@ is computed from the three deep columns beside it, not asserted, so this table c
 disagree with §2.4 about which designs survive. The six that do not are the reason this table's
 default-depth zeros must not be read on their own.
 
-| design | junction | GC (%) | gap-level margin | ΔΔG°37 (kcal/mol) | near-matches, either strand | of those, on the sense strand | exact / ≤1-mismatch matches | residual cleavage load, both bounds⁴ | conventional rules failed⁵ | at the deeper ceiling: near-matches | of those, on the sense strand | loci with a gap-spanning hit | survives⁶ |
+| design | junction | GC (%) | gap-level margin | ΔΔG°37 (kcal/mol) | near-matches, either strand | of those, on the sense strand | exact / ≤1-mismatch matches | residual cleavage load, both bounds⁴ | conventional rules failed⁵ | at the deeper ceiling: near-matches | of those, on the sense strand | loci with a gap-paired hit | survives⁶ |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | 5′-GCATATCCGTGGACGC-3′ | EWSR1 e1::NR4A3 e3 | 62.5 | 1 | 7.981 | 0 | 0 | 0 / 0 | 0 | GC outside 40–60%, contains a CpG | 84 | 83 | 1 | **no** |
 | 5′-GGCATATCCGTGGACG-3′ | EWSR1 e1::NR4A3 e3 | 62.5 | 2 | 10.085 | 0 | 0 | 0 / 0 | 0 | GC outside 40–60%, contains a CpG | 29 | 22 | 0 | **no** |
@@ -242,8 +244,10 @@ qualifying junction has no row. A row can therefore qualify and still buy no cov
 which is a statement about the denominator and not about the reagent. The screen condition counts screens that RAN over a junction's designs and not compartments measured for every gene a row names: the pre-mRNA screen behind the exon-2 acceptor rows carried unspliced sequence for six parent genes — *EWSR1*, *FUS*, *NR4A3*, *TAF15*, *TCF12* and *TFG* — so a seam whose donor is outside that set has an absent reading of its own donor's introns in that compartment rather than a clean one. *PGR* is that case here, for the reason §2.6 gives, and the row is in this table on the same footing as the others. The reagent column is editorial, but which of the two membership classes a row falls in is the ladder's decision as well, and it is legible in the last two columns: a junction the ladder NAMES IN ONE OF ITS ENTRIES carries that entry's cumulative figure and increment, and a junction that qualifies but appears in no entry carries “adds nothing” and the reason instead. That is why one *NR4A3* exon-2 acceptor seam — EWSR1 e7::NR4A3 e2 — is a rung here while the other three are reported beside the panel: the ladder prices the type 2 transcript's breakpoint on the same single series, and such a rung can still print an increment of zero, because that series never named the transcript — an unnamed count rather than a measured absence. Being a rung of the ladder is not being pooled into the panel, which is the separate statement below and is unchanged. Cumulative coverage is the
 coverage of the reagent set through that row, so the two leads are
 one rung and carry one figure between them; it is discounted by the breakpoint distribution of a
-single series and is not a partner figure, and its interval is composed from each breakpoint
-fraction's own Wilson bound rather than from the point estimate. Every rung and every bound prints
+single series and is not a partner figure, and its parenthetical range is composed from each
+breakpoint fraction's own Wilson bound rather than from the point estimate. That range is a
+composed endpoint and carries no nominal coverage level: it is not a confidence interval, and
+§4.1 gives the reason the four quantities cannot be composed to one. Every rung and every bound prints
 the increment it adds over the row above it, so no figure reads as bought by the row it sits on.
 Each coverage figure and each increment is rounded to one decimal independently, from the unrounded
 fraction rather than from each other, so a row's figure plus the increment printed on the row below
@@ -398,7 +402,7 @@ measurement of cleavage. The sequences in this table are antisense gapmers at mo
 | **At the *EWSR1* e12 / *TAF15* e11 / *FUS* e10 junction** | | | |
 | design | 5′-GGGCATATCATCAAAC-3′ | 5′-AGGGCATATCATCAAACC-3′ | 5′-CAGGGCATATCATCAAACCA-3′ |
 | gap-level margin | 3 | 4 | 5 |
-| sense-strand gap-spanning cleavage risks | 123 | 3 | 0 |
+| sense-strand gap-paired cleavage risks | 123 | 3 | 0 |
 | gene loci carrying one | 6 | 1 | 0 |
 | near-matches (≤2 mismatches, deeper ceiling) | 189 | 50 | 20 |
 | ≤1-mismatch matches over 186,185 transcripts | 1 | 0 | 0 |
@@ -408,7 +412,7 @@ measurement of cleavage. The sequences in this table are antisense gapmers at mo
 | **Over the six junctions screened at every geometry** | | | |
 | designs screened | 30 | 42 | 54 |
 | median near-matches | 86.5 | 15 | 0 |
-| median gap-spanning cleavage risks | 21 | 0 | 0 |
+| median gap-paired cleavage risks | 21 | 0 | 0 |
 | designs carrying none | 8 of 30 | 28 of 42 | 54 of 54 |
 | most risk loci on any one design | 7 | 2 | 0 |
 | designs with no near-match at all | 0 of 30 | 7 of 42 | 39 of 54 |

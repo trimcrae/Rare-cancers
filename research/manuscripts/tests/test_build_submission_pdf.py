@@ -188,7 +188,12 @@ def test_front_matter_captures_whole_paragraphs_not_first_lines(journal):
         # first. "A design can be made" is the paper's neutral term (190 designs) and belongs to
         # neither sense, so it keeps the round-7 intent — not promising a "reagent" — without the
         # collision. The whole-paragraph property this assertion exists for is untouched.
-        "so a design can be made for a breakpoint outside this panel by the same procedure.")
+        # ⛔ RE-PINNED 2026-08-19: the trailing "by the same procedure" was trimmed when the
+        # abstract took on the qualifications the ten-brief screen found it owed a reader (the
+        # adopted-not-measured criterion, the by-construction share of the gap-length result,
+        # and that the designs surviving every screen sit at no reported patient breakpoint).
+        # The whole-paragraph property this assertion exists for is unchanged.
+        "so a design can be made for a breakpoint outside this panel.")
     # ⛔ AND THE ORDERING IS THE POINT, so it is asserted rather than left to the tail above: the
     # disclaimer and the research-use statement must both PRECEDE the first named sequence. A future
     # edit that moves either behind the sequences reinstates round 7's P0.8 and P0.6 together, and

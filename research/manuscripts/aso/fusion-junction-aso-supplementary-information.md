@@ -17,9 +17,10 @@ scope: >
   Computational design and specificity screening only. No wet-lab experiment was performed, and
   nothing here asserts efficacy, potency, safety, a therapeutic window, delivery to a tumour, or
   clinical readiness for any sequence. Every sequence named is a research reagent for laboratory
-  investigation only and must not be administered to any person or animal. ⚠ THIS DOCUMENT IS IN
-  NEITHER PDF BUILD, so nothing in it is stripped before a reader sees it: the operative research-use
-  statement is the one in the body below, not this block.
+  investigation only and must not be administered to any person or animal. ⚠ THIS BLOCK IS REPOSITORY
+  FRONT MATTER AND IS STRIPPED FROM THE DEPOSITED PDF, which
+  `build_submission_pdf.py` renders beside the manuscript; the operative research-use statement is
+  the one in the body below, not this block.
 audience: [external reviewers, collaborators, maintainers]
 date: 2026-08-16
 last_verified: 2026-08-16
