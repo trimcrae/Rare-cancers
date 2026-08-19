@@ -69,9 +69,7 @@ efficacy, safety, delivery or clinical readiness. Every sequence named is a
 research reagent, not for administration to any person or animal.
 Two leads carry off-target loads and longest parent runs of eight and nine base
 pairs, so a cut of eight condemns both: 5′-GGGCATATCATCAAAC-3′ at *EWSR1* exon 12 and
-5′-GGGCATATCTTGTGTG-3′ at *TAF15* exon 6, with two more for coverage; and three not to be used:
-non-panel designs the mature-parent screen clears that pair their whole gap against unspliced
-wild-type *NR4A3*.
+5′-GGGCATATCTTGTGTG-3′ at *TAF15* exon 6, with two more for coverage; and three not to be used: designs the mature-parent screen clears or cannot read, pairing their whole gap against unspliced wild-type *NR4A3*.
 The pipeline is released for breakpoints outside this panel.
 
 ---
@@ -246,7 +244,7 @@ giving what that share would be if every remaining breakpoint of a partner were 
 
 **Three designs not to be used (§2.6).** 5′-CAGTGGGCTCTCCACG-3′ and 5′-GCAGTGGGCTCTCCAC-3′ at *EWSR1*
 exon 13 joined to *NR4A3* exon 2, and 5′-TGATGAGGGCCTTGTG-3′ at *TAF15* exon 6 joined to the *NR4A3*
-intron-2 cryptic exon. Each cleared the spliced-cDNA parent screen, and each pairs its whole
+intron-2 cryptic exon. Two of the three cleared the spliced-cDNA parent screen and the third's seam that screen cannot address, so its record reads `not_screened` rather than clear; and each pairs its whole
 catalytic gap against the patient's own un-rearranged *NR4A3* allele, which that screen cannot see.
 
 **A second class not to be ordered, and it is much larger (§2.5).** Any design a wild-type parent
@@ -840,8 +838,7 @@ with the other six in §6, so the design is reproducible even though the panel d
 **Where a design's acceptor half is *NR4A3* sequence that is not exonic in the mature transcript (the
 5′ untranslated exon 2, or the cryptic exon within intron 2) the patient's own un-rearranged *NR4A3*
 allele carries that same sequence too, sitting behind an intron instead of behind a partner's donor
-exon. Some designs therefore pair their whole catalytic gap against that un-rearranged allele, and
-the mature-parent screen, which reads spliced transcript only, passes every one of them.** This is
+exon. Some designs therefore pair their whole catalytic gap against that un-rearranged allele, and the mature-parent screen, which reads spliced transcript only, passes the two it can read and never runs on the third, whose cryptic-exon acceptor it cannot address.** This is
 the result most consequential for anyone ordering these oligonucleotides. In a fusion transcript that
 acceptor sequence follows the partner's donor exon; in the un-rearranged allele it follows *NR4A3*
 intronic sequence, so the question is whether the design's donor half matches that intron closely
