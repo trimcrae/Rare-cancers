@@ -76,13 +76,21 @@ def test_the_corpus_counts_match_the_manuscript():
         # exists for the three FIGURES and the ten-base-pair criterion they were counted under; the
         # word in front of them was never what it was protecting, and pinning it blocked a correct
         # edit until someone noticed. Either noun satisfies it.
+        # ⛔ THE CRITERION IS PINNED AS A CRITERION, NOT AS A CLAUSE (2026-08-19, lane C2). This
+        # required the exact words "over a contiguous duplex of at least ten base pairs"; the
+        # sentence now reads "over ten or more contiguous base pairs" and says the same thing, and
+        # "61 against" became "61 of those 87 against" — so the guard went RED on a rewrite that
+        # changed no number and no threshold. A guard that fails on a correct edit teaches its
+        # reader to re-type the needle, which is how a pin stops measuring the paper. What is
+        # required is that ONE sentence carry: the denominator, the count, a TEN-base-pair
+        # criterion in any wording, and the *NR4A3* share.
         rf"Of {c['n_designs']} (?:candidates|junction-spanning designs)[^.]{{0,160}}?"
         rf"{c['n_with_parent_duplex_through_gap']} pair their catalytic gap against a mature parent "
-        rf"transcript over a contiguous duplex of at least ten base pairs, "
+        rf"transcript [^.]{{0,40}}?\bten\b[\w\s-]{{0,30}}?base pairs?\b[^.]{{0,30}}?"
         # ⚠ "healthy" -> "wild-type" 2026-08-17: a cold reader found the abstract was the only
         # place in the paper using "healthy"; every other home says wild-type. Either spelling
         # satisfies this pin, which is for the three FIGURES and their ten-base-pair criterion.
-        rf"{nr4a3} against (?:healthy|wild-type) \*NR4A3\*", txt), (
+        rf"\b{nr4a3}\b[^.]{{0,20}}?against (?:healthy|wild-type) \*NR4A3\*", txt), (
         "the abstract's parent-duplex sentence no longer carries all three figures with the "
         "ten-base-pair criterion they were counted under")
 

@@ -106,9 +106,13 @@ def test_the_clean_set_is_derived_from_the_screens_and_not_listed():
     src = open(os.path.join(MOD, "aso_premrna_offtarget.py")).read()
     for seq in ("GGGCATATCCGTGGAC", "GGGCATATCTCTATAA", "CAGGGCATATCTTGCA"):
         assert seq not in src, f"{seq} is hard-coded; derive it from the screens instead"
+    #: ⛔ NOT A SKIP (2026-08-19, lane C2 audit). The screens are committed, and this test's whole
+    #: point is that the paper's headline clean set is DERIVED rather than typed — an empty
+    #: derivation is the state in which the sentence above ("nine sequences typed into the module
+    #: would be a second home") stops being checked at all.
     clean = m._clean_sequences()
-    if not clean:
-        pytest.skip("the screens are not present in this checkout")
+    assert clean, ("no clean sequence was derived from the screens, so the count below asserted "
+                   "nothing. The screens are committed; an empty derivation is a loader change.")
     assert len(clean) == 9, sorted(clean)
 
 
@@ -130,8 +134,11 @@ def test_the_manuscript_matches_the_committed_premrna_screen():
     art = os.path.join(MOD, "aso-premrna-offtarget.json")
     paper = os.path.join(os.path.dirname(MOD), "manuscripts", "aso",
                          "fusion-junction-aso-research-article.md")
-    if not (os.path.exists(art) and os.path.exists(paper)):
-        pytest.skip("the pre-mRNA screen or the manuscript is not present in this checkout")
+    missing = [q for q in (art, paper) if not os.path.exists(q)]
+    assert not missing, (
+        f"{missing} is missing; both are committed, and §3.8 is the only place the paper reports "
+        "a compartment it previously conceded was unmeasured — the numbers a reviewer checks "
+        "first are unchecked while this cannot read them.")
     d = __import__("json").load(open(art))
     txt = re.sub(r"\s+", " ", open(paper, encoding="utf-8").read())
     c = d["corpus"]

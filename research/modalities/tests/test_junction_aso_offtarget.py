@@ -268,8 +268,14 @@ def test_every_allow_listed_screen_is_present_and_really_carries_the_block():
     """
     have = {os.path.basename(p): s for p, s in _screens()}
     for name, run in sorted(SCREENS_FROM_A_REAL_RERUN.items()):
-        if name not in have:
-            pytest.skip(f"{name} is not in this checkout (produced by {run})")
+        #: ⛔ NOT A SKIP (2026-08-19, lane C2 audit) — AND THE DOCSTRING ABOVE ALREADY SAYS WHY.
+        #: "a name here whose file is gone leaves a standing exemption for a filename anyone could
+        #: later create" is precisely the state this skip used to pass over in silence. The
+        #: allow-list is the record; a missing member is the rot it exists to catch.
+        assert name in have, (
+            f"{name} is allow-listed as carrying a recorded parameters block (produced by {run}) "
+            "and is not in this tree. A standing exemption for a filename nothing produces is a "
+            "licence, not a record — remove the entry or restore the screen.")
         assert "parameters" in (have[name].get("method") or {}), (
             f"{name} is allow-listed as carrying a recorded parameters block and does not")
         assert re.search(r"run \d{6,}", run), f"{name} names no CI run id: {run!r}"
@@ -287,8 +293,14 @@ def test_the_deep500_screens_are_still_indistinguishable_by_their_method_block()
     by_name = {os.path.basename(p): s for p, s in _screens()}
     pairs = [(n, n.replace("-deep500", "")) for n in by_name if n.endswith("-deep500.json")]
     pairs = [(d, s) for d, s in pairs if s in by_name]
-    if not pairs:
-        pytest.skip("no -deep500 / default pair committed in this tree")
+    #: ⛔ NOT A SKIP (2026-08-19, lane C2 audit). This test IS the record of a state the fix does
+    #: not repair retroactively, so an empty pair set means the evidence it preserves has left the
+    #: tree — which has to be said out loud, not passed over.
+    assert pairs, (
+        "no -deep500 / default screen pair is in this tree, so the recorded indistinguishability "
+        "of their method blocks — the defect that let the retention error survive — is asserted "
+        "against nothing. If the screens were genuinely re-run, re-derive this test against the "
+        "re-run rather than letting it fall silent.")
     same = [(d, s) for d, s in pairs if by_name[d].get("method") == by_name[s].get("method")]
     assert same, "the -deep500 pairs now differ in `method` — re-derive this test against the re-run"
     # and the tell that a retention of 150 cannot explain: a design storing more than 150 hits

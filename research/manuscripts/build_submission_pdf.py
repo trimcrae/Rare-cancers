@@ -315,6 +315,16 @@ def deposit_filenames(paper):
     }
     if supplementary_md:
         names[supplementary_md] = out.replace(".pdf", "-supplementary-information.pdf")
+    # ⭐ AND ONE .md THAT TRAVELS AS ITSELF. The availability statement names
+    # `fusion-junction-aso-submission-tables.md` as the machine-readable copy of Tables 1 to 7, and
+    # it IS in the deposit — so it is the one .md filename a reader may correctly be sent to, and
+    # mapping it to a PDF would point at a file that does not exist. It maps to itself so the
+    # unmapped-name report stays quiet about a pointer that is right.
+    # ⚠ SEPARATE, STILL OPEN: a bioRxiv screener records that Markdown is not among the accepted
+    # supplementary types, so this file may yet need a rendered companion. That is a deposit-format
+    # decision, not a broken pointer, and it is tracked as its own item.
+    names.setdefault("fusion-junction-aso-submission-tables.md",
+                     "fusion-junction-aso-submission-tables.md")
     return names
 
 

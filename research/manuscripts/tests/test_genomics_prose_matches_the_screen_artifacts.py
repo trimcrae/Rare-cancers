@@ -24,6 +24,7 @@ from __future__ import annotations
 import collections
 import json
 import os
+import re
 import sys
 
 import pytest
@@ -39,15 +40,21 @@ GENOME = os.path.join(MODALITIES, "aso-genome-offtarget.json")
 OLIGO_NT = 16
 
 
+#: ⛔ NOT SKIPS (2026-08-19, lane C2 audit). The manuscript, the genome screen and the pre-mRNA
+#: screen are all COMMITTED, so an absence is a broken tree — and this file is the one that caught
+#: §2.7 quoting a masked-share figure that was an upper bound. A guard that disappears with its
+#: input reports green for a check nobody performed.
 def _paper() -> str:
     if not os.path.exists(PAPER):
-        pytest.skip("the manuscript is not present in this checkout")
+        pytest.fail(f"the manuscript is missing at {PAPER}; it is committed, and §2.7's genome-scan "
+                    "prose is unchecked against its artifacts without it.")
     return " ".join(open(PAPER, encoding="utf-8").read().split())
 
 
 def _load(path):
     if not os.path.exists(path):
-        pytest.skip(f"{os.path.basename(path)} is not present in this checkout")
+        pytest.fail(f"{os.path.basename(path)} is missing at {path}; it is committed, and the "
+                    "screen figures §2.7 quotes come out of it.")
     return json.load(open(path, encoding="utf-8"))
 
 
@@ -139,10 +146,15 @@ def test_the_alignment_screen_admits_gapped_alignments_and_the_methods_say_how_m
     different population, published as this paper's.
     """
     sys.path.insert(0, MODALITIES)
+    #: ⛔ NOT A SKIP (2026-08-19, lane C2 audit). `aso_screen_sets` is a committed module that
+    #: imports nothing CI does not install, so an ImportError here is a real breakage — and while
+    #: it stood, the ONE test separating this paper's population from a pooled one fell silent.
     try:
         import aso_screen_sets as ass  # noqa: PLC0415
-    except ImportError:
-        pytest.skip("aso_screen_sets is not importable in this checkout")
+    except ImportError as exc:
+        pytest.fail(f"aso_screen_sets does not import ({exc}); it is committed and needs nothing "
+                    "CI does not install, so nothing is checking that the pooled figure and this "
+                    "paper's population are different populations.")
     screens = ass.load_screens(ass.MANUSCRIPT_GEOMETRY, ass.BLAST_SCREEN, allow_empty=True)
     gapped = risks = 0
 
@@ -166,10 +178,23 @@ def test_the_alignment_screen_admits_gapped_alignments_and_the_methods_say_how_m
         "no gapped alignment is left in the released screens. If the screen was re-run ungapped, "
         "delete the §6 disclosure this guards rather than loosening this assertion")
     txt = _paper()
-    assert f"{gapped} retained alignments carry a gap" in txt, (
+    # ⚠ THE NOUN CHANGED AND THE COUNT DID NOT. §6 said "110 retained alignments carry a gap",
+    # where "gap" is this paper's own name for the CATALYTIC gap, so the sentence read as though
+    # those alignments paired it. They carry an INDEL, which is a different thing, and the word was
+    # corrected on 2026-08-19. What this guard exists to pin is the measured count, so accept
+    # either noun and fail only on a wrong number.
+    assert (f"{gapped} retained alignments carry an indel" in txt
+            or f"{gapped} retained alignments carry a gap" in txt), (
         f"§6 screen 1 must disclose the measured gapped-alignment count, now {gapped}")
-    assert f"{risks} of those are counted as sense-strand cleavage risks" in txt, (
-        f"the gapped alignments counted as cleavage risks are now {risks}")
+    # ⚠ AND THE SAME REWRITE REACHED THE SECOND HALF (2026-08-19, lane C2). "28 of those are
+    # counted as sense-strand cleavage risks" is now "28 of those are counted as gap-paired
+    # sense-strand matches" — the paper's own §6 defines a sense-strand gap-paired near-match AS
+    # the cleavage risk, so the claim is unchanged and only the noun moved. What is pinned is the
+    # COUNT, attached to the same "of those" and scoped to the sense strand; the wording is free.
+    assert re.search(rf"\b{risks} of (?:those|these|them)\b[^.]{{0,80}}?sense-strand", txt), (
+        f"§6 must state, in the sentence about the indel-carrying alignments, that {risks} of them "
+        "are the sense-strand gap-paired ones (this paper's cleavage risks). Reword freely; the "
+        "count and its 'of those' scoping are what this pins.")
 
 
 def test_the_guanine_tract_counts_beside_the_quadruplex_rule_are_measured():

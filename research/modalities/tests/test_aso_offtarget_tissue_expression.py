@@ -31,15 +31,20 @@ sys.path.insert(0, MOD)
 import aso_offtarget_tissue_expression as m  # noqa: E402
 
 
+#: ⛔ NOT SKIPS (2026-08-19, lane C2 audit). Every screen and artifact this file reads is
+#: COMMITTED, so an absence is a broken tree, never a partial checkout — and a guard that
+#: disappears with its input reports green for a check nobody performed.
 def _art():
     if not os.path.exists(ART):
-        pytest.skip("the tissue-expression artifact is not present in this checkout")
+        pytest.fail(f"the tissue-expression artifact is missing at {ART}; it is committed, and the "
+                    "lead reagents' off-target loads are unchecked without it.")
     return json.load(open(ART, encoding="utf-8"))
 
 
 def _screen():
     if not os.path.exists(SCREEN):
-        pytest.skip("the deep off-target screen is not present in this checkout")
+        pytest.fail(f"the deep off-target screen is missing at {SCREEN}; it is committed, and the "
+                    "locus set this file derives is read from it.")
     return json.load(open(SCREEN, encoding="utf-8"))
 
 
@@ -80,7 +85,9 @@ def test_the_lead_reagents_load_replicates_across_three_independent_screens():
                  "junction-aso-offtarget-fuse10n3-deep500-b2.json"):
         p = os.path.join(MOD, name)
         if not os.path.exists(p):
-            pytest.skip(f"{name} is not present in this checkout")
+            pytest.fail(f"{name} is missing at {p}; all three independent deep screens are "
+                        "committed, and the three-query agreement below is what stops a "
+                        "single-screen regression reading as a real change in the load.")
         oligo, gap_paired = m._screen_hits(path=p, reagent=m.REAGENT)
         counts = {}
         for h in gap_paired:
@@ -478,7 +485,9 @@ def test_a_truncated_screen_is_refused_rather_than_censused():
     """
     shallow = os.path.join(MOD, "junction-aso-offtarget-e12n3.json")
     if not os.path.exists(shallow):
-        pytest.skip("the default-depth screen is not present in this checkout")
+        pytest.fail(f"the default-depth screen is missing at {shallow}; it is committed, and the "
+                    "truncation refusal is exercised against it — this docstring already records "
+                    "that a guard which never runs is worth nothing.")
     d = json.load(open(shallow, encoding="utf-8"))
     truncated = [o["antisense_5to3"] for o in d.get("oligos", [])
                  if len(o.get("offtargets") or []) != o.get("n_offtarget_near_matches")]

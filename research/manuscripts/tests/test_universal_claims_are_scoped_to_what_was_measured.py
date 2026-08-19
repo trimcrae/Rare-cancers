@@ -299,9 +299,18 @@ def _survivors_at_tcf12_exon7():
         if cells[-1].strip("* ").lower() == "yes":
             count += 1
     body = _body()
+    # ⚠ PUNCTUATION-AGNOSTIC, AND IT HAD TO BECOME SO. This regex required the design to be set off
+    # by EM-DASHES. A style pass on 2026-08-19 converted paired em-dash parentheticals to brackets
+    # to bring the manuscript under its em-dash density limit, which changed
+    #   "one — 5′-…-3′ at *TCF12* exon 7 — with three near-matches"   into
+    #   "one (5′-…-3′ at *TCF12* exon 7) with three near-matches".
+    # The sentence's MEANING did not move an inch, and this DERIVATION silently dropped from two
+    # survivors to one -- which then failed the count assertion below and read as a data change.
+    # A derived count must not depend on which bracket character a sentence uses.
     late = re.search(
-        r"one — (5′-[ACGT]+-3′) at \*TCF12\* exon 7 — with three near-matches and none\s+on\s+the sense strand",
-        body)
+        r"one\s*[—(]\s*(5′-[ACGT]+-3′)\s*at\s+\*TCF12\*\s+exon\s+7\s*[—)]\s*"
+        r"with three near-matches and none\s+on\s+the sense strand",
+        " ".join(body.split()) if False else body)
     if late:
         count += 1
     return count

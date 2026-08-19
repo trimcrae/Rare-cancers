@@ -51,9 +51,13 @@ def _committed():
 
 
 def _panel(name):
+    #: ⛔ NOT A SKIP (2026-08-19, lane C2 audit). All three panels this is called with are
+    #: committed, so an absence is a broken tree — and the chance baseline is the null the paper's
+    #: near-match counts are read against.
     path = os.path.join(MOD, name)
     if not os.path.exists(path):
-        pytest.skip(f"{name} is not in this checkout")
+        pytest.fail(f"{name} is missing at {path}; it is committed, and the chance baseline cannot "
+                    "be re-derived against the panel it was computed over.")
     return path, json.load(open(path))
 
 

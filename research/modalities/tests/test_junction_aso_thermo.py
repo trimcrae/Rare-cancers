@@ -22,16 +22,46 @@ import junction_aso_thermo as T  # noqa: E402
 ART = os.path.join(MOD, "junction-aso-thermo.json")
 
 
+#: ⛔ AN ABSENT READING IS NOT A READING OF ABSENCE (2026-08-19, lane C2 audit). `_nn_table()`
+#: returns `(None, None)` from a bare `except Exception` around `from Bio.SeqUtils import
+#: MeltingTemp`, so ANY failure to reach the table — Biopython absent, but equally a Biopython
+#: release that moves or removes `MeltingTemp.R_DNA_NN1`, which is a live possibility for a
+#: long-deprecated module — used to report as "Biopython is not installed". CI DOES install
+#: biopython, so in the one environment that gates commits that message can only ever be false, and
+#: the whole nearest-neighbour provenance guard would fall silent on an upgrade while reporting
+#: green. The two states are now separated by asking the interpreter whether the package is there.
+def _biopython_is_installed():
+    import importlib.util  # noqa: PLC0415
+    try:
+        return importlib.util.find_spec("Bio") is not None
+    except (ImportError, ValueError):  # pragma: no cover - a broken install is still "present"
+        return True
+
+
+def _refuse_or_skip(what):
+    if _biopython_is_installed():
+        pytest.fail(
+            f"Biopython IS installed and {what} could not be read from it. That is a package "
+            "change, not a missing dependency — `.github/workflows/tests.yml` installs biopython "
+            "precisely so this guard runs — and every energy in the thermo artifact rests on the "
+            "table this could not reach. Re-point junction_aso_thermo._nn_table at the table's "
+            "new home; do not let it report as an absent package.")
+    pytest.skip("Biopython is not installed in this environment (CI installs it, so this "
+                "guard does run where it gates a commit)")
+
+
 def _table():
     tbl, _ = T._nn_table()
     if tbl is None:
-        pytest.skip("Biopython is not installed in this environment")
+        _refuse_or_skip("the DNA:RNA nearest-neighbour table")
     return tbl
 
 
 def _artifact():
+    #: ⛔ NOT A SKIP (2026-08-19, lane C2 audit): it IS committed, so an absence is a broken tree.
     if not os.path.exists(ART):
-        pytest.skip("thermo artifact is not committed in this checkout")
+        pytest.fail(f"the thermo artifact is missing at {ART}; it is committed, and every ΔΔG°37 "
+                    "the paper and Table 4 print is unchecked without it.")
     return json.load(open(ART))
 
 
@@ -85,7 +115,7 @@ def test_no_parameter_is_typed_into_this_repository():
     """
     _, prov = T._nn_table()
     if prov is None:
-        pytest.skip("Biopython is not installed in this environment")
+        _refuse_or_skip("the table's provenance record")
     assert prov["pmid"] == "7545436"
     assert "Sugimoto" in prov["primary_source"]
     assert prov["table"].startswith("Bio.SeqUtils")
@@ -226,7 +256,9 @@ def test_the_manuscript_and_the_artifact_agree_on_every_reported_figure():
     paper_path = os.path.join(os.path.dirname(os.path.dirname(MOD)), "research", "manuscripts",
                               "aso", "fusion-junction-aso-research-article.md")
     if not os.path.exists(paper_path):
-        pytest.skip("manuscript is not present in this checkout")
+        pytest.fail(f"the manuscript is missing at {paper_path}; it is committed, and rule 1 — a "
+                    "number in the paper may not diverge from its artifact — is unchecked here "
+                    "without it.")
     txt = open(paper_path, encoding="utf-8").read()
     # ⚠ COMPARED AT THE PRECISION THE MANUSCRIPT PRINTS, not at the artifact's. A paper quoting
     # "4.8 to 13.1 kcal/mol" is reporting 4.817 and 13.08 correctly; asserting the raw strings

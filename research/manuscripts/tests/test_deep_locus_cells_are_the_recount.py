@@ -135,11 +135,16 @@ def _table2():
 def _deep_records():
     """{(junction, design): oligo} over the deep screens of the geometry the manuscript reports."""
     import aso_screen_sets as ass  # noqa: PLC0415
+    #: ⛔ NOT A SKIP (2026-08-19, lane C2 audit). The deep screens are committed, so `load_screens`
+    #: raising is a loader or naming change — the state in which every deep-locus cell in Tables 2
+    #: and 3 goes unchecked, which is exactly what this file exists to prevent.
     try:
         screens = ass.load_screens(ass.MANUSCRIPT_GEOMETRY, ass.BLAST_SCREEN, root=MOD,
                                    select=ass.is_deep)
     except Exception as exc:  # noqa: BLE001
-        pytest.skip(f"no deep screen set in this checkout ({exc})")
+        pytest.fail(f"the deep screen set could not be loaded ({exc!r}). The screens are "
+                    "committed; a loader that cannot reach them leaves every deep-locus cell in "
+                    "Tables 2 and 3 unchecked.")
     out = {}
     for s in screens:
         lab = s.junction_label

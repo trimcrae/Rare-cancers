@@ -30,9 +30,16 @@ SRC = os.path.join(MOD, "aso_independent_verification.py")
 sys.path.insert(0, MOD)
 
 
+#: ⛔ NOTHING HERE MAY SKIP (2026-08-19, lane C2 audit). The artifact, the verifier's source and
+#: all five of its inputs are COMMITTED, and `aso_independent_verification` imports on nothing
+#: `.github/workflows/tests.yml` does not install — so in the one environment that gates a commit,
+#: every skip condition below is unreachable except when something is genuinely broken. Skipping
+#: on a broken tree is how a verifier stops verifying while its run reports green, which is the
+#: exact failure this whole file exists to make impossible.
 def _art():
     if not os.path.exists(ART):
-        pytest.skip("independent-verification artifact is not present in this checkout")
+        pytest.fail(f"the independent-verification artifact is missing at {ART}; it is committed, "
+                    "and the deposit's own claim to have been independently verified rests on it.")
     return json.load(open(ART, encoding="utf-8"))
 
 
@@ -40,7 +47,9 @@ def _mod():
     try:
         import aso_independent_verification as v
     except Exception as exc:                                    # noqa: BLE001
-        pytest.skip(f"verifier does not import here: {exc}")
+        pytest.fail(f"the verifier does not import ({exc!r}). Its source is committed and it needs "
+                    "nothing CI does not install, so this is a real breakage — and while it stands, "
+                    "NOTHING re-derives the deposit's verification from its inputs.")
     return v
 
 
@@ -105,9 +114,12 @@ def test_the_two_routes_to_frame_part_company_only_where_they_should():
 def test_a_corrupted_screen_4_artifact_makes_the_verifier_fail():
     """⛔ A CHECK THAT CANNOT FAIL IS NOT A CHECK. Proved rather than asserted."""
     v = _mod()
-    for path in (v.GENOMIC, v.CDNA, v.ATLAS, v.SCREEN4, v.INVENTORY):
-        if not os.path.exists(path):
-            pytest.skip("inputs to the verifier are not present in this checkout")
+    missing = [p for p in (v.GENOMIC, v.CDNA, v.ATLAS, v.SCREEN4, v.INVENTORY)
+               if not os.path.exists(p)]
+    assert not missing, (
+        f"{len(missing)} of the verifier's five inputs are missing: {missing}. All five are "
+        "committed, so this is a broken tree — and without them the proof that the verifier CAN "
+        "fail, which is the only thing that makes its AGREES verdict mean anything, does not run.")
     good = v.run()
     assert good["verdict"] == "AGREES"
     #: ⛔⛔ AND THE LIVE RUN IS COMPARED TO THE DEPOSITED ARTIFACT, WHICH NOTHING DID (2026-08-19).
@@ -145,9 +157,12 @@ def test_a_corrupted_screen_4_artifact_makes_the_verifier_fail():
 
 def test_a_corrupted_frame_grade_makes_the_verifier_fail():
     v = _mod()
-    for path in (v.GENOMIC, v.CDNA, v.ATLAS, v.SCREEN4, v.INVENTORY):
-        if not os.path.exists(path):
-            pytest.skip("inputs to the verifier are not present in this checkout")
+    missing = [p for p in (v.GENOMIC, v.CDNA, v.ATLAS, v.SCREEN4, v.INVENTORY)
+               if not os.path.exists(p)]
+    assert not missing, (
+        f"{len(missing)} of the verifier's five inputs are missing: {missing}. All five are "
+        "committed, so this is a broken tree — and without them the proof that the verifier CAN "
+        "fail, which is the only thing that makes its AGREES verdict mean anything, does not run.")
     real = json.load(open(v.ATLAS, encoding="utf-8"))
     for p in real["graded_pairs"]:
         if p["grade"] == "EMITTABLE":
@@ -172,7 +187,9 @@ def test_a_corrupted_frame_grade_makes_the_verifier_fail():
 # ───────────────────────────────────────────────────────────── the routes really are separate
 def test_the_verifier_imports_neither_module_it_verifies():
     if not os.path.exists(SRC):
-        pytest.skip("verifier source is not present in this checkout")
+        pytest.fail(f"the verifier's source is missing at {SRC}; it is committed, and the property "
+                    "that makes it INDEPENDENT — that it imports neither module it verifies, and "
+                    "never reads the annotated coding start — is unchecked without it.")
     src = open(SRC, encoding="utf-8").read()
     body = "\n".join(ln for ln in src.splitlines()
                      if not ln.lstrip().startswith("#"))
@@ -184,7 +201,9 @@ def test_the_verifier_imports_neither_module_it_verifies():
 def test_the_verifier_does_not_read_the_annotated_coding_start_to_grade_frames():
     """`utr5_len` may appear only where the ORF result is COMPARED to it, never as an input."""
     if not os.path.exists(SRC):
-        pytest.skip("verifier source is not present in this checkout")
+        pytest.fail(f"the verifier's source is missing at {SRC}; it is committed, and the property "
+                    "that makes it INDEPENDENT — that it imports neither module it verifies, and "
+                    "never reads the annotated coding start — is unchecked without it.")
     src = open(SRC, encoding="utf-8").read()
     hits = [ln.strip() for ln in src.splitlines()
             if '"utr5_len"' in ln and not ln.lstrip().startswith("#")]

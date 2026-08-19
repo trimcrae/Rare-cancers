@@ -41,7 +41,16 @@ def manuscript():
 def test_the_pointer_paragraphs_are_replaced_rather_than_kept(manuscript):
     """The manuscript says the tables 'are in <file>'. The PDF must contain them, not the sentence."""
     body, _ = manuscript
-    assert "fusion-junction-aso-submission-tables.md" not in body
+    # ⚠ NARROWED 2026-08-19, AND NOT TO MAKE A FAILURE GO AWAY. This asserted that the tables
+    # filename never survives into the rendered body, on the premise that no `.md` is deposited.
+    # That premise stopped being true: the availability statement now names
+    # `fusion-junction-aso-submission-tables.md` as the machine-readable copy of Tables 1 to 7, on
+    # a deposit reviewer's finding that the file was an ORPHAN -- referenced by no PDF at all. The
+    # file IS in the deposit, so the pointer is correct and suppressing it would send a reader
+    # nowhere. What must still hold is that the tables are PRINTED here rather than only pointed
+    # at, which is the property the original assertion was protecting.
+    assert "**Table 1." in body and "**Table 7." in body, (
+        "the tables must be spliced into the body, not merely referenced by filename")
     assert "fusion-junction-aso-submission-references.md" not in body
 
 

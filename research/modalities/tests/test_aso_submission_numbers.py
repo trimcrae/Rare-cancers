@@ -46,20 +46,30 @@ from junction_aso_offtarget import (  # noqa: E402
 
 
 def _collapse():
+    #: ⛔ THE THREE MODULE-LEVEL LOADERS NO LONGER SKIP EITHER (2026-08-19, lane C2 audit).
+    #: `_required`'s docstring below already states the rule — an artifact that is not there is a
+    #: finding, never a silent pass — and it applied to these three all along: the collapse
+    #: artifact, the manuscript and the SI are all `git ls-files`-tracked. "A checkout that is
+    #: genuinely partial" is not a state this repository ships, and while these skipped, deleting
+    #: the manuscript made ~200 prose-against-artifact assertions in this file evaporate silently.
     if not os.path.exists(COLLAPSE):
-        pytest.skip("locus-collapse artifact is not present in this checkout")
+        pytest.fail(f"the locus-collapse artifact is missing at {COLLAPSE}; it is committed, and "
+                    "the medians and censoring counts the paper quotes are unchecked without it.")
     return json.load(open(COLLAPSE))
 
 
 def _paper():
     if not os.path.exists(PAPER):
-        pytest.skip("submission manuscript is not present in this checkout")
+        pytest.fail(f"the submission manuscript is missing at {PAPER}; it is committed, and every "
+                    "prose-against-artifact assertion in this file is unchecked without it.")
     return open(PAPER, encoding="utf-8").read()
 
 
 def _supplement():
     if not os.path.exists(SUPPLEMENT):
-        pytest.skip("the supplementary information is not present in this checkout")
+        pytest.fail(f"the supplementary information is missing at {SUPPLEMENT}; it ships with the "
+                    "submission and it is committed, and the claims that MOVED into it are only "
+                    "not-lost while something still asserts them where they landed.")
     return open(SUPPLEMENT, encoding="utf-8").read()
 
 
@@ -510,9 +520,11 @@ def test_the_deeper_ceiling_raises_counts_across_the_whole_corpus():
     computed against a deep corpus that has since grown. The three worked examples in that sentence
     were correct and are kept.
     """
+    #: ⛔ NOT A SKIP (2026-08-19, lane C2 audit). The deep re-screens are committed; an empty
+    #: join means the loader stopped finding them, which is when this comparison has to speak.
     deep = _deep_screens()
-    if not deep:
-        pytest.skip("the deep re-screens are not present in this checkout")
+    assert deep, ("no deep re-screen was joined, so the depth comparison below covers nothing. "
+                  "The re-screens are committed — an empty join is a naming or path change.")
     default = {(s["junction_label"], o["antisense_5to3"]): o["n_transcript_near_matches_reported"]
                for s in _collapse()["screens"] if s["junction_label"] for o in s["per_oligo"]}
     assert len(default) == 183, len(default)
@@ -623,8 +635,8 @@ def test_the_taf15_exon6_locus_counts_are_the_deep_ceiling_ones():
     import junction_aso_offtarget as ja  # noqa: PLC0415
 
     deep = {seq: o for (lab, seq), o in _deep_screens().items() if lab == "TAF15_e6__NR4A3_e3"}
-    if not deep:
-        pytest.skip("the deep re-screen of the TAF15 e6 junction is not in this checkout")
+    assert deep, ("no deep re-screen row for TAF15_e6__NR4A3_e3 was joined; the screen is "
+                  "committed, and the TAF15 seam's locus counts are unchecked without it.")
     lo, hi = ja.GAP_REGION_1BASED
     margins = {r["antisense_5to3"]: r["gap_specificity_margin"]
                for r in json.load(open(os.path.join(MOD, "aso-parent-gap-pairing.json"),
@@ -676,8 +688,9 @@ def test_the_tcf12_exon5_gap_spanning_load_is_one_locus_not_seventeen():
     import junction_aso_offtarget as ja  # noqa: PLC0415
 
     o = _deep_screens().get(("TCF12_e5__NR4A3_e3", "GGGCATATCCATCAGA"))
-    if o is None:
-        pytest.skip("the deep re-screen of the TCF12 e5 junction is not in this checkout")
+    assert o is not None, ("no deep re-screen row for TCF12_e5__NR4A3_e3 / GGGCATATCCATCAGA was "
+                           "joined; the screen is committed, and the PIK3CG load this test pins "
+                           "is unchecked without it.")
     lo, hi = ja.GAP_REGION_1BASED
     paired = [h for h in o["offtargets"] if not h.get("is_minus_strand")
               and h["q_from"] <= lo and h["q_to"] >= hi and h.get("gap_mismatches") == 0]
@@ -710,9 +723,7 @@ def test_the_discussion_recommends_the_two_published_junctions():
     actually carry, and both exist at the top gap-level margin with no parent liability. Asserted
     against the per-junction table so the prose cannot drift off it.
     """
-    art = os.path.join(MOD, "aso-per-junction-table.json")
-    if not os.path.exists(art):
-        pytest.skip("the per-junction table is not present in this checkout")
+    art = _required(os.path.join(MOD, "aso-per-junction-table.json"), "the per-junction table")
     d = json.load(open(art, encoding="utf-8"))
     published = {j["junction_label"]: j for j in d["junctions"]
                  if j["clinical_tier"] == "published_exon_resolved_breakpoint"}
@@ -992,8 +1003,8 @@ def test_the_censoring_guard_was_tested_and_is_load_bearing():
         for o in s_.artifact.get("oligos", []):
             if o.get("status") == "screened":
                 deep[(s_.junction_label, o["antisense_5to3"])] = o
-    if not deep:
-        pytest.skip("the deep re-screens are not present in this checkout")
+    assert deep, ("no deep re-screen was joined, so the population below is empty and every "
+                  "assertion over it is vacuous. The re-screens are committed.")
 
     # The population: retained-clean, raw count over the retention depth, under the BLAST ceiling.
     candidates = []
@@ -1042,9 +1053,7 @@ TABLES = os.path.join(REPO, "research", "manuscripts", "aso",
 
 
 def _gaplen():
-    if not os.path.exists(GAPLEN):
-        pytest.skip("gap-length trade-off artifact is not present in this checkout")
-    return json.load(open(GAPLEN, encoding="utf-8"))
+    return json.load(open(_required(GAPLEN, "the gap-length trade-off artifact"), encoding="utf-8"))
 
 
 def test_the_gap_length_trade_is_an_identity_and_the_paper_states_it_as_one():
@@ -1211,9 +1220,8 @@ def test_the_gap_length_table_cells_are_the_artifacts_and_the_paper_points_at_it
     on the generated file and has to move with it; the test's NAME does not have to be a second
     copy of that number.
     """
-    if not os.path.exists(TABLES):
-        pytest.skip("submission tables are not present in this checkout")
-    gap, txt = _gaplen(), open(TABLES, encoding="utf-8").read()
+    gap = _gaplen()
+    txt = open(_required(TABLES, "the generated submission tables"), encoding="utf-8").read()
     lead = gap["lead_reagent_at_the_most_commonly_reported_seam"]["by_geometry"]
     assert "**Table 7. Gap length against junction specificity" in txt
     # ⛔ THE COLUMN SET IS DERIVED FROM THE ARTIFACT, NOT TYPED (2026-08-14). It was
@@ -1277,9 +1285,8 @@ EXPRESSION = os.path.join(MOD, "aso-offtarget-tissue-expression.json")
 
 
 def _expression():
-    if not os.path.exists(EXPRESSION):
-        pytest.skip("the off-target expression artifact is not present in this checkout")
-    return json.load(open(EXPRESSION, encoding="utf-8"))
+    return json.load(open(_required(EXPRESSION, "the off-target expression artifact"),
+                          encoding="utf-8"))
 
 
 def _loci_of_design(expr, seq):
@@ -1589,10 +1596,9 @@ def test_table6_cells_are_the_artifact_and_its_two_compartments_stay_separate():
     and the other five, so a bare count would read as a difference in robustness where one of the
     two is every register there is.
     """
-    tables = os.path.join(REPO, "research", "manuscripts", "aso",
-                          "fusion-junction-aso-submission-tables.md")
-    if not os.path.exists(tables):
-        pytest.skip("the generated tables file is not present in this checkout")
+    tables = _required(os.path.join(REPO, "research", "manuscripts", "aso",
+                                    "fusion-junction-aso-submission-tables.md"),
+                       "the generated tables file")
     expr = _expression()
     txt = open(tables, encoding="utf-8").read()
     assert "**Table 6." in txt, "Table 6 is not in the generated tables file"
@@ -1646,8 +1652,7 @@ def test_the_wild_type_allele_liability_is_named_with_the_designs_it_condemns():
     means anything and the manuscript's exclusions are unsupported.
     """
     for p in (NONCODING_TABLE, CRYPTIC_TAF15):
-        if not os.path.exists(p):
-            pytest.skip("the non-canonical acceptor artifacts are not present in this checkout")
+        _required(p, "a non-canonical-acceptor artifact")
     nc = json.load(open(NONCODING_TABLE, encoding="utf-8"))
     liab = nc["⭐_wild_type_NR4A3_cleavage_liability"]
     txt, raw = _flat(_paper()), _paper()
@@ -1785,8 +1790,7 @@ def test_the_testable_surface_states_the_only_catalogued_line_cannot_test_a_junc
     an author. Those are the sentences that would be easy to write and impossible to defend, so the
     test refuses them by name.
     """
-    if not os.path.exists(MODEL_EVIDENCE):
-        pytest.skip("the model-junction evidence artifact is not present in this checkout")
+    _required(MODEL_EVIDENCE, "the model-junction evidence artifact")
     ev = json.load(open(MODEL_EVIDENCE, encoding="utf-8"))
     block = ev["⛔⛔_the_only_purchasable_EMC_line_cannot_test_a_junction_reagent"]
     assert block["line"] == "H-EMC-SS"
@@ -1863,9 +1867,8 @@ def test_the_tfg_deposit_is_reported_without_moving_a_coverage_figure():
     ⚠ THE PATENT RECORDS ARE CORROBORATION OF A SEQUENCE, NOT OF FOUR PATIENTS, and the artifact says
     so in terms. Asserting the prose keeps that qualification attached to the count.
     """
-    art = os.path.join(MOD, "nr4a3-deposited-junctions.json")
-    if not os.path.exists(art):
-        pytest.skip("the deposited-junction sweep is not present in this checkout")
+    art = _required(os.path.join(MOD, "nr4a3-deposited-junctions.json"),
+                    "the deposited-junction sweep")
     rec = json.load(open(art, encoding="utf-8"))["junctions"]["TFG_e7__NR4A3_e3"]
     txt = _flat(_paper())
     assert rec["records"][0] == "AY532911.1", rec["records"]

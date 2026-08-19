@@ -35,16 +35,22 @@ WORKFLOW = os.path.join(REPO, ".github", "workflows", "aso-offtarget.yml")
 sys.path.insert(0, MOD)
 
 
+#: ⛔ NOT SKIPS (2026-08-19, lane C2 audit). The trade-off artifact, all three atlases and the
+#: workflow file are COMMITTED, so an absence is a broken tree — and the gap-length trade is the
+#: paper's second headline. A guard that vanishes with its input reports green for a check nobody
+#: performed, which is the class the pypdf/pymupdf audit found in this suite.
 def _art():
     if not os.path.exists(ART):
-        pytest.skip("gap-length trade-off artifact is not present in this checkout")
+        pytest.fail(f"the gap-length trade-off artifact is missing at {ART}; it is committed, and "
+                    "the direction of the trade the paper reports is unchecked without it.")
     return json.load(open(ART, encoding="utf-8"))
 
 
 def _atlas(suffix):
     p = os.path.join(MOD, f"nr4a3-fusion-junction-atlas{suffix}.json")
     if not os.path.exists(p):
-        pytest.skip(f"atlas{suffix} is not present in this checkout")
+        pytest.fail(f"the atlas{suffix} is missing at {p}; all three geometries' atlases are "
+                    "committed, and the trade cannot be compared across geometries without them.")
     return json.load(open(p, encoding="utf-8"))
 
 
@@ -70,9 +76,15 @@ def test_the_gap_halves_are_complements_at_every_geometry():
 def test_a_longer_gap_raises_the_margin_and_the_parent_paired_dna_together():
     """The direction of the trade, asserted rather than described."""
     art = _art()
+    #: ⛔ NOT A SKIP (2026-08-19, lane C2 audit). All three geometries are `present` in the
+    #: committed artifact. Fewer than two means a regeneration dropped one — precisely the edit
+    #: after which the direction of the trade must be re-checked, not the edit after which this
+    #: test should fall silent.
     present = [g for g in art["geometries"] if g.get("present")]
-    if len(present) < 2:
-        pytest.skip("only one geometry present — there is no trade to compare")
+    assert len(present) >= 2, (
+        f"only {len(present)} geometry is marked present in {ART}, so there is no trade to "
+        "compare and this test asserted nothing. The committed artifact carries three; a "
+        "regeneration that drops one is what this guard has to speak about.")
     present.sort(key=lambda g: g["gap_nt"])
     best_margin = [max(int(k) for k in g["gap_margin_distribution"]) for g in present]
     worst_dna = [max(int(k) for k in g["parent_paired_gap_dna_distribution"]) for g in present]
@@ -148,8 +160,12 @@ def test_the_16mer_parent_duplex_artifact_still_reproduces():
 
 def test_the_16mer_thermo_artifact_still_reproduces():
     import junction_aso_thermo as m  # noqa: PLC0415
-    if m.build.__module__ and not os.path.exists(m.OUT):
-        pytest.skip("thermo artifact absent")
+    #: ⛔ NOT A SKIP (2026-08-19, lane C2 audit): `junction-aso-thermo.json` is committed. The
+    #: guarded expression was also inert — `m.build.__module__` is a non-empty string for any
+    #: imported function, so the condition reduced to "the artifact is missing".
+    if not os.path.exists(m.OUT):
+        pytest.fail(f"the thermo artifact is missing at {m.OUT}; it is committed, and whether it "
+                    "still reproduces from its generator is exactly what this test measures.")
     assert m.main(["--check"]) == 0, "junction-aso-thermo.json no longer reproduces"
 
 
@@ -224,7 +240,8 @@ def test_the_workflow_derives_screen_top_n_from_the_dispatched_geometry():
     bit-for-bit unchanged — while 18,5 and 20,5 select every junction-spanning register.
     """
     if not os.path.exists(WORKFLOW):
-        pytest.skip("workflow file is not present in this checkout")
+        pytest.fail(f"the off-target workflow is missing at {WORKFLOW}; it is committed, and the "
+                    "screen-depth derivation this test reproduces lives only there.")
     body = open(WORKFLOW, encoding="utf-8").read()
     assert "SCREEN_TOP_N=$(( OLIGO_LEN - 2 * WING - 1 ))" in body, \
         "the workflow no longer derives SCREEN_TOP_N from the geometry"

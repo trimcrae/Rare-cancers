@@ -37,8 +37,12 @@ PANEL_N_OLIGOS = 5
 
 
 def _load(p):
+    #: ⛔ NOT A SKIP (2026-08-19, lane C2 audit). Both the screen and its graded companion ARE
+    #: committed, so the skip's own message could never be true where it matters — and the
+    #: retired-headline check it guards is the one that keeps a superseded count from coming back.
     if not os.path.exists(p):
-        pytest.skip(f"{os.path.basename(p)} not committed in this tree")
+        pytest.fail(f"{os.path.basename(p)} is missing at {p}; it is committed, and the graded "
+                    "screen's retired headline is unchecked without it.")
     with open(p, "r", encoding="utf-8") as fh:
         return json.load(fh)
 

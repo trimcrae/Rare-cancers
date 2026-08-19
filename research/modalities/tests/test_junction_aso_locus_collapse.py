@@ -104,8 +104,11 @@ def test_the_committed_collapse_summarises_only_uncensored_oligos():
     """⛔ ASSERTED AGAINST THE REAL ARTIFACT, NOT A FIXTURE. The headline medians are what the
     manuscript quotes, and the one way they go wrong is by silently including censored rows."""
     path = os.path.join(MOD, "junction-aso-offtarget-locus-collapse.json")
+    #: ⛔ NOT A SKIP (2026-08-19, lane C2 audit): the collapse artifact is committed, and the
+    #: headline medians the manuscript quotes come out of it.
     if not os.path.exists(path):
-        pytest.skip("locus-collapse artifact is not present in this checkout")
+        pytest.fail(f"the locus-collapse artifact is missing at {path}; it is committed, and the "
+                    "medians the manuscript quotes are unchecked without it.")
     d = json.load(open(path))
     every = [o for s in d["screens"] for o in s["per_oligo"]]
     assert len(every) == d["n_oligos"]
@@ -133,8 +136,11 @@ def test_the_lead_candidates_gap_spanning_load_is_the_one_locus_the_manuscript_c
     was rewritten to match the artifact, and this assertion follows it. Superseded, retained: three
     loci, from the screens that counted both strands."""
     path = os.path.join(MOD, "junction-aso-offtarget-locus-collapse.json")
+    #: ⛔ NOT A SKIP (2026-08-19, lane C2 audit): the collapse artifact is committed, and the
+    #: headline medians the manuscript quotes come out of it.
     if not os.path.exists(path):
-        pytest.skip("locus-collapse artifact is not present in this checkout")
+        pytest.fail(f"the locus-collapse artifact is missing at {path}; it is committed, and the "
+                    "medians the manuscript quotes are unchecked without it.")
     d = json.load(open(path))
     rows = [o for s in d["screens"] for o in s["per_oligo"]
             if o["antisense_5to3"] == "GGGCATATCATCAAAC"]
@@ -174,7 +180,8 @@ def test_the_clinically_relevant_reagents_deep_load_is_six_loci_not_123_transcri
 
     path = os.path.join(MOD, "junction-aso-offtarget-e12n3-deep500-b1.json")
     if not os.path.exists(path):
-        pytest.skip("the deep re-screen of the EWSR1 e12 junction is not in this checkout")
+        pytest.fail(f"the deep re-screen of the EWSR1 e12 junction is missing at {path}; it is "
+                    "committed, and the lead reagent's 189 near-matches are read from it.")
     d = json.load(open(path, encoding="utf-8"))
     o = next(x for x in d["oligos"] if x["antisense_5to3"] == "GGGCATATCATCAAAC")
 
@@ -208,7 +215,9 @@ def test_the_clinically_relevant_reagents_deep_load_is_six_loci_not_123_transcri
     paper = os.path.join(REPO, "research", "manuscripts", "aso",
                          "fusion-junction-aso-research-article.md")
     if not os.path.exists(paper):
-        pytest.skip("submission manuscript is not present in this checkout")
+        pytest.fail(f"the submission manuscript is missing at {paper}; it is committed, and the "
+                    "sentence this test proved was measuring the WRONG number is unchecked "
+                    "without it.")
     txt = re.sub(r"\s+", " ", open(paper, encoding="utf-8").read())
 
     # ⛔⛔ `assert "189 near-matches" in txt` WAS MEASURING THE WRONG SENTENCE (found 2026-08-16).
