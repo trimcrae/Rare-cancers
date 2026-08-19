@@ -84,6 +84,21 @@ PAPER = os.path.join(ASO, "fusion-junction-aso-research-article.md")
 # ---------------------------------------------------------------------------------------------
 PROMISES = [
     {
+        # ⛔⛔ THE COMMAND THE PAPER TELLS A READER TO RUN WAS NOT IN THIS MANIFEST (2026-08-19). A
+        # reproducibility reviewer cloned HEAD, ran the chain, and then checked the archive: 383
+        # files, no `scripts/` entry of any kind. The Availability statement names
+        # `./scripts/regenerate_aso_chain.sh` as the way to check every other promise here, so an
+        # archive that carries all the data and not the command is an archive a reader cannot use
+        # as instructed. Nothing failed, because there was no promise row for it to fail against —
+        # the manifest's self-check can only verify promises it has been given.
+        "id": "reproduction_command",
+        "promise": "the regeneration chain the Availability statement names",
+        "contributes": ("Re-derives every offline-derivable artefact below in dependency order and "
+                        "re-runs the consistency, citation and style gates; the command a reader "
+                        "is told to run to establish that this archive is current."),
+        "patterns": ["scripts/regenerate_aso_chain.sh"],
+    },
+    {
         "id": "graded_junction_atlas",
         "promise": "the graded junction atlas",
         "contributes": ("Grades all 231 donor-exon x acceptor-exon pairs across the five 5' "

@@ -1739,7 +1739,12 @@ def test_the_testable_surface_states_the_only_catalogued_line_cannot_test_a_junc
     # honest version rather than the tidier one.
     assert "five test articles" in txt
     assert "Each of the five has a reagent at its junction" in txt
-    assert "four certifiable reagents and a fifth carried under that qualification" in txt
+    #: ⚠ RE-ANCHORED 2026-08-19. A vocabulary audit found "the reagents" naming TWO different
+    #: four-member sets — the ones matched to a test article here, and the coverage ladder's in
+    #: §4.1 — overlapping in only two members, each introduced as "the set". The sentence now says
+    #: which set it is. The count and the qualification this pin exists for are both unchanged.
+    assert "four certifiable ones and a fifth carried under that qualification" in txt
+    assert "a different set from the four of the coverage ladder in §4.1" in txt
     for arm in ("E-N", "T-N*", "T-N"):
         assert arm in txt, arm
     # what a rebuilt construct cannot buy, and the binding constraint

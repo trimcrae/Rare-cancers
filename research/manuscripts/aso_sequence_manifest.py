@@ -105,6 +105,35 @@ def _geometry(raw):
     return _GEOMETRY_SYNONYMS.get(text, text)
 
 
+#: ⛔ THE SECOND "DO NOT ORDER" REASON, AND IT IS NOT THE SAME AS THE FIRST (2026-08-19). A design
+#: that pairs a wild-type PARENT — the donor gene, or NR4A3 — through the whole catalytic gap is
+#: the paper's central negative and must not be ordered. That is a different condemnation from the
+#: three designs that pair the patient's own UN-REARRANGED NR4A3 allele at a non-canonical
+#: acceptor, and the two reasons stay distinct so a reader can see which screen condemned a row.
+_PARENT_PAIRED_DO_NOT_ORDER = (
+    "DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the "
+    "ten-base-pair criterion, which is this paper's central negative")
+
+#: The criterion the whole paper is stated on. A duplex through the whole gap at or above this
+#: length is a liability; below it, the paper reports the run and does not count it.
+MIN_PARENT_DUPLEX_BP = 10
+
+
+def _pairs_a_parent(duplex_bp):
+    """True where a recorded duplex through the whole gap reaches the criterion, else ''.
+
+    ⚠ THE EMPTY STRING IS A THIRD STATE AND IS NOT `False`. A blank means no duplex length was
+    recorded for that row at all, which is not the same as a row measured and found clean — the
+    distinction this repository has paid for more than once.
+    """
+    if duplex_bp in (None, ""):
+        return ""
+    try:
+        return int(duplex_bp) >= MIN_PARENT_DUPLEX_BP
+    except (TypeError, ValueError):
+        return ""
+
+
 #: Fields where two sources naming the same sequence MUST agree, and where a disagreement is a
 #: defect to surface rather than a tie to break. Deliberately not the whole record: `role`,
 #: `junction` and `clinical_tier` are the naming source's editorial view of the design and the
@@ -183,7 +212,21 @@ def _rows():
                 # is this paper's central negative — not a quality score.
                 pairs_a_wild_type_parent_through_the_gap=bool(d.get("parent_is_liability")),
                 role=("best available at this junction" if seq == best else "screened design"),
-                do_not_order="",
+                # ⛔⛔ THIS COLUMN WAS EMPTY ON EVERY PANEL ROW, AND THAT WAS A WRONG-REAGENT HAZARD
+                # (measured 2026-08-19). The paper states exactly one selection rule for this file —
+                # rank by gap-level margin — and following it returns, at five of the 36 junctions,
+                # a design that pairs a wild-type parent through the whole catalytic gap at 11 base
+                # pairs, four of them against wild-type NR4A3. Table 3 marks every one of those ⚑
+                # "do not order"; the CSV the paper tells a reader to order FROM instead of the PDF
+                # carried no flag at all, on 83 such rows. A canonical record that is safe only for
+                # a reader who also has the table is not canonical.
+                # ⚠ THE REASON STRING DIFFERS FROM THE UN-REARRANGED-ALLELE ONE ON PURPOSE. These
+                # designs engage a wild-type PARENT — the donor gene or NR4A3 — which is the central
+                # negative; the three below engage the patient's own un-rearranged NR4A3 allele
+                # through a non-canonical acceptor. Both are "do not order", for different reasons,
+                # and collapsing them would lose which screen condemned the design.
+                do_not_order=(_PARENT_PAIRED_DO_NOT_ORDER
+                              if d.get("parent_is_liability") else ""),
                 clinical_tier=j.get("clinical_tier", ""))
 
     # ⛔ THE WHOLE `per_design` LIST, NOT JUST THE LEAD SEAM'S THREE GEOMETRIES. The first version of
@@ -208,8 +251,18 @@ def _rows():
             mature_parent_duplex_gene=d.get("mature_parent_duplex_gene") or "",
             parent_paired_gap_dna_nt=d.get("parent_paired_gap_dna_nt"),
             parent_seam_hybrid_bp=d.get("parent_seam_hybrid_bp"),
-            pairs_a_wild_type_parent_through_the_gap="",
-            role="screened design", do_not_order="", clinical_tier="")
+            # ⛔ WAS BLANK ON ALL 576 LONGER-GEOMETRY ROWS. This artifact records the duplex length
+            # rather than the artifact's own boolean, so the flag is derived from it at the same
+            # ten-base-pair criterion the panel rows use — the criterion §2.9 states these three
+            # geometries' 87/88/87 liable counts on. A blank column read as "clean" to anyone who
+            # did not know it was simply never filled.
+            pairs_a_wild_type_parent_through_the_gap=_pairs_a_parent(
+                d.get("mature_parent_duplex_through_whole_gap_bp")),
+            role="screened design",
+            do_not_order=(_PARENT_PAIRED_DO_NOT_ORDER
+                          if _pairs_a_parent(
+                              d.get("mature_parent_duplex_through_whole_gap_bp")) is True else ""),
+            clinical_tier="")
 
     nc = _load("noncoding-acceptor", "aso-noncoding-acceptor-screened-table.json")
     # ⚠ THIS ARTIFACT'S `geometry` IS A BLOCK, NOT A STRING — {oligo_len, wing, gap_nt,
@@ -235,8 +288,14 @@ def _rows():
                 parent_paired_gap_dna_nt="", parent_seam_hybrid_bp="",
                 pairs_a_wild_type_parent_through_the_gap=bool(d.get("parent_is_liability")),
                 role="non-canonical acceptor seam",
+                # ⚠ TWO CONDEMNATIONS REACH THESE ROWS AND THE UN-REARRANGED-ALLELE ONE WINS. A
+                # design at a non-canonical acceptor can both engage the patient's own allele and
+                # pair a wild-type parent; the allele reason is the more specific and is the one
+                # §2.6 names, so it is reported, and the parent reason covers the rest.
                 do_not_order=("DO NOT ORDER — pairs its whole catalytic gap against the patient's "
-                              "own un-rearranged NR4A3 allele" if bad else ""),
+                              "own un-rearranged NR4A3 allele" if bad else
+                              (_PARENT_PAIRED_DO_NOT_ORDER
+                               if d.get("parent_is_liability") else "")),
                 clinical_tier=j.get("clinical_tier", ""))
 
     # ⛔ THE CRYPTIC-EXON SEAMS ARE A THIRD SOURCE, AND THE CONTRACT FOUND THAT TOO. The
@@ -273,6 +332,27 @@ def _rows():
             do_not_order=("DO NOT ORDER — pairs its whole catalytic gap against the patient's own "
                           "un-rearranged NR4A3 allele"), clinical_tier="")
 
+    # ⛔⛔ A MOLECULE CAN SPAN MORE THAN ONE JUNCTION, AND THIS FILE NAMED ONLY ONE OF THEM
+    # (cross-document audit, 2026-08-19). Nine of the 16-mers are junction-spanning at two or three
+    # partners' junctions at once — the 190 design records collapse to 176 molecules for exactly
+    # that reason, which Supplementary Figure S1's legend states. Each reached this file once,
+    # keyed to whichever junction named it first. So `GGGCATATCATCAAAC`, printed in Tables 2 and 3
+    # for *EWSR1* e12, *FUS* e10 AND *TAF15* e11, appeared here under *EWSR1* e12 alone: a
+    # laboratory with a *FUS* e10 or *TAF15* e11 breakpoint, searching the record every document
+    # calls canonical and tells them to order from, found NOTHING for its junction and would have
+    # concluded the panel has no reagent for it. Two of the 38 panel junctions were unreachable.
+    # ⚠ THE OTHER JUNCTIONS GO IN THEIR OWN COLUMN RATHER THAN INTO `junction`. One row per
+    # molecule is what makes the file a record of molecules; duplicating the row per junction would
+    # reintroduce the 190-versus-176 conflation this deposit has already been burned by.
+    spans = {}
+    for rec in (_load("offtarget-chance-baseline.json") or {}).get(
+            "figure_series", {}).get("series", []):
+        if len(rec.get("junctions") or []) > 1:
+            spans[rec["antisense_5to3"]] = list(rec["junctions"])
+    for row in rows:
+        others = [j for j in spans.get(row["sequence"], []) if j != row["junction"]]
+        row["also_tiled_at_junctions"] = "; ".join(others)
+
     rows.sort(key=lambda r: (r["junction"], -(r["length_nt"]), r["sequence"]))
     return rows
 
@@ -304,7 +384,8 @@ def _rows():
 #:
 #: `test_aso_sequence_manifest.py` holds the join: every duplex figure the submission tables print
 #: must equal this file's `mature_parent_duplex_through_gap_bp` for the same sequence.
-_FIELDS = ("sequence", "length_nt", "geometry", "junction", "gap_level_margin",
+_FIELDS = ("sequence", "length_nt", "geometry", "junction", "also_tiled_at_junctions",
+           "gap_level_margin",
            "mature_parent_duplex_through_gap_bp", "mature_parent_duplex_gene",
            "parent_paired_gap_dna_nt", "parent_seam_hybrid_bp",
            "pairs_a_wild_type_parent_through_the_gap", "role", "clinical_tier", "do_not_order")
@@ -336,7 +417,18 @@ _HEADER = [
     "# that row does not compute the quantity — not that it is zero.",
     "#",
     "# READ do_not_order FIRST. A non-empty value means the paper names that design as one NOT to be",
-    "# carried forward.",
+    "# carried forward. It is set at a ten-base-pair parent duplex: an EMPTY value is a reading at",
+    "# that one cut and NOT a clearance, since 175 of the 190 panel designs pair a parent through",
+    "# the whole gap at seven base pairs and 181 do so at any length.",
+    "#",
+    "# `role` IS THE SELECTION COLUMN. `best available at this junction` marks the design the paper",
+    "# itself carries there. Ranking on gap_level_margin is NOT the paper's rule and returns a",
+    "# do_not_order design at five of the 36 panel junctions.",
+    "#",
+    "# `junction` IS ONE JUNCTION, NOT ALL OF THEM. Nine 16-mers span two or three junctions at",
+    "# once — this is why 190 design records are 176 distinct molecules — and each has ONE row.",
+    "# `also_tiled_at_junctions` carries the rest; search both columns before concluding that a",
+    "# junction has no reagent.",
 ]
 
 
@@ -371,14 +463,40 @@ def _fasta_text(rows):
         "; Sequences are written 5' to 3' as the ANTISENSE strand.",
         "; CHEMISTRY: LNA/DNA/LNA gapmers on a phosphorothioate backbone, geometry per record. The",
         "; bases alone, ordered as unmodified DNA, are a DIFFERENT MOLECULE.",
-        "; Records tagged DO NOT ORDER pair their whole catalytic gap against a wild-type parent.",
+        "; A record tagged DO NOT ORDER carries the reason on its defline. Two reasons exist: it",
+        "; pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair",
+        "; criterion, or it pairs the patient's own un-rearranged NR4A3 allele at a non-canonical",
+        "; acceptor. ⚠ AN UNTAGGED RECORD IS NOT A CLEARANCE. The tag is applied at ten base pairs;",
+        "; 175 of the 190 panel designs pair a parent through the whole gap at seven, and 181 at any",
+        "; length, so absence of the tag is a statement about that one cut and nothing more.",
+        "; role=best-available names the design the paper itself carries at that junction. Ranking",
+        "; these records by gap_level_margin is NOT the paper's selection rule and returns a tagged",
+        "; design at several junctions.",
         "; Establish the target breakpoint by RNA sequencing before ordering: each design is specific",
-        "; to the exon pair or pairs it was tiled at.",
+        "; to the exon pair or pairs it was tiled at. Nine of the 16-mers span two or three",
+        "; junctions at once; each has ONE record, whose defline names the junction it is keyed to",
+        "; and then 'also tiled at' the others. Search both before concluding a junction has no",
+        "; reagent.",
     ]
     for r in rows:
         tags = [r["geometry"], r["junction"] or "no-panel-junction"]
         if r.get("gap_level_margin") != "":
             tags.append(f"gap_level_margin={r['gap_level_margin']}")
+        #: ⛔ ROLE AND THE PARENT DUPLEX TRAVEL ON THE DEFLINE (2026-08-19). A reader ordering from
+        #: this file had no way to reach the paper's own answer: `role` is the column that names it
+        #: and the FASTA did not carry it, so the only rule available was gap_level_margin — which
+        #: selects a do-not-order design at several junctions. The duplex length comes with it
+        #: because the tag is a threshold verdict and the length is the measurement behind it.
+        #: ⛔ A MOLECULE SPANNING MORE THAN ONE JUNCTION MUST SAY SO ON ITS OWN DEFLINE. The header
+        #: already promises "the exon pair OR PAIRS it was tiled at"; without this the promise was
+        #: unkept, and a reader searching this file for their junction found nothing.
+        if r.get("also_tiled_at_junctions"):
+            tags.append(f"also tiled at {r['also_tiled_at_junctions']}")
+        if r.get("role"):
+            tags.append(f"role={r['role']}")
+        if r.get("mature_parent_duplex_through_gap_bp") not in ("", None):
+            gene = r.get("mature_parent_duplex_gene") or "unnamed"
+            tags.append(f"parent_duplex={r['mature_parent_duplex_through_gap_bp']}bp ({gene})")
         if r.get("do_not_order"):
             tags.append(r["do_not_order"])
         tags.append("antisense 5'->3', research use only")

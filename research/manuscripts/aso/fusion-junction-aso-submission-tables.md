@@ -145,7 +145,7 @@ None of these numbers is a measurement of off-target activity.
 
 † No design screened at this junction clears the parent screen: every one of them pairs a wild-type parent gene through the whole catalytic gap, at the parent-duplex criterion applied throughout. This table ranks by gap-level margin, so the sequence in such a row is that junction's highest-margin design and nothing more; it is not a design any screen passes, and Table 2 gives the same junction no best-available reagent for that reason — its “designs clearing the parent screen” cell reads 0. Do not order the sequence in a marked row.
 
-⚑ This design pairs a wild-type parent gene through the whole catalytic gap at the ten-base-pair criterion applied throughout, and the gene it pairs is named beside the length. The marker is on the DESIGN, where † is on the JUNCTION: a row can be unmarked by † and still carry ⚑, because this table prints each junction's highest-margin design rather than its cleanest. Do not order the sequence in a row marked ⚑ — pairing a parent through the whole gap is this paper's central negative (§4.5) and surrenders the only advantage the modality has.
+⚑ This design pairs a wild-type parent gene through the whole catalytic gap at the ten-base-pair criterion applied throughout, and the gene it pairs is named beside the length. The marker is on the DESIGN, where † is on the JUNCTION: a row can be unmarked by † and still carry ⚑, because this table prints each junction's highest-margin design rather than its cleanest. Do not order the sequence in a row marked ⚑ — pairing a parent through the whole gap is this paper's central negative (§4.5) and surrenders the only advantage the modality has. An unmarked row is not a clearance. The marker is set at ten base pairs, which is a criterion this work adopts rather than measures: at seven, 175 of the 190 panel designs pair a parent through the whole gap, and 181 do so at any length (§2.9). Absence of ⚑ is a reading at one cut and nothing wider.
 
 | junction | designs screened | best gap-level margin | that design | near-matches, either strand (transcripts → loci) | of the retained hits, on the sense strand¹ | loci with a gap-paired hit | of those, predicted models only² | at the deeper ceiling: near-matches³ | of those, on the sense strand³ | loci with a gap-paired hit³ | longest parent duplex through the gap (bp) | ≤1-mismatch matches across that junction's designs, median (max) |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
@@ -205,7 +205,12 @@ mature-parent duplexes of §2.5, whose duplex for 59 of the 87 is not elsewhere 
 runs past the seam into the wild-type *NR4A3* exon-2/exon-3 junction. Because the fusion duplex pairs
 both LNA wings and each parent duplex only one, it is a lower bound on the modified
 oligonucleotide's discrimination rather than an upper one. None of these numbers is a measurement of off-target
-activity, and none speaks to cleavage. Every sequence in this table is an antisense 16-mer, tiled in the 5-6-5 locked-nucleic-acid (LNA)/DNA/LNA architecture on a phosphorothioate backbone that §6 specifies; the bases alone, ordered as unmodified DNA, are a different molecule. Research use only: not for administration to any person or animal (Declarations). The canonical machine-readable copy of every sequence is `fusion-junction-aso-sequences.csv`, which is what to order from rather than this PDF.
+activity, and none speaks to cleavage. **This table condemns nothing and clears nothing.** Its final
+column is a verdict from ONE screen, the near-match screen, and five of these rows carry the ⚑ of
+the mature-parent screen: a wild-type parent pairs their whole catalytic gap at the ten-base-pair
+criterion, which is this paper's central negative, and Table 3 marks them do-not-order for it. A
+design can survive every near-match screen here and still be one not to order.
+Every sequence in this table is an antisense 16-mer, tiled in the 5-6-5 locked-nucleic-acid (LNA)/DNA/LNA architecture on a phosphorothioate backbone that §6 specifies; the bases alone, ordered as unmodified DNA, are a different molecule. Research use only: not for administration to any person or animal (Declarations). The canonical machine-readable copy of every sequence is `fusion-junction-aso-sequences.csv`, which is what to order from rather than this PDF.
 
 ⁴ Under the optimistic five-fold and the pessimistic
 no-discrimination bound on RNase-H1 single-mismatch discrimination. A single value means the two
@@ -216,20 +221,27 @@ bounds agree.
 ⁶ Whether the design still carries no
 sense-strand near-match once its junction is re-screened at the tenfold deeper ceiling. The verdict
 is computed from the three deep columns beside it, not asserted, so this table cannot come to
-disagree with §2.4 about which designs survive. The six that do not are the reason this table's
+disagree with §2.4 about which designs survive. It is a verdict on that screen alone and not on the
+parent screen of note ⁷. The six that do not are the reason this table's
 default-depth zeros must not be read on their own.
 
-| design | junction | GC (%) | gap-level margin | ΔΔG°37 (kcal/mol) | near-matches, either strand | of those, on the sense strand | exact / ≤1-mismatch matches | residual cleavage load, both bounds⁴ | conventional rules failed⁵ | at the deeper ceiling: near-matches | of those, on the sense strand | loci with a gap-paired hit | survives⁶ |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 5′-GCATATCCGTGGACGC-3′ | EWSR1 e1::NR4A3 e3 | 62.5 | 1 | 7.981 | 0 | 0 | 0 / 0 | 0 | GC outside 40–60%, contains a CpG | 84 | 83 | 1 | **no** |
-| 5′-GGCATATCCGTGGACG-3′ | EWSR1 e1::NR4A3 e3 | 62.5 | 2 | 10.085 | 0 | 0 | 0 / 0 | 0 | GC outside 40–60%, contains a CpG | 29 | 22 | 0 | **no** |
-| 5′-GGGCATATCCGTGGAC-3′ | EWSR1 e1::NR4A3 e3 | 62.5 | 3 | 12.189 | 0 | 0 | 0 / 0 | 0 | GC outside 40–60%, contains a CpG | 27 | 18 | 0 | **no** |
-| 5′-AGGGCATATCGGAGTC-3′ | FUS e8::NR4A3 e3 | 56.2 | 2 | 10.895 | 3 | 0 | 0 / 0 | 0 | contains a CpG | 3 | 0 | 0 | yes |
-| 5′-GGGCATATCCGACATG-3′ | TAF15 e1::NR4A3 e3 | 56.2 | 3 | 11.894 | 5 | 0 | 0 / 0 | 0 | contains a CpG | 5 | 0 | 0 | yes |
-| 5′-GGGCATATCTCTATAA-3′ | TCF12 e17::NR4A3 e3 | 37.5 | 3 | 8.556 | 8 | 0 | 0 / 0 | 0 | GC outside 40–60% | 118 | 101 | 5 | **no** |
-| 5′-GCATATCAAGCGCTGC-3′ | TCF12 e7::NR4A3 e3 | 56.2 | 1 | 7.980 | 1 | 0 | 0 / 0 | 0 | contains a CpG | 18 | 2 | 0 | **no** |
-| 5′-GGCATATCAAGCGCTG-3′ | TCF12 e7::NR4A3 e3 | 56.2 | 2 | 10.085 | 2 | 0 | 0 / 0 | 0 | contains a CpG | 2 | 0 | 0 | yes |
-| 5′-CAGGGCATATCTTGCA-3′ | TCF12 e9::NR4A3 e3 | 50.0 | 1 | 9.325 | 7 | 0 | 0 / 0 | 0 | none | 67 | 18 | 4 | **no** |
+⁷ The longest contiguous duplex a wild-type
+parent gene forms through this design's whole catalytic gap, with the gene that forms it. ⚑ marks
+ten base pairs or more, the criterion applied throughout: **do not order a design marked ⚑** —
+pairing a parent through the whole gap is this paper's central negative and surrenders the only
+advantage the modality has. An unmarked row is not a clearance, only a reading at that one cut.
+
+| design | junction | GC (%) | gap-level margin | ΔΔG°37 (kcal/mol) | near-matches, either strand | of those, on the sense strand | exact / ≤1-mismatch matches | residual cleavage load, both bounds⁴ | conventional rules failed⁵ | at the deeper ceiling: near-matches | of those, on the sense strand | loci with a gap-paired hit | longest wild-type parent duplex through the gap (bp)⁷ | survives the near-match screen⁶ |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 5′-GCATATCCGTGGACGC-3′ | EWSR1 e1::NR4A3 e3 | 62.5 | 1 | 7.981 | 0 | 0 | 0 / 0 | 0 | GC outside 40–60%, contains a CpG | 84 | 83 | 1 | 12 (*EWSR1*) ⚑ | **no** |
+| 5′-GGCATATCCGTGGACG-3′ | EWSR1 e1::NR4A3 e3 | 62.5 | 2 | 10.085 | 0 | 0 | 0 / 0 | 0 | GC outside 40–60%, contains a CpG | 29 | 22 | 0 | 11 (*EWSR1*) ⚑ | **no** |
+| 5′-GGGCATATCCGTGGAC-3′ | EWSR1 e1::NR4A3 e3 | 62.5 | 3 | 12.189 | 0 | 0 | 0 / 0 | 0 | GC outside 40–60%, contains a CpG | 27 | 18 | 0 | 0 | **no** |
+| 5′-AGGGCATATCGGAGTC-3′ | FUS e8::NR4A3 e3 | 56.2 | 2 | 10.895 | 3 | 0 | 0 / 0 | 0 | contains a CpG | 3 | 0 | 0 | 0 | yes |
+| 5′-GGGCATATCCGACATG-3′ | TAF15 e1::NR4A3 e3 | 56.2 | 3 | 11.894 | 5 | 0 | 0 / 0 | 0 | contains a CpG | 5 | 0 | 0 | 0 | yes |
+| 5′-GGGCATATCTCTATAA-3′ | TCF12 e17::NR4A3 e3 | 37.5 | 3 | 8.556 | 8 | 0 | 0 / 0 | 0 | GC outside 40–60% | 118 | 101 | 5 | 7 (*TCF12*) | **no** |
+| 5′-GCATATCAAGCGCTGC-3′ | TCF12 e7::NR4A3 e3 | 56.2 | 1 | 7.980 | 1 | 0 | 0 / 0 | 0 | contains a CpG | 18 | 2 | 0 | 12 (*TCF12*) ⚑ | **no** |
+| 5′-GGCATATCAAGCGCTG-3′ | TCF12 e7::NR4A3 e3 | 56.2 | 2 | 10.085 | 2 | 0 | 0 / 0 | 0 | contains a CpG | 2 | 0 | 0 | 11 (*TCF12*) ⚑ | yes |
+| 5′-CAGGGCATATCTTGCA-3′ | TCF12 e9::NR4A3 e3 | 50.0 | 1 | 9.325 | 7 | 0 | 0 / 0 | 0 | none | 67 | 18 | 4 | 12 (*NR4A3*) ⚑ | **no** |
 
 **Table 5. Every seam the coverage ladder qualifies, with the ladder's bounds and §4's two contrast
 arms beside them, what each costs on each screen and what each buys in coverage.** The rows are in the order §4 decides them:

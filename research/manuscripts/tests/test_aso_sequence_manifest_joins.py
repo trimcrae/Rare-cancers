@@ -119,9 +119,25 @@ def test_geometry_uses_one_spelling_per_architecture():
 
 
 def test_every_condemned_design_survives_a_filter_on_its_own_geometry():
-    """The filter-safety property, stated as the hazard rather than as the spelling."""
+    """The filter-safety property, stated as the hazard rather than as the spelling.
+
+    ⚠ THE COUNT WAS 3 AND IS NOW 252, DELIBERATELY (2026-08-19). `do_not_order` used to carry only
+    the three designs that pair the patient's own un-rearranged *NR4A3* allele. A blind
+    order-walkthrough then followed the one selection rule the paper states for this file — rank by
+    gap-level margin — and it returned designs pairing a wild-type PARENT through the whole gap,
+    which Table 3 marks do-not-order and this file said nothing about. Every such row is flagged
+    now. The property this test exists for was never the count; it is that a condemned design
+    cannot be dropped by a filter on its own geometry, so the count assertion is replaced by one on
+    the class that has a fixed size.
+    """
     condemned = [r for r in ROWS if r["do_not_order"]]
-    assert len(condemned) == 3, f"expected 3 do_not_order designs, found {len(condemned)}"
+    assert condemned, "no design is condemned at all — the column has stopped being written"
+    allele = [r for r in condemned if "un-rearranged" in r["do_not_order"]]
+    assert len(allele) == 3, (
+        f"the un-rearranged-allele class is {len(allele)}, not 3; §2.6 names exactly three")
+    parent = [r for r in condemned if "wild-type parent gene" in r["do_not_order"]]
+    assert len(parent) == len(condemned) - len(allele) and parent, (
+        "every condemned row must carry one of the two stated reasons")
     for r in condemned:
         kept = [x for x in ROWS if x["geometry"] == r["geometry"]]
         assert r in kept, (

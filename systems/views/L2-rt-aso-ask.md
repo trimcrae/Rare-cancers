@@ -95,13 +95,13 @@ It is a specified but UNCOSTED experimental proposal (fusion-junction-aso-workin
 
 ## Where this route ends — the paper
 
-**[PUB-ASO](L3-publications.md)** — [Nearly half of junction-spanning gapmer designs against the NR4A3 fusions of extraskeletal myxoid chondrosarcoma pair a wild-type parent gene, and a longer catalytic gap cannot separate them](../../research/manuscripts/aso/fusion-junction-aso-research-article.md)
+**[PUB-ASO](L3-publications.md)** — [Nearly half of junction-spanning gapmer designs against the NR4A3 fusions of extraskeletal myxoid chondrosarcoma pair a wild-type parent gene, and a longer catalytic gap trades gap-level margin against parent-paired gap DNA](../../research/manuscripts/aso/fusion-junction-aso-research-article.md)
 
 `contributing` · ◐ `drafted` · aimed at `preprint`
 
 **This route contributes:** The decisive experiment, specified inside the paper and sent with it: junction knockdown with wild-type sparing in an EMC line. Without it the paper states a specificity result with no named way to falsify it at a bench.
 
-**The paper would claim:** The NR4A3 fusion junction is the one tumour-exclusive feature of this disease at the RNA level and an oligonucleotide can be designed to read it rather than a shape — but the screen that matters returns a NEGATIVE: 87 of 190 junction-spanning gapmer designs let a mature wild-type parent transcript pair their whole catalytic gap over at least ten contiguous base pairs, 61 of them against wild-type NR4A3 itself, and lengthening the catalytic gap cannot separate the two for an arithmetic rather than an empirical reason. Delivery is named as an outstanding gate rather than assumed away, and nothing here has been synthesised or tested.
+**The paper would claim:** The NR4A3 fusion junction is the one tumour-exclusive feature of this disease at the RNA level and an oligonucleotide can be designed to read it rather than a shape — but the screen that matters returns a NEGATIVE: 87 of 190 junction-spanning gapmer designs let a mature wild-type parent transcript pair their whole catalytic gap over at least ten contiguous base pairs, 61 of them against wild-type NR4A3 itself, and lengthening the catalytic gap trades gap-level margin against parent-paired gap DNA for an arithmetic rather than an empirical reason, so it raises the margin available without removing the liability. Delivery is named as an outstanding gate rather than assumed away, and nothing here has been synthesised or tested.
 
 ## Strategic timing — the wait equation
 

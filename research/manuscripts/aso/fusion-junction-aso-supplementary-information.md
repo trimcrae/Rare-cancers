@@ -107,7 +107,7 @@ The two screens §6 records as unfiltered are modelled control junctions built i
 than transcript coordinates. They carry no junction from the 38-junction panel, and no count
 reported anywhere in the main text is taken from them.
 
-## S6 · The coverage ladder's second basis, and two zero-contribution junctions
+## S6 · The coverage ladder's second basis, and four zero-contribution junctions
 
 Table 5 prices every rung on the breakpoint distribution of a single 18-case
 series,<sup>22</sup><!--PMID:12378528--> which is the basis 68.4% is computed on. Every figure in
@@ -121,8 +121,8 @@ breakpoint reaches 94.8% of molecularly confirmed cases and stops, so no panel r
 two partners reaches 95%, and the remaining reachable cases are the two *TCF12* tumours that the
 fourth reagent of §4.1 addresses.
 
-Nine junctions now carry both a published exon-resolved breakpoint and a design through all five
-screens, with the *PGR* seam's pre-mRNA compartment unmeasured for the reason main text §2.6 gives,
+Nine junctions now carry a published exon-resolved breakpoint and a screened design, eight of them
+through all five screens, with the *PGR* seam's pre-mRNA compartment unmeasured for the reason main text §2.6 gives,
 and four of them sit outside the 38-junction panel, at the *NR4A3* exon-2 acceptors of §2.6. Four
 of the nine move the estimate; one moves only the bound, its arm having no measured
 within-partner distribution; and four move it by nothing at all — two because their partner is
@@ -150,7 +150,11 @@ four of the five for the *PGR* seam whose pre-mRNA compartment is unmeasured rat
 text §2.6) — and one qualifying junction, *PGR* exon 2 to *NR4A3* exon 2, reported in a single
 patient,<sup>28</sup><!--PMID:36103645--> moves the figure by exactly zero, because the 58-case
 cohort behind the denominator contains no *PGR* case for such a reagent to engage. The further
-caveat on that reagent — a sixth partner, with no transcript accession of its own — is in §2.6.
-*TFG* exon 7 to *NR4A3* exon 3 is the second, on the same ground and from a deposited cDNA rather
-than a report. What that reagent changes is which patients are reachable at all, which is a
+caveat on that reagent — a sixth partner, outside the five the panel models, whose seam is screened
+against the non-canonical-acceptor table rather than through the panel's transcript models — is in
+§2.6, which also points at the accession §6 lists for it.
+*TFG* exon 7 to *NR4A3* exon 3 is the second of that pair, on the same ground and from a deposited
+cDNA rather than a report. Those two are the partner-absent half of the four that add nothing; the
+other two have their partner present in the cohort and their exon pair carrying no count in it.
+What such a reagent changes is which patients are reachable at all, which is a
 different statement and is not added to a coverage percentage.

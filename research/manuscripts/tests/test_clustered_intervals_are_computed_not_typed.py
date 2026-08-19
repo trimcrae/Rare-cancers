@@ -132,6 +132,10 @@ def test_the_nr4a3_arms_design_effect_is_below_one_and_the_paper_says_which_way_
         f"the *NR4A3* arm's design effect is now {deff:.3f}, not below one. §2.5 reports the "
         "nominal interval there BECAUSE clustering would narrow it; that sentence is now wrong")
     txt = _paper()
-    assert f"the design effect here is {deff:.2f} rather than" in txt
+    #: ⚠ RE-ANCHORED 2026-08-19: "arm" carried five senses in this paper, two of them alternating
+    #: inside this very paragraph — a drawn null ensemble and an observed sub-analysis — while their
+    #: rates were being compared. The *NR4A3* one is now "sub-analysis" and "arm" is left to the
+    #: nulls, so the pin follows the wording rather than holding the collision in place.
+    assert f"its design effect is {deff:.2f} rather than" in txt
     assert "A design effect below one would narrow the interval" in txt, (
         "the reason the nominal interval is reported for this arm has been dropped")

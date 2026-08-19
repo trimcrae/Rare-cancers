@@ -1479,6 +1479,18 @@ def table4(collapse, chance, thermo, graded):
     for r in chance["per_design"]:
         le1.setdefault(r["antisense_5to3"], (r.get("offtarget_exact"), r.get("offtarget_le1mm")))
     deep = _deep_lookup()
+    # ⛔⛔ THE PARENT-DUPLEX COLUMN IS HERE BECAUSE THIS TABLE CONDEMNED NOTHING AND LOOKED LIKE IT
+    # CLEARED EVERYTHING (blind order-walkthrough, 2026-08-19). Table 3 marks a design ⚑ "do not
+    # order" where a wild-type parent pairs the whole catalytic gap at ten base pairs or more.
+    # FIVE of this table's nine rows are marked ⚑ four pages earlier — `GCATATCCGTGGACGC` at 12 bp
+    # against EWSR1, `GGCATATCCGTGGACG` at 11, `GCATATCAAGCGCTGC` at 12 against TCF12,
+    # `GGCATATCAAGCGCTG` at 11, `CAGGGCATATCTTGCA` at 12 against NR4A3 itself — and this table
+    # printed every one of them with no marker of any kind and a final column reading "yes".
+    # A reader who reached Table 4 first, which its own §2.4 citation invites, met five condemned
+    # molecules presented as survivors. The correction existed only as prose in §2.4 and §2.7.
+    # ⚠ AND THE VERDICT COLUMN IS RENAMED RATHER THAN LEFT TO CARRY THE WHOLE WEIGHT. "survives"
+    # was always a near-match verdict — no sense-strand near-match at the deeper ceiling — and
+    # never a statement about the parent screen. The header now says which screen it is.
     hdr = ("| design | junction | GC (%) | gap-level margin | ΔΔG°37 (kcal/mol) | near-matches, "
            "either strand | of those, on the sense strand | exact / ≤1-mismatch matches | residual "
            # ⛔ CONTINUES TABLE 3's RUN. Markers are unique across the file so a lifted table cannot
@@ -1486,8 +1498,13 @@ def table4(collapse, chance, thermo, graded):
            # note on Table 3's header, which used to leave ³ and ⁴ dangling inside Table 3.
            "cleavage load, both bounds⁴ | conventional rules failed⁵ | "
            "at the deeper ceiling: near-matches | of those, on the sense strand | "
-           "loci with a gap-paired hit | survives⁶ |")
-    sep = "|---|---|---|---|---|---|---|---|---|---|---|---|---|---|"
+           "loci with a gap-paired hit | longest wild-type parent duplex through the gap (bp)⁷ | "
+           "survives the near-match screen⁶ |")
+    sep = "|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|"
+    parent_dup = {}
+    for r in (_load("aso-parent-gap-pairing.json") or {}).get("per_design") or []:
+        parent_dup[(r["junction"], r["antisense_5to3"])] = (
+            r.get("longest_parent_duplex_bp_through_gap"), r.get("parent"))
     rows = []
     for lab, o in _clean_designs(collapse):
         seq = o["antisense_5to3"]
@@ -1517,7 +1534,8 @@ def table4(collapse, chance, thermo, graded):
             f"{o.get('n_offtarget_near_matches')} | "
             f"{_hybridisable(o)} | {ex} / {l1} | "
             f"{'—' if load is None else load} | "
-            f"{', '.join(failed) if failed else 'none'} | {deep_cell} | {verdict} |")
+            f"{', '.join(failed) if failed else 'none'} | {deep_cell} | "
+            f"{_parent_dup_cell(parent_dup.get((lab, seq)))} | {verdict} |")
     return "\n".join([hdr, sep] + rows), len(rows), len({lab for lab, _ in _clean_designs(collapse)})
 
 
@@ -1764,7 +1782,11 @@ def main(argv=None):
                  "prints each junction's highest-margin design rather than its cleanest. Do "
                  "not order the sequence in a row marked ⚑ — pairing a parent through the "
                  "whole gap is this paper's central negative (§4.5) and surrenders the only "
-                 "advantage the modality has.")
+                 "advantage the modality has. An unmarked row is not a clearance. The marker is "
+                 "set at ten base pairs, which is a criterion this work adopts rather than "
+                 "measures: at seven, 175 of the 190 panel designs pair a parent through the "
+                 "whole gap, and 181 do so at any length (§2.9). Absence of ⚑ is a reading at "
+                 "one cut and nothing wider.")
 
     doc = f"""<!-- GENERATED — DO NOT EDIT. Regenerate: python3 research/manuscripts/submission_tables.py -->
 
@@ -1878,13 +1900,23 @@ mature-parent duplexes of §2.5, whose duplex for 59 of the 87 is not elsewhere 
 runs past the seam into the wild-type *NR4A3* exon-2/exon-3 junction. Because the fusion duplex pairs
 both LNA wings and each parent duplex only one, it is a lower bound on the modified
 oligonucleotide's discrimination rather than an upper one. None of these numbers is a measurement of off-target
-activity, and none speaks to cleavage. {_ordering_clause()}\n\n⁴ Under the optimistic five-fold and the pessimistic
+activity, and none speaks to cleavage. **This table condemns nothing and clears nothing.** Its final
+column is a verdict from ONE screen, the near-match screen, and five of these rows carry the ⚑ of
+the mature-parent screen: a wild-type parent pairs their whole catalytic gap at the ten-base-pair
+criterion, which is this paper's central negative, and Table 3 marks them do-not-order for it. A
+design can survive every near-match screen here and still be one not to order.
+{_ordering_clause()}\n\n⁴ Under the optimistic five-fold and the pessimistic
 no-discrimination bound on RNase-H1 single-mismatch discrimination. A single value means the two
 bounds agree.\n\n⁵ {_rule_audit_note()}\n\n⁶ Whether the design still carries no
 sense-strand near-match once its junction is re-screened at the tenfold deeper ceiling. The verdict
 is computed from the three deep columns beside it, not asserted, so this table cannot come to
-disagree with §2.4 about which designs survive. The six that do not are the reason this table's
-default-depth zeros must not be read on their own.
+disagree with §2.4 about which designs survive. It is a verdict on that screen alone and not on the
+parent screen of note ⁷. The six that do not are the reason this table's
+default-depth zeros must not be read on their own.\n\n⁷ The longest contiguous duplex a wild-type
+parent gene forms through this design's whole catalytic gap, with the gene that forms it. ⚑ marks
+ten base pairs or more, the criterion applied throughout: **do not order a design marked ⚑** —
+pairing a parent through the whole gap is this paper's central negative and surrenders the only
+advantage the modality has. An unmarked row is not a clearance, only a reading at that one cut.
 
 {t4}
 

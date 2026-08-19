@@ -549,8 +549,14 @@ def test_the_manuscripts_best_supported_figure_is_the_artifacts_and_does_not_dis
     # and is now its only home. The property guarded is unchanged — the manuscript must carry the
     # count this row derives and no other — so the assertion follows the sentence. Matched
     # case-insensitively because the surviving phrasing opens a sentence.
-    assert f"{_WORD[n]} junctions now carry both a published exon-resolved breakpoint and a " \
-           "design through all five screens" in txt.lower()
+    #: ⛔ RE-ANCHORED 2026-08-19, AND THE OLD SENTENCE WAS WRONG. It read "nine junctions now
+    #: carry both a published exon-resolved breakpoint and a design through all five
+    #: screens", while its own next clause says the *PGR* seam is graded on FOUR of the five.
+    #: A cross-document audit caught SI §S6 asserting nine where §4.1 says eight-of-nine. The
+    #: membership count this row derives is unchanged at nine; what the nine all carry is a
+    #: SCREENED design, and eight of them clear all five.
+    assert f"{_WORD[n]} junctions now carry a published exon-resolved breakpoint and a " \
+           "screened design" in txt.lower()
     # ⛔ THE ZERO-CONTRIBUTING MEMBER MUST BE NAMED AS CONTRIBUTING ZERO. Reading it as a small
     # positive contribution is exactly the error the row's own note refuses.
     # ⛔ EVERY zero-contributor must be named, not just the first. TFG joined this list when a
@@ -617,7 +623,13 @@ def test_the_type3_limitation_states_unlocated_and_not_undesignable():
     assert {r["n_gap_centered"] for r in rows} == {3}, rows
     assert {r["best_gap_specificity_margin"] for r in rows} == {3}, rows
     assert all(r["n_fusion_specific"] == r["n_tiled"] for r in rows), rows
-    assert "returns five candidates, all fusion-specific against both parents, three gap-centred " \
+    #: ⚠ "candidates" -> "builder outputs" (vocabulary audit, 2026-08-19). The paper used
+    #: "candidate" in three senses: §2.7's screened set of three, Box 1/§4.5's "a candidate,
+    #: not a validated reagent" for whatever the procedure emits, and this — five designs the
+    #: builder returned that have cleared no screen at all. §4.4 then calls §2.7's three
+    #: "mechanism controls rather than candidates", so the word was carrying a verdict it had
+    #: not earned here. The count and every property beside it are unchanged.
+    assert "returns five builder outputs, all fusion-specific against both parents, three gap-centred " \
            "and a best gap-level margin of 3" in txt
     assert "Such a breakpoint is not undesignable" in txt
     assert "What such a junction lacks is an exon index" in txt

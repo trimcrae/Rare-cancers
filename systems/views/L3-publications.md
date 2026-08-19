@@ -86,11 +86,11 @@ Coincidence detection across both halves of the fusion is a design that would co
 |---|---|---|
 | [RT-ANDGATE](L2-rt-andgate.md) — AND-gate bivalent degrader (avidity coincidence dete | `primary` | The coincidence-detection design and the statement of exactly what does not exist for it to be built. |
 
-### PUB-ASO — Nearly half of junction-spanning gapmer designs against the NR4A3 fusions of extraskeletal myxoid chondrosarcoma pair a wild-type parent gene, and a longer catalytic gap cannot separate them
+### PUB-ASO — Nearly half of junction-spanning gapmer designs against the NR4A3 fusions of extraskeletal myxoid chondrosarcoma pair a wild-type parent gene, and a longer catalytic gap trades gap-level margin against parent-paired gap DNA
 
 **◐ `drafted` · aimed at `preprint` · [`research/manuscripts/aso/fusion-junction-aso-research-article.md`](../../research/manuscripts/aso/fusion-junction-aso-research-article.md)**
 
-The NR4A3 fusion junction is the one tumour-exclusive feature of this disease at the RNA level and an oligonucleotide can be designed to read it rather than a shape — but the screen that matters returns a NEGATIVE: 87 of 190 junction-spanning gapmer designs let a mature wild-type parent transcript pair their whole catalytic gap over at least ten contiguous base pairs, 61 of them against wild-type NR4A3 itself, and lengthening the catalytic gap cannot separate the two for an arithmetic rather than an empirical reason. Delivery is named as an outstanding gate rather than assumed away, and nothing here has been synthesised or tested.
+The NR4A3 fusion junction is the one tumour-exclusive feature of this disease at the RNA level and an oligonucleotide can be designed to read it rather than a shape — but the screen that matters returns a NEGATIVE: 87 of 190 junction-spanning gapmer designs let a mature wild-type parent transcript pair their whole catalytic gap over at least ten contiguous base pairs, 61 of them against wild-type NR4A3 itself, and lengthening the catalytic gap trades gap-level margin against parent-paired gap DNA for an arithmetic rather than an empirical reason, so it raises the margin available without removing the liability. Delivery is named as an outstanding gate rather than assumed away, and nothing here has been synthesised or tested.
 
 **Blocks on the PAPER** — deliberately not the same set its routes inherit, because a route can be blocked on a capability while its paper is publishable today as an honest negative:
 

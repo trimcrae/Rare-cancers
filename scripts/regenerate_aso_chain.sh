@@ -137,8 +137,19 @@ run_step() {
       unverified="$unverified $label"
     fi
   else
-    eval "$cmd" >/dev/null 2>&1 || { echo "   FAILED: $cmd"; fail=1; }
-    echo "   ok"
+    # ⛔ THE `ok` USED TO BE UNCONDITIONAL (2026-08-19). A step that failed printed
+    #     == prior-art evidence
+    #        FAILED: python3 .../aso_priorart_evidence.py
+    #        ok
+    # The final verdict was still right, but a reader scanning the per-step column saw `ok` against
+    # the step that had just failed — and this script is what the manuscript's Availability
+    # statement tells a reader to run and read.
+    if eval "$cmd" >/dev/null 2>&1; then
+      echo "   ok"
+    else
+      echo "   FAILED: $cmd"
+      fail=1
+    fi
   fi
 }
 

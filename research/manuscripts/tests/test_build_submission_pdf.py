@@ -193,7 +193,14 @@ def test_front_matter_captures_whole_paragraphs_not_first_lines(journal):
         # adopted-not-measured criterion, the by-construction share of the gap-length result,
         # and that the designs surviving every screen sit at no reported patient breakpoint).
         # The whole-paragraph property this assertion exists for is unchanged.
-        "so a design can be made for a breakpoint outside this panel.")
+        # ⛔ RE-PINNED AGAIN 2026-08-19, and this time the sentence was SHORTENED rather than moved.
+        # A negative-calibration reader and a statistical re-derivation between them found four more
+        # qualifications the abstract owed — search depth moving the headline, 87 of 190 being a
+        # rate over designs where a laboratory picks one register per junction, every null being
+        # computed at the ten-base-pair cut alone, and the three condemned designs sitting outside
+        # the panel — so 25 words were cut elsewhere to pay for them, this sentence among them.
+        # The whole-paragraph property is untouched; only its last five words moved.
+        "The design and screening pipeline is released for breakpoints outside this panel.")
     # ⛔ AND THE ORDERING IS THE POINT, so it is asserted rather than left to the tail above: the
     # disclaimer and the research-use statement must both PRECEDE the first named sequence. A future
     # edit that moves either behind the sequences reinstates round 7's P0.8 and P0.6 together, and

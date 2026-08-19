@@ -30,7 +30,24 @@ MANUSCRIPTS = os.path.abspath(os.path.join(HERE, ".."))
 PAPER = os.path.join(MANUSCRIPTS, "aso", "fusion-junction-aso-research-article.md")
 
 #: Not a venue limit — bioRxiv has none. A drift bound; see the module docstring.
-ABSTRACT_DRIFT_BOUND = 380
+#:
+#: ⚠ RAISED 380 → 400 ON 2026-08-19, DELIBERATELY AND WITH THE REASON, WHICH IS WHAT THE DOCSTRING
+#: ABOVE ASKS FOR. Four separate readers, working from four different briefs, each found the
+#: abstract stating something the body qualifies, and each qualification was owed:
+#:   · search depth moves the headline — six of nine "clean" designs are not clean at ten times
+#:     the default ceiling, and the abstract said nothing about depth at all;
+#:   · 87 of 190 is a rate over DESIGNS, while a laboratory picks one register at its own junction,
+#:     where 35 of 38 junctions have a design that clears the screen;
+#:   · every null rate quoted is computed at the ten-base-pair cut only, so the seven-base-pair
+#:     reading printed beside them has no chance baseline;
+#:   · the three condemned designs sit OUTSIDE the 38-junction panel and are passed by the
+#:     mature-parent screen, which is what makes them interesting and was not said.
+#: The abstract was trimmed by 25 words first — the pipeline sentence, the lead-reagent tail, the
+#: chimera gloss and the depth clause all shortened — and 386 is what remains after that. This is
+#: the bound doing its job (it forced the trim) rather than being loosened to avoid one. 400 is not
+#: an invitation: the next reader asking for a fifth qualification should be answered by cutting
+#: something, and if the abstract reaches 400 the question is which Result it has absorbed.
+ABSTRACT_DRIFT_BOUND = 400
 
 
 def _abstract():

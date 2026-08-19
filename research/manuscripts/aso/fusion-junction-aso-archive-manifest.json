@@ -9,13 +9,13 @@
     "Not a claim that the archived predictions are correct. Every count in the deposit is a prediction from sequence search; no off-target activity and no RNase-H cleavage was measured anywhere in this work.",
     "Not a licence statement. The depositor chooses the licence at step 4 below."
   ],
-  "git_revision": "939f9ae4d4930c26de2aa52b0bf631795a19150e",
+  "git_revision": "cef2437cc74b6e41bc535da71b1d6372c95a699f",
   "git_tree_is_clean_apart_from_this_manifest": false,
   "inventory_limited_to_tracked_files": true,
-  "archive_content_digest": "a6bf1a8db036c80a4735349938ab95f980ba3e5799b6f1e250f27cd6be14c828",
-  "n_files": 383,
-  "total_bytes": 24043508,
-  "total_mib": 22.93,
+  "archive_content_digest": "da6e873a4d1f1689056396bf61651922179f3635fc33fcff283e0ab7e42b267c",
+  "n_files": 384,
+  "total_bytes": 24207237,
+  "total_mib": 23.086,
   "how_to_deposit_and_mint_the_doi": [
     "1. Check out the revision named in `git_revision` and confirm `git status` is clean. The manifest's hashes are only meaningful against that tree.",
     "2. Re-run this module (`python3 research/manuscripts/aso_archive_manifest.py --check`). A non-zero exit means the tree moved after the manifest was written; regenerate before depositing.",
@@ -118,6 +118,16 @@
     ]
   },
   "promises": [
+    {
+      "id": "reproduction_command",
+      "promise_text": "the regeneration chain the Availability statement names",
+      "n_files": 1,
+      "files": [
+        "scripts/regenerate_aso_chain.sh"
+      ],
+      "_promise_still_in_manuscript": false,
+      "⛔_UNMAPPED": false
+    },
     {
       "id": "graded_junction_atlas",
       "promise_text": "the graded junction atlas",
@@ -757,8 +767,8 @@
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-cover-letter.md",
-      "bytes": 9450,
-      "sha256": "d0b6130ea88efd233646db322b04adfaa67a2fa061fcf85fcc8e3c2463e2ace1",
+      "bytes": 9483,
+      "sha256": "78f714247abd82f2c0686038ab5dd73c4611de8c1d6aeb19898807ae652e0c55",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
@@ -797,24 +807,24 @@
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-research-article.md",
-      "bytes": 178472,
-      "sha256": "10862bd90a6282e96f416d82963a8ef3cdb4cb90de1db161e70cced75c620f88",
+      "bytes": 188574,
+      "sha256": "e249dc66886cc65ea270f4ba2bc46b2ea8280ceb07a0b6fcdc6049fac052bd55",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-sequences.csv",
-      "bytes": 73240,
-      "sha256": "6bfed1e5ea48dc2d250e70e09292d4643a719ee8441871b81502cdd5bf38e9a0",
+      "bytes": 115400,
+      "sha256": "927c0b8385a0e596cafd261cd6b67a473a0480d5d92c6874538635a32b451a52",
       "serves": "canonical_sequence_record",
       "also_serves": [],
       "contributes": "Every design the three deposit documents name, in CSV and FASTA, with its geometry, junction, gap-level margin, longest wild-type-parent duplex and an explicit do-not-order flag on the three designs that pair their whole catalytic gap against the un-rearranged NR4A3 allele. The generator refuses to build if any sequence the documents print is absent, so the file cannot quietly stop being canonical."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-sequences.fasta",
-      "bytes": 99162,
-      "sha256": "b07c9186c842ea66a571c886650cc0c466a7aaad5dbce4df523f7e297f9029d8",
+      "bytes": 179587,
+      "sha256": "4da1410a177f104d1fb0591e1ed3e4ccbc9a901bd03da4bca9c606712b27961e",
       "serves": "canonical_sequence_record",
       "also_serves": [],
       "contributes": "Every design the three deposit documents name, in CSV and FASTA, with its geometry, junction, gap-level margin, longest wild-type-parent duplex and an explicit do-not-order flag on the three designs that pair their whole catalytic gap against the un-rearranged NR4A3 allele. The generator refuses to build if any sequence the documents print is absent, so the file cannot quietly stop being canonical."
@@ -837,16 +847,16 @@
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-submission-tables.md",
-      "bytes": 51096,
-      "sha256": "eb5822e26ceb51c625f9ef036f0ae1e5d9075e363d37d8f9553687a5c43c4b64",
+      "bytes": 52558,
+      "sha256": "1eb391cf89b7a6abab3d4957349b638848d9ca0e742fd5f8cd4c25d3d150943f",
       "serves": "per_design_tables",
       "also_serves": [],
       "contributes": "The manuscript tables and the generator that derives every cell of them from the artifacts, plus the per-locus re-count and the chance baseline the tables and the chance-expectation panel are read from."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-supplementary-information.md",
-      "bytes": 10813,
-      "sha256": "06dd3786c545a0312969647cf24e4657ca88a9c2d3c94b4dfcebfbb909f2ddb7",
+      "bytes": 11178,
+      "sha256": "4f0e0dcff69c6b6a621f7fc65268a2e61689b8a4cfaf9d3ea9b38623b7592113",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
@@ -893,8 +903,8 @@
     },
     {
       "path": "research/manuscripts/aso_archive_manifest.py",
-      "bytes": 69497,
-      "sha256": "98bade41a69534e5a6266febcabe6fb8313e6c787d296cf282cd83cba195ad98",
+      "bytes": 70628,
+      "sha256": "50f2e1da74b13b4d4550bf85ef16502e5258c995b2602df1f5bc66cb410255e5",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
@@ -909,8 +919,8 @@
     },
     {
       "path": "research/manuscripts/aso_sequence_manifest.py",
-      "bytes": 24980,
-      "sha256": "235363a2f5aa15ef176d4af50f86375575c3f3214c19d453bb90997e13de5761",
+      "bytes": 33697,
+      "sha256": "407eb632ec13fe8dcb3d7fef227d37c20de47d31e0ca7114c4673010109d5ce2",
       "serves": "canonical_sequence_record",
       "also_serves": [],
       "contributes": "Every design the three deposit documents name, in CSV and FASTA, with its geometry, junction, gap-level margin, longest wild-type-parent duplex and an explicit do-not-order flag on the three designs that pair their whole catalytic gap against the un-rearranged NR4A3 allele. The generator refuses to build if any sequence the documents print is absent, so the file cannot quietly stop being canonical."
@@ -1077,8 +1087,8 @@
     },
     {
       "path": "research/manuscripts/submission_tables.py",
-      "bytes": 139825,
-      "sha256": "07216abc84a022bc6ceb90980d15f4b2df7ae1e19e4d85b278f99a5966b98c72",
+      "bytes": 142726,
+      "sha256": "c4fd89dd6cc3982c5235f263f42941ac089587490896e22040fad4af4c934764",
       "serves": "per_design_tables",
       "also_serves": [],
       "contributes": "The manuscript tables and the generator that derives every cell of them from the artifacts, plus the per-locus re-count and the chance baseline the tables and the chance-expectation panel are read from."
@@ -3787,8 +3797,8 @@
     },
     {
       "path": "research/modalities/tests/test_aso_submission_numbers.py",
-      "bytes": 118183,
-      "sha256": "881df781cf8a226485d3f7eacbef8f145a1b38fec7c6ac49e0ab3d97aa35b061",
+      "bytes": 118653,
+      "sha256": "e599ba6f0f06701df4ff969695d9be5cef59f02a57b48b7839d00935a0632c2e",
       "serves": "reproduction_guards",
       "also_serves": [],
       "contributes": "Test that re-derives a manuscript number from the artifacts and fails if the two diverge; this is the check a reader runs to confirm the archive reproduces the paper."
@@ -3824,6 +3834,14 @@
       "serves": "reproduction_guards",
       "also_serves": [],
       "contributes": "Test that re-derives a manuscript number from the artifacts and fails if the two diverge; this is the check a reader runs to confirm the archive reproduces the paper."
+    },
+    {
+      "path": "scripts/regenerate_aso_chain.sh",
+      "bytes": 15963,
+      "sha256": "5438b64880de274984db186c4f73d724d6de25144a848bd03cf8fe47bd65dc27",
+      "serves": "reproduction_command",
+      "also_serves": [],
+      "contributes": "Re-derives every offline-derivable artefact below in dependency order and re-runs the consistency, citation and style gates; the command a reader is told to run to establish that this archive is current."
     }
   ]
 }
