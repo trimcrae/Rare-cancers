@@ -108,7 +108,7 @@ def load_peptides():
     binders = {b["peptide"]: b for b in bp.get("predicted_binders_ranked", [])}
     peps = {}
     for jn in bp.get("junctions", []):
-        label = jn.get("label") or jn.get("junction") or jn.get("id") or "?"
+        label = jn.get("junction_label") or jn.get("label") or jn.get("id") or "?"
         for p in jn.get("novel_peptides", []):
             rec = peps.setdefault(p, {"peptide": p, "junctions": [], "predicted_binder": None})
             if label not in rec["junctions"]:
