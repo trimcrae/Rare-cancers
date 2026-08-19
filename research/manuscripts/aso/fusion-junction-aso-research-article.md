@@ -228,7 +228,10 @@ panel designs, and 249 of the 780 records the canonical file holds — the recor
 `mature_parent_duplex_through_gap_bp` column reaches ten, which is the column the count is
 reproducible from. They are marked ⚑ in Tables 3 and 4 and carry `do_not_order` in the canonical
 file. The three designs of the paragraph above carry `do_not_order` for the other reason, so 252
-records carry the flag in all. ⚠ Tables 3 and 4 mark ⚑ every design of this class that they print,
+records carry the flag in all. **⚑ IS THAT VERDICT, WHEREVER IT APPEARS.** A sequence printed with
+⚑ beside it — in a table, in a figure, or inline in the body text — is one this paper says must not
+be ordered or used; the marker means the same thing in prose as it does in a table, and it is never
+decorative. ⚠ Tables 3 and 4 mark ⚑ every design of this class that they print,
 but between them they print only a small minority of it — they are per-junction and per-screen
 selections, not a census — so an absence from those tables is not a clearance and the canonical file
 is the only complete record. Five of the nine designs §2.4 names as

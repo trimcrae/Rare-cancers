@@ -43,7 +43,13 @@ jobs:
       # a wrong-reagent hazard for a paper whose deliverable is orderable oligos, and one that seven
       # rounds of review over the MARKDOWN could not see. Same rule as boto3 and biopython above:
       # the test needs no credentials and no network, so the fix is to install the dependency.
-      - run: pip install pytest numpy scipy pymbar rdkit pyyaml boto3 jsonschema biopython pdfminer.six
+      # ⛔ pypdf ADDED 2026-08-19, AND IT IS NOT OPTIONAL ANY MORE. The submission builder now writes
+      # the PDF outline and the DOI/URL link annotations through pypdf, so without it the builder
+      # itself fails rather than degrading. Two guards in the deposit suite had ALSO been importing
+      # pypdf and pymupdf, neither of which was ever installed here -- so both had been SKIPPING in
+      # CI and reporting green for a check that never ran. They are ported to pdfminer.six; this
+      # line covers the builder.
+      - run: pip install pytest numpy scipy pymbar rdkit pyyaml boto3 jsonschema biopython pdfminer.six pypdf
       # Run the doc linters FIRST and standalone. Both are also asserted inside the pytest
       # suite, but a doc author who breaks one should see the offending file:line as a
       # failing step named after the linter, not a traceback buried in ~1500 tests.
