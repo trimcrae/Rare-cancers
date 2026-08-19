@@ -28,8 +28,12 @@ import submission_citations as S  # noqa: E402
 
 
 def _text():
+    #: ⛔ NOT A SKIP (2026-08-19, lane C2). The submission manuscript is committed, so deleting or
+    #: renaming it used to switch off every citation-provenance check in this file — the class of
+    #: hole the pypdf/pymupdf audit found, where a guard vanishes with its input and reports green.
     if not os.path.exists(S.PAPER):
-        pytest.skip("submission manuscript is not present in this checkout")
+        pytest.fail(f"the submission manuscript is missing at {S.PAPER}. It is committed; without "
+                    "it not one superscript, number or retrieved record in this file is checked.")
     return open(S.PAPER, encoding="utf-8").read()
 
 
@@ -75,8 +79,13 @@ def test_every_cited_paper_has_a_retrieved_bibliographic_record():
 
 
 def test_the_generated_reference_list_matches_the_manuscript():
+    #: ⛔ NOT A SKIP (2026-08-19, lane C2). The generated reference list is a committed artifact
+    #: and it is the deposit's own bibliography; "has not been generated" is not a state a checkout
+    #: can be in, and skipping on it hid the one check that the committed list and the manuscript
+    #: agree about which paper is reference n.
     if not os.path.exists(S.OUT_JSON):
-        pytest.skip("submission reference list has not been generated")
+        pytest.fail(f"the generated reference list is missing at {S.OUT_JSON}. It is committed and "
+                    "it ships with the submission — re-run submission_citations.py --write.")
     d = json.load(open(S.OUT_JSON))
     order = S.assign(S.parse(_text()))
     assert d["numbering"] == {p: n for p, n in order.items()}, (

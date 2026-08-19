@@ -705,8 +705,8 @@ That arm, however, destroys more than the breakpoint, and the excess over it sho
 share attributable to where the disease joins the two genes. A real design's halves do not sit at
 arbitrary interior positions: the donor half ends at an exon 3′ terminus and the *NR4A3* half begins
 at an exon 5′ terminus, because that is what a splice junction is. Drawing both halves at real exon
-termini of the same two transcripts (a syntactically valid exon–exon junction, almost always at an
-exon pair no patient is reported to carry) gives 40.6% (40.1–41.1%), against 45.8% observed, and
+termini of the same two transcripts — a syntactically valid exon–exon junction, almost always at an
+exon pair no patient is reported to carry — gives 40.6% (40.1–41.1%), against 45.8% observed, and
 40.5% (40.0–41.0%) when the *NR4A3* exon-3 acceptor that every junction tiled here uses is excluded
 from the draw altogether. Almost always, not never: the arm draws both termini freely, so 7.7% of
 its 38,000 draws reproduce a panel design's target window exactly and 1.4% land on one of the five
@@ -1081,7 +1081,7 @@ surviving at that junction return three and two.
 ### 2.10 · Duplex thermodynamics and conventional design rules
 
 Scored as free energies (nearest-neighbour values for an unmodified DNA:RNA hybrid, no locked or
-phosphorothioate parameters being applied anywhere in this work (§6)) every one of the 190 designs
+phosphorothioate parameters being applied anywhere in this work (§6) — every one of the 190 designs
 favours the fusion duplex over the better of the two runs a parent can pair at the junction itself,
 by 4.8 to 13.1 kcal/mol with a median of 9.6. The
 comparison is to the seam and not to the transcriptome: the mature-parent duplexes of §2.5, which for

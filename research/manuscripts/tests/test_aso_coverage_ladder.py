@@ -36,8 +36,13 @@ sys.path.insert(0, MAN)
 
 
 def _json(path, what):
+    #: ⛔ NOT A SKIP (2026-08-19, lane C2). All three artifacts this reads — the coverage ladder,
+    #: the reagent-coverage record and the breakpoint census — are committed. A skip on a missing
+    #: one is the pypdf/pymupdf shape: the ladder guards evaporate with their input and the run
+    #: reports green for a check nothing performed.
     if not os.path.exists(path):
-        pytest.skip(f"{what} is not present in this checkout")
+        pytest.fail(f"{what} is missing at {path}. It is a committed artifact, so its absence is a "
+                    "broken tree and not a reason to stop checking the coverage ladder.")
     return json.load(open(path, encoding="utf-8"))
 
 
@@ -565,11 +570,15 @@ SI = os.path.join(MAN, "aso", "fusion-junction-aso-supplementary-information.md"
 
 
 def _paper_flat():
-    if not os.path.exists(PAPER):
-        pytest.skip("the submission manuscript is not present in this checkout")
-    text = open(PAPER, encoding="utf-8").read()
-    if os.path.exists(SI):
-        text += "\n" + open(SI, encoding="utf-8").read()
+    #: ⛔ BOTH HALVES ARE REQUIRED (2026-08-19, lane C2). The SI used to be appended only `if
+    #: os.path.exists(SI)`, and §S6 is where the best-supported figure and its membership count now
+    #: live — so a missing SI turned the pins below into assertions about the main text alone.
+    for path, what in ((PAPER, "the submission manuscript"),
+                       (SI, "the supplementary information")):
+        if not os.path.exists(path):
+            pytest.fail(f"{what} is missing at {path}; it is committed, and the coverage figures "
+                        "this file pins are stated across both documents.")
+    text = open(PAPER, encoding="utf-8").read() + "\n" + open(SI, encoding="utf-8").read()
     return " ".join(text.split())
 
 

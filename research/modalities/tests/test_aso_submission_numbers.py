@@ -954,7 +954,11 @@ def test_the_accessibility_range_is_the_one_the_artifacts_produce():
                 vals.append(r["site_accessibility"])
     assert len(vals) == 190, len(vals)
     txt = _paper()
-    assert f"across all {len(vals)} designs at real exon junctions" in txt
+    # ⚠ FLATTEN, AS THE VERY NEXT ASSERTION ALREADY DOES. The manuscript hard-wraps at ~100
+    # columns and a §6 rewrite on 2026-08-19 moved this phrase across a line break, so the literal
+    # stopped matching a sentence whose meaning had not changed. Its neighbour on the next line was
+    # written with `_flat` and survived the same rewrite untouched.
+    assert f"across all {len(vals)} designs at real exon junctions" in _flat(txt)
     assert f"with a median of {statistics.median(vals):.3f}" in _flat(txt)
     assert f"{min(vals):.3f} to {max(vals):.3f}" in txt
     assert "0.476" not in txt and "130 designs" not in txt

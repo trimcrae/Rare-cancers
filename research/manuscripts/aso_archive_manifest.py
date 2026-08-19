@@ -1140,6 +1140,38 @@ def build():
     # describe identical payloads no matter how many commits separate them, so a DOI minted against
     # one is valid for the other. Derived from the file hashes already computed above, never from a
     # re-read, so it cannot disagree with the list it summarises.
+    # ⛔ THE PAYLOAD IS MOSTLY FILE TYPES A MANUSCRIPT UPLOADER DOES NOT TAKE, and that is the one
+    # deposit defect that stops the submission at the form rather than at review. A preprint
+    # server's supplementary uploader accepts a short list of document, image and container types;
+    # `.json`, `.csv`, `.fasta`, `.md` and `.sh` are not documents to it. This census is DERIVED
+    # from the file list so the depositor sees the shape of the problem before meeting it, and the
+    # answer is already step 3 below: one container, uploaded once.
+    # ⚠ NO ACCEPTED-TYPE LIST IS RESTATED HERE. Which extensions a given server takes is a fact
+    # about that server's current form, it changes without notice, and a list typed into this file
+    # from memory would be exactly the kind of unsourced claim the rest of this repository refuses.
+    # The depositor reads it off the uploader.
+    by_ext = {}
+    for e in files:
+        ext = os.path.splitext(e["path"])[1].lower() or "(no extension)"
+        row = by_ext.setdefault(ext, {"n_files": 0, "bytes": 0})
+        row["n_files"] += 1
+        row["bytes"] += e["bytes"]
+    payload_file_types = {
+        "_what": ("Extension census of the payload, derived from the file list. A preprint or "
+                  "journal uploader that accepts only document, image and container types cannot "
+                  "take most of these one by one; step 3 below builds the single container that "
+                  "sidesteps the question entirely. Check the accepted types on the uploader "
+                  "itself — none is asserted here."),
+        "by_extension": dict(sorted(by_ext.items(),
+                                    key=lambda kv: (-kv[1]["n_files"], kv[0]))),
+        "_readme_for_the_container": (
+            "Give the zip a plain-text README carrying the deposit title, the author, the statement "
+            "that the manuscript is a preprint, and the archive DOI once reserved — the same four "
+            "facts step 4 puts in the deposition record. Compose it from `_what_this_is` and "
+            "`how_to_reproduce_offline` above rather than typing it: those are derived and this "
+            "would not be."),
+    }
+
     digest = hashlib.sha256()
     for e in files:
         digest.update(f"{e['path']}\0{e['sha256']}\n".encode("utf-8"))
@@ -1273,6 +1305,7 @@ def build():
         },
         "total_bytes": total,
         "total_mib": round(total / (1024 * 1024), 3),
+        "payload_file_types": payload_file_types,
         "how_to_deposit_and_mint_the_doi": [
             "1. Check out the revision named in `git_revision` and confirm `git status` is clean. "
             "The manifest's hashes are only meaningful against that tree.",
