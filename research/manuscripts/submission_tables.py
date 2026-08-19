@@ -2240,15 +2240,17 @@ def main(argv=None):
                   + f" — {'is' if len(t4_flag_shared) == 1 else 'are'} also printed in Table 3 and "
                     f"{'carries' if len(t4_flag_shared) == 1 else 'carry'} ⚑ there"
                   ) if t4_flag_shared else "none of them is printed in Table 3 at all"
-        misses = "".join(
-            f" at {j} it prints {'no row' if s is None else f'5′-{s}-3′, reading {d}, unmarked'};"
-            for j, s, d in t4_flag_elsewhere).rstrip(";")
+        misses = "; ".join(
+            f"at {j} it prints {'no row at all' if s is None else f'5′-{s}-3′, reading {d}, unmarked'}"
+            for j, s, d in t4_flag_elsewhere)
+        n_only = n_t4_flagged - len(t4_flag_shared)
         tail = ("" if not t4_flag_elsewhere else
-                f" —{misses}. Do not read an unmarked Table 3 row as a clearance of a design "
-                "marked here")
-        return (f"**Those {_word(n_t4_flagged)} verdicts are carried in this table.** Table 3 prints "
-                f"one row per junction, that junction's highest-margin design, so {shared}, and the "
-                f"rest are marked nowhere else{tail}.")
+                f" Table 3 selects each junction's HIGHEST-MARGIN design, which at those seams is a "
+                f"different molecule: {misses}. Do not read an unmarked Table 3 row as a clearance "
+                f"of a design marked here.")
+        return (f"**Those {_word(n_t4_flagged)} verdicts are carried in this table, and mostly "
+                f"nowhere else.** Table 3 prints one row per junction, so {shared}; the other "
+                f"{_word(n_only)} are marked in no other display item.{tail}")
 
     t4_flag_where = _flag_where()
 

@@ -805,11 +805,21 @@ def _notes(rows, carrier="csv"):
          f"and {ladder[shortest]['n_liable']} do so at {shortest}, the shortest cut measured in "
          "research/modalities/aso-parent-null.json. Nothing here is a reading at any other cut.",
          prefix="#   ")
+    # ⛔ THE CLASS IS NOT UNIFORM IN ITS VERDICT AND SAYING SO IS THE POINT. All of these rows are
+    # unscreened by the MATURE-PARENT search, but one of them is condemned by a DIFFERENT screen
+    # (the un-rearranged-allele scan), so a reader who reads "not screened" as "no verdict" is
+    # wrong about exactly one row -- and it is the row that must not be ordered. Both counts are
+    # derived here rather than typed, so the sentence cannot go stale if the class changes size.
+    _ns_condemned = [r for r in unmeasured if r.get("do_not_order", "").strip()]
     para(f"NOT SCREENED — the three mature-parent columns all read {NOT_SCREENED}. "
          f"{len(unmeasured)} records, at the two NR4A3 intron-2 cryptic-exon seams, whose source "
          "artifacts hold no parent-duplex length at all. The search never ran on them, so there is "
-         "no reading to be under or over the criterion. An empty do_not_order on such a row means "
-         "only that no OTHER screen condemned it.", prefix="#   ")
+         "no reading to be under or over the criterion. ⚠ THAT IS NOT THE SAME AS NO VERDICT: "
+         f"{len(_ns_condemned)} of these {len(unmeasured)} carries a do_not_order set by another "
+         "screen, and the remaining "
+         f"{len(unmeasured) - len(_ns_condemned)} carry none. An empty do_not_order on such a row "
+         "means only that no OTHER screen condemned it, and never that this one cleared it.",
+         prefix="#   ")
     gap()
     para("`role` IS THE SELECTION COLUMN. `best available at this junction` marks the design the "
          "paper itself carries there. Ranking on gap_level_margin is NOT the paper's rule: this "

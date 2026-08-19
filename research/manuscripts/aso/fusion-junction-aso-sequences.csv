@@ -87,8 +87,10 @@ sequence,do_not_order,near_identical_design_with_a_different_verdict,length_nt,g
 #   Nothing here is a reading at any other cut.
 #   NOT SCREENED — the three mature-parent columns all read not_screened. 10 records, at the two
 #   NR4A3 intron-2 cryptic-exon seams, whose source artifacts hold no parent-duplex length at all.
-#   The search never ran on them, so there is no reading to be under or over the criterion. An
-#   empty do_not_order on such a row means only that no OTHER screen condemned it.
+#   The search never ran on them, so there is no reading to be under or over the criterion. ⚠ THAT
+#   IS NOT THE SAME AS NO VERDICT: 1 of these 10 carries a do_not_order set by another screen, and
+#   the remaining 9 carry none. An empty do_not_order on such a row means only that no OTHER
+#   screen condemned it, and never that this one cleared it.
 #
 # `role` IS THE SELECTION COLUMN. `best available at this junction` marks the design the paper
 # itself carries there. Ranking on gap_level_margin is NOT the paper's rule: this file keys a row

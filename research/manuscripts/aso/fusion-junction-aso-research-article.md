@@ -2051,7 +2051,11 @@ another catches. No single screen supports any claim here on its own.
    artefact is reproducible bit for bit. §2.5 reports the result.
 
 5. **The genome scan.** Screens 1 to 4 are bounded either by an annotation or by six transcripts.
-   The fifth removes that bound. Each distinct target window and its reverse complement were placed
+   The fifth removes that SEARCH-SPACE bound, and only for the pre-mRNA class: it runs at two
+   mismatches, and a contiguous run of eleven or twelve base pairs inside a 16-mer carries four or
+   five, so the mature-parent duplex class of §2.5 stays bounded by the same six transcripts it
+   was bounded by before. A reader who takes this bullet alone gets a wider clearance than the
+   screen supplies (§2.7). Each distinct target window and its reverse complement were placed
    in one membership set and every plus-strand position probed once, which covers both
    orientations without a second pass, at ≤2 mismatches, exhaustively: windows containing an N
    were excluded, leaving 2,948,609,696 of 3,099,747,808 over a measured 3.10 × 10⁹ nucleotides,

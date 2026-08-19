@@ -135,9 +135,40 @@ def test_no_rung_claims_a_junction_that_has_no_design_at_all():
         # ⛔ A DESIGNED-BUT-UNSCREENED JUNCTION MUST SAY SO ON ITS OWN RECORD. Collapsing the three
         # states (screened / designed-unscreened / nothing) into two is how an unscreened sequence
         # gets read as a panel member.
+        # ⚠ THIS STATE IS EMPTY IN THE CURRENT LADDER, so the loop iterates nothing and the check is
+        # exercised by `test_a_designed_but_unscreened_record_must_say_it_is_unscreened` instead.
         for label, rec in designed_unscreened.items():
-            assert "NONE" in rec["offtarget_screens_run"], (label, rec)
-            assert rec["antisense_5to3"], label
+            _designed_unscreened_record_is_honest(label, rec)
+
+
+def _designed_unscreened_record_is_honest(label, rec):
+    """The shape a designed-but-unscreened record must have, in one place so it can be driven."""
+    assert "NONE" in rec["offtarget_screens_run"], (label, rec)
+    assert rec["antisense_5to3"], label
+
+
+def test_a_designed_but_unscreened_record_must_say_it_is_unscreened():
+    """⚠ THE STATE IS EMPTY TODAY, WHICH IS WHY THIS EXISTS.
+
+    `junctions_designed_but_not_yet_screened` is `{}` on every rung, so the loop above cannot fail
+    while the tree is clean — and the day it does carry a junction is exactly the day the check has
+    to work. Driven with constructed records rather than left to a future reader to discover.
+    """
+    _designed_unscreened_record_is_honest(
+        "TAF15_e6__NR4A3_intron2",
+        {"offtarget_screens_run": "NONE — load unknown, not comparable with the panel",
+         "antisense_5to3": "GGGCATATCATCAAAC"})
+    for broken, why in (
+        ({"offtarget_screens_run": "all five", "antisense_5to3": "GGGCATATCATCAAAC"},
+         "a record claiming screens while sitting in the UNSCREENED state"),
+        ({"offtarget_screens_run": "NONE", "antisense_5to3": ""},
+         "a record with no sequence, so nothing can be checked against the panel"),
+    ):
+        try:
+            _designed_unscreened_record_is_honest("X_e1__NR4A3_e3", broken)
+        except AssertionError:
+            continue
+        raise AssertionError(f"the designed-but-unscreened check passes {why}")
 
 
 def test_the_single_series_basis_is_the_pooled_basis_minus_the_second_series():

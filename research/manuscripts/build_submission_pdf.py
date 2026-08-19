@@ -374,7 +374,7 @@ def provenance_line(paper, style):
 
 
 def _fold_the_figure_legends_preamble(body, paper):
-    """Move the note under "## Figure legends" to BELOW the first legend, so the page is not empty.
+    """Move the note under "## Figure legends" to the END of the section, off its own page.
 
     ⛔ A PAGE CARRYING A HEADING AND FOUR SENTENCES (blind screen of the deposit, 2026-08-19).
     Manuscript page 56 held "Figure legends" plus the note explaining the two independent S-series,
@@ -383,12 +383,18 @@ def _fold_the_figure_legends_preamble(body, paper):
     portrait page, and Figure 1's panel is capped at 218 mm and cannot fit underneath four
     sentences, so it goes to the next page and takes the whole legend block with it.
 
-    ★ MOVING THE NOTE UNDER THE FIRST LEGEND LETS THE PANEL START ON THAT PAGE. The note is about
-    the numbering of the whole series, so it reads no worse after Figure 1's legend than before it,
-    and it stops being a page of its own. Nothing is deleted; the paragraph travels intact.
+    ★ THREE PLACEMENTS WERE BUILT AND MEASURED, because the obvious one does not work (2026-08-19):
+      note below Figure 1's legend, own paragraph  -> 67 pages, a NEW 511-character page 57
+      note appended INTO Figure 1's legend         -> 67 pages, a new 385-character page 57
+      note after the LAST legend, own paragraph    -> 66 pages, no page under 865 characters
+    The first two only move the stranding: page 56 has room for the panel or for the note, not for
+    both, and everything between Figure 1's legend and Figure 2 gets the rest of a page that
+    `break-before: page` then ends. After the last legend there is no forced break to strand it
+    against. It is also where the note reads best: it is about the supplementary panel and the two
+    S-numbered series, and the supplementary panel is the legend it now follows.
 
-    ⚠ IF THE SECTION HAS NO PREAMBLE the body is returned unchanged — there is then nothing to fold
-    and nothing that could be silently dropped.
+    ⚠ NOTHING IS DELETED AND THE PARAGRAPH TRAVELS INTACT — this moves a note, it does not edit one.
+    ⚠ IF THE SECTION HAS NO PREAMBLE the body is returned unchanged.
     """
     try:
         _, end, after = section_span(body, "Figure legends")
@@ -399,11 +405,7 @@ def _fold_the_figure_legends_preamble(body, paper):
     if not first or not section[:first.start()].strip():
         return body
     preamble = section[:first.start()].strip()
-    legend_end = re.search(r"^\*\*(?:Supplementary )?Figure S?\d+\.",
-                           section[first.end():], re.M)
-    cut = first.end() + (legend_end.start() if legend_end else len(section) - first.end())
-    folded = (section[first.start():cut].rstrip() + "\n\n" + preamble + "\n\n"
-              + section[cut:].lstrip())
+    folded = section[first.start():].rstrip() + "\n\n" + preamble
     return body[:after] + "\n\n" + folded.strip() + "\n\n" + body[end:]
 
 
