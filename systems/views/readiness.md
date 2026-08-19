@@ -40,6 +40,7 @@ the other. Where a route cannot reach an output, the missing items are a work li
 | [RT-PANNR4A-EXVIVO](L2-rt-pannr4a-exvivo.md) | ST-IMMUNO | `preprint` | a cellular persistence readout |
 | [RT-PARTNER-STRAT](L2-rt-partner-strat.md) | ST-REPURPOSING | `preprint` | a non-zero TAF15 event count on the RESPONSE endpoint - the entire published TAF15::NR4A3 antiangiogenic-TKI experience is 3-5 patients with ZERO responses, and a zero-event arm yi |
 | [RT-TCIP](L2-rt-tcip.md) | ST-PROXIMITY | `preprint` | a staged transcriptional-effector body, so the result can name an effector rather than a size class |
+| [RT-VACCINE-COMBINATION](L2-rt-vaccine-combination.md) | ST-IMMUNO | `preprint` | the Stage 0 computational items; any EMC tissue result |
 | [RT-ASYMMETRIC](L2-rt-asymmetric.md) | ST-OCCUPANCY | `reproducible_workflow` | — |
 | [RT-6MP](L2-rt-6mp.md) | ST-REPURPOSING | `internal_note` | — |
 | [RT-AF3-INTERFACE](L2-rt-af3-interface.md) | ST-PROXIMITY | `internal_note` | a co-folder validated on assembly |

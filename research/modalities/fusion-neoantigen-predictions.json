@@ -18,11 +18,13 @@
     "junction_context_right10": "NMPCVQAQYS",
     "measured_junction": {
       "junction_label": "EWSR1_e7__NR4A3_e3",
-      "EWSR1_exon_end": 7,
-      "NR4A3_exon_start": 3,
-      "ewsr1_coding_nt_through_cut": 793,
-      "ewsr1_last_whole_residue": 264,
-      "ewsr1_coding_phase": 1,
+      "donor_symbol": "EWSR1",
+      "acceptor_symbol": "NR4A3",
+      "donor_exon_end": 7,
+      "acceptor_exon_start": 3,
+      "donor_coding_nt_through_cut": 793,
+      "donor_last_whole_residue": 264,
+      "donor_coding_phase": 1,
       "nr4a3_acceptor_exon_is_coding": true,
       "nr4a3_acceptor_exon_5utr_nt_retained": 2,
       "nr4a3_cds_nt_at_resume": 0,
@@ -30,16 +32,19 @@
       "frame_sum_mod3": 0,
       "in_frame": true,
       "chimeric_protein_length": 891,
-      "junction_context_mRNA": "ACGGGCAGCAGA|ATATGCCCTGCG"
+      "junction_context_mRNA": "ACGGGCAGCAGA|ATATGCCCTGCG",
+      "EWSR1_exon_end": 7,
+      "NR4A3_exon_start": 3,
+      "ewsr1_coding_nt_through_cut": 793,
+      "ewsr1_last_whole_residue": 264,
+      "ewsr1_coding_phase": 1
     },
     "_transcript_source": {
-      "requested": "cache",
+      "requested": "auto",
       "used_per_gene": {
-        "EWSR1": "committed_cache",
-        "NR4A3": "committed_cache"
-      },
-      "committed_cache_fetched_utc": "2026-08-03T23:45:45Z",
-      "_caveat": "At least one gene was read from the committed cache (emc-construct-inputs.json), not from Ensembl today. The cache is a dated measurement that passed this module's four self-checks; it is not a statement about Ensembl's current annotation."
+        "EWSR1": "ensembl+cache_agreed",
+        "NR4A3": "ensembl+cache_agreed"
+      }
     }
   },
   "_spanning_definition": "every k-mer containing the novel junction residue",
@@ -63,12 +68,12 @@
     10,
     11
   ],
-  "_where_this_ran": "a local CPU (no GPU, no rental) \u2014 $0",
+  "_where_this_ran": "GitHub Actions run 32271093938 (Modalities \u2014 structure & neoantigen)",
   "_predictor": {
     "package": "mhcflurry",
     "version": "2.1.4",
     "downloads_release": "2.2.0",
-    "models_dir": "/root/.local/share/mhcflurry/4/2.2.0/models_class1_presentation/models"
+    "models_dir": "/home/runner/.local/share/mhcflurry/4/2.2.0/models_class1_presentation/models"
   },
   "_mhcflurry_columns": [
     "peptide",

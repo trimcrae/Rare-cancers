@@ -8615,5 +8615,130 @@
       "cost": "$0"
     },
     "closure_kind": "open"
+  },
+  {
+    "id": "RT-VACCINE-COMBINATION",
+    "display_name": "Junction vaccine on a checkpoint and antiangiogenic backbone",
+    "aliases": [
+      "the vaccine combination",
+      "vaccine + ICI + TKI"
+    ],
+    "level": "L2",
+    "kind": "route",
+    "title": "Junction vaccine on a checkpoint and antiangiogenic backbone",
+    "grade": {
+      "value": "REGISTERED 2026-08-19 AS AN UNGRADED UNIT, NOT AS A PROMOTION. Every component was graded alone and each exclusion assumed the others absent.",
+      "owner": {
+        "file": "research/manuscripts/neoantigen/emc-vaccine-development-path.md",
+        "anchor": "#4-an-ungraded-combination"
+      }
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Does a breakpoint-matched junction construct add anything to a backbone that already has EMC-specific activity?",
+    "strategy": "ST-IMMUNO",
+    "state": {
+      "work_state": "future",
+      "status": "blocked",
+      "maturity": "concept",
+      "confidence": "low",
+      "last_verified": "2026-08-19"
+    },
+    "rationale": "The priming-directed classes were excluded for this disease on the ground that a quiet genome supplies too few antigens; the junction vaccine was parked on the ground that a cold tumour supplies too little priming. Each verdict assumed the other component absent, and no evaluation of the combination exists. A checkpoint and antiangiogenic backbone with a reported EMC histology-specific cohort already exists, and the antiangiogenic arm bears on the physical exclusion that the vaccine cannot address.",
+    "supporting_evidence": [
+      {
+        "ref": "ART-EMC-CLINICAL-REGISTRY",
+        "what_it_supports": "a histology-specific EMC cohort of sunitinib plus nivolumab reporting 16 of 23 evaluable patients progression-free at 6 months and median PFS 13.2 months; conference abstract, single-arm, not peer-reviewed",
+        "strength": "transferred"
+      }
+    ],
+    "blockers_inherited": [
+      "BLK-ANTIGEN-COLD",
+      "BLK-NO-EMC-DATA"
+    ],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [
+      {
+        "route": "RT-VACCINE",
+        "axis": "unit of evaluation",
+        "fails_on": [
+          "BLK-ANTIGEN-COLD"
+        ],
+        "why": "RT-VACCINE is the vaccine as a standalone product and is parked on immunogenicity. This route is the combination, in which the vaccine supplies antigen and the backbone supplies priming and access; the parking argument for one is not an argument about the other"
+      }
+    ],
+    "closure_kind": "open",
+    "revival_trigger": [
+      "TRG-JUNCTION-PHLA"
+    ],
+    "closure_note": "Open and ungraded. Its cheapest falsifiers are computational and are listed as Stage 0 of the development path.",
+    "remaining_unknowns": [
+      "Whether any junction peptide is presented on EMC tissue at all, which bounds the whole route.",
+      "Whether the novel seam residues fall at anchor positions or at T-cell-receptor contact positions.",
+      "Whether EMC retains HLA class I expression, which is unmeasured in this disease.",
+      "Whether the reported backbone activity is attributable to the immune arm or to the tyrosine kinase inhibitor."
+    ],
+    "required_validation": [
+      {
+        "what": "Proteome-wide novelty of the junction peptides",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "Anchor-versus-contact-position analysis of the seam residues",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "Immunopeptidomics on EMC tissue or a patient-derived line",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-EMC-DATA"
+        ]
+      },
+      {
+        "what": "T-cell reactivity against identified peptide-HLA complexes",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-ANTIGEN-COLD",
+          "BLK-NO-EMC-DATA"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "preprint",
+      "why_not_higher": "Nothing here is measured in EMC. The deliverable is a development path with explicit falsifiers, and its own headline figures bound the addressable fraction near 30%.",
+      "missing": [
+        "the Stage 0 computational items",
+        "any EMC tissue result"
+      ]
+    },
+    "timing": {
+      "recommendation": "pursue_now",
+      "rationale": "Its Stage 0 items are computational, cost nothing, and three of them can close the route outright, which is the correct order for a route whose expensive steps need tissue this programme does not have. It waits on no external capability: what gates it is a measurement on EMC material, not a technology that does not yet exist.",
+      "six_month_delta": "None; the free items are available now.",
+      "two_year_delta": "Presentation prediction and pMHC discovery platforms are improving, which bears on Stage 2.",
+      "cost_trend": "flat",
+      "automation_outlook": "Stage 0 is fully automatable; Stages 1 to 3 are not computational."
+    },
+    "publication": {
+      "endpoint": "PUB-VACCINE-PATH",
+      "role": "primary",
+      "contribution": "The blocker ledger, the staged path and the explicit falsifiers, plus the observation that the standing negative was reached by grading the vaccine alone."
+    },
+    "next": {
+      "best_next_action": "Run the Stage 0 items: proteome-wide novelty, class II regeneration, anchor-position analysis, extended allele panel.",
+      "cost": "$0"
+    }
   }
 ]

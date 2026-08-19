@@ -26,7 +26,7 @@ last_verified: 2026-08-06
 > **Nothing here asserts efficacy, safety, a therapeutic window or clinical readiness.** A claim
 > below is what the paper would ESTABLISH, at the weight its instruments actually support.
 
-**31 endpoints for 76 routes · 28 with a document · 3 unwritten.**
+**32 endpoints for 77 routes · 29 with a document · 3 unwritten.**
 
 ⭐ **An unwritten paper is a row here, and that is the reason this collection exists.** L3 and L4 are otherwise DOCUMENTS rather than graph rows ([ARCHITECTURE §3](../ARCHITECTURE.md#3--the-hierarchy)), on the sound grounds that copying a file's title into JSON creates a second home for a fact the file owns. That reasoning is intact — a row with a document carries no title and this page reads it back out of the file. What it did not cover is a paper that **does not exist yet**: it has no file, so it has no other home, and leaving it unmodelled made *“this route has no endpoint”* and *“this route's endpoint is not written yet”* look identical.
 
@@ -59,6 +59,7 @@ last_verified: 2026-08-06
 | **PUB-SYNLETH**<br/>[Degrader vs. synthetic-lethal for EWSR1::NR4A3 EMC — a feasibility comp…](../../research/manuscripts/dependency/degrader-vs-synthetic-lethal.md) | ◐ `drafted` | `internal_note` | 1 | — |
 | **PUB-TCIP**<br/>[The induced-interface floor that proximity design inherits from degrade…](../../research/manuscripts/tcip/tcip-induced-interface-preprint.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-TXN-DEPENDENCY**<br/>[Transcriptional and proteostatic dependency of a fusion transcription f…](../../research/manuscripts/dependency/emc-transcriptional-proteostatic-dependency.md) | ◐ `drafted` | `preprint` | 2 | — |
+| **PUB-VACCINE-PATH**<br/>[A fusion-junction vaccine in extraskeletal myxoid chondrosarcoma: what …](../../research/manuscripts/neoantigen/emc-vaccine-development-path.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-EMC-CLASSIFICATION**<br/>*One code, two diseases: what registry-based extraskeletal myxoid chondr…* | ◔ `outlined` | `preprint` | 2 | ⭐ The contradiction is MEASURED and quoted from both papers' own Methods sections (emc-care-delivery-evidence.json -> icd_o_9231_3), which is enough … |
 | **PUB-KINASE-LEADS**<br/>*Four kinase observations in extraskeletal myxoid chondrosarcoma that no…* | ◔ `outlined` | `preprint` | 4 | ⚠ ITS BLOCKER IS RETIRED — THE CONSOLIDATION IS DONE AND IT INVERTED THE PAPER. … |
 | **PUB-LOCOREGIONAL**<br/>*Anatomical selectivity in an indolent, extremity-primary, lung-metastas…* | ◔ `outlined` | `preprint` | 4 | ⚠ ITS BLOCKER WAS HALF RIGHT, AND THE HALF IT GOT WRONG IS THE INTERESTING ONE. … |
@@ -375,6 +376,21 @@ A fusion oncoprotein whose entire mechanism is transactivation, and whose struct
 | [RT-CHAPERONE](L2-rt-chaperone.md) — Chaperone dependency of the chimera (HSP90 and co-ch | `primary` | The half of the paper that argues from what the driver IS STRUCTURALLY: a chimera of two domains that never evolved together is a folding problem before it is a signalling one. |
 | [RT-TXN-CDK](L2-rt-txn-cdk.md) — Transcriptional CDK dependency (CDK7, CDK9, CDK12/13 | `primary` | The half of the paper that argues from what the driver IS: a transcriptional oncoprotein should be more dependent on the transcriptional machinery than the cell it sits in. |
 
+### PUB-VACCINE-PATH — A fusion-junction vaccine in extraskeletal myxoid chondrosarcoma: what can be established today, and the capabilities that would change it
+
+**◐ `drafted` · aimed at `preprint` · [`research/manuscripts/neoantigen/emc-vaccine-development-path.md`](../../research/manuscripts/neoantigen/emc-vaccine-development-path.md)**
+
+That the obstacles between the EWSR1::NR4A3 junction and a therapeutic vaccine are separable, individually falsifiable and unequally priced, and that the standing negative on this route was reached by grading a vaccine alone. The reasoning that excluded every priming-directed class for this disease turns on antigen supply, which is what a vaccine provides, so the combination of a junction construct with checkpoint blockade on a backbone that also addresses physical exclusion has never been graded as a unit. No efficacy, safety, presentation or immunogenicity claim is made.
+
+**Blocks on the PAPER** — deliberately not the same set its routes inherit, because a route can be blocked on a capability while its paper is publishable today as an honest negative:
+
+- **BLK-ANTIGEN-COLD** (`fundamental_biological_limit`) — EMC is antigen-cold, and the fusion junction is a weak peptide-HLA
+- **BLK-NO-EMC-DATA** (`insufficient_data`) — EMC is nearly absent from public functional-genomics data (one DepMap line, n = 1, no CRISPR data)
+
+| route | role | what it contributes |
+|---|---|---|
+| [RT-VACCINE-COMBINATION](L2-rt-vaccine-combination.md) — Junction vaccine on a checkpoint and antiangiogenic  | `primary` | The blocker ledger, the staged path and the explicit falsifiers, plus the observation that the standing negative was reached by grading the vaccine alone. |
+
 ### PUB-EMC-CLASSIFICATION — One code, two diseases: what registry-based extraskeletal myxoid chondrosarcoma cohorts actually contain
 
 **◔ `outlined` · aimed at `preprint`**
@@ -604,6 +620,7 @@ For each parked modality there is a single named capability — a glue design me
 | [RT-TCIP](L2-rt-tcip.md) | [ST-PROXIMITY](L1-st-proximity.md) | `preprint` | **PUB-TCIP** ◐ | `preprint` | `primary` |
 | [RT-CHAPERONE](L2-rt-chaperone.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-TXN-DEPENDENCY** ◐ | `preprint` | `primary` |
 | [RT-TXN-CDK](L2-rt-txn-cdk.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-TXN-DEPENDENCY** ◐ | `preprint` | `primary` |
+| [RT-VACCINE-COMBINATION](L2-rt-vaccine-combination.md) | [ST-IMMUNO](L1-st-immuno.md) | `preprint` | **PUB-VACCINE-PATH** ◐ | `preprint` | `primary` |
 
 ## What this page deliberately leaves out
 
