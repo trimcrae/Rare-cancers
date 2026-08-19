@@ -189,7 +189,7 @@ and §6 gives the accession for every gene so a report numbered the other way ca
 
 A *near-match* is a transcript window pairing a design at 14 or more of
 its 16 positions, and is *gap-paired* where the six gap positions are themselves paired, which is the
-class RNase-H1 could cleave; a gap-paired near-match on the sense strand is what this paper calls a *cleavage risk*. A design is *clean* where a complete hit list at a stated search depth
+class RNase-H1 could cleave; a gap-paired near-match on the sense strand is what this paper calls a *gap-paired sense-strand match*. ⚠ That name is deliberate and was corrected on 2026-08-19: the earlier term was *cleavage risk*, which names a catalytic outcome for what is a sequence observation. No screen here predicts cleavage (§5); each grades hybridisation only. A design is *clean* where a complete hit list at a stated search depth
 returns no sense-strand near-match, and a design's *load* is its predicted off-target burden counted
 as near-matches. Counts from that hit list come at one of two search depths, a default alignment
 ceiling and a tenfold deeper one — a hitlist of 50 alignments per query, of which 15 are retained,
@@ -395,7 +395,7 @@ reported and no percentage.
 ### 2.4 · Strand orientation, and designs with no sense-strand near-match
 
 All 38 in-frame junctions were screened with orientation filtered, covering 183 designs, and Table 3
-gives the per-junction result. Of the 1,677 apparent cleavage risks across the retained hit lists,
+gives the per-junction result. Of the 1,677 apparent gap-paired sense-strand matches across the retained hit lists,
 738 sit on the minus strand, or 44%. An antisense oligonucleotide cannot base-pair with those at all.
 
 The proportion is not uniform. It runs from 0% at *TFG* exon 4, where no apparent risk is
@@ -943,8 +943,8 @@ geometry escapes that, though it does trade the two against each other.
 
 Both directions are large. The best available gap-level margin rises from 3 to 4 to 5, and the
 junction-spanning registers per junction from five to seven to nine. At the *EWSR1* exon 12, *TAF15* exon
-11 and *FUS* exon 10 junction, the design carrying that margin sheds its gap-paired cleavage risks
-completely: 123 sense-strand cleavage risks across the gap at six gene loci become 3 at one locus and
+11 and *FUS* exon 10 junction, the design carrying that margin sheds its gap-paired
+sense-strand matches completely: 123 across the gap at six gene loci become 3 at one locus and
 then none, though 20 near-matches remain (Table 7), so it is that risk class and not the load of Box 1
 that goes to zero.
 Over the six junctions screened at every geometry, designs carrying no such risk rise from 8 of 30 to 28
@@ -1964,13 +1964,13 @@ another catches. No single screen supports any claim here on its own.
    374 records against a ceiling of 500, and no design's list is recorded as incomplete. A transcript window matching a design at 14 or more
    of its 16 positions is a *near-match*, classified by whether the six-nucleotide gap is itself
    base-paired: one that pairs the gap is *gap-paired* — the paper uses that one term throughout,
-   and a sense-strand gap-paired near-match is what it calls a cleavage risk — and RNase-H1 could
+   and a sense-strand gap-paired near-match is what it calls a gap-paired sense-strand match — and RNase-H1 could
    cleave
    there; one pairing only the wings could not. That definition is written in substitutions, but
    `blastn` returns gapped alignments and an identity filter does not reject them, so this screen
    alone — unlike screens 2 to 5, which are substitution-only by construction — admits a near-match
    carrying an insertion or a deletion. Across every 5-6-5 alignment screen released here 110
-   retained alignments carry a gap and 28 of those are counted as sense-strand cleavage risks.
+   retained alignments carry an indel and 28 of those are counted as gap-paired sense-strand matches.
    Admitting them
    can only raise a design's count, so no cleanliness statement rests on their exclusion; the point
    is that this screen's counts are not substitution-only and should not be read as though they
@@ -2067,7 +2067,7 @@ another catches. No single screen supports any claim here on its own.
 **Strand orientation.** A match matters only if an antisense oligonucleotide could base-pair with it,
 which means the sense strand; a window carrying the reverse complement is not a liability at all.
 `blastn` searches both strands, so such a hit passes an identity filter unless orientation is parsed,
-and screens produced before that parsing was added recorded them as cleavage risks. Orientation is
+and screens produced before that parsing was added recorded them as gap-paired sense-strand matches. Orientation is
 now parsed and filtered in all 38 junction
 screens and the 183 designs they hold, and therefore in every cleanliness statement made here. Only
 two released screens are unfiltered, and neither carries a junction from the 38-junction panel or supports a claim here (SI

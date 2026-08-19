@@ -711,8 +711,15 @@ def _first_clause(text, limit):
 
 
 def _caption_title(block):
-    """The bolded title sentence of a generated table's caption, without its number."""
-    match = re.match(r"^\*\*Table \d+\.\s*(.+?)\*\*", block.strip(), re.S)
+    """The bolded title sentence of a generated table's caption, without its number.
+
+    ⚠ SEARCHED, NOT ANCHORED AT THE START. Table 1's block does not begin with its own opener: the
+    tables file's preamble — the research-use banner, the chemistry paragraph and the three
+    condemned sequences — is carried with Table 1 so it travels wherever the tables travel. Anchoring
+    here left exactly one table, in exactly one style, with a bare "Table 1" on its continuation
+    page (measured in the built journal PDF, 2026-08-19).
+    """
+    match = re.search(r"^\*\*Table \d+\.\s*(.+?)\*\*", block.strip(), re.S | re.M)
     return _first_clause(match.group(1), 92) if match else None
 
 
@@ -1503,7 +1510,61 @@ def _body_of(page, head):
     return re.sub(r"[^A-Za-z0-9]", "", text)
 
 
-def _postprocess(full_pdf, short_pdf, pdf_path, running_head, meta):
+def _repair_outline_titles(writer, headings):
+    """Put the spaces back into the bookmark titles Chromium builds from a WRAPPED heading.
+
+    ⛔ MEASURED IN THE BUILT PDF (2026-08-19). `generateDocumentOutline` names each entry from the
+    heading's LAID-OUT lines and joins them without a separator, so the document's own title — the
+    only entry a reader is certain to see — read "…against the NR4A3fusions of extraskeletal myxoid
+    chondrosarcoma pair a wild-typeparent gene…" in the navigation pane. Any heading that wraps is
+    affected; the short ones happen not to.
+
+    ⚠ REPAIRED BY EXACT MATCH ONLY. Each entry is matched to a heading of the rendered document with
+    all whitespace removed, and rewritten only when exactly that heading is found. A title this
+    cannot match is left as Chromium wrote it rather than guessed at.
+    """
+    from pypdf.generic import NameObject, TextStringObject
+    index = {}
+    for heading in headings:
+        index.setdefault(re.sub(r"\s+", "", heading), " ".join(heading.split()))
+    root = writer._root_object.get("/Outlines")
+    repaired, seen = 0, set()
+
+    def walk(node):
+        nonlocal repaired
+        child = node.get("/First")
+        while child is not None:
+            obj = child.get_object()
+            if id(obj) in seen:
+                break
+            seen.add(id(obj))
+            title = str(obj.get("/Title", ""))
+            want = index.get(re.sub(r"\s+", "", title))
+            if want and want != title:
+                obj[NameObject("/Title")] = TextStringObject(want)
+                repaired += 1
+            walk(obj)
+            child = obj.get("/Next")
+
+    if root is not None:
+        walk(root.get_object())
+    return repaired
+
+
+_HEADING_RE = re.compile(r"<h([1-3])[^>]*>(.*?)</h\1>", re.S | re.I)
+
+
+def headings_of(html):
+    """The text of every heading the rendered page carries, for the outline repair above."""
+    out = []
+    for _level, inner in _HEADING_RE.findall(html):
+        text = _html.unescape(re.sub(r"<[^>]+>", "", inner))
+        if text.strip():
+            out.append(" ".join(text.split()))
+    return out
+
+
+def _postprocess(full_pdf, short_pdf, pdf_path, running_head, meta, headings=()):
     """Assemble the delivered PDF: short rule on body pages, and a real Info dictionary.
 
     ⛔ TWO RENDERS, ONE LAYOUT, AND THE EQUALITY IS CHECKED RATHER THAN ASSUMED. The two prints
@@ -1553,12 +1614,14 @@ def _postprocess(full_pdf, short_pdf, pdf_path, running_head, meta):
                 del writer.pages[len(writer.pages) - 1]
                 grafted += 1
     writer.add_metadata({k: v for k, v in meta.items() if v})
+    _repair_outline_titles(writer, headings)
     with open(pdf_path, "wb") as fh:
         writer.write(fh)
     return grafted, len(full.pages)
 
 
-def print_pdf(chrome, html_path, pdf_path, running_head, meta=None, split_footer=True):
+def print_pdf(chrome, html_path, pdf_path, running_head, meta=None, split_footer=True,
+              headings=()):
     profile = tempfile.mkdtemp(prefix="ccpdf-")
     proc = subprocess.Popen(
         [chrome, "--headless", "--disable-gpu", "--no-sandbox", "--no-first-run",
@@ -1604,7 +1667,7 @@ def print_pdf(chrome, html_path, pdf_path, running_head, meta=None, split_footer
         except subprocess.TimeoutExpired:
             proc.kill()
         shutil.rmtree(profile, ignore_errors=True)
-    return _postprocess(full_pdf, short_pdf, pdf_path, running_head, meta or {})
+    return _postprocess(full_pdf, short_pdf, pdf_path, running_head, meta or {}, headings)
 
 
 # --------------------------------------------------------------------------- driver
@@ -1693,7 +1756,8 @@ def build_supplementary(paper, html_only=False):
         "/CreationDate": time.strftime("D:%Y%m%d%H%M%S+00'00'", time.gmtime()),
     }
     print_pdf(chrome, html_path, pdf_path, declared_running_title(body)
-              if re.search(r"running[- ]title", body, re.I) else title[:60], meta)
+              if re.search(r"running[- ]title", body, re.I) else title[:60], meta,
+              headings=headings_of(page))
     #: ⚠ THE INTERMEDIATE IS DELETED HERE, AS IT IS IN `build` (2026-08-19). Without this the SI
     #: build left a `.build.html` beside the deposit artefacts on every run — untracked, so it
     #: turned up as a new file in `git status` and invited being committed as though it were a
@@ -1763,7 +1827,8 @@ def build(name, paper, style="journal", html_only=False):
               file=sys.stderr)
         return 1
     pdf_path = os.path.join(HERE, out_name)
-    grafted, pages = print_pdf(chrome, html_path, pdf_path, running, meta)
+    grafted, pages = print_pdf(chrome, html_path, pdf_path, running, meta,
+                               headings=headings_of(page))
     os.remove(html_path)
     _write_build_stamp(pdf_path, paper)
     size = os.path.getsize(pdf_path)
