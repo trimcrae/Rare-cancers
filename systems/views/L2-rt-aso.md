@@ -107,7 +107,7 @@ The computational arc is complete and the delivery gate is stated honestly as a 
 
 ## Where this route ends — the paper
 
-**[PUB-ASO](L3-publications.md)** — [Nearly half of junction-spanning gapmer designs against the NR4A3 fusions of extraskeletal myxoid chondrosarcoma pair a wild-type parent gene, and a longer catalytic gap trades gap-level margin against parent-paired gap DNA](../../research/manuscripts/aso/fusion-junction-aso-research-article.md)
+**[PUB-ASO](L3-publications.md)** — [Nearly half of junction-spanning gapmer designs against the NR4A3 fusions of extraskeletal myxoid chondrosarcoma pair a wild-type parent gene over a ten-base-pair duplex through the catalytic gap, and a longer gap trades gap-level margin against parent-paired gap DNA](../../research/manuscripts/aso/fusion-junction-aso-research-article.md)
 
 `primary` · ◐ `drafted` · aimed at `preprint`
 

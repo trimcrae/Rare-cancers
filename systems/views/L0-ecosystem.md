@@ -22,7 +22,7 @@ last_verified: 2026-08-05
 > lab, no funding for one — so every advance is either in-silico or publish-to-convince.
 > **Nothing here asserts efficacy, safety, a therapeutic window or clinical readiness.**
 
-**13 strategy families · 76 routes · 20 blockers · 26 technology dependencies.**
+**13 strategy families · 77 routes · 20 blockers · 26 technology dependencies.**
 
 ## The shape of the portfolio
 
@@ -44,7 +44,7 @@ flowchart LR
 
   ST_DEPENDENCY["ST-DEPENDENCY ✓ · 13 routes"]:::fam
   ST_REPURPOSING["ST-REPURPOSING ✓ · 11 routes"]:::fam
-  ST_IMMUNO["ST-IMMUNO ✓ · 9 routes"]:::fam
+  ST_IMMUNO["ST-IMMUNO ✓ · 10 routes"]:::fam
   ST_CARE_DELIVERY["ST-CARE-DELIVERY ○ · 7 routes"]:::fam
   ST_PROXIMITY["ST-PROXIMITY ◐ · 7 routes"]:::fam
   ST_NUCLEIC_ACID["ST-NUCLEIC-ACID ✓ · 5 routes"]:::fam
@@ -109,7 +109,7 @@ flowchart LR
 | **[ST-OCCUPANCY](L1-st-occupancy.md)**<br/>Direct small-molecule engagement of the NR4A3 ligand-binding domain | If the ligand-binding domain is a functional handle in the chimera, then occupying it is enough, and the entire ternary-assembly problem disappears. T… | 4 | ○ blocked · scoped | hedge |
 | **[ST-FUSION-DIRECT](L1-st-fusion-direct.md)**<br/>Targeting the fusion protein's other domains | The fusion has more than one surface. If a different domain is more tractable or more selective, the paralogue problem might be sidestepped rather tha… | 3 | ✕ closed · scoped | closed_but_informative |
 | **[ST-NUCLEIC-ACID](L1-st-nucleic-acid.md)**<br/>Nucleic-acid and genetic therapeutics | The junction is the only truly tumour-exclusive feature of this disease. A molecule that reads sequence rather than shape can discriminate perfectly, … | 5 | ✓ blocked · computed | hedge |
-| **[ST-IMMUNO](L1-st-immuno.md)**<br/>Immunotherapy and antigen-directed approaches | If a tumour-restricted antigen exists, the discrimination problem is solved by the immune system rather than by chemistry, and potency comes free. The… | 9 | ✓ blocked · computed | hedge |
+| **[ST-IMMUNO](L1-st-immuno.md)**<br/>Immunotherapy and antigen-directed approaches | If a tumour-restricted antigen exists, the discrimination problem is solved by the immune system rather than by chemistry, and potency comes free. The… | 10 | ✓ blocked · computed | hedge |
 | **[ST-REPURPOSING](L1-st-repurposing.md)**<br/>Repurposing approved and late-stage agents | An approved drug skips discovery, synthesis, toxicology and most of the cost of being right. For an ultra-rare disease with no targeted agent, a mecha… | 11 | ✓ blocked · computed | cheap_option |
 | **[ST-RADIOLIGAND](L1-st-radioligand.md)**<br/>Radioligand and theranostic approaches | A radioligand does not need the target to be a driver, only to be present and accessible. That decouples the therapy entirely from the fusion biology … | 2 | ○ blocked · concept | cheap_option |
 | **[ST-DEPENDENCY](L1-st-dependency.md)**<br/>Synthetic lethality and dependency | You do not have to drug the driver if the driver has made something else indispensable. A synthetic-lethal partner can be an ordinary, already-druggab… | 13 | ✓ blocked · computed | hedge |
@@ -129,7 +129,7 @@ Every route above ends in a paper. With no wet lab and no clinic, the published 
 |---|---:|---:|
 | ○ `unwritten` | 3 | 10 |
 | ◔ `outlined` | 5 | 16 |
-| ◐ `drafted` | 23 | 50 |
+| ◐ `drafted` | 24 | 51 |
 
 ## What holds the portfolio down
 
@@ -139,10 +139,10 @@ A blocker on one route is a risk. A blocker on fifteen is the portfolio's shape.
 
 | blocker | kind | routes held | families | retired by |
 |---|---|---:|---:|---|
-| **BLK-NO-EMC-DATA** | `insufficient_data` | 37 | 7 | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
+| **BLK-NO-EMC-DATA** | `insufficient_data` | 38 | 7 | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
 | **BLK-NO-WET-LAB** | `requires_external_collaboration` | 16 | 7 | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
 | **BLK-NOT-FUSION-SELECTIVE** | `fundamental_biological_limit` | 14 | 6 | *permanent — nothing* |
-| **BLK-ANTIGEN-COLD** | `fundamental_biological_limit` | 9 | 2 | *permanent — nothing* |
+| **BLK-ANTIGEN-COLD** | `fundamental_biological_limit` | 10 | 2 | *permanent — nothing* |
 | **BLK-NO-CURATED-CLINICAL-DATA** | `insufficient_data` | 9 | 3 | `TECH-RECONSTRUCTED-IPD` |
 | **BLK-PARALOGUE-DDG** | `requires_better_simulation_accuracy` | 9 | 3 | `TECH-FE-CRYPTIC-POCKET` |
 | **BLK-R4-BINDS** | `requires_wet_lab` | 8 | 2 | `TECH-EMC-MODEL-ACCESS` |
