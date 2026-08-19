@@ -278,6 +278,66 @@ def _cut_caveat():
             "(§2.9). A cell below the cut is a reading at one cut and nothing wider.")
 
 
+def _rank_stability(per_junction):
+    """Table 2's recommendation re-ranked at every cut below the adopted one. [(cut, rows, same, differ)]
+
+    ⛔ THE TABLE A REAGENT IS CHOSEN FROM RANKED ON THE ONE SCREEN THE PAPER SAYS IS ADOPTED RATHER
+    THAN MEASURED, AT ONE CUT, AND SAID NOTHING ABOUT WHAT ANOTHER CUT WOULD DO (display-item
+    review, 2026-08-19). `parent_is_liability` is the FIRST key of the rank and the eligibility
+    test besides, so the cut decides both which design each seam recommends and whether the seam
+    gets a recommendation at all — and the caption's cut caveat states the panel-wide rate, which
+    is a different quantity from "is the reagent on this row still the reagent".
+
+    ⭐ THE RE-RANK IS THE SAME CODE PATH, NOT AN APPROXIMATION OF IT. `aso_per_junction_table`
+    sorts on (liability, pre-mRNA sites, gap-paired loci, −margin, hits) and takes the first design
+    that is not liable; the same keys are applied here to the same screened designs with only the
+    liability test moved. Nothing is re-screened.
+
+    ⚠ AND IT REFUSES UNLESS IT REPRODUCES THE ARTIFACT AT THE ADOPTED CUT. A re-ranking that cannot
+    return the rows the table actually prints is not evidence about any other cut either, so the
+    adopted cut is recomputed first and asserted design-for-design against `best_available`.
+    """
+    cuts = sorted((_load("aso-parent-null.json") or {}).get("cut_sensitivity", {})
+                  .get("cut_ladder_bp") or [])
+    adopted = _parent_cut_bp()
+
+    def _best(cut, designs):
+        ranked = sorted(designs, key=lambda r: (bool((r["parent_duplex_bp"] or 0) >= cut),
+                                                r["premrna_gap_paired_hybridisable"] or 0,
+                                                r["n_gap_paired_loci"],
+                                                -(r["gap_specificity_margin"] or 0),
+                                                r["n_gap_paired"]))
+        clear = [r for r in ranked if (r["parent_duplex_bp"] or 0) < cut]
+        return clear[0] if clear else None
+
+    for j in per_junction["junctions"]:
+        want = (j.get("best_available") or {}).get("antisense_5to3")
+        got = (_best(adopted, j["designs"]) or {}).get("antisense_5to3")
+        if want != got:
+            raise SystemExit(
+                "Table 2's caption reports whether its recommendation survives a different cut, and "
+                f"the re-ranking behind that sentence does not reproduce the artifact at the "
+                f"adopted cut: {j['junction_label']} reads {want!r} and re-ranks to {got!r}. The "
+                "rank keys have moved in aso_per_junction_table; re-derive rather than printing a "
+                "stability claim computed by a rule the table was not built with.")
+
+    out = []
+    for cut in cuts:
+        if cut >= adopted:
+            continue
+        rows = same = differ = 0
+        for j in per_junction["junctions"]:
+            b = _best(cut, j["designs"])
+            if b is None:
+                continue
+            rows += 1
+            cur = (j.get("best_available") or {}).get("antisense_5to3")
+            same += b["antisense_5to3"] == cur
+            differ += b["antisense_5to3"] != cur
+        out.append((cut, rows, same, differ))
+    return out
+
+
 def _parent_liability_definition():
     """What "parent liability" IS, operationally, from the screen's own method block.
 
@@ -1986,8 +2046,18 @@ def table6(expr, per_junction):
             soft = "—"
         reading = _EXPOSURE_READING.get(L["tier"], L["tier"])
         mark = " ◆" if L["locus"] in mine.get(junction, ()) else ""
+        # ⛔ A RECORD COUNT IS AN ACCESSION COUNT, AND THE HALF THAT IS CURATED WAS NOT PRINTED
+        # ANYWHERE (display-item review, 2026-08-19). The column is annotation depth — one entry per
+        # RefSeq transcript variant per register — and RefSeq's `XM_`/`XR_` records are
+        # computationally predicted gene models rather than curated transcripts, which Table 3
+        # already separates at the default depth and this table did not separate at all. The split
+        # decides how a large cell reads: *ANKS1B*'s 67 records are 32 curated and 35 predicted, and
+        # over the whole EWSR1 exon-12 seam only 41 of 123 records are curated. Both halves are in
+        # the artifact per locus; printing only the total is the choice that makes a locus look
+        # deeper-annotated than the curated record supports.
         rows.append(f"| {lab} | *{L['locus']}*{mark} | "
                     f"{L['screen_records']['n_transcript_records']} | "
+                    f"{L['screen_records']['n_curated_records']} | "
                     f"{L['n_designs_hitting_it']} of {n_des.get(junction, '?')} | "
                     + " | ".join(cells) + f" | {soft} | {reading} |")
     # ⚠ THE ◆ IS EXPLAINED BY A SYMBOL-KEYED NOTE, NOT BY A SUPERSCRIPT ON THIS HEADER. The header's
@@ -1999,9 +2069,10 @@ def table6(expr, per_junction):
     # neighbour's notes. Table 4 gained a ⁷ this round for its new parent-duplex column, and this
     # header still called ⁷ four pages later: one marker, two definitions, in a file whose whole
     # numbering convention exists to prevent that.
-    hdr = ("| junction | gene locus | gap-paired hit records | tiling registers returning it⁸ | "
+    hdr = ("| junction | gene locus | gap-paired hit records | of those, curated rather than "
+           "predicted | tiling registers returning it⁸ | "
            + " | ".join(tiss) + " | soft-tissue proxy maximum | exposure-organ reading |")
-    sep = "|---|---|---|---|" + "---|" * (len(tiss) + 2)
+    sep = "|---|---|---|---|---|" + "---|" * (len(tiss) + 2)
     return "\n".join([hdr, sep] + rows)
 
 
@@ -2214,6 +2285,11 @@ def main(argv=None):
                   if len(_et) > 1 else _et[0].lower())
 
     _n_records = _gap_paired_records(expr)
+    # ⚠ THE CURATED HALF OF THAT TOTAL, AND THE ONE LOCUS THAT CARRIES MOST OF IT AT THE LEAD SEAM.
+    # Derived from the same per-locus block the new column is, so the sentence and the cells cannot
+    # come apart. See the note beside the row rendering in `table6`.
+    _n_curated = sum(L["screen_records"]["n_curated_records"] for L in expr["per_locus"])
+    _cur_top = max(expr["per_locus"], key=lambda L: L["screen_records"]["n_curated_records"])
     # ⚠ TABLE 6's REGISTER DENOMINATOR NEEDS THE NUMBER IT IS *NOT*. "1 of 1" is unreadable beside
     # "2 of 5" unless the note says how many registers the seam admits, and that count belongs to
     # the geometry artifact Table 7 is built from — read, never typed.
@@ -2359,6 +2435,38 @@ def main(argv=None):
 
     t4_flag_where = _flag_where()
 
+    # ⛔ COLUMNS THAT READ THE SAME VALUE IN EVERY ROW, WITH NOTHING SAYING WHETHER THAT IS A
+    # MEASUREMENT OR A PLACEHOLDER (display-item review, 2026-08-19). The review named two;
+    # RECOMPUTED off the rendered rows there are three, and they do not mean the same thing — one
+    # of them is the condition of membership in this table and is therefore constant BY
+    # CONSTRUCTION, while the other two are readings that happen to agree across these nine
+    # designs. A reader cannot tell those apart from the cells, and the difference decides whether
+    # a zero is informative. Measured here rather than asserted, so a column that stops being
+    # constant leaves the sentence instead of being described as constant forever.
+    _t4h, _t4b = _md_table(t4)
+    _deep_from = next((i for i, h in enumerate(_t4h) if h.startswith("at the deeper ceiling")),
+                      len(_t4h))
+    _t4_const = [(i, _t4h[i], _t4b[0][i]) for i in range(len(_t4h))
+                 if len({r[i] for r in _t4b}) == 1 and _t4b[0][i] not in ("", "—")]
+
+    def _t4_name(i, h):
+        if sum(1 for x in _t4h if x == h) == 1:
+            return f"“{h}”"
+        return f"“{h}” ({'at the deeper ceiling' if i >= _deep_from else 'at the default depth'})"
+
+    _t4_sel = [(i, h, v) for i, h, v in _t4_const
+               if h.startswith("of those, on the sense strand") and i < _deep_from]
+    _t4_rest = [(i, h, v) for i, h, v in _t4_const if (i, h, v) not in _t4_sel]
+    t4_constant_columns = ("" if not _t4_const else (
+        f"{_word(len(_t4_const)).capitalize()} columns read one value in every row, and they are "
+        f"not one kind of fact. "
+        + ("".join(f"{_t4_name(i, h)} reads {v} in all {len(_t4b)} rows BY CONSTRUCTION: it is the "
+                   f"property membership of this table is defined by. " for i, h, v in _t4_sel))
+        + ("" if not _t4_rest else
+           ", ".join(f"{_t4_name(i, h)} reads {v}" for i, h, v in _t4_rest)
+           + f" in all {len(_t4b)} rows, which is a measurement over these designs and not an "
+             f"unfilled cell; neither separates one row from another.")))
+
     # ⚠ THE SAME MEASUREMENT THE DO-NOT-ORDER BANNER MAKES, RUN BETWEEN THE TABLES RATHER THAN
     # BETWEEN a table and the condemned list. Emitted only while the disagreement exists.
     def _twin(other, here):
@@ -2409,6 +2517,25 @@ def main(argv=None):
             f"acceptor table ({len(_nc_seams)} seams) and the liability scan's control junction "
             f"({_cryptic!r}). One of the three no longer reads, so the caption would either assert "
             "a scope it cannot check or leave the omission silent again. Re-derive them.")
+    # ⛔ WHETHER THE RECOMMENDATION SURVIVES ANOTHER CUT — see `_rank_stability`. Reported over the
+    # cuts BELOW the adopted one, because those are the ones the paper's own cited range reaches
+    # and the only direction in which a printed reagent can become one not to order.
+    _stab = [(c, r, s, d) for c, r, s, d in _rank_stability(per_junction)
+             if c >= _cut_sensitivity()["loose_bp"]]
+    _n_seams_total = len(per_junction["junctions"])
+    t2_cut_stability = (
+        "⚠ The recommendation is a reading at that one cut, and what moves with the cut is "
+        "AVAILABILITY more than identity. Re-ranked on the same screened designs by the same keys, "
+        f"the seams that still have a best available design number "
+        + "; ".join(
+            f"{r} of the {_n_seams_total} at {_word(c)} base pairs, "
+            + ("all of them the molecule printed here" if not d else
+               f"{_word(d)} of them a different molecule")
+            for c, r, s, d in reversed(_stab))
+        + ". Nothing was re-screened to say that; only the liability test moved, and a seam that "
+          "loses its row loses a reagent rather than gaining a worse one."
+        if _stab else "")
+
     t2_acceptor_scope = (
         f"Every row here is an {_acceptor(_t2_acc[0])} acceptor seam: the acceptor half is the same "
         f"in all {len(per_junction['junctions'])} of them, so what a row "
@@ -2619,7 +2746,7 @@ ranks by margin instead and does print a sequence at each of them. **Clearing th
 means one thing and one thing only: no wild-type parent pairs the whole catalytic gap at
 {_word(_parent_cut_bp())} base pairs or more.** {_cut_caveat()} No row of this table reaches the
 criterion — the column's highest reading is {t2_max_duplex} base pairs — so no row carries the ⚑ Tables 3 and 4
-use, and an unmarked row here is not a clearance on any wider ground. {t2_twin_warning} The last column is a conventional
+use, and an unmarked row here is not a clearance on any wider ground. {t2_cut_stability} {t2_twin_warning} The last column is a conventional
 design audit, computed for whichever design this table names from the same artefact and by the same
 code Table 4 uses. {_rule_audit_note()} It is reported beside the ranking and is never folded
 into it: the two orderings select different molecules, which is the disagreement §2.10 is about, and
@@ -2674,7 +2801,7 @@ activity, and none speaks to cleavage. **This table condemns nothing and clears 
 column is a verdict from ONE screen, the near-match screen, and {_word(n_t4_flagged)} of these rows carry the ⚑ of
 the mature-parent screen: a wild-type parent pairs their whole catalytic gap at the {_word(_parent_cut_bp())}-base-pair
 criterion, which is this paper's central negative. {t4_flag_where} A
-design can survive every near-match screen here and still be one not to order.
+design can survive every near-match screen here and still be one not to order. {t4_constant_columns}
 {_ordering_clause()}\n\n⁴ A DISCRIMINATION-WEIGHTED COUNT OF NEAR-MATCH SITES, and the unit is
 sites: each of the design's near-matches enters at one, reduced by the modelled loss of RNase-H1
 cleavage at however many mismatches fall in its catalytic gap, and the weights are summed — so a 0
@@ -2766,7 +2893,15 @@ four junctions of this table and not over the whole 38-junction panel. It is a c
 the gene, so it is not annotation depth and not a property of the locus on its own: a locus that
 every register returns at one accession is counted once per register, and a locus returned at
 several accessions is counted once per accession per register — *HNRNPA2B1*'s hundred records
-over two registers are fifty accessions each, which §2.8 works through. Tiling registers is how many of the designs
+over two registers are fifty accessions each, which §2.8 works through. The column beside it gives how many of
+those records are CURATED RefSeq transcripts rather than the computationally predicted `XM_`/`XR_`
+gene models Table 3 also counts separately: {_n_curated} of the {_n_records} records in this table are
+curated, and the locus contributing most of them is *{_cur_top['locus']}*, at
+{_cur_top['screen_records']['n_curated_records']} of its own
+{_cur_top['screen_records']['n_transcript_records']}. Both columns count records the search returned
+rather than properties of the locus, so a locus is neither cleaner for having few curated records nor
+dirtier for having many; what the split says is how much of a large cell rests on predicted
+annotation. Tiling registers is how many of the designs
 tiled across that junction return the locus, which is robustness to where the window is placed; the
 two columns therefore move together rather than being independent axes, and neither is ranked on,
 neither is expression and neither is affinity. A locus with no reading carries the reason rather

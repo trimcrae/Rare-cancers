@@ -1,6 +1,6 @@
 ---
 id: DOC-FUSION-JUNCTION-ASO-SUPPLEMENTARY-INFORMATION
-title: "Supplementary Information — Nearly half of junction-spanning gapmer designs against the NR4A3 fusions of extraskeletal myxoid chondrosarcoma pair a wild-type parent gene"
+title: "Supplementary Information — In silico, nearly half of junction-spanning 5-6-5 gapmer designs against the NR4A3 fusions of extraskeletal myxoid chondrosarcoma pair a wild-type parent gene over a ten-base-pair duplex through the catalytic gap, and a longer gap trades gap-level margin against parent-paired gap DNA"
 level: L3
 kind: manuscript
 status: live

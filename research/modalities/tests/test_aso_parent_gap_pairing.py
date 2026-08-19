@@ -84,9 +84,13 @@ def test_the_corpus_counts_match_the_manuscript():
         # reader to re-type the needle, which is how a pin stops measuring the paper. What is
         # required is that ONE sentence carry: the denominator, the count, a TEN-base-pair
         # criterion in any wording, and the *NR4A3* share.
-        rf"Of {c['n_designs']} (?:candidates|junction-spanning designs)[^.]{{0,160}}?"
-        rf"{c['n_with_parent_duplex_through_gap']} pair their catalytic gap against a mature parent "
-        rf"transcript [^.]{{0,40}}?\bten\b[\w\s-]{{0,30}}?base pairs?\b[^.]{{0,30}}?"
+        rf"Of {c['n_designs']} (?:candidates|junction-spanning designs)[^.]{{0,200}}?"
+        rf"{c['n_with_parent_duplex_through_gap']} pair their catalytic gap[^.]{{0,60}}?"
+        # ⚠ THE NOUN PHRASE MOVED AGAIN THE SAME DAY: "against a mature parent transcript" ->
+        # "against one of six mature parents searched". Three rewrites, no number touched. What
+        # the screen measures is a duplex against a MATURE PARENT, so that is what is required —
+        # the article, the number of them and the participle are the paper's business.
+        rf"\bmature parents?\b[^.]{{0,60}}?\bten\b[\w\s-]{{0,30}}?base pairs?\b[^.]{{0,40}}?"
         # ⚠ "healthy" -> "wild-type" 2026-08-17: a cold reader found the abstract was the only
         # place in the paper using "healthy"; every other home says wild-type. Either spelling
         # satisfies this pin, which is for the three FIGURES and their ten-base-pair criterion.

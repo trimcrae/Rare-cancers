@@ -224,8 +224,20 @@ def test_every_condemned_design_survives_a_filter_on_its_own_geometry():
 #: precisely the condemned ones, the rows where a table and the canonical file disagreeing is most
 #: dangerous. The parse now tolerates any trailing marker glyph, and `_table_duplex_claims` fails
 #: on a duplex-looking cell it cannot read instead of passing over it.
+#:
+#: ⛔⛔ AND IT HAD TO BE WIDENED AGAIN THE SAME DAY (2026-08-19, lane C2). The generator began
+#: appending a SECOND CUT's verdict to the cell — `8 bp (*TFG*); liable at seven`, `0 bp; clear at
+#: seven` — and eleven cells stopped parsing, ten of them the paper's named reagents. The trailing
+#: clause is not noise to be tolerated: it is a CLAIM, and it is derivable from the same cell, so
+#: it is captured and asserted below rather than skipped over. A parser widened only to keep
+#: quiet is how the ⚑ rows were lost the first time.
 _DUPLEX_CELL = re.compile(
-    r"^\s*(\d+)(?:\s*bp)?\s*(?:\(\*([A-Z0-9]+)\*\))?\s*[†‡⚑◆◇★*¹²³⁴⁵⁶⁷⁸⁹\s]*$")
+    r"^\s*(\d+)(?:\s*bp)?\s*(?:\(\*([A-Z0-9]+)\*\))?\s*[†‡⚑◆◇★*¹²³⁴⁵⁶⁷⁸⁹\s]*"
+    r"(?:;\s*(liable|clear)\s+at\s+([a-z]+)\s*)?[†‡⚑◆◇★*¹²³⁴⁵⁶⁷⁸⁹\s]*$")
+
+#: number words the cut clause may spell, so the guard follows a re-cut table instead of pinning 7
+_CUT_WORD = {"six": 6, "seven": 7, "eight": 8, "nine": 9, "ten": 10, "eleven": 11, "twelve": 12,
+             "thirteen": 13}
 
 #: A cell is a duplex CLAIM if it carries the unit or a gene. A bare numeral is not: margins,
 #: counts and coverage figures are numerals too, and a bare `0` would sweep in every zero in the row.
@@ -268,6 +280,46 @@ def _table_duplex_claims():
             if m:
                 claims.append((sequence, int(m.group(1)), m.group(2) or ""))
     return claims
+
+
+def _table_cut_verdicts():
+    """(sequence, bp, verdict, cut_bp) for every duplex cell that also states a second-cut reading."""
+    out = []
+    for sequence, cells in _sequence_bearing_rows():
+        for cell in cells:
+            m = _DUPLEX_CELL.match(cell) if _LOOKS_LIKE_A_DUPLEX_CELL.search(cell) else None
+            if m and m.group(3):
+                out.append((sequence, int(m.group(1)), m.group(3), m.group(4), cell))
+    return out
+
+
+def test_the_second_cut_verdict_a_cell_states_is_the_one_its_own_length_implies():
+    """⭐ THE CLAUSE IS READ, NOT TOLERATED (2026-08-19, lane C2).
+
+    `8 bp (*TFG*); liable at seven` states TWO things: a duplex length, and a verdict at a cut
+    other than the one the paper reports throughout. The second is not free — a length of 8 is
+    liable at seven and a length of 0 is clear at it — so a cell whose clause disagrees with its
+    own number is a table telling a reader two different things about one molecule, which is the
+    hazard this whole file exists for.
+
+    ⚠ THE CUT IS READ OUT OF THE CLAUSE, never typed here, so re-cutting the table moves the
+    guard with it instead of turning it red.
+    """
+    verdicts = _table_cut_verdicts()
+    assert verdicts, (
+        "no duplex cell states a second-cut verdict. If the generator stopped printing the "
+        "'liable/clear at <cut>' clause that is a real change and this test should be re-derived "
+        "against the new form — not deleted, and not left matching nothing.")
+    unknown = sorted({word for _, _, _, word, _ in verdicts if word not in _CUT_WORD})
+    assert not unknown, (
+        f"a duplex cell states its verdict at a cut this file cannot read: {unknown}. Add the "
+        "number word to _CUT_WORD; do not let an unreadable cut pass as agreement.")
+    wrong = [(seq, cell) for seq, bp, verdict, word, cell in verdicts
+             if (bp >= _CUT_WORD[word]) != (verdict == "liable")]
+    assert not wrong, (
+        f"{len(wrong)} duplex cell(s) state a second-cut verdict their own printed length "
+        "contradicts:\n  " + "\n  ".join(f"{s}: {c!r}" for s, c in wrong[:8])
+        + "\n\nA parent duplex of L base pairs is liable at a cut of C exactly when L >= C.")
 
 
 #: The share of sequence-bearing table rows that carry a joinable parent-duplex cell. MEASURED

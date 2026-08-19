@@ -61,7 +61,14 @@ def _sentences(path):
     text = re.sub(r"^---\n.*?\n---\n", "", open(path, encoding="utf-8").read(), flags=re.S)
     text = re.sub(r"^```.*?^```", "", text, flags=re.S | re.M)
     text = "\n".join(ln for ln in text.splitlines() if not ln.lstrip().startswith("|"))
-    return [s.strip() for s in re.split(r"(?<=[.;])\s+", text.replace("\n", " ")) if s.strip()]
+    #: ⛔⛔ WHITESPACE IS FLATTENED, NOT JUST DE-NEWLINED (2026-08-19, lane C2). This read
+    #: `text.replace("\n", " ")`, and the manuscript hard-wraps at ~100 columns with a THREE-SPACE
+    #: continuation indent — so a phrase broken across a wrap came back as "carries four    or
+    #: five", with four spaces. Every regex here tolerates that (`\s+` throughout); the literal
+    #: blacklist below did not, and the inverted mapping it exists to forbid was sitting in §6's
+    #: screen-5 bullet, unmatched, while this file reported green. A prose needle must flatten.
+    text = re.sub(r"[ \t]*\n[ \t]*", " ", text)
+    return [" ".join(s.split()) for s in re.split(r"(?<=[.;])\s+", text) if s.strip()]
 
 
 def _body_sentences():
@@ -102,7 +109,14 @@ _RUN_LIST = re.compile(
 #: positions unpaired"
 _GAP_LIST = re.compile(
     rf"(?:{_BINDING_VERB})\s+({_LIST})\s+(?:{_UNPAIRED_NOUN})"
-    rf"|with\s+({_LIST})\s+(?:positions?|bases?|nucleotides?|base\s+pairs?)\s+unpaired",
+    rf"|with\s+({_LIST})\s+(?:positions?|bases?|nucleotides?|base\s+pairs?)\s+unpaired"
+    #: ⛔ AND THE NOUN MAY BE ELIDED (2026-08-19, lane C2). §6's screen-5 bullet reads "...inside a
+    #: 16-mer carries four or five, so..." — the run list, the N-mer and the binding verb are all
+    #: there and only the noun is gone, so every pattern above missed it and the inversion went
+    #: unchecked in the one section a methods reader reconciles the screen from. A bare count list
+    #: closing a clause, in a sentence that has ALREADY stated an N-mer and a paired-run list, can
+    #: only be the complement — `_paired_sentences` requires both of those before this is read.
+    rf"|(?:{_BINDING_VERB})\s+({_LIST})\s*(?=[,;.]|$)",
     re.I)
 _NMER = re.compile(rf"\b({_NUM})[-\s]?mer\b", re.I)
 
