@@ -900,7 +900,13 @@ def markdown_to_html(text, floats=None):
             i += 1
         if para:
             joined = " ".join(para)
-            opener = re.match(r"^\*\*(Figure|Table) \d+\.", joined)
+            #: ⛔ A SUPPLEMENTARY LEGEND IS A LEGEND (found 2026-08-19 by a guard this lane's own
+            #: change tripped). The pattern was `^\*\*(Figure|Table) \d+\.`, which does not match
+            #: "**Supplementary Figure S1." — so the supplementary panel's legend rendered as a
+            #: bare <p> with no break rule at all, and any note after it fell through too. Exactly
+            #: the class-that-no-element-carries shape `test_no_page_is_nearly_empty` exists to
+            #: catch, sitting in the builder unnoticed because nothing had yet been placed after it.
+            opener = re.match(r"^\*\*(?:Supplementary )?(Figure|Table) S?\d+\.", joined)
             # ⚠ A TABLE CAPTION AND A FIGURE LEGEND SIT ON OPPOSITE SIDES OF THEIR ITEM, so they
             # cannot carry the same break rule: a legend must stay with the figure ABOVE it and a
             # caption with the table BELOW it. They shared one class until 2026-08-17 and the
