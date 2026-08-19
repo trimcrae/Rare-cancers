@@ -9,17 +9,27 @@
     "Not a claim that the archived predictions are correct. Every count in the deposit is a prediction from sequence search; no off-target activity and no RNase-H cleavage was measured anywhere in this work.",
     "Not a licence statement. The depositor chooses the licence at step 4 below."
   ],
-  "git_revision": "77b21ac8da92e552704a86fb320f23e2fcd8a8d8",
+  "git_revision": "240a72d0057642d78b66b98968bbf361ddd5fc6d",
   "git_tree_is_clean_apart_from_this_manifest": false,
   "inventory_limited_to_tracked_files": true,
-  "archive_content_digest": "5f9406c70993d1dd37846afee9a8350e26a2fc1433771a1d2247bf6aea9a32ad",
-  "n_files": 384,
-  "total_bytes": 24230538,
-  "total_mib": 23.108,
+  "archive_content_digest": "acd845a9f605e156ee50365102c12db364f59b4c67d104a16403240a3a5c4a73",
+  "n_files": 473,
+  "self_entry": {
+    "path": "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
+    "travels_with_the_deposit": true,
+    "in_the_files_list_below": false,
+    "sha256": null,
+    "_why_no_hash": "A file cannot state its own SHA-256: appending the hash changes the bytes that were hashed, so there is no fixed point to write. A second pass would produce a manifest whose recorded self-hash is the hash of the manifest before that hash was recorded — a value that is wrong about the only file it describes.",
+    "_why_not_counted": "It is excluded from `files`, `n_files`, `total_bytes` and `archive_content_digest` for the same reason, which is also what keeps two runs over an unchanged tree byte-identical — the property this module's header calls the only cheap check a reader has that the file is derived rather than edited.",
+    "how_a_reader_checks_it_anyway": "Two ways, neither needing a self-hash. (1) Re-derive it: check out `git_revision` and run `python3 research/manuscripts/aso_archive_manifest.py --check`, which rebuilds the whole file and exits non-zero on any difference. (2) Compare the downloaded copy's `sha256sum` against the value the deposition record states — step 4 below tells the depositor to record it there, which is the one place it can live without being self-referential."
+  },
+  "total_bytes": 44041513,
+  "total_mib": 42.001,
   "how_to_deposit_and_mint_the_doi": [
     "1. Check out the revision named in `git_revision` and confirm `git status` is clean. The manifest's hashes are only meaningful against that tree.",
     "2. Re-run this module (`python3 research/manuscripts/aso_archive_manifest.py --check`). A non-zero exit means the tree moved after the manifest was written; regenerate before depositing.",
     "3. Build the payload from the `files` list below — for example: `python3 -c \"import json,zipfile;m=json.load(open('research/manuscripts/aso/fusion-junction-aso-archive-manifest.json'));z=zipfile.ZipFile('emc-aso-archive.zip','w',zipfile.ZIP_DEFLATED);[z.write(f['path']) for f in m['files']];z.write('research/manuscripts/aso/fusion-junction-aso-archive-manifest.json');z.close()\"` — then verify the archive's own SHA-256 list against `files` before uploading.",
+    "3b. Record the manifest's OWN SHA-256 outside the manifest — `sha256sum research/manuscripts/aso/fusion-junction-aso-archive-manifest.json` — and paste it into the deposition description at step 4. See `self_entry` above: this file cannot carry its own hash, so the deposition record is where that hash lives.",
     "4. Create the deposition (Zenodo: New upload -> Dataset/Software; upload the zip; title 'Code and artefacts for: fusion-junction antisense oligonucleotides in extraskeletal myxoid chondrosarcoma'; author and ORCID; licence — CC-BY-4.0 for the artefacts and MIT or Apache-2.0 for the code is the usual pairing; keywords 'extraskeletal myxoid chondrosarcoma', 'EWSR1::NR4A3', 'antisense oligonucleotide', 'gapmer', 'fusion junction'). Attach `README` = the `_what_this_is` and `how_to_reproduce_offline` blocks of this file.",
     "5. RESERVE the DOI before publishing the deposition (Zenodo: 'Reserve DOI'). This is what makes step 6 possible: the manuscript can cite the DOI in the same version that is deposited, instead of citing a DOI that does not exist yet.",
     "6. Paste the reserved DOI into the manuscript's two '[ARCHIVE DOI]' placeholders — one in Methods -> Availability, one in Declarations -> Data and code availability. Register the DOI in research/manuscripts/pinned-figures.json so the consistency linter holds the two copies together.",
@@ -111,6 +121,27 @@
       "junctions_screened_by_blast_arm_only": [],
       "junctions_screened_by_exhaustive_arm_only": []
     },
+    "import_closure": {
+      "_what": "Modules pulled in because released code imports them rather than because a promise names them. A non-empty list is not a defect in this manifest; it is the measure of how far the promise table falls short of an importable archive, and it is why the closure is computed rather than listed.",
+      "n_added": 10,
+      "added": [
+        "research/manuscripts/build_submission_pdf.py",
+        "research/manuscripts/figures/aso_figure_text.py",
+        "research/modalities/aso_screen_sets.py",
+        "research/modalities/depmap_sarcoma_dependency.py",
+        "research/modalities/emc_atr_vulnerability.py",
+        "research/modalities/emc_expression_panels.py",
+        "research/modalities/fet_ddr_axis_scan.py",
+        "research/modalities/fusion_breakpoints.py",
+        "research/modalities/fusion_neoantigen_invalidation.py",
+        "research/modalities/junction_sirna.py"
+      ],
+      "⛔_ambiguous_and_therefore_not_added": {}
+    },
+    "documents_with_no_build_stamp": [
+      "research/manuscripts/aso/fusion-junction-aso-research-article-supplementary-information.pdf"
+    ],
+    "_documents_with_no_build_stamp_why": "A deposited PDF whose stamp is absent cannot be shown current: the stamp is the only record of which source documents it was rendered from, and mtimes are not evidence because the regeneration chain rewrites unchanged files. Listed rather than assumed-fine; the fix belongs in build_submission_pdf.py, not here.",
     "⚠_known_and_deliberate": [
       "✅ CLOSED 2026-08-13. The Europe PMC prior-art corpora behind the '5,153 unique records' first-in-kind statement live on the `literature-cache` branch and so were outside a deposit built from this one. The identifiers, per-corpus counts and their overlap are now exported to fusion-junction-aso-priorart-evidence.json and are in this manifest. The arithmetic re-derives: 4,252 + 1,133 = 5,385 raw, minus 232 in both corpora, gives 5,153 unique, matching the Introduction. The full texts are NOT exported and are not what the claim rests on.",
       "✅ CLOSED 2026-08-13. The Availability paragraph names five recomputations that run offline, and the fifth — the chance baseline — did not run at all: `_uniform` raised on a panel set holding both two- and three-seam multi-junction oligos. The field is now a scalar when the set is uniform and a range when it is not, and the module runs. Verified in both directions: the plain invocation exits 0, and the pinned invocation reproduces the committed content byte-identically.",
@@ -121,11 +152,24 @@
     {
       "id": "reproduction_command",
       "promise_text": "the regeneration chain the Availability statement names",
-      "n_files": 1,
+      "n_files": 14,
       "files": [
+        "research/manuscripts/figures/aso-figure-provenance.json",
+        "research/manuscripts/figures/svg_to_submission_formats.py",
+        "research/manuscripts/lint_citations.py",
+        "research/manuscripts/lint_consistency.py",
+        "research/manuscripts/lint_style.py",
+        "research/manuscripts/submission-metrics.json",
+        "research/manuscripts/submission_metrics.py",
+        "research/manuscripts/submission_packet.py",
+        "research/modalities/aso-per-junction-table.json",
+        "research/modalities/aso_noncoding_acceptor_screened_table.py",
+        "research/modalities/aso_per_junction_table.py",
+        "research/modalities/noncoding-acceptor/aso-noncoding-acceptor-screened-table.json",
+        "research/modalities/tests/test_aso_per_junction_table.py",
         "scripts/regenerate_aso_chain.sh"
       ],
-      "_promise_still_in_manuscript": false,
+      "_promise_still_in_manuscript": true,
       "⛔_UNMAPPED": false
     },
     {
@@ -441,9 +485,13 @@
     {
       "id": "per_design_tables",
       "promise_text": "per-design tables",
-      "n_files": 6,
+      "n_files": 10,
       "files": [
+        "research/manuscripts/aso/fusion-junction-aso-coverage-ladder.json",
+        "research/manuscripts/aso/fusion-junction-aso-reagent-coverage.json",
         "research/manuscripts/aso/fusion-junction-aso-submission-tables.md",
+        "research/manuscripts/aso_coverage_ladder.py",
+        "research/manuscripts/aso_reagent_coverage.py",
         "research/manuscripts/submission_tables.py",
         "research/modalities/junction-aso-offtarget-locus-collapse.json",
         "research/modalities/junction_aso_locus_collapse.py",
@@ -456,18 +504,31 @@
     {
       "id": "retrieval_records",
       "promise_text": "the retrieval records for every literature claim",
-      "n_files": 13,
+      "n_files": 26,
       "files": [
         "research/data/emc-clinical-registry.json",
         "research/literature/fusion-consensus-probe.json",
         "research/literature/submission-reference-metadata-2026-08-09.json",
+        "research/literature/tcf12-nr4a3-breakpoint-primary-sources.json",
         "research/manuscripts/aso/aso-citations-priorart-2026-08-08.md",
+        "research/manuscripts/aso/fusion-junction-aso-2026-citation-resolution.json",
+        "research/manuscripts/aso/fusion-junction-aso-data-sources.json",
         "research/manuscripts/aso/fusion-junction-aso-references.json",
         "research/manuscripts/aso/fusion-junction-aso-references.md",
         "research/manuscripts/aso/fusion-junction-aso-submission-references.json",
         "research/manuscripts/aso/fusion-junction-aso-submission-references.md",
+        "research/manuscripts/aso/lit-targets-aso-bibliography-completion.json",
+        "research/manuscripts/aso/lit-targets-aso-breakpoint-census.json",
+        "research/manuscripts/aso/lit-targets-aso-degrader-refile.json",
+        "research/manuscripts/aso/lit-targets-aso-delivery-routes.json",
+        "research/manuscripts/aso/lit-targets-aso-gap-length.json",
+        "research/manuscripts/aso/lit-targets-aso-instruments.json",
         "research/manuscripts/aso/lit-targets-aso-round7-precedents.json",
+        "research/manuscripts/aso/lit-targets-aso-s81242-type2-deposit.json",
+        "research/manuscripts/aso/lit-targets-aso-thermo.json",
+        "research/manuscripts/aso/lit-targets-aso-type3-designability.json",
         "research/manuscripts/aso/lit-targets-aso-verify.json",
+        "research/manuscripts/aso/lit-targets-nr4a-redundancy.json",
         "research/manuscripts/fusion-partner/emc-fusion-partner-pooling.json",
         "research/manuscripts/fusion-partner/lit-targets-partner-events.json",
         "research/manuscripts/submission_citations.py"
@@ -478,10 +539,11 @@
     {
       "id": "correction_record",
       "promise_text": "The complete correction record, including every superseded value, is released with the archive.",
-      "n_files": 5,
+      "n_files": 6,
       "files": [
         "research/manuscripts/aso/fusion-junction-aso-paper-redteam.md",
         "research/manuscripts/aso/fusion-junction-aso-working-record.md",
+        "research/manuscripts/pinned-figures.json",
         "research/modalities/junction-aso-regen-manifest.json",
         "research/modalities/junction-mrna-frame-audit.json",
         "research/modalities/junction_seam_retraction.py"
@@ -499,7 +561,7 @@
         "research/modalities/junction_breakpoint_scan.py",
         "research/modalities/nr4a3-exon-audit.json"
       ],
-      "_promise_still_in_manuscript": false,
+      "_promise_still_in_manuscript": true,
       "⛔_UNMAPPED": false
     },
     {
@@ -555,55 +617,112 @@
     {
       "id": "censoring_test_and_genomic_attempt",
       "promise_text": "the test of the censoring restriction the cleanliness claim depends on, and the genome-wide screen that was attempted and did not work",
-      "n_files": 47,
+      "n_files": 104,
       "files": [
+        "research/modalities/aso-insilico-evaluation-e10n3-deep500-b1.json",
         "research/modalities/aso-insilico-evaluation-e12n3-18mer-deep500.json",
         "research/modalities/aso-insilico-evaluation-e12n3-20mer-deep500.json",
+        "research/modalities/aso-insilico-evaluation-e12n3-deep500-b1.json",
+        "research/modalities/aso-insilico-evaluation-e13n3-deep500-b1.json",
+        "research/modalities/aso-insilico-evaluation-e15n3-deep500-b1.json",
         "research/modalities/aso-insilico-evaluation-e1n3-clean9-deep500.json",
+        "research/modalities/aso-insilico-evaluation-e4n3-deep500-b1.json",
+        "research/modalities/aso-insilico-evaluation-e7n3-deep500-b1.json",
+        "research/modalities/aso-insilico-evaluation-e9n3-deep500-b1.json",
         "research/modalities/aso-insilico-evaluation-fuse10n3-18mer-deep500.json",
         "research/modalities/aso-insilico-evaluation-fuse10n3-20mer-deep500.json",
+        "research/modalities/aso-insilico-evaluation-fuse10n3-deep500-b2.json",
         "research/modalities/aso-insilico-evaluation-fuse11n3-deep500.json",
+        "research/modalities/aso-insilico-evaluation-fuse13n3-deep500-b2.json",
+        "research/modalities/aso-insilico-evaluation-fuse1n3-deep500-b2.json",
+        "research/modalities/aso-insilico-evaluation-fuse3n3-deep500-b2.json",
         "research/modalities/aso-insilico-evaluation-fuse5n3-deep500.json",
+        "research/modalities/aso-insilico-evaluation-fuse7n3-deep500-b2.json",
         "research/modalities/aso-insilico-evaluation-fuse8n3-18mer-deep500.json",
         "research/modalities/aso-insilico-evaluation-fuse8n3-20mer-deep500.json",
         "research/modalities/aso-insilico-evaluation-fuse8n3-clean9-deep500.json",
         "research/modalities/aso-insilico-evaluation-taf15e11n3-18mer-deep500.json",
         "research/modalities/aso-insilico-evaluation-taf15e11n3-20mer-deep500.json",
+        "research/modalities/aso-insilico-evaluation-taf15e11n3-deep500-b1.json",
+        "research/modalities/aso-insilico-evaluation-taf15e12n3-deep500-b1.json",
         "research/modalities/aso-insilico-evaluation-taf15e14n3-deep500.json",
         "research/modalities/aso-insilico-evaluation-taf15e1n3-18mer-deep500.json",
         "research/modalities/aso-insilico-evaluation-taf15e1n3-20mer-deep500.json",
         "research/modalities/aso-insilico-evaluation-taf15e1n3-clean9-deep500.json",
+        "research/modalities/aso-insilico-evaluation-taf15e4n3-deep500-b1.json",
+        "research/modalities/aso-insilico-evaluation-taf15e6n3-deep500-b1.json",
+        "research/modalities/aso-insilico-evaluation-taf15e8n3-deep500-b1.json",
         "research/modalities/aso-insilico-evaluation-taf15e9n3-deep500.json",
         "research/modalities/aso-insilico-evaluation-tcf12e11n3-deep500.json",
+        "research/modalities/aso-insilico-evaluation-tcf12e13n3-deep500-b2.json",
         "research/modalities/aso-insilico-evaluation-tcf12e17n3-clean9-deep500.json",
+        "research/modalities/aso-insilico-evaluation-tcf12e19n3-deep500-b2.json",
+        "research/modalities/aso-insilico-evaluation-tcf12e3n3-deep500-b1.json",
+        "research/modalities/aso-insilico-evaluation-tcf12e5n3-deep500-b1.json",
         "research/modalities/aso-insilico-evaluation-tcf12e7n3-18mer-deep500.json",
         "research/modalities/aso-insilico-evaluation-tcf12e7n3-20mer-deep500.json",
         "research/modalities/aso-insilico-evaluation-tcf12e7n3-clean9-deep500.json",
         "research/modalities/aso-insilico-evaluation-tcf12e9n3-clean9-deep500.json",
+        "research/modalities/aso-insilico-evaluation-tfge2n3-deep500-b2.json",
+        "research/modalities/aso-insilico-evaluation-tfge3n3-deep500-b2.json",
+        "research/modalities/aso-insilico-evaluation-tfge4n3-deep500-b2.json",
+        "research/modalities/aso-insilico-evaluation-tfge5n3-deep500-b2.json",
+        "research/modalities/aso-insilico-evaluation-tfge6n3-deep500-b2.json",
+        "research/modalities/aso-insilico-evaluation-tfge7n3-deep500-b2.json",
         "research/modalities/aso-premrna-offtarget-genomic.json",
+        "research/modalities/junction-aso-offtarget-e10n3-deep500-b1.json",
         "research/modalities/junction-aso-offtarget-e12n3-18mer-deep500.json",
         "research/modalities/junction-aso-offtarget-e12n3-20mer-deep500.json",
+        "research/modalities/junction-aso-offtarget-e12n3-deep500-b1.json",
+        "research/modalities/junction-aso-offtarget-e13n3-deep500-b1.json",
+        "research/modalities/junction-aso-offtarget-e15n3-deep500-b1.json",
         "research/modalities/junction-aso-offtarget-e1n3-clean9-deep500.json",
+        "research/modalities/junction-aso-offtarget-e4n3-deep500-b1.json",
+        "research/modalities/junction-aso-offtarget-e7n3-deep500-b1.json",
+        "research/modalities/junction-aso-offtarget-e9n3-deep500-b1.json",
         "research/modalities/junction-aso-offtarget-fuse10n3-18mer-deep500.json",
         "research/modalities/junction-aso-offtarget-fuse10n3-20mer-deep500.json",
+        "research/modalities/junction-aso-offtarget-fuse10n3-deep500-b2.json",
         "research/modalities/junction-aso-offtarget-fuse11n3-deep500.json",
+        "research/modalities/junction-aso-offtarget-fuse13n3-deep500-b2.json",
+        "research/modalities/junction-aso-offtarget-fuse1n3-deep500-b2.json",
+        "research/modalities/junction-aso-offtarget-fuse3n3-deep500-b2.json",
         "research/modalities/junction-aso-offtarget-fuse5n3-deep500.json",
+        "research/modalities/junction-aso-offtarget-fuse7n3-deep500-b2.json",
         "research/modalities/junction-aso-offtarget-fuse8n3-18mer-deep500.json",
+        "research/modalities/junction-aso-offtarget-fuse8n3-20mer-deep500-b2.json",
         "research/modalities/junction-aso-offtarget-fuse8n3-20mer-deep500.json",
         "research/modalities/junction-aso-offtarget-fuse8n3-clean9-deep500.json",
+        "research/modalities/junction-aso-offtarget-taf15e11n3-18mer-deep500-b2.json",
         "research/modalities/junction-aso-offtarget-taf15e11n3-18mer-deep500.json",
         "research/modalities/junction-aso-offtarget-taf15e11n3-20mer-deep500.json",
+        "research/modalities/junction-aso-offtarget-taf15e11n3-deep500-b1.json",
+        "research/modalities/junction-aso-offtarget-taf15e12n3-deep500-b1.json",
         "research/modalities/junction-aso-offtarget-taf15e14n3-deep500.json",
         "research/modalities/junction-aso-offtarget-taf15e1n3-18mer-deep500.json",
+        "research/modalities/junction-aso-offtarget-taf15e1n3-20mer-deep500-b2.json",
         "research/modalities/junction-aso-offtarget-taf15e1n3-20mer-deep500.json",
         "research/modalities/junction-aso-offtarget-taf15e1n3-clean9-deep500.json",
+        "research/modalities/junction-aso-offtarget-taf15e4n3-deep500-b1.json",
+        "research/modalities/junction-aso-offtarget-taf15e6n3-deep500-b1.json",
+        "research/modalities/junction-aso-offtarget-taf15e8n3-deep500-b1.json",
         "research/modalities/junction-aso-offtarget-taf15e9n3-deep500.json",
         "research/modalities/junction-aso-offtarget-tcf12e11n3-deep500.json",
+        "research/modalities/junction-aso-offtarget-tcf12e13n3-deep500-b2.json",
         "research/modalities/junction-aso-offtarget-tcf12e17n3-clean9-deep500.json",
+        "research/modalities/junction-aso-offtarget-tcf12e19n3-deep500-b2.json",
+        "research/modalities/junction-aso-offtarget-tcf12e3n3-deep500-b1.json",
+        "research/modalities/junction-aso-offtarget-tcf12e5n3-deep500-b1.json",
         "research/modalities/junction-aso-offtarget-tcf12e7n3-18mer-deep500.json",
         "research/modalities/junction-aso-offtarget-tcf12e7n3-20mer-deep500.json",
         "research/modalities/junction-aso-offtarget-tcf12e7n3-clean9-deep500.json",
-        "research/modalities/junction-aso-offtarget-tcf12e9n3-clean9-deep500.json"
+        "research/modalities/junction-aso-offtarget-tcf12e9n3-clean9-deep500.json",
+        "research/modalities/junction-aso-offtarget-tfge2n3-deep500-b2.json",
+        "research/modalities/junction-aso-offtarget-tfge3n3-deep500-b2.json",
+        "research/modalities/junction-aso-offtarget-tfge4n3-deep500-b2.json",
+        "research/modalities/junction-aso-offtarget-tfge5n3-deep500-b2.json",
+        "research/modalities/junction-aso-offtarget-tfge6n3-deep500-b2.json",
+        "research/modalities/junction-aso-offtarget-tfge7n3-deep500-b2.json"
       ],
       "_promise_still_in_manuscript": "n/a — descriptive label, not a quotation",
       "⛔_UNMAPPED": false
@@ -674,7 +793,7 @@
         "research/manuscripts/aso_sequence_manifest.py",
         "research/manuscripts/tests/test_pdf_text_layer_is_orderable.py"
       ],
-      "_promise_still_in_manuscript": false,
+      "_promise_still_in_manuscript": true,
       "⛔_UNMAPPED": false
     },
     {
@@ -688,7 +807,54 @@
         "research/modalities/tests/test_junction_aso_seam.py",
         "research/modalities/tests/test_junction_seam_retraction.py"
       ],
-      "_promise_still_in_manuscript": false,
+      "_promise_still_in_manuscript": true,
+      "⛔_UNMAPPED": false
+    },
+    {
+      "id": "where_each_number_lives",
+      "promise_text": "the files the Availability statement names one by one",
+      "n_files": 12,
+      "files": [
+        "research/manuscripts/aso/tcf12-breakpoint-assignment.json",
+        "research/manuscripts/tcf12_breakpoint_assignment.py",
+        "research/modalities/aso-gap-length-tradeoff.json",
+        "research/modalities/aso-offtarget-tissue-expression-inputs.json",
+        "research/modalities/aso-offtarget-tissue-expression.json",
+        "research/modalities/aso-parent-null.json",
+        "research/modalities/aso_gap_length_tradeoff.py",
+        "research/modalities/aso_offtarget_tissue_expression.py",
+        "research/modalities/aso_parent_null.py",
+        "research/modalities/tests/test_aso_gap_length_tradeoff.py",
+        "research/modalities/tests/test_aso_offtarget_tissue_expression.py",
+        "research/modalities/tests/test_aso_parent_null.py"
+      ],
+      "_promise_still_in_manuscript": true,
+      "⛔_UNMAPPED": false
+    },
+    {
+      "id": "reimplementation_crosscheck",
+      "promise_text": "Both implementations, the comparison and its deliberate-corruption tests are in the archive.",
+      "n_files": 3,
+      "files": [
+        "research/modalities/aso-independent-verification.json",
+        "research/modalities/aso_independent_verification.py",
+        "research/modalities/tests/test_aso_independent_verification.py"
+      ],
+      "_promise_still_in_manuscript": true,
+      "⛔_UNMAPPED": false
+    },
+    {
+      "id": "deposited_documents",
+      "promise_text": "Two renderings of this manuscript travel with it and their text is the same",
+      "n_files": 5,
+      "files": [
+        "research/manuscripts/aso/fusion-junction-aso-research-article-manuscript.build-stamp.json",
+        "research/manuscripts/aso/fusion-junction-aso-research-article-manuscript.pdf",
+        "research/manuscripts/aso/fusion-junction-aso-research-article-supplementary-information.pdf",
+        "research/manuscripts/aso/fusion-junction-aso-research-article.build-stamp.json",
+        "research/manuscripts/aso/fusion-junction-aso-research-article.pdf"
+      ],
+      "_promise_still_in_manuscript": true,
       "⛔_UNMAPPED": false
     },
     {
@@ -722,6 +888,25 @@
       ],
       "_promise_still_in_manuscript": "n/a — descriptive label, not a quotation",
       "⛔_UNMAPPED": false
+    },
+    {
+      "id": "import_closure",
+      "promise_text": "the modules released code imports (derived from the code, not promised by a sentence)",
+      "n_files": 10,
+      "files": [
+        "research/manuscripts/build_submission_pdf.py",
+        "research/manuscripts/figures/aso_figure_text.py",
+        "research/modalities/aso_screen_sets.py",
+        "research/modalities/depmap_sarcoma_dependency.py",
+        "research/modalities/emc_atr_vulnerability.py",
+        "research/modalities/emc_expression_panels.py",
+        "research/modalities/fet_ddr_axis_scan.py",
+        "research/modalities/fusion_breakpoints.py",
+        "research/modalities/fusion_neoantigen_invalidation.py",
+        "research/modalities/junction_sirna.py"
+      ],
+      "_promise_still_in_manuscript": "n/a — derived from the released code, not a quotation",
+      "⛔_UNMAPPED": false
     }
   ],
   "files": [
@@ -750,6 +935,14 @@
       "contributes": "Bibliographic record each numbered reference was rendered from, and the retrieval products those records were harvested out of. No field in the reference list is typed from recollection."
     },
     {
+      "path": "research/literature/tcf12-nr4a3-breakpoint-primary-sources.json",
+      "bytes": 27491,
+      "sha256": "1a742f5a840b72d33b8b18253bff6ade69fed72ee67f3add33110b69e98fdea8",
+      "serves": "retrieval_records",
+      "also_serves": [],
+      "contributes": "Bibliographic record each numbered reference was rendered from, and the retrieval products those records were harvested out of. No field in the reference list is typed from recollection."
+    },
+    {
       "path": "research/manuscripts/aso/aso-citations-priorart-2026-08-08.md",
       "bytes": 35080,
       "sha256": "64004a3138b04e3e9ac8d6ff5b8dff46fbf37f88ee3029fe2676d29511a3accc",
@@ -766,12 +959,36 @@
       "contributes": "The two-axis surface-antigen screen behind the Discussion's delivery negative: the twelve antigens scoreable on both axes, the measured EMC tumour-versus-normal-organ exposure contrast from GSE28866, the three that clear the measured axes and the reason each is still refused, and the ceiling field recording that 86 further surface-board genes are unmeasured rather than excluded. Released so the bound on what was examined is checkable rather than taken on trust."
     },
     {
+      "path": "research/manuscripts/aso/fusion-junction-aso-2026-citation-resolution.json",
+      "bytes": 4399,
+      "sha256": "8fcfafa8a3ff1d883bb1c5d8e4c14887bdc7ca8d6ab38b328947fda66b4b0ed9",
+      "serves": "retrieval_records",
+      "also_serves": [],
+      "contributes": "Bibliographic record each numbered reference was rendered from, and the retrieval products those records were harvested out of. No field in the reference list is typed from recollection."
+    },
+    {
       "path": "research/manuscripts/aso/fusion-junction-aso-cover-letter.md",
-      "bytes": 9483,
-      "sha256": "78f714247abd82f2c0686038ab5dd73c4611de8c1d6aeb19898807ae652e0c55",
+      "bytes": 9527,
+      "sha256": "d9bf3ca4a790055450848cd8e7bb107485effdf314665fecbef9cf67d902ebbe",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
+    },
+    {
+      "path": "research/manuscripts/aso/fusion-junction-aso-coverage-ladder.json",
+      "bytes": 118060,
+      "sha256": "4a48fb5d132171b17b88cd02e64c13796df49b4816a5dde48cfd92c739c3dd55",
+      "serves": "per_design_tables",
+      "also_serves": [],
+      "contributes": "The manuscript tables and the generator that derives every cell of them from the artifacts, plus the per-locus re-count and the chance baseline the tables and the chance-expectation panel are read from."
+    },
+    {
+      "path": "research/manuscripts/aso/fusion-junction-aso-data-sources.json",
+      "bytes": 15144,
+      "sha256": "739cd6d959783a5d0b2949ef0a71e7d7b409d20ac7cf91c55e5ff9fb39a729ad",
+      "serves": "retrieval_records",
+      "also_serves": [],
+      "contributes": "Bibliographic record each numbered reference was rendered from, and the retrieval products those records were harvested out of. No field in the reference list is typed from recollection."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-paper-redteam.md",
@@ -790,6 +1007,14 @@
       "contributes": "Every identifier in the two Europe PMC corpora the Introduction's '5,153 unique records' rests on, with the per-corpus counts and their overlap, so the count is re-derivable rather than taken on trust. The corpora themselves live on the literature-cache branch; this is the evidence the claim actually needs."
     },
     {
+      "path": "research/manuscripts/aso/fusion-junction-aso-reagent-coverage.json",
+      "bytes": 4308,
+      "sha256": "3b5d9afbda8e981d714a1dea0910417e6d40adca191da6bb6982fbac16e55f44",
+      "serves": "per_design_tables",
+      "also_serves": [],
+      "contributes": "The manuscript tables and the generator that derives every cell of them from the artifacts, plus the per-locus re-count and the chance baseline the tables and the chance-expectation panel are read from."
+    },
+    {
       "path": "research/manuscripts/aso/fusion-junction-aso-references.json",
       "bytes": 62794,
       "sha256": "582cd0d7c8435f5755570a73b84ecfda070f633a73676f21a7b2295e9972a163",
@@ -806,33 +1031,73 @@
       "contributes": "Bibliographic record each numbered reference was rendered from, and the retrieval products those records were harvested out of. No field in the reference list is typed from recollection."
     },
     {
+      "path": "research/manuscripts/aso/fusion-junction-aso-research-article-manuscript.build-stamp.json",
+      "bytes": 728,
+      "sha256": "02f197739a1cffc6d52615d33c9856b847c54e077aad3244424335b7feaae34c",
+      "serves": "deposited_documents",
+      "also_serves": [],
+      "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
+    },
+    {
+      "path": "research/manuscripts/aso/fusion-junction-aso-research-article-manuscript.pdf",
+      "bytes": 1811134,
+      "sha256": "88d3a06b136b5ee6abafab335ffb2d7b2bdd392c796d86bd83044283e76eb8ba",
+      "serves": "deposited_documents",
+      "also_serves": [],
+      "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
+    },
+    {
+      "path": "research/manuscripts/aso/fusion-junction-aso-research-article-supplementary-information.pdf",
+      "bytes": 94569,
+      "sha256": "1c4274308caac53a64d58e0c36c6e72208561bfe6cd47fd6d770eb4723c71c02",
+      "serves": "deposited_documents",
+      "also_serves": [],
+      "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
+    },
+    {
+      "path": "research/manuscripts/aso/fusion-junction-aso-research-article.build-stamp.json",
+      "bytes": 728,
+      "sha256": "02f197739a1cffc6d52615d33c9856b847c54e077aad3244424335b7feaae34c",
+      "serves": "deposited_documents",
+      "also_serves": [],
+      "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
+    },
+    {
       "path": "research/manuscripts/aso/fusion-junction-aso-research-article.md",
-      "bytes": 190335,
-      "sha256": "669f7465413911641ab6e73c3d03232ab3d6e3da07313f7046e958b72560d516",
+      "bytes": 229794,
+      "sha256": "a4c5fd1291e4961cd01a7c089fbd5c4314e4edfedfc15ee52f06d44b79583605",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
+      "path": "research/manuscripts/aso/fusion-junction-aso-research-article.pdf",
+      "bytes": 1943840,
+      "sha256": "2f32e6b0dd83d1ea4853d7d10c2cc60895794ffb7473df6bdfccb624d83eaf36",
+      "serves": "deposited_documents",
+      "also_serves": [],
+      "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
+    },
+    {
       "path": "research/manuscripts/aso/fusion-junction-aso-sequences.csv",
-      "bytes": 117224,
-      "sha256": "792d37e9b4d26d8400389276221723ed80801fb0989aec9aa95f324d246a257f",
+      "bytes": 138148,
+      "sha256": "8239ead29d092eae1f9f0550ab35974be56862475eb9e7a0612bee38dfeeab2a",
       "serves": "canonical_sequence_record",
       "also_serves": [],
-      "contributes": "Every design the three deposit documents name, in CSV and FASTA, with its geometry, junction, gap-level margin, longest wild-type-parent duplex and an explicit do-not-order flag on the three designs that pair their whole catalytic gap against the un-rearranged NR4A3 allele. The generator refuses to build if any sequence the documents print is absent, so the file cannot quietly stop being canonical."
+      "contributes": "Every design the three deposit documents name, in CSV and FASTA, with its geometry, junction, gap-level margin, longest wild-type-parent duplex and an explicit do-not-order flag on every record the paper condemns. ⚠ THAT FLAG IS ON 252 OF THE 780 RECORDS, NOT ON THREE: 249 pair a wild-type parent through the whole catalytic gap at the ten-base-pair criterion, and 3 more pair the patient's own un-rearranged NR4A3 allele. This sentence named only the second class until 2026-08-19, which described the smaller hazard and left the larger one sounding like a clean file. The generator refuses to build if any sequence the documents print is absent, so the file cannot quietly stop being canonical."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-sequences.fasta",
-      "bytes": 191477,
-      "sha256": "6376a531a4f401e45f8a0ce6cef7e4a345ec841dbcdba9b016f33a68abf91608",
+      "bytes": 231272,
+      "sha256": "cbf30186b1416db02e26ad8ce4cea6fdc46304246c08033364ac00808d019dbc",
       "serves": "canonical_sequence_record",
       "also_serves": [],
-      "contributes": "Every design the three deposit documents name, in CSV and FASTA, with its geometry, junction, gap-level margin, longest wild-type-parent duplex and an explicit do-not-order flag on the three designs that pair their whole catalytic gap against the un-rearranged NR4A3 allele. The generator refuses to build if any sequence the documents print is absent, so the file cannot quietly stop being canonical."
+      "contributes": "Every design the three deposit documents name, in CSV and FASTA, with its geometry, junction, gap-level margin, longest wild-type-parent duplex and an explicit do-not-order flag on every record the paper condemns. ⚠ THAT FLAG IS ON 252 OF THE 780 RECORDS, NOT ON THREE: 249 pair a wild-type parent through the whole catalytic gap at the ten-base-pair criterion, and 3 more pair the patient's own un-rearranged NR4A3 allele. This sentence named only the second class until 2026-08-19, which described the smaller hazard and left the larger one sounding like a clean file. The generator refuses to build if any sequence the documents print is absent, so the file cannot quietly stop being canonical."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-submission-references.json",
       "bytes": 85367,
-      "sha256": "3482e04f699443d1330110fbfb10e18f0685158a699b77f3b72a9fd9f4c289a0",
+      "sha256": "fd2ecae3609ed93eaad270a2a0792aebf2af81d85bed0adf7978114942ce70d6",
       "serves": "retrieval_records",
       "also_serves": [],
       "contributes": "Bibliographic record each numbered reference was rendered from, and the retrieval products those records were harvested out of. No field in the reference list is typed from recollection."
@@ -840,23 +1105,23 @@
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-submission-references.md",
       "bytes": 20762,
-      "sha256": "5ef5476589bb63636a3585079782974707f536efb0c1a04be5b71769dd13652b",
+      "sha256": "e4066ba78bf0f9d710da339a4253ec35247f77acd2164f2d3c8ca0ad96d1d943",
       "serves": "retrieval_records",
       "also_serves": [],
       "contributes": "Bibliographic record each numbered reference was rendered from, and the retrieval products those records were harvested out of. No field in the reference list is typed from recollection."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-submission-tables.md",
-      "bytes": 52558,
-      "sha256": "7c7a68d16733e36629f73ef4358b38c4c5a9d797661ea1cae34467249fcf140e",
+      "bytes": 62040,
+      "sha256": "99c288fde3460b7eaccb8073bcfffcb15129dbfe48dde1decf7501fc3768b574",
       "serves": "per_design_tables",
       "also_serves": [],
       "contributes": "The manuscript tables and the generator that derives every cell of them from the artifacts, plus the per-locus re-count and the chance baseline the tables and the chance-expectation panel are read from."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-supplementary-information.md",
-      "bytes": 11250,
-      "sha256": "3b0afaa0aa899887fed76d635d59912ced2671655b81d57a18fa1fc08ca86193",
+      "bytes": 16522,
+      "sha256": "8a3239c0ceff8d233e2ec7b56ed6967c77475151bd02259e9692879a1541a565",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
@@ -870,12 +1135,54 @@
       "contributes": "The acceptor-seam exon-indexing correction: the grader that banners every affected artifact, the frame audit and regeneration record that show which junctions were re-emitted and which were refused, and the working record and red-team pass that narrate the withdrawal."
     },
     {
+      "path": "research/manuscripts/aso/lit-targets-aso-bibliography-completion.json",
+      "bytes": 18663,
+      "sha256": "a2fa9429a9f1bd2f43db28cd39173e06dc04ef7dae51ffca25f5c331cd740c50",
+      "serves": "retrieval_records",
+      "also_serves": [],
+      "contributes": "Bibliographic record each numbered reference was rendered from, and the retrieval products those records were harvested out of. No field in the reference list is typed from recollection."
+    },
+    {
+      "path": "research/manuscripts/aso/lit-targets-aso-breakpoint-census.json",
+      "bytes": 38839,
+      "sha256": "e4148f3458447fa3c6d6a111908a4232f2aa5b6432c04159632a182c519e81d5",
+      "serves": "retrieval_records",
+      "also_serves": [],
+      "contributes": "Bibliographic record each numbered reference was rendered from, and the retrieval products those records were harvested out of. No field in the reference list is typed from recollection."
+    },
+    {
+      "path": "research/manuscripts/aso/lit-targets-aso-degrader-refile.json",
+      "bytes": 21715,
+      "sha256": "c2f6ba41bd2df901a65b91fe84ddb6991ad780c21655e2b1b108e132e877987d",
+      "serves": "retrieval_records",
+      "also_serves": [],
+      "contributes": "Bibliographic record each numbered reference was rendered from, and the retrieval products those records were harvested out of. No field in the reference list is typed from recollection."
+    },
+    {
+      "path": "research/manuscripts/aso/lit-targets-aso-delivery-routes.json",
+      "bytes": 1849491,
+      "sha256": "1b3af3a436cf8862b439abc377d15de4ad57b5fad37cd380786c1d366faab8ce",
+      "serves": "retrieval_records",
+      "also_serves": [],
+      "contributes": "Bibliographic record each numbered reference was rendered from, and the retrieval products those records were harvested out of. No field in the reference list is typed from recollection."
+    },
+    {
       "path": "research/manuscripts/aso/lit-targets-aso-gap-length.json",
       "bytes": 11459,
       "sha256": "cf2fa45c388014cd784f08089174d81864c0e1ad09466a201fce14427de8dcb0",
-      "serves": "genome_wide_screen",
+      "serves": "retrieval_records",
+      "also_serves": [
+        "genome_wide_screen"
+      ],
+      "contributes": "Bibliographic record each numbered reference was rendered from, and the retrieval products those records were harvested out of. No field in the reference list is typed from recollection."
+    },
+    {
+      "path": "research/manuscripts/aso/lit-targets-aso-instruments.json",
+      "bytes": 5851,
+      "sha256": "fafdf21f1a28cc306bbac2dc58e62551a4c52b3a94d78a688581c3f4c99b9647",
+      "serves": "retrieval_records",
       "also_serves": [],
-      "contributes": "Every distinct target window and its reverse complement tested against every position of GRCh38 in both orientations at ≤2 mismatches — a measured 3.10e9 nt, no seed and no word size, so completeness is definitional rather than argued. ⛔ THE RAW TOTAL IS NOT THE DELIVERABLE and the artifact says so first: at this threshold chance predicts of order 10^3 near-matches per 16-mer for ANY 16-mer. The readings are stratified — exact matches, where chance is of order one; observed-over-expected, which discriminates between designs; the named-target lookup, which one hit settles; and the repeat split, free from a soft-masked reference. Also carries the gap-length anchors, ported from the literature-cache branch where gate 4 cannot see them."
+      "contributes": "Bibliographic record each numbered reference was rendered from, and the retrieval products those records were harvested out of. No field in the reference list is typed from recollection."
     },
     {
       "path": "research/manuscripts/aso/lit-targets-aso-round7-precedents.json",
@@ -886,12 +1193,30 @@
       "contributes": "Bibliographic record each numbered reference was rendered from, and the retrieval products those records were harvested out of. No field in the reference list is typed from recollection."
     },
     {
+      "path": "research/manuscripts/aso/lit-targets-aso-s81242-type2-deposit.json",
+      "bytes": 12138,
+      "sha256": "c4b8dcecd9dd16d28001a049a627913c7d5f304ab832f75190d5c15cc99888a6",
+      "serves": "retrieval_records",
+      "also_serves": [],
+      "contributes": "Bibliographic record each numbered reference was rendered from, and the retrieval products those records were harvested out of. No field in the reference list is typed from recollection."
+    },
+    {
       "path": "research/manuscripts/aso/lit-targets-aso-thermo.json",
       "bytes": 3147,
       "sha256": "3a83bf4f45d4d8759e582f32ac632a2ede63e181a15c507cb9fff90eb898621c",
-      "serves": "duplex_thermodynamics",
+      "serves": "retrieval_records",
+      "also_serves": [
+        "duplex_thermodynamics"
+      ],
+      "contributes": "Bibliographic record each numbered reference was rendered from, and the retrieval products those records were harvested out of. No field in the reference list is typed from recollection."
+    },
+    {
+      "path": "research/manuscripts/aso/lit-targets-aso-type3-designability.json",
+      "bytes": 20574,
+      "sha256": "c17d0fb40bf12a041b098211455f50ae075a8ec4835481032758e70ee8bd5dae",
+      "serves": "retrieval_records",
       "also_serves": [],
-      "contributes": "ΔG37 for each design against the fusion and against the best duplex either parent can form, the ΔΔG discrimination that follows, and the audit of every design against four conventional antisense design rules. Carries the convention validation that licenses the energies."
+      "contributes": "Bibliographic record each numbered reference was rendered from, and the retrieval products those records were harvested out of. No field in the reference list is typed from recollection."
     },
     {
       "path": "research/manuscripts/aso/lit-targets-aso-verify.json",
@@ -902,12 +1227,36 @@
       "contributes": "Bibliographic record each numbered reference was rendered from, and the retrieval products those records were harvested out of. No field in the reference list is typed from recollection."
     },
     {
+      "path": "research/manuscripts/aso/lit-targets-nr4a-redundancy.json",
+      "bytes": 5015,
+      "sha256": "2649cbd692e89b3f420e706f53f2258138ef74d3da0287a8f58e72174525640d",
+      "serves": "retrieval_records",
+      "also_serves": [],
+      "contributes": "Bibliographic record each numbered reference was rendered from, and the retrieval products those records were harvested out of. No field in the reference list is typed from recollection."
+    },
+    {
+      "path": "research/manuscripts/aso/tcf12-breakpoint-assignment.json",
+      "bytes": 13191,
+      "sha256": "0d89c76a90940f0b9aeef50530684210471f6a0fa076f9de2c4f4b27a2e33c3e",
+      "serves": "where_each_number_lives",
+      "also_serves": [],
+      "contributes": "The artefacts the Availability statement names by path that no other promise row resolves: the parent-null ensembles the observed liability rate is read against, the off-target expression readings, the gap-length comparison, and the base-level TCF12 breakpoint assignment — each with its producer, its committed offline input and its guard."
+    },
+    {
       "path": "research/manuscripts/aso_archive_manifest.py",
-      "bytes": 70628,
-      "sha256": "50f2e1da74b13b4d4550bf85ef16502e5258c995b2602df1f5bc66cb410255e5",
+      "bytes": 96475,
+      "sha256": "69b7114cada43ae023422aa5f2a2ea63602ac9114cebc3a6d005b720c75ec736",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
+    },
+    {
+      "path": "research/manuscripts/aso_coverage_ladder.py",
+      "bytes": 136337,
+      "sha256": "e65b72ef085f306db1009e9db7c7d9732b6a00b3bc733102d08079432f0b5ca5",
+      "serves": "per_design_tables",
+      "also_serves": [],
+      "contributes": "The manuscript tables and the generator that derives every cell of them from the artifacts, plus the per-locus re-count and the chance baseline the tables and the chance-expectation panel are read from."
     },
     {
       "path": "research/manuscripts/aso_priorart_evidence.py",
@@ -918,148 +1267,188 @@
       "contributes": "Every identifier in the two Europe PMC corpora the Introduction's '5,153 unique records' rests on, with the per-corpus counts and their overlap, so the count is re-derivable rather than taken on trust. The corpora themselves live on the literature-cache branch; this is the evidence the claim actually needs."
     },
     {
+      "path": "research/manuscripts/aso_reagent_coverage.py",
+      "bytes": 9987,
+      "sha256": "f21ebe57d4a08b2679de918db65ee2d7db0512ad70b8497dc1c61286990fc55f",
+      "serves": "per_design_tables",
+      "also_serves": [],
+      "contributes": "The manuscript tables and the generator that derives every cell of them from the artifacts, plus the per-locus re-count and the chance baseline the tables and the chance-expectation panel are read from."
+    },
+    {
       "path": "research/manuscripts/aso_sequence_manifest.py",
-      "bytes": 39026,
-      "sha256": "dace98a97a82a2d7ee6542004f8acd1d3501095f407e5da39170ed733627c145",
+      "bytes": 64460,
+      "sha256": "def7a9dcba7e83e420f32116e1ac8d44ac497bc2822e100a1c6f821c58dd43ec",
       "serves": "canonical_sequence_record",
       "also_serves": [],
-      "contributes": "Every design the three deposit documents name, in CSV and FASTA, with its geometry, junction, gap-level margin, longest wild-type-parent duplex and an explicit do-not-order flag on the three designs that pair their whole catalytic gap against the un-rearranged NR4A3 allele. The generator refuses to build if any sequence the documents print is absent, so the file cannot quietly stop being canonical."
+      "contributes": "Every design the three deposit documents name, in CSV and FASTA, with its geometry, junction, gap-level margin, longest wild-type-parent duplex and an explicit do-not-order flag on every record the paper condemns. ⚠ THAT FLAG IS ON 252 OF THE 780 RECORDS, NOT ON THREE: 249 pair a wild-type parent through the whole catalytic gap at the ten-base-pair criterion, and 3 more pair the patient's own un-rearranged NR4A3 allele. This sentence named only the second class until 2026-08-19, which described the smaller hazard and left the larger one sounding like a clean file. The generator refuses to build if any sequence the documents print is absent, so the file cannot quietly stop being canonical."
+    },
+    {
+      "path": "research/manuscripts/build_submission_pdf.py",
+      "bytes": 110938,
+      "sha256": "4dc56778109503692a949cfd3a908dadcc29eb65883da95941b59691023083a5",
+      "serves": "import_closure",
+      "also_serves": [],
+      "contributes": "Imported by a released module. Not named by any availability promise; present because the code the promises DO name cannot be imported without it."
     },
     {
       "path": "research/manuscripts/figures/aso-chance-baseline.pdf",
-      "bytes": 108562,
-      "sha256": "3e369adc93e24c2c140aa56fb05fb3f68061d841dd86cf10ea06f4e69a08717f",
+      "bytes": 113116,
+      "sha256": "5fb2767fce84768ad713f338f4849deb6e368d9cb0fdeecfb879a857eac24d25",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/figures/aso-chance-baseline.png",
-      "bytes": 146225,
-      "sha256": "d6a6250d3094e2f2f7a0b8aa15e00f80497748dd4e5b98ba56476aaf007c1a49",
+      "bytes": 184226,
+      "sha256": "09d84aa8d9d8ff34378840588acc5dcdeed8a4670355970c67f2e36e09fa5199",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/figures/aso-chance-baseline.svg",
-      "bytes": 18574,
-      "sha256": "82800688bb755117ac0e3b5bf73541fbf5c709cdfb181527321b6d4aa89df72d",
+      "bytes": 19148,
+      "sha256": "f7e828ad14593b1fb1b5adcd3dc9cc901f2da644622749fd162a1da63a06b11e",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
+      "path": "research/manuscripts/figures/aso-figure-provenance.json",
+      "bytes": 2133,
+      "sha256": "41d1a11090b019a67df579fa7e050247643a19fc875979d7d59434573893fb5f",
+      "serves": "reproduction_command",
+      "also_serves": [],
+      "contributes": "Re-derives every offline-derivable artefact below in dependency order and re-runs the consistency, citation and style gates; the command a reader is told to run to establish that this archive is current. The script AND every step it invokes that no other row here already carries."
+    },
+    {
       "path": "research/manuscripts/figures/aso-gap-length-tradeoff.pdf",
-      "bytes": 88077,
-      "sha256": "6b74534e247397c8b42d6962fdbf1b95acd0fcd3516d6b6e594a1919bef1986b",
+      "bytes": 113098,
+      "sha256": "16b21999a24c7b62fc9d508c21f4b31797e628032721c445e02c61a23e091799",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/figures/aso-gap-length-tradeoff.png",
-      "bytes": 204233,
-      "sha256": "60ea95c806b59291c12450cd95136511415e6b522f08fa11379df0172d8dbfcb",
+      "bytes": 355606,
+      "sha256": "0cadc66284ec5f7c6209d99a2356580a36d707179f1caa4e58160f1b1eb3db2b",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/figures/aso-gap-length-tradeoff.svg",
-      "bytes": 13652,
-      "sha256": "fa7546986a31ee190b5418727c43acec37edac751b23d4e62c0539a5dc00c681",
+      "bytes": 16050,
+      "sha256": "13b9e4bd2223a3b515250174fc6a791e6d7408fbe086d836394e10b910c7cc48",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/figures/aso-junction-space.pdf",
-      "bytes": 69854,
-      "sha256": "d7c6f98f6df05260503cbed3be95d352be86a76559395758d31d7e0e79a9ce52",
+      "bytes": 71442,
+      "sha256": "f6118cca562977e8e81b44d2ba312f3c1c65dc2a3fd07a91bbd8d20b1b6e499b",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/figures/aso-junction-space.png",
-      "bytes": 205838,
-      "sha256": "09249809519bbd12dbd18275cb4bcf980e8d2de6d332f316c8e89f40ba3c51c4",
+      "bytes": 211365,
+      "sha256": "0722a54ea6421020881452e8036dd40c5b0a70fc68ca3f0dde3eb36787c32957",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/figures/aso-junction-space.svg",
-      "bytes": 31640,
-      "sha256": "9d597381656edb74efb54c4fa68053c23ad80c3176bf79186473a3e671e1a5d7",
+      "bytes": 31748,
+      "sha256": "3601e0cbec680ae292f6025d3e9907644f8ad5302247977d1e66fb4eeebbeda2",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/figures/aso-multipartner-seam.pdf",
-      "bytes": 86458,
-      "sha256": "566a9533aa294864f1f36a15ae07eb88d5484d062fa398e9adfec4f91c2f9611",
+      "bytes": 106788,
+      "sha256": "f7d2597f48b9f431af86830cf210c9a459a52bfb349b18ac1f71097a073f6ad1",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/figures/aso-multipartner-seam.png",
-      "bytes": 133813,
-      "sha256": "b98cde0aebae85f900ff1a6c71d711ba241b879ac77649b2729b851a24874553",
+      "bytes": 218620,
+      "sha256": "a7d218d06da9f57bca18365c0e4999f4ed928dde77f44de7c72d68e6b337fc9f",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/figures/aso-multipartner-seam.svg",
-      "bytes": 12173,
-      "sha256": "f3ebc84919b5df795c82324fe0dc3dd6cc4509c35fc7e893a40d0590ca623d09",
+      "bytes": 13359,
+      "sha256": "3ce38fd3cfa75dcf5690c2149a359442c622f0893cca7185de673c47a21d5c37",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/figures/aso_chance_baseline_figure.py",
-      "bytes": 19339,
-      "sha256": "7036ed77c520fe69c802411f2eb653625d46623c51109258111a55ae1457345f",
+      "bytes": 20578,
+      "sha256": "6cbe9c458ffb021b573af9a5a32703212e3f316045900a60ed745f38144d1598",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/figures/aso_figure_provenance.py",
-      "bytes": 8989,
-      "sha256": "05967810b91be7daf53f495d0e6ddb1a8ab0701e0a29862ad0d9f26760e57de2",
+      "bytes": 9764,
+      "sha256": "676fdd90f557bc11b53c9e6263622b16fd939f63f3303217c474e96ec4fdafcb",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
+      "path": "research/manuscripts/figures/aso_figure_text.py",
+      "bytes": 6831,
+      "sha256": "d6227e53cd707a8b563b5a567757443b0a8f7e3edd8736ded919c84a49a3b389",
+      "serves": "import_closure",
+      "also_serves": [],
+      "contributes": "Imported by a released module. Not named by any availability promise; present because the code the promises DO name cannot be imported without it."
+    },
+    {
       "path": "research/manuscripts/figures/aso_gap_length_figure.py",
-      "bytes": 15127,
-      "sha256": "269ed7550f42ac0f79867a5e6890a8a0e72b97fb03842b492a315a2854c1efa5",
+      "bytes": 28323,
+      "sha256": "8a61076f3c182d36795d3084e645ae567c52edfc8f5cae6378c678f061b91f86",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/figures/aso_junction_space_figure.py",
-      "bytes": 15570,
-      "sha256": "b99dc809541a254f440973ce64ed789813bb76f9ea07dbc50300d3f6c6c03ace",
+      "bytes": 16095,
+      "sha256": "45c387c3135bd1e7a3a6f14c2db1fbfee9e22c10cba4d6dc85c1b83f764c5d1a",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/figures/aso_multipartner_seam_figure.py",
-      "bytes": 10223,
-      "sha256": "0e5ecec95fadc018a4349e350dbbe738e2de410807d4a9745a4c339562fe6b5e",
+      "bytes": 16896,
+      "sha256": "b3db6ea7e0b7d17dcaaded4b255a408b4097dae3ca4638fff2ab6c1b169b025b",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
+    },
+    {
+      "path": "research/manuscripts/figures/svg_to_submission_formats.py",
+      "bytes": 32013,
+      "sha256": "fa1109f73aeaccfaea6b1d69fbac6ac8ca27e7d552af8e94d5c58cf4ade4bdf5",
+      "serves": "reproduction_command",
+      "also_serves": [],
+      "contributes": "Re-derives every offline-derivable artefact below in dependency order and re-runs the consistency, citation and style gates; the command a reader is told to run to establish that this archive is current. The script AND every step it invokes that no other row here already carries."
     },
     {
       "path": "research/manuscripts/fusion-partner/emc-fusion-partner-pooling.json",
@@ -1078,6 +1467,46 @@
       "contributes": "Bibliographic record each numbered reference was rendered from, and the retrieval products those records were harvested out of. No field in the reference list is typed from recollection."
     },
     {
+      "path": "research/manuscripts/lint_citations.py",
+      "bytes": 20096,
+      "sha256": "f10ba17d38b28ab0d4bb623cbef3dff8beeaf95aed585696945f92b8e2230e64",
+      "serves": "reproduction_command",
+      "also_serves": [],
+      "contributes": "Re-derives every offline-derivable artefact below in dependency order and re-runs the consistency, citation and style gates; the command a reader is told to run to establish that this archive is current. The script AND every step it invokes that no other row here already carries."
+    },
+    {
+      "path": "research/manuscripts/lint_consistency.py",
+      "bytes": 33659,
+      "sha256": "df4747580a035de71bbaec34762990ada08203b2faf55520fa4038dc5bdc4eb6",
+      "serves": "reproduction_command",
+      "also_serves": [],
+      "contributes": "Re-derives every offline-derivable artefact below in dependency order and re-runs the consistency, citation and style gates; the command a reader is told to run to establish that this archive is current. The script AND every step it invokes that no other row here already carries."
+    },
+    {
+      "path": "research/manuscripts/lint_style.py",
+      "bytes": 23052,
+      "sha256": "d5303b66a5a7c4169db4ec44802109f8cad64ffdf104ad5e7172b905314495e4",
+      "serves": "reproduction_command",
+      "also_serves": [],
+      "contributes": "Re-derives every offline-derivable artefact below in dependency order and re-runs the consistency, citation and style gates; the command a reader is told to run to establish that this archive is current. The script AND every step it invokes that no other row here already carries."
+    },
+    {
+      "path": "research/manuscripts/pinned-figures.json",
+      "bytes": 107730,
+      "sha256": "e86d5638932130c86d583b0ff9723b9b32f3b1c27295e2a11daf166e934b3fc3",
+      "serves": "correction_record",
+      "also_serves": [],
+      "contributes": "The acceptor-seam exon-indexing correction: the grader that banners every affected artifact, the frame audit and regeneration record that show which junctions were re-emitted and which were refused, and the working record and red-team pass that narrate the withdrawal."
+    },
+    {
+      "path": "research/manuscripts/submission-metrics.json",
+      "bytes": 9936,
+      "sha256": "b67c5b5c281d92ea14c76de5634ee5c998d6154a7ace1697fdbd26a29311b81d",
+      "serves": "reproduction_command",
+      "also_serves": [],
+      "contributes": "Re-derives every offline-derivable artefact below in dependency order and re-runs the consistency, citation and style gates; the command a reader is told to run to establish that this archive is current. The script AND every step it invokes that no other row here already carries."
+    },
+    {
       "path": "research/manuscripts/submission_citations.py",
       "bytes": 26660,
       "sha256": "5a7a7401d78ed6cbd87ba6341acbaf9656fd5676d10cc20759d7d952ccc33ce3",
@@ -1086,12 +1515,36 @@
       "contributes": "Bibliographic record each numbered reference was rendered from, and the retrieval products those records were harvested out of. No field in the reference list is typed from recollection."
     },
     {
+      "path": "research/manuscripts/submission_metrics.py",
+      "bytes": 32376,
+      "sha256": "870cd6d47aea859cf29c8cf7bd0f0a6fb69b066c27f67791cac65dc298594552",
+      "serves": "reproduction_command",
+      "also_serves": [],
+      "contributes": "Re-derives every offline-derivable artefact below in dependency order and re-runs the consistency, citation and style gates; the command a reader is told to run to establish that this archive is current. The script AND every step it invokes that no other row here already carries."
+    },
+    {
+      "path": "research/manuscripts/submission_packet.py",
+      "bytes": 15497,
+      "sha256": "33541bc2aea7f99c74b81112cd6115a822e0b5258ef9980403c612961b6db3cd",
+      "serves": "reproduction_command",
+      "also_serves": [],
+      "contributes": "Re-derives every offline-derivable artefact below in dependency order and re-runs the consistency, citation and style gates; the command a reader is told to run to establish that this archive is current. The script AND every step it invokes that no other row here already carries."
+    },
+    {
       "path": "research/manuscripts/submission_tables.py",
-      "bytes": 143189,
-      "sha256": "bee8da6dff065261d725764895f95114638be9aa26ba87c9c6a51cf07a32b34a",
+      "bytes": 186201,
+      "sha256": "26b8d76522d6623b4d4ac9754e689ba72e7f178f11742ca2add13e21a306fb24",
       "serves": "per_design_tables",
       "also_serves": [],
       "contributes": "The manuscript tables and the generator that derives every cell of them from the artifacts, plus the per-locus re-count and the chance baseline the tables and the chance-expectation panel are read from."
+    },
+    {
+      "path": "research/manuscripts/tcf12_breakpoint_assignment.py",
+      "bytes": 23114,
+      "sha256": "05f5369c16760107048ca6e0fe990c0980c6c65a61177a48b8c58c2a9ec8674d",
+      "serves": "where_each_number_lives",
+      "also_serves": [],
+      "contributes": "The artefacts the Availability statement names by path that no other promise row resolves: the parent-null ensembles the observed liability rate is read against, the off-target expression readings, the gap-length comparison, and the base-level TCF12 breakpoint assignment — each with its producer, its committed offline input and its guard."
     },
     {
       "path": "research/manuscripts/tests/test_aso_figure_provenance.py",
@@ -1103,19 +1556,19 @@
     },
     {
       "path": "research/manuscripts/tests/test_aso_figures_are_vector_not_raster.py",
-      "bytes": 5509,
-      "sha256": "9e7176d94a3da8d10a4da83034bba71a4ed52d8927ffccec6d66b52e50eee021",
+      "bytes": 9062,
+      "sha256": "a85c0c317ac5bbf7d4dd333174e457c818456286a571ffb64d3a6e54e3ded2b5",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/tests/test_pdf_text_layer_is_orderable.py",
-      "bytes": 18188,
-      "sha256": "bdeafc20b530e37eaf7b001e0f30cf03381c884b73db8587f8e52e83ae99fcae",
+      "bytes": 25700,
+      "sha256": "c8be9855c12b0605a5538a8ee16b20dd561ad184727b166877cf50d3ece9ab85",
       "serves": "canonical_sequence_record",
       "also_serves": [],
-      "contributes": "Every design the three deposit documents name, in CSV and FASTA, with its geometry, junction, gap-level margin, longest wild-type-parent duplex and an explicit do-not-order flag on the three designs that pair their whole catalytic gap against the un-rearranged NR4A3 allele. The generator refuses to build if any sequence the documents print is absent, so the file cannot quietly stop being canonical."
+      "contributes": "Every design the three deposit documents name, in CSV and FASTA, with its geometry, junction, gap-level margin, longest wild-type-parent duplex and an explicit do-not-order flag on every record the paper condemns. ⚠ THAT FLAG IS ON 252 OF THE 780 RECORDS, NOT ON THREE: 249 pair a wild-type parent through the whole catalytic gap at the ten-base-pair criterion, and 3 more pair the patient's own un-rearranged NR4A3 allele. This sentence named only the second class until 2026-08-19, which described the smaller hazard and left the larger one sounding like a clean file. The generator refuses to build if any sequence the documents print is absent, so the file cannot quietly stop being canonical."
     },
     {
       "path": "research/modalities/aso-delivery-antigen.json",
@@ -1134,12 +1587,28 @@
       "contributes": "The scan that asks whether a design whose acceptor half is not exonic in the mature transcript pairs its whole catalytic gap against the patient's un-rearranged NR4A3 allele, at both seams it can reach: within intron 2 for the cryptic-exon acceptor and across the intron-1/exon-2 boundary for the exon-2 acceptors. Carries the three condemned designs, the two seams that keep a reagent, and the positive control the released tests pin."
     },
     {
+      "path": "research/modalities/aso-gap-length-tradeoff.json",
+      "bytes": 1044474,
+      "sha256": "2398a961a22f2a70befbda52a463bdf3848349a240eacba2c9b8365e91e315a3",
+      "serves": "where_each_number_lives",
+      "also_serves": [],
+      "contributes": "The artefacts the Availability statement names by path that no other promise row resolves: the parent-null ensembles the observed liability rate is read against, the off-target expression readings, the gap-length comparison, and the base-level TCF12 breakpoint assignment — each with its producer, its committed offline input and its guard."
+    },
+    {
       "path": "research/modalities/aso-genome-offtarget.json",
       "bytes": 3816777,
       "sha256": "aad06031e877bc7d67f83db265f3c73038e9b1bc911aa9d588d1697309b98231",
       "serves": "genome_wide_screen",
       "also_serves": [],
       "contributes": "Every distinct target window and its reverse complement tested against every position of GRCh38 in both orientations at ≤2 mismatches — a measured 3.10e9 nt, no seed and no word size, so completeness is definitional rather than argued. ⛔ THE RAW TOTAL IS NOT THE DELIVERABLE and the artifact says so first: at this threshold chance predicts of order 10^3 near-matches per 16-mer for ANY 16-mer. The readings are stratified — exact matches, where chance is of order one; observed-over-expected, which discriminates between designs; the named-target lookup, which one hit settles; and the repeat split, free from a soft-masked reference. Also carries the gap-length anchors, ported from the literature-cache branch where gate 4 cannot see them."
+    },
+    {
+      "path": "research/modalities/aso-independent-verification.json",
+      "bytes": 5819,
+      "sha256": "5b4a9d4753f7c15a80ae539c2bc3988fcbc42a426ff93f53e59973e90cf9f70c",
+      "serves": "reimplementation_crosscheck",
+      "also_serves": [],
+      "contributes": "The independent second implementation of the frame grading and the mature-parent screen, the field-by-field comparison against the original over all 231 graded exon pairs and all 190 designs, and the deliberate-corruption tests that show the comparison can fail."
     },
     {
       "path": "research/modalities/aso-insilico-evaluation-bp200-8.json",
@@ -1154,7 +1623,9 @@
       "bytes": 7684,
       "sha256": "726be8d0b418c59bce9a11ed9c4d5c6d553783a7e80a484adb946850884cb6f8",
       "serves": "specificity_screen_exhaustive",
-      "also_serves": [],
+      "also_serves": [
+        "censoring_test_and_genomic_attempt"
+      ],
       "contributes": "Exhaustive seed-and-extend scan of 186,185 GRCh38.p14 transcripts for exact and <=1-mismatch matches, complete for substitutions by construction; also carries the 180-nt local-fold accessibility estimate."
     },
     {
@@ -1190,7 +1661,9 @@
       "bytes": 7323,
       "sha256": "7256d1ace6191c29179984b73605d72f0400a7e8e9eb9a721d60422ff6bd24f7",
       "serves": "specificity_screen_exhaustive",
-      "also_serves": [],
+      "also_serves": [
+        "censoring_test_and_genomic_attempt"
+      ],
       "contributes": "Exhaustive seed-and-extend scan of 186,185 GRCh38.p14 transcripts for exact and <=1-mismatch matches, complete for substitutions by construction; also carries the 180-nt local-fold accessibility estimate."
     },
     {
@@ -1206,7 +1679,9 @@
       "bytes": 7322,
       "sha256": "38e35aaf97a0e762b679e93c6a0dbb7be5e390929840701ae0502bb625b9e8c5",
       "serves": "specificity_screen_exhaustive",
-      "also_serves": [],
+      "also_serves": [
+        "censoring_test_and_genomic_attempt"
+      ],
       "contributes": "Exhaustive seed-and-extend scan of 186,185 GRCh38.p14 transcripts for exact and <=1-mismatch matches, complete for substitutions by construction; also carries the 180-nt local-fold accessibility estimate."
     },
     {
@@ -1222,7 +1697,9 @@
       "bytes": 6793,
       "sha256": "d8f68bb135a881bec9ead3ba370448fa9d5f26e373ab6521f597059f71300e89",
       "serves": "specificity_screen_exhaustive",
-      "also_serves": [],
+      "also_serves": [
+        "censoring_test_and_genomic_attempt"
+      ],
       "contributes": "Exhaustive seed-and-extend scan of 186,185 GRCh38.p14 transcripts for exact and <=1-mismatch matches, complete for substitutions by construction; also carries the 180-nt local-fold accessibility estimate."
     },
     {
@@ -1264,7 +1741,9 @@
       "bytes": 7668,
       "sha256": "37a65537e6bf851c90cc57e947474153f94d8e913fc5e0dd19a92d984ff4c67e",
       "serves": "specificity_screen_exhaustive",
-      "also_serves": [],
+      "also_serves": [
+        "censoring_test_and_genomic_attempt"
+      ],
       "contributes": "Exhaustive seed-and-extend scan of 186,185 GRCh38.p14 transcripts for exact and <=1-mismatch matches, complete for substitutions by construction; also carries the 180-nt local-fold accessibility estimate."
     },
     {
@@ -1280,7 +1759,9 @@
       "bytes": 7816,
       "sha256": "8da531c33e8da2e814be3addc63b77879519c7d79a1744cc2fe7cee6e53e8884",
       "serves": "specificity_screen_exhaustive",
-      "also_serves": [],
+      "also_serves": [
+        "censoring_test_and_genomic_attempt"
+      ],
       "contributes": "Exhaustive seed-and-extend scan of 186,185 GRCh38.p14 transcripts for exact and <=1-mismatch matches, complete for substitutions by construction; also carries the 180-nt local-fold accessibility estimate."
     },
     {
@@ -1296,7 +1777,9 @@
       "bytes": 7010,
       "sha256": "604134e5b940faead628a5ccd83ad0c1822d6718167dd339ec7f7eb72fa233c4",
       "serves": "specificity_screen_exhaustive",
-      "also_serves": [],
+      "also_serves": [
+        "censoring_test_and_genomic_attempt"
+      ],
       "contributes": "Exhaustive seed-and-extend scan of 186,185 GRCh38.p14 transcripts for exact and <=1-mismatch matches, complete for substitutions by construction; also carries the 180-nt local-fold accessibility estimate."
     },
     {
@@ -1332,7 +1815,9 @@
       "bytes": 7154,
       "sha256": "0d0787580d75bb43aca1adc18d00402d7a974c2c4460bc0b41de59a419859f40",
       "serves": "specificity_screen_exhaustive",
-      "also_serves": [],
+      "also_serves": [
+        "censoring_test_and_genomic_attempt"
+      ],
       "contributes": "Exhaustive seed-and-extend scan of 186,185 GRCh38.p14 transcripts for exact and <=1-mismatch matches, complete for substitutions by construction; also carries the 180-nt local-fold accessibility estimate."
     },
     {
@@ -1366,7 +1851,9 @@
       "bytes": 6846,
       "sha256": "5e952992d4f1aff0c8c965f9e3f413542a463241bd689aaff6cafdc6da97d28a",
       "serves": "specificity_screen_exhaustive",
-      "also_serves": [],
+      "also_serves": [
+        "censoring_test_and_genomic_attempt"
+      ],
       "contributes": "Exhaustive seed-and-extend scan of 186,185 GRCh38.p14 transcripts for exact and <=1-mismatch matches, complete for substitutions by construction; also carries the 180-nt local-fold accessibility estimate."
     },
     {
@@ -1382,7 +1869,9 @@
       "bytes": 7558,
       "sha256": "3caa695066cf1ab0a28bbe4d02bbf81c4bea6cb01ae0b0972cd91553bb517ece",
       "serves": "specificity_screen_exhaustive",
-      "also_serves": [],
+      "also_serves": [
+        "censoring_test_and_genomic_attempt"
+      ],
       "contributes": "Exhaustive seed-and-extend scan of 186,185 GRCh38.p14 transcripts for exact and <=1-mismatch matches, complete for substitutions by construction; also carries the 180-nt local-fold accessibility estimate."
     },
     {
@@ -1398,7 +1887,9 @@
       "bytes": 7066,
       "sha256": "3d6854d50cf3999d57e58f94cbfe9b8bd731b16718d42ce3de2c5d92c44cc960",
       "serves": "specificity_screen_exhaustive",
-      "also_serves": [],
+      "also_serves": [
+        "censoring_test_and_genomic_attempt"
+      ],
       "contributes": "Exhaustive seed-and-extend scan of 186,185 GRCh38.p14 transcripts for exact and <=1-mismatch matches, complete for substitutions by construction; also carries the 180-nt local-fold accessibility estimate."
     },
     {
@@ -1432,7 +1923,9 @@
       "bytes": 7804,
       "sha256": "0536dadad940ae345027b64ba38f4a948760c3f7fa56b5285fe2d68a4ba4e920",
       "serves": "specificity_screen_exhaustive",
-      "also_serves": [],
+      "also_serves": [
+        "censoring_test_and_genomic_attempt"
+      ],
       "contributes": "Exhaustive seed-and-extend scan of 186,185 GRCh38.p14 transcripts for exact and <=1-mismatch matches, complete for substitutions by construction; also carries the 180-nt local-fold accessibility estimate."
     },
     {
@@ -1506,7 +1999,9 @@
       "bytes": 7166,
       "sha256": "0f460808758cca6ee42ddd7679d8f0150361ec37fcfd8a77b291606ddeb5741e",
       "serves": "specificity_screen_exhaustive",
-      "also_serves": [],
+      "also_serves": [
+        "censoring_test_and_genomic_attempt"
+      ],
       "contributes": "Exhaustive seed-and-extend scan of 186,185 GRCh38.p14 transcripts for exact and <=1-mismatch matches, complete for substitutions by construction; also carries the 180-nt local-fold accessibility estimate."
     },
     {
@@ -1522,7 +2017,9 @@
       "bytes": 6857,
       "sha256": "50d9886ce4993b25202ad595a0a97dcd51f77845541a37815804f676443f2d15",
       "serves": "specificity_screen_exhaustive",
-      "also_serves": [],
+      "also_serves": [
+        "censoring_test_and_genomic_attempt"
+      ],
       "contributes": "Exhaustive seed-and-extend scan of 186,185 GRCh38.p14 transcripts for exact and <=1-mismatch matches, complete for substitutions by construction; also carries the 180-nt local-fold accessibility estimate."
     },
     {
@@ -1594,7 +2091,9 @@
       "bytes": 7880,
       "sha256": "7424c746c2abafbee80a9f74a999cdfec765cc1e909777a8ffe6d4ef29c118b8",
       "serves": "specificity_screen_exhaustive",
-      "also_serves": [],
+      "also_serves": [
+        "censoring_test_and_genomic_attempt"
+      ],
       "contributes": "Exhaustive seed-and-extend scan of 186,185 GRCh38.p14 transcripts for exact and <=1-mismatch matches, complete for substitutions by construction; also carries the 180-nt local-fold accessibility estimate."
     },
     {
@@ -1610,7 +2109,9 @@
       "bytes": 6469,
       "sha256": "593186d5bda8038946ad5a3710299aa41a7b8dc60ea784b6dc27243e964fbed5",
       "serves": "specificity_screen_exhaustive",
-      "also_serves": [],
+      "also_serves": [
+        "censoring_test_and_genomic_attempt"
+      ],
       "contributes": "Exhaustive seed-and-extend scan of 186,185 GRCh38.p14 transcripts for exact and <=1-mismatch matches, complete for substitutions by construction; also carries the 180-nt local-fold accessibility estimate."
     },
     {
@@ -1626,7 +2127,9 @@
       "bytes": 7813,
       "sha256": "ea50fcf79899312df5fcfb0858f291a4d097406a2e47296a8cafe5faf0db8366",
       "serves": "specificity_screen_exhaustive",
-      "also_serves": [],
+      "also_serves": [
+        "censoring_test_and_genomic_attempt"
+      ],
       "contributes": "Exhaustive seed-and-extend scan of 186,185 GRCh38.p14 transcripts for exact and <=1-mismatch matches, complete for substitutions by construction; also carries the 180-nt local-fold accessibility estimate."
     },
     {
@@ -1678,7 +2181,9 @@
       "bytes": 6786,
       "sha256": "4842457ad936a3d6821b91aa4a2eee730baeb6376ae3b101ead6c2ac2fe7786c",
       "serves": "specificity_screen_exhaustive",
-      "also_serves": [],
+      "also_serves": [
+        "censoring_test_and_genomic_attempt"
+      ],
       "contributes": "Exhaustive seed-and-extend scan of 186,185 GRCh38.p14 transcripts for exact and <=1-mismatch matches, complete for substitutions by construction; also carries the 180-nt local-fold accessibility estimate."
     },
     {
@@ -1712,7 +2217,9 @@
       "bytes": 6336,
       "sha256": "53fb2b225c8a4b87ae2946b0f02e8edf8be60b2c5aa51b6f07b1bd0399c59a57",
       "serves": "specificity_screen_exhaustive",
-      "also_serves": [],
+      "also_serves": [
+        "censoring_test_and_genomic_attempt"
+      ],
       "contributes": "Exhaustive seed-and-extend scan of 186,185 GRCh38.p14 transcripts for exact and <=1-mismatch matches, complete for substitutions by construction; also carries the 180-nt local-fold accessibility estimate."
     },
     {
@@ -1728,7 +2235,9 @@
       "bytes": 6783,
       "sha256": "aabb36687692a43807bec8a75aae9790bff5550bc139ca7a4ffd9f8af4c4c4ae",
       "serves": "specificity_screen_exhaustive",
-      "also_serves": [],
+      "also_serves": [
+        "censoring_test_and_genomic_attempt"
+      ],
       "contributes": "Exhaustive seed-and-extend scan of 186,185 GRCh38.p14 transcripts for exact and <=1-mismatch matches, complete for substitutions by construction; also carries the 180-nt local-fold accessibility estimate."
     },
     {
@@ -1744,7 +2253,9 @@
       "bytes": 7227,
       "sha256": "735ed415f59dd92ad6888aba156a2b9226e5de66a605ea0b106e677ef9518968",
       "serves": "specificity_screen_exhaustive",
-      "also_serves": [],
+      "also_serves": [
+        "censoring_test_and_genomic_attempt"
+      ],
       "contributes": "Exhaustive seed-and-extend scan of 186,185 GRCh38.p14 transcripts for exact and <=1-mismatch matches, complete for substitutions by construction; also carries the 180-nt local-fold accessibility estimate."
     },
     {
@@ -1816,7 +2327,9 @@
       "bytes": 7896,
       "sha256": "457b777ffa1044f1c2ce498d42b0909f481b534f314be4e37ab2059391bc616c",
       "serves": "specificity_screen_exhaustive",
-      "also_serves": [],
+      "also_serves": [
+        "censoring_test_and_genomic_attempt"
+      ],
       "contributes": "Exhaustive seed-and-extend scan of 186,185 GRCh38.p14 transcripts for exact and <=1-mismatch matches, complete for substitutions by construction; also carries the 180-nt local-fold accessibility estimate."
     },
     {
@@ -1832,7 +2345,9 @@
       "bytes": 7578,
       "sha256": "75c637dd165a3d27dc19624b33be47f65e8695730d8f8ec995de4981f574e135",
       "serves": "specificity_screen_exhaustive",
-      "also_serves": [],
+      "also_serves": [
+        "censoring_test_and_genomic_attempt"
+      ],
       "contributes": "Exhaustive seed-and-extend scan of 186,185 GRCh38.p14 transcripts for exact and <=1-mismatch matches, complete for substitutions by construction; also carries the 180-nt local-fold accessibility estimate."
     },
     {
@@ -1848,7 +2363,9 @@
       "bytes": 7879,
       "sha256": "97cce3e4512ddcabf943e3d267bdd67dd12835665071cec2d77ea5c0931ca9d2",
       "serves": "specificity_screen_exhaustive",
-      "also_serves": [],
+      "also_serves": [
+        "censoring_test_and_genomic_attempt"
+      ],
       "contributes": "Exhaustive seed-and-extend scan of 186,185 GRCh38.p14 transcripts for exact and <=1-mismatch matches, complete for substitutions by construction; also carries the 180-nt local-fold accessibility estimate."
     },
     {
@@ -1864,7 +2381,9 @@
       "bytes": 7147,
       "sha256": "a55ea5adbd5376b3553a54008ba6d30446ab8215f28620251128ac83ae5c1f53",
       "serves": "specificity_screen_exhaustive",
-      "also_serves": [],
+      "also_serves": [
+        "censoring_test_and_genomic_attempt"
+      ],
       "contributes": "Exhaustive seed-and-extend scan of 186,185 GRCh38.p14 transcripts for exact and <=1-mismatch matches, complete for substitutions by construction; also carries the 180-nt local-fold accessibility estimate."
     },
     {
@@ -1880,7 +2399,9 @@
       "bytes": 7873,
       "sha256": "ceca84b6a299709cd336a54c17ea6190c9dc9376b646b2c629834c7fb3aa7639",
       "serves": "specificity_screen_exhaustive",
-      "also_serves": [],
+      "also_serves": [
+        "censoring_test_and_genomic_attempt"
+      ],
       "contributes": "Exhaustive seed-and-extend scan of 186,185 GRCh38.p14 transcripts for exact and <=1-mismatch matches, complete for substitutions by construction; also carries the 180-nt local-fold accessibility estimate."
     },
     {
@@ -1896,7 +2417,9 @@
       "bytes": 7290,
       "sha256": "b1058aac56d6d54b4ee6a6670c54c8f273d2306bf64cb7790f9235647be94c72",
       "serves": "specificity_screen_exhaustive",
-      "also_serves": [],
+      "also_serves": [
+        "censoring_test_and_genomic_attempt"
+      ],
       "contributes": "Exhaustive seed-and-extend scan of 186,185 GRCh38.p14 transcripts for exact and <=1-mismatch matches, complete for substitutions by construction; also carries the 180-nt local-fold accessibility estimate."
     },
     {
@@ -1924,12 +2447,44 @@
       "contributes": "The scan that asks whether a design whose acceptor half is not exonic in the mature transcript pairs its whole catalytic gap against the patient's un-rearranged NR4A3 allele, at both seams it can reach: within intron 2 for the cryptic-exon acceptor and across the intron-1/exon-2 boundary for the exon-2 acceptors. Carries the three condemned designs, the two seams that keep a reagent, and the positive control the released tests pin."
     },
     {
+      "path": "research/modalities/aso-offtarget-tissue-expression-inputs.json",
+      "bytes": 295235,
+      "sha256": "1768a0d36517d946abe653c32999c444a20742fc9210e09730f70f3be2d96b2c",
+      "serves": "where_each_number_lives",
+      "also_serves": [],
+      "contributes": "The artefacts the Availability statement names by path that no other promise row resolves: the parent-null ensembles the observed liability rate is read against, the off-target expression readings, the gap-length comparison, and the base-level TCF12 breakpoint assignment — each with its producer, its committed offline input and its guard."
+    },
+    {
+      "path": "research/modalities/aso-offtarget-tissue-expression.json",
+      "bytes": 347837,
+      "sha256": "323d8a22cc3972a84986bdedd15f1e21ca211722aaae927a894192a275a3d6af",
+      "serves": "where_each_number_lives",
+      "also_serves": [],
+      "contributes": "The artefacts the Availability statement names by path that no other promise row resolves: the parent-null ensembles the observed liability rate is read against, the off-target expression readings, the gap-length comparison, and the base-level TCF12 breakpoint assignment — each with its producer, its committed offline input and its guard."
+    },
+    {
       "path": "research/modalities/aso-parent-gap-pairing.json",
       "bytes": 50625,
       "sha256": "daad1270ab6298c26a17dae83fb4352dd9a78a8d0276e1a929abbe6c1821f9d3",
       "serves": "mature_parent_gap_pairing_screen",
       "also_serves": [],
       "contributes": "For every design, the longest contiguous duplex a MATURE wild-type parent transcript can form that pairs the whole six-nucleotide catalytic gap. ⭐ IT EXISTS BECAUSE THE OTHER THREE SCREENS STRUCTURALLY CANNOT ANSWER IT: the alignment screen excludes parent records and filters at ≥14/16 identity, the exhaustive scan admits ≤1 mismatch, and the pre-mRNA arm searches unspliced sequence and so cannot reach a mature exon–exon junction. It is fully offline against the same cached sequence the pre-mRNA arm uses, and `--check` re-derives it."
+    },
+    {
+      "path": "research/modalities/aso-parent-null.json",
+      "bytes": 93302,
+      "sha256": "5aa5e24333941387eb8ca5c36ef3b727c4fd89a3200ce3543e9b47da9e6ebefb",
+      "serves": "where_each_number_lives",
+      "also_serves": [],
+      "contributes": "The artefacts the Availability statement names by path that no other promise row resolves: the parent-null ensembles the observed liability rate is read against, the off-target expression readings, the gap-length comparison, and the base-level TCF12 breakpoint assignment — each with its producer, its committed offline input and its guard."
+    },
+    {
+      "path": "research/modalities/aso-per-junction-table.json",
+      "bytes": 165919,
+      "sha256": "aa5a0cecbf66cade5eb7c67f7d31fd65e410a8035131975accf88eb8b749234a",
+      "serves": "reproduction_command",
+      "also_serves": [],
+      "contributes": "Re-derives every offline-derivable artefact below in dependency order and re-runs the consistency, citation and style gates; the command a reader is told to run to establish that this archive is current. The script AND every step it invokes that no other row here already carries."
     },
     {
       "path": "research/modalities/aso-premrna-offtarget-genomic.json",
@@ -1972,12 +2527,28 @@
       "contributes": "The two-axis surface-antigen screen behind the Discussion's delivery negative: the twelve antigens scoreable on both axes, the measured EMC tumour-versus-normal-organ exposure contrast from GSE28866, the three that clear the measured axes and the reason each is still refused, and the ceiling field recording that 86 further surface-board genes are unmeasured rather than excluded. Released so the bound on what was examined is checkable rather than taken on trust."
     },
     {
+      "path": "research/modalities/aso_gap_length_tradeoff.py",
+      "bytes": 56948,
+      "sha256": "c0a2d5fe003a851c9af946ac7d6af11a76c663d1caa77d24dd0a8cfaba9c1aa9",
+      "serves": "where_each_number_lives",
+      "also_serves": [],
+      "contributes": "The artefacts the Availability statement names by path that no other promise row resolves: the parent-null ensembles the observed liability rate is read against, the off-target expression readings, the gap-length comparison, and the base-level TCF12 breakpoint assignment — each with its producer, its committed offline input and its guard."
+    },
+    {
       "path": "research/modalities/aso_genome_offtarget.py",
       "bytes": 92586,
       "sha256": "2f6198bef0bc5eae8a2d7115e2f416c5170f0fb71a79dc1538cd06609c27f72e",
       "serves": "genome_wide_screen",
       "also_serves": [],
       "contributes": "Every distinct target window and its reverse complement tested against every position of GRCh38 in both orientations at ≤2 mismatches — a measured 3.10e9 nt, no seed and no word size, so completeness is definitional rather than argued. ⛔ THE RAW TOTAL IS NOT THE DELIVERABLE and the artifact says so first: at this threshold chance predicts of order 10^3 near-matches per 16-mer for ANY 16-mer. The readings are stratified — exact matches, where chance is of order one; observed-over-expected, which discriminates between designs; the named-target lookup, which one hit settles; and the repeat split, free from a soft-masked reference. Also carries the gap-length anchors, ported from the literature-cache branch where gate 4 cannot see them."
+    },
+    {
+      "path": "research/modalities/aso_independent_verification.py",
+      "bytes": 24400,
+      "sha256": "739c609707c6adf30dc886eb547b447efdf68b1b78ebb4300100953046f383c6",
+      "serves": "reimplementation_crosscheck",
+      "also_serves": [],
+      "contributes": "The independent second implementation of the frame grading and the mature-parent screen, the field-by-field comparison against the original over all 231 graded exon pairs and all 190 designs, and the deliberate-corruption tests that show the comparison can fail."
     },
     {
       "path": "research/modalities/aso_insilico.py",
@@ -1996,12 +2567,44 @@
       "contributes": "The scan that asks whether a design whose acceptor half is not exonic in the mature transcript pairs its whole catalytic gap against the patient's un-rearranged NR4A3 allele, at both seams it can reach: within intron 2 for the cryptic-exon acceptor and across the intron-1/exon-2 boundary for the exon-2 acceptors. Carries the three condemned designs, the two seams that keep a reagent, and the positive control the released tests pin."
     },
     {
+      "path": "research/modalities/aso_noncoding_acceptor_screened_table.py",
+      "bytes": 29445,
+      "sha256": "afd344916edd372b2a164e4d44922c30cf68ccd16eb1a3a0744ea6cd4ca08c90",
+      "serves": "reproduction_command",
+      "also_serves": [],
+      "contributes": "Re-derives every offline-derivable artefact below in dependency order and re-runs the consistency, citation and style gates; the command a reader is told to run to establish that this archive is current. The script AND every step it invokes that no other row here already carries."
+    },
+    {
+      "path": "research/modalities/aso_offtarget_tissue_expression.py",
+      "bytes": 75614,
+      "sha256": "7352ffe5e0976ad3de50e9ad409c5e8e43556a7b6b4e767260ede388aa700a44",
+      "serves": "where_each_number_lives",
+      "also_serves": [],
+      "contributes": "The artefacts the Availability statement names by path that no other promise row resolves: the parent-null ensembles the observed liability rate is read against, the off-target expression readings, the gap-length comparison, and the base-level TCF12 breakpoint assignment — each with its producer, its committed offline input and its guard."
+    },
+    {
       "path": "research/modalities/aso_parent_gap_pairing.py",
       "bytes": 15051,
       "sha256": "1c79719affebfed9064b80807d3689c47c1d95edd3d89429f14957f1953be574",
       "serves": "mature_parent_gap_pairing_screen",
       "also_serves": [],
       "contributes": "For every design, the longest contiguous duplex a MATURE wild-type parent transcript can form that pairs the whole six-nucleotide catalytic gap. ⭐ IT EXISTS BECAUSE THE OTHER THREE SCREENS STRUCTURALLY CANNOT ANSWER IT: the alignment screen excludes parent records and filters at ≥14/16 identity, the exhaustive scan admits ≤1 mismatch, and the pre-mRNA arm searches unspliced sequence and so cannot reach a mature exon–exon junction. It is fully offline against the same cached sequence the pre-mRNA arm uses, and `--check` re-derives it."
+    },
+    {
+      "path": "research/modalities/aso_parent_null.py",
+      "bytes": 48305,
+      "sha256": "d2e168139c7850c97750e07b487c73aadbab5b749862e8bbdbfb6d2443792011",
+      "serves": "where_each_number_lives",
+      "also_serves": [],
+      "contributes": "The artefacts the Availability statement names by path that no other promise row resolves: the parent-null ensembles the observed liability rate is read against, the off-target expression readings, the gap-length comparison, and the base-level TCF12 breakpoint assignment — each with its producer, its committed offline input and its guard."
+    },
+    {
+      "path": "research/modalities/aso_per_junction_table.py",
+      "bytes": 25972,
+      "sha256": "d2881eaa6f5d05bd79f2fa8e869d238b0cdb2aadfcd441dc2d5d6cf17bad3b19",
+      "serves": "reproduction_command",
+      "also_serves": [],
+      "contributes": "Re-derives every offline-derivable artefact below in dependency order and re-runs the consistency, citation and style gates; the command a reader is told to run to establish that this archive is current. The script AND every step it invokes that no other row here already carries."
     },
     {
       "path": "research/modalities/aso_premrna_offtarget.py",
@@ -2012,12 +2615,28 @@
       "contributes": "The exhaustive ≤2-mismatch scan of every design against the unspliced sequence of all six parent transcripts, gap-resolved, orientation-filtered and classified as intronic / exonic / intron–exon-spanning. ⭐ THE RETRIEVED SEQUENCE TRAVELS WITH IT, which is what makes this the one screen in the paper that recomputes with no network at all: the other two need NCBI BLAST and a RefSeq download. Re-running the module with --offline against the committed cache reproduces every number in §2.5 exactly."
     },
     {
+      "path": "research/modalities/aso_screen_sets.py",
+      "bytes": 37900,
+      "sha256": "a9decc25004207a4d6df3957cb3925d36e3643280a88770b0425e5bf2999be28",
+      "serves": "import_closure",
+      "also_serves": [],
+      "contributes": "Imported by a released module. Not named by any availability promise; present because the code the promises DO name cannot be imported without it."
+    },
+    {
       "path": "research/modalities/aso_taf15_intron2_designs.py",
       "bytes": 69028,
       "sha256": "4df9b9eca6d680196dfdb455c5281d0ed9d8f158f080895808f44bfbb4938890",
       "serves": "unrearranged_allele_scan",
       "also_serves": [],
       "contributes": "The scan that asks whether a design whose acceptor half is not exonic in the mature transcript pairs its whole catalytic gap against the patient's un-rearranged NR4A3 allele, at both seams it can reach: within intron 2 for the cryptic-exon acceptor and across the intron-1/exon-2 boundary for the exon-2 acceptors. Carries the three condemned designs, the two seams that keep a reagent, and the positive control the released tests pin."
+    },
+    {
+      "path": "research/modalities/depmap_sarcoma_dependency.py",
+      "bytes": 22928,
+      "sha256": "98f52b1330af55852a65a8894b096521ca0f6bf9626f6ca01387706e0fc96e33",
+      "serves": "import_closure",
+      "also_serves": [],
+      "contributes": "Imported by a released module. Not named by any availability promise; present because the code the promises DO name cannot be imported without it."
     },
     {
       "path": "research/modalities/emc-atr-vulnerability.json",
@@ -2076,6 +2695,22 @@
       "contributes": "The evidence behind section 3: the three published constructs with their author-stated exon spans, the two identity-clean patient-derived models with their RRIDs and the figure-legend fusion calls they rest on, the third line whose availability could not be established, and the fusion caller, expression reading and registry caution behind the statement that no NR4A3 fusion is detectable in H-EMC-SS on the public record. H-EMC-SS identity is DISPUTED (OBJ-LINE-HEMCSS): the evidence in this row is what makes that dispute checkable, and section 3's operative conclusion -- that the line cannot serve as a test article for any reagent named here -- does not rest on the line being EMC."
     },
     {
+      "path": "research/modalities/emc_atr_vulnerability.py",
+      "bytes": 181412,
+      "sha256": "d9b11a0f9ae1ec0a8cd5b1e128cd8621f9202d0cb383aae6fa32f10472aee0f5",
+      "serves": "import_closure",
+      "also_serves": [],
+      "contributes": "Imported by a released module. Not named by any availability promise; present because the code the promises DO name cannot be imported without it."
+    },
+    {
+      "path": "research/modalities/emc_expression_panels.py",
+      "bytes": 170613,
+      "sha256": "c5955e5b2129aaa290dcee521bfd5576f9e677c616f4d3c542083fe927aeae6c",
+      "serves": "import_closure",
+      "also_serves": [],
+      "contributes": "Imported by a released module. Not named by any availability promise; present because the code the promises DO name cannot be imported without it."
+    },
+    {
       "path": "research/modalities/emc_model_junction_evidence.py",
       "bytes": 31958,
       "sha256": "d79e40e7011418dc13c96ed279f329b73460a2e88bae4aa1b0da9d0b4c883eeb",
@@ -2084,12 +2719,36 @@
       "contributes": "The evidence behind section 3: the three published constructs with their author-stated exon spans, the two identity-clean patient-derived models with their RRIDs and the figure-legend fusion calls they rest on, the third line whose availability could not be established, and the fusion caller, expression reading and registry caution behind the statement that no NR4A3 fusion is detectable in H-EMC-SS on the public record. H-EMC-SS identity is DISPUTED (OBJ-LINE-HEMCSS): the evidence in this row is what makes that dispute checkable, and section 3's operative conclusion -- that the line cannot serve as a test article for any reagent named here -- does not rest on the line being EMC."
     },
     {
+      "path": "research/modalities/fet_ddr_axis_scan.py",
+      "bytes": 39410,
+      "sha256": "342c0aadd1b0d259b2cfeed3ef801f9a0741d8695946eac1845cab0aacd61bbc",
+      "serves": "import_closure",
+      "also_serves": [],
+      "contributes": "Imported by a released module. Not named by any availability promise; present because the code the promises DO name cannot be imported without it."
+    },
+    {
       "path": "research/modalities/fusion-object-inventory.json",
       "bytes": 60037,
       "sha256": "11c22f28453a11a634296be6fff45b082c9154aa82c1c8b6da208793acfd6201",
       "serves": "graded_junction_atlas",
       "also_serves": [],
       "contributes": "Grades all 231 donor-exon x acceptor-exon pairs across the five 5' partners for frame compatibility and carries the 38 emitted design panels inline; the source of Table 1 and of every count in section 3.1."
+    },
+    {
+      "path": "research/modalities/fusion_breakpoints.py",
+      "bytes": 28733,
+      "sha256": "e9a2f4fcc10f626c0faa038555f444d5a9f3ebabab62305ab699b7e6f45ca626",
+      "serves": "import_closure",
+      "also_serves": [],
+      "contributes": "Imported by a released module. Not named by any availability promise; present because the code the promises DO name cannot be imported without it."
+    },
+    {
+      "path": "research/modalities/fusion_neoantigen_invalidation.py",
+      "bytes": 54688,
+      "sha256": "10fe1b1f924c376c5339690107d723e4d9758999cadae6cce9993bb498f87ae8",
+      "serves": "import_closure",
+      "also_serves": [],
+      "contributes": "Imported by a released module. Not named by any availability promise; present because the code the promises DO name cannot be imported without it."
     },
     {
       "path": "research/modalities/gse28866-tumour-vs-normal.json",
@@ -2836,6 +3495,14 @@
       "contributes": "Gap-resolved near-match screen against human RefSeq RNA (blastn-short, >=14/16 identity), classifying each near-match by whether the six-nucleotide catalytic gap is fully base-paired."
     },
     {
+      "path": "research/modalities/junction-aso-offtarget-e10n3-deep500-b1.json",
+      "bytes": 266669,
+      "sha256": "d577c2a109965287124faa0b9e0e6f5dcbfbf8bf38bc288ba6ebac38236db3ae",
+      "serves": "censoring_test_and_genomic_attempt",
+      "also_serves": [],
+      "contributes": "⭐ THE EVIDENCE THAT THE CENSORING GUARD IS LOAD-BEARING RATHER THAN MERELY CAUTIOUS. Seven design-and-junction records had no hybridisable retained hit and a raw count above the retention depth but below the search ceiling, so retention alone withheld a verdict; re-screened at a tenfold deeper ceiling, six are decided and NONE is clean (one design's 21 near-matches become 196 with 119 hybridisable). Relaxing the restriction would have promoted six records a deeper look refutes. ⚠ These are a SEPARATE measurement under their own suffix: a count at a deeper ceiling does not correct the shallower one, and no number in the manuscript is restated from them. Also included: the genome-wide arm's output, which ran against NCBI core_nt and saturated the hit ceiling on every query over a mixed corpus of assemblies, clones and patents — released so a reader need not repeat an attempt that did not yield an interpretable result."
+    },
+    {
       "path": "research/modalities/junction-aso-offtarget-e10n3-graded.json",
       "bytes": 11392,
       "sha256": "ab3fab1346bb0357e76435c3e9dcaf093f597b0e5664a20552a1ed9f085066fe",
@@ -2868,6 +3535,14 @@
       "contributes": "⭐ THE EVIDENCE THAT THE CENSORING GUARD IS LOAD-BEARING RATHER THAN MERELY CAUTIOUS. Seven design-and-junction records had no hybridisable retained hit and a raw count above the retention depth but below the search ceiling, so retention alone withheld a verdict; re-screened at a tenfold deeper ceiling, six are decided and NONE is clean (one design's 21 near-matches become 196 with 119 hybridisable). Relaxing the restriction would have promoted six records a deeper look refutes. ⚠ These are a SEPARATE measurement under their own suffix: a count at a deeper ceiling does not correct the shallower one, and no number in the manuscript is restated from them. Also included: the genome-wide arm's output, which ran against NCBI core_nt and saturated the hit ceiling on every query over a mixed corpus of assemblies, clones and patents — released so a reader need not repeat an attempt that did not yield an interpretable result."
     },
     {
+      "path": "research/modalities/junction-aso-offtarget-e12n3-deep500-b1.json",
+      "bytes": 481143,
+      "sha256": "6a2adc9b25875a57a35b6d4505d3d29552d8464762cf6968ff5ac9d5342b1351",
+      "serves": "censoring_test_and_genomic_attempt",
+      "also_serves": [],
+      "contributes": "⭐ THE EVIDENCE THAT THE CENSORING GUARD IS LOAD-BEARING RATHER THAN MERELY CAUTIOUS. Seven design-and-junction records had no hybridisable retained hit and a raw count above the retention depth but below the search ceiling, so retention alone withheld a verdict; re-screened at a tenfold deeper ceiling, six are decided and NONE is clean (one design's 21 near-matches become 196 with 119 hybridisable). Relaxing the restriction would have promoted six records a deeper look refutes. ⚠ These are a SEPARATE measurement under their own suffix: a count at a deeper ceiling does not correct the shallower one, and no number in the manuscript is restated from them. Also included: the genome-wide arm's output, which ran against NCBI core_nt and saturated the hit ceiling on every query over a mixed corpus of assemblies, clones and patents — released so a reader need not repeat an attempt that did not yield an interpretable result."
+    },
+    {
       "path": "research/modalities/junction-aso-offtarget-e12n3-graded.json",
       "bytes": 11373,
       "sha256": "bb73a3eb43436ddfd631cd176c089ef0bc8b464b6defa1b0265220f75003d2b6",
@@ -2884,6 +3559,14 @@
       "contributes": "Gap-resolved near-match screen against human RefSeq RNA (blastn-short, >=14/16 identity), classifying each near-match by whether the six-nucleotide catalytic gap is fully base-paired."
     },
     {
+      "path": "research/modalities/junction-aso-offtarget-e13n3-deep500-b1.json",
+      "bytes": 187865,
+      "sha256": "c82096ff418ce4153d3247fa40aa95291414d667aed74a30bb0c7188b37f6391",
+      "serves": "censoring_test_and_genomic_attempt",
+      "also_serves": [],
+      "contributes": "⭐ THE EVIDENCE THAT THE CENSORING GUARD IS LOAD-BEARING RATHER THAN MERELY CAUTIOUS. Seven design-and-junction records had no hybridisable retained hit and a raw count above the retention depth but below the search ceiling, so retention alone withheld a verdict; re-screened at a tenfold deeper ceiling, six are decided and NONE is clean (one design's 21 near-matches become 196 with 119 hybridisable). Relaxing the restriction would have promoted six records a deeper look refutes. ⚠ These are a SEPARATE measurement under their own suffix: a count at a deeper ceiling does not correct the shallower one, and no number in the manuscript is restated from them. Also included: the genome-wide arm's output, which ran against NCBI core_nt and saturated the hit ceiling on every query over a mixed corpus of assemblies, clones and patents — released so a reader need not repeat an attempt that did not yield an interpretable result."
+    },
+    {
       "path": "research/modalities/junction-aso-offtarget-e13n3-graded.json",
       "bytes": 11401,
       "sha256": "68263727a2847c186f22de5b54eee5bd1865b453b48366785f66ae9fc4e3304b",
@@ -2898,6 +3581,14 @@
       "serves": "specificity_screen_blast",
       "also_serves": [],
       "contributes": "Gap-resolved near-match screen against human RefSeq RNA (blastn-short, >=14/16 identity), classifying each near-match by whether the six-nucleotide catalytic gap is fully base-paired."
+    },
+    {
+      "path": "research/modalities/junction-aso-offtarget-e15n3-deep500-b1.json",
+      "bytes": 197523,
+      "sha256": "e7419760380bac97caf2acb0cdf32e2142356e47f26dd11515783bf44750cfdf",
+      "serves": "censoring_test_and_genomic_attempt",
+      "also_serves": [],
+      "contributes": "⭐ THE EVIDENCE THAT THE CENSORING GUARD IS LOAD-BEARING RATHER THAN MERELY CAUTIOUS. Seven design-and-junction records had no hybridisable retained hit and a raw count above the retention depth but below the search ceiling, so retention alone withheld a verdict; re-screened at a tenfold deeper ceiling, six are decided and NONE is clean (one design's 21 near-matches become 196 with 119 hybridisable). Relaxing the restriction would have promoted six records a deeper look refutes. ⚠ These are a SEPARATE measurement under their own suffix: a count at a deeper ceiling does not correct the shallower one, and no number in the manuscript is restated from them. Also included: the genome-wide arm's output, which ran against NCBI core_nt and saturated the hit ceiling on every query over a mixed corpus of assemblies, clones and patents — released so a reader need not repeat an attempt that did not yield an interpretable result."
     },
     {
       "path": "research/modalities/junction-aso-offtarget-e15n3-graded.json",
@@ -2940,6 +3631,14 @@
       "contributes": "Gap-resolved near-match screen against human RefSeq RNA (blastn-short, >=14/16 identity), classifying each near-match by whether the six-nucleotide catalytic gap is fully base-paired."
     },
     {
+      "path": "research/modalities/junction-aso-offtarget-e4n3-deep500-b1.json",
+      "bytes": 224647,
+      "sha256": "9d4e39519bbd8a8d3edf6fb16ca441b05becdb83aad97f9595196870dde106ec",
+      "serves": "censoring_test_and_genomic_attempt",
+      "also_serves": [],
+      "contributes": "⭐ THE EVIDENCE THAT THE CENSORING GUARD IS LOAD-BEARING RATHER THAN MERELY CAUTIOUS. Seven design-and-junction records had no hybridisable retained hit and a raw count above the retention depth but below the search ceiling, so retention alone withheld a verdict; re-screened at a tenfold deeper ceiling, six are decided and NONE is clean (one design's 21 near-matches become 196 with 119 hybridisable). Relaxing the restriction would have promoted six records a deeper look refutes. ⚠ These are a SEPARATE measurement under their own suffix: a count at a deeper ceiling does not correct the shallower one, and no number in the manuscript is restated from them. Also included: the genome-wide arm's output, which ran against NCBI core_nt and saturated the hit ceiling on every query over a mixed corpus of assemblies, clones and patents — released so a reader need not repeat an attempt that did not yield an interpretable result."
+    },
+    {
       "path": "research/modalities/junction-aso-offtarget-e4n3-graded.json",
       "bytes": 11361,
       "sha256": "1fcae65aa11e0d45f07023cf416068f0bb2afb015b74a1f5fd58c8214f02b680",
@@ -2956,6 +3655,14 @@
       "contributes": "Gap-resolved near-match screen against human RefSeq RNA (blastn-short, >=14/16 identity), classifying each near-match by whether the six-nucleotide catalytic gap is fully base-paired."
     },
     {
+      "path": "research/modalities/junction-aso-offtarget-e7n3-deep500-b1.json",
+      "bytes": 533710,
+      "sha256": "54986e07a7b8a629c1406c10dadb4ad063a561354d8a503618b93313056e0a27",
+      "serves": "censoring_test_and_genomic_attempt",
+      "also_serves": [],
+      "contributes": "⭐ THE EVIDENCE THAT THE CENSORING GUARD IS LOAD-BEARING RATHER THAN MERELY CAUTIOUS. Seven design-and-junction records had no hybridisable retained hit and a raw count above the retention depth but below the search ceiling, so retention alone withheld a verdict; re-screened at a tenfold deeper ceiling, six are decided and NONE is clean (one design's 21 near-matches become 196 with 119 hybridisable). Relaxing the restriction would have promoted six records a deeper look refutes. ⚠ These are a SEPARATE measurement under their own suffix: a count at a deeper ceiling does not correct the shallower one, and no number in the manuscript is restated from them. Also included: the genome-wide arm's output, which ran against NCBI core_nt and saturated the hit ceiling on every query over a mixed corpus of assemblies, clones and patents — released so a reader need not repeat an attempt that did not yield an interpretable result."
+    },
+    {
       "path": "research/modalities/junction-aso-offtarget-e7n3-graded.json",
       "bytes": 11377,
       "sha256": "12428a3a3fe751fbc50c28b304ce913cdbf9d89914452b65f34b817611b1be22",
@@ -2970,6 +3677,14 @@
       "serves": "specificity_screen_blast",
       "also_serves": [],
       "contributes": "Gap-resolved near-match screen against human RefSeq RNA (blastn-short, >=14/16 identity), classifying each near-match by whether the six-nucleotide catalytic gap is fully base-paired."
+    },
+    {
+      "path": "research/modalities/junction-aso-offtarget-e9n3-deep500-b1.json",
+      "bytes": 329595,
+      "sha256": "53375c35c7d000ca00f0615a59245f30efb81ff38fe24db9f6dc56728b0d8df9",
+      "serves": "censoring_test_and_genomic_attempt",
+      "also_serves": [],
+      "contributes": "⭐ THE EVIDENCE THAT THE CENSORING GUARD IS LOAD-BEARING RATHER THAN MERELY CAUTIOUS. Seven design-and-junction records had no hybridisable retained hit and a raw count above the retention depth but below the search ceiling, so retention alone withheld a verdict; re-screened at a tenfold deeper ceiling, six are decided and NONE is clean (one design's 21 near-matches become 196 with 119 hybridisable). Relaxing the restriction would have promoted six records a deeper look refutes. ⚠ These are a SEPARATE measurement under their own suffix: a count at a deeper ceiling does not correct the shallower one, and no number in the manuscript is restated from them. Also included: the genome-wide arm's output, which ran against NCBI core_nt and saturated the hit ceiling on every query over a mixed corpus of assemblies, clones and patents — released so a reader need not repeat an attempt that did not yield an interpretable result."
     },
     {
       "path": "research/modalities/junction-aso-offtarget-e9n3-graded.json",
@@ -2999,6 +3714,14 @@
       "path": "research/modalities/junction-aso-offtarget-fuse10n3-20mer-deep500.json",
       "bytes": 25978,
       "sha256": "b376155dbd1f52bae69cc6150c69baf76063dba7ed91c0754f91aad8cb35ac1c",
+      "serves": "censoring_test_and_genomic_attempt",
+      "also_serves": [],
+      "contributes": "⭐ THE EVIDENCE THAT THE CENSORING GUARD IS LOAD-BEARING RATHER THAN MERELY CAUTIOUS. Seven design-and-junction records had no hybridisable retained hit and a raw count above the retention depth but below the search ceiling, so retention alone withheld a verdict; re-screened at a tenfold deeper ceiling, six are decided and NONE is clean (one design's 21 near-matches become 196 with 119 hybridisable). Relaxing the restriction would have promoted six records a deeper look refutes. ⚠ These are a SEPARATE measurement under their own suffix: a count at a deeper ceiling does not correct the shallower one, and no number in the manuscript is restated from them. Also included: the genome-wide arm's output, which ran against NCBI core_nt and saturated the hit ceiling on every query over a mixed corpus of assemblies, clones and patents — released so a reader need not repeat an attempt that did not yield an interpretable result."
+    },
+    {
+      "path": "research/modalities/junction-aso-offtarget-fuse10n3-deep500-b2.json",
+      "bytes": 481028,
+      "sha256": "5b35abe98c738afde37eb0eb3135192dce155f9e5de6c6b88df102aca46fe8a7",
       "serves": "censoring_test_and_genomic_attempt",
       "also_serves": [],
       "contributes": "⭐ THE EVIDENCE THAT THE CENSORING GUARD IS LOAD-BEARING RATHER THAN MERELY CAUTIOUS. Seven design-and-junction records had no hybridisable retained hit and a raw count above the retention depth but below the search ceiling, so retention alone withheld a verdict; re-screened at a tenfold deeper ceiling, six are decided and NONE is clean (one design's 21 near-matches become 196 with 119 hybridisable). Relaxing the restriction would have promoted six records a deeper look refutes. ⚠ These are a SEPARATE measurement under their own suffix: a count at a deeper ceiling does not correct the shallower one, and no number in the manuscript is restated from them. Also included: the genome-wide arm's output, which ran against NCBI core_nt and saturated the hit ceiling on every query over a mixed corpus of assemblies, clones and patents — released so a reader need not repeat an attempt that did not yield an interpretable result."
@@ -3044,6 +3767,14 @@
       "contributes": "Gap-resolved near-match screen against human RefSeq RNA (blastn-short, >=14/16 identity), classifying each near-match by whether the six-nucleotide catalytic gap is fully base-paired."
     },
     {
+      "path": "research/modalities/junction-aso-offtarget-fuse13n3-deep500-b2.json",
+      "bytes": 122664,
+      "sha256": "4f4499ed71c62d4bb570646381d9fd2f2912d62a6411cae8305904937a4b51bc",
+      "serves": "censoring_test_and_genomic_attempt",
+      "also_serves": [],
+      "contributes": "⭐ THE EVIDENCE THAT THE CENSORING GUARD IS LOAD-BEARING RATHER THAN MERELY CAUTIOUS. Seven design-and-junction records had no hybridisable retained hit and a raw count above the retention depth but below the search ceiling, so retention alone withheld a verdict; re-screened at a tenfold deeper ceiling, six are decided and NONE is clean (one design's 21 near-matches become 196 with 119 hybridisable). Relaxing the restriction would have promoted six records a deeper look refutes. ⚠ These are a SEPARATE measurement under their own suffix: a count at a deeper ceiling does not correct the shallower one, and no number in the manuscript is restated from them. Also included: the genome-wide arm's output, which ran against NCBI core_nt and saturated the hit ceiling on every query over a mixed corpus of assemblies, clones and patents — released so a reader need not repeat an attempt that did not yield an interpretable result."
+    },
+    {
       "path": "research/modalities/junction-aso-offtarget-fuse13n3-graded.json",
       "bytes": 11198,
       "sha256": "b0a3beebf56159af54f252ae80543a3292e37d34f86ab0e827c65329578c52a6",
@@ -3060,6 +3791,14 @@
       "contributes": "Gap-resolved near-match screen against human RefSeq RNA (blastn-short, >=14/16 identity), classifying each near-match by whether the six-nucleotide catalytic gap is fully base-paired."
     },
     {
+      "path": "research/modalities/junction-aso-offtarget-fuse1n3-deep500-b2.json",
+      "bytes": 305816,
+      "sha256": "79b6a7e95a854ac9b99cc4213555c39a7028e9dca68c929cf1f2f037b2b14422",
+      "serves": "censoring_test_and_genomic_attempt",
+      "also_serves": [],
+      "contributes": "⭐ THE EVIDENCE THAT THE CENSORING GUARD IS LOAD-BEARING RATHER THAN MERELY CAUTIOUS. Seven design-and-junction records had no hybridisable retained hit and a raw count above the retention depth but below the search ceiling, so retention alone withheld a verdict; re-screened at a tenfold deeper ceiling, six are decided and NONE is clean (one design's 21 near-matches become 196 with 119 hybridisable). Relaxing the restriction would have promoted six records a deeper look refutes. ⚠ These are a SEPARATE measurement under their own suffix: a count at a deeper ceiling does not correct the shallower one, and no number in the manuscript is restated from them. Also included: the genome-wide arm's output, which ran against NCBI core_nt and saturated the hit ceiling on every query over a mixed corpus of assemblies, clones and patents — released so a reader need not repeat an attempt that did not yield an interpretable result."
+    },
+    {
       "path": "research/modalities/junction-aso-offtarget-fuse1n3-graded.json",
       "bytes": 11223,
       "sha256": "bf9cc7e25586335f9460163a374a9a06d74f67f428a32ef84ec08eaad4fd96ca",
@@ -3074,6 +3813,14 @@
       "serves": "specificity_screen_blast",
       "also_serves": [],
       "contributes": "Gap-resolved near-match screen against human RefSeq RNA (blastn-short, >=14/16 identity), classifying each near-match by whether the six-nucleotide catalytic gap is fully base-paired."
+    },
+    {
+      "path": "research/modalities/junction-aso-offtarget-fuse3n3-deep500-b2.json",
+      "bytes": 310681,
+      "sha256": "2fd96003dd641bf45551b40b643facc9d941e69ca5f0cd49e88b565802d73d39",
+      "serves": "censoring_test_and_genomic_attempt",
+      "also_serves": [],
+      "contributes": "⭐ THE EVIDENCE THAT THE CENSORING GUARD IS LOAD-BEARING RATHER THAN MERELY CAUTIOUS. Seven design-and-junction records had no hybridisable retained hit and a raw count above the retention depth but below the search ceiling, so retention alone withheld a verdict; re-screened at a tenfold deeper ceiling, six are decided and NONE is clean (one design's 21 near-matches become 196 with 119 hybridisable). Relaxing the restriction would have promoted six records a deeper look refutes. ⚠ These are a SEPARATE measurement under their own suffix: a count at a deeper ceiling does not correct the shallower one, and no number in the manuscript is restated from them. Also included: the genome-wide arm's output, which ran against NCBI core_nt and saturated the hit ceiling on every query over a mixed corpus of assemblies, clones and patents — released so a reader need not repeat an attempt that did not yield an interpretable result."
     },
     {
       "path": "research/modalities/junction-aso-offtarget-fuse3n3-graded.json",
@@ -3116,6 +3863,14 @@
       "contributes": "Gap-resolved near-match screen against human RefSeq RNA (blastn-short, >=14/16 identity), classifying each near-match by whether the six-nucleotide catalytic gap is fully base-paired."
     },
     {
+      "path": "research/modalities/junction-aso-offtarget-fuse7n3-deep500-b2.json",
+      "bytes": 499672,
+      "sha256": "c4e4f0e7c55da0140c29068c29a78f5aa92baf0f2ff5ba93fe970780b99eaffe",
+      "serves": "censoring_test_and_genomic_attempt",
+      "also_serves": [],
+      "contributes": "⭐ THE EVIDENCE THAT THE CENSORING GUARD IS LOAD-BEARING RATHER THAN MERELY CAUTIOUS. Seven design-and-junction records had no hybridisable retained hit and a raw count above the retention depth but below the search ceiling, so retention alone withheld a verdict; re-screened at a tenfold deeper ceiling, six are decided and NONE is clean (one design's 21 near-matches become 196 with 119 hybridisable). Relaxing the restriction would have promoted six records a deeper look refutes. ⚠ These are a SEPARATE measurement under their own suffix: a count at a deeper ceiling does not correct the shallower one, and no number in the manuscript is restated from them. Also included: the genome-wide arm's output, which ran against NCBI core_nt and saturated the hit ceiling on every query over a mixed corpus of assemblies, clones and patents — released so a reader need not repeat an attempt that did not yield an interpretable result."
+    },
+    {
       "path": "research/modalities/junction-aso-offtarget-fuse7n3-graded.json",
       "bytes": 11216,
       "sha256": "19b328b8b8ef3a76cddc75bb78a289e51a2f967b9c4c0c5096b9293fe07be16f",
@@ -3135,6 +3890,14 @@
       "path": "research/modalities/junction-aso-offtarget-fuse8n3-18mer-deep500.json",
       "bytes": 47847,
       "sha256": "49110148f5ebe6e39ecbcd3454d136dcf5babee3270cda85add0b172f3529eb7",
+      "serves": "censoring_test_and_genomic_attempt",
+      "also_serves": [],
+      "contributes": "⭐ THE EVIDENCE THAT THE CENSORING GUARD IS LOAD-BEARING RATHER THAN MERELY CAUTIOUS. Seven design-and-junction records had no hybridisable retained hit and a raw count above the retention depth but below the search ceiling, so retention alone withheld a verdict; re-screened at a tenfold deeper ceiling, six are decided and NONE is clean (one design's 21 near-matches become 196 with 119 hybridisable). Relaxing the restriction would have promoted six records a deeper look refutes. ⚠ These are a SEPARATE measurement under their own suffix: a count at a deeper ceiling does not correct the shallower one, and no number in the manuscript is restated from them. Also included: the genome-wide arm's output, which ran against NCBI core_nt and saturated the hit ceiling on every query over a mixed corpus of assemblies, clones and patents — released so a reader need not repeat an attempt that did not yield an interpretable result."
+    },
+    {
+      "path": "research/modalities/junction-aso-offtarget-fuse8n3-20mer-deep500-b2.json",
+      "bytes": 12637,
+      "sha256": "82f1fcfa531227f04bb8119920c11699f79869b9a041971242ef5e3476809f9d",
       "serves": "censoring_test_and_genomic_attempt",
       "also_serves": [],
       "contributes": "⭐ THE EVIDENCE THAT THE CENSORING GUARD IS LOAD-BEARING RATHER THAN MERELY CAUTIOUS. Seven design-and-junction records had no hybridisable retained hit and a raw count above the retention depth but below the search ceiling, so retention alone withheld a verdict; re-screened at a tenfold deeper ceiling, six are decided and NONE is clean (one design's 21 near-matches become 196 with 119 hybridisable). Relaxing the restriction would have promoted six records a deeper look refutes. ⚠ These are a SEPARATE measurement under their own suffix: a count at a deeper ceiling does not correct the shallower one, and no number in the manuscript is restated from them. Also included: the genome-wide arm's output, which ran against NCBI core_nt and saturated the hit ceiling on every query over a mixed corpus of assemblies, clones and patents — released so a reader need not repeat an attempt that did not yield an interpretable result."
@@ -3180,6 +3943,14 @@
       "contributes": "The manuscript tables and the generator that derives every cell of them from the artifacts, plus the per-locus re-count and the chance baseline the tables and the chance-expectation panel are read from."
     },
     {
+      "path": "research/modalities/junction-aso-offtarget-taf15e11n3-18mer-deep500-b2.json",
+      "bytes": 133422,
+      "sha256": "3d61fe3f3cc60ae15c897971469e1fff8c8d8c82733c795acddcbd6d6dbbeaf0",
+      "serves": "censoring_test_and_genomic_attempt",
+      "also_serves": [],
+      "contributes": "⭐ THE EVIDENCE THAT THE CENSORING GUARD IS LOAD-BEARING RATHER THAN MERELY CAUTIOUS. Seven design-and-junction records had no hybridisable retained hit and a raw count above the retention depth but below the search ceiling, so retention alone withheld a verdict; re-screened at a tenfold deeper ceiling, six are decided and NONE is clean (one design's 21 near-matches become 196 with 119 hybridisable). Relaxing the restriction would have promoted six records a deeper look refutes. ⚠ These are a SEPARATE measurement under their own suffix: a count at a deeper ceiling does not correct the shallower one, and no number in the manuscript is restated from them. Also included: the genome-wide arm's output, which ran against NCBI core_nt and saturated the hit ceiling on every query over a mixed corpus of assemblies, clones and patents — released so a reader need not repeat an attempt that did not yield an interpretable result."
+    },
+    {
       "path": "research/modalities/junction-aso-offtarget-taf15e11n3-18mer-deep500.json",
       "bytes": 104304,
       "sha256": "8c0a5a4ab55a2fcfa964c218dba4120cc8ffbb25358490110c0782673c38f76f",
@@ -3191,6 +3962,14 @@
       "path": "research/modalities/junction-aso-offtarget-taf15e11n3-20mer-deep500.json",
       "bytes": 26008,
       "sha256": "b414bee1a52691755dc910088faa682c3886db60bcf50fe2aa3fb590a341085e",
+      "serves": "censoring_test_and_genomic_attempt",
+      "also_serves": [],
+      "contributes": "⭐ THE EVIDENCE THAT THE CENSORING GUARD IS LOAD-BEARING RATHER THAN MERELY CAUTIOUS. Seven design-and-junction records had no hybridisable retained hit and a raw count above the retention depth but below the search ceiling, so retention alone withheld a verdict; re-screened at a tenfold deeper ceiling, six are decided and NONE is clean (one design's 21 near-matches become 196 with 119 hybridisable). Relaxing the restriction would have promoted six records a deeper look refutes. ⚠ These are a SEPARATE measurement under their own suffix: a count at a deeper ceiling does not correct the shallower one, and no number in the manuscript is restated from them. Also included: the genome-wide arm's output, which ran against NCBI core_nt and saturated the hit ceiling on every query over a mixed corpus of assemblies, clones and patents — released so a reader need not repeat an attempt that did not yield an interpretable result."
+    },
+    {
+      "path": "research/modalities/junction-aso-offtarget-taf15e11n3-deep500-b1.json",
+      "bytes": 481060,
+      "sha256": "5be4b422897b8ddeff71c6dd52ad9dd240c8aaec8b8082695c5c030958f7f5e7",
       "serves": "censoring_test_and_genomic_attempt",
       "also_serves": [],
       "contributes": "⭐ THE EVIDENCE THAT THE CENSORING GUARD IS LOAD-BEARING RATHER THAN MERELY CAUTIOUS. Seven design-and-junction records had no hybridisable retained hit and a raw count above the retention depth but below the search ceiling, so retention alone withheld a verdict; re-screened at a tenfold deeper ceiling, six are decided and NONE is clean (one design's 21 near-matches become 196 with 119 hybridisable). Relaxing the restriction would have promoted six records a deeper look refutes. ⚠ These are a SEPARATE measurement under their own suffix: a count at a deeper ceiling does not correct the shallower one, and no number in the manuscript is restated from them. Also included: the genome-wide arm's output, which ran against NCBI core_nt and saturated the hit ceiling on every query over a mixed corpus of assemblies, clones and patents — released so a reader need not repeat an attempt that did not yield an interpretable result."
@@ -3210,6 +3989,14 @@
       "serves": "specificity_screen_blast",
       "also_serves": [],
       "contributes": "Gap-resolved near-match screen against human RefSeq RNA (blastn-short, >=14/16 identity), classifying each near-match by whether the six-nucleotide catalytic gap is fully base-paired."
+    },
+    {
+      "path": "research/modalities/junction-aso-offtarget-taf15e12n3-deep500-b1.json",
+      "bytes": 68292,
+      "sha256": "b5352dd983059fbcad3e8476aa143031b9854bd13ecda55f1422947a769cdaca",
+      "serves": "censoring_test_and_genomic_attempt",
+      "also_serves": [],
+      "contributes": "⭐ THE EVIDENCE THAT THE CENSORING GUARD IS LOAD-BEARING RATHER THAN MERELY CAUTIOUS. Seven design-and-junction records had no hybridisable retained hit and a raw count above the retention depth but below the search ceiling, so retention alone withheld a verdict; re-screened at a tenfold deeper ceiling, six are decided and NONE is clean (one design's 21 near-matches become 196 with 119 hybridisable). Relaxing the restriction would have promoted six records a deeper look refutes. ⚠ These are a SEPARATE measurement under their own suffix: a count at a deeper ceiling does not correct the shallower one, and no number in the manuscript is restated from them. Also included: the genome-wide arm's output, which ran against NCBI core_nt and saturated the hit ceiling on every query over a mixed corpus of assemblies, clones and patents — released so a reader need not repeat an attempt that did not yield an interpretable result."
     },
     {
       "path": "research/modalities/junction-aso-offtarget-taf15e12n3-graded.json",
@@ -3260,6 +4047,14 @@
       "contributes": "⭐ THE EVIDENCE THAT THE CENSORING GUARD IS LOAD-BEARING RATHER THAN MERELY CAUTIOUS. Seven design-and-junction records had no hybridisable retained hit and a raw count above the retention depth but below the search ceiling, so retention alone withheld a verdict; re-screened at a tenfold deeper ceiling, six are decided and NONE is clean (one design's 21 near-matches become 196 with 119 hybridisable). Relaxing the restriction would have promoted six records a deeper look refutes. ⚠ These are a SEPARATE measurement under their own suffix: a count at a deeper ceiling does not correct the shallower one, and no number in the manuscript is restated from them. Also included: the genome-wide arm's output, which ran against NCBI core_nt and saturated the hit ceiling on every query over a mixed corpus of assemblies, clones and patents — released so a reader need not repeat an attempt that did not yield an interpretable result."
     },
     {
+      "path": "research/modalities/junction-aso-offtarget-taf15e1n3-20mer-deep500-b2.json",
+      "bytes": 12291,
+      "sha256": "25537dca654228ed54594dc7648cc1debc4419d0f42766f94752c8eb8c95906a",
+      "serves": "censoring_test_and_genomic_attempt",
+      "also_serves": [],
+      "contributes": "⭐ THE EVIDENCE THAT THE CENSORING GUARD IS LOAD-BEARING RATHER THAN MERELY CAUTIOUS. Seven design-and-junction records had no hybridisable retained hit and a raw count above the retention depth but below the search ceiling, so retention alone withheld a verdict; re-screened at a tenfold deeper ceiling, six are decided and NONE is clean (one design's 21 near-matches become 196 with 119 hybridisable). Relaxing the restriction would have promoted six records a deeper look refutes. ⚠ These are a SEPARATE measurement under their own suffix: a count at a deeper ceiling does not correct the shallower one, and no number in the manuscript is restated from them. Also included: the genome-wide arm's output, which ran against NCBI core_nt and saturated the hit ceiling on every query over a mixed corpus of assemblies, clones and patents — released so a reader need not repeat an attempt that did not yield an interpretable result."
+    },
+    {
       "path": "research/modalities/junction-aso-offtarget-taf15e1n3-20mer-deep500.json",
       "bytes": 11748,
       "sha256": "f927a7ee6478ab990618befebec50de915b459570542bbefecf07d659da58ed1",
@@ -3292,6 +4087,14 @@
       "contributes": "Gap-resolved near-match screen against human RefSeq RNA (blastn-short, >=14/16 identity), classifying each near-match by whether the six-nucleotide catalytic gap is fully base-paired."
     },
     {
+      "path": "research/modalities/junction-aso-offtarget-taf15e4n3-deep500-b1.json",
+      "bytes": 234631,
+      "sha256": "26c23c0166eff913523547b5696938e3fd2b363f42c8cd891810c81d5b3bc99e",
+      "serves": "censoring_test_and_genomic_attempt",
+      "also_serves": [],
+      "contributes": "⭐ THE EVIDENCE THAT THE CENSORING GUARD IS LOAD-BEARING RATHER THAN MERELY CAUTIOUS. Seven design-and-junction records had no hybridisable retained hit and a raw count above the retention depth but below the search ceiling, so retention alone withheld a verdict; re-screened at a tenfold deeper ceiling, six are decided and NONE is clean (one design's 21 near-matches become 196 with 119 hybridisable). Relaxing the restriction would have promoted six records a deeper look refutes. ⚠ These are a SEPARATE measurement under their own suffix: a count at a deeper ceiling does not correct the shallower one, and no number in the manuscript is restated from them. Also included: the genome-wide arm's output, which ran against NCBI core_nt and saturated the hit ceiling on every query over a mixed corpus of assemblies, clones and patents — released so a reader need not repeat an attempt that did not yield an interpretable result."
+    },
+    {
       "path": "research/modalities/junction-aso-offtarget-taf15e4n3-graded.json",
       "bytes": 11239,
       "sha256": "f15b6eb4522b3aaf8639254b2b6e903fe7e6fb4cfe52f69afe132816f37e8c5a",
@@ -3308,6 +4111,14 @@
       "contributes": "Gap-resolved near-match screen against human RefSeq RNA (blastn-short, >=14/16 identity), classifying each near-match by whether the six-nucleotide catalytic gap is fully base-paired."
     },
     {
+      "path": "research/modalities/junction-aso-offtarget-taf15e6n3-deep500-b1.json",
+      "bytes": 290903,
+      "sha256": "fb46ab907cb3c5e10691099276fe24f172ff528af7d43013e7c0ad4fa17325f9",
+      "serves": "censoring_test_and_genomic_attempt",
+      "also_serves": [],
+      "contributes": "⭐ THE EVIDENCE THAT THE CENSORING GUARD IS LOAD-BEARING RATHER THAN MERELY CAUTIOUS. Seven design-and-junction records had no hybridisable retained hit and a raw count above the retention depth but below the search ceiling, so retention alone withheld a verdict; re-screened at a tenfold deeper ceiling, six are decided and NONE is clean (one design's 21 near-matches become 196 with 119 hybridisable). Relaxing the restriction would have promoted six records a deeper look refutes. ⚠ These are a SEPARATE measurement under their own suffix: a count at a deeper ceiling does not correct the shallower one, and no number in the manuscript is restated from them. Also included: the genome-wide arm's output, which ran against NCBI core_nt and saturated the hit ceiling on every query over a mixed corpus of assemblies, clones and patents — released so a reader need not repeat an attempt that did not yield an interpretable result."
+    },
+    {
       "path": "research/modalities/junction-aso-offtarget-taf15e6n3-graded.json",
       "bytes": 11214,
       "sha256": "85b05e344f54e642149a82c34310fb7040ee5d0982a6edea2b23d48d6469825a",
@@ -3322,6 +4133,14 @@
       "serves": "specificity_screen_blast",
       "also_serves": [],
       "contributes": "Gap-resolved near-match screen against human RefSeq RNA (blastn-short, >=14/16 identity), classifying each near-match by whether the six-nucleotide catalytic gap is fully base-paired."
+    },
+    {
+      "path": "research/modalities/junction-aso-offtarget-taf15e8n3-deep500-b1.json",
+      "bytes": 338254,
+      "sha256": "58391b41c49b044628dd0a266fdceffa260d7b56a88d7a315387a3f45977ef0c",
+      "serves": "censoring_test_and_genomic_attempt",
+      "also_serves": [],
+      "contributes": "⭐ THE EVIDENCE THAT THE CENSORING GUARD IS LOAD-BEARING RATHER THAN MERELY CAUTIOUS. Seven design-and-junction records had no hybridisable retained hit and a raw count above the retention depth but below the search ceiling, so retention alone withheld a verdict; re-screened at a tenfold deeper ceiling, six are decided and NONE is clean (one design's 21 near-matches become 196 with 119 hybridisable). Relaxing the restriction would have promoted six records a deeper look refutes. ⚠ These are a SEPARATE measurement under their own suffix: a count at a deeper ceiling does not correct the shallower one, and no number in the manuscript is restated from them. Also included: the genome-wide arm's output, which ran against NCBI core_nt and saturated the hit ceiling on every query over a mixed corpus of assemblies, clones and patents — released so a reader need not repeat an attempt that did not yield an interpretable result."
     },
     {
       "path": "research/modalities/junction-aso-offtarget-taf15e8n3-graded.json",
@@ -3388,6 +4207,14 @@
       "contributes": "Gap-resolved near-match screen against human RefSeq RNA (blastn-short, >=14/16 identity), classifying each near-match by whether the six-nucleotide catalytic gap is fully base-paired."
     },
     {
+      "path": "research/modalities/junction-aso-offtarget-tcf12e13n3-deep500-b2.json",
+      "bytes": 355571,
+      "sha256": "a70279f768aa714300e19e7ce427a72e153bab145a9cf081d3c7fe39516f1ced",
+      "serves": "censoring_test_and_genomic_attempt",
+      "also_serves": [],
+      "contributes": "⭐ THE EVIDENCE THAT THE CENSORING GUARD IS LOAD-BEARING RATHER THAN MERELY CAUTIOUS. Seven design-and-junction records had no hybridisable retained hit and a raw count above the retention depth but below the search ceiling, so retention alone withheld a verdict; re-screened at a tenfold deeper ceiling, six are decided and NONE is clean (one design's 21 near-matches become 196 with 119 hybridisable). Relaxing the restriction would have promoted six records a deeper look refutes. ⚠ These are a SEPARATE measurement under their own suffix: a count at a deeper ceiling does not correct the shallower one, and no number in the manuscript is restated from them. Also included: the genome-wide arm's output, which ran against NCBI core_nt and saturated the hit ceiling on every query over a mixed corpus of assemblies, clones and patents — released so a reader need not repeat an attempt that did not yield an interpretable result."
+    },
+    {
       "path": "research/modalities/junction-aso-offtarget-tcf12e13n3-graded.json",
       "bytes": 11225,
       "sha256": "f1358ab0d6c5a449e85a6588abc85c31bee1753f52acf57e2c0c9f14efdb7f95",
@@ -3428,6 +4255,14 @@
       "contributes": "Gap-resolved near-match screen against human RefSeq RNA (blastn-short, >=14/16 identity), classifying each near-match by whether the six-nucleotide catalytic gap is fully base-paired."
     },
     {
+      "path": "research/modalities/junction-aso-offtarget-tcf12e19n3-deep500-b2.json",
+      "bytes": 291566,
+      "sha256": "f3c57a4164166c4f12afe7dbb92df86154dc1944016cfdf4d15a1f49357df8ab",
+      "serves": "censoring_test_and_genomic_attempt",
+      "also_serves": [],
+      "contributes": "⭐ THE EVIDENCE THAT THE CENSORING GUARD IS LOAD-BEARING RATHER THAN MERELY CAUTIOUS. Seven design-and-junction records had no hybridisable retained hit and a raw count above the retention depth but below the search ceiling, so retention alone withheld a verdict; re-screened at a tenfold deeper ceiling, six are decided and NONE is clean (one design's 21 near-matches become 196 with 119 hybridisable). Relaxing the restriction would have promoted six records a deeper look refutes. ⚠ These are a SEPARATE measurement under their own suffix: a count at a deeper ceiling does not correct the shallower one, and no number in the manuscript is restated from them. Also included: the genome-wide arm's output, which ran against NCBI core_nt and saturated the hit ceiling on every query over a mixed corpus of assemblies, clones and patents — released so a reader need not repeat an attempt that did not yield an interpretable result."
+    },
+    {
       "path": "research/modalities/junction-aso-offtarget-tcf12e19n3-graded.json",
       "bytes": 11220,
       "sha256": "47f10bbca188797a75dbf2c0c8378f22aefe16ec4d3f55d6f797f027ef782953",
@@ -3444,6 +4279,14 @@
       "contributes": "Gap-resolved near-match screen against human RefSeq RNA (blastn-short, >=14/16 identity), classifying each near-match by whether the six-nucleotide catalytic gap is fully base-paired."
     },
     {
+      "path": "research/modalities/junction-aso-offtarget-tcf12e3n3-deep500-b1.json",
+      "bytes": 491482,
+      "sha256": "32f598ef950cc7aa0cc9d98d71bbdc0a1d402edc4c7529fa0bbe24e2c78b9655",
+      "serves": "censoring_test_and_genomic_attempt",
+      "also_serves": [],
+      "contributes": "⭐ THE EVIDENCE THAT THE CENSORING GUARD IS LOAD-BEARING RATHER THAN MERELY CAUTIOUS. Seven design-and-junction records had no hybridisable retained hit and a raw count above the retention depth but below the search ceiling, so retention alone withheld a verdict; re-screened at a tenfold deeper ceiling, six are decided and NONE is clean (one design's 21 near-matches become 196 with 119 hybridisable). Relaxing the restriction would have promoted six records a deeper look refutes. ⚠ These are a SEPARATE measurement under their own suffix: a count at a deeper ceiling does not correct the shallower one, and no number in the manuscript is restated from them. Also included: the genome-wide arm's output, which ran against NCBI core_nt and saturated the hit ceiling on every query over a mixed corpus of assemblies, clones and patents — released so a reader need not repeat an attempt that did not yield an interpretable result."
+    },
+    {
       "path": "research/modalities/junction-aso-offtarget-tcf12e3n3-graded.json",
       "bytes": 11219,
       "sha256": "99848ceb0750deb94bee9323fd0b5d322bb0bae55cbe1d613b4f7abf51afe9fb",
@@ -3458,6 +4301,14 @@
       "serves": "specificity_screen_blast",
       "also_serves": [],
       "contributes": "Gap-resolved near-match screen against human RefSeq RNA (blastn-short, >=14/16 identity), classifying each near-match by whether the six-nucleotide catalytic gap is fully base-paired."
+    },
+    {
+      "path": "research/modalities/junction-aso-offtarget-tcf12e5n3-deep500-b1.json",
+      "bytes": 286617,
+      "sha256": "6a7f0784ea00fb419ddb4006c8c187987e667f02ad5f9d0556ec7fc9f0b22fbb",
+      "serves": "censoring_test_and_genomic_attempt",
+      "also_serves": [],
+      "contributes": "⭐ THE EVIDENCE THAT THE CENSORING GUARD IS LOAD-BEARING RATHER THAN MERELY CAUTIOUS. Seven design-and-junction records had no hybridisable retained hit and a raw count above the retention depth but below the search ceiling, so retention alone withheld a verdict; re-screened at a tenfold deeper ceiling, six are decided and NONE is clean (one design's 21 near-matches become 196 with 119 hybridisable). Relaxing the restriction would have promoted six records a deeper look refutes. ⚠ These are a SEPARATE measurement under their own suffix: a count at a deeper ceiling does not correct the shallower one, and no number in the manuscript is restated from them. Also included: the genome-wide arm's output, which ran against NCBI core_nt and saturated the hit ceiling on every query over a mixed corpus of assemblies, clones and patents — released so a reader need not repeat an attempt that did not yield an interpretable result."
     },
     {
       "path": "research/modalities/junction-aso-offtarget-tcf12e5n3-graded.json",
@@ -3540,6 +4391,14 @@
       "contributes": "Gap-resolved near-match screen against human RefSeq RNA (blastn-short, >=14/16 identity), classifying each near-match by whether the six-nucleotide catalytic gap is fully base-paired."
     },
     {
+      "path": "research/modalities/junction-aso-offtarget-tfge2n3-deep500-b2.json",
+      "bytes": 408439,
+      "sha256": "9a713c68b5a3ed769cf5c32aeab03e47b9d59b8819f063dfc3b3d4e3ee9e6d06",
+      "serves": "censoring_test_and_genomic_attempt",
+      "also_serves": [],
+      "contributes": "⭐ THE EVIDENCE THAT THE CENSORING GUARD IS LOAD-BEARING RATHER THAN MERELY CAUTIOUS. Seven design-and-junction records had no hybridisable retained hit and a raw count above the retention depth but below the search ceiling, so retention alone withheld a verdict; re-screened at a tenfold deeper ceiling, six are decided and NONE is clean (one design's 21 near-matches become 196 with 119 hybridisable). Relaxing the restriction would have promoted six records a deeper look refutes. ⚠ These are a SEPARATE measurement under their own suffix: a count at a deeper ceiling does not correct the shallower one, and no number in the manuscript is restated from them. Also included: the genome-wide arm's output, which ran against NCBI core_nt and saturated the hit ceiling on every query over a mixed corpus of assemblies, clones and patents — released so a reader need not repeat an attempt that did not yield an interpretable result."
+    },
+    {
       "path": "research/modalities/junction-aso-offtarget-tfge2n3-graded.json",
       "bytes": 11227,
       "sha256": "2e4c956403be03dfcd9ecadfd5696d9476ec24bba48680e5b0188db213ff6ff8",
@@ -3554,6 +4413,14 @@
       "serves": "specificity_screen_blast",
       "also_serves": [],
       "contributes": "Gap-resolved near-match screen against human RefSeq RNA (blastn-short, >=14/16 identity), classifying each near-match by whether the six-nucleotide catalytic gap is fully base-paired."
+    },
+    {
+      "path": "research/modalities/junction-aso-offtarget-tfge3n3-deep500-b2.json",
+      "bytes": 407941,
+      "sha256": "a85c47caf6006d6a4ba10a0019756c2bc2ea61c20ae4f1c74c3a7b9f1ff39c9d",
+      "serves": "censoring_test_and_genomic_attempt",
+      "also_serves": [],
+      "contributes": "⭐ THE EVIDENCE THAT THE CENSORING GUARD IS LOAD-BEARING RATHER THAN MERELY CAUTIOUS. Seven design-and-junction records had no hybridisable retained hit and a raw count above the retention depth but below the search ceiling, so retention alone withheld a verdict; re-screened at a tenfold deeper ceiling, six are decided and NONE is clean (one design's 21 near-matches become 196 with 119 hybridisable). Relaxing the restriction would have promoted six records a deeper look refutes. ⚠ These are a SEPARATE measurement under their own suffix: a count at a deeper ceiling does not correct the shallower one, and no number in the manuscript is restated from them. Also included: the genome-wide arm's output, which ran against NCBI core_nt and saturated the hit ceiling on every query over a mixed corpus of assemblies, clones and patents — released so a reader need not repeat an attempt that did not yield an interpretable result."
     },
     {
       "path": "research/modalities/junction-aso-offtarget-tfge3n3-graded.json",
@@ -3572,6 +4439,14 @@
       "contributes": "Gap-resolved near-match screen against human RefSeq RNA (blastn-short, >=14/16 identity), classifying each near-match by whether the six-nucleotide catalytic gap is fully base-paired."
     },
     {
+      "path": "research/modalities/junction-aso-offtarget-tfge4n3-deep500-b2.json",
+      "bytes": 777338,
+      "sha256": "4d33fb99051e52a0134e22f0f39ecee9058492c9b7e84e087c4b46721fe85b48",
+      "serves": "censoring_test_and_genomic_attempt",
+      "also_serves": [],
+      "contributes": "⭐ THE EVIDENCE THAT THE CENSORING GUARD IS LOAD-BEARING RATHER THAN MERELY CAUTIOUS. Seven design-and-junction records had no hybridisable retained hit and a raw count above the retention depth but below the search ceiling, so retention alone withheld a verdict; re-screened at a tenfold deeper ceiling, six are decided and NONE is clean (one design's 21 near-matches become 196 with 119 hybridisable). Relaxing the restriction would have promoted six records a deeper look refutes. ⚠ These are a SEPARATE measurement under their own suffix: a count at a deeper ceiling does not correct the shallower one, and no number in the manuscript is restated from them. Also included: the genome-wide arm's output, which ran against NCBI core_nt and saturated the hit ceiling on every query over a mixed corpus of assemblies, clones and patents — released so a reader need not repeat an attempt that did not yield an interpretable result."
+    },
+    {
       "path": "research/modalities/junction-aso-offtarget-tfge4n3-graded.json",
       "bytes": 11220,
       "sha256": "f8a23bb46d4a1c2a3c2260868a3746503beef883bbbd7c88057c2e40a078fe7a",
@@ -3586,6 +4461,14 @@
       "serves": "specificity_screen_blast",
       "also_serves": [],
       "contributes": "Gap-resolved near-match screen against human RefSeq RNA (blastn-short, >=14/16 identity), classifying each near-match by whether the six-nucleotide catalytic gap is fully base-paired."
+    },
+    {
+      "path": "research/modalities/junction-aso-offtarget-tfge5n3-deep500-b2.json",
+      "bytes": 391721,
+      "sha256": "d2e0a38551aca1a1a515b195edf5026132b08d29d5996ed4db52a487a02a034e",
+      "serves": "censoring_test_and_genomic_attempt",
+      "also_serves": [],
+      "contributes": "⭐ THE EVIDENCE THAT THE CENSORING GUARD IS LOAD-BEARING RATHER THAN MERELY CAUTIOUS. Seven design-and-junction records had no hybridisable retained hit and a raw count above the retention depth but below the search ceiling, so retention alone withheld a verdict; re-screened at a tenfold deeper ceiling, six are decided and NONE is clean (one design's 21 near-matches become 196 with 119 hybridisable). Relaxing the restriction would have promoted six records a deeper look refutes. ⚠ These are a SEPARATE measurement under their own suffix: a count at a deeper ceiling does not correct the shallower one, and no number in the manuscript is restated from them. Also included: the genome-wide arm's output, which ran against NCBI core_nt and saturated the hit ceiling on every query over a mixed corpus of assemblies, clones and patents — released so a reader need not repeat an attempt that did not yield an interpretable result."
     },
     {
       "path": "research/modalities/junction-aso-offtarget-tfge5n3-graded.json",
@@ -3604,6 +4487,14 @@
       "contributes": "Gap-resolved near-match screen against human RefSeq RNA (blastn-short, >=14/16 identity), classifying each near-match by whether the six-nucleotide catalytic gap is fully base-paired."
     },
     {
+      "path": "research/modalities/junction-aso-offtarget-tfge6n3-deep500-b2.json",
+      "bytes": 522533,
+      "sha256": "623c276ab830fb06a98bad0b0d54020a6ce0830bc48574aa0e1a264aa8cbcb95",
+      "serves": "censoring_test_and_genomic_attempt",
+      "also_serves": [],
+      "contributes": "⭐ THE EVIDENCE THAT THE CENSORING GUARD IS LOAD-BEARING RATHER THAN MERELY CAUTIOUS. Seven design-and-junction records had no hybridisable retained hit and a raw count above the retention depth but below the search ceiling, so retention alone withheld a verdict; re-screened at a tenfold deeper ceiling, six are decided and NONE is clean (one design's 21 near-matches become 196 with 119 hybridisable). Relaxing the restriction would have promoted six records a deeper look refutes. ⚠ These are a SEPARATE measurement under their own suffix: a count at a deeper ceiling does not correct the shallower one, and no number in the manuscript is restated from them. Also included: the genome-wide arm's output, which ran against NCBI core_nt and saturated the hit ceiling on every query over a mixed corpus of assemblies, clones and patents — released so a reader need not repeat an attempt that did not yield an interpretable result."
+    },
+    {
       "path": "research/modalities/junction-aso-offtarget-tfge6n3-graded.json",
       "bytes": 11222,
       "sha256": "f7afdaa9a26c9559a3c93a47acb593e0b363af3e4f1d5fc47c9a06b750123430",
@@ -3618,6 +4509,14 @@
       "serves": "specificity_screen_blast",
       "also_serves": [],
       "contributes": "Gap-resolved near-match screen against human RefSeq RNA (blastn-short, >=14/16 identity), classifying each near-match by whether the six-nucleotide catalytic gap is fully base-paired."
+    },
+    {
+      "path": "research/modalities/junction-aso-offtarget-tfge7n3-deep500-b2.json",
+      "bytes": 270776,
+      "sha256": "3b43c3c221434d99241211443c4ad75600604b19baccade3f9825c6272176aa8",
+      "serves": "censoring_test_and_genomic_attempt",
+      "also_serves": [],
+      "contributes": "⭐ THE EVIDENCE THAT THE CENSORING GUARD IS LOAD-BEARING RATHER THAN MERELY CAUTIOUS. Seven design-and-junction records had no hybridisable retained hit and a raw count above the retention depth but below the search ceiling, so retention alone withheld a verdict; re-screened at a tenfold deeper ceiling, six are decided and NONE is clean (one design's 21 near-matches become 196 with 119 hybridisable). Relaxing the restriction would have promoted six records a deeper look refutes. ⚠ These are a SEPARATE measurement under their own suffix: a count at a deeper ceiling does not correct the shallower one, and no number in the manuscript is restated from them. Also included: the genome-wide arm's output, which ran against NCBI core_nt and saturated the hit ceiling on every query over a mixed corpus of assemblies, clones and patents — released so a reader need not repeat an attempt that did not yield an interpretable result."
     },
     {
       "path": "research/modalities/junction-aso-offtarget-tfge7n3-graded.json",
@@ -3716,6 +4615,22 @@
       "contributes": "The acceptor-seam exon-indexing correction: the grader that banners every affected artifact, the frame audit and regeneration record that show which junctions were re-emitted and which were refused, and the working record and red-team pass that narrate the withdrawal."
     },
     {
+      "path": "research/modalities/junction_sirna.py",
+      "bytes": 5658,
+      "sha256": "d2580a26e37bade8caab2555f985d7bf1e32622071afae59512bcc7cf17648cd",
+      "serves": "import_closure",
+      "also_serves": [],
+      "contributes": "Imported by a released module. Not named by any availability promise; present because the code the promises DO name cannot be imported without it."
+    },
+    {
+      "path": "research/modalities/noncoding-acceptor/aso-noncoding-acceptor-screened-table.json",
+      "bytes": 93916,
+      "sha256": "88515cea6091bbb2384168176349dcccbade3e751d3600568020b94278abd1dc",
+      "serves": "reproduction_command",
+      "also_serves": [],
+      "contributes": "Re-derives every offline-derivable artefact below in dependency order and re-runs the consistency, citation and style gates; the command a reader is told to run to establish that this archive is current. The script AND every step it invokes that no other row here already carries."
+    },
+    {
       "path": "research/modalities/nr4a3-exon-audit.json",
       "bytes": 11175,
       "sha256": "b781f09cbd376e68e3e30bf91f3c368fd538e162cd3f9fb657c8f189d3c2d485",
@@ -3772,6 +4687,14 @@
       "contributes": "The manuscript tables and the generator that derives every cell of them from the artifacts, plus the per-locus re-count and the chance baseline the tables and the chance-expectation panel are read from."
     },
     {
+      "path": "research/modalities/tests/test_aso_gap_length_tradeoff.py",
+      "bytes": 23543,
+      "sha256": "1937ee4bfff6f2b046b69ccc6867faf852d498507ea10d7cda8ce94bdf391218",
+      "serves": "where_each_number_lives",
+      "also_serves": [],
+      "contributes": "The artefacts the Availability statement names by path that no other promise row resolves: the parent-null ensembles the observed liability rate is read against, the off-target expression readings, the gap-length comparison, and the base-level TCF12 breakpoint assignment — each with its producer, its committed offline input and its guard."
+    },
+    {
       "path": "research/modalities/tests/test_aso_genome_offtarget.py",
       "bytes": 43715,
       "sha256": "415152238e9e1c99b88af18cdbdb89021e9c240177cb3ec617bf148b72d3a9c7",
@@ -3780,12 +4703,44 @@
       "contributes": "Every distinct target window and its reverse complement tested against every position of GRCh38 in both orientations at ≤2 mismatches — a measured 3.10e9 nt, no seed and no word size, so completeness is definitional rather than argued. ⛔ THE RAW TOTAL IS NOT THE DELIVERABLE and the artifact says so first: at this threshold chance predicts of order 10^3 near-matches per 16-mer for ANY 16-mer. The readings are stratified — exact matches, where chance is of order one; observed-over-expected, which discriminates between designs; the named-target lookup, which one hit settles; and the repeat split, free from a soft-masked reference. Also carries the gap-length anchors, ported from the literature-cache branch where gate 4 cannot see them."
     },
     {
+      "path": "research/modalities/tests/test_aso_independent_verification.py",
+      "bytes": 9749,
+      "sha256": "6e5c1d2a7e07e0df53536287f5d1167389fbcb5fea3a8b00087e4a5c4a1cda03",
+      "serves": "reimplementation_crosscheck",
+      "also_serves": [],
+      "contributes": "The independent second implementation of the frame grading and the mature-parent screen, the field-by-field comparison against the original over all 231 graded exon pairs and all 190 designs, and the deliberate-corruption tests that show the comparison can fail."
+    },
+    {
+      "path": "research/modalities/tests/test_aso_offtarget_tissue_expression.py",
+      "bytes": 29435,
+      "sha256": "2315e2f00b24fcf0b9defa1639aff9bb9d27037eb138b88a4b3d68e44dd06665",
+      "serves": "where_each_number_lives",
+      "also_serves": [],
+      "contributes": "The artefacts the Availability statement names by path that no other promise row resolves: the parent-null ensembles the observed liability rate is read against, the off-target expression readings, the gap-length comparison, and the base-level TCF12 breakpoint assignment — each with its producer, its committed offline input and its guard."
+    },
+    {
       "path": "research/modalities/tests/test_aso_parent_gap_pairing.py",
       "bytes": 14431,
       "sha256": "1f94afdc1f77ce842bdf2cf7030719312f0dd5223ade5e560dde288033885e10",
       "serves": "mature_parent_gap_pairing_screen",
       "also_serves": [],
       "contributes": "For every design, the longest contiguous duplex a MATURE wild-type parent transcript can form that pairs the whole six-nucleotide catalytic gap. ⭐ IT EXISTS BECAUSE THE OTHER THREE SCREENS STRUCTURALLY CANNOT ANSWER IT: the alignment screen excludes parent records and filters at ≥14/16 identity, the exhaustive scan admits ≤1 mismatch, and the pre-mRNA arm searches unspliced sequence and so cannot reach a mature exon–exon junction. It is fully offline against the same cached sequence the pre-mRNA arm uses, and `--check` re-derives it."
+    },
+    {
+      "path": "research/modalities/tests/test_aso_parent_null.py",
+      "bytes": 18261,
+      "sha256": "845c6e29c7bc55bc9622bf6de70912e2fd4415a049d0f0cc4aa6cd948279ccbd",
+      "serves": "where_each_number_lives",
+      "also_serves": [],
+      "contributes": "The artefacts the Availability statement names by path that no other promise row resolves: the parent-null ensembles the observed liability rate is read against, the off-target expression readings, the gap-length comparison, and the base-level TCF12 breakpoint assignment — each with its producer, its committed offline input and its guard."
+    },
+    {
+      "path": "research/modalities/tests/test_aso_per_junction_table.py",
+      "bytes": 9592,
+      "sha256": "3fe7cdcd1fd689677c6a52e191ccaee013b4931efe783fe2b640ca337fe4094f",
+      "serves": "reproduction_command",
+      "also_serves": [],
+      "contributes": "Re-derives every offline-derivable artefact below in dependency order and re-runs the consistency, citation and style gates; the command a reader is told to run to establish that this archive is current. The script AND every step it invokes that no other row here already carries."
     },
     {
       "path": "research/modalities/tests/test_aso_premrna_offtarget.py",
@@ -3797,8 +4752,8 @@
     },
     {
       "path": "research/modalities/tests/test_aso_submission_numbers.py",
-      "bytes": 118653,
-      "sha256": "e599ba6f0f06701df4ff969695d9be5cef59f02a57b48b7839d00935a0632c2e",
+      "bytes": 126247,
+      "sha256": "92fa4804e35f47029a3a53daca19947bf9f6906afe027bc85fcd12a42e169d39",
       "serves": "reproduction_guards",
       "also_serves": [],
       "contributes": "Test that re-derives a manuscript number from the artifacts and fails if the two diverge; this is the check a reader runs to confirm the archive reproduces the paper."
@@ -3841,7 +4796,7 @@
       "sha256": "5438b64880de274984db186c4f73d724d6de25144a848bd03cf8fe47bd65dc27",
       "serves": "reproduction_command",
       "also_serves": [],
-      "contributes": "Re-derives every offline-derivable artefact below in dependency order and re-runs the consistency, citation and style gates; the command a reader is told to run to establish that this archive is current."
+      "contributes": "Re-derives every offline-derivable artefact below in dependency order and re-runs the consistency, citation and style gates; the command a reader is told to run to establish that this archive is current. The script AND every step it invokes that no other row here already carries."
     }
   ]
 }

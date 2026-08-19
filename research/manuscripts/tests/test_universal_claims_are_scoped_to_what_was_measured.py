@@ -77,6 +77,17 @@ def _body():
     return re.sub(r"^---\n.*?\n---\n", "", text, flags=re.S)
 
 
+def _flat(text):
+    """⛔ THE MANUSCRIPT HARD-WRAPS AT ~100 COLUMNS, SO A PROSE NEEDLE MUST FLATTEN FIRST.
+
+    Measured 2026-08-19 (lane C2): §6 says "…excluded from this / screen's near-match counts…" with
+    the wrap falling INSIDE the phrase, and `assert "this screen's near-match counts" in _section(6)`
+    therefore failed on correct prose. A guard that goes red on a document that says exactly what it
+    is meant to say is worse than one that is silent: the repair reflex is to re-type the needle.
+    """
+    return " ".join(text.split())
+
+
 def _sentences(text):
     """Prose sentences only — table rows and fenced blocks carry no universals to audit."""
     prose = re.sub(r"^```.*?^```", "", text, flags=re.S | re.M)
@@ -194,6 +205,14 @@ _EXCLUDED_FROM_ALL_NEAR_MATCH_COUNTS = re.compile(
     r"\bexcluded from\b[\w\s,'’-]{0,30}?\b(?:every|all|each|any|the)\b[\w\s,'’-]{0,25}?"
     r"\bnear-match counts?\b", re.I)
 
+#: …and the POSITIVE half, on the same shape rather than on a phrase. §6 has to tie the exclusion to
+#: ONE screen — "this screen's", "screen 1's", "the alignment screen's" all do it; the paper is free
+#: to pick any of them.
+_EXCLUSION_SCOPED_TO_ONE_SCREEN = re.compile(
+    r"\bexcluded from\b[\w\s,'’-]{0,20}?"
+    r"\b(?:this|that|its|screen\s*\d+|the (?:alignment|transcript|first) screen)(?:'s|’s)?\b"
+    r"[\w\s,'’-]{0,25}?\bnear-match counts?\b", re.I)
+
 
 def test_the_parent_exclusion_is_scoped_to_the_screen_that_makes_it():
     """Screen 1 excludes parent records. Screen 3's near-match counts ARE parent counts.
@@ -213,9 +232,11 @@ def test_the_parent_exclusion_is_scoped_to_the_screen_that_makes_it():
         + "\n  ".join(o[:220] for o in offenders[:3])
         + "\n\n§2.5 reports 53 designs with a near-match in parent pre-mRNA, from screen 3, where "
           "the parent records ARE the measurement. Scope the exclusion to the screen that makes it.")
-    methods = _section("6")
-    assert "this screen's near-match counts" in methods, (
-        "§6 must scope the parent-record exclusion to the alignment screen that makes it.")
+    methods = _flat(_section("6"))
+    assert _EXCLUSION_SCOPED_TO_ONE_SCREEN.search(methods), (
+        "§6 must scope the parent-record exclusion to the alignment screen that makes it — some "
+        "wording that ties 'excluded' to ONE screen's near-match counts rather than to the "
+        "paper's. Nothing in §6 does.")
     assert "§2.5" in methods, (
         "§6 must point at §2.5, where parent near-match counts ARE reported, so the exclusion cannot "
         "be read as covering the whole paper.")

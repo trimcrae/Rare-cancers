@@ -49,8 +49,19 @@ MIN_PARENT_DUPLEX_BP = 10
 
 
 def _need(path):
+    """⛔ NOT A SKIP. Every path this file reads is a COMMITTED artifact (2026-08-19, lane C2).
+
+    `git ls-files research/manuscripts/aso/` carries the canonical CSV, the FASTA, the tables file,
+    the article and the built PDF. So an absence here is a broken tree, never a partial checkout —
+    and a skip on a broken tree is the exact shape of the pypdf/pymupdf defect this suite was just
+    audited for: the whole cross-carrier agreement check evaporating with its input while the run
+    reports green. Fail, and name the file.
+    """
     if not os.path.exists(path):
-        pytest.skip(f"{os.path.basename(path)} is not present in this checkout")
+        pytest.fail(
+            f"{os.path.basename(path)} is missing at {path}. It is a committed artifact, so its "
+            "absence is a broken tree and not a reason to stop checking that every ordering route "
+            "reaches the same verdict — restore or regenerate it.")
     return path
 
 
@@ -212,15 +223,23 @@ def test_the_tables_preamble_reaches_the_deposit_pdf():
 
     ⚠ THE CLOSEST PRINTED SEQUENCE SHARES 15 OF 16 BASES with one of the three, which is the whole
     reason that block prints them rather than describing them.
+
+    ⛔⛔ AND UNTIL 2026-08-19 THIS GUARD HAD NEVER RUN ANYWHERE THAT GATES A COMMIT. It read the
+    PDF through `pymupdf`, which `.github/workflows/tests.yml` has never installed, so every CI run
+    took `pytest.skip("pymupdf is not installed in this sandbox")` and reported green for the check
+    that the three condemned sequences reach the deposit. The instrument is now `pdfminer.six`,
+    which CI does install, and both the missing parser and the missing PDF are failures — the PDF is
+    a committed artifact, so its absence is a broken tree.
     """
-    pdf = os.path.join(ASO, "fusion-junction-aso-research-article-manuscript.pdf")
-    if not os.path.exists(pdf):
-        pytest.skip("the deposit PDF is not built in this checkout")
+    pdf = _need(os.path.join(ASO, "fusion-junction-aso-research-article-manuscript.pdf"))
     try:
-        import pymupdf
-    except ImportError:  # pragma: no cover - environment without the renderer
-        pytest.skip("pymupdf is not installed in this sandbox")
-    text = " ".join(" ".join(page.get_text().split()) for page in pymupdf.open(pdf))
+        from pdfminer.high_level import extract_text
+    except ImportError as exc:  # pragma: no cover - CI installs it; a miss is a finding
+        pytest.fail(
+            f"pdfminer.six is not importable ({exc}), so nothing read the deposit PDF and the "
+            "preamble check asserted nothing. CI installs it; a guard that cannot run is not a "
+            "guard that passed.")
+    text = " ".join(extract_text(pdf).split())
     source = open(_need(TABLES), encoding="utf-8").read()
     for opener in ("Do not order these three sequences",
                    "Research use only, and not for administration to any person or animal",
