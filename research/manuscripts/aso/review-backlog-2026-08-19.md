@@ -1,3 +1,28 @@
+---
+id: DOC-FUSION-JUNCTION-ASO-REVIEW-BACKLOG-2026-08-19
+title: "ASO deposit — the open-findings backlog of the 2026-08-19 nine-reviewer round"
+level: L3
+kind: memo
+status: live
+canonical_for:
+  - the disposition of every finding raised in the 2026-08-19 fusion-junction ASO review round
+purpose: >
+  Hold the 183 findings of the nine-reviewer round in one place, in the three write-lanes that
+  cannot collide, so that no finding is lost between sessions and none is applied twice. It exists
+  because the round's findings outran a single session's context: a backlog living only in a
+  container is a data-loss bug, and a backlog living in nine reviewer reports has no single place
+  to record what was refused and why.
+scope: >
+  The findings of ONE round — 2026-08-19, nine reviewers — against the three fusion-junction ASO
+  submission documents, their generators and their guard suite. ⛔ It is a work list and NOT a
+  quality claim: an item's presence here means it was raised, not that it is correct. Every item
+  is verified by recomputation before it is applied, and several prior rounds' findings did not
+  survive that. The termination condition for review lives in
+  fusion-junction-aso-deposit-stopping-rule.md, not here.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-19
+last_verified: unverified
+---
 # ASO deposit — open findings backlog (round: 2026-08-19)
 
 Nine independent reviewers have reported. This file is the authoritative list of what is NOT yet

@@ -86,7 +86,7 @@ Coincidence detection across both halves of the fusion is a design that would co
 |---|---|---|
 | [RT-ANDGATE](L2-rt-andgate.md) — AND-gate bivalent degrader (avidity coincidence dete | `primary` | The coincidence-detection design and the statement of exactly what does not exist for it to be built. |
 
-### PUB-ASO — Nearly half of junction-spanning gapmer designs against the NR4A3 fusions of extraskeletal myxoid chondrosarcoma pair a wild-type parent gene, and a longer catalytic gap trades gap-level margin against parent-paired gap DNA
+### PUB-ASO — Nearly half of junction-spanning gapmer designs against the NR4A3 fusions of extraskeletal myxoid chondrosarcoma pair a wild-type parent gene over a ten-base-pair duplex through the catalytic gap, and a longer gap trades gap-level margin against parent-paired gap DNA
 
 **◐ `drafted` · aimed at `preprint` · [`research/manuscripts/aso/fusion-junction-aso-research-article.md`](../../research/manuscripts/aso/fusion-junction-aso-research-article.md)**
 

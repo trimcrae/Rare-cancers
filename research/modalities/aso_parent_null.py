@@ -96,6 +96,11 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 
 import aso_parent_gap_pairing as pgp  # noqa: E402  — the instrument, imported not re-implemented
+# ⚠ Imported for its PUBLISHED_BREAKPOINTS map ONLY, so the ladder can report the subset a
+# laboratory would actually be choosing at: the panel's junctions that any patient is reported to
+# carry. Reading it from the canonical CSV instead would point this instrument at a file it is
+# upstream of.
+import aso_per_junction_table as pjt  # noqa: E402
 
 OUT = os.path.join(HERE, f"aso-parent-null{os.environ.get('OUT_SUFFIX', '')}.json")
 
@@ -118,6 +123,26 @@ SEED = int(os.environ.get("NULL_SEED") or 20260815)
 #: is not a larger finding. Both cuts are therefore carried through every ensemble, in one pass, and
 #: the manuscript states both.
 SECONDARY_CUT_BP = int(os.environ.get("NULL_SECONDARY_CUT") or 7)
+
+#: ⭐⭐ THE WHOLE CUT LADDER, BECAUSE TWO CUTS IS STILL A CHOICE OF TWO CUTS. Reporting 10 and 7
+#: answers "what happens at the other end of the cited range" and leaves the question a reader
+#: actually asks — *is 87 of 190 a finding, or an artefact of where the cut was put?* — resting on
+#: two points of a curve nobody printed. Two independent reviewers on 2026-08-19, an RNase-H1
+#: enzymologist and a hostile competitor read, converged on the same remedy from opposite
+#: directions: print the sensitivity of observed AND of every null across the whole reachable range
+#: and let the separation be read off it.
+#:
+#: ⛔ 6 IS THE MECHANISTIC FLOOR AND IS WHY THE LADDER STARTS THERE. A run counted by this
+#: instrument spans the design's whole catalytic gap, so the shortest possible counted run is the
+#: gap itself — six base pairs at 5-6-5, of which six are the RNA:DNA hybrid RNase-H1 acts on. A cut
+#: of 6 is therefore "a wild-type parent pairs the whole gap, at any flanking length", which is the
+#: criterion with an enzymological referent; 10 adds four LNA:RNA wing pairs that add occupancy and
+#: no catalytic content. 13 is the ceiling: no counted run in any arm exceeds it.
+#:
+#: ⚠ IT COSTS NOTHING. The runs are already measured; every cut is a threshold on a histogram of
+#: them, so the ladder is a cumulative sum over counts this module already had and throws away.
+CUT_LADDER = tuple(int(x) for x in (os.environ.get("NULL_CUT_LADDER")
+                                    or "6,7,8,9,10,11,12,13").split(","))
 
 BASES = "ACGT"
 
@@ -428,6 +453,34 @@ def wilson(k, n, z=1.96):
     return [round(max(0.0, c - h), 5), round(min(1.0, c + h), 5)]
 
 
+def _ladder(runs, runs_nr4a3):
+    """Liability counts at every cut of `CUT_LADDER`, from the runs already measured.
+
+    ⭐ THE POINT OF THE LADDER IS THAT ONE CUT IS NOT A RESULT. The manuscript's central negative
+    is a count at a threshold this work ADOPTS rather than measures, so a reader cannot tell from
+    the count alone whether it is a property of the designs or a property of the cut. The answer is
+    the whole curve: at 6 — the design's own catalytic gap, the only cut with an enzymological
+    referent — observed and every null are within a few points of each other; the separation opens
+    as the cut rises and is widest at the strict end. That is a statement about the criterion, and
+    it can only be made by printing the criterion's whole range.
+
+    Costs nothing: `runs` was already measured for every draw and thrown away after two thresholds.
+    """
+    n = len(runs)
+    out = {}
+    for cut in CUT_LADDER:
+        k = sum(1 for r in runs if r >= cut)
+        kn = sum(1 for r in runs_nr4a3 if r >= cut)
+        out[str(cut)] = {
+            "n_liable": k,
+            "rate_liable": round(k / n, 5) if n else None,
+            "rate_liable_wilson95": wilson(k, n),
+            "n_liable_against_NR4A3": kn,
+            "rate_liable_against_NR4A3": round(kn / n, 5) if n else None,
+        }
+    return out
+
+
 def _summary(hits, nr4a3, runs, n):
     return {
         "n_draws": n,
@@ -482,10 +535,12 @@ def build():
     obs_hits = obs_nr4a3 = 0
     obs_hits_2 = obs_nr4a3_2 = 0
     obs_runs = []
+    obs_runs_nr4a3 = []
     runs_by_junction = {}
     for d in designs:
         run, gene = _best_run(d["target"], parents, idx)
         obs_runs.append(run)
+        obs_runs_nr4a3.append(run if gene == "NR4A3" else 0)
         runs_by_junction.setdefault(d["junction"], []).append(run)
         if run >= pgp.MIN_DUPLEX_BP:
             obs_hits += 1
@@ -494,6 +549,14 @@ def build():
             obs_hits_2 += 1
             obs_nr4a3_2 += 1 if gene == "NR4A3" else 0
     n_obs = len(designs)
+
+    # ⛔ The panel junctions any patient is reported to carry, from the curation map rather than
+    # from a list typed here. `runs_by_junction` keys are panel junction labels; the map also
+    # carries non-panel seams, so the intersection is taken rather than the map's own keys.
+    _pub_panel = set(pjt.PUBLISHED_BREAKPOINTS) & set(runs_by_junction)
+    _pub_runs = [r for d, r in zip(designs, obs_runs) if d["junction"] in _pub_panel]
+    _pub_runs_nr4a3 = [r for d, r in zip(designs, obs_runs_nr4a3)
+                       if d["junction"] in _pub_panel]
 
     # pooled base composition of the real target windows, for the composition-matched ensemble
     counts = {b: 0 for b in BASES}
@@ -529,6 +592,7 @@ def build():
         hits = nr4a3 = 0
         hits_2 = nr4a3_2 = 0
         runs = []
+        runs_nr4a3 = []
         per_design_rows = []
         for di, d in enumerate(designs):
             t, j = d["target"], d["junction_offset"]
@@ -558,6 +622,7 @@ def build():
                     q = draw_parent_chimera(rng, parents, d["donor"], j)
                 run, gene = _best_run(q, parents, idx)
                 runs.append(run)
+                runs_nr4a3.append(run if gene == "NR4A3" else 0)
                 if run >= pgp.MIN_DUPLEX_BP:
                     hits += 1
                     dh += 1
@@ -587,6 +652,7 @@ def build():
             "n_liable_against_NR4A3": nr4a3_2,
             "rate_liable_against_NR4A3": round(nr4a3_2 / len(runs), 5) if runs else None,
         }
+        s["cut_ladder"] = _ladder(runs, runs_nr4a3)
         ensembles[name] = s
         if name == "scrambled_dinucleotide":
             s["_mononucleotide_fallbacks"] = fallbacks
@@ -679,8 +745,18 @@ def build():
             "cuts_bp": [SECONDARY_CUT_BP, pgp.MIN_DUPLEX_BP],
             "observed_n_liable": {str(SECONDARY_CUT_BP): obs_hits_2,
                                   str(pgp.MIN_DUPLEX_BP): obs_hits},
+            # ⛔ THE RATE AT EACH CUT NEEDS A MACHINE HOME OF ITS OWN. `observed.rate_liable` is the
+            # rate at the STRICT cut only, and the abstract quotes the loose cut's rate beside it.
+            # Without this field the only pin available for the loose reading resolved to the strict
+            # rate, which is how a correct, measured 92.1% came to fail lint_consistency against
+            # 45.8 (CLAUDE.md rule 1: one fact, one place — and the loose rate is a different fact).
+            "observed_rate_liable": {str(SECONDARY_CUT_BP): round(obs_hits_2 / n_obs, 5),
+                                     str(pgp.MIN_DUPLEX_BP): round(obs_hits / n_obs, 5)},
             "observed_n_liable_against_NR4A3": {str(SECONDARY_CUT_BP): obs_nr4a3_2,
                                                 str(pgp.MIN_DUPLEX_BP): obs_nr4a3},
+            "observed_rate_liable_against_NR4A3": {
+                str(SECONDARY_CUT_BP): round(obs_nr4a3_2 / n_obs, 5),
+                str(pgp.MIN_DUPLEX_BP): round(obs_nr4a3 / n_obs, 5)},
             "n_designs": n_obs,
             "n_junctions": len(runs_by_junction),
             # ⛔ THE JUNCTION-LEVEL READING, WHICH RUNS THE OTHER WAY AND WAS THE ONE MISSING. The
@@ -693,6 +769,30 @@ def build():
                 str(cut): sum(1 for runs_j in runs_by_junction.values()
                               if any(r < cut for r in runs_j))
                 for cut in (SECONDARY_CUT_BP, pgp.MIN_DUPLEX_BP)
+            },
+            # ⭐⭐ THE LADDER. Every arm at every cut of the criterion, so the question "is this a
+            # finding or an artefact of the cut?" is answered by a curve rather than by the two
+            # points the manuscript previously chose. Read the observed row against
+            # `null_ensembles[*].cut_ladder` at the same cut.
+            "cut_ladder_bp": list(CUT_LADDER),
+            "observed_cut_ladder": _ladder(obs_runs, obs_runs_nr4a3),
+            "n_junctions_with_a_clearing_design_by_cut": {
+                str(cut): sum(1 for runs_j in runs_by_junction.values()
+                              if any(r < cut for r in runs_j))
+                for cut in CUT_LADDER
+            },
+            "n_junctions": len(runs_by_junction),
+            # ⛔ THE SUBSET THAT DECIDES ANYTHING. 33 of the 38 panel junctions are arithmetically
+            # in-frame exon pairs no patient is reported to carry, so the panel-wide rate is not
+            # the rate a laboratory choosing a reagent for a real breakpoint faces. This row is
+            # that rate, at every cut.
+            "published_breakpoint_junctions": sorted(_pub_panel),
+            "observed_cut_ladder_at_published_breakpoint_junctions":
+                _ladder(_pub_runs, _pub_runs_nr4a3),
+            "n_published_breakpoint_junctions_with_a_clearing_design_by_cut": {
+                str(cut): sum(1 for j, runs_j in runs_by_junction.items()
+                              if j in _pub_panel and any(r < cut for r in runs_j))
+                for cut in CUT_LADDER
             },
             "_read_with": ("null_ensembles[*]['at_%dbp'], which carries every ensemble at the loose "
                            "cut so neither count is quoted without its anchor." % SECONDARY_CUT_BP),

@@ -55,14 +55,14 @@ screen. Arbitrary sequence does so far less often: 6.2% of scrambles against 45.
 the excess specific to this disease's breakpoints: chimeras at real exon termini of the same two
 transcripts, which no patient is reported to carry, reach 40.6%. Ten base pairs is adopted, not
 measured, and both counts move: at seven, 175 of 190 pair a parent and 9 of 38 junctions clear — but
-so does that null, to 91.4% against 92.1% observed, so ten, where the finding clears every null, is
-the cut reported throughout. Lengthening the catalytic gap quiets the transcript screens, partly by
+so does that null, to 91.4% against the 92.1% observed there; ten, where the finding clears every
+null, is the cut reported throughout. Lengthening the catalytic gap quiets the transcript screens, partly by
 construction at a fixed mismatch budget, and buys options — parent-clean designs per junction rise
 from 2.7 to 6.7 — while the liable count stays flat and gap-level margin is won only by conceding
 parent-paired gap DNA. Search depth moves the count too: six of nine designs clean at the default
 ceiling are not at ten times it. Three designs survive every screen, two at any parent-duplex
-threshold; none sits at a junction any patient is reported to carry, so the named reagents carry
-loads of necessity. The work is computational: nothing has been synthesised or tested, and nothing
+threshold; none sits at a junction any patient is reported to carry, so the named reagents necessarily
+carry loads. The work is computational: nothing has been synthesised or tested, and nothing
 asserts efficacy, safety, delivery to a tumour or clinical readiness. Every sequence named is a
 research reagent for laboratory investigation only, not for administration to any person or animal.
 Two leads are named with their off-target loads and longest parent runs of eight and nine base
@@ -224,8 +224,11 @@ catalytic gap against the patient's own un-rearranged *NR4A3* allele, which that
 **A second class not to be ordered, and it is much larger (§2.5).** Any design a wild-type parent
 pairs through the whole catalytic gap at ten base pairs or more surrenders the advantage the
 modality has, and that is this paper's central negative rather than a side finding: 87 of the 190
-panel designs, and 250 of the 780 records the canonical file holds. They are marked ⚑ in Tables 3
-and 4 and carry `do_not_order` in the canonical file. Five of the nine designs §2.4 names as
+panel designs, and 249 of the 780 records the canonical file holds — the records whose
+`mature_parent_duplex_through_gap_bp` column reaches ten, which is the column the count is
+reproducible from. They are marked ⚑ in Tables 3 and 4 and carry `do_not_order` in the canonical
+file. The three designs of the paragraph above carry `do_not_order` for the other reason, so 252
+records carry the flag in all. Five of the nine designs §2.4 names as
 carrying no sense-strand near-match are in this class. An unmarked row is not a clearance: the
 marker is set at ten base pairs, and at seven, 175 of the 190 pair a parent through the whole gap.
 
@@ -801,14 +804,16 @@ expectation separates designs where a total cannot — the median design sits at
 expectation and 14 of 176 exceed twice it. And the repeat split, which a soft-masked reference supplies at no extra cost,
 shows 52.5% of hits fully repeat-masked. The baseline that figure needs is not the whole assembly's
 51.4%, because a hit can only arise in a window free of ambiguous bases and 151,138,112 windows were
-dropped for carrying one; a masked base is never an N, so essentially every masked base survives into
-the scanned sequence and the masked share of what was actually scanned is 54.1%, not a band around
-51.4%. The two figures are also not in the same units — 52.5% is a share of hit *windows* fully
-masked, and 54.1% a share of *bases* — and a window is fully masked only when all sixteen of its
+dropped for carrying one; a masked base is never an N, so every masked base survives into the
+scanned sequence and the masked share of what was scanned lies between 51.4% and 54.1%. The upper
+end of that band is a bound and not a value: a maximal run of *k* ambiguous bases costs *k* + 15
+windows, so the dropped-window count over-states the bases removed, and dividing by it over-states
+the share. The two figures are also not in the same units — 52.5% is a share of hit *windows* fully
+masked, and the band a share of *bases* — and a window is fully masked only when all sixteen of its
 bases are, which is rarer than a base being masked. The same-units baseline, the share of scanned
-16-mer windows that are fully masked, is not computed here. What the comparison supports is
-therefore one-sided: the hits are not repeat-enriched, and on the two quantities available the
-residual runs the other way.
+16-mer windows that are fully masked, is not computed here. So the comparison supports no direction
+at all: 52.5% falls inside the band, and the two quantities it would be read against are counted in
+different units. What can be said is that the hits are not repeat-enriched.
 
 The decisive reading is a lookup rather than a count: does any design have a gap-paired,
 strand-agreeing site in *NR4A3*, in a parent gene, or in an *NR4A* paralogue anywhere in the genome?
@@ -2117,13 +2122,15 @@ columns must be searched before concluding that a junction has no reagent.
 **Which column to select on, because the obvious one is wrong.** The record's `role` column carries
 the paper's own answer: `best available at this junction` marks the design §4 would name there.
 Ranking by gap-level margin instead — the only ranking this paper states, and the one a reader
-naturally reaches for — is not the selection rule and does not reproduce it. Over the 40 junctions the file keys a row to,
-the top-margin register is a design the file condemns at eight. At three of those every register
+naturally reaches for — is not the selection rule and does not reproduce it. The file keys a row to
+43 distinct junctions, 42 of which carry a 5-6-5 register; over those 42 the top-margin register is
+a design the file condemns at eight. At three of those every register
 is condemned and no rule could do better, so what the margin rule actually costs a reader is a
 clean design at the other five, where one was available and it picked a design pairing a
 wild-type parent through the whole catalytic gap — four of those against wild-type *NR4A3*. Those rows carry
-`do_not_order`, as does every one of the 250 records in the file for which a wild-type parent pairs
-the whole gap at the criterion applied throughout. An empty `do_not_order` is not a clearance: the
+`do_not_order`, as does every one of the 249 records whose `mature_parent_duplex_through_gap_bp`
+reaches the criterion applied throughout; three further records carry the flag for the separate
+un-rearranged-allele reason of §2.6, so 252 of the 780 carry it in all. An empty `do_not_order` is not a clearance: the
 flag is set at ten base pairs, while 175 of the 190 panel designs pair a parent through the whole
 gap at seven and 181 do so at any length (§2.9). A typeset table cell is not a
 machine-readable record — whether a sequence and the column beside it stay separate on extraction is
