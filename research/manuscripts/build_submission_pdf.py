@@ -690,7 +690,16 @@ def render_table(rows, label=None):
         return [c.strip() for c in line.split("|")]
 
     head, body = cells(rows[0]), [cells(r) for r in rows[2:]]
-    out = ["<table>", "<thead>"]
+    # ⛔ A WIDE TABLE IN THE BODY OVERPRINTS THE COLUMN BESIDE IT (blind PDF screen, 2026-08-19,
+    # graded BLOCK). Journal style sets the body in two columns; the LANDSCAPE_MIN_COLS rule that
+    # rescues wide tables lives in `render_float`, which only the SPLICED display items reach. An
+    # eleven-column pipe table written inline in §2.5 therefore rendered at full body width inside
+    # a 6 mm-wide column and printed straight over ~22 lines of the neighbouring prose — 69 box
+    # collisions on one page, and the reader loses BOTH the table and the text under it.
+    # A body table at or above the same column threshold now spans both columns and sets smaller,
+    # which is the treatment the float path already gives its own wide tables.
+    wide_body = len(head) >= LANDSCAPE_MIN_COLS
+    out = [f'<table class="wide-body-table">' if wide_body else "<table>", "<thead>"]
     if label:
         out.append(f'<tr class="tablename"><th colspan="{len(head)}">{inline(label)}</th></tr>')
     out.append("<tr>")
@@ -1354,6 +1363,13 @@ li { margin-bottom: 3pt; text-align: justify; }
 /* --- floats: tables and figures set where they are first cited --- */
 .float { break-inside: avoid; margin: 4pt 0 9pt 0; }
 .span-float { column-span: all; }
+/* ⛔ See the wide_body comment in the table emitter: an inline table wider than the column it
+   sits in overprints its neighbour. Spanning both columns and shrinking is what makes it
+   readable at all; break-inside keeps it from splitting across the span boundary. */
+.wide-body-table { column-span: all; font-size: 6.4pt; line-height: 1.22; break-inside: avoid;
+                   width: 100%; table-layout: fixed; margin: 2mm 0 3mm 0; }
+.wide-body-table td, .wide-body-table th { padding: 0.6mm 0.8mm; word-break: normal;
+                                           overflow-wrap: anywhere; }
 .float table { font-size: 6.9pt; }
 .float p { font-size: 7.6pt; line-height: 1.32; text-align: left; text-indent: 0;
            margin: 0 0 3pt 0; color: #2c3f4f; }

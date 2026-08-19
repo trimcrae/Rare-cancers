@@ -754,7 +754,18 @@ def _near_twin_warning(t2, t3):
     differ = sum(1 for j, a in t2_by_junction.items()
                  if t3_by_junction.get(j) is not None and a is not None
                  and t3_by_junction[j] != a)
-    return differ, len(pairs), sum(1 for r in runs if r >= top), top
+    # ⛔ THE CONDEMNED SUBSET MUST BE COUNTED OVER THE SAME SET THE CAPTION FRAMES IT AGAINST
+    # (two independent readers, 2026-08-19). `pairs` counts every junction where Table 3's design
+    # is condemned and Table 2's is not the same design — INCLUDING three where Table 2 names no
+    # design at all. Printing that as "ten of those sixteen" put a numerator over a denominator it
+    # is not drawn from: only SEVEN of the sixteen disagreeing pairs have a design on both sides.
+    # The three where Table 2 is silent are a real caution but a different one, and they are stated
+    # separately rather than folded in.
+    both_named = [p for p in pairs if p[1] is not None]
+    runs_both = [p[3] for p in both_named if p[3] is not None]
+    top_both = max(runs_both) if runs_both else 0
+    return (differ, len(both_named), len(pairs) - len(both_named),
+            sum(1 for r in runs_both if r >= top_both), top_both)
 
 
 def _near_match_screen_losses(t4):
@@ -2475,7 +2486,7 @@ def main(argv=None):
                         for j in per_junction["junctions"] if (b := j.get("best_available")))
     t3_agg_n, (t3_agg_junction, t3_agg_cell, t3_agg_own) = _junction_aggregate_column(t3, chance)
     t3_agg_rows = len(_md_table(t3)[1])
-    n_differ, n_twin, n_twin_at_run, twin_run = _near_twin_warning(t2, t3)
+    n_differ, n_twin, n_t2_absent, n_twin_at_run, twin_run = _near_twin_warning(t2, t3)
     # ⛔ A RECORD COUNT PRINTED AS A GENE COUNT, IN ALL THREE OF THESE TABLES (competitor review,
     # 2026-08-19). Every "near-match" cell is a count of RefSeq accessions; §5 states the collapse
     # and states it at the default ceiling, and these tables headline the deep one. Both figures
@@ -2631,19 +2642,30 @@ def main(argv=None):
 
     # ⚠ THE SAME MEASUREMENT THE DO-NOT-ORDER BANNER MAKES, RUN BETWEEN THE TABLES RATHER THAN
     # BETWEEN a table and the condemned list. Emitted only while the disagreement exists.
-    def _twin(other, here):
+    #: `t3_side` says whether the caption being built belongs to TABLE 3 — the table that names a
+    #: design at the three seams where the other names none. The clause about those three is the
+    #: only asymmetric sentence in this warning, and emitting it in both directions made it FALSE
+    #: in one of them (claims reviewer, 2026-08-19, graded BLOCK, and introduced by the fix for the
+    #: previous BLOCK in the same caption two hours earlier).
+    def _twin(other, here, t3_side=False):
         if not n_twin:
             return ""
+        allof = "all " if n_twin_at_run == n_twin else ""
         return (f"⚠ At {_word(n_differ)} junctions {other} names a DIFFERENT DESIGN from {here}, "
                 f"because the two tables rank on different keys. At {_word(n_twin)} of those "
                 f"{_word(n_differ)} one of the pair is condemned and the other is not, and at "
-                f"{_word(n_twin_at_run)} of those the two share {_word(twin_run)} of their "
-                f"{GEOMETRY.oligo_len} contiguous bases — one register apart. Check the junction "
-                f"AND the whole sequence against `{os.path.basename(_manifest.OUT_CSV)}` before "
-                f"ordering either.")
+                f"{allof}{_word(n_twin_at_run)} of those {_word(n_twin)} the two share "
+                f"{_word(twin_run)} of their {GEOMETRY.oligo_len} contiguous bases — one register "
+                f"apart. At a further {_word(n_t2_absent)} junctions "
+                + (f"this table names a condemned design where {other} names none at all"
+                   if t3_side else
+                   f"{other} names a condemned design where this table names none at all")
+                + ", which is not a disagreement but is also not a "
+                f"clearance. Check the junction AND the whole sequence against "
+                f"`{os.path.basename(_manifest.OUT_CSV)}` before ordering either.")
 
     t2_twin_warning = _twin("Table 3", "this table")
-    twin_warning_t3 = _twin("Table 2", "this table")
+    twin_warning_t3 = _twin("Table 2", "this table", t3_side=True)
 
     # ⛔ THE PRIMARY SORT KEY WAS NAMED AND NEVER DEFINED — see `_parent_liability_definition`.
     _lia_parents, _lia_compartment = _parent_liability_definition()

@@ -1847,7 +1847,20 @@ def test_the_testable_surface_states_the_only_catalogued_line_cannot_test_a_junc
     #: four-member sets — the ones matched to a test article here, and the coverage ladder's in
     #: §4.1 — overlapping in only two members, each introduced as "the set". The sentence now says
     #: which set it is. The count and the qualification this pin exists for are both unchanged.
-    assert "four certifiable ones and a fifth carried under that qualification" in txt
+    # ⚠ RE-ANCHORED ON THE PROPERTY 2026-08-19. This pinned the literal "four certifiable ones and
+    # a fifth carried under that qualification". §3's use of *certifiable* was reconciled with the
+    # definition §4.5 gives — all five screens runnable AND cleared — and the sentence now reads
+    # "four that all five screens can be run on and a fifth carried…". Same arithmetic, same
+    # qualification, different words, and the old literal failed a corrected sentence. Assert the
+    # SPLIT (four plus a qualified fifth) and that the fifth is the cryptic-exon reagent, which is
+    # what makes it uncertifiable.
+    flat = " ".join(txt.split())
+    assert re.search(r"four[^.]{0,90}fifth carried", flat), (
+        "§3 must still resolve the five test articles into four certifiable and a fifth carried "
+        "under the §4.5 qualification; that split is the point of the paragraph")
+    assert "not certifiable under the criterion" in flat and "cryptic-exon one" in flat, (
+        "the fifth is carried because its acceptor is a cryptic exon one screen cannot address; "
+        "without that reason the qualification reads as arbitrary")
     assert "a different set from the four of the coverage ladder in §4.1" in txt
     for arm in ("E-N", "T-N*", "T-N"):
         assert arm in txt, arm
