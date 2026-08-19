@@ -488,8 +488,7 @@ of which the mature-parent screen condemns at eleven base pairs against wild-typ
 excludes, so it is not to be ordered. Each returned the same count at both depths. The other six did not. The three *EWSR1* exon-1 designs had
 returned no near-match at all at the default ceiling and return 27, 29 and 84; 5′-GGGCATATCTCTATAA-3′
 at *TCF12* exon 17 goes from 8 to 118 on either strand, and 5′-CAGGGCATATCTTGCA-3′ ⚑ at *TCF12*
-exon 9 from 7 to 67; and 5′-GCATATCAAGCGCTGC-3′ ⚑ at *TCF12* exon 7, which had one near-match and none on the sense strand, returns 18 with two. Three of the six carry hits that span the catalytic gap and so are cleavage
-risks rather than merely sense-strand matches: 64 for 5′-GCATATCCGTGGACGC-3′ ⚑, 14 for
+exon 9 from 7 to 67; and 5′-GCATATCAAGCGCTGC-3′ ⚑ at *TCF12* exon 7, which had one near-match and none on the sense strand, returns 18 with two. Three of the six carry hits that span the catalytic gap and so are gap-paired rather than merely sense-strand matches: 64 for 5′-GCATATCCGTGGACGC-3′ ⚑, 14 for
 5′-GGGCATATCTCTATAA-3′ and 11 for 5′-CAGGGCATATCTTGCA-3′ ⚑. Three of the designs named in this
 paragraph carry ⚑ because the mature-parent screen condemns them at a twelve-base-pair duplex —
 5′-CAGGGCATATCTTGCA-3′ against wild-type *NR4A3*, 5′-GCATATCAAGCGCTGC-3′ against wild-type *TCF12*
@@ -632,7 +631,7 @@ six base pairs, which is the only cut with an enzymological referent, since a co
 length presents exactly those six as RNA:DNA hybrid and the rest as locked-wing pairs; thirteen is
 the longest run any arm returns.
 
-| cut (bp) | liable designs | % | Wilson 95% | strongest null % | scramble null % | observed − strongest | strongest null vs the observed interval | junctions with a clearing design | published-breakpoint junctions still liable | designs *NR4A3* pairs specifically |
+| cut (bp) | liable designs | % | Wilson 95% | strongest null % | scramble null % | observed − strongest | strongest null vs the observed interval | junctions with a clearing design | designs still liable at the five published-breakpoint junctions | designs *NR4A3* pairs specifically |
 |---|---|---|---|---|---|---|---|---|---|---|
 | 6 | 181 | 95.3 | 91.2–97.5 | 98.2 (exon-terminus, novel acceptor) | 91.4 | −2.9 | outside, above | 6 of 38 | 25 of 25 | 158 |
 | 7 | 175 | 92.1 | 87.4–95.2 | 91.4 (exon-terminus) | 74.3 | +0.7 | inside | 9 of 38 | 25 of 25 | 111 |

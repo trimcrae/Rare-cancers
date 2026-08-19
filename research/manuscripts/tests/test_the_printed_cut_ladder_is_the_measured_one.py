@@ -53,6 +53,26 @@ def _rows():
     return rows
 
 
+def test_the_ladder_column_headed_for_the_published_junctions_names_designs():
+    """The header must not promise junctions where the cells count designs.
+
+    ⚠ FIVE junctions carry a published exon-resolved breakpoint; 25 designs are tiled across them.
+    A header reading "junctions" over a denominator of 25 is a denominator switch inside one cell.
+    """
+    art, rows = _art(), _rows()
+    n_junctions = len(art["cut_sensitivity"]["published_breakpoint_junctions"])
+    text = open(PAPER, encoding="utf-8").read()
+    header = next((ln for ln in text.split("\n")
+                   if ln.startswith("| cut (bp)") or "published-breakpoint" in ln and ln.startswith("|")), "")
+    assert "published-breakpoint" in header, "the ladder's header row has moved; re-anchor"
+    assert "designs still liable" in header, (
+        f"the column counts designs across the {n_junctions} published-breakpoint junctions, and "
+        "its header must say so — it read 'published-breakpoint junctions still liable' over cells "
+        f"denominated in designs, which is a denominator switch inside a single cell")
+    assert f"{n_junctions} published-breakpoint" in header or "five published-breakpoint" in header, (
+        "the header should name how many such junctions there are, so the denominator is placeable")
+
+
 def test_the_ladder_prints_every_cut_the_artifact_measures():
     art, rows = _art(), _rows()
     cuts = [str(c) for c in art["cut_sensitivity"]["cut_ladder_bp"]]
@@ -96,7 +116,16 @@ def test_every_printed_cell_is_the_measured_value(cut):
     want = "inside" if lo <= strongest <= hi else ("outside, above" if strongest > hi else "outside, below")
     assert c[7] == want, f"cut {cut}: the null sits {want} the observed interval"
     assert c[8] == f"{cs['n_junctions_with_a_clearing_design_by_cut'][cut]} of 38", f"cut {cut}: junctions"
-    assert c[9] == f"{pub['n_liable']} of 25", f"cut {cut}: published-breakpoint junctions"
+    # ⛔ THIS COLUMN IS DESIGNS, NOT JUNCTIONS, AND THE HEADER SAID JUNCTIONS UNTIL 2026-08-19.
+    # There are FIVE published-breakpoint junctions in the panel and 25 designs across them, so a
+    # cell reading "25 of 25" under a junction header told a reader every one of five junctions was
+    # liable using a denominator of 25. The guard pinned the cell and therefore CERTIFIED the
+    # mislabel — which is why the denominator is now derived from the artifact and the header is
+    # asserted to name designs.
+    n_pub_designs = art["cut_sensitivity"]["observed_cut_ladder_at_published_breakpoint_junctions"]
+    total_pub = max(v["n_liable"] for v in n_pub_designs.values())
+    assert c[9] == f"{pub['n_liable']} of {total_pub}", (
+        f"cut {cut}: this column counts DESIGNS at the five published-breakpoint junctions")
     assert c[10] == str(obs["n_pairing_NR4A3_specifically"]), (
         f"cut {cut}: this column is the NR4A3-SPECIFIC count, not the attributed one "
         f"({obs['n_pairing_NR4A3_specifically']} against {obs['n_liable_attributed_to_NR4A3']}); "
