@@ -698,7 +698,15 @@ def render_table(rows, label=None):
     # collisions on one page, and the reader loses BOTH the table and the text under it.
     # A body table at or above the same column threshold now spans both columns and sets smaller,
     # which is the treatment the float path already gives its own wide tables.
-    wide_body = len(head) >= LANDSCAPE_MIN_COLS
+    # ⛔ AND NOT INSIDE A FLOAT. Scoping this on column count ALONE broke the deposit: Tables 2 to
+    # 6 also clear LANDSCAPE_MIN_COLS, so they picked up `table-layout: fixed` on top of the
+    # landscape stylesheet that already sizes them, their sequence cells overflowed their columns
+    # and were overprinted by the next cell, and the journal PDF printed `5′-GGGCATATCCATCAGA3-3′`
+    # — a corrupted 16-mer with the neighbouring cell's digit fused in. 0 of 93 sequence cells came
+    # out well formed against 93 of 93 in the submission format. That is the wrong-reagent hazard
+    # this deposit's PDF seat exists to catch, and it was introduced by the fix for the previous
+    # one (blind PDF screen, 2026-08-19).
+    wide_body = len(head) >= LANDSCAPE_MIN_COLS and not _IN_FLOAT
     out = [f'<table class="wide-body-table">' if wide_body else "<table>", "<thead>"]
     if label:
         out.append(f'<tr class="tablename"><th colspan="{len(head)}">{inline(label)}</th></tr>')
@@ -1036,9 +1044,23 @@ _CURRENT_TABLE_LABEL = None
 #: can tell a caption footnote from body prose. Body paragraphs must NOT gain `.legend`.
 _IN_FLOAT_CAPTION = False
 
+#: ⛔ True while ANY part of a float is rendering, caption or grid. `_IN_FLOAT_CAPTION` covers
+#: only the caption; the wide-body-table rule below must not reach a float's GRID, whose column
+#: widths the landscape stylesheet already sets.
+_IN_FLOAT = False
+
 
 def render_float(kind, number, payload, wide):
     """A table or figure set as a float, with its caption."""
+    global _IN_FLOAT
+    _IN_FLOAT = True
+    try:
+        return _render_float(kind, number, payload, wide)
+    finally:
+        _IN_FLOAT = False
+
+
+def _render_float(kind, number, payload, wide):
     classes = ["float", kind]
     if wide:
         classes.append("landscape-float")

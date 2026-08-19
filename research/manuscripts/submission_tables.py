@@ -2487,6 +2487,42 @@ def main(argv=None):
     t3_agg_n, (t3_agg_junction, t3_agg_cell, t3_agg_own) = _junction_aggregate_column(t3, chance)
     t3_agg_rows = len(_md_table(t3)[1])
     n_differ, n_twin, n_t2_absent, n_twin_at_run, twin_run = _near_twin_warning(t2, t3)
+    # ⛔ "RUN TO COMPLETION" WAS TRUE OF THE SCREENS AND FALSE OF ONE JUNCTION (cold reader,
+    # 2026-08-19). All five screens produce rows for every qualifying junction, so "run to
+    # completion" reads as satisfied — but two of them are gene-scoped, and for PGR e2::NR4A3 e2
+    # their gene set does not carry that donor, so three of the five ever read that junction's own
+    # parents. Nine junctions qualify; eight had every screen read their own parents. Stating the
+    # rule as "all five" made the caption contradict §2.6, §4.1 and SI §S6, which all say three.
+    _ladder_doc = json.load(open(os.path.join(
+        HERE, "aso", "fusion-junction-aso-coverage-ladder.json"), encoding="utf-8"))
+    def _ladder_find(o, key):
+        if isinstance(o, dict):
+            if key in o:
+                return o[key]
+            for v in o.values():
+                r = _ladder_find(v, key)
+                if r is not None:
+                    return r
+        elif isinstance(o, list):
+            for v in o:
+                r = _ladder_find(v, key)
+                if r is not None:
+                    return r
+        return None
+    _n_qual = _ladder_find(_ladder_doc, "n_junctions_qualifying")
+    _n_all5 = _ladder_find(_ladder_doc, "n_junctions_with_every_screen_reading_their_own_parents")
+    _short = _ladder_find(_ladder_doc, "⛔_graded_on_fewer_than_every_screen") or {}
+    screens_own_parents_caveat = ""
+    if _n_qual is not None and _n_all5 is not None and _n_qual != _n_all5:
+        _j, _rec = next(iter(_short.items()))
+        screens_own_parents_caveat = (
+            f"⚠ Every screen runs over every qualifying junction, but two of them are gene-scoped: "
+            f"of the {_word(_n_qual)} junctions that qualify, {_word(_n_all5)} had all five read "
+            f"that junction's OWN parent genes, and {_j.replace('__', '::').replace('_', ' ')} had "
+            f"{_word(_rec['n_screens_that_read_this_junctions_own_parents'])} of "
+            f"{_word(_rec['n_screens'])} — the parent-scoped screens' gene set does not carry that "
+            f"donor, so those readings are unmeasured rather than clean. ")
+
     # ⛔ A RECORD COUNT PRINTED AS A GENE COUNT, IN ALL THREE OF THESE TABLES (competitor review,
     # 2026-08-19). Every "near-match" cell is a count of RefSeq accessions; §5 states the collapse
     # and states it at the default ceiling, and these tables headline the deep one. Both figures
@@ -3014,9 +3050,9 @@ remaining junction with a published exon-resolved breakpoint and a reagent throu
 screens, the {n_beside_txt} *NR4A3* exon-2 acceptor seams the ladder carries no entry for, reported
 beside the panel, and the two contrast arms. {_margin_gloss()} Membership is the coverage ladder's and not this table's: every junction its best-supported
 buildable panel qualifies — a published exon-resolved breakpoint, and all five specificity screens
-run to completion over that junction's designs, each condition read from the table that owns it —
+run over that junction's designs, each condition read from the table that owns it —
 has a row here whether or not §4 names its reagent, and the generator refuses to build if a
-qualifying junction has no row. A row can therefore qualify and still buy no coverage,
+qualifying junction has no row. {screens_own_parents_caveat} A row can therefore qualify and still buy no coverage,
 which is a statement about the denominator and not about the reagent.{premrna_caveat}{exon2_rung} Cumulative coverage is the
 coverage of the reagent set through that row, so the two leads are
 one rung and carry one figure between them; it is discounted by the breakpoint distribution of a
