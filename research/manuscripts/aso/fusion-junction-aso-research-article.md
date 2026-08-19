@@ -50,11 +50,11 @@ In extraskeletal myxoid chondrosarcoma (EMC), an ultra-rare sarcoma, a variable 
 cleave it and spare both parents; none is reported in the literature retrieved here. Of 190
 junction-spanning designs (16-mers, 5-6-5, a six-nucleotide DNA gap) across the 38 in-frame
 junctions of five modelled partners, 87 pair their catalytic gap against one of six mature parents
-searched over ten or more contiguous base pairs, 61 of those 87 against wild-type *NR4A3* and 85
-against their own parents. That is a rate over designs: 35 of 38 junctions have one clearing the mature-parent
-screen. Scrambles, the weakest null here, reach 6.2% against 45.8% observed; chimeras at real exon
-termini of the same two transcripts, reported in no patient, reach 40.6%, so the excess is not
-specific to this disease's breakpoints. Ten base pairs is adopted, not
+searched over ten or more contiguous base pairs, 61 of those 87 against wild-type *NR4A3* (59 at
+one site) and 85 against their own parents. That is a rate over designs: 35 of 38 junctions have one
+clearing that screen. Scrambles, the weakest null here, reach 6.2% against 45.8% observed; chimeras at real exon
+termini of the same two transcripts, reported in no patient, reach 40.6%, so no excess
+specific to this disease's breakpoints is resolved. Ten base pairs is adopted, not
 measured and not separated: at seven, 175 of 190 pair a parent and 9 of 38 junctions clear, but so
 does that null, to 91.4% against the 92.1% observed there; at six, the gap's own length, 181 of
 190; and across cuts of six to thirteen the excess over the strongest null changes sign four times
@@ -67,7 +67,7 @@ threshold; none at a junction any patient is reported to carry, so every named r
 loads. The work is computational: nothing was synthesised or tested; nothing asserts
 efficacy, safety, delivery or clinical readiness. Every sequence named is a
 research reagent, not for administration to any person or animal.
-Two leads are named with their off-target loads and longest parent runs of eight and nine base
+Two leads carry off-target loads and longest parent runs of eight and nine base
 pairs, so a cut of eight condemns both: 5′-GGGCATATCATCAAAC-3′ at *EWSR1* exon 12 and
 5′-GGGCATATCTTGTGTG-3′ at *TAF15* exon 6, with two more for coverage; and three not to be used:
 non-panel designs the mature-parent screen clears that pair their whole gap against unspliced
@@ -703,7 +703,10 @@ forward orientation, the same ten-base-pair threshold. Scrambling each design's 
 which preserves its base composition and is the scrambled-gapmer control §4.4 asks a laboratory to
 make, gives 6.2% (5.9–6.4%); a dinucleotide-preserving shuffle gives 10.0% (9.7–10.3%); 16-mers drawn
 from uniform bases give 6.9% (6.7–7.2%), and from the panel's pooled base composition 7.2%
-(6.9–7.4%). The uniform-base figure does not stand alone; a calculation on the same uniform bases
+(6.9–7.4%). Every parenthesis on a null rate in this section is a Monte-Carlo interval on that
+ensemble's mean, narrowing with the number of draws rather than with evidence, and it is not the
+spread against which the observed rate should be read; the exon-terminus paragraph below sets
+the two against each other. The uniform-base figure does not stand alone; a calculation on the same uniform bases
 agrees with it: the gap must pair,
 at 4⁻⁶, and the run must
 then extend four further nucleotides across the two wings, at 1/64, which over the 19,921 parent
@@ -712,8 +715,9 @@ independent trials, which they are not: they tile 20,011 nucleotides, so consecu
 15 of their 16 bases and a site that lands in one lands in its neighbours too. Clumping of that kind
 makes a Poisson figure sit high, and the sampled uniform arm 0.4 points below it at 6.9% is what
 bounds the assumption here. The observed rate is 6.6 times the sampled uniform-base arm, and the *NR4A3*
-sub-analysis the modality actually turns on appears to separate further still: 32.1% of designs pair the gap against wild-type *NR4A3*
-specifically, against 1.8% of scrambles. That sub-analysis's own nominal interval is 25.9–39.0%, and the
+sub-analysis the modality actually turns on appears to separate further still: 32.1% of designs
+carry their qualifying duplex against wild-type *NR4A3*, against 1.8% of scrambles — the count
+attributed to *NR4A3*, not the *NR4A3*-specific count of the ladder's last column. That sub-analysis's own nominal interval is 25.9–39.0%, and the
 clustering correction applied above does not widen it: its design effect is 0.82 rather than
 1.42. That is not a reading about the registers. Permuting the liability labels across the 38
 junctions gives a design effect of 1.00 on average, a standard deviation of 0.21 and a 95% range of
@@ -1098,9 +1102,11 @@ and 25.4%, and the share falls because a longer oligonucleotide has more junctio
 registers per seam — five, seven and nine.
 
 Neither framing is the whole reading, and the credit side is a reading at one cut. The liable count
-is flat at 87, 88 and 87, but the extra registers are options rather than only a larger denominator:
-at the ten-base-pair criterion the parent-clean designs available at each junction rise with them,
-from 2.7 to 4.7 to 6.7 on average. That series is not cut-independent, and the cut it is read at
+is flat at 87, 88 and 87, and what the extra registers add is choices at a junction rather than a
+lower liability per design: at the ten-base-pair criterion the parent-clean designs available at
+each junction rise with them, from 2.7 to 4.7 to 6.7 on average — five, seven and nine registers
+per junction less 2.29, 2.32 and 2.29 liable ones, so the rise of about two per step is the rise in
+registers rather than a fall in liability. That series is not cut-independent, and the cut it is read at
 flatters the shortest geometry. Re-derived at the seven-base-pair end of the range §5 bounds this
 criterion by, it reads 0.4, 3.6 and 6.7 — and at 5-6-5, 29 of the 38 junctions then have no
 parent-clean design at all, against none at 5-8-5 and none at 5-10-5. What a longer gap cannot do is
@@ -1392,7 +1398,7 @@ that figure legend together with the reagent consequence in `emc-model-junction-
 
 What remains is five test articles. Each of the five has a reagent at its junction, but one of
 those reagents — the cryptic-exon one below — is not certifiable under the criterion §4.5
-states, so the reagents matched to a test article are four certifiable ones and a fifth carried under that qualification — a different set from the four of the coverage ladder in §4.1, overlapping it in two members. Three are the
+states, so the reagents matched to a test article are four that all five screens can be run on and a fifth carried under that qualification — a different set from the four of the coverage ladder in §4.1, overlapping it in two members. Addressable by all five is not cleared by all five: within the 38-junction panel the designs that clear every screen are the three of §2.7, and the two of those four that §4.1 names carry the off-target loads §4.3 reports. Three are the
 engineered constructs of the functional study cited above,<sup>27</sup><!--PMID:31020999--> E-N,
 T-N* and T-N, whose exon spans that paper states verbatim; two of the three, E-N and T-N*, carry the
 same two junctions the reagents of §4.1 span — *EWSR1* exon 12 and *TAF15* exon 6, each joined to
@@ -1960,8 +1966,10 @@ account for least: the exon-terminus chimera reaches 40.6% against 45.8% observe
 the observed rate and the third-lowest such share on the eight-cut ladder of §2.5. At four of those
 eight cuts, six, eight, nine and thirteen, the strongest null stands above the observed rate rather
 than below it, so the share the nulls account for is not monotone in the criterion and changes sign
-with it. No cut on that ladder leaves a share to attribute to the reported breakpoints themselves
-(§2.5).
+with it. One cut does leave a share to attribute to the reported breakpoints themselves, and it is
+not the cut reported here: at eleven the strongest null falls below the observed rate's interval
+rather than inside it, the only cut on the ladder at which the observed rate nominally stands
+clear of every null (§2.5).
 
 **The patient may not carry these junctions.** Which exon pair a patient carries is not decidable
 from exon structure. The coverage figure of §4.1 is arithmetic over two published cohorts and not a
