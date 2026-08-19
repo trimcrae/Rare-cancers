@@ -50,12 +50,17 @@ EMC registry with structured citation provenance. No new wet-laboratory data wer
 the commonly reported *EWSR1* exon 7 to *NR4A3* exon 3 junction, presented on HLA-B\*15:01 alone, and
 27.4% (95% CI 26.6 to 28.1) pooling all strong-binder alleles. Screening the junction against a broad
 34-allele panel raises the ceiling only to 30.4%, with 4 alleles presenting anything at all, and the
-coverage curve never reaches 50%. Against this, a histology-specific EMC cohort of sunitinib plus
+coverage curve never reaches 50%. A proteome-wide exact-match search finds 170 of the 174 junction
+peptides absent from the reviewed human proteome including isoforms; the 4 that are present all occur in
+an *NR4A3* isoform, and one of them is a predicted binder and is withdrawn. The class II arm, regenerated
+at the corrected junction, yields 2 predicted binders and no strong binder on a three-allele DR panel.
+Against this, a histology-specific EMC cohort of sunitinib plus
 nivolumab reported 16 of 23 evaluable patients progression-free at 6 months with median progression-free
 survival of 13.2 months, which indicates that an immunotherapy-containing regimen is not inert in this
-disease. Ten obstacles are enumerated. Two are already resolved or resolvable at no cost, four require
-EMC tissue, two require a development partner, and two are structural features of studying a disease with
-an incidence well under one per million per year.
+disease. Ten obstacles are enumerated: one is resolved, one is answered and negative on the panel tested,
+two are computational and outstanding, two require EMC tissue, two require clinical evaluation in
+combination, and two are structural features of studying a disease with an incidence well under one per
+million per year.
 
 **Interpretation.** The central observation is a gap in prior reasoning rather than a new measurement.
 Innate agonists and in-situ vaccination were set aside for this disease on the grounds that a quiet genome
@@ -124,7 +129,9 @@ These yield 11 distinct predicted binders, 4 of them strong, and 174 distinct ju
 in total. The lead candidate at the commonly reported *EWSR1* exon 7 junction is NMPCVQAQY on HLA-B\*15:01,
 at 73.4 nM with a presentation percentile of 0.37. There is no pan-EMC epitope: the most widely shared
 candidate appears in 4 of the 5 junctions and is a weak binder, three of the five junctions return no
-strong binder at all, and every strong binder is specific to its breakpoint.
+strong binder at all, and every strong binder is specific to its breakpoint. One of the 11 predicted
+binders, DMPCVQAQY on HLA-B\*35:01, is withdrawn on the proteome search reported under B5 below, leaving
+10; all 4 strong binders survive that search.
 
 ### 2.3 Population coverage
 
@@ -143,11 +150,11 @@ to 30.4% and does not remove it.
 ### 2.4 Limits of the current evidence
 
 Predicted binding is a screen. It is not evidence that any peptide is presented on an EMC tumour cell, not
-a measure of the density at which it would be presented, and not evidence of T-cell recognition. The
-novelty test applied to these peptides compares them against wild-type *EWSR1* and wild-type *NR4A3* only;
-no search against the human proteome has been completed, so absence from normal proteins is not a property
-this work has established. No EMC immunopeptidomic dataset is known to the author. These gaps are
-enumerated as obstacles B2, B3 and B5 below rather than treated as resolved.
+a measure of the density at which it would be presented, and not evidence of T-cell recognition. No EMC
+immunopeptidomic dataset is known to the author, so nothing here bears on whether any of these peptides
+reaches the cell surface. Sequence-level novelty against the proteome has now been tested and is reported
+under B5; it excludes one failure mode and leaves presentation, immunogenicity and cross-reactivity
+untouched. These gaps are enumerated as obstacles B2 and B3 below rather than treated as resolved.
 
 ## 3. The blocker ledger
 
@@ -160,8 +167,8 @@ is a fixed property of the disease.
 | B1 | Class I coverage plateaus near 30% | fixed property, partially mitigable | Extended allele panels; class II contribution; per-patient selection | Computational |
 | B2 | Presentation is predicted, never measured | measurement | Immunopeptidomics on EMC tissue or a patient-derived line | Tissue |
 | B3 | Self-adjacency and central tolerance | measurement | Distance-to-self and anchor-position filtering; T-cell reactivity assay | Computational, then tissue |
-| B4 | CD4 helper arm unavailable | computation, in repair | Regeneration of the class II prediction at the corrected junction | None |
-| B5 | Proteome-wide novelty untested | computation, ready | Exact-match search of all 174 peptides against the reviewed human proteome | None |
+| B4 | No strong CD4 epitope at the corrected junction | measurement, performed | Wider class II allele panel; measured class II presentation | Computational, then tissue |
+| B5 | Four peptides occur in an *NR4A3* isoform | resolved, with a withdrawal | Completed; the upstream filter needs to become isoform-aware | Done |
 | B6 | Immunologically cold microenvironment | property, addressable in combination | Vaccine supplies antigen; checkpoint supplies release | Clinical |
 | B7 | Physical exclusion by myxoid matrix | property, addressable in combination | Vascular normalisation or matrix-directed agent | Clinical |
 | B8 | No EMC immune-profiling data | measurement | Infiltrate and HLA-expression characterisation on EMC specimens | Tissue |
@@ -229,38 +236,56 @@ complex answers the question.
 selected neoantigens frequently arise from point mutations in a repertoire that has not been tolerised
 against them and in a tumour already under immune pressure.
 
-### B4. Unavailable CD4 helper arm
+### B4. No strong CD4 epitope at the corrected junction
 
-**Proposition.** No usable class II prediction exists at the corrected junction, so the helper arm and
-every combined CD8 and CD4 figure are withheld.
+**Proposition.** An effective vaccine generally requires CD4 helper epitopes, and the corrected junction
+supplies no strong class II binder on the panel tested.
 
-**Evidence.** The committed class II demonstration was constructed on the superseded coordinate system
-and sits on a seam disjoint from the corrected class I set. The cause is that the per-patient junction
-builder shared by the class I and class II scripts concatenated coding sequences rather than working on
-the transcript, so regenerating its inputs could not repair it.
+**History.** The committed class II demonstration was previously built on the superseded coordinate system
+and sat on a seam disjoint from the class I set, so the arm and every combined CD8 and CD4 figure were
+withheld. The cause was that the per-patient junction builder shared by the class I and class II scripts
+concatenated coding sequences rather than working on the transcript, so regenerating its inputs could not
+repair it. The builder has been moved to the transcript model and the arm has been regenerated.
 
-**Status.** The builder has been moved to the transcript model in the accompanying code change. The class
-II script now receives the corrected seam but still enumerates candidate 15-mers with a straddle test that
-excludes peptides beginning at the seam codon, so the arm remains withheld pending completion.
+**Result.** At the corrected *EWSR1* exon 7 junction, 15 candidate 15-mers yield 2 predicted class II
+binders and no strong binder, both on DRB1\*07:01 at 262 nM and 439 nM, against a three-allele DR panel of
+DRB1\*15:01, DRB1\*03:01 and DRB1\*07:01. The superseded version on the retracted seam reported 9 binders
+of which 4 were strong. The correction weakened this arm as it weakened the class I arm.
 
-**Cost.** None. This is a defect introduced by this programme and repairable within it.
+**What would clear or move it.** The panel is three alleles, which is narrow, and class II presentation is
+substantially harder to predict than class I; a wider DR, DP and DQ panel is a computational task and may
+change the picture. Beyond that, only measured class II presentation settles it. A construct can also
+supply help from a heterologous source rather than from the junction itself, which is standard practice in
+peptide vaccine design and would make this obstacle a design constraint rather than a blocking one.
 
-### B5. Untested proteome-wide novelty
+**Status.** No longer withheld. Reported, and negative on the panel tested.
 
-**Proposition.** The junction peptides have been tested for novelty against two proteins, not against the
-proteome, so it is not established that they are absent from normal human proteins.
+### B5. Four peptides occur in an *NR4A3* isoform
 
-**Evidence.** The novelty filter compares each candidate against wild-type *EWSR1* and wild-type *NR4A3*
-and nothing else.
+**Proposition, as originally stated.** The junction peptides had been tested for novelty against two
+proteins rather than against the proteome, so their absence from normal human proteins was not established.
 
-**What would clear it.** An exact-substring search of all 174 junction peptides against the reviewed human
-proteome including isoform sequences. An implementation is included with this work and has not yet been
-executed against the live proteome. A peptide matching a normal protein is disqualified. A peptide
-matching none is not thereby shown to be safe: a T-cell receptor engages a peptide-MHC surface rather than
-a sequence, so a peptide differing from a self peptide at a position that does not contact the receptor
-can still be cross-recognised. This test excludes one specific failure mode and leaves the others standing.
+**Result.** All 174 distinct junction peptides were searched by exact substring against the UniProt
+reviewed human proteome, isoform sequences included. 170 are absent from every reviewed human protein. All
+4 strong binders survive, including the *EWSR1* exon 7 lead NMPCVQAQY. The obstacle is largely cleared, and
+the sequence-level novelty premise of this route holds for the great majority of the peptide set.
 
-**Cost.** None; one public database retrieval and a string search.
+**The four that do not.** DMPCVQAQ, DMPCVQAQY, DMPCVQAQYS and DMPCVQAQYSP all occur in Q92570-3, an
+isoform of *NR4A3* itself. One of them, DMPCVQAQY, is a predicted binder on HLA-B\*35:01 at 369.1 nM. Those
+four peptides are not tumour-exclusive, and DMPCVQAQY is withdrawn as a candidate.
+
+**The methodological finding.** The upstream novelty filter compares each candidate against the canonical
+parent proteins only, so an isoform that carries the seam sequence passes it unseen. That is a defect in
+the filter rather than in these particular junctions, and it will recur for any breakpoint whose seam
+residue reconstructs an isoform boundary. The proteome search reports this condition explicitly rather
+than silently discarding the hits. The filter should be made isoform-aware.
+
+**What a clean result does not license.** A peptide absent from every reviewed human protein is not thereby
+safe. A T-cell receptor engages a peptide-MHC surface rather than a sequence, so a peptide differing from a
+self peptide at a position that does not contact the receptor can still be cross-recognised. Unreviewed
+sequences were not searched: a hit among predicted-and-unreviewed entries is not evidence that a normal
+protein carries the peptide, and a miss there is not evidence of absence. This test
+excludes one specific failure mode and leaves the others standing.
 
 ### B6. Immunologically cold microenvironment
 
@@ -395,12 +420,14 @@ in particular on B2.
 The stages are ordered so that the cheapest observations that could end the programme come first. Each
 stage names the gate that must pass before the next is worth beginning.
 
-**Stage 0, computational, no cost.** Complete the proteome-wide novelty search (B5). Complete the class II
-regeneration and report the combined CD8 and CD4 coverage figure (B4). Build the distance-to-self and
-anchor-versus-contact-position filters that were specified and never implemented (B3). Extend the allele
-panel beyond 34 and report the revised ceiling (B1). *Gate:* if the proteome search disqualifies the lead
-candidates, or if anchor analysis shows that novelty falls exclusively at anchor positions across all
-in-frame junctions, the route closes here at no cost.
+**Stage 0, computational, no cost.** Two items are complete. The proteome-wide novelty search has been run
+and did not close the route: 170 of 174 peptides are novel and all 4 strong binders survive, with one
+predicted binder withdrawn (B5). The class II arm has been regenerated and is reported, negative on the
+panel tested (B4). Three items remain: report the combined CD8 and CD4 coverage figure now that both arms
+sit on the same seam; build the distance-to-self and anchor-versus-contact-position filters that were
+specified and never implemented (B3); extend the class I allele panel beyond 34 and the class II panel
+beyond three, and report the revised ceilings (B1, B4). *Gate:* if anchor analysis shows that novelty falls
+exclusively at anchor positions across all in-frame junctions, the route closes here at no cost.
 
 **Stage 1, requires EMC tissue.** Immune profiling of EMC specimens, comprising infiltrate quantification
 and HLA class I expression (B8), followed by immunopeptidomics for junction-spanning peptides on tissue or
@@ -424,7 +451,9 @@ whole population.
 
 Explicit falsifiers, stated so that a negative result is recognisable as one rather than absorbed:
 
-1. Every strong-binding junction peptide also occurs in a normal human protein.
+1. Every strong-binding junction peptide also occurs in a normal human protein. *Evaluated and not met:*
+   all 4 strong binders are absent from the reviewed human proteome including isoforms, although 4 peptides
+   of 174 and one weak binder are not.
 2. Across all five in-frame junctions, the novel residues fall exclusively at anchor positions, so no
    junction presents an altered surface to a T-cell receptor.
 3. EMC specimens show loss or substantial downregulation of HLA class I.
@@ -434,8 +463,8 @@ Explicit falsifiers, stated so that a negative result is recognisable as one rat
 6. The combined class I and class II eligible fraction, after the Stage 0 refinements, remains low enough
    that a histology-specific cohort cannot accrue at the observed rate.
 
-Items 1, 2 and 6 are computational and can be evaluated now. Items 3 and 4 require tissue. Item 5 requires
-tissue and an assay platform.
+Item 1 has been evaluated. Items 2 and 6 are computational and can be evaluated now. Items 3 and 4 require
+tissue. Item 5 requires tissue and an assay platform.
 
 ## 7. Limitations
 
@@ -447,7 +476,10 @@ in which the component with the larger independent EMC evidence base is the tyro
 rather than the checkpoint inhibitor; it is cited here to establish that a vehicle and a backbone exist,
 not to attribute activity to the immune arm. The characterisations of EMC as cold and as immune-excluded
 rest on inference rather than on published EMC-specific immune profiling, which is itself recorded as
-obstacle B8. The class II arm is withheld, so no combined CD8 and CD4 figure is reported. No claim is made
+obstacle B8. The class II panel comprises three DR alleles and no DP or DQ alleles, so its negative result
+bounds a narrow question rather than the general availability of helper epitopes. The combined CD8 and CD4
+coverage figure is not yet reported, because the run that regenerated the class II arm computed coverage
+before that arm was rebuilt. No claim is made
 that any peptide is presented, that any construct would be immunogenic, that any combination would be safe
 or effective, or that any of this is ready for clinical use. No wet-laboratory work was performed for this
 paper, and its central recommendations require work this programme cannot carry out.
@@ -459,7 +491,8 @@ continuous integration: `fusion_breakpoints.py` for the junction set and predict
 `hla_coverage.py` for population coverage, `coverage_scan.py` for the broad-panel curve,
 `junction_proteome_novelty.py` for the proteome search of Section B5, and `patient_neoepitopes.py` and
 `patient_cd4_epitopes.py` for the per-patient shortlisters. The corresponding artifacts are
-`fusion-breakpoint-neoantigens.json`, `hla-coverage.json` and `coverage-curve.json`. Clinical figures are
+`fusion-breakpoint-neoantigens.json`, `hla-coverage.json`, `coverage-curve.json`,
+`junction-proteome-novelty.json` and `patient-cd4-demo.json`. Clinical figures are
 quoted from the curated EMC registry at `research/data/emc-clinical-registry.json`, which carries
 structured citation provenance and retrieval notes for each record.
 
@@ -524,7 +557,8 @@ quoted. They are retained so that earlier drafts and derived documents can be id
 | Regional range | 36% to 79% | 1.4% to 60% |
 | Broad-panel presenting alleles | 20 of 34 | 4 of 34 |
 | Broad-panel coverage ceiling | 84.5% | 30.4% |
-| Combined CD8 and CD4 coverage | 16.5% | withheld pending B4 |
+| Combined CD8 and CD4 coverage | 16.5% | not yet recomputed |
+| Class II predicted binders at the *EWSR1* exon 7 junction | 9, of which 4 strong | 2, of which 0 strong |
 
 The superseded values arose from a model that concatenated coding sequences and thereby discarded the
 acceptor exon's retained 5' untranslated region. The corrected junction set is disjoint from the
