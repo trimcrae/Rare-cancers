@@ -248,7 +248,8 @@ withheld. The cause was that the per-patient junction builder shared by the clas
 concatenated coding sequences rather than working on the transcript, so regenerating its inputs could not
 repair it. The builder has been moved to the transcript model and the arm has been regenerated.
 
-**Result.** At the corrected *EWSR1* exon 7 junction, 15 candidate 15-mers yield 2 predicted class II
+**Result.** With the class II and class I arms now certified to sit on the same seam, the combined figure
+is computable and is null. At the corrected *EWSR1* exon 7 junction, 15 candidate 15-mers yield 2 predicted class II
 binders and no strong binder, both on DRB1\*07:01 at 262 nM and 439 nM, against a three-allele DR panel of
 DRB1\*15:01, DRB1\*03:01 and DRB1\*07:01. The superseded version on the retracted seam reported 9 binders
 of which 4 were strong. The correction weakened this arm as it weakened the class I arm.
@@ -279,9 +280,20 @@ reviewed human proteome, isoform sequences included. 170 are absent from every r
 4 strong binders survive, including the *EWSR1* exon 7 lead NMPCVQAQY. The obstacle is largely cleared, and
 the sequence-level novelty premise of this route holds for the great majority of the peptide set.
 
-**The four that do not.** DMPCVQAQ, DMPCVQAQY, DMPCVQAQYS and DMPCVQAQYSP all occur in Q92570-3, an
-isoform of *NR4A3* itself. One of them, DMPCVQAQY, is a predicted binder on HLA-B\*35:01 at 369.1 nM. Those
-four peptides are not tumour-exclusive, and DMPCVQAQY is withdrawn as a candidate.
+**The four that do not, and which junctions they belong to.** DMPCVQAQ, DMPCVQAQY, DMPCVQAQYS and
+DMPCVQAQYSP all occur in Q92570-3, an isoform of *NR4A3* itself. One of them, DMPCVQAQY, is a predicted
+binder on HLA-B\*35:01 at 369.1 nM. Those four peptides are not tumour-exclusive, and DMPCVQAQY is
+withdrawn as a candidate.
+
+The pattern is not random across the junction set. All four belong to the same four junctions, *EWSR1*
+exons 9, 10, 12 and 13, which are the four whose seam codon is aspartate; the *EWSR1* exon 7 junction has
+an asparagine seam codon and none of its peptides collides. So four of the five in-frame junctions share a
+seam whose most seam-proximal peptides reproduce a normal *NR4A3* isoform sequence, and the one junction
+that is clean is the commonly reported public one that carries the lead binder. Within the affected
+junctions the collision is confined to peptides that begin at the seam residue, which are the peptides
+with the least donor content; those extending further into *EWSR1*, including the strong binder
+RGDMPCVQAQY, remain novel. The consequence for design is specific rather than general: for the
+aspartate-seam junctions, a construct should not rely on the seam-proximal window.
 
 **The methodological finding.** The upstream novelty filter compares each candidate against the canonical
 parent proteins only, so an isoform that carries the seam sequence passes it unseen. That is a defect in
