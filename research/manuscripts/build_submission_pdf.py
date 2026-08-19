@@ -775,33 +775,47 @@ def table_label(number, block):
     nothing else, and Table 6's carried ◆ rows with no ◆ branch in this function at all. The title
     is now carried too, so a continuation page says which table it is rather than only which number.
     """
+    #: ⛔ A MARKER KEY IS EARNED BY THE ROWS, AND ITS WORDS COME FROM THE CAPTION. The two styles
+    #: used to disagree about this: the manuscript path read the markers off the GRID and the journal
+    #: path off the whole block, so a caption that merely MENTIONS ⚑ — as the tables file's preamble,
+    #: which travels with Table 1, does — put a do-not-order key on the continuation pages of a table
+    #: with no marked row in it. Detection is on the grid; the criterion and the ◆ gloss are still
+    #: read from the caption, which is where they are written.
+    grid = "\n".join(ln for ln in block.split("\n") if ln.strip().startswith("|"))
     label = f"Table {number}"
     title = _caption_title(block)
     if title:
         label += ". " + title
-    if re.search(r"[¹²³⁴⁵⁶⁷⁸⁹]", block):
+    if re.search(r"[¹²³⁴⁵⁶⁷⁸⁹]", grid):
         label += "  ·  numbered notes are under the caption, on this table's first page"
-    if "†" in block:
+    if "†" in grid:
         label += ("  —  † no design at this junction clears the parent screen; "
                   "do not order the sequence in a marked row")
-    if "⚑" in block:
+    if "⚑" in grid:
         label += ("  —  ⚑ this design pairs a wild-type parent through the whole catalytic gap; "
                   "do not order it")
     #: ⚑ and † are both readings at one cut, so the cut and the caveat are stated ONCE for the pair
     #: rather than repeated behind each marker.
-    if "⚑" in block or "†" in block:
+    markers = [m for m in ("†", "⚑") if m in grid]
+    if markers:
         criterion = _CRITERION_RE.search(block)
         tail = []
         if criterion:
-            tail.append(f"both markers are read at the {criterion.group(1)}-base-pair criterion, "
-                        f"which this work adopts rather than measures")
+            clause = (f"{'both markers are' if len(markers) == 2 else 'the marker is'} read at the "
+                      f"{criterion.group(1)}-base-pair criterion")
+            #: ⚠ ONLY IF THE CAPTION SAYS SO. Table 3's caption states that the cut is adopted rather
+            #: than measured; Table 4's does not, and a header that added the clause anyway would be
+            #: a second, louder home for a claim the caption did not make.
+            if re.search(r"adopts? rather than measures", block):
+                clause += ", which this work adopts rather than measures"
+            tail.append(clause)
         if _NOT_A_CLEARANCE_RE.search(block):
             tail.append("an unmarked row is not a clearance, only a reading at that one cut")
         if tail:
             label += "  ·  " + "; ".join(tail)
     #: ◆ is an IDENTIFICATION marker, not a prohibition, and a continuation page that carried ◆ rows
     #: with no key at all invited reading it as one. Its gloss is the caption's own first sentence.
-    if "◆" in block:
+    if "◆" in grid:
         note = _marker_note(block, "◆")
         label += "  —  ◆ " + (note or "see the caption for what this marker identifies")
         if re.search(r"marker identifies and does not rank", block):

@@ -741,13 +741,15 @@ their junctions from the 38 is unchanged. *PGR* carries a further caveat: its de
 rather than derived through the panel's own transcript models. Its transcript accession is given
 with the other six in §6, so the design is reproducible even though the panel does not model it.
 
-**Some designs pair their whole catalytic gap against the patient's own un-rearranged *NR4A3* allele, and the parent screen passes
-every one of them.** This is the result most consequential for anyone ordering these
-oligonucleotides, and it applies wherever a design's acceptor half is *NR4A3* sequence that is not
-exonic in the mature transcript: the 5′ untranslated exon 2, and the cryptic exon within intron 2. In
-a fusion transcript that sequence follows the partner's donor exon; in the un-rearranged allele it
-follows *NR4A3* intronic sequence, so the question is whether the design's donor half matches that
-intron closely enough for the whole catalytic gap to pair. For three designs it does: at *EWSR1* exon
+**Where a design's acceptor half is *NR4A3* sequence that is not exonic in the mature transcript — the
+5′ untranslated exon 2, or the cryptic exon within intron 2 — the patient's own un-rearranged *NR4A3*
+allele carries that same sequence too, sitting behind an intron instead of behind a partner's donor
+exon. Some designs therefore pair their whole catalytic gap against that un-rearranged allele, and
+the mature-parent screen, which reads spliced transcript only, passes every one of them.** This is
+the result most consequential for anyone ordering these oligonucleotides. In a fusion transcript that
+acceptor sequence follows the partner's donor exon; in the un-rearranged allele it follows *NR4A3*
+intronic sequence, so the question is whether the design's donor half matches that intron closely
+enough for the whole catalytic gap to pair. For three designs it does: at *EWSR1* exon
 13 joined to *NR4A3* exon 2, 5′-CAGTGGGCTCTCCACG-3′ and 5′-GCAGTGGGCTCTCCAC-3′, each pairing across
 the wild-type intron-1/exon-2 boundary at two mismatches with neither inside the gap; and at *TAF15*
 exon 6 joined to the intron-2 cryptic exon, 5′-TGATGAGGGCCTTGTG-3′, likewise gap-paired at two
@@ -873,12 +875,17 @@ different units. What can be said is that the hits are not repeat-enriched.
 The decisive reading is a lookup rather than a count: does any design have a gap-paired,
 strand-agreeing site in *NR4A3*, in a parent gene, or in an *NR4A* paralogue anywhere in the genome?
 Twenty of 176 do. No candidate above is among them, and the two secure at any parent-duplex
-threshold carry a low load — 0.33 and 0.24 of expectation at ≤2 mismatches against a corpus median
-of 0.97, and 0.06 and 0.04 for gap-paired sites. These ratios are taken either-orientation against
+threshold — 5′-AGGGCATATCGGAGTC-3′ at *FUS* exon 8 and 5′-GGGCATATCCGACATG-3′ at *TAF15* exon 1,
+neither of them a reagent of §4.1 — carry a low load: 0.33 and 0.24 of expectation at ≤2 mismatches
+against a corpus median of 0.97, and 0.06 and 0.04 for gap-paired sites, each pair given in that
+order, the *FUS* design first. These ratios are taken either-orientation against
 an either-orientation null, unlike the sense-filtered transcript columns beside them: strand
 agreement is applied to the named-target lookup above but not to the load ratio, and for the
-*EWSR1* exon-12 reagent 58% of the sites the ratio counts lie on a strand an antisense
-oligonucleotide cannot pair. Their ranks on those axes, 26th and 13th of 176
+*EWSR1* exon-12 reagent 58% of the sites the *gap-paired* ratio counts lie on a strand an antisense
+oligonucleotide cannot pair — 156 of its 371 gap-paired sites at two mismatches or fewer are
+hybridisable. The stratum has to be named, because the other axis the loads above are given on
+returns a different figure: over the ≤2-mismatch set, 437 of 1,062 sites are hybridisable and the
+non-hybridisable share is 59%. The two candidates' ranks on those axes, in that same order, 26th and 13th of 176
 and 5th and 1st, are reported because the ordering is what the scan supports; the null assumes
 independent uniform bases and resolves more-than-chance from at-chance and nothing finer (§5), so
 the ratios should not be read as calibrated distances below chance. The third candidate is not quiet
@@ -927,7 +934,9 @@ The panel above is one geometry. Tiling the same junctions at 5-8-5 and 5-10-5, 
 nucleotides, resolves what a longer catalytic gap buys and what it costs (Table 7, Figure 3).
 
 What a longer gap buys and what it costs are the two halves of one gap, so the trade is exact
-rather than approximate. Inside the gap, the junction-unique
+rather than approximate — exact as an identity between base counts, which is the whole of what it
+is. It fixes how many nucleotides fall on each side of the seam, and settles nothing about the
+chemistry those nucleotides carry or about what the enzyme does with them. Inside the gap, the junction-unique
 bases on the shorter side and the bases one wild-type parent pairs on the longer side are
 complements: they sum to the gap. That holds for every design in all three panels rather than on
 average, and it fixes the direction of both trades. Within one geometry the gap is fixed, so the two
@@ -948,7 +957,13 @@ sense-strand matches completely: 123 across the gap at six gene loci become 3 at
 then none, though 20 near-matches remain (Table 7), so it is that risk class and not the load of Box 1
 that goes to zero.
 Over the six junctions screened at every geometry, designs carrying no such risk rise from 8 of 30 to 28
-of 42 to 54 of 54, and the most risk loci on any one design falls from seven to two to none.
+of 42 to 54 of 54, and the most risk loci on any one design falls from seven to two to none. Part of
+that fall is guaranteed by the instrument rather than measured: at a fixed budget of two mismatches,
+every locus a longer design can reach is also reached by each of its own shorter sub-windows, so the
+reachable set can only shrink as the design lengthens, and two mismatches is a fractionally stricter
+test at 20 nucleotides than at 16. Only the size of the fall, and which designs reach zero, are
+measurements. The parent-side quantities below carry no such qualification, being computed from the
+junction rather than from a search.
 
 Against that, the contiguous DNA a wild-type parent pairs at the same junction rises from 3 to 4 to 5
 nucleotides, and the most stable parent duplex becomes more stable, −7.77 to −8.66 to −10.25 kcal/mol. The corpus
@@ -961,12 +976,26 @@ the median most stable parent duplex becomes more stable, −8.66 to −11.60 to
 every design, and necessarily so, since the larger half of a gap of ten cannot be under five. At
 5-6-5, 114 of 190 designs keep the parent below it.
 
-Part of the fall in near-matches is guaranteed by the instrument rather than measured. At a fixed
-budget of two mismatches, every locus a longer design can reach is also reached by each of its own
-shorter sub-windows, so the reachable set can only shrink as the design lengthens. Two mismatches is
-also a fractionally stricter test at 20 nucleotides than at 16. Only the size of the fall, and which
-designs reach zero, are measurements. The parent-side quantities carry no such qualification, being
-computed from the junction rather than from a search.
+A third consequence of a longer gap is counted nowhere in this paper, and it runs against the longer
+geometries. Every screen here counts a site only where all gap positions pair, so a single mismatch
+inside the gap deletes that site from every count — but a mismatch does not delete the DNA:RNA
+hybrid, and how much competent hybrid survives one depends on the gap's length. In a six-nucleotide
+gap a mismatch at the third position leaves contiguous runs of two and three, below both of the
+minima §6 cites; in a ten-nucleotide gap a mismatch at the fifth leaves runs of five and four, the
+longer of which reaches the shorter minimum. Lengthening the DNA gap therefore widens the
+RNase-H1-competent window, and the population of imperfectly matched sites the enzyme could still
+cleave grows entirely outside what these screens count. That a gap mismatch reduces rather than
+abolishes cleavage is the premise this work adopts (§6); how that tolerance scales with gap length is
+bounded by no source retrieved for this paper, and the direction of the omission is against 5-8-5
+and 5-10-5. It bears on a liability §5 and §6 raise and tie only to affinity and wing content —
+sequence-dependent hepatotoxicity — which §5 rightly says this work cannot attribute to a mechanism.
+That the mechanism the phrase points at is RNase-H1-dependent cleavage of unintended transcripts is
+adopted here as a premise, no source having been retrieved for it; on that premise the axis this
+work comes nearest to grading is the one its screens cannot read. The liability is in any case
+geometry-dependent in a way the panel does not hold fixed: the wings stay at five locked residues
+while the oligonucleotide lengthens, so the locked share of the molecule falls from ten bases in
+sixteen at 5-6-5 to ten in eighteen and ten in twenty — 62.5%, 55.6% and 50%. The longer geometries
+trade affinity down while trading the catalytic window up, and this paper grades neither axis.
 
 Two liabilities the transcript screens do not reach appear to move the favourable way, and neither
 reading survives one fixed criterion. A mature parent can pair
@@ -977,11 +1006,17 @@ to the ten-base-pair criterion applied everywhere else here, the count of liable
 not fall: 87 of 190, 88 of 266 and 87 of 342, the two criteria coinciding at a gap of ten
 because the gap alone is then already a ten-base-pair hybrid. As a share those are 45.8%, 33.1%
 and 25.4%, and the share falls because a longer oligonucleotide has more junction-spanning
-registers per seam — five, seven and nine. Neither framing is the whole reading. The liable count is
-flat at 87, 88 and 87, but the extra registers are options rather than only a larger denominator: the
-parent-clean designs available at each junction rise with them, from 2.7 to 4.7 to 6.7 on average.
-What a longer gap cannot do is raise the margin without conceding parent-paired gap DNA, and that is
-the identity above rather than a matter of which denominator is chosen.
+registers per seam — five, seven and nine.
+
+Neither framing is the whole reading, and the credit side is a reading at one cut. The liable count
+is flat at 87, 88 and 87, but the extra registers are options rather than only a larger denominator:
+at the ten-base-pair criterion the parent-clean designs available at each junction rise with them,
+from 2.7 to 4.7 to 6.7 on average. That series is not cut-independent, and the cut it is read at
+flatters the shortest geometry. Re-derived at the seven-base-pair end of the range §5 bounds this
+criterion by, it reads 0.4, 3.6 and 6.7 — and at 5-6-5, 29 of the 38 junctions then have no
+parent-clean design at all, against none at 5-8-5 and none at 5-10-5. What a longer gap cannot do is
+raise the margin without conceding parent-paired gap DNA, and that is the identity above rather than
+a matter of which denominator is chosen.
 Designs pairing the gap in
 parent pre-mRNA fall from 19 of 190 to 9 of 342, but that arm is a search at a fixed two-mismatch
 budget and inherits the nesting bound above rather than the parent-side quantities' freedom from it.
@@ -991,8 +1026,10 @@ surviving at that junction return three and two.
 
 ### 2.10 · Duplex thermodynamics and conventional design rules
 
-Scored as free energies, every one of the 190 designs favours the fusion duplex over the better of the
-two runs a parent can pair at the junction itself, by 4.8 to 13.1 kcal/mol with a median of 9.6. The
+Scored as free energies — nearest-neighbour values for an unmodified DNA:RNA hybrid, no locked or
+phosphorothioate parameters being applied anywhere in this work (§6) — every one of the 190 designs
+favours the fusion duplex over the better of the two runs a parent can pair at the junction itself,
+by 4.8 to 13.1 kcal/mol with a median of 9.6. The
 comparison is to the seam and not to the transcriptome: the mature-parent duplexes of §2.5, which for
 87 of the 190 reach ten base pairs or more against a parent — and for 59 of them that duplex is not
 elsewhere at all, but runs past the seam into the wild-type *NR4A3* exon-2/exon-3 junction the
@@ -1014,7 +1051,12 @@ kcal/mol at margin 1 to 9.9 at margin 2 and 10.7 at margin 3. That agreement is 
 than corroboration: the design's own seam hybrid (the run either
 parent shares with it at the junction itself, which is not the screened parent duplex of §2.5 and is
 not searched for anywhere else in the transcriptome) is exactly 11 minus the gap-level margin for all
-190 designs, so the free energy is ordering that same length in kilocalories. That run is taken by
+190 designs — 11 being one wing's five bases plus the gap's six, so the longer of a design's two seam
+runs is a whole wing plus whatever of the gap the margin leaves — so the free energy is largely
+ordering that same length in kilocalories. Largely, because the identity is on the longer run while
+the free energy is taken against the more stable one, and for 6 of the 190 that is the shorter side:
+all six sit at margin 2, where the two runs are nine and seven bases and the seven-base run is the
+more stable of the pair. That run is taken by
 construction and never extended outward, so it is a minimum: where a parent's next base beyond the
 seam happens to match, the real hybrid is longer and more stable than the one scored, and the margin
 reported for that design is correspondingly generous. The §2.5 screens do not recover those cases,
@@ -1024,18 +1066,35 @@ the order in 19.9% of cross-margin design pairs and the margin-3 range sits insi
 range, and the same caution applies to the margin's agreement with the parent screens of §2.5.
 
 Conventional design rules select differently, and against three of the designs this paper calls
-candidates — though not against the two lead reagents of §4.1, which fail no rule; the *EWSR1* exon-13
+candidates — though not against the two lead reagents of §4.1, which fail no rule (a narrower clearance than it
+reads, for the reason two paragraphs below); the *EWSR1* exon-13
 reagent §4.1 adds for coverage fails two. Of the 190
 designs, 106 satisfy all four rules; the rules bind at different rates, with every design free of a
-G-quadruplex motif but 13 carrying a homopolymer run of four, 43 a CpG dinucleotide and 58 falling
-outside the 40–60% GC window. The failures overlap, so they do not sum to the 84 designs that fail
-at least one. The quadruplex column passes everything because of what it asks: four separate runs of
+G-quadruplex motif but 13 carrying a homopolymer run of four or more, 43 a CpG dinucleotide and 58
+falling outside the 40–60% GC window. The failures overlap, so they do not sum to the 84 designs
+that fail at least one. The 13 with a homopolymer run are neither base-neutral nor spread across the
+molecule: five carry a guanine run, five a thymine run and three an adenine run, none a cytosine
+run, and all 13 come from three junctions — *EWSR1* exon 15, *TFG* exon 4 and *TAF15* exon 8. Every
+one of those runs sits at the 3′ end, six of them wholly inside the 3′ locked wing and seven
+straddling the gap and that wing; none lies in the 5′ wing and none is confined to the gap. The quadruplex column passes everything because of what it asks: four separate runs of
 two or more guanines, which a 16-mer of this composition has little room to carry. The guanine
 feature that is present is a different one. A run of three or more guanines is carried by 118 of the
 190, at the 5′ end in 38 of them — one register per junction, including both lead reagents of §4.1 —
 and four registers of the *EWSR1* exon-15 junction carry a run of five, which the homopolymer rule
 catches and the quadruplex rule does not. A clean quadruplex column is therefore not a statement
 about this panel's guanine content, and the two should not be read as one.
+
+Where that 5′ run sits is a fact about the chemistry and not only about the sequence. Both lead
+reagents of §4.1 begin 5′-GGG, and at 5-6-5 with a five-nucleotide wing those three guanines are
+positions 1 to 3 of the 5′ locked wing: a contiguous locked G-tract, not a DNA one. This work adopts
+as a premise that a contiguous guanine run inside a locked wing carries synthesis, aggregation and
+melting-temperature consequences distinct from the ones a homopolymer rule written for unmodified
+DNA is aimed at; no source retrieved for this paper bounds them, and nothing here measures them.
+What the audit can be held to is what the audit reads: each of the four rules is computed from the
+base string alone and none of them takes the sugar or the backbone as an input, and the 5-6-5,
+5-8-5 and 5-10-5 geometries are the 2′-O-methoxyethyl convention rather than a locked one (§6).
+Passing all four is therefore a DNA/MOE rule set returning clean on a locked molecule, and it is not
+a chemistry clearance.
 
 The disagreement is sharpest where it matters most. Of the nine designs with no sense-strand
 near-match (Table 4), exactly one satisfies all four rules. Seven contain a CpG dinucleotide; four fall outside the 40–60% GC window — the three *EWSR1*
