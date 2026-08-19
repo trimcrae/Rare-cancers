@@ -228,7 +228,10 @@ panel designs, and 249 of the 780 records the canonical file holds — the recor
 `mature_parent_duplex_through_gap_bp` column reaches ten, which is the column the count is
 reproducible from. They are marked ⚑ in Tables 3 and 4 and carry `do_not_order` in the canonical
 file. The three designs of the paragraph above carry `do_not_order` for the other reason, so 252
-records carry the flag in all. Five of the nine designs §2.4 names as
+records carry the flag in all. ⚠ Tables 3 and 4 mark ⚑ every design of this class that they print,
+but between them they print only a small minority of it — they are per-junction and per-screen
+selections, not a census — so an absence from those tables is not a clearance and the canonical file
+is the only complete record. Five of the nine designs §2.4 names as
 carrying no sense-strand near-match are in this class. An unmarked row is not a clearance: the
 marker is set at ten base pairs, and at seven, 175 of the 190 pair a parent through the whole gap.
 
@@ -1582,8 +1585,9 @@ donor, not *NR4A3* — so the liability its low margin creates is invisible to a
 wild-type *NR4A3*, and interpreting this arm requires the wild-type *EWSR1* measurement alongside it.
 The mirror register at the same seam, 5′-CAGGGCATATCATCAA-3′, is the one whose five fall on *NR4A3*,
 and it carries an eleven-base-pair duplex against wild-type *NR4A3*. That is not a reason to prefer
-one mirror over the other: it puts that register in the do-not-order class of Box 1, marked ⚑ in
-Table 3 and flagged in the canonical file, so this arm is available in one direction only.
+one mirror over the other: it puts that register in the do-not-order class of Box 1. No table here
+prints that 16-mer — the tables select per junction and per screen — so the canonical file carries
+its verdict and is where it must be read. This arm is available in one direction only.
 
 *TAF15* exon 6 cannot supply the same arm: all four of its lower-margin registers pair a parent
 through the whole gap at eleven or twelve base pairs, two of them against wild-type *NR4A3*.

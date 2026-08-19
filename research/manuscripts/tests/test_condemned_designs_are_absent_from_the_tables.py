@@ -17,9 +17,21 @@ condemned design ever DID reach a table. So both directions are pinned here:
 ⭐ THE SEQUENCES ARE READ FROM THE MANUSCRIPT, NOT TYPED HERE. A guard holding its own copy of the
 list would keep passing after §2.6 condemned a fourth design, which is the failure mode it exists to
 prevent. §2.6 names them in one sentence, and that sentence is the source of truth.
+
+⛔ REPAIRED 2026-08-19 (lane C-b). `test_the_research_use_header_describes_the_absence…` claimed in
+its own docstring to be "ASSERTED ON THE PROPERTY, NOT ON THE WORDING" and was a blacklist of three
+literal sentences. Every one of them is reinstatable in synonyms — "two of the strings printed here
+are designs the main text forbids", "one of the sequences in this document must not be carried
+forward" — and the guard passes. What it now asserts instead is the SHAPE of the claim: any sentence
+in the banner that is about the condemned designs AND locates them inside this file must negate that
+location, and at least one such sentence must exist. The negation is looked for with the
+condemnation phrase itself masked out, because "designs NOT to be carried forward are in these
+tables" carries the word "not" while asserting exactly the defect.
 """
 import os
 import re
+
+import pytest
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(os.path.dirname(os.path.dirname(HERE)))
@@ -27,14 +39,21 @@ ASO = os.path.join(REPO, "research", "manuscripts", "aso")
 PAPER = os.path.join(ASO, "fusion-junction-aso-research-article.md")
 TABLES = os.path.join(ASO, "fusion-junction-aso-submission-tables.md")
 
-#: The §2.6 sentence that condemns them, anchored on its verdict rather than on a section number.
-#: ⛔ RE-ANCHORED 2026-08-19 (blind safety screen). It read "are named here as not to be carried
-#: forward" — the weakest of the four phrasings the paper used for these same three molecules, and
-#: the only one standing beside their full reasoning. "Not carried forward", reinforced by "excluded
-#: from every best-design field", reads as a RANKING decision (we did not select these) rather than
-#: a prohibition, while the abstract, Box 1 and the CSV all say "not to be used" / "DO NOT ORDER".
-#: A reader entering at §2.6 could reasonably have concluded they were simply not the leads.
-_CONDEMNED_CLAUSE = "must not be ordered or used"
+#: How this paper condemns a design, as a family rather than as one sentence.
+#: ⛔ RE-ANCHORED 2026-08-19 (blind safety screen). The anchor was "are named here as not to be
+#: carried forward" — the weakest of the four phrasings the paper used for these same three
+#: molecules, and the only one standing beside their full reasoning. "Not carried forward",
+#: reinforced by "excluded from every best-design field", reads as a RANKING decision (we did not
+#: select these) rather than a prohibition, while the abstract, Box 1 and the CSV all say "not to be
+#: used" / "DO NOT ORDER". A reader entering at §2.6 could reasonably have concluded they were
+#: simply not the leads.
+#: ⚠ WIDENED 2026-08-19 (lane C-b) from the single string "must not be ordered or used" to the
+#: family, so that a rewrite inside the family re-anchors the guard instead of removing it.
+_CONDEMNATION = re.compile(
+    r"must not be (?:ordered|used|carried|synthesised|synthesized)"
+    r"|not to be (?:ordered|used|carried forward)"
+    r"|do not order",
+    re.I)
 
 
 def _flat(path):
@@ -42,27 +61,27 @@ def _flat(path):
 
 
 def _condemned_sequences():
-    """The designs §2.6 names as not to be carried forward, read from the manuscript.
+    """The designs §2.6 condemns, read from the manuscript.
 
-    The sentence runs "... All three must not be ordered or used, for that reason, and are excluded
-    from every best-design field above." Sequences in this manuscript are always written
-    5′-XXXX-3′, so the window before that clause is scanned for that form.
+    Scans every condemnation the paper makes and takes the first whose preceding window names three
+    or more distinct designs — §2.6's sentence, wherever it sits and however it is phrased.
+    Sequences in this manuscript are always written 5′-XXXX-3′.
     """
     txt = _flat(PAPER)
-    i = txt.find(_CONDEMNED_CLAUSE)
-    assert i != -1, (
-        f"the clause {_CONDEMNED_CLAUSE!r} has left the manuscript. It is how this guard finds the "
-        "condemned designs; re-anchor it on whatever sentence now condemns them rather than "
-        "deleting this test.")
-    window = txt[max(0, i - 1200):i]
-    seqs = re.findall(r"5[′']-([ACGT]{12,25})-3[′']", window)
-    # Deduplicate, order-preserving: the window also restates the seams, and a repeat is not a
-    # fourth design.
-    out = list(dict.fromkeys(seqs))
-    assert len(out) >= 3, (
-        f"expected at least three condemned designs in the sentence before {_CONDEMNED_CLAUSE!r}, "
-        f"found {out}. If §2.6 was restructured, re-derive this window.")
-    return out
+    tried = []
+    for hit in _CONDEMNATION.finditer(txt):
+        window = txt[max(0, hit.start() - 1200):hit.start()]
+        # Deduplicate, order-preserving: the window also restates the seams, and a repeat is not a
+        # fourth design.
+        out = list(dict.fromkeys(re.findall(r"5[′']-([ACGT]{12,25})-3[′']", window)))
+        tried.append((hit.group(0), len(out)))
+        if len(out) >= 3:
+            return out
+    pytest.fail(
+        "no condemnation sentence in the manuscript is preceded by three or more designs. "
+        f"Condemnations found and the design count before each: {tried}. §2.6 names the designs "
+        "that must not be ordered; re-anchor _CONDEMNATION on whatever now condemns them rather "
+        "than deleting this test.")
 
 
 def _table_rows(path):
@@ -83,6 +102,11 @@ def _table_rows(path):
                      if ln.lstrip().startswith("|"))
 
 
+def _banner_lines():
+    return [ln for ln in open(TABLES, encoding="utf-8").read().splitlines()
+            if not ln.lstrip().startswith("|")]
+
+
 def test_no_condemned_design_appears_in_an_orderable_table_row():
     rows = _table_rows(TABLES)
     present = [s for s in _condemned_sequences() if s in rows]
@@ -101,8 +125,7 @@ def test_the_banner_prints_the_condemned_designs_as_a_do_not_order_list():
     written one of the condemned register shifts instead unless the document carries the forbidden
     strings. The banner is the only place that can hold them without becoming an orderable row.
     """
-    banner = "\n".join(ln for ln in open(TABLES, encoding="utf-8").read().splitlines()
-                       if not ln.lstrip().startswith("|"))
+    banner = "\n".join(_banner_lines())
     missing = [s for s in _condemned_sequences() if s not in banner]
     assert not missing, (
         f"the research-use banner no longer names {len(missing)} of the condemned design(s): "
@@ -110,27 +133,98 @@ def test_the_banner_prints_the_condemned_designs_as_a_do_not_order_list():
         "transcribed sequence against them.")
 
 
-def test_the_research_use_header_describes_the_absence_rather_than_asserting_a_presence():
-    """The header must not send a reader hunting for rows that are not there.
+# ── the header's claim about WHERE the condemned designs are ────────────────────────────────
+#
+# Asserted as a shape. A sentence that is about the condemned designs and places them relative to
+# this file is a LOCATION claim, and the companion test above proves the only true location claim is
+# a negative one. Neither the vocabulary of the claim nor the count it uses is pinned.
 
-    ⚠ ASSERTED ON THE PROPERTY, NOT ON THE WORDING. The check is that the header does not claim the
-    condemned designs are "below"/"in these tables" while the test above proves they are not; any
-    phrasing that states the absence passes.
+#: Phrases that put something inside this document.
+_IN_THIS_FILE = re.compile(
+    r"\b(?:below|in any row|in these tables|of these tables|in the tables|in this file"
+    r"|in this document|in this table|printed here|listed here|in any of these tables)\b", re.I)
+
+#: Any negation. Searched only in the text BEFORE a location phrase, with the condemnation phrase
+#: masked out first — "designs NOT to be carried forward are in these tables" is the defect, and its
+#: own "not" must not be allowed to launder it.
+_NEGATION = re.compile(r"\b(?:no|none|not|never|neither|nothing|absent|excluded|nowhere|without)\b",
+                       re.I)
+
+_LOOKBACK = 90
+
+
+def _sentences(text):
+    return [s.strip() for s in re.split(r"(?<=[.:;])\s+", text) if s.strip()]
+
+
+def _location_claims():
+    """(sentence, [unnegated location phrase, …]) for every banner sentence about the condemned set."""
+    out = []
+    for sentence in _sentences(" ".join("\n".join(_banner_lines()).split())):
+        if not _CONDEMNATION.search(sentence):
+            continue
+        masked = _CONDEMNATION.sub(lambda m: " " * len(m.group(0)), sentence)
+        unnegated = [m.group(0) for m in _IN_THIS_FILE.finditer(masked)
+                     if not _NEGATION.search(masked[max(0, m.start() - _LOOKBACK):m.start()])]
+        negated = [m.group(0) for m in _IN_THIS_FILE.finditer(masked)
+                   if _NEGATION.search(masked[max(0, m.start() - _LOOKBACK):m.start()])]
+        out.append((sentence, unnegated, negated))
+    return out
+
+
+def test_the_research_use_header_never_places_a_condemned_design_inside_this_file():
+    """⛔ THE 2026-08-17 DEFECT, asserted on the claim's shape rather than on three literal strings.
+
+    "Three of the sequences below are named in the main text as designs NOT to be carried forward"
+    is a condemnation sentence carrying an unnegated location phrase ("below"). So is "designs not
+    to be carried forward are in these tables", and so is any synonym of either. The companion test
+    proves no such design is in a row, so every location claim the banner makes about them has to
+    be a negative one.
     """
-    tables = _flat(TABLES)
-    # Case-folded: the header emphasises the negation in caps ("NOT to be carried forward"), and
-    # whether that word is shouted is a style choice this guard has no business pinning.
-    assert "not to be carried forward" in tables.lower(), (
-        "the research-use header no longer mentions the condemned designs at all. The main text "
-        "names three designs that must not be carried forward; the ordering document is where that "
-        "matters most, so the header must still address them.")
-    # ⚠ MATCHED ON THE CLAIM'S SHAPE, NOT ITS EXACT WORDING: any header saying the condemned
-    # sequences are "below" or "in these tables" is the defect, however it is phrased.
-    low = tables.lower()
-    for claim in ("sequences below are named in the main text as designs not to be carried forward",
-                  "designs not to be carried forward are in these tables",
-                  "of the sequences in these tables are named in the main text as designs not to be"):
-        assert claim not in low, (
-            "the research-use header claims three condemned sequences are IN this file, and they "
-            "are not — the companion test proves their absence. Pointing a reader at danger that is "
-            "not there teaches them to distrust the one notice that would matter if it ever were.")
+    claims = _location_claims()
+    assert claims, (
+        "the research-use header contains no sentence about the condemned designs at all. The main "
+        "text names designs that must not be ordered; the ordering document is where that matters "
+        "most, so the header must still address them.")
+    offenders = [(s, bad) for s, bad, _ in claims if bad]
+    assert not offenders, (
+        "the research-use header places a condemned design inside this file: "
+        + " | ".join(f"{phrase!r} in {s[:120]!r}" for s, bad in offenders for phrase in bad)
+        + ". The companion test proves their absence from every row. Pointing a reader at danger "
+          "that is not there teaches them to distrust the one notice that would matter if it ever "
+          "were.")
+
+
+def test_the_research_use_header_states_the_absence_rather_than_leaving_it_implied():
+    """Avoiding the false claim is not the same as making the true one.
+
+    The header has to say, in some wording, that the condemned designs are in NO row of these
+    tables — otherwise a reader holding one of the three printed strings cannot tell whether it is
+    a forbidden design or one of the table's own reagents.
+    """
+    claims = _location_claims()
+    assert any(good for _, _, good in claims), (
+        "no sentence in the research-use header states where the condemned designs are NOT. The "
+        "banner prints the three forbidden strings; without an explicit 'in no row of these "
+        "tables' a reader meeting them there cannot tell them from the reagents the tables list. "
+        f"Sentences about the condemned designs: "
+        + " | ".join(repr(s[:110]) for s, _, _ in claims))
+
+
+def test_the_absence_statement_travels_with_the_sequences_it_is_about():
+    """The list and the notice must be one block: a reader finds them together or not at all."""
+    blocks = re.split(r"\n\s*\n", "\n".join(_banner_lines()))
+    condemned = _condemned_sequences()
+    carrying = [" ".join(b.split()) for b in blocks if any(s in b for s in condemned)]
+    assert carrying, "no banner paragraph prints a condemned design; the companion test covers that"
+    ok = []
+    for block in carrying:
+        for sentence, _, negated in _location_claims():
+            if negated and sentence in block:
+                ok.append(block)
+                break
+    assert ok, (
+        "the banner paragraph that prints the condemned sequences does not itself say they are in "
+        "no row of these tables. A reader who meets the three strings needs the verdict in the same "
+        "block, not in a different paragraph of the front matter. Paragraph(s) printing them: "
+        + " | ".join(repr(b[:140]) for b in carrying))

@@ -160,39 +160,97 @@ def test_every_condemned_design_survives_a_filter_on_its_own_geometry():
 #: parent duplex. A reader checking that result against the deposit's own machine-readable record
 #: would have found it contradicted, and a parser that only matched `N (*GENE*)` cells would have
 #: passed over exactly the two rows where the file and the paper disagreed.
-_DUPLEX_CELL = re.compile(r"^\s*(\d+)(?:\s*bp)?\s*(?:\(\*([A-Z0-9]+)\*\))?\s*$")
+#:
+#: ⛔⛔ AND THE MARKER FORM IS WHY IT HAD TO BE WIDENED (2026-08-19). The pattern ended at `$`
+#: immediately after the optional gene, so a cell reading `11 (*NR4A3*) ⚑` did not match and was
+#: dropped with a bare `if m:`. Fifteen of the 51 duplex cells in the tables document carry that
+#: trailing ⚑ — and ⚑ is the DO-NOT-ORDER marker, so the rows the join was silently skipping were
+#: precisely the condemned ones, the rows where a table and the canonical file disagreeing is most
+#: dangerous. The parse now tolerates any trailing marker glyph, and `_table_duplex_claims` fails
+#: on a duplex-looking cell it cannot read instead of passing over it.
+_DUPLEX_CELL = re.compile(
+    r"^\s*(\d+)(?:\s*bp)?\s*(?:\(\*([A-Z0-9]+)\*\))?\s*[†‡⚑◆◇★*¹²³⁴⁵⁶⁷⁸⁹\s]*$")
+
+#: A cell is a duplex CLAIM if it carries the unit or a gene. A bare numeral is not: margins,
+#: counts and coverage figures are numerals too, and a bare `0` would sweep in every zero in the row.
+_LOOKS_LIKE_A_DUPLEX_CELL = re.compile(r"\bbp\b|\(\*")
+
+_SEQUENCE_CELL = re.compile(r"5[′'](-)?[ACGT]{12,25}(-)?3[′']")
 
 
-def _table_duplex_claims():
-    """(sequence, bp, gene) for every table row printing both a sequence and a parent duplex."""
-    if not os.path.exists(TABLES):
-        pytest.skip("the submission tables document has not been generated")
-    claims = []
+def _sequence_bearing_rows():
+    """Every pipe row of the built tables document that prints exactly one oligonucleotide.
+
+    ⛔ NOT A SKIP IF THE DOCUMENT IS ABSENT. `fusion-junction-aso-submission-tables.md` is a
+    committed, generated deposit artefact; if it is missing, the deposit cannot ship and this join
+    is unchecked. Skipping would report that as "nothing to check".
+    """
+    assert os.path.exists(TABLES), (
+        f"the submission tables document is missing: {TABLES}. It is a deposit artefact and this "
+        "join test exists to compare it against the canonical sequence file; a missing file is a "
+        "finding, not a reason to stop checking.")
+    rows = []
     for line in open(TABLES, encoding="utf-8"):
         if not line.startswith("|"):
             continue
         cells = [c.strip() for c in line.strip().strip("|").split("|")]
         seqs = [re.sub(r"^5[′']-|-3[′']$", "", c) for c in cells
                 if re.fullmatch(r"5[′']-[ACGT]{12,25}-3[′']", c)]
-        if len(seqs) != 1:
-            continue
+        if len(seqs) == 1:
+            rows.append((seqs[0], cells))
+    return rows
+
+
+def _table_duplex_claims():
+    """(sequence, bp, gene) for every table row printing both a sequence and a parent duplex."""
+    claims = []
+    for sequence, cells in _sequence_bearing_rows():
         for cell in cells:
-            #: ⚠ A BARE NUMERAL IS NOT NECESSARILY A DUPLEX CELL — margins, counts and coverage
-            #: figures are numerals too. Only cells carrying the unit or a gene are duplex claims;
-            #: a bare `0` would otherwise sweep in every zero in the row.
-            if not (re.search(r"\bbp\b", cell) or "(*" in cell):
+            if not _LOOKS_LIKE_A_DUPLEX_CELL.search(cell):
                 continue
             m = _DUPLEX_CELL.match(cell)
             if m:
-                claims.append((seqs[0], int(m.group(1)), m.group(2) or ""))
+                claims.append((sequence, int(m.group(1)), m.group(2) or ""))
     return claims
 
 
+#: The share of sequence-bearing table rows that carry a joinable parent-duplex cell. MEASURED
+#: 2026-08-19 on the generated tables document: 93 rows print exactly one oligonucleotide and 51
+#: duplex cells among them parse, a ratio of 0.55. A ratio rather than a count because the tables
+#: are regenerated and grow — the previous floor of 8 stood against a yield of 36, so four fifths
+#: of the join could have been lost without the guard noticing. 0.25 is set well under the measured
+#: ratio because not every table prints a duplex column at all.
+MIN_DUPLEX_CLAIM_SHARE = 0.25
+
+
 def test_the_tables_print_duplex_figures_this_file_can_be_joined_to():
+    rows = _sequence_bearing_rows()
     claims = _table_duplex_claims()
-    assert len(claims) >= 8, (
-        f"only {len(claims)} table rows pair a sequence with a parent-duplex cell — the parser has "
-        "lost the tables' shape and this join test is no longer checking anything")
+    assert rows, (
+        "no row of the tables document prints exactly one oligonucleotide, so the parser has lost "
+        "the tables' shape entirely and every join assertion below is vacuous")
+    share = len(claims) / len(rows)
+    assert share >= MIN_DUPLEX_CLAIM_SHARE, (
+        f"only {len(claims)} of {len(rows)} sequence-bearing table rows ({share:.0%}) pair a "
+        f"sequence with a parent-duplex cell this file can be joined to, against a floor of "
+        f"{MIN_DUPLEX_CLAIM_SHARE:.0%} — the parser has lost the tables' shape and this join test "
+        "is no longer checking what it claims to. Check the duplex cell format before relaxing it.")
+
+
+def test_no_duplex_looking_cell_is_silently_dropped_from_the_join():
+    """⛔ THE DROP IS THE DEFECT, NOT THE MISMATCH. A cell the parser cannot read is not compared
+    with anything, and every one of the fifteen it could not read before 2026-08-19 carried ⚑."""
+    unreadable = []
+    for sequence, cells in _sequence_bearing_rows():
+        for cell in cells:
+            if _LOOKS_LIKE_A_DUPLEX_CELL.search(cell) and not _DUPLEX_CELL.match(cell):
+                unreadable.append((sequence, cell))
+    assert not unreadable, (
+        f"{len(unreadable)} table cell(s) carry a parent-duplex unit or gene and cannot be parsed, "
+        "so they are compared against the canonical file by nothing:\n  "
+        + "\n  ".join(f"{s}: {c!r}" for s, c in unreadable[:10])
+        + "\n\nWiden _DUPLEX_CELL to read the new form. Do NOT let it fall through silently — the "
+          "rows that stopped parsing last time were the condemned ones.")
 
 
 @pytest.mark.parametrize("claim", _table_duplex_claims(), ids=lambda c: f"{c[0]}:{c[1]}bp")
