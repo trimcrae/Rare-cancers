@@ -7,14 +7,19 @@
       "mode": "exon",
       "partner": "EWSR1",
       "partner_exon": 7,
-      "NR4A3_exon": 3
+      "NR4A3_exon": 3,
+      "exon_rank_basis": "TRANSCRIPT exon ranks (junction_aso.transcript_model)",
+      "coordinate_system": "TRANSCRIPT (junction_aso.mrna_junction_generic)",
+      "junction_label": "EWSR1_e7__NR4A3_e3",
+      "grade": "EMITTABLE",
+      "seam_codon_residue": "N"
     }
   },
   "lead_public_construct": {
     "junction": "EWSR1 e7 :: NR4A3 e3",
     "is_public_lead": true,
-    "assembled_window": "PSQYSQQSSSYGQQIVRTDSLKGRRGRL",
-    "seam_index": null,
+    "assembled_window": "PSQYSQQSSSYGQQNMPCVQAQYSPSPPG",
+    "seam_index": 14,
     "seam_context": "SQQSSSYGQQ|NMPCVQAQYSP",
     "cd8_strong_epitopes": [
       {
@@ -26,38 +31,20 @@
         "allele": "HLA-B*15:01"
       }
     ],
-    "cd4_strong_epitopes": [
-      {
-        "peptide": "SQYSQQSSSYGQQIV",
-        "allele": "DRB1*07:01"
-      },
-      {
-        "peptide": "QIVRTDSLKGRRGRL",
-        "allele": "DRB1*03:01"
-      },
-      {
-        "peptide": "GQQIVRTDSLKGRRG",
-        "allele": "DRB1*03:01"
-      },
-      {
-        "peptide": "QYSQQSSSYGQQIVR",
-        "allele": "DRB1*07:01"
-      }
-    ],
-    "minimal_SLP": null,
+    "cd4_strong_epitopes": [],
+    "minimal_SLP": {
+      "sequence": "QQNMPCVQAQY",
+      "length": 11,
+      "start_in_window": 12
+    },
     "string_of_beads": {
-      "sequence": "NMPCVQAQYAAYQQNMPCVQAQYGPGPGGQQIVRTDSLKGRRGGPGPGQIVRTDSLKGRRGRLGPGPGQYSQQSSSYGQQIVRGPGPGSQYSQQSSSYGQQIVGPGPG",
-      "length": 108,
+      "sequence": "NMPCVQAQYAAYQQNMPCVQAQY",
+      "length": 23,
       "cd8_epitopes": [
         "NMPCVQAQY",
         "QQNMPCVQAQY"
       ],
-      "cd4_epitopes": [
-        "GQQIVRTDSLKGRRG",
-        "QIVRTDSLKGRRGRL",
-        "QYSQQSSSYGQQIVR",
-        "SQYSQQSSSYGQQIV"
-      ],
+      "cd4_epitopes": [],
       "linkers": {
         "cd8": "AAY",
         "cd4_spacer": "GPGPG"
@@ -68,8 +55,8 @@
     {
       "junction": "EWSR1 e7 :: NR4A3 e3",
       "is_public_lead": true,
-      "assembled_window": "PSQYSQQSSSYGQQIVRTDSLKGRRGRL",
-      "seam_index": null,
+      "assembled_window": "PSQYSQQSSSYGQQNMPCVQAQYSPSPPG",
+      "seam_index": 14,
       "seam_context": "SQQSSSYGQQ|NMPCVQAQYSP",
       "cd8_strong_epitopes": [
         {
@@ -81,38 +68,20 @@
           "allele": "HLA-B*15:01"
         }
       ],
-      "cd4_strong_epitopes": [
-        {
-          "peptide": "SQYSQQSSSYGQQIV",
-          "allele": "DRB1*07:01"
-        },
-        {
-          "peptide": "QIVRTDSLKGRRGRL",
-          "allele": "DRB1*03:01"
-        },
-        {
-          "peptide": "GQQIVRTDSLKGRRG",
-          "allele": "DRB1*03:01"
-        },
-        {
-          "peptide": "QYSQQSSSYGQQIVR",
-          "allele": "DRB1*07:01"
-        }
-      ],
-      "minimal_SLP": null,
+      "cd4_strong_epitopes": [],
+      "minimal_SLP": {
+        "sequence": "QQNMPCVQAQY",
+        "length": 11,
+        "start_in_window": 12
+      },
       "string_of_beads": {
-        "sequence": "NMPCVQAQYAAYQQNMPCVQAQYGPGPGGQQIVRTDSLKGRRGGPGPGQIVRTDSLKGRRGRLGPGPGQYSQQSSSYGQQIVRGPGPGSQYSQQSSSYGQQIVGPGPG",
-        "length": 108,
+        "sequence": "NMPCVQAQYAAYQQNMPCVQAQY",
+        "length": 23,
         "cd8_epitopes": [
           "NMPCVQAQY",
           "QQNMPCVQAQY"
         ],
-        "cd4_epitopes": [
-          "GQQIVRTDSLKGRRG",
-          "QIVRTDSLKGRRGRL",
-          "QYSQQSSSYGQQIVR",
-          "SQYSQQSSSYGQQIV"
-        ],
+        "cd4_epitopes": [],
         "linkers": {
           "cd8": "AAY",
           "cd4_spacer": "GPGPG"
