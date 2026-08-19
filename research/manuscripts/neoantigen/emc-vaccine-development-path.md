@@ -1,14 +1,15 @@
 ---
 id: DOC-EMC-VACCINE-DEVELOPMENT-PATH
-title: "Toward a fusion-junction vaccine in extraskeletal myxoid chondrosarcoma: a blocker-by-blocker development path"
+title: "A fusion-junction vaccine in extraskeletal myxoid chondrosarcoma: what can be established today, and the capabilities that would change it"
 level: L3
 kind: manuscript
 status: live
 canonical_for: [emc-vaccine-development-path]
 purpose: >
-  Enumerate every obstacle standing between the EWSR1::NR4A3 fusion junction and a viable
-  therapeutic vaccine in extraskeletal myxoid chondrosarcoma, state what evidence would clear
-  each, and order them into a staged development path with explicit falsifiers.
+  State the best characterisation of a EWSR1::NR4A3 junction vaccine obtainable with today's
+  instruments and today's access, separate the limits that are properties of the disease from
+  those that are properties of current method, and record for each movable limit what active
+  research would move it and by when.
 scope: >
   Computational and evidence-synthetic. No wet-laboratory work was performed. No efficacy,
   safety or clinical-readiness claim is made for any agent or combination.
@@ -17,7 +18,7 @@ date: 2026-08-19
 last_verified: 2026-08-19
 ---
 
-# Toward a fusion-junction vaccine in extraskeletal myxoid chondrosarcoma: a blocker-by-blocker development path
+# A fusion-junction vaccine in extraskeletal myxoid chondrosarcoma: what can be established today, and the capabilities that would change it
 
 *Preprint draft, 2026-08. Author: [Name], independent researcher, [City, Country]. Independent,
 personal-capacity work, unconnected to the author's employer; prepared with AI assistance (Section 9).
@@ -26,79 +27,94 @@ Review by a sarcoma medical oncologist and a tumour immunologist is recommended 
 ## Abstract
 
 **Background.** Extraskeletal myxoid chondrosarcoma (EMC) is a rare soft-tissue sarcoma defined by
-rearrangement of *NR4A3*, most often to *EWSR1*. The fusion junction encodes a peptide sequence that is
-absent from either parent protein, and because the fusion is the truncal oncogenic driver it is present
-in every tumour cell and cannot be lost without loss of the driver. Individualised neoantigen therapy has
-now reported a positive phase 3 result in resected melanoma, which makes the platform question timely for
-other tumours. EMC, however, is a low-mutation, immunologically cold tumour, and the junction-directed
-vaccine has previously been set aside on those grounds.
+rearrangement of *NR4A3*, most often to *EWSR1*. The fusion junction encodes a peptide sequence absent
+from either parent protein, and because the fusion is the truncal oncogenic driver it is present in every
+tumour cell and cannot be lost without loss of the driver. Individualised neoantigen therapy has now
+reported a positive phase 3 result in resected melanoma, which makes the platform question timely for
+other tumours.
 
-**Purpose.** This paper does not argue that an EMC vaccine will work. It asks a narrower and more
-tractable question: what specifically stands in the way, what evidence would clear each obstacle, in what
-order can those obstacles be attacked, and what result at each stage would end the programme. The intent
-is to convert a route that has been dismissed in aggregate into a set of individually addressable and
-individually falsifiable propositions.
+**Purpose.** This paper does not predict whether an EMC vaccine will work, and it does not argue that it
+will not. It reports the most complete characterisation of the target that current instruments and current
+access permit, states plainly where each conclusion is bounded by the tumour's biology rather than by
+method, and records for every limit that is a property of method or access what specific advance would move
+it, on what evidence, and on what timescale. It is intended to be re-read against a changing field rather
+than to settle a question.
 
 **Methods.** Junctions were derived at the transcript level from Ensembl exon structure, so the acceptor
 exon is retained whole including its 5' untranslated region, and class I binding was predicted with
 MHCflurry 2.0. Population coverage was computed from Allele Frequency Net Database frequencies using the
-standard population-coverage formula with Wilson intervals. Clinical evidence was drawn from a curated
-EMC registry with structured citation provenance. No new wet-laboratory data were generated.
+standard population-coverage formula with Wilson intervals. Peptide novelty was assessed by exact-match
+search against the reviewed human proteome including isoform sequences. Clinical evidence was drawn from a
+curated EMC registry with structured citation provenance. No new wet-laboratory data were generated.
 
-**Findings.** Of 27 declared exon pairs, 5 are in frame and yield 11 distinct predicted binders, of which
-4 are strong; there is no pan-EMC epitope. Class I population coverage is 8.51% (95% CI 8.26 to 8.76) for
-the commonly reported *EWSR1* exon 7 to *NR4A3* exon 3 junction, presented on HLA-B\*15:01 alone, and
-27.4% (95% CI 26.6 to 28.1) pooling all strong-binder alleles. Screening the junction against a broad
-34-allele panel raises the ceiling only to 30.4%, with 4 alleles presenting anything at all, and the
-coverage curve never reaches 50%. A proteome-wide exact-match search finds 170 of the 174 junction
-peptides absent from the reviewed human proteome including isoforms; the 4 that are present all occur in
-an *NR4A3* isoform, and one of them is a predicted binder and is withdrawn. The class II arm, regenerated
-at the corrected junction, yields 2 predicted binders and no strong binder on a three-allele DR panel.
-Against this, a histology-specific EMC cohort of sunitinib plus
-nivolumab reported 16 of 23 evaluable patients progression-free at 6 months with median progression-free
-survival of 13.2 months, which indicates that an immunotherapy-containing regimen is not inert in this
-disease. Ten obstacles are enumerated: one is resolved, one is answered and negative on the panel tested,
-two are computational and outstanding, two require EMC tissue, two require clinical evaluation in
-combination, and two are structural features of studying a disease with an incidence well under one per
-million per year. Because no strong class II binder survives at the corrected junction, the combined CD8
-and CD4 coverage figure is null rather than merely unreported.
+**What can be established today.** Of 27 declared exon pairs, 5 are in frame and yield 11 distinct
+predicted binders, of which 4 are strong; there is no pan-EMC epitope. Class I population coverage is 8.51%
+(95% CI 8.26 to 8.76) for the commonly reported *EWSR1* exon 7 to *NR4A3* exon 3 junction, presented on
+HLA-B\*15:01 alone, and 27.4% (95% CI 26.6 to 28.1) pooling all strong-binder alleles; against a broad
+34-allele panel the ceiling is 30.4% and the coverage curve never reaches 50%. 170 of 174 junction peptides
+are absent from the reviewed human proteome including isoforms, and all 4 strong binders survive that
+search. The 4 that do not all occur in an *NR4A3* isoform and all belong to the four junctions whose seam
+codon is aspartate; one is a predicted binder and is withdrawn. The class II arm yields 2 predicted binders
+and no strong binder on a three-allele DR panel, so the combined CD8 and CD4 figure is null rather than
+unreported, and the candidate construct is 11 residues carrying class I epitopes only. A
+histology-specific EMC cohort of sunitinib plus nivolumab reported 16 of 23 evaluable patients
+progression-free at 6 months with median progression-free survival of 13.2 months.
 
-**Interpretation.** The central observation is a gap in prior reasoning rather than a new measurement.
-Innate agonists and in-situ vaccination were set aside for this disease on the grounds that a quiet genome
-supplies too few antigens, while the junction vaccine was set aside on the grounds that a cold tumour
-supplies too little priming. Each was excluded for lacking precisely what the other provides. The unit
-that should be evaluated is therefore a junction vaccine combined with checkpoint blockade on a backbone
-that also addresses physical exclusion, not a vaccine alone. That combination has never been graded as a
-unit. Predicted binding is a screen and not evidence of presentation, immunogenicity or benefit, and
-nothing here supports use of any agent outside a clinical trial.
+**What bounds each conclusion.** Of ten limits enumerated, three are properties of this tumour and this
+junction and will not move: antigen depth, the physical myxoid barrier, and disease incidence. Four are
+limits of current instruments: sequence-based binding prediction standing in for measured presentation,
+class II prediction on a narrow allele panel, a novelty filter that reads canonical proteins only, and the
+absence of any fusion-junction-validated presentation model. Three are limits of access rather than of
+knowledge: no EMC immune profiling, no reachable patient-derived material, and no manufacturing route at
+this incidence. Each instrument and access limit is paired with the specific advance that would move it and
+a dated expectation band drawn from a maintained capability watch.
 
-## 1. Why enumerate blockers rather than argue for a route
+**Interpretation.** The most defensible present statement is neither that the route is viable nor that it
+is closed, but that it is instrument-limited in identifiable ways. The one substantive reasoning correction
+this work offers is that priming-directed classes were excluded for this disease on the grounds that a
+quiet genome supplies too few antigens, while the junction vaccine was set aside on the grounds that a cold
+tumour supplies too little priming. Each was excluded for lacking what the other provides, and the
+combination has never been evaluated as a unit. Predicted binding is a screen and not evidence of
+presentation, immunogenicity or benefit, and nothing here supports use of any agent outside a clinical
+trial.
 
-Two framings are available for a therapeutic hypothesis in a rare disease. The first asks whether the
-hypothesis is promising, and answers with a judgement. The second asks what would have to be true for it
-to work, and answers with a list. The first framing has already been applied to the EMC junction vaccine
-and returned a negative: a self-adjacent junction in a cold tumour is a weak immunogen, and the route was
-set aside. That judgement is defensible on the evidence available at the time.
+## 1. A standing-state report rather than a verdict
 
-It is also unfalsifiable in its aggregate form, and it conceals the fact that the obstacles it bundles
-together have very different characters. Some are arithmetic and already answered. Some are measurements
-nobody has taken and which cost little to take. Some are properties of the tumour that no amount of
-engineering will change. Grouping them under a single verdict makes the cheap ones invisible and gives
-the expensive ones no price.
+A therapeutic hypothesis in a rare disease is usually written up once, as an argument for or against. That
+format serves neither the reader nor the hypothesis when the binding constraint is not the biology but the
+instrument. A verdict of "unpromising" delivered against a target whose presentation has never been
+measured records the state of the measuring apparatus, and it records it in a form that looks like a
+statement about the tumour and that nobody revisits when the apparatus improves.
 
-This paper takes the second framing. Each obstacle is stated as a proposition, paired with the evidence
-that currently bears on it, the specific observation that would clear it, and an estimate of what
-obtaining that observation costs and who is capable of obtaining it. Where an obstacle is a fixed
-property of the disease it is labelled as such rather than assigned a mitigation. Where the existing
-reasoning about an obstacle appears to be in error, that is stated with the reasoning shown.
+This paper is written in the opposite format. It separates three kinds of limit that a single verdict
+conflates. Some limits are properties of this disease and this junction: a quiet genome offers few
+antigens, a myxoid matrix physically excludes lymphocytes, and an incidence below one per million per year
+constrains every study design. Those will not move, and the paper marks them as fixed. Other limits are
+properties of today's instruments: a sequence-based binder predictor is standing in for a measurement
+nobody has taken, a class II panel of three alleles is standing in for the class II locus, and a novelty
+filter that reads canonical proteins was standing in for the proteome until this work replaced it. Those
+move when methods move. A third group are limits of access rather than of knowledge: no EMC immune
+profiling has been published, no patient-derived material is reachable without an affiliation, and no
+manufacturing route exists at this incidence without a partner. Those move when circumstances change, and
+on quite different timescales from the methods.
+
+For every limit in the second and third groups, Section 3 records the specific advance that would move it,
+what evidence would count as that advance actually arriving, and a dated expectation band. The bands come
+from a maintained capability watch that this programme keeps for its whole route portfolio and reviews on a
+schedule, so they are the same bands used to sequence unrelated work rather than estimates produced to
+support this paper. They are explicitly uncertain, and each carries its own confidence.
+
+Section 6 does the part that most capability-watching gets wrong: it states, for each watched advance, what
+would look like that advance arriving without being it. A result on a different fusion, a cloud laboratory
+that supplies robots but not the cell line, and a general improvement in neoantigen prediction have each
+been mistaken for the specific capability this route waits on.
 
 The immediate occasion is external. A randomised phase 3 trial of an individualised neoantigen therapy
 combined with pembrolizumab has reported meeting its primary endpoint of recurrence-free survival in
-resected stage IIB to IV melanoma, following the phase 2b result in the same setting [3]. That does not
-transfer to EMC, and Section 4 sets out why the transfer fails on the axis that matters. It does
-establish that the manufacturing, regulatory and delivery apparatus for an individualised RNA vaccine now
-exists as a clinical reality rather than as a proposal, which changes the cost of several of the
-obstacles below.
+resected stage IIB to IV melanoma, following the phase 2b result in the same setting [3]. That result does
+not transfer to EMC, and Section 4 sets out the axis on which the transfer fails. It does show that the
+manufacturing, regulatory and delivery apparatus for an individualised RNA vaccine exists as a clinical
+reality rather than as a proposal, which lowers the cost of several limits below.
 
 ## 2. The target and its current evidence base
 
@@ -155,26 +171,49 @@ a measure of the density at which it would be presented, and not evidence of T-c
 immunopeptidomic dataset is known to the author, so nothing here bears on whether any of these peptides
 reaches the cell surface. Sequence-level novelty against the proteome has now been tested and is reported
 under B5; it excludes one failure mode and leaves presentation, immunogenicity and cross-reactivity
-untouched. These gaps are enumerated as obstacles B2 and B3 below rather than treated as resolved.
+untouched. These gaps are enumerated as limits B2 and B3 below rather than treated as resolved.
 
-## 3. The blocker ledger
+## 3. The standing state, limit by limit
 
-Ten obstacles are enumerated. The kind column distinguishes an obstacle that is an unperformed
-computation, one that requires biological material, one that requires an industrial partner, and one that
-is a fixed property of the disease.
+Ten limits are enumerated. The second column is the one that matters for how each should be read. A limit
+bounded by disease is a property of this tumour or this junction and is not expected to move. A limit
+bounded by instrument is a property of the methods currently available, and moves when those methods move.
+A limit bounded by access is a property of this programme's circumstances rather than of anyone's
+knowledge, and moves when material, collaboration or a partner arrives.
 
-| ID | Obstacle | Kind | Clearing observation | Cost tier |
+| ID | Limit | Bounded by | Best available answer today | What would move it |
 |---|---|---|---|---|
-| B1 | Class I coverage plateaus near 30% | fixed property, partially mitigable | Extended allele panels; class II contribution; per-patient selection | Computational |
-| B2 | Presentation is predicted, never measured | measurement | Immunopeptidomics on EMC tissue or a patient-derived line | Tissue |
-| B3 | Self-adjacency and central tolerance | measurement | Distance-to-self and anchor-position filtering; T-cell reactivity assay | Computational, then tissue |
-| B4 | No strong CD4 epitope at the corrected junction | measurement, performed | Wider class II allele panel; measured class II presentation | Computational, then tissue |
-| B5 | Four peptides occur in an *NR4A3* isoform | resolved, with a withdrawal | Completed; the upstream filter needs to become isoform-aware | Done |
-| B6 | Immunologically cold microenvironment | property, addressable in combination | Vaccine supplies antigen; checkpoint supplies release | Clinical |
-| B7 | Physical exclusion by myxoid matrix | property, addressable in combination | Vascular normalisation or matrix-directed agent | Clinical |
-| B8 | No EMC immune-profiling data | measurement | Infiltrate and HLA-expression characterisation on EMC specimens | Tissue |
-| B9 | Manufacturing economics at this incidence | structural | Platform partner; basket or master-protocol vehicle | Partner |
-| B10 | Trial design below the randomisation threshold | structural | Adaptive or histology-cohort design with a defensible endpoint | Partner |
+| B1 | Class I coverage plateaus near 30% | disease, partly instrument | 8.51% public junction, 27.4% pooled, 30.4% broad-panel ceiling | Wider allele panels; measured presentation reweighting the screen |
+| B2 | Presentation predicted, never measured | instrument and access | MHCflurry 2.0 percentiles on 174 peptides | Immunopeptidomics on EMC tissue or a patient-derived line |
+| B3 | Self-adjacency and central tolerance | instrument | Seam structure characterised; no tolerance model applied | Distance-to-self and anchor-versus-contact filters; T-cell reactivity assay |
+| B4 | No strong CD4 epitope at the corrected junction | instrument | 2 binders, 0 strong, on a three-allele DR panel | Wider DR, DP and DQ panel; measured class II presentation |
+| B5 | Seam-proximal peptides of four junctions occur in an *NR4A3* isoform | resolved | 170 of 174 novel proteome-wide; one binder withdrawn | Answered; the upstream filter should become isoform-aware |
+| B6 | Immunologically cold microenvironment | disease, addressable in combination | Inferred, not measured in EMC | A vaccine supplies antigen; a checkpoint inhibitor supplies release |
+| B7 | Physical exclusion by the myxoid matrix | disease | Inferred from histology and pathway expression | Vascular normalisation; matrix-directed agents |
+| B8 | No EMC immune profiling published | access | None; the cold and excluded readings are inferences | A deposited EMC series, or a pan-sarcoma atlas reaching this histology |
+| B9 | Manufacturing economics at this incidence | access | Five enumerable in-frame junctions, not per-patient discovery | A platform holder; a master-protocol vehicle |
+| B10 | Trial design below the randomisation threshold | disease | A 24-patient histology cohort has been run across nine centres | Adaptive or histology-cohort design with a defensible endpoint |
+
+### 3.1 Dated expectation for the movable limits
+
+The bands below are taken from a maintained capability watch that this programme keeps across its whole
+route portfolio and reviews on a schedule. They are drawn from a scenario record rather than composed for
+this paper, they carry their own stated confidence, and their basis is marked as extrapolated or
+speculative rather than measured. They are offered as an ordering aid and a re-read schedule, not as
+predictions to be scored.
+
+| Capability the route waits on | Bears on | Optimistic | Expected | Conservative | Basis |
+|---|---|---|---|---|---|
+| Presentation or immunogenicity prediction validated on fusion junctions, or a discovery platform reaching low-abundance peptide-HLA | B1, B2, B3 | 2027H2 | 2029 | 2032 | extrapolated |
+| A fetchable public EMC expression or proteomics deposit | B8, B2 | 2027 | 2029 | beyond 2031 | speculative |
+| Access to patient-derived EMC material, by collaboration or service | B2, B3, B8 | 2027H2 | 2029 | beyond 2031 | speculative |
+| A solo-rentable robotic laboratory with cell-based assay scope | execution half of B2 and B3 | 2027H2 | 2029 | beyond 2031 | extrapolated |
+
+The single most consequential of these is the first. Direct mass-spectrometry evidence that a
+fusion-junction peptide is presented at measurable abundance on a common allele, in any fusion-driven
+tumour, would convert the central question of this route from a prediction into an empirical one. The
+programme's own coverage instrument is disclosed as failing for exactly this reason: it computes an
+eligibility ceiling for an epitope whose presentation is unestablished.
 
 ### B1. Class I coverage plateaus near 30%
 
@@ -193,7 +232,7 @@ presentation percentile; measured immunopeptidomics (B2) could either promote pe
 ranks weakly or remove ones it ranks strongly, and the direction is not knowable in advance.
 
 **What would not move it.** Manufacturing improvements, delivery formulation and adjuvant selection
-change nothing here. This obstacle is about which patients have a target at all.
+change nothing here. This limit is about which patients have a target at all.
 
 **Residual.** Some fraction of patients will have no presented junction peptide and no second antigen to
 substitute. That fraction is a real and permanent exclusion from this approach, and it should be stated
@@ -233,7 +272,7 @@ different to a T cell, which is the failure mode that matters here. Both filters
 neither has been run. Beyond that, only a T-cell reactivity assay against the specific peptide-HLA
 complex answers the question.
 
-**Comparator.** This obstacle is where EMC differs most sharply from the melanoma setting, in which
+**Comparator.** This limit is where EMC differs most sharply from the melanoma setting, in which
 selected neoantigens frequently arise from point mutations in a repertoire that has not been tolerised
 against them and in a tumour already under immune pressure.
 
@@ -258,7 +297,7 @@ of which 4 were strong. The correction weakened this arm as it weakened the clas
 substantially harder to predict than class I; a wider DR, DP and DQ panel is a computational task and may
 change the picture. Beyond that, only measured class II presentation settles it. A construct can also
 supply help from a heterologous source rather than from the junction itself, which is standard practice in
-peptide vaccine design and would make this obstacle a design constraint rather than a blocking one.
+peptide vaccine design and would make this limit a design constraint rather than a blocking one.
 
 **Consequence for the construct, and for the combined figure.** Two things follow directly. The candidate
 construct regenerated at the corrected junction now carries two strong class I epitopes, NMPCVQAQY and
@@ -277,7 +316,7 @@ proteins rather than against the proteome, so their absence from normal human pr
 
 **Result.** All 174 distinct junction peptides were searched by exact substring against the UniProt
 reviewed human proteome, isoform sequences included. 170 are absent from every reviewed human protein. All
-4 strong binders survive, including the *EWSR1* exon 7 lead NMPCVQAQY. The obstacle is largely cleared, and
+4 strong binders survive, including the *EWSR1* exon 7 lead NMPCVQAQY. The limit is largely cleared, and
 the sequence-level novelty premise of this route holds for the great majority of the peptide set.
 
 **The four that do not, and which junctions they belong to.** DMPCVQAQ, DMPCVQAQY, DMPCVQAQYS and
@@ -344,7 +383,7 @@ tumour class [8]. Transforming growth factor beta inhibition, which is the stand
 immune-excluded tumours, was set aside for EMC precisely on the ground that the exclusion here is
 physical rather than driven by a fibroblast programme.
 
-**Why this obstacle is distinct from B6.** A cold tumour lacks a response. An excluded tumour may have a
+**Why this limit is distinct from B6.** A cold tumour lacks a response. An excluded tumour may have a
 response that cannot reach the target. These require different interventions, and an intervention aimed at
 one does not address the other. A vaccine can raise the circulating frequency of junction-specific T cells
 without changing whether those cells can enter the tumour.
@@ -401,7 +440,7 @@ time point is the measure the existing EMC cohort reported.
 
 ## 4. An ungraded combination
 
-The obstacles above do not resolve independently. B6 and B7 are properties of the tumour that a vaccine
+The limits above do not resolve independently. B6 and B7 are properties of the tumour that a vaccine
 cannot address, and B1 and B3 are properties of the antigen that a checkpoint inhibitor cannot address.
 The relevant question is therefore not whether a junction vaccine works in EMC, which is the question that
 was asked and answered negatively, but whether a junction vaccine adds anything to a backbone that
@@ -422,7 +461,7 @@ the physical and vascular barriers to lymphocyte entry, and EMC is unusually sen
 tyrosine kinase inhibitors, which is its most consistent clinical signal. The checkpoint component
 addresses the release arm of B6. Neither addresses antigen supply, which is what the vaccine would
 contribute and what B6's own stated exclusion reasoning identifies as the missing element. The three
-components are complementary rather than redundant, and each covers an obstacle the others do not.
+components are complementary rather than redundant, and each covers a limit the others do not.
 
 This is also the architecture used in the melanoma programme that generated the recent phase 3 result:
 the individualised vaccine is given with pembrolizumab, never alone [3]. The transfer from melanoma to EMC
@@ -432,60 +471,84 @@ architecture. The architectural lesson transfers even though the disease biology
 
 The proposition this paper puts forward is therefore narrow and testable: the addition of a
 breakpoint-matched junction construct to a checkpoint and antiangiogenic backbone is a coherent
-combination in which each component covers a distinct and enumerated obstacle, and it has not been
-evaluated or graded as a unit. Whether it should be evaluated depends on results from Stage 1 below, and
-in particular on B2.
+combination in which each component covers a distinct and enumerated limit, and it has not been
+evaluated or graded as a unit. Whether it merits evaluation turns on B2, and so on whether measured
+presentation ever arrives; Section 5 gives what that arrival would change and Section 3.1 gives when it
+might be expected.
 
-## 5. Staged development path
+## 5. Present work, and the unlocks each capability arrival brings
 
-The stages are ordered so that the cheapest observations that could end the programme come first. Each
-stage names the gate that must pass before the next is worth beginning.
+The work below is ordered by what it depends on rather than by expected payoff, so that a reader can see
+which parts of this characterisation could be improved by anyone today and which are waiting on the field.
 
-**Stage 0, computational, no cost.** Two items are complete. The proteome-wide novelty search has been run
-and did not close the route: 170 of 174 peptides are novel and all 4 strong binders survive, with one
-predicted binder withdrawn (B5). The class II arm has been regenerated and is reported, negative on the
-panel tested (B4). Two items remain: build the distance-to-self and
-anchor-versus-contact-position filters that were specified and never implemented (B3); and extend the
-class I allele panel beyond 34 and the class II panel beyond three DR alleles, then report the revised
-ceilings (B1, B4). *Gate:* if anchor analysis shows that novelty falls
-exclusively at anchor positions across all in-frame junctions, the route closes here at no cost.
+**Improvable now, by computation alone.** Two of the limits above yield to work that needs nothing but
+public data. The distance-to-self and anchor-versus-contact-position filters specified for this route have
+never been implemented, and they bear directly on B3, which is otherwise the least characterised limit in
+the ledger. The class I allele panel is 34 and the class II panel is 3, and both can be extended to the
+full set for which validated predictors exist, which would replace the present ceilings with better ones in
+either direction. The isoform-aware novelty filter identified in B5 is a small change to an existing
+instrument. None of this requires permission, material or funding, and all of it sharpens numbers this
+paper reports as provisional.
 
-**Stage 1, requires EMC tissue.** Immune profiling of EMC specimens, comprising infiltrate quantification
-and HLA class I expression (B8), followed by immunopeptidomics for junction-spanning peptides on tissue or
-a patient-derived line (B2). *Gate:* HLA class I loss, or failure to detect any junction peptide across
-adequate material, closes the route and also closes the T-cell receptor and soluble T-cell receptor routes
-that share this antigen. A positive identification is the single result that would justify Stage 2.
+**Improvable on the arrival of measured presentation.** If direct mass-spectrometry evidence appears that a
+fusion-junction peptide is presented at measurable abundance on a common allele, in any fusion-driven
+tumour, the character of this route changes rather than its score. The screen in Section 2 stops being a
+stand-in and becomes a hypothesis with a calibrating dataset; the ceiling in B1 can be recomputed against
+measured rather than predicted presentation; and B3 acquires a comparison class. This is the capability
+whose band is given first in Section 3.1, and the one this paper would most want a reader to watch.
 
-**Stage 2, requires a partner.** T-cell reactivity assessment against the identified peptide-HLA complexes
-using healthy-donor and, if available, patient-derived material, to address the tolerance question in B3
-directly. In parallel, an assessment by a platform holder of whether a small fixed panel of
-breakpoint-matched constructs is manufacturable within the constraints of B9. *Gate:* no detectable
-reactivity in an appropriately powered assay closes the route.
+**Improvable on the arrival of EMC material or EMC data.** A deposited EMC expression or proteomics series
+would settle B8 directly, and B8 is the cheapest item that informs the most others: infiltrate density and
+HLA class I expression status bear on every antigen-directed route in this disease, not only on this one.
+Access to a patient-derived line would additionally make B2 executable rather than merely specified. These
+are separate arrivals with separate bands, and neither implies the other.
 
-**Stage 3, clinical.** Addition of a breakpoint-matched construct to an established checkpoint and
-antiangiogenic backbone within a histology-specific cohort of a sarcoma master protocol, with a fixed-time-point
-progression-free survival endpoint and with HLA and breakpoint eligibility stated in advance (B10). The
-eligible fraction is bounded by B1 and should be planned against approximately 30% rather than against the
-whole population.
+**Improvable only in combination, and only clinically.** B6 and B7 are properties of the tumour that no
+computational advance addresses. What can be said today is the argument in Section 4: the components that
+address them exist, have been given together in this disease, and have never been given together with an
+antigen supply.
 
-## 6. Falsifiers
+**A distinction worth keeping.** A remote robotic laboratory rentable by the experiment would flip the
+execution half of B2 and B3, and this programme watches it for that reason. It would not supply the EMC
+cell line. Execution and material are separate gates, and reporting the first as though it cleared the
+second is the specific error Section 6 is written to prevent.
 
-Explicit falsifiers, stated so that a negative result is recognisable as one rather than absorbed:
+## 6. Distinguishing a real advance from an apparent one
 
-1. Every strong-binding junction peptide also occurs in a normal human protein. *Evaluated and not met:*
-   all 4 strong binders are absent from the reviewed human proteome including isoforms, although 4 peptides
-   of 174 and one weak binder are not.
-2. Across all five in-frame junctions, the novel residues fall exclusively at anchor positions, so no
-   junction presents an altered surface to a T-cell receptor.
-3. EMC specimens show loss or substantial downregulation of HLA class I.
-4. Immunopeptidomics on adequate EMC material detects no junction-spanning peptide.
-5. No T-cell reactivity is detectable against any identified junction peptide-HLA complex in an
-   appropriately powered assay.
-6. The combined class I and class II eligible fraction, after the Stage 0 refinements, remains low enough
-   that a histology-specific cohort cannot accrue at the observed rate.
+A paper that names the capabilities it waits on incurs an obligation to say what would look like those
+capabilities arriving without being them. Each of the following has a plausible near-miss, and in each case
+the near-miss would be reported in the literature in language that resembles a hit.
 
-Item 1 has been evaluated. Items 2 and 6 are computational and can be evaluated now. Items 3 and 4 require
-tissue. Item 5 requires tissue and an assay platform.
+**A result on a different fusion is not a result on this one.** A presentation or immunogenicity study on
+another fusion-driven tumour raises the prior that fusion junctions in general can be seen by T cells. It
+does not establish that this junction, on these alleles, is presented at usable abundance. General advances
+in neoantigen prediction have repeatedly not transferred to this target, which is why the coverage
+instrument here is disclosed as failing rather than quietly retired. The discriminating question to ask of
+any such report is whether its evidence concerns presentation, abundance, or only a different fusion.
+
+**Robotic execution is not material access.** A cloud laboratory offering per-experiment pricing for
+cell-based assays supplies robots and generic reagents. It does not supply an EMC line or organoid, and
+without that, none of the tissue-gated items in Section 3 become runnable.
+
+**A better predictor is not a measurement.** An improved class I or class II model would change the numbers
+in Section 2, and it would leave B2 exactly where it is. The limit there is that nobody has looked, not
+that the looking-glass is imprecise.
+
+**A larger allele panel raises a ceiling without changing a floor.** Extending the panels, as Section 5
+proposes, can only move the coverage figures upward, and a higher ceiling on predicted presentation is not
+evidence that any patient's tumour presents anything.
+
+### 6.1 Conditions for revision
+
+Stated so that a future reader can check them rather than re-derive them. Sequence-level novelty is
+established for 170 of 174 peptides and would be overturned by a proteome release that adds a protein
+containing one of the strong binders. The coverage ceiling would move if a wider panel added presenting
+alleles, and would move downward if measured presentation removed any of the four strong binders. The
+combined CD8 and CD4 figure is null because no strong class II binder survives on three DR alleles, and a
+wider class II panel is the single most likely source of a change to that statement. The argument in
+Section 4 would be weakened by an EMC immune-profiling series showing HLA class I loss, which would close
+every antigen-directed route in this disease including this one, and would be strengthened by any report of
+antigen-specific response in an EMC patient on a checkpoint-containing regimen.
 
 ## 7. Limitations
 
@@ -497,11 +560,17 @@ in which the component with the larger independent EMC evidence base is the tyro
 rather than the checkpoint inhibitor; it is cited here to establish that a vehicle and a backbone exist,
 not to attribute activity to the immune arm. The characterisations of EMC as cold and as immune-excluded
 rest on inference rather than on published EMC-specific immune profiling, which is itself recorded as
-obstacle B8. The class II panel comprises three DR alleles and no DP or DQ alleles, so its negative result
+limit B8. The class II panel comprises three DR alleles and no DP or DQ alleles, so its negative result
 bounds a narrow question rather than the general availability of helper epitopes. No claim is made
 that any peptide is presented, that any construct would be immunogenic, that any combination would be safe
 or effective, or that any of this is ready for clinical use. No wet-laboratory work was performed for this
-paper, and its central recommendations require work this programme cannot carry out.
+paper, and the measurements this characterisation most needs require work this programme cannot carry out.
+
+The dated bands in Section 3.1 are the weakest material in the paper and should be read as such. Their
+basis is marked extrapolated or speculative rather than measured, each carries low or moderate confidence,
+and they describe when a capability might become available rather than when this route might succeed. They
+are included because a limit with no timescale attached tends to be read as permanent, which for the
+instrument-bounded and access-bounded limits here would be wrong.
 
 ## 8. Reproducibility
 
