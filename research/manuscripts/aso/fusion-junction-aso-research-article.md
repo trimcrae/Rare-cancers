@@ -726,8 +726,7 @@ attributed to *NR4A3*, not the *NR4A3*-specific count of the ladder's last colum
 clustering correction applied above does not widen it: its design effect is 0.82 rather than
 1.42. That is not a reading about the registers. Permuting the liability labels across the 38
 junctions gives a design effect of 1.00 on average, a standard deviation of 0.21 and a 95% range of
-0.62 to 1.45, so 0.82 is not distinguishable from no clustering at all, while the aggregate 1.42
-falls outside that range. A design effect below one would narrow the interval, and the nominal one
+0.62 to 1.45, so 0.82 is not distinguishable from no clustering at all, while the aggregate 1.42 sits at the top of that same range rather than outside it, so the clustering the aggregate carries is marginal rather than established. A design effect below one would narrow the interval, and the nominal one
 is reported instead. Scrambles are the weakest null run here; against the
 random-offset chimera null of the next paragraph, the same sub-analysis gives 32.1% against 9.3%. Neither
 comparison survives the exon-terminus null two paragraphs below, which returns 28.8% (28.3–29.2%) on

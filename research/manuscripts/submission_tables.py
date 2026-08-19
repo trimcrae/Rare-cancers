@@ -720,8 +720,17 @@ def _near_twin_warning(t2, t3):
     pages apart in the built PDF, with no warning on either page. A reader who transcribes from the
     wrong table by one row is holding the condemned molecule.
 
-    Returns (n junctions where the two disagree, n of those at a shared run of `run` or more, run),
-    with `run` measured rather than assumed — the largest shared run the disagreeing pairs reach.
+    ⛔ AND THE CAPTION USED TO PRINT THE NARROW COUNT UNDER THE WIDE CLAIM (blind PDF screen,
+    2026-08-19, graded BLOCK). It read "At ten junctions Table 3 names a different design from this
+    table" — but ten is the count where one of the two is CONDEMNED and the other is not. The two
+    tables name a different design at SIXTEEN junctions, because they rank on different keys. A
+    reader checking whether their seam is one of the ten, and finding it is not, concluded the two
+    tables agree there; at six seams they do not. Both counts are returned now, and the caption
+    states the wide one first.
+
+    Returns (n junctions where the two name a different design AT ALL, n of those where one is
+    condemned and the other is not, n of those at a shared run of `run` or more, run), with `run`
+    measured rather than assumed — the largest shared run the disagreeing pairs reach.
     """
     h2, b2 = _md_table(t2)
     h3, b3 = _md_table(t3)
@@ -739,7 +748,13 @@ def _near_twin_warning(t2, t3):
         pairs.append((j, a, b, _longest_shared_run(a, b) if a else None))
     runs = [p[3] for p in pairs if p[3] is not None]
     top = max(runs) if runs else 0
-    return len(pairs), sum(1 for r in runs if r >= top), top
+    # ⭐ THE WIDE COUNT: every junction both tables give a design for, where those designs differ.
+    # Independent of any ⚑, because a reader comparing two tables is comparing SEQUENCES.
+    t3_by_junction = {r[0].rstrip(" †‡"): _seq_in(r[i3d]) for r in b3}
+    differ = sum(1 for j, a in t2_by_junction.items()
+                 if t3_by_junction.get(j) is not None and a is not None
+                 and t3_by_junction[j] != a)
+    return differ, len(pairs), sum(1 for r in runs if r >= top), top
 
 
 def _near_match_screen_losses(t4):
@@ -2460,7 +2475,7 @@ def main(argv=None):
                         for j in per_junction["junctions"] if (b := j.get("best_available")))
     t3_agg_n, (t3_agg_junction, t3_agg_cell, t3_agg_own) = _junction_aggregate_column(t3, chance)
     t3_agg_rows = len(_md_table(t3)[1])
-    n_twin, n_twin_at_run, twin_run = _near_twin_warning(t2, t3)
+    n_differ, n_twin, n_twin_at_run, twin_run = _near_twin_warning(t2, t3)
     # ⛔ A RECORD COUNT PRINTED AS A GENE COUNT, IN ALL THREE OF THESE TABLES (competitor review,
     # 2026-08-19). Every "near-match" cell is a count of RefSeq accessions; §5 states the collapse
     # and states it at the default ceiling, and these tables headline the deep one. Both figures
@@ -2619,11 +2634,13 @@ def main(argv=None):
     def _twin(other, here):
         if not n_twin:
             return ""
-        return (f"⚠ At {_word(n_twin)} junctions {other} names a different design from {here}, and "
-                f"at {_word(n_twin_at_run)} of them the two share {_word(twin_run)} of their "
-                f"{GEOMETRY.oligo_len} contiguous bases — one register apart, one condemned and one "
-                f"not. Check the junction AND the whole sequence against "
-                f"`{os.path.basename(_manifest.OUT_CSV)}` before ordering either.")
+        return (f"⚠ At {_word(n_differ)} junctions {other} names a DIFFERENT DESIGN from {here}, "
+                f"because the two tables rank on different keys. At {_word(n_twin)} of those "
+                f"{_word(n_differ)} one of the pair is condemned and the other is not, and at "
+                f"{_word(n_twin_at_run)} of those the two share {_word(twin_run)} of their "
+                f"{GEOMETRY.oligo_len} contiguous bases — one register apart. Check the junction "
+                f"AND the whole sequence against `{os.path.basename(_manifest.OUT_CSV)}` before "
+                f"ordering either.")
 
     t2_twin_warning = _twin("Table 3", "this table")
     twin_warning_t3 = _twin("Table 2", "this table")
