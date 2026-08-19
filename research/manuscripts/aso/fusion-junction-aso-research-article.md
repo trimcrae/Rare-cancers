@@ -628,7 +628,7 @@ seven base pairs is the shortest end of the same cited range (§6): at seven the
 175 of 190 rather than 87, and 9 of the 38 junctions retain a design clearing it rather than 35.
 Loosening the cut enlarges the negative on both of those readings and does not strengthen it, because
 the nulls below move with it. Re-run at seven, the exon-terminus chimera ensemble reaches 91.4%
-against the 92.1% that 175 of 190 is, and the *NR4A3*-specific comparison reverses outright, 73 of 190 or 38.4%
+against the 92.1% that 175 of 190 is, and the comparison attributed to *NR4A3* reverses outright, 73 of 190 or 38.4%
 observed against 46.6% for the null. At seven this screen is measuring what any chimera of two real
 transcripts does.
 
@@ -670,8 +670,9 @@ Three further readings come off the same table and none of them is available fro
 junction-level and design-level counts move in opposite directions, so a looser criterion enlarges
 the class and empties the panel at once: at six, 181 of 190 designs are liable and only 6 of 38
 junctions retain a design that clears. At the five junctions any patient is reported to carry, every
-design is liable at six and at seven, and the criterion has to reach ten before eleven of those 25
-are — the deliverable is more cut-dependent than the corpus is. And the count of designs wild-type
+design is liable at six and at seven, and the count falls gradually rather than stepping — 21 of
+those 25 at eight, 14 at nine, 11 at ten — so the deliverable is more cut-dependent than the corpus
+is. And the count of designs wild-type
 *NR4A3* pairs specifically (asked of *NR4A3* alone rather than attributed to whichever parent
 returned the longest run) is 62 at ten against the 61 attributed there, and 158 at six against 77:
 the attributed figure this paper reports is a floor on the *NR4A3*-specific one, and the two separate
@@ -730,8 +731,8 @@ falls outside that range. A design effect below one would narrow the interval, a
 is reported instead. Scrambles are the weakest null run here; against the
 random-offset chimera null of the next paragraph, the same sub-analysis gives 32.1% against 9.3%. Neither
 comparison survives the exon-terminus null two paragraphs below, which returns 28.8% (28.3–29.2%) on
-it: the *NR4A3*-specific liability is no better resolved as specific to the reported breakpoints
-than the aggregate is.
+it: the liability attributed to *NR4A3* is no better resolved as specific to the reported
+breakpoints than the aggregate is.
 
 A second null asks whether that excess is a fact about reported breakpoints or merely about the
 design rule. Joining a random window of a real donor parent to a random window of real *NR4A3*, split
