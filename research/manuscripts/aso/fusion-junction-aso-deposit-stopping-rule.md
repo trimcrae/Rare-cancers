@@ -480,6 +480,83 @@ twenty prior rounds had missed, and three briefs see less than nine. The trade i
 preprint is revisable, an improvement queue has no natural end, and the marginal finding of a ninth
 brief has not, in this ledger, been a finding that would have made the posted paper wrong.
 
+### ⭐ CONDITION 10 — A FIX IS VERIFIED AGAINST WHAT IT DID NOT TARGET (added 2026-08-19, trimcrae)
+
+trimcrae, on reading the round-5 repair log: *"There simply must be a way to make the fix to the
+block not be a new blocker. If 50%+ of our blockers come from 'fixes' we really need to change our
+fixing technique because that's a horrible strike rate."*
+
+**THE MEASUREMENT, STATED AS A COUNT RATHER THAN A RATIO** — the ledger records what each finding
+was, not what caused it, so no percentage is derivable from it and none is claimed here. What *is*
+enumerable is the set of defects in the 2026-08-19 rounds that a *previous fix had introduced*:
+
+| # | the fix | what it broke that it was not aimed at |
+|---|---|---|
+| 1 | an em-dash conversion regex | produced `(§6))`, ate a pinned-figure anchor, ate a guard's derivation regex |
+| 2 | adding a ⚑ verdict marker to prose | 15 uses, no key defining it anywhere |
+| 3 | rewording a §6 sentence | inverted the pairing arithmetic (11 or 12 paired in a 16-mer written as "four or five" unpaired) |
+| 4 | adding the §2.5 cut-ladder table | an 11-column table in a two-column layout overprinted ~22 lines |
+| 5 | labelling the ladder's tenth column | headed for junctions, counting designs — and the new guard asserted the wrong denominator, certifying it |
+| 6 | renaming an ambiguous artifact field | the artifact was corrected and the prose reading it was left behind |
+| 7 | a caption count | numerator and denominator counted over different sets |
+| 8 | fixing 7 | emitted a direction-asymmetric clause symmetrically into both captions, false in one |
+| 9 | fixing 4 | a CSS rule scoped on column count also matched five landscape floats; `table-layout: fixed` overflowed 93 of 93 sequence cells in one format |
+| 10 | re-anchoring a guard | `\b` written in a non-raw string, so the guard searched for literal backspace characters and could never match |
+| 11 | correcting a design-effect claim | the replacement sentence was also wrong |
+| 12 | adding a PDF dependency to CI | left the distribution unmapped, so a guard importing it would read as "not installed in CI" |
+| 13 | deleting a stray `)` an em-dash conversion had left | the `))` it deleted was not stray — the second bracket closed the OUTER parenthetical, and §2.10 carried an unclosed one into three builds |
+
+**★ THE ROOT IS ONE THING, AND IT IS THE SAME IN ALL THIRTEEN.** Every fix was verified against **the
+defect it targeted** and never against **everything it did not target**. "Is the defect gone?" was
+asked every time. "What else moved?" was asked none of them. Rows 8 and 9 are the proof: each is a
+defect created by the fix for the row above it, and each was verified — correctly — against its own
+target.
+
+⚠ **ROW 13 ADDS A MECHANISM THE OTHER TWELVE DO NOT HAVE, AND IT IS THE HARDEST TO SEE: THE FIX
+RECOGNISED A SIGNATURE AND NEVER CHECKED THE PROPERTY.** A real defect elsewhere in that commit
+was a doubled closing bracket, so `))` read as the same defect and one bracket was deleted. It was
+not the same defect: the sentence legitimately nested one parenthetical inside another, and both
+brackets were load-bearing. **A defect's SHAPE is not the defect.** Where a defect is defined by a
+property — balanced, in range, present in the canonical file — verify the property on the site in
+front of you, never the resemblance to the last site. The repair also removed the nesting rather
+than re-adding a bracket, so the shape that invited the misreading is gone.
+
+**THE RULE.** A fix is not applied until its *blast radius* has been measured, not reasoned about:
+
+0. **PREFER AN ABSOLUTE INVARIANT TO A BASELINE DIFF, AND PUT IT IN CI.** A count that *must be
+   zero* needs no stored previous value and nobody to remember to snapshot first;
+   `tests/test_deposit_prose_delimiters_are_balanced.py` gates row 13's defect class on every
+   push, paragraph by paragraph — a file-total balance is satisfied by two errors of opposite
+   sign, which is exactly what a hand-repair produces. Use the snapshot/compare loop below for
+   the quantities that legitimately move (page counts, word counts), not for the ones that must
+   not.
+1. **SNAPSHOT BEFORE, COMPARE AFTER.** `python3 scripts/blast_radius.py snapshot before.json`, make
+   the change, regenerate every derived artefact, then `python3 scripts/blast_radius.py compare
+   before.json`. It captures prose invariants (abstract word count, bracket balance, marker counts,
+   sequences appearing in prose), per-PDF invariants (page count, text-box collisions, delimited and
+   distinct sequences, digit-fused sequences, sequences absent from the CSV, well-formed versus
+   malformed sequence *cells* read at cell level, condemned pages carrying no verdict), CSV row and
+   condemned counts, and all four linter exit codes.
+2. **EVERY DIFFERENCE MUST BE ONE YOU INTENDED AND CAN NAME.** `compare` prints only what moved and
+   exits non-zero if anything did. A difference you cannot name is the next blocker, caught before it
+   ships rather than by the next reviewer.
+3. **⛔ VERIFY IN THE ARTEFACT, NEVER ONLY IN THE SOURCE.** Rows 4 and 9 were both correct in the
+   markdown and wrong once rendered. A fix that touches a table, a float, a caption or a sequence is
+   not verified until the built PDF has been re-read at cell level.
+4. **⛔ A FIX'S NEW TEXT IS UNREVIEWED TEXT.** Rows 2, 3, 8 and 11 added a claim or a notation that
+   nothing had ever checked. Re-read what the fix *wrote*, not only what it removed.
+5. **⛔ BOUND THE MATCH SET BEFORE APPLYING A PATTERN.** Rows 1 and 9 matched far more than the
+   defect. Count the sites a pattern hits and read every one, or apply it to a single site by hand.
+6. **⛔ A QUANTITY HAS MORE THAN ONE HOME.** Row 6 fixed the artifact and left the prose. After
+   changing any number, search for it everywhere before believing the fix is complete.
+
+⚠ **A GUARD WRITTEN ALONGSIDE A FIX IS PART OF THE FIX AND GETS THE SAME SCRUTINY.** Row 5's guard
+asserted the very denominator the defect had got wrong, so the guard passed and certified the error.
+Row 10's guard could not match anything at all. **Prove a guard by reintroducing the defect and
+watching it fail, and assert that your reintroduction actually changed the file** — one "proof" in
+this ledger compared identical text twice because the replacement string never matched the file's
+line wrapping.
+
 ## 3 · ⚠ The corollary, which must not be flinched from
 
 **If the final round returns a class-B finding — a real defect in text no prior round touched — that

@@ -66,6 +66,13 @@ DISTRIBUTION_PROVIDES = {
     "biopython": ("Bio", "BioSQL"),
     "pdfminer.six": ("pdfminer", "cryptography", "cffi", "charset_normalizer"),
     "pypdf": ("pypdf",),
+    # ⭐ ADDED 2026-08-19 WITH THE WORKFLOW LINE THAT INSTALLS IT. pdfplumber is what the
+    # blast-radius snapshot uses to read a table CELL rather than a page's raw text, which is the
+    # only way the "is this sequence cell well-formed?" invariant can be measured at all -- raw
+    # text cannot tell an overprinted cell from a wrapped one. Its wheel brings pypdfium2 and
+    # Pillow; naming them keeps a guard that imports either from reading as uninstallable.
+    "pdfplumber": ("pdfplumber", "pypdfium2", "pypdfium2_raw", "pypdfium2_cfg", "pypdfium2_cli",
+                   "PIL"),
     # ⭐ ADDED 2026-08-19 WITH THE WORKFLOW LINE THAT INSTALLS IT, WHICH IS THE POINT OF THIS TABLE.
     # matplotlib was added to CI so the figure-RENDER guard could stop being a permanent skip, and
     # this file refused the change until the mapping was declared -- a distribution CI installs

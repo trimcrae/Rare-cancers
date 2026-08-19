@@ -1125,8 +1125,8 @@ surviving at that junction return three and two.
 
 ### 2.10 · Duplex thermodynamics and conventional design rules
 
-Scored as free energies (nearest-neighbour values for an unmodified DNA:RNA hybrid, no locked or
-phosphorothioate parameters being applied anywhere in this work (§6) — every one of the 190 designs
+Scored as free energies (nearest-neighbour values for an unmodified DNA:RNA hybrid, with no locked
+or phosphorothioate parameters applied anywhere in this work, §6) — every one of the 190 designs
 favours the fusion duplex over the better of the two runs a parent can pair at the junction itself,
 by 4.8 to 13.1 kcal/mol with a median of 9.6. The
 comparison is to the seam and not to the transcriptome: the mature-parent duplexes of §2.5, which for

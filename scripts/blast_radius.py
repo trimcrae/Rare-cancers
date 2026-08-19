@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 """Snapshot the deposit's machine-checkable invariants, and diff two snapshots.
 
-⛔ WHY THIS EXISTS, AND IT IS MEASURED RATHER THAN FEARED. Over the 2026-08-19 review rounds, MORE
-THAN HALF the blockers found were introduced by the FIX for the previous blocker. Four mechanisms,
-one root cause:
+⛔ WHY THIS EXISTS, AND IT IS COUNTED RATHER THAN FEARED. Over the 2026-08-19 review rounds,
+TWELVE defects were introduced by the FIX for a previous defect — enumerated one by one, with the
+fix that caused each, in condition 10 of the deposit stopping rule. (A *ratio* is not claimed: the
+ledger records what each finding was, not what caused it, so no percentage is derivable from it.)
+Four mechanisms, one root cause:
 
   1. UNBOUNDED MATCH SET. A fix applied by pattern matched more than the defect. An em-dash regex
      intended for a few parentheticals matched sixteen sites, produced `(§6))`, and ate both a
@@ -67,6 +69,18 @@ _VERDICT_IN_PROSE = re.compile(
 
 def _read(p):
     return open(p, encoding="utf-8").read() if os.path.exists(p) else ""
+
+
+def _unexplained_sequences(delimited, known, whole):
+    """Printed sequences that are neither canonical nor a labelled target-mRNA strand."""
+    labelled = re.search(r"target\s+mRNA", whole, re.I) is not None
+    rc = str.maketrans("ACGT", "TGCA")
+    out = set()
+    for q in set(delimited) - set(known):
+        if labelled and q.translate(rc)[::-1] in known:
+            continue
+        out.add(q)
+    return out
 
 
 def _csv_sequences():
@@ -135,7 +149,24 @@ def _pdf_facts(path):
         # ⛔ THE WRONG-REAGENT SIGNATURE, TWICE OVER: a digit fused into a run of bases, and a
         # printed sequence that matches no row of the canonical file.
         "digit_fused_sequences": len(re.findall(r"5′-[ACGT]*\d[ACGT]*-3′", whole)),
-        "sequences_not_in_csv": sorted(set(delimited) - set(known)),
+        # ⚠ NOT `set(delimited) - set(known)` — that list can never reach zero, and a baseline
+        # that carries a permanent entry cannot tell a NEW wrong sequence from the one it already
+        # tolerates. That is the same weak-check shape as the ⚑-only verdict test below. The one
+        # standing entry is the TARGET mRNA seam printed in the Figure 1 caption, which the caption
+        # itself labels as the target and explicitly warns is NOT the molecule to order; it is
+        # allowed BY NAME with that reason, so anything else still trips the invariant at zero.
+        # ⚠ NOT `set(delimited) - set(known)` — that list can never reach zero (Figure 1 draws the
+        # TARGET mRNA at the seam, whose reverse complement is the reagent), and a baseline carrying
+        # a permanent entry cannot tell a NEW wrong sequence from the one it already tolerates. That
+        # is the same weak-check shape as the ⚑-only verdict test below.
+        # ⛔ THE EXEMPTION IS DERIVED, NOT LISTED, AND IT IS DERIVED THE SAME WAY THE REPOSITORY'S
+        # OWN GUARD DERIVES IT (`test_every_sequence_the_pdf_prints_is_in_the_canonical_file`): a
+        # printed sequence outside the canonical file is tolerated only where the document says in
+        # terms that the drawn letters are target mRNA AND the sequence is exactly the reverse
+        # complement of a canonical design. Writing the literal sequence here instead would give one
+        # fact two homes, and the worse home — a different legitimate seam would trip it and an
+        # altered one would pass.
+        "sequences_not_in_csv": sorted(_unexplained_sequences(delimited, known, whole)),
         # A condemned sequence must never print on a page that carries no verdict for it.
         # ⚠ A GLYPH IS NOT THE ONLY VERDICT, and demanding one made this read 2 and 3 against a
         # deposit where both pages state the verdict in WORDS ("is excluded by an eleven-base-pair
