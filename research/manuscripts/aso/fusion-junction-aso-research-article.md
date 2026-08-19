@@ -275,8 +275,8 @@ in-frame junctions (Table 1, Figure 1). The refusals are structural. *NR4A3* exo
 no coding sequence and is refused in every pair, and an exon-4 acceptor would delete the *NR4A3*
 DNA-binding domain that every reported EMC chimera retains. All the variance therefore sits in the
 exon-3 column. Within that column, being in frame reduces to a single arithmetic condition, a
-donor coding phase of 1, which is necessary and sufficient across its 77 rows but only necessary
-across all 231.
+donor coding phase of 1, which is necessary and sufficient across those 77 exon-3
+rows but only necessary across all 231.
 
 Among these, *EWSR1* exon 12 joined to *NR4A3* exon 3 is the junction reported most often: type 1 in
 10 of the 15 *EWSR1*-rearranged tumours of an 18-case series.<sup>22</sup><!--PMID:12378528--> Designs
@@ -286,7 +286,8 @@ them; every junction in this paper is named by its exon pair, so no type number 
 in order to read a design.
 
 No design at any of the 38 junctions is a perfect complement of any of the six parent transcripts.
-That test excluded none of the 190, because a junction-spanning window cannot occur intact in a parent.
+That check excluded none of the 190 and could not have: a junction-spanning window cannot occur
+intact in a parent. It is a guard against an error in the screen, not a specificity result.
 GC runs 25.0–75.0% across partners, with 132 of the 190 inside the conventional 40–60% band. Finding
 candidate sequences is therefore not the constraint on this modality in this disease.
 
@@ -333,7 +334,8 @@ breakpoint by coincidence passes it as readily as a paralogue does, so it does n
 paralogy from incidental exon homology. The stronger
 evidence for paralogy is that the remaining four of the nine, which span two partners rather than three, are also FET-only.
 
-Specificity does not sort by partner. Taking at each junction the lowest count any of its
+Specificity does not sort by partner on the one existence statistic tested, and does on the one
+other axis this section prints. Taking at each junction the lowest count any of its
 designs achieves after the orientation filter — a per-design minimum, which is in the released
 per-junction screens and not in Table 3, whose row is that junction's highest-margin design and not
 its cleanest — every one of the five partners has at least one
@@ -345,20 +347,27 @@ default-depth zero returning 29 across the gap when searched deeper. On this one
 statistic, then, no partner is uniformly clean or uniformly dirty, and which exon a fusion breaks
 at bears on specificity as well as which gene it breaks into. That is the limit of what was
 tested: no comparison between partners was performed, and one axis printed here does sort by
-partner. Table 2's genome-wide gap-paired load runs at a mean of 1.29 of chance across *TFG*'s
+partner. Table 2's genome-wide gap-paired load runs at a mean of 1.30 of chance across *TFG*'s
 five scored junctions — Table 2 gives a best row only at the 35 junctions where some design clears
-the parent screen (§2.7) — four of them above chance, against means of 0.51 to 0.71 and three rows
-above chance among the other thirty; over the whole corpus the same axis reads 2.23 across *TFG*'s
-thirty designs against 0.74 across the other 146. Those two means are not comparable summaries: the
-*TFG* distribution has a standard deviation of 3.36, larger than its own mean, and one design at 20
+the parent screen (§2.7) — four of them above chance, against partner means of 0.51 to 0.71 taken
+over seven or eight junctions each, and three rows above chance among the other thirty junctions;
+over the whole corpus the same axis reads 2.23 across *TFG*'s thirty designs against 0.74 across
+the other 146 of the 176 distinct molecules. Those two means are not comparable summaries: the
+*TFG* distribution has a standard deviation of 3.41, larger than its own mean, and one design at 20
 times chance, so its median is 1.53 while the other 146 sit at a median of 0.74 with a standard
 deviation of 0.44. On medians the contrast is 2.1-fold rather than 3.0-fold. That axis is reported and it is confounded rather
 than explained: the null behind it assumes uniform bases, so it tracks base composition, and *TFG*'s
 designs average 39.0% GC against 50.6% elsewhere. Non-*TFG* designs at matched composition (the 46
 of the other 146 carrying no more than seven G or C bases of 16, the band 29 of *TFG*'s 30 designs
-fall in) run at 1.04. Matching on composition therefore removes about a fifth of the difference,
-0.74 to 1.04 against 2.23, so part of the excess is GC and not partner; how large a part depends on
-the scale chosen, and the fifth quoted here is on the plain difference. The matching rule is stated
+fall in) run at 1.04. That restriction is one-sided — the 1.04 is over matched non-*TFG* designs
+while the 2.23 is over all thirty *TFG* designs — and restricting both sides gives 2.28 against
+1.04. Matching on composition therefore removes 20% of the difference in means one-sided, 0.74 to
+1.04 against 2.23, and 17% with both sides restricted, so part of the excess is GC and not partner;
+how large a part depends on the scale chosen, and both figures are on the plain difference in
+means. On medians, the scale this paragraph moved to above, matching removes a third rather than a
+fifth:
+the matched non-*TFG* median is 1.00 against *TFG*'s 1.53, so the median contrast falls
+from 2.1-fold to 1.5-fold and does not close. The matching rule is stated
 because the answer moves with it too: taken instead over the whole span of GC that *TFG*'s designs
 cover, the same figure is 0.89. Neither reading leaves the partner effect intact, and neither is a
 composition-matched null: the one built for the mature-parent screen was not run for the genome
@@ -412,7 +421,8 @@ after filtering they stand at 6 and 53.
 Under the stricter criterion — no sense-strand near-match anywhere, not merely across the catalytic gap
 as in §2.3 — nine designs at six junctions, a different nine from the nine multi-partner designs of
 §2.2, carry none among non-parent transcripts after filtering
-(Table 4), spanning four of the five partners: three at *EWSR1* exon 1
+(Table 4), spanning four of the five partners — five of them do-not-order designs for a reason no
+near-match screen sees, marked ⚑ in the list and explained after it. Three are at *EWSR1* exon 1
 (5′-GGGCATATCCGTGGAC-3′, 5′-GGCATATCCGTGGACG-3′ ⚑, 5′-GCATATCCGTGGACGC-3′ ⚑), one at *FUS* exon 8
 (5′-AGGGCATATCGGAGTC-3′), one at *TAF15* exon 1 (5′-GGGCATATCCGACATG-3′), and four at *TCF12* —
 5′-GGGCATATCTCTATAA-3′ at exon 17, 5′-CAGGGCATATCTTGCA-3′ ⚑ at exon 9, and
@@ -583,7 +593,7 @@ seven base pairs is the shortest end of the same cited range (§6): at seven the
 175 of 190 rather than 87, and 9 of the 38 junctions retain a design clearing it rather than 35.
 Loosening the cut enlarges the negative on both of those readings and does not strengthen it, because
 the nulls below move with it. Re-run at seven, the exon-terminus chimera ensemble reaches 91.4%
-against the 92.1% that 175 of 190 is, and the *NR4A3*-specific comparison reverses outright, 38.4%
+against the 92.1% that 175 of 190 is, and the *NR4A3*-specific comparison reverses outright, 73 of 190 or 38.4%
 observed against 46.6% for the null. At seven this screen is measuring what any chimera of two real
 transcripts does.
 
@@ -646,7 +656,15 @@ Eighty-seven of 190 is 45.8%, with a nominal binomial Wilson 95% interval of 38.
 because it treats the 190 records as independent draws, which the close of this section states they
 are not. Clustering on the 38 junctions the five registers of each are tiled from, with the
 within-junction correlation estimated by one-way analysis of variance, gives a design effect of
-1.42, an effective sample of 134 and an interval of 37.6–54.2%, which is the one to read. A count of that
+1.42, an effective sample of 134 and an interval of 37.6–54.2%, which is the one to read. That
+interval is a Wilson interval evaluated at the effective sample, 133.57 before rounding, and the
+correction it carries is for register clustering only: it does not reach the other non-independence
+the close of this section names, because the nine molecules recorded at more than one junction fall
+in different clusters rather than in one. Collapsing the 190 records onto the 176 distinct
+molecules instead gives 82 of 176, 46.6%, nominal Wilson 39.4–54.0%. Both intervals sit on a
+complete enumeration rather than on a sample — the 190 are every 5-6-5 register whose seam falls
+strictly inside the catalytic gap, at all 38 junctions — so what they describe is a differently
+tiled panel of the same junctions, not sampling error about a larger population of designs. A count of that
 kind means little
 without a null, so the same
 screen was run over arbitrary 16-mers. Only the query changes: the same six mature parents, the same
@@ -662,13 +680,15 @@ windows searched predicts 7.3%. That last step is a Poisson conversion and treat
 independent trials, which they are not: they tile 20,011 nucleotides, so consecutive windows share
 15 of their 16 bases and a site that lands in one lands in its neighbours too. Clumping of that kind
 makes a Poisson figure sit high, and the sampled uniform arm 0.4 points below it at 6.9% is what
-bounds the assumption here. The observed rate is about six and a half times the sampled uniform-base arm, and the *NR4A3*
+bounds the assumption here. The observed rate is 6.6 times the sampled uniform-base arm, and the *NR4A3*
 sub-analysis the modality actually turns on appears to separate further still: 32.1% of designs pair the gap against wild-type *NR4A3*
 specifically, against 1.8% of scrambles. That sub-analysis's own nominal interval is 25.9–39.0%, and the
 clustering correction applied above does not widen it: its design effect is 0.82 rather than
-1.42, because the five registers tiled from one junction disagree with one another about *NR4A3*
-more than two designs drawn at random would. A design effect below one would narrow the interval,
-and the nominal one is reported instead. Scrambles are the weakest null run here; against the
+1.42. That is not a reading about the registers. Permuting the liability labels across the 38
+junctions gives a design effect of 1.00 on average, a standard deviation of 0.21 and a 95% range of
+0.62 to 1.45, so 0.82 is not distinguishable from no clustering at all, while the aggregate 1.42
+falls outside that range. A design effect below one would narrow the interval, and the nominal one
+is reported instead. Scrambles are the weakest null run here; against the
 random-offset chimera null of the next paragraph, the same sub-analysis gives 32.1% against 9.3%. Neither
 comparison survives the exon-terminus null two paragraphs below, which returns 28.8% (28.3–29.2%) on
 it: the *NR4A3*-specific liability is no better resolved as specific to the reported breakpoints
@@ -685,16 +705,37 @@ That arm, however, destroys more than the breakpoint, and the excess over it sho
 share attributable to where the disease joins the two genes. A real design's halves do not sit at
 arbitrary interior positions: the donor half ends at an exon 3′ terminus and the *NR4A3* half begins
 at an exon 5′ terminus, because that is what a splice junction is. Drawing both halves at real exon
-termini of the same two transcripts — a syntactically valid exon–exon junction that no patient is
-reported to carry — gives 40.6% (40.1–41.1%), against 45.8% observed, and 40.5% (40.0–41.0%) when the
-*NR4A3* exon-3 acceptor that every junction tiled here uses is excluded from the draw altogether.
+termini of the same two transcripts — a syntactically valid exon–exon junction, almost always at an
+exon pair no patient is reported to carry — gives 40.6% (40.1–41.1%), against 45.8% observed, and
+40.5% (40.0–41.0%) when the *NR4A3* exon-3 acceptor that every junction tiled here uses is excluded
+from the draw altogether. Almost always, not never: the arm draws both termini freely, so 7.7% of
+its 38,000 draws reproduce a panel design's target window exactly and 1.4% land on one of the five
+junctions a patient is reported to carry. Excluding those draws moves the arm to 40.0% and widens
+the excess from 5.2 to 5.8 points — still inside the observed rate's interval, and in the direction
+that runs against this section's conclusion rather than for it.
 The parenthetical ranges on every null rate here are Monte-Carlo intervals on the ensemble mean
 over 38,000 draws, not confidence intervals comparable to the observed Wilson interval: they
 narrow with more drawing rather than with more evidence, and the spread of what 190 designs drawn
-from this arm would give is about 3.6 percentage points rather than the one printed. The
+from this arm would give is about 3.6 percentage points rather than the one printed — and that 3.6
+is itself nominal, since at the design effect of 1.42 above the comparable spread on the observed
+side is 4.3 points, against which the 5.2-point excess at ten is about 1.2 standard deviations. The
 observed rate's own interval contains both. The liability is therefore a property of joining two exon
 termini of these two transcripts, and this panel does not resolve a residual specific to the reported
 breakpoints.
+
+Two tighter readings agree with that, and one of them needs no null model at all. Holding the gene
+pair, the *NR4A3* exon-3 acceptor and the tiling register fixed, and varying only which donor exon
+3′ terminus the donor half ends at — the reported one excluded, so every draw is this paper's own
+design rule at an exon pair the disease is not reported to use — returns 44.5% against the 45.8%
+observed. That is an excess of 1.3 percentage points — 0.4 of the standard deviation of the count
+the null predicts, before any clustering correction, and a junction-cluster bootstrap interval of
+−7.3 to +10.0 points. Within the panel itself
+the same answer comes off the counts directly: the five junctions a patient is reported to carry
+are liable at 44.0%, 11 of 25, against 46.1%, 76 of 165, at the 33 in-frame junctions nobody is
+reported to carry — a difference of −2.1 points at a junction-label permutation p of 1.00, and
+p ≥ 0.42 at every cut of the ladder above. Both readings cluster on the junction rather than on the
+record. What the screen resolves is the gene pair and the splice geometry; it resolves nothing
+about where the disease joins them.
 
 The two termini do not contribute equally, and the asymmetry is the informative part. Requiring only
 the donor half to end at a real exon terminus leaves the rate at 22.5% (22.1–23.0%), close to the
@@ -704,9 +745,19 @@ to begin at a real acceptor. What the screen is detecting tracks the acceptor bo
 Two further arms locate it no more finely: holding the six
 gap bases and scrambling the wings gives 9.1%, and the mirror gives 8.8%, because a run reaching ten
 base pairs needs the real gap and the real flanks together. None of these rates is a significance
-test and none is offered as one. The 190 records are 176 distinct molecules tiled at overlapping
+test and none is offered as one, and the two tests that are reported above relabel or resample the
+38 junctions rather than the 190 records. The 190 records are 176 distinct molecules tiled at overlapping
 registers across 38 junctions, so they are not independent draws, and a test treating them as 190
 would be wrong about its own denominator.
+
+Nor is any of it a transcriptome-wide rate. Every figure in this section, observed and null alike,
+is a rate over 19,921 windows of the 20,011 nucleotides these six mature parents hold — 0.0028% of
+the 718,571,139-nucleotide, 186,185-transcript span the exhaustive scan measured (§6, screen 2) —
+and the criterion does not survive the enlargement: over that span the same uniform-base arithmetic
+predicts about 2.7 × 10³ qualifying sites for any 16-mer whatever, real design, scramble and
+chimera alike, so every sequence would meet it. What screen 4 counts is therefore a self-liability
+and not an off-target rate — the 85 of 87 above — and for that quantity a six-transcript search is
+already exhaustive rather than merely narrow.
 
 ### 2.6 · The *NR4A3* exon-2 acceptors, and the un-rearranged allele
 
@@ -2398,8 +2449,14 @@ manuscript and deposited as a separate file beside it, and included in the archi
 **Data and code availability.** [ARCHIVE DOI — PLACEHOLDER, AUTHOR TO SUPPLY BEFORE DEPOSIT: no
 digital object identifier has been reserved and this citation does not yet resolve], to be deposited
 from `github.com/trimcrae/Rare-cancers`.
-A manifest listing every archived file with its SHA-256 is generated with the archive and will travel
-with the deposit. Artefacts include the graded junction
+`fusion-junction-aso-archive-manifest.json` lists every archived file with its SHA-256; it is
+generated with the archive and travels with the deposit.
+Two renderings of this manuscript travel with it and their text is the same:
+`fusion-junction-aso-research-article.md` in submission format is the version of record, the one to
+cite and to deposit onward, and the typeset preview beside it is the same text set as a printed
+article. `fusion-junction-aso-submission-tables.md` is the machine-readable copy of Tables 1 to 7,
+whose content is printed in both renderings.
+Artefacts include the graded junction
 atlas, per-junction design panels, all five screens, the per-junction reagent table behind Table 2,
 the graded re-scores under
 both discrimination bounds, and the retrieval records for every literature claim.

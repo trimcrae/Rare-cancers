@@ -272,7 +272,14 @@ def test_minus_strand_fraction_matches_the_manuscript():
     txt = _paper()
     assert f"{minus} sit on the minus strand, or {pct}%" in _flat(txt), "minus-strand percentage"
     t = f"{tot:,}"
-    assert f"Of the {t} apparent cleavage risks" in _flat(txt), "results count"
+    # ⛔ THE NOUN CHANGED ON 2026-08-19 AND THE GUARD MUST FOLLOW THE MEASUREMENT, NOT THE OLD WORD.
+    # These are gap-paired sense-strand MATCHES. "Cleavage risk" named a catalytic outcome for a
+    # sequence observation, which §5 and §4.1 both contradict ("no screen here predicts cleavage at
+    # any of them because all five grade hybridisation only"). What this guard exists to pin is the
+    # COUNT and its denominator, so the count is asserted and the noun is allowed to be either the
+    # corrected one or the retired one -- fail on a wrong number, never on a corrected word.
+    assert (f"Of the {t} apparent gap-paired sense-strand matches" in _flat(txt)
+            or f"Of the {t} apparent cleavage risks" in _flat(txt)), "results count"
 
 
 def test_per_junction_range_matches_the_manuscript():
@@ -1084,7 +1091,9 @@ def test_the_lead_reagent_row_of_section_3_10_is_the_artifacts():
         [123, 3, 0], [6, 1, 0], [3, 4, 5], [3, 4, 5], [-7.77, -8.66, -10.25])
 
     txt = _flat(_paper())
-    assert "123 sense-strand cleavage risks across the gap at six gene loci become 3 at one locus" in txt
+    # Same rename; the load-bearing content is 123 -> 3 across six loci -> one, not the noun.
+    assert ("123 across the gap at six gene loci become 3 at one locus" in txt
+            or "123 sense-strand cleavage risks across the gap at six gene loci become 3 at one locus" in txt)
     assert "from 3 to 4 to 5 nucleotides, and the" in txt
     assert "−7.77 to −8.66 to −10.25 kcal/mol" in txt
     # §4's named second reagent, and the cost it does NOT buy
@@ -1722,8 +1731,40 @@ def test_the_wild_type_allele_liability_is_named_with_the_designs_it_condemns():
     # 2026-08-17). §5 says all five screens address hybridisation only, and the producing artifact's
     # own verdict string is a competence statement. The abstract and Box 1 always had it right; this
     # pin was holding the one hazard claim stated above its evidence.
-    assert ("**Some designs pair their whole catalytic gap against the patient's own un-rearranged "
-            "*NR4A3* allele") in raw
+    # ⚠ RE-ANCHORED 2026-08-19 ON THE PROPERTY, NOT THE OPENER. §2.6's thesis sentence was re-led
+    # with the MECHANISM (a non-exonic acceptor half means the un-rearranged allele carries the same
+    # sequence behind an intron), which is a readability fix that left the corrected hazard claim
+    # untouched. The old literal pinned the first six words, so a rewrite that PRESERVED the claim
+    # still failed it -- a guard that fires on a correct edit gets weakened or deleted, which is how
+    # the round-7 correction it protects would have been lost. Assert what must be true instead:
+    # the claim is in the bolded thesis, it uses the PAIRING verb, and it never says these designs
+    # cleave anything.
+    # ⚠ SCOPE TO §2.6 FIRST. Box 1 states the same liability for the three named designs, in the
+    # same vocabulary, so a document-wide search for the phrase finds Box 1 and certifies §2.6 on
+    # the strength of a different section -- which is the "guard reads the wrong passage" failure
+    # this suite has been bitten by before.
+    _s26 = raw.split("### 2.6 ·", 1)
+    assert len(_s26) == 2, "§2.6's heading has moved; re-anchor this guard"
+    # ⚠ AND FLATTEN THE WRAP BEFORE MATCHING. This manuscript hard-wraps at ~100 columns, so the
+    # phrase reads "un-rearranged *NR4A3*\nallele" in the source and no literal containing that
+    # space can ever match. Every prose needle in this suite is a whitespace-flattening bug waiting
+    # to happen; flatten first, then match.
+    _body26 = " ".join(_s26[1].split("### 2.7 ·", 1)[0].split())
+    # ⚠ SELECT ON A STABLE ANCHOR, NOT ON THE PHRASE BEING ASSERTED. An earlier draft of this guard
+    # also required "catalytic gap" in the block, which is one of the things it goes on to check --
+    # so reintroducing the round-7 defect made the block unfindable and the guard reported "thesis
+    # not found" instead of "cleavage verb present". It still failed, in the safe direction, but a
+    # guard whose message misnames the defect sends the next reader to the wrong place.
+    thesis = next((b for b in _body26.split("**") if "un-rearranged *NR4A3* allele" in b), None)
+    assert thesis, ("§2.6's bolded thesis no longer states the un-rearranged-allele liability at "
+                    "all; it is the result the section calls most consequential for anyone "
+                    "ordering these oligonucleotides")
+    assert "pair their whole catalytic gap against" in thesis, (
+        "§2.6's thesis must state the liability as PAIRING, which is what the screens measure. "
+        "Round 7 corrected it from 'cleave', because §5 says all five screens address "
+        "hybridisation only and the producing artifact's verdict is a competence statement.")
+    assert not re.search(r"\bcleav(e|es|ing|age)\b", thesis), (
+        f"§2.6's thesis has regained a cleavage verb: {thesis[:200]!r}")
 
 
 def test_the_testable_surface_states_the_only_catalogued_line_cannot_test_a_junction_reagent():
