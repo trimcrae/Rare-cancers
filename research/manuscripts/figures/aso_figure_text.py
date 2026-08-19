@@ -94,10 +94,10 @@ def wrapped_text(x, y, text, font_size, max_width, fill, leading=1.25, **attrs):
     return out, len(out) * step
 
 
-#: ⚠ SMALL COUNTS ARE SET AS WORDS, THE WAY THE MANUSCRIPT SETS THEM. A derived count printed as a
-#: digit reads as a different register from the prose beside it ("the 10-base-pair criterion" against
-#: "the ten-base-pair criterion"), and the fix must not be to type the word — that is how a derived
-#: number becomes a typed one. Anything outside the map falls through to its digits.
+#: ⚠ SMALL COUNTS ARE SET AS WORDS, THE WAY THE MANUSCRIPT SETS THEM. A derived count printed as
+#: a digit reads in a different register from the prose beside it ("the 10-base-pair criterion"
+#: against "the ten-base-pair criterion"), and the fix must not be to type the word — that is how
+#: a derived number becomes a typed one. Anything outside the map falls through to its digits.
 _WORDS = {0: "no", 1: "one", 2: "two", 3: "three", 4: "four", 5: "five",
           6: "six", 7: "seven", 8: "eight", 9: "nine", 10: "ten", 11: "eleven", 12: "twelve"}
 
@@ -111,7 +111,7 @@ def number_word(value):
 
 
 def narrowest_target(width_px, height_px):
-    """(target name, mm per SVG pixel) for whichever of `RENDER_TARGETS` scales this canvas least."""
+    """(target name, mm per SVG pixel) for whichever `RENDER_TARGETS` entry scales this least."""
     return min(((name, min(w / width_px, h / height_px))
                 for name, (w, h) in RENDER_TARGETS.items()), key=lambda pair: pair[1])
 

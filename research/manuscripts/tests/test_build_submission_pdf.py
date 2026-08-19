@@ -54,18 +54,62 @@ def test_every_reference_entry_survives(style):
         assert re.search(rf"^{number}\.\s", body, re.M), f"reference {number} was lost"
 
 
+def _pipe_rows(text):
+    """Every pipe row of a markdown document that is not an alignment separator."""
+    return [ln for ln in text.split("\n")
+            if ln.strip().startswith("|") and not re.match(r"^\|[\s:|-]+\|?$", ln.strip())]
+
+
+def _source_rows_by_table(tables_md):
+    """{table number: pipe rows} for the generated tables document."""
+    out = {}
+    for block in re.split(r"(?=^\*\*Table \d+\.)", tables_md, flags=re.M):
+        opener = re.match(r"^\*\*Table (\d+)\.", block)
+        if opener:
+            out[int(opener.group(1))] = _pipe_rows(block)
+    return out
+
+
 def test_every_table_survives_into_the_journal_layout(journal):
+    """⛔ COUNTED PER TABLE, NOT IN AGGREGATE (2026-08-19).
+
+    This compared the tables document's total pipe-row count against every `<tr>` in the rendered
+    document, on the standing assumption — written into HANDOFF as a fact — that "the article .md
+    contains NO pipe tables". The moment the criterion ladder was added to §2.5 as an inline pipe
+    table, the rendered side gained nine rows the source side could not see and the test failed
+    with "a table row was dropped" while nothing had been dropped: 195 rendered against 186 source.
+    An aggregate count over two populations cannot tell an addition in one from a loss in the
+    other. Per table it can, and a row moving BETWEEN tables — which the aggregate could never
+    see — now fails too.
+    """
     _, floats, rendered, _ = journal
-    source_rows = [ln for ln in bsp.read(PAPER["tables"]).split("\n")
-                   if ln.strip().startswith("|") and not re.match(r"^\|[\s:|-]+\|?$", ln.strip())]
-    assert len(source_rows) > 100
-    # ⚠ MATCH ANY <tr, NOT THE LITERAL "<tr>". Block-heading rows gained class="blockhead" on
-    # 2026-08-19 so each block could travel as its own <tbody>, and a literal matcher counted
-    # 179 where 182 rows were present — a passing-to-failing flip with nothing dropped. The
-    # table-name rows in <thead> are excluded because they are not source rows.
-    body_rows = [m for m in re.findall(r'<tr(?:\s+class="([^"]*)")?>', rendered)
-                 if m != "tablename"]
-    assert len(body_rows) == len(source_rows), "a table row was dropped"
+    import build_submission_pdf as bsp
+
+    source = _source_rows_by_table(bsp.read(PAPER["tables"]))
+    assert source and sum(len(v) for v in source.values()) > 100, source
+    for _kind, number, block, _wide in floats.values():
+        if _kind != "table":
+            continue
+        assert number in source, f"Table {number} is laid out and is in no source block"
+        # ⚠ MATCH ANY <tr, NOT THE LITERAL "<tr>". Block-heading rows gained class="blockhead" on
+        # 2026-08-19 so each block could travel as its own <tbody>, and a literal matcher counted
+        # 179 where 182 rows were present — a passing-to-failing flip with nothing dropped. The
+        # table-name rows in <thead> are excluded because they are not source rows.
+        laid_out = [m for m in re.findall(r'<tr(?:\s+class="([^"]*)")?>', bsp.render_float(
+            _kind, number, block, _wide)) if m != "tablename"]
+        assert len(laid_out) == len(source[number]), (
+            f"Table {number} lays out {len(laid_out)} row(s) from {len(source[number])} source "
+            "row(s) — a row was dropped, duplicated, or has moved to another table")
+
+    #: AND NOTHING MAY VANISH DOCUMENT-WIDE EITHER. The rendered total must be the tables' rows
+    #: plus whatever pipe rows the manuscript itself carries inline, so a table spliced into the
+    #: body and then lost is still caught.
+    total = len([m for m in re.findall(r'<tr(?:\s+class="([^"]*)")?>', rendered)
+                 if m != "tablename"])
+    assert total >= sum(len(v) for v in source.values()), (
+        f"the rendered document carries {total} table row(s) against "
+        f"{sum(len(v) for v in source.values())} in the generated tables document alone")
+
     # ⚠ DERIVED FROM THE GENERATED TABLES FILE, NOT TYPED (2026-08-16). This asserted `== 6` and had
     # to be chased by hand the moment Table 7 was generated. A typed count is the same defect
     # `_geometry_columns` names in submission_tables.py: it cannot notice a table added upstream, and

@@ -1865,6 +1865,11 @@ def table4(collapse, chance, thermo, graded):
     check the central claim could not find five of the molecules it is about, and would find two
     junctions (FUS e8, TCF12 e9) whose Table 3 row shows a gap-paired locus for a DIFFERENT
     design at the same junction. Prose naming nine sequences is not a substitute for a table.
+
+    ⚠ THAT SAME NON-OVERLAP IS WHY NO SENTENCE HERE MAY SAY WHAT TABLE 3 MARKS. The two tables
+    select by different rules over the same designs, so which of this table's rows Table 3 also
+    prints is a MEASUREMENT and not an inference — `_flagged_rows_in_table3` takes it off the
+    rendered rows of both, and the caption is written from what it returns.
     """
     ddg = {r["antisense_5to3"]: r for r in thermo["per_design"]}
     le1 = {}
@@ -1872,14 +1877,21 @@ def table4(collapse, chance, thermo, graded):
         le1.setdefault(r["antisense_5to3"], (r.get("offtarget_exact"), r.get("offtarget_le1mm")))
     deep = _deep_lookup()
     # ⛔⛔ THE PARENT-DUPLEX COLUMN IS HERE BECAUSE THIS TABLE CONDEMNED NOTHING AND LOOKED LIKE IT
-    # CLEARED EVERYTHING (blind order-walkthrough, 2026-08-19). Table 3 marks a design ⚑ "do not
-    # order" where a wild-type parent pairs the whole catalytic gap at ten base pairs or more.
-    # FIVE of this table's nine rows are marked ⚑ four pages earlier — `GCATATCCGTGGACGC` at 12 bp
-    # against EWSR1, `GGCATATCCGTGGACG` at 11, `GCATATCAAGCGCTGC` at 12 against TCF12,
-    # `GGCATATCAAGCGCTG` at 11, `CAGGGCATATCTTGCA` at 12 against NR4A3 itself — and this table
-    # printed every one of them with no marker of any kind and a final column reading "yes".
-    # A reader who reached Table 4 first, which its own §2.4 citation invites, met five condemned
-    # molecules presented as survivors. The correction existed only as prose in §2.4 and §2.7.
+    # CLEARED EVERYTHING (blind order-walkthrough, 2026-08-19). The parent screen condemns a design
+    # where a wild-type parent pairs the whole catalytic gap at the criterion, and FIVE of this
+    # table's nine rows are condemned by it — `GCATATCCGTGGACGC` at 12 bp against EWSR1,
+    # `GGCATATCCGTGGACG` at 11, `GCATATCAAGCGCTGC` at 12 against TCF12, `GGCATATCAAGCGCTG` at 11,
+    # `CAGGGCATATCTTGCA` at 12 against NR4A3 itself — and this table printed every one of them with
+    # no marker of any kind and a final column reading "yes". A reader who reached Table 4 first,
+    # which its own §2.4 citation invites, met five condemned molecules presented as survivors.
+    # ⛔ AND THE FIRST FIX CARRIED A SECOND ERROR: it said Table 3 "marks them do-not-order for it",
+    # which is a claim about ANOTHER TABLE'S ROWS and was false of four of the five. RECOMPUTED over
+    # the rendered rows (`_flagged_rows_in_table3`): Table 3 prints ONE of them, `GGCATATCAAGCGCTG`
+    # at TCF12 e7, marked; at EWSR1 e1 and TCF12 e9 it prints a DIFFERENT design — `GGGCATATCCGTGGAC`
+    # at 0 bp and `GGGCATATCTTGCATA` at 8 bp — and marks neither, because Table 3 prints each
+    # junction's HIGHEST-MARGIN design and whether that is also the condemned one is a coincidence
+    # of two rankings. So the cross-reference sent a reader checking a do-not-order verdict to an
+    # unmarked row. The caption's sentence is now generated from the join instead of asserted.
     # ⚠ AND THE VERDICT COLUMN IS RENAMED RATHER THAN LEFT TO CARRY THE WHOLE WEIGHT. "survives"
     # was always a near-match verdict — no sense-strand near-match at the deeper ceiling — and
     # never a statement about the parent screen. The header now says which screen it is.
@@ -2094,6 +2106,17 @@ def main(argv=None):
     #: ⚠ A CLASS BAND IS NOT A ROW — see `_classed`. Counted as the rows carrying a basis cell, so
     #: the caption's denominator cannot drift when a class gains or loses a band.
     t5_rows = sum(1 for r in _md_table(t5)[1] if any(c for c in r[1:]))
+    # ⛔ ≥ AND ≤ IN ADJACENT COLUMNS, ONE A FLOOR AND ONE A CEILING (display-item review,
+    # 2026-08-19). Both senses are defined, in one long note printed once under the caption,
+    # and twenty of the thirty-eight rows carry both marks — so a reader scanning the row is
+    # asked to hold two opposite conventions from a paragraph they may be pages away from.
+    # The counts are measured off the rendered rows so the sentence cannot outlive the marks.
+    _t3_rows = _md_table(t3)[1]
+    t3_rows = len(_t3_rows)
+    t3_ge = sum(1 for r in _t3_rows if any("≥" in c for c in r))
+    t3_le = sum(1 for r in _t3_rows if any("≤" in c for c in r))
+    t3_both = sum(1 for r in _t3_rows
+                  if any("≥" in c for c in r) and any("≤" in c for c in r))
     t5_max_duplex = _highest_duplex_printed(t5, "longest mature-parent duplex")
 
     # ⛔ TABLE 1 PRINTED TWO COLUMNS THAT ARE THE SAME COLUMN AND SAID NOTHING (audit, 2026-08-19).
@@ -2408,7 +2431,7 @@ RETURNED a screen at this depth: {n_failed} of the panel's {n_attempted} default
 failed at the remote service, which is why a junction can show fewer than {_word(_registers)} designs screened
 here{margin_up_txt}.{margin_both} Near-match counts are of RefSeq
 transcript accessions and are also given collapsed to distinct gene loci, since RefSeq carries one
-accession per annotated variant. A “≥” marks a right-censored count, and the two columns are
+accession per annotated variant. **⚠ The two censoring marks point in OPPOSITE directions and sit on adjacent columns: “≥” is a LOWER bound, because the search was capped, and “≤” an UPPER bound, because the stored figure over-counts.** {t3_ge} of the {t3_rows} rows carry “≥”, {t3_le} carry “≤” and {t3_both} carry both. A “≥” marks a right-censored count, and the two columns are
 censored by DIFFERENT caps, which is why an uncensored transcript count here can exceed the retained
 {SAVED_HITS}: the alignment screen itself returns at most 50 hits per query, so a transcript count at
 50 is a lower bound, while the locus column is recounted from the {SAVED_HITS} hits the screens

@@ -141,8 +141,9 @@ def main(argv=None):
     title = (f"One 16-mer spans three partners’ breakpoints — and only "
              f"{number_word(n_reported)} of the {number_word(len(labels))} is a junction any "
              f"patient is reported to carry")
-    subtitle = (f"The three FET-family donors are identical over the {number_word(shared)} nucleotides before "
-                f"the breakpoint, and the acceptor exon is the same in all three. Every row is "
+    subtitle = (f"The three FET-family donors are identical over the {number_word(shared)} "
+                f"nucleotides before the breakpoint, and the acceptor exon is the same in all "
+                f"three. Every row is "
                 f"TARGET mRNA, sense; the reagent is the reverse complement of the shaded window.")
     title_lines = wrap(title, FS_TITLE, W - 64)
     sub_lines = wrap(subtitle, FS_SUB, W - 64)

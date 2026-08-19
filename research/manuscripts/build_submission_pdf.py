@@ -373,6 +373,40 @@ def provenance_line(paper, style):
     return f"Version of {date} · {what} · built from {stamp}"
 
 
+def _fold_the_figure_legends_preamble(body, paper):
+    """Move the note under "## Figure legends" to BELOW the first legend, so the page is not empty.
+
+    ⛔ A PAGE CARRYING A HEADING AND FOUR SENTENCES (blind screen of the deposit, 2026-08-19).
+    Manuscript page 56 held "Figure legends" plus the note explaining the two independent S-series,
+    and nothing else: 612 characters against a median page of 4,777. The cause is structural rather
+    than typographic — the tables section ends in a landscape run, so the heading opens a fresh
+    portrait page, and Figure 1's panel is capped at 218 mm and cannot fit underneath four
+    sentences, so it goes to the next page and takes the whole legend block with it.
+
+    ★ MOVING THE NOTE UNDER THE FIRST LEGEND LETS THE PANEL START ON THAT PAGE. The note is about
+    the numbering of the whole series, so it reads no worse after Figure 1's legend than before it,
+    and it stops being a page of its own. Nothing is deleted; the paragraph travels intact.
+
+    ⚠ IF THE SECTION HAS NO PREAMBLE the body is returned unchanged — there is then nothing to fold
+    and nothing that could be silently dropped.
+    """
+    try:
+        _, end, after = section_span(body, "Figure legends")
+    except SystemExit:
+        return body
+    section = body[after:end]
+    first = re.search(r"^\*\*(?:Supplementary )?Figure S?\d+\.", section, re.M)
+    if not first or not section[:first.start()].strip():
+        return body
+    preamble = section[:first.start()].strip()
+    legend_end = re.search(r"^\*\*(?:Supplementary )?Figure S?\d+\.",
+                           section[first.end():], re.M)
+    cut = first.end() + (legend_end.start() if legend_end else len(section) - first.end())
+    folded = (section[first.start():cut].rstrip() + "\n\n" + preamble + "\n\n"
+              + section[cut:].lstrip())
+    return body[:after] + "\n\n" + folded.strip() + "\n\n" + body[end:]
+
+
 # --------------------------------------------------------------------------- assembly
 
 def assemble(paper, style="journal"):
@@ -1116,6 +1150,10 @@ p.legend.caption { break-before: auto; break-after: avoid; margin-bottom: 4pt; }
    result on every build so the next content change cannot quietly bring the page back. */
 p.legend.note { margin-bottom: 7pt; }
 section.landscape { page: landscape; }
+/* The identity block under the title: which document this is, and which build. */
+p.version { font-size: 8.4pt; color: #46545f; margin: -6pt 0 12pt 0; text-align: left; }
+p.sitrace { font-size: 9pt; margin: 0 0 10pt 0; text-align: left; }
+p.sitrace .of { font-style: italic; }
 """
 
 JOURNAL_CSS = COMMON + """
@@ -1136,6 +1174,7 @@ h1.title { font-size: 18pt; line-height: 1.18; margin: 0 0 8pt 0; font-weight: 7
 .byline { font-size: 10pt; margin: 0 0 2pt 0; font-weight: 600; }
 .affil { font-size: 8.4pt; color: #46545f; margin: 0 0 10pt 0; font-style: italic; }
 .affil .corr { font-style: normal; }
+.version { font-size: 7.6pt; color: #5a6b7a; margin: -6pt 0 10pt 0; letter-spacing: 0.01em; }
 
 .abstract { background: #f4f7fa; border-left: 2.4pt solid #123a5e; padding: 8pt 10pt;
             margin: 0 0 8pt 0; font-size: 8.8pt; line-height: 1.42; }
@@ -1211,12 +1250,16 @@ li { margin-bottom: 3pt; text-align: justify; }
 """
 
 
-def wrap_manuscript(front_title, body_html):
+def wrap_manuscript(front_title, body_html, front_block=""):
     body_html = re.sub(r"(<h2>Tables</h2>)(.*?)(?=<h2>)",
                        lambda m: '<section class="landscape">' + m.group(1) + m.group(2)
                        + "</section>", body_html, count=1, flags=re.S)
     body_html = re.sub(r"(<h2>References</h2>.*?)<ol", r'\1<ol id="references-list"',
                        body_html, count=1, flags=re.S)
+    #: The identity block goes directly under the H1, which is where a screener looks and where the
+    #: old build carried nothing at all: no date, no version, no build.
+    if front_block:
+        body_html = re.sub(r"(</h1>)", r"\1" + front_block, body_html, count=1)
     return page_shell(front_title, MANUSCRIPT_CSS, body_html)
 
 
@@ -1288,6 +1331,7 @@ def wrap_journal(paper, front, body_html):
         f'<h1 class="title">{inline(front["title"])}</h1>'
         f'<p class="byline">{inline(front["author"])}</p>'
         f'<p class="affil">{inline(front["affiliation"])}</p>'
+        f'<p class="version">{_html.escape(provenance_line(paper, "journal"))}</p>'
         '<div class="abstract"><h2>Abstract</h2>'
         f'<p>{inline(front["abstract"])}</p></div>'
         f'<p class="kw"><strong>Keywords</strong> &nbsp;{inline(front["keywords"])}</p>'
@@ -1500,10 +1544,25 @@ def build_supplementary(paper, html_only=False):
     src = paper.get("supplementary")
     if not src:
         return 0
-    body = strip_frontmatter(read(src))
+    body = apply_deposit_filenames(strip_frontmatter(read(src)), paper, "supplementary")
     title_m = re.search(r"^#\s+(.*)$", body, re.M)
     title = re.sub(r"[*_`]", "", title_m.group(1)) if title_m else "Supplementary Information"
-    page = wrap_manuscript(title, markdown_to_html(body))
+    #: ⛔ THE SI DID NOT NAME ITS OWN PAPER AND DID NOT SAY IT WAS UN-REFEREED (blind screen,
+    #: 2026-08-19). "peer review" appeared once in each full PDF and ZERO times in the SI; its title
+    #: block carried a short standalone title that appears nowhere in the article, so an SI
+    #: forwarded on its own — which is how a supplement travels — was traceable to no paper and
+    #: announced itself as nothing in particular. Both facts are READ from the article and from the
+    #: paper's own masthead declaration rather than restated here.
+    article_title = re.search(r"^#\s+(.*)$", strip_frontmatter(read(paper["manuscript"])), re.M)
+    article_pdf = deposit_filenames(paper)[os.path.basename(paper["manuscript"])]
+    front_block = (
+        '<p class="sitrace">Supplementary Information to <span class="of">'
+        + inline(article_title.group(1)) + "</span>"
+        + (f' — deposited as <code>{_html.escape(article_pdf)}</code>' if article_pdf else "")
+        + ".</p>"
+        + f'<p class="version">{_html.escape(paper.get("journal", {}).get("preprint_note", ""))}'
+        + f' · {_html.escape(provenance_line(paper, "supplementary"))}</p>')
+    page = wrap_manuscript(title, markdown_to_html(body), front_block)
     out_name = paper["out"].replace(".pdf", "-supplementary-information.pdf")
     html_path = os.path.join(HERE, out_name.replace(".pdf", ".build.html"))
     with open(html_path, "w", encoding="utf-8") as fh:
@@ -1540,7 +1599,9 @@ def build(name, paper, style="journal", html_only=False):
         out_name = paper["out"]
     else:
         title = re.sub(r"[*_`]", "", re.search(r"^#\s+(.*)$", body, re.M).group(1))
-        page = wrap_manuscript(title, markdown_to_html(body, floats))
+        page = wrap_manuscript(
+            title, markdown_to_html(body, floats),
+            f'<p class="version">{_html.escape(provenance_line(paper, "manuscript"))}</p>')
         out_name = paper["out"].replace(".pdf", "-manuscript.pdf")
 
     html_path = os.path.join(HERE, out_name.replace(".pdf", ".build.html"))

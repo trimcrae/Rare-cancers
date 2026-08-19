@@ -447,10 +447,14 @@ three of the nine still carry no sense-strand near-match: 5′-AGGGCATATCGGAGTC-
 of which the mature-parent screen condemns at eleven base pairs against wild-type *TCF12* and §2.7
 excludes, so it is not to be ordered. Each returned the same count at both depths. The other six did not. The three *EWSR1* exon-1 designs had
 returned no near-match at all at the default ceiling and return 27, 29 and 84; 5′-GGGCATATCTCTATAA-3′
-at *TCF12* exon 17 goes from 8 to 118 on either strand, and 5′-CAGGGCATATCTTGCA-3′ at *TCF12*
-exon 9 from 7 to 67; and 5′-GCATATCAAGCGCTGC-3′ at *TCF12* exon 7, which had one near-match and none on the sense strand, returns 18 with two. Three of the six carry hits that span the catalytic gap and so are cleavage
-risks rather than merely sense-strand matches: 64 for 5′-GCATATCCGTGGACGC-3′, 14 for
-5′-GGGCATATCTCTATAA-3′ and 11 for 5′-CAGGGCATATCTTGCA-3′. A count of zero at the default ceiling
+at *TCF12* exon 17 goes from 8 to 118 on either strand, and 5′-CAGGGCATATCTTGCA-3′ ⚑ at *TCF12*
+exon 9 from 7 to 67; and 5′-GCATATCAAGCGCTGC-3′ ⚑ at *TCF12* exon 7, which had one near-match and none on the sense strand, returns 18 with two. Three of the six carry hits that span the catalytic gap and so are cleavage
+risks rather than merely sense-strand matches: 64 for 5′-GCATATCCGTGGACGC-3′ ⚑, 14 for
+5′-GGGCATATCTCTATAA-3′ and 11 for 5′-CAGGGCATATCTTGCA-3′ ⚑. Three of the designs named in this
+paragraph carry ⚑ because the mature-parent screen condemns them at a twelve-base-pair duplex —
+5′-CAGGGCATATCTTGCA-3′ against wild-type *NR4A3*, 5′-GCATATCAAGCGCTGC-3′ against wild-type *TCF12*
+and 5′-GCATATCCGTGGACGC-3′ against wild-type *EWSR1* — so none of them is to be ordered, and they
+are named here only for what the depth change does to their hit counts. A count of zero at the default ceiling
 was not a count of zero, which is the sharpest form of the bound §5 sets out. The three named above
 are clean on the near-match screens alone; composing them with the mature-parent screen changes
 which design stands at *TCF12* exon 7, as §2.7 sets out, so this list is not the candidate set and
@@ -752,10 +756,14 @@ best-design field above. Both seams keep a reagent, 5′-AGTGGGCTCTCCACGG-3′ a
 locus does not have and returning no wild-type site at all on the two screens that reach this seam.
 Two of the three condemned designs, and the kept one, sit at the *EWSR1* exon-13 seam as
 consecutive registers differing only by a single-base slide: the kept reagent,
-5′-AGTGGGCTCTCCACGG-3′, is shifted one base 3′ of 5′-CAGTGGGCTCTCCACG-3′ and two of
-5′-GCAGTGGGCTCTCCAC-3′. The third condemned design, 5′-TGATGAGGGCCTTGTG-3′, is at the *TAF15*
-exon-6 seam and is not a register of that set. Neither condemned *EWSR1* exon-13 register may be
-ordered in place of the kept reagent, and a single-base slide is all that separates them. Every seam in this section joins its donor to *NR4A3* exon 2 or to the intron-2
+5′-AGTGGGCTCTCCACGG-3′, is shifted one base 3′ of 5′-CAGTGGGCTCTCCACG-3′ ⚑ and two of
+5′-GCAGTGGGCTCTCCAC-3′ ⚑. The third condemned design, 5′-TGATGAGGGCCTTGTG-3′ ⚑, is at the *TAF15*
+exon-6 seam and is not a register of that *EWSR1* set — **but it stands in exactly the same relation
+to the reagent kept beside it**: it is shifted two bases 5′ of 5′-ATGAGGGCCTTGTGTG-3′, and the
+fourteen bases the slide leaves overlapping are identical. Neither condemned *EWSR1* exon-13
+register may be ordered in place of the kept *EWSR1* reagent, the condemned *TAF15* exon-6 design
+may not be ordered in place of the kept *TAF15* one, and in both cases a slide of one or two bases
+is all that separates a reagent from a design this paper condemns. Every seam in this section joins its donor to *NR4A3* exon 2 or to the intron-2
 cryptic exon, and none of them to *NR4A3* exon 3: the *EWSR1* exon-13 to *NR4A3* exon-3 reagent of §4.1 is a
 different molecule at a different seam.
 Of the two kept reagents, 5′-ATGAGGGCCTTGTGTG-3′ is the one not certifiable under the criterion §4.5 states, and §3 carries it only
