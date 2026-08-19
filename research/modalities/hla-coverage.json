@@ -1,5 +1,5 @@
 {
-  "_note": "HLA population coverage of EWSR1::NR4A3 junction neoepitopes. Allele frequencies are denominator(2N)-weighted means pooled over AFND populations, with Wilson 95% CIs (per METHODOLOGY.md). Coverage = fraction carrying >=1 presenting allele = 1 - prod(1-af)^2 (independence across loci; IEDB population-coverage formula). Reported globally AND per UN M49 sub-region, because HLA frequencies vary enormously between populations (see `regions` and af_range_across_populations).",
+  "_note": "HLA population coverage of EWSR1::NR4A3 junction neoepitopes. Allele frequencies are denominator(2N)-weighted means pooled over AFND populations, with Wilson 95% CIs (per systems/POLICY-evidence.md). Coverage = fraction carrying >=1 presenting allele = 1 - prod(1-af)^2 (independence across loci; IEDB population-coverage formula). Reported globally AND per UN M49 sub-region, because HLA frequencies vary enormously between populations (see `regions` and af_range_across_populations).",
   "_sources": [
     "Gonzalez-Galarza FF, et al. Allele frequency net database (AFND) 2020 update. Nucleic Acids Res. 2020;48:D783-D788. Mirror: github.com/slowkow/allelefrequencies (MIT).",
     "Region mapping: ISO 3166 / UN M49 sub-regions via github.com/lukes/ISO-3166-Countries-with-Regional-Codes."
@@ -45,32 +45,18 @@
           0.903
         ]
       },
-      "HLA-A*02:01": {
-        "allele_frequency": 0.1518,
+      "HLA-A*01:01": {
+        "allele_frequency": 0.0641,
         "af_95ci": [
-          0.1491,
-          0.1546
+          0.0622,
+          0.066
         ],
-        "carrier_frequency": 0.2806,
-        "n_populations": 246,
-        "total_individuals": 33597,
+        "carrier_frequency": 0.124,
+        "n_populations": 210,
+        "total_individuals": 32777,
         "af_range_across_populations": [
           0.0,
-          0.545
-        ]
-      },
-      "HLA-A*11:01": {
-        "allele_frequency": 0.1262,
-        "af_95ci": [
-          0.1236,
-          0.129
-        ],
-        "carrier_frequency": 0.2365,
-        "n_populations": 202,
-        "total_individuals": 28991,
-        "af_range_across_populations": [
-          0.0,
-          0.636
+          0.333
         ]
       },
       "HLA-B*07:02": {
@@ -85,20 +71,6 @@
         "af_range_across_populations": [
           0.0,
           0.19
-        ]
-      },
-      "HLA-B*08:01": {
-        "allele_frequency": 0.0401,
-        "af_95ci": [
-          0.0386,
-          0.0416
-        ],
-        "carrier_frequency": 0.0786,
-        "n_populations": 196,
-        "total_individuals": 33082,
-        "af_range_across_populations": [
-          0.0,
-          0.182
         ]
       },
       "HLA-B*15:01": {
@@ -117,35 +89,29 @@
       }
     },
     "e7e3_public_epitope_alleles": [
-      "HLA-A*11:01",
-      "HLA-B*08:01"
-    ],
-    "coverage_e7e3_public": 0.2965,
-    "coverage_e7e3_public_95ci": [
-      0.2901,
-      0.3032
-    ],
-    "coverage_e7e3_alleles_used": [
-      "HLA-A*11:01",
-      "HLA-B*08:01"
-    ],
-    "all_strong_binder_alleles": [
-      "HLA-A*02:01",
-      "HLA-A*11:01",
-      "HLA-B*07:02",
-      "HLA-B*08:01",
       "HLA-B*15:01"
     ],
-    "coverage_any_strong_binder_allele": 0.5803,
+    "coverage_e7e3_public": 0.0851,
+    "coverage_e7e3_public_95ci": [
+      0.0826,
+      0.0876
+    ],
+    "coverage_e7e3_alleles_used": [
+      "HLA-B*15:01"
+    ],
+    "all_strong_binder_alleles": [
+      "HLA-A*01:01",
+      "HLA-B*07:02",
+      "HLA-B*15:01"
+    ],
+    "coverage_any_strong_binder_allele": 0.2737,
     "coverage_any_strong_binder_allele_95ci": [
-      0.5712,
-      0.5897
+      0.2663,
+      0.2814
     ],
     "coverage_all_alleles_used": [
-      "HLA-A*02:01",
-      "HLA-A*11:01",
+      "HLA-A*01:01",
       "HLA-B*07:02",
-      "HLA-B*08:01",
       "HLA-B*15:01"
     ],
     "class_ii_cd4_helper_alleles": [
@@ -161,30 +127,34 @@
       "DRB1*03:01",
       "DRB1*07:01"
     ],
-    "coverage_cd8_and_cd4_combined": 0.1649
+    "coverage_cd8_and_cd4_combined": 0.0778
   },
   "_class_ii_note": "Class-II (CD4 helper) coverage is over DRB1 alleles presenting a STRONG binder in patient-cd4-demo.json (MHCnuggets, EWSR1 e7::e3 junction). That screen tested only a 3-allele DR panel (DRB1*15:01, DRB1*03:01, DRB1*07:01), so this coverage is a FLOOR over a tested panel, not a complete DR scan: untested DR alleles may also present the helper peptides, which would only raise coverage. coverage_cd8_and_cd4_combined = P(>=1 class-I allele) x P(>=1 class-II allele), treating HLA-A/B and DRB1 as independent loci.",
+  "\u26d4_class_ii_provenance": {
+    "class_ii_input": "patient-cd4-demo.json",
+    "class_ii_junction_context": "QYSQQSSSYGQQ|IVRTDSLKGRRG",
+    "corrected_junction_context": "SQQSSSYGQQ|NMPCVQAQYSP",
+    "matches_corrected_seam": false,
+    "\u26d4": "THE CLASS-II ARM IS BUILT ON A DIFFERENT SEAM FROM THE CLASS-I ARM. `coverage_cd4_classii` and every `coverage_cd8_and_cd4_combined` figure in this file therefore mix a corrected class-I set with an UNCORRECTED class-II set and are NOT quotable until patient-cd4-demo.json is regenerated at the corrected junction. The class-I figures are unaffected \u2014 they are recomputed from the regenerated fusion-breakpoint-neoantigens.json."
+  },
   "regions": {
     "Northern Europe": {
-      "coverage_e7e3_public": 0.3101,
+      "coverage_e7e3_public": 0.1611,
       "coverage_e7e3_public_95ci": [
-        0.2744,
-        0.3491
+        0.1383,
+        0.1871
       ],
       "coverage_e7e3_alleles_used": [
-        "A*11:01",
-        "B*08:01"
+        "B*15:01"
       ],
-      "coverage_any_strong_binder_allele": 0.7887,
+      "coverage_any_strong_binder_allele": 0.6043,
       "coverage_any_strong_binder_allele_95ci": [
-        0.7489,
-        0.8259
+        0.5593,
+        0.6495
       ],
       "coverage_all_alleles_used": [
-        "A*02:01",
-        "A*11:01",
+        "A*01:01",
         "B*07:02",
-        "B*08:01",
         "B*15:01"
       ],
       "coverage_cd4_classii": 0.3797,
@@ -199,18 +169,11 @@
       "max_n_populations": 10,
       "max_total_individuals": 1641,
       "allele_frequencies": {
-        "A*02:01": {
-          "allele_frequency": 0.2703,
+        "A*01:01": {
+          "allele_frequency": 0.1706,
           "af_95ci": [
-            0.2505,
-            0.291
-          ]
-        },
-        "A*11:01": {
-          "allele_frequency": 0.0542,
-          "af_95ci": [
-            0.0447,
-            0.0655
+            0.1542,
+            0.1885
           ]
         },
         "B*07:02": {
@@ -218,13 +181,6 @@
           "af_95ci": [
             0.1545,
             0.1908
-          ]
-        },
-        "B*08:01": {
-          "allele_frequency": 0.1218,
-          "af_95ci": [
-            0.1083,
-            0.1367
           ]
         },
         "B*15:01": {
@@ -237,25 +193,22 @@
       }
     },
     "Western Europe": {
-      "coverage_e7e3_public": 0.2273,
+      "coverage_e7e3_public": 0.0824,
       "coverage_e7e3_public_95ci": [
-        0.1987,
-        0.2614
+        0.0732,
+        0.0927
       ],
       "coverage_e7e3_alleles_used": [
-        "A*11:01",
-        "B*08:01"
+        "B*15:01"
       ],
-      "coverage_any_strong_binder_allele": 0.6891,
+      "coverage_any_strong_binder_allele": 0.4157,
       "coverage_any_strong_binder_allele_95ci": [
-        0.6447,
-        0.7332
+        0.3899,
+        0.4428
       ],
       "coverage_all_alleles_used": [
-        "A*02:01",
-        "A*11:01",
+        "A*01:01",
         "B*07:02",
-        "B*08:01",
         "B*15:01"
       ],
       "coverage_cd4_classii": 0.3836,
@@ -270,18 +223,11 @@
       "max_n_populations": 10,
       "max_total_individuals": 3077,
       "allele_frequencies": {
-        "A*02:01": {
-          "allele_frequency": 0.2667,
+        "A*01:01": {
+          "allele_frequency": 0.1163,
           "af_95ci": [
-            0.2401,
-            0.2952
-          ]
-        },
-        "A*11:01": {
-          "allele_frequency": 0.0396,
-          "af_95ci": [
-            0.0291,
-            0.0536
+            0.1086,
+            0.1246
           ]
         },
         "B*07:02": {
@@ -289,13 +235,6 @@
           "af_95ci": [
             0.0898,
             0.1048
-          ]
-        },
-        "B*08:01": {
-          "allele_frequency": 0.0847,
-          "af_95ci": [
-            0.078,
-            0.0919
           ]
         },
         "B*15:01": {
@@ -307,239 +246,23 @@
         }
       }
     },
-    "Northern America": {
-      "coverage_e7e3_public": 0.2232,
-      "coverage_e7e3_public_95ci": [
-        0.208,
-        0.2393
-      ],
-      "coverage_e7e3_alleles_used": [
-        "A*11:01",
-        "B*08:01"
-      ],
-      "coverage_any_strong_binder_allele": 0.6204,
-      "coverage_any_strong_binder_allele_95ci": [
-        0.5981,
-        0.643
-      ],
-      "coverage_all_alleles_used": [
-        "A*02:01",
-        "A*11:01",
-        "B*07:02",
-        "B*08:01",
-        "B*15:01"
-      ],
-      "coverage_cd4_classii": 0.3236,
-      "coverage_cd4_classii_95ci": [
-        0.3064,
-        0.3413
-      ],
-      "coverage_cd4_classii_alleles_used": [
-        "DRB1*03:01",
-        "DRB1*07:01"
-      ],
-      "max_n_populations": 23,
-      "max_total_individuals": 5936,
-      "allele_frequencies": {
-        "A*02:01": {
-          "allele_frequency": 0.2159,
-          "af_95ci": [
-            0.208,
-            0.224
-          ]
-        },
-        "A*11:01": {
-          "allele_frequency": 0.0688,
-          "af_95ci": [
-            0.0636,
-            0.0744
-          ]
-        },
-        "B*07:02": {
-          "allele_frequency": 0.0708,
-          "af_95ci": [
-            0.0662,
-            0.0758
-          ]
-        },
-        "B*08:01": {
-          "allele_frequency": 0.0535,
-          "af_95ci": [
-            0.0496,
-            0.0577
-          ]
-        },
-        "B*15:01": {
-          "allele_frequency": 0.0406,
-          "af_95ci": [
-            0.0368,
-            0.0448
-          ]
-        }
-      }
-    },
-    "Southern Europe": {
-      "coverage_e7e3_public": 0.1896,
-      "coverage_e7e3_public_95ci": [
-        0.17,
-        0.2113
-      ],
-      "coverage_e7e3_alleles_used": [
-        "A*11:01",
-        "B*08:01"
-      ],
-      "coverage_any_strong_binder_allele": 0.6132,
-      "coverage_any_strong_binder_allele_95ci": [
-        0.5828,
-        0.6442
-      ],
-      "coverage_all_alleles_used": [
-        "A*02:01",
-        "A*11:01",
-        "B*07:02",
-        "B*08:01",
-        "B*15:01"
-      ],
-      "coverage_cd4_classii": 0.3911,
-      "coverage_cd4_classii_95ci": [
-        0.3759,
-        0.4067
-      ],
-      "coverage_cd4_classii_alleles_used": [
-        "DRB1*03:01",
-        "DRB1*07:01"
-      ],
-      "max_n_populations": 43,
-      "max_total_individuals": 6692,
-      "allele_frequencies": {
-        "A*02:01": {
-          "allele_frequency": 0.2506,
-          "af_95ci": [
-            0.2389,
-            0.2627
-          ]
-        },
-        "A*11:01": {
-          "allele_frequency": 0.0545,
-          "af_95ci": [
-            0.0484,
-            0.0613
-          ]
-        },
-        "B*07:02": {
-          "allele_frequency": 0.0494,
-          "af_95ci": [
-            0.0437,
-            0.0558
-          ]
-        },
-        "B*08:01": {
-          "allele_frequency": 0.0479,
-          "af_95ci": [
-            0.0426,
-            0.0539
-          ]
-        },
-        "B*15:01": {
-          "allele_frequency": 0.0302,
-          "af_95ci": [
-            0.0259,
-            0.0352
-          ]
-        }
-      }
-    },
-    "Eastern Asia": {
-      "coverage_e7e3_public": 0.4181,
-      "coverage_e7e3_public_95ci": [
-        0.4067,
-        0.43
-      ],
-      "coverage_e7e3_alleles_used": [
-        "A*11:01",
-        "B*08:01"
-      ],
-      "coverage_any_strong_binder_allele": 0.6125,
-      "coverage_any_strong_binder_allele_95ci": [
-        0.5957,
-        0.6296
-      ],
-      "coverage_all_alleles_used": [
-        "A*02:01",
-        "A*11:01",
-        "B*07:02",
-        "B*08:01",
-        "B*15:01"
-      ],
-      "coverage_cd4_classii": 0.1793,
-      "coverage_cd4_classii_95ci": [
-        0.1698,
-        0.1891
-      ],
-      "coverage_cd4_classii_alleles_used": [
-        "DRB1*03:01",
-        "DRB1*07:01"
-      ],
-      "max_n_populations": 58,
-      "max_total_individuals": 11275,
-      "allele_frequencies": {
-        "A*02:01": {
-          "allele_frequency": 0.0993,
-          "af_95ci": [
-            0.0947,
-            0.1041
-          ]
-        },
-        "A*11:01": {
-          "allele_frequency": 0.2342,
-          "af_95ci": [
-            0.2275,
-            0.2411
-          ]
-        },
-        "B*07:02": {
-          "allele_frequency": 0.015,
-          "af_95ci": [
-            0.0129,
-            0.0173
-          ]
-        },
-        "B*08:01": {
-          "allele_frequency": 0.0039,
-          "af_95ci": [
-            0.0029,
-            0.0052
-          ]
-        },
-        "B*15:01": {
-          "allele_frequency": 0.0802,
-          "af_95ci": [
-            0.0762,
-            0.0844
-          ]
-        }
-      }
-    },
     "Eastern Europe": {
-      "coverage_e7e3_public": 0.2186,
+      "coverage_e7e3_public": 0.0709,
       "coverage_e7e3_public_95ci": [
-        0.1869,
-        0.2544
+        0.0564,
+        0.0891
       ],
       "coverage_e7e3_alleles_used": [
-        "A*11:01",
-        "B*08:01"
+        "B*15:01"
       ],
-      "coverage_any_strong_binder_allele": 0.5855,
+      "coverage_any_strong_binder_allele": 0.3703,
       "coverage_any_strong_binder_allele_95ci": [
-        0.533,
-        0.6393
+        0.3239,
+        0.4215
       ],
       "coverage_all_alleles_used": [
-        "A*02:01",
-        "A*11:01",
+        "A*01:01",
         "B*07:02",
-        "B*08:01",
         "B*15:01"
       ],
       "coverage_cd4_classii": 0.2829,
@@ -554,18 +277,11 @@
       "max_n_populations": 33,
       "max_total_individuals": 2531,
       "allele_frequencies": {
-        "A*02:01": {
-          "allele_frequency": 0.1876,
+        "A*01:01": {
+          "allele_frequency": 0.1149,
           "af_95ci": [
-            0.1717,
-            0.2045
-          ]
-        },
-        "A*11:01": {
-          "allele_frequency": 0.0618,
-          "af_95ci": [
-            0.0524,
-            0.0726
+            0.1013,
+            0.1301
           ]
         },
         "B*07:02": {
@@ -573,13 +289,6 @@
           "af_95ci": [
             0.0581,
             0.0839
-          ]
-        },
-        "B*08:01": {
-          "allele_frequency": 0.0578,
-          "af_95ci": [
-            0.0484,
-            0.0689
           ]
         },
         "B*15:01": {
@@ -591,26 +300,239 @@
         }
       }
     },
-    "Australia and New Zealand": {
-      "coverage_e7e3_public": 0.3145,
+    "Southern Europe": {
+      "coverage_e7e3_public": 0.0595,
       "coverage_e7e3_public_95ci": [
-        0.2739,
-        0.3598
+        0.0511,
+        0.0692
       ],
       "coverage_e7e3_alleles_used": [
-        "A*11:01",
-        "B*08:01"
+        "B*15:01"
       ],
-      "coverage_any_strong_binder_allele": 0.5567,
+      "coverage_any_strong_binder_allele": 0.3212,
       "coverage_any_strong_binder_allele_95ci": [
-        0.4932,
-        0.6239
+        0.2932,
+        0.3512
       ],
       "coverage_all_alleles_used": [
-        "A*02:01",
-        "A*11:01",
+        "A*01:01",
         "B*07:02",
-        "B*08:01",
+        "B*15:01"
+      ],
+      "coverage_cd4_classii": 0.3911,
+      "coverage_cd4_classii_95ci": [
+        0.3759,
+        0.4067
+      ],
+      "coverage_cd4_classii_alleles_used": [
+        "DRB1*03:01",
+        "DRB1*07:01"
+      ],
+      "max_n_populations": 43,
+      "max_total_individuals": 6692,
+      "allele_frequencies": {
+        "A*01:01": {
+          "allele_frequency": 0.1063,
+          "af_95ci": [
+            0.0975,
+            0.1158
+          ]
+        },
+        "B*07:02": {
+          "allele_frequency": 0.0494,
+          "af_95ci": [
+            0.0437,
+            0.0558
+          ]
+        },
+        "B*15:01": {
+          "allele_frequency": 0.0302,
+          "af_95ci": [
+            0.0259,
+            0.0352
+          ]
+        }
+      }
+    },
+    "Northern America": {
+      "coverage_e7e3_public": 0.0796,
+      "coverage_e7e3_public_95ci": [
+        0.0722,
+        0.0876
+      ],
+      "coverage_e7e3_alleles_used": [
+        "B*15:01"
+      ],
+      "coverage_any_strong_binder_allele": 0.316,
+      "coverage_any_strong_binder_allele_95ci": [
+        0.2959,
+        0.3372
+      ],
+      "coverage_all_alleles_used": [
+        "A*01:01",
+        "B*07:02",
+        "B*15:01"
+      ],
+      "coverage_cd4_classii": 0.3236,
+      "coverage_cd4_classii_95ci": [
+        0.3064,
+        0.3413
+      ],
+      "coverage_cd4_classii_alleles_used": [
+        "DRB1*03:01",
+        "DRB1*07:01"
+      ],
+      "max_n_populations": 23,
+      "max_total_individuals": 5478,
+      "allele_frequencies": {
+        "A*01:01": {
+          "allele_frequency": 0.0723,
+          "af_95ci": [
+            0.0671,
+            0.0778
+          ]
+        },
+        "B*07:02": {
+          "allele_frequency": 0.0708,
+          "af_95ci": [
+            0.0662,
+            0.0758
+          ]
+        },
+        "B*15:01": {
+          "allele_frequency": 0.0406,
+          "af_95ci": [
+            0.0368,
+            0.0448
+          ]
+        }
+      }
+    },
+    "Western Asia": {
+      "coverage_e7e3_public": 0.026,
+      "coverage_e7e3_public_95ci": [
+        0.0169,
+        0.0398
+      ],
+      "coverage_e7e3_alleles_used": [
+        "B*15:01"
+      ],
+      "coverage_any_strong_binder_allele": 0.2783,
+      "coverage_any_strong_binder_allele_95ci": [
+        0.2346,
+        0.3306
+      ],
+      "coverage_all_alleles_used": [
+        "A*01:01",
+        "B*07:02",
+        "B*15:01"
+      ],
+      "coverage_cd4_classii": 0.3716,
+      "coverage_cd4_classii_95ci": [
+        0.3465,
+        0.3976
+      ],
+      "coverage_cd4_classii_alleles_used": [
+        "DRB1*03:01",
+        "DRB1*07:01"
+      ],
+      "max_n_populations": 21,
+      "max_total_individuals": 2385,
+      "allele_frequencies": {
+        "A*01:01": {
+          "allele_frequency": 0.0962,
+          "af_95ci": [
+            0.0848,
+            0.109
+          ]
+        },
+        "B*07:02": {
+          "allele_frequency": 0.0476,
+          "af_95ci": [
+            0.0359,
+            0.0629
+          ]
+        },
+        "B*15:01": {
+          "allele_frequency": 0.0131,
+          "af_95ci": [
+            0.0085,
+            0.0201
+          ]
+        }
+      }
+    },
+    "Southern Asia": {
+      "coverage_e7e3_public": 0.0398,
+      "coverage_e7e3_public_95ci": [
+        0.0308,
+        0.0511
+      ],
+      "coverage_e7e3_alleles_used": [
+        "B*15:01"
+      ],
+      "coverage_any_strong_binder_allele": 0.2511,
+      "coverage_any_strong_binder_allele_95ci": [
+        0.2221,
+        0.2843
+      ],
+      "coverage_all_alleles_used": [
+        "A*01:01",
+        "B*07:02",
+        "B*15:01"
+      ],
+      "coverage_cd4_classii": 0.4206,
+      "coverage_cd4_classii_95ci": [
+        0.4008,
+        0.4407
+      ],
+      "coverage_cd4_classii_alleles_used": [
+        "DRB1*03:01",
+        "DRB1*07:01"
+      ],
+      "max_n_populations": 27,
+      "max_total_individuals": 3694,
+      "allele_frequencies": {
+        "A*01:01": {
+          "allele_frequency": 0.0915,
+          "af_95ci": [
+            0.0837,
+            0.1001
+          ]
+        },
+        "B*07:02": {
+          "allele_frequency": 0.0279,
+          "af_95ci": [
+            0.0223,
+            0.0349
+          ]
+        },
+        "B*15:01": {
+          "allele_frequency": 0.0201,
+          "af_95ci": [
+            0.0155,
+            0.0259
+          ]
+        }
+      }
+    },
+    "Australia and New Zealand": {
+      "coverage_e7e3_public": 0.0498,
+      "coverage_e7e3_public_95ci": [
+        0.0333,
+        0.0736
+      ],
+      "coverage_e7e3_alleles_used": [
+        "B*15:01"
+      ],
+      "coverage_any_strong_binder_allele": 0.2388,
+      "coverage_any_strong_binder_allele_95ci": [
+        0.1893,
+        0.2996
+      ],
+      "coverage_all_alleles_used": [
+        "A*01:01",
+        "B*07:02",
         "B*15:01"
       ],
       "coverage_cd4_classii": 0.1509,
@@ -622,21 +544,14 @@
         "DRB1*03:01",
         "DRB1*07:01"
       ],
-      "max_n_populations": 9,
-      "max_total_individuals": 743,
+      "max_n_populations": 8,
+      "max_total_individuals": 702,
       "allele_frequencies": {
-        "A*02:01": {
-          "allele_frequency": 0.1373,
+        "A*01:01": {
+          "allele_frequency": 0.0641,
           "af_95ci": [
-            0.1207,
-            0.1557
-          ]
-        },
-        "A*11:01": {
-          "allele_frequency": 0.1306,
-          "af_95ci": [
-            0.1144,
-            0.1486
+            0.0524,
+            0.0781
           ]
         },
         "B*07:02": {
@@ -644,13 +559,6 @@
           "af_95ci": [
             0.0336,
             0.0568
-          ]
-        },
-        "B*08:01": {
-          "allele_frequency": 0.0477,
-          "af_95ci": [
-            0.0378,
-            0.0602
           ]
         },
         "B*15:01": {
@@ -662,23 +570,326 @@
         }
       }
     },
-    "Melanesia": {
-      "coverage_e7e3_public": 0.5332,
+    "Northern Africa": {
+      "coverage_e7e3_public": 0.0076,
       "coverage_e7e3_public_95ci": [
-        0.4945,
-        0.5722
+        0.0026,
+        0.0219
       ],
       "coverage_e7e3_alleles_used": [
-        "A*11:01"
+        "B*15:01"
       ],
-      "coverage_any_strong_binder_allele": 0.5444,
+      "coverage_any_strong_binder_allele": 0.212,
       "coverage_any_strong_binder_allele_95ci": [
-        0.4996,
-        0.5964
+        0.1634,
+        0.2784
       ],
       "coverage_all_alleles_used": [
-        "A*02:01",
-        "A*11:01",
+        "A*01:01",
+        "B*07:02",
+        "B*15:01"
+      ],
+      "coverage_cd4_classii": 0.4698,
+      "coverage_cd4_classii_95ci": [
+        0.4389,
+        0.5014
+      ],
+      "coverage_cd4_classii_alleles_used": [
+        "DRB1*03:01",
+        "DRB1*07:01"
+      ],
+      "max_n_populations": 16,
+      "max_total_individuals": 1610,
+      "allele_frequencies": {
+        "A*01:01": {
+          "allele_frequency": 0.0858,
+          "af_95ci": [
+            0.0689,
+            0.1064
+          ]
+        },
+        "B*07:02": {
+          "allele_frequency": 0.0253,
+          "af_95ci": [
+            0.0164,
+            0.0388
+          ]
+        },
+        "B*15:01": {
+          "allele_frequency": 0.0038,
+          "af_95ci": [
+            0.0013,
+            0.011
+          ]
+        }
+      }
+    },
+    "Latin America and the Caribbean": {
+      "coverage_e7e3_public": 0.0784,
+      "coverage_e7e3_public_95ci": [
+        0.0746,
+        0.0824
+      ],
+      "coverage_e7e3_alleles_used": [
+        "B*15:01"
+      ],
+      "coverage_any_strong_binder_allele": 0.2109,
+      "coverage_any_strong_binder_allele_95ci": [
+        0.1933,
+        0.23
+      ],
+      "coverage_all_alleles_used": [
+        "A*01:01",
+        "B*07:02",
+        "B*15:01"
+      ],
+      "coverage_cd4_classii": 0.2255,
+      "coverage_cd4_classii_95ci": [
+        0.2155,
+        0.2357
+      ],
+      "coverage_cd4_classii_alleles_used": [
+        "DRB1*03:01",
+        "DRB1*07:01"
+      ],
+      "max_n_populations": 147,
+      "max_total_individuals": 21914,
+      "allele_frequencies": {
+        "A*01:01": {
+          "allele_frequency": 0.0396,
+          "af_95ci": [
+            0.0353,
+            0.0443
+          ]
+        },
+        "B*07:02": {
+          "allele_frequency": 0.0365,
+          "af_95ci": [
+            0.0322,
+            0.0415
+          ]
+        },
+        "B*15:01": {
+          "allele_frequency": 0.04,
+          "af_95ci": [
+            0.038,
+            0.0421
+          ]
+        }
+      }
+    },
+    "Sub-Saharan Africa": {
+      "coverage_e7e3_public": 0.0201,
+      "coverage_e7e3_public_95ci": [
+        0.0143,
+        0.0282
+      ],
+      "coverage_e7e3_alleles_used": [
+        "B*15:01"
+      ],
+      "coverage_any_strong_binder_allele": 0.2039,
+      "coverage_any_strong_binder_allele_95ci": [
+        0.1808,
+        0.2302
+      ],
+      "coverage_all_alleles_used": [
+        "A*01:01",
+        "B*07:02",
+        "B*15:01"
+      ],
+      "coverage_cd4_classii": 0.2601,
+      "coverage_cd4_classii_95ci": [
+        0.2416,
+        0.2799
+      ],
+      "coverage_cd4_classii_alleles_used": [
+        "DRB1*03:01",
+        "DRB1*07:01"
+      ],
+      "max_n_populations": 27,
+      "max_total_individuals": 3898,
+      "allele_frequencies": {
+        "A*01:01": {
+          "allele_frequency": 0.053,
+          "af_95ci": [
+            0.0477,
+            0.0589
+          ]
+        },
+        "B*07:02": {
+          "allele_frequency": 0.0482,
+          "af_95ci": [
+            0.0427,
+            0.0543
+          ]
+        },
+        "B*15:01": {
+          "allele_frequency": 0.0101,
+          "af_95ci": [
+            0.0072,
+            0.0142
+          ]
+        }
+      }
+    },
+    "Eastern Asia": {
+      "coverage_e7e3_public": 0.154,
+      "coverage_e7e3_public_95ci": [
+        0.1466,
+        0.1617
+      ],
+      "coverage_e7e3_alleles_used": [
+        "B*15:01"
+      ],
+      "coverage_any_strong_binder_allele": 0.1996,
+      "coverage_any_strong_binder_allele_95ci": [
+        0.1863,
+        0.2137
+      ],
+      "coverage_all_alleles_used": [
+        "A*01:01",
+        "B*07:02",
+        "B*15:01"
+      ],
+      "coverage_cd4_classii": 0.1793,
+      "coverage_cd4_classii_95ci": [
+        0.1698,
+        0.1891
+      ],
+      "coverage_cd4_classii_alleles_used": [
+        "DRB1*03:01",
+        "DRB1*07:01"
+      ],
+      "max_n_populations": 58,
+      "max_total_individuals": 11275,
+      "allele_frequencies": {
+        "A*01:01": {
+          "allele_frequency": 0.0125,
+          "af_95ci": [
+            0.0108,
+            0.0145
+          ]
+        },
+        "B*07:02": {
+          "allele_frequency": 0.015,
+          "af_95ci": [
+            0.0129,
+            0.0173
+          ]
+        },
+        "B*15:01": {
+          "allele_frequency": 0.0802,
+          "af_95ci": [
+            0.0762,
+            0.0844
+          ]
+        }
+      }
+    },
+    "South-eastern Asia": {
+      "coverage_e7e3_public": 0.0367,
+      "coverage_e7e3_public_95ci": [
+        0.0302,
+        0.0445
+      ],
+      "coverage_e7e3_alleles_used": [
+        "B*15:01"
+      ],
+      "coverage_any_strong_binder_allele": 0.1404,
+      "coverage_any_strong_binder_allele_95ci": [
+        0.1209,
+        0.1629
+      ],
+      "coverage_all_alleles_used": [
+        "A*01:01",
+        "B*07:02",
+        "B*15:01"
+      ],
+      "coverage_cd4_classii": 0.2886,
+      "coverage_cd4_classii_95ci": [
+        0.2699,
+        0.3084
+      ],
+      "coverage_cd4_classii_alleles_used": [
+        "DRB1*03:01",
+        "DRB1*07:01"
+      ],
+      "max_n_populations": 31,
+      "max_total_individuals": 3680,
+      "allele_frequencies": {
+        "A*01:01": {
+          "allele_frequency": 0.0397,
+          "af_95ci": [
+            0.035,
+            0.045
+          ]
+        },
+        "B*07:02": {
+          "allele_frequency": 0.0163,
+          "af_95ci": [
+            0.0134,
+            0.0199
+          ]
+        },
+        "B*15:01": {
+          "allele_frequency": 0.0185,
+          "af_95ci": [
+            0.0152,
+            0.0225
+          ]
+        }
+      }
+    },
+    "Polynesia": {
+      "coverage_e7e3_public": null,
+      "coverage_e7e3_public_95ci": null,
+      "coverage_e7e3_alleles_used": [],
+      "coverage_any_strong_binder_allele": 0.0195,
+      "coverage_any_strong_binder_allele_95ci": [
+        0.0034,
+        0.1041
+      ],
+      "coverage_all_alleles_used": [
+        "B*07:02"
+      ],
+      "coverage_cd4_classii": 0.0293,
+      "coverage_cd4_classii_95ci": [
+        0.0108,
+        0.0778
+      ],
+      "coverage_cd4_classii_alleles_used": [
+        "DRB1*03:01",
+        "DRB1*07:01"
+      ],
+      "max_n_populations": 6,
+      "max_total_individuals": 251,
+      "allele_frequencies": {
+        "A*01:01": null,
+        "B*07:02": {
+          "allele_frequency": 0.0098,
+          "af_95ci": [
+            0.0017,
+            0.0535
+          ]
+        },
+        "B*15:01": null
+      }
+    },
+    "Melanesia": {
+      "coverage_e7e3_public": 0.0086,
+      "coverage_e7e3_public_95ci": [
+        0.0036,
+        0.0201
+      ],
+      "coverage_e7e3_alleles_used": [
+        "B*15:01"
+      ],
+      "coverage_any_strong_binder_allele": 0.0137,
+      "coverage_any_strong_binder_allele_95ci": [
+        0.0054,
+        0.0349
+      ],
+      "coverage_all_alleles_used": [
         "B*07:02",
         "B*15:01"
       ],
@@ -694,20 +905,7 @@
       "max_n_populations": 12,
       "max_total_individuals": 707,
       "allele_frequencies": {
-        "A*02:01": {
-          "allele_frequency": 0.0052,
-          "af_95ci": [
-            0.0024,
-            0.0113
-          ]
-        },
-        "A*11:01": {
-          "allele_frequency": 0.3168,
-          "af_95ci": [
-            0.289,
-            0.3459
-          ]
-        },
+        "A*01:01": null,
         "B*07:02": {
           "allele_frequency": 0.0026,
           "af_95ci": [
@@ -715,494 +913,11 @@
             0.0076
           ]
         },
-        "B*08:01": null,
         "B*15:01": {
           "allele_frequency": 0.0043,
           "af_95ci": [
             0.0018,
             0.0101
-          ]
-        }
-      }
-    },
-    "Western Asia": {
-      "coverage_e7e3_public": 0.2174,
-      "coverage_e7e3_public_95ci": [
-        0.1874,
-        0.2515
-      ],
-      "coverage_e7e3_alleles_used": [
-        "A*11:01",
-        "B*08:01"
-      ],
-      "coverage_any_strong_binder_allele": 0.544,
-      "coverage_any_strong_binder_allele_95ci": [
-        0.4924,
-        0.5996
-      ],
-      "coverage_all_alleles_used": [
-        "A*02:01",
-        "A*11:01",
-        "B*07:02",
-        "B*08:01",
-        "B*15:01"
-      ],
-      "coverage_cd4_classii": 0.3716,
-      "coverage_cd4_classii_95ci": [
-        0.3465,
-        0.3976
-      ],
-      "coverage_cd4_classii_alleles_used": [
-        "DRB1*03:01",
-        "DRB1*07:01"
-      ],
-      "max_n_populations": 21,
-      "max_total_individuals": 2385,
-      "allele_frequencies": {
-        "A*02:01": {
-          "allele_frequency": 0.1879,
-          "af_95ci": [
-            0.1732,
-            0.2035
-          ]
-        },
-        "A*11:01": {
-          "allele_frequency": 0.0751,
-          "af_95ci": [
-            0.065,
-            0.0867
-          ]
-        },
-        "B*07:02": {
-          "allele_frequency": 0.0476,
-          "af_95ci": [
-            0.0359,
-            0.0629
-          ]
-        },
-        "B*08:01": {
-          "allele_frequency": 0.0435,
-          "af_95ci": [
-            0.0359,
-            0.0527
-          ]
-        },
-        "B*15:01": {
-          "allele_frequency": 0.0131,
-          "af_95ci": [
-            0.0085,
-            0.0201
-          ]
-        }
-      }
-    },
-    "Latin America and the Caribbean": {
-      "coverage_e7e3_public": 0.1033,
-      "coverage_e7e3_public_95ci": [
-        0.0893,
-        0.1191
-      ],
-      "coverage_e7e3_alleles_used": [
-        "A*11:01",
-        "B*08:01"
-      ],
-      "coverage_any_strong_binder_allele": 0.5302,
-      "coverage_any_strong_binder_allele_95ci": [
-        0.5057,
-        0.5557
-      ],
-      "coverage_all_alleles_used": [
-        "A*02:01",
-        "A*11:01",
-        "B*07:02",
-        "B*08:01",
-        "B*15:01"
-      ],
-      "coverage_cd4_classii": 0.2255,
-      "coverage_cd4_classii_95ci": [
-        0.2155,
-        0.2357
-      ],
-      "coverage_cd4_classii_alleles_used": [
-        "DRB1*03:01",
-        "DRB1*07:01"
-      ],
-      "max_n_populations": 147,
-      "max_total_individuals": 21914,
-      "allele_frequencies": {
-        "A*02:01": {
-          "allele_frequency": 0.2174,
-          "af_95ci": [
-            0.2087,
-            0.2265
-          ]
-        },
-        "A*11:01": {
-          "allele_frequency": 0.029,
-          "af_95ci": [
-            0.025,
-            0.0334
-          ]
-        },
-        "B*07:02": {
-          "allele_frequency": 0.0365,
-          "af_95ci": [
-            0.0322,
-            0.0415
-          ]
-        },
-        "B*08:01": {
-          "allele_frequency": 0.0248,
-          "af_95ci": [
-            0.0212,
-            0.029
-          ]
-        },
-        "B*15:01": {
-          "allele_frequency": 0.04,
-          "af_95ci": [
-            0.038,
-            0.0421
-          ]
-        }
-      }
-    },
-    "South-eastern Asia": {
-      "coverage_e7e3_public": 0.3589,
-      "coverage_e7e3_public_95ci": [
-        0.3407,
-        0.3782
-      ],
-      "coverage_e7e3_alleles_used": [
-        "A*11:01",
-        "B*08:01"
-      ],
-      "coverage_any_strong_binder_allele": 0.4912,
-      "coverage_any_strong_binder_allele_95ci": [
-        0.4627,
-        0.5214
-      ],
-      "coverage_all_alleles_used": [
-        "A*02:01",
-        "A*11:01",
-        "B*07:02",
-        "B*08:01",
-        "B*15:01"
-      ],
-      "coverage_cd4_classii": 0.2886,
-      "coverage_cd4_classii_95ci": [
-        0.2699,
-        0.3084
-      ],
-      "coverage_cd4_classii_alleles_used": [
-        "DRB1*03:01",
-        "DRB1*07:01"
-      ],
-      "max_n_populations": 31,
-      "max_total_individuals": 3680,
-      "allele_frequencies": {
-        "A*02:01": {
-          "allele_frequency": 0.0773,
-          "af_95ci": [
-            0.0709,
-            0.0842
-          ]
-        },
-        "A*11:01": {
-          "allele_frequency": 0.1939,
-          "af_95ci": [
-            0.1842,
-            0.204
-          ]
-        },
-        "B*07:02": {
-          "allele_frequency": 0.0163,
-          "af_95ci": [
-            0.0134,
-            0.0199
-          ]
-        },
-        "B*08:01": {
-          "allele_frequency": 0.0067,
-          "af_95ci": [
-            0.0047,
-            0.0094
-          ]
-        },
-        "B*15:01": {
-          "allele_frequency": 0.0185,
-          "af_95ci": [
-            0.0152,
-            0.0225
-          ]
-        }
-      }
-    },
-    "Polynesia": {
-      "coverage_e7e3_public": 0.2892,
-      "coverage_e7e3_public_95ci": [
-        0.188,
-        0.4219
-      ],
-      "coverage_e7e3_alleles_used": [
-        "A*11:01"
-      ],
-      "coverage_any_strong_binder_allele": 0.4694,
-      "coverage_any_strong_binder_allele_95ci": [
-        0.3091,
-        0.6734
-      ],
-      "coverage_all_alleles_used": [
-        "A*02:01",
-        "A*11:01",
-        "B*07:02"
-      ],
-      "coverage_cd4_classii": 0.0293,
-      "coverage_cd4_classii_95ci": [
-        0.0108,
-        0.0778
-      ],
-      "coverage_cd4_classii_alleles_used": [
-        "DRB1*03:01",
-        "DRB1*07:01"
-      ],
-      "max_n_populations": 6,
-      "max_total_individuals": 251,
-      "allele_frequencies": {
-        "A*02:01": {
-          "allele_frequency": 0.1275,
-          "af_95ci": [
-            0.076,
-            0.2059
-          ]
-        },
-        "A*11:01": {
-          "allele_frequency": 0.1569,
-          "af_95ci": [
-            0.0989,
-            0.2397
-          ]
-        },
-        "B*07:02": {
-          "allele_frequency": 0.0098,
-          "af_95ci": [
-            0.0017,
-            0.0535
-          ]
-        },
-        "B*08:01": null,
-        "B*15:01": null
-      }
-    },
-    "Northern Africa": {
-      "coverage_e7e3_public": 0.1539,
-      "coverage_e7e3_public_95ci": [
-        0.1191,
-        0.1987
-      ],
-      "coverage_e7e3_alleles_used": [
-        "A*11:01",
-        "B*08:01"
-      ],
-      "coverage_any_strong_binder_allele": 0.4319,
-      "coverage_any_strong_binder_allele_95ci": [
-        0.3625,
-        0.5144
-      ],
-      "coverage_all_alleles_used": [
-        "A*02:01",
-        "A*11:01",
-        "B*07:02",
-        "B*08:01",
-        "B*15:01"
-      ],
-      "coverage_cd4_classii": 0.4698,
-      "coverage_cd4_classii_95ci": [
-        0.4389,
-        0.5014
-      ],
-      "coverage_cd4_classii_alleles_used": [
-        "DRB1*03:01",
-        "DRB1*07:01"
-      ],
-      "max_n_populations": 16,
-      "max_total_individuals": 1610,
-      "allele_frequencies": {
-        "A*02:01": {
-          "allele_frequency": 0.1561,
-          "af_95ci": [
-            0.134,
-            0.1811
-          ]
-        },
-        "A*11:01": {
-          "allele_frequency": 0.029,
-          "af_95ci": [
-            0.0197,
-            0.0425
-          ]
-        },
-        "B*07:02": {
-          "allele_frequency": 0.0253,
-          "af_95ci": [
-            0.0164,
-            0.0388
-          ]
-        },
-        "B*08:01": {
-          "allele_frequency": 0.0527,
-          "af_95ci": [
-            0.0426,
-            0.0651
-          ]
-        },
-        "B*15:01": {
-          "allele_frequency": 0.0038,
-          "af_95ci": [
-            0.0013,
-            0.011
-          ]
-        }
-      }
-    },
-    "Southern Asia": {
-      "coverage_e7e3_public": 0.293,
-      "coverage_e7e3_public_95ci": [
-        0.2692,
-        0.3189
-      ],
-      "coverage_e7e3_alleles_used": [
-        "A*11:01",
-        "B*08:01"
-      ],
-      "coverage_any_strong_binder_allele": 0.4299,
-      "coverage_any_strong_binder_allele_95ci": [
-        0.3901,
-        0.4731
-      ],
-      "coverage_all_alleles_used": [
-        "A*02:01",
-        "A*11:01",
-        "B*07:02",
-        "B*08:01",
-        "B*15:01"
-      ],
-      "coverage_cd4_classii": 0.4206,
-      "coverage_cd4_classii_95ci": [
-        0.4008,
-        0.4407
-      ],
-      "coverage_cd4_classii_alleles_used": [
-        "DRB1*03:01",
-        "DRB1*07:01"
-      ],
-      "max_n_populations": 27,
-      "max_total_individuals": 3694,
-      "allele_frequencies": {
-        "A*02:01": {
-          "allele_frequency": 0.0573,
-          "af_95ci": [
-            0.0509,
-            0.0644
-          ]
-        },
-        "A*11:01": {
-          "allele_frequency": 0.1339,
-          "af_95ci": [
-            0.1241,
-            0.1444
-          ]
-        },
-        "B*07:02": {
-          "allele_frequency": 0.0279,
-          "af_95ci": [
-            0.0223,
-            0.0349
-          ]
-        },
-        "B*08:01": {
-          "allele_frequency": 0.0292,
-          "af_95ci": [
-            0.024,
-            0.0354
-          ]
-        },
-        "B*15:01": {
-          "allele_frequency": 0.0201,
-          "af_95ci": [
-            0.0155,
-            0.0259
-          ]
-        }
-      }
-    },
-    "Sub-Saharan Africa": {
-      "coverage_e7e3_public": 0.1046,
-      "coverage_e7e3_public_95ci": [
-        0.0893,
-        0.1233
-      ],
-      "coverage_e7e3_alleles_used": [
-        "A*11:01",
-        "B*08:01"
-      ],
-      "coverage_any_strong_binder_allele": 0.3585,
-      "coverage_any_strong_binder_allele_95ci": [
-        0.3251,
-        0.3957
-      ],
-      "coverage_all_alleles_used": [
-        "A*02:01",
-        "A*11:01",
-        "B*07:02",
-        "B*08:01",
-        "B*15:01"
-      ],
-      "coverage_cd4_classii": 0.2601,
-      "coverage_cd4_classii_95ci": [
-        0.2416,
-        0.2799
-      ],
-      "coverage_cd4_classii_alleles_used": [
-        "DRB1*03:01",
-        "DRB1*07:01"
-      ],
-      "max_n_populations": 30,
-      "max_total_individuals": 3902,
-      "allele_frequencies": {
-        "A*02:01": {
-          "allele_frequency": 0.1016,
-          "af_95ci": [
-            0.0942,
-            0.1095
-          ]
-        },
-        "A*11:01": {
-          "allele_frequency": 0.0167,
-          "af_95ci": [
-            0.0124,
-            0.0225
-          ]
-        },
-        "B*07:02": {
-          "allele_frequency": 0.0482,
-          "af_95ci": [
-            0.0427,
-            0.0543
-          ]
-        },
-        "B*08:01": {
-          "allele_frequency": 0.0377,
-          "af_95ci": [
-            0.0337,
-            0.0421
-          ]
-        },
-        "B*15:01": {
-          "allele_frequency": 0.0101,
-          "af_95ci": [
-            0.0072,
-            0.0142
           ]
         }
       }
@@ -1225,10 +940,8 @@
       "max_n_populations": 2,
       "max_total_individuals": 129,
       "allele_frequencies": {
-        "A*02:01": null,
-        "A*11:01": null,
+        "A*01:01": null,
         "B*07:02": null,
-        "B*08:01": null,
         "B*15:01": null
       }
     }

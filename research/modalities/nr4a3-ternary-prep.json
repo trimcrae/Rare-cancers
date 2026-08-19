@@ -1,7 +1,21 @@
 {
-  "_note": "NR4A3\u2013PROTAC\u2013E3 ternary modelling prep (Boltz-2). Control = CRBN + E3 ligand (known answer); ternary = NR4A3 LBD + CRBN + PROTAC (template until a warhead SMILES exists). Inference needs GPU.",
+  "_note": "NR4A\u2013PROTAC\u2013E3 ternary modelling (Boltz-2). Control = CRBN + E3 ligand (known answer); ternaries = NR4A{3,1,2}-LBD + CRBN + PROTAC. Degradation-geometry read = an exposed NR4A Lys near CRBN (ubiquitin reach). Inference needs GPU.",
+  "lbd_definition": "C-terminal 254 residues (NR4A3 == 373-626)",
+  "targets": {
+    "NR4A3": {
+      "accession": "Q92570",
+      "lbd_len": 254
+    },
+    "NR4A1": {
+      "accession": "P22736",
+      "lbd_len": 254
+    },
+    "NR4A2": {
+      "accession": "P43354",
+      "lbd_len": 254
+    }
+  },
   "status": {},
-  "nr4a3_lbd_len": 254,
   "crbn_len": 442,
   "control": {
     "complex": "CRBN + lenalidomide",
@@ -9,6 +23,6 @@
     "expected": "imide seats in CRBN tri-Trp pocket (W380/W386/W400 region)"
   },
   "ternary": {
-    "status": "TEMPLATE \u2014 supply --protac-smiles / $PROTAC_SMILES once a selective NR4A3 warhead is designed (degrader experiment #2)"
+    "status": "TEMPLATE \u2014 supply --protac-smiles / $PROTAC_SMILES once a selective NR4A warhead is designed"
   }
 }

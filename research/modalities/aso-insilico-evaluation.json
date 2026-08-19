@@ -1,5 +1,17 @@
 {
   "_note": "In-silico evaluation of EWSR1::NR4A3 junction gapmers: transcriptome off-target screen + target-site accessibility + sequence liabilities. EVALUATION ONLY \u2014 hypotheses for wet-lab testing, not a validated drug. Does NOT address tumour delivery (the route's real bottleneck).",
+  "junction_label": "reference_codon264_from2",
+  "breakpoint": {
+    "mode": "modelled_reference_codon_space",
+    "EWSR1_coding_kept": "codons 1-264 (in-frame)",
+    "NR4A3_coding_kept": "from codon 2 (in-frame)",
+    "note": "Codon-space modelled reference breakpoint (junction_aso.py default; a label of convenience, NOT a validated clinical breakpoint).",
+    "junction_context_mRNA": "TACGGGCAGCAG|CCCTGCGTCCAA",
+    "_transcript_source": {
+      "requested": "auto",
+      "used_per_gene": {}
+    }
+  },
   "n_evaluated": 5,
   "accessibility": {
     "status": "ok",
@@ -12,6 +24,8 @@
   "offtarget_screen": {
     "status": "ok",
     "transcripts_scanned": 186185,
+    "scanned_nt": 718571139,
+    "_why_scanned_nt": "the nucleotide span this scan covered. It is the denominator of the chance null the manuscript reports, which otherwise carries an ASSUMED 3e8-8e8 nt range because this corpus was counted in records rather than bases.",
     "source": "https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/405/GCF_000001405.40_GRCh38.p14/GCF_000001405.40_GRCh38.p14_rna.fna.gz"
   },
   "n_candidates_zero_offtarget": 0,

@@ -2,17 +2,26 @@
   "_note": "Fusion-junction gapmer ASO designs (RNase-H1 mechanism). DESIGN ONLY \u2014 hypotheses for wet-lab knockdown testing; not a validated drug.",
   "_breakpoint_model": {
     "assumption": true,
+    "junction_label": "reference_codon264_from2",
     "EWSR1_mRNA": "NM_005243",
     "NR4A3_mRNA": "NM_006981",
+    "junction_context_mRNA": "TACGGGCAGCAG|CCCTGCGTCCAA",
+    "caveat": "Re-run with a patient's sequenced fusion transcript for clinical design.",
+    "_transcript_source": {
+      "requested": "auto",
+      "used_per_gene": {}
+    },
+    "mode": "modelled_reference_codon_space",
     "EWSR1_coding_kept": "codons 1-264 (in-frame)",
     "NR4A3_coding_kept": "from codon 2 (in-frame)",
-    "junction_context_mRNA": "TACGGGCAGCAG|CCCTGCGTCCAA",
-    "caveat": "Breakpoint is modelled; re-run with a patient's sequenced fusion transcript for clinical design."
+    "note": "Codon-space modelled reference breakpoint (junction_aso.py default; a label of convenience, NOT a validated clinical breakpoint)."
   },
   "oligo_length": 16,
   "architecture": "5-6-5",
   "n_candidates": 5,
   "n_fusion_specific": 5,
+  "n_gap_centered": 3,
+  "_gap_margin_note": "gap_specificity_margin = junction-unique bases INSIDE the 6-nt catalytic gap on the shorter side; it is the operative fusion-vs-parent discriminator (RNase-H cleaves only across the gap). The oligo-wide specificity_margin overstates discrimination (red-team F3). gap_centered = >=2 unique gap bases each side.",
   "top_designs": [
     {
       "antisense_5to3": "ACGCAGGGCTGCTGCC",
@@ -22,9 +31,18 @@
       "bases_from_EWSR1": 8,
       "bases_from_NR4A3": 8,
       "specificity_margin": 8,
+      "gap_bases_from_EWSR1": 3,
+      "gap_bases_from_NR4A3": 3,
+      "gap_specificity_margin": 3,
+      "gap_centered": true,
       "gc_percent": 75.0,
       "has_G4_motif": false,
-      "fusion_specific": true
+      "fusion_specific": true,
+      "exact_parent_hits": [],
+      "parents_screened": [
+        "EWSR1",
+        "NR4A3"
+      ]
     },
     {
       "antisense_5to3": "GACGCAGGGCTGCTGC",
@@ -34,9 +52,18 @@
       "bases_from_EWSR1": 7,
       "bases_from_NR4A3": 9,
       "specificity_margin": 7,
+      "gap_bases_from_EWSR1": 2,
+      "gap_bases_from_NR4A3": 4,
+      "gap_specificity_margin": 2,
+      "gap_centered": true,
       "gc_percent": 75.0,
       "has_G4_motif": false,
-      "fusion_specific": true
+      "fusion_specific": true,
+      "exact_parent_hits": [],
+      "parents_screened": [
+        "EWSR1",
+        "NR4A3"
+      ]
     },
     {
       "antisense_5to3": "CGCAGGGCTGCTGCCC",
@@ -46,9 +73,18 @@
       "bases_from_EWSR1": 9,
       "bases_from_NR4A3": 7,
       "specificity_margin": 7,
+      "gap_bases_from_EWSR1": 4,
+      "gap_bases_from_NR4A3": 2,
+      "gap_specificity_margin": 2,
+      "gap_centered": true,
       "gc_percent": 81.2,
       "has_G4_motif": false,
-      "fusion_specific": true
+      "fusion_specific": true,
+      "exact_parent_hits": [],
+      "parents_screened": [
+        "EWSR1",
+        "NR4A3"
+      ]
     },
     {
       "antisense_5to3": "GGACGCAGGGCTGCTG",
@@ -58,9 +94,18 @@
       "bases_from_EWSR1": 6,
       "bases_from_NR4A3": 10,
       "specificity_margin": 6,
+      "gap_bases_from_EWSR1": 1,
+      "gap_bases_from_NR4A3": 5,
+      "gap_specificity_margin": 1,
+      "gap_centered": false,
       "gc_percent": 75.0,
       "has_G4_motif": false,
-      "fusion_specific": true
+      "fusion_specific": true,
+      "exact_parent_hits": [],
+      "parents_screened": [
+        "EWSR1",
+        "NR4A3"
+      ]
     },
     {
       "antisense_5to3": "GCAGGGCTGCTGCCCG",
@@ -70,9 +115,18 @@
       "bases_from_EWSR1": 10,
       "bases_from_NR4A3": 6,
       "specificity_margin": 6,
+      "gap_bases_from_EWSR1": 5,
+      "gap_bases_from_NR4A3": 1,
+      "gap_specificity_margin": 1,
+      "gap_centered": false,
       "gc_percent": 81.2,
       "has_G4_motif": false,
-      "fusion_specific": true
+      "fusion_specific": true,
+      "exact_parent_hits": [],
+      "parents_screened": [
+        "EWSR1",
+        "NR4A3"
+      ]
     }
   ]
 }
