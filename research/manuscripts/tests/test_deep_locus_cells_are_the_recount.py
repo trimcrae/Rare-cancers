@@ -43,8 +43,12 @@ sys.path.insert(0, MAN)
 
 
 def _tables_text():
+    #: ⛔ NOT A SKIP (2026-08-19, lane C2): the generated tables file is committed, so deleting it
+    #: used to make every deep-locus cell check in this file disappear and still report green.
     if not os.path.exists(TABLES):
-        pytest.skip("the generated tables file is not present in this checkout")
+        pytest.fail(f"the generated tables file is missing at {TABLES}. It is committed; its "
+                    "absence is a broken tree, not a partial checkout, and every deep-locus cell "
+                    "in Tables 2 and 3 is unchecked without it.")
     return open(TABLES, encoding="utf-8").read()
 
 
@@ -321,8 +325,13 @@ def test_the_paper_and_the_tables_have_one_home_for_the_lead_reagents_locus_coun
     LEAD = "GGGCATATCATCAAAC"
     deep = _deep_records()
     recs = {k: v for k, v in deep.items() if k[1] == LEAD}
-    if not recs:
-        pytest.skip("the lead reagent has no deep record in this checkout")
+    #: ⛔ NOT A SKIP (2026-08-19, lane C2). The lead reagent having no deep record is not a
+    #: property of the checkout — the deep re-screens are committed — it is the state in which the
+    #: three-carrier agreement this test exists for cannot be checked at all.
+    assert recs, (
+        f"{LEAD} has no deep re-screen record, so the agreement between the recount, Table 3 and "
+        "Table 2 for the lead reagent is unchecked. The deep records are committed; regenerate "
+        "them rather than passing over the one reagent the paper names most often.")
     counts = {recount_loci(o)["n_loci_with_a_gap_spanning_hit"] for o, _ in recs.values()}
     assert len(counts) == 1, f"the lead's three seams disagree about its locus count: {counts}"
     n = counts.pop()

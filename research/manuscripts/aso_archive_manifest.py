@@ -50,6 +50,7 @@ Usage:
 """
 from __future__ import annotations
 
+import ast
 import glob
 import hashlib
 import json
@@ -93,10 +94,42 @@ PROMISES = [
         # the manifest's self-check can only verify promises it has been given.
         "id": "reproduction_command",
         "promise": "the regeneration chain the Availability statement names",
+        # ⚠ THE LABEL WAS NEVER A QUOTATION AND THE WORDING CHECK WAS READING IT AS ONE, so this row
+        # reported `_promise_still_in_manuscript: false` from the day it was added — a flag crying
+        # wolf on a row nobody had mis-set. `quote` carries the fragment actually checked; see
+        # `_promise_text_found_in_paper`.
+        "quote": "re-derives, in dependency order, the artefacts its own step list names",
         "contributes": ("Re-derives every offline-derivable artefact below in dependency order and "
                         "re-runs the consistency, citation and style gates; the command a reader "
-                        "is told to run to establish that this archive is current."),
-        "patterns": ["scripts/regenerate_aso_chain.sh"],
+                        "is told to run to establish that this archive is current. The script AND "
+                        "every step it invokes that no other row here already carries."),
+        # ⛔⛔ THE SCRIPT WAS IN THE ARCHIVE AND HALF THE STEPS IT RUNS WERE NOT (2026-08-19). The
+        # promise is not "the file exists"; it is that a reader who runs this command against the
+        # archive gets `ASO CHAIN OK`. Measured against the step list: the per-junction table and
+        # its generator, the non-canonical-acceptor table, the rasteriser, the figure-provenance
+        # RECORD (its checker was released, the record it checks was not), the submission metrics
+        # and their artifact, the packet builder, and all three gates the last block runs were
+        # absent — so the named command would have died at step 1 on a clean download.
+        # ⚠ SHIPPING THE PRODUCER AND NOT ITS OUTPUT IS THE SAME DEFECT IN THE OTHER DIRECTION, so
+        # each generator here travels with the artifact it writes. The one deliberate exception is
+        # `SUBMISSION-PACKET.md`, which `submission_packet.py` WRITES and never reads: it is a
+        # repository status document about submission logistics, not a result, and it is excluded
+        # on purpose rather than by oversight.
+        "patterns": ["scripts/regenerate_aso_chain.sh",
+                     "research/modalities/aso_per_junction_table.py",
+                     "research/modalities/aso-per-junction-table.json",
+                     "research/modalities/tests/test_aso_per_junction_table.py",
+                     "research/modalities/aso_noncoding_acceptor_screened_table.py",
+                     "research/modalities/noncoding-acceptor/"
+                     "aso-noncoding-acceptor-screened-table.json",
+                     "research/manuscripts/figures/svg_to_submission_formats.py",
+                     "research/manuscripts/figures/aso-figure-provenance.json",
+                     "research/manuscripts/submission_metrics.py",
+                     "research/manuscripts/submission-metrics.json",
+                     "research/manuscripts/submission_packet.py",
+                     "research/manuscripts/lint_consistency.py",
+                     "research/manuscripts/lint_citations.py",
+                     "research/manuscripts/lint_style.py"],
     },
     {
         "id": "graded_junction_atlas",
@@ -171,8 +204,18 @@ PROMISES = [
         "contributes": ("The manuscript tables and the generator that derives every cell of "
                         "them from the artifacts, plus the per-locus re-count and the chance "
                         "baseline the tables and the chance-expectation panel are read from."),
+        # ⛔ TWO OF THE SEVEN TABLES READ AN ARTIFACT THE ARCHIVE DID NOT CARRY (2026-08-19).
+        # `submission_tables.py` opens `fusion-junction-aso-coverage-ladder.json` to build the
+        # coverage-ladder table, and the reagent-coverage record behind it was released only as a
+        # module inside a test's import. The row's own promise is that a cell and its source cannot
+        # diverge; a source outside the deposit makes that uncheckable rather than false, which is
+        # worse, because the table still prints.
         "patterns": ["research/manuscripts/aso/fusion-junction-aso-submission-tables.md",
                      "research/manuscripts/submission_tables.py",
+                     "research/manuscripts/aso/fusion-junction-aso-coverage-ladder.json",
+                     "research/manuscripts/aso_coverage_ladder.py",
+                     "research/manuscripts/aso/fusion-junction-aso-reagent-coverage.json",
+                     "research/manuscripts/aso_reagent_coverage.py",
                      "research/modalities/junction-aso-offtarget-locus-collapse.json",
                      "research/modalities/junction_aso_locus_collapse.py",
                      "research/modalities/offtarget-chance-baseline.json",
@@ -194,7 +237,27 @@ PROMISES = [
                      "research/manuscripts/fusion-partner/lit-targets-partner-events.json",
                      "research/manuscripts/fusion-partner/emc-fusion-partner-pooling.json",
                      "research/data/emc-clinical-registry.json",
-                     "research/manuscripts/aso/lit-targets-aso-verify.json",
+                     # ⛔⛔ A HAND-LIST OF FOUR AGAINST TWELVE ON DISK (2026-08-19). This row named
+                     # `lit-targets-aso-{verify,thermo,gap-length,round7-precedents}.json` one at a
+                     # time, and eight further retrieval products sat in the same directory
+                     # unreleased — among them the two the reference builder itself HARVESTS
+                     # (`submission_citations.HARVEST_SOURCES` opens `lit-targets-nr4a-redundancy`
+                     # and `lit-targets-aso-bibliography-completion`), the breakpoint census five
+                     # producers read, and the delivery-route corpus behind the Discussion. The row
+                     # above the table warns in terms that a hand-list falls behind the repository;
+                     # this is the row it fell behind on.
+                     # ⚠ SO IT IS A GLOB NOW, over the manuscript's own directory: a retrieval
+                     # product committed there tomorrow enters the deposit without anyone
+                     # remembering. Files this row claims that a later row describes more
+                     # specifically keep their specific `contributes` line through `also_serves`.
+                     "research/manuscripts/aso/lit-targets-*.json",
+                     # The data-source register the reference builder reads, the live-resolution
+                     # records for the three 2026 references ("those records travel with the
+                     # archive"), and the primary sources the TCF12 breakpoint assignment is made
+                     # against.
+                     "research/manuscripts/aso/fusion-junction-aso-data-sources.json",
+                     "research/manuscripts/aso/fusion-junction-aso-2026-citation-resolution.json",
+                     "research/literature/tcf12-nr4a3-breakpoint-primary-sources.json",
                      # ⛔ FOURTH INSTANCE IN ONE DAY OF A CLAIM RELEASED WITHOUT ITS EVIDENCE
                      # (2026-08-17). This file is the committed CI-fetch evidence behind B6-F1's
                      # in-vivo precedent scope, B6-F2's liver-restricted GalNAc route, C2-F4's GEO
@@ -216,7 +279,13 @@ PROMISES = [
                      "research/modalities/junction-mrna-frame-audit.json",
                      "research/modalities/junction-aso-regen-manifest.json",
                      "research/manuscripts/aso/fusion-junction-aso-working-record.md",
-                     "research/manuscripts/aso/fusion-junction-aso-paper-redteam.md"],
+                     "research/manuscripts/aso/fusion-junction-aso-paper-redteam.md",
+                     # ⚠ THE PROMISE SAYS "INCLUDING EVERY SUPERSEDED VALUE", AND THIS IS THE FILE
+                     # THAT HOLDS THEM. `pinned-figures.json` is the register a corrected number is
+                     # entered in — the machine-readable half of the correction record, and the
+                     # input the consistency gate reads. Released without it, the narrative record
+                     # travels and the values it narrates do not.
+                     "research/manuscripts/pinned-figures.json"],
     },
     {
         "id": "inputs_that_make_it_offline",
@@ -230,6 +299,14 @@ PROMISES = [
         # where one of the five is currently measured NOT to recompute.
         "promise": ("Every result reported here is re-derived from the committed artefacts in that "
                     "archive without network access or credentials"),
+        # ⚠ RE-QUOTED 2026-08-19, THE SECOND TIME THIS FLAG HAS CAUGHT THE SAME PARAGRAPH MOVING.
+        # The Availability sentence now reads "...re-derived, without network access or credentials,
+        # from the committed artefacts in that repository": the qualifier moved inside the clause and
+        # "archive" became "repository", which is the stronger and more checkable statement (the
+        # repository is what a reader can check TODAY, before any DOI exists). The label above is
+        # kept as the row's readable promise; the fragment below is what is checked.
+        "quote": ("Every result reported here is re-derived, without network access or credentials, "
+                  "from the committed artefacts in that repository"),
         "contributes": ("The committed inputs that let the pipeline run with the network off: the "
                         "transcript cache the atlas reads instead of calling Ensembl, and the "
                         "independent exon audit the per-gene provenance gate is checked against."),
@@ -324,8 +401,13 @@ PROMISES = [
                         "the hit ceiling on every query over a mixed corpus of assemblies, clones and "
                         "patents — released so a reader need not repeat an attempt that did not "
                         "yield an interpretable result."),
-        "patterns": ["research/modalities/junction-aso-offtarget-*-deep500.json",
-                     "research/modalities/aso-insilico-evaluation-*-deep500.json",
+        # ⛔ THE GLOB ENDED `-deep500.json` AND THE RE-SCREENS WERE DISPATCHED IN BATCHES, so every
+        # file named `...-deep500-b1.json` or `-b2.json` fell outside it — 28 of the 53 deeper
+        # screens, silently. The row's own text calls these "a SEPARATE measurement under their own
+        # suffix"; the suffix grew a batch tag and the pattern did not follow. Matching `-deep500*`
+        # takes the batch tags and any future one.
+        "patterns": ["research/modalities/junction-aso-offtarget-*-deep500*.json",
+                     "research/modalities/aso-insilico-evaluation-*-deep500*.json",
                      "research/modalities/aso-premrna-offtarget-genomic.json"],
     },
     {
@@ -430,10 +512,18 @@ PROMISES = [
         # For a paper whose deliverable is orderable oligos that is a wrong-reagent hazard, and
         # padding the cells only fixes the extractor we happened to test.
         "promise": "the canonical machine-readable record of every sequence this deposit names",
+        # ⚠ LABEL, NOT QUOTATION — re-anchored 2026-08-19 to the sentence the Sequences paragraph
+        # actually writes, which names both files.
+        "quote": "Every sequence named here travels with the archive as",
         "contributes": ("Every design the three deposit documents name, in CSV and FASTA, with its "
                         "geometry, junction, gap-level margin, longest wild-type-parent duplex and "
-                        "an explicit do-not-order flag on the three designs that pair their whole "
-                        "catalytic gap against the un-rearranged NR4A3 allele. The generator "
+                        "an explicit do-not-order flag on every record the paper condemns. ⚠ THAT "
+                        "FLAG IS ON 252 OF THE 780 RECORDS, NOT ON THREE: 249 pair a wild-type "
+                        "parent through the whole catalytic gap at the ten-base-pair criterion, "
+                        "and 3 more pair the patient's own un-rearranged NR4A3 allele. This "
+                        "sentence named only the second class until 2026-08-19, which described "
+                        "the smaller hazard and left the larger one sounding like a clean file. "
+                        "The generator "
                         "refuses to build if any sequence the documents print is absent, so the "
                         "file cannot quietly stop being canonical."),
         "patterns": ["research/manuscripts/aso/fusion-junction-aso-sequences.csv",
@@ -445,6 +535,12 @@ PROMISES = [
         "id": "reproduction_guards",
         "promise": ("Every quantitative statement here is produced by code in the released "
                     "archive and is reproducible from it"),
+        # ⚠ RE-QUOTED 2026-08-19: the AI-use declaration now SCOPES the claim — "Every quantitative
+        # statement DERIVED FROM SEQUENCE OR FROM A SCREEN is produced by code in the released
+        # archive", with the clinical figures excluded as transcribed from their publications. That
+        # is a narrowing of the promise, so the row is re-quoted rather than the check loosened.
+        "quote": ("Every quantitative statement derived from sequence or from a screen is produced "
+                  "by code in the released archive"),
         "contributes": ("Test that re-derives a manuscript number from the artifacts and fails if "
                         "the two diverge; this is the check a reader runs to confirm the archive "
                         "reproduces the paper."),
@@ -453,6 +549,85 @@ PROMISES = [
                      "research/modalities/tests/test_junction_aso_locus_collapse.py",
                      "research/modalities/tests/test_junction_aso_seam.py",
                      "research/modalities/tests/test_junction_seam_retraction.py"],
+    },
+    {
+        "id": "where_each_number_lives",
+        # ⛔⛔ THE AVAILABILITY STATEMENT NAMES FIFTEEN FILES BY PATH, AND FIVE OF THEM WERE NOT IN
+        # THIS MANIFEST (2026-08-19). "Which file holds which number is given here rather than left
+        # to a search" is the most literally checkable promise the paper makes — a reader can put
+        # the two lists side by side in a minute — and it named `aso-parent-null.json` (the null
+        # ensembles the central negative is read against), `aso_parent_null.py`,
+        # `aso-offtarget-tissue-expression.json`, `aso-gap-length-tradeoff.json` and
+        # `tcf12-breakpoint-assignment.json`, none of which the deposit carried.
+        # ⚠ THE NULLS ARE THE WORST OF THE FIVE TO HAVE OMITTED. The paper's headline reading is an
+        # observed rate against an ensemble of nulls; releasing the observation and withholding the
+        # ensemble leaves the one number a sceptical reader most wants to recompute uncheckable.
+        # ⭐ EACH ARTIFACT TRAVELS WITH ITS PRODUCER, ITS COMMITTED INPUT CACHE AND ITS GUARD, which
+        # is what makes "re-derived without network access" true of it rather than merely stated:
+        # the tissue-expression arm reads `-inputs.json` instead of calling the expression API, and
+        # the TCF12 assignment is made against a committed primary-source record.
+        "promise": "the files the Availability statement names one by one",
+        "quote": "Which file holds which number is given here rather than left to a search.",
+        "contributes": ("The artefacts the Availability statement names by path that no other "
+                        "promise row resolves: the parent-null ensembles the observed liability "
+                        "rate is read against, the off-target expression readings, the gap-length "
+                        "comparison, and the base-level TCF12 breakpoint assignment — each with "
+                        "its producer, its committed offline input and its guard."),
+        "patterns": ["research/modalities/aso-parent-null.json",
+                     "research/modalities/aso_parent_null.py",
+                     "research/modalities/tests/test_aso_parent_null.py",
+                     "research/modalities/aso-offtarget-tissue-expression.json",
+                     "research/modalities/aso-offtarget-tissue-expression-inputs.json",
+                     "research/modalities/aso_offtarget_tissue_expression.py",
+                     "research/modalities/tests/test_aso_offtarget_tissue_expression.py",
+                     "research/modalities/aso-gap-length-tradeoff.json",
+                     "research/modalities/aso_gap_length_tradeoff.py",
+                     "research/modalities/tests/test_aso_gap_length_tradeoff.py",
+                     "research/manuscripts/aso/tcf12-breakpoint-assignment.json",
+                     "research/manuscripts/tcf12_breakpoint_assignment.py"],
+    },
+    {
+        "id": "reimplementation_crosscheck",
+        # ⛔ A NEGATIVE'S STRONGEST DEFENCE, RELEASED AS A SENTENCE AND NOT AS CODE (2026-08-19).
+        # Declarations -> Provenance describes a second implementation sharing no code with the
+        # first, differing on four named axes, agreeing on all 231 graded pairs and on all 190
+        # designs — and ends "Both implementations, the comparison and its deliberate-corruption
+        # tests are in the archive." Neither implementation-comparison file was in the archive. Of
+        # every promise in this table that is the one whose breach costs most: the claim exists
+        # precisely to answer a reader who suspects the instrument, and such a reader is the one
+        # certain to look for it.
+        "promise": "Both implementations, the comparison and its deliberate-corruption tests are "
+                   "in the archive.",
+        "contributes": ("The independent second implementation of the frame grading and the "
+                        "mature-parent screen, the field-by-field comparison against the "
+                        "original over all 231 graded exon pairs and all 190 designs, and the "
+                        "deliberate-corruption tests that show the comparison can fail."),
+        "patterns": ["research/modalities/aso_independent_verification.py",
+                     "research/modalities/aso-independent-verification.json",
+                     "research/modalities/tests/test_aso_independent_verification.py"],
+    },
+    {
+        "id": "deposited_documents",
+        # ⛔⛔ THE MANIFEST LISTED NEITHER OF THE DOCUMENTS A DEPOSITOR ACTUALLY UPLOADS (2026-08-19).
+        # 384 entries, four figure PDFs among them, and not one of the three built PDFs — the two
+        # full renderings and the Supporting Information — nor either build stamp. The Declarations
+        # promise "a manifest listing every archived file with its SHA-256", so the file whose
+        # entire job is to be checkable against the download omitted the download's centrepiece.
+        # ⚠ THE STAMPS ARE NOT OPTIONAL AND ARE NOT METADATA. `build_submission_pdf.py` writes into
+        # each stamp the SHA-256 of every source document the PDF was rendered from, which is the
+        # ONLY way a reader can tell a current PDF from one built before the last edit — mtimes are
+        # not evidence, because the regeneration chain rewrites unchanged files. A deposit carrying
+        # the PDFs without the stamps ships an assertion with its falsifier removed.
+        # ⚠ NO STAMP EXISTS FOR THE SUPPORTING-INFORMATION PDF, and the glob will pick one up the
+        # day the builder writes one. That gap is reported in `gaps` rather than papered over here.
+        "promise": "Two renderings of this manuscript travel with it and their text is the same",
+        "contributes": ("The built documents a depositor uploads: the version of record in "
+                        "submission format, the typeset preview of the same text, the Supporting "
+                        "Information rendered from the same builder, and the build stamps that "
+                        "record the SHA-256 of every source each PDF was rendered from."),
+        "patterns": ["research/manuscripts/aso/fusion-junction-aso-research-article*.pdf",
+                     "research/manuscripts/aso/fusion-junction-aso-research-article*"
+                     ".build-stamp.json"],
     },
     {
         "id": "manuscript_and_figures",
@@ -621,6 +796,20 @@ def _promise_text_found_in_paper(text, phrase):
     would be invisible here. This flag cannot catch the second case, so it is reported as a flag
     rather than trusted as a guarantee. Matching is on a distinctive fragment, not the whole
     sentence, because the manuscript hard-wraps and a line break is not a wording change.
+
+    ⛔⛔ THE LABEL AND THE PROBE ARE DIFFERENT JOBS, AND CONFLATING THEM MADE THIS FLAG CRY WOLF
+    (2026-08-19). Four rows reported `false` at once — `reproduction_command`,
+    `inputs_that_make_it_offline`, `canonical_sequence_record`, `reproduction_guards` — and only one
+    was a real wording drift. Two of the four had never held a quotation at all: their `promise`
+    read as a description ("the regeneration chain the Availability statement names"), so the check
+    was comparing a caption against the manuscript and could only ever fail. A row with a `quote`
+    key is now checked on THAT and displayed as its `promise`, which keeps `promise_text` readable
+    while making the probe an actual fragment of the paper.
+    ⚠ THE WRONG FIX WOULD HAVE BEEN TO SET `verbatim: False` ON THE FOUR. That silences the flag on
+    exactly the rows whose promises are the most quotable — the offline claim and the reproducibility
+    claim are the two sentences a reviewer will test first — and this module's own note says a flag
+    that cries wolf is a flag that gets ignored on the row that matters. The prose is right; the
+    probe was reading the wrong string.
     """
     probe = " ".join(phrase.split())[:48].lower()
     flat = " ".join(text.split()).lower()
@@ -661,6 +850,85 @@ def _labels_only(field, values, res):
                      f"rather than slicing its basename."),
         }
     return sorted(v for v in values if JUNCTION_LABEL_RE.match(str(v)))
+
+
+#: Vendored third-party trees. Their basenames collide with each other (`entry.py`, `sm_io.py`) and
+#: nothing in this deposit imports them, so they are kept out of the module index rather than
+#: allowed to make a resolution ambiguous.
+_VENDORED = "_src/"
+
+
+def _module_index(tracked):
+    """Importable module name -> the tracked repository paths that could satisfy it."""
+    idx = {}
+    for p in tracked or ():
+        if p.endswith(".py") and p.startswith("research/") and _VENDORED not in p:
+            idx.setdefault(os.path.basename(p)[:-3], []).append(p)
+    return idx
+
+
+def _imported_names(path):
+    """Every top-level module name this file imports, at any nesting depth. [] if unparseable.
+
+    ⚠ LAZY IMPORTS COUNT. `aso_noncoding_acceptor_designs` reaches its grader through an import
+    inside a function, and the round-7 finding that the deposit shipped a test without its code
+    under test turned on exactly that: an import-closure walk that only read module level found
+    neither module. A file needed on one code path is a file the archive has to carry.
+    """
+    try:
+        tree = ast.parse(open(os.path.join(REPO, path), encoding="utf-8").read())
+    except (OSError, SyntaxError, ValueError):
+        return []
+    names = set()
+    for n in ast.walk(tree):
+        if isinstance(n, ast.Import):
+            names.update(a.name.split(".")[0] for a in n.names)
+        elif isinstance(n, ast.ImportFrom) and n.module and not n.level:
+            names.add(n.module.split(".")[0])
+    return sorted(names)
+
+
+def _import_closure(seeds, tracked):
+    """Repository modules a released module imports but no promise row resolves to.
+
+    ⛔⛔ THIS IS THE ONE HOLE A PROMISE TABLE CANNOT SEE, AND IT HAS OPENED FOUR TIMES. Every row
+    above names FILES; what a reader downloads and runs is CODE, and code reaches other code by
+    import. Measured 2026-08-19 over the 384-entry manifest: eight modules were imported by a
+    released file and absent from the release. `aso_screen_sets.py` was imported by twelve of them —
+    including this module — so the archive contained the manifest generator and not what the
+    manifest generator imports. `fusion_breakpoints.py` was imported by `junction_aso.py` and
+    `nr4a3_fusion_atlas.py`, the two producers the Availability statement names first, so neither
+    the design panel nor the junction atlas could be regenerated from the archive at all.
+    ⚠ THE FAILURE MODE IS AN ImportError ON A CLEAN DOWNLOAD, which is the worst shape a deposit
+    defect can take: it does not look like a missing file, it looks like broken code, and a reviewer
+    reasonably concludes the pipeline never ran.
+    ⭐ SO IT IS COMPUTED, NOT LISTED. Adding an import tomorrow adds its target to the deposit with
+    nobody remembering, which is the same property every glob above has and the reason a hand-list
+    was the failure this module exists to prevent. Iterated to a fixed point, because a module
+    pulled in this way imports things too.
+    ⚠ AND AN AMBIGUOUS NAME IS REPORTED, NEVER GUESSED. Two tracked files with one basename cannot
+    be told apart from an import statement, so the name is recorded in the gaps block and no file is
+    added — a wrong file in a deposit is worse than a named hole in one.
+    """
+    idx = _module_index(tracked)
+    have, added, ambiguous = set(seeds), [], {}
+    queue = [p for p in seeds if p.endswith(".py")]
+    while queue:
+        cur = queue.pop()
+        for name in _imported_names(cur):
+            cands = idx.get(name)
+            if not cands:
+                continue                      # stdlib, third-party, or nothing tracked by that name
+            # Python resolves a sibling first, so a same-directory match settles the name outright.
+            pick = [c for c in cands if os.path.dirname(c) == os.path.dirname(cur)] or cands
+            if len(pick) > 1:
+                ambiguous[name] = sorted(pick)
+                continue
+            if pick[0] not in have:
+                have.add(pick[0])
+                added.append(pick[0])
+                queue.append(pick[0])
+    return sorted(added), ambiguous
 
 
 def _screen_coverage():
@@ -823,11 +1091,43 @@ def build():
             "promise_text": row["promise"],
             "n_files": len(resolved),
             "files": resolved,
+            # ⚠ `quote` WHERE THE ROW HAS ONE, `promise` OTHERWISE — see
+            # `_promise_text_found_in_paper`. The displayed `promise_text` above stays the readable
+            # label either way, so a reader of the manifest is never shown a sentence fragment
+            # where a promise belongs.
             "_promise_still_in_manuscript": (
-                _promise_text_found_in_paper(paper, row["promise"])
+                _promise_text_found_in_paper(paper, row.get("quote", row["promise"]))
                 if row.get("verbatim", True) else "n/a — descriptive label, not a quotation"),
             "⛔_UNMAPPED": not resolved,
         })
+
+    # ★ THE CLOSURE IS RESOLVED LAST AND ENTERS AS ITS OWN ROW, so a reader can see exactly which
+    # files are here because a promise names them and which are here because released code imports
+    # them. Folding them into the nearest promise row would have hidden the distinction and made
+    # the row's file list stop being the answer to "you said X is released — where is it?".
+    tracked_now = _tracked_files()
+    closure, ambiguous_imports = _import_closure([e["path"] for e in files], tracked_now)
+    for rel in closure:
+        full = os.path.join(REPO, rel)
+        entry = {"path": rel,
+                 "bytes": os.path.getsize(full),
+                 "sha256": _sha256(full),
+                 "serves": "import_closure",
+                 "also_serves": [],
+                 "contributes": ("Imported by a released module. Not named by any availability "
+                                 "promise; present because the code the promises DO name cannot "
+                                 "be imported without it.")}
+        seen[rel] = entry
+        files.append(entry)
+    promise_rows.append({
+        "id": "import_closure",
+        "promise_text": ("the modules released code imports (derived from the code, not promised "
+                         "by a sentence)"),
+        "n_files": len(closure),
+        "files": closure,
+        "_promise_still_in_manuscript": "n/a — derived from the released code, not a quotation",
+        "⛔_UNMAPPED": False,
+    })
 
     files.sort(key=lambda e: e["path"])
     coverage = _screen_coverage()
@@ -840,6 +1140,38 @@ def build():
     # describe identical payloads no matter how many commits separate them, so a DOI minted against
     # one is valid for the other. Derived from the file hashes already computed above, never from a
     # re-read, so it cannot disagree with the list it summarises.
+    # ⛔ THE PAYLOAD IS MOSTLY FILE TYPES A MANUSCRIPT UPLOADER DOES NOT TAKE, and that is the one
+    # deposit defect that stops the submission at the form rather than at review. A preprint
+    # server's supplementary uploader accepts a short list of document, image and container types;
+    # `.json`, `.csv`, `.fasta`, `.md` and `.sh` are not documents to it. This census is DERIVED
+    # from the file list so the depositor sees the shape of the problem before meeting it, and the
+    # answer is already step 3 below: one container, uploaded once.
+    # ⚠ NO ACCEPTED-TYPE LIST IS RESTATED HERE. Which extensions a given server takes is a fact
+    # about that server's current form, it changes without notice, and a list typed into this file
+    # from memory would be exactly the kind of unsourced claim the rest of this repository refuses.
+    # The depositor reads it off the uploader.
+    by_ext = {}
+    for e in files:
+        ext = os.path.splitext(e["path"])[1].lower() or "(no extension)"
+        row = by_ext.setdefault(ext, {"n_files": 0, "bytes": 0})
+        row["n_files"] += 1
+        row["bytes"] += e["bytes"]
+    payload_file_types = {
+        "_what": ("Extension census of the payload, derived from the file list. A preprint or "
+                  "journal uploader that accepts only document, image and container types cannot "
+                  "take most of these one by one; step 3 below builds the single container that "
+                  "sidesteps the question entirely. Check the accepted types on the uploader "
+                  "itself — none is asserted here."),
+        "by_extension": dict(sorted(by_ext.items(),
+                                    key=lambda kv: (-kv[1]["n_files"], kv[0]))),
+        "_readme_for_the_container": (
+            "Give the zip a plain-text README carrying the deposit title, the author, the statement "
+            "that the manuscript is a preprint, and the archive DOI once reserved — the same four "
+            "facts step 4 puts in the deposition record. Compose it from `_what_this_is` and "
+            "`how_to_reproduce_offline` above rather than typing it: those are derived and this "
+            "would not be."),
+    }
+
     digest = hashlib.sha256()
     for e in files:
         digest.update(f"{e['path']}\0{e['sha256']}\n".encode("utf-8"))
@@ -852,6 +1184,27 @@ def build():
                   "not a reassurance."),
         "promises_resolving_to_no_file": unmapped,
         "screen_coverage": coverage,
+        "import_closure": {
+            "_what": ("Modules pulled in because released code imports them rather than because a "
+                      "promise names them. A non-empty list is not a defect in this manifest; it is "
+                      "the measure of how far the promise table falls short of an importable "
+                      "archive, and it is why the closure is computed rather than listed."),
+            "n_added": len(closure),
+            "added": closure,
+            # ⚠ AN AMBIGUOUS IMPORT IS A NAMED HOLE, NOT A GUESS — see `_import_closure`. Non-empty
+            # here means the archive may be missing a module and this file says which name.
+            "⛔_ambiguous_and_therefore_not_added": ambiguous_imports,
+        },
+        "documents_with_no_build_stamp": sorted(
+            os.path.relpath(p, REPO)
+            for p in glob.glob(os.path.join(ASO, "*.pdf"))
+            if not os.path.exists(p[:-4] + ".build-stamp.json")
+            and os.path.relpath(p, REPO) in seen),
+        "_documents_with_no_build_stamp_why": (
+            "A deposited PDF whose stamp is absent cannot be shown current: the stamp is the only "
+            "record of which source documents it was rendered from, and mtimes are not evidence "
+            "because the regeneration chain rewrites unchanged files. Listed rather than "
+            "assumed-fine; the fix belongs in build_submission_pdf.py, not here."),
         "⚠_known_and_deliberate": [
             "✅ CLOSED 2026-08-13. The Europe PMC prior-art corpora behind the '5,153 unique "
             "records' first-in-kind statement live on the `literature-cache` branch and so were "
@@ -921,8 +1274,38 @@ def build():
         "inventory_limited_to_tracked_files": _tracked_files() is not None,
         "archive_content_digest": content_digest,
         "n_files": len(files),
+        # ⛔⛔ THE FILE LISTING EVERY ARCHIVED FILE OMITTED ONE, AND SAID SO NOWHERE A READER LOOKS
+        # (2026-08-19). `SELF_EXCLUDE` carried a one-line reason in the SOURCE; the deposit carried
+        # none, so a reviewer diffing the download against `files` found the manifest missing and
+        # had no way to tell a deliberate exclusion from a stale list. The Declarations promise is
+        # "a manifest listing every archived file with its SHA-256" — an omission that is correct
+        # and unexplained reads exactly like one that is not.
+        "self_entry": {
+            "path": os.path.relpath(OUT, REPO),
+            "travels_with_the_deposit": True,
+            "in_the_files_list_below": False,
+            "sha256": None,
+            "_why_no_hash": (
+                "A file cannot state its own SHA-256: appending the hash changes the bytes that "
+                "were hashed, so there is no fixed point to write. A second pass would produce a "
+                "manifest whose recorded self-hash is the hash of the manifest before that hash "
+                "was recorded — a value that is wrong about the only file it describes."),
+            "_why_not_counted": (
+                "It is excluded from `files`, `n_files`, `total_bytes` and "
+                "`archive_content_digest` for the same reason, which is also what keeps two runs "
+                "over an unchanged tree byte-identical — the property this module's header calls "
+                "the only cheap check a reader has that the file is derived rather than edited."),
+            "how_a_reader_checks_it_anyway": (
+                "Two ways, neither needing a self-hash. (1) Re-derive it: check out `git_revision` "
+                "and run `python3 research/manuscripts/aso_archive_manifest.py --check`, which "
+                "rebuilds the whole file and exits non-zero on any difference. (2) Compare the "
+                "downloaded copy's `sha256sum` against the value the deposition record states — "
+                "step 4 below tells the depositor to record it there, which is the one place it "
+                "can live without being self-referential."),
+        },
         "total_bytes": total,
         "total_mib": round(total / (1024 * 1024), 3),
+        "payload_file_types": payload_file_types,
         "how_to_deposit_and_mint_the_doi": [
             "1. Check out the revision named in `git_revision` and confirm `git status` is clean. "
             "The manifest's hashes are only meaningful against that tree.",
@@ -935,6 +1318,10 @@ def build():
             "'w',zipfile.ZIP_DEFLATED);[z.write(f['path']) for f in m['files']];z.write("
             "'research/manuscripts/aso/fusion-junction-aso-archive-manifest.json');z.close()\"` "
             "— then verify the archive's own SHA-256 list against `files` before uploading.",
+            "3b. Record the manifest's OWN SHA-256 outside the manifest — "
+            "`sha256sum research/manuscripts/aso/fusion-junction-aso-archive-manifest.json` — and "
+            "paste it into the deposition description at step 4. See `self_entry` above: this file "
+            "cannot carry its own hash, so the deposition record is where that hash lives.",
             "4. Create the deposition (Zenodo: New upload -> Dataset/Software; upload the zip; "
             "title 'Code and artefacts for: fusion-junction antisense oligonucleotides in "
             "extraskeletal myxoid chondrosarcoma'; author and ORCID; licence — CC-BY-4.0 for the "

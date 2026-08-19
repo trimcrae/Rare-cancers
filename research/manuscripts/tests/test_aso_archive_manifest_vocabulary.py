@@ -45,7 +45,23 @@ def coverage():
 
 
 def test_every_junction_field_holds_junction_labels(coverage):
-    """The vocabulary itself, over whatever is on disk now."""
+    """The vocabulary itself, over whatever is on disk now.
+
+    ⚠ IN A CORRECT TREE THE THREE FIELDS ARE EMPTY, SO THE LOOP BELOW ITERATES NOTHING (noted
+    2026-08-19). That is the state `test_every_junction_has_both_arms` asserts, and it means this
+    test's own loop cannot fail today. The property is real and is carried by two other things: the
+    checker is driven directly with the tags that got through, in
+    `test_a_filename_tag_is_refused_rather_than_deposited`, and the vocabulary's DISCRIMINATION is
+    asserted here — a pattern that matched everything would let the loop pass on a full field just
+    as quietly as on an empty one.
+    """
+    assert m.JUNCTION_LABEL_RE.match(m.JUNCTION_LABEL_EXAMPLE), (
+        f"the vocabulary pattern no longer matches its own example {m.JUNCTION_LABEL_EXAMPLE!r}")
+    for tag in sorted(REGRESSED_TAGS):
+        assert not m.JUNCTION_LABEL_RE.match(tag), (
+            f"the vocabulary pattern now ACCEPTS {tag!r}, a filename tag from the 2026-08-14 "
+            "regression. The loop below would then pass over exactly the values it exists to "
+            "reject.")
     for field in JUNCTION_FIELDS:
         assert field in coverage, f"{field} is gone from the manifest"
         for value in coverage[field]:
@@ -90,13 +106,42 @@ def test_a_filename_tag_is_refused_rather_than_deposited():
 
 
 def test_the_committed_manifest_agrees_with_what_is_on_disk(coverage):
-    """⚠ THE DEPOSITED BYTES, not just the generator — the manifest is what actually ships."""
+    """⚠ THE DEPOSITED BYTES, not just the generator — the manifest is what actually ships.
+
+    ⛔ AND IT COMPARES THE WHOLE BLOCK, BECAUSE IT USED TO COMPARE `[] == []` THREE TIMES
+    (2026-08-19). The three `junctions_*` fields are empty in a correct tree — that is what
+    `test_every_junction_has_both_arms` asserts one line above — so this test was three assertions
+    that an empty list equals an empty list, and every OTHER field of the same generated block went
+    unchecked: `n_screens_committed`, `n_screens_gap_resolved`, the orientation-filtered screen
+    list, the gap-resolved screens with no committed rescore. Those are the fields a new screen
+    artifact moves, so the one edit most likely to leave the deposited manifest stale — adding a
+    screen — was invisible here.
+
+    ⚠ COMPUTED IN PROCESS, NOT BY RUNNING THE GENERATOR. `_screen_coverage()` is the same function
+    `aso_archive_manifest.py` writes the block from, so this compares the deposit against a fresh
+    reading of the tree without a subprocess and without writing anything.
+    """
+    import hashlib  # noqa: PLC0415
     import json  # noqa: PLC0415
 
     path = os.path.join(MANUSCRIPTS, "aso", "fusion-junction-aso-archive-manifest.json")
     with open(path, encoding="utf-8") as fh:
         deposited = (json.load(fh).get("gaps") or {}).get("screen_coverage") or {}
+    assert deposited, "the deposited manifest carries no screen_coverage block at all"
+
+    def digest(block):
+        return hashlib.sha256(
+            json.dumps(block, sort_keys=True, ensure_ascii=False).encode()).hexdigest()
+
+    if digest(deposited) != digest(coverage):
+        differing = sorted(k for k in set(deposited) | set(coverage)
+                           if deposited.get(k) != coverage.get(k))
+        raise AssertionError(
+            f"the deposited manifest's screen_coverage block differs from the tree in {differing}: "
+            + "; ".join(f"{k}: deposited {deposited.get(k)!r} vs tree {coverage.get(k)!r}"[:220]
+                        for k in differing[:4])
+            + ". Re-run research/manuscripts/aso_archive_manifest.py.")
+    #: the vocabulary fields are still named individually, so a future reader can see WHICH of them
+    #: this file exists for even when the hash above is what fails
     for field in JUNCTION_FIELDS:
-        assert deposited.get(field) == coverage[field], (
-            f"the deposited manifest's {field} is {deposited.get(field)!r} but the tree says "
-            f"{coverage[field]!r}. Re-run research/manuscripts/aso_archive_manifest.py.")
+        assert deposited.get(field) == coverage[field], field

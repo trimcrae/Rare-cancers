@@ -45,8 +45,10 @@ the main text's Declarations.
 Section numbers here are prefixed S. Cross-references of the form "§n" point to the main text
 (`fusion-junction-aso-research-article.md`); "SI §Sn" points within this document. All numbered
 references are those of the main text's reference list, which is generated from the identifiers
-carried in the main text. This document carries no figure: Supplementary Figure S1 travels with the
-archive, and its legend is with the main text's figure legends.
+carried in the main text; the seven entries this document cites are repeated at its end so that an
+SI read on its own resolves them, and the full list is in the main text. This document carries no
+figure of its own: Supplementary Figure S1 is printed in the main text beside Figures 1 to 3 and
+carries its legend there, and it travels with the archive as well.
 
 ## S1 · Target-site accessibility, and its exclusion from every ranking
 
@@ -73,8 +75,13 @@ on them, which is the use they support.
 The 250 nM strand concentration used in the main text's thermodynamic scoring enters only the
 melting temperature, which is the quantity the independent implementation of §6 was compared
 against. The strand choice that check does not verify is fixed instead by the documented convention
-of the nearest-neighbour table<sup>52</sup><!--PMID:7545436--> that the sequence supplied is the RNA
-one.
+of the software interface the parameters are read through — Biopython's `R_DNA_NN1` table in
+`Bio.SeqUtils.MeltingTemp`, whose calling convention is that the sequence supplied is the RNA one,
+which is the sequence the scoring code supplies. The nearest-neighbour parameters themselves are
+Sugimoto and colleagues',<sup>52</sup><!--PMID:7545436--> read from that table rather than entered
+by hand, and the package version they were read at is recorded beside every released free energy.
+The parameter set and the strand convention have different sources and are stated separately here
+for that reason.
 
 ## S3 · Provenance of the three gap-length figures
 
@@ -85,7 +92,7 @@ that none of them is a titration in this architecture. Their provenance is as fo
   than measuring it.
 - **A minimum of six.**<sup>42</sup><!--PMID:41614678--> A design-protocol statement, likewise given
   in passing and citing prior work.
-- **An optimum of seven to ten.**<sup>38</sup><!--PMID:24981949--> Both this and the six-nucleotide
+- **An optimum of seven to ten.**<sup>39</sup><!--PMID:24981949--> Both this and the six-nucleotide
   activity figure beside it are taken from a review that credits them to named earlier primary
   studies rather than measuring them itself.
 
@@ -124,15 +131,21 @@ two partners reaches 95%, and the remaining reachable cases are the two *TCF12* 
 fourth reagent of §4.1 addresses.
 
 Nine junctions now carry a published exon-resolved breakpoint and a screened design, eight of them
-through all five screens, with the *PGR* seam's pre-mRNA compartment unmeasured for the reason main text §2.6 gives,
-and four of them sit outside the 38-junction panel, at the *NR4A3* exon-2 acceptors of §2.6. Four
+through all five screens and the ninth, the *PGR* seam, through three of the five: its pre-mRNA
+compartment is unmeasured for the reason main text §2.6 gives, and so is its mature-parent
+compartment, because that screen reads the same committed six-gene sequence cache the pre-mRNA
+screen reads and that cache carries no *PGR*. One absent donor therefore costs two screens rather
+than one. Four of the nine sit outside the 38-junction panel, at the *NR4A3* exon-2 acceptors of §2.6. Four
 of the nine move the estimate; one moves only the bound, its arm having no measured
 within-partner distribution; and four move it by nothing at all — two because their partner is
 absent from this cohort, and two because their partner is present while their exon pair carries no
 count in it. That last pair is the easier of the two kinds of zero to miss, and a membership test that
 asked only about the partner did miss it. Priced on a pooled breakpoint basis rather than on the
 single series the ladder uses, the nine together are 82.9% of molecularly confirmed cases, widening
-to 57.5–90.7%, and the two reagents of §4.1 are 67.1% rather than the ladder's 68.4%. The
+to 57.5–90.7%. That range is built the way §4.1 builds its own and carries the same caveat: each
+breakpoint fraction is taken to its own Wilson bound while the partner shares are held at their
+point estimates, so it is a composed-endpoint range carrying no nominal coverage level, and it is
+not a confidence interval. The two reagents of §4.1 are 67.1% rather than the ladder's 68.4%. The
 denominators are not the ladder's, and neither are the numerators: the *EWSR1* arm is 17 of 20 here
 against the ladder's 10 of 15, and two changes make that move rather than one. The denominator widens
 by pooling the 18-case series with the five-case whole-transcriptome
@@ -141,15 +154,21 @@ cohort,<sup>25</sup><!--PMID:29937513--> and the numerator rises because this pa
 pooling. The *TAF15* arm stays at 3 of 3. Three things follow. Fifteen of those 20 tumours come from one
 series, so the pool stays close to it; the two series agree at *EWSR1* exons 12 and 13 and disagree
 completely at exon 7 to *NR4A3* exon 2, 0 of 15 against 1 of 5; and a third series was refused
-because every case in its *EWSR1* arm carries a covered junction by construction, which would fix
-its rate at 100% and raise the figure rather than lower it. Two of seven retrieved series resolve
-every case to an exon pair, so this is a pooled record and not the whole one. The figure supersedes
+because every case in its *EWSR1* arm carries a covered junction by construction, 12 of 12, since a
+case with any other junction could not have entered that arm at all; the series that is pooled is 12
+of 15 on the same test and so is not fixed by its own assay. That third series is Okamoto and
+colleagues' 18 cases, PMID 11679947, cited only here and so taking no number in the main text's
+list. Pooling it would give 87.4% rather than 82.9%, which is to say the rule costs coverage rather
+than buying it, and it is applied for that reason and not for the figure. Two of seven retrieved series resolve
+every case to an exon pair, so this is a pooled record and not the whole one; the seven are the
+papers that report an exon-resolved junction at all in the breakpoint census behind this section,
+which read 295 papers and is the one home for both counts. The figure supersedes
 nothing: it answers a different question from the ladder, whose rungs are incremental and priced on
 the single series 68.4% is computed on, and 68.4% remains the coverage of the two reagents named in
 §4.1. Its own membership rule is an evidence test rather than a list — a junction qualifies where a
 published report places a patient's breakpoint at it and a reagent has been through all five screens,
-four of the five for the *PGR* seam whose pre-mRNA compartment is unmeasured rather than clean (main
-text §2.6) — and one qualifying junction, *PGR* exon 2 to *NR4A3* exon 2, reported in a single
+three of the five for the *PGR* seam, whose pre-mRNA and mature-parent compartments are both
+unmeasured rather than clean, on the one shared cache main text §2.6 describes — and one qualifying junction, *PGR* exon 2 to *NR4A3* exon 2, reported in a single
 patient,<sup>28</sup><!--PMID:36103645--> moves the figure by exactly zero, because the 58-case
 cohort behind the denominator contains no *PGR* case for such a reagent to engage. The further
 caveat on that reagent — a sixth partner, outside the five the panel models, whose seam is screened
@@ -160,3 +179,32 @@ cDNA rather than a report. Those two are the partner-absent half of the four tha
 other two have their partner present in the cohort and their exon pair carrying no count in it.
 What such a reagent changes is which patients are reachable at all, which is a
 different statement and is not added to a coverage percentage.
+
+## References cited in this Supplement
+
+These are the seven entries of the main text's reference list that this document cites, repeated here
+verbatim from it so that a reader holding only the Supplementary Information can resolve them. The
+numbers are the main text's and are assigned there; each entry carries its PubMed identifier in the
+same non-rendering comment the superscripts use, so the renumbering that keeps a superscript and its
+reference together reaches this block too. This is a copy, not a second list: the reference list of
+record is the main text's, generated from the identifiers carried in it.
+
+<sup>22</sup><!--PMID:12378528--> Panagopoulos I, Mertens F, Isaksson M, Domanski HA, Brosjö O, Heim S, Bjerkehagen B, Sciot R, Dal Cin P, Fletcher JA, Fletcher CD, Mandahl N. Molecular genetic characterization of the EWS/CHN and RBP56/CHN fusion genes in extraskeletal myxoid chondrosarcoma. Genes, chromosomes & cancer. 2002;35(4):340-352. PMID: 12378528. doi:10.1002/gcc.10127
+
+<sup>25</sup><!--PMID:29937513--> Urbini M, Indio V, Astolfi A, Tarantino G, Renne SL, Pilotti S, Dei Tos AP, Maestro R, Collini P, Nannini M, Saponara M, Murrone L, Dagrada GP, Colombo C, Gronchi A, Pession A, Casali PG, Stacchiotti S, Pantaleo MA. Identification of an Actionable Mutation of KIT in a Case of Extraskeletal Myxoid Chondrosarcoma. International journal of molecular sciences. 2018;19(7):E1855. PMID: 29937513. doi:10.3390/ijms19071855
+
+<sup>28</sup><!--PMID:36103645--> Wilbur HC, Robinson DR, Wu YM, Kumar-Sinha C, Chinnaiyan AM, Chugh R. Identification of Novel PGR-NR4A3 Fusion in Extraskeletal Myxoid Chondrosarcoma and Resultant Patient Benefit From Tamoxifen Therapy. JCO precision oncology. 2022;6:e2200039. PMID: 36103645. doi:10.1200/po.22.00039
+
+<sup>39</sup><!--PMID:24981949--> Kauppinen S, Vester B, Wengel J. Locked nucleic acid (LNA): High affinity targeting of RNA for diagnostics and therapeutics. Drug discovery today. Technologies. 2005;2(3):287-290. PMID: 24981949. doi:10.1016/j.ddtec.2005.08.012
+
+<sup>41</sup><!--PMID:39126066--> Mejzini R, Caruthers MH, Schafer B, Kostov O, Sudheendran K, Ciba M, Danielsen M, Wilton S, Akkari PA, Flynn LL. Allele-Selective Thiomorpholino Antisense Oligonucleotides as a Therapeutic Approach for Fused-in-Sarcoma Amyotrophic Lateral Sclerosis. International journal of molecular sciences. 2024;25(15):8495. PMID: 39126066. doi:10.3390/ijms25158495
+
+<sup>42</sup><!--PMID:41614678--> Agrawal S. Transient Cyclic Structured Oligonucleotide Designs for Therapeutic Applications. Current protocols. 2026;6(2):e70319. PMID: 41614678. doi:10.1002/cpz1.70319
+
+<sup>52</sup><!--PMID:7545436--> Sugimoto N, Nakano S, Katoh M, Matsumura A, Nakamuta H, Ohmichi T, Yoneyama M, Sasaki M. Thermodynamic parameters to predict stability of RNA/DNA hybrid duplexes. Biochemistry. 1995;34(35):11211-11216. PMID: 7545436. doi:10.1021/bi00035a029
+
+One further source is cited only here and therefore takes no number in that list, exactly as the
+external data records do: Okamoto S, Hisaoka M, Ishida T, Imamura T, Kanda H, Shimajiri S, Hashimoto
+H. Extraskeletal myxoid chondrosarcoma: a clinicopathologic, immunohistochemical, and molecular
+analysis of 18 cases. Human pathology. 2001;32(10):1116-1124. PMID: 11679947.
+doi:10.1053/hupa.2001.28226 — the third breakpoint series SI §S6 records as refused.

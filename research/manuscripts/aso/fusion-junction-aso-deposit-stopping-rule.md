@@ -360,6 +360,46 @@ own; the two-reader test applies to minors only, which is exactly the class that
 - **The permission to find nothing is load-bearing.** It produced a real result twice. Without it the
   seat manufactures an objection, because a reviewer asked for findings supplies findings.
 
+### ⭐ CONDITION 7 — WHAT GETS ADMITTED TO THE BACKLOG, AND WHY IT IS NOT A VOTE (added 2026-08-19, trimcrae)
+
+trimcrae, on the 2026-08-19 round: *"we need to start being more judicious about which reviewer
+reported 'defects' we actually add to our backlog if you think the reviewers are just padding to
+fill a quota."* The premise was mine and it was WRONG, so the rule that comes out of it is not the
+one the question implied. Recorded here because the wrong version is the tempting one.
+
+**THE PADDING HYPOTHESIS DOES NOT SURVIVE ITS OWN LEDGER.** Nine briefs returned 236 deduplicated
+entries and 176 of them were raised by exactly one reader, which I reported as mostly noise. Measured
+against the ledger instead of asserted:
+
+| class | n | what it actually is |
+|---|---|---|
+| single-reader **with** a recomputation behind it | 132 | a reviewer computed a number; reader count says nothing about whether it is right |
+| single-reader, no number, **guard-suite** | 12 | the most verifiable class in the ledger — each is a code fact, and all twelve were proved by construction and fixed |
+| single-reader, no number, non-numeric **claim** | 15 | checkable against the text or an artifact; not numeric is not unverifiable |
+| single-reader, no number, **taste** | 11 | the only genuinely discretionary class |
+
+So the volume came from BREADTH OF BRIEF, not from quota-filling, and an admission filter keyed on
+reader count would have discarded ~132 findings whose backing is a computation. ⛔ **Reader count is
+the STOPPING test (condition 6). It is not, and must not become, an ADMISSION test** — those are
+different jobs, and the second one is how a measured defect gets thrown away for being unpopular.
+
+**THE GATE IS VERIFICATION, NOT POPULARITY.** Every finding is recomputed before it is applied; one
+that fails is recorded REFUTED with the numbers that refuted it. On this round that gate rejected
+eleven findings, including one filed as a BLOCKER — and it rejected two of my own repairs. That is
+the filter doing the work an admission rule was being asked to do, and it is the right one, because
+it asks whether the finding is TRUE rather than whether it is POPULAR.
+
+**WHAT IS DECLINED, AND IT IS A SMALL SET.** Eight entries, each with its reason recorded beside it:
+placement and ordering preferences; two whose fix would need a source this repo has not retrieved,
+so writing it would mean inventing one; one thirteen-page structural rewrite whose cost is far above
+its defect; and — ⛔ **on safety grounds rather than cost** — thinning the repeated order-safety
+footer, which would trade a real hazard against a cosmetic one.
+
+⚠ **THE COST THAT JUSTIFIES DECLINING ANYTHING AT ALL IS MEASURED, NOT ASSUMED**: this ledger records
+roughly one finding per round CREATED by the previous round's repairs, and this session created two
+of its own. Repair is not free, which is why a taste-class item with no measurement behind it is
+worth declining — and why a measured one never is, however few readers saw it.
+
 ## 3 · ⚠ The corollary, which must not be flinched from
 
 **If the final round returns a class-B finding — a real defect in text no prior round touched — that

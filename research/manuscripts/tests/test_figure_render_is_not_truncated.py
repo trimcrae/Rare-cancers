@@ -27,6 +27,7 @@ and confirm painted pixels reach it. Pure stdlib — this repository has no PIL 
 (a full unfilter of a 2126-pixel-wide image) to be worth the seconds it takes, because the
 alternative is trusting a renderer that has already been wrong.
 """
+import json
 import os
 import re
 import struct
@@ -43,18 +44,38 @@ FIGS = os.path.join(os.path.dirname(HERE), "figures")
 TOLERANCE_SVG_PX = 6.0
 
 
+#: ⛔ THE FIGURES THIS MUST COVER ARE NAMED BY A COMMITTED ARTIFACT (2026-08-19, lane C2).
+#: `if not out: pytest.skip("no rendered ASO figures in this checkout")` meant that losing the
+#: PNGs — a partial regeneration, a merge that dropped binaries — turned the truncation guard off
+#: entirely and the run stayed green. Worse, the loop's own `if os.path.exists(png)` silently
+#: dropped any figure whose raster had gone missing, so coverage could shrink one figure at a time
+#: with nothing to show for it. Both are now failures, and the expected set is read from
+#: `aso-figure-provenance.json` rather than from whatever is on disk today.
+PROVENANCE = os.path.join(FIGS, "aso-figure-provenance.json")
+
+
 def _svg_files():
     if not os.path.isdir(FIGS):
-        pytest.skip("figures directory is not present in this checkout")
-    out = []
-    for name in sorted(os.listdir(FIGS)):
-        if not name.startswith("aso-") or not name.endswith(".svg"):
-            continue
-        png = os.path.join(FIGS, name[:-4] + ".png")
-        if os.path.exists(png):
-            out.append((os.path.join(FIGS, name), png))
-    if not out:
-        pytest.skip("no rendered ASO figures in this checkout")
+        pytest.fail(f"the figures directory is missing at {FIGS}; it is committed, and no rendered "
+                    "figure is checked for truncation without it.")
+    if not os.path.exists(PROVENANCE):
+        pytest.fail(f"the figure provenance artifact is missing at {PROVENANCE}; it is committed, "
+                    "and it is what names the figures this guard has to cover.")
+    expected = sorted(json.load(open(PROVENANCE, encoding="utf-8"))["figures"])
+    out, missing = [], []
+    for name in expected:
+        svg = os.path.join(FIGS, name + ".svg")
+        png = os.path.join(FIGS, name + ".png")
+        if os.path.exists(svg) and os.path.exists(png):
+            out.append((svg, png))
+        else:
+            missing.append(name + ("" if os.path.exists(svg) else " (no .svg)")
+                           + ("" if os.path.exists(png) else " (no .png)"))
+    if missing:
+        pytest.fail(f"the provenance artifact names {missing}, and the rendered pair is not on "
+                    "disk, so those figures are unchecked for truncation. Regenerate them rather "
+                    "than letting the guard shrink to what happens to be present.")
+    assert out, "the provenance artifact names no figure at all; this guard would assert nothing"
     return out
 
 
@@ -81,8 +102,15 @@ def _png_rows(path):
         elif typ == b"IDAT":
             idat.append(payload)
     w, h, depth, colour, _comp, _filt, interlace = hdr
+    #: ⛔ NOT A SKIP (2026-08-19, lane C2). These PNGs are written by this repository's own
+    #: renderer, so an 8-bit non-interlaced encoding is a property of the pipeline. An unexpected
+    #: one means the renderer changed under us — which is precisely when the truncation check must
+    #: speak, not fall silent for that figure while its siblings report green.
     if depth != 8 or interlace != 0:
-        pytest.skip(f"{os.path.basename(path)}: unexpected PNG encoding")
+        pytest.fail(f"{os.path.basename(path)} is {depth}-bit, interlace={interlace}; this "
+                    "repository's renderer writes 8-bit non-interlaced PNGs, so the encoding "
+                    "changed and this figure went unmeasured. Teach the reader the new encoding "
+                    "rather than skipping the figure.")
     nch = {0: 1, 2: 3, 4: 2, 6: 4}[colour]
     raw = zlib.decompress(b"".join(idat))
     stride = w * nch

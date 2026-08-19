@@ -16,6 +16,7 @@ gets deposited and a label can be assembled from pieces no grep of the source wo
 """
 from __future__ import annotations
 
+import json
 import os
 import re
 
@@ -38,12 +39,33 @@ MARKDOWN = [
 ]
 
 
+#: ⛔ THE EXPECTED SET IS DERIVED, NOT COUNTED TODAY (2026-08-19, lane C2). `if not out: skip`
+#: meant a figures directory that had lost its SVGs — a half-finished regeneration, a bad merge —
+#: reported PASS for every drawn label in the deposit. The figures the deposit actually has are
+#: named by the committed provenance artifact, so the floor moves with the paper rather than with
+#: whatever happens to be on disk when the guard runs.
+PROVENANCE = os.path.join(FIGS, "aso-figure-provenance.json")
+
+
+def _expected_aso_figures():
+    if not os.path.exists(PROVENANCE):
+        pytest.fail(f"the figure provenance artifact is missing at {PROVENANCE}; it is committed, "
+                    "and it is what names the figures this guard has to cover.")
+    return sorted(json.load(open(PROVENANCE, encoding="utf-8"))["figures"])
+
+
 def _svgs():
     if not os.path.isdir(FIGS):
-        pytest.skip("figures directory is not present in this checkout")
+        pytest.fail(f"the figures directory is missing at {FIGS}; it is committed, and no drawn "
+                    "label in the deposit is checked without it.")
     out = [os.path.join(FIGS, n) for n in sorted(os.listdir(FIGS)) if n.endswith(".svg")]
-    if not out:
-        pytest.skip("no figure SVGs in this checkout")
+    missing = [name for name in _expected_aso_figures()
+               if os.path.join(FIGS, name + ".svg") not in out]
+    if missing:
+        pytest.fail(f"the provenance artifact names {missing} but no SVG is on disk for them, so "
+                    "their labels are unchecked. Regenerate the figures rather than letting the "
+                    "guard shrink to what happens to be present.")
+    assert out, "no figure SVG at all — see above; this parametrisation would otherwise be empty"
     return out
 
 

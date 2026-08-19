@@ -314,11 +314,85 @@
       "PMID 29937513",
       "PMID 35488288"
      ],
-     "five_screen_evidence": {
-      "per_junction_flag": "screens_complete",
-      "value": true,
-      "n_screens_that_ran": 5,
-      "n_screens_outstanding": 0
+     "screen_evidence": {
+      "per_screen": {
+       "transcriptome_blast_deep": {
+        "ran": true,
+        "gene_scoped": false,
+        "scope": "not gene-scoped — the whole transcriptome or the whole genome",
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       },
+       "exhaustive_transcript_scan": {
+        "ran": true,
+        "gene_scoped": false,
+        "scope": "not gene-scoped — the whole transcriptome or the whole genome",
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       },
+       "mature_parent_gap_pairing": {
+        "ran": true,
+        "gene_scoped": true,
+        "source_artifact": "aso-parent-gap-pairing-noncoding-acceptor.json",
+        "genes_searched": [
+         "EWSR1",
+         "FUS",
+         "NR4A3",
+         "TAF15",
+         "TCF12",
+         "TFG"
+        ],
+        "genes_the_screen_declares_it_did_not_scan": [],
+        "this_junctions_own_parents": [
+         "EWSR1",
+         "NR4A3"
+        ],
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       },
+       "premrna": {
+        "ran": true,
+        "gene_scoped": true,
+        "source_artifact": "aso-premrna-offtarget-noncoding-acceptor.json",
+        "genes_searched": [
+         "EWSR1",
+         "FUS",
+         "NR4A3",
+         "TAF15",
+         "TCF12",
+         "TFG"
+        ],
+        "genes_the_screen_declares_it_did_not_scan": [
+         "PGR"
+        ],
+        "this_junctions_own_parents": [
+         "EWSR1",
+         "NR4A3"
+        ],
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       },
+       "genome_grch38": {
+        "ran": true,
+        "gene_scoped": false,
+        "scope": "not gene-scoped — the whole transcriptome or the whole genome",
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       }
+      },
+      "n_screens_that_read_this_junctions_own_parents": 5,
+      "n_screens": 5,
+      "all_five_read_this_junctions_own_parents": true,
+      "screens_that_did_not": [],
+      "⛔_an_absent_reading_is_not_a_reading_of_absence": "a screen that never scanned this junction's own parent leaves that compartment UNMEASURED, not clean. The count above is of screens that read this junction's own parents, not of screens that produced a row for it.",
+      "table_level_statement": "The published NON-CANONICAL NR4A3 fusion junctions, screened to the panel's depth and joined into the panel's field set",
+      "per_junction_check": "the deep alignment screen's own artifact declares this junction_label",
+      "⚠_the_table_level_flag_this_replaces": {
+       "field": "screens_complete",
+       "value": true,
+       "document_level_n_screens_that_ran": 5,
+       "why_it_is_not_used": "both are properties of the whole table. Echoing them onto a junction recorded n_screens_that_ran: 5 for a seam the manuscript states is graded on four."
+      }
      },
      "n_designs_screened": 5,
      "n_designs_clearing_the_parent_screen": 4,
@@ -412,11 +486,85 @@
       "PMID 29937513",
       "PMID 35488288"
      ],
-     "five_screen_evidence": {
-      "per_junction_flag": "screens_complete",
-      "value": true,
-      "n_screens_that_ran": 5,
-      "n_screens_outstanding": 0
+     "screen_evidence": {
+      "per_screen": {
+       "transcriptome_blast_deep": {
+        "ran": true,
+        "gene_scoped": false,
+        "scope": "not gene-scoped — the whole transcriptome or the whole genome",
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       },
+       "exhaustive_transcript_scan": {
+        "ran": true,
+        "gene_scoped": false,
+        "scope": "not gene-scoped — the whole transcriptome or the whole genome",
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       },
+       "mature_parent_gap_pairing": {
+        "ran": true,
+        "gene_scoped": true,
+        "source_artifact": "aso-parent-gap-pairing-noncoding-acceptor.json",
+        "genes_searched": [
+         "EWSR1",
+         "FUS",
+         "NR4A3",
+         "TAF15",
+         "TCF12",
+         "TFG"
+        ],
+        "genes_the_screen_declares_it_did_not_scan": [],
+        "this_junctions_own_parents": [
+         "EWSR1",
+         "NR4A3"
+        ],
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       },
+       "premrna": {
+        "ran": true,
+        "gene_scoped": true,
+        "source_artifact": "aso-premrna-offtarget-noncoding-acceptor.json",
+        "genes_searched": [
+         "EWSR1",
+         "FUS",
+         "NR4A3",
+         "TAF15",
+         "TCF12",
+         "TFG"
+        ],
+        "genes_the_screen_declares_it_did_not_scan": [
+         "PGR"
+        ],
+        "this_junctions_own_parents": [
+         "EWSR1",
+         "NR4A3"
+        ],
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       },
+       "genome_grch38": {
+        "ran": true,
+        "gene_scoped": false,
+        "scope": "not gene-scoped — the whole transcriptome or the whole genome",
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       }
+      },
+      "n_screens_that_read_this_junctions_own_parents": 5,
+      "n_screens": 5,
+      "all_five_read_this_junctions_own_parents": true,
+      "screens_that_did_not": [],
+      "⛔_an_absent_reading_is_not_a_reading_of_absence": "a screen that never scanned this junction's own parent leaves that compartment UNMEASURED, not clean. The count above is of screens that read this junction's own parents, not of screens that produced a row for it.",
+      "table_level_statement": "The published NON-CANONICAL NR4A3 fusion junctions, screened to the panel's depth and joined into the panel's field set",
+      "per_junction_check": "the deep alignment screen's own artifact declares this junction_label",
+      "⚠_the_table_level_flag_this_replaces": {
+       "field": "screens_complete",
+       "value": true,
+       "document_level_n_screens_that_ran": 5,
+       "why_it_is_not_used": "both are properties of the whole table. Echoing them onto a junction recorded n_screens_that_ran: 5 for a seam the manuscript states is graded on four."
+      }
      },
      "n_designs_screened": 5,
      "n_designs_clearing_the_parent_screen": 4,
@@ -511,11 +659,85 @@
       "PMID 29937513",
       "PMID 35488288"
      ],
-     "five_screen_evidence": {
-      "per_junction_flag": "screens_complete",
-      "value": true,
-      "n_screens_that_ran": 5,
-      "n_screens_outstanding": 0
+     "screen_evidence": {
+      "per_screen": {
+       "transcriptome_blast_deep": {
+        "ran": true,
+        "gene_scoped": false,
+        "scope": "not gene-scoped — the whole transcriptome or the whole genome",
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       },
+       "exhaustive_transcript_scan": {
+        "ran": true,
+        "gene_scoped": false,
+        "scope": "not gene-scoped — the whole transcriptome or the whole genome",
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       },
+       "mature_parent_gap_pairing": {
+        "ran": true,
+        "gene_scoped": true,
+        "source_artifact": "aso-parent-gap-pairing-noncoding-acceptor.json",
+        "genes_searched": [
+         "EWSR1",
+         "FUS",
+         "NR4A3",
+         "TAF15",
+         "TCF12",
+         "TFG"
+        ],
+        "genes_the_screen_declares_it_did_not_scan": [],
+        "this_junctions_own_parents": [
+         "EWSR1",
+         "NR4A3"
+        ],
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       },
+       "premrna": {
+        "ran": true,
+        "gene_scoped": true,
+        "source_artifact": "aso-premrna-offtarget-noncoding-acceptor.json",
+        "genes_searched": [
+         "EWSR1",
+         "FUS",
+         "NR4A3",
+         "TAF15",
+         "TCF12",
+         "TFG"
+        ],
+        "genes_the_screen_declares_it_did_not_scan": [
+         "PGR"
+        ],
+        "this_junctions_own_parents": [
+         "EWSR1",
+         "NR4A3"
+        ],
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       },
+       "genome_grch38": {
+        "ran": true,
+        "gene_scoped": false,
+        "scope": "not gene-scoped — the whole transcriptome or the whole genome",
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       }
+      },
+      "n_screens_that_read_this_junctions_own_parents": 5,
+      "n_screens": 5,
+      "all_five_read_this_junctions_own_parents": true,
+      "screens_that_did_not": [],
+      "⛔_an_absent_reading_is_not_a_reading_of_absence": "a screen that never scanned this junction's own parent leaves that compartment UNMEASURED, not clean. The count above is of screens that read this junction's own parents, not of screens that produced a row for it.",
+      "table_level_statement": "The published NON-CANONICAL NR4A3 fusion junctions, screened to the panel's depth and joined into the panel's field set",
+      "per_junction_check": "the deep alignment screen's own artifact declares this junction_label",
+      "⚠_the_table_level_flag_this_replaces": {
+       "field": "screens_complete",
+       "value": true,
+       "document_level_n_screens_that_ran": 5,
+       "why_it_is_not_used": "both are properties of the whole table. Echoing them onto a junction recorded n_screens_that_ran: 5 for a seam the manuscript states is graded on four."
+      }
      },
      "n_designs_screened": 5,
      "n_designs_clearing_the_parent_screen": 4,
@@ -596,11 +818,28 @@
   }
  ],
  "best_supported_buildable_panel": {
-  "_what": "★ THE BEST-SUPPORTED BUILDABLE PANEL — the coverage of the junctions that have BOTH a published exon-resolved breakpoint AND a reagent through all five deep screens at the manuscript geometry, priced on the whole retrieved breakpoint record.",
+  "_what": "★ THE BEST-SUPPORTED BUILDABLE PANEL — the coverage of the junctions that have BOTH a published exon-resolved breakpoint AND a SCREENED reagent at the manuscript geometry, priced on the whole retrieved breakpoint record. ⚠ 'screened' rather than 'through all five deep screens': the two are not the same set, the difference is one junction, and both counts are derived under `panel_membership` rather than folded into one word.",
   "_why_it_is_an_ADDITIONAL_row": "⛔ IT REPLACES NOTHING. The ladder's rungs and bounds above are unchanged and rung 0 still reproduces the published 68.4% on the manuscript's own single-series basis. This row is better specified — membership is an evidence test rather than a position in an incremental series, and the basis is the whole retrieved record rather than one series of it — and it is reported beside them, never instead of them.",
   "panel_membership": {
-   "_rule": "a junction qualifies on TWO independent conditions: (i) clinical_tier == 'published_exon_resolved_breakpoint' in a screened table, and (ii) a reagent through all five deep screens. Both are READ from the tables that own them.",
+   "_rule": "a junction qualifies on TWO independent conditions: (i) clinical_tier == 'published_exon_resolved_breakpoint' in a screened table, and (ii) a ranked reagent whose deep alignment screen ran FOR THAT JUNCTION. Both are READ from the tables that own them, and (ii) is checked per junction — against the screen artifact's own `junction_label` where the table names its artifacts, and against the presence of the rank key the screen produces where it does not.",
+   "⛔_why_the_rule_is_not_all_five_screens": "it used to be WRITTEN as 'through all five deep screens' and IMPLEMENTED as a table-level `screens_complete` flag, which reads true for PGR_e2__NR4A3_e2 — a seam §4.1 and §2.6 both state is graded on fewer than five, because the parent-scoped screens' gene set does not carry that donor. The two counts are now separate: nine junctions carry a screened design, and the all-five subset is `n_junctions_with_every_screen_reading_their_own_parents` below.",
    "n_junctions_qualifying": 9,
+   "n_junctions_with_every_screen_reading_their_own_parents": 8,
+   "⛔_graded_on_fewer_than_every_screen": {
+    "PGR_e2__NR4A3_e2": {
+     "n_screens_that_read_this_junctions_own_parents": 3,
+     "n_screens": 5,
+     "screens_that_did_not": [
+      "mature_parent_gap_pairing",
+      "premrna"
+     ],
+     "this_junctions_own_parents": [
+      "PGR",
+      "NR4A3"
+     ],
+     "⛔_unmeasured_not_clean": "those screens produced rows for this junction's designs and never scanned this junction's own donor, so their zero is an ABSENT reading."
+    }
+   },
    "junctions": {
     "EWSR1_e12__NR4A3_e3": {
      "partner": "EWSR1",
@@ -611,10 +850,83 @@
       "PMID: 12378528",
       "PMID: 29937513"
      ],
-     "five_screen_evidence": {
-      "per_junction_flag": null,
+     "screen_evidence": {
+      "per_screen": {
+       "transcriptome_blast_deep": {
+        "ran": true,
+        "gene_scoped": false,
+        "scope": "not gene-scoped — the whole transcriptome or the whole genome",
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       },
+       "exhaustive_transcript_scan": {
+        "ran": true,
+        "gene_scoped": false,
+        "scope": "not gene-scoped — the whole transcriptome or the whole genome",
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       },
+       "mature_parent_gap_pairing": {
+        "ran": true,
+        "gene_scoped": true,
+        "source_artifact": "aso-parent-gap-pairing.json",
+        "genes_searched": [
+         "EWSR1",
+         "FUS",
+         "NR4A3",
+         "TAF15",
+         "TCF12",
+         "TFG"
+        ],
+        "genes_the_screen_declares_it_did_not_scan": [],
+        "this_junctions_own_parents": [
+         "EWSR1",
+         "NR4A3"
+        ],
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       },
+       "premrna": {
+        "ran": true,
+        "gene_scoped": true,
+        "source_artifact": "aso-premrna-offtarget.json",
+        "genes_searched": [
+         "EWSR1",
+         "FUS",
+         "NR4A3",
+         "TAF15",
+         "TCF12",
+         "TFG"
+        ],
+        "genes_the_screen_declares_it_did_not_scan": [],
+        "this_junctions_own_parents": [
+         "EWSR1",
+         "NR4A3"
+        ],
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       },
+       "genome_grch38": {
+        "ran": true,
+        "gene_scoped": false,
+        "scope": "not gene-scoped — the whole transcriptome or the whole genome",
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       }
+      },
+      "n_screens_that_read_this_junctions_own_parents": 5,
+      "n_screens": 5,
+      "all_five_read_this_junctions_own_parents": true,
+      "screens_that_did_not": [],
+      "⛔_an_absent_reading_is_not_a_reading_of_absence": "a screen that never scanned this junction's own parent leaves that compartment UNMEASURED, not clean. The count above is of screens that read this junction's own parents, not of screens that produced a row for it.",
       "table_level_statement": "The best available junction-spanning gapmer for EACH of the frame-compatible NR4A3-fusion junctions, joined across all five specificity screens, with the clinical-occurrence tier of the junction reported separately from specificity.",
-      "per_junction_check": "best_available is present, so the deep alignment screen that supplies its rank key ran for this junction"
+      "per_junction_check": "best_available is present, so the deep alignment screen that supplies its rank key ran for this junction",
+      "⚠_the_table_level_flag_this_replaces": {
+       "field": "screens_complete",
+       "value": null,
+       "document_level_n_screens_that_ran": null,
+       "why_it_is_not_used": "both are properties of the whole table. Echoing them onto a junction recorded n_screens_that_ran: 5 for a seam the manuscript states is graded on four."
+      }
      },
      "n_designs_screened": 5,
      "n_designs_clearing_the_parent_screen": 4,
@@ -632,10 +944,83 @@
       "PMID: 12378528",
       "PMID: 29937513"
      ],
-     "five_screen_evidence": {
-      "per_junction_flag": null,
+     "screen_evidence": {
+      "per_screen": {
+       "transcriptome_blast_deep": {
+        "ran": true,
+        "gene_scoped": false,
+        "scope": "not gene-scoped — the whole transcriptome or the whole genome",
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       },
+       "exhaustive_transcript_scan": {
+        "ran": true,
+        "gene_scoped": false,
+        "scope": "not gene-scoped — the whole transcriptome or the whole genome",
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       },
+       "mature_parent_gap_pairing": {
+        "ran": true,
+        "gene_scoped": true,
+        "source_artifact": "aso-parent-gap-pairing.json",
+        "genes_searched": [
+         "EWSR1",
+         "FUS",
+         "NR4A3",
+         "TAF15",
+         "TCF12",
+         "TFG"
+        ],
+        "genes_the_screen_declares_it_did_not_scan": [],
+        "this_junctions_own_parents": [
+         "EWSR1",
+         "NR4A3"
+        ],
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       },
+       "premrna": {
+        "ran": true,
+        "gene_scoped": true,
+        "source_artifact": "aso-premrna-offtarget.json",
+        "genes_searched": [
+         "EWSR1",
+         "FUS",
+         "NR4A3",
+         "TAF15",
+         "TCF12",
+         "TFG"
+        ],
+        "genes_the_screen_declares_it_did_not_scan": [],
+        "this_junctions_own_parents": [
+         "EWSR1",
+         "NR4A3"
+        ],
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       },
+       "genome_grch38": {
+        "ran": true,
+        "gene_scoped": false,
+        "scope": "not gene-scoped — the whole transcriptome or the whole genome",
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       }
+      },
+      "n_screens_that_read_this_junctions_own_parents": 5,
+      "n_screens": 5,
+      "all_five_read_this_junctions_own_parents": true,
+      "screens_that_did_not": [],
+      "⛔_an_absent_reading_is_not_a_reading_of_absence": "a screen that never scanned this junction's own parent leaves that compartment UNMEASURED, not clean. The count above is of screens that read this junction's own parents, not of screens that produced a row for it.",
       "table_level_statement": "The best available junction-spanning gapmer for EACH of the frame-compatible NR4A3-fusion junctions, joined across all five specificity screens, with the clinical-occurrence tier of the junction reported separately from specificity.",
-      "per_junction_check": "best_available is present, so the deep alignment screen that supplies its rank key ran for this junction"
+      "per_junction_check": "best_available is present, so the deep alignment screen that supplies its rank key ran for this junction",
+      "⚠_the_table_level_flag_this_replaces": {
+       "field": "screens_complete",
+       "value": null,
+       "document_level_n_screens_that_ran": null,
+       "why_it_is_not_used": "both are properties of the whole table. Echoing them onto a junction recorded n_screens_that_ran: 5 for a seam the manuscript states is graded on four."
+      }
      },
      "n_designs_screened": 5,
      "n_designs_clearing_the_parent_screen": 3,
@@ -653,10 +1038,83 @@
       "PMID: 10537274",
       "PMID: 12378528"
      ],
-     "five_screen_evidence": {
-      "per_junction_flag": null,
+     "screen_evidence": {
+      "per_screen": {
+       "transcriptome_blast_deep": {
+        "ran": true,
+        "gene_scoped": false,
+        "scope": "not gene-scoped — the whole transcriptome or the whole genome",
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       },
+       "exhaustive_transcript_scan": {
+        "ran": true,
+        "gene_scoped": false,
+        "scope": "not gene-scoped — the whole transcriptome or the whole genome",
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       },
+       "mature_parent_gap_pairing": {
+        "ran": true,
+        "gene_scoped": true,
+        "source_artifact": "aso-parent-gap-pairing.json",
+        "genes_searched": [
+         "EWSR1",
+         "FUS",
+         "NR4A3",
+         "TAF15",
+         "TCF12",
+         "TFG"
+        ],
+        "genes_the_screen_declares_it_did_not_scan": [],
+        "this_junctions_own_parents": [
+         "TAF15",
+         "NR4A3"
+        ],
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       },
+       "premrna": {
+        "ran": true,
+        "gene_scoped": true,
+        "source_artifact": "aso-premrna-offtarget.json",
+        "genes_searched": [
+         "EWSR1",
+         "FUS",
+         "NR4A3",
+         "TAF15",
+         "TCF12",
+         "TFG"
+        ],
+        "genes_the_screen_declares_it_did_not_scan": [],
+        "this_junctions_own_parents": [
+         "TAF15",
+         "NR4A3"
+        ],
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       },
+       "genome_grch38": {
+        "ran": true,
+        "gene_scoped": false,
+        "scope": "not gene-scoped — the whole transcriptome or the whole genome",
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       }
+      },
+      "n_screens_that_read_this_junctions_own_parents": 5,
+      "n_screens": 5,
+      "all_five_read_this_junctions_own_parents": true,
+      "screens_that_did_not": [],
+      "⛔_an_absent_reading_is_not_a_reading_of_absence": "a screen that never scanned this junction's own parent leaves that compartment UNMEASURED, not clean. The count above is of screens that read this junction's own parents, not of screens that produced a row for it.",
       "table_level_statement": "The best available junction-spanning gapmer for EACH of the frame-compatible NR4A3-fusion junctions, joined across all five specificity screens, with the clinical-occurrence tier of the junction reported separately from specificity.",
-      "per_junction_check": "best_available is present, so the deep alignment screen that supplies its rank key ran for this junction"
+      "per_junction_check": "best_available is present, so the deep alignment screen that supplies its rank key ran for this junction",
+      "⚠_the_table_level_flag_this_replaces": {
+       "field": "screens_complete",
+       "value": null,
+       "document_level_n_screens_that_ran": null,
+       "why_it_is_not_used": "both are properties of the whole table. Echoing them onto a junction recorded n_screens_that_ran: 5 for a seam the manuscript states is graded on four."
+      }
      },
      "n_designs_screened": 5,
      "n_designs_clearing_the_parent_screen": 1,
@@ -674,10 +1132,83 @@
       "PMID: 11156374",
       "GenBank: AF289510.1"
      ],
-     "five_screen_evidence": {
-      "per_junction_flag": null,
+     "screen_evidence": {
+      "per_screen": {
+       "transcriptome_blast_deep": {
+        "ran": true,
+        "gene_scoped": false,
+        "scope": "not gene-scoped — the whole transcriptome or the whole genome",
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       },
+       "exhaustive_transcript_scan": {
+        "ran": true,
+        "gene_scoped": false,
+        "scope": "not gene-scoped — the whole transcriptome or the whole genome",
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       },
+       "mature_parent_gap_pairing": {
+        "ran": true,
+        "gene_scoped": true,
+        "source_artifact": "aso-parent-gap-pairing.json",
+        "genes_searched": [
+         "EWSR1",
+         "FUS",
+         "NR4A3",
+         "TAF15",
+         "TCF12",
+         "TFG"
+        ],
+        "genes_the_screen_declares_it_did_not_scan": [],
+        "this_junctions_own_parents": [
+         "TCF12",
+         "NR4A3"
+        ],
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       },
+       "premrna": {
+        "ran": true,
+        "gene_scoped": true,
+        "source_artifact": "aso-premrna-offtarget.json",
+        "genes_searched": [
+         "EWSR1",
+         "FUS",
+         "NR4A3",
+         "TAF15",
+         "TCF12",
+         "TFG"
+        ],
+        "genes_the_screen_declares_it_did_not_scan": [],
+        "this_junctions_own_parents": [
+         "TCF12",
+         "NR4A3"
+        ],
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       },
+       "genome_grch38": {
+        "ran": true,
+        "gene_scoped": false,
+        "scope": "not gene-scoped — the whole transcriptome or the whole genome",
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       }
+      },
+      "n_screens_that_read_this_junctions_own_parents": 5,
+      "n_screens": 5,
+      "all_five_read_this_junctions_own_parents": true,
+      "screens_that_did_not": [],
+      "⛔_an_absent_reading_is_not_a_reading_of_absence": "a screen that never scanned this junction's own parent leaves that compartment UNMEASURED, not clean. The count above is of screens that read this junction's own parents, not of screens that produced a row for it.",
       "table_level_statement": "The best available junction-spanning gapmer for EACH of the frame-compatible NR4A3-fusion junctions, joined across all five specificity screens, with the clinical-occurrence tier of the junction reported separately from specificity.",
-      "per_junction_check": "best_available is present, so the deep alignment screen that supplies its rank key ran for this junction"
+      "per_junction_check": "best_available is present, so the deep alignment screen that supplies its rank key ran for this junction",
+      "⚠_the_table_level_flag_this_replaces": {
+       "field": "screens_complete",
+       "value": null,
+       "document_level_n_screens_that_ran": null,
+       "why_it_is_not_used": "both are properties of the whole table. Echoing them onto a junction recorded n_screens_that_ran: 5 for a seam the manuscript states is graded on four."
+      }
      },
      "n_designs_screened": 5,
      "n_designs_clearing_the_parent_screen": 4,
@@ -694,10 +1225,83 @@
      "breakpoint_refs": [
       "GenBank: AY532911.1"
      ],
-     "five_screen_evidence": {
-      "per_junction_flag": null,
+     "screen_evidence": {
+      "per_screen": {
+       "transcriptome_blast_deep": {
+        "ran": true,
+        "gene_scoped": false,
+        "scope": "not gene-scoped — the whole transcriptome or the whole genome",
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       },
+       "exhaustive_transcript_scan": {
+        "ran": true,
+        "gene_scoped": false,
+        "scope": "not gene-scoped — the whole transcriptome or the whole genome",
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       },
+       "mature_parent_gap_pairing": {
+        "ran": true,
+        "gene_scoped": true,
+        "source_artifact": "aso-parent-gap-pairing.json",
+        "genes_searched": [
+         "EWSR1",
+         "FUS",
+         "NR4A3",
+         "TAF15",
+         "TCF12",
+         "TFG"
+        ],
+        "genes_the_screen_declares_it_did_not_scan": [],
+        "this_junctions_own_parents": [
+         "TFG",
+         "NR4A3"
+        ],
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       },
+       "premrna": {
+        "ran": true,
+        "gene_scoped": true,
+        "source_artifact": "aso-premrna-offtarget.json",
+        "genes_searched": [
+         "EWSR1",
+         "FUS",
+         "NR4A3",
+         "TAF15",
+         "TCF12",
+         "TFG"
+        ],
+        "genes_the_screen_declares_it_did_not_scan": [],
+        "this_junctions_own_parents": [
+         "TFG",
+         "NR4A3"
+        ],
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       },
+       "genome_grch38": {
+        "ran": true,
+        "gene_scoped": false,
+        "scope": "not gene-scoped — the whole transcriptome or the whole genome",
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       }
+      },
+      "n_screens_that_read_this_junctions_own_parents": 5,
+      "n_screens": 5,
+      "all_five_read_this_junctions_own_parents": true,
+      "screens_that_did_not": [],
+      "⛔_an_absent_reading_is_not_a_reading_of_absence": "a screen that never scanned this junction's own parent leaves that compartment UNMEASURED, not clean. The count above is of screens that read this junction's own parents, not of screens that produced a row for it.",
       "table_level_statement": "The best available junction-spanning gapmer for EACH of the frame-compatible NR4A3-fusion junctions, joined across all five specificity screens, with the clinical-occurrence tier of the junction reported separately from specificity.",
-      "per_junction_check": "best_available is present, so the deep alignment screen that supplies its rank key ran for this junction"
+      "per_junction_check": "best_available is present, so the deep alignment screen that supplies its rank key ran for this junction",
+      "⚠_the_table_level_flag_this_replaces": {
+       "field": "screens_complete",
+       "value": null,
+       "document_level_n_screens_that_ran": null,
+       "why_it_is_not_used": "both are properties of the whole table. Echoing them onto a junction recorded n_screens_that_ran: 5 for a seam the manuscript states is graded on four."
+      }
      },
      "n_designs_screened": 5,
      "n_designs_clearing_the_parent_screen": 2,
@@ -714,11 +1318,85 @@
      "breakpoint_refs": [
       "PMID 36316541 (PMC9813045), Hum Cell 36:446-455 (2023), Figure 4 legend"
      ],
-     "five_screen_evidence": {
-      "per_junction_flag": "screens_complete",
-      "value": true,
-      "n_screens_that_ran": 5,
-      "n_screens_outstanding": 0
+     "screen_evidence": {
+      "per_screen": {
+       "transcriptome_blast_deep": {
+        "ran": true,
+        "gene_scoped": false,
+        "scope": "not gene-scoped — the whole transcriptome or the whole genome",
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       },
+       "exhaustive_transcript_scan": {
+        "ran": true,
+        "gene_scoped": false,
+        "scope": "not gene-scoped — the whole transcriptome or the whole genome",
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       },
+       "mature_parent_gap_pairing": {
+        "ran": true,
+        "gene_scoped": true,
+        "source_artifact": "aso-parent-gap-pairing-noncoding-acceptor.json",
+        "genes_searched": [
+         "EWSR1",
+         "FUS",
+         "NR4A3",
+         "TAF15",
+         "TCF12",
+         "TFG"
+        ],
+        "genes_the_screen_declares_it_did_not_scan": [],
+        "this_junctions_own_parents": [
+         "EWSR1",
+         "NR4A3"
+        ],
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       },
+       "premrna": {
+        "ran": true,
+        "gene_scoped": true,
+        "source_artifact": "aso-premrna-offtarget-noncoding-acceptor.json",
+        "genes_searched": [
+         "EWSR1",
+         "FUS",
+         "NR4A3",
+         "TAF15",
+         "TCF12",
+         "TFG"
+        ],
+        "genes_the_screen_declares_it_did_not_scan": [
+         "PGR"
+        ],
+        "this_junctions_own_parents": [
+         "EWSR1",
+         "NR4A3"
+        ],
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       },
+       "genome_grch38": {
+        "ran": true,
+        "gene_scoped": false,
+        "scope": "not gene-scoped — the whole transcriptome or the whole genome",
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       }
+      },
+      "n_screens_that_read_this_junctions_own_parents": 5,
+      "n_screens": 5,
+      "all_five_read_this_junctions_own_parents": true,
+      "screens_that_did_not": [],
+      "⛔_an_absent_reading_is_not_a_reading_of_absence": "a screen that never scanned this junction's own parent leaves that compartment UNMEASURED, not clean. The count above is of screens that read this junction's own parents, not of screens that produced a row for it.",
+      "table_level_statement": "The published NON-CANONICAL NR4A3 fusion junctions, screened to the panel's depth and joined into the panel's field set",
+      "per_junction_check": "the deep alignment screen's own artifact declares this junction_label",
+      "⚠_the_table_level_flag_this_replaces": {
+       "field": "screens_complete",
+       "value": true,
+       "document_level_n_screens_that_ran": 5,
+       "why_it_is_not_used": "both are properties of the whole table. Echoing them onto a junction recorded n_screens_that_ran: 5 for a seam the manuscript states is graded on four."
+      }
      },
      "n_designs_screened": 5,
      "n_designs_clearing_the_parent_screen": 5,
@@ -737,11 +1415,85 @@
       "PMID 29937513",
       "PMID 35488288"
      ],
-     "five_screen_evidence": {
-      "per_junction_flag": "screens_complete",
-      "value": true,
-      "n_screens_that_ran": 5,
-      "n_screens_outstanding": 0
+     "screen_evidence": {
+      "per_screen": {
+       "transcriptome_blast_deep": {
+        "ran": true,
+        "gene_scoped": false,
+        "scope": "not gene-scoped — the whole transcriptome or the whole genome",
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       },
+       "exhaustive_transcript_scan": {
+        "ran": true,
+        "gene_scoped": false,
+        "scope": "not gene-scoped — the whole transcriptome or the whole genome",
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       },
+       "mature_parent_gap_pairing": {
+        "ran": true,
+        "gene_scoped": true,
+        "source_artifact": "aso-parent-gap-pairing-noncoding-acceptor.json",
+        "genes_searched": [
+         "EWSR1",
+         "FUS",
+         "NR4A3",
+         "TAF15",
+         "TCF12",
+         "TFG"
+        ],
+        "genes_the_screen_declares_it_did_not_scan": [],
+        "this_junctions_own_parents": [
+         "EWSR1",
+         "NR4A3"
+        ],
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       },
+       "premrna": {
+        "ran": true,
+        "gene_scoped": true,
+        "source_artifact": "aso-premrna-offtarget-noncoding-acceptor.json",
+        "genes_searched": [
+         "EWSR1",
+         "FUS",
+         "NR4A3",
+         "TAF15",
+         "TCF12",
+         "TFG"
+        ],
+        "genes_the_screen_declares_it_did_not_scan": [
+         "PGR"
+        ],
+        "this_junctions_own_parents": [
+         "EWSR1",
+         "NR4A3"
+        ],
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       },
+       "genome_grch38": {
+        "ran": true,
+        "gene_scoped": false,
+        "scope": "not gene-scoped — the whole transcriptome or the whole genome",
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       }
+      },
+      "n_screens_that_read_this_junctions_own_parents": 5,
+      "n_screens": 5,
+      "all_five_read_this_junctions_own_parents": true,
+      "screens_that_did_not": [],
+      "⛔_an_absent_reading_is_not_a_reading_of_absence": "a screen that never scanned this junction's own parent leaves that compartment UNMEASURED, not clean. The count above is of screens that read this junction's own parents, not of screens that produced a row for it.",
+      "table_level_statement": "The published NON-CANONICAL NR4A3 fusion junctions, screened to the panel's depth and joined into the panel's field set",
+      "per_junction_check": "the deep alignment screen's own artifact declares this junction_label",
+      "⚠_the_table_level_flag_this_replaces": {
+       "field": "screens_complete",
+       "value": true,
+       "document_level_n_screens_that_ran": 5,
+       "why_it_is_not_used": "both are properties of the whole table. Echoing them onto a junction recorded n_screens_that_ran: 5 for a seam the manuscript states is graded on four."
+      }
      },
      "n_designs_screened": 5,
      "n_designs_clearing_the_parent_screen": 4,
@@ -758,11 +1510,92 @@
      "breakpoint_refs": [
       "PMID 36103645 (PMC9489176), JCO Precis Oncol 2022"
      ],
-     "five_screen_evidence": {
-      "per_junction_flag": "screens_complete",
-      "value": true,
-      "n_screens_that_ran": 5,
-      "n_screens_outstanding": 0
+     "screen_evidence": {
+      "per_screen": {
+       "transcriptome_blast_deep": {
+        "ran": true,
+        "gene_scoped": false,
+        "scope": "not gene-scoped — the whole transcriptome or the whole genome",
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       },
+       "exhaustive_transcript_scan": {
+        "ran": true,
+        "gene_scoped": false,
+        "scope": "not gene-scoped — the whole transcriptome or the whole genome",
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       },
+       "mature_parent_gap_pairing": {
+        "ran": true,
+        "gene_scoped": true,
+        "source_artifact": "aso-parent-gap-pairing-noncoding-acceptor.json",
+        "genes_searched": [
+         "EWSR1",
+         "FUS",
+         "NR4A3",
+         "TAF15",
+         "TCF12",
+         "TFG"
+        ],
+        "genes_the_screen_declares_it_did_not_scan": [],
+        "this_junctions_own_parents": [
+         "PGR",
+         "NR4A3"
+        ],
+        "this_junctions_parents_not_read": [
+         "PGR"
+        ],
+        "read_this_junctions_own_parents": false
+       },
+       "premrna": {
+        "ran": true,
+        "gene_scoped": true,
+        "source_artifact": "aso-premrna-offtarget-noncoding-acceptor.json",
+        "genes_searched": [
+         "EWSR1",
+         "FUS",
+         "NR4A3",
+         "TAF15",
+         "TCF12",
+         "TFG"
+        ],
+        "genes_the_screen_declares_it_did_not_scan": [
+         "PGR"
+        ],
+        "this_junctions_own_parents": [
+         "PGR",
+         "NR4A3"
+        ],
+        "this_junctions_parents_not_read": [
+         "PGR"
+        ],
+        "read_this_junctions_own_parents": false
+       },
+       "genome_grch38": {
+        "ran": true,
+        "gene_scoped": false,
+        "scope": "not gene-scoped — the whole transcriptome or the whole genome",
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       }
+      },
+      "n_screens_that_read_this_junctions_own_parents": 3,
+      "n_screens": 5,
+      "all_five_read_this_junctions_own_parents": false,
+      "screens_that_did_not": [
+       "mature_parent_gap_pairing",
+       "premrna"
+      ],
+      "⛔_an_absent_reading_is_not_a_reading_of_absence": "a screen that never scanned this junction's own parent leaves that compartment UNMEASURED, not clean. The count above is of screens that read this junction's own parents, not of screens that produced a row for it.",
+      "table_level_statement": "The published NON-CANONICAL NR4A3 fusion junctions, screened to the panel's depth and joined into the panel's field set",
+      "per_junction_check": "the deep alignment screen's own artifact declares this junction_label",
+      "⚠_the_table_level_flag_this_replaces": {
+       "field": "screens_complete",
+       "value": true,
+       "document_level_n_screens_that_ran": 5,
+       "why_it_is_not_used": "both are properties of the whole table. Echoing them onto a junction recorded n_screens_that_ran: 5 for a seam the manuscript states is graded on four."
+      }
      },
      "n_designs_screened": 5,
      "n_designs_clearing_the_parent_screen": 5,
@@ -780,11 +1613,85 @@
       "PMID 36316541 (PMC9813045), Hum Cell 36:446-455 (2023), Figure 4 legend",
       "⚠ THE DONOR HALF IS THE ONE HALF NOBODY DISPUTES, AND IT IS THE COMMONEST TAF15 DONOR IN THE DISEASE: PMID 31020999 (PMC6766969) builds 'T-N*, corresponding to the commonest TAF15 (exons 1-6)-NR4A3 (exons 3-8) fusion'. The disagreement between that construct and this report is at the ACCEPTOR only"
      ],
-     "five_screen_evidence": {
-      "per_junction_flag": "screens_complete",
-      "value": true,
-      "n_screens_that_ran": 5,
-      "n_screens_outstanding": 0
+     "screen_evidence": {
+      "per_screen": {
+       "transcriptome_blast_deep": {
+        "ran": true,
+        "gene_scoped": false,
+        "scope": "not gene-scoped — the whole transcriptome or the whole genome",
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       },
+       "exhaustive_transcript_scan": {
+        "ran": true,
+        "gene_scoped": false,
+        "scope": "not gene-scoped — the whole transcriptome or the whole genome",
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       },
+       "mature_parent_gap_pairing": {
+        "ran": true,
+        "gene_scoped": true,
+        "source_artifact": "aso-parent-gap-pairing-noncoding-acceptor.json",
+        "genes_searched": [
+         "EWSR1",
+         "FUS",
+         "NR4A3",
+         "TAF15",
+         "TCF12",
+         "TFG"
+        ],
+        "genes_the_screen_declares_it_did_not_scan": [],
+        "this_junctions_own_parents": [
+         "TAF15",
+         "NR4A3"
+        ],
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       },
+       "premrna": {
+        "ran": true,
+        "gene_scoped": true,
+        "source_artifact": "aso-premrna-offtarget-noncoding-acceptor.json",
+        "genes_searched": [
+         "EWSR1",
+         "FUS",
+         "NR4A3",
+         "TAF15",
+         "TCF12",
+         "TFG"
+        ],
+        "genes_the_screen_declares_it_did_not_scan": [
+         "PGR"
+        ],
+        "this_junctions_own_parents": [
+         "TAF15",
+         "NR4A3"
+        ],
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       },
+       "genome_grch38": {
+        "ran": true,
+        "gene_scoped": false,
+        "scope": "not gene-scoped — the whole transcriptome or the whole genome",
+        "this_junctions_parents_not_read": [],
+        "read_this_junctions_own_parents": true
+       }
+      },
+      "n_screens_that_read_this_junctions_own_parents": 5,
+      "n_screens": 5,
+      "all_five_read_this_junctions_own_parents": true,
+      "screens_that_did_not": [],
+      "⛔_an_absent_reading_is_not_a_reading_of_absence": "a screen that never scanned this junction's own parent leaves that compartment UNMEASURED, not clean. The count above is of screens that read this junction's own parents, not of screens that produced a row for it.",
+      "table_level_statement": "The published NON-CANONICAL NR4A3 fusion junctions, screened to the panel's depth and joined into the panel's field set",
+      "per_junction_check": "the deep alignment screen's own artifact declares this junction_label",
+      "⚠_the_table_level_flag_this_replaces": {
+       "field": "screens_complete",
+       "value": true,
+       "document_level_n_screens_that_ran": 5,
+       "why_it_is_not_used": "both are properties of the whole table. Echoing them onto a junction recorded n_screens_that_ran: 5 for a seam the manuscript states is graded on four."
+      }
      },
      "n_designs_screened": 5,
      "n_designs_clearing_the_parent_screen": 4,

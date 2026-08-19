@@ -54,18 +54,62 @@ def test_every_reference_entry_survives(style):
         assert re.search(rf"^{number}\.\s", body, re.M), f"reference {number} was lost"
 
 
+def _pipe_rows(text):
+    """Every pipe row of a markdown document that is not an alignment separator."""
+    return [ln for ln in text.split("\n")
+            if ln.strip().startswith("|") and not re.match(r"^\|[\s:|-]+\|?$", ln.strip())]
+
+
+def _source_rows_by_table(tables_md):
+    """{table number: pipe rows} for the generated tables document."""
+    out = {}
+    for block in re.split(r"(?=^\*\*Table \d+\.)", tables_md, flags=re.M):
+        opener = re.match(r"^\*\*Table (\d+)\.", block)
+        if opener:
+            out[int(opener.group(1))] = _pipe_rows(block)
+    return out
+
+
 def test_every_table_survives_into_the_journal_layout(journal):
+    """⛔ COUNTED PER TABLE, NOT IN AGGREGATE (2026-08-19).
+
+    This compared the tables document's total pipe-row count against every `<tr>` in the rendered
+    document, on the standing assumption — written into HANDOFF as a fact — that "the article .md
+    contains NO pipe tables". The moment the criterion ladder was added to §2.5 as an inline pipe
+    table, the rendered side gained nine rows the source side could not see and the test failed
+    with "a table row was dropped" while nothing had been dropped: 195 rendered against 186 source.
+    An aggregate count over two populations cannot tell an addition in one from a loss in the
+    other. Per table it can, and a row moving BETWEEN tables — which the aggregate could never
+    see — now fails too.
+    """
     _, floats, rendered, _ = journal
-    source_rows = [ln for ln in bsp.read(PAPER["tables"]).split("\n")
-                   if ln.strip().startswith("|") and not re.match(r"^\|[\s:|-]+\|?$", ln.strip())]
-    assert len(source_rows) > 100
-    # ⚠ MATCH ANY <tr, NOT THE LITERAL "<tr>". Block-heading rows gained class="blockhead" on
-    # 2026-08-19 so each block could travel as its own <tbody>, and a literal matcher counted
-    # 179 where 182 rows were present — a passing-to-failing flip with nothing dropped. The
-    # table-name rows in <thead> are excluded because they are not source rows.
-    body_rows = [m for m in re.findall(r'<tr(?:\s+class="([^"]*)")?>', rendered)
-                 if m != "tablename"]
-    assert len(body_rows) == len(source_rows), "a table row was dropped"
+    import build_submission_pdf as bsp
+
+    source = _source_rows_by_table(bsp.read(PAPER["tables"]))
+    assert source and sum(len(v) for v in source.values()) > 100, source
+    for _kind, number, block, _wide in floats.values():
+        if _kind != "table":
+            continue
+        assert number in source, f"Table {number} is laid out and is in no source block"
+        # ⚠ MATCH ANY <tr, NOT THE LITERAL "<tr>". Block-heading rows gained class="blockhead" on
+        # 2026-08-19 so each block could travel as its own <tbody>, and a literal matcher counted
+        # 179 where 182 rows were present — a passing-to-failing flip with nothing dropped. The
+        # table-name rows in <thead> are excluded because they are not source rows.
+        laid_out = [m for m in re.findall(r'<tr(?:\s+class="([^"]*)")?>', bsp.render_float(
+            _kind, number, block, _wide)) if m != "tablename"]
+        assert len(laid_out) == len(source[number]), (
+            f"Table {number} lays out {len(laid_out)} row(s) from {len(source[number])} source "
+            "row(s) — a row was dropped, duplicated, or has moved to another table")
+
+    #: AND NOTHING MAY VANISH DOCUMENT-WIDE EITHER. The rendered total must be the tables' rows
+    #: plus whatever pipe rows the manuscript itself carries inline, so a table spliced into the
+    #: body and then lost is still caught.
+    total = len([m for m in re.findall(r'<tr(?:\s+class="([^"]*)")?>', rendered)
+                 if m != "tablename"])
+    assert total >= sum(len(v) for v in source.values()), (
+        f"the rendered document carries {total} table row(s) against "
+        f"{sum(len(v) for v in source.values())} in the generated tables document alone")
+
     # ⚠ DERIVED FROM THE GENERATED TABLES FILE, NOT TYPED (2026-08-16). This asserted `== 6` and had
     # to be chased by hand the moment Table 7 was generated. A typed count is the same defect
     # `_geometry_columns` names in submission_tables.py: it cannot notice a table added upstream, and
@@ -89,8 +133,20 @@ def test_every_figure_is_placed_with_the_legend_that_describes_it(journal):
     figures = {n: p for (kind, n, p, _w) in floats.values() if kind == "figure"}
     numbered = {n for n in figures if n < bsp.SUPPLEMENTARY_SORT_BASE}
     supplementary = {n for n in figures if n >= bsp.SUPPLEMENTARY_SORT_BASE}
-    assert numbered == {1, 2, 3}
-    assert supplementary == {bsp.SUPPLEMENTARY_SORT_BASE + 1}
+    #: ⛔ DERIVED FROM THE LEGEND BLOCK, NOT TYPED (2026-08-19). This asserted `numbered == {1, 2, 3}`
+    #: and `supplementary == {BASE + 1}` — a fourth panel would have failed here, in a test about
+    #: legend PAIRING, for a reason that has nothing to do with pairing. The manuscript's own
+    #: "## Figure legends" block is where a figure comes into existence, so it is the expectation.
+    legends = re.search(r"^## Figure legends.*", bsp.read(PAPER["manuscript"]), re.S | re.M)
+    assert legends, "the manuscript has no '## Figure legends' block to derive the panel set from"
+    declared = {int(n) for n in re.findall(r"^\*\*Figure (\d+)\.", legends.group(0), re.M)}
+    declared_supp = {int(n) for n in
+                     re.findall(r"^\*\*Supplementary Figure S(\d+)\.", legends.group(0), re.M)}
+    assert declared, "the legend block declares no numbered figure"
+    assert numbered == declared, (
+        f"the journal layout carries figures {sorted(numbered)} where the manuscript's legend "
+        f"block declares {sorted(declared)}")
+    assert supplementary == {bsp.SUPPLEMENTARY_SORT_BASE + n for n in declared_supp}
     for number, (svg, legend) in figures.items():
         assert svg.startswith("<svg")
         expected = (f"**Supplementary Figure S{number - bsp.SUPPLEMENTARY_SORT_BASE}."
@@ -149,66 +205,123 @@ def test_a_missing_front_matter_label_fails_the_build():
 
 # ---------------------------------------------------------------- rendering correctness
 
+#: The disclaimers that must reach a reader BEFORE the first oligonucleotide the abstract names.
+#: Expressed as concept regexes rather than as sentences: what the abstract owes a reader is a
+#: statement that nothing was made and a statement that nothing may be given to anybody, and both
+#: have been rewritten repeatedly while meaning the same thing. Pinning the wording made this guard
+#: fail on the rewrite and pass on the deletion, which is backwards.
+_ABSTRACT_DISCLAIMERS = (
+    ("nothing was synthesised or tested",
+     re.compile(r"no wet-lab|nothing (?:has been|was) (?:synthesi[sz]ed|made)"
+                r"|the work is computational", re.I)),
+    ("no administration to a person or animal",
+     re.compile(r"(?:must not be administered|not for administration|not to be administered)"
+                r"[^.]{0,90}(?:person|human|animal)"
+                r"|research (?:reagent|use)[^.]{0,90}(?:not for|only, not)", re.I)),
+)
+
+#: 5′-…-3′ in either quote convention. The abstract names its leads, and the ordering property is
+#: about them, so the sequence is FOUND rather than typed — a renamed lead must not silence this.
+_PRINTED_SEQUENCE = re.compile(r"5[\u2032'][\u2011-]?[ACGT]{12,25}[\u2011-]?3[\u2032']")
+
+
+def _wrapped_paragraph_spans(raw):
+    """Every "last word of a line + first word of the next" pair inside a wrapped source paragraph.
+
+    THE PROPERTY, DERIVED. A field that wraps in the manuscript source is captured whole only if
+    the captured text contains every one of these joins. It is computed from the .md at run time,
+    so it cannot go stale, and it is what the assertion was reaching for all along — five separate
+    re-pins of a literal tail string in three days, each one recording that the property was
+    unchanged and the words had moved.
+    """
+    spans = []
+    lines = [ln.strip() for ln in raw.strip().split("\n")]
+    for first, second in zip(lines, lines[1:]):
+        if not first or not second:
+            continue
+        spans.append(f"{first.split()[-1]} {second.split()[0]}")
+    return spans
+
+
+def _source_section(heading):
+    """The raw text under `## heading` in the manuscript source, line breaks intact."""
+    body = bsp.read(PAPER["manuscript"])
+    _, end, after = bsp.section_span(body, heading)
+    return body[after:end].strip().strip("-").strip()
+
+
+def _source_label_paragraph(label):
+    """The raw `**Label.**` front-matter paragraph, line breaks INTACT.
+
+    `bsp.label_paragraph` unwraps as it reads, which is exactly the transformation under test, so
+    the source has to be re-read here rather than borrowed from the builder.
+    """
+    body = bsp.read(PAPER["manuscript"])
+    match = re.search(rf"^\*\*{re.escape(label)}\.\*\*[^\n]*(?:\n(?!\s*\n)[^\n]*)*", body, re.M)
+    assert match, f"the front-matter label '**{label}.**' is not in the manuscript source"
+    return match.group(0)
+
+
 def test_front_matter_captures_whole_paragraphs_not_first_lines(journal):
-    """⚠ These fields wrap in the source. A first-line-only match silently dropped the tail."""
+    """⚠ These fields wrap in the source. A first-line-only match silently dropped the tail.
+
+    ⛔ THIS USED TO PIN THE ABSTRACT'S LAST WORDS AS A LITERAL, and the literal was re-typed five
+    times in three days — round 5, round 7's P0.8, two rewrites on 2026-08-19 — each time with a
+    comment explaining that the property being asserted had not changed. A pin that has to be
+    rewritten every time the prose moves is not measuring the prose; it is measuring whether
+    somebody remembered to update it, and on 2026-08-19 it was failing for exactly that reason
+    while the defect it exists for was absent. The whole-paragraph property is now DERIVED from the
+    source: every line break inside the source paragraph must be crossed in the captured field.
+    """
     front, _, _, _ = journal
-    # ⚠ ASSERT THE WRAP IS CROSSED, NOT WHAT THE LAST WORD IS (fixed 2026-08-17). This read
-    # `.endswith("myxoid chondrosarcoma")`, which used the final keyword as a proxy for "the whole
-    # paragraph was captured" — so appending a keyword failed the test while the defect it exists
-    # for was absent. That is the same brittleness the comment below already records for the
-    # affiliation field, left unfixed one assertion higher up. The keyword list straddles the source
-    # line break at "extraskeletal / myxoid chondrosarcoma", so requiring that span proves the tail
-    # was read and stays true however many keywords are added after it.
-    assert "extraskeletal myxoid chondrosarcoma" in " ".join(front["keywords"].split())
+    for field, heading, label in (("abstract", "Abstract", None),
+                                  ("keywords", None, "Keywords")):
+        raw = _source_section(heading) if heading else _source_label_paragraph(label)
+        joins = _wrapped_paragraph_spans(raw)
+        assert joins, (
+            f"the source {field} is a single line, so this guard cannot tell a whole-paragraph "
+            "capture from a first-line one. Either the field stopped wrapping or the section "
+            "anchor has moved.")
+        flat = " ".join(front[field].split())
+        missing = [j for j in joins if " ".join(j.split()) not in flat]
+        assert not missing, (
+            f"the captured {field} does not cross {len(missing)} of its source's "
+            f"{len(joins)} line wraps, so the builder took a prefix rather than the paragraph: "
+            + "; ".join(repr(j) for j in missing[:3]))
+    #: The affiliation's tail is its ORCID line, which is a structural fact about the block rather
+    #: than a wording: an affiliation captured first-line-only loses it.
     assert "ORCID" in front["affiliation"]
-    # ⚠ Compared with whitespace normalised. The source wraps, and asserting a literal ending
-    # made this test fail on a rewrap rather than on the defect it is for — a first-line-only
-    # match dropping the tail. The tail is what is checked; how it wraps is not.
+
+
+def test_the_abstracts_disclaimers_precede_the_first_sequence_it_names(journal):
+    """⛔ AND THE ORDERING IS THE POINT. Round 7's P0.8 and P0.6 were one defect: the two
+    disclaimers sat five sentences BEHIND the orderable 16-mers the abstract names, so any venue
+    that truncates an abstract kept the sequences and dropped the warning. They were moved ahead of
+    the sequences; this holds them there.
+
+    ⚠ ASSERTED AS CONCEPTS, NOT SENTENCES. The literal clauses this used to require —
+    "no wet-lab experiment was performed" and "must not be administered to any person or animal" —
+    were both rewritten on 2026-08-19 ("The work is computational: nothing has been synthesised or
+    tested"; "not for administration to any person or animal"). The guard went red on a rewrite
+    that kept every word of the meaning, which trains a reader to edit the test rather than the
+    paper. The regexes are tolerant; what is not tolerant is the ORDER.
+    """
+    front, _, _, _ = journal
     flat = " ".join(front["abstract"].split())
-    assert flat.endswith(
-        # ⚠ Re-pinned round 5: the abstract gained a closing scope sentence, so its last words moved.
-        # It previously ended "…the selectivity value that would falsify the ranking used here." The
-        # abstract is the artifact that travels alone to a reader, and it carried no statement that
-        # the work is computational — the one in the repository frontmatter is stripped from both
-        # rendered PDFs. This assertion still does its original job: proving the builder captured the
-        # WHOLE paragraph rather than its first line.
-        # ⭐ RE-PINNED AGAIN, round 7 P0.8, and the reason is the DEFECT rather than a rewrap. The
-        # closing scope sentence added in round 5 sat LAST, roughly five sentences behind the two
-        # orderable 16-mers the abstract names, so any venue that truncates an abstract kept the
-        # sequences and dropped the disclaimer. It was MOVED, not copied, to sit immediately ahead
-        # of them, which is why the tail moved with it. The whole-paragraph property this assertion
-        # exists for is unchanged and is now pinned on the released-pipeline sentence that ends it.
-        # ⛔ "reagent" -> "candidate" (round-7 D1-F8, applied 2026-08-17). The abstract twice promised a
-        # "reagent" where the body three times refuses that word — §4.5 releases a procedure that
-        # returns "a candidate, not a validated reagent". This pin held the overclaiming form in place.
-        # ⛔ "candidate" -> "design" (round-17 reader B, 2026-08-19). The paper uses "candidate" in
-        # TWO senses: §2.7's screened set of exactly three ("the honest size of the candidate set by
-        # screen"), and Box 1/§4.5's "a candidate, not a validated reagent" for whatever the
-        # procedure emits. The abstract meant the second, but a reader arriving from §2.7 reads the
-        # first. "A design can be made" is the paper's neutral term (190 designs) and belongs to
-        # neither sense, so it keeps the round-7 intent — not promising a "reagent" — without the
-        # collision. The whole-paragraph property this assertion exists for is untouched.
-        # ⛔ RE-PINNED 2026-08-19: the trailing "by the same procedure" was trimmed when the
-        # abstract took on the qualifications the ten-brief screen found it owed a reader (the
-        # adopted-not-measured criterion, the by-construction share of the gap-length result,
-        # and that the designs surviving every screen sit at no reported patient breakpoint).
-        # The whole-paragraph property this assertion exists for is unchanged.
-        # ⛔ RE-PINNED AGAIN 2026-08-19, and this time the sentence was SHORTENED rather than moved.
-        # A negative-calibration reader and a statistical re-derivation between them found four more
-        # qualifications the abstract owed — search depth moving the headline, 87 of 190 being a
-        # rate over designs where a laboratory picks one register per junction, every null being
-        # computed at the ten-base-pair cut alone, and the three condemned designs sitting outside
-        # the panel — so 25 words were cut elsewhere to pay for them, this sentence among them.
-        # The whole-paragraph property is untouched; only its last five words moved.
-        "The design and screening pipeline is released for breakpoints outside this panel.")
-    # ⛔ AND THE ORDERING IS THE POINT, so it is asserted rather than left to the tail above: the
-    # disclaimer and the research-use statement must both PRECEDE the first named sequence. A future
-    # edit that moves either behind the sequences reinstates round 7's P0.8 and P0.6 together, and
-    # a tail-only assertion cannot see it.
-    for clause in ("no wet-lab experiment was performed",
-                   "must not be administered to any person or animal"):
-        assert clause in flat, clause
-        assert flat.index(clause) < flat.index("5′-GGGCATATCATCAAAC-3′"), clause
+    sequence = _PRINTED_SEQUENCE.search(flat)
+    assert sequence, (
+        "the abstract names no oligonucleotide, so the ordering property below is vacuous. If the "
+        "leads were genuinely removed from the abstract, delete this test and say so.")
+    for what, pattern in _ABSTRACT_DISCLAIMERS:
+        found = pattern.search(flat)
+        assert found, (
+            f"the abstract carries no statement that {what}. It is the part of the paper that "
+            "travels alone, and both disclaimers are stripped from the rendered PDFs' repository "
+            f"frontmatter. Reword freely — the pattern is {pattern.pattern!r} — but say it.")
+        assert found.start() < sequence.start(), (
+            f"the abstract states that {what} at character {found.start()}, AFTER the first "
+            f"sequence it prints ({sequence.group(0)}) at {sequence.start()}. A venue that "
+            "truncates an abstract would keep the orderable 16-mer and drop the warning.")
 
 
 def test_citation_markers_render_and_their_pmid_comments_do_not(journal):

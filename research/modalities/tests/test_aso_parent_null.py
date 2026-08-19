@@ -38,14 +38,20 @@ sys.path.insert(0, MOD)
 
 
 def _art():
+    #: ⛔ NOT A SKIP (2026-08-19, lane C2 audit). Every path this file reads is COMMITTED, so an
+    #: absence is a broken tree and not a partial checkout. A skip here has the shape the
+    #: pypdf/pymupdf audit found: the guard evaporates with its input and the run reports green.
     if not os.path.exists(ART):
-        pytest.skip("parent-null artifact is not present in this checkout")
+        pytest.fail(f"the parent-null artifact is missing at {ART}; it is committed, and the cut "
+                    "ladder, the null ensembles and every rate the abstract quotes are unchecked "
+                    "without it.")
     return json.load(open(ART, encoding="utf-8"))
 
 
 def _paper():
     if not os.path.exists(PAPER):
-        pytest.skip("submission manuscript is not present in this checkout")
+        pytest.fail(f"the submission manuscript is missing at {PAPER}; it is committed, and every "
+                    "prose-against-artifact pin in this file is unchecked without it.")
     return open(PAPER, encoding="utf-8").read()
 
 
@@ -63,7 +69,8 @@ def test_index_and_brute_force_agree_on_every_real_design():
     """The fast path and screen 4's own scan must return the same longest run, design for design."""
     pgp, npl = _mods()
     if not os.path.exists(pgp.SEQS) or not os.path.exists(pgp.ATLAS):
-        pytest.skip("parent sequences or atlas not present")
+        pytest.fail(f"the parent sequences ({pgp.SEQS}) or the atlas ({pgp.ATLAS}) is missing; both "
+                    "are committed, and the null ensembles cannot be re-derived without them.")
     parents = pgp.mature_parents()
     idx = npl._gap_index(parents)
     atlas = json.load(open(pgp.ATLAS, encoding="utf-8"))
@@ -86,7 +93,8 @@ def test_index_and_brute_force_agree_on_scrambled_queries_too():
     """The real designs are a soft test of the index — they mostly HIT. Scrambles mostly miss."""
     pgp, npl = _mods()
     if not os.path.exists(pgp.SEQS) or not os.path.exists(pgp.ATLAS):
-        pytest.skip("parent sequences or atlas not present")
+        pytest.fail(f"the parent sequences ({pgp.SEQS}) or the atlas ({pgp.ATLAS}) is missing; both "
+                    "are committed, and the null ensembles cannot be re-derived without them.")
     parents = pgp.mature_parents()
     idx = npl._gap_index(parents)
     atlas = json.load(open(pgp.ATLAS, encoding="utf-8"))

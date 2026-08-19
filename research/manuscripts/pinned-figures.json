@@ -624,7 +624,7 @@
   },
   {
    "id": "aso_panel_designs_total_limitations",
-   "description": "The Limitations paragraph restates the pair '87 of 190, 61 of them against wild-type NR4A3'. A limitation that quotes a stale count understates the very thing it concedes. The context opened 'Every parent count' until 2026-08-18, when a universal-claim audit found that phrasing false of \u00a72.5's 53 / forty / 21 pre-mRNA tallies, which are parent counts taken at a mismatch budget rather than at a ten-base-pair duplex. The pinned VALUE is unchanged \u2014 only the sentence's opening words moved \u2014 so there is no superseded figure to register.",
+   "description": "The Limitations paragraph restates the pair '87 of 190, 61 of them against wild-type NR4A3'. A limitation that quotes a stale count understates the very thing it concedes. The context opened 'Every parent count' until 2026-08-18, when a universal-claim audit found that phrasing false of §2.5's 53 / forty / 21 pre-mRNA tallies, which are parent counts taken at a mismatch budget rather than at a ten-base-pair duplex. The pinned VALUE is unchanged — only the sentence's opening words moved — so there is no superseded figure to register.",
    "artifact": "research/modalities/aso-parent-gap-pairing.json",
    "key": "corpus.n_designs",
    "match": "flattened",
@@ -694,7 +694,7 @@
   },
   {
    "id": "aso_liable_designs_limitations",
-   "description": "The same liability count restated in Limitations. Second home. The context opened 'Every parent count' until 2026-08-18, when a universal-claim audit found that phrasing false of \u00a72.5's 53 / forty / 21 pre-mRNA tallies, which are parent counts taken at a mismatch budget rather than at a ten-base-pair duplex. The pinned VALUE is unchanged \u2014 only the sentence's opening words moved \u2014 so there is no superseded figure to register.",
+   "description": "The same liability count restated in Limitations. Second home. The context opened 'Every parent count' until 2026-08-18, when a universal-claim audit found that phrasing false of §2.5's 53 / forty / 21 pre-mRNA tallies, which are parent counts taken at a mismatch budget rather than at a ten-base-pair duplex. The pinned VALUE is unchanged — only the sentence's opening words moved — so there is no superseded figure to register.",
    "artifact": "research/modalities/aso-parent-gap-pairing.json",
    "key": "corpus.n_with_parent_duplex_through_gap",
    "match": "flattened",
@@ -722,7 +722,7 @@
   },
   {
    "id": "aso_liable_against_wildtype_nr4a3_limitations",
-   "description": "The same wild-type NR4A3 count restated in Limitations. Second home. The context opened 'Every parent count' until 2026-08-18, when a universal-claim audit found that phrasing false of \u00a72.5's 53 / forty / 21 pre-mRNA tallies, which are parent counts taken at a mismatch budget rather than at a ten-base-pair duplex. The pinned VALUE is unchanged \u2014 only the sentence's opening words moved \u2014 so there is no superseded figure to register.",
+   "description": "The same wild-type NR4A3 count restated in Limitations. Second home. The context opened 'Every parent count' until 2026-08-18, when a universal-claim audit found that phrasing false of §2.5's 53 / forty / 21 pre-mRNA tallies, which are parent counts taken at a mismatch budget rather than at a ten-base-pair duplex. The pinned VALUE is unchanged — only the sentence's opening words moved — so there is no superseded figure to register.",
    "artifact": "research/modalities/aso-parent-gap-pairing.json",
    "key": "corpus.which_parent_supplies_it.NR4A3",
    "match": "flattened",
@@ -751,14 +751,29 @@
   },
   {
    "id": "aso_parent_null_observed_rate_against_the_arms",
-   "description": "The same observed rate wherever a null arm is set against it — three passages, all matched by one pattern, so a correction that reaches one of them fails here.",
+   "description": "The same observed rate wherever a null arm is set against it — three passages, all matched by one pattern, so a correction that reaches one of them fails here. ⚠ THE NEGATIVE LOOKAHEAD IS LOAD-BEARING: the abstract sets a null against the observed rate AT THE LOOSE SEVEN-BASE-PAIR CUT too, which is a different measured quantity with its own pin (`aso_parent_null_observed_rate_at_the_loose_cut`). Without the exclusion this entry resolved that passage's correct 92.1% against this key's 45.8% and failed a true sentence.",
    "artifact": "research/modalities/aso-parent-null.json",
    "key": "observed.rate_liable",
    "match": "flattened",
    "format": "{:.1f}",
    "scale": 100.0,
    "tolerance": 0.051,
-   "context": "against ([\\d.]+)% observed",
+   "context": "against ([\\d.]+)% observed(?! there)",
+   "must_appear_in": [
+    "research/manuscripts/aso/fusion-junction-aso-research-article.md"
+   ],
+   "regenerate": "python3 research/modalities/aso_parent_null.py, then update every rate the manuscript and the SI quote IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
+  },
+  {
+   "id": "aso_parent_null_observed_rate_at_the_loose_cut",
+   "description": "The observed liability rate at the LOOSE seven-base-pair cut — the reading the abstract prints beside the exon-terminus null at the same cut. It is a different fact from `observed.rate_liable` (the strict ten-base-pair rate) and so has its own home in the artifact's `cut_sensitivity` block. The document locates it with the word 'there'; the strict-cut entry excludes that same word, so the two passages cannot be confused for one another.",
+   "artifact": "research/modalities/aso-parent-null.json",
+   "key": "cut_sensitivity.observed_rate_liable.7",
+   "match": "flattened",
+   "format": "{:.1f}",
+   "scale": 100.0,
+   "tolerance": 0.051,
+   "context": "against the ([\\d.]+)% observed there",
    "must_appear_in": [
     "research/manuscripts/aso/fusion-junction-aso-research-article.md"
    ],
@@ -1419,6 +1434,18 @@
    "pattern": "67\\.2\\s*[–-]\\s*87\\.8\\s*%",
    "current": "67.2–87.7% — the Wilson 95% interval for 46/58 is 67.2308–87.7485%, whose upper bound rounds to 87.7. Recomputed by research/manuscripts/tests/test_aso_partner_share_intervals.py.",
    "retired_by": "blind screen of the built manuscript PDF, 2026-08-17: the TAF15 interval printed beside it (8.4–26.9% for 9/58) matches its own computation exactly, so the same method was used and only the EWSR1 upper bound was misrounded by one in the last place."
+  },
+  {
+   "id": "aso_canonical_file_condemned_record_count_250",
+   "pattern": "250 of the 780|250 records in the file|every one of the 250",
+   "current": "249 records reach the ten-base-pair criterion (`mature_parent_duplex_through_gap_bp` >= 10 in research/manuscripts/aso/fusion-junction-aso-sequences.csv); a further 3 carry `do_not_order` for the separate un-rearranged-allele reason, so 252 carry the flag in all.",
+   "retired_by": "Review round 2026-08-19, backlog item A2, RECOMPUTED from the canonical CSV this session. 250 was the count of `pairs_a_wild_type_parent_through_the_gap == True`, which is NOT the count of records meeting the stated criterion: it folds in one cryptic-exon record (TGATGAGGGCCTTGTG at TAF15 e6::NR4A3 intron-2 cryptic exon) whose duplex cell is BLANK — the quantity was never measured for it — and which appears in neither Table 3 nor Table 4, so it cannot be 'marked in the tables' as Box 1 said it was. Three counts were being conflated: 249 at the criterion, 250 flag-True, 252 flagged for any reason."
+  },
+  {
+   "id": "aso_canonical_file_junction_key_count_40",
+   "pattern": "(?:[Oo]ver|at|of) the 40 junctions (?:this|the) file keys a row to",
+   "current": "The file keys a row to 43 distinct junctions, 42 of which carry a 5-6-5 register; the margin-rule reading (condemned at eight, clean available at five, every register condemned at three) is taken over those 42.",
+   "retired_by": "Review round 2026-08-19, backlog item A2, RECOMPUTED from the canonical CSV this session: 43 distinct `junction` values over 780 rows, 42 of them carrying a 5-6-5 row (FUS e10::NR4A3 e3 carries none). 40 is 42 less the two NR4A3 intron-2 cryptic-exon acceptors, and nothing in the sentence said the cryptic acceptors were excluded — nor could they be, since the 8/5/3 split is unchanged by their inclusion."
   }
  ],
  "subset_checks": [

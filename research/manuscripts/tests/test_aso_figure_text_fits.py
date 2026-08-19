@@ -59,10 +59,24 @@ def _elements(svg):
         yield attrs, text
 
 
+def _declared_text_nodes(svg):
+    """How many `<text` elements the file opens, however they are written.
+
+    ⛔ THE DENOMINATOR THAT WAS MISSING. `_TEXT` only matches `<text …>plain characters</text>` —
+    a node with no child element and no entity-free content. A generator that starts wrapping its
+    labels in `<tspan>`, or that emits `<text><title>…</title>label</text>`, produces a file this
+    parser reads as having NO text at all, and every geometry assertion below then holds over an
+    empty set and reports green. The count of opening tags is what the file itself declares, and
+    the parse has to reach all of it.
+    """
+    return len(re.findall(r"<text\b", svg))
+
+
 def _read(name):
     path = os.path.join(FIGDIR, name)
-    if not os.path.exists(path):
-        pytest.skip(f"{name} has not been drawn")
+    #: ⛔ NOT A SKIP. These four SVGs are committed deposit artefacts and the PDFs are converted
+    #: from them; an absent one is a broken deposit, not an absent test.
+    assert os.path.exists(path), f"{name} is missing from {FIGDIR} — the deposit cannot ship it"
     return open(path, encoding="utf-8").read()
 
 
@@ -73,25 +87,60 @@ def test_the_figure_declares_a_canvas(name):
 
 
 @pytest.mark.parametrize("name", FIGURES)
+def test_every_text_node_the_figure_declares_is_actually_parsed(name):
+    """The coverage assertion the geometry checks below all depend on.
+
+    Derived, not typed: the expectation is the figure's own count of `<text` opening tags, so a
+    figure that gains or loses labels moves its own floor and a parser that stops seeing them
+    fails here rather than passing everything downstream.
+    """
+    svg = _read(name)
+    declared = _declared_text_nodes(svg)
+    parsed = list(_elements(svg))
+    blank = len(_TEXT.findall(svg)) - len(parsed)
+    assert declared, f"{name} draws no text at all — every geometry check below would be vacuous"
+    assert len(parsed) + blank == declared, (
+        f"{name} declares {declared} <text> node(s) and this parser reads {len(parsed)} non-blank "
+        f"plus {blank} blank — {declared - len(parsed) - blank} are invisible to it. The usual "
+        "cause is a node with a child element (<tspan>, <title>) or markup inside its content. "
+        "Every unparsed label is a label no overflow or overlap check ever looks at.")
+
+
+@pytest.mark.parametrize("name", FIGURES)
 def test_no_text_element_runs_off_the_right_edge(name):
     svg = _read(name)
     size = _SVG_SIZE.search(svg)
     width = float(size.group(1))
-    overruns = []
+    overruns, measured, excluded, unreadable = [], 0, 0, []
     for attrs, text in _elements(svg):
         #: An anchored or rotated label is positioned by its own geometry, not by a left edge, and
         #: measuring it as if it ran rightwards from `x` reports a false overrun. Those are left to
         #: the eye; every unanchored line — which is all the prose — is measured.
         if attrs.get("text-anchor") in ("middle", "end") or "transform" in attrs:
+            excluded += 1
             continue
         try:
             x = float(attrs.get("x", 0))
         except ValueError:
+            #: ⛔ COUNTED, NOT SWALLOWED. A label whose `x` will not parse is a label nothing bounds,
+            #: and `continue` reported that as "measured and fine".
+            unreadable.append(text[:60])
             continue
+        measured += 1
         font_size = float(attrs.get("font-size", 12))
         right = x + _text_width(text, font_size)
         if right > width:
             overruns.append((round(right), round(width), text[:70]))
+    #: THE POPULATION HAS TO ADD UP. Every declared node is measured, excluded by the stated rule,
+    #: or blank — nothing may vanish, and at least one node must actually be measured or the
+    #: assertion below holds over nothing.
+    assert not unreadable, (
+        f"{name} has {len(unreadable)} <text> node(s) whose x coordinate will not parse, so "
+        f"nothing bounds them: {unreadable[:4]}")
+    assert measured, (
+        f"{name}: all {excluded} parsed text node(s) are anchored or transformed, so this check "
+        "measured nothing at all. Either the generator changed how it positions labels — in which "
+        "case the exclusion rule needs rewriting, not the figure — or the parse is broken.")
     assert not overruns, (
         f"{name} emits {len(overruns)} line(s) past its {width:.0f}-unit canvas, which render "
         "CLIPPED MID-WORD in the PDF:\n"
@@ -105,16 +154,22 @@ def test_no_text_element_runs_off_the_bottom(name):
     svg = _read(name)
     size = _SVG_SIZE.search(svg)
     height = float(size.group(2))
-    below = []
+    below, measured, unreadable = [], 0, []
     for attrs, text in _elements(svg):
+        if "transform" in attrs:
+            continue
         try:
             y = float(attrs.get("y", 0))
         except ValueError:
+            unreadable.append(text[:60])
             continue
-        if "transform" in attrs:
-            continue
+        measured += 1
         if y > height:
             below.append((round(y), round(height), text[:60]))
+    assert not unreadable, (
+        f"{name} has {len(unreadable)} <text> node(s) whose y coordinate will not parse: "
+        f"{unreadable[:4]}")
+    assert measured, f"{name}: no text baseline was measured against the canvas height"
     assert not below, (
         f"{name} places {len(below)} line(s) below its {height:.0f}-unit canvas, so they do not "
         "render at all:\n" + "\n".join(f"  baseline {y} (canvas {h}): {t}…" for y, h, t in below))
@@ -226,6 +281,10 @@ def test_no_two_text_lines_are_drawn_on_top_of_each_other(name):
             overlap = min(b1, b2) - max(a1, a2)
             if overlap > 2:
                 clashes.append((round(overlap), t1[:44], t2[:44]))
+    assert len(boxes) >= 2, (
+        f"{name}: only {len(boxes)} text box(es) were built, so no pair could be compared and this "
+        "check is vacuous. The overlap it exists for was 87% of a box, entirely inside the canvas, "
+        "and invisible to both edge checks.")
     assert not clashes, (
         f"{name} draws {len(clashes)} pair(s) of text on top of each other, which render as "
         "overprinted and unreadable:\n"

@@ -147,9 +147,13 @@ WHAT THIS IS NOT.
     true when written and is false now. All five screens ran at the manuscript geometry and the
     state is read per junction from
     `research/modalities/noncoding-acceptor/aso-noncoding-acceptor-screened-table.json`
-    (`screens_complete`), never asserted here. What is still true is the distinction the sentence
-    existed to protect: DESIGNED, SCREENED and NOTHING-AT-ALL are three states, and this module
-    still renders them three ways — it now reads all three from artifacts rather than two.
+    never asserted here. ⛔ AND THE PER-JUNCTION READING IS NO LONGER `screens_complete` EITHER
+    (2026-08-19): that flag, and the document-level `n_screens_that_ran` this module used to echo
+    beside it, are properties of the whole table, and echoing them recorded five screens for a seam
+    the manuscript states is graded on fewer. `screened_published_junctions` now builds a per-screen
+    record from each screen's own declared gene scope. What is still true is the distinction the
+    sentence existed to protect: DESIGNED, SCREENED and NOTHING-AT-ALL are three states, and this
+    module still renders them three ways — it now reads all three from artifacts rather than two.
   · Not a claim that the best-supported row is a ceiling. It is a point estimate with an unmeasured
     arm reported beside it as a bound, and its distance to the arithmetic ceiling is decomposed
     below rather than left as a remainder.
@@ -595,9 +599,127 @@ PANELS = [
 ]
 
 
+#: ⛔ THE FIVE DEEP SCREENS, AND WHERE EACH ONE DECLARES WHAT IT ACTUALLY READ.
+#: Until 2026-08-19 this module recorded a junction's screen state by echoing the screened table's
+#: DOCUMENT-level `n_screens_that_ran` onto every junction in it, so `PGR_e2__NR4A3_e2` — which §4.1
+#: and §2.6 both state is graded on four of the five, because the pre-mRNA screen's parent set does
+#: not carry that donor's unspliced sequence — carried `n_screens_that_ran: 5` in the deposited
+#: artifact. A document-level count cannot be a per-junction fact, and echoing one is how a junction
+#: comes to claim evidence that was never read for it.
+#: ⚠ TWO OF THE FIVE ARE PARENT-SCOPED and three are transcriptome- or genome-wide. A parent-scoped
+#: screen reads a NAMED set of parent transcripts, so whether it read a given junction depends on
+#: whether that junction's own two parents are in the set — which is exactly the question the
+#: document-level count cannot answer. The gene sets are READ from each screen's own artifact.
+PARENT_SCOPED_SCREENS = ("mature_parent_gap_pairing", "premrna")
+SCREEN_ARTIFACTS = {
+    "panel": {
+        "transcriptome_blast_deep": None,          # blastn vs refseq_rna — not gene-scoped
+        "exhaustive_transcript_scan": None,        # every transcript — not gene-scoped
+        "mature_parent_gap_pairing": "aso-parent-gap-pairing.json",
+        "premrna": "aso-premrna-offtarget.json",
+        "genome_grch38": None,                     # every position of GRCh38 — not gene-scoped
+    },
+    "noncoding_acceptor": {
+        "transcriptome_blast_deep": None,
+        "exhaustive_transcript_scan": None,
+        "mature_parent_gap_pairing": "aso-parent-gap-pairing-noncoding-acceptor.json",
+        "premrna": "aso-premrna-offtarget-noncoding-acceptor.json",
+        "genome_grch38": None,
+    },
+}
+MODALITIES = os.path.join(HERE, os.pardir, "modalities")
+
+
+def _declared_gene_scope(basename):
+    """The genes whose OWN sequence a parent-scoped screen read, plus any it admits it skipped.
+
+    Both are READ from the screen's artifact. `parents_searched` is the mature-parent screen's own
+    record of what it searched; the pre-mRNA screen keys its sequence records by gene and carries an
+    explicit block naming the atlas parents it could not scan.
+    """
+    path = os.path.join(MODALITIES, basename)
+    if not os.path.exists(path):
+        return {"artifact": basename, "present": False, "genes": None, "declared_unscanned": []}
+    doc = json.load(open(path, encoding="utf-8"))
+    genes = (doc.get("method") or {}).get("parents_searched")
+    if genes is None and isinstance(doc.get("genes"), dict):
+        genes = sorted(doc["genes"])
+    skipped = doc.get("⛔_parents_in_the_atlas_that_were_NOT_scanned") or {}
+    return {"artifact": basename, "present": True,
+            "genes": sorted(genes) if genes else None,
+            "declared_unscanned": sorted(skipped.get("genes") or [])}
+
+
+def parent_genes_of(label):
+    """The two genes a junction's own sequence is built from, read off its label."""
+    donor, _, acceptor = str(label).partition("__")
+    return (donor.split("_")[0], acceptor.split("_")[0])
+
+
+def per_screen_record(label, table_key, ran_here):
+    """Per junction, per screen: did this screen read THIS junction's own parents?
+
+    ⛔ `ran` AND `read_this_junctions_own_parents` ARE DIFFERENT QUESTIONS and the artifact now
+    carries both. A parent-scoped screen can run over a junction's designs and still never look at
+    the compartment that junction's own donor supplies, which is an ABSENT reading and not a clean
+    one — the distinction CLAUDE.md §4 exists for.
+    """
+    own = parent_genes_of(label)
+    out = {}
+    for screen, basename in SCREEN_ARTIFACTS[table_key].items():
+        if screen not in PARENT_SCOPED_SCREENS:
+            out[screen] = {"ran": ran_here.get(screen), "gene_scoped": False,
+                           "scope": "not gene-scoped — the whole transcriptome or the whole genome",
+                           "this_junctions_parents_not_read": [],
+                           "read_this_junctions_own_parents": bool(ran_here.get(screen))}
+            continue
+        scope = _declared_gene_scope(basename)
+        genes = scope["genes"]
+        missing = sorted({g for g in own
+                          if (genes is not None and g not in genes)
+                          or g in scope["declared_unscanned"]})
+        out[screen] = {
+            "ran": ran_here.get(screen), "gene_scoped": True,
+            "source_artifact": scope["artifact"],
+            "genes_searched": genes,
+            "genes_the_screen_declares_it_did_not_scan": scope["declared_unscanned"],
+            "this_junctions_own_parents": list(own),
+            "this_junctions_parents_not_read": missing,
+            "read_this_junctions_own_parents": bool(ran_here.get(screen)) and not missing,
+        }
+    return out
+
+
+def _screen_ran_flags(doc, table_key):
+    """`ran` per screen, from the table's own `screens` block when it has one."""
+    block = doc.get("screens") or {}
+    return {screen: bool((block.get(screen) or {}).get("ran", True))
+            for screen in SCREEN_ARTIFACTS[table_key]}
+
+
+def _junctions_the_deep_screens_name(doc, subdir):
+    """The junction labels the per-junction screen artifacts actually declare.
+
+    ⚠ PER JUNCTION, FROM THE ARTIFACT'S OWN `junction_label`. The screened table lists the files
+    each deep screen ran; opening them turns "the alignment screen ran" from a table-level sentence
+    into a per-junction fact, which is what the membership rule below needs.
+    """
+    named = {}
+    for screen in ("transcriptome_blast_deep", "exhaustive_transcript_scan"):
+        labels = set()
+        for basename in ((doc.get("screens") or {}).get(screen) or {}).get("screens") or []:
+            path = os.path.join(MODALITIES, subdir, basename)
+            if os.path.exists(path):
+                label = json.load(open(path, encoding="utf-8")).get("junction_label")
+                if label:
+                    labels.add(label)
+        named[screen] = labels
+    return named
+
+
 def screened_published_junctions():
-    """Every junction with BOTH a published exon-resolved breakpoint AND a reagent through all five
-    deep screens — READ from the two screened tables, never listed here.
+    """Every junction with BOTH a published exon-resolved breakpoint AND a SCREENED reagent —
+    READ from the two screened tables, never listed here, and now with a PER-SCREEN record.
 
     ⛔ THE MEMBERSHIP RULE IS THE WHOLE CLAIM OF THE BEST-SUPPORTED ROW, so it is derived from the
     artifacts that own each half rather than written down as a list of five labels. A hand-typed
@@ -605,49 +727,86 @@ def screened_published_junctions():
     downgraded, or whose screen is later found to have been run at the wrong geometry, would keep
     contributing coverage from a list nobody re-reads.
 
+    ⛔ AND IT IS "A SCREENED REAGENT", NOT "ALL FIVE SCREENS" — THE TWO ARE NOT THE SAME SET, WHICH
+    IS WHY THE COUNT IS NOW REPORTED BOTH WAYS (2026-08-19). This rule used to be written as "a
+    reagent through all five deep screens" while being implemented as a `screens_complete` flag that
+    reads true for a junction graded on four of the five. §4.1 states the honest version — "Eight of
+    those nine designs are taken through all five screens. The ninth, at the PGR seam, is graded on
+    four of them" — so the qualifying count is nine on a SCREENED-design rule, and the all-five
+    subset is carried beside it as its own derived count rather than folded into the same word.
+
     ⚠ THE FIVE-SCREEN EVIDENCE IS DIFFERENT IN SHAPE ON EACH SIDE, AND SAYING SO IS NOT PEDANTRY.
     The panel's table carries no per-junction screen-state flag: its five-screen claim is a property
     of the whole artifact, stated in its own `what` field, and the per-junction check available here
     is that `best_available` exists — which the ranking cannot produce unless the deep alignment
-    screen ran. The non-canonical table carries `screens_complete` PER JUNCTION precisely because a
-    sibling junction's screen succeeding says nothing about this one. Both readings are recorded per
-    junction so a reader can see which one is behind each row.
+    screen ran. The non-canonical table lists the per-junction artifacts each deep screen ran, so
+    there the same question is answered by opening them and reading `junction_label`. Both readings
+    are recorded per junction so a reader can see which one is behind each row.
     """
     out = {}
     sources = [
-        (PER_JUNCTION, "aso-per-junction-table.json", "the manuscript's 38-junction panel", None),
+        (PER_JUNCTION, "aso-per-junction-table.json", "the manuscript's 38-junction panel",
+         "panel", ""),
         (NONCODING_SCREENED, "noncoding-acceptor/aso-noncoding-acceptor-screened-table.json",
-         "the published NON-CANONICAL seams, screened to the panel's depth", "screens_complete"),
+         "the published NON-CANONICAL seams, screened to the panel's depth",
+         "noncoding_acceptor", "noncoding-acceptor"),
     ]
-    for path, name, what, per_junction_flag in sources:
+    for path, name, what, table_key, subdir in sources:
         if not os.path.exists(path):
             continue
         doc = json.load(open(path, encoding="utf-8"))
         table_evidence = doc.get("what") or doc.get("_title")
+        ran_here = _screen_ran_flags(doc, table_key)
+        named = _junctions_the_deep_screens_name(doc, subdir) if subdir else {}
         for j in doc.get("junctions") or []:
             if j.get("clinical_tier") != "published_exon_resolved_breakpoint":
-                continue
-            if per_junction_flag and not j.get(per_junction_flag):
                 continue
             best = j.get("best_available")
             if not best:
                 continue                       # no ranked reagent ⇒ the alignment screen did not run
             label = j["junction_label"]
+            # ⛔ THE ALIGNMENT SCREEN MUST HAVE RUN FOR THIS JUNCTION, not for the table it sits in.
+            # Where the table names its per-junction screen artifacts, that is checked by opening
+            # them; where it does not, the ranked `best_available` above is the per-junction check,
+            # because the rank key is that screen's output.
+            deep = named.get("transcriptome_blast_deep")
+            if deep is not None and deep and label not in deep:
+                continue
+            screens = per_screen_record(label, table_key, ran_here)
+            n_ran = sum(1 for s in screens.values() if s["read_this_junctions_own_parents"])
             out[label] = {
                 "partner": str(label).split("_")[0],
                 "source_table": name,
                 "source_table_is": what,
                 "clinical_tier": j["clinical_tier"],
                 "breakpoint_refs": j.get("breakpoint_refs"),
-                "five_screen_evidence": (
-                    {"per_junction_flag": per_junction_flag, "value": j.get(per_junction_flag),
-                     "n_screens_that_ran": doc.get("n_screens_that_ran"),
-                     "n_screens_outstanding": doc.get("n_screens_outstanding")}
-                    if per_junction_flag else
-                    {"per_junction_flag": None,
-                     "table_level_statement": table_evidence,
-                     "per_junction_check": "best_available is present, so the deep alignment screen "
-                                           "that supplies its rank key ran for this junction"}),
+                "screen_evidence": {
+                    "per_screen": screens,
+                    "n_screens_that_read_this_junctions_own_parents": n_ran,
+                    "n_screens": len(screens),
+                    "all_five_read_this_junctions_own_parents": n_ran == len(screens),
+                    "screens_that_did_not": sorted(
+                        s for s, r in screens.items()
+                        if not r["read_this_junctions_own_parents"]),
+                    "⛔_an_absent_reading_is_not_a_reading_of_absence": (
+                        "a screen that never scanned this junction's own parent leaves that "
+                        "compartment UNMEASURED, not clean. The count above is of screens that read "
+                        "this junction's own parents, not of screens that produced a row for it."),
+                    "table_level_statement": table_evidence,
+                    "per_junction_check": (
+                        "the deep alignment screen's own artifact declares this junction_label"
+                        if named.get("transcriptome_blast_deep") else
+                        "best_available is present, so the deep alignment screen that supplies its "
+                        "rank key ran for this junction"),
+                    "⚠_the_table_level_flag_this_replaces": {
+                        "field": "screens_complete", "value": j.get("screens_complete"),
+                        "document_level_n_screens_that_ran": doc.get("n_screens_that_ran"),
+                        "why_it_is_not_used": (
+                            "both are properties of the whole table. Echoing them onto a junction "
+                            "recorded n_screens_that_ran: 5 for a seam the manuscript states is "
+                            "graded on four."),
+                    },
+                },
                 "n_designs_screened": j.get("n_designs_screened"),
                 "n_designs_clearing_the_parent_screen":
                     j.get("n_designs_clearing_the_parent_screen"),
@@ -1321,9 +1480,11 @@ def best_supported_buildable_panel(screened):
 
     return {
         "_what": ("★ THE BEST-SUPPORTED BUILDABLE PANEL — the coverage of the junctions that have "
-                  "BOTH a published exon-resolved breakpoint AND a reagent through all five deep "
-                  "screens at the manuscript geometry, priced on the whole retrieved breakpoint "
-                  "record."),
+                  "BOTH a published exon-resolved breakpoint AND a SCREENED reagent at the "
+                  "manuscript geometry, priced on the whole retrieved breakpoint record. ⚠ "
+                  "'screened' rather than 'through all five deep screens': the two are not the same "
+                  "set, the difference is one junction, and both counts are derived under "
+                  "`panel_membership` rather than folded into one word."),
         "_why_it_is_an_ADDITIONAL_row": (
             "⛔ IT REPLACES NOTHING. The ladder's rungs and bounds above are unchanged and rung 0 "
             "still reproduces the published 68.4% on the manuscript's own single-series basis. This "
@@ -1332,9 +1493,36 @@ def best_supported_buildable_panel(screened):
             "of it — and it is reported beside them, never instead of them."),
         "panel_membership": {
             "_rule": ("a junction qualifies on TWO independent conditions: (i) clinical_tier == "
-                      "'published_exon_resolved_breakpoint' in a screened table, and (ii) a reagent "
-                      "through all five deep screens. Both are READ from the tables that own them."),
+                      "'published_exon_resolved_breakpoint' in a screened table, and (ii) a ranked "
+                      "reagent whose deep alignment screen ran FOR THAT JUNCTION. Both are READ "
+                      "from the tables that own them, and (ii) is checked per junction — against "
+                      "the screen artifact's own `junction_label` where the table names its "
+                      "artifacts, and against the presence of the rank key the screen produces "
+                      "where it does not."),
+            "⛔_why_the_rule_is_not_all_five_screens": (
+                "it used to be WRITTEN as 'through all five deep screens' and IMPLEMENTED as a "
+                "table-level `screens_complete` flag, which reads true for PGR_e2__NR4A3_e2 — a "
+                "seam §4.1 and §2.6 both state is graded on fewer than five, because the "
+                "parent-scoped screens' gene set does not carry that donor. The two counts are now "
+                "separate: nine junctions carry a screened design, and the all-five subset is "
+                "`n_junctions_with_every_screen_reading_their_own_parents` below."),
             "n_junctions_qualifying": len(screened),
+            "n_junctions_with_every_screen_reading_their_own_parents": sum(
+                1 for r in screened.values()
+                if r["screen_evidence"]["all_five_read_this_junctions_own_parents"]),
+            "⛔_graded_on_fewer_than_every_screen": {
+                label: {
+                    "n_screens_that_read_this_junctions_own_parents":
+                        r["screen_evidence"]["n_screens_that_read_this_junctions_own_parents"],
+                    "n_screens": r["screen_evidence"]["n_screens"],
+                    "screens_that_did_not": r["screen_evidence"]["screens_that_did_not"],
+                    "this_junctions_own_parents": list(parent_genes_of(label)),
+                    "⛔_unmeasured_not_clean": (
+                        "those screens produced rows for this junction's designs and never scanned "
+                        "this junction's own donor, so their zero is an ABSENT reading."),
+                }
+                for label, r in sorted(screened.items())
+                if not r["screen_evidence"]["all_five_read_this_junctions_own_parents"]},
             "junctions": screened,
             "n_junctions_moving_the_point_estimate": len(moves_point),
             "junctions_moving_the_point_estimate": moves_point,
@@ -1488,7 +1676,9 @@ def build():
         unnamed = 3 if panel["complete_partners"] else 0
         # ⚠ FOUR STATES, NOT THREE, AND THE NEW ONE IS THE ONE THAT MOVED. A junction the panel
         # excludes is now in one of three states of its own — SCREENED in the non-canonical lane
-        # (all five screens ran, read from `screens_complete`), DESIGNED BUT UNSCREENED (a
+        # (a ranked reagent whose deep alignment screen names this junction — see
+        # `screened_published_junctions`, which reads a per-screen record rather than the
+        # table-level `screens_complete` flag), DESIGNED BUT UNSCREENED (a
         # parent-exclusion margin only, off-target load unknown), or NOTHING AT ALL — and a junction
         # inside the panel is screened by construction. ⛔ SCREENED-OUTSIDE-THE-PANEL MUST NOT
         # RENDER AS EITHER NEIGHBOUR: as "designed" it would understate a reagent that exists, and

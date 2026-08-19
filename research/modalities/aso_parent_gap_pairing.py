@@ -38,7 +38,18 @@ disagree about what a parent is. Every 16-nucleotide window of every mature pare
 every design's target window in the FORWARD orientation only, because a reverse-complement match
 cannot be hybridised by an antisense oligonucleotide (the manuscript's own orientation rule). A hit
 counts only if all six gap positions are paired; its size is then the longest contiguous run of
-perfect pairing that CONTAINS the whole gap, which is the duplex RNase-H1 would actually see.
+perfect pairing that CONTAINS the whole gap.
+
+⛔ AND THAT RUN IS NOT THE DUPLEX THE ENZYME ACTS ON. This docstring said it was — "which is the
+duplex RNase-H1 would actually see" — while the manuscript's own methods section says the opposite
+in terms: "It is not the duplex the enzyme acts on: exactly six of its ten to thirteen base pairs
+are the RNA:DNA gap, and the rest are LNA:RNA wing pairs that RNase-H1 does not cleave and its
+hybrid-binding domain does not recognise as hybrid, though the catalytic domain's footprint does
+extend into them." Both files are in the released archive, so a reviewer who downloads it reads the
+claim and its contradiction and cannot tell which the analysis actually made. The code is right; the
+sentence describing it was wrong, and it was the more generous of the two. See `MIN_DUPLEX_BP`
+below, which states what the run IS: a stated threshold on a contiguous duplex of which exactly six
+base pairs are hybrid, not a measured substrate length for a 5-6-5 LNA gapmer.
 """
 from __future__ import annotations
 

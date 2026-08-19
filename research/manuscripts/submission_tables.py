@@ -108,8 +108,38 @@ def _load(name):
     return json.load(open(p)) if os.path.exists(p) else None
 
 
+_PARENT_CUT_BP = None
+
+
+def _parent_cut_bp():
+    """The base-pair cut every ⚑ in this document is set at, from the artifact that applies it.
+
+    ⛔ IT WAS TYPED IN SIX PLACES (audit, 2026-08-19). `_parent_dup_cell` compared against a literal
+    `10`; Table 3's ⚑ note said "ten base pairs"; Table 4's note ⁷ said it again; Table 5's caption a
+    fourth time; Table 7 carried it in a row LABEL and in its caption. Six copies of one number whose
+    only home is `aso-parent-gap-pairing.json`'s `method.min_duplex_bp` — which is where the screen
+    applies it, and which `aso-gap-length-tradeoff.json` already points at rather than restating
+    (`thresholds.min_duplex_bp_for_hybrid_binding_domain._home`). Rule 1: a threshold restated is a
+    threshold that can move in the screen and not in the caption, and the direction that failure runs
+    is a caption promising ten over a column screened at something looser.
+
+    ⚠ IT REFUSES RATHER THAN DEFAULTING. ⚑ is a do-not-order verdict, so rendering markers under a
+    criterion no screen actually applied is worse than not rendering the table at all.
+    """
+    global _PARENT_CUT_BP
+    if _PARENT_CUT_BP is None:
+        bp = ((_load("aso-parent-gap-pairing.json") or {}).get("method") or {}).get("min_duplex_bp")
+        if not bp:
+            raise SystemExit(
+                "the ⚑ do-not-order marker is set at the parent screen's own criterion, and "
+                "aso-parent-gap-pairing.json reports no `method.min_duplex_bp` in this checkout. "
+                "Re-derive that artifact rather than marking do-not-order rows at a typed cut.")
+        _PARENT_CUT_BP = int(bp)
+    return _PARENT_CUT_BP
+
+
 def _parent_dup_cell(entry):
-    """Render Table 3's longest-parent-duplex cell, flagging the ten-base-pair criterion in place.
+    """Render a longest-parent-duplex cell, flagging the criterion in place.
 
     ⛔ The bare number is not enough here. Table 3's † marks JUNCTIONS where no design clears the
     parent screen; a reader therefore reads an unmarked row as clean, and six unmarked rows printed
@@ -123,7 +153,102 @@ def _parent_dup_cell(entry):
     if not bp:
         return "0"
     cell = f"{bp} (*{gene}*)"
-    return cell + " ⚑" if bp >= 10 else cell
+    return cell + " ⚑" if bp >= _parent_cut_bp() else cell
+
+
+def _cut_sensitivity():
+    """The same parent screen read at the LOOSE end of the cited range, from the artifact that read it.
+
+    ⛔ THE CAPTIONS TYPED THIS AND ONLY HALF OF IT (audit, 2026-08-19). Table 3's ⚑ note carried
+    "175 of the 190" and "181 … at any length" as literals, and Table 2 — the table a reagent is
+    actually chosen from — carried the cut caveat nowhere at all. The whole point of the sentence is
+    that the marker is a reading at ONE cut: at seven base pairs almost the entire panel is liable
+    and only nine of the thirty-eight seams have a design that clears, against thirty-five at ten.
+    A number typed into that sentence is a number that can stop matching the screen it describes.
+
+    ⭐ `aso-parent-null.json`'s `cut_sensitivity` block is the one place that reads both cuts, and
+    its counts reproduce exactly from `aso-parent-gap-pairing.json`'s per-design runs (190 designs;
+    87 at ≥10, 175 at ≥7, 181 non-zero; 35 and 9 junctions clearing). It refuses rather than falling
+    back, because the flatter sentence — the one without the caveat — is the wrong thing to print.
+
+    ⚠ THE THIRD NUMBER IS NOT IN THAT BLOCK AND IS NOT INVENTED HERE. "at any length" is the count
+    of designs a parent pairs through the whole gap at ANY run length, which `cut_sensitivity` does
+    not carry because it is not a cut; its home is `aso-gap-length-tradeoff.json`'s
+    `mature_parent_whole_gap_duplex.n_with_any_gap_pairing_window`, which is the same field Table 7's
+    "a mature parent can pair the whole gap" row already prints. Read from there, so the note and
+    the row cannot come apart.
+    """
+    cs = (_load("aso-parent-null.json") or {}).get("cut_sensitivity") or {}
+    try:
+        loose = min(int(c) for c in cs["cuts_bp"] if int(c) < _parent_cut_bp())
+        key = str(loose)
+        geo = next(g for g in (_load("aso-gap-length-tradeoff.json") or {})["geometries"]
+                   if g["architecture"] == GEOMETRY.architecture)
+        return {
+            "loose_bp": loose,
+            "n_designs": int(cs["n_designs"]),
+            "n_junctions": int(cs["n_junctions"]),
+            "n_liable_loose": int(cs["observed_n_liable"][key]),
+            "n_liable_strict": int(cs["observed_n_liable"][str(_parent_cut_bp())]),
+            "n_liable_any_length": int(
+                geo["mature_parent_whole_gap_duplex"]["n_with_any_gap_pairing_window"]),
+            "n_junctions_clearing_loose": int(cs["n_junctions_with_a_clearing_design"][key]),
+            "n_junctions_clearing_strict": int(
+                cs["n_junctions_with_a_clearing_design"][str(_parent_cut_bp())]),
+        }
+    except (KeyError, ValueError, StopIteration) as exc:
+        raise SystemExit(
+            "the ⚑ notes state that the do-not-order marker is a reading at one cut, and the "
+            "counts behind that come from aso-parent-null.json's `cut_sensitivity` block, which "
+            f"this checkout does not carry usably ({exc}). Re-derive it rather than printing a "
+            "marker with no statement of what an unmarked row does and does not mean.") from exc
+
+
+def _cut_caveat():
+    """The one sentence that says what an UNMARKED parent-duplex cell does and does not mean.
+
+    ⛔ IT LIVED IN TABLE 3's ⚑ NOTE ONLY, AND TABLE 3 IS NOT THE TABLE A REAGENT IS CHOSEN FROM
+    (audit, 2026-08-19). Table 2's own caption calls itself "the table one reagent is chosen from",
+    Table 5 is the table §4 prices, and neither carried any statement that the parent-duplex column
+    beside its sequences is a reading at ONE adopted cut — while Table 2 prints fourteen rows at
+    eight base pairs and four at nine, every one of them unmarked, and Table 5's highest cell is a
+    nine. Under a cut one base pair looser those rows are the panel, not the exceptions.
+
+    ⭐ ONE WORDING, ONE HOME, THREE CAPTIONS. Printed rather than cross-referenced for the same
+    reason `_rule_audit_note` is: a caption is the part of a paper most likely to be read on its
+    own, and a do-not-order caveat that lives in another table's note is a caveat a lifted table
+    does not carry. Every number in it is `_cut_sensitivity`'s.
+    """
+    cs = _cut_sensitivity()
+    cut = _parent_cut_bp()
+    return (f"That {_word(cut)}-base-pair cut is a criterion this work ADOPTS rather than measures, "
+            f"and the reading moves with it: at {_word(cs['loose_bp'])} base pairs "
+            f"{cs['n_liable_loose']} of the {cs['n_designs']} panel designs pair a parent through "
+            f"the whole gap against {cs['n_liable_strict']} at {_word(cut)}, "
+            f"{cs['n_liable_any_length']} do so at some length, and only "
+            f"{_word(cs['n_junctions_clearing_loose'])} of the {cs['n_junctions']} seams have a "
+            f"design that clears against {cs['n_junctions_clearing_strict']} at {_word(cut)} "
+            "(§2.9). A cell below the cut is a reading at one cut and nothing wider.")
+
+
+def _parent_liability_definition():
+    """What "parent liability" IS, operationally, from the screen's own method block.
+
+    ⛔ TABLE 2's PRIMARY SORT KEY WAS NAMED AND NEVER DEFINED (audit, 2026-08-19). The caption said
+    designs are "ranked by parent liability first" and nothing in the document said what a parent
+    liability is, which parents were searched, in which compartment, or at what length — while the
+    same table prints a "longest parent duplex through the gap (bp)" column whose relation to that
+    ranking a reader had to guess. The definition is the screen's, so it is read from the screen.
+    """
+    m = (_load("aso-parent-gap-pairing.json") or {}).get("method") or {}
+    parents = list(m.get("parents_searched") or [])
+    compartment = str(m.get("compartment") or "")
+    if not parents or not compartment:
+        raise SystemExit(
+            "Table 2's caption defines parent liability from aso-parent-gap-pairing.json's method "
+            "block, which no longer names the parents searched or the compartment. Re-derive it "
+            "rather than printing a ranking whose first key the document does not define.")
+    return parents, compartment
 
 
 def _expression_cuts():
@@ -266,6 +391,260 @@ def _longest_shared_run(a, b):
                 best = max(best, cur[j])
         prev = cur
     return best
+
+
+def _md_table(rendered):
+    """(header cells, body rows) of a rendered pipe table — THE ROWS AS PRINTED, not as intended.
+
+    ⛔ EVERY CROSS-TABLE CLAIM BELOW IS MEASURED OFF THE RENDERED TEXT, NEVER OFF THE INPUTS. A
+    caption that says "Table 3 marks them do-not-order" is a claim about what a reader FINDS on
+    another page, and the only way to be wrong about it is to reason from the artifact both tables
+    were built from instead of from the rows each one actually printed. That is exactly how the
+    claim below came to be false: Table 4 knew its five ⚑ designs were condemned by the parent
+    screen, and inferred — correctly about the SCREEN, falsely about the TABLE — that Table 3 shows
+    that verdict, when Table 3 prints one design per junction and four of the five are not it.
+    ⚠ The banner's do-not-order run already reads the rendered tables this way (`_printed` in
+    `main`), so this is the file's existing idiom rather than a new one.
+    """
+    lines = [ln for ln in rendered.splitlines() if ln.startswith("|")]
+    hdr = [c.strip() for c in lines[0].strip("|").split("|")]
+    body = [[c.strip() for c in ln.strip("|").split("|")] for ln in lines[2:]]
+    return hdr, body
+
+
+def _col(hdr, prefix):
+    """Index of the one column whose header starts with `prefix`; refuses on nought or several."""
+    hits = [i for i, c in enumerate(hdr) if c.startswith(prefix)]
+    if len(hits) != 1:
+        raise SystemExit(
+            f"a caption is generated by reading the column headed “{prefix}…” and the rendered "
+            f"header matches it {len(hits)} times ({hdr}). Re-anchor the caption's join rather "
+            "than letting it describe a column that moved.")
+    return hits[0]
+
+
+def _seq_in(cell):
+    """The bare base string inside a printed `5′-…-3′` cell, or None."""
+    m = re.search(r"5′-([ACGT]+)-3′", cell)
+    return m.group(1) if m else None
+
+
+def _flagged_rows_in_table3(t3, t4):
+    """What a reader looking up Table 4's ⚑ designs in Table 3 ACTUALLY finds.
+
+    ⛔⛔ TABLE 4's CAPTION SENT A READER TO A TABLE THAT CONTRADICTS IT (measured, 2026-08-19). It
+    said its ⚑ rows are the designs "Table 3 marks do-not-order for it". RECOMPUTED over the
+    rendered rows: five of Table 4's nine rows carry ⚑, they sit at three junctions, and Table 3
+    prints ONE of the five — `GGCATATCAAGCGCTG` at TCF12 e7, which does carry ⚑ there. At the other
+    two junctions Table 3 prints a DIFFERENT design and marks it with nothing: `GGGCATATCCGTGGAC`
+    at 0 bp for EWSR1 e1 and `GGGCATATCTTGCATA` at 8 bp for TCF12 e9. So four of the five are marked
+    nowhere but in Table 4 itself, and a reader who follows the cross-reference to check finds an
+    UNMARKED row at two of the three junctions — the flattering direction, and the one that ends in
+    an order. Table 3 prints one row per junction, that junction's highest-margin design; whether it
+    also happens to be the condemned one is a coincidence of the two rankings, not a property.
+
+    Returns (n_flagged, designs also printed in Table 3, [(junction, Table 3's design cell,
+    Table 3's duplex cell) for the junctions where Table 3 prints something else]).
+    """
+    h4, b4 = _md_table(t4)
+    h3, b3 = _md_table(t3)
+    i4d, i4j = _col(h4, "design"), _col(h4, "junction")
+    i4f = _col(h4, "longest wild-type parent duplex")
+    i3d, i3f = _col(h3, "that design"), _col(h3, "longest parent duplex")
+    flagged = [(_seq_in(r[i4d]), r[i4j]) for r in b4 if "⚑" in r[i4f]]
+    t3_by_junction = {r[0].rstrip(" †‡"): r for r in b3}
+    t3_seqs = {_seq_in(r[i3d]) for r in b3} - {None}
+    also = sorted({s for s, _ in flagged if s in t3_seqs})
+    #: ⚠ THE TEST IS WHETHER THE ROW A READER LANDS ON IS MARKED, NOT WHETHER SOME DESIGN AT THAT
+    #: SEAM IS. TCF12 e7 carries two of the five ⚑ designs and Table 3 prints one of them, marked —
+    #: so that junction corroborates the cross-reference and must not be listed as contradicting it,
+    #: even though its other ⚑ design is printed nowhere but Table 4.
+    elsewhere = []
+    for j in sorted({j for _, j in flagged}):
+        r = t3_by_junction.get(j)
+        if r is None:                       # a junction Table 3 has no row for at all
+            elsewhere.append((j, None, None))
+        elif "⚑" not in r[i3f]:
+            elsewhere.append((j, _seq_in(r[i3d]), r[i3f]))
+    return len(flagged), also, elsewhere
+
+
+def _near_twin_warning(t2, t3):
+    """The junctions where Table 2 prints a clean design and Table 3 a condemned near-twin of it.
+
+    ⛔ THE HAZARD THE BANNER NAMES, APPLIED TO THE TABLES THEMSELVES (measured, 2026-08-19). The
+    do-not-order banner justifies printing three condemned sequences by measuring how close the
+    nearest PRINTED sequence comes to one of them. The same measurement was never run BETWEEN the
+    tables: at ten junctions Table 3's highest-margin design carries ⚑ while Table 2 names a
+    different, uncondemned design at the same seam or none at all, and at seven of those ten the two
+    sequences share fifteen of their sixteen contiguous bases — one register apart, four printed
+    pages apart in the built PDF, with no warning on either page. A reader who transcribes from the
+    wrong table by one row is holding the condemned molecule.
+
+    Returns (n junctions where the two disagree, n of those at a shared run of `run` or more, run),
+    with `run` measured rather than assumed — the largest shared run the disagreeing pairs reach.
+    """
+    h2, b2 = _md_table(t2)
+    h3, b3 = _md_table(t3)
+    i2d = _col(h2, "best available design")
+    i3d, i3f = _col(h3, "that design"), _col(h3, "longest parent duplex")
+    t2_by_junction = {r[0]: _seq_in(r[i2d]) for r in b2}
+    pairs = []
+    for r in b3:
+        j = r[0].rstrip(" †‡")
+        if "⚑" not in r[i3f]:
+            continue
+        a, b = t2_by_junction.get(j), _seq_in(r[i3d])
+        if b is None or a == b:
+            continue
+        pairs.append((j, a, b, _longest_shared_run(a, b) if a else None))
+    runs = [p[3] for p in pairs if p[3] is not None]
+    top = max(runs) if runs else 0
+    return len(pairs), sum(1 for r in runs if r >= top), top
+
+
+def _near_match_screen_losses(t4):
+    """(rows Table 4's deeper re-screen takes the property away from, how many of those read zero).
+
+    ⛔ THE TITLE'S OWN WITHDRAWAL WAS TYPED (audit, 2026-08-19). "Six of these lose the property"
+    and "three of them having returned no near-match at all here" were literals in a caption whose
+    whole subject is that the printed column is a default-depth reading — the one class of number
+    in this file most likely to move, since it moves whenever a junction is re-screened. Both are
+    read off the rendered rows now, so the sentence cannot outlive the measurement it describes.
+    """
+    hdr, body = _md_table(t4)
+    i_v = _col(hdr, "survives the near-match screen")
+    i_n = _col(hdr, "near-matches, either strand")
+    lost = [r for r in body if "no" in r[i_v]]
+    return len(lost), sum(1 for r in lost if r[i_n].strip() == "0")
+
+
+def _junction_aggregate_column(t3, chance):
+    """Where Table 3's one JUNCTION-WIDE column parts company with the design the row names.
+
+    ⛔ THE CAPTION SAID EVERY FIGURE IS THE NAMED DESIGN'S AND ONE COLUMN IS NOT (measured,
+    2026-08-19). "figures are for the design with the highest gap-level margin at that junction" is
+    true of twelve of Table 3's thirteen columns; the last is headed "≤1-mismatch matches across
+    that junction's designs, median (max)" and is an aggregate over every design screened at the
+    seam. At EWSR1 e12 the cell reads 2 (22) while the named design's own ≤1-mismatch count is 1 —
+    a reader checking the row against the artifact finds a number twice the one printed and a
+    maximum twenty-two times it, and has to guess which of the two the rest of the row is.
+
+    Returns (rows where the printed median is not the named design's own value, one such row as
+    (junction, printed cell, the named design's own count)) — derived so the example in the caption
+    cannot become a row the table no longer has.
+    """
+    hdr, body = _md_table(t3)
+    i_d, i_a = _col(hdr, "that design"), _col(hdr, "≤1-mismatch matches across")
+    own = {r["antisense_5to3"]: (r.get("offtarget_le1mm") or 0) for r in chance["per_design"]}
+    differing = []
+    for r in body:
+        seq, cell = _seq_in(r[i_d]), r[i_a]
+        m = re.match(r"^(\d+) \((\d+)\)$", cell)
+        if seq is None or m is None or seq not in own:
+            continue
+        if int(m.group(1)) != own[seq]:
+            differing.append((r[0].rstrip(" †‡"), cell, own[seq]))
+    if not differing:
+        raise SystemExit(
+            "Table 3's caption distinguishes its one junction-wide column from the twelve that "
+            "describe the named design, and no row now shows the two apart. Re-derive the sentence "
+            "rather than illustrating a divergence the table no longer has.")
+    return len(differing), differing[0]
+
+
+def _highest_duplex_printed(rendered, prefix):
+    """The largest parent-duplex reading any row of a rendered table prints, as an integer.
+
+    ⛔ A CAPTION MAY NOT ASSERT A CRITERION ITS OWN COLUMN NEVER REACHES WITHOUT SAYING SO (audit,
+    2026-08-19). Table 5's caption states the ten-base-pair criterion beside a column whose twelve
+    cells read 0, 7, 8 and 9 — so the sentence reads as though the column had been FILTERED at ten,
+    when what it means is that ten is the cut at which a reading would have been disqualifying. The
+    difference decides whether a reader takes a 9 bp row as screened-and-passed or as one base pair
+    short of the paper's central negative, and it is the second.
+    """
+    hdr, body = _md_table(rendered)
+    i = _col(hdr, prefix)
+    vals = [int(m.group(1)) for r in body if (m := re.match(r"^(\d+) ?bp", r[i]))]
+    return max(vals) if vals else 0
+
+
+def _one_seam_share():
+    """(designs whose parent duplex is the ONE recurring wild-type *NR4A3* seam, the *NR4A3*-attributed
+    designs, every liable design).
+
+    ⛔ THE DENOMINATOR WAS THE WRONG ONE (audit, 2026-08-19). Table 4's ΔΔG note read "whose duplex
+    for 59 of the 87 is not elsewhere in a parent at all but runs past the seam into the wild-type
+    *NR4A3* exon-2/exon-3 junction". §2.5 states the same 59 against a different denominator — "Those
+    61 are not 61 distinct sites: 59 of them are the same one" — and 61, not 87, is the population
+    the property is defined over: it is a property of the designs whose duplex is ATTRIBUTED TO
+    *NR4A3*, and 87 is every liable design whatever parent it pairs. The looser figure is not false
+    as a subset statement and it is the flattering framing, because it makes a recurrence in one
+    parent read as a property of two thirds of the panel.
+
+    ⚠ RECOMPUTED, NOT TAKEN FROM THE PROSE. The 61 *NR4A3*-attributed designs' duplexes start at
+    0-based 689, 690, 691 (36 + 18 + 5 = 59 — three register shifts of one window) and at 3412, 3413
+    (1 + 1 = 2). "The same site" is therefore defined here as a cluster of starts whose windows
+    overlap, never as a typed count.
+    """
+    pd = (_load("aso-parent-gap-pairing.json") or {}).get("per_design") or []
+    cut = _parent_cut_bp()
+    liable = [r for r in pd if (r.get("longest_parent_duplex_bp_through_gap") or 0) >= cut]
+    attributed = [r for r in liable if r.get("parent") == "NR4A3"]
+    starts = sorted(r["parent_start_0based"] for r in attributed)
+    if not starts:
+        raise SystemExit(
+            "Table 4's ΔΔG note says which of the mature-parent duplexes are one recurring site, and "
+            "aso-parent-gap-pairing.json reports no wild-type NR4A3 attribution to cluster. "
+            "Re-derive it rather than printing a share over a population nothing measures.")
+    clusters, cur = [], [starts[0]]
+    for prev, nxt in zip(starts, starts[1:]):
+        if nxt - prev < GEOMETRY.oligo_len:      # the two duplex windows overlap: one site
+            cur.append(nxt)
+        else:
+            clusters.append(cur)
+            cur = [nxt]
+    clusters.append(cur)
+    return max(len(c) for c in clusters), len(attributed), len(liable)
+
+
+def _margin_gloss():
+    """What the "gap-level margin" column IS, worded once and printed under every table with one.
+
+    ⛔ IT WAS DEFINED IN TABLE 1's CAPTION AND NOWHERE ELSE (audit, 2026-08-19), while Tables 2, 3,
+    4 and 5 all print the column — and Table 3 makes it the RANKING every one of its rows is chosen
+    by. A caption is the part of a paper most likely to be read on its own, so a column whose
+    definition is four tables back is an undefined column in every carrier but one. Printed rather
+    than cross-referenced for the same reason `_rule_audit_note` is.
+
+    ⚠ DERIVED FROM THE GEOMETRY, so a gap change reaches the sentence rather than leaving it
+    describing a catalytic gap the panel no longer has.
+    """
+    return (f"The gap-level margin is the count of bases inside the {_word(GEOMETRY.gap_nt)}-nucleotide "
+            f"catalytic gap that no wild-type parent carries at that position, taken on the shorter "
+            f"side of the junction; it runs from 1 to {GEOMETRY.gap_nt // 2}, the geometry's ceiling "
+            f"of half the gap rounded down, and it is a count of bases and not a score.")
+
+
+def _junction_sort_key(label):
+    """Partner alphabetically, then donor exon NUMERICALLY, then acceptor exon numerically.
+
+    ⛔ TABLES 2 AND 3 WERE SORTED AS STRINGS AND NAMED NO KEY (display-item review, 2026-08-19).
+    Both opened `EWSR1 e10, e12, e13, e15, e1, e4, e7, e9` — exon 1 filed between exon 15 and exon 4,
+    which is what `sorted()` does to `e1` beside `e10` and what no reader looking up a patient's exon
+    expects. Neither caption named a sort key at all, so the order looked deliberate. This is the
+    one place the key lives, both tables use it, and both captions now name it.
+    ⚠ IT REFUSES TO INVENT AN ORDER IT CANNOT READ: a label whose exon parts do not parse sorts on
+    the raw string and stays adjacent to its partner rather than being silently moved to an end.
+    """
+    m = re.match(r"^([A-Za-z0-9]+)_e(\d+)__([A-Za-z0-9]+)_e(\d+)$", label)
+    if not m:
+        return (label, 0, "", 0, label)
+    return (m.group(1), int(m.group(2)), m.group(3), int(m.group(4)), "")
+
+
+_JUNCTION_SORT_NOTE = ("Rows are in ascending order of partner, then of donor exon number, then of "
+                       "*NR4A3* acceptor exon number.")
 
 
 def _screen(name):
@@ -661,7 +1040,7 @@ def table3(collapse, chance, atlas, per_junction):
            "≤1-mismatch matches across that junction's designs, median (max) |")
     sep = "|---|---|---|---|---|---|---|---|---|---|---|---|---|"
     rows = []
-    for lab in sorted(by_j):
+    for lab in sorted(by_j, key=_junction_sort_key):
         ol = by_j[lab]
         # ⚠ BOTH ROW MARKERS ARE COMPUTED HERE, ABOVE THE FAILED-SCREEN BRANCH. A junction whose
         # screens all failed still has a Table 2 parent-screen column, so the marker that warns
@@ -997,8 +1376,14 @@ def table5(per_junction, noncoding, gap, ladder):
         cell, basis = _ladder_cell(rung)
         n = rung.get("n_reagents_additional_unnamed") or 0
         seq = f"— ({n} further reagents, none named)" if n else "—"
-        return (f"| coverage bound | {rung['panel']} | {seq} | — | — | — | — | "
-                f"{cell} | {basis} |")
+        #: ⚠ AND THE LABEL SAYS WHICH KIND OF BOUND IT IS (display-item review, 2026-08-19).
+        #: Two rows carry "coverage bound": one prices breakpoints for which this work names no
+        #: oligonucleotide at all, the other is a fully specified orderable reagent with real
+        #: screens beside a 98.3% figure. A reader scanning the reagent column met a buildable
+        #: 98.3% row. Derived from whether the entry names reagents, never typed.
+        role = "coverage bound (no reagent named)" if n else "coverage bound"
+        return basis, (f"| {role} | {rung['panel']} | {seq} | — | — | — | — | "
+                       f"{cell} | {basis} |")
 
     # ⛔ TWO MEMBERSHIP CLASSES, NO STATED RULE (built-PDF finding, 2026-08-17). This table calls one
     # *NR4A3* exon-2 acceptor seam a "coverage rung" and the other three "beside the panel", while
@@ -1046,14 +1431,55 @@ def table5(per_junction, noncoding, gap, ladder):
                            or (idx is not None and pending[0][0] < idx)):
             rows.append(_bound_row(pending.pop(0)[1]))
         lab = label.replace("__", "::").replace("_", " ")
-        rows.append(f"| {role} | {lab} | 5′-{seq}-3′ | {arch} | {margin} | {load} | "
-                    f"{dup} | {cov} | {basis} |")
+        rows.append((basis, f"| {role} | {lab} | 5′-{seq}-3′ | {arch} | {margin} | {load} | "
+                            f"{dup} | {cov} | {basis} |"))
     for _, rung in pending:                     # a ladder that ends above every named reagent
         rows.append(_bound_row(rung))
     hdr = ("| reagent | junction | sequence | geometry | gap-level margin | gap-paired near-matches "
            "→ loci at the deeper ceiling | longest mature-parent duplex through the gap | "
            "cumulative coverage | basis |")
-    return "\n".join([hdr, "|---|---|---|---|---|---|---|---|---|"] + rows), ladder_backed_noncoding
+    return ("\n".join([hdr, "|---|---|---|---|---|---|---|---|---|"] + _classed(rows)),
+            ladder_backed_noncoding)
+
+
+#: ⛔ ONE COLUMN, FOUR MEANINGS, NO MARKER OF ANY KIND (audit, 2026-08-19). Table 5's "cumulative
+#: coverage" cell is a measured cumulative fraction on the ladder rows, an arithmetic what-if on the
+#: bound rows, a zero contribution on the seams the ladder prices at nothing, and not-applicable on
+#: the contrast arms — under one header, in a caption of about a thousand words that a reader
+#: scanning a column will not be holding in mind. The classes are announced IN the table now, each
+#: with the reading its own cells take.
+#: ⭐ THE CLASS IS THE BASIS CELL'S, NEVER THE ROLE LABEL'S, so a row cannot be filed under a
+#: heading its own last column contradicts — which is the failure the two membership classes of the
+#: exon-2 seams already produced once, when a "coverage rung" and a "beside the panel" row looked
+#: like a contradiction of the caption rather than two readings of the ladder.
+#: ⚠ IN PLACE, NOT SPLIT. A real split is four tables, and four tables renumber Tables 6 and 7 —
+#: a separate pass over every cross-reference in the article, the SI, the figures and the guards.
+_TABLE5_CLASSES = {
+    "single series, cumulative":
+        "MEASURED RUNGS — the cumulative-coverage cell is the coverage of the reagent set through "
+        "this row, discounted by one series' breakpoint distribution",
+    "arithmetic bound":
+        "ARITHMETIC BOUNDS — the cell is what coverage WOULD be if every remaining breakpoint of "
+        "that partner were covered, which nothing here measures",
+    "not a coverage row":
+        "CONTRAST ARMS — not coverage rows; the cell is empty because their junction's coverage is "
+        "counted a row above and must not be counted twice",
+}
+_TABLE5_ADDS_NOTHING = (
+    "QUALIFYING SEAMS THE LADDER PRICES AT NOTHING — the cell reads “adds nothing” and the basis "
+    "beside it gives which of the two reasons applies")
+
+
+def _classed(rows):
+    """Table 5's rows with a class band above each run of them. See `_TABLE5_CLASSES`."""
+    out, seen = [], None
+    for basis, line in rows:
+        cls = _TABLE5_CLASSES.get(basis, _TABLE5_ADDS_NOTHING)
+        if cls != seen:
+            out.append(f"| **{cls}** |" + " |" * 8)
+            seen = cls
+        out.append(line)
+    return out
 
 
 def table2(per_junction, thermo):
@@ -1096,7 +1522,11 @@ def table2(per_junction, thermo):
            "gap-paired load, observed/expected | conventional rules failed |")
     sep = "|---|---|---|---|---|---|---|---|---|"
     rows = []
-    for j in per_junction["junctions"]:
+    #: ⚠ THE SAME KEY TABLE 3 SORTS ON — see `_junction_sort_key`. The artifact lists its
+    #: junctions in string order, so taking them as they come is what filed exon 1 between
+    #: exon 15 and exon 4 in both tables at once.
+    for j in sorted(per_junction["junctions"],
+                    key=lambda j: _junction_sort_key(j["junction_label"])):
         lab = j["junction_label"].replace("__", "::").replace("_", " ")
         tier = _tier_cell(j)
         b = j["best_available"]
@@ -1200,7 +1630,14 @@ def table7(gap):
         # longer needs to carry.
         row("design", lambda d: f"5′-{d['antisense_5to3']}-3′", lead),
         row("gap-level margin", lambda d: d["gap_specificity_margin"], lead),
-        row("sense-strand gap-paired cleavage risks",
+        # ⛔ THREE NAMES FOR ONE FIELD, AND THIS ONE ASSERTED WHAT THE CAPTION WITHDRAWS
+        # (display-item review, 2026-08-19). `alignment_screen.n_true_cleavage_risk` reads 123 for
+        # the lead reagent; Tables 2 and 5 both print that same 123 as "gap-paired near-matches at
+        # the deeper ceiling", and this row called it a count of "cleavage risks" four pages away —
+        # in a table whose own caption ends "None of these numbers is a measurement of cleavage."
+        # The field name is the screen's; the ROW LABEL is the paper's, and it now matches the two
+        # tables a reader compares it against.
+        row("sense-strand gap-paired near-matches",
             lambda d: d["alignment_screen"]["n_true_cleavage_risk"], lead),
         row("gene loci carrying one",
             lambda d: d["alignment_screen"]["loci"]["n_loci_with_a_gap_spanning_hit"], lead),
@@ -1216,12 +1653,12 @@ def table7(gap):
         "| **Over the six junctions screened at every geometry** | | | |",
         row("designs screened", lambda d: d["n_designs_with_alignment_counts"], matched),
         row("median near-matches", lambda d: f"{d['near_matches']['median']:g}", matched),
-        row("median gap-paired cleavage risks",
+        row("median sense-strand gap-paired near-matches",
             lambda d: f"{d['hybridisable_gap_spanning_risks']['median']:g}", matched),
         row("designs carrying none",
             lambda d: f"{d['n_with_zero_hybridisable_gap_spanning_risk']} of "
                       f"{d['n_designs_with_alignment_counts']}", matched),
-        row("most risk loci on any one design",
+        row("most gap-paired loci on any one design",
             lambda d: d["loci_with_a_gap_spanning_hit"]["max"], matched),
         row("designs with no near-match at all",
             lambda d: f"{d['n_with_no_near_match_at_all']} of "
@@ -1244,7 +1681,8 @@ def table7(gap):
         # and the row below (76/228/342, a different quantity again), both plausible and neither the
         # one quoted. Printing the two neighbours of a number and not the number is worse than
         # printing none of the three, because it reads as a contradiction rather than as an omission.
-        row("…and that duplex reaches ten base pairs, the criterion applied throughout",
+        row(f"…and that duplex reaches {_word(_parent_cut_bp())} base pairs, the criterion "
+            "applied throughout",
             lambda d: f"{d['mature_parent_whole_gap_duplex']['n_at_or_above_min_duplex_bp']} of "
                       f"{d['n_fusion_specific_designs']}", geom),
         # ⚠ ONE ROW, NOT TWO, BECAUSE THESE ARE THE SAME CONDITION AND PRINTING BOTH READS AS A
@@ -1444,7 +1882,19 @@ def table6(expr, per_junction):
             cells = ["—"] * len(tiss)
         if tu.get("readable") and tu.get("values"):
             hi = max(tu["values"].values())
-            soft = f"{hi:.1f} ({tu['max_tissue_in_block']})"
+            #: ⛔ A CELL READING `0.0` THAT IS NOT ZERO (measured, 2026-08-19). A reviewer read
+            #: *SLC17A3*'s `0.0 (Adipose - Subcutaneous)` and *ANKRD26P3*'s `0.0 (Muscle - Skeletal)`
+            #: as the argmax of an all-zero set — a tissue name attached to nothing. RECOMPUTED from
+            #: `tumour_compartment_normal_tissue_proxy.values`, the two maxima are 0.0258938 and
+            #: 0.0149871 TPM: NOT zero, and the tissue is the real argmax. The reviewer's mechanism
+            #: is wrong and the symptom is real — one-decimal rounding turned two small non-zero
+            #: readings into the one value this document insists never to render for an absent one,
+            #: beside exposure columns printed at two decimals where the same numbers would not
+            #: have vanished. A reading below the printed precision now says so, and a genuine zero
+            #: names no tissue, because a zero maximum is not a maximum AT anywhere.
+            soft = (f"0.0 (all {len(tu['values'])} proxies)" if hi == 0 else
+                    f"<0.1 ({tu['max_tissue_in_block']})" if round(hi, 1) == 0 else
+                    f"{hi:.1f} ({tu['max_tissue_in_block']})")
         else:
             soft = "—"
         reading = _EXPOSURE_READING.get(L["tier"], L["tier"])
@@ -1478,6 +1928,11 @@ def table4(collapse, chance, thermo, graded):
     check the central claim could not find five of the molecules it is about, and would find two
     junctions (FUS e8, TCF12 e9) whose Table 3 row shows a gap-paired locus for a DIFFERENT
     design at the same junction. Prose naming nine sequences is not a substitute for a table.
+
+    ⚠ THAT SAME NON-OVERLAP IS WHY NO SENTENCE HERE MAY SAY WHAT TABLE 3 MARKS. The two tables
+    select by different rules over the same designs, so which of this table's rows Table 3 also
+    prints is a MEASUREMENT and not an inference — `_flagged_rows_in_table3` takes it off the
+    rendered rows of both, and the caption is written from what it returns.
     """
     ddg = {r["antisense_5to3"]: r for r in thermo["per_design"]}
     le1 = {}
@@ -1485,14 +1940,21 @@ def table4(collapse, chance, thermo, graded):
         le1.setdefault(r["antisense_5to3"], (r.get("offtarget_exact"), r.get("offtarget_le1mm")))
     deep = _deep_lookup()
     # ⛔⛔ THE PARENT-DUPLEX COLUMN IS HERE BECAUSE THIS TABLE CONDEMNED NOTHING AND LOOKED LIKE IT
-    # CLEARED EVERYTHING (blind order-walkthrough, 2026-08-19). Table 3 marks a design ⚑ "do not
-    # order" where a wild-type parent pairs the whole catalytic gap at ten base pairs or more.
-    # FIVE of this table's nine rows are marked ⚑ four pages earlier — `GCATATCCGTGGACGC` at 12 bp
-    # against EWSR1, `GGCATATCCGTGGACG` at 11, `GCATATCAAGCGCTGC` at 12 against TCF12,
-    # `GGCATATCAAGCGCTG` at 11, `CAGGGCATATCTTGCA` at 12 against NR4A3 itself — and this table
-    # printed every one of them with no marker of any kind and a final column reading "yes".
-    # A reader who reached Table 4 first, which its own §2.4 citation invites, met five condemned
-    # molecules presented as survivors. The correction existed only as prose in §2.4 and §2.7.
+    # CLEARED EVERYTHING (blind order-walkthrough, 2026-08-19). The parent screen condemns a design
+    # where a wild-type parent pairs the whole catalytic gap at the criterion, and FIVE of this
+    # table's nine rows are condemned by it — `GCATATCCGTGGACGC` at 12 bp against EWSR1,
+    # `GGCATATCCGTGGACG` at 11, `GCATATCAAGCGCTGC` at 12 against TCF12, `GGCATATCAAGCGCTG` at 11,
+    # `CAGGGCATATCTTGCA` at 12 against NR4A3 itself — and this table printed every one of them with
+    # no marker of any kind and a final column reading "yes". A reader who reached Table 4 first,
+    # which its own §2.4 citation invites, met five condemned molecules presented as survivors.
+    # ⛔ AND THE FIRST FIX CARRIED A SECOND ERROR: it said Table 3 "marks them do-not-order for it",
+    # which is a claim about ANOTHER TABLE'S ROWS and was false of four of the five. RECOMPUTED over
+    # the rendered rows (`_flagged_rows_in_table3`): Table 3 prints ONE of them, `GGCATATCAAGCGCTG`
+    # at TCF12 e7, marked; at EWSR1 e1 and TCF12 e9 it prints a DIFFERENT design — `GGGCATATCCGTGGAC`
+    # at 0 bp and `GGGCATATCTTGCATA` at 8 bp — and marks neither, because Table 3 prints each
+    # junction's HIGHEST-MARGIN design and whether that is also the condemned one is a coincidence
+    # of two rankings. So the cross-reference sent a reader checking a do-not-order verdict to an
+    # unmarked row. The caption's sentence is now generated from the join instead of asserted.
     # ⚠ AND THE VERDICT COLUMN IS RENAMED RATHER THAN LEFT TO CARRY THE WHOLE WEIGHT. "survives"
     # was always a near-match verdict — no sense-strand near-match at the deeper ceiling — and
     # never a statement about the parent screen. The header now says which screen it is.
@@ -1685,6 +2147,137 @@ def main(argv=None):
     t7 = table7(gap)
     pct, minus, tot = _minus_strand_share(collapse)
 
+    def _join(names, fmt="*{}*"):
+        """A derived list of gene or junction names, rendered for a sentence rather than typed."""
+        xs = [fmt.format(n) for n in names]
+        return xs[0] if len(xs) == 1 else ", ".join(xs[:-1]) + " and " + xs[-1]
+
+    # ⛔⛔ EVERY CROSS-TABLE SENTENCE BELOW IS MEASURED OFF THE RENDERED ROWS (audit, 2026-08-19).
+    # Table 4's caption asserted that Table 3 marks its five ⚑ designs do-not-order; recomputed over
+    # what the two tables actually print, ONE of the five is in Table 3 at all, and at two of the
+    # three junctions those five sit at, Table 3 prints a different design and marks it with
+    # nothing. The claim was true of the SCREEN and false of the TABLE, which is the only kind of
+    # cross-reference error a generator built from one artifact cannot catch — see `_md_table`.
+    n_t4_flagged, t4_flag_shared, t4_flag_elsewhere = _flagged_rows_in_table3(t3, t4)
+    n_lost, n_lost_zero = _near_match_screen_losses(t4)
+    n_t2_rows = sum(1 for j in per_junction["junctions"] if j.get("best_available"))
+    t2_max_duplex = max(int(b["parent_duplex_bp"] or 0)
+                        for j in per_junction["junctions"] if (b := j.get("best_available")))
+    t3_agg_n, (t3_agg_junction, t3_agg_cell, t3_agg_own) = _junction_aggregate_column(t3, chance)
+    t3_agg_rows = len(_md_table(t3)[1])
+    n_twin, n_twin_at_run, twin_run = _near_twin_warning(t2, t3)
+    #: ⚠ A CLASS BAND IS NOT A ROW — see `_classed`. Counted as the rows carrying a basis cell, so
+    #: the caption's denominator cannot drift when a class gains or loses a band.
+    t5_rows = sum(1 for r in _md_table(t5)[1] if any(c for c in r[1:]))
+    # ⛔ ≥ AND ≤ IN ADJACENT COLUMNS, ONE A FLOOR AND ONE A CEILING (display-item review,
+    # 2026-08-19). Both senses are defined, in one long note printed once under the caption,
+    # and twenty of the thirty-eight rows carry both marks — so a reader scanning the row is
+    # asked to hold two opposite conventions from a paragraph they may be pages away from.
+    # The counts are measured off the rendered rows so the sentence cannot outlive the marks.
+    # ⛔ AND THE ΔΔG NOTE'S DENOMINATOR WAS 87 WHERE §2.5's IS 61 — see `_one_seam_share`.
+    n_one_seam, n_nr4a3, n_liable = _one_seam_share()
+    _t3_rows = _md_table(t3)[1]
+    t3_rows = len(_t3_rows)
+    t3_ge = sum(1 for r in _t3_rows if any("≥" in c for c in r))
+    t3_le = sum(1 for r in _t3_rows if any("≤" in c for c in r))
+    t3_both = sum(1 for r in _t3_rows
+                  if any("≥" in c for c in r) and any("≤" in c for c in r))
+    t5_max_duplex = _highest_duplex_printed(t5, "longest mature-parent duplex")
+
+    # ⛔ TABLE 1 PRINTED TWO COLUMNS THAT ARE THE SAME COLUMN AND SAID NOTHING (audit, 2026-08-19).
+    # "in-frame" and "with ≥1 fusion-specific design" agree in every row and in the total, so as
+    # printed the second carries no information — and a reader has no way to tell whether that is a
+    # measured coincidence or a duplicated cell, which is the worse reading in a table whose whole
+    # subject is a filter. It is a coincidence, and a contingent one: the two are different
+    # conditions, arithmetic frame compatibility and a design existing at the seam, and the second
+    # can only ever be the smaller. THE SENTENCE IS EMITTED FROM THE COMPARISON, so a corpus in
+    # which they come apart gets the sentence that describes that instead.
+    _t1 = _md_table(t1)
+    _i_f, _i_d = _col(_t1[0], "in-frame"), _col(_t1[0], "with ≥1 fusion-specific design")
+    _t1_body = [r for r in _t1[1] if not r[0].startswith("**")]
+    _agree = [r for r in _t1_body if r[_i_f] == r[_i_d]]
+    t1_columns_note = (
+        "Both middle columns are printed because they are different conditions and only one of them "
+        "is arithmetic: in-frame is a property of the exon lengths, while a fusion-specific design "
+        "existing at the seam is a property of the sequence, and it can only ever be the smaller of "
+        f"the two. They agree in every one of the {len(_t1_body)} partner rows here, which is a "
+        "measurement and not a duplicated cell."
+        if len(_agree) == len(_t1_body) else
+        f"Both middle columns are printed because they are different conditions — in-frame is a "
+        f"property of the exon lengths, a fusion-specific design existing at the seam is a property "
+        f"of the sequence — and they part company at "
+        f"{len(_t1_body) - len(_agree)} of the {len(_t1_body)} partners.")
+    t1_best_margin = max(r[-1] for r in _t1_body if r[-1] not in ("—", ""))
+    # ⚠ THE SIZE OF THE SET THOSE TWO COLUMNS SUMMARISE, MEASURED PER PANEL RATHER THAN INFERRED
+    # FROM THE REGISTER COUNT. Today every in-frame junction admits exactly one design per register,
+    # so the two arithmetics agree; a panel that lost one would leave a caption asserting a
+    # multiplication that no longer holds.
+    _per_panel = {p.get("n_fusion_specific") for p in atlas["panels"]}
+    t1_design_note = (
+        f"every one of the {len(atlas['panels'])} in-frame junctions admits "
+        f"{_word(next(iter(_per_panel)))}, one per junction-spanning register, so a partner's range "
+        f"is over its in-frame count times {_word(_registers)}."
+        if len(_per_panel) == 1 else
+        f"the {len(atlas['panels'])} in-frame junctions admit between {min(_per_panel)} and "
+        f"{max(_per_panel)} apiece, so a partner's range is over a set this table does not size.")
+
+    # ⛔ TABLE 6's "soft-tissue proxy maximum" NAMED NO PROXY (audit, 2026-08-19). The column is a
+    # maximum over a set the caption never listed, and the tissue printed in each cell is the argmax
+    # — so a reader met six different tissue names down one column with nothing saying they are one
+    # panel, and no unit, the TPM sentence beside it covering only the three exposure columns. Read
+    # from the same `method` block the exposure tissues are read from.
+    _proxies = expr["method"]["tumour_compartment_proxy_tissues"]
+    if not _proxies:
+        raise SystemExit(
+            "Table 6's soft-tissue column is a maximum over `method.tumour_compartment_proxy_tissues` "
+            "and the artifact no longer names them. Re-derive it rather than printing a maximum "
+            "over a set the caption cannot name.")
+
+    def _flag_where():
+        """Where a reader actually finds Table 4's ⚑ verdicts corroborated, and where they do not."""
+        shared = (f"{_word(len(t4_flag_shared))} of them — "
+                  + _join([f"5′-{s}-3′" for s in t4_flag_shared], "{}")
+                  + f" — {'is' if len(t4_flag_shared) == 1 else 'are'} also printed in Table 3 and "
+                    f"{'carries' if len(t4_flag_shared) == 1 else 'carry'} ⚑ there"
+                  ) if t4_flag_shared else "none of them is printed in Table 3 at all"
+        misses = "; ".join(
+            f"at {j} it prints {'no row at all' if s is None else f'5′-{s}-3′, reading {d}, unmarked'}"
+            for j, s, d in t4_flag_elsewhere)
+        n_only = n_t4_flagged - len(t4_flag_shared)
+        tail = ("" if not t4_flag_elsewhere else
+                f" Table 3 selects each junction's HIGHEST-MARGIN design, which at those seams is a "
+                f"different molecule: {misses}. Do not read an unmarked Table 3 row as a clearance "
+                f"of a design marked here.")
+        return (f"**Those {_word(n_t4_flagged)} verdicts are carried in this table, and mostly "
+                f"nowhere else.** Table 3 prints one row per junction, so {shared}; the other "
+                f"{_word(n_only)} are marked in no other display item.{tail}")
+
+    t4_flag_where = _flag_where()
+
+    # ⚠ THE SAME MEASUREMENT THE DO-NOT-ORDER BANNER MAKES, RUN BETWEEN THE TABLES RATHER THAN
+    # BETWEEN a table and the condemned list. Emitted only while the disagreement exists.
+    def _twin(other, here):
+        if not n_twin:
+            return ""
+        return (f"⚠ At {_word(n_twin)} junctions {other} names a different design from {here}, and "
+                f"at {_word(n_twin_at_run)} of them the two share {_word(twin_run)} of their "
+                f"{GEOMETRY.oligo_len} contiguous bases — one register apart, one condemned and one "
+                f"not. Check the junction AND the whole sequence against "
+                f"`{os.path.basename(_manifest.OUT_CSV)}` before ordering either.")
+
+    t2_twin_warning = _twin("Table 3", "this table")
+    twin_warning_t3 = _twin("Table 2", "this table")
+
+    # ⛔ THE PRIMARY SORT KEY WAS NAMED AND NEVER DEFINED — see `_parent_liability_definition`.
+    _lia_parents, _lia_compartment = _parent_liability_definition()
+    t2_liability = (
+        f"A design's parent liability is the length of the longest contiguous duplex any of the "
+        f"{_word(len(_lia_parents))} wild-type parent transcripts — {_join(_lia_parents)} — forms "
+        f"through its whole catalytic gap, searched in the {_lia_compartment} in the forward "
+        f"orientation only, and it disqualifies at {_word(_parent_cut_bp())} base pairs; the "
+        "“longest parent duplex through the gap” column is that same length for the design the row "
+        "names.")
+
     # ⚠ TABLE 2's DENOMINATOR RULE AND THE COUNT BEHIND IT — see `_deep_depth_failures`, which
     # asserts that the shortfall and the failures are the same three records before this is printed.
     n_deep_failed, n_deep_attempted = _deep_depth_failures(per_junction, _registers)
@@ -1695,11 +2288,6 @@ def main(argv=None):
     # rule is derived from, so the count and the rule cannot come apart.
     n_beside_txt = _word(sum(1 for _, s, _, _ in _TABLE5_ROWS if s == "noncoding")
                          - len(ladder_backed_noncoding))
-
-    def _join(names, fmt="*{}*"):
-        """A derived list of gene or junction names, rendered for a sentence rather than typed."""
-        xs = [fmt.format(n) for n in names]
-        return xs[0] if len(xs) == 1 else ", ".join(xs[:-1]) + " and " + xs[-1]
 
     # ⚠ EMITTED PER DIRECTION THAT THE TABLE ACTUALLY SHOWS, never as a pair of sentences describing
     # a case the corpus no longer has. `margin_up` is the censoring reconciliation the paragraph
@@ -1748,6 +2336,25 @@ def main(argv=None):
     # much of one sequence a reader could transcribe correctly and still be holding the other.
     condemned = _condemned_designs(noncoding)
     _printed = sorted(set(re.findall(r"5′-([ACGT]+)-3′", "\n".join([t1, t2, t3, t4, t5, t6, t7]))))
+    # ⛔ THE FIRST SAFETY STATEMENT IN THE DOCUMENT READ AS A WHITELIST (display-item review,
+    # 2026-08-19). "Do not order these three sequences … and none of them is in any row of these
+    # tables" is TRUE and sets exactly the wrong frame: it is the first thing a reader meets, it
+    # names three molecules as THE forbidden set, and it then says the tables are clear of them.
+    # RECOMPUTED over the rendered rows: fifteen further rows across Tables 3 and 4 — fourteen
+    # distinct molecules, one printed in both — carry ⚑ and are also not to be ordered. The ⚑ keys
+    # carry the real rule, four and eleven pages later, by which point the frame is set.
+    _flag_rows = [ln for t in (t1, t2, t3, t4, t5, t6, t7)
+                  for ln in _md_table(t)[1] if any("⚑" in c for c in ln)]
+    _flag_seqs = {q for ln in _flag_rows for c in ln if (q := _seq_in(c))}
+    flagged_in_tables = (
+        f"A further {_word(len(_flag_rows))} rows of these tables — {len(_flag_seqs)} distinct "
+        f"molecules, since one is printed twice — are marked ⚑ in their own row and are also NOT to "
+        f"be ordered, for the same reason against a wild-type parent that is not always *NR4A3*. "
+        f"An unmarked row is not a clearance either; see the ⚑ note under Table 3."
+        if len(_flag_rows) != len(_flag_seqs) else
+        f"A further {_word(len(_flag_rows))} rows of these tables are marked ⚑ in their own row and "
+        f"are also NOT to be ordered, for the same reason against a wild-type parent that is not "
+        f"always *NR4A3*. An unmarked row is not a clearance either; see the ⚑ note under Table 3.")
     _run = max((_longest_shared_run(c, p) for c in condemned for p in _printed), default=0)
     _clen = min(len(c) for c in condemned)
     condemned_txt = ", ".join(f"5′-{s}-3′" for s in condemned)
@@ -1781,17 +2388,15 @@ def main(argv=None):
                  "junction no best-available reagent for that reason — its “designs clearing the "
                  "parent screen” cell reads 0. Do not order the sequence in a marked row."
                  "\n\n⚑ This design pairs a wild-type parent gene through the whole catalytic "
-                 "gap at the ten-base-pair criterion applied throughout, and the gene it pairs "
+                 f"gap at the {_word(_parent_cut_bp())}-base-pair criterion applied throughout, "
+                 "and the gene it pairs "
                  "is named beside the length. The marker is on the DESIGN, where † is on the "
                  "JUNCTION: a row can be unmarked by † and still carry ⚑, because this table "
                  "prints each junction's highest-margin design rather than its cleanest. Do "
                  "not order the sequence in a row marked ⚑ — pairing a parent through the "
                  "whole gap is this paper's central negative (§4.5) and surrenders the only "
-                 "advantage the modality has. An unmarked row is not a clearance. The marker is "
-                 "set at ten base pairs, which is a criterion this work adopts rather than "
-                 "measures: at seven, 175 of the 190 panel designs pair a parent through the "
-                 "whole gap, and 181 do so at any length (§2.9). Absence of ⚑ is a reading at "
-                 "one cut and nothing wider.")
+                 f"advantage the modality has. An unmarked row is not a clearance. {_cut_caveat()}"
+                 f" {twin_warning_t3}")
 
     doc = f"""<!-- GENERATED — DO NOT EDIT. Regenerate: python3 research/manuscripts/submission_tables.py -->
 
@@ -1819,17 +2424,24 @@ because excluding them by description leaves a reader with a transcribed sequenc
 against, and the margin for a slip is small: the closest sequence these tables DO print shares a run
 of {_run} contiguous bases with one of the {_word(len(condemned))}, whose own length is {_clen}.
 
-**Table 1. The in-frame junction space across five *NR4A3* fusion partners.** Every
+**⛔ THAT LIST IS NOT THE WHOLE DO-NOT-ORDER SET, AND THESE TABLES ARE NOT A WHITELIST.** {flagged_in_tables}
+
+**Table 1. The in-frame junction space across {_word(len(atlas["partners_scored"]))} *NR4A3* fusion partners.** Every
 donor-exon × *NR4A3*-acceptor-exon pair was graded against the frame condition before any design was
-emitted. The gap-level margin is the number of junction-unique bases inside the six-nucleotide
-catalytic gap on the shorter side of the junction. Frame compatibility is an arithmetic property of exon
-structure and is not a claim about which junctions patients carry.
+emitted. Every design counted here is at the {GEOMETRY.architecture} geometry — a {GEOMETRY.oligo_len}-mer, the architecture the chemistry note above expands — so this table sizes one design space and not the modality. {_margin_gloss()} Frame compatibility is an arithmetic property of exon
+structure and is not a claim about which junctions patients carry. A fusion-specific design is one
+whose catalytic gap contains at least one base that no wild-type parent carries at that position, so
+its gap-level margin is one or more. {t1_columns_note} “GC range of those designs (%)” and “best
+gap-level margin” are over that partner's fusion-specific designs: {t1_design_note} The margin
+column is a maximum, so a row reading {t1_best_margin} says the partner has a design at the
+geometry's ceiling — half the gap rounded down, which Table 7 gives — and nothing about how many.
 
 {t1}
 
-**Table 2. The best available design at each of the {per_junction["n_junctions"]} in-frame junctions.** Tables 3 and 4
-select across the panel; this table selects within each junction, which is the question a patient's
-fusion poses. Designs are ranked by parent liability first, since sparing the wild-type parents is
+**Table 2. The best available design at each in-frame junction that has one — {n_t2_rows} of the {per_junction["n_junctions"]}.** Table 4
+selects across the panel and Table 3 selects within each junction by gap-level margin; this table
+selects within each junction by parent liability, which is the question a patient's
+fusion poses. {_JUNCTION_SORT_NOTE} {_margin_gloss()} {t2_liability} Designs are ranked by parent liability first, since sparing the wild-type parents is
 what the modality exists for, then by pre-mRNA sites, then by distinct gene loci, with ties broken
 on gap-level margin rather than on raw hit counts. Nothing was re-screened: every field is joined
 from a screen already reported above. The denominator of the “designs clearing the parent screen”
@@ -1860,7 +2472,11 @@ for an arbitrary 16-mer, so 1.00 is chance. It is counted EITHER ORIENTATION aga
 either-orientation null, unlike the sense-filtered near-match columns beside it, so it includes
 sites on the strand an antisense oligonucleotide cannot pair; §2.7 gives the share for the lead. A junction with no design clearing the parent screen is
 reported as such rather than given a best row, and Table 3 marks those junctions too, since Table 3
-ranks by margin instead and does print a sequence at each of them. The last column is a conventional
+ranks by margin instead and does print a sequence at each of them. **Clearing the parent screen
+means one thing and one thing only: no wild-type parent pairs the whole catalytic gap at
+{_word(_parent_cut_bp())} base pairs or more.** {_cut_caveat()} No row of this table reaches the
+criterion — the column's highest reading is {t2_max_duplex} base pairs — so no row carries the ⚑ Tables 3 and 4
+use, and an unmarked row here is not a clearance on any wider ground. {t2_twin_warning} The last column is a conventional
 design audit, computed for whichever design this table names from the same artefact and by the same
 code Table 4 uses. {_rule_audit_note()} It is reported beside the ranking and is never folded
 into it: the two orderings select different molecules, which is the disagreement §2.10 is about, and
@@ -1869,15 +2485,19 @@ audited” rather than blank, since a blank in a rules column reads as breaking 
 
 {t2}
 
-**Table 3. Predicted specificity per screened junction.** One row per junction; figures are for the
+**Table 3. Predicted specificity per screened junction.** One row per junction, in Table 2's order. {_JUNCTION_SORT_NOTE} Figures are for the
 design with the highest gap-level margin at that junction, which is the ranking the Methods define,
 and NOT for that junction's cleanest design — the two are often different molecules, and the
-cleanest ones are in Table 4. The margin column is therefore the best among the designs that
+cleanest ones are in Table 4. {_margin_gloss()} Every figure in a row is that named design's own EXCEPT the last
+column, which is a median and a maximum over every design screened at the junction and is therefore
+a junction aggregate rather than a property of the molecule beside it: at {t3_agg_junction} the cell
+reads {t3_agg_cell} while the design the row names returns {t3_agg_own}, and the two part company at
+{t3_agg_n} of the {t3_agg_rows} rows. The margin column is therefore the best among the designs that
 RETURNED a screen at this depth: {n_failed} of the panel's {n_attempted} default-depth submissions
 failed at the remote service, which is why a junction can show fewer than {_word(_registers)} designs screened
 here{margin_up_txt}.{margin_both} Near-match counts are of RefSeq
 transcript accessions and are also given collapsed to distinct gene loci, since RefSeq carries one
-accession per annotated variant. A “≥” marks a right-censored count, and the two columns are
+accession per annotated variant. **⚠ The two censoring marks point in OPPOSITE directions and sit on adjacent columns: “≥” is a LOWER bound, because the search was capped, and “≤” an UPPER bound, because the stored figure over-counts.** {t3_ge} of the {t3_rows} rows carry “≥”, {t3_le} carry “≤” and {t3_both} carry both. A “≥” marks a right-censored count, and the two columns are
 censored by DIFFERENT caps, which is why an uncensored transcript count here can exceed the retained
 {SAVED_HITS}: the alignment screen itself returns at most 50 hits per query, so a transcript count at
 50 is a lower bound, while the locus column is recounted from the {SAVED_HITS} hits the screens
@@ -1888,11 +2508,11 @@ None of these numbers is a measurement of off-target activity.\n\n¹ A near-matc
 
 {t3}
 
-**Table 4. The {n_clean} designs with no sense-strand near-match at the default search depth.** Six of
+**Table 4. The {n_clean} designs with no sense-strand near-match at the default search depth — {_word(n_lost)} of them at that depth only, and {_word(n_t4_flagged)} of them not to be ordered.** {_word(n_lost).capitalize()} of
 these lose the property when the same junctions are re-screened at a tenfold deeper alignment
-ceiling, three of them having returned no near-match at all here; §2.4 reports that
-measurement and names the three that survive it. This table is the default-depth result, retained
-because it is the depth at which the corpus-wide counts elsewhere in the paper were computed. Every
+ceiling, {_word(n_lost_zero)} of them having returned no near-match at all here; §2.4 reports that
+measurement and names the {_word(n_clean - n_lost)} that survive it. This table is the default-depth result, retained
+because it is the depth at which the corpus-wide counts elsewhere in the paper were computed. {_margin_gloss()} Every
 design that QUALIFIES is listed, at each of the {n_clean_junctions} junctions where one does; this
 is not one row per junction, and it is not every design at those junctions, which are tiled by
 {_word(_registers)} registers each. A design qualifies only
@@ -1901,27 +2521,34 @@ strand of an unstored hit cannot be recovered, so a truncated list cannot establ
 on the sense strand remains. The underlying search is itself capped, so these are the designs whose
 near-match lists are shortest, not the designs whose lists are known to be exhaustive. ΔΔG°37 is the margin by which the fusion duplex is favoured over the better of the
 two runs a parent pairs at the junction itself, for an unmodified DNA:RNA hybrid; it does not score the
-mature-parent duplexes of §2.5, whose duplex for 59 of the 87 is not elsewhere in a parent at all but
-runs past the seam into the wild-type *NR4A3* exon-2/exon-3 junction. Because the fusion duplex pairs
+mature-parent duplexes of §2.5, of which {n_liable} designs of the panel carry one, {n_nr4a3} of them
+against wild-type *NR4A3*, and {n_one_seam} of THOSE {n_nr4a3} at one recurring site rather than
+anywhere else in a parent — the mature *NR4A3* exon-2/exon-3 seam every design's acceptor half
+reaches. Because the fusion duplex pairs
 both LNA wings and each parent duplex only one, it is a lower bound on the modified
 oligonucleotide's discrimination rather than an upper one. None of these numbers is a measurement of off-target
 activity, and none speaks to cleavage. **This table condemns nothing and clears nothing.** Its final
-column is a verdict from ONE screen, the near-match screen, and five of these rows carry the ⚑ of
-the mature-parent screen: a wild-type parent pairs their whole catalytic gap at the ten-base-pair
-criterion, which is this paper's central negative, and Table 3 marks them do-not-order for it. A
+column is a verdict from ONE screen, the near-match screen, and {_word(n_t4_flagged)} of these rows carry the ⚑ of
+the mature-parent screen: a wild-type parent pairs their whole catalytic gap at the {_word(_parent_cut_bp())}-base-pair
+criterion, which is this paper's central negative. {t4_flag_where} A
 design can survive every near-match screen here and still be one not to order.
-{_ordering_clause()}\n\n⁴ Under the optimistic five-fold and the pessimistic
+{_ordering_clause()}\n\n⁴ A DISCRIMINATION-WEIGHTED COUNT OF NEAR-MATCH SITES, and the unit is
+sites: each of the design's near-matches enters at one, reduced by the modelled loss of RNase-H1
+cleavage at however many mismatches fall in its catalytic gap, and the weights are summed — so a 0
+means no near-match survives either weighting, and the column is not a rate, a concentration or a
+quantity of cleaved RNA. Computed under the optimistic five-fold and the pessimistic
 no-discrimination bound on RNase-H1 single-mismatch discrimination. A single value means the two
-bounds agree.\n\n⁵ {_rule_audit_note()}\n\n⁶ Whether the design still carries no
+bounds agree; where two are printed, the width is TRUNCATION of the saved hit list and not
+statistical uncertainty. No RNase-H1 cleavage is measured anywhere in this work.\n\n⁵ {_rule_audit_note()}\n\n⁶ Whether the design still carries no
 sense-strand near-match once its junction is re-screened at the tenfold deeper ceiling. The verdict
 is computed from the three deep columns beside it, not asserted, so this table cannot come to
 disagree with §2.4 about which designs survive. It is a verdict on that screen alone and not on the
-parent screen of note ⁷. The six that do not are the reason this table's
+parent screen of note ⁷. The {_word(n_lost)} that do not are the reason this table's
 default-depth zeros must not be read on their own.\n\n⁷ The longest contiguous duplex a wild-type
 parent gene forms through this design's whole catalytic gap, with the gene that forms it. ⚑ marks
-ten base pairs or more, the criterion applied throughout: **do not order a design marked ⚑** —
+{_word(_parent_cut_bp())} base pairs or more, the criterion applied throughout: **do not order a design marked ⚑** —
 pairing a parent through the whole gap is this paper's central negative and surrenders the only
-advantage the modality has. An unmarked row is not a clearance, only a reading at that one cut.
+advantage the modality has. An unmarked row is not a clearance, only a reading at that one cut. {_cut_caveat()}
 
 {t4}
 
@@ -1930,7 +2557,7 @@ arms beside them, what each costs on each screen and what each buys in coverage.
 the two lead reagents, the rungs of the coverage ladder above them, the bounds above those, the
 remaining junction with a published exon-resolved breakpoint and a reagent through all five deep
 screens, the {n_beside_txt} *NR4A3* exon-2 acceptor seams the ladder carries no entry for, reported
-beside the panel, and the two contrast arms. Membership is the coverage ladder's and not this table's: every junction its best-supported
+beside the panel, and the two contrast arms. {_margin_gloss()} Membership is the coverage ladder's and not this table's: every junction its best-supported
 buildable panel qualifies — a published exon-resolved breakpoint, and all five specificity screens
 run to completion over that junction's designs, each condition read from the table that owns it —
 has a row here whether or not §4 names its reagent, and the generator refuses to build if a
@@ -1963,8 +2590,12 @@ specified as a class rather than a sequence, a gapmer against an abundant housek
 and the scrambled control is a draw from a stated shuffling procedure rather than one oligonucleotide.
 None of the three therefore has a sequence, a geometry or a screen result for these columns. Gap-paired near-matches are at the tenfold deeper alignment ceiling
 where every hit list is complete, and the parent duplex is the longest contiguous run containing the
-whole catalytic gap, at the ten-base-pair criterion applied throughout. None of these numbers is a
-measurement of off-target activity, and no row is a claim of efficacy. {_ordering_clause(mixed_geometry=True)}
+whole catalytic gap that any wild-type parent forms, whatever its length. None of these numbers is a
+measurement of off-target activity, and no row is a claim of efficacy. **The duplex column is not
+filtered at the criterion.** A reading of {_word(_parent_cut_bp())} base pairs or more is what
+Tables 3 and 4 mark ⚑ and do not order, and no row here reaches it — the highest cell is
+{t5_max_duplex} bp — so this table carries no ⚑; that is a statement about these {t5_rows} rows and
+not a clearance. {_cut_caveat()} {_ordering_clause(mixed_geometry=True)}
 
 {t5}
 
@@ -1979,7 +2610,9 @@ never combined: a systemically dosed phosphorothioate gapmer is taken to distrib
 liver and kidney — a premise taken from the chemistry, for which no measurement or citation was
 retrieved here — so {lo_cut_txt} are read as the exposure compartment, while the soft-tissue column is the normal
 tissue of the compartment EMC arises in and stands in for a tumour no reference atlas contains.
-Values are median transcripts per million (TPM) from version 8 of the Genotype-Tissue Expression project (GTEx) across each tissue's donors. The two cuts behind the last column are
+That column is a MAXIMUM over {_word(len(_proxies))} named proxies — {_join(_proxies, "{}")} — one of
+which is a cultured cell line rather than a tissue, and the tissue printed beside each value is the
+one the maximum was taken at. Values are median transcripts per million (TPM) from version 8 of the Genotype-Tissue Expression project (GTEx) across each tissue's donors, in every expression column including the soft-tissue maximum. The two cuts behind the last column are
 stated for legibility and are not thresholds of concern: below {lo_cut:g} TPM in all three exposure
 tissues reads as below detection, at or above {hi_cut:g} TPM in any of them as the level at which an
 off-target hypothesis would have to be tested. Every raw median is released so another cut can be
@@ -2017,12 +2650,12 @@ denominators and are not comparable across blocks: the junction block is one mol
 block is the six junctions every geometry was screened at, and the corpus block is each geometry's
 whole design space, which is not screened at the same junctions. The exhaustive GRCh38 genome scan
 is unavailable at 18 and 20 nucleotides by construction, so no row reports it. Two of the corpus rows
-carry a ten-base-pair criterion and they are not the same measurement. “…and that duplex reaches ten
-base pairs” is the mature-parent screen, a search over every window of all six parent transcripts,
+carry a {_word(_parent_cut_bp())}-base-pair criterion and they are not the same measurement. “…and that duplex reaches {_word(_parent_cut_bp())}
+base pairs” is the mature-parent screen, a search over every window of all {_word(len(_lia_parents))} parent transcripts,
 and it is the row §2.5's 87 of 190 and §2.9's 87 / 88 / 87 are read from. “At the design's own seam”
 is arithmetic on the junction itself: because the wing is five throughout, a parent's hybrid at that
 seam is five base pairs plus its share of the gap, so pairing five nucleotides of contiguous gap DNA
-and reaching a ten-base-pair seam hybrid are the same condition and are reported as one row. ΔG°37 values are for
+and reaching a {_word(_parent_cut_bp())}-base-pair seam hybrid are the same condition and are reported as one row. The three near-match rows count what the alignment screen returned on the sense strand, which is what Tables 2 and 5 print under the same name; none of them is a count of cleavage events. ΔG°37 values are for
 an unmodified DNA:RNA hybrid; the wing is five at every geometry, so LNA affinity enters each parent
 duplex identically and cannot explain a difference between the columns. None of these numbers is a
 measurement of cleavage. {_ordering_clause(mixed_geometry=True)}

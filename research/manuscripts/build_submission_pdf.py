@@ -31,7 +31,15 @@ has it until somebody opens the last page.
 ⚠ NO NETWORK, NO PANDOC, NO LATEX. Rendering is Chromium's own print-to-PDF over a file:// page,
 which is present in this container; figures are inlined as SVG markup so they stay VECTOR in the
 output rather than being rasterised. build-preprint.yml remains the pandoc/DOCX route for venues
-that want an editable file; this is the PDF route and it needs nothing installed.
+that want an editable file; this is the PDF route.
+
+⚠ IT DOES NEED `pypdf`, AND THAT IS A DELIBERATE CHANGE (2026-08-19). Chromium's `printToPDF`
+cannot write an Info dictionary and cannot vary a footer by page, and a deposit artefact needs
+both: a screener opening Document Properties on the old build read a headless-Chrome UA string and
+no author, and the full handling sentence was repeated into 66 running footers, where it spliced
+into body sentences in content order. `_postprocess` does both with `pypdf` and VERIFIES the result
+page by page. A missing `pypdf` is a hard failure rather than a silently thinner PDF: producing an
+artefact that looks finished and is not is the failure mode this file's history is made of.
 
     python3 research/manuscripts/build_submission_pdf.py
     python3 research/manuscripts/build_submission_pdf.py --paper aso --style manuscript
@@ -281,6 +289,128 @@ def place_floats(body, items, placement):
     return "".join(out)
 
 
+# --------------------------------------------------------------------------- deposit identity
+
+def deposit_filenames(paper):
+    """Source-file name -> the name of the file a DOWNLOADER actually receives.
+
+    ⛔ THE DEPOSIT POINTED AT FILES THAT ARE NOT IN IT (blind screen of the built PDFs, 2026-08-19).
+    Both full PDFs sent the reader to `fusion-junction-aso-supplementary-information.md` for §S1-§S6
+    and the SI PDF sent them back to `fusion-junction-aso-research-article.md` for the § numbers.
+    Neither `.md` is deposited: what travels is the rendered PDF beside it. A reader holding the
+    deposit is told to open a file they do not have and cannot get without a checkout.
+
+    ⚠ THE SUBSTITUTION IS AT RENDER TIME AND THE MANUSCRIPT IS NOT EDITED. The `.md` names are
+    correct IN THE REPOSITORY, which is where the manuscript lives; they are wrong only in the
+    artefact, which is what this file makes. Both names are derived from `paper["out"]`, so a
+    renamed output cannot leave a stale pointer behind.
+    """
+    out = os.path.basename(paper["out"])
+    article_md = os.path.basename(paper["manuscript"])
+    supplementary_md = os.path.basename(paper.get("supplementary", ""))
+    names = {
+        #: The submission-format build is the one to upload (see this module's docstring), so a
+        #: cross-reference to "the main text" resolves to that file and not to the typeset preview.
+        article_md: out.replace(".pdf", "-manuscript.pdf"),
+    }
+    if supplementary_md:
+        names[supplementary_md] = out.replace(".pdf", "-supplementary-information.pdf")
+    return names
+
+
+_MD_NAME_RE = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]*\.md\b")
+
+
+def apply_deposit_filenames(text, paper, where):
+    """Rewrite every deposited-document filename in `text`, and REPORT the ones with no mapping.
+
+    ⚠ AN UNMAPPED `.md` IS PRINTED, NOT SWALLOWED. A name this map does not know is either a
+    repository artefact a reader is not expected to open (fine) or a deposited file whose PDF nobody
+    declared (not fine, and invisible unless it is said out loud).
+    """
+    names = deposit_filenames(paper)
+    for source, deposited in names.items():
+        text = text.replace(source, deposited)
+    _NEVER_BREAK.update(names.values())
+    _NEVER_BREAK.update({ORDER_FROM, ORDER_FROM.replace(".csv", ".fasta")})
+    unmapped = sorted({m.group(0) for m in _MD_NAME_RE.finditer(text)}
+                      - set(names.values()) - set(names))
+    if unmapped:
+        print(f"  ⚠ {where}: no deposited filename declared for {', '.join(unmapped)} — "
+              f"a reader is sent to a file that does not travel with the deposit", file=sys.stderr)
+    return text
+
+
+def build_provenance():
+    """(short commit, dirty?, ISO date) for the title page, read from git without writing to it.
+
+    ⛔ NO FILE IN THE DEPOSIT CARRIED A DATE OR A VERSION (blind screen, 2026-08-19). Two people
+    citing "the preprint" could hold different documents and neither could tell — and the deposit's
+    own staleness incident is exactly that failure with the manuscript instead of the reader.
+
+    ⚠ A DIRTY TREE IS PRINTED AS DIRTY. A build from uncommitted work is not reproducible from the
+    commit it names, and a title page that quietly implies it is would be the more dangerous half of
+    the same defect. `--no-optional-locks` keeps this read-only: git may otherwise refresh its index
+    while answering, and this function must not write anything at all.
+    """
+    def git(*args):
+        try:
+            return subprocess.run(("git", "--no-optional-locks", "-C", REPO) + args,
+                                  capture_output=True, text=True, timeout=30).stdout.strip()
+        except Exception:                                   # pragma: no cover - env dependent
+            return ""
+    commit = git("rev-parse", "--short", "HEAD")
+    dirty = bool(git("status", "--porcelain"))
+    return commit, dirty, time.strftime("%Y-%m-%d", time.gmtime())
+
+
+def provenance_line(paper, style):
+    """The one line under the author block saying WHICH document this is and where it came from."""
+    commit, dirty, date = build_provenance()
+    what = {"journal": "typeset preview", "manuscript": "submission format",
+            "supplementary": "supplementary information"}[style]
+    stamp = commit or "commit unknown"
+    if dirty:
+        stamp += ", tree not clean at build time"
+    return f"Version of {date} · {what} · built from {stamp}"
+
+
+def _fold_the_figure_legends_preamble(body, paper):
+    """Move the note under "## Figure legends" to the END of the section, off its own page.
+
+    ⛔ A PAGE CARRYING A HEADING AND FOUR SENTENCES (blind screen of the deposit, 2026-08-19).
+    Manuscript page 56 held "Figure legends" plus the note explaining the two independent S-series,
+    and nothing else: 612 characters against a median page of 4,777. The cause is structural rather
+    than typographic — the tables section ends in a landscape run, so the heading opens a fresh
+    portrait page, and Figure 1's panel is capped at 218 mm and cannot fit underneath four
+    sentences, so it goes to the next page and takes the whole legend block with it.
+
+    ★ THREE PLACEMENTS WERE BUILT AND MEASURED, because the obvious one does not work (2026-08-19):
+      note below Figure 1's legend, own paragraph  -> 67 pages, a NEW 511-character page 57
+      note appended INTO Figure 1's legend         -> 67 pages, a new 385-character page 57
+      note after the LAST legend, own paragraph    -> 66 pages, no page under 865 characters
+    The first two only move the stranding: page 56 has room for the panel or for the note, not for
+    both, and everything between Figure 1's legend and Figure 2 gets the rest of a page that
+    `break-before: page` then ends. After the last legend there is no forced break to strand it
+    against. It is also where the note reads best: it is about the supplementary panel and the two
+    S-numbered series, and the supplementary panel is the legend it now follows.
+
+    ⚠ NOTHING IS DELETED AND THE PARAGRAPH TRAVELS INTACT — this moves a note, it does not edit one.
+    ⚠ IF THE SECTION HAS NO PREAMBLE the body is returned unchanged.
+    """
+    try:
+        _, end, after = section_span(body, "Figure legends")
+    except SystemExit:
+        return body
+    section = body[after:end]
+    first = re.search(r"^\*\*(?:Supplementary )?Figure S?\d+\.", section, re.M)
+    if not first or not section[:first.start()].strip():
+        return body
+    preamble = section[:first.start()].strip()
+    folded = section[first.start():].rstrip() + "\n\n" + preamble
+    return body[:after] + "\n\n" + folded.strip() + "\n\n" + body[end:]
+
+
 # --------------------------------------------------------------------------- assembly
 
 def assemble(paper, style="journal"):
@@ -292,6 +422,8 @@ def assemble(paper, style="journal"):
     if style == "manuscript":
         body = splice(body, "Tables", "\n\n".join(tables[n] for n in sorted(tables)), "the tables")
         body = splice(body, "References", references, "the reference list")
+        body = _fold_the_figure_legends_preamble(body, paper)
+        body = apply_deposit_filenames(body, paper, "manuscript style")
         # ⚠ THE FIRST FIGURE IS MARKED, because it is the one that must NOT start a fresh page:
         # the section opens with a heading and a two-sentence preamble, and forcing a page break
         # ahead of every figure left those three lines alone on a page of their own.
@@ -309,6 +441,7 @@ def assemble(paper, style="journal"):
     body = splice(body, "References", references, "the reference list")
     body = drop_section(body, "Tables")
     body = drop_section(body, "Figure legends")
+    body = apply_deposit_filenames(body, paper, "journal style")
 
     floats, items = {}, []
     for number in sorted(tables):
@@ -393,6 +526,47 @@ CODE_NOWRAP_MAX = 44
 #: `tests/test_code_spans_never_break_a_sequence.py`.
 CODE_BREAKABLE_MIN = 12
 
+#: ⛔ THE DEPOSIT'S OWN FILENAMES ARE NOT PATHS AND MUST NOT BREAK LIKE ONE. A path fragment is still
+#: recognisable — "research/" then "manuscripts" reads as one path — but a FILENAME fragment is a
+#: different, wrong name that reads as hyphenation: the built PDFs printed the paper's most repeated
+#: instruction as `fusion-junction-aso-sequences.` / `csv` in Box 1 and `fusion-` /
+#: `junction-aso-sequences.fasta` in §6 (blind screen, 2026-08-19). These are the names a reader is
+#: told to ORDER FROM or to open, so they are set atomic where they fit, and where they are too long
+#: to fit a column they are given break opportunities after `.` and `/` ONLY — never at a hyphen,
+#: which is the break a reader silently repairs by deleting the character.
+#: ⚠ Populated at render time by `apply_deposit_filenames`, because two of the four are derived from
+#: the output filename and only that function knows it.
+_NEVER_BREAK = set()
+CODE_BREAK_AFTER_SAFE = re.compile(r"(?<=[/.])(?=[^\s/.])")
+
+#: A locator a reader has to be able to copy: it is set `nowrap` and never given a `<wbr/>`, and it
+#: is turned into a live link. ⛔ MEASURED IN THE BUILT PDF, NOT ASSUMED (blind screen of the deposit,
+#: 2026-08-19): the repository URL is written in the manuscript as a code span, so `CODE_BREAK_AFTER`
+#: offered it break opportunities after every `.`, `/` and `-` and the text layer of the deposited
+#: manuscript read `github. com/trimcrae/Rare-cancers`. The DOI being a placeholder, that URL is the
+#: only working locator in the whole deposit, and it could not be copied out of it.
+_LOOKS_LIKE_A_URL = re.compile(r"^(?:https?://|www\.|[a-z0-9-]+\.(?:com|org|net|io|gov|edu)/)\S+$")
+
+#: A bare DOI as the reference list prints it, and a PMID as it prints those. Both are linked at
+#: render time. ⛔ THE LINK IS BUILT FROM THE IDENTIFIER ON THE PAGE AND FROM NOTHING ELSE — no
+#: identifier is recalled, completed or invented here (CLAUDE.md §7); a DOI that is wrong in the
+#: reference list stays wrong and now resolves to the same wrong place, which is the honest
+#: behaviour for a renderer.
+DOI_RE = re.compile(r"\bdoi:(10\.\d{4,9}/[^\s<>]*[^\s<>.,;)\]])", re.I)
+PMID_RE = re.compile(r"\bPMID:\s?(\d{4,9})\b")
+URL_RE = re.compile(r"\bhttps?://[^\s<>()\[\]]+[^\s<>()\[\].,;]")
+
+#: ⛔ U+2691 (⚑) AND U+25C6 (◆) MUST BE SET IN AN EMBEDDABLE FACE, AND ONLY IN BOLD DOES IT MATTER.
+#: Measured 2026-08-19, one glyph at a time, in built PDFs: in a `font-weight: 700` run neither
+#: character exists in Liberation Sans/Serif Bold, Chromium's fallback for them cannot be embedded
+#: as a Type0 subset, and Skia emits a TYPE 3 font carrying that single glyph — five pages of each
+#: full PDF. † (U+2020), ¹, ·, — and ≥ all resolve inside the bold face and are clean; ⚑ and ◆ are
+#: the only two that fall through. Type 3 is a standing reject at PMC and several journal PDF
+#: checkers. Wrapping just these two in a span that names DejaVu Sans removes the Type 3 font
+#: entirely (measured: 5 pages -> 0) and also removes the bogus advance width the Type 3 glyph
+#: carried, which was extracting as a double space after every marker.
+MARKER_GLYPH_RE = re.compile(r"[⚑◆]")
+
 #: ⛔⛔ A TOKEN CARRYING A BASE STRING IS NEVER BREAKABLE, WHATEVER SEPARATORS IT HAS. Checked while
 #: relaxing the rule above: `5′-GGGCATATCATCAAAC-3′` contains two hyphens, so the separator rule
 #: would have given it break opportunities after `5′-` and before `3′` — leaving the delimiter on
@@ -422,6 +596,23 @@ def code_span(literal):
     nothing extra lands in the PDF's text layer for a reader to copy out.
     """
     escaped = _html.escape(literal, quote=False)
+    if literal in _NEVER_BREAK:
+        if len(literal) <= CODE_NOWRAP_MAX:
+            return "<code>" + escaped + "</code>"
+        #: ⚠ THE SAFE BREAK SET IS ONLY USED WHEN IT ACTUALLY FITS. The deposited SI filename is 66
+        #: characters with one dot in it, so breaking after dots alone leaves a 63-character run —
+        #: wider than the journal's 88 mm column, and an overflowing token is a worse defect than an
+        #: ambiguous break. When that happens the ordinary break set is used and the name can break
+        #: at a hyphen like any other long path.
+        if max(len(part) for part in CODE_BREAK_AFTER_SAFE.split(literal)) <= CODE_NOWRAP_MAX:
+            return '<code class="brk">' + CODE_BREAK_AFTER_SAFE.sub("<wbr/>", escaped) + "</code>"
+        return '<code class="brk">' + CODE_BREAK_AFTER.sub("<wbr/>", escaped) + "</code>"
+    #: A URL is a locator, not a path: it is copied whole or it is useless, and it is also the one
+    #: kind of code span that can be made live. It never receives a break opportunity.
+    if _LOOKS_LIKE_A_URL.match(literal):
+        href = literal if literal.startswith("http") else "https://" + literal
+        return (f'<a class="loc" href="{_html.escape(href, quote=True)}"><code>'
+                + escaped + "</code></a>")
     breakable = (CODE_BREAK_AFTER.search(escaped) is not None
                  and not _LOOKS_LIKE_A_SEQUENCE.search(literal))
     if len(literal) <= CODE_NOWRAP_MAX and not (breakable and len(literal) > CODE_BREAKABLE_MIN):
@@ -448,6 +639,24 @@ def inline(text):
     # ever reaching inside the span.
     text = SEQUENCE_RE.sub(lambda m: keep('<span class="seq">' + m.group(0) + "</span>"), text)
     text = ATOMIC_ID_RE.sub(lambda m: keep('<span class="seq">' + m.group(0) + "</span>"), text)
+    #: ⛔ EVERY LOCATOR IS LINKED AND SET NOWRAP, AND BOTH HALVES OF THAT MATTER (blind screen of the
+    #: deposit, 2026-08-19). Measured on the built PDFs: ZERO link annotations across 116 pages
+    #: carrying 48 DOIs and 52 references, so nothing in the deposit was clickable; and 5 of 48 DOIs
+    #: in the journal build and 3 of 48 in the manuscript build could not be recovered verbatim from
+    #: the text layer, because they broke across a line AT THEIR OWN HYPHENS — `10.1182/blood-2017-
+    #: 07-795757` reads as hyphenation, and a reader who deletes the hyphen gets a DOI that does not
+    #: resolve. Linking fixes the click; `nowrap` fixes the copy; neither fixes the other.
+    text = DOI_RE.sub(lambda m: keep(f'<a class="loc" href="https://doi.org/{m.group(1)}">'
+                                     + f"doi:{m.group(1)}</a>"), text)
+    text = PMID_RE.sub(lambda m: keep(
+        f'<a class="loc" href="https://pubmed.ncbi.nlm.nih.gov/{m.group(1)}/">'
+        + f"PMID: {m.group(1)}</a>"), text)
+    text = URL_RE.sub(lambda m: keep(f'<a class="loc" href="{m.group(0)}">{m.group(0)}</a>'), text)
+    #: The two marker glyphs that would otherwise become a Type 3 font wherever they land in bold.
+    #: Applied to EVERY rendered string rather than only to the table labels, because the labels are
+    #: where they became bold today and a bold table cell or a bold caption clause is where they
+    #: would become bold tomorrow.
+    text = MARKER_GLYPH_RE.sub(lambda m: keep('<span class="mk">' + m.group(0) + "</span>"), text)
     text = re.sub(r"\*\*(?=\S)(.+?)(?<=\S)\*\*", r"<strong>\1</strong>", text, flags=re.S)
     text = re.sub(r"(?<!\*)\*(?=\S)([^*]+?)(?<=\S)\*(?!\*)", r"<em>\1</em>", text)
     return re.sub(r"\x00(\d+)\x00", lambda m: stash[int(m.group(1))], text)
@@ -506,32 +715,127 @@ def render_table(rows, label=None):
 
 
 
+#: The cut a table's own caption states for its marked rows — "ten" out of "at the ten-base-pair
+#: criterion applied throughout" (Table 3) or "⚑ marks ten base pairs or more, the criterion applied
+#: throughout" (Table 4). ⛔ READ FROM THE CAPTION, NEVER TYPED HERE (rule 1): the criterion has one
+#: home, the generated caption, and a running header that restated it would be a second one.
+_CRITERION_RE = re.compile(r"\b([A-Za-z]+)[ -]base[ -]pairs?\b(?=[^.]{0,48}criterion)")
+_NOT_A_CLEARANCE_RE = re.compile(r"\bAn unmarked row is not a clearance\b")
+
+
+def _first_clause(text, limit):
+    """`text` collapsed to one line and cut at the last clause boundary within `limit`."""
+    text = " ".join(text.split())
+    if len(text) <= limit:
+        return text.rstrip(" .")
+    head = text[:limit]
+    for sep in ("; ", " — ", ", ", " "):
+        cut = head.rfind(sep)
+        if cut > limit // 2:
+            return head[:cut].rstrip(" ,;—")
+    return head.rstrip()
+
+
+def _caption_title(block):
+    """The bolded title sentence of a generated table's caption, without its number.
+
+    ⚠ SEARCHED, NOT ANCHORED AT THE START. Table 1's block does not begin with its own opener: the
+    tables file's preamble — the research-use banner, the chemistry paragraph and the three
+    condemned sequences — is carried with Table 1 so it travels wherever the tables travel. Anchoring
+    here left exactly one table, in exactly one style, with a bare "Table 1" on its continuation
+    page (measured in the built journal PDF, 2026-08-19).
+    """
+    match = re.search(r"^\*\*Table \d+\.\s*(.+?)\*\*", block.strip(), re.S | re.M)
+    return _first_clause(match.group(1), 92) if match else None
+
+
+def _marker_note(block, marker):
+    """The caption's own opening sentence for `marker`, as the caption writes it."""
+    match = re.search(rf"^{re.escape(marker)}\s+(.+?)(?<![A-Z])\.\s", block, re.M | re.S)
+    return _first_clause(match.group(1), 96) if match else None
+
+
+def table_label(number, block):
+    """The identity a table's CONTINUATION pages carry, built from that table's own caption.
+
+    ⛔ IT RIDES IN <thead>, WHICH PAGED MEDIA REPEATS ON EVERY PAGE, AND IT IS THE ONLY THING THAT
+    DOES. A reader landing on page two of a three-page table meets the column headers, the rows and
+    this line — the caption, its numbered notes and its marker keys are all a page back.
+
+    ⛔⛔ AND IT USED TO DROP BOTH HALVES OF THE CRITERION THE CAPTION CARRIES (blind screen of the
+    built PDFs, 2026-08-19). The caption says a marked design pairs a wild-type parent "at the
+    ten-base-pair criterion applied throughout" and, in the same note, "An unmarked row is not a
+    clearance". The header said only "pairs a wild-type parent through the whole catalytic gap; do
+    not order it" — so a reader on a continuation page was given a prohibition with no cut attached
+    and, worse, was left to read every unmarked row as cleared. Measured before the fix: 6 of the 7
+    ⚑-carrying pages of the journal build and 7 of 9 in the manuscript build stated no cut, and 8
+    and 9 respectively stated no clearance caveat. Both halves are now read out of the caption.
+
+    ⚠ AND THE LABEL WAS OTHERWISE JUST A NUMBER. Table 2's continuation pages read "Table 2" and
+    nothing else, and Table 6's carried ◆ rows with no ◆ branch in this function at all. The title
+    is now carried too, so a continuation page says which table it is rather than only which number.
+    """
+    #: ⛔ A MARKER KEY IS EARNED BY THE ROWS, AND ITS WORDS COME FROM THE CAPTION. The two styles
+    #: used to disagree about this: the manuscript path read the markers off the GRID and the journal
+    #: path off the whole block, so a caption that merely MENTIONS ⚑ — as the tables file's preamble,
+    #: which travels with Table 1, does — put a do-not-order key on the continuation pages of a table
+    #: with no marked row in it. Detection is on the grid; the criterion and the ◆ gloss are still
+    #: read from the caption, which is where they are written.
+    grid = "\n".join(ln for ln in block.split("\n") if ln.strip().startswith("|"))
+    label = f"Table {number}"
+    title = _caption_title(block)
+    if title:
+        label += ". " + title
+    if re.search(r"[¹²³⁴⁵⁶⁷⁸⁹]", grid):
+        label += "  ·  numbered notes are under the caption, on this table's first page"
+    if "†" in grid:
+        label += ("  —  † no design at this junction clears the parent screen; "
+                  "do not order the sequence in a marked row")
+    if "⚑" in grid:
+        label += ("  —  ⚑ this design pairs a wild-type parent through the whole catalytic gap; "
+                  "do not order it")
+    #: ⚑ and † are both readings at one cut, so the cut and the caveat are stated ONCE for the pair
+    #: rather than repeated behind each marker.
+    markers = [m for m in ("†", "⚑") if m in grid]
+    if markers:
+        criterion = _CRITERION_RE.search(block)
+        tail = []
+        if criterion:
+            clause = (f"{'both markers are' if len(markers) == 2 else 'the marker is'} read at the "
+                      f"{criterion.group(1)}-base-pair criterion")
+            #: ⚠ ONLY IF THE CAPTION SAYS SO. Table 3's caption states that the cut is adopted rather
+            #: than measured; Table 4's does not, and a header that added the clause anyway would be
+            #: a second, louder home for a claim the caption did not make.
+            if re.search(r"adopts? rather than measures", block):
+                clause += ", which this work adopts rather than measures"
+            tail.append(clause)
+        if _NOT_A_CLEARANCE_RE.search(block):
+            tail.append("an unmarked row is not a clearance, only a reading at that one cut")
+        if tail:
+            label += "  ·  " + "; ".join(tail)
+    #: ◆ is an IDENTIFICATION marker, not a prohibition, and a continuation page that carried ◆ rows
+    #: with no key at all invited reading it as one. Its gloss is the caption's own first sentence.
+    if "◆" in grid:
+        note = _marker_note(block, "◆")
+        label += "  —  ◆ " + (note or "see the caption for what this marker identifies")
+        if re.search(r"marker identifies and does not rank", block):
+            label += "; the marker identifies and does not rank"
+    return label
+
+
 def _label_for_spliced_table(lines, table_end, rows):
     """Rebuild the <thead> label for a table spliced into the body (manuscript style).
 
-    Mirrors render_float's label logic, which manuscript style never reaches. The caption sits
-    ABOVE the grid in the generated tables file, so the number is found by scanning back for the
-    nearest "**Table n." opener; the markers that decide the rest are read from the grid itself.
+    Mirrors render_float, which manuscript style never reaches. The caption sits ABOVE the grid in
+    the generated tables file, so the block is recovered by scanning back for the nearest
+    "**Table n." opener and taking everything from there to the end of the grid — the caption, its
+    notes and the rows, which is exactly what `table_label` reads.
     """
-    number = None
     for k in range(table_end - len(rows) - 1, max(-1, table_end - len(rows) - 60), -1):
         m = re.match(r"^\*\*Table (\d+)\.", lines[k].strip())
         if m:
-            number = m.group(1)
-            break
-    if number is None:
-        return None
-    body = "\n".join(rows)
-    label = f"Table {number}"
-    if re.search(r"[¹²³⁴⁵⁶⁷⁸⁹]", body):
-        label += "  ·  numbered notes are under the caption, on this table's first page"
-    if "†" in body:
-        label += ("  —  † no design at this junction clears the parent screen; "
-                  "do not order the sequence in a marked row")
-    if "⚑" in body:
-        label += ("  —  ⚑ this design pairs a wild-type parent through the whole catalytic gap; "
-                  "do not order it")
-    return label
+            return table_label(m.group(1), "\n".join(lines[k:table_end]))
+    return None
 
 
 def markdown_to_html(text, floats=None):
@@ -624,7 +928,9 @@ def markdown_to_html(text, floats=None):
                         i += 1
                         continue
                     break
-                out.append("<li>" + inline(m.group(3)) + "</li>")
+                li = inline(m.group(3))
+                out.append(("<li data-seq=\"1\">" if 'class="seq"' in li else "<li>")
+                           + li + "</li>")
                 i += 1
             out.append(f"</{tag}>")
             continue
@@ -636,7 +942,13 @@ def markdown_to_html(text, floats=None):
             i += 1
         if para:
             joined = " ".join(para)
-            opener = re.match(r"^\*\*(Figure|Table) \d+\.", joined)
+            #: ⛔ A SUPPLEMENTARY LEGEND IS A LEGEND (found 2026-08-19 by a guard this lane's own
+            #: change tripped). The pattern was `^\*\*(Figure|Table) \d+\.`, which does not match
+            #: "**Supplementary Figure S1." — so the supplementary panel's legend rendered as a
+            #: bare <p> with no break rule at all, and any note after it fell through too. Exactly
+            #: the class-that-no-element-carries shape `test_no_page_is_nearly_empty` exists to
+            #: catch, sitting in the builder unnoticed because nothing had yet been placed after it.
+            opener = re.match(r"^\*\*(?:Supplementary )?(Figure|Table) S?\d+\.", joined)
             # ⚠ A TABLE CAPTION AND A FIGURE LEGEND SIT ON OPPOSITE SIDES OF THEIR ITEM, so they
             # cannot carry the same break rule: a legend must stay with the figure ABOVE it and a
             # caption with the table BELOW it. They shared one class until 2026-08-17 and the
@@ -659,7 +971,14 @@ def markdown_to_html(text, floats=None):
                 #: the rule was keyed to a class the orphaned element did not carry. A fix whose
                 #: comment names the symptom is not evidence the symptom is gone — the PDF is.
                 css = ' class="legend note"'
-            out.append(f"<p{css}>{inline(joined)}</p>")
+            rendered = inline(joined)
+            #: ⛔ A PARAGRAPH THAT PRINTS A SEQUENCE IS SET RAGGED-RIGHT — see the `[data-seq]` rule
+            #: in COMMON for what was measured. ⚠ IT IS AN ATTRIBUTE AND NOT A CLASS ON PURPOSE:
+            #: `test_no_page_is_nearly_empty` counts the exact string `class="legend note"`, and a
+            #: caption footnote that happened to print a sequence would have become
+            #: `class="legend note hasseq"` and quietly dropped out of another lane's guard.
+            seq_attr = ' data-seq="1"' if 'class="seq"' in rendered else ""
+            out.append(f"<p{css}{seq_attr}>{rendered}</p>")
         else:
             i += 1
     return "\n".join(out)
@@ -699,24 +1018,17 @@ def render_float(kind, number, payload, wide):
         #: statement of what the dagger meant. Everything else on a continuation page is
         #: recoverable by turning back; this one is the wrong-reagent hazard the whole deposit is
         #: built around, so it rides in the <thead>, which paged media repeats on every page.
-        _label = f"Table {number}"
         #: ⚠ A CONTINUATION PAGE REPEATS THE MARKED COLUMN HEADERS AND NOT THE NOTES THAT DEFINE
         #: THEM. Superscript note markers ride in the header row, so a reader landing on page two of
         #: a three-page table meets "on the sense strand¹" with note ¹ a page back. The notes
         #: themselves are too long to repeat on every page without swamping the table, so the header
         #: says where they are instead — which is the difference between a reader who knows to turn
         #: back and one who does not know anything is missing.
-        if isinstance(payload, str) and re.search(r"[¹²³⁴⁵⁶⁷⁸⁹]", payload):
-            _label += "  ·  numbered notes are under the caption, on this table's first page"
-        if isinstance(payload, str) and "†" in payload:
-            _label += ("  —  † no design at this junction clears the parent screen; "
-                       "do not order the sequence in a marked row")
-        #: ⚑ marks the DESIGN, † the JUNCTION, and a row can carry ⚑ without †. Both keys ride in
-        #: <thead> for the same reason: a continuation page repeats the header and nothing else.
-        if isinstance(payload, str) and "⚑" in payload:
-            _label += ("  —  ⚑ this design pairs a wild-type parent through the whole catalytic "
-                       "gap; do not order it")
-        _CURRENT_TABLE_LABEL = _label
+        #: ⛔ ONE IMPLEMENTATION, SHARED WITH THE MANUSCRIPT STYLE. These two paths had separate
+        #: copies of this logic, and the copy the deposit build used was the one that fell behind:
+        #: `_label_for_spliced_table` is the manuscript style's, and everything verified in the
+        #: journal build had to be re-verified there by hand. `table_label` is now both.
+        _CURRENT_TABLE_LABEL = table_label(number, payload if isinstance(payload, str) else "")
         _IN_FLOAT_CAPTION = True
         try:
             inner = markdown_to_html(payload)
@@ -811,6 +1123,47 @@ code.brk { white-space: normal; }
 /* A delimited oligonucleotide is one token: `5′-` must never be left on the line above its bases,
    because the newline a reader then copies is invisible in a synthesis order form. */
 .seq { white-space: nowrap; hyphens: none; }
+/* ⛔ A JUSTIFIED LINE IS EMITTED IN SEVERAL PIECES AND CHROMIUM DOES NOT EMIT THEM IN VISUAL ORDER.
+   MEASURED ONE VARIABLE AT A TIME ON RENDERED PDFs (2026-08-19): over a control paragraph set in
+   this stylesheet, `text-align: justify` produces 8 same-line reading-order inversions in 184 text
+   runs and `text-align: left` produces 0 in 122 — a justified line is broken into segments and the
+   segments are painted out of order, so a content-order extractor reads them out of order too.
+   font-kerning, font-variant-ligatures, text-rendering, letter-spacing, word-spacing and
+   text-wrap: stable were each tried ON TOP of justification and every one measured identically to
+   plain justify, 8/184. There is no lever but the alignment.
+
+   ★ THE CONSEQUENCE IS THE DEPOSIT'S HIGHEST-STAKES TEXT: pdfminer returned "…agrees
+   5′-CAGGGCATATCTTGCA-3′ exon exon 17, 9, at at independently" where the page reads
+   "…5′-GGGCATATCTCTATAA-3′ at exon 17, 5′-CAGGGCATATCTTGCA-3′ at exon 9" — the sequence and the
+   junction it belongs to, swapped. So the rule is scoped exactly to the hazard: a paragraph that
+   PRINTS a sequence goes ragged-right, and every other paragraph stays justified.
+
+   ★★ MEASURED IN THE BUILT PDFs with pdfminer's DEFAULT LAParams — the settings this repository's
+   guards and a stock pdfminer install use. The test asks whether each of the 66 delimited sequences
+   the article prints in prose is still CONTIGUOUS with the 40 source characters that follow it,
+   compared on letters and digits only so a hyphenation or a line break cannot be mistaken for a
+   reordering:
+       journal, two columns    12 of 66 broken  ->  0 of 66
+       manuscript, one column   0 of 66 broken  ->  0 of 66
+   ⚠ AND THE INSTRUMENT IS PART OF THE RESULT, WHICH IS WHY IT IS NAMED. Read with
+   `line_margin=0.35` the same two journal builds measure 24 -> 16 rather than 12 -> 0: a tight line
+   margin makes every line its own text box and `boxes_flow` then interleaves the two columns, which
+   swamps the signal. On that same reading a GLOBAL `text-align: left` scores 17 against this rule's
+   16 — the blunt version of the fix is not the better one, which is why justification is kept
+   everywhere a sequence is not printed. The single-column submission build, the one that is
+   deposited, measured clean under every setting tried. */
+p[data-seq], li[data-seq] { text-align: left; }
+/* A DOI, a PMID or a URL is copied whole or it is worthless, and its own hyphens are the break
+   points a renderer reaches for first. `nowrap` is safe here for a measured reason: the longest
+   locator this paper prints is 33 characters — `doi:10.1016/S1470-2045(19)30319-5`, counted over
+   all 48 — and the narrowest container either style produces is the journal's 88 mm column, which
+   holds far more than that at the 7.9 pt the reference list is set at. */
+a.loc { white-space: nowrap; hyphens: none; word-break: normal; overflow-wrap: normal; }
+a.loc code { white-space: nowrap; }
+/* ⛔ THE TWO GLYPHS THAT BECOME A TYPE 3 FONT IN BOLD. See MARKER_GLYPH_RE for the measurement.
+   `font-weight: inherit` is deliberate — DejaVu Sans Bold carries both, so the marker keeps the
+   weight of the text it sits in and only the FACE changes. */
+.mk { font-family: 'DejaVu Sans', 'Liberation Sans', sans-serif; font-weight: inherit; }
 a { color: #14507d; text-decoration: none; }
 table { border-collapse: collapse; width: 100%; font-family: 'Liberation Sans', Helvetica, Arial,
         sans-serif; line-height: 1.28; }
@@ -892,6 +1245,10 @@ p.legend.caption { break-before: auto; break-after: avoid; margin-bottom: 4pt; }
    result on every build so the next content change cannot quietly bring the page back. */
 p.legend.note { margin-bottom: 7pt; }
 section.landscape { page: landscape; }
+/* The identity block under the title: which document this is, and which build. */
+p.version { font-size: 8.4pt; color: #46545f; margin: -6pt 0 12pt 0; text-align: left; }
+p.sitrace { font-size: 9pt; margin: 0 0 10pt 0; text-align: left; }
+p.sitrace .of { font-style: italic; }
 """
 
 JOURNAL_CSS = COMMON + """
@@ -912,6 +1269,7 @@ h1.title { font-size: 18pt; line-height: 1.18; margin: 0 0 8pt 0; font-weight: 7
 .byline { font-size: 10pt; margin: 0 0 2pt 0; font-weight: 600; }
 .affil { font-size: 8.4pt; color: #46545f; margin: 0 0 10pt 0; font-style: italic; }
 .affil .corr { font-style: normal; }
+.version { font-size: 7.6pt; color: #5a6b7a; margin: -6pt 0 10pt 0; letter-spacing: 0.01em; }
 
 .abstract { background: #f4f7fa; border-left: 2.4pt solid #123a5e; padding: 8pt 10pt;
             margin: 0 0 8pt 0; font-size: 8.8pt; line-height: 1.42; }
@@ -987,12 +1345,16 @@ li { margin-bottom: 3pt; text-align: justify; }
 """
 
 
-def wrap_manuscript(front_title, body_html):
+def wrap_manuscript(front_title, body_html, front_block=""):
     body_html = re.sub(r"(<h2>Tables</h2>)(.*?)(?=<h2>)",
                        lambda m: '<section class="landscape">' + m.group(1) + m.group(2)
                        + "</section>", body_html, count=1, flags=re.S)
     body_html = re.sub(r"(<h2>References</h2>.*?)<ol", r'\1<ol id="references-list"',
                        body_html, count=1, flags=re.S)
+    #: The identity block goes directly under the H1, which is where a screener looks and where the
+    #: old build carried nothing at all: no date, no version, no build.
+    if front_block:
+        body_html = re.sub(r"(</h1>)", r"\1" + front_block, body_html, count=1)
     return page_shell(front_title, MANUSCRIPT_CSS, body_html)
 
 
@@ -1046,7 +1408,7 @@ def _defer_landscape_floats(main):
     return main.replace(' data-deferred="1"', "")
 
 
-def wrap_journal(paper, front, body_html):
+def wrap_journal(paper, front, body_html, doc_title=None):
     meta = paper.get("journal", {})
     body_html = re.sub(r"(<h2>References</h2>.*?)<ol", r'\1<ol id="references-list"',
                        body_html, count=1, flags=re.S)
@@ -1064,11 +1426,12 @@ def wrap_journal(paper, front, body_html):
         f'<h1 class="title">{inline(front["title"])}</h1>'
         f'<p class="byline">{inline(front["author"])}</p>'
         f'<p class="affil">{inline(front["affiliation"])}</p>'
+        f'<p class="version">{_html.escape(provenance_line(paper, "journal"))}</p>'
         '<div class="abstract"><h2>Abstract</h2>'
         f'<p>{inline(front["abstract"])}</p></div>'
         f'<p class="kw"><strong>Keywords</strong> &nbsp;{inline(front["keywords"])}</p>'
     )
-    return page_shell(re.sub(r"[*_`]", "", front["title"]), JOURNAL_CSS,
+    return page_shell(doc_title or re.sub(r"[*_`]", "", front["title"]), JOURNAL_CSS,
                       head + f'<div class="cols">{main}</div>'
                       + f'<div class="backmatter">{back}</div>')
 
@@ -1164,7 +1527,33 @@ class WS:
                 return frame.get("result", {})
 
 
-def templates(running_head):
+#: The documents a built PDF is a rendering OF. A stamp beside each PDF records the sha256 of each
+#: at build time, so "is this PDF current?" is answered by CONTENT rather than by mtime.
+STAMP_SOURCES = (
+    "aso/fusion-junction-aso-research-article.md",
+    "aso/fusion-junction-aso-submission-tables.md",
+    "aso/fusion-junction-aso-submission-references.md",
+    "aso/fusion-junction-aso-sequences.csv",
+)
+
+
+#: The file the paper tells a reader to order from, read out of the stamped source list above so the
+#: running footer and the build stamp cannot come to name different files (rule 1).
+ORDER_FROM = next(os.path.basename(p) for p in STAMP_SOURCES if p.endswith(".csv"))
+
+#: The handling statement in both lengths. ⛔ THE FULL SENTENCE IS THE ONE THAT MATTERS AND IT IS NOT
+#: FREE. It carries the destination — order from the CSV, never from this PDF — and at 110
+#: characters, repeated on every page, it is also the string that splices into a body sentence at
+#: every page boundary in content order (measured: 27 sentences in the journal build, 50 in the
+#: manuscript build, in the order pypdf and every non-layout indexer reads). The short rule keeps
+#: the prohibition and drops the destination, and is used ONLY on pages from which nothing can be
+#: ordered: no sequence, no table, not page 1. `_postprocess` verifies that split page by page.
+FOOTER_FULL = ("Research use only — not for administration. "
+               f"Order from {ORDER_FROM}, never from this PDF.")
+FOOTER_SHORT = "Research use only — not for administration."
+
+
+def templates(running_head, footer_text):
     # 8px = 6 pt, the floor below which a screen reader called the header unreadable. It was 7px
     # (5.2 pt) because the full 30-word title had to be squeezed in; the declared running title is
     # five words and needs no squeezing.
@@ -1179,13 +1568,155 @@ def templates(running_head):
     #: per-table safeguard silently dropped out on them. A running footer is the only element paged
     #: media puts on every page unconditionally.
     footer = (f'<div style="{style}">'
-              '<span>Research use only — not for administration. '
-              'Order from fusion-junction-aso-sequences.csv, never from this PDF.</span>'
+              f"<span>{_html.escape(footer_text)}</span>"
               '<span class="pageNumber"></span></div>')
     return header, footer
 
 
-def print_pdf(chrome, html_path, pdf_path, running_head):
+#: A page from which something could be ordered keeps the FULL handling sentence. The test is on the
+#: RENDERED page, not on the source: what matters is what a reader holding that one sheet can see.
+_PAGE_HAS_SEQUENCE = re.compile(r"5[′'’]\s?-\s?[ACGTUacgtu]{8,40}\s?-\s?3[′'’]|\b[ACGT]{12,}\b")
+_PAGE_HAS_TABLE = re.compile(r"^\s*Table \d+", re.M)
+
+
+def _pages_needing_the_full_footer(reader):
+    keep = {0}                                              # page 1 always states the destination
+    for index, page in enumerate(reader.pages):
+        text = page.extract_text() or ""
+        if _PAGE_HAS_SEQUENCE.search(text) or _PAGE_HAS_TABLE.search(text):
+            keep.add(index)
+    return keep
+
+
+def _body_of(page, head):
+    """A page's text with the running head, either footer and the page number removed."""
+    text = re.sub(r"\s+", " ", page.extract_text() or "")
+    for chrome_bit in (head, FOOTER_FULL, FOOTER_SHORT):
+        text = text.replace(re.sub(r"\s+", " ", chrome_bit), " ")
+    return re.sub(r"[^A-Za-z0-9]", "", text)
+
+
+def _repair_outline_titles(writer, headings):
+    """Put the spaces back into the bookmark titles Chromium builds from a WRAPPED heading.
+
+    ⛔ MEASURED IN THE BUILT PDF (2026-08-19). `generateDocumentOutline` names each entry from the
+    heading's LAID-OUT lines and joins them without a separator, so the document's own title — the
+    only entry a reader is certain to see — read "…against the NR4A3fusions of extraskeletal myxoid
+    chondrosarcoma pair a wild-typeparent gene…" in the navigation pane. Any heading that wraps is
+    affected; the short ones happen not to.
+
+    ⚠ REPAIRED BY EXACT MATCH ONLY. Each entry is matched to a heading of the rendered document with
+    all whitespace removed, and rewritten only when exactly that heading is found. A title this
+    cannot match is left as Chromium wrote it rather than guessed at.
+    """
+    from pypdf.generic import NameObject, TextStringObject
+    index = {}
+    for heading in headings:
+        index.setdefault(re.sub(r"\s+", "", heading), " ".join(heading.split()))
+    root = writer._root_object.get("/Outlines")
+    repaired, seen = 0, set()
+
+    def walk(node):
+        nonlocal repaired
+        child = node.get("/First")
+        while child is not None:
+            obj = child.get_object()
+            if id(obj) in seen:
+                break
+            seen.add(id(obj))
+            title = str(obj.get("/Title", ""))
+            want = index.get(re.sub(r"\s+", "", title))
+            if want and want != title:
+                obj[NameObject("/Title")] = TextStringObject(want)
+                repaired += 1
+            walk(obj)
+            child = obj.get("/Next")
+
+    if root is not None:
+        walk(root.get_object())
+    return repaired
+
+
+_HEADING_RE = re.compile(r"<h([1-3])[^>]*>(.*?)</h\1>", re.S | re.I)
+
+
+def headings_of(html):
+    """The text of every heading the rendered page carries, for the outline repair above."""
+    out = []
+    for _level, inner in _HEADING_RE.findall(html):
+        text = _html.unescape(re.sub(r"<[^>]+>", "", inner))
+        if text.strip():
+            out.append(" ".join(text.split()))
+    return out
+
+
+def _postprocess(full_pdf, short_pdf, pdf_path, running_head, meta, headings=()):
+    """Assemble the delivered PDF: short rule on body pages, and a real Info dictionary.
+
+    ⛔ TWO RENDERS, ONE LAYOUT, AND THE EQUALITY IS CHECKED RATHER THAN ASSUMED. The two prints
+    differ only in a footer template, which sits in the page margin and cannot reflow the content
+    box — but "cannot" is the word this file's history keeps disproving, so every page's body text
+    is compared between the two renders and any difference at all aborts the splice and ships the
+    full-footer render unchanged. A wrong page grafted into a deposit is far worse than a long
+    footer on it.
+
+    ⛔ AND THE METADATA IS THE OTHER HALF. Before this, all three PDFs carried `/Creator` =
+    a headless-Chrome UA string, no `/Author`, no `/Subject`, no `/Keywords`, and — between the two
+    full builds — a byte-identical `/Title`, so the deposit contained two 200-page-equivalent
+    documents that Document Properties could not tell apart.
+    """
+    try:
+        import pypdf
+    except ImportError as exc:                              # pragma: no cover - env dependent
+        raise SystemExit(
+            f"pypdf is not importable ({exc}), so this build could set no PDF metadata and could "
+            "not vary the handling footer by page. Both are deposit requirements — install pypdf "
+            "rather than shipping a PDF whose Document Properties name headless Chrome.")
+    import io
+
+    full = pypdf.PdfReader(io.BytesIO(full_pdf))
+    writer = pypdf.PdfWriter(clone_from=io.BytesIO(full_pdf))
+    grafted = 0
+    if short_pdf:
+        short = pypdf.PdfReader(io.BytesIO(short_pdf))
+        keep = _pages_needing_the_full_footer(full)
+        same_length = len(short.pages) == len(full.pages)
+        bodies_match = same_length and all(
+            _body_of(full.pages[i], running_head) == _body_of(short.pages[i], running_head)
+            for i in range(len(full.pages)))
+        if not bodies_match:
+            print("  ⚠ the two footer renders do not paginate identically — shipping the full "
+                  "handling sentence on every page", file=sys.stderr)
+        else:
+            for index in range(len(full.pages)):
+                if index in keep:
+                    continue
+                writer.add_page(short.pages[index])
+                donor = writer.pages[-1]
+                writer.pages[index][pypdf.generic.NameObject("/Contents")] = donor.raw_get(
+                    "/Contents")
+                writer.pages[index][pypdf.generic.NameObject("/Resources")] = donor.raw_get(
+                    "/Resources")
+                del writer.pages[len(writer.pages) - 1]
+                grafted += 1
+    writer.add_metadata({k: v for k, v in meta.items() if v})
+    _repair_outline_titles(writer, headings)
+    #: Grafting a page's content leaves the render it replaced in the file as an orphan, and cloning
+    #: brings a second copy of every shared font subset. Measured on the journal build: 2,560 KB
+    #: before this call and 2,074 KB after, with the outline, all 111 link annotations and the Info
+    #: dictionary intact. A deposit file is uploaded and downloaded, so 19% is worth one call.
+    try:
+        writer.compress_identical_objects(remove_identicals=True, remove_orphans=True)
+    except Exception as exc:                                # pragma: no cover - pypdf < 4.x
+        print(f"  ⚠ could not compress the output ({exc}); the PDF is correct but larger",
+              file=sys.stderr)
+    with open(pdf_path, "wb") as fh:
+        writer.write(fh)
+    return grafted, len(full.pages)
+
+
+def print_pdf(chrome, html_path, pdf_path, running_head, meta=None, split_footer=True,
+              headings=()):
     profile = tempfile.mkdtemp(prefix="ccpdf-")
     proc = subprocess.Popen(
         [chrome, "--headless", "--disable-gpu", "--no-sandbox", "--no-first-run",
@@ -1210,11 +1741,20 @@ def print_pdf(chrome, html_path, pdf_path, running_head):
         ws.call("Page.enable")
         ws.call("Page.navigate", url="file://" + os.path.abspath(html_path))
         time.sleep(2.5)
-        header, footer = templates(running_head)
-        result = ws.call("Page.printToPDF", printBackground=True, preferCSSPageSize=True,
-                         displayHeaderFooter=True, headerTemplate=header, footerTemplate=footer)
-        with open(pdf_path, "wb") as fh:
-            fh.write(base64.b64decode(result["data"]))
+
+        def render(footer_text):
+            header, footer = templates(running_head, footer_text)
+            #: ⛔ `generateDocumentOutline` IS THE WHOLE FIX FOR "NO BOOKMARKS" AND IT IS ONE FLAG.
+            #: Measured 2026-08-19: 0 outline entries across 116 pages with six numbered sections,
+            #: seven tables, four figures, Declarations and 52 references. Chromium builds the
+            #: outline from the heading elements the builder already emits.
+            return base64.b64decode(ws.call(
+                "Page.printToPDF", printBackground=True, preferCSSPageSize=True,
+                generateDocumentOutline=True, displayHeaderFooter=True,
+                headerTemplate=header, footerTemplate=footer)["data"])
+
+        full_pdf = render(FOOTER_FULL)
+        short_pdf = render(FOOTER_SHORT) if split_footer else None
     finally:
         proc.terminate()
         try:
@@ -1222,19 +1762,10 @@ def print_pdf(chrome, html_path, pdf_path, running_head):
         except subprocess.TimeoutExpired:
             proc.kill()
         shutil.rmtree(profile, ignore_errors=True)
+    return _postprocess(full_pdf, short_pdf, pdf_path, running_head, meta or {}, headings)
 
 
 # --------------------------------------------------------------------------- driver
-
-
-#: The documents a built PDF is a rendering OF. A stamp beside each PDF records the sha256 of each
-#: at build time, so "is this PDF current?" is answered by CONTENT rather than by mtime.
-STAMP_SOURCES = (
-    "aso/fusion-junction-aso-research-article.md",
-    "aso/fusion-junction-aso-submission-tables.md",
-    "aso/fusion-junction-aso-submission-references.md",
-    "aso/fusion-junction-aso-sequences.csv",
-)
 
 
 def _write_build_stamp(pdf_path, paper):
@@ -1276,10 +1807,25 @@ def build_supplementary(paper, html_only=False):
     src = paper.get("supplementary")
     if not src:
         return 0
-    body = strip_frontmatter(read(src))
+    body = apply_deposit_filenames(strip_frontmatter(read(src)), paper, "supplementary")
     title_m = re.search(r"^#\s+(.*)$", body, re.M)
     title = re.sub(r"[*_`]", "", title_m.group(1)) if title_m else "Supplementary Information"
-    page = wrap_manuscript(title, markdown_to_html(body))
+    #: ⛔ THE SI DID NOT NAME ITS OWN PAPER AND DID NOT SAY IT WAS UN-REFEREED (blind screen,
+    #: 2026-08-19). "peer review" appeared once in each full PDF and ZERO times in the SI; its title
+    #: block carried a short standalone title that appears nowhere in the article, so an SI
+    #: forwarded on its own — which is how a supplement travels — was traceable to no paper and
+    #: announced itself as nothing in particular. Both facts are READ from the article and from the
+    #: paper's own masthead declaration rather than restated here.
+    article_title = re.search(r"^#\s+(.*)$", strip_frontmatter(read(paper["manuscript"])), re.M)
+    article_pdf = deposit_filenames(paper)[os.path.basename(paper["manuscript"])]
+    front_block = (
+        '<p class="sitrace">Supplementary Information to <span class="of">'
+        + inline(article_title.group(1)) + "</span>"
+        + (f' — deposited as <code>{_html.escape(article_pdf)}</code>' if article_pdf else "")
+        + ".</p>"
+        + f'<p class="version">{_html.escape(paper.get("journal", {}).get("preprint_note", ""))}'
+        + f' · {_html.escape(provenance_line(paper, "supplementary"))}</p>')
+    page = wrap_manuscript(title, markdown_to_html(body), front_block)
     out_name = paper["out"].replace(".pdf", "-supplementary-information.pdf")
     html_path = os.path.join(HERE, out_name.replace(".pdf", ".build.html"))
     with open(html_path, "w", encoding="utf-8") as fh:
@@ -1292,8 +1838,21 @@ def build_supplementary(paper, html_only=False):
         print(f"SI: no chromium found; HTML is at {os.path.relpath(html_path, REPO)}")
         return 1
     pdf_path = os.path.join(HERE, out_name)
+    meta = {
+        "/Title": f"Supplementary Information — {re.sub(r'[*_`]', '', article_title.group(1))}",
+        "/Subject": ("Supplementary Information to a preprint manuscript, not peer reviewed. The "
+                     f"main text is {article_pdf}."),
+        "/Author": re.sub(r"[*_`]", "",
+                          label_paragraph(strip_frontmatter(read(paper["manuscript"])), "Author")),
+        "/Keywords": re.sub(r"[*_`]", "",
+                            label_paragraph(strip_frontmatter(read(paper["manuscript"])),
+                                            "Keywords")),
+        "/Creator": "build_submission_pdf.py (supplementary), Chromium print-to-PDF",
+        "/CreationDate": time.strftime("D:%Y%m%d%H%M%S+00'00'", time.gmtime()),
+    }
     print_pdf(chrome, html_path, pdf_path, declared_running_title(body)
-              if re.search(r"running[- ]title", body, re.I) else title[:60])
+              if re.search(r"running[- ]title", body, re.I) else title[:60], meta,
+              headings=headings_of(page))
     #: ⚠ THE INTERMEDIATE IS DELETED HERE, AS IT IS IN `build` (2026-08-19). Without this the SI
     #: build left a `.build.html` beside the deposit artefacts on every run — untracked, so it
     #: turned up as a new file in `git status` and invited being committed as though it were a
@@ -1304,19 +1863,50 @@ def build_supplementary(paper, html_only=False):
     return 0
 
 
+#: ⛔ THE TWO FULL BUILDS MUST NOT BE INTERCHANGEABLE IN A FILE MANAGER (blind screen of the deposit,
+#: 2026-08-19). Both carried a byte-identical `/Title` and 99.76% identical text, neither named the
+#: other, and the shorter, more canonical-looking filename is the typeset PREVIEW while the one to
+#: upload is `…-manuscript.pdf`. A downloader taking the obvious file deposits the wrong artefact.
+#: Each format now says in its own title and subject what it is and which file the other one is.
+FORMATS = {
+    "journal": ("[typeset preview]",
+                "Typeset preview of a preprint manuscript. NOT the deposited version — the file to "
+                "cite and deposit is {other}."),
+    "manuscript": ("[submission manuscript]",
+                   "Submission-format preprint manuscript: the version of record for this deposit. "
+                   "A typeset preview of the same text is {other}."),
+}
+
+
 def build(name, paper, style="journal", html_only=False):
     body, floats = assemble(paper, style)
     # ⛔ ONE SOURCE FOR THE RUNNING HEAD IN BOTH STYLES. The manuscript declares it; neither
     # renderer may substitute anything else, and a manuscript that stops declaring one fails the
     # build rather than falling back to the full title.
     running = declared_running_title(body)
+    suffix, subject = FORMATS[style]
+    other = os.path.basename(paper["out"].replace(".pdf", "-manuscript.pdf")
+                             if style == "journal" else paper["out"])
+    plain_title = re.sub(r"[*_`]", "", re.search(r"^#\s+(.*)$", body, re.M).group(1))
+    meta = {
+        "/Title": f"{plain_title} {suffix}",
+        "/Subject": subject.format(other=other),
+        "/Author": re.sub(r"[*_`]", "", label_paragraph(body, "Author")),
+        "/Keywords": re.sub(r"[*_`]", "", label_paragraph(body, "Keywords")),
+        #: ⛔ NOT A BROWSER UA STRING. `/Creator` is what a screener reads under "Application", and
+        #: it said `Mozilla/5.0 … HeadlessChrome/141.0.0.0`. `/Producer` stays Skia, which is true.
+        "/Creator": f"build_submission_pdf.py ({style} style), Chromium print-to-PDF",
+        "/CreationDate": time.strftime("D:%Y%m%d%H%M%S+00'00'", time.gmtime()),
+    }
     if style == "journal":
         front = parse_front_matter(body)
-        page = wrap_journal(paper, front, markdown_to_html(front["body"], floats))
+        page = wrap_journal(paper, front, markdown_to_html(front["body"], floats),
+                            meta["/Title"])
         out_name = paper["out"]
     else:
-        title = re.sub(r"[*_`]", "", re.search(r"^#\s+(.*)$", body, re.M).group(1))
-        page = wrap_manuscript(title, markdown_to_html(body, floats))
+        page = wrap_manuscript(
+            meta["/Title"], markdown_to_html(body, floats),
+            f'<p class="version">{_html.escape(provenance_line(paper, "manuscript"))}</p>')
         out_name = paper["out"].replace(".pdf", "-manuscript.pdf")
 
     html_path = os.path.join(HERE, out_name.replace(".pdf", ".build.html"))
@@ -1332,13 +1922,14 @@ def build(name, paper, style="journal", html_only=False):
               file=sys.stderr)
         return 1
     pdf_path = os.path.join(HERE, out_name)
-    print_pdf(chrome, html_path, pdf_path, running)
+    grafted, pages = print_pdf(chrome, html_path, pdf_path, running, meta,
+                               headings=headings_of(page))
     os.remove(html_path)
     _write_build_stamp(pdf_path, paper)
     size = os.path.getsize(pdf_path)
-    pages = open(pdf_path, "rb").read().count(b"/Type /Page\n") or None
     print(f"{name} [{style}]: wrote {os.path.relpath(pdf_path, REPO)} "
-          f"({size / 1024:.0f} KB{f', {pages} pages' if pages else ''})")
+          f"({size / 1024:.0f} KB, {pages} pages; the full handling sentence is on "
+          f"{pages - grafted} of them and the short rule on {grafted})")
     return 0
 
 

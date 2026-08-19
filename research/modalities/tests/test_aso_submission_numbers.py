@@ -63,6 +63,24 @@ def _supplement():
     return open(SUPPLEMENT, encoding="utf-8").read()
 
 
+def _required(path, what):
+    """⛔ AN ARTIFACT THAT IS NOT THERE IS A FINDING, NEVER A SILENT PASS (2026-08-19).
+
+    Four assertion blocks in this file were wrapped in a bare `if os.path.exists(...)`, so deleting
+    the generated tables file, or the genome screen, made every assertion inside them evaporate and
+    the test report PASSED. A guard that disappears with its input is indistinguishable from one
+    that never ran, and the artifacts concerned are all committed — their absence is a broken tree,
+    not an optional extra. The module-level loaders above skip DELIBERATELY, for a checkout that is
+    genuinely partial; this refuses, for artifacts this repository always ships.
+    """
+    if not os.path.exists(path):
+        pytest.fail(
+            f"{what} is missing at {path}. It is a committed artifact, so its absence is a broken "
+            "tree and not a reason to stop checking — regenerate it rather than passing over the "
+            "assertions that depend on it.")
+    return path
+
+
 # ⚠ ONE TABLE FOR THE SPELT-OUT COUNTS THE PROSE USES. Several guards below derive a count from an
 # artifact and then have to find it in a sentence that spells it, and the manuscript's own house
 # style spells a number that opens a sentence and prints a numeral that does not — so a guard has to
@@ -254,7 +272,14 @@ def test_minus_strand_fraction_matches_the_manuscript():
     txt = _paper()
     assert f"{minus} sit on the minus strand, or {pct}%" in _flat(txt), "minus-strand percentage"
     t = f"{tot:,}"
-    assert f"Of the {t} apparent cleavage risks" in _flat(txt), "results count"
+    # ⛔ THE NOUN CHANGED ON 2026-08-19 AND THE GUARD MUST FOLLOW THE MEASUREMENT, NOT THE OLD WORD.
+    # These are gap-paired sense-strand MATCHES. "Cleavage risk" named a catalytic outcome for a
+    # sequence observation, which §5 and §4.1 both contradict ("no screen here predicts cleavage at
+    # any of them because all five grade hybridisation only"). What this guard exists to pin is the
+    # COUNT and its denominator, so the count is asserted and the noun is allowed to be either the
+    # corrected one or the retired one -- fail on a wrong number, never on a corrected word.
+    assert (f"Of the {t} apparent gap-paired sense-strand matches" in _flat(txt)
+            or f"Of the {t} apparent cleavage risks" in _flat(txt)), "results count"
 
 
 def test_per_junction_range_matches_the_manuscript():
@@ -727,12 +752,11 @@ def test_the_discussion_recommends_the_two_published_junctions():
     assert (base["coverage_percent"], rung["coverage_percent"]) == (68.4, 79.0), (base, rung)
     assert rung["delta_percent_vs_previous"] == round(
         rung["coverage_percent"] - base["coverage_percent"], 1), rung
-    if os.path.exists(TABLES):
-        tab = open(TABLES, encoding="utf-8").read()
-        assert "**Table 5." in tab, "the coverage-ladder table is not in the generated tables file"
-        for r, suffix in ((base, ""), (rung, f" (+{rung['delta_percent_vs_previous']})")):
-            lo, hi = r["coverage_percent_range"]
-            assert f"| {r['coverage_percent']}% ({lo}–{hi}){suffix} |" in tab, r["panel"]
+    tab = open(_required(TABLES, "the generated submission tables"), encoding="utf-8").read()
+    assert "**Table 5." in tab, "the coverage-ladder table is not in the generated tables file"
+    for r, suffix in ((base, ""), (rung, f" (+{rung['delta_percent_vs_previous']})")):
+        lo, hi = r["coverage_percent_range"]
+        assert f"| {r['coverage_percent']}% ({lo}–{hi}){suffix} |" in tab, r["panel"]
     assert f"the two are {base['coverage_percent']}%" in txt
     assert "Table 5 gives that figure, the rungs above it and the reagent at each" in txt
     # ⭐ THE FOURTH, ADDED 2026-08-15 WITH THE DEPOSIT THAT RESOLVED IT. Two things must both be in
@@ -780,31 +804,61 @@ def test_the_discussion_recommends_the_two_published_junctions():
     # claim. What replaces it is stronger: the reagents the screened table ranks best are READ from
     # that table and required to appear in the prose, so the paragraph cannot drift off the artifact
     # the way a hand-typed sentence did.
-    nc = os.path.join(MOD, "noncoding-acceptor", "aso-noncoding-acceptor-screened-table.json")
-    if os.path.exists(nc):
-        ncd = json.load(open(nc, encoding="utf-8"))
-        screened = [j for j in ncd["junctions"] if j.get("screens_complete")]
-        assert len(screened) == 4, [j["junction_label"] for j in screened]
-        for j in screened:
-            best = j["best_available"]
-            seq = best["antisense_5to3"]
-            assert f"5′-{seq}-3′" in txt, (j["junction_label"], seq)
-            # ⛔ THE LOAD TRAVELS WITH THE SEQUENCE OR THE SENTENCE IS AN ADVERTISEMENT. Each of
-            # these four is named for synthesis, and none of them is clean; the margin and the
-            # gap-paired count over its locus recount are what a reader weighs before ordering.
-            assert f"margin {best['gap_specificity_margin']} and " \
-                   f"{best['n_gap_paired']} " in txt or \
-                   f"{best['n_gap_paired']} gap-paired near-matches over " \
-                   f"{best['n_gap_paired_loci']} loci" in txt, (j["junction_label"], best)
-            assert f"{best['n_gap_paired']} over {best['n_gap_paired_loci']}" in txt or \
-                   f"{best['n_gap_paired']} gap-paired near-matches over " \
-                   f"{best['n_gap_paired_loci']} loci" in txt, (j["junction_label"], best)
-        assert "are now designed and screened to the panel's depth" in txt
-        assert "None of the four is clean" in txt
-        # and they must NOT be pooled into the panel's own counts
-        # ⚠ WHITESPACE-TOLERANT FROM 2026-08-16, for the same reason as above: the sentence is
-        # unchanged, the line wrap around it is not.
-        assert "reported beside the panel and never pooled into it" in txt
+    nc = _required(os.path.join(MOD, "noncoding-acceptor",
+                                "aso-noncoding-acceptor-screened-table.json"),
+                   "the non-canonical-acceptor screened table")
+    ncd = json.load(open(nc, encoding="utf-8"))
+    #: ⛔⛔ THIS PINNED A FLAG THAT IS FALSE OF ONE OF THE FOUR (corrected 2026-08-19).
+    #: `assert len(screened) == 4` read `screens_complete` — a per-junction flag set true on
+    #: every row of this table, PGR_e2__NR4A3_e2 included — while §4.1 and §2.6 both state the
+    #: PGR seam is graded on fewer than five screens, because the parent-scoped screens' gene
+    #: set does not carry that donor. The assertion could not tell the two states apart: it
+    #: counted rows. The count is now DERIVED from the table, and the screen state is asserted
+    #: per junction against the ladder's per-screen record, which reads each screen's own
+    #: declared gene scope. One home for that derivation:
+    #: research/manuscripts/aso_coverage_ladder.py::per_screen_record.
+    screened = [j for j in ncd["junctions"] if j.get("best_available")]
+    assert len(screened) == ncd["n_junctions"] == len(ncd["junctions"]), (
+        f"{len(screened)} of this table's {ncd['n_junctions']} junctions carry a ranked "
+        "reagent. The prose below names one design per seam, so a seam without one is a "
+        "sentence with no artifact behind it.")
+    _lad = json.load(open(os.path.join(REPO, "research", "manuscripts", "aso",
+                                       "fusion-junction-aso-coverage-ladder.json"),
+                          encoding="utf-8"))["best_supported_buildable_panel"]
+    _member = _lad["panel_membership"]["junctions"]
+    _short = _lad["panel_membership"]["⛔_graded_on_fewer_than_every_screen"]
+    for j in screened:
+        _ev = _member[j["junction_label"]]["screen_evidence"]
+        #: the flag this used to trust, kept beside the derived reading so the two can be
+        #: compared rather than conflated
+        assert j.get("screens_complete") is True, j["junction_label"]
+        assert (_ev["all_five_read_this_junctions_own_parents"]
+                is (j["junction_label"] not in _short)), (j["junction_label"], _ev)
+    assert _short, (
+        "no junction in this table is now graded on fewer than every screen. `screens_complete` "
+        "and the per-screen record agree everywhere, which means either a cache gap was closed "
+        "— a real result, so re-derive §4.1's exception clause — or the record stopped being "
+        "derived.")
+    for j in screened:
+        best = j["best_available"]
+        seq = best["antisense_5to3"]
+        assert f"5′-{seq}-3′" in txt, (j["junction_label"], seq)
+        # ⛔ THE LOAD TRAVELS WITH THE SEQUENCE OR THE SENTENCE IS AN ADVERTISEMENT. Each of
+        # these four is named for synthesis, and none of them is clean; the margin and the
+        # gap-paired count over its locus recount are what a reader weighs before ordering.
+        assert f"margin {best['gap_specificity_margin']} and " \
+               f"{best['n_gap_paired']} " in txt or \
+               f"{best['n_gap_paired']} gap-paired near-matches over " \
+               f"{best['n_gap_paired_loci']} loci" in txt, (j["junction_label"], best)
+        assert f"{best['n_gap_paired']} over {best['n_gap_paired_loci']}" in txt or \
+               f"{best['n_gap_paired']} gap-paired near-matches over " \
+               f"{best['n_gap_paired_loci']} loci" in txt, (j["junction_label"], best)
+    assert "are now designed and screened to the panel's depth" in txt
+    assert "None of the four is clean" in txt
+    # and they must NOT be pooled into the panel's own counts
+    # ⚠ WHITESPACE-TOLERANT FROM 2026-08-16, for the same reason as above: the sentence is
+    # unchanged, the line wrap around it is not.
+    assert "reported beside the panel and never pooled into it" in txt
     # the gap-length risk is disclosed in the Methods and must be ranked first in the Discussion
     assert "Two risks attach, in this order. The first is architectural" in txt
     assert "The three designs that survive every screen are mechanism controls" in txt
@@ -900,7 +954,11 @@ def test_the_accessibility_range_is_the_one_the_artifacts_produce():
                 vals.append(r["site_accessibility"])
     assert len(vals) == 190, len(vals)
     txt = _paper()
-    assert f"across all {len(vals)} designs at real exon junctions" in txt
+    # ⚠ FLATTEN, AS THE VERY NEXT ASSERTION ALREADY DOES. The manuscript hard-wraps at ~100
+    # columns and a §6 rewrite on 2026-08-19 moved this phrase across a line break, so the literal
+    # stopped matching a sentence whose meaning had not changed. Its neighbour on the next line was
+    # written with `_flat` and survived the same rewrite untouched.
+    assert f"across all {len(vals)} designs at real exon junctions" in _flat(txt)
     assert f"with a median of {statistics.median(vals):.3f}" in _flat(txt)
     assert f"{min(vals):.3f} to {max(vals):.3f}" in txt
     assert "0.476" not in txt and "130 designs" not in txt
@@ -1037,7 +1095,9 @@ def test_the_lead_reagent_row_of_section_3_10_is_the_artifacts():
         [123, 3, 0], [6, 1, 0], [3, 4, 5], [3, 4, 5], [-7.77, -8.66, -10.25])
 
     txt = _flat(_paper())
-    assert "123 sense-strand cleavage risks across the gap at six gene loci become 3 at one locus" in txt
+    # Same rename; the load-bearing content is 123 -> 3 across six loci -> one, not the noun.
+    assert ("123 across the gap at six gene loci become 3 at one locus" in txt
+            or "123 sense-strand cleavage risks across the gap at six gene loci become 3 at one locus" in txt)
     assert "from 3 to 4 to 5 nucleotides, and the" in txt
     assert "−7.77 to −8.66 to −10.25 kcal/mol" in txt
     # §4's named second reagent, and the cost it does NOT buy
@@ -1166,7 +1226,16 @@ def test_the_gap_length_table_cells_are_the_artifacts_and_the_paper_points_at_it
     assert len(present) >= 3, present
     for arch in present:
         assert lead[arch]["antisense_5to3"] in txt, arch
-    assert "| sense-strand gap-paired cleavage risks | 123 | 3 | 0 |" in txt
+    #: ⛔ DERIVED FROM THE ARTIFACT AND MATCHED ON ITS CELLS, NOT ON ITS LABEL (2026-08-19). This
+    #: was `assert "| sense-strand gap-paired cleavage risks | 123 | 3 | 0 |" in txt`, and it went
+    #: red the moment the generator renamed that row to "sense-strand gap-paired near-matches" —
+    #: a vocabulary change with no effect on any number, which is a rename the table's own author
+    #: is entitled to make. Pinning a label the generator owns makes this guard fail on the wrong
+    #: thing and pass on nothing extra; the cells are the claim, so the cells are the pin.
+    _risks = " | ".join(str(lead[a]["alignment_screen"]["n_true_cleavage_risk"]) for a in present)
+    assert re.search(r"\|[^|\n]*gap-paired[^|\n]*\| " + re.escape(_risks) + r" \|", txt), (
+        f"no row of Table 7 carries the per-geometry gap-paired counts {_risks!r} the artifact "
+        "derives for the lead reagent.")
     assert "| designs carrying none | 8 of 30 | 28 of 42 | 54 of 54 |" in txt
     assert "| a mature parent can pair the whole gap | 181 of 190 | 130 of 266 | 87 of 342 |" in txt
     # ⛔ THE ROW BELOW WAS ADDED AND THE ONE UNDER IT RENAMED (round-7 review, 2026-08-16), AND THIS
@@ -1352,23 +1421,22 @@ def test_section_3_11_expression_figures_are_the_artifacts():
         "sentence has reverted to implying three independent orderings"
     )
     assert "the tumour-compartment proxy orders them a third way" in txt
-    if os.path.exists(TABLES):
-        tab = open(TABLES, encoding="utf-8").read()
-        body = tab[tab.index("**Table 6."):]
-        body = body[:body.index("**Table 7.")] if "**Table 7." in body else body
-        for L in (top, lama):
-            t = L["tumour_compartment_normal_tissue_proxy"]
-            v = round(max(t["values"].values()), 1)
-            #: ⚠ A TABLE ROW, NOT ANY LINE NAMING THE LOCUS (2026-08-19). Table 6's caption was
-            #: corrected to work an example through — "*HNRNPA2B1*'s hundred records over two
-            #: registers are fifty accessions each" — and `next()` then selected the CAPTION,
-            #: which carries no cells, so the assertion below failed against prose. The row is
-            #: what this test means; a row starts with a pipe.
-            row = next(r for r in body.splitlines()
-                       if r.startswith("|") and f"*{L['locus']}*" in r)
-            assert f"| {v} ({t['max_tissue_in_block']}) |" in row, (L["locus"], row)
-        printed = [float(x) for x in re.findall(r"\| (\d+(?:\.\d+)?) \([A-Z][^)|]*\) \|", body)]
-        assert printed and max(printed) == top_v, (top["locus"], top_v, sorted(printed)[-3:])
+    tab = open(_required(TABLES, "the generated submission tables"), encoding="utf-8").read()
+    body = tab[tab.index("**Table 6."):]
+    body = body[:body.index("**Table 7.")] if "**Table 7." in body else body
+    for L in (top, lama):
+        t = L["tumour_compartment_normal_tissue_proxy"]
+        v = round(max(t["values"].values()), 1)
+        #: ⚠ A TABLE ROW, NOT ANY LINE NAMING THE LOCUS (2026-08-19). Table 6's caption was
+        #: corrected to work an example through — "*HNRNPA2B1*'s hundred records over two
+        #: registers are fifty accessions each" — and `next()` then selected the CAPTION,
+        #: which carries no cells, so the assertion below failed against prose. The row is
+        #: what this test means; a row starts with a pipe.
+        row = next(r for r in body.splitlines()
+                   if r.startswith("|") and f"*{L['locus']}*" in r)
+        assert f"| {v} ({t['max_tissue_in_block']}) |" in row, (L["locus"], row)
+    printed = [float(x) for x in re.findall(r"\| (\d+(?:\.\d+)?) \([A-Z][^)|]*\) \|", body)]
+    assert printed and max(printed) == top_v, (top["locus"], top_v, sorted(printed)[-3:])
 
 
 def test_the_expression_limits_are_stated_and_the_unmeasured_loci_are_accounted():
@@ -1655,20 +1723,52 @@ def test_the_wild_type_allele_liability_is_named_with_the_designs_it_condemns():
     # The genome screen's named-target stratum is a lookup over the whole assembly rather than over
     # one locus, so its agreeing on the same designs is corroboration; asserting the prose without
     # asserting the lookup would let the sentence outlive the arm it credits.
-    gen = os.path.join(MOD, "aso-genome-offtarget-noncoding-acceptor.json")
-    if os.path.exists(gen):
-        st3 = json.load(open(gen, encoding="utf-8"))["headline"]["stratum_3_named_targets"]
-        assert st3["genes_hit_gap_paired_and_hybridisable"] == ["NR4A3"], st3
-        assert st3["n_designs_with_a_named_gap_paired_site"] == \
-            len(liab["designs_cleaving_wild_type_NR4A3"]) == 2
-        assert all(s["gap_fully_paired"] and s["hybridisable"] for s in st3["sites"]), st3["sites"]
+    gen = _required(os.path.join(MOD, "aso-genome-offtarget-noncoding-acceptor.json"),
+                    "the non-canonical-acceptor genome screen")
+    st3 = json.load(open(gen, encoding="utf-8"))["headline"]["stratum_3_named_targets"]
+    assert st3["genes_hit_gap_paired_and_hybridisable"] == ["NR4A3"], st3
+    assert st3["n_designs_with_a_named_gap_paired_site"] == \
+        len(liab["designs_cleaving_wild_type_NR4A3"]) == 2
+    assert all(s["gap_fully_paired"] and s["hybridisable"] for s in st3["sites"]), st3["sites"]
     assert "returned independently by an exhaustive scan" in txt
     # ⛔ "cleave" -> "pair their whole catalytic gap against" (round-7 D1-F7/B5-F3, applied
     # 2026-08-17). §5 says all five screens address hybridisation only, and the producing artifact's
     # own verdict string is a competence statement. The abstract and Box 1 always had it right; this
     # pin was holding the one hazard claim stated above its evidence.
-    assert ("**Some designs pair their whole catalytic gap against the patient's own un-rearranged "
-            "*NR4A3* allele") in raw
+    # ⚠ RE-ANCHORED 2026-08-19 ON THE PROPERTY, NOT THE OPENER. §2.6's thesis sentence was re-led
+    # with the MECHANISM (a non-exonic acceptor half means the un-rearranged allele carries the same
+    # sequence behind an intron), which is a readability fix that left the corrected hazard claim
+    # untouched. The old literal pinned the first six words, so a rewrite that PRESERVED the claim
+    # still failed it -- a guard that fires on a correct edit gets weakened or deleted, which is how
+    # the round-7 correction it protects would have been lost. Assert what must be true instead:
+    # the claim is in the bolded thesis, it uses the PAIRING verb, and it never says these designs
+    # cleave anything.
+    # ⚠ SCOPE TO §2.6 FIRST. Box 1 states the same liability for the three named designs, in the
+    # same vocabulary, so a document-wide search for the phrase finds Box 1 and certifies §2.6 on
+    # the strength of a different section -- which is the "guard reads the wrong passage" failure
+    # this suite has been bitten by before.
+    _s26 = raw.split("### 2.6 ·", 1)
+    assert len(_s26) == 2, "§2.6's heading has moved; re-anchor this guard"
+    # ⚠ AND FLATTEN THE WRAP BEFORE MATCHING. This manuscript hard-wraps at ~100 columns, so the
+    # phrase reads "un-rearranged *NR4A3*\nallele" in the source and no literal containing that
+    # space can ever match. Every prose needle in this suite is a whitespace-flattening bug waiting
+    # to happen; flatten first, then match.
+    _body26 = " ".join(_s26[1].split("### 2.7 ·", 1)[0].split())
+    # ⚠ SELECT ON A STABLE ANCHOR, NOT ON THE PHRASE BEING ASSERTED. An earlier draft of this guard
+    # also required "catalytic gap" in the block, which is one of the things it goes on to check --
+    # so reintroducing the round-7 defect made the block unfindable and the guard reported "thesis
+    # not found" instead of "cleavage verb present". It still failed, in the safe direction, but a
+    # guard whose message misnames the defect sends the next reader to the wrong place.
+    thesis = next((b for b in _body26.split("**") if "un-rearranged *NR4A3* allele" in b), None)
+    assert thesis, ("§2.6's bolded thesis no longer states the un-rearranged-allele liability at "
+                    "all; it is the result the section calls most consequential for anyone "
+                    "ordering these oligonucleotides")
+    assert "pair their whole catalytic gap against" in thesis, (
+        "§2.6's thesis must state the liability as PAIRING, which is what the screens measure. "
+        "Round 7 corrected it from 'cleave', because §5 says all five screens address "
+        "hybridisation only and the producing artifact's verdict is a competence statement.")
+    assert not re.search(r"\bcleav(e|es|ing|age)\b", thesis), (
+        f"§2.6's thesis has regained a cleavage verb: {thesis[:200]!r}")
 
 
 def test_the_testable_surface_states_the_only_catalogued_line_cannot_test_a_junction_reagent():

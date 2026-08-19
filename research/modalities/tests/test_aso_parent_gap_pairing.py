@@ -31,14 +31,18 @@ sys.path.insert(0, MOD)
 
 
 def _art():
+    #: ⛔ NOT A SKIP (2026-08-19, lane C2 audit): committed artifact, so an absence is a broken
+    #: tree, and skipping makes the guard disappear with its input while the run reports green.
     if not os.path.exists(ART):
-        pytest.skip("parent gap-pairing artifact is not present in this checkout")
+        pytest.fail(f"the parent gap-pairing artifact is missing at {ART}; it is committed, and "
+                    "the 87/190 criterion count rests on it.")
     return json.load(open(ART, encoding="utf-8"))
 
 
 def _paper():
     if not os.path.exists(PAPER):
-        pytest.skip("submission manuscript is not present in this checkout")
+        pytest.fail(f"the submission manuscript is missing at {PAPER}; it is committed, and every "
+                    "prose pin in this file is unchecked without it.")
     return open(PAPER, encoding="utf-8").read()
 
 
@@ -166,8 +170,12 @@ def test_the_candidate_set_is_what_both_screens_leave():
             assert len(hits) == o["n_offtarget_near_matches"], (
                 "the deeper re-screen was supposed to retain every hit; this list is truncated")
             deep[o["antisense_5to3"]] = [h for h in hits if not h.get("is_minus_strand")]
-    if not deep:
-        pytest.skip("the deeper re-screen artifacts are not present in this checkout")
+    #: ⛔ NOT A SKIP (2026-08-19, lane C2 audit). The deep re-screens are committed; an empty set
+    #: means the join stopped finding them, which is exactly when this comparison must speak.
+    assert deep, (
+        "no deep re-screen artifact was joined, so the comparison below covers nothing. The "
+        "re-screens are committed — a join that returns nothing is a naming or path change, not "
+        "an absent input.")
 
     sys.path.insert(0, HERE)
     from test_aso_submission_numbers import _clean_set  # noqa: E402

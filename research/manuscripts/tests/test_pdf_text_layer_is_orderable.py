@@ -144,6 +144,10 @@ def test_no_sequence_in_the_pdf_is_fused_to_the_next_column(pdf_text):
     that is exactly the shape a fused table cell takes.
     """
     seqs = _canonical_sequences()
+    assert re.search(r"5[′']-[ACGT]{12,25}-3[′']", pdf_text), (
+        "this build's text layer carries no delimited sequence at all, so the search below could "
+        "not have found a fused one either. A guard whose corpus is empty is not a guard that "
+        "passed.")
     bad = []
     for m in re.finditer(r"[ACGT]{12,}\d", pdf_text):
         run = m.group(0)[:-1]
@@ -228,6 +232,16 @@ def test_every_sequence_the_pdf_prints_is_in_the_canonical_file(pdf_text):
     """
     seqs = _canonical_sequences()
     printed = set(re.findall(r"5[′']-([ACGT]{12,25})-3[′']", pdf_text))
+    #: ⛔ AND THE SET MUST NOT BE EMPTY, WHICH NOTHING SAID (2026-08-19). `printed - seqs` is empty
+    #: when `printed` is empty, so a build that lost every delimiter — the exact regression the two
+    #: tests above exist for — would have satisfied this one. MEASURED on both builds: 166 delimited
+    #: tokens, 69 distinct, every one of them in the canonical file. The floor is set well under
+    #: that, because the number of sequences the paper prints is an editorial decision; what is not
+    #: negotiable is that the extractor found some.
+    assert len(printed) >= 20, (
+        f"only {len(printed)} delimited sequence(s) could be read out of this build's text layer "
+        "(69 distinct were measured on 2026-08-19). Either the delimiters are gone — which is what "
+        "this file exists to catch — or the extractor is no longer reading the sequence cells.")
     missing = sorted(printed - seqs)
     assert not missing, (
         f"{len(missing)} sequence(s) are printed in the deposited PDF and absent from the canonical "
@@ -243,31 +257,95 @@ def test_every_sequence_the_pdf_prints_is_in_the_canonical_file(pdf_text):
 #: floor cannot know what a full page is.
 _STRANDED_PAGE_FRACTION = 0.45
 
+#: ⛔ WHAT COUNTS AS A DISPLAY ITEM, AND WHY IT IS A RULE COUNT RATHER THAN "ANY DRAWN OBJECT".
+#: pdfminer models every drawn primitive as an `LTCurve`, and `LTRect`/`LTLine` are subclasses of
+#: it, so "the page carries a curve" is true of any page with a rule under its running head — 37 of
+#: the journal build's 47 pages and 42 of the manuscript build's 66. A test exempting those pages
+#: exempts most of the document.
+#: MEASURED on both builds 2026-08-19, the two populations do not overlap and are not close:
+#:   · pages with no grid on them          — 0 to 14 rule primitives (max 14, manuscript p28)
+#:   · pages carrying a table grid or an     97 to 820 (min 97, manuscript p50's grid)
+#:     SVG figure drawn as rules
+#: so any threshold in 15…96 separates them. 40 is taken as the midpoint of that gap rather than
+#: either edge, so neither a rule-heavy prose page nor a very small grid decides the test.
+_DISPLAY_ITEM_MIN_RULES = 40
+
 
 def _pages(path):
-    """Per page: (number, characters, carries-a-display-item, height)."""
+    """One record per page: number, characters, placed graphics, drawn rules, height, text."""
     from pdfminer.high_level import extract_pages
     from pdfminer.layout import LTTextContainer, LTFigure, LTImage, LTCurve
     out = []
     for number, layout in enumerate(extract_pages(path), 1):
-        chars = sum(len(el.get_text().strip())
-                    for el in layout if isinstance(el, LTTextContainer))
-        graphical = any(isinstance(el, (LTFigure, LTImage, LTCurve)) for el in layout)
-        out.append((number, chars, graphical, round(layout.height)))
+        text = "\n".join(el.get_text() for el in layout if isinstance(el, LTTextContainer))
+        out.append({
+            "number": number,
+            "chars": sum(len(el.get_text().strip())
+                         for el in layout if isinstance(el, LTTextContainer)),
+            "n_placed_graphics": sum(1 for el in layout if isinstance(el, (LTFigure, LTImage))),
+            "n_rules": sum(1 for el in layout if isinstance(el, LTCurve)),
+            "height": round(layout.height),
+            "text": text,
+        })
     return out
 
 
+def _carries_a_display_item(page):
+    """True when the page carries an actual float — a placed figure, or a drawn grid.
 
-def _next_page_carries_a_display_item(pages, number):
-    """True when the page after `number` is where a table or figure block begins.
+    ⛔ THIS IS THE CONJUNCT THAT WAS NOT BEING TESTED. Both halves of the exemption below — "the
+    page carries no display item of its own" and "the page after it opens one" — were implemented
+    against proxies that are true of nearly every page (`isinstance(el, LTCurve)` for the first,
+    "the next page holds more than 1,500 characters" for the second), so a blank page in the
+    journal-format deposit was guarded by nothing at all.
+    """
+    return page["n_placed_graphics"] > 0 or page["n_rules"] >= _DISPLAY_ITEM_MIN_RULES
+
+
+def _next_page_opens_a_display_item(pages, number):
+    """True when the page after `number` is where a table or figure block BEGINS.
 
     A page whose successor opens a display item was truncated by that item's own atomicity, which
-    is a property of the item rather than of the pagination. Measured on characters: a display-item
-    page in this build runs to thousands, so "the next page is a big block" is a reliable proxy for
-    "the next page is the grid that would not fit here".
+    is a property of the item rather than of the pagination. "Opens" rather than "carries" is free
+    here: this is only ever asked about a page that carries no display item of its own, so a grid
+    on the next page cannot be the continuation of one that started on this one.
     """
-    nxt = next((p for p in pages if p[0] == number + 1), None)
-    return bool(nxt) and nxt[1] > 1500
+    nxt = next((p for p in pages if p["number"] == number + 1), None)
+    return bool(nxt) and _carries_a_display_item(nxt)
+
+
+def _stranded_pages(pages):
+    """The decision, as a pure function of the page records, so it can be driven with a
+    constructed document instead of only with the one on disk (see the proof below)."""
+    import statistics
+    median = statistics.median([p["chars"] for p in pages]) or 1
+    heights = {p["number"]: p["height"] for p in pages}
+    stranded = []
+    for page in pages:
+        number = page["number"]
+        if _carries_a_display_item(page) or page["chars"] >= _STRANDED_PAGE_FRACTION * median:
+            continue
+        #: The page before an orientation change is forced short by page geometry, not by a float
+        #: placed badly — a landscape table cannot start halfway down a portrait page.
+        if heights.get(number + 1) not in (None, page["height"]):
+            continue
+        #: ⛔ AND THE PAGE BEFORE AN UNBREAKABLE GRID IS FORCED SHORT THE SAME WAY (2026-08-19).
+        #: Manuscript page 42 carries one clause of Table 6's diamond note and nothing else, because
+        #: the grid that must follow it is atomic and taller than the space left. THREE fixes were
+        #: tried and MEASURED, and this exemption is written only because all three were worse:
+        #:   * widows/orphans on the note paragraph        -> page unchanged at 108 characters
+        #:   * `break-after: auto` on table captions       -> 1 stranded page became 11
+        #:   * `break-inside: auto` on the grid            -> 1 stranded page became 10
+        #: Holding the grid atomic is what keeps the other fifty-odd pages full, so the single short
+        #: page is the price of that and not a defect this build can remove. A blind screen that
+        #: rendered all 58 pages did not report it.
+        #: ⚠ NARROW BY CONSTRUCTION: the page must carry no display item of its own AND be followed
+        #: by one. A short page that simply runs out of prose is still a failure.
+        if _next_page_opens_a_display_item(pages, number):
+            continue
+        stranded.append((number, page["chars"]))
+    return stranded, median
+
 
 @pytest.mark.parametrize("style", sorted(PDFS))
 def test_no_page_of_either_pdf_is_left_stranded(style):
@@ -283,37 +361,72 @@ def test_no_page_of_either_pdf_is_left_stranded(style):
 
     ⚠ MEASURED ON THE BUILT FILE. No source-side check can see a page break.
     """
-    import statistics
     pages = _pages(PDFS[style])
     assert pages, f"the {style} PDF has no pages"
-    median = statistics.median([c for _, c, _, _ in pages]) or 1
-    heights = {n: h for n, _, _, h in pages}
-    stranded = []
-    for number, chars, graphical, height in pages:
-        if graphical or chars >= _STRANDED_PAGE_FRACTION * median:
-            continue
-        #: The page before an orientation change is forced short by page geometry, not by a float
-        #: placed badly — a landscape table cannot start halfway down a portrait page.
-        if heights.get(number + 1) not in (None, height):
-            continue
-        #: ⛔ AND THE PAGE BEFORE AN UNBREAKABLE GRID IS FORCED SHORT THE SAME WAY (2026-08-19).
-        #: Manuscript page 42 carries one clause of Table 6's diamond note and nothing else, because
-        #: the grid that must follow it is atomic and taller than the space left. THREE fixes were
-        #: tried and MEASURED, and this exemption is written only because all three were worse:
-        #:   * widows/orphans on the note paragraph        -> page unchanged at 108 characters
-        #:   * `break-after: auto` on table captions       -> 1 stranded page became 11
-        #:   * `break-inside: auto` on the grid            -> 1 stranded page became 10
-        #: Holding the grid atomic is what keeps the other fifty-odd pages full, so the single short
-        #: page is the price of that and not a defect this build can remove. A blind screen that
-        #: rendered all 58 pages did not report it.
-        #: ⚠ NARROW BY CONSTRUCTION: the page must carry no display item of its own AND be followed
-        #: by one. A short page that simply runs out of prose is still a failure.
-        if not graphical and _next_page_carries_a_display_item(pages, number):
-            continue
-        stranded.append((number, chars))
+    #: ⛔ AND THE EXEMPTIONS MUST NOT SWALLOW THE DOCUMENT. Both were proxies until 2026-08-19 and
+    #: between them exempted 42 of the manuscript build's 66 pages and 37 of the journal build's 47
+    #: before the size test was ever reached. A display item is now an actual placed figure or a
+    #: drawn grid, so the count below is the count of real floats and a regression that starts
+    #: exempting prose pages fails here rather than going quiet.
+    n_display = sum(1 for p in pages if _carries_a_display_item(p))
+    assert 0 < n_display < 0.6 * len(pages), (
+        f"{n_display} of the {style} build's {len(pages)} pages read as carrying a display item. "
+        "Zero means the detector stopped seeing floats and every short page is now exempt by the "
+        "next-page clause; a majority means it is matching prose pages and the guard is vacuous.")
+    stranded, median = _stranded_pages(pages)
     assert not stranded, (
         f"the {style}-format PDF leaves {len(stranded)} text page(s) stranded "
         f"(median page {median:.0f} chars): "
         + ", ".join(f"p{n} ({c} chars)" for n, c in stranded)
         + ". A short page with no display item on it, not preceding an orientation change, means a "
           "float forced a break before the surrounding prose had filled.")
+
+
+def _page(number, chars, *, n_rules=0, n_placed=0, height=842):
+    """A page record with everything but the field under test held constant."""
+    return {"number": number, "chars": chars, "n_placed_graphics": n_placed,
+            "n_rules": n_rules, "height": height, "text": "x" * chars}
+
+
+def test_the_stranded_page_guard_fails_on_a_page_a_float_did_not_cause():
+    """⛔ THE GUARD OF THE GUARD — the defect is CONSTRUCTED and the exemptions are shown to refuse it.
+
+    Both conjuncts of the float exemption were proxies, and both were true of almost every page:
+
+      · "this page carries no display item"  was  `isinstance(el, LTCurve)`, and pdfminer makes
+        `LTRect` and `LTLine` subclasses of `LTCurve`, so one rule under a running head exempted the
+        page — 42 of 66 manuscript pages and 37 of 47 journal pages;
+      · "the next page opens a display item" was  `chars > 1500`, true of 64 of the manuscript
+        build's 66 pages and of every page of the journal build.
+
+    So a page emptied by a badly placed float, followed by ordinary prose, was exempt. Below is
+    exactly that document: page 2 carries 300 characters against a 6,000-character median, has no
+    grid and no placed graphic, and page 3 is a full prose page. It must be reported.
+    """
+    prose = [_page(1, 6000), _page(2, 300), _page(3, 6000)]
+    assert _stranded_pages(prose)[0] == [(2, 300)], (
+        "a short prose page between two full prose pages is not being reported — the exemptions "
+        "are matching something other than a display item.")
+    # the old proxy for the second conjunct, driven with the same document: it exempts the defect
+    assert prose[2]["chars"] > 1500, "the retired proxy would have exempted this very page"
+    # and the old proxy for the FIRST conjunct: one rule under a running head, still a defect
+    assert _stranded_pages([_page(1, 6000), _page(2, 300, n_rules=1), _page(3, 6000)])[0] \
+        == [(2, 300)], "a single drawn rule is again reading as a display item"
+
+
+def test_the_stranded_page_guard_still_exempts_the_two_cases_it_is_meant_to():
+    """The other half of the proof: the exemptions must survive, or the fix is just a stricter bar.
+
+    A page short because an atomic grid could not fit under it, and a page short because the next
+    page changes orientation, are properties of typesetting rather than defects — and each is
+    exempted only on the evidence that names it.
+    """
+    grid_next = [_page(1, 6000), _page(2, 300), _page(3, 4000, n_rules=400)]
+    assert _stranded_pages(grid_next)[0] == [], "the atomic-grid exemption stopped working"
+    figure_next = [_page(1, 6000), _page(2, 300), _page(3, 900, n_placed=3)]
+    assert _stranded_pages(figure_next)[0] == [], "the placed-figure exemption stopped working"
+    landscape = [_page(1, 6000), _page(2, 300), _page(3, 6000, height=595)]
+    assert _stranded_pages(landscape)[0] == [], "the orientation-change exemption stopped working"
+    # and a page carrying its own grid is never its own defect
+    own_grid = [_page(1, 6000), _page(2, 300, n_rules=400), _page(3, 6000)]
+    assert _stranded_pages(own_grid)[0] == [], "a page carrying a grid is being called stranded"

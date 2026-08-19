@@ -22,6 +22,7 @@ in the same commit, and then update the tripwire — never to delete it.
 """
 import json
 import os
+import re
 import sys
 
 import pytest
@@ -35,8 +36,13 @@ sys.path.insert(0, MAN)
 
 
 def _json(path, what):
+    #: ⛔ NOT A SKIP (2026-08-19, lane C2). All three artifacts this reads — the coverage ladder,
+    #: the reagent-coverage record and the breakpoint census — are committed. A skip on a missing
+    #: one is the pypdf/pymupdf shape: the ladder guards evaporate with their input and the run
+    #: reports green for a check nothing performed.
     if not os.path.exists(path):
-        pytest.skip(f"{what} is not present in this checkout")
+        pytest.fail(f"{what} is missing at {path}. It is a committed artifact, so its absence is a "
+                    "broken tree and not a reason to stop checking the coverage ladder.")
     return json.load(open(path, encoding="utf-8"))
 
 
@@ -87,19 +93,87 @@ def test_a_bound_is_never_rendered_as_a_reachable_target():
 
 
 def test_no_rung_claims_a_junction_that_has_no_design_at_all():
-    """A rung that silently includes an undesignable junction prices coverage nobody can order."""
+    """A rung that silently includes an undesignable junction prices coverage nobody can order.
+
+    ⛔ AND IT ASSERTED NOTHING UNTIL 2026-08-19. It read
+
+        assert not (undesigned and not designed_unscreened) or row["what_it_costs"]
+
+    over a ladder in which `junctions_with_no_design_at_all` is `[]` on every rung — so the left
+    operand was `not []`, which is `True`, and the whole expression short-circuited before reaching
+    anything. The loop under it iterated `junctions_designed_but_not_yet_screened`, also empty on
+    every rung. Both were true statements about the four-state accounting being currently clean, and
+    neither could become false: no input to this ladder could have made this test fail.
+
+    What replaces it is the ACCOUNTING ITSELF, which is checkable while the exceptional states are
+    empty: every junction a rung names is in exactly one of the four states, the three exceptional
+    lists are disjoint, and a state that is not empty carries what its own row promises.
+    """
+    membership = set(_ladder()["best_supported_buildable_panel"]["panel_membership"]["junctions"])
+    assert membership, "the screened membership is empty, so nothing below can be checked against it"
     for row in _ladder()["ladder"]:
+        named = row["junctions"]
+        undesigned = set(row["junctions_with_no_design_at_all"])
+        designed_unscreened = row["junctions_designed_but_not_yet_screened"]
+        outside = row["junctions_screened_outside_the_manuscript_panel"]
+        # ⛔ THE FOUR STATES MUST PARTITION THE ROW. A junction in two of them is being counted
+        # twice; a junction in none of them is a reagent this row prices and no artifact places.
+        for state in (undesigned, set(designed_unscreened), set(outside)):
+            assert state <= set(named), (row["panel"], sorted(state - set(named)))
+        assert not (undesigned & set(designed_unscreened)), row["panel"]
+        assert not (undesigned & set(outside)), row["panel"]
+        assert not (set(designed_unscreened) & set(outside)), row["panel"]
+        unplaced = [j for j in named
+                    if j not in membership and j not in designed_unscreened and j not in undesigned]
+        assert not unplaced, (
+            f"{row['panel']!r} prices {unplaced}, which is neither in the screened membership nor "
+            "recorded as designed-but-unscreened nor as having no design at all. A rung that names "
+            "a reagent no artifact places is coverage nobody can order.")
+        # ⛔ SCREENED-OUTSIDE-THE-PANEL IS A SCREENED JUNCTION, and must be readable as one.
+        for label in outside:
+            assert label in membership, (row["panel"], label)
         if row["kind"] != "rung":
             continue
-        undesigned = row["junctions_with_no_design_at_all"]
-        designed_unscreened = row["junctions_designed_but_not_yet_screened"]
-        assert not (undesigned and not designed_unscreened) or row["what_it_costs"], row["panel"]
+        assert not undesigned or row["what_it_costs"], (
+            f"{row['panel']!r} includes {sorted(undesigned)}, for which no design exists, and says "
+            "nothing about what building one costs.")
         # ⛔ A DESIGNED-BUT-UNSCREENED JUNCTION MUST SAY SO ON ITS OWN RECORD. Collapsing the three
         # states (screened / designed-unscreened / nothing) into two is how an unscreened sequence
         # gets read as a panel member.
+        # ⚠ THIS STATE IS EMPTY IN THE CURRENT LADDER, so the loop iterates nothing and the check is
+        # exercised by `test_a_designed_but_unscreened_record_must_say_it_is_unscreened` instead.
         for label, rec in designed_unscreened.items():
-            assert "NONE" in rec["offtarget_screens_run"], (label, rec)
-            assert rec["antisense_5to3"], label
+            _designed_unscreened_record_is_honest(label, rec)
+
+
+def _designed_unscreened_record_is_honest(label, rec):
+    """The shape a designed-but-unscreened record must have, in one place so it can be driven."""
+    assert "NONE" in rec["offtarget_screens_run"], (label, rec)
+    assert rec["antisense_5to3"], label
+
+
+def test_a_designed_but_unscreened_record_must_say_it_is_unscreened():
+    """⚠ THE STATE IS EMPTY TODAY, WHICH IS WHY THIS EXISTS.
+
+    `junctions_designed_but_not_yet_screened` is `{}` on every rung, so the loop above cannot fail
+    while the tree is clean — and the day it does carry a junction is exactly the day the check has
+    to work. Driven with constructed records rather than left to a future reader to discover.
+    """
+    _designed_unscreened_record_is_honest(
+        "TAF15_e6__NR4A3_intron2",
+        {"offtarget_screens_run": "NONE — load unknown, not comparable with the panel",
+         "antisense_5to3": "GGGCATATCATCAAAC"})
+    for broken, why in (
+        ({"offtarget_screens_run": "all five", "antisense_5to3": "GGGCATATCATCAAAC"},
+         "a record claiming screens while sitting in the UNSCREENED state"),
+        ({"offtarget_screens_run": "NONE", "antisense_5to3": ""},
+         "a record with no sequence, so nothing can be checked against the panel"),
+    ):
+        try:
+            _designed_unscreened_record_is_honest("X_e1__NR4A3_e3", broken)
+        except AssertionError:
+            continue
+        raise AssertionError(f"the designed-but-unscreened check passes {why}")
 
 
 def test_the_single_series_basis_is_the_pooled_basis_minus_the_second_series():
@@ -294,8 +368,15 @@ def test_the_fifth_partner_cohort_is_refused_and_the_refusal_is_priced():
     four = _ladder()["best_supported_buildable_panel"][
         "sensitivity_if_the_partner_denominator_is_pooled"]
     fifth = four["fifth_partner_cohort_deliberately_not_pooled"]
-    if "_unavailable" in fifth:
-        pytest.skip(fifth["_unavailable"])
+    #: ⛔ THE GUARDED DATA MAY NOT SWITCH ITS OWN GUARD OFF (2026-08-19). This read
+    #: `pytest.skip(fifth["_unavailable"])`, so the one edit that would hide the refusal entirely —
+    #: dropping the fifth cohort out of the pooling artifact, which is what `_unavailable` records —
+    #: turned the whole test green. A skip keyed to a field the artifact writes is a switch in the
+    #: hands of the thing being checked.
+    assert "_unavailable" not in fifth, (
+        f"the fifth-cohort row could not be built: {fifth['_unavailable']}. That is the row pricing "
+        "the refusal that decides the 95% question, so its absence is a finding and not a reason to "
+        "stop checking. Restore the pooling artifact's cohort rather than skipping.")
 
     pool = _json.load(open(os.path.join(MAN, "fusion-partner", "emc-fusion-partner-pooling.json"),
                            encoding="utf-8"))
@@ -489,11 +570,15 @@ SI = os.path.join(MAN, "aso", "fusion-junction-aso-supplementary-information.md"
 
 
 def _paper_flat():
-    if not os.path.exists(PAPER):
-        pytest.skip("the submission manuscript is not present in this checkout")
-    text = open(PAPER, encoding="utf-8").read()
-    if os.path.exists(SI):
-        text += "\n" + open(SI, encoding="utf-8").read()
+    #: ⛔ BOTH HALVES ARE REQUIRED (2026-08-19, lane C2). The SI used to be appended only `if
+    #: os.path.exists(SI)`, and §S6 is where the best-supported figure and its membership count now
+    #: live — so a missing SI turned the pins below into assertions about the main text alone.
+    for path, what in ((PAPER, "the submission manuscript"),
+                       (SI, "the supplementary information")):
+        if not os.path.exists(path):
+            pytest.fail(f"{what} is missing at {path}; it is committed, and the coverage figures "
+                        "this file pins are stated across both documents.")
+    text = open(PAPER, encoding="utf-8").read() + "\n" + open(SI, encoding="utf-8").read()
     return " ".join(text.split())
 
 
@@ -557,6 +642,22 @@ def test_the_manuscripts_best_supported_figure_is_the_artifacts_and_does_not_dis
     #: SCREENED design, and eight of them clear all five.
     assert f"{_WORD[n]} junctions now carry a published exon-resolved breakpoint and a " \
            "screened design" in txt.lower()
+    # ⛔ AND THE COMPLEMENT THE SENTENCE ABOVE ONLY IMPLIES — "the count this row derives AND NO
+    # OTHER" (2026-08-19). Every assertion here was of the form "the derived count is present", and
+    # presence is not exclusivity: the same frame carrying a DIFFERENT count would have satisfied
+    # every one of them, because a manuscript that says both nine and eight says nine. That is the
+    # shape BLOCKER 2 survived in — a membership count stated in two places, guarded only where it
+    # was right. The complement is asserted over the same derived vocabulary, so it cannot go stale
+    # against a spelled list of its own.
+    for wrong in (w for k, w in _WORD.items() if k != _n):
+        assert f"{wrong} junctions now carry a published exon-resolved breakpoint and a " \
+               "screened design" not in txt.lower(), (
+            f"the manuscript states this membership count as both {_WORD[_n]!r} and {wrong!r}. "
+            "The row derives one count; a second one in the same frame means a stale copy was left "
+            "behind by an edit to the first.")
+        assert f"the {wrong} together are {best['coverage_percent']}%" not in txt, (
+            f"{best['coverage_percent']}% is attributed to {wrong!r} junctions somewhere as well as "
+            f"to {_WORD[_n]!r}. One of the two is stale.")
     # ⛔ THE ZERO-CONTRIBUTING MEMBER MUST BE NAMED AS CONTRIBUTING ZERO. Reading it as a small
     # positive contribution is exactly the error the row's own note refuses.
     # ⛔ EVERY zero-contributor must be named, not just the first. TFG joined this list when a
@@ -639,3 +740,209 @@ def test_the_type3_limitation_states_unlocated_and_not_undesignable():
         assert dead not in txt, f"the refuted type-3 claim is in the manuscript: {dead!r}"
     # and the quantity the artifact refuses to supply must not be supplied
     assert "How many tumours this accounts for is not established by any source" in txt
+
+
+# ────────────────────────────── the per-junction screen record, and the count the paper states
+#: The words the manuscript spells these counts with. Vocabulary, not arithmetic — every number
+#: below is derived from the artifact and looked up here.
+_COUNT_WORDS = {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six", 7: "seven",
+                8: "eight", 9: "nine", 10: "ten", 11: "eleven", 12: "twelve"}
+#: How the manuscript refers to each of the five screens, so a sentence naming one can be joined to
+#: the artifact's record of whether that screen read the junction it is excusing.
+_SCREEN_PROSE = {
+    "premrna": ("pre-mrna",),
+    "mature_parent_gap_pairing": ("parent screen", "mature-parent", "mature parent"),
+    "transcriptome_blast_deep": ("alignment screen", "blast"),
+    "exhaustive_transcript_scan": ("exhaustive",),
+    "genome_grch38": ("genome screen", "grch38"),
+}
+
+
+def test_every_qualifying_junction_carries_a_PER_SCREEN_record_not_a_table_level_echo():
+    """⛔⛔ THE DEFECT THIS FILE MISSED, AND THE COMPANION GUARD WAS RE-ANCHORED AROUND (2026-08-19).
+
+    `aso_coverage_ladder.screened_published_junctions` recorded each junction's screen state by
+    copying the screened table's DOCUMENT-level `n_screens_that_ran` onto every junction in it. The
+    deposited artifact therefore said `n_screens_that_ran: 5` for `PGR_e2__NR4A3_e2`, a seam §4.1 and
+    §2.6 both state is graded on fewer than five because the parent-scoped screens' gene set does not
+    carry that donor. Nothing in the suite could see it: the only guard on that table asserted
+    `len(screened) == 4`, which is a count of rows and says nothing about what was read for any of
+    them.
+
+    ⚠ A DOCUMENT-LEVEL COUNT CANNOT BE A PER-JUNCTION FACT. The property asserted here is
+    structural: every qualifying junction carries a per-screen record, each screen's entry says
+    whether it read THAT junction's own parents, and the count is the sum of those entries rather
+    than a field copied from the table header.
+    """
+    membership = _ladder()["best_supported_buildable_panel"]["panel_membership"]
+    junctions = membership["junctions"]
+    assert junctions, "the best-supported row has no members"
+    assert membership["n_junctions_qualifying"] == len(junctions), membership
+
+    for label, rec in sorted(junctions.items()):
+        assert "screen_evidence" in rec, (
+            f"{label} carries no screen evidence at all: {sorted(rec)}")
+        ev = rec["screen_evidence"]
+        assert "per_screen" in ev, (
+            f"{label}'s screen evidence is {sorted(ev)} — there is no per-screen record, so the "
+            "junction is once again describing its screen state with whatever field the table it "
+            "came from carries at DOCUMENT level. That is the 2026-08-19 defect exactly.")
+        per = ev["per_screen"]
+        assert len(per) == ev["n_screens"] >= 5, (label, sorted(per))
+        for screen, row in per.items():
+            assert "read_this_junctions_own_parents" in row, (label, screen)
+            if row["gene_scoped"]:
+                assert row["genes_searched"], (label, screen)
+                own = set(row["this_junctions_own_parents"])
+                unread = set(row["this_junctions_parents_not_read"])
+                assert unread == {g for g in own if g not in set(row["genes_searched"])} | (
+                    own & set(row["genes_the_screen_declares_it_did_not_scan"])), (label, screen)
+                assert row["read_this_junctions_own_parents"] == (row["ran"] and not unread)
+        # ⛔ THE COUNT IS THE SUM OF THE ROWS, not a number beside them.
+        assert ev["n_screens_that_read_this_junctions_own_parents"] == sum(
+            1 for r in per.values() if r["read_this_junctions_own_parents"]), (label, ev)
+        assert ev["screens_that_did_not"] == sorted(
+            s for s, r in per.items() if not r["read_this_junctions_own_parents"]), label
+        # ⛔ AND THE FIELD THAT USED TO CARRY THE ANSWER IS KEPT BESIDE IT, MARKED AS NOT USED, so a
+        # future reader can see that a table-level 5 and a per-junction 3 coexist in this record.
+        echo = ev["⚠_the_table_level_flag_this_replaces"]
+        assert "why_it_is_not_used" in echo, label
+
+
+def test_the_screen_record_disagrees_with_the_table_level_field_exactly_where_it_should():
+    """★ THE PROOF: the record must be capable of contradicting the field it replaced, and does.
+
+    The non-canonical screened table states `n_screens_that_ran: 5` at document level and
+    `screens_complete: true` on every one of its four junctions. If the per-screen record agreed
+    with that everywhere, it would be the same claim in more words. It does not: exactly one
+    junction reads fewer, and the screens it does not read are the parent-scoped ones — the only two
+    of the five whose coverage depends on which genes are in a cache.
+    """
+    membership = _ladder()["best_supported_buildable_panel"]["panel_membership"]
+    junctions = membership["junctions"]
+    short = {l: r["screen_evidence"] for l, r in junctions.items()
+             if not r["screen_evidence"]["all_five_read_this_junctions_own_parents"]}
+    assert short, (
+        "no junction is now graded on fewer than every screen. That would be a real improvement "
+        "and it changes what §4.1 may say — re-derive the sentence rather than deleting this.")
+    for label, ev in short.items():
+        echo = ev["⚠_the_table_level_flag_this_replaces"]
+        assert echo["value"] is True or echo["document_level_n_screens_that_ran"] == ev["n_screens"], (
+            f"{label} is graded on {ev['n_screens_that_read_this_junctions_own_parents']} of "
+            f"{ev['n_screens']} and the table-level fields now agree with that, so the record has "
+            "stopped being the stricter of the two and this guard proves nothing.")
+        assert ev["n_screens_that_read_this_junctions_own_parents"] < ev["n_screens"]
+        # the two screens whose reach depends on a gene set are the ones that can fall short
+        assert set(ev["screens_that_did_not"]) <= {"mature_parent_gap_pairing", "premrna"}, ev
+
+
+def test_the_papers_eight_of_those_nine_is_the_artifacts_count_and_no_other():
+    """§4.1's screening-reach sentence, derived on both sides.
+
+    ⛔ BOTH NUMBERS AND THE COMPLEMENT. "Eight of those nine designs are taken through all five
+    screens" states a total and a subset; the artifact derives both, and the frame is asserted to
+    carry no OTHER pair, because a stale copy of this sentence is the exact failure that let a
+    junction claim five screens in one place and four in another.
+    """
+    membership = _ladder()["best_supported_buildable_panel"]["panel_membership"]
+    n_total = membership["n_junctions_qualifying"]
+    n_all_five = membership["n_junctions_with_every_screen_reading_their_own_parents"]
+    assert n_all_five == sum(
+        1 for r in membership["junctions"].values()
+        if r["screen_evidence"]["all_five_read_this_junctions_own_parents"])
+    txt = _paper_flat().lower()
+
+    def frame(subset, total):
+        return f"{_COUNT_WORDS[subset]} of those {_COUNT_WORDS[total]} designs are taken through"
+
+    assert frame(n_all_five, n_total) in txt, (
+        f"§4.1 no longer states the screening reach as {_COUNT_WORDS[n_all_five]} of those "
+        f"{_COUNT_WORDS[n_total]}, which is what the ladder's per-screen record derives.")
+    for subset, total in ((a, b) for a in _COUNT_WORDS for b in _COUNT_WORDS
+                          if (a, b) != (n_all_five, n_total)):
+        assert frame(subset, total) not in txt, (
+            f"§4.1 also states this as {_COUNT_WORDS[subset]} of those {_COUNT_WORDS[total]}. Two "
+            "counts in one frame means an edit moved one copy and left the other.")
+
+
+def test_the_junction_graded_on_fewer_screens_is_named_with_a_screen_that_really_did_not_read_it():
+    """The exception has to be attributed to a screen the artifact agrees did not read it.
+
+    ⚠ THE SENTENCE MAY NAME FEWER SCREENS THAN THE ARTIFACT RECORDS — that is a prose finding and is
+    reported upward rather than asserted here, because this file does not own the manuscript. What
+    it must never do is excuse the junction with a screen that DID read it, which would be an
+    explanation the record contradicts.
+    """
+    membership = _ladder()["best_supported_buildable_panel"]["panel_membership"]
+    short = membership["⛔_graded_on_fewer_than_every_screen"]
+    assert short, "no junction is graded short; re-derive §4.1's exception clause rather than this"
+    txt = _paper_flat()
+    for label, rec in short.items():
+        partner = label.split("_")[0]
+        assert f"*{partner}* seam" in txt or f"*{partner}* exon" in txt, (
+            f"{label} is graded on {rec['n_screens_that_read_this_junctions_own_parents']} of "
+            f"{rec['n_screens']} screens and the manuscript never names that seam as the exception.")
+        #: ⚠ PER SENTENCE, NOT PER WINDOW. A fixed character window around the partner's name reads
+        #: whatever prose happens to follow it — the first `*PGR* seam` in the article is followed
+        #: by a list of reagents — so the unit is the sentence that makes the claim.
+        sentences = [s for s in re.split(r"(?<=[.;]) ", txt.lower())
+                     if f"*{partner.lower()}*" in s]
+        assert sentences, f"the manuscript never mentions {partner} at all"
+        named, excusing = set(), []
+        for sentence in sentences:
+            here = {s for s, tokens in _SCREEN_PROSE.items()
+                    if any(t in sentence for t in tokens)}
+            if here:
+                named |= here
+                excusing.append(sentence[:160])
+        assert named, (
+            f"no sentence naming {partner} names a screen, so the manuscript states the exception "
+            "without saying which screen fell short.")
+        assert named <= set(rec["screens_that_did_not"]), (
+            f"the manuscript excuses {label} with {sorted(named - set(rec['screens_that_did_not']))}"
+            f", which the ladder records as having READ this junction's own parents. The artifact "
+            f"records these as not read: {rec['screens_that_did_not']}. Sentences: {excusing}")
+
+
+def test_the_screen_scope_is_read_from_the_screen_and_not_assumed(tmp_path, monkeypatch):
+    """★ THE CONSTRUCTED DEFECT: a screen's gene set silently growing must move the record.
+
+    ⛔ WHY A CONSTRUCTED ONE. The whole failure being repaired is a record that could not disagree
+    with the thing it described. Asserting today's values proves only that today's values are
+    today's; driving the derivation with a doctored artifact proves it is a derivation.
+
+    Two runs over the SAME junction: one against the committed pre-mRNA screen, whose gene set
+    excludes that seam's donor, and one against a copy of it that includes the donor. The record has
+    to change, and the count with it.
+    """
+    import shutil  # noqa: PLC0415
+
+    import aso_coverage_ladder as L  # noqa: PLC0415
+
+    membership = _ladder()["best_supported_buildable_panel"]["panel_membership"]
+    short = membership["⛔_graded_on_fewer_than_every_screen"]
+    label = sorted(short)[0]
+    donor = label.split("_")[0]
+    ran = {s: True for s in L.SCREEN_ARTIFACTS["noncoding_acceptor"]}
+
+    before = L.per_screen_record(label, "noncoding_acceptor", ran)
+    assert not before["premrna"]["read_this_junctions_own_parents"], (
+        f"{donor} is already inside the pre-mRNA screen's gene set, so this proof has nothing to "
+        "vary. Re-derive it against whichever screen now falls short.")
+
+    for name in os.listdir(os.path.join(os.path.dirname(MAN), "modalities")):
+        if name.endswith(".json") and "premrna-offtarget-noncoding" in name:
+            shutil.copy(os.path.join(os.path.dirname(MAN), "modalities", name), tmp_path / name)
+    doctored = tmp_path / "aso-premrna-offtarget-noncoding-acceptor.json"
+    doc = json.load(open(doctored, encoding="utf-8"))
+    doc["genes"][donor] = dict(next(iter(doc["genes"].values())))
+    doc.pop("⛔_parents_in_the_atlas_that_were_NOT_scanned", None)
+    doctored.write_text(json.dumps(doc), encoding="utf-8")
+    monkeypatch.setattr(L, "MODALITIES", str(tmp_path))
+
+    after = L.per_screen_record(label, "noncoding_acceptor", ran)
+    assert after["premrna"]["read_this_junctions_own_parents"], (
+        "the pre-mRNA screen's gene set was changed to include this junction's own donor and the "
+        "record did not move — it is not reading the screen, it is asserting a constant.")
+    assert donor in after["premrna"]["genes_searched"]
+    assert before["premrna"]["genes_searched"] != after["premrna"]["genes_searched"]
