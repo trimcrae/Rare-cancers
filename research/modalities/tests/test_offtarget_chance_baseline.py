@@ -43,8 +43,10 @@ SCRIPT = os.path.join(MOD, "offtarget_chance_baseline.py")
 
 
 def _committed():
+    #: ⛔ NOT A SKIP (2026-08-19, lane C2 audit): it IS committed, so an absence is a broken tree.
     if not os.path.exists(ART):
-        pytest.skip("the chance-baseline artifact is not committed in this checkout")
+        pytest.fail(f"the chance-baseline artifact is missing at {ART}; it is committed, and the "
+                    "null the paper's near-match counts are read against is unchecked without it.")
     return open(ART, encoding="utf-8").read()
 
 

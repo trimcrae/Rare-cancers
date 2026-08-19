@@ -9,10 +9,10 @@
     "Not a claim that the archived predictions are correct. Every count in the deposit is a prediction from sequence search; no off-target activity and no RNase-H cleavage was measured anywhere in this work.",
     "Not a licence statement. The depositor chooses the licence at step 4 below."
   ],
-  "git_revision": "5c1b71b7de7a455fad8ab10ca14a79dc6b650770",
+  "git_revision": "a9e40e89cfbf04677c6cb8cf5b7c6986d59bf96b",
   "git_tree_is_clean_apart_from_this_manifest": false,
   "inventory_limited_to_tracked_files": true,
-  "archive_content_digest": "d91e8bebf5b5bfce995a2d5db26bdf9cdf6e05685202a9d48170c7c8291de02c",
+  "archive_content_digest": "7778dff8c1964e13cc73578446ee403df33ae953a60ef9cf39a4cb1c9b7faa5a",
   "n_files": 473,
   "self_entry": {
     "path": "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
@@ -23,8 +23,8 @@
     "_why_not_counted": "It is excluded from `files`, `n_files`, `total_bytes` and `archive_content_digest` for the same reason, which is also what keeps two runs over an unchanged tree byte-identical — the property this module's header calls the only cheap check a reader has that the file is derived rather than edited.",
     "how_a_reader_checks_it_anyway": "Two ways, neither needing a self-hash. (1) Re-derive it: check out `git_revision` and run `python3 research/manuscripts/aso_archive_manifest.py --check`, which rebuilds the whole file and exits non-zero on any difference. (2) Compare the downloaded copy's `sha256sum` against the value the deposition record states — step 4 below tells the depositor to record it there, which is the one place it can live without being self-referential."
   },
-  "total_bytes": 44044977,
-  "total_mib": 42.005,
+  "total_bytes": 44046775,
+  "total_mib": 42.006,
   "payload_file_types": {
     "_what": "Extension census of the payload, derived from the file list. A preprint or journal uploader that accepts only document, image and container types cannot take most of these one by one; step 3 below builds the single container that sidesteps the question entirely. Check the accepted types on the uploader itself — none is asserted here.",
     "by_extension": {
@@ -34,7 +34,7 @@
       },
       ".py": {
         "n_files": 67,
-        "bytes": 2839924
+        "bytes": 2841722
       },
       ".md": {
         "n_files": 10,
@@ -1543,7 +1543,7 @@
     {
       "path": "research/manuscripts/submission-metrics.json",
       "bytes": 9936,
-      "sha256": "b67c5b5c281d92ea14c76de5634ee5c998d6154a7ace1697fdbd26a29311b81d",
+      "sha256": "921e0555d1f83ed66690492246f8b2991a44f6c78da01b71e75f8011fe284a57",
       "serves": "reproduction_command",
       "also_serves": [],
       "contributes": "Re-derives every offline-derivable artefact below in dependency order and re-runs the consistency, citation and style gates; the command a reader is told to run to establish that this archive is current. The script AND every step it invokes that no other row here already carries."
@@ -4762,24 +4762,24 @@
     },
     {
       "path": "research/modalities/tests/test_aso_parent_gap_pairing.py",
-      "bytes": 14431,
-      "sha256": "1f94afdc1f77ce842bdf2cf7030719312f0dd5223ade5e560dde288033885e10",
+      "bytes": 15126,
+      "sha256": "83969b4f6210b3518c12fa3d8da0df9e9b778763c43d2584d7e02184793b3f0f",
       "serves": "mature_parent_gap_pairing_screen",
       "also_serves": [],
       "contributes": "For every design, the longest contiguous duplex a MATURE wild-type parent transcript can form that pairs the whole six-nucleotide catalytic gap. ⭐ IT EXISTS BECAUSE THE OTHER THREE SCREENS STRUCTURALLY CANNOT ANSWER IT: the alignment screen excludes parent records and filters at ≥14/16 identity, the exhaustive scan admits ≤1 mismatch, and the pre-mRNA arm searches unspliced sequence and so cannot reach a mature exon–exon junction. It is fully offline against the same cached sequence the pre-mRNA arm uses, and `--check` re-derives it."
     },
     {
       "path": "research/modalities/tests/test_aso_parent_null.py",
-      "bytes": 18261,
-      "sha256": "845c6e29c7bc55bc9622bf6de70912e2fd4415a049d0f0cc4aa6cd948279ccbd",
+      "bytes": 19088,
+      "sha256": "381ff21ddc9f48c256b8604a205d506c520e312cabe27552ee1e08ca4aeda395",
       "serves": "where_each_number_lives",
       "also_serves": [],
       "contributes": "The artefacts the Availability statement names by path that no other promise row resolves: the parent-null ensembles the observed liability rate is read against, the off-target expression readings, the gap-length comparison, and the base-level TCF12 breakpoint assignment — each with its producer, its committed offline input and its guard."
     },
     {
       "path": "research/modalities/tests/test_aso_per_junction_table.py",
-      "bytes": 9592,
-      "sha256": "3fe7cdcd1fd689677c6a52e191ccaee013b4931efe783fe2b640ca337fe4094f",
+      "bytes": 9868,
+      "sha256": "dbfccda504430ed071e4d6d83d6325e423d0e11827fca3a1c598732aef1b7b20",
       "serves": "reproduction_command",
       "also_serves": [],
       "contributes": "Re-derives every offline-derivable artefact below in dependency order and re-runs the consistency, citation and style gates; the command a reader is told to run to establish that this archive is current. The script AND every step it invokes that no other row here already carries."

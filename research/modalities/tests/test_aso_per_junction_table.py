@@ -20,8 +20,11 @@ sys.path.insert(0, MOD)
 
 
 def _art():
+    #: ⛔ NOT A SKIP (2026-08-19, lane C2 audit): the per-junction table is committed, and it is
+    #: the artifact the manuscript's 38-junction panel is read from.
     if not os.path.exists(ART):
-        pytest.skip("the per-junction table is not present in this checkout")
+        pytest.fail(f"the per-junction table is missing at {ART}; it is committed, and the panel "
+                    "every count in this paper is taken over is unchecked without it.")
     return json.load(open(ART, encoding="utf-8"))
 
 
