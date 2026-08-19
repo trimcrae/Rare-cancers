@@ -373,7 +373,10 @@ at *TCF12* exon 17 goes from 8 to 118 on either strand, and 5′-CAGGGCATATCTTGC
 exon 9 from 7 to 67; and 5′-GCATATCAAGCGCTGC-3′ at *TCF12* exon 7, which had one near-match and none on the sense strand, returns 18 with two. Three of the six carry hits that span the catalytic gap and so are cleavage
 risks rather than merely sense-strand matches: 64 for 5′-GCATATCCGTGGACGC-3′, 14 for
 5′-GGGCATATCTCTATAA-3′ and 11 for 5′-CAGGGCATATCTTGCA-3′. A count of zero at the default ceiling
-was not a count of zero, which is the sharpest form of the bound §5 sets out.
+was not a count of zero, which is the sharpest form of the bound §5 sets out. The three named above
+are clean on the near-match screens alone; composing them with the mature-parent screen changes
+which design stands at *TCF12* exon 7, as §2.7 sets out, so this list is not the candidate set and
+must not be ordered as one.
 
 The deeper pass also decided what the default one could not. Seven of the 190 designs had failed at
 the remote service and carried no count at all — a different seven from the seven §5 reports as
@@ -621,7 +624,12 @@ short. 5′-GGGCATATCAAGCGCT-3′ at *TCF12* exon 7 passes the same screens, but
 Its longest parent run is eight base pairs against wild-type *NR4A3*, which is below the threshold
 rather than absent, so it is a candidate at the stated cut and not at a stricter one. The fourth
 design with a clean deep screen, 5′-GGCATATCAAGCGCTG-3′ at the same junction, is excluded by an
-eleven-base-pair duplex with wild-type *TCF12* — its own donor parent, not the acceptor. That is the
+eleven-base-pair duplex with wild-type *TCF12* — its own donor parent, not the acceptor.
+The *TCF12* exon-7 member therefore differs between the near-match set of §2.4 and the candidate set
+here, and the two sequences are consecutive registers of one seam differing by a single-base slide:
+5′-GGCATATCAAGCGCTG-3′ is the design §2.4 lists and this screen excludes, and
+5′-GGGCATATCAAGCGCT-3′ is the candidate, first screened only at the deeper ceiling. Neither may be
+ordered for the other. That is the
 honest size of the candidate set by screen, and it is not a set to make: no junction among them has
 a published patient breakpoint, which is why §4.4 uses all three as mechanism controls rather than
 candidates —
@@ -766,11 +774,13 @@ comparison is to the seam and not to the transcriptome: the mature-parent duplex
 elsewhere at all, but runs past the seam into the wild-type *NR4A3* exon-2/exon-3 junction the
 acceptor half already meets — are not scored here. Every
 design favours the fusion because a parent pairs roughly half the oligonucleotide, and half a duplex is
-much the weaker one. That separates two things a base count conflates. Discrimination at the level of *binding* is
-not marginal here, and is not what constrains the modality. What remains unresolved is
-discrimination at the level of *catalysis*, where RNase-H1 requires a paired DNA gap and where the
-literature bounds span one- to five-fold. The thermodynamic result therefore narrows the paper's
-central uncertainty rather than relieving it.
+much the weaker one. That separates two things a base count conflates. The *difference* in binding free energy is not
+marginal here. That is not the same as saying binding discriminates: what would decide that is
+whether a parent seam is occupied at the exposure concentration, which depends on the modified
+duplex's absolute stability and is not computed anywhere in this paper (§6). Two things therefore
+remain unresolved rather than one — occupancy at the binding step, and discrimination at the level of
+*catalysis*, where RNase-H1 requires a paired DNA gap and where the literature bounds span one- to
+five-fold. The thermodynamic result narrows neither; it orders them.
 
 The two rankings agree in direction. Grouping designs by the gap-level margin the Methods (§6) define,
 the mean of that free-energy margin, written ΔΔG°37, rises monotonically with it, from 8.3
@@ -893,9 +903,10 @@ reagent cleaving a parent transcript is failing at the one thing that distinguis
 from knocking down *NR4A3* directly, which requires no junction at all. A design that cannot spare
 the parents has no advantage left to trade.
 
-Free-energy calculation does not narrow the interval either. Every design discriminates amply at the
-level of duplex formation against the parent runs it meets at the seam, so what is unresolved is
-specifically the catalytic step, not the binding one. Two things could narrow that interval, and no further sequence analysis is either of them: a
+Free-energy calculation does not narrow the interval either. Every design shows a large free-energy
+*difference* against the parent runs it meets at the seam, but that difference is not occupancy: no
+modified-duplex stability was computed for any parent seam, so the binding step is unresolved
+alongside the catalytic one rather than settled ahead of it (§6). Two things could narrow that interval, and no further sequence analysis is either of them: a
 measurement, or a physics-based estimate of cleavage geometry on the RNase-H1·heteroduplex complex,
 for which experimental structures exist. Neither is attempted here. Gap length is not a third, for
 the arithmetic reason §2.9 gives: a longer gap buys a markedly quieter transcriptome while at the
@@ -1525,7 +1536,15 @@ of "six or more bases" to activate the enzyme<sup>42</sup><!--PMID:41614678--> �
 gapmers specifically a six-nucleotide gap gives noteworthy but incomplete activity, with seven to ten
 reported as optimal.<sup>38</sup><!--PMID:24981949--> None of the three figures is a titration in
 this architecture, and SI §S3 gives the provenance of each. Six therefore sits at the short end of the
-usable range and below the reported optimum. It was retained as the panel's fixed baseline rather than as an optimum, and the two longer
+usable range and below the reported optimum. Each wing is five contiguous locked residues. That is a
+high locked-residue content for a 16-mer: conventional locked-nucleic-acid gapmers carry two to four
+per wing, and the 5-6-5, 5-8-5 and 5-10-5 geometries tiled here are the convention of the
+2′-O-methoxyethyl gapmers rather than of locked ones. The geometries were held fixed so that gap
+length is the only variable across the three panels, which is what §2.9 measures; the consequence
+is that these are not conventional locked-nucleic-acid reagents, that their matched-duplex melting
+temperatures are correspondingly high, and that high-affinity gapmers are associated in the
+literature with sequence-dependent hepatotoxicity. None of that is graded here and it bears on any
+decision to synthesise. It was retained as the panel's fixed baseline rather than as an optimum, and the two longer
 geometries were tiled and screened beside it precisely so the trade it makes is measured rather
 than assumed (§2.9, Table 7). The five junction-spanning registers per junction it admits are a
 consequence of that gap length, not a reason for it: 5-8-5 and 5-10-5 admit seven and nine. No claim is made that a short gap improves
@@ -1702,9 +1721,20 @@ concentration it uses enters no reported free energy (SI §S2).
 
 These designs carry LNA wings and the table is for an unmodified hybrid, so what is computed is the
 duplex the DNA backbone would form. Because the junction lies inside the gap, each parent pairs one
-of the two five-nucleotide LNA wings while the fusion pairs both, so LNA should widen this margin
-rather than narrow it and every reported value is a conservative floor. That direction follows from
-the architecture and was not computed: no LNA parameters were applied.
+of the two five-nucleotide LNA wings while the fusion pairs both, so LNA should widen the
+free-energy difference rather than narrow it, and every reported ΔΔG°37 is a floor in that sense.
+That direction follows from the architecture and was not computed: no LNA parameters were applied.
+
+That floor is a statement about the difference and not about selectivity, and it must not be read
+as one. What decides whether a parent duplex forms in a cell is its absolute stability at the
+exposure concentration, not its distance from the fusion duplex. Five contiguous locked residues
+per wing raise duplex melting temperature substantially, and the same modification that widens the
+difference therefore also stabilises the parent seam it is measured against: the worst parent seam
+here is eight base pairs at −7.77 kcal/mol as an unmodified hybrid, a duplex that would not hold at
+37 °C, and it is exactly this class that LNA wings would push toward occupancy. No modified-duplex
+melting temperature or dissociation constant was computed for any parent seam, so discrimination at
+the binding step is not resolved here — it is uncomputed, and an occupied but catalytically
+incompetent parent duplex is the steric-block liability §3 names as unevaluated.
 
 **Conventional design rules.** Every design was separately audited against four conventional
 antisense design rules: GC within 40–60%, no G-quadruplex motif, no homopolymer run of four, and no

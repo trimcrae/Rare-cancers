@@ -489,6 +489,32 @@ def render_table(rows, label=None):
     return "".join(out)
 
 
+
+def _label_for_spliced_table(lines, table_end, rows):
+    """Rebuild the <thead> label for a table spliced into the body (manuscript style).
+
+    Mirrors render_float's label logic, which manuscript style never reaches. The caption sits
+    ABOVE the grid in the generated tables file, so the number is found by scanning back for the
+    nearest "**Table n." opener; the markers that decide the rest are read from the grid itself.
+    """
+    number = None
+    for k in range(table_end - len(rows) - 1, max(-1, table_end - len(rows) - 60), -1):
+        m = re.match(r"^\*\*Table (\d+)\.", lines[k].strip())
+        if m:
+            number = m.group(1)
+            break
+    if number is None:
+        return None
+    body = "\n".join(rows)
+    label = f"Table {number}"
+    if re.search(r"[¹²³⁴⁵⁶⁷⁸⁹]", body):
+        label += "  ·  numbered notes are under the caption, on this table's first page"
+    if "†" in body:
+        label += ("  —  † no design at this junction clears the parent screen; "
+                  "do not order the sequence in a marked row")
+    return label
+
+
 def markdown_to_html(text, floats=None):
     floats = floats or {}
     text = re.sub(r"<!--.*?-->", "", text, flags=re.S)          # PMID markers: non-rendering
@@ -546,8 +572,22 @@ def markdown_to_html(text, floats=None):
             while i < len(lines) and lines[i].strip().startswith("|"):
                 rows.append(lines[i])
                 i += 1
+            #: ⛔⛔ THE TABLE LABEL MUST BE COMPUTED HERE, NOT ONLY IN render_float — A WRONG-REAGENT
+            #: HAZARD REACHED THE DEPOSIT PDF BECAUSE IT WAS NOT (blind safety screen, 2026-08-19).
+            #: `_CURRENT_TABLE_LABEL` carries Table 3's "† ... do not order the sequence in a marked
+            #: row" key, and it rides in <thead>, which paged media repeats on every continuation
+            #: page. That was verified in the JOURNAL build and never in the deposit build. Measured:
+            #: journal style emits 7 <tr class="tablename"> rows, MANUSCRIPT STYLE EMITTED ZERO,
+            #: because the label is set by render_float and manuscript style never calls it —
+            #: `assemble` returns an empty float map and splices the tables into the body. The
+            #: consequence in the shipped artefact: the legend printed on p36 while all three marked
+            #: rows sat on pp38-39, so the paper's only in-table ordering prohibition was unreachable
+            #: from every page it applied to. A reader met a printed 16-mer, a bare dagger, and no key.
+            #: The same dead branch had already produced the caption-footnote defect earlier the same
+            #: day; fixing that one and not auditing what else depended on it is what let this ship.
+            label = _CURRENT_TABLE_LABEL or _label_for_spliced_table(lines, i, rows)
             out.append('<div class="tablewrap">'
-                       + render_table(rows, _CURRENT_TABLE_LABEL) + "</div>")
+                       + render_table(rows, label) + "</div>")
             continue
 
         item = re.match(r"^(\s*)([-*]|\d+\.)\s+(.*)$", line)
