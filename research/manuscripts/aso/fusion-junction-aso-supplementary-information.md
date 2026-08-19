@@ -92,7 +92,7 @@ that none of them is a titration in this architecture. Their provenance is as fo
   than measuring it.
 - **A minimum of six.**<sup>42</sup><!--PMID:41614678--> A design-protocol statement, likewise given
   in passing and citing prior work.
-- **An optimum of seven to ten.**<sup>38</sup><!--PMID:24981949--> Both this and the six-nucleotide
+- **An optimum of seven to ten.**<sup>39</sup><!--PMID:24981949--> Both this and the six-nucleotide
   activity figure beside it are taken from a review that credits them to named earlier primary
   studies rather than measuring them itself.
 
@@ -195,7 +195,7 @@ record is the main text's, generated from the identifiers carried in it.
 
 <sup>28</sup><!--PMID:36103645--> Wilbur HC, Robinson DR, Wu YM, Kumar-Sinha C, Chinnaiyan AM, Chugh R. Identification of Novel PGR-NR4A3 Fusion in Extraskeletal Myxoid Chondrosarcoma and Resultant Patient Benefit From Tamoxifen Therapy. JCO precision oncology. 2022;6:e2200039. PMID: 36103645. doi:10.1200/po.22.00039
 
-<sup>38</sup><!--PMID:24981949--> Kauppinen S, Vester B, Wengel J. Locked nucleic acid (LNA): High affinity targeting of RNA for diagnostics and therapeutics. Drug discovery today. Technologies. 2005;2(3):287-290. PMID: 24981949. doi:10.1016/j.ddtec.2005.08.012
+<sup>39</sup><!--PMID:24981949--> Kauppinen S, Vester B, Wengel J. Locked nucleic acid (LNA): High affinity targeting of RNA for diagnostics and therapeutics. Drug discovery today. Technologies. 2005;2(3):287-290. PMID: 24981949. doi:10.1016/j.ddtec.2005.08.012
 
 <sup>41</sup><!--PMID:39126066--> Mejzini R, Caruthers MH, Schafer B, Kostov O, Sudheendran K, Ciba M, Danielsen M, Wilton S, Akkari PA, Flynn LL. Allele-Selective Thiomorpholino Antisense Oligonucleotides as a Therapeutic Approach for Fused-in-Sarcoma Amyotrophic Lateral Sclerosis. International journal of molecular sciences. 2024;25(15):8495. PMID: 39126066. doi:10.3390/ijms25158495
 
