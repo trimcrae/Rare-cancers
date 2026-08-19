@@ -288,7 +288,14 @@ def test_minus_strand_fraction_matches_the_manuscript():
     # any of them because all five grade hybridisation only"). What this guard exists to pin is the
     # COUNT and its denominator, so the count is asserted and the noun is allowed to be either the
     # corrected one or the retired one -- fail on a wrong number, never on a corrected word.
-    assert (f"Of the {t} apparent gap-paired sense-strand matches" in _flat(txt)
+    # ⭐ AND CORRECTED AGAIN 2026-08-19, TO THE WORDING TABLE 3 NOTE 1 ALREADY USED. "Gap-paired
+    # sense-strand match" is defined in Box 1 as a hit ON THE SENSE STRAND, so "of the N apparent
+    # gap-paired SENSE-STRAND matches, 738 sit on the MINUS strand" was self-cancelling except for
+    # the load-bearing "apparent". The measurement never moved: these are hits the search returned
+    # on either strand, 44% of which cannot be hybridised at all. Same rule as above — fail on a
+    # wrong number, never on a corrected word.
+    assert (f"Of the {t} apparent gap-paired hits" in _flat(txt)
+            or f"Of the {t} apparent gap-paired sense-strand matches" in _flat(txt)
             or f"Of the {t} apparent cleavage risks" in _flat(txt)), "results count"
 
 
@@ -1712,14 +1719,32 @@ def test_the_wild_type_allele_liability_is_named_with_the_designs_it_condemns():
         assert des["parent_is_liability"] is False, seq
         assert j["n_designs_clearing_the_parent_screen"] == j["n_designs_screened"], j["junction_label"]
     assert cryptic["n_clearing_the_parent_exclusion"] == cryptic["n_designs_spanning_the_seam"]
-    # ⭐ REWORDED, NOT LOST — the editorial restructure of 2026-08-16 promoted this finding out of the
-    # Discussion and into Results, where the three sequences are named in the sentence before it, so
-    # "each of the three" became "Each" and "every other design tiled at its seam" lost the redundant
-    # participle. Both halves of the claim survive verbatim in substance: each condemned design had
-    # cleared the mature-parent exclusion, AND so had every sibling at its seam — which is what makes
-    # a clean parent column at such a seam uninformative rather than lucky.
-    assert "had already cleared the mature-parent exclusion, and so had every other design at " \
-           "its seam" in txt
+    # ⛔ RE-ANCHORED 2026-08-19, AND THE SENTENCE THIS ONCE PINNED WAS ITSELF THE DEFECT. It read
+    # "Each had already cleared the mature-parent exclusion, and so had every other design at its
+    # seam" — and "Each" covers the third condemned design, at the intron-2 cryptic-exon seam, where
+    # the SAME section's bolded paragraph says the screen "passes the two it can read and never runs
+    # on the third" and Box 1 says its record "reads `not_screened` rather than clear". A reader
+    # weighing whether to make that molecule met one sentence saying the screen cleared it and
+    # another saying the screen cannot see its compartment.
+    #
+    # ⚠ THE TWO ARTIFACTS DO NOT CONFLICT; THE PAPER WAS CARRYING BOTH THEIR VOCABULARIES AT ONCE.
+    # `aso-taf15-intron2-designs.json` records n_clearing_the_parent_exclusion == 5 of 5, because the
+    # spliced-cDNA screen mechanically executed and returned nothing. The canonical file records all
+    # five rows at that seam as `not_screened`, because the acceptor half is NR4A3 INTRONIC sequence,
+    # absent from every mature transcript, so a mature-parent duplex is UNDEFINED there rather than
+    # zero. The artifact says so in its own words: reading that result as "clean" without the
+    # pre-mRNA and genome arms "would be reading the silence of an instrument that cannot look at the
+    # compartment in question". The asserted counts above are unchanged and still derive the claim;
+    # what changed is which vocabulary the prose is allowed to use for it.
+    assert "The mature-parent exclusion had passed two of them, and every other design at their " \
+           "seam; at the third's seam it never ran at all, on that design or on any other there" in txt
+    # ⛔ AND THE MISLEADING FORM MUST NOT COME BACK. Re-anchoring a guard onto new wording is worth
+    # nothing if the old wording would also pass; this is the half that makes the re-anchor a gate
+    # rather than a relabel.
+    assert "and so had every other design at its seam" not in txt, (
+        "the paper has gone back to claiming the mature-parent exclusion cleared every design at "
+        "every condemned design's seam, which is false at the cryptic-exon seam where all five rows "
+        "read not_screened")
     # ⛔ AND THE ANTECEDENT MUST STILL BE THE THREE. "Each had already cleared…" bounds nothing if the
     # sentence before it stopped counting them, so the count is required in the same paragraph.
     assert f"matter more than the {_spelt(len(condemned))} sequences" in txt, len(condemned)

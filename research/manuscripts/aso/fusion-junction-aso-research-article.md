@@ -53,7 +53,7 @@ junctions of five modelled partners, 87 pair their catalytic gap against one of 
 searched over ten or more contiguous base pairs, 61 of those 87 against wild-type *NR4A3* (59 at
 one site) and 85 against their own parents. That is a rate over designs: 35 of 38 junctions have one
 clearing that screen. Scrambles, the weakest null here, reach 6.2% against 45.8% observed; chimeras at real exon
-termini of the same two transcripts, reported in no patient, reach 40.6%, so no excess
+termini of the same two transcripts, almost never reported, reach 40.6%, so no excess
 specific to this disease's breakpoints is resolved. Ten base pairs is adopted, not
 measured and not separated: at seven, 175 of 190 pair a parent and 9 of 38 junctions clear, but so
 does that null, to 91.4% against the 92.1% observed there; at six, the gap's own length, 181 of
@@ -441,7 +441,7 @@ reported and no percentage.
 ### 2.4 · Strand orientation, and designs with no sense-strand near-match
 
 All 38 in-frame junctions were screened with orientation filtered, covering 183 designs, and Table 3
-gives the per-junction result. Of the 1,677 apparent gap-paired sense-strand matches across the retained hit lists,
+gives the per-junction result. Of the 1,677 apparent gap-paired hits across the retained hit lists,
 738 sit on the minus strand, or 44%. An antisense oligonucleotide cannot base-pair with those at all.
 
 The proportion is not uniform. It runs from 0% at *TFG* exon 4, where no apparent risk is
@@ -869,10 +869,10 @@ instruments rather than a clearance. What is lost is not a
 seam but the assumption that designs tiled across one seam are interchangeable.
 
 Two things about that finding matter more than the three sequences. The first is how they were
-reached. Each had already cleared the mature-parent exclusion, and so had every other design at its
-seam, that exclusion being a screen over spliced cDNA and structurally unable to see intronic
-sequence: a parent screen that returns nothing at such a seam is the silence of an instrument that cannot
-look at
+reached. The mature-parent exclusion had passed two of them, and every other design at their seam;
+at the third's seam it never ran at all, on that design or on any other there. That exclusion is a
+screen over spliced cDNA and structurally unable to see intronic sequence: a parent screen that
+returns nothing at such a seam is the silence of an instrument that cannot look at
 the compartment in question. The same three were returned independently by an exhaustive scan of the
 *NR4A3* unspliced sequence, by the pre-mRNA screen and by the genome scan, on a fixed known-positive
 control that fired on exactly the one design it was required to fire on. The second is what decides
@@ -1282,7 +1282,8 @@ does. The null of §2.5 is what makes that a finding rather than a restatement o
 sequence meets this screen at 6.2%, and a chimera keeping the whole rule while joining the two
 parents at random offsets meets it at 23.8%, against 45.8% for designs at real breakpoints. That last
 comparison overstates what is specific to the disease, and the stricter null says so: a chimera drawn
-at real exon termini of the same two transcripts, at junctions no patient is reported to carry, meets
+at real exon termini of the same two transcripts, almost always at junctions no patient is
+reported to carry, meets
 the screen at 40.6% — so most of the liability is what joining two exon termini of these genes gives,
 and the excess at the reported breakpoints is not resolved at this panel's size (§2.5).
 
