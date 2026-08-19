@@ -9,10 +9,10 @@
     "Not a claim that the archived predictions are correct. Every count in the deposit is a prediction from sequence search; no off-target activity and no RNase-H cleavage was measured anywhere in this work.",
     "Not a licence statement. The depositor chooses the licence at step 4 below."
   ],
-  "git_revision": "84a55cd581f45487849278d367c44dea43cb6991",
+  "git_revision": "d9c18839d9095614d4b8e6bcba41167c731fbfb7",
   "git_tree_is_clean_apart_from_this_manifest": false,
   "inventory_limited_to_tracked_files": true,
-  "archive_content_digest": "31fbfe90c19d814763b21791b4ba39fe7b2f7589af14ea1ba6bd6b4bf326308b",
+  "archive_content_digest": "2828f740ec8c28617dc559314b0a758b436d3342677eda7c4f0f16b8db15f0be",
   "n_files": 473,
   "self_entry": {
     "path": "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
@@ -23,7 +23,7 @@
     "_why_not_counted": "It is excluded from `files`, `n_files`, `total_bytes` and `archive_content_digest` for the same reason, which is also what keeps two runs over an unchanged tree byte-identical — the property this module's header calls the only cheap check a reader has that the file is derived rather than edited.",
     "how_a_reader_checks_it_anyway": "Two ways, neither needing a self-hash. (1) Re-derive it: check out `git_revision` and run `python3 research/manuscripts/aso_archive_manifest.py --check`, which rebuilds the whole file and exits non-zero on any difference. (2) Compare the downloaded copy's `sha256sum` against the value the deposition record states — step 4 below tells the depositor to record it there, which is the one place it can live without being self-referential."
   },
-  "total_bytes": 45129890,
+  "total_bytes": 45129924,
   "total_mib": 43.039,
   "payload_file_types": {
     "_what": "Extension census of the payload, derived from the file list. A preprint or journal uploader that accepts only document, image and container types cannot take most of these one by one; step 3 below builds the single container that sidesteps the question entirely. Check the accepted types on the uploader itself — none is asserted here.",
@@ -54,11 +54,11 @@
       },
       ".csv": {
         "n_files": 1,
-        "bytes": 138148
+        "bytes": 138165
       },
       ".fasta": {
         "n_files": 1,
-        "bytes": 231272
+        "bytes": 231289
       },
       ".sh": {
         "n_files": 1,
@@ -1122,16 +1122,16 @@
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-sequences.csv",
-      "bytes": 138148,
-      "sha256": "8239ead29d092eae1f9f0550ab35974be56862475eb9e7a0612bee38dfeeab2a",
+      "bytes": 138165,
+      "sha256": "dc77a525b41a6ed7d9fa9d9cf7f0b1fb8b4985f55c3b939db40cf990dabf0396",
       "serves": "canonical_sequence_record",
       "also_serves": [],
       "contributes": "Every design the three deposit documents name, in CSV and FASTA, with its geometry, junction, gap-level margin, longest wild-type-parent duplex and an explicit do-not-order flag on every record the paper condemns. ⚠ THAT FLAG IS ON 252 OF THE 780 RECORDS, NOT ON THREE: 249 pair a wild-type parent through the whole catalytic gap at the ten-base-pair criterion, and 3 more pair the patient's own un-rearranged NR4A3 allele. This sentence named only the second class until 2026-08-19, which described the smaller hazard and left the larger one sounding like a clean file. The generator refuses to build if any sequence the documents print is absent, so the file cannot quietly stop being canonical."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-sequences.fasta",
-      "bytes": 231272,
-      "sha256": "cbf30186b1416db02e26ad8ce4cea6fdc46304246c08033364ac00808d019dbc",
+      "bytes": 231289,
+      "sha256": "3e86524917e4a8138c0f3e3ab4b4ff28c6e42baaac7318d10b25e9fe5f4f2e35",
       "serves": "canonical_sequence_record",
       "also_serves": [],
       "contributes": "Every design the three deposit documents name, in CSV and FASTA, with its geometry, junction, gap-level margin, longest wild-type-parent duplex and an explicit do-not-order flag on every record the paper condemns. ⚠ THAT FLAG IS ON 252 OF THE 780 RECORDS, NOT ON THREE: 249 pair a wild-type parent through the whole catalytic gap at the ten-base-pair criterion, and 3 more pair the patient's own un-rearranged NR4A3 allele. This sentence named only the second class until 2026-08-19, which described the smaller hazard and left the larger one sounding like a clean file. The generator refuses to build if any sequence the documents print is absent, so the file cannot quietly stop being canonical."
