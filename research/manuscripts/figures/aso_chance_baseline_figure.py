@@ -161,7 +161,7 @@ def _caveat_texts(fs, exc, n, ref, above, obs, expected, n_records):
         (f'One bar is one molecule and not one design record: the {esc(n_records)} design records '
          f'at real exon junctions are {esc(n)} distinct oligonucleotides, because the '
          f'{esc(fs["n_multi_junction_sequences"])} marked designs each span more than one partner’s '
-         f'seam and are plotted once rather than once per seam.'),
+         f'seam and enter the series once rather than once per seam.'),
         (f'The {ref} assumes independent uniform bases; the transcriptome span it is computed over '
          f'is the exhaustive scan\'s measured one. It separates "more than chance" from "at chance" '
          f'and is not a significance test. {esc(fs["n_at_or_below_chance_upper"])} of {esc(n)} bars '
