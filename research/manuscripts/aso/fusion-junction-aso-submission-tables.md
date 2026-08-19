@@ -85,7 +85,7 @@ ranks by margin instead and does print a sequence at each of them. **Clearing th
 means one thing and one thing only: no wild-type parent pairs the whole catalytic gap at
 ten base pairs or more.** That ten-base-pair cut is a criterion this work ADOPTS rather than measures, and the reading moves with it: at seven base pairs 175 of the 190 panel designs pair a parent through the whole gap against 87 at ten, 181 do so at some length, and only nine of the 38 seams have a design that clears against 35 at ten (§2.9). A cell below the cut is a reading at one cut and nothing wider. No row of this table reaches the
 criterion — the column's highest reading is 9 base pairs — so no row carries the ⚑ Tables 3 and 4
-use, and an unmarked row here is not a clearance on any wider ground. ⚠ At ten junctions Table 3 names a different design from this table, and at seven of them the two share fifteen of their 16 contiguous bases — one register apart, one condemned and one not. Check the junction AND the whole sequence against `fusion-junction-aso-sequences.csv` before ordering either. The last column is a conventional
+use, and an unmarked row here is not a clearance on any wider ground. ⚠ The recommendation is a reading at that one cut, and what moves with the cut is AVAILABILITY more than identity. Re-ranked on the same screened designs by the same keys, the seams that still have a best available design number 31 of the 38 at nine base pairs, all of them the molecule printed here; 23 of the 38 at eight base pairs, six of them a different molecule; 9 of the 38 at seven base pairs, two of them a different molecule. Nothing was re-screened to say that; only the liability test moved, and a seam that loses its row loses a reagent rather than gaining a worse one. ⚠ At ten junctions Table 3 names a different design from this table, and at seven of them the two share fifteen of their 16 contiguous bases — one register apart, one condemned and one not. Check the junction AND the whole sequence against `fusion-junction-aso-sequences.csv` before ordering either. The last column is a conventional
 design audit, computed for whichever design this table names from the same artefact and by the same
 code Table 4 uses. The four conventional antisense design rules audited are GC within 40–60%, no G-quadruplex motif, no homopolymer run of four, and no CpG dinucleotide. It is reported beside the ranking and is never folded
 into it: the two orderings select different molecules, which is the disagreement §2.10 is about, and
@@ -228,7 +228,7 @@ activity, and none speaks to cleavage. **This table condemns nothing and clears 
 column is a verdict from ONE screen, the near-match screen, and five of these rows carry the ⚑ of
 the mature-parent screen: a wild-type parent pairs their whole catalytic gap at the ten-base-pair
 criterion, which is this paper's central negative. **Those five verdicts are carried in this table, and mostly nowhere else.** Table 3 prints one row per junction, so one of them — 5′-GGCATATCAAGCGCTG-3′ — is also printed in Table 3 and carries ⚑ there; the other four are marked in no other display item. Table 3 selects each junction's HIGHEST-MARGIN design, which at those seams is a different molecule: at EWSR1 e1::NR4A3 e3 it prints 5′-GGGCATATCCGTGGAC-3′, reading 0, unmarked; at TCF12 e9::NR4A3 e3 it prints 5′-GGGCATATCTTGCATA-3′, reading 8 (*NR4A3*), unmarked. Do not read an unmarked Table 3 row as a clearance of a design marked here. A
-design can survive every near-match screen here and still be one not to order.
+design can survive every near-match screen here and still be one not to order. Three columns read one value in every row, and they are not one kind of fact. “of those, on the sense strand” (at the default depth) reads 0 in all 9 rows BY CONSTRUCTION: it is the property membership of this table is defined by. “exact / ≤1-mismatch matches” reads 0 / 0, “residual cleavage load, both bounds⁴” reads 0 in all 9 rows, which is a measurement over these designs and not an unfilled cell; neither separates one row from another.
 Every sequence in this table is an antisense 16-mer, tiled in the 5-6-5 locked-nucleic-acid (LNA)/DNA/LNA architecture on a phosphorothioate backbone that §6 specifies; the bases alone, ordered as unmodified DNA, are a different molecule. Research use only: not for administration to any person or animal (Declarations). The canonical machine-readable copy of every sequence is `fusion-junction-aso-sequences.csv`, which is what to order from rather than this PDF.
 
 ⁴ A DISCRIMINATION-WEIGHTED COUNT OF NEAR-MATCH SITES, and the unit is
@@ -355,7 +355,15 @@ four junctions of this table and not over the whole 38-junction panel. It is a c
 the gene, so it is not annotation depth and not a property of the locus on its own: a locus that
 every register returns at one accession is counted once per register, and a locus returned at
 several accessions is counted once per accession per register — *HNRNPA2B1*'s hundred records
-over two registers are fifty accessions each, which §2.8 works through. Tiling registers is how many of the designs
+over two registers are fifty accessions each, which §2.8 works through. The column beside it gives how many of
+those records are CURATED RefSeq transcripts rather than the computationally predicted `XM_`/`XR_`
+gene models Table 3 also counts separately: 263 of the 649 records in this table are
+curated, and the locus contributing most of them is *G3BP2*, at
+48 of its own
+56. Both columns count records the search returned
+rather than properties of the locus, so a locus is neither cleaner for having few curated records nor
+dirtier for having many; what the split says is how much of a large cell rests on predicted
+annotation. Tiling registers is how many of the designs
 tiled across that junction return the locus, which is robustness to where the window is placed; the
 two columns therefore move together rather than being independent axes, and neither is ranked on,
 neither is expression and neither is affinity. A locus with no reading carries the reason rather
@@ -367,54 +375,54 @@ measurement of cleavage, and no expression figure is a predicted cleavage event.
 
 ◆ A locus returned by the design Table 2 names as the best available at that seam, which is the molecule Table 5 prices and §4 names. The unmarked rows are returned by other registers tiled across the same junction and not by that reagent. The marker identifies and does not rank: every locus keeps its row, the union is still what this table reports, and a reagent's own loci are neither cleaner nor dirtier for being its own.
 
-| junction | gene locus | gap-paired hit records | tiling registers returning it⁸ | Liver | Kidney - Cortex | Kidney - Medulla | soft-tissue proxy maximum | exposure-organ reading |
-|---|---|---|---|---|---|---|---|---|
-| EWSR1 e12::NR4A3 e3 | *ANKS1B* ◆ | 67 | 1 of 1 | 0.03 | 0.46 | 0.28 | 3.6 (Artery - Tibial) | below the lower cut in all three |
-| EWSR1 e12::NR4A3 e3 | *ZNF667* ◆ | 37 | 1 of 1 | 0.31 | 1.63 | 2.58 | 6.2 (Nerve - Tibial) | detectable, below the upper cut |
-| EWSR1 e12::NR4A3 e3 | *GMCL1* ◆ | 9 | 1 of 1 | 4.52 | 4.98 | 6.72 | 18.3 (Artery - Tibial) | detectable, below the upper cut |
-| EWSR1 e12::NR4A3 e3 | *LOC105374140* ◆ | 5 | 1 of 1 | — | — | — | — | no gene model — not measurable |
-| EWSR1 e12::NR4A3 e3 | *LOC105370997* ◆ | 4 | 1 of 1 | — | — | — | — | no gene model — not measurable |
-| EWSR1 e12::NR4A3 e3 | *CHST5* ◆ | 1 | 1 of 1 | 0.07 | 0.35 | 0.78 | 0.8 (Nerve - Tibial) | below the lower cut in all three |
-| TAF15 e6::NR4A3 e3 | *G3BP2* | 56 | 2 of 5 | 11.92 | 17.03 | 23.12 | 77.0 (Cells - Cultured fibroblasts) | at or above the upper cut |
-| TAF15 e6::NR4A3 e3 | *LINC02030* | 22 | 2 of 5 | 0.00 | 0.00 | 0.02 | 0.3 (Skin - Sun Exposed (Lower leg)) | below the lower cut in all three |
-| TAF15 e6::NR4A3 e3 | *MIR9-2HG* | 18 | 2 of 5 | — | — | — | — | no reading taken |
-| TAF15 e6::NR4A3 e3 | *LAMA4* | 13 | 1 of 5 | 1.28 | 3.13 | 6.06 | 268.6 (Cells - Cultured fibroblasts) | detectable, below the upper cut |
-| TAF15 e6::NR4A3 e3 | *ZFPM2* ◆ | 12 | 3 of 5 | 0.64 | 0.55 | 0.40 | 9.6 (Artery - Tibial) | below the lower cut in all three |
-| TAF15 e6::NR4A3 e3 | *GNAL* | 10 | 2 of 5 | 0.66 | 1.74 | 1.81 | 8.6 (Artery - Tibial) | detectable, below the upper cut |
-| TAF15 e6::NR4A3 e3 | *NRP1* ◆ | 5 | 5 of 5 | 6.62 | 16.87 | 17.81 | 104.7 (Cells - Cultured fibroblasts) | at or above the upper cut |
-| TAF15 e6::NR4A3 e3 | *SLC17A3* | 4 | 2 of 5 | 9.14 | 33.61 | 8.09 | <0.1 (Adipose - Subcutaneous) | at or above the upper cut |
-| TAF15 e6::NR4A3 e3 | *CA5B* ◆ | 3 | 3 of 5 | 0.66 | 1.57 | 1.96 | 11.7 (Artery - Tibial) | detectable, below the upper cut |
-| TAF15 e6::NR4A3 e3 | *CA5BP1-CA5B* ◆ | 3 | 3 of 5 | — | — | — | — | no reading taken |
-| TAF15 e6::NR4A3 e3 | *EEFSEC* | 3 | 1 of 5 | 16.15 | 14.37 | 15.57 | 39.1 (Nerve - Tibial) | at or above the upper cut |
-| TAF15 e6::NR4A3 e3 | *ANKRD26P3* | 1 | 1 of 5 | 0.00 | 0.00 | 0.00 | <0.1 (Muscle - Skeletal) | below the lower cut in all three |
-| TAF15 e6::NR4A3 e3 | *GBP4* | 1 | 1 of 5 | 3.12 | 5.59 | 10.08 | 18.2 (Adipose - Subcutaneous) | at or above the upper cut |
-| TAF15 e6::NR4A3 e3 | *LOC105376349* | 1 | 1 of 5 | — | — | — | — | no gene model — not measurable |
-| TAF15 e6::NR4A3 e3 | *LOC124907518* ◆ | 1 | 1 of 5 | — | — | — | — | no gene model — not measurable |
-| TAF15 e6::NR4A3 e3 | *NRXN3-AS1* | 1 | 1 of 5 | — | — | — | — | no reading taken |
-| TAF15 e6::NR4A3 e3 | *ST3GAL1* | 1 | 1 of 5 | 28.58 | 16.36 | 8.06 | 27.2 (Muscle - Skeletal) | at or above the upper cut |
-| EWSR1 e13::NR4A3 e3 | *FNBP1* ◆ | 42 | 2 of 5 | 7.08 | 12.12 | 14.06 | 56.5 (Nerve - Tibial) | at or above the upper cut |
-| EWSR1 e13::NR4A3 e3 | *EHMT2* | 34 | 2 of 5 | 6.89 | 13.23 | 16.70 | 53.0 (Nerve - Tibial) | at or above the upper cut |
-| EWSR1 e13::NR4A3 e3 | *ZNF215* | 27 | 1 of 5 | 0.13 | 0.67 | 1.27 | 5.2 (Cells - Cultured fibroblasts) | detectable, below the upper cut |
-| EWSR1 e13::NR4A3 e3 | *ESYT2* | 26 | 2 of 5 | 10.42 | 14.26 | 28.28 | 139.9 (Artery - Tibial) | at or above the upper cut |
-| EWSR1 e13::NR4A3 e3 | *LRP5L* | 8 | 2 of 5 | 7.83 | 6.32 | 11.16 | 8.0 (Nerve - Tibial) | at or above the upper cut |
-| EWSR1 e13::NR4A3 e3 | *CDC42SE1* ◆ | 6 | 2 of 5 | 22.74 | 44.73 | 78.97 | 187.6 (Nerve - Tibial) | at or above the upper cut |
-| EWSR1 e13::NR4A3 e3 | *THEMIS* | 6 | 1 of 5 | 0.13 | 0.08 | 0.18 | 0.3 (Adipose - Subcutaneous) | below the lower cut in all three |
-| EWSR1 e13::NR4A3 e3 | *LOC105374651* | 4 | 1 of 5 | — | — | — | — | no gene model — not measurable |
-| EWSR1 e13::NR4A3 e3 | *ZC3H4* | 4 | 1 of 5 | 6.41 | 5.89 | 9.71 | 26.2 (Nerve - Tibial) | detectable, below the upper cut |
-| EWSR1 e13::NR4A3 e3 | *ERBIN* | 2 | 1 of 5 | 9.80 | 9.38 | 14.68 | 43.8 (Cells - Cultured fibroblasts) | at or above the upper cut |
-| EWSR1 e13::NR4A3 e3 | *ZNF236* | 2 | 1 of 5 | 1.68 | 2.29 | 2.90 | 8.7 (Nerve - Tibial) | detectable, below the upper cut |
-| TCF12 e5::NR4A3 e3 | *HNRNPA2B1* | 100 | 2 of 5 | 184.12 | 247.24 | 457.30 | 656.6 (Nerve - Tibial) | at or above the upper cut |
-| TCF12 e5::NR4A3 e3 | *PIK3CG* ◆ | 51 | 3 of 5 | 0.14 | 0.17 | 0.37 | 1.2 (Adipose - Subcutaneous) | below the lower cut in all three |
-| TCF12 e5::NR4A3 e3 | *MROH2A* | 28 | 1 of 5 | 1.04 | 0.42 | 0.07 | 0.3 (Skin - Sun Exposed (Lower leg)) | detectable, below the upper cut |
-| TCF12 e5::NR4A3 e3 | *LINC02940* | 9 | 1 of 5 | — | — | — | — | no reading taken |
-| TCF12 e5::NR4A3 e3 | *EXOC2* | 6 | 1 of 5 | 5.27 | 6.54 | 8.87 | 22.5 (Nerve - Tibial) | detectable, below the upper cut |
-| TCF12 e5::NR4A3 e3 | *KCNG3* | 4 | 2 of 5 | 0.00 | 0.09 | 0.06 | 1.3 (Nerve - Tibial) | below the lower cut in all three |
-| TCF12 e5::NR4A3 e3 | *PLAC8* | 4 | 2 of 5 | 1.43 | 0.32 | 0.30 | 0.7 (Adipose - Subcutaneous) | detectable, below the upper cut |
-| TCF12 e5::NR4A3 e3 | *EFCAB11* | 2 | 1 of 5 | 0.37 | 0.92 | 1.20 | 2.1 (Cells - Cultured fibroblasts) | detectable, below the upper cut |
-| TCF12 e5::NR4A3 e3 | *LOC107984281* | 2 | 2 of 5 | — | — | — | — | no gene model — not measurable |
-| TCF12 e5::NR4A3 e3 | *LOC107985219* | 2 | 2 of 5 | — | — | — | — | no gene model — not measurable |
-| TCF12 e5::NR4A3 e3 | *LOC107987169* | 1 | 1 of 5 | — | — | — | — | no gene model — not measurable |
-| TCF12 e5::NR4A3 e3 | *LOC124905457* | 1 | 1 of 5 | — | — | — | — | no gene model — not measurable |
+| junction | gene locus | gap-paired hit records | of those, curated rather than predicted | tiling registers returning it⁸ | Liver | Kidney - Cortex | Kidney - Medulla | soft-tissue proxy maximum | exposure-organ reading |
+|---|---|---|---|---|---|---|---|---|---|
+| EWSR1 e12::NR4A3 e3 | *ANKS1B* ◆ | 67 | 32 | 1 of 1 | 0.03 | 0.46 | 0.28 | 3.6 (Artery - Tibial) | below the lower cut in all three |
+| EWSR1 e12::NR4A3 e3 | *ZNF667* ◆ | 37 | 3 | 1 of 1 | 0.31 | 1.63 | 2.58 | 6.2 (Nerve - Tibial) | detectable, below the upper cut |
+| EWSR1 e12::NR4A3 e3 | *GMCL1* ◆ | 9 | 1 | 1 of 1 | 4.52 | 4.98 | 6.72 | 18.3 (Artery - Tibial) | detectable, below the upper cut |
+| EWSR1 e12::NR4A3 e3 | *LOC105374140* ◆ | 5 | 0 | 1 of 1 | — | — | — | — | no gene model — not measurable |
+| EWSR1 e12::NR4A3 e3 | *LOC105370997* ◆ | 4 | 4 | 1 of 1 | — | — | — | — | no gene model — not measurable |
+| EWSR1 e12::NR4A3 e3 | *CHST5* ◆ | 1 | 1 | 1 of 1 | 0.07 | 0.35 | 0.78 | 0.8 (Nerve - Tibial) | below the lower cut in all three |
+| TAF15 e6::NR4A3 e3 | *G3BP2* | 56 | 48 | 2 of 5 | 11.92 | 17.03 | 23.12 | 77.0 (Cells - Cultured fibroblasts) | at or above the upper cut |
+| TAF15 e6::NR4A3 e3 | *LINC02030* | 22 | 22 | 2 of 5 | 0.00 | 0.00 | 0.02 | 0.3 (Skin - Sun Exposed (Lower leg)) | below the lower cut in all three |
+| TAF15 e6::NR4A3 e3 | *MIR9-2HG* | 18 | 18 | 2 of 5 | — | — | — | — | no reading taken |
+| TAF15 e6::NR4A3 e3 | *LAMA4* | 13 | 3 | 1 of 5 | 1.28 | 3.13 | 6.06 | 268.6 (Cells - Cultured fibroblasts) | detectable, below the upper cut |
+| TAF15 e6::NR4A3 e3 | *ZFPM2* ◆ | 12 | 0 | 3 of 5 | 0.64 | 0.55 | 0.40 | 9.6 (Artery - Tibial) | below the lower cut in all three |
+| TAF15 e6::NR4A3 e3 | *GNAL* | 10 | 10 | 2 of 5 | 0.66 | 1.74 | 1.81 | 8.6 (Artery - Tibial) | detectable, below the upper cut |
+| TAF15 e6::NR4A3 e3 | *NRP1* ◆ | 5 | 0 | 5 of 5 | 6.62 | 16.87 | 17.81 | 104.7 (Cells - Cultured fibroblasts) | at or above the upper cut |
+| TAF15 e6::NR4A3 e3 | *SLC17A3* | 4 | 4 | 2 of 5 | 9.14 | 33.61 | 8.09 | <0.1 (Adipose - Subcutaneous) | at or above the upper cut |
+| TAF15 e6::NR4A3 e3 | *CA5B* ◆ | 3 | 3 | 3 of 5 | 0.66 | 1.57 | 1.96 | 11.7 (Artery - Tibial) | detectable, below the upper cut |
+| TAF15 e6::NR4A3 e3 | *CA5BP1-CA5B* ◆ | 3 | 3 | 3 of 5 | — | — | — | — | no reading taken |
+| TAF15 e6::NR4A3 e3 | *EEFSEC* | 3 | 2 | 1 of 5 | 16.15 | 14.37 | 15.57 | 39.1 (Nerve - Tibial) | at or above the upper cut |
+| TAF15 e6::NR4A3 e3 | *ANKRD26P3* | 1 | 1 | 1 of 5 | 0.00 | 0.00 | 0.00 | <0.1 (Muscle - Skeletal) | below the lower cut in all three |
+| TAF15 e6::NR4A3 e3 | *GBP4* | 1 | 1 | 1 of 5 | 3.12 | 5.59 | 10.08 | 18.2 (Adipose - Subcutaneous) | at or above the upper cut |
+| TAF15 e6::NR4A3 e3 | *LOC105376349* | 1 | 0 | 1 of 5 | — | — | — | — | no gene model — not measurable |
+| TAF15 e6::NR4A3 e3 | *LOC124907518* ◆ | 1 | 0 | 1 of 5 | — | — | — | — | no gene model — not measurable |
+| TAF15 e6::NR4A3 e3 | *NRXN3-AS1* | 1 | 0 | 1 of 5 | — | — | — | — | no reading taken |
+| TAF15 e6::NR4A3 e3 | *ST3GAL1* | 1 | 0 | 1 of 5 | 28.58 | 16.36 | 8.06 | 27.2 (Muscle - Skeletal) | at or above the upper cut |
+| EWSR1 e13::NR4A3 e3 | *FNBP1* ◆ | 42 | 22 | 2 of 5 | 7.08 | 12.12 | 14.06 | 56.5 (Nerve - Tibial) | at or above the upper cut |
+| EWSR1 e13::NR4A3 e3 | *EHMT2* | 34 | 22 | 2 of 5 | 6.89 | 13.23 | 16.70 | 53.0 (Nerve - Tibial) | at or above the upper cut |
+| EWSR1 e13::NR4A3 e3 | *ZNF215* | 27 | 10 | 1 of 5 | 0.13 | 0.67 | 1.27 | 5.2 (Cells - Cultured fibroblasts) | detectable, below the upper cut |
+| EWSR1 e13::NR4A3 e3 | *ESYT2* | 26 | 4 | 2 of 5 | 10.42 | 14.26 | 28.28 | 139.9 (Artery - Tibial) | at or above the upper cut |
+| EWSR1 e13::NR4A3 e3 | *LRP5L* | 8 | 0 | 2 of 5 | 7.83 | 6.32 | 11.16 | 8.0 (Nerve - Tibial) | at or above the upper cut |
+| EWSR1 e13::NR4A3 e3 | *CDC42SE1* ◆ | 6 | 2 | 2 of 5 | 22.74 | 44.73 | 78.97 | 187.6 (Nerve - Tibial) | at or above the upper cut |
+| EWSR1 e13::NR4A3 e3 | *THEMIS* | 6 | 0 | 1 of 5 | 0.13 | 0.08 | 0.18 | 0.3 (Adipose - Subcutaneous) | below the lower cut in all three |
+| EWSR1 e13::NR4A3 e3 | *LOC105374651* | 4 | 0 | 1 of 5 | — | — | — | — | no gene model — not measurable |
+| EWSR1 e13::NR4A3 e3 | *ZC3H4* | 4 | 0 | 1 of 5 | 6.41 | 5.89 | 9.71 | 26.2 (Nerve - Tibial) | detectable, below the upper cut |
+| EWSR1 e13::NR4A3 e3 | *ERBIN* | 2 | 0 | 1 of 5 | 9.80 | 9.38 | 14.68 | 43.8 (Cells - Cultured fibroblasts) | at or above the upper cut |
+| EWSR1 e13::NR4A3 e3 | *ZNF236* | 2 | 0 | 1 of 5 | 1.68 | 2.29 | 2.90 | 8.7 (Nerve - Tibial) | detectable, below the upper cut |
+| TCF12 e5::NR4A3 e3 | *HNRNPA2B1* | 100 | 28 | 2 of 5 | 184.12 | 247.24 | 457.30 | 656.6 (Nerve - Tibial) | at or above the upper cut |
+| TCF12 e5::NR4A3 e3 | *PIK3CG* ◆ | 51 | 9 | 3 of 5 | 0.14 | 0.17 | 0.37 | 1.2 (Adipose - Subcutaneous) | below the lower cut in all three |
+| TCF12 e5::NR4A3 e3 | *MROH2A* | 28 | 2 | 1 of 5 | 1.04 | 0.42 | 0.07 | 0.3 (Skin - Sun Exposed (Lower leg)) | detectable, below the upper cut |
+| TCF12 e5::NR4A3 e3 | *LINC02940* | 9 | 0 | 1 of 5 | — | — | — | — | no reading taken |
+| TCF12 e5::NR4A3 e3 | *EXOC2* | 6 | 0 | 1 of 5 | 5.27 | 6.54 | 8.87 | 22.5 (Nerve - Tibial) | detectable, below the upper cut |
+| TCF12 e5::NR4A3 e3 | *KCNG3* | 4 | 0 | 2 of 5 | 0.00 | 0.09 | 0.06 | 1.3 (Nerve - Tibial) | below the lower cut in all three |
+| TCF12 e5::NR4A3 e3 | *PLAC8* | 4 | 4 | 2 of 5 | 1.43 | 0.32 | 0.30 | 0.7 (Adipose - Subcutaneous) | detectable, below the upper cut |
+| TCF12 e5::NR4A3 e3 | *EFCAB11* | 2 | 2 | 1 of 5 | 0.37 | 0.92 | 1.20 | 2.1 (Cells - Cultured fibroblasts) | detectable, below the upper cut |
+| TCF12 e5::NR4A3 e3 | *LOC107984281* | 2 | 2 | 2 of 5 | — | — | — | — | no gene model — not measurable |
+| TCF12 e5::NR4A3 e3 | *LOC107985219* | 2 | 0 | 2 of 5 | — | — | — | — | no gene model — not measurable |
+| TCF12 e5::NR4A3 e3 | *LOC107987169* | 1 | 0 | 1 of 5 | — | — | — | — | no gene model — not measurable |
+| TCF12 e5::NR4A3 e3 | *LOC124905457* | 1 | 0 | 1 of 5 | — | — | — | — | no gene model — not measurable |
 
 **Table 7. Gap length against junction specificity, at one junction and across the design space.** The
 same junctions tiled and screened at three gapmer geometries, wing held at five nucleotides so that only

@@ -37,7 +37,7 @@ last_verified: 2026-08-06
 | endpoint | state | aimed at | routes | what is still missing |
 |---|---|---|---:|---|
 | **PUB-ANDGATE**<br/>[A coincidence-detection ("AND-gate") bivalent degrader for protein-leve…](../../research/manuscripts/degrader/fusion-selective-andgate-degrader-paper.md) | ◐ `drafted` | `preprint` | 1 | — |
-| **PUB-ASO**<br/>[Nearly half of junction-spanning gapmer designs against the NR4A3 fusio…](../../research/manuscripts/aso/fusion-junction-aso-research-article.md) | ◐ `drafted` | `preprint` | 2 | — |
+| **PUB-ASO**<br/>[In silico, nearly half of junction-spanning 5-6-5 gapmer designs agains…](../../research/manuscripts/aso/fusion-junction-aso-research-article.md) | ◐ `drafted` | `preprint` | 2 | — |
 | **PUB-ATR**<br/>[The in-silico ATR vulnerability assessment for EMC](../../research/manuscripts/dependency/emc-atr-vulnerability-assessment.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-ATR-PANEL-ASK**<br/>[Transcript-level models of the NR4A3 fusions of extraskeletal myxoid ch…](../../research/manuscripts/dependency/emc-atr-collaborator-package.md) | ◐ `drafted` | `experimental_proposal` | 1 | — |
 | **PUB-BIOMARKER-DEP**<br/>[Biomarker-selected therapeutic classes in an ultra-rare sarcoma — what …](../../research/manuscripts/dependency/emc-biomarker-selected-classes.md) | ◐ `drafted` | `preprint` | 5 | — |
@@ -86,7 +86,7 @@ Coincidence detection across both halves of the fusion is a design that would co
 |---|---|---|
 | [RT-ANDGATE](L2-rt-andgate.md) — AND-gate bivalent degrader (avidity coincidence dete | `primary` | The coincidence-detection design and the statement of exactly what does not exist for it to be built. |
 
-### PUB-ASO — Nearly half of junction-spanning gapmer designs against the NR4A3 fusions of extraskeletal myxoid chondrosarcoma pair a wild-type parent gene over a ten-base-pair duplex through the catalytic gap, and a longer gap trades gap-level margin against parent-paired gap DNA
+### PUB-ASO — In silico, nearly half of junction-spanning 5-6-5 gapmer designs against the NR4A3 fusions of extraskeletal myxoid chondrosarcoma pair a wild-type parent gene over a ten-base-pair duplex through the catalytic gap, and a longer gap trades gap-level margin against parent-paired gap DNA
 
 **◐ `drafted` · aimed at `preprint` · [`research/manuscripts/aso/fusion-junction-aso-research-article.md`](../../research/manuscripts/aso/fusion-junction-aso-research-article.md)**
 
