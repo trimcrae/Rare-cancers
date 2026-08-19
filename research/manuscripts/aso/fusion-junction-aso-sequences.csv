@@ -10,6 +10,9 @@
 # gap and five LNA nucleotides, on a phosphorothioate backbone; 5-8-5 and 5-10-5 are the same
 # five-nucleotide LNA wings around gaps of eight and ten. Ordering the bases without the
 # modifications gives a different molecule, about which nothing in the paper is true.
+# ⚠ NUCLEOBASE MODIFICATION IS NOT SPECIFIED BY THIS DEPOSIT: whether the locked cytosines
+# are 5-methylcytosine is a vendor default this work does not fix, and the free energies in
+# the paper are computed for an unmodified DNA:RNA hybrid.
 #
 # ⛔ THREE PARENT-DUPLEX COLUMNS, AND THEY ARE NOT INTERCHANGEABLE. Join on the right one:
 #   mature_parent_duplex_through_gap_bp — a SEARCH over all six mature parent transcripts for a
@@ -30,7 +33,21 @@
 #
 # `role` IS THE SELECTION COLUMN. `best available at this junction` marks the design the paper
 # itself carries there. Ranking on gap_level_margin is NOT the paper's rule and returns a
-# do_not_order design at five of the 36 panel junctions.
+# do_not_order design at eight of the 40 junctions this file keys a row to, and at five of them
+# a clean register was available and the rule did not pick it.
+#
+# ⛔ EXON NUMBERS IN `junction` ARE TRANSCRIPT EXON INDICES, NOT CODING-EXON INDICES — counted
+# from the transcript 5' end, including non-coding exons. The two conventions differ for TCF12,
+# TFG and NR4A3, and this is the axis an earlier version of this work was withdrawn on. Match a
+# breakpoint against these models: ENST00000397938 (EWSR1), ENST00000605844 (TAF15),
+# ENST00000333725 (TCF12), ENST00000254108 (FUS), ENST00000240851 (TFG), ENST00000395097
+# (NR4A3), ENST00000325455 (PGR).
+#
+# `clinical_tier` grades whether a patient breakpoint is reported at that exon pair:
+# published_exon_resolved_breakpoint, partner_published_this_exon_not_reported, or
+# no_published_exon_resolved_breakpoint. It is written for the 16-mer panel and the
+# non-canonical seams only; a blank means the row's source does not grade it, not that no
+# breakpoint is published.
 #
 # `junction` IS ONE JUNCTION, NOT ALL OF THEM. Nine 16-mers span two or three junctions at
 # once — this is why 190 design records are 176 distinct molecules — and each has ONE row.
@@ -58,33 +75,33 @@ CAGGGCATATCTAGAT,16,5-6-5,EWSR1_e10__NR4A3_e3,,1,12,NR4A3,5,10,True,screened des
 GCATATCTAGATCAAG,16,5-6-5,EWSR1_e10__NR4A3_e3,,1,7,EWSR1,5,10,False,screened design,partner_published_this_exon_not_reported,
 GGCATATCTAGATCAA,16,5-6-5,EWSR1_e10__NR4A3_e3,,2,7,EWSR1,4,9,False,best available at this junction,partner_published_this_exon_not_reported,
 GGGCATATCTAGATCA,16,5-6-5,EWSR1_e10__NR4A3_e3,,3,7,NR4A3,3,8,False,screened design,partner_published_this_exon_not_reported,
-ATGAGGGCCTAGATCA,16,5-6-5,EWSR1_e10__NR4A3_intron2crypticExon,,3,,,,,False,intron-2 cryptic-exon seam,,
-GAGGGCCTAGATCAAG,16,5-6-5,EWSR1_e10__NR4A3_intron2crypticExon,,1,,,,,False,intron-2 cryptic-exon seam,,
-GATGAGGGCCTAGATC,16,5-6-5,EWSR1_e10__NR4A3_intron2crypticExon,,2,,,,,False,intron-2 cryptic-exon seam,,
-TGAGGGCCTAGATCAA,16,5-6-5,EWSR1_e10__NR4A3_intron2crypticExon,,2,,,,,False,intron-2 cryptic-exon seam,,
-TGATGAGGGCCTAGAT,16,5-6-5,EWSR1_e10__NR4A3_intron2crypticExon,,1,,,,,False,intron-2 cryptic-exon seam,,
-ACGCAGGGCATATCATCAAA,20,5-10-5,EWSR1_e12__NR4A3_e3,,2,0,,8,13,False,screened design,,
+ATGAGGGCCTAGATCA,16,5-6-5,EWSR1_e10__NR4A3_intron2crypticExon,,3,,,,,,intron-2 cryptic-exon seam,,
+GAGGGCCTAGATCAAG,16,5-6-5,EWSR1_e10__NR4A3_intron2crypticExon,,1,,,,,,intron-2 cryptic-exon seam,,
+GATGAGGGCCTAGATC,16,5-6-5,EWSR1_e10__NR4A3_intron2crypticExon,,2,,,,,,intron-2 cryptic-exon seam,,
+TGAGGGCCTAGATCAA,16,5-6-5,EWSR1_e10__NR4A3_intron2crypticExon,,2,,,,,,intron-2 cryptic-exon seam,,
+TGATGAGGGCCTAGAT,16,5-6-5,EWSR1_e10__NR4A3_intron2crypticExon,,1,,,,,,intron-2 cryptic-exon seam,,
+ACGCAGGGCATATCATCAAA,20,5-10-5,EWSR1_e12__NR4A3_e3,FUS_e10__NR4A3_e3; TAF15_e11__NR4A3_e3,2,0,,8,13,False,screened design,,
 AGGGCATATCATCAAACCAT,20,5-10-5,EWSR1_e12__NR4A3_e3,,4,0,,6,11,False,screened design,,
-CAGGGCATATCATCAAACCA,20,5-10-5,EWSR1_e12__NR4A3_e3,,5,0,,5,10,False,screened design,,
-CGCAGGGCATATCATCAAAC,20,5-10-5,EWSR1_e12__NR4A3_e3,,3,0,,7,12,False,screened design,,
-GACGCAGGGCATATCATCAA,20,5-10-5,EWSR1_e12__NR4A3_e3,,1,15,NR4A3,9,14,True,screened design,,"DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative"
-GCAGGGCATATCATCAAACC,20,5-10-5,EWSR1_e12__NR4A3_e3,,4,0,,6,11,False,screened design,,
+CAGGGCATATCATCAAACCA,20,5-10-5,EWSR1_e12__NR4A3_e3,FUS_e10__NR4A3_e3; TAF15_e11__NR4A3_e3,5,0,,5,10,False,screened design,,
+CGCAGGGCATATCATCAAAC,20,5-10-5,EWSR1_e12__NR4A3_e3,FUS_e10__NR4A3_e3; TAF15_e11__NR4A3_e3,3,0,,7,12,False,screened design,,
+GACGCAGGGCATATCATCAA,20,5-10-5,EWSR1_e12__NR4A3_e3,FUS_e10__NR4A3_e3; TAF15_e11__NR4A3_e3,1,15,NR4A3,9,14,True,screened design,,"DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative"
+GCAGGGCATATCATCAAACC,20,5-10-5,EWSR1_e12__NR4A3_e3,FUS_e10__NR4A3_e3; TAF15_e11__NR4A3_e3,4,0,,6,11,False,screened design,,
 GCATATCATCAAACCATTCC,20,5-10-5,EWSR1_e12__NR4A3_e3,,1,0,,9,14,False,screened design,,
 GGCATATCATCAAACCATTC,20,5-10-5,EWSR1_e12__NR4A3_e3,,2,0,,8,13,False,screened design,,
 GGGCATATCATCAAACCATT,20,5-10-5,EWSR1_e12__NR4A3_e3,,3,0,,7,12,False,screened design,,
-AGGGCATATCATCAAACC,18,5-8-5,EWSR1_e12__NR4A3_e3,,4,0,,4,9,False,screened design,,
-CAGGGCATATCATCAAAC,18,5-8-5,EWSR1_e12__NR4A3_e3,,3,0,,5,10,False,screened design,,
-CGCAGGGCATATCATCAA,18,5-8-5,EWSR1_e12__NR4A3_e3,,1,13,NR4A3,7,12,True,screened design,,"DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative"
-GCAGGGCATATCATCAAA,18,5-8-5,EWSR1_e12__NR4A3_e3,,2,0,,6,11,False,screened design,,
+AGGGCATATCATCAAACC,18,5-8-5,EWSR1_e12__NR4A3_e3,FUS_e10__NR4A3_e3; TAF15_e11__NR4A3_e3,4,0,,4,9,False,screened design,,
+CAGGGCATATCATCAAAC,18,5-8-5,EWSR1_e12__NR4A3_e3,FUS_e10__NR4A3_e3; TAF15_e11__NR4A3_e3,3,0,,5,10,False,screened design,,
+CGCAGGGCATATCATCAA,18,5-8-5,EWSR1_e12__NR4A3_e3,FUS_e10__NR4A3_e3; TAF15_e11__NR4A3_e3,1,13,NR4A3,7,12,True,screened design,,"DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative"
+GCAGGGCATATCATCAAA,18,5-8-5,EWSR1_e12__NR4A3_e3,FUS_e10__NR4A3_e3; TAF15_e11__NR4A3_e3,2,0,,6,11,False,screened design,,
 GCATATCATCAAACCATT,18,5-8-5,EWSR1_e12__NR4A3_e3,,1,8,FUS,7,12,False,screened design,,
 GGCATATCATCAAACCAT,18,5-8-5,EWSR1_e12__NR4A3_e3,,2,0,,6,11,False,screened design,,
-GGGCATATCATCAAACCA,18,5-8-5,EWSR1_e12__NR4A3_e3,,3,8,TFG,5,10,False,screened design,,
+GGGCATATCATCAAACCA,18,5-8-5,EWSR1_e12__NR4A3_e3,FUS_e10__NR4A3_e3; TAF15_e11__NR4A3_e3,3,8,TFG,5,10,False,screened design,,
 AGGGCATATCATCAAA,16,5-6-5,EWSR1_e12__NR4A3_e3,FUS_e10__NR4A3_e3; TAF15_e11__NR4A3_e3,2,7,TFG,4,9,False,screened design,published_exon_resolved_breakpoint,
 CAGGGCATATCATCAA,16,5-6-5,EWSR1_e12__NR4A3_e3,FUS_e10__NR4A3_e3; TAF15_e11__NR4A3_e3,1,11,NR4A3,5,10,True,screened design,published_exon_resolved_breakpoint,"DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative"
 GCATATCATCAAACCA,16,5-6-5,EWSR1_e12__NR4A3_e3,FUS_e10__NR4A3_e3; TAF15_e11__NR4A3_e3,1,8,FUS,5,10,False,screened design,published_exon_resolved_breakpoint,
 GGCATATCATCAAACC,16,5-6-5,EWSR1_e12__NR4A3_e3,FUS_e10__NR4A3_e3; TAF15_e11__NR4A3_e3,2,8,TFG,4,9,False,screened design,published_exon_resolved_breakpoint,
 GGGCATATCATCAAAC,16,5-6-5,EWSR1_e12__NR4A3_e3,FUS_e10__NR4A3_e3; TAF15_e11__NR4A3_e3,3,8,TFG,3,8,False,best available at this junction,published_exon_resolved_breakpoint,
-AGTGGGCTCTCCACGG,16,5-6-5,EWSR1_e13__NR4A3_e2,,3,8,EWSR1,,,False,non-canonical acceptor seam,published_exon_resolved_breakpoint,
+AGTGGGCTCTCCACGG,16,5-6-5,EWSR1_e13__NR4A3_e2,,3,8,EWSR1,,,False,best available at this junction,published_exon_resolved_breakpoint,
 CAGTGGGCTCTCCACG,16,5-6-5,EWSR1_e13__NR4A3_e2,,2,8,NR4A3,,,False,non-canonical acceptor seam,published_exon_resolved_breakpoint,DO NOT ORDER — pairs its whole catalytic gap against the patient's own un-rearranged NR4A3 allele
 GCAGTGGGCTCTCCAC,16,5-6-5,EWSR1_e13__NR4A3_e2,,1,8,NR4A3,,,False,non-canonical acceptor seam,published_exon_resolved_breakpoint,DO NOT ORDER — pairs its whole catalytic gap against the patient's own un-rearranged NR4A3 allele
 GTGGGCTCTCCACGGA,16,5-6-5,EWSR1_e13__NR4A3_e2,,2,8,EWSR1,,,False,non-canonical acceptor seam,published_exon_resolved_breakpoint,
@@ -93,14 +110,14 @@ ACGCAGGGCATATCTCCACG,20,5-10-5,EWSR1_e13__NR4A3_e3,,2,15,NR4A3,8,13,True,screene
 AGGGCATATCTCCACGGAGT,20,5-10-5,EWSR1_e13__NR4A3_e3,,4,0,,6,11,False,screened design,,
 CAGGGCATATCTCCACGGAG,20,5-10-5,EWSR1_e13__NR4A3_e3,,5,0,,5,10,False,screened design,,
 CGCAGGGCATATCTCCACGG,20,5-10-5,EWSR1_e13__NR4A3_e3,,3,0,,7,12,False,screened design,,
-GACGCAGGGCATATCTCCAC,20,5-10-5,EWSR1_e13__NR4A3_e3,,1,16,NR4A3,9,14,True,screened design,,"DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative"
+GACGCAGGGCATATCTCCAC,20,5-10-5,EWSR1_e13__NR4A3_e3,FUS_e5__NR4A3_e3,1,16,NR4A3,9,14,True,screened design,,"DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative"
 GCAGGGCATATCTCCACGGA,20,5-10-5,EWSR1_e13__NR4A3_e3,,4,0,,6,11,False,screened design,,
 GCATATCTCCACGGAGTGGT,20,5-10-5,EWSR1_e13__NR4A3_e3,,1,0,,9,14,False,screened design,,
 GGCATATCTCCACGGAGTGG,20,5-10-5,EWSR1_e13__NR4A3_e3,,2,0,,8,13,False,screened design,,
 GGGCATATCTCCACGGAGTG,20,5-10-5,EWSR1_e13__NR4A3_e3,,3,0,,7,12,False,screened design,,
 AGGGCATATCTCCACGGA,18,5-8-5,EWSR1_e13__NR4A3_e3,,4,0,,4,9,False,screened design,,
 CAGGGCATATCTCCACGG,18,5-8-5,EWSR1_e13__NR4A3_e3,,3,0,,5,10,False,screened design,,
-CGCAGGGCATATCTCCAC,18,5-8-5,EWSR1_e13__NR4A3_e3,,1,14,NR4A3,7,12,True,screened design,,"DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative"
+CGCAGGGCATATCTCCAC,18,5-8-5,EWSR1_e13__NR4A3_e3,FUS_e5__NR4A3_e3,1,14,NR4A3,7,12,True,screened design,,"DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative"
 GCAGGGCATATCTCCACG,18,5-8-5,EWSR1_e13__NR4A3_e3,,2,13,NR4A3,6,11,True,screened design,,"DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative"
 GCATATCTCCACGGAGTG,18,5-8-5,EWSR1_e13__NR4A3_e3,,1,0,,7,12,False,screened design,,
 GGCATATCTCCACGGAGT,18,5-8-5,EWSR1_e13__NR4A3_e3,,2,0,,6,11,False,screened design,,
@@ -174,7 +191,7 @@ GCATATCAGTGGGAGG,16,5-6-5,EWSR1_e4__NR4A3_e3,,1,9,EWSR1,5,10,False,screened desi
 GGCATATCAGTGGGAG,16,5-6-5,EWSR1_e4__NR4A3_e3,,2,9,EWSR1,4,9,False,screened design,partner_published_this_exon_not_reported,
 GGGCATATCAGTGGGA,16,5-6-5,EWSR1_e4__NR4A3_e3,,3,7,TFG,3,8,False,screened design,partner_published_this_exon_not_reported,
 AGTGGGCTTCTGCTGC,16,5-6-5,EWSR1_e7__NR4A3_e2,,3,8,TAF15,,,False,non-canonical acceptor seam,published_exon_resolved_breakpoint,
-CAGTGGGCTTCTGCTG,16,5-6-5,EWSR1_e7__NR4A3_e2,,2,8,TAF15,,,False,non-canonical acceptor seam,published_exon_resolved_breakpoint,
+CAGTGGGCTTCTGCTG,16,5-6-5,EWSR1_e7__NR4A3_e2,,2,8,TAF15,,,False,best available at this junction,published_exon_resolved_breakpoint,
 GCAGTGGGCTTCTGCT,16,5-6-5,EWSR1_e7__NR4A3_e2,,1,11,NR4A3,,,True,non-canonical acceptor seam,published_exon_resolved_breakpoint,"DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative"
 GTGGGCTTCTGCTGCC,16,5-6-5,EWSR1_e7__NR4A3_e2,,2,8,TAF15,,,False,non-canonical acceptor seam,published_exon_resolved_breakpoint,
 TGGGCTTCTGCTGCCC,16,5-6-5,EWSR1_e7__NR4A3_e2,,1,8,EWSR1,,,False,non-canonical acceptor seam,published_exon_resolved_breakpoint,
@@ -220,24 +237,24 @@ CAGGGCATATCACCAG,16,5-6-5,EWSR1_e9__NR4A3_e3,,1,11,NR4A3,5,10,True,screened desi
 GCATATCACCAGGCTT,16,5-6-5,EWSR1_e9__NR4A3_e3,,1,7,EWSR1,5,10,False,screened design,partner_published_this_exon_not_reported,
 GGCATATCACCAGGCT,16,5-6-5,EWSR1_e9__NR4A3_e3,,2,7,EWSR1,4,9,False,best available at this junction,partner_published_this_exon_not_reported,
 GGGCATATCACCAGGC,16,5-6-5,EWSR1_e9__NR4A3_e3,,3,7,TCF12,3,8,False,screened design,partner_published_this_exon_not_reported,
-AGGGCATATCATCAAACCAG,20,5-10-5,FUS_e10__NR4A3_e3,,4,0,,6,11,False,screened design,,
-GCATATCATCAAACCAGTCA,20,5-10-5,FUS_e10__NR4A3_e3,,1,0,,9,14,False,screened design,,
-GGCATATCATCAAACCAGTC,20,5-10-5,FUS_e10__NR4A3_e3,,2,0,,8,13,False,screened design,,
-GGGCATATCATCAAACCAGT,20,5-10-5,FUS_e10__NR4A3_e3,,3,0,,7,12,False,screened design,,
-GCATATCATCAAACCAGT,18,5-8-5,FUS_e10__NR4A3_e3,,1,8,FUS,7,12,False,screened design,,
-GGCATATCATCAAACCAG,18,5-8-5,FUS_e10__NR4A3_e3,,2,0,,6,11,False,screened design,,
+AGGGCATATCATCAAACCAG,20,5-10-5,FUS_e10__NR4A3_e3,TAF15_e11__NR4A3_e3,4,0,,6,11,False,screened design,,
+GCATATCATCAAACCAGTCA,20,5-10-5,FUS_e10__NR4A3_e3,TAF15_e11__NR4A3_e3,1,0,,9,14,False,screened design,,
+GGCATATCATCAAACCAGTC,20,5-10-5,FUS_e10__NR4A3_e3,TAF15_e11__NR4A3_e3,2,0,,8,13,False,screened design,,
+GGGCATATCATCAAACCAGT,20,5-10-5,FUS_e10__NR4A3_e3,TAF15_e11__NR4A3_e3,3,0,,7,12,False,screened design,,
+GCATATCATCAAACCAGT,18,5-8-5,FUS_e10__NR4A3_e3,TAF15_e11__NR4A3_e3,1,8,FUS,7,12,False,screened design,,
+GGCATATCATCAAACCAG,18,5-8-5,FUS_e10__NR4A3_e3,TAF15_e11__NR4A3_e3,2,0,,6,11,False,screened design,,
 ACGCAGGGCATATCTCCTCG,20,5-10-5,FUS_e11__NR4A3_e3,,2,15,NR4A3,8,13,True,screened design,,"DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative"
 AGGGCATATCTCCTCGCCCT,20,5-10-5,FUS_e11__NR4A3_e3,,4,0,,6,11,False,screened design,,
 CAGGGCATATCTCCTCGCCC,20,5-10-5,FUS_e11__NR4A3_e3,,5,0,,5,10,False,screened design,,
 CGCAGGGCATATCTCCTCGC,20,5-10-5,FUS_e11__NR4A3_e3,,3,0,,7,12,False,screened design,,
-GACGCAGGGCATATCTCCTC,20,5-10-5,FUS_e11__NR4A3_e3,,1,16,NR4A3,9,14,True,screened design,,"DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative"
+GACGCAGGGCATATCTCCTC,20,5-10-5,FUS_e11__NR4A3_e3,TAF15_e14__NR4A3_e3,1,16,NR4A3,9,14,True,screened design,,"DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative"
 GCAGGGCATATCTCCTCGCC,20,5-10-5,FUS_e11__NR4A3_e3,,4,0,,6,11,False,screened design,,
 GCATATCTCCTCGCCCTCGG,20,5-10-5,FUS_e11__NR4A3_e3,,1,0,,9,14,False,screened design,,
 GGCATATCTCCTCGCCCTCG,20,5-10-5,FUS_e11__NR4A3_e3,,2,0,,8,13,False,screened design,,
 GGGCATATCTCCTCGCCCTC,20,5-10-5,FUS_e11__NR4A3_e3,,3,0,,7,12,False,screened design,,
 AGGGCATATCTCCTCGCC,18,5-8-5,FUS_e11__NR4A3_e3,,4,0,,4,9,False,screened design,,
 CAGGGCATATCTCCTCGC,18,5-8-5,FUS_e11__NR4A3_e3,,3,0,,5,10,False,screened design,,
-CGCAGGGCATATCTCCTC,18,5-8-5,FUS_e11__NR4A3_e3,,1,14,NR4A3,7,12,True,screened design,,"DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative"
+CGCAGGGCATATCTCCTC,18,5-8-5,FUS_e11__NR4A3_e3,TAF15_e14__NR4A3_e3,1,14,NR4A3,7,12,True,screened design,,"DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative"
 GCAGGGCATATCTCCTCG,18,5-8-5,FUS_e11__NR4A3_e3,,2,13,NR4A3,6,11,True,screened design,,"DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative"
 GCATATCTCCTCGCCCTC,18,5-8-5,FUS_e11__NR4A3_e3,,1,0,,7,12,False,screened design,,
 GGCATATCTCCTCGCCCT,18,5-8-5,FUS_e11__NR4A3_e3,,2,9,EWSR1,6,11,False,screened design,,
@@ -328,19 +345,19 @@ AGGGCATATCTCCACC,16,5-6-5,FUS_e5__NR4A3_e3,,2,11,NR4A3,4,9,True,screened design,
 GCATATCTCCACCTCC,16,5-6-5,FUS_e5__NR4A3_e3,,1,10,TAF15,5,10,True,screened design,,"DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative"
 GGCATATCTCCACCTC,16,5-6-5,FUS_e5__NR4A3_e3,,2,8,TCF12,4,9,False,screened design,no_published_exon_resolved_breakpoint,
 GGGCATATCTCCACCT,16,5-6-5,FUS_e5__NR4A3_e3,,3,8,TCF12,3,8,False,best available at this junction,no_published_exon_resolved_breakpoint,
-ACGCAGGGCATATCACCAAA,20,5-10-5,FUS_e7__NR4A3_e3,,2,0,,8,13,False,screened design,,
+ACGCAGGGCATATCACCAAA,20,5-10-5,FUS_e7__NR4A3_e3,TAF15_e8__NR4A3_e3,2,0,,8,13,False,screened design,,
 AGGGCATATCACCAAATTTA,20,5-10-5,FUS_e7__NR4A3_e3,,4,0,,6,11,False,screened design,,
 CAGGGCATATCACCAAATTT,20,5-10-5,FUS_e7__NR4A3_e3,,5,0,,5,10,False,screened design,,
 CGCAGGGCATATCACCAAAT,20,5-10-5,FUS_e7__NR4A3_e3,,3,0,,7,12,False,screened design,,
-GACGCAGGGCATATCACCAA,20,5-10-5,FUS_e7__NR4A3_e3,,1,15,NR4A3,9,14,True,screened design,,"DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative"
+GACGCAGGGCATATCACCAA,20,5-10-5,FUS_e7__NR4A3_e3,TAF15_e8__NR4A3_e3,1,15,NR4A3,9,14,True,screened design,,"DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative"
 GCAGGGCATATCACCAAATT,20,5-10-5,FUS_e7__NR4A3_e3,,4,0,,6,11,False,screened design,,
 GCATATCACCAAATTTATTG,20,5-10-5,FUS_e7__NR4A3_e3,,1,0,,9,14,False,screened design,,
 GGCATATCACCAAATTTATT,20,5-10-5,FUS_e7__NR4A3_e3,,2,0,,8,13,False,screened design,,
 GGGCATATCACCAAATTTAT,20,5-10-5,FUS_e7__NR4A3_e3,,3,0,,7,12,False,screened design,,
 AGGGCATATCACCAAATT,18,5-8-5,FUS_e7__NR4A3_e3,,4,0,,4,9,False,screened design,,
 CAGGGCATATCACCAAAT,18,5-8-5,FUS_e7__NR4A3_e3,,3,0,,5,10,False,screened design,,
-CGCAGGGCATATCACCAA,18,5-8-5,FUS_e7__NR4A3_e3,,1,13,NR4A3,7,12,True,screened design,,"DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative"
-GCAGGGCATATCACCAAA,18,5-8-5,FUS_e7__NR4A3_e3,,2,0,,6,11,False,screened design,,
+CGCAGGGCATATCACCAA,18,5-8-5,FUS_e7__NR4A3_e3,TAF15_e8__NR4A3_e3,1,13,NR4A3,7,12,True,screened design,,"DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative"
+GCAGGGCATATCACCAAA,18,5-8-5,FUS_e7__NR4A3_e3,TAF15_e8__NR4A3_e3,2,0,,6,11,False,screened design,,
 GCATATCACCAAATTTAT,18,5-8-5,FUS_e7__NR4A3_e3,,1,0,,7,12,False,screened design,,
 GGCATATCACCAAATTTA,18,5-8-5,FUS_e7__NR4A3_e3,,2,0,,6,11,False,screened design,,
 GGGCATATCACCAAATTT,18,5-8-5,FUS_e7__NR4A3_e3,,3,0,,5,10,False,screened design,,
@@ -370,7 +387,7 @@ CAGGGCATATCGGAGT,16,5-6-5,FUS_e8__NR4A3_e3,,1,11,NR4A3,5,10,True,screened design
 GCATATCGGAGTCATG,16,5-6-5,FUS_e8__NR4A3_e3,,1,11,FUS,5,10,True,screened design,no_published_exon_resolved_breakpoint,"DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative"
 GGCATATCGGAGTCAT,16,5-6-5,FUS_e8__NR4A3_e3,,2,0,,4,9,False,screened design,no_published_exon_resolved_breakpoint,
 GGGCATATCGGAGTCA,16,5-6-5,FUS_e8__NR4A3_e3,,3,0,,3,8,False,screened design,no_published_exon_resolved_breakpoint,
-AGTGGGCTCTTCCATT,16,5-6-5,PGR_e2__NR4A3_e2,,3,9,NR4A3,,,False,non-canonical acceptor seam,published_exon_resolved_breakpoint,
+AGTGGGCTCTTCCATT,16,5-6-5,PGR_e2__NR4A3_e2,,3,9,NR4A3,,,False,best available at this junction,published_exon_resolved_breakpoint,
 CAGTGGGCTCTTCCAT,16,5-6-5,PGR_e2__NR4A3_e2,,2,9,NR4A3,,,False,non-canonical acceptor seam,published_exon_resolved_breakpoint,
 GCAGTGGGCTCTTCCA,16,5-6-5,PGR_e2__NR4A3_e2,,1,9,NR4A3,,,False,non-canonical acceptor seam,published_exon_resolved_breakpoint,
 GTGGGCTCTTCCATTG,16,5-6-5,PGR_e2__NR4A3_e2,,2,9,TAF15,,,False,non-canonical acceptor seam,published_exon_resolved_breakpoint,
@@ -456,7 +473,7 @@ CAGGGCATATCTGACT,16,5-6-5,TAF15_e4__NR4A3_e3,,1,13,NR4A3,5,10,True,screened desi
 GCATATCTGACTGACT,16,5-6-5,TAF15_e4__NR4A3_e3,,1,8,TCF12,5,10,False,screened design,partner_published_this_exon_not_reported,
 GGCATATCTGACTGAC,16,5-6-5,TAF15_e4__NR4A3_e3,,2,8,TCF12,4,9,False,best available at this junction,partner_published_this_exon_not_reported,
 GGGCATATCTGACTGA,16,5-6-5,TAF15_e4__NR4A3_e3,,3,11,NR4A3,3,8,True,screened design,partner_published_this_exon_not_reported,"DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative"
-AGTGGGCTCTTGTGTG,16,5-6-5,TAF15_e6__NR4A3_e2,,3,9,NR4A3,,,False,non-canonical acceptor seam,published_exon_resolved_breakpoint,
+AGTGGGCTCTTGTGTG,16,5-6-5,TAF15_e6__NR4A3_e2,,3,9,NR4A3,,,False,best available at this junction,published_exon_resolved_breakpoint,
 CAGTGGGCTCTTGTGT,16,5-6-5,TAF15_e6__NR4A3_e2,,2,9,NR4A3,,,False,non-canonical acceptor seam,published_exon_resolved_breakpoint,
 GCAGTGGGCTCTTGTG,16,5-6-5,TAF15_e6__NR4A3_e2,,1,9,NR4A3,,,False,non-canonical acceptor seam,published_exon_resolved_breakpoint,
 GTGGGCTCTTGTGTGT,16,5-6-5,TAF15_e6__NR4A3_e2,,2,8,TCF12,,,False,non-canonical acceptor seam,published_exon_resolved_breakpoint,
@@ -482,10 +499,10 @@ CAGGGCATATCTTGTG,16,5-6-5,TAF15_e6__NR4A3_e3,,1,12,NR4A3,5,10,True,screened desi
 GCATATCTTGTGTGTG,16,5-6-5,TAF15_e6__NR4A3_e3,,1,12,TAF15,5,10,True,screened design,published_exon_resolved_breakpoint,"DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative"
 GGCATATCTTGTGTGT,16,5-6-5,TAF15_e6__NR4A3_e3,,2,11,TAF15,4,9,True,screened design,published_exon_resolved_breakpoint,"DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative"
 GGGCATATCTTGTGTG,16,5-6-5,TAF15_e6__NR4A3_e3,,3,9,TFG,3,8,False,best available at this junction,published_exon_resolved_breakpoint,
-ATGAGGGCCTTGTGTG,16,5-6-5,TAF15_e6__NR4A3_intron2crypticExon,,3,,,,,False,intron-2 cryptic-exon seam,,
-GAGGGCCTTGTGTGTG,16,5-6-5,TAF15_e6__NR4A3_intron2crypticExon,,1,,,,,False,intron-2 cryptic-exon seam,,
-GATGAGGGCCTTGTGT,16,5-6-5,TAF15_e6__NR4A3_intron2crypticExon,,2,,,,,False,intron-2 cryptic-exon seam,,
-TGAGGGCCTTGTGTGT,16,5-6-5,TAF15_e6__NR4A3_intron2crypticExon,,2,,,,,False,intron-2 cryptic-exon seam,,
+ATGAGGGCCTTGTGTG,16,5-6-5,TAF15_e6__NR4A3_intron2crypticExon,,3,,,,,,intron-2 cryptic-exon seam,,
+GAGGGCCTTGTGTGTG,16,5-6-5,TAF15_e6__NR4A3_intron2crypticExon,,1,,,,,,intron-2 cryptic-exon seam,,
+GATGAGGGCCTTGTGT,16,5-6-5,TAF15_e6__NR4A3_intron2crypticExon,,2,,,,,,intron-2 cryptic-exon seam,,
+TGAGGGCCTTGTGTGT,16,5-6-5,TAF15_e6__NR4A3_intron2crypticExon,,2,,,,,,intron-2 cryptic-exon seam,,
 TGATGAGGGCCTTGTG,16,5-6-5,TAF15_e6__NR4A3_intron2crypticExon,,1,,,,,True,intron-2 cryptic-exon seam,,DO NOT ORDER — pairs its whole catalytic gap against the patient's own un-rearranged NR4A3 allele
 AGGGCATATCACCAAAATTT,20,5-10-5,TAF15_e8__NR4A3_e3,,4,0,,6,11,False,screened design,,
 CAGGGCATATCACCAAAATT,20,5-10-5,TAF15_e8__NR4A3_e3,,5,0,,5,10,False,screened design,,

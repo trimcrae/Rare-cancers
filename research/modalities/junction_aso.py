@@ -126,9 +126,34 @@ def junction_label():
         # result, it is a MISATTRIBUTED one — the exact shape of the 2026-08-06 retraction, where a
         # panel carried a junction label its sequence did not match and the mismatch was invisible
         # in the file that depended on it.
-        donor = (os.environ.get("DONOR_GENE") or "EWSR1").strip() or "EWSR1"
-        e = _env_int("EWSR1_EXON_END", _env_int("DONOR_EXON_END", 12))
-        n = _env_int("NR4A3_EXON_START", 3)
+        # ⛔⛔ REAL MODE REFUSES TO GUESS A BREAKPOINT (2026-08-19). These three read
+        # `EWSR1`, `12` and `3` by default — the lead junction — so `FUSION_JUNCTION_MODE=real`
+        # with nothing else set did not fail. It silently emitted a complete, correctly
+        # self-labelled panel for `EWSR1_e12__NR4A3_e3`, and all five screens then ran happily on
+        # it. A blind order-walkthrough hit this trying to design for a patient's own breakpoint:
+        # the paper names only `FUSION_JUNCTION_MODE=real`, so following it hands a laboratory
+        # SOMEBODY ELSE'S REAGENT under its own junction's name. The comment above already says a
+        # misattributed panel is the exact shape of the 2026-08-06 retraction; the default was the
+        # remaining way to produce one. A default is safe only where getting it wrong is cheap.
+        donor = (os.environ.get("DONOR_GENE") or "").strip()
+        e_raw = os.environ.get("EWSR1_EXON_END") or os.environ.get("DONOR_EXON_END") or ""
+        n_raw = os.environ.get("NR4A3_EXON_START") or ""
+        missing = [name for name, val in (("DONOR_GENE", donor),
+                                          ("DONOR_EXON_END", e_raw.strip()),
+                                          ("NR4A3_EXON_START", n_raw.strip())) if not val]
+        if missing:
+            raise SystemExit(
+                "FUSION_JUNCTION_MODE=real needs the breakpoint declared and "
+                f"{', '.join(missing)} {'is' if len(missing) == 1 else 'are'} unset. There is no "
+                "default breakpoint: one would emit the lead junction's panel under whatever "
+                "junction you believe you are designing for. Set all three, e.g.\n"
+                "  FUSION_JUNCTION_MODE=real DONOR_GENE=TCF12 DONOR_EXON_END=5 "
+                "NR4A3_EXON_START=3 python3 junction_aso.py\n"
+                "Run with --audit first: a panel may only be emitted for a pair that grades "
+                "EMITTABLE. A non-coding acceptor additionally needs "
+                "PUBLISHED_BREAKPOINT_JUNCTION=1 and a whitelist entry.")
+        e = int(e_raw.strip())
+        n = int(n_raw.strip())
         # ⛔ THE NOTE BELOW SAYS "Real in-frame …", AND FOR A WAIVED PUBLISHED BREAKPOINT THAT WOULD
         # BE FALSE IN THE ONE FIELD A READER USES TO SEE WHAT WAS BUILT. Both whitelisted seams are
         # excluded from the panel precisely BECAUSE the chimeric ORF does not compose (no CDS in the

@@ -214,9 +214,9 @@ def _rows():
                 role=("best available at this junction" if seq == best else "screened design"),
                 # ⛔⛔ THIS COLUMN WAS EMPTY ON EVERY PANEL ROW, AND THAT WAS A WRONG-REAGENT HAZARD
                 # (measured 2026-08-19). The paper states exactly one selection rule for this file —
-                # rank by gap-level margin — and following it returns, at five of the 36 junctions,
-                # a design that pairs a wild-type parent through the whole catalytic gap at 11 base
-                # pairs, four of them against wild-type NR4A3. Table 3 marks every one of those ⚑
+                # rank by gap-level margin — and following it returns a design this file condemns at
+                # EIGHT of the 40 junctions it keys a row to. At three of those every register is
+                # condemned, so the rule costs a reader a clean design at the other five. Table 3 marks every one of those ⚑
                 # "do not order"; the CSV the paper tells a reader to order FROM instead of the PDF
                 # carried no flag at all, on 83 such rows. A canonical record that is safe only for
                 # a reader who also has the table is not canonical.
@@ -287,7 +287,18 @@ def _rows():
                 mature_parent_duplex_gene=d.get("parent") or "",
                 parent_paired_gap_dna_nt="", parent_seam_hybrid_bp="",
                 pairs_a_wild_type_parent_through_the_gap=bool(d.get("parent_is_liability")),
-                role="non-canonical acceptor seam",
+                # ⛔ THE SELECTION COLUMN WAS EMPTY AT EVERY NON-PANEL SEAM (2026-08-19). Both this
+                # file's header and §6 tell a reader that `role = best available at this junction`
+                # is where the paper's own answer lives — and no row at the four *NR4A3* exon-2
+                # seams carried it, though this artifact states `best_available` for each. So at
+                # three seams with a PUBLISHED patient breakpoint the only rule a reader could
+                # execute on the file was gap-level margin, which at *EWSR1* exon 7 returns
+                # `AGTGGGCTTCTGCTGC` where §2.6 and Table 5 both name `CAGTGGGCTTCTGCTG`. The fix
+                # for the panel stopped at the panel's edge; these seams are where two registers
+                # are condemned outright, so it is where the column was needed most.
+                role=("best available at this junction"
+                      if seq == ((j.get("best_available") or {}).get("antisense_5to3"))
+                      else "non-canonical acceptor seam"),
                 # ⚠ TWO CONDEMNATIONS REACH THESE ROWS AND THE UN-REARRANGED-ALLELE ONE WINS. A
                 # design at a non-canonical acceptor can both engage the patient's own allele and
                 # pair a wild-type parent; the allele reason is the more specific and is the one
@@ -315,7 +326,15 @@ def _rows():
                 gap_level_margin=d.get("gap_specificity_margin"),
                 mature_parent_duplex_through_gap_bp="", mature_parent_duplex_gene="",
                 parent_paired_gap_dna_nt="", parent_seam_hybrid_bp="",
-                pairs_a_wild_type_parent_through_the_gap=bool(bad),
+                # ⛔ THIS COLUMN READ A HARD `False` WHERE THE SCREEN WAS NEVER RUN (2026-08-19).
+                # It was written as `bool(bad)` — the un-rearranged-allele verdict — so nine
+                # cryptic-exon rows with NO mature-parent duplex recorded at all announced that no
+                # wild-type parent pairs their gap. §2.6 says the opposite in terms: at these seams
+                # "their counts are absent rather than low and must not be read beside the panel's".
+                # The header already defines the third state; the column simply was not using it,
+                # and one column was carrying two different questions' answers.
+                pairs_a_wild_type_parent_through_the_gap=_pairs_a_parent(
+                    d.get("parent_duplex_bp")),
                 role="intron-2 cryptic-exon seam",
                 do_not_order=("DO NOT ORDER — pairs its whole catalytic gap against the patient's "
                               "own un-rearranged NR4A3 allele" if bad else ""),
@@ -344,14 +363,40 @@ def _rows():
     # ⚠ THE OTHER JUNCTIONS GO IN THEIR OWN COLUMN RATHER THAN INTO `junction`. One row per
     # molecule is what makes the file a record of molecules; duplicating the row per junction would
     # reintroduce the 190-versus-176 conflation this deposit has already been burned by.
-    spans = {}
+    # ⛔ AND THE FIRST VERSION OF THIS BLOCK STOPPED AT THE 16-MER PANEL'S EDGE (same day). It read
+    # `offtarget-chance-baseline.json`, whose series is the 176 sixteen-mers ONLY, so it filled the
+    # column for 9 molecules and left it blank on every 5-8-5 and 5-10-5 row — including
+    # `AGGGCATATCATCAAACC`, the gap-length control arm §4.2 tells a laboratory to synthesise
+    # alongside the lead and which Table 7 heads as spanning three partners' breakpoints. A reader
+    # at *FUS* exon 10 searching for their control found six rows for their junction, so they never
+    # consulted the second column at all, and the arm the paper names was not among them.
+    # `aso-gap-length-tradeoff.json` carries the same fact for all three geometries — 81 rows — so
+    # it is the source, with the 16-mer series kept only as a cross-check that the two agree.
+    # ⚠ UNION, NEVER OVERWRITE, AND THAT IS NOT A STYLE CHOICE. The artifact carries one row PER
+    # JUNCTION for a multi-junction design — 33 duplicate (sequence, geometry) keys — and each row
+    # lists the OTHER junctions from its own point of view. Assigning instead of unioning let the
+    # last row win, which dropped *TAF15* exon 11 from the lead reagent's record entirely: the
+    # column went from naming the junction to hiding it, which is the defect this block exists to
+    # fix, reintroduced by the fix. Caught by re-running the search a laboratory would run.
+    spans: dict[tuple[str, str], set[str]] = {}
+
+    def _span(seq, geometry, junctions):
+        spans.setdefault((seq, geometry), set()).update(junctions)
+
+    for rec in (_load("aso-gap-length-tradeoff.json") or {}).get("per_design", []):
+        others = rec.get("also_exact_at_junctions") or []
+        if others:
+            _span(rec["antisense_5to3"], _geometry(rec.get("architecture")),
+                  list(others) + [rec["junction"]])
     for rec in (_load("offtarget-chance-baseline.json") or {}).get(
             "figure_series", {}).get("series", []):
-        if len(rec.get("junctions") or []) > 1:
-            spans[rec["antisense_5to3"]] = list(rec["junctions"])
+        junctions = rec.get("junctions") or []
+        if len(junctions) > 1:
+            _span(rec["antisense_5to3"], "5-6-5", junctions)
     for row in rows:
-        others = [j for j in spans.get(row["sequence"], []) if j != row["junction"]]
-        row["also_tiled_at_junctions"] = "; ".join(others)
+        others = spans.get((row["sequence"], row["geometry"]), set())
+        row["also_tiled_at_junctions"] = "; ".join(
+            sorted(j for j in others if j and j != row["junction"]))
 
     rows.sort(key=lambda r: (r["junction"], -(r["length_nt"]), r["sequence"]))
     return rows
@@ -403,6 +448,9 @@ _HEADER = [
     "# gap and five LNA nucleotides, on a phosphorothioate backbone; 5-8-5 and 5-10-5 are the same",
     "# five-nucleotide LNA wings around gaps of eight and ten. Ordering the bases without the",
     "# modifications gives a different molecule, about which nothing in the paper is true.",
+    "# ⚠ NUCLEOBASE MODIFICATION IS NOT SPECIFIED BY THIS DEPOSIT: whether the locked cytosines",
+    "# are 5-methylcytosine is a vendor default this work does not fix, and the free energies in",
+    "# the paper are computed for an unmodified DNA:RNA hybrid.",
     "#",
     "# ⛔ THREE PARENT-DUPLEX COLUMNS, AND THEY ARE NOT INTERCHANGEABLE. Join on the right one:",
     "#   mature_parent_duplex_through_gap_bp — a SEARCH over all six mature parent transcripts for a",
@@ -423,7 +471,21 @@ _HEADER = [
     "#",
     "# `role` IS THE SELECTION COLUMN. `best available at this junction` marks the design the paper",
     "# itself carries there. Ranking on gap_level_margin is NOT the paper's rule and returns a",
-    "# do_not_order design at five of the 36 panel junctions.",
+    "# do_not_order design at eight of the 40 junctions this file keys a row to, and at five of them",
+    "# a clean register was available and the rule did not pick it.",
+    "#",
+    "# ⛔ EXON NUMBERS IN `junction` ARE TRANSCRIPT EXON INDICES, NOT CODING-EXON INDICES — counted",
+    "# from the transcript 5' end, including non-coding exons. The two conventions differ for TCF12,",
+    "# TFG and NR4A3, and this is the axis an earlier version of this work was withdrawn on. Match a",
+    "# breakpoint against these models: ENST00000397938 (EWSR1), ENST00000605844 (TAF15),",
+    "# ENST00000333725 (TCF12), ENST00000254108 (FUS), ENST00000240851 (TFG), ENST00000395097",
+    "# (NR4A3), ENST00000325455 (PGR).",
+    "#",
+    "# `clinical_tier` grades whether a patient breakpoint is reported at that exon pair:",
+    "# published_exon_resolved_breakpoint, partner_published_this_exon_not_reported, or",
+    "# no_published_exon_resolved_breakpoint. It is written for the 16-mer panel and the",
+    "# non-canonical seams only; a blank means the row's source does not grade it, not that no",
+    "# breakpoint is published.",
     "#",
     "# `junction` IS ONE JUNCTION, NOT ALL OF THEM. Nine 16-mers span two or three junctions at",
     "# once — this is why 190 design records are 176 distinct molecules — and each has ONE row.",
@@ -462,7 +524,9 @@ def _fasta_text(rows):
         "; medicine or a candidate drug; none has been synthesised or tested.",
         "; Sequences are written 5' to 3' as the ANTISENSE strand.",
         "; CHEMISTRY: LNA/DNA/LNA gapmers on a phosphorothioate backbone, geometry per record. The",
-        "; bases alone, ordered as unmodified DNA, are a DIFFERENT MOLECULE.",
+        "; bases alone, ordered as unmodified DNA, are a DIFFERENT MOLECULE. Nucleobase modification is",
+        "; NOT specified here: whether locked cytosines are 5-methylcytosine is a vendor default",
+        "; this work does not fix.",
         "; A record tagged DO NOT ORDER carries the reason on its defline. Two reasons exist: it",
         "; pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair",
         "; criterion, or it pairs the patient's own un-rearranged NR4A3 allele at a non-canonical",
@@ -494,6 +558,8 @@ def _fasta_text(rows):
             tags.append(f"also tiled at {r['also_tiled_at_junctions']}")
         if r.get("role"):
             tags.append(f"role={r['role']}")
+        if r.get("clinical_tier"):
+            tags.append(f"clinical_tier={r['clinical_tier']}")
         if r.get("mature_parent_duplex_through_gap_bp") not in ("", None):
             gene = r.get("mature_parent_duplex_gene") or "unnamed"
             tags.append(f"parent_duplex={r['mature_parent_duplex_through_gap_bp']}bp ({gene})")

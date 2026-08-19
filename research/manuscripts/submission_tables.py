@@ -1457,7 +1457,12 @@ def table6(expr, per_junction):
     # opening is the anchor `test_table6_record_column_is_named_for_what_the_generator_counts` finds
     # this table by, and a marker inside it would break that guard while changing nothing a reader
     # sees. The symbol lives in the cells it marks, which is where a reader meets it.
-    hdr = ("| junction | gene locus | gap-paired hit records | tiling registers returning it⁷ | "
+    # ⛔ ⁸ NOT ⁷ (2026-08-19). The markers run CONTINUOUSLY across this file — ¹²³ in Table 3, ⁴⁵⁶
+    # in Table 4 — precisely so that a table lifted out of the document cannot collide with its
+    # neighbour's notes. Table 4 gained a ⁷ this round for its new parent-duplex column, and this
+    # header still called ⁷ four pages later: one marker, two definitions, in a file whose whole
+    # numbering convention exists to prevent that.
+    hdr = ("| junction | gene locus | gap-paired hit records | tiling registers returning it⁸ | "
            + " | ".join(tiss) + " | soft-tissue proxy maximum | exposure-organ reading |")
     sep = "|---|---|---|---|" + "---|" * (len(tiss) + 2)
     return "\n".join([hdr, sep] + rows)
@@ -1969,7 +1974,7 @@ locus returned by the deeper screens that were READ at {n_expr_seams_txt} of the
 each, against reference expression data. The four *NR4A3* exon-2 acceptor seams of §2.6 also carry a
 published exon-resolved breakpoint and carry no expression reading here, so this is four of nine such
 seams in the paper and not four of five. ⚠ That is not every screen at every junction: at the *EWSR1* exon-12 lead seam only the
-multi-partner reagent's own screen is read, so its rows carry a denominator of one, which note ⁷ states per row. The two compartments answer different questions and are
+multi-partner reagent's own screen is read, so its rows carry a denominator of one, which note ⁸ states per row. The two compartments answer different questions and are
 never combined: a systemically dosed phosphorothioate gapmer is taken to distribute predominantly to
 liver and kidney — a premise taken from the chemistry, for which no measurement or citation was
 retrieved here — so {lo_cut_txt} are read as the exposure compartment, while the soft-tissue column is the normal
@@ -1991,7 +1996,7 @@ two columns therefore move together rather than being independent axes, and neit
 neither is expression and neither is affinity. A locus with no reading carries the reason rather
 than a zero, because an absent reading is not a reading of absence. Every hit behind this table sits at 14 of 16 identity, the loosest the screen admits, so
 nothing here distinguishes these loci from one another on affinity. None of these numbers is a
-measurement of cleavage, and no expression figure is a predicted cleavage event.\n\n⁷ The denominator is how many designs at that seam THIS TABLE READS, and not how many junction-spanning registers the seam admits — {_registers} at every junction of this panel (Table 7). At the *EWSR1* exon-12 lead seam the multi-partner reagent's own screen is the only one read, so those rows carry a denominator of one; at the other seams no design is selected and every screened register is read, because a ranking is not a reagent and the union across registers is what the panel has to cover.\n\n◆ A locus returned by the design Table 2 names as the best available at that seam, which is the molecule Table 5 prices and §4 names. The unmarked rows are returned by other registers tiled across the same junction and not by that reagent. The marker identifies and does not rank: every locus keeps its row, the union is still what this table reports, and a reagent's own loci are neither cleaner nor dirtier for being its own.
+measurement of cleavage, and no expression figure is a predicted cleavage event.\n\n⁸ The denominator is how many designs at that seam THIS TABLE READS, and not how many junction-spanning registers the seam admits — {_registers} at every junction of this panel (Table 7). At the *EWSR1* exon-12 lead seam the multi-partner reagent's own screen is the only one read, so those rows carry a denominator of one; at the other seams no design is selected and every screened register is read, because a ranking is not a reagent and the union across registers is what the panel has to cover.\n\n◆ A locus returned by the design Table 2 names as the best available at that seam, which is the molecule Table 5 prices and §4 names. The unmarked rows are returned by other registers tiled across the same junction and not by that reagent. The marker identifies and does not rank: every locus keeps its row, the union is still what this table reports, and a reagent's own loci are neither cleaner nor dirtier for being its own.
 
 {t6}
 

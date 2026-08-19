@@ -305,7 +305,7 @@ locus returned by the deeper screens that were READ at four of the five junction
 each, against reference expression data. The four *NR4A3* exon-2 acceptor seams of §2.6 also carry a
 published exon-resolved breakpoint and carry no expression reading here, so this is four of nine such
 seams in the paper and not four of five. ⚠ That is not every screen at every junction: at the *EWSR1* exon-12 lead seam only the
-multi-partner reagent's own screen is read, so its rows carry a denominator of one, which note ⁷ states per row. The two compartments answer different questions and are
+multi-partner reagent's own screen is read, so its rows carry a denominator of one, which note ⁸ states per row. The two compartments answer different questions and are
 never combined: a systemically dosed phosphorothioate gapmer is taken to distribute predominantly to
 liver and kidney — a premise taken from the chemistry, for which no measurement or citation was
 retrieved here — so liver, kidney - cortex and kidney - medulla are read as the exposure compartment, while the soft-tissue column is the normal
@@ -329,11 +329,11 @@ than a zero, because an absent reading is not a reading of absence. Every hit be
 nothing here distinguishes these loci from one another on affinity. None of these numbers is a
 measurement of cleavage, and no expression figure is a predicted cleavage event.
 
-⁷ The denominator is how many designs at that seam THIS TABLE READS, and not how many junction-spanning registers the seam admits — 5 at every junction of this panel (Table 7). At the *EWSR1* exon-12 lead seam the multi-partner reagent's own screen is the only one read, so those rows carry a denominator of one; at the other seams no design is selected and every screened register is read, because a ranking is not a reagent and the union across registers is what the panel has to cover.
+⁸ The denominator is how many designs at that seam THIS TABLE READS, and not how many junction-spanning registers the seam admits — 5 at every junction of this panel (Table 7). At the *EWSR1* exon-12 lead seam the multi-partner reagent's own screen is the only one read, so those rows carry a denominator of one; at the other seams no design is selected and every screened register is read, because a ranking is not a reagent and the union across registers is what the panel has to cover.
 
 ◆ A locus returned by the design Table 2 names as the best available at that seam, which is the molecule Table 5 prices and §4 names. The unmarked rows are returned by other registers tiled across the same junction and not by that reagent. The marker identifies and does not rank: every locus keeps its row, the union is still what this table reports, and a reagent's own loci are neither cleaner nor dirtier for being its own.
 
-| junction | gene locus | gap-paired hit records | tiling registers returning it⁷ | Liver | Kidney - Cortex | Kidney - Medulla | soft-tissue proxy maximum | exposure-organ reading |
+| junction | gene locus | gap-paired hit records | tiling registers returning it⁸ | Liver | Kidney - Cortex | Kidney - Medulla | soft-tissue proxy maximum | exposure-organ reading |
 |---|---|---|---|---|---|---|---|---|
 | EWSR1 e12::NR4A3 e3 | *ANKS1B* ◆ | 67 | 1 of 1 | 0.03 | 0.46 | 0.28 | 3.6 (Artery - Tibial) | below the lower cut in all three |
 | EWSR1 e12::NR4A3 e3 | *ZNF667* ◆ | 37 | 1 of 1 | 0.31 | 1.63 | 2.58 | 6.2 (Nerve - Tibial) | detectable, below the upper cut |

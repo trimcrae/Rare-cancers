@@ -167,3 +167,37 @@ def test_no_carrier_lets_an_absent_marker_read_as_a_clearance():
         assert "not a clearance" in span, (
             f"Table {number}'s notes must state that an unmarked row is a reading at the "
             "ten-base-pair cut and not a clearance")
+
+
+def test_the_tables_preamble_reaches_the_deposit_pdf():
+    """⛔ The block that exists to be checked against was dropped from every build.
+
+    `fusion-junction-aso-submission-tables.md` opens with three things a reader needs before the
+    first row: the research-use banner, the chemistry paragraph that defines 5-6-5/5-8-5/5-10-5, and
+    a "Do not order these three sequences" block that PRINTS the three condemned designs so a reader
+    holding a transcribed sequence has something to check it against. `split_tables` keyed its
+    blocks from `^\\*\\*Table N\\.` onward, so all three were discarded: measured 2026-08-19, the
+    string "Do not order these three sequences" occurred zero times in the 66-page deposit.
+
+    ⚠ THE CLOSEST PRINTED SEQUENCE SHARES 15 OF 16 BASES with one of the three, which is the whole
+    reason that block prints them rather than describing them.
+    """
+    pdf = os.path.join(ASO, "fusion-junction-aso-research-article-manuscript.pdf")
+    if not os.path.exists(pdf):
+        pytest.skip("the deposit PDF is not built in this checkout")
+    try:
+        import pymupdf
+    except ImportError:  # pragma: no cover - environment without the renderer
+        pytest.skip("pymupdf is not installed in this sandbox")
+    text = " ".join(" ".join(page.get_text().split()) for page in pymupdf.open(pdf))
+    source = open(_need(TABLES), encoding="utf-8").read()
+    for opener in ("Do not order these three sequences",
+                   "Research use only, and not for administration to any person or animal",
+                   "what the `geometry` column"):
+        flat = opener.replace("`", "")
+        assert flat in source.replace("`", ""), (
+            f"the tables file no longer opens with {opener!r}; re-anchor this guard")
+        assert flat in text, (
+            f"{opener!r} is in the tables file and NOT in the built deposit — the preamble is being "
+            "dropped again. It carries the three condemned sequences a reader checks a transcription "
+            "against, and a reader of the PDF alone would never meet it.")

@@ -61,6 +61,29 @@
   "mean_longest_run_bp": 9.0211,
   "_agrees_with_screen_4": "This arm is re-measured through the index rather than copied from aso-parent-gap-pairing.json; the two agree by test."
  },
+ "cut_sensitivity": {
+  "_what": "The same instrument read at 7 contiguous base pairs, the loose end of the cited range, beside 10, the strict end the manuscript reports throughout.",
+  "_why": "The manuscript disclosed the loose reading as the more inclusive reading of the liability. Measured, it is not a reading of the liability at all: at 7 the exon-terminus chimera null is within a percentage point of the observed rate, so the loose count is what any chimera between two real transcripts gives and carries no information about this disease's breakpoints. The strict cut is the one on which the observed rate stands clear of every null, which is why it is the one reported.",
+  "cuts_bp": [
+   7,
+   10
+  ],
+  "observed_n_liable": {
+   "7": 175,
+   "10": 87
+  },
+  "observed_n_liable_against_NR4A3": {
+   "7": 73,
+   "10": 61
+  },
+  "n_designs": 190,
+  "n_junctions": 38,
+  "n_junctions_with_a_clearing_design": {
+   "7": 9,
+   "10": 35
+  },
+  "_read_with": "null_ensembles[*]['at_7bp'], which carries every ensemble at the loose cut so neither count is quoted without its anchor."
+ },
  "null_ensembles": {
   "scrambled_mononucleotide": {
    "n_draws": 38000,
@@ -79,7 +102,17 @@
    "mean_longest_run_bp": 6.9351,
    "max_longest_run_bp": 15,
    "n_pairing_the_gap_at_any_length": 34746,
-   "expected_n_liable_designs_if_null": 11.74
+   "expected_n_liable_designs_if_null": 11.74,
+   "at_7bp": {
+    "n_liable": 28221,
+    "rate_liable": 0.74266,
+    "rate_liable_wilson95": [
+     0.73824,
+     0.74703
+    ],
+    "n_liable_against_NR4A3": 9089,
+    "rate_liable_against_NR4A3": 0.23918
+   }
   },
   "scrambled_dinucleotide": {
    "n_draws": 38000,
@@ -99,6 +132,16 @@
    "max_longest_run_bp": 15,
    "n_pairing_the_gap_at_any_length": 36738,
    "expected_n_liable_designs_if_null": 18.98,
+   "at_7bp": {
+    "n_liable": 32451,
+    "rate_liable": 0.85397,
+    "rate_liable_wilson95": [
+     0.85039,
+     0.85749
+    ],
+    "n_liable_against_NR4A3": 11161,
+    "rate_liable_against_NR4A3": 0.29371
+   },
    "_mononucleotide_fallbacks": 10
   },
   "random_uniform": {
@@ -118,7 +161,17 @@
    "mean_longest_run_bp": 6.9936,
    "max_longest_run_bp": 14,
    "n_pairing_the_gap_at_any_length": 34777,
-   "expected_n_liable_designs_if_null": 13.19
+   "expected_n_liable_designs_if_null": 13.19,
+   "at_7bp": {
+    "n_liable": 28520,
+    "rate_liable": 0.75053,
+    "rate_liable_wilson95": [
+     0.74615,
+     0.75485
+    ],
+    "n_liable_against_NR4A3": 9312,
+    "rate_liable_against_NR4A3": 0.24505
+   }
   },
   "random_composition_matched": {
    "n_draws": 38000,
@@ -137,7 +190,17 @@
    "mean_longest_run_bp": 7.0309,
    "max_longest_run_bp": 14,
    "n_pairing_the_gap_at_any_length": 34911,
-   "expected_n_liable_designs_if_null": 13.65
+   "expected_n_liable_designs_if_null": 13.65,
+   "at_7bp": {
+    "n_liable": 28783,
+    "rate_liable": 0.75745,
+    "rate_liable_wilson95": [
+     0.75311,
+     0.76173
+    ],
+    "n_liable_against_NR4A3": 9407,
+    "rate_liable_against_NR4A3": 0.24755
+   }
   },
   "wings_scrambled_gap_held": {
    "n_draws": 38000,
@@ -156,7 +219,17 @@
    "mean_longest_run_bp": 7.5067,
    "max_longest_run_bp": 15,
    "n_pairing_the_gap_at_any_length": 36200,
-   "expected_n_liable_designs_if_null": 17.3
+   "expected_n_liable_designs_if_null": 17.3,
+   "at_7bp": {
+    "n_liable": 32468,
+    "rate_liable": 0.85442,
+    "rate_liable_wilson95": [
+     0.85084,
+     0.85793
+    ],
+    "n_liable_against_NR4A3": 12294,
+    "rate_liable_against_NR4A3": 0.32353
+   }
   },
   "gap_scrambled_wings_held": {
    "n_draws": 38000,
@@ -175,7 +248,17 @@
    "mean_longest_run_bp": 7.3776,
    "max_longest_run_bp": 13,
    "n_pairing_the_gap_at_any_length": 36194,
-   "expected_n_liable_designs_if_null": 16.81
+   "expected_n_liable_designs_if_null": 16.81,
+   "at_7bp": {
+    "n_liable": 30722,
+    "rate_liable": 0.80847,
+    "rate_liable_wilson95": [
+     0.80449,
+     0.8124
+    ],
+    "n_liable_against_NR4A3": 10122,
+    "rate_liable_against_NR4A3": 0.26637
+   }
   },
   "random_parent_chimera": {
    "n_draws": 38000,
@@ -194,7 +277,17 @@
    "mean_longest_run_bp": 8.1379,
    "max_longest_run_bp": 16,
    "n_pairing_the_gap_at_any_length": 36628,
-   "expected_n_liable_designs_if_null": 45.14
+   "expected_n_liable_designs_if_null": 45.14,
+   "at_7bp": {
+    "n_liable": 32836,
+    "rate_liable": 0.86411,
+    "rate_liable_wilson95": [
+     0.86062,
+     0.86751
+    ],
+    "n_liable_against_NR4A3": 11314,
+    "rate_liable_against_NR4A3": 0.29774
+   }
   },
   "donor_terminus_chimera": {
    "n_draws": 38000,
@@ -213,7 +306,17 @@
    "mean_longest_run_bp": 8.1398,
    "max_longest_run_bp": 16,
    "n_pairing_the_gap_at_any_length": 36754,
-   "expected_n_liable_designs_if_null": 42.81
+   "expected_n_liable_designs_if_null": 42.81,
+   "at_7bp": {
+    "n_liable": 33150,
+    "rate_liable": 0.87237,
+    "rate_liable_wilson95": [
+     0.86898,
+     0.87569
+    ],
+    "n_liable_against_NR4A3": 10854,
+    "rate_liable_against_NR4A3": 0.28563
+   }
   },
   "exon_terminus_chimera": {
    "n_draws": 38000,
@@ -232,7 +335,17 @@
    "mean_longest_run_bp": 9.064,
    "max_longest_run_bp": 16,
    "n_pairing_the_gap_at_any_length": 37153,
-   "expected_n_liable_designs_if_null": 77.08
+   "expected_n_liable_designs_if_null": 77.08,
+   "at_7bp": {
+    "n_liable": 34734,
+    "rate_liable": 0.91405,
+    "rate_liable_wilson95": [
+     0.91119,
+     0.91683
+    ],
+    "n_liable_against_NR4A3": 17705,
+    "rate_liable_against_NR4A3": 0.46592
+   }
   },
   "exon_terminus_chimera_novel_acceptor": {
    "n_draws": 38000,
@@ -251,7 +364,17 @@
    "mean_longest_run_bp": 9.0666,
    "max_longest_run_bp": 16,
    "n_pairing_the_gap_at_any_length": 37299,
-   "expected_n_liable_designs_if_null": 76.98
+   "expected_n_liable_designs_if_null": 76.98,
+   "at_7bp": {
+    "n_liable": 34628,
+    "rate_liable": 0.91126,
+    "rate_liable_wilson95": [
+     0.90836,
+     0.91408
+    ],
+    "n_liable_against_NR4A3": 17867,
+    "rate_liable_against_NR4A3": 0.47018
+   }
   }
  },
  "per_design_scrambled_mononucleotide": [

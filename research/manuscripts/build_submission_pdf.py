@@ -167,6 +167,21 @@ def split_tables(tables_md):
     for i, (number, start) in enumerate(starts):
         end = starts[i + 1][1] if i + 1 < len(starts) else len(tables_md)
         blocks[number] = tables_md[start:end].strip()
+
+    # ⛔ THE PREAMBLE WAS BEING DROPPED, AND IT IS THE PART THAT EXISTS TO BE CHECKED AGAINST
+    # (blind order-walkthrough, 2026-08-19). Keying blocks from `**Table N.` onward discarded
+    # everything before Table 1: the research-use banner, the chemistry paragraph that defines
+    # 5-6-5/5-8-5/5-10-5, and — worst — the "Do not order these three sequences" block, which prints
+    # the three condemned designs precisely so a reader holding a transcribed sequence has something
+    # to check it against. Measured: the string "Do not order these three sequences" occurred ZERO
+    # times in 66 pages of the built deposit. The block is now carried with Table 1 rather than
+    # emitted separately, so it travels wherever the tables travel and needs no placement of its own.
+    lead = tables_md[:starts[0][1]]
+    lead = re.sub(r"^<!--.*?-->\s*", "", lead, flags=re.S)      # the generated-file marker
+    lead = re.sub(r"^#\s+.*?\n", "", lead, count=1)             # the tables file's own H1
+    lead = lead.strip()
+    if lead:
+        blocks[starts[0][0]] = lead + "\n\n" + blocks[starts[0][0]]
     return blocks
 
 

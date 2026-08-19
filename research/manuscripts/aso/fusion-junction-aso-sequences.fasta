@@ -3,7 +3,9 @@
 ; medicine or a candidate drug; none has been synthesised or tested.
 ; Sequences are written 5' to 3' as the ANTISENSE strand.
 ; CHEMISTRY: LNA/DNA/LNA gapmers on a phosphorothioate backbone, geometry per record. The
-; bases alone, ordered as unmodified DNA, are a DIFFERENT MOLECULE.
+; bases alone, ordered as unmodified DNA, are a DIFFERENT MOLECULE. Nucleobase modification is
+; NOT specified here: whether locked cytosines are 5-methylcytosine is a vendor default
+; this work does not fix.
 ; A record tagged DO NOT ORDER carries the reason on its defline. Two reasons exist: it
 ; pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair
 ; criterion, or it pairs the patient's own un-rearranged NR4A3 allele at a non-canonical
@@ -50,15 +52,15 @@ GCATATCTAGATCAAGAT
 GGCATATCTAGATCAAGA
 >GGGCATATCTAGATCAAG 5-8-5 | EWSR1_e10__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 GGGCATATCTAGATCAAG
->AGGGCATATCTAGATC 5-6-5 | EWSR1_e10__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>AGGGCATATCTAGATC 5-6-5 | EWSR1_e10__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 AGGGCATATCTAGATC
->CAGGGCATATCTAGAT 5-6-5 | EWSR1_e10__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=12bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>CAGGGCATATCTAGAT 5-6-5 | EWSR1_e10__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=12bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 CAGGGCATATCTAGAT
->GCATATCTAGATCAAG 5-6-5 | EWSR1_e10__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=7bp (EWSR1) | antisense 5'->3', research use only
+>GCATATCTAGATCAAG 5-6-5 | EWSR1_e10__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=7bp (EWSR1) | antisense 5'->3', research use only
 GCATATCTAGATCAAG
->GGCATATCTAGATCAA 5-6-5 | EWSR1_e10__NR4A3_e3 | gap_level_margin=2 | role=best available at this junction | parent_duplex=7bp (EWSR1) | antisense 5'->3', research use only
+>GGCATATCTAGATCAA 5-6-5 | EWSR1_e10__NR4A3_e3 | gap_level_margin=2 | role=best available at this junction | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=7bp (EWSR1) | antisense 5'->3', research use only
 GGCATATCTAGATCAA
->GGGCATATCTAGATCA 5-6-5 | EWSR1_e10__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=7bp (NR4A3) | antisense 5'->3', research use only
+>GGGCATATCTAGATCA 5-6-5 | EWSR1_e10__NR4A3_e3 | gap_level_margin=3 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=7bp (NR4A3) | antisense 5'->3', research use only
 GGGCATATCTAGATCA
 >ATGAGGGCCTAGATCA 5-6-5 | EWSR1_e10__NR4A3_intron2crypticExon | gap_level_margin=3 | role=intron-2 cryptic-exon seam | antisense 5'->3', research use only
 ATGAGGGCCTAGATCA
@@ -70,17 +72,17 @@ GATGAGGGCCTAGATC
 TGAGGGCCTAGATCAA
 >TGATGAGGGCCTAGAT 5-6-5 | EWSR1_e10__NR4A3_intron2crypticExon | gap_level_margin=1 | role=intron-2 cryptic-exon seam | antisense 5'->3', research use only
 TGATGAGGGCCTAGAT
->ACGCAGGGCATATCATCAAA 5-10-5 | EWSR1_e12__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
+>ACGCAGGGCATATCATCAAA 5-10-5 | EWSR1_e12__NR4A3_e3 | gap_level_margin=2 | also tiled at FUS_e10__NR4A3_e3; TAF15_e11__NR4A3_e3 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 ACGCAGGGCATATCATCAAA
 >AGGGCATATCATCAAACCAT 5-10-5 | EWSR1_e12__NR4A3_e3 | gap_level_margin=4 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 AGGGCATATCATCAAACCAT
->CAGGGCATATCATCAAACCA 5-10-5 | EWSR1_e12__NR4A3_e3 | gap_level_margin=5 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
+>CAGGGCATATCATCAAACCA 5-10-5 | EWSR1_e12__NR4A3_e3 | gap_level_margin=5 | also tiled at FUS_e10__NR4A3_e3; TAF15_e11__NR4A3_e3 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 CAGGGCATATCATCAAACCA
->CGCAGGGCATATCATCAAAC 5-10-5 | EWSR1_e12__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
+>CGCAGGGCATATCATCAAAC 5-10-5 | EWSR1_e12__NR4A3_e3 | gap_level_margin=3 | also tiled at FUS_e10__NR4A3_e3; TAF15_e11__NR4A3_e3 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 CGCAGGGCATATCATCAAAC
->GACGCAGGGCATATCATCAA 5-10-5 | EWSR1_e12__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=15bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>GACGCAGGGCATATCATCAA 5-10-5 | EWSR1_e12__NR4A3_e3 | gap_level_margin=1 | also tiled at FUS_e10__NR4A3_e3; TAF15_e11__NR4A3_e3 | role=screened design | parent_duplex=15bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 GACGCAGGGCATATCATCAA
->GCAGGGCATATCATCAAACC 5-10-5 | EWSR1_e12__NR4A3_e3 | gap_level_margin=4 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
+>GCAGGGCATATCATCAAACC 5-10-5 | EWSR1_e12__NR4A3_e3 | gap_level_margin=4 | also tiled at FUS_e10__NR4A3_e3; TAF15_e11__NR4A3_e3 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 GCAGGGCATATCATCAAACC
 >GCATATCATCAAACCATTCC 5-10-5 | EWSR1_e12__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 GCATATCATCAAACCATTCC
@@ -88,39 +90,39 @@ GCATATCATCAAACCATTCC
 GGCATATCATCAAACCATTC
 >GGGCATATCATCAAACCATT 5-10-5 | EWSR1_e12__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 GGGCATATCATCAAACCATT
->AGGGCATATCATCAAACC 5-8-5 | EWSR1_e12__NR4A3_e3 | gap_level_margin=4 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
+>AGGGCATATCATCAAACC 5-8-5 | EWSR1_e12__NR4A3_e3 | gap_level_margin=4 | also tiled at FUS_e10__NR4A3_e3; TAF15_e11__NR4A3_e3 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 AGGGCATATCATCAAACC
->CAGGGCATATCATCAAAC 5-8-5 | EWSR1_e12__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
+>CAGGGCATATCATCAAAC 5-8-5 | EWSR1_e12__NR4A3_e3 | gap_level_margin=3 | also tiled at FUS_e10__NR4A3_e3; TAF15_e11__NR4A3_e3 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 CAGGGCATATCATCAAAC
->CGCAGGGCATATCATCAA 5-8-5 | EWSR1_e12__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=13bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>CGCAGGGCATATCATCAA 5-8-5 | EWSR1_e12__NR4A3_e3 | gap_level_margin=1 | also tiled at FUS_e10__NR4A3_e3; TAF15_e11__NR4A3_e3 | role=screened design | parent_duplex=13bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 CGCAGGGCATATCATCAA
->GCAGGGCATATCATCAAA 5-8-5 | EWSR1_e12__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
+>GCAGGGCATATCATCAAA 5-8-5 | EWSR1_e12__NR4A3_e3 | gap_level_margin=2 | also tiled at FUS_e10__NR4A3_e3; TAF15_e11__NR4A3_e3 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 GCAGGGCATATCATCAAA
 >GCATATCATCAAACCATT 5-8-5 | EWSR1_e12__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=8bp (FUS) | antisense 5'->3', research use only
 GCATATCATCAAACCATT
 >GGCATATCATCAAACCAT 5-8-5 | EWSR1_e12__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 GGCATATCATCAAACCAT
->GGGCATATCATCAAACCA 5-8-5 | EWSR1_e12__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=8bp (TFG) | antisense 5'->3', research use only
+>GGGCATATCATCAAACCA 5-8-5 | EWSR1_e12__NR4A3_e3 | gap_level_margin=3 | also tiled at FUS_e10__NR4A3_e3; TAF15_e11__NR4A3_e3 | role=screened design | parent_duplex=8bp (TFG) | antisense 5'->3', research use only
 GGGCATATCATCAAACCA
->AGGGCATATCATCAAA 5-6-5 | EWSR1_e12__NR4A3_e3 | gap_level_margin=2 | also tiled at FUS_e10__NR4A3_e3; TAF15_e11__NR4A3_e3 | role=screened design | parent_duplex=7bp (TFG) | antisense 5'->3', research use only
+>AGGGCATATCATCAAA 5-6-5 | EWSR1_e12__NR4A3_e3 | gap_level_margin=2 | also tiled at FUS_e10__NR4A3_e3; TAF15_e11__NR4A3_e3 | role=screened design | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=7bp (TFG) | antisense 5'->3', research use only
 AGGGCATATCATCAAA
->CAGGGCATATCATCAA 5-6-5 | EWSR1_e12__NR4A3_e3 | gap_level_margin=1 | also tiled at FUS_e10__NR4A3_e3; TAF15_e11__NR4A3_e3 | role=screened design | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>CAGGGCATATCATCAA 5-6-5 | EWSR1_e12__NR4A3_e3 | gap_level_margin=1 | also tiled at FUS_e10__NR4A3_e3; TAF15_e11__NR4A3_e3 | role=screened design | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 CAGGGCATATCATCAA
->GCATATCATCAAACCA 5-6-5 | EWSR1_e12__NR4A3_e3 | gap_level_margin=1 | also tiled at FUS_e10__NR4A3_e3; TAF15_e11__NR4A3_e3 | role=screened design | parent_duplex=8bp (FUS) | antisense 5'->3', research use only
+>GCATATCATCAAACCA 5-6-5 | EWSR1_e12__NR4A3_e3 | gap_level_margin=1 | also tiled at FUS_e10__NR4A3_e3; TAF15_e11__NR4A3_e3 | role=screened design | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=8bp (FUS) | antisense 5'->3', research use only
 GCATATCATCAAACCA
->GGCATATCATCAAACC 5-6-5 | EWSR1_e12__NR4A3_e3 | gap_level_margin=2 | also tiled at FUS_e10__NR4A3_e3; TAF15_e11__NR4A3_e3 | role=screened design | parent_duplex=8bp (TFG) | antisense 5'->3', research use only
+>GGCATATCATCAAACC 5-6-5 | EWSR1_e12__NR4A3_e3 | gap_level_margin=2 | also tiled at FUS_e10__NR4A3_e3; TAF15_e11__NR4A3_e3 | role=screened design | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=8bp (TFG) | antisense 5'->3', research use only
 GGCATATCATCAAACC
->GGGCATATCATCAAAC 5-6-5 | EWSR1_e12__NR4A3_e3 | gap_level_margin=3 | also tiled at FUS_e10__NR4A3_e3; TAF15_e11__NR4A3_e3 | role=best available at this junction | parent_duplex=8bp (TFG) | antisense 5'->3', research use only
+>GGGCATATCATCAAAC 5-6-5 | EWSR1_e12__NR4A3_e3 | gap_level_margin=3 | also tiled at FUS_e10__NR4A3_e3; TAF15_e11__NR4A3_e3 | role=best available at this junction | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=8bp (TFG) | antisense 5'->3', research use only
 GGGCATATCATCAAAC
->AGTGGGCTCTCCACGG 5-6-5 | EWSR1_e13__NR4A3_e2 | gap_level_margin=3 | role=non-canonical acceptor seam | parent_duplex=8bp (EWSR1) | antisense 5'->3', research use only
+>AGTGGGCTCTCCACGG 5-6-5 | EWSR1_e13__NR4A3_e2 | gap_level_margin=3 | role=best available at this junction | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=8bp (EWSR1) | antisense 5'->3', research use only
 AGTGGGCTCTCCACGG
->CAGTGGGCTCTCCACG 5-6-5 | EWSR1_e13__NR4A3_e2 | gap_level_margin=2 | role=non-canonical acceptor seam | parent_duplex=8bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against the patient's own un-rearranged NR4A3 allele | antisense 5'->3', research use only
+>CAGTGGGCTCTCCACG 5-6-5 | EWSR1_e13__NR4A3_e2 | gap_level_margin=2 | role=non-canonical acceptor seam | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=8bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against the patient's own un-rearranged NR4A3 allele | antisense 5'->3', research use only
 CAGTGGGCTCTCCACG
->GCAGTGGGCTCTCCAC 5-6-5 | EWSR1_e13__NR4A3_e2 | gap_level_margin=1 | role=non-canonical acceptor seam | parent_duplex=8bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against the patient's own un-rearranged NR4A3 allele | antisense 5'->3', research use only
+>GCAGTGGGCTCTCCAC 5-6-5 | EWSR1_e13__NR4A3_e2 | gap_level_margin=1 | role=non-canonical acceptor seam | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=8bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against the patient's own un-rearranged NR4A3 allele | antisense 5'->3', research use only
 GCAGTGGGCTCTCCAC
->GTGGGCTCTCCACGGA 5-6-5 | EWSR1_e13__NR4A3_e2 | gap_level_margin=2 | role=non-canonical acceptor seam | parent_duplex=8bp (EWSR1) | antisense 5'->3', research use only
+>GTGGGCTCTCCACGGA 5-6-5 | EWSR1_e13__NR4A3_e2 | gap_level_margin=2 | role=non-canonical acceptor seam | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=8bp (EWSR1) | antisense 5'->3', research use only
 GTGGGCTCTCCACGGA
->TGGGCTCTCCACGGAG 5-6-5 | EWSR1_e13__NR4A3_e2 | gap_level_margin=1 | role=non-canonical acceptor seam | parent_duplex=8bp (EWSR1) | antisense 5'->3', research use only
+>TGGGCTCTCCACGGAG 5-6-5 | EWSR1_e13__NR4A3_e2 | gap_level_margin=1 | role=non-canonical acceptor seam | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=8bp (EWSR1) | antisense 5'->3', research use only
 TGGGCTCTCCACGGAG
 >ACGCAGGGCATATCTCCACG 5-10-5 | EWSR1_e13__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=15bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 ACGCAGGGCATATCTCCACG
@@ -130,7 +132,7 @@ AGGGCATATCTCCACGGAGT
 CAGGGCATATCTCCACGGAG
 >CGCAGGGCATATCTCCACGG 5-10-5 | EWSR1_e13__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 CGCAGGGCATATCTCCACGG
->GACGCAGGGCATATCTCCAC 5-10-5 | EWSR1_e13__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=16bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>GACGCAGGGCATATCTCCAC 5-10-5 | EWSR1_e13__NR4A3_e3 | gap_level_margin=1 | also tiled at FUS_e5__NR4A3_e3 | role=screened design | parent_duplex=16bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 GACGCAGGGCATATCTCCAC
 >GCAGGGCATATCTCCACGGA 5-10-5 | EWSR1_e13__NR4A3_e3 | gap_level_margin=4 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 GCAGGGCATATCTCCACGGA
@@ -144,7 +146,7 @@ GGGCATATCTCCACGGAGTG
 AGGGCATATCTCCACGGA
 >CAGGGCATATCTCCACGG 5-8-5 | EWSR1_e13__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 CAGGGCATATCTCCACGG
->CGCAGGGCATATCTCCAC 5-8-5 | EWSR1_e13__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=14bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>CGCAGGGCATATCTCCAC 5-8-5 | EWSR1_e13__NR4A3_e3 | gap_level_margin=1 | also tiled at FUS_e5__NR4A3_e3 | role=screened design | parent_duplex=14bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 CGCAGGGCATATCTCCAC
 >GCAGGGCATATCTCCACG 5-8-5 | EWSR1_e13__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=13bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 GCAGGGCATATCTCCACG
@@ -154,15 +156,15 @@ GCATATCTCCACGGAGTG
 GGCATATCTCCACGGAGT
 >GGGCATATCTCCACGGAG 5-8-5 | EWSR1_e13__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=8bp (TCF12) | antisense 5'->3', research use only
 GGGCATATCTCCACGGAG
->AGGGCATATCTCCACG 5-6-5 | EWSR1_e13__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>AGGGCATATCTCCACG 5-6-5 | EWSR1_e13__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 AGGGCATATCTCCACG
->CAGGGCATATCTCCAC 5-6-5 | EWSR1_e13__NR4A3_e3 | gap_level_margin=1 | also tiled at FUS_e5__NR4A3_e3 | role=screened design | parent_duplex=12bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>CAGGGCATATCTCCAC 5-6-5 | EWSR1_e13__NR4A3_e3 | gap_level_margin=1 | also tiled at FUS_e5__NR4A3_e3 | role=screened design | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=12bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 CAGGGCATATCTCCAC
->GCATATCTCCACGGAG 5-6-5 | EWSR1_e13__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=8bp (TCF12) | antisense 5'->3', research use only
+>GCATATCTCCACGGAG 5-6-5 | EWSR1_e13__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=8bp (TCF12) | antisense 5'->3', research use only
 GCATATCTCCACGGAG
->GGCATATCTCCACGGA 5-6-5 | EWSR1_e13__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=8bp (TCF12) | antisense 5'->3', research use only
+>GGCATATCTCCACGGA 5-6-5 | EWSR1_e13__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=8bp (TCF12) | antisense 5'->3', research use only
 GGCATATCTCCACGGA
->GGGCATATCTCCACGG 5-6-5 | EWSR1_e13__NR4A3_e3 | gap_level_margin=3 | role=best available at this junction | parent_duplex=8bp (TCF12) | antisense 5'->3', research use only
+>GGGCATATCTCCACGG 5-6-5 | EWSR1_e13__NR4A3_e3 | gap_level_margin=3 | role=best available at this junction | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=8bp (TCF12) | antisense 5'->3', research use only
 GGGCATATCTCCACGG
 >ACGCAGGGCATATCCGGGGG 5-10-5 | EWSR1_e15__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 ACGCAGGGCATATCCGGGGG
@@ -196,15 +198,15 @@ GCATATCCGGGGGCGGAA
 GGCATATCCGGGGGCGGA
 >GGGCATATCCGGGGGCGG 5-8-5 | EWSR1_e15__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 GGGCATATCCGGGGGCGG
->AGGGCATATCCGGGGG 5-6-5 | EWSR1_e15__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=8bp (EWSR1) | antisense 5'->3', research use only
+>AGGGCATATCCGGGGG 5-6-5 | EWSR1_e15__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=8bp (EWSR1) | antisense 5'->3', research use only
 AGGGCATATCCGGGGG
->CAGGGCATATCCGGGG 5-6-5 | EWSR1_e15__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>CAGGGCATATCCGGGG 5-6-5 | EWSR1_e15__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 CAGGGCATATCCGGGG
->GCATATCCGGGGGCGG 5-6-5 | EWSR1_e15__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=6bp (NR4A3) | antisense 5'->3', research use only
+>GCATATCCGGGGGCGG 5-6-5 | EWSR1_e15__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=6bp (NR4A3) | antisense 5'->3', research use only
 GCATATCCGGGGGCGG
->GGCATATCCGGGGGCG 5-6-5 | EWSR1_e15__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
+>GGCATATCCGGGGGCG 5-6-5 | EWSR1_e15__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 GGCATATCCGGGGGCG
->GGGCATATCCGGGGGC 5-6-5 | EWSR1_e15__NR4A3_e3 | gap_level_margin=3 | role=best available at this junction | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
+>GGGCATATCCGGGGGC 5-6-5 | EWSR1_e15__NR4A3_e3 | gap_level_margin=3 | role=best available at this junction | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 GGGCATATCCGGGGGC
 >ACGCAGGGCATATCCGTGGA 5-10-5 | EWSR1_e1__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 ACGCAGGGCATATCCGTGGA
@@ -238,15 +240,15 @@ GCATATCCGTGGACGCCA
 GGCATATCCGTGGACGCC
 >GGGCATATCCGTGGACGC 5-8-5 | EWSR1_e1__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 GGGCATATCCGTGGACGC
->AGGGCATATCCGTGGA 5-6-5 | EWSR1_e1__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=8bp (EWSR1) | antisense 5'->3', research use only
+>AGGGCATATCCGTGGA 5-6-5 | EWSR1_e1__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=8bp (EWSR1) | antisense 5'->3', research use only
 AGGGCATATCCGTGGA
->CAGGGCATATCCGTGG 5-6-5 | EWSR1_e1__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>CAGGGCATATCCGTGG 5-6-5 | EWSR1_e1__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 CAGGGCATATCCGTGG
->GCATATCCGTGGACGC 5-6-5 | EWSR1_e1__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=12bp (EWSR1) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>GCATATCCGTGGACGC 5-6-5 | EWSR1_e1__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=12bp (EWSR1) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 GCATATCCGTGGACGC
->GGCATATCCGTGGACG 5-6-5 | EWSR1_e1__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=11bp (EWSR1) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>GGCATATCCGTGGACG 5-6-5 | EWSR1_e1__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=11bp (EWSR1) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 GGCATATCCGTGGACG
->GGGCATATCCGTGGAC 5-6-5 | EWSR1_e1__NR4A3_e3 | gap_level_margin=3 | role=best available at this junction | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
+>GGGCATATCCGTGGAC 5-6-5 | EWSR1_e1__NR4A3_e3 | gap_level_margin=3 | role=best available at this junction | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 GGGCATATCCGTGGAC
 >ACGCAGGGCATATCAGTGGG 5-10-5 | EWSR1_e4__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 ACGCAGGGCATATCAGTGGG
@@ -280,25 +282,25 @@ GCATATCAGTGGGAGGCT
 GGCATATCAGTGGGAGGC
 >GGGCATATCAGTGGGAGG 5-8-5 | EWSR1_e4__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 GGGCATATCAGTGGGAGG
->AGGGCATATCAGTGGG 5-6-5 | EWSR1_e4__NR4A3_e3 | gap_level_margin=2 | role=best available at this junction | parent_duplex=6bp (NR4A3) | antisense 5'->3', research use only
+>AGGGCATATCAGTGGG 5-6-5 | EWSR1_e4__NR4A3_e3 | gap_level_margin=2 | role=best available at this junction | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=6bp (NR4A3) | antisense 5'->3', research use only
 AGGGCATATCAGTGGG
->CAGGGCATATCAGTGG 5-6-5 | EWSR1_e4__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>CAGGGCATATCAGTGG 5-6-5 | EWSR1_e4__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 CAGGGCATATCAGTGG
->GCATATCAGTGGGAGG 5-6-5 | EWSR1_e4__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=9bp (EWSR1) | antisense 5'->3', research use only
+>GCATATCAGTGGGAGG 5-6-5 | EWSR1_e4__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=9bp (EWSR1) | antisense 5'->3', research use only
 GCATATCAGTGGGAGG
->GGCATATCAGTGGGAG 5-6-5 | EWSR1_e4__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=9bp (EWSR1) | antisense 5'->3', research use only
+>GGCATATCAGTGGGAG 5-6-5 | EWSR1_e4__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=9bp (EWSR1) | antisense 5'->3', research use only
 GGCATATCAGTGGGAG
->GGGCATATCAGTGGGA 5-6-5 | EWSR1_e4__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=7bp (TFG) | antisense 5'->3', research use only
+>GGGCATATCAGTGGGA 5-6-5 | EWSR1_e4__NR4A3_e3 | gap_level_margin=3 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=7bp (TFG) | antisense 5'->3', research use only
 GGGCATATCAGTGGGA
->AGTGGGCTTCTGCTGC 5-6-5 | EWSR1_e7__NR4A3_e2 | gap_level_margin=3 | role=non-canonical acceptor seam | parent_duplex=8bp (TAF15) | antisense 5'->3', research use only
+>AGTGGGCTTCTGCTGC 5-6-5 | EWSR1_e7__NR4A3_e2 | gap_level_margin=3 | role=non-canonical acceptor seam | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=8bp (TAF15) | antisense 5'->3', research use only
 AGTGGGCTTCTGCTGC
->CAGTGGGCTTCTGCTG 5-6-5 | EWSR1_e7__NR4A3_e2 | gap_level_margin=2 | role=non-canonical acceptor seam | parent_duplex=8bp (TAF15) | antisense 5'->3', research use only
+>CAGTGGGCTTCTGCTG 5-6-5 | EWSR1_e7__NR4A3_e2 | gap_level_margin=2 | role=best available at this junction | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=8bp (TAF15) | antisense 5'->3', research use only
 CAGTGGGCTTCTGCTG
->GCAGTGGGCTTCTGCT 5-6-5 | EWSR1_e7__NR4A3_e2 | gap_level_margin=1 | role=non-canonical acceptor seam | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>GCAGTGGGCTTCTGCT 5-6-5 | EWSR1_e7__NR4A3_e2 | gap_level_margin=1 | role=non-canonical acceptor seam | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 GCAGTGGGCTTCTGCT
->GTGGGCTTCTGCTGCC 5-6-5 | EWSR1_e7__NR4A3_e2 | gap_level_margin=2 | role=non-canonical acceptor seam | parent_duplex=8bp (TAF15) | antisense 5'->3', research use only
+>GTGGGCTTCTGCTGCC 5-6-5 | EWSR1_e7__NR4A3_e2 | gap_level_margin=2 | role=non-canonical acceptor seam | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=8bp (TAF15) | antisense 5'->3', research use only
 GTGGGCTTCTGCTGCC
->TGGGCTTCTGCTGCCC 5-6-5 | EWSR1_e7__NR4A3_e2 | gap_level_margin=1 | role=non-canonical acceptor seam | parent_duplex=8bp (EWSR1) | antisense 5'->3', research use only
+>TGGGCTTCTGCTGCCC 5-6-5 | EWSR1_e7__NR4A3_e2 | gap_level_margin=1 | role=non-canonical acceptor seam | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=8bp (EWSR1) | antisense 5'->3', research use only
 TGGGCTTCTGCTGCCC
 >ACGCAGGGCATATTCTGCTG 5-10-5 | EWSR1_e7__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 ACGCAGGGCATATTCTGCTG
@@ -332,15 +334,15 @@ GCATATTCTGCTGCCCGT
 GGCATATTCTGCTGCCCG
 >GGGCATATTCTGCTGCCC 5-8-5 | EWSR1_e7__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 GGGCATATTCTGCTGCCC
->AGGGCATATTCTGCTG 5-6-5 | EWSR1_e7__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=8bp (FUS) | antisense 5'->3', research use only
+>AGGGCATATTCTGCTG 5-6-5 | EWSR1_e7__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=8bp (FUS) | antisense 5'->3', research use only
 AGGGCATATTCTGCTG
->CAGGGCATATTCTGCT 5-6-5 | EWSR1_e7__NR4A3_e3 | gap_level_margin=1 | role=best available at this junction | parent_duplex=8bp (FUS) | antisense 5'->3', research use only
+>CAGGGCATATTCTGCT 5-6-5 | EWSR1_e7__NR4A3_e3 | gap_level_margin=1 | role=best available at this junction | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=8bp (FUS) | antisense 5'->3', research use only
 CAGGGCATATTCTGCT
->GCATATTCTGCTGCCC 5-6-5 | EWSR1_e7__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=8bp (EWSR1) | antisense 5'->3', research use only
+>GCATATTCTGCTGCCC 5-6-5 | EWSR1_e7__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=8bp (EWSR1) | antisense 5'->3', research use only
 GCATATTCTGCTGCCC
->GGCATATTCTGCTGCC 5-6-5 | EWSR1_e7__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=6bp (NR4A3) | antisense 5'->3', research use only
+>GGCATATTCTGCTGCC 5-6-5 | EWSR1_e7__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=6bp (NR4A3) | antisense 5'->3', research use only
 GGCATATTCTGCTGCC
->GGGCATATTCTGCTGC 5-6-5 | EWSR1_e7__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=8bp (FUS) | antisense 5'->3', research use only
+>GGGCATATTCTGCTGC 5-6-5 | EWSR1_e7__NR4A3_e3 | gap_level_margin=3 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=8bp (FUS) | antisense 5'->3', research use only
 GGGCATATTCTGCTGC
 >ACGCAGGGCATATCACCAGG 5-10-5 | EWSR1_e9__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 ACGCAGGGCATATCACCAGG
@@ -374,27 +376,27 @@ GCATATCACCAGGCTTAT
 GGCATATCACCAGGCTTA
 >GGGCATATCACCAGGCTT 5-8-5 | EWSR1_e9__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 GGGCATATCACCAGGCTT
->AGGGCATATCACCAGG 5-6-5 | EWSR1_e9__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=7bp (TCF12) | antisense 5'->3', research use only
+>AGGGCATATCACCAGG 5-6-5 | EWSR1_e9__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=7bp (TCF12) | antisense 5'->3', research use only
 AGGGCATATCACCAGG
->CAGGGCATATCACCAG 5-6-5 | EWSR1_e9__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>CAGGGCATATCACCAG 5-6-5 | EWSR1_e9__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 CAGGGCATATCACCAG
->GCATATCACCAGGCTT 5-6-5 | EWSR1_e9__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=7bp (EWSR1) | antisense 5'->3', research use only
+>GCATATCACCAGGCTT 5-6-5 | EWSR1_e9__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=7bp (EWSR1) | antisense 5'->3', research use only
 GCATATCACCAGGCTT
->GGCATATCACCAGGCT 5-6-5 | EWSR1_e9__NR4A3_e3 | gap_level_margin=2 | role=best available at this junction | parent_duplex=7bp (EWSR1) | antisense 5'->3', research use only
+>GGCATATCACCAGGCT 5-6-5 | EWSR1_e9__NR4A3_e3 | gap_level_margin=2 | role=best available at this junction | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=7bp (EWSR1) | antisense 5'->3', research use only
 GGCATATCACCAGGCT
->GGGCATATCACCAGGC 5-6-5 | EWSR1_e9__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=7bp (TCF12) | antisense 5'->3', research use only
+>GGGCATATCACCAGGC 5-6-5 | EWSR1_e9__NR4A3_e3 | gap_level_margin=3 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=7bp (TCF12) | antisense 5'->3', research use only
 GGGCATATCACCAGGC
->AGGGCATATCATCAAACCAG 5-10-5 | FUS_e10__NR4A3_e3 | gap_level_margin=4 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
+>AGGGCATATCATCAAACCAG 5-10-5 | FUS_e10__NR4A3_e3 | gap_level_margin=4 | also tiled at TAF15_e11__NR4A3_e3 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 AGGGCATATCATCAAACCAG
->GCATATCATCAAACCAGTCA 5-10-5 | FUS_e10__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
+>GCATATCATCAAACCAGTCA 5-10-5 | FUS_e10__NR4A3_e3 | gap_level_margin=1 | also tiled at TAF15_e11__NR4A3_e3 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 GCATATCATCAAACCAGTCA
->GGCATATCATCAAACCAGTC 5-10-5 | FUS_e10__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
+>GGCATATCATCAAACCAGTC 5-10-5 | FUS_e10__NR4A3_e3 | gap_level_margin=2 | also tiled at TAF15_e11__NR4A3_e3 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 GGCATATCATCAAACCAGTC
->GGGCATATCATCAAACCAGT 5-10-5 | FUS_e10__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
+>GGGCATATCATCAAACCAGT 5-10-5 | FUS_e10__NR4A3_e3 | gap_level_margin=3 | also tiled at TAF15_e11__NR4A3_e3 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 GGGCATATCATCAAACCAGT
->GCATATCATCAAACCAGT 5-8-5 | FUS_e10__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=8bp (FUS) | antisense 5'->3', research use only
+>GCATATCATCAAACCAGT 5-8-5 | FUS_e10__NR4A3_e3 | gap_level_margin=1 | also tiled at TAF15_e11__NR4A3_e3 | role=screened design | parent_duplex=8bp (FUS) | antisense 5'->3', research use only
 GCATATCATCAAACCAGT
->GGCATATCATCAAACCAG 5-8-5 | FUS_e10__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
+>GGCATATCATCAAACCAG 5-8-5 | FUS_e10__NR4A3_e3 | gap_level_margin=2 | also tiled at TAF15_e11__NR4A3_e3 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 GGCATATCATCAAACCAG
 >ACGCAGGGCATATCTCCTCG 5-10-5 | FUS_e11__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=15bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 ACGCAGGGCATATCTCCTCG
@@ -404,7 +406,7 @@ AGGGCATATCTCCTCGCCCT
 CAGGGCATATCTCCTCGCCC
 >CGCAGGGCATATCTCCTCGC 5-10-5 | FUS_e11__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 CGCAGGGCATATCTCCTCGC
->GACGCAGGGCATATCTCCTC 5-10-5 | FUS_e11__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=16bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>GACGCAGGGCATATCTCCTC 5-10-5 | FUS_e11__NR4A3_e3 | gap_level_margin=1 | also tiled at TAF15_e14__NR4A3_e3 | role=screened design | parent_duplex=16bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 GACGCAGGGCATATCTCCTC
 >GCAGGGCATATCTCCTCGCC 5-10-5 | FUS_e11__NR4A3_e3 | gap_level_margin=4 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 GCAGGGCATATCTCCTCGCC
@@ -418,7 +420,7 @@ GGGCATATCTCCTCGCCCTC
 AGGGCATATCTCCTCGCC
 >CAGGGCATATCTCCTCGC 5-8-5 | FUS_e11__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 CAGGGCATATCTCCTCGC
->CGCAGGGCATATCTCCTC 5-8-5 | FUS_e11__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=14bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>CGCAGGGCATATCTCCTC 5-8-5 | FUS_e11__NR4A3_e3 | gap_level_margin=1 | also tiled at TAF15_e14__NR4A3_e3 | role=screened design | parent_duplex=14bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 CGCAGGGCATATCTCCTC
 >GCAGGGCATATCTCCTCG 5-8-5 | FUS_e11__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=13bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 GCAGGGCATATCTCCTCG
@@ -428,15 +430,15 @@ GCATATCTCCTCGCCCTC
 GGCATATCTCCTCGCCCT
 >GGGCATATCTCCTCGCCC 5-8-5 | FUS_e11__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=9bp (EWSR1) | antisense 5'->3', research use only
 GGGCATATCTCCTCGCCC
->AGGGCATATCTCCTCG 5-6-5 | FUS_e11__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>AGGGCATATCTCCTCG 5-6-5 | FUS_e11__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=no_published_exon_resolved_breakpoint | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 AGGGCATATCTCCTCG
->CAGGGCATATCTCCTC 5-6-5 | FUS_e11__NR4A3_e3 | gap_level_margin=1 | also tiled at TAF15_e14__NR4A3_e3 | role=screened design | parent_duplex=12bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>CAGGGCATATCTCCTC 5-6-5 | FUS_e11__NR4A3_e3 | gap_level_margin=1 | also tiled at TAF15_e14__NR4A3_e3 | role=screened design | clinical_tier=no_published_exon_resolved_breakpoint | parent_duplex=12bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 CAGGGCATATCTCCTC
->GCATATCTCCTCGCCC 5-6-5 | FUS_e11__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=9bp (EWSR1) | antisense 5'->3', research use only
+>GCATATCTCCTCGCCC 5-6-5 | FUS_e11__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=no_published_exon_resolved_breakpoint | parent_duplex=9bp (EWSR1) | antisense 5'->3', research use only
 GCATATCTCCTCGCCC
->GGCATATCTCCTCGCC 5-6-5 | FUS_e11__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=9bp (EWSR1) | antisense 5'->3', research use only
+>GGCATATCTCCTCGCC 5-6-5 | FUS_e11__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=no_published_exon_resolved_breakpoint | parent_duplex=9bp (EWSR1) | antisense 5'->3', research use only
 GGCATATCTCCTCGCC
->GGGCATATCTCCTCGC 5-6-5 | FUS_e11__NR4A3_e3 | gap_level_margin=3 | role=best available at this junction | parent_duplex=9bp (EWSR1) | antisense 5'->3', research use only
+>GGGCATATCTCCTCGC 5-6-5 | FUS_e11__NR4A3_e3 | gap_level_margin=3 | role=best available at this junction | clinical_tier=no_published_exon_resolved_breakpoint | parent_duplex=9bp (EWSR1) | antisense 5'->3', research use only
 GGGCATATCTCCTCGC
 >ACGCAGGGCATATCCATGTG 5-10-5 | FUS_e13__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 ACGCAGGGCATATCCATGTG
@@ -470,15 +472,15 @@ GCATATCCATGTGAGAGC
 GGCATATCCATGTGAGAG
 >GGGCATATCCATGTGAGA 5-8-5 | FUS_e13__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 GGGCATATCCATGTGAGA
->AGGGCATATCCATGTG 5-6-5 | FUS_e13__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=8bp (EWSR1) | antisense 5'->3', research use only
+>AGGGCATATCCATGTG 5-6-5 | FUS_e13__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=no_published_exon_resolved_breakpoint | parent_duplex=8bp (EWSR1) | antisense 5'->3', research use only
 AGGGCATATCCATGTG
->CAGGGCATATCCATGT 5-6-5 | FUS_e13__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>CAGGGCATATCCATGT 5-6-5 | FUS_e13__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=no_published_exon_resolved_breakpoint | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 CAGGGCATATCCATGT
->GCATATCCATGTGAGA 5-6-5 | FUS_e13__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=7bp (EWSR1) | antisense 5'->3', research use only
+>GCATATCCATGTGAGA 5-6-5 | FUS_e13__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=no_published_exon_resolved_breakpoint | parent_duplex=7bp (EWSR1) | antisense 5'->3', research use only
 GCATATCCATGTGAGA
->GGCATATCCATGTGAG 5-6-5 | FUS_e13__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=7bp (EWSR1) | antisense 5'->3', research use only
+>GGCATATCCATGTGAG 5-6-5 | FUS_e13__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=no_published_exon_resolved_breakpoint | parent_duplex=7bp (EWSR1) | antisense 5'->3', research use only
 GGCATATCCATGTGAG
->GGGCATATCCATGTGA 5-6-5 | FUS_e13__NR4A3_e3 | gap_level_margin=3 | role=best available at this junction | parent_duplex=7bp (EWSR1) | antisense 5'->3', research use only
+>GGGCATATCCATGTGA 5-6-5 | FUS_e13__NR4A3_e3 | gap_level_margin=3 | role=best available at this junction | clinical_tier=no_published_exon_resolved_breakpoint | parent_duplex=7bp (EWSR1) | antisense 5'->3', research use only
 GGGCATATCCATGTGA
 >ACGCAGGGCATATCGTTTGA 5-10-5 | FUS_e1__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 ACGCAGGGCATATCGTTTGA
@@ -512,15 +514,15 @@ GCATATCGTTTGAGGCCA
 GGCATATCGTTTGAGGCC
 >GGGCATATCGTTTGAGGC 5-8-5 | FUS_e1__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=8bp (TCF12) | antisense 5'->3', research use only
 GGGCATATCGTTTGAGGC
->AGGGCATATCGTTTGA 5-6-5 | FUS_e1__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
+>AGGGCATATCGTTTGA 5-6-5 | FUS_e1__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=no_published_exon_resolved_breakpoint | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 AGGGCATATCGTTTGA
->CAGGGCATATCGTTTG 5-6-5 | FUS_e1__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>CAGGGCATATCGTTTG 5-6-5 | FUS_e1__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=no_published_exon_resolved_breakpoint | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 CAGGGCATATCGTTTG
->GCATATCGTTTGAGGC 5-6-5 | FUS_e1__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=12bp (FUS) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>GCATATCGTTTGAGGC 5-6-5 | FUS_e1__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=no_published_exon_resolved_breakpoint | parent_duplex=12bp (FUS) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 GCATATCGTTTGAGGC
->GGCATATCGTTTGAGG 5-6-5 | FUS_e1__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=11bp (FUS) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>GGCATATCGTTTGAGG 5-6-5 | FUS_e1__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=no_published_exon_resolved_breakpoint | parent_duplex=11bp (FUS) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 GGCATATCGTTTGAGG
->GGGCATATCGTTTGAG 5-6-5 | FUS_e1__NR4A3_e3 | gap_level_margin=3 | role=best available at this junction | parent_duplex=8bp (TCF12) | antisense 5'->3', research use only
+>GGGCATATCGTTTGAG 5-6-5 | FUS_e1__NR4A3_e3 | gap_level_margin=3 | role=best available at this junction | clinical_tier=no_published_exon_resolved_breakpoint | parent_duplex=8bp (TCF12) | antisense 5'->3', research use only
 GGGCATATCGTTTGAG
 >ACGCAGGGCATATTGTTCTG 5-10-5 | FUS_e3__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 ACGCAGGGCATATTGTTCTG
@@ -554,15 +556,15 @@ GCATATTGTTCTGGCTCT
 GGCATATTGTTCTGGCTC
 >GGGCATATTGTTCTGGCT 5-8-5 | FUS_e3__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 GGGCATATTGTTCTGGCT
->AGGGCATATTGTTCTG 5-6-5 | FUS_e3__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=8bp (TCF12) | antisense 5'->3', research use only
+>AGGGCATATTGTTCTG 5-6-5 | FUS_e3__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=no_published_exon_resolved_breakpoint | parent_duplex=8bp (TCF12) | antisense 5'->3', research use only
 AGGGCATATTGTTCTG
->CAGGGCATATTGTTCT 5-6-5 | FUS_e3__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=8bp (TCF12) | antisense 5'->3', research use only
+>CAGGGCATATTGTTCT 5-6-5 | FUS_e3__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=no_published_exon_resolved_breakpoint | parent_duplex=8bp (TCF12) | antisense 5'->3', research use only
 CAGGGCATATTGTTCT
->GCATATTGTTCTGGCT 5-6-5 | FUS_e3__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=8bp (TCF12) | antisense 5'->3', research use only
+>GCATATTGTTCTGGCT 5-6-5 | FUS_e3__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=no_published_exon_resolved_breakpoint | parent_duplex=8bp (TCF12) | antisense 5'->3', research use only
 GCATATTGTTCTGGCT
->GGCATATTGTTCTGGC 5-6-5 | FUS_e3__NR4A3_e3 | gap_level_margin=2 | role=best available at this junction | parent_duplex=7bp (NR4A3) | antisense 5'->3', research use only
+>GGCATATTGTTCTGGC 5-6-5 | FUS_e3__NR4A3_e3 | gap_level_margin=2 | role=best available at this junction | clinical_tier=no_published_exon_resolved_breakpoint | parent_duplex=7bp (NR4A3) | antisense 5'->3', research use only
 GGCATATTGTTCTGGC
->GGGCATATTGTTCTGG 5-6-5 | FUS_e3__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=8bp (TCF12) | antisense 5'->3', research use only
+>GGGCATATTGTTCTGG 5-6-5 | FUS_e3__NR4A3_e3 | gap_level_margin=3 | role=screened design | clinical_tier=no_published_exon_resolved_breakpoint | parent_duplex=8bp (TCF12) | antisense 5'->3', research use only
 GGGCATATTGTTCTGG
 >ACGCAGGGCATATCTCCACC 5-10-5 | FUS_e5__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=15bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 ACGCAGGGCATATCTCCACC
@@ -592,15 +594,15 @@ GCATATCTCCACCTCCAC
 GGCATATCTCCACCTCCA
 >GGGCATATCTCCACCTCC 5-8-5 | FUS_e5__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=8bp (TCF12) | antisense 5'->3', research use only
 GGGCATATCTCCACCTCC
->AGGGCATATCTCCACC 5-6-5 | FUS_e5__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>AGGGCATATCTCCACC 5-6-5 | FUS_e5__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=no_published_exon_resolved_breakpoint | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 AGGGCATATCTCCACC
 >GCATATCTCCACCTCC 5-6-5 | FUS_e5__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=10bp (TAF15) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 GCATATCTCCACCTCC
->GGCATATCTCCACCTC 5-6-5 | FUS_e5__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=8bp (TCF12) | antisense 5'->3', research use only
+>GGCATATCTCCACCTC 5-6-5 | FUS_e5__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=no_published_exon_resolved_breakpoint | parent_duplex=8bp (TCF12) | antisense 5'->3', research use only
 GGCATATCTCCACCTC
->GGGCATATCTCCACCT 5-6-5 | FUS_e5__NR4A3_e3 | gap_level_margin=3 | role=best available at this junction | parent_duplex=8bp (TCF12) | antisense 5'->3', research use only
+>GGGCATATCTCCACCT 5-6-5 | FUS_e5__NR4A3_e3 | gap_level_margin=3 | role=best available at this junction | clinical_tier=no_published_exon_resolved_breakpoint | parent_duplex=8bp (TCF12) | antisense 5'->3', research use only
 GGGCATATCTCCACCT
->ACGCAGGGCATATCACCAAA 5-10-5 | FUS_e7__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
+>ACGCAGGGCATATCACCAAA 5-10-5 | FUS_e7__NR4A3_e3 | gap_level_margin=2 | also tiled at TAF15_e8__NR4A3_e3 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 ACGCAGGGCATATCACCAAA
 >AGGGCATATCACCAAATTTA 5-10-5 | FUS_e7__NR4A3_e3 | gap_level_margin=4 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 AGGGCATATCACCAAATTTA
@@ -608,7 +610,7 @@ AGGGCATATCACCAAATTTA
 CAGGGCATATCACCAAATTT
 >CGCAGGGCATATCACCAAAT 5-10-5 | FUS_e7__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 CGCAGGGCATATCACCAAAT
->GACGCAGGGCATATCACCAA 5-10-5 | FUS_e7__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=15bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>GACGCAGGGCATATCACCAA 5-10-5 | FUS_e7__NR4A3_e3 | gap_level_margin=1 | also tiled at TAF15_e8__NR4A3_e3 | role=screened design | parent_duplex=15bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 GACGCAGGGCATATCACCAA
 >GCAGGGCATATCACCAAATT 5-10-5 | FUS_e7__NR4A3_e3 | gap_level_margin=4 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 GCAGGGCATATCACCAAATT
@@ -622,9 +624,9 @@ GGGCATATCACCAAATTTAT
 AGGGCATATCACCAAATT
 >CAGGGCATATCACCAAAT 5-8-5 | FUS_e7__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 CAGGGCATATCACCAAAT
->CGCAGGGCATATCACCAA 5-8-5 | FUS_e7__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=13bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>CGCAGGGCATATCACCAA 5-8-5 | FUS_e7__NR4A3_e3 | gap_level_margin=1 | also tiled at TAF15_e8__NR4A3_e3 | role=screened design | parent_duplex=13bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 CGCAGGGCATATCACCAA
->GCAGGGCATATCACCAAA 5-8-5 | FUS_e7__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
+>GCAGGGCATATCACCAAA 5-8-5 | FUS_e7__NR4A3_e3 | gap_level_margin=2 | also tiled at TAF15_e8__NR4A3_e3 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 GCAGGGCATATCACCAAA
 >GCATATCACCAAATTTAT 5-8-5 | FUS_e7__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 GCATATCACCAAATTTAT
@@ -632,15 +634,15 @@ GCATATCACCAAATTTAT
 GGCATATCACCAAATTTA
 >GGGCATATCACCAAATTT 5-8-5 | FUS_e7__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 GGGCATATCACCAAATTT
->AGGGCATATCACCAAA 5-6-5 | FUS_e7__NR4A3_e3 | gap_level_margin=2 | also tiled at TAF15_e8__NR4A3_e3 | role=screened design | parent_duplex=7bp (TCF12) | antisense 5'->3', research use only
+>AGGGCATATCACCAAA 5-6-5 | FUS_e7__NR4A3_e3 | gap_level_margin=2 | also tiled at TAF15_e8__NR4A3_e3 | role=screened design | clinical_tier=no_published_exon_resolved_breakpoint | parent_duplex=7bp (TCF12) | antisense 5'->3', research use only
 AGGGCATATCACCAAA
->CAGGGCATATCACCAA 5-6-5 | FUS_e7__NR4A3_e3 | gap_level_margin=1 | also tiled at TAF15_e8__NR4A3_e3 | role=screened design | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>CAGGGCATATCACCAA 5-6-5 | FUS_e7__NR4A3_e3 | gap_level_margin=1 | also tiled at TAF15_e8__NR4A3_e3 | role=screened design | clinical_tier=no_published_exon_resolved_breakpoint | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 CAGGGCATATCACCAA
->GCATATCACCAAATTT 5-6-5 | FUS_e7__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=7bp (EWSR1) | antisense 5'->3', research use only
+>GCATATCACCAAATTT 5-6-5 | FUS_e7__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=no_published_exon_resolved_breakpoint | parent_duplex=7bp (EWSR1) | antisense 5'->3', research use only
 GCATATCACCAAATTT
->GGCATATCACCAAATT 5-6-5 | FUS_e7__NR4A3_e3 | gap_level_margin=2 | role=best available at this junction | parent_duplex=7bp (EWSR1) | antisense 5'->3', research use only
+>GGCATATCACCAAATT 5-6-5 | FUS_e7__NR4A3_e3 | gap_level_margin=2 | role=best available at this junction | clinical_tier=no_published_exon_resolved_breakpoint | parent_duplex=7bp (EWSR1) | antisense 5'->3', research use only
 GGCATATCACCAAATT
->GGGCATATCACCAAAT 5-6-5 | FUS_e7__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=7bp (TCF12) | antisense 5'->3', research use only
+>GGGCATATCACCAAAT 5-6-5 | FUS_e7__NR4A3_e3 | gap_level_margin=3 | role=screened design | clinical_tier=no_published_exon_resolved_breakpoint | parent_duplex=7bp (TCF12) | antisense 5'->3', research use only
 GGGCATATCACCAAAT
 >ACGCAGGGCATATCGGAGTC 5-10-5 | FUS_e8__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 ACGCAGGGCATATCGGAGTC
@@ -674,25 +676,25 @@ GCATATCGGAGTCATGAC
 GGCATATCGGAGTCATGA
 >GGGCATATCGGAGTCATG 5-8-5 | FUS_e8__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 GGGCATATCGGAGTCATG
->AGGGCATATCGGAGTC 5-6-5 | FUS_e8__NR4A3_e3 | gap_level_margin=2 | role=best available at this junction | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
+>AGGGCATATCGGAGTC 5-6-5 | FUS_e8__NR4A3_e3 | gap_level_margin=2 | role=best available at this junction | clinical_tier=no_published_exon_resolved_breakpoint | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 AGGGCATATCGGAGTC
->CAGGGCATATCGGAGT 5-6-5 | FUS_e8__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>CAGGGCATATCGGAGT 5-6-5 | FUS_e8__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=no_published_exon_resolved_breakpoint | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 CAGGGCATATCGGAGT
->GCATATCGGAGTCATG 5-6-5 | FUS_e8__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=11bp (FUS) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>GCATATCGGAGTCATG 5-6-5 | FUS_e8__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=no_published_exon_resolved_breakpoint | parent_duplex=11bp (FUS) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 GCATATCGGAGTCATG
->GGCATATCGGAGTCAT 5-6-5 | FUS_e8__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
+>GGCATATCGGAGTCAT 5-6-5 | FUS_e8__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=no_published_exon_resolved_breakpoint | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 GGCATATCGGAGTCAT
->GGGCATATCGGAGTCA 5-6-5 | FUS_e8__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
+>GGGCATATCGGAGTCA 5-6-5 | FUS_e8__NR4A3_e3 | gap_level_margin=3 | role=screened design | clinical_tier=no_published_exon_resolved_breakpoint | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 GGGCATATCGGAGTCA
->AGTGGGCTCTTCCATT 5-6-5 | PGR_e2__NR4A3_e2 | gap_level_margin=3 | role=non-canonical acceptor seam | parent_duplex=9bp (NR4A3) | antisense 5'->3', research use only
+>AGTGGGCTCTTCCATT 5-6-5 | PGR_e2__NR4A3_e2 | gap_level_margin=3 | role=best available at this junction | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=9bp (NR4A3) | antisense 5'->3', research use only
 AGTGGGCTCTTCCATT
->CAGTGGGCTCTTCCAT 5-6-5 | PGR_e2__NR4A3_e2 | gap_level_margin=2 | role=non-canonical acceptor seam | parent_duplex=9bp (NR4A3) | antisense 5'->3', research use only
+>CAGTGGGCTCTTCCAT 5-6-5 | PGR_e2__NR4A3_e2 | gap_level_margin=2 | role=non-canonical acceptor seam | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=9bp (NR4A3) | antisense 5'->3', research use only
 CAGTGGGCTCTTCCAT
->GCAGTGGGCTCTTCCA 5-6-5 | PGR_e2__NR4A3_e2 | gap_level_margin=1 | role=non-canonical acceptor seam | parent_duplex=9bp (NR4A3) | antisense 5'->3', research use only
+>GCAGTGGGCTCTTCCA 5-6-5 | PGR_e2__NR4A3_e2 | gap_level_margin=1 | role=non-canonical acceptor seam | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=9bp (NR4A3) | antisense 5'->3', research use only
 GCAGTGGGCTCTTCCA
->GTGGGCTCTTCCATTG 5-6-5 | PGR_e2__NR4A3_e2 | gap_level_margin=2 | role=non-canonical acceptor seam | parent_duplex=9bp (TAF15) | antisense 5'->3', research use only
+>GTGGGCTCTTCCATTG 5-6-5 | PGR_e2__NR4A3_e2 | gap_level_margin=2 | role=non-canonical acceptor seam | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=9bp (TAF15) | antisense 5'->3', research use only
 GTGGGCTCTTCCATTG
->TGGGCTCTTCCATTGC 5-6-5 | PGR_e2__NR4A3_e2 | gap_level_margin=1 | role=non-canonical acceptor seam | parent_duplex=9bp (TAF15) | antisense 5'->3', research use only
+>TGGGCTCTTCCATTGC 5-6-5 | PGR_e2__NR4A3_e2 | gap_level_margin=1 | role=non-canonical acceptor seam | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=9bp (TAF15) | antisense 5'->3', research use only
 TGGGCTCTTCCATTGC
 >ACGCAGGGCATATCTCGCCG 5-10-5 | TAF15_e12__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=15bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 ACGCAGGGCATATCTCGCCG
@@ -726,15 +728,15 @@ GCATATCTCGCCGCCCAC
 GGCATATCTCGCCGCCCA
 >GGGCATATCTCGCCGCCC 5-8-5 | TAF15_e12__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 GGGCATATCTCGCCGCCC
->AGGGCATATCTCGCCG 5-6-5 | TAF15_e12__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>AGGGCATATCTCGCCG 5-6-5 | TAF15_e12__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 AGGGCATATCTCGCCG
->CAGGGCATATCTCGCC 5-6-5 | TAF15_e12__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=12bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>CAGGGCATATCTCGCC 5-6-5 | TAF15_e12__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=12bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 CAGGGCATATCTCGCC
->GCATATCTCGCCGCCC 5-6-5 | TAF15_e12__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=7bp (NR4A3) | antisense 5'->3', research use only
+>GCATATCTCGCCGCCC 5-6-5 | TAF15_e12__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=7bp (NR4A3) | antisense 5'->3', research use only
 GCATATCTCGCCGCCC
->GGCATATCTCGCCGCC 5-6-5 | TAF15_e12__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
+>GGCATATCTCGCCGCC 5-6-5 | TAF15_e12__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 GGCATATCTCGCCGCC
->GGGCATATCTCGCCGC 5-6-5 | TAF15_e12__NR4A3_e3 | gap_level_margin=3 | role=best available at this junction | parent_duplex=6bp (EWSR1) | antisense 5'->3', research use only
+>GGGCATATCTCGCCGC 5-6-5 | TAF15_e12__NR4A3_e3 | gap_level_margin=3 | role=best available at this junction | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=6bp (EWSR1) | antisense 5'->3', research use only
 GGGCATATCTCGCCGC
 >ACGCAGGGCATATCTCCTCC 5-10-5 | TAF15_e14__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=15bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 ACGCAGGGCATATCTCCTCC
@@ -764,13 +766,13 @@ GCATATCTCCTCCTGAGG
 GGCATATCTCCTCCTGAG
 >GGGCATATCTCCTCCTGA 5-8-5 | TAF15_e14__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=10bp (EWSR1) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 GGGCATATCTCCTCCTGA
->AGGGCATATCTCCTCC 5-6-5 | TAF15_e14__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>AGGGCATATCTCCTCC 5-6-5 | TAF15_e14__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 AGGGCATATCTCCTCC
->GCATATCTCCTCCTGA 5-6-5 | TAF15_e14__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=12bp (TAF15) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>GCATATCTCCTCCTGA 5-6-5 | TAF15_e14__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=12bp (TAF15) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 GCATATCTCCTCCTGA
->GGCATATCTCCTCCTG 5-6-5 | TAF15_e14__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=11bp (TAF15) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>GGCATATCTCCTCCTG 5-6-5 | TAF15_e14__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=11bp (TAF15) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 GGCATATCTCCTCCTG
->GGGCATATCTCCTCCT 5-6-5 | TAF15_e14__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=10bp (EWSR1) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>GGGCATATCTCCTCCT 5-6-5 | TAF15_e14__NR4A3_e3 | gap_level_margin=3 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=10bp (EWSR1) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 GGGCATATCTCCTCCT
 >ACGCAGGGCATATCCGACAT 5-10-5 | TAF15_e1__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 ACGCAGGGCATATCCGACAT
@@ -804,15 +806,15 @@ GCATATCCGACATGACTA
 GGCATATCCGACATGACT
 >GGGCATATCCGACATGAC 5-8-5 | TAF15_e1__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 GGGCATATCCGACATGAC
->AGGGCATATCCGACAT 5-6-5 | TAF15_e1__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=8bp (EWSR1) | antisense 5'->3', research use only
+>AGGGCATATCCGACAT 5-6-5 | TAF15_e1__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=8bp (EWSR1) | antisense 5'->3', research use only
 AGGGCATATCCGACAT
->CAGGGCATATCCGACA 5-6-5 | TAF15_e1__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>CAGGGCATATCCGACA 5-6-5 | TAF15_e1__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 CAGGGCATATCCGACA
->GCATATCCGACATGAC 5-6-5 | TAF15_e1__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=12bp (TAF15) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>GCATATCCGACATGAC 5-6-5 | TAF15_e1__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=12bp (TAF15) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 GCATATCCGACATGAC
->GGCATATCCGACATGA 5-6-5 | TAF15_e1__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=11bp (TAF15) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>GGCATATCCGACATGA 5-6-5 | TAF15_e1__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=11bp (TAF15) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 GGCATATCCGACATGA
->GGGCATATCCGACATG 5-6-5 | TAF15_e1__NR4A3_e3 | gap_level_margin=3 | role=best available at this junction | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
+>GGGCATATCCGACATG 5-6-5 | TAF15_e1__NR4A3_e3 | gap_level_margin=3 | role=best available at this junction | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 GGGCATATCCGACATG
 >ACGCAGGGCATATCTGACTG 5-10-5 | TAF15_e4__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=16bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 ACGCAGGGCATATCTGACTG
@@ -846,25 +848,25 @@ GCATATCTGACTGACTTT
 GGCATATCTGACTGACTT
 >GGGCATATCTGACTGACT 5-8-5 | TAF15_e4__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 GGGCATATCTGACTGACT
->AGGGCATATCTGACTG 5-6-5 | TAF15_e4__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=12bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>AGGGCATATCTGACTG 5-6-5 | TAF15_e4__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=12bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 AGGGCATATCTGACTG
->CAGGGCATATCTGACT 5-6-5 | TAF15_e4__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=13bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>CAGGGCATATCTGACT 5-6-5 | TAF15_e4__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=13bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 CAGGGCATATCTGACT
->GCATATCTGACTGACT 5-6-5 | TAF15_e4__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=8bp (TCF12) | antisense 5'->3', research use only
+>GCATATCTGACTGACT 5-6-5 | TAF15_e4__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=8bp (TCF12) | antisense 5'->3', research use only
 GCATATCTGACTGACT
->GGCATATCTGACTGAC 5-6-5 | TAF15_e4__NR4A3_e3 | gap_level_margin=2 | role=best available at this junction | parent_duplex=8bp (TCF12) | antisense 5'->3', research use only
+>GGCATATCTGACTGAC 5-6-5 | TAF15_e4__NR4A3_e3 | gap_level_margin=2 | role=best available at this junction | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=8bp (TCF12) | antisense 5'->3', research use only
 GGCATATCTGACTGAC
->GGGCATATCTGACTGA 5-6-5 | TAF15_e4__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>GGGCATATCTGACTGA 5-6-5 | TAF15_e4__NR4A3_e3 | gap_level_margin=3 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 GGGCATATCTGACTGA
->AGTGGGCTCTTGTGTG 5-6-5 | TAF15_e6__NR4A3_e2 | gap_level_margin=3 | role=non-canonical acceptor seam | parent_duplex=9bp (NR4A3) | antisense 5'->3', research use only
+>AGTGGGCTCTTGTGTG 5-6-5 | TAF15_e6__NR4A3_e2 | gap_level_margin=3 | role=best available at this junction | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=9bp (NR4A3) | antisense 5'->3', research use only
 AGTGGGCTCTTGTGTG
->CAGTGGGCTCTTGTGT 5-6-5 | TAF15_e6__NR4A3_e2 | gap_level_margin=2 | role=non-canonical acceptor seam | parent_duplex=9bp (NR4A3) | antisense 5'->3', research use only
+>CAGTGGGCTCTTGTGT 5-6-5 | TAF15_e6__NR4A3_e2 | gap_level_margin=2 | role=non-canonical acceptor seam | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=9bp (NR4A3) | antisense 5'->3', research use only
 CAGTGGGCTCTTGTGT
->GCAGTGGGCTCTTGTG 5-6-5 | TAF15_e6__NR4A3_e2 | gap_level_margin=1 | role=non-canonical acceptor seam | parent_duplex=9bp (NR4A3) | antisense 5'->3', research use only
+>GCAGTGGGCTCTTGTG 5-6-5 | TAF15_e6__NR4A3_e2 | gap_level_margin=1 | role=non-canonical acceptor seam | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=9bp (NR4A3) | antisense 5'->3', research use only
 GCAGTGGGCTCTTGTG
->GTGGGCTCTTGTGTGT 5-6-5 | TAF15_e6__NR4A3_e2 | gap_level_margin=2 | role=non-canonical acceptor seam | parent_duplex=8bp (TCF12) | antisense 5'->3', research use only
+>GTGGGCTCTTGTGTGT 5-6-5 | TAF15_e6__NR4A3_e2 | gap_level_margin=2 | role=non-canonical acceptor seam | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=8bp (TCF12) | antisense 5'->3', research use only
 GTGGGCTCTTGTGTGT
->TGGGCTCTTGTGTGTG 5-6-5 | TAF15_e6__NR4A3_e2 | gap_level_margin=1 | role=non-canonical acceptor seam | parent_duplex=11bp (TAF15) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>TGGGCTCTTGTGTGTG 5-6-5 | TAF15_e6__NR4A3_e2 | gap_level_margin=1 | role=non-canonical acceptor seam | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=11bp (TAF15) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 TGGGCTCTTGTGTGTG
 >ACGCAGGGCATATCTTGTGT 5-10-5 | TAF15_e6__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=15bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 ACGCAGGGCATATCTTGTGT
@@ -898,15 +900,15 @@ GCATATCTTGTGTGTGGT
 GGCATATCTTGTGTGTGG
 >GGGCATATCTTGTGTGTG 5-8-5 | TAF15_e6__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=9bp (TFG) | antisense 5'->3', research use only
 GGGCATATCTTGTGTGTG
->AGGGCATATCTTGTGT 5-6-5 | TAF15_e6__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>AGGGCATATCTTGTGT 5-6-5 | TAF15_e6__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 AGGGCATATCTTGTGT
->CAGGGCATATCTTGTG 5-6-5 | TAF15_e6__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=12bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>CAGGGCATATCTTGTG 5-6-5 | TAF15_e6__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=12bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 CAGGGCATATCTTGTG
->GCATATCTTGTGTGTG 5-6-5 | TAF15_e6__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=12bp (TAF15) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>GCATATCTTGTGTGTG 5-6-5 | TAF15_e6__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=12bp (TAF15) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 GCATATCTTGTGTGTG
->GGCATATCTTGTGTGT 5-6-5 | TAF15_e6__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=11bp (TAF15) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>GGCATATCTTGTGTGT 5-6-5 | TAF15_e6__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=11bp (TAF15) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 GGCATATCTTGTGTGT
->GGGCATATCTTGTGTG 5-6-5 | TAF15_e6__NR4A3_e3 | gap_level_margin=3 | role=best available at this junction | parent_duplex=9bp (TFG) | antisense 5'->3', research use only
+>GGGCATATCTTGTGTG 5-6-5 | TAF15_e6__NR4A3_e3 | gap_level_margin=3 | role=best available at this junction | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=9bp (TFG) | antisense 5'->3', research use only
 GGGCATATCTTGTGTG
 >ATGAGGGCCTTGTGTG 5-6-5 | TAF15_e6__NR4A3_intron2crypticExon | gap_level_margin=3 | role=intron-2 cryptic-exon seam | antisense 5'->3', research use only
 ATGAGGGCCTTGTGTG
@@ -942,11 +944,11 @@ GCATATCACCAAAATTTT
 GGCATATCACCAAAATTT
 >GGGCATATCACCAAAATT 5-8-5 | TAF15_e8__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 GGGCATATCACCAAAATT
->GCATATCACCAAAATT 5-6-5 | TAF15_e8__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=7bp (EWSR1) | antisense 5'->3', research use only
+>GCATATCACCAAAATT 5-6-5 | TAF15_e8__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=7bp (EWSR1) | antisense 5'->3', research use only
 GCATATCACCAAAATT
->GGCATATCACCAAAAT 5-6-5 | TAF15_e8__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=7bp (EWSR1) | antisense 5'->3', research use only
+>GGCATATCACCAAAAT 5-6-5 | TAF15_e8__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=7bp (EWSR1) | antisense 5'->3', research use only
 GGCATATCACCAAAAT
->GGGCATATCACCAAAA 5-6-5 | TAF15_e8__NR4A3_e3 | gap_level_margin=3 | role=best available at this junction | parent_duplex=7bp (TCF12) | antisense 5'->3', research use only
+>GGGCATATCACCAAAA 5-6-5 | TAF15_e8__NR4A3_e3 | gap_level_margin=3 | role=best available at this junction | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=7bp (TCF12) | antisense 5'->3', research use only
 GGGCATATCACCAAAA
 >ACGCAGGGCATATCAGCATC 5-10-5 | TAF15_e9__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 ACGCAGGGCATATCAGCATC
@@ -980,15 +982,15 @@ GCATATCAGCATCTGTTC
 GGCATATCAGCATCTGTT
 >GGGCATATCAGCATCTGT 5-8-5 | TAF15_e9__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 GGGCATATCAGCATCTGT
->AGGGCATATCAGCATC 5-6-5 | TAF15_e9__NR4A3_e3 | gap_level_margin=2 | role=best available at this junction | parent_duplex=6bp (NR4A3) | antisense 5'->3', research use only
+>AGGGCATATCAGCATC 5-6-5 | TAF15_e9__NR4A3_e3 | gap_level_margin=2 | role=best available at this junction | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=6bp (NR4A3) | antisense 5'->3', research use only
 AGGGCATATCAGCATC
->CAGGGCATATCAGCAT 5-6-5 | TAF15_e9__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>CAGGGCATATCAGCAT 5-6-5 | TAF15_e9__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 CAGGGCATATCAGCAT
->GCATATCAGCATCTGT 5-6-5 | TAF15_e9__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=12bp (TAF15) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>GCATATCAGCATCTGT 5-6-5 | TAF15_e9__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=12bp (TAF15) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 GCATATCAGCATCTGT
->GGCATATCAGCATCTG 5-6-5 | TAF15_e9__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=11bp (TAF15) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>GGCATATCAGCATCTG 5-6-5 | TAF15_e9__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=11bp (TAF15) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 GGCATATCAGCATCTG
->GGGCATATCAGCATCT 5-6-5 | TAF15_e9__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=6bp (EWSR1) | antisense 5'->3', research use only
+>GGGCATATCAGCATCT 5-6-5 | TAF15_e9__NR4A3_e3 | gap_level_margin=3 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=6bp (EWSR1) | antisense 5'->3', research use only
 GGGCATATCAGCATCT
 >ACGCAGGGCATATCTAGAAT 5-10-5 | TCF12_e11__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=15bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 ACGCAGGGCATATCTAGAAT
@@ -1022,15 +1024,15 @@ GCATATCTAGAATGCTGT
 GGCATATCTAGAATGCTG
 >GGGCATATCTAGAATGCT 5-8-5 | TCF12_e11__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 GGGCATATCTAGAATGCT
->AGGGCATATCTAGAAT 5-6-5 | TCF12_e11__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>AGGGCATATCTAGAAT 5-6-5 | TCF12_e11__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 AGGGCATATCTAGAAT
->CAGGGCATATCTAGAA 5-6-5 | TCF12_e11__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=12bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>CAGGGCATATCTAGAA 5-6-5 | TCF12_e11__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=12bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 CAGGGCATATCTAGAA
->GCATATCTAGAATGCT 5-6-5 | TCF12_e11__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=8bp (TCF12) | antisense 5'->3', research use only
+>GCATATCTAGAATGCT 5-6-5 | TCF12_e11__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=8bp (TCF12) | antisense 5'->3', research use only
 GCATATCTAGAATGCT
->GGCATATCTAGAATGC 5-6-5 | TCF12_e11__NR4A3_e3 | gap_level_margin=2 | role=best available at this junction | parent_duplex=8bp (TCF12) | antisense 5'->3', research use only
+>GGCATATCTAGAATGC 5-6-5 | TCF12_e11__NR4A3_e3 | gap_level_margin=2 | role=best available at this junction | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=8bp (TCF12) | antisense 5'->3', research use only
 GGCATATCTAGAATGC
->GGGCATATCTAGAATG 5-6-5 | TCF12_e11__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=7bp (NR4A3) | antisense 5'->3', research use only
+>GGGCATATCTAGAATG 5-6-5 | TCF12_e11__NR4A3_e3 | gap_level_margin=3 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=7bp (NR4A3) | antisense 5'->3', research use only
 GGGCATATCTAGAATG
 >ACGCAGGGCATATCTGTGAG 5-10-5 | TCF12_e13__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=16bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 ACGCAGGGCATATCTGTGAG
@@ -1064,15 +1066,15 @@ GCATATCTGTGAGAGGTG
 GGCATATCTGTGAGAGGT
 >GGGCATATCTGTGAGAGG 5-8-5 | TCF12_e13__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 GGGCATATCTGTGAGAGG
->AGGGCATATCTGTGAG 5-6-5 | TCF12_e13__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=12bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>AGGGCATATCTGTGAG 5-6-5 | TCF12_e13__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=12bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 AGGGCATATCTGTGAG
->CAGGGCATATCTGTGA 5-6-5 | TCF12_e13__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=13bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>CAGGGCATATCTGTGA 5-6-5 | TCF12_e13__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=13bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 CAGGGCATATCTGTGA
->GCATATCTGTGAGAGG 5-6-5 | TCF12_e13__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=8bp (TCF12) | antisense 5'->3', research use only
+>GCATATCTGTGAGAGG 5-6-5 | TCF12_e13__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=8bp (TCF12) | antisense 5'->3', research use only
 GCATATCTGTGAGAGG
->GGCATATCTGTGAGAG 5-6-5 | TCF12_e13__NR4A3_e3 | gap_level_margin=2 | role=best available at this junction | parent_duplex=7bp (NR4A3) | antisense 5'->3', research use only
+>GGCATATCTGTGAGAG 5-6-5 | TCF12_e13__NR4A3_e3 | gap_level_margin=2 | role=best available at this junction | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=7bp (NR4A3) | antisense 5'->3', research use only
 GGCATATCTGTGAGAG
->GGGCATATCTGTGAGA 5-6-5 | TCF12_e13__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>GGGCATATCTGTGAGA 5-6-5 | TCF12_e13__NR4A3_e3 | gap_level_margin=3 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 GGGCATATCTGTGAGA
 >ACGCAGGGCATATCTCTATA 5-10-5 | TCF12_e17__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=15bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 ACGCAGGGCATATCTCTATA
@@ -1106,15 +1108,15 @@ GCATATCTCTATAATTTT
 GGCATATCTCTATAATTT
 >GGGCATATCTCTATAATT 5-8-5 | TCF12_e17__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 GGGCATATCTCTATAATT
->AGGGCATATCTCTATA 5-6-5 | TCF12_e17__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>AGGGCATATCTCTATA 5-6-5 | TCF12_e17__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 AGGGCATATCTCTATA
->CAGGGCATATCTCTAT 5-6-5 | TCF12_e17__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=12bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>CAGGGCATATCTCTAT 5-6-5 | TCF12_e17__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=12bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 CAGGGCATATCTCTAT
->GCATATCTCTATAATT 5-6-5 | TCF12_e17__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=8bp (TCF12) | antisense 5'->3', research use only
+>GCATATCTCTATAATT 5-6-5 | TCF12_e17__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=8bp (TCF12) | antisense 5'->3', research use only
 GCATATCTCTATAATT
->GGCATATCTCTATAAT 5-6-5 | TCF12_e17__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=7bp (TCF12) | antisense 5'->3', research use only
+>GGCATATCTCTATAAT 5-6-5 | TCF12_e17__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=7bp (TCF12) | antisense 5'->3', research use only
 GGCATATCTCTATAAT
->GGGCATATCTCTATAA 5-6-5 | TCF12_e17__NR4A3_e3 | gap_level_margin=3 | role=best available at this junction | parent_duplex=7bp (TCF12) | antisense 5'->3', research use only
+>GGGCATATCTCTATAA 5-6-5 | TCF12_e17__NR4A3_e3 | gap_level_margin=3 | role=best available at this junction | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=7bp (TCF12) | antisense 5'->3', research use only
 GGGCATATCTCTATAA
 >ACGCAGGGCATATCTCTGAC 5-10-5 | TCF12_e19__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=15bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 ACGCAGGGCATATCTCTGAC
@@ -1148,15 +1150,15 @@ GCATATCTCTGACTTGCT
 GGCATATCTCTGACTTGC
 >GGGCATATCTCTGACTTG 5-8-5 | TCF12_e19__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=8bp (TCF12) | antisense 5'->3', research use only
 GGGCATATCTCTGACTTG
->AGGGCATATCTCTGAC 5-6-5 | TCF12_e19__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>AGGGCATATCTCTGAC 5-6-5 | TCF12_e19__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 AGGGCATATCTCTGAC
->CAGGGCATATCTCTGA 5-6-5 | TCF12_e19__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=12bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>CAGGGCATATCTCTGA 5-6-5 | TCF12_e19__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=12bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 CAGGGCATATCTCTGA
->GCATATCTCTGACTTG 5-6-5 | TCF12_e19__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=11bp (TCF12) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>GCATATCTCTGACTTG 5-6-5 | TCF12_e19__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=11bp (TCF12) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 GCATATCTCTGACTTG
->GGCATATCTCTGACTT 5-6-5 | TCF12_e19__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=8bp (TCF12) | antisense 5'->3', research use only
+>GGCATATCTCTGACTT 5-6-5 | TCF12_e19__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=8bp (TCF12) | antisense 5'->3', research use only
 GGCATATCTCTGACTT
->GGGCATATCTCTGACT 5-6-5 | TCF12_e19__NR4A3_e3 | gap_level_margin=3 | role=best available at this junction | parent_duplex=8bp (TCF12) | antisense 5'->3', research use only
+>GGGCATATCTCTGACT 5-6-5 | TCF12_e19__NR4A3_e3 | gap_level_margin=3 | role=best available at this junction | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=8bp (TCF12) | antisense 5'->3', research use only
 GGGCATATCTCTGACT
 >ACGCAGGGCATATCTGATCC 5-10-5 | TCF12_e3__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=16bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 ACGCAGGGCATATCTGATCC
@@ -1190,15 +1192,15 @@ GCATATCTGATCCACTGA
 GGCATATCTGATCCACTG
 >GGGCATATCTGATCCACT 5-8-5 | TCF12_e3__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=8bp (TCF12) | antisense 5'->3', research use only
 GGGCATATCTGATCCACT
->AGGGCATATCTGATCC 5-6-5 | TCF12_e3__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=12bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>AGGGCATATCTGATCC 5-6-5 | TCF12_e3__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=12bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 AGGGCATATCTGATCC
->CAGGGCATATCTGATC 5-6-5 | TCF12_e3__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=13bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>CAGGGCATATCTGATC 5-6-5 | TCF12_e3__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=13bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 CAGGGCATATCTGATC
->GCATATCTGATCCACT 5-6-5 | TCF12_e3__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=12bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>GCATATCTGATCCACT 5-6-5 | TCF12_e3__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=12bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 GCATATCTGATCCACT
->GGCATATCTGATCCAC 5-6-5 | TCF12_e3__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>GGCATATCTGATCCAC 5-6-5 | TCF12_e3__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 GGCATATCTGATCCAC
->GGGCATATCTGATCCA 5-6-5 | TCF12_e3__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>GGGCATATCTGATCCA 5-6-5 | TCF12_e3__NR4A3_e3 | gap_level_margin=3 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 GGGCATATCTGATCCA
 >ACGCAGGGCATATCCATCAG 5-10-5 | TCF12_e5__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 ACGCAGGGCATATCCATCAG
@@ -1232,15 +1234,15 @@ GCATATCCATCAGATTTG
 GGCATATCCATCAGATTT
 >GGGCATATCCATCAGATT 5-8-5 | TCF12_e5__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 GGGCATATCCATCAGATT
->AGGGCATATCCATCAG 5-6-5 | TCF12_e5__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=8bp (EWSR1) | antisense 5'->3', research use only
+>AGGGCATATCCATCAG 5-6-5 | TCF12_e5__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=8bp (EWSR1) | antisense 5'->3', research use only
 AGGGCATATCCATCAG
->CAGGGCATATCCATCA 5-6-5 | TCF12_e5__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>CAGGGCATATCCATCA 5-6-5 | TCF12_e5__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 CAGGGCATATCCATCA
->GCATATCCATCAGATT 5-6-5 | TCF12_e5__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=7bp (EWSR1) | antisense 5'->3', research use only
+>GCATATCCATCAGATT 5-6-5 | TCF12_e5__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=7bp (EWSR1) | antisense 5'->3', research use only
 GCATATCCATCAGATT
->GGCATATCCATCAGAT 5-6-5 | TCF12_e5__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=7bp (EWSR1) | antisense 5'->3', research use only
+>GGCATATCCATCAGAT 5-6-5 | TCF12_e5__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=7bp (EWSR1) | antisense 5'->3', research use only
 GGCATATCCATCAGAT
->GGGCATATCCATCAGA 5-6-5 | TCF12_e5__NR4A3_e3 | gap_level_margin=3 | role=best available at this junction | parent_duplex=7bp (EWSR1) | antisense 5'->3', research use only
+>GGGCATATCCATCAGA 5-6-5 | TCF12_e5__NR4A3_e3 | gap_level_margin=3 | role=best available at this junction | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=7bp (EWSR1) | antisense 5'->3', research use only
 GGGCATATCCATCAGA
 >ACGCAGGGCATATCAAGCGC 5-10-5 | TCF12_e7__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 ACGCAGGGCATATCAAGCGC
@@ -1274,15 +1276,15 @@ GCATATCAAGCGCTGCAG
 GGCATATCAAGCGCTGCA
 >GGGCATATCAAGCGCTGC 5-8-5 | TCF12_e7__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 GGGCATATCAAGCGCTGC
->AGGGCATATCAAGCGC 5-6-5 | TCF12_e7__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=8bp (NR4A3) | antisense 5'->3', research use only
+>AGGGCATATCAAGCGC 5-6-5 | TCF12_e7__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=8bp (NR4A3) | antisense 5'->3', research use only
 AGGGCATATCAAGCGC
->CAGGGCATATCAAGCG 5-6-5 | TCF12_e7__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>CAGGGCATATCAAGCG 5-6-5 | TCF12_e7__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 CAGGGCATATCAAGCG
->GCATATCAAGCGCTGC 5-6-5 | TCF12_e7__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=12bp (TCF12) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>GCATATCAAGCGCTGC 5-6-5 | TCF12_e7__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=12bp (TCF12) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 GCATATCAAGCGCTGC
->GGCATATCAAGCGCTG 5-6-5 | TCF12_e7__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=11bp (TCF12) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>GGCATATCAAGCGCTG 5-6-5 | TCF12_e7__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=11bp (TCF12) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 GGCATATCAAGCGCTG
->GGGCATATCAAGCGCT 5-6-5 | TCF12_e7__NR4A3_e3 | gap_level_margin=3 | role=best available at this junction | parent_duplex=8bp (NR4A3) | antisense 5'->3', research use only
+>GGGCATATCAAGCGCT 5-6-5 | TCF12_e7__NR4A3_e3 | gap_level_margin=3 | role=best available at this junction | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=8bp (NR4A3) | antisense 5'->3', research use only
 GGGCATATCAAGCGCT
 >ACGCAGGGCATATCTTGCAT 5-10-5 | TCF12_e9__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=15bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 ACGCAGGGCATATCTTGCAT
@@ -1316,15 +1318,15 @@ GCATATCTTGCATAAAGA
 GGCATATCTTGCATAAAG
 >GGGCATATCTTGCATAAA 5-8-5 | TCF12_e9__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=8bp (NR4A3) | antisense 5'->3', research use only
 GGGCATATCTTGCATAAA
->AGGGCATATCTTGCAT 5-6-5 | TCF12_e9__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>AGGGCATATCTTGCAT 5-6-5 | TCF12_e9__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 AGGGCATATCTTGCAT
->CAGGGCATATCTTGCA 5-6-5 | TCF12_e9__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=12bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>CAGGGCATATCTTGCA 5-6-5 | TCF12_e9__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=12bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 CAGGGCATATCTTGCA
->GCATATCTTGCATAAA 5-6-5 | TCF12_e9__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=12bp (TCF12) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>GCATATCTTGCATAAA 5-6-5 | TCF12_e9__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=12bp (TCF12) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 GCATATCTTGCATAAA
->GGCATATCTTGCATAA 5-6-5 | TCF12_e9__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=11bp (TCF12) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>GGCATATCTTGCATAA 5-6-5 | TCF12_e9__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=11bp (TCF12) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 GGCATATCTTGCATAA
->GGGCATATCTTGCATA 5-6-5 | TCF12_e9__NR4A3_e3 | gap_level_margin=3 | role=best available at this junction | parent_duplex=8bp (NR4A3) | antisense 5'->3', research use only
+>GGGCATATCTTGCATA 5-6-5 | TCF12_e9__NR4A3_e3 | gap_level_margin=3 | role=best available at this junction | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=8bp (NR4A3) | antisense 5'->3', research use only
 GGGCATATCTTGCATA
 >ACGCAGGGCATATCTTCATC 5-10-5 | TFG_e2__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=15bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 ACGCAGGGCATATCTTCATC
@@ -1360,13 +1362,13 @@ GGCATATCTTCATCTTTA
 GGGCATATCTTCATCTTT
 >AGGGCATATCTTCATC 5-6-5 | TFG_e2__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 AGGGCATATCTTCATC
->CAGGGCATATCTTCAT 5-6-5 | TFG_e2__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=12bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>CAGGGCATATCTTCAT 5-6-5 | TFG_e2__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=12bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 CAGGGCATATCTTCAT
->GCATATCTTCATCTTT 5-6-5 | TFG_e2__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=12bp (TFG) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>GCATATCTTCATCTTT 5-6-5 | TFG_e2__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=12bp (TFG) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 GCATATCTTCATCTTT
->GGCATATCTTCATCTT 5-6-5 | TFG_e2__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=11bp (TFG) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>GGCATATCTTCATCTT 5-6-5 | TFG_e2__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=11bp (TFG) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 GGCATATCTTCATCTT
->GGGCATATCTTCATCT 5-6-5 | TFG_e2__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=10bp (TFG) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>GGGCATATCTTCATCT 5-6-5 | TFG_e2__NR4A3_e3 | gap_level_margin=3 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=10bp (TFG) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 GGGCATATCTTCATCT
 >ACGCAGGGCATATCAAATAA 5-10-5 | TFG_e3__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 ACGCAGGGCATATCAAATAA
@@ -1400,15 +1402,15 @@ GCATATCAAATAATGTCA
 GGCATATCAAATAATGTC
 >GGGCATATCAAATAATGT 5-8-5 | TFG_e3__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 GGGCATATCAAATAATGT
->AGGGCATATCAAATAA 5-6-5 | TFG_e3__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=8bp (NR4A3) | antisense 5'->3', research use only
+>AGGGCATATCAAATAA 5-6-5 | TFG_e3__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=8bp (NR4A3) | antisense 5'->3', research use only
 AGGGCATATCAAATAA
->CAGGGCATATCAAATA 5-6-5 | TFG_e3__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>CAGGGCATATCAAATA 5-6-5 | TFG_e3__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 CAGGGCATATCAAATA
->GCATATCAAATAATGT 5-6-5 | TFG_e3__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=8bp (NR4A3) | antisense 5'->3', research use only
+>GCATATCAAATAATGT 5-6-5 | TFG_e3__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=8bp (NR4A3) | antisense 5'->3', research use only
 GCATATCAAATAATGT
->GGCATATCAAATAATG 5-6-5 | TFG_e3__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=8bp (NR4A3) | antisense 5'->3', research use only
+>GGCATATCAAATAATG 5-6-5 | TFG_e3__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=8bp (NR4A3) | antisense 5'->3', research use only
 GGCATATCAAATAATG
->GGGCATATCAAATAAT 5-6-5 | TFG_e3__NR4A3_e3 | gap_level_margin=3 | role=best available at this junction | parent_duplex=8bp (NR4A3) | antisense 5'->3', research use only
+>GGGCATATCAAATAAT 5-6-5 | TFG_e3__NR4A3_e3 | gap_level_margin=3 | role=best available at this junction | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=8bp (NR4A3) | antisense 5'->3', research use only
 GGGCATATCAAATAAT
 >ACGCAGGGCATATCATTTTC 5-10-5 | TFG_e4__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 ACGCAGGGCATATCATTTTC
@@ -1442,15 +1444,15 @@ GCATATCATTTTCAGGAA
 GGCATATCATTTTCAGGA
 >GGGCATATCATTTTCAGG 5-8-5 | TFG_e4__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=13bp (TFG) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 GGGCATATCATTTTCAGG
->AGGGCATATCATTTTC 5-6-5 | TFG_e4__NR4A3_e3 | gap_level_margin=2 | role=best available at this junction | parent_duplex=7bp (TFG) | antisense 5'->3', research use only
+>AGGGCATATCATTTTC 5-6-5 | TFG_e4__NR4A3_e3 | gap_level_margin=2 | role=best available at this junction | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=7bp (TFG) | antisense 5'->3', research use only
 AGGGCATATCATTTTC
->CAGGGCATATCATTTT 5-6-5 | TFG_e4__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>CAGGGCATATCATTTT 5-6-5 | TFG_e4__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 CAGGGCATATCATTTT
->GCATATCATTTTCAGG 5-6-5 | TFG_e4__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=13bp (TFG) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>GCATATCATTTTCAGG 5-6-5 | TFG_e4__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=13bp (TFG) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 GCATATCATTTTCAGG
->GGCATATCATTTTCAG 5-6-5 | TFG_e4__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=12bp (TFG) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>GGCATATCATTTTCAG 5-6-5 | TFG_e4__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=12bp (TFG) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 GGCATATCATTTTCAG
->GGGCATATCATTTTCA 5-6-5 | TFG_e4__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=11bp (TFG) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>GGGCATATCATTTTCA 5-6-5 | TFG_e4__NR4A3_e3 | gap_level_margin=3 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=11bp (TFG) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 GGGCATATCATTTTCA
 >ACGCAGGGCATATCTGAAAC 5-10-5 | TFG_e5__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=16bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 ACGCAGGGCATATCTGAAAC
@@ -1484,15 +1486,15 @@ GCATATCTGAAACCTGAT
 GGCATATCTGAAACCTGA
 >GGGCATATCTGAAACCTG 5-8-5 | TFG_e5__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=8bp (TAF15) | antisense 5'->3', research use only
 GGGCATATCTGAAACCTG
->AGGGCATATCTGAAAC 5-6-5 | TFG_e5__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=12bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>AGGGCATATCTGAAAC 5-6-5 | TFG_e5__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=12bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 AGGGCATATCTGAAAC
->CAGGGCATATCTGAAA 5-6-5 | TFG_e5__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=13bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>CAGGGCATATCTGAAA 5-6-5 | TFG_e5__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=13bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 CAGGGCATATCTGAAA
->GCATATCTGAAACCTG 5-6-5 | TFG_e5__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=8bp (TAF15) | antisense 5'->3', research use only
+>GCATATCTGAAACCTG 5-6-5 | TFG_e5__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=8bp (TAF15) | antisense 5'->3', research use only
 GCATATCTGAAACCTG
->GGCATATCTGAAACCT 5-6-5 | TFG_e5__NR4A3_e3 | gap_level_margin=2 | role=best available at this junction | parent_duplex=8bp (TAF15) | antisense 5'->3', research use only
+>GGCATATCTGAAACCT 5-6-5 | TFG_e5__NR4A3_e3 | gap_level_margin=2 | role=best available at this junction | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=8bp (TAF15) | antisense 5'->3', research use only
 GGCATATCTGAAACCT
->GGGCATATCTGAAACC 5-6-5 | TFG_e5__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>GGGCATATCTGAAACC 5-6-5 | TFG_e5__NR4A3_e3 | gap_level_margin=3 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 GGGCATATCTGAAACC
 >ACGCAGGGCATATCTTCAAT 5-10-5 | TFG_e6__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=15bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 ACGCAGGGCATATCTTCAAT
@@ -1526,15 +1528,15 @@ GCATATCTTCAATCTGAC
 GGCATATCTTCAATCTGA
 >GGGCATATCTTCAATCTG 5-8-5 | TFG_e6__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=9bp (TFG) | antisense 5'->3', research use only
 GGGCATATCTTCAATCTG
->AGGGCATATCTTCAAT 5-6-5 | TFG_e6__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>AGGGCATATCTTCAAT 5-6-5 | TFG_e6__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 AGGGCATATCTTCAAT
->CAGGGCATATCTTCAA 5-6-5 | TFG_e6__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=12bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>CAGGGCATATCTTCAA 5-6-5 | TFG_e6__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=12bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 CAGGGCATATCTTCAA
->GCATATCTTCAATCTG 5-6-5 | TFG_e6__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=9bp (TFG) | antisense 5'->3', research use only
+>GCATATCTTCAATCTG 5-6-5 | TFG_e6__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=9bp (TFG) | antisense 5'->3', research use only
 GCATATCTTCAATCTG
->GGCATATCTTCAATCT 5-6-5 | TFG_e6__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=9bp (TFG) | antisense 5'->3', research use only
+>GGCATATCTTCAATCT 5-6-5 | TFG_e6__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=9bp (TFG) | antisense 5'->3', research use only
 GGCATATCTTCAATCT
->GGGCATATCTTCAATC 5-6-5 | TFG_e6__NR4A3_e3 | gap_level_margin=3 | role=best available at this junction | parent_duplex=9bp (TFG) | antisense 5'->3', research use only
+>GGGCATATCTTCAATC 5-6-5 | TFG_e6__NR4A3_e3 | gap_level_margin=3 | role=best available at this junction | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=9bp (TFG) | antisense 5'->3', research use only
 GGGCATATCTTCAATC
 >ACGCAGGGCATATCTGAATA 5-10-5 | TFG_e7__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=16bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 ACGCAGGGCATATCTGAATA
@@ -1568,13 +1570,13 @@ GCATATCTGAATACTGAA
 GGCATATCTGAATACTGA
 >GGGCATATCTGAATACTG 5-8-5 | TFG_e7__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=9bp (TAF15) | antisense 5'->3', research use only
 GGGCATATCTGAATACTG
->AGGGCATATCTGAATA 5-6-5 | TFG_e7__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=12bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>AGGGCATATCTGAATA 5-6-5 | TFG_e7__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=12bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 AGGGCATATCTGAATA
->CAGGGCATATCTGAAT 5-6-5 | TFG_e7__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=13bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>CAGGGCATATCTGAAT 5-6-5 | TFG_e7__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=13bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 CAGGGCATATCTGAAT
->GCATATCTGAATACTG 5-6-5 | TFG_e7__NR4A3_e3 | gap_level_margin=1 | role=screened design | parent_duplex=9bp (TAF15) | antisense 5'->3', research use only
+>GCATATCTGAATACTG 5-6-5 | TFG_e7__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=9bp (TAF15) | antisense 5'->3', research use only
 GCATATCTGAATACTG
->GGCATATCTGAATACT 5-6-5 | TFG_e7__NR4A3_e3 | gap_level_margin=2 | role=best available at this junction | parent_duplex=9bp (TAF15) | antisense 5'->3', research use only
+>GGCATATCTGAATACT 5-6-5 | TFG_e7__NR4A3_e3 | gap_level_margin=2 | role=best available at this junction | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=9bp (TAF15) | antisense 5'->3', research use only
 GGCATATCTGAATACT
->GGGCATATCTGAATAC 5-6-5 | TFG_e7__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
+>GGGCATATCTGAATAC 5-6-5 | TFG_e7__NR4A3_e3 | gap_level_margin=3 | role=screened design | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 GGGCATATCTGAATAC

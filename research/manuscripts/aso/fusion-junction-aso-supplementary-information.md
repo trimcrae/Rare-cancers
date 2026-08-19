@@ -28,6 +28,8 @@ last_verified: 2026-08-16
 
 # Supplementary Information — Junction gapmers across the *NR4A3* fusions of extraskeletal myxoid chondrosarcoma
 
+**Running title.** Junction gapmers across NR4A3 fusions — SI
+
 **Author.** Tristan D. McRae
 
 *Independent researcher, unaffiliated.* Correspondence: trimcrae@gmail.com
@@ -127,7 +129,7 @@ and four of them sit outside the 38-junction panel, at the *NR4A3* exon-2 accept
 of the nine move the estimate; one moves only the bound, its arm having no measured
 within-partner distribution; and four move it by nothing at all — two because their partner is
 absent from this cohort, and two because their partner is present while their exon pair carries no
-count in it. That last pair is the easier of the two zeroes to miss, and a membership test that
+count in it. That last pair is the easier of the two kinds of zero to miss, and a membership test that
 asked only about the partner did miss it. Priced on a pooled breakpoint basis rather than on the
 single series the ladder uses, the nine together are 82.9% of molecularly confirmed cases, widening
 to 57.5–90.7%, and the two reagents of §4.1 are 67.1% rather than the ladder's 68.4%. The

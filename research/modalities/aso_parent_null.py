@@ -107,6 +107,18 @@ N_DRAWS = int(os.environ.get("NULL_DRAWS") or 200)
 #: configuration value in the sense CLAUDE.md gives that word, not a tuning knob.
 SEED = int(os.environ.get("NULL_SEED") or 20260815)
 
+#: ⛔ THE SECOND CUT, MEASURED RATHER THAN LEFT AS "THE MORE INCLUSIVE READING". The manuscript
+#: reports the mature-parent screen at 10 contiguous base pairs and discloses that at 7 — the loose
+#: end of the same cited range — the same screen returns 175 of 190 rather than 87. That disclosure
+#: was written as though the looser reading were simply a larger liability, and it is not: every
+#: null in this file was computed at 10, so the 7-base-pair count had no anchor at all, in a module
+#: whose entire reason for existing is that a count without a null cannot be large or small.
+#: Measuring it settles the question in the direction the disclosure did not anticipate — at 7 the
+#: exon-terminus chimera null is 91.4% against 92.1% observed, so the loose reading is at chance and
+#: is not a larger finding. Both cuts are therefore carried through every ensemble, in one pass, and
+#: the manuscript states both.
+SECONDARY_CUT_BP = int(os.environ.get("NULL_SECONDARY_CUT") or 7)
+
 BASES = "ACGT"
 
 
@@ -468,13 +480,19 @@ def build():
 
     # the observed arm, re-measured here through the index so the comparison is instrument-identical
     obs_hits = obs_nr4a3 = 0
+    obs_hits_2 = obs_nr4a3_2 = 0
     obs_runs = []
+    runs_by_junction = {}
     for d in designs:
         run, gene = _best_run(d["target"], parents, idx)
         obs_runs.append(run)
+        runs_by_junction.setdefault(d["junction"], []).append(run)
         if run >= pgp.MIN_DUPLEX_BP:
             obs_hits += 1
             obs_nr4a3 += 1 if gene == "NR4A3" else 0
+        if run >= SECONDARY_CUT_BP:
+            obs_hits_2 += 1
+            obs_nr4a3_2 += 1 if gene == "NR4A3" else 0
     n_obs = len(designs)
 
     # pooled base composition of the real target windows, for the composition-matched ensemble
@@ -509,6 +527,7 @@ def build():
         # ensemble cannot shift the draws of the ones either side of it.
         rng = Rng(SEED ^ sum((i + 1) * ord(c) for i, c in enumerate(name)))
         hits = nr4a3 = 0
+        hits_2 = nr4a3_2 = 0
         runs = []
         per_design_rows = []
         for di, d in enumerate(designs):
@@ -545,6 +564,9 @@ def build():
                     if gene == "NR4A3":
                         nr4a3 += 1
                         dn += 1
+                if run >= SECONDARY_CUT_BP:
+                    hits_2 += 1
+                    nr4a3_2 += 1 if gene == "NR4A3" else 0
             per_design_rows.append(round(dh / N_DRAWS, 4))
             if name == "scrambled_mononucleotide":
                 per_design.append({
@@ -558,6 +580,13 @@ def build():
                 })
         s = _summary(hits, nr4a3, runs, len(runs))
         s["expected_n_liable_designs_if_null"] = round(sum(per_design_rows), 2)
+        s[f"at_{SECONDARY_CUT_BP}bp"] = {
+            "n_liable": hits_2,
+            "rate_liable": round(hits_2 / len(runs), 5) if runs else None,
+            "rate_liable_wilson95": wilson(hits_2, len(runs)),
+            "n_liable_against_NR4A3": nr4a3_2,
+            "rate_liable_against_NR4A3": round(nr4a3_2 / len(runs), 5) if runs else None,
+        }
         ensembles[name] = s
         if name == "scrambled_dinucleotide":
             s["_mononucleotide_fallbacks"] = fallbacks
@@ -635,6 +664,38 @@ def build():
             "mean_longest_run_bp": round(sum(obs_runs) / n_obs, 4),
             "_agrees_with_screen_4": ("This arm is re-measured through the index rather than copied "
                                       "from aso-parent-gap-pairing.json; the two agree by test."),
+        },
+        "cut_sensitivity": {
+            "_what": (f"The same instrument read at {SECONDARY_CUT_BP} contiguous base pairs, the "
+                      f"loose end of the cited range, beside {pgp.MIN_DUPLEX_BP}, the strict end "
+                      f"the manuscript reports throughout."),
+            "_why": ("The manuscript disclosed the loose reading as the more inclusive reading of "
+                     "the liability. Measured, it is not a reading of the liability at all: at "
+                     f"{SECONDARY_CUT_BP} the exon-terminus chimera null is within a percentage "
+                     "point of the observed rate, so the loose count is what any chimera between "
+                     "two real transcripts gives and carries no information about this disease's "
+                     "breakpoints. The strict cut is the one on which the observed rate stands "
+                     "clear of every null, which is why it is the one reported."),
+            "cuts_bp": [SECONDARY_CUT_BP, pgp.MIN_DUPLEX_BP],
+            "observed_n_liable": {str(SECONDARY_CUT_BP): obs_hits_2,
+                                  str(pgp.MIN_DUPLEX_BP): obs_hits},
+            "observed_n_liable_against_NR4A3": {str(SECONDARY_CUT_BP): obs_nr4a3_2,
+                                                str(pgp.MIN_DUPLEX_BP): obs_nr4a3},
+            "n_designs": n_obs,
+            "n_junctions": len(runs_by_junction),
+            # ⛔ THE JUNCTION-LEVEL READING, WHICH RUNS THE OTHER WAY AND WAS THE ONE MISSING. The
+            # design-level count grows when the cut loosens (175 against 87) and the junction-level
+            # count of "somewhere at this junction a design clears" COLLAPSES (9 against 35). The
+            # manuscript stated the first at both cuts and the second at one, which put the
+            # deflating reading on the count that protects the modality and not on the count that
+            # protects the negative.
+            "n_junctions_with_a_clearing_design": {
+                str(cut): sum(1 for runs_j in runs_by_junction.values()
+                              if any(r < cut for r in runs_j))
+                for cut in (SECONDARY_CUT_BP, pgp.MIN_DUPLEX_BP)
+            },
+            "_read_with": ("null_ensembles[*]['at_%dbp'], which carries every ensemble at the loose "
+                           "cut so neither count is quoted without its anchor." % SECONDARY_CUT_BP),
         },
         "null_ensembles": ensembles,
         "per_design_scrambled_mononucleotide": per_design,
