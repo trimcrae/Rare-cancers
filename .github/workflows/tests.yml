@@ -49,7 +49,7 @@ jobs:
       # pypdf and pymupdf, neither of which was ever installed here -- so both had been SKIPPING in
       # CI and reporting green for a check that never ran. They are ported to pdfminer.six; this
       # line covers the builder.
-      - run: pip install pytest numpy scipy pymbar rdkit pyyaml boto3 jsonschema biopython pdfminer.six pypdf matplotlib
+      - run: pip install pytest numpy scipy pymbar rdkit pyyaml boto3 jsonschema biopython pdfminer.six pypdf pdfplumber matplotlib
       # Run the doc linters FIRST and standalone. Both are also asserted inside the pytest
       # suite, but a doc author who breaks one should see the offending file:line as a
       # failing step named after the linter, not a traceback buried in ~1500 tests.
