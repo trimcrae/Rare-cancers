@@ -66,6 +66,15 @@ DISTRIBUTION_PROVIDES = {
     "biopython": ("Bio", "BioSQL"),
     "pdfminer.six": ("pdfminer", "cryptography", "cffi", "charset_normalizer"),
     "pypdf": ("pypdf",),
+    # ⭐ ADDED 2026-08-19 WITH THE WORKFLOW LINE THAT INSTALLS IT, WHICH IS THE POINT OF THIS TABLE.
+    # matplotlib was added to CI so the figure-RENDER guard could stop being a permanent skip, and
+    # this file refused the change until the mapping was declared -- a distribution CI installs
+    # whose import name nobody has written down still reads as "not available" to every guard that
+    # imports it, which is the silent-skip failure in a new costume. The wheel brings its own
+    # dependency set; naming them keeps a guard that imports `cycler` or `PIL` from reading as
+    # uninstallable.
+    "matplotlib": ("matplotlib", "pylab", "cycler", "kiwisolver", "pyparsing", "PIL",
+                   "dateutil", "packaging", "numpy"),
 }
 
 #: A site may reach a module CI does not install only if it says so, at the site, in these words.

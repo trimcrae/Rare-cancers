@@ -47,6 +47,22 @@ GEOMETRY = ass.MANUSCRIPT_GEOMETRY
 #: document can learn its own path without typing it.
 ARCHIVE_MANIFEST = os.path.join(HERE, "aso", "fusion-junction-aso-archive-manifest.json")
 
+#: ⛔ THE CANONICAL COLUMN A DUPLEX CELL IS, AND THE ONLY THING A LOOSE-CUT VERDICT MAY BE COMPUTED
+#: FROM. Table 5's cells now carry the verdict the duplex reading takes at the loose end of the
+#: cited range, and a verdict with no canonical home is a claim a reader cannot check: the file to
+#: check it in is `fusion-junction-aso-sequences.csv`, and the number to check it against is this
+#: column of it. NOTHING IS INVENTED IN THAT FILE — the verdict is a comparison of a column that
+#: already exists against a cut `aso-parent-null.json` already reads, so the caption names the
+#: column and the reader reproduces it. Asserted against the manifest's own field list, so a rename
+#: upstream stops this build rather than leaving a caption pointing at a column that is not there.
+DUPLEX_CSV_COLUMN = "mature_parent_duplex_through_gap_bp"
+if DUPLEX_CSV_COLUMN not in _manifest._FIELDS:                           # noqa: SLF001
+    raise SystemExit(
+        f"Table 5's captions name `{DUPLEX_CSV_COLUMN}` as the column its duplex cells are, and "
+        f"{os.path.basename(_manifest.OUT_CSV)} no longer carries a column of that name. Re-derive "
+        "the manifest, or re-anchor the caption — do not print a verdict whose canonical home is "
+        "a column that does not exist.")
+
 
 def _self_identification():
     """The sentence in which this file names ITSELF and the deposit it belongs to.
@@ -2355,15 +2371,19 @@ def main(argv=None):
     _t5_liable = [role for role, cell in _t5_dup if "liable at" in cell]
     t5_loose_reading = (
         f"Every cell that carries a reading carries the verdict the SAME number takes at the loose "
-        f"end of that range: {_word(len(_t5_liable))} of the {_word(len(_t5_dup))} rows that print "
+        f"end of that range — that number is the row's `{DUPLEX_CSV_COLUMN}` in "
+        f"`{os.path.basename(_manifest.OUT_CSV)}`, so the comparison is reproducible from the "
+        f"canonical file and not only here: {_word(len(_t5_liable))} of the "
+        f"{_word(len(_t5_dup))} rows that print "
         f"a duplex fall inside the do-not-order class there, and "
         f"{_word(sum(1 for r in _t5_liable if r == 'lead reagent'))} of them are the lead reagents "
         f"§4 names — which is the reading Box 1 states of those two and which no marker on this "
         f"table used to carry."
         if _t5_liable else
         f"Every cell that carries a reading carries the verdict the SAME number takes at the loose "
-        f"end of that range, and none of the {_word(len(_t5_dup))} rows that print a duplex falls "
-        f"inside the do-not-order class there.")
+        f"end of that range — that number is the row's `{DUPLEX_CSV_COLUMN}` in "
+        f"`{os.path.basename(_manifest.OUT_CSV)}` — and none of the {_word(len(_t5_dup))} rows "
+        f"that print a duplex falls inside the do-not-order class there.")
 
     # ⛔ TABLE 1 PRINTED TWO COLUMNS THAT ARE THE SAME COLUMN AND SAID NOTHING (audit, 2026-08-19).
     # "in-frame" and "with ≥1 fusion-specific design" agree in every row and in the total, so as
