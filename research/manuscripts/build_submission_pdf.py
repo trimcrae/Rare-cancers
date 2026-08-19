@@ -1132,16 +1132,18 @@ code.brk { white-space: normal; }
        journal, two columns    12 of 66 broken  ->  0 of 66
        manuscript, one column   0 of 66 broken  ->  0 of 66
    ⚠ AND THE INSTRUMENT IS PART OF THE RESULT, WHICH IS WHY IT IS NAMED. Read with
-   `line_margin=0.35` the same two files measure 24 -> 16: a tight line margin makes every line its
-   own text box and `boxes_flow` then interleaves the two columns, which swamps the signal. The
-   single-column submission build — the one that is deposited — was never affected under any
-   setting, and a global `text-align: left` measured 17 there against this rule's 16, so the blunt
-   version of this fix is not the better one. */
+   `line_margin=0.35` the same two journal builds measure 24 -> 16 rather than 12 -> 0: a tight line
+   margin makes every line its own text box and `boxes_flow` then interleaves the two columns, which
+   swamps the signal. On that same reading a GLOBAL `text-align: left` scores 17 against this rule's
+   16 — the blunt version of the fix is not the better one, which is why justification is kept
+   everywhere a sequence is not printed. The single-column submission build, the one that is
+   deposited, measured clean under every setting tried. */
 p[data-seq], li[data-seq] { text-align: left; }
 /* A DOI, a PMID or a URL is copied whole or it is worthless, and its own hyphens are the break
    points a renderer reaches for first. `nowrap` is safe here for a measured reason: the longest
-   locator this paper prints is 29 characters and the narrowest container either style produces is
-   the journal's 88 mm column, which holds far more at the 7.9 pt the reference list is set at. */
+   locator this paper prints is 33 characters — `doi:10.1016/S1470-2045(19)30319-5`, counted over
+   all 48 — and the narrowest container either style produces is the journal's 88 mm column, which
+   holds far more than that at the 7.9 pt the reference list is set at. */
 a.loc { white-space: nowrap; hyphens: none; word-break: normal; overflow-wrap: normal; }
 a.loc code { white-space: nowrap; }
 /* ⛔ THE TWO GLYPHS THAT BECOME A TYPE 3 FONT IN BOLD. See MARKER_GLYPH_RE for the measurement.
@@ -1685,6 +1687,15 @@ def _postprocess(full_pdf, short_pdf, pdf_path, running_head, meta, headings=())
                 grafted += 1
     writer.add_metadata({k: v for k, v in meta.items() if v})
     _repair_outline_titles(writer, headings)
+    #: Grafting a page's content leaves the render it replaced in the file as an orphan, and cloning
+    #: brings a second copy of every shared font subset. Measured on the journal build: 2,560 KB
+    #: before this call and 2,074 KB after, with the outline, all 111 link annotations and the Info
+    #: dictionary intact. A deposit file is uploaded and downloaded, so 19% is worth one call.
+    try:
+        writer.compress_identical_objects(remove_identicals=True, remove_orphans=True)
+    except Exception as exc:                                # pragma: no cover - pypdf < 4.x
+        print(f"  ⚠ could not compress the output ({exc}); the PDF is correct but larger",
+              file=sys.stderr)
     with open(pdf_path, "wb") as fh:
         writer.write(fh)
     return grafted, len(full.pages)
