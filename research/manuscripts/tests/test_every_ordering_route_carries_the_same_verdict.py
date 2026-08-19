@@ -109,12 +109,26 @@ def test_the_fasta_carries_the_verdict_and_the_role_on_the_defline():
     deflines = [l for l in text.splitlines() if l.startswith(">")]
     assert deflines, "the FASTA holds no records"
     csv_by_seq = {r["sequence"]: r for r in _csv_rows()}
+    #: ⛔ THE JOIN IS ASSERTED, NOT ASSUMED (2026-08-19). This read `if row is None: continue`, so a
+    #: FASTA record with no row in the canonical CSV — a renamed column, a regenerated CSV, a
+    #: sequence present in one carrier and not the other — silently left the loop and every
+    #: assertion below went unexecuted for it. A record the join cannot reach is the one most likely
+    #: to be carrying the wrong verdict, because nothing has checked it against anything.
+    unjoined = [line[1:].split()[0] for line in deflines
+                if line[1:].split()[0] not in csv_by_seq]
+    assert not unjoined, (
+        f"{len(unjoined)} FASTA record(s) have no row in the canonical CSV: {unjoined[:6]}. The two "
+        "carriers are generated from one source and must join completely; a record in only one of "
+        "them cannot be checked for its verdict at all.")
+    fasta_seqs = {line[1:].split()[0] for line in deflines}
+    missing_row = sorted(set(csv_by_seq) - fasta_seqs)
+    assert not missing_row, (
+        f"{len(missing_row)} canonical sequence(s) are in the CSV and not in the FASTA: "
+        f"{missing_row[:6]}. A reader taking the FASTA route never meets them.")
     missing_tag, missing_role = [], []
     for line in deflines:
         seq = line[1:].split()[0]
-        row = csv_by_seq.get(seq)
-        if row is None:
-            continue
+        row = csv_by_seq[seq]
         if row["do_not_order"] and "DO NOT ORDER" not in line:
             missing_tag.append(seq)
         if row["role"] and "role=" not in line:
@@ -141,17 +155,29 @@ def test_a_table_printing_orderable_designs_marks_the_ones_not_to_order(number):
     final column reading "yes" — a near-match verdict a reader took for a verdict on the design."""
     span = _table_span(_tables(), number)
     assert span, f"Table {number} is not in the tables file"
-    csv_by_seq = {r["sequence"]: r for r in _csv_rows() if r["geometry"] == "5-6-5"}
-    unmarked = []
+    csv_by_seq = {r["sequence"]: r for r in _csv_rows()}
+    unmarked, unjoined, seen = [], [], 0
     for line in span.splitlines():
         if not line.startswith("| 5′-"):
             continue
         seq = re.match(r"\| 5′-([ACGT]+)-3′", line)
         if not seq:
             continue
+        seen += 1
         row = csv_by_seq.get(seq.group(1))
-        if row and row["pairs_a_wild_type_parent_through_the_gap"] == "True" and "⚑" not in line:
+        #: ⛔ A PRINTED SEQUENCE THAT DOES NOT JOIN IS THE WORST CASE, NOT AN EXEMPT ONE. This was
+        #: `if row and …`, and it was also filtering the CSV to 5-6-5 before the join, so a table
+        #: row printing an 18-mer or a 20-mer joined to nothing and was passed over in silence —
+        #: exactly the reader who is about to order something no carrier has a verdict for.
+        if row is None:
+            unjoined.append(seq.group(1))
+            continue
+        if row["pairs_a_wild_type_parent_through_the_gap"] == "True" and "⚑" not in line:
             unmarked.append(seq.group(1))
+    assert seen, f"Table {number} prints no sequence at all, so this guard asserted nothing"
+    assert not unjoined, (
+        f"Table {number} prints {len(unjoined)} sequence(s) with no row in the canonical CSV: "
+        f"{unjoined[:6]}. Nothing in the deposit carries a verdict for them.")
     assert not unmarked, (
         f"Table {number} prints {len(unmarked)} design(s) that pair a wild-type parent through the "
         f"whole gap with no ⚑: {unmarked}. Every table printing an orderable sequence carries the "

@@ -289,6 +289,90 @@ def place_floats(body, items, placement):
     return "".join(out)
 
 
+# --------------------------------------------------------------------------- deposit identity
+
+def deposit_filenames(paper):
+    """Source-file name -> the name of the file a DOWNLOADER actually receives.
+
+    ⛔ THE DEPOSIT POINTED AT FILES THAT ARE NOT IN IT (blind screen of the built PDFs, 2026-08-19).
+    Both full PDFs sent the reader to `fusion-junction-aso-supplementary-information.md` for §S1-§S6
+    and the SI PDF sent them back to `fusion-junction-aso-research-article.md` for the § numbers.
+    Neither `.md` is deposited: what travels is the rendered PDF beside it. A reader holding the
+    deposit is told to open a file they do not have and cannot get without a checkout.
+
+    ⚠ THE SUBSTITUTION IS AT RENDER TIME AND THE MANUSCRIPT IS NOT EDITED. The `.md` names are
+    correct IN THE REPOSITORY, which is where the manuscript lives; they are wrong only in the
+    artefact, which is what this file makes. Both names are derived from `paper["out"]`, so a
+    renamed output cannot leave a stale pointer behind.
+    """
+    out = os.path.basename(paper["out"])
+    article_md = os.path.basename(paper["manuscript"])
+    supplementary_md = os.path.basename(paper.get("supplementary", ""))
+    names = {
+        #: The submission-format build is the one to upload (see this module's docstring), so a
+        #: cross-reference to "the main text" resolves to that file and not to the typeset preview.
+        article_md: out.replace(".pdf", "-manuscript.pdf"),
+    }
+    if supplementary_md:
+        names[supplementary_md] = out.replace(".pdf", "-supplementary-information.pdf")
+    return names
+
+
+_MD_NAME_RE = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]*\.md\b")
+
+
+def apply_deposit_filenames(text, paper, where):
+    """Rewrite every deposited-document filename in `text`, and REPORT the ones with no mapping.
+
+    ⚠ AN UNMAPPED `.md` IS PRINTED, NOT SWALLOWED. A name this map does not know is either a
+    repository artefact a reader is not expected to open (fine) or a deposited file whose PDF nobody
+    declared (not fine, and invisible unless it is said out loud).
+    """
+    names = deposit_filenames(paper)
+    for source, deposited in names.items():
+        text = text.replace(source, deposited)
+    unmapped = sorted({m.group(0) for m in _MD_NAME_RE.finditer(text)}
+                      - set(names.values()) - set(names))
+    if unmapped:
+        print(f"  ⚠ {where}: no deposited filename declared for {', '.join(unmapped)} — "
+              f"a reader is sent to a file that does not travel with the deposit", file=sys.stderr)
+    return text
+
+
+def build_provenance():
+    """(short commit, dirty?, ISO date) for the title page, read from git without writing to it.
+
+    ⛔ NO FILE IN THE DEPOSIT CARRIED A DATE OR A VERSION (blind screen, 2026-08-19). Two people
+    citing "the preprint" could hold different documents and neither could tell — and the deposit's
+    own staleness incident is exactly that failure with the manuscript instead of the reader.
+
+    ⚠ A DIRTY TREE IS PRINTED AS DIRTY. A build from uncommitted work is not reproducible from the
+    commit it names, and a title page that quietly implies it is would be the more dangerous half of
+    the same defect. `--no-optional-locks` keeps this read-only: git may otherwise refresh its index
+    while answering, and this function must not write anything at all.
+    """
+    def git(*args):
+        try:
+            return subprocess.run(("git", "--no-optional-locks", "-C", REPO) + args,
+                                  capture_output=True, text=True, timeout=30).stdout.strip()
+        except Exception:                                   # pragma: no cover - env dependent
+            return ""
+    commit = git("rev-parse", "--short", "HEAD")
+    dirty = bool(git("status", "--porcelain"))
+    return commit, dirty, time.strftime("%Y-%m-%d", time.gmtime())
+
+
+def provenance_line(paper, style):
+    """The one line under the author block saying WHICH document this is and where it came from."""
+    commit, dirty, date = build_provenance()
+    what = {"journal": "typeset preview", "manuscript": "submission format",
+            "supplementary": "supplementary information"}[style]
+    stamp = commit or "commit unknown"
+    if dirty:
+        stamp += ", tree not clean at build time"
+    return f"Version of {date} · {what} · built from {stamp}"
+
+
 # --------------------------------------------------------------------------- assembly
 
 def assemble(paper, style="journal"):
@@ -300,6 +384,8 @@ def assemble(paper, style="journal"):
     if style == "manuscript":
         body = splice(body, "Tables", "\n\n".join(tables[n] for n in sorted(tables)), "the tables")
         body = splice(body, "References", references, "the reference list")
+        body = _fold_the_figure_legends_preamble(body, paper)
+        body = apply_deposit_filenames(body, paper, "manuscript style")
         # ⚠ THE FIRST FIGURE IS MARKED, because it is the one that must NOT start a fresh page:
         # the section opens with a heading and a two-sentence preamble, and forcing a page break
         # ahead of every figure left those three lines alone on a page of their own.
@@ -317,6 +403,7 @@ def assemble(paper, style="journal"):
     body = splice(body, "References", references, "the reference list")
     body = drop_section(body, "Tables")
     body = drop_section(body, "Figure legends")
+    body = apply_deposit_filenames(body, paper, "journal style")
 
     floats, items = {}, []
     for number in sorted(tables):
@@ -566,32 +653,106 @@ def render_table(rows, label=None):
 
 
 
+#: The cut a table's own caption states for its marked rows — "ten" out of "at the ten-base-pair
+#: criterion applied throughout" (Table 3) or "⚑ marks ten base pairs or more, the criterion applied
+#: throughout" (Table 4). ⛔ READ FROM THE CAPTION, NEVER TYPED HERE (rule 1): the criterion has one
+#: home, the generated caption, and a running header that restated it would be a second one.
+_CRITERION_RE = re.compile(r"\b([A-Za-z]+)[ -]base[ -]pairs?\b(?=[^.]{0,48}criterion)")
+_NOT_A_CLEARANCE_RE = re.compile(r"\bAn unmarked row is not a clearance\b")
+
+
+def _first_clause(text, limit):
+    """`text` collapsed to one line and cut at the last clause boundary within `limit`."""
+    text = " ".join(text.split())
+    if len(text) <= limit:
+        return text.rstrip(" .")
+    head = text[:limit]
+    for sep in ("; ", " — ", ", ", " "):
+        cut = head.rfind(sep)
+        if cut > limit // 2:
+            return head[:cut].rstrip(" ,;—")
+    return head.rstrip()
+
+
+def _caption_title(block):
+    """The bolded title sentence of a generated table's caption, without its number."""
+    match = re.match(r"^\*\*Table \d+\.\s*(.+?)\*\*", block.strip(), re.S)
+    return _first_clause(match.group(1), 92) if match else None
+
+
+def _marker_note(block, marker):
+    """The caption's own opening sentence for `marker`, as the caption writes it."""
+    match = re.search(rf"^{re.escape(marker)}\s+(.+?)(?<![A-Z])\.\s", block, re.M | re.S)
+    return _first_clause(match.group(1), 96) if match else None
+
+
+def table_label(number, block):
+    """The identity a table's CONTINUATION pages carry, built from that table's own caption.
+
+    ⛔ IT RIDES IN <thead>, WHICH PAGED MEDIA REPEATS ON EVERY PAGE, AND IT IS THE ONLY THING THAT
+    DOES. A reader landing on page two of a three-page table meets the column headers, the rows and
+    this line — the caption, its numbered notes and its marker keys are all a page back.
+
+    ⛔⛔ AND IT USED TO DROP BOTH HALVES OF THE CRITERION THE CAPTION CARRIES (blind screen of the
+    built PDFs, 2026-08-19). The caption says a marked design pairs a wild-type parent "at the
+    ten-base-pair criterion applied throughout" and, in the same note, "An unmarked row is not a
+    clearance". The header said only "pairs a wild-type parent through the whole catalytic gap; do
+    not order it" — so a reader on a continuation page was given a prohibition with no cut attached
+    and, worse, was left to read every unmarked row as cleared. Measured before the fix: 6 of the 7
+    ⚑-carrying pages of the journal build and 7 of 9 in the manuscript build stated no cut, and 8
+    and 9 respectively stated no clearance caveat. Both halves are now read out of the caption.
+
+    ⚠ AND THE LABEL WAS OTHERWISE JUST A NUMBER. Table 2's continuation pages read "Table 2" and
+    nothing else, and Table 6's carried ◆ rows with no ◆ branch in this function at all. The title
+    is now carried too, so a continuation page says which table it is rather than only which number.
+    """
+    label = f"Table {number}"
+    title = _caption_title(block)
+    if title:
+        label += ". " + title
+    if re.search(r"[¹²³⁴⁵⁶⁷⁸⁹]", block):
+        label += "  ·  numbered notes are under the caption, on this table's first page"
+    if "†" in block:
+        label += ("  —  † no design at this junction clears the parent screen; "
+                  "do not order the sequence in a marked row")
+    if "⚑" in block:
+        label += ("  —  ⚑ this design pairs a wild-type parent through the whole catalytic gap; "
+                  "do not order it")
+    #: ⚑ and † are both readings at one cut, so the cut and the caveat are stated ONCE for the pair
+    #: rather than repeated behind each marker.
+    if "⚑" in block or "†" in block:
+        criterion = _CRITERION_RE.search(block)
+        tail = []
+        if criterion:
+            tail.append(f"both markers are read at the {criterion.group(1)}-base-pair criterion, "
+                        f"which this work adopts rather than measures")
+        if _NOT_A_CLEARANCE_RE.search(block):
+            tail.append("an unmarked row is not a clearance, only a reading at that one cut")
+        if tail:
+            label += "  ·  " + "; ".join(tail)
+    #: ◆ is an IDENTIFICATION marker, not a prohibition, and a continuation page that carried ◆ rows
+    #: with no key at all invited reading it as one. Its gloss is the caption's own first sentence.
+    if "◆" in block:
+        note = _marker_note(block, "◆")
+        label += "  —  ◆ " + (note or "see the caption for what this marker identifies")
+        if re.search(r"marker identifies and does not rank", block):
+            label += "; the marker identifies and does not rank"
+    return label
+
+
 def _label_for_spliced_table(lines, table_end, rows):
     """Rebuild the <thead> label for a table spliced into the body (manuscript style).
 
-    Mirrors render_float's label logic, which manuscript style never reaches. The caption sits
-    ABOVE the grid in the generated tables file, so the number is found by scanning back for the
-    nearest "**Table n." opener; the markers that decide the rest are read from the grid itself.
+    Mirrors render_float, which manuscript style never reaches. The caption sits ABOVE the grid in
+    the generated tables file, so the block is recovered by scanning back for the nearest
+    "**Table n." opener and taking everything from there to the end of the grid — the caption, its
+    notes and the rows, which is exactly what `table_label` reads.
     """
-    number = None
     for k in range(table_end - len(rows) - 1, max(-1, table_end - len(rows) - 60), -1):
         m = re.match(r"^\*\*Table (\d+)\.", lines[k].strip())
         if m:
-            number = m.group(1)
-            break
-    if number is None:
-        return None
-    body = "\n".join(rows)
-    label = f"Table {number}"
-    if re.search(r"[¹²³⁴⁵⁶⁷⁸⁹]", body):
-        label += "  ·  numbered notes are under the caption, on this table's first page"
-    if "†" in body:
-        label += ("  —  † no design at this junction clears the parent screen; "
-                  "do not order the sequence in a marked row")
-    if "⚑" in body:
-        label += ("  —  ⚑ this design pairs a wild-type parent through the whole catalytic gap; "
-                  "do not order it")
-    return label
+            return table_label(m.group(1), "\n".join(lines[k:table_end]))
+    return None
 
 
 def markdown_to_html(text, floats=None):
@@ -759,24 +920,17 @@ def render_float(kind, number, payload, wide):
         #: statement of what the dagger meant. Everything else on a continuation page is
         #: recoverable by turning back; this one is the wrong-reagent hazard the whole deposit is
         #: built around, so it rides in the <thead>, which paged media repeats on every page.
-        _label = f"Table {number}"
         #: ⚠ A CONTINUATION PAGE REPEATS THE MARKED COLUMN HEADERS AND NOT THE NOTES THAT DEFINE
         #: THEM. Superscript note markers ride in the header row, so a reader landing on page two of
         #: a three-page table meets "on the sense strand¹" with note ¹ a page back. The notes
         #: themselves are too long to repeat on every page without swamping the table, so the header
         #: says where they are instead — which is the difference between a reader who knows to turn
         #: back and one who does not know anything is missing.
-        if isinstance(payload, str) and re.search(r"[¹²³⁴⁵⁶⁷⁸⁹]", payload):
-            _label += "  ·  numbered notes are under the caption, on this table's first page"
-        if isinstance(payload, str) and "†" in payload:
-            _label += ("  —  † no design at this junction clears the parent screen; "
-                       "do not order the sequence in a marked row")
-        #: ⚑ marks the DESIGN, † the JUNCTION, and a row can carry ⚑ without †. Both keys ride in
-        #: <thead> for the same reason: a continuation page repeats the header and nothing else.
-        if isinstance(payload, str) and "⚑" in payload:
-            _label += ("  —  ⚑ this design pairs a wild-type parent through the whole catalytic "
-                       "gap; do not order it")
-        _CURRENT_TABLE_LABEL = _label
+        #: ⛔ ONE IMPLEMENTATION, SHARED WITH THE MANUSCRIPT STYLE. These two paths had separate
+        #: copies of this logic, and the copy the deposit build used was the one that fell behind:
+        #: `_label_for_spliced_table` is the manuscript style's, and everything verified in the
+        #: journal build had to be re-verified there by hand. `table_label` is now both.
+        _CURRENT_TABLE_LABEL = table_label(number, payload if isinstance(payload, str) else "")
         _IN_FLOAT_CAPTION = True
         try:
             inner = markdown_to_html(payload)

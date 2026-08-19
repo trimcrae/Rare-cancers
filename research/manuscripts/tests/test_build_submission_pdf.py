@@ -89,8 +89,20 @@ def test_every_figure_is_placed_with_the_legend_that_describes_it(journal):
     figures = {n: p for (kind, n, p, _w) in floats.values() if kind == "figure"}
     numbered = {n for n in figures if n < bsp.SUPPLEMENTARY_SORT_BASE}
     supplementary = {n for n in figures if n >= bsp.SUPPLEMENTARY_SORT_BASE}
-    assert numbered == {1, 2, 3}
-    assert supplementary == {bsp.SUPPLEMENTARY_SORT_BASE + 1}
+    #: ⛔ DERIVED FROM THE LEGEND BLOCK, NOT TYPED (2026-08-19). This asserted `numbered == {1, 2, 3}`
+    #: and `supplementary == {BASE + 1}` — a fourth panel would have failed here, in a test about
+    #: legend PAIRING, for a reason that has nothing to do with pairing. The manuscript's own
+    #: "## Figure legends" block is where a figure comes into existence, so it is the expectation.
+    legends = re.search(r"^## Figure legends.*", bsp.read(PAPER["manuscript"]), re.S | re.M)
+    assert legends, "the manuscript has no '## Figure legends' block to derive the panel set from"
+    declared = {int(n) for n in re.findall(r"^\*\*Figure (\d+)\.", legends.group(0), re.M)}
+    declared_supp = {int(n) for n in
+                     re.findall(r"^\*\*Supplementary Figure S(\d+)\.", legends.group(0), re.M)}
+    assert declared, "the legend block declares no numbered figure"
+    assert numbered == declared, (
+        f"the journal layout carries figures {sorted(numbered)} where the manuscript's legend "
+        f"block declares {sorted(declared)}")
+    assert supplementary == {bsp.SUPPLEMENTARY_SORT_BASE + n for n in declared_supp}
     for number, (svg, legend) in figures.items():
         assert svg.startswith("<svg")
         expected = (f"**Supplementary Figure S{number - bsp.SUPPLEMENTARY_SORT_BASE}."

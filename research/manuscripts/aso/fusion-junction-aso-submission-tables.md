@@ -49,7 +49,7 @@ geometry's ceiling — half the gap rounded down, which Table 7 gives — and no
 **Table 2. The best available design at each in-frame junction that has one — 35 of the 38.** Table 4
 selects across the panel and Table 3 selects within each junction by gap-level margin; this table
 selects within each junction by parent liability, which is the question a patient's
-fusion poses. A design's parent liability is the length of the longest contiguous duplex any of the six wild-type parent transcripts — *EWSR1*, *FUS*, *NR4A3*, *TAF15*, *TCF12* and *TFG* — forms through its whole catalytic gap, searched in the mature (spliced) parent transcript in the forward orientation only, and it disqualifies at ten base pairs; the “longest parent duplex through the gap” column is that same length for the design the row names. Designs are ranked by parent liability first, since sparing the wild-type parents is
+fusion poses. Rows are in ascending order of partner, then of donor exon number, then of *NR4A3* acceptor exon number. A design's parent liability is the length of the longest contiguous duplex any of the six wild-type parent transcripts — *EWSR1*, *FUS*, *NR4A3*, *TAF15*, *TCF12* and *TFG* — forms through its whole catalytic gap, searched in the mature (spliced) parent transcript in the forward orientation only, and it disqualifies at ten base pairs; the “longest parent duplex through the gap” column is that same length for the design the row names. Designs are ranked by parent liability first, since sparing the wild-type parents is
 what the modality exists for, then by pre-mRNA sites, then by distinct gene loci, with ties broken
 on gap-level margin rather than on raw hit counts. Nothing was re-screened: every field is joined
 from a screen already reported above. The denominator of the “designs clearing the parent screen”
@@ -93,38 +93,38 @@ audited” rather than blank, since a blank in a rules column reads as breaking 
 
 | junction | exon-resolved breakpoint | designs clearing the parent screen | best available design | gap-level margin | longest parent duplex through the gap (bp) | gap-paired near-matches at the deeper ceiling (transcripts → loci) | genome-wide gap-paired load, observed/expected | conventional rules failed |
 |---|---|---|---|---|---|---|---|---|
-| EWSR1 e10::NR4A3 e3 | exon not reported | 3 of 5 | 5′-GGCATATCTAGATCAA-3′ | 2 | 7 | 70 → 4 | 0.61 | GC outside 40–60% |
-| EWSR1 e12::NR4A3 e3 | published | 4 of 5 | 5′-GGGCATATCATCAAAC-3′ | 3 | 8 | 123 → 6 | 0.62 | none |
-| EWSR1 e13::NR4A3 e3 | published | 3 of 5 | 5′-GGGCATATCTCCACGG-3′ | 3 | 8 | 24 → 2 | 0.29 | GC outside 40–60%, contains a CpG |
-| EWSR1 e15::NR4A3 e3 | exon not reported | 4 of 5 | 5′-GGGCATATCCGGGGGC-3′ | 3 | 0 | 33 → 1 | 0.06 | GC outside 40–60%, homopolymer run of four, contains a CpG |
 | EWSR1 e1::NR4A3 e3 | exon not reported | 2 of 5 | 5′-GGGCATATCCGTGGAC-3′ | 3 | 0 | 0 → 0 | 0.07 | GC outside 40–60%, contains a CpG |
 | EWSR1 e4::NR4A3 e3 | exon not reported | 4 of 5 | 5′-AGGGCATATCAGTGGG-3′ | 2 | 6 | 9 → 3 | 0.71 | none |
 | EWSR1 e7::NR4A3 e3 | exon not reported | 5 of 5 | 5′-CAGGGCATATTCTGCT-3′ | 1 | 8 | 14 → 5 | 1.08 | none |
 | EWSR1 e9::NR4A3 e3 | exon not reported | 4 of 5 | 5′-GGCATATCACCAGGCT-3′ | 2 | 7 | 15 → 4 | 0.73 | none |
-| FUS e10::NR4A3 e3 | none published | 4 of 5 | 5′-GGGCATATCATCAAAC-3′ | 3 | 8 | 123 → 6 | 0.62 | none |
-| FUS e11::NR4A3 e3 | none published | 3 of 5 | 5′-GGGCATATCTCCTCGC-3′ | 3 | 9 | 30 → 1 | 0.22 | GC outside 40–60%, contains a CpG |
-| FUS e13::NR4A3 e3 | none published | 4 of 5 | 5′-GGGCATATCCATGTGA-3′ | 3 | 7 | 2 → 2 | 0.75 | none |
+| EWSR1 e10::NR4A3 e3 | exon not reported | 3 of 5 | 5′-GGCATATCTAGATCAA-3′ | 2 | 7 | 70 → 4 | 0.61 | GC outside 40–60% |
+| EWSR1 e12::NR4A3 e3 | published | 4 of 5 | 5′-GGGCATATCATCAAAC-3′ | 3 | 8 | 123 → 6 | 0.62 | none |
+| EWSR1 e13::NR4A3 e3 | published | 3 of 5 | 5′-GGGCATATCTCCACGG-3′ | 3 | 8 | 24 → 2 | 0.29 | GC outside 40–60%, contains a CpG |
+| EWSR1 e15::NR4A3 e3 | exon not reported | 4 of 5 | 5′-GGGCATATCCGGGGGC-3′ | 3 | 0 | 33 → 1 | 0.06 | GC outside 40–60%, homopolymer run of four, contains a CpG |
 | FUS e1::NR4A3 e3 | none published | 2 of 5 | 5′-GGGCATATCGTTTGAG-3′ | 3 | 8 | 5 → 2 | 0.12 | contains a CpG |
 | FUS e3::NR4A3 e3 | none published | 5 of 5 | 5′-GGCATATTGTTCTGGC-3′ | 2 | 7 | 18 → 3 | 0.76 | none |
 | FUS e5::NR4A3 e3 | none published | 2 of 3 | 5′-GGGCATATCTCCACCT-3′ | 3 | 8 | 33 → 4 | 0.65 | none |
 | FUS e7::NR4A3 e3 | none published | 4 of 5 | 5′-GGCATATCACCAAATT-3′ | 2 | 7 | 10 → 3 | 0.92 | GC outside 40–60% |
 | FUS e8::NR4A3 e3 | none published | 3 of 5 | 5′-AGGGCATATCGGAGTC-3′ | 2 | 0 | 0 → 0 | 0.06 | contains a CpG |
-| TAF15 e11::NR4A3 e3 | exon not reported | 4 of 5 | 5′-GGGCATATCATCAAAC-3′ | 3 | 8 | 123 → 6 | 0.62 | none |
-| TAF15 e12::NR4A3 e3 | exon not reported | 3 of 5 | 5′-GGGCATATCTCGCCGC-3′ | 3 | 6 | 4 → 2 | 0.04 | GC outside 40–60%, contains a CpG |
-| TAF15 e14::NR4A3 e3 | exon not reported | 0 of 5 | — | — | — | — | — | — |
+| FUS e10::NR4A3 e3 | none published | 4 of 5 | 5′-GGGCATATCATCAAAC-3′ | 3 | 8 | 123 → 6 | 0.62 | none |
+| FUS e11::NR4A3 e3 | none published | 3 of 5 | 5′-GGGCATATCTCCTCGC-3′ | 3 | 9 | 30 → 1 | 0.22 | GC outside 40–60%, contains a CpG |
+| FUS e13::NR4A3 e3 | none published | 4 of 5 | 5′-GGGCATATCCATGTGA-3′ | 3 | 7 | 2 → 2 | 0.75 | none |
 | TAF15 e1::NR4A3 e3 | exon not reported | 2 of 5 | 5′-GGGCATATCCGACATG-3′ | 3 | 0 | 0 → 0 | 0.04 | contains a CpG |
 | TAF15 e4::NR4A3 e3 | exon not reported | 2 of 5 | 5′-GGCATATCTGACTGAC-3′ | 2 | 8 | 12 → 2 | 0.69 | none |
 | TAF15 e6::NR4A3 e3 | published | 1 of 5 | 5′-GGGCATATCTTGTGTG-3′ | 3 | 9 | 8 → 5 | 0.60 | none |
 | TAF15 e8::NR4A3 e3 | exon not reported | 4 of 5 | 5′-GGGCATATCACCAAAA-3′ | 3 | 7 | 36 → 3 | 0.86 | homopolymer run of four |
 | TAF15 e9::NR4A3 e3 | exon not reported | 2 of 5 | 5′-AGGGCATATCAGCATC-3′ | 2 | 6 | 6 → 2 | 1.13 | none |
-| TCF12 e11::NR4A3 e3 | exon not reported | 3 of 5 | 5′-GGCATATCTAGAATGC-3′ | 2 | 8 | 4 → 3 | 0.69 | none |
-| TCF12 e13::NR4A3 e3 | exon not reported | 2 of 5 | 5′-GGCATATCTGTGAGAG-3′ | 2 | 7 | 6 → 5 | 1.08 | none |
-| TCF12 e17::NR4A3 e3 | exon not reported | 3 of 5 | 5′-GGGCATATCTCTATAA-3′ | 3 | 7 | 14 → 5 | 0.83 | GC outside 40–60% |
-| TCF12 e19::NR4A3 e3 | exon not reported | 2 of 5 | 5′-GGGCATATCTCTGACT-3′ | 3 | 8 | 75 → 3 | 0.82 | none |
+| TAF15 e11::NR4A3 e3 | exon not reported | 4 of 5 | 5′-GGGCATATCATCAAAC-3′ | 3 | 8 | 123 → 6 | 0.62 | none |
+| TAF15 e12::NR4A3 e3 | exon not reported | 3 of 5 | 5′-GGGCATATCTCGCCGC-3′ | 3 | 6 | 4 → 2 | 0.04 | GC outside 40–60%, contains a CpG |
+| TAF15 e14::NR4A3 e3 | exon not reported | 0 of 5 | — | — | — | — | — | — |
 | TCF12 e3::NR4A3 e3 | exon not reported | 0 of 5 | — | — | — | — | — | — |
 | TCF12 e5::NR4A3 e3 | published (deposit) | 4 of 5 | 5′-GGGCATATCCATCAGA-3′ | 3 | 7 | 17 → 1 | 0.56 | none |
 | TCF12 e7::NR4A3 e3 | exon not reported | 2 of 5 | 5′-GGGCATATCAAGCGCT-3′ | 3 | 8 | 0 → 0 | 0.26 | contains a CpG |
 | TCF12 e9::NR4A3 e3 | exon not reported | 1 of 5 | 5′-GGGCATATCTTGCATA-3′ | 3 | 8 | 39 → 6 | 0.71 | none |
+| TCF12 e11::NR4A3 e3 | exon not reported | 3 of 5 | 5′-GGCATATCTAGAATGC-3′ | 2 | 8 | 4 → 3 | 0.69 | none |
+| TCF12 e13::NR4A3 e3 | exon not reported | 2 of 5 | 5′-GGCATATCTGTGAGAG-3′ | 2 | 7 | 6 → 5 | 1.08 | none |
+| TCF12 e17::NR4A3 e3 | exon not reported | 3 of 5 | 5′-GGGCATATCTCTATAA-3′ | 3 | 7 | 14 → 5 | 0.83 | GC outside 40–60% |
+| TCF12 e19::NR4A3 e3 | exon not reported | 2 of 5 | 5′-GGGCATATCTCTGACT-3′ | 3 | 8 | 75 → 3 | 0.82 | none |
 | TFG e2::NR4A3 e3 | exon not reported | 0 of 4 | — | — | — | — | — | — |
 | TFG e3::NR4A3 e3 | exon not reported | 4 of 5 | 5′-GGGCATATCAAATAAT-3′ | 3 | 8 | 18 → 6 | 1.35 | GC outside 40–60% |
 | TFG e4::NR4A3 e3 | exon not reported | 1 of 5 | 5′-AGGGCATATCATTTTC-3′ | 2 | 7 | 82 → 12 | 1.77 | GC outside 40–60%, homopolymer run of four |
@@ -132,13 +132,13 @@ audited” rather than blank, since a blank in a rules column reads as breaking 
 | TFG e6::NR4A3 e3 | exon not reported | 3 of 5 | 5′-GGGCATATCTTCAATC-3′ | 3 | 9 | 29 → 3 | 0.73 | none |
 | TFG e7::NR4A3 e3 | published (deposit) | 2 of 5 | 5′-GGCATATCTGAATACT-3′ | 2 | 9 | 24 → 6 | 1.24 | GC outside 40–60% |
 
-**Table 3. Predicted specificity per screened junction.** One row per junction; figures are for the
+**Table 3. Predicted specificity per screened junction.** One row per junction, in Table 2's order. Rows are in ascending order of partner, then of donor exon number, then of *NR4A3* acceptor exon number. Figures are for the
 design with the highest gap-level margin at that junction, which is the ranking the Methods define,
 and NOT for that junction's cleanest design — the two are often different molecules, and the
 cleanest ones are in Table 4. Every figure in a row is that named design's own EXCEPT the last
 column, which is a median and a maximum over every design screened at the junction and is therefore
-a junction aggregate rather than a property of the molecule beside it: at EWSR1 e10::NR4A3 e3 the cell
-reads 4 (32) while the design the row names returns 3, and the two part company at
+a junction aggregate rather than a property of the molecule beside it: at EWSR1 e9::NR4A3 e3 the cell
+reads 1 (22) while the design the row names returns 9, and the two part company at
 24 of the 38 rows. The margin column is therefore the best among the designs that
 RETURNED a screen at this depth: 7 of the panel's 190 default-depth submissions
 failed at the remote service, which is why a junction can show fewer than five designs screened
@@ -165,38 +165,38 @@ None of these numbers is a measurement of off-target activity.
 
 | junction | designs screened | best gap-level margin | that design | near-matches, either strand (transcripts → loci) | of the retained hits, on the sense strand¹ | loci with a gap-paired hit | of those, predicted models only² | at the deeper ceiling: near-matches³ | of those, on the sense strand³ | loci with a gap-paired hit³ | longest parent duplex through the gap (bp) | ≤1-mismatch matches across that junction's designs, median (max) |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| EWSR1 e10::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTAGATCA-3′ | 35 → ≥2 | ≥15 | ≤4 | 0 | 138 | 137 | 5 | 7 (*NR4A3*) | 4 (32) |
-| EWSR1 e12::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCATCAAAC-3′ | 9 → 4 | 6 | 1 | 1 | 189 | 141 | 6 | 8 (*TFG*) | 2 (22) |
-| EWSR1 e13::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTCCACGG-3′ | 31 → ≥3 | ≥12 | ≤2 | 0 | 63 | 47 | 2 | 8 (*TCF12*) | 2 (25) |
-| EWSR1 e15::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCCGGGGGC-3′ | 36 → ≥2 | ≥12 | ≤1 | 0 | 93 | 62 | 1 | 0 | 1 (10) |
 | EWSR1 e1::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCCGTGGAC-3′ | 0 → 0 | 0 | 0 | 0 | 27 | 18 | 0 | 0 | 0 (0) |
 | EWSR1 e4::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCAGTGGGA-3′ | 11 → 4 | 11 | 3 | 2 | 90 | 67 | 8 | 7 (*TFG*) | 4 (10) |
 | EWSR1 e7::NR4A3 e3 | 5 | 3 | 5′-GGGCATATTCTGCTGC-3′ | 32 → ≥9 | ≥6 | ≤2 | 0 | 300 | 65 | 6 | 8 (*FUS*) | 9 (21) |
 | EWSR1 e9::NR4A3 e3 | 2 | 3 | 5′-GGGCATATCACCAGGC-3′ | 29 → ≥2 | ≥6 | ≤2 | 0 | 165 | 81 | 7 | 7 (*TCF12*) | 1 (22) |
-| FUS e10::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCATCAAAC-3′ | 9 → 4 | 6 | 1 | 1 | 189 | 141 | 6 | 8 (*TFG*) | 2 (22) |
-| FUS e11::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTCCTCGC-3′ | 30 → ≥1 | ≥15 | ≤1 | 0 | 60 | 30 | 1 | 9 (*EWSR1*) | 0 (3) |
-| FUS e13::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCCATGTGA-3′ | 6 → 5 | 2 | 2 | 1 | 20 | 8 | 2 | 7 (*EWSR1*) | 1 (9) |
+| EWSR1 e10::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTAGATCA-3′ | 35 → ≥2 | ≥15 | ≤4 | 0 | 138 | 137 | 5 | 7 (*NR4A3*) | 4 (32) |
+| EWSR1 e12::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCATCAAAC-3′ | 9 → 4 | 6 | 1 | 1 | 189 | 141 | 6 | 8 (*TFG*) | 2 (22) |
+| EWSR1 e13::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTCCACGG-3′ | 31 → ≥3 | ≥12 | ≤2 | 0 | 63 | 47 | 2 | 8 (*TCF12*) | 2 (25) |
+| EWSR1 e15::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCCGGGGGC-3′ | 36 → ≥2 | ≥12 | ≤1 | 0 | 93 | 62 | 1 | 0 | 1 (10) |
 | FUS e1::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCGTTTGAG-3′ | ≥50 → ≥7 | ≥13 | ≤1 | 0 | 129 | 116 | 2 | 8 (*TCF12*) | 10 (38) |
 | FUS e3::NR4A3 e3 | 4 | 3 | 5′-GGGCATATTGTTCTGG-3′ | 18 → ≥4 | ≥1 | ≤2 | 0 | 148 | 34 | 4 | 8 (*TCF12*) | 3 (23) |
 | FUS e5::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTCCACCT-3′ | 32 → ≥8 | ≥8 | ≤2 | 1 | 127 | 47 | 4 | 8 (*TCF12*) | 2 (3) |
 | FUS e7::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCACCAAAT-3′ | 34 → ≥5 | ≥8 | 0 | 0 | 141 | 107 | 4 | 7 (*TCF12*) | 12 (39) |
 | FUS e8::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCGGAGTCA-3′ | 4 → 3 | 3 | 1 | 0 | 4 | 3 | 1 | 0 | 0 (1) |
-| TAF15 e11::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCATCAAAC-3′ | 9 → 4 | 6 | 1 | 1 | 189 | 141 | 6 | 8 (*TFG*) | 2 (22) |
-| TAF15 e12::NR4A3 e3 | 4 | 2 | 5′-AGGGCATATCTCGCCG-3′ | 42 → ≥4 | ≥11 | ≤3 | 0 | 42 | 33 | 3 | 11 (*NR4A3*) ⚑ | 3 (4) |
-| TAF15 e14::NR4A3 e3 † | 5 | 3 | 5′-GGGCATATCTCCTCCT-3′ | ≥50 → ≥2 | ≥11 | ≤2 | 0 | 174 | 95 | 6 | 10 (*EWSR1*) ⚑ | 19 (40) |
+| FUS e10::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCATCAAAC-3′ | 9 → 4 | 6 | 1 | 1 | 189 | 141 | 6 | 8 (*TFG*) | 2 (22) |
+| FUS e11::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTCCTCGC-3′ | 30 → ≥1 | ≥15 | ≤1 | 0 | 60 | 30 | 1 | 9 (*EWSR1*) | 0 (3) |
+| FUS e13::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCCATGTGA-3′ | 6 → 5 | 2 | 2 | 1 | 20 | 8 | 2 | 7 (*EWSR1*) | 1 (9) |
 | TAF15 e1::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCCGACATG-3′ | 5 → 2 | 0 | 0 | 0 | 5 | 0 | 0 | 0 | 0 (0) |
 | TAF15 e4::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTGACTGA-3′ | 34 → ≥3 | ≥15 | ≤4 | 1 | 78 | 57 | 7 | 11 (*NR4A3*) ⚑ | 10 (53) |
 | TAF15 e6::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTTGTGTG-3′ | 11 → 7 | 7 | 4 | 2 | 62 | 10 | 5 | 9 (*TFG*) | 2 (2) |
 | TAF15 e8::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCACCAAAA-3′ | 41 → ≥4 | ≥13 | ≤2 | 0 | 133 | 93 | 3 | 7 (*TCF12*) | 10 (17) |
 | TAF15 e9::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCAGCATCT-3′ | 23 → ≥7 | ≥0 | ≤2 | 0 | 68 | 48 | 5 | 6 (*EWSR1*) | 1 (4) |
-| TCF12 e11::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTAGAATG-3′ | 15 → 5 | 2 | 1 | 1 | 46 | 17 | 4 | 7 (*NR4A3*) | 2 (6) |
-| TCF12 e13::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTGTGAGA-3′ | 17 → ≥8 | ≥6 | ≤1 | 1 | 170 | 80 | 4 | 11 (*NR4A3*) ⚑ | 1 (12) |
-| TCF12 e17::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTCTATAA-3′ | 8 → 3 | 0 | 0 | 0 | 118 | 101 | 5 | 7 (*TCF12*) | 1 (6) |
-| TCF12 e19::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTCTGACT-3′ | 12 → 4 | 8 | 1 | 1 | 102 | 79 | 3 | 8 (*TCF12*) | 1 (2) |
+| TAF15 e11::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCATCAAAC-3′ | 9 → 4 | 6 | 1 | 1 | 189 | 141 | 6 | 8 (*TFG*) | 2 (22) |
+| TAF15 e12::NR4A3 e3 | 4 | 2 | 5′-AGGGCATATCTCGCCG-3′ | 42 → ≥4 | ≥11 | ≤3 | 0 | 42 | 33 | 3 | 11 (*NR4A3*) ⚑ | 3 (4) |
+| TAF15 e14::NR4A3 e3 † | 5 | 3 | 5′-GGGCATATCTCCTCCT-3′ | ≥50 → ≥2 | ≥11 | ≤2 | 0 | 174 | 95 | 6 | 10 (*EWSR1*) ⚑ | 19 (40) |
 | TCF12 e3::NR4A3 e3 † | 5 | 3 | 5′-GGGCATATCTGATCCA-3′ | 15 → 4 | 10 | 2 | 2 | 374 | 246 | 6 | 11 (*NR4A3*) ⚑ | 2 (35) |
 | TCF12 e5::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCCATCAGA-3′ | 26 → ≥1 | ≥15 | ≤17 | 0 | 83 | 70 | 1 | 7 (*EWSR1*) | 2 (32) |
 | TCF12 e7::NR4A3 e3 | 4 | 2 | 5′-GGCATATCAAGCGCTG-3′ | 2 → 2 | 0 | 0 | 0 | 2 | 0 | 0 | 11 (*TCF12*) ⚑ | 0 (1) |
 | TCF12 e9::NR4A3 e3 | 4 | 3 | 5′-GGGCATATCTTGCATA-3′ | 14 → 2 | 8 | 1 | 0 | 86 | 64 | 6 | 8 (*NR4A3*) | 8 (23) |
+| TCF12 e11::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTAGAATG-3′ | 15 → 5 | 2 | 1 | 1 | 46 | 17 | 4 | 7 (*NR4A3*) | 2 (6) |
+| TCF12 e13::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTGTGAGA-3′ | 17 → ≥8 | ≥6 | ≤1 | 1 | 170 | 80 | 4 | 11 (*NR4A3*) ⚑ | 1 (12) |
+| TCF12 e17::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTCTATAA-3′ | 8 → 3 | 0 | 0 | 0 | 118 | 101 | 5 | 7 (*TCF12*) | 1 (6) |
+| TCF12 e19::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTCTGACT-3′ | 12 → 4 | 8 | 1 | 1 | 102 | 79 | 3 | 8 (*TCF12*) | 1 (2) |
 | TFG e2::NR4A3 e3 † | 5 | 3 | 5′-GGGCATATCTTCATCT-3′ | ≥50 → ≥1 | ≥15 | ≤2 | 0 | 207 | 117 | 5 | 10 (*TFG*) ⚑ | 35 (87) |
 | TFG e3::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCAAATAAT-3′ | 14 → 6 | 9 | 3 | 0 | 217 | 161 | 6 | 8 (*NR4A3*) | 9 (17) |
 | TFG e4::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCATTTTCA-3′ | ≥50 → ≥3 | ≥15 | ≤5 | 2 | 318 | 238 | 15 | 11 (*TFG*) ⚑ | 41 (100) |

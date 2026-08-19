@@ -43,7 +43,7 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 if HERE not in sys.path:
     sys.path.insert(0, HERE)
-from aso_figure_text import check_type_sizes, text_width, wrap  # noqa: E402
+from aso_figure_text import check_type_sizes, number_word, text_width, wrap  # noqa: E402
 
 MOD = os.path.join(HERE, "..", "..", "modalities")
 SRC = os.path.join(MOD, "nr4a3-fusion-junction-atlas.json")
@@ -138,9 +138,10 @@ def main(argv=None):
             raise SystemExit(f"the clinical tag for {lab} needs {wide:.0f} px and the gutter is "
                              f"{tag_w:.0f} px; widen the canvas or shorten TIER_WORDS")
 
-    title = (f"One 16-mer spans three partners’ breakpoints — and only {n_reported} of the "
-             f"{len(labels)} is a junction any patient is reported to carry")
-    subtitle = (f"The three FET-family donors are identical over the {shared} nucleotides before "
+    title = (f"One 16-mer spans three partners’ breakpoints — and only "
+             f"{number_word(n_reported)} of the {number_word(len(labels))} is a junction any "
+             f"patient is reported to carry")
+    subtitle = (f"The three FET-family donors are identical over the {number_word(shared)} nucleotides before "
                 f"the breakpoint, and the acceptor exon is the same in all three. Every row is "
                 f"TARGET mRNA, sense; the reagent is the reverse complement of the shaded window.")
     title_lines = wrap(title, FS_TITLE, W - 64)
@@ -159,8 +160,9 @@ def main(argv=None):
          f"different molecule with no antisense activity."),
         (f"The same paralogy that lets one reagent cover three fusions is why these designs are "
          f"hard to discriminate from the parent transcripts: this reagent’s gap-level margin is "
-         f"{entry['gap_specificity_margin']} junction-unique bases inside the "
-         f"{d['oligo_geometry']['gap']}-nucleotide catalytic gap, the window RNase-H1 cleaves. "
+         f"{number_word(entry['gap_specificity_margin'])} junction-unique bases inside the "
+         f"{number_word(d['oligo_geometry']['gap'])}-nucleotide catalytic gap, the window "
+         f"RNase-H1 cleaves. "
          f"Coverage is predicted from sequence and has not been measured."),
         #: ⛔ THE PANEL NAMES A SEQUENCE AND CARRIED NO HANDLING NOTE (figure-integrity and safety
         #: screens, 2026-08-19). Every table caption carries the chemistry-and-canonical-file note;

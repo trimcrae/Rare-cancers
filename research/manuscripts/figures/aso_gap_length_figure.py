@@ -69,7 +69,7 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 if HERE not in sys.path:
     sys.path.insert(0, HERE)
-from aso_figure_text import check_type_sizes, text_width, wrap  # noqa: E402
+from aso_figure_text import check_type_sizes, number_word, text_width, wrap  # noqa: E402
 
 MOD = os.path.join(HERE, "..", "..", "modalities")
 ATLASES = [
@@ -181,7 +181,7 @@ def main(argv=None):
         f"3, 5 and 7 print under “longest parent duplex through the gap”. That search "
         f"FALLS as the gap lengthens ("
         + "; ".join(f"{any_length[k]} at {k}" for k in order)
-        + f") and is FLAT at the {cut_bp}-base-pair criterion ("
+        + f") and is FLAT at the {number_word(cut_bp)}-base-pair criterion ("
         + "; ".join(f"{at_cut[k]} at {k}" for k in order)
         + "). Only the quantity drawn here rises.")
 

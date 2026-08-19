@@ -37,10 +37,23 @@ TABLES = os.path.join(ASO, "fusion-junction-aso-submission-tables.md")
 
 
 def _rows():
+    """Every data row of the canonical CSV, read the way a reader would.
+
+    ⚠ THE HEADER BLOCK MOVES. It has been a 55-line `#` preamble ABOVE the header row and is now a
+    block below it, so the comment filter has to be positional-agnostic — and the header itself has
+    to be checked, because `csv.DictReader` will cheerfully treat the first prose line it meets as
+    a header and hand back rows whose every key is wrong, which surfaces as a `KeyError` during
+    collection rather than as a readable failure.
+    """
     if not os.path.exists(CSV_PATH):
         pytest.fail(f"the canonical sequence file is missing: {CSV_PATH}")
     with open(CSV_PATH, encoding="utf-8") as fh:
-        return list(csv.DictReader(line for line in fh if not line.startswith("#")))
+        reader = csv.DictReader(line for line in fh if not line.lstrip().startswith("#"))
+        fields = reader.fieldnames or []
+        assert "sequence" in fields, (
+            "the canonical CSV's first non-comment line is not its header — read as "
+            f"{fields[:4]}. Every join below would silently compare the wrong columns.")
+        return [r for r in reader if r.get("sequence")]
 
 
 ROWS = _rows()

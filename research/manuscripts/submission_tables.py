@@ -569,6 +569,27 @@ def _highest_duplex_printed(rendered, prefix):
     return max(vals) if vals else 0
 
 
+def _junction_sort_key(label):
+    """Partner alphabetically, then donor exon NUMERICALLY, then acceptor exon numerically.
+
+    ⛔ TABLES 2 AND 3 WERE SORTED AS STRINGS AND NAMED NO KEY (display-item review, 2026-08-19).
+    Both opened `EWSR1 e10, e12, e13, e15, e1, e4, e7, e9` — exon 1 filed between exon 15 and exon 4,
+    which is what `sorted()` does to `e1` beside `e10` and what no reader looking up a patient's exon
+    expects. Neither caption named a sort key at all, so the order looked deliberate. This is the
+    one place the key lives, both tables use it, and both captions now name it.
+    ⚠ IT REFUSES TO INVENT AN ORDER IT CANNOT READ: a label whose exon parts do not parse sorts on
+    the raw string and stays adjacent to its partner rather than being silently moved to an end.
+    """
+    m = re.match(r"^([A-Za-z0-9]+)_e(\d+)__([A-Za-z0-9]+)_e(\d+)$", label)
+    if not m:
+        return (label, 0, "", 0, label)
+    return (m.group(1), int(m.group(2)), m.group(3), int(m.group(4)), "")
+
+
+_JUNCTION_SORT_NOTE = ("Rows are in ascending order of partner, then of donor exon number, then of "
+                       "*NR4A3* acceptor exon number.")
+
+
 def _screen(name):
     """The raw per-junction screen behind a collapse row, or None."""
     p = os.path.join(MOD, name)
@@ -962,7 +983,7 @@ def table3(collapse, chance, atlas, per_junction):
            "≤1-mismatch matches across that junction's designs, median (max) |")
     sep = "|---|---|---|---|---|---|---|---|---|---|---|---|---|"
     rows = []
-    for lab in sorted(by_j):
+    for lab in sorted(by_j, key=_junction_sort_key):
         ol = by_j[lab]
         # ⚠ BOTH ROW MARKERS ARE COMPUTED HERE, ABOVE THE FAILED-SCREEN BRANCH. A junction whose
         # screens all failed still has a Table 2 parent-screen column, so the marker that warns
@@ -1438,7 +1459,11 @@ def table2(per_junction, thermo):
            "gap-paired load, observed/expected | conventional rules failed |")
     sep = "|---|---|---|---|---|---|---|---|---|"
     rows = []
-    for j in per_junction["junctions"]:
+    #: ⚠ THE SAME KEY TABLE 3 SORTS ON — see `_junction_sort_key`. The artifact lists its
+    #: junctions in string order, so taking them as they come is what filed exon 1 between
+    #: exon 15 and exon 4 in both tables at once.
+    for j in sorted(per_junction["junctions"],
+                    key=lambda j: _junction_sort_key(j["junction_label"])):
         lab = j["junction_label"].replace("__", "::").replace("_", " ")
         tier = _tier_cell(j)
         b = j["best_available"]
@@ -2327,7 +2352,7 @@ geometry's ceiling — half the gap rounded down, which Table 7 gives — and no
 **Table 2. The best available design at each in-frame junction that has one — {n_t2_rows} of the {per_junction["n_junctions"]}.** Table 4
 selects across the panel and Table 3 selects within each junction by gap-level margin; this table
 selects within each junction by parent liability, which is the question a patient's
-fusion poses. {t2_liability} Designs are ranked by parent liability first, since sparing the wild-type parents is
+fusion poses. {_JUNCTION_SORT_NOTE} {t2_liability} Designs are ranked by parent liability first, since sparing the wild-type parents is
 what the modality exists for, then by pre-mRNA sites, then by distinct gene loci, with ties broken
 on gap-level margin rather than on raw hit counts. Nothing was re-screened: every field is joined
 from a screen already reported above. The denominator of the “designs clearing the parent screen”
@@ -2371,7 +2396,7 @@ audited” rather than blank, since a blank in a rules column reads as breaking 
 
 {t2}
 
-**Table 3. Predicted specificity per screened junction.** One row per junction; figures are for the
+**Table 3. Predicted specificity per screened junction.** One row per junction, in Table 2's order. {_JUNCTION_SORT_NOTE} Figures are for the
 design with the highest gap-level margin at that junction, which is the ranking the Methods define,
 and NOT for that junction's cleanest design — the two are often different molecules, and the
 cleanest ones are in Table 4. Every figure in a row is that named design's own EXCEPT the last
