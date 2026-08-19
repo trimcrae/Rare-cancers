@@ -60,7 +60,8 @@ survival of 13.2 months, which indicates that an immunotherapy-containing regime
 disease. Ten obstacles are enumerated: one is resolved, one is answered and negative on the panel tested,
 two are computational and outstanding, two require EMC tissue, two require clinical evaluation in
 combination, and two are structural features of studying a disease with an incidence well under one per
-million per year.
+million per year. Because no strong class II binder survives at the corrected junction, the combined CD8
+and CD4 coverage figure is null rather than merely unreported.
 
 **Interpretation.** The central observation is a gap in prior reasoning rather than a new measurement.
 Innate agonists and in-situ vaccination were set aside for this disease on the grounds that a quiet genome
@@ -258,6 +259,14 @@ change the picture. Beyond that, only measured class II presentation settles it.
 supply help from a heterologous source rather than from the junction itself, which is standard practice in
 peptide vaccine design and would make this obstacle a design constraint rather than a blocking one.
 
+**Consequence for the construct, and for the combined figure.** Two things follow directly. The candidate
+construct regenerated at the corrected junction now carries two strong class I epitopes, NMPCVQAQY and
+QQNMPCVQAQY, both on HLA-B\*15:01, and no class II epitope at all; its minimal synthetic long peptide is
+11 residues where the retracted-seam version was 27 residues carrying both arms. And the combined CD8 and
+CD4 coverage figure is not a pending computation but a null: class II coverage is defined over the alleles
+presenting a strong class II binder, there are none, so the combined figure has no value rather than an
+unreported one. That is a result, and the paper reports it as one.
+
 **Status.** No longer withheld. Reported, and negative on the panel tested.
 
 ### B5. Four peptides occur in an *NR4A3* isoform
@@ -423,10 +432,10 @@ stage names the gate that must pass before the next is worth beginning.
 **Stage 0, computational, no cost.** Two items are complete. The proteome-wide novelty search has been run
 and did not close the route: 170 of 174 peptides are novel and all 4 strong binders survive, with one
 predicted binder withdrawn (B5). The class II arm has been regenerated and is reported, negative on the
-panel tested (B4). Three items remain: report the combined CD8 and CD4 coverage figure now that both arms
-sit on the same seam; build the distance-to-self and anchor-versus-contact-position filters that were
-specified and never implemented (B3); extend the class I allele panel beyond 34 and the class II panel
-beyond three, and report the revised ceilings (B1, B4). *Gate:* if anchor analysis shows that novelty falls
+panel tested (B4). Two items remain: build the distance-to-self and
+anchor-versus-contact-position filters that were specified and never implemented (B3); and extend the
+class I allele panel beyond 34 and the class II panel beyond three DR alleles, then report the revised
+ceilings (B1, B4). *Gate:* if anchor analysis shows that novelty falls
 exclusively at anchor positions across all in-frame junctions, the route closes here at no cost.
 
 **Stage 1, requires EMC tissue.** Immune profiling of EMC specimens, comprising infiltrate quantification
@@ -477,9 +486,7 @@ rather than the checkpoint inhibitor; it is cited here to establish that a vehic
 not to attribute activity to the immune arm. The characterisations of EMC as cold and as immune-excluded
 rest on inference rather than on published EMC-specific immune profiling, which is itself recorded as
 obstacle B8. The class II panel comprises three DR alleles and no DP or DQ alleles, so its negative result
-bounds a narrow question rather than the general availability of helper epitopes. The combined CD8 and CD4
-coverage figure is not yet reported, because the run that regenerated the class II arm computed coverage
-before that arm was rebuilt. No claim is made
+bounds a narrow question rather than the general availability of helper epitopes. No claim is made
 that any peptide is presented, that any construct would be immunogenic, that any combination would be safe
 or effective, or that any of this is ready for clinical use. No wet-laboratory work was performed for this
 paper, and its central recommendations require work this programme cannot carry out.
@@ -557,7 +564,8 @@ quoted. They are retained so that earlier drafts and derived documents can be id
 | Regional range | 36% to 79% | 1.4% to 60% |
 | Broad-panel presenting alleles | 20 of 34 | 4 of 34 |
 | Broad-panel coverage ceiling | 84.5% | 30.4% |
-| Combined CD8 and CD4 coverage | 16.5% | not yet recomputed |
+| Combined CD8 and CD4 coverage | 16.5% | null, no strong class II binder |
+| Candidate minimal synthetic long peptide | 27 residues, both arms | 11 residues, class I only |
 | Class II predicted binders at the *EWSR1* exon 7 junction | 9, of which 4 strong | 2, of which 0 strong |
 
 The superseded values arose from a model that concatenated coding sequences and thereby discarded the
