@@ -2590,7 +2590,7 @@ geometries, and 76 of the 190 designs at 5-6-5 have the longer run on the donor 
 (5-10-5). Both panels repeat these keys beside the drawing. Marker area is the number of designs at that
 point and the label is that count; the three lines are drawn from the identity, not fitted, and it
 holds for each design individually rather than on average. Within one geometry the two move
-inversely along a line of slope −1, and the panel is drawn square so that slope is true as plotted;
+inversely along a line of slope −1, and both axes are drawn at the same scale (32 px per nucleotide) so that slope is true as plotted rather than only in the units;
 a geometry's ceiling on margin is half its gap rounded down, and
 clearing it means a longer gap and a higher parent-paired run at every register (§2.9, Table 7).
 

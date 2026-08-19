@@ -242,7 +242,24 @@ def test_every_sequence_the_pdf_prints_is_in_the_canonical_file(pdf_text):
         f"only {len(printed)} delimited sequence(s) could be read out of this build's text layer "
         "(69 distinct were measured on 2026-08-19). Either the delimiters are gone — which is what "
         "this file exists to catch — or the extractor is no longer reading the sequence cells.")
-    missing = sorted(printed - seqs)
+    #: ⛔ ONE DELIBERATE EXCEPTION, AND IT IS THE REVERSE-COMPLEMENT TRAP RATHER THAN A HOLE.
+    #: Figure 2 draws the TARGET mRNA at the multi-partner seam, because the point of the panel is
+    #: where three partners' breakpoints coincide ON THE TRANSCRIPT; the reagent is that strand's
+    #: reverse complement and IS in the canonical file. A reader who copies the drawn letters gets
+    #: a SENSE-strand oligonucleotide, which is why the panel and its caption both say the rows are
+    #: target mRNA (added 2026-08-19). So the sequence is allowed here on two conditions, both
+    #: checked: it is exactly the reverse complement of a canonical design, and the document says
+    #: in terms that the drawn letters are the target. ⚠ IT IS NEVER ALLOWED SILENTLY — an
+    #: unexplained strand and a labelled one must not read alike, which is the whole reason this
+    #: guard exists.
+    def _rc(x):
+        return x.translate(str.maketrans("ACGT", "TGCA"))[::-1]
+    labelled = re.search(r"target\s+mRNA", pdf_text, re.I) is not None
+    allowed = {q for q in printed - seqs if labelled and _rc(q) in seqs}
+    assert not (printed - seqs) or labelled, (
+        "a sequence outside the canonical file is printed and nothing in the document says the "
+        "drawn letters are target mRNA; an unlabelled reverse complement is a wrong-reagent hazard")
+    missing = sorted(printed - seqs - allowed)
     assert not missing, (
         f"{len(missing)} sequence(s) are printed in the deposited PDF and absent from the canonical "
         f"machine-readable file: {missing[:6]}. Re-run "
@@ -321,9 +338,19 @@ def _stranded_pages(pages):
     median = statistics.median([p["chars"] for p in pages]) or 1
     heights = {p["number"]: p["height"] for p in pages}
     stranded = []
+    last = max(p["number"] for p in pages)
     for page in pages:
         number = page["number"]
         if _carries_a_display_item(page) or page["chars"] >= _STRANDED_PAGE_FRACTION * median:
+            continue
+        #: ⛔ THE FINAL PAGE IS SHORT BECAUSE THE DOCUMENT ENDS, NOT BECAUSE A FLOAT PUSHED IT
+        #: (2026-08-19). The journal build's last page carries the tail of the reference list at
+        #: 3,183 characters against a 7,402 median, and there is nothing after it that a float
+        #: could have displaced — this guard's whole inference is "a float forced a break before
+        #: the surrounding prose had filled", and on the last page there is no surrounding prose
+        #: left to fill. ⚠ THE EXEMPTION IS THE LAST PAGE AND NOT "a short page near the end":
+        #: a genuinely stranded penultimate page is still caught, which the proof below asserts.
+        if number == last:
             continue
         #: The page before an orientation change is forced short by page geometry, not by a float
         #: placed badly — a landscape table cannot start halfway down a portrait page.
