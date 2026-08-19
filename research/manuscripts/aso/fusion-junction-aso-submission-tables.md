@@ -24,11 +24,18 @@ because excluding them by description leaves a reader with a transcribed sequenc
 against, and the margin for a slip is small: the closest sequence these tables DO print shares a run
 of 15 contiguous bases with one of the three, whose own length is 16.
 
+**⛔ THAT LIST IS NOT THE WHOLE DO-NOT-ORDER SET, AND THESE TABLES ARE NOT A WHITELIST.** A further fifteen rows of these tables — 14 distinct molecules, since one is printed twice — are marked ⚑ in their own row and are also NOT to be ordered, for the same reason against a wild-type parent that is not always *NR4A3*. An unmarked row is not a clearance either; see the ⚑ note under Table 3.
+
 **Table 1. The in-frame junction space across five *NR4A3* fusion partners.** Every
 donor-exon × *NR4A3*-acceptor-exon pair was graded against the frame condition before any design was
 emitted. The gap-level margin is the number of junction-unique bases inside the six-nucleotide
 catalytic gap on the shorter side of the junction. Frame compatibility is an arithmetic property of exon
-structure and is not a claim about which junctions patients carry.
+structure and is not a claim about which junctions patients carry. A fusion-specific design is one
+whose catalytic gap contains at least one base that no wild-type parent carries at that position, so
+its gap-level margin is one or more. Both middle columns are printed because they are different conditions and only one of them is arithmetic: in-frame is a property of the exon lengths, while a fusion-specific design existing at the seam is a property of the sequence, and it can only ever be the smaller of the two. They agree in every one of the 5 partner rows here, which is a measurement and not a duplicated cell. “GC range of those designs (%)” and “best
+gap-level margin” are over that partner's fusion-specific designs: every one of the 38 in-frame junctions admits five, one per junction-spanning register, so a partner's range is over its in-frame count times five. The margin
+column is a maximum, so a row reading 3 says the partner has a design at the
+geometry's ceiling — half the gap rounded down, which Table 7 gives — and nothing about how many.
 
 | 5′ partner | donor exons | exon pairs graded | in-frame | with ≥1 fusion-specific design | GC range of those designs (%) | best gap-level margin |
 |---|---|---|---|---|---|---|
@@ -39,9 +46,10 @@ structure and is not a claim about which junctions patients carry.
 | *TFG* | 8 | 24 | 6 | 6 | 25.0–50.0 | 3 |
 | **all 5 partners** | — | **231** | **38** | **38** | — | — |
 
-**Table 2. The best available design at each of the 38 in-frame junctions.** Tables 3 and 4
-select across the panel; this table selects within each junction, which is the question a patient's
-fusion poses. Designs are ranked by parent liability first, since sparing the wild-type parents is
+**Table 2. The best available design at each in-frame junction that has one — 35 of the 38.** Table 4
+selects across the panel and Table 3 selects within each junction by gap-level margin; this table
+selects within each junction by parent liability, which is the question a patient's
+fusion poses. A design's parent liability is the length of the longest contiguous duplex any of the six wild-type parent transcripts — *EWSR1*, *FUS*, *NR4A3*, *TAF15*, *TCF12* and *TFG* — forms through its whole catalytic gap, searched in the mature (spliced) parent transcript in the forward orientation only, and it disqualifies at ten base pairs; the “longest parent duplex through the gap” column is that same length for the design the row names. Designs are ranked by parent liability first, since sparing the wild-type parents is
 what the modality exists for, then by pre-mRNA sites, then by distinct gene loci, with ties broken
 on gap-level margin rather than on raw hit counts. Nothing was re-screened: every field is joined
 from a screen already reported above. The denominator of the “designs clearing the parent screen”
@@ -72,7 +80,11 @@ for an arbitrary 16-mer, so 1.00 is chance. It is counted EITHER ORIENTATION aga
 either-orientation null, unlike the sense-filtered near-match columns beside it, so it includes
 sites on the strand an antisense oligonucleotide cannot pair; §2.7 gives the share for the lead. A junction with no design clearing the parent screen is
 reported as such rather than given a best row, and Table 3 marks those junctions too, since Table 3
-ranks by margin instead and does print a sequence at each of them. The last column is a conventional
+ranks by margin instead and does print a sequence at each of them. **Clearing the parent screen
+means one thing and one thing only: no wild-type parent pairs the whole catalytic gap at
+ten base pairs or more.** That ten-base-pair cut is a criterion this work ADOPTS rather than measures, and the reading moves with it: at seven base pairs 175 of the 190 panel designs pair a parent through the whole gap against 87 at ten, 181 do so at some length, and only nine of the 38 seams have a design that clears against 35 at ten (§2.9). A cell below the cut is a reading at one cut and nothing wider. No row of this table reaches the
+criterion — the column's highest reading is 9 base pairs — so no row carries the ⚑ Tables 3 and 4
+use, and an unmarked row here is not a clearance on any wider ground. ⚠ At ten junctions Table 3 names a different design from this table, and at seven of them the two share fifteen of their 16 contiguous bases — one register apart, one condemned and one not. Check the junction AND the whole sequence against `fusion-junction-aso-sequences.csv` before ordering either. The last column is a conventional
 design audit, computed for whichever design this table names from the same artefact and by the same
 code Table 4 uses. The four conventional antisense design rules audited are GC within 40–60%, no G-quadruplex motif, no homopolymer run of four, and no CpG dinucleotide. It is reported beside the ranking and is never folded
 into it: the two orderings select different molecules, which is the disagreement §2.10 is about, and
@@ -123,7 +135,11 @@ audited” rather than blank, since a blank in a rules column reads as breaking 
 **Table 3. Predicted specificity per screened junction.** One row per junction; figures are for the
 design with the highest gap-level margin at that junction, which is the ranking the Methods define,
 and NOT for that junction's cleanest design — the two are often different molecules, and the
-cleanest ones are in Table 4. The margin column is therefore the best among the designs that
+cleanest ones are in Table 4. Every figure in a row is that named design's own EXCEPT the last
+column, which is a median and a maximum over every design screened at the junction and is therefore
+a junction aggregate rather than a property of the molecule beside it: at EWSR1 e10::NR4A3 e3 the cell
+reads 4 (32) while the design the row names returns 3, and the two part company at
+24 of the 38 rows. The margin column is therefore the best among the designs that
 RETURNED a screen at this depth: 7 of the panel's 190 default-depth submissions
 failed at the remote service, which is why a junction can show fewer than five designs screened
 here, and why Table 2 — which selects from the deeper re-screens — can name a design of HIGHER margin at the same junction. Table 2 can also name one of LOWER margin, for a different reason and not a disagreement: it ranks by parent liability, then pre-mRNA sites, then gene loci, and reaches gap-level margin only as a tie-break, so a cleaner design outranks the highest-margin one this table names. Near-match counts are of RefSeq
@@ -145,7 +161,7 @@ None of these numbers is a measurement of off-target activity.
 
 † No design screened at this junction clears the parent screen: every one of them pairs a wild-type parent gene through the whole catalytic gap, at the parent-duplex criterion applied throughout. This table ranks by gap-level margin, so the sequence in such a row is that junction's highest-margin design and nothing more; it is not a design any screen passes, and Table 2 gives the same junction no best-available reagent for that reason — its “designs clearing the parent screen” cell reads 0. Do not order the sequence in a marked row.
 
-⚑ This design pairs a wild-type parent gene through the whole catalytic gap at the ten-base-pair criterion applied throughout, and the gene it pairs is named beside the length. The marker is on the DESIGN, where † is on the JUNCTION: a row can be unmarked by † and still carry ⚑, because this table prints each junction's highest-margin design rather than its cleanest. Do not order the sequence in a row marked ⚑ — pairing a parent through the whole gap is this paper's central negative (§4.5) and surrenders the only advantage the modality has. An unmarked row is not a clearance. The marker is set at ten base pairs, which is a criterion this work adopts rather than measures: at seven, 175 of the 190 panel designs pair a parent through the whole gap, and 181 do so at any length (§2.9). Absence of ⚑ is a reading at one cut and nothing wider.
+⚑ This design pairs a wild-type parent gene through the whole catalytic gap at the ten-base-pair criterion applied throughout, and the gene it pairs is named beside the length. The marker is on the DESIGN, where † is on the JUNCTION: a row can be unmarked by † and still carry ⚑, because this table prints each junction's highest-margin design rather than its cleanest. Do not order the sequence in a row marked ⚑ — pairing a parent through the whole gap is this paper's central negative (§4.5) and surrenders the only advantage the modality has. An unmarked row is not a clearance. That ten-base-pair cut is a criterion this work ADOPTS rather than measures, and the reading moves with it: at seven base pairs 175 of the 190 panel designs pair a parent through the whole gap against 87 at ten, 181 do so at some length, and only nine of the 38 seams have a design that clears against 35 at ten (§2.9). A cell below the cut is a reading at one cut and nothing wider. ⚠ At ten junctions Table 2 names a different design from this table, and at seven of them the two share fifteen of their 16 contiguous bases — one register apart, one condemned and one not. Check the junction AND the whole sequence against `fusion-junction-aso-sequences.csv` before ordering either.
 
 | junction | designs screened | best gap-level margin | that design | near-matches, either strand (transcripts → loci) | of the retained hits, on the sense strand¹ | loci with a gap-paired hit | of those, predicted models only² | at the deeper ceiling: near-matches³ | of those, on the sense strand³ | loci with a gap-paired hit³ | longest parent duplex through the gap (bp) | ≤1-mismatch matches across that junction's designs, median (max) |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
@@ -188,7 +204,7 @@ None of these numbers is a measurement of off-target activity.
 | TFG e6::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTTCAATC-3′ | 37 → ≥3 | ≥2 | 0 | 0 | 238 | 193 | 3 | 9 (*TFG*) | 11 (21) |
 | TFG e7::NR4A3 e3 | 5 | 3 | 5′-GGGCATATCTGAATAC-3′ | 27 → ≥3 | ≥3 | ≤3 | 1 | 43 | 12 | 4 | 11 (*NR4A3*) ⚑ | 4 (26) |
 
-**Table 4. The 9 designs with no sense-strand near-match at the default search depth.** Six of
+**Table 4. The 9 designs with no sense-strand near-match at the default search depth — six of them at that depth only, and five of them not to be ordered.** Six of
 these lose the property when the same junctions are re-screened at a tenfold deeper alignment
 ceiling, three of them having returned no near-match at all here; §2.4 reports that
 measurement and names the three that survive it. This table is the default-depth result, retained
@@ -208,13 +224,18 @@ oligonucleotide's discrimination rather than an upper one. None of these numbers
 activity, and none speaks to cleavage. **This table condemns nothing and clears nothing.** Its final
 column is a verdict from ONE screen, the near-match screen, and five of these rows carry the ⚑ of
 the mature-parent screen: a wild-type parent pairs their whole catalytic gap at the ten-base-pair
-criterion, which is this paper's central negative, and Table 3 marks them do-not-order for it. A
+criterion, which is this paper's central negative. **Those five verdicts are carried in this table.** Table 3 prints one row per junction, that junction's highest-margin design, so one of them — 5′-GGCATATCAAGCGCTG-3′ — is also printed in Table 3 and carries ⚑ there, and the rest are marked nowhere else — at EWSR1 e1::NR4A3 e3 it prints 5′-GGGCATATCCGTGGAC-3′, reading 0, unmarked; at TCF12 e9::NR4A3 e3 it prints 5′-GGGCATATCTTGCATA-3′, reading 8 (*NR4A3*), unmarked. Do not read an unmarked Table 3 row as a clearance of a design marked here. A
 design can survive every near-match screen here and still be one not to order.
 Every sequence in this table is an antisense 16-mer, tiled in the 5-6-5 locked-nucleic-acid (LNA)/DNA/LNA architecture on a phosphorothioate backbone that §6 specifies; the bases alone, ordered as unmodified DNA, are a different molecule. Research use only: not for administration to any person or animal (Declarations). The canonical machine-readable copy of every sequence is `fusion-junction-aso-sequences.csv`, which is what to order from rather than this PDF.
 
-⁴ Under the optimistic five-fold and the pessimistic
+⁴ A DISCRIMINATION-WEIGHTED COUNT OF NEAR-MATCH SITES, and the unit is
+sites: each of the design's near-matches enters at one, reduced by the modelled loss of RNase-H1
+cleavage at however many mismatches fall in its catalytic gap, and the weights are summed — so a 0
+means no near-match survives either weighting, and the column is not a rate, a concentration or a
+quantity of cleaved RNA. Computed under the optimistic five-fold and the pessimistic
 no-discrimination bound on RNase-H1 single-mismatch discrimination. A single value means the two
-bounds agree.
+bounds agree; where two are printed, the width is TRUNCATION of the saved hit list and not
+statistical uncertainty. No RNase-H1 cleavage is measured anywhere in this work.
 
 ⁵ The four conventional antisense design rules audited are GC within 40–60%, no G-quadruplex motif, no homopolymer run of four, and no CpG dinucleotide.
 
@@ -229,7 +250,7 @@ default-depth zeros must not be read on their own.
 parent gene forms through this design's whole catalytic gap, with the gene that forms it. ⚑ marks
 ten base pairs or more, the criterion applied throughout: **do not order a design marked ⚑** —
 pairing a parent through the whole gap is this paper's central negative and surrenders the only
-advantage the modality has. An unmarked row is not a clearance, only a reading at that one cut.
+advantage the modality has. An unmarked row is not a clearance, only a reading at that one cut. That ten-base-pair cut is a criterion this work ADOPTS rather than measures, and the reading moves with it: at seven base pairs 175 of the 190 panel designs pair a parent through the whole gap against 87 at ten, 181 do so at some length, and only nine of the 38 seams have a design that clears against 35 at ten (§2.9). A cell below the cut is a reading at one cut and nothing wider.
 
 | design | junction | GC (%) | gap-level margin | ΔΔG°37 (kcal/mol) | near-matches, either strand | of those, on the sense strand | exact / ≤1-mismatch matches | residual cleavage load, both bounds⁴ | conventional rules failed⁵ | at the deeper ceiling: near-matches | of those, on the sense strand | loci with a gap-paired hit | longest wild-type parent duplex through the gap (bp)⁷ | survives the near-match screen⁶ |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
@@ -281,21 +302,29 @@ specified as a class rather than a sequence, a gapmer against an abundant housek
 and the scrambled control is a draw from a stated shuffling procedure rather than one oligonucleotide.
 None of the three therefore has a sequence, a geometry or a screen result for these columns. Gap-paired near-matches are at the tenfold deeper alignment ceiling
 where every hit list is complete, and the parent duplex is the longest contiguous run containing the
-whole catalytic gap, at the ten-base-pair criterion applied throughout. None of these numbers is a
-measurement of off-target activity, and no row is a claim of efficacy. The sequences in this table are antisense gapmers at more than one geometry, and each row's own geometry is the one stated beside it: the architecture gives the locked-nucleic-acid (LNA) wing, DNA gap and LNA wing in nucleotides, so 5-6-5 is a 16-mer, 5-8-5 an 18-mer and 5-10-5 a 20-mer, each on a phosphorothioate backbone that §6 specifies; the bases alone, ordered as unmodified DNA, are a different molecule. Research use only: not for administration to any person or animal (Declarations). The canonical machine-readable copy of every sequence is `fusion-junction-aso-sequences.csv`, which is what to order from rather than this PDF.
+whole catalytic gap that any wild-type parent forms, whatever its length. None of these numbers is a
+measurement of off-target activity, and no row is a claim of efficacy. **The duplex column is not
+filtered at the criterion.** A reading of ten base pairs or more is what
+Tables 3 and 4 mark ⚑ and do not order, and no row here reaches it — the highest cell is
+9 bp — so this table carries no ⚑; that is a statement about these 12 rows and
+not a clearance. That ten-base-pair cut is a criterion this work ADOPTS rather than measures, and the reading moves with it: at seven base pairs 175 of the 190 panel designs pair a parent through the whole gap against 87 at ten, 181 do so at some length, and only nine of the 38 seams have a design that clears against 35 at ten (§2.9). A cell below the cut is a reading at one cut and nothing wider. The sequences in this table are antisense gapmers at more than one geometry, and each row's own geometry is the one stated beside it: the architecture gives the locked-nucleic-acid (LNA) wing, DNA gap and LNA wing in nucleotides, so 5-6-5 is a 16-mer, 5-8-5 an 18-mer and 5-10-5 a 20-mer, each on a phosphorothioate backbone that §6 specifies; the bases alone, ordered as unmodified DNA, are a different molecule. Research use only: not for administration to any person or animal (Declarations). The canonical machine-readable copy of every sequence is `fusion-junction-aso-sequences.csv`, which is what to order from rather than this PDF.
 
 | reagent | junction | sequence | geometry | gap-level margin | gap-paired near-matches → loci at the deeper ceiling | longest mature-parent duplex through the gap | cumulative coverage | basis |
 |---|---|---|---|---|---|---|---|---|
+| **MEASURED RUNGS — the cumulative-coverage cell is the coverage of the reagent set through this row, discounted by one series' breakpoint distribution** | | | | | | | | |
 | lead reagent | EWSR1 e12::NR4A3 e3 | 5′-GGGCATATCATCAAAC-3′ | 5-6-5 | 3 | 123 → 6 | 8 bp (*TFG*) | 68.4% (39.9–82.8) | single series, cumulative |
 | lead reagent | TAF15 e6::NR4A3 e3 | 5′-GGGCATATCTTGTGTG-3′ | 5-6-5 | 3 | 8 → 5 | 9 bp (*TFG*) | 68.4% (39.9–82.8) | single series, cumulative |
 | coverage rung | EWSR1 e13::NR4A3 e3 | 5′-GGGCATATCTCCACGG-3′ | 5-6-5 | 3 | 24 → 2 | 8 bp (*TCF12*) | 79.0% (50.3–89.2) (+10.6) | single series, cumulative |
 | coverage rung | EWSR1 e7::NR4A3 e2 | 5′-CAGTGGGCTTCTGCTG-3′ | 5-6-5 | 2 | 51 → 7 | 8 bp (*TAF15*) | 79.0% (50.3–89.2) (+0.0) | single series, cumulative |
+| **ARITHMETIC BOUNDS — the cell is what coverage WOULD be if every remaining breakpoint of that partner were covered, which nothing here measures** | | | | | | | | |
 | coverage bound | BOUND — every remaining EWSR1 breakpoint covered | — (3 further reagents, none named) | — | — | — | — | 94.8% (+15.9) | arithmetic bound |
 | coverage bound | TCF12 e5::NR4A3 e3 | 5′-GGGCATATCCATCAGA-3′ | 5-6-5 | 3 | 17 → 1 | 7 bp (*EWSR1*) | 98.3% (+3.4) | arithmetic bound |
+| **QUALIFYING SEAMS THE LADDER PRICES AT NOTHING — the cell reads “adds nothing” and the basis beside it gives which of the two reasons applies** | | | | | | | | |
 | published seam in the panel | TFG e7::NR4A3 e3 | 5′-GGCATATCTGAATACT-3′ | 5-6-5 | 2 | 24 → 6 | 9 bp (*TAF15*) | adds nothing | partner absent from the cohort behind the denominator |
 | beside the panel | EWSR1 e13::NR4A3 e2 | 5′-AGTGGGCTCTCCACGG-3′ | 5-6-5 | 3 | 25 → 6 | 8 bp (*EWSR1*) | adds nothing | partner in the cohort, this exon pair uncounted in it |
 | beside the panel | TAF15 e6::NR4A3 e2 | 5′-AGTGGGCTCTTGTGTG-3′ | 5-6-5 | 3 | 128 → 6 | 9 bp (*NR4A3*) | adds nothing | partner in the cohort, this exon pair uncounted in it |
 | beside the panel | PGR e2::NR4A3 e2 | 5′-AGTGGGCTCTTCCATT-3′ | 5-6-5 | 3 | 51 → 14 | 9 bp (*NR4A3*) | adds nothing | partner absent from the cohort behind the denominator |
+| **CONTRAST ARMS — not coverage rows; the cell is empty because their junction's coverage is counted a row above and must not be counted twice** | | | | | | | | |
 | gap-length control | EWSR1 e12::NR4A3 e3 | 5′-AGGGCATATCATCAAACC-3′ | 5-8-5 | 4 | 3 → 1 | 0 bp | — | not a coverage row |
 | margin contrast arm | EWSR1 e12::NR4A3 e3 | 5′-GCATATCATCAAACCA-3′ | 5-6-5 | 1 | 34 → 6 | 8 bp (*FUS*) | — | not a coverage row |
 
@@ -310,7 +339,9 @@ never combined: a systemically dosed phosphorothioate gapmer is taken to distrib
 liver and kidney — a premise taken from the chemistry, for which no measurement or citation was
 retrieved here — so liver, kidney - cortex and kidney - medulla are read as the exposure compartment, while the soft-tissue column is the normal
 tissue of the compartment EMC arises in and stands in for a tumour no reference atlas contains.
-Values are median transcripts per million (TPM) from version 8 of the Genotype-Tissue Expression project (GTEx) across each tissue's donors. The two cuts behind the last column are
+That column is a MAXIMUM over six named proxies — Muscle - Skeletal, Adipose - Subcutaneous, Nerve - Tibial, Cells - Cultured fibroblasts, Artery - Tibial and Skin - Sun Exposed (Lower leg) — one of
+which is a cultured cell line rather than a tissue, and the tissue printed beside each value is the
+one the maximum was taken at. Values are median transcripts per million (TPM) from version 8 of the Genotype-Tissue Expression project (GTEx) across each tissue's donors, in every expression column including the soft-tissue maximum. The two cuts behind the last column are
 stated for legibility and are not thresholds of concern: below 1 TPM in all three exposure
 tissues reads as below detection, at or above 10 TPM in any of them as the level at which an
 off-target hypothesis would have to be tested. Every raw median is released so another cut can be
@@ -348,11 +379,11 @@ measurement of cleavage, and no expression figure is a predicted cleavage event.
 | TAF15 e6::NR4A3 e3 | *ZFPM2* ◆ | 12 | 3 of 5 | 0.64 | 0.55 | 0.40 | 9.6 (Artery - Tibial) | below the lower cut in all three |
 | TAF15 e6::NR4A3 e3 | *GNAL* | 10 | 2 of 5 | 0.66 | 1.74 | 1.81 | 8.6 (Artery - Tibial) | detectable, below the upper cut |
 | TAF15 e6::NR4A3 e3 | *NRP1* ◆ | 5 | 5 of 5 | 6.62 | 16.87 | 17.81 | 104.7 (Cells - Cultured fibroblasts) | at or above the upper cut |
-| TAF15 e6::NR4A3 e3 | *SLC17A3* | 4 | 2 of 5 | 9.14 | 33.61 | 8.09 | 0.0 (Adipose - Subcutaneous) | at or above the upper cut |
+| TAF15 e6::NR4A3 e3 | *SLC17A3* | 4 | 2 of 5 | 9.14 | 33.61 | 8.09 | <0.1 (Adipose - Subcutaneous) | at or above the upper cut |
 | TAF15 e6::NR4A3 e3 | *CA5B* ◆ | 3 | 3 of 5 | 0.66 | 1.57 | 1.96 | 11.7 (Artery - Tibial) | detectable, below the upper cut |
 | TAF15 e6::NR4A3 e3 | *CA5BP1-CA5B* ◆ | 3 | 3 of 5 | — | — | — | — | no reading taken |
 | TAF15 e6::NR4A3 e3 | *EEFSEC* | 3 | 1 of 5 | 16.15 | 14.37 | 15.57 | 39.1 (Nerve - Tibial) | at or above the upper cut |
-| TAF15 e6::NR4A3 e3 | *ANKRD26P3* | 1 | 1 of 5 | 0.00 | 0.00 | 0.00 | 0.0 (Muscle - Skeletal) | below the lower cut in all three |
+| TAF15 e6::NR4A3 e3 | *ANKRD26P3* | 1 | 1 of 5 | 0.00 | 0.00 | 0.00 | <0.1 (Muscle - Skeletal) | below the lower cut in all three |
 | TAF15 e6::NR4A3 e3 | *GBP4* | 1 | 1 of 5 | 3.12 | 5.59 | 10.08 | 18.2 (Adipose - Subcutaneous) | at or above the upper cut |
 | TAF15 e6::NR4A3 e3 | *LOC105376349* | 1 | 1 of 5 | — | — | — | — | no gene model — not measurable |
 | TAF15 e6::NR4A3 e3 | *LOC124907518* ◆ | 1 | 1 of 5 | — | — | — | — | no gene model — not measurable |
@@ -404,7 +435,7 @@ base pairs” is the mature-parent screen, a search over every window of all six
 and it is the row §2.5's 87 of 190 and §2.9's 87 / 88 / 87 are read from. “At the design's own seam”
 is arithmetic on the junction itself: because the wing is five throughout, a parent's hybrid at that
 seam is five base pairs plus its share of the gap, so pairing five nucleotides of contiguous gap DNA
-and reaching a ten-base-pair seam hybrid are the same condition and are reported as one row. ΔG°37 values are for
+and reaching a ten-base-pair seam hybrid are the same condition and are reported as one row. The three near-match rows count what the alignment screen returned on the sense strand, which is what Tables 2 and 5 print under the same name; none of them is a count of cleavage events. ΔG°37 values are for
 an unmodified DNA:RNA hybrid; the wing is five at every geometry, so LNA affinity enters each parent
 duplex identically and cannot explain a difference between the columns. None of these numbers is a
 measurement of cleavage. The sequences in this table are antisense gapmers at more than one geometry, and each row's own geometry is the one stated beside it: the architecture gives the locked-nucleic-acid (LNA) wing, DNA gap and LNA wing in nucleotides, so 5-6-5 is a 16-mer, 5-8-5 an 18-mer and 5-10-5 a 20-mer, each on a phosphorothioate backbone that §6 specifies; the bases alone, ordered as unmodified DNA, are a different molecule. Research use only: not for administration to any person or animal (Declarations). The canonical machine-readable copy of every sequence is `fusion-junction-aso-sequences.csv`, which is what to order from rather than this PDF.
@@ -414,7 +445,7 @@ measurement of cleavage. The sequences in this table are antisense gapmers at mo
 | **At the *EWSR1* e12 / *TAF15* e11 / *FUS* e10 junction** | | | |
 | design | 5′-GGGCATATCATCAAAC-3′ | 5′-AGGGCATATCATCAAACC-3′ | 5′-CAGGGCATATCATCAAACCA-3′ |
 | gap-level margin | 3 | 4 | 5 |
-| sense-strand gap-paired cleavage risks | 123 | 3 | 0 |
+| sense-strand gap-paired near-matches | 123 | 3 | 0 |
 | gene loci carrying one | 6 | 1 | 0 |
 | near-matches (≤2 mismatches, deeper ceiling) | 189 | 50 | 20 |
 | ≤1-mismatch matches over 186,185 transcripts | 1 | 0 | 0 |
@@ -424,9 +455,9 @@ measurement of cleavage. The sequences in this table are antisense gapmers at mo
 | **Over the six junctions screened at every geometry** | | | |
 | designs screened | 30 | 42 | 54 |
 | median near-matches | 86.5 | 15 | 0 |
-| median gap-paired cleavage risks | 21 | 0 | 0 |
+| median sense-strand gap-paired near-matches | 21 | 0 | 0 |
 | designs carrying none | 8 of 30 | 28 of 42 | 54 of 54 |
-| most risk loci on any one design | 7 | 2 | 0 |
+| most gap-paired loci on any one design | 7 | 2 | 0 |
 | designs with no near-match at all | 0 of 30 | 7 of 42 | 39 of 54 |
 | **Over each geometry's whole design space** | | | |
 | junction-spanning registers per junction | 5 | 7 | 9 |

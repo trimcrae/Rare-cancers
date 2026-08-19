@@ -43,12 +43,20 @@ FIGURES = {
     # ⚠ THREE ATLASES, NOT ONE, AND THAT IS THE WHOLE POINT OF THE FIGURE. It draws the identity
     # across 5-6-5, 5-8-5 and 5-10-5, so a change to ANY geometry's atlas makes it stale. Listing
     # only the 16-mer here would leave the two panels that carry the argument unwatched.
+    # ⛔ AND THE TRADE-OFF ARTIFACT SINCE 2026-08-19, because the panel now prints the MATURE-PARENT
+    # search beside the own-seam arithmetic it draws — the two quantities a review found the figure
+    # collapsing. Those counts come from `aso-gap-length-tradeoff.json`, so a change to it makes the
+    # figure's own withdrawal clause stale, which is precisely what provenance exists to catch.
     "aso-gap-length-tradeoff": [
         "nr4a3-fusion-junction-atlas.json",
         "nr4a3-fusion-junction-atlas-18mer-5-8-5.json",
         "nr4a3-fusion-junction-atlas-20mer-5-10-5.json",
+        "aso-gap-length-tradeoff.json",
     ],
-    "aso-multipartner-seam": ["nr4a3-fusion-junction-atlas.json"],
+    # ⛔ THE SEAM PANEL NOW READS THE CLINICAL TIER OF EACH JUNCTION IT DRAWS (2026-08-19), so that
+    # the two seams no reported patient carries are marked ON the rows rather than only in a caption.
+    # The tier is owned by `aso_per_junction_table`; the figure joins it and must go stale with it.
+    "aso-multipartner-seam": ["nr4a3-fusion-junction-atlas.json", "aso-per-junction-table.json"],
     "aso-chance-baseline": ["offtarget-chance-baseline.json"],
 }
 

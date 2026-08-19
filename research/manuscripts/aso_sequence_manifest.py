@@ -23,12 +23,20 @@ same sequence in a table row cannot diverge without the generator being wrong fi
 property `submission_tables.py` already holds and the reason this file reads artifacts rather than
 parsing the manuscript. ⛔ Never re-type a sequence into this file.
 
-⛔ THE CONDEMNED DESIGNS ARE INCLUDED, FLAGGED, NOT OMITTED. Three designs pair their whole catalytic
-gap against the patient's own un-rearranged NR4A3 allele and the paper says not to carry them
-forward. Leaving them out would repeat the defect a cold reader already found in the tables banner:
-a reader who has transcribed one cannot check it against a list that does not carry it. Two of them
-are one- and two-position register shifts of a reagent the paper recommends, sharing 15 of 16 bases.
-They travel here with `do_not_order` set, which is the only form in which naming them is safe.
+⛔ THE CONDEMNED DESIGNS ARE INCLUDED, FLAGGED, NOT OMITTED. Two different screens condemn a design
+and both verdicts ship: 3 designs pair the patient's own un-rearranged NR4A3 allele at a
+non-canonical acceptor, and 249 pair a wild-type parent gene through the whole catalytic gap at the
+ten-base-pair criterion — 252 of 780 records in all, recomputed 2026-08-19 and derived into the
+header rather than typed into it. Leaving any of them out would repeat the defect a cold reader
+already found in the tables banner: a reader who has transcribed one cannot check it against a list
+that does not carry it. Two of the three are one- and two-position register shifts of a reagent the
+paper recommends, sharing 15 of 16 bases. They travel here with `do_not_order` set, in COLUMN 2, on
+the defline as well, which is the only form in which naming them is safe.
+
+⚠ AND THE FILE DISTINGUISHES THREE STATES, NOT TWO. Condemned, measured-and-under-the-criterion, and
+never measured at all — the last carried by an explicit token rather than by an empty cell, because
+the two intron-2 cryptic-exon seams have no mature-parent duplex measurement in any artifact and
+three blank cells in a row read exactly like a design that came back clean.
 
     python3 research/manuscripts/aso_sequence_manifest.py
     python3 research/manuscripts/aso_sequence_manifest.py --check    # exit 1 if stale
@@ -432,8 +440,50 @@ def _rows():
             sorted(j for j in others if j and j != row["junction"]))
 
     _stamp_the_unmeasured_state(rows)
+    _mark_the_near_identical_twins(rows)
     rows.sort(key=lambda r: (r["junction"], -(r["length_nt"]), r["sequence"]))
     return rows
+
+
+def _mark_the_near_identical_twins(rows):
+    """Name, on every row, the nearest design of the OPPOSITE verdict — measured, not asserted.
+
+    ⛔⛔ THE HAZARD THIS FILE WAS BUILT FOR HAS A SECOND HALF, AND ONLY THE FIRST WAS COVERED. The
+    module docstring already records that two condemned designs are one- and two-position register
+    shifts of a reagent the paper recommends, sharing 15 of 16 bases. Measured across the whole
+    file rather than at the lead seam, that is not a curiosity: 21 clean/condemned pairs differ by
+    at most two substitutions at the same length, and 141 more are a single-base slide of one
+    another, so 136 of the clean designs sit one slid register away from a design the paper
+    condemns. A reader who transcribes a sequence by eye, or who slides a register while tiling
+    their own, lands on the opposite verdict without anything in either carrier telling them the
+    neighbour exists. A verdict beside the sequence answers "is THIS one safe"; it does not answer
+    "what is one keystroke away", and for a 16-mer read off a page those are the same question.
+    ⚠ AN EMPTY CELL HERE IS A COMPUTED NEGATIVE, NOT AN ABSENT READING. The comparison runs for
+    every row against every condemned or clean row of the same length, so blank means no neighbour
+    of the opposite verdict was found within one slide or two substitutions — which the header says
+    in terms, because this file has already been burned once by a blank that meant two things.
+    """
+    condemned = sorted(r["sequence"] for r in rows if r["do_not_order"])
+    clean = sorted(r["sequence"] for r in rows if not r["do_not_order"])
+    for row in rows:
+        seq = row["sequence"]
+        others = clean if row["do_not_order"] else condemned
+        best = None
+        for other in others:
+            if len(other) != len(seq) or other == seq:
+                continue
+            distance = sum(1 for a, b in zip(seq, other) if a != b)
+            if distance <= 2:
+                rank, how = distance, f"{distance} substitution{'s' if distance > 1 else ''}"
+            elif seq[1:] == other[:-1] or seq[:-1] == other[1:]:
+                rank, how = 3, "a single-base slide"
+            else:
+                continue
+            if best is None or (rank, other) < best[:2]:
+                best = (rank, other, how)
+        row["near_identical_design_with_a_different_verdict"] = (
+            f"{best[1]} ({best[2]}; {'orderable' if row['do_not_order'] else 'DO NOT ORDER'})"
+            if best else "")
 
 
 #: The columns that would otherwise assert a mature-parent reading the row does not have.
@@ -495,7 +545,8 @@ def _stamp_the_unmeasured_state(rows):
 #: by position — checked across `test_every_ordering_route_carries_the_same_verdict.py`,
 #: `test_aso_sequence_manifest_joins.py` and `test_pdf_text_layer_is_orderable.py` — so the move
 #: costs them nothing.
-_FIELDS = ("sequence", "do_not_order", "length_nt", "geometry", "junction",
+_FIELDS = ("sequence", "do_not_order", "near_identical_design_with_a_different_verdict",
+           "length_nt", "geometry", "junction",
            "also_tiled_at_junctions", "gap_level_margin",
            "mature_parent_duplex_through_gap_bp", "mature_parent_duplex_gene",
            "parent_paired_gap_dna_nt", "parent_seam_hybrid_bp",
@@ -585,8 +636,14 @@ def _wrap(prefix, text, width=98):
     return [prefix + line for line in textwrap.wrap(text, width=width - len(prefix)) or [""]]
 
 
-def _notes(rows):
+def _notes(rows, carrier="csv"):
     """The header block, with every number DERIVED from the artifacts and the rows themselves.
+
+    ⚠ ONE BLOCK, TWO CARRIERS, AND ONLY THE MECHANICS DIFFER. A reader receives the CSV or the
+    FASTA, not both, so every statement of substance is rendered into each. What is carrier-specific
+    is only where the verdict physically sits and how the file is opened — and getting THAT wrong
+    in the other carrier ("column 2" in a file with no columns) would teach a reader that the block
+    was written for somebody else and can be skimmed.
 
     ⛔ NOT ONE FIGURE IN THIS BLOCK IS TYPED. The block previously said the margin rule returns a
     condemned design at eight of the 40 junctions this file keys a row to. Recomputed here: the file
@@ -609,6 +666,14 @@ def _notes(rows):
                               if r["junction"] and r["geometry"] == "5-6-5"})
     condemned = [r for r in rows if r["do_not_order"]]
     allele = [r for r in condemned if "un-rearranged" in r["do_not_order"]]
+    twins = [r for r in rows if r["near_identical_design_with_a_different_verdict"]]
+    n_twins = len(twins)
+    n_twin_pairs = sum(1 for r in twins
+                       if "substitution" in r["near_identical_design_with_a_different_verdict"]
+                       and not r["do_not_order"])
+    n_twin_slides = sum(1 for r in twins
+                        if "slide" in r["near_identical_design_with_a_different_verdict"]
+                        and not r["do_not_order"])
     unmeasured = [r for r in rows
                   if r["pairs_a_wild_type_parent_through_the_gap"] == NOT_SCREENED]
     spanning = [r for r in rows if r["also_tiled_at_junctions"]]
@@ -652,21 +717,40 @@ def _notes(rows):
          "same artifacts the submission tables are built from. Do not edit by hand. Encoding is "
          "UTF-8.")
     gap()
-    para("⛔ ORDER SAFETY. READ do_not_order — column 2 — BEFORE ORDERING ANY SEQUENCE IN THIS "
-         "FILE. A non-empty value means the paper names that design as one NOT to be carried "
-         f"forward. {len(condemned)} of the {len(rows)} records carry it: {len(condemned) - len(allele)} "
-         "pair their whole catalytic gap against a wild-type parent gene at the criterion below and "
-         f"{len(allele)} pair the patient's own un-rearranged NR4A3 allele at a non-canonical acceptor.")
+    where = ("in COLUMN 2, beside the sequence it condemns"
+             if carrier == "csv" else "on the defline, tagged DO NOT ORDER")
+    para(f"⛔ ORDER SAFETY. READ THE do_not_order VERDICT — {where} — BEFORE ORDERING ANY SEQUENCE "
+         "IN THIS FILE. A verdict means the paper names that design as one NOT to be carried "
+         f"forward. {len(condemned)} of the {len(rows)} records carry one: "
+         f"{len(condemned) - len(allele)} pair their whole catalytic gap against a wild-type parent "
+         f"gene at the criterion below, and {len(allele)} pair the patient's own un-rearranged "
+         "NR4A3 allele at a non-canonical acceptor.")
+    gap()
+    para("⛔ AND CHECK THE NEIGHBOUR BEFORE YOU ORDER. "
+         "near_identical_design_with_a_different_verdict names, for each record, the closest design "
+         "in this file that carries the OPPOSITE verdict — within two substitutions at the same "
+         f"length, or one base slid. {n_twins} of the {len(rows)} records have one, and on "
+         f"{n_twin_pairs + n_twin_slides} of them the record itself is orderable while its "
+         f"neighbour is condemned — {n_twin_pairs} within two substitutions and {n_twin_slides} a "
+         "single base slid. A transcription error of one base can therefore carry a reader from a "
+         "design the paper keeps to one it condemns. An EMPTY cell here is a computed negative — "
+         "the comparison ran and found no such neighbour — not a missing reading.")
     gap()
     para("RESEARCH USE ONLY. NOT FOR ADMINISTRATION TO ANY PERSON OR ANIMAL. None of these is a "
          "medicine or a candidate drug. None has been synthesised or tested by anyone. No efficacy "
          "and no safety result is reported for any sequence here.")
     gap()
-    para("HOW TO READ THIS FILE. The column header is line 1, so pandas.read_csv(path) and a "
-         "spreadsheet import both find the columns without options. These # lines are prose; "
-         "pandas.read_csv(path, comment='#') drops them and returns the "
-         f"{len(rows)} data rows alone. Join by column NAME — the column order is not an interface "
-         "and has changed once already, to put the verdict beside the sequence.")
+    if carrier == "csv":
+        para("HOW TO READ THIS FILE. The column header is line 1, so pandas.read_csv(path) and a "
+             "spreadsheet import both find the columns without options. These # lines are prose; "
+             "pandas.read_csv(path, comment='#') drops them and returns the "
+             f"{len(rows)} data rows alone. Join by column NAME — the column order is not an "
+             "interface and has changed once already, to put the verdict beside the sequence.")
+    else:
+        para("HOW TO READ THIS FILE. These ; lines are FASTA comments and every common parser "
+             f"skips them. {len(rows)} records follow, each a defline and one sequence line, and "
+             "the defline carries the same fields the CSV beside this file carries as columns. The "
+             "two are generated together from the same rows and cannot disagree.")
     gap()
     para("THE PAPER. " + paper["title"])
     para("Author: " + paper["author"] + ". Manuscript date " + paper["date"] +
@@ -807,7 +891,7 @@ def _fasta_text(rows):
     #: reaches half the readers. Both now render the SAME derived block — the paper's identity, the
     #: full linkage specification from §6, the three states and every count — and the FASTA adds
     #: only what is specific to a defline.
-    out = [";" + line[1:] for line in _notes(rows)]
+    out = [";" + line[1:] for line in _notes(rows, carrier="fasta")]
     out += [
         "; ⚠ AN UNTAGGED RECORD IS NOT A CLEARANCE. A record tagged DO NOT ORDER carries the",
         "; reason on its defline; a record with no tag was either measured under the criterion at",
@@ -852,6 +936,12 @@ def _fasta_text(rows):
             tags.append(f"parent_duplex={duplex}bp ({gene})")
         if r.get("do_not_order"):
             tags.append(r["do_not_order"])
+        #: ⛔ THE NEIGHBOUR TRAVELS ON THE DEFLINE TOO. A FASTA record is the form most likely to be
+        #: pasted straight into an order form, and a reader who pastes one base wrong has ordered
+        #: the neighbour. Naming it here is the only warning that arrives with the bases.
+        if r.get("near_identical_design_with_a_different_verdict"):
+            tags.append("⚠ near-identical design with the opposite verdict: "
+                        + r["near_identical_design_with_a_different_verdict"])
         tags.append("antisense 5'->3', research use only")
         out.append(f">{r['sequence']} {' | '.join(t for t in tags if t)}")
         out.append(r["sequence"])

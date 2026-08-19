@@ -147,9 +147,13 @@ WHAT THIS IS NOT.
     true when written and is false now. All five screens ran at the manuscript geometry and the
     state is read per junction from
     `research/modalities/noncoding-acceptor/aso-noncoding-acceptor-screened-table.json`
-    (`screens_complete`), never asserted here. What is still true is the distinction the sentence
-    existed to protect: DESIGNED, SCREENED and NOTHING-AT-ALL are three states, and this module
-    still renders them three ways — it now reads all three from artifacts rather than two.
+    never asserted here. ⛔ AND THE PER-JUNCTION READING IS NO LONGER `screens_complete` EITHER
+    (2026-08-19): that flag, and the document-level `n_screens_that_ran` this module used to echo
+    beside it, are properties of the whole table, and echoing them recorded five screens for a seam
+    the manuscript states is graded on fewer. `screened_published_junctions` now builds a per-screen
+    record from each screen's own declared gene scope. What is still true is the distinction the
+    sentence existed to protect: DESIGNED, SCREENED and NOTHING-AT-ALL are three states, and this
+    module still renders them three ways — it now reads all three from artifacts rather than two.
   · Not a claim that the best-supported row is a ceiling. It is a point estimate with an unmeasured
     arm reported beside it as a bound, and its distance to the arithmetic ceiling is decomposed
     below rather than left as a remainder.
@@ -1476,9 +1480,11 @@ def best_supported_buildable_panel(screened):
 
     return {
         "_what": ("★ THE BEST-SUPPORTED BUILDABLE PANEL — the coverage of the junctions that have "
-                  "BOTH a published exon-resolved breakpoint AND a reagent through all five deep "
-                  "screens at the manuscript geometry, priced on the whole retrieved breakpoint "
-                  "record."),
+                  "BOTH a published exon-resolved breakpoint AND a SCREENED reagent at the "
+                  "manuscript geometry, priced on the whole retrieved breakpoint record. ⚠ "
+                  "'screened' rather than 'through all five deep screens': the two are not the same "
+                  "set, the difference is one junction, and both counts are derived under "
+                  "`panel_membership` rather than folded into one word."),
         "_why_it_is_an_ADDITIONAL_row": (
             "⛔ IT REPLACES NOTHING. The ladder's rungs and bounds above are unchanged and rung 0 "
             "still reproduces the published 68.4% on the manuscript's own single-series basis. This "
@@ -1487,9 +1493,36 @@ def best_supported_buildable_panel(screened):
             "of it — and it is reported beside them, never instead of them."),
         "panel_membership": {
             "_rule": ("a junction qualifies on TWO independent conditions: (i) clinical_tier == "
-                      "'published_exon_resolved_breakpoint' in a screened table, and (ii) a reagent "
-                      "through all five deep screens. Both are READ from the tables that own them."),
+                      "'published_exon_resolved_breakpoint' in a screened table, and (ii) a ranked "
+                      "reagent whose deep alignment screen ran FOR THAT JUNCTION. Both are READ "
+                      "from the tables that own them, and (ii) is checked per junction — against "
+                      "the screen artifact's own `junction_label` where the table names its "
+                      "artifacts, and against the presence of the rank key the screen produces "
+                      "where it does not."),
+            "⛔_why_the_rule_is_not_all_five_screens": (
+                "it used to be WRITTEN as 'through all five deep screens' and IMPLEMENTED as a "
+                "table-level `screens_complete` flag, which reads true for PGR_e2__NR4A3_e2 — a "
+                "seam §4.1 and §2.6 both state is graded on fewer than five, because the "
+                "parent-scoped screens' gene set does not carry that donor. The two counts are now "
+                "separate: nine junctions carry a screened design, and the all-five subset is "
+                "`n_junctions_with_every_screen_reading_their_own_parents` below."),
             "n_junctions_qualifying": len(screened),
+            "n_junctions_with_every_screen_reading_their_own_parents": sum(
+                1 for r in screened.values()
+                if r["screen_evidence"]["all_five_read_this_junctions_own_parents"]),
+            "⛔_graded_on_fewer_than_every_screen": {
+                label: {
+                    "n_screens_that_read_this_junctions_own_parents":
+                        r["screen_evidence"]["n_screens_that_read_this_junctions_own_parents"],
+                    "n_screens": r["screen_evidence"]["n_screens"],
+                    "screens_that_did_not": r["screen_evidence"]["screens_that_did_not"],
+                    "this_junctions_own_parents": list(parent_genes_of(label)),
+                    "⛔_unmeasured_not_clean": (
+                        "those screens produced rows for this junction's designs and never scanned "
+                        "this junction's own donor, so their zero is an ABSENT reading."),
+                }
+                for label, r in sorted(screened.items())
+                if not r["screen_evidence"]["all_five_read_this_junctions_own_parents"]},
             "junctions": screened,
             "n_junctions_moving_the_point_estimate": len(moves_point),
             "junctions_moving_the_point_estimate": moves_point,

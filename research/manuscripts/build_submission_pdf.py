@@ -31,7 +31,15 @@ has it until somebody opens the last page.
 ⚠ NO NETWORK, NO PANDOC, NO LATEX. Rendering is Chromium's own print-to-PDF over a file:// page,
 which is present in this container; figures are inlined as SVG markup so they stay VECTOR in the
 output rather than being rasterised. build-preprint.yml remains the pandoc/DOCX route for venues
-that want an editable file; this is the PDF route and it needs nothing installed.
+that want an editable file; this is the PDF route.
+
+⚠ IT DOES NEED `pypdf`, AND THAT IS A DELIBERATE CHANGE (2026-08-19). Chromium's `printToPDF`
+cannot write an Info dictionary and cannot vary a footer by page, and a deposit artefact needs
+both: a screener opening Document Properties on the old build read a headless-Chrome UA string and
+no author, and the full handling sentence was repeated into 66 running footers, where it spliced
+into body sentences in content order. `_postprocess` does both with `pypdf` and VERIFIES the result
+page by page. A missing `pypdf` is a hard failure rather than a silently thinner PDF: producing an
+artefact that looks finished and is not is the failure mode this file's history is made of.
 
     python3 research/manuscripts/build_submission_pdf.py
     python3 research/manuscripts/build_submission_pdf.py --paper aso --style manuscript
@@ -393,6 +401,34 @@ CODE_NOWRAP_MAX = 44
 #: `tests/test_code_spans_never_break_a_sequence.py`.
 CODE_BREAKABLE_MIN = 12
 
+#: A locator a reader has to be able to copy: it is set `nowrap` and never given a `<wbr/>`, and it
+#: is turned into a live link. ⛔ MEASURED IN THE BUILT PDF, NOT ASSUMED (blind screen of the deposit,
+#: 2026-08-19): the repository URL is written in the manuscript as a code span, so `CODE_BREAK_AFTER`
+#: offered it break opportunities after every `.`, `/` and `-` and the text layer of the deposited
+#: manuscript read `github. com/trimcrae/Rare-cancers`. The DOI being a placeholder, that URL is the
+#: only working locator in the whole deposit, and it could not be copied out of it.
+_LOOKS_LIKE_A_URL = re.compile(r"^(?:https?://|www\.|[a-z0-9-]+\.(?:com|org|net|io|gov|edu)/)\S+$")
+
+#: A bare DOI as the reference list prints it, and a PMID as it prints those. Both are linked at
+#: render time. ⛔ THE LINK IS BUILT FROM THE IDENTIFIER ON THE PAGE AND FROM NOTHING ELSE — no
+#: identifier is recalled, completed or invented here (CLAUDE.md §7); a DOI that is wrong in the
+#: reference list stays wrong and now resolves to the same wrong place, which is the honest
+#: behaviour for a renderer.
+DOI_RE = re.compile(r"\bdoi:(10\.\d{4,9}/[^\s<>]*[^\s<>.,;)\]])", re.I)
+PMID_RE = re.compile(r"\bPMID:\s?(\d{4,9})\b")
+URL_RE = re.compile(r"\bhttps?://[^\s<>()\[\]]+[^\s<>()\[\].,;]")
+
+#: ⛔ U+2691 (⚑) AND U+25C6 (◆) MUST BE SET IN AN EMBEDDABLE FACE, AND ONLY IN BOLD DOES IT MATTER.
+#: Measured 2026-08-19, one glyph at a time, in built PDFs: in a `font-weight: 700` run neither
+#: character exists in Liberation Sans/Serif Bold, Chromium's fallback for them cannot be embedded
+#: as a Type0 subset, and Skia emits a TYPE 3 font carrying that single glyph — five pages of each
+#: full PDF. † (U+2020), ¹, ·, — and ≥ all resolve inside the bold face and are clean; ⚑ and ◆ are
+#: the only two that fall through. Type 3 is a standing reject at PMC and several journal PDF
+#: checkers. Wrapping just these two in a span that names DejaVu Sans removes the Type 3 font
+#: entirely (measured: 5 pages -> 0) and also removes the bogus advance width the Type 3 glyph
+#: carried, which was extracting as a double space after every marker.
+MARKER_GLYPH_RE = re.compile(r"[⚑◆]")
+
 #: ⛔⛔ A TOKEN CARRYING A BASE STRING IS NEVER BREAKABLE, WHATEVER SEPARATORS IT HAS. Checked while
 #: relaxing the rule above: `5′-GGGCATATCATCAAAC-3′` contains two hyphens, so the separator rule
 #: would have given it break opportunities after `5′-` and before `3′` — leaving the delimiter on
@@ -422,6 +458,12 @@ def code_span(literal):
     nothing extra lands in the PDF's text layer for a reader to copy out.
     """
     escaped = _html.escape(literal, quote=False)
+    #: A URL is a locator, not a path: it is copied whole or it is useless, and it is also the one
+    #: kind of code span that can be made live. It never receives a break opportunity.
+    if _LOOKS_LIKE_A_URL.match(literal):
+        href = literal if literal.startswith("http") else "https://" + literal
+        return (f'<a class="loc" href="{_html.escape(href, quote=True)}"><code>'
+                + escaped + "</code></a>")
     breakable = (CODE_BREAK_AFTER.search(escaped) is not None
                  and not _LOOKS_LIKE_A_SEQUENCE.search(literal))
     if len(literal) <= CODE_NOWRAP_MAX and not (breakable and len(literal) > CODE_BREAKABLE_MIN):
@@ -448,6 +490,24 @@ def inline(text):
     # ever reaching inside the span.
     text = SEQUENCE_RE.sub(lambda m: keep('<span class="seq">' + m.group(0) + "</span>"), text)
     text = ATOMIC_ID_RE.sub(lambda m: keep('<span class="seq">' + m.group(0) + "</span>"), text)
+    #: ⛔ EVERY LOCATOR IS LINKED AND SET NOWRAP, AND BOTH HALVES OF THAT MATTER (blind screen of the
+    #: deposit, 2026-08-19). Measured on the built PDFs: ZERO link annotations across 116 pages
+    #: carrying 48 DOIs and 52 references, so nothing in the deposit was clickable; and 5 of 48 DOIs
+    #: in the journal build and 3 of 48 in the manuscript build could not be recovered verbatim from
+    #: the text layer, because they broke across a line AT THEIR OWN HYPHENS — `10.1182/blood-2017-
+    #: 07-795757` reads as hyphenation, and a reader who deletes the hyphen gets a DOI that does not
+    #: resolve. Linking fixes the click; `nowrap` fixes the copy; neither fixes the other.
+    text = DOI_RE.sub(lambda m: keep(f'<a class="loc" href="https://doi.org/{m.group(1)}">'
+                                     + f"doi:{m.group(1)}</a>"), text)
+    text = PMID_RE.sub(lambda m: keep(
+        f'<a class="loc" href="https://pubmed.ncbi.nlm.nih.gov/{m.group(1)}/">'
+        + f"PMID: {m.group(1)}</a>"), text)
+    text = URL_RE.sub(lambda m: keep(f'<a class="loc" href="{m.group(0)}">{m.group(0)}</a>'), text)
+    #: The two marker glyphs that would otherwise become a Type 3 font wherever they land in bold.
+    #: Applied to EVERY rendered string rather than only to the table labels, because the labels are
+    #: where they became bold today and a bold table cell or a bold caption clause is where they
+    #: would become bold tomorrow.
+    text = MARKER_GLYPH_RE.sub(lambda m: keep('<span class="mk">' + m.group(0) + "</span>"), text)
     text = re.sub(r"\*\*(?=\S)(.+?)(?<=\S)\*\*", r"<strong>\1</strong>", text, flags=re.S)
     text = re.sub(r"(?<!\*)\*(?=\S)([^*]+?)(?<=\S)\*(?!\*)", r"<em>\1</em>", text)
     return re.sub(r"\x00(\d+)\x00", lambda m: stash[int(m.group(1))], text)
@@ -811,6 +871,16 @@ code.brk { white-space: normal; }
 /* A delimited oligonucleotide is one token: `5′-` must never be left on the line above its bases,
    because the newline a reader then copies is invisible in a synthesis order form. */
 .seq { white-space: nowrap; hyphens: none; }
+/* A DOI, a PMID or a URL is copied whole or it is worthless, and its own hyphens are the break
+   points a renderer reaches for first. `nowrap` is safe here for a measured reason: the longest
+   locator this paper prints is 29 characters and the narrowest container either style produces is
+   the journal's 88 mm column, which holds far more at the 7.9 pt the reference list is set at. */
+a.loc { white-space: nowrap; hyphens: none; word-break: normal; overflow-wrap: normal; }
+a.loc code { white-space: nowrap; }
+/* ⛔ THE TWO GLYPHS THAT BECOME A TYPE 3 FONT IN BOLD. See MARKER_GLYPH_RE for the measurement.
+   `font-weight: inherit` is deliberate — DejaVu Sans Bold carries both, so the marker keeps the
+   weight of the text it sits in and only the FACE changes. */
+.mk { font-family: 'DejaVu Sans', 'Liberation Sans', sans-serif; font-weight: inherit; }
 a { color: #14507d; text-decoration: none; }
 table { border-collapse: collapse; width: 100%; font-family: 'Liberation Sans', Helvetica, Arial,
         sans-serif; line-height: 1.28; }

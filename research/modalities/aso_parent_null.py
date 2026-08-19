@@ -453,7 +453,7 @@ def wilson(k, n, z=1.96):
     return [round(max(0.0, c - h), 5), round(min(1.0, c + h), 5)]
 
 
-def _ladder(runs, runs_nr4a3):
+def _ladder(runs, runs_nr4a3, runs_nr4a3_specific=None):
     """Liability counts at every cut of `CUT_LADDER`, from the runs already measured.
 
     ⭐ THE POINT OF THE LADDER IS THAT ONE CUT IS NOT A RESULT. The manuscript's central negative
@@ -471,13 +471,26 @@ def _ladder(runs, runs_nr4a3):
     for cut in CUT_LADDER:
         k = sum(1 for r in runs if r >= cut)
         kn = sum(1 for r in runs_nr4a3 if r >= cut)
-        out[str(cut)] = {
+        row = {
             "n_liable": k,
             "rate_liable": round(k / n, 5) if n else None,
             "rate_liable_wilson95": wilson(k, n),
-            "n_liable_against_NR4A3": kn,
-            "rate_liable_against_NR4A3": round(kn / n, 5) if n else None,
+            # ⛔ ATTRIBUTED, NOT PER-GENE, AND THE TWO DIVERGE BADLY AS THE CUT LOOSENS. This counts
+            # designs whose LONGEST run over all six parents happens to fall in NR4A3 — an argmax —
+            # which is exactly what the manuscript's "61 of those 87 are against wild-type NR4A3"
+            # means, and at the ten-base-pair cut the two readings differ by one design (61 against
+            # 62), which §2.5 already discloses. At six they differ by eighty-one (77 against 158),
+            # because a design whose longest run is against some other parent can still pair NR4A3
+            # through its whole gap. A field named "against_NR4A3" reads as the second and is the
+            # first, so both are emitted and neither is left to be inferred.
+            "n_liable_attributed_to_NR4A3": kn,
+            "rate_liable_attributed_to_NR4A3": round(kn / n, 5) if n else None,
         }
+        if runs_nr4a3_specific is not None:
+            ks = sum(1 for r in runs_nr4a3_specific if r >= cut)
+            row["n_pairing_NR4A3_specifically"] = ks
+            row["rate_pairing_NR4A3_specifically"] = round(ks / n, 5) if n else None
+        out[str(cut)] = row
     return out
 
 
@@ -536,11 +549,17 @@ def build():
     obs_hits_2 = obs_nr4a3_2 = 0
     obs_runs = []
     obs_runs_nr4a3 = []
+    obs_runs_nr4a3_specific = []
     runs_by_junction = {}
+    # ⚠ The same instrument restricted to ONE parent, so "does NR4A3 pair this design's whole gap"
+    # is answered directly rather than inferred from which gene won an argmax over all six.
+    nr4a3_only = {"NR4A3": parents["NR4A3"]}
+    idx_nr4a3 = _gap_index(nr4a3_only)
     for d in designs:
         run, gene = _best_run(d["target"], parents, idx)
         obs_runs.append(run)
         obs_runs_nr4a3.append(run if gene == "NR4A3" else 0)
+        obs_runs_nr4a3_specific.append(_best_run(d["target"], nr4a3_only, idx_nr4a3)[0])
         runs_by_junction.setdefault(d["junction"], []).append(run)
         if run >= pgp.MIN_DUPLEX_BP:
             obs_hits += 1
@@ -557,6 +576,8 @@ def build():
     _pub_runs = [r for d, r in zip(designs, obs_runs) if d["junction"] in _pub_panel]
     _pub_runs_nr4a3 = [r for d, r in zip(designs, obs_runs_nr4a3)
                        if d["junction"] in _pub_panel]
+    _pub_runs_nr4a3_specific = [r for d, r in zip(designs, obs_runs_nr4a3_specific)
+                                if d["junction"] in _pub_panel]
 
     # pooled base composition of the real target windows, for the composition-matched ensemble
     counts = {b: 0 for b in BASES}
@@ -593,6 +614,7 @@ def build():
         hits_2 = nr4a3_2 = 0
         runs = []
         runs_nr4a3 = []
+        runs_nr4a3_specific = []
         per_design_rows = []
         for di, d in enumerate(designs):
             t, j = d["target"], d["junction_offset"]
@@ -623,6 +645,7 @@ def build():
                 run, gene = _best_run(q, parents, idx)
                 runs.append(run)
                 runs_nr4a3.append(run if gene == "NR4A3" else 0)
+                runs_nr4a3_specific.append(_best_run(q, nr4a3_only, idx_nr4a3)[0])
                 if run >= pgp.MIN_DUPLEX_BP:
                     hits += 1
                     dh += 1
@@ -652,7 +675,7 @@ def build():
             "n_liable_against_NR4A3": nr4a3_2,
             "rate_liable_against_NR4A3": round(nr4a3_2 / len(runs), 5) if runs else None,
         }
-        s["cut_ladder"] = _ladder(runs, runs_nr4a3)
+        s["cut_ladder"] = _ladder(runs, runs_nr4a3, runs_nr4a3_specific)
         ensembles[name] = s
         if name == "scrambled_dinucleotide":
             s["_mononucleotide_fallbacks"] = fallbacks
@@ -740,8 +763,15 @@ def build():
                      f"{SECONDARY_CUT_BP} the exon-terminus chimera null is within a percentage "
                      "point of the observed rate, so the loose count is what any chimera between "
                      "two real transcripts gives and carries no information about this disease's "
-                     "breakpoints. The strict cut is the one on which the observed rate stands "
-                     "clear of every null, which is why it is the one reported."),
+                     "breakpoints. ⛔ THIS FIELD USED TO END 'the strict cut is the one on which "
+                     "the observed rate stands clear of every null, which is why it is the one "
+                     "reported', AND THAT WAS FALSE — see `cut_ladder`, which was written to check "
+                     "it. Across cuts 6-13 the excess over the strongest null changes sign four "
+                     "times, and the strongest null lies INSIDE the observed rate's nominal Wilson "
+                     "interval at every cut except 6 (where the null is above it) and 11 (where it "
+                     "is below). Ten is the cut this work adopts and reports; it is not the cut at "
+                     "which the observed rate separates, and no cut in the reachable range "
+                     "resolves an excess over a chimera of two real exon termini."),
             "cuts_bp": [SECONDARY_CUT_BP, pgp.MIN_DUPLEX_BP],
             "observed_n_liable": {str(SECONDARY_CUT_BP): obs_hits_2,
                                   str(pgp.MIN_DUPLEX_BP): obs_hits},
@@ -775,7 +805,8 @@ def build():
             # points the manuscript previously chose. Read the observed row against
             # `null_ensembles[*].cut_ladder` at the same cut.
             "cut_ladder_bp": list(CUT_LADDER),
-            "observed_cut_ladder": _ladder(obs_runs, obs_runs_nr4a3),
+            "observed_cut_ladder": _ladder(obs_runs, obs_runs_nr4a3,
+                                           obs_runs_nr4a3_specific),
             "n_junctions_with_a_clearing_design_by_cut": {
                 str(cut): sum(1 for runs_j in runs_by_junction.values()
                               if any(r < cut for r in runs_j))
@@ -788,7 +819,7 @@ def build():
             # that rate, at every cut.
             "published_breakpoint_junctions": sorted(_pub_panel),
             "observed_cut_ladder_at_published_breakpoint_junctions":
-                _ladder(_pub_runs, _pub_runs_nr4a3),
+                _ladder(_pub_runs, _pub_runs_nr4a3, _pub_runs_nr4a3_specific),
             "n_published_breakpoint_junctions_with_a_clearing_design_by_cut": {
                 str(cut): sum(1 for j, runs_j in runs_by_junction.items()
                               if j in _pub_panel and any(r < cut for r in runs_j))

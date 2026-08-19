@@ -63,7 +63,7 @@
  },
  "cut_sensitivity": {
   "_what": "The same instrument read at 7 contiguous base pairs, the loose end of the cited range, beside 10, the strict end the manuscript reports throughout.",
-  "_why": "The manuscript disclosed the loose reading as the more inclusive reading of the liability. Measured, it is not a reading of the liability at all: at 7 the exon-terminus chimera null is within a percentage point of the observed rate, so the loose count is what any chimera between two real transcripts gives and carries no information about this disease's breakpoints. The strict cut is the one on which the observed rate stands clear of every null, which is why it is the one reported.",
+  "_why": "The manuscript disclosed the loose reading as the more inclusive reading of the liability. Measured, it is not a reading of the liability at all: at 7 the exon-terminus chimera null is within a percentage point of the observed rate, so the loose count is what any chimera between two real transcripts gives and carries no information about this disease's breakpoints. \u26d4 THIS FIELD USED TO END 'the strict cut is the one on which the observed rate stands clear of every null, which is why it is the one reported', AND THAT WAS FALSE \u2014 see `cut_ladder`, which was written to check it. Across cuts 6-13 the excess over the strongest null changes sign four times, and the strongest null lies INSIDE the observed rate's nominal Wilson interval at every cut except 6 (where the null is above it) and 11 (where it is below). Ten is the cut this work adopts and reports; it is not the cut at which the observed rate separates, and no cut in the reachable range resolves an excess over a chimera of two real exon termini.",
   "cuts_bp": [
    7,
    10
@@ -108,8 +108,10 @@
      0.91244,
      0.97488
     ],
-    "n_liable_against_NR4A3": 77,
-    "rate_liable_against_NR4A3": 0.40526
+    "n_liable_attributed_to_NR4A3": 77,
+    "rate_liable_attributed_to_NR4A3": 0.40526,
+    "n_pairing_NR4A3_specifically": 158,
+    "rate_pairing_NR4A3_specifically": 0.83158
    },
    "7": {
     "n_liable": 175,
@@ -118,8 +120,10 @@
      0.87384,
      0.95158
     ],
-    "n_liable_against_NR4A3": 73,
-    "rate_liable_against_NR4A3": 0.38421
+    "n_liable_attributed_to_NR4A3": 73,
+    "rate_liable_attributed_to_NR4A3": 0.38421,
+    "n_pairing_NR4A3_specifically": 111,
+    "rate_pairing_NR4A3_specifically": 0.58421
    },
    "8": {
     "n_liable": 143,
@@ -128,8 +132,10 @@
      0.68668,
      0.80857
     ],
-    "n_liable_against_NR4A3": 68,
-    "rate_liable_against_NR4A3": 0.35789
+    "n_liable_attributed_to_NR4A3": 68,
+    "rate_liable_attributed_to_NR4A3": 0.35789,
+    "n_pairing_NR4A3_specifically": 84,
+    "rate_pairing_NR4A3_specifically": 0.44211
    },
    "9": {
     "n_liable": 98,
@@ -138,8 +144,10 @@
      0.44512,
      0.58583
     ],
-    "n_liable_against_NR4A3": 61,
-    "rate_liable_against_NR4A3": 0.32105
+    "n_liable_attributed_to_NR4A3": 61,
+    "rate_liable_attributed_to_NR4A3": 0.32105,
+    "n_pairing_NR4A3_specifically": 63,
+    "rate_pairing_NR4A3_specifically": 0.33158
    },
    "10": {
     "n_liable": 87,
@@ -148,8 +156,10 @@
      0.38859,
      0.52887
     ],
-    "n_liable_against_NR4A3": 61,
-    "rate_liable_against_NR4A3": 0.32105
+    "n_liable_attributed_to_NR4A3": 61,
+    "rate_liable_attributed_to_NR4A3": 0.32105,
+    "n_pairing_NR4A3_specifically": 62,
+    "rate_pairing_NR4A3_specifically": 0.32632
    },
    "11": {
     "n_liable": 84,
@@ -158,8 +168,10 @@
      0.37333,
      0.51318
     ],
-    "n_liable_against_NR4A3": 61,
-    "rate_liable_against_NR4A3": 0.32105
+    "n_liable_attributed_to_NR4A3": 61,
+    "rate_liable_attributed_to_NR4A3": 0.32105,
+    "n_pairing_NR4A3_specifically": 62,
+    "rate_pairing_NR4A3_specifically": 0.32632
    },
    "12": {
     "n_liable": 35,
@@ -168,8 +180,10 @@
      0.13554,
      0.2454
     ],
-    "n_liable_against_NR4A3": 24,
-    "rate_liable_against_NR4A3": 0.12632
+    "n_liable_attributed_to_NR4A3": 24,
+    "rate_liable_attributed_to_NR4A3": 0.12632,
+    "n_pairing_NR4A3_specifically": 24,
+    "rate_pairing_NR4A3_specifically": 0.12632
    },
    "13": {
     "n_liable": 6,
@@ -178,8 +192,10 @@
      0.01455,
      0.06717
     ],
-    "n_liable_against_NR4A3": 5,
-    "rate_liable_against_NR4A3": 0.02632
+    "n_liable_attributed_to_NR4A3": 5,
+    "rate_liable_attributed_to_NR4A3": 0.02632,
+    "n_pairing_NR4A3_specifically": 5,
+    "rate_pairing_NR4A3_specifically": 0.02632
    }
   },
   "n_junctions_with_a_clearing_design_by_cut": {
@@ -207,8 +223,10 @@
      0.8668,
      1.0
     ],
-    "n_liable_against_NR4A3": 9,
-    "rate_liable_against_NR4A3": 0.36
+    "n_liable_attributed_to_NR4A3": 9,
+    "rate_liable_attributed_to_NR4A3": 0.36,
+    "n_pairing_NR4A3_specifically": 23,
+    "rate_pairing_NR4A3_specifically": 0.92
    },
    "7": {
     "n_liable": 25,
@@ -217,8 +235,10 @@
      0.8668,
      1.0
     ],
-    "n_liable_against_NR4A3": 9,
-    "rate_liable_against_NR4A3": 0.36
+    "n_liable_attributed_to_NR4A3": 9,
+    "rate_liable_attributed_to_NR4A3": 0.36,
+    "n_pairing_NR4A3_specifically": 16,
+    "rate_pairing_NR4A3_specifically": 0.64
    },
    "8": {
     "n_liable": 21,
@@ -227,8 +247,10 @@
      0.65346,
      0.93597
     ],
-    "n_liable_against_NR4A3": 9,
-    "rate_liable_against_NR4A3": 0.36
+    "n_liable_attributed_to_NR4A3": 9,
+    "rate_liable_attributed_to_NR4A3": 0.36,
+    "n_pairing_NR4A3_specifically": 12,
+    "rate_pairing_NR4A3_specifically": 0.48
    },
    "9": {
     "n_liable": 14,
@@ -237,8 +259,10 @@
      0.37067,
      0.73335
     ],
-    "n_liable_against_NR4A3": 9,
-    "rate_liable_against_NR4A3": 0.36
+    "n_liable_attributed_to_NR4A3": 9,
+    "rate_liable_attributed_to_NR4A3": 0.36,
+    "n_pairing_NR4A3_specifically": 9,
+    "rate_pairing_NR4A3_specifically": 0.36
    },
    "10": {
     "n_liable": 11,
@@ -247,8 +271,10 @@
      0.26665,
      0.62933
     ],
-    "n_liable_against_NR4A3": 9,
-    "rate_liable_against_NR4A3": 0.36
+    "n_liable_attributed_to_NR4A3": 9,
+    "rate_liable_attributed_to_NR4A3": 0.36,
+    "n_pairing_NR4A3_specifically": 9,
+    "rate_pairing_NR4A3_specifically": 0.36
    },
    "11": {
     "n_liable": 11,
@@ -257,8 +283,10 @@
      0.26665,
      0.62933
     ],
-    "n_liable_against_NR4A3": 9,
-    "rate_liable_against_NR4A3": 0.36
+    "n_liable_attributed_to_NR4A3": 9,
+    "rate_liable_attributed_to_NR4A3": 0.36,
+    "n_pairing_NR4A3_specifically": 9,
+    "rate_pairing_NR4A3_specifically": 0.36
    },
    "12": {
     "n_liable": 5,
@@ -267,8 +295,10 @@
      0.0886,
      0.39131
     ],
-    "n_liable_against_NR4A3": 4,
-    "rate_liable_against_NR4A3": 0.16
+    "n_liable_attributed_to_NR4A3": 4,
+    "rate_liable_attributed_to_NR4A3": 0.16,
+    "n_pairing_NR4A3_specifically": 4,
+    "rate_pairing_NR4A3_specifically": 0.16
    },
    "13": {
     "n_liable": 1,
@@ -277,8 +307,10 @@
      0.0071,
      0.19544
     ],
-    "n_liable_against_NR4A3": 1,
-    "rate_liable_against_NR4A3": 0.04
+    "n_liable_attributed_to_NR4A3": 1,
+    "rate_liable_attributed_to_NR4A3": 0.04,
+    "n_pairing_NR4A3_specifically": 1,
+    "rate_pairing_NR4A3_specifically": 0.04
    }
   },
   "n_published_breakpoint_junctions_with_a_clearing_design_by_cut": {
@@ -330,8 +362,10 @@
       0.91151,
       0.91714
      ],
-     "n_liable_against_NR4A3": 11475,
-     "rate_liable_against_NR4A3": 0.30197
+     "n_liable_attributed_to_NR4A3": 11475,
+     "rate_liable_attributed_to_NR4A3": 0.30197,
+     "n_pairing_NR4A3_specifically": 24765,
+     "rate_pairing_NR4A3_specifically": 0.65171
     },
     "7": {
      "n_liable": 28221,
@@ -340,8 +374,10 @@
       0.73824,
       0.74703
      ],
-     "n_liable_against_NR4A3": 9089,
-     "rate_liable_against_NR4A3": 0.23918
+     "n_liable_attributed_to_NR4A3": 9089,
+     "rate_liable_attributed_to_NR4A3": 0.23918,
+     "n_pairing_NR4A3_specifically": 14727,
+     "rate_pairing_NR4A3_specifically": 0.38755
     },
     "8": {
      "n_liable": 16626,
@@ -350,8 +386,10 @@
       0.43254,
       0.44252
      ],
-     "n_liable_against_NR4A3": 5052,
-     "rate_liable_against_NR4A3": 0.13295
+     "n_liable_attributed_to_NR4A3": 5052,
+     "rate_liable_attributed_to_NR4A3": 0.13295,
+     "n_pairing_NR4A3_specifically": 6322,
+     "rate_pairing_NR4A3_specifically": 0.16637
     },
     "9": {
      "n_liable": 6988,
@@ -360,8 +398,10 @@
       0.18003,
       0.18782
      ],
-     "n_liable_against_NR4A3": 2004,
-     "rate_liable_against_NR4A3": 0.05274
+     "n_liable_attributed_to_NR4A3": 2004,
+     "rate_liable_attributed_to_NR4A3": 0.05274,
+     "n_pairing_NR4A3_specifically": 2168,
+     "rate_pairing_NR4A3_specifically": 0.05705
     },
     "10": {
      "n_liable": 2348,
@@ -370,8 +410,10 @@
       0.05941,
       0.06425
      ],
-     "n_liable_against_NR4A3": 691,
-     "rate_liable_against_NR4A3": 0.01818
+     "n_liable_attributed_to_NR4A3": 691,
+     "rate_liable_attributed_to_NR4A3": 0.01818,
+     "n_pairing_NR4A3_specifically": 708,
+     "rate_pairing_NR4A3_specifically": 0.01863
     },
     "11": {
      "n_liable": 690,
@@ -380,8 +422,10 @@
       0.01686,
       0.01955
      ],
-     "n_liable_against_NR4A3": 206,
-     "rate_liable_against_NR4A3": 0.00542
+     "n_liable_attributed_to_NR4A3": 206,
+     "rate_liable_attributed_to_NR4A3": 0.00542,
+     "n_pairing_NR4A3_specifically": 208,
+     "rate_pairing_NR4A3_specifically": 0.00547
     },
     "12": {
      "n_liable": 154,
@@ -390,8 +434,10 @@
       0.00346,
       0.00474
      ],
-     "n_liable_against_NR4A3": 43,
-     "rate_liable_against_NR4A3": 0.00113
+     "n_liable_attributed_to_NR4A3": 43,
+     "rate_liable_attributed_to_NR4A3": 0.00113,
+     "n_pairing_NR4A3_specifically": 44,
+     "rate_pairing_NR4A3_specifically": 0.00116
     },
     "13": {
      "n_liable": 26,
@@ -400,8 +446,10 @@
       0.00047,
       0.001
      ],
-     "n_liable_against_NR4A3": 11,
-     "rate_liable_against_NR4A3": 0.00029
+     "n_liable_attributed_to_NR4A3": 11,
+     "rate_liable_attributed_to_NR4A3": 0.00029,
+     "n_pairing_NR4A3_specifically": 11,
+     "rate_pairing_NR4A3_specifically": 0.00029
     }
    }
   },
@@ -441,8 +489,10 @@
       0.96494,
       0.96854
      ],
-     "n_liable_against_NR4A3": 13005,
-     "rate_liable_against_NR4A3": 0.34224
+     "n_liable_attributed_to_NR4A3": 13005,
+     "rate_liable_attributed_to_NR4A3": 0.34224,
+     "n_pairing_NR4A3_specifically": 28771,
+     "rate_pairing_NR4A3_specifically": 0.75713
     },
     "7": {
      "n_liable": 32451,
@@ -451,8 +501,10 @@
       0.85039,
       0.85749
      ],
-     "n_liable_against_NR4A3": 11161,
-     "rate_liable_against_NR4A3": 0.29371
+     "n_liable_attributed_to_NR4A3": 11161,
+     "rate_liable_attributed_to_NR4A3": 0.29371,
+     "n_pairing_NR4A3_specifically": 18189,
+     "rate_pairing_NR4A3_specifically": 0.47866
     },
     "8": {
      "n_liable": 21763,
@@ -461,8 +513,10 @@
       0.56773,
       0.57768
      ],
-     "n_liable_against_NR4A3": 7524,
-     "rate_liable_against_NR4A3": 0.198
+     "n_liable_attributed_to_NR4A3": 7524,
+     "rate_liable_attributed_to_NR4A3": 0.198,
+     "n_pairing_NR4A3_specifically": 9406,
+     "rate_pairing_NR4A3_specifically": 0.24753
     },
     "9": {
      "n_liable": 10351,
@@ -471,8 +525,10 @@
       0.26794,
       0.27689
      ],
-     "n_liable_against_NR4A3": 3709,
-     "rate_liable_against_NR4A3": 0.09761
+     "n_liable_attributed_to_NR4A3": 3709,
+     "rate_liable_attributed_to_NR4A3": 0.09761,
+     "n_pairing_NR4A3_specifically": 3944,
+     "rate_pairing_NR4A3_specifically": 0.10379
     },
     "10": {
      "n_liable": 3795,
@@ -481,8 +537,10 @@
       0.09689,
       0.10292
      ],
-     "n_liable_against_NR4A3": 1486,
-     "rate_liable_against_NR4A3": 0.03911
+     "n_liable_attributed_to_NR4A3": 1486,
+     "rate_liable_attributed_to_NR4A3": 0.03911,
+     "n_pairing_NR4A3_specifically": 1509,
+     "rate_pairing_NR4A3_specifically": 0.03971
     },
     "11": {
      "n_liable": 1318,
@@ -491,8 +549,10 @@
       0.03289,
       0.03657
      ],
-     "n_liable_against_NR4A3": 617,
-     "rate_liable_against_NR4A3": 0.01624
+     "n_liable_attributed_to_NR4A3": 617,
+     "rate_liable_attributed_to_NR4A3": 0.01624,
+     "n_pairing_NR4A3_specifically": 622,
+     "rate_pairing_NR4A3_specifically": 0.01637
     },
     "12": {
      "n_liable": 288,
@@ -501,8 +561,10 @@
       0.00676,
       0.0085
      ],
-     "n_liable_against_NR4A3": 127,
-     "rate_liable_against_NR4A3": 0.00334
+     "n_liable_attributed_to_NR4A3": 127,
+     "rate_liable_attributed_to_NR4A3": 0.00334,
+     "n_pairing_NR4A3_specifically": 127,
+     "rate_pairing_NR4A3_specifically": 0.00334
     },
     "13": {
      "n_liable": 67,
@@ -511,8 +573,10 @@
       0.00139,
       0.00224
      ],
-     "n_liable_against_NR4A3": 31,
-     "rate_liable_against_NR4A3": 0.00082
+     "n_liable_attributed_to_NR4A3": 31,
+     "rate_liable_attributed_to_NR4A3": 0.00082,
+     "n_pairing_NR4A3_specifically": 31,
+     "rate_pairing_NR4A3_specifically": 0.00082
     }
    },
    "_mononucleotide_fallbacks": 10
@@ -553,8 +617,10 @@
       0.91234,
       0.91794
      ],
-     "n_liable_against_NR4A3": 11652,
-     "rate_liable_against_NR4A3": 0.30663
+     "n_liable_attributed_to_NR4A3": 11652,
+     "rate_liable_attributed_to_NR4A3": 0.30663,
+     "n_pairing_NR4A3_specifically": 25166,
+     "rate_pairing_NR4A3_specifically": 0.66226
     },
     "7": {
      "n_liable": 28520,
@@ -563,8 +629,10 @@
       0.74615,
       0.75485
      ],
-     "n_liable_against_NR4A3": 9312,
-     "rate_liable_against_NR4A3": 0.24505
+     "n_liable_attributed_to_NR4A3": 9312,
+     "rate_liable_attributed_to_NR4A3": 0.24505,
+     "n_pairing_NR4A3_specifically": 15393,
+     "rate_pairing_NR4A3_specifically": 0.40508
     },
     "8": {
      "n_liable": 17283,
@@ -573,8 +641,10 @@
       0.44981,
       0.45983
      ],
-     "n_liable_against_NR4A3": 5418,
-     "rate_liable_against_NR4A3": 0.14258
+     "n_liable_attributed_to_NR4A3": 5418,
+     "rate_liable_attributed_to_NR4A3": 0.14258,
+     "n_pairing_NR4A3_specifically": 6926,
+     "rate_pairing_NR4A3_specifically": 0.18226
     },
     "9": {
      "n_liable": 7585,
@@ -583,8 +653,10 @@
       0.19562,
       0.20365
      ],
-     "n_liable_against_NR4A3": 2213,
-     "rate_liable_against_NR4A3": 0.05824
+     "n_liable_attributed_to_NR4A3": 2213,
+     "rate_liable_attributed_to_NR4A3": 0.05824,
+     "n_pairing_NR4A3_specifically": 2452,
+     "rate_pairing_NR4A3_specifically": 0.06453
     },
     "10": {
      "n_liable": 2638,
@@ -593,8 +665,10 @@
       0.06691,
       0.07202
      ],
-     "n_liable_against_NR4A3": 741,
-     "rate_liable_against_NR4A3": 0.0195
+     "n_liable_attributed_to_NR4A3": 741,
+     "rate_liable_attributed_to_NR4A3": 0.0195,
+     "n_pairing_NR4A3_specifically": 760,
+     "rate_pairing_NR4A3_specifically": 0.02
     },
     "11": {
      "n_liable": 844,
@@ -603,8 +677,10 @@
       0.02078,
       0.02374
      ],
-     "n_liable_against_NR4A3": 245,
-     "rate_liable_against_NR4A3": 0.00645
+     "n_liable_attributed_to_NR4A3": 245,
+     "rate_liable_attributed_to_NR4A3": 0.00645,
+     "n_pairing_NR4A3_specifically": 247,
+     "rate_pairing_NR4A3_specifically": 0.0065
     },
     "12": {
      "n_liable": 184,
@@ -613,8 +689,10 @@
       0.00419,
       0.00559
      ],
-     "n_liable_against_NR4A3": 52,
-     "rate_liable_against_NR4A3": 0.00137
+     "n_liable_attributed_to_NR4A3": 52,
+     "rate_liable_attributed_to_NR4A3": 0.00137,
+     "n_pairing_NR4A3_specifically": 52,
+     "rate_pairing_NR4A3_specifically": 0.00137
     },
     "13": {
      "n_liable": 37,
@@ -623,8 +701,10 @@
       0.00071,
       0.00134
      ],
-     "n_liable_against_NR4A3": 7,
-     "rate_liable_against_NR4A3": 0.00018
+     "n_liable_attributed_to_NR4A3": 7,
+     "rate_liable_attributed_to_NR4A3": 0.00018,
+     "n_pairing_NR4A3_specifically": 7,
+     "rate_pairing_NR4A3_specifically": 0.00018
     }
    }
   },
@@ -664,8 +744,10 @@
       0.91592,
       0.92142
      ],
-     "n_liable_against_NR4A3": 11699,
-     "rate_liable_against_NR4A3": 0.30787
+     "n_liable_attributed_to_NR4A3": 11699,
+     "rate_liable_attributed_to_NR4A3": 0.30787,
+     "n_pairing_NR4A3_specifically": 25343,
+     "rate_pairing_NR4A3_specifically": 0.66692
     },
     "7": {
      "n_liable": 28783,
@@ -674,8 +756,10 @@
       0.75311,
       0.76173
      ],
-     "n_liable_against_NR4A3": 9407,
-     "rate_liable_against_NR4A3": 0.24755
+     "n_liable_attributed_to_NR4A3": 9407,
+     "rate_liable_attributed_to_NR4A3": 0.24755,
+     "n_pairing_NR4A3_specifically": 15579,
+     "rate_pairing_NR4A3_specifically": 0.40997
     },
     "8": {
      "n_liable": 17339,
@@ -684,8 +768,10 @@
       0.45129,
       0.4613
      ],
-     "n_liable_against_NR4A3": 5418,
-     "rate_liable_against_NR4A3": 0.14258
+     "n_liable_attributed_to_NR4A3": 5418,
+     "rate_liable_attributed_to_NR4A3": 0.14258,
+     "n_pairing_NR4A3_specifically": 6865,
+     "rate_pairing_NR4A3_specifically": 0.18066
     },
     "9": {
      "n_liable": 7741,
@@ -694,8 +780,10 @@
       0.19969,
       0.20779
      ],
-     "n_liable_against_NR4A3": 2318,
-     "rate_liable_against_NR4A3": 0.061
+     "n_liable_attributed_to_NR4A3": 2318,
+     "rate_liable_attributed_to_NR4A3": 0.061,
+     "n_pairing_NR4A3_specifically": 2539,
+     "rate_pairing_NR4A3_specifically": 0.06682
     },
     "10": {
      "n_liable": 2730,
@@ -704,8 +792,10 @@
       0.06929,
       0.07448
      ],
-     "n_liable_against_NR4A3": 808,
-     "rate_liable_against_NR4A3": 0.02126
+     "n_liable_attributed_to_NR4A3": 808,
+     "rate_liable_attributed_to_NR4A3": 0.02126,
+     "n_pairing_NR4A3_specifically": 831,
+     "rate_pairing_NR4A3_specifically": 0.02187
     },
     "11": {
      "n_liable": 899,
@@ -714,8 +804,10 @@
       0.02218,
       0.02523
      ],
-     "n_liable_against_NR4A3": 266,
-     "rate_liable_against_NR4A3": 0.007
+     "n_liable_attributed_to_NR4A3": 266,
+     "rate_liable_attributed_to_NR4A3": 0.007,
+     "n_pairing_NR4A3_specifically": 266,
+     "rate_pairing_NR4A3_specifically": 0.007
     },
     "12": {
      "n_liable": 178,
@@ -724,8 +816,10 @@
       0.00405,
       0.00542
      ],
-     "n_liable_against_NR4A3": 49,
-     "rate_liable_against_NR4A3": 0.00129
+     "n_liable_attributed_to_NR4A3": 49,
+     "rate_liable_attributed_to_NR4A3": 0.00129,
+     "n_pairing_NR4A3_specifically": 49,
+     "rate_pairing_NR4A3_specifically": 0.00129
     },
     "13": {
      "n_liable": 33,
@@ -734,8 +828,10 @@
       0.00062,
       0.00122
      ],
-     "n_liable_against_NR4A3": 11,
-     "rate_liable_against_NR4A3": 0.00029
+     "n_liable_attributed_to_NR4A3": 11,
+     "rate_liable_attributed_to_NR4A3": 0.00029,
+     "n_pairing_NR4A3_specifically": 11,
+     "rate_pairing_NR4A3_specifically": 0.00029
     }
    }
   },
@@ -775,8 +871,10 @@
       0.95045,
       0.95472
      ],
-     "n_liable_against_NR4A3": 12881,
-     "rate_liable_against_NR4A3": 0.33897
+     "n_liable_attributed_to_NR4A3": 12881,
+     "rate_liable_attributed_to_NR4A3": 0.33897,
+     "n_pairing_NR4A3_specifically": 31600,
+     "rate_pairing_NR4A3_specifically": 0.83158
     },
     "7": {
      "n_liable": 32468,
@@ -785,8 +883,10 @@
       0.85084,
       0.85793
      ],
-     "n_liable_against_NR4A3": 12294,
-     "rate_liable_against_NR4A3": 0.32353
+     "n_liable_attributed_to_NR4A3": 12294,
+     "rate_liable_attributed_to_NR4A3": 0.32353,
+     "n_pairing_NR4A3_specifically": 20473,
+     "rate_pairing_NR4A3_specifically": 0.53876
     },
     "8": {
      "n_liable": 21047,
@@ -795,8 +895,10 @@
       0.54887,
       0.55886
      ],
-     "n_liable_against_NR4A3": 7880,
-     "rate_liable_against_NR4A3": 0.20737
+     "n_liable_attributed_to_NR4A3": 7880,
+     "rate_liable_attributed_to_NR4A3": 0.20737,
+     "n_pairing_NR4A3_specifically": 9498,
+     "rate_pairing_NR4A3_specifically": 0.24995
     },
     "9": {
      "n_liable": 9657,
@@ -805,8 +907,10 @@
       0.24978,
       0.25853
      ],
-     "n_liable_against_NR4A3": 3472,
-     "rate_liable_against_NR4A3": 0.09137
+     "n_liable_attributed_to_NR4A3": 3472,
+     "rate_liable_attributed_to_NR4A3": 0.09137,
+     "n_pairing_NR4A3_specifically": 3673,
+     "rate_pairing_NR4A3_specifically": 0.09666
     },
     "10": {
      "n_liable": 3460,
@@ -815,8 +919,10 @@
       0.0882,
       0.09399
      ],
-     "n_liable_against_NR4A3": 1343,
-     "rate_liable_against_NR4A3": 0.03534
+     "n_liable_attributed_to_NR4A3": 1343,
+     "rate_liable_attributed_to_NR4A3": 0.03534,
+     "n_pairing_NR4A3_specifically": 1362,
+     "rate_pairing_NR4A3_specifically": 0.03584
     },
     "11": {
      "n_liable": 1107,
@@ -825,8 +931,10 @@
       0.02749,
       0.03087
      ],
-     "n_liable_against_NR4A3": 469,
-     "rate_liable_against_NR4A3": 0.01234
+     "n_liable_attributed_to_NR4A3": 469,
+     "rate_liable_attributed_to_NR4A3": 0.01234,
+     "n_pairing_NR4A3_specifically": 472,
+     "rate_pairing_NR4A3_specifically": 0.01242
     },
     "12": {
      "n_liable": 247,
@@ -835,8 +943,10 @@
       0.00574,
       0.00736
      ],
-     "n_liable_against_NR4A3": 110,
-     "rate_liable_against_NR4A3": 0.00289
+     "n_liable_attributed_to_NR4A3": 110,
+     "rate_liable_attributed_to_NR4A3": 0.00289,
+     "n_pairing_NR4A3_specifically": 110,
+     "rate_pairing_NR4A3_specifically": 0.00289
     },
     "13": {
      "n_liable": 56,
@@ -845,8 +955,10 @@
       0.00114,
       0.00191
      ],
-     "n_liable_against_NR4A3": 23,
-     "rate_liable_against_NR4A3": 0.00061
+     "n_liable_attributed_to_NR4A3": 23,
+     "rate_liable_attributed_to_NR4A3": 0.00061,
+     "n_pairing_NR4A3_specifically": 23,
+     "rate_pairing_NR4A3_specifically": 0.00061
     }
    }
   },
@@ -886,8 +998,10 @@
       0.95029,
       0.95457
      ],
-     "n_liable_against_NR4A3": 11819,
-     "rate_liable_against_NR4A3": 0.31103
+     "n_liable_attributed_to_NR4A3": 11819,
+     "rate_liable_attributed_to_NR4A3": 0.31103,
+     "n_pairing_NR4A3_specifically": 26465,
+     "rate_pairing_NR4A3_specifically": 0.69645
     },
     "7": {
      "n_liable": 30722,
@@ -896,8 +1010,10 @@
       0.80449,
       0.8124
      ],
-     "n_liable_against_NR4A3": 10122,
-     "rate_liable_against_NR4A3": 0.26637
+     "n_liable_attributed_to_NR4A3": 10122,
+     "rate_liable_attributed_to_NR4A3": 0.26637,
+     "n_pairing_NR4A3_specifically": 16582,
+     "rate_pairing_NR4A3_specifically": 0.43637
     },
     "8": {
      "n_liable": 19013,
@@ -906,8 +1022,10 @@
       0.49532,
       0.50537
      ],
-     "n_liable_against_NR4A3": 6092,
-     "rate_liable_against_NR4A3": 0.16032
+     "n_liable_attributed_to_NR4A3": 6092,
+     "rate_liable_attributed_to_NR4A3": 0.16032,
+     "n_pairing_NR4A3_specifically": 7423,
+     "rate_pairing_NR4A3_specifically": 0.19534
     },
     "9": {
      "n_liable": 8568,
@@ -916,8 +1034,10 @@
       0.2213,
       0.2297
      ],
-     "n_liable_against_NR4A3": 2825,
-     "rate_liable_against_NR4A3": 0.07434
+     "n_liable_attributed_to_NR4A3": 2825,
+     "rate_liable_attributed_to_NR4A3": 0.07434,
+     "n_pairing_NR4A3_specifically": 3018,
+     "rate_pairing_NR4A3_specifically": 0.07942
     },
     "10": {
      "n_liable": 3362,
@@ -926,8 +1046,10 @@
       0.08566,
       0.09137
      ],
-     "n_liable_against_NR4A3": 1247,
-     "rate_liable_against_NR4A3": 0.03282
+     "n_liable_attributed_to_NR4A3": 1247,
+     "rate_liable_attributed_to_NR4A3": 0.03282,
+     "n_pairing_NR4A3_specifically": 1260,
+     "rate_pairing_NR4A3_specifically": 0.03316
     },
     "11": {
      "n_liable": 1194,
@@ -936,8 +1058,10 @@
       0.02971,
       0.03322
      ],
-     "n_liable_against_NR4A3": 565,
-     "rate_liable_against_NR4A3": 0.01487
+     "n_liable_attributed_to_NR4A3": 565,
+     "rate_liable_attributed_to_NR4A3": 0.01487,
+     "n_pairing_NR4A3_specifically": 567,
+     "rate_pairing_NR4A3_specifically": 0.01492
     },
     "12": {
      "n_liable": 295,
@@ -946,8 +1070,10 @@
       0.00693,
       0.0087
      ],
-     "n_liable_against_NR4A3": 137,
-     "rate_liable_against_NR4A3": 0.00361
+     "n_liable_attributed_to_NR4A3": 137,
+     "rate_liable_attributed_to_NR4A3": 0.00361,
+     "n_pairing_NR4A3_specifically": 137,
+     "rate_pairing_NR4A3_specifically": 0.00361
     },
     "13": {
      "n_liable": 29,
@@ -956,8 +1082,10 @@
       0.00053,
       0.0011
      ],
-     "n_liable_against_NR4A3": 16,
-     "rate_liable_against_NR4A3": 0.00042
+     "n_liable_attributed_to_NR4A3": 16,
+     "rate_liable_attributed_to_NR4A3": 0.00042,
+     "n_pairing_NR4A3_specifically": 16,
+     "rate_pairing_NR4A3_specifically": 0.00042
     }
    }
   },
@@ -997,8 +1125,10 @@
       0.96197,
       0.96572
      ],
-     "n_liable_against_NR4A3": 12721,
-     "rate_liable_against_NR4A3": 0.33476
+     "n_liable_attributed_to_NR4A3": 12721,
+     "rate_liable_attributed_to_NR4A3": 0.33476,
+     "n_pairing_NR4A3_specifically": 28858,
+     "rate_pairing_NR4A3_specifically": 0.75942
     },
     "7": {
      "n_liable": 32836,
@@ -1007,8 +1137,10 @@
       0.86062,
       0.86751
      ],
-     "n_liable_against_NR4A3": 11314,
-     "rate_liable_against_NR4A3": 0.29774
+     "n_liable_attributed_to_NR4A3": 11314,
+     "rate_liable_attributed_to_NR4A3": 0.29774,
+     "n_pairing_NR4A3_specifically": 19869,
+     "rate_pairing_NR4A3_specifically": 0.52287
     },
     "8": {
      "n_liable": 23906,
@@ -1017,8 +1149,10 @@
       0.62424,
       0.63395
      ],
-     "n_liable_against_NR4A3": 8168,
-     "rate_liable_against_NR4A3": 0.21495
+     "n_liable_attributed_to_NR4A3": 8168,
+     "rate_liable_attributed_to_NR4A3": 0.21495,
+     "n_pairing_NR4A3_specifically": 10972,
+     "rate_pairing_NR4A3_specifically": 0.28874
     },
     "9": {
      "n_liable": 14617,
@@ -1027,8 +1161,10 @@
       0.37978,
       0.38956
      ],
-     "n_liable_against_NR4A3": 5179,
-     "rate_liable_against_NR4A3": 0.13629
+     "n_liable_attributed_to_NR4A3": 5179,
+     "rate_liable_attributed_to_NR4A3": 0.13629,
+     "n_pairing_NR4A3_specifically": 5883,
+     "rate_pairing_NR4A3_specifically": 0.15482
     },
     "10": {
      "n_liable": 9027,
@@ -1037,8 +1173,10 @@
       0.2333,
       0.24186
      ],
-     "n_liable_against_NR4A3": 3546,
-     "rate_liable_against_NR4A3": 0.09332
+     "n_liable_attributed_to_NR4A3": 3546,
+     "rate_liable_attributed_to_NR4A3": 0.09332,
+     "n_pairing_NR4A3_specifically": 3730,
+     "rate_pairing_NR4A3_specifically": 0.09816
     },
     "11": {
      "n_liable": 6648,
@@ -1047,8 +1185,10 @@
       0.17116,
       0.1788
      ],
-     "n_liable_against_NR4A3": 2885,
-     "rate_liable_against_NR4A3": 0.07592
+     "n_liable_attributed_to_NR4A3": 2885,
+     "rate_liable_attributed_to_NR4A3": 0.07592,
+     "n_pairing_NR4A3_specifically": 2952,
+     "rate_pairing_NR4A3_specifically": 0.07768
     },
     "12": {
      "n_liable": 1805,
@@ -1057,8 +1197,10 @@
       0.04541,
       0.04968
      ],
-     "n_liable_against_NR4A3": 754,
-     "rate_liable_against_NR4A3": 0.01984
+     "n_liable_attributed_to_NR4A3": 754,
+     "rate_liable_attributed_to_NR4A3": 0.01984,
+     "n_pairing_NR4A3_specifically": 763,
+     "rate_pairing_NR4A3_specifically": 0.02008
     },
     "13": {
      "n_liable": 469,
@@ -1067,8 +1209,10 @@
       0.01128,
       0.0135
      ],
-     "n_liable_against_NR4A3": 197,
-     "rate_liable_against_NR4A3": 0.00518
+     "n_liable_attributed_to_NR4A3": 197,
+     "rate_liable_attributed_to_NR4A3": 0.00518,
+     "n_pairing_NR4A3_specifically": 197,
+     "rate_pairing_NR4A3_specifically": 0.00518
     }
    }
   },
@@ -1108,8 +1252,10 @@
       0.96537,
       0.96895
      ],
-     "n_liable_against_NR4A3": 12080,
-     "rate_liable_against_NR4A3": 0.31789
+     "n_liable_attributed_to_NR4A3": 12080,
+     "rate_liable_attributed_to_NR4A3": 0.31789,
+     "n_pairing_NR4A3_specifically": 28781,
+     "rate_pairing_NR4A3_specifically": 0.75739
     },
     "7": {
      "n_liable": 33150,
@@ -1118,8 +1264,10 @@
       0.86898,
       0.87569
      ],
-     "n_liable_against_NR4A3": 10854,
-     "rate_liable_against_NR4A3": 0.28563
+     "n_liable_attributed_to_NR4A3": 10854,
+     "rate_liable_attributed_to_NR4A3": 0.28563,
+     "n_pairing_NR4A3_specifically": 19695,
+     "rate_pairing_NR4A3_specifically": 0.51829
     },
     "8": {
      "n_liable": 24199,
@@ -1128,8 +1276,10 @@
       0.63197,
       0.64164
      ],
-     "n_liable_against_NR4A3": 7802,
-     "rate_liable_against_NR4A3": 0.20532
+     "n_liable_attributed_to_NR4A3": 7802,
+     "rate_liable_attributed_to_NR4A3": 0.20532,
+     "n_pairing_NR4A3_specifically": 10599,
+     "rate_pairing_NR4A3_specifically": 0.27892
     },
     "9": {
      "n_liable": 14355,
@@ -1138,8 +1288,10 @@
       0.3729,
       0.38265
      ],
-     "n_liable_against_NR4A3": 4751,
-     "rate_liable_against_NR4A3": 0.12503
+     "n_liable_attributed_to_NR4A3": 4751,
+     "rate_liable_attributed_to_NR4A3": 0.12503,
+     "n_pairing_NR4A3_specifically": 5381,
+     "rate_pairing_NR4A3_specifically": 0.14161
     },
     "10": {
      "n_liable": 8563,
@@ -1148,8 +1300,10 @@
       0.22117,
       0.22957
      ],
-     "n_liable_against_NR4A3": 3225,
-     "rate_liable_against_NR4A3": 0.08487
+     "n_liable_attributed_to_NR4A3": 3225,
+     "rate_liable_attributed_to_NR4A3": 0.08487,
+     "n_pairing_NR4A3_specifically": 3389,
+     "rate_pairing_NR4A3_specifically": 0.08918
     },
     "11": {
      "n_liable": 6185,
@@ -1158,8 +1312,10 @@
       0.15909,
       0.16651
      ],
-     "n_liable_against_NR4A3": 2663,
-     "rate_liable_against_NR4A3": 0.07008
+     "n_liable_attributed_to_NR4A3": 2663,
+     "rate_liable_attributed_to_NR4A3": 0.07008,
+     "n_pairing_NR4A3_specifically": 2727,
+     "rate_pairing_NR4A3_specifically": 0.07176
     },
     "12": {
      "n_liable": 1728,
@@ -1168,8 +1324,10 @@
       0.04342,
       0.04761
      ],
-     "n_liable_against_NR4A3": 763,
-     "rate_liable_against_NR4A3": 0.02008
+     "n_liable_attributed_to_NR4A3": 763,
+     "rate_liable_attributed_to_NR4A3": 0.02008,
+     "n_pairing_NR4A3_specifically": 772,
+     "rate_pairing_NR4A3_specifically": 0.02032
     },
     "13": {
      "n_liable": 461,
@@ -1178,8 +1336,10 @@
       0.01108,
       0.01328
      ],
-     "n_liable_against_NR4A3": 203,
-     "rate_liable_against_NR4A3": 0.00534
+     "n_liable_attributed_to_NR4A3": 203,
+     "rate_liable_attributed_to_NR4A3": 0.00534,
+     "n_pairing_NR4A3_specifically": 203,
+     "rate_pairing_NR4A3_specifically": 0.00534
     }
    }
   },
@@ -1219,8 +1379,10 @@
       0.97618,
       0.97915
      ],
-     "n_liable_against_NR4A3": 18386,
-     "rate_liable_against_NR4A3": 0.48384
+     "n_liable_attributed_to_NR4A3": 18386,
+     "rate_liable_attributed_to_NR4A3": 0.48384,
+     "n_pairing_NR4A3_specifically": 30342,
+     "rate_pairing_NR4A3_specifically": 0.79847
     },
     "7": {
      "n_liable": 34734,
@@ -1229,8 +1391,10 @@
       0.91119,
       0.91683
      ],
-     "n_liable_against_NR4A3": 17705,
-     "rate_liable_against_NR4A3": 0.46592
+     "n_liable_attributed_to_NR4A3": 17705,
+     "rate_liable_attributed_to_NR4A3": 0.46592,
+     "n_pairing_NR4A3_specifically": 24306,
+     "rate_pairing_NR4A3_specifically": 0.63963
     },
     "8": {
      "n_liable": 28962,
@@ -1239,8 +1403,10 @@
       0.75785,
       0.76641
      ],
-     "n_liable_against_NR4A3": 15782,
-     "rate_liable_against_NR4A3": 0.41532
+     "n_liable_attributed_to_NR4A3": 15782,
+     "rate_liable_attributed_to_NR4A3": 0.41532,
+     "n_pairing_NR4A3_specifically": 18671,
+     "rate_pairing_NR4A3_specifically": 0.49134
     },
     "9": {
      "n_liable": 21338,
@@ -1249,8 +1415,10 @@
       0.55653,
       0.56651
      ],
-     "n_liable_against_NR4A3": 13115,
-     "rate_liable_against_NR4A3": 0.34513
+     "n_liable_attributed_to_NR4A3": 13115,
+     "rate_liable_attributed_to_NR4A3": 0.34513,
+     "n_pairing_NR4A3_specifically": 13749,
+     "rate_pairing_NR4A3_specifically": 0.36182
     },
     "10": {
      "n_liable": 15416,
@@ -1259,8 +1427,10 @@
       0.40076,
       0.41063
      ],
-     "n_liable_against_NR4A3": 10930,
-     "rate_liable_against_NR4A3": 0.28763
+     "n_liable_attributed_to_NR4A3": 10930,
+     "rate_liable_attributed_to_NR4A3": 0.28763,
+     "n_pairing_NR4A3_specifically": 11141,
+     "rate_pairing_NR4A3_specifically": 0.29318
     },
     "11": {
      "n_liable": 13178,
@@ -1269,8 +1439,10 @@
       0.34202,
       0.35159
      ],
-     "n_liable_against_NR4A3": 9939,
-     "rate_liable_against_NR4A3": 0.26155
+     "n_liable_attributed_to_NR4A3": 9939,
+     "rate_liable_attributed_to_NR4A3": 0.26155,
+     "n_pairing_NR4A3_specifically": 10066,
+     "rate_pairing_NR4A3_specifically": 0.26489
     },
     "12": {
      "n_liable": 5513,
@@ -1279,8 +1451,10 @@
       0.14157,
       0.14866
      ],
-     "n_liable_against_NR4A3": 4522,
-     "rate_liable_against_NR4A3": 0.119
+     "n_liable_attributed_to_NR4A3": 4522,
+     "rate_liable_attributed_to_NR4A3": 0.119,
+     "n_pairing_NR4A3_specifically": 4531,
+     "rate_pairing_NR4A3_specifically": 0.11924
     },
     "13": {
      "n_liable": 1792,
@@ -1289,8 +1463,10 @@
       0.04507,
       0.04934
      ],
-     "n_liable_against_NR4A3": 1529,
-     "rate_liable_against_NR4A3": 0.04024
+     "n_liable_attributed_to_NR4A3": 1529,
+     "rate_liable_attributed_to_NR4A3": 0.04024,
+     "n_pairing_NR4A3_specifically": 1529,
+     "rate_pairing_NR4A3_specifically": 0.04024
     }
    }
   },
@@ -1330,8 +1506,10 @@
       0.98015,
       0.98286
      ],
-     "n_liable_against_NR4A3": 18508,
-     "rate_liable_against_NR4A3": 0.48705
+     "n_liable_attributed_to_NR4A3": 18508,
+     "rate_liable_attributed_to_NR4A3": 0.48705,
+     "n_pairing_NR4A3_specifically": 30077,
+     "rate_pairing_NR4A3_specifically": 0.7915
     },
     "7": {
      "n_liable": 34628,
@@ -1340,8 +1518,10 @@
       0.90836,
       0.91408
      ],
-     "n_liable_against_NR4A3": 17867,
-     "rate_liable_against_NR4A3": 0.47018
+     "n_liable_attributed_to_NR4A3": 17867,
+     "rate_liable_attributed_to_NR4A3": 0.47018,
+     "n_pairing_NR4A3_specifically": 24477,
+     "rate_pairing_NR4A3_specifically": 0.64413
     },
     "8": {
      "n_liable": 28825,
@@ -1350,8 +1530,10 @@
       0.75422,
       0.76283
      ],
-     "n_liable_against_NR4A3": 15821,
-     "rate_liable_against_NR4A3": 0.41634
+     "n_liable_attributed_to_NR4A3": 15821,
+     "rate_liable_attributed_to_NR4A3": 0.41634,
+     "n_pairing_NR4A3_specifically": 18600,
+     "rate_pairing_NR4A3_specifically": 0.48947
     },
     "9": {
      "n_liable": 21581,
@@ -1360,8 +1542,10 @@
       0.56293,
       0.57289
      ],
-     "n_liable_against_NR4A3": 13154,
-     "rate_liable_against_NR4A3": 0.34616
+     "n_liable_attributed_to_NR4A3": 13154,
+     "rate_liable_attributed_to_NR4A3": 0.34616,
+     "n_pairing_NR4A3_specifically": 13791,
+     "rate_pairing_NR4A3_specifically": 0.36292
     },
     "10": {
      "n_liable": 15395,
@@ -1370,8 +1554,10 @@
       0.40021,
       0.41008
      ],
-     "n_liable_against_NR4A3": 10763,
-     "rate_liable_against_NR4A3": 0.28324
+     "n_liable_attributed_to_NR4A3": 10763,
+     "rate_liable_attributed_to_NR4A3": 0.28324,
+     "n_pairing_NR4A3_specifically": 10966,
+     "rate_pairing_NR4A3_specifically": 0.28858
     },
     "11": {
      "n_liable": 12795,
@@ -1380,8 +1566,10 @@
       0.33198,
       0.34148
      ],
-     "n_liable_against_NR4A3": 9571,
-     "rate_liable_against_NR4A3": 0.25187
+     "n_liable_attributed_to_NR4A3": 9571,
+     "rate_liable_attributed_to_NR4A3": 0.25187,
+     "n_pairing_NR4A3_specifically": 9675,
+     "rate_pairing_NR4A3_specifically": 0.25461
     },
     "12": {
      "n_liable": 5211,
@@ -1390,8 +1578,10 @@
       0.13371,
       0.14063
      ],
-     "n_liable_against_NR4A3": 4338,
-     "rate_liable_against_NR4A3": 0.11416
+     "n_liable_attributed_to_NR4A3": 4338,
+     "rate_liable_attributed_to_NR4A3": 0.11416,
+     "n_pairing_NR4A3_specifically": 4356,
+     "rate_pairing_NR4A3_specifically": 0.11463
     },
     "13": {
      "n_liable": 1702,
@@ -1400,8 +1590,10 @@
       0.04276,
       0.04692
      ],
-     "n_liable_against_NR4A3": 1471,
-     "rate_liable_against_NR4A3": 0.03871
+     "n_liable_attributed_to_NR4A3": 1471,
+     "rate_liable_attributed_to_NR4A3": 0.03871,
+     "n_pairing_NR4A3_specifically": 1471,
+     "rate_pairing_NR4A3_specifically": 0.03871
     }
    }
   }

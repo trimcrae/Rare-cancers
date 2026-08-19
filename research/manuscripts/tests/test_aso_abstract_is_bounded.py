@@ -20,6 +20,7 @@ constant's name. Do not silently raise this number to make an edit fit.
 """
 from __future__ import annotations
 
+import json
 import os
 import re
 
@@ -27,7 +28,9 @@ import pytest
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 MANUSCRIPTS = os.path.abspath(os.path.join(HERE, ".."))
+REPO = os.path.abspath(os.path.join(MANUSCRIPTS, "..", ".."))
 PAPER = os.path.join(MANUSCRIPTS, "aso", "fusion-junction-aso-research-article.md")
+NULL = os.path.join(REPO, "research", "modalities", "aso-parent-null.json")
 
 #: Not a venue limit — bioRxiv has none. A drift bound; see the module docstring.
 #:
@@ -59,6 +62,147 @@ def _abstract():
     return [w for w in re.sub(r"\*", "", body).split() if w.strip()]
 
 
+def _null():
+    """`aso-parent-null.json`, the artifact every rate the abstract prints is measured in."""
+    if not os.path.exists(NULL):
+        pytest.fail(f"the null artifact is missing: {NULL} — every figure below is derived from it")
+    return json.load(open(NULL, encoding="utf-8"))
+
+
+def _figures():
+    """Every number this guard requires the abstract to carry, READ rather than typed.
+
+    ⛔ WHY DERIVED. The needles this replaced were literal strings — "175 of 190",
+    "adopted, not measured", "partly by", "survive every screen". Two of the four are numbers, and
+    a number typed into a test is a second copy of a figure whose only home should be the artifact:
+    when the ladder was measured on 2026-08-19 and the counts at seven and ten moved into the
+    abstract together, nothing would have noticed a stale copy here. Everything numeric now comes
+    out of `aso-parent-null.json` at run time, so re-running the generator re-aims the guard.
+    """
+    art = _null()
+    observed, cuts = art["observed"], art["cut_sensitivity"]
+    ladder = {name: ens["cut_ladder"] for name, ens in art["null_ensembles"].items()}
+    strict, loose = max(cuts["cuts_bp"]), min(cuts["cuts_bp"])
+
+    def strongest(cut):
+        return max(100 * v[str(cut)]["rate_liable"] for v in ladder.values())
+
+    return {
+        "n_designs": observed["n_designs"],
+        "n_liable_strict": observed["n_liable"],
+        "n_liable_loose": cuts["observed_n_liable"][str(loose)],
+        "n_junctions": cuts["n_junctions"],
+        "n_junctions_clearing": cuts["n_junctions_with_a_clearing_design"][str(strict)],
+        "observed_pct_loose": 100 * cuts["observed_rate_liable"][str(loose)],
+        "null_pct_strict": strongest(strict),
+        "null_pct_loose": strongest(loose),
+        "strict": strict,
+        "loose": loose,
+    }
+
+
+#: The clause that names the fully screened set. Used as a SCOPE, not as a needle in its own
+#: right — see `_scoped` and the entry that depends on it.
+_SURVIVES_EVERY_SCREEN = re.compile(
+    r"surviv\w+ every screen|clear\w* every screen|pass\w* every screen", re.I)
+
+
+def _scoped(body, scope):
+    """The sentence that `scope` matches, or "" if it matches nothing.
+
+    ⛔ WHY A SCOPE AT ALL. The no-reported-patient qualifier was first written as a free search over
+    the whole abstract, and it passed while the clause it guards was deleted — because an earlier,
+    unrelated sentence ("chimeras at real exon termini … which no patient is reported to carry")
+    contains the same words about a different set. A property asserted anywhere in a paragraph is
+    not the property that a particular claim carries its qualifier.
+    """
+    match = scope.search(body)
+    if not match:
+        return ""
+    end = re.search(r"(?<=[.])\s", body[match.end():])
+    return body[match.start(): match.end() + (end.end() if end else len(body))]
+
+
+def _needles():
+    """(name, compiled pattern, why it is owed, scope) — properties, not sentences.
+
+    ⚠ TOLERANT OF WORDING, INTOLERANT ON SUBSTANCE. The abstract is rewritten every
+    round; four of these clauses have already been reworded once while meaning the same thing, and
+    a guard that goes red on a synonym trains its reader to edit the guard. Each pattern below
+    admits any phrasing that still says the thing, and none admits its absence.
+    """
+    f = _figures()
+    near = "[^.]{0,140}"
+    return [
+        ("the criterion is adopted rather than measured",
+         re.compile(r"adopted[^.]{0,60}not measured|not measured[^.]{0,60}adopted"
+                    r"|adopted rather than measured|is a choice", re.I),
+         f"{f['strict']} base pairs is a convention this work took from the literature, not a "
+         "value it derived; an abstract that states the count without it reads as a measurement",
+         None),
+        (f"the count at the {f['strict']}-base-pair cut ({f['n_liable_strict']} of "
+         f"{f['n_designs']})",
+         re.compile(rf"\b{f['n_liable_strict']}\b{near}\b{f['n_designs']}\b"
+                    rf"|\b{f['n_designs']}\b{near}\b{f['n_liable_strict']}\b"),
+         "the headline count, with its denominator in the same breath",
+         None),
+        (f"the count at the {f['loose']}-base-pair cut ({f['n_liable_loose']} of "
+         f"{f['n_designs']})",
+         re.compile(rf"\b{f['n_liable_loose']}\b[^.]{{0,40}}\b{f['n_designs']}\b"),
+         "the other end of the cited range, which is why 'nearly half' is the conservative "
+         "reading rather than the finding",
+         None),
+        (f"a chance baseline at the {f['strict']}-base-pair cut "
+         f"({f['null_pct_strict']:.1f}%)",
+         re.compile(rf"\b{f['null_pct_strict']:.1f}\s*%"),
+         "a count with no null cannot be large or small",
+         None),
+        (f"a chance baseline at the {f['loose']}-base-pair cut ({f['null_pct_loose']:.1f}%)",
+         re.compile(rf"\b{f['null_pct_loose']:.1f}\s*%"),
+         "⛔ THE NULL MOVES WITH THE CUT. Printing the loose reading beside a null computed only at "
+         f"the strict cut leaves {f['n_liable_loose']}/{f['n_designs']} with no chance baseline at "
+         "all, which is how a reader concludes the loose reading is the alarming one",
+         None),
+        (f"the observed rate at the {f['loose']}-base-pair cut "
+         f"({f['observed_pct_loose']:.1f}%)",
+         re.compile(rf"\b{f['observed_pct_loose']:.1f}\s*%"),
+         "the null at that cut is only readable beside the observed rate at that cut",
+         None),
+        ("the by-construction share of the gap-length result",
+         re.compile(r"by construction|by necessity of the (?:design|budget)"
+                    r"|guaranteed by[^.]{0,60}budget", re.I),
+         "part of the quieting a longer gap buys is fixed by the mismatch budget rather than "
+         "measured, and an abstract that reports only the movement claims the whole of it",
+         None),
+        ("designs clearing the screen per junction, not per design",
+         re.compile(rf"\b{f['n_junctions_clearing']}\b[^.]{{0,80}}\b{f['n_junctions']}\b"),
+         f"{f['n_liable_strict']} of {f['n_designs']} is a rate over DESIGNS, and a laboratory "
+         f"picks one register at its own junction, where {f['n_junctions_clearing']} of "
+         f"{f['n_junctions']} junctions have a design that clears",
+         None),
+        ("the designs that survive every screen",
+         _SURVIVES_EVERY_SCREEN,
+         "the abstract names leads, so it has to say what the fully screened set is",
+         None),
+        ("and that THOSE designs sit at no reported patient breakpoint",
+         re.compile(r"(?:no|none|not)\b[^.;]{0,90}(?:patient|breakpoint)"
+                    r"[^.;]{0,90}(?:report|carr|observ)"
+                    r"|no reported[^.;]{0,40}breakpoint", re.I),
+         "the designs that survive every screen sit at junctions no patient is reported to carry, "
+         "so the named leads carry off-target loads by necessity — an abstract naming only the "
+         "leads misleads about that. ⚠ SCOPED to the sentence naming that set: the abstract says "
+         "the same words about the exon-terminus chimeras two sentences earlier, and an unscoped "
+         "search passed on a deleted clause",
+         _SURVIVES_EVERY_SCREEN),
+        ("that the work is computational and nothing was made",
+         re.compile(r"nothing (?:has been|was) synthesi[sz]ed|no wet-lab"
+                    r"|the work is computational", re.I),
+         "the abstract is the part of the paper that travels alone, and the repository "
+         "frontmatter that says this is stripped from both rendered PDFs",
+         None),
+    ]
+
+
 def test_the_abstract_reads_this_paper_and_is_bounded():
     """⚠ The first assertion is the one that failed to exist before: that we opened THIS file."""
     words = _abstract()
@@ -77,17 +221,21 @@ def test_the_abstract_carries_the_qualifications_the_results_attach():
     Each clause below was added because a reader found the abstract stating a result the body
     qualifies. They are asserted so a later trim for length cannot quietly drop the qualification
     and keep the number.
+
+    ⛔ AND THE BOUND WAS RAISED FROM 380 TO 400 TO BUY FOUR OF THEM WHILE PINNING NONE. The four
+    qualifications the raise paid for — search depth moving the headline, the per-junction reading,
+    every null being computed at one cut, and the condemned designs sitting outside the panel —
+    were argued for in a comment on the constant and then left unasserted, so the next trim for
+    length could have taken the words back and kept the bound. The bound stays; the clauses it
+    bought are now assertions.
     """
     body = " ".join(_abstract())
-    for needle, why in [
-        ("adopted, not measured",
-         "the ten-base-pair cut is a choice, and at seven base pairs the count is 175 of 190"),
-        ("175 of 190",
-         "the other end of the cited range is the reason 'nearly half' is the conservative reading"),
-        ("partly by",
-         "part of the gap-length quieting is guaranteed by a fixed mismatch budget, not measured"),
-        ("survive every screen",
-         "the designs that survive every screen sit at no reported patient breakpoint, so the named "
-         "leads carry loads by necessity — an abstract naming only the leads misleads about that"),
-    ]:
-        assert needle in body, f"the abstract dropped {needle!r}: {why}"
+    missing = [(name, why) for name, pattern, why, scope in _needles()
+               if not pattern.search(_scoped(body, scope) if scope is not None else body)]
+    assert not missing, (
+        "the abstract no longer carries "
+        + f"{len(missing)} qualification(s) the Results attach:\n  "
+        + "\n  ".join(f"{name} — {why}" for name, why in missing)
+        + "\n\nEvery number above is read from research/modalities/aso-parent-null.json at run "
+          "time, so if a figure genuinely moved, regenerate the artifact and restate the abstract; "
+          "do not retype the number here.")

@@ -35,6 +35,10 @@ import pytest
 HERE = os.path.dirname(os.path.abspath(__file__))
 MANUSCRIPTS = os.path.abspath(os.path.join(HERE, ".."))
 ARTICLE = os.path.join(MANUSCRIPTS, "aso", "fusion-junction-aso-research-article.md")
+#: ⚠ THE SI IS SCANNED TOO. The invariant is arithmetic, not editorial, and the supplement restates
+#: the screen-5 scoping in its own words — a sentence that inverts the mapping there is the same
+#: defect in a document a reader reaches from the same deposit.
+SUPPLEMENT = os.path.join(MANUSCRIPTS, "aso", "fusion-junction-aso-supplementary-information.md")
 
 WORD2NUM = {
     "one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6, "seven": 7, "eight": 8,
@@ -42,6 +46,8 @@ WORD2NUM = {
     "fifteen": 15, "sixteen": 16, "seventeen": 17, "eighteen": 18, "nineteen": 19, "twenty": 20,
 }
 _NUMWORD = "|".join(WORD2NUM)
+_NUM = rf"(?:{_NUMWORD}|\d+)"
+_LIST = rf"{_NUM}(?:\s*(?:-\s*)?(?:or|to|and)\s+{_NUM})*"
 
 
 def _to_int(token):
@@ -49,46 +55,87 @@ def _to_int(token):
     return WORD2NUM.get(token, int(token) if token.isdigit() else None)
 
 
-def _body_sentences():
-    if not os.path.exists(ARTICLE):
-        pytest.fail(f"the manuscript is missing: {ARTICLE}")
-    text = re.sub(r"^---\n.*?\n---\n", "", open(ARTICLE, encoding="utf-8").read(), flags=re.S)
+def _sentences(path):
+    if not os.path.exists(path):
+        pytest.fail(f"a scanned document is missing: {path}")
+    text = re.sub(r"^---\n.*?\n---\n", "", open(path, encoding="utf-8").read(), flags=re.S)
     text = re.sub(r"^```.*?^```", "", text, flags=re.S | re.M)
     text = "\n".join(ln for ln in text.splitlines() if not ln.lstrip().startswith("|"))
     return [s.strip() for s in re.split(r"(?<=[.;])\s+", text.replace("\n", " ")) if s.strip()]
 
 
+def _body_sentences():
+    return _sentences(ARTICLE) + _sentences(SUPPLEMENT)
+
+
+#: ⛔ THE VERB SET IS THE COVERAGE (widened 2026-08-19). Before this, the whole file matched ONE
+#: sentence in the manuscript — the sentence the defect was found in — because the gap clause had
+#: to open with `leaves|carries|leaving|carrying`. Any of "gives four", "has four", "with four
+#: unpaired", "yielding four" would have carried the identical inversion straight past it, and a
+#: guard that only recognises the phrasing of the bug it was written for is a record of that bug,
+#: not a check on the class.
+#:
+#: ⚠ WHAT IS DELIBERATELY *NOT* IN THE SET: a bare "and"/"with" in front of "mismatches". "A 16-mer
+#: with two mismatches and a contiguous run of eleven" states a SEARCH PARAMETER, not the
+#: complement of the run, and 11 + 2 = 13 would be reported as an arithmetic error in a true
+#: sentence. `with` is admitted only in front of an explicitly UNPAIRED count, where the reading is
+#: unambiguous. The corpus was re-scanned after each addition; see the coverage assertion below.
+_BINDING_VERB = (r"leaves?|leaving|left|carries|carry|carrying|carried|has|have|having"
+                 r"|retains?|retaining|spares?|sparing|admits?|admitting|means?|meaning"
+                 r"|implies|implying|allows?|allowing|permits?|permitting|gives?|giving"
+                 r"|yields?|yielding")
+_UNPAIRED_NOUN = (r"positions?\s+unpaired|unpaired\s+positions?|mismatch(?:es)?"
+                  r"|bases?\s+unpaired|unpaired\s+bases?"
+                  r"|nucleotides?\s+unpaired|unpaired\s+nucleotides?"
+                  r"|base\s+pairs?\s+unpaired|unpaired\s+base\s+pairs?")
+
 #: "a contiguous run of eleven or twelve base pairs" / "an eleven- or twelve-base-pair ... run"
 _RUN_LIST = re.compile(
-    rf"(?:run of|runs of)\s+((?:{_NUMWORD}|\d+)(?:\s+or\s+(?:{_NUMWORD}|\d+))*)\s+base pairs?"
-    rf"|((?:{_NUMWORD}|\d+)(?:-\s*or\s+|\s+or\s+)(?:{_NUMWORD}|\d+))-?\s*base-pair",
+    rf"(?:(?:contiguous|paired|uninterrupted|perfect)\s+)*"
+    rf"(?:runs?|stretch(?:es)?|tracts?|duplex(?:es)?|matches?|blocks?)\s+of\s+({_LIST})"
+    rf"\s+(?:contiguous\s+)?(?:base\s+pairs?|bp|nucleotides?|bases?)"
+    rf"|({_LIST})[-\s]*(?:contiguous[-\s]*)?(?:base[-\s]?pair|bp|nucleotide|base)[-\s]*"
+    rf"(?:long\s+)?(?:runs?|stretch(?:es)?|tracts?|duplex(?:es)?|matches?|blocks?)"
+    rf"|({_LIST})\s+contiguous\s+(?:base\s+pairs?|nucleotides?|bases?)",
     re.I)
-#: "leaves five or four positions unpaired" / "carries four or five mismatches"
+#: "leaves five or four positions unpaired" / "carries four or five mismatches" / "with four
+#: positions unpaired"
 _GAP_LIST = re.compile(
-    rf"(?:leaves|carries|leaving|carrying)\s+((?:{_NUMWORD}|\d+)(?:\s+or\s+(?:{_NUMWORD}|\d+))*)"
-    rf"\s+(?:positions? unpaired|mismatch(?:es)?|unpaired positions?)", re.I)
-_NMER = re.compile(r"\b(\d+)-mer\b")
+    rf"(?:{_BINDING_VERB})\s+({_LIST})\s+(?:{_UNPAIRED_NOUN})"
+    rf"|with\s+({_LIST})\s+(?:positions?|bases?|nucleotides?|base\s+pairs?)\s+unpaired",
+    re.I)
+_NMER = re.compile(rf"\b({_NUM})[-\s]?mer\b", re.I)
 
 
 def _split_list(blob):
-    return [_to_int(p) for p in re.split(r"\s*(?:-\s*)?or\s+", blob) if _to_int(p) is not None]
+    return [_to_int(p) for p in re.split(r"\s*(?:-\s*)?(?:or|to|and)\s+", blob)
+            if _to_int(p) is not None]
+
+
+def _first_group(match):
+    return next((g for g in match.groups() if g), "")
+
+
+def _paired_sentences():
+    """Every sentence stating an N-mer, a paired-run list and an unpaired/mismatch list."""
+    out = []
+    for s in _body_sentences():
+        nmer, run, gap = _NMER.search(s), _RUN_LIST.search(s), _GAP_LIST.search(s)
+        if not (nmer and run and gap):
+            continue
+        runs, gaps = _split_list(_first_group(run)), _split_list(_first_group(gap))
+        n = _to_int(nmer.group(1))
+        if n is None or not runs or not gaps:
+            continue
+        out.append((n, runs, gaps, s))
+    return out
 
 
 def test_run_length_and_unpaired_count_always_sum_to_the_oligonucleotide_length():
     """Inside an N-mer, a paired run of L leaves N - L unpaired. Checked wherever both are stated."""
-    offenders, checked = [], 0
-    for s in _body_sentences():
-        nmer = _NMER.search(s)
-        run = _RUN_LIST.search(s)
-        gap = _GAP_LIST.search(s)
-        if not (nmer and run and gap):
-            continue
-        n = int(nmer.group(1))
-        runs = _split_list(run.group(1) or run.group(2) or "")
-        gaps = _split_list(gap.group(1) or "")
-        if not runs or not gaps:
-            continue
-        checked += 1
+    checked = _paired_sentences()
+    offenders = []
+    for n, runs, gaps, s in checked:
         if len(runs) != len(gaps):
             offenders.append(f"list lengths differ ({runs} vs {gaps}) in: {s[:170]}")
             continue
@@ -110,15 +157,29 @@ def test_run_length_and_unpaired_count_always_sum_to_the_oligonucleotide_length(
           "State the second list in the order the first demands and mark it 'respectively'.")
 
 
-def test_the_screen_five_scoping_sentence_states_the_pairing_explicitly():
-    """The sentence that carried the defect must keep the binding unambiguous."""
+def test_every_paired_list_says_which_element_binds_to_which():
+    """Two lists of equal length side by side are ambiguous until the sentence says they are not.
+
+    ⛔ THE ANCHOR IS STRUCTURAL, NOT A QUOTED CLAUSE. This used to locate the sentence with
+    `body.find("mismatches, and a contiguous run of eleven or twelve base pairs")` — a 61-character
+    literal from one draft of one sentence, in a paper under active rewrite, and it asserted
+    `!= -1`, so a reworded §2.7 failed here for having been reworded. The sentence is now found by
+    the same patterns the arithmetic test uses, and what is required of it is the binding marker.
+    """
+    ambiguous = [(runs, gaps, s) for n, runs, gaps, s in _paired_sentences()
+                 if len(runs) > 1 and len(gaps) > 1 and "respectively" not in s.lower()]
+    assert not ambiguous, (
+        "a sentence pairs two enumerated numeric lists without saying they bind element by "
+        "element:\n  " + "\n  ".join(f"{r} vs {g}: {s[:150]}" for r, g, s in ambiguous)
+        + "\n\nAdd 'respectively', or state the second list as a range rather than a mapping.")
+
+
+def test_the_inverted_pairing_that_shipped_does_not_come_back():
+    """⚠ THE NEEDLE LOST ITS TAIL (2026-08-19). It read `"carries four or five, so the"` — the
+    inversion PLUS the four words that happened to follow it in the draft it was found in, so
+    rewording anything after the comma retired the guard silently. What is forbidden is the
+    mapping: an ascending run list bound to an ascending unpaired list."""
     body = " ".join(_body_sentences())
-    assert "carries four or five, so the" not in body, (
+    assert "carries four or five" not in body, (
         "§2.7 has reverted to the inverted pairing: an eleven-base-pair run leaves FIVE positions "
         "unpaired and a twelve-base-pair run leaves FOUR, not the other way round.")
-    where = body.find("mismatches, and a contiguous run of eleven or twelve base pairs")
-    assert where != -1, "§2.7's screen-5 scoping sentence has moved or been reworded away."
-    passage = body[where:where + 260]
-    assert "five or four" in passage and "respectively" in passage, (
-        "§2.7 must give the unpaired counts in the order the run lengths demand — 'five or four' — "
-        "and say 'respectively', so the binding cannot be read the other way.")

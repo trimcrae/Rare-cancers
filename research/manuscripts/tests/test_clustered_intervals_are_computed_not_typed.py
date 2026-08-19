@@ -46,14 +46,16 @@ Z = 1.959963984540054  # two-sided 95%
 
 
 def _paper() -> str:
+    #: ⛔ NOT A SKIP. Both inputs are committed; a checkout without them is a broken checkout, and
+    #: a skip reports "the prose agrees with the artifact" when nothing read either.
     if not os.path.exists(PAPER):
-        pytest.skip("the manuscript is not present in this checkout")
+        pytest.fail(f"the manuscript is not present in this checkout: {PAPER}")
     return " ".join(open(PAPER, encoding="utf-8").read().split())
 
 
 def _by_junction():
     if not os.path.exists(PAIRING):
-        pytest.skip("aso-parent-gap-pairing.json is not present in this checkout")
+        pytest.fail(f"the artifact every figure here is recomputed from is missing: {PAIRING}")
     byj = collections.defaultdict(list)
     for rec in json.load(open(PAIRING, encoding="utf-8"))["per_design"]:
         byj[rec["junction"]].append(rec)
@@ -128,6 +130,7 @@ def test_the_nr4a3_arm_carries_an_interval_where_it_is_compared_to_a_null():
 def test_the_nr4a3_arms_design_effect_is_below_one_and_the_paper_says_which_way_that_cuts():
     """The explanation in the prose is only honest while the deff really is sub-binomial."""
     _, _, _, deff, _ = _clustered(_liable_nr4a3)
+    _, _, _, aggregate_deff, _ = _clustered(_liable)
     assert deff < 1, (
         f"the *NR4A3* arm's design effect is now {deff:.3f}, not below one. §2.5 reports the "
         "nominal interval there BECAUSE clustering would narrow it; that sentence is now wrong")
@@ -136,6 +139,17 @@ def test_the_nr4a3_arms_design_effect_is_below_one_and_the_paper_says_which_way_
     #: inside this very paragraph — a drawn null ensemble and an observed sub-analysis — while their
     #: rates were being compared. The *NR4A3* one is now "sub-analysis" and "arm" is left to the
     #: nulls, so the pin follows the wording rather than holding the collision in place.
-    assert f"its design effect is {deff:.2f} rather than" in txt
+    #:
+    #: ⛔ AND THE NEEDLE ENDED AT "rather than", LEAVING THE CONTRAST VALUE UNPINNED. The sentence
+    #: is a comparison — "its design effect is 0.82 rather than 1.42" — and only the first half was
+    #: checked, so the number the reader is asked to compare against could drift to any value, or
+    #: be silently updated while the aggregate paragraph was not, and this file, whose entire
+    #: purpose is that a statistic printed once and checked by nothing is a remembered quantity
+    #: rather than a reported one, would have said nothing. Both halves are recomputed now, from
+    #: the same artifact and the same estimator.
+    expected = (f"its design effect is {deff:.2f} rather than {aggregate_deff:.2f}")
+    assert expected in txt, (
+        f"§2.5 does not carry the sub-analysis's design effect beside the aggregate one it is "
+        f"contrasted with. Expected {expected!r}; recompute the sentence, not the estimator.")
     assert "A design effect below one would narrow the interval" in txt, (
         "the reason the nominal interval is reported for this arm has been dropped")

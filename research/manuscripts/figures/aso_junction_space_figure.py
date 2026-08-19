@@ -44,6 +44,10 @@ import sys
 from collections import OrderedDict
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+if HERE not in sys.path:
+    sys.path.insert(0, HERE)
+from aso_figure_text import MM_PER_PT, RENDER_TARGETS  # noqa: E402
+
 SRC = os.path.join(HERE, "..", "..", "modalities", "nr4a3-fusion-junction-atlas.json")
 OUT = os.path.join(HERE, "aso-junction-space.svg")
 
@@ -75,18 +79,10 @@ FS_PARTNER, FS_COLHEAD, FS_AXIS = 13, 12, 12
 FS_ROW, FS_LEGEND, FS_NOTE = 11, 11, 11
 MIN_PRINTED_PT = 6.0
 
-#: The three ways this SVG is printed, as (available width mm, height ceiling mm). Whichever limit
-#: binds decides the scale, so the smallest of the three scales is the one every type size must
-#: clear. ⚠ These mirror `build_submission_pdf.MANUSCRIPT_CSS` / `JOURNAL_CSS` and
-#: `svg_to_submission_formats.DEFAULT_WIDTH_MM`; they are stated here because this file cannot
-#: import them, and a change there that shrinks a figure must be reflected here or this check is
-#: measuring a page nobody prints.
-RENDER_TARGETS = {
-    "manuscript style (174 mm text width, 218 mm ceiling)": (174.0, 218.0),
-    "journal style (182 mm column span, 205 mm ceiling)": (182.0, 205.0),
-    "standalone deposit figure (180 mm, 247 mm ceiling)": (180.0, 247.0),
-}
-MM_PER_PT = 25.4 / 72.0
+#: ⚠ `RENDER_TARGETS` AND `MM_PER_PT` NOW HAVE ONE HOME, `aso_figure_text`, imported above. They
+#: used to be declared here and nowhere else, so the three generators that also scale into those
+#: pages had no gate at all — which is how Figure 3's count labels shipped at 5.44 pt and Figure 2's
+#: architecture labels at 5.56 pt while this panel was clearing 6.6 pt (measured 2026-08-19).
 
 
 def esc(s):
@@ -240,11 +236,21 @@ def main(argv=None):
         p.append(f'<text x="{MARGIN}" y="{y_sub + i * (FS_SUB + 5)}" font-size="{FS_SUB}" '
                  f'fill="#555">{esc(line)}</text>')
 
+    #: ⛔ THE SECOND COLUMN IS THE SAME GRID CONTINUED, AND ONLY THE SUBTITLE SAID SO
+    #: (figure-integrity review, 2026-08-19). A reader meeting the panel without the caption saw two
+    #: grids with the same three column headers and no statement that the acceptor columns REPEAT
+    #: rather than extend. The continuation is now marked where the ambiguity is — on the repeated
+    #: axis caption itself — and a rule separates the two columns.
     for index in range(len(panels)):
         x0 = MARGIN + index * (panel_w + PANEL_GAP)
         gx = x0 + LABEL_W
+        if index:
+            rule_x = x0 - PANEL_GAP / 2
+            p.append(f'<line x1="{rule_x:.1f}" y1="{y_axis - 14}" x2="{rule_x:.1f}" '
+                     f'y2="{max(panel_bottoms) - BLOCK_GAP}" stroke="#cfd8dc" stroke-width="1"/>')
+        caption = "NR4A3 acceptor exon" + (" (the same grid, continued)" if index else "")
         p.append(f'<text x="{gx + grid_w / 2:.1f}" y="{y_axis}" font-size="{FS_AXIS}" fill="#333" '
-                 f'text-anchor="middle" font-weight="600">NR4A3 acceptor exon</text>')
+                 f'text-anchor="middle" font-weight="600">{esc(caption)}</text>')
         for j, a in enumerate(acceptors):
             cx = gx + j * (CELL_W + GAPX) + CELL_W / 2
             p.append(f'<text x="{cx:.1f}" y="{y_colhead}" font-size="{FS_COLHEAD}" fill="#333" '

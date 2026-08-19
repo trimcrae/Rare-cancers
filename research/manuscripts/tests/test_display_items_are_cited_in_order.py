@@ -27,20 +27,60 @@ import re
 import pytest
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-ARTICLE = os.path.join(os.path.abspath(os.path.join(HERE, "..")), "aso",
-                       "fusion-junction-aso-research-article.md")
+ASO = os.path.join(os.path.abspath(os.path.join(HERE, "..")), "aso")
+ARTICLE = os.path.join(ASO, "fusion-junction-aso-research-article.md")
+TABLES = os.path.join(ASO, "fusion-junction-aso-submission-tables.md")
+
+#: ⛔ THE FLOOR IS A SHARE OF THE FILE, NOT A CHARACTER COUNT. It read `> 20000` against an article
+#: of 196 KB, so the two strips below could have eaten nine tenths of the manuscript and the
+#: "is not empty after stripping" guard would still have reported the ordering checks as live.
+#: Measured 2026-08-19: the body survives at 92% of the source. Half is a floor with room for the
+#: figure-legends block to grow and none for a strip that runs away.
+MIN_BODY_SHARE_OF_FILE = 0.5
+
+
+def _raw():
+    if not os.path.exists(ARTICLE):
+        pytest.fail(f"the manuscript is missing: {ARTICLE}")
+    return open(ARTICLE, encoding="utf-8").read()
 
 
 def _body():
-    if not os.path.exists(ARTICLE):
-        pytest.fail(f"the manuscript is missing: {ARTICLE}")
-    text = open(ARTICLE, encoding="utf-8").read()
-    text = re.sub(r"^---\n.*?\n---\n", "", text, flags=re.S)       # repo frontmatter, not manuscript
+    text = re.sub(r"^---\n.*?\n---\n", "", _raw(), flags=re.S)   # repo frontmatter, not manuscript
     text = re.sub(r"^## Figure legends.*", "", text, flags=re.S | re.M)
     return text
 
 
+RAW = _raw()
 BODY = _body()
+
+
+def _declared_display_items():
+    """{"Table": n, "Figure": n} — how many of each the deposit actually carries.
+
+    ⛔ DERIVED, NOT TYPED (2026-08-19). This was `[("Table", 7), ("Figure", 3)]`. Table 7 was
+    generated after the constant was written and had to be chased by hand; an eighth table is under
+    discussion in this very round. A typed count cannot notice a display item added upstream, and
+    when one is added it fails for a reason that has nothing to do with citation order — the same
+    defect `test_every_table_survives_into_the_journal_layout` records for its own caption count.
+    Tables come from the generated tables document, figures from the manuscript's own legend block,
+    because those are the two places a display item is actually created.
+    """
+    assert os.path.exists(TABLES), (
+        f"the generated tables document is missing: {TABLES} — the number of tables the deposit "
+        "carries cannot be derived, and a typed number is what this replaced")
+    tables = {int(n) for n in
+              re.findall(r"^\*\*Table (\d+)\.", open(TABLES, encoding="utf-8").read(), re.M)}
+    legends = re.search(r"^## Figure legends.*", RAW, re.S | re.M)
+    assert legends, "the manuscript has no '## Figure legends' block to count figures from"
+    #: Supplementary panels are numbered S1, S2 … and are cited as "Supplementary Figure S1", not
+    #: as "Figure 4", so they are deliberately outside this numbering.
+    figures = {int(n) for n in re.findall(r"^\*\*Figure (\d+)\.", legends.group(0), re.M)}
+    assert tables and figures, (tables, figures)
+    return {"Table": max(tables), "Figure": max(figures)}
+
+
+DECLARED = _declared_display_items()
 
 
 def _first_citations(kind):
@@ -51,13 +91,16 @@ def _first_citations(kind):
     return out
 
 
-@pytest.mark.parametrize("kind,expected", [("Table", 7), ("Figure", 3)])
-def test_every_display_item_is_cited_in_the_body_at_all(kind, expected):
+@pytest.mark.parametrize("kind", ["Table", "Figure"])
+def test_every_display_item_is_cited_in_the_body_at_all(kind):
+    expected = DECLARED[kind]
     cited = _first_citations(kind)
     missing = sorted(set(range(1, expected + 1)) - set(cited))
     assert not missing, (
         f"{kind}(s) {missing} are never cited in the body, so the journal build has no anchor to "
-        f"float them to and a reader is never sent to them")
+        f"float them to and a reader is never sent to them. The deposit declares {expected} "
+        f"{kind.lower()}(s); this count is derived from the artefact that creates them, so if one "
+        "was genuinely retired, retire it there.")
 
 
 @pytest.mark.parametrize("kind", ["Table", "Figure"])
@@ -74,7 +117,11 @@ def test_display_items_are_first_cited_in_numerical_order(kind):
 
 def test_the_body_was_found_and_is_not_empty_after_stripping():
     """A stripping bug would make every ordering assertion above vacuously true."""
-    assert len(BODY) > 20000, (
-        f"the manuscript body came out at {len(BODY)} characters after stripping frontmatter and "
-        "the figure-legends block; the ordering checks above would be asserting about nothing")
+    share = len(BODY) / len(RAW)
+    assert share >= MIN_BODY_SHARE_OF_FILE, (
+        f"the manuscript body came out at {len(BODY)} characters — {share:.0%} of the "
+        f"{len(RAW)}-character source — after stripping the repo frontmatter and the "
+        f"figure-legends block, against a floor of {MIN_BODY_SHARE_OF_FILE:.0%}. One of the two "
+        "strips is eating the paper, and the ordering checks above would be asserting about "
+        "whatever is left.")
     assert "Table 1" in BODY and "Figure 1" in BODY

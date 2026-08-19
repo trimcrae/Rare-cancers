@@ -49,27 +49,27 @@ In extraskeletal myxoid chondrosarcoma (EMC), an ultra-rare sarcoma, a variable 
 *NR4A3*, creating a junction present in no normal transcript. An antisense gapmer could in principle
 cleave it and spare both parent genes; none is reported in the literature retrieved here. Of 190
 junction-spanning designs across the 38 in-frame junctions of five modelled partners, 87 pair their
-catalytic gap against a mature parent transcript over ten or more contiguous base pairs, 61 against
-wild-type *NR4A3*. That is a rate over designs; 35 of the 38 junctions have a design clearing the
+catalytic gap against a mature parent transcript over ten or more contiguous base pairs, 61 of those
+87 against wild-type *NR4A3*. That is a rate over designs: 35 of 38 junctions have one clearing the mature-parent
 screen. Arbitrary sequence does so far less often: 6.2% of scrambles against 45.8% observed. Nor is
 the excess specific to this disease's breakpoints: chimeras at real exon termini of the same two
 transcripts, which no patient is reported to carry, reach 40.6%. Ten base pairs is adopted, not
 measured, and both counts move: at seven, 175 of 190 pair a parent and 9 of 38 junctions clear — but
-so does that null, to 91.4% against the 92.1% observed there; ten, where the finding clears every
-null, is the cut reported throughout. Lengthening the catalytic gap quiets the transcript screens, partly by
+so does that null, to 91.4% against the 92.1% observed there. Ten is adopted, not separated: the
+excess over the strongest null changes sign four times across cuts of six to thirteen (§2.5). Lengthening the catalytic gap quiets the transcript screens, partly by
 construction at a fixed mismatch budget, and buys options — parent-clean designs per junction rise
 from 2.7 to 6.7 — while the liable count stays flat and gap-level margin is won only by conceding
 parent-paired gap DNA. Search depth moves the count too: six of nine designs clean at the default
 ceiling are not at ten times it. Three designs survive every screen, two at any parent-duplex
 threshold; none sits at a junction any patient is reported to carry, so the named reagents necessarily
-carry loads. The work is computational: nothing has been synthesised or tested, and nothing
-asserts efficacy, safety, delivery to a tumour or clinical readiness. Every sequence named is a
-research reagent for laboratory investigation only, not for administration to any person or animal.
+carry loads. The work is computational: nothing was synthesised or tested; nothing asserts
+efficacy, safety, delivery to a tumour or clinical readiness. Every sequence named is a
+research reagent only, not for administration to any person or animal.
 Two leads are named with their off-target loads and longest parent runs of eight and nine base
 pairs, 5′-GGGCATATCATCAAAC-3′ at *EWSR1* exon 12 and 5′-GGGCATATCTTGTGTG-3′ at *TAF15* exon 6, and
-two more for coverage in §4.1; and three as not to be used: non-panel designs at non-coding *NR4A3*
+two more for coverage; and three as not to be used: non-panel designs at non-coding *NR4A3*
 acceptors that this screen clears but that pair their whole gap against unspliced wild-type *NR4A3*.
-The design and screening pipeline is released for breakpoints outside this panel.
+The pipeline is released for breakpoints outside this panel.
 
 ---
 
@@ -578,8 +578,51 @@ Loosening the cut enlarges the negative on both of those readings and does not s
 the nulls below move with it. Re-run at seven, the exon-terminus chimera ensemble reaches 91.4%
 against the 92.1% that 175 of 190 is, and the *NR4A3*-specific comparison reverses outright, 38.4%
 observed against 46.6% for the null. At seven this screen is measuring what any chimera of two real
-transcripts does; ten is the cut at which the observed rate stands clear of every null, which is why
-it is the cut every count here is stated at. Those 61 are not 61 distinct sites: 59 of them are
+transcripts does.
+
+**Ten is adopted, and reporting two cuts is still a choice of two cuts.** Whether 87 of 190 is a
+property of these designs or a property of where the criterion was put is a question about the whole
+range, so the whole range is measured — the observed arm, every null ensemble, and the junction-level
+reading, at every cut the instrument can reach. The shortest counted run is the catalytic gap itself,
+six base pairs, which is the only cut with an enzymological referent, since a counted run of any
+length presents exactly those six as RNA:DNA hybrid and the rest as locked-wing pairs; thirteen is
+the longest run any arm returns.
+
+| cut (bp) | liable designs | % | Wilson 95% | strongest null % | scramble null % | observed − strongest | strongest null vs the observed interval | junctions with a clearing design | published-breakpoint junctions still liable | designs *NR4A3* pairs specifically |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 6 | 181 | 95.3 | 91.2–97.5 | 97.8 | 91.4 | −2.9 | outside, above | 6 of 38 | 25 of 25 | 158 |
+| 7 | 175 | 92.1 | 87.4–95.2 | 91.4 | 74.3 | +0.7 | inside | 9 of 38 | 25 of 25 | 111 |
+| 8 | 143 | 75.3 | 68.7–80.9 | 76.2 | 43.8 | −1.0 | inside | 23 of 38 | 21 of 25 | 84 |
+| 9 | 98 | 51.6 | 44.5–58.6 | 56.2 | 18.4 | −5.2 | inside | 31 of 38 | 14 of 25 | 63 |
+| **10** | **87** | **45.8** | **38.9–52.9** | **40.6** | **6.2** | **+5.2** | **inside** | **35 of 38** | **11 of 25** | **62** |
+| 11 | 84 | 44.2 | 37.3–51.3 | 34.7 | 1.8 | +9.5 | outside, below | 37 of 38 | 11 of 25 | 62 |
+| 12 | 35 | 18.4 | 13.6–24.5 | 14.5 | 0.4 | +3.9 | inside | 38 of 38 | 5 of 25 | 24 |
+| 13 | 6 | 3.2 | 1.5–6.7 | 4.7 | 0.1 | −1.6 | inside | 38 of 38 | 1 of 25 | 5 |
+
+The strongest null at every cut is one of the two exon-terminus chimera arms, and the comparison
+against it does not behave as a real effect behaves. **The excess is not monotone in the cut and
+changes sign four times**: the observed rate is below the strongest null at six, eight, nine and
+thirteen, and above it at seven, ten, eleven and twelve. The strongest null lies inside the observed
+rate's own nominal interval at every cut but two — at six it lies above it, and at eleven, which is
+not the cut reported here, below it. **An earlier version of this section said that ten is the cut at
+which the observed rate stands clear of every null. The ladder was written to check that sentence
+and it does not survive: at ten the exon-terminus null is inside the interval, as the closing
+paragraphs of this section already said in another form.** Ten is the cut this work adopts and states
+every count at, on the criterion's stated provenance (§6) rather than on separation, and no cut in
+the reachable range resolves an excess over a chimera of two real exon termini. The central negative
+is therefore not weakened by the ladder; it is the same negative, holding across the criterion's
+whole range instead of at one point in it.
+
+Three further readings come off the same table and none of them is available from a single cut. The
+junction-level and design-level counts move in opposite directions, so a looser criterion enlarges
+the class and empties the panel at once: at six, 181 of 190 designs are liable and only 6 of 38
+junctions retain a design that clears. At the five junctions any patient is reported to carry, every
+design is liable at six and at seven, and the criterion has to reach ten before eleven of those 25
+are — the deliverable is more cut-dependent than the corpus is. And the count of designs wild-type
+*NR4A3* pairs specifically — asked of *NR4A3* alone rather than attributed to whichever parent
+returned the longest run — is 62 at ten against the 61 attributed there, and 158 at six against 77:
+the attributed figure this paper reports is a floor on the *NR4A3*-specific one, and the two separate
+as the cut loosens. Those 61 are not 61 distinct sites: 59 of them are
 the same one, the mature exon-2/exon-3 seam every design's acceptor half reaches, which is the
 mature-transcript counterpart of the pre-mRNA concentration above. One further design pairs *NR4A3* at eleven base pairs but
 another parent at twelve, so it is attributed elsewhere. The count falls steeply with the gap-level

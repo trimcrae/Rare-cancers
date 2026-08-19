@@ -193,8 +193,10 @@ def main(argv=None):
     y_a_head = y_withdraw + len(withdrawal_lines) * (FS_LEAD + 4) + 18
     y_a_sub = y_a_head + 18
 
-    cell, rowh = 21, 62
-    top = y_a_sub + 32
+    #: ⚠ `rowh` HAS A FLOOR AND IT IS GEOMETRIC. Each row draws a "breakpoint" caption above it and
+    #: a tick 7 px below the cells, so consecutive rows collide below about 48 px.
+    cell, rowh = 21, 52
+    top = y_a_sub + 30
     x0 = 176
     ky = top + len(geoms) * rowh + 2
 
@@ -236,12 +238,11 @@ def main(argv=None):
     # therefore differ; the px-per-unit does not.
     xmax = max(m for g in geoms for _j, _s, m, _d, _a in g["rows"]) + 1
     ymax = max(g["gap"] for g in geoms)
-    S = 42                                          # px per data unit, both axes
-    L, T = 112, y_b_sub + 26
+    S = 32                                          # px per data unit, both axes
+    L, T = 112, y_b_sub + 24
     PW, PH = S * xmax, S * ymax
-    RMAX = 14.0                                     # radius of the largest bubble
+    RMAX = 11.5                                     # radius of the largest bubble
 
-    y_ticks = T + PH + 18
     y_axis_title = T + PH + 40
     col_x = L + PW + 52                             # the right-hand key column
     col_w = W - 32 - col_x
@@ -261,9 +262,7 @@ def main(argv=None):
             f"{', '.join(order)}. Part of that fall is arithmetic — at a fixed absolute mismatch "
             f"budget a longer probe cannot hit more loci than its own sub-windows — and this "
             f"figure is what the rest of it costs.")
-    note_lines = wrap(note, FS_NOTE, W - 80)
-    y_note = y_axis_title + 26
-    H = int(max(y_note + len(note_lines) * (FS_NOTE + 4) + 10, T + PH + 70))
+    H = int(y_axis_title + 22)
 
     check_type_sizes(W, H, {
         "panel B count labels": FS_COUNT, "axis ticks": FS_TICK, "axis titles": FS_AXIS,
@@ -346,9 +345,13 @@ def main(argv=None):
     p.append(f'<text x="40" y="{y_b_head}" font-size="{FS_PANEL_HEAD}" fill="#111" '
              f'font-weight="600">B · every design in all three geometries, with no scatter to '
              f'fit</text>')
+    #: ⚠ THE JUNCTION COUNT IS DERIVED. It used to be the literal "38", which is a number the rows
+    #: in hand already carry — and a typed count is the one that survives a change to the panel.
+    n_junctions = len({j for g in geoms for j, _s, _m, _d, _a in g["rows"]})
     p.append(f'<text x="40" y="{y_b_sub}" font-size="{FS_PANEL_SUB}" fill="#555">'
-             f'{esc(sum(g["n"] for g in geoms))} designs over 38 junctions. Both axes are drawn at '
-             f'{S} px per nucleotide, so the identity lines really are at 45 degrees.</text>')
+             f'{esc(sum(g["n"] for g in geoms))} designs over {esc(n_junctions)} junctions. Both '
+             f'axes are drawn at {S} px per nucleotide, so the identity lines really are at 45 '
+             f'degrees.</text>')
 
     def px(v):
         return L + v * S
@@ -434,17 +437,23 @@ def main(argv=None):
                  f'{esc(line)}</text>')
         ly += FS_LEGEND + 4
 
-    ly += 10
-    for line in wrap("A geometry's ceiling on margin is half its gap rounded down; clearing it "
-                     "means a longer gap, and a longer gap raises the own-seam parent-paired run "
-                     "at every register.", FS_LEGEND, col_w):
-        p.append(f'<text x="{col_x}" y="{ly}" font-size="{FS_LEGEND}" fill="#555">'
-                 f'{esc(line)}</text>')
-        ly += FS_LEGEND + 4
+    for block in ("A geometry's ceiling on margin is half its gap rounded down; clearing it means "
+                  "a longer gap, and a longer gap raises the own-seam parent-paired run at every "
+                  "register.", note):
+        ly += 10
+        for line in wrap(block, FS_LEGEND, col_w):
+            p.append(f'<text x="{col_x}" y="{ly}" font-size="{FS_LEGEND}" fill="#555">'
+                     f'{esc(line)}</text>')
+            ly += FS_LEGEND + 4
 
-    for i, line in enumerate(note_lines):
-        p.append(f'<text x="40" y="{y_note + i * (FS_NOTE + 4)}" font-size="{FS_NOTE}" '
-                 f'fill="#555">{esc(line)}</text>')
+    #: ⛔ THE COLUMN IS BESIDE THE PLOT, SO IT HAS THE PLOT'S HEIGHT AND NOT THE CANVAS'S. SVG does
+    #: not wrap and does not overflow-scroll: a key that outgrew the panel would simply run past the
+    #: axis and, below the canvas, not render at all. Measured here rather than eyeballed, because
+    #: every line in it is prose somebody will lengthen.
+    if ly > T + PH + FS_LEGEND:
+        raise SystemExit(
+            f"panel B's key column ends at y={ly:.0f} and the plot ends at y={T + PH}. Shorten the "
+            f"key, widen the column (col_w is {col_w:.0f} px) or raise S.")
     p.append("</svg>")
 
     with open(OUT, "w", encoding="utf-8") as fh:
