@@ -23,10 +23,17 @@ its own docstring to be "ASSERTED ON THE PROPERTY, NOT ON THE WORDING" and was a
 literal sentences. Every one of them is reinstatable in synonyms — "two of the strings printed here
 are designs the main text forbids", "one of the sequences in this document must not be carried
 forward" — and the guard passes. What it now asserts instead is the SHAPE of the claim: any sentence
-in the banner that is about the condemned designs AND locates them inside this file must negate that
-location, and at least one such sentence must exist. The negation is looked for with the
+in the banner that is about the condemned designs AND locates them among the ORDERABLE ROWS must
+negate that location, and at least one such sentence must exist. The negation is looked for with the
 condemnation phrase itself masked out, because "designs NOT to be carried forward are in these
 tables" carries the word "not" while asserting exactly the defect.
+
+⚠ AND THE SCOPE IS THE PARAGRAPH THAT NAMES THE THREE, NOT THE WHOLE BANNER. The banner now also
+carries a TRUE presence claim — "a further fifteen rows of these tables … are also NOT to be
+ordered", about the ⚑ rows, which really are in the tables. A guard that flagged that would be
+flagging a correct sentence, which is how a checker stops being read. Two locators were dropped for
+the same reason: "printed here" and "listed here" are what the banner does with the three ON
+PURPOSE, so a reader holding a transcribed string has something to check it against.
 """
 import os
 import re
@@ -139,10 +146,15 @@ def test_the_banner_prints_the_condemned_designs_as_a_do_not_order_list():
 # this file is a LOCATION claim, and the companion test above proves the only true location claim is
 # a negative one. Neither the vocabulary of the claim nor the count it uses is pinned.
 
-#: Phrases that put something inside this document.
+#: Phrases that put something among the ORDERABLE ROWS of this document.
+#: ⚠ "printed here" and "listed here" are NOT in this set, and that is deliberate. The banner
+#: prints the three condemned strings on purpose, so a reader can check a transcription against
+#: them — "They are printed here because excluding them by description leaves a reader with a
+#: transcribed sequence nothing to check it against" is the remedy, not the defect. What may not be
+#: said is that they are among the rows.
 _IN_THIS_FILE = re.compile(
-    r"\b(?:below|in any row|in these tables|of these tables|in the tables|in this file"
-    r"|in this document|in this table|printed here|listed here|in any of these tables)\b", re.I)
+    r"\b(?:below|in any row|in the rows|among the rows|in these tables|of these tables"
+    r"|in the tables|in this table|in any of these tables)\b", re.I)
 
 #: Any negation. Searched only in the text BEFORE a location phrase, with the condemnation phrase
 #: masked out first — "designs NOT to be carried forward are in these tables" is the defect, and its
@@ -154,21 +166,43 @@ _LOOKBACK = 90
 
 
 def _sentences(text):
+    # ⚠ EMPHASIS STRIPPED FIRST. The banner ends run-in headings as `…WHITELIST.** A further…`, so a
+    # splitter keyed on "full stop then whitespace" swallowed two sentences into one — and a
+    # negation belonging to the first then laundered a presence claim in the second.
+    text = re.sub(r"[*_]", "", text)
     return [s.strip() for s in re.split(r"(?<=[.:;])\s+", text) if s.strip()]
 
 
+def _condemned_paragraphs():
+    """The banner paragraph(s) that print the condemned designs.
+
+    ⛔ SCOPED HERE AND NOT DOCUMENT-WIDE, DELIBERATELY. The banner also carries a TRUE presence
+    claim — "a further fifteen rows of these tables … are also NOT to be ordered", about the ⚑ rows
+    — and a guard that flagged it would be flagging a correct sentence, which is how a checker
+    stops being read. The claim this file is about is where THE THREE are, so the scope is the
+    paragraph that names them.
+    """
+    condemned = _condemned_sequences()
+    blocks = [b for b in re.split(r"\n\s*\n", "\n".join(_banner_lines()))
+              if any(s in b for s in condemned)]
+    assert blocks, (
+        "no banner paragraph prints a condemned design, so the banner makes no claim about where "
+        "they are. The companion test covers their absence from the rows.")
+    return [" ".join(b.split()) for b in blocks]
+
+
 def _location_claims():
-    """(sentence, [unnegated location phrase, …]) for every banner sentence about the condemned set."""
+    """(sentence, unnegated location phrases, negated ones) over the paragraphs naming the three."""
     out = []
-    for sentence in _sentences(" ".join("\n".join(_banner_lines()).split())):
-        if not _CONDEMNATION.search(sentence):
-            continue
-        masked = _CONDEMNATION.sub(lambda m: " " * len(m.group(0)), sentence)
-        unnegated = [m.group(0) for m in _IN_THIS_FILE.finditer(masked)
-                     if not _NEGATION.search(masked[max(0, m.start() - _LOOKBACK):m.start()])]
-        negated = [m.group(0) for m in _IN_THIS_FILE.finditer(masked)
-                   if _NEGATION.search(masked[max(0, m.start() - _LOOKBACK):m.start()])]
-        out.append((sentence, unnegated, negated))
+    for paragraph in _condemned_paragraphs():
+        for sentence in _sentences(paragraph):
+            masked = _CONDEMNATION.sub(lambda m: " " * len(m.group(0)), sentence)
+            unnegated = [m.group(0) for m in _IN_THIS_FILE.finditer(masked)
+                         if not _NEGATION.search(masked[max(0, m.start() - _LOOKBACK):m.start()])]
+            negated = [m.group(0) for m in _IN_THIS_FILE.finditer(masked)
+                       if _NEGATION.search(masked[max(0, m.start() - _LOOKBACK):m.start()])]
+            if unnegated or negated:
+                out.append((sentence, unnegated, negated))
     return out
 
 
@@ -183,9 +217,9 @@ def test_the_research_use_header_never_places_a_condemned_design_inside_this_fil
     """
     claims = _location_claims()
     assert claims, (
-        "the research-use header contains no sentence about the condemned designs at all. The main "
-        "text names designs that must not be ordered; the ordering document is where that matters "
-        "most, so the header must still address them.")
+        "the paragraph printing the condemned designs places them nowhere at all — it never says "
+        "whether they are in these tables. The main text names designs that must not be ordered; "
+        "the ordering document is where that matters most.")
     offenders = [(s, bad) for s, bad, _ in claims if bad]
     assert not offenders, (
         "the research-use header places a condemned design inside this file: "
@@ -211,20 +245,21 @@ def test_the_research_use_header_states_the_absence_rather_than_leaving_it_impli
         + " | ".join(repr(s[:110]) for s, _, _ in claims))
 
 
-def test_the_absence_statement_travels_with_the_sequences_it_is_about():
-    """The list and the notice must be one block: a reader finds them together or not at all."""
-    blocks = re.split(r"\n\s*\n", "\n".join(_banner_lines()))
+def test_the_banner_does_not_claim_a_condemned_design_is_in_a_row_anywhere_it_names_one():
+    """The same shape check, run over every sentence that NAMES one of the three by its bases.
+
+    A reader holding a transcribed string looks it up. Wherever the banner prints it, whatever it
+    says about it there has to be consistent with the rows — and the rows do not carry it.
+    """
     condemned = _condemned_sequences()
-    carrying = [" ".join(b.split()) for b in blocks if any(s in b for s in condemned)]
-    assert carrying, "no banner paragraph prints a condemned design; the companion test covers that"
-    ok = []
-    for block in carrying:
-        for sentence, _, negated in _location_claims():
-            if negated and sentence in block:
-                ok.append(block)
-                break
-    assert ok, (
-        "the banner paragraph that prints the condemned sequences does not itself say they are in "
-        "no row of these tables. A reader who meets the three strings needs the verdict in the same "
-        "block, not in a different paragraph of the front matter. Paragraph(s) printing them: "
-        + " | ".join(repr(b[:140]) for b in carrying))
+    offenders = []
+    for sentence in _sentences(" ".join("\n".join(_banner_lines()).split())):
+        if not any(s in sentence for s in condemned):
+            continue
+        masked = _CONDEMNATION.sub(lambda m: " " * len(m.group(0)), sentence)
+        offenders += [(sentence, m.group(0)) for m in _IN_THIS_FILE.finditer(masked)
+                      if not _NEGATION.search(masked[max(0, m.start() - _LOOKBACK):m.start()])]
+    assert not offenders, (
+        "a banner sentence naming a condemned design places it inside this file: "
+        + " | ".join(f"{phrase!r} in {s[:130]!r}" for s, phrase in offenders)
+        + ". The companion test proves no row carries it.")

@@ -594,16 +594,17 @@ the longest run any arm returns.
 
 | cut (bp) | liable designs | % | Wilson 95% | strongest null % | scramble null % | observed − strongest | strongest null vs the observed interval | junctions with a clearing design | published-breakpoint junctions still liable | designs *NR4A3* pairs specifically |
 |---|---|---|---|---|---|---|---|---|---|---|
-| 6 | 181 | 95.3 | 91.2–97.5 | 97.8 | 91.4 | −2.9 | outside, above | 6 of 38 | 25 of 25 | 158 |
-| 7 | 175 | 92.1 | 87.4–95.2 | 91.4 | 74.3 | +0.7 | inside | 9 of 38 | 25 of 25 | 111 |
-| 8 | 143 | 75.3 | 68.7–80.9 | 76.2 | 43.8 | −1.0 | inside | 23 of 38 | 21 of 25 | 84 |
-| 9 | 98 | 51.6 | 44.5–58.6 | 56.2 | 18.4 | −5.2 | inside | 31 of 38 | 14 of 25 | 63 |
-| **10** | **87** | **45.8** | **38.9–52.9** | **40.6** | **6.2** | **+5.2** | **inside** | **35 of 38** | **11 of 25** | **62** |
-| 11 | 84 | 44.2 | 37.3–51.3 | 34.7 | 1.8 | +9.5 | outside, below | 37 of 38 | 11 of 25 | 62 |
-| 12 | 35 | 18.4 | 13.6–24.5 | 14.5 | 0.4 | +3.9 | inside | 38 of 38 | 5 of 25 | 24 |
-| 13 | 6 | 3.2 | 1.5–6.7 | 4.7 | 0.1 | −1.6 | inside | 38 of 38 | 1 of 25 | 5 |
+| 6 | 181 | 95.3 | 91.2–97.5 | 98.2 (exon-terminus, novel acceptor) | 91.4 | −2.9 | outside, above | 6 of 38 | 25 of 25 | 158 |
+| 7 | 175 | 92.1 | 87.4–95.2 | 91.4 (exon-terminus) | 74.3 | +0.7 | inside | 9 of 38 | 25 of 25 | 111 |
+| 8 | 143 | 75.3 | 68.7–80.9 | 76.2 (exon-terminus) | 43.8 | −1.0 | inside | 23 of 38 | 21 of 25 | 84 |
+| 9 | 98 | 51.6 | 44.5–58.6 | 56.8 (exon-terminus, novel acceptor) | 18.4 | −5.2 | inside | 31 of 38 | 14 of 25 | 63 |
+| **10** | **87** | **45.8** | **38.9–52.9** | **40.6 (exon-terminus)** | **6.2** | **+5.2** | **inside** | **35 of 38** | **11 of 25** | **62** |
+| 11 | 84 | 44.2 | 37.3–51.3 | 34.7 (exon-terminus) | 1.8 | +9.5 | outside, below | 37 of 38 | 11 of 25 | 62 |
+| 12 | 35 | 18.4 | 13.6–24.5 | 14.5 (exon-terminus) | 0.4 | +3.9 | inside | 38 of 38 | 5 of 25 | 24 |
+| 13 | 6 | 3.2 | 1.5–6.7 | 4.7 (exon-terminus) | 0.1 | −1.6 | inside | 38 of 38 | 1 of 25 | 5 |
 
-The strongest null at every cut is one of the two exon-terminus chimera arms, and the comparison
+The strongest null at every cut is one of the two exon-terminus chimera arms — the column names
+which, because they change places at six and nine — and the comparison
 against it does not behave as a real effect behaves. **The excess is not monotone in the cut and
 changes sign four times**: the observed rate is below the strongest null at six, eight, nine and
 thirteen, and above it at seven, ten, eleven and twelve. The strongest null lies inside the observed

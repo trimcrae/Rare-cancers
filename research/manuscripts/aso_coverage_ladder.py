@@ -1676,7 +1676,9 @@ def build():
         unnamed = 3 if panel["complete_partners"] else 0
         # ⚠ FOUR STATES, NOT THREE, AND THE NEW ONE IS THE ONE THAT MOVED. A junction the panel
         # excludes is now in one of three states of its own — SCREENED in the non-canonical lane
-        # (all five screens ran, read from `screens_complete`), DESIGNED BUT UNSCREENED (a
+        # (a ranked reagent whose deep alignment screen names this junction — see
+        # `screened_published_junctions`, which reads a per-screen record rather than the
+        # table-level `screens_complete` flag), DESIGNED BUT UNSCREENED (a
         # parent-exclusion margin only, off-target load unknown), or NOTHING AT ALL — and a junction
         # inside the panel is screened by construction. ⛔ SCREENED-OUTSIDE-THE-PANEL MUST NOT
         # RENDER AS EITHER NEIGHBOUR: as "designed" it would understate a reagent that exists, and

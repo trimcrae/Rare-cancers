@@ -1376,7 +1376,13 @@ def table5(per_junction, noncoding, gap, ladder):
         cell, basis = _ladder_cell(rung)
         n = rung.get("n_reagents_additional_unnamed") or 0
         seq = f"— ({n} further reagents, none named)" if n else "—"
-        return basis, (f"| coverage bound | {rung['panel']} | {seq} | — | — | — | — | "
+        #: ⚠ AND THE LABEL SAYS WHICH KIND OF BOUND IT IS (display-item review, 2026-08-19).
+        #: Two rows carry "coverage bound": one prices breakpoints for which this work names no
+        #: oligonucleotide at all, the other is a fully specified orderable reagent with real
+        #: screens beside a 98.3% figure. A reader scanning the reagent column met a buildable
+        #: 98.3% row. Derived from whether the entry names reagents, never typed.
+        role = "coverage bound (no reagent named)" if n else "coverage bound"
+        return basis, (f"| {role} | {rung['panel']} | {seq} | — | — | — | — | "
                        f"{cell} | {basis} |")
 
     # ⛔ TWO MEMBERSHIP CLASSES, NO STATED RULE (built-PDF finding, 2026-08-17). This table calls one
@@ -2420,8 +2426,7 @@ of {_run} contiguous bases with one of the {_word(len(condemned))}, whose own le
 
 **Table 1. The in-frame junction space across {_word(len(atlas["partners_scored"]))} *NR4A3* fusion partners.** Every
 donor-exon × *NR4A3*-acceptor-exon pair was graded against the frame condition before any design was
-emitted. The gap-level margin is the number of junction-unique bases inside the six-nucleotide
-catalytic gap on the shorter side of the junction. Frame compatibility is an arithmetic property of exon
+emitted. Every design counted here is at the {GEOMETRY.architecture} geometry — a {GEOMETRY.oligo_len}-mer, the architecture the chemistry note above expands — so this table sizes one design space and not the modality. {_margin_gloss()} Frame compatibility is an arithmetic property of exon
 structure and is not a claim about which junctions patients carry. A fusion-specific design is one
 whose catalytic gap contains at least one base that no wild-type parent carries at that position, so
 its gap-level margin is one or more. {t1_columns_note} “GC range of those designs (%)” and “best

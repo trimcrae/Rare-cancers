@@ -144,6 +144,10 @@ def test_no_sequence_in_the_pdf_is_fused_to_the_next_column(pdf_text):
     that is exactly the shape a fused table cell takes.
     """
     seqs = _canonical_sequences()
+    assert re.search(r"5[′']-[ACGT]{12,25}-3[′']", pdf_text), (
+        "this build's text layer carries no delimited sequence at all, so the search below could "
+        "not have found a fused one either. A guard whose corpus is empty is not a guard that "
+        "passed.")
     bad = []
     for m in re.finditer(r"[ACGT]{12,}\d", pdf_text):
         run = m.group(0)[:-1]
@@ -228,6 +232,16 @@ def test_every_sequence_the_pdf_prints_is_in_the_canonical_file(pdf_text):
     """
     seqs = _canonical_sequences()
     printed = set(re.findall(r"5[′']-([ACGT]{12,25})-3[′']", pdf_text))
+    #: ⛔ AND THE SET MUST NOT BE EMPTY, WHICH NOTHING SAID (2026-08-19). `printed - seqs` is empty
+    #: when `printed` is empty, so a build that lost every delimiter — the exact regression the two
+    #: tests above exist for — would have satisfied this one. MEASURED on both builds: 166 delimited
+    #: tokens, 69 distinct, every one of them in the canonical file. The floor is set well under
+    #: that, because the number of sequences the paper prints is an editorial decision; what is not
+    #: negotiable is that the extractor found some.
+    assert len(printed) >= 20, (
+        f"only {len(printed)} delimited sequence(s) could be read out of this build's text layer "
+        "(69 distinct were measured on 2026-08-19). Either the delimiters are gone — which is what "
+        "this file exists to catch — or the extractor is no longer reading the sequence cells.")
     missing = sorted(printed - seqs)
     assert not missing, (
         f"{len(missing)} sequence(s) are printed in the deposited PDF and absent from the canonical "

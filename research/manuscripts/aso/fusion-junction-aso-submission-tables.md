@@ -28,8 +28,7 @@ of 15 contiguous bases with one of the three, whose own length is 16.
 
 **Table 1. The in-frame junction space across five *NR4A3* fusion partners.** Every
 donor-exon × *NR4A3*-acceptor-exon pair was graded against the frame condition before any design was
-emitted. The gap-level margin is the number of junction-unique bases inside the six-nucleotide
-catalytic gap on the shorter side of the junction. Frame compatibility is an arithmetic property of exon
+emitted. Every design counted here is at the 5-6-5 geometry — a 16-mer, the architecture the chemistry note above expands — so this table sizes one design space and not the modality. The gap-level margin is the count of bases inside the six-nucleotide catalytic gap that no wild-type parent carries at that position, taken on the shorter side of the junction; it runs from 1 to 3, the geometry's ceiling of half the gap rounded down, and it is a count of bases and not a score. Frame compatibility is an arithmetic property of exon
 structure and is not a claim about which junctions patients carry. A fusion-specific design is one
 whose catalytic gap contains at least one base that no wild-type parent carries at that position, so
 its gap-level margin is one or more. Both middle columns are printed because they are different conditions and only one of them is arithmetic: in-frame is a property of the exon lengths, while a fusion-specific design existing at the seam is a property of the sequence, and it can only ever be the smaller of the two. They agree in every one of the 5 partner rows here, which is a measurement and not a duplicated cell. “GC range of those designs (%)” and “best
@@ -319,7 +318,7 @@ not a clearance. That ten-base-pair cut is a criterion this work ADOPTS rather t
 | coverage rung | EWSR1 e13::NR4A3 e3 | 5′-GGGCATATCTCCACGG-3′ | 5-6-5 | 3 | 24 → 2 | 8 bp (*TCF12*) | 79.0% (50.3–89.2) (+10.6) | single series, cumulative |
 | coverage rung | EWSR1 e7::NR4A3 e2 | 5′-CAGTGGGCTTCTGCTG-3′ | 5-6-5 | 2 | 51 → 7 | 8 bp (*TAF15*) | 79.0% (50.3–89.2) (+0.0) | single series, cumulative |
 | **ARITHMETIC BOUNDS — the cell is what coverage WOULD be if every remaining breakpoint of that partner were covered, which nothing here measures** | | | | | | | | |
-| coverage bound | BOUND — every remaining EWSR1 breakpoint covered | — (3 further reagents, none named) | — | — | — | — | 94.8% (+15.9) | arithmetic bound |
+| coverage bound (no reagent named) | BOUND — every remaining EWSR1 breakpoint covered | — (3 further reagents, none named) | — | — | — | — | 94.8% (+15.9) | arithmetic bound |
 | coverage bound | TCF12 e5::NR4A3 e3 | 5′-GGGCATATCCATCAGA-3′ | 5-6-5 | 3 | 17 → 1 | 7 bp (*EWSR1*) | 98.3% (+3.4) | arithmetic bound |
 | **QUALIFYING SEAMS THE LADDER PRICES AT NOTHING — the cell reads “adds nothing” and the basis beside it gives which of the two reasons applies** | | | | | | | | |
 | published seam in the panel | TFG e7::NR4A3 e3 | 5′-GGCATATCTGAATACT-3′ | 5-6-5 | 2 | 24 → 6 | 9 bp (*TAF15*) | adds nothing | partner absent from the cohort behind the denominator |
