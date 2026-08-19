@@ -400,6 +400,42 @@ roughly one finding per round CREATED by the previous round's repairs, and this 
 of its own. Repair is not free, which is why a taste-class item with no measurement behind it is
 worth declining — and why a measured one never is, however few readers saw it.
 
+### ⭐ CONDITION 8 — CORRECTNESS GATES THE DEPOSIT; IMPROVEMENT DOES NOT (added 2026-08-19, trimcrae)
+
+trimcrae, on the 2026-08-19 round, with the ledger showing 40 open defects beside 38 open
+improvements: *"I don't want you chasing improvements that expand the scope. If we do that, we'll
+never submit. We have to make sure what we post is correct."*
+
+**THE LEDGER IS SPLIT AND ONLY ONE HALF GATES.** A finding blocks the deposit if, and only if, it is
+one of these:
+
+| gates | does not gate |
+|---|---|
+| a statement that is **wrong as printed** | an omission — something true the paper could also say |
+| a claim **wider than the measurement** supports | prose that is thin, unclear, or better organised another way |
+| an assertion with **no retrieved source** | vocabulary carrying more than one sense where nothing printed is wrong |
+| a **pointer** that sends a reader where the thing is not | layout, label size, ordering, legibility |
+| an **order-safety** defect — a condemned sequence without its verdict, a marker without its key, a near-twin without its warning | a table column that is undefined but not misdescribed |
+| a **guard that cannot fail**, or that has never run | a guard that could be stronger |
+| a **stale deposit artefact** — a PDF, manifest or metric that no longer matches its sources | — |
+
+⛔ **THE RIGHT-HAND COLUMN IS NOT DISMISSED, IT IS PARKED.** Each entry keeps its recorded finding
+and its proposed fix. **A preprint is revisable — that is why this venue was chosen (§3)** — so an
+improvement costs nothing by waiting and costs real risk by being made now, because this ledger
+measures roughly one NEW defect for every round of repair, and five were introduced by the
+coordinating session in this round alone.
+
+⚠ **THE TRAP THIS CLOSES.** The two classes were being reported as one number, which made a
+repairable paper look like a broken one and made "how much is left?" unanswerable — 236 findings of
+which 47 were never in the paper at all. Worse, an improvement queue has no natural end: every
+reader supplies more, the marginal one gets smaller, and the deposit recedes. Correctness has an
+end, and it is the only half that can make a posted paper wrong.
+
+★ **THIS DOES NOT LOOSEN CONDITIONS 1–6.** A blocker or a major from any reader is still actionable
+on its own; the overlap rule still governs when review STOPS; every finding is still recomputed
+before it is applied and recorded REFUTED with numbers when it fails. What changes is which half of
+a dispositioned ledger has to reach zero before the deposit goes.
+
 ## 3 · ⚠ The corollary, which must not be flinched from
 
 **If the final round returns a class-B finding — a real defect in text no prior round touched — that
