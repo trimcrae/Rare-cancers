@@ -189,7 +189,7 @@ and §6 gives the accession for every gene so a report numbered the other way ca
 
 A *near-match* is a transcript window pairing a design at 14 or more of
 its 16 positions, and is *gap-paired* where the six gap positions are themselves paired, which is the
-class RNase-H1 could cleave; a gap-paired near-match on the sense strand is what this paper calls a *gap-paired sense-strand match*. ⚠ That name is deliberate and was corrected on 2026-08-19: the earlier term was *cleavage risk*, which names a catalytic outcome for what is a sequence observation. No screen here predicts cleavage (§5); each grades hybridisation only. A design is *clean* where a complete hit list at a stated search depth
+class RNase-H1 could cleave; a gap-paired near-match on the sense strand is what this paper calls a *gap-paired sense-strand match*. That name was corrected on 2026-08-19: the earlier term was *cleavage risk*, which names a catalytic outcome for what is a sequence observation. No screen here predicts cleavage (§5); each grades hybridisation only. A design is *clean* where a complete hit list at a stated search depth
 returns no sense-strand near-match, and a design's *load* is its predicted off-target burden counted
 as near-matches. Counts from that hit list come at one of two search depths, a default alignment
 ceiling and a tenfold deeper one — a hitlist of 50 alignments per query, of which 15 are retained,
@@ -231,7 +231,7 @@ file. The three designs of the paragraph above carry `do_not_order` for the othe
 records carry the flag in all. **⚑ IS THAT VERDICT, WHEREVER IT APPEARS.** A sequence printed with
 ⚑ beside it — in a table, in a figure, or inline in the body text — is one this paper says must not
 be ordered or used; the marker means the same thing in prose as it does in a table, and it is never
-decorative. ⚠ Tables 3 and 4 mark ⚑ every design of this class that they print,
+decorative. Tables 3 and 4 mark ⚑ every design of this class that they print,
 but between them they print only a small minority of it — they are per-junction and per-screen
 selections, not a census — so an absence from those tables is not a clearance and the canonical file
 is the only complete record. Five of the nine designs §2.4 names as

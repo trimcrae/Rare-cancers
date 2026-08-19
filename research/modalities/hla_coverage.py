@@ -261,6 +261,32 @@ def load_class_ii_alleles(path):
     return strong, d.get("patient_class2_hla"), class_ii_seam_grade(d)
 
 
+def seam_contexts_agree(a, b):
+    """Do two seam contexts describe the SAME junction, at whatever flank widths each was rendered?
+
+    ⛔ A RAW STRING EQUALITY HERE REQUIRES BOTH SIDES TO HAVE BEEN WINDOWED IDENTICALLY, AND THEY ARE
+    NOT (measured 2026-08-19). This module renders 10 left plus the novel residue and 10 right;
+    `patient_cd4_epitopes.py` renders 12 and 12. On the first run where the class-II arm was rebuilt
+    on exactly the right seam, `QYSQQSSSYGQQ|NMPCVQAQYSPS` was compared against
+    `SQQSSSYGQQ|NMPCVQAQYSP` and reported as a MISMATCH — so the artifact carried a banner saying its
+    figures were not quotable, about the one condition the banner exists to detect, at the moment
+    that condition had just been fixed. A gate that cries wolf about the defect it guards is worse
+    than no gate, because the next real firing reads as noise.
+
+    So compare the OVERLAP: same seam position, same residues out to the shorter of the two flanks on
+    each side. Returns None when either side is unusable, and the caller treats None as "not
+    established" rather than as agreement — the fail-safe direction is unchanged.
+    """
+    if not a or not b or "|" not in a or "|" not in b:
+        return None
+    a_left, a_right = a.split("|", 1)
+    b_left, b_right = b.split("|", 1)
+    n, m = min(len(a_left), len(b_left)), min(len(a_right), len(b_right))
+    if not n or not m:
+        return None
+    return a_left[-n:] == b_left[-n:] and a_right[:m] == b_right[:m]
+
+
 def class_ii_seam_grade(cd4):
     """Does the class-II demo's junction context match the CORRECTED seam? A READING, never a filter.
 
@@ -289,7 +315,7 @@ def class_ii_seam_grade(cd4):
         row = fb.emit_junction(ews, nr4, ja.mrna_junction(ews, nr4, 7, 3))
         want = row["junction_context"]                           # 10 left | novel + 10 right
         grade["corrected_junction_context"] = want
-        grade["matches_corrected_seam"] = bool(ctx) and ctx.replace("|", "") == want.replace("|", "")
+        grade["matches_corrected_seam"] = seam_contexts_agree(ctx, want)
     except Exception as exc:                                     # noqa: BLE001
         grade["⛔"] = ("the corrected seam could not be derived here, so the class-II arm's "
                        "provenance is UNKNOWN rather than confirmed: %s" % exc)

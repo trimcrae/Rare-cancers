@@ -43,13 +43,13 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 
 | blocker | kind | routes held | families | reach | routes that retire it | what would retire it |
 |---|---|---:|---:|---|---:|---|
-| **BLK-NO-EMC-DATA**<br/>EMC is nearly absent from public functional-genomics data (one DepMap line, n = 1, no CRIS | `insufficient_data` | 37 | 7 | portfolio-wide | 0 | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
+| **BLK-NO-EMC-DATA**<br/>EMC is nearly absent from public functional-genomics data (one DepMap line, n = 1, no CRIS | `insufficient_data` | 38 | 7 | portfolio-wide | 0 | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
 | **BLK-NO-WET-LAB**<br/>No wet lab and no collaborator — an ask needs a self-interested taker before its size matt | `requires_external_collaboration` | 16 | 7 | portfolio-wide | 2 | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
 | **BLK-NOT-FUSION-SELECTIVE**<br/>The route also engages the wild-type protein (NR4A3 LBD, or EWSR1's low-complexity half) | `fundamental_biological_limit` | 14 | 6 | portfolio-wide | 8 | **permanent — nothing** |
 | **BLK-NO-CURATED-CLINICAL-DATA**<br/>The clinical facts these routes need are IN the published record and have never been extra | `insufficient_data` | 9 | 3 | cross-family | 0 | `TECH-RECONSTRUCTED-IPD` |
 | **BLK-PARALOGUE-DDG**<br/>The paralogue ΔΔG margin — selectivity that reduces to exp(−ΔΔG/RT) | `requires_better_simulation_accuracy` | 9 | 3 | cross-family | 24 | `TECH-FE-CRYPTIC-POCKET` |
 | **BLK-CLASS-INHERITANCE**<br/>Class inheritance, not an EMC measurement — no NR4A3 fusion has been tested for the phenot | `insufficient_data` | 5 | 3 | cross-family | 0 | `TECH-VIRTUAL-CELL` |
-| **BLK-ANTIGEN-COLD**<br/>EMC is antigen-cold, and the fusion junction is a weak peptide-HLA | `fundamental_biological_limit` | 9 | 2 | cross-family | 0 | **permanent — nothing** |
+| **BLK-ANTIGEN-COLD**<br/>EMC is antigen-cold, and the fusion junction is a weak peptide-HLA | `fundamental_biological_limit` | 10 | 2 | cross-family | 0 | **permanent — nothing** |
 | **BLK-R4-BINDS**<br/>R4 — nothing is known to bind the cryptic pocket at all | `requires_wet_lab` | 8 | 2 | cross-family | 4 | `TECH-EMC-MODEL-ACCESS` |
 | **BLK-UNSIZED-REQUIREMENT**<br/>The selectivity requirement is now STATED for all three routes, and three of its inputs ar | `requires_wet_lab` | 3 | 2 | cross-family | 0 | Obtain the three dose-responses named as MISSING-1, MISSING-2 and MISSING-4 in selectivity-requirement-sizing.md. Until … |
 | **BLK-TERNARY-GEOMETRY**<br/>Ternary geometry — assembly, E3, exit vector, ubiquitin transfer | `requires_better_structure_prediction` | 5 | 1 | single-family | 24 | `TECH-COFOLD-ASSEMBLY`, `TECH-E3-RECRUITER-STRUCTURE`, `TECH-OBSERVED-CRL` |
@@ -80,7 +80,7 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 | **BLK-TERNARY-GEOMETRY** | 5 | single-family | **2027** | `moderate` | `evidence_based` | `TECH-COFOLD-ASSEMBLY`, `TECH-E3-RECRUITER-STRUCTURE`, `TECH-OBSERVED-CRL` |
 | **BLK-INDUCED-COMPLEX** | 3 | single-family | **2027** | `moderate` | `evidence_based` | `TECH-COFOLD-ASSEMBLY` |
 | **BLK-REACH-CATEGORICAL** | 2 | single-family | **2027H2** | `low` | `extrapolated` | `TECH-EXPOSURE-CRITERION` |
-| **BLK-NO-EMC-DATA** | 37 | portfolio-wide | **2028** | `low` | `extrapolated` | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
+| **BLK-NO-EMC-DATA** | 38 | portfolio-wide | **2028** | `low` | `extrapolated` | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
 | **BLK-PARALOGUE-DDG** | 9 | cross-family | **2028** | `low` | `extrapolated` | `TECH-FE-CRYPTIC-POCKET` |
 | **BLK-CLASS-INHERITANCE** | 5 | cross-family | **2028** | `low` | `extrapolated` | `TECH-VIRTUAL-CELL` |
 | **BLK-PARALOGUE-CONTROL** | 1 | single-family | **2028** | `low` | `speculative` | `TECH-NONCOVALENT-PARALOGUE-CONTROL` |
@@ -93,7 +93,7 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 | **BLK-UNSIZED-REQUIREMENT** | 3 | cross-family | *not forecast — an action, not an advance* | — | — | — |
 | **BLK-TCIP-INTERFACE-FLOOR** | 1 | single-family | *not forecast — an action, not an advance* | — | — | — |
 | **BLK-NOT-FUSION-SELECTIVE** | 14 | portfolio-wide | *never* | — | — | — |
-| **BLK-ANTIGEN-COLD** | 9 | cross-family | *never* | — | — | — |
+| **BLK-ANTIGEN-COLD** | 10 | cross-family | *never* | — | — | — |
 | **BLK-REGISTRY-DUA** | 1 | single-family | *on request* | — | — | — |
 | **BLK-SELECTIVITY-CONTROL-UNAUTHORIZED** | 1 | single-family | *on request* | — | — | — |
 
@@ -107,7 +107,7 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 
 - **kind:** `insufficient_data`
 - **a statement about:** data availability — the repo-wide rate-limiter, not any one route
-- **held by (37):** RT-6MP, RT-ALK-HIT, RT-APOPTOSIS-DEP, RT-ARGININE, RT-ASO-ASK, RT-ATR-ASSESS, RT-ATR-PANEL, RT-B7H3, RT-CARFILZOMIB, RT-CART-SURFACE, RT-CHAPERONE, RT-DNAPK, RT-EZH2, RT-FAP-RLT, RT-HORMONE-PARTNER, RT-HYPOXIA-PRODRUG, RT-ICI-TKI, RT-IMMUNOCYTOKINE, RT-JUNCTION-NEOANTIGEN, RT-MATRIX-ADDRESS, RT-MATRIX-SYNTHESIS, RT-MDM2, RT-MTAP-PRMT5, RT-NR2F1, RT-PARTNER-STRAT, RT-POLQ, RT-PPARG-DOWNSTREAM, RT-PRAME-IMMTAC, RT-RET, RT-SGK1, RT-SSTR2, RT-SYNLETH-DEP, RT-SYNPROMOTER, RT-TCRT-CTA, RT-TRABECTEDIN, RT-TRABECTEDIN-PPARG, RT-TXN-CDK
+- **held by (38):** RT-6MP, RT-ALK-HIT, RT-APOPTOSIS-DEP, RT-ARGININE, RT-ASO-ASK, RT-ATR-ASSESS, RT-ATR-PANEL, RT-B7H3, RT-CARFILZOMIB, RT-CART-SURFACE, RT-CHAPERONE, RT-DNAPK, RT-EZH2, RT-FAP-RLT, RT-HORMONE-PARTNER, RT-HYPOXIA-PRODRUG, RT-ICI-TKI, RT-IMMUNOCYTOKINE, RT-JUNCTION-NEOANTIGEN, RT-MATRIX-ADDRESS, RT-MATRIX-SYNTHESIS, RT-MDM2, RT-MTAP-PRMT5, RT-NR2F1, RT-PARTNER-STRAT, RT-POLQ, RT-PPARG-DOWNSTREAM, RT-PRAME-IMMTAC, RT-RET, RT-SGK1, RT-SSTR2, RT-SYNLETH-DEP, RT-SYNPROMOTER, RT-TCRT-CTA, RT-TRABECTEDIN, RT-TRABECTEDIN-PPARG, RT-TXN-CDK, RT-VACCINE-COMBINATION
 - **retired by route (0):** —
 - **retired by technology:** TECH-EMC-EXPRESSION-DATA, TECH-VIRTUAL-CELL
 - **⭐ retired by an action we can take:** NOT RETIRED, and the 2026-08-08 lead is recorded here so that it cannot be mistaken for a retirement. PRJNA1357027 / SRP640302 is a real, public, fourth EMC cohort — n = 12 FFPE tumours, downloadable since 2025-11-11, carrying per-sample EWSR1 break-apart FISH status, site, size, morphology and outcome-adjacent annotation, and larger than any of the three cohorts the manuscript reads (emc-fourth-cohort-sra-2026-08-08.md; artifact emc-sra-study.json, transport gate passed on three controls). It is TempO-Seq TARGETED-PANEL data, so its gene space is the panel's and the panel is not named anywhere in the archive metadata. This blocker's statement is about FUNCTIONAL-GENOMICS data — one DepMap line, no CRISPR — and a tumour expression panel is not a dependency screen, so nothing here touches it. What WOULD retire it is an EMC dependency or drug-response screen (a second EMC line in DepMap, a CRISPR screen, or an ex-vivo panel), none of which exists; TRG-SARCOMA-ATRI-RESPONSE-PANEL watches for it. The nearest $0 step on the cohort itself is naming the TempO-Seq panel, on which every read of it is gated.
@@ -156,7 +156,7 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 
 - **kind:** `fundamental_biological_limit` · **PERMANENT**
 - **a statement about:** the tumour's immunogenicity, shared by every antigen-directed route
-- **held by (9):** RT-B7H3, RT-CART-SURFACE, RT-ICI-TKI, RT-IMMUNOCYTOKINE, RT-JUNCTION-NEOANTIGEN, RT-PRAME-IMMTAC, RT-TCR-IMMTAC, RT-TCRT-CTA, RT-VACCINE
+- **held by (10):** RT-B7H3, RT-CART-SURFACE, RT-ICI-TKI, RT-IMMUNOCYTOKINE, RT-JUNCTION-NEOANTIGEN, RT-PRAME-IMMTAC, RT-TCR-IMMTAC, RT-TCRT-CTA, RT-VACCINE, RT-VACCINE-COMBINATION
 - **retired by route (0):** —
 - **when it could lift:** **never** — a fact about what the objects are. No technology in the register claims to retire it, and [B1] fails the build if one ever does. What CAN change is whether it stays decisive for a given route: a route either sidesteps it by construction or it does not.
 - **owner:** `research/manuscripts/neoantigen/immunotherapy-options-emc.md`

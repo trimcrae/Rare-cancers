@@ -6,7 +6,7 @@ kind: generated
 status: generated
 generator: systems/systems_check.py
 purpose: Can the immune system be pointed at EMC — via the junction neoantigen, a surface antigen, a cancer-testis antigen, or checkpoint blockade?
-scope: Level 1. 9 routes.
+scope: Level 1. 10 routes.
 audience: ["maintainers", "autonomous research agents"]
 date: 2026-08-05
 last_verified: 2026-08-05
@@ -53,6 +53,8 @@ flowchart LR
   ST_IMMUNO --> RT_TCRT_CTA
   RT_VACCINE["✓ RT-VACCINE"]:::fam
   ST_IMMUNO --> RT_VACCINE
+  RT_VACCINE_COMBINATION["○ RT-VACCINE-COMBINATION"]:::fam
+  ST_IMMUNO --> RT_VACCINE_COMBINATION
 
   BLK_ANTIGEN_COLD[["BLK-ANTIGEN-COLD — EMC is antigen-cold, and the fusion ju…"]]:::perm
   BLK_ANTIGEN_COLD --> RT_B7H3
@@ -63,6 +65,7 @@ flowchart LR
   BLK_ANTIGEN_COLD --> RT_TCR_IMMTAC
   BLK_ANTIGEN_COLD --> RT_TCRT_CTA
   BLK_ANTIGEN_COLD --> RT_VACCINE
+  BLK_ANTIGEN_COLD --> RT_VACCINE_COMBINATION
   BLK_NO_EMC_DATA{{"BLK-NO-EMC-DATA — EMC is nearly absent from public functi…"}}:::blk
   BLK_NO_EMC_DATA --> RT_B7H3
   BLK_NO_EMC_DATA --> RT_CART_SURFACE
@@ -70,6 +73,7 @@ flowchart LR
   BLK_NO_EMC_DATA --> RT_JUNCTION_NEOANTIGEN
   BLK_NO_EMC_DATA --> RT_PRAME_IMMTAC
   BLK_NO_EMC_DATA --> RT_TCRT_CTA
+  BLK_NO_EMC_DATA --> RT_VACCINE_COMBINATION
   BLK_NOT_FUSION_SELECTIVE[["BLK-NOT-FUSION-SELECTIVE — The route also engages the wil…"]]:::perm
   BLK_NOT_FUSION_SELECTIVE --> RT_B7H3
   BLK_NOT_FUSION_SELECTIVE --> RT_CART_SURFACE
@@ -97,6 +101,7 @@ flowchart LR
 | **[RT-TCR-IMMTAC](L2-rt-tcr-immtac.md)**<br/>Fusion-junction TCR-T / soluble-TCR (ImmTAC) against the junction peptide-HLA | ○ parked | concept | `internal_note` | [PUB-NEOANTIGEN](L3-publications.md) ◐ *contributing* | Re-graded 2026-08-07: the epitopes changed (NMPCVQAQY / QQNMPCVQAQY) and the weak-junction finding holds. |
 | **[RT-TCRT-CTA](L2-rt-tcrt-cta.md)**<br/>TCR-T / engineered T cells vs a cancer-testis antigen (synovial-sarcoma port) | ✓ parked | computed | `internal_note` | [PUB-SURFACE-TARGETS](L3-publications.md) ◐ *contributing* | Keep registered for automatic re-grade when EMC expression data lands. |
 | **[RT-VACCINE](L2-rt-vaccine.md)**<br/>Fusion-junction vaccine / HLA-coverage paper | ✓ parked | computed | `internal_note` | [PUB-HLA-COVERAGE](L3-publications.md) ◐ *primary* | Re-grade on the recomputed coverage. The HLA-coverage output is reusable but its class-I figures moved by ~3×  |
+| **[RT-VACCINE-COMBINATION](L2-rt-vaccine-combination.md)**<br/>Junction vaccine on a checkpoint and antiangiogenic backbone | ○ blocked | concept | `preprint` | [PUB-VACCINE-PATH](L3-publications.md) ◐ *primary* | Run the Stage 0 items: proteome-wide novelty, class II regeneration, anchor-position analysis, extended allele |
 ## What this family buys the portfolio — blockers it RETIRES
 
 - **BLK-NOT-FUSION-SELECTIVE** (`fundamental_biological_limit`) — The route also engages the wild-type protein (NR4A3 LBD, or EWSR1's low-complexity half)

@@ -62,25 +62,60 @@ def junction_from_seq(spec):
     return left, right
 
 
-def junction_from_exons(partner, e_exon, n_exon):
-    """Build the in-frame junction context from Ensembl exon structure (reuses the
-    population-analysis machinery). `partner` is the 5' FET gene (EWSR1 or TAF15).
-    Returns (left, right) protein context around the seam."""
+def junction_reading(partner, e_exon, n_exon):
+    """The chimeric protein and its seam for `partner` exon `e_exon` :: NR4A3 exon `n_exon`.
+
+    ⛔ TRANSCRIPT MODEL, AND THE EXON NUMBERS ARE TRANSCRIPT RANKS. Superseded, retained: this
+    was `junction_from_exons`, which built `partner_cds[:p] + NR4A3_cds[q:]` — pure CDS
+    concatenation on CODING-exon ranks. That model discards the acceptor exon's retained 5'UTR,
+    and a fusion transcript does not: it splices the acceptor exon in WHOLE. The two models
+    therefore select DISJOINT seams, which is the 2026-08-07 correction
+    (`fusion-breakpoint-neoantigens.json` -> `_coordinate_system`). Regenerating the artifacts
+    could never repair the two callers of this function, because the defect was here rather than
+    in their inputs: the class-II demo still read `QYSQQSSSYGQQ|IVRTDSLKGRRG` after a green
+    pipeline run, against the corrected `SQQSSSYGQQ|NMPCVQAQYSP`.
+
+    One builder, one grader (rule 1): the junction comes from `junction_aso.mrna_junction_generic`
+    and the verdict from `junction_aso.grade_junction` — the same two functions that produced the
+    corrected population artifact. Nothing about frame or seam position is re-derived here.
+
+    Returns the reading dict, with `_prot` (chimeric protein), `_j0` (0-based index of the first
+    non-pure-donor residue) and `_has_novel` (whether that residue is a seam codon belonging to
+    neither parent) added. Exits non-zero on any junction the grader does not pass — callers,
+    including the TAF15 exon sweep in `modalities-run.yml`, depend on that exit code to mean
+    "not a viable in-frame fusion, try the next exon".
+    """
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-    from fusion_breakpoints import gene_model, translate  # type: ignore
-    fet, nr4 = gene_model(partner), gene_model("NR4A3")
-    if not (1 <= e_exon <= fet["n_coding_exons"]):
-        sys.exit(f"{partner} exon {e_exon} out of range (1..{fet['n_coding_exons']})")
-    if not (2 <= n_exon <= nr4["n_coding_exons"]):
-        sys.exit(f"NR4A3 exon {n_exon} out of range (2..{nr4['n_coding_exons']})")
-    p = fet["offsets"][e_exon - 1]
-    q = nr4["offsets"][n_exon - 2]
-    fusion_prot = translate(fet["cds"][:p] + nr4["cds"][q:])
-    if not fusion_prot.endswith(nr4["protein"][-100:]):
-        sys.exit(f"{partner} e{e_exon}::NR4A3 e{n_exon} is out of frame (NR4A3 C-terminus "
-                 "not intact) — not a viable in-frame fusion; check the breakpoint.")
-    j = p // 3
-    return fusion_prot[:j], fusion_prot[j:]
+    import junction_aso as ja  # type: ignore
+    from fusion_breakpoints import chimeric_protein  # type: ignore
+
+    donor, nr4 = ja.transcript_model(partner), ja.transcript_model("NR4A3")
+    try:
+        j = ja.mrna_junction_generic(donor, nr4, e_exon, n_exon)
+    except Exception as exc:  # noqa: BLE001 — a refusal is a reading, and it must say why
+        sys.exit(f"{partner} e{e_exon}::NR4A3 e{n_exon} is unreadable: {exc}")
+    lo, hi = ja.plausible_nr4a3_resume_residues()
+    grade, why = ja.grade_junction(j, lo, hi)
+    if grade != ja.EMITTABLE:
+        sys.exit(f"{partner} e{e_exon}::NR4A3 e{n_exon} graded {grade}: {why} — "
+                 "not a viable in-frame fusion; check the breakpoint.")
+    j["_prot"] = chimeric_protein(donor, j)
+    j["_j0"] = j["donor_last_whole_residue"]
+    j["_has_novel"] = bool(j["donor_coding_phase"])
+    j["_grade"] = grade
+    return j
+
+
+def junction_from_exons(partner, e_exon, n_exon):
+    """(left, right) protein context around the seam, on the transcript model.
+
+    `right` OPENS with the seam codon when there is one, so `len(left)` is the index of the
+    first residue that is not purely the donor's. Peptide enumeration must go through
+    `fusion_breakpoints.junction_peptides(..., novel_residue=...)` rather than a plain straddle
+    test, or every peptide that starts at the seam codon is silently dropped.
+    """
+    j = junction_reading(partner, e_exon, n_exon)
+    return j["_prot"][:j["_j0"]], j["_prot"][j["_j0"]:]
 
 
 def spanning_peptides(left, right):
@@ -94,6 +129,28 @@ def spanning_peptides(left, right):
                 peps[pep] = {"length": L, "n_from_left": j - start,
                              "n_from_right": start + L - j}
     return peps
+
+
+def junction_peptide_context(prot, j0, has_novel, peps):
+    """Describe where each selected peptide sits relative to the seam.
+
+    ⛔ SELECTION IS NOT REDONE HERE. `peps` comes from `fusion_breakpoints.junction_peptides`,
+    the one enumerator, which under the corrected model admits peptides that BEGIN at the seam
+    codon — a plain straddle test drops those, and they include the strongest binders the
+    population artifact reports. This function only locates the seam-covering occurrence of each
+    peptide and counts donor / seam / acceptor residues in it.
+    """
+    out = {}
+    for pep, L in peps.items():
+        start = next((s for s in range(max(0, j0 - L + 1), j0 + 1) if prot[s:s + L] == pep), None)
+        if start is None:
+            continue
+        n_seam = 1 if has_novel else 0
+        out[pep] = {"length": L,
+                    "n_from_left": j0 - start,
+                    "n_from_right": max(0, (start + L) - (j0 + n_seam)),
+                    "seam_codon_included": bool(has_novel)}
+    return out
 
 
 def main():
@@ -112,11 +169,25 @@ def main():
 
     if args.junction_seq:
         left, right = junction_from_seq(args.junction_seq)
-        source = {"mode": "junction-seq", "partner": "unspecified"}
+        source = {"mode": "junction-seq", "partner": "unspecified",
+                  "coordinate_system": "caller-supplied seam — not derived here"}
+        peps = spanning_peptides(left, right)
+        seam_context = left[-10:] + "|" + right[:10]
     elif args.partner_exon and args.nr4a3_exon:
-        left, right = junction_from_exons(args.partner, args.partner_exon, args.nr4a3_exon)
+        j = junction_reading(args.partner, args.partner_exon, args.nr4a3_exon)
+        prot, j0, has_novel = j["_prot"], j["_j0"], j["_has_novel"]
+        left, right = prot[:j0], prot[j0:]
         source = {"mode": "exon", "partner": args.partner,
-                  "partner_exon": args.partner_exon, "NR4A3_exon": args.nr4a3_exon}
+                  "partner_exon": args.partner_exon, "NR4A3_exon": args.nr4a3_exon,
+                  "exon_rank_basis": "TRANSCRIPT exon ranks (junction_aso.transcript_model)",
+                  "coordinate_system": "TRANSCRIPT (junction_aso.mrna_junction_generic)",
+                  "junction_label": j["junction_label"], "grade": j["_grade"],
+                  "seam_codon_residue": prot[j0] if has_novel else None,
+                  "acceptor_5utr_nt_retained": j["nr4a3_acceptor_exon_5utr_nt_retained"]}
+        from fusion_breakpoints import junction_peptides  # type: ignore
+        peps = junction_peptide_context(
+            prot, j0, has_novel, junction_peptides(prot, j0, LENGTHS, novel_residue=has_novel))
+        seam_context = prot[max(0, j0 - 10):j0] + "|" + prot[j0:j0 + 10]
     else:
         sys.exit("provide --junction-seq OR (--partner-exon AND --nr4a3-exon)")
 
@@ -126,7 +197,6 @@ def main():
         if a:
             alleles.append(a if a.upper().startswith("HLA-") else "HLA-" + a)
 
-    peps = spanning_peptides(left, right)
     if not peps:
         sys.exit("no junction-spanning peptides — check the seam position")
 
@@ -149,7 +219,7 @@ def main():
                  "Predicted presentation is a screen, NOT proof of immunogenicity; confirm "
                  "by immunopeptidomics + T-cell assay. Not medical advice.",
         "source": source,
-        "junction_context": (left[-10:] + "|" + right[:10]),
+        "junction_context": seam_context,
         "patient_hla": alleles,
         "novelty_filter": novelty_note,
         "n_candidate_peptides": len(peps),
@@ -176,7 +246,10 @@ def main():
             "presentation_percentile": round(rank, 4),
             "presentation_score": round(float(r.get("presentation_score", 0)), 3),
             "call": "strong" if rank <= RANK_STRONG else ("weak" if rank <= RANK_WEAK else "non-binder"),
-            "tumour_specific_residues": f"{m['n_from_left']} from EWSR1 + {m['n_from_right']} from NR4A3",
+            "tumour_specific_residues": (
+                f"{m['n_from_left']} from {source['partner']} + "
+                + ("1 seam codon + " if m.get("seam_codon_included") else "")
+                + f"{m['n_from_right']} from NR4A3"),
         })
     rows.sort(key=lambda x: x["presentation_percentile"])
     shortlist = [r for r in rows if r["call"] != "non-binder"]

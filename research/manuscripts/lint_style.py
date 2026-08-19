@@ -74,6 +74,13 @@ TARGETS = [
     # Measured on entry: 4 ERROR (2 bold-midsentence, 2 heading-style). They are SI-side text fixes
     # and are reported rather than silenced — a gate added with an exemption is not a gate.
     "research/manuscripts/aso/fusion-junction-aso-supplementary-information.md",
+    # ⭐ THE EMC VACCINE DEVELOPMENT PATH, ADDED 2026-08-19 AS A SUBMISSION TEXT FROM THE START.
+    # Written to this gate rather than retrofitted to it: it entered at bold 9.1/1000 and em-dashes
+    # 0.0/1000, and its only findings were 9 sentence-shaped headings and one fragment, all fixed
+    # before the first commit. ⛔ DO NOT RESTATE ITS DENSITIES HERE — a `lint_style.py` run prints
+    # the live ones, and the comment above records what happened when a measurement was frozen into
+    # this file and went on reading as current.
+    "research/manuscripts/neoantigen/emc-vaccine-development-path.md",
 ]
 
 # ⛔ fusion-junction-aso-working-record.md IS DELIBERATELY NOT IN `TARGETS`, AND THAT IS NOW CORRECT

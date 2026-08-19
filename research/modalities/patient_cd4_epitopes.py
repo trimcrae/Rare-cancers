@@ -61,24 +61,44 @@ def main():
     args = ap.parse_args()
 
     sys.path.insert(0, HERE)
-    from patient_neoepitopes import junction_from_seq, junction_from_exons  # type: ignore
+    from patient_neoepitopes import (junction_from_seq, junction_peptide_context,  # type: ignore
+                                     junction_reading)
 
     if args.junction_seq:
         left, right = junction_from_seq(args.junction_seq)
-        source = {"mode": "junction-seq"}
+        source = {"mode": "junction-seq",
+                  "coordinate_system": "caller-supplied seam, not derived here"}
+        peps = spanning(left, right, LENGTHS)
+        seam_context = left[-12:] + "|" + right[:12]
     elif args.partner_exon and args.nr4a3_exon:
-        left, right = junction_from_exons(args.partner, args.partner_exon, args.nr4a3_exon)
+        # TRANSCRIPT model. Until 2026-08-19 this path went through the CDS-concatenation builder,
+        # so the class-II arm sat on a seam DISJOINT from the corrected class-I one and every
+        # CD8^CD4 combined figure mixed two coordinate systems (`hla-coverage.json` ->
+        # `class_ii_provenance`). Regenerating inputs could not fix it: the builder was the defect.
+        # Enumeration goes through fusion_breakpoints.junction_peptides because under the corrected
+        # model a 15mer may BEGIN at the seam codon, and the straddle test used here drops exactly
+        # those.
+        j = junction_reading(args.partner, args.partner_exon, args.nr4a3_exon)
+        prot, j0, has_novel = j["_prot"], j["_j0"], j["_has_novel"]
+        left, right = prot[:j0], prot[j0:]
         source = {"mode": "exon", "partner": args.partner,
-                  "partner_exon": args.partner_exon, "NR4A3_exon": args.nr4a3_exon}
+                  "partner_exon": args.partner_exon, "NR4A3_exon": args.nr4a3_exon,
+                  "exon_rank_basis": "TRANSCRIPT exon ranks (junction_aso.transcript_model)",
+                  "coordinate_system": "TRANSCRIPT (junction_aso.mrna_junction_generic)",
+                  "junction_label": j["junction_label"], "grade": j["_grade"],
+                  "seam_codon_residue": prot[j0] if has_novel else None}
+        from fusion_breakpoints import junction_peptides  # type: ignore
+        peps = junction_peptide_context(
+            prot, j0, has_novel, junction_peptides(prot, j0, LENGTHS, novel_residue=has_novel))
+        seam_context = prot[max(0, j0 - 12):j0] + "|" + prot[j0:j0 + 12]
     else:
         sys.exit("provide --junction-seq OR (--partner-exon AND --nr4a3-exon)")
 
     alleles = [a for a in (x.strip() for x in args.hla2.split(",")) if a]
-    peps = spanning(left, right, LENGTHS)
     result = {
         "_note": "CD4/MHC class-II junction epitopes (MHCnuggets). IC50<100 strong, "
                  "<1000 binder. Screen only; confirm by T-cell assay. Not medical advice.",
-        "source": source, "junction_context": left[-12:] + "|" + right[:12],
+        "source": source, "junction_context": seam_context,
         "patient_class2_hla": alleles, "n_candidate_15mers": len(peps),
     }
 
@@ -117,7 +137,10 @@ def main():
                 m = peps.get(pep, {})
                 rows.append({"peptide": pep, "allele": a, "ic50_nM": round(ic, 1),
                              "call": "strong" if ic < IC50_STRONG else ("binder" if ic < IC50_BIND else "non-binder"),
-                             "tumour_specific_residues": f"{m.get('n_from_left','?')} left + {m.get('n_from_right','?')} right"})
+                             "tumour_specific_residues": (
+                                 f"{m.get('n_from_left','?')} left + "
+                                 + ("1 seam codon + " if m.get("seam_codon_included") else "")
+                                 + f"{m.get('n_from_right','?')} right")})
     rows.sort(key=lambda r: r["ic50_nM"])
     binders = [r for r in rows if r["call"] != "non-binder"]
     result["n_predicted_binders"] = len(binders)
