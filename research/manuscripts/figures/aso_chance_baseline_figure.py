@@ -100,7 +100,37 @@ def esc(s):
 #: model the wrap used.
 
 
-def _caveat_texts(fs, exc, n, ref, above, obs, expected):
+def _unit_phrase(fs):
+    """The artifact's own name for one bar, as a noun phrase. "one distinct oligonucleotide" -> …
+
+    ⛔ THE TITLE NAMED A UNIT THE SERIES IS NOT DRAWN IN (figure-integrity review, 2026-08-19). It
+    read "per junction gapmer", and a junction gapmer is a (junction, design) RECORD — there are
+    190 of them at real exon junctions and 176 bars on this panel, because nine 16-mers span two or
+    three partners' seams. So the one line of the figure most likely to be quoted named the unit
+    whose count is the one the panel does NOT draw, over a series whose own subtitle says
+    "distinct oligonucleotides", and the manuscript caption had already been corrected to "per
+    molecule". Read from `figure_series.unit`, which is where the plotted unit is decided.
+    """
+    unit = str(fs.get("unit") or "").strip()
+    if not unit:
+        raise SystemExit(
+            "this panel's title names the unit one bar is, and `figure_series.unit` is absent from "
+            "offtarget-chance-baseline.json. Re-derive the artifact rather than typing a unit here.")
+    return unit[4:] if unit.startswith("one ") else unit
+
+
+def _n_records(d, fs):
+    """How many design RECORDS the plotted molecules were collapsed from, counted from the artifact.
+
+    ⚠ COUNTED, NEVER TYPED, and counted over the seam class the figure plots, so a record admitted
+    or excluded upstream moves this number instead of leaving the panel asserting a collapse of the
+    wrong size.
+    """
+    plotted = fs.get("seam_class_plotted")
+    return sum(1 for r in (d.get("per_design") or []) if r.get("seam_class") == plotted)
+
+
+def _caveat_texts(fs, exc, n, ref, above, obs, expected, n_records):
     """The lines that travel ON the figure, because a figure is reused without its caption.
 
     ⚠ A FUNCTION, NOT AN INLINE BLOCK, so `main` can MEASURE them before it decides the canvas
@@ -122,6 +152,16 @@ def _caveat_texts(fs, exc, n, ref, above, obs, expected):
     mean = statistics.mean(obs)
     median = statistics.median(obs)
     return [
+        #: ⛔ THE DENOMINATOR OF EVERY LINE BELOW IS MOLECULES, AND THE PANEL NEVER SAID SO
+        #: (figure-integrity review, 2026-08-19). "118 of 176", "58 of the 176", "40 of the 176" —
+        #: a reader who knows the paper reports 190 designs and meets 176 here has no way, from the
+        #: panel alone, to tell a collapse from a silently dropped set of fourteen. The marker key
+        #: says the multi-seam designs are plotted once; it names neither count, so the arithmetic
+        #: is unavailable exactly where the figure is read without its caption.
+        (f'One bar is one molecule and not one design record: the {esc(n_records)} design records '
+         f'at real exon junctions are {esc(n)} distinct oligonucleotides, because the '
+         f'{esc(fs["n_multi_junction_sequences"])} marked designs each span more than one partner’s '
+         f'seam and are plotted once rather than once per seam.'),
         (f'The {ref} assumes independent uniform bases; the transcriptome span it is computed over '
          f'is the exhaustive scan\'s measured one. It separates "more than chance" from "at chance" '
          f'and is not a significance test. {esc(fs["n_at_or_below_chance_upper"])} of {esc(n)} bars '
@@ -152,6 +192,8 @@ def main(argv=None):
     obs = [r["offtarget_le1mm"] for r in rows]
     multi = [r["n_junctions"] > 1 for r in rows]
     n = fs["n_plotted"]
+    n_records = _n_records(d, fs)
+    unit = _unit_phrase(fs)
     ymax = max(obs + [hi]) * 1.08
 
     n_at_or_below = fs["n_at_or_below_chance_upper"]
@@ -189,7 +231,8 @@ def main(argv=None):
     _plot_h = 284                                    # the design's plot height, held fixed
     _caveat_step = FS_CAVEAT * 1.30
     _avail = W - R - L
-    _caveat_lines = [line for caveat in _caveat_texts(fs, exc, n, _ref, _above, obs, hi)
+    _caveat_lines = [line for caveat in _caveat_texts(fs, exc, n, _ref, _above, obs, hi,
+                                                      n_records)
                      for line in _wrap(caveat, FS_CAVEAT, _avail)]
     _axis_title_y = _top + _plot_h + 38
     _caveats_top = _axis_title_y + 16
@@ -285,7 +328,7 @@ def main(argv=None):
                      f'stroke="#111" stroke-width="1.3"/>')
 
     p.append(f'<text x="{L}" y="24" font-size="{FS_TITLE}" fill="#111" font-weight="600">'
-             f'Transcriptome load per junction gapmer against chance expectation</text>')
+             f'Transcriptome load per {esc(unit)} against chance expectation</text>')
     p.append(f'<text x="{L}" y="42" font-size="{FS_SUB}" fill="#555">'
              f'{esc(n)} distinct oligonucleotides at real exon junctions, ranked; exact plus '
              f'≤1-mismatch matches over {esc(scanned)} transcripts.</text>')

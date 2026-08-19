@@ -210,7 +210,12 @@ class RNase-H1 could cleave; a gap-paired near-match on the sense strand is what
 returns no sense-strand near-match, and a design's *load* is its predicted off-target burden counted
 as near-matches. A design is *liable* where a wild-type parent pairs its whole catalytic gap over a
 contiguous run reaching a stated length, ten base pairs unless another is named, and the count of
-liable designs is what §2.5 reports at each length it reads the same screen at. Counts from that hit list come at one of two search depths, a default alignment
+liable designs is what §2.5 reports at each length it reads the same screen at. That length is a
+whole-duplex count and not the enzyme's unit: the figure ten is taken from is a range of 7 to 10
+RNA:DNA hybridised nucleotides, and a 5-6-5 design holds six of those against every target, below
+that range in every design, so four or more pairs of any ten-base-pair run counted here are
+locked-wing pairs. The count is a stratification of the panel at a stated cut and not a prediction
+of cleavage (§5, §6). Counts from that hit list come at one of two search depths, a default alignment
 ceiling and a tenfold deeper one (a hitlist of 50 alignments per query, of which 15 are retained,
 against 500 with retention raised to match so that no list is truncated; §6), and each is reported
 with the depth it was taken at. Five screens
@@ -1053,8 +1058,12 @@ those minima being stated for a DNA gap internal to a fully paired duplex, where
 of the same length terminates the duplex at the seam, so meeting the count is necessary and not
 sufficient — and
 the median most stable parent duplex becomes more stable, −8.66 to −11.60 to −14.58 kcal/mol. At 5-10-5 that count is
-every design, and necessarily so, since the larger half of a gap of ten cannot be under five. At
-5-6-5, 114 of 190 designs keep the parent below it.
+every design, and necessarily so, since the larger half of a gap of ten cannot be under five: every
+design at that geometry concedes a parent-paired run reaching the shorter of the two minima. At
+5-6-5, 114 of 190 designs keep the parent below it. Which minimum is read decides the contrast, and
+that is why both are carried: at the six-nucleotide minimum the same series reads 0 of 190, 152 of
+266 and 304 of 342, no 5-6-5 design reaching it at all, since a margin of at least one leaves the
+parent at most five of that geometry's six gap nucleotides.
 
 A third consequence of a longer gap is counted nowhere in this paper, and it runs against the longer
 geometries. Every screen here counts a site only where all gap positions pair, so a single mismatch
@@ -1120,8 +1129,8 @@ marginal here. That is not the same as saying binding discriminates: what would 
 whether a parent seam is occupied at the exposure concentration, which depends on the modified
 duplex's absolute stability and is not computed anywhere in this paper (§6). Two things therefore
 remain unresolved rather than one — occupancy at the binding step, and discrimination at the level of
-*catalysis*, where RNase-H1 requires a paired DNA gap and where the literature bounds span one- to
-five-fold. The thermodynamic result narrows neither; it orders them.
+*catalysis*, where RNase-H1 requires a DNA:RNA segment within the gap and where a mismatch in it
+reduces rather than abolishes cleavage by a factor the literature bounds at one- to five-fold. The thermodynamic result narrows neither; it orders them.
 
 The two rankings agree in direction. Grouping designs by the gap-level margin the Methods (§6) define,
 the mean of that free-energy margin (written ΔΔG°37 and computed as ΔG°37 of the better parent run
@@ -1982,7 +1991,13 @@ named patient whose breakpoint has been sequenced. How many tumours this account
 established by any source.
 
 **One geometry.** Every screened count here is for one architecture, a 16-mer at 5-6-5, except those
-§2.9 reports and the ones §4.2 and Table 5 carry over from it for the 5-8-5 control. The
+§2.9 reports and the ones §4.2 and Table 5 carry over from it for the 5-8-5 control. Across those
+three panels the ten-base-pair criterion is not one criterion. It is an absolute hybrid length that
+does not scale with the gap, so a run counted at it is six RNA:DNA pairs plus four locked-wing
+pairs at 5-6-5, eight plus two at 5-8-5, and ten RNA:DNA pairs at 5-10-5, where every window
+pairing the whole gap clears it by construction. §2.9's liable count is flat at 87, 88 and 87
+across a criterion whose RNA:DNA content rises from six to eight to ten, so that flatness is not a
+reading at a constant substrate. The
 genome scan is unavailable at 18 and 20 nucleotides by construction rather than merely unrun, so the
 nesting bound on a longer design's genome liability is a next step and not a result, and no RNase-H1
 assay distinguishes these geometries here.
@@ -2246,15 +2261,23 @@ another catches. No single screen supports any claim here on its own.
    antisense oligonucleotide the tables print. A window counts only if all six gap positions are paired. Its size is the
    longest contiguous run of perfect pairing containing the whole gap. It is not the duplex the
    enzyme acts on: exactly six of its ten to thirteen base pairs are the RNA:DNA gap, and the rest
-   are LNA:RNA wing pairs that RNase-H1 does not cleave and its hybrid-binding domain does not
-   recognise as hybrid, though the catalytic domain's footprint does extend into them. The caveat
+   are LNA:RNA wing pairs. That RNase-H1 does not cleave those pairs is why a gapmer has a gap at
+   all: no RNase-H-mediated cleavage was observed for a fully modified 11-mer locked
+   oligonucleotide or an 11-mer locked/DNA mixmer, where an LNA/DNA/LNA gapmer with a
+   six-nucleotide DNA gap elicited substantial activity.<sup>39</sup><!--PMID:24981949--> That the
+   catalytic footprint reaches past the DNA stretch is retrieved too: a footprint model places
+   sugar-modified, non-DNA residues at footprint positions flanking a five-base DNA gap and reports
+   cleavage retained there.<sup>45</sup><!--PMID:28624195--> Whether the hybrid-binding domain
+   reads a locked pair as hybrid is a third statement and is not one of these: no measurement
+   retrieved into this work bounds that domain's affinity for a locked duplex, so that it does not
+   is a premise adopted here, and the ten-base-pair threshold below is stated on it. The caveat
    below states the consequence.
    Runs shorter than ten base pairs are not treated as plausible substrates. That is a
    stated threshold, not a measured one, so every design's longest run is released. Ten is the strict
    end of a figure its source gives as a possible explanation of its own observation — "this could be
    because RNase H1 requires a minimum length of 7 to 10 RNA:DNA hybridized nucleotides to bind with
    its hybrid binding domain" — rather than as a measured
-   minimum.<sup>45</sup><!--PMID:35664704--> The qualifier does
+   minimum.<sup>46</sup><!--PMID:35664704--> The qualifier does
    not transfer cleanly: the run counted here is the whole contiguous duplex, of which exactly six
    nucleotides are the RNA:DNA pairs of the gap and the rest are LNA:RNA wing pairs the source's
    wording would not count. Ten here is therefore a total-duplex length, while the source's 7 to 10
@@ -2337,7 +2360,7 @@ one depth need not be clean at another. §2.4 and §5 report both effects.
 
 **Target-site accessibility.** Accessibility was estimated as the mean unpaired probability over a
 local fold of up to 180 nucleotides, computed with the ViennaRNA partition
-function,<sup>46</sup><!--PMID:22115189--> and it spans 0.160 to 0.707 across all 190 designs at
+function,<sup>47</sup><!--PMID:22115189--> and it spans 0.160 to 0.707 across all 190 designs at
 real exon junctions, with a median of 0.477. The window is not a fixed 180: it spans the union of a
 junction's candidate target windows plus 80 nucleotides either side, on the modelled fusion
 transcript, clipped at the transcript ends. The partition function was called at the package's own
@@ -2350,7 +2373,7 @@ about — and SI §S1 gives the three reasons in full.
 **Expression of the off-target loci.** No screen above says whether a matched gene is transcribed
 in the organs a systemic dose reaches. For four of the five junctions of the 38-junction panel with a published exon-resolved breakpoint — those
 Table 6 covers — the gene loci their deeper screens return in the gap-paired class were read against
-GTEx v8 median TPM.<sup>47</sup><!--PMID:32913098--> No such reading was taken at *TFG* exon 7, so
+GTEx v8 median TPM.<sup>48</sup><!--PMID:32913098--> No such reading was taken at *TFG* exon 7, so
 that junction carries no expression reading rather than a negative one. The readings are in two
 blocks, reported separately and never combined, against two cuts used for legibility rather than as
 thresholds of concern: a lower cut of 1 TPM, below which a reading is taken as below detection, and
@@ -2363,7 +2386,7 @@ itself. Both blocks are read from the same v8 gene-level release,
 `GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_median_tpm`, whose cells are medians across a
 tissue's donors and are gene-level rather than transcript-level. NCBI Gene
 supplied locus identity, so a locus with no reading is attributed rather than left blank, and the
-Human Protein Atlas<sup>48</sup><!--PMID:25613900--> was read as a transport check only, its
+Human Protein Atlas<sup>49</sup><!--PMID:25613900--> was read as a transport check only, its
 consensus incorporating GTEx rather than confirming it independently.
 
 **Discrimination model.** The binary assumption that any mismatch inside the gap abolishes cleavage
@@ -2371,18 +2394,26 @@ is not supported by the primary literature and is not used for any claim of clea
 general figure for single-nucleotide discrimination by a gapmer carrying no positional modification
 in its gap is approximately five-fold, given in its source as prior work restated rather than
 measured there,<sup>33</sup><!--PMID:23963702--> and at 16-mer length one study reports no efficient
-discrimination at all.<sup>49</sup><!--PMID:7567450--> Both underlying measurements are against a
+discrimination at all.<sup>50</sup><!--PMID:7567450--> Both underlying measurements are against a
 single-nucleotide substitution rather than a fusion junction, and the pessimistic one used
 unmodified antisense DNA, so they are used here as bounds for unmodified chemistry rather than as a
-property of this architecture. Gapmer-specific work points the same way, which is why the bounds are
+property of this architecture. Neither is resolved at a gap of six. The five-fold figure carries no
+geometry at all, being prior work restated rather than measured where it is stated, and the
+pessimistic one has no gap, an unmodified antisense 16-mer presenting a sixteen-nucleotide DNA:RNA
+hybrid. Both are applied as a scalar per gap mismatch, so the re-score treats a mismatch at the
+gap's edge and one at its centre alike, where the surviving contiguous run does not — five
+nucleotides for a mismatch at the first of six gap positions against three for one at the third
+(§2.9). The classification records how many gap positions mismatch and not which, so no count
+reported here is positional; the alignment strings are released, so such a re-score is possible and
+has not been done. Gapmer-specific work points the same way, which is why the bounds are
 not narrowed: across more than 120 gapmers spanning five single-nucleotide changes, three achieved
 preferential cleavage of the mutant allele both in vitro and in cells, two at one substitution and
-one at another, while several more did so in vitro only,<sup>50</sup><!--PMID:28970564--> and in the
+one at another, while several more did so in vitro only,<sup>51</sup><!--PMID:28970564--> and in the
 one retrieved campaign that achieves allele selectivity on purpose it is engineered by a chemical
 modification at a gap position that restricts cleavage of the near-match, rather than obtained from
 the mismatch itself: a single 2′-O-methyl at gap position 2, in locked and 2′-O-methoxyethyl gapmers
 directed at one substitution in one gene, and reported by its own authors as preliminary proof of
-concept.<sup>51</sup><!--PMID:42327837--> That is one gene, one substitution and one modified
+concept.<sup>52</sup><!--PMID:42327837--> That is one gene, one substitution and one modified
 position, and it is not evidence about a fusion junction.
 
 Every screen that resolves the gap was therefore re-scored under both bounds as a graded residual
@@ -2400,7 +2431,7 @@ gapmer is a perfect complement of the fusion across all 16 positions, while a pa
 pair only the half of the oligonucleotide it contributes. The comparison is therefore the full 16-mer
 duplex against the donor-side and acceptor-side runs alone. Nearest-neighbour enthalpies and
 entropies for a DNA:RNA hybrid were taken from Sugimoto and
-colleagues,<sup>52</sup><!--PMID:7545436--> as packaged in `Bio.SeqUtils.MeltingTemp.R_DNA_NN1`
+colleagues,<sup>53</sup><!--PMID:7545436--> as packaged in `Bio.SeqUtils.MeltingTemp.R_DNA_NN1`
 (Biopython 1.88) and read from the installed package rather than entered by hand, and ΔG°37 computed
 as ΔH° − TΔS° at T = 310.15 K, with that table's own initiation term included in the sum and ΔS°
 converted from cal to kcal. Those four specifications decide the absolute free energies below; the
@@ -2409,9 +2440,18 @@ which agreed exactly; that check verifies the summation and not the choice of st
 concentration it uses enters no reported free energy (SI §S2). No salt correction was applied. A
 nearest-neighbour set is determined at the ionic strength of the measurements behind it rather than
 at a physiological one, and the correction is length-dependent, so it does not cancel in a ΔΔG°37
-taken between a 16-base-pair duplex and an 8- or 9-base-pair one. That term is unstated in the
-artefact and uncorrected here, and it is the one omission running against the floor direction
-stated below rather than with it.
+taken between a 16-base-pair duplex and the seven- to ten-base-pair parent run it is measured
+against. That term is unstated in the
+artefact and uncorrected here, and it is one of at least three omissions running against the floor
+direction stated below rather than with it. The other two are chemistry this work specifies and
+does not model. All 15 internucleoside linkages are phosphorothioate and no phosphorothioate
+parameters were applied, so a substitution carried by every linkage of both duplexes is absent from
+a comparison that sets 16 base pairs against seven to ten and therefore does not cancel between
+them. And a parent seam is not the isolated short duplex the calculation treats it as: the rest of
+the same molecule, five locked residues among them, stays covalently attached and stacks on that
+seam, where the fusion duplex has no unpaired remainder to stack. Both are taken here to narrow
+ΔΔG°37 rather than widen it, and both directions are premises adopted for this work rather than
+measurements: no source retrieved into it bounds either term.
 
 These designs carry LNA wings and the table is for an unmodified hybrid, so what is computed is the
 duplex the DNA backbone would form. Because the junction lies inside the gap, each parent pairs one

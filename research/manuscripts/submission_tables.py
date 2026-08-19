@@ -552,6 +552,122 @@ def _seq_in(cell):
     return m.group(1) if m else None
 
 
+def _records_per_locus(collapse, depth):
+    """(median, maximum) RefSeq accession records per distinct gene locus, at one search depth.
+
+    ⛔ A NEAR-MATCH COUNT IS A COUNT OF RECORDS AND EVERY READER TAKES IT FOR A COUNT OF GENES
+    (competitor review, 2026-08-19). RefSeq lists one accession per annotated variant, so a match
+    to a constitutive exon is returned once per variant: the lead reagent's 123 gap-paired
+    near-matches at the deeper ceiling are six loci, not 123 genes. §5 states the size of that
+    collapse and states it at the DEFAULT ceiling — and Tables 2, 3 and 4 headline the DEEP one,
+    where it is more than twice as large. A reader who applies the paper's own correction to these
+    cells still lands nowhere near the gene count.
+
+    ⭐ READ FROM THE COLLAPSE ARTIFACT, WHICH IS WHERE THE FACTOR LIVES. `inflation_factor` is a
+    per-design field of `junction-aso-offtarget-locus-collapse.json` and its per-depth medians are
+    that file's own summary, computed over the uncensored designs only — a ratio of a truncated
+    numerator to a truncated denominator bounds the true ratio in neither direction, which is why
+    the censored designs are excluded there and must not be pooled back in here.
+    """
+    key = {"default": "totals_over_uncensored_oligos_only",
+           "deep": "deep_totals_over_uncensored_oligos_only"}[depth]
+    tot = collapse.get(key) or {}
+    med, mx = tot.get("median_inflation_factor"), tot.get("max_inflation_factor")
+    if med is None or mx is None:
+        raise SystemExit(
+            f"these captions state how many RefSeq accession records a near-match count carries per "
+            f"gene locus, and `{key}` of the locus-collapse artifact no longer publishes that "
+            "summary. Re-derive the artifact rather than printing a record count with no factor "
+            "beside it — a reader takes it for a gene count.")
+    return med, mx
+
+
+def _printed_records_per_locus(rendered, prefix):
+    """The `records → loci` cells a table PRINTS, as (median ratio, max ratio, row, records, loci).
+
+    ⚠ MEASURED OFF THE RENDERED ROWS, like every other cross-cell claim in this file, because the
+    claim is about what a reader finds in this table's own column and not about the panel the
+    artifact summarises. The two are different populations: the artifact's factor is over every
+    uncensored design, and a table prints one design per junction.
+
+    ⛔ A CELL CARRYING EITHER CENSORING MARK IS SKIPPED, and that is the same rule the collapse
+    artifact applies: a ratio of a truncated numerator to a truncated denominator bounds the true
+    ratio in neither direction. Table 3's largest printed quotient is `≥50 → ≥1`, and naming that
+    as this table's most inflated cell would report a sampling artefact as a measurement. A cell
+    with no locus count is skipped too, since a ratio over nought loci is not a ratio.
+    """
+    hdr, body = _md_table(rendered)
+    i = _col(hdr, prefix)
+    seen = []
+    for r in body:
+        m = re.match(r"^(\d+) → (\d+)$", r[i])
+        if not m:
+            continue
+        n, loci = int(m.group(1)), int(m.group(2))
+        if loci:
+            #: the row label carries this table's own markers (†, ‡); the caption names the row,
+            #: not its verdicts, and a marker lifted out of the grid keys nothing here.
+            seen.append((n / loci, r[0].split(" †")[0].split(" ‡")[0].strip(), n, loci))
+    if not seen:
+        raise SystemExit(
+            f"a caption states the record-to-locus ratio of the column headed “{prefix}…” and no "
+            "row of the rendered table prints that column as an uncensored `records → loci` pair. "
+            "Re-anchor the sentence on the column that carries the pair.")
+    seen.sort()
+    #: (median ratio, the most inflated cell's row, its records, its loci, how many cells were read).
+    #: The maximum RATIO is not returned: the caption prints the two counts it is a ratio of, so a
+    #: reader divides the numbers on the page rather than checking an arithmetic claim about them.
+    _, row, n, loci = seen[-1]
+    return seen[len(seen) // 2][0], row, n, loci, len(seen)
+
+
+def _records_note(deep, printed=None, at_default=None):
+    """The caption sentence that says a near-match count is records and not genes.
+
+    ⛔ ONE SENTENCE, THREE TABLES, because the defect is one defect: Tables 2, 3 and 4 all print a
+    RefSeq accession count under a header that says "near-matches", and none of them said how far
+    that is from a number of genes. Written once so the three cannot come to disagree about the
+    size of a collapse they all report.
+
+    ⚠ AND IT SAYS WHERE THE DIVISION IS NOT AVAILABLE. Only Table 2 prints the deep record count
+    beside the loci THOSE RECORDS collapse to. In Tables 3 and 4 the deep locus column counts the
+    gap-paired subset alone, so a reader dividing the deep near-match count by the locus cell
+    beside it gets a ratio of two different hit sets — the reading that produced a "maximum near
+    100" in review, against a true deep maximum well below it.
+    """
+    def _cell(pair):
+        ratio, row, n, loci, rows = pair
+        return (f"a median of {ratio:.1f} records per locus over the {rows} rows whose cell carries "
+                f"no censoring mark, and most at {row}, whose {n} records are "
+                f"{_word(loci)} {'locus' if loci == 1 else 'loci'}")
+
+    med, mx = deep
+    out = "RefSeq lists one accession per annotated variant, so "
+    if printed:
+        out += ("the left half of that cell counts transcript accession RECORDS and not distinct "
+                "genes, which is why the collapsed locus count is printed beside it: the two "
+                f"differ by {_cell(printed)}")
+    elif at_default:
+        out += ("a near-match count is a count of transcript accession RECORDS and not of distinct "
+                "genes, which is why the default-depth count is given collapsed to distinct gene loci beside "
+                "it — and the collapse is not a small correction: the default-depth pair runs "
+                f"at "
+                f"{_cell(at_default)}")
+    else:
+        out += ("every near-match count in this table is a count of transcript accession RECORDS "
+                "and not of distinct genes")
+    out += (f". Across the deep screens' uncensored designs, taken over every stored near-match "
+            f"rather than the gap-paired subset, the collapse runs at a median of {med} records "
+            f"per locus and a maximum of {mx}; §5 gives the same figure at the DEFAULT ceiling, "
+            "which is smaller and does not describe a column read at the deeper one.")
+    if not printed:
+        out += (" **⚠ The deep columns are not such a pair**: the deep locus column counts only the "
+                "GAP-PAIRED subset of the records the near-match columns beside it count, so "
+                "dividing one by the other is a ratio of two different hit sets and not a "
+                "records-per-locus figure.")
+    return out
+
+
 def _flagged_rows_in_table3(t3, t4):
     """What a reader looking up Table 4's ⚑ designs in Table 3 ACTUALLY finds.
 
@@ -2345,6 +2461,17 @@ def main(argv=None):
     t3_agg_n, (t3_agg_junction, t3_agg_cell, t3_agg_own) = _junction_aggregate_column(t3, chance)
     t3_agg_rows = len(_md_table(t3)[1])
     n_twin, n_twin_at_run, twin_run = _near_twin_warning(t2, t3)
+    # ⛔ A RECORD COUNT PRINTED AS A GENE COUNT, IN ALL THREE OF THESE TABLES (competitor review,
+    # 2026-08-19). Every "near-match" cell is a count of RefSeq accessions; §5 states the collapse
+    # and states it at the default ceiling, and these tables headline the deep one. Both figures
+    # come from the collapse artifact's own per-depth summary, and the per-table ratios are measured
+    # off the rendered rows, so a caption cannot claim a factor its own column does not carry.
+    _deep_infl = _records_per_locus(collapse, "deep")
+    t2_records_note = _records_note(
+        _deep_infl, _printed_records_per_locus(t2, "sense-strand gap-paired near-matches"))
+    t3_records_note = _records_note(
+        _deep_infl, at_default=_printed_records_per_locus(t3, "near-matches, either strand"))
+    t4_records_note = _records_note(_deep_infl)
     #: ⚠ A CLASS BAND IS NOT A ROW — see `_classed`. Counted as the rows carrying a basis cell, so
     #: the caption's denominator cannot drift when a class gains or loses a band.
     t5_rows = sum(1 for r in _md_table(t5)[1] if any(c for c in r[1:]))
@@ -2756,7 +2883,8 @@ primary sequence plus four patent sequences that are one family from one group, 
 behind any of them, which §2.3 states and this column does not. “None published” is absence of
 evidence: EMC case
 reports usually name the partner gene without sequencing to nucleotide resolution. Gap-paired
-near-matches are at the tenfold deeper alignment ceiling, where every hit list is complete. The
+near-matches are at the tenfold deeper alignment ceiling, where every hit list is complete.
+{t2_records_note} The
 genome column is the observed number of gap-paired sites at ≤2 mismatches over the number expected
 for an arbitrary 16-mer, so 1.00 is chance. It is counted EITHER ORIENTATION against an
 either-orientation null, unlike the sense-filtered near-match columns beside it, so it includes
@@ -2785,9 +2913,7 @@ reads {t3_agg_cell} while the design the row names returns {t3_agg_own}, and the
 {t3_agg_n} of the {t3_agg_rows} rows. The margin column is therefore the best among the designs that
 RETURNED a screen at this depth: {n_failed} of the panel's {n_attempted} default-depth submissions
 failed at the remote service, which is why a junction can show fewer than {_word(_registers)} designs screened
-here{margin_up_txt}.{margin_both} Near-match counts are of RefSeq
-transcript accessions and are also given collapsed to distinct gene loci, since RefSeq carries one
-accession per annotated variant. **⚠ The two censoring marks point in OPPOSITE directions and sit on adjacent columns: “≥” is a LOWER bound, because the search was capped, and “≤” an UPPER bound, because the stored figure over-counts.** {t3_ge} of the {t3_rows} rows carry “≥”, {t3_le} carry “≤” and {t3_both} carry both. A “≥” marks a right-censored count, and the two columns are
+here{margin_up_txt}.{margin_both} {t3_records_note} **⚠ The two censoring marks point in OPPOSITE directions and sit on adjacent columns: “≥” is a LOWER bound, because the search was capped, and “≤” an UPPER bound, because the stored figure over-counts.** {t3_ge} of the {t3_rows} rows carry “≥”, {t3_le} carry “≤” and {t3_both} carry both. A “≥” marks a right-censored count, and the two columns are
 censored by DIFFERENT caps, which is why an uncensored transcript count here can exceed the retained
 {SAVED_HITS}: the alignment screen itself returns at most 50 hits per query, so a transcript count at
 50 is a lower bound, while the locus column is recounted from the {SAVED_HITS} hits the screens
@@ -2816,7 +2942,7 @@ against wild-type *NR4A3*, and {n_one_seam} of THOSE {n_nr4a3} at one recurring 
 anywhere else in a parent — the mature *NR4A3* exon-2/exon-3 seam every design's acceptor half
 reaches. Because the fusion duplex pairs
 both LNA wings and each parent duplex only one, it is a lower bound on the modified
-oligonucleotide's discrimination rather than an upper one. None of these numbers is a measurement of off-target
+oligonucleotide's discrimination rather than an upper one. {t4_records_note} None of these numbers is a measurement of off-target
 activity, and none speaks to cleavage. **This table condemns nothing and clears nothing.** Its final
 column is a verdict from ONE screen, the near-match screen, and {_word(n_t4_flagged)} of these rows carry the ⚑ of
 the mature-parent screen: a wild-type parent pairs their whole catalytic gap at the {_word(_parent_cut_bp())}-base-pair

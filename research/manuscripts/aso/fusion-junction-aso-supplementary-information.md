@@ -78,7 +78,7 @@ against. The strand choice that check does not verify is fixed instead by the do
 of the software interface the parameters are read through — Biopython's `R_DNA_NN1` table in
 `Bio.SeqUtils.MeltingTemp`, whose calling convention is that the sequence supplied is the RNA one,
 which is the sequence the scoring code supplies. The nearest-neighbour parameters themselves are
-Sugimoto and colleagues',<sup>52</sup><!--PMID:7545436--> read from that table rather than entered
+Sugimoto and colleagues',<sup>53</sup><!--PMID:7545436--> read from that table rather than entered
 by hand, and the package version they were read at is recorded beside every released free energy.
 The parameter set and the strand convention have different sources and are stated separately here
 for that reason.
@@ -201,7 +201,7 @@ record is the main text's, generated from the identifiers carried in it.
 
 <sup>42</sup><!--PMID:41614678--> Agrawal S. Transient Cyclic Structured Oligonucleotide Designs for Therapeutic Applications. Current protocols. 2026;6(2):e70319. PMID: 41614678. doi:10.1002/cpz1.70319
 
-<sup>52</sup><!--PMID:7545436--> Sugimoto N, Nakano S, Katoh M, Matsumura A, Nakamuta H, Ohmichi T, Yoneyama M, Sasaki M. Thermodynamic parameters to predict stability of RNA/DNA hybrid duplexes. Biochemistry. 1995;34(35):11211-11216. PMID: 7545436. doi:10.1021/bi00035a029
+<sup>53</sup><!--PMID:7545436--> Sugimoto N, Nakano S, Katoh M, Matsumura A, Nakamuta H, Ohmichi T, Yoneyama M, Sasaki M. Thermodynamic parameters to predict stability of RNA/DNA hybrid duplexes. Biochemistry. 1995;34(35):11211-11216. PMID: 7545436. doi:10.1021/bi00035a029
 
 One further source is cited only here and therefore takes no number in that list, exactly as the
 external data records do: Okamoto S, Hisaoka M, Ishida T, Imamura T, Kanda H, Shimajiri S, Hashimoto

@@ -730,7 +730,18 @@ def render_table(rows, label=None):
 #: throughout" (Table 4). ⛔ READ FROM THE CAPTION, NEVER TYPED HERE (rule 1): the criterion has one
 #: home, the generated caption, and a running header that restated it would be a second one.
 _CRITERION_RE = re.compile(r"\b([A-Za-z]+)[ -]base[ -]pairs?\b(?=[^.]{0,48}criterion)")
-_NOT_A_CLEARANCE_RE = re.compile(r"\bAn unmarked row is not a clearance\b")
+#: ⛔ IT USED TO REQUIRE TABLE 3's AND TABLE 4's EXACT WORDING, AND TABLE 2 WRITES IT DIFFERENTLY
+#: (blind screen of both built PDFs, 2026-08-19). Table 2's caption says "an unmarked row here is
+#: not a clearance on any wider ground" — lower-cased, with one extra word — so the caveat matched
+#: nowhere on the one table whose EVERY row is unmarked, and whose continuation pages therefore
+#: carried a bare title over duplex readings of 8 and 9 against a cut of ten.
+_NOT_A_CLEARANCE_RE = re.compile(r"\b[Aa]n unmarked row (?:here )?is not a clearance\b")
+#: ⚠ CASE-INSENSITIVE BECAUSE THE CAPTION SHOUTS IT. `_cut_caveat()` in `submission_tables.py`
+#: emits "That ten-base-pair cut is a criterion this work ADOPTS rather than measures", and this
+#: pattern was written lower-case, so the clause it exists to carry reached no running header in
+#: either build — measured on the Table 4 continuation pages, which stated the criterion and then
+#: stopped.
+_ADOPTED_RE = re.compile(r"adopts? rather than measures", re.I)
 
 
 def _first_clause(text, limit):
@@ -806,20 +817,33 @@ def table_label(number, block):
                   "do not order it")
     #: ⚑ and † are both readings at one cut, so the cut and the caveat are stated ONCE for the pair
     #: rather than repeated behind each marker.
+    #: ⛔⛔ AND A TABLE WITH NO MARKER IN ITS GRID GOT NEITHER HALF, WHICH IS THE WRONG WAY ROUND
+    #: (blind screen of both built PDFs, 2026-08-19). This whole block was gated on a marker being
+    #: present, so TABLE 2 — the table its own caption calls "the table one reagent is chosen from",
+    #: whose every row is unmarked because no row reaches the cut — carried a bare title across
+    #: three continuation pages of the manuscript build and two of the journal build, over 38 rows
+    #: whose longest-parent-duplex readings run to nine against a criterion of ten. A reader
+    #: arriving on one of those pages had the prohibition's cut nowhere and no statement that an
+    #: unmarked row is not a clearance; the absence of a marker read as the absence of a liability,
+    #: which is exactly the inference the caption exists to refuse. The criterion and the caveat are
+    #: properties of the CAPTION, not of the markers, so they are carried whenever the caption
+    #: states both — and the clause says which rows it is read over, since "the marker is read at"
+    #: is meaningless on a table with no marker.
     markers = [m for m in ("†", "⚑") if m in grid]
-    if markers:
-        criterion = _CRITERION_RE.search(block)
+    criterion = _CRITERION_RE.search(block)
+    not_a_clearance = _NOT_A_CLEARANCE_RE.search(block)
+    if markers or (criterion and not_a_clearance):
         tail = []
         if criterion:
-            clause = (f"{'both markers are' if len(markers) == 2 else 'the marker is'} read at the "
-                      f"{criterion.group(1)}-base-pair criterion")
-            #: ⚠ ONLY IF THE CAPTION SAYS SO. Table 3's caption states that the cut is adopted rather
-            #: than measured; Table 4's does not, and a header that added the clause anyway would be
-            #: a second, louder home for a claim the caption did not make.
-            if re.search(r"adopts? rather than measures", block):
+            subject = ("both markers are" if len(markers) == 2 else
+                       "the marker is" if markers else "every row is")
+            clause = f"{subject} read at the {criterion.group(1)}-base-pair criterion"
+            #: ⚠ ONLY IF THE CAPTION SAYS SO. A header that added the clause anyway would be a
+            #: second, louder home for a claim the caption did not make.
+            if _ADOPTED_RE.search(block):
                 clause += ", which this work adopts rather than measures"
             tail.append(clause)
-        if _NOT_A_CLEARANCE_RE.search(block):
+        if not_a_clearance:
             tail.append("an unmarked row is not a clearance, only a reading at that one cut")
         if tail:
             label += "  ·  " + "; ".join(tail)
