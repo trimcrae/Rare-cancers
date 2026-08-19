@@ -650,8 +650,8 @@ def _records_note(deep, printed=None, at_default=None):
     elif at_default:
         out += ("a near-match count is a count of transcript accession RECORDS and not of distinct "
                 "genes, which is why the default-depth count is given collapsed to distinct gene loci beside "
-                "it — and the collapse is not a small correction: the default-depth pair runs "
-                f"at "
+                "it, and the size of that collapse is measured rather than left to the reader: the "
+                f"default-depth pair runs at "
                 f"{_cell(at_default)}")
     else:
         out += ("every near-match count in this table is a count of transcript accession RECORDS "
@@ -661,10 +661,10 @@ def _records_note(deep, printed=None, at_default=None):
             f"per locus and a maximum of {mx}; §5 gives the same figure at the DEFAULT ceiling, "
             "which is smaller and does not describe a column read at the deeper one.")
     if not printed:
-        out += (" **⚠ The deep columns are not such a pair**: the deep locus column counts only the "
-                "GAP-PAIRED subset of the records the near-match columns beside it count, so "
-                "dividing one by the other is a ratio of two different hit sets and not a "
-                "records-per-locus figure.")
+        out += (" **⚠ The deep columns are not a records-and-their-own-loci pair**: the deep locus "
+                "column counts only the GAP-PAIRED subset of the records the near-match columns "
+                "beside it count, so dividing one by the other is a ratio of two different hit "
+                "sets and not a records-per-locus figure.")
     return out
 
 

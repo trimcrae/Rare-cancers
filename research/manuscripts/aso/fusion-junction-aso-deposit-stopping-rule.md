@@ -436,6 +436,50 @@ on its own; the overlap rule still governs when review STOPS; every finding is s
 before it is applied and recorded REFUTED with numbers when it fails. What changes is which half of
 a dispositioned ledger has to reach zero before the deposit goes.
 
+### ⭐ CONDITION 9 — THREE READERS, AND THE READER DECIDES WHAT BLOCKS (added 2026-08-19, trimcrae)
+
+trimcrae, at the close of the 2026-08-19 round: *"we've spent a ton of tokens generating and chasing
+down issues that I'm not convinced have any real impact on the preprint. Once all these land and we
+do re-review, let's limit ourselves to three reviewers and only gate on findings from them that they
+say should block preprint submission."*
+
+**THE ROUND THAT PROMPTED IT, MEASURED.** Nine briefs returned 236 deduplicated findings. Of those,
+**47 were never in the paper at all** (guard-suite and PDF plumbing), **110 were improvements**
+rather than defects, and of the ~14 findings per reviewer that WERE defects, a large share did not
+survive recomputation — one lane refuted **6 of its own 14**, another **2 of 10**, and a reviewer was
+found repeating an error the manuscript itself contained. The yield was real but the ratio was poor,
+and the cost of sorting it fell entirely on the repair side.
+
+**THE RULE FOR EVERY ROUND AFTER THIS ONE:**
+
+1. **THREE reviewers, not nine.** Chosen for coverage of the three things that can make a POSTED
+   paper wrong, not for variety: (a) a firewalled cold reader given the three documents and nothing
+   else — historically the highest-yield seat in this ledger; (b) a blind screen of the BUILT PDF,
+   because condition 5 exists precisely because a wrong-reagent hazard was created by typesetting
+   and no markdown reader could see it; (c) a claims-against-artifacts reviewer, which is the seat
+   that finds a number that is simply wrong.
+2. **THE REVIEWER GRADES ITS OWN FINDINGS `BLOCK` OR `NON-BLOCK`**, against one bar stated in its
+   brief: *would a reader be misled about what was done or what was found, or could someone order
+   the wrong molecule?* Anything else is NON-BLOCK by the reviewer's own hand.
+3. **ONLY `BLOCK` FINDINGS GATE.** NON-BLOCK findings are recorded in the ledger and parked, exactly
+   as condition 8 parks improvements. They are not worked before deposit.
+4. **A `BLOCK` FINDING IS STILL RECOMPUTED BEFORE IT IS APPLIED**, and recorded REFUTED with numbers
+   when it fails. Conditions 1-8 are otherwise unchanged; ⛔ the headline-falsifying exception of §3
+   still stops the deposit on its own, whatever any reviewer grades it.
+5. **REVIEWERS ARE JUDGED ON PRECISION, NOT VOLUME**, and each is told so, and told explicitly that
+   returning nothing is a permitted and useful result. The permission to find nothing has produced a
+   real result twice in this ledger; a reviewer asked for findings supplies findings.
+
+⚠ **THIS SUPERSEDES THE SEAT LIST IN CONDITIONS 3-5 AND NARROWS CONDITION 6.** The two-reader overlap
+test governed which MINORS kept the loop open; with three readers self-grading, the loop is kept open
+by BLOCK findings alone and the overlap rule no longer decides anything on its own. Conditions 3, 4
+and 5 described four seats between them; the three above replace that list.
+
+★ **WHAT THIS GIVES UP, SAID PLAINLY.** Brief diversity is what made the 2026-08-19 round find things
+twenty prior rounds had missed, and three briefs see less than nine. The trade is deliberate: a
+preprint is revisable, an improvement queue has no natural end, and the marginal finding of a ninth
+brief has not, in this ledger, been a finding that would have made the posted paper wrong.
+
 ## 3 · ⚠ The corollary, which must not be flinched from
 
 **If the final round returns a class-B finding — a real defect in text no prior round touched — that
