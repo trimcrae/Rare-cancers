@@ -1,0 +1,1685 @@
+{
+  "_note": "Proteome-wide exact-substring novelty test for the EWSR1::NR4A3 junction peptides. Closes the gap that fusion_breakpoints.py filters novelty against wild-type EWSR1 and NR4A3 ONLY. An exact-match miss is NOT presentation, NOT immunogenicity, NOT safety and NOT absence of TCR cross-reactivity.",
+  "\u26d4_what_this_is_not": "A peptide absent from every reviewed human protein is not thereby a safe or usable target. A TCR reads a peptide-MHC surface, so a peptide differing from a self peptide at a non-contact position can still be cross-recognised. This test excludes exactly one failure mode: that the peptide is simply a normal human peptide.",
+  "_input": {
+    "file": "fusion-breakpoint-neoantigens.json",
+    "artifact_utc": "2026-08-19T15:43:16Z",
+    "coordinate_system": "TRANSCRIPT (the corrected model)",
+    "n_inframe_junctions": 5
+  },
+  "_proteome": {
+    "source": "UniProtKB REST stream",
+    "url": "https://rest.uniprot.org/uniprotkb/stream?query=%28proteome%3AUP000005640%29+AND+%28reviewed%3Atrue%29&format=fasta&includeIsoform=true&compressed=true",
+    "proteome_id": "UP000005640",
+    "reviewed_only": true,
+    "isoforms_included": true,
+    "trembl_included": false,
+    "n_sequences": 42547,
+    "n_residues": 24513032
+  },
+  "_method": "exact substring search of each peptide against the sentinel-joined proteome; every containing accession recorded; no mismatch tolerance",
+  "_cost": "$0 \u2014 CI only, one public UniProt fetch, no GPU and no rental.",
+  "n_peptides_tested": 174,
+  "n_novel_proteome_wide": 170,
+  "n_found_in_proteome": 4,
+  "n_predicted_binders_found_in_proteome": 1,
+  "\u26d4_upstream_filter_check": {
+    "parent_protein_hits": [
+      {
+        "peptide": "DMPCVQAQ",
+        "accession": "Q92570-3",
+        "parent": "NR4A3"
+      },
+      {
+        "peptide": "DMPCVQAQY",
+        "accession": "Q92570-3",
+        "parent": "NR4A3"
+      },
+      {
+        "peptide": "DMPCVQAQYS",
+        "accession": "Q92570-3",
+        "parent": "NR4A3"
+      },
+      {
+        "peptide": "DMPCVQAQYSP",
+        "accession": "Q92570-3",
+        "parent": "NR4A3"
+      }
+    ],
+    "verdict": "BROKEN \u2014 a parent-filtered peptide matched a parent protein"
+  },
+  "peptides_found_in_proteome": [
+    {
+      "peptide": "DMPCVQAQ",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [
+        {
+          "accession": "Q92570-3",
+          "protein": "NR4A3_HUMAN Isoform 3 of Nuclear receptor subfamily 4 group A member 3"
+        }
+      ],
+      "novel_proteome_wide": false
+    },
+    {
+      "peptide": "DMPCVQAQY",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": {
+        "allele": "HLA-B*35:01",
+        "class": "weak",
+        "affinity_nM": 369.1
+      },
+      "proteome_hits": [
+        {
+          "accession": "Q92570-3",
+          "protein": "NR4A3_HUMAN Isoform 3 of Nuclear receptor subfamily 4 group A member 3"
+        }
+      ],
+      "novel_proteome_wide": false
+    },
+    {
+      "peptide": "DMPCVQAQYS",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [
+        {
+          "accession": "Q92570-3",
+          "protein": "NR4A3_HUMAN Isoform 3 of Nuclear receptor subfamily 4 group A member 3"
+        }
+      ],
+      "novel_proteome_wide": false
+    },
+    {
+      "peptide": "DMPCVQAQYSP",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [
+        {
+          "accession": "Q92570-3",
+          "protein": "NR4A3_HUMAN Isoform 3 of Nuclear receptor subfamily 4 group A member 3"
+        }
+      ],
+      "novel_proteome_wide": false
+    }
+  ],
+  "peptides_novel_proteome_wide": [
+    {
+      "peptide": "AAVEWFDD",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "AAVEWFDDM",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "AAVEWFDDMP",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "AAVEWFDDMPC",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "AKAAVEWFDD",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "AKAAVEWFDDM",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "AVEWFDDM",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "AVEWFDDMP",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "AVEWFDDMPC",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "AVEWFDDMPCV",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "DDMPCVQA",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "DDMPCVQAQ",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "DDMPCVQAQY",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "DDMPCVQAQYS",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "DEGPDLDLD",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "DEGPDLDLDM",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "DEGPDLDLDMP",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "DLDLDMPC",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "DLDLDMPCV",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "DLDLDMPCVQ",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "DLDLDMPCVQA",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "DLDMPCVQ",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "DLDMPCVQA",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "DLDMPCVQAQ",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "DLDMPCVQAQY",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": {
+        "allele": "HLA-A*01:01",
+        "class": "weak",
+        "affinity_nM": 90.3
+      },
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "EGPDLDLD",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "EGPDLDLDM",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "EGPDLDLDMP",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "EGPDLDLDMPC",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "ERGGFNKPGD",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "ERGGFNKPGDM",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "EWFDDMPC",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "EWFDDMPCV",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "EWFDDMPCVQ",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "EWFDDMPCVQA",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "FDDMPCVQ",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "FDDMPCVQA",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "FDDMPCVQAQ",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "FDDMPCVQAQY",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": {
+        "allele": "HLA-A*01:01",
+        "class": "weak",
+        "affinity_nM": 90.8
+      },
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "FNKPGDMP",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "FNKPGDMPC",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "FNKPGDMPCV",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "FNKPGDMPCVQ",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "GDMPCVQA",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "GDMPCVQAQ",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "GDMPCVQAQY",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": {
+        "allele": "HLA-B*44:02",
+        "class": "weak",
+        "affinity_nM": 187.1
+      },
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "GDMPCVQAQYS",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "GERGGFNKPGD",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "GFNKPGDM",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "GFNKPGDMP",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "GFNKPGDMPC",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "GFNKPGDMPCV",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "GGFNKPGD",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "GGFNKPGDM",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "GGFNKPGDMP",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "GGFNKPGDMPC",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "GMPPPLRGD",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "GMPPPLRGDM",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "GMPPPLRGDMP",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "GPDLDLDM",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "GPDLDLDMP",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "GPDLDLDMPC",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "GPDLDLDMPCV",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "GQQNMPCV",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "GQQNMPCVQ",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "GQQNMPCVQA",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "GQQNMPCVQAQ",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "GRGMPPPLRGD",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "KAAVEWFDD",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "KAAVEWFDDM",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "KAAVEWFDDMP",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "KPGDMPCV",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "KPGDMPCVQ",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "KPGDMPCVQA",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": {
+        "allele": "HLA-B*07:02",
+        "class": "weak",
+        "affinity_nM": 246.0
+      },
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "KPGDMPCVQAQ",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "LDLDMPCV",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "LDLDMPCVQ",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "LDLDMPCVQA",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "LDLDMPCVQAQ",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "LDMPCVQA",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "LDMPCVQAQ",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "LDMPCVQAQY",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": {
+        "allele": "HLA-A*01:01",
+        "class": "weak",
+        "affinity_nM": 485.6
+      },
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "LDMPCVQAQYS",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "LRGDMPCV",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "LRGDMPCVQ",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "LRGDMPCVQA",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "LRGDMPCVQAQ",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "MDEGPDLDLD",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "MDEGPDLDLDM",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "MPPPLRGD",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "MPPPLRGDM",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": {
+        "allele": "HLA-B*07:02",
+        "class": "strong",
+        "affinity_nM": 45.6
+      },
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "MPPPLRGDMP",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "MPPPLRGDMPC",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": {
+        "allele": "HLA-B*07:02",
+        "class": "weak",
+        "affinity_nM": 173.8
+      },
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "NKPGDMPC",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "NKPGDMPCV",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "NKPGDMPCVQ",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "NKPGDMPCVQA",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "NMPCVQAQ",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "NMPCVQAQY",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": {
+        "allele": "HLA-B*15:01",
+        "class": "strong",
+        "affinity_nM": 73.4
+      },
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "NMPCVQAQYS",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "NMPCVQAQYSP",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "PDLDLDMP",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "PDLDLDMPC",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "PDLDLDMPCV",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "PDLDLDMPCVQ",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "PGDMPCVQ",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "PGDMPCVQA",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "PGDMPCVQAQ",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "PGDMPCVQAQY",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "PLRGDMPC",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "PLRGDMPCV",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "PLRGDMPCVQ",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "PLRGDMPCVQA",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "PMDEGPDLDLD",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "PPLRGDMP",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "PPLRGDMPC",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "PPLRGDMPCV",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "PPLRGDMPCVQ",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "PPPLRGDM",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "PPPLRGDMP",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "PPPLRGDMPC",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "PPPLRGDMPCV",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "QNMPCVQA",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "QNMPCVQAQ",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "QNMPCVQAQY",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "QNMPCVQAQYS",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "QQNMPCVQ",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "QQNMPCVQA",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "QQNMPCVQAQ",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "QQNMPCVQAQY",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": {
+        "allele": "HLA-B*15:01",
+        "class": "strong",
+        "affinity_nM": 108.5
+      },
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "QQSSSYGQQN",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "QQSSSYGQQNM",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "QSSSYGQQN",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "QSSSYGQQNM",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "QSSSYGQQNMP",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "RGDMPCVQ",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "RGDMPCVQA",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "RGDMPCVQAQ",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "RGDMPCVQAQY",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": {
+        "allele": "HLA-A*01:01",
+        "class": "strong",
+        "affinity_nM": 207.2
+      },
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "RGGFNKPGD",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "RGGFNKPGDM",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "RGGFNKPGDMP",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "RGMPPPLRGD",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "RGMPPPLRGDM",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "SQQSSSYGQQN",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "SSSYGQQN",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "SSSYGQQNM",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "SSSYGQQNMP",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "SSSYGQQNMPC",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "SSYGQQNM",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "SSYGQQNMP",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "SSYGQQNMPC",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "SSYGQQNMPCV",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "SYGQQNMP",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "SYGQQNMPC",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "SYGQQNMPCV",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "SYGQQNMPCVQ",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "TAKAAVEWFDD",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "VEWFDDMP",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "VEWFDDMPC",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "VEWFDDMPCV",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "VEWFDDMPCVQ",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "WFDDMPCV",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "WFDDMPCVQ",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "WFDDMPCVQA",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "WFDDMPCVQAQ",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "YGQQNMPC",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "YGQQNMPCV",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "YGQQNMPCVQ",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    },
+    {
+      "peptide": "YGQQNMPCVQA",
+      "junctions": [
+        "?"
+      ],
+      "predicted_binder": null,
+      "proteome_hits": [],
+      "novel_proteome_wide": true
+    }
+  ]
+}
