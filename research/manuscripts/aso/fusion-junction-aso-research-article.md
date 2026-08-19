@@ -182,7 +182,7 @@ intron-2 cryptic exon. Each cleared the spliced-cDNA parent screen, and each pai
 catalytic gap against the patient's own un-rearranged *NR4A3* allele, which that screen cannot see.
 
 **The cell line (§3).** No *NR4A3* fusion is detectable in H-EMC-SS on the public record, so no
-reagent named here can be tested in it. That is not a statement that the line is misidentified.
+reagent named here can be assumed testable in it without sequencing its junction first. That is not a statement that the line is misidentified.
 
 **The replicate floor and the void condition (§4.4).** Selectivity is the wild-type *NR4A3*
 half-maximal knockdown concentration divided by the fusion's, from a matched dose–response in the
@@ -280,9 +280,13 @@ junction whose cleanest design carries no sense-strand near-match across the cat
 default search ceiling: three of eight at both *TCF12* and *FUS*, two of eight at *EWSR1*, one of
 eight at *TAF15* and one of six at *TFG*. At the tenfold deeper ceiling that becomes four partners:
 each of *EWSR1*, *FUS*, *TAF15* and *TCF12* keeps one such junction and *TFG* keeps none, its single
-default-depth zero returning 29 across the gap when searched deeper. The
-minima therefore separate junctions rather than partners. Which exon a fusion breaks at matters more
-for specificity than which gene it breaks into.
+default-depth zero returning 29 across the gap when searched deeper. On this one existence
+statistic, then, no partner is uniformly clean or uniformly dirty, and which exon a fusion breaks
+at bears on specificity as well as which gene it breaks into. That is the limit of what was
+tested: no comparison between partners was performed, and one axis printed here does sort by
+partner. Table 2's genome-wide gap-paired load runs at a mean of 1.29 of chance across *TFG*'s
+five scored junctions, four of them above chance, against means of 0.51 to 0.71 and three rows
+above chance among the other thirty. That axis is reported and not explained.
 
 The same tension the *TAF15* result carries applies to *TCF12*, and in the same direction. The one
 published *TCF12::NR4A3* breakpoint describes a chimera retaining the first 108 TCF12
@@ -480,9 +484,12 @@ agrees with it: the gap must pair,
 at 4⁻⁶, and the run must
 then extend four further nucleotides across the two wings, at 1/64, which over the 19,921 parent
 windows searched predicts 7.3%. The observed rate is about sixfold that, and the arm the modality
-actually turns on separates further still: 32.1% of designs pair the gap against wild-type *NR4A3*
+actually turns on appears to separate further still: 32.1% of designs pair the gap against wild-type *NR4A3*
 specifically, against 1.8% of scrambles. Scrambles are the weakest null run here; against the
-random-offset chimera null of the next paragraph, that same arm separates 32.1% from 9.3%.
+random-offset chimera null of the next paragraph, that same arm gives 32.1% against 9.3%. Neither
+comparison survives the exon-terminus null two paragraphs below, which returns 28.8% (28.3–29.2%) on
+this arm: the *NR4A3*-specific liability is no better resolved as specific to the reported breakpoints
+than the aggregate is.
 
 A second null asks whether that excess is a fact about reported breakpoints or merely about the
 design rule. Joining a random window of a real donor parent to a random window of real *NR4A3*, split
@@ -647,8 +654,11 @@ repeat-driven.
 The decisive reading is a lookup rather than a count: does any design have a gap-paired,
 strand-agreeing site in *NR4A3*, in a parent gene, or in an *NR4A* paralogue anywhere in the genome?
 Twenty of 176 do. No candidate above is among them, and the two secure at any parent-duplex
-threshold carry a load well below chance — 0.33 and 0.24 of expectation at ≤2 mismatches,
-ranking 26th and 13th of 176 on that axis, and 0.06 and 0.04 for gap-paired sites, ranking 5th and 1st. That is the strongest statement this work can
+threshold carry a low load — 0.33 and 0.24 of expectation at ≤2 mismatches against a corpus median
+of 0.98, and 0.06 and 0.04 for gap-paired sites. Their ranks on those axes, 26th and 13th of 176
+and 5th and 1st, are reported because the ordering is what the scan supports; the null assumes
+independent uniform bases and resolves more-than-chance from at-chance and nothing finer (§5), so
+the ratios should not be read as calibrated distances below chance. That is the strongest statement this work can
 make about them, and it is a statement about predicted hybridisation and not about cleavage.
 
 ### 2.8 · Expression of the off-target loci
@@ -734,9 +744,12 @@ last, so the three counts are not the same test. Held
 to the ten-base-pair criterion applied everywhere else here, the count of liable designs does
 not fall: 87 of 190, 88 of 266 and 87 of 342, the two criteria coinciding at a gap of ten
 because the gap alone is then already a ten-base-pair hybrid. As a share those are 45.8%, 33.1%
-and 25.4%, and the share falls only because a longer oligonucleotide has more junction-spanning
-registers per seam — five, seven and nine — so each geometry offers more designs to divide by.
-The number a laboratory has to screen out is the count, and it is the count that is flat.
+and 25.4%, and the share falls because a longer oligonucleotide has more junction-spanning
+registers per seam — five, seven and nine. Neither framing is the whole reading. The liable count is
+flat at 87, 88 and 87, but the extra registers are options rather than only a larger denominator: the
+parent-clean designs available at each junction rise with them, from 2.7 to 4.7 to 6.7 on average.
+What a longer gap cannot do is raise the margin without conceding parent-paired gap DNA, and that is
+the identity above rather than a matter of which denominator is chosen.
 Designs pairing the gap in
 parent pre-mRNA fall from 19 of 190 to 9 of 342, but that arm is a search at a fixed two-mismatch
 budget and inherits the nesting bound above rather than the parent-side quantities' freedom from it.
@@ -793,10 +806,13 @@ score.
 
 Designability is not the constraint. Junction-spanning designs exist at every in-frame NR4A3
 fusion junction, though at three of them every design pairs a wild-type parent through the catalytic
-gap. Nor does specificity sort by partner. With all 38 junctions screened, four of the five partners
+gap. On the one existence statistic tested, no partner is uniformly clean or uniformly dirty: with
+all 38 junctions screened, four of the five partners
 have a junction whose cleanest design carries no sense-strand near-match across the gap at the
-deeper ceiling, and all five do at the default one. It is therefore the exon a fusion breaks at, not
-the gene it breaks into, that predicts a design clean across the gap in that sense — and the count
+deeper ceiling, and all five do at the default one. The exon a fusion breaks at therefore bears on
+whether a design is clean across the gap in that sense, and not the gene alone — though no test of
+a partner effect was run, *TFG* sits systematically higher on Table 2's genome-wide load (§2.3),
+and the count
 of such junctions is itself a
 function of search depth, as §5 sets out.
 
@@ -934,8 +950,10 @@ corroboration and is graded as such, expression alone being able neither to esta
 a fusion; the
 reference registry that records a gene fusion for other EMC models
 records none for this one; and no retrieved source reports a positive junction in it. The operative
-consequence is narrow and is the only one this paper draws: no reagent named here can be tested in
-that line. This is not a statement that the line is misidentified, nor a statement about what the line is
+consequence is narrow and is the only one this paper draws: no reagent named here can be assumed
+testable in that line on current evidence, and its junction would have to be established by RNA
+sequencing first, as §4.4 requires of any test article. A filtered caller's silence bounds detection
+at a sensitivity nothing here quantifies, and an absent reading is not a reading of absence. This is not a statement that the line is misidentified, nor a statement about what the line is
 instead. It carries a short tandem repeat profile concordant across three independent sources at
 every locus but one (D13S317, recorded as a single allele by one source and as two by the other
 two), and no problematic-line flag. Fusion-negative EMC tumours are
@@ -1148,9 +1166,11 @@ place it against wild-type *TAF15*. The *TAF15* exon-6 reagent carries no sense-
 at all, which is a second respect in which the two separate on something other than count.
 
 That load should travel with the reagent. It is a liability to disclose and to control for rather
-than a disqualification, because on the genome scan the same design falls below chance in both
+than a disqualification, because on the genome scan the same design sits at chance in both
 directions that matter: 0.69 times the expected number of near-matches at two mismatches, and 0.62
-times the expected number of gap-paired ones. Expression separates the two reagents the other way
+times the expected number of gap-paired ones, against a corpus median of 0.98 (§2.7). The null
+behind those ratios assumes independent uniform bases and separates more-than-chance from
+at-chance and nothing finer (§5), so the scan neither aggravates the load nor exonerates it. Expression separates the two reagents the other way
 (§2.8, Table 6): none of the *EWSR1* reagent's measurable loci is expressed at the upper cut in the
 organs a systemic dose reaches, while the *TAF15* reagent's five include *NRP1*, which is. That does
 not reverse the ranking, since no screen here establishes that a two-mismatch duplex engages any of

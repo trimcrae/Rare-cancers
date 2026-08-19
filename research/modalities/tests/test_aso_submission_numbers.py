@@ -1686,7 +1686,14 @@ def test_the_testable_surface_states_the_only_catalogued_line_cannot_test_a_junc
     txt = _flat(_paper())
 
     assert "H-EMC-SS" in txt
-    assert "no reagent named here can be tested in that line" in txt
+    # ⛔ RE-PINNED 2026-08-19 (round-19 hostile read). The old wording converted a filtered call
+    # set's silence into an operational impossibility, against the standard the paper applies
+    # everywhere else — §2.6's "an absent reading of its own donor's introns rather than a clean
+    # one", and Table 6's "an absent reading is not a reading of absence". A caller returning two
+    # unrelated calls bounds detection at a sensitivity nothing here quantifies. The claim the
+    # evidence supports is that the line cannot be ASSUMED testable, which is also what §4.4
+    # already requires of any test article.
+    assert "no reagent named here can be assumed" in txt and "testable in that line" in txt
     # the fairness constraints, both of which the evidence requires
     assert "This is not a statement that the line is misidentified" in txt
     # ⚠ ABBREVIATED 2026-08-16: "fusion-negative extraskeletal myxoid chondrosarcoma tumours are"

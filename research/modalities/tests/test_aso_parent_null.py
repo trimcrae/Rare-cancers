@@ -142,9 +142,25 @@ def test_the_scrambled_null_is_the_reviewers_question_and_it_is_answered():
     a = _art()
     s = a["null_ensembles"]["scrambled_mononucleotide"]
     assert 0.04 < s["rate_liable"] < 0.09
-    # the NR4A3-specific arm is the one the modality turns on, and it separates much harder
+    # the NR4A3-specific arm is the one the modality turns on, and against SCRAMBLES it separates
+    # much harder
     assert s["rate_liable_against_NR4A3"] < 0.04
     assert a["observed"]["rate_liable_against_NR4A3"] > 0.30
+
+    # ⛔ AND THAT SEPARATION DOES NOT SURVIVE THE NULL THE PAPER ITSELF ADOPTS (round-19 hostile
+    # read, 2026-08-19). §2.5 showed the arm at 32.1% against 1.8% of scrambles and 9.3% of
+    # random-offset chimeras, then two paragraphs later retired the chimera null for the
+    # AGGREGATE as destroying more than the breakpoint — without ever re-running the
+    # NR4A3-specific arm against its replacement. The replacement returns 28.8%, so the arm most
+    # exposed to that null behaves like the aggregate: a small residual, not a separation.
+    # Asserted here so the manuscript can never again print 32.1% against 9.3% alone.
+    et = a["null_ensembles"]["exon_terminus_chimera"]["rate_liable_against_NR4A3"]
+    assert 0.27 < et < 0.30, et
+    assert a["observed"]["rate_liable_against_NR4A3"] - et < 0.05, "the residual is small"
+    assert re.search(r"\b28\.8\s*%", _paper()), (
+        "§2.5 shows the NR4A3 arm against the scramble and chimera nulls; the exon-terminus "
+        "null's 28.8% must stand beside them or the arm reads as breakpoint-specific, which "
+        "the paper concludes it cannot establish")
 
 
 def test_the_parent_chimera_arm_sits_between_chance_and_the_observed_rate():

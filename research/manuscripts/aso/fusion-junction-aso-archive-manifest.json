@@ -9,13 +9,13 @@
     "Not a claim that the archived predictions are correct. Every count in the deposit is a prediction from sequence search; no off-target activity and no RNase-H cleavage was measured anywhere in this work.",
     "Not a licence statement. The depositor chooses the licence at step 4 below."
   ],
-  "git_revision": "1749d95baef241ee6ee45644945b6cbe45541ebb",
+  "git_revision": "15d3874ebaca6c07993b2781c1587a1a2278c279",
   "git_tree_is_clean_apart_from_this_manifest": false,
   "inventory_limited_to_tracked_files": true,
-  "archive_content_digest": "924b3134774d1cd4266a2affb38d5c376f9af4351c64a6501e716d92b8f1e846",
+  "archive_content_digest": "79f17cabdca966063d3a549c32e237edaed13378fd9a035c76e8a23cae8196bc",
   "n_files": 383,
-  "total_bytes": 23967900,
-  "total_mib": 22.858,
+  "total_bytes": 23970476,
+  "total_mib": 22.86,
   "how_to_deposit_and_mint_the_doi": [
     "1. Check out the revision named in `git_revision` and confirm `git status` is clean. The manifest's hashes are only meaningful against that tree.",
     "2. Re-run this module (`python3 research/manuscripts/aso_archive_manifest.py --check`). A non-zero exit means the tree moved after the manifest was written; regenerate before depositing.",
@@ -797,8 +797,8 @@
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-research-article.md",
-      "bytes": 155279,
-      "sha256": "14531c5a5dff0fa9de776a51a43121d71a3dd47df0fa0e4d111482dfc4b7d706",
+      "bytes": 157209,
+      "sha256": "1f76da6a4b8e7f1199b250b791b097731d43938745a20db1e7f1334e1c7a9860",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
@@ -3787,8 +3787,8 @@
     },
     {
       "path": "research/modalities/tests/test_aso_submission_numbers.py",
-      "bytes": 116934,
-      "sha256": "7c47496037ea4b25a34d75831501761fb84d669dda7e8d172cc204442ce53897",
+      "bytes": 117580,
+      "sha256": "ad804ec55844ec0a0e6105b2aa4e08f9e70a2d0ef9d09ff0542f561572ded62a",
       "serves": "reproduction_guards",
       "also_serves": [],
       "contributes": "Test that re-derives a manuscript number from the artifacts and fails if the two diverge; this is the check a reader runs to confirm the archive reproduces the paper."
