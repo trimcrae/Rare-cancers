@@ -92,14 +92,38 @@ def _ordering_clause(mixed_geometry=False):
                   # the chemistry note a reader meets first must not itself need a glossary.
                   f"the {GEOMETRY.architecture} locked-nucleic-acid (LNA)/DNA/LNA architecture on a "
                   f"phosphorothioate backbone that §6 specifies")
+    #: ⛔ EVERY CAPTION CARRIES THE HANDLING STATEMENT (blind safety screen, 2026-08-19). Tables 2,
+    #: 3 and 5 print 69 orderable sequences between them and Table 2 is, by its own caption, "the
+    #: table one reagent is chosen from". The Declarations say the prohibition covers "its tables",
+    #: but that sentence is fifty pages away and nothing in a table pointed at it.
     return (f"{opener}; the bases alone, ordered as unmodified DNA, are a different molecule. "
+            f"Research use only: not for administration to any person or animal (Declarations). "
             f"The canonical machine-readable copy of every sequence is "
-            f"`{os.path.basename(_manifest.OUT_CSV)}`.")
+            f"`{os.path.basename(_manifest.OUT_CSV)}`, which is what to order from rather than "
+            f"this PDF.")
 
 
 def _load(name):
     p = os.path.join(MOD, name)
     return json.load(open(p)) if os.path.exists(p) else None
+
+
+def _parent_dup_cell(entry):
+    """Render Table 3's longest-parent-duplex cell, flagging the ten-base-pair criterion in place.
+
+    ⛔ The bare number is not enough here. Table 3's † marks JUNCTIONS where no design clears the
+    parent screen; a reader therefore reads an unmarked row as clean, and six unmarked rows printed
+    designs pairing a wild-type parent through the whole catalytic gap at eleven base pairs. The
+    cell carries the gene and an explicit marker at or above the criterion, so the hazard is legible
+    on the row rather than inferable from a column this table used not to have.
+    """
+    if not entry or entry[0] is None:
+        return "—"
+    bp, gene = entry
+    if not bp:
+        return "0"
+    cell = f"{bp} (*{gene}*)"
+    return cell + " ⚑" if bp >= 10 else cell
 
 
 def _expression_cuts():
@@ -557,6 +581,19 @@ def table3(collapse, chance, atlas, per_junction):
             gap_margin[(pan["junction_label"], des["antisense_5to3"])] = \
                 des.get("gap_specificity_margin")
 
+    #: ⛔ TABLE 3 HAD NO PARENT-DUPLEX COLUMN, AND SIX UNMARKED ROWS PAIRED A PARENT THROUGH THE
+    #: WHOLE GAP (blind safety screen, 2026-08-19). The † marks JUNCTIONS where nothing clears the
+    #: parent screen, so an unmarked row reads as unobjectionable — but the design this table prints
+    #: is its highest-MARGIN design, not its cleanest, and six of those pair a wild-type parent
+    #: through the entire catalytic gap at eleven base pairs, five of them against wild-type NR4A3,
+    #: the transcript the modality exists to spare. §4.5 calls exactly that property "this paper's
+    #: central negative", and nothing on the page contradicted the reader's assumption. The column
+    #: Table 2 and the CSV already carry now travels with the sequence here too.
+    parent_dup = {}
+    for r in (_load("aso-parent-gap-pairing.json") or {}).get("per_design") or []:
+        parent_dup[(r["junction"], r["antisense_5to3"])] = (
+            r.get("longest_parent_duplex_bp_through_gap"), r.get("parent"))
+
     by_j, filtered = {}, {}
     for s in collapse["screens"]:
         lab = s.get("junction_label")
@@ -620,8 +657,9 @@ def table3(collapse, chance, atlas, per_junction):
            "gap-spanning hit | of those, predicted models only² | "
            "at the deeper ceiling: near-matches³ | of those, on the sense strand³ | "
            "loci with a gap-spanning hit³ | "
+           "longest parent duplex through the gap (bp) | "
            "≤1-mismatch matches across that junction's designs, median (max) |")
-    sep = "|---|---|---|---|---|---|---|---|---|---|---|---|"
+    sep = "|---|---|---|---|---|---|---|---|---|---|---|---|---|"
     rows = []
     for lab in sorted(by_j):
         ol = by_j[lab]
@@ -642,7 +680,7 @@ def table3(collapse, chance, atlas, per_junction):
         if not ol:
             rows.append(f"| {lab.replace('__', '::').replace('_', ' ')}{mark} | 0 of 5 — every BLAST "
                         f"submission failed at the remote service | — | — | — | — | — | — | — | "
-                        f"— | — | — |")
+                        f"— | — | — | — |")
             deep_missing = True
             continue
         ranked = sorted(ol, key=lambda o: -(gap_margin.get((lab, o["antisense_5to3"])) or -1))
@@ -699,7 +737,8 @@ def table3(collapse, chance, atlas, per_junction):
             f"{cens_loci}{best['n_distinct_loci']} | {hyb_cell} | "
             f"{cens_gap}{best['n_loci_with_a_gap_spanning_hit']} | "
             f"{len(set(best.get('loci_with_a_gap_spanning_hit') or []) & set(best.get('loci_seen_only_as_predicted_models') or []))} | "
-            f"{deep_cell} | {med} ({mx}) |")
+            f"{deep_cell} | {_parent_dup_cell(parent_dup.get((lab, best['antisense_5to3'])))} | "
+            f"{med} ({mx}) |")
     return ("\n".join([hdr, sep] + rows), any(not v for v in filtered.values()), deep_missing,
             no_design_clears_marked, margin_up, margin_down)
 
@@ -1717,7 +1756,15 @@ def main(argv=None):
                  "so the sequence in such a row is that junction's highest-margin design and "
                  "nothing more; it is not a design any screen passes, and Table 2 gives the same "
                  "junction no best-available reagent for that reason — its “designs clearing the "
-                 "parent screen” cell reads 0. Do not order the sequence in a marked row.")
+                 "parent screen” cell reads 0. Do not order the sequence in a marked row."
+                 "\n\n⚑ This design pairs a wild-type parent gene through the whole catalytic "
+                 "gap at the ten-base-pair criterion applied throughout, and the gene it pairs "
+                 "is named beside the length. The marker is on the DESIGN, where † is on the "
+                 "JUNCTION: a row can be unmarked by † and still carry ⚑, because this table "
+                 "prints each junction's highest-margin design rather than its cleanest. Do "
+                 "not order the sequence in a row marked ⚑ — pairing a parent through the "
+                 "whole gap is this paper's central negative (§4.5) and surrenders the only "
+                 "advantage the modality has.")
 
     doc = f"""<!-- GENERATED — DO NOT EDIT. Regenerate: python3 research/manuscripts/submission_tables.py -->
 
@@ -1978,3 +2025,4 @@ measurement of cleavage. {_ordering_clause(mixed_geometry=True)}
 
 if __name__ == "__main__":
     sys.exit(main())
+

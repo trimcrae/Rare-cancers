@@ -28,7 +28,13 @@ PAPER = os.path.join(ASO, "fusion-junction-aso-research-article.md")
 TABLES = os.path.join(ASO, "fusion-junction-aso-submission-tables.md")
 
 #: The §2.6 sentence that condemns them, anchored on its verdict rather than on a section number.
-_CONDEMNED_CLAUSE = "are named here as not to be carried forward"
+#: ⛔ RE-ANCHORED 2026-08-19 (blind safety screen). It read "are named here as not to be carried
+#: forward" — the weakest of the four phrasings the paper used for these same three molecules, and
+#: the only one standing beside their full reasoning. "Not carried forward", reinforced by "excluded
+#: from every best-design field", reads as a RANKING decision (we did not select these) rather than
+#: a prohibition, while the abstract, Box 1 and the CSV all say "not to be used" / "DO NOT ORDER".
+#: A reader entering at §2.6 could reasonably have concluded they were simply not the leads.
+_CONDEMNED_CLAUSE = "must not be ordered or used"
 
 
 def _flat(path):
@@ -38,7 +44,7 @@ def _flat(path):
 def _condemned_sequences():
     """The designs §2.6 names as not to be carried forward, read from the manuscript.
 
-    The sentence runs "... All three are named here as not to be carried forward and are excluded
+    The sentence runs "... All three must not be ordered or used, for that reason, and are excluded
     from every best-design field above." Sequences in this manuscript are always written
     5′-XXXX-3′, so the window before that clause is scanned for that form.
     """

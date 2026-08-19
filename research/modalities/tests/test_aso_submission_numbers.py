@@ -1589,7 +1589,9 @@ def test_the_wild_type_allele_liability_is_named_with_the_designs_it_condemns():
     assert len(condemned) == 3, condemned
     for seq in condemned:
         assert f"5′-{seq}-3′" in txt, f"{seq} is condemned by the scan and not named in the paper"
-    assert "named here as not to be carried forward" in txt
+    # ⛔ RE-ANCHORED 2026-08-19: §2.6's verdict was strengthened from "named here as not to be
+    # carried forward" to "must not be ordered or used", to match the abstract, Box 1 and the CSV.
+    assert "must not be ordered or used" in txt
 
     # and no condemned design survives in any best_* field of either artifact
     for j in nc["junctions"]:

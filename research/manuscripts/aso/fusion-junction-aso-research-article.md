@@ -149,7 +149,12 @@ before the Methods (§6) define them.
 ## Box 1 · Sequences, cautions and the void condition
 
 **Research use only.** Every sequence in this box is a research reagent for laboratory investigation
-only, and the operative statement is in Declarations.
+only and must not be administered to any person or animal; the operative statement is in Declarations.
+Do not order an oligonucleotide by copying it out of this PDF: the canonical record is
+`fusion-junction-aso-sequences.csv` and `fusion-junction-aso-sequences.fasta` (§6). Before any
+oligonucleotide is ordered, the breakpoint of the cell line or patient sample must be established at
+nucleotide resolution by RNA sequencing (§4.4): every design here is specific to the exon pair or
+pairs it was tiled at, and none is valid for an unverified junction.
 
 Every line below points at a fuller statement in the section cited, and none of it is argued here.
 
@@ -187,10 +192,11 @@ reagent named here can be assumed testable in it without sequencing its junction
 **The replicate floor and the void condition (§4.4).** Selectivity is the wild-type *NR4A3*
 half-maximal knockdown concentration divided by the fusion's, from a matched dose–response in the
 same wells, and the cut is 5.0, taken as a convention rather than measured for this comparison (§4.4). Three biological replicates are a floor and not a target: above a
-replicate standard deviation of about 0.65 on the log scale, no observed ratio at or above one can
-place a 95% upper bound below that cut at three replicates, so the test can fail only where the
-reagent is anti-selective and the design is otherwise void rather than negative. A *void* design is
-one whose test cannot fail, which is a different outcome from one that fails to falsify. The
+replicate standard deviation of about 0.65 on the natural-log scale, no observed ratio at or above
+one can place the upper limit of a two-sided 95% interval below that cut at three replicates, so the
+test can fail only where the reagent is anti-selective and the test is otherwise void rather than
+negative. A *void* test is one that cannot fail, which is a different outcome from one that fails to
+falsify, and voidness is a property of the assay's variance rather than of the design. The
 controls, the assay placement and the limit-of-quantification condition without which
 the ratio is not reportable are in §4.4.
 
@@ -286,7 +292,12 @@ at bears on specificity as well as which gene it breaks into. That is the limit 
 tested: no comparison between partners was performed, and one axis printed here does sort by
 partner. Table 2's genome-wide gap-paired load runs at a mean of 1.29 of chance across *TFG*'s
 five scored junctions, four of them above chance, against means of 0.51 to 0.71 and three rows
-above chance among the other thirty. That axis is reported and not explained.
+above chance among the other thirty; over the whole corpus the same axis reads 2.23 across *TFG*'s
+thirty designs against 0.74 across the other 146. That axis is reported and it is confounded rather
+than explained: the null behind it assumes uniform bases, so it tracks base composition, and *TFG*'s
+designs average 39.0% GC against 50.6% elsewhere. Non-*TFG* designs at matched composition run at
+1.04, so roughly half the excess is GC and not partner. The composition-matched null built for the
+mature-parent screen was not run for the genome scan.
 
 The same tension the *TAF15* result carries applies to *TCF12*, and in the same direction. The one
 published *TCF12::NR4A3* breakpoint describes a chimera retaining the first 108 TCF12
@@ -569,7 +580,7 @@ intron closely enough for the whole catalytic gap to pair. For three designs it 
 13 joined to *NR4A3* exon 2, 5′-CAGTGGGCTCTCCACG-3′ and 5′-GCAGTGGGCTCTCCAC-3′, each pairing across
 the wild-type intron-1/exon-2 boundary at two mismatches with neither inside the gap; and at *TAF15*
 exon 6 joined to the intron-2 cryptic exon, 5′-TGATGAGGGCCTTGTG-3′, likewise gap-paired at two
-mismatches. All three are named here as not to be carried forward and are excluded from every
+mismatches. All three must not be ordered or used, for that reason, and are excluded from every
 best-design field above. Both seams keep a reagent, 5′-AGTGGGCTCTCCACGG-3′ and
 5′-ATGAGGGCCTTGTGTG-3′, the second's catalytic gap carrying three *TAF15*-derived bases the *NR4A3*
 locus does not have and returning no wild-type site at all on the two screens that reach this seam.
@@ -653,7 +664,11 @@ their being invisible to the alignment screens.
 A raw genome-wide count is not a result at this threshold. Chance alone predicts of order 10³
 near-matches per 16-mer over a genome for any 16-mer whatever, so the informative readings are
 stratified. Exact 16/16 matches are the class where chance expectation is of order one: 1.37 expected
-per design against 236 observed over the 176 designs, or 1.34 each, which is at chance. Load relative to that
+per design against 236 observed over the 176 designs, or 1.34 each, which is at chance on the mean
+and on no individual design: 79 of the 176 return none where that expectation predicts about 45, and
+twelve return five or more where it predicts about two, to a maximum of 20. The corpus sits at chance;
+the designs are dispersed around it, and a reagent should be read from its own row rather than from
+the mean. Load relative to that
 expectation separates designs where a total cannot — the median design sits at 0.98 of its
 expectation and 14 of 176 exceed twice it. And the repeat split, which a soft-masked reference supplies at no extra cost,
 shows 52.5% of hits fully repeat-masked against a genome that is 51.4% masked, so the load is not
@@ -821,7 +836,8 @@ all 38 junctions screened, four of the five partners
 have a junction whose cleanest design carries no sense-strand near-match across the gap at the
 deeper ceiling, and all five do at the default one. The exon a fusion breaks at therefore bears on
 whether a design is clean across the gap in that sense, and not the gene alone — though no test of
-a partner effect was run, *TFG* sits systematically higher on Table 2's genome-wide load (§2.3),
+a partner effect was run, and *TFG* sits higher on the genome-wide load on an axis confounded with
+base composition (§2.3),
 and the count
 of such junctions is itself a
 function of search depth, as §5 sets out.
@@ -1042,8 +1058,11 @@ vitro.<sup>37</sup><!--PMID:37370737-->
 and 5, are research reagents for laboratory investigation only. None is a medicine or a candidate
 drug, none has been synthesised or tested, and none may be administered to any human being or
 animal or supplied to anyone for that purpose. Ordering any of them from a commercial synthesis
-service is possible for anyone; doing so does not make it a treatment, and nothing in this section should be
-read as licensing use in a patient.
+service is possible for anyone; doing so does not make it a treatment, and nothing in this manuscript
+should be read as licensing use in a patient. Do not order an oligonucleotide by copying it out of this
+PDF — use the canonical `fusion-junction-aso-sequences.csv` or `.fasta` (§6) — and do not order at all
+until the breakpoint of the cell line or patient sample has been established at nucleotide resolution
+by RNA sequencing (§4.4).
 
 Applied here, the reagents to synthesise are the best available at the two most frequently reported
 junctions with a published exon-resolved breakpoint (Table 2): 5′-GGGCATATCATCAAAC-3′ at *EWSR1* exon 12 and
@@ -1266,7 +1285,7 @@ experiment<sup>37</sup><!--PMID:37370737--> it cannot exceed about 2.4 however s
 is, and a cut of 5 would return falsification as arithmetic rather than as biology.
 
 The replicate count follows from the variance rather than being asserted. Selectivity here compounds
-four normalised measurements, so the replicate standard deviation of its logarithm is the quantity to
+four normalised measurements, so the replicate standard deviation of its natural logarithm is the quantity to
 estimate in a pilot, and that standard deviation — taken across independent biological replicates of
 the same matched dose–response, in the same wells, at the wild-type placement declared with it — is
 the one thing the pilot has to return. Neither the pilot's replicate count nor its test article is
@@ -1275,13 +1294,22 @@ open, and the replicate count is the quantity the pilot exists to decide rather 
 given. What is fixed is the scale, because a standard deviation taken on the ratio rather than on
 its logarithm is not the quantity the figures below are stated for.
 
-At a standard deviation of 0.35 on that scale, six independent biological
-replicates give about 80% power to falsify a true selectivity of 3, and three give about 30%; above a
-standard deviation of about 0.65 no observed ratio at or above one can place a 95% upper bound below
-5 at three replicates, so the test can fail only where the reagent is anti-selective and the design
-is otherwise void — a design whose test cannot fail, which is a different outcome from one that
-fails to falsify — rather than negative. The number of
+At a standard deviation of 0.35 on that scale — natural log throughout, a 1.42-fold replicate
+spread — six independent biological replicates give about 80% power to falsify a true selectivity of
+3, and three give about 30%, computed from a noncentral t. The bound that decides falsification is
+the upper limit of a two-sided 95% interval, equivalently a one-sided 97.5% bound, so the test's
+one-sided type-I rate is 2.5% rather than 5%; the figures above are for that bound and change if a
+one-sided 95% bound is used instead.
+
+Above a
+standard deviation of about 0.65 no observed ratio at or above one can place that upper bound below
+5 at three replicates, so the test can fail only where the reagent is anti-selective. Such a test is
+*void*: it cannot fail, which is a different outcome from one that fails to falsify, and voidness is
+a property of the assay's replicate variance and not of the design. The number of
 replicates should therefore be set from the pilot estimate, with three as a floor and not a target.
+A pilot standard deviation is itself an estimate with large sampling error at small replicate counts,
+so the void gate is applied to the upper confidence bound on the pilot's standard deviation rather
+than to its point estimate, and the pilot reports that bound with its degrees of freedom.
 That makes the pilot a gate as well as a sizing step, and its rule follows from the figures above
 without needing a further one: a pilot returning a standard deviation at or above the void figure
 has shown that the floor cannot falsify at this cut, so the decision at that point is a larger

@@ -512,6 +512,9 @@ def _label_for_spliced_table(lines, table_end, rows):
     if "†" in body:
         label += ("  —  † no design at this junction clears the parent screen; "
                   "do not order the sequence in a marked row")
+    if "⚑" in body:
+        label += ("  —  ⚑ this design pairs a wild-type parent through the whole catalytic gap; "
+                  "do not order it")
     return label
 
 
@@ -692,6 +695,11 @@ def render_float(kind, number, payload, wide):
         if isinstance(payload, str) and "†" in payload:
             _label += ("  —  † no design at this junction clears the parent screen; "
                        "do not order the sequence in a marked row")
+        #: ⚑ marks the DESIGN, † the JUNCTION, and a row can carry ⚑ without †. Both keys ride in
+        #: <thead> for the same reason: a continuation page repeats the header and nothing else.
+        if isinstance(payload, str) and "⚑" in payload:
+            _label += ("  —  ⚑ this design pairs a wild-type parent through the whole catalytic "
+                       "gap; do not order it")
         _CURRENT_TABLE_LABEL = _label
         _IN_FLOAT_CAPTION = True
         try:
@@ -1148,7 +1156,15 @@ def templates(running_head):
              "width:100%;padding:0 14mm;display:flex;justify-content:space-between;")
     header = (f'<div style="{style}"><span>{_html.escape(running_head)}</span>'
               '<span></span></div>')
-    footer = (f'<div style="{style}"><span></span>'
+    #: ⛔ THE FOOTER CARRIES THE HANDLING STATEMENT ON EVERY PAGE (blind safety screen, 2026-08-19).
+    #: 20 of the 27 pages that print a sequence carried no handling language of any kind — 125 of
+    #: ~194 printed instances — because captions do not repeat onto table continuation pages. Those
+    #: are exactly the pages a reader reaches by extraction, search or print-selection, and every
+    #: per-table safeguard silently dropped out on them. A running footer is the only element paged
+    #: media puts on every page unconditionally.
+    footer = (f'<div style="{style}">'
+              '<span>Research use only — not for administration. '
+              'Order from fusion-junction-aso-sequences.csv, never from this PDF.</span>'
               '<span class="pageNumber"></span></div>')
     return header, footer
 

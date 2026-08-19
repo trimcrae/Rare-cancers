@@ -358,13 +358,30 @@ def _fasta_text(rows):
     into an order, so a condemned design must announce itself on the one line that travels with the
     bases rather than in a column somebody dropped.
     """
-    out = []
+    #: ⛔ THE FASTA CARRIED NO HEADER AT ALL UNTIL 2026-08-19 (blind safety screen). The CSV opens
+    #: with a RESEARCH USE ONLY block and a CHEMISTRY block; this file — the one a synthesis order
+    #: form actually consumes, and the one §6 names canonical beside the CSV — opened straight on a
+    #: defline. 781 records were reachable without meeting a single handling statement, and the file
+    #: never said which strand it holds. `;` is the FASTA comment character and every common parser
+    #: skips these lines.
+    out = [
+        "; Fusion-junction ASO designs — canonical machine-readable record (with the CSV beside it).",
+        "; RESEARCH USE ONLY. Not for administration to any person or animal. No sequence here is a",
+        "; medicine or a candidate drug; none has been synthesised or tested.",
+        "; Sequences are written 5' to 3' as the ANTISENSE strand.",
+        "; CHEMISTRY: LNA/DNA/LNA gapmers on a phosphorothioate backbone, geometry per record. The",
+        "; bases alone, ordered as unmodified DNA, are a DIFFERENT MOLECULE.",
+        "; Records tagged DO NOT ORDER pair their whole catalytic gap against a wild-type parent.",
+        "; Establish the target breakpoint by RNA sequencing before ordering: each design is specific",
+        "; to the exon pair or pairs it was tiled at.",
+    ]
     for r in rows:
         tags = [r["geometry"], r["junction"] or "no-panel-junction"]
         if r.get("gap_level_margin") != "":
             tags.append(f"gap_level_margin={r['gap_level_margin']}")
         if r.get("do_not_order"):
             tags.append(r["do_not_order"])
+        tags.append("antisense 5'->3', research use only")
         out.append(f">{r['sequence']} {' | '.join(t for t in tags if t)}")
         out.append(r["sequence"])
     return "\n".join(out) + "\n"
