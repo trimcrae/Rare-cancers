@@ -331,6 +331,8 @@ def apply_deposit_filenames(text, paper, where):
     names = deposit_filenames(paper)
     for source, deposited in names.items():
         text = text.replace(source, deposited)
+    _NEVER_BREAK.update(names.values())
+    _NEVER_BREAK.update({ORDER_FROM, ORDER_FROM.replace(".csv", ".fasta")})
     unmapped = sorted({m.group(0) for m in _MD_NAME_RE.finditer(text)}
                       - set(names.values()) - set(names))
     if unmapped:
@@ -524,6 +526,19 @@ CODE_NOWRAP_MAX = 44
 #: `tests/test_code_spans_never_break_a_sequence.py`.
 CODE_BREAKABLE_MIN = 12
 
+#: ⛔ THE DEPOSIT'S OWN FILENAMES ARE NOT PATHS AND MUST NOT BREAK LIKE ONE. A path fragment is still
+#: recognisable — "research/" then "manuscripts" reads as one path — but a FILENAME fragment is a
+#: different, wrong name that reads as hyphenation: the built PDFs printed the paper's most repeated
+#: instruction as `fusion-junction-aso-sequences.` / `csv` in Box 1 and `fusion-` /
+#: `junction-aso-sequences.fasta` in §6 (blind screen, 2026-08-19). These are the names a reader is
+#: told to ORDER FROM or to open, so they are set atomic where they fit, and where they are too long
+#: to fit a column they are given break opportunities after `.` and `/` ONLY — never at a hyphen,
+#: which is the break a reader silently repairs by deleting the character.
+#: ⚠ Populated at render time by `apply_deposit_filenames`, because two of the four are derived from
+#: the output filename and only that function knows it.
+_NEVER_BREAK = set()
+CODE_BREAK_AFTER_SAFE = re.compile(r"(?<=[/.])(?=[^\s/.])")
+
 #: A locator a reader has to be able to copy: it is set `nowrap` and never given a `<wbr/>`, and it
 #: is turned into a live link. ⛔ MEASURED IN THE BUILT PDF, NOT ASSUMED (blind screen of the deposit,
 #: 2026-08-19): the repository URL is written in the manuscript as a code span, so `CODE_BREAK_AFTER`
@@ -581,6 +596,17 @@ def code_span(literal):
     nothing extra lands in the PDF's text layer for a reader to copy out.
     """
     escaped = _html.escape(literal, quote=False)
+    if literal in _NEVER_BREAK:
+        if len(literal) <= CODE_NOWRAP_MAX:
+            return "<code>" + escaped + "</code>"
+        #: ⚠ THE SAFE BREAK SET IS ONLY USED WHEN IT ACTUALLY FITS. The deposited SI filename is 66
+        #: characters with one dot in it, so breaking after dots alone leaves a 63-character run —
+        #: wider than the journal's 88 mm column, and an overflowing token is a worse defect than an
+        #: ambiguous break. When that happens the ordinary break set is used and the name can break
+        #: at a hyphen like any other long path.
+        if max(len(part) for part in CODE_BREAK_AFTER_SAFE.split(literal)) <= CODE_NOWRAP_MAX:
+            return '<code class="brk">' + CODE_BREAK_AFTER_SAFE.sub("<wbr/>", escaped) + "</code>"
+        return '<code class="brk">' + CODE_BREAK_AFTER.sub("<wbr/>", escaped) + "</code>"
     #: A URL is a locator, not a path: it is copied whole or it is useless, and it is also the one
     #: kind of code span that can be made live. It never receives a break opportunity.
     if _LOOKS_LIKE_A_URL.match(literal):
@@ -888,7 +914,9 @@ def markdown_to_html(text, floats=None):
                         i += 1
                         continue
                     break
-                out.append("<li>" + inline(m.group(3)) + "</li>")
+                li = inline(m.group(3))
+                out.append(("<li data-seq=\"1\">" if 'class="seq"' in li else "<li>")
+                           + li + "</li>")
                 i += 1
             out.append(f"</{tag}>")
             continue
@@ -929,7 +957,14 @@ def markdown_to_html(text, floats=None):
                 #: the rule was keyed to a class the orphaned element did not carry. A fix whose
                 #: comment names the symptom is not evidence the symptom is gone — the PDF is.
                 css = ' class="legend note"'
-            out.append(f"<p{css}>{inline(joined)}</p>")
+            rendered = inline(joined)
+            #: ⛔ A PARAGRAPH THAT PRINTS A SEQUENCE IS SET RAGGED-RIGHT — see the `[data-seq]` rule
+            #: in COMMON for what was measured. ⚠ IT IS AN ATTRIBUTE AND NOT A CLASS ON PURPOSE:
+            #: `test_no_page_is_nearly_empty` counts the exact string `class="legend note"`, and a
+            #: caption footnote that happened to print a sequence would have become
+            #: `class="legend note hasseq"` and quietly dropped out of another lane's guard.
+            seq_attr = ' data-seq="1"' if 'class="seq"' in rendered else ""
+            out.append(f"<p{css}{seq_attr}>{rendered}</p>")
         else:
             i += 1
     return "\n".join(out)
@@ -1074,6 +1109,35 @@ code.brk { white-space: normal; }
 /* A delimited oligonucleotide is one token: `5′-` must never be left on the line above its bases,
    because the newline a reader then copies is invisible in a synthesis order form. */
 .seq { white-space: nowrap; hyphens: none; }
+/* ⛔ A JUSTIFIED LINE IS EMITTED IN SEVERAL PIECES AND CHROMIUM DOES NOT EMIT THEM IN VISUAL ORDER.
+   MEASURED ONE VARIABLE AT A TIME ON RENDERED PDFs (2026-08-19): over a control paragraph set in
+   this stylesheet, `text-align: justify` produces 8 same-line reading-order inversions in 184 text
+   runs and `text-align: left` produces 0 in 122 — a justified line is broken into segments and the
+   segments are painted out of order, so a content-order extractor reads them out of order too.
+   font-kerning, font-variant-ligatures, text-rendering, letter-spacing, word-spacing and
+   text-wrap: stable were each tried ON TOP of justification and every one measured identically to
+   plain justify, 8/184. There is no lever but the alignment.
+
+   ★ THE CONSEQUENCE IS THE DEPOSIT'S HIGHEST-STAKES TEXT: pdfminer returned "…agrees
+   5′-CAGGGCATATCTTGCA-3′ exon exon 17, 9, at at independently" where the page reads
+   "…5′-GGGCATATCTCTATAA-3′ at exon 17, 5′-CAGGGCATATCTTGCA-3′ at exon 9" — the sequence and the
+   junction it belongs to, swapped. So the rule is scoped exactly to the hazard: a paragraph that
+   PRINTS a sequence goes ragged-right, and every other paragraph stays justified.
+
+   ★★ MEASURED IN THE BUILT PDFs with pdfminer's DEFAULT LAParams — the settings this repository's
+   guards and a stock pdfminer install use. The test asks whether each of the 66 delimited sequences
+   the article prints in prose is still CONTIGUOUS with the 40 source characters that follow it,
+   compared on letters and digits only so a hyphenation or a line break cannot be mistaken for a
+   reordering:
+       journal, two columns    12 of 66 broken  ->  0 of 66
+       manuscript, one column   0 of 66 broken  ->  0 of 66
+   ⚠ AND THE INSTRUMENT IS PART OF THE RESULT, WHICH IS WHY IT IS NAMED. Read with
+   `line_margin=0.35` the same two files measure 24 -> 16: a tight line margin makes every line its
+   own text box and `boxes_flow` then interleaves the two columns, which swamps the signal. The
+   single-column submission build — the one that is deposited — was never affected under any
+   setting, and a global `text-align: left` measured 17 there against this rule's 16, so the blunt
+   version of this fix is not the better one. */
+p[data-seq], li[data-seq] { text-align: left; }
 /* A DOI, a PMID or a URL is copied whole or it is worthless, and its own hyphens are the break
    points a renderer reaches for first. `nowrap` is safe here for a measured reason: the longest
    locator this paper prints is 29 characters and the narrowest container either style produces is
