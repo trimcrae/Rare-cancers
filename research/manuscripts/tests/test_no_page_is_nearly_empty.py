@@ -159,12 +159,28 @@ def test_the_caption_footnotes_are_classed_so_their_break_rules_can_reach_them()
         "the assembled manuscript carries no caption footnote at all — either every table caption "
         "lost its notes or this derivation has stopped matching the source, and either way the "
         "count below would be asserting nothing")
-    classed = html.count('class="legend note"')
-    assert classed == len(expected), (
-        f"{classed} paragraph(s) carry `legend note` in the built HTML against {len(expected)} "
-        f"caption footnote(s) in the assembled markdown. Every note under a caption must keep the "
-        "class, or the break rule that holds a caption block on one page reaches only part of it "
-        "and the rest orphans:\n  " + "\n  ".join(expected))
+    #: ⛔ A SET RELATION, NOT AN EQUALITY (2026-08-19, lane C2). This asserted
+    #: `classed == len(expected)` and went RED with nothing wrong: the renderer splits one Table 3
+    #: footnote into TWO `<p>` mid-sentence, classes both, and 13 != 12. Equality conflates the
+    #: property that matters — every note under a caption carries the class — with a different one:
+    #: that the renderer never splits a paragraph. The first is what the break rule needs; the
+    #: second is a rendering detail, and pinning it here would train a reader to edit the count.
+    #: The original defect (eight of nine notes falling back to a bare `<p>`) still fails, and now
+    #: fails NAMING the notes that lost the class instead of printing a number that moved.
+    classed_blocks = [" ".join(re.sub(r"<[^>]+>", "", block).split())
+                      for block in re.findall(r'<p class="legend note">(.*?)</p>', html, re.S)]
+    assert classed_blocks, "no paragraph carries `legend note` in the built HTML at all"
+    unclassed = [note for note in expected
+                 if not any(note[:40] in block for block in classed_blocks)]
+    assert not unclassed, (
+        f"{len(unclassed)} of {len(expected)} caption footnote(s) in the assembled markdown reach "
+        "the built HTML without the `legend note` class, so the break rule that holds a caption "
+        "block on one page does not reach them and they orphan:\n  " + "\n  ".join(unclassed))
+    assert len(classed_blocks) >= len(expected), (
+        f"only {len(classed_blocks)} paragraph(s) carry `legend note` against {len(expected)} "
+        "caption footnote(s) in the source — fewer classed paragraphs than notes means the join "
+        "has started collapsing them, which the substring check above can miss if one note is a "
+        "prefix of another.")
 
 
 def test_no_caption_footnote_falls_through_to_a_bare_paragraph():

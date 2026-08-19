@@ -63,6 +63,12 @@ FS_TITLE, FS_SUB = 15, 12
 FS_LABEL, FS_BASE, FS_TAG = 11.5, 13, 11.5
 FS_ARCH, FS_NOTE, FS_MARK = 12, 11.5, 11.5
 
+#: The hue for the one column at which the three donors differ. ONE NAME, ONE HOME: the
+#: legend line, the base glyph and the box around it all read it from here, so the panel
+#: cannot say one colour and draw another. See the note beside `fill` below for why it is
+#: not red.
+DIVERGENT = "#6a1b9a"
+
 #: Tier token -> the words drawn beside a row. ⛔ A TOKEN WITH NO GLOSS RAISES rather than drawing an
 #: empty tag: a new tier must be given words deliberately, not rendered as blank space beside a
 #: sequence a reader is deciding whether to build.
@@ -153,7 +159,7 @@ def main(argv=None):
     top = y_sub + len(sub_lines) * (FS_SUB + 4) + 30      # first sequence row's baseline
 
     notes = [
-        (f"Blue, donor exon; green, NR4A3 acceptor exon; boxed and red, {divergent_words}. "
+        (f"Blue, donor exon; green, NR4A3 acceptor exon; boxed and purple, {divergent_words}. "
          f"Shaded box, the window this reagent targets."),
         (f"Every sequence row above is the TARGET mRNA read 5′ to 3′, not the oligonucleotide. "
          f"The reagent is 5′-{OLIGO}-3′, the reverse complement of the shaded window "
@@ -214,7 +220,17 @@ def main(argv=None):
             in_donor = c < len(donors[r])
             divergent = in_donor and c < len(donors[r]) - shared and any(
                 donors[k][c] != base for k in range(len(donors)))
-            fill = "#c62828" if divergent else ("#1565c0" if in_donor else "#2e7d32")
+            #: ⛔ NOT RED, BECAUSE RED ALREADY MEANS SOMETHING ELSE ON A SEQUENCE PANEL IN THIS
+            #: SAME DEPOSIT (display-item review, 2026-08-19). Figure 3A tiles the catalytic gap
+            #: and fills the DONOR-side bases red — so a reader carrying that key here reads the
+            #: one divergent base as "the donor side" and, worse, as the junction-unique margin,
+            #: which is the quantity Figure 3A's own key warns is only sometimes the red run. The
+            #: two panels are the same visual form (bases at a seam, coloured by provenance), which
+            #: is what makes the collision a misreading rather than a coincidence.
+            #: ⚠ FIGURE 3A IS THE ONE THAT KEEPS RED. Its manuscript caption names red for the
+            #: donor gap bases and that caption is not this generator's to change; the marker that
+            #: moves is the one whose caption names no colour at all, which is this one.
+            fill = DIVERGENT if divergent else ("#1565c0" if in_donor else "#2e7d32")
             weight = "700" if divergent else "400"
             # ⛔ COLOUR IS NOT THE ONLY CHANNEL, BECAUSE FOR TWO CLASSES OF READER IT CARRIES
             # NOTHING (2026-08-13). The three roles were encoded as blue donor / green acceptor /
@@ -230,7 +246,7 @@ def main(argv=None):
             if divergent:
                 p.append(f'<rect x="{L + c * CW + 0.6:.1f}" y="{y - 11}" '
                          f'width="{CW - 1.2:.1f}" height="14" rx="2" '
-                         f'fill="none" stroke="#c62828" stroke-width="1.1"/>')
+                         f'fill="none" stroke="{DIVERGENT}" stroke-width="1.1"/>')
             p.append(f'<text x="{L + c * CW + CW / 2:.1f}" y="{y}" font-size="{FS_BASE}" '
                      f'fill="{fill}" font-family="monospace" font-weight="{weight}" '
                      f'text-anchor="middle">{esc(base)}</text>')

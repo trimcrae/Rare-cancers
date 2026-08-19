@@ -71,6 +71,9 @@ DISTRIBUTION_PROVIDES = {
 #: A site may reach a module CI does not install only if it says so, at the site, in these words.
 #: The marker is what turns "this cannot run in CI" from an accident into a recorded decision.
 NOT_IN_CI_MARKER = "NOT IN CI"
+#: …and the same idea for a skip keyed on anything else: a guard may decline to run, but somebody
+#: has to have decided that it may, in writing, next to the skip.
+DELIBERATE_SKIP_MARKER = "SKIP IS DELIBERATE"
 MARKER_WINDOW_LINES = 12
 
 _PIP_LINE = re.compile(r"^\s*-\s*run:\s*pip install\s+(.+?)\s*$", re.M)
@@ -178,6 +181,40 @@ def test_no_deposit_guard_depends_on_a_module_ci_does_not_install():
           f"re-express the check against a module CI does install, or — if the check genuinely "
           f"cannot run there — say so at the site with the words {NOT_IN_CI_MARKER!r} so the gap "
           "is a recorded decision instead of a green tick.")
+
+
+def test_every_remaining_skip_in_the_deposit_suite_is_a_decision_somebody_took():
+    """⛔ THE EXISTENCE RULE BELOW DOES NOT SEE A TRUTHINESS ONE, AND FOUR HID FROM IT.
+
+    `if not m["n_junctions"]: pytest.skip("no matched junctions in this checkout")` names a
+    checkout state, keys on an artifact's CONTENT, and tests no path — so an existence-shaped rule
+    walks straight past it while the guard still evaporates. Rather than enumerate every shape a
+    condition can take, this requires the OUTCOME to be recorded: a skip that survives in this
+    suite carries, at the site, either {NOT_IN_CI_MARKER!r} (the package is genuinely absent from
+    the runner) or {DELIBERATE_SKIP_MARKER!r} (the condition is a real property of the data, and
+    somebody decided the guard may decline). Anything else is a guard quietly not running.
+    """
+    offenders = []
+    for path in _scope_files():
+        src = open(path, encoding="utf-8").read()
+        lines = src.splitlines()
+        for node in ast.walk(ast.parse(src)):
+            if isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute) \
+                    and node.func.attr == "skip" \
+                    and isinstance(node.func.value, ast.Name) and node.func.value.id == "pytest":
+                lo = max(0, node.lineno - 1 - MARKER_WINDOW_LINES)
+                hi = min(len(lines), node.lineno + MARKER_WINDOW_LINES)
+                window = lines[lo:hi]
+                if any(NOT_IN_CI_MARKER in ln or DELIBERATE_SKIP_MARKER in ln for ln in window):
+                    continue
+                offenders.append(f"{os.path.relpath(path, REPO)}:{node.lineno}")
+    assert not offenders, (
+        "these guards can decline to run and nothing at the site records that anyone decided they "
+        "may:\n  " + "\n  ".join(offenders)
+        + f"\n\nEvery artifact this suite reads is committed and every module it needs is on the "
+          f"pip line, so a skip is almost always a check evaporating with its input. Turn it into "
+          f"a pytest.fail or an assert; if it genuinely must stay, write {NOT_IN_CI_MARKER!r} or "
+          f"{DELIBERATE_SKIP_MARKER!r} beside it with the reason.")
 
 
 def test_no_deposit_guard_skips_itself_because_an_input_is_missing():

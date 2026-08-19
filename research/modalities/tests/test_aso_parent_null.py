@@ -60,7 +60,12 @@ def _mods():
         import aso_parent_gap_pairing as pgp
         import aso_parent_null as npl
     except Exception as exc:                                    # noqa: BLE001
-        pytest.skip(f"null modules do not import here: {exc}")
+        #: ⛔ NOT A SKIP (2026-08-19, lane C2 audit). Both are committed modules importing nothing
+        #: `.github/workflows/tests.yml` omits, so a failure here is a real breakage — and while it
+        #: stood, the whole (a)-(d) null-ensemble re-derivation fell silent on the runner.
+        pytest.fail(f"the null modules do not import ({exc!r}). They are committed and need "
+                    "nothing CI does not install, so nothing is re-deriving the parent-null "
+                    "ensembles the abstract's rates are read against.")
     return pgp, npl
 
 

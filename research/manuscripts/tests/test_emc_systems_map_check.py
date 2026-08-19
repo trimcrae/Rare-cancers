@@ -204,6 +204,11 @@ def test_a_definitional_closure_carrying_a_revival_trigger_fails(m):
     """
     subject = next((r for r in m["routes"] if r.get("closure_kind") == "definitional"), None)
     if subject is None:
+        # SKIP IS DELIBERATE: this one is keyed on the REGISTRY'S OWN CONTENT, not on a missing
+        # file or a missing package. With no `definitional` closure there is no subject to mutate,
+        # and the docstring above already states the reasoning. Recorded in these words because
+        # test_no_guard_can_silently_not_run.py requires every skip in this suite to be a decision
+        # somebody took rather than a guard quietly declining to run.
         pytest.skip("no route in the registry is a `definitional` closure, so there is nothing to mutate")
     subject["revival_trigger"] = ["TR-CHEAP-CRYPTIC-ENSEMBLE"]
     assert "Z3" in codes(m), (

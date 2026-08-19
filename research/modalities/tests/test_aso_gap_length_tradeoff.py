@@ -301,8 +301,12 @@ def test_the_union_recovers_dropped_records_without_editing_any_screen():
     """
     art = _art()
     m = art["the_trade"]["transcriptome_coincidence_falls_but_it_MUST"]["matched_junctions"]
-    if not m["n_junctions"]:
-        pytest.skip("no matched junctions in this checkout")
+    #: ⛔ NOT SKIPS (2026-08-19, lane C2 audit). These four conditions are properties of the
+    #: COMMITTED artifact and the COMMITTED screens, not of a checkout — an empty one means the
+    #: trade's evidence stopped being found, which is when the guard has to speak.
+    assert m["n_junctions"], (
+        "the trade artifact matches no junction across geometries, so the "
+        "transcriptome-coincidence half of the trade is asserted against nothing.")
     for arch, v in m["by_geometry"].items():
         assert v["n_designs_the_remote_service_dropped"] == 0, (arch, v["designs_with_no_count"])
     # every screened row names the file it came from, and that file exists
@@ -360,8 +364,9 @@ def test_locus_counts_are_recounted_with_todays_parser_not_read_from_the_screen(
             assert not [s for s in loci["loci_with_a_gap_spanning_hit"]
                         if re.fullmatch(r"[NX][MR]_\d+", s)], (
                 "an accession fallback survived the corrected parser", r)
-    if not checked:
-        pytest.skip("no alignment screens in this checkout")
+    assert checked, (
+        "no alignment screen was read, so the accession-fallback check above covered nothing. "
+        "The screens are committed; an empty set is a loader or naming change.")
 
 
 def test_the_lead_reagent_locus_counts_are_the_corrected_ones():
@@ -369,8 +374,9 @@ def test_the_lead_reagent_locus_counts_are_the_corrected_ones():
     art = _art()
     lead = art["lead_reagent_at_the_most_commonly_reported_seam"]["by_geometry"]
     row = lead.get("5-6-5")
-    if not row or (row.get("alignment_screen") or {}).get("status") != "screened":
-        pytest.skip("the 5-6-5 lead has no alignment screen in this checkout")
+    assert row and (row.get("alignment_screen") or {}).get("status") == "screened", (
+        "the 5-6-5 lead reagent has no screened alignment record in the committed trade artifact, "
+        "so the locus count the correction moved from 14 to 6 is pinned by nothing.")
     loci = row["alignment_screen"]["loci"]
     assert loci["exact"], "the lead's hit list must be complete for this count to be a measurement"
     assert loci["n_loci_with_a_gap_spanning_hit"] == 6, loci
@@ -420,8 +426,10 @@ def test_every_new_geometry_screen_is_orientation_safe():
     # manuscript's is checked here, whatever its file is called.
     longer = [s for g, ss in ass.iter_geometries(ass.BLAST_SCREEN, root=MOD)
               if g != ass.MANUSCRIPT_GEOMETRY for s in ss]
-    if not longer:
-        pytest.skip("no longer-geometry screens in this checkout")
+    assert longer, (
+        "no non-manuscript-geometry screen was found, so the orientation-filter comparison across "
+        "geometries covered nothing — and this guard was already found once to be silently "
+        "narrower than its own name.")
     for s in sorted(longer, key=lambda x: x.name):
         assert jo.screen_counts_are_orientation_filtered(s.artifact), (
             f"{s.name} is {jo.screen_orientation_status(s.artifact)} — its counts cannot "

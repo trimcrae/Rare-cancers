@@ -185,22 +185,9 @@ def main(argv=None):
         + "; ".join(f"{at_cut[k]} at {k}" for k in order)
         + "). Only the quantity drawn here rises.")
 
-    # ── vertical layout, measured before anything is drawn ────────────────────────────────────
-    lead_lines = wrap(lead, FS_TITLE, W - 80)
-    withdrawal_lines = wrap(withdrawal, FS_LEAD, W - 80)
-    y_title = 26
-    y_withdraw = y_title + len(lead_lines) * (FS_TITLE + 6) + 4
-    y_a_head = y_withdraw + len(withdrawal_lines) * (FS_LEAD + 4) + 18
-    y_a_sub = y_a_head + 18
-
-    #: ⚠ `rowh` HAS A FLOOR AND IT IS GEOMETRIC. Each row draws a "breakpoint" caption above it and
-    #: a tick 7 px below the cells, so consecutive rows collide below about 48 px.
-    cell, rowh = 21, 52
-    top = y_a_sub + 30
-    x0 = 176
-    ky = top + len(geoms) * rowh + 2
-
     #: The mature-parent contrast on the SAME three molecules panel A draws, joined per design.
+    #: ⚠ BUILT BEFORE THE LAYOUT, because panel A's subtitle now states a property OF the drawn
+    #: register and the subtitle's height decides where the rows start.
     panel_a = []
     for g in geoms:
         rows = [r for r in g["rows"] if r[0] == PANEL_A_JUNCTION]
@@ -211,6 +198,40 @@ def main(argv=None):
         if rec is None:
             raise SystemExit(f"{g['label']} {junction} {seq}: no mature-parent record to join")
         panel_a.append((g, seq, margin, dn, ac, rec))
+
+    #: ⛔ PANEL A DRAWS THE ONE REGISTER WHOSE SPLIT IS EVEN, AND ONLY THE MANUSCRIPT CAPTION SAID
+    #: SO (display-item review, 2026-08-19). The molecule drawn is the paper's lead reagent, which
+    #: is why it is drawn — but its gap divides 3+3, 4+4 and 5+5, so the asymmetry this whole panel
+    #: is about is invisible in it, and a reader who lifts the figure out of the paper has three
+    #: symmetric rows and nothing saying they are the minority case. A figure has to carry its own
+    #: caveat. MEASURED per geometry rather than asserted, so a corpus in which the even split
+    #: became the common case would change this sentence instead of leaving it describing a rarity
+    #: — and it is emitted only while the drawn register actually is even.
+    _even = all(dn == ac for _g, _s, _m, dn, ac, _r in panel_a)
+    _even_share = "; ".join(f"{sum(1 for r in g['rows'] if r[3] == r[4])} of {g['n']} at "
+                            f"{g['label']}" for g in geoms)
+    sub_a = ("The best-margin design at "
+             f"{PANEL_A_JUNCTION.replace('__', ' :: ').replace('_', ' ')}, at each geometry. "
+             "Wings fixed at five nucleotides, so only the gap changes."
+             + (f" The register drawn divides its gap evenly at every geometry, which is the "
+                f"highest margin the geometry allows and not the common case: {_even_share}. "
+                f"Panel B counts every register there is." if _even else ""))
+
+    # ── vertical layout, measured before anything is drawn ────────────────────────────────────
+    lead_lines = wrap(lead, FS_TITLE, W - 80)
+    withdrawal_lines = wrap(withdrawal, FS_LEAD, W - 80)
+    sub_a_lines = wrap(sub_a, FS_PANEL_SUB, W - 80)
+    y_title = 26
+    y_withdraw = y_title + len(lead_lines) * (FS_TITLE + 6) + 4
+    y_a_head = y_withdraw + len(withdrawal_lines) * (FS_LEAD + 4) + 18
+    y_a_sub = y_a_head + 18
+
+    #: ⚠ `rowh` HAS A FLOOR AND IT IS GEOMETRIC. Each row draws a "breakpoint" caption above it and
+    #: a tick 7 px below the cells, so consecutive rows collide below about 48 px.
+    cell, rowh = 21, 52
+    top = y_a_sub + (len(sub_a_lines) - 1) * (FS_PANEL_SUB + 4) + 30
+    x0 = 176
+    ky = top + len(geoms) * rowh + 2
 
     def _mature_words(rec):
         bp = rec.get("mature_parent_duplex_through_whole_gap_bp")
@@ -286,10 +307,9 @@ def main(argv=None):
     # ───────────────────────────────────────────── panel A: the mechanism on one real junction
     p.append(f'<text x="40" y="{y_a_head}" font-size="{FS_PANEL_HEAD}" fill="#111" '
              f'font-weight="600">A · the catalytic gap is tiled by the two counts</text>')
-    p.append(f'<text x="40" y="{y_a_sub}" font-size="{FS_PANEL_SUB}" fill="#555">'
-             f'The best-margin design at '
-             f'{esc(PANEL_A_JUNCTION.replace("__", " :: ").replace("_", " "))}, '
-             f'at each geometry. Wings fixed at five nucleotides, so only the gap changes.</text>')
+    for i, line in enumerate(sub_a_lines):
+        p.append(f'<text x="40" y="{y_a_sub + i * (FS_PANEL_SUB + 4)}" '
+                 f'font-size="{FS_PANEL_SUB}" fill="#555">{esc(line)}</text>')
 
     for gi, (g, _seq, _margin, dn, ac, _rec) in enumerate(panel_a):
         y = top + gi * rowh

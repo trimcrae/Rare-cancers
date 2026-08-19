@@ -46,6 +46,8 @@ def _refuse_or_skip(what):
             "precisely so this guard runs — and every energy in the thermo artifact rests on the "
             "table this could not reach. Re-point junction_aso_thermo._nn_table at the table's "
             "new home; do not let it report as an absent package.")
+    # SKIP IS DELIBERATE: the package is genuinely absent HERE and present on the runner, and the
+    # branch above proves the two states are distinguished rather than conflated.
     pytest.skip("Biopython is not installed in this environment (CI installs it, so this "
                 "guard does run where it gates a commit)")
 

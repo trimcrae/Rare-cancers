@@ -46,7 +46,7 @@ from collections import OrderedDict
 HERE = os.path.dirname(os.path.abspath(__file__))
 if HERE not in sys.path:
     sys.path.insert(0, HERE)
-from aso_figure_text import MM_PER_PT, RENDER_TARGETS  # noqa: E402
+from aso_figure_text import MM_PER_PT, RENDER_TARGETS, number_word  # noqa: E402
 
 SRC = os.path.join(HERE, "..", "..", "modalities", "nr4a3-fusion-junction-atlas.json")
 OUT = os.path.join(HERE, "aso-junction-space.svg")
@@ -77,6 +77,7 @@ BLOCK_HEAD = 18         #: the partner name above its block
 FS_TITLE, FS_SUB = 17, 13
 FS_PARTNER, FS_COLHEAD, FS_AXIS = 13, 12, 12
 FS_ROW, FS_LEGEND, FS_NOTE = 11, 11, 11
+FS_PANEL_LETTER = 15
 MIN_PRINTED_PT = 6.0
 
 #: ⚠ `RENDER_TARGETS` AND `MM_PER_PT` NOW HAVE ONE HOME, `aso_figure_text`, imported above. They
@@ -181,10 +182,17 @@ def main(argv=None):
     text_w = W - 2 * MARGIN
 
     title = "Frame compatibility across the NR4A3 fusion junction space"
+    #: ⛔ NEITHER HALF CARRIED A LETTER (display-item review, 2026-08-19). The subtitle said the
+    #: grid continues in the right-hand panel and the repeated axis caption said "the same grid,
+    #: continued" — but with no A and no B, neither the manuscript caption nor a reviewer's note
+    #: nor a reader's own annotation has a name for either half, and a caption that says "in (A)"
+    #: points at nothing. The letters are derived from the panel count, so a third panel is named
+    #: rather than unnamed.
+    panel_letters = [chr(ord("A") + i) for i in range(len(panels))]
     subtitle = (f"{n_graded} donor-exon × acceptor-exon pairs graded over {len(partners)} "
                 f"partners; {n_emit} are frame-compatible, and all of them lie in one acceptor "
-                f"column. The grid is continued in the right-hand panel; the three acceptor "
-                f"columns repeat in both.")
+                f"column. The grid runs down {panel_letters[0]} and continues in "
+                f"{panel_letters[-1]}; the {number_word(len(acceptors))} acceptor columns repeat in both.")
     note = ("Frame compatibility is an arithmetic property of exon structure. This is not a claim "
             "about which junctions patients carry: breakpoint recurrence is a clinical "
             "observation, and no partner-and-exon-resolved series exists for most of this space.")
@@ -251,6 +259,10 @@ def main(argv=None):
         caption = "NR4A3 acceptor exon" + (" (the same grid, continued)" if index else "")
         p.append(f'<text x="{gx + grid_w / 2:.1f}" y="{y_axis}" font-size="{FS_AXIS}" fill="#333" '
                  f'text-anchor="middle" font-weight="600">{esc(caption)}</text>')
+        #: The panel letter, set on the same baseline as the axis caption and in the label gutter,
+        #: which is the one horizontal band of this figure that carries nothing else.
+        p.append(f'<text x="{x0}" y="{y_axis}" font-size="{FS_PANEL_LETTER}" fill="#111" '
+                 f'font-weight="700">{esc(panel_letters[index])}</text>')
         for j, a in enumerate(acceptors):
             cx = gx + j * (CELL_W + GAPX) + CELL_W / 2
             p.append(f'<text x="{cx:.1f}" y="{y_colhead}" font-size="{FS_COLHEAD}" fill="#333" '
