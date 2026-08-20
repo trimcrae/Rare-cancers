@@ -358,8 +358,7 @@ over two registers are fifty accessions each, which §2.8 works through. The col
 those records are CURATED RefSeq transcripts rather than the computationally predicted `XM_`/`XR_`
 gene models Table 3 also counts separately: 263 of the 649 records in this table are
 curated, and the locus contributing most of them is *G3BP2*, at
-48 of its own
-56. Both columns count records the search returned
+48 of its own 56. Both columns count records the search returned
 rather than properties of the locus, so a locus is neither cleaner for having few curated records nor
 dirtier for having many; what the split says is how much of a large cell rests on predicted
 annotation. Tiling registers is how many of the designs

@@ -370,7 +370,17 @@ def build_provenance():
         except Exception:                                   # pragma: no cover - env dependent
             return ""
     commit = git("rev-parse", "--short", "HEAD")
-    dirty = bool(git("status", "--porcelain"))
+    #: ⛔ THE BUILD'S OWN OUTPUTS ARE NOT UNCOMMITTED WORK (reviewer screen, 2026-08-20). The SI is
+    #: rendered after the article in the same invocation, so by the time it read the tree the
+    #: article PDF it had just written was sitting there unstaged — and the SI title page printed
+    #: "tree not clean at build time" beside an article title page, at the same commit, that
+    #: printed clean. Two provenance lines disagreeing about one build is worse than either verdict.
+    #: What the line asserts is that the SOURCES this document was rendered from are the committed
+    #: ones, so the artefacts this run writes are excluded and everything else — every manuscript,
+    #: table, figure and generator — still makes the build dirty.
+    _OUTPUTS = (".pdf", ".build-stamp.json", ".build.html")
+    dirty = any(not line[3:].strip().strip('"').endswith(_OUTPUTS)
+                for line in git("status", "--porcelain").splitlines() if line.strip())
     return commit, dirty, time.strftime("%Y-%m-%d", time.gmtime())
 
 
@@ -498,9 +508,21 @@ SEQUENCE_RE = re.compile(r"5[′']-[ACGTUacgtu]{8,40}-3[′']")
 #: identifier's own hyphen, so no spurious character was introduced — which is exactly why it
 #: survived every source-side check: the MARKDOWN is correct and the defect is created by
 #: typesetting.
-#: Covers DepMap models (ACH-######), Cellosaurus RRIDs (with or without the RRID: prefix)
-#: and GEO series (GSE#####).
-ATOMIC_ID_RE = re.compile(r"\b(?:RRID:CVCL_[A-Za-z0-9]+|CVCL_[A-Za-z0-9]+|ACH-\d{6}|GSE\d{4,6})\b")
+#: ⛔ AND AN ACCESSION IS THE SAME HAZARD ONE CHARACTER SMALLER (reviewer screen of the built
+#: deposit, 2026-08-20): `AL158209.1--NEBL` was read out of the PDF as `AL15820 9.1--NEBL`. It
+#: reaches the page as a code span, and a code span over `CODE_BREAKABLE_MIN` is given `<wbr/>`
+#: after each of its separators, so the renderer is free to put the accession's version suffix and
+#: its fusion partner on the next line — and it sits in the one sentence of §3 that makes a
+#: contested claim about a widely used cell line, where a reader who cannot resolve the identifier
+#: cannot check the claim. A versioned accession and a `--`-joined fusion call are IDENTIFIERS, not
+#: paths: they are copied whole or they are useless, so they join the atomic set.
+#: Covers DepMap models (ACH-######), Cellosaurus RRIDs (with or without the RRID: prefix),
+#: GEO series (GSE#####), versioned INSDC/RefSeq accessions, and fusion calls written `A--B`.
+_ACCESSION = r"[A-Z]{1,3}[_]?\d{5,9}\.\d{1,2}"
+ATOMIC_ID_RE = re.compile(
+    r"\b(?:RRID:CVCL_[A-Za-z0-9]+|CVCL_[A-Za-z0-9]+|ACH-\d{6}|GSE\d{4,6}"
+    + r"|(?:" + _ACCESSION + r"|[A-Z][A-Za-z0-9.]{1,14})--(?:" + _ACCESSION + r"|[A-Z][A-Za-z0-9.]{1,14})"
+    + r"|" + _ACCESSION + r")\b")
 
 #: Where a long inline-code token MAY break, if it has to. Breaking is offered after a separator,
 #: never inside a run of word characters — `word-break: break-all` used to allow the latter and
@@ -577,6 +599,16 @@ URL_RE = re.compile(r"\bhttps?://[^\s<>()\[\]]+[^\s<>()\[\].,;]")
 #: carried, which was extracting as a double space after every marker.
 MARKER_GLYPH_RE = re.compile(r"[⚑◆]")
 
+#: ⛔ A DISPLAY-ITEM REFERENCE IS ONE TOKEN AND MUST NOT BREAK ACROSS A LINE. Measured in the built
+#: manuscript PDF (2026-08-20): §2.2's only citation of Figure 2 extracted as "…and FUS (Figure" /
+#: "2). Five cover…", so a reader — or a reviewer checking that display items are cited in order —
+#: reads a paragraph that appears to cite no figure at all, and the next number they meet in the
+#: body is Figure 3. The numbering was already in citation order; the LINE BREAK is what made it
+#: look otherwise. Fixed where every other typesetting defect in this file is fixed: at render, by
+#: binding the label to its number with a no-break space.
+FLOAT_REF_RE = re.compile(
+    r"\b((?:Supplementary\s+)?(?:Figure|Table|Box|Panel|Section|Equation)s?)\s+(?=S?\d)")
+
 #: ⛔⛔ A TOKEN CARRYING A BASE STRING IS NEVER BREAKABLE, WHATEVER SEPARATORS IT HAS. Checked while
 #: relaxing the rule above: `5′-GGGCATATCATCAAAC-3′` contains two hyphens, so the separator rule
 #: would have given it break opportunities after `5′-` and before `3′` — leaving the delimiter on
@@ -647,29 +679,55 @@ def inline(text):
     # ⚠ AFTER escaping and BEFORE emphasis: the pattern is pure ASCII bases between two primes, so
     # escaping cannot change it and stashing it here keeps a `*` in the surrounding sentence from
     # ever reaching inside the span.
-    text = SEQUENCE_RE.sub(lambda m: keep('<span class="seq">' + m.group(0) + "</span>"), text)
-    text = ATOMIC_ID_RE.sub(lambda m: keep('<span class="seq">' + m.group(0) + "</span>"), text)
-    #: ⛔ EVERY LOCATOR IS LINKED AND SET NOWRAP, AND BOTH HALVES OF THAT MATTER (blind screen of the
-    #: deposit, 2026-08-19). Measured on the built PDFs: ZERO link annotations across 116 pages
-    #: carrying 48 DOIs and 52 references, so nothing in the deposit was clickable; and 5 of 48 DOIs
-    #: in the journal build and 3 of 48 in the manuscript build could not be recovered verbatim from
-    #: the text layer, because they broke across a line AT THEIR OWN HYPHENS — `10.1182/blood-2017-
-    #: 07-795757` reads as hyphenation, and a reader who deletes the hyphen gets a DOI that does not
-    #: resolve. Linking fixes the click; `nowrap` fixes the copy; neither fixes the other.
+    def _seq_span(m):
+        #: `pad` only where a space follows — see the `.seq.pad` comment in the stylesheet.
+        after = m.string[m.end():m.end() + 1]
+        cls = "seq pad" if (after == "" or after.isspace()) else "seq"
+        return keep(f'<span class="{cls}">' + m.group(0) + "</span>")
+
+    #: ⛔⛔ LOCATORS ARE STASHED BEFORE IDENTIFIERS, AND THE ORDER IS THE WHOLE FIX (reviewer screen
+    #: of the built deposit, 2026-08-20). An accession is an identifier AND the tail of the URL that
+    #: resolves it, so with the identifier rules running first, the accession inside
+    #: `https://www.ncbi.nlm.nih.gov/nuccore/AF289510.1` was replaced by its stash placeholder, the
+    #: URL rule then stashed the mangled string whole, and the single-pass unstash at the bottom of
+    #: this function never reached the placeholder nested inside it — so the deposit printed
+    #: `https://www.ncbi.nlm.nih.gov/nuccore/2`, the stash INDEX, for eight of the nine entries in
+    #: Data sources. Six of those are the only pointers a reader has to the records carrying §2.3's
+    #: *TCF12* and *TFG* breakpoint claims, and every one resolved to the wrong record. A URL is
+    #: now stashed whole and its contents are never re-scanned, which is the correct reading anyway:
+    #: the accession inside a locator is part of the locator, not a second thing to mark up.
     text = DOI_RE.sub(lambda m: keep(f'<a class="loc" href="https://doi.org/{m.group(1)}">'
                                      + f"doi:{m.group(1)}</a>"), text)
     text = PMID_RE.sub(lambda m: keep(
         f'<a class="loc" href="https://pubmed.ncbi.nlm.nih.gov/{m.group(1)}/">'
         + f"PMID: {m.group(1)}</a>"), text)
     text = URL_RE.sub(lambda m: keep(f'<a class="loc" href="{m.group(0)}">{m.group(0)}</a>'), text)
+    text = SEQUENCE_RE.sub(_seq_span, text)
+    text = ATOMIC_ID_RE.sub(lambda m: keep('<span class="seq">' + m.group(0) + "</span>"), text)
     #: The two marker glyphs that would otherwise become a Type 3 font wherever they land in bold.
     #: Applied to EVERY rendered string rather than only to the table labels, because the labels are
     #: where they became bold today and a bold table cell or a bold caption clause is where they
     #: would become bold tomorrow.
     text = MARKER_GLYPH_RE.sub(lambda m: keep('<span class="mk">' + m.group(0) + "</span>"), text)
+    #: Bind "Figure"/"Table"/"Box" to the number that names the display item, so the pair cannot be
+    #: split by a line or column break. U+00A0 rather than a nowrap span: the reference is two
+    #: ordinary words and must still justify, hyphenate and stretch like the prose around it.
+    text = FLOAT_REF_RE.sub(lambda m: m.group(1) + "\u00a0", text)
     text = re.sub(r"\*\*(?=\S)(.+?)(?<=\S)\*\*", r"<strong>\1</strong>", text, flags=re.S)
     text = re.sub(r"(?<!\*)\*(?=\S)([^*]+?)(?<=\S)\*(?!\*)", r"<em>\1</em>", text)
-    return re.sub(r"\x00(\d+)\x00", lambda m: stash[int(m.group(1))], text)
+    #: ⚠ TO A FIXED POINT, NOT ONE PASS. The ordering above is what keeps a placeholder from being
+    #: stashed inside another fragment; this loop is the guard that a future reordering cannot
+    #: silently print a stash INDEX into the deposit the way the accession bug did. Bounded, and a
+    #: survivor is a hard failure rather than a character a reader has to notice.
+    for _ in range(8):
+        expanded = re.sub(r"\x00(\d+)\x00", lambda m: stash[int(m.group(1))], text)
+        if expanded == text:
+            break
+        text = expanded
+    if "\x00" in text:
+        raise SystemExit("inline(): a stash placeholder survived expansion — a rule is nesting "
+                         "stashed fragments and the deposit would print a stash index")
+    return text
 
 
 def render_table(rows, label=None):
@@ -767,10 +825,20 @@ def _first_clause(text, limit):
     if len(text) <= limit:
         return text.rstrip(" .")
     head = text[:limit]
-    for sep in ("; ", " — ", ", ", " "):
+    #: ⛔ A CUT AT A CLAUSE BOUNDARY READS AS A PHRASE; A CUT AT A BARE SPACE READS AS A DEFECT
+    #: (reviewer screen of the built deposit, 2026-08-20). Table 5's continuation band printed
+    #: "…and §4's two contrast" and stopped there, mid-noun-phrase, while every other table's band
+    #: happened to fall on a comma and read as complete. The band is a running identity and is
+    #: SUPPOSED to be short; what it must not do is look like the caption itself broke off. An
+    #: ellipsis is added only on the word-boundary fallback, so the bands that already end on a
+    #: clause are unchanged.
+    for sep in ("; ", " — ", ", "):
         cut = head.rfind(sep)
         if cut > limit // 2:
             return head[:cut].rstrip(" ,;—")
+    cut = head.rfind(" ")
+    if cut > limit // 2:
+        return head[:cut].rstrip(" ,;—") + " …"
     return head.rstrip()
 
 
@@ -784,7 +852,12 @@ def _caption_title(block):
     page (measured in the built journal PDF, 2026-08-19).
     """
     match = re.search(r"^\*\*Table \d+\.\s*(.+?)\*\*", block.strip(), re.S | re.M)
-    return _first_clause(match.group(1), 92) if match else None
+    #: ⚠ 200, NOT 92 (reviewer screen, 2026-08-20). At 92 exactly one table's title clause did not
+    #: fit — Table 5's, which stopped on "…and §4's two contrast" — and on its CONTINUATION page
+    #: that band is the only caption a reader sees for a page of rows whose column heads mean
+    #: nothing without the clause that was cut. The bound exists so a band cannot run to a
+    #: paragraph, not to clip the one caption that is longer than the rest.
+    return _first_clause(match.group(1), 200) if match else None
 
 
 def _marker_note(block, marker):
@@ -907,6 +980,26 @@ def markdown_to_html(text, floats=None):
         if stripped.startswith("|") or stripped.startswith("#") or stripped.startswith("<svg"):
             in_caption = False
 
+        #: ⛔ A FENCED BLOCK IS THE ONE PLACE IN THE PAPER WHERE LINE BREAKS CARRY MEANING, AND THIS
+        #: RENDERER USED TO HAVE NO RULE FOR IT (reviewer screen of the built deposit, 2026-08-20).
+        #: §4.5's invocation — the only runnable command the paper gives, and the deliverable it
+        #: calls "the procedure as well as the reagents" — reached the page as justified body prose:
+        #: the ``` fences printed as literal backticks, the two invocations collapsed onto one line
+        #: with an orphaned `\`, and `DONOR_EXON_END=5` broke across the line as `DONOR_EXON_` /
+        #: `END=5` because the inline code path had offered it a `<wbr/>` after the underscore. A
+        #: reader who copies that gets a command that cannot run, on a variable the same section says
+        #: the builder REFUSES to default. Fences are now their own block: contents are escaped and
+        #: never re-parsed as markdown, so nothing inside can be given a break opportunity.
+        if stripped.startswith("```"):
+            i += 1
+            block = []
+            while i < len(lines) and not lines[i].strip().startswith("```"):
+                block.append(lines[i])
+                i += 1
+            i += 1                                          # the closing fence
+            out.append("<pre>" + _html.escape("\n".join(block), quote=False) + "</pre>")
+            continue
+
         if not stripped:
             i += 1
             continue
@@ -964,7 +1057,18 @@ def markdown_to_html(text, floats=None):
                        + render_table(rows, label) + "</div>")
             continue
 
+        #: ⛔ A NUMBER THAT HAPPENS TO OPEN A LINE IS NOT A LIST (reviewer screen, 2026-08-20).
+        #: Table 6's note wraps as "…at 48 of its own" / "56. Both columns count records the search
+        #: returned…", so this rule promoted "56." to an ordered-list item: the caption appeared to
+        #: end without a full stop, a large-type "56." stood alone as a heading, and the sentence
+        #: resumed underneath it mid-clause. CommonMark forbids exactly this — an ordered marker may
+        #: not interrupt a paragraph unless it numbers 1 — and that is the rule adopted here rather
+        #: than a fix to the one generator, because the number in that cell is derived and the next
+        #: regeneration can put any number at the start of any line.
         item = re.match(r"^(\s*)([-*]|\d+\.)\s+(.*)$", line)
+        if item and item.group(2)[:-1].isdigit() and item.group(2) != "1." \
+                and i > 0 and lines[i - 1].strip() and not lines[i - 1].lstrip().startswith(("#", "|", "-", "*")):
+            item = None
         if item:
             ordered = item.group(2)[0].isdigit()
             tag = "ol" if ordered else "ul"
@@ -1187,7 +1291,22 @@ code { font-family: 'DejaVu Sans Mono', Consolas, monospace; font-size: 0.86em;
 code.brk { white-space: normal; }
 /* A delimited oligonucleotide is one token: `5′-` must never be left on the line above its bases,
    because the newline a reader then copies is invisible in a synthesis order form. */
+/* ⛔ AND IT MUST NOT MERGE WITH WHAT FOLLOWS IT. Measured in the built PDFs (2026-08-20): the
+   tightest gap between a sequence's closing prime and the next word was 1.87 pt, under the 3 pt
+   x-tolerance every common PDF text extractor defaults to, so `…CATCAAAC-3′ (antisense` came out
+   of the text layer as one run. The prime is a narrow glyph whose ink stops short of its advance,
+   so the gap an extractor measures is smaller than the gap a reader sees.
+   ⚠ THE PADDING IS CONDITIONAL, AND THAT IS THE WHOLE POINT. A first attempt set it on `.seq`
+   unconditionally and the built PDF printed `5′-CAGTGGGCTCTCCACG-3′ ,` — a visible space before a
+   comma, which reads as a typo and is a worse defect than the one it fixed. `pad` is added by the
+   renderer only where a WHITESPACE follows the sequence, so a sequence that ends a clause keeps
+   its punctuation tight against the prime. */
+pre { font-family: 'DejaVu Sans Mono', Consolas, monospace; font-size: 0.82em;
+      background: #f4f4f4; border-left: 2pt solid #c8d2dc; padding: 5pt 7pt; margin: 0 0 8pt 0;
+      white-space: pre-wrap; word-break: normal; overflow-wrap: normal; hyphens: none;
+      line-height: 1.35; text-align: left; break-inside: avoid; }
 .seq { white-space: nowrap; hyphens: none; }
+.seq.pad { margin-right: 0.16em; }
 /* ⛔ A JUSTIFIED LINE IS EMITTED IN SEVERAL PIECES AND CHROMIUM DOES NOT EMIT THEM IN VISUAL ORDER.
    MEASURED ONE VARIABLE AT A TIME ON RENDERED PDFs (2026-08-19): over a control paragraph set in
    this stylesheet, `text-align: justify` produces 8 same-line reading-order inversions in 184 text
@@ -1244,7 +1363,7 @@ tr.tablename th { text-align: left; font-weight: 700; background: #eef3f8; color
    cell's MIN-CONTENT width to a single character, so the browser sized every column far too narrow
    and broke headers mid-word ("designs screene / d"). `break-word` wraps at spaces and breaks only
    a word that genuinely cannot fit, which is what the long oligo sequences need. */
-th, td { border: 0.4pt solid #b9c2cb; padding: 2.2pt 3.2pt; text-align: left;
+th, td { border: 0.4pt solid #b9c2cb; padding: 2.2pt 4.8pt; text-align: left;
          vertical-align: top; overflow-wrap: break-word; word-break: normal; hyphens: none; }
 th { background: #eaeef2; font-weight: 600; }
 tbody tr:nth-child(even) { background: #fafbfc; }
@@ -1390,7 +1509,7 @@ li { margin-bottom: 3pt; text-align: justify; }
    readable at all; break-inside keeps it from splitting across the span boundary. */
 .wide-body-table { column-span: all; font-size: 6.4pt; line-height: 1.22; break-inside: avoid;
                    width: 100%; table-layout: fixed; margin: 2mm 0 3mm 0; }
-.wide-body-table td, .wide-body-table th { padding: 0.6mm 0.8mm; word-break: normal;
+.wide-body-table td, .wide-body-table th { padding: 0.6mm 1.35mm; word-break: normal;
                                            overflow-wrap: anywhere; }
 .float table { font-size: 6.9pt; }
 .float p { font-size: 7.6pt; line-height: 1.32; text-align: left; text-indent: 0;

@@ -82,9 +82,11 @@ reports four false gaps); competing-interests, funding, ethics and AI-use statem
 
 ## 2 · Only the author can do these
 
-1. **Register an ORCID iD** at `orcid.org`. Free, about two minutes. bioRxiv accepts a submission
-   without one, so this does not block the deposit — but it is the identifier that ties this paper
-   to the next one, and the author block currently carries a placeholder.
+1. ~~**Register an ORCID iD**~~ ✅ **done.** The author block carries `0000-0002-1823-1451`. The iD
+   already existed — the public registry returns exactly one record for this name, listing Rochester
+   Institute of Technology, Stanford University and University of Rochester — so it was recovered
+   rather than registered. ⚠ It is not linked to the author's 2019 PLOS ONE paper (Crossref records
+   no ORCID against that byline), which is a gap in that record and not a blocker here.
 2. **Deposit the archive and mint the DOI.** The manifest lists every file with its hash; the
    deposit is a Zenodo upload against the GitHub repository. **Reserve the DOI before publishing the
    deposit**, so the manuscript can cite the DOI it will actually have rather than being edited

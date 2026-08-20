@@ -28,12 +28,30 @@ the current state of the roadmap in minutes, so collaborators/reviewers can cite
 3. **Release notes = the roadmap changelog.** `.github/workflows/release.yml` auto-extracts the
    changelog block from `emc-treatment-roadmap.md` into the release body.
 
+## Two tiers, and this file is tier 1
+
+⛔ **A GitHub Release archives the WHOLE REPOSITORY.** That is the right shape for citing a living
+project and the wrong shape for citing a paper: a reader following a paper's archive DOI would land
+on a record spanning forty routes, and a concept DOI *moves*, so a published paper whose
+availability statement names it would point at an archive that changes whenever an unrelated route
+cuts a release.
+
+- **Tier 1 — the repository record.** This file. One record, concept DOI resolves to the newest
+  release. Cite it for the project as a living document.
+- **Tier 2 — one deposit per paper.** [`.github/workflows/deposit-zenodo.yml`](../.github/workflows/deposit-zenodo.yml)
+  and [`scripts/zenodo_deposit.py`](../scripts/zenodo_deposit.py). Each paper's archive manifest
+  already names its own file set — the ASO manifest names 473 of the repository's 3,453 tracked
+  files, each with the role it plays — and the deposit carries exactly those. Corrections become new
+  versions of *that paper's* record, so a reader arriving from the published paper lands on the
+  version it was written against. **This is what a manuscript's `[ARCHIVE DOI]` placeholder wants.**
+
 ## One-time setup (manual — needs your accounts; I can't do these)
 1. Sign in at https://zenodo.org with GitHub.
 2. Zenodo → **profile → GitHub** → flip the toggle **ON** for `trimcrae/Rare-cancers`.
    (Only releases created *after* the toggle get DOIs.)
-3. Before the first release, finish the metadata:
-   - add your **ORCID** to `CITATION.cff` (and `.zenodo.json` affiliation) — placeholders are in place.
+3. ~~Before the first release, finish the metadata: add your **ORCID**~~ ✅ **done 2026-08-20** —
+   `CITATION.cff` and `.zenodo.json` both carry `0000-0002-1823-1451`. The title and description in
+   both files were also broadened from the roadmap to the repository; see the tier note above.
 4. *(Optional)* add the Zenodo DOI badge to `README.md` after the first release.
 
 ## Cutting a release (repeatable, ~minutes)

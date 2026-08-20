@@ -1,0 +1,74 @@
+# Create a paper's Zenodo deposition and RESERVE its DOI. Dispatch-only, and it never publishes.
+#
+# ⛔ THIS IS TIER 2, AND IT IS NOT release.yml. `deploy/release-doi.md` wires GitHub Releases to
+# Zenodo and archives the WHOLE REPOSITORY under one concept DOI that moves to the newest release —
+# right for citing a living project, wrong for citing a paper, whose availability statement has to
+# name a frozen snapshot. This workflow deposits ONE PAPER's artefacts, taken from that paper's own
+# archive manifest, as its own record with its own version history.
+#
+# ⛔ IT DOES NOT PUBLISH, AND THAT IS DELIBERATE. Publishing on Zenodo is irreversible: a published
+# version's files cannot be edited, only superseded. What this produces is a DRAFT with a RESERVED
+# DOI, printed in the job summary, so the manuscript can be rebuilt citing the identifier the
+# archive will actually carry. The publish click stays human.
+#
+# SETUP (once, by the author — needs a Zenodo account):
+#   1. zenodo.org -> Applications -> Personal access tokens -> new token,
+#      scopes `deposit:write` and `deposit:actions`.
+#   2. GitHub -> repo Settings -> Secrets and variables -> Actions -> New repository secret,
+#      name ZENODO_TOKEN.
+#   3. Dispatch this workflow with sandbox=true first. The sandbox is a full rehearsal against
+#      sandbox.zenodo.org that mints nothing real, and it is how a token scope or a metadata
+#      rejection is found without spending a DOI on the discovery.
+name: Deposit — reserve a paper's Zenodo DOI
+
+on:
+  workflow_dispatch:
+    inputs:
+      paper:
+        description: "Which paper's manifest to deposit"
+        type: choice
+        options: [aso]
+        default: aso
+      sandbox:
+        description: "Rehearse against sandbox.zenodo.org (mints nothing real). Leave TRUE until a rehearsal has passed."
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deposit-zenodo-${{ inputs.paper }}
+  cancel-in-progress: false
+
+jobs:
+  deposit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # The manifest's hashes are only meaningful against the revision it names, and the script
+      # checks all 473 of them before it opens a socket. A drifted manifest fails here, offline.
+      - name: Verify the manifest against this tree and build the payload
+        run: python3 scripts/zenodo_deposit.py --paper "${{ inputs.paper }}" --build-only
+
+      - name: Create the draft deposition and reserve the DOI
+        env:
+          ZENODO_TOKEN: ${{ secrets.ZENODO_TOKEN }}
+        run: |
+          if [ -z "$ZENODO_TOKEN" ]; then
+            echo "::error::ZENODO_TOKEN is not set. See this file's SETUP block." && exit 1
+          fi
+          python3 scripts/zenodo_deposit.py --paper "${{ inputs.paper }}" \
+            ${{ inputs.sandbox && '--sandbox' || '' }} | tee deposit.log
+
+      - name: Put the reserved DOI in the job summary
+        if: always()
+        run: |
+          {
+            echo "## Zenodo deposition — ${{ inputs.paper }}"
+            [ "${{ inputs.sandbox }}" = "true" ] && echo "**Rehearsal against sandbox.zenodo.org — nothing real was minted.**"
+            echo '```'
+            cat deposit.log 2>/dev/null || echo "no log — the run failed before the deposition step"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
