@@ -243,17 +243,30 @@ def main(argv=None):
             raw=fh.read(), ctype="application/octet-stream")
     print(f"  uploaded {paper['zip']}")
 
+    #: ⚠ THE CLOSING BANNER MUST SAY WHICH RUN THIS WAS. It printed "created" and the full
+    #: paste-the-DOI checklist on every run, including the UPDATE run whose whole point is that the
+    #: DOI is already in the manuscript — so the log of a successful second run read as an
+    #: instruction to redo the first. A reader following it would have found nothing to paste and
+    #: had to work out which half of the message was stale.
+    updated = bool(existing and not args.new)
     print("\n" + "=" * 72)
-    print(f"DRAFT deposition {dep_id} created. NOTHING IS PUBLISHED.")
+    print(f"DRAFT deposition {dep_id} {'updated' if updated else 'created'}. NOTHING IS PUBLISHED.")
     print(f"  reserved DOI : {doi}")
     print(f"  edit it at   : {dep['links'].get('html')}")
     print("=" * 72)
+    if updated:
+        print("\nThe archive now carries the manuscript that cites this DOI. One step remains, and")
+        print("it is not this script's to take:")
+        print(f"  * Publish deposition {dep_id} by hand on Zenodo. Irreversible: a published")
+        print("    version's files cannot be edited, only superseded by a new version.")
+        return 0
     print("\nNext, in this order — the order is what keeps the paper and the archive on one DOI:")
     print(f"  1. Paste {doi} into the manuscript's two [ARCHIVE DOI] placeholders")
     print("     (Methods -> Availability, and Declarations -> Data and code availability), and")
-    print("     register it in research/manuscripts/pinned-figures.json.")
-    print("  2. Rebuild the PDFs, regenerate the manifest, commit.")
-    print("  3. Re-run this script so the deposition carries the archive that cites its own DOI.")
+    print("     record it as `deposition_doi` in research/manuscripts/aso_archive_manifest.py.")
+    print("  2. Regenerate sequences.csv, THEN rebuild the PDFs, THEN regenerate the manifest.")
+    print("     That order matters: PDFs built before the CSV are stale against a file they quote.")
+    print("  3. Re-run this script. It will UPDATE this draft, not make a second one.")
     print("  4. Only then publish the deposition, by hand, on Zenodo.")
     return 0
 
