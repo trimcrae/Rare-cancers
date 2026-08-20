@@ -185,11 +185,32 @@ def main():
 
     for rec in records:
         pmcid = rec["pmcid"]
+        #: ⛔ `{EPMC}/{pmcid}/fullTextPDF` WAS TRIED FIRST AND 404s ON EVERY RECORD (measured
+        #: 2026-08-20, 20 of 20). An OPEN_ACCESS:y flag says the article is free to read, not that
+        #: Europe PMC serves a PDF of it at a path constructed by hand. The record names its own
+        #: full-text locations, so they are read from it rather than assumed.
+        urls = [u.get("url") for u in
+                (rec.get("fullTextUrlList") or {}).get("fullTextUrl", [])
+                if (u.get("documentStyle") == "pdf" and u.get("availability") != "Subscription")]
+        urls.append(f"https://www.ebi.ac.uk/europepmc/webservices/rest/{pmcid}/fullTextPDF")
+        blob, why = None, []
+        for u in urls:
+            try:
+                blob = _get(u)
+                if blob[:4] == b"%PDF":
+                    break
+                why.append(f"{u} served {blob[:16]!r}, not a PDF")
+                blob = None
+            except Exception as exc:
+                why.append(f"{u}: {exc}")
+        if blob is None:
+            per_article.append({"pmcid": pmcid,
+                                "verdict": f"unfetched: {'; '.join(why) or 'no pdf url on the record'}"})
+            continue
         try:
-            blob = _get(f"{EPMC}/{pmcid}/fullTextPDF")
             geom = measure(_pages(blob, os.path.join(a.workdir, f"{pmcid}.pdf")))
         except Exception as exc:
-            per_article.append({"pmcid": pmcid, "verdict": f"unfetched: {exc}"})
+            per_article.append({"pmcid": pmcid, "verdict": f"unmeasurable: {exc}"})
             continue
         per_article.append({"pmcid": pmcid, "title": rec.get("title"),
                             "year": rec.get("pubYear"), "verdict": classify(geom),
