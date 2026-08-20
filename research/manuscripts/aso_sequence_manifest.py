@@ -572,12 +572,20 @@ _FIELDS = ("sequence", "do_not_order", "near_identical_design_with_a_different_v
 
 
 def _paper():
-    """Title, author, preprint status and the archive-DOI PLACEHOLDER, read from the manuscript.
+    """Title, author, preprint status and the archive DOI, read from the manuscript.
 
-    ⛔ NEVER TYPED HERE, AND THE DOI IS NEVER INVENTED. The deposit has no reserved identifier; the
-    manuscript carries a bracketed placeholder saying so, and this file carries that placeholder
-    character for character. A plausible-looking DOI in a file a laboratory orders from would be
-    worse than none, because it would resolve to somebody else's record or to nothing at all.
+    ⛔ NEVER TYPED HERE, AND THE DOI IS NEVER INVENTED. A plausible-looking DOI in a file a
+    laboratory orders from would be worse than none, because it would resolve to somebody else's
+    record or to nothing at all. So it is read out of the manuscript, character for character,
+    whatever it says.
+
+    ⚠ AND WHAT IT SAYS CHANGED (2026-08-20). Until the deposition was created there was no reserved
+    identifier and the manuscript carried a bracketed `[ARCHIVE DOI — PLACEHOLDER …]` block; this
+    function matched that block specifically, so the moment the real DOI replaced it the generator
+    stopped with "the archive-DOI placeholder could not be read". That is the right failure — it
+    refused to carry a stale string — but the pattern now has to admit both, because a deposit that
+    has an identifier and a deposit that does not are both states this file must be able to
+    describe, and a future paper will start in the second one.
     """
     path = os.path.join(ASO, "fusion-junction-aso-research-article.md")
     text = open(path, encoding="utf-8").read()
@@ -597,8 +605,11 @@ def _paper():
         "date": one(r"^date:\s*(\S+)\s*$", front, "the manuscript date"),
         "author": one(r"\*\*Author\.\*\*\s*(.+)", text, "the author"),
         "preprint": one(r"\*\*Preprint status\.\*\*\s*(.+?)(?=\*\*)", flat, "the preprint status"),
-        "doi": one(r"\*\*Data and code availability\.\*\*\s*(\[ARCHIVE DOI[^\]]*\])", flat,
-                   "the archive-DOI placeholder"),
+        #: Either a reserved DOI as the manuscript links it, or the placeholder block that says
+        #: there is none. Whichever is there is copied; neither is completed or corrected here.
+        "doi": one(r"\*\*Data and code availability\.\*\*[^.]*?"
+                   r"(\[(?:ARCHIVE DOI[^\]]*|doi:10\.\d{4,9}/[^\]]+)\])", flat,
+                   "the archive DOI, or the placeholder block standing in for it"),
         "repo": one(r"(github\.com/[\w.-]+/[\w.-]+)", flat, "the repository URL"),
     }
 

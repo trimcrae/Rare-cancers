@@ -2560,8 +2560,7 @@ unmodified DNA of the same sequence is a different molecule about which nothing 
 **Availability.** All code, graded artefacts and per-design tables are public at the repository
 `github.com/trimcrae/Rare-cancers`, and are to be released as a single archived version deposited
 from it
-[ARCHIVE DOI — PLACEHOLDER, AUTHOR TO SUPPLY BEFORE DEPOSIT: the archive has not been deposited and
-no digital object identifier has been reserved, so this citation does not yet resolve]. Every result
+under [doi:10.5281/zenodo.22028916](https://doi.org/10.5281/zenodo.22028916). Every result
 reported here is re-derived, without network access or credentials, from the committed artefacts in
 that repository, which is what a reader can check today. That claim is meant to be checked rather
 than accepted: `./scripts/regenerate_aso_chain.sh` re-derives, in dependency order, the artefacts
@@ -2715,9 +2714,9 @@ sarcoma centre.
 `fusion-junction-aso-supplementary-information.md`, rendered to PDF from the same builder as this
 manuscript and deposited as a separate file beside it, and included in the archive below.
 
-**Data and code availability.** [ARCHIVE DOI — PLACEHOLDER, AUTHOR TO SUPPLY BEFORE DEPOSIT: no
-digital object identifier has been reserved and this citation does not yet resolve], to be deposited
-from `github.com/trimcrae/Rare-cancers`.
+**Data and code availability.** The archive is that single deposited version, under
+[doi:10.5281/zenodo.22028916](https://doi.org/10.5281/zenodo.22028916), from
+`github.com/trimcrae/Rare-cancers`.
 `fusion-junction-aso-archive-manifest.json` lists every archived file with its SHA-256; it is
 generated with the archive and travels with the deposit.
 Two renderings of this manuscript travel with it and their text is the same:

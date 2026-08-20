@@ -1256,6 +1256,16 @@ def build():
             "measured anywhere in this work.",
             "Not a licence statement. The depositor chooses the licence at step 4 below.",
         ],
+        # ⛔ THE DEPOSITION'S OWN DOI, AND THE MANUSCRIPT MUST NOT TYPE IT TWICE FROM MEMORY. It is
+        # printed in two places in the article — Methods → Availability and Declarations → Data and
+        # code availability — which is exactly the shape CLAUDE.md rule 1 exists for, so it lives
+        # here and `pinned-figures.json` holds the copies together. Reserved on Zenodo before the
+        # deposition was published (`scripts/zenodo_deposit.py`), which is what lets the archive
+        # carry the manuscript that cites it rather than the citation trailing the deposit.
+        # ⚠ NOT DERIVED — it is issued by Zenodo and can only be transcribed. It is pinned so that
+        # a transcription error appears as a linter failure rather than as a citation that resolves
+        # to somebody else's record.
+        "deposition_doi": "10.5281/zenodo.22028916",
         "git_revision": _git("rev-parse", "HEAD"),
         # ⚠ EXCLUDES THE MANIFEST ITSELF, AND THE EXCLUSION IS THE WHOLE POINT — see
         # `_tree_clean_apart_from_this_manifest`. `null` means "no git available", never "clean".
@@ -1334,8 +1344,14 @@ def build():
             "is deposited, instead of citing a DOI that does not exist yet.",
             "6. Paste the reserved DOI into the manuscript's two '[ARCHIVE DOI]' placeholders — "
             "one in Methods -> Availability, one in Declarations -> Data and code availability. "
-            "Register the DOI in research/manuscripts/pinned-figures.json so the consistency "
-            "linter holds the two copies together.",
+            "Record it as `deposition_doi` in this module, which is where the article transcribes "
+            "it from. ⚠ Superseded, retained: \"Register the DOI in "
+            "research/manuscripts/pinned-figures.json so the consistency linter holds the two "
+            "copies together\" — it cannot. lint_consistency.py reads every `artifact_figures` "
+            "entry through float(), so that registry holds NUMBERS, and pinning a DOI there fails "
+            "as `A-key-missing ... (ValueError)`, naming a missing key that is present. The two "
+            "copies are held together by "
+            "research/manuscripts/tests/test_aso_deposition_doi_is_one_fact.py instead.",
             "7. Publish the deposition, then re-run "
             "`PREFLIGHT_FULL=1 ./scripts/preflight.sh` before submitting. Publishing is "
             "irreversible on Zenodo: the files of a published version cannot be edited, only "
