@@ -87,14 +87,23 @@ reports four false gaps); competing-interests, funding, ethics and AI-use statem
    Institute of Technology, Stanford University and University of Rochester — so it was recovered
    rather than registered. ⚠ It is not linked to the author's 2019 PLOS ONE paper (Crossref records
    no ORCID against that byline), which is a gap in that record and not a blocker here.
-2. **Deposit the archive and mint the DOI.** The manifest lists every file with its hash; the
-   deposit is a Zenodo upload against the GitHub repository. **Reserve the DOI before publishing the
-   deposit**, so the manuscript can cite the DOI it will actually have rather than being edited
-   afterwards.
-3. **Post at `biorxiv.org/submit-a-manuscript`.** Category: *Cancer Biology*, or *Molecular Biology*
-   if the RNA-therapeutic framing is preferred. Licence: CC-BY is the widest and is compatible with
-   every journal still in play. bioRxiv screens for scope and plausibility, not peer review, so
-   turnaround is usually a few days.
+2. ~~**Deposit the archive and mint the DOI**~~ ✅ **done 2026-08-20.** Published on Zenodo as
+   [doi:10.5281/zenodo.22028916](https://doi.org/10.5281/zenodo.22028916), open access, CC-BY-4.0,
+   473 hash-verified files. Built and reserved by
+   [`deposit-zenodo.yml`](../../../.github/workflows/deposit-zenodo.yml); the publish click was the
+   author's, because it is irreversible.
+   ⚠ The DOI was RESERVED before the archive was uploaded, and that ordering is the point: the
+   deposit carries the manuscript that cites its own DOI, rather than a citation added to the paper
+   after the files were frozen. `deposition_doi` in `aso_archive_manifest.py` is where it lives;
+   [`test_aso_deposition_doi_is_one_fact.py`](../tests/test_aso_deposition_doi_is_one_fact.py) holds
+   the article's two copies of it against that one.
+3. ~~**Post at `biorxiv.org/submit-a-manuscript`**~~ ✅ **submitted 2026-08-20.** Article type New
+   Results, subject area Cancer Biology, licence CC-BY, corresponding author ORCID-linked, the
+   Zenodo DOI given as External Data, and the survivorship non-financial interest entered verbatim
+   from Declarations. Manuscript and SI uploaded as the two files.
+   ⏳ **Awaiting bioRxiv screening.** It screens for scope and plausibility, not peer review, so
+   turnaround is usually a few days. The preprint DOI is minted by bioRxiv AT POSTING and cannot be
+   obtained before it — it is not a placeholder in the manuscript and blocks nothing.
 
 ## 3 · Deliberately not done, and why
 

@@ -129,7 +129,8 @@ Every route above ends in a paper. With no wet lab and no clinic, the published 
 |---|---:|---:|
 | ○ `unwritten` | 3 | 10 |
 | ◔ `outlined` | 5 | 16 |
-| ◐ `drafted` | 24 | 51 |
+| ◐ `drafted` | 23 | 49 |
+| ◕ `complete_unposted` | 1 | 2 |
 
 ## What holds the portfolio down
 

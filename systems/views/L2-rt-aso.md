@@ -109,7 +109,7 @@ The computational arc is complete and the delivery gate is stated honestly as a 
 
 **[PUB-ASO](L3-publications.md)** — [In silico, nearly half of junction-spanning 5-6-5 gapmer designs across 38 modelled NR4A3 fusion junctions of five extraskeletal myxoid chondrosarcoma partner genes pair a wild-type parent gene over a ten-base-pair duplex through the catalytic gap, and, as an identity between base counts, a longer gap trades gap-level margin against parent-paired gap DNA](../../research/manuscripts/aso/fusion-junction-aso-research-article.md)
 
-`primary` · ◐ `drafted` · aimed at `preprint`
+`primary` · ◕ `complete_unposted` · aimed at `preprint`
 
 **This route contributes:** The junction design, the transcriptome-wide specificity screen, and delivery stated as the outstanding gate rather than assumed away.
 

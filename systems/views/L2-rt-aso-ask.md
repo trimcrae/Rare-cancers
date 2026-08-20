@@ -97,7 +97,7 @@ It is a specified but UNCOSTED experimental proposal (fusion-junction-aso-workin
 
 **[PUB-ASO](L3-publications.md)** — [In silico, nearly half of junction-spanning 5-6-5 gapmer designs across 38 modelled NR4A3 fusion junctions of five extraskeletal myxoid chondrosarcoma partner genes pair a wild-type parent gene over a ten-base-pair duplex through the catalytic gap, and, as an identity between base counts, a longer gap trades gap-level margin against parent-paired gap DNA](../../research/manuscripts/aso/fusion-junction-aso-research-article.md)
 
-`contributing` · ◐ `drafted` · aimed at `preprint`
+`contributing` · ◕ `complete_unposted` · aimed at `preprint`
 
 **This route contributes:** The decisive experiment, specified inside the paper and sent with it: junction knockdown with wild-type sparing in an EMC line. Without it the paper states a specificity result with no named way to falsify it at a bench.
 

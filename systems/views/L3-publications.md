@@ -36,8 +36,8 @@ last_verified: 2026-08-06
 
 | endpoint | state | aimed at | routes | what is still missing |
 |---|---|---|---:|---|
+| **PUB-ASO**<br/>[In silico, nearly half of junction-spanning 5-6-5 gapmer designs across…](../../research/manuscripts/aso/fusion-junction-aso-research-article.md) | ◕ `complete_unposted` | `preprint` | 2 | — |
 | **PUB-ANDGATE**<br/>[A coincidence-detection ("AND-gate") bivalent degrader for protein-leve…](../../research/manuscripts/degrader/fusion-selective-andgate-degrader-paper.md) | ◐ `drafted` | `preprint` | 1 | — |
-| **PUB-ASO**<br/>[In silico, nearly half of junction-spanning 5-6-5 gapmer designs across…](../../research/manuscripts/aso/fusion-junction-aso-research-article.md) | ◐ `drafted` | `preprint` | 2 | — |
 | **PUB-ATR**<br/>[The in-silico ATR vulnerability assessment for EMC](../../research/manuscripts/dependency/emc-atr-vulnerability-assessment.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-ATR-PANEL-ASK**<br/>[Transcript-level models of the NR4A3 fusions of extraskeletal myxoid ch…](../../research/manuscripts/dependency/emc-atr-collaborator-package.md) | ◐ `drafted` | `experimental_proposal` | 1 | — |
 | **PUB-BIOMARKER-DEP**<br/>[Biomarker-selected therapeutic classes in an ultra-rare sarcoma — what …](../../research/manuscripts/dependency/emc-biomarker-selected-classes.md) | ◐ `drafted` | `preprint` | 5 | — |
@@ -73,6 +73,21 @@ last_verified: 2026-08-06
 
 *One statement per endpoint, written so a reader can disagree with it. If this sentence cannot be written, there is no endpoint — there is an activity.*
 
+### PUB-ASO — In silico, nearly half of junction-spanning 5-6-5 gapmer designs across 38 modelled NR4A3 fusion junctions of five extraskeletal myxoid chondrosarcoma partner genes pair a wild-type parent gene over a ten-base-pair duplex through the catalytic gap, and, as an identity between base counts, a longer gap trades gap-level margin against parent-paired gap DNA
+
+**◕ `complete_unposted` · aimed at `preprint` · [`research/manuscripts/aso/fusion-junction-aso-research-article.md`](../../research/manuscripts/aso/fusion-junction-aso-research-article.md)**
+
+The NR4A3 fusion junction is the one tumour-exclusive feature of this disease at the RNA level and an oligonucleotide can be designed to read it rather than a shape — but the screen that matters returns a NEGATIVE: 87 of 190 junction-spanning gapmer designs let a mature wild-type parent transcript pair their whole catalytic gap over at least ten contiguous base pairs, 61 of them against wild-type NR4A3 itself, and lengthening the catalytic gap trades gap-level margin against parent-paired gap DNA for an arithmetic rather than an empirical reason, so it raises the margin available without removing the liability. Delivery is named as an outstanding gate rather than assumed away, and nothing here has been synthesised or tested.
+
+**Blocks on the PAPER** — deliberately not the same set its routes inherit, because a route can be blocked on a capability while its paper is publishable today as an honest negative:
+
+- **BLK-DELIVERY** (`requires_future_technology`) — SYSTEMIC, antigen-dependent tumour delivery of an oligonucleotide or a vector — NOT delivery as such
+
+| route | role | what it contributes |
+|---|---|---|
+| [RT-ASO](L2-rt-aso.md) — Fusion-junction ASO / siRNA (the deliverable) | `primary` | The junction design, the transcriptome-wide specificity screen, and delivery stated as the outstanding gate rather than assumed away. |
+| [RT-ASO-ASK](L2-rt-aso-ask.md) — Junction knockdown + parental sparing in EMC lines ( | `contributing` | The decisive experiment, specified inside the paper and sent with it: junction knockdown with wild-type sparing in an EMC line. Without it the paper states a specificity result with no named way to falsify it at a bench. |
+
 ### PUB-ANDGATE — A coincidence-detection ("AND-gate") bivalent degrader for protein-level fusion-exclusivity in EWSR1::NR4A3 extraskeleta
 
 **◐ `drafted` · aimed at `preprint` · [`research/manuscripts/degrader/fusion-selective-andgate-degrader-paper.md`](../../research/manuscripts/degrader/fusion-selective-andgate-degrader-paper.md)**
@@ -86,21 +101,6 @@ Coincidence detection across both halves of the fusion is a design that would co
 | route | role | what it contributes |
 |---|---|---|
 | [RT-ANDGATE](L2-rt-andgate.md) — AND-gate bivalent degrader (avidity coincidence dete | `primary` | The coincidence-detection design and the statement of exactly what does not exist for it to be built. |
-
-### PUB-ASO — In silico, nearly half of junction-spanning 5-6-5 gapmer designs across 38 modelled NR4A3 fusion junctions of five extraskeletal myxoid chondrosarcoma partner genes pair a wild-type parent gene over a ten-base-pair duplex through the catalytic gap, and, as an identity between base counts, a longer gap trades gap-level margin against parent-paired gap DNA
-
-**◐ `drafted` · aimed at `preprint` · [`research/manuscripts/aso/fusion-junction-aso-research-article.md`](../../research/manuscripts/aso/fusion-junction-aso-research-article.md)**
-
-The NR4A3 fusion junction is the one tumour-exclusive feature of this disease at the RNA level and an oligonucleotide can be designed to read it rather than a shape — but the screen that matters returns a NEGATIVE: 87 of 190 junction-spanning gapmer designs let a mature wild-type parent transcript pair their whole catalytic gap over at least ten contiguous base pairs, 61 of them against wild-type NR4A3 itself, and lengthening the catalytic gap trades gap-level margin against parent-paired gap DNA for an arithmetic rather than an empirical reason, so it raises the margin available without removing the liability. Delivery is named as an outstanding gate rather than assumed away, and nothing here has been synthesised or tested.
-
-**Blocks on the PAPER** — deliberately not the same set its routes inherit, because a route can be blocked on a capability while its paper is publishable today as an honest negative:
-
-- **BLK-DELIVERY** (`requires_future_technology`) — SYSTEMIC, antigen-dependent tumour delivery of an oligonucleotide or a vector — NOT delivery as such
-
-| route | role | what it contributes |
-|---|---|---|
-| [RT-ASO](L2-rt-aso.md) — Fusion-junction ASO / siRNA (the deliverable) | `primary` | The junction design, the transcriptome-wide specificity screen, and delivery stated as the outstanding gate rather than assumed away. |
-| [RT-ASO-ASK](L2-rt-aso-ask.md) — Junction knockdown + parental sparing in EMC lines ( | `contributing` | The decisive experiment, specified inside the paper and sent with it: junction knockdown with wild-type sparing in an EMC line. Without it the paper states a specificity result with no named way to falsify it at a bench. |
 
 ### PUB-ATR — The in-silico ATR vulnerability assessment for EMC
 
@@ -545,8 +545,8 @@ For each parked modality there is a single named capability — a glue design me
 | route | family | readiness today | endpoint | aimed at | role |
 |---|---|---|---|---|---|
 | [RT-ANDGATE](L2-rt-andgate.md) | [ST-PROXIMITY](L1-st-proximity.md) | `internal_note` | **PUB-ANDGATE** ◐ | `preprint` | `primary` |
-| [RT-ASO](L2-rt-aso.md) | [ST-NUCLEIC-ACID](L1-st-nucleic-acid.md) | `chemrxiv` | **PUB-ASO** ◐ | `preprint` | `primary` |
-| [RT-ASO-ASK](L2-rt-aso-ask.md) | [ST-NUCLEIC-ACID](L1-st-nucleic-acid.md) | `experimental_proposal` | **PUB-ASO** ◐ | `preprint` | `contributing` |
+| [RT-ASO](L2-rt-aso.md) | [ST-NUCLEIC-ACID](L1-st-nucleic-acid.md) | `chemrxiv` | **PUB-ASO** ◕ | `preprint` | `primary` |
+| [RT-ASO-ASK](L2-rt-aso-ask.md) | [ST-NUCLEIC-ACID](L1-st-nucleic-acid.md) | `experimental_proposal` | **PUB-ASO** ◕ | `preprint` | `contributing` |
 | [RT-ATR-ASSESS](L2-rt-atr-assess.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `preprint` | **PUB-ATR** ◐ | `preprint` | `primary` |
 | [RT-ATR-PANEL](L2-rt-atr-panel.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `experimental_proposal` | **PUB-ATR-PANEL-ASK** ◐ | `experimental_proposal` | `primary` |
 | [RT-APOPTOSIS-DEP](L2-rt-apoptosis-dep.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-BIOMARKER-DEP** ◐ | `preprint` | `contributing` |

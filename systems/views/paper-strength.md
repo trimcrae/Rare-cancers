@@ -68,7 +68,7 @@ last_verified: 2026-08-09
 | 15 | [**PUB-MODALITY-CENSUS**](../../research/manuscripts/modality-census/cancer-modality-census.md) | ⭐ could still help a patient | — | **2.0** | 0 | 0 | ⚠ 1 | 0% of 1 | ◐ `drafted` |
 | 16 | [**PUB-EMC-PROGRAM**](../../research/manuscripts/program/emc-treatment-roadmap.md) | ⭐ could still help a patient | — | **1** | 0 | 0 | 0 | — | ◐ `drafted` · ⚠ 2 cited-only |
 | 17 | [**PUB-DEGRADER**](../../research/manuscripts/degrader/nr4a3-degrader-paper.md) | ⛔ known negative / methods | — | **10.5** | 2 | 3 | 0 | 38% of 8 | ◐ `drafted` |
-| 18 | [**PUB-ASO**](../../research/manuscripts/aso/fusion-junction-aso-research-article.md) | ⛔ known negative / methods | 🧪 bench, to build | **9.5** | 1 | 0 | 0 | 64% of 11 | ◐ `drafted` |
+| 18 | [**PUB-ASO**](../../research/manuscripts/aso/fusion-junction-aso-research-article.md) | ⛔ known negative / methods | 🧪 bench, to build | **9.5** | 1 | 0 | 0 | 64% of 11 | ◕ `complete_unposted` |
 | 19 | [**PUB-METHODS**](../../research/manuscripts/methods-record/degrader-methods-failure-record.md) | ⛔ known negative / methods | — | **9.0** | 1 | 0 | 0 | 100% of 1 | ◐ `drafted` |
 | 20 | [**PUB-ENDPOINT**](../../research/manuscripts/endpoint/response-endpoint-indolent-tumours.md) | ⛔ known negative / methods | — | **7.0** | 1 | 0 | 0 | 67% of 3 | ◐ `drafted` |
 | 21 | [**PUB-FUSION-OUTPUT**](../../research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md) | ⛔ known negative / methods | — | **6.0** | 1 | 0 | 0 | 50% of 6 | ◐ `drafted` |
