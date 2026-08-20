@@ -638,6 +638,8 @@ six base pairs, which is the only cut with an enzymological referent, since a co
 length presents exactly those six as RNA:DNA hybrid and the rest as locked-wing pairs; thirteen is
 the longest run any arm returns.
 
+**The cut ladder.** Every cut the instrument can reach, from the catalytic gap's own six base pairs to the thirteen that is the longest run any arm returns: the observed arm, its Wilson interval, the strongest null ensemble at that cut and the scramble null beside it, the signed excess of observed over strongest null, the junction-level reading, and how many designs pair wild-type *NR4A3* specifically. This is the paper's central negative and is set here, in the argument that reads it, rather than with the numbered tables: the excess over the strongest null changes sign four times down the column, so no cut in the range is a boundary the data picks out. Derived, like every table here, from the released artefacts; the adopted cut of ten is one row of it and is adopted, not measured.
+
 | cut (bp) | liable designs | % | Wilson 95% | strongest null % | scramble null % | observed − strongest | strongest null vs the observed interval | junctions with a clearing design | designs still liable at the five published-breakpoint junctions | designs *NR4A3* pairs specifically |
 |---|---|---|---|---|---|---|---|---|---|---|
 | 6 | 181 | 95.3 | 91.2–97.5 | 98.2 (exon-terminus, novel acceptor) | 91.4 | −2.9 | outside, above | 6 of 38 | 25 of 25 | 158 |
@@ -2068,7 +2070,7 @@ cleanliness.
 **Records are not genes, and one assembly is not a genome.** RefSeq carries one accession per
 annotated variant, so a match to a constitutive exon is counted once per variant: over the 44 designs
 of the 38 junction screens whose hit lists permit a locus recount the median inflation is 2.25
-records per locus and the maximum 11.0 AT THE DEFAULT SEARCH DEPTH, more than doubling the apparent
+records per locus and the maximum 11.0 at the default search depth, more than doubling the apparent
 number of distinct genes. Tables 2 to 4 are built at the deeper ceiling, where the same recount gives
 a median of 5.52 and a maximum of 28.0, so the tables' locus counts are inflated by more than this
 paragraph's figures and not less.
