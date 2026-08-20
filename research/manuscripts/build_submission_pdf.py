@@ -71,6 +71,27 @@ FIGDIR = os.path.join(HERE, "figures")
 LANDSCAPE_MIN_COLS = 8
 
 PAPERS = {
+    #: ⭐ THE CONDENSED JOURNAL SUBMISSION, ADDED 2026-08-20. Same work as "aso" below, second
+    #: document: 3,113 main-text words against that one's 35,501. It carries its own references and
+    #: tables companions and NO supplementary file — the preprint is its extended report.
+    "aso-journal": {
+        "manuscript": "aso/fusion-junction-aso-journal-article.md",
+        "tables": "aso/fusion-junction-aso-journal-tables.md",
+        "references": "aso/fusion-junction-aso-journal-references.md",
+        "stamp_sources": (
+            "aso/fusion-junction-aso-journal-article.md",
+            "aso/fusion-junction-aso-journal-tables.md",
+            "aso/fusion-junction-aso-journal-references.md",
+            "aso/fusion-junction-aso-sequences.csv",
+        ),
+        "figures": {"Figure 1.": "aso-multipartner-seam.svg"},
+        "journal": {
+            "article_type": "Article",
+            "section": "",
+            "preprint_note": "The extended report of this work is deposited as a preprint on bioRxiv.",
+        },
+        "out": "aso/fusion-junction-aso-journal-article.pdf",
+    },
     "aso": {
         "manuscript": "aso/fusion-junction-aso-research-article.md",
         "tables": "aso/fusion-junction-aso-submission-tables.md",
@@ -1972,8 +1993,12 @@ def _write_build_stamp(pdf_path, paper):
     trains its reader to rebuild-and-move-on, which is exactly the reflex that would carry a genuinely
     stale PDF into a deposit.
     """
+    #: ⛔ THIS USED TO IGNORE ITS `paper` ARGUMENT AND ITERATE THE MODULE CONSTANT (fixed 2026-08-20,
+    #: when a second paper was registered). With one entry in PAPERS the bug was invisible; with two
+    #: it stamps the second paper's PDF with the FIRST paper's hashes, so the stamp reports current
+    #: for a PDF built from something else — the exact failure the stamp exists to prevent.
     stamp = {"built_from": {}}
-    for rel in STAMP_SOURCES:
+    for rel in paper.get("stamp_sources", STAMP_SOURCES):
         src = os.path.join(HERE, rel)
         if os.path.exists(src):
             stamp["built_from"][rel] = hashlib.sha256(open(src, "rb").read()).hexdigest()

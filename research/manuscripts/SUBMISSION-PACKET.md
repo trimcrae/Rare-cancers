@@ -129,7 +129,7 @@ last_verified: 2026-08-10
 
 | field | value |
 |---|---|
-| Word count, main text | 3113 (no limit found) |
+| Word count, main text | 3217 (no limit found) |
 | Abstract | 197 words  |
 | Display items | 3 (1 figures, 2 tables) |
 | References | 21 |
@@ -139,7 +139,9 @@ last_verified: 2026-08-10
 
 ⚠ Limits provenance: UNREAD. The journal transferred from Mary Ann Liebert to SAGE and the Liebert-era pages return 403; no SAGE author-guideline page for this journal has been read. The per-page fee that eliminated the venue is on record at $90 from the Liebert era and is itself unconfirmed under SAGE. Read the guidelines and the fee schedule before submitting..
 
-**Figures to upload** — none; this paper's display items are all tables.
+**Figures to upload**
+
+- `aso-multipartner-seam.svg` — raster present, vector present
 
 ## Outstanding for every paper, and only the author can supply these
 

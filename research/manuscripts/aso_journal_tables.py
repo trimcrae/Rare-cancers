@@ -47,7 +47,11 @@ LEADS = ("EWSR1_e12__NR4A3_e3", "TAF15_e6__NR4A3_e3")
 #: rather than exon 3, which is why neither lead below is matched to one.
 TEST_ARTICLE = {
     "EWSR1_e12__NR4A3_e3": "E-N, engineered construct",
-    "TAF15_e6__NR4A3_e3": "T-N\\*, engineered construct",
+    #: ⛔ NOT `T-N\\*`. The markdown escape survives the PDF pipeline as a LITERAL BACKSLASH in the
+    #: table cell (measured 2026-08-20 by reading the rendered PDF, invisible in the source), and
+    #: the asterisk is part of the construct name — T-N* and T-N are different constructs in
+    #: PMID:31020999, so this cell names a test article and must render exactly.
+    "TAF15_e6__NR4A3_e3": "T-N*, engineered construct",
 }
 
 #: The near-twin pairs Table 2 prints, named by the CONDEMNED member. Each seam contributes one pair.

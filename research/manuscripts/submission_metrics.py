@@ -184,6 +184,7 @@ MANUSCRIPTS = {
 COMPANIONS = {
     "aso/fusion-junction-aso-journal-article.md": [
         "aso/fusion-junction-aso-journal-tables.md",
+        "aso/fusion-junction-aso-journal-references.md",
     ],
     "aso/fusion-junction-aso-research-article.md": [
         "aso/fusion-junction-aso-submission-tables.md",

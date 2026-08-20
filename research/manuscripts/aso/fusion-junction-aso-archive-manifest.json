@@ -10,10 +10,10 @@
     "Not a licence statement. The depositor chooses the licence at step 4 below."
   ],
   "deposition_doi": "10.5281/zenodo.22028916",
-  "git_revision": "fa62bc9f96089e2c81401c37d3519d8b673e88ef",
+  "git_revision": "a1c56300d90cb5c44b7d359981e3905b4a7bb914",
   "git_tree_is_clean_apart_from_this_manifest": false,
   "inventory_limited_to_tracked_files": true,
-  "archive_content_digest": "146e916c7afb32c73698e88ceffdc10cc29000e3a8832ae9cedb781b29d263ee",
+  "archive_content_digest": "674cfc874603429bcd463413a0c73f9c05b519c4b5146a8b869d8953497a54f6",
   "n_files": 473,
   "self_entry": {
     "path": "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
@@ -24,18 +24,18 @@
     "_why_not_counted": "It is excluded from `files`, `n_files`, `total_bytes` and `archive_content_digest` for the same reason, which is also what keeps two runs over an unchanged tree byte-identical — the property this module's header calls the only cheap check a reader has that the file is derived rather than edited.",
     "how_a_reader_checks_it_anyway": "Two ways, neither needing a self-hash. (1) Re-derive it: check out `git_revision` and run `python3 research/manuscripts/aso_archive_manifest.py --check`, which rebuilds the whole file and exits non-zero on any difference. (2) Compare the downloaded copy's `sha256sum` against the value the deposition record states — step 4 below tells the depositor to record it there, which is the one place it can live without being self-referential."
   },
-  "total_bytes": 45356087,
-  "total_mib": 43.255,
+  "total_bytes": 45357790,
+  "total_mib": 43.257,
   "payload_file_types": {
     "_what": "Extension census of the payload, derived from the file list. A preprint or journal uploader that accepts only document, image and container types cannot take most of these one by one; step 3 below builds the single container that sidesteps the question entirely. Check the accepted types on the uploader itself — none is asserted here.",
     "by_extension": {
       ".json": {
         "n_files": 378,
-        "bytes": 34857716
+        "bytes": 34857824
       },
       ".py": {
         "n_files": 67,
-        "bytes": 2918334
+        "bytes": 2919929
       },
       ".md": {
         "n_files": 10,
@@ -1327,8 +1327,8 @@
     },
     {
       "path": "research/manuscripts/build_submission_pdf.py",
-      "bytes": 125786,
-      "sha256": "eb0c0459b34b78ae924fafe278da919cb93b29811528cfc167da09e4065b20d8",
+      "bytes": 127324,
+      "sha256": "dae111bf8d097a5a26489030d0562722f8d0a47a61d4d6fabb97445528346655",
       "serves": "import_closure",
       "also_serves": [],
       "contributes": "Imported by a released module. Not named by any availability promise; present because the code the promises DO name cannot be imported without it."
@@ -1543,8 +1543,8 @@
     },
     {
       "path": "research/manuscripts/submission-metrics.json",
-      "bytes": 10964,
-      "sha256": "c62115fb18f20c063c2d1fec0b3f3695b685e6d4037d11db49b8cac96a095b76",
+      "bytes": 11072,
+      "sha256": "661e76bd81b225a109537dc5ab9bea01c25c3f63decf406f9b609a9594e08536",
       "serves": "reproduction_command",
       "also_serves": [],
       "contributes": "Re-derives every offline-derivable artefact below in dependency order and re-runs the consistency, citation and style gates; the command a reader is told to run to establish that this archive is current. The script AND every step it invokes that no other row here already carries."
@@ -1559,8 +1559,8 @@
     },
     {
       "path": "research/manuscripts/submission_metrics.py",
-      "bytes": 34539,
-      "sha256": "cad944cf3b6fd910b47915998fb3d7c7a5b230506e5b01805c23f57c9c35dede",
+      "bytes": 34596,
+      "sha256": "bbf5b607511ba0b9c47d7ba9d4663c700fadf71f3214f9fd5d9b4d68af515596",
       "serves": "reproduction_command",
       "also_serves": [],
       "contributes": "Re-derives every offline-derivable artefact below in dependency order and re-runs the consistency, citation and style gates; the command a reader is told to run to establish that this archive is current. The script AND every step it invokes that no other row here already carries."

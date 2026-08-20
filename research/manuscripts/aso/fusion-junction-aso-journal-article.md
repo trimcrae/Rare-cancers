@@ -57,7 +57,7 @@ and the design pipeline is released for breakpoints outside the panel.
 
 ---
 
-## Background
+## 1 · Background
 
 EMC is defined in the large majority of cases by an in-frame fusion of *EWSR1* to
 *NR4A3*,<sup>1</sup><!--PMID:8634690--> with *TAF15* a substantial minority and *TCF12* and *TFG*
@@ -84,12 +84,12 @@ duplex. It requires the gap to be paired. Whether a wild-type parent pairs the c
 contiguously is therefore a separate question from overall similarity, and it is the question this
 work puts to all 190 designs before any of them is recommended.
 
-## The reagents
+## 2 · The reagents
 
 The two reagents named for synthesis are the best available designs at the two junctions with a
 published exon-resolved breakpoint and the highest reported prevalence:
 5′-GGGCATATCATCAAAC-3′ at *EWSR1* exon 12 joined to *NR4A3* exon 3, and 5′-GGGCATATCTTGTGTG-3′ at
-*TAF15* exon 6 joined to *NR4A3* exon 3. Both hold the panel's top gap-level margin of three, meaning
+*TAF15* exon 6 joined to *NR4A3* exon 3 (Table 1). Both hold the panel's top gap-level margin of three, meaning
 three junction-unique bases inside the catalytic gap on the shorter side of the breakpoint. Neither
 pairs a wild-type parent through the gap at the ten-base-pair criterion adopted here.
 
@@ -101,13 +101,19 @@ at nine the *TAF15* reagent alone does, and only at ten does neither. The panel 
 of the 190 designs pairing a wild-type parent through the whole gap at a cut of eight, 98 at nine and
 87 at ten. Ten is adopted as a convention and is not measured for this architecture.
 
+One hazard of this design space belongs beside the sequences rather than in a methods note. Consecutive
+registers of one seam differ by a single-base slide and can carry opposite verdicts, so a design that
+pairs a wild-type parent through its whole catalytic gap sits one nucleotide from one that does not
+(Table 2). Neither member of such a pair may be substituted for the other, and an oligonucleotide
+should be ordered from the canonical sequence file rather than transcribed from a printed table.
+
 Predicted transcriptome load separates the two. The *EWSR1* reagent carries 123 gap-paired
 sense-strand near-matches at ten times the default search depth, recounting to six gene loci, none of
 them on a parent transcript; the *TAF15* reagent carries eight such near-matches at five loci. The
 *EWSR1* reagent also carries a sense-strand near-match in wild-type *TAF15* precursor RNA at two
 mismatches, one of them inside the catalytic gap, spanning an intron-exon boundary. That site is the
 cost of the same ten shared donor bases that let one oligonucleotide span the *EWSR1*, *TAF15* and
-*FUS* breakpoints at once. The *TAF15* reagent carries no sense-strand precursor site at all. Neither
+*FUS* breakpoints at once (Figure 1). The *TAF15* reagent carries no sense-strand precursor site at all. Neither
 load is a disqualification, and neither is a statement about safety: these are predictions from
 sequence search, not measured off-target activity.
 
@@ -118,7 +124,7 @@ junctions the two reagents address. It is not a coverage measurement, no patient
 with either sequence, and its interval is wide for the denominators rather than for the estimate,
 spanning 39.9% to 82.8% when each breakpoint fraction is taken to its own Wilson bound.
 
-## Selection from a panel of 190 designs
+## 3 · Selection from a panel of 190 designs
 
 The two reagents above are what survived a screen applied uniformly to the whole panel. Across the 38
 in-frame junctions of five modelled partners, 190 junction-spanning designs were tiled and put
@@ -158,7 +164,7 @@ liability is therefore what joining two exon termini of these genes gives, and a
 thirteen base pairs the excess of the observed rate over the strongest null changes sign four times.
 No cut in that range is a boundary the data picks out.
 
-## Test articles
+## 4 · Test articles
 
 Five test articles carry a junction this panel designs against, and they divide into two sources with
 opposite limits.
@@ -190,7 +196,7 @@ fluorescence in situ hybridisation detects a rearrangement irrespective of
 partner,<sup>6</sup><!--PMID:41055792--> so on its own it locates neither the partner nor the exon
 pair.
 
-## The falsification experiment
+## 5 · The falsification experiment
 
 The experimental design that would resolve the central uncertainty, an isogenic
 fusion-positive against fusion-negative comparison, has been published in an analogous fusion
@@ -245,7 +251,7 @@ family over which an error rate would be controlled is open-ended: the released 
 reagents against the same ranking without limit, so how many reagents have been tested against this
 cut, and in what order, is part of a result rather than context for it.
 
-## Beyond the panel
+## 6 · Beyond the panel
 
 The named reagents do not reach every patient, and the panel is bounded by what has been sequenced
 rather than by what can be designed. The procedure that produced the 190 designs is released
@@ -258,7 +264,7 @@ surrenders the only advantage the modality has. A design is certifiable where al
 be run on it and it cleared all five; a design one screen cannot address is uncertifiable whatever
 the other four return. What the procedure yields is a candidate, not a validated reagent.
 
-## Discussion
+## 7 · Discussion
 
 Designability is not the constraint in this disease. Junction-spanning designs exist at every
 in-frame *NR4A3* fusion junction modelled here, and 35 of the 38 have one that clears the parent
@@ -290,7 +296,7 @@ One constraint sits above all of the others and no reagent choice moves it. Ever
 article named here ends at someone culturing cells, so the rate-limiting step is a laboratory rather
 than a line, a construct or an oligonucleotide.
 
-## Methods
+## 8 · Methods
 
 All analyses are computational, use public data, run in continuous integration at no compute cost,
 and commit their outputs. No laboratory work was performed. Full parameters, every screen's settings,
@@ -315,10 +321,12 @@ wild-type parent pairs its whole catalytic gap over a contiguous run of ten base
 being adopted rather than measured. Null ensembles were built as scrambles of each design and as
 chimeras joining the same two parent transcripts at real exon termini, screened identically.
 
-## Display items
+## Tables
 
 Tables 1 and 2 are in `fusion-junction-aso-journal-tables.md`, generated from the canonical sequence
 file by `research/manuscripts/aso_journal_tables.py` so that a cell and its source cannot diverge.
+
+## Figure legends
 
 **Figure 1. One 16-mer spans three partners' breakpoints.** The junction windows of *EWSR1* exon 12,
 *TAF15* exon 11 and *FUS* exon 10 joined to *NR4A3* exon 3, aligned at the breakpoint. Blue, donor
@@ -369,31 +377,6 @@ patent application, equity or consultancy relating to any sequence or method des
 **Acknowledgements.** None.
 
 ## References
-
-*Numbering follows the extended report, so that a reference cited in both documents carries the same
-number in each. Metadata is read from retrieved bibliographic records.*
-
-1. Labelle Y, Zucman J, Stenman G, Kindblom LG, Knight J, Turc-Carel C, Dockhorn-Dworniczak B, Mandahl N, Desmaze C, Peter M. Oncogenic conversion of a novel orphan nuclear receptor by chromosome translocation. Human molecular genetics. 1995;4(12):2219-2226. PMID: 8634690. doi:10.1093/hmg/4.12.2219
-2. Paioli A, Stacchiotti S, Campanacci D, Palmerini E, Frezza AM, Longhi A, Radaelli S, Donati DM, Beltrami G, Bianchi G, et al. Extraskeletal Myxoid Chondrosarcoma with Molecularly Confirmed Diagnosis: A Multicenter Retrospective Study Within the Italian Sarcoma Group. Ann Surg Oncol. 2021;28(2):1142-1150. PMID: 32572850. doi:10.1245/s10434-020-08737-7
-6. Remiszewski P, Falkowski S, Szumera-Ciećkiewicz A, Spałek MJ, Rutkowski P, Czarnecka AM. From pathogenesis to the patient's bedside: a comprehensive review of extraskeletal myxoid chondrosarcoma. Journal of cancer research and clinical oncology. 2025;151(11):283. PMID: 41055792. doi:10.1007/s00432-025-06316-5
-7. Stacchiotti S, Ferrari S, Redondo A, Hindi N, Palmerini E, Vaz Salgado MA, Frezza AM, Casali PG, Gutierrez A, Lopez-Pousa A, Grignani G, Italiano A, LeCesne A, Dumont S, Blay JY, Penel N, Bernabeu D, et al. Pazopanib for treatment of advanced extraskeletal myxoid chondrosarcoma: a multicentre, single-arm, phase 2 trial. The Lancet Oncology. 2019;20(9):1252-1262. PMID: 31331701. doi:10.1016/S1470-2045(19)30319-5
-8. Stacchiotti S, Dagrada GP, Sanfilippo R, Negri T, Vittimberga I, Ferrari S, et al. Anthracycline-based chemotherapy in extraskeletal myxoid chondrosarcoma: a retrospective study. Clinical Sarcoma Research. 2013;3(1):16. PMID: 24345066. doi:10.1186/2045-3329-3-16
-9. Huang SC, Lee JC, Hsu YC, Tsai JW, Kao YC, Hsieh TH, Chang YM, Chang KC, Wu PS, Chen PC, Chen CH, Chang CD, Lee PH, Tai HC, Liu TT, Wen MC, Li WS, Yu SC, Wang JC, Huang HY. Extraskeletal Myxoid Chondrosarcomas: The Uncommon Clinicopathologic Manifestations and Significance of TAF15::NR4A3 Fusion. Modern pathology. 2023;36(7):100161. PMID: 36948401. doi:10.1016/j.modpat.2023.100161
-10. Skórski T, Szczylik C, Malaguarnera L, Calabretta B. Gene-targeted specific inhibition of chronic myeloid leukemia cell growth by BCR-ABL antisense oligodeoxynucleotides. Folia histochemica et cytobiologica. 1991;29(3):85-89. PMID: 1794439.
-11. Toretsky JA, Connell Y, Neckers L, Bhat NK. Inhibition of EWS-FLI-1 fusion protein with antisense oligodeoxynucleotides. Journal of neuro-oncology. 1997;31(1-2):9-16. PMID: 9049825. doi:10.1023/a:1005716926800
-13. Parker Kerrigan BC, Ledbetter D, Kronowitz M, Phillips L, Gumin J, Hossain A, Yang J, Mendt M, Singh S, Cogdell D, Ene C, Shpall E, Lang FF. RNAi technology targeting the FGFR3-TACC3 fusion breakpoint: an opportunity for precision medicine. Neuro-oncology advances. 2020;2(1):vdaa132. PMID: 33241214. doi:10.1093/noajnl/vdaa132
-14. Lee MS, An S, Song JY, Sung M, Jung K, Chang ES, Choi J, Oh DY, Jeon YK, Yang H, Lakshmi C, Park S, Han J, Lee SH, Choi YL. Cancer-Specific Sequences in the Diagnosis and Treatment of NUT Carcinoma. Cancer research and treatment. 2023;55(2):452-467. PMID: 36265509. doi:10.4143/crt.2022.910
-15. Ward SV, Sternsdorf T, Woods NB. Targeting expression of the leukemogenic PML-RARα fusion protein by lentiviral vector-mediated small interfering RNA results in leukemic cell differentiation and apoptosis. Human gene therapy. 2011;22(12):1593-1598. PMID: 21846246. doi:10.1089/hum.2011.079
-16. Shao L, Tekedereli I, Wang J, Yuca E, Tsang S, Sood A, Lopez-Berestein G, Ozpolat B, Ittmann M. Highly specific targeting of the TMPRSS2/ERG fusion gene using liposomal nanovectors. Clinical cancer research. 2012;18(24):6648-6657. PMID: 23052253. doi:10.1158/1078-0432.ccr-12-2715
-18. Neumayer C, Ng D, Requena D, Jiang CS, Qureshi A, Vaughan R, Prakash TP, Revenko A, Simon SM. GalNAc-conjugated siRNA targeting the DNAJB1-PRKACA fusion junction in fibrolamellar hepatocellular carcinoma. Molecular therapy. 2024;32(1):140-151. PMID: 37980543. doi:10.1016/j.ymthe.2023.11.012
-22. Panagopoulos I, Mertens F, Isaksson M, Domanski HA, Brosjö O, Heim S, Bjerkehagen B, Sciot R, Dal Cin P, Fletcher JA, Fletcher CD, Mandahl N. Molecular genetic characterization of the EWS/CHN and RBP56/CHN fusion genes in extraskeletal myxoid chondrosarcoma. Genes, chromosomes & cancer. 2002;35(4):340-352. PMID: 12378528. doi:10.1002/gcc.10127
-27. Brenca M, Stacchiotti S, Fassetta K, Sbaraglia M, Janjusevic M, Racanelli D, et al. NR4A3 fusion proteins trigger an axon guidance switch that marks the difference between EWSR1 and TAF15 translocated extraskeletal myxoid chondrosarcomas. J Pathol. 2019;249(1):90-101. PMID: 31020999. doi:10.1002/path.5284
-29. Freire PR, Conneely OM. NR4A1 and NR4A3 restrict HSC proliferation via reciprocal regulation of C/EBPα and inflammatory signaling. Blood. 2018;131(10):1081-1093. PMID: 29343483. doi:10.1182/blood-2017-07-795757
-30. Beard JA, Tenga A, Chen T. The interplay of NR4A receptors and the oncogene-tumor suppressor networks in cancer. Cellular signalling. 2015;27(2):257-266. PMID: 25446259. doi:10.1016/j.cellsig.2014.11.009
-37. Bangerter JL, Harnisch KJ, Chen Y, Hagedorn C, Planas-Paz L, Pauli C. Establishment, characterization and functional testing of two novel ex vivo extraskeletal myxoid chondrosarcoma (EMC) cell models. Human cell. 2023;36(1):446-455. PMID: 36316541. doi:10.1007/s13577-022-00818-x
-38. Li Y, Nguyen JT, Ammanamanchi M, Zhou Z, Harbut EF, Mondaza-Hernandez JL, Meyer CA, Moura DS, Martin-Broto J, Hayenga HN, Bleris L. Reduction of Tumor Growth with RNA-Targeting Treatment of the NAB2-STAT6 Fusion Transcript in Solitary Fibrous Tumor Models. Cancers. 2023;15(12):3127. PMID: 37370737. doi:10.3390/cancers15123127
-39. Kauppinen S, Vester B, Wengel J. Locked nucleic acid (LNA): High affinity targeting of RNA for diagnostics and therapeutics. Drug discovery today. Technologies. 2005;2(3):287-290. PMID: 24981949. doi:10.1016/j.ddtec.2005.08.012
-40. Dyer SC, Austine-Orimoloye O, Azov AG, et al. Ensembl 2025. Nucleic acids research. 2025;53(D1):D948-D957. PMID: 39656687. doi:10.1093/nar/gkae1071
 
 ## Appendix A. Correction and supersession register
 

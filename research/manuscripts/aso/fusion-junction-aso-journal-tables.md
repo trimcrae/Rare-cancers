@@ -9,7 +9,7 @@
 | seam | reagent | gap-level margin | longest wild-type parent duplex through the gap | test article |
 |---|---|---:|---|---|
 | *EWSR1* e12::*NR4A3* e3 | 5′-GGGCATATCATCAAAC-3′ | 3 | 8 bp, wild-type *TFG* | E-N, engineered construct |
-| *TAF15* e6::*NR4A3* e3 | 5′-GGGCATATCTTGTGTG-3′ | 3 | 9 bp, wild-type *TFG* | T-N\*, engineered construct |
+| *TAF15* e6::*NR4A3* e3 | 5′-GGGCATATCTTGTGTG-3′ | 3 | 9 bp, wild-type *TFG* | T-N*, engineered construct |
 
 **Table 2. Four near-identical designs at two seams, two orderable and two not.** Each pair is two consecutive registers of one seam differing by a single-base slide, and the two members carry opposite verdicts: the condemned member pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, and the orderable member does not. Neither member of a pair may be substituted for the other, and neither is a reagent this paper names for synthesis. The pairing is read from the canonical file's own cross-reference column rather than asserted here.
 
