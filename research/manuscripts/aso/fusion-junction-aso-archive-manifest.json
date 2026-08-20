@@ -9,10 +9,10 @@
     "Not a claim that the archived predictions are correct. Every count in the deposit is a prediction from sequence search; no off-target activity and no RNase-H cleavage was measured anywhere in this work.",
     "Not a licence statement. The depositor chooses the licence at step 4 below."
   ],
-  "git_revision": "ba8107964d12f3eb572f4b55806eebf5965d797d",
+  "git_revision": "124b4c32cdcb35974f0324837d755f6b7d5e081c",
   "git_tree_is_clean_apart_from_this_manifest": false,
   "inventory_limited_to_tracked_files": true,
-  "archive_content_digest": "10f239c29857bedd39bc7226315a9924e4fe6067ac5b213475a431cc727aa03f",
+  "archive_content_digest": "3a92cf11ba15cd210ab6f1ebcf9c15cee14f8e1643dfcf54b12a7417deeeb6fa",
   "n_files": 473,
   "self_entry": {
     "path": "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
@@ -23,8 +23,8 @@
     "_why_not_counted": "It is excluded from `files`, `n_files`, `total_bytes` and `archive_content_digest` for the same reason, which is also what keeps two runs over an unchanged tree byte-identical — the property this module's header calls the only cheap check a reader has that the file is derived rather than edited.",
     "how_a_reader_checks_it_anyway": "Two ways, neither needing a self-hash. (1) Re-derive it: check out `git_revision` and run `python3 research/manuscripts/aso_archive_manifest.py --check`, which rebuilds the whole file and exits non-zero on any difference. (2) Compare the downloaded copy's `sha256sum` against the value the deposition record states — step 4 below tells the depositor to record it there, which is the one place it can live without being self-referential."
   },
-  "total_bytes": 45336294,
-  "total_mib": 43.236,
+  "total_bytes": 45335493,
+  "total_mib": 43.235,
   "payload_file_types": {
     "_what": "Extension census of the payload, derived from the file list. A preprint or journal uploader that accepts only document, image and container types cannot take most of these one by one; step 3 below builds the single container that sidesteps the question entirely. Check the accepted types on the uploader itself — none is asserted here.",
     "by_extension": {
@@ -42,7 +42,7 @@
       },
       ".pdf": {
         "n_files": 7,
-        "bytes": 5395656
+        "bytes": 5394855
       },
       ".png": {
         "n_files": 4,
@@ -1082,16 +1082,16 @@
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-research-article-manuscript.pdf",
-      "bytes": 2338061,
-      "sha256": "86ec4d438a948f189ec9ce1ffcb207ac209a6e7015bd7a87d9a37857f5b4a261",
+      "bytes": 2337799,
+      "sha256": "876835daa1f1598ac23767027a3d082293094354c4ce0e5708c76a602b01001e",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-research-article-supplementary-information.pdf",
-      "bytes": 166044,
-      "sha256": "4169ff78504d40c5cab2f38eeddbfd361b454bade64ad5fcc82ea869169bb349",
+      "bytes": 165941,
+      "sha256": "86bcde9c994c27c48abcea86236727646301fe75c5afbda4160e49fe3e81904d",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
@@ -1114,8 +1114,8 @@
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-research-article.pdf",
-      "bytes": 2484235,
-      "sha256": "4cdb8c9caeb98e7595f51c2acc48d362d535868ac07691d8b40107e52b936279",
+      "bytes": 2483799,
+      "sha256": "81e93328fc6c9614f9e8b07d3db5e93ab6102af2b362bd1b68bdfdc0ab3b390e",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
