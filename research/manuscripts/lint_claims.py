@@ -81,6 +81,19 @@ DEFAULT_TARGETS = [
     # repository) survived a green build, in the one file CLAUDE.md tells every session to read
     # first. R4-shaped over-claims on the map are exactly as damaging as in the manuscript,
     # because the map is what the next session steers by.
+    # ⛔ ADDED 2026-08-20, IN THE SAME COMMIT THAT GAVE PUB-ASO A SECOND DOCUMENT. The endpoint's
+    # `document.file` now names the condensed journal article, so `_publication_documents()` absorbs
+    # that file and STOPS absorbing the preprint — the identical shrinking-scope failure recorded
+    # above for the degrader SI and for the plan, arriving this time through a one-line change in
+    # publications.json rather than through a split. Both documents are listed here by hand so that
+    # neither can leave the linted set when the endpoint is repointed again.
+    #
+    # ⚠ AND THE SHORT PAPER IS THE RISKIER HALF. A compression pass rewrites every hedged sentence,
+    # and the failure mode of a shortening pass is dropping the qualifier while keeping the claim —
+    # which is precisely an R1-R5 defect. The long paper's language has been through seven red-team
+    # rounds; the short paper's has been through none.
+    "research/manuscripts/aso/fusion-junction-aso-research-article.md",
+    "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
     "research/manuscripts/nr4a3-program-map.md",
     # Added 2026-08-05, IN THE SAME COMMIT that moved THE ORDERED PLAN and the spend ladder out of the
     # map and into the systems model. ⚠ WITHOUT THIS LINE THE MOVE WOULD HAVE SILENTLY NARROWED

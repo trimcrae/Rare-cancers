@@ -83,6 +83,26 @@ VENUES = {
                    "references": None},
         "provenance": "search-derived; sciencedirect.com blocks the datacenter IP",
     },
+    #: ⭐ REOPENED 2026-08-20 (trimcrae), AND THE LIMITS ARE UNREAD RATHER THAN ABSENT. Nucleic Acid
+    #: Therapeutics was this paper's preferred venue and was eliminated on its mandatory
+    #: Publishing Services Fee of $90 per typeset page, roughly $700-1,100 for a full-length
+    #: manuscript. Condensing the paper to a five-page journal article changes that arithmetic, and
+    #: trimcrae has relaxed the standing $0 rule for THIS paper on that basis. ⛔ THE FOUR `None`s
+    #: BELOW MEAN NOBODY HAS READ THE GUIDELINES, NOT THAT SAGE SETS NO LIMIT — the distinction the
+    #: `no_limits_by_policy` flag exists to make, and this row does NOT carry it. The article types
+    #: SAGE offers for this journal, its word, abstract, display-item and reference caps, and the
+    #: CURRENT per-page fee are all unread; the $90 figure predates the Liebert-to-SAGE transition.
+    #: ⛔ Do not borrow the BJC row's caps for this row merely because both are journal Articles.
+    "NAT-Article": {
+        "journal": "Nucleic Acid Therapeutics (SAGE)",
+        "limits": {"main_words": None, "abstract_words": None, "display_items": None,
+                   "references": None},
+        "provenance": ("UNREAD. The journal transferred from Mary Ann Liebert to SAGE and the "
+                       "Liebert-era pages return 403; no SAGE author-guideline page for this "
+                       "journal has been read. The per-page fee that eliminated the venue is on "
+                       "record at $90 from the Liebert era and is itself unconfirmed under SAGE. "
+                       "Read the guidelines and the fee schedule before submitting."),
+    },
     "BJC-Article": {
         "journal": "British Journal of Cancer (Springer Nature)",
         "limits": {"main_words": 5000, "abstract_words": 200, "display_items": 8,
@@ -150,6 +170,11 @@ MANUSCRIPTS = {
     # is how a real one gets ignored. The venue is open; bioRxiv is the immediate destination and
     # sets no limits, so that is what the paper is measured against until a journal is chosen.
     "aso/fusion-junction-aso-research-article.md": "bioRxiv-preprint",
+    #: ⭐ THE CONDENSED JOURNAL SUBMISSION, ADDED 2026-08-20. Same work, second document:
+    #: the preprint above is the extended report and stays measured against bioRxiv, while
+    #: this row is measured against the journal actually being submitted to. Both rows are
+    #: real and neither supersedes the other.
+    "aso/fusion-junction-aso-journal-article.md": "NAT-Article",
 }
 
 #: Files that carry display items or reference entries belonging to a manuscript but living outside
@@ -157,6 +182,9 @@ MANUSCRIPTS = {
 #: ⚠ MAIN TEXT AND THE ABSTRACT ARE NEVER READ FROM A COMPANION — only display items and
 #: references are, because those are the two things a journal counts wherever they physically sit.
 COMPANIONS = {
+    "aso/fusion-junction-aso-journal-article.md": [
+        "aso/fusion-junction-aso-journal-tables.md",
+    ],
     "aso/fusion-junction-aso-research-article.md": [
         "aso/fusion-junction-aso-submission-tables.md",
         "aso/fusion-junction-aso-submission-references.md",
