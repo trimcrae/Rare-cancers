@@ -186,7 +186,10 @@ at reported doubling times of five to six days as sarco-spheres passaged every t
 which constrains any exposure window. Their fusions are reported as *EWSR1* exon 13 and *TAF15* exon
 6 joined to *NR4A3* exon 2 rather than exon 3. Reagents exist at both acceptors, so each line has
 one, and it is not in either case the same molecule as the reagent named above for the exon-3
-acceptor. A reagent selected for one acceptor is not valid for the other.
+acceptor. A reagent selected for one acceptor is not valid for the other. Exon numbers throughout are
+transcript exon indices, counted from the transcript 5′ end and including non-coding exons; that
+convention differs from coding-exon indexing for *TCF12*, *TFG* and *NR4A3*, and an acceptor exon
+number read under the wrong convention selects a different reagent.
 
 One requirement is upstream of all of them. The breakpoint of the cell line or tumour sample used as
 the test article must be established at nucleotide resolution by RNA sequencing before any
@@ -359,7 +362,10 @@ animals were involved.
 **Data and code availability.** All code, graded artefacts and per-design tables are public and are
 deposited under [doi:10.5281/zenodo.22028916](https://doi.org/10.5281/zenodo.22028916). The extended
 report of this work, carrying every screen's full parameters and the complete bounds on each claim,
-is deposited as a preprint on bioRxiv.
+is deposited as a preprint on bioRxiv. An earlier version of these analyses placed the acceptor
+junction incorrectly through a coding-versus-transcript exon indexing error and was withdrawn in
+full; the panels were rebuilt and verified against two independent transcript acquisitions, and the
+complete correction record, including every superseded value, is released with the archive.
 
 **Use of artificial intelligence.** A large language model (Claude, Anthropic) was used throughout
 this work: to write and review the analysis code, to run the screens, to retrieve and check
@@ -377,32 +383,3 @@ patent application, equity or consultancy relating to any sequence or method des
 **Acknowledgements.** None.
 
 ## References
-
-## Appendix A. Correction and supersession register
-
-This appendix records corrections that reached the analyses behind this manuscript, so that a reader
-comparing it against earlier versions of the work can see what changed and why. The full chronology
-is in the working record deposited with the archive.
-
-### Appendix A1 — Withdrawn reagents
-
-An earlier draft of this work recommended two reagents that a deeper re-screen subsequently withdrew.
-They are named here as withdrawn rather than dropped silently. Six of the nine designs that carried
-no sense-strand near-match at the default search ceiling lost that property at ten times the ceiling,
-three of them having returned no near-match at all at the shallower setting. The reagents named in
-the present manuscript are those that survive the deeper screen.
-
-### Appendix A2 — Exon-numbering correction
-
-An earlier version of these analyses placed the acceptor junction using coding-exon indices and
-concatenated coding sequence to coding sequence, which discarded the 5′ untranslated region that
-*NR4A3* transcript exon 3 carries and which a fusion transcript retains. The corrected model is
-mRNA-level. Exon numbers in this manuscript are transcript exon indices counted from the transcript
-5′ end, including non-coding exons; the two conventions differ for *TCF12*, *TFG* and *NR4A3*. An
-acceptor exon number read under the wrong convention selects a different reagent.
-
-### Appendix A3 — Terminology
-
-The term *cleavage risk* was replaced by *gap-paired sense-strand match* on 2026-08-19, because the
-earlier term named a catalytic outcome for what is a sequence observation. No screen in this work
-predicts cleavage; each grades hybridisation only.

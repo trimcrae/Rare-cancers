@@ -87,6 +87,17 @@ TARGETS = {
         "https://us.sagepub.com/en-us/nam/pure-gold-open-access-journals-at-sage",
     "us_sage_nat_description":
         "https://us.sagepub.com/en-us/nam/journal/nucleic-acid-therapeutics",
+    # ⭐ THE PAGE-CHARGE QUESTION IS NOT THE APC QUESTION, AND IT IS ASKED HERE (2026-08-20).
+    # NAT was eliminated on a mandatory $90/page Publishing Services Fee. Condensing the paper to a
+    # short journal article changes what that fee COSTS, so the live question is no longer "does
+    # SAGE charge per page" but "how many pages are charged" — specifically whether a free page
+    # allowance precedes the per-page rate, and what colour figures cost. Neither is answerable
+    # from the APC pages already targeted above: those speak to open access only and are silent on
+    # page and colour charges, which is the same error that sent the first venue decision to a
+    # publisher which no longer publishes the journal. This path is on the `us.sagepub.com` host
+    # rather than the `journals.sagepub.com` one that returns 403 to a real headless browser.
+    "sage_page_and_publication_charges":
+        "https://us.sagepub.com/en-us/nam/page-and-publication-charges",
     # ⭐ A FALLBACK VENUE IS ONLY A FALLBACK IF ITS POLICY CAN BE READ (2026-08-12). Every previous
     # candidate for this paper sits behind a publisher that refuses this fetcher — Wiley 403,
     # Elsevier 403, journals.sagepub.com 403 — so "we will go to X instead" would be an assumption
