@@ -75,6 +75,21 @@ PAPERS = {
     #: document: 3,113 main-text words against that one's 35,501. It carries its own references and
     #: tables companions and NO supplementary file — the preprint is its extended report.
     "aso-journal": {
+        #: Nucleic Acid Therapeutics, MEASURED from 14 of its own published articles by
+        #: scripts/venue_typeset_geometry.py (research/literature/venue-typeset-geometry.json):
+        #: US Letter, two columns of 239pt with a 12pt gutter, 9.8pt body on 10.9pt leading, and a
+        #: ~60pt left margin. The leading is the number that matters — 1.11x the body size against
+        #: this repository's house 1.40x — and it is why an A4 house-style page count was never a
+        #: safe proxy for a venue that bills per printed page.
+        #: 239 + 12 + 239 = 490pt of measure inside a 612pt trim leaves 61pt each side.
+        #: ⚠ line_height 1.125 renders 11.2pt against the measured 10.9pt, and no value lands on
+        #: 10.9: the render quantises, with 1.112 giving 10.5 and everything from 1.125 up giving
+        #: 11.2. 11.2 is the nearer of the two and errs LOOSE, so the page count it produces cannot
+        #: be an under-estimate of the bill. The page count is 7 at both settings, which is the
+        #: reason this residual is recorded rather than chased.
+        "geometry": {"page_size": "Letter", "margin": "35mm 21.5mm 25mm 21.5mm",
+                     "landscape_margin": "21.5mm 20mm", "font_pt": 9.8,
+                     "line_height": 1.125, "column_gap_mm": 4.2},
         "manuscript": "aso/fusion-junction-aso-journal-article.md",
         "tables": "aso/fusion-junction-aso-journal-tables.md",
         "references": "aso/fusion-junction-aso-journal-references.md",
@@ -1456,12 +1471,37 @@ p.sitrace { font-size: 9pt; margin: 0 0 10pt 0; text-align: left; }
 p.sitrace .of { font-style: italic; }
 """
 
-JOURNAL_CSS = COMMON + """
-@page { size: A4; margin: 16mm 14mm 15mm 14mm; }
-@page landscape { size: A4 landscape; margin: 14mm 12mm; }
+#: ⭐ THE VENUE'S OWN GEOMETRY, WHERE IT HAS BEEN MEASURED (2026-08-20). A page charge makes the
+#: printed page count a cost, and no journal publishes the typeset design that decides it, so it is
+#: measured off the journal's own published PDFs by scripts/venue_typeset_geometry.py and applied
+#: here. A paper with no `geometry` key keeps the values below, which is why adding this moved no
+#: existing build: the preprint renders byte-identically before and after.
+#: ⚠ These are OUR RENDERING of the venue's geometry, not the venue's own typesetting. The page
+#: count that follows is a much better estimate than an arbitrary house style, and it is still an
+#: estimate: the journal sets copy, not just measure, and its production house is not this script.
+DEFAULT_GEOMETRY = {
+    "page_size": "A4", "margin": "16mm 14mm 15mm 14mm", "landscape_margin": "14mm 12mm",
+    "font_pt": 9.0, "line_height": 1.40, "column_gap_mm": 6.0,
+}
 
-body { font-family: 'Liberation Serif', 'Times New Roman', Times, serif; font-size: 9pt;
-       line-height: 1.40; color: #14181c; margin: 0; hyphens: auto; }
+def journal_css(paper=None):
+    g = dict(DEFAULT_GEOMETRY)
+    g.update((paper or {}).get("geometry") or {})
+    return COMMON + f"""
+@page {{ size: {g["page_size"]}; margin: {g["margin"]}; }}
+@page landscape {{ size: {g["page_size"]} landscape; margin: {g["landscape_margin"]}; }}
+
+body {{ font-family: 'Liberation Serif', 'Times New Roman', Times, serif;
+       font-size: {g["font_pt"]}pt;
+       line-height: {g["line_height"]}; color: #14181c; margin: 0; hyphens: auto; }}
+""" + JOURNAL_CSS_REST + f"""
+/* ⛔ LAST, NOT FIRST. The main sheet below sets `.cols {{ column-gap: 6mm }}` itself, so an
+   override placed above it is dead on arrival — later rule wins at equal specificity. Measured:
+   the first version of this hook emitted the gap before the sheet and changed nothing. */
+.cols {{ column-gap: {g["column_gap_mm"]}mm; }}
+"""
+
+JOURNAL_CSS_REST = """
 
 /* --- masthead and title block, full width above the columns --- */
 .masthead { border-top: 2.4pt solid #123a5e; border-bottom: 0.5pt solid #123a5e;
@@ -1643,7 +1683,7 @@ def wrap_journal(paper, front, body_html, doc_title=None):
         f'<p>{inline(front["abstract"])}</p></div>'
         f'<p class="kw"><strong>Keywords</strong> &nbsp;{inline(front["keywords"])}</p>'
     )
-    return page_shell(doc_title or re.sub(r"[*_`]", "", front["title"]), JOURNAL_CSS,
+    return page_shell(doc_title or re.sub(r"[*_`]", "", front["title"]), journal_css(paper),
                       head + f'<div class="cols">{main}</div>'
                       + f'<div class="backmatter">{back}</div>')
 
