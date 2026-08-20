@@ -106,10 +106,10 @@ last_verified: 2026-08-10
 
 | field | value |
 |---|---|
-| Word count, main text | 27623 (no limit found) |
-| Abstract | 388 words  |
+| Word count, main text | 35501 (no limit found) |
+| Abstract | 399 words  |
 | Display items | 10 (3 figures, 7 tables) |
-| References | 52 |
+| References | 53 |
 | Cover letter | `aso/fusion-junction-aso-cover-letter.md` |
 | Supplementary file | yes |
 | Fee route | not recorded |
@@ -122,6 +122,26 @@ last_verified: 2026-08-10
 - `aso-multipartner-seam.svg` — raster present, vector present
 - `aso-gap-length-tradeoff.svg` — raster present, vector present
 - `aso-chance-baseline.svg` — raster present, vector present
+
+## Nucleic Acid Therapeutics (SAGE)
+
+**Manuscript** `aso/fusion-junction-aso-journal-article.md`
+
+| field | value |
+|---|---|
+| Word count, main text | 3217 (no limit found) |
+| Abstract | 197 words  |
+| Display items | 3 (1 figures, 2 tables) |
+| References | 21 |
+| Cover letter | MISSING |
+| Supplementary file | none |
+| Fee route | not recorded |
+
+⚠ Limits provenance: UNREAD. The journal transferred from Mary Ann Liebert to SAGE and the Liebert-era pages return 403; no SAGE author-guideline page for this journal has been read. The per-page fee that eliminated the venue is on record at $90 from the Liebert era and is itself unconfirmed under SAGE. Read the guidelines and the fee schedule before submitting..
+
+**Figures to upload**
+
+- `aso-multipartner-seam.svg` — raster present, vector present
 
 ## Outstanding for every paper, and only the author can supply these
 

@@ -10,10 +10,10 @@
     "Not a licence statement. The depositor chooses the licence at step 4 below."
   ],
   "deposition_doi": "10.5281/zenodo.22028916",
-  "git_revision": "81749e7e7aa7d18a6c239a05b9538cf874de434d",
+  "git_revision": "5ca3f22d1e3c489285178244531c1a9f3cc398f4",
   "git_tree_is_clean_apart_from_this_manifest": false,
   "inventory_limited_to_tracked_files": true,
-  "archive_content_digest": "4ce36fa71916008bd3a0b5735c259b0f993ec99caf43091b3eed7163441a5d2d",
+  "archive_content_digest": "a3ed7e26004f457bf79c9ec50f04fc72327c6e42e88cf226492b94646e9284e3",
   "n_files": 473,
   "self_entry": {
     "path": "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
@@ -24,18 +24,18 @@
     "_why_not_counted": "It is excluded from `files`, `n_files`, `total_bytes` and `archive_content_digest` for the same reason, which is also what keeps two runs over an unchanged tree byte-identical — the property this module's header calls the only cheap check a reader has that the file is derived rather than edited.",
     "how_a_reader_checks_it_anyway": "Two ways, neither needing a self-hash. (1) Re-derive it: check out `git_revision` and run `python3 research/manuscripts/aso_archive_manifest.py --check`, which rebuilds the whole file and exits non-zero on any difference. (2) Compare the downloaded copy's `sha256sum` against the value the deposition record states — step 4 below tells the depositor to record it there, which is the one place it can live without being self-referential."
   },
-  "total_bytes": 45339282,
-  "total_mib": 43.239,
+  "total_bytes": 45357790,
+  "total_mib": 43.257,
   "payload_file_types": {
     "_what": "Extension census of the payload, derived from the file list. A preprint or journal uploader that accepts only document, image and container types cannot take most of these one by one; step 3 below builds the single container that sidesteps the question entirely. Check the accepted types on the uploader itself — none is asserted here.",
     "by_extension": {
       ".json": {
         "n_files": 378,
-        "bytes": 34843477
+        "bytes": 34857824
       },
       ".py": {
         "n_files": 67,
-        "bytes": 2915768
+        "bytes": 2919929
       },
       ".md": {
         "n_files": 10,
@@ -1327,8 +1327,8 @@
     },
     {
       "path": "research/manuscripts/build_submission_pdf.py",
-      "bytes": 125786,
-      "sha256": "eb0c0459b34b78ae924fafe278da919cb93b29811528cfc167da09e4065b20d8",
+      "bytes": 127324,
+      "sha256": "dae111bf8d097a5a26489030d0562722f8d0a47a61d4d6fabb97445528346655",
       "serves": "import_closure",
       "also_serves": [],
       "contributes": "Imported by a released module. Not named by any availability promise; present because the code the promises DO name cannot be imported without it."
@@ -1527,24 +1527,24 @@
     },
     {
       "path": "research/manuscripts/lint_style.py",
-      "bytes": 23669,
-      "sha256": "51e791fb2d3872cf333f70b4439a09d367374ea9104a2437480181cf49d44e1a",
+      "bytes": 24072,
+      "sha256": "b23c6550b2d8ece76c4002ed8b730749aa98534402946861ffd6b76ba6184255",
       "serves": "reproduction_command",
       "also_serves": [],
       "contributes": "Re-derives every offline-derivable artefact below in dependency order and re-runs the consistency, citation and style gates; the command a reader is told to run to establish that this archive is current. The script AND every step it invokes that no other row here already carries."
     },
     {
       "path": "research/manuscripts/pinned-figures.json",
-      "bytes": 107730,
-      "sha256": "e86d5638932130c86d583b0ff9723b9b32f3b1c27295e2a11daf166e934b3fc3",
+      "bytes": 120941,
+      "sha256": "01c2d8083e57c1aab0dec559c2110788b27b7077a6bec4e26438773f64cc46da",
       "serves": "correction_record",
       "also_serves": [],
       "contributes": "The acceptor-seam exon-indexing correction: the grader that banners every affected artifact, the frame audit and regeneration record that show which junctions were re-emitted and which were refused, and the working record and red-team pass that narrate the withdrawal."
     },
     {
       "path": "research/manuscripts/submission-metrics.json",
-      "bytes": 9936,
-      "sha256": "e8377b08946160285b41f3956d055631bcd617a213c4b1602d50b83936ac78cb",
+      "bytes": 11072,
+      "sha256": "4f2637f5a8689de9b6d883ad63170bb2a32e04cacab25eac820f768729d75ef0",
       "serves": "reproduction_command",
       "also_serves": [],
       "contributes": "Re-derives every offline-derivable artefact below in dependency order and re-runs the consistency, citation and style gates; the command a reader is told to run to establish that this archive is current. The script AND every step it invokes that no other row here already carries."
@@ -1559,8 +1559,8 @@
     },
     {
       "path": "research/manuscripts/submission_metrics.py",
-      "bytes": 32376,
-      "sha256": "870cd6d47aea859cf29c8cf7bd0f0a6fb69b066c27f67791cac65dc298594552",
+      "bytes": 34596,
+      "sha256": "bbf5b607511ba0b9c47d7ba9d4663c700fadf71f3214f9fd5d9b4d68af515596",
       "serves": "reproduction_command",
       "also_serves": [],
       "contributes": "Re-derives every offline-derivable artefact below in dependency order and re-runs the consistency, citation and style gates; the command a reader is told to run to establish that this archive is current. The script AND every step it invokes that no other row here already carries."

@@ -1,0 +1,178 @@
+#!/usr/bin/env python3
+"""Generate the two display-item tables of the fusion-junction ASO JOURNAL article.
+
+⛔ WHY THIS EXISTS AS A GENERATOR RATHER THAN AS PROSE IN THE MANUSCRIPT. The journal article is a
+second document restating sequences the preprint already carries, and this programme has already had
+a parallel condensed draft drift out of sync and self-contradict. A hand-typed sequence table is
+exactly where that happens: a correction reaches the long paper's generated tables and not the short
+paper's hand-written ones, and the divergence is a WRONG REAGENT rather than a wrong number.
+
+⛔ AND THE HAZARD IS ORDER-SAFETY, WHICH GATES. `fusion-junction-aso-sequences.csv` carries a
+`near_identical_design_with_a_different_verdict` column because consecutive registers of one seam
+differ by a single-base slide and land on OPPOSITE verdicts — one orderable, one condemned for
+pairing its whole catalytic gap against a wild-type parent. Table 2 below exists to put those pairs
+side by side, which the review backlog (§A3) records as the highest-value single addition available
+to this work. Neither member of a pair may be substituted for the other.
+
+⚠ THIS GENERATOR READS THE CANONICAL SEQUENCE FILE AND NOTHING ELSE, by design. Every cell it emits
+is a column of `fusion-junction-aso-sequences.csv`, which `aso_sequence_manifest.py` produces and
+preflight gate 8 already checks. The one exception is the test-article map below, which is a
+literature fact rather than a screen output and carries its citation inline.
+
+Usage:
+    python3 research/manuscripts/aso_journal_tables.py            # write
+    python3 research/manuscripts/aso_journal_tables.py --check    # reproduce or fail (gate 8)
+"""
+from __future__ import annotations
+
+import csv
+import os
+import sys
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+ASO = os.path.join(HERE, "aso")
+SEQUENCES = os.path.join(ASO, "fusion-junction-aso-sequences.csv")
+OUT = os.path.join(ASO, "fusion-junction-aso-journal-tables.md")
+
+GEOMETRY = "5-6-5"
+
+#: The two reagents named for synthesis, keyed by the junction label the canonical file uses.
+#: ⚠ ORDER IS THE PAPER'S ORDER and is not derived: EWSR1 first because it is the majority partner.
+LEADS = ("EWSR1_e12__NR4A3_e3", "TAF15_e6__NR4A3_e3")
+
+#: ⛔ A LITERATURE FACT, NOT A SCREEN OUTPUT — the one thing here that no artifact in this repository
+#: measures, so it carries its source inline rather than being read from a column. The engineered
+#: constructs are those of PMID:31020999, whose exon spans that paper states verbatim; the
+#: patient-derived models are those of PMID:36316541, whose fusions are reported at NR4A3 exon 2
+#: rather than exon 3, which is why neither lead below is matched to one.
+TEST_ARTICLE = {
+    "EWSR1_e12__NR4A3_e3": "E-N, engineered construct",
+    #: ⛔ NOT `T-N\\*`. The markdown escape survives the PDF pipeline as a LITERAL BACKSLASH in the
+    #: table cell (measured 2026-08-20 by reading the rendered PDF, invisible in the source), and
+    #: the asterisk is part of the construct name — T-N* and T-N are different constructs in
+    #: PMID:31020999, so this cell names a test article and must render exactly.
+    "TAF15_e6__NR4A3_e3": "T-N*, engineered construct",
+}
+
+#: The near-twin pairs Table 2 prints, named by the CONDEMNED member. Each seam contributes one pair.
+#: ⚠ NAMED BY THE CONDEMNED MEMBER ON PURPOSE: the orderable twin is then read out of the canonical
+#: file's own cross-reference column rather than asserted here, so the pairing cannot drift from it.
+CONDEMNED = ("GGCATATCAAGCGCTG", "CAGGGCATATCATCAA")
+
+
+def _rows():
+    with open(SEQUENCES, encoding="utf-8") as fh:
+        return list(csv.DictReader(fh))
+
+
+def _at(rows, sequence):
+    hit = [r for r in rows if r["sequence"] == sequence and r["geometry"] == GEOMETRY]
+    if len(hit) != 1:
+        raise SystemExit(f"{sequence}: expected exactly one {GEOMETRY} record, found {len(hit)}")
+    return hit[0]
+
+
+def _lead(rows, junction):
+    hit = [r for r in rows if r["junction"] == junction and r["geometry"] == GEOMETRY
+           and r["role"] == "best available at this junction"]
+    if len(hit) != 1:
+        raise SystemExit(f"{junction}: expected one lead at {GEOMETRY}, found {len(hit)}")
+    return hit[0]
+
+
+def _seam(junction):
+    donor, acceptor = junction.split("__")
+    gene, exon = donor.rsplit("_e", 1)
+    agene, aexon = acceptor.rsplit("_e", 1)
+    return f"*{gene}* e{exon}::*{agene}* e{aexon}"
+
+
+def _duplex(row):
+    """The mature-parent duplex cell: length and the wild-type gene that forms it."""
+    bp = int(row["mature_parent_duplex_through_gap_bp"])
+    gene = row["mature_parent_duplex_gene"]
+    if not bp:
+        return "none at any length"
+    return f"{bp} bp, wild-type *{gene}*"
+
+
+def _twin(row):
+    """The near-identical design carrying the OPPOSITE verdict, read from the canonical file."""
+    cell = row["near_identical_design_with_a_different_verdict"]
+    if not cell:
+        raise SystemExit(f"{row['sequence']}: canonical file records no near-identical twin, so "
+                         "Table 2 cannot be built from it — the pairing must not be asserted here")
+    seq = cell.split(" (")[0]
+    return seq, cell[cell.index("(") + 1:cell.rindex(")")]
+
+
+def build() -> str:
+    rows = _rows()
+    out = ["<!-- GENERATED — DO NOT EDIT. Regenerate: python3 research/manuscripts/aso_journal_tables.py -->",
+           "", "# Display items — fusion-junction ASO journal article", "",
+           "*Every cell below is a column of `fusion-junction-aso-sequences.csv`, the canonical "
+           "machine-readable record, except the test-article column of Table 1, which is a "
+           "literature fact and carries its source in the caption. An oligonucleotide should be "
+           "ordered from that file rather than transcribed from this page.*", ""]
+
+    out += ["**Table 1. The two reagents named for synthesis, with their parent-duplex label and "
+            "their test article.** Both are the best available design at their junction and both "
+            "hold the panel's top gap-level margin. The parent-duplex column is the longest "
+            "contiguous duplex any of six mature wild-type parent transcripts forms through the "
+            "catalytic gap; neither reagent reaches the ten-base-pair criterion, and both sit close "
+            "to it, so the length is printed rather than a pass mark. Test articles are the "
+            "engineered constructs of Brenca et al. (PMID:31020999), whose exon spans that paper "
+            "states verbatim. The two patient-derived models of Bangerter et al. "
+            "(PMID:36316541) carry NR4A3 exon-2 acceptors and are therefore matched to different "
+            "designs, not to these two. Nothing here has been synthesised or tested, and no "
+            "sequence may be administered to any person or animal.", ""]
+    out += ["| seam | reagent | gap-level margin | longest wild-type parent duplex through the gap | test article |",
+            "|---|---|---:|---|---|"]
+    for j in LEADS:
+        r = _lead(rows, j)
+        out.append(f"| {_seam(j)} | 5′-{r['sequence']}-3′ | {r['gap_level_margin']} | "
+                   f"{_duplex(r)} | {TEST_ARTICLE[j]} |")
+    out.append("")
+
+    out += ["**Table 2. Four near-identical designs at two seams, two orderable and two not.** Each "
+            "pair is two consecutive registers of one seam differing by a single-base slide, and "
+            "the two members carry opposite verdicts: the condemned member pairs its whole "
+            "catalytic gap against a wild-type parent gene at the ten-base-pair criterion, and the "
+            "orderable member does not. Neither member of a pair may be substituted for the other, "
+            "and neither is a reagent this paper names for synthesis. The pairing is read from the "
+            "canonical file's own cross-reference column rather than asserted here.", ""]
+    out += ["| seam | design | verdict | gap-level margin | longest wild-type parent duplex through the gap |",
+            "|---|---|---|---:|---|"]
+    for seq in CONDEMNED:
+        bad = _at(rows, seq)
+        twin_seq, relation = _twin(bad)
+        good = _at(rows, twin_seq)
+        out.append(f"| {_seam(bad['junction'])} | 5′-{bad['sequence']}-3′ | DO NOT ORDER | "
+                   f"{bad['gap_level_margin']} | {_duplex(bad)} |")
+        out.append(f"| {_seam(good['junction'])} | 5′-{good['sequence']}-3′ | orderable "
+                   f"({relation.replace('; orderable','')}) | {good['gap_level_margin']} | "
+                   f"{_duplex(good)} |")
+    out.append("")
+    return "\n".join(out)
+
+
+def main() -> int:
+    text = build()
+    if "--check" in sys.argv:
+        if not os.path.exists(OUT):
+            print(f"MISSING {OUT} — run without --check")
+            return 1
+        current = open(OUT, encoding="utf-8").read()
+        if current != text:
+            print(f"STALE {os.path.relpath(OUT)} — rerun without --check and commit the result")
+            return 1
+        print("journal tables reproduce from the canonical sequence file")
+        return 0
+    with open(OUT, "w", encoding="utf-8") as fh:
+        fh.write(text)
+    print(f"wrote {os.path.relpath(OUT)}")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

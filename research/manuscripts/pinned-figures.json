@@ -46,7 +46,8 @@
   "research/modalities/nr4a3-degrader-next-steps.md",
   "research/manuscripts/mtap-prmt5/emc-mtap-prmt5-hypothesis.md",
   "research/manuscripts/endpoint/response-endpoint-indolent-tumours.md",
-  "research/manuscripts/aso/fusion-junction-aso-supplementary-information.md"
+  "research/manuscripts/aso/fusion-junction-aso-supplementary-information.md",
+  "research/manuscripts/aso/fusion-junction-aso-journal-article.md"
  ],
  "_marker_note": [
   "A superseded value is CLEARED when its line — or the two lines above / one below, because markdown prose",
@@ -985,6 +986,177 @@
     "research/manuscripts/aso/fusion-junction-aso-supplementary-information.md"
    ],
    "regenerate": "python3 research/manuscripts/aso_reagent_coverage.py, then update every figure the manuscript and the SI quote IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
+  },
+  {
+   "id": "aso_panel_designs_total_journal_abstract",
+   "description": "★ THE JOURNAL ARTICLE IS A SECOND HOME FOR THE SPINE, REGISTERED 2026-08-20. The condensed submission restates the four counts the whole argument rests on. A parallel condensed draft drifted out of sync and self-contradicted once in this programme already, so every number the short paper shares with the preprint is pinned at BOTH homes: a correction reaching one and not the other is now a gate-1 failure rather than a discovery a reviewer makes.",
+   "artifact": "research/modalities/aso-parent-gap-pairing.json",
+   "key": "corpus.n_designs",
+   "match": "flattened",
+   "format": "{:.0f}",
+   "tolerance": 0.5,
+   "context": "Of ([\\d,]+) junction-spanning 16-mers tiled at 5-6-5",
+   "must_appear_in": [
+    "research/manuscripts/aso/fusion-junction-aso-journal-article.md"
+   ],
+   "regenerate": "python3 research/modalities/aso_parent_gap_pairing.py, then update every home of the figure IN THE SAME COMMIT (CLAUDE.md rule 1.3) — the journal article is now one of them"
+  },
+  {
+   "id": "aso_panel_designs_total_journal_selection",
+   "description": "★ THE JOURNAL ARTICLE IS A SECOND HOME FOR THE SPINE, REGISTERED 2026-08-20. The condensed submission restates the four counts the whole argument rests on. A parallel condensed draft drifted out of sync and self-contradicted once in this programme already, so every number the short paper shares with the preprint is pinned at BOTH homes: a correction reaching one and not the other is now a gate-1 failure rather than a discovery a reviewer makes.",
+   "artifact": "research/modalities/aso-parent-gap-pairing.json",
+   "key": "corpus.n_designs",
+   "match": "flattened",
+   "format": "{:.0f}",
+   "tolerance": 0.5,
+   "context": "modelled partners, ([\\d,]+) junction-spanning designs were tiled",
+   "must_appear_in": [
+    "research/manuscripts/aso/fusion-junction-aso-journal-article.md"
+   ],
+   "regenerate": "python3 research/modalities/aso_parent_gap_pairing.py, then update every home of the figure IN THE SAME COMMIT (CLAUDE.md rule 1.3) — the journal article is now one of them"
+  },
+  {
+   "id": "aso_panel_junctions_in_frame_journal_abstract",
+   "description": "★ THE JOURNAL ARTICLE IS A SECOND HOME FOR THE SPINE, REGISTERED 2026-08-20. The condensed submission restates the four counts the whole argument rests on. A parallel condensed draft drifted out of sync and self-contradicted once in this programme already, so every number the short paper shares with the preprint is pinned at BOTH homes: a correction reaching one and not the other is now a gate-1 failure rather than a discovery a reviewer makes.",
+   "artifact": "research/modalities/nr4a3-fusion-junction-atlas.json",
+   "key": "n_emittable_junctions",
+   "match": "flattened",
+   "format": "{:.0f}",
+   "tolerance": 0.5,
+   "context": "tiled at 5-6-5 across the ([\\d,]+) in-frame junctions",
+   "must_appear_in": [
+    "research/manuscripts/aso/fusion-junction-aso-journal-article.md"
+   ],
+   "regenerate": "python3 research/modalities/aso_parent_gap_pairing.py, then update every home of the figure IN THE SAME COMMIT (CLAUDE.md rule 1.3) — the journal article is now one of them"
+  },
+  {
+   "id": "aso_panel_junctions_in_frame_journal_selection",
+   "description": "★ THE JOURNAL ARTICLE IS A SECOND HOME FOR THE SPINE, REGISTERED 2026-08-20. The condensed submission restates the four counts the whole argument rests on. A parallel condensed draft drifted out of sync and self-contradicted once in this programme already, so every number the short paper shares with the preprint is pinned at BOTH homes: a correction reaching one and not the other is now a gate-1 failure rather than a discovery a reviewer makes.",
+   "artifact": "research/modalities/nr4a3-fusion-junction-atlas.json",
+   "key": "n_emittable_junctions",
+   "match": "flattened",
+   "format": "{:.0f}",
+   "tolerance": 0.5,
+   "context": "Across the ([\\d,]+) in-frame junctions of five modelled partners, [\\d,]+ junction-spanning",
+   "must_appear_in": [
+    "research/manuscripts/aso/fusion-junction-aso-journal-article.md"
+   ],
+   "regenerate": "python3 research/modalities/aso_parent_gap_pairing.py, then update every home of the figure IN THE SAME COMMIT (CLAUDE.md rule 1.3) — the journal article is now one of them"
+  },
+  {
+   "id": "aso_liable_designs_journal_abstract",
+   "description": "★ THE JOURNAL ARTICLE IS A SECOND HOME FOR THE SPINE, REGISTERED 2026-08-20. The condensed submission restates the four counts the whole argument rests on. A parallel condensed draft drifted out of sync and self-contradicted once in this programme already, so every number the short paper shares with the preprint is pinned at BOTH homes: a correction reaching one and not the other is now a gate-1 failure rather than a discovery a reviewer makes.",
+   "artifact": "research/modalities/aso-parent-gap-pairing.json",
+   "key": "corpus.n_with_parent_duplex_through_gap",
+   "match": "flattened",
+   "format": "{:.0f}",
+   "tolerance": 0.5,
+   "context": "modelled partners, ([\\d,]+) let a mature wild-type parent transcript",
+   "must_appear_in": [
+    "research/manuscripts/aso/fusion-junction-aso-journal-article.md"
+   ],
+   "regenerate": "python3 research/modalities/aso_parent_gap_pairing.py, then update every home of the figure IN THE SAME COMMIT (CLAUDE.md rule 1.3) — the journal article is now one of them"
+  },
+  {
+   "id": "aso_liable_designs_journal_selection",
+   "description": "★ THE JOURNAL ARTICLE IS A SECOND HOME FOR THE SPINE, REGISTERED 2026-08-20. The condensed submission restates the four counts the whole argument rests on. A parallel condensed draft drifted out of sync and self-contradicted once in this programme already, so every number the short paper shares with the preprint is pinned at BOTH homes: a correction reaching one and not the other is now a gate-1 failure rather than a discovery a reviewer makes.",
+   "artifact": "research/modalities/aso-parent-gap-pairing.json",
+   "key": "corpus.n_with_parent_duplex_through_gap",
+   "match": "flattened",
+   "format": "{:.0f}",
+   "tolerance": 0.5,
+   "context": "Of those, ([\\d,]+) let one of six mature wild-type parent transcripts",
+   "must_appear_in": [
+    "research/manuscripts/aso/fusion-junction-aso-journal-article.md"
+   ],
+   "regenerate": "python3 research/modalities/aso_parent_gap_pairing.py, then update every home of the figure IN THE SAME COMMIT (CLAUDE.md rule 1.3) — the journal article is now one of them"
+  },
+  {
+   "id": "aso_liable_against_wildtype_nr4a3_journal_abstract",
+   "description": "★ THE JOURNAL ARTICLE IS A SECOND HOME FOR THE SPINE, REGISTERED 2026-08-20. The condensed submission restates the four counts the whole argument rests on. A parallel condensed draft drifted out of sync and self-contradicted once in this programme already, so every number the short paper shares with the preprint is pinned at BOTH homes: a correction reaching one and not the other is now a gate-1 failure rather than a discovery a reviewer makes.",
+   "artifact": "research/modalities/aso-parent-gap-pairing.json",
+   "key": "corpus.which_parent_supplies_it.NR4A3",
+   "match": "flattened",
+   "format": "{:.0f}",
+   "tolerance": 0.5,
+   "context": "contiguous base pairs, ([\\d,]+) of those against wild-type NR4A3 itself",
+   "must_appear_in": [
+    "research/manuscripts/aso/fusion-junction-aso-journal-article.md"
+   ],
+   "regenerate": "python3 research/modalities/aso_parent_gap_pairing.py, then update every home of the figure IN THE SAME COMMIT (CLAUDE.md rule 1.3) — the journal article is now one of them"
+  },
+  {
+   "id": "aso_liable_against_wildtype_nr4a3_journal_selection",
+   "description": "★ THE JOURNAL ARTICLE IS A SECOND HOME FOR THE SPINE, REGISTERED 2026-08-20. The condensed submission restates the four counts the whole argument rests on. A parallel condensed draft drifted out of sync and self-contradicted once in this programme already, so every number the short paper shares with the preprint is pinned at BOTH homes: a correction reaching one and not the other is now a gate-1 failure rather than a discovery a reviewer makes.",
+   "artifact": "research/modalities/aso-parent-gap-pairing.json",
+   "key": "corpus.which_parent_supplies_it.NR4A3",
+   "match": "flattened",
+   "format": "{:.0f}",
+   "tolerance": 0.5,
+   "context": "and ([\\d,]+) of the [\\d,]+ do so against wild-type NR4A3",
+   "must_appear_in": [
+    "research/manuscripts/aso/fusion-junction-aso-journal-article.md"
+   ],
+   "regenerate": "python3 research/modalities/aso_parent_gap_pairing.py, then update every home of the figure IN THE SAME COMMIT (CLAUDE.md rule 1.3) — the journal article is now one of them"
+  },
+  {
+   "id": "aso_parent_null_observed_rate_journal",
+   "description": "★ THE JOURNAL ARTICLE IS A SECOND HOME FOR THE SPINE, REGISTERED 2026-08-20. The condensed submission restates the four counts the whole argument rests on. A parallel condensed draft drifted out of sync and self-contradicted once in this programme already, so every number the short paper shares with the preprint is pinned at BOTH homes: a correction reaching one and not the other is now a gate-1 failure rather than a discovery a reviewer makes.",
+   "artifact": "research/modalities/aso-parent-null.json",
+   "key": "observed.rate_liable",
+   "match": "flattened",
+   "format": "{:.1f}",
+   "scale": 100.0,
+   "tolerance": 0.051,
+   "context": "against ([\\d.]+)% for designs at real breakpoints",
+   "must_appear_in": [
+    "research/manuscripts/aso/fusion-junction-aso-journal-article.md"
+   ],
+   "regenerate": "python3 research/modalities/aso_parent_gap_pairing.py, then update every home of the figure IN THE SAME COMMIT (CLAUDE.md rule 1.3) — the journal article is now one of them"
+  },
+  {
+   "id": "aso_parent_null_scrambled_mononucleotide_journal",
+   "description": "★ THE JOURNAL ARTICLE IS A SECOND HOME FOR THE SPINE, REGISTERED 2026-08-20. The condensed submission restates the four counts the whole argument rests on. A parallel condensed draft drifted out of sync and self-contradicted once in this programme already, so every number the short paper shares with the preprint is pinned at BOTH homes: a correction reaching one and not the other is now a gate-1 failure rather than a discovery a reviewer makes.",
+   "artifact": "research/modalities/aso-parent-null.json",
+   "key": "null_ensembles.scrambled_mononucleotide.rate_liable",
+   "match": "flattened",
+   "format": "{:.1f}",
+   "scale": 100.0,
+   "tolerance": 0.051,
+   "context": "Scrambled sequences meet the parent screen at ([\\d.]+)%",
+   "must_appear_in": [
+    "research/manuscripts/aso/fusion-junction-aso-journal-article.md"
+   ],
+   "regenerate": "python3 research/modalities/aso_parent_gap_pairing.py, then update every home of the figure IN THE SAME COMMIT (CLAUDE.md rule 1.3) — the journal article is now one of them"
+  },
+  {
+   "id": "aso_parent_null_exon_terminus_chimera_journal",
+   "description": "★ THE JOURNAL ARTICLE IS A SECOND HOME FOR THE SPINE, REGISTERED 2026-08-20. The condensed submission restates the four counts the whole argument rests on. A parallel condensed draft drifted out of sync and self-contradicted once in this programme already, so every number the short paper shares with the preprint is pinned at BOTH homes: a correction reaching one and not the other is now a gate-1 failure rather than a discovery a reviewer makes.",
+   "artifact": "research/modalities/aso-parent-null.json",
+   "key": "null_ensembles.exon_terminus_chimera.rate_liable",
+   "match": "flattened",
+   "format": "{:.1f}",
+   "scale": 100.0,
+   "tolerance": 0.051,
+   "context": "reported in a patient, meet it at ([\\d.]+)%",
+   "must_appear_in": [
+    "research/manuscripts/aso/fusion-junction-aso-journal-article.md"
+   ],
+   "regenerate": "python3 research/modalities/aso_parent_gap_pairing.py, then update every home of the figure IN THE SAME COMMIT (CLAUDE.md rule 1.3) — the journal article is now one of them"
+  },
+  {
+   "id": "aso_reagent_coverage_percent_journal",
+   "description": "★ THE JOURNAL ARTICLE IS A SECOND HOME FOR THE SPINE, REGISTERED 2026-08-20. The condensed submission restates the four counts the whole argument rests on. A parallel condensed draft drifted out of sync and self-contradicted once in this programme already, so every number the short paper shares with the preprint is pinned at BOTH homes: a correction reaching one and not the other is now a gate-1 failure rather than a discovery a reviewer makes.",
+   "artifact": "research/manuscripts/aso/fusion-junction-aso-reagent-coverage.json",
+   "key": "coverage.percent",
+   "match": "flattened",
+   "format": "{:.1f}",
+   "tolerance": 0.051,
+   "context": "two junctions account for ([\\d.]+)% of molecularly confirmed cases",
+   "must_appear_in": [
+    "research/manuscripts/aso/fusion-junction-aso-journal-article.md"
+   ],
+   "regenerate": "python3 research/modalities/aso_parent_gap_pairing.py, then update every home of the figure IN THE SAME COMMIT (CLAUDE.md rule 1.3) — the journal article is now one of them"
   }
  ],
  "table_completeness": [

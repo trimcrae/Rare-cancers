@@ -74,6 +74,11 @@ TARGETS = [
     # Measured on entry: 4 ERROR (2 bold-midsentence, 2 heading-style). They are SI-side text fixes
     # and are reported rather than silenced — a gate added with an exemption is not a gate.
     "research/manuscripts/aso/fusion-junction-aso-supplementary-information.md",
+    # ⭐ THE CONDENSED JOURNAL SUBMISSION, ADDED 2026-08-20. It is a submission text from the
+    # first commit rather than becoming one later, which is the mistake the ASO article row
+    # above records: gate 5 checks REGISTER, and a manuscript absent from this list is not
+    # checked at all rather than checked and passing.
+    "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
     # ⭐ THE EMC VACCINE DEVELOPMENT PATH, ADDED 2026-08-19 AS A SUBMISSION TEXT FROM THE START.
     # Written to this gate rather than retrofitted to it: it entered at bold 9.1/1000 and em-dashes
     # 0.0/1000, and its only findings were 9 sentence-shaped headings and one fragment, all fixed

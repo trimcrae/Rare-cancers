@@ -95,13 +95,13 @@ It is a specified but UNCOSTED experimental proposal (fusion-junction-aso-workin
 
 ## Where this route ends — the paper
 
-**[PUB-ASO](L3-publications.md)** — [In silico, nearly half of junction-spanning 5-6-5 gapmer designs across 38 modelled NR4A3 fusion junctions of five extraskeletal myxoid chondrosarcoma partner genes pair a wild-type parent gene over a ten-base-pair duplex through the catalytic gap, and, as an identity between base counts, a longer gap trades gap-level margin against parent-paired gap DNA](../../research/manuscripts/aso/fusion-junction-aso-research-article.md)
+**[PUB-ASO](L3-publications.md)** — [Two junction-spanning gapmer reagents for NR4A3 fusion transcripts in extraskeletal myxoid chondrosarcoma, selected from 190 designs against a wild-type parent screen that condemns 87](../../research/manuscripts/aso/fusion-junction-aso-journal-article.md)
 
-`contributing` · ◕ `complete_unposted` · aimed at `preprint`
+`contributing` · ◕ `complete_unposted` · aimed at `journal_submission`
 
 **This route contributes:** The decisive experiment, specified inside the paper and sent with it: junction knockdown with wild-type sparing in an EMC line. Without it the paper states a specificity result with no named way to falsify it at a bench.
 
-**The paper would claim:** The NR4A3 fusion junction is the one tumour-exclusive feature of this disease at the RNA level and an oligonucleotide can be designed to read it rather than a shape — but the screen that matters returns a NEGATIVE: 87 of 190 junction-spanning gapmer designs let a mature wild-type parent transcript pair their whole catalytic gap over at least ten contiguous base pairs, 61 of them against wild-type NR4A3 itself, and lengthening the catalytic gap trades gap-level margin against parent-paired gap DNA for an arithmetic rather than an empirical reason, so it raises the margin available without removing the liability. Delivery is named as an outstanding gate rather than assumed away, and nothing here has been synthesised or tested.
+**The paper would claim:** The NR4A3 fusion junction is the one tumour-exclusive feature of this disease at the RNA level, and two junction-spanning gapmers are named for synthesis against it: 5'-GGGCATATCATCAAAC-3' at EWSR1 exon 12 and 5'-GGGCATATCTTGTGTG-3' at TAF15 exon 6, the best available designs at the two most frequently reported breakpoints. They are what survives a screen that condemns most of the panel: 87 of 190 junction-spanning designs let a mature wild-type parent transcript pair their whole catalytic gap over at least ten contiguous base pairs, 61 of them against wild-type NR4A3 itself, and lengthening the catalytic gap raises the margin available only by conceding parent-paired gap DNA, for an arithmetic rather than an empirical reason. Two fusion-positive patient-derived EMC models and two engineered constructs carrying these junctions are named as test articles, the controls and pre-registrable decision threshold for the falsifying experiment are stated, and the design pipeline is released for breakpoints outside the panel. Delivery is named as an outstanding gate rather than assumed away, the named reagents carry stated parent-duplex and off-target loads, and nothing here has been synthesised or tested.
 
 ## Strategic timing — the wait equation
 

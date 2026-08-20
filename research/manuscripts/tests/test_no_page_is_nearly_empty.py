@@ -51,15 +51,24 @@ import pytest
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 MANUSCRIPTS = os.path.abspath(os.path.join(HERE, ".."))
-DEPOSIT_PDF = os.path.join(MANUSCRIPTS, "aso",
-                           "fusion-junction-aso-research-article-manuscript.pdf")
+#: ⭐ EVERY SUBMISSION PDF, NOT ONE (2026-08-20). This guard was written for the preprint and named
+#: a single path. When the condensed journal article was added it inherited the same builder, the
+#: same stylesheet and therefore the same stranding defect, and no guard looked at it — the
+#: shrinking-scope hole this repository keeps re-recording. A path is added here when a manuscript
+#: becomes a submission text, on the same rule as `lint_style.TARGETS`.
+DEPOSIT_PDFS = {
+    "preprint": os.path.join(MANUSCRIPTS, "aso",
+                             "fusion-junction-aso-research-article-manuscript.pdf"),
+    "journal article": os.path.join(MANUSCRIPTS, "aso",
+                                    "fusion-junction-aso-journal-article-manuscript.pdf"),
+}
 
 #: A page holding less than this is a stranded line, not a page.
 MIN_CHARS = 300
 
 
-def _page_texts():
-    """(page number, extracted text) for every page of the deposit PDF.
+def _page_texts(pdf_path):
+    """(page number, extracted text) for every page of one deposit PDF.
 
     ⛔ NOT A SKIP IF THE PARSER IS MISSING — see the docstring. `pdfminer.six` is on this
     repository's CI install line so that PDF guards can actually run there.
@@ -72,26 +81,27 @@ def _page_texts():
             f"pdfminer.six is not importable ({exc}), so no page of the deposit PDF was measured. "
             "CI installs it on purpose. Install it rather than restoring a skip — this guard was "
             "written for a defect a human found by eye, and it has never caught one itself.")
-    if not os.path.exists(DEPOSIT_PDF):
-        pytest.fail(f"the deposit PDF is missing: {DEPOSIT_PDF}")
+    if not os.path.exists(pdf_path):
+        pytest.fail(f"the deposit PDF is missing: {pdf_path}")
     pages = []
-    for number, page in enumerate(extract_pages(DEPOSIT_PDF, laparams=LAParams()), start=1):
+    for number, page in enumerate(extract_pages(pdf_path, laparams=LAParams()), start=1):
         text = "".join(el.get_text() for el in page if isinstance(el, LTTextContainer))
         pages.append((number, text.strip()))
     return pages
 
 
-def test_no_page_of_the_deposit_pdf_holds_only_a_stranded_line():
-    pages = _page_texts()
-    assert pages, "the deposit PDF has no pages"
+@pytest.mark.parametrize("label", sorted(DEPOSIT_PDFS))
+def test_no_page_of_the_deposit_pdf_holds_only_a_stranded_line(label):
+    pages = _page_texts(DEPOSIT_PDFS[label])
+    assert pages, f"the {label} PDF has no pages"
     stranded = [(n, len(t)) for n, t in pages if len(t) < MIN_CHARS]
     if stranded:
         median = sorted(len(t) for _, t in pages)[len(pages) // 2]
         detail = "\n  ".join(
             f"page {n}: {c} characters — {dict(pages)[n][:90]!r}" for n, c in stranded)
         pytest.fail(
-            f"{len(stranded)} page(s) carry less than {MIN_CHARS} characters against a median of "
-            f"{median}:\n  {detail}\n\n"
+            f"{len(stranded)} page(s) of the {label} PDF carry less than {MIN_CHARS} characters "
+            f"against a median of {median}:\n  {detail}\n\n"
             "A caption block that overflows its page by a line or two strands that line, and the "
             "display item it describes is then pushed a further page away. Fix it by making the "
             "block FIT — tighten the caption-footnote margins in build_submission_pdf.py — not by "
