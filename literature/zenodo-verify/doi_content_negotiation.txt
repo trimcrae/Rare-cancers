@@ -1,0 +1,272 @@
+SOURCE URL: https://doi.org/10.5281/zenodo.22028916
+FINAL URL: https://zenodo.org/records/22028916
+HTTP: 200
+CONTENT-TYPE: text/html; charset=utf-8
+======================================================================
+Code and artefacts for: fusion-junction antisense oligonucleotides in extraskeletal myxoid chondrosarcoma | Zenodo 
+
+ Skip to main 
+ 
+ You are using an outdated browser. Please upgrade your browser to improve your experience.
+
+ Communities 
+
+ My dashboard 
+
+ Log in
+
+ Sign up
+
+ Published August 20, 2026
+ 
+ | Version v1 
+
+ Dataset
+
+ Open
+
+ Code and artefacts for: fusion-junction antisense oligonucleotides in extraskeletal myxoid chondrosarcoma
+
+ Authors/Creators
+
+ McRae, Tristan D. 1 
+
+ Show affiliations
+
+ 1.
+
+ Independent researcher, unaffiliated
+
+ Description
+
+ The deposit manifest for the fusion-junction ASO submission, whose title and article type are not restated here — they have one home, research/manuscripts/aso/fusion-junction-aso-research-article.md. It names every file the manuscript's availability statements promise, proves each one exists at a stated size and SHA-256, says in one line what each contributes, and records the gaps. It is the working list a human uses to make the deposit and mint the DOI that fills the manuscript's two remaining placeholders.
+ This deposition is the archive cited by the manuscript's availability statement. It carries 473 files taken from https://github.com/trimcrae/Rare-cancers at revision 81749e7e7aa7d18a6c239a05b9538cf874de434d , together with the manifest that names and hashes every one of them.
+ Verifying this archive. Every file's SHA-256 is listed in fusion-junction-aso-archive-manifest.json . That file cannot carry its own hash, so it is recorded here instead: 57ce290ef4eed1af8ffd40a8f53f2722e500c3218ffaf6c6354798c6c726611c . The archive's content digest, derived over the file list, is 4ce36fa71916008bd3a0b5735c259b0f993ec99caf43091b3eed7163441a5d2d .
+ Reproducing the results offline. 
+ Re-derive the tables from the artifacts: `python3 research/manuscripts/submission_tables.py` — reads the atlas, the locus collapse, the chance baseline and the per-junction screens; writes no network call.
+ Re-derive the graded re-scores under both discrimination bounds: `python3 research/modalities/junction_aso_offtarget.py --rescore research/modalities/junction-aso-offtarget-.json` — the hit set is read from the committed screen and held fixed; only the scoring is recomputed.
+ Re-derive the junction atlas: `python3 research/modalities/nr4a3_fusion_atlas.py` — reads the committed transcript cache (emc-construct-inputs.json) rather than Ensembl.
+ Re-run the reproduction guards: `python3 -m pytest research/modalities/tests/test_aso_submission_numbers.py research/modalities/tests/test_junction_aso_graded.py`.
+ ⚠ What is NOT offline: re-running the BLAST arm of the specificity screen from scratch (`junction_aso_offtarget.py` screening mode) queries NCBI, and re-running the exhaustive arm from scratch downloads the GRCh38.p14 RefSeq RNA set. Neither is needed to reproduce any number reported in the manuscript, all of which are read from the committed screen artifacts in this archive.
+ Research use only. The oligonucleotide sequences in these artefacts are research reagents; nothing here is for administration to any person or animal, and nothing in it asserts efficacy, safety, delivery or clinical readiness.
+
+ Notes
+
+ Built by scripts/zenodo_deposit.py from fusion-junction-aso-archive-manifest.json. Not published by that script: publishing is irreversible and is a human step.
+
+ Files
+
+ emc-aso-archive.zip 
+
+ Files
+ (8.6 MB) 
+
+ Name 
+ Size 
+
+ Download all
+
+ emc-aso-archive.zip 
+
+ md5:5cbc1750d981c7eba9186c00df446d7c
+
+ 8.6 MB 
+
+ Preview
+
+ Download
+
+ Additional details
+
+ Related works
+
+ Is derived from 
+
+ https://github.com/trimcrae/Rare-cancers/tree/81749e7e7aa7d18a6c239a05b9538cf874de434d
+
+ (URL)
+
+ 0
+
+ Views
+
+ 0
+
+ Downloads
+
+ Show more details
+
+ All versions 
+ This version 
+
+ Views
+
+ Total views
+
+ 0
+
+ 0
+
+ Downloads
+
+ Total downloads
+
+ 0
+
+ 0
+
+ Data volume
+
+ Total data volume
+
+ 0 Bytes 
+ 0 Bytes 
+
+ More info on how stats are collected.... 
+
+ Versions
+
+ External resources
+
+ Indexed in 
+
+ OpenAIRE
+
+ Communities
+
+ Keywords and subjects
+
+ Keywords
+
+ extraskeletal myxoid chondrosarcoma
+
+ EWSR1::NR4A3
+
+ antisense oligonucleotide
+
+ gapmer
+
+ fusion junction
+
+ off-target screening
+
+ in silico
+
+ Details
+
+ DOI
+
+ DOI Badge
+
+ DOI 
+
+ 10.5281/zenodo.22028916 
+
+ Markdown
+
+ [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22028916.svg)](https://doi.org/10.5281/zenodo.22028916) 
+
+ reStructuredText
+
+ .. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.22028916.svg
+ :target: https://doi.org/10.5281/zenodo.22028916 
+
+ HTML
+
+ <a href="https://doi.org/10.5281/zenodo.22028916"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.22028916.svg" alt="DOI"></a> 
+
+ Image URL
+
+ https://zenodo.org/badge/DOI/10.5281/zenodo.22028916.svg 
+
+ Target URL
+
+ https://doi.org/10.5281/zenodo.22028916 
+
+ Resource type 
+ Dataset 
+
+ Publisher 
+ Zenodo 
+
+ Rights
+
+ License 
+
+ Creative Commons Attribution 4.0 International
+
+ The Creative Commons Attribution license allows re-distribution and re-use of a licensed work on the condition that the creator is appropriately credited.
+
+ Read more 
+
+ Citation
+
+ Export
+
+ Technical metadata 
+
+ Created 
+ 
+ August 20, 2026 
+
+ Modified 
+ 
+ August 20, 2026 
+
+ Jump up
+
+ About
+
+ About 
+
+ Policies 
+
+ Infrastructure 
+
+ Principles 
+
+ Projects 
+
+ Roadmap 
+
+ Contact 
+
+ Blog
+
+ Blog 
+
+ Support
+
+ Help 
+
+ FAQ 
+
+ Developers
+
+ REST API 
+
+ OAI-PMH 
+
+ Contribute
+
+ GitHub
+
+ Donate
+
+ Funded by
+
+ Powered by
+ CERN Data Centre & InvenioRDM 
+
+ Status 
+
+ Privacy policy 
+
+ Cookie policy 
+
+ Terms of Use 
+
+ This site uses cookies. Find out more on how we use cookies 
+
+ Accept all cookies 
+ Accept only essential cookies
