@@ -517,6 +517,43 @@ extractors — 184 delimited sequences, 57 ⚑, zero `(cid:` tokens. The corrupt
 file was overwritten in place while the seat was reading it. **Snapshot every artefact a reader is
 screening before rebuilding it**, or the finding cannot be told from a real one.
 
+### ⭐ THE LOOP CONVERGED — ROUNDS 6, 7, 8 (recorded 2026-08-20)
+
+⚠ **THE SEAT NAMES WERE BAD AND ARE FIXED HERE.** "Cold reader" and "blind screen" say nothing about
+what each reads, and the pair was misread in conversation as both being about the PDF. They are:
+
+| seat | reads | rounds run | BLOCK found |
+|---|---|---|---|
+| **source reader** (was "firewalled cold reader") | the three markdown SOURCES — article, SI, submission tables | 6, 7, 8 | 1, 1, **0** |
+| **deposited-PDF reader** (was "blind screen of the built deposit") | the built PDFs + CSV + FASTA | 6 | **0** |
+| **claims-against-artifacts reader** | prose against `research/modalities/*.json` and the canonical file | 6 | **0** |
+
+**THE RESULT.** Every seat returns zero blocking findings. Round 8's zero was taken on a tree that
+was **not touched between the reviewer reading it and the tally** — the convergence test is a quiet
+round on a still tree, and a round quiet only because edits landed mid-review proves nothing.
+
+**WHAT ROUNDS 7 AND 8 COST, AND WHY.** Round 7 existed *only* because round 6's fix repaired one home
+of a claim and did not search for the others — the mechanism condition 10 rule 6 names, violated by
+the very commit that added it. Round 8 found nothing because the guard added in round 7 checks all
+homes at once: it enumerated eight sentences carrying that verdict and confirmed all eight correct.
+**One guard replaced an unbounded number of rounds**, which is condition 10 rule 0 restated as a
+measurement rather than a principle.
+
+**THE FOUR CONDITIONS OF THE DEPOSIT BRIEF, ALL MET:**
+
+| condition | state |
+|---|---|
+| every backlog item applied or refused in writing, with a reason | met — refusals carry their recomputation |
+| a full round of readers returns nothing surviving recomputation | met — three seats, zero BLOCK, still tree |
+| `PREFLIGHT_FULL=1 ./scripts/preflight.sh` exits 0, code unmasked | met — `PREFLIGHT OK`, exit 0 |
+| both PDFs rebuild from current sources, stamps match disk | met — and now a chain step with its own `--check` |
+
+⛔ **WHAT CONVERGENCE IS NOT.** It is not evidence the paper is correct. It is evidence that *this
+method* has stopped finding things — and every seat shares a model family and a set of blind spots.
+Section 4 above still holds: no reviewer in eight rounds has been a wet-lab scientist, and no amount
+of further simulated review closes that gap. The deposit rests on the guards, which are checkable by
+anyone, rather than on the reviewers, which are not.
+
 ### ⭐ CONDITION 10 — A FIX IS VERIFIED AGAINST WHAT IT DID NOT TARGET (added 2026-08-19, trimcrae)
 
 trimcrae, on reading the round-5 repair log: *"There simply must be a way to make the fix to the
