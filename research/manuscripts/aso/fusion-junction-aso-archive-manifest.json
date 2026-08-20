@@ -9,10 +9,10 @@
     "Not a claim that the archived predictions are correct. Every count in the deposit is a prediction from sequence search; no off-target activity and no RNase-H cleavage was measured anywhere in this work.",
     "Not a licence statement. The depositor chooses the licence at step 4 below."
   ],
-  "git_revision": "003f1643ab31a3a26ed9443632bbd6497599625f",
+  "git_revision": "1f0c900d7d2978aa8066c0abf09232983f55a15c",
   "git_tree_is_clean_apart_from_this_manifest": false,
   "inventory_limited_to_tracked_files": true,
-  "archive_content_digest": "234297a6d757b86e186c1968ce59a5cda60b9721c11ae6d5b52cd5814504f7ad",
+  "archive_content_digest": "750270f3b1dbdbd40987b4bb2e0fcb45c632abd2c5cc726c3a8a05cafd58a28c",
   "n_files": 473,
   "self_entry": {
     "path": "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
@@ -23,8 +23,8 @@
     "_why_not_counted": "It is excluded from `files`, `n_files`, `total_bytes` and `archive_content_digest` for the same reason, which is also what keeps two runs over an unchanged tree byte-identical — the property this module's header calls the only cheap check a reader has that the file is derived rather than edited.",
     "how_a_reader_checks_it_anyway": "Two ways, neither needing a self-hash. (1) Re-derive it: check out `git_revision` and run `python3 research/manuscripts/aso_archive_manifest.py --check`, which rebuilds the whole file and exits non-zero on any difference. (2) Compare the downloaded copy's `sha256sum` against the value the deposition record states — step 4 below tells the depositor to record it there, which is the one place it can live without being self-referential."
   },
-  "total_bytes": 45326391,
-  "total_mib": 43.227,
+  "total_bytes": 45332059,
+  "total_mib": 43.232,
   "payload_file_types": {
     "_what": "Extension census of the payload, derived from the file list. A preprint or journal uploader that accepts only document, image and container types cannot take most of these one by one; step 3 below builds the single container that sidesteps the question entirely. Check the accepted types on the uploader itself — none is asserted here.",
     "by_extension": {
@@ -34,7 +34,7 @@
       },
       ".py": {
         "n_files": 67,
-        "bytes": 2911011
+        "bytes": 2913487
       },
       ".md": {
         "n_files": 10,
@@ -42,7 +42,7 @@
       },
       ".pdf": {
         "n_files": 7,
-        "bytes": 5388166
+        "bytes": 5391358
       },
       ".png": {
         "n_files": 4,
@@ -1082,16 +1082,16 @@
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-research-article-manuscript.pdf",
-      "bytes": 2335462,
-      "sha256": "41b25d37fc1fe10e927ccc8e324f4d2d52a735f1f5e326e773fe0675fb8536f4",
+      "bytes": 2337255,
+      "sha256": "6e9b78bce910cffcf6c22d53836e0563c2cf41f6ef41d99fef184b90ebeb0e7f",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-research-article-supplementary-information.pdf",
-      "bytes": 166090,
-      "sha256": "9054a2bf8df2cdc1ef96b3e7d1f44473308a4267b39192664c4a3936f21311b0",
+      "bytes": 165968,
+      "sha256": "a2c56f0c29addc5e4e3f2dec2a8b412d318ab7e1f25cc31df523b1e062baca0c",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
@@ -1114,8 +1114,8 @@
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-research-article.pdf",
-      "bytes": 2479298,
-      "sha256": "e6ce3f34318fa53f6debe86a798a2a76bcff8c9d72cf11290ab8a86c554dc413",
+      "bytes": 2480819,
+      "sha256": "3d3cfeeeb8efeda0094ea7b8f497eadf57911bba2b8091bfb6565860a9a30973",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
@@ -1326,8 +1326,8 @@
     },
     {
       "path": "research/manuscripts/build_submission_pdf.py",
-      "bytes": 123310,
-      "sha256": "b01312cdcdeb06263b7dc77fde7ed86011c34ca45622e14d11436e5d66606525",
+      "bytes": 125786,
+      "sha256": "eb0c0459b34b78ae924fafe278da919cb93b29811528cfc167da09e4065b20d8",
       "serves": "import_closure",
       "also_serves": [],
       "contributes": "Imported by a released module. Not named by any availability promise; present because the code the promises DO name cannot be imported without it."

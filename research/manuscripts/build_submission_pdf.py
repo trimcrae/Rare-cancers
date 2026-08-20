@@ -370,7 +370,17 @@ def build_provenance():
         except Exception:                                   # pragma: no cover - env dependent
             return ""
     commit = git("rev-parse", "--short", "HEAD")
-    dirty = bool(git("status", "--porcelain"))
+    #: ⛔ THE BUILD'S OWN OUTPUTS ARE NOT UNCOMMITTED WORK (reviewer screen, 2026-08-20). The SI is
+    #: rendered after the article in the same invocation, so by the time it read the tree the
+    #: article PDF it had just written was sitting there unstaged — and the SI title page printed
+    #: "tree not clean at build time" beside an article title page, at the same commit, that
+    #: printed clean. Two provenance lines disagreeing about one build is worse than either verdict.
+    #: What the line asserts is that the SOURCES this document was rendered from are the committed
+    #: ones, so the artefacts this run writes are excluded and everything else — every manuscript,
+    #: table, figure and generator — still makes the build dirty.
+    _OUTPUTS = (".pdf", ".build-stamp.json", ".build.html")
+    dirty = any(not line[3:].strip().strip('"').endswith(_OUTPUTS)
+                for line in git("status", "--porcelain").splitlines() if line.strip())
     return commit, dirty, time.strftime("%Y-%m-%d", time.gmtime())
 
 
@@ -675,21 +685,25 @@ def inline(text):
         cls = "seq pad" if (after == "" or after.isspace()) else "seq"
         return keep(f'<span class="{cls}">' + m.group(0) + "</span>")
 
-    text = SEQUENCE_RE.sub(_seq_span, text)
-    text = ATOMIC_ID_RE.sub(lambda m: keep('<span class="seq">' + m.group(0) + "</span>"), text)
-    #: ⛔ EVERY LOCATOR IS LINKED AND SET NOWRAP, AND BOTH HALVES OF THAT MATTER (blind screen of the
-    #: deposit, 2026-08-19). Measured on the built PDFs: ZERO link annotations across 116 pages
-    #: carrying 48 DOIs and 52 references, so nothing in the deposit was clickable; and 5 of 48 DOIs
-    #: in the journal build and 3 of 48 in the manuscript build could not be recovered verbatim from
-    #: the text layer, because they broke across a line AT THEIR OWN HYPHENS — `10.1182/blood-2017-
-    #: 07-795757` reads as hyphenation, and a reader who deletes the hyphen gets a DOI that does not
-    #: resolve. Linking fixes the click; `nowrap` fixes the copy; neither fixes the other.
+    #: ⛔⛔ LOCATORS ARE STASHED BEFORE IDENTIFIERS, AND THE ORDER IS THE WHOLE FIX (reviewer screen
+    #: of the built deposit, 2026-08-20). An accession is an identifier AND the tail of the URL that
+    #: resolves it, so with the identifier rules running first, the accession inside
+    #: `https://www.ncbi.nlm.nih.gov/nuccore/AF289510.1` was replaced by its stash placeholder, the
+    #: URL rule then stashed the mangled string whole, and the single-pass unstash at the bottom of
+    #: this function never reached the placeholder nested inside it — so the deposit printed
+    #: `https://www.ncbi.nlm.nih.gov/nuccore/2`, the stash INDEX, for eight of the nine entries in
+    #: Data sources. Six of those are the only pointers a reader has to the records carrying §2.3's
+    #: *TCF12* and *TFG* breakpoint claims, and every one resolved to the wrong record. A URL is
+    #: now stashed whole and its contents are never re-scanned, which is the correct reading anyway:
+    #: the accession inside a locator is part of the locator, not a second thing to mark up.
     text = DOI_RE.sub(lambda m: keep(f'<a class="loc" href="https://doi.org/{m.group(1)}">'
                                      + f"doi:{m.group(1)}</a>"), text)
     text = PMID_RE.sub(lambda m: keep(
         f'<a class="loc" href="https://pubmed.ncbi.nlm.nih.gov/{m.group(1)}/">'
         + f"PMID: {m.group(1)}</a>"), text)
     text = URL_RE.sub(lambda m: keep(f'<a class="loc" href="{m.group(0)}">{m.group(0)}</a>'), text)
+    text = SEQUENCE_RE.sub(_seq_span, text)
+    text = ATOMIC_ID_RE.sub(lambda m: keep('<span class="seq">' + m.group(0) + "</span>"), text)
     #: The two marker glyphs that would otherwise become a Type 3 font wherever they land in bold.
     #: Applied to EVERY rendered string rather than only to the table labels, because the labels are
     #: where they became bold today and a bold table cell or a bold caption clause is where they
@@ -701,7 +715,19 @@ def inline(text):
     text = FLOAT_REF_RE.sub(lambda m: m.group(1) + "\u00a0", text)
     text = re.sub(r"\*\*(?=\S)(.+?)(?<=\S)\*\*", r"<strong>\1</strong>", text, flags=re.S)
     text = re.sub(r"(?<!\*)\*(?=\S)([^*]+?)(?<=\S)\*(?!\*)", r"<em>\1</em>", text)
-    return re.sub(r"\x00(\d+)\x00", lambda m: stash[int(m.group(1))], text)
+    #: ⚠ TO A FIXED POINT, NOT ONE PASS. The ordering above is what keeps a placeholder from being
+    #: stashed inside another fragment; this loop is the guard that a future reordering cannot
+    #: silently print a stash INDEX into the deposit the way the accession bug did. Bounded, and a
+    #: survivor is a hard failure rather than a character a reader has to notice.
+    for _ in range(8):
+        expanded = re.sub(r"\x00(\d+)\x00", lambda m: stash[int(m.group(1))], text)
+        if expanded == text:
+            break
+        text = expanded
+    if "\x00" in text:
+        raise SystemExit("inline(): a stash placeholder survived expansion — a rule is nesting "
+                         "stashed fragments and the deposit would print a stash index")
+    return text
 
 
 def render_table(rows, label=None):
@@ -826,7 +852,12 @@ def _caption_title(block):
     page (measured in the built journal PDF, 2026-08-19).
     """
     match = re.search(r"^\*\*Table \d+\.\s*(.+?)\*\*", block.strip(), re.S | re.M)
-    return _first_clause(match.group(1), 92) if match else None
+    #: ⚠ 200, NOT 92 (reviewer screen, 2026-08-20). At 92 exactly one table's title clause did not
+    #: fit — Table 5's, which stopped on "…and §4's two contrast" — and on its CONTINUATION page
+    #: that band is the only caption a reader sees for a page of rows whose column heads mean
+    #: nothing without the clause that was cut. The bound exists so a band cannot run to a
+    #: paragraph, not to clip the one caption that is longer than the rest.
+    return _first_clause(match.group(1), 200) if match else None
 
 
 def _marker_note(block, marker):
