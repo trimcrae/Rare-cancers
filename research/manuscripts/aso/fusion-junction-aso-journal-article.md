@@ -68,21 +68,18 @@ disease control more often than response.<sup>7</sup><!--PMID:31331701-->
 The fusion junction is the one feature of an EMC tumour that exists at the RNA level and in no normal
 cell. An antisense gapmer tiled across it recruits RNase-H1 to cleave the transcript it pairs, and
 the six-nucleotide DNA gap at the centre of a 5-6-5 architecture is where that cleavage occurs.
-Junction-directed oligonucleotides are a thirty-five-year lineage, reported against *BCR::ABL1*,<sup>10</sup><!--PMID:1794439-->
-*EWSR1::FLI1*,<sup>11</sup><!--PMID:9049825--> *FGFR3::TACC3*,<sup>13</sup><!--PMID:33241214-->
-*PML::RARα*,<sup>15</sup><!--PMID:21846246--> *TMPRSS2::ERG*<sup>16</sup><!--PMID:23052253--> and
-*DNAJB1::PRKACA*.<sup>18</sup><!--PMID:37980543--> No such design is reported for any *NR4A3* fusion
-in the literature retrieved here, and that absence is the reason this work exists: EMC is rare enough
-that the design step has not been done, and rare enough that no group is likely to do it as a
-by-product of something else.
+Junction-directed oligonucleotides are a thirty-five-year lineage, reported against six fusion
+oncogenes.<sup>10,11,13,15,16,18</sup><!--PMID:1794439,9049825,33241214,21846246,23052253,37980543-->
+No such design is reported for any *NR4A3* fusion in the literature retrieved here, and that absence
+is why this work exists: EMC is rare enough that the design step has not been done, and rare enough
+that no group is likely to do it as a by-product of something else.
 
-What a junction design has to survive is specific to its construction. Both halves of the
-oligonucleotide are parent-gene sequence, so each of the fusion's two parents matches roughly half
-of it. Half-identity falls far outside the mismatch budget of a conventional off-target search, so a
-parent transcript is not returned as a near-match. RNase-H1, however, does not require the whole
-duplex. It requires the gap to be paired. Whether a wild-type parent pairs the catalytic gap
-contiguously is therefore a separate question from overall similarity, and it is the question this
-work puts to all 190 designs before any of them is recommended.
+What a junction design must survive follows from its construction. Both halves are parent-gene
+sequence, so each parent matches roughly half the oligonucleotide, and half-identity falls far
+outside the mismatch budget of a conventional off-target search: a parent is not returned as a
+near-match. RNase-H1 does not require the whole duplex, only that the gap be paired. Whether a
+wild-type parent pairs the catalytic gap contiguously is therefore a separate question from overall
+similarity, and it is the one this work puts to all 190 designs before recommending any.
 
 ## 2 · The reagents
 
@@ -270,20 +267,17 @@ the other four return. What the procedure yields is a candidate, not a validated
 ## 7 · Discussion
 
 Designability is not the constraint in this disease. Junction-spanning designs exist at every
-in-frame *NR4A3* fusion junction modelled here, and 35 of the 38 have one that clears the parent
-screen. The constraint is discrimination between the fusion and its parents, and it is not resolved
-here. A fusion-junction design's most plausible wild-type liability is its own parent, reached either
-in the mature transcript or across a splice junction in precursor RNA, and both compartments are
-searched in this work before any molecule exists. The four reports of parental sparing cited
-here<sup>13,14,15,16</sup><!--PMID:33241214,36265509,21846246,23052253-->
-were all made on molecules already synthesised, and three of the four went further than cells. Every
-one of those readouts required the molecule to exist first. What other groups do at the design stage
-is not established here; no survey of published design pipelines was performed.
-
-The premise that sparing wild-type *NR4A3* is worth a specificity cost deserves examination rather
-than assumption. *NR4A3* has two close paralogues and the family is functionally redundant where it
-has been tested,<sup>29,30</sup><!--PMID:29343483,25446259--> which cuts against the premise; the
-evidence is not decisive in either direction.
+in-frame *NR4A3* fusion junction modelled here, and 35 of the 38 have one clearing the parent screen.
+The constraint is discrimination between the fusion and its parents, and it is not resolved here. A
+junction design's most plausible wild-type liability is its own parent, in the mature transcript or
+across a splice junction in precursor RNA; both compartments are searched here before any molecule
+exists. The four reports of parental sparing cited
+here<sup>13,14,15,16</sup><!--PMID:33241214,36265509,21846246,23052253--> were all made on molecules
+already synthesised. What other groups do at the design stage is not established here; no survey of
+published design pipelines was performed. The premise that sparing wild-type *NR4A3* is worth a
+specificity cost also deserves examination: *NR4A3* has two close paralogues and the family is
+functionally redundant where tested,<sup>29,30</sup><!--PMID:29343483,25446259--> which cuts against
+it, and the evidence is not decisive either way.
 
 Several limits bound what any test of these reagents could show. Every screened count here is for one
 architecture, a 16-mer at 5-6-5. All five screens address hybridisation rather than cleavage, and
@@ -332,15 +326,13 @@ file by `research/manuscripts/aso_journal_tables.py` so that a cell and its sour
 ## Figure legends
 
 **Figure 1. One 16-mer spans three partners' breakpoints.** The junction windows of *EWSR1* exon 12,
-*TAF15* exon 11 and *FUS* exon 10 joined to *NR4A3* exon 3, aligned at the breakpoint. Blue, donor
-exon; green, acceptor exon; positions at which the three donors differ are boxed as well as coloured,
-for greyscale and colour-blind readers. The shaded box is the target window of
-5′-GGGCATATCATCAAAC-3′ with the 5-6-5 architecture below it. The three donors are identical over the
-ten nucleotides before the breakpoint, which is what makes one oligonucleotide junction-spanning at
-all three. Two of the three drawn junctions are reported in no patient: the exon-resolved *TAF15*
-breakpoints in this disease are at exon 6, and no exon-resolved *FUS* breakpoint has been published.
-This is a statement about sequence, not a claim that one reagent serves three patient groups.
-Coverage is predicted from sequence and has not been measured.
+*TAF15* exon 11 and *FUS* exon 10 joined to *NR4A3* exon 3, aligned at the breakpoint. The panel
+carries its own key, colour assignments and per-partner reporting status. The same paralogy that
+lets one reagent cover three fusions is why these designs are hard to discriminate from the parent
+transcripts: this reagent's gap-level margin is three junction-unique bases inside the
+six-nucleotide catalytic gap. Two of the three drawn junctions are reported in no patient, so this
+is a statement about sequence rather than a claim that one reagent serves three patient groups, and
+coverage is predicted from sequence and has not been measured.
 
 ## Declarations
 

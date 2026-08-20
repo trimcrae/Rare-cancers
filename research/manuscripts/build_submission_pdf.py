@@ -69,12 +69,19 @@ FIGDIR = os.path.join(HERE, "figures")
 #: so it is set on its own landscape page. Measured against this paper: Table 2 runs to twelve
 #: columns and Table 4 to nine, and both are illegible full-width in portrait.
 LANDSCAPE_MIN_COLS = 8
+#: ⛔ OPT-IN PER PAPER, AND THE DEFAULT IS THE OLD BEHAVIOUR (2026-08-20). Setting narrow tables in
+#: one column instead of spanning both is right for a short article and WRONG for the preprint,
+#: which is already deposited: the first version of this flag was a module-level False and silently
+#: re-laid-out the preprint from 58 pages to 41, so the repository's PDF would no longer have been
+#: the artefact on bioRxiv. A paper opts in with `layout: {"tables_in_column": True}`.
+_TABLES_IN_COLUMN = False
 
 PAPERS = {
     #: ⭐ THE CONDENSED JOURNAL SUBMISSION, ADDED 2026-08-20. Same work as "aso" below, second
     #: document: 3,113 main-text words against that one's 35,501. It carries its own references and
     #: tables companions and NO supplementary file — the preprint is its extended report.
     "aso-journal": {
+        "layout": {"tables_in_column": True},
         #: Nucleic Acid Therapeutics, MEASURED from 14 of its own published articles by
         #: scripts/venue_typeset_geometry.py (research/literature/venue-typeset-geometry.json):
         #: US Letter, two columns of 239pt with a 12pt gutter, 9.8pt body on 10.9pt leading, and a
@@ -515,6 +522,8 @@ def assemble(paper, style="journal"):
                  if number >= SUPPLEMENTARY_SORT_BASE else f"Figure {number}")
         items.append((label, token))
 
+    global _TABLES_IN_COLUMN
+    _TABLES_IN_COLUMN = bool((paper.get("layout") or {}).get("tables_in_column"))
     body = place_floats(body, items, paper.get("placement", {}))
     return body, floats
 
@@ -1204,6 +1213,8 @@ def _render_float(kind, number, payload, wide):
     classes = ["float", kind]
     if wide:
         classes.append("landscape-float")
+    elif kind == "table" and _TABLES_IN_COLUMN:
+        classes.append("col-float")
     else:
         classes.append("span-float")
     global _CURRENT_TABLE_LABEL, _IN_FLOAT_CAPTION
@@ -1564,7 +1575,24 @@ li { margin-bottom: 3pt; text-align: justify; }
    measurement so a future change cannot make it worse unnoticed. */
 /* --- floats: tables and figures set where they are first cited --- */
 .float { break-inside: avoid; margin: 4pt 0 9pt 0; }
+/* ⛔ MUST OUTRANK `.float` AND `.tablewrap`, WHICH BOTH CARRY `break-inside: avoid` (2026-08-20).
+   A narrow table set in one column is taller than the space left at the foot of a column, so an
+   unbreakable one JUMPS and leaves the rest of that column blank -- measured as ~2,000 characters
+   of white on page 1. Rows stay unbreakable; the table itself may split. The first attempt put
+   these rules above `.float` and changed nothing, at equal specificity. */
+.float.col-float, .float.col-float .tablewrap { break-inside: auto; }
+.float.col-float tr, .float.col-float tbody.rowblock { break-inside: avoid; }
+/* ⛔ A FIGURE FORCING ITS OWN PAGE COSTS A SHORT PAPER A WHOLE PAGE (2026-08-20). `figure.figure`
+   carries `break-before: page` so that each display item of the 58-page preprint gets its own
+   page. In a 7-page article the same rule ended page 2 at 3,769 characters against a 6,809
+   maximum -- half a page of white to place one figure. Papers that opt into in-column tables get
+   in-flow figures too: the figure lands where it is cited, which is also where a reader wants it. */
+.cols figure.figure { break-before: auto; }
 .span-float { column-span: all; }
+.col-float { margin: 0 0 8pt 0; }
+.col-float table { break-inside: auto; }
+.col-float tr { break-inside: avoid; }
+.col-float table { font-size: 6.6pt; line-height: 1.2; width: 100%; }
 /* ⛔ See the wide_body comment in the table emitter: an inline table wider than the column it
    sits in overprints its neighbour. Spanning both columns and shrinking is what makes it
    readable at all; break-inside keeps it from splitting across the span boundary. */

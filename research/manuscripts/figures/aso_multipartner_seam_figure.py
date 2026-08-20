@@ -165,12 +165,13 @@ def main(argv=None):
          f"The reagent is 5′-{OLIGO}-3′, the reverse complement of the shaded window "
          f"(5′-{target}-3′). Transcribing the shaded letters orders the sense strand, which is a "
          f"different molecule with no antisense activity."),
-        (f"The same paralogy that lets one reagent cover three fusions is why these designs are "
-         f"hard to discriminate from the parent transcripts: this reagent’s gap-level margin is "
-         f"{number_word(entry['gap_specificity_margin'])} junction-unique bases inside the "
-         f"{number_word(d['oligo_geometry']['gap'])}-nucleotide catalytic gap, the window "
-         f"RNase-H1 cleaves. "
-         f"Coverage is predicted from sequence and has not been measured."),
+        #: ⛔ THE EXPOSITION MOVED TO THE CAPTION AND THE SAFETY NOTES DID NOT (2026-08-20). Text
+        #: inside this panel is set at FULL PAGE WIDTH, because the panel is a spanning float, so a
+        #: line here costs several times what the same line costs in the caption, which flows in one
+        #: column. The paralogy-and-margin sentence was exposition already made in section 2, so it
+        #: is now caption text. The two notes that remain are order-safety and must NOT follow it:
+        #: a reader who screenshots this panel gets the sequences without the caption, and both
+        #: notes exist to stop that reader ordering the wrong molecule.
         #: ⛔ THE PANEL NAMES A SEQUENCE AND CARRIED NO HANDLING NOTE (figure-integrity and safety
         #: screens, 2026-08-19). Every table caption carries the chemistry-and-canonical-file note;
         #: this figure prints the lead reagent and three raw target windows and carried none, while
