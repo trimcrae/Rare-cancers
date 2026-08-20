@@ -56,7 +56,14 @@ _YEAR = re.compile(r"\b(?:19|20)\d{2}\b")
 
 _NUMBER = re.compile(r"(?<![\w.])\d[\d,]*(?:\.\d+)?\s*%?")
 _SEQUENCE = re.compile(r"5[′']-[ACGTUacgtu]+-3[′']")
-_PMID = re.compile(r"PMID:\s*(\d+)")
+#: ⛔ `PMID:\s*(\d+)` MATCHED ONLY THE FIRST ID OF A COMMA-JOINED COMMENT (fixed 2026-08-20).
+#: This manuscript family writes several citations into one comment, as
+#: `<!--PMID:1794439,9049825,33241214-->`, so the old pattern saw one of three and reported the
+#: rest as LOST whenever a list was reformatted -- and, far worse, would have stayed silent if a
+#: citation were genuinely dropped from inside such a list, which is the one thing this counter
+#: exists to catch. Found when a tightening pass that dropped no citation was reported as losing
+#: four.
+_PMID = re.compile(r"PMID:\s*([\d,\s]+)")
 
 # Scope-limiting constructions. The point is not lint-style pattern matching -- it is that a
 # shortening pass which drops these while keeping the sentence turns a bounded claim into a bare one.
@@ -89,7 +96,7 @@ def inventory(text: str) -> dict:
     return {
         "numbers": numbers,
         "sequences": sorted(set(_SEQUENCE.findall(text))),
-        "pmids": sorted(set(_PMID.findall(text))),
+        "pmids": sorted({p for run in _PMID.findall(text) for p in re.findall(r"\d+", run)}),
         "hedges": {h: flat.lower().count(h) for h in _HEDGES if h in flat.lower()},
         "words": len(flat.split()),
         "headings": [l.strip() for l in text.splitlines() if l.startswith("#")],

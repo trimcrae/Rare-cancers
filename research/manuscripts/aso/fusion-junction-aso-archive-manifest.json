@@ -10,10 +10,10 @@
     "Not a licence statement. The depositor chooses the licence at step 4 below."
   ],
   "deposition_doi": "10.5281/zenodo.22028916",
-  "git_revision": "54b18eb72c3895f5a87ebcd391fbf85e0aac5b05",
+  "git_revision": "96c17ab6dcff0b03f565ec5ccf57ebe47089b159",
   "git_tree_is_clean_apart_from_this_manifest": false,
   "inventory_limited_to_tracked_files": true,
-  "archive_content_digest": "00e1eafff75bf7d54077281eb571942807b80570c7a6c105f4d9d70a0ef42446",
+  "archive_content_digest": "1e8e14217ed7919c1518fc58c16564161dd4cb1004bc1a799b8e915bd73384a9",
   "n_files": 473,
   "self_entry": {
     "path": "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
@@ -24,8 +24,8 @@
     "_why_not_counted": "It is excluded from `files`, `n_files`, `total_bytes` and `archive_content_digest` for the same reason, which is also what keeps two runs over an unchanged tree byte-identical — the property this module's header calls the only cheap check a reader has that the file is derived rather than edited.",
     "how_a_reader_checks_it_anyway": "Two ways, neither needing a self-hash. (1) Re-derive it: check out `git_revision` and run `python3 research/manuscripts/aso_archive_manifest.py --check`, which rebuilds the whole file and exits non-zero on any difference. (2) Compare the downloaded copy's `sha256sum` against the value the deposition record states — step 4 below tells the depositor to record it there, which is the one place it can live without being self-referential."
   },
-  "total_bytes": 45360394,
-  "total_mib": 43.259,
+  "total_bytes": 45327175,
+  "total_mib": 43.227,
   "payload_file_types": {
     "_what": "Extension census of the payload, derived from the file list. A preprint or journal uploader that accepts only document, image and container types cannot take most of these one by one; step 3 below builds the single container that sidesteps the question entirely. Check the accepted types on the uploader itself — none is asserted here.",
     "by_extension": {
@@ -35,7 +35,7 @@
       },
       ".py": {
         "n_files": 67,
-        "bytes": 2922761
+        "bytes": 2925018
       },
       ".md": {
         "n_files": 10,
@@ -43,15 +43,15 @@
       },
       ".pdf": {
         "n_files": 7,
-        "bytes": 5396538
+        "bytes": 5393957
       },
       ".png": {
         "n_files": 4,
-        "bytes": 1022095
+        "bytes": 989710
       },
       ".svg": {
         "n_files": 4,
-        "bytes": 81186
+        "bytes": 80676
       },
       ".csv": {
         "n_files": 1,
@@ -1091,8 +1091,8 @@
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-research-article-supplementary-information.pdf",
-      "bytes": 166054,
-      "sha256": "c2b4958687d724f7a552b569a2a5a0738ac75358ff717884748c7ea919620a2c",
+      "bytes": 166048,
+      "sha256": "3281c1a3104690eeb480440deb67bd9483c4f832c8dc6ca12f196a475aa203af",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
@@ -1115,8 +1115,8 @@
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-research-article.pdf",
-      "bytes": 2484790,
-      "sha256": "5ae730680fc8509e85cb5ea808f4616bf357da4f827e73102c605aa6e3b8622d",
+      "bytes": 2483522,
+      "sha256": "9968df256b77fa7a924e267ab79554d4062c6bbee4e9a0960c3edd3d5f1a4b59",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
@@ -1327,8 +1327,8 @@
     },
     {
       "path": "research/manuscripts/build_submission_pdf.py",
-      "bytes": 130156,
-      "sha256": "4462e4934e0cd3570785e87e44e97795462595cf7e7c9f087ff5bb0db48fb494",
+      "bytes": 132237,
+      "sha256": "c9e7ed18a56c5f01fb8c9706ecf6a221cc89ce2f77b5fe47d97bc2e6e4e209ff",
       "serves": "import_closure",
       "also_serves": [],
       "contributes": "Imported by a released module. Not named by any availability promise; present because the code the promises DO name cannot be imported without it."
@@ -1415,24 +1415,24 @@
     },
     {
       "path": "research/manuscripts/figures/aso-multipartner-seam.pdf",
-      "bytes": 106802,
-      "sha256": "fccc26542ca6f942b277570ef11e178dddfdc9a1825bedc01592d5c45e964aaf",
+      "bytes": 105495,
+      "sha256": "5675c7b2bc186685a5bef00b76e593d2fbcc577bc76e9e4db632b48a5fe053c5",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/figures/aso-multipartner-seam.png",
-      "bytes": 218810,
-      "sha256": "462e9f9e64044cd282a78c357f9db1f94e916db976e72337e420d4d154324528",
+      "bytes": 186425,
+      "sha256": "bce7d5c203d6597d9f48a1d943c4735f82d51945e075fa34ab62e4c9cf816da0",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/figures/aso-multipartner-seam.svg",
-      "bytes": 13362,
-      "sha256": "069bafb13739d0b2b18861acf07a15f6200cd4f8afc5b0b408d3665e2638d996",
+      "bytes": 12852,
+      "sha256": "02d6586335905001b4dfa0338a858d8dbb557f97ef40583fe4cf6651736ba492",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
@@ -1479,8 +1479,8 @@
     },
     {
       "path": "research/manuscripts/figures/aso_multipartner_seam_figure.py",
-      "bytes": 18161,
-      "sha256": "f0be13535964ea5d41b3d2beb8aed3aa0cf78671f3e32f3deb88e245211188be",
+      "bytes": 18337,
+      "sha256": "62dc16bd81909e6a164247fa49eac1aa607810328f9ff79b82fb775f9f8354e3",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
@@ -1544,7 +1544,7 @@
     {
       "path": "research/manuscripts/submission-metrics.json",
       "bytes": 11072,
-      "sha256": "4f2637f5a8689de9b6d883ad63170bb2a32e04cacab25eac820f768729d75ef0",
+      "sha256": "32554d28de6698149f20a0785d3e53ab152a7f8dc77a5543d41858e5ee6ebb2e",
       "serves": "reproduction_command",
       "also_serves": [],
       "contributes": "Re-derives every offline-derivable artefact below in dependency order and re-runs the consistency, citation and style gates; the command a reader is told to run to establish that this archive is current. The script AND every step it invokes that no other row here already carries."
