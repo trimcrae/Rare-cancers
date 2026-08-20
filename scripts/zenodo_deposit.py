@@ -37,6 +37,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 import subprocess
 import sys
 import urllib.error
@@ -157,6 +158,10 @@ def main(argv=None):
                     help="deposit to sandbox.zenodo.org — a full rehearsal that mints nothing real")
     ap.add_argument("--build-only", action="store_true",
                     help="verify and zip, then stop; no network and no token needed")
+    ap.add_argument("--new", action="store_true",
+                    help="force a NEW deposition even though the manifest names one. Only for a "
+                         "paper's first deposit after its manifest was populated by hand — a "
+                         "re-run otherwise updates the draft the manuscript already cites.")
     ap.add_argument("--out-dir", default=os.path.join(REPO, ".cache", "zenodo"))
     args = ap.parse_args(argv)
 
@@ -187,8 +192,30 @@ def main(argv=None):
     base = ("https://sandbox.zenodo.org/api" if args.sandbox else "https://zenodo.org/api")
     print(f"  target: {base}" + ("  (REHEARSAL — mints nothing real)" if args.sandbox else ""))
 
-    dep = api(base, token, "POST", "/deposit/depositions", payload={})
-    dep_id = dep["id"]
+    #: ⛔⛔ A RE-RUN MUST UPDATE THE DRAFT THE MANUSCRIPT ALREADY CITES, NOT MAKE A SECOND ONE.
+    #: This script always POSTed a new deposition, and the workflow that runs it is DESIGNED to be
+    #: run twice — once to reserve the DOI, once more after the manuscript has been rebuilt around
+    #: it, so the archive carries the paper that cites it. The second run would therefore have
+    #: minted a SECOND reserved DOI and uploaded the corrected archive to a draft nothing points
+    #: at, leaving the manuscript's DOI attached to the stale one. Caught before the second run
+    #: completed; nothing was published, so nothing had to be retracted — but a published pair
+    #: could not have been undone.
+    #: The manifest's `deposition_doi` is the manuscript's own answer to "which record is this?",
+    #: so it is the input, and the deposition id is the DOI's own suffix. Absent -> first run.
+    declared = manifest.get("deposition_doi")
+    existing = re.search(r"zenodo\.(\d+)$", declared) if declared else None
+    if existing and not args.new:
+        dep_id = int(existing.group(1))
+        dep = api(base, token, "GET", f"/deposit/depositions/{dep_id}")
+        if dep.get("submitted"):
+            raise SystemExit(
+                f"deposition {dep_id} ({declared}) is already PUBLISHED and its files cannot be "
+                "changed. A correction is a NEW VERSION of that record, made on Zenodo, which "
+                "issues its own DOI under the same concept DOI — not a re-upload.")
+        print(f"  updating existing draft {dep_id} ({declared}) — not creating a second one")
+    else:
+        dep = api(base, token, "POST", "/deposit/depositions", payload={})
+        dep_id = dep["id"]
     #: ⛔ RESERVE BEFORE UPLOAD, AND BEFORE ANY PUBLISH. This is the whole ordering fix: the DOI has
     #: to exist as a string the manuscript can print while the deposition is still editable.
     meta = {
@@ -197,6 +224,8 @@ def main(argv=None):
         "creators": [CREATOR],
         "license": paper["license"],
         "keywords": paper["keywords"],
+        #: Harmless on an update — Zenodo returns the DOI it already reserved for this draft
+        #: rather than issuing a second one.
         "prereserve_doi": True,
         "description": description(paper, manifest, paper["manifest"], digest),
         "related_identifiers": [
