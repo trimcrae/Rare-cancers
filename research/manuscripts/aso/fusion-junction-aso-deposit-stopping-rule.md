@@ -480,6 +480,43 @@ twenty prior rounds had missed, and three briefs see less than nine. The trade i
 preprint is revisable, an improvement queue has no natural end, and the marginal finding of a ninth
 brief has not, in this ledger, been a finding that would have made the posted paper wrong.
 
+### ⭐ CONDITION 9a — A SEAT THAT FINDS NOTHING IS RETIRED, NOT RERUN (added 2026-08-19, trimcrae)
+
+trimcrae, after round 6: *"Once a review agent class finds 0 blockers, we can retire it and only
+rerun the ones that have fixed blocks this round."*
+
+**THE RULE.** A round reruns exactly the seats that returned a BLOCK finding in the previous round.
+A seat returning BLOCK=0 is retired and does not run again unless something it screens is rebuilt
+from changed inputs.
+
+**WHAT ROUND 6 MEASURED**, which is why this costs little:
+
+| seat | wall clock | tool calls | BLOCK |
+|---|---|---|---|
+| claims against artifacts | 21.8 min | 97 | 0 |
+| firewalled cold reader | 25.1 min | 21 | 1 |
+| blind screen of the built PDF | **46.6 min** | **135** | 0 |
+
+The PDF seat is tool-call bound: it screens two paginations separately and reads tables at CELL
+level, which reconstructs table geometry page by page. That cost is deliberate — raw text cannot
+tell an overprinted cell from a wrapped one, which is how a wrong-reagent hazard once passed every
+markdown reader. It is also the seat that has now returned nothing. The cold reader is the opposite
+shape — 21 tool calls, almost all of its time spent reading a 240,000-character article — and is the
+highest-yield seat in this ledger, having found the only defect in each of rounds 6 and 7.
+
+⚠ **WHAT THIS GIVES UP, SAID PLAINLY.** A retired seat cannot catch a defect introduced after it
+retired, and this ledger's most common source of defects is the fix for the previous defect. The
+trade is accepted on the evidence above: the retired seats cost the most and returned nothing, while
+the surviving seat found everything. ⛔ **The retirement is conditional, not permanent** — rebuild
+the PDFs from changed sources and the PDF seat's subject has changed, so it comes back.
+
+⚠ **AND A REVIEWER READING AN ARTEFACT WHILE THE TREE REBUILDS PRODUCES PHANTOM FINDINGS.** Round 6's
+PDF seat reported a destroyed text layer on 38 of 83 pages of the submission format, naming the
+file's sha256. The bytes with that hash were kept, and they extract cleanly under two independent
+extractors — 184 delimited sequences, 57 ⚑, zero `(cid:` tokens. The corruption was a torn read: the
+file was overwritten in place while the seat was reading it. **Snapshot every artefact a reader is
+screening before rebuilding it**, or the finding cannot be told from a real one.
+
 ### ⭐ CONDITION 10 — A FIX IS VERIFIED AGAINST WHAT IT DID NOT TARGET (added 2026-08-19, trimcrae)
 
 trimcrae, on reading the round-5 repair log: *"There simply must be a way to make the fix to the

@@ -23,6 +23,8 @@
 #     -> submission_metrics  reads the manuscript and its companion files
 #     -> submission_packet   reads the metrics
 #     -> priorart_evidence   reads the literature-cache branch
+#     -> build_submission_pdf  BOTH styles: journal AND --style manuscript are different deposited
+#                              files, and the bare command writes only the first
 #     -> archive_manifest    hashes ALL of the above, so it must be LAST
 #
 # ⚠ THE RE-SCORE IS NOT OPTIONAL AFTER A NEW SCREEN. `grade_one` reads each screen's own counters
@@ -205,8 +207,43 @@ run_step "submission packet"   "python3 $MAN/submission_packet.py"              
 # "canonical" file that is missing a sequence the paper prints.
 run_step "canonical sequences" "python3 $MAN/aso_sequence_manifest.py" "python3 $MAN/aso_sequence_manifest.py --check"
 run_step "prior-art evidence"  "python3 $MAN/aso_priorart_evidence.py" "python3 $MAN/aso_priorart_evidence.py --check"
-# ⛔ LAST, ALWAYS. It hashes every artifact above; run it earlier and the deposit describes a tree
-# that no longer exists.
+# ⛔ THE TWO DEPOSITED PDFs WERE NOT IN THIS CHAIN, AND THEY ARE THE FILES A READER DOWNLOADS
+# (added 2026-08-19). Measured that day: a prose fix to §2.10 was followed by `build_submission_pdf.py`
+# with no arguments, which writes the JOURNAL format and the SI and NOTHING ELSE — the submission
+# format silently stayed at the previous revision and was caught only by reading `git diff --stat`.
+# A one-command regeneration that does not produce the deposit is the staleness bug this script
+# exists to prevent, wearing the costume of a green chain.
+# ⚠ AFTER the tables, references and canonical sequence file, because the PDFs are rendered FROM
+# those; BEFORE the archive manifest, because it hashes the PDFs. `--style` is not a formatting
+# preference — each invocation writes a DIFFERENT deposited file, so both are required.
+# ⭐ AND THEY GET A REAL --check, NOT AN "unverified" LINE. Each build writes a stamp holding the
+# sha256 of every source it rendered, so staleness is decidable without rebuilding: compare each
+# recorded hash against the file on disk. ⚠ MTIME WOULD NOT DO — a rebuild that changes nothing
+# still moves the timestamp, and `git checkout` moves it backwards.
+# ⚠ A FUNCTION, NOT A QUOTED STRING. The first attempt inlined this python into a shell variable and
+# the nested quotes broke the script at parse time — a chain that cannot be parsed verifies nothing.
+_pdf_stamps_current() {
+  python3 - <<'PDFSTAMP'
+import glob, hashlib, json, os, sys
+base = "research/manuscripts"
+stamps = sorted(glob.glob(os.path.join(base, "aso", "*.build-stamp.json")))
+if not stamps:
+    print("no build stamp exists, so no deposited PDF can be shown current")
+    sys.exit(1)
+stale = []
+for st in stamps:
+    for rel, want in json.load(open(st))["built_from"].items():
+        p = os.path.join(base, rel)
+        got = hashlib.sha256(open(p, "rb").read()).hexdigest() if os.path.exists(p) else None
+        if got != want:
+            stale.append(f"{os.path.basename(st)} <- {rel}")
+for s in stale:
+    print("STALE:", s)
+sys.exit(1 if stale else 0)
+PDFSTAMP
+}
+run_step "deposited PDF · journal format"    "python3 $MAN/build_submission_pdf.py" "_pdf_stamps_current"
+run_step "deposited PDF · submission format" "python3 $MAN/build_submission_pdf.py --style manuscript" "_pdf_stamps_current"
 run_step "archive manifest"    "python3 $MAN/aso_archive_manifest.py" "python3 $MAN/aso_archive_manifest.py --check"
 
 # ── 2 · the gates that read what was just written ────────────────────────────────────────────

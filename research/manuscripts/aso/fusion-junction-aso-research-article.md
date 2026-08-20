@@ -1264,8 +1264,8 @@ plausible wild-type liability is its own parent, reached either across a splice 
 mature transcript, and both are invisible to a screen that ranks candidates by global identity. A
 third compartment is invisible to all of them: at a seam whose acceptor half is not exonic in the
 mature transcript, the patient's own un-rearranged *NR4A3* allele carries the same sequence behind an
-intron, and three designs the mature-parent screen passed — the pre-mRNA screen returned all three, as
-§2.6 reports — pair their whole catalytic gap there.
+intron, and three designs the mature-parent screen clears or cannot read — the pre-mRNA screen
+returned all three, as §2.6 reports — pair their whole catalytic gap there.
 The four reports of parental sparing cited here were all made on molecules already
 synthesised, and three of the four went further than cells: an shRNA to the *FGFR3* side of
 *FGFR3::TACC3* improved survival in glioma-bearing
