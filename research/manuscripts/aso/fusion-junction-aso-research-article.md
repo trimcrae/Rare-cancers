@@ -30,8 +30,7 @@ last_verified: 2026-08-15
 **Author.** Tristan D. McRae
 
 *Independent researcher, unaffiliated.* Correspondence: trimcrae@gmail.com
-ORCID: [PLACEHOLDER: AUTHOR TO SUPPLY BEFORE DEPOSIT. This is not an identifier, and the deposit is
-blocked until it is replaced.]
+ORCID: [0000-0002-1823-1451](https://orcid.org/0000-0002-1823-1451)
 
 **Preprint status.** This manuscript is a preprint. It has not been peer reviewed and has not been
 submitted to a journal.
