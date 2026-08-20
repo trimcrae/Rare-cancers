@@ -202,6 +202,44 @@ jobs:
           path: research/literature/venue-policy-browser-fetch.json
           if-no-files-found: warn
 
+      # ⭐ THE PRINTED PAGE COUNT IS A COST, NOT A PREFERENCE (2026-08-20). Nucleic Acid
+      # Therapeutics charges $90 per printed page, so a manuscript's page count has to be estimated
+      # before submission. A journal publishes its SUBMISSION format and not its TYPESET design, so
+      # the design is measured off its own published PDFs instead. Europe PMC is unreachable from
+      # the dev sandbox; this runner reaches it.
+      - name: Mine the venue's typeset geometry from its published PDFs
+        if: ${{ inputs.slug == 'venue-typeset-geometry' }}
+        run: |
+          python3 -m pip install --quiet pdfminer.six
+          python3 scripts/venue_typeset_geometry.py --journal "${{ inputs.query }}" --limit 20
+
+      - name: Publish typeset geometry to the triggering branch (best effort)
+        if: ${{ always() && inputs.slug == 'venue-typeset-geometry' }}
+        continue-on-error: true
+        env:
+          TARGET_REF: ${{ github.ref_name }}
+        run: |
+          [ -f research/literature/venue-typeset-geometry.json ] || {
+            echo "::error::geometry mine produced no artifact"; exit 1; }
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/literature/venue-typeset-geometry.json
+          git diff --cached --quiet && { echo "no change"; exit 0; }
+          git commit -q -m "venue geometry: typeset design measured from the journal's own PDFs"
+          for i in 1 2 3; do
+            git push origin "HEAD:$TARGET_REF" && { echo "pushed"; exit 0; }
+            git fetch origin "$TARGET_REF" && git rebase "origin/$TARGET_REF" || true
+          done
+          echo "::warning::ref push failed; the run artifact is the record"
+
+      - name: Keep typeset geometry as a run artifact
+        if: ${{ always() && inputs.slug == 'venue-typeset-geometry' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: venue-typeset-geometry
+          path: research/literature/venue-typeset-geometry.json
+          if-no-files-found: warn
+
       - name: Publish consensus probe to the triggering branch (best effort)
         if: ${{ always() && inputs.slug == 'consensus-probe' }}
         continue-on-error: true
@@ -283,7 +321,7 @@ jobs:
         # ⚠ Fixed by INTENT, not by removing the default: a caller supplying a targets corpus
         # is asking for those URLs, so the sweep is suppressed. Callers who want both pass a
         # query explicitly and get both, which is the only case that ever wanted both.
-        if: ${{ inputs.query != '' && inputs.slug != 'lane-probe' && inputs.slug != 'consensus-probe' && inputs.slug != 'rt-probe'
+        if: ${{ inputs.query != '' && inputs.slug != 'lane-probe' && inputs.slug != 'consensus-probe' && inputs.slug != 'rt-probe' && inputs.slug != 'venue-typeset-geometry'
                 && inputs.targets_file == '' && inputs.targets_json == '' }}
         env:
           QUERY: ${{ inputs.query }}
@@ -309,7 +347,7 @@ jobs:
         # ⚠ Fixed by INTENT, not by removing the default: a caller supplying a targets corpus
         # is asking for those URLs, so the sweep is suppressed. Callers who want both pass a
         # query explicitly and get both, which is the only case that ever wanted both.
-        if: ${{ inputs.query != '' && inputs.slug != 'lane-probe' && inputs.slug != 'consensus-probe' && inputs.slug != 'rt-probe'
+        if: ${{ inputs.query != '' && inputs.slug != 'lane-probe' && inputs.slug != 'consensus-probe' && inputs.slug != 'rt-probe' && inputs.slug != 'venue-typeset-geometry'
                 && inputs.targets_file == '' && inputs.targets_json == '' }}
         env:
           LIT_EXPECT_PMIDS: ${{ inputs.expect_pmids }}
@@ -323,7 +361,7 @@ jobs:
       # the same contamination the publish step's slug guard below was written to prevent, arriving
       # from the other direction. A query-only run now runs the query path ONLY.
       - name: Fetch literature URLs (generic, runner has unrestricted egress)
-        if: ${{ (inputs.targets_file != '' || inputs.targets_json != '' || inputs.query == '') && inputs.slug != 'lane-probe' && inputs.slug != 'consensus-probe' && inputs.slug != 'rt-probe' }}
+        if: ${{ (inputs.targets_file != '' || inputs.targets_json != '' || inputs.query == '') && inputs.slug != 'lane-probe' && inputs.slug != 'consensus-probe' && inputs.slug != 'rt-probe' && inputs.slug != 'venue-typeset-geometry' }}
         env:
           LIT_TARGETS_FILE: ${{ inputs.targets_file }}
           LIT_TARGETS_JSON: ${{ inputs.targets_json }}
