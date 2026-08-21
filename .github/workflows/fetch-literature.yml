@@ -246,6 +246,49 @@ jobs:
           path: research/literature/preprint-host-eligibility.json
           if-no-files-found: error
 
+      # ── ARXIV ROUTE FOR THE ASO PAPER (slug == 'arxiv-route') ──────────────────────────
+      # Added 2026-08-21. arXiv's gate is ENDORSEMENT, not affiliation, so the question that decides
+      # this route is what endorsement currently requires and who could give it — and arXiv's own
+      # instructions are to find an endorser among the authors of related arXiv papers. That is a
+      # search, so this arm runs it (arXiv's public API + its published per-paper endorser listings)
+      # instead of handing a human a chore. It harvests no e-mail addresses and contacts nobody.
+      - name: Install Playwright Chromium (arXiv route)
+        if: ${{ inputs.slug == 'arxiv-route' }}
+        run: |
+          python3 -m pip install --quiet playwright
+          python3 -m playwright install --with-deps chromium
+
+      - name: Read arXiv's rules and search q-bio for candidate endorsers
+        if: ${{ inputs.slug == 'arxiv-route' }}
+        run: python3 scripts/arxiv_route_fetch.py
+
+      - name: Publish arXiv route findings to the triggering branch (best effort)
+        if: ${{ always() && inputs.slug == 'arxiv-route' }}
+        continue-on-error: true
+        env:
+          TARGET_REF: ${{ github.ref_name }}
+        run: |
+          [ -f research/literature/arxiv-aso-route.json ] || {
+            echo "::error::arXiv route probe produced no artifact"; exit 1; }
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/literature/arxiv-aso-route.json
+          git diff --cached --quiet && { echo "no change"; exit 0; }
+          git commit -q -m "arXiv route: endorsement, format and category rules plus a q-bio endorser search"
+          for i in 1 2 3; do
+            git push origin "HEAD:$TARGET_REF" && { echo "pushed"; exit 0; }
+            git fetch origin "$TARGET_REF" && git rebase "origin/$TARGET_REF" || true
+          done
+          echo "::warning::ref push failed; the run artifact is the record"
+
+      - name: Keep arXiv route findings as a run artifact
+        if: ${{ always() && inputs.slug == 'arxiv-route' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: arxiv-aso-route-${{ github.run_id }}
+          path: research/literature/arxiv-aso-route.json
+          if-no-files-found: error
+
       # ⭐ THE PRINTED PAGE COUNT IS A COST, NOT A PREFERENCE (2026-08-20). Nucleic Acid
       # Therapeutics charges $90 per printed page, so a manuscript's page count has to be estimated
       # before submission. A journal publishes its SUBMISSION format and not its TYPESET design, so
@@ -365,7 +408,7 @@ jobs:
         # ⚠ Fixed by INTENT, not by removing the default: a caller supplying a targets corpus
         # is asking for those URLs, so the sweep is suppressed. Callers who want both pass a
         # query explicitly and get both, which is the only case that ever wanted both.
-        if: ${{ inputs.query != '' && inputs.slug != 'lane-probe' && inputs.slug != 'consensus-probe' && inputs.slug != 'rt-probe' && inputs.slug != 'venue-typeset-geometry' && inputs.slug != 'preprint-host-policy'
+        if: ${{ inputs.query != '' && inputs.slug != 'lane-probe' && inputs.slug != 'consensus-probe' && inputs.slug != 'rt-probe' && inputs.slug != 'venue-typeset-geometry' && inputs.slug != 'preprint-host-policy' && inputs.slug != 'arxiv-route'
                 && inputs.targets_file == '' && inputs.targets_json == '' }}
         env:
           QUERY: ${{ inputs.query }}
@@ -391,7 +434,7 @@ jobs:
         # ⚠ Fixed by INTENT, not by removing the default: a caller supplying a targets corpus
         # is asking for those URLs, so the sweep is suppressed. Callers who want both pass a
         # query explicitly and get both, which is the only case that ever wanted both.
-        if: ${{ inputs.query != '' && inputs.slug != 'lane-probe' && inputs.slug != 'consensus-probe' && inputs.slug != 'rt-probe' && inputs.slug != 'venue-typeset-geometry' && inputs.slug != 'preprint-host-policy'
+        if: ${{ inputs.query != '' && inputs.slug != 'lane-probe' && inputs.slug != 'consensus-probe' && inputs.slug != 'rt-probe' && inputs.slug != 'venue-typeset-geometry' && inputs.slug != 'preprint-host-policy' && inputs.slug != 'arxiv-route'
                 && inputs.targets_file == '' && inputs.targets_json == '' }}
         env:
           LIT_EXPECT_PMIDS: ${{ inputs.expect_pmids }}
@@ -405,7 +448,7 @@ jobs:
       # the same contamination the publish step's slug guard below was written to prevent, arriving
       # from the other direction. A query-only run now runs the query path ONLY.
       - name: Fetch literature URLs (generic, runner has unrestricted egress)
-        if: ${{ (inputs.targets_file != '' || inputs.targets_json != '' || inputs.query == '') && inputs.slug != 'lane-probe' && inputs.slug != 'consensus-probe' && inputs.slug != 'rt-probe' && inputs.slug != 'venue-typeset-geometry' && inputs.slug != 'preprint-host-policy' }}
+        if: ${{ (inputs.targets_file != '' || inputs.targets_json != '' || inputs.query == '') && inputs.slug != 'lane-probe' && inputs.slug != 'consensus-probe' && inputs.slug != 'rt-probe' && inputs.slug != 'venue-typeset-geometry' && inputs.slug != 'preprint-host-policy' && inputs.slug != 'arxiv-route' }}
         env:
           LIT_TARGETS_FILE: ${{ inputs.targets_file }}
           LIT_TARGETS_JSON: ${{ inputs.targets_json }}
