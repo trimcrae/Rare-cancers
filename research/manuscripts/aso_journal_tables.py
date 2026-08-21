@@ -126,7 +126,7 @@ def build() -> str:
             "(PMID:36316541) carry NR4A3 exon-2 acceptors and are therefore matched to different "
             "designs, not to these two. Nothing here has been synthesised or tested, and no "
             "sequence may be administered to any person or animal.", ""]
-    out += ["| seam | reagent | gap-level margin | longest wild-type parent duplex through the gap | test article |",
+    out += ["| seam | reagent | margin | longest WT run (bp) | test article |",
             "|---|---|---:|---|---|"]
     for j in LEADS:
         r = _lead(rows, j)
@@ -141,7 +141,7 @@ def build() -> str:
             "orderable member does not. Neither member of a pair may be substituted for the other, "
             "and neither is a reagent this paper names for synthesis. The pairing is read from the "
             "canonical file's own cross-reference column rather than asserted here.", ""]
-    out += ["| seam | design | verdict | gap-level margin | longest wild-type parent duplex through the gap |",
+    out += ["| seam | design | verdict | margin | longest WT run (bp) |",
             "|---|---|---|---:|---|"]
     for seq in CONDEMNED:
         bad = _at(rows, seq)

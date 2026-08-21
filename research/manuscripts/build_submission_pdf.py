@@ -81,7 +81,8 @@ PAPERS = {
     #: document: 3,113 main-text words against that one's 35,501. It carries its own references and
     #: tables companions and NO supplementary file — the preprint is its extended report.
     "aso-journal": {
-        "layout": {"tables_in_column": True},
+        "layout": {"tables_in_column": True, "no_provenance_line": True,
+                   "backmatter_in_flow": True},
         #: Nucleic Acid Therapeutics, MEASURED from 14 of its own published articles by
         #: scripts/venue_typeset_geometry.py (research/literature/venue-typeset-geometry.json):
         #: US Letter, two columns of 239pt with a 12pt gutter, 9.8pt body on 10.9pt leading, and a
@@ -432,6 +433,12 @@ def provenance_line(paper, style):
     commit, dirty, date = build_provenance()
     what = {"journal": "typeset preview", "manuscript": "submission format",
             "supplementary": "supplementary information"}[style]
+    #: ⛔ A SUBMITTED PAPER DOES NOT CARRY ITS BUILD METADATA (reviewer read, 2026-08-20). The line
+    #: is right for a document under internal review, where which commit rendered it is the
+    #: question. On a manuscript going to an editor it is noise, and "tree not clean at build time"
+    #: reads as an admission. Papers opt out; the default keeps it, so no existing build moves.
+    if (paper or {}).get("layout", {}).get("no_provenance_line"):
+        return ""
     stamp = commit or "commit unknown"
     if dirty:
         stamp += ", tree not clean at build time"
@@ -1616,6 +1623,10 @@ li { margin-bottom: 3pt; text-align: justify; }
 
 /* --- back matter --- */
 .backmatter { column-count: 2; column-gap: 6mm; font-size: 7.9pt; line-height: 1.36; }
+.backmatter-inline { font-size: 7.9pt; line-height: 1.36; }
+.backmatter-inline h2 { font-family: 'Liberation Sans', Helvetica, sans-serif; font-size: 8.6pt;
+                        margin: 10pt 0 3pt 0; }
+.backmatter-inline p { margin: 0 0 4pt 0; }
 .backmatter h2 { font-family: 'Liberation Sans', Helvetica, sans-serif; font-size: 8.6pt;
                  color: #123a5e; margin: 9pt 0 4pt 0; font-weight: 700; break-after: avoid; }
 .backmatter h2:first-child { margin-top: 0; }
@@ -1712,8 +1723,19 @@ def wrap_journal(paper, front, body_html, doc_title=None):
         f'<p class="kw"><strong>Keywords</strong> &nbsp;{inline(front["keywords"])}</p>'
     )
     return page_shell(doc_title or re.sub(r"[*_`]", "", front["title"]), journal_css(paper),
-                      head + f'<div class="cols">{main}</div>'
-                      + f'<div class="backmatter">{back}</div>')
+                      head + (
+                          # ⛔ A SECOND `column-count` CONTAINER CANNOT SHARE A PAGE WITH THE FIRST,
+                          # so splitting the back matter out forces a page break wherever the body
+                          # happens to end. On the 58-page preprint that costs nothing. On a 7-page
+                          # article it left page 5 at 3,917 characters against a 6,751 maximum —
+                          # half a page of billed white to start Declarations on a fresh one.
+                          # Papers opt in to flowing the back matter in the same columns; the
+                          # smaller back-matter type is kept either way.
+                          f'<div class="cols">{main}'
+                          f'<div class="backmatter-inline">{back}</div></div>'
+                          if (paper.get("layout") or {}).get("backmatter_in_flow")
+                          else f'<div class="cols">{main}</div>'
+                               f'<div class="backmatter">{back}</div>'))
 
 
 def page_shell(title, css, body_html):

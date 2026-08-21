@@ -161,8 +161,10 @@ def main(argv=None):
     notes = [
         (f"Blue, donor exon; green, NR4A3 acceptor exon; boxed and purple, {divergent_words}. "
          f"Shaded box, the window this reagent targets."),
-        (f"Every sequence row above is the TARGET mRNA read 5′ to 3′, not the oligonucleotide. "
-         f"The reagent is 5′-{OLIGO}-3′, the reverse complement of the shaded window "
+        #: The first sentence of this note used to restate the column header "target mRNA (sense,
+        #: 5′ to 3′)" and the "(antisense)" tag on the reagent row, both inside this same panel.
+        #: What remains is the hazard itself, which nothing else in the panel says.
+        (f"The reagent is 5′-{OLIGO}-3′, the reverse complement of the shaded window "
          f"(5′-{target}-3′). Transcribing the shaded letters orders the sense strand, which is a "
          f"different molecule with no antisense activity."),
         #: ⛔ THE EXPOSITION MOVED TO THE CAPTION AND THE SAFETY NOTES DID NOT (2026-08-20). Text
