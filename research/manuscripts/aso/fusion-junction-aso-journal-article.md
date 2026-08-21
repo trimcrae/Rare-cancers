@@ -307,13 +307,14 @@ file by `research/manuscripts/aso_journal_tables.py` so that a cell and its sour
 
 ## Figure legends
 
-**Figure 1. One 16-mer spans three partners' breakpoints.** The junction windows of *EWSR1* exon 12,
-*TAF15* exon 11 and *FUS* exon 10 joined to *NR4A3* exon 3, aligned at the breakpoint. The same paralogy that
-lets one reagent cover three fusions is why these designs are hard to discriminate from the parent
-transcripts: this reagent's gap-level margin is three junction-unique bases inside the
-six-nucleotide catalytic gap. Two of the three drawn junctions are reported in no patient, so this
-is a statement about sequence rather than a claim that one reagent serves three patient groups, and
-coverage is predicted from sequence and has not been measured.
+**Figure 1. One 16-mer spans three partners' breakpoints, and only one of the three is a junction
+any patient is reported to carry.** The junction windows of *EWSR1* exon 12, *TAF15* exon 11 and
+*FUS* exon 10 joined to *NR4A3* exon 3, aligned at the breakpoint, each row carrying its own
+reporting status. The same paralogy that lets one reagent cover three fusions is why these designs
+are hard to discriminate from the parent transcripts: this reagent's gap-level margin is three
+junction-unique bases inside the six-nucleotide catalytic gap. Coverage is a statement about
+sequence, predicted rather than measured, and not a claim that one reagent serves three patient
+groups.
 
 ## Declarations
 

@@ -134,13 +134,22 @@ def build() -> str:
                    f"{_duplex(r)} | {TEST_ARTICLE[j]} |")
     out.append("")
 
+    #: ⭐ HOW FAR THE NEAREST CONDEMNED DESIGN SITS FROM A REAGENT WE TELL PEOPLE TO BUY, DERIVED
+    #: RATHER THAN TYPED. The caption used to say only that these are "not a reagent this paper
+    #: names", which is true and reads as reassurance. It is the opposite: one of the condemned
+    #: designs is a register of the SAME seam as a named lead, so the distance between the molecule
+    #: to order and a molecule that pairs its whole catalytic gap against wild-type NR4A3 is a
+    #: countable number of single-base slides. That number is what makes an off-by-one in a
+    #: synthesis order a real hazard rather than a hypothetical one, so it is computed here from the
+    #: sequences themselves and cannot drift from them.
+    near = _slides_to_a_named_lead(rows)
     out += ["**Table 2. Four near-identical designs at two seams, two orderable and two not.** Each "
             "pair is two consecutive registers of one seam differing by a single-base slide, and "
             "the two members carry opposite verdicts: the condemned member pairs its whole "
             "catalytic gap against a wild-type parent gene at the ten-base-pair criterion, and the "
-            "orderable member does not. Neither member of a pair may be substituted for the other, "
-            "and neither is a reagent this paper names for synthesis. The pairing is read from the "
-            "canonical file's own cross-reference column rather than asserted here.", ""]
+            "orderable member does not. " + near + " Neither member of a pair may be substituted "
+            "for the other, and neither is a reagent this paper names for synthesis. The pairing is "
+            "read from the canonical file's own cross-reference column rather than asserted here.", ""]
     out += ["| seam | design | verdict | margin | longest WT run (bp) |",
             "|---|---|---|---:|---|"]
     for seq in CONDEMNED:
@@ -155,6 +164,53 @@ def build() -> str:
     out.append("")
     return "\n".join(out)
 
+
+
+def _slides_to_a_named_lead(rows):
+    """How many single-base slides separate a condemned design from a lead at the same seam.
+
+    A slide is one register: two 16-mers overlap in 15 positions, so `a[1:] == b[:-1]`. The walk is
+    bounded by the oligonucleotide length because a design more than sixteen registers away shares
+    no base with the lead and is not a near-twin of it in any useful sense.
+    """
+    def one_slide(a, b):
+        return a[1:] == b[:-1] or b[1:] == a[:-1]
+
+    best = None
+    for seq in CONDEMNED:
+        bad = _at(rows, seq)
+        for j in LEADS:
+            lead = _lead(rows, j)
+            if lead["junction"] != bad["junction"]:
+                continue
+            here, seen = {lead["sequence"]}, {lead["sequence"]}
+            for step in range(1, 17):
+                nxt = {r["sequence"] for r in rows
+                       if r.get("junction") == bad["junction"]
+                       and r["sequence"] not in seen
+                       and any(one_slide(h, r["sequence"]) for h in here)}
+                if not nxt:
+                    break
+                if bad["sequence"] in nxt:
+                    if best is None or step < best[0]:
+                        best = (step, lead["sequence"], bad["sequence"], _duplex(bad))
+                    break
+                seen |= nxt
+                here = nxt
+    if best is None:
+        return ""
+    step, lead_seq, bad_seq, duplex = best
+    slides = "one single-base slide" if step == 1 else f"{_number_word(step)} single-base slides"
+    #: `_duplex` renders as "11 bp, wild-type *NR4A3*", which does not read as a noun phrase in the
+    #: middle of a sentence; split it so the length and the gene each land where they belong.
+    length, _, gene = duplex.partition(", wild-type ")
+    return (f"One of the condemned designs is not at an unrelated seam: 5\u2032-{bad_seq}-3\u2032 is "
+            f"{slides} from 5\u2032-{lead_seq}-3\u2032, a reagent this paper names for synthesis, "
+            f"and pairs {length} of wild-type {gene} through its whole catalytic gap.")
+
+
+def _number_word(n):
+    return {1: "one", 2: "two", 3: "three", 4: "four", 5: "five"}.get(n, str(n))
 
 def main() -> int:
     text = build()
