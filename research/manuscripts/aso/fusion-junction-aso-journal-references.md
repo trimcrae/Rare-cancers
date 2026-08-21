@@ -1,3 +1,24 @@
+---
+id: DOC-FUSION-JUNCTION-ASO-JOURNAL-REFERENCES
+title: "References — fusion-junction ASO journal article"
+level: L3
+kind: manuscript
+status: live
+canonical_for:
+  - the reference list of the fusion-junction ASO journal article
+purpose: >
+  The numbered reference list spliced into the journal article at its `## References` anchor by
+  build_submission_pdf.py. It is hand-maintained rather than generated, and is held to the
+  manuscript by tests/test_journal_references_match_the_prose.py rather than by a generator.
+scope: >
+  Bibliographic records only. No scientific claim is made here, and nothing here asserts efficacy,
+  safety, a therapeutic window or clinical readiness.
+audience: [external reviewers, collaborators, maintainers]
+date: 2026-08-20
+last_verified: 2026-08-20
+related: [DOC-FUSION-JUNCTION-ASO-JOURNAL]
+---
+
 <!-- HAND-MAINTAINED, AND CHECKED RATHER THAN GENERATED. The numbered list lives here so
      build_submission_pdf.py can splice it at the `## References` anchor, as it does for the
      preprint. ⛔ It is NOT generated: this banner previously claimed machine provenance while no

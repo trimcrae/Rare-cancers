@@ -1,6 +1,6 @@
 ---
 id: DOC-FUSION-JUNCTION-ASO-JOURNAL
-title: "Two junction-spanning gapmer reagents for NR4A3 fusion transcripts in extraskeletal myxoid chondrosarcoma, selected from 190 designs against a wild-type parent screen that condemns 87"
+title: "Two NR4A3 fusion-junction gapmers for extraskeletal myxoid chondrosarcoma, screened against wild-type parents"
 level: L3
 kind: manuscript
 status: live
@@ -25,7 +25,7 @@ last_verified: 2026-08-20
 related: [DOC-FUSION-JUNCTION-ASO-SUBMISSION]
 ---
 
-# Two junction-spanning gapmer reagents for *NR4A3* fusion transcripts in extraskeletal myxoid chondrosarcoma, selected from 190 designs against a wild-type parent screen that condemns 87
+# Two *NR4A3* fusion-junction gapmers for extraskeletal myxoid chondrosarcoma, screened against wild-type parents
 
 **Author.** Tristan D. McRae
 
