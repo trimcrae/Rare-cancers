@@ -87,3 +87,31 @@ def test_the_reference_list_is_not_described_as_generated(path):
     assert "GENERATED FROM THE MANUSCRIPT" not in text, (
         f"{os.path.basename(path)} claims to be generated from the manuscript. No generator writes "
         "it; it is hand-maintained and held by the tests in this file.")
+
+
+def test_the_printed_pdf_numbers_the_references_as_the_prose_cites_them():
+    """⛔ THE SOURCE WAS RIGHT AND THE ARTEFACT WAS WRONG (2026-08-20).
+
+    The reference list inherited the extended report's numbering, so the markdown carried
+    1, 2, 6, 7, 8 … 40 and the tests above — which read the markdown — passed. An HTML `<ol>`
+    renumbers its items from 1 regardless of the source, so the BUILT PDF printed 1 to 21 and a
+    superscript 8 resolved to the eighth printed entry. About two thirds of the citations in the
+    typeset article pointed at a real paper that was the wrong one, and nothing in this repository
+    read the PDF to notice. Checking a manuscript's source is not checking what a reader receives.
+    """
+    pdf = os.path.join(MANUSCRIPTS, "aso", "fusion-junction-aso-journal-article.pdf")
+    assert os.path.exists(pdf), (
+        f"{os.path.basename(pdf)} is not built. It is a committed deposit artefact, so its absence "
+        "is a broken tree rather than a reason to pass silently: rebuild with "
+        "`build_submission_pdf.py --paper aso-journal`.")
+    from pypdf import PdfReader
+    pages = PdfReader(pdf).pages
+    text = " ".join(" ".join(p.extract_text().split()) for p in pages)
+    start = text.rfind("References")
+    assert start != -1, "no References section in the built PDF"
+    printed = [int(n) for n in re.findall(r"(?:^|\s)(\d{1,3})\. [A-Z]", text[start:])]
+    cited = sorted({int(n) for n in _citations()})
+    assert printed == cited, (
+        f"the PDF prints reference numbers {printed[:8]}… while the prose cites {cited[:8]}…\n"
+        "Every citation whose printed position differs from its number sends the reader to a "
+        "different paper, which no linter on the markdown can see.")

@@ -62,14 +62,14 @@ and the design pipeline is released for breakpoints outside the panel.
 EMC is defined in the large majority of cases by an in-frame fusion of *EWSR1* to
 *NR4A3*,<sup>1</sup><!--PMID:8634690--> with *TAF15* a substantial minority and *TCF12* and *TFG*
 rare.<sup>2</sup><!--PMID:32572850--> The disease responds poorly to conventional cytotoxic
-chemotherapy,<sup>8</sup><!--PMID:24345066--> and the tyrosine-kinase inhibitors trialled in it give
-disease control more often than response.<sup>7</sup><!--PMID:31331701-->
+chemotherapy,<sup>3</sup><!--PMID:24345066--> and the tyrosine-kinase inhibitors trialled in it give
+disease control more often than response.<sup>4</sup><!--PMID:31331701-->
 
 The fusion junction is the one feature of an EMC tumour that exists at the RNA level and in no normal
 cell. An antisense gapmer tiled across it recruits RNase-H1 to cleave the transcript it pairs, and
 the six-nucleotide DNA gap at the centre of a 5-6-5 architecture is where that cleavage occurs.
 Junction-directed oligonucleotides are a thirty-five-year lineage, reported against six fusion
-oncogenes.<sup>10,11,13,15,16,18</sup><!--PMID:1794439,9049825,33241214,21846246,23052253,37980543-->
+oncogenes.<sup>5,6,7,8,9,10</sup><!--PMID:1794439,9049825,33241214,21846246,23052253,37980543-->
 No such design is reported for any *NR4A3* fusion in the literature retrieved here, and that absence
 is why this work exists: EMC is rare enough that the design step has not been done, and rare enough
 that no group is likely to do it as a by-product of something else.
@@ -114,9 +114,9 @@ cost of the same ten shared donor bases that let one oligonucleotide span the *E
 load is a disqualification, and neither is a statement about safety: these are predictions from
 sequence search, not measured off-target activity.
 
-Discounted by the breakpoint distribution of an 18-case series,<sup>22</sup><!--PMID:12378528--> the
+Discounted by the breakpoint distribution of an 18-case series,<sup>11</sup><!--PMID:12378528--> the
 two junctions account for 68.4% of molecularly confirmed cases in a 58-case
-cohort,<sup>9</sup><!--PMID:36948401--> roughly two thirds. That figure prices which published
+cohort,<sup>12</sup><!--PMID:36948401--> roughly two thirds. That figure prices which published
 junctions the two reagents address. It is not a coverage measurement, no patient having been screened
 with either sequence, and its interval is wide for the denominators rather than for the estimate,
 spanning 39.9% to 82.8% when each breakpoint fraction is taken to its own Wilson bound.
@@ -166,7 +166,7 @@ No cut in that range is a boundary the data picks out.
 Five test articles carry a junction this panel designs against, and they divide into two sources with
 opposite limits.
 
-Three are engineered constructs from a published functional study,<sup>27</sup><!--PMID:31020999-->
+Three are engineered constructs from a published functional study,<sup>13</sup><!--PMID:31020999-->
 whose exon spans that paper states verbatim. Two of them, E-N and T-N*, carry exactly the two
 junctions the reagents above span, so both named reagents have a stated test article. Rebuilding the
 constructs is the faster route and its critical path contains no laboratory that has to answer an
@@ -176,7 +176,7 @@ knockdown of the intended transcript and not to activity at endogenous expressio
 locus.
 
 The other two are patient-derived, identity-clean models reported with two EMC
-tumours,<sup>37</sup><!--PMID:36316541--> USZ20-EMC1 (RRID:CVCL_C6MX) and USZ22-EMC2
+tumours,<sup>14</sup><!--PMID:36316541--> USZ20-EMC1 (RRID:CVCL_C6MX) and USZ22-EMC2
 (RRID:CVCL_C6MY). These are the only source of a fusion-positive EMC cell identified here. They are
 available on request from the originating laboratory with no repository deposit, and they are slow,
 at reported doubling times of five to six days as sarco-spheres passaged every two to three weeks,
@@ -193,7 +193,7 @@ the test article must be established at nucleotide resolution by RNA sequencing 
 oligonucleotide is ordered. Every design here is specific to the exon pair it was tiled at, and none
 is valid for an unverified junction. Routine diagnosis does not supply the seam: break-apart *NR4A3*
 fluorescence in situ hybridisation detects a rearrangement irrespective of
-partner,<sup>6</sup><!--PMID:41055792--> so on its own it locates neither the partner nor the exon
+partner,<sup>15</sup><!--PMID:41055792--> so on its own it locates neither the partner nor the exon
 pair.
 
 ## 5 · The falsification experiment
@@ -202,7 +202,7 @@ The experimental design that would resolve the central uncertainty, an isogenic
 fusion-positive against fusion-negative comparison, has been published in an analogous fusion
 sarcoma. Fusion-specific antisense oligonucleotides against *NAB2::STAT6* in solitary fibrous tumour,
 evaluated against CRISPR-engineered isogenic fusion-positive and fusion-negative cells, reduced
-fusion expression by 58% and proliferation by 22% in vitro.<sup>38</sup><!--PMID:37370737-->
+fusion expression by 58% and proliferation by 22% in vitro.<sup>16</sup><!--PMID:37370737-->
 
 Three assay controls are required, and a knockdown assay alone distinguishes none of them. A positive
 control gapmer against an abundant housekeeping transcript in the same cells separates failed
@@ -272,11 +272,11 @@ The constraint is discrimination between the fusion and its parents, and it is n
 junction design's most plausible wild-type liability is its own parent, in the mature transcript or
 across a splice junction in precursor RNA; both compartments are searched here before any molecule
 exists. The four reports of parental sparing cited
-here<sup>13,14,15,16</sup><!--PMID:33241214,36265509,21846246,23052253--> were all made on molecules
+here<sup>7,17,8,9</sup><!--PMID:33241214,36265509,21846246,23052253--> were all made on molecules
 already synthesised. What other groups do at the design stage is not established here; no survey of
 published design pipelines was performed. The premise that sparing wild-type *NR4A3* is worth a
 specificity cost also deserves examination: *NR4A3* has two close paralogues and the family is
-functionally redundant where tested,<sup>29,30</sup><!--PMID:29343483,25446259--> which cuts against
+functionally redundant where tested,<sup>18,19</sup><!--PMID:29343483,25446259--> which cuts against
 it, and the evidence is not decisive either way.
 
 Several limits bound what any test of these reagents could show. Every screened count here is for one
@@ -302,8 +302,8 @@ bioRxiv preprint of this work; the released artefacts are in the archive named u
 availability.
 
 Canonical transcripts for the five partner genes and for *NR4A3* were obtained from
-Ensembl.<sup>40</sup><!--PMID:39656687--> Junction-spanning 16-mer gapmers were tiled in a 5-6-5
-β-D-oxy-locked-nucleic-acid/DNA/β-D-oxy-locked-nucleic-acid geometry,<sup>39</sup><!--PMID:24981949-->
+Ensembl.<sup>20</sup><!--PMID:39656687--> Junction-spanning 16-mer gapmers were tiled in a 5-6-5
+β-D-oxy-locked-nucleic-acid/DNA/β-D-oxy-locked-nucleic-acid geometry,<sup>21</sup><!--PMID:24981949-->
 one design per register at which the breakpoint falls inside the six-nucleotide DNA gap, which admits
 five per junction. A design's gap-level margin is the count of junction-unique bases inside the gap
 on the shorter side of the breakpoint.
