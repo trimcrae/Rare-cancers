@@ -143,11 +143,22 @@ committing. One was shipped exactly that way; do not repeat it. Instead:
 ## Tests and the pre-commit gate
 
 ```bash
+./scripts/dev-setup.sh          # once per fresh container, BEFORE the first preflight
 ./scripts/preflight.sh          # THE gate — its exit code cannot be masked
 ```
 
 It runs the registry evidence contract, the document linters, the model checker and the modalities test
 suite.
+
+⛔ **A FRESH CONTAINER MAKES PREFLIGHT LIE, IN BOTH DIRECTIONS (measured 2026-08-21).** On a
+newly-provisioned remote container preflight reported **6 failures and 10 errors** against a tree whose
+only change was a new script and a workflow arm. Every one was a dependency gap: `pytest` missing from
+`python3` sends preflight down its own documented trap branch — the uv-tool console script, which cannot
+see the repository's packages — `pdfminer.six` missing turns ten PDF text-layer guards into loud failures,
+and `pypdf` imports Debian's `cryptography` 41.0.7 and raises `pyo3_runtime.PanicException`. `dev-setup.sh`
+installs the dependency line **read out of `tests.yml`**, so the sandbox cannot drift from CI, and exits in
+under a second when everything already imports. Run it first; a red preflight you have not dep-checked is
+not yet evidence of anything.
 
 ⚠ **Never pipe a check into another command and read the pipeline's status.** A pipeline's exit code is
 the *last* command's, so `lint … | tail -3 && git commit` commits on a failing lint. That happened here,
