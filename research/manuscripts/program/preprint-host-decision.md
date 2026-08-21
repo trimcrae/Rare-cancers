@@ -72,9 +72,16 @@ audience, with the floor already secured.
 
 ## Why bioRxiv said no, in bioRxiv's own words
 
-The refusal is not a screening judgement. It is an **account-level requirement**, stated on the
-submission page itself and retrieved at HTTP 200 on 2026-08-21
-([`preprint-host-eligibility.json`](../../literature/preprint-host-eligibility.json),
+⭐ **The decision letter, supplied by trimcrae 2026-08-21, and it is the authoritative record:**
+
+> "We regret to inform you that your manuscript cannot be considered for bioRxiv because bioRxiv
+> requires authors to have an organizational affiliation. It is necessary for submissions to be
+> associated with an organization that provides oversight of research activities so that it can
+> adjudicate any ethical issues/disputes that arise."
+> — the bioRxiv team, to Tristan D. McRae, 2026-08-21
+
+It matches the standing requirement on bioRxiv's own submission page, retrieved at HTTP 200 the same
+day ([`preprint-host-eligibility.json`](../../literature/preprint-host-eligibility.json),
 target `biorxiv_submission_guide`):
 
 > "Authors wishing to deposit manuscripts must first register on the site and supply an affiliation
@@ -84,9 +91,9 @@ target `biorxiv_submission_guide`):
 
 ⭐ **Three things follow, and they matter more than the refusal itself.**
 
-1. **The requirement is not "a university".** It is *an entity that can be contacted about
-   misconduct*. That is a wider set than an academic post, and it is the only thing bioRxiv says the
-   affiliation is for.
+1. **The requirement is not "a university".** It is *an organization that provides oversight of
+   research activities* and can adjudicate a dispute. That is a wider set than an academic post, and
+   it is the only thing bioRxiv says the affiliation is for.
 2. **Affiliation appears nowhere in bioRxiv's screening criteria**, which its published screening
    procedure gives as plagiarism, non-scientific content, inappropriate article types, and material
    that could endanger patients or the public — *"Approximately 5% of bioRxiv submissions are found
@@ -119,6 +126,12 @@ is a reading of the stored page, and the quotations are checkable against it.
 
 ### arXiv — the obstacle is a person, not an institution
 
+*trimcrae, 2026-08-21: "I'd like you to revisit arXiv again since it seems dedicated to exactly the
+research I'm doing here." Taken as arXiv's **q-bio** (Quantitative Biology) archive, and it holds on
+the merits rather than only on eligibility — this is a computed, no-wet-lab result, which is q-bio's
+remit and is exactly what bioRxiv's experimental-biology readership is not selected for. A dedicated
+probe writes to `research/literature/arxiv-aso-route.json`.*
+
 arXiv's gate is **endorsement**, and its help page is explicit about what an author without an
 institutional address must do:
 
@@ -127,9 +140,55 @@ institutional address must do:
 > personal endorsement from an established arXiv author."
 > — [arXiv, *Endorsement*](https://info.arxiv.org/help/endorsement.html)
 
-That is a solvable obstacle of a different kind: it costs one willing established author in q-bio,
-which the outreach list this programme already maintains could plausibly supply. It is not a
-same-day route, so it does not compete for the immediate posting.
+⭐ **Three properties make this a different kind of obstacle from bioRxiv's, and a better one.**
+
+- **It is one person, once, for the whole archive.** *"most high-level subject areas (e.g., hep-th,
+  cond-mat, q-bio) are currently endorsement domains"* and *"at least one positive endorsement is
+  required per endorsement category"* — so a single q-bio endorsement covers q-bio.GN, q-bio.BM and
+  q-bio.QM together, and every later paper in the same domain.
+- **arXiv publishes who can give it.** Its instructions are to open the abstract page of a related
+  arXiv paper and follow *"Which authors of this paper are endorsers?"* — a named, public list, not
+  a search for goodwill. The endorser must have papers in the domain submitted between three months
+  and five years ago.
+- **It is not peer review.** *"We do not expect you to read the paper in detail, or verify that the
+  work is correct, but you should check that the paper is appropriate for the subject area."*
+
+### What arXiv would want changed, and what it would not
+
+Read from [arXiv's moderation policy](https://info.arxiv.org/help/moderation/index.html) and
+[submission guidelines](https://info.arxiv.org/help/submit/index.html):
+
+| Requirement | Where this paper stands |
+|---|---|
+| Accepted formats are *"(La)TeX … PDF, HTML"*, and arXiv refuses *"PDF created from TeX/LaTeX source"* | ✅ **submittable as built.** `build_submission_pdf.py` prints from HTML with Chromium's `Page.printToPDF`; there is no TeX source to withhold, so the prohibition does not reach it. |
+| *"we now include in particular text-to-text generative AI among those that should be reported"*, and such tools *"should not be listed as an author"* | ✅ **already complied with.** The paper's *Use of AI tools* section names the models and the periods they covered, and lists no AI author. |
+| Ancillary files (data, programs) may travel with the submission | ✅ fits the SI and the machine-readable tables the availability statement already names. |
+| *"serious misrepresentations of … affiliation"* is a decline reason | ✅ the author block states *"Independent researcher, unaffiliated"*, which is the accurate statement, not a workaround. |
+
+⚠ **And three risks that are real, stated rather than smoothed over.**
+
+1. **arXiv describes itself as *"a forum for professional members of the scientific community"***, and
+   its moderation policy says *"In some cases, authors may be required to establish a conventional
+   publication record and limit their submissions to works that are published in conventional
+   journals."* A first submission from an author with no publication record can meet exactly that
+   response. Endorsement makes it much less likely; it does not remove it.
+2. **Posting is close to irreversible.** *"Once a paper is announced it becomes part of the permanent
+   scholarly record. arXiv will only consider requests for removal if the submitter did not have the
+   legal right to agree to the license."* Versions are fine — removal is not. A living preprint is
+   compatible with that; a paper posted before it was ready is not.
+3. ⛔ **The submission-rate rule bites a 23-endpoint programme.** *"There is a practical limit to the
+   rate at which appropriate, independent submissions can be produced by any one person. We may
+   request that a particular author limit their submission rate"*, with a stated ceiling of *"no more
+   than three papers per day"* for a back catalogue. This portfolio plans many preprints from a
+   single author, and a burst would attract precisely the scrutiny in risk 1. **Post them spaced, and
+   post the strongest first.**
+
+⚠ There is one open item on this route: arXiv's endorsement help page links a blog post about
+**changes** to the endorsement process, and a December 2025 change removed institutional e-mail as a
+sole qualifier for Mathematics with a January 2026 post extending it. If institutional e-mail no
+longer qualifies anyone automatically, an unaffiliated author is in the *same* position as every
+other new author — which would be a materially different finding from being locked out. Both posts
+are being read at primary source rather than trusted from a search summary.
 
 ### Zenodo — the floor, and why it cannot be the audience
 
@@ -170,3 +229,65 @@ resulting from research funded by the National Institutes of Health"*
 has no NIH funding, so **no preprint host reaches PubMed for this work**, and any plan that assumed
 otherwise was wrong about a channel rather than about a server.
 
+
+### ⛔ MEASURED, AND IT REVERSES THE arXiv READING FOR *THIS* PAPER
+
+arXiv instructs an author to find an endorser among the authors of related arXiv papers. So "who
+could endorse this paper" is answerable by counting, and
+[`arxiv-aso-route.json`](../../literature/arxiv-aso-route.json) counts it against arXiv's own API:
+
+| Query over `cat:q-bio*` | Total results in all of arXiv |
+|---|---|
+| `"antisense oligonucleotide"` OR `gapmer` | **1** |
+| `"off-target"` AND (`oligonucleotide` OR `siRNA` OR `ASO`) | **1** |
+| `"fusion oncogene"` OR `"fusion transcript"` OR `"gene fusion"` | 7 |
+| `sarcoma` OR `"rare cancer"` | 16 |
+
+The single antisense hit is a machine-learning retention-time paper in `q-bio.OT` (2025-11); the
+single off-target hit models siRNA endosomal escape (`q-bio.QM`, 2024-12). The gene-fusion hits are
+bioinformatics-method papers, several of them a decade old.
+
+**Two conclusions, pointing the same way.** There is no in-domain endorser pool — arXiv's own
+recommended route to endorsement has essentially one paper to start from. And the readership is not
+there either: the nucleic-acid-therapeutics community does not read q-bio. ⚠ **The intuition that
+q-bio is "dedicated to exactly this research" is true of the METHOD — computed, no wet lab — and
+false of the SUBJECT.** For a methods paper about doing rigorous no-wet-lab oncology, q-bio would be
+a good home. For a fusion-junction ASO design paper whose intended readers run oligonucleotide
+experiments, it is a quiet room.
+
+### aiXiv — the right idea about this programme, the wrong room for this paper
+
+[aiXiv](https://arxiv.org/abs/2508.15126) is a real and recent platform (Guowei Huang, University of
+Manchester) that accepts AI- and human-authored work and runs AI reviewers for baseline quality
+control, on the stated principle that *"we should only care about quality - not who produced it"*
+([Science, 2025](https://www.science.org/content/article/new-preprint-server-welcomes-papers-written-and-reviewed-ai)).
+It has no organizational-affiliation gate, and it is the one venue whose framing matches how this
+programme actually works.
+
+⛔ **And it fails the discovery test harder than any other candidate.** As of a mid-November 2025
+update it hosted *"just a few dozen papers"*, submissions are being posted while its AI reviewers are
+still being refined, and it is **absent from Europe PMC's indexed-server list** - the same list that
+decides whether a sarcoma researcher's literature search can ever surface the work. A bioethicist
+quoted in the same Science piece warns the operators must *"be vigilant to ensure aiXiv does not
+become a dumping ground"*.
+
+⚠ **There is also a framing cost, and it is not snobbery.** This paper needs a wet-lab sarcoma group
+to pick it up and test it. Posting it in a venue defined by AI-generated research invites that
+audience to weigh the provenance rather than the argument. The paper's own *Use of AI tools* section
+already discloses the tooling honestly, in the place a reader expects it; the venue does not need to
+make the same statement a second time and louder.
+
+**Where aiXiv does earn a place:** as the home for a paper *about* the programme - the modality
+census, or a methods paper on running a rigorous computation-only oncology programme with AI
+scientists. That is a paper whose subject IS what aiXiv exists for. Keep it on the list for that.
+
+## The call, for the EMC ASO paper
+
+**Post it to Research Square.** It clears all four tests with no gatekeeper: free, Crossref DOI,
+versioned, on Europe PMC's indexed list, and its screening is for *"complete author information,
+appropriate declaration statements, and potential risks to human health"* - none of which is an
+organizational-affiliation requirement. Preprints.org is the equivalent second choice; it asks for an
+institutional e-mail *"where possible"* and accepts an ORCID instead, which this author has.
+
+Neither arXiv nor aiXiv is the right room for this particular paper, for the measured reasons above,
+and neither failure is about eligibility.
