@@ -107,6 +107,80 @@ TARGETS = {
     "pubmed_preprint_pilot": "https://www.ncbi.nlm.nih.gov/pmc/about/nihpreprints/",
     "crossref_preprints": "https://www.crossref.org/documentation/research-nexus/preprints/",
     "scholar_inclusion": "https://scholar.google.com/intl/en/scholar/inclusion.html",
+
+    # ── ROUND 2 (2026-08-21). PATHS THAT ANSWER THE ELIGIBILITY QUESTION DIRECTLY ────────
+    # ⛔ ADDED BECAUSE ROUND 1's PATHS WERE PART GUESSWORK, which is the failure mode the
+    # publisher sweep already paid for: three invented `nature.com` paths 404ed and a fee schedule
+    # went unread. Each of these is a path a search actually surfaced on the site itself, and each
+    # is aimed at the eligibility question rather than at a landing page that might mention it.
+    #   * Preprints.org's `instructions-for-authors` is reported to be the page that states what an
+    #     author without an institutional address may use instead -- an ORCID -- which, if true, is
+    #     the single most decision-relevant sentence in this whole fetch, because this author has one.
+    #   * Research Square's `legal/editorial` is its editorial policy proper; `researchers/preprints`
+    #     is marketing and may not state a rule at all.
+    #   * OSF article 592 is the moderation page; 376 (round 1) may not exist.
+    #   * Zenodo's support article on affiliation is the one page that speaks to a depositor who has
+    #     none, as opposed to the policy page that speaks to rights.
+    "preprints_org_instructions": "https://www.preprints.org/instructions-for-authors",
+    "preprints_org_submit_blog": "https://www.preprints.org/blog/post/submit-a-preprint",
+    "research_square_editorial": "https://www.researchsquare.com/legal/editorial",
+    "research_square_in_review": "https://www.researchsquare.com/researchers/in-review",
+    "osf_preprint_moderation_592": "https://help.osf.io/article/592-preprint-moderation",
+    "osf_preprints_submit": "https://help.osf.io/article/378-preprints-submit",
+    "zenodo_support_affiliation":
+        "https://support.zenodo.org/help/en-gb/1-upload-deposit/22-can-you-add-update-my-affiliation-and-or-funder",
+    "arxiv_qbio_subject": "https://info.arxiv.org/help/moderation/index.html#endorsement",
+
+    # ── ROUND 3 (2026-08-21), WRITTEN AGAINST WHAT ROUND 1 MEASURED ─────────────────────
+    # Round 1 retrieved 26 of 37. The 11 misses fall into exactly two kinds, and they need
+    # different fixes rather than more attempts:
+    #
+    # (a) FIVE GUESSED PATHS 404ed. Fixed by READING THE SITE'S OWN NAVIGATION, which
+    #     `harvest_links()` recorded on the pages that did answer -- Qeios's footer names
+    #     `/publishing-policy` and `/conduct-policy`, Research Square's names `/legal/editorial`.
+    #     This is the third time in this repository that a harvested link beat an invented one.
+    # (b) SIX PAGES RETURNED 403 TO A REAL HEADLESS BROWSER -- every chemrxiv.org path, every
+    #     preprints.org path, authorea.com and scienceopen.com. The publisher sweep already
+    #     established that this class of refusal is keyed on TLS fingerprint and does not clear by
+    #     retrying, so the fix is a DIFFERENT CHANNEL, not a sixth attempt.
+    #
+    # ⭐ THE DIFFERENT CHANNEL IS THE INTERNET ARCHIVE, and it is the right one on the merits rather
+    # than a workaround: it serves a dated, publicly citable snapshot of the same public policy page,
+    # which is a BETTER evidentiary object than a live fetch for a document whose whole purpose is to
+    # be quoted later. ⚠ AND IT COMES WITH A COST THAT MUST BE REPORTED: a snapshot can be stale, so
+    # anything quoted from one carries its capture date, and `final_url` records it because the
+    # archive redirects to the timestamped URL. Never quote an archived policy as the live one.
+    "chemrxiv_dashboard_ia":
+        "https://web.archive.org/web/2026/https://chemrxiv.org/engage/chemrxiv/public-dashboard",
+    "chemrxiv_about_ia":
+        "https://web.archive.org/web/2026/https://chemrxiv.org/engage/chemrxiv/page/about",
+    "chemrxiv_terms_ia":
+        "https://web.archive.org/web/2026/https://chemrxiv.org/engage/chemrxiv/public-dashboard/terms",
+    "preprints_org_about_ia": "https://web.archive.org/web/2026/https://www.preprints.org/about",
+    "preprints_org_instructions_ia":
+        "https://web.archive.org/web/2026/https://www.preprints.org/instructions-for-authors",
+    "scienceopen_preprints_ia": "https://web.archive.org/web/2026/https://www.scienceopen.com/",
+
+    # (a) — the harvested, real paths
+    "qeios_publishing_policy": "https://www.qeios.com/publishing-policy",
+    "qeios_conduct_policy": "https://www.qeios.com/conduct-policy",
+    "qeios_about": "https://www.qeios.com/about",
+    "qeios_indexing": "https://www.qeios.com/indexing",
+    "qeios_terms": "https://www.qeios.com/terms",
+    "research_square_legal_editorial": "https://www.researchsquare.com/legal/editorial",
+    "research_square_terms": "https://www.researchsquare.com/legal/terms-of-service",
+    "osf_preprints_server": "https://osf.io/preprints/",
+    "crossref_preprints_v2": "https://www.crossref.org/services/content-registration/preprints/",
+    "arxiv_policies_v2": "https://info.arxiv.org/help/policies/index.html",
+
+    # ⭐ THE ONE CANDIDATE ROUND 1 DID NOT CARRY, AND EUROPE PMC'S OWN LIST IS WHY. That list --
+    # retrieved at 200 in round 1 -- names the servers a sarcoma researcher's literature search can
+    # reach, and SciELO Preprints is on it while OSF Preprints (the generic server) and Zenodo are
+    # not. A life-science server that is indexed and takes English submissions belongs in the
+    # comparison on that ground alone, whatever its regional origin.
+    "scielo_preprints": "https://preprints.scielo.org/index.php/scielo/about",
+    "scielo_preprints_submissions":
+        "https://preprints.scielo.org/index.php/scielo/about/submissions",
 }
 
 #: Phrases worth surfacing per page so a reader need not scan the whole dump. Presence is reported;
