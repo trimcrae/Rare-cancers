@@ -1,5 +1,13 @@
-<!-- GENERATED FROM THE MANUSCRIPT — the numbered list lives here so build_submission_pdf.py can
-     splice it at the `## References` anchor, exactly as it does for the preprint. -->
+<!-- HAND-MAINTAINED, AND CHECKED RATHER THAN GENERATED. The numbered list lives here so
+     build_submission_pdf.py can splice it at the `## References` anchor, as it does for the
+     preprint. ⛔ It is NOT generated: this banner previously claimed machine provenance while no
+     generator existed, so the file read as machine-derived while being edited by hand and checked
+     by nothing — submission_citations.py --check reads the PREPRINT and reports its 53
+     references, which is why a green gate said nothing about these 21. What holds it to the
+     manuscript is test_journal_references_match_the_prose.py: every superscript in the article
+     must resolve to an entry here, every entry must be cited, and each entry must carry the PMID
+     its citation names. Numbering follows the extended report so a reference cited in both
+     documents carries the same number in each, which is why the numbers are not contiguous. -->
 
 # References — fusion-junction ASO journal article
 
