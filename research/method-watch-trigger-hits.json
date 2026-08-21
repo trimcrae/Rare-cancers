@@ -128,6 +128,21 @@
    ],
    "signals_recorded": 17,
    "abstracts_fetched": 60
+  },
+  {
+   "date": "2026-08-21",
+   "mode": "scan",
+   "triggers": 30,
+   "queries": 124,
+   "new_hits": 19,
+   "appended": 16,
+   "errors": [
+    "TRG-COFOLD-TERNARY-ASSEMBLY chemrxiv: GET failed after 1 tries: https://chemrxiv.org/engage/chemrxiv/public-api/v1/items?term=ternary&limit=15&sort=PUBLISHED_DATE_DESC :: HTTP Error 403: Forbidden",
+    "TRG-COFOLD-TERNARY-ASSEMBLY chemrxiv: GET failed after 1 tries: https://chemrxiv.org/engage/chemrxiv/public-api/v1/items?term=protac&limit=15&sort=PUBLISHED_DATE_DESC :: HTTP Error 403: Forbidden",
+    "chemrxiv: DROPPED FOR THIS RUN after 3 consecutive failures (last: GET failed after 1 tries: https://chemrxiv.org/engage/chemrxiv/public-api/v1/items?term=ternary&limit=15&sort=PUBLISHED_DATE_DESC :: HTTP Error 403: Forbidden). Every ChemRxiv query below was SKIPPED -- this run's preprint coverage is Europe PMC + arXiv only, and an empty ChemRxiv result is not a reading of absence."
+   ],
+   "signals_recorded": 19,
+   "abstracts_fetched": 7
   }
  ],
  "hits": {
@@ -172,6 +187,18 @@
     "first_seen": "2026-08-08",
     "age_days_at_first_seen": 3,
     "abstract": "Protein-ligand co-folding models hold promise in structure-based drug discovery and small molecule interaction prediction, but often fail in predicting correct small molecule binding poses. We present Boltz-Perturb, a framework for addressing this through perturbing model conditioning signals during model inference, and show that such perturbations improve correct ligand binding mode predictions. We first show with true-coordinate injection experiments that the model's learned energy landscape contains correct binding-mode basins, allowing us to reframe the problem as one of sampling deficiency. We then introduce two inference-time perturbation strategies, Token Bias Perturbation (TBP) and Token Conditioning Perturbation (TCP), which increase exploration of alternative binding poses. Across diverse protein-ligand systems, TCP improves top-20 oracle success rates by 2.6 to 7.8 fold. Boltz-Perturb attains higher oracle success rates compared to the Boltz-2 high diffusion temperature variant while requiring over 75% less compute. To our knowledge, this is the first systematic perturbation analysis of a co-folding architecture for small-molecule binding mode diversity. We demonstrate that inference-time perturbations can unlock latent structural diversity in generative co-folding models and improve protein-ligand predictions without costly retraining."
+   },
+   "PPR/PPR1298863": {
+    "id": "PPR/PPR1298863",
+    "title": "MG2Act: A Mechanism-Inspired Sequential Attention Framework for Molecular Glue Degradation Prediction",
+    "date": "2026-08-13",
+    "venue": "PPR",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PPR/PPR1298863",
+    "is_preprint": true,
+    "first_seen": "2026-08-21",
+    "age_days_at_first_seen": 8,
+    "abstract": "Molecular glue degraders act by inducing productive proximity between an E3 ligase and a substrate protein. For most characterized degradative glues, a small molecule first engages the E3, conditions its substrate-recognition surface, and only then enables recruitment of a compatible neo-substrate. This directionality is rarely encoded explicitly in computational models, which typically fuse molecule, E3 and target representations simultaneously. We present MG2Act, a structure-independent framework that translates this two-step logic into sequential cross-attention, using CRBN-mediated degradation as the most data-rich representative system. Starting from a curated continuous-valued benchmark of 1,207 pairs across 47 targets, a refined subset of 1,159 pairs was selected to train MG2Act after excluding rare targets. On identical processed data, MG2Act consistently outperforms machine learning baselines, robustly generalizes under strict redundancy-filtering, and responds coherently to mechanism-based perturbations. Prospective screening and zero-shot target-conditioned prioritization identified nanomolar degraders of IKZF1, CK1\u03b1 and CDK4, including the non-classical IMiD-core CDK4 degrader SWC-202."
    }
   },
   "TRG-TERNARY-GEN-NO-SITES": {
@@ -442,6 +469,16 @@
     "first_seen": "2026-08-08",
     "age_days_at_first_seen": 77,
     "abstract": "Finding:   and targeting cryptic pockets could dramatically expand the druggable proteome. However, discovering these sites remains challenging since they are only open a fraction of the time. It is also difficult to predict the functional relevance of a cryptic site as this often requires insight into allostery. Here we introduce attention enabled (AE-)PocketMiner, an artificial intelligence (AI) method that uses a graph neural network with an attention mechanism to simultaneously predict the locations of cryptic pockets and their allosteric coupling to the rest of the protein from a single input structure. We show that AE-PocketMiner outperforms past methods for identifying cryptic pockets and recapitulates known allosteric interactions. Moreover, we experimentally confirm newly predicted cryptic pockets and mutations that allosterically control pocket opening. AE-PocketMiner thus provides a powerful framework for multiple steps of the drug discovery process\u2014including pocket identification, prioritization, and assay design\u2014that will help expand the druggable proteome."
+   },
+   "MED/42605276": {
+    "id": "MED/42605276",
+    "title": "UniPocket: Unified Ligand and Cryptic Pocket Prediction from Protein Language Model Embeddings",
+    "date": "2026-07-28",
+    "venue": "ACM BCB",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42605276",
+    "first_seen": "2026-08-21",
+    "age_days_at_first_seen": 24
    }
   },
   "TRG-ENDPOINT-SELECTIVITY-READOUT": {},
@@ -750,6 +787,18 @@
     "first_seen": "2026-08-08",
     "duplicate_of_title": true,
     "abstract": "Molecular glue degraders have emerged as a promising strategy for targeted protein degradation by inducing ternary complex formation between an E3 ubiquitin ligase and a target protein. Despite their therapeutic potential, computational design of molecular glues remains largely unexplored. Unlike conventional structure-based drug design, molecular glue design is governed by the unknown protein-protein interface and requires the simultaneous modeling of ligand generation, protein-protein docking, and ternary complex assembly. In this work, we formulate molecular glue design as a ternary complex generation problem and propose a biology-inspired generative framework, TriGlue. Motivated by the mechanism of molecular glue action, we decompose ternary complex generation into two coupled stages: interface estimation and interface-conditioned complex generation. First, we develop an SE(3)-equivariant interface estimation module that predicts a geometrically constrained protein-protein interface from unbound monomer structures. Second, we introduce an interface-conditioned ternary flow matching network that jointly generates the molecular glue and predicts the rigid-body transformation required to assemble the ternary complex. Extensive experiments demonstrate that TriGlue generates chemically valid molecules and produces plausible ternary complexes, which highlight the potential of biology-inspired generative modeling for accelerating molecular glue discovery. Our code is available at https://github.com/yuliangyan0807/molecular-glue-design."
+   },
+   "PPR/PPR1298863": {
+    "id": "PPR/PPR1298863",
+    "title": "MG2Act: A Mechanism-Inspired Sequential Attention Framework for Molecular Glue Degradation Prediction",
+    "date": "2026-08-13",
+    "venue": "PPR",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PPR/PPR1298863",
+    "is_preprint": true,
+    "first_seen": "2026-08-21",
+    "age_days_at_first_seen": 8,
+    "abstract": "Molecular glue degraders act by inducing productive proximity between an E3 ligase and a substrate protein. For most characterized degradative glues, a small molecule first engages the E3, conditions its substrate-recognition surface, and only then enables recruitment of a compatible neo-substrate. This directionality is rarely encoded explicitly in computational models, which typically fuse molecule, E3 and target representations simultaneously. We present MG2Act, a structure-independent framework that translates this two-step logic into sequential cross-attention, using CRBN-mediated degradation as the most data-rich representative system. Starting from a curated continuous-valued benchmark of 1,207 pairs across 47 targets, a refined subset of 1,159 pairs was selected to train MG2Act after excluding rare targets. On identical processed data, MG2Act consistently outperforms machine learning baselines, robustly generalizes under strict redundancy-filtering, and responds coherently to mechanism-based perturbations. Prospective screening and zero-shot target-conditioned prioritization identified nanomolar degraders of IKZF1, CK1\u03b1 and CDK4, including the non-classical IMiD-core CDK4 degrader SWC-202."
    }
   },
   "TRG-VIRTUAL-CELL-NO-LINE": {
@@ -1185,6 +1234,30 @@
     "first_seen": "2026-08-14",
     "age_days_at_first_seen": 7,
     "abstract": "A central task in virtual cell modeling is predicting single-cell transcriptional responses to unseen genetic perturbations and drug combinations, and biological networks provide valuable priors on gene relationships. Existing graph-based models commonly use the same network to structure gene representations and mediate intergene interactions, thereby implicitly treating stable associations as perturbation-response pathways. Gene Ontology and control-derived coexpression networks encode relatively stable relationships rather than intervention-specific response directions or magnitudes. We therefore propose GeneGeoFlow, which conditions a control-anchored residual flow on gene-wise geometry derived from biological networks to learn intervention-specific transcriptional responses. GeneGeoFlow derives multi-scale spectral coordinates from Gene Ontology and control-derived coexpression networks. A perturbation-conditioned, gene-wise gating module selects relevant structural scales and network sources, yielding intervention-specific gene geometry. The resulting geometry conditions a control-anchored residual flow without explicitly propagating target-derived signals along the graph. Condition-wise optimal transport couples unpaired control and perturbed populations for training, while a Delta-correlation objective aligns the predicted and observed condition-level expression-shift directions. GeneGeoFlow achieves Pearson Delta scores of 0.8979 on the Norman additive benchmark and 0.9088 on five held-out drug combinations in the fixed ComboSciPlex test split. These results support perturbation-conditioned gene geometry as an effective structural prior for intervention-specific response prediction, without conflating stable gene relationships with response propagation."
+   },
+   "arXiv/2608.15288v1": {
+    "id": "arXiv/2608.15288v1",
+    "title": "$D^{2}R^{2}$: Discrete Diffusion with Regulation Reinforcement for Single-Cell Perturbation Prediction",
+    "date": "2026-08-15",
+    "venue": "arXiv",
+    "source": "arxiv",
+    "url": "http://arxiv.org/abs/2608.15288v1",
+    "is_preprint": true,
+    "first_seen": "2026-08-21",
+    "age_days_at_first_seen": 6,
+    "abstract": "Predicting single-cell transcriptomic responses to genetic perturbations is central to functional genomics and virtual-cell modeling. Existing approaches, however, typically predict an entire expression profile as a whole, leaving the order in which individual gene responses are generated unmodeled. To address this problem, we introduce \\textbf{$D^{2}R^{2}$} (\\textbf{D}iscrete \\textbf{D}iffusion with \\textbf{R}egulation \\textbf{R}einforcement), which reformulates perturbation prediction as regulation-guided gene-wise progressive generation. A Masked Discrete Diffusion Model represents expression as ordinal tokens and reconstructs a fully masked profile step by step, allowing generated gene responses to condition those that remain masked. A Regulatory Policy Module initializes the generation policy from a gene regulatory network inferred from control cells and adapts it to the perturbation and current partially generated state. Then, group-relative policy optimization refines only the ordering policy using final perturbation-effect agreement as reward. Across Norman19 and VCC-H1, $D^{2}R^{2}$ achieves the best performance on all five metrics on Norman19 and remains competitive on H1. Controlled ablations holding the generator and generation budget fixed show that biological-prior ordering improves over random ordering and is more reliable than uncertainty-based heuristics, whereas reversing the biological-prior ordering degrades every metric. Biological analyses further show that the refined policy prioritizes regulatory genes early while promoting perturbation-specific transcription factors and responsive genes. These results establish gene generation order as an effective, controllable, and biologically interpretable dimension of single-cell perturbation prediction."
+   },
+   "arXiv/2606.12838v2": {
+    "id": "arXiv/2606.12838v2",
+    "title": "OCOO-T : A Simple and Scalable Virtual Cell Model for Transcriptional Perturbation Response Prediction",
+    "date": "2026-06-11",
+    "venue": "arXiv",
+    "source": "arxiv",
+    "url": "http://arxiv.org/abs/2606.12838v2",
+    "is_preprint": true,
+    "first_seen": "2026-08-21",
+    "duplicate_of_title": true,
+    "abstract": "Predicting single-cell transcriptional responses to genetic, chemical and cytokine perturbations is a fundamental challenge in computational biology and AI Virtual Cell (AIVC) modeling, with direct implications for drug discovery and the elucidation of gene regulatory networks. Existing approaches often rely on auxiliary cell-state encoders, hierarchical variational autoencoders, dedicated Transformer encoder-decoder modules, or gene-interaction priors to compress high-dimensional expression profiles into latent representations. While effective, these designs increase architectural complexity and may limit scalability and generalizability. This paper introduces OCOO-T, a minimalist flow-matching-based AIVC model for transcriptional perturbation response prediction. OCOO-T utilizes a vanilla Transformer stack that operates directly on continuous gene expression profiles and formulates perturbation response prediction as a continuous-time denoising process. Perturbation embeddings, dosage information, and cell-line/cell-type specificity are integrated through adaptive layer normalization and in-context tokens. Comprehensive evaluations on Tahoe100M, Replogle, and PBMC benchmarks demonstrate that OCOO-T achieves state-of-the-art performance across diverse perturbations and cell types while effectively scaling to long transcriptional profiles through patching and depatching of cellular contexts. By leveraging the simplicity of Transformer-based denoising for single-cell omics, OCOO-T provides an effective and scalable framework for in-silico cellular simulation."
    }
   },
   "TRG-OLIGO-DELIVERY-TECH": {
@@ -1882,6 +1955,26 @@
     "first_seen": "2026-08-14",
     "age_days_at_first_seen": 3,
     "abstract": "Antisense oligonucleotides (ASO) are nucleotide polymers that hybridize to sense strands and have been successful in treating a variety of diseases. A wide range of strategies have been investigated to optimize and develop ASO for clinical studies. A key objective for this study was to provide an overview of the range of detailed data that get be obtained and provide an updated method review on how to design surface plasmon resonance (SPR) kinetic experiments for DNA oligonucleotide hybridization studies that can also be applied to other ASO including peptide nucleic acids (PNA). We describe many lessons learned from published literature and provide a state-of-the-art strategy and methods for generating not only kinetic but also thermodynamic characterizations of oligonucleotide hybridization. In this study we have performed an SPR kinetic and thermodynamic analysis for the hybridization of HIF1\u03b1 antisense DNA strands to its immobilized Intron2-Exon3 splice site sense DNA strand to provide insight, in general, on the optimal length and insight into optimal design of DNA ASOs. We provide a process on how to design experiments to: 1.) obtain oligonucleotide-length dependent kinetics, 2.) analyze reactions to obtain association and dissociation rate kinetics (k  a , k  d ), assess if hybridization follows a 2-state model and to obtain kinetic dissociation constants (K  d ), 3.) perform temperature-dependent hybridization kinetics to obtain thermodynamic values (\u0394H\u00b0, \u0394S\u00b0 and \u0394G\u00b0) that can give insight into the molecular interactions driving hybridization, 4.) compare experimental thermodynamic values to values derived from nearest-neighbor prediction models to identify atypical reactions and importantly 5.) enable calculations to predict oligomer hybridization affinity at the physiological 37 \u00b0C temperature to asses if the design of the oligomer will have the required cellular activity for a therapeutic effect. The strategy and results presented throughout the paper are compared to previous SPR reports and suggestions made to optimize kinetic studies."
+   },
+   "MED/42606404": {
+    "id": "MED/42606404",
+    "title": "Efficacy and safety of topical siRNA-based formulation targeting DKK-1 in androgenetic alopecia: A randomized, double-blind, vehicle-controlled trial",
+    "date": "2026-08-17",
+    "venue": "J Am Acad Dermatol",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42606404",
+    "first_seen": "2026-08-21",
+    "age_days_at_first_seen": 4
+   },
+   "MED/42596551": {
+    "id": "MED/42596551",
+    "title": "A complement C5-targeted GalNAc-conjugated siRNA with sustained efficacy in a non-human primate model of IgA nephropathy",
+    "date": "2026-08-13",
+    "venue": "Mol Ther",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42596551",
+    "first_seen": "2026-08-21",
+    "age_days_at_first_seen": 8
    }
   },
   "TRG-EMC-FUNCTIONAL-MODEL": {
@@ -2232,6 +2325,38 @@
     "first_seen": "2026-08-08",
     "age_days_at_first_seen": 102,
     "abstract": "Abstract    T cell immunity relies on interactions between peptide-MHC (pMHC) complexes and T cell receptors (TCRs), yet most computational methods model peptide-MHC binding or epitope-TCR specificity in isolation and rarely incorporate structural interface signals. Here we present PepBridge, a peptide-bridged, and residue-level conformation supervised deep learning framework for modeling the pMHC-TCR recognition cascade across multiple tasks, including peptide-MHC, peptide-TCR and MHC-peptide-TCR binding, and epitope immunogenicity. PepBridge performs favorably than existing methods, particularly for peptide-TCR and MHC-peptide-TCR interaction-related prediction tasks. Importantly, using the epitopes embedding in peptide-MHC to dynamically regularize their representations in the peptide-TCR embedding space is an effective approach to improving the decoding of pMHC-TCR interaction semantics. Fine-tuning on antigen-specific single-T-cell sequencing data enables PepBridge scores to exhibit strong correlation to TCR clonal expansion specific to chosen epitopes, highlighting the transferability of PepBridge as a foundation model. PepBridge provides an integrated foundation for structure-aware pMHC-TCR modeling and translational immunology applications."
+   },
+   "MED/42601415": {
+    "id": "MED/42601415",
+    "title": "Structure-based TCR-pMHC binding prediction and generalization to unseen peptides",
+    "date": "2026-08-14",
+    "venue": "NPJ Drug Discov",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42601415",
+    "first_seen": "2026-08-21",
+    "age_days_at_first_seen": 7
+   },
+   "MED/42594866": {
+    "id": "MED/42594866",
+    "title": "Predicting specificity of TCR-pMHC interactions using machine-learning and biophysical models",
+    "date": "2026-08-13",
+    "venue": "Cell Syst",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42594866",
+    "first_seen": "2026-08-21",
+    "age_days_at_first_seen": 8
+   },
+   "PPR/PPR1298908": {
+    "id": "PPR/PPR1298908",
+    "title": "Peptide-HLA II interaction prediction for post-translationally modified peptides",
+    "date": "2026-08-13",
+    "venue": "PPR",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PPR/PPR1298908",
+    "is_preprint": true,
+    "first_seen": "2026-08-21",
+    "age_days_at_first_seen": 8,
+    "abstract": "CD4+ T cells recognize peptides presented by human leukocyte antigen (HLA) II, implementing a fundamental mediation mechanism of the adaptive immune system. Although post-translational modifications (PTMs) alter immune responses, PTM-peptide-HLA interaction prediction remains challenging due to data scarcity resulting from substoichiometric levels of PTMs. To overcome this, we developed PepChem, a deep learning model utilizing novel, molecular-level peptide representations that enable predictions for sidechain modifications. Using monoallelic datasets that we reanalyze for PTMs of interest, we show accurate predictions on PTMs that were unseen during training. Furthermore, we introduce a novel training protocol that improves PTM-peptide generalization compared to conventional methods. We predict and experimentally validate citrullination-induced binding increase of rheumatoid arthritis (RA)-linked peptides to HLA II risk allele DRB1*04:01. This framework bridges the critical gap in PTM-aware immune recognition prediction, with immediate applications in autoimmunity, cancer, and infectious disease."
    }
   },
   "TRG-NR4A3-DIRECT-MATTER": {
@@ -2967,6 +3092,42 @@
     "first_seen": "2026-08-14",
     "age_days_at_first_seen": 15,
     "abstract": "Autonomous research loops driven by large language models can run machine-learning experiments at scale but tend to drift toward local refinements of whichever metric they optimise rather than testing the hypotheses that motivate the experiments. We address this structurally and present an AI Scientist for studying generalisation in quadruped robot navigation policies in simulation. Building on the autoresearch paradigm of Karpathy, our loop adds three components: an immutable experiment card that pairs each iteration's prediction with its outcome under a fixed schema, so a falsified hypothesis cannot be retconned; specialised subagents restricted to mechanical roles; and kkanbu, a preference oracle that holds the user's research taste as a typed knowledge graph and is the only component permitted to make subjective judgements. To isolate the oracle we run the identical loop twice across eleven research streams, with and without kkanbu. Neither arm drifts: both falsify roughly three quarters of their own hypotheses, and the best trained policy comes from the oracle-less arm. What the oracle changes is direction, not score: it alone explores test-time adaptation, it authored the winning designs where its arm led, and it carried lessons across streams that the other arm repeatedly re-derived. The scaffold keeps the loop honest; kkanbu decides where it looks."
+   },
+   "PPR/PPR1299132": {
+    "id": "PPR/PPR1299132",
+    "title": "Autonomous Spatial Transcriptomics Analysis (ASTA): Demonstrating Performance Improvements through Clustering, Biological Annotation, and AI-Driven Discovery",
+    "date": "2026-08-14",
+    "venue": "PPR",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/PPR/PPR1299132",
+    "is_preprint": true,
+    "first_seen": "2026-08-21",
+    "age_days_at_first_seen": 7,
+    "abstract": "Spatial transcriptomics keeps measurement of gene expression while preserving spatial context, yet traditional analysis methods face challenges in computational efficiency, biological interpretability, and autonomous discovery. This project presents a framework solving these issues through three parts: (1) an ensemble clustering system achieving 66.7% improvement over baseline average and 23.9% over best single method with silhouette score of 0.540 and statistical significance (p = 0.0032, Cohen's d = 1.82); (2) a knowledge-based clustering framework that annotates 88.6% of cells across 8 ovarian cell types using 428 marker genes; and (3) a GPT-4o-mini-powered autonomous agent that generated 3 biological hypotheses with validations."
+   },
+   "arXiv/2608.15052v2": {
+    "id": "arXiv/2608.15052v2",
+    "title": "Andy: A Mathematical Agent for Rigorous Proof and Autonomous Research",
+    "date": "2026-08-15",
+    "venue": "arXiv",
+    "source": "arxiv",
+    "url": "http://arxiv.org/abs/2608.15052v2",
+    "is_preprint": true,
+    "first_seen": "2026-08-21",
+    "age_days_at_first_seen": 6,
+    "abstract": "Andy is an autonomous mathematical research agent that turns a mathematical problem into a traceable proof. It solves or verifies a submitted problem, formulates a literature-grounded new problem through a research-value gate, and carries it through proof construction and final verification. It organizes proof steps in an executable DAG, verifies each step independently and binds the result to a certificate, retains verified work whose interfaces remain unchanged during local repair, and records the full path from problem formulation to final proof. The system separates proof generation from correctness evaluation and can acquire, retain, retrieve, and reuse knowledge from existing results. Starting from a self-triggered impulsive consensus result, Andy formulates a global exponential leader-follower synchronization problem for delayed heterogeneous networks with switching communication topologies. The proposed hybrid control combines self-triggered impulses with execution delay and continuous feedback over a recovery window. After each delayed impulse, the feedback cancels the delayed error channel until the pre-impulse history leaves the active delay interval. Sufficient conditions for global exponential synchronization are established, Zeno behavior is excluded for both timing sequences, and a numerical example illustrates the result."
+   },
+   "arXiv/2608.14407v1": {
+    "id": "arXiv/2608.14407v1",
+    "title": "The Past and Future of AI Scientists",
+    "date": "2026-08-14",
+    "venue": "arXiv",
+    "source": "arxiv",
+    "url": "http://arxiv.org/abs/2608.14407v1",
+    "is_preprint": true,
+    "first_seen": "2026-08-21",
+    "age_days_at_first_seen": 7,
+    "abstract": "We present a survey of the past and future of AI Scientists: machines capable of automating science. AI Scientists can originate hypotheses, deduce their consequences, design and execute experiments, interpret their results, and revise their beliefs. Such systems are integrated scientific agents, connected to the literature, formal knowledge, mathematical models, simulations, data-analysis systems and physical laboratories. Adam was the first machine to make novel scientific discoveries through cycles of hypothesis formation and physical experimentation. Eve established the architecture of the modern self-driving laboratory. Foundation models, autonomous agents and laboratory robotics now make it possible to build systems far more general than either Adam or Eve. The central problem is no longer whether individual components of science can be automated. They can. The problem is integration. AI Scientists must combine neural learning with logic, probability, mathematics, causal reasoning, simulation, experimental design, robotics and formal scientific records. AI Scientists have the potential to transform science: to make science faster, cheaper, more systematic and more reproducible. AI Scientists could investigate systems too complicated for unaided human science, and enable thousands of AI scientists to work together on single problems. The Nobel Turing Challenge sets the goal of developing by 2050 AI systems capable of automating Nobel-quality discoveries. Progress is ahead of schedule. When we succeed it will create a new form of science and transform the world."
    }
   },
   "TRG-POSE-ORIENTATION-CONVERGENCE": {
@@ -3305,6 +3466,56 @@
     "first_seen": "2026-08-14",
     "age_days_at_first_seen": 3,
     "abstract": "Molecular docking and co-folding engines are widely used to prioritize compounds for wet-lab validation, yet their accuracy is known to vary substantially across protein targets for reasons that remain only qualitatively understood. Here we benchmark six docking and co-folding engines (RevDock, DiffDock, Boltz2, AutoDock-GPU, rDock, and PandaDock) across 14 protein families, evaluating scoring power, ranking power, docking power, and physical validity. Rather than treating engine performance as protein-family-specific, we classify all 14 families into six mechanistic groups according to which of four scoring-function simplifications, rigid receptor, pairwise additivity, fixed point charges, and implicit solvent, is most severely stressed by that family's binding site. This framework helps explain, rather than simply describe, where each engine succeeds or fails: RevDock's CNN rescoring layer mitigates the pairwise additivity and fixed-charge limitations relative to physics-only scoring, achieving the highest overall pose accuracy (73.3% of poses \u2264 2.0 A RMSD), while Boltz2's sequence-based co-folding bypasses the rigid-receptor assumption and achieves comparable affinity correlation (mean Pearson r \u2248 0.60 for both engines). PandaDock, run with expanded conformational sampling, matches RevDock on pose accuracy (72.1% of poses \u2264 2.0 A, lowest median RMSD at 0.96 A) and exceeds AutoDock-GPU on affinity correlation (mean r = 0.460), indicating that the performance of a physics-based scoring function is limited as much by search adequacy as by the scoring function itself. These results suggest that engine selection for a docking or co-folding campaign should be guided less by an engine's aggregate benchmark ranking and more by which of these four structural and physical characteristics dominate the target of interest."
+   },
+   "MED/42601673": {
+    "id": "MED/42601673",
+    "title": "Unraveling the therapeutic mechanisms of Huanglian Jiedu Tang in bacterial meningitis: A comprehensive approach integrating network pharmacology, molecular docking, and experimental validation",
+    "date": "2026-08-01",
+    "venue": "Medicine (Baltimore)",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42601673",
+    "first_seen": "2026-08-21",
+    "age_days_at_first_seen": 20
+   },
+   "MED/42599654": {
+    "id": "MED/42599654",
+    "title": "Resveratrol Modulates Lung Cancer-Associated Hub Genes Identified by Integrated Bioinformatics, Single-Cell Analysis, Molecular Docking, and Experimental Validation",
+    "date": "2026-08-14",
+    "venue": "Cell Biochem Biophys",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42599654",
+    "first_seen": "2026-08-21",
+    "age_days_at_first_seen": 7
+   },
+   "MED/42585599": {
+    "id": "MED/42585599",
+    "title": "Elucidating the Mechanisms of Trichloroethylene-Induced Kidney Cancer: Network Toxicology, Molecular Docking, and In Vitro Validation",
+    "date": "2026-08-01",
+    "venue": "J Biochem Mol Toxicol",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42585599",
+    "first_seen": "2026-08-21",
+    "age_days_at_first_seen": 20
+   },
+   "MED/42589356": {
+    "id": "MED/42589356",
+    "title": "Structure-Activity Relationship Evaluation of Melatonin and Its Derivatives for Wound-Healing Applications: A Combined Network Pharmacology, Molecular Docking, and Biological Validation Approach",
+    "date": "2026-07-27",
+    "venue": "Int J Mol Sci",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42589356",
+    "first_seen": "2026-08-21",
+    "age_days_at_first_seen": 25
+   },
+   "MED/42587882": {
+    "id": "MED/42587882",
+    "title": "Anti-Inflammatory Components of &lt;i&gt;Artemisia scoparia&lt;/i&gt; Alleviate Ulcerative Colitis: An Integrated Study Combining UPLC-Q-Exactive Orbitrap MS/MS, Network Pharmacology, Molecular Docking, and In Vivo/In Vitro Validation",
+    "date": "2026-07-27",
+    "venue": "Foods",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42587882",
+    "first_seen": "2026-08-21",
+    "age_days_at_first_seen": 25
    }
   },
   "TRG-COVALENT-EXPOSURE-CRITERION": {
@@ -3479,6 +3690,26 @@
     "url": "https://europepmc.org/article/MED/42569816",
     "first_seen": "2026-08-14",
     "age_days_at_first_seen": 6
+   },
+   "MED/42605888": {
+    "id": "MED/42605888",
+    "title": "Cysteine Thioaldehydes: Photolytic Generation, Reactivity, and Biological Implications",
+    "date": "2026-08-17",
+    "venue": "Angew Chem Int Ed Engl",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42605888",
+    "first_seen": "2026-08-21",
+    "age_days_at_first_seen": 4
+   },
+   "MED/42606932": {
+    "id": "MED/42606932",
+    "title": "Protocol for covalent ligand discovery via library-versus-proteome screening",
+    "date": "2026-08-17",
+    "venue": "STAR Protoc",
+    "source": "europepmc",
+    "url": "https://europepmc.org/article/MED/42606932",
+    "first_seen": "2026-08-21",
+    "age_days_at_first_seen": 4
    }
   },
   "TRG-ANTITARGET-PANEL-PROTOCOL": {

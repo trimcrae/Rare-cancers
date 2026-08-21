@@ -8,12 +8,12 @@ canonical_for: []
 purpose: "Unrefereed preprints matching a named reopening trigger, grouped by the blocker they would reopen — a leading indicator for the forecast bands in the blocker register."
 scope: "Preprints only (Europe PMC SRC:PPR, arXiv, ChemRxiv). The published corpus is on the trigger-scan board."
 audience: [maintainers, autonomous research agents]
-date: 2026-08-14
+date: 2026-08-21
 last_verified: unverified
 ---
 # Preprint pipeline — what is coming, by blocker
 
-**Last run: 2026-08-14** (UTC date stamp from the runner).
+**Last run: 2026-08-21** (UTC date stamp from the runner).
 
 ⛔ **EVERYTHING HERE IS UNREFEREED, TITLE-MATCHED AND UNREAD.** A preprint is the weakest lead this repository records. It cannot move a forecast band, it is not evidence, and nothing here may be cited. Its value is WARNING — it is the earliest point at which a capability becomes visible, often months before the journal version.
 
@@ -27,6 +27,10 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 
 | posted | preprint | venue | via trigger |
 |---|---|---|---|
+| 2026-08-15 | [Andy: A Mathematical Agent for Rigorous Proof and Autonomous Research](http://arxiv.org/abs/2608.15052v2) | arXiv | `TRG-AUTONOMOUS-RESEARCH-AGENT` ⚠ |
+| 2026-08-14 | [Autonomous Spatial Transcriptomics Analysis (ASTA): Demonstrating Performance Improvements through Clustering,](https://europepmc.org/article/PPR/PPR1299132) | PPR | `TRG-AUTONOMOUS-RESEARCH-AGENT` ⚠ |
+| 2026-08-14 | [The Past and Future of AI Scientists](http://arxiv.org/abs/2608.14407v1) | arXiv | `TRG-AUTONOMOUS-RESEARCH-AGENT` ⚠ |
+| 2026-08-13 | [Peptide-HLA II interaction prediction for post-translationally modified peptides](https://europepmc.org/article/PPR/PPR1298908) | PPR | `TRG-JUNCTION-PHLA` ⚠ |
 | 2026-08-13 | [OmniScientist: An Omni-Modal Omni-Discipline AI Scientist](http://arxiv.org/abs/2608.13558v1) | arXiv | `TRG-AUTONOMOUS-RESEARCH-AGENT` ⚠ |
 | 2026-08-12 | [DuplexFM: Transferable small-RNA target representations link miRNA interactions to siRNA efficacy prediction](https://europepmc.org/article/PPR/PPR1297514) | PPR | `TRG-ASO-EFFICACY-ACCESSIBILITY` ⚠ |
 | 2026-08-11 | [siDiff: De Novo siRNA Design via Efficacy-Guided Discrete Masked Diffusion](https://europepmc.org/article/PPR/PPR1297633) | PPR | `TRG-ASO-EFFICACY-ACCESSIBILITY` ⚠ |
@@ -88,6 +92,22 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 | 2026-02-17 | [RNAiSpline: A Deep learning model for siRNA efficacy prediction](https://europepmc.org/article/PPR/PPR1223467) | PPR | `TRG-ASO-EFFICACY-ACCESSIBILITY` ⚠ |
 
 <details><summary>Abstracts (fetched, still unrefereed and ungraded)</summary>
+
+**Andy: A Mathematical Agent for Rigorous Proof and Autonomous Research** — arXiv, 2026-08-15
+
+> Andy is an autonomous mathematical research agent that turns a mathematical problem into a traceable proof. It solves or verifies a submitted problem, formulates a literature-grounded new problem through a research-value gate, and carries it through proof construction and final verification. It organizes proof steps in an executable DAG, verifies each step independently and binds the result to a certificate, retains verified work whose interfaces remain unchanged during local repair, and records the full path from problem formulation to final proof. The system separates proof generation from correctness evaluation and can acquire, retain, retrieve, and reuse knowledge from existing results. Starting from a self-triggered impulsive consensus result, Andy formulates a global exponential leader-follower synchronization problem for delayed heterogeneous networks with switching communication topologies. The proposed hybrid control combines self-triggered impulses with execution delay and continuous feedback over a recovery window. After each delayed impulse, the feedback cancels the delayed error channel until the pre-impulse history leaves the active delay interval. Sufficient conditions for global exponential synchronization are established, Zeno behavior is excluded for both timing sequences, and a numerical example illustrates the result.
+
+**Autonomous Spatial Transcriptomics Analysis (ASTA): Demonstrating Performance Improvements through Clustering, Biological Annotation, and AI-Driven Discovery** — PPR, 2026-08-14
+
+> Spatial transcriptomics keeps measurement of gene expression while preserving spatial context, yet traditional analysis methods face challenges in computational efficiency, biological interpretability, and autonomous discovery. This project presents a framework solving these issues through three parts: (1) an ensemble clustering system achieving 66.7% improvement over baseline average and 23.9% over best single method with silhouette score of 0.540 and statistical significance (p = 0.0032, Cohen's d = 1.82); (2) a knowledge-based clustering framework that annotates 88.6% of cells across 8 ovarian cell types using 428 marker genes; and (3) a GPT-4o-mini-powered autonomous agent that generated 3 biological hypotheses with validations.
+
+**The Past and Future of AI Scientists** — arXiv, 2026-08-14
+
+> We present a survey of the past and future of AI Scientists: machines capable of automating science. AI Scientists can originate hypotheses, deduce their consequences, design and execute experiments, interpret their results, and revise their beliefs. Such systems are integrated scientific agents, connected to the literature, formal knowledge, mathematical models, simulations, data-analysis systems and physical laboratories. Adam was the first machine to make novel scientific discoveries through cycles of hypothesis formation and physical experimentation. Eve established the architecture of the modern self-driving laboratory. Foundation models, autonomous agents and laboratory robotics now make it possible to build systems far more general than either Adam or Eve. The central problem is no longer whether individual components of science can be automated. They can. The problem is integration. AI Scientists must combine neural learning with logic, probability, mathematics, causal reasoning, simulation, experimental design, robotics and formal scientific records. AI Scientists have the potential to transform science: to make science faster, cheaper, more systematic and more reproducible. AI Scientists could investigate systems too complicated for unaided human science, and enable thousands of AI scientists to work together on single problems. The Nobel Turing Challenge sets the goa
+
+**Peptide-HLA II interaction prediction for post-translationally modified peptides** — PPR, 2026-08-13
+
+> CD4+ T cells recognize peptides presented by human leukocyte antigen (HLA) II, implementing a fundamental mediation mechanism of the adaptive immune system. Although post-translational modifications (PTMs) alter immune responses, PTM-peptide-HLA interaction prediction remains challenging due to data scarcity resulting from substoichiometric levels of PTMs. To overcome this, we developed PepChem, a deep learning model utilizing novel, molecular-level peptide representations that enable predictions for sidechain modifications. Using monoallelic datasets that we reanalyze for PTMs of interest, we show accurate predictions on PTMs that were unseen during training. Furthermore, we introduce a novel training protocol that improves PTM-peptide generalization compared to conventional methods. We predict and experimentally validate citrullination-induced binding increase of rheumatoid arthritis (RA)-linked peptides to HLA II risk allele DRB1*04:01. This framework bridges the critical gap in PTM-aware immune recognition prediction, with immediate applications in autoimmunity, cancer, and infectious disease.
 
 **OmniScientist: An Omni-Modal Omni-Discipline AI Scientist** — arXiv, 2026-08-13
 
@@ -331,6 +351,7 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 
 | posted | preprint | venue | via trigger |
 |---|---|---|---|
+| 2026-08-15 | [$D^{2}R^{2}$: Discrete Diffusion with Regulation Reinforcement for Single-Cell Perturbation Prediction](http://arxiv.org/abs/2608.15288v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-08-07 | [SLIM: A small linear model with STRING embeddings for single-cell genetic perturbation prediction](https://europepmc.org/article/PPR/PPR1294148) | PPR | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-08-07 | [Control-Anchored Residual Flow Matching Conditioned on Gene Geometry for Virtual Cell Perturbation Modeling](http://arxiv.org/abs/2608.06824v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-08-03 | [LLM-Guided Retrieval for Prediction of Molecular Perturbation Responses](http://arxiv.org/abs/2608.01734v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` |
@@ -350,6 +371,7 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 | 2026-06-18 | [Elucidating the Design Space of Generative Models for Single-Cell Perturbation Prediction](https://europepmc.org/article/PPR/PPR1255210) | PPR | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-06-11 | [OCOO-T : A SIMPLE AND SCALABLE VIRTUAL CELL MODEL FOR TRANSCRIPTIONAL PERTURBATION RESPONSE PREDICTION](https://europepmc.org/article/PPR/PPR1250494) | PPR | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-06-11 | [OCOO-T : A Simple and Scalable Virtual Cell Model for Transcriptional Perturbation Response Prediction](http://arxiv.org/abs/2606.12838v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` |
+| 2026-06-11 | [OCOO-T : A Simple and Scalable Virtual Cell Model for Transcriptional Perturbation Response Prediction](http://arxiv.org/abs/2606.12838v2) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-06-10 | [A Metric-Calibrated Replay Framework for Single-Cell Genetic Perturbation Prediction](https://europepmc.org/article/PPR/PPR1249392) | PPR | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-06-10 | [CisTransCell: Single-Cell Perturbation Prediction via Gene Function, Regulatory Control, and Cellular Context](http://arxiv.org/abs/2606.13713v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-06-07 | [Knowledge Graphs and Reasoning LLMs for Finding Simple Yet Effective Transcriptomic Perturbation Predictors](http://arxiv.org/abs/2606.08816v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` |
@@ -370,6 +392,10 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 | 2026-03-10 | [Preoperative HALP Score as a Marker of Tumor Aggressiveness and Survival in Surgically Treated Soft Tissue Sar](https://europepmc.org/article/PPR/PPR1163941) | PPR | `TRG-EMC-EXPRESSION-DATASET` ⚠ |
 
 <details><summary>Abstracts (fetched, still unrefereed and ungraded)</summary>
+
+**$D^{2}R^{2}$: Discrete Diffusion with Regulation Reinforcement for Single-Cell Perturbation Prediction** — arXiv, 2026-08-15
+
+> Predicting single-cell transcriptomic responses to genetic perturbations is central to functional genomics and virtual-cell modeling. Existing approaches, however, typically predict an entire expression profile as a whole, leaving the order in which individual gene responses are generated unmodeled. To address this problem, we introduce \textbf{$D^{2}R^{2}$} (\textbf{D}iscrete \textbf{D}iffusion with \textbf{R}egulation \textbf{R}einforcement), which reformulates perturbation prediction as regulation-guided gene-wise progressive generation. A Masked Discrete Diffusion Model represents expression as ordinal tokens and reconstructs a fully masked profile step by step, allowing generated gene responses to condition those that remain masked. A Regulatory Policy Module initializes the generation policy from a gene regulatory network inferred from control cells and adapts it to the perturbation and current partially generated state. Then, group-relative policy optimization refines only the ordering policy using final perturbation-effect agreement as reward. Across Norman19 and VCC-H1, $D^{2}R^{2}$ achieves the best performance on all five metrics on Norman19 and remains competitive on H1. Controlled ablations holding the generator and generation budget fixed show that biological-prior ordering improves over random ordering and is more reliable than uncertainty-based heuristics, where
 
 **SLIM: A small linear model with STRING embeddings for single-cell genetic perturbation prediction** — PPR, 2026-08-07
 
@@ -442,6 +468,10 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 **OCOO-T : A SIMPLE AND SCALABLE VIRTUAL CELL MODEL FOR TRANSCRIPTIONAL PERTURBATION RESPONSE PREDICTION** — PPR, 2026-06-11
 
 > Predicting single-cell transcriptional responses to genetic, chemical and cytokine perturbations is a fundamental challenge in computational biology and AI Virtual Cell (AIVC) modeling, with direct implications for drug discovery and the elucidation of gene regulatory networks. Existing approaches often rely on auxiliary cell-state encoders, hierarchical variational autoencoders, dedicated Transformer encoder-decoder modules, or gene-interaction priors to compress high-dimensional expression profiles into latent representations. While effective, these designs increase architectural complexity and may limit scalability and generalizability. This paper introduces OCOO-T  1 , a minimalist flow-matching-based AIVC model for transcriptional perturbation response prediction. OCOO-T utilizes a vanilla Transformer stack that operates directly on continuous gene expression profiles and formulates perturbation response prediction as a continuous-time denoising process. Perturbation embeddings, dosage information, and cell-line/cell-type specificity are integrated through adaptive layer normalization and in-context tokens. Comprehensive evaluations on Tahoe100M, Replogle, and PBMC benchmarks demonstrate that OCOO-T achieves state-of-the-art performance across diverse perturbations and cell types while effectively scaling to long transcriptional profiles through patching and depatching of 
+
+**OCOO-T : A Simple and Scalable Virtual Cell Model for Transcriptional Perturbation Response Prediction** — arXiv, 2026-06-11
+
+> Predicting single-cell transcriptional responses to genetic, chemical and cytokine perturbations is a fundamental challenge in computational biology and AI Virtual Cell (AIVC) modeling, with direct implications for drug discovery and the elucidation of gene regulatory networks. Existing approaches often rely on auxiliary cell-state encoders, hierarchical variational autoencoders, dedicated Transformer encoder-decoder modules, or gene-interaction priors to compress high-dimensional expression profiles into latent representations. While effective, these designs increase architectural complexity and may limit scalability and generalizability. This paper introduces OCOO-T, a minimalist flow-matching-based AIVC model for transcriptional perturbation response prediction. OCOO-T utilizes a vanilla Transformer stack that operates directly on continuous gene expression profiles and formulates perturbation response prediction as a continuous-time denoising process. Perturbation embeddings, dosage information, and cell-line/cell-type specificity are integrated through adaptive layer normalization and in-context tokens. Comprehensive evaluations on Tahoe100M, Replogle, and PBMC benchmarks demonstrate that OCOO-T achieves state-of-the-art performance across diverse perturbations and cell types while effectively scaling to long transcriptional profiles through patching and depatching of cell
 
 **OCOO-T : A Simple and Scalable Virtual Cell Model for Transcriptional Perturbation Response Prediction** — arXiv, 2026-06-11
 
@@ -567,6 +597,7 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 
 | posted | preprint | venue | via trigger |
 |---|---|---|---|
+| 2026-08-15 | [$D^{2}R^{2}$: Discrete Diffusion with Regulation Reinforcement for Single-Cell Perturbation Prediction](http://arxiv.org/abs/2608.15288v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` ⚠ |
 | 2026-08-07 | [SLIM: A small linear model with STRING embeddings for single-cell genetic perturbation prediction](https://europepmc.org/article/PPR/PPR1294148) | PPR | `TRG-VIRTUAL-CELL-NO-LINE` ⚠ |
 | 2026-08-07 | [Control-Anchored Residual Flow Matching Conditioned on Gene Geometry for Virtual Cell Perturbation Modeling](http://arxiv.org/abs/2608.06824v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` ⚠ |
 | 2026-08-03 | [LLM-Guided Retrieval for Prediction of Molecular Perturbation Responses](http://arxiv.org/abs/2608.01734v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` ⚠ |
@@ -586,6 +617,7 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 | 2026-06-18 | [Elucidating the Design Space of Generative Models for Single-Cell Perturbation Prediction](https://europepmc.org/article/PPR/PPR1255210) | PPR | `TRG-VIRTUAL-CELL-NO-LINE` ⚠ |
 | 2026-06-11 | [OCOO-T : A SIMPLE AND SCALABLE VIRTUAL CELL MODEL FOR TRANSCRIPTIONAL PERTURBATION RESPONSE PREDICTION](https://europepmc.org/article/PPR/PPR1250494) | PPR | `TRG-VIRTUAL-CELL-NO-LINE` ⚠ |
 | 2026-06-11 | [OCOO-T : A Simple and Scalable Virtual Cell Model for Transcriptional Perturbation Response Prediction](http://arxiv.org/abs/2606.12838v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` ⚠ |
+| 2026-06-11 | [OCOO-T : A Simple and Scalable Virtual Cell Model for Transcriptional Perturbation Response Prediction](http://arxiv.org/abs/2606.12838v2) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` ⚠ |
 | 2026-06-10 | [A Metric-Calibrated Replay Framework for Single-Cell Genetic Perturbation Prediction](https://europepmc.org/article/PPR/PPR1249392) | PPR | `TRG-VIRTUAL-CELL-NO-LINE` ⚠ |
 | 2026-06-10 | [CisTransCell: Single-Cell Perturbation Prediction via Gene Function, Regulatory Control, and Cellular Context](http://arxiv.org/abs/2606.13713v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` ⚠ |
 | 2026-06-07 | [Knowledge Graphs and Reasoning LLMs for Finding Simple Yet Effective Transcriptomic Perturbation Predictors](http://arxiv.org/abs/2606.08816v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` ⚠ |
@@ -605,6 +637,10 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 | 2026-04-21 | [AblateCell: A Reproduce-then-Ablate Agent for Virtual Cell Repositories](http://arxiv.org/abs/2604.19606v2) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` ⚠ |
 
 <details><summary>Abstracts (fetched, still unrefereed and ungraded)</summary>
+
+**$D^{2}R^{2}$: Discrete Diffusion with Regulation Reinforcement for Single-Cell Perturbation Prediction** — arXiv, 2026-08-15
+
+> Predicting single-cell transcriptomic responses to genetic perturbations is central to functional genomics and virtual-cell modeling. Existing approaches, however, typically predict an entire expression profile as a whole, leaving the order in which individual gene responses are generated unmodeled. To address this problem, we introduce \textbf{$D^{2}R^{2}$} (\textbf{D}iscrete \textbf{D}iffusion with \textbf{R}egulation \textbf{R}einforcement), which reformulates perturbation prediction as regulation-guided gene-wise progressive generation. A Masked Discrete Diffusion Model represents expression as ordinal tokens and reconstructs a fully masked profile step by step, allowing generated gene responses to condition those that remain masked. A Regulatory Policy Module initializes the generation policy from a gene regulatory network inferred from control cells and adapts it to the perturbation and current partially generated state. Then, group-relative policy optimization refines only the ordering policy using final perturbation-effect agreement as reward. Across Norman19 and VCC-H1, $D^{2}R^{2}$ achieves the best performance on all five metrics on Norman19 and remains competitive on H1. Controlled ablations holding the generator and generation budget fixed show that biological-prior ordering improves over random ordering and is more reliable than uncertainty-based heuristics, where
 
 **SLIM: A small linear model with STRING embeddings for single-cell genetic perturbation prediction** — PPR, 2026-08-07
 
@@ -677,6 +713,10 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 **OCOO-T : A SIMPLE AND SCALABLE VIRTUAL CELL MODEL FOR TRANSCRIPTIONAL PERTURBATION RESPONSE PREDICTION** — PPR, 2026-06-11
 
 > Predicting single-cell transcriptional responses to genetic, chemical and cytokine perturbations is a fundamental challenge in computational biology and AI Virtual Cell (AIVC) modeling, with direct implications for drug discovery and the elucidation of gene regulatory networks. Existing approaches often rely on auxiliary cell-state encoders, hierarchical variational autoencoders, dedicated Transformer encoder-decoder modules, or gene-interaction priors to compress high-dimensional expression profiles into latent representations. While effective, these designs increase architectural complexity and may limit scalability and generalizability. This paper introduces OCOO-T  1 , a minimalist flow-matching-based AIVC model for transcriptional perturbation response prediction. OCOO-T utilizes a vanilla Transformer stack that operates directly on continuous gene expression profiles and formulates perturbation response prediction as a continuous-time denoising process. Perturbation embeddings, dosage information, and cell-line/cell-type specificity are integrated through adaptive layer normalization and in-context tokens. Comprehensive evaluations on Tahoe100M, Replogle, and PBMC benchmarks demonstrate that OCOO-T achieves state-of-the-art performance across diverse perturbations and cell types while effectively scaling to long transcriptional profiles through patching and depatching of 
+
+**OCOO-T : A Simple and Scalable Virtual Cell Model for Transcriptional Perturbation Response Prediction** — arXiv, 2026-06-11
+
+> Predicting single-cell transcriptional responses to genetic, chemical and cytokine perturbations is a fundamental challenge in computational biology and AI Virtual Cell (AIVC) modeling, with direct implications for drug discovery and the elucidation of gene regulatory networks. Existing approaches often rely on auxiliary cell-state encoders, hierarchical variational autoencoders, dedicated Transformer encoder-decoder modules, or gene-interaction priors to compress high-dimensional expression profiles into latent representations. While effective, these designs increase architectural complexity and may limit scalability and generalizability. This paper introduces OCOO-T, a minimalist flow-matching-based AIVC model for transcriptional perturbation response prediction. OCOO-T utilizes a vanilla Transformer stack that operates directly on continuous gene expression profiles and formulates perturbation response prediction as a continuous-time denoising process. Perturbation embeddings, dosage information, and cell-line/cell-type specificity are integrated through adaptive layer normalization and in-context tokens. Comprehensive evaluations on Tahoe100M, Replogle, and PBMC benchmarks demonstrate that OCOO-T achieves state-of-the-art performance across diverse perturbations and cell types while effectively scaling to long transcriptional profiles through patching and depatching of cell
 
 **OCOO-T : A Simple and Scalable Virtual Cell Model for Transcriptional Perturbation Response Prediction** — arXiv, 2026-06-11
 
@@ -756,6 +796,7 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 
 | posted | preprint | venue | via trigger |
 |---|---|---|---|
+| 2026-08-13 | [MG2Act: A Mechanism-Inspired Sequential Attention Framework for Molecular Glue Degradation Prediction](https://europepmc.org/article/PPR/PPR1298863) | PPR | `TRG-GLUE-PROSPECTIVE-DESIGN` ⚠ |
 | 2026-07-24 | [TriGlue: a Biology-Inspired Generative Model for Generating Molecular Glue-Induced Ternary Complex](http://arxiv.org/abs/2607.22143v1) | arXiv | `TRG-TERNARY-GEN-NO-SITES` |
 | 2026-07-24 | [TriGlue: a Biology-Inspired Generative Model for Generating Molecular Glue-Induced Ternary Complex](http://arxiv.org/abs/2607.22143v2) | arXiv | `TRG-TERNARY-GEN-NO-SITES` |
 | 2026-07-24 | [TriGlue: a Biology-Inspired Generative Model for Generating Molecular Glue-Induced Ternary Complex](http://arxiv.org/abs/2607.22143v1) | arXiv | `TRG-GLUE-PROSPECTIVE-DESIGN` ⚠ |
@@ -766,6 +807,10 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 | 2026-03-10 | [Leveraging High-Throughput Proteomics and AI-Based Protein Folding to Accelerate VAV1 Molecular Glue Discovery](https://europepmc.org/article/PPR/PPR1164287) | PPR | `TRG-GLUE-PROSPECTIVE-DESIGN` ⚠ |
 
 <details><summary>Abstracts (fetched, still unrefereed and ungraded)</summary>
+
+**MG2Act: A Mechanism-Inspired Sequential Attention Framework for Molecular Glue Degradation Prediction** — PPR, 2026-08-13
+
+> Molecular glue degraders act by inducing productive proximity between an E3 ligase and a substrate protein. For most characterized degradative glues, a small molecule first engages the E3, conditions its substrate-recognition surface, and only then enables recruitment of a compatible neo-substrate. This directionality is rarely encoded explicitly in computational models, which typically fuse molecule, E3 and target representations simultaneously. We present MG2Act, a structure-independent framework that translates this two-step logic into sequential cross-attention, using CRBN-mediated degradation as the most data-rich representative system. Starting from a curated continuous-valued benchmark of 1,207 pairs across 47 targets, a refined subset of 1,159 pairs was selected to train MG2Act after excluding rare targets. On identical processed data, MG2Act consistently outperforms machine learning baselines, robustly generalizes under strict redundancy-filtering, and responds coherently to mechanism-based perturbations. Prospective screening and zero-shot target-conditioned prioritization identified nanomolar degraders of IKZF1, CK1α and CDK4, including the non-classical IMiD-core CDK4 degrader SWC-202.
 
 **TriGlue: a Biology-Inspired Generative Model for Generating Molecular Glue-Induced Ternary Complex** — arXiv, 2026-07-24
 
@@ -805,6 +850,7 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 
 | posted | preprint | venue | via trigger |
 |---|---|---|---|
+| 2026-08-15 | [$D^{2}R^{2}$: Discrete Diffusion with Regulation Reinforcement for Single-Cell Perturbation Prediction](http://arxiv.org/abs/2608.15288v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-08-07 | [SLIM: A small linear model with STRING embeddings for single-cell genetic perturbation prediction](https://europepmc.org/article/PPR/PPR1294148) | PPR | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-08-07 | [Control-Anchored Residual Flow Matching Conditioned on Gene Geometry for Virtual Cell Perturbation Modeling](http://arxiv.org/abs/2608.06824v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-08-03 | [LLM-Guided Retrieval for Prediction of Molecular Perturbation Responses](http://arxiv.org/abs/2608.01734v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` |
@@ -825,6 +871,7 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 | 2026-06-18 | [Elucidating the Design Space of Generative Models for Single-Cell Perturbation Prediction](https://europepmc.org/article/PPR/PPR1255210) | PPR | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-06-11 | [OCOO-T : A SIMPLE AND SCALABLE VIRTUAL CELL MODEL FOR TRANSCRIPTIONAL PERTURBATION RESPONSE PREDICTION](https://europepmc.org/article/PPR/PPR1250494) | PPR | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-06-11 | [OCOO-T : A Simple and Scalable Virtual Cell Model for Transcriptional Perturbation Response Prediction](http://arxiv.org/abs/2606.12838v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` |
+| 2026-06-11 | [OCOO-T : A Simple and Scalable Virtual Cell Model for Transcriptional Perturbation Response Prediction](http://arxiv.org/abs/2606.12838v2) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-06-10 | [A Metric-Calibrated Replay Framework for Single-Cell Genetic Perturbation Prediction](https://europepmc.org/article/PPR/PPR1249392) | PPR | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-06-10 | [CisTransCell: Single-Cell Perturbation Prediction via Gene Function, Regulatory Control, and Cellular Context](http://arxiv.org/abs/2606.13713v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-06-07 | [Knowledge Graphs and Reasoning LLMs for Finding Simple Yet Effective Transcriptomic Perturbation Predictors](http://arxiv.org/abs/2606.08816v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` |
@@ -845,6 +892,10 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 | 2026-03-10 | [Preoperative HALP Score as a Marker of Tumor Aggressiveness and Survival in Surgically Treated Soft Tissue Sar](https://europepmc.org/article/PPR/PPR1163941) | PPR | `TRG-EMC-EXPRESSION-DATASET` |
 
 <details><summary>Abstracts (fetched, still unrefereed and ungraded)</summary>
+
+**$D^{2}R^{2}$: Discrete Diffusion with Regulation Reinforcement for Single-Cell Perturbation Prediction** — arXiv, 2026-08-15
+
+> Predicting single-cell transcriptomic responses to genetic perturbations is central to functional genomics and virtual-cell modeling. Existing approaches, however, typically predict an entire expression profile as a whole, leaving the order in which individual gene responses are generated unmodeled. To address this problem, we introduce \textbf{$D^{2}R^{2}$} (\textbf{D}iscrete \textbf{D}iffusion with \textbf{R}egulation \textbf{R}einforcement), which reformulates perturbation prediction as regulation-guided gene-wise progressive generation. A Masked Discrete Diffusion Model represents expression as ordinal tokens and reconstructs a fully masked profile step by step, allowing generated gene responses to condition those that remain masked. A Regulatory Policy Module initializes the generation policy from a gene regulatory network inferred from control cells and adapts it to the perturbation and current partially generated state. Then, group-relative policy optimization refines only the ordering policy using final perturbation-effect agreement as reward. Across Norman19 and VCC-H1, $D^{2}R^{2}$ achieves the best performance on all five metrics on Norman19 and remains competitive on H1. Controlled ablations holding the generator and generation budget fixed show that biological-prior ordering improves over random ordering and is more reliable than uncertainty-based heuristics, where
 
 **SLIM: A small linear model with STRING embeddings for single-cell genetic perturbation prediction** — PPR, 2026-08-07
 
@@ -921,6 +972,10 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 **OCOO-T : A SIMPLE AND SCALABLE VIRTUAL CELL MODEL FOR TRANSCRIPTIONAL PERTURBATION RESPONSE PREDICTION** — PPR, 2026-06-11
 
 > Predicting single-cell transcriptional responses to genetic, chemical and cytokine perturbations is a fundamental challenge in computational biology and AI Virtual Cell (AIVC) modeling, with direct implications for drug discovery and the elucidation of gene regulatory networks. Existing approaches often rely on auxiliary cell-state encoders, hierarchical variational autoencoders, dedicated Transformer encoder-decoder modules, or gene-interaction priors to compress high-dimensional expression profiles into latent representations. While effective, these designs increase architectural complexity and may limit scalability and generalizability. This paper introduces OCOO-T  1 , a minimalist flow-matching-based AIVC model for transcriptional perturbation response prediction. OCOO-T utilizes a vanilla Transformer stack that operates directly on continuous gene expression profiles and formulates perturbation response prediction as a continuous-time denoising process. Perturbation embeddings, dosage information, and cell-line/cell-type specificity are integrated through adaptive layer normalization and in-context tokens. Comprehensive evaluations on Tahoe100M, Replogle, and PBMC benchmarks demonstrate that OCOO-T achieves state-of-the-art performance across diverse perturbations and cell types while effectively scaling to long transcriptional profiles through patching and depatching of 
+
+**OCOO-T : A Simple and Scalable Virtual Cell Model for Transcriptional Perturbation Response Prediction** — arXiv, 2026-06-11
+
+> Predicting single-cell transcriptional responses to genetic, chemical and cytokine perturbations is a fundamental challenge in computational biology and AI Virtual Cell (AIVC) modeling, with direct implications for drug discovery and the elucidation of gene regulatory networks. Existing approaches often rely on auxiliary cell-state encoders, hierarchical variational autoencoders, dedicated Transformer encoder-decoder modules, or gene-interaction priors to compress high-dimensional expression profiles into latent representations. While effective, these designs increase architectural complexity and may limit scalability and generalizability. This paper introduces OCOO-T, a minimalist flow-matching-based AIVC model for transcriptional perturbation response prediction. OCOO-T utilizes a vanilla Transformer stack that operates directly on continuous gene expression profiles and formulates perturbation response prediction as a continuous-time denoising process. Perturbation embeddings, dosage information, and cell-line/cell-type specificity are integrated through adaptive layer normalization and in-context tokens. Comprehensive evaluations on Tahoe100M, Replogle, and PBMC benchmarks demonstrate that OCOO-T achieves state-of-the-art performance across diverse perturbations and cell types while effectively scaling to long transcriptional profiles through patching and depatching of cell
 
 **OCOO-T : A Simple and Scalable Virtual Cell Model for Transcriptional Perturbation Response Prediction** — arXiv, 2026-06-11
 
@@ -1034,6 +1089,7 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 
 | posted | preprint | venue | via trigger |
 |---|---|---|---|
+| 2026-08-13 | [MG2Act: A Mechanism-Inspired Sequential Attention Framework for Molecular Glue Degradation Prediction](https://europepmc.org/article/PPR/PPR1298863) | PPR | `TRG-GLUE-PROSPECTIVE-DESIGN` ⚠ |
 | 2026-07-24 | [TriGlue: a Biology-Inspired Generative Model for Generating Molecular Glue-Induced Ternary Complex](http://arxiv.org/abs/2607.22143v1) | arXiv | `TRG-GLUE-PROSPECTIVE-DESIGN` ⚠ |
 | 2026-07-24 | [TriGlue: a Biology-Inspired Generative Model for Generating Molecular Glue-Induced Ternary Complex](http://arxiv.org/abs/2607.22143v2) | arXiv | `TRG-GLUE-PROSPECTIVE-DESIGN` ⚠ |
 | 2026-06-22 | [Discovery of CDK4-selective molecular glue degraders by high-throughput proteomics](https://europepmc.org/article/PPR/PPR1257326) | PPR | `TRG-GLUE-PROSPECTIVE-DESIGN` ⚠ |
@@ -1042,6 +1098,10 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 | 2026-03-10 | [Leveraging High-Throughput Proteomics and AI-Based Protein Folding to Accelerate VAV1 Molecular Glue Discovery](https://europepmc.org/article/PPR/PPR1164287) | PPR | `TRG-GLUE-PROSPECTIVE-DESIGN` ⚠ |
 
 <details><summary>Abstracts (fetched, still unrefereed and ungraded)</summary>
+
+**MG2Act: A Mechanism-Inspired Sequential Attention Framework for Molecular Glue Degradation Prediction** — PPR, 2026-08-13
+
+> Molecular glue degraders act by inducing productive proximity between an E3 ligase and a substrate protein. For most characterized degradative glues, a small molecule first engages the E3, conditions its substrate-recognition surface, and only then enables recruitment of a compatible neo-substrate. This directionality is rarely encoded explicitly in computational models, which typically fuse molecule, E3 and target representations simultaneously. We present MG2Act, a structure-independent framework that translates this two-step logic into sequential cross-attention, using CRBN-mediated degradation as the most data-rich representative system. Starting from a curated continuous-valued benchmark of 1,207 pairs across 47 targets, a refined subset of 1,159 pairs was selected to train MG2Act after excluding rare targets. On identical processed data, MG2Act consistently outperforms machine learning baselines, robustly generalizes under strict redundancy-filtering, and responds coherently to mechanism-based perturbations. Prospective screening and zero-shot target-conditioned prioritization identified nanomolar degraders of IKZF1, CK1α and CDK4, including the non-classical IMiD-core CDK4 degrader SWC-202.
 
 **TriGlue: a Biology-Inspired Generative Model for Generating Molecular Glue-Induced Ternary Complex** — arXiv, 2026-07-24
 
@@ -1129,12 +1189,17 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 
 | posted | preprint | venue | via trigger |
 |---|---|---|---|
+| 2026-08-13 | [MG2Act: A Mechanism-Inspired Sequential Attention Framework for Molecular Glue Degradation Prediction](https://europepmc.org/article/PPR/PPR1298863) | PPR | `TRG-COFOLD-TERNARY-ASSEMBLY` |
 | 2026-08-05 | [Boltz-Perturb: Improving Diversity and Accuracy in Protein-Ligand Co-Folding through Training-Free Conditionin](https://europepmc.org/article/PPR/PPR1293267) | PPR | `TRG-COFOLD-TERNARY-ASSEMBLY` |
 | 2026-07-24 | [TriGlue: a Biology-Inspired Generative Model for Generating Molecular Glue-Induced Ternary Complex](http://arxiv.org/abs/2607.22143v1) | arXiv | `TRG-TERNARY-GEN-NO-SITES` |
 | 2026-07-24 | [TriGlue: a Biology-Inspired Generative Model for Generating Molecular Glue-Induced Ternary Complex](http://arxiv.org/abs/2607.22143v2) | arXiv | `TRG-TERNARY-GEN-NO-SITES` |
 | 2026-06-17 | [DesignMaster: A Multi-Conditional Diffusion Framework for Rational PROTAC Design](https://europepmc.org/article/PPR/PPR1255325) | PPR | `TRG-TERNARY-GEN-NO-SITES` |
 
 <details><summary>Abstracts (fetched, still unrefereed and ungraded)</summary>
+
+**MG2Act: A Mechanism-Inspired Sequential Attention Framework for Molecular Glue Degradation Prediction** — PPR, 2026-08-13
+
+> Molecular glue degraders act by inducing productive proximity between an E3 ligase and a substrate protein. For most characterized degradative glues, a small molecule first engages the E3, conditions its substrate-recognition surface, and only then enables recruitment of a compatible neo-substrate. This directionality is rarely encoded explicitly in computational models, which typically fuse molecule, E3 and target representations simultaneously. We present MG2Act, a structure-independent framework that translates this two-step logic into sequential cross-attention, using CRBN-mediated degradation as the most data-rich representative system. Starting from a curated continuous-valued benchmark of 1,207 pairs across 47 targets, a refined subset of 1,159 pairs was selected to train MG2Act after excluding rare targets. On identical processed data, MG2Act consistently outperforms machine learning baselines, robustly generalizes under strict redundancy-filtering, and responds coherently to mechanism-based perturbations. Prospective screening and zero-shot target-conditioned prioritization identified nanomolar degraders of IKZF1, CK1α and CDK4, including the non-classical IMiD-core CDK4 degrader SWC-202.
 
 **Boltz-Perturb: Improving Diversity and Accuracy in Protein-Ligand Co-Folding through Training-Free Conditioning Perturbation** — PPR, 2026-08-05
 
