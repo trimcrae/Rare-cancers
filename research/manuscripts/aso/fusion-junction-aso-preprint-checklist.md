@@ -107,11 +107,19 @@ reports four false gaps); competing-interests, funding, ethics and AI-use statem
    after the files were frozen. `deposition_doi` in `aso_archive_manifest.py` is where it lives;
    [`test_aso_deposition_doi_is_one_fact.py`](../tests/test_aso_deposition_doi_is_one_fact.py) holds
    the article's two copies of it against that one.
-3. **Post at `researchsquare.com/submit`.** ⛔ **OPEN — this is the remaining step.** Licence CC-BY,
-   corresponding author ORCID-linked, the Zenodo DOI given as external data, and the survivorship
-   non-financial interest entered verbatim from Declarations. Manuscript and SI as the two files.
-   The preprint DOI is minted AT POSTING and cannot be obtained before it — it is not a placeholder
-   in the manuscript and blocks nothing.
+3. ~~**Post at `researchsquare.com/submit`**~~ ✅ **submitted 2026-08-21.** Article type Research
+   Article, licence CC-BY-4.0 (mandatory on this platform, not optional), corresponding author
+   ORCID-linked, the Zenodo DOI given as external data, and the survivorship non-financial interest
+   entered verbatim from Declarations under a "Yes" competing-interests answer — "No" would have
+   contradicted the manuscript's own Declarations, which is the kind of mismatch a prescreen catches.
+   Manuscript and SI as the two files.
+   ⏳ **Awaiting the Research Square Prescreen**, which the portal describes as checking "for
+   suitability for posting before peer review". The preprint DOI is minted AT POSTING and cannot be
+   obtained before it — it is not a placeholder in the manuscript and blocks nothing.
+   ⚠ **The upload step states that PDFs cannot be converted to full-text HTML for display**, so this
+   deposit is a landing page plus a PDF rather than indexed body text. That is a real, if small,
+   discovery cost at the venue chosen ON discovery grounds. A `.docx` build would fix it and the
+   platform versions, so it is a v2 question and was correctly not allowed to stall v1.
    ⚠ *Superseded, retained: "~~Post at `biorxiv.org/submit-a-manuscript`~~ ✅ submitted 2026-08-20 …*
    *⏳ Awaiting bioRxiv screening", with article type New Results and subject area Cancer Biology.*
    *That submission was declined on 2026-08-21 for want of an organizational affiliation. The*
