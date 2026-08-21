@@ -264,12 +264,26 @@ control, on the stated principle that *"we should only care about quality - not 
 It has no organizational-affiliation gate, and it is the one venue whose framing matches how this
 programme actually works.
 
-⛔ **And it fails the discovery test harder than any other candidate.** As of a mid-November 2025
-update it hosted *"just a few dozen papers"*, submissions are being posted while its AI reviewers are
-still being refined, and it is **absent from Europe PMC's indexed-server list** - the same list that
-decides whether a sarcoma researcher's literature search can ever surface the work. A bioethicist
-quoted in the same Science piece warns the operators must *"be vigilant to ensure aiXiv does not
-become a dumping ground"*.
+⚠ **Superseded, retained — this paragraph first rejected aiXiv on a stale number, which is the
+error the whole memo exists to prevent.** It read: *"As of a mid-November 2025 update it hosted 'just
+a few dozen papers'"*. That figure is from the Science piece of ~11 December 2025, describing a
+platform then about three months old. Quoting a young platform's first-quarter size nine months later
+and letting it carry the argument is precisely the "absent reading is not a reading of absence"
+failure — the one number about a new site guaranteed to be wrong by now. **trimcrae caught it.**
+
+What is current, as of 2026-08-21: aiXiv is **actively taking submissions** — its papers list carries
+2026 postings marked as human- or AI-authored, its own platform paper is at v2, and it is running
+**AISC 2026, an academic conference run entirely by AI agents**. It has grown well past the figure
+that was quoted against it. ⚠ Its present size is not stated here because `aixiv.science` is blocked
+by this sandbox's egress proxy and no search result gives a current total; **an unknown number is
+recorded as unknown rather than filled with an old one.**
+
+⛔ **The discovery objection survives that correction intact, because it never depended on size.**
+aiXiv is **absent from Europe PMC's indexed-server list**, retrieved 2026-08-21 in
+[`preprint-host-eligibility.json`](../../literature/preprint-host-eligibility.json) — the same list
+that decides whether a sarcoma researcher's literature search can surface the work at all. A server
+with a hundred thousand papers that Europe PMC does not index is as invisible to that search as one
+with fifty. **That is the reading that decides this, and it is current.**
 
 ⚠ **There is also a framing cost, and it is not snobbery.** This paper needs a wet-lab sarcoma group
 to pick it up and test it. Posting it in a venue defined by AI-generated research invites that
