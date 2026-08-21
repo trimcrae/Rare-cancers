@@ -54,6 +54,32 @@ REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 #: sets no limit of that kind, or none was found. Provenance is carried per venue so a reader never
 #: mistakes one of these for a retrieved fact.
 VENUES = {
+    #: ⛔ SUPERSEDED 2026-08-21, RETAINED: this venue was the ASO paper's destination until bioRxiv
+    #: declined the submission because the author is unaffiliated. Its letter: "bioRxiv requires
+    #: authors to have an organizational affiliation ... an organization that provides oversight of
+    #: research activities so that it can adjudicate any ethical issues/disputes that arise." That
+    #: is a registration requirement, not a screening verdict, so nothing about the manuscript
+    #: changed and no measurement below is withdrawn. Kept because the limits reading is still true
+    #: of bioRxiv and because a venue that vanishes from this table leaves its own history unreadable.
+    #: Decision and the ranked alternatives: research/manuscripts/program/preprint-host-decision.md
+    "ResearchSquare-preprint": {
+        "journal": "Research Square (preprint; journal venue still open)",
+        "limits": {"main_words": None, "abstract_words": None, "display_items": None,
+                   "references": None},
+        #: ⛔ THE FLAG THAT SEPARATES "NO LIMIT" FROM "UNREAD" — see the bioRxiv record below.
+        "no_limits_by_policy": True,
+        "provenance": ("⚠ SEARCH-DERIVED, and deliberately not upgraded past what was read. "
+                       "www.researchsquare.com is blocked by the dev sandbox's egress proxy, so the "
+                       "editorial policy page has NOT been read at primary source the way bioRxiv's "
+                       "was. What the platform's own preprint page states, retrieved 2026-08-21: "
+                       "preprints are 'Free to post', 'Issued a DOI', 'Indexed in Google Scholar, "
+                       "Meta, Researcher, Europe PMC, PubMed (Covid-related research), and Scite', "
+                       "and 'Screened for complete author information, appropriate declaration "
+                       "statements, and potential risks to human health' — which is an "
+                       "author-information requirement and NOT the organizational-affiliation "
+                       "requirement that eliminated bioRxiv. No word, abstract or display-item limit "
+                       "was found. Confirm at the portal before submitting."),
+    },
     "bioRxiv-preprint": {
         "journal": "bioRxiv (preprint; journal venue still open)",
         "limits": {"main_words": None, "abstract_words": None, "display_items": None,
@@ -169,7 +195,12 @@ MANUSCRIPTS = {
     # abstract limit no venue in play imposes — a red flag pointing at a decision already made, which
     # is how a real one gets ignored. The venue is open; bioRxiv is the immediate destination and
     # sets no limits, so that is what the paper is measured against until a journal is chosen.
-    "aso/fusion-junction-aso-research-article.md": "bioRxiv-preprint",
+    #: ⛔ RE-AIMED 2026-08-21. bioRxiv declined this submission because the author is unaffiliated —
+    #: a registration gate, not a verdict on the science — so the paper moves rather than changes.
+    #: Research Square clears the same four tests bioRxiv did (free, DOI, versioned, Europe PMC
+    #: indexed) without an organizational-affiliation requirement.
+    #: Reasoning and the full ranking: research/manuscripts/program/preprint-host-decision.md
+    "aso/fusion-junction-aso-research-article.md": "ResearchSquare-preprint",
     #: ⭐ THE CONDENSED JOURNAL SUBMISSION, ADDED 2026-08-20. Same work, second document:
     #: the preprint above is the extended report and stays measured against bioRxiv, while
     #: this row is measured against the journal actually being submitted to. Both rows are

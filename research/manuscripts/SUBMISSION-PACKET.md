@@ -100,7 +100,7 @@ last_verified: 2026-08-10
 
 **Figures to upload** — none; this paper's display items are all tables.
 
-## bioRxiv (preprint; journal venue still open)
+## Research Square (preprint; journal venue still open)
 
 **Manuscript** `aso/fusion-junction-aso-research-article.md`
 
@@ -114,7 +114,7 @@ last_verified: 2026-08-10
 | Supplementary file | yes |
 | Fee route | not recorded |
 
-⚠ Limits provenance: VERIFIED at primary source: bioRxiv sets no word, abstract or display-item limit and its deposit is free — the one venue fact in this table that was read rather than searched. ⚠ ALL-`None` IS A STATEMENT, NOT A GAP: it means this manuscript is measured and ungated, which is the honest state while the journal is undecided. A journal's limits apply when one is chosen, and cutting the abstract to any particular cap before then means cutting twice, because the venues under consideration disagree on both length AND whether a structured abstract is wanted at all..
+⚠ Limits provenance: ⚠ SEARCH-DERIVED, and deliberately not upgraded past what was read. www.researchsquare.com is blocked by the dev sandbox's egress proxy, so the editorial policy page has NOT been read at primary source the way bioRxiv's was. What the platform's own preprint page states, retrieved 2026-08-21: preprints are 'Free to post', 'Issued a DOI', 'Indexed in Google Scholar, Meta, Researcher, Europe PMC, PubMed (Covid-related research), and Scite', and 'Screened for complete author information, appropriate declaration statements, and potential risks to human health' — which is an author-information requirement and NOT the organizational-affiliation requirement that eliminated bioRxiv. No word, abstract or display-item limit was found. Confirm at the portal before submitting..
 
 **Figures to upload**
 
@@ -129,8 +129,8 @@ last_verified: 2026-08-10
 
 | field | value |
 |---|---|
-| Word count, main text | 3217 (no limit found) |
-| Abstract | 197 words  |
+| Word count, main text | 2914 (no limit found) |
+| Abstract | 185 words  |
 | Display items | 3 (1 figures, 2 tables) |
 | References | 21 |
 | Cover letter | MISSING |

@@ -113,7 +113,7 @@ patient-level records, and required no ethics approval. No oligonucleotide descr
 synthesised. Nothing in the manuscript asserts efficacy, potency, safety, a therapeutic window,
 delivery to a tumour, or clinical readiness for any sequence.
 
-I intend to deposit the manuscript as a preprint on bioRxiv, consistent with the journal's preprint
+I intend to deposit the manuscript as a preprint on Research Square, consistent with the journal's preprint
 policy, and will link the preprint to the published version. I am the sole author, an unaffiliated
 independent researcher with no institutional address. Analysis code, the screening pipelines and
 drafting were carried out with substantial AI assistance under my direction, which is disclosed in

@@ -111,7 +111,7 @@ PAPERS = {
         "journal": {
             "article_type": "Article",
             "section": "",
-            "preprint_note": "The extended report of this work is deposited as a preprint on bioRxiv.",
+            "preprint_note": "The extended report of this work is deposited as a preprint on Research Square.",
         },
         "out": "aso/fusion-junction-aso-journal-article.pdf",
     },

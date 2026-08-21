@@ -7,7 +7,7 @@ status: live
 canonical_for:
   - the submitted form of the fusion-junction ASO work
 purpose: >
-  The submission manuscript for PUB-ASO, deposited first to bioRxiv as a preprint. Its provenance
+  The submission manuscript for PUB-ASO, deposited first to Research Square as a preprint. Its provenance
   archive, including every superseded value and the full correction history, is
   fusion-junction-aso-working-record.md; the numbers themselves live in the artifacts under
   research/modalities/ and are not duplicated here.

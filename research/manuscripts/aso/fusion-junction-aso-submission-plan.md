@@ -38,8 +38,12 @@ consideration outright, and it removes most of the obvious ones here.
 | JCIM (ACS) | the degrader paper's venue; $0 subscription route confirmed | free route | ❌ out on **scope** — a small-molecule/computational-chemistry journal; this is an RNA paper |
 | Briefings in Bioinformatics | methods-general | hybrid | ⚠ fallback, but the emphasis is wrong: this is a therapeutic-design paper, not a method paper |
 
-**Plan of record: bioRxiv preprint (free) + Nucleic Acid Therapeutics, subscription route.**
-bioRxiv rather than ChemRxiv because the framing is biological rather than chemical — the degrader
+**Plan of record: Research Square preprint (free) + Nucleic Acid Therapeutics, subscription route.**
+⚠ *Superseded, retained: "bioRxiv preprint (free)". bioRxiv DECLINED this submission on 2026-08-21 —*
+*"bioRxiv requires authors to have an organizational affiliation" — which is a registration gate and*
+*not a verdict on the science, so nothing measured here is withdrawn. Ranked alternatives and the*
+*reasoning: [preprint-host-decision.md](../program/preprint-host-decision.md).*
+A general biology preprint server rather than ChemRxiv because the framing is biological rather than chemical — the degrader
 paper's ChemRxiv choice does not transfer.
 
 ⛔ **THE PUBLISHER CHANGED, AND THE FETCH IS WHY WE KNOW (measured 2026-08-12).** The venue row

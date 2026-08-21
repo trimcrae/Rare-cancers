@@ -480,8 +480,10 @@ This is the governing regime for *how* the work reaches impact. Do not re-scope 
   expensive ones (selectivity FEP, generation-matched controls, ensemble scoring, the ternary), before the
   preprint goes out.** Cost is a reason to sequence and to right-size jobs (checkpoint + continuous upload,
   serialize the single g5), **not** a reason to skip a run that would materially change what the paper can claim.
-- **Deliverable = a rigorous, honest PREPRINT** (ChemRxiv for the degrader/med-chem paper; bioRxiv for the
-  ASO/bio paper) — **posted once the in-silico case is as strong as it can be made** (i.e. the warranted GPU
+- **Deliverable = a rigorous, honest PREPRINT** (ChemRxiv for the degrader/med-chem paper; **Research
+  Square** for the ASO/bio paper — ⚠ *superseded, retained: "bioRxiv for the ASO/bio paper", which
+  bioRxiv declined on 2026-08-21 because the author is unaffiliated; see
+  [preprint-host-decision.md](./preprint-host-decision.md)*) — **posted once the in-silico case is as strong as it can be made** (i.e. the warranted GPU
   work above is done and folded in), with journal submission **in parallel** (don't wait on peer review). Do
   **not** post the preprint while a warranted, decision-relevant experiment is still un-run. The real audience
   is **wet-lab groups + rare-cancer foundations who can validate/advance it**, not only journal readers — so the
@@ -602,7 +604,8 @@ each matched to how fast its content changes:
   McRae; Apache-2.0) supply the metadata, and `release.yml` (dispatch-only) cuts a tag + Release whose
   notes are the roadmap changelog. *Remaining one-time manual steps* (need your accounts — see
   `deploy/release-doi.md`): flip the Zenodo↔GitHub toggle ON and add your ORCID. Then post the roadmap
-  as a **bioRxiv preprint we bump (v2, v3…)** as routes change — a *living preprint / living review*.
+  as a **Research Square preprint we bump (v2, v3…)** as routes change ⚠ *superseded, retained:
+  "bioRxiv preprint" — see [preprint-host-decision.md](./preprint-host-decision.md)* — a *living preprint / living review*.
   Cadence: cut a release/DOI on any **ready-now-or-flagship route change** (or monthly if anything
   changed); bump the preprint on any change a reader would act on differently.
 - **Tier C — peer-reviewed journal (latency: months, occasional).** Reserve this for the **stable

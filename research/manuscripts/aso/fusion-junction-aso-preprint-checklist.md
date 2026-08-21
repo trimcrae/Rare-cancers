@@ -1,11 +1,11 @@
 ---
 id: DOC-FUSION-JUNCTION-ASO-PREPRINT-CHECKLIST
-title: "bioRxiv preprint checklist — the fusion-junction ASO paper"
+title: "Preprint checklist — the fusion-junction ASO paper (Research Square)"
 level: L3
 kind: memo
 status: live
 canonical_for:
-  - what must be done to post PUB-ASO as a bioRxiv preprint
+  - what must be done to post PUB-ASO as a preprint
 purpose: >
   The deposit steps for the fusion-junction ASO preprint, split into what is done, what only the
   author can do, and what is deliberately deferred. It exists so the deposit is a short session at
@@ -19,7 +19,17 @@ date: 2026-08-13
 last_verified: 2026-08-13
 ---
 
-# bioRxiv preprint checklist
+# Preprint checklist — Research Square
+
+⛔ **bioRxiv DECLINED this submission on 2026-08-21**, in its own words: *"bioRxiv requires authors
+to have an organizational affiliation ... an organization that provides oversight of research
+activities so that it can adjudicate any ethical issues/disputes that arise."* That is a
+**registration gate, not a screening verdict** — it says nothing about the manuscript, and nothing
+below is withdrawn. The host is now **Research Square**: free, Crossref DOI, versioned, indexed in
+Europe PMC, and screened for complete author information rather than an organizational affiliation.
+Ranked alternatives and the reasoning: [preprint-host-decision.md](../program/preprint-host-decision.md).
+⚠ *Superseded, retained: this file was titled "bioRxiv preprint checklist" and every step below was
+written against bioRxiv. The steps are host-agnostic apart from the portal itself.*
 
 **Article type: full research article.** The short-communication framing was withdrawn on 2026-08-15
 after external review: the measured main text, abstract, display-item and reference counts are an
@@ -97,20 +107,23 @@ reports four false gaps); competing-interests, funding, ethics and AI-use statem
    after the files were frozen. `deposition_doi` in `aso_archive_manifest.py` is where it lives;
    [`test_aso_deposition_doi_is_one_fact.py`](../tests/test_aso_deposition_doi_is_one_fact.py) holds
    the article's two copies of it against that one.
-3. ~~**Post at `biorxiv.org/submit-a-manuscript`**~~ ✅ **submitted 2026-08-20.** Article type New
-   Results, subject area Cancer Biology, licence CC-BY, corresponding author ORCID-linked, the
-   Zenodo DOI given as External Data, and the survivorship non-financial interest entered verbatim
-   from Declarations. Manuscript and SI uploaded as the two files.
-   ⏳ **Awaiting bioRxiv screening.** It screens for scope and plausibility, not peer review, so
-   turnaround is usually a few days. The preprint DOI is minted by bioRxiv AT POSTING and cannot be
-   obtained before it — it is not a placeholder in the manuscript and blocks nothing.
+3. **Post at `researchsquare.com/submit`.** ⛔ **OPEN — this is the remaining step.** Licence CC-BY,
+   corresponding author ORCID-linked, the Zenodo DOI given as external data, and the survivorship
+   non-financial interest entered verbatim from Declarations. Manuscript and SI as the two files.
+   The preprint DOI is minted AT POSTING and cannot be obtained before it — it is not a placeholder
+   in the manuscript and blocks nothing.
+   ⚠ *Superseded, retained: "~~Post at `biorxiv.org/submit-a-manuscript`~~ ✅ submitted 2026-08-20 …*
+   *⏳ Awaiting bioRxiv screening", with article type New Results and subject area Cancer Biology.*
+   *That submission was declined on 2026-08-21 for want of an organizational affiliation. The*
+   *metadata it records is still the right metadata; only the portal and its article-type*
+   *vocabulary change.*
 
 ## 3 · Deliberately not done, and why
 
-- **The abstract has not been cut to 200 words.** bioRxiv sets no limit, and 200 is a
+- **The abstract has not been cut to 200 words.** Neither bioRxiv nor Research Square sets a limit, and 200 is a
   *journal-specific* cap, so cutting to the wrong target now means cutting twice. The measured
   length is in [`submission-metrics.json`](../submission-metrics.json), which grades this paper
-  against bioRxiv rather than against a journal the plan had already eliminated.
+  against the preprint server rather than against a journal the plan had already eliminated.
   ⚠ *Superseded, retained: "the British Journal of Cancer wants a structured abstract under
   mandatory Background/Methods/Results/Conclusions headings, **which this one already has**, while
   Cancer Gene Therapy wants an unstructured one", and "**The cut got bigger on 2026-08-13** — the
@@ -128,7 +141,7 @@ reports four false gaps); competing-interests, funding, ethics and AI-use statem
   compressed technical register it replaces, and that trade will be made again. The length has one
   home, [`submission-metrics.json`](../submission-metrics.json), which is regenerated rather than
   typed; a distance quoted here is a subtraction against a number that moves.
-- **The figures have not been made greyscale-only.** Colour is free on bioRxiv. The accessibility
+- **The figures have not been made greyscale-only.** Colour is free on a preprint server. The accessibility
   problem — that red against green carries nothing to a colour-blind reader or a monochrome printer
   — has been fixed by adding a shape cue, which is the part that matters regardless of venue.
 - **The journal is not chosen.** See `fusion-junction-aso-submission-plan.md` §1c. Cancer Gene
