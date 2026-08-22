@@ -664,9 +664,9 @@ hypothesis and their use outside a clinical trial is not supported by anything i
 
 ## 10. References
 
-Every identifier below is transcribed from a bibliographic record held in this repository's literature
-and registry files, and none is written from recollection. Where a record could not be found, the entry
-says so rather than supplying a plausible one.
+Every identifier below is transcribed from a bibliographic record — either one held in this
+repository's literature and registry files, or one retrieved from Europe PMC or Crossref by the
+verification workflow that accompanies this work. None is written from recollection.
 
 1. Gonzalez-Galarza FF, et al. Allele Frequency Net Database (AFND) 2020 update. *Nucleic Acids Research*
    2020. doi:10.1093/nar/gkz1029. Accessed via the MIT-licensed `slowkow/allelefrequencies` mirror.
@@ -710,12 +710,11 @@ says so rather than supplying a plausible one.
     treatment of advanced extraskeletal myxoid chondrosarcoma: a multicentre, single-arm, phase 2 trial.
     *The Lancet Oncology* 2019. doi:10.1016/S1470-2045(19)30319-5. PMID 31331701. Registration
     NCT02066285; 26 patients started treatment and 22 were evaluable for the primary endpoint.
-12. MHCnuggets, the class II predictor used for the CD4 arm of Section B4. **No bibliographic record for
-    this tool exists in this repository, and none is invented here.** The software is named, its
-    thresholds are stated in Section B4, and the artifact it produced records neither a version nor a
-    models release — which is itself a reproducibility gap in the class II arm relative to the class I
-    arm, and is stated as one rather than papered over. This entry must be completed with a verified
-    citation, or the class II arm withdrawn, before this manuscript is submitted anywhere.
+12. Shao XM, Bhattacharya R, Huang J, Sivakumar IKA, Tokheim C, Zheng L, et al. High-throughput
+    prediction of MHC class I and II neoantigens with MHCnuggets. *Cancer Immunology Research* 2020.
+    doi:10.1158/2326-6066.CIR-19-0464. PMID 31871119. This is the class II predictor used for the CD4
+    arm of Section B4. The artifact it produced records neither a tool version nor a models release,
+    where the class I artifact records both; that gap is stated in Section 8 rather than papered over.
 13. Stacchiotti S, Pantaleo MA, Astolfi A, Dagrada GP, Negri T, Dei Tos AP, et al. Activity of sunitinib
     in extraskeletal myxoid chondrosarcoma. *European Journal of Cancer* 2014.
     doi:10.1016/j.ejca.2014.03.013. PMID 24703573. Retrospective series of 10 patients.

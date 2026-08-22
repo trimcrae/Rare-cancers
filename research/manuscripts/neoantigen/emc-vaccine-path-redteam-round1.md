@@ -178,9 +178,22 @@ Every one closes a gap seat 5 measured rather than assumed.
 
 ## 7 · What round 1 did not close
 
-- **Reference 12 has no bibliographic record.** The class II predictor is named and its thresholds are
-  stated, and a targeted search must resolve it or the class II arm must be withdrawn. This is a
-  blocker for posting.
+- ~~**Reference 12 has no bibliographic record.**~~ ✅ **CLOSED the same day, and the way it closed is
+  the finding.** I filed this as a blocker on the strength of ONE Crossref `query.bibliographic` that
+  returned a near-miss. Refusing that near-miss was right — a wrong citation arriving in quotable form
+  is the most dangerous kind, and §5 of this ledger is about exactly that. Concluding from it that the
+  reference was unobtainable was not right: one failed query is a search abandoned, not evidence of
+  absence, and this repository's own standing rule says a blocked row is usually waiting on a $0
+  fetch. ⛔ **"Blocked" was a claim I made without the evidence to make it.**
+  The repair was a by-NAME search across two corpora that prints every candidate WITH its title and
+  accepts only a title containing "MHCnuggets" — the title decides, not the ranking, which is the
+  specific trap the first attempt fell into. It resolved on the first run: Shao XM, Bhattacharya R,
+  Huang J, et al., *High-throughput prediction of MHC class I and II neoantigens with MHCnuggets*,
+  Cancer Immunology Research 2020, doi:10.1158/2326-6066.CIR-19-0464, PMID 31871119. Europe PMC
+  returned the journal record; Crossref returned only the 2019 preprint and figshare "Data from"
+  derivatives, which is why the two-corpus search mattered. The DOI is now in the CI-enforced
+  `FIXED_DOIS` list, the record is in the literature metadata, and both identifiers are in the
+  provenance ledger as `verified`.
 - **The class II artifact records no tool version or models release**, where the class I artifact
   records both. A reproducibility gap stated in the paper rather than papered over.
 - **Reference 9 is a company announcement with no identifier of any kind.** It is labelled as one and

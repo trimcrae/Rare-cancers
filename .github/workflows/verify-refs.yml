@@ -69,6 +69,11 @@ jobs:
             "10.1136/jitc-2020-001561#IMMUNOSARC I (expect: nivolumab + sunitinib phase Ib/II in STS; J Immunother Cancer 2020)"
             "10.1200/JCO.2025.43.16_suppl.11513#IMMUNOSARC II EMC (expect: ASCO 2025 abstract 11513; CONFERENCE ABSTRACT, not a full paper)"
             "10.1016/j.cels.2020.09.001#MHCflurry 2.0 (expect: pan-allele MHC-I presentation prediction; Cell Systems 2020)"
+            # ⭐ RESOLVED 2026-08-22 by section 9 below, after a first attempt returned a near-miss.
+            # It is promoted into THIS list because section 9 is a search and only section 1 is
+            # enforced by the verdict: a reference the manuscript now cites must be one a red build
+            # can notice going missing.
+            "10.1158/2326-6066.CIR-19-0464#MHCnuggets (expect: TITLE MUST CONTAIN 'MHCnuggets'; Cancer Immunol Res 2020; PMID 31871119)"
           )
           NFIXED=${#FIXED_DOIS[@]}
           for entry in "${FIXED_DOIS[@]}"; do

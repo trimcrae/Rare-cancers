@@ -45,14 +45,23 @@ blocker that a reader could check and find wrong.
 
 ## 2 · Blocks posting — must be closed first
 
-1. **⛔ Reference 12 has no bibliographic record.** The class II arm of Section B4 was screened with
-   MHCnuggets, and no citation for that tool exists anywhere in this repository. A Crossref
-   bibliographic query returned a *near-miss* — a pan-specific class I binding paper — which was not
-   used, because a wrong citation in quotable form is worse than a missing one. **Resolve it by
-   targeted search, or withdraw the class II arm.** Nothing else in Section 2 is cheaper than this.
+1. ~~**Reference 12 has no bibliographic record.**~~ ✅ **CLOSED 2026-08-22.** The class II predictor is
+   Shao et al., *High-throughput prediction of MHC class I and II neoantigens with MHCnuggets*,
+   Cancer Immunology Research 2020, doi:10.1158/2326-6066.CIR-19-0464, PMID 31871119.
+   ⚠ **The first attempt at this failed and failing safely is why it could be closed at all.** A
+   single Crossref `query.bibliographic` had returned a pan-specific class I CNN paper whose title
+   does not contain the tool's name; citing it would have put a wrong reference in the paper in
+   quotable form. It was refused — and then, wrongly, the reference was written off as unobtainable
+   on the strength of that one query. The repair was a by-NAME search across Europe PMC and Crossref
+   that prints every candidate with its title and accepts only a title containing "MHCnuggets"
+   (`verify-refs.yml` §9, run 32577476737). Europe PMC returned the journal record on the first try.
+   The DOI is now in the CI-enforced `FIXED_DOIS` list, the record is in the repository's literature
+   metadata, and both identifiers are in the citation-provenance ledger marked `verified`.
 2. **⛔ The class II artifact records no tool version and no models release**, where the class I
-   artifact records both. The paper states this as a reproducibility gap. Re-emitting
-   `patient-cd4-demo.json` with a `_predictor` block would close it and costs one CI run.
+   artifact records both. The paper states this as a reproducibility gap in Section 8 and reference 12
+   rather than papering over it. Re-emitting `patient-cd4-demo.json` with a `_predictor` block would
+   close it and costs one CI run. **This does not block posting** — the gap is disclosed, not hidden —
+   but it is the cheapest remaining improvement to the paper's reproducibility.
 3. **⛔ Reference 9 is a company announcement with no identifier of any kind** and no record in this
    repository. It is labelled as an announcement and cited only for the fact that the announcement was
    made, which is the most that can honestly be done — but a reader cannot follow it. Either capture a
