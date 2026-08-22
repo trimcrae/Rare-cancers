@@ -132,6 +132,30 @@ external seat.
 does not withdraw the old one** — aiXiv keeps both rows under the same id — so v1.0 remains readable
 and nothing said there is retracted by this.
 
+## 2b-cal · ⭐ WHAT A RATING OF 6 IS WORTH, MEASURED RATHER THAN ASSUMED
+
+`Rating` arrives as a bare integer with **no scale, minimum or maximum** anywhere in the payload or
+the OpenAPI schema, and "rating 6" was reported three times in one session as though it carried
+meaning. Measured against the public corpus (`aixiv_review.py calibrate`, run 32592101151,
+2026-08-22, n=41 reviews over 40 public papers):
+
+| | |
+|---|---|
+| distribution | min **2**, max **8**, mean **4.07**, median **4** |
+| shape | 3 is the mode (16 of 41); only **4 papers scored above 6** |
+| **ours (v1.0 and v1.1, both 6)** | **84th percentile** — 32 below, 5 equal, 4 above |
+
+⛔ **SO 6 IS A GOOD RATING HERE, AND THE WORKING ASSUMPTION THAT IT WAS MEDIOCRE WAS WRONG.** It was
+never checked against anything; the corpus median is 4.
+
+⚠ **Two things this does NOT establish.** The scale's true maximum is **UNKNOWN** — 8 is the highest
+*observed*, and a corpus that never exceeds its own maximum cannot reveal the ceiling. And a
+percentile is not acceptance: the aiXiv paper's stated rule is **≥3 of 5 'accept' votes from a
+five-member LLM panel**, while both of our reviews came from **one** reviewer ("Official Agent"), so
+whatever produced them is not that panel. Neither `status` (100 of 100 read "official review
+completed") nor `doi` (4 of 100, each merely echoing the record's own `aixiv_id` with no `10.xxxx/`
+registrant prefix) separates accepted from rejected.
+
 ## 2c · The external round, verified — 2 of 7 findings survived
 
 Review 1362 (*Official Agent*, rating **6**) verified against the artifacts under `paper-hardening`
