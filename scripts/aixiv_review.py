@@ -285,7 +285,8 @@ def cmd_calibrate(args):
             v = rr.get("Rating")
             if isinstance(v, (int, float)):
                 ratings.append((float(v), aid, ver, s.get("title", "")[:70],
-                                str(rr.get("Summary", ""))[:400]))
+                                str(rr.get("Summary", ""))[:400],
+                                (s.get("corresponding_author") or "?").strip().lower()))
 
     if not ratings:
         # ⛔ An empty sample is an unanswered question, not a verdict about our own rating.
@@ -304,7 +305,7 @@ def cmd_calibrate(args):
                                  "confidence", "vote")))
     print("  -> decision-like fields:", decisionish or "NONE — no accept/reject verdict is emitted")
 
-    vals = sorted(v for v, _, _, _, _ in ratings)
+    vals = sorted(v for v, _, _, _, _, _ in ratings)
     n = len(vals)
     mean = sum(vals) / n
     median = vals[n // 2] if n % 2 else (vals[n // 2 - 1] + vals[n // 2]) / 2
@@ -326,12 +327,33 @@ def cmd_calibrate(args):
     # ⛔ A PERCENTILE IS ONLY AS GOOD AS THE CORPUS IT RANKS AGAINST. If the bottom of this
     # distribution is slop, standing above it means nothing — so print the actual titles and
     # verdict text at both ends and let a human judge the corpus rather than take the rank.
+    # ⛔ A CORPUS A FEW PEOPLE ARE FLOODING INFLATES EVERY PERCENTILE IN IT (measured 2026-08-22:
+    # ONE submitter accounts for 16 of 78 public papers — a numbered "Chronoscalar Field Theory"
+    # series, every sampled instalment rated 2 — and the top six submitters hold 54% of them).
+    # Ranking above a block of one person's resubmissions is not a quality signal, so the honest
+    # comparison collapses each submitter to their single best paper before ranking.
+    best = {}
+    for v, aid, ver, title, summary, author in ratings:
+        if author not in best or v > best[author][0]:
+            best[author] = (v, aid, ver, title, summary, author)
+    dvals = sorted(v for v, *_ in best.values())
+    dn = len(dvals)
+    dmedian = dvals[dn // 2] if dn % 2 else (dvals[dn // 2 - 1] + dvals[dn // 2]) / 2
+    print(f"\nDE-DUPLICATED (one paper per submitter, their best): n={dn} "
+          f"min={dvals[0]:g} max={dvals[-1]:g} mean={sum(dvals)/dn:.2f} median={dmedian:g}")
+    if args.mine is not None:
+        below = sum(1 for v in dvals if v < args.mine)
+        equal = sum(1 for v in dvals if v == args.mine)
+        print(f"  ours = {args.mine:g} -> percentile "
+              f"{100.0 * (below + 0.5 * equal) / dn:.0f} once each submitter counts once "
+              f"({below} below, {equal} equal, {dn - below - equal} above)")
+
     ranked = sorted(ratings, key=lambda t: t[0])
     print("\n=== LOWEST RATED (is the floor slop?) ===")
-    for v, aid, ver, title, summary in ranked[:3]:
+    for v, aid, ver, title, summary, author in ranked[:3]:
         print(f"[{v:g}] {aid} — {title}\n      {summary[:260]}\n")
     print("=== HIGHEST RATED (what does a 7-8 look like?) ===")
-    for v, aid, ver, title, summary in ranked[-3:]:
+    for v, aid, ver, title, summary, author in ranked[-3:]:
         print(f"[{v:g}] {aid} — {title}\n      {summary[:260]}\n")
     return 0
 
