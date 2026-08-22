@@ -45,12 +45,19 @@ Output: junction-proteome-novelty.json
 """
 
 import bisect
+import datetime
 import gzip
 import io
 import json
 import os
 import sys
 import urllib.request
+
+
+def _utcnow():
+    """⚠ Stamped on every write so a stale artifact is DETECTABLE. Its absence was why a
+    three-day-old result read as current across two green runs (2026-08-22)."""
+    return datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 HERE = os.path.dirname(__file__)
 BREAKPOINTS = os.path.join(HERE, "fusion-breakpoint-neoantigens.json")
@@ -142,7 +149,27 @@ def main():
     bp, peptides = load_peptides()
     print(f"  {len(peptides)} distinct novel junction peptides to test", file=sys.stderr)
 
-    entries = fetch_proteome()
+    # ⛔⛔ A FAILED FETCH MUST NOT LEAVE A STALE ARTIFACT LOOKING CURRENT. MEASURED 2026-08-22:
+    # `junction-proteome-novelty.json` on `modalities-cache` was last written 2026-08-19, yet TWO
+    # runs that day reported SUCCESS — the step is `continue-on-error: true`, the UniProt fetch hung
+    # (tries=4 x timeout=600 is up to 40 minutes), the script raised before writing anything, and
+    # the three-day-old file stayed in place still reading "170 of 174". Nothing anywhere said the
+    # number was stale, which is this repository's "reports while measuring nothing" defect exactly.
+    # ⚠ SO: fail fast, and write a WITHDRAWAL over the artifact rather than leaving the old one.
+    try:
+        entries = fetch_proteome(tries=2)
+    except Exception as e:  # noqa: BLE001 — the failure text IS the record
+        json.dump({
+            "⛔_STATUS": "FETCH FAILED — THIS ARTIFACT CARRIES NO RESULT",
+            "⚠_do_not_quote": ("The previous contents of this file were REPLACED by this notice so "
+                               "a stale count could not be read as a current one. Re-run when "
+                               "UniProt is reachable."),
+            "error": f"{type(e).__name__}: {e}",
+            "url": PROTEOME_URL,
+            "generated_utc": _utcnow(),
+        }, open(OUT, "w"), indent=2)
+        print(f"  PROTEOME FETCH FAILED: {e}", file=sys.stderr)
+        return 1
     print(f"  proteome: {len(entries)} reviewed sequences (isoforms included)", file=sys.stderr)
     # Sentinel-joined haystack: no match can straddle a record boundary.
     hay = SENTINEL.join(seq for _, _, seq in entries)
@@ -186,6 +213,7 @@ def main():
                                "peptide differing from a self peptide at a non-contact position can "
                                "still be cross-recognised. This test excludes exactly one failure "
                                "mode: that the peptide is simply a normal human peptide."),
+        "generated_utc": _utcnow(),
         "_input": {"file": "fusion-breakpoint-neoantigens.json",
                    "artifact_utc": bp.get("_utc"),
                    "coordinate_system": "TRANSCRIPT (the corrected model)",
