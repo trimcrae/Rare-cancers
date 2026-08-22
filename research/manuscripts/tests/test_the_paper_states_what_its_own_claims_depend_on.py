@@ -73,6 +73,30 @@ REQUIRED = [
      r"cut of \d|threshold",
      "§5 exists to name an experiment that could falsify the ranking. An experiment with no "
      "decision rule cannot falsify anything, and the cover letter tells the editor it has one."),
+    # ⛔⛔ THE ARTIFACTS DENY THESE IN THEIR OWN PROSE AND NOTHING READ THE PAPER FOR THEM (round 16
+    # seat 3, P1-b). Across the committed record, `_what_this_is_not` fields deny safety 56 times,
+    # efficacy 50, selectivity 39 — and also knockdown, tolerability, delivery, a significance test
+    # and a cleavage measurement, SEVEN of which `lint_claims` does not name. Measured: the paper is
+    # honest about every one of them today, each appearing only in a denying or design frame. So the
+    # risk is not a wrong claim, it is DELETION — absence fires no other guard in this suite, and a
+    # length cut that removed either sentence would turn an honest paper into one that over-claims
+    # by omission, with every remaining number still correct.
+    # ★ This is what turning an artifact's own denial into an assertion looks like: not a ban on the
+    # words, which would red on honest usage, but a floor under the sentences that do the denying.
+    ("that the work is computational and the reagents are not for administration",
+     r"work is computational[^.]{0,120}not for administration",
+     "the artifacts' `_what_this_is_not` fields deny safety 56 times, efficacy 50 and selectivity "
+     "39 across the committed record. ⚠ MEASURED, AND THE ANSWER WAS NOT THE EXPECTED ONE: the "
+     "words 'efficacy', 'potency', 'therapeutic window' and 'clinical readiness' appear NOWHERE in "
+     "the delivered journal PDF — that explicit denial list is carried by the extended report and "
+     "by front matter the builder strips, and the condensed paper is narrower by page budget. So "
+     "the floor is the sentence the reader actually receives, in the abstract, which is what stops "
+     "a length cut turning an honest paper into one that over-claims by omission."),
+    ("that the screens address hybridisation, not cleavage",
+     r"hybridi[sz]ation rather than cleavage",
+     "every screen in the paper is a sequence-pairing calculation, and no RNase-H1 assay exists in "
+     "this repository. Without this sentence a reader takes a predicted duplex for a demonstrated "
+     "cut, which is the single largest over-reading the whole design invites."),
     ("where the artefacts are",
      r"zenodo|doi:",
      "every number in the paper is claimed to re-derive from released artefacts; without the "
@@ -128,7 +152,7 @@ def test_the_article_states_it(label, pattern, why, prose):
 #: after its selectivity filter was added. These are FLOORS, not targets: coverage may rise freely
 #: and may not fall. ⚠ Raising a floor is a deliberate act — do it when you have closed a class, and
 #: never to make a red run green.
-COVERAGE_FLOOR = {"journal-article": {"covered": 66, "with_a_number_covered": 44},
+COVERAGE_FLOOR = {"journal-article": {"covered": 68, "with_a_number_covered": 44},
                   "journal-tables": {"covered": 4, "with_a_number_covered": 1},
                   "cover-letter": {"covered": 7, "with_a_number_covered": 4}}
 #: ⛔⛔ THESE FLOORS WERE SET ON INFLATED NUMBERS AND ARE NOW CORRECTED DOWNWARD (round 16 seat 4).
