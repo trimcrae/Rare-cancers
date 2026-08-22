@@ -57,7 +57,11 @@ TEST_ARTICLE = {
 #: The near-twin pairs Table 2 prints, named by the CONDEMNED member. Each seam contributes one pair.
 #: ⚠ NAMED BY THE CONDEMNED MEMBER ON PURPOSE: the orderable twin is then read out of the canonical
 #: file's own cross-reference column rather than asserted here, so the pairing cannot drift from it.
-CONDEMNED = ("GGCATATCAAGCGCTG", "CAGGGCATATCATCAA")
+#: ⚠ ONE PAIR, NOT TWO (2026-08-22, page budget). This printed a *TCF12* pair as well, and the
+#: table's point — consecutive registers of one seam carrying opposite verdicts — is made once. The
+#: pair kept is the one that touches a reagent this paper names for synthesis, which is the sharper
+#: example and the one §2 cites the table for; the *TCF12* pair is in the extended report.
+CONDEMNED = ("CAGGGCATATCATCAA",)
 
 
 def _rows():
@@ -115,18 +119,17 @@ def build() -> str:
            "literature fact and carries its source in the caption. An oligonucleotide should be "
            "ordered from that file rather than transcribed from this page.*", ""]
 
+    # ⚠ A CAPTION LABELS A TABLE; IT DOES NOT CARRY THE ARGUMENT (2026-08-22, page budget). These
+    # two captions had grown to 350 words between them, restating §2 and §4 beside the rows. What a
+    # caption owes the reader is what the columns mean and where the cells come from; the reasoning
+    # lives in the section that cites the table.
     out += ["**Table 1. The two reagents named for synthesis, with their parent-duplex label and "
-            "their test article.** Both are the best available design at their junction and both "
-            "hold the panel's top gap-level margin. The parent-duplex column is the longest "
-            "contiguous duplex any of six mature wild-type parent transcripts forms through the "
-            "catalytic gap; neither reagent reaches the ten-base-pair criterion, and both sit close "
-            "to it, so the length is printed rather than a pass mark. Test articles are the "
-            "engineered constructs of Brenca et al. (PMID:31020999), whose exon spans that paper "
-            "states verbatim. The two patient-derived models of Bangerter et al. "
-            "(PMID:36316541) are REPORTED to carry NR4A3 exon-2 acceptors, an index the article records as "
-            "unsettled, and on that reading are matched to different "
-            "designs, not to these two. Nothing here has been synthesised or tested, and no "
-            "sequence may be administered to any person or animal.", ""]
+            "their test article.** The parent-duplex column is the longest contiguous duplex any of "
+            "six mature wild-type parent transcripts forms through the catalytic gap; neither "
+            "reagent reaches the ten-base-pair criterion, so the length is printed rather than a "
+            "pass mark. Test articles are the engineered constructs of Brenca et al. "
+            "(PMID:31020999). Nothing here has been synthesised or tested, and no sequence may be "
+            "administered to any person or animal.", ""]
     out += ["| seam | reagent | margin | WT gap duplex (bp) | test article |",
             "|---|---|---:|---|---|"]
     for j in LEADS:
@@ -150,10 +153,7 @@ def build() -> str:
             "catalytic gap against a wild-type parent gene at the ten-base-pair criterion, and the "
             "orderable member does not. " + near + " Neither member of a pair may be substituted "
             "for the other, and neither is named for synthesis as a reagent against a patient's "
-            "fusion. \u26a0 The orderable *TCF12* design IS one of the three all-screen-clear "
-            "designs the falsification experiment offers as a control arm, which is a different "
-            "role at a junction no patient is reported to carry. The pairing is "
-            "read from the canonical file's own cross-reference column rather than asserted here.", ""]
+            "fusion. The pairing is read from the canonical file's own cross-reference column.", ""]
     out += ["| seam | design | verdict | margin | WT gap duplex (bp) |",
             "|---|---|---|---:|---|"]
     for seq in CONDEMNED:

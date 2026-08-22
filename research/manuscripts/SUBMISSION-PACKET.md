@@ -129,8 +129,8 @@ last_verified: 2026-08-10
 
 | field | value |
 |---|---|
-| Word count, main text | 4571 (no limit found) |
-| Abstract | 261 words  |
+| Word count, main text | 3084 (no limit found) |
+| Abstract | 215 words  |
 | Display items | 3 (1 figures, 2 tables) |
 | References | 23 |
 | Cover letter | MISSING |
@@ -152,7 +152,7 @@ last_verified: 2026-08-10
 ## Not verified, and stated rather than assumed
 
 - The per-journal author guidelines could not be retrieved: Wiley serves a JavaScript bot challenge and ScienceDirect blocks the datacenter IP, and both persist under a real headless browser from CI. Word, abstract and display-item limits above are search-derived except for the British Journal of Cancer row, which was read from the journal's own page. Confirm each at the portal, where the pages load normally.
-- Cancer Gene Therapy is a separate and worse case, because it is a CHOSEN venue whose fee schedule has never been read. nature.com answers, and its open-access page was read at HTTP 200 and establishes that open access is the optional paid upgrade — so the subscription route carries no article processing charge. But `/cgt/for-authors`, `/cgt/submission-guidelines` and `/cgt/about` all returned 404, so that journal's page, colour and over-length charges are unknown. Nucleic Acid Therapeutics passed the same APC test and was then disqualified by mandatory page charges of $90/page. Load the journal's author guidelines in an ordinary browser and confirm the full fee schedule before submitting there.
+- Cancer Gene Therapy is a separate and worse case, because it is a CHOSEN venue whose fee schedule has never been read. nature.com answers, and its open-access page was read at HTTP 200 and establishes that open access is the optional paid upgrade — so the subscription route carries no article processing charge. But `/cgt/for-authors`, `/cgt/submission-guidelines` and `/cgt/about` all returned 404, so that journal's page, colour and over-length charges are unknown. Load the journal's author guidelines in an ordinary browser and confirm the full fee schedule before submitting there.
 - The $0 route rests on publisher-wide policy statements quoted verbatim in `research/literature/venue-fee-routes-2026-08-10.json`, not on the per-journal fee page. Elect the subscription route at the fee step and decline the open-access upgrade.
 - The British Journal of Cancer levies a colour charge for figures in print, waived only for open-access papers. That paper has no figures, so the charge cannot arise.
 

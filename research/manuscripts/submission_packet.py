@@ -142,6 +142,13 @@ def main():
                  # true state: nature.com/cgt/open-access answered 200 and establishes that open
                  # access is the paid upgrade, so there is no APC on the subscription route — but
                  # every author-facing CGT path tried returned 404, so page, colour and
+                 # ⚠ SUPERSEDED 2026-08-22, trimcrae: "NAT is the venue. It's not disqualified."
+                 # This file previously carried "Nucleic Acid Therapeutics passed the same APC test
+                 # and was then disqualified by mandatory page charges of $90/page" in its
+                 # not-verified section, while the packet's own venue table targeted the journal
+                 # article AT Nucleic Acid Therapeutics -- a file recommending a venue it elsewhere
+                 # called disqualified. The page charge is a real cost to plan the length against,
+                 # not a disqualification, and it is why the article carries a page budget.
                  # over-length charges are UNREAD. Nucleic Acid Therapeutics passed the APC test
                  # and was then disqualified by $90/page, so an unread fee schedule is the live
                  # risk on this submission and not a formality.
@@ -224,10 +231,8 @@ def main():
           "at HTTP 200 and establishes that open access is the optional paid upgrade — so the "
           "subscription route carries no article processing charge. But `/cgt/for-authors`, "
           "`/cgt/submission-guidelines` and `/cgt/about` all returned 404, so that journal's page, "
-          "colour and over-length charges are unknown. Nucleic Acid Therapeutics passed the same "
-          "APC test and was then disqualified by mandatory page charges of $90/page. Load the "
-          "journal's author guidelines in an ordinary browser and confirm the full fee schedule "
-          "before submitting there.",
+          "colour and over-length charges are unknown. Load the journal's author guidelines in an "
+          "ordinary browser and confirm the full fee schedule before submitting there.",
           "- The $0 route rests on publisher-wide policy statements quoted verbatim in "
           "`research/literature/venue-fee-routes-2026-08-10.json`, not on the per-journal fee page. "
           "Elect the subscription route at the fee step and decline the open-access upgrade.",

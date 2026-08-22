@@ -133,7 +133,11 @@ def test_the_panels_own_rate_is_the_screens_rate(prose, null):
     # geometry sentence opens the 5-6-5 / 5-8-5 / 5-10-5 series with it. All three are this rate.
     _every_site(prose, r"same screen at \d+\.\d% against the panel's (\d+\.\d%)", rate, what)
     _every_site(prose, r"against (\d+\.\d%) for the panel", rate, what)
-    _every_site(prose, r"does — (\d+\.\d%) to \d+\.\d% to \d+\.\d%", rate, what)
+    # ⚠ THE THIRD SITE IS GONE ON PURPOSE (2026-08-22, page budget). §3's three-geometry series
+    # — the share falling 45.8% to 33.1% to 25.4% across 5-6-5, 5-8-5 and 5-10-5 — was moved whole
+    # to the extended report to fit the article in six typeset pages. Its binding is deleted rather
+    # than loosened, because a pattern kept alive against prose that no longer exists is a guard
+    # reporting on nothing. The two sites above still hold the figure in this document.
 
 
 def test_the_chimeric_null_the_abstract_quotes_is_the_exon_terminus_arm(prose, null):
@@ -209,7 +213,7 @@ def test_the_loose_cuts_are_printed_with_the_null_that_makes_them_chance(prose, 
     # ⭐ ONE CONSTRUCTION, BOTH RATES, so the pair cannot drift apart. The sentence's whole force is
     # that these two numbers are close; checking them separately would let a repair move one.
     _every_site(prose,
-                r"ensembles reaches (\d+\.\d%) at seven against the panel's (\d+\.\d%)",
+                r"strongest null\s+reaches (\d+\.\d%) at seven against the panel's (\d+\.\d%)",
                 (_pct(strongest("7")), _pct(cs["7"]["rate_liable"])),
                 "the strongest null's rate at a seven-base-pair cut, beside the panel's own")
     assert strongest("6") > cs["6"]["rate_liable"], \

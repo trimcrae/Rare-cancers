@@ -59,6 +59,30 @@ PDFS = {
     "journal-article-manuscript": os.path.join(
         ASO, "fusion-junction-aso-journal-article-manuscript.pdf"),
 }
+#: The markdown each PDF is built from, so a guard can ask "did every sequence the source prints
+#: survive typesetting?" instead of comparing against a count someone typed once.
+SOURCES = {
+    "manuscript": ("fusion-junction-aso-research-article.md",
+                   "fusion-junction-aso-submission-tables.md"),
+    "journal": ("fusion-junction-aso-research-article.md",
+                "fusion-junction-aso-submission-tables.md"),
+    "journal-article": ("fusion-junction-aso-journal-article.md",
+                        "fusion-junction-aso-journal-tables.md"),
+    "journal-article-manuscript": ("fusion-junction-aso-journal-article.md",
+                                   "fusion-junction-aso-journal-tables.md"),
+}
+
+
+def _source_texts(pdf_key):
+    """The markdown behind `pdf_key`. A named source that is absent is a finding, never a skip."""
+    out = []
+    for name in SOURCES[pdf_key]:
+        path = os.path.join(ASO, name)
+        assert os.path.exists(path), f"{name} is a committed source of {pdf_key} and is missing"
+        out.append(open(path, encoding="utf-8").read())
+    return out
+
+
 #: The one a depositor uploads, for the checks that are about the deposit rather than the typesetting.
 PDF = PDFS["manuscript"]
 SEQ_CSV = os.path.join(ASO, "fusion-junction-aso-sequences.csv")
@@ -256,11 +280,25 @@ def test_every_sequence_the_pdf_prints_is_in_the_canonical_file(pdf_text, pdf_ke
     #: which prints 10 by editorial choice across two tables and its reagent paragraphs — a false
     #: red that would teach a reader to widen the guard rather than read it. Each floor is set well
     #: under that paper's measured count; what is not negotiable is that the extractor found some.
-    floor = 20 if pdf_key in ("manuscript", "journal") else 8
-    assert len(printed) >= floor, (
-        f"only {len(printed)} delimited sequence(s) could be read out of {pdf_key}'s text layer "
-        f"(floor {floor}). Either the delimiters are gone — which is what this file exists to "
-        "catch — or the extractor is no longer reading the sequence cells.")
+    #: ⛔⛔ AND THE FLOOR IS NOW DERIVED FROM THE SOURCES, NOT TYPED (2026-08-22). It was 8 for the
+    #: journal article, calibrated when Table 2 printed two near-twin pairs. Dropping that table to
+    #: one pair — an editorial choice made to fit six typeset pages — took the count to 7 and the
+    #: guard went red on a build that was perfectly correct. A hardcoded count beside content that
+    #: an editor is expected to change is the same staleness this file exists to catch, one level
+    #: up: the number went out of date, not the PDF. The sources are read instead, so the guard now
+    #: says the stronger thing — every sequence the markdown prints survived typesetting — and
+    #: cannot be made red by an editorial decision that is not a defect.
+    in_source = set()
+    for src in _source_texts(pdf_key):
+        in_source |= set(re.findall(r"5[′']-([ACGT]{12,25})-3[′']", src))
+    assert in_source, (
+        f"no delimited sequence was found in {pdf_key}'s own markdown sources, so this guard has "
+        "nothing to compare the PDF against — the delimiters or the source list have moved")
+    missing = in_source - printed
+    assert not missing, (
+        f"{len(missing)} sequence(s) the markdown prints could not be read out of {pdf_key}'s text "
+        f"layer: {sorted(missing)}. Either the delimiters are gone — which is what this file exists "
+        "to catch — or the extractor is no longer reading the sequence cells.")
     #: ⛔ ONE DELIBERATE EXCEPTION, AND IT IS THE REVERSE-COMPLEMENT TRAP RATHER THAN A HOLE.
     #: Figure 2 draws the TARGET mRNA at the multi-partner seam, because the point of the panel is
     #: where three partners' breakpoints coincide ON THE TRANSCRIPT; the reagent is that strand's

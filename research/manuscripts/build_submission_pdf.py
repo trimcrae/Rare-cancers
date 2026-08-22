@@ -1704,7 +1704,14 @@ li { margin-bottom: 3pt; text-align: justify; }
 .backmatter h2:first-child { margin-top: 0; }
 .backmatter p { margin: 0 0 4pt 0; }
 #references-list { padding-left: 11pt; }
-#references-list li { text-align: left; margin-bottom: 2.6pt; }
+/* ⚠ THE REFERENCE LIST WAS SET AT BODY SIZE AND BODY LEADING (2026-08-22). Body is 10.5pt/1.5;
+   the venue's own typeset geometry, measured off its published PDFs in
+   research/literature/venue-typeset-geometry.json, is 9.8pt on 10.9pt leading — a ratio of 1.11
+   against this sheet's 1.5. So the back matter was being set looser than the journal sets its
+   running text, and a page budget was being paid for in prose. Reference lists are conventionally
+   set down a size with tight leading; doing that here costs no content. */
+#references-list { font-size: 9pt; line-height: 1.22; }
+#references-list li { text-align: left; margin-bottom: 1.6pt; }
 """
 
 
