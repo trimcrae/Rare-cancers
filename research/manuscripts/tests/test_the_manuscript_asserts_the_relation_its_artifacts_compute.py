@@ -133,6 +133,23 @@ POLARITY = [
      r"is\s+valid for the other",
      "the CSV: the exon-2 sequences differ from the exon-3 sequences",
      "A reagent selected for one acceptor is valid for the other."),
+    # ⛔⛔ A CLINICAL FACT UNDER A REAL PMID INVERTS AS FREELY AS ANY OTHER PREDICATE (round 16
+    # seat 3). "responds poorly" -> "responds well" states the opposite of the cited source while
+    # the citation, the superscript and the PMID anchor all stay put — and CLAUDE.md §7 is explicit
+    # that claim STRENGTH is orthogonal to citation PROVENANCE, so a hedge-checking linter cannot
+    # see it. This is the one clinical claim the condensed paper makes in its own voice.
+    # ⚠ `decided_by` here is a CITATION, not an artifact, and that is the honest description: the
+    # guard binds the polarity to the source, and the source is what makes the claim checkable by a
+    # reader. It cannot verify the source says it; nothing available here can.
+    # ⚠ `\s+` between every word: the sentence wraps mid-phrase in the source ("cytotoxic" ends
+    # line 68, "chemotherapy" opens line 69), and a literal-space pattern reports the claim missing
+    # when it is simply typeset over two lines.
+    ("chemotherapy-response",
+     r"The\s+disease\s+responds[^.]{0,140}chemotherapy",
+     r"responds\s+poorly\s+to\s+conventional\s+cytotoxic\s+chemotherapy",
+     r"responds\s+well\b|responds\s+favourably\b|is\s+responsive\s+to\b|responds\s+strongly\b",
+     "PMID:41055792, the source cited at that sentence",
+     "The disease responds well to conventional cytotoxic chemotherapy"),
     ("margin-is-the-shorter-side",
      r"gap-level margin is the count of junction-unique bases[^.]{0,90}\.",
      r"on\s+the shorter side of the breakpoint",
@@ -144,7 +161,16 @@ POLARITY = [
 
 
 def _article():
-    return io.open(ARTICLE, encoding="utf-8").read()
+    """The article with its line wrapping collapsed.
+
+    ⛔ EVERY SPAN BELOW IS WRITTEN WITH ORDINARY SPACES, AND THE SOURCE WRAPS MID-PHRASE. The
+    chemotherapy sentence breaks between "cytotoxic" and "chemotherapy"; without this, that row
+    reported its claim MISSING on a correct paper, and a reflow of any other paragraph would do the
+    same to its row. A missing span is an ERROR here — correctly, since a row that stops matching
+    has stopped guarding — so the failure would have been loud but wrong, and a gate that reds on
+    honest input gets loosened. Normalising once is cheaper than anchoring sixteen patterns.
+    """
+    return re.sub(r"\s+", " ", io.open(ARTICLE, encoding="utf-8").read())
 
 
 def _errors(text):

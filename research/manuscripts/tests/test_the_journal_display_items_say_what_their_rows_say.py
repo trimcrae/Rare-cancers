@@ -495,3 +495,57 @@ def test_the_display_items_name_the_chemistry_and_geometry_of_what_they_print():
             f"the journal display items print {len(printed)} orderable sequence(s) and never say "
             f"{term!r}. WHY THAT MATTERS: {why}.\n\n"
             "The deposit tables state it; this document is the one that ships with the submission.")
+
+
+def test_the_test_article_label_belongs_to_the_seam_its_row_names(tables):
+    """⛔⛔ THE TWO TEST ARTICLES ARE SWAPPABLE, AND AN ARTIFACT DECIDES THEM (round 16 seat 2).
+
+    Table 1's test-article column is a typed literal in the generator, keyed by junction. Swapping
+    the two cells — E-N onto the *TAF15* seam and T-N* onto the *EWSR1* seam — leaves every other
+    cell right and names the wrong published construct against each reagent. Dropping the asterisk
+    alone does the same thing more quietly: T-N and T-N* are DIFFERENT constructs in PMID:31020999.
+
+    ★ THE LABEL IS NOT ARBITRARY, SO IT IS CHECKABLE. Brenca et al. name each construct by the
+    initials of the genes it joins, donor then acceptor, and `emc-fet-construct-designs.json`
+    carries the gene models the seam is built from. So the label's initials must be the seam's
+    initials, which no swap can satisfy.
+
+    ⚠ WHAT THIS DOES NOT DO: it cannot confirm the construct EXISTS in the cited paper — that is a
+    literature fact and its citation is the provenance. It closes the swap, which is the failure
+    that puts a reader's reagent against the wrong published comparator.
+    """
+    genes = set(_construct_gene_models())
+    rows = [r for t in tables.values() for r in t["rows"] if "test article" in
+            {k.lower() for k in r}]
+    assert rows, "no table carries a test-article column, so this guard is vacuous"
+
+    wrong = []
+    for row in rows:
+        cell = next(v for k, v in row.items() if k.lower() == "test article")
+        seam = next(v for k, v in row.items() if k.lower() == "seam")
+        label = cell.split(",")[0].strip()
+        initials = [p for p in re.split(r"[-–]", re.sub(r"\*", "", label)) if p]
+        seam_genes = [g for g in re.findall(r"([A-Z][A-Z0-9]+)", seam) if g in genes]
+        if len(initials) != len(seam_genes) or not seam_genes:
+            wrong.append((seam, label, "the label and the seam name different numbers of genes"))
+            continue
+        for got, gene in zip(initials, seam_genes):
+            if not gene.startswith(got):
+                wrong.append((seam, label, f"{got!r} is not the initial of {gene}"))
+
+    assert not wrong, (
+        "a test-article label does not belong to the seam its row names:\n  "
+        + "\n  ".join(f"{s}: {lab!r} — {why}" for s, lab, why in wrong)
+        + "\n\nThe construct is named for the genes it joins, so a label whose initials are not the "
+          "seam's names the wrong published comparator against that reagent.")
+
+
+def _construct_gene_models():
+    """The gene models the engineered constructs are built from."""
+    path = os.path.join(os.path.dirname(os.path.dirname(ASO)), "modalities",
+                        "emc-fet-construct-designs.json")
+    if not os.path.exists(path):
+        path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(ASO))),
+                            "research", "modalities", "emc-fet-construct-designs.json")
+    with io.open(_need(path, "the engineered-construct record"), encoding="utf-8") as fh:
+        return json.load(fh).get("gene_models", {})
