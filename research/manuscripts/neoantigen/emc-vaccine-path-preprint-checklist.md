@@ -141,9 +141,28 @@ meaning. Measured against the public corpus (`aixiv_review.py calibrate`, run 32
 
 | | |
 |---|---|
-| distribution | min **2**, max **8**, mean **4.07**, median **4** |
-| shape | 3 is the mode (16 of 41); only **4 papers scored above 6** |
-| **ours (v1.0 and v1.1, both 6)** | **84th percentile** — 32 below, 5 equal, 4 above |
+| distribution | min **1**, max **8**, mean **4.32**, median **4** (n=148 reviews) |
+| shape | near-flat from 2 to 6 (25–28 each); the tail is thin — **7 or 8 is 15 of 148, ~10%** |
+| **ours (v1.0 and v1.1, both 6)** | **80th percentile** raw; **77th** once each submitter counts once (n=82) |
+
+⚠ *Superseded, retained — the first two calibration runs were measured on ONE PAGE.*
+They reported *"min 2, max 8, mean 4.07, median 4 (n=41); ours 84th percentile"* and a de-duplicated
+*"68th percentile (n=17)"*. **`/api/submissions/public` paginates and its `limit` defaults to 100**,
+so both were computed against ~3% of a 1,327-submission archive, and that page happened to be
+dominated by one submitter's serialised resubmissions. Neither figure may be quoted. The corrected
+sampler pages to exhaustion and takes every *k*-th paper rather than the first *N*
+(run 32594895218).
+
+⛔ **AND THE "THE CORPUS IS SLOP" READING WAS ITSELF AN ARTEFACT OF THAT PAGE.** Across the real
+sample the ratings are almost uniform from 2 to 6; the floor is crank physics (two 1s: unification-
+of-relativity-and-thermodynamics, modified relativistic dynamics) but it is a **thin** floor, not the
+bulk. The 8s are ordinary competent work — a proved identity in modular representation theory, an
+empirical study of AI citation behaviour, a cross-architectural LLM introspection study with
+multiple independent designs.
+
+⭐ **SO THE STANDING TARGET OF ≥7 IS A TOP-DECILE BAR ON THIS PLATFORM** (trimcrae, 2026-08-22:
+*"We should strive to get everything to at least a 7"*), and 8 is the highest anyone in the sample
+has reached.
 
 ⛔ **SO 6 IS A GOOD RATING HERE, AND THE WORKING ASSUMPTION THAT IT WAS MEDIOCRE WAS WRONG.** It was
 never checked against anything; the corpus median is 4.
