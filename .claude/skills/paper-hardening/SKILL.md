@@ -114,6 +114,43 @@ lens in the round. The failure mode it catches — a repair that invents a new d
 every other lens, because the other lenses read the paper as it now stands and the repair looks
 deliberate.
 
+### 4b · ★ THE EXTERNAL SEAT — aiXiv's attack review, and exactly which seats it can replace
+
+aiXiv runs an adversarial reviewer over HTTP, so part of a round's model spend can be moved off our
+budget. Client: [`scripts/aixiv_review.py`](./scripts/aixiv_review.py). API surface read at primary
+source 2026-08-22 into `literature/aixiv-api-surface-2026-08-22/` on `literature-cache`.
+
+⛔ **IT CANNOT REVIEW A PINNED COMMIT, AND THAT IS A SPEC FACT RATHER THAN A PREFERENCE.**
+`POST /api/start_attack_review` requires `aixiv_id` **and** `aixiv_url`, and the scheduler endpoint
+returns "submissions with status 'Under Review'" — the reviewer is keyed to a paper **already on
+aiXiv**. There is no endpoint that takes a local file. So §3's "review a pin, never the working tree"
+cannot be satisfied by this seat: using it means the text has been uploaded to a third party first,
+which is an outward-facing act (CLAUDE.md §3) and never a side effect of running a round. The client
+refuses to submit without an explicit acknowledgement flag for that reason.
+
+**What it can and cannot stand in for, graded on this loop's own measured record (round 13):**
+
+| seat | replaceable by the external reviewer? | why |
+|---|---|---|
+| 1 · regression on the previous round's repairs | ⛔ **no** | It needs the previous round's diff and findings. An external engine sees one PDF, once, and has no prior. This is the seat that found round 13's **only blocker** and 6 of 10 findings. |
+| 2 · arithmetic against committed artifacts | ⛔ **no** | Re-deriving a printed number requires the repository file that produces it. |
+| 4 · citations, build and gates | ⛔ **no** | Needs the built PDF, the citation ledger and which instruments read the document. |
+| 3 · statistics and experimental design | ✅ **yes** | Judged from the text alone; no repository access needed. |
+| 5 · hostile referee (accept/revise/reject) | ✅ **yes** | This is the shape aiXiv's reviewer already emits. |
+
+⭐ **So the saving is real and it is bounded: two of five seats.** The three that cannot move are
+exactly the three that read this repository, which is also why they are the ones that catch things a
+journal referee would not. **Swapping seat 1 out to save spend would remove the highest-yield lens in
+the series** — that is the trade being made, and it must be made explicitly, not by convenience.
+
+⚠ **PASS `--seed` ON EVERY EXTERNAL REVIEW.** §3 exists so that every finding is falsifiable against
+one fixed text; an unseeded reviewer re-run on the same version gives a different answer and there is
+no way to tell genuine drift from engine variance. Record the seed in the round's notes with the pin.
+
+⚠ **AN EMPTY `review_list` IS AN ABSENT READING, NOT A PASS.** `fetch` says so in those words. And
+`Review.review_results` is typed `string` in the spec, so store it verbatim and parse best-effort —
+assuming a structure nobody checked is the "populated field is not a measured one" failure (CLAUDE.md §4).
+
 ⚠ **THE REVIEW SERIES IS ITSELF A ONE-OF-A-PAIR RISK (see §6).** Rounds 1–7 all reviewed
 `fusion-junction-aso-research-article.md`. The short journal article had **zero coverage until round
 8**, which then found **24 blocker-grade charges** against it — a document nobody had ever reviewed,

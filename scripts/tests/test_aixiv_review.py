@@ -1,0 +1,155 @@
+"""Guards for scripts/aixiv_review.py.
+
+⛔ THE ONE THAT MATTERS IS THE OUTWARD-FACING REFUSAL. Everything else here is ordinary argument
+handling; `test_submit_refuses_without_the_explicit_acknowledgement` is the test that stops a future
+session from uploading a manuscript to a third party as a side effect of running a review round.
+
+⚠ EVERY TEST BELOW ASSERTS THAT NO NETWORK CALL HAPPENS, by making the transport itself explode.
+Mocking the client's own helper would test the mock (`ci-escape-hatches`: "mock the thing under test
+and you test the mock"), so the seam that is patched is `urllib.request.urlopen` — the last thing
+before the socket.
+"""
+import importlib.util
+import json
+import os
+import sys
+
+import pytest
+
+REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+_spec = importlib.util.spec_from_file_location(
+    "aixiv_review", os.path.join(REPO, "scripts", "aixiv_review.py"))
+aixiv_review = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(aixiv_review)
+
+
+@pytest.fixture(autouse=True)
+def no_network(monkeypatch):
+    """Any real HTTP call fails the test, loudly and by name."""
+    def _boom(*a, **k):
+        raise AssertionError("a network call was attempted; this test must not reach aiXiv")
+    monkeypatch.setattr(aixiv_review.urllib.request, "urlopen", _boom)
+    monkeypatch.delenv("AIXIV_TOKEN", raising=False)
+
+
+def _meta(tmp_path, **over):
+    meta = {
+        "title": "T", "authorship_type": "ai", "authors": ["A"],
+        "corresponding_author": "a@example.org", "category": ["Q"],
+        "keywords": ["k"], "license": "CC-BY-4.0", "doc_type": "paper",
+    }
+    meta.update(over)
+    p = tmp_path / "meta.json"
+    p.write_text(json.dumps(meta))
+    return str(p)
+
+
+def _pdf(tmp_path):
+    p = tmp_path / "paper.pdf"
+    p.write_bytes(b"%PDF-1.4 fake")
+    return str(p)
+
+
+def test_submit_refuses_without_the_explicit_acknowledgement(tmp_path, capsys):
+    """The gate that keeps a review round from becoming a publication."""
+    rc = aixiv_review.main([
+        "submit", "--pdf", _pdf(tmp_path), "--meta", _meta(tmp_path)])
+    assert rc == 1
+    err = capsys.readouterr().err
+    assert "refusing to submit" in err
+    assert "outward-facing" in err
+
+
+def test_submit_dry_run_needs_no_token_and_no_acknowledgement(tmp_path, capsys):
+    rc = aixiv_review.main([
+        "submit", "--pdf", _pdf(tmp_path), "--meta", _meta(tmp_path), "--dry-run"])
+    assert rc == 0
+    assert "DRY RUN" in capsys.readouterr().out
+
+
+def test_a_dry_run_says_plainly_which_publicity_it_would_use(tmp_path, capsys):
+    """⚠ `is_public` is the difference between a rehearsal and a publication. It must be legible."""
+    aixiv_review.main(["submit", "--pdf", _pdf(tmp_path), "--meta", _meta(tmp_path),
+                       "--public", "1", "--dry-run"])
+    assert "PUBLICATION" in capsys.readouterr().out
+    aixiv_review.main(["submit", "--pdf", _pdf(tmp_path), "--meta", _meta(tmp_path),
+                       "--public", "0", "--dry-run"])
+    assert "UNVERIFIED" in capsys.readouterr().out
+
+
+@pytest.mark.parametrize("missing", sorted(aixiv_review.REQUIRED_META))
+def test_every_required_field_is_checked_before_the_network(tmp_path, missing, capsys):
+    """Single-site mutation per field — a validator that checks all-but-one reads as correct."""
+    meta = _meta(tmp_path, **{missing: ""})
+    rc = aixiv_review.main([
+        "submit", "--pdf", _pdf(tmp_path), "--meta", meta, "--dry-run"])
+    assert rc == 1
+    assert missing in capsys.readouterr().err
+
+
+def test_review_defaults_the_abs_url_from_the_id(tmp_path, capsys):
+    aixiv_review.main(["review", "--aixiv-id", "aixiv.260822.000001", "--version", "v1.0",
+                       "--pdf", _pdf(tmp_path), "--seed", "20260822", "--dry-run"])
+    out = capsys.readouterr().out
+    assert "/abs/aixiv.260822.000001" in out
+    assert '"seed": "20260822"' in out
+
+
+def test_missing_token_names_how_to_mint_one():
+    with pytest.raises(aixiv_review.AixivError) as e:
+        aixiv_review._token()
+    assert "/api/agents/" in str(e.value)
+    assert "ONLY ONCE" in str(e.value)
+
+
+def test_no_reviews_is_reported_as_an_absent_reading_not_a_pass(monkeypatch, capsys):
+    """⛔ The failure this repository keeps paying for: silence read as a clean result."""
+    monkeypatch.setattr(aixiv_review, "_request", lambda *a, **k: {"review_list": [], "code": 0})
+    aixiv_review.main(["fetch", "--aixiv-id", "x", "--version", "v1.0"])
+    out = capsys.readouterr().out
+    assert "NOT a verdict" in out
+
+
+def test_verify_never_prints_the_response_body(monkeypatch, capsys):
+    """⛔ Actions logs here are world-readable. A raw dump would publish the account's e-mail."""
+    monkeypatch.setenv("AIXIV_TOKEN", "t")
+    monkeypatch.setattr(aixiv_review, "_request", lambda path, **k: (
+        {"has_profile": True, "email": "private@example.org", "secret_field": "leak-me"}
+        if "profile" in path else
+        [{"name": "hardening", "scopes": ["submit", "review"], "id": 7}]))
+    aixiv_review.main(["verify"])
+    out = capsys.readouterr().out
+    assert "private@example.org" not in out
+    assert "leak-me" not in out
+    assert "VERIFY OK" in out
+
+
+def test_verify_fails_when_no_agent_carries_the_review_scope(monkeypatch, capsys):
+    """A token that authenticates and cannot review fails LATER, on a real paper, unless caught here."""
+    monkeypatch.setenv("AIXIV_TOKEN", "t")
+    monkeypatch.setattr(aixiv_review, "_request", lambda path, **k: (
+        {"has_profile": True} if "profile" in path else
+        [{"name": "submitter", "scopes": ["submit"]}]))
+    rc = aixiv_review.main(["verify"])
+    out = capsys.readouterr().out
+    assert rc == 1
+    assert "'review' SCOPE" in out
+    assert "VERIFY INCOMPLETE" in out
+
+
+def test_verify_says_so_when_no_agent_exists_at_all(monkeypatch, capsys):
+    monkeypatch.setenv("AIXIV_TOKEN", "t")
+    monkeypatch.setattr(aixiv_review, "_request", lambda path, **k: (
+        {"has_profile": True} if "profile" in path else []))
+    aixiv_review.main(["verify"])
+    assert "NO AGENTS REGISTERED" in capsys.readouterr().out
+
+
+def test_fetch_writes_the_raw_payload_verbatim(monkeypatch, tmp_path):
+    """`review_results` is typed `string`; we store what came back rather than a parse of it."""
+    payload = {"review_list": [{"id": 1, "reviewer": "r", "create_time": "t",
+                                "review_results": "not json at all"}], "code": 0}
+    monkeypatch.setattr(aixiv_review, "_request", lambda *a, **k: payload)
+    aixiv_review.main(["fetch", "--aixiv-id", "x", "--version", "v1.0", "--out", str(tmp_path)])
+    written = json.loads((tmp_path / "x-v1.0-reviews.json").read_text())
+    assert written == payload

@@ -1,0 +1,124 @@
+# Drive aiXiv's automated adversarial review from CI, where the token lives.
+#
+# WHY THIS IS A WORKFLOW AT ALL. AIXIV_TOKEN is a GitHub Actions secret, so the dev sandbox cannot
+# hold it and every authenticated aiXiv call has to originate here. This is `ci-escape-hatches` §0
+# rung 1 used correctly: not because the question is hard, but because the credential exists in
+# exactly one place.
+#
+# ⛔ THE LOGS OF THIS REPOSITORY ARE WORLD-READABLE. Nothing here prints a response body. The
+# `verify` mode prints an allowlist of fields (see scripts/aixiv_review.py), and the token is a
+# secret so Actions masks it — but masking is a backstop, not a licence to echo it.
+#
+# ⛔ `submit` IS OUTWARD-FACING AND DOUBLE-GATED, ON PURPOSE. The workflow input below must be set
+# to true AND the script's own --i-understand-this-is-outward-facing flag is passed only when it is.
+# Uploading a manuscript to a third party is not undone by deleting a row: it may have been fetched,
+# cached or indexed in between (CLAUDE.md §3). Default is `verify`, which writes nothing anywhere.
+name: aiXiv — verify, review, fetch
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "What to do"
+        type: choice
+        options: [verify, dry-run-submit, submit, review, fetch]
+        default: verify
+      pdf:
+        description: "Path to the PDF (submit / dry-run-submit / review)"
+        required: false
+        default: ""
+      meta:
+        description: "Path to the SubmissionCreate metadata JSON (submit / dry-run-submit)"
+        required: false
+        default: ""
+      aixiv_id:
+        description: "aiXiv id (review / fetch)"
+        required: false
+        default: ""
+      version:
+        description: "Submission version, e.g. v1.0 (review / fetch)"
+        required: false
+        default: "v1.0"
+      seed:
+        description: "Review seed — record it with the round's pin so the round is re-runnable"
+        required: false
+        default: ""
+      is_public:
+        description: "submit only: 1 publishes. 0 is non-public and is UNVERIFIED — see the script docstring."
+        required: false
+        default: "0"
+      i_understand_this_is_outward_facing:
+        description: "submit only: must be true. Uploading to a third party is not reversible in practice."
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: aixiv-${{ inputs.mode }}-${{ inputs.aixiv_id || 'none' }}
+  cancel-in-progress: false
+
+jobs:
+  aixiv:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify the token (read-only, writes nothing)
+        if: ${{ inputs.mode == 'verify' }}
+        env:
+          AIXIV_TOKEN: ${{ secrets.AIXIV_TOKEN }}
+        run: python3 scripts/aixiv_review.py verify
+
+      # No token: the dry run is a payload printer and must stay runnable without one, so that
+      # checking the metadata never requires holding the credential.
+      - name: Dry-run the submission payload
+        if: ${{ inputs.mode == 'dry-run-submit' }}
+        run: |
+          python3 scripts/aixiv_review.py submit \
+            --pdf "${{ inputs.pdf }}" --meta "${{ inputs.meta }}" \
+            --public "${{ inputs.is_public }}" --dry-run
+
+      - name: ⛔ Refuse a submit that was not explicitly acknowledged
+        if: ${{ inputs.mode == 'submit' && !inputs.i_understand_this_is_outward_facing }}
+        run: |
+          echo "::error::mode=submit requires i_understand_this_is_outward_facing=true. This uploads" \
+               "a manuscript to a third party and is not reversible in practice (CLAUDE.md §3)." \
+               "Run mode=dry-run-submit first and read the payload."
+          exit 1
+
+      - name: Submit to aiXiv (OUTWARD-FACING)
+        if: ${{ inputs.mode == 'submit' && inputs.i_understand_this_is_outward_facing }}
+        env:
+          AIXIV_TOKEN: ${{ secrets.AIXIV_TOKEN }}
+        run: |
+          python3 scripts/aixiv_review.py submit \
+            --pdf "${{ inputs.pdf }}" --meta "${{ inputs.meta }}" \
+            --public "${{ inputs.is_public }}" --i-understand-this-is-outward-facing
+
+      - name: Start an attack review
+        if: ${{ inputs.mode == 'review' }}
+        env:
+          AIXIV_TOKEN: ${{ secrets.AIXIV_TOKEN }}
+        run: |
+          python3 scripts/aixiv_review.py review \
+            --aixiv-id "${{ inputs.aixiv_id }}" --version "${{ inputs.version }}" \
+            --pdf "${{ inputs.pdf }}" ${{ inputs.seed && format('--seed {0}', inputs.seed) || '' }}
+
+      - name: Fetch recorded reviews
+        if: ${{ inputs.mode == 'fetch' }}
+        run: |
+          python3 scripts/aixiv_review.py fetch \
+            --aixiv-id "${{ inputs.aixiv_id }}" --version "${{ inputs.version }}" \
+            --out .cache/aixiv
+
+      # ⚠ THE REVIEW IS THE DELIVERABLE, SO IT MUST SURVIVE THE RUNNER. A review read only in a job
+      # log is one nobody can quote in a hardening round's record.
+      - name: Keep the fetched reviews
+        if: ${{ always() && inputs.mode == 'fetch' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: aixiv-reviews-${{ github.run_id }}
+          path: .cache/aixiv
+          if-no-files-found: warn

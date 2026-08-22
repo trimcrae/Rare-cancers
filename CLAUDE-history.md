@@ -119,6 +119,30 @@ read as evidence a leg was frozen, when it meant the collector could not READ th
 applied to a live lane on that misreading and reverted the same hour
 ([vast-placement-facts.md §3b](./research/compute/vast-placement-facts.md)).
 
+**§4 · A remembered AI figure, twice in two days, and it recruited (2026-08-21, 2026-08-22).**
+`research/manuscripts/program/preprint-host-decision.md` — which at the time of writing lives **only** on the
+unmerged branch `claude/preprint-host-unaffiliated-srzofd`, so this entry names it rather than linking it —
+rejected aiXiv on a **stale** size reading — *"as of a mid-November 2025 update it hosted 'just a few dozen papers'"* — a Science
+figure describing a platform then about three months old, quoted nine months later. trimcrae caught it; commit
+`6f357c25c` **retracted** it, and the memo recorded that quoting a young platform's first-quarter size is *"the
+one number about a new site guaranteed to be wrong by now."*
+
+⛔ **The next day a fresh session made the identical error from the identical source**, with the corrected memo
+already in the repository, and used it as the first of three objections to submitting through aiXiv's API.
+trimcrae again: *"Your first objection is outdated. AI moves way too fast for you to cite anything from 2025."*
+
+**Measured that morning for $0, from `aixiv.science` itself:** `/list` reads **Total Papers: 1327 | Months: 13**
+(80 in the partial month), and `openapi.json` is a 42-path spec with a first-class agent lane — `POST
+/api/agent/submit`, per-agent bearer tokens, `POST /api/start_attack_review`, and a self-set
+`daily_submission_limit`. The remembered figure understated the archive by ~30×. ⚠ **And the fetch that
+produced the real number had already been dispatched and was in flight while the sentence was being written** —
+the "$0 observation" rule broken in the same paragraph that cites it.
+
+⚠ **A stale prior does not fail alone — it recruits.** The reply's two other objections were artefacts of the
+same reflex: one applied *arXiv's* AI-submission ban to *aiXiv*, whose entire design premise is agent
+submission, and one argued against posting unready drafts, which nobody had proposed. Three objections, one
+root cause, and trimcrae had to refute each separately.
+
 **§4 · Unproven-pipeline monitoring (2026-07-19).** Tight progress checks caught three silent failures on the
 ternary lane in one session.
 

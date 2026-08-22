@@ -10,6 +10,49 @@ is the phrase test ("I can't run X here"); this file is what that tripwire route
 
 ⚠ **This file is a `pinned-figures.json` target.**
 
+---
+
+## 0 · ★★ THE LADDER HAS RUNGS BELOW CI, AND IT HAS A STOPPING RULE
+
+**trimcrae, 2026-08-22: *"Whatever part of your Claude.md or skills makes you keep trying CI when
+googling is fine needs a priority update."*** This file's framing — *the sandbox is not your
+execution limit* — is about **capability**, and it quietly became the **default instrument**. It
+answers *can I?* and never asks *is this worth a dispatch?*
+
+**Take the rungs in order. STOP at the first one that answers the question.**
+
+| rung | instrument | when it is the right one |
+|---|---|---|
+| **0** | **`WebSearch`** | Free, instant, no dispatch, no poll, no branch, no artifact. **Default for orienting**: what a thing is, whether it exists, where to sign up. |
+| **0b** | **`WebFetch`** | Same speed — ⚠ but subject to the **same egress allowlist** as the sandbox. Measured 2026-08-22: `arxiv.org`, `huggingface.co`, `science.org`, `monperrus.net` all returned `EGRESS_BLOCKED`. **A blocked fetch is not a blocked question** — rung 0 usually still settles it. |
+| **1** | **An Actions runner** (§1 below) | The answer must be a **committed artifact someone will later quote**, or it needs pip / PDF / a real browser / bulk retrieval. |
+| **2** | **A new script or workflow step** | Only when rung 1 will be **re-run**. Building one to answer a question once is the tail wagging the dog. |
+
+⛔ **THE STOPPING RULE: ESCALATE ON THE ANSWER'S VALUE, NEVER ON THE PREVIOUS RUNG'S FAILURE.**
+A rung that did not work is not a reason to climb — it is a reason to re-ask what the answer is
+worth. Climbing reflexively is how a one-line question becomes an afternoon.
+
+**Measured the same day, and the contrast is the lesson — one dispatch was right and the next was
+not.** Fetching aiXiv's `openapi.json` to a runner was **correct**: the domain was reachable but the
+answer was a 42-path API spec that every later claim would be quoted from, so it belonged on
+`literature-cache` as an artifact. Then *"Link me on how to make an account"* got: a CI probe of nine
+candidate routes, a nonsense control that correctly proved HTTP status could not discriminate them,
+and the beginnings of a Playwright renderer **plus a new workflow step** — for a question whose
+honest answer was one URL and one sentence. trimcrae stopped it: ***"How is it this hard. I just need
+a link."***
+
+★ **THE TELL IS THE QUESTION'S REGISTER, AND IT IS AVAILABLE BEFORE YOU START.** *"Link me"*,
+*"what is X"*, *"does Y exist"* asked conversationally wants an answer **now**, and an honest
+*"here's the entry point; I couldn't verify the deeper path"* beats a verified answer an hour later.
+A number, an identifier or a claim heading for a manuscript, a gate or the registry wants rung 1 —
+that is what §7's "never write an identifier from recollection" is about, and it is a **narrower**
+class than "anything I am curious about".
+
+⚠ **This does not weaken §4's "$0 observation" rule — it CORRECTS THE INSTRUMENT.** "Take the free
+reading now" was always right; reading it as "dispatch a workflow" made the cheapest observation in
+the list cost a build. Rung 0 *is* the $0 observation, most of the time.
+
+---
 
 - **★★ "I can't run X here" is NEVER a reason to defer (trimcrae, 2026-07-12, after I repeatedly declared work
   undoable while holding two standing escape hatches).** No GPU, no MD stack, no compiler, no network to a host,
