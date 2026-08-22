@@ -218,7 +218,7 @@ heuristic and censors on two ceilings: a hit list of up to 50 is requested and 1
 of the 183 filtered designs 35 are censored at the request and 101 more past the retained window,
 leaving 47 with hit lists short enough to assess for cleanliness at all; a count of clean designs is therefore a floor over
 that subset rather than a total over the panel. And search depth moves the result: most of the
-designs clean at the default ceiling are not clean at ten times it, as the extended report shows
+designs clean at the default ceiling are not clean at a deeper one, as the extended report shows
 design by design.
 
 The ten-base-pair criterion is adopted rather than measured, and the comparison against null models
