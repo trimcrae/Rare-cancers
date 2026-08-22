@@ -112,6 +112,39 @@ def figures_for(stem, declared=()):
 _STEM_TAILS = ("-research-article", "-journal-article", "-manuscript", "-paper")
 
 
+def _cgt_fee_line():
+    """What the FETCH RECORD says about Cancer Gene Therapy's charges — read, not remembered.
+
+    ⛔⛔ THIS PARAGRAPH WAS A HAND-TYPED LITERAL AND IT WAS WRONG ON THREE COUNTS (round 16 seat 4,
+    2026-08-22), inside a generator whose own banner reads "every value is derived from a committed
+    artifact". It said the fee schedule "has never been read" — `cgt_gta` is HTTP 200 and contains
+    "£145 / $238 per page" verbatim; it said `/cgt/about` "returned 404" — it returned 200; and it
+    said the page and colour charges "are unknown" — the fetched text states the charge and says it
+    is "fully inclusive of colour reproduction".
+    ⚠ A GENERATED FILE IS ONLY AS DERIVED AS ITS LEAST DERIVED SENTENCE, and a "DO NOT HAND-EDIT"
+    banner over a hand-typed claim is worse than no banner: it tells the reader not to check.
+    """
+    rec = os.path.join(REPO, "research", "literature", "venue-policy-browser-fetch.json")
+    if not os.path.exists(rec):
+        return ("- Cancer Gene Therapy's fee schedule could not be checked: "
+                "`research/literature/venue-policy-browser-fetch.json` is missing.")
+    targets = json.load(open(rec, encoding="utf-8")).get("targets", {})
+    cgt = {k: v for k, v in targets.items() if k.startswith("cgt")}
+    answered = sorted(k for k, v in cgt.items() if v.get("status") == 200)
+    unread = sorted(k for k, v in cgt.items() if v.get("status") != 200)
+    fee = ""
+    for key in answered:
+        m = re.search(r"[^.]{0,90}per page[^.]{0,120}\.", " ".join((cgt[key].get("text") or "").split()))
+        if m:
+            fee = f' Its guide to authors states, verbatim: "{m.group(0).strip()}"'
+            break
+    return ("- Cancer Gene Therapy's charges HAVE been read, contrary to a claim this file carried "
+            f"until 2026-08-22. Of {len(cgt)} fetched pages, {len(answered)} answered HTTP 200 "
+            f"({', '.join(answered)}) and {len(unread)} did not "
+            f"({', '.join(unread) if unread else 'none'})." + fee +
+            " Confirm at the portal before submitting there; this is a fetch record, not an invoice.")
+
+
 def _paper_supplementary(manuscript_rel):
     """The SI `build_submission_pdf.PAPERS` says this manuscript has, or "" if it has none.
 
@@ -267,13 +300,7 @@ def main():
           "headless browser from CI. Word, abstract and display-item limits above are "
           "search-derived except for the British Journal of Cancer row, which was read from the "
           "journal's own page. Confirm each at the portal, where the pages load normally.",
-          "- Cancer Gene Therapy is a separate and worse case, because it is a CHOSEN venue whose "
-          "fee schedule has never been read. nature.com answers, and its open-access page was read "
-          "at HTTP 200 and establishes that open access is the optional paid upgrade — so the "
-          "subscription route carries no article processing charge. But `/cgt/for-authors`, "
-          "`/cgt/submission-guidelines` and `/cgt/about` all returned 404, so that journal's page, "
-          "colour and over-length charges are unknown. Load the journal's author guidelines in an "
-          "ordinary browser and confirm the full fee schedule before submitting there.",
+          _cgt_fee_line(),
           "- The $0 route rests on publisher-wide policy statements quoted verbatim in "
           "`research/literature/venue-fee-routes-2026-08-10.json`, not on the per-journal fee page. "
           "Elect the subscription route at the fee step and decline the open-access upgrade.",

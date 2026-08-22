@@ -10,10 +10,10 @@
     "Not a licence statement. The depositor chooses the licence at step 4 below."
   ],
   "deposition_doi": "10.5281/zenodo.22061075",
-  "git_revision": "b5f09e20739d03a2f3c3cdeea4796c769d13ed9f",
-  "git_tree_is_clean_apart_from_this_manifest": true,
+  "git_revision": "720a16467dbdd20670bd8235d4db326eb9b1700a",
+  "git_tree_is_clean_apart_from_this_manifest": false,
   "inventory_limited_to_tracked_files": true,
-  "archive_content_digest": "2a520cf7383dd8c828688fa1e79317e8723d7d114870f25fa6fdc67a99b7478d",
+  "archive_content_digest": "67086715de9f7f12153f2bab33f65f626fabc1e98b2e96df0d1cd574dc9b524c",
   "n_files": 482,
   "self_entry": {
     "path": "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
@@ -24,8 +24,8 @@
     "_why_not_counted": "It is excluded from `files`, `n_files`, `total_bytes` and `archive_content_digest` for the same reason, which is also what keeps two runs over an unchanged tree byte-identical — the property this module's header calls the only cheap check a reader has that the file is derived rather than edited.",
     "how_a_reader_checks_it_anyway": "Two ways, neither needing a self-hash. (1) Re-derive it: check out `git_revision` and run `python3 research/manuscripts/aso_archive_manifest.py --check`, which rebuilds the whole file and exits non-zero on any difference. (2) Compare the downloaded copy's `sha256sum` against the value the deposition record states — step 4 below tells the depositor to record it there, which is the one place it can live without being self-referential."
   },
-  "total_bytes": 46276107,
-  "total_mib": 44.132,
+  "total_bytes": 46278554,
+  "total_mib": 44.135,
   "payload_file_types": {
     "_what": "Extension census of the payload, derived from the file list. A preprint or journal uploader that accepts only document, image and container types cannot take most of these one by one; step 3 below builds the single container that sidesteps the question entirely. Check the accepted types on the uploader itself — none is asserted here.",
     "by_extension": {
@@ -35,11 +35,11 @@
       },
       ".py": {
         "n_files": 68,
-        "bytes": 2974321
+        "bytes": 2975811
       },
       ".md": {
         "n_files": 13,
-        "bytes": 732260
+        "bytes": 733217
       },
       ".pdf": {
         "n_files": 9,
@@ -1018,8 +1018,8 @@
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-cover-letter.md",
-      "bytes": 9613,
-      "sha256": "fa344ae16b98c8a35f1ac82fa4d2c99e48b999afdfc9217bdba7da9cd289aad5",
+      "bytes": 10570,
+      "sha256": "62a0d47c8525238e0f00b1b816f8c01b8399fa52b7bd129a62c9fbed7a7f689a",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
@@ -1646,8 +1646,8 @@
     },
     {
       "path": "research/manuscripts/submission_packet.py",
-      "bytes": 19920,
-      "sha256": "e89f7dc1427f6f71ae1b63f3a43f04a29ab0f57b50acd42138fb9876cb3dda0c",
+      "bytes": 21410,
+      "sha256": "92602c22c3d73ef113dd903c2b4f9bcf3e812267493488679af9a8ad59f11dd4",
       "serves": "reproduction_command",
       "also_serves": [],
       "contributes": "Re-derives every offline-derivable artefact below in dependency order and re-runs the consistency, citation and style gates; the command a reader is told to run to establish that this archive is current. The script AND every step it invokes that no other row here already carries."

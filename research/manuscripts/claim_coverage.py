@@ -88,19 +88,35 @@ def _pin_patterns():
     return out
 
 
-def _test_patterns():
-    """Every string literal in research/manuscripts/tests that compiles as a regex.
+def _test_patterns(document=None):
+    """String literals from tests that compile as a regex — from tests that OPEN `document`.
 
-    ⚠ DELIBERATELY OVER-INCLUSIVE. A literal that is not used against prose can only make coverage
-    look BETTER than it is, and this script's finding is the UNCOVERED list — so the bias runs
-    against the conclusion rather than for it, which is the safe direction.
+    ⛔⛔ THE DOCUMENT SCOPE IS THE WHOLE POINT, AND ITS ABSENCE MADE THIS SCRIPT LIE (round 16
+    seat 4, 2026-08-22). The first version applied EVERY test file's literals to EVERY document, so
+    a pattern belonging to a test that only ever opens the journal article could mark a cover-letter
+    sentence "covered". Measured on the letter: **27 of 40 reported covered, and 22 of those 27 were
+    false positives** — only four test files name that file at all. The census was over-reporting
+    the exact quantity it exists to report, and a floor had already been ratcheted onto the wrong
+    number.
+    ⚠ THE EARLIER COMMENT HERE SAID THE OVER-INCLUSION WAS SAFE because "the finding is the
+    UNCOVERED list, so the bias runs against the conclusion". That reasoning was wrong in the
+    direction that matters: inflating COVERED shrinks UNCOVERED, which HIDES surfaces. The bias ran
+    toward the comfortable answer, which is the one to distrust.
+    ★ A test's patterns count for a document only if the test names that document. Crude, and
+    exactly right: a guard that never opens a file cannot be binding a sentence in it.
     """
     out = []
     for name in sorted(os.listdir(TESTS)):
         if not (name.startswith("test_") and name.endswith(".py")):
             continue
         try:
-            tree = ast.parse(io.open(os.path.join(TESTS, name), encoding="utf-8").read())
+            src = io.open(os.path.join(TESTS, name), encoding="utf-8").read()
+        except OSError:
+            continue
+        if document and document not in src:
+            continue
+        try:
+            tree = ast.parse(src)
         except SyntaxError:
             continue
         for node in ast.walk(tree):
@@ -133,7 +149,7 @@ def census(paper_key):
     path = PAPERS[paper_key]
     base = os.path.basename(path)
     sents = sentences(path)
-    pats = [(h, p, w) for h, p, w in _pin_patterns() if h == base] + _test_patterns()
+    pats = [(h, p, w) for h, p, w in _pin_patterns() if h == base] + _test_patterns(base)
     compiled = []
     for _h, p, w in pats:
         try:

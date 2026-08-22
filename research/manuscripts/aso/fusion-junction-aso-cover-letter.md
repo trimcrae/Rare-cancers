@@ -22,10 +22,15 @@ last_verified: 2026-08-13
 
 # Cover letter
 
-*Ready to send except for three items only the author can supply. Before submitting: fill the
-bracketed date; register an ORCID iD and add it to the manuscript title page; mint the archive DOI
-and replace both placeholders in the manuscript. Confirm the editor's name on the journal's current
+*Not yet sendable, and the blocking item is not in this letter. Before submitting: publish Zenodo
+deposition 22061075 — the corrected archive is drafted and every archive link in both papers
+resolves to nothing until it is published (see the preprint checklist, which carries the two-step
+order). Then fill the bracketed date and confirm the editor's name on the journal's current
 masthead.*
+⚠ *Superseded, retained: "Ready to send except for three items … register an ORCID iD … mint the
+archive DOI and replace both placeholders." Both were closed on 2026-08-20 — the ORCID is in both
+papers' author blocks and no `[ARCHIVE DOI]` placeholder survives — while the one thing that does
+block sending was absent from the list.*
 
 ⛔ *THE VENUE IS NUCLEIC ACID THERAPEUTICS (trimcrae, 2026-08-22: "NAT is the venue. It's not
 disqualified."). Its per-page charge is a cost to plan the page count against, not a bar; the
@@ -67,18 +72,21 @@ a variable 5′ partner. Its chimeric mRNA carries a breakpoint seam absent from
 transcript, which is the disease's one tumour-exclusive feature at the RNA level, and no
 junction-directed oligonucleotide against an NR4A3 fusion appears in the literature retrieved here. The manuscript tiles
 junction-spanning gapmers over every frame-compatible seam of all five reported partners and screens
-them against the compartment that decides the design: the mature wild-type parent transcripts that
-supply the oligonucleotide's own two halves. The full five-method screen over four compartments —
+them against the compartment that decides the design: the six mature wild-type parent transcripts
+these genes hold. The constraint is not confined to a design's own two halves — for both named
+reagents the limiting duplex is against wild-type *TFG*, which supplies neither. The full five-method screen over four compartments —
 mature transcript, parent pre-mRNA, mature parent transcript and the whole genome — is reported in
 the extended report the manuscript cites, prepared for bioRxiv deposit.
 
 The fit with the journal is that this is a nucleic-acid therapeutic design study in a
 fusion-driven cancer, reported at the point where computation stops being able to answer the
 question. Designability is not the constraint: junction-spanning designs exist at every one of the
-38 frame-compatible junctions, and specificity does not sort by partner — every
-one of the five partners has a junction whose best design carries no hybridisable gap-spanning
-near-match, so it is the exon a fusion breaks at rather than the gene it breaks into that predicts a
-clean design. What is scarce is a design that survives that screen, and the manuscript's central
+38 frame-compatible junctions. On the one existence statistic tested, specificity does not sort by
+partner: at the default search ceiling each of the five partners has a junction whose *cleanest*
+design carries no sense-strand near-match across the catalytic gap, and at a tenfold deeper ceiling
+four of the five still do. On another axis it does sort, and no comparison between partners was
+performed, so which exon a fusion breaks at bears on specificity as well as which gene it breaks
+into. What is scarce is a design that survives that screen, and the manuscript's central
 result makes it scarcer rather than making it look easy: 87 of 190 designs form a duplex of at least
 ten base pairs pairing the whole catalytic gap against a mature wild-type parent, 61 of them against
 *NR4A3* itself. The manuscript reports that reading with the comparison that bounds it — chimeras
@@ -114,8 +122,10 @@ patient-level records, and required no ethics approval. No oligonucleotide descr
 synthesised. Nothing in the manuscript asserts efficacy, potency, safety, a therapeutic window,
 delivery to a tumour, or clinical readiness for any sequence.
 
-I intend to deposit the manuscript as a preprint on bioRxiv, consistent with the journal's preprint
-policy, and will link the preprint to the published version. I am the sole author, an unaffiliated
+The extended report this manuscript cites was submitted to bioRxiv as a preprint on 2026-08-20 and
+is awaiting screening; I will link it to the published version. I have not been able to read this
+journal's preprint policy — every SAGE-hosted page for it returns HTTP 403 to me — so I would
+welcome correction if that arrangement does not suit. I am the sole author, an unaffiliated
 independent researcher with no institutional address. Analysis code, the screening pipelines and
 drafting were carried out with substantial AI assistance under my direction, which is disclosed in
 the manuscript; no AI tool is an author, every quantitative statement derived from sequence or from a

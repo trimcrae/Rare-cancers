@@ -96,14 +96,23 @@ def test_the_article_states_it(label, pattern, why, prose):
 #: after its selectivity filter was added. These are FLOORS, not targets: coverage may rise freely
 #: and may not fall. ⚠ Raising a floor is a deliberate act — do it when you have closed a class, and
 #: never to make a red run green.
-COVERAGE_FLOOR = {"journal-article": {"covered": 82, "with_a_number_covered": 53},
-                  "cover-letter": {"covered": 27, "with_a_number_covered": 15}}
-#: ⚠ RAISED 76→82 AND 47→53 IN THE SAME COMMIT THAT EARNED IT (2026-08-22). The census read 76/47
-#: before this session's guards and 82/53 after — the title predicate, the panel's acceptor, the
-#: near-match ceiling, the G-tract and the TAF15 absence claim. Leaving the floor at the old reading
-#: would have let today's gain be undone silently, which is the failure the ratchet exists to stop.
-#: ⛔ journal-tables sits at 0 of 9 and is DELIBERATELY ABSENT from this floor rather than pinned at
-#: zero: a floor of zero reads as covered-enough. It is an open finding, named in the commit.
+COVERAGE_FLOOR = {"journal-article": {"covered": 51, "with_a_number_covered": 40},
+                  "cover-letter": {"covered": 6, "with_a_number_covered": 3}}
+#: ⛔⛔ THESE FLOORS WERE SET ON INFLATED NUMBERS AND ARE NOW CORRECTED DOWNWARD (round 16 seat 4).
+#: The first ratchet read 82/53 and 27/15. Those came from a census that applied EVERY test file's
+#: patterns to EVERY document, so a pattern from a test that never opens the cover letter could mark
+#: a cover-letter sentence covered. Scoped to the tests that actually name each document, the true
+#: readings are 51/40 and 6/3 — the letter was over-reported by more than four times, and the seat
+#: reviewing it reached ~5 by hand-audit independently.
+#: ⚠ SO THE MAP THE ROUND WAS PLANNED FROM WAS TOO OPTIMISTIC, AND IN THE DANGEROUS DIRECTION:
+#: inflating COVERED shrinks UNCOVERED, which HIDES surfaces. The uncovered work lists handed to the
+#: seats were SUBSETS of the truth. Their findings stand; the residue is larger than they were told.
+#: ⛔ A FLOOR LOWERED IS NORMALLY THE FAILURE THIS RATCHET EXISTS TO STOP. It is legitimate here for
+#: one reason only: the MEASUREMENT changed, not the coverage. No binding was removed. Lowering a
+#: floor because a run went red would be the defect; lowering it because the instrument was proved
+#: wrong is the correction. Say which, in the commit, every time.
+#: ⛔ journal-tables sits at 0 of 9 and is DELIBERATELY ABSENT rather than pinned at zero: a floor of
+#: zero reads as covered-enough. It is an open finding.
 
 
 def test_claim_coverage_has_not_regressed():
