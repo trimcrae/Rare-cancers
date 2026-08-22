@@ -17,12 +17,23 @@ requires every seat to review a pinned SHA of a file in this repository; an aiXi
 the text to be uploaded to a third party first. Those are different acts with different
 consequences, and conflating them would turn a review round into a publication.
 
-TWO HONEST SHAPES, and the second is unverified:
-  1. POST-POSTING. For a paper we have DECIDED to put on aiXiv, its review is a free extra seat.
-  2. PRIVATE-FIRST. `SubmissionCreate` carries `is_public: integer`, so a submission can in
-     principle be created non-public, reviewed, and made public later. ⚠ NOTHING HERE VERIFIES THAT
-     A NON-PUBLIC SUBMISSION IS REVIEWABLE — no account has been created, so it has never been run.
-     Treat `--public 0` as an untested claim about aiXiv's behaviour, not a guarantee of privacy.
+⛔⛔ `is_public: 0` DOES NOT MAKE A SUBMISSION PRIVATE. MEASURED 2026-08-22, AND IT IS NOT A GUESS.
+`aixiv.260822.000005` was submitted with `--public 0`; the stored record reads `is_public: 0`, and
+**the paper is world-readable anyway** — `/abs/aixiv.260822.000005` returns 200 and renders the full
+title, author name, correspondence e-mail and abstract, and `/api/pdf/aixiv.260822.000005` returns
+200 and serves the file. Verified from a runner with no credentials at all.
+⚠ *Superseded, retained — this docstring previously offered a "PRIVATE-FIRST" shape: "a submission
+can in principle be created non-public, reviewed, and made public later … Treat `--public 0` as an
+untested claim about aiXiv's behaviour, not a guarantee of privacy."* It was tested. It is false.
+**THERE IS NO REHEARSAL MODE. Every `submit` is a publication**, so treat the flag as metadata about
+intent and never as access control, and never tell anyone a paper posted this way is unpublished.
+
+⭐ AND THE REVIEW ARRIVES WITHOUT ASKING. A new submission lands at `status: "Under Review"`, which is
+exactly what `GET /api/get_pending-review-submissions` describes itself as serving to aiXiv's own
+review scheduler. Measured on the same paper: `POST /api/start_attack_review` answered **HTTP 500**,
+while a review by "Official Agent" appeared on its own and came back from `POST /api/get-review`
+about three minutes after submission. **So `fetch` is the normal path and `review` is the manual
+override**; a 500 from the override does not mean no review is coming.
 
 ⛔ SUBMITTING IS OUTWARD-FACING AND THIS SCRIPT WILL NOT DO IT SILENTLY. `submit` refuses to run
 without --i-understand-this-is-outward-facing, in the same spirit as scripts/zenodo_deposit.py
@@ -209,8 +220,11 @@ def cmd_submit(args):
     if args.dry_run:
         print(f"DRY RUN — would POST {BASE}{EP_SUBMIT}")
         print(f"  file:     {args.pdf} ({os.path.getsize(args.pdf)} bytes)")
-        print(f"  is_public: {meta['is_public']}"
-              + ("  (public — this is a PUBLICATION)" if meta["is_public"] else "  (non-public — UNVERIFIED, see module docstring)"))
+        # ⛔ BOTH VALUES ARE A PUBLICATION. Measured 2026-08-22: is_public=0 still served the paper
+        # at /abs/ and /api/pdf/ to an unauthenticated reader. Saying "non-public" here would be
+        # the single most misleading line this tool could print.
+        print(f"  is_public: {meta['is_public']}  (EITHER VALUE IS A PUBLICATION — "
+              "is_public=0 does NOT restrict access; see the module docstring)")
         print("  metadata:")
         print("    " + json.dumps(meta, indent=2, sort_keys=True).replace("\n", "\n    "))
         return 0

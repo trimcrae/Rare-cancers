@@ -67,14 +67,19 @@ def test_submit_dry_run_needs_no_token_and_no_acknowledgement(tmp_path, capsys):
     assert "DRY RUN" in capsys.readouterr().out
 
 
-def test_a_dry_run_says_plainly_which_publicity_it_would_use(tmp_path, capsys):
-    """⚠ `is_public` is the difference between a rehearsal and a publication. It must be legible."""
-    aixiv_review.main(["submit", "--pdf", _pdf(tmp_path), "--meta", _meta(tmp_path),
-                       "--public", "1", "--dry-run"])
-    assert "PUBLICATION" in capsys.readouterr().out
-    aixiv_review.main(["submit", "--pdf", _pdf(tmp_path), "--meta", _meta(tmp_path),
-                       "--public", "0", "--dry-run"])
-    assert "UNVERIFIED" in capsys.readouterr().out
+def test_a_dry_run_calls_both_publicity_values_a_publication(tmp_path, capsys):
+    """⛔ MEASURED 2026-08-22: is_public=0 served the paper to an unauthenticated reader anyway.
+
+    An earlier version of this test asserted the `--public 0` dry run printed "UNVERIFIED", which
+    encoded the hope that the flag was access control. It is not. Both values must read as a
+    publication, because both are one.
+    """
+    for pub in ("0", "1"):
+        aixiv_review.main(["submit", "--pdf", _pdf(tmp_path), "--meta", _meta(tmp_path),
+                           "--public", pub, "--dry-run"])
+        out = capsys.readouterr().out
+        assert "PUBLICATION" in out, f"--public {pub} must read as a publication"
+        assert "non-public" not in out.lower()
 
 
 @pytest.mark.parametrize("missing", sorted(aixiv_review.REQUIRED_META))

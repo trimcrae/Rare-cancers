@@ -44,7 +44,7 @@ on:
         required: false
         default: ""
       is_public:
-        description: "submit only: 1 publishes. 0 is non-public and is UNVERIFIED — see the script docstring."
+        description: "submit only: metadata about intent, NOT access control. Measured 2026-08-22: is_public=0 still serves the paper publicly at /abs/ and /api/pdf/. BOTH VALUES PUBLISH."
         required: false
         default: "0"
       i_understand_this_is_outward_facing:
@@ -53,7 +53,9 @@ on:
         default: false
 
 permissions:
-  contents: read
+  # `fetch` commits the reviews back — see the publish step. A review that exists only in a job log
+  # or a 90-day run artifact is one nobody can quote in a hardening round's record.
+  contents: write
 
 concurrency:
   group: aixiv-${{ inputs.mode }}-${{ inputs.aixiv_id || 'none' }}
@@ -111,7 +113,28 @@ jobs:
         run: |
           python3 scripts/aixiv_review.py fetch \
             --aixiv-id "${{ inputs.aixiv_id }}" --version "${{ inputs.version }}" \
-            --out .cache/aixiv
+            --out research/literature/aixiv-reviews
+
+      # ⚠ THE REVIEW IS THE DELIVERABLE. Committed to the triggering branch so a hardening round can
+      # cite it by path, not by run id — a 90-day artifact is not a record.
+      - name: Publish the reviews to the triggering branch (best effort)
+        if: ${{ always() && inputs.mode == 'fetch' }}
+        continue-on-error: true
+        env:
+          TARGET_REF: ${{ github.ref_name }}
+        run: |
+          ls research/literature/aixiv-reviews/*.json >/dev/null 2>&1 || {
+            echo "::warning::no reviews fetched; nothing to publish"; exit 0; }
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/literature/aixiv-reviews
+          git diff --cached --quiet && { echo "no change"; exit 0; }
+          git commit -q -m "aixiv reviews: ${{ inputs.aixiv_id }} v${{ inputs.version }} (CI)"
+          for i in 1 2 3; do
+            git push origin "HEAD:$TARGET_REF" && { echo "pushed"; exit 0; }
+            git fetch origin "$TARGET_REF" && git rebase "origin/$TARGET_REF" || true
+          done
+          echo "::warning::ref push failed; the run artifact below is the record"
 
       # ⚠ THE REVIEW IS THE DELIVERABLE, SO IT MUST SURVIVE THE RUNNER. A review read only in a job
       # log is one nobody can quote in a hardening round's record.
@@ -120,5 +143,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: aixiv-reviews-${{ github.run_id }}
-          path: .cache/aixiv
+          path: research/literature/aixiv-reviews
           if-no-files-found: warn

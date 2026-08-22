@@ -21,7 +21,11 @@ last_verified: 2026-08-22
 
 # aiXiv preprint checklist — PUB-VACCINE-PATH
 
-**Article type: full research article** (`doc_type: paper`), subject area Cancer Biology.
+**Article type: full research article** (`doc_type: paper`), category
+`["Natural Sciences", "Biology", "Immunology"]`. ⚠ *Superseded, retained: "subject area Cancer
+Biology."* aiXiv's taxonomy (`/api/categories`) has no such node, and it requires **exactly three**
+levels — `[main_category, subcategory, specialization]`, a contract that appears nowhere in
+`openapi.json` and surfaced only as an HTTP 400 on a live submit.
 
 ⚠ **Superseded, retained — this section named bioRxiv, and bioRxiv had already refused this author.**
 It read: *"The venue reasoning is the same as the ASO submission's and is not re-derived here: bioRxiv
@@ -45,8 +49,12 @@ returns **0 results** (2026-08-22). A sarcoma immunologist's literature search w
 paper from aiXiv alone. Posting here is therefore **not** a substitute for an indexed host, and a
 second posting to an indexed server remains open and un-taken.
 
-⛔ **THIS PAPER IS NOT READY TO POST.** Section 2 is not a list of nice-to-haves; each row is a
-blocker that a reader could check and find wrong.
+✅ **POSTED 2026-08-22 as `aixiv.260822.000005` — see §2b.**
+
+⚠ *Superseded, retained: "⛔ **THIS PAPER IS NOT READY TO POST.** Section 2 is not a list of
+nice-to-haves; each row is a blocker that a reader could check and find wrong."* That held while
+§2.1 and §2.3 were open. Both are now closed; §2.2 is disclosed in the manuscript rather than
+hidden, and §2.4 is a standing decision for the author, not a defect a reader could find.
 
 ## 1 · Done, and needs nothing further
 
@@ -95,6 +103,30 @@ blocker that a reader could check and find wrong.
    circulation. That sentence is now a disclosure — the paper states plainly that no such reader has
    seen it — which is the standard preprint framing and does not block posting. **Whether to seek that
    review anyway, before posting, is the author's call and is not a call this repository can make.**
+
+## 2b · ✅ POSTED — `aixiv.260822.000005`, 2026-08-22
+
+**Live at https://aixiv.science/abs/aixiv.260822.000005** (submission_id 1366, version `1.0`, status
+`Under Review`). Submitted through [`aixiv-review.yml`](../../../.github/workflows/aixiv-review.yml)
+after `PREFLIGHT_FULL=1 ./scripts/preflight.sh` returned **PREFLIGHT OK, exit 0**.
+
+⛔ **IT WAS SUBMITTED WITH `is_public: 0` AND IT IS PUBLIC ANYWAY.** The stored record reads
+`is_public: 0`, and an unauthenticated reader still gets **HTTP 200** from both
+`/abs/aixiv.260822.000005` — rendering title, author, correspondence e-mail and full abstract — and
+`/api/pdf/aixiv.260822.000005`. **The flag is metadata about intent, not access control; there is no
+rehearsal mode and every submit is a publication.** Recorded here because the tooling briefly
+described `--public 0` as a private-first path, which was an untested assumption and is false.
+
+**The reviewer ran without being asked.** `POST /api/start_attack_review` returned HTTP 500, but the
+paper entered at `status: "Under Review"` — what aiXiv's own scheduler polls — and a review by
+*Official Agent* (id 1362) appeared about three minutes after submission. It engages the actual
+content: the 8.5% vs 12.3% panel dependence, the clustering of every strong call within 0.1264
+percentile units of the threshold, and the Q92570-3 isoform match that withdrew `DMPCVQAQY`. Reviews
+are committed under `research/literature/aixiv-reviews/`.
+
+⚠ **This is one round from one reviewer, and it is not the convergence test.** `paper-hardening` §8
+requires no blockers **and** no P1s across the seat set; this paper stands at round 1 plus one
+external seat.
 
 ## 3 · Only the author can do these
 
