@@ -52,8 +52,12 @@ junctions and is a weak binder, three of the five junctions return no strong bin
 binder is breakpoint-specific. HLA class-I population coverage (AFND frequencies, IEDB formula) is **≈8.5%**
 for the commonly reported EWSR1 e7::NR4A3 e3 public junction (B\*15:01 alone; 8.51%, 95% CI 8.26–8.76%) and
 **≈27%** for all strong-binder alleles pooled (27.4%, 95% CI 26.6–28.1%), with **large regional variation**
-(1.4% Melanesia to 60% Northern Europe). The class-II (CD4 helper) arm and the combined both-arms figure are
-**withdrawn pending regeneration** of the class-II demo, which still rests on the retracted seam (§3).
+(1.4% Melanesia to 60% Northern Europe). ⚠ *Superseded, retained (updated 2026-08-22): "The class-II
+(CD4 helper) arm and the combined both-arms figure are **withdrawn pending regeneration** of the
+class-II demo, which still rests on the retracted seam (§3)."* The class II demo has since been
+rebuilt on the transcript model and the arm is reported and negative; the both-arms figure is not
+computed rather than withdrawn. Both have one home,
+[`emc-vaccine-development-path.md`](./emc-vaccine-development-path.md) §B4.
 The honest conclusion is that a fusion-exclusive EMC immunotherapy is **personalised by necessity** (no
 off-the-shelf pan-EMC epitope) and that its addressable fraction on a single public junction is **under a
 tenth of patients**. The decisive experiment is wet-lab and stated as such. All figures are
@@ -252,7 +256,13 @@ target population.
 (DRB1\*03:01, DRB1\*07:01) cover **28.4% globally** (95% CI 27.9–28.9%) — unchanged by the seam correction,
 and that is the problem with quoting it:
 
-> ⛔ **THE CLASS-II ARM IS STILL BUILT ON THE RETRACTED SEAM, SO THE BOTH-ARMS FIGURE IS NOT QUOTABLE.**
+> ⛔ **⚠ Superseded, retained (updated 2026-08-22): "THE CLASS-II ARM IS STILL BUILT ON THE RETRACTED
+> SEAM, SO THE BOTH-ARMS FIGURE IS NOT QUOTABLE."** It has since been rebuilt at the corrected
+> junction — `patient-cd4-demo.json` now reads `QYSQQSSSYGQQ|NMPCVQAQYSPS` and `hla-coverage.json`'s
+> `⛔_class_ii_provenance` records `matches_corrected_seam: true`. The paragraph below describes the
+> state before that rebuild and is retained as the record of it. The current status of both figures
+> has one home, [`emc-vaccine-development-path.md`](./emc-vaccine-development-path.md) §B4: the arm is
+> reported and negative on three DRB1 alleles, and the both-arms figure is not computed.
 > The class-I half of `hla-coverage.json` is recomputed from the regenerated junction panel; the
 > class-II half comes from [`patient-cd4-demo.json`](../../modalities/patient-cd4-demo.json), a separate
 > artifact nothing in this correction regenerates. Its junction context reads

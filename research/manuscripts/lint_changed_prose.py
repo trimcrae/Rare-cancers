@@ -60,6 +60,13 @@ DEFAULT_TARGETS = [
     # that is where a widened claim is actually typed.
     "research/manuscripts/aso/fusion-junction-aso-journal-tables.md",
     "research/manuscripts/aso_journal_tables.py",
+    # ⭐ THE EMC VACCINE PATH, ADDED 2026-08-22 AT ROUND 1 OF ITS HARDENING CYCLE. It entered a review
+    # cycle carrying exactly the gap the comment above records for the journal article: this linter's
+    # whole job is "a qualifier dropped by an edit", and it could not read the one document about to
+    # be edited by an adversarial review. Round 1 then dropped and restored qualifiers in that paper
+    # a dozen times over. ⛔ The §-reference resolution below is per-target, so adding it here also
+    # stops its §1-§10 references being validated against a different document's headings.
+    "research/manuscripts/neoantigen/emc-vaccine-development-path.md",
 ]
 
 WORD2NUM = {
