@@ -107,22 +107,31 @@ reports four false gaps); competing-interests, funding, ethics and AI-use statem
 
 ## 3 · Open, and blocking the journal submission
 
-- **⛔ THE PUBLISHED DEPOSIT IS BEHIND THE REPOSITORY, AND THE SUBMITTED PAPER CITES IT.** The Zenodo
-  record published 2026-08-20 holds 473 files; the repository's manifest now holds more, and the
-  files that changed include `fusion-junction-aso-research-article.md` itself — the extended report
-  the condensed submission points a reader at six times, and calls "the citable one" in its Data and
-  code availability. Two of those changes are CORRECTIONS: the deposited text defines a void test as
-  one that "cannot fail" where the current text says "cannot fail on any reading that is not
-  anti-selective", and it says the dinucleotide-preserving scramble holds the 5′ guanine run, which
-  it does not. A reader following the DOI today reads superseded statements. **The deposit also did
-  not contain the journal article at all** until 2026-08-22 — its glob predated the second paper —
-  so what a NAT editor would download omits the manuscript they are reading.
-  **What closes this: publishing a new Zenodo version, which is irreversible and is the author's
-  click.** The archive is prepared and the manifest is regenerated; nothing else is waiting.
-  Machine-readable state: [`deposit-state.json`](./deposit-state.json), which records what the
-  published record actually contains, against which
-  `test_the_deposit_the_papers_cite_is_current.py` measures the drift. **Do not edit that file to
-  silence the gate** — it moves only when a new version is published.
+- **⛔ THE PUBLISHED DEPOSIT IS BEHIND THE REPOSITORY, A CORRECTED VERSION IS DRAFTED, AND NOBODY HAS
+  PUBLISHED IT.** The Zenodo record published 2026-08-20 ([doi:10.5281/zenodo.22028916]) holds 473
+  files. The repository moved 16 of them and added 4, and the changed set includes
+  `fusion-junction-aso-research-article.md` itself — the extended report the condensed submission
+  points a reader at six times and calls "the citable one". Two of those changes are CORRECTIONS: the
+  deposited text defines a void test as one that "cannot fail" where the current text says "cannot
+  fail on any reading that is not anti-selective", and it says the dinucleotide-preserving scramble
+  holds the 5′ guanine run, which it does not. **The deposit also did not contain the journal article
+  at all** until 2026-08-22 — its glob predated the second paper — so what a NAT editor would download
+  omitted the manuscript they are reading.
+
+  ✅ **Drafted 2026-08-22 as [doi:10.5281/zenodo.22061075](https://doi.org/10.5281/zenodo.22061075)**,
+  a new VERSION of the same record (Actions run 32592867658: *"opened NEW VERSION draft 22061075 of
+  published record 22028916"*, inherited file cleared, 482-file archive uploaded, **nothing
+  published**). Both manuscripts and the manifest now cite that DOI, which is the reserve-then-rebuild
+  ordering the first deposit was built around: the paper has to print the identifier the archive will
+  carry before the files are frozen, because a published version cannot be edited.
+
+  ⛔ **WHAT REMAINS, AND ONLY THE AUTHOR CAN DO IT: publish deposition 22061075 by hand at
+  <https://zenodo.org/deposit/22061075>. Irreversible.** Until then every archive link in both
+  papers resolves to nothing, which is why this item is blocking rather than informational.
+  Machine-readable state: [`deposit-state.json`](./deposit-state.json), which records the published
+  version and the pending one separately; `test_the_deposit_the_papers_cite_is_current.py` fails if
+  this item goes missing while a version is pending, and equally if it is left standing after one is
+  published. **Do not edit that file to silence the gate.**
 
 ## 3b · Deliberately not done, and why
 

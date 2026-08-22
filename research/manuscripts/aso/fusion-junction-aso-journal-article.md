@@ -346,7 +346,7 @@ nucleotide resolution by RNA sequencing.
 subjects, human material or animals were involved.
 
 **Data and code availability.** All code, graded artefacts and per-design tables are deposited under
-[doi:10.5281/zenodo.22028916](https://doi.org/10.5281/zenodo.22028916). The extended report,
+[doi:10.5281/zenodo.22061075](https://doi.org/10.5281/zenodo.22061075). The extended report,
 carrying every screen's parameters and the complete bounds on each claim, is
 `fusion-junction-aso-research-article.md` inside that deposit; it is prepared for bioRxiv and not yet
 posted, so the archived copy is the citable one. An earlier version
