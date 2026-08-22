@@ -2,7 +2,7 @@
 
 # Display items — fusion-junction ASO journal article
 
-*Every cell below is a column of `fusion-junction-aso-sequences.csv`, the canonical machine-readable record, except the test-article column of Table 1, which is a literature fact and carries its source in the caption. An oligonucleotide should be ordered from that file rather than transcribed from this page.*
+*Every cell below is a column of `fusion-junction-aso-sequences.csv`, the canonical machine-readable record, except the test-article column of Table 1, which is a literature fact and carries its source in the caption. Every reagent named here is a 5-6-5 phosphorothioate gapmer. An oligonucleotide should be ordered from that file rather than transcribed from this page.*
 
 **Table 1. The two reagents named for synthesis, with their parent-duplex label and their test article.** The parent-duplex column is the longest contiguous duplex a mature wild-type parent forms through the catalytic gap; neither reagent reaches the ten-base-pair criterion, so the length is printed rather than a pass mark. Test articles are the engineered constructs of Brenca et al. (PMID:31020999); the two patient-derived models of Bangerter et al. (PMID:36316541) are REPORTED at an NR4A3 exon-2 acceptor and match different designs, not these two. Nothing here has been synthesised or tested, and no sequence may be administered to any person or animal.
 

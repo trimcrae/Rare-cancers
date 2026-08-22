@@ -457,3 +457,41 @@ def test_the_hazard_distance_is_the_panels_worst_case_not_the_printed_pairs(rows
         "the closest condemned design is ONE single-base slide from a reagent this paper names for "
         f"synthesis, and no caption says so:\n  {caption[:400]}\n\n"
         "A larger number here tells a reader the hazard is further away than it is.")
+
+
+def test_the_display_items_name_the_chemistry_and_geometry_of_what_they_print():
+    """⛔⛔ FOUR ORDERABLE SEQUENCES, ZERO MENTIONS OF THE CHEMISTRY (round 16 seat 5, 2026-08-22).
+
+    Measured on the two tables documents:
+
+        fusion-junction-aso-submission-tables.md   phosphorothioate 7   5-6-5 18   gapmer 6
+        fusion-junction-aso-journal-tables.md      phosphorothioate 0   5-6-5  0   gapmer 0
+
+    `test_table_captions_state_the_right_geometry.py` asserts exactly this and is scoped to the
+    DEPOSIT document, so the display items that actually ship with the journal submission were
+    unread — one-of-a-pair again. Round 14's blocker was a paper that printed a specific sequence
+    six times and never said what chemistry to order it in; a display item is the place a reader
+    copies a sequence FROM, and journals routinely reproduce tables apart from the text.
+
+    ★ THE PROPERTY IS GUARDED FOR BOTH DOCUMENTS, BY THE GUARD THAT SUITS EACH. The deposit
+    document states it per caption; this one states it once in the preamble, because the caption
+    placement cost a seventh page and the preamble did not — 6 pages at 386 words against 7 at 376,
+    which is float displacement, not length. So this asserts the DOCUMENT states it, not each
+    caption.
+    """
+    text = io.open(_need(TABLES, "the journal display items"), encoding="utf-8").read()
+    printed = re.findall(r"5[′']-([ACGT]{12,25})-3[′']", text)
+    assert printed, "the journal display items print no sequence, so this guard is vacuous"
+
+    lowered = text.lower()
+    for term, why in (
+            ("phosphorothioate",
+             "ordering these bases as unmodified DNA gives a different molecule, and this is the "
+             "page a reader copies the sequence from"),
+            ("5-6-5",
+             "every count in the paper is over designs of one geometry; a sequence without it is "
+             "not orderable as the thing that was screened")):
+        assert term in lowered, (
+            f"the journal display items print {len(printed)} orderable sequence(s) and never say "
+            f"{term!r}. WHY THAT MATTERS: {why}.\n\n"
+            "The deposit tables state it; this document is the one that ships with the submission.")

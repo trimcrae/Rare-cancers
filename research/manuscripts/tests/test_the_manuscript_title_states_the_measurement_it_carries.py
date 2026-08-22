@@ -76,7 +76,20 @@ _RATE_BANDS = [
     ("none of", (0.000, 0.000)),
     ("no ", (0.000, 0.000)),
 ]
-_RATE_SCANNER = re.compile("|".join(re.escape(p) for p, _ in _RATE_BANDS), re.I)
+#: ⛔⛔ WITHOUT WORD BOUNDARIES THIS IS A FALSE-RED LANDMINE, NOT A GUARD (round 16 seat 5).
+#: Measured: "the ALLele frequency" and "an overALL rate" both match `all` (band [1.0, 1.0]), and
+#: "ALMOST every" matches `most` — so an HONEST title containing any of those ordinary words fails
+#: against a CORRECT measurement. A gate that goes red on true input is worse than one that goes
+#: green on false input, because the first thing anyone does is loosen it.
+#: ⚠ `(?!\w)` not `\b`: several bands end in a space ("no ", "a third of"), where `\b` would not
+#: match. Leftmost-longest ordering above is preserved — the alternation order is unchanged.
+_RATE_SCANNER = re.compile(
+    "|".join(rf"(?<!\w){re.escape(p)}(?!\w)" for p, _ in _RATE_BANDS), re.I)
+
+
+def _rate_scanner_is_not_vacuous():
+    """The anchors must not have stopped the scanner matching a real quantifier."""
+    return bool(_RATE_SCANNER.search("nearly half of designs"))
 
 
 def _artifact():
@@ -402,3 +415,30 @@ def test_the_predicate_patterns_are_exercised_by_the_titles_they_police():
         "The compound-unit anchors have been relaxed; a unit is never the sentence's relation.")
     assert _SPARING_PREDICATE.search(unit_only), (
         "_SPARING_PREDICATE no longer matches 'spare', so the inversion check above is vacuous.")
+
+
+def test_the_rate_scanner_reads_quantifiers_and_not_the_words_that_contain_them():
+    """⛔ A GATE THAT GOES RED ON TRUE INPUT GETS LOOSENED, WHICH IS HOW A GUARD DIES.
+
+    `_RATE_SCANNER` had no word boundaries, so ordinary English containing a band as a SUBSTRING
+    resolved as a rate claim: "allele" and "overall" both yielded `all` at [1.0, 1.0], and "Almost"
+    yielded `most`. A title stating a correct measurement would have failed for containing the word
+    "overall". Both directions are asserted, because anchoring too hard would silently stop the
+    scanner matching anything at all.
+    """
+    for honest in ("the allele frequency of NR4A3 fusions",
+                   "an overall rate across the panel",
+                   "Almost certainly a modelling artefact"):
+        found = [m.group(0) for m in _RATE_SCANNER.finditer(honest)]
+        assert not found, (
+            f"the rate scanner reads {found} inside ordinary words in {honest!r}, so an honest "
+            "title would fail against a correct measurement.")
+
+    for real, expect in (("nearly half of designs", "nearly half"),
+                         ("most designs pair a parent", "most"),
+                         ("all 190 designs", "all")):
+        found = [m.group(0).lower() for m in _RATE_SCANNER.finditer(real)]
+        assert expect in found, (
+            f"the rate scanner no longer reads {expect!r} in {real!r}; the boundary anchors have "
+            "been tightened past the quantifiers they exist to find, and every rate check above is "
+            "now vacuous.")

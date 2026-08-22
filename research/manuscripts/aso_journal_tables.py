@@ -124,7 +124,8 @@ def build() -> str:
            "", "# Display items — fusion-junction ASO journal article", "",
            "*Every cell below is a column of `fusion-junction-aso-sequences.csv`, the canonical "
            "machine-readable record, except the test-article column of Table 1, which is a "
-           "literature fact and carries its source in the caption. An oligonucleotide should be "
+           "literature fact and carries its source in the caption. Every reagent named here is a "
+           f"{GEOMETRY} phosphorothioate gapmer. An oligonucleotide should be "
            "ordered from that file rather than transcribed from this page.*", ""]
 
     # ⚠ A CAPTION LABELS A TABLE; IT DOES NOT CARRY THE ARGUMENT (2026-08-22, page budget). These
