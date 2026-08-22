@@ -210,10 +210,29 @@ def main():
         "peptides_novel_proteome_wide": absent,
     }
 
+    # ⛔⛔ WRITE THE PRIMARY RESULT BEFORE THE OPTIONAL PASS RUNS. MEASURED 2026-08-22, run
+    # 32595857959: the unreviewed pass was placed between `result = {...}` and `json.dump`, it did
+    # not complete, and `json.dump` was therefore never reached — so a 32-minute step reported
+    # SUCCESS (the workflow step is `continue-on-error: true`) while
+    # `junction-proteome-novelty.json` kept its PREVIOUS contents. The headline 170/174 looked
+    # intact because it was stale, which is worse than an obviously missing file.
+    # ⚠ THE RULE: AN OPTIONAL ENHANCEMENT MUST NEVER BE ABLE TO LOSE THE MANDATORY RESULT. This is
+    # the same shape as the diagnostics that raised and killed their own runs (CLAUDE-history §4).
+    json.dump(result, open(OUT, "w"), indent=2)
+
     if "--include-unreviewed" in sys.argv:
         # Only the peptides that SURVIVED the reviewed pass are at stake: a peptide already found
         # in a reviewed protein is settled, and re-reporting it here would double-count it.
-        unrev_entries = fetch_proteome(UNREVIEWED_URL)
+        try:
+            unrev_entries = fetch_proteome(UNREVIEWED_URL)
+        except Exception as e:  # noqa: BLE001 — the failure text IS the record
+            result["_unreviewed"] = {
+                "⛔_status": "FETCH FAILED — this is an absent reading, not a reading of absence",
+                "error": f"{type(e).__name__}: {e}", "url": UNREVIEWED_URL,
+            }
+            json.dump(result, open(OUT, "w"), indent=2)
+            print(f"  unreviewed pass FAILED: {e}", file=sys.stderr)
+            return 0
         print(f"  unreviewed: {len(unrev_entries)} sequences", file=sys.stderr)
         uhay = SENTINEL.join(seq for _, _, seq in unrev_entries)
         uoff, upos = [], 0
@@ -257,6 +276,9 @@ def main():
         }
         print(f"  unreviewed pass: {len(uhits)}/{len(absent)} reviewed-novel peptides also occur "
               f"in an unreviewed entry", file=sys.stderr)
+        # Re-write with the extra block. The primary result is already on disk above, so this
+        # rewrite can only ADD; it can no longer be the reason the file is missing or stale.
+        json.dump(result, open(OUT, "w"), indent=2)
     json.dump(result, open(OUT, "w"), indent=2)
     print(f"  {len(absent)}/{len(peptides)} novel proteome-wide; "
           f"{len(found)} found in a human protein ({len(binder_hits)} of them predicted binders)",
