@@ -56,7 +56,8 @@ with MHCnuggets [12] on three DRB1 alleles at 100 and 1000 nM. Coverage is the u
 the presenting alleles over Allele Frequency Net Database records [1]; the sampling model that pooling
 would require does not hold, so no confidence interval is placed on it and the threshold sensitivity is
 reported instead. Novelty was assessed by exact-match search against the UniProt reviewed human proteome
-including isoforms. Clinical figures come from a curated EMC registry. No wet-laboratory data were
+including isoforms, with the unreviewed entries of the same reference proteome searched separately and
+reported separately. Clinical figures come from a curated EMC registry. No wet-laboratory data were
 generated.
 
 **Results.** Of 27 declared exon pairs, 5 are in frame, yielding 174 junction-spanning peptides and 11
@@ -373,8 +374,11 @@ than silently discarding the hits. The filter should be made isoform-aware.
 **What a clean result does not license.** A peptide absent from every reviewed human protein is not thereby
 safe. A T-cell receptor engages a peptide-MHC surface rather than a sequence, so a peptide differing from a
 self peptide at a position that does not contact the receptor can still be cross-recognised. Unreviewed
-sequences were not searched: a hit among predicted-and-unreviewed entries is not evidence that a normal
-protein carries the peptide, and a miss there is not evidence of absence. This test
+sequences were searched separately, over 127,090 entries: of the 170 peptides absent from every reviewed
+protein, 12 occur in at least one unreviewed entry, and none of those 12 is a predicted binder. A hit
+among predicted-and-unreviewed entries is not evidence that a normal protein carries the peptide, and a
+miss there is not evidence of absence, so this withdraws no peptide and confirms none; what it establishes
+is where the sequence-novelty premise is weakest, and that is not where the candidates are. This test
 excludes one specific failure mode and leaves the others standing.
 
 ### B6. Immunologically cold microenvironment
