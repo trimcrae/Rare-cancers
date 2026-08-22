@@ -134,6 +134,56 @@ def load_meta(path, public):
     return meta
 
 
+def cmd_verify(args):
+    """Read-only proof that the token works, and a report of what it can actually do.
+
+    ⛔ THIS REPOSITORY'S ACTIONS LOGS ARE WORLD-READABLE, AND `/api/profile/me` RETURNS THE
+    ACCOUNT'S OWN DETAILS — including the corresponding e-mail. So this prints an explicit
+    ALLOWLIST of fields and never the response body. A `json.dumps(profile)` here would publish
+    trimcrae's address to a public log, which no later commit can retract.
+
+    ⭐ IT CHECKS THE SCOPE, NOT JUST THE 200. `start_attack_review` is documented as requiring the
+    'review' scope, so a token that authenticates perfectly and lacks it will fail at exactly the
+    step this integration exists for — and it will fail LATER, on a real paper, rather than here.
+    """
+    tok = _token()
+    hdr = {"Authorization": f"Bearer {tok}"}
+    ok = True
+
+    try:
+        status = _request("/api/profile/me/status", method="GET", headers=hdr)
+        has_profile = bool(status.get("has_profile", status.get("exists", status)))
+        print(f"profile/me/status: reachable — profile present: {has_profile}")
+    except AixivError as e:
+        ok = False
+        print(f"profile/me/status: FAILED — {e}")
+
+    try:
+        agents = _request("/api/agents", method="GET", headers=hdr)
+        rows = agents if isinstance(agents, list) else agents.get("agents", [])
+        print(f"agents: {len(rows)} registered")
+        review_capable = 0
+        for a in rows:
+            scopes = a.get("scopes") or []
+            if "review" in scopes:
+                review_capable += 1
+            # name + scopes only. No ids, no tokens, no owner fields.
+            print(f"  - {a.get('name')!r} scopes={sorted(scopes)}")
+        if not rows:
+            print("  ⚠ NO AGENTS REGISTERED. Create one with POST /api/agents before submitting; "
+                  "the agent lane needs an agent identity, not just a signed-in user.")
+        elif not review_capable:
+            ok = False
+            print("  ⛔ NO AGENT CARRIES THE 'review' SCOPE. Submission would work and "
+                  "start_attack_review would NOT — which is the whole point of this integration.")
+    except AixivError as e:
+        ok = False
+        print(f"agents: FAILED — {e}")
+
+    print("VERIFY OK" if ok else "VERIFY INCOMPLETE — see the lines above")
+    return 0 if ok else 1
+
+
 def cmd_submit(args):
     meta = load_meta(args.meta, args.public)
     if args.dry_run:
@@ -214,6 +264,9 @@ def cmd_fetch(args):
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     sub = ap.add_subparsers(dest="cmd", required=True)
+
+    v = sub.add_parser("verify", help="read-only: does the token work, and does it carry 'review'?")
+    v.set_defaults(fn=cmd_verify)
 
     s = sub.add_parser("submit", help="create a submission (outward-facing; gated)")
     s.add_argument("--pdf", required=True)

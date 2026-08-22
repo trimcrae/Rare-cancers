@@ -110,6 +110,41 @@ def test_no_reviews_is_reported_as_an_absent_reading_not_a_pass(monkeypatch, cap
     assert "NOT a verdict" in out
 
 
+def test_verify_never_prints_the_response_body(monkeypatch, capsys):
+    """⛔ Actions logs here are world-readable. A raw dump would publish the account's e-mail."""
+    monkeypatch.setenv("AIXIV_TOKEN", "t")
+    monkeypatch.setattr(aixiv_review, "_request", lambda path, **k: (
+        {"has_profile": True, "email": "private@example.org", "secret_field": "leak-me"}
+        if "profile" in path else
+        [{"name": "hardening", "scopes": ["submit", "review"], "id": 7}]))
+    aixiv_review.main(["verify"])
+    out = capsys.readouterr().out
+    assert "private@example.org" not in out
+    assert "leak-me" not in out
+    assert "VERIFY OK" in out
+
+
+def test_verify_fails_when_no_agent_carries_the_review_scope(monkeypatch, capsys):
+    """A token that authenticates and cannot review fails LATER, on a real paper, unless caught here."""
+    monkeypatch.setenv("AIXIV_TOKEN", "t")
+    monkeypatch.setattr(aixiv_review, "_request", lambda path, **k: (
+        {"has_profile": True} if "profile" in path else
+        [{"name": "submitter", "scopes": ["submit"]}]))
+    rc = aixiv_review.main(["verify"])
+    out = capsys.readouterr().out
+    assert rc == 1
+    assert "'review' SCOPE" in out
+    assert "VERIFY INCOMPLETE" in out
+
+
+def test_verify_says_so_when_no_agent_exists_at_all(monkeypatch, capsys):
+    monkeypatch.setenv("AIXIV_TOKEN", "t")
+    monkeypatch.setattr(aixiv_review, "_request", lambda path, **k: (
+        {"has_profile": True} if "profile" in path else []))
+    aixiv_review.main(["verify"])
+    assert "NO AGENTS REGISTERED" in capsys.readouterr().out
+
+
 def test_fetch_writes_the_raw_payload_verbatim(monkeypatch, tmp_path):
     """`review_results` is typed `string`; we store what came back rather than a parse of it."""
     payload = {"review_list": [{"id": 1, "reviewer": "r", "create_time": "t",
