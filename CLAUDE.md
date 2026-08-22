@@ -181,6 +181,7 @@ carry every rule verbatim, with its evidence. **A tripwire that did not fire is 
 | ⛔ THE MOMENT YOU THINK / ARE ABOUT TO … | LOAD |
 |---|---|
 | *"I can't run X here"* · *"no GPU / no network / no pip"* · *"this route is blocked"* · a **403 at the egress proxy** · about to call anything **deferred** | **`ci-escape-hatches`** |
+| ⛔ about to **dispatch CI to answer a question** — *"let me fetch that to be sure"* · a conversational *"what is X / does Y exist / link me"* · escalating because the last rung failed | **`ci-escape-hatches` §0 — `WebSearch` is rung 0 and CI is rung 1. Escalate on the ANSWER'S VALUE, never on the previous rung's failure.** |
 | dispatch a workflow · run a branch's CI without merging · supervise a billing fleet · set up a self-wake poller | **`ci-escape-hatches`** |
 | **rent, relaunch or refuse a host** · launch a fleet · pick a provider · write a job that checkpoints · diagnose a Vast/GCP provisioning, quota or teardown problem · install anything on a machine we pay for | **`gpu-compute`** |
 | your final message **leaves real compute running** · about to print a `$/ns`, cost row or drift flag | **`inflight-reporting`** |
