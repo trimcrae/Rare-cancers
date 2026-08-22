@@ -240,6 +240,76 @@ def cmd_submit(args):
     return 0
 
 
+def cmd_calibrate(args):
+    """What does a Rating of N actually mean here? Measure it against the public corpus.
+
+    ⛔ WHY THIS IS NOT OPTIONAL. `review_results.Rating` arrives as a bare integer with **no scale,
+    no minimum and no maximum anywhere in the payload or the OpenAPI schema**. "Rating 6" was
+    reported up the chain three times in one session as though it carried meaning; it does not,
+    until the distribution it sits in is known. A goal phrased as "a good rating" is unmeasurable
+    until this runs.
+
+    ⚠ AND THE TWO OTHER CANDIDATE SIGNALS WERE BOTH CHECKED AND BOTH FAILED (2026-08-22):
+      * `status` is "official review completed" for **100 of 100** public submissions, so it
+        separates nothing.
+      * `doi` is populated on only 4 of 100 — and every one of those four is the record's own
+        `aixiv_id` with no `10.xxxx/` registrant prefix, so it is not a registered DOI and not
+        evidence of acceptance. Crossref returns 0 results for aiXiv as a container title.
+    So the rating is the only graded signal, which is exactly why it must be calibrated rather than
+    quoted.
+    """
+    subs = _request("/api/submissions/public", method="GET",
+                    headers={"Accept": "application/json"})
+    if isinstance(subs, dict):
+        subs = subs.get("submissions") or subs.get("data") or []
+    papers = [s for s in subs if s.get("doc_type") == args.doc_type][:args.limit]
+    print(f"calibrating against {len(papers)} public {args.doc_type}(s)")
+
+    ratings = []
+    for s in papers:
+        aid, ver = s.get("aixiv_id"), str(s.get("version") or "1.0")
+        try:
+            out = _request(EP_GET_REVIEW,
+                           data=json.dumps({"aixiv_id": aid, "version": ver}).encode(),
+                           method="POST", headers={"Content-Type": "application/json"})
+        except AixivError as e:
+            print(f"  {aid} v{ver}: unreadable ({e})")
+            continue
+        for r in (out.get("review_list") or []):
+            try:
+                rr = json.loads(r["review_results"])
+            except (json.JSONDecodeError, TypeError, KeyError):
+                continue
+            v = rr.get("Rating")
+            if isinstance(v, (int, float)):
+                ratings.append((float(v), aid, ver))
+
+    if not ratings:
+        # ⛔ An empty sample is an unanswered question, not a verdict about our own rating.
+        print("NO RATINGS READ. This is an absent reading, NOT evidence that 6 is good or bad.")
+        return 1
+
+    vals = sorted(v for v, _, _ in ratings)
+    n = len(vals)
+    mean = sum(vals) / n
+    median = vals[n // 2] if n % 2 else (vals[n // 2 - 1] + vals[n // 2]) / 2
+    print(f"\nn={n}  min={vals[0]:g}  max={vals[-1]:g}  mean={mean:.2f}  median={median:g}")
+    hist = {}
+    for v in vals:
+        hist[v] = hist.get(v, 0) + 1
+    for v in sorted(hist):
+        print(f"  {v:5g} | {'#' * hist[v]} ({hist[v]})")
+    if args.mine is not None:
+        below = sum(1 for v in vals if v < args.mine)
+        equal = sum(1 for v in vals if v == args.mine)
+        pct = 100.0 * (below + 0.5 * equal) / n
+        print(f"\nours = {args.mine:g} -> percentile {pct:.0f} of this corpus "
+              f"({below} below, {equal} equal, {n - below - equal} above)")
+        print("⚠ Observed range only. The scale's true maximum is still UNKNOWN — a corpus that "
+              "never scores above its own max cannot reveal one.")
+    return 0
+
+
 def cmd_new_version(args):
     """Post a revised version of a paper already on aiXiv.
 
@@ -337,6 +407,12 @@ def main(argv=None):
     s.add_argument("--dry-run", action="store_true")
     s.add_argument("--i-understand-this-is-outward-facing", action="store_true")
     s.set_defaults(fn=cmd_submit)
+
+    c = sub.add_parser("calibrate", help="what a Rating means, measured against the public corpus")
+    c.add_argument("--limit", type=int, default=40)
+    c.add_argument("--doc-type", dest="doc_type", default="paper")
+    c.add_argument("--mine", type=float, default=None, help="our rating, to place as a percentile")
+    c.set_defaults(fn=cmd_calibrate)
 
     nv = sub.add_parser("new-version", help="post a revised version of an existing paper (gated)")
     nv.add_argument("--aixiv-id", required=True)

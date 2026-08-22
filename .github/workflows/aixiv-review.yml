@@ -21,7 +21,7 @@ on:
       mode:
         description: "What to do"
         type: choice
-        options: [verify, dry-run-submit, submit, new-version, review, fetch]
+        options: [verify, dry-run-submit, submit, new-version, review, fetch, calibrate]
         default: verify
       pdf:
         description: "Path to the PDF (submit / dry-run-submit / review)"
@@ -115,6 +115,12 @@ jobs:
             --aixiv-id "${{ inputs.aixiv_id }}" \
             --pdf "${{ inputs.pdf }}" --meta "${{ inputs.meta }}" \
             --public "${{ inputs.is_public }}" --i-understand-this-is-outward-facing
+
+      # No token: /api/submissions/public and /api/get-review both carry no security requirement.
+      - name: Calibrate what a Rating means against the public corpus
+        if: ${{ inputs.mode == 'calibrate' }}
+        run: |
+          python3 scripts/aixiv_review.py calibrate --limit 40 --mine 6
 
       - name: Start an attack review
         if: ${{ inputs.mode == 'review' }}
