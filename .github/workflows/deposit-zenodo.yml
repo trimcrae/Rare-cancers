@@ -1,5 +1,13 @@
 # Create a paper's Zenodo deposition and RESERVE its DOI. Dispatch-only, and it never publishes.
 #
+# ⛔ TO CORRECT AN ALREADY-PUBLISHED RECORD, dispatch with new_version=true. A published version's
+# files cannot be edited, only superseded, so a correction opens a NEW VERSION of the same record:
+# it inherits the concept DOI, reserves a version DOI of its own, and the reserve-then-rebuild
+# ordering below then works for a correction exactly as it worked for the first deposit — paste the
+# reserved DOI into the manuscript, rebuild, and only then publish by hand.
+# ⚠ NOT `--new`, which makes an unrelated SECOND record with its own concept DOI and orphans the
+# citation trail from the published paper.
+#
 # ⛔ THIS IS TIER 2, AND IT IS NOT release.yml. `deploy/release-doi.md` wires GitHub Releases to
 # Zenodo and archives the WHOLE REPOSITORY under one concept DOI that moves to the newest release —
 # right for citing a living project, wrong for citing a paper, whose availability statement has to
@@ -33,6 +41,10 @@ on:
         description: "Rehearse against sandbox.zenodo.org (mints nothing real). Leave TRUE until a rehearsal has passed."
         type: boolean
         default: true
+      new_version:
+        description: "The record is already PUBLISHED and needs correcting: open a new VERSION of it and reserve that version's DOI. Still never publishes."
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -62,7 +74,8 @@ jobs:
             echo "::error::ZENODO_TOKEN is not set. See this file's SETUP block." && exit 1
           fi
           python3 scripts/zenodo_deposit.py --paper "${{ inputs.paper }}" \
-            ${{ inputs.sandbox && '--sandbox' || '' }} | tee deposit.log
+            ${{ inputs.sandbox && '--sandbox' || '' }} \
+            ${{ inputs.new_version && '--new-version' || '' }} | tee deposit.log
 
       - name: Put the reserved DOI in the job summary
         if: always()

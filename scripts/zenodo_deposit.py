@@ -158,6 +158,13 @@ def main(argv=None):
                     help="deposit to sandbox.zenodo.org — a full rehearsal that mints nothing real")
     ap.add_argument("--build-only", action="store_true",
                     help="verify and zip, then stop; no network and no token needed")
+    ap.add_argument("--new-version", action="store_true", dest="new_version",
+                    help="the record named by the manifest is PUBLISHED and needs correcting: open "
+                         "a NEW VERSION of it, reserve that version's own DOI and upload the "
+                         "current archive into it. Still never publishes. This is the only correct "
+                         "route for a correction — a published version's files cannot be edited, "
+                         "and --new would create an unrelated second record with its own concept "
+                         "DOI, orphaning the citation trail.")
     ap.add_argument("--new", action="store_true",
                     help="force a NEW deposition even though the manifest names one. Only for a "
                          "paper's first deposit after its manifest was populated by hand — a "
@@ -207,12 +214,38 @@ def main(argv=None):
     if existing and not args.new:
         dep_id = int(existing.group(1))
         dep = api(base, token, "GET", f"/deposit/depositions/{dep_id}")
-        if dep.get("submitted"):
+        if dep.get("submitted") and not args.new_version:
             raise SystemExit(
                 f"deposition {dep_id} ({declared}) is already PUBLISHED and its files cannot be "
-                "changed. A correction is a NEW VERSION of that record, made on Zenodo, which "
-                "issues its own DOI under the same concept DOI — not a re-upload.")
-        print(f"  updating existing draft {dep_id} ({declared}) — not creating a second one")
+                "changed. A correction is a NEW VERSION of that record, which issues its own DOI "
+                "under the same concept DOI — not a re-upload. Re-run with --new-version to open "
+                "one (it still does not publish). Do NOT use --new: that makes an unrelated second "
+                "record with its own concept DOI, and the citation trail from the published paper "
+                "would not reach it.")
+        if dep.get("submitted"):
+            # ⛔⛔ THE ONLY CORRECT ROUTE FOR A CORRECTION (added 2026-08-22, round 15). The record
+            # went out on 2026-08-20 and the repository then corrected two statements inside the
+            # extended report it contains — so a reader following the paper's DOI reads text this
+            # work has retracted. Zenodo cannot repoint a published version DOI; the record's
+            # `newversion` action makes a fresh draft that inherits the concept DOI and reserves a
+            # version DOI of its own, which is what lets the reserve-then-rebuild ordering below
+            # work for a correction exactly as it worked for the first deposit.
+            # ⚠ THE NEW DRAFT INHERITS THE OLD VERSION'S FILES. They are deleted before upload, so
+            # what ships is the current archive and not a union of two.
+            act = api(base, token, "POST", f"/deposit/depositions/{dep_id}/actions/newversion")
+            latest = act.get("links", {}).get("latest_draft")
+            if not latest:
+                raise SystemExit("Zenodo accepted the newversion action but returned no "
+                                 "latest_draft link; open the record on Zenodo and finish by hand")
+            dep = api(base, token, "GET", latest)
+            dep_id = dep["id"]
+            print(f"  opened NEW VERSION draft {dep_id} of published record {existing.group(1)}")
+            for old_file in dep.get("files", []):
+                api(base, token, "DELETE", f"/deposit/depositions/{dep_id}/files/{old_file['id']}")
+            if dep.get("files"):
+                print(f"  cleared {len(dep['files'])} inherited file(s) from the new draft")
+        else:
+            print(f"  updating existing draft {dep_id} ({declared}) — not creating a second one")
     else:
         dep = api(base, token, "POST", "/deposit/depositions", payload={})
         dep_id = dep["id"]
@@ -248,7 +281,7 @@ def main(argv=None):
     #: DOI is already in the manuscript — so the log of a successful second run read as an
     #: instruction to redo the first. A reader following it would have found nothing to paste and
     #: had to work out which half of the message was stale.
-    updated = bool(existing and not args.new)
+    updated = bool(existing and not args.new and not args.new_version)
     print("\n" + "=" * 72)
     print(f"DRAFT deposition {dep_id} {'updated' if updated else 'created'}. NOTHING IS PUBLISHED.")
     print(f"  reserved DOI : {doi}")
