@@ -1,11 +1,11 @@
 ---
 id: DOC-EMC-VACCINE-PATH-PREPRINT-CHECKLIST
-title: "bioRxiv preprint checklist — the EMC fusion-junction vaccine paper"
+title: "aiXiv preprint checklist — the EMC fusion-junction vaccine paper"
 level: L3
 kind: memo
 status: live
 canonical_for:
-  - what must be done to post PUB-VACCINE-PATH as a bioRxiv preprint
+  - what must be done to post PUB-VACCINE-PATH as an aiXiv preprint
 purpose: >
   The deposit steps for this preprint, split into what is done, what still blocks posting, and what is
   deliberately deferred. It exists so the deposit is a short session at a browser rather than a
@@ -19,12 +19,31 @@ date: 2026-08-22
 last_verified: 2026-08-22
 ---
 
-# bioRxiv preprint checklist — PUB-VACCINE-PATH
+# aiXiv preprint checklist — PUB-VACCINE-PATH
 
-**Article type: full research article**, subject area Cancer Biology. The venue reasoning is the same
-as the ASO submission's and is not re-derived here: bioRxiv is free, sets no word, abstract or
-display-item limit, is indexed by Europe PMC, and posting forecloses no journal
-([the ASO checklist](../aso/fusion-junction-aso-preprint-checklist.md) carries the venue evidence).
+**Article type: full research article** (`doc_type: paper`), subject area Cancer Biology.
+
+⚠ **Superseded, retained — this section named bioRxiv, and bioRxiv had already refused this author.**
+It read: *"The venue reasoning is the same as the ASO submission's and is not re-derived here: bioRxiv
+is free, sets no word, abstract or display-item limit, is indexed by Europe PMC, and posting forecloses
+no journal."* Every clause of that is still true **of bioRxiv**, and irrelevant: on 2026-08-21 bioRxiv
+declined this project's submission because *"bioRxiv requires authors to have an organizational
+affiliation"*, and the ASO paper was re-aimed at Research Square in consequence. **A venue paragraph
+that reasons from a venue's merits without checking its eligibility rule is the exact failure the
+preprint-host memo was written to stop, reproduced in the next paper along.**
+
+**The venue is aiXiv** (`aixiv.science`). It has no organizational-affiliation gate, takes submissions
+over an authenticated agent API, and runs an adversarial reviewer this repository can invoke
+([`scripts/aixiv_review.py`](../../../scripts/aixiv_review.py), workflow
+[`aixiv-review.yml`](../../../.github/workflows/aixiv-review.yml); the API surface was read at primary
+source into `literature/aixiv-api-surface-2026-08-22/`).
+
+⛔ **AND THE COST OF THAT CHOICE IS DISCOVERY, WHICH IS TEST 4 AND IS NOT WAVED THROUGH.** aiXiv is
+**absent from Europe PMC's indexed preprint-server list** (read 2026-08-21,
+`research/literature/preprint-host-eligibility.json`) and a Crossref query for it as a container title
+returns **0 results** (2026-08-22). A sarcoma immunologist's literature search will not surface this
+paper from aiXiv alone. Posting here is therefore **not** a substitute for an indexed host, and a
+second posting to an indexed server remains open and un-taken.
 
 ⛔ **THIS PAPER IS NOT READY TO POST.** Section 2 is not a list of nice-to-haves; each row is a
 blocker that a reader could check and find wrong.
@@ -62,10 +81,14 @@ blocker that a reader could check and find wrong.
    rather than papering over it. Re-emitting `patient-cd4-demo.json` with a `_predictor` block would
    close it and costs one CI run. **This does not block posting** — the gap is disclosed, not hidden —
    but it is the cheapest remaining improvement to the paper's reproducibility.
-3. **⛔ Reference 9 is a company announcement with no identifier of any kind** and no record in this
-   repository. It is labelled as an announcement and cited only for the fact that the announcement was
-   made, which is the most that can honestly be done — but a reader cannot follow it. Either capture a
-   URL and access date, or cut the framing sentence in §1 that rests on it.
+3. ~~**Reference 9 is a company announcement with no identifier of any kind.**~~ ✅ **CLOSED
+   2026-08-22.** The announcement is Merck/Moderna on INTerpath-001, **19 August 2026**. The reference
+   now carries the merck.com URL and an access date, and all three primary sources (merck.com,
+   news.modernatx.com, businesswire) are captured on `literature-cache` under
+   `literature/interpath-001-announcement-2026-08-22/`. ⚠ **The capture was checked for BODY, not just
+   for HTTP 200** — 10 and 12 occurrences of "INTerpath" in the Merck and Moderna records respectively,
+   which is what distinguishes a retrieved release from a cookie wall. The honest caveats are unchanged
+   and still in the reference: no DOI, no bibliographic index record, no effect size quoted.
 4. **⛔ A decision only the author can make: the manuscript no longer says specialist review is
    required before circulation.** The version reviewed in round 1 said "Review by a sarcoma medical
    oncologist and a tumour immunologist is recommended before circulation", and posting a preprint is
@@ -75,9 +98,14 @@ blocker that a reader could check and find wrong.
 
 ## 3 · Only the author can do these
 
-1. **Post at `biorxiv.org/submit-a-manuscript`.** Article type New Results, subject area Cancer
-   Biology, licence CC-BY, corresponding author ORCID-linked, and the survivorship non-financial
-   interest entered verbatim from Declarations.
+1. ~~**Post at `biorxiv.org/submit-a-manuscript`.**~~ **Superseded — see the venue note above.** The
+   post is now an authenticated API call and is scripted, so it is no longer a browser session: dispatch
+   [`aixiv-review.yml`](../../../.github/workflows/aixiv-review.yml) with `mode=dry-run-submit` to read
+   the payload, then `mode=submit` with `i_understand_this_is_outward_facing=true`. Licence CC-BY,
+   corresponding author ORCID `0000-0002-1823-1451`, and the survivorship non-financial interest
+   entered verbatim from Declarations. **The metadata is a committed file**
+   ([`emc-vaccine-path-aixiv-metadata.json`](./emc-vaccine-path-aixiv-metadata.json)) rather than a form
+   filled twice, so what was submitted is auditable after the fact.
 2. **Decide whether this paper gets its own archival deposit** or is covered by the existing Zenodo
    archive. The ASO deposit's DOI is minted and its manifest hashes the repository's artifacts; this
    manuscript's artifacts are in the same tree.
@@ -87,7 +115,8 @@ blocker that a reader could check and find wrong.
 - **No figure.** Every quantity is in the prose, and the one display item a reader would want — the
   coverage-versus-threshold curve — would restate Section 2.3's ladder without adding to it. If a
   figure is added later it must be cited in first-citation order and rendered as vector.
-- **The abstract has not been cut to a journal's cap.** bioRxiv sets none, and cutting to the wrong
+- **The abstract has not been cut to a journal's cap.** aiXiv's `SubmissionCreate` declares `abstract`
+  as a nullable string with no `maxLength`, so it sets none either, and cutting to the wrong
   target means cutting twice.
 - **The dated capability bands were removed rather than updated.** See Appendix B of the manuscript
   and §5 of the round-1 ledger.

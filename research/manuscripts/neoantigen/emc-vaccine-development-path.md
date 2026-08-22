@@ -698,10 +698,12 @@ verification workflow that accompanies this work. None is written from recollect
    PMID 34966741. The tissues studied are placenta and colorectal cancer, not sarcoma.
 9. Merck and Moderna announce that the phase 3 INTerpath-001 trial of intismeran autogene plus
    pembrolizumab met its endpoints of recurrence-free survival and distant metastasis-free survival in
-   completely resected stage IIB-IV melanoma. Company press release, 2026. **This is an announcement, not
-   a publication**: no effect size was disclosed in it, none is quoted here, it carries no digital object
-   identifier, and it is not indexed in any bibliographic database this work can query. It is cited only
-   for the fact that the announcement was made.
+   completely resected stage IIB-IV melanoma. Company press release, 19 August 2026.
+   https://www.merck.com/news/merck-and-moderna-announce-phase-3-interpath-001-trial-of-intismeran-autogene-plus-keytruda-met-endpoints-of-recurrence-free-survival-rfs-and-distant-metastasis-free-survival-dmfs-in-patient/
+   (accessed 22 August 2026; retrieval record `literature/interpath-001-announcement-2026-08-22/`).
+   **This is an announcement, not a publication**: no effect size was disclosed in it, none is quoted
+   here, it carries no digital object identifier, and it is not indexed in any bibliographic database
+   this work can query. It is cited only for the fact that the announcement was made.
 10. Huang SC, Lee JC, Hsu YC, Tsai JW, Kao YC, Hsieh TH, et al. Extraskeletal myxoid chondrosarcomas: the
     uncommon clinicopathologic manifestations and significance of TAF15::NR4A3 fusion. *Modern Pathology*
     2023;36(7):100161. doi:10.1016/j.modpat.2023.100161. PMID 36948401. This is the 58-case molecularly
