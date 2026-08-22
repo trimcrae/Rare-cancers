@@ -144,6 +144,71 @@ def _test_patterns(document=None):
 #: "covers" only by distinguishing the sentence it guards from the ones it does not.
 MAX_MATCH_SHARE = 0.10
 
+#: ⛔⛔ A SHARE IS NOT REPRESENTABLE ON A SHORT DOCUMENT, AND THAT SILENTLY ZEROED A WHOLE PAPER
+#: (round 16 seat 5, 2026-08-22). `fusion-junction-aso-journal-tables.md` flattens to NINE sentences.
+#: The smallest non-zero share on nine is 1/9 = 0.111, which is GREATER than 0.10 — so every pattern
+#: matching even one sentence was discarded before the coverage loop ran, and the reported
+#: `journal-tables: 0 of 9` was integer arithmetic rather than a reading. A gate whose verdict is
+#: fixed by the size of its population is measuring nothing.
+#: ★ A pattern is non-binding only when it matches MORE THAN the greater of one sentence and the
+#: share, so one sentence is always bindable however short the document.
+#:
+#: ⚠ MEASURED AFTER THE DOCUMENT-SCOPE FIX, THE TABLES FILE IS STILL 0/9 — AND FOR A DIFFERENT AND
+#: WORSE REASON, so do not read this line as having fixed it. Only two test files name that document
+#: and no pin is homed to it; of 34 in-scope patterns exactly one matches anything, and that one is
+#: `5′|[.;:]`, a punctuation splitter that hits all nine. The display items the journal article cites
+#: have essentially NO instruments. That is a manuscript finding, tracked separately; this constant
+#: is fixed so a future binding cannot be silently discarded by arithmetic.
+
+
+def _binds_literal_text(pattern, runlen=4):
+    r"""Does this pattern contain a run of literal characters, or only structure?
+
+    ⛔⛔ "MATCHES FEW SENTENCES" WAS IMPLEMENTED WHERE "DISTINGUISHES THIS SENTENCE" WAS MEANT
+    (round 16 seat 5, 2026-08-22). The docstring above states the property exactly right and the
+    share filter delivers a different one: a markdown artefact matches few sentences and
+    distinguishes nothing. The widest patterns the 0.10 filter ACCEPTED on the 124-sentence article
+    were `\b\d+(?:\.\d+)?%`, `\*\*[^*\n]+\*\*`, a code-span pattern, an ISO date and `(?<=\.)\s+` —
+    bold, code, italics, a date and whitespace, not one of which can tell a true claim from a false
+    one.
+
+    ★★ AND THIS RULE IS NOT ARGUED, IT IS MEASURED. Seven numbered sentences lose their only witness
+    to it. Six were ablated — the number perturbed in the real file, the named witness re-run — and
+    all six stayed GREEN, so their "coverage" was false. The seventh could not be measured: the
+    splitter had joined it across a `---` rule into a sentence with no home in the file.
+    Ablation is `claim_ablation.py`; the run is `test_the_census_word_covered_survives_ablation.py`.
+    """
+    stripped = re.sub(r"\\.", " ", re.sub(r"\[(?:[^\]\\]|\\.)*\]", " ", pattern))
+    return bool(re.search(r"[A-Za-z0-9]{%d,}" % runlen, stripped))
+
+
+#: `<!-- GENERATED — DO NOT EDIT. Regenerate: python3 <script> -->`, the header every generated
+#: deposit artifact carries.
+_GENERATED = re.compile(r"<!--\s*GENERATED[^>]*?Regenerate:\s*(?:python3\s+)?(\S+\.py)", re.I)
+
+
+def _generator(path):
+    """The script a generated document reproduces from, or None if it is hand-written.
+
+    ⛔⛔ `journal-tables: 0 of 9` WAS A FALSE NEGATIVE, AND THE CENSUS REPORTED IT FOR TWO ROUNDS
+    (measured 2026-08-22 by ablation). Round 16 read that zero as "the display items the journal
+    article cites have no instruments" — a manuscript finding, escalated, and WRONG. The tables file
+    is GENERATED from `aso_journal_tables.py`, so its guarantee is REPRODUCTION rather than pattern
+    matching: every cell and every caption is regenerated from the canonical sequence CSV and
+    compared. No regex is homed to it because none needs to be.
+
+    ★ MEASURED, NOT ARGUED, IN BOTH DIRECTIONS:
+      · a Table 1 cell, `8 bp, wild-type *TFG*` -> `9 bp`  →  generator `--check` rc=1 STALE, and
+        `test_journal_article_numbers.py` red as well;
+      · a numbered CAPTION sentence, the population the census actually counts, perturbed  →  rc=1.
+    ⚠ THIS IS THE ERROR DIRECTION INSPECTION NEVER FINDS. A false POSITIVE inflates coverage and
+    hides surfaces; a false NEGATIVE sends a review round to defend something already defended. The
+    first is more dangerous, but the second is what wasted a seat.
+    """
+    head = io.open(path, encoding="utf-8").read(400)
+    m = _GENERATED.search(head)
+    return m.group(1) if m else None
+
 
 def census(paper_key):
     path = PAPERS[paper_key]
@@ -158,10 +223,23 @@ def census(paper_key):
             continue
         if not sents:
             continue
-        share = sum(1 for s in sents if rx.search(s)) / len(sents)
-        if share > MAX_MATCH_SHARE:
-            continue  # matches everything; binds nothing
+        if not _binds_literal_text(p):
+            continue  # structure only: bold, a code span, a date, whitespace — binds nothing
+        matched = sum(1 for s in sents if rx.search(s))
+        if matched > max(1, MAX_MATCH_SHARE * len(sents)):
+            continue  # matches most of the document; binds none of it
         compiled.append((rx, w))
+    # ⛔⛔ A GENERATOR IS NOT A WITNESS, AND CREDITING IT AS ONE WAS A FALSE POSITIVE THIS FILE HELD
+    # FOR ABOUT AN HOUR (2026-08-22). The reasoning was: the tables file is generated, an edit to it
+    # fails `--check`, therefore every sentence in it is bound — and the first ablation agreed, twice
+    # (a Table 1 cell and a numbered caption both went rc=1 STALE). ⚠ BUT THE ABLATION WAS MUTATING
+    # THE WRONG OBJECT. Reproduction is not derivation: the captions are TYPED LITERALS inside
+    # `aso_journal_tables.py`, so the realistic way the claim changes is that somebody edits the
+    # generator, not the artifact. Measured that way — "ten-base-pair criterion" -> "eleven-base-pair"
+    # in the generator, then regenerate — `--check` rc=0, all three linters rc=0, and the 24 tests
+    # naming the file all pass. NOTHING notices.
+    # ★ SO THE CREDIT IS WITHHELD. `_generator` stays because the distinction is worth naming, and
+    # because the right ablation for a generated document mutates its SOURCE.
     rows = []
     for s in sents:
         hits = sorted({w for rx, w in compiled if rx.search(s)})

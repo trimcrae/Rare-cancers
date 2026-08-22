@@ -327,6 +327,61 @@ blockers in plain sight.
 
 ---
 
+## 8b · ★★ THE FIX IS AN INSTRUMENT, AND AN INSTRUMENT IS A NEW UNMEASURED CLAIM — ABLATE, DON'T READ
+
+**⛔ §8a WAS RIGHT AND NOT ENOUGH. Round 16 pointed three seats at the census §8a prescribed and found
+the SAME defect one level up.** The diagnosis had been *"a claim is a QUANTITY and a RELATION, and the
+guard set was built on the quantity half"*, and the remedy was to enumerate surfaces instead of
+sampling them. `claim_coverage.py` then turned out to be **a coverage claim is a PATTERN and a
+DOCUMENT, built on the pattern half** — it credited a guard's regexes to documents that guard never
+opens (22 of 27 "covered" cover-letter sentences were false positives), its selectivity threshold could
+not be REPRESENTED on a nine-sentence document (1/9 = 0.111 > 0.10, so every pattern was discarded and
+`journal-tables: 0 of 9` was integer arithmetic), and it scored *"matches few sentences"* where
+*"distinguishes this sentence"* was meant.
+
+**★★ WHY ITERATION CANNOT CONVERGE, STATED PROPERLY.** Every fix ships a NEW INSTRUMENT, and every new
+instrument is a new claim asserted in prose and measured nowhere. Each round's fix **refills the pool
+the next round drains.** Reviewing instruments by READING them never catches up with writing them.
+This is CLAUDE.md's *"a property asserted in prose about a value passed by a caller is not a property;
+it is a hope"*, applied to the review process itself.
+
+**★ WHAT CHANGES THE SHAPE: ABLATION.** *"Sentence S is covered by witness W"* predicts that if S
+changed, W would go red. **So change it and look.** Ablation is different in kind from every fix that
+preceded it — it introduces **no new hand-written constant**, and it derives its expectation from the
+instrument's OWN output, so it cannot drift from what the instrument claims. One mechanism catches
+document-blindness, non-selective patterns and the threshold bug, because all three make the census
+credit coverage that is not there. Home: `claim_ablation.py`,
+`test_the_census_word_covered_survives_ablation.py`.
+
+**⛔⛔ AND THE FIRST THREE ABLATION READINGS OF THE DAY WERE FABRICATED — ALL THREE THE SAME WAY.**
+A mutation that never lands reports exactly what a guard that never fires reports.
+
+| the reading | what actually happened |
+|---|---|
+| "seven guards are BLIND" | `sentence in text` never matched — the flattener joins lines, so **no file was ever edited** |
+| "the generator catches nothing" | the literal was split across source lines, so `old in s` was False |
+| "generated ⇒ every sentence bound" | the ablation mutated the **artifact**; the realistic edit is to the **generator**, and that IS unguarded |
+
+**★★ SO THE RULE IS: ASSERT THE MUTATION LANDED BEFORE READING THE RESULT, AND KEEP A POSITIVE
+CONTROL IN THE GATE.** A sample in which nothing was applied must FAIL, never pass quietly — an absent
+reading is not a reading of absence (CLAUDE.md §4), and the comfortable direction is the one to
+distrust: a false POSITIVE inflates coverage and HIDES surfaces, so it is worse than the false negative
+that merely wastes a seat. ⚠ **Ablate the object that would really change.** A generated document's
+claim lives in its GENERATOR: "ten-base-pair criterion" → "eleven-base-pair" in `aso_journal_tables.py`,
+then regenerate, and `--check` plus all three linters plus 24 tests were rc=0. **Reproduction is not
+derivation**, so a generator is NOT a witness.
+
+**⛔ AND ABLATION INHERITS THE BLIND SPOT OF WHATEVER IT PERTURBS.** This one perturbs NUMBERS, because
+the perturbation is unambiguous there — and round 16 seat 3 then applied **73 predicate inversions**,
+of which **66 survived every gate and 44 sat in sentences the census calls COVERED**. Among them: the
+central negative inverting at all four prose homes, the two reagents' clearance claims inverting
+against their own CSV rows, and **a single deleted word** giving *"Research use only, and **for**
+administration to any person or animal"*. The relation half needs its own table —
+`test_the_manuscript_asserts_the_relation_its_artifacts_compute.py`, `(span, require, forbid)` per
+claim, both halves asserted separately because *"the right verb is present"* and *"no wrong verb is
+present"* fail differently. **Whatever axis your instrument does not perturb is the axis the next round
+will find.**
+
 ## 9 · Where the rest lives
 
 - **Commit gates, preflight, the linters, `systems/`, and the six-part reviewer-AI block: `repo-gates`.**

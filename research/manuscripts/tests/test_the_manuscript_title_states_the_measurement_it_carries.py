@@ -311,8 +311,17 @@ def test_the_title_says_the_designs_do_what_the_count_counts(paper):
 
 #: What `corpus.n_with_parent_duplex_through_gap` COUNTS: designs that form the duplex. A title
 #: stating that count must assert that relation.
+#: ⛔⛔ `\bpairs?\b` MATCHED THE UNIT, NOT THE VERB, AND THAT MADE THE GUARD BELOW VACUOUS
+#: (round 16 seat 5, 2026-08-22). The extended report's title contains "pair" TWICE: once as its
+#: main verb ("partner genes pair a wild-type parent gene") and once inside the criterion
+#: ("a ten-base-**pair** duplex"). A word-boundary alternation cannot tell them apart, so inverting
+#: the verb to "spare" left the pattern still matching — on the unit — and
+#: `test_the_predicate_patterns_are_exercised_by_the_titles_they_police` still passed. Measured:
+#: inverting BOTH titles at once gave `15 passed, 2 skipped`.
+#: ★ A hyphen is the tell: a compound unit ("ten-base-pair", "parent-paired") is never the sentence's
+#: relation. Excluding a preceding hyphen or word character keeps the verb and drops both units.
 _LIABILITY_PREDICATE = re.compile(
-    r"\bpairs?\b|\bform(?:s|ing)? a duplex\b|\bare liable\b|\bpaired\b", re.I)
+    r"(?<![-\w])pairs?\b|\bform(?:s|ing)? a duplex\b|\bare liable\b|(?<![-\w])paired\b", re.I)
 
 #: Its inverse. Listed separately and asserted separately, because "the right verb is present" and
 #: "no wrong verb is present" fail differently: a title reading "pair or spare" satisfies the first.
@@ -325,8 +334,25 @@ def test_the_titles_predicate_is_the_relation_the_artifact_counts(paper):
     """⛔ WHAT THE COUNT DOES, NOT ONLY WHAT THE COUNT IS."""
     title = _plain(_front_matter_title(ARTICLES[paper]))
     observed = _artifact()["observed"]
-    if not re.search(rf"\b{observed['n_liable']}\b", title):
-        return  # this title states the count some other way; the rate test owns that case
+    # ⛔⛔ THIS WAS A BARE `return`, AND IT MEANT THIS TEST NEVER ASSERTED ANYTHING ON THE EXTENDED
+    # REPORT (round 16 seat 5, 2026-08-22). Round 15 added the predicate check because a title could
+    # be inverted -- "87 designs SPARE a wild-type parent" -- with every number still correct. The
+    # check was then gated on the title containing the literal count, and the extended report states
+    # its rate as the quantifier "nearly half". So the gate never opened, the body never ran, and the
+    # case reported PASSED rather than skipped -- which also put it outside
+    # `test_no_guard_can_silently_not_run.py`, whose scope is `pytest.skip`, not early returns.
+    # Measured on the pinned tree: inverting the extended report's title to "spare" was GREEN.
+    # ★ THE GATE IS THE COUNT, NOT ONE SPELLING OF IT. The rate test accepts either an exact `n of N`
+    # or a quantifier licensed by `_RATE_BANDS`; so does this one, and a title stating the count in
+    # NO form is a failure here rather than a silent pass -- "some other way" must never be able to
+    # mean "no way at all".
+    states_exact = bool(re.search(rf"\b{observed['n_liable']}\b", title))
+    states_rate = bool(_RATE_SCANNER.search(title))
+    assert states_exact or states_rate, (
+        f"{paper}'s title states this paper's central count in no form this suite recognises -- "
+        f"neither the literal {observed['n_liable']} nor a quantifier in `_RATE_BANDS`:\n  {title}\n\n"
+        "The predicate check below cannot run without one, and a title that carries no proportion "
+        "has dropped the finding. Extend `_RATE_BANDS` if the wording is new and honest.")
 
     assert _LIABILITY_PREDICATE.search(title), (
         f"the title states {observed['n_liable']} of {observed['n_designs']} without saying those "
@@ -349,9 +375,30 @@ def test_the_predicate_patterns_are_exercised_by_the_titles_they_police():
     found going stale. This asserts the positive one actually fires on a real title, so a rewording
     that slips past it fails HERE rather than passing silently in the test above.
     """
-    matched = [k for k in ARTICLES
-               if _LIABILITY_PREDICATE.search(_plain(_front_matter_title(ARTICLES[k])))]
-    assert matched, (
-        "no title in this repository matches _LIABILITY_PREDICATE, so the predicate check above is "
-        "vacuous for every paper. Either a title was reworded past the alternation — extend it — or "
-        "no title states the count any more, and the rate test should have said so first.")
+    # ⛔⛔ "ANY TITLE MATCHES" WAS TOO WEAK, AND IT PASSED ON AN INVERTED PAIR (round 16 seat 5).
+    # With both titles inverted to "spare", this still reported green, because `\bpairs?\b` was
+    # matching the UNIT inside "ten-base-pair". The alternation is now anchored against compound
+    # units (above), and this guard asks the stronger question: EVERY policed title must match, so a
+    # single reworded title fails here instead of hiding behind its sibling.
+    titles = {k: _plain(_front_matter_title(ARTICLES[k])) for k in ARTICLES}
+    missing = sorted(k for k, t in titles.items() if not _LIABILITY_PREDICATE.search(t))
+    assert not missing, (
+        f"{', '.join(missing)}: the title does not match _LIABILITY_PREDICATE, so the predicate "
+        "check above is vacuous for that paper.\n"
+        + "\n".join(f"  {k}: {titles[k]}" for k in missing)
+        + "\n\nEither the title was reworded past the alternation — extend it — or it no longer "
+        "states the relation the count counts, which is the defect the check exists to catch.")
+
+    # ⛔ AND THE ALTERNATION MUST NOT BE SATISFIABLE BY A UNIT ALONE. This is the exact regression:
+    # a title whose only match is inside a hyphenated measurement carries no relation at all. Asserted
+    # against a synthetic string so it holds no matter how the real titles are later reworded.
+    unit_only = ("In silico, nearly half of designs spare a wild-type parent gene over a "
+                 "ten-base-pair duplex, trading margin against parent-paired gap DNA")
+    assert not _LIABILITY_PREDICATE.search(unit_only), (
+        "_LIABILITY_PREDICATE matches a title whose only 'pair' is the unit inside 'ten-base-pair' "
+        f"or the modifier in 'parent-paired' — and whose verb is 'spare', the inversion this file "
+        f"exists to catch:\n  {unit_only}\n\n"
+        f"matched: {_LIABILITY_PREDICATE.search(unit_only).group(0)!r}\n"
+        "The compound-unit anchors have been relaxed; a unit is never the sentence's relation.")
+    assert _SPARING_PREDICATE.search(unit_only), (
+        "_SPARING_PREDICATE no longer matches 'spare', so the inversion check above is vacuous.")

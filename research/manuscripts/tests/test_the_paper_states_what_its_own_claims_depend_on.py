@@ -28,8 +28,12 @@ import io
 import json
 import os
 import re
+import sys
 
 import pytest
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import claim_coverage  # noqa: E402
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 MANUSCRIPTS = os.path.abspath(os.path.join(HERE, ".."))
@@ -96,8 +100,9 @@ def test_the_article_states_it(label, pattern, why, prose):
 #: after its selectivity filter was added. These are FLOORS, not targets: coverage may rise freely
 #: and may not fall. ⚠ Raising a floor is a deliberate act — do it when you have closed a class, and
 #: never to make a red run green.
-COVERAGE_FLOOR = {"journal-article": {"covered": 51, "with_a_number_covered": 40},
-                  "cover-letter": {"covered": 6, "with_a_number_covered": 3}}
+COVERAGE_FLOOR = {"journal-article": {"covered": 66, "with_a_number_covered": 44},
+                  "journal-tables": {"covered": 4, "with_a_number_covered": 1},
+                  "cover-letter": {"covered": 7, "with_a_number_covered": 4}}
 #: ⛔⛔ THESE FLOORS WERE SET ON INFLATED NUMBERS AND ARE NOW CORRECTED DOWNWARD (round 16 seat 4).
 #: The first ratchet read 82/53 and 27/15. Those came from a census that applied EVERY test file's
 #: patterns to EVERY document, so a pattern from a test that never opens the cover letter could mark
@@ -112,7 +117,20 @@ COVERAGE_FLOOR = {"journal-article": {"covered": 51, "with_a_number_covered": 40
 #: floor because a run went red would be the defect; lowering it because the instrument was proved
 #: wrong is the correction. Say which, in the commit, every time.
 #: ⛔ journal-tables sits at 0 of 9 and is DELIBERATELY ABSENT rather than pinned at zero: a floor of
-#: zero reads as covered-enough. It is an open finding.
+#: zero reads as covered-enough. It is an open finding — and round 16 established WHY it is zero, which
+#: is worse than the arithmetic bug first suspected: only two test files name that document, no pin is
+#: homed to it, and of 34 in-scope patterns exactly one matches anything (`5′|[.;:]`, a punctuation
+#: splitter hitting all nine sentences). The display items the journal article cites have essentially
+#: no instruments.
+#:
+#: ⛔⛔ AND THESE FLOORS MOVED DOWN A SECOND TIME (51/40 -> 44/33), WHICH IS TWICE IN ONE SESSION AND
+#: MUST NOT BECOME A HABIT. The cause is again the instrument, not the coverage: the census counted a
+#: pattern as binding if it matched FEW sentences, when the property needed is that it DISTINGUISHES
+#: one — so bold spans, code spans, an ISO date and a whitespace pattern were all scored as coverage.
+#: ★ Unlike the first correction, this one is not argued from inspection. Six of the seven numbered
+#: sentences that lost their only witness were ABLATED — the number perturbed in the real file, the
+#: named witness re-run — and all six stayed green. Their coverage was false. That evidence is what
+#: licenses the lower floor, and `test_the_census_word_covered_survives_ablation.py` keeps taking it.
 
 
 def test_claim_coverage_has_not_regressed():
@@ -126,7 +144,32 @@ def test_claim_coverage_has_not_regressed():
     if not os.path.exists(COVERAGE):
         pytest.fail("claim-coverage.json is missing — run "
                     "`python3 research/manuscripts/claim_coverage.py --write` and commit it")
-    got = json.load(io.open(COVERAGE, encoding="utf-8"))["papers"]
+
+    # ⛔⛔ THIS RATCHET USED TO COMPARE TWO COMMITTED CONSTANTS AND MEASURE NOTHING (round 16 seat 5,
+    # 2026-08-22). It read the committed `claim-coverage.json` and compared it to the floors above —
+    # both checked-in values. A census change regenerates the JSON with `--write`, so the artifact and
+    # the floor move together and the gate stays green through exactly the regression it exists to
+    # catch. A populated field is not a measured one.
+    # ★ The census is now RUN HERE, and the committed artifact is checked against that live reading,
+    # so a stale deposit artifact fails as loudly as a lost binding.
+    live = {}
+    for paper in COVERAGE_FLOOR:
+        rows = claim_coverage.census(paper)
+        numbered = [r for r in rows if r["has_number"]]
+        live[paper] = {"covered": sum(1 for r in rows if r["covered"]),
+                       "with_a_number_covered": sum(1 for r in numbered if r["covered"])}
+
+    committed = json.load(io.open(COVERAGE, encoding="utf-8"))["papers"]
+    stale = [f"{p}.{f}: committed {committed.get(p, {}).get(f)!r}, census now reports {v!r}"
+             for p, fields in live.items() for f, v in fields.items()
+             if committed.get(p, {}).get(f) != v]
+    assert not stale, (
+        "claim-coverage.json disagrees with what claim_coverage.py now computes:\n  "
+        + "\n  ".join(stale)
+        + "\n\nThe committed census is a deposit artifact and is out of date. Re-run "
+          "`python3 research/manuscripts/claim_coverage.py --write` and commit it in this change.")
+
+    got = live
     regressed = []
     for paper, floors in COVERAGE_FLOOR.items():
         for field, floor in floors.items():
