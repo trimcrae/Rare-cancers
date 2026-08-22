@@ -1845,7 +1845,30 @@ claim it tests is not: the ranking is one claim, §4.5 releases a procedure that
 against it without limit, and any one reagent falsifying is read as falsifying the ranking. The
 family over which an error rate would have to be controlled is therefore open-ended, which is why no
 correction is imposed — a multiplicity adjustment needs a family size fixed in advance, and this
-one is fixed by how many laboratories run the procedure. Two consequences follow and both belong
+one is fixed by how many laboratories run the procedure.
+
+A closed sub-design is a different case, and the journal article prescribes one. That article's
+§5 sets out one experiment with a fixed roster, and the reason above does not reach it: the design
+holds two ranking tests, one per named reagent at its own junction, with the three all-screen-clear
+designs read as a mechanism control rather than against the cut. Two tests at a nominal one-sided
+2.5% carry a familywise error rate of 4.94%, and that is the rate the prescribed design runs at;
+reading the two exon-2 reagents against the same cut makes four tests at 9.63%, and adding the three
+control designs seven at 16.24%. The replicate counts hold per test at the nominal level whatever
+the family size so long as no correction is applied — and which level a correction targets is the
+whole of it, since holding the family to the 2.5% a single test runs at drops six replicates below
+two thirds power and calls for eight. Whether to correct, and to what, belongs in the
+pre-registration rather than in the analysis. None of this contradicts the paragraph above: that one
+is about the OPEN family of every reagent the released procedure can generate, this one about a
+single closed roster inside it.
+
+One more bound belongs with the threshold and is stated in neither place otherwise. The cut is a
+ratio of half-maximal concentrations, so the dose range must reach far enough to resolve the
+wild-type midpoint: on a unit Hill slope a reagent whose ratio is exactly 5 puts that midpoint at a
+dose where the fusion is already 83.3% knocked down, and at the 58% knockdown the analogous
+published experiment reports the wild-type transcript is only 21.6% knocked down — short of the
+half-maximal reading its own concentration is defined by. Potency at that level is therefore not
+sufficient for this readout, and a run whose range never resolves the wild-type midpoint is
+uninformative rather than confirmatory. Two consequences follow and both belong
 with any result. A falsification carries the full weight of its confidence statement for the first
 reagent tested against this cut and less for each one after it, so how many reagents have been
 tested against it, and in what order, is part of the result rather than context for it. And nothing

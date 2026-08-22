@@ -69,20 +69,25 @@ Extracted from CLAUDE.md §7 (plus §5's deliverable map) on 2026-08-15, **verba
     gate; `scripts/tests/test_affected_tests.py` asserts each of those directions, and the
     baseline-pruning readout is suppressed on a scoped run because **a subset cannot say a test it
     never executed is fixed.**
-- **Before committing:** `./scripts/preflight.sh` must pass. **Twelve gates, in this order:** (1) the consistency
-  linter, (2) `systems/systems_check.py --check`, (3) `research/manuscripts/emc_systems_map_check.py --check`,
+- **Before committing:** `./scripts/preflight.sh` must pass. **Thirteen gates, in this order:** (1) the consistency
+  linter (`research/manuscripts/lint_consistency.py`), (2) `systems/systems_check.py --check`, (3) `research/manuscripts/emc_systems_map_check.py --check`,
   (4) claim strength (`lint_claims.py`), (5) changed prose (`lint_changed_prose.py`, warnings only),
   (6) `research/manuscripts/lint_citations.py`, (7) `research/manuscripts/lint_style.py`,
   (8) `systems/parser_guard.py`, (9) the registry evidence
   contract (`validate-registry.mjs`), (10) the generated deposit artifacts reproducing from their
-  generators, (11) the modalities tests, (12) the manuscripts tests. Its exit code cannot be masked. **Do not
+  generators, (11) the modalities tests, (12) the manuscripts tests, (13) `scripts/tests`, the test
+  selector's own contract. Its exit code cannot be masked. **Do not
   re-type an ordinal from memory** — `[P1]` derives it from the script and fails the build on any document
   that disagrees. *(It did exactly that when the citation gate was inserted, catching four documents in one run.)*
   ⚠ *Superseded 2026-08-22, TWICE OVER: `lint_claims.py` WAS CI-only, and a manuscript repair then shipped a word that fires R2 — preflight green, CI red at that step, and the 26 steps behind it skipped. The note that added it here then said it was **gate 7** and `lint_changed_prose.py` **gate 8**, typed from the intended reading rather than derived from the script, which runs both BEFORE the citation gate: they are **4** and **5**, and everything from citations to parser guard shifted down by two. `[P1]` did not catch it because it only ever derived the REGISTRY VALIDATOR's ordinal — the one number four documents had already got wrong once — and nothing checked the enumerated list this very sentence lives in. It does now.* *Superseded, retained: "It runs the registry evidence contract
   (`validate-registry.mjs`), the doc linters and the modalities tests" — written before gates 2 and 3 existed,
   and "the doc linters" plural was never true of this script. And: **"Five gates"**, which listed the map
   check nowhere, **"Six gates"**, written before citation provenance was one, and **"Seven gates"**, written
-  before manuscript prose style was one, and **"Eight gates"**, written before the manuscript tests
+  before manuscript prose style was one, **"Eight gates"**, written before the manuscript tests, and
+  **"Twelve gates"**, written before `scripts/tests` was one — the selector's own contract, cited by this
+  very section as the safety evidence for scoping while running in no gate at all (round 14 seat 4). The
+  count above is not typed twice: `[P1]` derives it from `preflight.sh`, and `check_preflight_gate_list`
+  derives the enumerated list beside it.
   were run locally at all — CI had run them since 2026-08-03 and this script had not, so a green
   preflight was silent about every guard in `research/manuscripts/tests`, the newest of which checks
   citation numbering.*

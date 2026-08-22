@@ -37,7 +37,17 @@ import pytest
 HERE = os.path.dirname(os.path.abspath(__file__))
 MANUSCRIPTS = os.path.abspath(os.path.join(HERE, ".."))
 REPO = os.path.abspath(os.path.join(MANUSCRIPTS, "..", ".."))
-ARTICLE = os.path.join(MANUSCRIPTS, "aso", "fusion-junction-aso-research-article.md")
+#: ⛔ BOTH TITLES (round 14 seat 4). This guard opened the extended report only, so the CONDENSED
+#: submission's title — the one that reaches a NAT reader, a search result and a citation line —
+#: was checked by nothing at all. That is the ninth instrument this review has found bound to one
+#: of a pair while its docstring reasons about "the title".
+ARTICLES = {
+    "extended-report": os.path.join(MANUSCRIPTS, "aso",
+                                    "fusion-junction-aso-research-article.md"),
+    "journal-article": os.path.join(MANUSCRIPTS, "aso",
+                                    "fusion-junction-aso-journal-article.md"),
+}
+ARTICLE = ARTICLES["extended-report"]
 NULL = os.path.join(REPO, "research", "modalities", "aso-parent-null.json")
 
 _WORDS = ("zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen "
@@ -75,20 +85,21 @@ def _artifact():
     return json.load(open(NULL, encoding="utf-8"))
 
 
-def _text():
-    if not os.path.exists(ARTICLE):
-        pytest.fail("the manuscript is missing; its title is unchecked")
-    return open(ARTICLE, encoding="utf-8").read()
+def _text(article=None):
+    article = article or ARTICLE
+    if not os.path.exists(article):
+        pytest.fail(f"{os.path.basename(article)} is missing; its title is unchecked")
+    return open(article, encoding="utf-8").read()
 
 
-def _front_matter_title():
-    m = re.search(r'^title:\s*"(.+?)"\s*$', _text(), flags=re.M)
+def _front_matter_title(article=None):
+    m = re.search(r'^title:\s*"(.+?)"\s*$', _text(article), flags=re.M)
     assert m, "the front matter carries no `title:` line; nothing names this deposit"
     return " ".join(m.group(1).split())
 
 
-def _h1():
-    m = re.search(r"^#\s+(.+?)\s*$", _text(), flags=re.M)
+def _h1(article=None):
+    m = re.search(r"^#\s+(.+?)\s*$", _text(article), flags=re.M)
     assert m, "the manuscript has no H1; the rendered document has no title"
     return " ".join(m.group(1).split())
 
@@ -98,14 +109,15 @@ def _plain(title):
     return re.sub(r"[*_`]", "", title)
 
 
-def test_the_front_matter_title_and_the_printed_title_are_the_same_claim():
+@pytest.mark.parametrize("paper", sorted(ARTICLES), ids=sorted(ARTICLES))
+def test_the_front_matter_title_and_the_printed_title_are_the_same_claim(paper):
     """Two copies of one sentence in one file is a divergence waiting to happen.
 
     The YAML title is what the repository's own tooling indexes; the H1 is what the PDF builds
     print. A round that edits one and not the other ships a deposit whose metadata and cover page
     disagree, and nothing else in the suite compares them.
     """
-    front, h1 = _plain(_front_matter_title()), _plain(_h1())
+    front, h1 = _plain(_front_matter_title(ARTICLES[paper])), _plain(_h1(ARTICLES[paper]))
     assert front == h1, (
         "the front-matter `title:` and the printed H1 have diverged.\n"
         f"  front matter: {front}\n"
@@ -113,13 +125,25 @@ def test_the_front_matter_title_and_the_printed_title_are_the_same_claim():
         "One of them is what a reader sees and the other is what the tooling indexes.")
 
 
-def test_the_titles_rate_word_is_one_the_measurement_supports():
+@pytest.mark.parametrize("paper", sorted(ARTICLES), ids=sorted(ARTICLES))
+def test_the_titles_rate_word_is_one_the_measurement_supports(paper):
     """87 of 190 is 45.8%. "Nearly half" is true of that; "most" would not be."""
     observed = _artifact()["observed"]
     rate = observed["n_liable"] / observed["n_designs"]
-    title = _plain(_front_matter_title())
+    title = _plain(_front_matter_title(ARTICLES[paper]))
+    # ⭐ AN EXACT RATIO IS A RATE, AND A STRICTLY BETTER ONE (2026-08-22). The condensed title says
+    # "87 of 190" where the extended report says "nearly half": no band to license, both numbers
+    # checked against the artifact directly, and the reader is told the denominator. A guard that
+    # accepted only English quantifiers would have refused the more precise title — so it accepts
+    # either, and an exact ratio is checked EXACTLY rather than against a band.
+    exact = re.findall(r"\b(\d+) of (\d+)\b", title)
+    for n, d in exact:
+        assert (int(n), int(d)) == (observed["n_liable"], observed["n_designs"]), (
+            f"the title states {n} of {d}; the screen measured "
+            f"{observed['n_liable']} of {observed['n_designs']} "
+            "(aso-parent-null.json:observed). Either the title or the measurement has moved.")
     found = [m.group(0).lower().strip() for m in _RATE_SCANNER.finditer(title)]
-    assert found, (
+    assert found or exact, (
         f"the title states no rate at all: {title!r}. It carries this paper's central negative — "
         f"{observed['n_liable']} of {observed['n_designs']} designs pair a wild-type parent — and a "
         "title that drops the proportion drops the finding.")
@@ -132,16 +156,21 @@ def test_the_titles_rate_word_is_one_the_measurement_supports():
             f"(aso-parent-null.json:observed). Either the word or the measurement has moved.")
 
 
-def test_the_title_states_the_criterion_the_artifact_was_read_at():
+@pytest.mark.parametrize("paper", sorted(ARTICLES), ids=sorted(ARTICLES))
+def test_the_title_states_the_criterion_the_artifact_was_read_at(paper):
     """The rate is meaningless without its cut, and the cut is adopted rather than measured."""
     cut = _artifact()["method"]["min_duplex_bp"]
-    title = _plain(_front_matter_title())
-    stated = re.search(r"\b([a-z]+|\d+)-base-pair\b", title, re.I)
+    title = _plain(_front_matter_title(ARTICLES[paper]))
+    # ⚠ THREE SPELLINGS, ONE PROPERTY. The extended report writes "a ten-base-pair duplex"; the
+    # condensed title, which is built to a page budget where every character is charged for, writes
+    # "at 10 bp". Both name the same cut, and a guard that admitted only the hyphenated form would
+    # be enforcing a house style rather than a measurement.
+    stated = re.search(r"\b([a-z]+|\d+)[- ]base[- ]pairs?\b|\b(\d+)\s*bp\b", title, re.I)
     assert stated, (
         f"the title states a rate with no criterion: {title!r}. The same designs are 92.1% liable "
         f"at seven base pairs and 3.2% at thirteen (aso-parent-null.json:cut_sensitivity), so a "
         "rate without its cut is not a claim.")
-    token = stated.group(1).lower()
+    token = (stated.group(1) or stated.group(2)).lower()
     value = int(token) if token.isdigit() else (_WORDS.index(token) if token in _WORDS else None)
     assert value == cut, (
         f"the title states a {token}-base-pair criterion; the artifact was read at "
@@ -155,6 +184,12 @@ def test_the_titles_trade_clause_names_the_two_quantities_section_2_9_trades():
     on the design's own seam — while its caption called it the parent duplex the design concedes,
     which is the SEARCHED mature-parent quantity. The title trades two named quantities; both have
     to be quantities §2.9 actually trades, or the top line of the paper carries the same conflation.
+
+    ⚠ EXTENDED REPORT ONLY, AND DELIBERATELY — NOT A ONE-OF-A-PAIR GAP. §2.9's gap-length series was
+    moved whole out of the condensed submission for the six-page budget, so its title states no
+    trade and must not: a guard demanding one there would demand a claim the paper no longer makes.
+    The three tests above ARE parametrised over both, because a rate word, a criterion and the
+    front-matter/H1 agreement are owed by any title of this work.
     """
     title = _plain(_front_matter_title())
     clause = re.search(r"\btrades?\s+(.+)$", title, re.I)
@@ -179,3 +214,30 @@ def test_the_titles_trade_clause_names_the_two_quantities_section_2_9_trades():
             f"the title trades {side!r}, which §2.9 never names. The two quantities §2.9 trades are "
             "complements inside one gap; a title naming something else is claiming a different "
             "result from the one measured. §2.9 is the section this clause summarises.")
+
+
+#: The cover letter's `Re:` line is a SECOND HOME for the title, and the letter says so in its own
+#: margin note — "the line above is copied from it verbatim; retitle the manuscript and this line
+#: must be recopied, not retyped". Until 2026-08-22 that instruction was backed by nothing, and it
+#: had already failed twice: once carrying a pre-rename title, and once carrying the EXTENDED
+#: report's title after the submission split in two, so the one line an editor reads first named a
+#: manuscript the envelope did not contain.
+COVER_LETTER = os.path.join(MANUSCRIPTS, "aso", "fusion-junction-aso-cover-letter.md")
+
+
+def test_the_cover_letters_subject_line_is_the_submitted_manuscripts_own_title():
+    """⛔ THE ONE LINE AN EDITOR READS FIRST, AND IT NAMES A DOCUMENT."""
+    assert os.path.exists(COVER_LETTER), "the cover letter is missing; re-anchor this guard"
+    text = open(COVER_LETTER, encoding="utf-8").read()
+    line = [l for l in text.splitlines() if l.startswith("**Re:**")]
+    assert len(line) == 1, (
+        f"the cover letter carries {len(line)} `**Re:**` lines; exactly one names the submission")
+    stated = re.search(r'"(.+)"\s*$', line[0])
+    assert stated, f"the cover letter's Re: line quotes no title: {line[0]!r}"
+    want = _plain(_h1(ARTICLES["journal-article"]))
+    assert stated.group(1) == want, (
+        "the cover letter's Re: line and the submitted manuscript's title have diverged.\n"
+        f"  letter    : {stated.group(1)}\n"
+        f"  manuscript: {want}\n"
+        "Recopy the manuscript's H1 into the letter — do not retype it, and do not edit the "
+        "manuscript to match the letter.")

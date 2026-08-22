@@ -100,17 +100,17 @@ last_verified: 2026-08-10
 
 **Figures to upload** — none; this paper's display items are all tables.
 
-## bioRxiv (preprint; journal venue still open)
+## bioRxiv (preprint; the journal submission goes to Nucleic Acid Therapeutics)
 
 **Manuscript** `aso/fusion-junction-aso-research-article.md`
 
 | field | value |
 |---|---|
-| Word count, main text | 35600 (no limit found) |
+| Word count, main text | 35927 (no limit found) |
 | Abstract | 399 words  |
 | Display items | 10 (3 figures, 7 tables) |
 | References | 53 |
-| Cover letter | `aso/fusion-junction-aso-cover-letter.md` |
+| Cover letter | n/a (preprint deposit) |
 | Supplementary file | yes |
 | Fee route | not recorded |
 
@@ -129,15 +129,15 @@ last_verified: 2026-08-10
 
 | field | value |
 |---|---|
-| Word count, main text | 3084 (no limit found) |
-| Abstract | 215 words  |
+| Word count, main text | 3134 (no limit found) |
+| Abstract | 227 words  |
 | Display items | 3 (1 figures, 2 tables) |
 | References | 23 |
-| Cover letter | MISSING |
-| Supplementary file | none |
+| Cover letter | `aso/fusion-junction-aso-cover-letter.md` |
+| Supplementary file | yes |
 | Fee route | not recorded |
 
-⚠ Limits provenance: UNREAD. The journal transferred from Mary Ann Liebert to SAGE and the Liebert-era pages return 403; no SAGE author-guideline page for this journal has been read. The per-page fee that eliminated the venue is on record at $90 from the Liebert era and is itself unconfirmed under SAGE. Read the guidelines and the fee schedule before submitting..
+⚠ Limits provenance: UNREAD. The journal transferred from Mary Ann Liebert to SAGE and the Liebert-era pages return 403; no SAGE author-guideline page for this journal has been read. Its per-page fee is on record at $90 from the Liebert era and is itself unconfirmed under SAGE; it is a cost to plan the page count against, not a disqualification (trimcrae, 2026-08-22: "NAT is the venue. It’s not disqualified."). Read the guidelines and the fee schedule before submitting..
 
 **Figures to upload**
 

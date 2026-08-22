@@ -316,4 +316,4 @@ jobs:
         # so ~48 tests that run HERE do not run there, and the local profile put 96.8% of the cost
         # on one test that is only ~7 min of this job. A suite can only be profiled where it
         # actually runs. Cost of the flag itself: zero.
-        run: python -m pytest research/modalities/tests research/manuscripts/tests systems/tests -q --continue-on-collection-errors --durations=25
+        run: python -m pytest research/modalities/tests research/manuscripts/tests systems/tests scripts/tests -q --continue-on-collection-errors --durations=25

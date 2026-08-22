@@ -79,6 +79,11 @@ TARGETS = [
     # above records: gate 5 checks REGISTER, and a manuscript absent from this list is not
     # checked at all rather than checked and passing.
     "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+    # ⛔ THE TABLES FILE IS PROSE TOO, ADDED 2026-08-22 (round 14 seat 2). Its captions are spliced
+    # into both journal PDFs and carry the two DO NOT ORDER verdicts. Until this line no
+    # build-failing instrument read it at all, and a caption stating "four designs at two seams"
+    # over a two-row, one-seam table shipped in both built PDFs with every gate green.
+    "research/manuscripts/aso/fusion-junction-aso-journal-tables.md",
     # ⭐ THE EMC VACCINE DEVELOPMENT PATH, ADDED 2026-08-19 AS A SUBMISSION TEXT FROM THE START.
     # Written to this gate rather than retrofitted to it: it entered at bold 9.1/1000 and em-dashes
     # 0.0/1000, and its only findings were 9 sentence-shaped headings and one fragment, all fixed

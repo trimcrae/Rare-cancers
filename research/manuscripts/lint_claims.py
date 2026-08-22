@@ -94,6 +94,11 @@ DEFAULT_TARGETS = [
     # rounds; the short paper's has been through none.
     "research/manuscripts/aso/fusion-junction-aso-research-article.md",
     "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+    # ⛔ THE TABLES FILE IS PROSE TOO, ADDED 2026-08-22 (round 14 seat 2). Its captions are spliced
+    # into both journal PDFs and carry the two DO NOT ORDER verdicts. Until this line no
+    # build-failing instrument read it at all, and a caption stating "four designs at two seams"
+    # over a two-row, one-seam table shipped in both built PDFs with every gate green.
+    "research/manuscripts/aso/fusion-junction-aso-journal-tables.md",
     "research/manuscripts/nr4a3-program-map.md",
     # Added 2026-08-05, IN THE SAME COMMIT that moved THE ORDERED PLAN and the spend ladder out of the
     # map and into the systems model. ⚠ WITHOUT THIS LINE THE MOVE WOULD HAVE SILENTLY NARROWED

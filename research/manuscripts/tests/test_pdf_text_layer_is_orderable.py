@@ -59,27 +59,52 @@ PDFS = {
     "journal-article-manuscript": os.path.join(
         ASO, "fusion-junction-aso-journal-article-manuscript.pdf"),
 }
-#: The markdown each PDF is built from, so a guard can ask "did every sequence the source prints
-#: survive typesetting?" instead of comparing against a count someone typed once.
-SOURCES = {
-    "manuscript": ("fusion-junction-aso-research-article.md",
-                   "fusion-junction-aso-submission-tables.md"),
-    "journal": ("fusion-junction-aso-research-article.md",
-                "fusion-junction-aso-submission-tables.md"),
-    "journal-article": ("fusion-junction-aso-journal-article.md",
-                        "fusion-junction-aso-journal-tables.md"),
-    "journal-article-manuscript": ("fusion-junction-aso-journal-article.md",
-                                   "fusion-junction-aso-journal-tables.md"),
+#: The `--paper`/`--style` pair that BUILDS each key, so the remediation a failing assertion prints
+#: is a command that runs.
+#: ⛔ WHY THIS IS A MAP AND NOT AN f-STRING (round 14 seat 2). The staleness message formatted
+#: `--paper aso --style {style}` over these four keys, which is right for the two extended-report
+#: keys and INVALID for both journal-article keys — `--style` takes `journal` or `manuscript` only.
+#: The half-fix a reader reaches for is worse than the error, because dropping the suffix SUCCEEDS
+#: and rebuilds the extended report while the journal PDF the gate is complaining about stays stale.
+BUILDS = {
+    "manuscript": ("aso", "manuscript"),
+    "journal": ("aso", "journal"),
+    "journal-article": ("aso-journal", "journal"),
+    "journal-article-manuscript": ("aso-journal", "manuscript"),
 }
+
+
+def _rebuild_command(pdf_key):
+    paper, style = BUILDS[pdf_key]
+    return (f"python3 research/manuscripts/build_submission_pdf.py "
+            f"--paper {paper} --style {style}")
+
+
+def _built_from(pdf_key):
+    """Every document the PDF renders, READ FROM THE BUILD STAMP the builder itself writes.
+
+    ⛔ THIS USED TO BE A HAND-TYPED `SOURCES` MAP (round 14 seat 4). The builder already records
+    exactly this, hashed, in `<pdf>.build-stamp.json`; a second copy beside it is a second home for
+    one fact, and the copy is the one that goes stale — silently, because a source the build gains
+    and the map does not is simply never checked.
+    """
+    stamp = PDFS[pdf_key].rsplit(".pdf", 1)[0] + ".build-stamp.json"
+    assert os.path.exists(stamp), (
+        f"{os.path.basename(stamp)} is missing, so nothing records what {pdf_key} was built from "
+        "and the staleness and coverage checks below have no ground truth")
+    return json.load(open(stamp, encoding="utf-8"))["built_from"]
 
 
 def _source_texts(pdf_key):
     """The markdown behind `pdf_key`. A named source that is absent is a finding, never a skip."""
     out = []
-    for name in SOURCES[pdf_key]:
-        path = os.path.join(ASO, name)
-        assert os.path.exists(path), f"{name} is a committed source of {pdf_key} and is missing"
+    for rel in sorted(_built_from(pdf_key)):
+        if not rel.endswith(".md"):
+            continue
+        path = os.path.join(REPO, "research", "manuscripts", rel)
+        assert os.path.exists(path), f"{rel} is a committed source of {pdf_key} and is missing"
         out.append(open(path, encoding="utf-8").read())
+    assert out, f"the build stamp for {pdf_key} names no markdown source"
     return out
 
 
@@ -152,8 +177,7 @@ def test_the_deposited_pdfs_are_not_stale():
         assert not drifted, (
             f"the {style}-format PDF was built from a different version of {drifted}, so it does not "
             "contain the current manuscript and every other check in this file would be asserting "
-            "about the wrong document. Rebuild with `python3 "
-            f"research/manuscripts/build_submission_pdf.py --paper aso --style {style}`.")
+            f"about the wrong document. Rebuild with `{_rebuild_command(style)}`.")
 
 
 @pytest.fixture(scope="module", params=sorted(PDFS), ids=sorted(PDFS))

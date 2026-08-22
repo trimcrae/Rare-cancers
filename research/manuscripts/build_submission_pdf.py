@@ -2242,6 +2242,12 @@ def build_supplementary(paper, html_only=False):
     print_pdf(chrome, html_path, pdf_path, declared_running_title(body)
               if re.search(r"running[- ]title", body, re.I) else title[:60], meta,
               headings=headings_of(page))
+    #: ⛔ THE SI WAS THE ONE BUILT PDF WITH NO BUILD STAMP (round 14 seat 4). Four of the five PDFs
+    #: in `aso/` carry `<name>.build-stamp.json` and the staleness gate reads it; the SI carried
+    #: none, so "is the deposited SI current?" was a question nothing could ask — and it is the file
+    #: a depositor uploads BESIDE the manuscript, edited least often and therefore likeliest to go
+    #: stale unnoticed. Its stamp records the source IT renders, not the manuscript's list.
+    _write_build_stamp(pdf_path, {"stamp_sources": [paper["supplementary"]]})
     #: ⚠ THE INTERMEDIATE IS DELETED HERE, AS IT IS IN `build` (2026-08-19). Without this the SI
     #: build left a `.build.html` beside the deposit artefacts on every run — untracked, so it
     #: turned up as a new file in `git status` and invited being committed as though it were a

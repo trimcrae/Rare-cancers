@@ -103,7 +103,13 @@ def figures_for(stem, declared=()):
 
 #: Suffixes a manuscript stem may carry that its companion documents drop. Ordered longest-first so
 #: `-research-article` is stripped before a hypothetical `-article` could match a prefix of it.
-_STEM_TAILS = ("-research-article", "-manuscript", "-paper")
+#: ⛔ `-journal-article` ADDED 2026-08-22 (round 14 seat 5). The condensed NAT submission's stem is
+#: `fusion-junction-aso-journal-article`, which matched none of these, so `_companion` looked for a
+#: sibling starting with the FULL stem and the row printed `Cover letter | MISSING` beside a letter
+#: sitting in the same directory — the same false negative this list was created to fix, one paper
+#: later. The expensive direction, again: a checklist telling a depositor to write a document that
+#: already exists.
+_STEM_TAILS = ("-research-article", "-journal-article", "-manuscript", "-paper")
 
 
 def _companion(stem, suffixes):
@@ -189,6 +195,11 @@ def main():
         # shortened stem drops a trailing `-research-article`/`-manuscript`/`-paper`, which is the
         # only thing that differed.
         letter = _companion(stem, ("-cover-letter.md",))
+        # ⚠ A PREPRINT SERVER TAKES NO COVER LETTER, so "MISSING" would be a false demand and naming
+        # the journal letter here would be a false claim about what this deposit carries. Both ASO
+        # rows now resolve the same file — there is one cover letter for this work and it is the
+        # journal submission's — and this is what keeps the preprint row from claiming it.
+        preprint = "preprint" in row["venue"].lower()
         figs = figures_for(stem, row.get("figure_files") or ())
         si = bool(_companion(stem, ("-SI.md", "-si.md", "-supplementary-information.md")))
 
@@ -202,7 +213,7 @@ def main():
               f"{' (limit ' + str(lim['display_items']) + ')' if lim.get('display_items') else ''} |",
               f"| References | {m['references']}"
               f"{' (limit ' + str(lim['references']) + ')' if lim.get('references') else ''} |",
-              f"| Cover letter | {'`' + letter + '`' if letter else 'MISSING'} |",
+              f"| Cover letter | {'n/a (preprint deposit)' if preprint else ('`' + letter + '`' if letter else 'MISSING')} |",
               f"| Supplementary file | {'yes' if si else 'none'} |",
               f"| Fee route | {v.get('zero_dollar_route', 'not recorded')} |", ""]
         if row.get("over_limit"):

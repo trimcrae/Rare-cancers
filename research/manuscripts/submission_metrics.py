@@ -55,7 +55,7 @@ REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 #: mistakes one of these for a retrieved fact.
 VENUES = {
     "bioRxiv-preprint": {
-        "journal": "bioRxiv (preprint; journal venue still open)",
+        "journal": "bioRxiv (preprint; the journal submission goes to Nucleic Acid Therapeutics)",
         "limits": {"main_words": None, "abstract_words": None, "display_items": None,
                    "references": None},
         #: ⛔ THE FLAG THAT SEPARATES "NO LIMIT" FROM "UNREAD". Without it the grader reads four
@@ -99,9 +99,11 @@ VENUES = {
                    "references": None},
         "provenance": ("UNREAD. The journal transferred from Mary Ann Liebert to SAGE and the "
                        "Liebert-era pages return 403; no SAGE author-guideline page for this "
-                       "journal has been read. The per-page fee that eliminated the venue is on "
-                       "record at $90 from the Liebert era and is itself unconfirmed under SAGE. "
-                       "Read the guidelines and the fee schedule before submitting."),
+                       "journal has been read. Its per-page fee is on record at $90 from the "
+                       "Liebert era and is itself unconfirmed under SAGE; it is a cost to plan the "
+                       "page count against, not a disqualification (trimcrae, 2026-08-22: \"NAT is "
+                       "the venue. It\u2019s not disqualified.\"). Read the guidelines and the fee "
+                       "schedule before submitting."),
     },
     "BJC-Article": {
         "journal": "British Journal of Cancer (Springer Nature)",
@@ -469,10 +471,13 @@ def main(argv=None):
                     "charges, submission fees and over-length charges on the subscription route are "
                     "UNREAD, because they live in the author guidelines and every author-guideline "
                     "path tried returned 404. ⛔ THIS IS NOT A HYPOTHETICAL: Nucleic Acid "
-                    "Therapeutics was the preferred venue for this paper, PASSED the no-APC test, "
-                    "and was rejected anyway once its guidelines were read — they levy mandatory "
-                    "Publishing Services Fees of $90 per page on every accepted manuscript, roughly "
-                    "$700-1,100 for this one. The same question has not been put to CGT. Until a "
+                    "Therapeutics passed the no-APC test and then turned out to levy mandatory "
+                    "Publishing Services Fees of $90 per page on every accepted manuscript. It "
+                    "REMAINS the venue — the fee is why the article carries a six-page budget "
+                    "rather than why it was dropped (trimcrae, 2026-08-22). ⚠ Superseded, retained: "
+                    "this read \"was rejected anyway once its guidelines were read\", which "
+                    "contradicted the same packet's own venue table. "
+                    "The same question has not been put to CGT. Until a "
                     "CGT author-guideline or fee page is read, the venue's compliance with the $0 "
                     "constraint is established for APCs and unestablished overall.",
             "⚠_none_of_this_gates_the_preprint": "bioRxiv sets no word, abstract or display-item "

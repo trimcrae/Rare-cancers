@@ -2,7 +2,7 @@
   "_what": "What each submission-form manuscript actually is, measured, against the limits its venue is believed to set.",
   "_why": "Most of these venues block automated retrieval of their author guidelines with deliberate security controls that persist under a real browser. The limits stay unverified; this pins down OUR side so checking theirs is a sixty-second job.",
   "⛔_the_limits_below_are_not_verified": "They fall into three states and the difference matters. READ: only the BJC row was retrieved from the journal's own guide to authors at HTTP 200. SEARCH-DERIVED: the two GCC rows and the CROH row come from search summaries, because Wiley serves a bot challenge and Elsevier blocks the datacenter IP; do not cite them as retrieved facts. UNREAD: the Cancer Gene Therapy row carries no limits at all — its `null`s mean nobody has seen the guidelines, NOT that the journal sets no limit. That row is reported ungraded rather than compliant, and its numbers must never be borrowed from the BJC row merely because both journals are Springer Nature.",
-  "⛔_the_CGT_fee_schedule_is_unread_and_that_is_a_live_submission_risk": "The $0 route for Cancer Gene Therapy rests on ONE page: nature.com/cgt/open-access (HTTP 200) states that open access requires an APC and that authors 'can also choose to publish under the traditional publishing model (no APC charges apply)'. That answers the APC question and ONLY the APC question. Page charges, colour charges, submission fees and over-length charges on the subscription route are UNREAD, because they live in the author guidelines and every author-guideline path tried returned 404. ⛔ THIS IS NOT A HYPOTHETICAL: Nucleic Acid Therapeutics was the preferred venue for this paper, PASSED the no-APC test, and was rejected anyway once its guidelines were read — they levy mandatory Publishing Services Fees of $90 per page on every accepted manuscript, roughly $700-1,100 for this one. The same question has not been put to CGT. Until a CGT author-guideline or fee page is read, the venue's compliance with the $0 constraint is established for APCs and unestablished overall.",
+  "⛔_the_CGT_fee_schedule_is_unread_and_that_is_a_live_submission_risk": "The $0 route for Cancer Gene Therapy rests on ONE page: nature.com/cgt/open-access (HTTP 200) states that open access requires an APC and that authors 'can also choose to publish under the traditional publishing model (no APC charges apply)'. That answers the APC question and ONLY the APC question. Page charges, colour charges, submission fees and over-length charges on the subscription route are UNREAD, because they live in the author guidelines and every author-guideline path tried returned 404. ⛔ THIS IS NOT A HYPOTHETICAL: Nucleic Acid Therapeutics passed the no-APC test and then turned out to levy mandatory Publishing Services Fees of $90 per page on every accepted manuscript. It REMAINS the venue — the fee is why the article carries a six-page budget rather than why it was dropped (trimcrae, 2026-08-22). ⚠ Superseded, retained: this read \"was rejected anyway once its guidelines were read\", which contradicted the same packet's own venue table. The same question has not been put to CGT. Until a CGT author-guideline or fee page is read, the venue's compliance with the $0 constraint is established for APCs and unestablished overall.",
   "⚠_none_of_this_gates_the_preprint": "bioRxiv sets no word, abstract or display-item limit, and its deposit being free is verified verbatim at primary source.",
   "counting_rule": "Main text runs from the first substantive heading to the last heading before Declarations, excluding frontmatter, HTML comments, fenced blocks, the abstract, table bodies, the display-item block under any of its names ('Display items', 'Tables', 'Figure legends'), references and every Appendix. Figures and tables are counted as DISTINCT NUMBERS across the manuscript and its `companion_files`, so an embedded figure and its own caption count once and a table generated into a separate file still counts. References are the numbered entries inside a References section, wherever that section lives; a numbered list anywhere else in the file is not a reference.",
   "⚠_superseded_measurements": [
@@ -169,9 +169,9 @@
     },
     {
       "file": "aso/fusion-junction-aso-research-article.md",
-      "venue": "bioRxiv (preprint; journal venue still open)",
+      "venue": "bioRxiv (preprint; the journal submission goes to Nucleic Acid Therapeutics)",
       "measured": {
-        "main_words": 35600,
+        "main_words": 35927,
         "abstract_words": 399,
         "figures": 3,
         "tables": 7,
@@ -203,8 +203,8 @@
       "file": "aso/fusion-junction-aso-journal-article.md",
       "venue": "Nucleic Acid Therapeutics (SAGE)",
       "measured": {
-        "main_words": 3084,
-        "abstract_words": 215,
+        "main_words": 3134,
+        "abstract_words": 227,
         "figures": 1,
         "tables": 2,
         "display_items": 3,
@@ -223,7 +223,7 @@
         "display_items": null,
         "references": null
       },
-      "limits_provenance": "UNREAD. The journal transferred from Mary Ann Liebert to SAGE and the Liebert-era pages return 403; no SAGE author-guideline page for this journal has been read. The per-page fee that eliminated the venue is on record at $90 from the Liebert era and is itself unconfirmed under SAGE. Read the guidelines and the fee schedule before submitting.",
+      "limits_provenance": "UNREAD. The journal transferred from Mary Ann Liebert to SAGE and the Liebert-era pages return 403; no SAGE author-guideline page for this journal has been read. Its per-page fee is on record at $90 from the Liebert era and is itself unconfirmed under SAGE; it is a cost to plan the page count against, not a disqualification (trimcrae, 2026-08-22: \"NAT is the venue. It’s not disqualified.\"). Read the guidelines and the fee schedule before submitting.",
       "limits_read": false,
       "no_limits_by_policy": false,
       "over_limit": []

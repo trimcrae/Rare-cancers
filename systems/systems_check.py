@@ -1577,15 +1577,41 @@ def check_preflight_gate_list(g, f):
         # (`lint_claims.py`)" — which is exactly how the two newest gates are written, so the first
         # version of this check silently skipped the two entries it was added for.
         segments = re.split(r"\((\d+)\)", m.group(2))
-        for num, seg in zip(segments[1::2], segments[2::2]):
-            tools = [t for t in _GATE_TOOLS if t in seg]
-            if len(tools) != 1:
-                continue  # an entry naming no tool, or two, is not one this check can place
-            tool = tools[0]
-            if tool in where and int(num) != where[tool]:
-                f.err("[P1]", f"{rel} lists `{tool}` as gate {num}, but scripts/preflight.sh runs "
-                              f"it at gate {where[tool]} — re-derive the list rather than editing "
-                              "the one entry, because inserting a gate shifts every entry after it")
+        listed = [int(n) for n in segments[1::2]]
+        seg_by_num = {int(n): s for n, s in zip(segments[1::2], segments[2::2])}
+
+        # ⛔⛔ THE SKIP WAS THE HOLE (round 14 seat 4, demonstrated). Until 2026-08-22 this loop
+        # `continue`d on any entry that did not name exactly one member of _GATE_TOOLS — and only
+        # eight of the thirteen entries name one at all. So five wrong lists passed: an entry could
+        # be DROPPED, DUPLICATED, RENUMBERED or moved to the wrong position and, as long as it was
+        # one of the five that name no tool ("the consistency linter", "the modalities tests", "the
+        # manuscripts tests", the generated-artifacts row, `scripts/tests`), nothing saw it. The
+        # check reported on a list it had mostly not read, which is this file's own header defect.
+        #
+        # Two assertions close it. The first is about the LIST — its ordinals must be exactly
+        # 1..N, once each, in order — so a missing, extra or misnumbered entry is caught whether or
+        # not it names a tool. The second iterates over the GATES rather than over the entries, so
+        # a gate whose tool has vanished from the entry that should name it is a finding rather
+        # than a skip.
+        if listed != list(range(1, len(gates) + 1)):
+            f.err("[P1]", f"{rel} enumerates gates {listed}, but scripts/preflight.sh runs "
+                          f"{len(gates)} in order — the list is missing, duplicating or "
+                          "misnumbering an entry. Re-derive the whole list; do not patch one entry.")
+            continue
+        for tool, idx in sorted(where.items(), key=lambda kv: kv[1]):
+            seg = seg_by_num.get(idx, "")
+            if tool in seg:
+                continue
+            elsewhere = [n for n, s in seg_by_num.items() if tool in s]
+            if elsewhere:
+                f.err("[P1]", f"{rel} lists `{tool}` as gate {elsewhere[0]}, but "
+                              f"scripts/preflight.sh runs it at gate {idx} — re-derive the list "
+                              "rather than editing the one entry, because inserting a gate shifts "
+                              "every entry after it")
+            else:
+                f.err("[P1]", f"{rel}'s entry ({idx}) does not name `{tool}`, which is what "
+                              "scripts/preflight.sh runs at that position. An entry that names no "
+                              "tool is an entry this check cannot verify, so it must name one.")
 
 
 def check_preflight_gate_ordinal(g, f):

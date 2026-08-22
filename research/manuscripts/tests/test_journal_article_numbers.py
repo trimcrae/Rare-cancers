@@ -81,11 +81,20 @@ def _flat(text):
     return re.sub(r"\s+", " ", text)
 
 
+def _word(n):
+    """The published-breakpoint counts are SPELLED OUT in §3 ("and two", "and none").
+
+    A count that reaches the page as a word is still a count, and binding it as one is what lets
+    `_every_site` read the sentence the article actually prints instead of a paraphrase of it.
+    """
+    return ("none", "one", "two", "three", "four", "five")[n]
+
+
 def _every_site(prose, pattern, expected, what):
     """⛔⛔ EVERY SITE THAT STATES THE QUANTITY, NOT WHETHER IT APPEARS SOMEWHERE.
 
     The first draft of this file asserted `value in prose`, and a mutation test walked straight
-    through it: 45.8% is stated at three sites and 40.6% at two, so corrupting ONE left the others
+    through it: 45.8% and 40.6% are each stated at THREE sites, so corrupting ONE left the others
     standing and the assertion green — while the document now said two different things about the
     same measurement. That is the ONE FACT, ONE PLACE defect exactly, and an instrument that only
     asks "is the right number in here anywhere" cannot see it.
@@ -123,6 +132,11 @@ def test_the_panel_and_its_liable_count_are_the_screens_own(prose, pairing):
     assert re.search(rf"\b{nr4a3}\b of (?:the {liable}|those)", prose), \
         f"{nr4a3} of {liable} against wild-type NR4A3 is the screen's attribution and the prose " \
         "does not carry it"
+    # ⛔ THE DENOMINATOR TOO, AT THE SITE THAT PRINTS IT. The line above accepts "61 of those"
+    # from the abstract, so §3's own "61 of the 87" was never examined and `87 → 88` there passed
+    # every gate — the article stating one count four times and another once.
+    _every_site(prose, r"and (\d+) of the (\d+) do so against wild-type", (str(nr4a3), str(liable)),
+                "the wild-type NR4A3 attribution, with the denominator it is a share of")
 
 
 def test_the_panels_own_rate_is_the_screens_rate(prose, null):
@@ -133,11 +147,18 @@ def test_the_panels_own_rate_is_the_screens_rate(prose, null):
     # geometry sentence opens the 5-6-5 / 5-8-5 / 5-10-5 series with it. All three are this rate.
     _every_site(prose, r"same screen at \d+\.\d% against the panel's (\d+\.\d%)", rate, what)
     _every_site(prose, r"against (\d+\.\d%) for the panel", rate, what)
-    # ⚠ THE THIRD SITE IS GONE ON PURPOSE (2026-08-22, page budget). §3's three-geometry series
-    # — the share falling 45.8% to 33.1% to 25.4% across 5-6-5, 5-8-5 and 5-10-5 — was moved whole
-    # to the extended report to fit the article in six typeset pages. Its binding is deleted rather
-    # than loosened, because a pattern kept alive against prose that no longer exists is a guard
-    # reporting on nothing. The two sites above still hold the figure in this document.
+    # ⚠ ONE SITE IS GONE ON PURPOSE (2026-08-22, page budget). §3's three-geometry series — the
+    # share falling 45.8% to 33.1% to 25.4% across 5-6-5, 5-8-5 and 5-10-5 — was moved whole to the
+    # extended report to fit the article in six typeset pages. Its binding is deleted rather than
+    # loosened, because a pattern kept alive against prose that no longer exists is a guard
+    # reporting on nothing.
+    #
+    # ⛔ THAT NOTE ONCE READ "the two sites above still hold the figure", AND THAT WAS A CENSUS OF A
+    # DOCUMENT THAT DID NOT EXIST. Removing the geometry series left THREE sites, not two: §3's
+    # adopted-cut sentence states 45.8% a third time, beside a third statement of 40.6%. Both were
+    # bound by nothing and both mutated cleanly through every gate. They are bound in
+    # `test_the_adopted_cut_is_not_exempt_from_its_own_null`, which owns that sentence and already
+    # derives the null it compares against.
 
 
 def test_the_chimeric_null_the_abstract_quotes_is_the_exon_terminus_arm(prose, null):
@@ -172,20 +193,35 @@ def test_the_junction_clearing_ladder_is_the_artifacts_ladder(prose, null):
     junctions = cs["n_junctions"]
     ladder = cs["n_junctions_with_a_clearing_design_by_cut"]
     published = cs["n_published_breakpoint_junctions_with_a_clearing_design_by_cut"]
-    for cut in ("10", "9", "8", "7", "6"):
-        assert re.search(rf"\b{ladder[cut]}\b", prose), \
-            f"at a {cut} bp cut the artifact clears {ladder[cut]} of {junctions} junctions and that " \
-            "count is not in the article"
+    n_published = len(cs["published_breakpoint_junctions"])
+    # ⛔ BARE PRESENCE IS NOT A BINDING WHEN THE NUMERAL IS NOT DISTINCTIVE. Until 2026-08-22 each
+    # rung was `assert re.search(rf"\b{ladder[cut]}\b", prose)`, and every one of those numerals
+    # already stood somewhere else in this document: 23 in `<sup>23</sup>`, 9 in
+    # `<sup>6,7,8,9,10,11</sup>`, 6 in "*TAF15* exon 6" and thirteen other places, 35 inside "0.35"
+    # (`\b` matches after a decimal point). Corrupting a rung passed every gate. So each rung is
+    # now captured from the CONSTRUCTION that states it, together with the published-breakpoint
+    # count quoted beside it — which had no prose binding of any kind and was asserted against the
+    # artifact it came from.
     _every_site(prose, rf"(\d+) of the {junctions}[^.]*?clear(?:s|ing)? the parent screen",
                 str(ladder["10"]),
                 f"how many of the {junctions} junctions clear the parent screen at the adopted "
                 "criterion")
-    assert published["10"] == 5, \
-        "the article says all five published-breakpoint junctions clear at the adopted criterion; " \
-        f"the artifact now says {published['10']}"
-    assert published["7"] == 0 and published["6"] == 0, \
-        "the article says none of the published junctions clears at seven or six; the artifact now " \
-        f"says {published['7']} and {published['6']}"
+    _every_site(prose, r"and all (\w+) junctions with a published exon-resolved breakpoint have one",
+                _word(published["10"]),
+                "how many published-breakpoint junctions clear at the adopted criterion")
+    assert published["10"] == n_published, (
+        "the article says ALL published-breakpoint junctions clear at the adopted criterion; the "
+        f"artifact now clears {published['10']} of {n_published}")
+    _every_site(prose,
+                r"At nine base pairs (\d+) of the (\d+) still clear and (\w+) of the "
+                r"(\w+) published ones do",
+                (str(ladder["9"]), str(junctions), _word(published["9"]), _word(n_published)),
+                "the nine-base-pair rung, with both of its counts and both denominators")
+    _every_site(prose,
+                r"at eight, (\d+) and (\w+); at seven, (\d+) and (\w+); at six, (\d+) and (\w+)",
+                (str(ladder["8"]), _word(published["8"]), str(ladder["7"]), _word(published["7"]),
+                 str(ladder["6"]), _word(published["6"])),
+                "the loose rungs of the cut ladder, each with its published-breakpoint count")
 
 
 def test_the_loose_cuts_are_printed_with_the_null_that_makes_them_chance(prose, null):
@@ -229,6 +265,16 @@ def test_the_adopted_cut_is_not_exempt_from_its_own_null(prose, null):
     loose cuts of six and seven, which read as though the ten-base-pair criterion escaped the
     comparison; it does not. Both halves are derived here so that neither the exemption nor the
     range can drift back in.
+
+    ⚠ WHICH INTERVAL, AND WHY THE NOMINAL ONE IS THE RIGHT TEST HERE (round 14 seat 3). The extended
+    report says the interval "to read" for this rate is the design-effect-corrected one — the 190
+    records are 176 distinct molecules tiled at overlapping registers across 38 junctions, so a
+    Wilson interval at n=190 is over-narrow; corrected at an effective sample of 133.57 it is
+    37.6-54.2% against the nominal 38.9-52.9%. `rate_liable_wilson95` is the NOMINAL interval, and
+    that is deliberate for this assertion in one direction only: the corrected interval CONTAINS the
+    nominal one, so containment in the nominal implies containment in the corrected, and asserting
+    the tighter one is the conservative test of a claim that says the null falls INSIDE. It would be
+    the wrong field the day this test is inverted to assert something falls OUTSIDE.
     """
     cs = null["cut_sensitivity"]["observed_cut_ladder"]
     arms = null["null_ensembles"]
@@ -246,6 +292,20 @@ def test_the_adopted_cut_is_not_exempt_from_its_own_null(prose, null):
     assert inside == expected, (
         "the article says 'every cut from seven to thirteen but eleven'; the artifact now puts the "
         f"strongest null inside the panel's interval at {inside} rather than {expected}")
+    # ⛔ THE THIRD SITE OF BOTH FIGURES, WHICH IS THIS SENTENCE. 45.8% and 40.6% are each stated
+    # three times in this article and the other two tests bind two sites each; this sentence prints
+    # the third of each, and until 2026-08-22 nothing read it.
+    #
+    # ⚠ THE NULL IS DERIVED, NEVER NAMED. `exon_terminus_chimera` (0.40568) and
+    # `exon_terminus_chimera_novel_acceptor` (0.40513) are 21 draws apart in 38,000 and round to
+    # 40.6% and 40.5%. Binding this to the arm by name would leave §3's "meet it at 40.6%" true and
+    # "the strongest null's 40.6%" false the day the maximum flips — which is exactly what
+    # `strongest()` above exists to prevent.
+    _every_site(prose,
+                r"the strongest null's (\d+\.\d%) falls inside the panel's own 95% interval on "
+                r"(\d+\.\d%)",
+                (_pct(strongest("10")), _pct(null["observed"]["rate_liable"])),
+                "the strongest null at the adopted cut, beside the panel's own rate")
 
 
 def test_the_coverage_readings_are_both_the_coverage_modules_own(prose):
@@ -263,10 +323,14 @@ def test_the_coverage_readings_are_both_the_coverage_modules_own(prose):
     assert f"{three['percent']}%" in prose, \
         f"the three-reagent coverage {three['percent']}% is not in the article"
     lo, hi = two["percent_range"]
-    assert f"{lo}%" in prose and f"{hi}%" in prose, \
-        f"the two-reagent interval {lo}-{hi}% is not printed with its point estimate"
     assert 0.0 <= lo <= two["percent"] <= hi <= 100.0, \
         f"the coverage interval {lo}-{hi} does not bracket its own point estimate {two['percent']}"
+    # ⛔ IN ORDER, AT THE SITE THAT PRINTS IT. Presence of both endpoints was the whole test until
+    # 2026-08-22, so "82.8% to 39.9%" — the range printed backwards — satisfied it, and the
+    # ordering assertion above says nothing about the sentence because it reads the artifact.
+    _every_site(prose, r"The range (\d+\.\d%) to (\d+\.\d%) quoted with it",
+                (f"{lo}%", f"{hi}%"),
+                "the two-reagent coverage interval, low end first")
     # ⛔ THE GAIN IS THE MODULE'S OWN FIELD, NOT hi-lo ARITHMETIC IN THE PROSE. Deriving it by
     # subtraction is exactly the shape of the defect that produced a `partner_only` of 1.741.
     assert round(three["percent"] - two["percent"], 1) == three["gain_percentage_points"], \

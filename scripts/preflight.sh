@@ -504,6 +504,27 @@ if [ "${SKIP_TESTS:-0}" != "1" ]; then
   rm -f "$mout"
 fi
 
+# ⛔⛔ THE SELECTOR'S OWN TESTS RAN NOWHERE (2026-08-22, round 14 seat 4). This script cites
+# scripts/tests/test_affected_tests.py as the evidence for the selector's safety contract -- "the
+# selector fails to FULL, and that is the entire safety argument" -- and neither this script nor
+# tests.yml ever executed that directory. There is no pytest.ini or testpaths either, so nothing
+# collected it by accident. Nineteen assertions about the gate that decides what this script runs,
+# asserted by nobody. It is a fast, offline, pure-logic suite; it runs every time now.
+echo "== pytest (scripts: the test selector's own contract) =="
+sout=$(mktemp)
+$PYTEST $PYTEST_PAR scripts/tests -q --continue-on-collection-errors >"$sout" 2>&1 || true
+tail -1 "$sout"
+if ! grep -qE '[0-9]+ (passed|failed)' "$sout"; then
+  echo "   FAILED: pytest reported no test count -- the run collected nothing."
+  tail -5 "$sout"; rc=1
+elif grep -qE '^(FAILED|ERROR )' "$sout"; then
+  echo "   FAILED:"; grep -E '^(FAILED|ERROR )' "$sout" | sed 's/^/     /'
+  rc=1
+else
+  echo "   OK"
+fi
+rm -f "$sout"
+
 if [ "$rc" -ne 0 ]; then
   echo; echo "PREFLIGHT FAILED -- do not commit."
 else
