@@ -112,6 +112,27 @@ def figures_for(stem, declared=()):
 _STEM_TAILS = ("-research-article", "-journal-article", "-manuscript", "-paper")
 
 
+def _paper_supplementary(manuscript_rel):
+    """The SI `build_submission_pdf.PAPERS` says this manuscript has, or "" if it has none.
+
+    ⚠ ONE FACT, ONE HOME. The builder decides what each paper renders; a packet that answers the
+    same question by globbing a directory is a second home for it, and the second home is the one
+    that was wrong.
+    """
+    try:
+        import importlib.util
+        path = os.path.join(HERE, "build_submission_pdf.py")
+        spec = importlib.util.spec_from_file_location("_bsp_for_packet", path)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+    except Exception:
+        return ""
+    for paper in getattr(mod, "PAPERS", {}).values():
+        if paper.get("manuscript") == manuscript_rel:
+            return paper.get("supplementary") or ""
+    return ""
+
+
 def _companion(stem, suffixes):
     """The sibling document playing `role` for this manuscript, or "" if there is none.
 
@@ -201,7 +222,16 @@ def main():
         # journal submission's — and this is what keeps the preprint row from claiming it.
         preprint = "preprint" in row["venue"].lower()
         figs = figures_for(stem, row.get("figure_files") or ())
-        si = bool(_companion(stem, ("-SI.md", "-si.md", "-supplementary-information.md")))
+        # ⛔ ASK THE BUILDER, NOT THE DIRECTORY (round 15 seats 4 and 5, 2026-08-22). `_companion`
+        # anchors at both ends so "a companion belonging to a different paper cannot be claimed by
+        # this one" — but round 14 added `-journal-article` to `_STEM_TAILS`, which reduces BOTH ASO
+        # stems to `fusion-junction-aso`, so the condensed submission claimed the extended report's
+        # SI and this row told a NAT depositor "Supplementary file: yes". The SI's own title page
+        # reads "Supplementary Information to [the research article]"; `PAPERS['aso-journal']` has
+        # no `supplementary` key at all. Whether a paper HAS an SI is the builder's fact, and the
+        # builder is where it is now read from. The directory scan stays for the cover letter, where
+        # one letter legitimately serves the submission.
+        si = bool(_paper_supplementary(row["file"]))
 
         L += [f"## {row['venue']}", "", f"**Manuscript** `{row['file']}`", ""]
         L += ["| field | value |", "|---|---|",
@@ -250,8 +280,28 @@ def main():
           "- The British Journal of Cancer levies a colour charge for figures in print, waived only "
           "for open-access papers. That paper has no figures, so the charge cannot arise.", ""]
 
+    text = "\n".join(L) + "\n"
+
+    # ⛔⛔ `--check` ADDED 2026-08-22 (round 15 seat 5). This was the ONE deposit generator without
+    # it, so `SUBMISSION-PACKET.md` was read by nothing at all: the seat wrote four fabricated facts
+    # into the committed file — including a made-up NAT page limit, for the venue whose limits the
+    # same file calls UNREAD, and a figure filename that does not exist — and all five linters plus
+    # the 848-test manuscripts suite stayed green. The file carries a "Do not hand-edit" banner,
+    # which is an instruction to humans backed by nothing until a gate re-derives it.
+    # ⚠ A CHECKLIST'S FALSE CONTENT IS THE EXPENSIVE DIRECTION: it is read at the portal, at the
+    # moment when there is no time to verify it.
+    if "--check" in sys.argv:
+        if not os.path.exists(OUT):
+            print(f"MISSING {OUT} — run without --check")
+            return 1
+        if open(OUT, encoding="utf-8").read() != text:
+            print(f"STALE {os.path.relpath(OUT, REPO)} — rerun without --check and commit the result")
+            return 1
+        print("submission packet reproduces from submission-metrics.json and the filesystem")
+        return 0
+
     with open(OUT, "w", encoding="utf-8") as fh:
-        fh.write("\n".join(L) + "\n")
+        fh.write(text)
     print(f"wrote {os.path.relpath(OUT, REPO)} for {len(metrics.get('rows', []))} paper(s)")
     return 0
 

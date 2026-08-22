@@ -31,7 +31,7 @@ last_verified: 2026-08-10
 | Display items | 5 (5 figures, 0 tables) |
 | References | 11 |
 | Cover letter | `mtap-prmt5/emc-mtap-prmt5-hypothesis-cover-letter.md` |
-| Supplementary file | yes |
+| Supplementary file | none |
 | Fee route | VERIFIED |
 
 ⚠ Limits provenance: search-derived; onlinelibrary.wiley.com serves a bot challenge to CI and to a real headless browser alike.
@@ -93,7 +93,7 @@ last_verified: 2026-08-10
 | Display items | 6 (1 figures, 5 tables) (limit 8) |
 | References | 18 (limit 80) |
 | Cover letter | `surface-targets/emc-surface-target-landscape-cover-letter.md` |
-| Supplementary file | yes |
+| Supplementary file | none |
 | Fee route | VERIFIED at the journal's own pages, with one real caveat |
 
 ⚠ Limits provenance: nature.com pages DO answer; these were read from the journal's own guide to authors at HTTP 200.
@@ -129,12 +129,12 @@ last_verified: 2026-08-10
 
 | field | value |
 |---|---|
-| Word count, main text | 3134 (no limit found) |
-| Abstract | 227 words  |
+| Word count, main text | 3146 (no limit found) |
+| Abstract | 229 words  |
 | Display items | 3 (1 figures, 2 tables) |
 | References | 23 |
 | Cover letter | `aso/fusion-junction-aso-cover-letter.md` |
-| Supplementary file | yes |
+| Supplementary file | none |
 | Fee route | not recorded |
 
 ⚠ Limits provenance: UNREAD. The journal transferred from Mary Ann Liebert to SAGE and the Liebert-era pages return 403; no SAGE author-guideline page for this journal has been read. Its per-page fee is on record at $90 from the Liebert era and is itself unconfirmed under SAGE; it is a cost to plan the page count against, not a disqualification (trimcrae, 2026-08-22: "NAT is the venue. It’s not disqualified."). Read the guidelines and the fee schedule before submitting..

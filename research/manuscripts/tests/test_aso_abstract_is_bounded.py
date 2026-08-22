@@ -170,7 +170,13 @@ def _needles():
     return [
         ("the criterion is adopted rather than measured",
          re.compile(r"adopted[^.]{0,60}not measured|not measured[^.]{0,60}adopted"
-                    r"|adopted rather than measured|is a choice"
+                    r"|adopted rather than measured"
+                    #: ⚠ NOT A BARE "is a choice" (round 15 seat 2). Three words loose in a 227-word
+                    #: abstract are satisfied by a sentence asserting the cut IS measured, so the
+                    #: needle passed on prose stating the opposite of the property it guards. Every
+                    #: alternative here must carry the CONTRAST, not just one half of it.
+                    r"|is a choice rather than a measurement"
+                    r"|a choice[^.]{0,40}not a measurement"
                     #: ⚠ THE JOURNAL ARTICLE SAYS IT AS "a convention rather than a measurement",
                     #: which is the same property in different words. This file's own rule is
                     #: tolerant of wording, intolerant on substance.

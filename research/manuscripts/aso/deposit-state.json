@@ -1,0 +1,11 @@
+{
+  "_what_this_is": "What the Zenodo record at `deposition_doi` ACTUALLY CONTAINS, as published. Not what the repository contains now — that is fusion-junction-aso-archive-manifest.json, which moves with every commit. This file moves only when a new version is published to Zenodo, which is an irreversible act the author performs by hand.",
+  "_why_this_exists": "Round 15, 2026-08-22. Three independent reviewers found the same defect from three directions: the submitted manuscript's Data and code availability says 'the archived copy is the citable one', and the archived copy was 16 files behind the repository — including the extended report itself, whose deposited text still carried two statements this repository had since corrected (the void-test definition, and a claim that the dinucleotide-preserving scramble holds the 5' guanine run). It shipped unnoticed because NOTHING RECORDED WHAT WAS DEPOSITED. `--check-archive` compares the manifest to the working tree, so it turns green exactly as the tree walks away from the deposit, and `archive_content_digest` is stored only inside the manifest that computes it, so it can never disagree with itself.",
+  "_how_to_update": "ONLY after a new Zenodo version is published. Set `published_manifest_digest` to the `archive_content_digest` of the manifest that was uploaded, `n_files` to its `n_files`, `git_revision` to its `git_revision`, and `published` to the publication date. Never edit it to silence a gate: the gate is the whole point, and a green gate on a stale deposit is what this file was created to end.",
+  "deposition_doi": "10.5281/zenodo.22028916",
+  "published": "2026-08-20",
+  "n_files": 473,
+  "published_manifest_digest": "c6b6c9486146df55cbf2ebb5e3917c62d1daf90b3c44e832d90834c7ccaf7c3f",
+  "git_revision": "4ff617b950ddf20a24b3feb97dfe5cc79b552eaa",
+  "_provenance": "Read from the archive manifest as committed at dc79aad2, the last revision whose n_files is 473 — the count fusion-junction-aso-preprint-checklist.md records as published. Nothing here is typed from recollection."
+}

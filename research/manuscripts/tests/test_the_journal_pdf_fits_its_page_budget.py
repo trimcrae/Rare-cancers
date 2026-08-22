@@ -12,8 +12,16 @@ fact this repository's first rule is about: it has one home — the built PDF �
 stating it elsewhere must be derived from that home or guarded against it. This is the guard.
 
 ★ IT IS NOT A STYLE RULE AND MUST NOT BE RELAXED TO FIT AN EDIT. A repair that adds a line and
-pushes the article to seven pages has spent $90 of someone else's money; the correct response is to
-pay for the line somewhere else in the paper, which is what every round of this review has done.
+pushes the article to seven pages has spent someone else's money; the correct response is to pay for
+the line somewhere else in the paper, which is what every round of this review has done.
+
+⚠ AND THE AMOUNT IS NOT STATED HERE, BECAUSE THIS REPOSITORY HAS NOT READ IT (round 15 seats 1 and
+5). An earlier version of this docstring asserted "$90 of someone else's money" as fact. That figure
+appears in no committed fetch record — `grep '$90' research/literature/*.json` returns nothing — and
+it is a Liebert-era number for a journal that has since moved to SAGE, whose every NAT author page
+returns 403 to this repository's fetcher. The only per-page charge in any fetch record is £145/$238,
+and that belongs to a different journal. THAT a per-page charge exists is what makes a page a cost,
+and that is all this file needs.
 
 ⚠ THE STAMP IS CHECKED FIRST, DELIBERATELY. Counting pages in a PDF built from a previous version of
 the markdown would report the page count of a document that no longer exists — a green measurement
@@ -86,7 +94,7 @@ def test_the_condensed_submission_is_within_its_page_budget(name):
     pages = _pages(pdf)
     assert pages <= PAGE_BUDGET, (
         f"{name} is {pages} typeset pages against a budget of {PAGE_BUDGET}. Nucleic Acid "
-        "Therapeutics charges per page, so this is a cost and not a preference: pay for the "
+        "Therapeutics levies a per-page charge, so this is a cost and not a preference: pay for the "
         "overflow by cutting elsewhere in the paper, or move a result to the extended report. Do "
         "NOT raise the budget to fit an edit.")
 

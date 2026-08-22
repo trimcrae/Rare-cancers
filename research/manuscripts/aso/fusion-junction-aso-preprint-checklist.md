@@ -105,7 +105,26 @@ reports four false gaps); competing-interests, funding, ethics and AI-use statem
    turnaround is usually a few days. The preprint DOI is minted by bioRxiv AT POSTING and cannot be
    obtained before it — it is not a placeholder in the manuscript and blocks nothing.
 
-## 3 · Deliberately not done, and why
+## 3 · Open, and blocking the journal submission
+
+- **⛔ THE PUBLISHED DEPOSIT IS BEHIND THE REPOSITORY, AND THE SUBMITTED PAPER CITES IT.** The Zenodo
+  record published 2026-08-20 holds 473 files; the repository's manifest now holds more, and the
+  files that changed include `fusion-junction-aso-research-article.md` itself — the extended report
+  the condensed submission points a reader at six times, and calls "the citable one" in its Data and
+  code availability. Two of those changes are CORRECTIONS: the deposited text defines a void test as
+  one that "cannot fail" where the current text says "cannot fail on any reading that is not
+  anti-selective", and it says the dinucleotide-preserving scramble holds the 5′ guanine run, which
+  it does not. A reader following the DOI today reads superseded statements. **The deposit also did
+  not contain the journal article at all** until 2026-08-22 — its glob predated the second paper —
+  so what a NAT editor would download omits the manuscript they are reading.
+  **What closes this: publishing a new Zenodo version, which is irreversible and is the author's
+  click.** The archive is prepared and the manifest is regenerated; nothing else is waiting.
+  Machine-readable state: [`deposit-state.json`](./deposit-state.json), which records what the
+  published record actually contains, against which
+  `test_the_deposit_the_papers_cite_is_current.py` measures the drift. **Do not edit that file to
+  silence the gate** — it moves only when a new version is published.
+
+## 3b · Deliberately not done, and why
 
 - **The abstract has not been cut to 200 words.** bioRxiv sets no limit, and 200 is a
   *journal-specific* cap, so cutting to the wrong target now means cutting twice. The measured

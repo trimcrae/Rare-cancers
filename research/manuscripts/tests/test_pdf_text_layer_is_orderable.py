@@ -37,7 +37,8 @@ import pytest
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(os.path.dirname(os.path.dirname(HERE)))
-ASO = os.path.join(REPO, "research", "manuscripts", "aso")
+MANUSCRIPTS = os.path.join(REPO, "research", "manuscripts")
+ASO = os.path.join(MANUSCRIPTS, "aso")
 
 #: BOTH BUILT PDFs, and covering only one of them was itself a gap (found 2026-08-17, by the author
 #: asking "on ANY of the PDF formats?"). The submission-format build is what bioRxiv asks for and what
@@ -214,7 +215,11 @@ def test_the_deposited_pdfs_are_not_stale():
             built_from = json.load(fh)["built_from"]
         drifted = []
         for rel, want in sorted(built_from.items()):
-            src = os.path.join(ASO, os.path.basename(rel))
+            # ⚠ RESOLVE THE STAMP'S PATH, DO NOT REBUILD IT FROM A BASENAME (2026-08-22). This joined
+            # `ASO` to `os.path.basename(rel)`, which was invisible while every source lived in
+            # `aso/` — and went red the moment the stamp gained the figures it renders, which live
+            # in `figures/`. A path the stamp states is a path this check must honour.
+            src = os.path.join(MANUSCRIPTS, rel)
             if not os.path.exists(src):
                 drifted.append(f"{rel} (missing)")
                 continue

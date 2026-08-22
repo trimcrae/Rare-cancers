@@ -28,7 +28,7 @@ and replace both placeholders in the manuscript. Confirm the editor's name on th
 masthead.*
 
 ⛔ *THE VENUE IS NUCLEIC ACID THERAPEUTICS (trimcrae, 2026-08-22: "NAT is the venue. It's not
-disqualified."). Its $90-per-page charge is a cost to plan the page count against, not a bar; the
+disqualified."). Its per-page charge is a cost to plan the page count against, not a bar; the
 condensed manuscript is built to six typeset pages at the journal's own measured geometry for that
 reason. ⚠ THE FEE AND THE LIMITS ARE BOTH UNCONFIRMED UNDER SAGE: the journal transferred from Mary
 Ann Liebert to SAGE, every SAGE-hosted NAT author page returns 403 to this repository's fetcher, and
@@ -65,7 +65,7 @@ I submit the manuscript above for consideration as an Article in *Nucleic Acid T
 Extraskeletal myxoid chondrosarcoma is an ultra-rare sarcoma defined by rearrangement of *NR4A3* to
 a variable 5′ partner. Its chimeric mRNA carries a breakpoint seam absent from every normal
 transcript, which is the disease's one tumour-exclusive feature at the RNA level, and no
-junction-directed oligonucleotide has been reported against any NR4A3 fusion. The manuscript tiles
+junction-directed oligonucleotide against an NR4A3 fusion appears in the literature retrieved here. The manuscript tiles
 junction-spanning gapmers over every frame-compatible seam of all five reported partners and screens
 them against the compartment that decides the design: the mature wild-type parent transcripts that
 supply the oligonucleotide's own two halves. The full five-method screen over four compartments —
@@ -102,10 +102,11 @@ Two methodological corrections are disclosed rather than left to the archive, be
 reported numbers, and both are reported in full in the extended report. A nucleotide alignment
 search reports both strands, and a transcript carrying the reverse complement of the target window
 cannot be hybridised by an antisense oligonucleotide; such hits were being counted as cleavage
-risks, and all 38 junction screens are now orientation-filtered. Separately, an earlier draft of
-this work recommended two reagents that a deeper re-screen withdrew. The manuscript names that
-withdrawal in its own text rather than dropping it silently, because the error it arose from is the
-class of error its selection rule is built to survive.
+risks, and all 38 junction screens are now orientation-filtered. Separately, an earlier version
+of these analyses placed the acceptor junction incorrectly through a
+coding-versus-transcript exon indexing error and was withdrawn in full. Both manuscripts disclose
+that withdrawal in their own text rather than leaving it to the archive, and the panels were rebuilt
+and verified; the complete correction record is released with the deposit.
 
 The study is entirely computational. It uses public transcript models and public sequence databases
 only, involved no wet-laboratory work, no human participants, no identifiable data and no

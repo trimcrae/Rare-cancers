@@ -241,3 +241,51 @@ def test_the_cover_letters_subject_line_is_the_submitted_manuscripts_own_title()
         f"  manuscript: {want}\n"
         "Recopy the manuscript's H1 into the letter — do not retype it, and do not edit the "
         "manuscript to match the letter.")
+
+
+#: What `corpus.n_with_parent_duplex_through_gap` COUNTS: designs that form a parent duplex. A title
+#: stating that count must say the designs do that, not the opposite of it.
+#:
+#: ⛔ WHY THIS EXISTS (round 15 seat 2, BLOCKER). The guards above check the title's arithmetic and
+#: never its predicate. Changing one word at all three authored homes — `pair` to `spare` — and
+#: regenerating the three views that render the title passed EVERY gate, because every number in the
+#: title was still correct. The paper's one universally-read sentence then said 87 designs SPARE a
+#: wild-type parent, when 87 is the count that FAILS the parent screen. This file's own docstring
+#: enumerates "three quantitative things" the title states; the RELATION between the rate and the
+#: thing counted was not among them.
+#:
+#: ⚠ AN INVERTING VERB IS THE WHOLE RISK, so the inverters are named rather than the affirmatives
+#: guessed at. A synonym of "pair" that nobody listed fails loudly and gets added; a synonym of
+#: "spare" that nobody listed is the defect shipping. The asymmetry is deliberate — a title is
+#: rewritten every few rounds and this list must be the thing that resists it.
+_PAIRING_VERBS = (r"pair(?:s|ed|ing)?|form(?:s)?\s+a\s+duplex|are\s+liable|carry\s+a\s+duplex"
+                  r"|let\s+a\s+(?:mature\s+)?wild-type\s+parent")
+_SPARING_VERBS = (r"spare(?:s|d)?|avoid(?:s|ed)?|clear(?:s|ed)?|miss(?:es|ed)?|escape(?:s|d)?"
+                  r"|do(?:es)?\s+not\s+pair|fail\s+to\s+pair")
+
+
+@pytest.mark.parametrize("paper", sorted(ARTICLES), ids=sorted(ARTICLES))
+def test_the_title_says_the_designs_do_what_the_count_counts(paper):
+    """⛔ THE PREDICATE, NOT ONLY THE ARITHMETIC. One word inverts the paper's central negative."""
+    title = _plain(_front_matter_title(ARTICLES[paper]))
+    observed = _artifact()["observed"]
+    exact = re.search(rf"\b{observed['n_liable']}\b\s+of\s+\b{observed['n_designs']}\b(.{{0,80}})",
+                      title)
+    if not exact:
+        # SKIP IS DELIBERATE: the extended report's title states its rate as the quantifier "nearly
+        # half" rather than as an explicit n-of-N, and `test_the_titles_rate_word_is_one_the_
+        # measurement_supports` owns that form — it checks the word against the band the measurement
+        # licenses. This test is about the PREDICATE beside an explicit ratio, and there is no
+        # explicit ratio here to sit beside. A title that gains one is covered from that day.
+        pytest.skip(f"{paper}'s title states no explicit n-of-N ratio; the rate-band test owns it")
+    tail = exact.group(1)
+    assert not re.search(_SPARING_VERBS, tail, re.I), (
+        f"the title says {observed['n_liable']} of {observed['n_designs']} designs SPARE or CLEAR a "
+        "wild-type parent. That count is `corpus.n_with_parent_duplex_through_gap` — the designs "
+        f"that FAIL the parent screen. As written the title states the inverse of this paper's "
+        f"central negative:\n  {title}")
+    assert re.search(_PAIRING_VERBS, tail, re.I), (
+        f"the title states {observed['n_liable']} of {observed['n_designs']} but names no verb this "
+        "guard recognises as what that count counts (a parent duplex being FORMED). Either the "
+        "predicate was inverted, or a new phrasing needs adding to _PAIRING_VERBS — deliberately, "
+        f"and only after checking it means what the field means:\n  {title}")

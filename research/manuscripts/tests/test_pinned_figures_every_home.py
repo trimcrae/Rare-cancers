@@ -40,6 +40,10 @@ sys.path.insert(0, os.path.join(REPO, "research", "manuscripts"))
 import lint_consistency as lc  # noqa: E402
 
 ART = "research/manuscripts/aso/fusion-junction-aso-research-article.md"
+#: ⛔ THE CONDENSED SUBMISSION, ADDED 2026-08-22 (round 15 seat 2). The floor below named the
+#: extended report and the SI and not this — so all fifteen journal-article pins could be
+#: deleted and this test, whose whole job is to notice an empty registry, stayed green.
+JOURNAL_ART = "research/manuscripts/aso/fusion-junction-aso-journal-article.md"
 SI = "research/manuscripts/aso/fusion-junction-aso-supplementary-information.md"
 MANIFEST = "research/manuscripts/aso_archive_manifest.py"
 
@@ -102,6 +106,11 @@ def test_the_registry_actually_covers_this_paper():
     homes = {rel for a in FIGURES for rel in a["must_appear_in"]}
     assert ART in homes, "the ASO research article carries no pinned figure"
     assert SI in homes, "the ASO Supporting Information carries no pinned figure"
+    assert JOURNAL_ART in homes, (
+        "the CONDENSED journal submission carries no pinned figure. It is the document that goes to "
+        "a journal, and it restates the four counts the whole argument rests on; a registry that "
+        "covers the preprint and not the submission is the 2026-08-16 defect this test was written "
+        "for, one paper over.")
     assert SI in REGISTRY["targets"], (
         "the SI is not a lint_consistency target, so no superseded value is policed in it"
     )

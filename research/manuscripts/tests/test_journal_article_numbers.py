@@ -87,7 +87,8 @@ def _word(n):
     A count that reaches the page as a word is still a count, and binding it as one is what lets
     `_every_site` read the sentence the article actually prints instead of a paraphrase of it.
     """
-    return ("none", "one", "two", "three", "four", "five")[n]
+    return ("none", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
+            "ten", "eleven", "twelve", "thirteen")[n]
 
 
 def _every_site(prose, pattern, expected, what):
@@ -118,6 +119,37 @@ def _every_site(prose, pattern, expected, what):
     wrong = [f for f in found if f != expected]
     assert not wrong, (f"{what} is {expected!r} in the artifact, and the article states "
                        f"{wrong!r} at {len(wrong)} of its {len(found)} site(s)")
+
+
+def test_the_criterion_the_article_states_is_the_one_the_screen_used(prose, null):
+    """⛔⛔ THE CUT IS A WORD, SO NO NUMERIC INSTRUMENT EVER READ IT (round 15 seat 2, BLOCKER).
+
+    The abstract says 87 designs pair the gap "over TEN or more contiguous base pairs" and §8 says
+    "over a contiguous run of TEN base pairs or more, TEN being adopted rather than measured". Both
+    were bound by nothing: mutation-confirmed on the full workflow — replace ten with seven, rebuild
+    both journal PDFs, run all thirteen gates, green. The shipped abstract then states the count at
+    a criterion at which the same screen returns 175 of 190, on a page whose title still reads
+    `at 10 bp` and whose §3 still says "the ten-base-pair criterion".
+
+    ⛔ AND THE BINDING ALREADY EXISTED, FOR THE OTHER PAPER.
+    `research/modalities/tests/test_aso_parent_gap_pairing.py` requires one sentence to carry the
+    denominator, the count, "a TEN-base-pair criterion in any wording" and the *NR4A3* share, and
+    its own comment says why: "at a seven-base-pair criterion the same screen returns 175 of 190".
+    Its `PAPER` is the extended report alone — the same one-of-a-pair shape this review has now
+    closed a dozen times, in the guard written specifically to stop THIS sentence losing THIS
+    criterion.
+
+    ★ DERIVED FROM `method.min_duplex_bp`, so a re-run at another cut fails here rather than
+    shipping a count under a criterion it was not counted at.
+    """
+    cut = null["method"]["min_duplex_bp"]
+    _every_site(prose, r"pair their whole catalytic gap over (\w+) or more contiguous base pairs",
+                _word(cut), "the criterion the abstract states its count at")
+    _every_site(prose,
+                r"pairs its whole catalytic gap over a contiguous run of (\w+) base pairs or more, "
+                r"(\w+) being adopted rather than measured",
+                (_word(cut), _word(cut)),
+                "the criterion §8 defines liability at, and the word it repeats")
 
 
 def test_the_panel_and_its_liable_count_are_the_screens_own(prose, pairing):
@@ -347,3 +379,122 @@ def test_no_headline_share_is_printed_outside_zero_to_one_hundred(prose):
     bad = [m for m in re.findall(r"\b\d+(?:\.\d+)?%", prose)
            if float(m.rstrip("%")) > 100.0]
     assert not bad, f"the article prints share(s) above 100%: {bad}"
+
+
+# ---------------------------------------------------------------------------------------------
+# ⛔⛔ §2 AND §3's HEADLINE COUNTS, WHICH WERE BOUND BY NOTHING AT ALL (round 15 seat 2).
+#
+# Five numbers a referee reads as measurements — 93, 85, 19, 47 and the pair of parent-duplex
+# lengths — were in no pin context and in no `_every_site` pattern, and every one was mutated
+# cleanly through the full workflow (mutate, rebuild both journal PDFs, run all thirteen gates).
+# The most consequential is the pair the paper's whole product rests on: swap the two named
+# reagents' seams, or swap their duplex lengths, and the prose contradicts the table four inches
+# below it while nothing fires. `lint_claims` and `lint_style` read the tables file since round 14,
+# but both are LANGUAGE linters; nothing joined a table cell to the sentence that restates it.
+# ---------------------------------------------------------------------------------------------
+
+PREMRNA = os.path.join(REPO, "research", "modalities", "aso-premrna-offtarget.json")
+SEQUENCES = os.path.join(MANUSCRIPTS, "aso", "fusion-junction-aso-sequences.csv")
+
+
+#: Table 1 of the generated display items — the table §2's sentence restates, four inches above it.
+JOURNAL_TABLES = os.path.join(MANUSCRIPTS, "aso", "fusion-junction-aso-journal-tables.md")
+
+#: `| *EWSR1* e12::*NR4A3* e3 | 5′-GGGCATATCATCAAAC-3′ | 3 | 8 bp, wild-type *TFG* | … |`
+_TABLE1_ROW = re.compile(
+    r"^\|\s*\*?(?P<donor>[A-Z0-9]+)\*?\s+e(?P<dexon>\d+)::\*?(?P<acc>[A-Z0-9]+)\*?\s+e(?P<aexon>\d+)"
+    r"\s*\|\s*(?P<seq>5′-[ACGT]+-3′)\s*\|[^|]*\|\s*(?P<duplex>\d+)\s*bp", re.M)
+
+
+def _named_reagents():
+    """The two reagents the paper names, READ OUT OF TABLE 1 — the table §2's sentence restates.
+
+    ★ NOT BY SEQUENCE LITERAL, AND NOT FROM THE CSV'S `role` COLUMN. Typing the two sequences here
+    would be a third home for a fact Table 1 owns, and `role` does not distinguish these two from
+    the other thirty-five "best available at this junction" rows. Binding prose to the table is also
+    exactly the disagreement this test was written for: the mutation that motivated it swapped the
+    two reagents between seams, leaving the sentence and the table four inches below it in direct
+    contradiction with every gate green.
+    """
+    text = open(_required(JOURNAL_TABLES, "the generated journal display items"), encoding="utf-8").read()
+    named = {}
+    for m in _TABLE1_ROW.finditer(text):
+        named[m.group("donor")] = m.groupdict()
+    return named
+
+
+def test_the_two_named_reagents_carry_their_own_seams_and_their_own_duplex_lengths(prose):
+    """⛔ THE PAIR OF NUMBERS THE PAPER'S PRODUCT RESTS ON, AGAINST THE FILE A LAB ORDERS FROM.
+
+    Mutation-confirmed as unguarded before this test: swapping the two sequences between seams, and
+    swapping `eight` and `nine`, each passed every gate. A reader ordering from the prose would get
+    the wrong molecule for the patient in front of them — the harm the text-layer guard exists to
+    prevent, arriving through attribution rather than through typesetting.
+    """
+    named = _named_reagents()
+    assert {"EWSR1", "TAF15"} <= set(named), (
+        "Table 1 no longer lists an EWSR1 and a TAF15 reagent; it lists "
+        f"{sorted(named)} — re-anchor this guard, or the paper has changed its product")
+    ew, taf = named["EWSR1"], named["TAF15"]
+    _every_site(prose,
+                r"(5′-[ACGT]{16}-3′) at \*?EWSR1\*? exon (\d+) joined to \*?NR4A3\*? exon (\d+), and\s*"
+                r"(5′-[ACGT]{16}-3′) at \*?TAF15\*? exon (\d+)",
+                (ew["seq"], ew["dexon"], ew["aexon"], taf["seq"], taf["dexon"]),
+                "the two named reagents, each against the seam Table 1 assigns it")
+    _every_site(prose,
+                r"The \*?EWSR1\*? reagent's longest wild-type parent duplex through the whole gap is\s*"
+                r"(\w+) base pairs and the \*?TAF15\*? reagent's is (\w+)",
+                (_word(int(ew["duplex"])), _word(int(taf["duplex"]))),
+                "each named reagent's longest wild-type parent duplex, in the order §2 states them")
+    # ⚠ AND THE ABSTRACT SAYS IT AGAIN, IN ITS OWN CONSTRUCTION. The first version of this test
+    # bound §2 alone and the abstract's "of eight and nine base pairs" mutated straight through —
+    # the same site-census mistake round 14 recorded against 45.8% and 40.6%, one round later.
+    _every_site(prose,
+                r"longest wild-type parent duplexes through the whole gap of (\w+) and (\w+) base pairs",
+                (_word(int(ew["duplex"])), _word(int(taf["duplex"]))),
+                "the same two duplex lengths as the abstract states them")
+
+
+def test_the_loose_cut_rungs_are_bound_to_the_cut_each_is_claimed_for(prose, null):
+    """⛔ ONE-OF-A-PAIR INSIDE THE FIX FOR ONE-OF-A-PAIR (round 15 seat 2).
+
+    Round 14 replaced bare-presence rungs with construction bindings — for
+    `n_junctions_with_a_clearing_design_by_cut`, and not for `observed_cut_ladder[...]["n_liable"]`
+    in the next test down, which kept `assert re.search(rf"\\b{n}\\b", prose)`. So swapping the two
+    rungs passed every gate, leaving the article saying a LOOSER cut condemns FEWER designs, which
+    is impossible for a monotone ladder; and the denominator was read at neither site.
+    """
+    cs = null["cut_sensitivity"]["observed_cut_ladder"]
+    n = null["cut_sensitivity"]["n_designs"]
+    _every_site(prose,
+                rf"the loose cuts condemn almost everything: (\d+) of (\d+) at seven and (\d+) at six",
+                (str(cs["7"]["n_liable"]), str(n), str(cs["6"]["n_liable"])),
+                "the loose-cut design counts, each against the cut it is claimed for")
+    assert cs["6"]["n_liable"] >= cs["7"]["n_liable"], (
+        "the artifact now condemns fewer designs at six than at seven, which is impossible for a "
+        "monotone ladder — the screen, not the prose, has gone wrong")
+
+
+def test_the_union_of_the_two_screens_and_the_own_parent_share_are_derived(prose, pairing):
+    """⛔ 93 AND 85 ARE DERIVATIONS OVER THE PER-DESIGN RECORDS, NOT NUMBERS BESIDE THEM.
+
+    The article says the two screens condemn 93 of 190 "as a union rather than a sum", and that 85
+    of the 87 are paired by one of the design's own two parent genes. Both were free to drift.
+    Deriving them is also the only way to keep the union honest: 87 + 19 = 106, and the sentence's
+    whole point is that the answer is not that.
+    """
+    per = pairing["per_design"]
+    liable = {(d["junction"], d["antisense_5to3"]) for d in per if d.get("counts_as_liability")}
+    pre = json.load(open(_required(PREMRNA, "the precursor-RNA screen")))["per_design"]
+    invisible = {(d["junction_label"], d["antisense_5to3"]) for d in pre
+                 if (d.get("n_invisible_to_mature_screens") or 0) > 0}
+    own = sum(1 for d in per if d.get("counts_as_liability")
+              and d.get("parent") in re.match(r"^([A-Z0-9]+)_e\d+__([A-Z0-9]+)_e\d+$",
+                                              d["junction"]).groups())
+    _every_site(prose, r"(\d+) designs carry a sense-strand near-match in parent precursor RNA",
+                str(len(invisible)), "the precursor-RNA class, from its own screen")
+    _every_site(prose, r"(\d+) are paired by one of the design's own two parent genes",
+                str(own), "how many of the liable designs are paired by their OWN parents")
+    _every_site(prose, r"the two screens condemn (\d+) of the (\d+)",
+                (str(len(liable | invisible)), str(pairing["corpus"]["n_designs"])),
+                "the union of the two screens, derived over the per-design records")

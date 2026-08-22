@@ -47,6 +47,13 @@ SCOPE_PATTERNS = (
     "research/modalities/tests/test_aso_*.py",
     "research/modalities/tests/test_junction_aso_*.py",
     "research/modalities/tests/test_offtarget_chance_baseline.py",
+    # ⛔ `scripts/tests` WAS OUTSIDE THIS FILE (round 15 seat 2, demonstrated). Round 14 promoted it
+    # to gate 13 precisely because it "ran in no gate at all" — and the promotion did not bring it
+    # inside the guard that stops a gate's contents evaporating. Marking all seven
+    # `…takes_the_whole_suite` tests with `@pytest.mark.skipif(True, …)` left gate 13 reporting
+    # `passed` with the selector's entire fail-to-FULL contract unasserted, which is the safety
+    # argument preflight.sh cites for scoping at all.
+    "scripts/tests/test_*.py",
 )
 
 #: distribution on the pip line -> the top-level module names importing it actually provides.
@@ -214,16 +221,44 @@ def test_every_remaining_skip_in_the_deposit_suite_is_a_decision_somebody_took()
     for path in _scope_files():
         src = open(path, encoding="utf-8").read()
         lines = src.splitlines()
-        for node in ast.walk(ast.parse(src)):
-            if isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute) \
-                    and node.func.attr == "skip" \
-                    and isinstance(node.func.value, ast.Name) and node.func.value.id == "pytest":
-                lo = max(0, node.lineno - 1 - MARKER_WINDOW_LINES)
-                hi = min(len(lines), node.lineno + MARKER_WINDOW_LINES)
-                window = lines[lo:hi]
-                if any(NOT_IN_CI_MARKER in ln or DELIBERATE_SKIP_MARKER in ln for ln in window):
-                    continue
-                offenders.append(f"{os.path.relpath(path, REPO)}:{node.lineno}")
+        tree = ast.parse(src)
+
+        def _record(lineno):
+            lo = max(0, lineno - 1 - MARKER_WINDOW_LINES)
+            hi = min(len(lines), lineno + MARKER_WINDOW_LINES)
+            if any(NOT_IN_CI_MARKER in ln or DELIBERATE_SKIP_MARKER in ln for ln in lines[lo:hi]):
+                return
+            offenders.append(f"{os.path.relpath(path, REPO)}:{lineno}")
+
+        # ⛔⛔ A DECORATOR IS A SKIP TOO, AND SO IS AN ALIASED ONE (round 15 seat 2, both
+        # demonstrated). This matched only `pytest.skip(...)` as an attribute call, so
+        # `@pytest.mark.skipif(not os.environ.get("PDF_BUDGET"), …)` on the page-budget test left a
+        # genuinely SEVEN-page paper passing every gate with `165 passed, 1 skipped`, exit 0 — the
+        # budget guard being the only instrument in the repository that sees an over-length paper.
+        # `from pytest import skip as _skip` walked past it the same way.
+        aliases = {a.asname or a.name for n in ast.walk(tree) if isinstance(n, ast.ImportFrom)
+                   and n.module == "pytest" for a in n.names if a.name in ("skip", "importorskip")}
+        for node in ast.walk(tree):
+            if isinstance(node, ast.Call):
+                fn = node.func
+                if isinstance(fn, ast.Attribute) and fn.attr == "skip" \
+                        and isinstance(fn.value, ast.Name) and fn.value.id == "pytest":
+                    _record(node.lineno)
+                elif isinstance(fn, ast.Name) and fn.id in aliases:
+                    _record(node.lineno)
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)) \
+                    and node.name.startswith("test_"):
+                for dec in node.decorator_list:
+                    target = dec.func if isinstance(dec, ast.Call) else dec
+                    parts = []
+                    while isinstance(target, ast.Attribute):
+                        parts.append(target.attr)
+                        target = target.value
+                    if isinstance(target, ast.Name):
+                        parts.append(target.id)
+                    chain = ".".join(reversed(parts))
+                    if chain.startswith("pytest.mark.skip"):
+                        _record(dec.lineno)
     assert not offenders, (
         "these guards can decline to run and nothing at the site records that anyone decided they "
         "may:\n  " + "\n  ".join(offenders)

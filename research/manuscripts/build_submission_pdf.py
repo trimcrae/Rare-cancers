@@ -2171,13 +2171,38 @@ def _write_build_stamp(pdf_path, paper):
     #: it stamps the second paper's PDF with the FIRST paper's hashes, so the stamp reports current
     #: for a PDF built from something else — the exact failure the stamp exists to prevent.
     stamp = {"built_from": {}}
+    missing = []
     for rel in paper.get("stamp_sources", STAMP_SOURCES):
         src = os.path.join(HERE, rel)
         if os.path.exists(src):
             stamp["built_from"][rel] = hashlib.sha256(open(src, "rb").read()).hexdigest()
-    stamp["_what"] = ("sha256 of each document this PDF renders, written by build_submission_pdf.py. "
-                      "A PDF is current when every hash here matches the file on disk; mtimes are "
-                      "not evidence, because the regeneration chain rewrites unchanged files.")
+        else:
+            missing.append(rel)
+
+    # ⛔⛔ THE FIGURES WERE OUTSIDE EVERY STALENESS GATE (round 15, found independently by two
+    # seats). The stamp's own `_what` says "sha256 of each document this PDF renders" — and it named
+    # no figure. One seat proved it the expensive way: edit a figure's drawing script, redraw,
+    # re-rasterise, re-pin provenance; `aso-figure-provenance.json` did not change one byte, both
+    # staleness guards passed, 848 tests passed, and the chain reported "deposited PDF: current"
+    # while the built PDFs still rendered the OLD panel. A deposited figure that disagrees with the
+    # artifact it was drawn from is a figure making a claim nothing supports.
+    for rel in sorted(set((paper.get("figures") or {}).values())):
+        src = os.path.join(HERE, "figures", rel)
+        if os.path.exists(src):
+            stamp["built_from"][f"figures/{rel}"] = hashlib.sha256(open(src, "rb").read()).hexdigest()
+        else:
+            missing.append(f"figures/{rel}")
+
+    # ⚠ A DECLARED SOURCE THAT IS ABSENT USED TO BE SKIPPED IN SILENCE (round 15 seat 2, P3-c), so a
+    # PDF could be stamped as current against a list shorter than the one it was built from. Record
+    # it instead: an absent source is a finding for whoever reads the stamp, not a smaller stamp.
+    if missing:
+        stamp["_declared_but_absent_at_build"] = sorted(missing)
+
+    stamp["_what"] = ("sha256 of each document AND figure this PDF renders, written by "
+                      "build_submission_pdf.py. A PDF is current when every hash here matches the "
+                      "file on disk; mtimes are not evidence, because the regeneration chain "
+                      "rewrites unchanged files.")
     with open(pdf_path.replace(".pdf", ".build-stamp.json"), "w", encoding="utf-8") as fh:
         json.dump(stamp, fh, indent=1, sort_keys=True)
         fh.write("\n")

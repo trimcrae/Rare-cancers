@@ -53,9 +53,10 @@ convention rather than a measurement, and chimeras built at real exon termini of
 transcripts meet the same screen at 40.6% against the panel's 45.8%, so most of that liability is
 what joining two exon termini of these genes gives rather than anything specific to this disease. Two reagents are
 named at the two most frequently reported breakpoints: 5′-GGGCATATCATCAAAC-3′ at *EWSR1* exon 12 and
-5′-GGGCATATCTTGTGTG-3′ at *TAF15* exon 6, both at the panel's top gap-level margin of three, with
+5′-GGGCATATCTTGTGTG-3′ at *TAF15* exon 6 to *NR4A3* exon 3, both at the panel's top gap-level
+margin of three, with
 longest wild-type parent duplexes through the whole gap of eight and nine base pairs. Five test
-articles are named; the two fusion-positive EMC cell models among them are reported at an *NR4A3*
+articles are named; the two fusion-positive EMC cell models are reported at an *NR4A3*
 exon-2 acceptor and match different designs. The design pipeline is released.
 
 ---
@@ -168,9 +169,9 @@ restated, and the availability the two named reagents rest on fails at a run cut
 *TAF15* junction's best design is itself liable. Read as design counts the loose cuts condemn almost
 everything: 175 of 190 at seven and 181 at six.
 
-Two bounds on the cleanliness claim: the alignment screen censors, leaving 47 of
-the 183 filtered designs assessable at all, so a count of clean designs is a floor over that subset
-and not a total over the panel; and most designs clean at the default search ceiling are not clean
+Two bounds on the cleanliness claim: seven of the 190 screens never
+returned, and the alignment screen censors the rest, leaving 47 of 183 assessable at all, so a count
+of clean designs is a floor over that subset and not a total over the panel; and most designs clean at the default search ceiling are not clean
 at a deeper one.
 
 The ten-base-pair criterion is adopted rather than measured, and the comparison against null models
@@ -207,8 +208,8 @@ joined to *NR4A3* exon 2 rather than exon 3, but that acceptor index is not sett
 carries no sequenced exon-exon boundary, no transcript accession and no junction sequence, and this
 work's own withdrawn version arose from an error of exactly this class. Reagents exist at both
 acceptors, and in neither case is it the same molecule as the reagent named above:
-5′-AGTGGGCTCTCCACGG-3′ at *EWSR1* exon 13 and 5′-AGTGGGCTCTTGTGTG-3′ at *TAF15* exon 6, both at the
-panel's top margin. Neither reaches the ten-base-pair criterion, and their longest wild-type parent
+5′-AGTGGGCTCTCCACGG-3′ at *EWSR1* exon 13 to exon 2 and 5′-AGTGGGCTCTTGTGTG-3′ at *TAF15* exon 6
+to exon 2, both at the panel's top margin. Neither reaches the ten-base-pair criterion, and their longest wild-type parent
 duplexes through the whole gap are eight base pairs against wild-type *EWSR1* and nine against
 wild-type *NR4A3* — the second against the acceptor parent on which §5's selectivity ratio is
 defined, a closer call than either exon-3 reagent presents. A reagent selected for one acceptor is
@@ -279,11 +280,11 @@ below. No design this panel selects is condemned by it, but it excludes two regi
 of §4's *EWSR1* exon 13 to *NR4A3* exon-2 seam while clearing that reagent — the register hazard of
 §2 arriving from a compartment the panel's selection never has to consider.
 
-The four reports of parental sparing cited
+The four junction-specificity reports cited
 here<sup>8,9,10,17</sup><!--PMID:33241214,21846246,23052253,36265509--> were all made on molecules
 already synthesised; no survey of design pipelines was performed, so the screen-before-synthesis
 claim is about this literature as retrieved and not a priority claim. Whether sparing wild-type *NR4A3* is worth a specificity cost is
-itself unsettled. The family is functionally redundant where
+itself unsettled. *NR4A1* and *NR4A3* are functionally redundant where
 tested,<sup>18,19</sup><!--PMID:29343483,25446259--> which cuts against the premise; against that,
 reduced *NR4A1*/*NR4A3* dosage is consequential in
 mice,<sup>20</sup><!--PMID:21205929--> and the family is not uniform in direction, *NR4A3*
@@ -361,9 +362,7 @@ and is responsible for its content.
 **Funding.** No external funding; self-funded by the author.
 
 **Competing interests.** The author declares no financial competing interests: he holds no patent,
-patent application, equity or consultancy relating to any sequence or method described here. One
-non-financial interest belongs on the record: this work reaches a journal because its screens
-returned a nameable reagent, so the published record of this approach carries a survivorship this
-paper cannot correct for.
+patent application, equity or consultancy relating to any sequence or method described here. A
+non-financial interest is disclosed to the editor in the accompanying cover letter.
 
 ## References
