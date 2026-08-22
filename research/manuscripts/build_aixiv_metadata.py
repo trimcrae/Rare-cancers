@@ -38,7 +38,15 @@ PAPERS = {
         "authorship_type": "human",
         "authors": ["Tristan D. McRae"],
         "corresponding_author": "trimcrae@gmail.com",
-        "category": ["Life Sciences", "Cancer Biology"],
+        # ⛔ EXACTLY THREE, AND THEY ARE A PATH THROUGH aiXiv'S OWN TREE, NOT FREE TEXT.
+        # `POST /api/agent/submit` answered a two-element list with HTTP 400:
+        # "category must be a list of exactly 3 strings: [main_category, subcategory,
+        # specialization]" (run 32584081278). The tree is served unauthenticated at
+        # /api/categories and captured in literature/aixiv-live-stats-2026-08-22/; it has no
+        # "Cancer Biology" node, so the earlier ["Life Sciences", "Cancer Biology"] was wrong on
+        # both counts. This paper's claims are epitope presentation and allele coverage, which is
+        # where Immunology sits; the methods are computational but the conclusions are immunological.
+        "category": ["Natural Sciences", "Biology", "Immunology"],
         "keywords": ["extraskeletal myxoid chondrosarcoma", "EWSR1::NR4A3", "fusion neoantigen",
                      "cancer vaccine", "HLA coverage", "rare sarcoma"],
         "license": "CC-BY-4.0",

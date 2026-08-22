@@ -91,5 +91,15 @@ def test_authorship_is_declared_human_and_the_ai_use_section_carries_the_detail(
         "authorship_type=human is only honest while the manuscript discloses its AI tooling")
 
 
+def test_category_is_exactly_three_strings():
+    """⛔ Discovered from a rejection, not from the spec — openapi.json types `category` as a bare
+    array, and the real contract only appeared as HTTP 400 on a live submit (run 32584081278):
+    "category must be a list of exactly 3 strings: [main_category, subcategory, specialization]".
+    """
+    cat = _meta()["category"]
+    assert isinstance(cat, list) and len(cat) == 3, f"aiXiv requires exactly 3, got {cat}"
+    assert all(isinstance(c, str) and c.strip() for c in cat)
+
+
 def test_the_licence_is_the_one_the_checklist_commits_to():
     assert _meta()["license"] == "CC-BY-4.0"
