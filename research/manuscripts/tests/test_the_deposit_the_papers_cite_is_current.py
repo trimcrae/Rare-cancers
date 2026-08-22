@@ -32,6 +32,7 @@ from __future__ import annotations
 import json
 import os
 import re
+import subprocess
 
 import pytest
 
@@ -41,6 +42,7 @@ ASO = os.path.join(MANUSCRIPTS, "aso")
 MANIFEST = os.path.join(ASO, "fusion-junction-aso-archive-manifest.json")
 STATE = os.path.join(ASO, "deposit-state.json")
 CHECKLIST = os.path.join(ASO, "fusion-junction-aso-preprint-checklist.md")
+REPO = os.path.abspath(os.path.join(ASO, "..", "..", ".."))
 
 _OPEN_HEADING = "## 3 · Open, and blocking the journal submission"
 
@@ -71,6 +73,26 @@ def test_the_papers_cite_a_version_the_deposit_state_knows_about():
                     "points at — re-anchor it or retire it")
 
 
+def _open_blocking_section_declares_the_drift(text):
+    """Is the deposit item under the OPEN BLOCKING heading — not merely somewhere in the file?
+
+    ⛔⛔ THIS WAS `_OPEN_HEADING in text and "PUBLISHED DEPOSIT IS BEHIND" in text.upper()`, WHICH
+    TESTS ONLY THAT BOTH STRINGS OCCUR SOMEWHERE (round 16 seat 5, 2026-08-22). Moving the entire
+    deposit item OUT of "## 3 · Open, and blocking the journal submission" — leaving that section
+    reading "*Nothing.*" — and UP into "## 1 · Ready, and needs nothing further" left both
+    substrings present and the guard green. The guard's own failure message demands "an open
+    blocking item under '## 3 …'"; what it checked was that the heading exists.
+    ★ A section is a SLICE, not a substring. The item has to be inside §3's slice, which is the
+    only reading under which the message and the check say the same thing.
+    """
+    if _OPEN_HEADING not in text:
+        return False
+    after = text.split(_OPEN_HEADING, 1)[1]
+    #: The section ends at the next heading of the same level.
+    section = re.split(r"(?m)^## ", after, maxsplit=1)[0]
+    return "PUBLISHED DEPOSIT IS BEHIND" in section.upper()
+
+
 def test_an_unpublished_version_or_a_drifted_tree_is_openly_tracked():
     state, manifest = _json(STATE, "what was deposited"), _json(MANIFEST, "what is archivable")
     pending = state.get("pending")
@@ -78,7 +100,7 @@ def test_an_unpublished_version_or_a_drifted_tree_is_openly_tracked():
 
     assert os.path.exists(CHECKLIST), "the preprint checklist is missing; re-anchor this guard"
     text = open(CHECKLIST, encoding="utf-8").read()
-    declared = _OPEN_HEADING in text and "PUBLISHED DEPOSIT IS BEHIND" in text.upper()
+    declared = _open_blocking_section_declares_the_drift(text)
 
     if pending:
         assert declared, (
@@ -103,6 +125,60 @@ def test_an_unpublished_version_or_a_drifted_tree_is_openly_tracked():
             "the checklist still carries the deposit-is-behind blocking item, but nothing is "
             "drafted and the manifest matches the digest recorded as published. Close the item — a "
             "checklist that keeps a solved blocker open is one nobody reads.")
+
+
+def test_the_recorded_upload_digest_is_corroborated_by_git_rather_than_declared():
+    """⛔⛔ A POPULATED FIELD IS NOT A MEASURED ONE, AND THIS ONE COULD BE DECLARED BY HAND.
+
+    Round 16 seat 5: `test_a_pending_draft_still_matches_the_tree_it_was_built_from` returns early
+    when `pending.uploaded_manifest_digest` equals the manifest's digest now. **Copying today's
+    digest into that field satisfies it** — one JSON edit — after which the checklist's "re-run the
+    deposit first" line can be deleted with nothing firing, and the guard whose docstring reads
+    "PUBLISHING A DRAFT THAT IS ALREADY BEHIND WOULD FREEZE THE SAME DEFECT AGAIN" has been
+    satisfied by an assertion that it would not.
+
+    ★ THE FIELD IS MADE OBSERVABLE BY THE ONE WITNESS THAT CANNOT BE BACK-DATED: git. The state also
+    records `uploaded_at_git_revision`, so the digest it claims to have uploaded must be the digest
+    the manifest ACTUALLY HELD at that commit. Copying today's value cannot satisfy that, because
+    the manifest at an older revision holds an older digest — verified offline, no network, no
+    Zenodo call.
+
+    ⚠ This does not prove the bytes reached Zenodo; nothing available here can. It proves the
+    recorded digest is a fact about this repository's history rather than a number someone typed.
+    """
+    state = _json(STATE, "what was deposited")
+    pending = state.get("pending")
+    if not pending:
+        pytest.skip("nothing is drafted, so there is no upload digest to corroborate "
+                    "— SKIP IS DELIBERATE: the pending block is absent by design between deposits")
+
+    rev = pending.get("uploaded_at_git_revision")
+    recorded = pending.get("uploaded_manifest_digest")
+    assert rev and recorded, (
+        f"the pending version {pending['doi']} records "
+        f"{'no git revision' if not rev else 'no uploaded digest'}, so what it holds cannot be "
+        "checked against anything. Both are written by the deposit workflow; if one is missing the "
+        "draft's contents are unknown and it must not be published.")
+
+    exists = subprocess.run(["git", "cat-file", "-e", f"{rev}^{{commit}}"],
+                            cwd=REPO, capture_output=True)
+    assert exists.returncode == 0, (
+        f"deposit-state.json records the draft as built at {rev[:12]}, which is not a commit in "
+        "this repository. A revision nobody can resolve cannot corroborate anything.")
+
+    shown = subprocess.run(
+        ["git", "show", f"{rev}:research/manuscripts/aso/fusion-junction-aso-archive-manifest.json"],
+        cwd=REPO, capture_output=True, text=True)
+    assert shown.returncode == 0, (
+        f"the archive manifest cannot be read at {rev[:12]}, so the recorded upload digest has no "
+        "witness. Do not publish the draft until the revision it was built from is resolvable.")
+    at_revision = json.loads(shown.stdout).get("archive_content_digest")
+    assert at_revision == recorded, (
+        f"deposit-state.json says the draft was built at {rev[:12]} with digest {recorded[:12]}, "
+        f"but the manifest AT that revision recorded {str(at_revision)[:12]}.\n\n"
+        "Those disagree, so the digest was not taken from that build — the usual cause is a value "
+        "copied in by hand to make a staleness check pass. Re-run the deposit and let the workflow "
+        "write both fields, and do not publish the draft in the meantime.")
 
 
 def test_a_pending_draft_still_matches_the_tree_it_was_built_from():

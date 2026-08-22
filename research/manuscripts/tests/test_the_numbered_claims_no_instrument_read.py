@@ -388,3 +388,113 @@ def test_the_register_hazard_sentence_is_read_off_table_2(prose):
     assert re.search(r"Consecutive registers of one seam differ by a single-base slide and can "
                      r"carry opposite verdicts \(Table 2\)", prose), \
         "§2's register-hazard sentence has been reworded, or now cites a different table"
+
+#: The two sequences Table 1 names for synthesis, read from the canonical file rather than typed.
+def _panel_5_6_5():
+    import csv
+    path = os.path.join(ASO, "fusion-junction-aso-sequences.csv")
+    with io.open(path, encoding="utf-8") as fh:
+        rows = list(csv.DictReader(ln for ln in fh if not ln.startswith("#")))
+    out = [r for r in rows if r["geometry"] == "5-6-5" and r["gap_level_margin"]]
+    assert out, f"{path} carries no 5-6-5 design with a gap-level margin"
+    return out
+
+
+def _named_for_synthesis():
+    """The reagents the journal tables print in Table 1 — derived, never typed."""
+    tables = io.open(os.path.join(ASO, "fusion-junction-aso-journal-tables.md"),
+                     encoding="utf-8").read()
+    first = re.split(r"(?m)^(?=\*\*Table 2\.)", tables)[0]
+    found = re.findall(r"5[\u2032']-([ACGT]{12,25})-3[\u2032']", first)
+    assert found, "Table 1 prints no sequence, so the named reagents cannot be derived"
+    return set(found)
+
+
+def test_the_top_gap_level_margin_is_the_panels_maximum_and_both_reagents_hold_it():
+    """⛔⛔ FOUND BY THE EXHAUSTIVE ABLATION SWEEP, NOT BY THE PER-COMMIT SAMPLE (2026-08-22).
+
+    One of 41 numbered journal-article sentences survived every guard that opens the file:
+
+        "Both hold the panel's top gap-level margin of three: three junction-unique bases
+         inside the catalytic gap on the shorter side of the breakpoint."
+
+    The census called it covered — two guards' patterns matched it — and neither bound the number.
+    It is the margin a reader uses to judge how much junction-unique sequence a reagent actually
+    has, and `gap_level_margin` decides it exactly: over the 206 5-6-5 designs the distribution is
+    {1: 81, 2: 83, 3: 42}, so the top is 3, and both named reagents hold it.
+
+    ⚠ THE SAMPLE IS NOT THE SWEEP. Six sentences per document per commit is enough to catch a
+    census that has stopped binding anything; it is not enough to enumerate what is unbound. Run
+    `PREFLIGHT_FULL=1` over this suite before anything outward-facing.
+    """
+    rows = _panel_5_6_5()
+    top = max(int(r["gap_level_margin"]) for r in rows)
+    named_seqs = _named_for_synthesis()
+    named = [r for r in rows if r["sequence"] in named_seqs]
+    assert len(named) == len(named_seqs), (
+        "a sequence Table 1 names for synthesis is not in the canonical 5-6-5 panel")
+    holders = [r for r in named if int(r["gap_level_margin"]) == top]
+    assert len(holders) == len(named), (
+        f"the article says BOTH named reagents hold the panel's top gap-level margin of {top}; the "
+        f"canonical file gives {[(r['sequence'], r['gap_level_margin']) for r in named]}. Either a "
+        "reagent was reselected or the margin moved.")
+
+    text = io.open(ARTICLE, encoding="utf-8").read()
+    word = _word(top)
+    assert re.search(rf"top\s+gap-level\s+margin\s+of\s+{word}\b", text), (
+        f"the article does not state the panel's top gap-level margin as {word!r}. The canonical "
+        f"file's maximum over the 5-6-5 panel is {top}; a stated margin that is not the measured "
+        "one tells a reader a reagent carries more junction-unique sequence than it does.")
+    # ⚠ `\s+`, not a space: the phrase wraps across a line break in the source, and a literal-space
+    # pattern would report the claim missing when it is simply typeset over two lines.
+    assert re.search(rf"{word}\s+junction-unique bases", text), (
+        f"the article states the top margin but not what it counts — {word} junction-unique bases. "
+        "The number and its unit have to move together, or the next edit separates them.")
+
+
+def _numbered_sections(text):
+    """{n: body} for the article's own `## N ` headings."""
+    parts = re.split(r"(?m)^##\s+(\d+)\s", text)
+    return {int(parts[i]): parts[i + 1] for i in range(1, len(parts), 2)}
+
+
+def test_a_section_cross_reference_points_at_the_section_that_states_the_thing():
+    """⛔⛔ THE LAST SENTENCE THE EXHAUSTIVE ABLATION SWEEP COULD NOT BIND (2026-08-22).
+
+    "… neither pairs a wild-type parent through the gap at §3's ten-base-pair criterion."
+    Its only DIGIT is the 3, and perturbing it to §7 changed nothing any guard reads: sections 1–8
+    all exist, so an existence check would have passed it, and the sentence would ship pointing a
+    reader at a section that does not define the criterion it names.
+
+    ★ THE BINDING IS SEMANTIC, NOT NUMERIC: the section a claim cites must CONTAIN the thing it is
+    cited for. That is checkable exactly where the reference names a technical term.
+
+    ⚠ SCOPE, STATED HONESTLY. Only `§N's <hyphenated term>` is bound. The article's other four
+    references read "§5 prescribes", "§4 is uncertifiable on…" — verb phrases whose target is a
+    whole argument rather than a named term, and a naive span for those produces false positives
+    ('arriving from a'), which is a guard that gets deleted rather than fixed. Those are covered
+    only by the existence check below, and that is the limit.
+    """
+    text = io.open(ARTICLE, encoding="utf-8").read()
+    sections = _numbered_sections(text)
+    assert sections, "the journal article has no numbered `## N` headings, so this guard is vacuous"
+
+    flat = re.sub(r"\s+", " ", text)
+    refs = sorted({int(n) for n in re.findall(r"§\s*(\d+)", flat)})
+    assert refs, "the article makes no section cross-reference at all — re-anchor or retire this"
+    dangling = [n for n in refs if n not in sections]
+    assert not dangling, (
+        f"the article cites section(s) {dangling}, which it does not contain (it has "
+        f"{sorted(sections)}). A reader following that reference lands nowhere.")
+
+    misdirected = []
+    for m in re.finditer(r"§\s*(\d+)(?:'s|’s)\s+([a-z]+(?:-[a-z]+)+(?:\s+[a-z]+)?)", flat):
+        n, phrase = int(m.group(1)), m.group(2)
+        body = re.sub(r"\s+", " ", sections.get(n, "")).lower()
+        if phrase.lower() not in body:
+            misdirected.append((n, phrase))
+    assert not misdirected, (
+        "a cross-reference names a term the section it points at does not state:\n  "
+        + "\n  ".join(f"§{n} is cited for {p!r}, which does not appear in §{n}" for n, p in misdirected)
+        + "\n\nEither the reference points at the wrong section, or the term moved and the "
+          "reference was not followed. Both send a reader to the wrong definition.")

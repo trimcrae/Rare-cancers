@@ -43,8 +43,13 @@ COVERAGE = os.path.join(ASO, "claim-coverage.json")
 
 #: (label, pattern, why its ABSENCE would break something else in the paper)
 REQUIRED = [
+    # ⛔⛔ THIS ALTERNATION ACCEPTED EITHER BACKBONE (round 16 seat 5). "Both reagents are
+    # phosphodiester throughout" satisfied the guard whose entire purpose is that the paper states
+    # the chemistry a reader must order — so the one guard on the subject passed a paper naming the
+    # WRONG one. A presence check standing in for a correctness check.
+    # ★ The canonical file's header states the linkage; only that word counts.
     ("the backbone chemistry",
-     r"phosphorothioate|phosphodiester",
+     r"phosphorothioate",
      "§2 names two 16-mers for synthesis and §8 gives only the SUGAR geometry. Without the backbone "
      "a reader cannot order the molecule the paper is about, and round 14 shipped exactly that: "
      "zero mentions in a PDF that printed a specific sequence six times."),
@@ -80,7 +85,30 @@ REQUIRED = [
 
 @pytest.fixture(scope="module")
 def prose():
-    return re.sub(r"\s+", " ", io.open(ARTICLE, encoding="utf-8").read())
+    """What a READER RECEIVES — the built PDF's text layer, not the markdown source.
+
+    ⛔⛔ THIS READ THE RAW FILE, AND THAT REINSTATED ROUND 14'S BLOCKER VERBATIM (round 16 seat 5,
+    2026-08-22). The builder strips HTML comments, so moving the paper's only printed mention of the
+    backbone into `<!-- ... -->` left this guard green against the source while the REBUILT PDF
+    contained ZERO occurrences — which is exactly round 14's defect: a PDF that prints a specific
+    sequence six times and never says what chemistry to order it in.
+    ★ The requirement is about the delivered document, so the delivered document is what is read.
+    """
+    pdf = os.path.join(ASO, "fusion-junction-aso-journal-article.pdf")
+    assert os.path.exists(pdf), (
+        f"the built journal PDF is missing: {pdf}. It is a committed artifact, so its absence is a "
+        "broken tree, and these requirements are about what a reader receives.")
+    try:
+        from pdfminer.high_level import extract_text
+    except ImportError as exc:  # pragma: no cover - CI installs it; a miss is a finding
+        pytest.fail(
+            f"pdfminer.six is not importable ({exc}), so nothing read the delivered PDF and every "
+            "requirement below asserted nothing. A guard that cannot run is not a guard that passed.")
+    text = re.sub(r"\s+", " ", extract_text(pdf))
+    assert len(text) > 5000, (
+        f"the journal PDF's text layer came out at {len(text)} characters, which is not a six-page "
+        "paper. Every requirement below would pass or fail on an empty read.")
+    return text
 
 
 @pytest.mark.parametrize("label,pattern,why", REQUIRED, ids=[r[0] for r in REQUIRED])
