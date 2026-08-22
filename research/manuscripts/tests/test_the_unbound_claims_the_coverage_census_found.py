@@ -79,6 +79,18 @@ def test_the_panels_single_acceptor_is_the_panels_own(prose):
         f"records carry acceptor exon(s) {sorted(acceptors)}")
 
 
+def _geometry():
+    """The architecture the panel was tiled at, read from the canonical file rather than typed."""
+    geoms = {r["geometry"] for r in _named_reagents().values()}
+    assert len(geoms) == 1, f"the named reagents span geometries {sorted(geoms)}"
+    return geoms.pop()
+
+
+def _wing_length():
+    """The locked wing of the panel's architecture: the first number of `wing-gap-wing`."""
+    return int(_geometry().split("-")[0])
+
+
 def test_the_near_match_definition_is_the_screens_own_ceiling(prose):
     """⛔ A DEFINITION WITH NUMBERS IN IT IS A CRITERION, AND CRITERIA WERE THE ROUND-15 BLOCKER.
 
@@ -91,6 +103,15 @@ def test_the_near_match_definition_is_the_screens_own_ceiling(prose):
                   r"(\d+) positions", prose)
     assert m, "§8's near-match definition has been reworded; re-anchor this guard to it"
     at_least, length = int(m.group(1)), int(m.group(2))
+    # ⛔⛔ THE DIFFERENCE IS NOT THE DEFINITION (round 16 seat 5, mutation M03). This asserted only
+    # `length - at_least == ceiling`, so "14 or more of its 16" -> "13 or more of its 15" PRESERVES
+    # the checked quantity and redefines the window the screen was run over. The design length is a
+    # fact about the panel, not a free parameter of the sentence.
+    designed = {len(q) for q in _named_reagents()}
+    assert designed == {length}, (
+        f"the article defines a near-match over {length} positions; the named reagents are "
+        f"{sorted(designed)}-mers per the canonical file. A window that is not the design length "
+        "describes a screen that was not run.")
     assert length - at_least == ceiling, (
         f"the article defines a near-match as {at_least} of {length} positions, which allows "
         f"{length - at_least} mismatches; the screen was run at max_mismatches={ceiling}")
@@ -105,6 +126,18 @@ def test_the_named_reagents_g_tract_claim_is_read_off_their_sequences(prose):
     m = re.search(r"Both begin 5′-([ACGT]+), a contiguous locked", prose)
     assert m, "§2's G-tract sentence has been reworded; re-anchor this guard"
     tract = m.group(1)
+    # ⛔⛔ "STARTS WITH" IS NOT THE CLAIM (round 16 seat 5, mutation M04). The sentence says the
+    # tract is a CONTIGUOUS LOCKED G-tract, and a prefix check alone accepted widening it to a
+    # 9-mer that is neither all-G nor inside the locked wing — both reagents still "begin" with it,
+    # so the guard stayed green while the sentence described a different molecule feature.
+    assert set(tract) == {"G"}, (
+        f"the article calls 5′-{tract} a G-tract; it is not all G. A tract naming other bases is "
+        "not the homopolymer run the sentence claims.")
+    wing = _wing_length()
+    assert len(tract) <= wing, (
+        f"the article calls 5′-{tract} ({len(tract)} nt) a contiguous LOCKED G-tract, but the "
+        f"{_geometry()} architecture locks only the {wing}-nt wing. A tract longer than the wing "
+        "runs into the DNA gap, where the bases are not locked.")
     wrong = sorted(s for s in named if not s.startswith(tract))
     assert not wrong, (
         f"the article says both named reagents begin 5′-{tract}; {wrong} do not, per the canonical "
@@ -124,7 +157,16 @@ def test_the_taf15_reagents_clean_precursor_claim_is_the_screens_own(prose):
     per = _artifact(PREMRNA, "the precursor screen")["per_design"]
     rows = [d for d in per if d["antisense_5to3"] == taf[0]]
     assert rows, f"{taf[0]} is not in the precursor screen at all, so the claim is unverifiable"
-    hits = max((d.get("n_hybridisable") or 0) for d in rows)
+    # ⛔⛔ `or 0` READ A NULL AS A ZERO (round 16 seat 5, mutation M05). Setting `n_hybridisable`
+    # to null in the screen record made an ABSENCE claim pass by turning a missing measurement into
+    # a measured absence — CLAUDE.md's "an absent reading is not a reading of absence", inside the
+    # guard written for the hardest-to-notice claim in the paper.
+    missing = [d for d in rows if d.get("n_hybridisable") is None]
+    assert not missing, (
+        f"the precursor screen records no `n_hybridisable` for {len(missing)} row(s) of {taf[0]}, "
+        "so whether it carries a sense-strand precursor site was never measured. That is not the "
+        "same as measuring zero, and the article states an absence.")
+    hits = max(int(d["n_hybridisable"]) for d in rows)
     stated_clean = re.search(r"\*?TAF15\*? reagent carries no sense-strand precursor site", prose)
     assert stated_clean, "§2's TAF15 precursor sentence has been reworded; re-anchor this guard"
     assert hits == 0, (
