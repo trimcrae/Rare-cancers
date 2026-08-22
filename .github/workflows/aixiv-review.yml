@@ -120,7 +120,7 @@ jobs:
       - name: Calibrate what a Rating means against the public corpus
         if: ${{ inputs.mode == 'calibrate' }}
         run: |
-          python3 scripts/aixiv_review.py calibrate --limit 40 --mine 6
+          python3 scripts/aixiv_review.py calibrate --limit 150 --mine 6
 
       - name: Start an attack review
         if: ${{ inputs.mode == 'review' }}

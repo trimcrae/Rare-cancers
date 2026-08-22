@@ -258,12 +258,29 @@ def cmd_calibrate(args):
     So the rating is the only graded signal, which is exactly why it must be calibrated rather than
     quoted.
     """
-    subs = _request("/api/submissions/public", method="GET",
-                    headers={"Accept": "application/json"})
-    if isinstance(subs, dict):
-        subs = subs.get("submissions") or subs.get("data") or []
-    papers = [s for s in subs if s.get("doc_type") == args.doc_type][:args.limit]
-    print(f"calibrating against {len(papers)} public {args.doc_type}(s)")
+    # ⛔ `/api/submissions/public` PAGINATES, AND ITS `limit` DEFAULTS TO 100. The first calibration
+    # run took that single page for the corpus and reported a percentile against ~3% of an archive
+    # of 1,327 — and page one happened to be dominated by one submitter's serialised resubmissions,
+    # so the floor it measured was that author rather than the platform. Page until exhausted.
+    subs, skip = [], 0
+    while len(subs) < args.max_papers:
+        page = _request(f"/api/submissions/public?skip={skip}&limit=100", method="GET",
+                        headers={"Accept": "application/json"})
+        if isinstance(page, dict):
+            page = page.get("submissions") or page.get("data") or []
+        if not page:
+            break
+        subs.extend(page)
+        skip += len(page)
+        if len(page) < 100:
+            break
+    allp = [s for s in subs if s.get("doc_type") == args.doc_type]
+    # ⚠ SYSTEMATIC, NOT HEAD-OF-LIST. Taking the first N re-introduces exactly the recency and
+    # flood bias that made the first run wrong; every k-th spreads the sample over the whole archive.
+    step = max(1, len(allp) // args.limit)
+    papers = allp[::step][:args.limit]
+    print(f"fetched {len(subs)} public submissions ({len(allp)} {args.doc_type}s); "
+          f"sampling every {step} -> {len(papers)}")
 
     ratings = []
     keys_seen = set()
@@ -457,7 +474,9 @@ def main(argv=None):
     s.set_defaults(fn=cmd_submit)
 
     c = sub.add_parser("calibrate", help="what a Rating means, measured against the public corpus")
-    c.add_argument("--limit", type=int, default=40)
+    c.add_argument("--limit", type=int, default=150, help="how many papers to pull reviews for")
+    c.add_argument("--max-papers", dest="max_papers", type=int, default=2000,
+                   help="cap on submissions paged out of /api/submissions/public")
     c.add_argument("--doc-type", dest="doc_type", default="paper")
     c.add_argument("--mine", type=float, default=None, help="our rating, to place as a percentile")
     c.set_defaults(fn=cmd_calibrate)
