@@ -87,17 +87,40 @@ SENTINEL = "\x00"
 
 
 def fetch_proteome(url=PROTEOME_URL, tries=4):
-    """Stream the reviewed human proteome FASTA. Returns [(accession, name, seq)]."""
+    """Stream the human proteome FASTA. Returns [(accession, name, seq)].
+
+    ⛔ THE FAILURE THIS HANDLES IS `IncompleteRead`, NOT A TIMEOUT. Measured 2026-08-22, run
+    32599692787: `IncompleteRead(8760539 bytes read)` — UniProt's `compressed=true` stream drops the
+    connection partway, consistently, at a few megabytes. A plain `r.read()` raises, and every retry
+    hits the same wall because the request is identical.
+    ⛔ AND A PARTIAL BODY MUST NEVER BE USED. `IncompleteRead` carries `e.partial`, and decoding it
+    would yield a proteome missing its tail — every peptide absent from the truncated remainder
+    would be scored NOVEL. That is a silently wrong headline number, which is worse than no number,
+    so a short read is an error here and never a result.
+    """
     last = None
     for attempt in range(tries):
+        # Fall back to the UNCOMPRESSED stream after the first failure: gzip is where the truncation
+        # happens, and an identical retry cannot clear a deterministic one.
+        attempt_url = url if attempt == 0 else url.replace("&compressed=true", "")
         try:
-            req = urllib.request.Request(url, headers={"User-Agent": "Rare-cancers/junction-novelty"})
+            req = urllib.request.Request(
+                attempt_url, headers={"User-Agent": "Rare-cancers/junction-novelty"})
             with urllib.request.urlopen(req, timeout=600) as r:
-                raw = r.read()
+                buf = io.BytesIO()
+                while True:
+                    chunk = r.read(1 << 20)
+                    if not chunk:
+                        break
+                    buf.write(chunk)
+                raw = buf.getvalue()
+            if not raw:
+                raise RuntimeError("empty body")
             break
         except Exception as e:                                    # noqa: BLE001
             last = e
-            print(f"  proteome fetch attempt {attempt + 1} failed: {e}", file=sys.stderr)
+            print(f"  proteome fetch attempt {attempt + 1} failed ({attempt_url[:60]}...): {e}",
+                  file=sys.stderr)
     else:
         raise RuntimeError(f"proteome fetch failed after {tries} attempts: {last}")
 
@@ -157,7 +180,7 @@ def main():
     # number was stale, which is this repository's "reports while measuring nothing" defect exactly.
     # ⚠ SO: fail fast, and write a WITHDRAWAL over the artifact rather than leaving the old one.
     try:
-        entries = fetch_proteome(tries=2)
+        entries = fetch_proteome(tries=3)
     except Exception as e:  # noqa: BLE001 — the failure text IS the record
         json.dump({
             "⛔_STATUS": "FETCH FAILED — THIS ARTIFACT CARRIES NO RESULT",
