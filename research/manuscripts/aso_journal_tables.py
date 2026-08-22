@@ -148,7 +148,10 @@ def build() -> str:
             "the two members carry opposite verdicts: the condemned member pairs its whole "
             "catalytic gap against a wild-type parent gene at the ten-base-pair criterion, and the "
             "orderable member does not. " + near + " Neither member of a pair may be substituted "
-            "for the other, and neither is a reagent this paper names for synthesis. The pairing is "
+            "for the other, and neither is named for synthesis as a reagent against a patient's "
+            "fusion. \u26a0 The orderable *TCF12* design IS one of the three all-screen-clear "
+            "designs the falsification experiment offers as a control arm, which is a different "
+            "role at a junction no patient is reported to carry. The pairing is "
             "read from the canonical file's own cross-reference column rather than asserted here.", ""]
     out += ["| seam | design | verdict | margin | longest WT run (bp) |",
             "|---|---|---|---:|---|"]

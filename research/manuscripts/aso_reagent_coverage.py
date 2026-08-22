@@ -69,6 +69,17 @@ BREAKPOINT_COHORT = {
     },
 }
 
+#: ⭐ THE SECOND SET EXISTS SO NEITHER FIGURE LOSES ITS HOME (round 8).
+#: 68.4% is the coverage of the TWO reagents the papers name, and the extended report and SI cite it
+#: in four places. A third design at a published breakpoint — EWSR1 exon 13, the type-5 transcript,
+#: "the second most common (type 5; two cases)" in the same sentence of PMID 12378528 that supplies
+#: the exon-12 count — is already designed and screened, and adding it raises stated coverage. Both
+#: are true of different reagent sets, so both are emitted: replacing one with the other would strand
+#: every document citing the figure it no longer computes.
+WITH_THIRD_DESIGN = dict(BREAKPOINT_COHORT["arms"], **{
+    "EWSR1_e13__NR4A3_e3": {"k": 2, "n": 15},
+})
+
 
 def wilson(k, n, z=1.96):
     """Wilson score interval, the repository's fixed convention for a proportion."""
@@ -81,16 +92,36 @@ def wilson(k, n, z=1.96):
     return [round(max(0.0, c - h), 4), round(min(1.0, c + h), 4)]
 
 
-def build():
+def _coverage(arm_map):
+    """Point estimate and breakpoint-interval range for one reagent set."""
     n_cohort = PARTNER_COHORT["n"]
     arms = []
     point = lo = hi = 0.0
-    for junction, bp in BREAKPOINT_COHORT["arms"].items():
+
+    # ⛔⛔ AGGREGATE WITHIN A PARTNER BEFORE TAKING A BOUND, AND BEFORE COUNTING ITS PREVALENCE.
+    # With one arm per partner the two are the same thing, and they stop being the same the moment a
+    # partner carries two reagent junctions. Summing a Wilson bound per arm gives
+    # wilson(10,15) + wilson(2,15), which is WIDER than wilson(12,15) and ran past 100% on the first
+    # three-arm draft (42.9-112.8%); and `partner_only` summed EWSR1's 46 once PER ARM, returning
+    # 1.741 as a "fraction". Both are fixed by grouping first: one fraction and one interval per
+    # partner, then one prevalence weight per DISTINCT partner.
+    grouped = {}
+    for junction, bp in arm_map.items():
         partner = junction.split("_")[0]
+        g = grouped.setdefault(partner, {"k": 0, "n": bp["n"], "junctions": []})
+        assert g["n"] == bp["n"], (
+            f"{partner}: arms disagree on the within-partner denominator "
+            f"({g['n']} vs {bp['n']}) — they must be read off the same cohort")
+        g["k"] += bp["k"]
+        g["junctions"].append(junction)
+
+    for partner, g in grouped.items():
         n_partner = PARTNER_COHORT["counts"][partner]
         share = n_partner / n_cohort
-        frac = bp["k"] / bp["n"]
-        f_lo, f_hi = wilson(bp["k"], bp["n"])
+        frac = g["k"] / g["n"]
+        f_lo, f_hi = wilson(g["k"], g["n"])
+        junction = ", ".join(g["junctions"])
+        bp = {"k": g["k"], "n": g["n"]}
         arms.append({
             "reagent_junction": junction,
             "partner": partner,
@@ -107,7 +138,13 @@ def build():
         lo += share * f_lo
         hi += share * f_hi
 
-    partner_only = sum(PARTNER_COHORT["counts"][a["partner"]] for a in arms) / n_cohort
+    partner_only = sum(PARTNER_COHORT["counts"][p] for p in grouped) / n_cohort
+    return arms, point, lo, hi, partner_only
+
+
+def build():
+    arms, point, lo, hi, partner_only = _coverage(BREAKPOINT_COHORT["arms"])
+    third_arms, t_point, t_lo, t_hi, _ = _coverage(WITH_THIRD_DESIGN)
 
     return {
         "_what": ("The fraction of molecularly confirmed EMC the two named reagents could engage, "
@@ -133,6 +170,28 @@ def build():
         "inputs": {"partner_prevalence": PARTNER_COHORT, "breakpoint_distribution":
                    BREAKPOINT_COHORT},
         "arms": arms,
+        "if_a_third_published_breakpoint_were_added": {
+            "_what": ("The same arithmetic over a THIRD design at EWSR1 exon 13 — the type-5 "
+                      "transcript, 'the second most common (type 5; two cases)' in the same "
+                      "sentence of PMID 12378528 that supplies the exon-12 count. That design is "
+                      "already in the panel and already screened; this block prices what naming it "
+                      "would buy, and asserts nothing about whether it should be named."),
+            "⛔_not_the_coverage_of_the_named_reagents": (
+                "The papers name TWO reagents and their coverage is the `coverage` block above. "
+                "This block is a THREE-reagent set and must never be quoted as the coverage of the "
+                "two, which is the substitution that would strand every document citing 68.4%."),
+            "reagent_junctions": sorted(WITH_THIRD_DESIGN),
+            "arms": third_arms,
+            "point_estimate": round(t_point, 4),
+            "percent": round(100 * t_point, 1),
+            "range_from_breakpoint_intervals": [round(t_lo, 4), round(t_hi, 4)],
+            "percent_range": [round(100 * t_lo, 1), round(100 * t_hi, 1)],
+            "gain_percentage_points": round(100 * (t_point - point), 1),
+            "why_it_is_not_named_in_the_papers": (
+                "It carries no test article: none of the five in the ASO papers' section 4 spans "
+                "EWSR1 exon 13 to NR4A3 exon 3, so naming it would put a reagent in front of a "
+                "laboratory with nothing to test it in."),
+        },
         "coverage": {
             "point_estimate": round(point, 4),
             "percent": round(100 * point, 1),

@@ -10,10 +10,10 @@
     "Not a licence statement. The depositor chooses the licence at step 4 below."
   ],
   "deposition_doi": "10.5281/zenodo.22028916",
-  "git_revision": "c68c8b9a85ad05d2ddd2ca26249afa93e18749e0",
+  "git_revision": "a00c4efa19c34868aa2061b8342015a235d6650f",
   "git_tree_is_clean_apart_from_this_manifest": false,
   "inventory_limited_to_tracked_files": true,
-  "archive_content_digest": "4b4704887622d573fdc9f0fbbf1707255ce77c4adde7c59d4e9c6caa61eb9764",
+  "archive_content_digest": "85c78e41e0946a38a0c27f9bef6cdc262c3a62703f8f31901378297d364a8b2c",
   "n_files": 473,
   "self_entry": {
     "path": "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
@@ -24,18 +24,18 @@
     "_why_not_counted": "It is excluded from `files`, `n_files`, `total_bytes` and `archive_content_digest` for the same reason, which is also what keeps two runs over an unchanged tree byte-identical — the property this module's header calls the only cheap check a reader has that the file is derived rather than edited.",
     "how_a_reader_checks_it_anyway": "Two ways, neither needing a self-hash. (1) Re-derive it: check out `git_revision` and run `python3 research/manuscripts/aso_archive_manifest.py --check`, which rebuilds the whole file and exits non-zero on any difference. (2) Compare the downloaded copy's `sha256sum` against the value the deposition record states — step 4 below tells the depositor to record it there, which is the one place it can live without being self-referential."
   },
-  "total_bytes": 45327433,
-  "total_mib": 43.228,
+  "total_bytes": 45334318,
+  "total_mib": 43.234,
   "payload_file_types": {
     "_what": "Extension census of the payload, derived from the file list. A preprint or journal uploader that accepts only document, image and container types cannot take most of these one by one; step 3 below builds the single container that sidesteps the question entirely. Check the accepted types on the uploader itself — none is asserted here.",
     "by_extension": {
       ".json": {
         "n_files": 378,
-        "bytes": 34859701
+        "bytes": 34862822
       },
       ".py": {
         "n_files": 67,
-        "bytes": 2931769
+        "bytes": 2935533
       },
       ".md": {
         "n_files": 10,
@@ -1051,8 +1051,8 @@
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-reagent-coverage.json",
-      "bytes": 4308,
-      "sha256": "3b5d9afbda8e981d714a1dea0910417e6d40adca191da6bb6982fbac16e55f44",
+      "bytes": 6551,
+      "sha256": "c3172531cbb2989a5a1f7de3451cd9f613255c56f708924cfbb1319d4710b4b2",
       "serves": "per_design_tables",
       "also_serves": [],
       "contributes": "The manuscript tables and the generator that derives every cell of them from the artifacts, plus the per-locus re-count and the chance baseline the tables and the chance-expectation panel are read from."
@@ -1311,8 +1311,8 @@
     },
     {
       "path": "research/manuscripts/aso_reagent_coverage.py",
-      "bytes": 9987,
-      "sha256": "f21ebe57d4a08b2679de918db65ee2d7db0512ad70b8497dc1c61286990fc55f",
+      "bytes": 13751,
+      "sha256": "553d061da1abbf33e6c2aeaee701ffa0f0efd372bcd4ec3078b4918bd2f5cb88",
       "serves": "per_design_tables",
       "also_serves": [],
       "contributes": "The manuscript tables and the generator that derives every cell of them from the artifacts, plus the per-locus re-count and the chance baseline the tables and the chance-expectation panel are read from."
@@ -1535,8 +1535,8 @@
     },
     {
       "path": "research/manuscripts/pinned-figures.json",
-      "bytes": 122818,
-      "sha256": "e25e152e4c90c6d1936b1c37d678aacb92b03e163aef8d64e5662d1428c95d48",
+      "bytes": 123696,
+      "sha256": "f8987b544e1fcbe8459e7726453df479642a871b5af9f168b5079e064616f900",
       "serves": "correction_record",
       "also_serves": [],
       "contributes": "The acceptor-seam exon-indexing correction: the grader that banners every affected artifact, the frame audit and regeneration record that show which junctions were re-emitted and which were refused, and the working record and red-team pass that narrate the withdrawal."
@@ -1544,7 +1544,7 @@
     {
       "path": "research/manuscripts/submission-metrics.json",
       "bytes": 11072,
-      "sha256": "92be43289ce3cffcba144cf36ac26d9201b5ff66e37182433585c1f30df9ac75",
+      "sha256": "b8fcb3313602e7eaf56e47c73c8d98e89a1f93f7c92fbcb9dd0626b005308977",
       "serves": "reproduction_command",
       "also_serves": [],
       "contributes": "Re-derives every offline-derivable artefact below in dependency order and re-runs the consistency, citation and style gates; the command a reader is told to run to establish that this archive is current. The script AND every step it invokes that no other row here already carries."

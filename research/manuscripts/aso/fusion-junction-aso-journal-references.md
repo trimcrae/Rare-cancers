@@ -60,5 +60,7 @@ resolves only against this list. Metadata is read from retrieved bibliographic r
 17. Lee MS, An S, Song JY, Sung M, Jung K, Chang ES, et al. Cancer-Specific Sequences in the Diagnosis and Treatment of NUT Carcinoma. Cancer research and treatment. 2023;55(2):452-467. PMID: 36265509. doi:10.4143/crt.2022.910
 18. Freire PR, Conneely OM. NR4A1 and NR4A3 restrict HSC proliferation via reciprocal regulation of C/EBPα and inflammatory signaling. Blood. 2018;131(10):1081-1093. PMID: 29343483. doi:10.1182/blood-2017-07-795757
 19. Beard JA, Tenga A, Chen T. The interplay of NR4A receptors and the oncogene-tumor suppressor networks in cancer. Cellular signalling. 2015;27(2):257-266. PMID: 25446259. doi:10.1016/j.cellsig.2014.11.009
-20. Dyer SC, Austine-Orimoloye O, Azov AG, et al. Ensembl 2025. Nucleic acids research. 2025;53(D1):D948-D957. PMID: 39656687. doi:10.1093/nar/gkae1071
-21. Kauppinen S, Vester B, Wengel J. Locked nucleic acid (LNA): High affinity targeting of RNA for diagnostics and therapeutics. Drug discovery today. Technologies. 2005;2(3):287-290. PMID: 24981949. doi:10.1016/j.ddtec.2005.08.012
+20. Ramirez-Herrick AM, Mullican SE, Sheehan AM, Conneely OM. Reduced NR4A gene dosage leads to mixed myelodysplastic/myeloproliferative neoplasms in mice. Blood. 2011;117(9):2681-2690. PMID: 21205929. doi:10.1182/blood-2010-02-267906
+21. Hamers AA, Hanna RN, Nowyhed H, Hedrick CC, de Vries CJ. NR4A nuclear receptors in immunity and atherosclerosis. Current opinion in lipidology. 2013;24(5):381-385. PMID: 24005216. doi:10.1097/mol.0b013e3283643eac
+22. Dyer SC, Austine-Orimoloye O, Azov AG, et al. Ensembl 2025. Nucleic acids research. 2025;53(D1):D948-D957. PMID: 39656687. doi:10.1093/nar/gkae1071
+23. Kauppinen S, Vester B, Wengel J. Locked nucleic acid (LNA): High affinity targeting of RNA for diagnostics and therapeutics. Drug discovery today. Technologies. 2005;2(3):287-290. PMID: 24981949. doi:10.1016/j.ddtec.2005.08.012
