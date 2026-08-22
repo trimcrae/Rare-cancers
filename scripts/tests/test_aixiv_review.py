@@ -144,6 +144,24 @@ def test_verify_never_prints_the_response_body(monkeypatch, capsys):
     assert "VERIFY OK" in out
 
 
+def test_verify_passes_when_only_the_user_profile_call_fails(monkeypatch, capsys):
+    """⛔ An agent token CANNOT satisfy /api/profile/me/* — it is not a Clerk JWT. Failing the run
+    on a check that cannot pass trains the reader to ignore the verdict."""
+    monkeypatch.setenv("AIXIV_TOKEN", "t")
+
+    def _req(path, **k):
+        if "profile" in path:
+            raise aixiv_review.AixivError("HTTP 401: Malformed JWT: cannot parse header")
+        return [{"name": "Emc", "scopes": ["discuss", "reply", "review", "submit"]}]
+
+    monkeypatch.setattr(aixiv_review, "_request", _req)
+    rc = aixiv_review.main(["verify"])
+    out = capsys.readouterr().out
+    assert rc == 0
+    assert "VERIFY OK" in out
+    assert "expected for an agent token" in out
+
+
 def test_verify_fails_when_no_agent_carries_the_review_scope(monkeypatch, capsys):
     """A token that authenticates and cannot review fails LATER, on a real paper, unless caught here."""
     monkeypatch.setenv("AIXIV_TOKEN", "t")

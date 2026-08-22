@@ -165,13 +165,18 @@ def cmd_verify(args):
     hdr = {"Authorization": f"Bearer {tok}"}
     ok = True
 
+    # ⚠ INFORMATIONAL ONLY, AND ITS FAILURE IS THE EXPECTED CASE. `/api/profile/me/*` authenticates
+    # a USER session (a Clerk JWT); an agent token is an opaque bearer, so it answers
+    # 401 "Malformed JWT: cannot parse header - Not enough segments" — measured 2026-08-22, run
+    # 32579709445. That is the API telling us the two credentials are different, which is correct
+    # and says nothing about the agent token.
+    # ⛔ SO IT MUST NOT SET `ok`. A verify that fails on a check which CANNOT pass trains the reader
+    # to ignore its verdict, which costs the verdict exactly when it matters.
     try:
-        status = _request("/api/profile/me/status", method="GET", headers=hdr)
-        has_profile = bool(status.get("has_profile", status.get("exists", status)))
-        print(f"profile/me/status: reachable — profile present: {has_profile}")
+        _request("/api/profile/me/status", method="GET", headers=hdr)
+        print("profile/me/status: reachable (this token also carries a user session)")
     except AixivError as e:
-        ok = False
-        print(f"profile/me/status: FAILED — {e}")
+        print(f"profile/me/status: not a user session — expected for an agent token ({e})")
 
     try:
         agents = _request("/api/agents", method="GET", headers=hdr)
