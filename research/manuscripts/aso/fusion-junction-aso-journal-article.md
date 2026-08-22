@@ -301,7 +301,9 @@ articles of §4 carries any of those junctions. Running that arm means engineeri
 constructs, which is why it is a mechanism control rather than a fourth comparison to be had for
 nothing.
 
-The decision threshold should be fixed before the experiment. Selectivity is the wild-type *NR4A3*
+The decision threshold should be fixed before the experiment. What a result on it settles is the
+level of selectivity the top-margin reagents reach, not whether selectivity orders by margin across
+the panel; that is the ranking referred to below. Selectivity is the wild-type *NR4A3*
 half-maximal knockdown concentration divided by the fusion's, from a matched dose-response in the
 same wells, and the cut is 5.0, taken as a convention rather than measured for this comparison. A
 ratio of residual transcript at a single dose is not commensurate with it and must not be compared
@@ -320,7 +322,8 @@ The replicate count follows from the variance rather than being asserted. At a r
 deviation of 0.35 on the natural-log scale, six independent biological replicates give about 80%
 power to falsify a true selectivity of 3 and three give about 30%, computed from a noncentral t.
 Above a realised replicate standard deviation of about 0.65, no observed ratio at or above one can
-place the upper limit of a two-sided 95% t-interval on the log ratio below 5 at three replicates, so the test can fail
+place the upper limit of a two-sided 95% interval for the ratio — built on the natural-log scale
+and carried back — below 5 at three replicates, so the test can fail
 only where the observed ratio is itself anti-selective. Such a test is void: it cannot fail on any
 reading that is not anti-selective, which is a different outcome from one that fails to falsify, and
 voidness is a property of the assay's replicate variance rather than of the design. The figure is
@@ -331,8 +334,12 @@ one-sided 95% chi-square bound on the pilot's standard deviation rather than to 
 with that bound, its confidence level and its degrees of freedom reported, since the level moves
 the count the gate prescribes. A pilot returning a bound at or above the void figure for the
 count proposed has shown that count cannot falsify at this cut, so the decision at that point is a
-larger replicate count or no falsification test at all, and never three. The ranking is falsified only where the upper bound of
-that same t-interval lies below the cut, never where a point estimate does; the void figures above
+larger replicate count or no falsification test at all, and never three. That gate is a floor and
+not a sizing rule: clearing it establishes only that a run can fail, not that it is likely to when
+the reagent is selective. At this paper's own replicate standard deviation the smallest count the
+gate admits runs well under the 80% quoted above, so the count should be set for power at the
+selectivity to be excluded and the gate applied afterwards as a check on it. The ranking is falsified only where the upper bound of
+that same interval lies below the cut, never where a point estimate does; the void figures above
 are computed on the same construction, and a normal-approximation interval would move them. A dose range over which wild-type *NR4A3* never
 reaches half-maximal knockdown gives no numerator, the wild-type concentration being the numerator of
 the ratio, and the ratio is reportable only where the wild-type knockdown is itself resolved above a

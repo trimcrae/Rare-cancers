@@ -281,7 +281,7 @@ same wells, and the cut is 5.0, taken as a convention rather than measured for t
 replicate standard deviation of about 0.65 on the natural-log scale, no observed ratio at or above
 one can place the upper limit of a two-sided 95% interval below that cut at three replicates, so the
 test can fail only where the reagent is anti-selective and the test is otherwise void rather than
-negative. A *void* test is one that cannot fail, which is a different outcome from one that fails to
+negative. A *void* test is one that cannot fail on any reading that is not anti-selective, which is a different outcome from one that fails to
 falsify, and voidness is a property of the assay's variance rather than of the design. The
 controls, the assay placement and the limit-of-quantification condition without which
 the ratio is not reportable are in §4.4.
@@ -1816,7 +1816,7 @@ one-sided 95% bound is used instead.
 Above a
 standard deviation of about 0.65 no observed ratio at or above one can place that upper bound below
 5 at three replicates, so the test can fail only where the reagent is anti-selective. Such a test is
-*void*: it cannot fail, which is a different outcome from one that fails to falsify, and voidness is
+*void*: it cannot fail on any reading that is not anti-selective, which is a different outcome from one that fails to falsify, and voidness is
 a property of the assay's replicate variance and not of the design. The number of
 replicates should therefore be set from the pilot estimate, with three as a floor and not a target.
 A pilot standard deviation is itself an estimate with large sampling error at small replicate counts,

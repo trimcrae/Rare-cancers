@@ -365,6 +365,13 @@ def test_the_journal_article_states_voidness_as_a_property_of_the_variance():
     replicate SD of 0.90 an observed ratio of 0.50 puts the 95% upper limit at 4.677, below the cut,
     so a run above the void figure CAN falsify. The claim only holds for readings at or above one.
     """
+    # ⛔ BOTH SUBMISSION FILES. Round 9 fixed the journal and left the extended report carrying the
+    # refuted unrestricted form at two lines — the same one-of-a-pair scoping this module exists to
+    # catch, committed by the fix for it. Round 10 seat 3 found it with one grep.
+    for path in (JOURNAL, ART):
+        assert "cannot fail, which is a different outcome" not in open(path, encoding="utf-8").read(), (
+            f"{os.path.basename(path)} states the unrestricted 'cannot fail' form, refuted by "
+            "n=3, s=0.90, observed ratio 0.50 -> 95% upper limit 4.677, below the cut")
     text = open(JOURNAL, encoding="utf-8").read()
     assert "no observed ratio at or above one" in text, (
         "the void gate lost its 'at or above one' restriction in the journal article — the "
