@@ -73,6 +73,13 @@ def test_the_papers_cite_a_version_the_deposit_state_knows_about():
                     "points at — re-anchor it or retire it")
 
 
+def _open_blocking_section(text):
+    """§3's slice of the checklist, or "" if that heading is gone."""
+    if _OPEN_HEADING not in text:
+        return ""
+    return re.split(r"(?m)^## ", text.split(_OPEN_HEADING, 1)[1], maxsplit=1)[0]
+
+
 def _open_blocking_section_declares_the_drift(text):
     """Is the deposit item under the OPEN BLOCKING heading — not merely somewhere in the file?
 
@@ -85,12 +92,7 @@ def _open_blocking_section_declares_the_drift(text):
     ★ A section is a SLICE, not a substring. The item has to be inside §3's slice, which is the
     only reading under which the message and the check say the same thing.
     """
-    if _OPEN_HEADING not in text:
-        return False
-    after = text.split(_OPEN_HEADING, 1)[1]
-    #: The section ends at the next heading of the same level.
-    section = re.split(r"(?m)^## ", after, maxsplit=1)[0]
-    return "PUBLISHED DEPOSIT IS BEHIND" in section.upper()
+    return "PUBLISHED DEPOSIT IS BEHIND" in _open_blocking_section(text).upper()
 
 
 def test_an_unpublished_version_or_a_drifted_tree_is_openly_tracked():
@@ -214,7 +216,14 @@ def test_a_pending_draft_still_matches_the_tree_it_was_built_from():
     # and should not have to be. It is "will the person about to publish be TOLD to refresh it?",
     # because that is the moment the staleness would be frozen.
     text = open(CHECKLIST, encoding="utf-8").read()
-    assert re.search(r"re-?run the deposit|new_version=false|refresh the draft", text, re.I), (
+    # ⛔⛔ ANYWHERE IN THE FILE IS NOT THE SAME AS IN THE BLOCKING ITEM (round 16 seat 5, M16). This
+    # searched the whole checklist, so the refresh instruction could be demoted to a "superseded,
+    # retained" note further down while the blocking item itself said publish as it stands — every
+    # phrase still present, the gate still green, and the person about to perform an IRREVERSIBLE
+    # publish reading the opposite of what this guard believes they were told. Same shape as M10,
+    # in the neighbouring assertion.
+    section = _open_blocking_section(text)
+    assert re.search(r"re-?run the deposit|new_version=false|refresh the draft", section, re.I), (
         f"the draft {pending['doi']} was built at archive digest {recorded[:16]}… and this tree is "
         f"at {str(manifest.get('archive_content_digest'))[:16]}…, which is expected between "
         "commits — but nothing in the preprint checklist tells whoever publishes it to refresh the "
