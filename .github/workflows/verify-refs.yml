@@ -202,6 +202,58 @@ jobs:
           fi
           if [ "${FAILED:-0}" = 1 ]; then exit 1; fi
           echo "::notice title=VERIFY-REFS OK::$NCROSSREF/$NFIXED enumerated DOIs resolved, $NRESOLVED DOI(s) resolved overall, no parse errors."
+
+      # -----------------------------------------------------------------------------------------
+      # ⭐ SECTION 9: THE ONE REFERENCE ROUND 1 OF THE VACCINE-PATH CYCLE COULD NOT WRITE.
+      # PUB-VACCINE-PATH's class II arm was screened with MHCnuggets and NO bibliographic record for
+      # that tool exists anywhere in this repository, so its Section 10 entry currently says so
+      # rather than supplying one. ⛔ A SINGLE Crossref `query.bibliographic` for it returned a
+      # NEAR-MISS — a pan-specific class I CNN paper whose title does not contain the word
+      # "MHCnuggets" — and a wrong citation arriving in quotable form is the most dangerous kind,
+      # so it was refused. That refusal is not the same as the reference being unobtainable, and
+      # this step is the difference: search by NAME across two corpora, print what each returns
+      # WITH its title, and let the title decide. A hit is only a hit if "MHCnuggets" is in it.
+      - name: Resolve the MHCnuggets citation by name, and let the title decide
+        run: |
+          set +e
+          echo "===== 9) MHCnuggets — the class II predictor behind PUB-VACCINE-PATH B4 ====="
+          echo "  ⛔ ACCEPT ONLY a record whose TITLE contains 'MHCnuggets'. Anything else is the"
+          echo "     near-miss this step exists to reject."
+          echo
+          echo "  -- 9a) Europe PMC, title/abstract search --"
+          curl -s -m 40 -G "https://www.ebi.ac.uk/europepmc/webservices/rest/search" \
+            --data-urlencode 'query=TITLE:"MHCnuggets" OR ABSTRACT:"MHCnuggets"' \
+            --data-urlencode 'format=json' --data-urlencode 'pageSize=15' \
+            --data-urlencode 'resultType=core' -o mn.json
+          node -e 'const fs=require("fs");try{const j=JSON.parse(fs.readFileSync("./mn.json","utf8"));
+            const r=(j.resultList&&j.resultList.result)||[];
+            console.log("    hitCount:",j.hitCount);
+            r.forEach(x=>{const t=(x.title||"").replace(/\s+/g," ");
+              const flag=/mhcnuggets/i.test(t)?"TITLE-MATCH":"          ";
+              console.log("   ",flag,"|",x.pmid||x.id||"?","|",x.pubYear||"?","|",
+                          (x.journalInfo&&x.journalInfo.journal&&x.journalInfo.journal.title)||"?",
+                          "|",(x.doi||"no-doi"),"|",t.slice(0,110));
+              if(/mhcnuggets/i.test(t)) console.log("        authors:",(x.authorString||"?").slice(0,180));
+            });}catch(e){console.log("    PARSE-ERR",e.message)}'
+          echo
+          echo "  -- 9b) Crossref, bibliographic query by name --"
+          curl -s -m 40 -A "rare-cancers-verify/1.0 (mailto:trimcrae@gmail.com)" -G "https://api.crossref.org/works" \
+            --data-urlencode "query.bibliographic=MHCnuggets" --data-urlencode "rows=10" -o mnc.json
+          node -e 'const fs=require("fs");try{const items=JSON.parse(fs.readFileSync("./mnc.json","utf8")).message.items||[];
+            items.forEach(m=>{const t=((m.title||[])[0]||"").replace(/\s+/g," ");
+              const flag=/mhcnuggets/i.test(t)?"TITLE-MATCH":"          ";
+              console.log("   ",flag,"|",m.DOI,"|",((m["container-title"]||[])[0]||"?"),"|",
+                          (((m.published||m.issued||{})["date-parts"]||[["?"]])[0][0]),"|",t.slice(0,110));
+              if(/mhcnuggets/i.test(t)) console.log("        authors:",
+                (m.author||[]).map(a=>(a.family||"")+" "+((a.given||"").replace(/[^A-Z]/g,""))).join(", ").slice(0,180),
+                "| volume",m.volume||"?","| issue",m.issue||"?","| pages",m.page||"?");
+            });}catch(e){console.log("    PARSE-ERR",e.message)}'
+          echo
+          echo "  -- 9c) verdict --"
+          N=$( { grep -c "TITLE-MATCH" /dev/null; } 2>/dev/null; true )
+          echo "     Read 9a and 9b above. If no line is marked TITLE-MATCH, the reference stays"
+          echo "     unwritten and the class II arm is withdrawn — that is a real outcome, not a"
+          echo "     failure of this step."
   # ---------------------------------------------------------------------------------------------
   # Section 8 was added 2026-07-25 for the degrader manuscript's mechanism-first prospective stage
   # (RUNG 5a/5b). It verifies (a) three journal DOIs the manuscript must cite, (b) the primary
