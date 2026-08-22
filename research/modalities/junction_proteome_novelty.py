@@ -61,6 +61,20 @@ PROTEOME_URL = (
     "?query=%28proteome%3AUP000005640%29+AND+%28reviewed%3Atrue%29"
     "&format=fasta&includeIsoform=true&compressed=true"
 )
+#: ⭐ THE UNREVIEWED PASS, ADDED 2026-08-22 IN ANSWER TO AN EXTERNAL REVIEW.
+#: aiXiv review 1363 (W3) held that "a peptide's absence from reviewed proteins does not establish
+#: it as novel". The docstring above already argued the other side — a TrEMBL hit is not evidence a
+#: normal protein carries the peptide, and a TrEMBL miss is not evidence of absence — and that
+#: argument still stands. What it did NOT justify was declining to LOOK.
+#: ⛔ SO THIS RUNS AS A SEPARATE, SEPARATELY-REPORTED PASS AND NEVER MERGES INTO THE HEADLINE
+#: COUNT. `n_novel_proteome_wide` stays scoped to reviewed entries, because that is the number the
+#: manuscript quotes and its meaning must not change silently. A hit here is a LEAD to be named in
+#: the paper, not a withdrawal.
+UNREVIEWED_URL = (
+    "https://rest.uniprot.org/uniprotkb/stream"
+    "?query=%28proteome%3AUP000005640%29+AND+%28reviewed%3Afalse%29"
+    "&format=fasta&includeIsoform=true&compressed=true"
+)
 PARENTS = {"P56945": "EWSR1", "Q92570": "NR4A3"}
 SENTINEL = "\x00"
 
@@ -195,6 +209,54 @@ def main():
         "peptides_found_in_proteome": found,
         "peptides_novel_proteome_wide": absent,
     }
+
+    if "--include-unreviewed" in sys.argv:
+        # Only the peptides that SURVIVED the reviewed pass are at stake: a peptide already found
+        # in a reviewed protein is settled, and re-reporting it here would double-count it.
+        unrev_entries = fetch_proteome(UNREVIEWED_URL)
+        print(f"  unreviewed: {len(unrev_entries)} sequences", file=sys.stderr)
+        uhay = SENTINEL.join(seq for _, _, seq in unrev_entries)
+        uoff, upos = [], 0
+        for acc, name, seq in unrev_entries:
+            uoff.append((upos, upos + len(seq), acc, name))
+            upos += len(seq) + 1
+        ustarts = [o[0] for o in uoff]
+
+        def ulocate(idx):
+            k = bisect.bisect_right(ustarts, idx) - 1
+            if k < 0:
+                return None, None
+            start, end, acc, name = uoff[k]
+            return (acc, name) if start <= idx < end else (None, None)
+
+        uhits = []
+        for rec in absent:
+            p = rec["peptide"]
+            hits, i = [], uhay.find(p)
+            while i != -1:
+                acc, name = ulocate(i)
+                if acc and not any(h["accession"] == acc for h in hits):
+                    hits.append({"accession": acc, "protein": name})
+                i = uhay.find(p, i + 1)
+            if hits:
+                uhits.append({"peptide": p, "predicted_binder": rec.get("predicted_binder"),
+                              "unreviewed_hits": hits})
+        result["_unreviewed"] = {
+            "⚠_scope": ("Searched SEPARATELY and reported separately. A hit among "
+                        "predicted-and-unreviewed entries is NOT evidence that a normal protein "
+                        "carries the peptide, and a miss is NOT evidence of absence. This does not "
+                        "change n_novel_proteome_wide, which remains scoped to reviewed entries."),
+            "url": UNREVIEWED_URL,
+            "n_sequences": len(unrev_entries),
+            "n_residues": sum(len(s) for _, _, s in unrev_entries),
+            "n_reviewed_novel_peptides_searched": len(absent),
+            "n_with_an_unreviewed_hit": len(uhits),
+            "n_predicted_binders_with_an_unreviewed_hit": sum(
+                1 for h in uhits if h.get("predicted_binder")),
+            "hits": uhits,
+        }
+        print(f"  unreviewed pass: {len(uhits)}/{len(absent)} reviewed-novel peptides also occur "
+              f"in an unreviewed entry", file=sys.stderr)
     json.dump(result, open(OUT, "w"), indent=2)
     print(f"  {len(absent)}/{len(peptides)} novel proteome-wide; "
           f"{len(found)} found in a human protein ({len(binder_hits)} of them predicted binders)",
