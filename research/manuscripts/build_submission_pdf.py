@@ -116,6 +116,30 @@ PAPERS = {
         },
         "out": "aso/fusion-junction-aso-journal-article.pdf",
     },
+    # ⭐ THE EMC VACCINE PATH, ADDED 2026-08-22 AT ROUND 1 OF ITS HARDENING CYCLE.
+    # ⛔ WHY, MEASURED: this document is `PUB-VACCINE-PATH`, state `drafted`, target venue `preprint`
+    # — and it had no entry here, so the whole PDF guard family (`test_build_submission_pdf.py`,
+    # `test_pdf_text_layer_is_orderable.py`, `test_no_page_is_nearly_empty.py`,
+    # `test_display_items_are_cited_in_order.py`) could not reach it. A manuscript being prepared for
+    # deposit that no build gate can see is the one-of-a-pair defect applied to the build itself.
+    # It carries no tables file and no figures: every quantity is in the prose, which is why its
+    # numbers guard (`tests/test_vaccine_path_numbers.py`) binds prose to artifacts directly.
+    "vaccine-path": {
+        "manuscript": "neoantigen/emc-vaccine-development-path.md",
+        "references": None,
+        "tables": None,
+        "stamp_sources": (
+            "neoantigen/emc-vaccine-development-path.md",
+        ),
+        "figures": {},
+        "journal": {
+            "article_type": "Article",
+            "section": "",
+            "preprint_note": "This manuscript is prepared for deposit as a bioRxiv preprint and is "
+                             "not yet posted.",
+        },
+        "out": "neoantigen/emc-vaccine-development-path.pdf",
+    },
     "aso": {
         "manuscript": "aso/fusion-junction-aso-research-article.md",
         "tables": "aso/fusion-junction-aso-submission-tables.md",
@@ -254,7 +278,15 @@ SUPPLEMENTARY_SORT_BASE = 1000
 
 
 def split_figures(body, figures):
-    """One block per figure: the SVG markup plus the legend paragraph that describes it."""
+    """One block per figure: the SVG markup plus the legend paragraph that describes it.
+
+    ⚠ A paper with no figures has no "## Figure legends" section, and looking for one raises. That
+    strictness is right for a paper that HAS figures — a renamed heading there means legends silently
+    vanish from the PDF — but for a figure-less paper the section's absence is the expected state.
+    Returning early is not a skip: the loop below has nothing to iterate either way.
+    """
+    if not figures:
+        return {}
     _, end, after_heading = section_span(body, "Figure legends")
     legends = body[after_heading:end]
     blocks = {}
@@ -502,12 +534,24 @@ def assemble(paper, style="journal"):
     # HAND-MAINTAINED and opens with `---`, so its `id:`, `level:` and `last_verified:` lines
     # printed as body text between the References heading and reference 1, in both built PDFs.
     # strip_frontmatter is a no-op on a file that has none, so this is safe for every paper.
-    tables = split_tables(strip_generated_banner(strip_frontmatter(read(paper["tables"]))))
-    references = strip_generated_banner(strip_frontmatter(read(paper["references"])))
+    # ⭐ A PAPER MAY LEGITIMATELY CARRY NEITHER. Every paper here used to ship its tables and its
+    # reference list as separate generated documents that get spliced in, and `read()` was called on
+    # both unconditionally. The vaccine path (2026-08-22) is the first entry with no tables document
+    # at all and with its references written inline in the manuscript's own Section 10 — which is
+    # correct for it, and crashed `assemble` on `os.path.join(HERE, None)`. Absent means "this paper
+    # has none", never "skip the splice silently": when `references` is None the manuscript must
+    # already carry its own numbered list, and `test_every_reference_entry_survives` reads it from
+    # there instead, so the entries are still checked rather than waved through.
+    tables = (split_tables(strip_generated_banner(strip_frontmatter(read(paper["tables"]))))
+              if paper.get("tables") else {})
+    references = (strip_generated_banner(strip_frontmatter(read(paper["references"])))
+                  if paper.get("references") else None)
 
     if style == "manuscript":
-        body = splice(body, "Tables", "\n\n".join(tables[n] for n in sorted(tables)), "the tables")
-        body = splice(body, "References", references, "the reference list")
+        if tables:
+            body = splice(body, "Tables", "\n\n".join(tables[n] for n in sorted(tables)), "the tables")
+        if references is not None:
+            body = splice(body, "References", references, "the reference list")
         body = _fold_the_figure_legends_preamble(body, paper)
         body = apply_deposit_filenames(body, paper, "manuscript style")
         # ⚠ THE FIRST FIGURE IS MARKED, because it is the one that must NOT start a fresh page:
@@ -524,9 +568,17 @@ def assemble(paper, style="journal"):
         return body, {}
 
     figures = split_figures(body, paper["figures"])
-    body = splice(body, "References", references, "the reference list")
-    body = drop_section(body, "Tables")
-    body = drop_section(body, "Figure legends")
+    if references is not None:
+        body = splice(body, "References", references, "the reference list")
+    # ⚠ ONLY DROP A SECTION THE PAPER ACTUALLY HAS. `drop_section` raises rather than returning
+    # quietly when its anchor is missing, and that strictness is right: for a paper WITH tables, a
+    # missing "## Tables" heading means a rename silently left the pointer paragraph in the PDF. For a
+    # paper with no tables and no figures there is nothing to drop and no such risk, so the anchor's
+    # absence is the expected state rather than a broken splice.
+    if paper.get("tables"):
+        body = drop_section(body, "Tables")
+    if paper.get("figures"):
+        body = drop_section(body, "Figure legends")
     body = apply_deposit_filenames(body, paper, "journal style")
 
     floats, items = {}, []
@@ -1336,7 +1388,11 @@ def parse_front_matter(body):
     _, end, after = section_span(body, "Abstract")
     front["abstract"] = body[after:end].strip().strip("-").strip()
 
-    start = re.search(r"^##\s+1\s", body, re.M)
+    # ⚠ `1\s` REQUIRED A SPACE STRAIGHT AFTER THE DIGIT, so a manuscript numbering its sections
+    # "## 1. Introduction" — ordinary punctuation, and what the vaccine path uses — failed the build
+    # with a message about a missing section. The anchor that matters is "a level-2 heading whose
+    # number is 1", not which character follows the digit.
+    start = re.search(r"^##\s+1[.\s]", body, re.M)
     if not start:
         raise SystemExit("could not find '## 1 …' — the body must start at the first numbered "
                          "section, or the front matter would be duplicated into it")
@@ -1720,7 +1776,11 @@ def wrap_journal(paper, front, body_html, doc_title=None):
     body_html = re.sub(r"(<h2>References</h2>.*?)<ol", r'\1<ol id="references-list"',
                        body_html, count=1, flags=re.S)
     # Declarations and the reference list are back matter: smaller, and outside the main flow.
-    split = re.search(r"<h2>Declarations</h2>", body_html)
+    # ⚠ MATCHES A NUMBERED HEADING TOO. This anchored on the exact string "<h2>Declarations</h2>",
+    # so a manuscript numbering its sections — "## 9. Declarations", which renders as
+    # "<h2>9. Declarations</h2>" — could not be built at all. The property the split needs is a
+    # level-2 heading whose text ENDS in "Declarations", not one whose text is exactly that.
+    split = re.search(r"<h2>(?:[\d.\s]*)Declarations</h2>", body_html)
     if not split:
         raise SystemExit("no '## Declarations' heading — the back matter split is anchored on it")
     main, back = body_html[:split.start()], body_html[split.start():]

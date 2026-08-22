@@ -400,8 +400,14 @@ def test_every_papers_reference_list_survives_assembly(key):
     """A spliced reference list that silently vanishes looks like a complete PDF until page 20."""
     paper = bsp.PAPERS[key]
     body, _ = bsp.assemble(paper, "journal")
-    entries = re.findall(r"^(\d+)\.\s", bsp.read(paper["references"]), re.M)
-    assert entries, f"{key}: no numbered entries found in its references file"
+    # ⛔ A PAPER WITH INLINE REFERENCES IS STILL CHECKED, NOT SKIPPED. When `references` is None the
+    # entries live in the manuscript's own Section 10 rather than in a spliced file, so read them
+    # from there. Skipping the assertion for such a paper would be the failure this test is named
+    # for — a reference list that vanishes looks like a complete PDF until page 20 — wearing the
+    # costume of a configuration difference.
+    source = bsp.read(paper["references"]) if paper.get("references") else bsp.read(paper["manuscript"])
+    entries = re.findall(r"^(\d+)\.\s", source, re.M)
+    assert entries, f"{key}: no numbered entries found in its reference list"
     assert f"{len(entries)}." in body, f"{key}: the last reference entry did not survive assembly"
 
 
