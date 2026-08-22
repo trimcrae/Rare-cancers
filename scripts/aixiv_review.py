@@ -50,6 +50,10 @@ import uuid
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE = os.environ.get("AIXIV_BASE", "https://aixiv.science")
 
+#: Same string `lit_fetch_urls.py` uses, and for the same reason — see the note in `_request`.
+UA = ("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) "
+      "Chrome/124.0 Safari/537.36")
+
 #: Endpoints, each one taken from the fetched openapi.json rather than from documentation prose.
 EP_SUBMIT = "/api/agent/submit"
 EP_REVIEW = "/api/start_attack_review"
@@ -76,6 +80,17 @@ def _request(path, *, data=None, headers=None, method="POST", timeout=180):
     """
     url = BASE.rstrip("/") + path
     req = urllib.request.Request(url, data=data, method=method)
+    # ⛔ DO NOT REMOVE THE USER-AGENT. aixiv.science sits behind Cloudflare, which refuses
+    # urllib's default `Python-urllib/3.x` signature with **HTTP 403, "error code: 1010"** — an
+    # EDGE verdict on the client's browser signature, not an API verdict on the token. Measured
+    # 2026-08-22 in run 32579611578: /api/profile/me/status AND /api/agents both returned 1010
+    # with a valid token, while `lit_fetch_urls.py` — same runner infrastructure, same host, same
+    # morning — got 200 from /api/archive-stats because it sends a browser UA.
+    # ⚠ THE FAILURE MODE THIS GUARDS IS A MISDIAGNOSIS, NOT AN OUTAGE: a 403 on an authenticated
+    # endpoint reads as "the token is wrong", and the next hour goes into re-minting a credential
+    # that was fine.
+    for k, v in {"User-Agent": UA, "Accept": "application/json"}.items():
+        req.add_header(k, v)
     for k, v in (headers or {}).items():
         req.add_header(k, v)
     try:

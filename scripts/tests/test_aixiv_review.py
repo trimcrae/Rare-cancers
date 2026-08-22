@@ -110,6 +110,26 @@ def test_no_reviews_is_reported_as_an_absent_reading_not_a_pass(monkeypatch, cap
     assert "NOT a verdict" in out
 
 
+def test_every_request_carries_a_browser_user_agent(monkeypatch):
+    """⛔ Cloudflare answers urllib's default signature with 403 "error code: 1010" — which reads
+    as a bad token and sends the next hour into re-minting a credential that was fine."""
+    seen = {}
+
+    class _Resp:
+        def read(self): return b"{}"
+        def __enter__(self): return self
+        def __exit__(self, *a): return False
+
+    def _capture(req, *a, **k):
+        seen["ua"] = req.get_header("User-agent")
+        return _Resp()
+
+    monkeypatch.setattr(aixiv_review.urllib.request, "urlopen", _capture)
+    aixiv_review._request("/api/health", method="GET")
+    assert seen["ua"] and "Mozilla/5.0" in seen["ua"]
+    assert "urllib" not in seen["ua"].lower()
+
+
 def test_verify_never_prints_the_response_body(monkeypatch, capsys):
     """⛔ Actions logs here are world-readable. A raw dump would publish the account's e-mail."""
     monkeypatch.setenv("AIXIV_TOKEN", "t")
