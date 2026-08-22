@@ -266,6 +266,7 @@ def cmd_calibrate(args):
     print(f"calibrating against {len(papers)} public {args.doc_type}(s)")
 
     ratings = []
+    keys_seen = set()
     for s in papers:
         aid, ver = s.get("aixiv_id"), str(s.get("version") or "1.0")
         try:
@@ -280,16 +281,30 @@ def cmd_calibrate(args):
                 rr = json.loads(r["review_results"])
             except (json.JSONDecodeError, TypeError, KeyError):
                 continue
+            keys_seen.update(rr.keys())
             v = rr.get("Rating")
             if isinstance(v, (int, float)):
-                ratings.append((float(v), aid, ver))
+                ratings.append((float(v), aid, ver, s.get("title", "")[:70],
+                                str(rr.get("Summary", ""))[:400]))
 
     if not ratings:
         # ⛔ An empty sample is an unanswered question, not a verdict about our own rating.
         print("NO RATINGS READ. This is an absent reading, NOT evidence that 6 is good or bad.")
         return 1
 
-    vals = sorted(v for v, _, _ in ratings)
+    # ⭐ IS THERE ANY QUALITATIVE LABEL AT ALL? A percentile over a corpus of unknown quality
+    # persuades nobody, so print the UNION of every field the reviews carry. A decision,
+    # recommendation, meta-review or accept/reject verdict would show up here if one existed.
+    print("\nreview_results fields present anywhere in the corpus:")
+    for k in sorted(keys_seen):
+        print(f"  - {k}")
+    decisionish = sorted(k for k in keys_seen
+                         if any(w in k.lower() for w in
+                                ("decis", "recommend", "accept", "reject", "verdict", "meta",
+                                 "confidence", "vote")))
+    print("  -> decision-like fields:", decisionish or "NONE — no accept/reject verdict is emitted")
+
+    vals = sorted(v for v, _, _, _, _ in ratings)
     n = len(vals)
     mean = sum(vals) / n
     median = vals[n // 2] if n % 2 else (vals[n // 2 - 1] + vals[n // 2]) / 2
@@ -307,6 +322,17 @@ def cmd_calibrate(args):
               f"({below} below, {equal} equal, {n - below - equal} above)")
         print("⚠ Observed range only. The scale's true maximum is still UNKNOWN — a corpus that "
               "never scores above its own max cannot reveal one.")
+
+    # ⛔ A PERCENTILE IS ONLY AS GOOD AS THE CORPUS IT RANKS AGAINST. If the bottom of this
+    # distribution is slop, standing above it means nothing — so print the actual titles and
+    # verdict text at both ends and let a human judge the corpus rather than take the rank.
+    ranked = sorted(ratings, key=lambda t: t[0])
+    print("\n=== LOWEST RATED (is the floor slop?) ===")
+    for v, aid, ver, title, summary in ranked[:3]:
+        print(f"[{v:g}] {aid} — {title}\n      {summary[:260]}\n")
+    print("=== HIGHEST RATED (what does a 7-8 look like?) ===")
+    for v, aid, ver, title, summary in ranked[-3:]:
+        print(f"[{v:g}] {aid} — {title}\n      {summary[:260]}\n")
     return 0
 
 
