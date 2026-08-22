@@ -46,6 +46,12 @@ ART = os.path.join(REPO, "research/manuscripts/aso/fusion-junction-aso-research-
 # including the gap-length citation provenance, which is the material the sign error below lived in.
 # So the defect this module exists to chase now has a home that nothing was watching.
 SI = os.path.join(REPO, "research/manuscripts/aso/fusion-junction-aso-supplementary-information.md")
+# ⛔ THE JOURNAL ARTICLE, ADDED 2026-08-22 (round 9, seat 3). Same shape as the SI note above and as
+# round 8's root cause: this module's 18 checks all resolve against ART, the extended report, and the
+# journal article is a SECOND HOME for the material several of them chase. Two assertions here are
+# live against the journal's own section 5 today. A guard scoped to one member of a pair reports on
+# the pair — which is exactly the defect this file exists to catch, one document over.
+JOURNAL = os.path.join(REPO, "research/manuscripts/aso/fusion-junction-aso-journal-article.md")
 TABLES = os.path.join(REPO, "research/manuscripts/aso/fusion-junction-aso-submission-tables.md")
 LETTER = os.path.join(REPO, "research/manuscripts/aso/fusion-junction-aso-cover-letter.md")
 GEN_TABLES = os.path.join(REPO, "research/manuscripts/submission_tables.py")
@@ -343,3 +349,38 @@ def test_the_cover_letter_carries_the_manuscripts_corrected_reproducibility_clai
     assert "transcribed from the publications cited for them" in letter, (
         "the cover letter does not carry the corrected split"
     )
+
+
+# --------------------------------------------------------------- the journal article's own copy
+#
+# Round 9 seat 3 found the journal article's section 5 restating two of the fixes this module
+# guards, with nothing reading them there. These are the same propositions, asserted at the second
+# home rather than assumed to have travelled.
+
+
+def test_the_journal_article_states_voidness_as_a_property_of_the_variance():
+    """A void test cannot fail on a NON-anti-selective reading — not 'whatever the reagent does'.
+
+    Round 9 seat 3 produced the counter-example that killed the stronger phrasing: at n=3 with a
+    replicate SD of 0.90 an observed ratio of 0.50 puts the 95% upper limit at 4.677, below the cut,
+    so a run above the void figure CAN falsify. The claim only holds for readings at or above one.
+    """
+    text = open(JOURNAL, encoding="utf-8").read()
+    assert "no observed ratio at or above one" in text, (
+        "the void gate lost its 'at or above one' restriction in the journal article — the "
+        "unrestricted form is false and round 7 already fixed it once in the extended report")
+    assert "whatever the reagent does" not in text, (
+        "the journal article claims a void run cannot falsify 'whatever the reagent does', which "
+        "an anti-selective observed ratio refutes")
+
+
+def test_the_journal_article_keeps_both_branches_of_the_pilot_gate():
+    """A pilot at or above the void figure gives a larger count OR no test — never just 'more'.
+
+    The gate is always satisfiable by adding replicates, which is why 'more replicates' alone is not
+    an answer: at a replicate SD of 1.5 the count it admits runs at about 10% power.
+    """
+    text = open(JOURNAL, encoding="utf-8").read()
+    assert "no falsification test at all" in text, (
+        "the journal article's pilot gate dropped the second branch the extended report states at "
+        "its own section 4.4 — with only the first branch it prescribes an underpowered test")

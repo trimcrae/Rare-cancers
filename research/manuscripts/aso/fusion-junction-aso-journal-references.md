@@ -37,9 +37,9 @@ related: [DOC-FUSION-JUNCTION-ASO-JOURNAL]
 
 # References — fusion-junction ASO journal article
 
-*Numbered contiguously by order of first citation in this article. A reference cited in both this
-article and the extended report therefore carries a different number in each, and a superscript here
-resolves only against this list. Metadata is read from retrieved bibliographic records.*
+*Numbered contiguously by order of first citation in this article. A reference cited in both this article and the extended
+report may therefore carry a different number in each, and a superscript here resolves only against
+this list. Metadata is read from retrieved bibliographic records.*
 
 1. Labelle Y, Zucman J, Stenman G, Kindblom LG, Knight J, Turc-Carel C, et al. Oncogenic conversion of a novel orphan nuclear receptor by chromosome translocation. Human molecular genetics. 1995;4(12):2219-2226. PMID: 8634690. doi:10.1093/hmg/4.12.2219
 2. Paioli A, Stacchiotti S, Campanacci D, Palmerini E, Frezza AM, Longhi A, et al. Extraskeletal Myxoid Chondrosarcoma with Molecularly Confirmed Diagnosis: A Multicenter Retrospective Study Within the Italian Sarcoma Group. Ann Surg Oncol. 2021;28(2):1142-1150. PMID: 32572850. doi:10.1245/s10434-020-08737-7

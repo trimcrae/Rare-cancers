@@ -784,11 +784,24 @@ def _notes(rows, carrier="csv"):
     gap()
     where = ("in COLUMN 2, beside the sequence it condemns"
              if carrier == "csv" else "on the defline, tagged DO NOT ORDER")
+    parent_paired = [r for r in condemned if "wild-type parent gene" in r["do_not_order"]]
+    premrna = [r for r in condemned if "parent precursor RNA" in r["do_not_order"]]
+    assert len(parent_paired) + len(premrna) + len(allele) == len(condemned), (
+        "the three condemnation classes must partition the condemned set — a row carrying none of "
+        "them would vanish from this banner without changing its total")
     para(f"⛔ ORDER SAFETY. READ THE do_not_order VERDICT — {where} — BEFORE ORDERING ANY SEQUENCE "
          "IN THIS FILE. A verdict means the paper names that design as one NOT to be carried "
          f"forward. {len(condemned)} of the {len(rows)} records carry one: "
-         f"{len(condemned) - len(allele)} pair their whole catalytic gap against a wild-type parent "
-         f"gene at the criterion below, and {len(allele)} pair the patient's own un-rearranged "
+         # ⛔ COUNT EACH CLASS, NEVER DERIVE ONE BY SUBTRACTION. This read
+         # `len(condemned) - len(allele)`, which was right while there were exactly two classes and
+         # silently absorbed the five pre-mRNA rows into the mature-parent count the moment a third
+         # arrived — attributing to "pairs a wild-type parent at the criterion" five rows whose own
+         # column reads False at 7, 7, 7, 7 and 9 bp. A banner that misdescribes a verdict is worse
+         # than one that omits it, and this is the file the Declarations route a laboratory to.
+         f"{len(parent_paired)} pair their whole catalytic gap against a wild-type parent "
+         f"gene at the criterion below, {len(premrna)} carry a sense-strand near-match in parent "
+         "precursor RNA that pairs the gap in full and touches intronic sequence, "
+         f"and {len(allele)} pair the patient's own un-rearranged "
          "NR4A3 allele at a non-canonical acceptor.")
     gap()
     para("⛔ AND CHECK THE NEIGHBOUR BEFORE YOU ORDER. "

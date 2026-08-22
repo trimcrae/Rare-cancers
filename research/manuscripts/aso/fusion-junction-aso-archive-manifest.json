@@ -10,10 +10,10 @@
     "Not a licence statement. The depositor chooses the licence at step 4 below."
   ],
   "deposition_doi": "10.5281/zenodo.22028916",
-  "git_revision": "a00c4efa19c34868aa2061b8342015a235d6650f",
+  "git_revision": "4ff617b950ddf20a24b3feb97dfe5cc79b552eaa",
   "git_tree_is_clean_apart_from_this_manifest": false,
   "inventory_limited_to_tracked_files": true,
-  "archive_content_digest": "85c78e41e0946a38a0c27f9bef6cdc262c3a62703f8f31901378297d364a8b2c",
+  "archive_content_digest": "c6b6c9486146df55cbf2ebb5e3917c62d1daf90b3c44e832d90834c7ccaf7c3f",
   "n_files": 473,
   "self_entry": {
     "path": "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
@@ -24,18 +24,18 @@
     "_why_not_counted": "It is excluded from `files`, `n_files`, `total_bytes` and `archive_content_digest` for the same reason, which is also what keeps two runs over an unchanged tree byte-identical — the property this module's header calls the only cheap check a reader has that the file is derived rather than edited.",
     "how_a_reader_checks_it_anyway": "Two ways, neither needing a self-hash. (1) Re-derive it: check out `git_revision` and run `python3 research/manuscripts/aso_archive_manifest.py --check`, which rebuilds the whole file and exits non-zero on any difference. (2) Compare the downloaded copy's `sha256sum` against the value the deposition record states — step 4 below tells the depositor to record it there, which is the one place it can live without being self-referential."
   },
-  "total_bytes": 45334318,
-  "total_mib": 43.234,
+  "total_bytes": 45336121,
+  "total_mib": 43.236,
   "payload_file_types": {
     "_what": "Extension census of the payload, derived from the file list. A preprint or journal uploader that accepts only document, image and container types cannot take most of these one by one; step 3 below builds the single container that sidesteps the question entirely. Check the accepted types on the uploader itself — none is asserted here.",
     "by_extension": {
       ".json": {
         "n_files": 378,
-        "bytes": 34862822
+        "bytes": 34862832
       },
       ".py": {
         "n_files": 67,
-        "bytes": 2935533
+        "bytes": 2936773
       },
       ".md": {
         "n_files": 10,
@@ -43,7 +43,7 @@
       },
       ".pdf": {
         "n_files": 7,
-        "bytes": 5391633
+        "bytes": 5391951
       },
       ".png": {
         "n_files": 4,
@@ -55,11 +55,11 @@
       },
       ".csv": {
         "n_files": 1,
-        "bytes": 139455
+        "bytes": 139572
       },
       ".fasta": {
         "n_files": 1,
-        "bytes": 233032
+        "bytes": 233150
       },
       ".sh": {
         "n_files": 1,
@@ -1076,23 +1076,23 @@
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-research-article-manuscript.build-stamp.json",
       "bytes": 728,
-      "sha256": "d9a09f4b9ac1019c84c955c29ab162b930770ce7f875b0d4eecce01cccc947b2",
+      "sha256": "1f68a8151e4844bb80df544be54bb32d0d7452b4dc63ec797c723995f7c8c7ce",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-research-article-manuscript.pdf",
-      "bytes": 2336787,
-      "sha256": "e335f74d07f89e303ccc088212fc0f374e5f1b0e38a2618cf30420dfcf16963b",
+      "bytes": 2336876,
+      "sha256": "92dfe6d70dab4be9185417fa1783f9a2da787d13e2730dae6ff8aff357f1ee88",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-research-article-supplementary-information.pdf",
-      "bytes": 166061,
-      "sha256": "4c706e541f3bcff167b930a5c02d438b0e1b669a47c85bc477ea3977c28f18cd",
+      "bytes": 166168,
+      "sha256": "e243874ee04b2860d62bea43603e2a97d0941b3bcc4541afa679fb9b4d898e81",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
@@ -1100,7 +1100,7 @@
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-research-article.build-stamp.json",
       "bytes": 728,
-      "sha256": "d9a09f4b9ac1019c84c955c29ab162b930770ce7f875b0d4eecce01cccc947b2",
+      "sha256": "1f68a8151e4844bb80df544be54bb32d0d7452b4dc63ec797c723995f7c8c7ce",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
@@ -1115,24 +1115,24 @@
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-research-article.pdf",
-      "bytes": 2483176,
-      "sha256": "0498610a3651050f0224c1df98194dc722596b30a3a2c8278c9f4375aa8fe0a5",
+      "bytes": 2483298,
+      "sha256": "b46ef239a2afb26e5bf37b054d2928be620244fb1111e7386fc40f1ea44ef241",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-sequences.csv",
-      "bytes": 139455,
-      "sha256": "205026afd98eaf27be8f0143585d54b264f1bb49df2a850bf2fb610b5ecdc2fc",
+      "bytes": 139572,
+      "sha256": "c03a67ce5ad4f9e4a16b7c4af3c66144e6e920a14594a75897af5c85d046ec22",
       "serves": "canonical_sequence_record",
       "also_serves": [],
       "contributes": "Every design the three deposit documents name, in CSV and FASTA, with its geometry, junction, gap-level margin, longest wild-type-parent duplex and an explicit do-not-order flag on every record the paper condemns. ⚠ THAT FLAG IS ON 252 OF THE 780 RECORDS, NOT ON THREE: 249 pair a wild-type parent through the whole catalytic gap at the ten-base-pair criterion, and 3 more pair the patient's own un-rearranged NR4A3 allele. This sentence named only the second class until 2026-08-19, which described the smaller hazard and left the larger one sounding like a clean file. The generator refuses to build if any sequence the documents print is absent, so the file cannot quietly stop being canonical."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-sequences.fasta",
-      "bytes": 233032,
-      "sha256": "edecbc53ccafbbca3eab096e2c6cb465aebcea4c4e50d7b7088983e14f8753ed",
+      "bytes": 233150,
+      "sha256": "43a0402f576b32d9e4d497bafdabe3897598fc39112c6234314c611c1e711c72",
       "serves": "canonical_sequence_record",
       "also_serves": [],
       "contributes": "Every design the three deposit documents name, in CSV and FASTA, with its geometry, junction, gap-level margin, longest wild-type-parent duplex and an explicit do-not-order flag on every record the paper condemns. ⚠ THAT FLAG IS ON 252 OF THE 780 RECORDS, NOT ON THREE: 249 pair a wild-type parent through the whole catalytic gap at the ten-base-pair criterion, and 3 more pair the patient's own un-rearranged NR4A3 allele. This sentence named only the second class until 2026-08-19, which described the smaller hazard and left the larger one sounding like a clean file. The generator refuses to build if any sequence the documents print is absent, so the file cannot quietly stop being canonical."
@@ -1319,16 +1319,16 @@
     },
     {
       "path": "research/manuscripts/aso_sequence_manifest.py",
-      "bytes": 68476,
-      "sha256": "33a3a525340962589deca4be5c7d582fc6b21d196531cdabf289f5a353cb91d0",
+      "bytes": 69624,
+      "sha256": "52b87112a7b142c2569b832a002885c842fc091e7342cedd19b5fa407860cf06",
       "serves": "canonical_sequence_record",
       "also_serves": [],
       "contributes": "Every design the three deposit documents name, in CSV and FASTA, with its geometry, junction, gap-level margin, longest wild-type-parent duplex and an explicit do-not-order flag on every record the paper condemns. ⚠ THAT FLAG IS ON 252 OF THE 780 RECORDS, NOT ON THREE: 249 pair a wild-type parent through the whole catalytic gap at the ten-base-pair criterion, and 3 more pair the patient's own un-rearranged NR4A3 allele. This sentence named only the second class until 2026-08-19, which described the smaller hazard and left the larger one sounding like a clean file. The generator refuses to build if any sequence the documents print is absent, so the file cannot quietly stop being canonical."
     },
     {
       "path": "research/manuscripts/build_submission_pdf.py",
-      "bytes": 135263,
-      "sha256": "4fc7c2a3d87112f81a08da190d67c364037d571aa47fc551ce9e01845a706d5d",
+      "bytes": 135355,
+      "sha256": "dd71b9c56b037e5f521cc6f2e32490498e3abeb35c79f15451fd39c5799cf726",
       "serves": "import_closure",
       "also_serves": [],
       "contributes": "Imported by a released module. Not named by any availability promise; present because the code the promises DO name cannot be imported without it."
@@ -1535,8 +1535,8 @@
     },
     {
       "path": "research/manuscripts/pinned-figures.json",
-      "bytes": 123696,
-      "sha256": "f8987b544e1fcbe8459e7726453df479642a871b5af9f168b5079e064616f900",
+      "bytes": 123706,
+      "sha256": "a2b5f89af3c8a673c350c882334c542a404b6bd4e5f1fff7b7c4f740147a7591",
       "serves": "correction_record",
       "also_serves": [],
       "contributes": "The acceptor-seam exon-indexing correction: the grader that banners every affected artifact, the frame audit and regeneration record that show which junctions were re-emitted and which were refused, and the working record and red-team pass that narrate the withdrawal."
@@ -1544,7 +1544,7 @@
     {
       "path": "research/manuscripts/submission-metrics.json",
       "bytes": 11072,
-      "sha256": "b8fcb3313602e7eaf56e47c73c8d98e89a1f93f7c92fbcb9dd0626b005308977",
+      "sha256": "094c4c2286144484cb4079f15865f728d88a0eb9b8528223ece673f5f648660c",
       "serves": "reproduction_command",
       "also_serves": [],
       "contributes": "Re-derives every offline-derivable artefact below in dependency order and re-runs the consistency, citation and style gates; the command a reader is told to run to establish that this archive is current. The script AND every step it invokes that no other row here already carries."

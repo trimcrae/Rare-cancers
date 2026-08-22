@@ -123,7 +123,8 @@ def build() -> str:
             "to it, so the length is printed rather than a pass mark. Test articles are the "
             "engineered constructs of Brenca et al. (PMID:31020999), whose exon spans that paper "
             "states verbatim. The two patient-derived models of Bangerter et al. "
-            "(PMID:36316541) carry NR4A3 exon-2 acceptors and are therefore matched to different "
+            "(PMID:36316541) are REPORTED to carry NR4A3 exon-2 acceptors, an index the article records as "
+            "unsettled, and on that reading are matched to different "
             "designs, not to these two. Nothing here has been synthesised or tested, and no "
             "sequence may be administered to any person or animal.", ""]
     out += ["| seam | reagent | margin | longest WT run (bp) | test article |",
