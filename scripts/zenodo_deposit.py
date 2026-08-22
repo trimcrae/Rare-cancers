@@ -213,7 +213,29 @@ def main(argv=None):
     existing = re.search(r"zenodo\.(\d+)$", declared) if declared else None
     if existing and not args.new:
         dep_id = int(existing.group(1))
-        dep = api(base, token, "GET", f"/deposit/depositions/{dep_id}")
+        # ⛔ SANDBOX AND PRODUCTION ARE SEPARATE UNIVERSES WITH SEPARATE RECORD IDs, AND A RAW 404
+        # DOES NOT SAY SO (measured 2026-08-22, run 32592438100). The first `--new-version`
+        # rehearsal reported `Zenodo GET /deposit/depositions/22028916 -> 404: The persistent
+        # identifier does not exist` — correct, and completely opaque: 22028916 is a zenodo.org
+        # record and the rehearsal was asking sandbox.zenodo.org for it.
+        # ⚠ SO A CORRECTION CANNOT BE REHEARSED IN THE SANDBOX. Anything that operates on an
+        # EXISTING record — which is what a new version is — can only run where that record lives.
+        # The sandbox still rehearses everything up to that point: the manifest verification, the
+        # zip, the token and the API contract. Say which half was rehearsed rather than let a 404
+        # read as a bug in the archive.
+        try:
+            dep = api(base, token, "GET", f"/deposit/depositions/{dep_id}")
+        except SystemExit as exc:
+            if "404" in str(exc) and args.sandbox:
+                raise SystemExit(
+                    f"{declared} is a zenodo.org record and this is a REHEARSAL against "
+                    "sandbox.zenodo.org, where it does not exist.\n\n"
+                    "A correction operates on an existing record, so it can only run where that "
+                    "record lives. Everything before this point HAS been rehearsed: the manifest "
+                    "verified against the tree, the archive built, the token accepted and the API "
+                    "reachable. Re-run without --sandbox to open the new version for real — it "
+                    "still does not publish.") from None
+            raise
         if dep.get("submitted") and not args.new_version:
             raise SystemExit(
                 f"deposition {dep_id} ({declared}) is already PUBLISHED and its files cannot be "

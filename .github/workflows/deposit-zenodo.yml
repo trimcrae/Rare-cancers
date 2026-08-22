@@ -69,6 +69,17 @@ jobs:
       - name: Create the draft deposition and reserve the DOI
         env:
           ZENODO_TOKEN: ${{ secrets.ZENODO_TOKEN }}
+        # ⛔⛔ `shell: bash` IS LOAD-BEARING, AND ITS ABSENCE MADE THIS STEP REPORT SUCCESS ON A
+        # FAILED DEPOSIT (measured 2026-08-22, run 32592438100). GitHub's DEFAULT shell for a `run:`
+        # block is `bash -e {0}` — `-e` and NO `pipefail`. The command below ends `| tee
+        # deposit.log`, so the pipeline's exit status is tee's, and tee always succeeds. The script
+        # exited non-zero on a Zenodo 404, the error printed in the log, and every step and the run
+        # itself came back green. Naming `bash` explicitly gets `bash --noprofile --norc -eo
+        # pipefail {0}`, which is the only difference that matters here.
+        # ⚠ THIS IS THE REPOSITORY'S HEADER DEFECT IN A WORKFLOW: a step that reports while
+        # measuring nothing. It was found by dispatching the rehearsal the workflow exists to
+        # provide, which is the argument for rehearsing.
+        shell: bash
         run: |
           if [ -z "$ZENODO_TOKEN" ]; then
             echo "::error::ZENODO_TOKEN is not set. See this file's SETUP block." && exit 1
