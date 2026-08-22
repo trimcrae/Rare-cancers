@@ -86,6 +86,45 @@ PARENTS = {"P56945": "EWSR1", "Q92570": "NR4A3"}
 SENTINEL = "\x00"
 
 
+def _fetch_paginated(stream_url, tries=3, page=500):
+    """Walk UniProt `/search` pages via the Link rel="next" cursor. Returns the joined FASTA text.
+
+    ⚠ EVERY PAGE MUST ARRIVE. A dropped page would silently shorten the proteome and every peptide
+    absent from the missing part would score NOVEL, so a page that will not fetch after `tries`
+    attempts raises rather than being skipped.
+    """
+    url = (stream_url.replace("/uniprotkb/stream", "/uniprotkb/search")
+                     .replace("&compressed=true", "") + f"&size={page}")
+    parts, seen, n = [], 0, 0
+    while url:
+        last = None
+        for attempt in range(tries):
+            try:
+                req = urllib.request.Request(
+                    url, headers={"User-Agent": "Rare-cancers/junction-novelty"})
+                with urllib.request.urlopen(req, timeout=180) as r:
+                    body = r.read().decode("utf-8", "replace")
+                    link = r.headers.get("Link", "") or ""
+                break
+            except Exception as e:                                # noqa: BLE001
+                last = e
+                print(f"    page {n} attempt {attempt + 1} failed: {e}", file=sys.stderr)
+        else:
+            raise RuntimeError(f"proteome page {n} failed after {tries} attempts: {last}")
+        parts.append(body)
+        seen += body.count(">")
+        n += 1
+        nxt = ""
+        for piece in link.split(","):
+            if 'rel="next"' in piece and "<" in piece:
+                nxt = piece.split("<", 1)[1].split(">", 1)[0]
+        url = nxt
+        if n % 20 == 0:
+            print(f"    ...{n} pages, {seen} records", file=sys.stderr)
+    print(f"  paginated fetch: {n} pages, {seen} records", file=sys.stderr)
+    return "".join(parts)
+
+
 def fetch_proteome(url=PROTEOME_URL, tries=4):
     """Stream the human proteome FASTA. Returns [(accession, name, seq)].
 
@@ -98,36 +137,13 @@ def fetch_proteome(url=PROTEOME_URL, tries=4):
     would be scored NOVEL. That is a silently wrong headline number, which is worse than no number,
     so a short read is an error here and never a result.
     """
-    last = None
-    for attempt in range(tries):
-        # Fall back to the UNCOMPRESSED stream after the first failure: gzip is where the truncation
-        # happens, and an identical retry cannot clear a deterministic one.
-        attempt_url = url if attempt == 0 else url.replace("&compressed=true", "")
-        try:
-            req = urllib.request.Request(
-                attempt_url, headers={"User-Agent": "Rare-cancers/junction-novelty"})
-            with urllib.request.urlopen(req, timeout=600) as r:
-                buf = io.BytesIO()
-                while True:
-                    chunk = r.read(1 << 20)
-                    if not chunk:
-                        break
-                    buf.write(chunk)
-                raw = buf.getvalue()
-            if not raw:
-                raise RuntimeError("empty body")
-            break
-        except Exception as e:                                    # noqa: BLE001
-            last = e
-            print(f"  proteome fetch attempt {attempt + 1} failed ({attempt_url[:60]}...): {e}",
-                  file=sys.stderr)
-    else:
-        raise RuntimeError(f"proteome fetch failed after {tries} attempts: {last}")
-
-    try:
-        text = gzip.decompress(raw).decode("utf-8", "replace")
-    except (OSError, gzip.BadGzipFile):
-        text = raw.decode("utf-8", "replace")
+    # ⛔ `/stream` TRUNCATES AND CANNOT BE MADE TO WORK BY RETRYING. Measured 2026-08-22 across two
+    # runs: IncompleteRead at 8,760,539 bytes (compressed) and at 769,298 bytes (uncompressed) — a
+    # different offset each time, so it is the server dropping a long-lived connection rather than a
+    # deterministic size limit or anything our client controls.
+    # ⭐ THE FIX IS TO STOP ASKING FOR ONE LONG RESPONSE. `/search` returns bounded pages and a
+    # `Link: <...>; rel="next"` cursor, so no single connection has to survive the whole proteome.
+    text = _fetch_paginated(url, tries=tries)
 
     entries, acc, name, chunks = [], None, None, []
     for line in io.StringIO(text):
