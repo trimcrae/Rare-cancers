@@ -141,6 +141,53 @@ _SOURCES = (
 )
 
 
+def _every_stamped_pdf():
+    """Every PDF in `research/manuscripts/` that CLAIMS to be current, found on disk.
+
+    ⛔ DERIVED, NOT LISTED, AND THE LIST IS WHY (2026-08-22). A build stamp is a PDF asserting "I
+    render these exact bytes"; the assertion is worthless unless something checks it. `PDFS` named
+    four, seven stamps existed, and one of the three unnamed — the vaccine paper's manuscript-format
+    build — was measurably stale on `main`: a chain run rebuilt it and its stamp changed, so the
+    committed PDF had been rendering an older markdown under thirteen green gates.
+
+    ⚠ THE FAILURE MODE OF A HAND-KEPT LIST IS ALWAYS THE SAME. Nobody omits a document on purpose;
+    a second paper is added, its PDFs are built, and the list that was correct for one paper is
+    silently correct for less. Asking the DIRECTORY removes the step a human has to remember.
+    """
+    out = {}
+    for root, _dirs, files in os.walk(os.path.join(REPO, "research", "manuscripts")):
+        for name in sorted(files):
+            if not name.endswith(".build-stamp.json"):
+                continue
+            pdf = os.path.join(root, name[: -len(".build-stamp.json")] + ".pdf")
+            rel = os.path.relpath(pdf, os.path.join(REPO, "research", "manuscripts"))
+            out[rel] = pdf
+    assert out, "no build stamp was found at all; this guard has lost its subject"
+    return out
+
+
+def test_every_stamped_pdf_renders_the_documents_its_stamp_names():
+    """⛔ EVERY BUILT PDF IN THE REPOSITORY, NOT THE FOUR SOMEONE REMEMBERED TO LIST."""
+    stale = []
+    for rel, pdf in sorted(_every_stamped_pdf().items()):
+        stamp = pdf.rsplit(".pdf", 1)[0] + ".build-stamp.json"
+        if not os.path.exists(pdf):
+            stale.append(f"{rel}: the stamp exists and the PDF does not")
+            continue
+        built_from = json.load(open(stamp, encoding="utf-8"))["built_from"]
+        for src_rel, want in sorted(built_from.items()):
+            src = os.path.join(REPO, "research", "manuscripts", src_rel)
+            if not os.path.exists(src):
+                stale.append(f"{rel}: names {src_rel}, which is missing")
+            elif hashlib.sha256(open(src, "rb").read()).hexdigest() != want:
+                stale.append(f"{rel}: was built from a different version of {src_rel}")
+    assert not stale, (
+        "a committed PDF renders a version of its source that is no longer on disk, so what a "
+        "depositor would upload is not what the repository says:\n  " + "\n  ".join(stale)
+        + "\n\nRebuild it — `bash scripts/regenerate_aso_chain.sh` rebuilds every paper, because "
+          "build_submission_pdf.py with no --paper builds all of them.")
+
+
 def test_the_deposited_pdfs_are_not_stale():
     """⛔ A GUARD THAT PASSES AGAINST A STALE PDF IS WORSE THAN NO GUARD, AND THIS ONE DID.
 
