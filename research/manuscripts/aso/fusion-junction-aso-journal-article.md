@@ -113,9 +113,10 @@ One hazard of this design space belongs beside the sequences. Consecutive regist
 pairs a wild-type parent through its whole catalytic gap sits one nucleotide from one that does not
 (Table 2). Neither member of such a pair may be substituted for the other.
 
-Predicted transcriptome load separates the two, and Table 1 carries it beside the sequences: 123
+Predicted transcriptome load separates the two: 123
 gap-paired sense-strand near-matches for the *EWSR1* reagent at ten times the default search depth
-against eight for the *TAF15* one. The *EWSR1* reagent also carries a sense-strand near-match in wild-type *TAF15* precursor RNA at two
+against eight for the *TAF15* one, both read from the alignment screen rather than from Table 1,
+which carries the parent-duplex reading and not the load. The *EWSR1* reagent also carries a sense-strand near-match in wild-type *TAF15* precursor RNA at two
 mismatches, one of them inside the catalytic gap, spanning an intron-exon boundary. That site is the
 cost of the same ten shared donor bases that let one oligonucleotide span the *EWSR1*, *TAF15* and
 *FUS* breakpoints at once (Figure 1). The *TAF15* reagent carries no sense-strand precursor site at all. Neither
@@ -280,7 +281,8 @@ in-frame *NR4A3* fusion junction modelled here, and 35 of the 38 have one cleari
 The constraint is discrimination between the fusion and its parents, and it is not resolved here. A
 junction design's most plausible wild-type liability is its own parent, in the mature transcript or
 across a splice junction in precursor RNA; both compartments are searched here before any molecule
-exists. The four reports of parental sparing cited
+exists. A third is not: the patient's own un-rearranged *NR4A3* allele, which the extended report
+screens separately and which condemns designs at some acceptors this panel covers. The four reports of parental sparing cited
 here<sup>8,17,9,10</sup><!--PMID:33241214,36265509,21846246,23052253--> were all made on molecules
 already synthesised. What other groups do at the design stage is not established here; no survey of
 published design pipelines was performed. The premise that sparing wild-type *NR4A3* is worth a
@@ -309,8 +311,13 @@ Canonical transcripts for the five partner genes and for *NR4A3* were obtained f
 Ensembl.<sup>20</sup><!--PMID:39656687--> Junction-spanning 16-mer gapmers were tiled in a 5-6-5
 β-D-oxy-locked-nucleic-acid/DNA/β-D-oxy-locked-nucleic-acid geometry,<sup>21</sup><!--PMID:24981949-->
 one design per register at which the breakpoint falls inside the six-nucleotide DNA gap, which admits
-five per junction. A design's gap-level margin is the count of junction-unique bases inside the gap
-on the shorter side of the breakpoint.
+five per junction. That gap is the shortest the cited source treats as sufficient rather than its
+preferred length: it reports six nucleotides as necessary for noteworthy RNase-H activity, seven as
+allowing complete activity, and seven to ten as optimal for this architecture. Six is used here
+because the panel is built to be screened, and the genome-wide arm is not available above a 16-mer;
+a longer gap is a design choice this work does not test, and the three geometries compared in §3 vary
+the gap at fixed screening rather than proposing one. A design's gap-level margin is the count of
+junction-unique bases inside the gap on the shorter side of the breakpoint.
 
 Five specificity screens were applied: an alignment screen against human RefSeq RNA, classifying each
 near-match by whether the catalytic gap is paired; an exhaustive transcript scan complete for
@@ -344,7 +351,9 @@ groups.
 sequence here is a research reagent for laboratory investigation only, and none has been synthesised
 or tested. Order from the canonical record, `fusion-junction-aso-sequences.csv`, rather than by
 copying from this article, and not at all until the breakpoint of the cell line or patient sample
-has been established at nucleotide resolution by RNA sequencing.
+has been established at nucleotide resolution by RNA sequencing. That file specifies the sequence,
+the position of every locked residue and the backbone; it does not specify purification grade or
+synthesis scale, which are the orderer's to choose and are stated nowhere in this work.
 
 **Ethics approval, consent to participate and consent for publication.** Not applicable. No human
 subjects, human material or animals were involved.
@@ -352,15 +361,18 @@ subjects, human material or animals were involved.
 **Data and code availability.** All code, graded artefacts and per-design tables are public and are
 deposited under [doi:10.5281/zenodo.22028916](https://doi.org/10.5281/zenodo.22028916). The extended
 report of this work, carrying every screen's full parameters and the complete bounds on each claim,
-is deposited as a preprint on bioRxiv. An earlier version of these analyses placed the acceptor
+is `fusion-junction-aso-research-article.md` inside that same deposit; it is prepared for posting as
+a bioRxiv preprint and is not yet posted, so the archived copy is the citable one. An earlier version of these analyses placed the acceptor
 junction incorrectly through a coding-versus-transcript exon indexing error and was withdrawn in
 full; the panels were rebuilt and verified against two independent transcript acquisitions, and the
 complete correction record, including every superseded value, is released with the archive.
 
 **Use of artificial intelligence.** A large language model (Claude, Anthropic) was used throughout
 this work: to write and review the analysis code, to run the screens, to retrieve and check
-literature, and to draft and revise this manuscript. Every quantitative claim is tied by automated
-guard to the committed artefact that produces it. The author directed all work reported here and is
+literature, and to draft and revise this manuscript. The counts and rates this paper's argument rests on are
+tied by automated guard to the committed artefact that produces it, and the reagent-level readings
+are checked against the canonical sequence file; the decision thresholds and power figures of §5 are
+stated conventions and arithmetic rather than artefact readings, and carry no such guard. The author directed all work reported here and is
 responsible for its content.
 
 
