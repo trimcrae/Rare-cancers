@@ -117,6 +117,17 @@ decide, `AskUserQuestion`. Block stays in the message text. Skip only if trimcra
   state as "watching": either you looked, or you deferred a free answer and called it a decision. A row reading
   UNKNOWN, STALE or "will check next cycle" is an **unanswered question wearing the costume of a status**.
   Reserve "later" for observations that genuinely cost money, a rental or a human's time.
+- **★★ WHAT YOU REMEMBER ABOUT AI IS THE STALEST THING YOU KNOW, AND IT IS WRONG IN ONE DIRECTION**
+  (trimcrae, 2026-08-22, after the same error on the same platform two days running). A remembered fact about
+  any AI system, platform, model, benchmark or capability is a **dated observation, not a fact** — and because
+  capability, scale and adoption climb, a stale reading almost always **UNDERSTATES**. That bias lands hardest
+  where it kills a route: *"too small"*, *"doesn't exist"*, *"can't do that yet"*. ⛔ **Never let a remembered
+  AI figure carry an argument — least of all a negative one.** Take the live reading (it is nearly always a $0
+  fetch: an API, a stats endpoint, a listing page) or write **UNKNOWN** — an honest unknown costs nothing, a
+  remembered number costs the route. **Forward, identically:** §5's frontier is *rising*, so *"X is not
+  possible"* is a claim with a date on it, and a plan assuming today's ceiling is already wrong. ⚠ That
+  licenses keeping the option open and **re-grading it on a schedule** ([method-watch.md](./research/method-watch.md));
+  it never licenses claiming a result early (§5).
 - **★ UNEXPECTED SLOWNESS IS A SIGNAL — INVESTIGATE, DON'T REASSURE.** Materially slower than predicted, or a
   phase with no new output, is evidence something is wrong. Pull the live log, read the actual phase and
   last-event timestamp, verify a concrete hypothesis against it — not against your prior estimate. **Own your
