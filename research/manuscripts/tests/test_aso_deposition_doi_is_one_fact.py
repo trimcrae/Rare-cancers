@@ -20,7 +20,16 @@ import re
 HERE = os.path.dirname(os.path.abspath(__file__))
 ASO = os.path.join(os.path.dirname(HERE), "aso")
 MANIFEST = os.path.join(ASO, "fusion-junction-aso-archive-manifest.json")
-ARTICLE = os.path.join(ASO, "fusion-junction-aso-research-article.md")
+#: ⛔ THE FIFTH GUARD SCOPED TO ONE OF A PAIR (round 11). Four sibling instruments were widened in
+#: rounds 9 and 10 after each was found reporting on both submission documents while reading one.
+#: This one bound ARTICLE to the extended report alone, so the journal article's Zenodo DOI — which
+#: it prints in Data availability and which a depositor follows — was asserted by nothing, while the
+#: manifest's own deposit step claims to "hold the two copies together".
+ARTICLES = [
+    os.path.join(ASO, "fusion-junction-aso-research-article.md"),
+    os.path.join(ASO, "fusion-junction-aso-journal-article.md"),
+]
+ARTICLE = ARTICLES[0]
 
 #: Every DOI the article prints in the Zenodo prefix. The deposit's own is the only one there is;
 #: a reference-list DOI is a publisher's and carries a different prefix.
@@ -33,15 +42,16 @@ def test_the_article_prints_the_manifests_doi_and_prints_only_that_one():
     assert declared, ("the archive manifest carries no `deposition_doi`. It is the one place the "
                       "deposit's identifier lives; the article transcribes it from there.")
 
-    article = open(ARTICLE, encoding="utf-8").read()
-    found = set(ZENODO_DOI.findall(article))
-    assert found, ("the article prints no Zenodo DOI. Both [ARCHIVE DOI] placeholders were to be "
-                   f"replaced with {declared} — Methods -> Availability, and Declarations -> Data "
-                   "and code availability.")
-    assert found == {declared}, (
-        f"the article prints {sorted(found)} and the manifest declares {declared}. A DOI that "
-        "differs between two lines of one paper still RESOLVES from both — to two different "
-        "records — so this cannot be caught by reading the page.")
+    for path in ARTICLES:
+        article = open(path, encoding="utf-8").read()
+        found = set(ZENODO_DOI.findall(article))
+        name = os.path.basename(path)
+        assert found, (f"{name} prints no Zenodo DOI. Every [ARCHIVE DOI] placeholder was to be "
+                       f"replaced with {declared}.")
+        assert found == {declared}, (
+            f"{name} prints {sorted(found)} and the manifest declares {declared}. A DOI that "
+            "differs between two lines of one paper still RESOLVES from both — to two different "
+            "records — so this cannot be caught by reading the page.")
 
 
 def test_no_archive_doi_placeholder_survives_in_the_article():

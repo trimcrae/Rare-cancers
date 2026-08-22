@@ -127,7 +127,7 @@ def build() -> str:
             "unsettled, and on that reading are matched to different "
             "designs, not to these two. Nothing here has been synthesised or tested, and no "
             "sequence may be administered to any person or animal.", ""]
-    out += ["| seam | reagent | margin | longest WT run (bp) | test article |",
+    out += ["| seam | reagent | margin | WT gap duplex (bp) | test article |",
             "|---|---|---:|---|---|"]
     for j in LEADS:
         r = _lead(rows, j)
@@ -154,7 +154,7 @@ def build() -> str:
             "designs the falsification experiment offers as a control arm, which is a different "
             "role at a junction no patient is reported to carry. The pairing is "
             "read from the canonical file's own cross-reference column rather than asserted here.", ""]
-    out += ["| seam | design | verdict | margin | longest WT run (bp) |",
+    out += ["| seam | design | verdict | margin | WT gap duplex (bp) |",
             "|---|---|---|---:|---|"]
     for seq in CONDEMNED:
         bad = _at(rows, seq)
