@@ -29,7 +29,7 @@ honest — a **structured citation system** (every datum traceable to a resolvab
 source) and a **conservative statistical method** (numbers combined in a
 defensible, clearly-bounded way). Enforced by
 [`scripts/validate-registry.mjs`](../scripts/validate-registry.mjs), which is
-gate 7 of `scripts/preflight.sh` — checked against the script's real gate order
+gate 9 of `scripts/preflight.sh` — checked against the script's real gate order
 by `[P1]`, because this ordinal had four homes and three of them said 2.
 
 > ⚠ **This was written for the patient-facing site and it is not site policy.**

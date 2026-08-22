@@ -22,7 +22,7 @@ scope: >
   operative statements live in the Abstract, in the reagents section and in Declarations.
 audience: [external reviewers, collaborators, maintainers]
 date: 2026-08-20
-last_verified: 2026-08-20
+last_verified: 2026-08-22
 related: [DOC-FUSION-JUNCTION-ASO-SUBMISSION]
 ---
 
@@ -55,7 +55,7 @@ transcripts meet the same screen at 40.6% against the panel's 45.8%, so most of 
 what joining two exon termini of these genes gives rather than anything specific to this disease. Two reagents are
 named at the two most frequently reported breakpoints: 5′-GGGCATATCATCAAAC-3′ at
 *EWSR1* exon 12 and 5′-GGGCATATCTTGTGTG-3′ at *TAF15* exon 6, both at the panel's top gap-level
-margin of three, with longest wild-type parent duplex through the whole gap of eight and nine base pairs respectively. Five test
+margin of three, and their longest wild-type parent duplexes through the whole gap run to eight and nine base pairs respectively. Five test
 articles are named: three engineered constructs, two of them at these junctions, and two
 fusion-positive EMC cell models whose reported *NR4A3* exon-2 acceptors are matched to different
 designs. The design pipeline is released; its published-breakpoint list waives
@@ -89,9 +89,9 @@ sequence, so each parent matches roughly half the oligonucleotide, and half-iden
 outside the mismatch budget of a conventional off-target search: a parent is not returned as a
 near-match. RNase-H1 does not require the whole duplex, only that the gap be paired — a premise adopted here
 rather than established, and one whose length requirement is not the criterion this paper screens
-on: the enzyme is reported to need at least six paired nucleotides, with seven to ten given as the
-working range, while the screen below counts a liability only at ten contiguous base pairs through
-the gap. Whether a
+on: the requirement is reported as a DNA gap of at least six nucleotides, with seven to ten
+given as the working range, while the screen below counts a liability only at ten contiguous base
+pairs of duplex through that gap — a length of hybrid, not a count of gap nucleotides. Whether a
 wild-type parent pairs the catalytic gap contiguously is therefore a separate question from overall
 similarity, and it is the one this work puts to all 190 designs before recommending any.
 
@@ -108,9 +108,12 @@ three junction-unique bases inside the catalytic gap on the shorter side of the 
 pairs a wild-type parent through the gap at the ten-base-pair criterion adopted here. That criterion counts only
 windows pairing the catalytic gap in full and reaching ten contiguous base pairs, and it is the run
 length rather than the pairing that the cut moves: at seven base pairs the same screen returns 175 of
-190 and at six, 181 — but so is the null's: the strongest null reaches 91.4% at seven against the
-panel's 92.1%, and at six it exceeds the panel outright, so the loose readings are at chance and are
-not a larger finding. A design whose gap carries a mismatch is scored zero by that screen rather than
+190 and at six, 181. Neither is a larger finding, because the null moves with the cut: the strongest
+of the ten null ensembles reaches 91.4% at seven against the panel's 92.1%, and at six it exceeds
+the panel outright. Nor does the adopted cut escape that comparison — at ten the strongest null's
+40.6% falls inside the panel's own 95% interval on 45.8%, as it does at every cut from seven to
+thirteen but eleven. Which ensemble is strongest changes along the ladder, so no one null is the
+comparator throughout. A design whose gap carries a mismatch is scored zero by that screen rather than
 scored short, so the 87 bound the fully-paired class and not the whole parent liability, and this
 work reports no measurement of the mismatched class. Both reagents pair a
 wild-type parent through part of the gap at the *NR4A3* exon-2/exon-3 seam their acceptor halves
@@ -314,7 +317,7 @@ nothing.
 The decision threshold should be fixed before the experiment. What a result on it settles — the ranking
 referred to below — is the level of selectivity the top-margin reagents reach. It does not settle
 whether selectivity orders by margin across the panel: the two reagents this article names for synthesis
-carry the same top margin of three, so no comparison between them varies it, so no comparison among them varies it. Selectivity is the wild-type *NR4A3*
+carry the same top margin of three, so no comparison between them varies it. Selectivity is the wild-type *NR4A3*
 half-maximal knockdown concentration divided by the fusion's, from a matched dose-response in the
 same wells, and the cut is 5.0, taken as a convention rather than measured for this comparison. A
 ratio of residual transcript at a single dose is not commensurate with it and must not be compared
@@ -347,8 +350,12 @@ the count the gate prescribes. A pilot whose bound lies at or above the void fig
 count proposed gives no assurance that count can falsify at this cut — the figure is defined on the realised replicate
 standard deviation and the bound is on the population one — so the decision at that point is a
 larger replicate count or no falsification test at all, and never three. That gate is a floor and
-not a sizing rule: clearing it establishes only that a run can fail, not that it is likely to when
-the reagent is selective. The count it admits depends on the pilot's own degrees of
+not a sizing rule, and the realised-against-population gap just stated applies to a pilot that
+clears it as much as to one that does not: clearing bounds the population standard deviation, while
+voidness is a property of the standard deviation the run goes on to realise. At the boundary a
+cleared pilot still leaves the run void with probability P(chi-square on n-1 degrees of freedom at
+or above n-1) — about 0.37 at three replicates, 0.42 at six and 0.44 at ten. What the gate rules out
+is a pilot whose own variance already forecloses falsification, not a run that turns out void. The count it admits depends on the pilot's own degrees of
 freedom as much as on the variance — at the replicate standard deviation assumed above a three-replicate
 pilot admits seven and a ten-replicate pilot admits three, whose powers sit either side of the 80%
 quoted above — so the count should be set for power at the selectivity to be excluded and the gate
@@ -377,8 +384,12 @@ familywise error rate of 4.94%, and that is the rate this design runs at. A prog
 reads the two exon-2 reagents of §4 against the same cut is running four tests at 9.63%, and one
 that adds the three control designs as well is running seven at 16.24%. The replicate counts above are computed
 for a single test at the nominal level, and they hold per test whatever the family size so long as
-no correction is applied. A programme that does correct loses them: at two tests a Bonferroni level
-already drops the power of six replicates below two thirds and calls for eight. Whether to correct,
+no correction is applied. A programme that does correct loses them, and which level it corrects to is
+the whole of it: holding the family to the 2.5% a single test runs at means 1.25% per test, and at
+two tests that already drops the power of six replicates below two thirds; eight is the smallest
+count that recovers the 80% target above, seven falling short of it.
+Holding the family instead to the 4.94% the two tests carry between them is the design above, at
+the replicate counts already stated, because no correction is what produces that rate. Whether to correct,
 and to what, therefore belongs in the pre-registration rather than in the analysis.
 
 ## 6 · Beyond the panel
@@ -394,8 +405,10 @@ certifiable where all five screens could be run on it and it cleared all five; a
 cannot address is uncertifiable whatever the other four return. By that definition the reagent for
 the third engineered construct of §4 is uncertifiable, since its seam lies outside the compartment three of
 the five screens can address at all. The two that can — the precursor-RNA and genome arms — did run
-there, and they do not agree: one clears the seam's best design and the other condemns a design at
-it, which is a reading rather than a clearance. What the procedure yields is a candidate, not a validated reagent.
+there and agree design by design: both clear the seam's top-margin design and both condemn a
+lower-margin one, each at a wild-type *NR4A3* site it records as pairing the whole catalytic gap.
+Two screens agreeing is not the clearance the other three would have to supply, so what the seam
+holds is a partial reading rather than a certifiable design. What the procedure yields is a candidate, not a validated reagent.
 
 ## 7 · Discussion
 
@@ -406,16 +419,19 @@ that reading is a property of the cut.
 The constraint is discrimination between the fusion and its parents, and it is not resolved here. A
 junction design's most plausible wild-type liability is its own parent, in the mature transcript or
 across a splice junction in precursor RNA; both compartments are searched here before any molecule
-exists, though not on comparable terms: the ten-base-pair criterion was set against mature
-transcripts, and an unspliced parent offers far more sequence for a duplex to find, so the same cut
-means something different in each and the two readings should not be summed. A third is not: the patient's own un-rearranged *NR4A3* allele, which the extended report
-screens separately and at a two-mismatch ceiling — the same budget §1 gives as the reason a parent
-is not returned as a near-match — so that screen bounds its class from below and a design pairing
+exists, though not on comparable terms: the mature-transcript screen condemns on a
+ten-base-pair duplex through the gap, while the precursor arm condemns on a hit at up to two
+mismatches with the gap fully paired, so the two apply different rules and neither restates the
+other. Nor may their counts be added, because a design condemned in both compartments is one design:
+that is why §3 reports the union of the two screens rather than their sum. A third is not: the patient's own un-rearranged *NR4A3* allele, which the extended report
+screens separately and at the two-mismatch ceiling §8 states — the budget §1 gives as the reason a
+parent is not returned as a near-match, without naming its size — so that screen bounds its class from below and a design pairing
 that allele beyond two mismatches would not be returned by it. The seams it condemns cannot be built from this panel's 38 junctions at all,
 so no design this panel selects is condemned by it. Two of the reagents §4 names sit outside the
-panel, and that screen is what excludes a single-base-slide neighbour of one of them — the reagent
-at *EWSR1* exon 13 joined to *NR4A3* exon 2 — which is the register hazard of §2 arriving from a
-compartment the panel's own selection never has to consider. The four reports of parental sparing cited
+panel, and that screen is what excludes the two neighbouring registers of one of them — the
+reagent at *EWSR1* exon 13 joined to *NR4A3* exon 2, whose designs slid one and two bases 5′ are
+both condemned on the un-rearranged allele while the reagent itself is not — which is the register
+hazard of §2 arriving from a compartment the panel's own selection never has to consider. The four reports of parental sparing cited
 here<sup>8,17,9,10</sup><!--PMID:33241214,36265509,21846246,23052253--> were all made on molecules
 already synthesised. What other groups do at the design stage is not established here, because no survey of published
 design pipelines was performed; the claim below that the screen-before-synthesis step is what is new
@@ -425,7 +441,7 @@ functionally redundant where tested,<sup>18,19</sup><!--PMID:29343483,25446259--
 the premise. Against that, mice carrying reduced gene dosage across *NR4A1* and *NR4A3* develop mixed
 myelodysplastic/myeloproliferative neoplasms,<sup>20</sup><!--PMID:21205929--> so loss of *NR4A3* is
 consequential rather than silent once paralogue reserve is reduced, and the family is not uniform in direction:
-within atherosclerosis *NR4A1* and *NR4A2* attenuate lesion formation while *NR4A3* aggravates
+in murine atherosclerosis *NR4A1* and *NR4A2* attenuate lesion formation while *NR4A3* aggravates
 it.<sup>21</sup><!--PMID:24005216--> The evidence is not decisive either way, and both sides of it
 are cited here.
 

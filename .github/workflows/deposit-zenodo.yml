@@ -48,7 +48,9 @@ jobs:
       - uses: actions/checkout@v4
 
       # The manifest's hashes are only meaningful against the revision it names, and the script
-      # checks all 473 of them before it opens a socket. A drifted manifest fails here, offline.
+      # checks every one of them before it opens a socket. A drifted manifest fails here, offline.
+      # (This line typed "all 473" against a manifest whose own n_files had moved to 476: a count
+      # retyped beside the artifact that derives it is the drift the manifest exists to prevent.)
       - name: Verify the manifest against this tree and build the payload
         run: python3 scripts/zenodo_deposit.py --paper "${{ inputs.paper }}" --build-only
 

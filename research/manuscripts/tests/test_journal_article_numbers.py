@@ -209,12 +209,39 @@ def test_the_loose_cuts_are_printed_with_the_null_that_makes_them_chance(prose, 
     # ⭐ ONE CONSTRUCTION, BOTH RATES, so the pair cannot drift apart. The sentence's whole force is
     # that these two numbers are close; checking them separately would let a repair move one.
     _every_site(prose,
-                r"strongest null reaches (\d+\.\d%) at seven against the panel's (\d+\.\d%)",
+                r"ensembles reaches (\d+\.\d%) at seven against the panel's (\d+\.\d%)",
                 (_pct(strongest("7")), _pct(cs["7"]["rate_liable"])),
                 "the strongest null's rate at a seven-base-pair cut, beside the panel's own")
     assert strongest("6") > cs["6"]["rate_liable"], \
         "the article says that at six the null exceeds the panel outright; the artifact no longer " \
         f"agrees ({_pct(strongest('6'))} null against {_pct(cs['6']['rate_liable'])} panel)"
+
+
+def test_the_adopted_cut_is_not_exempt_from_its_own_null(prose, null):
+    """⭐ THE CLAIM THAT COSTS THE PAPER THE MOST, SO IT IS THE ONE MOST WORTH PINNING.
+
+    §2 says the strongest null falls inside the panel's own 95% interval at the ADOPTED cut, and at
+    every cut from seven to thirteen but eleven. An earlier draft quarantined "at chance" to the
+    loose cuts of six and seven, which read as though the ten-base-pair criterion escaped the
+    comparison; it does not. Both halves are derived here so that neither the exemption nor the
+    range can drift back in.
+    """
+    cs = null["cut_sensitivity"]["observed_cut_ladder"]
+    arms = null["null_ensembles"]
+
+    def strongest(cut):
+        return max(a["cut_ladder"][cut]["rate_liable"] for a in arms.values())
+
+    inside = [c for c in sorted(cs, key=int)
+              if cs[c]["rate_liable_wilson95"][0] <= strongest(c) <= cs[c]["rate_liable_wilson95"][1]]
+    assert "10" in inside, (
+        "the article says the strongest null falls inside the panel's interval at the adopted "
+        f"ten-base-pair cut; the artifact now puts it outside ({_pct(strongest('10'))} against "
+        f"{[round(x, 4) for x in cs['10']['rate_liable_wilson95']]})")
+    expected = [c for c in sorted(cs, key=int) if 7 <= int(c) <= 13 and c != "11"]
+    assert inside == expected, (
+        "the article says 'every cut from seven to thirteen but eleven'; the artifact now puts the "
+        f"strongest null inside the panel's interval at {inside} rather than {expected}")
 
 
 def test_the_coverage_readings_are_both_the_coverage_modules_own(prose):

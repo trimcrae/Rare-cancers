@@ -142,6 +142,25 @@ fi
 # citation PROVENANCE are orthogonal, and no other gate reads an identifier at all -- against a
 # repository whose FIRST golden rule is "never fabricate medical facts, stats, citations or patient
 # data". This gate closes that and only that.
+# ⛔⛔ lint_claims RUNS HERE NOW, AND ROUND 9 IS WHY (2026-08-22). It was CI-only by design, on the
+# reading that CI would catch it. What actually happened: a manuscript repair introduced a word that
+# fires R2, preflight went green, the commit shipped, and CI failed at this step -- which SKIPS the
+# 26 steps behind it, so citation provenance, prose style and every manuscript test went unrun on
+# that commit too. A gate whose failure blinds the rest of the suite belongs in the commit loop.
+echo "== claim strength (R1-R5: selectivity, efficacy, safety, window, readiness) =="
+if python3 research/manuscripts/lint_claims.py >/dev/null 2>&1; then
+  echo "   OK"
+else
+  echo "   FAILED -- rerun 'python3 research/manuscripts/lint_claims.py' to see which claim"; rc=1
+fi
+
+# ⚠ AND lint_changed_prose, WHICH RAN NOWHERE AT ALL -- not in preflight, not in tests.yml. It is the
+# only instrument that watches for a qualifier being dropped from a claim by an edit, which is the
+# defect class that produced most of rounds 9-11's findings. It reports warnings rather than errors,
+# so it cannot fail the build; printing them is the whole point.
+echo "== changed prose (a qualifier dropped by an edit) =="
+python3 research/manuscripts/lint_changed_prose.py || true
+
 echo "== citation provenance (every prose identifier traces to a fetch or to the ledger) =="
 if python3 research/manuscripts/lint_citations.py >/dev/null 2>&1; then
   echo "   OK"

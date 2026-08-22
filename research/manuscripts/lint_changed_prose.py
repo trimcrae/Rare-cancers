@@ -52,6 +52,14 @@ DEFAULT_TARGETS = [
     "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
     "research/manuscripts/aso/fusion-junction-aso-journal-references.md",
     "research/manuscripts/submission_tables.py",
+    # ⚠ THE JOURNAL TABLES CARRY PROSE, AND NOTHING WAS READING IT (rounds 11-13, filed three times).
+    # `fusion-junction-aso-journal-tables.md` holds both `DO NOT ORDER` verdicts and two long
+    # captions, and it is spliced into both journal PDFs — so a qualifier dropped from a caption
+    # ships to a reader while every prose instrument looks elsewhere. The generator is listed beside
+    # it for the same reason `submission_tables.py` is: the caption is written in the generator, so
+    # that is where a widened claim is actually typed.
+    "research/manuscripts/aso/fusion-junction-aso-journal-tables.md",
+    "research/manuscripts/aso_journal_tables.py",
 ]
 
 WORD2NUM = {
@@ -129,6 +137,22 @@ def added_hunks(rev_range, targets):
 
 
 def _known_anchors(article):
+    """⛔⛔ THE ANCHORS OF *THIS* DOCUMENT, NOT OF WHICHEVER ONE CAME FIRST IN THE TARGET LIST.
+
+    This resolved every target's §-references against `DEFAULT_TARGETS[0]` — the extended report —
+    for as long as the journal article has been a target. The two documents do not share a section
+    numbering: the report runs §1-§6 (Introduction, Results, Discussion, Reagents, Bounds, Methods)
+    and the journal article runs §1-§8 (…, §7 Discussion, §8 Methods). So the check was wrong in
+    BOTH directions at once, and the quiet direction is the dangerous one:
+
+      * §7 and §8 in the journal article errored as naming no section, when both exist;
+      * and every journal-article reference to §1-§6 was validated against the REPORT's section of
+        that number — a different section — so a cross-reference pointing at the wrong place passed.
+
+    A false alarm gets noticed on the next run. A cross-reference silently validated against another
+    document's headings is the same shape as the one-of-a-pair guards this repository has been
+    finding all week: an instrument bound to one member of a pair while reporting on both.
+    """
     text = open(article, encoding="utf-8").read()
     sections = set(re.findall(r"^#{2,3}\s+(\d+(?:\.\d+)?)\s*·", text, re.M))
     tables = set(re.findall(r"\*\*Table (\d+)\.", text))
@@ -138,6 +162,23 @@ def _known_anchors(article):
                                                "fusion-junction-aso-submission-tables.md"),
                                   encoding="utf-8").read()))
     return sections, tables, figures
+
+
+def _anchors_for(path, cache={}):
+    """The anchor sets for the document a changed hunk actually lives in.
+
+    A target with no headings of its own (the reference list, a generator) keeps being checked
+    against the extended report, which is where its §-references point.
+    """
+    full = os.path.join(REPO, path)
+    if path not in cache:
+        own = _known_anchors(full) if os.path.exists(full) else (set(), set(), set())
+        if own[0]:
+            cache[path] = own
+        else:
+            fallback = _known_anchors(os.path.join(REPO, DEFAULT_TARGETS[0]))
+            cache[path] = (fallback[0], own[1] | fallback[1], own[2] | fallback[2])
+    return cache[path]
 
 
 def _to_int(tok):
@@ -152,14 +193,12 @@ def _split_list(blob):
 def main(argv):
     rev_range = argv[1] if len(argv) > 1 else None
     targets = DEFAULT_TARGETS
-    article = os.path.join(REPO, DEFAULT_TARGETS[0])
-    sections, tables, figures = _known_anchors(article)
-
     rows = added_hunks(rev_range, targets)
     errors, warnings = [], []
 
     for path, line, added in rows:
         base = os.path.basename(path)
+        sections, tables, figures = _anchors_for(path)
 
         for ref in re.findall(r"§(\d+(?:\.\d+)?)", line):
             if ref not in sections:

@@ -46,6 +46,25 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 MOD = os.path.join(ROOT, "research", "modalities")
 TESTS = os.path.join(MOD, "tests")
+#: The other suite. Nothing here is ever SELECTED -- preflight runs this whole directory unscoped --
+#: but a document guarded from it is not unguarded, and the verdict below has to know that.
+MANUSCRIPT_TESTS = os.path.join(ROOT, "research", "manuscripts", "tests")
+
+
+def _named_by_manuscript_tests(base):
+    """How many modules in the manuscripts suite name `base`. 0 if the directory is absent."""
+    if not os.path.isdir(MANUSCRIPT_TESTS):
+        return 0
+    n = 0
+    for t in sorted(os.listdir(MANUSCRIPT_TESTS)):
+        if not (t.startswith("test_") and t.endswith(".py")):
+            continue
+        try:
+            if base in open(os.path.join(MANUSCRIPT_TESTS, t), encoding="utf-8").read():
+                n += 1
+        except OSError:
+            continue
+    return n
 
 #: A change to any of these cannot be scoped, so it takes the whole suite. Paths are repo-relative
 #: prefixes or exact names; the test is "startswith" for directories and "endswith" for basenames.
@@ -220,7 +239,23 @@ def select(explain=False):
                 # ⚠ NOT "ignored". A submission-bound document that no test names is UNGUARDED, and
                 # saying so is the point -- a silent skip here is what let the SI ship outside every
                 # instrument.
-                say(f"{f} -> NO test names it; this document is unguarded")
+                #
+                # ⛔⛔ BUT "UNGUARDED" IS A CLAIM, AND THIS SAID IT ABOUT A GUARDED DOCUMENT
+                # (2026-08-22, round-13 seat 4). This selector only ever SELECTS from the modalities
+                # suite, so it only ever LOOKED there -- and preflight runs
+                # `research/manuscripts/tests` wholesale, unscoped, on every commit. So a document
+                # guarded from that directory was reported as guarded by nothing at all. The journal
+                # article was in exactly that state the moment its numbers guard was written.
+                # An instrument that reports a false absence is the failure this repository keeps
+                # paying for: an absent reading is not a reading of absence. The selection contract
+                # is unchanged -- only modalities modules are ever returned -- but the verdict now
+                # looks where the other guards actually live before calling a document unguarded.
+                elsewhere = _named_by_manuscript_tests(base)
+                if elsewhere:
+                    say(f"{f} -> no modalities test names it; guarded by {elsewhere} "
+                        "manuscripts test module(s), which preflight runs unscoped")
+                else:
+                    say(f"{f} -> NO test names it, in either suite; this document is unguarded")
             continue
         say(f"{f} — outside the modalities test domain, ignored")
 

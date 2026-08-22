@@ -1494,6 +1494,100 @@ def _gate_ordinal_docs():
     return list(GATE_ORDINAL_DOCS) + [os.path.relpath(p, REPO) for p in skills]
 
 
+#: Spelt totals a document may use for the gate count. Small on purpose: a list longer than this is
+#: a sign the script has grown a structure the doc should describe differently, not a bigger dict.
+_WORD_TO_INT = {"seven": 7, "eight": 8, "nine": 9, "ten": 10, "eleven": 11, "twelve": 12,
+                "thirteen": 13, "fourteen": 14, "fifteen": 15, "sixteen": 16}
+
+#: Each preflight gate identified by the tool it runs, so a doc's enumerated list can be checked
+#: against the SCRIPT rather than against a reader's memory of it. Keyed by the basename a document
+#: would name; the value is matched against the shell between one `echo "== ... =="` and the next.
+_GATE_TOOLS = (
+    "lint_consistency.py", "systems_check.py", "emc_systems_map_check.py", "lint_claims.py",
+    "lint_changed_prose.py", "lint_citations.py", "lint_style.py", "parser_guard.py",
+    "validate-registry.mjs",
+)
+
+
+def _preflight_gates():
+    """`(title, body)` per gate, with the modalities step's mutually-exclusive branches collapsed.
+
+    ⛔ THE RAW `echo "== ... =="` COUNT IS NOT A GATE COUNT. `preflight.sh` prints one of FIVE
+    different modalities headings depending on what the selector returned — FULL, none, n affected,
+    selector-failed — so counting the echoes says sixteen where the script has twelve gates, and a
+    document that wrote "preflight's 9" was checked against neither number.
+    """
+    sh = os.path.join(REPO, "scripts", "preflight.sh")
+    if not os.path.exists(sh):
+        return None
+    with open(sh, encoding="utf-8") as fh:
+        text = fh.read()
+    parts = re.split(r'^\s*echo "== (.+?) =="', text, flags=re.M)
+    gates, seen_modalities = [], False
+    for title, body in zip(parts[1::2], parts[2::2]):
+        if title.startswith("pytest (modalities"):
+            if seen_modalities:
+                gates[-1] = (gates[-1][0], gates[-1][1] + body)
+                continue
+            seen_modalities = True
+            title = "pytest (modalities)"
+        gates.append((title, body))
+    return gates
+
+
+def check_preflight_gate_list(g, f):
+    """An ENUMERATED gate list in a document must match the order `preflight.sh` runs its tools.
+
+    ⛔⛔ WHY THIS EXISTS, AND IT IS THE SISTER OF THE CHECK BELOW (2026-08-22). That one derives ONE
+    ordinal — the registry validator's — because that was the number four documents had got wrong.
+    The skill's own sentence then promised more than the code delivered: *"`[P1]` derives it from the
+    script and fails the build on any document that disagrees"*, said beside a hand-numbered list of
+    every gate that nothing checked at all. So when two gates were inserted, the note announcing them
+    put them at 7 and 8 while the script ran them at 4 and 5, and the enumerated list beside it kept
+    the old order for five entries — green build, confident prose, wrong on both counts.
+
+    A documented safety mechanism that does not exist is worse than an absent one: the sentence tells
+    the next reader the number was derived, so nobody re-derives it.
+    """
+    gates = _preflight_gates()
+    if gates is None:
+        return  # the sister check already errors on a missing preflight.sh
+    where = {}
+    for i, (_title, body) in enumerate(gates, 1):
+        for tool in _GATE_TOOLS:
+            if tool in body and tool not in where:
+                where[tool] = i
+    for rel in _gate_ordinal_docs():
+        path = os.path.join(REPO, rel)
+        if not os.path.exists(path):
+            continue
+        with open(path, encoding="utf-8") as fh:
+            text = fh.read()
+        m = re.search(r"\*\*(\w+) gates, in this order:\*\*(.{0,1200}?)(?:\n\n|Its exit code)",
+                      text, re.S)
+        if not m:
+            continue
+        claimed_total = _WORD_TO_INT.get(m.group(1).lower())
+        if claimed_total is not None and claimed_total != len(gates):
+            f.err("[P1]", f"{rel} says `{m.group(1)} gates` but scripts/preflight.sh runs "
+                          f"{len(gates)} (its five modalities headings are branches of one gate, "
+                          "not five gates)")
+        # ⚠ SPLIT ON THE ORDINAL MARKER, DON'T MATCH ACROSS IT. A `[^()]*` window between "(4)" and
+        # the tool cannot cross the parentheses in an entry like "(4) claim strength
+        # (`lint_claims.py`)" — which is exactly how the two newest gates are written, so the first
+        # version of this check silently skipped the two entries it was added for.
+        segments = re.split(r"\((\d+)\)", m.group(2))
+        for num, seg in zip(segments[1::2], segments[2::2]):
+            tools = [t for t in _GATE_TOOLS if t in seg]
+            if len(tools) != 1:
+                continue  # an entry naming no tool, or two, is not one this check can place
+            tool = tools[0]
+            if tool in where and int(num) != where[tool]:
+                f.err("[P1]", f"{rel} lists `{tool}` as gate {num}, but scripts/preflight.sh runs "
+                              f"it at gate {where[tool]} — re-derive the list rather than editing "
+                              "the one entry, because inserting a gate shifts every entry after it")
+
+
 def check_preflight_gate_ordinal(g, f):
     """*"…which is gate N of preflight"* must agree with the order `preflight.sh` actually runs.
 
@@ -2228,6 +2322,7 @@ def run_checks(g, f):
     check_document_frontmatter(g, f)
     check_conventions_template(g, f)
     check_preflight_gate_ordinal(g, f)
+    check_preflight_gate_list(g, f)
     check_evidence_base(g, f)
     check_links(g, f)
     check_artifacts(g, f)

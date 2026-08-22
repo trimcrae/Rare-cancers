@@ -78,7 +78,7 @@ The repository formerly contained a patient-facing static site (GitHub Pages, on
 deploy workflow. Two things survived because they were never site tooling: the cited EMC clinical registry
 ([`research/data/emc-clinical-registry.json`](./research/data/emc-clinical-registry.json)), which the
 manuscript meta-analysis and the repurposing gap analysis both read, and its evidence-contract validator
-(`scripts/validate-registry.mjs`), which is gate 7 of preflight. Full accounting:
+(`scripts/validate-registry.mjs`), which is gate 9 of preflight. Full accounting:
 [`systems/MIGRATION.md`](./systems/MIGRATION.md).
 
 > **Not medical advice.** Any clinical content here is educational information drawn from published

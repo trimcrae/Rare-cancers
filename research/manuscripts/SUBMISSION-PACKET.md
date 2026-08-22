@@ -106,7 +106,7 @@ last_verified: 2026-08-10
 
 | field | value |
 |---|---|
-| Word count, main text | 35557 (no limit found) |
+| Word count, main text | 35600 (no limit found) |
 | Abstract | 399 words  |
 | Display items | 10 (3 figures, 7 tables) |
 | References | 53 |
@@ -129,8 +129,8 @@ last_verified: 2026-08-10
 
 | field | value |
 |---|---|
-| Word count, main text | 5679 (no limit found) |
-| Abstract | 259 words  |
+| Word count, main text | 5976 (no limit found) |
+| Abstract | 261 words  |
 | Display items | 3 (1 figures, 2 tables) |
 | References | 23 |
 | Cover letter | MISSING |

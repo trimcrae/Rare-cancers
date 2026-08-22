@@ -101,3 +101,45 @@ def test_the_graph_covers_the_real_tree():
 
 if __name__ == "__main__":
     sys.exit(pytest.main([__file__, "-q"]))
+
+
+# ⛔⛔ WHAT THE SELECTOR DOES FOR A MANUSCRIPT WAS ASSERTED BY NOTHING (2026-08-22, round-13 seat 4).
+# Every test above pins a direction the selector FAILS in — conftest, helper, self-edit, dead git —
+# and those are the safe directions, because each of them resolves to FULL. Nothing pinned the
+# direction it SUCCEEDS in for a manuscript, which is the direction that can quietly under-select:
+# `research/manuscripts/**/*.md` reaches a branch that binds documents to modality tests BY NAME, and
+# a document no test names selects nothing at all. That branch was added to fix a manuscript-only
+# commit selecting zero tests; nothing has been checking it still works.
+
+
+def test_a_manuscript_selects_the_modality_tests_that_name_it(fake):
+    """The extended report is named by modality tests, so editing it must select them."""
+    fake({"research/manuscripts/aso/fusion-junction-aso-research-article.md"})
+    sel = A.select()
+    assert sel is not None, "a manuscript-only change must not fall back to FULL"
+    assert sel, ("the extended report is named by modality test modules and selecting none of them "
+                 "is the under-selection this branch exists to prevent")
+    assert all(p.startswith("research/modalities/tests/") for p in sel), sel
+
+
+def test_the_selector_reports_a_documents_guard_truthfully(fake, capsys):
+    """⛔ 'UNGUARDED' IS A CLAIM ABOUT BOTH SUITES, NOT ABOUT THE ONE THIS SELECTOR DRAWS FROM.
+
+    The journal article is guarded from `research/manuscripts/tests/`, which preflight runs
+    unscoped; no modality test names it. The selector correctly returns no modality module for it —
+    and used to announce that as "this document is unguarded", which was false. An instrument that
+    reports a false absence is worse than one that stays quiet: it is the reading a later session
+    acts on.
+    """
+    journal = "research/manuscripts/aso/fusion-junction-aso-journal-article.md"
+    assert os.path.exists(os.path.join(ROOT, journal)), journal
+    fake({journal})
+    sel = A.select(explain=True)
+    assert sel == [], f"no modality test names the journal article, so none should be selected: {sel}"
+    said = capsys.readouterr().err
+    assert "unguarded" not in said, (
+        "the journal article is guarded by modules in research/manuscripts/tests/, so calling it "
+        f"unguarded is a false reading — the selector said: {said.strip()}")
+    assert "manuscripts test module" in said, (
+        "when no modality test names a document the selector must say where it IS guarded, not "
+        f"only that it is not guarded here — it said: {said.strip()}")

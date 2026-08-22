@@ -50,10 +50,27 @@ ART = os.path.join(ASO, "fusion-junction-aso-research-article.md")
 SI = os.path.join(ASO, "fusion-junction-aso-supplementary-information.md")
 TABLES = os.path.join(ASO, "fusion-junction-aso-submission-tables.md")
 CSV_PATH = os.path.join(ASO, "fusion-junction-aso-sequences.csv")
+#: ⛔⛔ THE JOURNAL FAMILY WAS ABSENT FROM THE TOOL THAT MEASURES GATE COVERAGE (2026-08-22,
+#: round-13 seat 4). This snapshot is what a session diffs to see what an edit moved, and it read
+#: the extended report, its SI and its three PDFs while the submission has shipped a SECOND document
+#: — the journal article, its two PDFs and its own tables — since 2026-08-16. So the instrument
+#: whose whole job is "what did that change touch?" was structurally blind to half the submission,
+#: and every "nothing moved" it returned was a statement about one document wearing the costume of a
+#: statement about the packet. Same one-of-a-pair shape as the six guards rounds 8-12 widened,
+#: except this one measures the others.
+#: ⚠ The `journal`/`manuscript` KEYS here are PDF *styles*, not documents — two builds of the same
+#: source. Keys below name the document first so the two axes stop colliding.
+JOURNAL_ART = os.path.join(ASO, "fusion-junction-aso-journal-article.md")
+JOURNAL_TABLES = os.path.join(ASO, "fusion-junction-aso-journal-tables.md")
 PDFS = {
-    "journal": os.path.join(ASO, "fusion-junction-aso-research-article.pdf"),
-    "manuscript": os.path.join(ASO, "fusion-junction-aso-research-article-manuscript.pdf"),
-    "si": os.path.join(ASO, "fusion-junction-aso-research-article-supplementary-information.pdf"),
+    "report_journal_style": os.path.join(ASO, "fusion-junction-aso-research-article.pdf"),
+    "report_manuscript_style": os.path.join(
+        ASO, "fusion-junction-aso-research-article-manuscript.pdf"),
+    "report_si": os.path.join(
+        ASO, "fusion-junction-aso-research-article-supplementary-information.pdf"),
+    "journal_journal_style": os.path.join(ASO, "fusion-junction-aso-journal-article.pdf"),
+    "journal_manuscript_style": os.path.join(
+        ASO, "fusion-junction-aso-journal-article-manuscript.pdf"),
 }
 #: Markers that carry a VERDICT rather than decoration. A fix that introduces one of these into a
 #: document without introducing its key is mechanism 3, and it has happened.
@@ -184,11 +201,23 @@ def _pdf_facts(path):
 
 def _prose_facts():
     art, si, tables = _read(ART), _read(SI), _read(TABLES)
+    jart, jtables = _read(JOURNAL_ART), _read(JOURNAL_TABLES)
     flat = " ".join(art.split())
+    jflat = " ".join(jart.split())
     abstract = art.split("## Abstract", 1)[-1].split("\n---\n", 1)[0]
+    jabstract = jart.split("## Abstract", 1)[-1].split("\n---\n", 1)[0]
     return {
         "abstract_words": len([w for w in re.sub(r"\*", "", abstract).split() if w.strip()]),
         "article_chars": len(art), "si_chars": len(si), "tables_chars": len(tables),
+        # The journal family, read on the same axes — a change that moves one document and not the
+        # other is exactly what this snapshot is for, and it could not see it before.
+        "journal_abstract_words": len(
+            [w for w in re.sub(r"\*", "", jabstract).split() if w.strip()]),
+        "journal_article_chars": len(jart), "journal_tables_chars": len(jtables),
+        "journal_paren_balance": jart.count("(") - jart.count(")"),
+        "journal_bracket_balance": jart.count("[") - jart.count("]"),
+        "journal_markers_in_body": {m: jflat.count(m) for m in MARKERS},
+        "journal_sequences_in_prose": len(set(re.findall(r"5′-([ACGT]+)-3′", jflat))),
         # Mechanism 1's signature: a pattern edit that unbalanced the brackets it inserted.
         "paren_balance": art.count("(") - art.count(")"),
         "bracket_balance": art.count("[") - art.count("]"),

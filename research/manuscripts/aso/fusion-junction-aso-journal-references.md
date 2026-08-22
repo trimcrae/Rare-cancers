@@ -23,8 +23,11 @@ related: [DOC-FUSION-JUNCTION-ASO-JOURNAL]
      build_submission_pdf.py can splice it at the `## References` anchor, as it does for the
      preprint. ⛔ It is NOT generated: this banner previously claimed machine provenance while no
      generator existed, so the file read as machine-derived while being edited by hand and checked
-     by nothing — submission_citations.py --check reads the PREPRINT and reports its 53
-     references, which is why a green gate said nothing about these 21. What holds it to the
+     by nothing — submission_citations.py --check reads the PREPRINT and reports its
+     references, which is why a green gate said nothing about the entries below. (This sentence
+     typed "these 21" while the list stood at 23: a count beside a list that grows is the drift
+     this repository keeps finding, so the count is gone rather than corrected — the list is its
+     own home.) What holds it to the
      manuscript is test_journal_references_match_the_prose.py: every superscript in the article
      must resolve to an entry here, every entry must be cited, and each entry must carry the PMID
      its citation names. ⛔ NUMBERED BY ORDER OF FIRST CITATION, CONTIGUOUSLY. It previously inherited the extended

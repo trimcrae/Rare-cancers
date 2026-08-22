@@ -1688,10 +1688,12 @@ Three assay controls are required, and a knockdown assay alone distinguishes non
   separates gap length from sequence as explanations of weak knockdown, and §4.2 states that it buys
   no parental sparing, both arms needing the comparator too;
 - a scrambled gapmer of the same 5-6-5 β-D-oxy-LNA phosphorothioate chemistry and geometry as the
-  test article, and composition-matched to it — dinucleotide-preserving, so that GC fraction, total
-  guanine content and the 5′ run are held as well as base composition, since a scramble differing in
-  those differs from the test article in melting temperature, protein binding and aggregation as well
-  as in sequence. What it separates is the backbone-class component of toxicity and not the whole of
+  test article, and composition-matched to it — dinucleotide-preserving, so that GC fraction and
+  total guanine content are held as well as base composition, since a scramble differing in those
+  differs from the test article in melting temperature, protein binding and aggregation as well
+  as in sequence. A 5′ guanine run is not held by that procedure: measured through it, the run
+  survives every sampled draw against one named reagent and about one draw in ten against the
+  other, so where the test article carries one it has to be imposed by hand. What it separates is the backbone-class component of toxicity and not the whole of
   it: §6 records that the relevant liability of high-affinity gapmers is sequence-dependent, and a
   scramble cannot by construction control for a sequence-dependent effect. The scramble actually
   ordered must itself be put
