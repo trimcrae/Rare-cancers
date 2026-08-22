@@ -289,3 +289,69 @@ def test_the_title_says_the_designs_do_what_the_count_counts(paper):
         "guard recognises as what that count counts (a parent duplex being FORMED). Either the "
         "predicate was inverted, or a new phrasing needs adding to _PAIRING_VERBS — deliberately, "
         f"and only after checking it means what the field means:\n  {title}")
+
+
+# ---------------------------------------------------------------------------------------------
+# ⛔⛔ THE PREDICATE, WHICH EVERY INSTRUMENT IN THIS FILE WAS BLIND TO (round 15 seat 2, BLOCKER).
+#
+# Changing ONE WORD at all three authored homes — `pair` → `spare` — and regenerating the views
+# passed every gate. The title then said 87 designs SPARE a wild-type parent, when 87 is the count
+# that FAILS the parent screen: the inverse of the paper's central negative, on the one sentence
+# that reaches every reader. Every NUMBER was still correct, which is precisely why nothing fired.
+#
+# ⚠ AND THE NEAR-MISS IS THE MORE INSTRUCTIVE HALF. A stronger inversion ("clear every wild-type
+# parent") WAS caught — but only because `_RATE_SCANNER` happened to match "every" as a quantifier
+# and then asserted 1.000 ≤ 0.4579. A guard that catches a semantic inversion only when the
+# inversion happens to contain a quantifier word is not covering the property; it is getting lucky.
+#
+# ★ THE GENERAL LESSON, AND IT IS WHY THIS BLOCK EXISTS RATHER THAN A ONE-LINE ASSERT: this file's
+# docstring says the title "states three quantitative things" and lists rate, criterion and trade.
+# A claim is a quantity AND a relation, and the whole guard set was built on the quantity half.
+# ---------------------------------------------------------------------------------------------
+
+#: What `corpus.n_with_parent_duplex_through_gap` COUNTS: designs that form the duplex. A title
+#: stating that count must assert that relation.
+_LIABILITY_PREDICATE = re.compile(
+    r"\bpairs?\b|\bform(?:s|ing)? a duplex\b|\bare liable\b|\bpaired\b", re.I)
+
+#: Its inverse. Listed separately and asserted separately, because "the right verb is present" and
+#: "no wrong verb is present" fail differently: a title reading "pair or spare" satisfies the first.
+_SPARING_PREDICATE = re.compile(
+    r"\bspares?\b|\bclears?\b|\bavoids?\b|\bexcludes?\b|\bprotects?\b|\bmiss(?:es)?\b", re.I)
+
+
+@pytest.mark.parametrize("paper", sorted(ARTICLES), ids=sorted(ARTICLES))
+def test_the_titles_predicate_is_the_relation_the_artifact_counts(paper):
+    """⛔ WHAT THE COUNT DOES, NOT ONLY WHAT THE COUNT IS."""
+    title = _plain(_front_matter_title(ARTICLES[paper]))
+    observed = _artifact()["observed"]
+    if not re.search(rf"\b{observed['n_liable']}\b", title):
+        return  # this title states the count some other way; the rate test owns that case
+
+    assert _LIABILITY_PREDICATE.search(title), (
+        f"the title states {observed['n_liable']} of {observed['n_designs']} without saying those "
+        "designs PAIR a wild-type parent: {title!r}\n\n"
+        "`corpus.n_with_parent_duplex_through_gap` counts designs that FORM the duplex. A title "
+        "carrying that count under any other relation states a different result.".format(
+            title=title))
+    inverted = _SPARING_PREDICATE.search(title)
+    assert not inverted, (
+        f"the title says {observed['n_liable']} designs {inverted.group(0)!r} a wild-type parent, "
+        f"and {observed['n_liable']} is the count that FAILS the parent screen — "
+        f"`n_with_parent_duplex_through_gap`, the designs a parent pairs. The title states the "
+        f"inverse of this paper's central negative:\n  {title}")
+
+
+def test_the_predicate_patterns_are_exercised_by_the_titles_they_police():
+    """⛔ AN ALTERNATION NOBODY MATCHES IS AN ALTERNATION THAT HAS STOPPED GUARDING.
+
+    Both patterns above are hand-written alternations, which is the shape this review has repeatedly
+    found going stale. This asserts the positive one actually fires on a real title, so a rewording
+    that slips past it fails HERE rather than passing silently in the test above.
+    """
+    matched = [k for k in ARTICLES
+               if _LIABILITY_PREDICATE.search(_plain(_front_matter_title(ARTICLES[k])))]
+    assert matched, (
+        "no title in this repository matches _LIABILITY_PREDICATE, so the predicate check above is "
+        "vacuous for every paper. Either a title was reworded past the alternation — extend it — or "
+        "no title states the count any more, and the rate test should have said so first.")

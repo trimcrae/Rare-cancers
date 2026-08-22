@@ -125,8 +125,15 @@ reports four false gaps); competing-interests, funding, ethics and AI-use statem
   ordering the first deposit was built around: the paper has to print the identifier the archive will
   carry before the files are frozen, because a published version cannot be edited.
 
-  ⛔ **WHAT REMAINS, AND ONLY THE AUTHOR CAN DO IT: publish deposition 22061075 by hand at
-  <https://zenodo.org/deposit/22061075>. Irreversible.** Until then every archive link in both
+  ⛔ **WHAT REMAINS, AND ONLY THE AUTHOR CAN DO IT — IN THIS ORDER:**
+  1. **Re-run the deposit first.** Dispatch `deposit-zenodo.yml` with `new_version=false`, which
+     UPDATES this draft rather than making a second one. The repository moves between commits, so
+     the draft is normally behind by the time anyone publishes; publishing a stale draft freezes an
+     archive that is already out of date, which is the whole defect this item exists for, one step
+     later and irreversibly. Then update `uploaded_manifest_digest` in
+     [`deposit-state.json`](./deposit-state.json).
+  2. **Then publish deposition 22061075 by hand** at <https://zenodo.org/deposit/22061075>.
+     Irreversible.** Until then every archive link in both
   papers resolves to nothing, which is why this item is blocking rather than informational.
   Machine-readable state: [`deposit-state.json`](./deposit-state.json), which records the published
   version and the pending one separately; `test_the_deposit_the_papers_cite_is_current.py` fails if

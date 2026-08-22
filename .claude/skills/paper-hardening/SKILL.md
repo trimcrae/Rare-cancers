@@ -253,9 +253,64 @@ in it is a round whose repairs have not yet been reviewed.
 
 **Track the blocker trend; it is the signal, not the round number:**
 
-| round | 8 | 9 | 10 | 11 | 12 | 13 |
-|---|---|---|---|---|---|---|
-| blockers filed | **24** | 7 | 3 | 2 | **0** | **1** |
+| round | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 |
+|---|---|---|---|---|---|---|---|---|
+| distinct blockers | **24** | 7 | 3 | 2 | **0** | 1 | 3 | **6** |
+
+## 8a · ★★ WHEN THE BLOCKER COUNT STOPS FALLING, YOU ARE SAMPLING SURFACES, NOT FIXING A PAPER
+
+**⛔ THE TREND ABOVE REVERSED, AND ITERATING HARDER WAS THE WRONG ANSWER (trimcrae, 2026-08-22:
+*"If we keep playing whack a mole on blockers, put some thought into why that is and alter your
+approach."*).** Rounds 14 and 15 went 3 → 6 while every finding was being applied and
+mutation-verified. The paper was not decaying. Read the nine distinct blockers of those two rounds
+together and they are **one finding wearing nine costumes**:
+
+| the blocker | what read that surface before |
+|---|---|
+| Table 2's caption counted rows it no longer had | nothing |
+| §5's void figure was cut, orphaning a claim that needed it | nothing |
+| the paper never stated its own chemistry | nothing — **absence has no anchor** |
+| the wrong non-financial interest was declared | nothing reads a Declarations block |
+| both reagents named by donor exon alone | nothing reads sequence-and-exon *together* |
+| "ten" is a WORD, so no numeric instrument saw it | nothing reads criteria as words |
+| the title's PREDICATE could be inverted (`pair` → `spare`) | nothing reads verbs |
+| the two reagents swappable against their own table | nothing joins prose to a table cell |
+| the frozen deposit drifted from the tree | nothing recorded what was deposited |
+
+**Not one is a number a guard got wrong. Every one is a surface with ZERO instruments.** So the
+blocker rate was tracking **how many new lenses each round introduced**, not how many defects
+remained — a new seat looks where nobody looked and finds the first thing there. ⛔ **That process
+cannot converge by iteration, because there is always another unexamined patch.** Adding a
+sixteenth round buys a sixteenth patch.
+
+★ **THE STRUCTURAL CAUSE, IN ONE LINE: a claim is a QUANTITY and a RELATION, and the whole guard set
+was built on the quantity half.** Numbers have pins, `_every_site` bindings and linters. Verbs,
+criteria-as-words, attributions, absences, prose-to-table correspondences and whole Declarations
+blocks had almost nothing. That is why `pair` → `spare` inverted the paper's central negative on the
+one sentence every reader sees, with every number still correct and every gate still green.
+
+⛔ **SO CHANGE THE INSTRUMENT, NOT THE ITERATION COUNT. ENUMERATE THE SURFACES.**
+[`research/manuscripts/claim_coverage.py`](./research/manuscripts/claim_coverage.py) asks, of every
+assertive sentence, whether any **selective** committed pattern matches it. Run it BEFORE designing
+the next round's seats; its uncovered list is the remaining blocker risk, available all at once
+instead of one per round. First honest run, 2026-08-22: **76 of 124 sentences in the journal
+article, 47 of the 66 that state a number** — and the uncovered set contained the next round's
+blockers in plain sight.
+
+- ⚠ **ITS FIRST RUN REPORTED 100% AND THAT WAS THE BUG IT EXISTS TO FIND.** Harvesting patterns
+  picks up `\s+`, `\d`, `[^.]{0,140}` — matchers that hit every sentence and bind none. **A guard
+  earns the word "covers" only by distinguishing the sentence it guards from the ones it does not**,
+  so a pattern matching more than `MAX_MATCH_SHARE` of a document is dropped. A census that counted
+  those as coverage would be a gate reporting while measuring nothing, inside the instrument built
+  to detect exactly that.
+- ⚠ **COVERED ≠ CORRECT.** The census says only whether anything would NOTICE a change. A covered
+  sentence can still be false; an uncovered one is merely unwatched.
+- ⚠ **AND SOME CLAIMS ARE NOT MECHANICALLY BINDABLE AT ALL** — "no such design is reported in the
+  literature retrieved here" rests on a fetch record and on honesty. **Name those separately rather
+  than letting them hide among the ones a test can hold**, or the coverage number becomes a comfort.
+- ★ **THE SECOND-ORDER RULE THIS GIVES YOU:** when a seat files a blocker, ask *what class of
+  surface was unwatched here* and close **the class**, not the instance. Nine instances above
+  reduce to about five classes; closing classes is what makes the next round's yield fall.
 
 - **★★ A ROUND THAT FINDS ONLY DEFECTS INTRODUCED BY THE PREVIOUS ROUND'S REPAIRS MEANS THE REPAIRS,
   NOT THE PAPER, ARE NOW THE PROBLEM.** Tighten the edit discipline (§1's replace-don't-append, §5's

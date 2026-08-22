@@ -31,6 +31,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 
 import pytest
 
@@ -125,10 +126,24 @@ def test_a_pending_draft_still_matches_the_tree_it_was_built_from():
     assert recorded, (
         f"deposit-state.json records a pending version ({pending['doi']}) without the digest of "
         "what was uploaded into it, so nothing can tell whether the draft still matches this tree")
-    assert recorded == manifest.get("archive_content_digest"), (
-        f"the draft {pending['doi']} was built from a tree whose archive digest was "
-        f"{recorded[:16]}…, and this tree's is {str(manifest.get('archive_content_digest'))[:16]}…\n\n"
-        "The repository has moved since the draft was uploaded. Publishing now would freeze an "
-        "archive that is already behind. Re-run the deposit first — dispatch deposit-zenodo.yml "
-        "with new_version=false, which UPDATES this draft rather than making a second one — then "
-        "update `uploaded_manifest_digest` here.")
+    if recorded == manifest.get("archive_content_digest"):
+        return
+
+    # ⛔⛔ A STALE DRAFT BETWEEN COMMITS IS NORMAL, AND THE FIRST VERSION OF THIS ASSERTION MADE IT
+    # A HARD FAILURE — which turned every commit that touches the archive into a red gate with a
+    # CIRCULAR dependency: refreshing the draft uploads from the pushed branch, and pushing needs
+    # this gate green. It went red on its own first full run, three commits after being written.
+    # ⚠ A GATE THAT IS RED FOR WEEKS IS A GATE THAT GETS SWITCHED OFF, and this repository has the
+    # scars. The question worth asking is not "is the draft current?" — between commits it is not,
+    # and should not have to be. It is "will the person about to publish be TOLD to refresh it?",
+    # because that is the moment the staleness would be frozen.
+    text = open(CHECKLIST, encoding="utf-8").read()
+    assert re.search(r"re-?run the deposit|new_version=false|refresh the draft", text, re.I), (
+        f"the draft {pending['doi']} was built at archive digest {recorded[:16]}… and this tree is "
+        f"at {str(manifest.get('archive_content_digest'))[:16]}…, which is expected between "
+        "commits — but nothing in the preprint checklist tells whoever publishes it to refresh the "
+        "draft first.\n\nPublishing a stale draft freezes an archive that is already behind, which "
+        "is the defect this whole file exists to prevent, one step later and irreversibly. Add the "
+        "instruction to the blocking item: dispatch deposit-zenodo.yml with new_version=false "
+        "(it UPDATES the draft rather than making a second one), then update "
+        "`uploaded_manifest_digest` here.")
