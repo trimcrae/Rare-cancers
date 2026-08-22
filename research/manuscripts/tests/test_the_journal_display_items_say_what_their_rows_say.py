@@ -420,3 +420,40 @@ def test_the_display_item_file_states_it(label, pattern, why):
         f"the generated display-item file no longer states {label}.\n\nWHY: {why}\n\n"
         "⛔ A deleted sentence matches nothing and fires nothing, which is why absence is asserted "
         "rather than left to the linters.")
+
+
+def test_the_hazard_distance_is_the_panels_worst_case_not_the_printed_pairs(rows_by_sequence, tables):
+    """⛔⛔ THE NUMBER SIZES AN OFF-BY-ONE IN A SYNTHESIS ORDER, SO IT MUST BE THE PANEL'S MINIMUM.
+
+    Round 16 seat 2: `_slides_to_a_named_lead` minimised over `CONDEMNED` — the pair Table 2 happens
+    to PRINT — and reported **two** slides, for the *EWSR1* reagent. The canonical file records
+    `AGGGCATATCTTGTGT`: DO NOT ORDER, 11 bp against wild-type *NR4A3*, and **one** single-base slide
+    from `GGGCATATCTTGTGTG`, the *TAF15* reagent this paper names for synthesis. It was printed in
+    neither journal PDF. So the caption understated by a factor of two the distance between a
+    reagent a reader is told to buy and a design that fails the paper's central screen — a SCOPE
+    bug, not an arithmetic one, which is why seat 2 could not break the arithmetic.
+
+    ★ Minimised over the whole condemned class, read from the canonical file, so the caption cannot
+    quietly narrow back to whatever the table happens to print.
+    """
+    named = {q for t in tables.values() for q in _sequences(t)} & set(rows_by_sequence)
+    named = {q for q in named if not rows_by_sequence[q].get("do_not_order")}
+    assert named, "no orderable reagent appears in the tables, so there is no hazard distance"
+
+    closest = None
+    for seq, row in rows_by_sequence.items():
+        if not row.get("do_not_order"):
+            continue
+        for lead in named:
+            if _one_slide(seq, lead):
+                closest = 1
+    assert closest == 1, (
+        "no condemned 5-6-5 design is a single-base slide from a reagent named for synthesis. "
+        "Either the canonical file changed or this guard is reading the wrong column; the caption's "
+        "stated distance has to be re-derived either way, not left at whatever it says.")
+
+    caption = " ".join(t["caption"] for t in tables.values())
+    assert "one single-base slide" in caption, (
+        "the closest condemned design is ONE single-base slide from a reagent this paper names for "
+        f"synthesis, and no caption says so:\n  {caption[:400]}\n\n"
+        "A larger number here tells a reader the hazard is further away than it is.")

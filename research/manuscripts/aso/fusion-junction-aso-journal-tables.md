@@ -11,7 +11,7 @@
 | *EWSR1* e12::*NR4A3* e3 | 5′-GGGCATATCATCAAAC-3′ | 3 | 8 bp, wild-type *TFG* | E-N, engineered construct |
 | *TAF15* e6::*NR4A3* e3 | 5′-GGGCATATCTTGTGTG-3′ | 3 | 9 bp, wild-type *TFG* | T-N*, engineered construct |
 
-**Table 2. Two near-identical designs at one seam, one orderable and one not.** Each pair is two consecutive registers of one seam differing by a single-base slide, and the two members carry opposite verdicts: the condemned member pairs its whole catalytic gap against a wild-type parent at the ten-base-pair criterion and the orderable member does not. The condemned design is not at an unrelated seam: 5′-CAGGGCATATCATCAA-3′ is two single-base slides from 5′-GGGCATATCATCAAAC-3′, a reagent this paper names for synthesis, and pairs 11 bp of wild-type *NR4A3* through its whole catalytic gap. Neither may be substituted for the other, and neither is named for synthesis. The pairing is read from the canonical file's own cross-reference column.
+**Table 2. Two near-identical designs at one seam, one orderable and one not.** Each pair is two consecutive registers of one seam differing by a single-base slide, and the two members carry opposite verdicts: the condemned member pairs its whole catalytic gap against a wild-type parent at the ten-base-pair criterion and the orderable member does not. The condemned class reaches the reagents this paper names for synthesis: 5′-AGGGCATATCTTGTGT-3′ is one single-base slide from 5′-GGGCATATCTTGTGTG-3′ and pairs 11 bp of wild-type *NR4A3* through its whole catalytic gap. Neither may be substituted for the other, and neither is named for synthesis. The pairing is read from the canonical file's own cross-reference column.
 
 | seam | design | verdict | margin | WT gap duplex (bp) |
 |---|---|---|---:|---|

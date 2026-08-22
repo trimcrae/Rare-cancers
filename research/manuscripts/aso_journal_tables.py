@@ -205,8 +205,14 @@ def _slides_to_a_named_lead(rows):
         return a[1:] == b[:-1] or b[1:] == a[:-1]
 
     best = None
-    for seq in CONDEMNED:
-        bad = _at(rows, seq)
+    #: ⛔ THE MINIMUM IS OVER THE WHOLE CONDEMNED CLASS, NOT OVER THE PAIR THIS TABLE HAPPENS TO
+    #: PRINT (2026-08-22, round 16 seat 2). Scoped to `CONDEMNED` this returned TWO slides, for the
+    #: *EWSR1* reagent — while the canonical file records `AGGGCATATCTTGTGT`, 11 bp against wild-type
+    #: *NR4A3*, ONE slide from the *TAF15* reagent this paper names for synthesis and printed in
+    #: neither PDF. The number exists to size an off-by-one in a synthesis order, so it has to be the
+    #: panel's worst case and not the printed pair's.
+    condemned = [r for r in rows if r.get("do_not_order") and r.get("geometry") == GEOMETRY]
+    for bad in condemned:
         for j in LEADS:
             lead = _lead(rows, j)
             if lead["junction"] != bad["junction"]:
@@ -229,17 +235,10 @@ def _slides_to_a_named_lead(rows):
         return ""
     step, lead_seq, bad_seq, duplex = best
     slides = "one single-base slide" if step == 1 else f"{_number_word(step)} single-base slides"
-    #: `_duplex` renders as "11 bp, wild-type *NR4A3*", which does not read as a noun phrase in the
-    #: middle of a sentence; split it so the length and the gene each land where they belong.
     length, _, gene = duplex.partition(", wild-type ")
-    #: ⚠ A PARTITIVE OVER A SET OF ONE READS AS A SET OF MANY (round 14 seat 5). "One of the
-    #: condemned designs" was written when the panel printed two; with one pair it invites the
-    #: reader to look for the others. Phrased from the count, like the caption above it.
-    opener = ("One of the condemned designs is" if len(CONDEMNED) > 1
-              else "The condemned design is")
-    return (f"{opener} not at an unrelated seam: 5\u2032-{bad_seq}-3\u2032 is "
-            f"{slides} from 5\u2032-{lead_seq}-3\u2032, a reagent this paper names for synthesis, "
-            f"and pairs {length} of wild-type {gene} through its whole catalytic gap.")
+    return (f"The condemned class reaches the reagents this paper names for synthesis: "
+            f"5\u2032-{bad_seq}-3\u2032 is {slides} from 5\u2032-{lead_seq}-3\u2032 and pairs "
+            f"{length} of wild-type {gene} through its whole catalytic gap.")
 
 
 def _number_word(n):
