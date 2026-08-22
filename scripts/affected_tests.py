@@ -80,8 +80,22 @@ def _git(*args):
     return r.stdout if r.returncode == 0 else None
 
 
-def changed_files():
-    """Everything this commit would carry that the default branch does not, plus the dirty tree.
+def uncommitted_files():
+    """Only what is not yet committed: the dirty tree, the index and untracked files.
+
+    ⛔⛔ THIS EXISTS BECAUSE `ALWAYS_FULL` WAS STICKY FOR THE LIFE OF A BRANCH (2026-08-22, trimcrae:
+    *"if it's looking at a ton of stuff not related to ASO, we should either not be running it at all
+    or only running a subset of it"*). `changed_files()` deliberately spans the whole branch, so once
+    ANY commit on the branch touched `scripts/affected_tests.py` or `scripts/preflight.sh`, every
+    later run resolved to FULL no matter what it was changing. Measured that morning: a prose-only
+    edit to one manuscript ran all 398 modality modules — 7,800 tests over docking, ABFE and GPU
+    fleet management, none of which a manuscript can reach — for 19m38s, and passed every one.
+
+    ⭐ THE SAFETY PROPERTY IS UNCHANGED, because it was never about the branch. The rule is "if the
+    selector is untrustworthy, do not trust it", and a selector change is ALWAYS dirty at the moment
+    of its own commit, so it is always FULL-gated there. Once that commit has passed, the selector on
+    disk is the one that FULL run validated. Keeping it a permanent tripwire re-gates a question that
+    was already answered, and the cost is the scoped fast path for the rest of the branch.
 
     Returns None if git cannot answer, which the caller treats as FULL.
     """
@@ -93,6 +107,18 @@ def changed_files():
         return None
     for blob in (dirty, staged, untracked):
         out.update(x.strip() for x in blob.splitlines() if x.strip())
+    return out
+
+
+def changed_files():
+    """Everything this commit would carry that the default branch does not, plus the dirty tree.
+
+    Returns None if git cannot answer, which the caller treats as FULL.
+    """
+    out = uncommitted_files()
+    if out is None:
+        return None
+    out = set(out)
 
     # committed-but-unmerged work on this branch, so a preflight run after several commits still
     # covers everything the branch introduces rather than only the last commit
@@ -164,7 +190,14 @@ def select(explain=False):
         say("no changed files — nothing to run")
         return []
 
-    for f in sorted(files):
+    # ⛔ THE UNSCOPEABLE CHECK READS THE UNCOMMITTED SET, NOT THE BRANCH SPAN. See
+    # `uncommitted_files`: a selector or preflight edit is FULL-gated at its own commit, and a
+    # committed one that already passed does not re-gate every later commit on the branch. If git
+    # cannot say what is uncommitted, every changed file is treated as unscopeable, which is FULL.
+    unscopeable = uncommitted_files()
+    if unscopeable is None:
+        unscopeable = files
+    for f in sorted(unscopeable):
         if os.path.basename(f) in ALWAYS_FULL_BASENAMES or f in ALWAYS_FULL_PATHS:
             say(f"{f} cannot be scoped — FULL")
             return None

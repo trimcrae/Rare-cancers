@@ -21,9 +21,24 @@ import affected_tests as A  # noqa: E402
 
 @pytest.fixture
 def fake(monkeypatch):
-    """Drive `select()` off a chosen file list instead of the real git state."""
+    """Drive `select()` off a chosen file list instead of the real git state.
+
+    Both git readers are patched, and to the SAME set, so the faked files count as uncommitted —
+    which is what every test written before `uncommitted_files()` existed assumed. A test that wants
+    the branch-span case (committed on this branch, not in the working tree) uses `fake_split`.
+    """
     def _set(files):
         monkeypatch.setattr(A, "changed_files", lambda: files)
+        monkeypatch.setattr(A, "uncommitted_files", lambda: files)
+    return _set
+
+
+@pytest.fixture
+def fake_split(monkeypatch):
+    """Changed-on-this-branch and uncommitted as two different sets."""
+    def _set(changed, uncommitted):
+        monkeypatch.setattr(A, "changed_files", lambda: changed)
+        monkeypatch.setattr(A, "uncommitted_files", lambda: uncommitted)
     return _set
 
 
@@ -143,3 +158,37 @@ def test_the_selector_reports_a_documents_guard_truthfully(fake, capsys):
     assert "manuscripts test module" in said, (
         "when no modality test names a document the selector must say where it IS guarded, not "
         f"only that it is not guarded here — it said: {said.strip()}")
+
+
+# ⛔⛔ `ALWAYS_FULL` MUST NOT BE STICKY FOR THE LIFE OF A BRANCH (2026-08-22). `changed_files()` spans
+# from the merge-base on purpose, so a run after several commits still covers everything the branch
+# introduces. But the unscopeable check read that same span, so one commit touching the selector or
+# preflight forced FULL on every later run of that branch: a prose-only manuscript edit ran all 398
+# modality modules — 7,800 tests over docking, ABFE and GPU fleet management — for 19m38s and passed
+# every one. The safety property is unchanged, because a selector edit is dirty at its own commit and
+# is FULL-gated there; what is dropped is re-gating a question already answered.
+
+
+def test_a_committed_selector_change_does_not_force_full_on_later_commits(fake_split):
+    """Selector edited earlier on the branch, working tree now holding only a manuscript."""
+    doc = "research/manuscripts/aso/fusion-junction-aso-journal-article.md"
+    fake_split({"scripts/affected_tests.py", "scripts/preflight.sh", doc}, {doc})
+    sel = A.select()
+    assert sel is not None, (
+        "a selector change committed earlier on this branch was FULL-gated at its own commit; "
+        "re-gating every later commit costs the scoped path for the rest of the branch")
+    assert all(p.startswith("research/modalities/tests/") for p in sel), sel
+
+
+def test_an_uncommitted_selector_change_still_forces_full(fake_split):
+    """The direction that must never weaken: the selector on disk is not the one that was gated."""
+    for p in ("scripts/affected_tests.py", "scripts/preflight.sh"):
+        fake_split({p, "research/modalities/junction_aso_offtarget.py"}, {p})
+        assert A.select() is None, f"{p} uncommitted must take the whole suite"
+
+
+def test_git_not_answering_about_the_working_tree_takes_the_whole_suite(monkeypatch):
+    """⛔ An unanswered git is an uncertainty, and uncertainty is FULL — in this direction too."""
+    monkeypatch.setattr(A, "changed_files", lambda: {"scripts/affected_tests.py"})
+    monkeypatch.setattr(A, "uncommitted_files", lambda: None)
+    assert A.select() is None

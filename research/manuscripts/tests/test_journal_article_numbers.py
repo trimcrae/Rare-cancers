@@ -133,7 +133,7 @@ def test_the_panels_own_rate_is_the_screens_rate(prose, null):
     # geometry sentence opens the 5-6-5 / 5-8-5 / 5-10-5 series with it. All three are this rate.
     _every_site(prose, r"same screen at \d+\.\d% against the panel's (\d+\.\d%)", rate, what)
     _every_site(prose, r"against (\d+\.\d%) for the panel", rate, what)
-    _every_site(prose, r"from (\d+\.\d%) to \d+\.\d% to \d+\.\d%", rate, what)
+    _every_site(prose, r"does — (\d+\.\d%) to \d+\.\d% to \d+\.\d%", rate, what)
 
 
 def test_the_chimeric_null_the_abstract_quotes_is_the_exon_terminus_arm(prose, null):

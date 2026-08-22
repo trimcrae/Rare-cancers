@@ -55,3 +55,10 @@ profiler-output/
 
 # Scratch written mid-run by pose_second_method.py; the finished artifact is the .json
 *.json.partial
+
+# ⛔ PDF-BUILD INTERMEDIATE, NEVER A DELIVERABLE. build_submission_pdf.py writes a `.build.html`
+# beside the deposit artefacts on every run and says so in as many words at its own :2179 — "No
+# `.build.html` is tracked anywhere in this repository, and none should be." It was untracked rather
+# than ignored, so a `git add -A` fired while a build was mid-flight would have committed one as if
+# it were a deliverable. Ignored so that cannot happen.
+*.build.html
