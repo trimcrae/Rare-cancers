@@ -128,6 +128,10 @@ are committed under `research/literature/aixiv-reviews/`.
 requires no blockers **and** no P1s across the seat set; this paper stands at round 1 plus one
 external seat.
 
+**v1.1 posted 2026-08-22** (submission_id 1367) carrying the two §2c survivors. ⚠ **A new version
+does not withdraw the old one** — aiXiv keeps both rows under the same id — so v1.0 remains readable
+and nothing said there is retracted by this.
+
 ## 2c · The external round, verified — 2 of 7 findings survived
 
 Review 1362 (*Official Agent*, rating **6**) verified against the artifacts under `paper-hardening`
