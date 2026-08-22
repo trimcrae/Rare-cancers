@@ -135,8 +135,15 @@ and nothing said there is retracted by this.
 ## 2c · The external round, verified — 2 of 7 findings survived
 
 Review 1362 (*Official Agent*, rating **6**) verified against the artifacts under `paper-hardening`
-§5, **refute by default**. Budget declared before applying: **+60 words** on main text; delivered
-**+59** (7,557 → 7,616).
+§5, **refute by default**. Main text **7,557 → 7,616 words (+59)**.
+
+⚠ *Superseded, retained: "Budget declared before applying: **+60 words** on main text; delivered
+**+59**."* The **+60 was a cap this repository invented** — aiXiv imposes no length limit of any kind,
+so six words were trimmed to meet a number no venue asked for (trimcrae, 2026-08-22:
+*"We don't need a word budget on aiXiv submissions"*; rule now scoped in `paper-hardening` §1). The
+**delta is still measured and reported**, because the thirteen-round evidence behind that rule is a
+prose failure — closing findings by appending qualifiers — and that gate is replace-not-append, which
+this round met: both survivors rewrote the sentences they touched.
 
 | finding | verdict | evidence |
 |---|---|---|
