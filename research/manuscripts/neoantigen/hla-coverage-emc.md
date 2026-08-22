@@ -33,12 +33,21 @@ _backfilled: true
 > | all strong-binder alleles | A\*02:01, A\*11:01, B\*07:02, B\*08:01, B\*15:01 | **A\*01:01, B\*07:02, B\*15:01** |
 > | any-strong coverage, global | 58.0% (57.1–59.0) | **27.4% (26.6–28.1)** |
 > | any-strong regional range | 36% (Sub-Saharan Africa) → 79% (N. Europe) | **1.4% (Melanesia) → 60% (N. Europe)** |
-> | CD8∧CD4 both-arms | 16.5% | **withheld** (see below) |
+> | CD8∧CD4 both-arms | 16.5% | **not computed** — no strong class II binder survives (see below) |
 >
-> ⛔ **The class-II arm is withheld rather than restated.** It comes from `patient-cd4-demo.json`,
-> which is still built on the retracted seam (`…IVRTDSLKGRRG`) and has not been regenerated, so the
-> class-II and both-arms figures would mix a corrected class-I set with an uncorrected class-II one.
-> `hla_coverage.py` measures this and records it as `⛔_class_ii_provenance` in the artifact.
+> ⛔ **⚠ Superseded, retained (updated 2026-08-22): "The class-II arm is withheld rather than
+> restated … `patient-cd4-demo.json` … is still built on the retracted seam (`…IVRTDSLKGRRG`) and has
+> not been regenerated".** That was true when written and is no longer. The class II demo has been
+> rebuilt on the transcript model: `patient-cd4-demo.json` now carries
+> `junction_context: QYSQQSSSYGQQ|NMPCVQAQYSPS` with `grade: EMITTABLE`, and `hla_coverage.py`'s own
+> `⛔_class_ii_provenance` records `matches_corrected_seam: true`. The arm is reported, and it is
+> negative: 2 predicted binders, none strong, on three DRB1 alleles. The both-arms figure is
+> **not computed** rather than withheld — with no qualifying class II allele the coverage script's
+> class II branch never evaluates — and what it would compute is a floor over a three-allele panel
+> that untested alleles could only raise. Both statements have one home,
+> [`emc-vaccine-development-path.md`](./emc-vaccine-development-path.md) §B4.
+> ⚠ This paragraph stood contradicting the committed artifact until the vaccine paper's first
+> adversarial review enumerated every document that states this arm's status.
 > The **method** in this document — AFND pooling, Wilson CIs, the IEDB coverage formula, the
 > population→region mapping — is unchanged and was never in question; only the input allele set was.
 > Regenerate this prose from

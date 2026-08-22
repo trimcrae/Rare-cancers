@@ -54,6 +54,26 @@ jobs:
             # not be cleared by dispatching verify-refs at all. Filed in THIS list rather than section 8a
             # because section 8a is print-only and degrader-scoped: only section 1 is enforced by the verdict.
             "10.1021/jacs.5c05634#EV-EB-TCIP-2025 (expect: Rewiring the fusion oncoprotein EWSR1::FLI1 in Ewing sarcoma with bivalent small molecules; J Am Chem Soc 2025, 147(49):44739-44758; PMC12851799)"
+            # PUB-VACCINE-PATH's reference list, added 2026-08-22 at round 1 of its hardening cycle.
+            # ⛔ WHY EACH IS HERE. The vaccine paper shipped two entries reading literally
+            # "[citation to verify]" and a third — its class II predictor — with no bibliographic record
+            # anywhere in this repository, while its Methods depended on all three. A reference a gate
+            # cannot see is not a reference, and this list is the gate.
+            "10.1016/j.modpat.2023.100161#Huang 2023 (expect: EMC, TAF15::NR4A3 significance; Mod Pathol 2023, 58-case molecular series)"
+            "10.1016/S1470-2045(19)30319-5#Stacchiotti 2019 pazopanib (expect: single-arm phase 2 in advanced EMC; Lancet Oncol 2019)"
+            "10.1016/j.ejca.2014.03.013#Stacchiotti 2014 sunitinib (expect: activity of sunitinib in EMC; Eur J Cancer 2014)"
+            "10.3389/fcell.2021.763875#glycogenes (expect: TITLE MUST NAME PLACENTA AND COLORECTAL CANCER; Front Cell Dev Biol 2021)"
+            "10.1007/s13577-025-01250-7#NCC-EMC1-C1 (expect: patient-derived EMC cell line; Human Cell 2025)"
+            "10.1007/s13577-022-00818-x#Bangerter 2023 (expect: two ex vivo EMC cell models; Human Cell 2023)"
+            "10.1007/s00432-025-06316-5#Remiszewski 2025 (expect: comprehensive EMC review; J Cancer Res Clin Oncol 2025)"
+            "10.1136/jitc-2020-001561#IMMUNOSARC I (expect: nivolumab + sunitinib phase Ib/II in STS; J Immunother Cancer 2020)"
+            "10.1200/JCO.2025.43.16_suppl.11513#IMMUNOSARC II EMC (expect: ASCO 2025 abstract 11513; CONFERENCE ABSTRACT, not a full paper)"
+            "10.1016/j.cels.2020.09.001#MHCflurry 2.0 (expect: pan-allele MHC-I presentation prediction; Cell Systems 2020)"
+            # ⭐ RESOLVED 2026-08-22 by section 9 below, after a first attempt returned a near-miss.
+            # It is promoted into THIS list because section 9 is a search and only section 1 is
+            # enforced by the verdict: a reference the manuscript now cites must be one a red build
+            # can notice going missing.
+            "10.1158/2326-6066.CIR-19-0464#MHCnuggets (expect: TITLE MUST CONTAIN 'MHCnuggets'; Cancer Immunol Res 2020; PMID 31871119)"
           )
           NFIXED=${#FIXED_DOIS[@]}
           for entry in "${FIXED_DOIS[@]}"; do
@@ -108,6 +128,7 @@ jobs:
           PROTAC targeted protein degraders the past is prologue#Bekes Crews 2022 Nat Rev Drug Discov
           The dTAG system for immediate and target-specific protein degradation#Nabet 2018 Nat Chem Biol
           Antisense technology an overview and prospectus#Crooke 2021 Nat Rev Drug Discov
+          MHCnuggets deep neural network prediction of peptide-MHC binding#the class II predictor behind PUB-VACCINE-PATH's B4; NO bibliographic record exists in this repository, so this query is the only way that reference can be written without inventing it
           REFS
           echo
           echo "===== 5) Targeted resolution for the 2 stragglers (author + title; print top 5) ====="
@@ -186,6 +207,58 @@ jobs:
           fi
           if [ "${FAILED:-0}" = 1 ]; then exit 1; fi
           echo "::notice title=VERIFY-REFS OK::$NCROSSREF/$NFIXED enumerated DOIs resolved, $NRESOLVED DOI(s) resolved overall, no parse errors."
+
+      # -----------------------------------------------------------------------------------------
+      # ⭐ SECTION 9: THE ONE REFERENCE ROUND 1 OF THE VACCINE-PATH CYCLE COULD NOT WRITE.
+      # PUB-VACCINE-PATH's class II arm was screened with MHCnuggets and NO bibliographic record for
+      # that tool exists anywhere in this repository, so its Section 10 entry currently says so
+      # rather than supplying one. ⛔ A SINGLE Crossref `query.bibliographic` for it returned a
+      # NEAR-MISS — a pan-specific class I CNN paper whose title does not contain the word
+      # "MHCnuggets" — and a wrong citation arriving in quotable form is the most dangerous kind,
+      # so it was refused. That refusal is not the same as the reference being unobtainable, and
+      # this step is the difference: search by NAME across two corpora, print what each returns
+      # WITH its title, and let the title decide. A hit is only a hit if "MHCnuggets" is in it.
+      - name: Resolve the MHCnuggets citation by name, and let the title decide
+        run: |
+          set +e
+          echo "===== 9) MHCnuggets — the class II predictor behind PUB-VACCINE-PATH B4 ====="
+          echo "  ⛔ ACCEPT ONLY a record whose TITLE contains 'MHCnuggets'. Anything else is the"
+          echo "     near-miss this step exists to reject."
+          echo
+          echo "  -- 9a) Europe PMC, title/abstract search --"
+          curl -s -m 40 -G "https://www.ebi.ac.uk/europepmc/webservices/rest/search" \
+            --data-urlencode 'query=TITLE:"MHCnuggets" OR ABSTRACT:"MHCnuggets"' \
+            --data-urlencode 'format=json' --data-urlencode 'pageSize=15' \
+            --data-urlencode 'resultType=core' -o mn.json
+          node -e 'const fs=require("fs");try{const j=JSON.parse(fs.readFileSync("./mn.json","utf8"));
+            const r=(j.resultList&&j.resultList.result)||[];
+            console.log("    hitCount:",j.hitCount);
+            r.forEach(x=>{const t=(x.title||"").replace(/\s+/g," ");
+              const flag=/mhcnuggets/i.test(t)?"TITLE-MATCH":"          ";
+              console.log("   ",flag,"|",x.pmid||x.id||"?","|",x.pubYear||"?","|",
+                          (x.journalInfo&&x.journalInfo.journal&&x.journalInfo.journal.title)||"?",
+                          "|",(x.doi||"no-doi"),"|",t.slice(0,110));
+              if(/mhcnuggets/i.test(t)) console.log("        authors:",(x.authorString||"?").slice(0,180));
+            });}catch(e){console.log("    PARSE-ERR",e.message)}'
+          echo
+          echo "  -- 9b) Crossref, bibliographic query by name --"
+          curl -s -m 40 -A "rare-cancers-verify/1.0 (mailto:trimcrae@gmail.com)" -G "https://api.crossref.org/works" \
+            --data-urlencode "query.bibliographic=MHCnuggets" --data-urlencode "rows=10" -o mnc.json
+          node -e 'const fs=require("fs");try{const items=JSON.parse(fs.readFileSync("./mnc.json","utf8")).message.items||[];
+            items.forEach(m=>{const t=((m.title||[])[0]||"").replace(/\s+/g," ");
+              const flag=/mhcnuggets/i.test(t)?"TITLE-MATCH":"          ";
+              console.log("   ",flag,"|",m.DOI,"|",((m["container-title"]||[])[0]||"?"),"|",
+                          (((m.published||m.issued||{})["date-parts"]||[["?"]])[0][0]),"|",t.slice(0,110));
+              if(/mhcnuggets/i.test(t)) console.log("        authors:",
+                (m.author||[]).map(a=>(a.family||"")+" "+((a.given||"").replace(/[^A-Z]/g,""))).join(", ").slice(0,180),
+                "| volume",m.volume||"?","| issue",m.issue||"?","| pages",m.page||"?");
+            });}catch(e){console.log("    PARSE-ERR",e.message)}'
+          echo
+          echo "  -- 9c) verdict --"
+          N=$( { grep -c "TITLE-MATCH" /dev/null; } 2>/dev/null; true )
+          echo "     Read 9a and 9b above. If no line is marked TITLE-MATCH, the reference stays"
+          echo "     unwritten and the class II arm is withdrawn — that is a real outcome, not a"
+          echo "     failure of this step."
   # ---------------------------------------------------------------------------------------------
   # Section 8 was added 2026-07-25 for the degrader manuscript's mechanism-first prospective stage
   # (RUNG 5a/5b). It verifies (a) three journal DOIs the manuscript must cite, (b) the primary
