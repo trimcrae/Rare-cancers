@@ -102,3 +102,33 @@ def test_an_unpublished_version_or_a_drifted_tree_is_openly_tracked():
             "the checklist still carries the deposit-is-behind blocking item, but nothing is "
             "drafted and the manifest matches the digest recorded as published. Close the item — a "
             "checklist that keeps a solved blocker open is one nobody reads.")
+
+
+def test_a_pending_draft_still_matches_the_tree_it_was_built_from():
+    """⛔ PUBLISHING A DRAFT THAT IS ALREADY BEHIND WOULD FREEZE THE SAME DEFECT AGAIN.
+
+    The draft on Zenodo holds one specific build. Publishing is irreversible, so if the repository
+    moves after the upload and nobody re-runs the deposit, the click freezes an archive that is
+    already stale — which is exactly the defect this file exists to prevent, one step earlier in the
+    process and with the same irreversibility.
+
+    ⚠ THIS CANNOT SEE ZENODO, and does not claim to. It compares the digest recorded at upload time
+    against the manifest's digest now. That answers the question that actually matters — "has the
+    tree moved since the draft was built?" — without a network call, which is what makes it a gate
+    rather than a note.
+    """
+    state, manifest = _json(STATE, "what was deposited"), _json(MANIFEST, "what is archivable")
+    pending = state.get("pending")
+    if not pending:
+        return
+    recorded = pending.get("uploaded_manifest_digest")
+    assert recorded, (
+        f"deposit-state.json records a pending version ({pending['doi']}) without the digest of "
+        "what was uploaded into it, so nothing can tell whether the draft still matches this tree")
+    assert recorded == manifest.get("archive_content_digest"), (
+        f"the draft {pending['doi']} was built from a tree whose archive digest was "
+        f"{recorded[:16]}…, and this tree's is {str(manifest.get('archive_content_digest'))[:16]}…\n\n"
+        "The repository has moved since the draft was uploaded. Publishing now would freeze an "
+        "archive that is already behind. Re-run the deposit first — dispatch deposit-zenodo.yml "
+        "with new_version=false, which UPDATES this draft rather than making a second one — then "
+        "update `uploaded_manifest_digest` here.")

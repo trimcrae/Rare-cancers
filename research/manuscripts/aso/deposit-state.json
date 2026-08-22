@@ -16,6 +16,9 @@
     "drafted": "2026-08-22",
     "supersedes": "10.5281/zenodo.22028916",
     "_provenance": "Opened by dispatching deposit-zenodo.yml with new_version=true (Actions run 32592867658, job 97079288977), which called the published record's `actions/newversion`. Its log reads: 'opened NEW VERSION draft 22061075 of published record 22028916', 'cleared 1 inherited file(s)', 'uploaded emc-aso-archive.zip', 'DRAFT deposition 22061075 created. NOTHING IS PUBLISHED.' The DOI is the version DOI Zenodo reserved for that draft.",
-    "_what_remains": "Publishing, by hand, on Zenodo — https://zenodo.org/deposit/22061075. Irreversible. Until then the papers cite a DOI that does not yet resolve, which is the ordering the first deposit was built around and is tracked as an open blocking item in fusion-junction-aso-preprint-checklist.md."
+    "_what_remains": "Publishing, by hand, on Zenodo — https://zenodo.org/deposit/22061075. Irreversible. Until then the papers cite a DOI that does not yet resolve, which is the ordering the first deposit was built around and is tracked as an open blocking item in fusion-junction-aso-preprint-checklist.md.",
+    "uploaded_manifest_digest": "b19605953ef79bc96d826e9d5e0c001ad772f981158f1d04d35260cce84dadaa",
+    "uploaded_at_git_revision": "b67ba66bd1d7a3bf0c1201a3e57db7a768b64414",
+    "_why_the_uploaded_digest_is_here": "So the draft can be told apart from the tree BEFORE anyone publishes it. The draft on Zenodo holds one specific build; if the repository moves after that upload and nobody re-runs the deposit, publishing would freeze an archive that is already behind — which is the defect this whole file exists to prevent, one step earlier in the process. test_the_deposit_the_papers_cite_is_current.py compares this against the manifest's current digest."
   }
 }
