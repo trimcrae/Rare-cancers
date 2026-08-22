@@ -41,6 +41,7 @@ blocker that a reader could check and find wrong.
 | References | Fourteen entries, every identifier transcribed from a fetch record in this repository, every one cited in text, and ten of them additionally resolved at Crossref by a CI run |
 | Build | An entry in `build_submission_pdf.py`, so the PDF guard family can reach it |
 | Style | Passes the journal-register gate; it was written to that gate rather than retrofitted |
+| Gates | `PREFLIGHT_FULL=1 ./scripts/preflight.sh` returns **PREFLIGHT OK, exit 0** (2026-08-22), which is the tier CLAUDE.md requires before any outward-facing step. The gate is clear; §2 below is what is not |
 
 ## 2 · Blocks posting — must be closed first
 

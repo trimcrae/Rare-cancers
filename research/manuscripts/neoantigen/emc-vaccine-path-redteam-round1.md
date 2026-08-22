@@ -240,3 +240,22 @@ healthy tests as known-broken, to tidy away an environment artifact this round i
 `scipy`, `rdkit`, `boto3` and `matplotlib` instead made **all 42 pass**, which is the direction the
 gate's own comment calls always safe. The sandbox is now closer to CI than it was, and the baseline
 was left alone.
+
+**Measured after the install, on the same command:**
+
+```
+PREFLIGHT_FULL=1 ./scripts/preflight.sh   ->  PREFLIGHT OK, exit 0
+modalities suite: 11 failed, 7,781 passed, 56 skipped in 886 s
+                  every one of the 11 named in the sandbox baseline as dep-related
+                  0 modules could not be imported
+```
+
+Before the install the same command reported 53 failed and 7,635 passed with 42 outside the baseline.
+So the environment change moved **146 tests from failing-or-uncollected to passing** and took the
+outside-baseline count to zero. ⚠ The remaining 11 are `pymbar` and `netCDF4` cases, which are
+genuinely absent here and are already in the baseline with their reason; they are not this round's
+business and were not touched.
+
+★ **The outward-facing tier is therefore green**, which is what CLAUDE.md requires before a preprint,
+a submission, a release or a DOI. That clears the GATE. It does not clear §7 of this ledger, which is
+what actually blocks posting.
