@@ -210,8 +210,15 @@ PROMISES = [
         # module inside a test's import. The row's own promise is that a cell and its source cannot
         # diverge; a source outside the deposit makes that uncheckable rather than false, which is
         # worse, because the table still prints.
+        # ⛔ THE JOURNAL ARTICLE'S OWN DISPLAY-ITEM CHAIN WAS OUTSIDE THE DEPOSIT (round 9, two
+        # seats). The article names `fusion-junction-aso-journal-tables.md` in its Tables section
+        # and the deposit did not contain it, nor the generator behind it — the same
+        # source-outside-the-deposit defect this row's comment above describes, one document over.
         "patterns": ["research/manuscripts/aso/fusion-junction-aso-submission-tables.md",
                      "research/manuscripts/submission_tables.py",
+                     "research/manuscripts/aso/fusion-junction-aso-journal-tables.md",
+                     "research/manuscripts/aso_journal_tables.py",
+                     "research/manuscripts/aso/fusion-junction-aso-journal-references.md",
                      "research/manuscripts/aso/fusion-junction-aso-coverage-ladder.json",
                      "research/manuscripts/aso_coverage_ladder.py",
                      "research/manuscripts/aso/fusion-junction-aso-reagent-coverage.json",

@@ -207,9 +207,9 @@ and fails at the loose end of the same cited range, which is the sense in which 
 convention rather than a measurement.
 
 Two bounds on the cleanliness claim are load-bearing and are stated with it. The alignment screen is
-heuristic and retains at most 15 hits per design — a hit list of up to 50 is requested and 15 are
-stored, so the retained window and not the request is what bounds the reading — and only 47 of the
-183 filtered designs have hit lists short enough to assess for cleanliness at all; a count of clean designs is therefore a floor over
+heuristic and censors on two ceilings: a hit list of up to 50 is requested and 15 are retained, so
+of the 183 filtered designs 35 are censored at the request and 101 more past the retained window,
+leaving 47 with hit lists short enough to assess for cleanliness at all; a count of clean designs is therefore a floor over
 that subset rather than a total over the panel. And search depth moves the result: most of the
 designs clean at the default ceiling are not clean at ten times it, as the extended report shows
 design by design.
@@ -471,10 +471,11 @@ complete correction record, including every superseded value, is released with t
 
 **Use of artificial intelligence.** A large language model (Claude, Anthropic) was used throughout
 this work: to write and review the analysis code, to run the screens, to retrieve and check
-literature, and to draft and revise this manuscript. The counts and rates this paper's argument rests on are
-tied by automated guard to the committed artefact that produces it, and the reagent-level readings
-are checked against the canonical sequence file; the decision thresholds and power figures of §5 are
-stated conventions and arithmetic rather than artefact readings, and carry no such guard. The author directed all work reported here and is
+literature, and to draft and revise this manuscript. Eleven figures this article shares with its
+extended report are pinned to the artefact that produces each and re-checked on every commit; the
+remaining counts are reproducible from the released artefacts but are not individually guarded, and
+the decision thresholds and power figures of §5 are stated conventions and arithmetic rather than
+artefact readings and have no producing artefact at all. The author directed all work reported here and is
 responsible for its content.
 
 
