@@ -331,3 +331,115 @@ on a disclosure that exists only in the extended report**, which is precisely wh
    4,000-draw shuffle, the Monte Carlo power check, the null ladder — it was to test a claim, and the
    recomputation is reported in the seat's file rather than committed.
 5. **Whether bioRxiv has posted since 2026-08-20 is unrecorded anywhere in the tree**, and bears on P0-3.
+
+
+---
+
+# ⭐ THE VERIFICATION LAYER — five refuters, and what happened to the blockers
+
+> Section 7.1 above said no verification pass had been run. **It has now.** Five refuters, each told
+> to default to REFUTED and to attack the charge rather than confirm it. Round 7's record held: the
+> round's most-promoted blocker did not survive, and one charge changed character entirely.
+
+| charge | filed | verdict | applied? |
+|---|---|---|---|
+| **P0-9** retired-model screen / *TAF15* 12-bp duplex | BLOCKER, 1 seat | ⛔ **BLOCKER REFUTED** — survives only as a condensation defect | partly |
+| **P0-10** 93 condemned in prose, 87 flagged in the file | BLOCKER, 1 seat | ✅ **SURVIVES AT BLOCKER** | ✅ code fix |
+| **P0-11** scramble strand trap | BLOCKER, 3 seats | ▽ **SURVIVES AT LOWER GRADE (major)** | ✅ §5 sentence |
+| **P0-6** chemotherapy citation | BLOCKER, 2 seats | ✅ **SURVIVES AT BLOCKER**, character corrected | ✅ citation swap |
+| **P0-4** scramble ensemble mismatch | BLOCKER, 4 seats | ✅ **UPHELD, both halves** | ✅ prose + pins |
+| **P0-5** "flat at 87, 88 and 87" | BLOCKER, 4 seats | ✅ **UPHELD** | ✅ paragraph rewritten |
+| third reagent `GGGCATATCTCCACGG` | proposal, 2 seats | ⚠ **ADD WITH STATED CAVEAT** | ⛔ **NOT applied — see below** |
+
+## V1 · P0-9 — the blocker this ledger promoted hardest, and it is wrong
+
+§3.3 called this "the only finding that would change what the paper RECOMMENDS". **It does not.**
+
+- **Line 126 is not the retired model.** `RETIRED_ABOLITION_MODEL` (`junction_aso_offtarget.py:668`)
+  is a per-mismatch multiplier on cleavage *rate*, consumed by `cleavage_weight` at ≥14/16 identity.
+  Line 126 defines a duplex-*length* metric with its own anchors in `lit-targets-aso-gap-length.json`
+  (PMID 24981949 "a gap of six DNA nucleotides is necessary"; 28290206 "at least 6"; 41614678 "six or
+  more"). **Different quantity, different citation.** The charge conflated them.
+- **The *TAF15* 12-bp claim is false as stated.** At the *NR4A3* exon-2/exon-3 seam, gap position 5 is
+  a C:A **mismatch** — the whole gap is not spanned. It is a **10-bp** contiguous duplex; 12 was a
+  span containing a mismatch. The *EWSR1* lead pairs 4 of 6 over 9 bp at the same window, so the two
+  are one base apart rather than clean-versus-dirty.
+- **The relaxed count is not news.** The committed model already gives **181/190 at a cut of six** and
+  **175/190 at seven** — both larger than the charge's 168, and both already printed in the paper.
+  The charge's 112 mixed two different bases (any-*NR4A3*-window, baseline 62) with the best-parent
+  pair (61→100).
+- ✅ **The *TAF15* reagent can still be named.** No change to Table 1 or 2, to §5's ratio, or to which
+  reagents are named.
+
+**What did survive, and was applied:** the journal article asserted "87 … the single largest liability
+class" with none of the fully-paired-class qualifier the extended report carries twice. §2 now states
+that the criterion counts only whole-gap windows, that a single gap mismatch reduces rather than
+abolishes cleavage, and gives the cut ladder (175 at seven, 181 at six).
+
+⚠ **AND THE FIX ITSELF CARRIED A REGRESSION, CAUGHT BY V5.** The refuter's proposed sentence said
+"at any run length 181 of the 190 pair a parent". **181 is the count at a SIX-base-pair cut**
+(`aso-parent-null.json` → `cut_sensitivity.observed_cut_ladder.6.n_liable`), and
+`aso_sequence_manifest.py:717-718` records this exact correction having been made once already. It was
+applied verbatim and then corrected. Its companion sentence quoted seam figures with no committed
+artifact behind them; those were removed rather than printed. **A verifier's pasteable fix is not
+pre-verified prose.**
+
+## V2 · P0-10 — survives, and the fix was code
+
+The escape route does not exist: the CSV's own preamble defines the column as "…**or another screen
+condemned the row**", plural. `grep -i premrna` over `aso_sequence_manifest.py` returned **zero**.
+Six records — five molecules, two at `TCF12_e5__NR4A3_e3`, a junction the same file grades
+`published_exon_resolved_breakpoint` — were blank in the file the Declarations tell a laboratory to
+order from. **Applied:** `_PREMRNA_DO_NOT_ORDER` + `_stamp_the_premrna_liability()`, run before the
+twin pass so a condemned row can never be offered as the clean member of a near-identical pair.
+**252 → 257, exactly the delta V2 predicted independently.** §3's prose needed no change: it was
+arithmetically right and the artifact was wrong.
+
+## V3 · P0-6 — survives, but it is MIS-SOURCING, not a fabricated fact
+
+`research/literature/rt-lung-mets-probe.json` holds the abstract. Conclusions: *"By contrast to what
+reported so far, anthracycline-based chemotherapy is active in a distinct proportion of EMC
+patients."* Background: *"Its sensitivity to chemotherapy **is reported to be** low"* — hearsay, and
+the exact proposition the Conclusions overturn. PR 4 (40%), SD 3, PD 3 of 10 evaluable.
+**The claim itself is true**: the repository's own pooling gives cytotoxic ORR **4/33 = 12.1%**
+(Wilson 4.8–27.3). The article had cited the one cohort in the class that runs against it.
+Three escapes tested and killed: full-content (only the Background hearsay supports it), scope (the
+pooling files this study under `regimen_class: "cytotoxic chemotherapy"`, so in-scope *and*
+contradictory), and nearby-rescue (one line in the whole article mentions chemotherapy).
+**Applied:** the review (PMID 41055792) now carries the general claim and the series carries its own
+finding; the list renumbered by order of first citation, 21 entries, guard green.
+⛔ **Do not re-point at PMID 31331701** — its low-sensitivity line is that trial's own Background,
+the same defect one document over.
+
+## V4 · P0-4 and P0-5 — both upheld
+
+`aso-parent-null.json`: `scrambled_mononucleotide` = 0.06179/0.01818, `scrambled_dinucleotide` =
+0.09987/0.03911, all arms at n=38000; Wilson intervals disjoint on both. The attachment escape does
+not exist. Seat C's GGG test reproduces exactly: **4000/4000 (100.0%)** for the *EWSR1* reagent,
+**424/4000 (10.6%)** for the *TAF15* one — only the first base is preserved by an Altschul-Erikson
+shuffle. ⚠ **One sub-claim corrected: the pin did not pin a wrong value — no pin covered §5 at all**,
+and `rate_liable_against_NR4A3` was unpinned for *every* ensemble in the repository. Both are pinned
+now. Flatness: 190/266/342 confirmed, shares 45.79/33.08/25.44%, clearing junctions 35→38→38, lead
+reagent 8 bp→0→0, margin **3→4→5** (the charge said 3→5).
+
+## ⚠ The third reagent — verified sound, deliberately NOT added
+
+V5 returned **ADD WITH STATED CAVEAT** and every claim checked out: the row exists with `do_not_order`
+empty, margin 3, 8 bp against *TCF12* (not *NR4A3*), full five-screen parity, and the coverage
+arithmetic reproduces exactly at **68.4% (39.9–82.8) → 79.0% (50.3–89.2), +10.6 points**, with the
+interval moving up and narrowing. *EWSR1* e13 is published exon-resolved four ways, and the
+`_USZ_ACCEPTOR_AMBIGUITY` trap does not fire — that ambiguity is about the USZ lines' **acceptor**,
+while e13 is the **donor** under both readings.
+
+**It is still not added, for three reasons that are the paper's, not the reagent's:**
+1. **It has no test article.** It would be the only named reagent without one, and §4 is built on the
+   reagent↔test-article pairing.
+2. **Adding it would create a fresh asymmetry.** Its own *NR4A3* precursor site (2 mismatches, 1 in
+   gap, intron-exon spanning) has no committed measurement of the kind §2 now prints for the other
+   two — so it would read clean by omission, which is the exact defect this round is closing.
+3. **The coverage integration is not mechanical.** A naive third arm in `aso_reagent_coverage.py`
+   gives the right point (79.0%) and a **broken interval (42.9–112.8%)**, because
+   `wilson(10,15) + wilson(2,15) ≠ wilson(12,15)`; it must aggregate per partner first.
+
+**Ready for the next pass, with the work named.** This is a scoped improvement with a verified
+payoff, not an open question.

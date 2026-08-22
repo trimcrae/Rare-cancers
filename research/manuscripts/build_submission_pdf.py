@@ -178,8 +178,16 @@ def strip_frontmatter(text):
 
 
 def strip_generated_banner(text):
-    """Drop the leading HTML comment and the H1 from a generated include."""
-    text = re.sub(r"^<!--.*?-->\s*", "", text, flags=re.S)
+    """Drop the leading HTML comment and the H1 from a generated include.
+
+    ⚠ THE lstrip() IS LOAD-BEARING AND USED TO BE IN THE WRONG PLACE. `^` without re.M anchors at
+    the start of the STRING, so a single leading newline made the comment pattern miss — and then
+    the H1 pattern missed too, because the text now began with the unstripped comment. That is
+    exactly the state strip_frontmatter leaves behind: the closing `---` is followed by a blank
+    line. The comment is invisible in HTML either way, so the symptom was a DUPLICATE HEADING —
+    the include's own `# References — …` printing directly under the manuscript's `## References`.
+    """
+    text = re.sub(r"^<!--.*?-->\s*", "", text.lstrip(), flags=re.S)
     return re.sub(r"^#\s+[^\n]*\n", "", text.lstrip(), count=1).strip()
 
 
@@ -486,8 +494,15 @@ def _fold_the_figure_legends_preamble(body, paper):
 def assemble(paper, style="journal"):
     """Return (markdown, prerendered_floats). In manuscript style the float map is empty."""
     body = strip_frontmatter(read(paper["manuscript"]))
-    tables = split_tables(strip_generated_banner(read(paper["tables"])))
-    references = strip_generated_banner(read(paper["references"]))
+    # ⚠ FRONTMATTER IS STRIPPED FROM THE INCLUDES TOO, AND THAT IS NOT BELT-AND-BRACES.
+    # strip_generated_banner only matches a leading HTML comment, so it cannot touch a leading
+    # YAML block. The extended report's includes are GENERATED and open with `<!-- GENERATED -->`,
+    # so it was sufficient there and the gap was invisible; the journal article's reference list is
+    # HAND-MAINTAINED and opens with `---`, so its `id:`, `level:` and `last_verified:` lines
+    # printed as body text between the References heading and reference 1, in both built PDFs.
+    # strip_frontmatter is a no-op on a file that has none, so this is safe for every paper.
+    tables = split_tables(strip_generated_banner(strip_frontmatter(read(paper["tables"]))))
+    references = strip_generated_banner(strip_frontmatter(read(paper["references"])))
 
     if style == "manuscript":
         body = splice(body, "Tables", "\n\n".join(tables[n] for n in sorted(tables)), "the tables")

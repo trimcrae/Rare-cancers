@@ -363,6 +363,48 @@ def test_the_repo_frontmatter_is_stripped(journal):
         assert field not in page
 
 
+# ------------------------------------------------- EVERY paper, not just the one this module pins
+#
+# ⛔ THE GATE ABOVE COULD NOT SEE HALF THE REPOSITORY'S SUBMISSION PDFS. `PAPER` is bound once, at
+# module scope, to PAPERS["aso"] — the extended report. PAPERS also holds "aso-journal", the
+# document that would actually be submitted to a journal, and NO test in this file ever assembled
+# it. Round 8 found repo frontmatter printing in both of its built PDFs while all 39 tests here
+# passed, and pointing the assertion below at it failed 2 of its 3 fields. A gate scoped to one
+# member of a registry reports on the registry.
+#
+# So these run over PAPERS.keys() rather than over a pinned paper: anything added to the registry
+# is covered the day it is added. Only paper-agnostic invariants belong here — assertions about
+# Table 7 or a particular figure stay bound to the paper that has them.
+
+
+@pytest.mark.parametrize("key", sorted(bsp.PAPERS))
+@pytest.mark.parametrize("style", ["journal", "manuscript"])
+def test_no_repo_frontmatter_reaches_any_built_paper(key, style):
+    """Routing metadata is internal. It must not print in ANY paper, in either style."""
+    paper = bsp.PAPERS[key]
+    body, floats = bsp.assemble(paper, style)
+    if style == "journal":
+        front = bsp.parse_front_matter(body)
+        page = bsp.wrap_journal(paper, front, bsp.markdown_to_html(front["body"], floats))
+    else:
+        page = bsp.markdown_to_html(body)
+    for field in ("canonical_for:", "last_verified:", "level: L3", "kind: manuscript",
+                  "audience:", "DOC-FUSION-JUNCTION-ASO"):
+        assert field not in page, (
+            f"{key} ({style}) prints repo frontmatter field {field!r} as body text — "
+            "an include is reaching the page unstripped")
+
+
+@pytest.mark.parametrize("key", sorted(bsp.PAPERS))
+def test_every_papers_reference_list_survives_assembly(key):
+    """A spliced reference list that silently vanishes looks like a complete PDF until page 20."""
+    paper = bsp.PAPERS[key]
+    body, _ = bsp.assemble(paper, "journal")
+    entries = re.findall(r"^(\d+)\.\s", bsp.read(paper["references"]), re.M)
+    assert entries, f"{key}: no numbered entries found in its references file"
+    assert f"{len(entries)}." in body, f"{key}: the last reference entry did not survive assembly"
+
+
 def test_wide_tables_go_on_landscape_pages_and_narrow_ones_do_not(journal):
     """Twelve columns are unreadable in portrait; two columns do not deserve their own page."""
     _, floats, _, page = journal

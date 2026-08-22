@@ -252,8 +252,9 @@ modality has, and that is this paper's central negative rather than a side findi
 panel designs, and 249 of the 780 records the canonical file holds, the records whose
 `mature_parent_duplex_through_gap_bp` column reaches ten, which is the column the count is
 reproducible from. They are marked ⚑ in Tables 3 and 4 and carry `do_not_order` in the canonical
-file. The three designs of the paragraph above carry `do_not_order` for the other reason, so 252
-records carry the flag in all. **⚑ IS THAT VERDICT, WHEREVER IT APPEARS.** A sequence printed with
+file. The three designs of the paragraph above carry `do_not_order` for the un-rearranged-allele reason,
+and five more carry it because the pre-mRNA screen condemns them where no screen over mature
+transcripts can see it, so 257 records carry the flag in all. **⚑ IS THAT VERDICT, WHEREVER IT APPEARS.** A sequence printed with
 ⚑ beside it, in a table, in a figure, or inline in the body text, is one this paper says must not
 be ordered or used; the marker means the same thing in prose as it does in a table, and it is never
 decorative. Tables 3 and 4 mark ⚑ every design of this class that they print,
@@ -704,8 +705,8 @@ kind means little
 without a null, so the same
 screen was run over arbitrary 16-mers. Only the query changes: the same six mature parents, the same
 forward orientation, the same ten-base-pair threshold. Scrambling each design's own target window,
-which preserves its base composition and is the scrambled-gapmer control §4.4 asks a laboratory to
-make, gives 6.2% (5.9–6.4%); a dinucleotide-preserving shuffle gives 10.0% (9.7–10.3%); 16-mers drawn
+which preserves its base composition, gives 6.2% (5.9–6.4%); a dinucleotide-preserving shuffle —
+the control §4.4 asks a laboratory to make — gives 10.0% (9.7–10.3%); 16-mers drawn
 from uniform bases give 6.9% (6.7–7.2%), and from the panel's pooled base composition 7.2%
 (6.9–7.4%). Every parenthesis on a null rate in this section is a Monte-Carlo interval on that
 ensemble's mean, narrowing with the number of draws rather than with evidence, and it is not the
@@ -1694,10 +1695,11 @@ Three assay controls are required, and a knockdown assay alone distinguishes non
   it: §6 records that the relevant liability of high-affinity gapmers is sequence-dependent, and a
   scramble cannot by construction control for a sequence-dependent effect. The scramble actually
   ordered must itself be put
-  through the mature-parent screen before it is made, because on this paper's own null 6.2% of
-  scrambles pair a parent's whole catalytic gap at the ten-base-pair criterion and 1.8% do so
-  against wild-type *NR4A3* (§2.5), which is the one transcript a control must not engage. That
-  6.2% is a mean over 190 windows, and the per-window rates should not be read as window properties:
+  through the mature-parent screen before it is made, because on this paper's own null 10.0% of
+  dinucleotide-preserving scrambles pair a parent's whole catalytic gap at the ten-base-pair
+  criterion and 3.9% do so against wild-type *NR4A3* (§2.5), which is the one transcript a control
+  must not engage. The mononucleotide arm's corresponding 6.2%
+  is a mean over 190 windows, and the per-window rates should not be read as window properties:
   each rests on 200 draws, so its standard error is 1.7 percentage points, and the observed spread of
   2.0% to 15.0% is close to what 190 windows of 200 draws from a single common rate would produce.
   Nine molecules are tiled at two or three junctions with an identical target window, and their
@@ -2548,9 +2550,10 @@ clean design at the other five, where one was available and it picked a design p
 wild-type parent through the whole catalytic gap — four of those against wild-type *NR4A3*. Those rows carry
 `do_not_order`, as does every one of the 249 records whose `mature_parent_duplex_through_gap_bp`
 reaches the criterion applied throughout; three further records carry the flag for the separate
-un-rearranged-allele reason of §2.6, so 252 of the 780 carry it in all. An empty `do_not_order` is not a clearance: the
+un-rearranged-allele reason of §2.6, and five for the pre-mRNA screen of §2.10, so 257 of the 780
+carry it in all. An empty `do_not_order` is not a clearance: the
 flag is set at ten base pairs, while 175 of the 190 panel designs pair a parent through the whole
-gap at seven and 181 do so at any length (§2.9). A typeset table cell is not a
+gap at a cut of seven and 181 do so at a cut of six, the shortest rung on the ladder (§2.9). A typeset table cell is not a
 machine-readable record — whether a sequence and the column beside it stay separate on extraction is
 a property of the reader's software — and the sequences here are 16 to 20 bases in which a single
 substitution changes what the molecule does. The bases alone are also not the reagent: the geometry

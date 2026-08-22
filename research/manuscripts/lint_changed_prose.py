@@ -41,8 +41,16 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(os.path.dirname(HERE))
+# ⛔ THE JOURNAL ARTICLE WAS MISSING FROM THIS LIST UNTIL ROUND 8, AND IT IS THE RISKIER HALF.
+# This linter exists to catch a qualifier dropped from a claim. The journal article is a ~13x
+# compression of the extended report, so it is where a bound gets dropped BY CONSTRUCTION — and it
+# was the one document the linter never read. Round 8 found dropped qualifiers on the 10-bp
+# criterion, the "floor over that subset" bound, the parent-sparing reports and the all-screen-clear
+# count, none of which this gate could have seen. Anything spliced into a built paper belongs here.
 DEFAULT_TARGETS = [
     "research/manuscripts/aso/fusion-junction-aso-research-article.md",
+    "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+    "research/manuscripts/aso/fusion-junction-aso-journal-references.md",
     "research/manuscripts/submission_tables.py",
 ]
 

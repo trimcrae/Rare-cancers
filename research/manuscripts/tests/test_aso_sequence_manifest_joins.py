@@ -179,9 +179,22 @@ def test_every_condemned_design_survives_a_filter_on_its_own_geometry():
     allele = [r for r in condemned if "un-rearranged" in r["do_not_order"]]
     assert len(allele) == 3, (
         f"the un-rearranged-allele class is {len(allele)}, not 3; §2.6 names exactly three")
+    #: ⚠ THREE REASONS SINCE ROUND 8, NOT TWO. The pre-mRNA screen's condemnations never reached
+    #: this file: §3 of both papers said the two screens condemn 93 of 190 while the column carried
+    #: 87, and the six missing records were five molecules, two of them at TCF12_e5__NR4A3_e3, a
+    #: published exon-resolved breakpoint. This is a PARTITION assertion rather than a loosened one
+    #: — every condemned row must still carry exactly one stated reason, and the three classes must
+    #: still account for the whole condemned set with nothing over.
     parent = [r for r in condemned if "wild-type parent gene" in r["do_not_order"]]
-    assert len(parent) == len(condemned) - len(allele) and parent, (
-        "every condemned row must carry one of the two stated reasons")
+    premrna = [r for r in condemned if "parent precursor RNA" in r["do_not_order"]]
+    assert parent and premrna, "a stated condemnation class has stopped being written"
+    for r in condemned:
+        reasons = sum((r in allele, r in parent, r in premrna))
+        assert reasons == 1, (
+            f"{r['sequence']} carries {reasons} of the three stated condemnation reasons; "
+            "each condemned row must carry exactly one")
+    assert len(allele) + len(parent) + len(premrna) == len(condemned), (
+        "every condemned row must carry one of the three stated reasons")
     for r in condemned:
         kept = [x for x in ROWS if x["geometry"] == r["geometry"]]
         assert r in kept, (

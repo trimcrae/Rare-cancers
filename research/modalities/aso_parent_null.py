@@ -29,9 +29,13 @@ from the same committed record, forward orientation only, the same `MIN_DUPLEX_B
 changes; nothing about the screen does.
 
   scrambled_mononucleotide   each design's target window shuffled, base composition preserved. This
-                             is the reviewer's "scrambled" null, and it is also the scrambled-gapmer
-                             control the manuscript's own section 5.4 asks a laboratory to make.
-  scrambled_dinucleotide     shuffled preserving DINUCLEOTIDE composition (Altschul-Erikson
+                             is the reviewer's "scrambled" null. ⛔ IT IS *NOT* THE CONTROL THE
+                             MANUSCRIPT ASKS FOR — that pointer used to sit here, naming a section
+                             5.4 that does not exist, and it sent both papers' §4.4/§5 prescription
+                             to the wrong arm's rate for two rounds (round 8, seats J/C/D/B).
+  scrambled_dinucleotide     ⭐ THE CONTROL THE MANUSCRIPT ASKS A LABORATORY TO MAKE (§4.4 of the
+                             extended report, §5 of the journal article). Shuffled preserving
+                             DINUCLEOTIDE composition (Altschul-Erikson
                              Eulerian-path shuffle), which is the stricter sequence null: it holds
                              local base-stacking structure fixed and lets only the arrangement move.
   random_uniform             16-mers drawn i.i.d. from equal base frequencies — the "randomly-chosen

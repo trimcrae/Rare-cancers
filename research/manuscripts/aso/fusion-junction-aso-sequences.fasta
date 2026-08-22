@@ -4,15 +4,15 @@
 ;
 ; ⛔ ORDER SAFETY. READ THE do_not_order VERDICT — on the defline, tagged DO NOT ORDER — BEFORE
 ; ORDERING ANY SEQUENCE IN THIS FILE. A verdict means the paper names that design as one NOT to be
-; carried forward. 252 of the 780 records carry one: 249 pair their whole catalytic gap against a
+; carried forward. 257 of the 780 records carry one: 254 pair their whole catalytic gap against a
 ; wild-type parent gene at the criterion below, and 3 pair the patient's own un-rearranged NR4A3
 ; allele at a non-canonical acceptor.
 ;
 ; ⛔ AND CHECK THE NEIGHBOUR BEFORE YOU ORDER. near_identical_design_with_a_different_verdict
 ; names, for each record, the closest design in this file that carries the OPPOSITE verdict —
-; within two substitutions at the same length, or one base slid. 287 of the 780 records have one,
-; and on 140 of them the record itself is orderable while its neighbour is condemned — 20 within
-; two substitutions and 120 a single base slid. A transcription error of one base can therefore
+; within two substitutions at the same length, or one base slid. 295 of the 780 records have one,
+; and on 145 of them the record itself is orderable while its neighbour is condemned — 21 within
+; two substitutions and 124 a single base slid. A transcription error of one base can therefore
 ; carry a reader from a design the paper keeps to one it condemns. An EMPTY cell here is a
 ; computed negative — the comparison ran and found no such neighbour — not a missing reading.
 ;
@@ -76,7 +76,7 @@
 ;
 ; ⛔ THREE STATES, NOT TWO, AND EVERY ONE OF THEM IS VISIBLE:
 ;   CONDEMNED — do_not_order carries a reason and pairs_a_wild_type_parent_through_the_gap reads
-;   True, or another screen condemned the row. 252 records.
+;   True, or another screen condemned the row. 257 records.
 ;   MEASURED AND UNDER THE CRITERION — do_not_order is empty and
 ;   pairs_a_wild_type_parent_through_the_gap reads False, from a duplex length in
 ;   mature_parent_duplex_through_gap_bp. ⚠ THAT IS A READING AT ONE CUT, 10 base pairs, AND NOT A
@@ -208,7 +208,7 @@ GCATATCATCAAACCATT
 GGCATATCATCAAACCAT
 >GGGCATATCATCAAACCA 5-8-5 | EWSR1_e12__NR4A3_e3 | gap_level_margin=3 | also tiled at FUS_e10__NR4A3_e3; TAF15_e11__NR4A3_e3 | role=screened design | parent_duplex=8bp (TFG) | antisense 5'->3', research use only
 GGGCATATCATCAAACCA
->AGGGCATATCATCAAA 5-6-5 | EWSR1_e12__NR4A3_e3 | gap_level_margin=2 | also tiled at FUS_e10__NR4A3_e3; TAF15_e11__NR4A3_e3 | role=screened design | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=7bp (TFG) | ⚠ near-identical design with the opposite verdict: AGGGCATATCTTCAAT (2 substitutions; DO NOT ORDER) | antisense 5'->3', research use only
+>AGGGCATATCATCAAA 5-6-5 | EWSR1_e12__NR4A3_e3 | gap_level_margin=2 | also tiled at FUS_e10__NR4A3_e3; TAF15_e11__NR4A3_e3 | role=screened design | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=7bp (TFG) | ⚠ near-identical design with the opposite verdict: AGGGCATATCACCAAA (1 substitution; DO NOT ORDER) | antisense 5'->3', research use only
 AGGGCATATCATCAAA
 >CAGGGCATATCATCAA 5-6-5 | EWSR1_e12__NR4A3_e3 | gap_level_margin=1 | also tiled at FUS_e10__NR4A3_e3; TAF15_e11__NR4A3_e3 | role=screened design | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | ⚠ near-identical design with the opposite verdict: AGGGCATATCATCAAA (a single-base slide; orderable) | antisense 5'->3', research use only
 CAGGGCATATCATCAA
@@ -480,7 +480,7 @@ GCATATCACCAGGCTTAT
 GGCATATCACCAGGCTTA
 >GGGCATATCACCAGGCTT 5-8-5 | EWSR1_e9__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 GGGCATATCACCAGGCTT
->AGGGCATATCACCAGG 5-6-5 | EWSR1_e9__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=7bp (TCF12) | ⚠ near-identical design with the opposite verdict: AGGGCATATCTCCACG (2 substitutions; DO NOT ORDER) | antisense 5'->3', research use only
+>AGGGCATATCACCAGG 5-6-5 | EWSR1_e9__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=7bp (TCF12) | ⚠ near-identical design with the opposite verdict: AGGGCATATCACCAAA (2 substitutions; DO NOT ORDER) | antisense 5'->3', research use only
 AGGGCATATCACCAGG
 >CAGGGCATATCACCAG 5-6-5 | EWSR1_e9__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | ⚠ near-identical design with the opposite verdict: AGGGCATATCACCAGG (a single-base slide; orderable) | antisense 5'->3', research use only
 CAGGGCATATCACCAG
@@ -738,15 +738,15 @@ GCATATCACCAAATTTAT
 GGCATATCACCAAATTTA
 >GGGCATATCACCAAATTT 5-8-5 | FUS_e7__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 GGGCATATCACCAAATTT
->AGGGCATATCACCAAA 5-6-5 | FUS_e7__NR4A3_e3 | gap_level_margin=2 | also tiled at TAF15_e8__NR4A3_e3 | role=screened design | clinical_tier=no_published_exon_resolved_breakpoint | parent_duplex=7bp (TCF12) | ⚠ near-identical design with the opposite verdict: CAGGGCATATCACCAA (a single-base slide; DO NOT ORDER) | antisense 5'->3', research use only
+>AGGGCATATCACCAAA 5-6-5 | FUS_e7__NR4A3_e3 | gap_level_margin=2 | also tiled at TAF15_e8__NR4A3_e3 | role=screened design | clinical_tier=no_published_exon_resolved_breakpoint | parent_duplex=7bp (TCF12) | DO NOT ORDER — carries a sense-strand near-match in parent precursor RNA that pairs its whole catalytic gap and touches intronic sequence, which no screen over mature transcripts can see | ⚠ near-identical design with the opposite verdict: AGGGCATATCATCAAA (1 substitution; orderable) | antisense 5'->3', research use only
 AGGGCATATCACCAAA
->CAGGGCATATCACCAA 5-6-5 | FUS_e7__NR4A3_e3 | gap_level_margin=1 | also tiled at TAF15_e8__NR4A3_e3 | role=screened design | clinical_tier=no_published_exon_resolved_breakpoint | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | ⚠ near-identical design with the opposite verdict: AGGGCATATCACCAAA (a single-base slide; orderable) | antisense 5'->3', research use only
+>CAGGGCATATCACCAA 5-6-5 | FUS_e7__NR4A3_e3 | gap_level_margin=1 | also tiled at TAF15_e8__NR4A3_e3 | role=screened design | clinical_tier=no_published_exon_resolved_breakpoint | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 CAGGGCATATCACCAA
->GCATATCACCAAATTT 5-6-5 | FUS_e7__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=no_published_exon_resolved_breakpoint | parent_duplex=7bp (EWSR1) | antisense 5'->3', research use only
+>GCATATCACCAAATTT 5-6-5 | FUS_e7__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=no_published_exon_resolved_breakpoint | parent_duplex=7bp (EWSR1) | DO NOT ORDER — carries a sense-strand near-match in parent precursor RNA that pairs its whole catalytic gap and touches intronic sequence, which no screen over mature transcripts can see | ⚠ near-identical design with the opposite verdict: GCATATCACCAAAATT (1 substitution; orderable) | antisense 5'->3', research use only
 GCATATCACCAAATTT
->GGCATATCACCAAATT 5-6-5 | FUS_e7__NR4A3_e3 | gap_level_margin=2 | role=best available at this junction | clinical_tier=no_published_exon_resolved_breakpoint | parent_duplex=7bp (EWSR1) | antisense 5'->3', research use only
+>GGCATATCACCAAATT 5-6-5 | FUS_e7__NR4A3_e3 | gap_level_margin=2 | role=best available at this junction | clinical_tier=no_published_exon_resolved_breakpoint | parent_duplex=7bp (EWSR1) | ⚠ near-identical design with the opposite verdict: GCATATCACCAAATTT (a single-base slide; DO NOT ORDER) | antisense 5'->3', research use only
 GGCATATCACCAAATT
->GGGCATATCACCAAAT 5-6-5 | FUS_e7__NR4A3_e3 | gap_level_margin=3 | role=screened design | clinical_tier=no_published_exon_resolved_breakpoint | parent_duplex=7bp (TCF12) | antisense 5'->3', research use only
+>GGGCATATCACCAAAT 5-6-5 | FUS_e7__NR4A3_e3 | gap_level_margin=3 | role=screened design | clinical_tier=no_published_exon_resolved_breakpoint | parent_duplex=7bp (TCF12) | ⚠ near-identical design with the opposite verdict: AGGGCATATCACCAAA (a single-base slide; DO NOT ORDER) | antisense 5'->3', research use only
 GGGCATATCACCAAAT
 >ACGCAGGGCATATCGGAGTC 5-10-5 | FUS_e8__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=0bp (unnamed) | ⚠ near-identical design with the opposite verdict: GACGCAGGGCATATCGGAGT (a single-base slide; DO NOT ORDER) | antisense 5'->3', research use only
 ACGCAGGGCATATCGGAGTC
@@ -1048,11 +1048,11 @@ GCATATCACCAAAATTTT
 GGCATATCACCAAAATTT
 >GGGCATATCACCAAAATT 5-8-5 | TAF15_e8__NR4A3_e3 | gap_level_margin=3 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only
 GGGCATATCACCAAAATT
->GCATATCACCAAAATT 5-6-5 | TAF15_e8__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=7bp (EWSR1) | antisense 5'->3', research use only
+>GCATATCACCAAAATT 5-6-5 | TAF15_e8__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=7bp (EWSR1) | ⚠ near-identical design with the opposite verdict: GCATATCACCAAATTT (1 substitution; DO NOT ORDER) | antisense 5'->3', research use only
 GCATATCACCAAAATT
 >GGCATATCACCAAAAT 5-6-5 | TAF15_e8__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=7bp (EWSR1) | antisense 5'->3', research use only
 GGCATATCACCAAAAT
->GGGCATATCACCAAAA 5-6-5 | TAF15_e8__NR4A3_e3 | gap_level_margin=3 | role=best available at this junction | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=7bp (TCF12) | antisense 5'->3', research use only
+>GGGCATATCACCAAAA 5-6-5 | TAF15_e8__NR4A3_e3 | gap_level_margin=3 | role=best available at this junction | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=7bp (TCF12) | ⚠ near-identical design with the opposite verdict: AGGGCATATCACCAAA (a single-base slide; DO NOT ORDER) | antisense 5'->3', research use only
 GGGCATATCACCAAAA
 >ACGCAGGGCATATCAGCATC 5-10-5 | TAF15_e9__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=0bp (unnamed) | ⚠ near-identical design with the opposite verdict: ACGCAGGGCATATCTTCATC (2 substitutions; DO NOT ORDER) | antisense 5'->3', research use only
 ACGCAGGGCATATCAGCATC
@@ -1342,11 +1342,11 @@ GGGCATATCCATCAGATT
 AGGGCATATCCATCAG
 >CAGGGCATATCCATCA 5-6-5 | TCF12_e5__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=11bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | ⚠ near-identical design with the opposite verdict: AGGGCATATCCATCAG (a single-base slide; orderable) | antisense 5'->3', research use only
 CAGGGCATATCCATCA
->GCATATCCATCAGATT 5-6-5 | TCF12_e5__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=7bp (EWSR1) | antisense 5'->3', research use only
+>GCATATCCATCAGATT 5-6-5 | TCF12_e5__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=7bp (EWSR1) | DO NOT ORDER — carries a sense-strand near-match in parent precursor RNA that pairs its whole catalytic gap and touches intronic sequence, which no screen over mature transcripts can see | antisense 5'->3', research use only
 GCATATCCATCAGATT
->GGCATATCCATCAGAT 5-6-5 | TCF12_e5__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=7bp (EWSR1) | antisense 5'->3', research use only
+>GGCATATCCATCAGAT 5-6-5 | TCF12_e5__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=7bp (EWSR1) | DO NOT ORDER — carries a sense-strand near-match in parent precursor RNA that pairs its whole catalytic gap and touches intronic sequence, which no screen over mature transcripts can see | ⚠ near-identical design with the opposite verdict: GGGCATATCCATCAGA (a single-base slide; orderable) | antisense 5'->3', research use only
 GGCATATCCATCAGAT
->GGGCATATCCATCAGA 5-6-5 | TCF12_e5__NR4A3_e3 | gap_level_margin=3 | role=best available at this junction | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=7bp (EWSR1) | antisense 5'->3', research use only
+>GGGCATATCCATCAGA 5-6-5 | TCF12_e5__NR4A3_e3 | gap_level_margin=3 | role=best available at this junction | clinical_tier=published_exon_resolved_breakpoint | parent_duplex=7bp (EWSR1) | ⚠ near-identical design with the opposite verdict: GGCATATCCATCAGAT (a single-base slide; DO NOT ORDER) | antisense 5'->3', research use only
 GGGCATATCCATCAGA
 >ACGCAGGGCATATCAAGCGC 5-10-5 | TCF12_e7__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=0bp (unnamed) | ⚠ near-identical design with the opposite verdict: GACGCAGGGCATATCAAGCG (a single-base slide; DO NOT ORDER) | antisense 5'->3', research use only
 ACGCAGGGCATATCAAGCGC
@@ -1636,9 +1636,9 @@ GGGCATATCTTCAATCTG
 AGGGCATATCTTCAAT
 >CAGGGCATATCTTCAA 5-6-5 | TFG_e6__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=12bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | antisense 5'->3', research use only
 CAGGGCATATCTTCAA
->GCATATCTTCAATCTG 5-6-5 | TFG_e6__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=9bp (TFG) | antisense 5'->3', research use only
+>GCATATCTTCAATCTG 5-6-5 | TFG_e6__NR4A3_e3 | gap_level_margin=1 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=9bp (TFG) | ⚠ near-identical design with the opposite verdict: GGCATATCTTCAATCT (a single-base slide; DO NOT ORDER) | antisense 5'->3', research use only
 GCATATCTTCAATCTG
->GGCATATCTTCAATCT 5-6-5 | TFG_e6__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=9bp (TFG) | antisense 5'->3', research use only
+>GGCATATCTTCAATCT 5-6-5 | TFG_e6__NR4A3_e3 | gap_level_margin=2 | role=screened design | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=9bp (TFG) | DO NOT ORDER — carries a sense-strand near-match in parent precursor RNA that pairs its whole catalytic gap and touches intronic sequence, which no screen over mature transcripts can see | ⚠ near-identical design with the opposite verdict: GCATATCTTCAATCTG (a single-base slide; orderable) | antisense 5'->3', research use only
 GGCATATCTTCAATCT
 >GGGCATATCTTCAATC 5-6-5 | TFG_e6__NR4A3_e3 | gap_level_margin=3 | role=best available at this junction | clinical_tier=partner_published_this_exon_not_reported | parent_duplex=9bp (TFG) | ⚠ near-identical design with the opposite verdict: AGGGCATATCTTCAAT (a single-base slide; DO NOT ORDER) | antisense 5'->3', research use only
 GGGCATATCTTCAATC

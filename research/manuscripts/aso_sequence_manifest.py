@@ -123,6 +123,57 @@ _PARENT_PAIRED_DO_NOT_ORDER = (
     "DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the "
     "ten-base-pair criterion, which is this paper's central negative")
 
+#: ⛔⛔ THE SECOND SCREEN'S CONDEMNATIONS NEVER REACHED THIS FILE (round 8, reviewer B).
+#: §3 of both papers says the two screens together condemn 93 of 190, and this manifest carried
+#: `do_not_order` on 87 — because nothing here ever read the pre-mRNA screen. `grep -i premrna`
+#: over this module returned zero. The six missing records are five molecules, two of them at
+#: TCF12_e5__NR4A3_e3, a junction this same file grades `published_exon_resolved_breakpoint`.
+#: The Declarations of both papers tell a laboratory to order FROM THIS FILE rather than by
+#: transcribing from the article, so a design the paper condemns was shipping unflagged.
+#: ⚠ The two reasons stay distinct, exactly as the parent/allele reasons do, so a reader can see
+#: WHICH screen condemned a row rather than being told only that something did.
+_PREMRNA_DO_NOT_ORDER = (
+    "DO NOT ORDER — carries a sense-strand near-match in parent precursor RNA that pairs its whole "
+    "catalytic gap and touches intronic sequence, which no screen over mature transcripts can see")
+
+#: The pre-mRNA screen's own liability flag. `n_invisible_to_mature_screens` and
+#: `n_hybridisable_gap_fully_paired` select the SAME 19 designs of 190 in
+#: `aso-premrna-offtarget.json`, which is the count both papers print.
+_PREMRNA_ARTIFACTS = ("aso-premrna-offtarget.json", "aso-premrna-offtarget-genomic.json",
+                      "aso-premrna-offtarget-18mer-5-8-5.json",
+                      "aso-premrna-offtarget-20mer-5-10-5.json",
+                      "aso-premrna-offtarget-ewsr1intron2.json",
+                      "aso-premrna-offtarget-taf15intron2.json",
+                      "aso-premrna-offtarget-noncoding-acceptor.json")
+
+
+def _premrna_condemned():
+    """Every antisense sequence the pre-mRNA screen finds gap-paired and intron-touching."""
+    # ⛔ NO try/except HERE, DELIBERATELY. The first draft of this function swallowed OSError so a
+    # mistyped path returned an EMPTY set and stamped nothing — a screen that reports while
+    # measuring nothing, which is the exact failure this repository keeps paying for. A missing
+    # artifact must break the build loudly: it means the pre-mRNA screen is not in the deposit.
+    out = set()
+    for name in _PREMRNA_ARTIFACTS:
+        data = _load(name)
+        for rec in data.get("per_design", ()):
+            if (rec.get("n_invisible_to_mature_screens") or 0) > 0 and (
+                    rec.get("n_hybridisable_gap_fully_paired") or 0) > 0:
+                out.add(rec["antisense_5to3"])
+    return out
+
+
+def _stamp_the_premrna_liability(rows):
+    """Condemn rows the pre-mRNA screen condemns and the mature-parent screen never saw."""
+    condemned = _premrna_condemned()
+    stamped = 0
+    for row in rows:
+        if row["sequence"] in condemned and not row["do_not_order"]:
+            row["do_not_order"] = _PREMRNA_DO_NOT_ORDER
+            stamped += 1
+    return stamped
+
+
 #: The criterion the whole paper is stated on. A duplex through the whole gap at or above this
 #: length is a liability; below it, the paper reports the run and does not count it.
 MIN_PARENT_DUPLEX_BP = 10
@@ -440,6 +491,9 @@ def _rows():
             sorted(j for j in others if j and j != row["junction"]))
 
     _stamp_the_unmeasured_state(rows)
+    # ⚠ BEFORE the twin pass: that pass partitions on `do_not_order`, so a row condemned here must
+    # already carry its verdict or it would be offered as the clean member of a near-identical pair.
+    _stamp_the_premrna_liability(rows)
     _mark_the_near_identical_twins(rows)
     rows.sort(key=lambda r: (r["junction"], -(r["length_nt"]), r["sequence"]))
     return rows
