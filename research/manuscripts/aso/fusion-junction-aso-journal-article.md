@@ -9,9 +9,10 @@ canonical_for:
 purpose: >
   The journal submission for PUB-ASO. It names the reagents to synthesise, the material to test them
   in and the experiment that would falsify the ranking. The full screen, its bounds and its methods
-  are in fusion-junction-aso-research-article.md, the bioRxiv preprint, which this manuscript cites
-  as its extended report; the numbers themselves live in the artifacts under research/modalities/
-  and are not duplicated here.
+  are in fusion-junction-aso-research-article.md, prepared for bioRxiv deposit and not yet posted,
+  which this manuscript cites as its extended report; the numbers live in the artifacts under
+  research/modalities/ and are restated here where the argument needs them, each pinned or
+  reproducible from those artifacts.
 scope: >
   Computational design and specificity screening only. No wet-lab experiment was performed, and
   nothing here asserts efficacy, potency, safety, a therapeutic window, delivery to a tumour, or
@@ -54,8 +55,8 @@ named at the two most frequently reported breakpoints: 5′-GGGCATATCATCAAAC-3�
 margin of three, with longest wild-type parent runs of eight and nine base pairs. Five test
 articles are named: three engineered constructs, two of them at these junctions, and two
 fusion-positive EMC cell models whose reported *NR4A3* exon-2 acceptors are matched to different
-designs. The design pipeline is released, and refuses junctions outside its published-breakpoint
-list rather than emitting unverified designs for them.
+designs. The design pipeline is released; its published-breakpoint list waives
+seams that would otherwise be refused rather than gating which junctions it will design for.
 
 ---
 
@@ -64,9 +65,8 @@ list rather than emitting unverified designs for them.
 EMC is defined in the large majority of cases by an in-frame fusion of *EWSR1* to
 *NR4A3*,<sup>1</sup><!--PMID:8634690--> with *TAF15* a substantial minority and *TCF12* and *TFG*
 rare.<sup>2</sup><!--PMID:32572850--> The disease responds poorly to conventional cytotoxic
-chemotherapy,<sup>3</sup><!--PMID:41055792--> though responses do occur: the one molecularly
-confirmed series to record any response recorded four partial responses in ten evaluable
-patients.<sup>4</sup><!--PMID:24345066--> A tyrosine-kinase inhibitor trialled in it gave disease
+chemotherapy,<sup>3</sup><!--PMID:41055792--> though responses do occur: one molecularly confirmed
+series recorded four partial responses in ten evaluable patients.<sup>4</sup><!--PMID:24345066--> A tyrosine-kinase inhibitor trialled in it gave disease
 control more often than response,<sup>5</sup><!--PMID:31331701--> a reading composed from the
 response categories that trial reports rather than from a disease-control figure it states.
 
@@ -156,8 +156,8 @@ loci against 123 at six, and the heavier exposure, both of its loci being transc
 a systemic phosphorothioate gapmer distributes to where none of the exon-12 reagent's measurable
 loci is. It also carries a sense-strand near-match in wild-type *NR4A3* precursor RNA at two mismatches, one
 of them inside the catalytic gap and spanning an intron-exon boundary — the same class the *EWSR1*
-reagent above carries against *TAF15* — and a ten-base-pair duplex at the *NR4A3* exon-2/exon-3 seam
-that its acceptor half reaches. The reason to make it is coverage, which none of these axes moves. Its junction
+reagent above carries against *TAF15* — and it reaches the *NR4A3* exon-2/exon-3 seam through part
+of its gap, as the two named reagents do and on the same unmeasured footing. The reason to make it is coverage, which none of these axes moves. Its junction
 is the type-5 transcript, named in the same sentence of the 18-case series that supplies the
 exon-12 count, and adding it would take the figure above to 79.0% — a gain of about ten percentage
 points for one further oligonucleotide, with no new screen and no new retrieval. It is not named
@@ -200,9 +200,10 @@ Selecting within each junction rather than across the panel is what makes the tw
 available: 35 of the 38 junctions have a design that clears the parent screen, and all five junctions
 with a published exon-resolved breakpoint have one. Both of those readings are properties of the cut
 and not of the panel. At a criterion of nine base pairs 31 of the 38 junctions still clear and three
-of the five published ones do; at eight, 23 and two; at seven — the shortest end of the range the
-cited enzymology gives for RNase-H1 — 9 of the 38 clear and none of the five published junctions
-does. The availability the two named reagents rest on therefore holds at the criterion adopted here
+of the five published ones do; at eight, 23 and two; at seven, 9 of the 38 clear and none of the five published
+junctions does. Those cuts are whole-duplex run lengths and not the enzyme's own unit, which is
+the DNA gap: the geometry here holds six gap nucleotides against every target, so no cut on this
+ladder is the enzymology restated. The availability the two named reagents rest on therefore holds at the criterion adopted here
 and fails at the loose end of the same cited range, which is the sense in which the criterion is a
 convention rather than a measurement.
 
@@ -228,8 +229,10 @@ No cut in that range is a boundary the data picks out.
 
 ## 4 · Test articles
 
-Five test articles carry a junction this panel designs against, and they divide into two sources with
-opposite limits.
+Five test articles bear on the junctions this panel designs against, and they divide into two
+sources with opposite limits. Every design in the panel joins its donor to *NR4A3* exon 3; the two
+cell models are reported at exon 2, so they carry a panel junction only under the exon-3 reading
+their acceptor index leaves open.
 
 Three are engineered constructs from a published functional study,<sup>14</sup><!--PMID:31020999-->
 whose exon spans that paper states verbatim. Two of them, E-N and T-N*, carry exactly the two
@@ -332,8 +335,10 @@ at ten — and it is not a single bar a pilot either clears or does not. The rep
 set from the pilot estimate with three as a floor and not a target, and the gate applied to the upper limit of a
 one-sided 95% chi-square bound on the pilot's standard deviation rather than to its point estimate,
 with that bound, its confidence level and its degrees of freedom reported, since the level moves
-the count the gate prescribes. A pilot returning a bound at or above the void figure for the
-count proposed has shown that count cannot falsify at this cut, so the decision at that point is a
+the count the gate prescribes. A pilot whose bound lies at or above the void figure for the
+count proposed gives no assurance that count can falsify at this cut — the figure is defined on the
+realised replicate standard deviation and the bound is on the population one, so the gate is
+conservative rather than exact — so the decision at that point is a
 larger replicate count or no falsification test at all, and never three. That gate is a floor and
 not a sizing rule: clearing it establishes only that a run can fail, not that it is likely to when
 the reagent is selective. At this paper's own replicate standard deviation the smallest count the
@@ -359,7 +364,9 @@ the family over which an error rate would be controlled is open-ended, and that 
 the design set out above, which is closed. What it contains is two ranking tests, one per named
 reagent at its own junction; the three all-screen-clear designs are a mechanism control and are not
 read against the cut, so they do not enter the family. Two tests at a nominal one-sided 2.5% carry a
-familywise error rate of 4.94%, and that is the rate this design runs at. A reader who does read all
+familywise error rate of 4.94%, and that is the rate this design runs at. A programme that also
+reads the two exon-2 reagents of §4 against the same cut is running four tests at 9.63%, and one
+that adds the control arm, five at 11.89%. A reader who does read all
 five against the cut is running a five-member family at 11.89%, which no longer supports the
 replicate counts above and needs a correction stated before the experiment rather than after it.
 
@@ -380,7 +387,9 @@ one of the five screens covers. What the procedure yields is a candidate, not a 
 ## 7 · Discussion
 
 Designability is not the constraint in this disease. Junction-spanning designs exist at every
-in-frame *NR4A3* fusion junction modelled here, and 35 of the 38 have one clearing the parent screen.
+in-frame *NR4A3* fusion junction modelled here, and 35 of the 38 have one clearing the parent screen
+at the criterion adopted here — 9 of the 38 at a run cut of seven and 6 at six, as §3 sets out, so
+that reading is a property of the cut.
 The constraint is discrimination between the fusion and its parents, and it is not resolved here. A
 junction design's most plausible wild-type liability is its own parent, in the mature transcript or
 across a splice junction in precursor RNA; both compartments are searched here before any molecule
@@ -478,8 +487,8 @@ complete correction record, including every superseded value, is released with t
 
 **Use of artificial intelligence.** A large language model (Claude, Anthropic) was used throughout
 this work: to write and review the analysis code, to run the screens, to retrieve and check
-literature, and to draft and revise this manuscript. Eleven figures this article shares with its
-extended report are pinned to the artefact that produces each and re-checked on every commit; the
+literature, and to draft and revise this manuscript. Eleven figures in this article are pinned to the
+artefact that produces each and re-checked on every commit; the
 remaining counts are reproducible from the released artefacts but are not individually guarded, and
 the decision thresholds and power figures of §5 are stated conventions and arithmetic rather than
 artefact readings and have no producing artefact at all. The author directed all work reported here and is

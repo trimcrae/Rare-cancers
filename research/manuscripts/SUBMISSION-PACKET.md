@@ -129,8 +129,8 @@ last_verified: 2026-08-10
 
 | field | value |
 |---|---|
-| Word count, main text | 5146 (no limit found) |
-| Abstract | 198 words  |
+| Word count, main text | 5305 (no limit found) |
+| Abstract | 203 words  |
 | Display items | 3 (1 figures, 2 tables) |
 | References | 23 |
 | Cover letter | MISSING |
