@@ -48,9 +48,16 @@ ASO = os.path.join(REPO, "research", "manuscripts", "aso")
 #: ⚠ Measured when this was parametrised: both builds were already clean — 155 delimited tokens each,
 #: zero fused, zero split, zero undelimited. The gap was in ENFORCEMENT, not in the artifacts, which
 #: is the kind of gap that stays invisible until the day something regresses.
+#: ⛔ BOTH PAPERS, SINCE ROUND 10. Both keys named the extended report, so neither of the journal
+#: article's two built PDFs was read by any delimiter, fusion, split or staleness guard here — the
+#: same one-of-a-pair scoping this review has now closed in four separate instruments. The journal
+#: builds were clean when this was widened; again the gap was in ENFORCEMENT, not the artifacts.
 PDFS = {
     "manuscript": os.path.join(ASO, "fusion-junction-aso-research-article-manuscript.pdf"),
     "journal": os.path.join(ASO, "fusion-junction-aso-research-article.pdf"),
+    "journal-article": os.path.join(ASO, "fusion-junction-aso-journal-article.pdf"),
+    "journal-article-manuscript": os.path.join(
+        ASO, "fusion-junction-aso-journal-article-manuscript.pdf"),
 }
 #: The one a depositor uploads, for the checks that are about the deposit rather than the typesetting.
 PDF = PDFS["manuscript"]
@@ -126,11 +133,17 @@ def test_the_deposited_pdfs_are_not_stale():
 
 
 @pytest.fixture(scope="module", params=sorted(PDFS), ids=sorted(PDFS))
-def pdf_text(request):
-    """Every text-layer assertion runs against BOTH built formats."""
-    path = PDFS[request.param]
+def pdf_key(request):
+    """Which built PDF the surrounding assertion is running against."""
+    return request.param
+
+
+@pytest.fixture(scope="module")
+def pdf_text(pdf_key):
+    """Every text-layer assertion runs against EVERY built format."""
+    path = PDFS[pdf_key]
     assert os.path.exists(path), (
-        f"{path} is missing. Both built formats ship; the absence of one is not a reason to skip "
+        f"{path} is missing. Every built format ships; the absence of one is not a reason to skip "
         "the check.")
     return _extract(path)
 
@@ -223,7 +236,7 @@ def test_the_pdf_names_the_canonical_machine_readable_sequence_file(pdf_text):
         "learn that a copy-paste-safe copy of every sequence travels with the archive.")
 
 
-def test_every_sequence_the_pdf_prints_is_in_the_canonical_file(pdf_text):
+def test_every_sequence_the_pdf_prints_is_in_the_canonical_file(pdf_text, pdf_key):
     """The canonical file must be canonical — a sequence in the paper and not in it is a hole.
 
     ⚠ READ FROM THE PDF, WHICH IS WHAT THE READER HAS. The generator asserts the same contract
@@ -238,10 +251,16 @@ def test_every_sequence_the_pdf_prints_is_in_the_canonical_file(pdf_text):
     #: tokens, 69 distinct, every one of them in the canonical file. The floor is set well under
     #: that, because the number of sequences the paper prints is an editorial decision; what is not
     #: negotiable is that the extractor found some.
-    assert len(printed) >= 20, (
-        f"only {len(printed)} delimited sequence(s) could be read out of this build's text layer "
-        "(69 distinct were measured on 2026-08-19). Either the delimiters are gone — which is what "
-        "this file exists to catch — or the extractor is no longer reading the sequence cells.")
+    #: ⚠ THE FLOOR IS PER PAPER, BECAUSE THE PAPERS PRINT DIFFERENT NUMBERS OF SEQUENCES. A single
+    #: floor of 20 was calibrated on the extended report's 69 and would fail the journal article,
+    #: which prints 10 by editorial choice across two tables and its reagent paragraphs — a false
+    #: red that would teach a reader to widen the guard rather than read it. Each floor is set well
+    #: under that paper's measured count; what is not negotiable is that the extractor found some.
+    floor = 20 if pdf_key in ("manuscript", "journal") else 8
+    assert len(printed) >= floor, (
+        f"only {len(printed)} delimited sequence(s) could be read out of {pdf_key}'s text layer "
+        f"(floor {floor}). Either the delimiters are gone — which is what this file exists to "
+        "catch — or the extractor is no longer reading the sequence cells.")
     #: ⛔ ONE DELIBERATE EXCEPTION, AND IT IS THE REVERSE-COMPLEMENT TRAP RATHER THAN A HOLE.
     #: Figure 2 draws the TARGET mRNA at the multi-partner seam, because the point of the panel is
     #: where three partners' breakpoints coincide ON THE TRANSCRIPT; the reagent is that strand's

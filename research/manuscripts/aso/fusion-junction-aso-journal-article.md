@@ -68,7 +68,8 @@ rare.<sup>2</sup><!--PMID:32572850--> The disease responds poorly to conventiona
 chemotherapy,<sup>3</sup><!--PMID:41055792--> though responses do occur: one molecularly confirmed
 series recorded four partial responses in ten evaluable patients.<sup>4</sup><!--PMID:24345066--> A tyrosine-kinase inhibitor trialled in it gave disease
 control more often than response,<sup>5</sup><!--PMID:31331701--> a reading composed from the
-response categories that trial reports rather than from a disease-control figure it states.
+response categories as the review reports them, rather than from a disease-control figure stated in
+either report.
 
 The fusion junction is the one feature of an EMC tumour that exists at the RNA level and in no normal
 cell. An antisense gapmer tiled across it recruits RNase-H1 to cleave the transcript it pairs, and
@@ -204,8 +205,8 @@ of the five published ones do; at eight, 23 and two; at seven, 9 of the 38 clear
 junctions does. Those cuts are whole-duplex run lengths and not the enzyme's own unit, which is
 the DNA gap: the geometry here holds six gap nucleotides against every target, so no cut on this
 ladder is the enzymology restated. The availability the two named reagents rest on therefore holds at the criterion adopted here
-and fails at the loose end of the same cited range, which is the sense in which the criterion is a
-convention rather than a measurement.
+and fails at a run cut of seven, which is the sense in which the criterion is a convention rather
+than a measurement.
 
 Two bounds on the cleanliness claim are load-bearing and are stated with it. The alignment screen is
 heuristic and censors on two ceilings: a hit list of up to 50 is requested and 15 are retained, so
