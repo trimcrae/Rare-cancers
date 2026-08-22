@@ -21,7 +21,7 @@ on:
       mode:
         description: "What to do"
         type: choice
-        options: [verify, dry-run-submit, submit, review, fetch]
+        options: [verify, dry-run-submit, submit, new-version, review, fetch]
         default: verify
       pdf:
         description: "Path to the PDF (submit / dry-run-submit / review)"
@@ -99,6 +99,23 @@ jobs:
             --pdf "${{ inputs.pdf }}" --meta "${{ inputs.meta }}" \
             --public "${{ inputs.is_public }}" --i-understand-this-is-outward-facing
 
+      - name: ⛔ Refuse a new-version post that was not explicitly acknowledged
+        if: ${{ inputs.mode == 'new-version' && !inputs.i_understand_this_is_outward_facing }}
+        run: |
+          echo "::error::mode=new-version requires i_understand_this_is_outward_facing=true. A" \
+               "revision publishes new text and does NOT withdraw the previous version."
+          exit 1
+
+      - name: Post a revised version (OUTWARD-FACING)
+        if: ${{ inputs.mode == 'new-version' && inputs.i_understand_this_is_outward_facing }}
+        env:
+          AIXIV_TOKEN: ${{ secrets.AIXIV_TOKEN }}
+        run: |
+          python3 scripts/aixiv_review.py new-version \
+            --aixiv-id "${{ inputs.aixiv_id }}" \
+            --pdf "${{ inputs.pdf }}" --meta "${{ inputs.meta }}" \
+            --public "${{ inputs.is_public }}" --i-understand-this-is-outward-facing
+
       - name: Start an attack review
         if: ${{ inputs.mode == 'review' }}
         env:
@@ -117,24 +134,25 @@ jobs:
 
       # ⚠ THE REVIEW IS THE DELIVERABLE. Committed to the triggering branch so a hardening round can
       # cite it by path, not by run id — a 90-day artifact is not a record.
-      - name: Publish the reviews to the triggering branch (best effort)
+      #
+      # ⛔ VIA THE PRIMITIVE, NOT BY HAND. The first version of this step hand-rolled
+      # add/commit/push with a fetch+rebase retry loop, and `test_no_hand_rolled_publish` failed it
+      # in PREFLIGHT_FULL — correctly: that shape leaves the repo MID-REBASE on the first conflict,
+      # every retry then dies on the wreckage rather than on anything new, and the step ends on a
+      # warning while reporting SUCCESS. `research/compute/publish_artifacts.sh` is the one home for
+      # this operation. PUBLISH_IF_CHANGED=1 because a review is an EVENT, not a heartbeat: there is
+      # no timestamp here whose freshness anything grades, so an unchanged tree should stay silent.
+      - name: Publish the reviews to the triggering branch
         if: ${{ always() && inputs.mode == 'fetch' }}
         continue-on-error: true
         env:
-          TARGET_REF: ${{ github.ref_name }}
+          PUBLISH_IF_CHANGED: "1"
         run: |
           ls research/literature/aixiv-reviews/*.json >/dev/null 2>&1 || {
             echo "::warning::no reviews fetched; nothing to publish"; exit 0; }
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add research/literature/aixiv-reviews
-          git diff --cached --quiet && { echo "no change"; exit 0; }
-          git commit -q -m "aixiv reviews: ${{ inputs.aixiv_id }} v${{ inputs.version }} (CI)"
-          for i in 1 2 3; do
-            git push origin "HEAD:$TARGET_REF" && { echo "pushed"; exit 0; }
-            git fetch origin "$TARGET_REF" && git rebase "origin/$TARGET_REF" || true
-          done
-          echo "::warning::ref push failed; the run artifact below is the record"
+          bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "aixiv reviews: ${{ inputs.aixiv_id }} v${{ inputs.version }} (CI)" \
+            research/literature/aixiv-reviews
 
       # ⚠ THE REVIEW IS THE DELIVERABLE, SO IT MUST SURVIVE THE RUNNER. A review read only in a job
       # log is one nobody can quote in a hardening round's record.

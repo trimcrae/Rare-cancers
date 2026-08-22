@@ -581,9 +581,13 @@ antigen-directed route in this disease including this one.
 ## 7. Limitations
 
 All binding figures are predictions from sequence-based models and no EMC-specific validation of either
-model exists. Coverage is computed by multiplying non-carrier frequencies across alleles, which assumes
-independence not only between loci but between alleles at the same locus; two alleles pooled here are both
-HLA-B, and handling that correctly moves the pooled figure by about 0.3 percentage points. The
+model exists. They predict peptide-MHC affinity alone: proteasomal cleavage and TAP transport are not
+modelled here, so a strong call bounds what could be presented rather than naming a peptide that
+is. Coverage is computed by multiplying non-carrier frequencies across alleles, which assumes independence
+both between loci and between alleles at the same locus. The same-locus case arises here —
+two alleles pooled are both HLA-B — and handling it correctly moves the pooled figure by about 0.3
+percentage points. Cross-locus haplotype linkage disequilibrium is not modelled and its effect is not
+estimated; bounding it would need haplotype-frequency data rather than the allele frequencies used here. The
 population-to-region mapping is an approximation, regional figures are point values on samples as small as
 579 individuals, and the frequencies are pooled across populations whose allele frequencies differ by more
 than the figures being reported. The binder counts and every coverage figure derived from them depend on an

@@ -128,6 +128,29 @@ are committed under `research/literature/aixiv-reviews/`.
 requires no blockers **and** no P1s across the seat set; this paper stands at round 1 plus one
 external seat.
 
+## 2c · The external round, verified — 2 of 7 findings survived
+
+Review 1362 (*Official Agent*, rating **6**) verified against the artifacts under `paper-hardening`
+§5, **refute by default**. Budget declared before applying: **+60 words** on main text; delivered
+**+59** (7,557 → 7,616).
+
+| finding | verdict | evidence |
+|---|---|---|
+| Purely computational; no wet-lab validation | **REFUTED as a defect** | Stated in the frontmatter scope, the abstract's closing sentence and §7. It is the programme's declared condition, not an unreported gap |
+| Pooled 30.4% "treats patients as if they could have any of the five junctions" | **REFUTED** | §2.3 already draws exactly this distinction and justifies pooling by it: *"Because an individualised platform selects against the patient's own genotype rather than a public epitope, the relevant figure is the pooled-junction one"* |
+| Coverage rests on a single HLA-B\*15:01 call, unacknowledged | **REFUTED** | The abstract and §2.3 both state each presenting allele rests on one peptide-allele call, all five within 0.1264 percentile units of the threshold |
+| Regional variance makes one accrual number misleading | **REFUTED** | §2.3 reports the regional spread and says the no-panel-reaches-half claim *"holds for the pooled global frame and not everywhere"* |
+| "Does not test or discuss the impact of linkage disequilibrium" | **REFUTED as stated, PARTIALLY VALID underneath** | §7 already disclosed the independence assumption **and quantified** the same-locus correction at ~0.3 pp — further than the review credits. What was genuinely missing is that cross-locus haplotype LD is unmodelled and unestimated. ✅ **Applied** |
+| Proteasomal cleavage / TAP transport not modelled | ✅ **VALID — applied** | `grep -i "proteasom\|TAP"` over the manuscript returned **nothing**. The paper bounded its calls generally ("a screen, not evidence of presentation") but never named the unmodelled steps. §7 now does |
+| Compare against immunopeptidomics pipelines; cover DNA/RNA vaccine design, bispecifics, CAR-T | **DECLINED, with reason** | A scope expansion, not a defect. §1's length gate governs, and those routes are other papers' endpoints in [L3](../../../systems/views/L3-publications.md) — restating them here duplicates a fact that has a home |
+
+⭐ **The review's care is worth recording, because it bears on how much weight the seat gets.** It
+distinguished the lead peptide (`NMPCVQAQY`, HLA-B\*15:01) from the withdrawn one (`DMPCVQAQY`,
+HLA-B\*35:01) correctly, and cited section numbers that exist. Its two misses were both **claims that
+the paper omits something it in fact states** — the failure mode of a reader working from one pass,
+which is exactly what `paper-hardening` §4 predicts an external seat cannot do as well as the
+repository-grounded seats.
+
 ## 3 · Only the author can do these
 
 1. ~~**Post at `biorxiv.org/submit-a-manuscript`.**~~ **Superseded — see the venue note above.** The

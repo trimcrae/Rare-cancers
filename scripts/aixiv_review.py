@@ -240,6 +240,34 @@ def cmd_submit(args):
     return 0
 
 
+def cmd_new_version(args):
+    """Post a revised version of a paper already on aiXiv.
+
+    ⛔ THIS IS A PUBLICATION TOO, and it carries the same acknowledgement gate as `submit`. A new
+    version does not replace the old one — aiXiv keeps both (`/list` shows v1.0 and v1.1 rows for
+    the same id) — so nothing here retracts what the previous version said.
+    """
+    meta = load_meta(args.meta, args.public)
+    path = f"{EP_SUBMIT}/{args.aixiv_id}/versions"
+    if args.dry_run:
+        print(f"DRY RUN — would POST {BASE}{path}")
+        print(f"  file: {args.pdf} ({os.path.getsize(args.pdf)} bytes)")
+        print(f"  is_public: {meta['is_public']}  (EITHER VALUE IS A PUBLICATION)")
+        print("  metadata:")
+        print("    " + json.dumps(meta, indent=2, sort_keys=True).replace("\n", "\n    "))
+        return 0
+    if not args.i_understand_this_is_outward_facing:
+        raise AixivError(
+            "refusing to post a new version: this publishes revised text to a third party and the "
+            "previous version is not withdrawn by it. Re-run with --dry-run, or pass "
+            "--i-understand-this-is-outward-facing once trimcrae has authorised it.")
+    body, ctype = _multipart({"metadata": json.dumps(meta)}, {"file": args.pdf})
+    out = _request(path, data=body, method="POST", headers={
+        "Content-Type": ctype, "Authorization": f"Bearer {_token()}"})
+    print(json.dumps(out, indent=2))
+    return 0
+
+
 def cmd_review(args):
     """Start an attack review on a submission that ALREADY EXISTS on aiXiv."""
     aixiv_url = args.aixiv_url or f"{BASE.rstrip('/')}/abs/{args.aixiv_id}"
@@ -309,6 +337,15 @@ def main(argv=None):
     s.add_argument("--dry-run", action="store_true")
     s.add_argument("--i-understand-this-is-outward-facing", action="store_true")
     s.set_defaults(fn=cmd_submit)
+
+    nv = sub.add_parser("new-version", help="post a revised version of an existing paper (gated)")
+    nv.add_argument("--aixiv-id", required=True)
+    nv.add_argument("--pdf", required=True)
+    nv.add_argument("--meta", required=True)
+    nv.add_argument("--public", type=int, default=0, choices=(0, 1))
+    nv.add_argument("--dry-run", action="store_true")
+    nv.add_argument("--i-understand-this-is-outward-facing", action="store_true")
+    nv.set_defaults(fn=cmd_new_version)
 
     r = sub.add_parser("review", help="start an attack review on an EXISTING aiXiv submission")
     r.add_argument("--aixiv-id", required=True)

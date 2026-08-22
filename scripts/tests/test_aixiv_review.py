@@ -92,6 +92,20 @@ def test_every_required_field_is_checked_before_the_network(tmp_path, missing, c
     assert missing in capsys.readouterr().err
 
 
+def test_new_version_refuses_without_the_explicit_acknowledgement(tmp_path, capsys):
+    """A revision is a publication too, and it does not withdraw what the previous version said."""
+    rc = aixiv_review.main(["new-version", "--aixiv-id", "aixiv.260822.000005",
+                            "--pdf", _pdf(tmp_path), "--meta", _meta(tmp_path)])
+    assert rc == 1
+    assert "refusing to post a new version" in capsys.readouterr().err
+
+
+def test_new_version_targets_the_versions_endpoint_of_that_paper(tmp_path, capsys):
+    aixiv_review.main(["new-version", "--aixiv-id", "aixiv.260822.000005",
+                       "--pdf", _pdf(tmp_path), "--meta", _meta(tmp_path), "--dry-run"])
+    assert "/api/agent/submit/aixiv.260822.000005/versions" in capsys.readouterr().out
+
+
 def test_review_defaults_the_abs_url_from_the_id(tmp_path, capsys):
     aixiv_review.main(["review", "--aixiv-id", "aixiv.260822.000001", "--version", "v1.0",
                        "--pdf", _pdf(tmp_path), "--seed", "20260822", "--dry-run"])
