@@ -594,8 +594,24 @@ DMPCVQAQYSP all occur in Q92570-3, an isoform of *NR4A3* itself. One of them, DM
 binder on HLA-B\*35:01 at 369.1 nM. Those four peptides are not tumour-exclusive, and DMPCVQAQY is
 withdrawn as a candidate.
 
-The pattern is not random across the junction set. All four belong to the same four junctions, *EWSR1*
-exons 9, 10, 12 and 13, which are the four whose seam codon is aspartate; the *EWSR1* exon 7 junction has
+**And the pattern is a mechanism, tested across every annotated transcript.** A reviewer of an earlier
+version asked, fairly, how much of this depends on the transcript model: a seam defined by exon
+boundaries is defined by whichever transcript declares them, and every figure in Section 2 comes from
+one canonical transcript per gene. The junction was therefore rebuilt across all 99 protein-coding
+*EWSR1* transcripts against all 4 of *NR4A3*, at each of the five in-frame donor exons: 1,980 pairs, of
+which 970 emit an in-frame seam. The seam residue is not stable across them, taking nine distinct
+values — aspartate in 502 pairs, glycine in 251, asparagine in 118, serine in 59, no seam residue at
+all in 31, and four other residues in the remaining 9.
+
+**The collision appears in exactly the 502 aspartate-seam pairs and in none of the other 468.** It is
+therefore not a property of the canonical annotation, and not a single case study: it is a property of
+the aspartate seam, reproduced independently in 502 transcript pairs, and its absence is equally
+determined. That is the mechanism this section had been asserting from one pair.
+
+The pattern is not random across the junction set. All four collided peptides belong to the same four
+junctions, *EWSR1*
+exons 9, 10, 12 and 13, which are the four whose seam codon is aspartate on the canonical transcript;
+the *EWSR1* exon 7 junction has
 an asparagine seam codon and none of its peptides collides. So four of the five in-frame junctions share a
 seam whose most seam-proximal peptides reproduce a normal *NR4A3* isoform sequence, and the one junction
 that is clean is the commonly reported public one that carries the lead binder. Within the affected
@@ -866,7 +882,14 @@ percentage points. Cross-locus haplotype linkage disequilibrium is not modelled 
 estimated; bounding it would need haplotype-frequency data rather than the allele frequencies used here. The
 population-to-region mapping is an approximation, regional figures are point values on samples as small as
 579 individuals, and the frequencies are pooled across populations whose allele frequencies differ by more
-than the figures being reported. The binder counts and every coverage figure derived from them depend on an
+than the figures being reported. A fourth dependence sits underneath all of these and was not measured until now: every peptide in
+Section 2 is derived from one canonical transcript per gene, and across the 970 in-frame transcript
+pairs tested under B5 no junction peptide is common to all of them. The seam residue itself takes
+nine values, so the peptide identities move with it. The counts are more stable than the identities —
+each pair yields 30, 34 or 38 novel peptides and no other value — but a reader should take the
+specific sequences named here, NMPCVQAQY included, as conditioned on the canonical annotation rather
+than as properties of the locus. Which transcript a patient's fusion actually uses is not decidable
+from annotation and is not decided here. The binder counts and every coverage figure derived from them depend on an
 acceptance threshold this paper does not defend, and no multiplicity correction is applied anywhere: 174
 peptides were screened against 10 and then 34 alleles at two thresholds, with no decoy control and no null
 expectation, so the calls that pass are reported as what the screen returned rather than as an enrichment
