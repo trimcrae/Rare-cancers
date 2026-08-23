@@ -382,6 +382,41 @@ claim, both halves asserted separately because *"the right verb is present"* and
 present"* fail differently. **Whatever axis your instrument does not perturb is the axis the next round
 will find.**
 
+### 8b.1 · Four rules the ablation round produced, each from a mistake made that day
+
+**⛔ ABLATE A CLONE, NEVER THE WORKING TREE.** The first harness mutated the real manuscript with a
+`finally` restore and a digest check. That makes the window SHORT, not SAFE — safety is about
+everything else reading the repo during it. Proven: perturbing a pinned figure while
+`test_lint_consistency::test_the_real_repo_is_consistent` runs reproduces exactly the failure a
+preflight reported. And the `finally` is not even reliable — a SIGTERM (or an orphaned grandchild
+`pkill -P` does not reach) skips it and leaves a **deposit artifact corrupted on disk**. `cp -al`
+costs **0.03 s for 3,326 files**, so there was never a reason to accept the risk. ⚠ The clone shares
+inodes, so an in-place write still reaches the original — measured, it does. Write a new file and
+`os.replace` it, which breaks the link instead of following it.
+
+**⛔ THE SAMPLE IS NOT THE SWEEP.** Six sentences per document per commit catches an instrument that
+has stopped binding anything; it does not enumerate what is unbound. The bounded sample was green
+while `PREFLIGHT_FULL=1` found **1 of 41** journal sentences fully unbound — and chasing that one
+sentence's only DIGIT turned up a second gap behind it. Run the full sweep before anything
+outward-facing.
+
+**★★ A GATE THAT REDS ON TRUE INPUT IS WORSE THAN ONE THAT GREENS ON FALSE INPUT**, because the
+first thing anyone does is loosen it. Two in one round: `_RATE_SCANNER` had no word boundaries, so
+*"the **all**ele frequency"* and *"an over**all** rate"* both resolved as the band `all` at
+[1.0, 1.0] — an honest title containing "overall" failed against a correct measurement; and every
+polarity `span` was written with ordinary spaces while the source **wraps mid-phrase**, so a correct
+sentence read as MISSING. ⚠ Fix the class, not the instance: normalise the text once rather than
+anchoring sixteen patterns. And assert **both directions** — over-anchoring silently makes every
+check vacuous, which is the same failure wearing the other costume.
+
+**★ MEASURE BEFORE YOU WRITE THE RULE.** The artifacts' `_what_this_is_not` fields deny knockdown,
+tolerability, delivery and a cleavage measurement, none of which `lint_claims` names — an obvious
+gap to close with a ban. Measured first: **every** occurrence in the paper is already in a denying
+or design frame. A ban would have red-flagged an honest paper. The real exposure was DELETION, so
+the fix was a floor under the sentences that do the denying — and reading the delivered PDF for it
+showed that *"efficacy"*, *"potency"*, *"therapeutic window"* and *"clinical readiness"* appear
+**nowhere** in the condensed paper, which no amount of reasoning about the markdown would have said.
+
 ## 9 · Where the rest lives
 
 - **Commit gates, preflight, the linters, `systems/`, and the six-part reviewer-AI block: `repo-gates`.**
