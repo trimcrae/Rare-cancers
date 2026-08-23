@@ -38,6 +38,42 @@
     "DQB1*06:02"
   ],
   "n_candidate_15mers": 15,
+  "_predictor": {
+    "tool": "MHCnuggets",
+    "version": "2.4.1",
+    "models_release": "not exposed by MHCnuggets \u2014 the package ships its trained weights inside the distribution and publishes no separate release identifier, so the version above is the whole of the provenance available",
+    "alleles": [
+      "DRB1*01:01",
+      "DRB1*03:01",
+      "DRB1*04:01",
+      "DRB1*04:04",
+      "DRB1*07:01",
+      "DRB1*08:01",
+      "DRB1*09:01",
+      "DRB1*11:01",
+      "DRB1*12:01",
+      "DRB1*13:01",
+      "DRB1*13:02",
+      "DRB1*14:01",
+      "DRB1*15:01",
+      "DRB1*15:02",
+      "DRB1*16:01",
+      "DRB3*01:01",
+      "DRB4*01:01",
+      "DRB5*01:01",
+      "DPB1*02:01",
+      "DPB1*04:01",
+      "DQB1*02:01",
+      "DQB1*03:01",
+      "DQB1*06:02"
+    ],
+    "peptide_length": 15,
+    "thresholds": {
+      "strong_ic50_nM": 100.0,
+      "binder_ic50_nM": 1000.0
+    },
+    "\u26d4": "a predicted IC50 is a SCREEN value, not a statement that a peptide is presented; class II prediction is substantially less accurate than class I"
+  },
   "alleles_without_a_model": [],
   "n_alleles_screened": 23,
   "\u26a0_missing_model_is_not_a_negative": "every declared allele was scored",
