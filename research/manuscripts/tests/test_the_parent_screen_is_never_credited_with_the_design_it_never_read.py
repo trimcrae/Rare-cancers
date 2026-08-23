@@ -172,7 +172,7 @@ def test_this_guard_fails_on_both_defects_it_was_written_for():
          "its seam."),
     ):
         assert original.count(fixed) == 1, (
-            f"the sentence this proof mutates has been reworded: {fixed!r}. Re-anchor the proof on "
+            f"the sentence this proof mutates has been reworded: {fixed!r}. Re-anchor the proof on ⛔ CHECK THE MEANING BEFORE THE REGEX: if the claim was INVERTED or DROPPED, re-anchoring makes the guard agree with the new wording and the finding disappears. Re-anchor only when the sentence says the same thing in different words."
             "the text that is there now — an unexercised guard is an absent one.")
         mutated = original.replace(fixed, broken, 1)
         assert mutated != original, "the mutation did not change the text; this proof would be vacuous"

@@ -101,7 +101,7 @@ def test_the_near_match_definition_is_the_screens_own_ceiling(prose):
     ceiling = _artifact(PREMRNA, "the precursor screen")["method"]["max_mismatches"]
     m = re.search(r"near-match is a transcript window pairing a design at (\d+) or more of its "
                   r"(\d+) positions", prose)
-    assert m, "§8's near-match definition has been reworded; re-anchor this guard to it"
+    assert m, "§8's near-match definition has been reworded; re-anchor this guard to it ⛔ CHECK THE MEANING BEFORE THE REGEX: if the claim was INVERTED or DROPPED, re-anchoring makes the guard agree with the new wording and the finding disappears. Re-anchor only when the sentence says the same thing in different words."
     at_least, length = int(m.group(1)), int(m.group(2))
     # ⛔⛔ THE DIFFERENCE IS NOT THE DEFINITION (round 16 seat 5, mutation M03). This asserted only
     # `length - at_least == ceiling`, so "14 or more of its 16" -> "13 or more of its 15" PRESERVES
@@ -124,7 +124,7 @@ def test_the_named_reagents_g_tract_claim_is_read_off_their_sequences(prose):
         f"expected two named exon-3 reagents in the article and the canonical file; found "
         f"{sorted(named)} — re-anchor this guard")
     m = re.search(r"Both begin 5′-([ACGT]+), a contiguous locked", prose)
-    assert m, "§2's G-tract sentence has been reworded; re-anchor this guard"
+    assert m, "§2's G-tract sentence has been reworded; re-anchor this guard ⛔ CHECK THE MEANING BEFORE THE REGEX: if the claim was INVERTED or DROPPED, re-anchoring makes the guard agree with the new wording and the finding disappears. Re-anchor only when the sentence says the same thing in different words."
     tract = m.group(1)
     # ⛔⛔ "STARTS WITH" IS NOT THE CLAIM (round 16 seat 5, mutation M04). The sentence says the
     # tract is a CONTIGUOUS LOCKED G-tract, and a prefix check alone accepted widening it to a
@@ -168,7 +168,7 @@ def test_the_taf15_reagents_clean_precursor_claim_is_the_screens_own(prose):
         "same as measuring zero, and the article states an absence.")
     hits = max(int(d["n_hybridisable"]) for d in rows)
     stated_clean = re.search(r"\*?TAF15\*? reagent carries no sense-strand precursor site", prose)
-    assert stated_clean, "§2's TAF15 precursor sentence has been reworded; re-anchor this guard"
+    assert stated_clean, "§2's TAF15 precursor sentence has been reworded; re-anchor this guard ⛔ CHECK THE MEANING BEFORE THE REGEX: if the claim was INVERTED or DROPPED, re-anchoring makes the guard agree with the new wording and the finding disappears. Re-anchor only when the sentence says the same thing in different words."
     assert hits == 0, (
         f"the article says the TAF15 reagent carries no sense-strand precursor site; the precursor "
         f"screen records {hits} hybridisable hit(s) for {taf[0]}")

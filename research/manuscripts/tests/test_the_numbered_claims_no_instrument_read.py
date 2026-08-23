@@ -155,7 +155,7 @@ def test_most_of_that_load_really_is_predicted_models(prose):
     predicted = [h for h in hits if h["acc"].split("_")[0] in ("XM", "XR")]
     m = re.search(r"Most of the (\d+) are predicted transcript models rather than curated records",
                   prose)
-    assert m, "§2's predicted-models sentence has been reworded; re-anchor this guard to it"
+    assert m, "§2's predicted-models sentence has been reworded; re-anchor this guard to it ⛔ CHECK THE MEANING BEFORE THE REGEX: if the claim was INVERTED or DROPPED, re-anchoring makes the guard agree with the new wording and the finding disappears. Re-anchor only when the sentence says the same thing in different words."
     assert int(m.group(1)) == len(hits), (
         f"the sentence calls the load {m.group(1)} and the screen records {len(hits)}")
     assert len(predicted) * 2 > len(hits), (
@@ -291,7 +291,7 @@ def test_the_exon_convention_is_the_acceptors_own_model(prose):
     shift = sum(1 for i in range(1, coding[0]) if i not in coding)
     assert re.search(r"Exon numbers throughout are transcript exon indices counted from the "
                      r"transcript 5′ end, including non-coding exons", prose), \
-        "§2's exon-numbering convention sentence has been reworded; re-anchor this guard to it"
+        "§2's exon-numbering convention sentence has been reworded; re-anchor this guard to it ⛔ CHECK THE MEANING BEFORE THE REGEX: if the claim was INVERTED or DROPPED, re-anchoring makes the guard agree with the new wording and the finding disappears. Re-anchor only when the sentence says the same thing in different words."
     assert shift > 0, (
         f"§2 warns that an acceptor exon number read under the coding-exon convention selects a "
         f"different reagent; {acceptor}'s committed model now has no non-coding exon ahead of its "
@@ -387,7 +387,7 @@ def test_the_register_hazard_sentence_is_read_off_table_2(prose):
         f"neither member of Table 2 is condemned, so 'opposite verdicts' names nothing: {sorted(verdicts)}")
     assert re.search(r"Consecutive registers of one seam differ by a single-base slide and can "
                      r"carry opposite verdicts \(Table 2\)", prose), \
-        "§2's register-hazard sentence has been reworded, or now cites a different table"
+        "§2's register-hazard sentence has been reworded, or now cites a different table ⛔ CHECK THE MEANING BEFORE THE REGEX: if the claim was INVERTED or DROPPED, re-anchoring makes the guard agree with the new wording and the finding disappears. Re-anchor only when the sentence says the same thing in different words."
 
 #: The two sequences Table 1 names for synthesis, read from the canonical file rather than typed.
 def _panel_5_6_5():

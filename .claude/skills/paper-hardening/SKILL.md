@@ -417,6 +417,17 @@ the fix was a floor under the sentences that do the denying — and reading the 
 showed that *"efficacy"*, *"potency"*, *"therapeutic window"* and *"clinical readiness"* appear
 **nowhere** in the condensed paper, which no amount of reasoning about the markdown would have said.
 
+**⛔ A GUARD'S REMEDY TEXT TEACHES THE WRONG FIX IF IT SAYS "RE-ANCHOR" FIRST (round 16 seat 3,
+P1-e).** Rewriting four claims *without* preserving their anchors fired four guards, and every
+message said the same thing: *"the sentence was reworded and this guard needs to follow it."* True
+of a guard that measures WORDING — and an author who has just INVERTED a predicate sees a red build
+whose printed remedy is *update the regex*, after which the finding disappears. The same inversion
+with the anchor preserved is silent, which is the tell: **these were wording guards that
+occasionally collided with a predicate, and counting them as coverage is what let the census read
+82/124.** Two fixes, and both are needed: bind the predicate separately (§8b), and make every
+anchor-failure message say **check the meaning before the regex** — re-anchor only when the sentence
+says the same thing in different words.
+
 ## 9 · Where the rest lives
 
 - **Commit gates, preflight, the linters, `systems/`, and the six-part reviewer-AI block: `repo-gates`.**
