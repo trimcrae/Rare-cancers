@@ -1,6 +1,6 @@
 ---
 id: DOC-EMC-VACCINE-DEVELOPMENT-PATH
-title: "A fusion-junction vaccine in extraskeletal myxoid chondrosarcoma: what can be established today, and the capabilities that would change it"
+title: "Fusion-neoantigen novelty filters fail at isoform boundaries: seam-proximal peptides of four of five EWSR1::NR4A3 junctions reproduce a normal NR4A3 isoform"
 level: L3
 kind: manuscript
 status: live
@@ -18,7 +18,7 @@ date: 2026-08-19
 last_verified: 2026-08-19
 ---
 
-# A fusion-junction vaccine in extraskeletal myxoid chondrosarcoma: what can be established today, and the capabilities that would change it
+# Fusion-neoantigen novelty filters fail at isoform boundaries: seam-proximal peptides of four of five EWSR1::NR4A3 junctions reproduce a normal NR4A3 isoform
 
 **Author.** Tristan D. McRae
 
@@ -30,7 +30,7 @@ submitted to a journal. It has not been read by a sarcoma medical oncologist or 
 immunologist, and a reader should weigh it accordingly. Independent, personal-capacity work,
 unconnected to the author's employer; Section 9 states the role of AI tools.
 
-**Running title.** A junction vaccine in EMC: what is established
+**Running title.** A novelty-filter defect at fusion seams
 
 **Keywords.** extraskeletal myxoid chondrosarcoma; EWSR1::NR4A3; fusion-junction neoantigen; cancer
 vaccine; HLA population coverage; MHC binding prediction; rare sarcoma
@@ -44,9 +44,11 @@ cell and cannot be lost without loss of the driver. The sponsors of an individua
 have announced a positive phase 3 result in resected melanoma [9], which makes the platform question
 timely for other tumours.
 
-**Purpose.** This paper neither predicts that an EMC vaccine will work nor argues that it will not. It
-reports what current instruments and access establish about the target, separates limits of the tumour
-from limits of method or access, and records for each movable limit what would move it.
+**Purpose.** This paper reports a defect in how fusion-neoantigen novelty is filtered, found while
+assessing whether a junction vaccine is feasible in this disease. It neither predicts that such a vaccine
+will work nor argues that it will not: it reports what current instruments and access establish about the
+target, separates limits of the tumour from limits of method or access, and records for each movable limit
+what would move it.
 
 **Methods.** Junctions were derived at the transcript level from Ensembl exon structure, so the acceptor
 exon is retained whole including its 5' untranslated region. Class I binding was predicted with MHCflurry
@@ -60,7 +62,12 @@ including isoforms, with the unreviewed entries of the same reference proteome s
 reported separately. Clinical figures come from a curated EMC registry. No wet-laboratory data were
 generated.
 
-**Results.** Of 27 declared exon pairs, 5 are in frame, yielding 174 junction-spanning peptides and 11
+**Results.** Seam-proximal peptides of four of the five in-frame junctions reproduce a sequence in a
+normal *NR4A3* isoform. The four are exactly those whose seam codon is aspartate; the *EWSR1* exon 7
+junction, which carries the lead binder, has an asparagine seam and is clean. The collision withdraws one
+predicted binder, and it is a defect that will recur at any breakpoint whose seam reconstructs an isoform
+boundary, in any fusion rather than only this one, wherever novelty is filtered against parent proteins
+instead of against the proteome. Of 27 declared exon pairs, 5 are in frame, yielding 174 junction-spanning peptides and 11
 distinct predicted binders of which 4 are strong; there is no pan-EMC epitope. Predicted coverage is a
 property of the screen as much as of the junction: the commonly reported *EWSR1* exon 7 to *NR4A3* exon 3
 junction covers 8.5% on ten alleles, presented on HLA-B\*15:01 alone, and 12.3% on 34, where the same lead
