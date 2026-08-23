@@ -451,3 +451,32 @@ def test_the_back_matter_is_split_out_of_the_two_column_body(journal):
 def test_the_two_styles_write_to_different_files():
     """The submission format is what a portal wants; they must not overwrite each other."""
     assert PAPER["out"] != PAPER["out"].replace(".pdf", "-manuscript.pdf")
+
+
+# ---------------------------------------------------------------------------------------------
+def test_a_backslash_escaped_asterisk_prints_as_an_asterisk_and_never_as_emphasis():
+    """⛔ MEASURED IN THE BUILT DEPOSIT, 2026-08-23. `\\*` was never unescaped by this builder.
+
+    One escaped allele on a line printed its backslash: `HLA-B\\*15:01`. TWO on a line were worse —
+    the emphasis rule read the span BETWEEN their live asterisks as italic, so
+    `HLA-A\\*01:01, HLA-B\\*07:02` came out as `HLA-A\\` + italic `01:01, HLA-B\\` + `07:02`, with
+    both allele names destroyed and unrelated text italicised. Every posted version of the
+    junction-vaccine manuscript carries it, in a paper whose subject is which HLA alleles present a
+    peptide. Two alleles on one line is the case that matters and is the second assertion here;
+    checking only the single-allele case would have passed throughout the incident.
+    """
+    assert bsp.inline(r"presented on HLA-B\*15:01 alone") == "presented on HLA-B*15:01 alone"
+    two = bsp.inline(r"HLA-A\*01:01, HLA-B\*07:02, HLA-B\*15:01")
+    assert two == "HLA-A*01:01, HLA-B*07:02, HLA-B*15:01"
+    assert "<em>" not in two and "\\" not in two
+
+
+def test_unescaped_emphasis_still_works_after_the_escape_rule():
+    """The fix must not cost the markup it sits in front of."""
+    got = bsp.inline("*EWSR1* exon 7 and **bold**")
+    assert got == "<em>EWSR1</em> exon 7 and <strong>bold</strong>"
+
+
+def test_other_markdown_escapes_lose_their_backslash_too():
+    assert bsp.inline(r"a literal \_underscore\_ and \[bracket\]") == (
+        "a literal _underscore_ and [bracket]")
