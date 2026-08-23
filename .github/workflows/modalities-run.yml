@@ -128,9 +128,12 @@ jobs:
             fi
           done
 
+      # ⭐ --include-unreviewed added 2026-08-22 answering aiXiv review 1363 (W3): absence from
+      # REVIEWED proteins does not establish novelty. The unreviewed pass is reported separately and
+      # never merged into `n_novel_proteome_wide` — see the constant's note in the script.
       - name: Proteome-wide novelty of the junction peptides (UniProt reviewed + isoforms)
         continue-on-error: true
-        run: python research/modalities/junction_proteome_novelty.py
+        run: python research/modalities/junction_proteome_novelty.py --include-unreviewed
 
       - name: Publish results to modalities-cache branch
         if: always()

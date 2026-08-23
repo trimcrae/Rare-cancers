@@ -124,6 +124,27 @@ PAPERS = {
     # deposit that no build gate can see is the one-of-a-pair defect applied to the build itself.
     # It carries no tables file and no figures: every quantity is in the prose, which is why its
     # numbers guard (`tests/test_vaccine_path_numbers.py`) binds prose to artifacts directly.
+    # ⭐ ADDED 2026-08-23. Its own checklist says "the manuscript content itself is
+    # submission-ready"; what it lacked was a build entry, so no PDF existed to deposit. The three
+    # tolerances this needed (colon labels, a numbered affiliation, back matter as separate
+    # ⭐ ADDED 2026-08-23. Its own checklist states "the manuscript content itself is
+    # submission-ready"; what it lacked was a build entry. The three tolerances this needed (colon
+    # labels, a numbered affiliation, back matter as separate headings) were added to the BUILDER.
+    "fusion-output": {
+        "manuscript": "fusion-output/nr4a3-fusion-transcriptional-output.md",
+        "references": None,
+        "tables": None,
+        "stamp_sources": (
+            "fusion-output/nr4a3-fusion-transcriptional-output.md",
+        ),
+        "figures": {},
+        "journal": {
+            "article_type": "Original Research Article",
+            "section": "",
+            "preprint_note": "This manuscript is a preprint. It has not been peer reviewed.",
+        },
+        "out": "fusion-output/nr4a3-fusion-transcriptional-output.pdf",
+    },
     "vaccine-path": {
         "manuscript": "neoantigen/emc-vaccine-development-path.md",
         "references": None,
@@ -1336,7 +1357,11 @@ def label_paragraph(body, label, what=None):
 
     ⚠ CAPTURE THE WHOLE PARAGRAPH, NOT THE FIRST LINE — these fields wrap in the source.
     """
-    match = re.search(rf"^\*\*{re.escape(label)}\.\*\*[^\n]*(?:\n(?!\s*\n)[^\n]*)*", body, re.M)
+    # ⚠ BOTH PUNCTUATIONS ARE VALID FRONT MATTER. This repository's manuscripts write either
+    # `**Label.**` or `**Label:**`; only the first parsed, so a paper using colons failed with
+    # "front matter the running title not found" — a message that reads as a MISSING field when the
+    # field is present and merely punctuated the other way.
+    match = re.search(rf"^\*\*{re.escape(label)}[.:]\*\*[^\n]*(?:\n(?!\s*\n)[^\n]*)*", body, re.M)
     if not match:
         raise SystemExit(f"front matter {what or f'label {label!r}'} not found")
     text = re.sub(r"\s*\n\s*", " ", match.group(0)).strip()
@@ -1383,7 +1408,13 @@ def parse_front_matter(body):
                        ("keywords", "Keywords")):
         front[key] = label_paragraph(body, label, f"label '**{label}.**'")
 
-    front["affiliation"] = paragraph(r"^\*Independent researcher", "the affiliation line")
+    # ⚠ TWO AFFILIATION CONVENTIONS ARE IN USE HERE, and only the italic one parsed. The ASO and
+    # vaccine papers write `*Independent researcher, unaffiliated.*`; the transcriptional-output
+    # paper uses a numbered affiliation, `¹ Independent Researcher.`, which is what its target
+    # journal wants. Accept either rather than making a submission-ready manuscript change its
+    # title page to suit this script.
+    front["affiliation"] = paragraph(r"^(?:\*|[¹1]\s*)Independent [Rr]esearcher",
+                                     "the affiliation line")
 
     _, end, after = section_span(body, "Abstract")
     front["abstract"] = body[after:end].strip().strip("-").strip()
@@ -1781,8 +1812,28 @@ def wrap_journal(paper, front, body_html, doc_title=None):
     # "<h2>9. Declarations</h2>" — could not be built at all. The property the split needs is a
     # level-2 heading whose text ENDS in "Declarations", not one whose text is exactly that.
     split = re.search(r"<h2>(?:[\d.\s]*)Declarations</h2>", body_html)
+    # ⭐ AND A PAPER MAY DECLARE ITS BACK MATTER AS SEPARATE HEADINGS RATHER THAN ONE GROUP.
+    # `nr4a3-fusion-transcriptional-output.md` carries seven journal-standard headings — Data and
+    # code availability, Funding, Conflicts of interest, Ethics, Author contributions, Use of
+    # generative AI, Acknowledgements — with no "Declarations" umbrella, which is correct for its
+    # target journal and made the paper unbuildable here.
+    # ⛔ THE FIX ADAPTS THE TOOL, NOT THE MANUSCRIPT. Restructuring a submission-ready paper to suit
+    # a builder would be the tail wagging the dog; the property the split actually needs is "where
+    # does the back matter start", and that is the FIRST of these headings, whichever it is.
+    # ⚠ Strictly additive: an umbrella "Declarations" still wins when present, so the papers that
+    # already built are untouched.
     if not split:
-        raise SystemExit("no '## Declarations' heading — the back matter split is anchored on it")
+        names = ("Data and code availability", "Data availability", "Funding",
+                 "Conflicts of interest", "Competing interests", "Ethics approval",
+                 "Author contributions", "Use of generative AI", "Acknowledgements")
+        hits = [m for n in names
+                for m in [re.search(rf"<h2>(?:[\d.\s·]*){re.escape(n)}", body_html)] if m]
+        split = min(hits, key=lambda m: m.start()) if hits else None
+    if not split:
+        raise SystemExit("no back-matter heading found — expected '## Declarations' or one of the "
+                         "standard declaration headings (Data and code availability, Funding, "
+                         "Conflicts of interest, Ethics approval, Author contributions, "
+                         "Use of generative AI, Acknowledgements)")
     main, back = body_html[:split.start()], body_html[split.start():]
     main = _defer_landscape_floats(main)
 

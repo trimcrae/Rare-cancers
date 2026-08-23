@@ -67,14 +67,19 @@ def test_submit_dry_run_needs_no_token_and_no_acknowledgement(tmp_path, capsys):
     assert "DRY RUN" in capsys.readouterr().out
 
 
-def test_a_dry_run_says_plainly_which_publicity_it_would_use(tmp_path, capsys):
-    """⚠ `is_public` is the difference between a rehearsal and a publication. It must be legible."""
-    aixiv_review.main(["submit", "--pdf", _pdf(tmp_path), "--meta", _meta(tmp_path),
-                       "--public", "1", "--dry-run"])
-    assert "PUBLICATION" in capsys.readouterr().out
-    aixiv_review.main(["submit", "--pdf", _pdf(tmp_path), "--meta", _meta(tmp_path),
-                       "--public", "0", "--dry-run"])
-    assert "UNVERIFIED" in capsys.readouterr().out
+def test_a_dry_run_calls_both_publicity_values_a_publication(tmp_path, capsys):
+    """⛔ MEASURED 2026-08-22: is_public=0 served the paper to an unauthenticated reader anyway.
+
+    An earlier version of this test asserted the `--public 0` dry run printed "UNVERIFIED", which
+    encoded the hope that the flag was access control. It is not. Both values must read as a
+    publication, because both are one.
+    """
+    for pub in ("0", "1"):
+        aixiv_review.main(["submit", "--pdf", _pdf(tmp_path), "--meta", _meta(tmp_path),
+                           "--public", pub, "--dry-run"])
+        out = capsys.readouterr().out
+        assert "PUBLICATION" in out, f"--public {pub} must read as a publication"
+        assert "non-public" not in out.lower()
 
 
 @pytest.mark.parametrize("missing", sorted(aixiv_review.REQUIRED_META))
@@ -85,6 +90,20 @@ def test_every_required_field_is_checked_before_the_network(tmp_path, missing, c
         "submit", "--pdf", _pdf(tmp_path), "--meta", meta, "--dry-run"])
     assert rc == 1
     assert missing in capsys.readouterr().err
+
+
+def test_new_version_refuses_without_the_explicit_acknowledgement(tmp_path, capsys):
+    """A revision is a publication too, and it does not withdraw what the previous version said."""
+    rc = aixiv_review.main(["new-version", "--aixiv-id", "aixiv.260822.000005",
+                            "--pdf", _pdf(tmp_path), "--meta", _meta(tmp_path)])
+    assert rc == 1
+    assert "refusing to post a new version" in capsys.readouterr().err
+
+
+def test_new_version_targets_the_versions_endpoint_of_that_paper(tmp_path, capsys):
+    aixiv_review.main(["new-version", "--aixiv-id", "aixiv.260822.000005",
+                       "--pdf", _pdf(tmp_path), "--meta", _meta(tmp_path), "--dry-run"])
+    assert "/api/agent/submit/aixiv.260822.000005/versions" in capsys.readouterr().out
 
 
 def test_review_defaults_the_abs_url_from_the_id(tmp_path, capsys):
@@ -110,6 +129,26 @@ def test_no_reviews_is_reported_as_an_absent_reading_not_a_pass(monkeypatch, cap
     assert "NOT a verdict" in out
 
 
+def test_every_request_carries_a_browser_user_agent(monkeypatch):
+    """⛔ Cloudflare answers urllib's default signature with 403 "error code: 1010" — which reads
+    as a bad token and sends the next hour into re-minting a credential that was fine."""
+    seen = {}
+
+    class _Resp:
+        def read(self): return b"{}"
+        def __enter__(self): return self
+        def __exit__(self, *a): return False
+
+    def _capture(req, *a, **k):
+        seen["ua"] = req.get_header("User-agent")
+        return _Resp()
+
+    monkeypatch.setattr(aixiv_review.urllib.request, "urlopen", _capture)
+    aixiv_review._request("/api/health", method="GET")
+    assert seen["ua"] and "Mozilla/5.0" in seen["ua"]
+    assert "urllib" not in seen["ua"].lower()
+
+
 def test_verify_never_prints_the_response_body(monkeypatch, capsys):
     """⛔ Actions logs here are world-readable. A raw dump would publish the account's e-mail."""
     monkeypatch.setenv("AIXIV_TOKEN", "t")
@@ -122,6 +161,24 @@ def test_verify_never_prints_the_response_body(monkeypatch, capsys):
     assert "private@example.org" not in out
     assert "leak-me" not in out
     assert "VERIFY OK" in out
+
+
+def test_verify_passes_when_only_the_user_profile_call_fails(monkeypatch, capsys):
+    """⛔ An agent token CANNOT satisfy /api/profile/me/* — it is not a Clerk JWT. Failing the run
+    on a check that cannot pass trains the reader to ignore the verdict."""
+    monkeypatch.setenv("AIXIV_TOKEN", "t")
+
+    def _req(path, **k):
+        if "profile" in path:
+            raise aixiv_review.AixivError("HTTP 401: Malformed JWT: cannot parse header")
+        return [{"name": "Emc", "scopes": ["discuss", "reply", "review", "submit"]}]
+
+    monkeypatch.setattr(aixiv_review, "_request", _req)
+    rc = aixiv_review.main(["verify"])
+    out = capsys.readouterr().out
+    assert rc == 0
+    assert "VERIFY OK" in out
+    assert "expected for an agent token" in out
 
 
 def test_verify_fails_when_no_agent_carries_the_review_scope(monkeypatch, capsys):

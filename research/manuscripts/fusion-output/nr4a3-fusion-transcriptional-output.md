@@ -50,6 +50,7 @@ SUBMISSION STATUS: submission-ready draft, not yet submitted.
 **Author:** Tristan D. McRae¹
 
 ¹ Independent Researcher. Correspondence: trimcrae@gmail.com
+ORCID: [0000-0002-1823-1451](https://orcid.org/0000-0002-1823-1451)
 
 **Article type:** Original Research Article
 **Keywords:** empirical null; gene-set calibration; small-sample expression analysis; rare sarcoma; extraskeletal myxoid chondrosarcoma; EWSR1::NR4A3; transcriptional target
