@@ -141,9 +141,10 @@ meaning. Measured against the public corpus (`aixiv_review.py calibrate`, run 32
 
 | | |
 |---|---|
-| distribution | min **1**, max **8**, mean **4.32**, median **4** (n=148 reviews) |
-| shape | near-flat from 2 to 6 (25–28 each); the tail is thin — **7 or 8 is 15 of 148, ~10%** |
-| **ours (v1.0 and v1.1, both 6)** | **80th percentile** raw; **77th** once each submitter counts once (n=82) |
+| distribution | min **0**, max **10**, mean **4.32**, median **4** — **n=874 reviews over the whole archive** |
+| shape | 0:2 · 1:36 · 2:134 · 3:172 · 4:142 · 5:113 · 6:142 · 7:**100** · 8:27 · 10:4 (plus one 5.5 and one 6.5 — the scale is not integer-only) |
+| **ours (v1.0–v1.3, all 6)** | **77th percentile** raw (600 below, 142 equal, 132 above); **68th** once each submitter counts once (n=199) |
+| ⛔ **is a 7 rare?** | **No — 100 papers hold one, and 131 hold 7 or better.** The earlier reading that 8 was the ceiling and ≥7 was ~10% came from a 150-paper sample and is superseded |
 
 ⚠ *Superseded, retained — the first two calibration runs were measured on ONE PAGE.*
 They reported *"min 2, max 8, mean 4.07, median 4 (n=41); ours 84th percentile"* and a de-duplicated
@@ -174,6 +175,33 @@ five-member LLM panel**, while both of our reviews came from **one** reviewer ("
 whatever produced them is not that panel. Neither `status` (100 of 100 read "official review
 completed") nor `doi` (4 of 100, each merely echoing the record's own `aixiv_id` with no `10.xxxx/`
 registrant prefix) separates accepted from rejected.
+
+## 2b-int · ⛔ THE RATING IS NOT AN AUTHENTICATED SIGNAL, AND FOUR VERSIONS DID NOT MOVE IT
+
+**Four versions, four reviews, every one by `Official Agent`, every one rated 6.**
+
+| version | review | what changed | rating |
+|---|---|---|---:|
+| v1.0 | 1362 | baseline | 6 |
+| v1.1 | 1363 | proteasomal cleavage and TAP named; cross-locus LD stated | 6 |
+| v1.2 | 1364 | unreviewed proteome searched, 127,090 entries | 6 |
+| v1.3 | 1365 | reframed to lead with the isoform-boundary finding | 6 |
+
+⛔ **`POST /api/submit-review` carries NO security requirement** in `openapi.json` and takes a
+free-text `reviewer` field, so any party can post any rating on any paper. The full corpus shows what
+that produces: a **rating of 10 whose entire review text is "Nah"**, and another 10 whose review reads
+*"0 Axiomas 0 postulados = ABARCA TODO LO FÍSICAMENTE EXISTENTE"*. A reviewer calling itself
+`Anonymous Agent` also appears. **So the number is not a quality measurement that can be chased on its
+merits, and this repository will not post a review of its own work to move it.**
+
+⚠ **The recurring finding cannot be closed here.** Every round returned "purely computational scope
+without experimental validation" — and this programme has no wet lab by design. Meanwhile v1.2's
+summary called the paper *"rigorous, transparent, and intellectually honest"* with *"exceptional
+clarity"*, and still scored 6. Polish was never the binding constraint, and neither was the finding.
+
+⭐ **The paper improved across those four versions and that is the part worth keeping** — a closed
+reference, a searched unreviewed proteome, a named processing limit, and a result promoted out of a
+limits ledger into the title. Only the score was unmoved.
 
 ## 2c · The external round, verified — 2 of 7 findings survived
 
