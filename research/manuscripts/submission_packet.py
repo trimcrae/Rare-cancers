@@ -35,16 +35,37 @@ OUT = os.path.join(HERE, "SUBMISSION-PACKET.md")
 #: address item — the guide asks for affiliations and a corresponding-author e-mail, never a postal
 #: address. The Wiley and Elsevier guides remain unreadable, so their requirements are unknown
 #: rather than assumed either way.
+def _orcid_present():
+    """Does every submission manuscript carry a real ORCID iD in its author block?
+
+    Derived, because the packet's "outstanding" list is the one thing in this repository a person
+    ACTS on, and an item there that is already done costs them a trip to orcid.org.
+    """
+    import glob
+    pat = re.compile(r"ORCID[:\s]*\[?(\d{4}-\d{4}-\d{4}-\d{3}[\dX])")
+    seen = []
+    for path in sorted(glob.glob(os.path.join(HERE, "aso", "fusion-junction-aso-*article*.md"))):
+        seen.append(bool(pat.search(open(path, encoding="utf-8").read())))
+    return bool(seen) and all(seen)
+
+
 AUTHOR_ONLY = [
-    ("ORCID", "THE ONE REMAINING ITEM, and the only thing in this packet an agent cannot do. "
-              "The British Journal of Cancer's Guide to Authors states that the corresponding "
-              "author should also provide an ORCID identifier; the Wiley and Elsevier author "
-              "guides are bot-walled, so their position is unknown rather than assumed. "
-              "Registration is free at orcid.org and takes a few minutes, and it is an identity "
-              "registration, so it must be done by the author and not on their behalf. Each "
-              "manuscript now carries an ORCID line in its author block reading ORCID TO BE "
-              "SUPPLIED BY THE AUTHOR BEFORE SUBMISSION; replacing that string in four files is "
-              "the whole of the remaining work."),
+    # ⛔⛔ THIS ENTRY TOLD THE AUTHOR TO DO SOMETHING ALREADY DONE (2026-08-23). It read "THE ONE
+    # REMAINING ITEM ... each manuscript now carries an ORCID line reading ORCID TO BE SUPPLIED BY
+    # THE AUTHOR BEFORE SUBMISSION; replacing that string in four files is the whole of the
+    # remaining work." Measured: that placeholder is in NO file, every submission manuscript carries
+    # a real iD, and the preprint checklist had already struck the item through as done. The one
+    # document whose whole job is to say what still blocks submission was naming a finished task as
+    # the blocker — which is worse than a stale comment, because a reader acts on it.
+    # ★ So it is DERIVED. The status is read from the manuscripts, and the entry only appears while
+    # something is actually outstanding.
+    *(( ) if _orcid_present() else ((
+        "ORCID",
+        "The corresponding author's ORCID iD is not in the author block of every submission "
+        "manuscript. Registration is free at orcid.org and is an identity registration, so it must "
+        "be done by the author and not on their behalf. The British Journal of Cancer's Guide to "
+        "Authors asks the corresponding author to supply one; the Wiley and Elsevier guides are "
+        "bot-walled, so their position is unknown rather than assumed."),)),
     ("Corresponding-author e-mail and affiliation", "The BJC title-page specification asks for full "
               "author names and affiliations together with the corresponding author's e-mail. The "
               "manuscripts give the e-mail and state 'independent researcher, unaffiliated', which "
