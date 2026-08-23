@@ -137,35 +137,42 @@ cautionary null, not a new biological discovery."* So a delivered instrument rea
 finding is what the 8s and 10s carry. **Pick the paper, do not iterate the prose** — one submission of
 the right shape beat four revisions of the wrong one.
 
-### ⛔⛔ AND v1.4 SETTLED *WHY*: THE REVIEWER IS AN ML-CONFERENCE REVIEWER
+### ⛔⛔ v1.4 SCORED 6 TOO — AND THE EXPLANATION I FIRST GAVE FOR IT WAS WRONG
 
 v1.4 added four computed results answering four named weaknesses — the full threshold function, a
 near-self TCR search with a shuffle null, a second independently-trained predictor, and a
 transcript-model screen. The review called the work *"exemplary"*, *"novel and significant"*,
 *"sophisticated and important"*, *"rigorous statistical and methodological honesty"*. **Rating: 6.
-Five versions, five 6s.** Its weakness list says why, in its own words:
+Five versions, five 6s.**
 
-> *"for a top-tier venue, the lack of any wet-lab validation …"*
-> *"suggesting it is not a standard **ICLR/NeurIPS** submission … points to a mismatch with the
-> venue's standards"*
-> *"The relevance of the study's findings for a general **AI/ML audience** is unclear … potentially a
-> less fitting topic for ICLR or NeurIPS than for a specialized biomedical journal."*
+⚠ **RETRACTED, AND RETAINED SO THE REASONING CAN BE CHECKED.** v1.4's review carried ML-conference
+language — *"for a top-tier venue"*, *"not a standard ICLR/NeurIPS submission"*, *"unclear for a
+general AI/ML audience"* — and I concluded from it that the ceiling was venue fit and no revision
+could reach it. **That conclusion does not survive the obvious check**, which is whether the framing
+appears in reviews generally:
 
-It also scored *"the paper is unaffiliated, posted as a preprint, and not submitted to a journal"* as
-a weakness — a fact about the author's institutional status, not about the work.
+| review | ML-venue language | rating |
+|---|---|---:|
+| vaccine v1.0 – v1.3 | **none, in any of the four** | 6, 6, 6, 6 |
+| vaccine v1.4 | 8 occurrences | 6 |
+| the instrument paper | 1 (*"Inaccessible Presentation for a General AI/ML Audience"*) | **7** |
 
-★ **SO THE CEILING IS VENUE FIT, AND NO REVISION REACHES IT.** A wet-lab-free cancer-bioinformatics
-paper cannot clear 6 with a reviewer whose stated frame is a machine-learning conference, because two
-of its recorded weaknesses are "this is not an AI/ML topic" and "this is not an ICLR/NeurIPS
-submission". That also explains §3's earlier result rather than contradicting it: the paper that
-scored 7 first time was a **methods paper delivering an empirical null** — the shape an ML reviewer
-recognises as a contribution.
+Four versions scored 6 with **no** ML-venue language at all, and the paper that scored **7** drew an
+AI/ML-audience criticism as well. So the framing is **sporadic reviewer wording, not a rubric**, and
+it explains nothing about the score. ⛔ **One review's vocabulary is not a mechanism. Check whether a
+signal discriminates before building an explanation on it** — the discriminating query here took one
+grep over reviews already on disk.
 
-⛔ **WHAT THIS MEANS OPERATIONALLY. Stop iterating.** Further revisions of a domain paper are spend
-with no return, and the two moves that would raise the number are both off-limits: posting your own
-review (§0), and reshaping a named paper into an ML paper to suit a reviewer's taste, which
-CLAUDE.md §3 forbids outright — *"the title is what a reader searches and what the record says the
-work is."* **Report the ceiling to the human and let them decide.**
+★ **WHAT IS ACTUALLY CONSTANT ACROSS ALL FIVE 6s** is the weakness §3 already named: *"purely
+computational scope without experimental validation."* It appears in every review of this paper, and
+no revision this programme can make will close it. That remains the best-supported reading of the
+ceiling, and it is a claim about THIS paper's evidence base rather than about aiXiv's taste.
+
+⛔ **WHAT DOES NOT FOLLOW, EITHER WAY. Do not keep iterating**, because five substantively different
+versions moved the number not at all. And the two moves that would raise it are both off-limits:
+posting your own review (§0), and reshaping a named paper to suit a reviewer, which CLAUDE.md §3
+forbids outright — *"the title is what a reader searches and what the record says the work is."*
+**Report the ceiling to the human and let them decide.**
 
 ## 4 · The runbook
 
