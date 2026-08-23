@@ -125,6 +125,42 @@ Extracted from CLAUDE.md §7 (plus §5's deliverable map) on 2026-08-15, **verba
     of them was invisible locally while the other was trusted. ⚠ **When you add a check to `tests.yml`, the
     question is not "does CI run it" but "would a session that only ran preflight have seen it".**
 
+### ⭐ THE SANDBOX DEP GAP IS FIXABLE, AND UNTIL 2026-08-23 NOBODY HAD FIXED IT
+
+**`PREFLIGHT_FULL=1` could not pass in this dev sandbox at all — on `main`, before any change.**
+Measured that day: **84 modality failures and 29 manuscript failures, every one a missing import**,
+plus `systems_check.py` refusing to run for want of `jsonschema`. The tiered-preflight note above
+records the gap as a fact of life (*"this sandbox lacks numpy, rdkit, boto3, scipy, pymbar and
+netCDF4"*) and routes around it. **It is not a fact of life. It is nine pip installs.**
+
+⛔ **THE TRAP, AND IT COSTS AN HOUR IF YOU MISS IT: `pytest` IS A `uv` TOOL IN ITS OWN VENV.**
+Installing into the system interpreter changes nothing the tests can see — `python3 -c "import
+pdfminer"` succeeds while the identical import inside a test still raises `ModuleNotFoundError`.
+The deps have to go into the tool's environment:
+
+```bash
+uv tool install --force \
+  --with pdfminer.six --with pypdf --with jsonschema --with numpy --with scipy \
+  --with rdkit --with boto3 --with netCDF4 --with pymbar --with pyyaml --with biopython \
+  pytest
+python3 -m pip install jsonschema        # systems_check.py runs under system python3, not pytest
+```
+
+**Measured effect, in order, each step's failures being purely the next missing import:**
+84 → 36 (numpy/scipy/rdkit/boto3/netCDF4/pymbar) → 1 (pyyaml) → **0** (biopython). Final:
+**7,822 passed, 0 failed** on the full modality suite, and `PREFLIGHT OK` end to end.
+
+⚠ **DO NOT PRUNE `sandbox-failure-baseline.txt` ON THE STRENGTH OF THIS.** A green run after
+installing the deps reports *"11 baseline entries no longer fail — prune them"*, and pruning would be
+wrong: those entries describe a **fresh** sandbox, which is what the next session gets. The baseline
+is a statement about the default environment, not about yours. **Install the deps; leave the baseline
+alone.**
+
+⚠ And note what the gate did right while the gap was open: with deps missing it reported the extra
+failures as **"NOT in the sandbox baseline"** and refused to pass, rather than tolerating a count.
+That is the 2026-08-08 design working — the baseline had drifted behind a growing suite, and the gate
+failed closed instead of waving 36 unknown failures through.
+
 ## Architecture and retired surfaces
 
 - **★★ THE ARCHITECTURE IS [`systems/`](./systems/) — READ

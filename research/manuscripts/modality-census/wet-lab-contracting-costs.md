@@ -193,7 +193,29 @@ total by nearly 2×.*
 
 ---
 
-## 3.2 · ⭑ Is it labour? Mostly — but "mostly" hides the part that decides the answer
+### 3.1.1 · ⭑ One independent check on the quantities, and it is the repository's own
+
+**The dominant uncertainty here is hours, not rates (§6), so an outside estimate of the same
+experiment's labour is worth more than another rate card.** There is one, and it was written before
+this memo and without reference to it: [`fusion-junction-aso-working-record.md` §4](../aso/fusion-junction-aso-working-record.md)
+describes the decisive ASO experiment as asking a lab to weigh **"a technician-month"**.
+
+| estimate | hands for E2 | source |
+|---|---|---|
+| this memo | **240 h** ≈ 1.4 technician-months | `wetlab_contracting_costs.py`, an assumption |
+| the ASO working record | **~150–173 h** = 1 technician-month | written independently, for a different purpose |
+
+⇒ **They agree to within about 1.5×**, and this memo's is the more conservative. Taking the working
+record's figure instead would put E2 at roughly **$24k–$27k** rather than $34,840 — the same order,
+and it does not move any conclusion in §3.2.3, where even **free** labour leaves the experiment far
+above the filter.
+
+⚠ **Stated at its true weight: this is a weak check, not a validation.** Both numbers are estimates
+by the same project, neither was measured against a real run, and "a technician-month" was written as
+a rhetorical scale for an outreach letter rather than as a costing. It bounds the disagreement; it
+does not establish that either is right.
+
+### 3.2 · ⭑ Is it labour? Mostly — but "mostly" hides the part that decides the answer
 
 **Measured against the model rather than eyeballed** (`wetlab-contracting-costs.json` → `cost_structure`).
 
@@ -347,7 +369,10 @@ reagents, and here is the preregistration."*
 - **Every quantity is an ESTIMATE and nothing in this repository measures one.** Technician-hours,
   plate counts, imaging hours and oligo scales are this memo's assumptions. **Labour dominates every
   total**, so the quantities — not the rates — are where the error lives. A 2× error in hours is a
-  ~2× error in the answer.
+  ~2× error in the answer. ⭑ **The only check available is in §3.1.1** — the ASO working record's
+  independent "technician-month" for the same experiment, which agrees to within ~1.5× and is
+  *lower* than this memo's. Two estimates by one project are a bound on disagreement, not a
+  validation.
 - **Rates are list prices published on 2026-08-23 and will drift.** The CU Boulder card is dated
   **2015-07-01** on its own page and is used only where nothing newer was found.
 - **Rate tiers are mixed and are labelled per row.** Several are internal-academic — the floor. Only

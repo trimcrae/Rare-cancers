@@ -471,7 +471,13 @@ NCC-EMC1-C1 ([Iwata et al., *Human Cell* 2025](https://link.springer.com/article
 and — ⚠ **only if its fusion status is confirmed at the bench, which the curated record contradicts as of
 2026-08-05** ([Amendment 1](../surface-targets/emc-surface-target-landscape.md)) — H-EMC-SS; and **the readout is pre-validated** — the source paper found *"gH2AX proved to be a
 reliable biomarker for elimusertib activity"* after p-CHK1 did not discriminate. This is a plate
-experiment, not a program. ⚠ Per Axis W2's definition this counts **only because W1 is strong**; the
+experiment, not a program. ⭐ **AND ITS SIZE IS NOW A NUMBER RATHER THAN AN ADJECTIVE (2026-08-23,
+$0):** contracted at published academic core-facility rates it is the cheapest cell-based ask in the
+portfolio, roughly four-fifths of it technician time and about 2% of it the catalogue compounds this
+row emphasises — [`wet-lab-contracting-costs.md`](../modality-census/wet-lab-contracting-costs.md)
+owns the figures, **do not restate one here.** ⚠ **This changes no grade and no rank.** W2 measures
+how easy the ask is to make of someone who has a bench, and the cells remain institution-gated, so a
+price makes the ask more concrete without making it ours to run. ⚠ Per Axis W2's definition this counts **only because W1 is strong**; the
 same plate with no interested group would be worth nothing.
 
 **Axis S — inherits none of the three blockers.** No ΔΔG, no ternary, no paralogue discrimination.
