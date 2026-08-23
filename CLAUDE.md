@@ -205,7 +205,7 @@ carry every rule verbatim, with its evidence. **A tripwire that did not fire is 
 | dispatch a workflow · run a branch's CI without merging · supervise a billing fleet · set up a self-wake poller | **`ci-escape-hatches`** |
 | **rent, relaunch or refuse a host** · launch a fleet · pick a provider · write a job that checkpoints · diagnose a Vast/GCP provisioning, quota or teardown problem · install anything on a machine we pay for | **`gpu-compute`** |
 | your final message **leaves real compute running** · about to print a `$/ns`, cost row or drift flag | **`inflight-reporting`** |
-| **commit or push** (a merge to `main` included — that is the ordinary commit loop) · run preflight · a gate goes red · edit a manuscript or SI · touch `systems/` or the registry · **PUBLISH** — and publishing is the closed list *preprint, submission, release, DOI*, the only four things `PREFLIGHT_FULL=1` is for | **`repo-gates`** |
+| **commit or push** (a merge to `main` included — that is the ordinary commit loop) · run preflight · a gate goes red · edit a manuscript or SI · touch `systems/` or the registry · **PUBLISH** — and publishing is the closed list *preprint, submission, release, DOI*, the only four things `PREFLIGHT_FULL=1` is for (the default run is fast gates only; `PREFLIGHT_TESTS=1` adds the suites) | **`repo-gates`** |
 
 **Four rules that must fire even if you never load a skill**, because each guards an irreversible or expensive
 act you'd commit *before* thinking to consult anything:
@@ -217,8 +217,34 @@ act you'd commit *before* thinking to consult anything:
 - **⛔ CHECKPOINT AFTER EACH UNIT, UPLOAD AS YOU WRITE (`s3_upload_mode="Continuous"`), AND DEFAULT EVERY GPU
   RUN TO SPOT** — spot is only safe *because* of the checkpointing.
 - **⛔ BEFORE COMMITTING, `./scripts/preflight.sh` MUST PASS**, exit code unmasked. **That plain command
-  is the answer almost every time — it is the commit loop, it takes seconds to a few minutes, and it runs
-  EVERY fast gate plus the tests your change can reach.**
+  is the answer almost every time — it is the commit loop, it costs about **75 seconds**, and it runs
+  EVERY fast gate: the doc linters, the systems model, medical integrity, citation provenance and the
+  generated-artifact check, plus gate 13, the test selector's own contract.**
+  ⚠ *Measured 2026-08-24: fast gates **31.4 s** + gate 13 **39.3 s** = **77.5 s**. Gate 13 was added
+  to `main` as "a fast, offline, pure-logic suite"; it is half the loop, because each of its 55 tests
+  builds the selector's import graph and shells out to git. Moving it behind `PREFLIGHT_TESTS=1`
+  would take the commit loop back to ~31 s — that is trimcrae's call, not a silent one to make
+  inside a merge.*
+  - ⭐ **THE TEST SUITES ARE OPT-IN AS OF 2026-08-23 — `PREFLIGHT_TESTS=1` — BECAUSE THEY WERE THE GATE**
+    (trimcrae: *"change the rules so that it's not constantly running and blocking things"*). Measured
+    that day: fast gates **31.4 s**, manuscripts suite **176.1 s on every single commit** including one
+    against a clean tree, modalities ~0 s (already scoped). **CI runs both suites in full, on every push,
+    with the real dependencies, and it is the authority** — the local copy was the slower, weaker
+    duplicate, which is the same finding that scoped the modalities suite on 2026-08-12.
+    ⚠ **Scoping this suite was tried first and the measurement refused it**: a selector validated
+    against traced ground truth reached zero under-selection and still left a **132.5 s floor of the
+    176.1 s**, because these guards bind to directory scans and to paths read out of committed
+    artifacts. The honest finding is that the suite is not scopeable.
+    ⛔ **This is a real cost, not a free win: gate 12 was put in the commit loop precisely so a citation
+    guard would not "fire after the mistake is shared".** It now does fire later — caught by CI minutes
+    later and fixed with another commit, which is exactly the content-vs-ceremony line drawn below.
+    **Editing a manuscript, an SI, a citation or a deposit artifact? `PREFLIGHT_TESTS=1` is one word.**
+  - ⭐ **A RED PREFLIGHT IN A FRESH SANDBOX IS USUALLY THE SANDBOX — RUN `./scripts/dev-setup.sh` FIRST.**
+    On 2026-08-23 `main` was red on a clean tree at `origin/main`: gate 2 wanted `jsonschema`, and 29
+    manuscript guards wanted `pdfminer.six`/`pypdf`. Nothing was wrong with the repository — CI was green
+    on the same commit — and installing the packages, with no tracked file touched, took it to
+    `0 ERROR` / `878 passed`. A `SessionStart` hook now runs `dev-setup.sh --if-needed`, so this should
+    heal itself; if a gate still fails on an import, that is the fix, not a bug hunt in the manuscripts.
   - **`PREFLIGHT_FULL=1` IS FOR PUBLICATION AND NOTHING ELSE — A CLOSED LIST: a preprint, a journal or
     aiXiv submission, a release, a DOI/Zenodo deposit.** That is the whole list. It costs **~25 minutes**
     (the modalities suite alone is ~20), so running it where it is not required is not "being careful",
@@ -250,9 +276,11 @@ act you'd commit *before* thinking to consult anything:
     afternoon. **If FULL goes red on something you did not touch, the FIRST move is `git stash` and
     re-run on clean `origin/main`** — if it reproduces, it is not yours, and the decision to fix it is
     a SEPARATE task to raise, not to absorb silently into the one you were asked for.
-  - **The one thing the scoped run does not do is claim the rest of the suite passes** — which is fine,
-    because `tests.yml` runs the whole thing on every push, with the real dependencies, and it is the
-    authority. **Watch CI; do not pre-run it locally.**
+  - **The one thing the default run does not do is claim any test passes — and it now says so in its own
+    verdict line** rather than printing a bare `PREFLIGHT OK`. That is fine, because `tests.yml` runs
+    both suites on every push, with the real dependencies, and it is the authority. **Watch CI; do not
+    pre-run it locally.** ⚠ *Superseded, retained (rule 1.2): "the scoped run", written when the test
+    suites were still in the default tier and only the modalities half was scoped.*
 
 ## 7 · Repo basics
 

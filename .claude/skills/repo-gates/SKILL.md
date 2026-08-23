@@ -76,14 +76,37 @@ Extracted from CLAUDE.md §7 (plus §5's deliverable map) on 2026-08-15, **verba
   `tests.yml` runs `on: push` with the real dependencies. Twelve local minutes bought a degraded
   rerun of a check that was about to run properly. Scoped, a typical change now runs in **under a
   second** (measured: a `junction_aso_offtarget.py` edit selects 3 test modules, 39 tests, 0.51 s).
-  - **`./scripts/preflight.sh`** — every fast gate, plus only the tests the change can reach
-    ([`affected_tests.py`](./scripts/affected_tests.py), a static import graph with transitive
-    closure). **This is the commit loop.**
+  - **`./scripts/preflight.sh`** — every fast gate, and **no test**. ~**30 s**. **This is the
+    commit loop.** ⚠ *Superseded 2026-08-23, retained (CLAUDE.md rule 1.2): "every fast gate, plus
+    only the tests the change can reach". True from 2026-08-12 until the day the remaining suite was
+    measured — see the tier below.*
+  - **`PREFLIGHT_TESTS=1 ./scripts/preflight.sh`** — the fast gates plus both suites, modalities
+    scoped to the change ([`affected_tests.py`](./scripts/affected_tests.py), a static import graph
+    with transitive closure), manuscripts in full. **Run this when the change touches a manuscript,
+    an SI, a citation or a deposit artifact.**
   - **`PREFLIGHT_FULL=1 ./scripts/preflight.sh`** — everything, **~25 minutes** (the modalities
     suite alone is ~20). **Required before PUBLISHING, and publishing is a CLOSED LIST OF FOUR: a
     preprint, a submission, a release, a DOI.** Scoping is not a claim that the rest of the suite
     passes — but `tests.yml` makes that claim on every push, with the real dependencies, and it is
     the authority. Watch CI; do not pre-run it locally.
+    - ⭐⭐ **AND THE TEST SUITES LEFT THE DEFAULT TIER ON 2026-08-23, WHICH IS THE OTHER HALF OF
+      THE SAME 2026-08-12 ARGUMENT** (trimcrae: *"change the rules so that it's not constantly
+      running and blocking things"*). That day scoped the modalities suite because *"the expensive
+      copy is the WEAKER one"*; the manuscripts suite was never scoped and inherited the whole cost.
+      Measured: **fast gates 31.4 s, manuscripts 176.1 s on every commit** — including a run against
+      a **clean tree at `origin/main`**, which still executed all 878 tests — and modalities ~0 s.
+      So ~85 % of the gate was one step that could not tell a manuscript rewrite from no change at
+      all. ⚠ **Scoping it was tried first and the measurement refused it.** A selector was built and
+      validated against traced ground truth — all 50 guards run in their own processes under a
+      tracer recording every file each really reads, content reads kept apart from directory
+      enumeration — and reached **zero under-selection**. It still left a **132.5 s floor of the
+      176.1 s**, because these guards bind to directory scans and to paths read out of committed
+      artifacts: 28 of 50 are unscopeable on their own terms. A 25 % saving does not pay for a new
+      selector's failure surface, so it was reverted. ⛔ **The cost is real and is not glossed:**
+      gate 12 entered the commit loop so a citation guard would not *"fire after the mistake is
+      shared"*, and it now fires later — caught by CI minutes afterwards and fixed with another
+      commit, which is precisely the content-vs-ceremony line below. **`PREFLIGHT_TESTS=1` is one
+      word; spend it on manuscript work.**
     - ⛔ **A MERGE OR PUSH TO `main` IS NOT ON THE LIST, AND READING IT ONTO THE LIST COST ABOUT TWO
       HOURS (2026-08-23).** The reasoning that gets you there is seductive and wrong: *`main` is the
       trunk every workflow runs from, so surely it deserves the full gate.* The rule defined FULL by
@@ -178,7 +201,23 @@ Extracted from CLAUDE.md §7 (plus §5's deliverable map) on 2026-08-15, **verba
     of them was invisible locally while the other was trusted. ⚠ **When you add a check to `tests.yml`, the
     question is not "does CI run it" but "would a session that only ran preflight have seen it".**
 
-### ⭐ THE SANDBOX DEP GAP IS FIXABLE, AND UNTIL 2026-08-23 NOBODY HAD FIXED IT
+### ⭐ THE SANDBOX DEP GAP IS FIXABLE — AND SINCE 2026-08-23 IT IS `./scripts/dev-setup.sh`
+
+**⛔ RUN `./scripts/dev-setup.sh` BEFORE BELIEVING A RED PREFLIGHT IN A FRESH SANDBOX.** A
+`SessionStart` hook in `.claude/settings.json` runs `dev-setup.sh --if-needed` (an import probe of
+both interpreters, not a marker file), so this should already be done; the command is here for when
+it is not.
+
+⚠ **THE PROSE BELOW WAS TRUE AND STILL DID NOT FIX ANYTHING, WHICH IS THE LESSON.** It recorded the
+exact remedy on 2026-08-23 — and that same day `main` came up red on a clean tree at `origin/main`:
+gate 2 wanting `jsonschema`, and 29 manuscript guards wanting `pdfminer.six`/`pypdf`, while CI was
+green on the same commit. **Instructions in a skill file run only if a session loads that skill and
+acts on it.** A script plus a hook runs either way. ⭐ Note also that the two interpreters need
+**different** lists: system `python3` gets `jsonschema` only, because this image's distro
+`cryptography` panics on import and `pypdf` imports it — and nothing under `preflight.sh` needs
+pypdf there, since the PDF guards are TESTS and resolve inside the pytest venv.
+
+#### The original note, retained
 
 **`PREFLIGHT_FULL=1` could not pass in this dev sandbox at all — on `main`, before any change.**
 Measured that day: **84 modality failures and 29 manuscript failures, every one a missing import**,
