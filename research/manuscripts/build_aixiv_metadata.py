@@ -31,7 +31,7 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 
 PAPERS = {
-    "vaccine-path": {
+        "vaccine-path": {
         "manuscript": "neoantigen/emc-vaccine-development-path.md",
         "out": "neoantigen/emc-vaccine-path-aixiv-metadata.json",
         # ⚠ Fields aiXiv cannot derive from the prose. Everything else is READ from the manuscript.
