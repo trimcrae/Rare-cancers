@@ -159,17 +159,17 @@ the right shape beat four revisions of the wrong one.
 6. **`mode=submit`** (or `new-version`) — double-gated: the workflow input *and* the script's
    `--i-understand-this-is-outward-facing`. A new version does **not** withdraw the old one; aiXiv
    keeps both rows under the same id.
-7. **Wait, then `mode=fetch`.** ⛔ **THE LATENCY IS NOT KNOWN, AND DO NOT CLAIM ONE.** The record
-   holds two observations that do not agree, and the disagreement is unresolved: `v1.0`'s review
-   appeared **about three minutes** after submission (recorded in the preprint checklist), while
-   `v1.4` was still unreviewed **40 minutes** after its post. Four `create_time`s on the same paper
-   — `00:23:44`, `01:38:33`, `07:08:45`, `08:08:39` — are consistent with a schedule, but the field
-   carries no timezone and none of them has been tied to its own post time, so **they do not
-   establish a cadence** and an earlier version of this section wrongly said they did.
-   ⚠ What follows operationally is the same either way: **budget an hour, re-dispatch periodically,
-   and do not read an early empty result as a verdict.** The discriminating observation nobody has
-   taken is a post time and its review's `create_time` on the same clock; take it and replace this
-   paragraph. `fetch` commits the review to the branch via
+7. **Wait — and the wait is LONG and IRREGULAR.** ⛔ **THE REVIEWER IS VERY LOW VOLUME, AND THE
+   REVIEW IDs PROVE IT.** Our four versions carry review ids **1362, 1363, 1364, 1365 — consecutive
+   in aiXiv's global sequence.** Ids are assigned platform-wide, so consecutive ids across four of
+   our reviews means **no other paper anywhere on aiXiv was reviewed in between**. The gaps between
+   those runs, on our own record: **1.2 h, 5.5 h, 1.0 h**.
+   ⚠ **So an empty `fetch` at two hours is not evidence of anything.** `v1.4` was still unreviewed at
+   2 h, which sits comfortably inside an observed gap of 5.5 h. Budget **hours, not minutes**, space
+   the re-dispatches accordingly, and do not build a theory on an early empty result — I built two
+   (a three-minute cadence, then an hourly one) and both were wrong.
+   ⚠ **Still unmeasured:** a post time and its own review's `create_time` on one clock. The gaps
+   above are between REVIEWS, not from post to review, and they bound the latency from below only. `fetch` commits the review to the branch via
    `publish_artifacts.sh` so a hardening round can cite it by path.
    ⚠ **An empty `review_list` is an absent reading, not a pass** — and polling the *committed file*
    is not polling aiXiv: that file only changes when a `fetch` run commits it, so a loop watching
