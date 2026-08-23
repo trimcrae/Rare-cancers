@@ -1,0 +1,99 @@
+{
+ "_generated_utc": "2026-08-23T22:52:01Z",
+ "_inputs_generated_utc": "2026-08-23T22:50:18Z",
+ "_language_discipline": "Nothing here is an efficacy, selectivity, safety, therapeutic-window or clinical-readiness claim. A sample counted here is a metadata match, never a diagnosis.",
+ "_question": "Is there EMC-bearing public molecular data that a depositor-prose search cannot see? `emc_cohort_search.py` bounded its own negative to prose; this asks what lies outside that bound.",
+ "arms": {
+  "pan_sarcoma_methylation_deposit": {
+   "_what": "Does GSE140686 \u2014 a pan-sarcoma deposit whose title names no disease \u2014 carry EMC samples, and are they open?",
+   "emc_samples_sample": {},
+   "mirror_http": 200,
+   "mirror_reachable": true,
+   "n_samples_declared_by_series": 1505,
+   "n_samples_naming_a_confusable": 0,
+   "n_samples_naming_emc": 0,
+   "n_samples_read": 1505,
+   "platforms": [
+    "GPL13534",
+    "GPL21145"
+   ],
+   "series": "GSE140686",
+   "series_title": "Sarcoma Classification by DNA-methylation profiling",
+   "state": "FETCHED",
+   "verdict": "NO_SAMPLE_NAMES_EMC",
+   "\u26a0": "Read at sample level and no record names the disease. That bounds what these sample records say \u2014 a deposit can label by methylation class code rather than by disease name, and this arm cannot see such a label.",
+   "\u26a0 counting_rule": "`n_samples_naming_emc` counts per-sample records whose OWN text matches a disease term. It is a depositor claim exactly as a series title is, and the confusable count is reported separately because a substring search for 'myxoid chondrosarcoma' also hits the skeletal tumour, which is a different disease with a different driver."
+  },
+  "snaptron_junction_index": {
+   "_what": "Does the public splice-junction index answer at all, and does what it serves carry the fields a fusion-junction search would need?",
+   "absent_control_records": 0,
+   "compilation_used": "srav3h",
+   "compilations_that_answered": [
+    "srav3h",
+    "gtexv2",
+    "tcgav2"
+   ],
+   "controls_pass": true,
+   "per_gene": {
+    "EWSR1": {
+     "chromosomes": {
+      "chr22": 25781
+     },
+     "http": 200,
+     "n_records": 25781,
+     "readable": true
+    },
+    "NR4A3": {
+     "chromosomes": {
+      "chr9": 5011
+     },
+     "http": 200,
+     "n_records": 5011,
+     "readable": true
+    },
+    "TAF15": {
+     "chromosomes": {
+      "chr17": 24012
+     },
+     "http": 200,
+     "n_records": 24012,
+     "readable": true
+    },
+    "TCF12": {
+     "chromosomes": {
+      "chr15": 37521
+     },
+     "http": 200,
+     "n_records": 37521,
+     "readable": true
+    }
+   },
+   "served_columns": [
+    "DataSource:Type",
+    "snaptron_id",
+    "chromosome",
+    "start",
+    "end",
+    "length",
+    "strand",
+    "annotated",
+    "left_motif",
+    "right_motif",
+    "left_annotated",
+    "right_annotated",
+    "samples",
+    "samples_count",
+    "coverage_sum",
+    "coverage_avg",
+    "coverage_median",
+    "source_dataset_id"
+   ],
+   "state": "FETCHED",
+   "transport_control_records": 35234,
+   "verdict": "PROBED_NOT_SEARCHED",
+   "what_this_does_not_settle": "whether any EMC sample is in there. No fusion search has been run and none is claimed.",
+   "what_this_settles": "that the index answers, which compilation answers, and which columns it serves \u2014 the inputs a fusion-junction search has to be designed against."
+  }
+ },
+ "headline": "junction index answers (srav3h); no fusion search run yet; GSE140686: NO_SAMPLE_NAMES_EMC"
+}
