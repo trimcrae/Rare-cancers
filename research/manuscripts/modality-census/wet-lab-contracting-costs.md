@@ -62,7 +62,7 @@ statement *quantitative* instead of merely asserted.
 | # | finding | why it matters |
 |---|---|---|
 | **1** | **F1 is evaluable after all — through a channel the memo did not check.** Academic cores publish rate cards; CROs do not. The unpriceability was a property of **who was asked**, not of the work | An unbounded spend became a bounded one. §1 |
-| **2** | **Instrument time is nearly free; LABOUR is the whole cost.** Biacore 8000 SPR runs **$20.55/hour at an external *commercial* tier**; a technician runs **$120/hour**. Every total below is dominated by hands | It re-points the cost question. Cheaper instruments save nothing; the ask is measured in technician-weeks. §2, §3 |
+| **2** | **Instrument time is nearly free; LABOUR is most of the cost — but it splits in two.** Biacore 8000 SPR runs **$20.55/hour at an external *commercial* tier**; a technician runs **$120/hour**. Hourly hands are **60.9%** of the total and **82–85%** of the plate experiments; a further **24.1%** is bundled cell-engineering service fees that no hourly discount touches | It re-points the cost question, and it is what any "automation makes this cheap" argument turns on. §2, §3.2 |
 | **3** | **The external-commercial markup is small and MEASURABLE, not a guess** — 1.644× internal at the one facility publishing both tiers | "They'd charge an outsider a fortune" is refuted for at least one real rate card. §2.1 |
 
 ⚠ **One correction this memo owes to its parent.** [`what-a-civilian-can-buy.md` §1.2](./what-a-civilian-can-buy.md)
@@ -190,6 +190,101 @@ total by nearly 2×.*
    a published five-figure price. **The ASO paper's red team required the isogenic pair to make the
    wild-type-sparing claim provable at all** — so the honest cost of the decisive ASO experiment is
    **E2 + E2b ≈ $47k**, not E2 alone.
+
+---
+
+## 3.2 · ⭑ Is it labour? Mostly — but "mostly" hides the part that decides the answer
+
+**Measured against the model rather than eyeballed** (`wetlab-contracting-costs.json` → `cost_structure`).
+
+| what you are buying | share of all five | what it is |
+|---|---|---|
+| **`hands` — hourly technician time** | **60.9%** | billed by the hour on a published rate card |
+| **`cell_engineering_service`** | **24.1%** | a bundled CRISPR project price, sold as an outcome |
+| consumables | 8.5% | plasticware, media, antibodies |
+| instrument time | 3.4% | SPR, imagers, plate readers, qPCR |
+| materials (compounds + oligos) | 1.8% | the catalogue chemistry |
+| bundled screening | 1.3% | a core's hands-plus-robot package |
+
+⛔ **The aggregate is the misleading number. The split by experiment is the real finding:**
+
+| experiment | hourly hands | bundled service |
+|---|---|---|
+| E1 · ATRi dose–response | **81.9%** | — |
+| E2 · ASO knockdown | **82.7%** | — |
+| E5 · trabectedin × PPARγ | **84.7%** | — |
+| E4 · dTAG degron knock-in | 38.0% | **53.1%** |
+| E2b · isogenic control line | **0%** | **100%** |
+| E3 · `R4` binding half | **0%** | — (40.5% instrument, 59.5% bundled screen) |
+
+⭑ **Two populations, not one.** The **plate experiments** are 82–85% hourly hands. The **cell-engineering**
+experiments contain no hourly hands at all — they are a fixed project price whose cost driver is **clonal
+selection and validation**, i.e. iterative biology on a timeline set by how fast cells divide. Labour is
+inside that price, but it is not sold by the hour and **a faster pipettor does not make cells divide
+faster.** And `R4`'s binding half — already the cheapest thing here — has **no labour line at all.**
+
+### 3.2.1 · What happens if hourly labour gets cheap
+
+*Derived, `wetlab-contracting-costs.json` → `labour_sensitivity`. It scales **`hands` only**, because
+assuming a robot discounts a fixed project fee would be assuming the answer.*
+
+| experiment | today | ×0.5 | ×0.1 | **hands free** |
+|---|---|---|---|---|
+| E1 · ATRi dose–response | $17,580 | $10,380 | $4,620 | **$3,180** |
+| E2 · ASO knockdown | $34,840 | $20,440 | $8,920 | **$6,040** |
+| E5 · trabectedin × PPARγ | $14,160 | $8,160 | $3,360 | **$2,160** |
+| E4 · dTAG degron | $25,257 | $20,457 | $16,617 | **$15,657** |
+| E2b · isogenic line | $12,257 | $12,257 | $12,257 | **$12,257** |
+| E3 · `R4` binding half | $2,277 | $2,277 | $2,277 | **$2,277** |
+
+⇒ **The plate experiments get 5–6× cheaper. The cell-engineering ones barely move, and two do not move
+at all.** ⚠ **This is an arithmetic bound, not a forecast**, and no date is claimed for any column.
+
+### 3.2.2 · What the automation evidence actually says — including the half that cuts against it
+
+**Recorded as a vendor's claim, because that is what it is.** Emerald Cloud Lab's own startup
+comparison (`literature/wetlab-automation/ecl_efficiency_startup.txt`) sets a traditional lab's team at
+**2 co-founders, 2 scientists and 4 technicians — $802K/year** against a cloud lab's **2 co-founders and
+2 scientists — $480K/year**, with throughput of **8,880 → 46,620** samples a year.
+
+⭑ **The layer it removes is exactly the four TECHNICIANS. The scientists stay.** That maps precisely onto
+the `hands` category above and not onto design or interpretation, which is why the sensitivity's
+`hands → 0` limb is the right shape. Derived from those figures: a **40.2%** headcount cut, **5.25×**
+throughput, and **8.77×** better headcount-cost per sample.
+
+⛔ **And two things from the same vendor cut hard the other way, which is why this is not a green light.**
+
+1. **A robotic lab still bills a human.** ECL's own pricing function composes a protocol's cost from
+   `PriceInstrumentTime`, **`PriceOperatorTime`**, `PriceCleaning`, `PriceStocking`, `PriceWaste` and
+   `PriceMaterials` (`.../ecl_price_experiment.txt`). **Operator time is a line item on the invoice.**
+   Automation did not delete the human from the cost model; it moved them off the client's payroll and
+   onto the bill.
+2. **The tier is still quote-only.** That same documentation says its displayed figures *"are only for
+   the sake of example and do not represent actual prices."* [`what-a-civilian-can-buy.md` §4.7](./what-a-civilian-can-buy.md)
+   flagged the cloud lab as *"the one item worth re-checking if the model ever becomes self-serve."*
+   **Re-checked 2026-08-23: it has not.** The vocabulary is still `team`, `notebook` and *financing
+   team* — an organisation's shape, not an individual's.
+
+### 3.2.3 · So the honest answer to "does automation make this reachable?"
+
+⭑ **It makes it cheaper. It does not make it reachable, and the two are different claims.**
+
+- ✅ **Cheaper, genuinely, and by the most-of-it margin** — 61% of the aggregate and 82–85% of the plate
+  experiments is the exact layer automation is claimed to remove.
+- ⛔ **But the floor is not near the filter.** With hands entirely free, **no experiment here falls below
+  $2,000**, and the five together still total tens of thousands. The $1,000 filter is not reached by any
+  labour assumption, including a free one.
+- ⛔ **And the binding gate is untouched.** Every experiment except `R4`'s binding half needs the EMC
+  cell lines, which are **institution-gated by policy** and held under MTA by three academic groups.
+  **A robot does not get you an MTA, and no throughput multiple creates a patient-derived line that
+  three labs in the world hold.** [`method-watch.md`](../../method-watch.md)'s remote-robotic-wet-lab row
+  reached this conclusion before this memo existed and states it exactly: a cloud lab *"flips the
+  execution gate, not automatically the material gate."* **This memo supplies the number that row
+  lacked, and does not change its verdict.**
+
+⚠ **Where automation WOULD change something real, and it is not the one people reach for.** It makes the
+ask cheaper **for the collaborator who already holds the cells** — which is a *persuasion* argument, not
+an access one, and persuasion is the lever this programme actually pulls.
 
 ---
 

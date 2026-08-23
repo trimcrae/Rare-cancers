@@ -300,6 +300,94 @@ EXPERIMENTS = [
 ]
 
 
+# ─────────────────────────────────────────────────────────────────────────────────────────────
+# WHAT YOU ARE ACTUALLY BUYING, per rate. Added 2026-08-23 to answer a question the artifact could
+# not answer about itself: how much of each total is LABOUR?
+#
+# ⛔ THE ANSWER IS NOT ONE NUMBER, AND COLLAPSING IT TO ONE IS THE TRAP. "Labour" splits into two
+# things that behave completely differently under automation, and a single "labour share" hides it:
+#   * `hands`   — hourly technician time, billed by the hour on a published rate card. This is the
+#                 part a liquid handler or an automated imager actually displaces.
+#   * `service` — a bundled cell-engineering project price (a CRISPR knock-in line). Labour is
+#                 inside it, but it is sold as an outcome, not as hours, and the price reflects
+#                 CLONAL SELECTION AND VALIDATION — iterative, failure-prone biology on a timeline
+#                 set by how fast cells grow. Automating the pipetting inside it does not make cells
+#                 divide faster, and the vendor is not obliged to pass a saving through a fixed
+#                 project price at all.
+# Keeping them apart is the whole point of this classification; a reader who wants the aggregate can
+# add them, and the emitted record says plainly that adding them answers a different question.
+BUYING = {
+    "hands": {
+        "tech_hour_external_academic", "tech_hour_internal",
+    },
+    "instrument": {
+        "high_content_imager_hour_external_academic", "hcs_image_analysis_hour_external_academic",
+        "plate_reader_hour_external_academic", "qpcr_hour_external_academic",
+        "spr_biacore8000_hour_external_commercial", "spr_biacore8000_hour_internal",
+        "itc_peaq_hour_academic_selfuse", "cd_hour_academic_selfuse",
+    },
+    "bundled_screen": {
+        "hts_personnel_instrument_day", "hts_pilot_screen_1000_compounds",
+        "hts_full_screen_14400_compounds", "hts_cost_per_well_low", "hts_cost_per_well_high",
+    },
+    "cell_engineering_service": {
+        "crispr_hdr_gene_tagging", "crispr_single_aa_knockin", "crispr_simple_ko_line",
+        "crispr_hdr_donor_vector", "crispr_grna_design_and_validation",
+        "crispr_commercial_custom_ko_from",
+    },
+    "materials": {
+        "tool_compound_1_5mg_low", "tool_compound_1_5mg_high", "moe_base_modification_200nmol",
+    },
+}
+
+
+def what_you_are_buying(rate_key: str) -> str:
+    for category, keys in BUYING.items():
+        if rate_key in keys:
+            return category
+    raise KeyError(f"rate {rate_key!r} is not classified in BUYING — classify it or the "
+                   f"cost-structure breakdown silently undercounts")
+
+
+def cost_structure(costed: list[dict]) -> dict:
+    """How each total decomposes — the input to any 'what if labour got cheaper' question."""
+    per_experiment, totals = {}, {}
+    for exp in costed:
+        agg = {}
+        for line in exp["lines"]:
+            cat = what_you_are_buying(line["rate_key"])
+            agg[cat] = round(agg.get(cat, 0.0) + line["amount_usd"], 2)
+        if exp["consumables_estimate_usd"]:
+            agg["consumables"] = exp["consumables_estimate_usd"]
+        for k, v in agg.items():
+            totals[k] = round(totals.get(k, 0.0) + v, 2)
+        t = exp["total_usd"]
+        per_experiment[exp["id"]] = {
+            "total_usd": t,
+            "usd": agg,
+            "share": {k: round(v / t, 4) for k, v in agg.items()},
+            "hourly_hands_share": round(agg.get("hands", 0.0) / t, 4),
+        }
+    grand = sum(totals.values())
+    return {
+        "_what": "Each experiment's total split by WHAT IS BEING BOUGHT, so an automation or "
+                 "labour-cost question can be answered against the model instead of by eye.",
+        "_the_distinction_that_matters": (
+            "`hands` is hourly technician time and is what lab automation displaces. "
+            "`cell_engineering_service` is a bundled project price whose cost is clonal selection "
+            "and validation — biology on a cell-division timeline, sold as an outcome rather than "
+            "as hours. Both are labour in some sense; only the first is labour you can buy less of "
+            "by adding a robot. Summing them answers a different question than the one automation asks."
+        ),
+        "_caution": "These shares inherit the module's ESTIMATED quantities. The SHAPE is robust — "
+                    "hands dominate the plate experiments and service fees dominate the engineered "
+                    "lines — but the exact percentages are only as good as the hour counts.",
+        "per_experiment": per_experiment,
+        "across_all_costed_usd": totals,
+        "across_all_costed_share": {k: round(v / grand, 4) for k, v in totals.items()},
+    }
+
+
 def _rate(key: str) -> dict:
     if key not in RATES:
         raise KeyError(f"unknown rate {key!r} — every line item must cite a published rate")
@@ -358,6 +446,115 @@ def external_commercial_multiple() -> dict:
     }
 
 
+def labour_sensitivity(costed: list[dict], factors=(1.0, 0.5, 0.1, 0.0)) -> dict:
+    """What each experiment costs if HOURLY HANDS get cheaper — the automation question, bounded.
+
+    ⛔ WHAT THIS DELIBERATELY DOES NOT DO. It scales `hands` ONLY. It does not scale the bundled
+    cell-engineering service price, because that price is not sold by the hour and its cost driver
+    is clonal selection on a cell-division timeline; assuming a robot discounts it would be assuming
+    the answer. A reader who believes those fees fall too can read `cost_structure` and say so
+    explicitly — which is the point of keeping the categories apart.
+
+    ⚠ AND IT IS AN ARITHMETIC BOUND, NOT A FORECAST. `factor = 0` is the physical floor of this
+    model — what remains when hands are free — and it exists to show that the floor is NOT zero and
+    NOT below the cost filter. It is not a prediction that hands will be free, and nothing here
+    claims a date.
+    """
+    rows = {}
+    for exp in costed:
+        hands = sum(l["amount_usd"] for l in exp["lines"]
+                    if what_you_are_buying(l["rate_key"]) == "hands")
+        rest = exp["total_usd"] - hands
+        rows[exp["id"]] = {
+            "total_usd": exp["total_usd"],
+            "hourly_hands_usd": round(hands, 2),
+            "everything_else_usd": round(rest, 2),
+            "at_factor": {str(f): round(rest + hands * f, 2) for f in factors},
+        }
+    floor = sum(r["at_factor"]["0.0"] for r in rows.values())
+    return {
+        "_what": "Each total recomputed with hourly technician time scaled by a factor. "
+                 "factor 1.0 is today; factor 0.0 is the floor with hands free.",
+        "_scales_only": "hands (hourly technician time)",
+        "_does_not_scale": ["cell_engineering_service", "instrument", "bundled_screen",
+                            "materials", "consumables"],
+        "per_experiment": rows,
+        "portfolio_floor_with_free_hands_usd": round(floor, 2),
+        "_the_finding": (
+            "Even with hands FREE the five alternatives still total in the tens of thousands, and "
+            "no single experiment falls anywhere near the $1,000 filter that "
+            "what-a-civilian-can-buy.md applies. Cheaper labour moves this from 'expensive' to "
+            "'less expensive'. It does not move it into the buyable tier, and it does not touch the "
+            "gate that actually closes these routes, which is that the EMC cell lines are "
+            "institution-gated by policy."
+        ),
+    }
+
+
+# ─────────────────────────────────────────────────────────────────────────────────────────────
+# THE AUTOMATION EVIDENCE — a VENDOR'S OWN CLAIM, recorded as advocacy rather than as measurement.
+# ─────────────────────────────────────────────────────────────────────────────────────────────
+AUTOMATION_EVIDENCE = {
+    "_why_this_is_here": (
+        "The labour_sensitivity factors above are arithmetic, not a forecast. This block records what "
+        "the largest commercial cloud laboratory CLAIMS about the labour layer, so the sensitivity can "
+        "be read against a real number instead of an invented one."
+    ),
+    "_provenance": "MARKETING — Emerald Cloud Lab's own startup-efficiency comparison. It is a vendor "
+                   "selling a service, so it is evidence of what is CLAIMED, not of what is delivered. "
+                   "Its own page says the industry study behind it is 'available upon request'.",
+    "cache": "literature/wetlab-automation/ecl_efficiency_startup.txt",
+    "traditional_lab": {
+        "team": "2 co-founders, 2 scientists, 4 technicians",
+        "headcount_usd_per_year": 802_000,
+        "samples_per_year": 8_880,
+        "initial_instrumentation_usd": 800_000,
+    },
+    "cloud_lab": {
+        "team": "2 co-founders, 2 scientists",
+        "headcount_usd_per_year": 480_000,
+        "samples_per_year": 46_620,
+        "initial_instrumentation_usd": 0,
+    },
+    "_the_load_bearing_detail": (
+        "The layer the cloud lab removes is EXACTLY the four TECHNICIANS — the scientists stay. That "
+        "maps precisely onto this model's `hands` category, which is hourly technician time, and NOT "
+        "onto experimental design or interpretation. So the sensitivity's `hands -> 0` limb is the "
+        "right shape for what automation is claimed to do."
+    ),
+    "_the_counter_evidence_from_the_same_vendor": (
+        "ECL's own pricing function composes a protocol's cost from PriceInstrumentTime, "
+        "PriceOperatorTime, PriceCleaning, PriceStocking, PriceWaste and PriceMaterials "
+        "(literature/wetlab-automation/ecl_price_experiment.txt). OPERATOR TIME IS STILL A BILLED "
+        "LINE ITEM ON A ROBOTIC LAB. The robot did not take the human out of the cost model; it "
+        "moved them off the client's payroll and onto the invoice."
+    ),
+    "_and_the_price_is_still_not_published": (
+        "The same documentation states the figures it displays 'are only for the sake of example and "
+        "do not represent actual prices'. So the cloud-lab tier remains QUOTE-ONLY, which is the "
+        "condition what-a-civilian-can-buy.md section 4.7 flagged as the thing to re-check. "
+        "Re-checked 2026-08-23: still unresolved."
+    ),
+}
+
+
+def automation_derived() -> dict:
+    """What ECL's own figures imply, computed rather than quoted."""
+    trad, cloud = AUTOMATION_EVIDENCE["traditional_lab"], AUTOMATION_EVIDENCE["cloud_lab"]
+    t_per = trad["headcount_usd_per_year"] / trad["samples_per_year"]
+    c_per = cloud["headcount_usd_per_year"] / cloud["samples_per_year"]
+    return {
+        "headcount_usd_per_sample_traditional": round(t_per, 2),
+        "headcount_usd_per_sample_cloud": round(c_per, 2),
+        "improvement_multiple": round(t_per / c_per, 2),
+        "headcount_reduction_share": round(
+            1 - cloud["headcount_usd_per_year"] / trad["headcount_usd_per_year"], 4),
+        "throughput_multiple": round(cloud["samples_per_year"] / trad["samples_per_year"], 2),
+        "_read_it_as": "A vendor's claimed order of magnitude for how far the technician layer can "
+                       "fall, not a rate this repository can buy at.",
+    }
+
+
 def build() -> dict:
     costed = [cost_experiment(e) for e in EXPERIMENTS]
     return {
@@ -376,6 +573,9 @@ def build() -> dict:
                                  "by 2x moves every total by nearly 2x, because labour dominates each "
                                  "experiment costed here.",
         "external_commercial_markup": external_commercial_multiple(),
+        "cost_structure": cost_structure(costed),
+        "labour_sensitivity": labour_sensitivity(costed),
+        "automation_evidence": {**AUTOMATION_EVIDENCE, "derived": automation_derived()},
         "experiments": costed,
         "portfolio_total_usd": round(sum(c["total_usd"] for c in costed), 2),
         "portfolio_total_note": "The sum of the five costed experiments. It is NOT a programme budget: "
@@ -391,6 +591,19 @@ def main() -> int:
     for e in doc["experiments"]:
         print(f"  {e['id']:32s} ${e['total_usd']:>10,.2f}")
     print(f"  {'PORTFOLIO (five alternatives)':32s} ${doc['portfolio_total_usd']:>10,.2f}")
+    cs = doc["cost_structure"]["across_all_costed_share"]
+    print("  cost structure across all five:")
+    for k, v in sorted(cs.items(), key=lambda kv: -kv[1]):
+        print(f"    {k:28s} {v*100:5.1f}%")
+    ls = doc["labour_sensitivity"]
+    print("  if hourly hands get cheaper (scales `hands` only):")
+    print(f"    {'experiment':32s} {'today':>10s} {'x0.5':>10s} {'x0.1':>10s} {'free':>10s}")
+    for k, r in ls["per_experiment"].items():
+        a = r["at_factor"]
+        print(f"    {k:32s} {a['1.0']:>10,.0f} {a['0.5']:>10,.0f} "
+              f"{a['0.1']:>10,.0f} {a['0.0']:>10,.0f}")
+    print(f"    {'FLOOR, five alternatives':32s} {'':>10s} {'':>10s} {'':>10s} "
+          f"{ls['portfolio_floor_with_free_hands_usd']:>10,.0f}")
     m = doc["external_commercial_markup"]
     print(f"  external-commercial markup: {m['multiple']}x internal "
           f"(${m['internal_usd_per_hour']} -> ${m['external_commercial_usd_per_hour']}/hr)")

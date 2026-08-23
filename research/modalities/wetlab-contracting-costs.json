@@ -16,6 +16,224 @@
     "what_it_means": "A facility that publishes both tiers charges an outside commercial user this multiple of its internal rate. It is ONE facility and ONE instrument; it is cited to show the markup is bounded and small, not to be applied elsewhere.",
     "cache": "literature/wetlab-pricing/core_uchicago_biophysics_fees.txt"
   },
+  "cost_structure": {
+    "_what": "Each experiment's total split by WHAT IS BEING BOUGHT, so an automation or labour-cost question can be answered against the model instead of by eye.",
+    "_the_distinction_that_matters": "`hands` is hourly technician time and is what lab automation displaces. `cell_engineering_service` is a bundled project price whose cost is clonal selection and validation \u2014 biology on a cell-division timeline, sold as an outcome rather than as hours. Both are labour in some sense; only the first is labour you can buy less of by adding a robot. Summing them answers a different question than the one automation asks.",
+    "_caution": "These shares inherit the module's ESTIMATED quantities. The SHAPE is robust \u2014 hands dominate the plate experiments and service fees dominate the engineered lines \u2014 but the exact percentages are only as good as the hour counts.",
+    "per_experiment": {
+      "E1-ATRI-DOSE-RESPONSE": {
+        "total_usd": 17580.0,
+        "usd": {
+          "materials": 400.0,
+          "hands": 14400.0,
+          "instrument": 1280.0,
+          "consumables": 1500.0
+        },
+        "share": {
+          "materials": 0.0228,
+          "hands": 0.8191,
+          "instrument": 0.0728,
+          "consumables": 0.0853
+        },
+        "hourly_hands_share": 0.8191
+      },
+      "E2-ASO-JUNCTION-KNOCKDOWN": {
+        "total_usd": 34840.0,
+        "usd": {
+          "materials": 1200.0,
+          "hands": 28800.0,
+          "instrument": 840.0,
+          "consumables": 4000.0
+        },
+        "share": {
+          "materials": 0.0344,
+          "hands": 0.8266,
+          "instrument": 0.0241,
+          "consumables": 0.1148
+        },
+        "hourly_hands_share": 0.8266
+      },
+      "E2b-ASO-ISOGENIC-CONTROL-LINE": {
+        "total_usd": 12257.0,
+        "usd": {
+          "cell_engineering_service": 12257.0
+        },
+        "share": {
+          "cell_engineering_service": 1.0
+        },
+        "hourly_hands_share": 0.0
+      },
+      "E3-R4-BINDING-HALF": {
+        "total_usd": 2276.66,
+        "usd": {
+          "bundled_screen": 1354.66,
+          "instrument": 922.0
+        },
+        "share": {
+          "bundled_screen": 0.595,
+          "instrument": 0.405
+        },
+        "hourly_hands_share": 0.0
+      },
+      "E4-R16-DTAG-DEGRON": {
+        "total_usd": 25257.0,
+        "usd": {
+          "cell_engineering_service": 13417.0,
+          "hands": 9600.0,
+          "instrument": 240.0,
+          "consumables": 2000.0
+        },
+        "share": {
+          "cell_engineering_service": 0.5312,
+          "hands": 0.3801,
+          "instrument": 0.0095,
+          "consumables": 0.0792
+        },
+        "hourly_hands_share": 0.3801
+      },
+      "E5-TRABECTEDIN-PPARG-MATRIX": {
+        "total_usd": 14160.0,
+        "usd": {
+          "materials": 300.0,
+          "hands": 12000.0,
+          "instrument": 360.0,
+          "consumables": 1500.0
+        },
+        "share": {
+          "materials": 0.0212,
+          "hands": 0.8475,
+          "instrument": 0.0254,
+          "consumables": 0.1059
+        },
+        "hourly_hands_share": 0.8475
+      }
+    },
+    "across_all_costed_usd": {
+      "materials": 1900.0,
+      "hands": 64800.0,
+      "instrument": 3642.0,
+      "consumables": 9000.0,
+      "cell_engineering_service": 25674.0,
+      "bundled_screen": 1354.66
+    },
+    "across_all_costed_share": {
+      "materials": 0.0179,
+      "hands": 0.6092,
+      "instrument": 0.0342,
+      "consumables": 0.0846,
+      "cell_engineering_service": 0.2414,
+      "bundled_screen": 0.0127
+    }
+  },
+  "labour_sensitivity": {
+    "_what": "Each total recomputed with hourly technician time scaled by a factor. factor 1.0 is today; factor 0.0 is the floor with hands free.",
+    "_scales_only": "hands (hourly technician time)",
+    "_does_not_scale": [
+      "cell_engineering_service",
+      "instrument",
+      "bundled_screen",
+      "materials",
+      "consumables"
+    ],
+    "per_experiment": {
+      "E1-ATRI-DOSE-RESPONSE": {
+        "total_usd": 17580.0,
+        "hourly_hands_usd": 14400.0,
+        "everything_else_usd": 3180.0,
+        "at_factor": {
+          "1.0": 17580.0,
+          "0.5": 10380.0,
+          "0.1": 4620.0,
+          "0.0": 3180.0
+        }
+      },
+      "E2-ASO-JUNCTION-KNOCKDOWN": {
+        "total_usd": 34840.0,
+        "hourly_hands_usd": 28800.0,
+        "everything_else_usd": 6040.0,
+        "at_factor": {
+          "1.0": 34840.0,
+          "0.5": 20440.0,
+          "0.1": 8920.0,
+          "0.0": 6040.0
+        }
+      },
+      "E2b-ASO-ISOGENIC-CONTROL-LINE": {
+        "total_usd": 12257.0,
+        "hourly_hands_usd": 0,
+        "everything_else_usd": 12257.0,
+        "at_factor": {
+          "1.0": 12257.0,
+          "0.5": 12257.0,
+          "0.1": 12257.0,
+          "0.0": 12257.0
+        }
+      },
+      "E3-R4-BINDING-HALF": {
+        "total_usd": 2276.66,
+        "hourly_hands_usd": 0,
+        "everything_else_usd": 2276.66,
+        "at_factor": {
+          "1.0": 2276.66,
+          "0.5": 2276.66,
+          "0.1": 2276.66,
+          "0.0": 2276.66
+        }
+      },
+      "E4-R16-DTAG-DEGRON": {
+        "total_usd": 25257.0,
+        "hourly_hands_usd": 9600.0,
+        "everything_else_usd": 15657.0,
+        "at_factor": {
+          "1.0": 25257.0,
+          "0.5": 20457.0,
+          "0.1": 16617.0,
+          "0.0": 15657.0
+        }
+      },
+      "E5-TRABECTEDIN-PPARG-MATRIX": {
+        "total_usd": 14160.0,
+        "hourly_hands_usd": 12000.0,
+        "everything_else_usd": 2160.0,
+        "at_factor": {
+          "1.0": 14160.0,
+          "0.5": 8160.0,
+          "0.1": 3360.0,
+          "0.0": 2160.0
+        }
+      }
+    },
+    "portfolio_floor_with_free_hands_usd": 41570.66,
+    "_the_finding": "Even with hands FREE the five alternatives still total in the tens of thousands, and no single experiment falls anywhere near the $1,000 filter that what-a-civilian-can-buy.md applies. Cheaper labour moves this from 'expensive' to 'less expensive'. It does not move it into the buyable tier, and it does not touch the gate that actually closes these routes, which is that the EMC cell lines are institution-gated by policy."
+  },
+  "automation_evidence": {
+    "_why_this_is_here": "The labour_sensitivity factors above are arithmetic, not a forecast. This block records what the largest commercial cloud laboratory CLAIMS about the labour layer, so the sensitivity can be read against a real number instead of an invented one.",
+    "_provenance": "MARKETING \u2014 Emerald Cloud Lab's own startup-efficiency comparison. It is a vendor selling a service, so it is evidence of what is CLAIMED, not of what is delivered. Its own page says the industry study behind it is 'available upon request'.",
+    "cache": "literature/wetlab-automation/ecl_efficiency_startup.txt",
+    "traditional_lab": {
+      "team": "2 co-founders, 2 scientists, 4 technicians",
+      "headcount_usd_per_year": 802000,
+      "samples_per_year": 8880,
+      "initial_instrumentation_usd": 800000
+    },
+    "cloud_lab": {
+      "team": "2 co-founders, 2 scientists",
+      "headcount_usd_per_year": 480000,
+      "samples_per_year": 46620,
+      "initial_instrumentation_usd": 0
+    },
+    "_the_load_bearing_detail": "The layer the cloud lab removes is EXACTLY the four TECHNICIANS \u2014 the scientists stay. That maps precisely onto this model's `hands` category, which is hourly technician time, and NOT onto experimental design or interpretation. So the sensitivity's `hands -> 0` limb is the right shape for what automation is claimed to do.",
+    "_the_counter_evidence_from_the_same_vendor": "ECL's own pricing function composes a protocol's cost from PriceInstrumentTime, PriceOperatorTime, PriceCleaning, PriceStocking, PriceWaste and PriceMaterials (literature/wetlab-automation/ecl_price_experiment.txt). OPERATOR TIME IS STILL A BILLED LINE ITEM ON A ROBOTIC LAB. The robot did not take the human out of the cost model; it moved them off the client's payroll and onto the invoice.",
+    "_and_the_price_is_still_not_published": "The same documentation states the figures it displays 'are only for the sake of example and do not represent actual prices'. So the cloud-lab tier remains QUOTE-ONLY, which is the condition what-a-civilian-can-buy.md section 4.7 flagged as the thing to re-check. Re-checked 2026-08-23: still unresolved.",
+    "derived": {
+      "headcount_usd_per_sample_traditional": 90.32,
+      "headcount_usd_per_sample_cloud": 10.3,
+      "improvement_multiple": 8.77,
+      "headcount_reduction_share": 0.4015,
+      "throughput_multiple": 5.25,
+      "_read_it_as": "A vendor's claimed order of magnitude for how far the technician layer can fall, not a rate this repository can buy at."
+    }
+  },
   "experiments": [
     {
       "id": "E1-ATRI-DOSE-RESPONSE",
