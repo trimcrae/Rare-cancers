@@ -70,9 +70,17 @@ Extracted from CLAUDE.md §7 (plus §5's deliverable map) on 2026-08-15, **verba
       four examples and named nothing on the other side, so the gap got filled with the expensive
       guess. ⚠ **And do not reach for visibility as the test either — this repository is PUBLIC**, so
       a stranger can read `main` the moment you push, and "outward-facing" read literally would sweep
-      in every commit. **The test is how a mistake gets UNDONE:** a bad commit on `main` is undone by
-      another commit and nobody outside had to care; a bad DOI is undone only by a public correction
+      in every commit. ★★ **THE TEST IS WHETHER ANYONE ACTUALLY READS IT** (trimcrae, 2026-08-23:
+      *"Nobody is reading this repo. The only time anyone reads anything is when we submit a paper."*).
+      Public is a permission, not a reader. **This repository has exactly one reader — the project
+      itself**, so every mistake in it is caught and fixed by us with another commit; a submission is
+      the only moment anything reaches an outside reader, and is undone only by a public correction
       against an identifier someone may already have cited.
+    - ⛔ **THAT IS NOT A LICENCE TO BE SLOPPY IN THE REPO. Two things get conflated and must not be.**
+      *Rigour of CONTENT* — one fact one place, derived totals, honest UNKNOWNs, negatives at their
+      true weight — **never relaxes**, because the reader relying on it is the NEXT SESSION, which
+      inherits every wrong number as a fact. *Ceremony of GATING* — minutes of checking bought per act
+      — **scales with who reads the result**, and that is nobody until we submit.
     - ⭐ **THE 25 MINUTES IS NOT THE COST — THE CASCADE IS.** An unneeded FULL run surfaces
       pre-existing failures unrelated to your change, and chasing them becomes the task. On
       2026-08-23 it surfaced 84 modality failures that were **all** a missing-dependency gap present

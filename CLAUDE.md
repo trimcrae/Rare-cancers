@@ -227,13 +227,24 @@ act you'd commit *before* thinking to consult anything:
     exact reasoning cost about two hours: `main` is the trunk every workflow runs from, which feels like
     it should raise the bar, and the rule as written never said otherwise — it defined FULL by four
     examples and named nothing on the other side, so the gap got filled with the expensive guess.*
-    **The test is NOT how important the ref is, and it is NOT visibility either — this repo is PUBLIC,
-    so a stranger can read `main` the moment you push.** The test is **how a mistake gets UNDONE.** A bad
-    commit on `main` is undone by another commit, silently, and nobody outside had to care. A bad
-    preprint, submission, release or DOI is undone only by a PUBLIC CORRECTION against an identifier
-    somebody may already have cited — **that** asymmetry is what buys the 25 minutes. So also just
+    **The test is NOT how important the ref is, and it is NOT visibility — the repo is PUBLIC and a
+    stranger CAN read `main`, but that is a permission, not a reader.** ★★ **THE TEST IS WHETHER
+    ANYONE ACTUALLY READS IT, AND THE ANSWER FOR THIS REPOSITORY IS NO** (trimcrae, 2026-08-23:
+    *"Nobody is reading this repo. The only time anyone reads anything is when we submit a paper."*).
+    **This repository has exactly one reader — the project itself: trimcrae and the agent sessions.**
+    Every mistake in it is found by us and fixed by us with another commit, and nobody outside ever
+    had to care. **A submission is the ONLY moment anything here reaches an outside reader**, and it
+    is undone only by a public correction against an identifier somebody may already have cited.
+    **That is what the 25 minutes is for, and it is the only thing it is for.** So also just
     `preflight.sh`: a commit, a merge or push to any branch including `main`, a PR, a regenerated
     artifact, a CI dispatch.
+  - ⛔ **AND THIS IS NOT A LICENCE TO BE SLOPPY IN THE REPO — IT SEPARATES TWO THINGS THAT KEEP GETTING
+    CONFLATED.** *Rigour of CONTENT* — one fact one place, a derived total never typed, an honest
+    UNKNOWN over a remembered number, a negative reported at its true weight — **does not scale with
+    audience and never relaxes**, because the thing relying on it is the NEXT SESSION, which inherits
+    every wrong number as a fact. *Ceremony of GATING* — how many minutes of checking an act buys —
+    **scales with who reads the result**, which is nobody until we submit. **Get the content right
+    every time; spend the 25 minutes only at the one door that opens outward.**
   - ⭐ **AND THE CASCADE IS THE REAL COST, NOT THE 25 MINUTES.** An unnecessary FULL run surfaces
     pre-existing failures that have nothing to do with your change, and chasing them is now your
     afternoon. **If FULL goes red on something you did not touch, the FIRST move is `git stash` and
