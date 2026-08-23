@@ -244,6 +244,34 @@ repository has paid for most often.
 
 ## 8 · Convergence — when to stop
 
+### 8.0 · ⛔⛔ WHAT A BLOCKER IS, BECAUSE GETTING THIS WRONG MAKES CONVERGENCE UNMEASURABLE
+
+**trimcrae, 2026-08-23, on being handed nine of them: *"That is just so many blockers. Are you
+confirming that they actually are blockers and not nitpicks?"* They were not.** Audited on the spot:
+of round 16's nine BLOCKERs, **ZERO were a wrong statement in the shipped paper.** In every case the
+mutation was green BEFORE and red after — and "before" was the clean, correct text. The round changed
+**16 test files, 4 tools, and 2 manuscript files; the journal article itself was never edited at all.**
+
+| grade | the test |
+|---|---|
+| **BLOCKER** | the artifact **as it stands now** is wrong, misleading or unsafe. A reader acting on the committed text would be misled. Quote the wrong text and the record that contradicts it. |
+| **P1** | the artifact is **correct now**, but an ordinary future edit would silently make it wrong and nothing would catch that. **Every guard gap belongs here, however central the claim.** |
+
+**⛔ "COULD BE INVERTED" / "NO INSTRUMENT READS IT" IS A P1 BY CONSTRUCTION.** The severity of what
+*would* happen never promotes a hypothetical to a defect. ⛔ **And the converse, which is the half
+that gets forgotten: text that is actually wrong today is a BLOCKER even when it looks small.** Round
+16's one real defect was a caption reading *"two single-base slides"* where the canonical file records
+**one** — an order-safety margin understated 2× — and it was worth more than the other eight together.
+
+**★★ WHY THIS IS NOT PEDANTRY ABOUT LABELS.** Grading coverage gaps as blockers means the count can
+never reach zero, because there is always another unguarded sentence. So *"iterate until no blockers"*
+silently becomes *"iterate until every sentence has an instrument"*, which is unbounded — the blocker
+count starts tracking INSTRUMENT COVERAGE rather than PAPER DEFECTS. That is §8a's own diagnosis
+applied to the scoreboard instead of the paper, and it went unnoticed for a whole round **because the
+inflated grade made the work look more urgent than it was.** ⚠ Report the two counts separately and
+never merge them: **defects found in the artifact**, and **coverage gaps found**.
+
+
 **⛔ STOP WHEN A ROUND RETURNS NO BLOCKERS *AND* NO P1s.**
 
 ⚠ *Superseded, retained: "a round with no blockers is converged."* **Round 12 was the first round with
