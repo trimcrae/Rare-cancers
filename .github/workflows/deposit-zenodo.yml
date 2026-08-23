@@ -46,9 +46,9 @@ on:
         type: boolean
         default: false
       record:
-        description: "archive = the paper's code and artefacts (a dataset record). preprint = the condensed article itself, as its OWN record with its own DOI — never a version of the archive."
+        description: "archive = the paper's code and artefacts (a dataset record). preprint = the condensed article itself, as its OWN record with its own DOI — never a version of the archive. verify = touch nothing; READ the published record the papers cite and report what a reader gets."
         type: choice
-        options: [archive, preprint]
+        options: [archive, preprint, verify]
         default: archive
 
 permissions:
@@ -86,7 +86,17 @@ jobs:
         if: inputs.record == 'preprint'
         run: python3 scripts/zenodo_preprint.py --build-only
 
+      # ⛔ READ-ONLY, NO TOKEN, AND IT ANSWERS THE ONE QUESTION A CLICK CANNOT. "I published it" is
+      # a report about an outside system; "the DOI printed in the paper resolves to a published
+      # record holding N files" is a reading. This repository carried "⏳ Awaiting bioRxiv
+      # screening" for three days after bioRxiv had declined, which is what the difference costs.
+      - name: Read the published record the papers cite
+        if: inputs.record == 'verify'
+        shell: bash
+        run: python3 scripts/zenodo_verify.py | tee deposit.log
+
       - name: Create the draft deposition and reserve the DOI
+        if: inputs.record != 'verify'
         env:
           ZENODO_TOKEN: ${{ secrets.ZENODO_TOKEN }}
         # ⛔⛔ `shell: bash` IS LOAD-BEARING, AND ITS ABSENCE MADE THIS STEP REPORT SUCCESS ON A
