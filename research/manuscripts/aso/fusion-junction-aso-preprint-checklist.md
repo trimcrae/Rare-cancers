@@ -97,13 +97,64 @@ reports four false gaps); competing-interests, funding, ethics and AI-use statem
    after the files were frozen. `deposition_doi` in `aso_archive_manifest.py` is where it lives;
    [`test_aso_deposition_doi_is_one_fact.py`](../tests/test_aso_deposition_doi_is_one_fact.py) holds
    the article's two copies of it against that one.
-3. ~~**Post at `biorxiv.org/submit-a-manuscript`**~~ ✅ **submitted 2026-08-20.** Article type New
-   Results, subject area Cancer Biology, licence CC-BY, corresponding author ORCID-linked, the
-   Zenodo DOI given as External Data, and the survivorship non-financial interest entered verbatim
-   from Declarations. Manuscript and SI uploaded as the two files.
-   ⏳ **Awaiting bioRxiv screening.** It screens for scope and plausibility, not peer review, so
-   turnaround is usually a few days. The preprint DOI is minted by bioRxiv AT POSTING and cannot be
-   obtained before it — it is not a placeholder in the manuscript and blocks nothing.
+3. **Post at `biorxiv.org/submit-a-manuscript`** — ⛔ **REJECTED. bioRxiv declined the submission
+   because the author is unaffiliated** (trimcrae, 2026-08-23). Submitted 2026-08-20 as New Results,
+   Cancer Biology, CC-BY, ORCID-linked, with the Zenodo DOI as External Data and the survivorship
+   non-financial interest entered verbatim from Declarations; manuscript and SI uploaded as the two
+   files. None of that was the problem — the affiliation was.
+   ⚠ **THIS ENTRY READ "⏳ Awaiting bioRxiv screening" FOR THREE DAYS AFTER THE REJECTION**, which is
+   the stale-status defect this repository keeps paying for: a ⏳ is a claim with a date on it, and
+   nothing here re-reads an external queue. The lesson is not "check bioRxiv" — it is that any status
+   owned by a system outside this repository decays silently, so it carries the date it was taken and
+   the name of whoever can refresh it.
+   ⚠ Generic advice that bioRxiv "does not require an institutional ID" is contradicted by what
+   actually happened to this submission. The lived outcome is the reading; a web answer is not.
+   ★ WHAT THIS DOES NOT BLOCK: the extended report has since been submitted elsewhere. The open
+   preprint question is now the CONDENSED article, and it needs a server that accepts unaffiliated
+   authors — see the preprint-venue note below.
+
+## 2b · The preprint venue question, and why the ORDER matters more than the server
+
+**⛔ DO NOT POST THE CONDENSED ARTICLE AS A PREPRINT BEFORE SUBMITTING IT TO NAT — not until NAT's own
+policy has been read.** SAGE's author archiving page says this, verbatim, and both its UK and US
+copies agree word for word (fetched 2026-08-23, `literature-cache:literature/sage-preprint-policy-2026-08-23/`,
+HTTP 200, 7,222 bytes each):
+
+> You may share the Original Submission or Accepted Manuscript **at any time after your paper is
+> accepted** and in any format. … **Please note some journals will not consider papers that have been
+> posted as preprints prior to submission** and you may check a journal's policy regarding
+> considering previously-posted papers by referring to the journal's submission guidelines.
+
+That is the publisher warning that posting first can DISQUALIFY the submission, and pointing at the
+one page no automated route can reach (`journals.sagepub.com` is 403 to the egress proxy, to a plain
+CI fetch and to a real headless Chromium — see the submission packet's limits-provenance note). So
+the sequencing question outranks the server question: if NAT will not consider a previously-posted
+paper, which server would have taken it is irrelevant.
+
+**Two clean paths.**
+
+1. **Submit to NAT first, post after.** SAGE explicitly permits sharing the Original Submission after
+   acceptance, at no charge, under non-commercial no-derivative re-use. If NAT rejects, the preprint
+   can go up immediately and freely. This path cannot disqualify anything, and it costs only the
+   preprint's priority date.
+2. **Read NAT's submission guidelines first** (a human browser, two minutes) and post only if they
+   permit prior posting. Faster to a public record; requires the one reading nobody here can take.
+
+**The server shortlist, with what is and is not established.** bioRxiv is out: it declined this
+submission because the author is unaffiliated (2026-08-23). ⚠ For the rest, this repository has NO
+fetched evidence on affiliation policy, and a search answer is not evidence — the generic claim that
+bioRxiv "does not require an institutional ID" was contradicted by what actually happened here.
+Candidates, to be checked at the source before use:
+
+| server | established here | not established |
+|---|---|---|
+| **Zenodo** | accepts this author — a record is already published under `10.5281/zenodo.22028916`; supports a `preprint` resource type and mints a DOI | whether NAT would count a Zenodo preprint as a prior posting |
+| **Research Square** | screens for ethics and consent statements, competing-interest disclosure, patient identifiers and pseudoscientific claims; mints a DOI | affiliation policy |
+| **OSF Preprints** | persistent identifier and a Crossref DOI; moderation varies by branded community | affiliation policy |
+
+⚠ **THE EXTENDED REPORT IS NOT THIS QUESTION.** It has been submitted elsewhere (trimcrae,
+2026-08-23). What is open is the CONDENSED article — which is also the one going to NAT, so it is
+precisely the risky one to post early.
 
 ## 3 · Open, and blocking the journal submission
 
