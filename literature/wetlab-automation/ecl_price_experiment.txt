@@ -1,0 +1,116 @@
+SOURCE URL: https://www.emeraldcloudlab.com/helpfiles/priceexperiment
+FINAL URL: https://www.emeraldcloudlab.com/helpfiles/priceexperiment
+HTTP: 200
+CONTENT-TYPE: text/html; charset=UTF-8
+======================================================================
+PriceExperiment Documentation 
+
+ Documentation 
+
+ PriceExperiment
+
+ PriceExperiment [ protocol ] ⟹ table 
+
+ provides a table listing the pricing information for all of the charges associated to protocol .
+
+ PriceExperiment [ notebook , Span [ startDate , endDate ] ] ⟹ table 
+
+ provides a table listing the pricing information for all completed protocols in notebook between the 'startDate' and 'endDate'.
+
+ PriceExperiment [ notebook ] ⟹ table 
+
+ provides a table listing the pricing information for all completed protocols in notebook between Now and one month before Now.
+
+ PriceExperiment [ team , Span [ startDate , endDate ] ] ⟹ table 
+
+ provides a table listing the pricing information for all completed protocols in notebooks financed by team between the 'startDate' and 'endDate'.
+
+ PriceExperiment [ team ] ⟹ table 
+
+ provides a table listing the pricing information for all completed protocols in notebooks financed by team between Now and one month before Now.
+
+ Details
+
+ The pricing is an aggregate of PriceInstrumentTime, PriceOperatorTime, PriceCleaning, PriceStocking, PriceWaste, PriceMaterials, as well as any per experiment charges.
+
+ Pricing information is only calculated for Completed parent protocols.
+
+ For the Team or Notebook overloads, non-Completed and non-parent protocols are filtered out and not displayed.
+
+ By default, if teams or notebooks are specified and no date range is provided, function defaults to showing protocols completed in the past 30 days.
+
+ Note that the prices displayed in this documentation are only for the sake of example and do not represent actual prices.
+
+ Input
+
+ Output
+
+ General Options
+
+ Messages
+
+ ParentProtocolRequired The provided protocols contain subprotocols without the parent protocol. Every parent protocol must be included. 
+
+ ProtocolNotCompleted The provided protocols contain protocols which were not completed. Only price completed protocols. 
+
+ Examples
+
+ Basic Examples (5) 
+
+ Displays the pricing information for a protocol as a table:
+
+ Displays the pricing information for a list of protocols as one large table:
+
+ Displays the pricing information for all protocols tied to a given notebook:
+
+ Displays the pricing information for all protocols tied to a given financing team:
+
+ Specifying a date span excludes protocols that fall outside that range:
+
+ Additional Examples (2) 
+
+ If a protocol has been refunded, include it, but zero out the pricing for it:
+
+ Date span can go in either order:
+
+ Options (7) 
+
+ Consolidation (5) 
+
+ Specifying Consolidation -> Notebook groups all items by Notebook and sums their prices in the output table:
+
+ Specifying Consolidation -> Protocol groups all items by Protocol and sums their prices in the output table:
+
+ Specifying Consolidation -> PricingCategory groups all items by PricingCategory object and sums their prices in the output table:
+
+ If OutputFormat -> TotalPrice is specified, this overrides the Consolidation option and returns the total summed price:
+
+ If OutputFormat -> Association is specified, this overrides the Consolidation option and returns a list of associations matching ExperimentPriceTableP:
+
+ OutputFormat (2) 
+
+ If OutputFormat -> Association, returns a list of associations matching ExperimentPriceTableP:
+
+ If OutputFormat -> TotalPrice, returns a single price summing the cost of every instrument:
+
+ Messages (3) 
+
+ MissingPricingLevel (1) 
+
+ Throw a soft message if the PricingRate is not populated for some instruments or waste:
+
+ ParentProtocolRequired (1) 
+
+ Throws an error if PriceExperiment is called on a subprotocol:
+
+ ProtocolNotCompleted (1) 
+
+ Throws an error if PriceExperiment is called on a protocol that is not Completed:
+
+ EMERALD CLOUD LAB 
+ 
+ 15500 Wells Port Drive
+ 
+ Austin, TX 78728
+
+ © 2023 Emerald Cloud Lab, Inc.
