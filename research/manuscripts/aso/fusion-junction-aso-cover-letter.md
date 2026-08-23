@@ -22,16 +22,24 @@ last_verified: 2026-08-13
 
 # Cover letter
 
-*Not yet sendable, and the blocking item is not in this letter. Before submitting: publish Zenodo
-deposition 22061075 — the corrected archive is drafted and every archive link in both papers
-resolves to nothing until it is published (see the preprint checklist, which carries the two-step
-order). Then fill the bracketed date and confirm the editor's name on the journal's current
-masthead.*
+*Sendable once the brackets below are filled. ✅ The item that used to block it is closed: Zenodo
+deposition 22061075 was published on 2026-08-23 and read back (checklist §3), so every archive link
+in both papers now resolves. What remains is the date and the editor's name from the journal's
+current masthead.*
+⚠ *Superseded, retained: "Not yet sendable, and the blocking item is not in this letter. Before
+submitting: publish Zenodo deposition 22061075 — the corrected archive is drafted and every archive
+link in both papers resolves to nothing until it is published."*
 
-⛔ *AND FOUR BRACKETS MUST BE FILLED OR CUT BEFORE THIS IS SENT — each is a fact this repository
-cannot supply and must not invent.* `[DATE]`; `[PREPRINT DOI]`, once the condensed article is
-posted (the server question is open — preprint checklist §2b); and the extended report's status
-bracket, which needs the venue it was submitted to. ⛔ *That bracket replaced a sentence that told
+⛔ *AND THE BRACKETS MUST BE FILLED OR CUT BEFORE THIS IS SENT — each is a fact this repository
+cannot supply and must not invent.* `[DATE]`, and the extended report's status bracket, which needs
+the venue it was submitted to.
+⚠ *The preprint bracket is GONE rather than waiting, because the paragraph it sat in now states the
+true position: no preprint is posted, and the author is holding until the extended report gets a
+response (checklist §3a). A bracket that reads `[PREPRINT DOI]` in a letter where no preprint
+exists is not a placeholder, it is a sentence waiting to become false — which is the defect the
+next paragraph records.* If one is posted before this is sent, restore the disclosure: Nucleic Acid
+Therapeutics asks for the preprint DOI in a designated field and asks to be told about the posting,
+and neither is optional once there is something to disclose. ⛔ *That bracket replaced a sentence that told
 the editor the extended report "was submitted to bioRxiv as a preprint on 2026-08-20 and is awaiting
 screening". **bioRxiv declined it on 2026-08-23 because the author is unaffiliated**, so the letter
 carried a false statement to a journal for three days. A status owned by a system outside this
@@ -143,9 +151,9 @@ screen's parameters and the complete bounds on each claim — is deposited in th
 manuscript's Data availability statement, and I mention it here so the relationship is on the record
 rather than discovered later: it is a separate and much longer manuscript, [STATE ITS CURRENT
 STATUS AND, IF IT IS UNDER CONSIDERATION ANYWHERE, NAME THE VENUE], and the manuscript submitted
-here is not published or under consideration elsewhere. This condensed article has been posted as a
-preprint at [PREPRINT DOI]; per your guidelines I have entered that DOI in the submission form, and
-I will not post an updated version while the manuscript is under review. I am the sole author, an unaffiliated
+here is not published or under consideration elsewhere. This condensed article has not been posted as a
+preprint; should that change before a decision, I will inform the editorial office and supply the
+DOI. I am the sole author, an unaffiliated
 independent researcher with no institutional address. Analysis code, the screening pipelines and
 drafting were carried out with substantial AI assistance under my direction, which is disclosed in
 the manuscript; no AI tool is an author, every quantitative statement derived from sequence or from a

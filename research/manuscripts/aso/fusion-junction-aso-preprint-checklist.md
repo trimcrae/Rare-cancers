@@ -188,96 +188,108 @@ requirement that would otherwise be discovered after the paper had been returned
 initial-evaluation rule is that a manuscript not conforming to these guidelines "will be returned to
 you for amendments prior to peer review".
 
-## 2d · ⛔⛔ THE ORDER IS FORCED, AND POSTING THE PREPRINT FIRST FREEZES A DEAD CITATION
+## 2d · The order that was forced — SATISFIED, and worth keeping for the next deposit
 
-**The condensed article's Data availability cites `doi:10.5281/zenodo.22061075`. That DOI is
-RESERVED, not published — it resolves to nothing today**, which is the deliberate
-reserve-then-rebuild ordering §3 describes and is fine while the paper sits in this repository.
+**✅ CLOSED 2026-08-23.** The constraint held for three days and was discharged in the order it
+specified: the archive was published first, so nothing the paper cites resolves to nothing any
+more.
 
-⛔ **It stops being fine the moment the paper is posted publicly.** A preprint is immutable in the
-way that matters: the version that goes up is the version that is cited, indexed and read, and it
-would carry a data-availability statement pointing at a DOI that returns nothing. That is the single
-worst impression a data-availability statement can make, and unlike everything else on this page it
-cannot be fixed after the fact by posting a new version — the first reading is the one that counts.
+⚠ *Superseded, retained: "**⛔⛔ THE ORDER IS FORCED, AND POSTING THE PREPRINT FIRST FREEZES A DEAD
+CITATION.** The condensed article's Data availability cites `doi:10.5281/zenodo.22061075`. That DOI
+is RESERVED, not published — it resolves to nothing today … A preprint is immutable in the way that
+matters: the version that goes up is the version that is cited, indexed and read, and it would
+carry a data-availability statement pointing at a DOI that returns nothing."* Every clause of that
+was true when written and none of it is now.
 
-★ **SO THE SEQUENCE IS NOT A PREFERENCE:**
-
-1. **Publish Zenodo deposition 22061075** (§3 — re-run the deposit first, then publish by hand).
-   Every archive link in both papers starts resolving at that moment.
-2. **Post the condensed article as a preprint.** Server open — §2b.
-3. **Submit to NAT**, entering the preprint DOI in the designated field and telling the editorial
-   office, and thereafter posting no updated version while the manuscript is under review (§2b).
-
-⚠ **Step 1 is the only irreversible one and only the author can take it.** Steps 2 and 3 are the
-ones with a deadline attached; step 1 is the one they are waiting on, which is worth saying plainly
-because the deposit item has been sitting under a heading that says it blocks the JOURNAL
-submission, and it blocks the preprint first.
+★ **THE PART THAT IS NOT SPENT, AND THIS IS THE REUSABLE HALF.** The rule was never about this
+particular DOI: **anything posted publicly freezes whatever it cites at the moment of posting.**
+The reserve-then-rebuild ordering means a manuscript in this repository routinely carries a DOI
+that is real but not yet live, which is fine while it sits here and is not fine the instant it goes
+out. So before ANY outward-facing act, the question is whether every identifier the artefact prints
+resolves for a stranger — and `deposit-zenodo.yml` with `record=verify` is how that is answered
+without a token and without taking anyone's word for it.
 
 ## 3 · Open, and blocking the journal submission
 
-- **⛔ THE PUBLISHED DEPOSIT IS BEHIND THE REPOSITORY, A CORRECTED VERSION IS DRAFTED, AND NOBODY HAS
-  PUBLISHED IT.** The Zenodo record published 2026-08-20 ([doi:10.5281/zenodo.22028916]) holds 473
-  files. The repository moved 16 of them and added 4, and the changed set includes
-  `fusion-junction-aso-research-article.md` itself — the extended report the condensed submission
-  points a reader at six times and calls "the citable one". Two of those changes are CORRECTIONS: the
-  deposited text defines a void test as one that "cannot fail" where the current text says "cannot
-  fail on any reading that is not anti-selective", and it says the dinucleotide-preserving scramble
-  holds the 5′ guanine run, which it does not. **The deposit also did not contain the journal article
-  at all** until 2026-08-22 — its glob predated the second paper — so what a NAT editor would download
-  omitted the manuscript they are reading.
+**✅ THE ITEM THAT BLOCKED IS CLOSED. What stands here now is TRACKED, and it does not block.**
 
-  ✅ **Drafted 2026-08-22 as [doi:10.5281/zenodo.22061075](https://doi.org/10.5281/zenodo.22061075)**,
-  a new VERSION of the same record (Actions run 32592867658: *"opened NEW VERSION draft 22061075 of
-  published record 22028916"*, inherited file cleared, 482-file archive uploaded, **nothing
-  published**). Both manuscripts and the manifest now cite that DOI, which is the reserve-then-rebuild
-  ordering the first deposit was built around: the paper has to print the identifier the archive will
-  carry before the files are frozen, because a published version cannot be edited.
+### 3-i · The published deposit is behind the repository again — and this time it is ordinary
 
-  ⛔ **WHAT REMAINS, AND ONLY THE AUTHOR CAN DO IT — IN THIS ORDER:**
-  1. **Re-run the deposit first.** Dispatch `deposit-zenodo.yml` with `new_version=false`, which
-     UPDATES this draft rather than making a second one. The repository moves between commits, so
-     the draft is normally behind by the time anyone publishes; publishing a stale draft freezes an
-     archive that is already out of date, which is the whole defect this item exists for, one step
-     later and irreversibly. Then update `uploaded_manifest_digest` in
-     [`deposit-state.json`](./deposit-state.json).
-  2. **Then publish deposition 22061075 by hand** at <https://zenodo.org/deposit/22061075>.
-     Irreversible.** Until then every archive link in both
-  papers resolves to nothing, which is why this item is blocking rather than informational.
-  Machine-readable state: [`deposit-state.json`](./deposit-state.json), which records the published
-  version and the pending one separately; `test_the_deposit_the_papers_cite_is_current.py` fails if
-  this item goes missing while a version is pending, and equally if it is left standing after one is
-  published. **Do not edit that file to silence the gate.**
+⚠ **THE PUBLISHED DEPOSIT IS BEHIND THE REPOSITORY**, by construction and within hours of being
+published: `archive_content_digest` moved from `989d462e…` to `859f044e…` while the record was
+still being written up. Declared here because
+[`test_the_deposit_the_papers_cite_is_current.py`](../tests/test_the_deposit_the_papers_cite_is_current.py)
+requires drift to be acknowledged rather than silent, which is the right rule and the reason that
+gate exists.
 
-## 3c · Where NAT conformance stands, 2026-08-23 — and the one item nothing here can fix
+★ **WHAT ACTUALLY MOVED, MEASURED RATHER THAN CHARACTERISED — AND IT IS NOT THE SCIENCE.** The file
+SET is unchanged at 483. **Neither manuscript's source text changed**: `git diff 09172151 --
+fusion-junction-aso-journal-article.md fusion-junction-aso-research-article.md` is empty. What moved
+is the cover letter, this checklist, `deposit-state.json`, the coverage census, tooling and skills,
+plus the built PDFs — whose bytes move on every rebuild because the build stamps a creation time,
+so the digest shifts even when nothing a reader would notice does.
 
-⛔ **THE CAPS ARE NOT RESTATED HERE.** Word, abstract, display-item and reference counts are graded
-against the read limits in [`submission-metrics.json`](../submission-metrics.json), regenerated by
-`submission_metrics.py`; the limits themselves are in the `NAT-Article` row of that module, sourced
-from [`nat-submission-guidelines-2026-08-23.md`](../../literature/nat-submission-guidelines-2026-08-23.md).
-Read the grade, never a number copied out of it.
+⛔ **SO THIS IS NOT THE 2026-08-20 DEFECT WEARING A NEW DATE, AND THE DIFFERENCE IS THE ONE THAT
+MATTERS.** That one was: the deposit held an EARLIER VERSION OF THE PAPER, including two statements
+this repository had already retracted, and a reader following the citation read withdrawn text.
+This one is: the deposit holds the current text of both papers and an older copy of the scaffolding
+around them. **A reader following `10.5281/zenodo.22061075` gets the manuscripts as they stand.**
 
-**Closed by this round, each because the guidelines named a requirement nothing here had met:**
+**It does not block the journal submission, and nothing needs doing before that submission.** The
+next deposit version is warranted when a MANUSCRIPT changes, not when the repository breathes —
+otherwise every commit mints a version and the version history stops meaning anything. Re-run
+`deposit-zenodo.yml` with `new_version=true` at the next manuscript change, or before any further
+outward-facing act that cites the archive.
 
-| requirement, as the guidelines state it | where it now lives |
-|---|---|
-| "The preferred format for your manuscript is Word" | `build_submission_docx.py` builds `fusion-junction-aso-journal-article-manuscript.docx` from the same HTML the submission-format PDF uses, with the figure embedded as bytes |
-| "an unstructured abstract of 200 words … between the title and main body" | measured every regeneration; ⛔ the abstract sits at the cap, so any edit to it is a trade |
-| "a minimum of 4 keywords, listed after the abstract" | the manuscript's own `## Keywords` section, after the abstract |
-| "include a section with the heading 'Statements and Declarations' … including each of the sub-headings listed below" | all six of the venue's sub-headings, in the venue's own order, plus this paper's two extras |
-| "Please include the Author Contributions heading" | `## Author Contributions`, before the declarations |
-| "The journal follows the Sage Vancouver reference style" | converted in one pass and held by `tests/test_journal_references_match_the_prose.py`; ⚠ the journal-name ABBREVIATION half is NOT applied and the reason is recorded there |
+⚠ *Superseded by measurement, retained: the framing above replaced a straight "the deposit is
+behind" line. Both are true; only the second says whether anyone should care, and a gate that
+cannot distinguish "the papers are stale in the archive" from "a skill file changed" will be read
+as noise by the third week.*
 
-**⛔ AND THE ONE THAT IS NOT CLOSED, BECAUSE IT IS A FACT ABOUT THE AUTHOR RATHER THAN THE PAPER.**
-The submission form asks for a "Complete list of authors, with their institutional affiliations",
-and the guidelines say "The listed affiliation should be the institution where the research was
-conducted." **There is none.** That is exactly the ground bioRxiv gave for declining the extended
-report on 2026-08-23, and it cannot be engineered away here: the papers state
-*"Independent researcher, unaffiliated"*, which is the true answer, and whether a journal's
-submission system accepts it is discovered by trying. ⚠ **It is NOT evidence that NAT will refuse** —
-a preprint server's screening rule is not a journal's editorial rule, and CLAUDE.md §4 is explicit
-that a remembered reading of an outside system understates. It is recorded so that a rejection on
-this ground is a known risk rather than a surprise, and so nobody spends another round looking for
-the defect in the manuscript.
+⚠ *The superseded wording is retained in Appendix A rather than here, and that placement is forced
+rather than tidy — see the appendix.*
+
+**Closed 2026-08-23, in the order the item itself specified.** The deposit was re-run first
+(Actions run 32664681847: 483 files verified, the existing draft updated rather than a second one
+opened) so the click would not freeze an archive already behind the tree — it was behind by
+exactly this round's Nucleic Acid Therapeutics conformance work. trimcrae then published
+deposition 22061075 by hand.
+
+★ **AND IT WAS READ BACK, NOT TAKEN ON HIS WORD.** Actions run 32666842965 fetched the public
+records API with no token: `state: done (submitted=True)`, `published: 2026-08-23`, one file
+`emc-aso-archive.zip` at 9,175,316 bytes, and *"PUBLISHED. The DOI both papers cite resolves to
+this record."* ⚠ That distinction is not ceremony — this checklist carried "⏳ Awaiting bioRxiv
+screening" for three days after bioRxiv had declined, and the lesson recorded there is that a
+status owned by an outside system decays silently. `record=verify` on `deposit-zenodo.yml` is how
+it is re-read, and it needs no secret.
+
+⭐ **THE READ ALSO SURFACED A FACT NOBODY HERE HAD: the record's CONCEPT DOI is
+`10.5281/zenodo.22028915`** — Zenodo's per-record identifier, which always resolves to the newest
+version. It is recorded in [`deposit-state.json`](./deposit-state.json) with the reason no paper
+may cite it: a Data availability statement must name a FROZEN version, or the archive it promises
+changes under the reader at the next correction. Both papers cite the version DOI and must go on
+doing so.
+
+## 3a · What is open now, and it is one decision rather than a defect
+
+**⛔ THE CONDENSED PREPRINT IS ON HOLD, BY THE AUTHOR'S DECISION** (trimcrae, 2026-08-23: *"I'm
+waiting till the longer preprint gets a response before I publish this preprint"*). The draft
+tooling is built and rehearsable — `deposit-zenodo.yml` with `record=preprint` — and nothing is
+posted.
+
+★★ **AND THE HOLD DOES NOT BLOCK THE JOURNAL SUBMISSION, WHICH IS THE THING WORTH SAYING OUT LOUD.**
+Nucleic Acid Therapeutics ACCEPTS a previously-posted preprint; it does not REQUIRE one. §2b read
+that from the guidelines, and the asymmetry is easy to lose: the preprint was the author's chosen
+next step, never a precondition. With the archive published, every DOI in the condensed article
+resolves, and the paper is graded inside every one of the venue's limits, the submission is
+unblocked today.
+
+⚠ **THE ONE SEQUENCING TRAP IF BOTH ARE WANTED.** The guidelines say *"you should not post an
+updated version of your manuscript on a preprint server while it is being peer reviewed."* A first
+posting is not literally an updated version, but the clean readings are **post before submitting**
+or **post after a decision** — not during review. So the hold and the submission are compatible in
+one direction only: submitting now leaves posting-during-review as the awkward case, and posting
+first removes it entirely.
 
 ## 3b · Deliberately not done, and why
 
@@ -345,3 +357,29 @@ than rescaling them.
 fields and not `hit-frame`. It belongs in the paper so a reader can see why these counts differ from
 an earlier version of the same analysis, and it should not be presented anywhere as a finding about
 off-target screening in general.
+
+## Appendix A · Superseded
+
+⛔ **WHY THIS APPENDIX EXISTS, AND IT IS A REAL CONSTRAINT RATHER THAN HOUSE STYLE.** Rule 1.2
+requires a superseded statement to be retained verbatim. `test_the_deposit_the_papers_cite_is_
+current.py` decides whether the deposit is openly tracked by asking whether the string "PUBLISHED
+DEPOSIT IS BEHIND" appears inside **§3's slice** — a deliberately strict check, tightened in round
+16 after the item was moved to another section and the guard stayed green on the substring alone.
+
+★ Those two rules collide exactly here: quoting the retired blocker verbatim inside §3 re-asserts
+it to the guard, which cannot tell a retraction from a live item and should not try — a guard that
+parses whether a quote is "really" a claim is a guard that can be talked out of firing. So the
+verbatim text lives one section down, where §3's slice does not reach, and §3 states only what is
+true now. This is the same separation `lint_style.py` already makes when it exempts every section
+under an `Appendix` heading from the prose-register gate.
+
+⚠ *Superseded, retained, 2026-08-23: "**⛔ THE PUBLISHED DEPOSIT IS BEHIND THE REPOSITORY, A
+CORRECTED VERSION IS DRAFTED, AND NOBODY HAS PUBLISHED IT.** The Zenodo record published 2026-08-20
+holds 473 files. The repository moved 16 of them and added 4, and the changed set includes
+`fusion-junction-aso-research-article.md` itself — the extended report the condensed submission
+points a reader at six times and calls 'the citable one'. … Until then every archive link in both
+papers resolves to nothing, which is why this item is blocking rather than informational."*
+
+It was the correct reading from 2026-08-20 to 2026-08-23 and it is spent: deposition 22061075 was
+re-run against the current tree and then published, and the record was read back — §3 carries the
+reading and [`deposit-state.json`](./deposit-state.json) carries its provenance.

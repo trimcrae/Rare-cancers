@@ -570,6 +570,36 @@ today because nothing in these documents assembles the rest of the structure aro
 a guard becomes vacuous, and the three instances that actually bit were all found by a measurement
 (a red on true input, or a coverage number moving), never by reading the regex.
 
+### 8b.1e · ⛔⛔ A PATTERN COMPOSED AT RUNTIME IS INVISIBLE TO ANYTHING THAT READS SOURCE
+
+The `\b` fix in §8b.1d was applied **and the defect stayed live for hours**, in the same document,
+found again by the same gate. Worth its own entry because the fix LOOKED complete and was verified
+the wrong way.
+
+The bounds went into a helper:
+
+    def _verb(alts):
+        return r"\b(?:" + alts + r")\b"
+    _SPARING_VERBS = _verb(r"spare(?:s|d)?|…|miss(?:es|ed)?|…")
+
+At runtime that is correct, and it was proven correct — `clear` stopped matching inside "nu·clear",
+`miss` stopped matching inside "sub·miss·ion", asserted case by case. **But `claim_coverage`
+harvests regexes by STATICALLY READING THE TEST SOURCE**, so what it saw was the unbounded string
+literal going IN to the call, never the bounded value coming out. It kept crediting sentences to
+that guard on `miss` inside "submission", and the ablation gate caught it a second time.
+
+★ **THE RULE: A REGEX THAT OTHER TOOLING READS MUST BE COMPLETE WHERE IT IS WRITTEN.** Not
+assembled, not `.format()`-ed, not concatenated from a constant — complete, in the literal. The cost
+is repeating six characters; the benefit is that the file says what it does to every reader, human
+or harvester.
+
+⚠ **AND THE VERIFICATION LESSON IS THE SHARPER ONE.** Testing the runtime value proved the guard
+worked and said nothing about the census — two consumers of one expression, and only one was
+checked. **When a fix touches something a second tool reads, re-run the second tool**, not just the
+first. The tell that this was missed: coverage counts did not move after a change that should have
+lowered them. When they finally did, `journal-article` fell 69 → 68 and `cover-letter` 9 → 6, and
+all three papers landed exactly on their floors.
+
 ### 8b.2 · ★★ A FIX BOUND TO A LIST REGRESSES AT A SIBLING. A FIX BOUND TO A PREDICATE DOES NOT.
 
 **This is the sharpest structural result of the series, and it was measured, not reasoned** (round 17

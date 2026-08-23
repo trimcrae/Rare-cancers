@@ -288,14 +288,24 @@ def test_the_cover_letters_subject_line_is_the_submitted_manuscripts_own_title()
 #: ⚠ AND A HYPHEN IS A WORD BOUNDARY, so `\bpair\b` still matches the UNIT inside "ten-base-pair".
 #: That is this repository's oldest instance of this defect and `\b` alone does not fix it; the
 #: affirmative half therefore also refuses a "pair" that a hyphen introduces.
-def _verb(alts):
-    return r"\b(?:" + alts + r")\b"
-
-
-_PAIRING_VERBS = _verb(r"(?<!-)pair(?:s|ed|ing)?|form(?:s)?\s+a\s+duplex|are\s+liable"
-                       r"|carry\s+a\s+duplex|let\s+a\s+(?:mature\s+)?wild-type\s+parent")
-_SPARING_VERBS = _verb(r"spare(?:s|d)?|avoid(?:s|ed)?|clear(?:s|ed)?|miss(?:es|ed)?|escape(?:s|d)?"
-                       r"|do(?:es)?\s+not\s+pair|fail\s+to\s+pair")
+#:
+#: ⛔⛔ THE BOUNDS ARE WRITTEN INTO THE LITERALS, AND THE FIRST FIX PUT THEM IN A FUNCTION INSTEAD —
+#: WHICH CORRECTED THIS GUARD AND LEFT THE DEFECT LIVE ONE FILE OVER (measured 2026-08-23, hours
+#: after the first fix). `_verb(alts)` returned `r"\b(?:" + alts + r")\b"`, so at RUNTIME the
+#: pattern was bounded and `clear` stopped matching inside "nuclear" — proven. But
+#: `claim_coverage._test_patterns` harvests regexes by STATICALLY READING THE SOURCE, so what it
+#: saw was the unbounded string literal that goes IN to the call, not the bounded value that comes
+#: out. The census went on crediting cover-letter sentences to this guard on `miss` inside
+#: "sub-miss-ion", exactly as before, and the ablation gate caught it again.
+#: ★ THE GENERAL RULE, WHICH IS WORTH MORE THAN THE INSTANCE: A PATTERN COMPOSED AT RUNTIME IS
+#: INVISIBLE TO ANYTHING THAT READS SOURCE. Any instrument that harvests literals — this census,
+#: a grep-based audit, a reviewer skimming the file — sees the pattern BEFORE composition. So a
+#: regex that other tooling reads must be complete where it is written, and the cost of that is
+#: repeating six characters twice.
+_PAIRING_VERBS = (r"\b(?:(?<!-)pair(?:s|ed|ing)?|form(?:s)?\s+a\s+duplex|are\s+liable"
+                  r"|carry\s+a\s+duplex|let\s+a\s+(?:mature\s+)?wild-type\s+parent)\b")
+_SPARING_VERBS = (r"\b(?:spare(?:s|d)?|avoid(?:s|ed)?|clear(?:s|ed)?|miss(?:es|ed)?"
+                  r"|escape(?:s|d)?|do(?:es)?\s+not\s+pair|fail\s+to\s+pair)\b")
 
 
 @pytest.mark.parametrize("paper", sorted(ARTICLES), ids=sorted(ARTICLES))
