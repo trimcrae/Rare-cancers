@@ -137,6 +137,36 @@ cautionary null, not a new biological discovery."* So a delivered instrument rea
 finding is what the 8s and 10s carry. **Pick the paper, do not iterate the prose** — one submission of
 the right shape beat four revisions of the wrong one.
 
+### ⛔⛔ AND v1.4 SETTLED *WHY*: THE REVIEWER IS AN ML-CONFERENCE REVIEWER
+
+v1.4 added four computed results answering four named weaknesses — the full threshold function, a
+near-self TCR search with a shuffle null, a second independently-trained predictor, and a
+transcript-model screen. The review called the work *"exemplary"*, *"novel and significant"*,
+*"sophisticated and important"*, *"rigorous statistical and methodological honesty"*. **Rating: 6.
+Five versions, five 6s.** Its weakness list says why, in its own words:
+
+> *"for a top-tier venue, the lack of any wet-lab validation …"*
+> *"suggesting it is not a standard **ICLR/NeurIPS** submission … points to a mismatch with the
+> venue's standards"*
+> *"The relevance of the study's findings for a general **AI/ML audience** is unclear … potentially a
+> less fitting topic for ICLR or NeurIPS than for a specialized biomedical journal."*
+
+It also scored *"the paper is unaffiliated, posted as a preprint, and not submitted to a journal"* as
+a weakness — a fact about the author's institutional status, not about the work.
+
+★ **SO THE CEILING IS VENUE FIT, AND NO REVISION REACHES IT.** A wet-lab-free cancer-bioinformatics
+paper cannot clear 6 with a reviewer whose stated frame is a machine-learning conference, because two
+of its recorded weaknesses are "this is not an AI/ML topic" and "this is not an ICLR/NeurIPS
+submission". That also explains §3's earlier result rather than contradicting it: the paper that
+scored 7 first time was a **methods paper delivering an empirical null** — the shape an ML reviewer
+recognises as a contribution.
+
+⛔ **WHAT THIS MEANS OPERATIONALLY. Stop iterating.** Further revisions of a domain paper are spend
+with no return, and the two moves that would raise the number are both off-limits: posting your own
+review (§0), and reshaping a named paper into an ML paper to suit a reviewer's taste, which
+CLAUDE.md §3 forbids outright — *"the title is what a reader searches and what the record says the
+work is."* **Report the ceiling to the human and let them decide.**
+
 ## 4 · The runbook
 
 1. **Mint an agent token once.** `POST /api/agents` with `review` in `scopes`, then
@@ -159,11 +189,15 @@ the right shape beat four revisions of the wrong one.
 6. **`mode=submit`** (or `new-version`) — double-gated: the workflow input *and* the script's
    `--i-understand-this-is-outward-facing`. A new version does **not** withdraw the old one; aiXiv
    keeps both rows under the same id.
-7. **Wait — and the wait is LONG and IRREGULAR.** ⛔ **THE REVIEWER IS VERY LOW VOLUME, AND THE
-   REVIEW IDs PROVE IT.** Our four versions carry review ids **1362, 1363, 1364, 1365 — consecutive
-   in aiXiv's global sequence.** Ids are assigned platform-wide, so consecutive ids across four of
-   our reviews means **no other paper anywhere on aiXiv was reviewed in between**. The gaps between
-   those runs, on our own record: **1.2 h, 5.5 h, 1.0 h**.
+7. **Wait — and the wait is LONG and IRREGULAR.** v1.4 was posted at 15:15 UTC and reviewed about
+   **2 h 45 m** later. Our first four versions carried review ids 1362–1365, consecutive in aiXiv's
+   global sequence; ⚠ **that did NOT generalise** — v1.4's review is id **1371**, so five other
+   papers were reviewed in between and the "no other paper is being reviewed" reading held only for
+   that one window.
+   ⛔ **`create_time` IS NOT UTC AND MUST NOT BE USED FOR ARITHMETIC.** v1.4's review carries
+   `2026-08-24T00:24:11` — a timestamp roughly six hours AHEAD of the UTC moment it arrived. Every
+   latency figure derived from that field in earlier versions of this section was unsound, including
+   two I reported as measured.
    ⚠ **So an empty `fetch` at two hours is not evidence of anything.** `v1.4` was still unreviewed at
    2 h, which sits comfortably inside an observed gap of 5.5 h. Budget **hours, not minutes**, space
    the re-dispatches accordingly, and do not build a theory on an early empty result — I built two
