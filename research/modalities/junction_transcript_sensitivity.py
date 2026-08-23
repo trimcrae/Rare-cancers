@@ -194,5 +194,31 @@ def main():
     return 0
 
 
+def _write_failure(exc):
+    """⛔ A CRASH MUST LEAVE A RECORD, NOT A GAP. Measured 2026-08-23, run 32656882121: this script
+    ran 565 s, raised somewhere outside the one try block it had, wrote NOTHING — and because the
+    workflow step is `continue-on-error: true`, the step reported SUCCESS and the publish step
+    committed four unrelated files. Nothing anywhere said the analysis had failed, and the only way
+    to find out was to notice the artifact missing from the cache branch.
+    ⚠ That is this repository's oldest defect class: a step that reports while measuring nothing.
+    The fix is not "add a try where it broke" — it is that EVERY exit path writes the artifact, so a
+    missing result is impossible and a failed one is legible.
+    """
+    import traceback
+    json.dump({
+        "⛔_STATUS": "FAILED — THIS ARTIFACT CARRIES NO RESULT",
+        "⚠_do_not_quote": ("Written over any previous contents so a stale result cannot read as a "
+                           "current one. Re-run once the cause below is fixed."),
+        "error": f"{type(exc).__name__}: {exc}",
+        "traceback": traceback.format_exc().splitlines()[-12:],
+    }, open(OUT, "w"), indent=2)
+    print(f"  TRANSCRIPT SENSITIVITY FAILED: {type(exc).__name__}: {exc}", file=sys.stderr)
+    traceback.print_exc()
+
+
 if __name__ == "__main__":
-    sys.exit(main())
+    try:
+        sys.exit(main())
+    except Exception as _exc:          # noqa: BLE001 — the failure text IS the record
+        _write_failure(_exc)
+        sys.exit(1)

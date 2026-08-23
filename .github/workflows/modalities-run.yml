@@ -30,6 +30,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      # ⛔ STAMPED BEFORE ANY GENERATOR RUNS. The manifest step below compares each artifact's mtime
+      # against this, because a file left over from a previous run EXISTS — existence is not the
+      # question, "did this run write it" is.
+      - name: Stamp the run start (the manifest compares mtimes against it)
+        run: echo "RUN_STARTED=$(date +%s)" >> "$GITHUB_ENV"
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
@@ -186,6 +191,15 @@ jobs:
         continue-on-error: true
         run: python research/modalities/junction_selfsimilarity.py
 
+      # ⛔ EVERY COMPUTE STEP ABOVE IS continue-on-error, SO A GREEN TICK IS NOT EVIDENCE OF OUTPUT.
+      # Measured 2026-08-23, run 32656882121: a generator ran 565 s, raised, wrote nothing, and its
+      # step reported success; the only signal was the artifact missing from the cache branch. This
+      # does not fail the run — that would cost the property continue-on-error buys — it makes the
+      # failure impossible to miss, with an ::error per artifact and a committed manifest.
+      - name: Which artifacts did THIS run actually write
+        if: always()
+        run: python research/modalities/run_manifest.py "$RUN_STARTED"
+
       - name: Publish results to modalities-cache branch
         if: always()
         run: |
@@ -216,6 +230,7 @@ jobs:
           cp research/modalities/junction-selfsimilarity.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/junction-frameshift-peptides.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/junction-transcript-sensitivity.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+          cp research/modalities/run-manifest.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           git fetch origin modalities-cache || true
           rm -f research/modalities/*.json research/modalities/*.png
           if git show-ref --verify --quiet refs/remotes/origin/modalities-cache; then
