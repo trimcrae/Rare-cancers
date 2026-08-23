@@ -155,10 +155,15 @@ on:
           cohort-search = ask GEO whether a FOURTH EMC expression cohort exists, and dedup every
           candidate at accession, publication and SAMPLE level before counting it. Writes its OWN
           artifact; reads no expression value and can perturb nothing.
+          data-level-sweep = the COMPLEMENT of cohort-search. That mode's negative is bounded to
+          depositor PROSE by its own header; this one asks what lies outside that bound — the public
+          splice-junction index (a property of the reads, not of the description) and a pan-sarcoma
+          methylation deposit whose title names no disease. Probe first: it measures what each
+          endpoint serves and emits no fusion search. Writes its OWN artifact.
         required: false
         default: "part-b"
         type: choice
-        options: ["part-b", "gse-series", "aso-junction", "panels", "fusion-targets", "fusion-figures", "ret-cistrome", "ret-motif", "hypoxia-confounds", "gse28866", "cohort-search", "sra-study", "ret-cistrome-zenodo", "gse243553-eno3", "ret-cistrome-named-geo", "aso-offtarget-expression", "fusion-read-probe", "fusion-read-scan", "nuccore-sweep"]
+        options: ["part-b", "gse-series", "aso-junction", "panels", "fusion-targets", "fusion-figures", "ret-cistrome", "ret-motif", "hypoxia-confounds", "gse28866", "cohort-search", "sra-study", "ret-cistrome-zenodo", "gse243553-eno3", "ret-cistrome-named-geo", "aso-offtarget-expression", "fusion-read-probe", "fusion-read-scan", "nuccore-sweep", "data-level-sweep"]
       junctions:
         description: >-
           aso-junction mode only: comma-separated EWSR1/NR4A3 TRANSCRIPT exon pairs to design
@@ -280,7 +285,7 @@ jobs:
         run: |
           set -euo pipefail
           case "${MODE:-}" in
-            gse-series|aso-junction|panels|hypoxia-confounds|fusion-targets|fusion-figures|ret-cistrome|ret-motif|gse28866|cohort-search|sra-study|ret-cistrome-zenodo|gse243553-eno3|ret-cistrome-named-geo|aso-offtarget-expression|fusion-read-probe|fusion-read-scan|nuccore-sweep) PART_B=false ;;
+            gse-series|aso-junction|panels|hypoxia-confounds|fusion-targets|fusion-figures|ret-cistrome|ret-motif|gse28866|cohort-search|sra-study|ret-cistrome-zenodo|gse243553-eno3|ret-cistrome-named-geo|aso-offtarget-expression|fusion-read-probe|fusion-read-scan|nuccore-sweep|data-level-sweep) PART_B=false ;;
             *)                                               PART_B=true  ;;
           esac
           echo "part_b=${PART_B}" >> "$GITHUB_OUTPUT"
@@ -352,6 +357,15 @@ jobs:
             # reading as new, and a series with NO sample-level read being promoted rather than
             # marked ungraded. All three are asserted here, before one byte is fetched.
             python -m pytest research/modalities/tests/test_emc_cohort_search.py -q
+          elif [ "${{ inputs.mode }}" = "data-level-sweep" ]; then
+            # ⛔ NOT OPTIONAL, and this mode has the sharpest reason of any here: its most likely
+            # output is a ZERO, and a zero is worthless unless the thing producing it could have
+            # said yes. Every way this module could report the wrong zero is offline arithmetic — a
+            # dead transport control reporting target counts anyway, an absent control that leaks
+            # records, a header-only read rendering as "no EMC samples", and a substring hit on the
+            # SKELETAL tumour being summed into the extraskeletal count. All four are asserted here,
+            # before one byte is fetched.
+            python research/modalities/emc_data_level_sweep.py --selftest
           elif [ "${{ inputs.mode }}" = "nuccore-sweep" ]; then
             # ⛔ NOT OPTIONAL. This mode's whole value is an ALIAS TABLE — NR4A3 is TEC/CHN/NOR1
             # in the era when fusion cDNAs were actually deposited, and AF289510's DEFINITION line
@@ -783,6 +797,50 @@ jobs:
             research/modalities/emc-cohort-search-inputs.json
 
       # ─────────────────────────────────────────────────────────────────────────────────────
+      # data-level-sweep — what carries EMC that a PROSE search cannot reach?
+      # ─────────────────────────────────────────────────────────────────────────────────────
+
+      # ⭐ WHY IT IS A SEPARATE MODE FROM cohort-search, WHICH IT COMPLETES RATHER THAN REPEATS.
+      # `emc_cohort_search.py` asked GEO and returned a bounded negative; its own header states the
+      # bound — GEO esearch matches DEPOSITOR PROSE, so a pan-sarcoma deposit under a generic title
+      # is invisible to it however many EMC samples it holds. That is not a hypothetical: this
+      # repository already reads six EMC tumours out of GSE24369, a series TITLED "low-grade
+      # fibromyxoid sarcoma". Every EMC count here descends from prose searches that could only have
+      # found that series by accident. This mode asks the complement, and it must be its own
+      # artifact because a bound and the thing outside the bound are different measurements.
+      #
+      # ⛔ IT PROBES BEFORE IT SEARCHES, ON PURPOSE. Whether a splice-junction index carries the
+      # junction classes a fusion transcript produces is not answerable from documentation and must
+      # not be answered from recollection. This run measures the served columns and record counts and
+      # emits `PROBED_NOT_SEARCHED`; the searchable design is written against that measurement.
+      - name: "Data-level sweep — the junction index and the pan-sarcoma methylation deposit"
+        if: inputs.mode == 'data-level-sweep'
+        timeout-minutes: 45
+        run: python research/modalities/emc_data_level_sweep.py --fetch
+
+      - name: "Data-level sweep — derive the verdict from the cached inputs"
+        if: always() && inputs.mode == 'data-level-sweep'
+        timeout-minutes: 10
+        run: python research/modalities/emc_data_level_sweep.py || echo "derive reported a problem; READ IT"
+
+      - name: "Data-level sweep — the verdict must re-derive offline from its own inputs"
+        if: always() && inputs.mode == 'data-level-sweep'
+        timeout-minutes: 10
+        run: |
+          python research/modalities/emc_data_level_sweep.py --check \
+            || echo "--check reported drift; non-blocking, but READ IT"
+
+      - name: "Data-level sweep — upload the verdict and the raw retrieval record"
+        if: always() && inputs.mode == 'data-level-sweep'
+        uses: actions/upload-artifact@v4
+        with:
+          name: emc-data-level-sweep
+          if-no-files-found: warn
+          path: |
+            research/modalities/emc-data-level-sweep.json
+            research/modalities/emc-data-level-sweep-inputs.json
+
+      # ─────────────────────────────────────────────────────────────────────────────────────
       # aso-offtarget-expression — WHERE are the junction gapmer's off-target loci expressed?
       # ─────────────────────────────────────────────────────────────────────────────────────
 
@@ -1206,6 +1264,10 @@ jobs:
             MSG="EMC SRA study characterisation: PRJNA1357027 / SRP640302 (CI)"
             PATHS="research/modalities/emc-sra-study.json
                    research/modalities/emc-sra-study-inputs.json"
+          elif [ "${{ inputs.mode }}" = "data-level-sweep" ]; then
+            MSG="EMC data-level sweep: what carries EMC outside depositor prose (CI)"
+            PATHS="research/modalities/emc-data-level-sweep.json
+                   research/modalities/emc-data-level-sweep-inputs.json"
           elif [ "${{ inputs.mode }}" = "nuccore-sweep" ]; then
             MSG="NR4A3 fusion junctions from deposited sequence records (CI)"
             PATHS="research/modalities/nr4a3-nuccore-sweep.json
