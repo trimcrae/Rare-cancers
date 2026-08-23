@@ -45,6 +45,11 @@ on:
         description: "The record is already PUBLISHED and needs correcting: open a new VERSION of it and reserve that version's DOI. Still never publishes."
         type: boolean
         default: false
+      record:
+        description: "archive = the paper's code and artefacts (a dataset record). preprint = the condensed article itself, as its OWN record with its own DOI — never a version of the archive."
+        type: choice
+        options: [archive, preprint]
+        default: archive
 
 permissions:
   contents: read
@@ -64,7 +69,22 @@ jobs:
       # (This line typed "all 473" against a manifest whose own n_files had moved to 476: a count
       # retyped beside the artifact that derives it is the drift the manifest exists to prevent.)
       - name: Verify the manifest against this tree and build the payload
+        if: inputs.record == 'archive'
         run: python3 scripts/zenodo_deposit.py --paper "${{ inputs.paper }}" --build-only
+
+      # ⛔ THE PREPRINT RECORD IS A SEPARATE RECORD, NOT A VERSION OF THE ARCHIVE, and
+      # scripts/zenodo_preprint.py's header carries the whole argument. In one line: a Zenodo
+      # version means SUPERSESSION and the concept DOI follows the newest one, so making the paper
+      # a version of the artefact archive would point the archive's own DOI at a 6-page manuscript
+      # and assert that the condensed article obsoletes the extended report it cites. The two are
+      # linked by `related_identifiers` instead, which is the mechanism for "related" as against
+      # "the same thing at a later date".
+      # ⚠ --build-only READS AND PRINTS every field it will send. That is not decoration: the first
+      # run of this script reported 35 keywords because a lazy quantifier had escaped its paragraph
+      # and swallowed the paper, and nothing but the printed value would have shown it.
+      - name: Read the preprint metadata out of the manuscript and show it
+        if: inputs.record == 'preprint'
+        run: python3 scripts/zenodo_preprint.py --build-only
 
       - name: Create the draft deposition and reserve the DOI
         env:
@@ -84,15 +104,20 @@ jobs:
           if [ -z "$ZENODO_TOKEN" ]; then
             echo "::error::ZENODO_TOKEN is not set. See this file's SETUP block." && exit 1
           fi
-          python3 scripts/zenodo_deposit.py --paper "${{ inputs.paper }}" \
-            ${{ inputs.sandbox && '--sandbox' || '' }} \
-            ${{ inputs.new_version && '--new-version' || '' }} | tee deposit.log
+          if [ "${{ inputs.record }}" = "preprint" ]; then
+            python3 scripts/zenodo_preprint.py \
+              ${{ inputs.sandbox && '--sandbox' || '' }} | tee deposit.log
+          else
+            python3 scripts/zenodo_deposit.py --paper "${{ inputs.paper }}" \
+              ${{ inputs.sandbox && '--sandbox' || '' }} \
+              ${{ inputs.new_version && '--new-version' || '' }} | tee deposit.log
+          fi
 
       - name: Put the reserved DOI in the job summary
         if: always()
         run: |
           {
-            echo "## Zenodo deposition — ${{ inputs.paper }}"
+            echo "## Zenodo deposition — ${{ inputs.paper }} (${{ inputs.record }})"
             [ "${{ inputs.sandbox }}" = "true" ] && echo "**Rehearsal against sandbox.zenodo.org — nothing real was minted.**"
             echo '```'
             cat deposit.log 2>/dev/null || echo "no log — the run failed before the deposition step"
