@@ -123,6 +123,18 @@ def main():
                 prot = fb.translate(j["_fusion"][d["model"]["utr5_len"]:])
                 j0 = j["donor_last_whole_residue"]
                 has_novel = bool(j["donor_coding_phase"])
+                # ⛔ THE CHIMERIC ORF CAN STOP BEFORE IT REACHES THE SEAM, and that is a RESULT
+                # rather than an error — it means this transcript pair transcribes a fusion whose
+                # protein ends before the junction, so there is no junction peptide to have.
+                # Measured 2026-08-23, run 32656882121: without this guard `prot[j0]` raised
+                # IndexError on the first such pair and took the whole analysis with it. `translate`
+                # halts at a stop codon, so a short `prot` is exactly that case.
+                if j0 >= len(prot):
+                    rows.append({"pair": key, "donor_exon": DONOR_EXON, "emitted": False,
+                                 "why": (f"the chimeric ORF terminates at residue {len(prot)}, "
+                                         f"before the seam at {j0} — a premature stop upstream of "
+                                         "the junction, so this pair has no junction peptide")})
+                    continue
                 peps = sorted(fb.junction_peptides(prot, j0, LENGTHS, novel_residue=has_novel))
                 dp = d["model"]["protein"].replace("*", "").rstrip("X")
                 ap = a["model"]["protein"].replace("*", "").rstrip("X")

@@ -108,3 +108,29 @@ def test_transcript_sensitivity_covers_the_junctions_the_collision_is_actually_a
     assert exons <= set(d["donor_exons_tested"]), (
         f"the collision sits at donor exons {sorted(exons)} and the sensitivity run tested "
         f"{d['donor_exons_tested']} — it is not testing the finding it claims to test")
+
+
+def test_an_orf_that_stops_before_the_seam_is_a_graded_row_not_an_exception():
+    """⛔ MEASURED, run 32656882121: `prot[j0]` raised IndexError on the first transcript pair whose
+    chimeric ORF terminated upstream of the junction, and took the whole 565-second analysis with it.
+
+    A premature stop before the seam is a RESULT — that pair transcribes a fusion whose protein ends
+    before the junction, so it has no junction peptide — and the loop must record it and carry on.
+    This exercises the arithmetic directly rather than the whole script, because the failure is one
+    comparison and the script needs Ensembl.
+    """
+    import importlib.util
+    import os as _os
+    mod = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))
+    spec = importlib.util.spec_from_file_location(
+        "jts", _os.path.join(mod, "junction_transcript_sensitivity.py"))
+    jts = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(jts)
+    src = open(_os.path.join(mod, "junction_transcript_sensitivity.py")).read()
+    guard = "if j0 >= len(prot):"
+    assert guard in src, "the seam-index guard is gone; an ORF stopping early will raise again"
+    # the guard must precede the two uses that would raise
+    assert src.index(guard) < src.index("seam = prot[j0]"), (
+        "the guard sits after the indexing it protects")
+    assert src.index(guard) < src.index("fb.junction_peptides(prot, j0"), (
+        "peptides are enumerated before the seam index is known to be in range")
