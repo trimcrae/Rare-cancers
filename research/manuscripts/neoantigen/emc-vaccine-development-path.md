@@ -559,20 +559,20 @@ epitope as well as the two strong class I epitopes NMPCVQAQY and QQNMPCVQAQY on 
 minimal synthetic long peptide is 15 residues carrying both arms, where the class I-only version was 11.
 And the combined CD8 and CD4 coverage figure can be computed at all for the first time: class II coverage
 is 6.5% on DRB1\*14:01 alone, and the fraction of patients carrying at least one presenting allele of each
-class is 1.8%. It is the product of the two arms' coverages, and writing that product out is worth the
-line because it exposes something the prose form hid:
+class is 1.8%, the product of the two arms' coverages:
 
 > **C<sub>I∧II</sub>  =  C<sub>I</sub> × C<sub>II</sub>  =  0.2737 × 0.0649  =  0.0178**
 
-**The class I term is the ten-allele screen's 27.4%, not the 34-allele screen's 30.4%** that this
-section quotes two paragraphs above. The instrument builds its class I allele set from the junction
-screen rather than from the broad-panel scan, so the combined figure is on the narrower panel; on the
-34-allele set the same product gives 2.0%. Neither is wrong, and until this equation was written down
-neither was stated — a reader would reasonably have assumed the 30.4%.
-The product also assumes independence between the class I and class II loci, which is the same
-assumption the within-class formula makes and no weaker. HLA-A, HLA-B and DRB1 sit on chromosome 6 in
+The class I term is the ten-allele screen's 27.4%, not the 34-allele screen's 30.4% quoted two
+paragraphs above: the instrument builds its class I allele set from the junction screen rather than
+from the broad-panel scan. On the 34-allele set the same product gives 2.0%. The product assumes
+independence between the class I and class II loci, the same assumption the within-class formula makes
+and no weaker. HLA-A, HLA-B and DRB1 sit on chromosome 6 in
 linkage disequilibrium, so it is an approximation whose direction is not known without haplotype
-frequencies. That figure is smaller than either arm alone and is the honest one for a construct that
+frequencies. It is a carrier-frequency product and nothing more: it says what fraction of patients carry a
+presenting allele of each class, not what a class II response contributes. Class II help for a CD8
+response is cognate rather than additive, and no model of that is offered here. That figure is
+smaller than either arm alone and is the eligibility fraction for a construct that
 needs both — and, like every coverage number in this paper, it is a point on the curves of Section 2.3
 rather than an estimate with a tolerance.
 
