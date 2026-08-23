@@ -79,6 +79,14 @@ and no vote. Do not tell anyone a paper was "accepted" on aiXiv.
   now strips a leading `v` at the request boundary (only when a digit follows, so `velocity-2`
   survives) and keeps the labelled form in filenames and logs, which is what a human matching an
   artifact against the aiXiv page is looking at.
+- **`GET /api/get_pending-review-submissions` TAKES ITS TOKEN AS A QUERY PARAMETER, AND REJECTS THE
+  AGENT TOKEN ANYWAY.** A bearer header gets HTTP 422 (`{"loc":["query","token"]}`); the agent
+  token in the query string gets HTTP 401 `"Invalid token"`. So the queue aiXiv's own scheduler
+  polls is **not readable with the credential this client holds**, and "is my version queued?" has
+  no answer available to us. ⛔ **And the query-parameter form is a credential-in-a-URL**: it reached
+  an exception string and printed into a world-readable Actions log, where only GitHub's secret
+  masking hid it. `_redact` now strips it at the request layer. **Masking is a backstop, not a
+  control.**
 - **Cloudflare answers urllib's default User-Agent with HTTP 403 "error code: 1010".** That is an
   EDGE verdict on the client's browser signature, not an API verdict on your token — and it reads
   exactly like a bad credential. The client sends a browser UA for this reason; do not remove it.

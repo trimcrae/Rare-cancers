@@ -363,3 +363,33 @@ def test_status_without_a_token_declines_to_claim_nothing_is_queued(monkeypatch,
     out = capsys.readouterr().out
     assert "PENDING QUEUE NOT CHECKED" in out
     assert "NOTHING FOR THIS ID IS QUEUED" not in out
+
+
+def test_a_credential_in_a_query_string_is_redacted_before_it_reaches_an_exception(monkeypatch):
+    """⛔ THE REAL LEAK, AND THE PREVIOUS TEST OF IT WAS AGREEING WITH ITSELF.
+
+    `get_pending-review-submissions` takes its token as a query parameter and `_request`
+    interpolated the whole path into its error text, so a 401 printed a live credential into a
+    world-readable Actions log. GitHub's masking rendered it `***`; masking is a backstop, not a
+    control. This exercises the REAL error path rather than a mock that raises without one.
+    """
+    import urllib.error
+
+    def _boom(req, *a, **k):
+        raise urllib.error.HTTPError(req.full_url, 401, "Unauthorized", {},
+                                     __import__("io").BytesIO(b'{"detail":"Invalid token"}'))
+
+    monkeypatch.setattr(aixiv_review.urllib.request, "urlopen", _boom)
+    with pytest.raises(aixiv_review.AixivError) as e:
+        aixiv_review._request("/api/get_pending-review-submissions?token=s3cret-token",
+                              method="GET")
+    assert "s3cret-token" not in str(e.value), "the token reached the exception text"
+    assert "<redacted>" in str(e.value)
+    assert "Invalid token" in str(e.value), "the server's own message must survive redaction"
+
+
+def test_redaction_leaves_ordinary_paths_alone():
+    """A redactor that mangles every path makes every diagnostic worse."""
+    assert aixiv_review._redact("/api/get-review") == "/api/get-review"
+    assert aixiv_review._redact("/api/submissions/public?skip=0&limit=100") == (
+        "/api/submissions/public?skip=0&limit=100")

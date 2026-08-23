@@ -53,6 +53,7 @@ import argparse
 import json
 import mimetypes
 import os
+import re
 import sys
 import urllib.error
 import urllib.parse
@@ -83,6 +84,21 @@ class AixivError(RuntimeError):
     pass
 
 
+def _redact(path):
+    """Strip a credential out of a path before it can reach an exception, a log or a screen.
+
+    ⛔ MEASURED 2026-08-23, run 32652730342 → 32653xxxxx. `get_pending-review-submissions` takes its
+    token as a QUERY PARAMETER, and `_request` interpolated the whole path into its error text — so
+    a 401 from that endpoint printed the live token into a world-readable Actions log. GitHub's
+    secret masking rendered it `***` and that is the ONLY reason it did not leak; masking is a
+    backstop, not a control, and it protects only values Actions knows are secrets.
+    ⚠ The comment beside that call claimed the exception "carries only the path" — it does, and the
+    path IS the leak. The test that was supposed to cover this passed because its mock raised
+    without a path, which is a test agreeing with itself.
+    """
+    return re.sub(r"([?&](?:token|api_key|access_token)=)[^&]*", r"\1<redacted>", path)
+
+
 def _request(path, *, data=None, headers=None, method="POST", timeout=180):
     """One HTTP call. Returns parsed JSON, or raises AixivError carrying the server's own body.
 
@@ -110,9 +126,9 @@ def _request(path, *, data=None, headers=None, method="POST", timeout=180):
             body = r.read().decode("utf-8", "replace")
     except urllib.error.HTTPError as e:
         detail = e.read().decode("utf-8", "replace")[:2000]
-        raise AixivError(f"HTTP {e.code} from {path}: {detail}") from None
+        raise AixivError(f"HTTP {e.code} from {_redact(path)}: {detail}") from None
     except urllib.error.URLError as e:
-        raise AixivError(f"could not reach {url}: {e.reason}") from None
+        raise AixivError(f"could not reach {_redact(url)}: {e.reason}") from None
     try:
         return json.loads(body)
     except json.JSONDecodeError:
@@ -298,9 +314,15 @@ def cmd_status(args):
     # 32652730342: a bearer-header GET returned HTTP 422 `{"loc":["query","token"],"msg":"Field
     # required"}`. Every other authenticated endpoint on this API takes the header, so this one is
     # the exception and the exception is the whole reason the first attempt failed.
-    # ⚠ The token is a SECRET and this repository's Actions logs are world-readable, so it is put in
-    # the URL and the URL is never printed — the error path below prints the exception, which
-    # carries only the path `_request` was called with.
+    # ⚠ The token is a SECRET and this repository's Actions logs are world-readable. The error path
+    # below prints the exception, and the exception carries the path — WHICH IS THE TOKEN. That is a
+    # leak, it happened (run 32652730342 printed a live credential that only GitHub's masking hid),
+    # and the fix is `_redact` at the request layer rather than discipline at each call site.
+    # ⛔ MEASURED NEXT: an AGENT token is rejected here with HTTP 401 "Invalid token". This endpoint
+    # wants a different credential from the one that submits and fetches, so the pending queue is
+    # NOT readable by this client and the never-enqueued finding below can never fire on real data
+    # until that changes. It stays because the alternative is silently reporting a queue we cannot
+    # see as empty.
     try:
         tok = _token()
     except AixivError as e:
