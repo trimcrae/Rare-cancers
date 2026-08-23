@@ -695,7 +695,36 @@ looking-glass is imprecise.
 coverage upward, and a higher predicted-presentation figure is not evidence that any patient's tumour
 presents anything.
 
-### 6.1 Conditions for revision
+### 6.1 Order of the remaining questions
+
+No dates are offered and none of the steps below is scheduled; what follows is an ordering, and the
+ordering is the content. Each step is cheaper than the one after it and each can close the route, so
+running them out of order spends the expensive ones on a question a cheap one would have settled.
+
+1. **Defend the acceptance threshold, or record that it cannot be defended.** Computational, needs
+   nothing but public data. Calibrate the cut against experimentally validated epitopes, and if no
+   validated set restricted to fusion-junction peptides exists, that absence is itself the finding
+   and Section 2.3's curve is the only honest report of coverage. Until this is done every figure in
+   B1 is a point on a curve.
+2. **Measure whether the lead peptide binds its allele at all.** Synthesise NMPCVQAQY and test
+   binding to HLA-B\*15:01 in a cell-based stabilisation assay. Positive says the predictor is
+   calibrated at the one peptide this route leans on; negative removes the lead and, with it, 8.5%
+   of the 30.4%. This is a peptide and a cell line, not tissue.
+3. **Look for the peptide on a tumour.** Immunopeptidomics on EMC tissue or a patient-derived line,
+   with the limit of detection, the specimen count and their HLA types, and the abundance-matched
+   positive control all fixed before the run, per B2. This is the decisive step and the first that
+   requires material this programme cannot obtain.
+4. **Only if step 3 is positive, ask whether a T cell sees it.** Recognition of the peptide-HLA
+   complex by T cells from HLA-matched donors. A negative here is the one that B3 predicts and that
+   nothing computational can rule out.
+5. **Only then is there anything to build.** The construct in Section 2 is an output of a screen and
+   is not a candidate for administration; it exists so that steps 2 to 4 have something specific to
+   test.
+
+Steps 1 and 2 would together decide whether the rest is worth commissioning, and neither needs an
+EMC specimen. That is the whole of what this paper can say about what to do next.
+
+### 6.2 Conditions for revision
 
 Four statements in this paper are falsifiable by an observation a reader could go and make, and they are
 listed so a future reader can check them rather than re-derive them. Sequence-level novelty for 170 of 174

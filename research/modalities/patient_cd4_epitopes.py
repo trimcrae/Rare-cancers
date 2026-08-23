@@ -141,6 +141,18 @@ def main():
                                  f"{m.get('n_from_left','?')} left + "
                                  + ("1 seam codon + " if m.get("seam_codon_included") else "")
                                  + f"{m.get('n_from_right','?')} right")})
+    # ⛔ AN ALLELE MHCNUGGETS COULD NOT SCORE IS NOT AN ALLELE THAT FAILED TO BIND. With the panel
+    # widened to DP and DQ this stopped being hypothetical: a missing model silently folded into
+    # "no strong binder on the panel" would turn an unscreened allele into a negative result, and
+    # the whole point of widening the panel was to stop bounding the question with three alleles.
+    errored = sorted(result.get("allele_errors", {}))
+    result["alleles_without_a_model"] = errored
+    result["n_alleles_screened"] = len(alleles) - len(errored)
+    result["⚠_missing_model_is_not_a_negative"] = (
+        "Alleles listed in alleles_without_a_model were not scored at all. They are excluded from "
+        "every count below and must never be read as alleles that failed to present." if errored
+        else "every declared allele was scored")
+
     rows.sort(key=lambda r: r["ic50_nM"])
     binders = [r for r in rows if r["call"] != "non-binder"]
     result["n_predicted_binders"] = len(binders)

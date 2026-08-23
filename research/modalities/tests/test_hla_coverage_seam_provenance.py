@@ -54,3 +54,30 @@ def test_none_is_treated_as_not_established_by_the_caller():
     grade = hc.class_ii_seam_grade({"junction_context": ""})
     assert grade["matches_corrected_seam"] in (None, False)
     assert grade["⛔"], "an unestablished provenance must still say so"
+
+
+# ---------------------------------------------------------------------------------------------
+# ⭐ Added 2026-08-23 with the class II panel widening (3 DRB1 alleles -> 23 across DR, DP and DQ),
+# answering aiXiv reviews 1364 and 1365. The widening creates a failure mode the three-allele panel
+# did not have: MHCnuggets carries no model for some DP and DQ alleles, and an allele it could not
+# score folded silently into "no strong binder on the panel" would convert an UNSCREENED allele into
+# a NEGATIVE RESULT — in the one section of the paper whose whole point is that a narrow panel
+# bounds nothing.
+def test_an_unscreenable_class_ii_allele_is_named_and_not_counted_as_a_negative():
+    import json as _json
+    import os as _os
+    demo = _os.path.join(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))),
+                         "patient-cd4-demo.json")
+    if not _os.path.exists(demo):
+        import pytest as _pytest
+        _pytest.skip("patient-cd4-demo.json not generated here")
+    with open(demo) as fh:
+        d = _json.load(fh)
+    if "alleles_without_a_model" not in d:
+        import pytest as _pytest
+        _pytest.skip("artifact predates the widened panel; regenerated in the next CI run")
+    missing = set(d["alleles_without_a_model"])
+    assert d["n_alleles_screened"] == len(d["patient_class2_hla"]) - len(missing)
+    scored = {r["allele"] for r in d.get("all_predictions", [])}
+    assert not (scored & missing), "an allele reported as unscreenable carries predictions"
+    assert d["⚠_missing_model_is_not_a_negative"]
