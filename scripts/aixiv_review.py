@@ -55,6 +55,7 @@ import mimetypes
 import os
 import sys
 import urllib.error
+import urllib.parse
 import urllib.request
 import uuid
 
@@ -293,8 +294,23 @@ def cmd_status(args):
     # as returning submissions with status "Under Review" — which is what aiXiv's own scheduler
     # polls. A version sitting there is QUEUED and the answer is to wait; a version in neither list
     # was never enqueued, and waiting is then a mistake no amount of patience corrects.
+    # ⛔ THE TOKEN GOES IN THE QUERY STRING HERE, NOT IN A HEADER. Measured 2026-08-23, run
+    # 32652730342: a bearer-header GET returned HTTP 422 `{"loc":["query","token"],"msg":"Field
+    # required"}`. Every other authenticated endpoint on this API takes the header, so this one is
+    # the exception and the exception is the whole reason the first attempt failed.
+    # ⚠ The token is a SECRET and this repository's Actions logs are world-readable, so it is put in
+    # the URL and the URL is never printed — the error path below prints the exception, which
+    # carries only the path `_request` was called with.
     try:
-        pend = _request("/api/get_pending-review-submissions", method="GET")
+        tok = _token()
+    except AixivError as e:
+        print(f"  PENDING QUEUE NOT CHECKED: {e}")
+        print("  ⚠ No token, so the queue was not read. That is an absent reading, not a reading of")
+        print("    absence — do not conclude a missing version was never enqueued.")
+        return 0
+    try:
+        pend = _request(f"/api/get_pending-review-submissions?token={urllib.parse.quote(tok)}",
+                        method="GET")
     except AixivError as e:
         print(f"  PENDING QUEUE UNREADABLE: {e}")
         print("  ⚠ So this run cannot say whether a missing version is queued. That is an absent")

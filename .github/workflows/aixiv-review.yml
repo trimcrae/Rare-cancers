@@ -144,8 +144,13 @@ jobs:
       # version does not exist" from "it exists but is not queued" from "it is queued and the
       # reviewer has not run", and polling harder distinguishes none of them. This prints every
       # version aiXiv holds for the id with its status and review count. Needs no token.
+      # ⚠ NEEDS THE TOKEN, unlike the other read-only modes: the pending-review queue takes it as a
+      # QUERY PARAMETER (measured — a bearer header gets HTTP 422 there). The client puts it in the
+      # URL and never prints the URL, because these logs are world-readable.
       - name: What aiXiv holds for this paper (versions, status, review counts)
         if: ${{ inputs.mode == 'status' }}
+        env:
+          AIXIV_TOKEN: ${{ secrets.AIXIV_TOKEN }}
         run: python3 scripts/aixiv_review.py status --aixiv-id "${{ inputs.aixiv_id }}"
 
       - name: Fetch recorded reviews

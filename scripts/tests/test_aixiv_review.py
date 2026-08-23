@@ -268,6 +268,7 @@ def test_status_says_absent_from_the_listing_is_not_absent_from_aixiv(monkeypatc
 
 
 def test_status_counts_reviews_per_version(monkeypatch, capsys):
+    monkeypatch.setenv("AIXIV_TOKEN", "t")
     def _req(path, **k):
         if path.startswith("/api/submissions/public"):
             return ([{"aixiv_id": "x", "version": "1.3", "status": "Reviewed"},
@@ -291,6 +292,7 @@ def test_status_counts_reviews_per_version(monkeypatch, capsys):
 def test_status_says_plainly_when_nothing_is_queued(monkeypatch, capsys):
     """⛔ THE FINDING THAT ENDS A WAIT. A version in neither list was never enqueued, and waiting
     longer produces nothing — so this has to be stated, not left for a reader to infer from silence."""
+    monkeypatch.setenv("AIXIV_TOKEN", "t")
     def _req(path, **k):
         if path.startswith("/api/submissions/public"):
             return [{"aixiv_id": "x", "version": "1.3", "status": "official review completed"}] \
@@ -309,6 +311,7 @@ def test_status_says_plainly_when_nothing_is_queued(monkeypatch, capsys):
 def test_an_unreadable_pending_queue_is_an_absent_reading_not_a_verdict(monkeypatch, capsys):
     """⛔ If the queue cannot be read, 'not queued' has NOT been established. Saying otherwise would
     end a wait on the strength of a failed request."""
+    monkeypatch.setenv("AIXIV_TOKEN", "t")
     def _req(path, **k):
         if path.startswith("/api/submissions/public"):
             return [{"aixiv_id": "x", "version": "1.3", "status": "done"}] if "skip=0" in path else []
@@ -320,4 +323,43 @@ def test_an_unreadable_pending_queue_is_an_absent_reading_not_a_verdict(monkeypa
     aixiv_review.main(["status", "--aixiv-id", "x"])
     out = capsys.readouterr().out
     assert "PENDING QUEUE UNREADABLE" in out
+    assert "NOTHING FOR THIS ID IS QUEUED" not in out
+
+
+def test_the_pending_queue_sends_the_token_in_the_query_string_and_never_logs_it(monkeypatch, capsys):
+    """⛔ MEASURED: this endpoint alone wants `?token=`, not a bearer header (HTTP 422 otherwise).
+
+    ⚠ AND THE TOKEN MUST NOT REACH THE LOG. This repository's Actions logs are world-readable, so
+    the second assertion is not hygiene — it is the difference between a diagnostic and a leaked
+    credential.
+    """
+    monkeypatch.setenv("AIXIV_TOKEN", "s3cret-token")
+    seen = {}
+
+    def _req(path, **k):
+        if path.startswith("/api/submissions/public"):
+            return [{"aixiv_id": "x", "version": "1.3", "status": "done"}] if "skip=0" in path else []
+        if path.startswith("/api/get_pending-review-submissions"):
+            seen["path"] = path
+            return []
+        return {"review_list": []}
+
+    monkeypatch.setattr(aixiv_review, "_request", _req)
+    aixiv_review.main(["status", "--aixiv-id", "x"])
+    assert "token=s3cret-token" in seen["path"], "the token did not reach the query string"
+    assert "s3cret-token" not in capsys.readouterr().out, "the token was printed to a public log"
+
+
+def test_status_without_a_token_declines_to_claim_nothing_is_queued(monkeypatch, capsys):
+    """No credential means the queue was NOT read, which is not the same as reading it empty."""
+    monkeypatch.delenv("AIXIV_TOKEN", raising=False)
+    def _req(path, **k):
+        if path.startswith("/api/submissions/public"):
+            return [{"aixiv_id": "x", "version": "1.3", "status": "done"}] if "skip=0" in path else []
+        return {"review_list": []}
+
+    monkeypatch.setattr(aixiv_review, "_request", _req)
+    aixiv_review.main(["status", "--aixiv-id", "x"])
+    out = capsys.readouterr().out
+    assert "PENDING QUEUE NOT CHECKED" in out
     assert "NOTHING FOR THIS ID IS QUEUED" not in out
