@@ -1,6 +1,6 @@
 ---
 name: paper-hardening
-description: The repeatable cycle that takes a manuscript from "the science is done" to "submission ready" — iterated blind adversarial review rounds, applied and re-run until convergence, WITHOUT the paper ballooning in length. Load when starting or continuing a hardening cycle, before launching a review round, before applying a round's findings to the prose, before deciding whether another round is warranted, and any time you are about to add a sentence to a manuscript that is already under review. Covers: the per-round word budget as a hard gate, and why thirteen rounds grew one article monotonically 2,914 to 5,976 words; a correction REPLACES text and never appends; the five blind seats and the regression lens that found the only round-13 blocker; review a PINNED COMMIT, never the working tree; refute by default; why a verifier's pasteable fix is not pre-verified prose; the one-of-a-pair defect class (seven found, the seventh inside the test selector itself); mutation-testing every guard you write, single-site mutations included; the four process defects that cost real rounds; and the convergence test — no blockers AND no P1s. Commit and gate mechanics live in `repo-gates`, not here.
+description: The repeatable cycle that takes a manuscript from "the science is done" to "submission ready" — iterated blind adversarial review rounds, applied and re-run until convergence, WITHOUT the paper ballooning in length. Load when starting or continuing a hardening cycle, before launching a review round, before applying a round's findings to the prose, before deciding whether another round is warranted, and any time you are about to add a sentence to a manuscript that is already under review. Covers: the per-round word budget as a hard gate on VENUE-CAPPED submissions and why it does not apply to aiXiv, which caps nothing; why thirteen rounds grew one article monotonically 2,914 to 5,976 words; a correction REPLACES text and never appends; the five blind seats and the regression lens that found the only round-13 blocker; review a PINNED COMMIT, never the working tree; refute by default; why a verifier's pasteable fix is not pre-verified prose; the one-of-a-pair defect class (seven found, the seventh inside the test selector itself); mutation-testing every guard you write, single-site mutations included; the four process defects that cost real rounds; and the convergence test — no blockers AND no P1s. Commit and gate mechanics live in `repo-gates`, not here.
 ---
 
 # Hardening a paper: adversarial rounds without prose inflation
@@ -36,9 +36,23 @@ about the process rather than any one sentence, which is the strongest signal th
 
 ### The rule
 
-- **⛔ EVERY ROUND DECLARES A WORD BUDGET BEFORE IT STARTS, AND A ROUND THAT EXCEEDS IT IS NOT DONE.**
-  The budget is declared before the seats launch, so it cannot be rationalised from the findings.
-  Measure main text and each section, both at the pin and after application.
+- **⛔ A ROUND ON A VENUE-CAPPED SUBMISSION DECLARES A WORD BUDGET BEFORE IT STARTS, AND A ROUND THAT
+  EXCEEDS IT IS NOT DONE.** The budget is declared before the seats launch, so it cannot be
+  rationalised from the findings. Measure main text and each section, both at the pin and after
+  application.
+  - **⛔ NOT ON aiXiv (trimcrae, 2026-08-22: *"We don't need a word budget on aiXiv submissions"*).**
+    aiXiv imposes no length limit of any kind — `SubmissionCreate.abstract` is a nullable string with
+    no `maxLength`, and there is no page or word cap — so a numeric cap on an aiXiv-targeted round is
+    a constraint this repository invented. Measured that day: a round trimmed **six words** to meet a
+    self-declared +60, which bought the paper nothing and cost a revision cycle.
+  - ⚠ **WHAT THE BUDGET WAS ACTUALLY FOR SURVIVES, AND IT IS NOT A VENUE LIMIT.** The thirteen-round
+    evidence above is a *prose* failure, not a length-limit failure: every P1 was closed by appending
+    a qualifying clause, which is why §5 reached **1.89× §3** in a paper where §3 carries the result.
+    So on an uncapped venue: **still measure at the pin and after, still report the delta, and the
+    replace-not-append rule below is the gate.** A round that grows the paper while leaving the
+    wrong sentences in place has failed whether or not a number was exceeded.
+  - ⚠ **AND UNCAPPED IS NOT A LICENCE TO PAD.** If a round's delta is large, that is a finding about
+    the round — say so and say why — not a fact to leave unremarked because nothing forbade it.
 - **⛔ A CORRECTION REPLACES TEXT; IT DOES NOT APPEND TO IT.** If the sentence is wrong, rewrite the
   sentence. A qualifier bolted onto a wrong sentence leaves the wrong sentence in the paper and adds a
   second one that argues with it.
@@ -65,12 +79,12 @@ panel's own Wilson interval at the adopted ten-base-pair cut, 40.6 % in 38.9–5
 
 ## 2 · What a round looks like — the runbook
 
-1. **Declare the word budget** (§1) and write it down before anything launches.
+1. **Declare the word budget** (§1) and write it down before anything launches — **on a venue-capped submission**. On aiXiv there is no cap: still record the word count at the pin, and report the delta at the end.
 2. **Pin a commit** (§3). Every seat reviews that SHA and nothing else.
 3. **Launch N blind seats with distinct lenses** (§4). No cross-talk.
 4. **Synthesize by grade** — blocker / P1 / P2 — and note where seats converged independently.
 5. **Verify every finding against the artifacts** (§5). Default REFUTED.
-6. **Apply survivors as replacements, inside the budget** (§1).
+6. **Apply survivors as REPLACEMENTS** (§1) — inside the budget where one applies, and replacing rather than appending in every case, which is the gate that does not depend on a venue.
 7. **Regenerate downstream artifacts with the chain script** (§7c), never by hand.
 8. **Gate** — `repo-gates`.
 9. **Commit with a message whose claims match its diff** (§7b).

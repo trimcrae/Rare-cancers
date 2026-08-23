@@ -96,6 +96,26 @@ free work, curation you can verify, ordering self-doable work, or cheap authoriz
 **This does not pause self-doable no-spend work**: produce the block only when the step is imminent, and keep
 building meanwhile.
 
+- **⛔⛔ PUBLISH ONLY THE PAPER TRIMCRAE NAMED, AS THE PAPER IT IS. PER PAPER, PER ACT**
+  (trimcrae, 2026-08-23, after both halves were broken in one session). Submitting, posting a new
+  version, or otherwise putting a manuscript in public under his name and ORCID requires that **he
+  named THAT paper for THAT act**. Never infer the paper from a goal, a quality bar, a portfolio
+  view or a previous approval of a different one. **A standing standard — "get everything to at
+  least a 7" — is a BAR FOR WHAT WE SUBMIT, NOT A LICENCE TO SUBMIT**; it says how good a thing must
+  be before it goes out, and says nothing about which thing goes out or when.
+  - **⛔ BEING BLOCKED IS NOT AUTHORISATION.** A goal you cannot otherwise satisfy, a stop condition
+    that will not clear, an instruction to "keep iterating" — none of these selects a paper. When the
+    only way left to satisfy a goal is an act nobody authorised, **the goal is what yields**, and you
+    say so. ⚠ The tell is reasoning of the form *"the standing goal must implicitly cover this"* —
+    that is the sound of talking yourself into it, and on 2026-08-23 it followed two messages after
+    writing *"picking which one to publish is yours, not mine."*
+  - **⛔ AND DO NOT RESHAPE A NAMED PAPER INTO A DIFFERENT ONE.** Retitling or reframing the paper he
+    asked for — to chase a score, a venue's taste or a reviewer's rubric — publishes something he did
+    not ask for under the identifier he did. The claims may be untouched and it is still the wrong
+    paper: **the title is what a reader searches and what the record says the work is.**
+  - ✅ **What needs no permission is unchanged:** building the PDF, generating metadata, running the
+    gates, dry runs, fetching reviews, calibrating. Prepare everything; post nothing.
+
 When a trigger applies the block is the **first thing** in your reply — self-contained, copyable, fenced,
 because the reviewer sees only what is inside it. **Its six required parts: `repo-gates`.** Apply the returned
 changes yourself, then proceed.
@@ -185,7 +205,7 @@ carry every rule verbatim, with its evidence. **A tripwire that did not fire is 
 | dispatch a workflow · run a branch's CI without merging · supervise a billing fleet · set up a self-wake poller | **`ci-escape-hatches`** |
 | **rent, relaunch or refuse a host** · launch a fleet · pick a provider · write a job that checkpoints · diagnose a Vast/GCP provisioning, quota or teardown problem · install anything on a machine we pay for | **`gpu-compute`** |
 | your final message **leaves real compute running** · about to print a `$/ns`, cost row or drift flag | **`inflight-reporting`** |
-| **commit or push** · run preflight · a gate goes red · edit a manuscript or SI · touch `systems/` or the registry · any **outward-facing** step (preprint, submission, release, DOI) | **`repo-gates`** |
+| **commit or push** (a merge to `main` included — that is the ordinary commit loop) · run preflight · a gate goes red · edit a manuscript or SI · touch `systems/` or the registry · **PUBLISH** — and publishing is the closed list *preprint, submission, release, DOI*, the only four things `PREFLIGHT_FULL=1` is for | **`repo-gates`** |
 
 **Four rules that must fire even if you never load a skill**, because each guards an irreversible or expensive
 act you'd commit *before* thinking to consult anything:
@@ -196,8 +216,43 @@ act you'd commit *before* thinking to consult anything:
   not a label — and **every** rental is gated, resume and cold single unit included.
 - **⛔ CHECKPOINT AFTER EACH UNIT, UPLOAD AS YOU WRITE (`s3_upload_mode="Continuous"`), AND DEFAULT EVERY GPU
   RUN TO SPOT** — spot is only safe *because* of the checkpointing.
-- **⛔ BEFORE COMMITTING, `./scripts/preflight.sh` MUST PASS**, exit code unmasked. Before anything
-  outward-facing: **`PREFLIGHT_FULL=1`** — scoping is not a claim that the rest of the suite passes.
+- **⛔ BEFORE COMMITTING, `./scripts/preflight.sh` MUST PASS**, exit code unmasked. **That plain command
+  is the answer almost every time — it is the commit loop, it takes seconds to a few minutes, and it runs
+  EVERY fast gate plus the tests your change can reach.**
+  - **`PREFLIGHT_FULL=1` IS FOR PUBLICATION AND NOTHING ELSE — A CLOSED LIST: a preprint, a journal or
+    aiXiv submission, a release, a DOI/Zenodo deposit.** That is the whole list. It costs **~25 minutes**
+    (the modalities suite alone is ~20), so running it where it is not required is not "being careful",
+    it is spending half an hour to learn nothing the scoped run did not already tell you.
+  - ⛔ **A MERGE OR PUSH TO `main` IS THE COMMIT LOOP, NOT PUBLICATION.** ⚠ *Added 2026-08-23 after this
+    exact reasoning cost about two hours: `main` is the trunk every workflow runs from, which feels like
+    it should raise the bar, and the rule as written never said otherwise — it defined FULL by four
+    examples and named nothing on the other side, so the gap got filled with the expensive guess.*
+    **The test is NOT how important the ref is, and it is NOT visibility — the repo is PUBLIC and a
+    stranger CAN read `main`, but that is a permission, not a reader.** ★★ **THE TEST IS WHETHER
+    ANYONE ACTUALLY READS IT, AND THE ANSWER FOR THIS REPOSITORY IS NO** (trimcrae, 2026-08-23:
+    *"Nobody is reading this repo. The only time anyone reads anything is when we submit a paper."*).
+    **This repository has exactly one reader — the project itself: trimcrae and the agent sessions.**
+    Every mistake in it is found by us and fixed by us with another commit, and nobody outside ever
+    had to care. **A submission is the ONLY moment anything here reaches an outside reader**, and it
+    is undone only by a public correction against an identifier somebody may already have cited.
+    **That is what the 25 minutes is for, and it is the only thing it is for.** So also just
+    `preflight.sh`: a commit, a merge or push to any branch including `main`, a PR, a regenerated
+    artifact, a CI dispatch.
+  - ⛔ **AND THIS IS NOT A LICENCE TO BE SLOPPY IN THE REPO — IT SEPARATES TWO THINGS THAT KEEP GETTING
+    CONFLATED.** *Rigour of CONTENT* — one fact one place, a derived total never typed, an honest
+    UNKNOWN over a remembered number, a negative reported at its true weight — **does not scale with
+    audience and never relaxes**, because the thing relying on it is the NEXT SESSION, which inherits
+    every wrong number as a fact. *Ceremony of GATING* — how many minutes of checking an act buys —
+    **scales with who reads the result**, which is nobody until we submit. **Get the content right
+    every time; spend the 25 minutes only at the one door that opens outward.**
+  - ⭐ **AND THE CASCADE IS THE REAL COST, NOT THE 25 MINUTES.** An unnecessary FULL run surfaces
+    pre-existing failures that have nothing to do with your change, and chasing them is now your
+    afternoon. **If FULL goes red on something you did not touch, the FIRST move is `git stash` and
+    re-run on clean `origin/main`** — if it reproduces, it is not yours, and the decision to fix it is
+    a SEPARATE task to raise, not to absorb silently into the one you were asked for.
+  - **The one thing the scoped run does not do is claim the rest of the suite passes** — which is fine,
+    because `tests.yml` runs the whole thing on every push, with the real dependencies, and it is the
+    authority. **Watch CI; do not pre-run it locally.**
 
 ## 7 · Repo basics
 

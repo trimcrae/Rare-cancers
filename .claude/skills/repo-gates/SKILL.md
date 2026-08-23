@@ -59,9 +59,37 @@ Extracted from CLAUDE.md §7 (plus §5's deliverable map) on 2026-08-15, **verba
   - **`./scripts/preflight.sh`** — every fast gate, plus only the tests the change can reach
     ([`affected_tests.py`](./scripts/affected_tests.py), a static import graph with transitive
     closure). **This is the commit loop.**
-  - **`PREFLIGHT_FULL=1 ./scripts/preflight.sh`** — everything. **Required before anything
-    outward-facing: a preprint, a submission, a release, a DOI.** Scoping is not a claim that the
-    rest of the suite passes.
+  - **`PREFLIGHT_FULL=1 ./scripts/preflight.sh`** — everything, **~25 minutes** (the modalities
+    suite alone is ~20). **Required before PUBLISHING, and publishing is a CLOSED LIST OF FOUR: a
+    preprint, a submission, a release, a DOI.** Scoping is not a claim that the rest of the suite
+    passes — but `tests.yml` makes that claim on every push, with the real dependencies, and it is
+    the authority. Watch CI; do not pre-run it locally.
+    - ⛔ **A MERGE OR PUSH TO `main` IS NOT ON THE LIST, AND READING IT ONTO THE LIST COST ABOUT TWO
+      HOURS (2026-08-23).** The reasoning that gets you there is seductive and wrong: *`main` is the
+      trunk every workflow runs from, so surely it deserves the full gate.* The rule defined FULL by
+      four examples and named nothing on the other side, so the gap got filled with the expensive
+      guess. ⚠ **And do not reach for visibility as the test either — this repository is PUBLIC**, so
+      a stranger can read `main` the moment you push, and "outward-facing" read literally would sweep
+      in every commit. ★★ **THE TEST IS WHETHER ANYONE ACTUALLY READS IT** (trimcrae, 2026-08-23:
+      *"Nobody is reading this repo. The only time anyone reads anything is when we submit a paper."*).
+      Public is a permission, not a reader. **This repository has exactly one reader — the project
+      itself**, so every mistake in it is caught and fixed by us with another commit; a submission is
+      the only moment anything reaches an outside reader, and is undone only by a public correction
+      against an identifier someone may already have cited.
+    - ⛔ **THAT IS NOT A LICENCE TO BE SLOPPY IN THE REPO. Two things get conflated and must not be.**
+      *Rigour of CONTENT* — one fact one place, derived totals, honest UNKNOWNs, negatives at their
+      true weight — **never relaxes**, because the reader relying on it is the NEXT SESSION, which
+      inherits every wrong number as a fact. *Ceremony of GATING* — minutes of checking bought per act
+      — **scales with who reads the result**, and that is nobody until we submit.
+    - ⭐ **THE 25 MINUTES IS NOT THE COST — THE CASCADE IS.** An unneeded FULL run surfaces
+      pre-existing failures unrelated to your change, and chasing them becomes the task. On
+      2026-08-23 it surfaced 84 modality failures that were **all** a missing-dependency gap present
+      on `main` before the change; fixing the environment then cost three more 25-minute runs to
+      verify. The fix was worth having and is documented below — **it was not the task that was
+      asked for**, and absorbing it silently was the error.
+    - ⭐ **SO WHEN FULL GOES RED ON SOMETHING YOU DID NOT TOUCH, THE FIRST MOVE IS `git stash` AND
+      RE-RUN ON CLEAN `origin/main`.** If it reproduces, it is not yours. Say so, and treat fixing it
+      as a separate task to raise rather than one to swallow into the current one.
   - ⛔ **THE SELECTOR FAILS TO FULL, AND THAT IS THE ENTIRE SAFETY ARGUMENT.** A changed `conftest`,
     a changed test helper, an unparseable source, a git that will not answer, or an edit to the
     selector or to `preflight.sh` all take the whole suite. A gate that quietly runs too little is
@@ -129,6 +157,42 @@ Extracted from CLAUDE.md §7 (plus §5's deliverable map) on 2026-08-15, **verba
     tidiness: gates 2 and 3 are the two checks that enforce **provenance and medical integrity**, and one
     of them was invisible locally while the other was trusted. ⚠ **When you add a check to `tests.yml`, the
     question is not "does CI run it" but "would a session that only ran preflight have seen it".**
+
+### ⭐ THE SANDBOX DEP GAP IS FIXABLE, AND UNTIL 2026-08-23 NOBODY HAD FIXED IT
+
+**`PREFLIGHT_FULL=1` could not pass in this dev sandbox at all — on `main`, before any change.**
+Measured that day: **84 modality failures and 29 manuscript failures, every one a missing import**,
+plus `systems_check.py` refusing to run for want of `jsonschema`. The tiered-preflight note above
+records the gap as a fact of life (*"this sandbox lacks numpy, rdkit, boto3, scipy, pymbar and
+netCDF4"*) and routes around it. **It is not a fact of life. It is nine pip installs.**
+
+⛔ **THE TRAP, AND IT COSTS AN HOUR IF YOU MISS IT: `pytest` IS A `uv` TOOL IN ITS OWN VENV.**
+Installing into the system interpreter changes nothing the tests can see — `python3 -c "import
+pdfminer"` succeeds while the identical import inside a test still raises `ModuleNotFoundError`.
+The deps have to go into the tool's environment:
+
+```bash
+uv tool install --force \
+  --with pdfminer.six --with pypdf --with jsonschema --with numpy --with scipy \
+  --with rdkit --with boto3 --with netCDF4 --with pymbar --with pyyaml --with biopython \
+  pytest
+python3 -m pip install jsonschema        # systems_check.py runs under system python3, not pytest
+```
+
+**Measured effect, in order, each step's failures being purely the next missing import:**
+84 → 36 (numpy/scipy/rdkit/boto3/netCDF4/pymbar) → 1 (pyyaml) → **0** (biopython). Final:
+**7,822 passed, 0 failed** on the full modality suite, and `PREFLIGHT OK` end to end.
+
+⚠ **DO NOT PRUNE `sandbox-failure-baseline.txt` ON THE STRENGTH OF THIS.** A green run after
+installing the deps reports *"11 baseline entries no longer fail — prune them"*, and pruning would be
+wrong: those entries describe a **fresh** sandbox, which is what the next session gets. The baseline
+is a statement about the default environment, not about yours. **Install the deps; leave the baseline
+alone.**
+
+⚠ And note what the gate did right while the gap was open: with deps missing it reported the extra
+failures as **"NOT in the sandbox baseline"** and refused to pass, rather than tolerating a count.
+That is the 2026-08-08 design working — the baseline had drifted behind a growing suite, and the gate
+failed closed instead of waving 36 unknown failures through.
 
 ## Architecture and retired surfaces
 

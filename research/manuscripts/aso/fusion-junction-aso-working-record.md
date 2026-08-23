@@ -1480,6 +1480,12 @@ in fusion expression and a 22% reduction in proliferation in vitro (**PMID 37370
 tumour-growth reduction in that study is attributable to its CRISPR/CasRx arm) — in a rare soft-tissue
 sarcoma, with the very controls the red-team required here. A lab weighing a technician-month on an
 ultra-rare disease is being asked to repeat a routine protocol on a new fusion, not to invent one.
+⭐ **The technician-month has been priced, and it is the load-bearing part of the ask** — contracted
+at published academic core-facility rates, labour is the overwhelming majority of this experiment and
+the engineered isogenic control the red team requires above is a separate five-figure line of its own:
+[`wet-lab-contracting-costs.md`](../modality-census/wet-lab-contracting-costs.md) owns every figure,
+**do not restate one here.** ⚠ It also records that this section's own "technician-month" and that
+memo's independent estimate agree only to within about 1.5×, with this section's the lower of the two.
 
 **Named recipients — the outreach ask (preprint-stage action).** This is no longer an abstract "someone should
 run it": two groups now hold patient-derived EMC lines and screen drugs on them — the **USZ / University
