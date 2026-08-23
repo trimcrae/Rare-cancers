@@ -31,7 +31,7 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 
 PAPERS = {
-        "fusion-output": {
+    "fusion-output": {
         "manuscript": "fusion-output/nr4a3-fusion-transcriptional-output.md",
         "out": "fusion-output/nr4a3-fusion-transcriptional-output-aixiv-metadata.json",
         "authorship_type": "human",
