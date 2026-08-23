@@ -27,6 +27,7 @@ with the citation that carries it — never left to look like an artifact-backed
 from __future__ import annotations
 
 import io
+import json
 import os
 import re
 
@@ -37,11 +38,43 @@ MANUSCRIPTS = os.path.abspath(os.path.join(HERE, ".."))
 REPO = os.path.abspath(os.path.join(MANUSCRIPTS, "..", ".."))
 ASO = os.path.join(MANUSCRIPTS, "aso")
 
+#: ⛔⛔ THIS WAS AN ENUMERATION OF FOUR UNDER A COMMENT READING "EVERY DOCUMENT, NOT THE TWO OBVIOUS
+#: ONES" (round 17 seat B, 2026-08-23). It missed the supplementary information and the deposit
+#: tables, so `NR4A7` in the SI's H1 and `RNase-H7` in the deposit tables shipped green into both
+#: rebuilt PDFs — caught by nothing, in the guard whose own comment claims the opposite.
+#: ★ Seat B measured the pattern over 33 mutations: fixes bound to a PREDICATE held; every fix whose
+#: scope was a LIST regressed at a sibling, six of eleven, and in three the sibling was named in the
+#: fix's own comment. A list is a thing somebody must remember to extend.
+#: ⚠ BUT "EVERY .md IN THE DIRECTORY" IS THE WRONG PREDICATE AND REDS ON TRUE INPUT — measured: it
+#: pulls in working notes and a review backlog, which legitimately name genes no artifact attests.
+#: The honest predicate is "a document this submission SHIPS", and the archive manifest is the
+#: record of exactly that, so a document added to the deposit is in scope without anybody
+#: remembering it.
+MANIFEST = os.path.join(ASO, "fusion-junction-aso-archive-manifest.json")
+
+#: ⚠ ENUMERATED ON PURPOSE, AND THE ENUMERATION IS ASSERTED COMPLETE BELOW. Deriving this set
+#: from the manifest at import time was tried and BROKE WITNESS DISCOVERY: `claim_ablation.
+#: guards_reading` finds the guards that read a document by grepping test sources for its
+#: BASENAME, so removing the literals made this file invisible to the ablation gate and two
+#: sentences it protects reported blind. A derived set is not greppable.
+#: ★ So both properties are kept: the names are literals a static scan can find, and
+#: `test_the_document_set_is_every_document_the_submission_ships` fails if the manifest ever
+#: names one that is missing here. A list whose completeness is ASSERTED is not a list
+#: somebody has to remember to extend, which is the property §8b.2 is actually about.
 DOCUMENTS = {
-    "journal-article": os.path.join(ASO, "fusion-junction-aso-journal-article.md"),
-    "journal-tables": os.path.join(ASO, "fusion-junction-aso-journal-tables.md"),
-    "cover-letter": os.path.join(ASO, "fusion-junction-aso-cover-letter.md"),
-    "extended-report": os.path.join(ASO, "fusion-junction-aso-research-article.md"),
+    "aso-citations-priorart-2026-08-08": os.path.join(ASO, "aso-citations-priorart-2026-08-08.md"),
+    "aso-delivery-antigen-2026-08-08": os.path.join(ASO, "aso-delivery-antigen-2026-08-08.md"),
+    "fusion-junction-aso-cover-letter": os.path.join(ASO, "fusion-junction-aso-cover-letter.md"),
+    "fusion-junction-aso-journal-article": os.path.join(ASO, "fusion-junction-aso-journal-article.md"),
+    "fusion-junction-aso-journal-references": os.path.join(ASO, "fusion-junction-aso-journal-references.md"),
+    "fusion-junction-aso-journal-tables": os.path.join(ASO, "fusion-junction-aso-journal-tables.md"),
+    "fusion-junction-aso-paper-redteam": os.path.join(ASO, "fusion-junction-aso-paper-redteam.md"),
+    "fusion-junction-aso-references": os.path.join(ASO, "fusion-junction-aso-references.md"),
+    "fusion-junction-aso-research-article": os.path.join(ASO, "fusion-junction-aso-research-article.md"),
+    "fusion-junction-aso-submission-references": os.path.join(ASO, "fusion-junction-aso-submission-references.md"),
+    "fusion-junction-aso-submission-tables": os.path.join(ASO, "fusion-junction-aso-submission-tables.md"),
+    "fusion-junction-aso-supplementary-information": os.path.join(ASO, "fusion-junction-aso-supplementary-information.md"),
+    "fusion-junction-aso-working-record": os.path.join(ASO, "fusion-junction-aso-working-record.md"),
 }
 
 #: Where an identifier may be attested: every committed machine-readable artifact in the research
@@ -57,7 +90,15 @@ ARTIFACT_SUFFIXES = (".json", ".csv", ".jsonl")
 MAX_ARTIFACT_BYTES = 8_000_000
 
 #: A gene symbol, a cell-line code, an enzyme with a family number: two or more capitals with a digit.
-_IDENTIFIER = re.compile(r"\b[A-Z][A-Z0-9]{1,6}[0-9][A-Z0-9]*\b")
+#: ⛔⛔ THE FIRST PREDICATE MATCHED A SINGLE LEADING LETTER, AND ON THE WIDER DOCUMENT SET THAT MADE
+#: IT RED ON TRUE INPUT (2026-08-23). It swept up PMC accessions, reference-list codes (`D948`,
+#: `E12`, `E1855`) and mutation notation (`R206H`) — none of which is a gene symbol, all of which
+#: have their own provenance guard in `lint_citations`. Measured: ~40 unattested tokens under the
+#: old shape, 6 under this one, and all six are real literature identifiers now declared below.
+#: ⚠ Tightening a pattern can make a guard vacuous, so the discrimination is re-asserted in
+#: `test_the_attestation_set_is_not_empty_so_this_guard_is_not_vacuous`: NR4A7, EWSR7 and TAF19 must
+#: still fall outside the attested set, and NR4A3 must still be found in the article.
+_IDENTIFIER = re.compile(r"\b(?!PMC\d)(?!PMID)[A-Z]{2,}[0-9]+[A-Z]?[0-9]*\b")
 _RNASE = re.compile(r"\bRNase-H[0-9]+\b")
 
 #: ⛔ AN IDENTIFIER NO ARTIFACT NAMES IS ALLOWED ONLY WITH THE CITATION THAT CARRIES IT, AND THE
@@ -68,14 +109,24 @@ CITED_ONLY = {
     "NAB2": "the NAB2::STAT6 fusion of solitary fibrous tumour, named only as a comparator",
     "STAT6": "the NAB2::STAT6 fusion of solitary fibrous tumour, named only as a comparator",
     "NR4A1": "the NR4A paralogue, named to say the panel does NOT target it",
+    # ⚠ Reached only once the document set was derived from the archive manifest rather than
+    # enumerated; every one is a literature or trial identifier carried by a cited source, not a
+    # symbol this repository measures.
+    "AML1": "the RUNX1 alias used by the cited AML1::MTG8 fusion literature",
+    "MTG8": "the RUNX1T1 alias used by the same cited fusion literature",
+    "AAV2": "an adeno-associated viral vector serotype, named in the delivery discussion",
+    "NCT05783206": "a ClinicalTrials.gov registration cited in the working record",
+    "SNS812": "an investigational oligonucleotide named in the cited literature",
+    "SPL84": "an investigational oligonucleotide named in the cited literature",
 }
 
 #: ⛔ NOT AN ALLOWLIST — A FLOOR. These must be PRESENT; their absence means a document lost the
 #: identifier its whole result is about, which no "unknown symbol" check would notice.
 MUST_APPEAR = {
-    "journal-article": ("NR4A3", "EWSR1", "TAF15"),
-    "journal-tables": ("NR4A3",),
-    "extended-report": ("NR4A3", "EWSR1"),
+    "fusion-junction-aso-journal-article": ("NR4A3", "EWSR1", "TAF15"),
+    "fusion-junction-aso-journal-tables": ("NR4A3",),
+    "fusion-junction-aso-research-article": ("NR4A3", "EWSR1"),
+    "fusion-junction-aso-supplementary-information": ("NR4A3",),
 }
 
 #: Markdown/typesetting tokens that match the identifier shape without being identifiers.
@@ -180,7 +231,35 @@ def test_the_attestation_set_is_not_empty_so_this_guard_is_not_vacuous():
             f"{slip} is attested by some committed artifact, so a one-character corruption of a "
             "central gene symbol would now PASS the check above. The corpus has become too wide to "
             "discriminate; narrow ARTIFACT_ROOTS rather than deleting this assertion.")
-    found = {t for t in _IDENTIFIER.findall(_text("journal-article")) if t not in _NOT_AN_IDENTIFIER}
+    found = {t for t in _IDENTIFIER.findall(_text("fusion-junction-aso-journal-article")) if t not in _NOT_AN_IDENTIFIER}
     assert "NR4A3" in found, (
         "_IDENTIFIER no longer matches NR4A3 in the journal article, so the check above is reading "
         "an empty set and passing vacuously.")
+
+
+def test_the_document_set_is_every_document_the_submission_ships():
+    """⛔ THE LIST ABOVE IS ONLY SAFE BECAUSE THIS FAILS WHEN IT FALLS BEHIND.
+
+    Round 17 seat B measured that every round-16 fix scoped by a LIST regressed at a sibling the fix
+    did not name — six of eleven, and in three the sibling was named in the fix's own comment. This
+    one was headed "EVERY DOCUMENT, NOT THE TWO OBVIOUS ONES" and enumerated four of six, so `NR4A7`
+    in the supplementary information and `RNase-H7` in the deposit tables shipped green.
+
+    The archive manifest is generated from the working tree and records what the submission actually
+    ships, so it is a record rather than a memory. A document added to the deposit fails here until
+    it is added above — which is the remembering, done by the build instead of by a person.
+    """
+    with io.open(MANIFEST, encoding="utf-8") as fh:
+        shipped = json.load(fh)["files"]
+    names = {os.path.basename(e["path"]) for e in shipped
+             if e.get("path", "").endswith(".md") and "/aso/" in e.get("path", "")
+             and os.path.exists(os.path.join(ASO, os.path.basename(e["path"])))}
+    missing = sorted(n for n in names if n[:-3] not in DOCUMENTS)
+    assert not missing, (
+        f"the submission ships {len(missing)} markdown document(s) this guard does not read: "
+        f"{missing}\n\nAdd them to DOCUMENTS. A gene symbol off by one digit reads as a real gene, "
+        "and it does so just as readily in a document nobody pointed the check at.")
+    stale = sorted(k for k in DOCUMENTS if k + ".md" not in names)
+    assert not stale, (
+        f"DOCUMENTS names {stale}, which the archive manifest no longer ships. Either the manifest "
+        "is stale — regenerate it — or those documents left the deposit and should leave this list.")

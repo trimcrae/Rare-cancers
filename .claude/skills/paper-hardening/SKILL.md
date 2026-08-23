@@ -456,6 +456,43 @@ occasionally collided with a predicate, and counting them as coverage is what le
 anchor-failure message say **check the meaning before the regex** — re-anchor only when the sentence
 says the same thing in different words.
 
+### 8b.2 · ★★ A FIX BOUND TO A LIST REGRESSES AT A SIBLING. A FIX BOUND TO A PREDICATE DOES NOT.
+
+**This is the sharpest structural result of the series, and it was measured, not reasoned** (round 17
+seat B, 2026-08-23, over 33 mutations each asserted landed by `git diff` before any gate was read).
+Of eleven round-16 fixes re-attacked, **every one whose scope was a PREDICATE held. Six of eleven
+whose scope was a LIST regressed at a sibling the fix did not name:**
+
+| the fix's scope | what it missed |
+|---|---|
+| `ARTICLE` | 1 of 3 manuscripts |
+| `DOCUMENTS` | 4 of 6 |
+| `PAPERS` | 2 of 4 |
+| one polarity `span` | 1 of 4 prose homes of the same claim |
+| the re-anchor remedy text | 5 of 7 surfaces |
+| the early-return repair | 1 of 12 sites |
+
+**⛔⛔ AND IN THREE OF THE SIX, THE MISSED SIBLING WAS NAMED IN THE FIX'S OWN COMMENT** — including a
+check headed *"⛔ EVERY DOCUMENT, NOT THE TWO OBVIOUS ONES"* that enumerated four and missed two, so
+`NR4A7` in the supplementary information and `RNase-H7` in the deposit tables shipped green into both
+rebuilt PDFs. **Writing "every" above a list does not make it one.** That is §8a's one-of-a-pair
+class with its mechanism finally named: **a list is a thing somebody must remember to extend, and the
+remembering is what fails.**
+
+**★ SO SCOPE BY THE PROPERTY.** Not *"these four files"* but *"every document that CONTAINS the
+clause"* — which puts a document added tomorrow in scope without anybody remembering it. The
+safety-critical Declarations lines are scoped that way now, and it immediately caught the single-word
+deletion in two documents the list-scoped version had never read.
+
+**⚠ AND THE WRONG PREDICATE REDS ON TRUE INPUT, WHICH IS WORSE THAN THE LIST.** The first attempt was
+*"every `.md` in the submission directory"*; it swept up working notes and a review backlog that
+legitimately name genes no artifact attests, and went red on a correct tree. **A widening is only a
+fix once you have run it** — the honest predicate here was *"a document this submission SHIPS"*, read
+from the archive manifest, which is a record rather than a memory. ⛔ Same trap one level down: the
+identifier regex matched a single leading letter and so claimed PMC accessions and mutation notation;
+tightening a pattern can equally make a guard vacuous, so **assert the discrimination survives** —
+`NR4A7`, `EWSR7` and `TAF19` must still fall outside the attested set.
+
 ## 9 · Where the rest lives
 
 - **Commit gates, preflight, the linters, `systems/`, and the six-part reviewer-AI block: `repo-gates`.**

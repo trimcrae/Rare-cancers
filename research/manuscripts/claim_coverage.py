@@ -88,6 +88,17 @@ def _pin_patterns():
     return out
 
 
+#: ⚠ HARVESTING LITERALS MAKES COVERAGE SENSITIVE TO A GUARD'S SOURCE, NOT ONLY TO ITS BEHAVIOUR
+#: (measured 2026-08-23). Replacing an enumerated `DOCUMENTS = {...}` in one guard with a derived
+#: lookup removed the manuscript basenames from that file's source; the census lost a pattern it had
+#: been crediting and the cover-letter reading moved 7 -> 6. Restoring the literals moved it back.
+#: NOTHING ABOUT WHAT THE GUARD CHECKS CHANGED IN EITHER DIRECTION.
+#: ⛔ So a coverage delta is not by itself evidence that binding was won or lost, and a floor moved on
+#: one is a floor moved on a refactor. The reading that does not twitch is `claim_ablation` — it RUNS
+#: the guards rather than inferring them from their source, which is why it, and not this count, is
+#: what the convergence claim rests on.
+
+
 def _test_patterns(document=None):
     """String literals from tests that compile as a regex — from tests that OPEN `document`.
 

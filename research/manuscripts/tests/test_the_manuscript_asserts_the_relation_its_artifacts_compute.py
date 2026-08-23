@@ -45,8 +45,14 @@ ARTICLE = os.path.join(ASO, "fusion-junction-aso-journal-article.md")
 
 #: (id, span, require, forbid, decided_by, an inversion the `forbid` half MUST catch)
 POLARITY = [
+    # ⛔⛔ THIS SPAN BOUND ONE OF THE CENTRAL NEGATIVE'S FOUR PROSE HOMES (round 17 seat B). The
+    # window was `{0,160}` and the §2 site sits 161 characters from its terminal period, so
+    # "pair" -> "fail to pair" there shipped with 4 linters and 983 tests green. Measured: 1 site
+    # bound at {0,160}, 2 at {0,400}, and four `catalytic gap` sites have tails over 160.
+    # ⚠ A WINDOW IS A DISGUISED LIST — it enumerates the sentence lengths a row happens to fit, and
+    # a sentence that grows by one word leaves the guard without any signal that it did.
     ("liability-predicate",
-     r"\b87\b[^.]{0,140}catalytic gap[^.]{0,160}\.",
+     r"\b87\b[^.]{0,300}catalytic gap[^.]{0,400}\.",
      r"\bpair\b|\bpairs\b|\bpairing\b|\bpaired\b",
      r"\bfails? to pair\b|\bspares?\b|\bfrom pairing\b|\bunpaired\b|\bavoids?\b|\bmiss(?:es)?\b|\bclears?\b",
      "aso-parent-gap-pairing.json:corpus.n_with_parent_duplex_through_gap and the CSV column "
@@ -255,3 +261,76 @@ def test_the_polarity_table_actually_fires_on_an_inverted_document():
         f"only {fired} of {len(POLARITY)} polarity rows fire when their own inversion is "
         "substituted into the article. A row that cannot catch the sentence it names is inert, and "
         "the main check above is passing on claims nothing reads.")
+
+
+# ─────────────────────────────────────────────────────────────────────────────────────────────
+# ⛔⛔ SCOPE BY THE PROPERTY, NOT BY A LIST (round 17 seat B, 2026-08-23).
+#
+# Seat B's shape verdict, measured over 33 mutations: "fixes bound to a PREDICATE held; every fix
+# whose scope is a LIST regressed at a sibling" — ARTICLE (1 of 3), DOCUMENTS (4 of 6), PAPERS
+# (2 of 4), one span (1 of 4 homes), the re-anchor messages (5 of 7), the early-return repair
+# (1 of 12). Six of eleven, AND IN THREE THE SIBLING WAS NAMED IN THE FIX'S OWN COMMENT — including
+# a check headed "⛔ EVERY DOCUMENT, NOT THE TWO OBVIOUS ONES" that enumerated four and missed two.
+#
+# ★ A list is a thing somebody must remember to extend; a predicate is not. So the safety-critical
+# Declarations lines are not checked against a named set of files — every document that CONTAINS the
+# clause must state it correctly, which is a rule that extends itself to a document added tomorrow.
+# ─────────────────────────────────────────────────────────────────────────────────────────────
+
+#: (what it is, the clause that puts a document in scope, the form it must take, the inversion)
+SAFETY_CLAUSES = [
+    ("the no-administration instruction",
+     re.compile(r"administration to any person or animal", re.I),
+     re.compile(r"not for administration to any person or animal", re.I),
+     "a document telling a reader a research reagent MAY be administered is the one sentence in "
+     "this submission that could hurt somebody"),
+    ("the no-wet-lab statement",
+     re.compile(r"human\s+subjects, human material", re.I),
+     re.compile(r"No human\s+subjects, human material (?:or|and) animals were involved", re.I),
+     "this repository has no wet lab; a document claiming human subjects were involved is a "
+     "fabricated ethics claim"),
+]
+
+
+def _aso_documents():
+    """Every markdown document in the submission directory. Derived, never enumerated."""
+    found = sorted(f for f in os.listdir(ASO) if f.endswith(".md"))
+    assert found, f"no markdown documents under {ASO}, so this guard reads nothing"
+    return found
+
+
+@pytest.mark.parametrize("clause", SAFETY_CLAUSES, ids=[c[0] for c in SAFETY_CLAUSES])
+def test_every_document_stating_a_safety_clause_states_it_the_right_way_round(clause):
+    """⛔ THE DOCUMENT SET IS WHATEVER CONTAINS THE CLAUSE, SO A NEW DOCUMENT IS IN SCOPE BY DEFAULT."""
+    label, in_scope, correct, why = clause
+    checked, wrong = [], []
+    for name in _aso_documents():
+        text = re.sub(r"\s+", " ", io.open(os.path.join(ASO, name), encoding="utf-8").read())
+        for m in in_scope.finditer(text):
+            window = text[max(0, m.start() - 120):m.end() + 40]
+            checked.append(name)
+            if not correct.search(window):
+                wrong.append((name, window.strip()[-150:]))
+    assert checked, (
+        f"no document in {os.path.basename(ASO)} states {label}, so this guard is vacuous. Either "
+        "the clause was reworded everywhere at once, or it was dropped — both are findings.")
+    assert not wrong, (
+        f"{len(wrong)} document(s) state {label} the wrong way round. WHY THAT MATTERS: {why}.\n  "
+        + "\n  ".join(f"{n}: …{w}" for n, w in wrong))
+
+
+def test_the_safety_clause_scope_is_derived_and_catches_more_than_one_document():
+    """⛔ A DERIVED SCOPE THAT RESOLVES TO ONE FILE IS A LIST WITH EXTRA STEPS.
+
+    The defect this replaces was a guard reading the journal article while the same clause shipped
+    in the extended report and the supplementary information. If the derivation ever collapses to a
+    single document, it has stopped doing the thing it was written for.
+    """
+    hits = {name for name in _aso_documents()
+            if SAFETY_CLAUSES[0][1].search(
+                re.sub(r"\s+", " ", io.open(os.path.join(ASO, name), encoding="utf-8").read()))}
+    assert len(hits) >= 3, (
+        f"the no-administration clause was found in {len(hits)} document(s): {sorted(hits)}. It is "
+        "carried by the journal article, the extended report, the supplementary information and the "
+        "deposit tables; a derivation finding fewer has stopped reading the siblings, which is the "
+        "exact regression this section exists to prevent.")

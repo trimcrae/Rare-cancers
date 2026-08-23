@@ -234,6 +234,31 @@ def _run(cmd, workspace):
     return subprocess.run(cmd, cwd=workspace, capture_output=True, text=True).returncode != 0
 
 
+#: Witness-set signature -> the commands already red BEFORE any mutation. Computed once per set.
+_BASELINE_CACHE = {}
+
+
+def _baseline_reds(witnesses, workspace):
+    """Which of these guards are ALREADY red on the unmutated clone?
+
+    ⛔⛔ WITHOUT THIS THE WHOLE GATE PASSES VACUOUSLY ON ANY RED TREE (round 17 seat B, 2026-08-23).
+    `ablate` declared a sentence bound when a witness went red AFTER the mutation, and never asked
+    whether it was red BEFORE. Measured: one unrelated wrong integer in `claim-coverage.json` turns
+    1 of 2 witness commands red on the UNMUTATED clone, after which every sentence in the document
+    reports "a witness noticed" and `test_a_covered_sentence_has_a_witness_that_actually_goes_red`
+    passes without measuring anything.
+    ★ That is the exact defect this module was built to detect — a reading taken without
+    establishing its own precondition — committed inside the instrument that detects it. A red
+    baseline is subtracted, and a baseline with NOTHING green is reported as unmeasurable rather
+    than as a pass.
+    """
+    key = (workspace, tuple(sorted(witnesses)))
+    if key not in _BASELINE_CACHE:
+        cmds = _witness_cmds(witnesses, workspace)
+        _BASELINE_CACHE[key] = [i for i, c in enumerate(cmds) if _run(c, workspace)]
+    return _BASELINE_CACHE[key]
+
+
 def ablate(paper_key, row, witnesses=None):
     """Perturb the sentence IN A CLONE, run its guards there, and report whether anything noticed.
 
@@ -267,6 +292,18 @@ def ablate(paper_key, row, witnesses=None):
     mirror = _mirror(path, workspace)
     before = hashlib.sha256(original.encode()).hexdigest()
     cmds = _witness_cmds(ws, workspace)
+
+    # ⛔ ESTABLISH THE BASELINE BEFORE TRUSTING A RED. A guard already failing for an unrelated
+    # reason reds on every mutation and on none of them equally.
+    # ⚠ `cmds and` IS LOAD-BEARING: an EMPTY witness set has zero commands, and `0 == 0` would read
+    # as "everything is already red". The byte-identity test passes `witnesses=[]` deliberately —
+    # it is measuring the file, not the guards — and caught this the moment it was introduced.
+    already_red = _baseline_reds(ws, workspace)
+    if cmds and len(already_red) == len(cmds):
+        return {"status": NOT_APPLIED, "red": [], "witnesses": ws,
+                "reason": f"all {len(cmds)} guard(s) reading this document are ALREADY red on the "
+                          "unmutated tree, so nothing here can be measured. Fix the tree first — a "
+                          "red baseline makes every sentence look bound."}
     tried = []
     try:
         for m in runs:
@@ -276,7 +313,9 @@ def ablate(paper_key, row, witnesses=None):
             _write_without_following_the_link(
                 mirror,
                 original[:hit.start() + m.start()] + new_run + original[hit.start() + m.end():])
-            if any(_run(cmd, workspace) for cmd in cmds):
+            fired = [i for i, cmd in enumerate(cmds)
+                     if i not in already_red and _run(cmd, workspace)]
+            if fired:
                 return {"status": APPLIED, "red": ws, "witnesses": ws,
                         "reason": f"{run} -> {new_run}"}
     finally:
