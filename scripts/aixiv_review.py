@@ -273,6 +273,10 @@ def cmd_status(args):
         print("    a row can be missing because it is not public, not because it does not exist.")
         return 0
     print(f"{args.aixiv_id}: {len(seen)} row(s) in the public listing")
+    print("  ⚠ The public listing appears to serve versions whose review has COMPLETED — measured")
+    print("    2026-08-23, every row for this id read `official review completed` while a freshly")
+    print("    posted version and the original v1.0 were both absent. So absence from this list is")
+    print("    NOT evidence that a version is unqueued; the pending queue below is what says that.")
     for r in sorted(seen, key=lambda x: str(x.get("version"))):
         ver = str(r.get("version") or "?")
         try:
@@ -284,6 +288,26 @@ def cmd_status(args):
         except AixivError as e:                # a failed lookup is reported, never counted as zero
             n = f"LOOKUP FAILED: {e}"
         print(f"  v{ver:<6} status={str(r.get('status')):<26} reviews={n}")
+
+    # ⭐ THE HALF THAT ACTUALLY DISCRIMINATES. `/api/get_pending-review-submissions` describes itself
+    # as returning submissions with status "Under Review" — which is what aiXiv's own scheduler
+    # polls. A version sitting there is QUEUED and the answer is to wait; a version in neither list
+    # was never enqueued, and waiting is then a mistake no amount of patience corrects.
+    try:
+        pend = _request("/api/get_pending-review-submissions", method="GET")
+    except AixivError as e:
+        print(f"  PENDING QUEUE UNREADABLE: {e}")
+        print("  ⚠ So this run cannot say whether a missing version is queued. That is an absent")
+        print("    reading, not a reading of absence — do not conclude it was never enqueued.")
+        return 0
+    rows = pend if isinstance(pend, list) else (pend.get("submissions") or pend.get("data") or [])
+    mine = [r for r in rows if r.get("aixiv_id") == args.aixiv_id]
+    print(f"  pending review queue: {len(rows)} submission(s) total, {len(mine)} for this id")
+    for r in mine:
+        print(f"    QUEUED v{r.get('version')} status={r.get('status')}")
+    if not mine:
+        print("    ⛔ NOTHING FOR THIS ID IS QUEUED. A version that is in neither list was not")
+        print("       enqueued for review, and waiting longer will not produce one.")
     return 0
 
 

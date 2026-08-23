@@ -274,6 +274,8 @@ def test_status_counts_reviews_per_version(monkeypatch, capsys):
                      {"aixiv_id": "x", "version": "1.4", "status": "Under Review"},
                      {"aixiv_id": "other", "version": "1.0", "status": "Reviewed"}]
                     if "skip=0" in path else [])
+        if path.startswith("/api/get_pending-review-submissions"):
+            return [{"aixiv_id": "x", "version": "1.4", "status": "Under Review"}]
         body = json.loads(k["data"])
         return {"review_list": [{"id": 1}] if body["version"] == "1.3" else []}
 
@@ -282,4 +284,40 @@ def test_status_counts_reviews_per_version(monkeypatch, capsys):
     out = capsys.readouterr().out
     assert "v1.3" in out and "reviews=1" in out
     assert "v1.4" in out and "reviews=0" in out
+    assert "QUEUED v1.4" in out, "the pending queue is what distinguishes queued from never-enqueued"
     assert "other" not in out, "a different paper's row leaked into the report"
+
+
+def test_status_says_plainly_when_nothing_is_queued(monkeypatch, capsys):
+    """⛔ THE FINDING THAT ENDS A WAIT. A version in neither list was never enqueued, and waiting
+    longer produces nothing — so this has to be stated, not left for a reader to infer from silence."""
+    def _req(path, **k):
+        if path.startswith("/api/submissions/public"):
+            return [{"aixiv_id": "x", "version": "1.3", "status": "official review completed"}] \
+                if "skip=0" in path else []
+        if path.startswith("/api/get_pending-review-submissions"):
+            return []
+        return {"review_list": []}
+
+    monkeypatch.setattr(aixiv_review, "_request", _req)
+    aixiv_review.main(["status", "--aixiv-id", "x"])
+    out = capsys.readouterr().out
+    assert "NOTHING FOR THIS ID IS QUEUED" in out
+    assert "waiting longer will not produce one" in out
+
+
+def test_an_unreadable_pending_queue_is_an_absent_reading_not_a_verdict(monkeypatch, capsys):
+    """⛔ If the queue cannot be read, 'not queued' has NOT been established. Saying otherwise would
+    end a wait on the strength of a failed request."""
+    def _req(path, **k):
+        if path.startswith("/api/submissions/public"):
+            return [{"aixiv_id": "x", "version": "1.3", "status": "done"}] if "skip=0" in path else []
+        if path.startswith("/api/get_pending-review-submissions"):
+            raise aixiv_review.AixivError("HTTP 500")
+        return {"review_list": []}
+
+    monkeypatch.setattr(aixiv_review, "_request", _req)
+    aixiv_review.main(["status", "--aixiv-id", "x"])
+    out = capsys.readouterr().out
+    assert "PENDING QUEUE UNREADABLE" in out
+    assert "NOTHING FOR THIS ID IS QUEUED" not in out
