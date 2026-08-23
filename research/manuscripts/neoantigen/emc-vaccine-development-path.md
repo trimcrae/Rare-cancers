@@ -192,7 +192,7 @@ is load-bearing.** If the frameshifted junctions carried abundant strong antigen
 the in-frame junctions would be a fact about which junctions this disease uses rather than about the
 locus; that they do not is what lets Section 2.3's figures be read as a property of the locus at all.
 An external reviewer of a previous version judged this section a distraction from the vaccine
-question, which is fair if it is read as a search for targets — it is not, and the paragraph now says
+question, which is fair if it is read as a search for targets. It is not, and the paragraph now says
 what it is for. Twenty-two of the 27 pairs carry no peptides
 above, and four of those are out of frame — *EWSR1* exons 6, 8, 11 and 14 joined to *NR4A3* exon 3. A
 frameshifted junction reads the acceptor exon in a novel register, so every residue after the seam is
@@ -362,18 +362,24 @@ Ten limits are enumerated, and the second column is the one that matters. Diseas
 properties of this tumour and are not expected to move; instrument-bounded limits move when methods move;
 access-bounded limits are properties of this programme's circumstances rather than of anyone's knowledge.
 
-| ID | Limit | Bounded by | Best available answer today | What would move it |
-|---|---|---|---|---|
-| B1 | Predicted class I coverage is low and panel-dependent | instrument, partly disease | 8.5% / 12.3% public junction, 27.4% / 30.4% pooled, on 10 / 34 alleles; 0.0% at a 0.37 cut | Wider panels; a defended threshold; measured presentation |
-| B2 | Presentation predicted, never measured | instrument and access | MHCflurry 2.0 percentiles on 174 peptides | Immunopeptidomics on EMC tissue or a patient-derived line |
-| B3 | Self-adjacency and central tolerance | disease | Lead peptide is 1 substitution (position 1, not an anchor) from DMPCVQAQY in an *NR4A3* isoform, against a chance expectation of 0.02; 0 of 11 binders has an anchor-only near-self neighbour | T-cell reactivity assay against the specific peptide-HLA complex |
-| B4 | One strong CD4 epitope, on one allele of 23 | instrument | 44 binders, 1 strong (SYGQQNMPCVQAQYS on DRB1\*14:01, 66.1 nM) over 14 of 23 alleles; class II coverage 6.5%, combined CD8 and CD4 1.8% | A class II threshold; measured presentation |
-| B5 | Seam-proximal peptides of four junctions occur in an *NR4A3* isoform | instrument, one failure mode resolved | 170 of 174 novel proteome-wide; one binder withdrawn | Sequence novelty answered; cross-reactivity is not, and the filter should become isoform-aware |
-| B6 | Immunologically cold microenvironment | disease, addressable in combination | Inferred, not measured in EMC | A vaccine supplies antigen; a checkpoint inhibitor supplies release |
-| B7 | Physical exclusion by the myxoid matrix | disease | Inferred from histology and pathway expression | Vascular normalisation; matrix-directed agents |
-| B8 | No EMC immune profiling published | access | None; the cold and excluded readings are inferences | A deposited EMC series, or a pan-sarcoma atlas reaching this histology |
-| B9 | Manufacturing economics at this incidence | access | Five enumerable in-frame junctions, not per-patient discovery | A platform holder; a master-protocol vehicle |
-| B10 | Trial design below the randomisation threshold | disease | A 24-patient histology cohort has been run across nine centres | Adaptive or histology-cohort design with a defensible endpoint |
+A reviewer of an earlier version asked for these to be ranked, so that a reader can tell which limit
+is worth attacking rather than only what each one is. The cost-to-move column is that ranking. Its
+units are the ones this paper can defend, namely whose permission and whose material a row requires,
+rather than money or months, neither of which this programme can estimate. No time estimate is offered
+for any row, for the reason Section 3.1 gives.
+
+| ID | Limit | Bounded by | Best available answer today | Cost to move | What would move it |
+|---|---|---|---|---|---|
+| B1 | Predicted class I coverage is low and panel-dependent | instrument, partly disease | 8.5% / 12.3% public junction, 27.4% / 30.4% pooled, on 10 / 34 alleles; 0.0% at a 0.37 cut | **computational** — needs nobody's permission | Wider panels; a defended threshold; measured presentation |
+| B2 | Presentation predicted, never measured | instrument and access | Presentation percentiles on 174 peptides, from the predictor named in Section 2.2 | **tissue + a proteomics facility** — the binding constraint on this route | Immunopeptidomics on EMC tissue or a patient-derived line |
+| B3 | Self-adjacency and central tolerance | disease | Lead peptide is 1 substitution (position 1, not an anchor) from DMPCVQAQY in an *NR4A3* isoform, against a chance expectation of 0.02; 0 of 11 binders has an anchor-only near-self neighbour | **a T-cell assay on matched donors** — needs material and a laboratory | T-cell reactivity assay against the specific peptide-HLA complex |
+| B4 | One strong CD4 epitope, on one allele of 23 | instrument | 44 binders, 1 strong (SYGQQNMPCVQAQYS on DRB1\*14:01, 66.1 nM) over 14 of 23 alleles; class II coverage 6.5%, combined CD8 and CD4 1.8% | **computational**, and now largely spent | A class II threshold; measured presentation |
+| B5 | Seam-proximal peptides of four junctions occur in an *NR4A3* isoform | instrument, one failure mode resolved | 170 of 174 novel proteome-wide; one binder withdrawn | **computational** — needs nobody's permission | Sequence novelty answered; cross-reactivity is not, and the filter should become isoform-aware |
+| B6 | Immunologically cold microenvironment | disease, addressable in combination | Inferred, not measured in EMC | **not movable by any computation** | A vaccine supplies antigen; a checkpoint inhibitor supplies release |
+| B7 | Physical exclusion by the myxoid matrix | disease | Inferred from histology and pathway expression | **not movable by any computation** | Vascular normalisation; matrix-directed agents |
+| B8 | No EMC immune profiling published | access | None; the cold and excluded readings are inferences | **a deposited series** — free if one appears, impossible to force | A deposited EMC series, or a pan-sarcoma atlas reaching this histology |
+| B9 | Manufacturing economics at this incidence | access | Five enumerable in-frame junctions, not per-patient discovery | **not this programme's to move** | A platform holder; a master-protocol vehicle |
+| B10 | Trial design below the randomisation threshold | disease | A 24-patient histology cohort has been run across nine centres | **a trial design decision, not a measurement** | Adaptive or histology-cohort design with a defensible endpoint |
 
 ### 3.1 The limit worth watching
 
@@ -534,8 +540,11 @@ earlier negative was a property of the panel, not of a different computation.
 single-residue-offset windows over one seam sharing 14 of 15 residues, so the number of independent
 peptides tested is nearer one than fifteen, and the 44 binders are overwhelmingly the same short stretch
 of sequence seen on different alleles. One strong call on 23 alleles is a per-allele rate of 1 in 23, and
-the allele it lands on is not a common one. Class II presentation is substantially harder to predict than
-class I, and no class II prediction here has been calibrated against anything measured. What the result
+the allele it lands on is not a common one. Class II prediction is substantially less accurate than class I and is not
+treated here as its equal: class II peptides are not length-restricted by a closed groove, the binding
+register is not fixed, and predictors for it are trained on far less measured data. The single strong
+call should be read as a weaker statement than any single class I call in this paper, and no class II
+prediction here has been calibrated against anything measured. What the result
 does establish is narrow and worth having: the junction is not devoid of predicted helper epitope, which
 is what three alleles could not distinguish from a junction that is.
 
@@ -555,7 +564,7 @@ line because it exposes something the prose form hid:
 
 > **C<sub>I∧II</sub>  =  C<sub>I</sub> × C<sub>II</sub>  =  0.2737 × 0.0649  =  0.0178**
 
-**The class I term is the TEN-allele screen's 27.4%, not the 34-allele screen's 30.4%** that this
+**The class I term is the ten-allele screen's 27.4%, not the 34-allele screen's 30.4%** that this
 section quotes two paragraphs above. The instrument builds its class I allele set from the junction
 screen rather than from the broad-panel scan, so the combined figure is on the narrower panel; on the
 34-allele set the same product gives 2.0%. Neither is wrong, and until this equation was written down
