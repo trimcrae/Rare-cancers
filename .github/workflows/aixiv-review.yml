@@ -43,6 +43,10 @@ on:
         description: "Review seed — record it with the round's pin so the round is re-runnable"
         required: false
         default: ""
+      calibrate_limit:
+        description: "calibrate only: how many papers to pull reviews for. 2000 = the whole corpus."
+        required: false
+        default: "150"
       is_public:
         description: "submit only: metadata about intent, NOT access control. Measured 2026-08-22: is_public=0 still serves the paper publicly at /abs/ and /api/pdf/. BOTH VALUES PUBLISH."
         required: false
@@ -120,7 +124,7 @@ jobs:
       - name: Calibrate what a Rating means against the public corpus
         if: ${{ inputs.mode == 'calibrate' }}
         run: |
-          python3 scripts/aixiv_review.py calibrate --limit 150 --mine 6
+          python3 scripts/aixiv_review.py calibrate --limit "${{ inputs.calibrate_limit }}" --mine 6
 
       - name: Start an attack review
         if: ${{ inputs.mode == 'review' }}
