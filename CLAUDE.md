@@ -205,7 +205,7 @@ carry every rule verbatim, with its evidence. **A tripwire that did not fire is 
 | dispatch a workflow · run a branch's CI without merging · supervise a billing fleet · set up a self-wake poller | **`ci-escape-hatches`** |
 | **rent, relaunch or refuse a host** · launch a fleet · pick a provider · write a job that checkpoints · diagnose a Vast/GCP provisioning, quota or teardown problem · install anything on a machine we pay for | **`gpu-compute`** |
 | your final message **leaves real compute running** · about to print a `$/ns`, cost row or drift flag | **`inflight-reporting`** |
-| **commit or push** · run preflight · a gate goes red · edit a manuscript or SI · touch `systems/` or the registry · any **outward-facing** step (preprint, submission, release, DOI) | **`repo-gates`** |
+| **commit or push** (a merge to `main` included — that is the ordinary commit loop) · run preflight · a gate goes red · edit a manuscript or SI · touch `systems/` or the registry · **PUBLISH** — and publishing is the closed list *preprint, submission, release, DOI*, the only four things `PREFLIGHT_FULL=1` is for | **`repo-gates`** |
 
 **Four rules that must fire even if you never load a skill**, because each guards an irreversible or expensive
 act you'd commit *before* thinking to consult anything:
@@ -216,8 +216,32 @@ act you'd commit *before* thinking to consult anything:
   not a label — and **every** rental is gated, resume and cold single unit included.
 - **⛔ CHECKPOINT AFTER EACH UNIT, UPLOAD AS YOU WRITE (`s3_upload_mode="Continuous"`), AND DEFAULT EVERY GPU
   RUN TO SPOT** — spot is only safe *because* of the checkpointing.
-- **⛔ BEFORE COMMITTING, `./scripts/preflight.sh` MUST PASS**, exit code unmasked. Before anything
-  outward-facing: **`PREFLIGHT_FULL=1`** — scoping is not a claim that the rest of the suite passes.
+- **⛔ BEFORE COMMITTING, `./scripts/preflight.sh` MUST PASS**, exit code unmasked. **That plain command
+  is the answer almost every time — it is the commit loop, it takes seconds to a few minutes, and it runs
+  EVERY fast gate plus the tests your change can reach.**
+  - **`PREFLIGHT_FULL=1` IS FOR PUBLICATION AND NOTHING ELSE — A CLOSED LIST: a preprint, a journal or
+    aiXiv submission, a release, a DOI/Zenodo deposit.** That is the whole list. It costs **~25 minutes**
+    (the modalities suite alone is ~20), so running it where it is not required is not "being careful",
+    it is spending half an hour to learn nothing the scoped run did not already tell you.
+  - ⛔ **A MERGE OR PUSH TO `main` IS THE COMMIT LOOP, NOT PUBLICATION.** ⚠ *Added 2026-08-23 after this
+    exact reasoning cost about two hours: `main` is the trunk every workflow runs from, which feels like
+    it should raise the bar, and the rule as written never said otherwise — it defined FULL by four
+    examples and named nothing on the other side, so the gap got filled with the expensive guess.*
+    **The test is NOT how important the ref is, and it is NOT visibility either — this repo is PUBLIC,
+    so a stranger can read `main` the moment you push.** The test is **how a mistake gets UNDONE.** A bad
+    commit on `main` is undone by another commit, silently, and nobody outside had to care. A bad
+    preprint, submission, release or DOI is undone only by a PUBLIC CORRECTION against an identifier
+    somebody may already have cited — **that** asymmetry is what buys the 25 minutes. So also just
+    `preflight.sh`: a commit, a merge or push to any branch including `main`, a PR, a regenerated
+    artifact, a CI dispatch.
+  - ⭐ **AND THE CASCADE IS THE REAL COST, NOT THE 25 MINUTES.** An unnecessary FULL run surfaces
+    pre-existing failures that have nothing to do with your change, and chasing them is now your
+    afternoon. **If FULL goes red on something you did not touch, the FIRST move is `git stash` and
+    re-run on clean `origin/main`** — if it reproduces, it is not yours, and the decision to fix it is
+    a SEPARATE task to raise, not to absorb silently into the one you were asked for.
+  - **The one thing the scoped run does not do is claim the rest of the suite passes** — which is fine,
+    because `tests.yml` runs the whole thing on every push, with the real dependencies, and it is the
+    authority. **Watch CI; do not pre-run it locally.**
 
 ## 7 · Repo basics
 

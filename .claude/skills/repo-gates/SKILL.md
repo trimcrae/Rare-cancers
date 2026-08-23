@@ -59,9 +59,29 @@ Extracted from CLAUDE.md §7 (plus §5's deliverable map) on 2026-08-15, **verba
   - **`./scripts/preflight.sh`** — every fast gate, plus only the tests the change can reach
     ([`affected_tests.py`](./scripts/affected_tests.py), a static import graph with transitive
     closure). **This is the commit loop.**
-  - **`PREFLIGHT_FULL=1 ./scripts/preflight.sh`** — everything. **Required before anything
-    outward-facing: a preprint, a submission, a release, a DOI.** Scoping is not a claim that the
-    rest of the suite passes.
+  - **`PREFLIGHT_FULL=1 ./scripts/preflight.sh`** — everything, **~25 minutes** (the modalities
+    suite alone is ~20). **Required before PUBLISHING, and publishing is a CLOSED LIST OF FOUR: a
+    preprint, a submission, a release, a DOI.** Scoping is not a claim that the rest of the suite
+    passes — but `tests.yml` makes that claim on every push, with the real dependencies, and it is
+    the authority. Watch CI; do not pre-run it locally.
+    - ⛔ **A MERGE OR PUSH TO `main` IS NOT ON THE LIST, AND READING IT ONTO THE LIST COST ABOUT TWO
+      HOURS (2026-08-23).** The reasoning that gets you there is seductive and wrong: *`main` is the
+      trunk every workflow runs from, so surely it deserves the full gate.* The rule defined FULL by
+      four examples and named nothing on the other side, so the gap got filled with the expensive
+      guess. ⚠ **And do not reach for visibility as the test either — this repository is PUBLIC**, so
+      a stranger can read `main` the moment you push, and "outward-facing" read literally would sweep
+      in every commit. **The test is how a mistake gets UNDONE:** a bad commit on `main` is undone by
+      another commit and nobody outside had to care; a bad DOI is undone only by a public correction
+      against an identifier someone may already have cited.
+    - ⭐ **THE 25 MINUTES IS NOT THE COST — THE CASCADE IS.** An unneeded FULL run surfaces
+      pre-existing failures unrelated to your change, and chasing them becomes the task. On
+      2026-08-23 it surfaced 84 modality failures that were **all** a missing-dependency gap present
+      on `main` before the change; fixing the environment then cost three more 25-minute runs to
+      verify. The fix was worth having and is documented below — **it was not the task that was
+      asked for**, and absorbing it silently was the error.
+    - ⭐ **SO WHEN FULL GOES RED ON SOMETHING YOU DID NOT TOUCH, THE FIRST MOVE IS `git stash` AND
+      RE-RUN ON CLEAN `origin/main`.** If it reproduces, it is not yours. Say so, and treat fixing it
+      as a separate task to raise rather than one to swallow into the current one.
   - ⛔ **THE SELECTOR FAILS TO FULL, AND THAT IS THE ENTIRE SAFETY ARGUMENT.** A changed `conftest`,
     a changed test helper, an unparseable source, a git that will not answer, or an edit to the
     selector or to `preflight.sh` all take the whole suite. A gate that quietly runs too little is
