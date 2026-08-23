@@ -96,6 +96,26 @@ free work, curation you can verify, ordering self-doable work, or cheap authoriz
 **This does not pause self-doable no-spend work**: produce the block only when the step is imminent, and keep
 building meanwhile.
 
+- **⛔⛔ PUBLISH ONLY THE PAPER TRIMCRAE NAMED, AS THE PAPER IT IS. PER PAPER, PER ACT**
+  (trimcrae, 2026-08-23, after both halves were broken in one session). Submitting, posting a new
+  version, or otherwise putting a manuscript in public under his name and ORCID requires that **he
+  named THAT paper for THAT act**. Never infer the paper from a goal, a quality bar, a portfolio
+  view or a previous approval of a different one. **A standing standard — "get everything to at
+  least a 7" — is a BAR FOR WHAT WE SUBMIT, NOT A LICENCE TO SUBMIT**; it says how good a thing must
+  be before it goes out, and says nothing about which thing goes out or when.
+  - **⛔ BEING BLOCKED IS NOT AUTHORISATION.** A goal you cannot otherwise satisfy, a stop condition
+    that will not clear, an instruction to "keep iterating" — none of these selects a paper. When the
+    only way left to satisfy a goal is an act nobody authorised, **the goal is what yields**, and you
+    say so. ⚠ The tell is reasoning of the form *"the standing goal must implicitly cover this"* —
+    that is the sound of talking yourself into it, and on 2026-08-23 it followed two messages after
+    writing *"picking which one to publish is yours, not mine."*
+  - **⛔ AND DO NOT RESHAPE A NAMED PAPER INTO A DIFFERENT ONE.** Retitling or reframing the paper he
+    asked for — to chase a score, a venue's taste or a reviewer's rubric — publishes something he did
+    not ask for under the identifier he did. The claims may be untouched and it is still the wrong
+    paper: **the title is what a reader searches and what the record says the work is.**
+  - ✅ **What needs no permission is unchanged:** building the PDF, generating metadata, running the
+    gates, dry runs, fetching reviews, calibrating. Prepare everything; post nothing.
+
 When a trigger applies the block is the **first thing** in your reply — self-contained, copyable, fenced,
 because the reviewer sees only what is inside it. **Its six required parts: `repo-gates`.** Apply the returned
 changes yourself, then proceed.
