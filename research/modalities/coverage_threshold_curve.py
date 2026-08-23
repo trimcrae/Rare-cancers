@@ -57,12 +57,21 @@ LOOSE = 5.0
 LENGTHS = [8, 9, 10, 11]
 
 
-def grid():
-    """Fine where the calls actually sit, coarser out in the tail."""
-    pts = [round(0.01 * i, 4) for i in range(1, 51)]           # 0.01 .. 0.50 step 0.01
-    pts += [round(0.5 + 0.05 * i, 4) for i in range(1, 31)]    # 0.55 .. 2.00 step 0.05
-    pts += [round(2.0 + 0.25 * i, 4) for i in range(1, 13)]    # 2.25 .. 5.00 step 0.25
-    return pts
+def grid(calls):
+    """A regular sweep PLUS every percentile at which the function actually steps.
+
+    ⚠ A STEP FUNCTION SAMPLED ON A REGULAR GRID IS A DIFFERENT FUNCTION. On a 0.01 grid the four
+    steps here land at 0.38, 0.41 and 0.46 — none of which is where anything happens, and the
+    apparent 0.41 step silently merges two. So every call's own percentile is a grid point, and so
+    is a hair below it, which is what makes each step readable as the single call that causes it.
+    """
+    pts = {round(0.01 * i, 4) for i in range(1, 51)}            # 0.01 .. 0.50 step 0.01
+    pts |= {round(0.5 + 0.05 * i, 4) for i in range(1, 31)}     # 0.55 .. 2.00 step 0.05
+    pts |= {round(2.0 + 0.25 * i, 4) for i in range(1, 13)}     # 2.25 .. 5.00 step 0.25
+    for c in calls:
+        pts.add(round(c["percentile"], 4))
+        pts.add(round(c["percentile"] - 0.0001, 4))
+    return sorted(p for p in pts if p > 0)
 
 
 def predict_loose():
@@ -122,7 +131,7 @@ def main():
         return 1
 
     rows = []
-    for t in grid():
+    for t in grid(calls):
         if t > ceiling:
             break
         present = sorted({c["allele"] for c in calls if c["percentile"] <= t})
@@ -134,6 +143,18 @@ def main():
 
     at = lambda t: next((r for r in rows if abs(r["threshold"] - t) < 1e-9), None)  # noqa: E731
     nonzero = [r for r in rows if r["n_presenting_alleles"] > 0]
+    # ⭐ THE STEPS ARE THE RESULT. Coverage is a step function of the threshold and every step is
+    # one peptide-allele call; listing them says how few numbers the headline figure rests on.
+    steps, prev = [], []
+    for r in rows:
+        if r["alleles"] != prev:
+            added = [a for a in r["alleles"] if a not in prev]
+            steps.append({"threshold": r["threshold"], "alleles_added": added,
+                          "coverage_after": r["coverage"],
+                          "peptides": sorted({c["peptide"] for c in calls
+                                              if c["allele"] in added
+                                              and c["percentile"] <= r["threshold"]})})
+            prev = r["alleles"]
     result = {
         "_what": ("Predicted class I coverage of the EWSR1::NR4A3 junction as a continuous function "
                   "of the MHCflurry presentation-percentile acceptance threshold, over the fixed "
@@ -165,6 +186,7 @@ def main():
         },
         "conventional_threshold": CONVENTIONAL,
         "at_conventional_threshold": at(CONVENTIONAL),
+        "steps": steps,
         "lowest_threshold_with_any_presenting_allele": nonzero[0] if nonzero else None,
         "allele_frequencies": freqs,
         "curve": rows,

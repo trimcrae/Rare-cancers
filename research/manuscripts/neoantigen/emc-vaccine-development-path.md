@@ -65,9 +65,12 @@ distinct predicted binders of which 4 are strong; there is no pan-EMC epitope. P
 property of the screen as much as of the junction: the commonly reported *EWSR1* exon 7 to *NR4A3* exon 3
 junction covers 8.5% on ten alleles, presented on HLA-B\*15:01 alone, and 12.3% on 34, where the same lead
 peptide is also strong on HLA-A\*30:02; pooling every in-frame junction gives 27.4% and 30.4% on those two
-panels. None is a ceiling — each presenting allele rests on one peptide-allele call, all five of
-them within 0.1264 percentile units below the acceptance threshold, and a cut anywhere below 0.3736
-removes every one. 170 of 174
+panels. None is a ceiling. Coverage against the acceptance threshold is
+computed here as a continuous function rather than sampled: it is a step function, every step is one
+peptide-allele call, and the four steps below the conventional cut all fall inside a window 0.0844
+percentile units wide that closes before the cut is reached. Across the span of cuts this field
+routinely uses it runs from 0% at a conservative 0.2 through 30.4% at 0.5 to 72.6% at 2.0, so the
+reported figure is one point on a curve rather than an estimate with a tolerance. 170 of 174
 peptides are absent from the reviewed human proteome including isoforms and all 4 strong binders survive;
 the 4 that do not occur in an *NR4A3* isoform, belong to the four aspartate-seam junctions, and cost one
 predicted binder. The class II arm returns 2 binders and none strong on three DRB1 alleles, only one
@@ -148,9 +151,53 @@ presentation percentile of 0.37 and a predicted affinity of 73.4 nM. The class c
 percentile, not the affinity, and the two do not agree in rank order across this set, so affinities appear
 below only beside the percentile that classified them.
 
+The derivation is stated as a procedure rather than described, because Section B5 reports a filter
+failure and a reader cannot locate a failure in prose. For one donor exon *d* and acceptor exon *a*:
+
+1. Build the chimeric mRNA as the donor transcript through the 3' end of exon *d*, then acceptor exon
+   *a* **whole** — its 5' untranslated region included, as a fusion transcript retains it — and
+   everything 3' of it.
+2. Translate from the donor's own initiator codon, so the reading frame is the donor's throughout.
+3. Let *j₀* be the index of the first residue not encoded wholly by donor nucleotides. If the donor
+   cut leaves a partial codon, the residue at *j₀* is completed by acceptor nucleotides and belongs
+   to neither parent; if the cut is codon-aligned there is no such residue.
+4. Verify the seam rather than assume it: the chimeric N-terminus must match the donor protein
+   residue for residue up to *j₀*, the C-terminus must be the acceptor's own, and acceptor residue 1
+   must appear immediately 3' of the seam codon. A junction failing any of the three is an error, not
+   a result.
+5. Enumerate every 8- to 11-mer containing *j₀* — including those that begin at it, which a
+   straddle test requiring a residue on each side would drop.
+6. **The novelty filter, and the step Section B5 is about:** keep a peptide if it is not a substring
+   of wild-type *EWSR1* and not a substring of wild-type *NR4A3*. That is a two-protein test. It does
+   not consult the rest of the proteome, and it does not consult other isoforms of either parent —
+   which is precisely how four peptides that occur in a normal *NR4A3* isoform passed it.
+
+Step 6 is the whole of the defect: the filter is correct for what it tests and the set it tests
+against is too small by everything except two canonical sequences.
+
 That ten-allele panel is the instrument behind every binder figure here, and a wider one changes them: a
 34-allele screen of the same peptides at the same threshold returns five strong peptide-allele calls
 rather than four, because NMPCVQAQY is also strong on HLA-A\*30:02. Section 2.3 reports both panels.
+
+**The junctions graded out were not left unexamined.** Twenty-two of the 27 pairs carry no peptides
+above, and four of those are out of frame — *EWSR1* exons 6, 8, 11 and 14 joined to *NR4A3* exon 3. A
+frameshifted junction reads the acceptor exon in a novel register, so every residue after the seam is
+non-self until a stop codon, and in other tumours that class is the richest antigen source available
+rather than the poorest. Here it is not. The four read-through tracts are 9, 9, 31 and 9 residues
+long before a premature stop, yielding 97 distinct 8- to 11-mers in total; and three of the four —
+those from *EWSR1* exons 6, 8 and 14 — converge on the identical eight-residue core YALRPSPI,
+differing only in the seam residue, because a frameshift into the same acceptor exon reads the same
+nucleotides in the same shifted register. The antigen supply from this class is therefore one short
+peptide and one 31-residue tract, not four independent ones. All four premature stops lie between
+1,542 and 1,610 nucleotides upstream of the chimera's last exon-exon junction, which is the
+canonical configuration for nonsense-mediated decay by the 50-nucleotide rule — a positional
+criterion computed from the transcript model, not a decay measurement, and reported as such. Two
+things bound this paragraph and are stated rather than implied: the 27 pairs are a combinatorial
+window of nine donor exons against three acceptor exons and not a set of observed breakpoints, and a
+frameshifted *EWSR1*::*NR4A3* cannot encode the chimeric transcription factor that defines the
+disease. So these peptides are not offered as EMC targets. What the screen establishes is the size
+of the antigen supply a frameshift at this locus would provide if one were ever observed, which is a
+property of the locus and answers the question rather than deferring it.
 
 There is no pan-EMC epitope: the most widely shared candidate appears in 4 of the 5 junctions and is a weak
 binder, three of the five junctions return no strong binder at all, and every strong binder is specific to
@@ -160,9 +207,9 @@ search reported under B5 below, leaving 10; all 4 strong binders survive that se
 ### 2.3 Population coverage
 
 Coverage here means the union carrier frequency of the presenting alleles, computed as one minus the
-product of squared non-carrier frequencies over Allele Frequency Net Database records [1]. Two properties
-of that quantity govern how the figures below should be read, and both are properties of the screen rather
-than of the tumour.
+product of squared non-carrier frequencies over Allele Frequency Net Database records [1]. Three properties
+of that quantity govern how the figures below should be read; both are properties of the screen rather
+than of the tumour, and a third, below them, is a property of the population the figure averages over.
 
 **It moves with the panel.** On the ten-allele screen the *EWSR1* exon 7 junction is presented on
 HLA-B\*15:01 alone and covers 8.5%; on 34 alleles the same lead peptide is also strong on HLA-A\*30:02 and
@@ -171,21 +218,78 @@ The four figures are one computation at two panel widths and two junction scopes
 the 27.4% and 30.4% pair differs by exactly one allele. Extending the panel further can only raise them,
 so none of them is a ceiling and this paper does not call any of them one.
 
-**It moves with the threshold, further than it moves with anything else.** All five strong peptide-allele
-calls on the 34-allele screen lie between presentation percentiles 0.3736 and 0.4986, against an
-acceptance threshold of 0.5, and each of the four presenting alleles rests on exactly one of them. Moving
-the threshold to 0.45 leaves three alleles and 23.2%, to 0.40 leaves one and 8.5%, and to 0.37 leaves
-none and 0.0%. The whole set spans 0.125 percentile units, sits within 0.1264 of the cut, and a cut below 0.3736 —
-a move of 0.1264 — takes the headline figure to zero.
+**It moves with the threshold further than it moves with anything else, and the whole function is
+computed here rather than sampled at three points.** Coverage against the acceptance threshold is a
+step function whose every step is a single peptide-allele call. Below the conventional cut it has
+four. HLA-B\*15:01 enters at presentation percentile 0.3736 on NMPCVQAQY, taking coverage from zero to
+8.5%; HLA-A\*30:02 at 0.4033 on the same peptide, reaching 12.3%; HLA-A\*01:01 at 0.4061 on
+RGDMPCVQAQY, reaching 23.2%; HLA-B\*07:02 at 0.4580 on MPPPLRGDM, reaching 30.4%. Four steps and five
+strong calls, because the fifth — QQNMPCVQAQY on HLA-B\*15:01 at 0.4986 — adds a second peptide to an
+allele already presenting and moves nothing. Sampling at round numbers, as earlier versions of this
+paper did — to 0.45 leaves three alleles and 23.2%, to 0.40 leaves one and 8.5%, to 0.37 leaves none
+and 0.0% — understates how compressed the function is. Every step falls inside a window 0.0844 units
+wide; the function is then flat from 0.4580 all the way to the cut; and it reaches zero 0.1264 below
+it. The headline figure is flat at the threshold not because the threshold is well placed but because
+it sits past the last step, with a cliff a tenth of a percentile unit beneath.
+
+**Above the cut it does not plateau either, and that is the more useful half.** Extending the same
+screen to a percentile of 5 adds twenty-four further alleles in twenty-four further steps, none of
+them large and none of them absent: 8 presenting alleles and 47.8% at a cut of 1.0, 16 and 72.6% at
+2.0, 28 and 90.2% at 5.0. The paper's own weak-binder cut is 2.0. So over the span of cuts this
+field routinely writes down — 0.2 as a conservative tier, 0.5 as strong, 2.0 as weak — predicted
+coverage of this junction runs from 0% to 72.6%, and the reported 30.4% is one arbitrary point
+inside that range rather than an estimate with a tolerance.
+
+**None of this is an argument for a looser cut.** A threshold chosen because it raises coverage would be the same defect this paper
+exists to name, arriving from the other side; the 28 alleles at a percentile of 5 are not a better
+answer than the 4 at 0.5, they are a demonstration that the question "what fraction of patients
+could this reach?" has no answer until somebody defends a cut, and nobody has. The whole curve, on
+the same pooled frequencies and the same formula as every figure above, is deposited as
+`coverage-threshold-curve.json`, so a reader who would set the cut elsewhere can read off what it
+gives instead of taking three points on trust.
+
+**It is an average over populations that do not resemble one another.** The pooled figure is a single
+number laid over a distribution whose ends are more than forty-fold apart, and a reader planning anything for a
+particular place needs the end they are standing at rather than the mean. Predicted coverage of any
+in-frame junction runs from 1.4% in Melanesia to 60.4% in Northern Europe, and of the public *EWSR1*
+exon 7 junction from 0.8% in Northern Africa to 16.1% in Northern Europe. So the statement that no
+panel screened here reaches half of patients is true of the pooled global frame and false in Northern
+Europe, where three alleles reach three fifths. This is not a limit of the screen — it is what HLA
+frequency is — but it means the pooled figure should not be quoted alone, and the table below is
+given so that it need not be.
+
+<!-- GENERATED by vaccine_path_tables.py (regional-coverage) — do not hand-edit -->
+
+**Table 1. Predicted class I coverage by UN M49 sub-region, ten-allele screen.** Coverage is the union carrier frequency of the presenting alleles over Allele Frequency Net Database records [1], computed within each sub-region rather than pooled. The pooled global figures are the last row. *Public junction* is the *EWSR1* exon 7 to *NR4A3* exon 3 junction, presented on HLA-B\*15:01 alone; *any junction* pools every in-frame junction, presented on 3 alleles. No confidence interval is given, for the reason in §2.3; *n* is the largest per-allele sample the sub-region contributes and is what a reader should weigh a cell against. A dash is an allele absent from that sub-region's records, not a coverage of zero.
+
+| Sub-region | Public junction | Any junction | Presenting alleles | *n* |
+|---|---|---|---|---|
+| Northern Europe | 16.1% | 60.4% | HLA-A\*01:01, HLA-B\*07:02, HLA-B\*15:01 | 923 |
+| Western Europe | 8.2% | 41.6% | HLA-A\*01:01, HLA-B\*07:02, HLA-B\*15:01 | 3077 |
+| Eastern Europe | 7.1% | 37.0% | HLA-A\*01:01, HLA-B\*07:02, HLA-B\*15:01 | 940 |
+| Southern Europe | 5.9% | 32.1% | HLA-A\*01:01, HLA-B\*07:02, HLA-B\*15:01 | 2647 |
+| Northern America | 8.0% | 31.6% | HLA-A\*01:01, HLA-B\*07:02, HLA-B\*15:01 | 5478 |
+| Western Asia | 2.6% | 27.8% | HLA-A\*01:01, HLA-B\*07:02, HLA-B\*15:01 | 1138 |
+| Southern Asia | 4.0% | 25.1% | HLA-A\*01:01, HLA-B\*07:02, HLA-B\*15:01 | 2365 |
+| Australia and New Zealand | 5.0% | 23.9% | HLA-A\*01:01, HLA-B\*07:02, HLA-B\*15:01 | 702 |
+| Northern Africa | 0.8% | 21.2% | HLA-A\*01:01, HLA-B\*07:02, HLA-B\*15:01 | 431 |
+| Latin America and the Caribbean | 7.8% | 21.1% | HLA-A\*01:01, HLA-B\*07:02, HLA-B\*15:01 | 17277 |
+| Sub-Saharan Africa | 2.0% | 20.4% | HLA-A\*01:01, HLA-B\*07:02, HLA-B\*15:01 | 3066 |
+| Eastern Asia | 15.4% | 20.0% | HLA-A\*01:01, HLA-B\*07:02, HLA-B\*15:01 | 8351 |
+| South-eastern Asia | 3.7% | 14.0% | HLA-A\*01:01, HLA-B\*07:02, HLA-B\*15:01 | 2945 |
+| Polynesia | — | 1.9% | HLA-B\*07:02 | 51 |
+| Melanesia | 0.9% | 1.4% | HLA-B\*07:02, HLA-B\*15:01 | 579 |
+| **Pooled global** | **8.5%** | **27.4%** | HLA-A\*01:01, HLA-B\*07:02, HLA-B\*15:01 | — |
+
+<!-- END GENERATED (regional-coverage) -->
 
 **What is not reported, and why.** Earlier versions printed Wilson 95% intervals about half a percentage
 point wide on every figure above. They are withdrawn. They were computed by pooling every reference
 population into one binomial, and the same records show HLA-B\*15:01 ranging from 0 to 0.40 in frequency
 between those populations, so the single-urn model the interval assumes is refuted by its own input — and
-the interval is an order of magnitude narrower than the threshold sensitivity above. Regional figures are
-point values for the same reason, and their spread is large: 1.4% in Melanesia and 60% in Northern Europe,
-on 579 and 923 individuals. In Northern Europe two alleles reach 52.8%, so any statement that no panel
-reaches half of patients holds for the pooled global frame and not everywhere.
+the interval is an order of magnitude narrower than the threshold sensitivity above. The regional
+figures in Table 1 are point values for the same reason, and the reason is stronger there: the sample
+behind a sub-region's cell is smaller and less homogeneous than the pooled one, not more.
 
 Because an individualised platform selects against the patient's own genotype rather than a public
 epitope, the relevant figure is the pooled-junction one. Selecting per patient moves it from 8.5% to
@@ -242,11 +346,22 @@ much as by the tumour.
 27.4%. Both rest on five strong peptide-allele calls, one per presenting allele, and Section 2.3 gives
 their threshold sensitivity.
 
+**A high-confidence tier, and it is empty.** The natural response to an undefended cut is to report a
+conservative tier beside it, and the conventional conservative cut for class I presentation is 0.2.
+At 0.2 this screen returns no presenting allele and no coverage at all: the least permissive call it
+makes is 0.3736, so every figure in this paper lives strictly between the conventional cut and a cut
+half its size. That is reported rather than suppressed, and it is the sharpest available statement
+of what these predictions are worth: they are not a set of confident calls with a permissive tail,
+they are entirely a permissive tail.
+
 **What would clear or move it.** Three things, in ascending cost. Extending the panels beyond 10 and 34
 class I alleles to the full validated set is a computational task and would raise the denominator. The
 acceptance threshold is a convention rather than a result — nothing here defends 0.5 against 0.4 or 0.6 —
 and settling what the cut should be for junction peptides would do more to this figure than any panel
-extension. Measured immunopeptidomics (B2) could promote peptides the predictor ranks weakly or remove
+extension. Calibrating that cut against a benchmark of experimentally validated neoepitopes is the
+form that settling would take, and no such benchmark restricted to fusion-junction peptides is known
+to the author; calibrating on point-mutation neoantigens instead would import an assumption about
+junction peptides that is the very thing in question. Measured immunopeptidomics (B2) could promote peptides the predictor ranks weakly or remove
 ones it ranks strongly, in a direction not knowable in advance.
 
 **What would not move it.** Manufacturing improvements, delivery formulation and adjuvant selection
@@ -260,14 +375,25 @@ in any protocol rather than discovered at screening.
 
 **Proposition.** No junction peptide has been shown to be presented on the surface of an EMC cell.
 
-**Evidence.** All binding figures in Section 2 come from MHCflurry 2.0, a sequence-based predictor [2].
+**Evidence.** All binding figures in Section 2 come from the sequence-based predictor named there [2].
 No EMC immunopeptidomic dataset is known to the author, and the repository contains none.
 
 **What would clear it.** Mass-spectrometry immunopeptidomics on EMC tumour tissue or on one of the
 patient-derived EMC cell lines that have been established and characterised [6,14]. A single positive
 identification of a junction-spanning peptide in an EMC eluate would convert the central premise of this
-route from predicted to observed. A negative result across adequate material would be close to decisive
-against the route, which is what makes this the highest-value single experiment in the ledger.
+route from predicted to observed.
+
+**What a negative would have to specify to mean anything, and this paper cannot supply it.** The
+sentence "a negative result would be close to decisive" appeared in an earlier version of this
+section and was doing no work, because a null eluate bounds nothing until three quantities are fixed
+in advance: a stated limit of detection in peptide copies per cell, so that "not presented" is
+separated from "below the instrument"; a stated number of independent specimens and their HLA types,
+since the lead peptide is presented on one allele and a specimen not carrying it cannot test the
+claim; and a positive control peptide of known abundance eluted in the same run, without which a
+null is indistinguishable from a failed elution. This paper names those three requirements and does
+not meet any of them — naming them is not the same as having them. Their absence is why B2 is graded
+as bounded by access rather than by the disease, and it is what makes this the highest-value single
+experiment in the ledger.
 
 **Cost and owner.** Requires tissue and a proteomics facility. It is not computational and cannot be
 performed by this programme.
@@ -330,12 +456,11 @@ peptide vaccine design and would make this limit a design constraint rather than
 construct regenerated at the corrected junction carries two strong class I epitopes, NMPCVQAQY and
 QQNMPCVQAQY, both on HLA-B\*15:01, and no class II epitope at all; its minimal synthetic long peptide is
 11 residues where the retracted-seam version was 27 residues carrying both arms. And the combined CD8 and
-CD4 coverage figure is not computed, which is different from being zero. The coverage instrument
-defines class II coverage over the alleles presenting a strong class II binder; with none, its class II
-branch never evaluates and the field it writes is empty. That empty field records that the quantity was
-not computed, and the instrument's own note describes the class II coverage it would compute as a floor
-over a tested panel that untested alleles could only raise. Reporting it as a null result would be
-reading an absent value as a measured zero.
+CD4 coverage figure is not computed, which is different from being zero. Plainly: the current data
+cannot rule out a strong CD4 epitope at this junction, because the panel tested was three alleles
+wide, and any allele added to it could only raise the figure. The coverage instrument computes class
+II coverage over the alleles presenting a strong class II binder; with none, it writes an empty
+field, and that field records a quantity not computed rather than a quantity measured as zero.
 
 **Status.** Reported rather than withheld, negative on the three alleles tested, and bounding the general
 availability of helper epitopes at this junction hardly at all.
@@ -615,14 +740,32 @@ characterisation most needs require work this programme cannot carry out.
 
 Every figure in Sections 2 and 3 is generated by a script in `research/modalities/` and is committed as a
 JSON artifact beside it: `fusion_breakpoints.py` for the junction set and predicted binders,
-`hla_coverage.py` for population coverage, `coverage_scan.py` for the broad-panel screen and curve,
-`junction_proteome_novelty.py` for the proteome search of Section B5, `patient_neoepitopes.py` and
+`hla_coverage.py` for population coverage, `coverage_scan.py` for the coverage-versus-allele-count
+curve, `coverage_threshold_curve.py` for the coverage-versus-threshold curve of Section 2.3,
+`junction_proteome_novelty.py` for the proteome search of Section B5,
+`junction_frameshift_peptides.py` for the out-of-frame screen of Section 2.2,
+`junction_selfsimilarity.py` for the near-self search of Section B3,
+`predictor_concordance.py` for the second-predictor check, `patient_neoepitopes.py` and
 `patient_cd4_epitopes.py` for the per-patient shortlisters, and `vaccine_construct.py` for the candidate
 construct and its minimal synthetic long peptide. The corresponding artifacts are
 `fusion-breakpoint-neoantigens.json`, `hla-coverage.json`, `coverage-curve.json`,
-`epitope-allele-matrix.json`, `junction-proteome-novelty.json`, `patient-cd4-demo.json` and
-`vaccine-construct.json`. The predictor versions those artifacts record are MHCflurry 2.1.4 with models
+`coverage-threshold-curve.json`, `epitope-allele-matrix.json`, `epitope-allele-loose-matrix.json`,
+`junction-proteome-novelty.json`, `junction-frameshift-peptides.json`,
+`junction-selfsimilarity.json`, `predictor-concordance.json`, `patient-cd4-demo.json` and
+`vaccine-construct.json`. The two tables in this paper are generated from those artifacts by
+`vaccine_path_tables.py` and a build fails if a cell and its source diverge. The predictor versions those artifacts record are MHCflurry 2.1.4 with models
 release 2.2.0 for class I and MHCnuggets for class II.
+
+<!-- GENERATED by vaccine_path_tables.py (class-i-panel) — do not hand-edit -->
+
+**Table 2. The 34-allele class I panel.** Listed so the coverage scan can be reproduced and the choice of panel assessed rather than taken on trust. It is a common-allele HLA-A and HLA-B panel spanning global diversity, and it carries no HLA-C and no class II allele — so every figure computed on it is a partial coverage of the class I repertoire, and §2.3's statement that extending the panel can only raise the figures applies to HLA-C before it applies to anything else.
+
+| Locus | Alleles |
+|---|---|
+| HLA-A (16) | HLA-A\*01:01, HLA-A\*02:01, HLA-A\*02:03, HLA-A\*02:06, HLA-A\*03:01, HLA-A\*11:01, HLA-A\*23:01, HLA-A\*24:02, HLA-A\*26:01, HLA-A\*30:01, HLA-A\*30:02, HLA-A\*31:01, HLA-A\*32:01, HLA-A\*33:01, HLA-A\*68:01, HLA-A\*68:02 |
+| HLA-B (18) | HLA-B\*07:02, HLA-B\*08:01, HLA-B\*13:02, HLA-B\*14:02, HLA-B\*15:01, HLA-B\*18:01, HLA-B\*27:05, HLA-B\*35:01, HLA-B\*38:01, HLA-B\*40:01, HLA-B\*40:02, HLA-B\*44:02, HLA-B\*44:03, HLA-B\*46:01, HLA-B\*51:01, HLA-B\*53:01, HLA-B\*57:01, HLA-B\*58:01 |
+
+<!-- END GENERATED (class-i-panel) -->
 
 **These are not regenerated on every commit, and this paper does not claim they are.** The workflow that
 runs them is dispatched by hand, its steps do not fail the run when a generator fails, and it writes its

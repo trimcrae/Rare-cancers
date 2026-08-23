@@ -43,7 +43,7 @@ def test_the_artifact_reproduces_every_threshold_the_manuscript_states_in_prose(
     with open(MS) as fh:
         text = fh.read()
     # §2.3's sentence, whatever its current wording: "to <cut> leaves <n> allele(s) and <pct>%".
-    stated = re.findall(r"to (0\.\d+)\s+leaves\s+(\w+)(?:\s+alleles?)?\s+and\s+([\d.]+)%",
+    stated = re.findall(r"to\s+(0\.\d+)\s+leaves\s+(\w+)(?:\s+alleles?)?\s+and\s+([\d.]+)%",
                         text)
     assert stated, "§2.3 no longer states threshold points in the form this test reads"
     words = {"none": 0, "one": 1, "two": 2, "three": 3, "four": 4, "five": 5}
@@ -56,6 +56,33 @@ def test_the_artifact_reproduces_every_threshold_the_manuscript_states_in_prose(
         assert row["n_presenting_alleles"] == n, f"at {cut}: prose says {n}, artifact says {row}"
         assert abs(row["coverage"] * 100 - float(pct)) < 0.05, (
             f"at {cut}: prose says {pct}%, artifact says {row['coverage'] * 100}%")
+
+
+@pytest.mark.committed_artifact
+def test_every_step_the_artifact_finds_is_named_in_the_manuscript_with_its_own_numbers():
+    """§2.3 now walks the staircase step by step; a step the prose does not carry has drifted.
+
+    ⚠ Containment, not a parse. Asserting the prose PARSES into the artifact would make this test a
+    second reader of the sentence, and it would then break on rewording rather than on drift. What
+    it asserts is that each step's threshold, its coverage and its allele all appear in the text.
+    """
+    with open(MS) as fh:
+        text = fh.read()
+    d = _curve()
+    # ⚠ SCOPED TO THE STEPS BELOW THE CONVENTIONAL CUT, which is what §2.3 walks one by one. The
+    # curve now runs well above that cut and its steps there are reported in aggregate, not named
+    # individually; requiring all of them in prose would force a 28-item list into the manuscript.
+    steps = [st for st in d.get("steps") or [] if st["threshold"] <= d["conventional_threshold"]]
+    assert steps, "the artifact reports no steps at or below the conventional cut"
+    for st in steps:
+        assert f"{st['threshold']:.4f}".rstrip("0") in text or str(st["threshold"]) in text, (
+            f"the manuscript never states the step at {st['threshold']}")
+        pct = f"{st['coverage_after'] * 100:.1f}%"
+        assert pct in text, f"the manuscript never states {pct}, the coverage after {st['threshold']}"
+        for allele in st["alleles_added"]:
+            # the manuscript escapes the asterisk for markdown; compare on the unescaped form
+            assert allele.replace("*", r"\*") in text or allele in text, (
+                f"the manuscript never names {allele}, which causes the step at {st['threshold']}")
 
 
 @pytest.mark.committed_artifact
