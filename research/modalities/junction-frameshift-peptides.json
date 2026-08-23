@@ -2,14 +2,65 @@
   "_what": "Novel peptide supply from the OUT-OF-FRAME EWSR1::NR4A3 exon pairs \u2014 the frameshifted read-through tract of each, its 8- to 11-mers, and whether the premature stop sits in the canonical nonsense-mediated-decay configuration.",
   "_why": "aiXiv review 1364 asked whether the graded-out junctions could supply novel-ORF antigen. Grading a junction out for not producing the driver does not show it produces no antigen, and nothing here had looked.",
   "\u26d4_what_this_is_not": "NOT a set of EMC vaccine targets. The 27 exon pairs are a combinatorial window, not observed breakpoints, and a frameshifted junction cannot encode the chimeric transcription factor that defines the disease \u2014 so a tumour carrying one is not driven by it. Predicted binding remains a screen, not presentation or immunogenicity.",
-  "_method": "chimeric mRNA per junction_aso.mrna_junction; translation from the donor's own initiator codon, halting at the first stop; tract = first residue not wholly donor-encoded onward; 8- to 11-mers filtered against both parent proteins; NMD by the 50-nt positional rule against the chimera's last exon-exon junction. NOT SCREENED \u2014 MHCflurry absent (CI supplies it)",
+  "_method": "chimeric mRNA per junction_aso.mrna_junction; translation from the donor's own initiator codon, halting at the first stop; tract = first residue not wholly donor-encoded onward; 8- to 11-mers filtered against both parent proteins; NMD by the 50-nt positional rule against the chimera's last exon-exon junction. MHCflurry over the same 34-allele panel at the same cut (0.5) as epitope-allele-matrix.json",
   "n_out_of_frame_junctions": 4,
   "n_distinct_novel_peptides": 97,
   "shortest_tract_aa": 9,
   "longest_tract_aa": 31,
-  "n_predicted_strong_binders": null,
-  "strong_binders": null,
-  "\u26a0_binding_scope": "NOT SCREENED \u2014 MHCflurry absent (CI supplies it)",
+  "n_predicted_strong_binders": 10,
+  "strong_binders": [
+    {
+      "peptide": "LPLQVPVM",
+      "allele": "HLA-B*51:01",
+      "percentile": 0.1039
+    },
+    {
+      "peptide": "LPLQVPVM",
+      "allele": "HLA-B*35:01",
+      "percentile": 0.1704
+    },
+    {
+      "peptide": "CPASKPNIAL",
+      "allele": "HLA-B*07:02",
+      "percentile": 0.2482
+    },
+    {
+      "peptide": "LPLQVPVM",
+      "allele": "HLA-B*07:02",
+      "percentile": 0.2653
+    },
+    {
+      "peptide": "KPNIALPLQV",
+      "allele": "HLA-B*07:02",
+      "percentile": 0.2745
+    },
+    {
+      "peptide": "HTARNTPRR",
+      "allele": "HLA-A*68:01",
+      "percentile": 0.388
+    },
+    {
+      "peptide": "LPLQVPVMR",
+      "allele": "HLA-A*33:01",
+      "percentile": 0.4113
+    },
+    {
+      "peptide": "LPLQVPVMR",
+      "allele": "HLA-A*68:01",
+      "percentile": 0.4698
+    },
+    {
+      "peptide": "IALPLQVPV",
+      "allele": "HLA-A*02:06",
+      "percentile": 0.4718
+    },
+    {
+      "peptide": "KPNIALPL",
+      "allele": "HLA-B*07:02",
+      "percentile": 0.4986
+    }
+  ],
+  "\u26a0_binding_scope": "screened; a count of 0 here is a measured zero",
   "convergent_tracts": {
     "\u26a0_why_this_matters": "junctions frameshifting into the SAME acceptor exon read the same nucleotides in the same shifted frame, so their tracts differ only at the seam codon. Summing their peptide counts would overstate the antigen supply several-fold.",
     "shared_tract_after_the_seam_residue": {

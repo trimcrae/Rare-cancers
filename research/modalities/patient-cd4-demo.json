@@ -13,14 +13,79 @@
   },
   "junction_context": "QYSQQSSSYGQQ|NMPCVQAQYSPS",
   "patient_class2_hla": [
-    "DRB1*15:01",
+    "DRB1*01:01",
     "DRB1*03:01",
-    "DRB1*07:01"
+    "DRB1*04:01",
+    "DRB1*04:04",
+    "DRB1*07:01",
+    "DRB1*08:01",
+    "DRB1*09:01",
+    "DRB1*11:01",
+    "DRB1*12:01",
+    "DRB1*13:01",
+    "DRB1*13:02",
+    "DRB1*14:01",
+    "DRB1*15:01",
+    "DRB1*15:02",
+    "DRB1*16:01",
+    "DRB3*01:01",
+    "DRB4*01:01",
+    "DRB5*01:01",
+    "DPB1*02:01",
+    "DPB1*04:01",
+    "DQB1*02:01",
+    "DQB1*03:01",
+    "DQB1*06:02"
   ],
   "n_candidate_15mers": 15,
-  "n_predicted_binders": 2,
-  "n_strong": 0,
+  "alleles_without_a_model": [],
+  "n_alleles_screened": 23,
+  "\u26a0_missing_model_is_not_a_negative": "every declared allele was scored",
+  "n_predicted_binders": 44,
+  "n_strong": 1,
   "shortlist": [
+    {
+      "peptide": "SYGQQNMPCVQAQYS",
+      "allele": "DRB1*14:01",
+      "ic50_nM": 66.1,
+      "call": "strong",
+      "tumour_specific_residues": "5 left + 1 seam codon + 9 right"
+    },
+    {
+      "peptide": "SYGQQNMPCVQAQYS",
+      "allele": "DRB1*13:01",
+      "ic50_nM": 114.5,
+      "call": "binder",
+      "tumour_specific_residues": "5 left + 1 seam codon + 9 right"
+    },
+    {
+      "peptide": "SSYGQQNMPCVQAQY",
+      "allele": "DRB1*14:01",
+      "ic50_nM": 161.8,
+      "call": "binder",
+      "tumour_specific_residues": "6 left + 1 seam codon + 8 right"
+    },
+    {
+      "peptide": "SYGQQNMPCVQAQYS",
+      "allele": "DRB1*01:01",
+      "ic50_nM": 191.5,
+      "call": "binder",
+      "tumour_specific_residues": "5 left + 1 seam codon + 9 right"
+    },
+    {
+      "peptide": "QSSSYGQQNMPCVQA",
+      "allele": "DRB1*14:01",
+      "ic50_nM": 226.3,
+      "call": "binder",
+      "tumour_specific_residues": "8 left + 1 seam codon + 6 right"
+    },
+    {
+      "peptide": "SSSYGQQNMPCVQAQ",
+      "allele": "DRB1*14:01",
+      "ic50_nM": 232.2,
+      "call": "binder",
+      "tumour_specific_residues": "7 left + 1 seam codon + 7 right"
+    },
     {
       "peptide": "YSQQSSSYGQQNMPC",
       "allele": "DRB1*07:01",
@@ -29,15 +94,309 @@
       "tumour_specific_residues": "11 left + 1 seam codon + 3 right"
     },
     {
+      "peptide": "SQYSQQSSSYGQQNM",
+      "allele": "DQB1*06:02",
+      "ic50_nM": 318.2,
+      "call": "binder",
+      "tumour_specific_residues": "13 left + 1 seam codon + 1 right"
+    },
+    {
+      "peptide": "SSSYGQQNMPCVQAQ",
+      "allele": "DQB1*06:02",
+      "ic50_nM": 340.4,
+      "call": "binder",
+      "tumour_specific_residues": "7 left + 1 seam codon + 7 right"
+    },
+    {
+      "peptide": "QSSSYGQQNMPCVQA",
+      "allele": "DPB1*02:01",
+      "ic50_nM": 344.2,
+      "call": "binder",
+      "tumour_specific_residues": "8 left + 1 seam codon + 6 right"
+    },
+    {
+      "peptide": "SSYGQQNMPCVQAQY",
+      "allele": "DRB1*01:01",
+      "ic50_nM": 347.3,
+      "call": "binder",
+      "tumour_specific_residues": "6 left + 1 seam codon + 8 right"
+    },
+    {
+      "peptide": "QSSSYGQQNMPCVQA",
+      "allele": "DRB1*01:01",
+      "ic50_nM": 370.7,
+      "call": "binder",
+      "tumour_specific_residues": "8 left + 1 seam codon + 6 right"
+    },
+    {
+      "peptide": "SSSYGQQNMPCVQAQ",
+      "allele": "DRB1*01:01",
+      "ic50_nM": 380.5,
+      "call": "binder",
+      "tumour_specific_residues": "7 left + 1 seam codon + 7 right"
+    },
+    {
+      "peptide": "YSQQSSSYGQQNMPC",
+      "allele": "DRB1*09:01",
+      "ic50_nM": 392.9,
+      "call": "binder",
+      "tumour_specific_residues": "11 left + 1 seam codon + 3 right"
+    },
+    {
+      "peptide": "SYGQQNMPCVQAQYS",
+      "allele": "DRB4*01:01",
+      "ic50_nM": 406.8,
+      "call": "binder",
+      "tumour_specific_residues": "5 left + 1 seam codon + 9 right"
+    },
+    {
       "peptide": "QYSQQSSSYGQQNMP",
       "allele": "DRB1*07:01",
       "ic50_nM": 438.9,
       "call": "binder",
       "tumour_specific_residues": "12 left + 1 seam codon + 2 right"
+    },
+    {
+      "peptide": "SQYSQQSSSYGQQNM",
+      "allele": "DRB1*09:01",
+      "ic50_nM": 445.5,
+      "call": "binder",
+      "tumour_specific_residues": "13 left + 1 seam codon + 1 right"
+    },
+    {
+      "peptide": "GQQNMPCVQAQYSPS",
+      "allele": "DRB4*01:01",
+      "ic50_nM": 451.3,
+      "call": "binder",
+      "tumour_specific_residues": "3 left + 1 seam codon + 11 right"
+    },
+    {
+      "peptide": "SSYGQQNMPCVQAQY",
+      "allele": "DQB1*06:02",
+      "ic50_nM": 484.2,
+      "call": "binder",
+      "tumour_specific_residues": "6 left + 1 seam codon + 8 right"
+    },
+    {
+      "peptide": "SYGQQNMPCVQAQYS",
+      "allele": "DQB1*06:02",
+      "ic50_nM": 485.3,
+      "call": "binder",
+      "tumour_specific_residues": "5 left + 1 seam codon + 9 right"
+    },
+    {
+      "peptide": "SQYSQQSSSYGQQNM",
+      "allele": "DRB1*14:01",
+      "ic50_nM": 542.0,
+      "call": "binder",
+      "tumour_specific_residues": "13 left + 1 seam codon + 1 right"
+    },
+    {
+      "peptide": "GQQNMPCVQAQYSPS",
+      "allele": "DQB1*06:02",
+      "ic50_nM": 544.4,
+      "call": "binder",
+      "tumour_specific_residues": "3 left + 1 seam codon + 11 right"
+    },
+    {
+      "peptide": "SYGQQNMPCVQAQYS",
+      "allele": "DPB1*02:01",
+      "ic50_nM": 554.2,
+      "call": "binder",
+      "tumour_specific_residues": "5 left + 1 seam codon + 9 right"
+    },
+    {
+      "peptide": "SQQSSSYGQQNMPCV",
+      "allele": "DRB1*09:01",
+      "ic50_nM": 619.4,
+      "call": "binder",
+      "tumour_specific_residues": "10 left + 1 seam codon + 4 right"
+    },
+    {
+      "peptide": "SSYGQQNMPCVQAQY",
+      "allele": "DRB1*04:01",
+      "ic50_nM": 625.3,
+      "call": "binder",
+      "tumour_specific_residues": "6 left + 1 seam codon + 8 right"
+    },
+    {
+      "peptide": "SSYGQQNMPCVQAQY",
+      "allele": "DRB1*11:01",
+      "ic50_nM": 654.1,
+      "call": "binder",
+      "tumour_specific_residues": "6 left + 1 seam codon + 8 right"
+    },
+    {
+      "peptide": "SYGQQNMPCVQAQYS",
+      "allele": "DRB1*15:02",
+      "ic50_nM": 672.5,
+      "call": "binder",
+      "tumour_specific_residues": "5 left + 1 seam codon + 9 right"
+    },
+    {
+      "peptide": "SYGQQNMPCVQAQYS",
+      "allele": "DRB1*16:01",
+      "ic50_nM": 718.3,
+      "call": "binder",
+      "tumour_specific_residues": "5 left + 1 seam codon + 9 right"
+    },
+    {
+      "peptide": "SYGQQNMPCVQAQYS",
+      "allele": "DRB1*09:01",
+      "ic50_nM": 722.9,
+      "call": "binder",
+      "tumour_specific_residues": "5 left + 1 seam codon + 9 right"
+    },
+    {
+      "peptide": "YGQQNMPCVQAQYSP",
+      "allele": "DQB1*06:02",
+      "ic50_nM": 732.4,
+      "call": "binder",
+      "tumour_specific_residues": "4 left + 1 seam codon + 10 right"
+    },
+    {
+      "peptide": "QSSSYGQQNMPCVQA",
+      "allele": "DQB1*06:02",
+      "ic50_nM": 752.2,
+      "call": "binder",
+      "tumour_specific_residues": "8 left + 1 seam codon + 6 right"
+    },
+    {
+      "peptide": "GQQNMPCVQAQYSPS",
+      "allele": "DRB1*14:01",
+      "ic50_nM": 798.8,
+      "call": "binder",
+      "tumour_specific_residues": "3 left + 1 seam codon + 11 right"
+    },
+    {
+      "peptide": "PSQYSQQSSSYGQQN",
+      "allele": "DRB1*09:01",
+      "ic50_nM": 811.8,
+      "call": "binder",
+      "tumour_specific_residues": "14 left + 1 seam codon + 0 right"
+    },
+    {
+      "peptide": "SSYGQQNMPCVQAQY",
+      "allele": "DRB4*01:01",
+      "ic50_nM": 828.8,
+      "call": "binder",
+      "tumour_specific_residues": "6 left + 1 seam codon + 8 right"
+    },
+    {
+      "peptide": "SSSYGQQNMPCVQAQ",
+      "allele": "DPB1*02:01",
+      "ic50_nM": 832.7,
+      "call": "binder",
+      "tumour_specific_residues": "7 left + 1 seam codon + 7 right"
+    },
+    {
+      "peptide": "SQYSQQSSSYGQQNM",
+      "allele": "DRB1*01:01",
+      "ic50_nM": 851.1,
+      "call": "binder",
+      "tumour_specific_residues": "13 left + 1 seam codon + 1 right"
+    },
+    {
+      "peptide": "SQQSSSYGQQNMPCV",
+      "allele": "DRB1*14:01",
+      "ic50_nM": 886.1,
+      "call": "binder",
+      "tumour_specific_residues": "10 left + 1 seam codon + 4 right"
+    },
+    {
+      "peptide": "QSSSYGQQNMPCVQA",
+      "allele": "DRB1*09:01",
+      "ic50_nM": 911.9,
+      "call": "binder",
+      "tumour_specific_residues": "8 left + 1 seam codon + 6 right"
+    },
+    {
+      "peptide": "QSSSYGQQNMPCVQA",
+      "allele": "DRB1*13:01",
+      "ic50_nM": 924.4,
+      "call": "binder",
+      "tumour_specific_residues": "8 left + 1 seam codon + 6 right"
+    },
+    {
+      "peptide": "PSQYSQQSSSYGQQN",
+      "allele": "DRB1*04:01",
+      "ic50_nM": 934.4,
+      "call": "binder",
+      "tumour_specific_residues": "14 left + 1 seam codon + 0 right"
+    },
+    {
+      "peptide": "YGQQNMPCVQAQYSP",
+      "allele": "DRB4*01:01",
+      "ic50_nM": 941.4,
+      "call": "binder",
+      "tumour_specific_residues": "4 left + 1 seam codon + 10 right"
+    },
+    {
+      "peptide": "YSQQSSSYGQQNMPC",
+      "allele": "DQB1*06:02",
+      "ic50_nM": 964.8,
+      "call": "binder",
+      "tumour_specific_residues": "11 left + 1 seam codon + 3 right"
+    },
+    {
+      "peptide": "SYGQQNMPCVQAQYS",
+      "allele": "DRB1*04:04",
+      "ic50_nM": 972.0,
+      "call": "binder",
+      "tumour_specific_residues": "5 left + 1 seam codon + 9 right"
+    },
+    {
+      "peptide": "YGQQNMPCVQAQYSP",
+      "allele": "DRB1*12:01",
+      "ic50_nM": 982.1,
+      "call": "binder",
+      "tumour_specific_residues": "4 left + 1 seam codon + 10 right"
     }
   ],
   "all_predictions": [
     {
+      "peptide": "SYGQQNMPCVQAQYS",
+      "allele": "DRB1*14:01",
+      "ic50_nM": 66.1,
+      "call": "strong",
+      "tumour_specific_residues": "5 left + 1 seam codon + 9 right"
+    },
+    {
+      "peptide": "SYGQQNMPCVQAQYS",
+      "allele": "DRB1*13:01",
+      "ic50_nM": 114.5,
+      "call": "binder",
+      "tumour_specific_residues": "5 left + 1 seam codon + 9 right"
+    },
+    {
+      "peptide": "SSYGQQNMPCVQAQY",
+      "allele": "DRB1*14:01",
+      "ic50_nM": 161.8,
+      "call": "binder",
+      "tumour_specific_residues": "6 left + 1 seam codon + 8 right"
+    },
+    {
+      "peptide": "SYGQQNMPCVQAQYS",
+      "allele": "DRB1*01:01",
+      "ic50_nM": 191.5,
+      "call": "binder",
+      "tumour_specific_residues": "5 left + 1 seam codon + 9 right"
+    },
+    {
+      "peptide": "QSSSYGQQNMPCVQA",
+      "allele": "DRB1*14:01",
+      "ic50_nM": 226.3,
+      "call": "binder",
+      "tumour_specific_residues": "8 left + 1 seam codon + 6 right"
+    },
+    {
+      "peptide": "SSSYGQQNMPCVQAQ",
+      "allele": "DRB1*14:01",
+      "ic50_nM": 232.2,
+      "call": "binder",
+      "tumour_specific_residues": "7 left + 1 seam codon + 7 right"
+    },
+    {
       "peptide": "YSQQSSSYGQQNMPC",
       "allele": "DRB1*07:01",
       "ic50_nM": 261.6,
@@ -45,11 +404,270 @@
       "tumour_specific_residues": "11 left + 1 seam codon + 3 right"
     },
     {
+      "peptide": "SQYSQQSSSYGQQNM",
+      "allele": "DQB1*06:02",
+      "ic50_nM": 318.2,
+      "call": "binder",
+      "tumour_specific_residues": "13 left + 1 seam codon + 1 right"
+    },
+    {
+      "peptide": "SSSYGQQNMPCVQAQ",
+      "allele": "DQB1*06:02",
+      "ic50_nM": 340.4,
+      "call": "binder",
+      "tumour_specific_residues": "7 left + 1 seam codon + 7 right"
+    },
+    {
+      "peptide": "QSSSYGQQNMPCVQA",
+      "allele": "DPB1*02:01",
+      "ic50_nM": 344.2,
+      "call": "binder",
+      "tumour_specific_residues": "8 left + 1 seam codon + 6 right"
+    },
+    {
+      "peptide": "SSYGQQNMPCVQAQY",
+      "allele": "DRB1*01:01",
+      "ic50_nM": 347.3,
+      "call": "binder",
+      "tumour_specific_residues": "6 left + 1 seam codon + 8 right"
+    },
+    {
+      "peptide": "QSSSYGQQNMPCVQA",
+      "allele": "DRB1*01:01",
+      "ic50_nM": 370.7,
+      "call": "binder",
+      "tumour_specific_residues": "8 left + 1 seam codon + 6 right"
+    },
+    {
+      "peptide": "SSSYGQQNMPCVQAQ",
+      "allele": "DRB1*01:01",
+      "ic50_nM": 380.5,
+      "call": "binder",
+      "tumour_specific_residues": "7 left + 1 seam codon + 7 right"
+    },
+    {
+      "peptide": "YSQQSSSYGQQNMPC",
+      "allele": "DRB1*09:01",
+      "ic50_nM": 392.9,
+      "call": "binder",
+      "tumour_specific_residues": "11 left + 1 seam codon + 3 right"
+    },
+    {
+      "peptide": "SYGQQNMPCVQAQYS",
+      "allele": "DRB4*01:01",
+      "ic50_nM": 406.8,
+      "call": "binder",
+      "tumour_specific_residues": "5 left + 1 seam codon + 9 right"
+    },
+    {
       "peptide": "QYSQQSSSYGQQNMP",
       "allele": "DRB1*07:01",
       "ic50_nM": 438.9,
       "call": "binder",
       "tumour_specific_residues": "12 left + 1 seam codon + 2 right"
+    },
+    {
+      "peptide": "SQYSQQSSSYGQQNM",
+      "allele": "DRB1*09:01",
+      "ic50_nM": 445.5,
+      "call": "binder",
+      "tumour_specific_residues": "13 left + 1 seam codon + 1 right"
+    },
+    {
+      "peptide": "GQQNMPCVQAQYSPS",
+      "allele": "DRB4*01:01",
+      "ic50_nM": 451.3,
+      "call": "binder",
+      "tumour_specific_residues": "3 left + 1 seam codon + 11 right"
+    },
+    {
+      "peptide": "SSYGQQNMPCVQAQY",
+      "allele": "DQB1*06:02",
+      "ic50_nM": 484.2,
+      "call": "binder",
+      "tumour_specific_residues": "6 left + 1 seam codon + 8 right"
+    },
+    {
+      "peptide": "SYGQQNMPCVQAQYS",
+      "allele": "DQB1*06:02",
+      "ic50_nM": 485.3,
+      "call": "binder",
+      "tumour_specific_residues": "5 left + 1 seam codon + 9 right"
+    },
+    {
+      "peptide": "SQYSQQSSSYGQQNM",
+      "allele": "DRB1*14:01",
+      "ic50_nM": 542.0,
+      "call": "binder",
+      "tumour_specific_residues": "13 left + 1 seam codon + 1 right"
+    },
+    {
+      "peptide": "GQQNMPCVQAQYSPS",
+      "allele": "DQB1*06:02",
+      "ic50_nM": 544.4,
+      "call": "binder",
+      "tumour_specific_residues": "3 left + 1 seam codon + 11 right"
+    },
+    {
+      "peptide": "SYGQQNMPCVQAQYS",
+      "allele": "DPB1*02:01",
+      "ic50_nM": 554.2,
+      "call": "binder",
+      "tumour_specific_residues": "5 left + 1 seam codon + 9 right"
+    },
+    {
+      "peptide": "SQQSSSYGQQNMPCV",
+      "allele": "DRB1*09:01",
+      "ic50_nM": 619.4,
+      "call": "binder",
+      "tumour_specific_residues": "10 left + 1 seam codon + 4 right"
+    },
+    {
+      "peptide": "SSYGQQNMPCVQAQY",
+      "allele": "DRB1*04:01",
+      "ic50_nM": 625.3,
+      "call": "binder",
+      "tumour_specific_residues": "6 left + 1 seam codon + 8 right"
+    },
+    {
+      "peptide": "SSYGQQNMPCVQAQY",
+      "allele": "DRB1*11:01",
+      "ic50_nM": 654.1,
+      "call": "binder",
+      "tumour_specific_residues": "6 left + 1 seam codon + 8 right"
+    },
+    {
+      "peptide": "SYGQQNMPCVQAQYS",
+      "allele": "DRB1*15:02",
+      "ic50_nM": 672.5,
+      "call": "binder",
+      "tumour_specific_residues": "5 left + 1 seam codon + 9 right"
+    },
+    {
+      "peptide": "SYGQQNMPCVQAQYS",
+      "allele": "DRB1*16:01",
+      "ic50_nM": 718.3,
+      "call": "binder",
+      "tumour_specific_residues": "5 left + 1 seam codon + 9 right"
+    },
+    {
+      "peptide": "SYGQQNMPCVQAQYS",
+      "allele": "DRB1*09:01",
+      "ic50_nM": 722.9,
+      "call": "binder",
+      "tumour_specific_residues": "5 left + 1 seam codon + 9 right"
+    },
+    {
+      "peptide": "YGQQNMPCVQAQYSP",
+      "allele": "DQB1*06:02",
+      "ic50_nM": 732.4,
+      "call": "binder",
+      "tumour_specific_residues": "4 left + 1 seam codon + 10 right"
+    },
+    {
+      "peptide": "QSSSYGQQNMPCVQA",
+      "allele": "DQB1*06:02",
+      "ic50_nM": 752.2,
+      "call": "binder",
+      "tumour_specific_residues": "8 left + 1 seam codon + 6 right"
+    },
+    {
+      "peptide": "GQQNMPCVQAQYSPS",
+      "allele": "DRB1*14:01",
+      "ic50_nM": 798.8,
+      "call": "binder",
+      "tumour_specific_residues": "3 left + 1 seam codon + 11 right"
+    },
+    {
+      "peptide": "PSQYSQQSSSYGQQN",
+      "allele": "DRB1*09:01",
+      "ic50_nM": 811.8,
+      "call": "binder",
+      "tumour_specific_residues": "14 left + 1 seam codon + 0 right"
+    },
+    {
+      "peptide": "SSYGQQNMPCVQAQY",
+      "allele": "DRB4*01:01",
+      "ic50_nM": 828.8,
+      "call": "binder",
+      "tumour_specific_residues": "6 left + 1 seam codon + 8 right"
+    },
+    {
+      "peptide": "SSSYGQQNMPCVQAQ",
+      "allele": "DPB1*02:01",
+      "ic50_nM": 832.7,
+      "call": "binder",
+      "tumour_specific_residues": "7 left + 1 seam codon + 7 right"
+    },
+    {
+      "peptide": "SQYSQQSSSYGQQNM",
+      "allele": "DRB1*01:01",
+      "ic50_nM": 851.1,
+      "call": "binder",
+      "tumour_specific_residues": "13 left + 1 seam codon + 1 right"
+    },
+    {
+      "peptide": "SQQSSSYGQQNMPCV",
+      "allele": "DRB1*14:01",
+      "ic50_nM": 886.1,
+      "call": "binder",
+      "tumour_specific_residues": "10 left + 1 seam codon + 4 right"
+    },
+    {
+      "peptide": "QSSSYGQQNMPCVQA",
+      "allele": "DRB1*09:01",
+      "ic50_nM": 911.9,
+      "call": "binder",
+      "tumour_specific_residues": "8 left + 1 seam codon + 6 right"
+    },
+    {
+      "peptide": "QSSSYGQQNMPCVQA",
+      "allele": "DRB1*13:01",
+      "ic50_nM": 924.4,
+      "call": "binder",
+      "tumour_specific_residues": "8 left + 1 seam codon + 6 right"
+    },
+    {
+      "peptide": "PSQYSQQSSSYGQQN",
+      "allele": "DRB1*04:01",
+      "ic50_nM": 934.4,
+      "call": "binder",
+      "tumour_specific_residues": "14 left + 1 seam codon + 0 right"
+    },
+    {
+      "peptide": "YGQQNMPCVQAQYSP",
+      "allele": "DRB4*01:01",
+      "ic50_nM": 941.4,
+      "call": "binder",
+      "tumour_specific_residues": "4 left + 1 seam codon + 10 right"
+    },
+    {
+      "peptide": "YSQQSSSYGQQNMPC",
+      "allele": "DQB1*06:02",
+      "ic50_nM": 964.8,
+      "call": "binder",
+      "tumour_specific_residues": "11 left + 1 seam codon + 3 right"
+    },
+    {
+      "peptide": "SYGQQNMPCVQAQYS",
+      "allele": "DRB1*04:04",
+      "ic50_nM": 972.0,
+      "call": "binder",
+      "tumour_specific_residues": "5 left + 1 seam codon + 9 right"
+    },
+    {
+      "peptide": "YGQQNMPCVQAQYSP",
+      "allele": "DRB1*12:01",
+      "ic50_nM": 982.1,
+      "call": "binder",
+      "tumour_specific_residues": "4 left + 1 seam codon + 10 right"
+    },
+    {
+      "peptide": "SSYGQQNMPCVQAQY",
+      "allele": "DRB1*12:01",
+      "ic50_nM": 1011.2,
+      "call": "non-binder",
+      "tumour_specific_residues": "6 left + 1 seam codon + 8 right"
     },
     {
       "peptide": "SQYSQQSSSYGQQNM",
@@ -66,291 +684,95 @@
       "tumour_specific_residues": "5 left + 1 seam codon + 9 right"
     },
     {
-      "peptide": "YGQQNMPCVQAQYSP",
-      "allele": "DRB1*07:01",
-      "ic50_nM": 2035.1,
-      "call": "non-binder",
-      "tumour_specific_residues": "4 left + 1 seam codon + 10 right"
-    },
-    {
-      "peptide": "SQQSSSYGQQNMPCV",
-      "allele": "DRB1*07:01",
-      "ic50_nM": 2078.2,
-      "call": "non-binder",
-      "tumour_specific_residues": "10 left + 1 seam codon + 4 right"
-    },
-    {
       "peptide": "SSYGQQNMPCVQAQY",
-      "allele": "DRB1*07:01",
-      "ic50_nM": 2833.1,
+      "allele": "DRB1*04:04",
+      "ic50_nM": 1080.5,
       "call": "non-binder",
       "tumour_specific_residues": "6 left + 1 seam codon + 8 right"
     },
     {
-      "peptide": "SYGQQNMPCVQAQYS",
-      "allele": "DRB1*15:01",
-      "ic50_nM": 3060.6,
+      "peptide": "SSSYGQQNMPCVQAQ",
+      "allele": "DRB1*04:01",
+      "ic50_nM": 1100.5,
       "call": "non-binder",
-      "tumour_specific_residues": "5 left + 1 seam codon + 9 right"
-    },
-    {
-      "peptide": "QSSSYGQQNMPCVQA",
-      "allele": "DRB1*07:01",
-      "ic50_nM": 3153.7,
-      "call": "non-binder",
-      "tumour_specific_residues": "8 left + 1 seam codon + 6 right"
+      "tumour_specific_residues": "7 left + 1 seam codon + 7 right"
     },
     {
       "peptide": "PSQYSQQSSSYGQQN",
-      "allele": "DRB1*15:01",
-      "ic50_nM": 3236.9,
+      "allele": "DRB4*01:01",
+      "ic50_nM": 1104.7,
       "call": "non-binder",
       "tumour_specific_residues": "14 left + 1 seam codon + 0 right"
     },
     {
       "peptide": "QQSSSYGQQNMPCVQ",
-      "allele": "DRB1*07:01",
-      "ic50_nM": 3923.9,
+      "allele": "DRB1*14:01",
+      "ic50_nM": 1107.7,
       "call": "non-binder",
       "tumour_specific_residues": "9 left + 1 seam codon + 5 right"
     },
     {
+      "peptide": "YGQQNMPCVQAQYSP",
+      "allele": "DRB1*14:01",
+      "ic50_nM": 1125.0,
+      "call": "non-binder",
+      "tumour_specific_residues": "4 left + 1 seam codon + 10 right"
+    },
+    {
       "peptide": "QQNMPCVQAQYSPSP",
-      "allele": "DRB1*07:01",
-      "ic50_nM": 4382.3,
+      "allele": "DRB4*01:01",
+      "ic50_nM": 1152.8,
       "call": "non-binder",
       "tumour_specific_residues": "2 left + 1 seam codon + 12 right"
     },
     {
-      "peptide": "QNMPCVQAQYSPSPP",
-      "allele": "DRB1*07:01",
-      "ic50_nM": 4460.9,
-      "call": "non-binder",
-      "tumour_specific_residues": "1 left + 1 seam codon + 13 right"
-    },
-    {
-      "peptide": "GQQNMPCVQAQYSPS",
-      "allele": "DRB1*07:01",
-      "ic50_nM": 4679.4,
-      "call": "non-binder",
-      "tumour_specific_residues": "3 left + 1 seam codon + 11 right"
-    },
-    {
       "peptide": "SSYGQQNMPCVQAQY",
-      "allele": "DRB1*15:01",
-      "ic50_nM": 5129.9,
+      "allele": "DPB1*02:01",
+      "ic50_nM": 1172.6,
       "call": "non-binder",
       "tumour_specific_residues": "6 left + 1 seam codon + 8 right"
     },
     {
-      "peptide": "SSSYGQQNMPCVQAQ",
-      "allele": "DRB1*07:01",
-      "ic50_nM": 6381.1,
-      "call": "non-binder",
-      "tumour_specific_residues": "7 left + 1 seam codon + 7 right"
-    },
-    {
-      "peptide": "SSSYGQQNMPCVQAQ",
-      "allele": "DRB1*15:01",
-      "ic50_nM": 6713.0,
-      "call": "non-binder",
-      "tumour_specific_residues": "7 left + 1 seam codon + 7 right"
-    },
-    {
-      "peptide": "NMPCVQAQYSPSPPG",
-      "allele": "DRB1*07:01",
-      "ic50_nM": 6758.0,
-      "call": "non-binder",
-      "tumour_specific_residues": "0 left + 1 seam codon + 14 right"
-    },
-    {
-      "peptide": "YSQQSSSYGQQNMPC",
-      "allele": "DRB1*15:01",
-      "ic50_nM": 6864.5,
-      "call": "non-binder",
-      "tumour_specific_residues": "11 left + 1 seam codon + 3 right"
-    },
-    {
       "peptide": "PSQYSQQSSSYGQQN",
-      "allele": "DRB1*07:01",
-      "ic50_nM": 7128.0,
+      "allele": "DRB1*13:02",
+      "ic50_nM": 1208.2,
       "call": "non-binder",
       "tumour_specific_residues": "14 left + 1 seam codon + 0 right"
     },
     {
-      "peptide": "YGQQNMPCVQAQYSP",
-      "allele": "DRB1*15:01",
-      "ic50_nM": 9593.9,
-      "call": "non-binder",
-      "tumour_specific_residues": "4 left + 1 seam codon + 10 right"
-    },
-    {
-      "peptide": "QSSSYGQQNMPCVQA",
-      "allele": "DRB1*15:01",
-      "ic50_nM": 10688.1,
-      "call": "non-binder",
-      "tumour_specific_residues": "8 left + 1 seam codon + 6 right"
-    },
-    {
-      "peptide": "QQSSSYGQQNMPCVQ",
-      "allele": "DRB1*15:01",
-      "ic50_nM": 13332.7,
-      "call": "non-binder",
-      "tumour_specific_residues": "9 left + 1 seam codon + 5 right"
-    },
-    {
-      "peptide": "SYGQQNMPCVQAQYS",
-      "allele": "DRB1*03:01",
-      "ic50_nM": 13584.6,
-      "call": "non-binder",
-      "tumour_specific_residues": "5 left + 1 seam codon + 9 right"
-    },
-    {
-      "peptide": "GQQNMPCVQAQYSPS",
-      "allele": "DRB1*15:01",
-      "ic50_nM": 13898.5,
-      "call": "non-binder",
-      "tumour_specific_residues": "3 left + 1 seam codon + 11 right"
-    },
-    {
-      "peptide": "QSSSYGQQNMPCVQA",
-      "allele": "DRB1*03:01",
-      "ic50_nM": 16784.8,
-      "call": "non-binder",
-      "tumour_specific_residues": "8 left + 1 seam codon + 6 right"
-    },
-    {
-      "peptide": "GQQNMPCVQAQYSPS",
-      "allele": "DRB1*03:01",
-      "ic50_nM": 17658.3,
-      "call": "non-binder",
-      "tumour_specific_residues": "3 left + 1 seam codon + 11 right"
-    },
-    {
-      "peptide": "QQSSSYGQQNMPCVQ",
-      "allele": "DRB1*03:01",
-      "ic50_nM": 17897.6,
-      "call": "non-binder",
-      "tumour_specific_residues": "9 left + 1 seam codon + 5 right"
-    },
-    {
-      "peptide": "SQQSSSYGQQNMPCV",
-      "allele": "DRB1*03:01",
-      "ic50_nM": 18511.8,
-      "call": "non-binder",
-      "tumour_specific_residues": "10 left + 1 seam codon + 4 right"
-    },
-    {
-      "peptide": "QYSQQSSSYGQQNMP",
-      "allele": "DRB1*03:01",
-      "ic50_nM": 18970.8,
-      "call": "non-binder",
-      "tumour_specific_residues": "12 left + 1 seam codon + 2 right"
-    },
-    {
-      "peptide": "YGQQNMPCVQAQYSP",
-      "allele": "DRB1*03:01",
-      "ic50_nM": 19430.8,
-      "call": "non-binder",
-      "tumour_specific_residues": "4 left + 1 seam codon + 10 right"
-    },
-    {
       "peptide": "SQYSQQSSSYGQQNM",
-      "allele": "DRB1*15:01",
-      "ic50_nM": 19596.2,
+      "allele": "DRB1*04:01",
+      "ic50_nM": 1229.0,
       "call": "non-binder",
       "tumour_specific_residues": "13 left + 1 seam codon + 1 right"
     },
     {
-      "peptide": "NMPCVQAQYSPSPPG",
-      "allele": "DRB1*15:01",
-      "ic50_nM": 19692.6,
+      "peptide": "SYGQQNMPCVQAQYS",
+      "allele": "DRB1*04:01",
+      "ic50_nM": 1240.7,
       "call": "non-binder",
-      "tumour_specific_residues": "0 left + 1 seam codon + 14 right"
-    },
-    {
-      "peptide": "QQNMPCVQAQYSPSP",
-      "allele": "DRB1*15:01",
-      "ic50_nM": 21100.4,
-      "call": "non-binder",
-      "tumour_specific_residues": "2 left + 1 seam codon + 12 right"
+      "tumour_specific_residues": "5 left + 1 seam codon + 9 right"
     },
     {
       "peptide": "YSQQSSSYGQQNMPC",
-      "allele": "DRB1*03:01",
-      "ic50_nM": 21342.2,
+      "allele": "DRB1*14:01",
+      "ic50_nM": 1306.1,
       "call": "non-binder",
       "tumour_specific_residues": "11 left + 1 seam codon + 3 right"
     },
     {
-      "peptide": "QYSQQSSSYGQQNMP",
-      "allele": "DRB1*15:01",
-      "ic50_nM": 23938.9,
-      "call": "non-binder",
-      "tumour_specific_residues": "12 left + 1 seam codon + 2 right"
-    },
-    {
-      "peptide": "SSYGQQNMPCVQAQY",
-      "allele": "DRB1*03:01",
-      "ic50_nM": 24090.3,
-      "call": "non-binder",
-      "tumour_specific_residues": "6 left + 1 seam codon + 8 right"
-    },
-    {
-      "peptide": "QNMPCVQAQYSPSPP",
-      "allele": "DRB1*15:01",
-      "ic50_nM": 24895.1,
-      "call": "non-binder",
-      "tumour_specific_residues": "1 left + 1 seam codon + 13 right"
-    },
-    {
-      "peptide": "PSQYSQQSSSYGQQN",
-      "allele": "DRB1*03:01",
-      "ic50_nM": 27092.8,
-      "call": "non-binder",
-      "tumour_specific_residues": "14 left + 1 seam codon + 0 right"
-    },
-    {
       "peptide": "QQNMPCVQAQYSPSP",
-      "allele": "DRB1*03:01",
-      "ic50_nM": 27467.3,
+      "allele": "DQB1*06:02",
+      "ic50_nM": 1309.9,
       "call": "non-binder",
       "tumour_specific_residues": "2 left + 1 seam codon + 12 right"
     },
     {
-      "peptide": "SQYSQQSSSYGQQNM",
-      "allele": "DRB1*03:01",
-      "ic50_nM": 27711.4,
+      "peptide": "SSYGQQNMPCVQAQY",
+      "allele": "DRB1*16:01",
+      "ic50_nM": 1317.1,
       "call": "non-binder",
-      "tumour_specific_residues": "13 left + 1 seam codon + 1 right"
-    },
-    {
-      "peptide": "SQQSSSYGQQNMPCV",
-      "allele": "DRB1*15:01",
-      "ic50_nM": 28182.6,
-      "call": "non-binder",
-      "tumour_specific_residues": "10 left + 1 seam codon + 4 right"
-    },
-    {
-      "peptide": "SSSYGQQNMPCVQAQ",
-      "allele": "DRB1*03:01",
-      "ic50_nM": 28842.5,
-      "call": "non-binder",
-      "tumour_specific_residues": "7 left + 1 seam codon + 7 right"
-    },
-    {
-      "peptide": "QNMPCVQAQYSPSPP",
-      "allele": "DRB1*03:01",
-      "ic50_nM": 34481.6,
-      "call": "non-binder",
-      "tumour_specific_residues": "1 left + 1 seam codon + 13 right"
-    },
-    {
-      "peptide": "NMPCVQAQYSPSPPG",
-      "allele": "DRB1*03:01",
-      "ic50_nM": 36414.7,
-      "call": "non-binder",
-      "tumour_specific_residues": "0 left + 1 seam codon + 14 right"
+      "tumour_specific_residues": "6 left + 1 seam codon + 8 right"
     }
   ]
 }

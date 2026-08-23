@@ -52,7 +52,7 @@ from limits of method or access, and records for each movable limit what would m
 exon is retained whole including its 5' untranslated region. Class I binding was predicted with MHCflurry
 2.1.4, models release 2.2.0 [2], on a ten-allele panel for the junction screen and a 34-allele panel for
 the coverage scan, calling a peptide strong at a presentation percentile of 0.5 or below; class II binding
-with MHCnuggets [12] on three DRB1 alleles at 100 and 1000 nM. Coverage is the union carrier frequency of
+with MHCnuggets [12] on 23 class II alleles across DR, DP and DQ at 100 and 1000 nM. Coverage is the union carrier frequency of
 the presenting alleles over Allele Frequency Net Database records [1]; the sampling model that pooling
 would require does not hold, so no confidence interval is placed on it and the threshold sensitivity is
 reported instead. Novelty was assessed by exact-match search against the UniProt reviewed human proteome
@@ -70,12 +70,20 @@ computed here as a continuous function rather than sampled: it is a step functio
 peptide-allele call, and the four steps below the conventional cut all fall inside a window 0.0844
 percentile units wide that closes before the cut is reached. Across the span of cuts this field
 routinely uses it runs from 0% at a conservative 0.2 through 30.4% at 0.5 to 72.6% at 2.0, so the
-reported figure is one point on a curve rather than an estimate with a tolerance. 170 of 174
+reported figure is one point on a curve rather than an estimate with a tolerance. It also moves with the predictor: an independently
+trained class I model over the same peptides and panel returns 8 presenting alleles and 45.2% at its own
+conventional cut, sharing only three alleles with the four above. 170 of 174
 peptides are absent from the reviewed human proteome including isoforms and all 4 strong binders survive;
 the 4 that do not occur in an *NR4A3* isoform, belong to the four aspartate-seam junctions, and cost one
-predicted binder. The class II arm returns 2 binders and none strong on three DRB1 alleles, only one
-informative, so combined CD8 and CD4 coverage is not computed rather than zero. The candidate construct is
-11 residues carrying class I epitopes only.
+predicted binder. A near-self search at one to two substitutions places the lead peptide one residue from
+DMPCVQAQY in that isoform and two from a paralogue peptide, neither difference at an anchor, against a
+chance expectation of 0.02; no binder in the screen has a near-self neighbour differing only at anchors.
+On a class II panel widened from three DRB1 alleles to 23 across DR, DP and DQ, 44 peptide-allele pairs
+bind and one is strong, on DRB1\*14:01, so combined CD8 and CD4 coverage is computable for the first time
+and is 1.8%. The candidate construct is a 15-residue synthetic long peptide carrying both arms. The four
+out-of-frame junctions, screened here for the first time, give read-through tracts of 9 to 31 residues
+before a premature stop, and their 10 strong calls are tighter than any in-frame call — the only peptides
+in this work surviving a conservative cut come from junctions that cannot encode the driver.
 
 **What bounds each conclusion.** Ten limits are enumerated in Section 3 and graded there as bounded by
 the disease, by current instruments, or by access. Each movable one is paired with the advance that would
@@ -191,7 +199,16 @@ nucleotides in the same shifted register. The antigen supply from this class is 
 peptide and one 31-residue tract, not four independent ones. All four premature stops lie between
 1,542 and 1,610 nucleotides upstream of the chimera's last exon-exon junction, which is the
 canonical configuration for nonsense-mediated decay by the 50-nucleotide rule — a positional
-criterion computed from the transcript model, not a decay measurement, and reported as such. Two
+criterion computed from the transcript model, not a decay measurement, and reported as such.
+
+Screened against the same 34-allele panel at the same cut, those 97 peptides return 10 strong
+peptide-allele calls across 8 alleles, all of them from the single 31-residue tract, and the three
+9-residue tracts return none. Those calls are tighter than anything the in-frame junctions
+produce. The strongest is LPLQVPVM on HLA-B\*51:01 at a presentation percentile of 0.1039, against
+a best in-frame call of 0.3736; four of the ten fall below 0.2755. Section 2.3 reports that a
+conservative 0.2 cut leaves the in-frame screen with no presenting allele at all — and the peptides
+that survive that cut anywhere in this work come exclusively from a junction that cannot produce the
+driver. The antigen-poor part of this locus is the part that makes the disease. Two
 things bound this paragraph and are stated rather than implied: the 27 pairs are a combinatorial
 window of nine donor exons against three acceptor exons and not a set of observed breakpoints, and a
 frameshifted *EWSR1*::*NR4A3* cannot encode the chimeric transcription factor that defines the
@@ -240,6 +257,23 @@ field routinely writes down — 0.2 as a conservative tier, 0.5 as strong, 2.0 a
 coverage of this junction runs from 0% to 72.6%, and the reported 30.4% is one arbitrary point
 inside that range rather than an estimate with a tolerance.
 
+**And it moves with the predictor, which is a third axis and was untested until now.** Every figure
+above comes from one software suite, so the sensitivity reported here could be a property of that
+suite rather than of the junction. The same 174 peptides and the same 34 alleles were therefore
+re-screened with MHCnuggets [12], an independently trained class I predictor whose native output is
+a predicted IC50 rather than a presentation percentile. The two scales are not rescaled onto one
+axis — that would manufacture the agreement it reports — so each predictor is swept over its own
+conventional cut and the shapes are compared. Every allele on the panel returned a score, so no cell
+of the comparison is an absent reading. Two things follow. The threshold sensitivity is not an
+artifact of one suite: the second predictor's curve is equally steep, running from no presenting
+allele at 10 nM through 8 alleles and 45.2% at its conventional 500 nM to 32 alleles and 94.0% at
+10,000 nM. But the two predictors do not agree on which alleles present: at each one's own
+conventional cut they share three — HLA-A\*30:02, HLA-B\*07:02 and HLA-B\*15:01 — while HLA-A\*01:01
+is MHCflurry's alone and five more are MHCnuggets' alone. So the choice of predictor moves the
+headline figure from 30.4% to 45.2% on identical inputs, and the intersection of the two is three
+alleles of a union of nine. The lead allele HLA-B\*15:01 is in the intersection, which is the one
+place in this paper where two independent instruments say the same thing.
+
 **None of this is an argument for a looser cut.** A threshold chosen because it raises coverage would be the same defect this paper
 exists to name, arriving from the other side; the 28 alleles at a percentile of 5 are not a better
 answer than the 4 at 0.5, they are a demonstration that the question "what fraction of patients
@@ -264,21 +298,22 @@ given so that it need not be.
 
 | Sub-region | Public junction | Any junction | Presenting alleles | *n* |
 |---|---|---|---|---|
-| Northern Europe | 16.1% | 60.4% | HLA-A\*01:01, HLA-B\*07:02, HLA-B\*15:01 | 923 |
-| Western Europe | 8.2% | 41.6% | HLA-A\*01:01, HLA-B\*07:02, HLA-B\*15:01 | 3077 |
-| Eastern Europe | 7.1% | 37.0% | HLA-A\*01:01, HLA-B\*07:02, HLA-B\*15:01 | 940 |
-| Southern Europe | 5.9% | 32.1% | HLA-A\*01:01, HLA-B\*07:02, HLA-B\*15:01 | 2647 |
+| Northern Europe | 16.1% | 60.4% | HLA-A\*01:01, HLA-B\*07:02, HLA-B\*15:01 | 1598 |
+| Western Europe | 8.2% | 41.6% | HLA-A\*01:01, HLA-B\*07:02, HLA-B\*15:01 | 4045 |
+| Eastern Europe | 7.1% | 37.0% | HLA-A\*01:01, HLA-B\*07:02, HLA-B\*15:01 | 2456 |
+| Southern Europe | 5.9% | 32.1% | HLA-A\*01:01, HLA-B\*07:02, HLA-B\*15:01 | 5982 |
 | Northern America | 8.0% | 31.6% | HLA-A\*01:01, HLA-B\*07:02, HLA-B\*15:01 | 5478 |
-| Western Asia | 2.6% | 27.8% | HLA-A\*01:01, HLA-B\*07:02, HLA-B\*15:01 | 1138 |
-| Southern Asia | 4.0% | 25.1% | HLA-A\*01:01, HLA-B\*07:02, HLA-B\*15:01 | 2365 |
+| Western Asia | 2.6% | 27.8% | HLA-A\*01:01, HLA-B\*07:02, HLA-B\*15:01 | 2543 |
+| Southern Asia | 4.0% | 25.1% | HLA-A\*01:01, HLA-B\*07:02, HLA-B\*15:01 | 3580 |
 | Australia and New Zealand | 5.0% | 23.9% | HLA-A\*01:01, HLA-B\*07:02, HLA-B\*15:01 | 702 |
-| Northern Africa | 0.8% | 21.2% | HLA-A\*01:01, HLA-B\*07:02, HLA-B\*15:01 | 431 |
+| Northern Africa | 0.8% | 21.2% | HLA-A\*01:01, HLA-B\*07:02, HLA-B\*15:01 | 1537 |
 | Latin America and the Caribbean | 7.8% | 21.1% | HLA-A\*01:01, HLA-B\*07:02, HLA-B\*15:01 | 17277 |
 | Sub-Saharan Africa | 2.0% | 20.4% | HLA-A\*01:01, HLA-B\*07:02, HLA-B\*15:01 | 3066 |
-| Eastern Asia | 15.4% | 20.0% | HLA-A\*01:01, HLA-B\*07:02, HLA-B\*15:01 | 8351 |
-| South-eastern Asia | 3.7% | 14.0% | HLA-A\*01:01, HLA-B\*07:02, HLA-B\*15:01 | 2945 |
-| Polynesia | — | 1.9% | HLA-B\*07:02 | 51 |
-| Melanesia | 0.9% | 1.4% | HLA-B\*07:02, HLA-B\*15:01 | 579 |
+| Eastern Asia | 15.4% | 20.0% | HLA-A\*01:01, HLA-B\*07:02, HLA-B\*15:01 | 11585 |
+| South-eastern Asia | 3.7% | 14.0% | HLA-A\*01:01, HLA-B\*07:02, HLA-B\*15:01 | 3556 |
+| Polynesia | — | 1.9% | HLA-B\*07:02 | 450 |
+| Melanesia | 0.9% | 1.4% | HLA-B\*07:02, HLA-B\*15:01 | 1269 |
+| Micronesia | — | — | — | 129 |
 | **Pooled global** | **8.5%** | **27.4%** | HLA-A\*01:01, HLA-B\*07:02, HLA-B\*15:01 | — |
 
 <!-- END GENERATED (regional-coverage) -->
@@ -315,8 +350,8 @@ access-bounded limits are properties of this programme's circumstances rather th
 |---|---|---|---|---|
 | B1 | Predicted class I coverage is low and panel-dependent | instrument, partly disease | 8.5% / 12.3% public junction, 27.4% / 30.4% pooled, on 10 / 34 alleles; 0.0% at a 0.37 cut | Wider panels; a defended threshold; measured presentation |
 | B2 | Presentation predicted, never measured | instrument and access | MHCflurry 2.0 percentiles on 174 peptides | Immunopeptidomics on EMC tissue or a patient-derived line |
-| B3 | Self-adjacency and central tolerance | instrument | Seam structure characterised; no tolerance model applied | Distance-to-self and anchor-versus-contact filters; T-cell reactivity assay |
-| B4 | No strong CD4 epitope found on the panel tested | instrument | 2 binders, 0 strong, on 3 DRB1 alleles of which 1 was informative; bounds the per-allele rate only at 63% | Wider DR, DP, DQ panel; a class II threshold; measured presentation |
+| B3 | Self-adjacency and central tolerance | disease | Lead peptide is 1 substitution (position 1, not an anchor) from DMPCVQAQY in an *NR4A3* isoform, against a chance expectation of 0.02; 0 of 11 binders has an anchor-only near-self neighbour | T-cell reactivity assay against the specific peptide-HLA complex |
+| B4 | One strong CD4 epitope, on one allele of 23 | instrument | 44 binders, 1 strong (SYGQQNMPCVQAQYS on DRB1\*14:01, 66.1 nM) over 14 of 23 alleles; class II coverage 6.5%, combined CD8 and CD4 1.8% | A class II threshold; measured presentation |
 | B5 | Seam-proximal peptides of four junctions occur in an *NR4A3* isoform | instrument, one failure mode resolved | 170 of 174 novel proteome-wide; one binder withdrawn | Sequence novelty answered; cross-reactivity is not, and the filter should become isoform-aware |
 | B6 | Immunologically cold microenvironment | disease, addressable in combination | Inferred, not measured in EMC | A vaccine supplies antigen; a checkpoint inhibitor supplies release |
 | B7 | Physical exclusion by the myxoid matrix | disease | Inferred from histology and pathway expression | Vascular normalisation; matrix-directed agents |
@@ -408,62 +443,96 @@ so the T-cell repertoire capable of recognising it may have been deleted or aner
 follows as an internal residue. The remainder of each peptide is parental sequence. Whether one altered
 residue is sufficient to break tolerance is not answerable by binding prediction.
 
-**What would clear or narrow it.** Two computational filters were specified for this route and never
-built: a distance-to-self and tolerance filter, and an analysis of whether the novel residues fall at
-anchor positions, which affect binding, or at positions contacting the T-cell receptor, which affect
-recognition. A peptide whose only novelty is at an anchor may bind differently from self without looking
-different to a T cell, which is the failure mode that matters here. Both filters are computational and
-neither has been run. Beyond that, only a T-cell reactivity assay against the specific peptide-HLA
-complex answers the question.
+**The near-self search, which this section previously listed as unbuilt.** Two computational filters
+were specified for this route and never built: a distance-to-self filter, and an analysis of whether the
+differences from self fall at anchor positions, which affect binding, or at positions contacting the
+T-cell receptor, which affect recognition. Both have now been run. Every one of the 11 predicted binders
+was searched against the reviewed human proteome including isoforms at a tolerance of one or two
+substitutions, with a per-peptide chance baseline from 50 residue shuffles of the same peptide re-searched
+identically.
+
+Eight of the 11 have at least one human peptide within two substitutions, and every such neighbour lies in
+*EWSR1* itself, in an *NR4A3* isoform, or in the paralogue *NR4A1* — which is what a junction assembled
+from two self proteins should give, and is a check on the search as much as a result. Three findings
+matter. **The lead peptide is one substitution from self.** NMPCVQAQY differs at position 1 from
+DMPCVQAQY, which occurs in *NR4A3* isoform 3 — the same isoform Section B5 is about — and at positions 1
+and 5 from EMPCIQAQY in an *NR4A1* isoform. Against a chance expectation of 0.02 neighbours for a peptide
+of its length and composition, two is not a coincidence. **Neither difference is at an anchor.** Position
+1 and position 5 face outward or into the groove's middle rather than serving as the primary anchors at
+position 2 and the C-terminus, so a T cell raised against the neoepitope reads a surface that differs from
+the self peptide's at the positions it actually contacts — which is the configuration in which
+cross-recognition is most plausible and in which central tolerance is most likely to have acted.
+**And no binder in the screen has an anchor-only neighbour.** Zero of the 11 has a near-self peptide whose
+differences are confined to anchor positions, which would have been the worst case: an identical
+TCR-facing surface distinguished only by residues the T cell cannot see. MPPPLRGDM's five neighbours are
+one *EWSR1* peptide, MPPPLRGGP, counted once per isoform, differing at positions 8 and 9 — and against a
+chance expectation of 1.34 for that peptide, five is not distinguishable from chance.
+
+**Two caveats carried with the result.** The anchor assignment is the general class I rule of
+position 2 and the C-terminus applied uniformly,
+not an allele-specific motif; HLA-A\*01:01 in particular reads position 3 as a primary anchor, and the
+artifact marks every row so a reader can apply that. And sequence distance is not receptor distance:
+peptides three substitutions apart can present near-identical surfaces and peptides one apart can present
+different ones. This search excludes one more failure mode — a close self peptide nobody had looked for —
+and leaves the question of whether a repertoire exists exactly where it was.
+
+**What would clear or narrow it.** Only a T-cell reactivity assay against the specific peptide-HLA
+complex answers the question. The search above changes what such an assay would be testing: the
+comparator is no longer a hypothetical self peptide but a named one, DMPCVQAQY, at a known single-residue
+distance, in a protein the tumour also expresses.
 
 **Comparator.** This limit is where EMC differs most sharply from the melanoma setting, in which
 selected neoantigens frequently arise from point mutations in a repertoire that has not been tolerised
 against them and in a tumour already under immune pressure.
 
-### B4. No strong CD4 epitope on the three alleles tested
+### B4. One strong CD4 epitope, on one allele of twenty-three
 
-**Proposition.** An effective vaccine generally requires CD4 helper epitopes, and the corrected junction
-supplies no strong class II binder on the three alleles screened. That is a statement about the screen,
-and it is reported here as one.
+**Proposition.** An effective vaccine generally requires CD4 helper epitopes. The corrected junction
+supplies one predicted strong class II binder on a 23-allele panel, restricted to an allele carried by
+about one person in fifteen. That is a statement about the screen, and it is reported here as one.
 
-**History.** This arm was previously withheld because it sat on the superseded coordinate system, on a
-seam disjoint from the class I set. The builder has since been moved to the transcript model and the arm
-regenerated, so the two arms are now certified to sit on the same seam.
+**History, and why this section changed.** This arm was previously withheld because it sat on the
+superseded coordinate system, on a seam disjoint from the class I set; the builder was moved to the
+transcript model and the arm regenerated, so the two arms are certified to sit on the same seam. It was
+then reported as a negative on three DRB1 alleles — and Section 6.2 of that version named a wider DR, DP
+and DQ panel as the single most likely source of a change to it. That panel has now been run. The
+prediction was correct and the negative did not survive it.
 
-**Result.** With the class II and class I arms now certified to sit on the same seam, the arm can be
-reported. At the corrected *EWSR1* exon 7 junction, 15 candidate 15-mers were screened with MHCnuggets
-[12] against DRB1\*15:01, DRB1\*03:01 and DRB1\*07:01, calling a peptide a binder below 1000 nM and strong
-below 100 nM. Two peptides bind and none is strong: YSQQSSSYGQQNMPC at 262 nM and QYSQQSSSYGQQNMP at 439
-nM, both on DRB1\*07:01. The superseded version on the retracted seam reported 9 binders of which 4 were
-strong. The correction weakened this arm as it weakened the class I arm.
+**Result.** At the corrected *EWSR1* exon 7 junction, 15 candidate 15-mers were screened with MHCnuggets
+[12] against 23 class II alleles — 15 DRB1, DRB3\*01:01, DRB4\*01:01, DRB5\*01:01, two DPB1 and three DQB1
+— calling a peptide a binder below 1000 nM and strong below 100 nM. Every declared allele returned a
+score; none was unscreenable, so no cell of this panel is an absent reading. 44 peptide-allele pairs bind,
+spread over 14 of the 23 alleles, and one is strong: SYGQQNMPCVQAQYS on DRB1\*14:01 at 66.1 nM. The
+three-allele subset the previous version reported reproduces exactly within the wider run — YSQQSSSYGQQNMPC
+at 261.6 nM and QYSQQSSSYGQQNMP at 438.9 nM, both on DRB1\*07:01 — so the widening is additive and the
+earlier negative was a property of the panel, not of a different computation.
 
-**What that result does and does not bound.** Very little, for four reasons. The 15 candidates are
+**What the positive does and does not bound, and it is less than it looks.** The 15 candidates are
 single-residue-offset windows over one seam sharing 14 of 15 residues, so the number of independent
-peptides tested is nearer one than fifteen. Two of the three alleles produced nothing within an order of
-magnitude of a threshold, at 3,061 nM and 13,585 nM, so the panel is effectively one allele wide. Zero of
-three bounds the per-allele probability of a strong binder at 63% from above and no lower. And the 100 nM
-cut is a class I convention, where the conventional class II binder band is 500 to 1000 nM, inside which
-262 nM sits comfortably. The negative describes what this screen returned; it is not evidence that the
-junction supplies no helper epitope.
+peptides tested is nearer one than fifteen, and the 44 binders are overwhelmingly the same short stretch
+of sequence seen on different alleles. One strong call on 23 alleles is a per-allele rate of 1 in 23, and
+the allele it lands on is not a common one. Class II presentation is substantially harder to predict than
+class I, and no class II prediction here has been calibrated against anything measured. What the result
+does establish is narrow and worth having: the junction is not devoid of predicted helper epitope, which
+is what three alleles could not distinguish from a junction that is.
 
-**What would clear or move it.** The panel is three alleles, which is narrow, and class II presentation is
-substantially harder to predict than class I; a wider DR, DP and DQ panel is a computational task and may
-change the picture. Beyond that, only measured class II presentation settles it. A construct can also
-supply help from a heterologous source rather than from the junction itself, which is standard practice in
-peptide vaccine design and would make this limit a design constraint rather than a blocking one.
+**What would clear or move it.** Only measured class II presentation settles it; a wider panel now has
+much less headroom to move it than it did. A construct can also supply help from a heterologous source
+rather than from the junction itself, which is standard practice in peptide vaccine design and would make
+this limit a design constraint rather than a blocking one.
 
-**Consequence for the construct, and for the combined figure.** Two things follow directly. The candidate
-construct regenerated at the corrected junction carries two strong class I epitopes, NMPCVQAQY and
-QQNMPCVQAQY, both on HLA-B\*15:01, and no class II epitope at all; its minimal synthetic long peptide is
-11 residues where the retracted-seam version was 27 residues carrying both arms. And the combined CD8 and
-CD4 coverage figure is not computed, which is different from being zero. Plainly: the current data
-cannot rule out a strong CD4 epitope at this junction, because the panel tested was three alleles
-wide, and any allele added to it could only raise the figure. The coverage instrument computes class
-II coverage over the alleles presenting a strong class II binder; with none, it writes an empty
-field, and that field records a quantity not computed rather than a quantity measured as zero.
+**Consequence for the construct, and for the combined figure.** Two things follow directly, and both
+changed with the panel. The candidate construct regenerated at the corrected junction now carries the CD4
+epitope as well as the two strong class I epitopes NMPCVQAQY and QQNMPCVQAQY on HLA-B\*15:01, and its
+minimal synthetic long peptide is 15 residues carrying both arms, where the class I-only version was 11.
+And the combined CD8 and CD4 coverage figure can be computed at all for the first time: class II coverage
+is 6.5% on DRB1\*14:01 alone, and the fraction of patients carrying at least one presenting allele of each
+class is 1.8%. That figure is smaller than either arm alone and is the honest one for a construct that
+needs both — and, like every coverage number in this paper, it is a point on the curves of Section 2.3
+rather than an estimate with a tolerance.
 
-**Status.** Reported rather than withheld, negative on the three alleles tested, and bounding the general
-availability of helper epitopes at this junction hardly at all.
+**Status.** Positive, on one allele of 23, with the previous negative explained as a panel artifact rather
+than overturned by a different method.
 
 ### B5. Four peptides occur in an *NR4A3* isoform
 
@@ -656,13 +725,14 @@ these agents outside a clinical trial.
 
 ## 5. Present work and pending arrivals
 
-Four items on this list need nothing but public data and would sharpen numbers this paper reports as
-provisional: the distance-to-self and anchor-versus-contact-position filters specified for this route and
-never implemented, which bear directly on B3; extension of the 10- and 34-allele class I panels and the
-three-allele DR panel to the full set for which validated predictors exist; a defended acceptance
-threshold for junction peptides, without which B1's figures remain as sensitive to the cut as Section 2.3
-shows them to be; and the isoform-aware novelty filter identified in B5. None requires permission,
-material or funding.
+Four items stood on this list in the previous version, all needing nothing but public data. Two have
+since been done and are reported above rather than promised here: the distance-to-self and
+anchor-versus-contact-position filters, which are now the near-self search of B3, and the extension of the
+class II panel from three DR alleles to 23 across DR, DP and DQ, which is now the positive result of B4.
+The class I panels remain at 10 and 34 alleles against the full validated set, which would raise the
+denominator of every coverage figure. A defended acceptance threshold for junction peptides is still
+absent, and Section 2.3 now shows exactly how much rests on it. The isoform-aware novelty filter
+identified in B5 is still unbuilt. None of the remainder requires permission, material or funding.
 
 Everything else waits. Measured presentation (B2) would change the character of this route rather than its
 score, because the screen in Section 2 would stop being a stand-in and become a hypothesis with a
@@ -731,8 +801,11 @@ listed so a future reader can check them rather than re-derive them. Sequence-le
 peptides would be overturned by a proteome release adding a protein that contains one of the four strong
 binders. Every coverage figure would move upward if a wider panel added a presenting allele and downward
 if measured presentation removed one of the strong calls, and all of them go to zero if the acceptance
-threshold is set below 0.37. The class II statement would be changed by a wider DR, DP and DQ panel, which
-is the single most likely source of a change to it. And the argument in Section 4 would be closed
+threshold is set below 0.37. The class II statement said, in the version this paper supersedes, that it
+would be changed by a wider DR, DP and DQ panel — named there as the single most likely source of a change
+to it. That panel has since been run and it did change it, from no strong epitope on three alleles to one
+on 23; the statement in B4 is now the wider panel's, and what would change it again is measured class II
+presentation rather than more prediction. And the argument in Section 4 would be closed
 altogether by an EMC immune-profiling series showing HLA class I loss, which would end every
 antigen-directed route in this disease including this one.
 
@@ -752,7 +825,10 @@ than the figures being reported. The binder counts and every coverage figure der
 acceptance threshold this paper does not defend, and no multiplicity correction is applied anywhere: 174
 peptides were screened against 10 and then 34 alleles at two thresholds, with no decoy control and no null
 expectation, so the calls that pass are reported as what the screen returned rather than as an enrichment
-over chance.
+over chance. The near-self search of B3 is the one analysis here that carries a null, and it carries one
+because a count of near-self neighbours is meaningless without the number a peptide of that length and
+composition finds by chance; the binding screen still has none, and a shuffle null for predicted binding
+would need a defended threshold to be a null of anything.
 
 The IMMUNOSARC II EMC cohort result is a conference abstract, single-arm and not peer reviewed, and it
 evaluates a combination whose component with the larger independent EMC evidence base is the tyrosine
@@ -922,12 +998,12 @@ quoted. They are retained so that earlier drafts and derived documents can be id
 | *EWSR1* exon 7 junction, presenting alleles | A\*11:01 and B\*08:01 | B\*15:01 on 10 alleles; B\*15:01 and A\*30:02 on 34 |
 | *EWSR1* exon 7 junction coverage | 29.7% | 8.5% on 10 alleles, 12.3% on 34 |
 | Any-strong-binder coverage | 58.0% | 27.4% on 10 alleles, 30.4% on 34 |
-| Regional range | 36% to 79% | 1.4% to 60% |
+| Regional range | 36% to 79% | 1.4% to 60.4% |
 | Broad-panel presenting alleles | 20 of 34 | 4 of 34 |
 | Broad-panel coverage ceiling | 84.5% | 30.4%, and not a ceiling |
-| Combined CD8 and CD4 coverage | 16.5% | not computed |
-| Candidate minimal synthetic long peptide | 27 residues, both arms | 11 residues, class I only |
-| Class II predicted binders at the *EWSR1* exon 7 junction | 9, of which 4 strong | 2, of which 0 strong |
+| Combined CD8 and CD4 coverage | 16.5% | 1.8% |
+| Candidate minimal synthetic long peptide | 27 residues, both arms | 15 residues, both arms |
+| Class II predicted binders at the *EWSR1* exon 7 junction | 9, of which 4 strong | 44 on 23 alleles, of which 1 strong |
 
 The superseded values arose from a model that concatenated coding sequences and thereby discarded the
 acceptor exon's retained 5' untranslated region. The corrected junction set is disjoint from the
