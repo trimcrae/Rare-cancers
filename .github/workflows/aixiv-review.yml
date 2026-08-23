@@ -21,7 +21,7 @@ on:
       mode:
         description: "What to do"
         type: choice
-        options: [verify, dry-run-submit, submit, new-version, review, fetch, calibrate]
+        options: [verify, dry-run-submit, submit, new-version, review, fetch, status, calibrate]
         default: verify
       pdf:
         description: "Path to the PDF (submit / dry-run-submit / review)"
@@ -36,9 +36,14 @@ on:
         required: false
         default: ""
       version:
-        description: "Submission version, e.g. v1.0 (review / fetch)"
+        # ⛔ BARE, NOT `v`-PREFIXED. aiXiv LABELS versions `v1.4` but /api/get-review rejects that
+        # form with HTTP 422 — "version must be in the format 'X.Y' or 'X.Y.Z'" (run 32648024032).
+        # The client normalises it now, so either form reaches the API correctly; this default is
+        # bare anyway because it is also what the commit message below interpolates, and `v${{...}}`
+        # over a `v`-prefixed input produced "vv1.4".
+        description: "Submission version WITHOUT the v prefix, e.g. 1.0 (review / fetch)"
         required: false
-        default: "v1.0"
+        default: "1.0"
       seed:
         description: "Review seed — record it with the round's pin so the round is re-runnable"
         required: false
@@ -134,6 +139,19 @@ jobs:
           python3 scripts/aixiv_review.py review \
             --aixiv-id "${{ inputs.aixiv_id }}" --version "${{ inputs.version }}" \
             --pdf "${{ inputs.pdf }}" ${{ inputs.seed && format('--seed {0}', inputs.seed) || '' }}
+
+      # ⛔ WHAT TO RUN WHEN `fetch` COMES BACK EMPTY. An empty review_list cannot distinguish "the
+      # version does not exist" from "it exists but is not queued" from "it is queued and the
+      # reviewer has not run", and polling harder distinguishes none of them. This prints every
+      # version aiXiv holds for the id with its status and review count. Needs no token.
+      # ⚠ NEEDS THE TOKEN, unlike the other read-only modes: the pending-review queue takes it as a
+      # QUERY PARAMETER (measured — a bearer header gets HTTP 422 there). The client puts it in the
+      # URL and never prints the URL, because these logs are world-readable.
+      - name: What aiXiv holds for this paper (versions, status, review counts)
+        if: ${{ inputs.mode == 'status' }}
+        env:
+          AIXIV_TOKEN: ${{ secrets.AIXIV_TOKEN }}
+        run: python3 scripts/aixiv_review.py status --aixiv-id "${{ inputs.aixiv_id }}"
 
       - name: Fetch recorded reviews
         if: ${{ inputs.mode == 'fetch' }}

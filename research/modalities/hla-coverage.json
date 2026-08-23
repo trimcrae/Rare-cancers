@@ -17,6 +17,20 @@
   },
   "global": {
     "allele_frequencies": {
+      "DRB1*14:01": {
+        "allele_frequency": 0.033,
+        "af_95ci": [
+          0.032,
+          0.0341
+        ],
+        "carrier_frequency": 0.065,
+        "n_populations": 365,
+        "total_individuals": 53005,
+        "af_range_across_populations": [
+          0.0,
+          0.34
+        ]
+      },
       "HLA-A*01:01": {
         "allele_frequency": 0.0641,
         "af_95ci": [
@@ -86,13 +100,20 @@
       "HLA-B*07:02",
       "HLA-B*15:01"
     ],
-    "class_ii_cd4_helper_alleles": [],
-    "coverage_cd4_classii": null,
-    "coverage_cd4_classii_95ci": null,
-    "coverage_cd4_classii_alleles_used": [],
-    "coverage_cd8_and_cd4_combined": null
+    "class_ii_cd4_helper_alleles": [
+      "DRB1*14:01"
+    ],
+    "coverage_cd4_classii": 0.0649,
+    "coverage_cd4_classii_95ci": [
+      0.063,
+      0.067
+    ],
+    "coverage_cd4_classii_alleles_used": [
+      "DRB1*14:01"
+    ],
+    "coverage_cd8_and_cd4_combined": 0.0178
   },
-  "_class_ii_note": "Class-II (CD4 helper) coverage is over DRB1 alleles presenting a STRONG binder in patient-cd4-demo.json (MHCnuggets, EWSR1 e7::e3 junction). That screen tested only a 3-allele DR panel (DRB1*15:01, DRB1*03:01, DRB1*07:01), so this coverage is a FLOOR over a tested panel, not a complete DR scan: untested DR alleles may also present the helper peptides, which would only raise coverage. coverage_cd8_and_cd4_combined = P(>=1 class-I allele) x P(>=1 class-II allele), treating HLA-A/B and DRB1 as independent loci.",
+  "_class_ii_note": "Class-II (CD4 helper) coverage is over DRB1 alleles presenting a STRONG binder in patient-cd4-demo.json (MHCnuggets, EWSR1 e7::e3 junction). That screen tested only a 3-allele DR panel (DRB1*01:01, DRB1*03:01, DRB1*04:01, DRB1*04:04, DRB1*07:01, DRB1*08:01, DRB1*09:01, DRB1*11:01, DRB1*12:01, DRB1*13:01, DRB1*13:02, DRB1*14:01, DRB1*15:01, DRB1*15:02, DRB1*16:01, DRB3*01:01, DRB4*01:01, DRB5*01:01, DPB1*02:01, DPB1*04:01, DQB1*02:01, DQB1*03:01, DQB1*06:02), so this coverage is a FLOOR over a tested panel, not a complete DR scan: untested DR alleles may also present the helper peptides, which would only raise coverage. coverage_cd8_and_cd4_combined = P(>=1 class-I allele) x P(>=1 class-II allele), treating HLA-A/B and DRB1 as independent loci.",
   "\u26d4_class_ii_provenance": {
     "class_ii_input": "patient-cd4-demo.json",
     "class_ii_junction_context": "QYSQQSSSYGQQ|NMPCVQAQYSPS",
@@ -120,11 +141,16 @@
         "B*07:02",
         "B*15:01"
       ],
-      "coverage_cd4_classii": null,
-      "coverage_cd4_classii_95ci": null,
-      "coverage_cd4_classii_alleles_used": [],
-      "max_n_populations": 5,
-      "max_total_individuals": 923,
+      "coverage_cd4_classii": 0.041,
+      "coverage_cd4_classii_95ci": [
+        0.0323,
+        0.0517
+      ],
+      "coverage_cd4_classii_alleles_used": [
+        "DRB1*14:01"
+      ],
+      "max_n_populations": 9,
+      "max_total_individuals": 1598,
       "allele_frequencies": {
         "A*01:01": {
           "allele_frequency": 0.1706,
@@ -168,11 +194,16 @@
         "B*07:02",
         "B*15:01"
       ],
-      "coverage_cd4_classii": null,
-      "coverage_cd4_classii_95ci": null,
-      "coverage_cd4_classii_alleles_used": [],
-      "max_n_populations": 7,
-      "max_total_individuals": 3077,
+      "coverage_cd4_classii": 0.0686,
+      "coverage_cd4_classii_95ci": [
+        0.0612,
+        0.0767
+      ],
+      "coverage_cd4_classii_alleles_used": [
+        "DRB1*14:01"
+      ],
+      "max_n_populations": 11,
+      "max_total_individuals": 4045,
       "allele_frequencies": {
         "A*01:01": {
           "allele_frequency": 0.1163,
@@ -216,11 +247,16 @@
         "B*07:02",
         "B*15:01"
       ],
-      "coverage_cd4_classii": null,
-      "coverage_cd4_classii_95ci": null,
-      "coverage_cd4_classii_alleles_used": [],
-      "max_n_populations": 6,
-      "max_total_individuals": 940,
+      "coverage_cd4_classii": 0.0828,
+      "coverage_cd4_classii_95ci": [
+        0.0728,
+        0.0943
+      ],
+      "coverage_cd4_classii_alleles_used": [
+        "DRB1*14:01"
+      ],
+      "max_n_populations": 32,
+      "max_total_individuals": 2456,
       "allele_frequencies": {
         "A*01:01": {
           "allele_frequency": 0.1149,
@@ -264,11 +300,16 @@
         "B*07:02",
         "B*15:01"
       ],
-      "coverage_cd4_classii": null,
-      "coverage_cd4_classii_95ci": null,
-      "coverage_cd4_classii_alleles_used": [],
-      "max_n_populations": 17,
-      "max_total_individuals": 2647,
+      "coverage_cd4_classii": 0.0634,
+      "coverage_cd4_classii_95ci": [
+        0.0575,
+        0.0697
+      ],
+      "coverage_cd4_classii_alleles_used": [
+        "DRB1*14:01"
+      ],
+      "max_n_populations": 36,
+      "max_total_individuals": 5982,
       "allele_frequencies": {
         "A*01:01": {
           "allele_frequency": 0.1063,
@@ -312,10 +353,15 @@
         "B*07:02",
         "B*15:01"
       ],
-      "coverage_cd4_classii": null,
-      "coverage_cd4_classii_95ci": null,
-      "coverage_cd4_classii_alleles_used": [],
-      "max_n_populations": 19,
+      "coverage_cd4_classii": 0.0494,
+      "coverage_cd4_classii_95ci": [
+        0.0437,
+        0.0558
+      ],
+      "coverage_cd4_classii_alleles_used": [
+        "DRB1*14:01"
+      ],
+      "max_n_populations": 23,
       "max_total_individuals": 5478,
       "allele_frequencies": {
         "A*01:01": {
@@ -360,11 +406,16 @@
         "B*07:02",
         "B*15:01"
       ],
-      "coverage_cd4_classii": null,
-      "coverage_cd4_classii_95ci": null,
-      "coverage_cd4_classii_alleles_used": [],
-      "max_n_populations": 11,
-      "max_total_individuals": 1138,
+      "coverage_cd4_classii": 0.062,
+      "coverage_cd4_classii_95ci": [
+        0.0533,
+        0.0719
+      ],
+      "coverage_cd4_classii_alleles_used": [
+        "DRB1*14:01"
+      ],
+      "max_n_populations": 23,
+      "max_total_individuals": 2543,
       "allele_frequencies": {
         "A*01:01": {
           "allele_frequency": 0.0962,
@@ -408,11 +459,16 @@
         "B*07:02",
         "B*15:01"
       ],
-      "coverage_cd4_classii": null,
-      "coverage_cd4_classii_95ci": null,
-      "coverage_cd4_classii_alleles_used": [],
-      "max_n_populations": 22,
-      "max_total_individuals": 2365,
+      "coverage_cd4_classii": 0.0665,
+      "coverage_cd4_classii_95ci": [
+        0.0589,
+        0.0749
+      ],
+      "coverage_cd4_classii_alleles_used": [
+        "DRB1*14:01"
+      ],
+      "max_n_populations": 26,
+      "max_total_individuals": 3580,
       "allele_frequencies": {
         "A*01:01": {
           "allele_frequency": 0.0915,
@@ -456,9 +512,14 @@
         "B*07:02",
         "B*15:01"
       ],
-      "coverage_cd4_classii": null,
-      "coverage_cd4_classii_95ci": null,
-      "coverage_cd4_classii_alleles_used": [],
+      "coverage_cd4_classii": 0.1433,
+      "coverage_cd4_classii_95ci": [
+        0.1188,
+        0.1719
+      ],
+      "coverage_cd4_classii_alleles_used": [
+        "DRB1*14:01"
+      ],
       "max_n_populations": 8,
       "max_total_individuals": 702,
       "allele_frequencies": {
@@ -504,11 +565,16 @@
         "B*07:02",
         "B*15:01"
       ],
-      "coverage_cd4_classii": null,
-      "coverage_cd4_classii_95ci": null,
-      "coverage_cd4_classii_alleles_used": [],
-      "max_n_populations": 4,
-      "max_total_individuals": 431,
+      "coverage_cd4_classii": 0.0246,
+      "coverage_cd4_classii_95ci": [
+        0.0179,
+        0.0335
+      ],
+      "coverage_cd4_classii_alleles_used": [
+        "DRB1*14:01"
+      ],
+      "max_n_populations": 15,
+      "max_total_individuals": 1537,
       "allele_frequencies": {
         "A*01:01": {
           "allele_frequency": 0.0858,
@@ -552,9 +618,14 @@
         "B*07:02",
         "B*15:01"
       ],
-      "coverage_cd4_classii": null,
-      "coverage_cd4_classii_95ci": null,
-      "coverage_cd4_classii_alleles_used": [],
+      "coverage_cd4_classii": 0.0317,
+      "coverage_cd4_classii_95ci": [
+        0.028,
+        0.0361
+      ],
+      "coverage_cd4_classii_alleles_used": [
+        "DRB1*14:01"
+      ],
       "max_n_populations": 113,
       "max_total_individuals": 17277,
       "allele_frequencies": {
@@ -600,9 +671,14 @@
         "B*07:02",
         "B*15:01"
       ],
-      "coverage_cd4_classii": null,
-      "coverage_cd4_classii_95ci": null,
-      "coverage_cd4_classii_alleles_used": [],
+      "coverage_cd4_classii": 0.0227,
+      "coverage_cd4_classii_95ci": [
+        0.0165,
+        0.0308
+      ],
+      "coverage_cd4_classii_alleles_used": [
+        "DRB1*14:01"
+      ],
       "max_n_populations": 27,
       "max_total_individuals": 3066,
       "allele_frequencies": {
@@ -648,11 +724,16 @@
         "B*07:02",
         "B*15:01"
       ],
-      "coverage_cd4_classii": null,
-      "coverage_cd4_classii_95ci": null,
-      "coverage_cd4_classii_alleles_used": [],
-      "max_n_populations": 49,
-      "max_total_individuals": 8351,
+      "coverage_cd4_classii": 0.0984,
+      "coverage_cd4_classii_95ci": [
+        0.0933,
+        0.1039
+      ],
+      "coverage_cd4_classii_alleles_used": [
+        "DRB1*14:01"
+      ],
+      "max_n_populations": 68,
+      "max_total_individuals": 11585,
       "allele_frequencies": {
         "A*01:01": {
           "allele_frequency": 0.0125,
@@ -696,11 +777,16 @@
         "B*07:02",
         "B*15:01"
       ],
-      "coverage_cd4_classii": null,
-      "coverage_cd4_classii_95ci": null,
-      "coverage_cd4_classii_alleles_used": [],
-      "max_n_populations": 19,
-      "max_total_individuals": 2945,
+      "coverage_cd4_classii": 0.0587,
+      "coverage_cd4_classii_95ci": [
+        0.0515,
+        0.0668
+      ],
+      "coverage_cd4_classii_alleles_used": [
+        "DRB1*14:01"
+      ],
+      "max_n_populations": 29,
+      "max_total_individuals": 3556,
       "allele_frequencies": {
         "A*01:01": {
           "allele_frequency": 0.0397,
@@ -737,11 +823,16 @@
       "coverage_all_alleles_used": [
         "B*07:02"
       ],
-      "coverage_cd4_classii": null,
-      "coverage_cd4_classii_95ci": null,
-      "coverage_cd4_classii_alleles_used": [],
-      "max_n_populations": 1,
-      "max_total_individuals": 51,
+      "coverage_cd4_classii": 0.0676,
+      "coverage_cd4_classii_95ci": [
+        0.0482,
+        0.0946
+      ],
+      "coverage_cd4_classii_alleles_used": [
+        "DRB1*14:01"
+      ],
+      "max_n_populations": 9,
+      "max_total_individuals": 450,
       "allele_frequencies": {
         "A*01:01": null,
         "B*07:02": {
@@ -772,11 +863,16 @@
         "B*07:02",
         "B*15:01"
       ],
-      "coverage_cd4_classii": null,
-      "coverage_cd4_classii_95ci": null,
-      "coverage_cd4_classii_alleles_used": [],
-      "max_n_populations": 8,
-      "max_total_individuals": 579,
+      "coverage_cd4_classii": 0.0726,
+      "coverage_cd4_classii_95ci": [
+        0.0599,
+        0.0882
+      ],
+      "coverage_cd4_classii_alleles_used": [
+        "DRB1*14:01"
+      ],
+      "max_n_populations": 19,
+      "max_total_individuals": 1269,
       "allele_frequencies": {
         "A*01:01": null,
         "B*07:02": {
@@ -793,6 +889,29 @@
             0.0101
           ]
         }
+      }
+    },
+    "Micronesia": {
+      "coverage_e7e3_public": null,
+      "coverage_e7e3_public_95ci": null,
+      "coverage_e7e3_alleles_used": [],
+      "coverage_any_strong_binder_allele": null,
+      "coverage_any_strong_binder_allele_95ci": null,
+      "coverage_all_alleles_used": [],
+      "coverage_cd4_classii": 0.0686,
+      "coverage_cd4_classii_95ci": [
+        0.0367,
+        0.1258
+      ],
+      "coverage_cd4_classii_alleles_used": [
+        "DRB1*14:01"
+      ],
+      "max_n_populations": 2,
+      "max_total_individuals": 129,
+      "allele_frequencies": {
+        "A*01:01": null,
+        "B*07:02": null,
+        "B*15:01": null
       }
     }
   }

@@ -86,9 +86,15 @@ hidden, and §2.4 is a standing decision for the author, not a defect a reader c
    metadata, and both identifiers are in the citation-provenance ledger marked `verified`.
 2. **⛔ The class II artifact records no tool version and no models release**, where the class I
    artifact records both. The paper states this as a reproducibility gap in Section 8 and reference 12
-   rather than papering over it. Re-emitting `patient-cd4-demo.json` with a `_predictor` block would
-   close it and costs one CI run. **This does not block posting** — the gap is disclosed, not hidden —
-   but it is the cheapest remaining improvement to the paper's reproducibility.
+   rather than papering over it. **CODE FIXED 2026-08-23; LANDS ON THE NEXT CI RUN.**
+   `patient_cd4_epitopes.py` now emits a `_predictor` block — tool, version read from the installed
+   distribution metadata rather than typed, the panel, and both thresholds — and a test asserts it is
+   present and non-empty. ⚠ **The manuscript's Section 8 has NOT been changed and must not be until
+   the regenerated artifact is committed**: the gap is real until the artifact carries the block, and
+   editing the disclosure first would describe a state that does not yet exist.
+   ⚠ MHCnuggets publishes no models-release identifier separate from the package version, so that
+   field records why rather than inventing one; an UNKNOWN version is a reproducibility statement and
+   a missing field is silence.
 3. ~~**Reference 9 is a company announcement with no identifier of any kind.**~~ ✅ **CLOSED
    2026-08-22.** The announcement is Merck/Moderna on INTerpath-001, **19 August 2026**. The reference
    now carries the merck.com URL and an access date, and all three primary sources (merck.com,

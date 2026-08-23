@@ -451,3 +451,107 @@ def test_the_back_matter_is_split_out_of_the_two_column_body(journal):
 def test_the_two_styles_write_to_different_files():
     """The submission format is what a portal wants; they must not overwrite each other."""
     assert PAPER["out"] != PAPER["out"].replace(".pdf", "-manuscript.pdf")
+
+
+# ---------------------------------------------------------------------------------------------
+def test_a_backslash_escaped_asterisk_prints_as_an_asterisk_and_never_as_emphasis():
+    """⛔ MEASURED IN THE BUILT DEPOSIT, 2026-08-23. `\\*` was never unescaped by this builder.
+
+    One escaped allele on a line printed its backslash: `HLA-B\\*15:01`. TWO on a line were worse —
+    the emphasis rule read the span BETWEEN their live asterisks as italic, so
+    `HLA-A\\*01:01, HLA-B\\*07:02` came out as `HLA-A\\` + italic `01:01, HLA-B\\` + `07:02`, with
+    both allele names destroyed and unrelated text italicised. Every posted version of the
+    junction-vaccine manuscript carries it, in a paper whose subject is which HLA alleles present a
+    peptide. Two alleles on one line is the case that matters and is the second assertion here;
+    checking only the single-allele case would have passed throughout the incident.
+    """
+    assert bsp.inline(r"presented on HLA-B\*15:01 alone") == "presented on HLA-B*15:01 alone"
+    two = bsp.inline(r"HLA-A\*01:01, HLA-B\*07:02, HLA-B\*15:01")
+    assert two == "HLA-A*01:01, HLA-B*07:02, HLA-B*15:01"
+    assert "<em>" not in two and "\\" not in two
+
+
+def test_unescaped_emphasis_still_works_after_the_escape_rule():
+    """The fix must not cost the markup it sits in front of."""
+    got = bsp.inline("*EWSR1* exon 7 and **bold**")
+    assert got == "<em>EWSR1</em> exon 7 and <strong>bold</strong>"
+
+
+def test_other_markdown_escapes_lose_their_backslash_too():
+    assert bsp.inline(r"a literal \_underscore\_ and \[bracket\]") == (
+        "a literal _underscore_ and [bracket]")
+
+
+# ---------------------------------------------------------------------------------------------
+# ⛔⛔ THE BUILT PDF IS THE ONLY ARTIFACT A REVIEWER SEES, AND NOTHING IN THIS REPOSITORY READ IT.
+# Every other gate here opens the manuscript SOURCE: lint_consistency, lint_claims, lint_style and
+# the one-of-a-pair number guards all read the `.md`. The escape defect above therefore rode four
+# published versions of the vaccine paper undetected — it is invisible in the source, where
+# `HLA-B\*15:01` is correct markdown, and only exists after rendering. These tests read the rendered
+# text, which is where the reader is.
+import glob as _glob
+
+_pypdf = pytest.importorskip("pypdf", reason="the deposit PDFs are checked by extracting their text")
+
+
+def _pdf_text(path):
+    return "\n".join(p.extract_text() for p in _pypdf.PdfReader(path).pages)
+
+
+@pytest.mark.committed_artifact
+@pytest.mark.parametrize("pdf", sorted(_glob.glob(
+    os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "*", "*.pdf"))))
+def test_no_markdown_escape_survives_into_a_deposited_pdf(pdf):
+    r"""⛔ A LEAKED MARKDOWN ESCAPE, NOT EVERY BACKSLASH. The distinction is the whole test.
+
+    ⚠ THE FIRST VERSION OF THIS GUARD ASSERTED `text.count(chr(92)) == 0` AND FAILED ON CORRECT
+    CONTENT. The ASO article prints a shell command with a line continuation — `\` at end of line,
+    inside a code block — which is exactly what it should render. A guard that invents a defect is
+    worse than one that sleeps: it gets relaxed, and the relaxation that suggests itself is deleting
+    the row, which is how the real defect then goes unwatched.
+
+    So the pattern is the defect's own shape. A leaked escape is a backslash directly against a
+    markdown metacharacter (`\*`, `\_`, `\[`), or against an alphanumeric — which is what the
+    emphasis pass leaves behind when it eats the asterisk out of `HLA-B\*15:01` and prints
+    `HLA-B\15:01`. A backslash followed by whitespace or end of line is a continuation and is
+    content.
+    """
+    text = _pdf_text(pdf)
+    # ⛔ NO TEXT LAYER IS A FAILURE, NOT A SKIP. A deposit PDF a reader cannot select, search or
+    # have read aloud is broken as a deposit, and a skip here would have quietly excused exactly the
+    # document this guard most needs to read.
+    assert text.strip(), (
+        f"{os.path.basename(pdf)} extracts no text layer — it is unsearchable, unselectable and "
+        "unreadable by assistive software, and no escape check can run over it")
+    leaked = re.findall(r"\\[*_\[\]#A-Za-z0-9]", text)
+    assert not leaked, (
+        f"{os.path.basename(pdf)} renders {len(leaked)} leaked markdown escape(s) {sorted(set(leaked))} "
+        "— see inline()'s escape rule; the two-allele case is what breaks.")
+
+
+@pytest.mark.committed_artifact
+def test_the_vaccine_papers_alleles_render_with_their_asterisks():
+    """The paper's subject IS allele coverage, so a mangled allele name is a factual error on
+    every page. Bound to this document specifically because it is the one that carries 35 of them."""
+    pdf = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                       "neoantigen", "emc-vaccine-development-path.pdf")
+    # ⛔ COMMITTED, SO ITS ABSENCE IS A BROKEN TREE — which is precisely when this guard must speak.
+    assert os.path.exists(pdf), (
+        f"{pdf} is missing. It is a committed deposit artifact, so this is a broken checkout or a "
+        "deleted PDF, not a reason to pass over the allele check.")
+    text = _pdf_text(pdf)
+    alleles = re.findall(r"HLA-[A-Z]{1,4}[0-9]?\*?[0-9]{2}:[0-9]{2}", text)
+    assert alleles, "expected HLA allele names in the rendered vaccine paper"
+    lost = sorted({a for a in alleles if "*" not in a})
+    assert not lost, f"these allele names lost their asterisk in the PDF: {lost}"
+
+
+def test_the_leaked_escape_pattern_actually_matches_the_defect_it_is_for():
+    """⛔ A GUARD THAT CANNOT FAIL IS NOT A GUARD. The pattern above is narrow on purpose, and a
+    narrowing is exactly where a check quietly stops checking. These are the two renderings the
+    incident actually produced, plus the continuation that must NOT match."""
+    pat = r"\\[*_\[\]#A-Za-z0-9]"
+    assert re.findall(pat, r"presented on HLA-B\*15:01 alone"), "the one-allele leak is not caught"
+    assert re.findall(pat, r"HLA-A\01:01, HLA-B\07:02"), "the emphasis-eaten leak is not caught"
+    assert not re.findall(pat, "DONOR_EXON_END=5 \\\n    python3 junction_aso.py"), (
+        "a shell line continuation is content and must not be flagged")

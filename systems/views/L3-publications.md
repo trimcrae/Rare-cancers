@@ -59,7 +59,7 @@ last_verified: 2026-08-06
 | **PUB-SYNLETH**<br/>[Degrader vs. synthetic-lethal for EWSR1::NR4A3 EMC — a feasibility comp…](../../research/manuscripts/dependency/degrader-vs-synthetic-lethal.md) | ◐ `drafted` | `internal_note` | 1 | — |
 | **PUB-TCIP**<br/>[The induced-interface floor that proximity design inherits from degrade…](../../research/manuscripts/tcip/tcip-induced-interface-preprint.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-TXN-DEPENDENCY**<br/>[Transcriptional and proteostatic dependency of a fusion transcription f…](../../research/manuscripts/dependency/emc-transcriptional-proteostatic-dependency.md) | ◐ `drafted` | `preprint` | 2 | — |
-| **PUB-VACCINE-PATH**<br/>[Fusion-neoantigen novelty filters fail at isoform boundaries: seam-prox…](../../research/manuscripts/neoantigen/emc-vaccine-development-path.md) | ◐ `drafted` | `preprint` | 1 | — |
+| **PUB-VACCINE-PATH**<br/>[A fusion-junction vaccine in extraskeletal myxoid chondrosarcoma: what …](../../research/manuscripts/neoantigen/emc-vaccine-development-path.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-EMC-CLASSIFICATION**<br/>*One code, two diseases: what registry-based extraskeletal myxoid chondr…* | ◔ `outlined` | `preprint` | 2 | ⭐ The contradiction is MEASURED and quoted from both papers' own Methods sections (emc-care-delivery-evidence.json -> icd_o_9231_3), which is enough … |
 | **PUB-KINASE-LEADS**<br/>*Four kinase observations in extraskeletal myxoid chondrosarcoma that no…* | ◔ `outlined` | `preprint` | 4 | ⚠ ITS BLOCKER IS RETIRED — THE CONSOLIDATION IS DONE AND IT INVERTED THE PAPER. … |
 | **PUB-LOCOREGIONAL**<br/>*Anatomical selectivity in an indolent, extremity-primary, lung-metastas…* | ◔ `outlined` | `preprint` | 4 | ⚠ ITS BLOCKER WAS HALF RIGHT, AND THE HALF IT GOT WRONG IS THE INTERESTING ONE. … |
@@ -376,7 +376,7 @@ A fusion oncoprotein whose entire mechanism is transactivation, and whose struct
 | [RT-CHAPERONE](L2-rt-chaperone.md) — Chaperone dependency of the chimera (HSP90 and co-ch | `primary` | The half of the paper that argues from what the driver IS STRUCTURALLY: a chimera of two domains that never evolved together is a folding problem before it is a signalling one. |
 | [RT-TXN-CDK](L2-rt-txn-cdk.md) — Transcriptional CDK dependency (CDK7, CDK9, CDK12/13 | `primary` | The half of the paper that argues from what the driver IS: a transcriptional oncoprotein should be more dependent on the transcriptional machinery than the cell it sits in. |
 
-### PUB-VACCINE-PATH — Fusion-neoantigen novelty filters fail at isoform boundaries: seam-proximal peptides of four of five EWSR1::NR4A3 junctions reproduce a normal NR4A3 isoform
+### PUB-VACCINE-PATH — A fusion-junction vaccine in extraskeletal myxoid chondrosarcoma: what can be established today, and the capabilities that would change it
 
 **◐ `drafted` · aimed at `preprint` · [`research/manuscripts/neoantigen/emc-vaccine-development-path.md`](../../research/manuscripts/neoantigen/emc-vaccine-development-path.md)**
 

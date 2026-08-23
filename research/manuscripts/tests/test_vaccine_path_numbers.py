@@ -34,6 +34,7 @@ PAPER = os.path.join(MANUSCRIPTS, "neoantigen", "emc-vaccine-development-path.md
 BREAKPOINTS = os.path.join(MOD, "fusion-breakpoint-neoantigens.json")
 COVERAGE = os.path.join(MOD, "hla-coverage.json")
 CURVE = os.path.join(MOD, "coverage-curve.json")
+THRESHOLD_CURVE = os.path.join(MOD, "coverage-threshold-curve.json")
 MATRIX = os.path.join(MOD, "epitope-allele-matrix.json")
 NOVELTY = os.path.join(MOD, "junction-proteome-novelty.json")
 CD4 = os.path.join(MOD, "patient-cd4-demo.json")
@@ -84,6 +85,11 @@ def coverage():
 @pytest.fixture(scope="module")
 def curve():
     return _load(CURVE, "the broad-panel coverage curve")
+
+
+@pytest.fixture(scope="module")
+def threshold_curve():
+    return _load(THRESHOLD_CURVE, "the coverage-versus-threshold curve")
 
 
 @pytest.fixture(scope="module")
@@ -261,11 +267,24 @@ def test_no_confidence_interval_survives_in_the_prose(prose, coverage):
         "a withdrawn coverage confidence interval has returned to the prose"
 
 
-def test_the_threshold_sensitivity_ladder_is_recomputed_not_typed(flat, matrix, curve):
+def test_the_threshold_sensitivity_ladder_is_recomputed_not_typed(flat, matrix, curve,
+                                                                  threshold_curve):
     """⭐ The ladder that shows the headline figure is a threshold artifact, re-derived here.
 
-    Each rung is the union coverage of the alleles that survive that percentile cut. If the screen
-    changes, the ladder must change with it, and the manuscript's sentence must follow.
+    ⭐ EXTENDED 2026-08-23 WHEN §2.3 STOPPED SAMPLING THE FUNCTION AND STARTED PUBLISHING IT. The
+    section used to state three round-number rungs; it now walks the staircase step by step below the
+    conventional cut and reports the function above it as well. Two of the old bindings stopped
+    matching, which is the guard telling the truth — the sentences they were bound to no longer
+    exist. They are rebound to the sentences that replaced them, and the figures the new prose adds
+    are bound too, because an unbound number in this document is the whole reason this file exists.
+
+    ⛔ THE TWO SPANS ARE DIFFERENT QUANTITIES AND MUST NOT BE CONFLATED — the first draft of this
+    guard did exactly that. `step_span` is the distance from the weakest call to the last one that
+    ADDS AN ALLELE (0.3736 to 0.4580), which is what "every step falls inside a window N wide"
+    claims. `reach` is the distance from the acceptance threshold DOWN to the weakest call, which is
+    how far a cut has to move to remove every allele. A third, `span`, is weakest-to-strongest call
+    including the one that adds nothing. Each is bound to the sentence that states it and to no
+    other.
     """
     afc = {e["allele_added"]: e["af"] for e in curve["global_curve"]}
     rows = matrix["strong_binders"]
@@ -285,33 +304,66 @@ def test_the_threshold_sensitivity_ladder_is_recomputed_not_typed(flat, matrix, 
         "the manuscript states that a 0.37 cut leaves nothing; the matrix now has a call at or below "
         "0.37, so that sentence is false")
     lowest = min(r["percentile"] for r in rows)
-    highest = max(r["percentile"] for r in rows)
-    # ⛔ THREE DECIMALS, NOT TWO. The true span is 0.4986 - 0.3736 = 0.1250 exactly, and two-decimal
-    # rounding lands on a half-way case: the manuscript said 0.13 and `round(0.125, 2)` returns 0.12,
-    # so a two-decimal guard would have argued with itself about a number that is exact. This guard
-    # caught the manuscript's 0.13 on its first run; the prose now states 0.125.
-    # ⛔ TWO DIFFERENT QUANTITIES, AND THE FIRST DRAFT OF THIS GUARD CONFLATED THEM.
-    # `span` is the distance between the weakest and strongest surviving call (0.125). `reach` is the
-    # distance from the acceptance threshold DOWN to the weakest call (0.1264) — which is what a
-    # sentence saying "within X of the acceptance threshold" is claiming, and what a cut has to move
-    # by to remove every call. Binding the prose's "of the threshold" phrasing to `span` made the
-    # guard enforce agreement with the wrong number: a cut moved by 0.125 lands at 0.375, and 0.3736
-    # still passes there. Both are now bound, each to the sentence that states it.
-    span = round(highest - lowest, 3)
-    cut = 0.5
+    cut = threshold_curve["conventional_threshold"]
     reach = round(cut - lowest, 4)
-    _every_site(flat, r"within ([\d.]+) percentile\s?units below the acceptance threshold",
-                f"{reach:g}", "the distance from the acceptance threshold to the weakest call")
-    _every_site(flat, r"The whole set spans ([\d.]+) percentile units", f"{span:g}",
-                "the span between the weakest and strongest surviving call")
-    _every_site(flat, r"sits within ([\d.]+) of the cut", f"{reach:g}",
-                "the same reach, as Section 2.3 states it")
-    _every_site(flat, r"a move of ([\d.]+) — takes the headline figure to zero", f"{reach:g}",
-                "the move required to clear every call")
-    _every_site(flat, r"a cut anywhere below ([\d.]+)\s*\n?removes every one", f"{lowest:g}",
-                "the weakest surviving call, as the Abstract states it")
-    _every_site(flat, r"a cut below ([\d.]+) —", f"{lowest:g}",
-                "the weakest surviving call, as Section 2.3 states it")
+    _every_site(flat, r"it reaches zero ([\d.]+) below it", f"{reach:g}",
+                "the distance from the acceptance threshold down to the weakest call")
+    _every_site(flat, r"a best in-frame call of ([\d.]+)", f"{lowest:g}",
+                "the weakest surviving in-frame call, as Section 2.2 states it")
+    _every_site(flat, r"the least permissive call it\s?makes is ([\d.]+)", f"{lowest:g}",
+                "the same call, as B1 states it")
+
+    # ⭐ THE STAIRCASE ITSELF. Each step below the conventional cut is one peptide-allele call, and
+    # Section 2.3 names every one with its percentile, its peptide and the coverage after it.
+    steps = [st for st in threshold_curve["steps"] if st["threshold"] <= cut]
+    assert steps, "the threshold curve reports no steps below the conventional cut"
+    for st in steps:
+        for allele in st["alleles_added"]:
+            escaped = re.escape(allele.replace("*", "\\*"))
+            _every_site(flat,
+                        rf"{escaped}[^.;]{{0,40}}?at\s?(?:presentation percentile\s?)?([\d.]+) on ",
+                        # ⚠ FOUR DECIMALS, NOT `:g`. These are MHCflurry percentiles and the prose
+                        # prints them as the predictor gives them — 0.4580 keeps its trailing zero
+                        # beside 0.3736 and 0.4033. `:g` strips it and the guard then argues with
+                        # correct prose about a digit that carries no information either way.
+                        f"{st['threshold']:.4f}",
+                        f"the percentile at which {allele} enters")
+        # ⛔ ANCHORED ON THE ALLELE, NOT THE PEPTIDE. Two steps share NMPCVQAQY — it enters on
+        # HLA-B*15:01 at 0.3736 and on HLA-A*30:02 at 0.4033 — so a peptide-keyed pattern matches
+        # the first step's sentence twice and reports the second step's coverage as drift. The
+        # allele is what makes a step unique; the prose for the second one says "the same peptide".
+        for allele in st["alleles_added"]:
+            escaped = re.escape(allele.replace("*", "\\*"))
+            _every_site(flat,
+                        rf"{escaped}[^;]{{0,120}}?"
+                        rf"(?:taking coverage from zero to |reaching )([\d.]+)%",
+                        f"{st['coverage_after'] * 100:.1f}",
+                        f"the coverage after {allele} enters")
+    width = round(max(x["threshold"] for x in steps) - min(x["threshold"] for x in steps), 4)
+    _every_site(flat, r"a window ([\d.]+) units\s?wide", f"{width:g}",
+                "the width of the window every step falls inside, as Section 2.3 states it")
+    _every_site(flat, r"a window ([\d.]+)\s?percentile units wide", f"{width:g}",
+                "the same window, as the Abstract states it")
+
+    def at(t):
+        r = next((x for x in threshold_curve["curve"] if abs(x["threshold"] - t) < 1e-9), None)
+        assert r is not None, f"the threshold curve has no point at {t}"
+        return r
+
+    # ⛔ THE UPPER HALF IS THE PART A READER COULD MISTAKE FOR AN ARGUMENT FOR A LOOSER CUT, so it is
+    # the part that must not drift by a digit. Section 2.3 states these four and the artifact owns
+    # them; the 0.2 tier is asserted rather than pattern-matched because its claim is that the tier
+    # is EMPTY, and an empty tier has no percentage to bind.
+    assert at(0.2)["n_presenting_alleles"] == 0, (
+        "Section 2.3 and B1 both state that a conservative 0.2 cut leaves no presenting allele; the "
+        "curve now disagrees")
+    _every_site(flat, r"(\d+) presenting alleles and [\d.]+% at a cut of 1\.0",
+                str(at(1.0)["n_presenting_alleles"]), "the allele count at a cut of 1.0")
+    for t, phrase in ((1.0, r"([\d.]+)% at a cut of 1\.0"),
+                      (2.0, r"([\d.]+)% at\s?2\.0"),
+                      (5.0, r"([\d.]+)% at 5\.0")):
+        _every_site(flat, phrase, f"{at(t)['coverage'] * 100:.1f}",
+                    f"the coverage at a percentile cut of {t}")
 
 
 def test_the_novelty_result_is_the_searchs_result(flat, novelty):
@@ -350,57 +402,84 @@ def test_the_novelty_result_is_the_searchs_result(flat, novelty):
         "the artifact's own count of withdrawn binders disagrees with its own peptide records"
 
 
-def test_the_class_ii_arm_is_the_screens_arm(flat, cd4):
-    """2 binders, 0 strong, the two IC50s, and the alleles that produced nothing."""
+def test_the_class_ii_arm_is_the_screens_arm(flat, cd4, coverage):
+    """⭐ REWRITTEN 2026-08-23 WHEN THE PANEL WIDENED FROM 3 ALLELES TO 23 AND THE ARM TURNED POSITIVE.
+
+    The previous version of this guard asserted `n_strong == 0` with the message "every sentence in B4
+    and the Abstract that reports this arm as negative is now false". That assertion fired on the
+    widened run, which is exactly what it was for — a guard that encodes today's result and breaks
+    loudly when the result moves is doing its job, and the fix is to rebind it to the new prose, never
+    to loosen it. What is bound now is the POSITIVE and its size, because a single strong call on 23
+    alleles is easy to overstate by a sentence and impossible to overstate past these assertions.
+    """
     _every_site(flat, r"(\d+) candidate 15-mers were screened", str(cd4["n_candidate_15mers"]),
                 "the class II candidate count")
-    _every_site(flat, r"returns (\d+) binders and none strong", str(cd4["n_predicted_binders"]),
-                "the class II binder count, as the Abstract states it")
-    assert cd4["n_strong"] == 0, (
-        "the class II screen now returns a strong binder; every sentence in B4 and the Abstract that "
-        "reports this arm as negative is now false")
-    # ⛔ Bound to the PEPTIDE that carries each value, not to "is this number in here anywhere". The
-    # membership form was blind to corrupting one of the two IC50s, which is the whole point of
-    # printing both: the paper's argument is that ONE of them sits inside the conventional class II
-    # binder band, so the two values are not interchangeable.
-    for row in cd4["shortlist"]:
-        printed = f"{round(row['ic50_nM']):d}"
-        _every_site(flat, rf"{row['peptide']} at (\d+) nM", printed,
-                    f"the class II IC50 of {row['peptide']}")
-    # ⭐ the uninformative alleles are a BOUND, not colour: they are why "three-allele panel" overstates
-    # the evidence threefold, and B4 says so.
-    best = {}
-    for row in cd4["all_predictions"]:
-        a = row["allele"]
-        best[a] = min(best.get(a, float("inf")), row["ic50_nM"])
-    uninformative = sorted(v for a, v in best.items() if v > 1000)
-    assert len(uninformative) == 2, (
-        "B4 states that two of the three alleles produced nothing within an order of magnitude of a "
-        f"threshold; the screen now makes that {len(uninformative)}")
-    for v in uninformative:
-        assert f"{round(v):,}".replace(",", ",") in flat or f"{round(v)}" in flat, (
-            f"the uninformative allele's best call at {round(v)} nM is not printed in B4")
+    _every_site(flat, r"against (\d+) class II alleles", str(len(cd4["patient_class2_hla"])),
+                "the class II panel width, as B4 states it")
+    _every_site(flat, r"(\d+) peptide-allele pairs\s?bind", str(cd4["n_predicted_binders"]),
+                "the class II binder count")
+    # ⛔ AN ALLELE WITHOUT A MODEL IS NOT AN ALLELE THAT FAILED. B4 claims every declared allele
+    # returned a score; if that stops being true the sentence must change before the count does.
+    assert not cd4.get("alleles_without_a_model"), (
+        "B4 states that no allele was unscreenable; the screen now reports "
+        f"{cd4['alleles_without_a_model']}")
+    strong = [r for r in cd4["all_predictions"] if r["call"] == "strong"]
+    assert len(strong) == cd4["n_strong"]
+    assert cd4["n_strong"] == 1, (
+        "B4 reports exactly one strong class II call; the screen now returns "
+        f"{cd4['n_strong']} and every sentence stating 'one' is false")
+    lead = strong[0]
+    for probe in (lead["peptide"], lead["allele"].replace("*", "\\*")):
+        assert probe in flat, f"B4 does not name {probe}, which carries its only strong call"
+    _every_site(flat, rf"{lead['peptide']} on {re.escape(lead['allele'].replace('*', chr(92) + '*'))} "
+                      r"at ([\d.]+) nM", f"{lead['ic50_nM']:g}",
+                "the IC50 of the only strong class II call")
+    n_alleles_with_a_binder = len({r["allele"] for r in cd4["shortlist"]})
+    _every_site(flat, r"spread over (\d+) of the 23 alleles", str(n_alleles_with_a_binder),
+                "how many alleles returned at least one class II binder")
+    # ⭐ THE CONTINUITY CHECK IS PART OF THE CLAIM. B4 argues the widening was ADDITIVE — that the
+    # earlier three-allele negative was a property of the panel and not of a different computation —
+    # and it argues that by printing the two old IC50s and saying they reproduce. If they stop
+    # reproducing, that argument is gone and the sentence is wrong.
+    old_panel = {"DRB1*15:01", "DRB1*03:01", "DRB1*07:01"}
+    for row in [r for r in cd4["shortlist"] if r["allele"] in old_panel]:
+        _every_site(flat, rf"{row['peptide']}\s?at ([\d.]+) nM", f"{row['ic50_nM']:g}",
+                    f"the reproduced three-allele-panel IC50 of {row['peptide']}")
+    g = coverage["global"]
+    _every_site(flat, r"class II coverage\s?is ([\d.]+)%", f"{g['coverage_cd4_classii'] * 100:.1f}",
+                "class II coverage, as B4 states it")
+    _every_site(flat, r"of each\s?class is ([\d.]+)%",
+                f"{g['coverage_cd8_and_cd4_combined'] * 100:.1f}",
+                "combined CD8 and CD4 coverage, as B4 states it")
 
 
 def test_the_construct_is_the_generated_construct(flat, construct):
-    """The 11-residue minimal SLP and the two class I epitopes it carries."""
+    """The minimal SLP's length and the epitopes it carries — both arms since the panel widened."""
     lead = construct["lead_public_construct"]
     slp = lead["minimal_SLP"]
     length = slp.get("length") or len(slp.get("peptide", ""))
     # ⛔ ALL THREE SITES: the Abstract, B4's consequence paragraph, and Appendix A's current-value
     # column. Appendix A is the register CLAUDE.md rule 1.2 requires, so a stale value there is a
     # retraction table that misreports what the retraction landed on.
-    _every_site(flat, r"construct is (\d+) residues", str(length),
+    _every_site(flat, r"construct is a (\d+)-residue synthetic long peptide", str(length),
                 "the minimal synthetic long peptide length, as the Abstract states it")
     _every_site(flat, r"synthetic long peptide is (\d+) residues", str(length),
                 "the minimal synthetic long peptide length, as B4 states it")
-    _every_site(flat, r"\| (\d+) residues, class I only \|", str(length),
-                "the minimal synthetic long peptide length, as Appendix A states it")
-    for ep in lead["cd8_strong_epitopes"]:
+    # ⚠ ROW-ANCHORED, because Appendix A's superseded column ALSO reads "N residues, both arms" — the
+    # retracted-seam construct carried both arms too. An unanchored pattern matches both cells and
+    # reports the superseded 27 as a drift, which is a guard arguing with the register it is reading.
+    _every_site(flat, r"Candidate minimal synthetic long peptide \| [^|]+\| (\d+) residues",
+                str(length), "the minimal synthetic long peptide length, as Appendix A states it")
+    for ep in lead["cd8_strong_epitopes"] + lead["cd4_strong_epitopes"]:
         pep = ep["peptide"] if isinstance(ep, dict) else ep
         assert pep in flat, f"the construct carries {pep} and B4 does not name it"
-    assert not lead["cd4_strong_epitopes"], (
-        "the construct now carries a class II epitope; B4's statement that it carries none is false")
+    # ⛔ WAS `assert not lead["cd4_strong_epitopes"]` UNTIL 2026-08-23, and that assertion fired when
+    # the widened class II panel found one. The direction that now needs guarding is the opposite:
+    # B4 and the Abstract both say the construct carries BOTH arms, so an empty class II list would
+    # make those sentences false without any prose changing.
+    assert lead["cd4_strong_epitopes"], (
+        "the construct carries no class II epitope; B4's statement that it carries both arms, and "
+        "the Abstract's 15-residue both-arms SLP, are false")
 
 
 def test_the_lead_binder_is_quoted_with_the_number_that_classified_it(flat, breakpoints):

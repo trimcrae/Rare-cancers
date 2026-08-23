@@ -72,6 +72,21 @@ and no vote. Do not tell anyone a paper was "accepted" on aiXiv.
   drawn from `/api/categories`. This contract appears **nowhere** in `openapi.json`, which types the
   field as a bare array; it surfaced only as an HTTP 400 on a live submit. There is no "Cancer
   Biology" node.
+- **THE PLATFORM'S VERSION LABEL IS NOT THE API'S VERSION FORMAT.** aiXiv shows and names versions
+  as `v1.4`; `/api/get-review` and the review endpoints reject that with **HTTP 422** — *"version
+  must be in the format 'X.Y' or 'X.Y.Z', e.g. 1.0, 2.1, 1.9.3"*. So the form a caller reads off the
+  page, and the form this skill's own examples used to print, is the one form that fails. The client
+  now strips a leading `v` at the request boundary (only when a digit follows, so `velocity-2`
+  survives) and keeps the labelled form in filenames and logs, which is what a human matching an
+  artifact against the aiXiv page is looking at.
+- **`GET /api/get_pending-review-submissions` TAKES ITS TOKEN AS A QUERY PARAMETER, AND REJECTS THE
+  AGENT TOKEN ANYWAY.** A bearer header gets HTTP 422 (`{"loc":["query","token"]}`); the agent
+  token in the query string gets HTTP 401 `"Invalid token"`. So the queue aiXiv's own scheduler
+  polls is **not readable with the credential this client holds**, and "is my version queued?" has
+  no answer available to us. ⛔ **And the query-parameter form is a credential-in-a-URL**: it reached
+  an exception string and printed into a world-readable Actions log, where only GitHub's secret
+  masking hid it. `_redact` now strips it at the request layer. **Masking is a backstop, not a
+  control.**
 - **Cloudflare answers urllib's default User-Agent with HTTP 403 "error code: 1010".** That is an
   EDGE verdict on the client's browser signature, not an API verdict on your token — and it reads
   exactly like a bad credential. The client sends a browser UA for this reason; do not remove it.
@@ -122,6 +137,43 @@ cautionary null, not a new biological discovery."* So a delivered instrument rea
 finding is what the 8s and 10s carry. **Pick the paper, do not iterate the prose** — one submission of
 the right shape beat four revisions of the wrong one.
 
+### ⛔⛔ v1.4 SCORED 6 TOO — AND THE EXPLANATION I FIRST GAVE FOR IT WAS WRONG
+
+v1.4 added four computed results answering four named weaknesses — the full threshold function, a
+near-self TCR search with a shuffle null, a second independently-trained predictor, and a
+transcript-model screen. The review called the work *"exemplary"*, *"novel and significant"*,
+*"sophisticated and important"*, *"rigorous statistical and methodological honesty"*. **Rating: 6.
+Five versions, five 6s.**
+
+⚠ **RETRACTED, AND RETAINED SO THE REASONING CAN BE CHECKED.** v1.4's review carried ML-conference
+language — *"for a top-tier venue"*, *"not a standard ICLR/NeurIPS submission"*, *"unclear for a
+general AI/ML audience"* — and I concluded from it that the ceiling was venue fit and no revision
+could reach it. **That conclusion does not survive the obvious check**, which is whether the framing
+appears in reviews generally:
+
+| review | ML-venue language | rating |
+|---|---|---:|
+| vaccine v1.0 – v1.3 | **none, in any of the four** | 6, 6, 6, 6 |
+| vaccine v1.4 | 8 occurrences | 6 |
+| the instrument paper | 1 (*"Inaccessible Presentation for a General AI/ML Audience"*) | **7** |
+
+Four versions scored 6 with **no** ML-venue language at all, and the paper that scored **7** drew an
+AI/ML-audience criticism as well. So the framing is **sporadic reviewer wording, not a rubric**, and
+it explains nothing about the score. ⛔ **One review's vocabulary is not a mechanism. Check whether a
+signal discriminates before building an explanation on it** — the discriminating query here took one
+grep over reviews already on disk.
+
+★ **WHAT IS ACTUALLY CONSTANT ACROSS ALL FIVE 6s** is the weakness §3 already named: *"purely
+computational scope without experimental validation."* It appears in every review of this paper, and
+no revision this programme can make will close it. That remains the best-supported reading of the
+ceiling, and it is a claim about THIS paper's evidence base rather than about aiXiv's taste.
+
+⛔ **WHAT DOES NOT FOLLOW, EITHER WAY. Do not keep iterating**, because five substantively different
+versions moved the number not at all. And the two moves that would raise it are both off-limits:
+posting your own review (§0), and reshaping a named paper to suit a reviewer, which CLAUDE.md §3
+forbids outright — *"the title is what a reader searches and what the record says the work is."*
+**Report the ceiling to the human and let them decide.**
+
 ## 4 · The runbook
 
 1. **Mint an agent token once.** `POST /api/agents` with `review` in `scopes`, then
@@ -144,16 +196,66 @@ the right shape beat four revisions of the wrong one.
 6. **`mode=submit`** (or `new-version`) — double-gated: the workflow input *and* the script's
    `--i-understand-this-is-outward-facing`. A new version does **not** withdraw the old one; aiXiv
    keeps both rows under the same id.
-7. **Wait, then `mode=fetch`.** ⛔ Reviews do **not** arrive in ~3 minutes — a fetch at +3 min came
-   back empty, and measured review timestamps run **75 minutes apart**. `fetch` commits the review
-   to the branch via `publish_artifacts.sh` so a hardening round can cite it by path.
-   ⚠ **An empty `review_list` is an absent reading, not a pass.**
+7. **Wait — and the wait is LONG and IRREGULAR.** v1.4 was posted at 15:15 UTC and reviewed about
+   **2 h 45 m** later. Our first four versions carried review ids 1362–1365, consecutive in aiXiv's
+   global sequence; ⚠ **that did NOT generalise** — v1.4's review is id **1371**, so five other
+   papers were reviewed in between and the "no other paper is being reviewed" reading held only for
+   that one window.
+   ⛔ **`create_time` IS NOT UTC AND MUST NOT BE USED FOR ARITHMETIC.** v1.4's review carries
+   `2026-08-24T00:24:11` — a timestamp roughly six hours AHEAD of the UTC moment it arrived. Every
+   latency figure derived from that field in earlier versions of this section was unsound, including
+   two I reported as measured.
+   ⚠ **So an empty `fetch` at two hours is not evidence of anything.** `v1.4` was still unreviewed at
+   2 h, which sits comfortably inside an observed gap of 5.5 h. Budget **hours, not minutes**, space
+   the re-dispatches accordingly, and do not build a theory on an early empty result — I built two
+   (a three-minute cadence, then an hourly one) and both were wrong.
+   ⚠ **Still unmeasured:** a post time and its own review's `create_time` on one clock. The gaps
+   above are between REVIEWS, not from post to review, and they bound the latency from below only. `fetch` commits the review to the branch via
+   `publish_artifacts.sh` so a hardening round can cite it by path.
+   ⚠ **An empty `review_list` is an absent reading, not a pass** — and polling the *committed file*
+   is not polling aiXiv: that file only changes when a `fetch` run commits it, so a loop watching
+   the branch after a single dispatch watches a static file forever. Re-dispatch each check.
+   ⚠ **aixiv.science is not reachable from the dev sandbox** (403 at the egress proxy), so every
+   check costs a CI dispatch. Space them to the cadence above rather than polling per minute.
 8. **`mode=calibrate`** before quoting any rating.
 
 ⛔ **`start_attack_review` RETURNS HTTP 500** (measured twice, 2026-08-22 and 2026-08-23). The manual
 re-review path is broken server-side, so a review cannot be re-run on a fixed version and the
 **variance of the score is unmeasurable**. Reviews arrive automatically, one per new submission.
 `fetch` is the normal path; `review` is a broken override.
+
+## 4b · ⛔⛔ READ THE BUILT PDF BEFORE YOU POST IT. THE REVIEWER READS THAT, NOT THE MARKDOWN
+
+Every gate in this repository reads the **manuscript source**. `lint_consistency`, `lint_claims`,
+`lint_style`, the one-of-a-pair number guards — all of them open the `.md`. **Nothing was reading the
+PDF**, which is the only artifact a reviewer ever sees. Two defects rode four published versions of
+one paper because of that, and both were found in about a minute by extracting the PDF's text:
+
+- **Markdown backslash escapes were never unescaped.** `build_submission_pdf.py` had no rule for
+  `\*`, so `HLA-B\*15:01` reached the emphasis pass with its backslash intact and its asterisk live.
+  One escaped allele on a line printed `HLA-B\15:01`. **Two on a line was worse**: the span between
+  their live asterisks parsed as emphasis, so `HLA-A\*01:01, HLA-B\*07:02` came out as `HLA-A\` +
+  *italic* `01:01, HLA-B\` + `07:02` — both allele names destroyed and unrelated text italicised.
+  The paper carries 35 escaped alleles and its entire subject is which HLA alleles present a peptide.
+  ⚠ **The one-allele case passes a naive test.** A guard that checks a single escaped allele is green
+  throughout the incident, because one asterisk never triggers the emphasis rule. **Test two.**
+- **The venue banner on page 1 was false.** It read *"prepared for deposit as a bioRxiv preprint and
+  is not yet posted"* while the paper was posted on aiXiv and being read there. A venue banner is a
+  claim like any other and goes stale the moment the deposit happens.
+
+**So the step, before every post:**
+
+```python
+import pypdf
+t = "\n".join(p.extract_text() for p in pypdf.PdfReader(PDF).pages)
+assert t.count("\\") == 0                 # no markdown escape survived
+for probe in (lead_peptide, lead_allele, "Table 1"):
+    assert probe in t                     # note: the builder emits `Table\xa01`
+```
+
+⚠ Extraction quirks are not defects: a non-breaking space between "Table" and its number, and
+hyphenless line joins, are how the typesetter works. **A backslash is a defect.** Check the count,
+not the appearance.
 
 ## 5 · Where aiXiv sits in the portfolio
 
