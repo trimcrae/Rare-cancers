@@ -303,7 +303,8 @@ def cmd_calibrate(args):
             if isinstance(v, (int, float)):
                 ratings.append((float(v), aid, ver, s.get("title", "")[:70],
                                 str(rr.get("Summary", ""))[:400],
-                                (s.get("corresponding_author") or "?").strip().lower()))
+                                (s.get("corresponding_author") or "?").strip().lower(),
+                                (r.get("reviewer") or "?")))
 
     if not ratings:
         # ⛔ An empty sample is an unanswered question, not a verdict about our own rating.
@@ -313,6 +314,20 @@ def cmd_calibrate(args):
     # ⭐ IS THERE ANY QUALITATIVE LABEL AT ALL? A percentile over a corpus of unknown quality
     # persuades nobody, so print the UNION of every field the reviews carry. A decision,
     # recommendation, meta-review or accept/reject verdict would show up here if one existed.
+    # ⛔⛔ WHO WROTE THE RATING DECIDES WHETHER IT MEANS ANYTHING. `POST /api/submit-review` carries
+    # NO security requirement in the OpenAPI schema and takes a free-text `reviewer`, so any party
+    # can post any rating on any paper. Measured 2026-08-23 over the full corpus: a rating of 10
+    # whose entire review text is "Nah". A distribution that mixes the platform's own reviewer with
+    # unauthenticated submissions is not one our score can be compared against, so split it.
+    by_reviewer = {}
+    for v, _aid, _ver, _t, _s, _a, rev in ratings:
+        by_reviewer.setdefault(rev or "?", []).append(v)
+    print("\nratings by reviewer identity:")
+    for rev, vs in sorted(by_reviewer.items(), key=lambda kv: -len(kv[1]))[:8]:
+        vs_sorted = sorted(vs)
+        med = vs_sorted[len(vs) // 2]
+        print(f"  {len(vs):5d}  {rev!r:32} min={vs_sorted[0]:g} max={vs_sorted[-1]:g} median={med:g}")
+
     print("\nreview_results fields present anywhere in the corpus:")
     for k in sorted(keys_seen):
         print(f"  - {k}")
@@ -322,7 +337,7 @@ def cmd_calibrate(args):
                                  "confidence", "vote")))
     print("  -> decision-like fields:", decisionish or "NONE — no accept/reject verdict is emitted")
 
-    vals = sorted(v for v, _, _, _, _, _ in ratings)
+    vals = sorted(v for v, _, _, _, _, _, _ in ratings)
     n = len(vals)
     mean = sum(vals) / n
     median = vals[n // 2] if n % 2 else (vals[n // 2 - 1] + vals[n // 2]) / 2
@@ -350,7 +365,7 @@ def cmd_calibrate(args):
     # Ranking above a block of one person's resubmissions is not a quality signal, so the honest
     # comparison collapses each submitter to their single best paper before ranking.
     best = {}
-    for v, aid, ver, title, summary, author in ratings:
+    for v, aid, ver, title, summary, author, _rev in ratings:
         if author not in best or v > best[author][0]:
             best[author] = (v, aid, ver, title, summary, author)
     dvals = sorted(v for v, *_ in best.values())
@@ -367,10 +382,10 @@ def cmd_calibrate(args):
 
     ranked = sorted(ratings, key=lambda t: t[0])
     print("\n=== LOWEST RATED (is the floor slop?) ===")
-    for v, aid, ver, title, summary, author in ranked[:3]:
+    for v, aid, ver, title, summary, author, _rev in ranked[:3]:
         print(f"[{v:g}] {aid} — {title}\n      {summary[:260]}\n")
     print("=== HIGHEST RATED (what does a 7-8 look like?) ===")
-    for v, aid, ver, title, summary, author in ranked[-3:]:
+    for v, aid, ver, title, summary, author, _rev in ranked[-3:]:
         print(f"[{v:g}] {aid} — {title}\n      {summary[:260]}\n")
     return 0
 
