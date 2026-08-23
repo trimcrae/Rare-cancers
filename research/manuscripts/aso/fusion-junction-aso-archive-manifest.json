@@ -10,10 +10,10 @@
     "Not a licence statement. The depositor chooses the licence at step 4 below."
   ],
   "deposition_doi": "10.5281/zenodo.22028916",
-  "git_revision": "3d8b9660d23a3a04e8d6c8662fe9255e694e5f8c",
+  "git_revision": "f1ed8c9df757b9c4671108e0986cc08f96aa42ea",
   "git_tree_is_clean_apart_from_this_manifest": false,
   "inventory_limited_to_tracked_files": true,
-  "archive_content_digest": "e72e842ef3abaf054bc30ac5bfb012849ee7a58e097b558833dc3455680f098e",
+  "archive_content_digest": "439f88edfa8cad1af1a05e6b7f941cfedde9043613ff9428786638c7135b3ea2",
   "n_files": 476,
   "self_entry": {
     "path": "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
@@ -24,7 +24,7 @@
     "_why_not_counted": "It is excluded from `files`, `n_files`, `total_bytes` and `archive_content_digest` for the same reason, which is also what keeps two runs over an unchanged tree byte-identical — the property this module's header calls the only cheap check a reader has that the file is derived rather than edited.",
     "how_a_reader_checks_it_anyway": "Two ways, neither needing a self-hash. (1) Re-derive it: check out `git_revision` and run `python3 research/manuscripts/aso_archive_manifest.py --check`, which rebuilds the whole file and exits non-zero on any difference. (2) Compare the downloaded copy's `sha256sum` against the value the deposition record states — step 4 below tells the depositor to record it there, which is the one place it can live without being self-referential."
   },
-  "total_bytes": 45383466,
+  "total_bytes": 45383575,
   "total_mib": 43.281,
   "payload_file_types": {
     "_what": "Extension census of the payload, derived from the file list. A preprint or journal uploader that accepts only document, image and container types cannot take most of these one by one; step 3 below builds the single container that sidesteps the question entirely. Check the accepted types on the uploader itself — none is asserted here.",
@@ -35,7 +35,7 @@
       },
       ".py": {
         "n_files": 68,
-        "bytes": 2961081
+        "bytes": 2961190
       },
       ".md": {
         "n_files": 12,
@@ -1354,8 +1354,8 @@
     },
     {
       "path": "research/manuscripts/build_submission_pdf.py",
-      "bytes": 144779,
-      "sha256": "fe8d789afca4b8ea565f1333f50e6036e2a174e65d48469783829395831efcba",
+      "bytes": 144888,
+      "sha256": "ce863b877605f144f53dafdf81bbbdc46b504adede9de7c34fcc40f86f5764ed",
       "serves": "import_closure",
       "also_serves": [],
       "contributes": "Imported by a released module. Not named by any availability promise; present because the code the promises DO name cannot be imported without it."
