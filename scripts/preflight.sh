@@ -89,12 +89,53 @@ cd "$(dirname "$0")/.."
 # ⚠ THIS DOES NOT WEAKEN THE GATE. What actually fails a run is a failure NOT NAMED in the list, and
 # that check is untouched -- see the `comm -23` below. Deriving the count removes bookkeeping noise;
 # it does not raise a ceiling, because the ceiling was never what caught anything.
+# ⛔⛔ THE TRAP GOES HERE, ABOVE EVERY LINE THAT CAN ABORT — AND THE FIRST VERSION DID NOT (2026-08-23).
+# It was installed after the baseline count, which is the line that actually died, so it reported
+# nothing on the very failure it was written for. Verified by re-introducing that failure: trap
+# below the assignment -> 0 bytes of output; trap above it -> the message. A `set -e` abort during
+# setup otherwise produces ZERO stdout and ZERO stderr, which reads as "nothing ran" and is
+# indistinguishable from a killed process — the exact ambiguity that makes a silent gate dangerous.
+# ⛔⛔ AND IT MUST COVER THE WHOLE RUN, NOT JUST SETUP (2026-08-23). An unguarded `grep` in a pipeline
+# aborted this script AFTER the modality suite reported 7,804 passing and zero failures, so every
+# gate below that line never ran and the only evidence was `PF_EXIT=1` with no message. That is the
+# same shape as the 2026-08-12 incident recorded at the `comm` block, and it is worse than a failing
+# check: a failing check names itself, while this one leaves a green-looking log and an exit code
+# nobody reads. `_preflight_summary_reached` is set only where the run prints its own verdict, so
+# any exit before that is reported here with the line that caused it.
+_preflight_reached_first_check=0
+_preflight_summary_reached=0
+_preflight_died() {
+  if [ "$_preflight_summary_reached" = 1 ]; then
+    return
+  fi
+  if [ "$_preflight_reached_first_check" = 0 ]; then
+    echo "PREFLIGHT ABORTED DURING SETUP at ${BASH_SOURCE[0]}:${1} -- NO CHECK RAN." >&2
+    echo "  A clean working tree proves nothing here: the gate never started." >&2
+  else
+    echo "PREFLIGHT ABORTED MID-RUN at ${BASH_SOURCE[0]}:${1}, before its summary." >&2
+    echo "  ⛔ EVERY GATE BELOW THAT LINE NEVER RAN. The checks that printed OK above are the only" >&2
+    echo "     ones that executed; this is NOT a pass, and the usual cause is a command whose" >&2
+    echo "     non-zero exit propagates under 'set -euo pipefail' -- a grep matching nothing is the" >&2
+    echo "     one that has done it twice." >&2
+  fi
+}
+trap '_preflight_died $LINENO' ERR
+
 _baseline_file=research/modalities/tests/sandbox-failure-baseline.txt
+# ⛔⛔ `|| true` IS LOAD-BEARING: AN EMPTY BASELINE KILLED THIS SCRIPT SILENTLY (2026-08-23).
+# `grep -v '^#'` exits 1 when it selects NOTHING, which is exactly what happens once every entry has
+# been pruned -- and pruning to empty is the end state a PREFLIGHT_FULL=1 run advises you toward, so
+# this was waiting for whoever finished the job. Under `pipefail` the pipeline then exits 1, and
+# under `set -e` the assignment aborts the script BEFORE THE FIRST echo: zero stdout, zero stderr,
+# exit 1. A gate that fails with no output is the "reports while measuring nothing" defect this
+# file's own header was written about, in the file itself.
 BASELINE_FAILURES="${PREFLIGHT_BASELINE_FAILURES:-$(
-  grep -v '^#' "$_baseline_file" 2>/dev/null | sed '/^[[:space:]]*$/d' | sort -u | wc -l | tr -d ' '
+  { grep -v '^#' "$_baseline_file" 2>/dev/null || true; } |
+    sed '/^[[:space:]]*$/d' | sort -u | wc -l | tr -d ' '
 )}"
 BASELINE_FAILURES="${BASELINE_FAILURES:-0}"
 rc=0
+_preflight_reached_first_check=1
 
 echo "== lint_consistency =="
 if python3 research/manuscripts/lint_consistency.py; then
@@ -437,7 +478,14 @@ if [ "${SKIP_TESTS:-0}" != "1" ]; then
       # records; here the skip was caused by the suite being green.
       grep -E '^FAILED' "$out" | sed 's/^FAILED //; s/ - .*//' | sed 's/[[:space:]]*$//' \
         | sort -u >"$got" || true
-      grep -v '^#' "$base" | sed '/^[[:space:]]*$/d' | sort -u >"$known"
+      # ⛔⛔ THE SAME `|| true`, AND IT WAS MISSING ON THIS LINE ONLY (2026-08-23). The comment
+      # directly above records the 2026-08-12 incident in which an unguarded `grep` in a pipeline
+      # "killed preflight at exactly the moment everything passed" — and the fix was applied to one
+      # of the pair. This line greps the BASELINE, which exits 1 when the file holds no entries, so
+      # once the list was legitimately pruned to empty the script aborted here: 7,804 modality tests
+      # passing, zero failures, and every gate BELOW this line silently never ran. One-of-a-pair,
+      # inside the fix for the defect it repeats.
+      { grep -v '^#' "$base" || true; } | sed '/^[[:space:]]*$/d' | sort -u >"$known"
       new=$(comm -23 "$got" "$known"); fixed=$(comm -13 "$got" "$known")
       if [ -n "$new" ]; then
         echo "   FAILED: $(printf '%s\n' "$new" | wc -l | tr -d ' ') failure(s) NOT in the sandbox baseline."
@@ -497,7 +545,7 @@ if [ "${SKIP_TESTS:-0}" != "1" ]; then
     echo "   FAILED: pytest reported no test count -- the run collected nothing."
     tail -5 "$mout"; rc=1
   elif grep -qE '^(FAILED|ERROR )' "$mout"; then
-    echo "   FAILED:"; grep -E '^(FAILED|ERROR )' "$mout" | sed 's/^/     /'
+    echo "   FAILED:"; { grep -E '^(FAILED|ERROR )' "$mout" || true; } | sed 's/^/     /'
     rc=1
   else
     echo "   OK"
@@ -519,12 +567,15 @@ if ! grep -qE '[0-9]+ (passed|failed)' "$sout"; then
   echo "   FAILED: pytest reported no test count -- the run collected nothing."
   tail -5 "$sout"; rc=1
 elif grep -qE '^(FAILED|ERROR )' "$sout"; then
-  echo "   FAILED:"; grep -E '^(FAILED|ERROR )' "$sout" | sed 's/^/     /'
+  echo "   FAILED:"; { grep -E '^(FAILED|ERROR )' "$sout" || true; } | sed 's/^/     /'
   rc=1
 else
   echo "   OK"
 fi
 rm -f "$sout"
+
+# The run reached its own verdict, so an exit from here on is the verdict rather than an abort.
+_preflight_summary_reached=1
 
 if [ "$rc" -ne 0 ]; then
   echo; echo "PREFLIGHT FAILED -- do not commit."

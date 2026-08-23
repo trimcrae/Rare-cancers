@@ -26,6 +26,7 @@ Usage:
 from __future__ import annotations
 
 import csv
+import re
 import os
 import sys
 
@@ -185,14 +186,41 @@ def build() -> str:
         bad = _at(rows, seq)
         twin_seq, relation = _twin(bad)
         good = _at(rows, twin_seq)
-        out.append(f"| {_seam(bad['junction'])} | 5′-{bad['sequence']}-3′ | DO NOT ORDER | "
+        # `relation` is the twin cell's parenthetical, e.g. "a single-base slide; orderable" —
+        # the slide description and the OTHER member's verdict, both from the canonical file.
+        slide, _, twin_verdict = relation.partition(";")
+        out.append(f"| {_seam(bad['junction'])} | 5′-{bad['sequence']}-3′ | {_verdict(bad)} | "
                    f"{bad['gap_level_margin']} | {_duplex(bad)} |")
-        out.append(f"| {_seam(good['junction'])} | 5′-{good['sequence']}-3′ | orderable "
-                   f"({relation.replace('; orderable','')}) | {good['gap_level_margin']} | "
-                   f"{_duplex(good)} |")
+        out.append(f"| {_seam(good['junction'])} | 5′-{good['sequence']}-3′ | "
+                   f"{_verdict(good, twin_verdict.strip())} ({slide.strip()}) | "
+                   f"{good['gap_level_margin']} | {_duplex(good)} |")
     out.append("")
     return "\n".join(out)
 
+
+
+def _verdict(row, twin_relation=None):
+    """The verdict cell, READ from the canonical file, never typed here.
+
+    ⛔⛔ THIS COLUMN WAS TWO f-STRING LITERALS, AND THAT MADE THE PREAMBLE FALSE (round 16 seat 2).
+    The page opens by promising "every cell below is a column of `fusion-junction-aso-sequences.csv`
+    … except the test-article column of Table 1" — one exception named, and there were two. That is
+    the sentence the whole page's authority rests on, and it was the only checkable provenance claim
+    in the file, so it was the one thing worth auditing mechanically and nothing did.
+    ⚠ WORSE THAN A WRONG NUMBER: a typed verdict can be pointed at a design the canonical file
+    CLEARS, printing DO NOT ORDER against an orderable reagent and `orderable` against a condemned
+    one, under a caption that still reads correctly.
+    ★ Both words are already in the record — `do_not_order` carries the condemned label, and the
+    twin's `near_identical_design_with_a_different_verdict` cell names the other member's verdict —
+    so neither needs typing, and the preamble becomes true again with no rewording. Word cost: 0.
+    """
+    cell = (row.get("do_not_order") or "").strip()
+    if cell:
+        return re.split(r"\s+[—-]\s+", cell, maxsplit=1)[0].strip()
+    if not twin_relation:
+        raise SystemExit(f"{row['sequence']}: the canonical file records no verdict for this design "
+                         "and no twin naming one, so Table 2's verdict cell would have to be typed")
+    return twin_relation
 
 
 def _slides_to_a_named_lead(rows):
