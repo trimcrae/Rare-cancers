@@ -21,7 +21,7 @@ on:
       mode:
         description: "What to do"
         type: choice
-        options: [verify, dry-run-submit, submit, new-version, review, fetch, calibrate]
+        options: [verify, dry-run-submit, submit, new-version, review, fetch, status, calibrate]
         default: verify
       pdf:
         description: "Path to the PDF (submit / dry-run-submit / review)"
@@ -139,6 +139,14 @@ jobs:
           python3 scripts/aixiv_review.py review \
             --aixiv-id "${{ inputs.aixiv_id }}" --version "${{ inputs.version }}" \
             --pdf "${{ inputs.pdf }}" ${{ inputs.seed && format('--seed {0}', inputs.seed) || '' }}
+
+      # ⛔ WHAT TO RUN WHEN `fetch` COMES BACK EMPTY. An empty review_list cannot distinguish "the
+      # version does not exist" from "it exists but is not queued" from "it is queued and the
+      # reviewer has not run", and polling harder distinguishes none of them. This prints every
+      # version aiXiv holds for the id with its status and review count. Needs no token.
+      - name: What aiXiv holds for this paper (versions, status, review counts)
+        if: ${{ inputs.mode == 'status' }}
+        run: python3 scripts/aixiv_review.py status --aixiv-id "${{ inputs.aixiv_id }}"
 
       - name: Fetch recorded reviews
         if: ${{ inputs.mode == 'fetch' }}

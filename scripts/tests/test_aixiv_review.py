@@ -236,3 +236,50 @@ def test_the_filename_keeps_the_form_the_caller_used():
 def test_a_version_that_only_looks_v_prefixed_is_left_alone():
     """`velocity-2` is not a version with a `v` prefix, and stripping it would corrupt the request."""
     assert aixiv_review._api_version("velocity-2") == "velocity-2"
+
+
+def test_status_reports_a_failed_review_lookup_rather_than_counting_it_as_zero(monkeypatch, capsys):
+    """⛔ THE WHOLE POINT OF `status` IS THAT AN EMPTY READING HAS SEVERAL CAUSES.
+
+    A lookup that ERRORS and a lookup that returns no reviews are different facts, and collapsing
+    the first into `reviews=0` would rebuild the ambiguity this command exists to resolve — in the
+    one place a reader would trust it.
+    """
+    def _req(path, **k):
+        if path.startswith("/api/submissions/public"):
+            return [{"aixiv_id": "x", "version": "1.4", "status": "Under Review"}] \
+                if "skip=0" in path else []
+        raise aixiv_review.AixivError("HTTP 503: upstream unavailable")
+
+    monkeypatch.setattr(aixiv_review, "_request", _req)
+    aixiv_review.main(["status", "--aixiv-id", "x"])
+    out = capsys.readouterr().out
+    assert "LOOKUP FAILED" in out
+    assert "reviews=0" not in out
+
+
+def test_status_says_absent_from_the_listing_is_not_absent_from_aixiv(monkeypatch, capsys):
+    """A paper can be missing from the PUBLIC listing without being missing from the platform."""
+    monkeypatch.setattr(aixiv_review, "_request", lambda path, **k: [])
+    aixiv_review.main(["status", "--aixiv-id", "nope"])
+    out = capsys.readouterr().out
+    assert "NOT IN THE PUBLIC LISTING" in out
+    assert "not the same as absent from aiXiv" in out
+
+
+def test_status_counts_reviews_per_version(monkeypatch, capsys):
+    def _req(path, **k):
+        if path.startswith("/api/submissions/public"):
+            return ([{"aixiv_id": "x", "version": "1.3", "status": "Reviewed"},
+                     {"aixiv_id": "x", "version": "1.4", "status": "Under Review"},
+                     {"aixiv_id": "other", "version": "1.0", "status": "Reviewed"}]
+                    if "skip=0" in path else [])
+        body = json.loads(k["data"])
+        return {"review_list": [{"id": 1}] if body["version"] == "1.3" else []}
+
+    monkeypatch.setattr(aixiv_review, "_request", _req)
+    aixiv_review.main(["status", "--aixiv-id", "x"])
+    out = capsys.readouterr().out
+    assert "v1.3" in out and "reviews=1" in out
+    assert "v1.4" in out and "reviews=0" in out
+    assert "other" not in out, "a different paper's row leaked into the report"

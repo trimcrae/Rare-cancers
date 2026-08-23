@@ -240,6 +240,53 @@ def cmd_submit(args):
     return 0
 
 
+def cmd_status(args):
+    """What does aiXiv itself hold for this paper — which versions, and in what state?
+
+    ⛔ WHY THIS EXISTS. `fetch` returning an empty `review_list` is an absent reading, and an absent
+    reading has at least three causes that it cannot tell apart: the version does not exist, it
+    exists but is not queued for review, or it is queued and the reviewer has not run. Polling
+    harder distinguishes none of them. Measured 2026-08-23: `aixiv.260822.000005` v1.4 posted
+    cleanly — the server's own response carried `"version": "1.4"` and a new submission_id — and 80
+    minutes later `get-review` was still empty. Without this command the only next move was to guess.
+
+    Reads `/api/submissions/public`, which needs no token, and prints every row for the id: version,
+    status, and whether a review comes back for it. ⚠ A paper absent from the PUBLIC listing is not
+    thereby absent from aiXiv — the listing is what is public, and that is said rather than implied.
+    """
+    seen = []
+    skip = 0
+    while True:
+        page = _request(f"/api/submissions/public?skip={skip}&limit=100", method="GET")
+        rows = page if isinstance(page, list) else (page.get("submissions") or page.get("data") or [])
+        if not rows:
+            break
+        for r in rows:
+            if r.get("aixiv_id") == args.aixiv_id:
+                seen.append(r)
+        skip += 100
+        if skip > 5000:                       # the archive is ~1.3k; this is a runaway guard
+            break
+    if not seen:
+        print(f"NOT IN THE PUBLIC LISTING: {args.aixiv_id}")
+        print("  ⚠ That is not the same as absent from aiXiv. The listing serves PUBLIC submissions;")
+        print("    a row can be missing because it is not public, not because it does not exist.")
+        return 0
+    print(f"{args.aixiv_id}: {len(seen)} row(s) in the public listing")
+    for r in sorted(seen, key=lambda x: str(x.get("version"))):
+        ver = str(r.get("version") or "?")
+        try:
+            rev = _request(EP_GET_REVIEW, method="POST",
+                           data=json.dumps({"aixiv_id": args.aixiv_id,
+                                            "version": _api_version(ver)}).encode(),
+                           headers={"Content-Type": "application/json"})
+            n = len(rev.get("review_list") or [])
+        except AixivError as e:                # a failed lookup is reported, never counted as zero
+            n = f"LOOKUP FAILED: {e}"
+        print(f"  v{ver:<6} status={str(r.get('status')):<26} reviews={n}")
+    return 0
+
+
 def cmd_calibrate(args):
     """What does a Rating of N actually mean here? Measure it against the public corpus.
 
@@ -532,6 +579,10 @@ def main(argv=None):
     r.add_argument("--lit-search", action="store_true")
     r.add_argument("--dry-run", action="store_true")
     r.set_defaults(fn=cmd_review)
+
+    st = sub.add_parser("status", help="what aiXiv holds for a paper: versions, status, review counts")
+    st.add_argument("--aixiv-id", required=True)
+    st.set_defaults(fn=cmd_status)
 
     f = sub.add_parser("fetch", help="pull recorded reviews for a submission version")
     f.add_argument("--aixiv-id", required=True)
