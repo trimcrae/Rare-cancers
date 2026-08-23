@@ -1,0 +1,545 @@
+{
+  "_what": "Predicted class I coverage of the EWSR1::NR4A3 junction as a continuous function of the MHCflurry presentation-percentile acceptance threshold, over the fixed 34-allele panel of epitope-allele-matrix.json.",
+  "_why": "The manuscript's coverage figures rest on a threshold it does not defend (\u00a77) and were stated at three points (\u00a72.3). This is the function between and beyond them.",
+  "\u26d4_what_this_is_not": "Not an argument for a looser cut, and not a better coverage number. A threshold chosen to raise coverage is the defect this analysis exists to expose. Every figure here is predicted binding \u2014 a screen, not evidence of presentation, immunogenicity or benefit.",
+  "_method": "presenting alleles at threshold t = alleles with >=1 junction peptide at presentation percentile <= t; coverage = 1 - prod(1-af)^2 over them via hla_coverage.coverage_with_ci on AFND-pooled frequencies \u2014 the manuscript's own formula and frequencies, imported not reimplemented, so this curve cannot disagree with the headline number. CI propagated from per-allele Wilson bounds.",
+  "_sources": [
+    "Gonzalez-Galarza FF, et al. Allele frequency net database (AFND) 2020 update. Nucleic Acids Res. 2020;48:D783-D788. Mirror: github.com/slowkow/allelefrequencies (MIT).",
+    "Region mapping: ISO 3166 / UN M49 sub-regions via github.com/lukes/ISO-3166-Countries-with-Regional-Codes."
+  ],
+  "\u26a0_the_manuscript_withdraws_these_intervals": "coverage_95ci is emitted because hla_coverage computes it, and MUST NOT be quoted. \u00a72.3 withdraws the Wilson intervals: they pool every reference population into one binomial while the same records show HLA-B*15:01 ranging 0 to 0.40 between those populations, so the single-urn model is refuted by its own input \u2014 and the interval is an order of magnitude narrower than the threshold sensitivity this curve maps.",
+  "_provenance": "committed epitope-allele-matrix.json \u2014 strict cut only; no MHCflurry and no loose cache available",
+  "_ceiling": {
+    "value": 0.5,
+    "meaning": "largest threshold this data can speak to. Above it, an allele's absence means it was never predicted, NOT that it failed to bind.",
+    "above_the_conventional_cut": false
+  },
+  "conventional_threshold": 0.5,
+  "at_conventional_threshold": {
+    "threshold": 0.5,
+    "n_presenting_alleles": 4,
+    "coverage": 0.304,
+    "coverage_95ci": [
+      0.2951,
+      0.3132
+    ],
+    "alleles": [
+      "HLA-A*01:01",
+      "HLA-A*30:02",
+      "HLA-B*07:02",
+      "HLA-B*15:01"
+    ]
+  },
+  "lowest_threshold_with_any_presenting_allele": {
+    "threshold": 0.38,
+    "n_presenting_alleles": 1,
+    "coverage": 0.0851,
+    "coverage_95ci": [
+      0.0826,
+      0.0876
+    ],
+    "alleles": [
+      "HLA-B*15:01"
+    ]
+  },
+  "allele_frequencies": {
+    "HLA-A*01:01": {
+      "allele_frequency": 0.0641,
+      "af_95ci": [
+        0.0622,
+        0.066
+      ],
+      "carrier_frequency": 0.124,
+      "n_populations": 210,
+      "total_individuals": 32777,
+      "af_range_across_populations": [
+        0.0,
+        0.333
+      ]
+    },
+    "HLA-A*30:02": {
+      "allele_frequency": 0.0211,
+      "af_95ci": [
+        0.0198,
+        0.0224
+      ],
+      "carrier_frequency": 0.0417,
+      "n_populations": 144,
+      "total_individuals": 24179,
+      "af_range_across_populations": [
+        0.0,
+        0.233
+      ]
+    },
+    "HLA-B*07:02": {
+      "allele_frequency": 0.048,
+      "af_95ci": [
+        0.0464,
+        0.0498
+      ],
+      "carrier_frequency": 0.0938,
+      "n_populations": 175,
+      "total_individuals": 30647,
+      "af_range_across_populations": [
+        0.0,
+        0.19
+      ]
+    },
+    "HLA-B*15:01": {
+      "allele_frequency": 0.0435,
+      "af_95ci": [
+        0.0422,
+        0.0448
+      ],
+      "carrier_frequency": 0.085,
+      "n_populations": 265,
+      "total_individuals": 45574,
+      "af_range_across_populations": [
+        0.0,
+        0.4007
+      ]
+    }
+  },
+  "curve": [
+    {
+      "threshold": 0.01,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.02,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.03,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.04,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.05,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.06,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.07,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.08,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.09,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.1,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.11,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.12,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.13,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.14,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.15,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.16,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.17,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.18,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.19,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.2,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.21,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.22,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.23,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.24,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.25,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.26,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.27,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.28,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.29,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.3,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.31,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.32,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.33,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.34,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.35,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.36,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.37,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.38,
+      "n_presenting_alleles": 1,
+      "coverage": 0.0851,
+      "coverage_95ci": [
+        0.0826,
+        0.0876
+      ],
+      "alleles": [
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.39,
+      "n_presenting_alleles": 1,
+      "coverage": 0.0851,
+      "coverage_95ci": [
+        0.0826,
+        0.0876
+      ],
+      "alleles": [
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.4,
+      "n_presenting_alleles": 1,
+      "coverage": 0.0851,
+      "coverage_95ci": [
+        0.0826,
+        0.0876
+      ],
+      "alleles": [
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.41,
+      "n_presenting_alleles": 3,
+      "coverage": 0.2321,
+      "coverage_95ci": [
+        0.2248,
+        0.2393
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*30:02",
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.42,
+      "n_presenting_alleles": 3,
+      "coverage": 0.2321,
+      "coverage_95ci": [
+        0.2248,
+        0.2393
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*30:02",
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.43,
+      "n_presenting_alleles": 3,
+      "coverage": 0.2321,
+      "coverage_95ci": [
+        0.2248,
+        0.2393
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*30:02",
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.44,
+      "n_presenting_alleles": 3,
+      "coverage": 0.2321,
+      "coverage_95ci": [
+        0.2248,
+        0.2393
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*30:02",
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.45,
+      "n_presenting_alleles": 3,
+      "coverage": 0.2321,
+      "coverage_95ci": [
+        0.2248,
+        0.2393
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*30:02",
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.46,
+      "n_presenting_alleles": 4,
+      "coverage": 0.304,
+      "coverage_95ci": [
+        0.2951,
+        0.3132
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.47,
+      "n_presenting_alleles": 4,
+      "coverage": 0.304,
+      "coverage_95ci": [
+        0.2951,
+        0.3132
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.48,
+      "n_presenting_alleles": 4,
+      "coverage": 0.304,
+      "coverage_95ci": [
+        0.2951,
+        0.3132
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.49,
+      "n_presenting_alleles": 4,
+      "coverage": 0.304,
+      "coverage_95ci": [
+        0.2951,
+        0.3132
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.5,
+      "n_presenting_alleles": 4,
+      "coverage": 0.304,
+      "coverage_95ci": [
+        0.2951,
+        0.3132
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*15:01"
+      ]
+    }
+  ]
+}

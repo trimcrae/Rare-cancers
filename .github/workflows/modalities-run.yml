@@ -104,6 +104,14 @@ jobs:
         continue-on-error: true
         run: python research/modalities/coverage_scan.py
 
+      # ⭐ Added 2026-08-23 answering aiXiv reviews 1363 and 1364, which both asked for coverage as
+      # a continuous function of the acceptance threshold. MUST run after coverage_scan.py: it reads
+      # that step's panel, and it needs MHCflurry to say anything ABOVE the 0.5 cut the committed
+      # matrix stops at (below it, it runs anywhere off the committed matrix).
+      - name: Coverage vs. acceptance-threshold curve (threshold-agnostic)
+        continue-on-error: true
+        run: python research/modalities/coverage_threshold_curve.py
+
       - name: Candidate vaccine construct (minimal SLP + string-of-beads)
         continue-on-error: true
         run: python research/modalities/vaccine_construct.py
@@ -153,6 +161,8 @@ jobs:
           cp research/modalities/epitope-allele-matrix.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/coverage-curve.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/coverage-curve.png "$RUNNER_TEMP/res/" 2>/dev/null || true
+          cp research/modalities/coverage-threshold-curve.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+          cp research/modalities/epitope-allele-loose-matrix.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/vaccine-construct.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/patient-neoepitopes-demo.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/patient-neoepitopes-taf15-demo.json "$RUNNER_TEMP/res/" 2>/dev/null || true
