@@ -36,9 +36,14 @@ on:
         required: false
         default: ""
       version:
-        description: "Submission version, e.g. v1.0 (review / fetch)"
+        # ⛔ BARE, NOT `v`-PREFIXED. aiXiv LABELS versions `v1.4` but /api/get-review rejects that
+        # form with HTTP 422 — "version must be in the format 'X.Y' or 'X.Y.Z'" (run 32648024032).
+        # The client normalises it now, so either form reaches the API correctly; this default is
+        # bare anyway because it is also what the commit message below interpolates, and `v${{...}}`
+        # over a `v`-prefixed input produced "vv1.4".
+        description: "Submission version WITHOUT the v prefix, e.g. 1.0 (review / fetch)"
         required: false
-        default: "v1.0"
+        default: "1.0"
       seed:
         description: "Review seed — record it with the round's pin so the round is re-runnable"
         required: false

@@ -72,6 +72,13 @@ and no vote. Do not tell anyone a paper was "accepted" on aiXiv.
   drawn from `/api/categories`. This contract appears **nowhere** in `openapi.json`, which types the
   field as a bare array; it surfaced only as an HTTP 400 on a live submit. There is no "Cancer
   Biology" node.
+- **THE PLATFORM'S VERSION LABEL IS NOT THE API'S VERSION FORMAT.** aiXiv shows and names versions
+  as `v1.4`; `/api/get-review` and the review endpoints reject that with **HTTP 422** — *"version
+  must be in the format 'X.Y' or 'X.Y.Z', e.g. 1.0, 2.1, 1.9.3"*. So the form a caller reads off the
+  page, and the form this skill's own examples used to print, is the one form that fails. The client
+  now strips a leading `v` at the request boundary (only when a digit follows, so `velocity-2`
+  survives) and keeps the labelled form in filenames and logs, which is what a human matching an
+  artifact against the aiXiv page is looking at.
 - **Cloudflare answers urllib's default User-Agent with HTTP 403 "error code: 1010".** That is an
   EDGE verdict on the client's browser signature, not an API verdict on your token — and it reads
   exactly like a bad credential. The client sends a browser UA for this reason; do not remove it.
@@ -144,16 +151,62 @@ the right shape beat four revisions of the wrong one.
 6. **`mode=submit`** (or `new-version`) — double-gated: the workflow input *and* the script's
    `--i-understand-this-is-outward-facing`. A new version does **not** withdraw the old one; aiXiv
    keeps both rows under the same id.
-7. **Wait, then `mode=fetch`.** ⛔ Reviews do **not** arrive in ~3 minutes — a fetch at +3 min came
-   back empty, and measured review timestamps run **75 minutes apart**. `fetch` commits the review
-   to the branch via `publish_artifacts.sh` so a hardening round can cite it by path.
-   ⚠ **An empty `review_list` is an absent reading, not a pass.**
+7. **Wait, then `mode=fetch`.** ⛔ **THE LATENCY IS NOT KNOWN, AND DO NOT CLAIM ONE.** The record
+   holds two observations that do not agree, and the disagreement is unresolved: `v1.0`'s review
+   appeared **about three minutes** after submission (recorded in the preprint checklist), while
+   `v1.4` was still unreviewed **40 minutes** after its post. Four `create_time`s on the same paper
+   — `00:23:44`, `01:38:33`, `07:08:45`, `08:08:39` — are consistent with a schedule, but the field
+   carries no timezone and none of them has been tied to its own post time, so **they do not
+   establish a cadence** and an earlier version of this section wrongly said they did.
+   ⚠ What follows operationally is the same either way: **budget an hour, re-dispatch periodically,
+   and do not read an early empty result as a verdict.** The discriminating observation nobody has
+   taken is a post time and its review's `create_time` on the same clock; take it and replace this
+   paragraph. `fetch` commits the review to the branch via
+   `publish_artifacts.sh` so a hardening round can cite it by path.
+   ⚠ **An empty `review_list` is an absent reading, not a pass** — and polling the *committed file*
+   is not polling aiXiv: that file only changes when a `fetch` run commits it, so a loop watching
+   the branch after a single dispatch watches a static file forever. Re-dispatch each check.
+   ⚠ **aixiv.science is not reachable from the dev sandbox** (403 at the egress proxy), so every
+   check costs a CI dispatch. Space them to the cadence above rather than polling per minute.
 8. **`mode=calibrate`** before quoting any rating.
 
 ⛔ **`start_attack_review` RETURNS HTTP 500** (measured twice, 2026-08-22 and 2026-08-23). The manual
 re-review path is broken server-side, so a review cannot be re-run on a fixed version and the
 **variance of the score is unmeasurable**. Reviews arrive automatically, one per new submission.
 `fetch` is the normal path; `review` is a broken override.
+
+## 4b · ⛔⛔ READ THE BUILT PDF BEFORE YOU POST IT. THE REVIEWER READS THAT, NOT THE MARKDOWN
+
+Every gate in this repository reads the **manuscript source**. `lint_consistency`, `lint_claims`,
+`lint_style`, the one-of-a-pair number guards — all of them open the `.md`. **Nothing was reading the
+PDF**, which is the only artifact a reviewer ever sees. Two defects rode four published versions of
+one paper because of that, and both were found in about a minute by extracting the PDF's text:
+
+- **Markdown backslash escapes were never unescaped.** `build_submission_pdf.py` had no rule for
+  `\*`, so `HLA-B\*15:01` reached the emphasis pass with its backslash intact and its asterisk live.
+  One escaped allele on a line printed `HLA-B\15:01`. **Two on a line was worse**: the span between
+  their live asterisks parsed as emphasis, so `HLA-A\*01:01, HLA-B\*07:02` came out as `HLA-A\` +
+  *italic* `01:01, HLA-B\` + `07:02` — both allele names destroyed and unrelated text italicised.
+  The paper carries 35 escaped alleles and its entire subject is which HLA alleles present a peptide.
+  ⚠ **The one-allele case passes a naive test.** A guard that checks a single escaped allele is green
+  throughout the incident, because one asterisk never triggers the emphasis rule. **Test two.**
+- **The venue banner on page 1 was false.** It read *"prepared for deposit as a bioRxiv preprint and
+  is not yet posted"* while the paper was posted on aiXiv and being read there. A venue banner is a
+  claim like any other and goes stale the moment the deposit happens.
+
+**So the step, before every post:**
+
+```python
+import pypdf
+t = "\n".join(p.extract_text() for p in pypdf.PdfReader(PDF).pages)
+assert t.count("\\") == 0                 # no markdown escape survived
+for probe in (lead_peptide, lead_allele, "Table 1"):
+    assert probe in t                     # note: the builder emits `Table\xa01`
+```
+
+⚠ Extraction quirks are not defects: a non-breaking space between "Table" and its number, and
+hyphenless line joins, are how the typesetter works. **A backslash is a defect.** Check the count,
+not the appearance.
 
 ## 5 · Where aiXiv sits in the portfolio
 

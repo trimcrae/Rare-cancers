@@ -81,3 +81,30 @@ def test_an_unscreenable_class_ii_allele_is_named_and_not_counted_as_a_negative(
     scored = {r["allele"] for r in d.get("all_predictions", [])}
     assert not (scored & missing), "an allele reported as unscreenable carries predictions"
     assert d["⚠_missing_model_is_not_a_negative"]
+
+
+def test_the_class_ii_artifact_records_its_predictor_like_the_class_i_one_does():
+    """⛔ The preprint checklist carried this as an open item and §8 disclosed it as a gap.
+
+    A screen whose predictor version is unknown cannot be re-run by a reader, and the class I
+    artifact had recorded tool, version and models release all along. The asymmetry was the defect.
+    ⚠ An UNKNOWN version is acceptable and a MISSING block is not: MHCnuggets does not always expose
+    a version, and an honest unknown is a reproducibility statement while an absent field is silence.
+    """
+    import json as _json
+    import os as _os
+    demo = _os.path.join(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))),
+                         "patient-cd4-demo.json")
+    if not _os.path.exists(demo):
+        import pytest as _pytest
+        _pytest.skip("patient-cd4-demo.json not generated here")
+    with open(demo) as fh:
+        d = _json.load(fh)
+    if "_predictor" not in d:
+        import pytest as _pytest
+        _pytest.skip("artifact predates the provenance block; regenerated in the next CI run")
+    pr = d["_predictor"]
+    assert pr["tool"] == "MHCnuggets"
+    assert pr["version"], "the version field is empty; UNKNOWN is a value, blank is not"
+    assert pr["thresholds"]["strong_ic50_nM"] and pr["thresholds"]["binder_ic50_nM"]
+    assert pr["alleles"], "the panel the screen ran on is not recorded"

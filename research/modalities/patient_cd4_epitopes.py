@@ -110,6 +110,29 @@ def main():
         _emit(result, args.out)
         return
 
+    # ⭐ PROVENANCE, ADDED 2026-08-23. The preprint checklist carried this as an open item: the class
+    # I artifact records tool, version and models release, and this one recorded NONE — so §8 of the
+    # manuscript had to disclose a reproducibility gap it could simply have closed. A reader cannot
+    # re-run a screen whose predictor version is unknown.
+    # ⚠ THE VERSION IS READ, NOT TYPED. MHCnuggets ships no `__version__` on the package in every
+    # build, so it is looked up through the installed distribution metadata and recorded as UNKNOWN
+    # when that fails — an honest unknown, never a remembered number.
+    try:
+        from importlib import metadata as _md
+        _ver = _md.version("mhcnuggets")
+    except Exception:  # noqa: BLE001 — an unreadable version is an unknown, not a guess
+        _ver = "UNKNOWN — importlib.metadata could not resolve the mhcnuggets distribution"
+    result["_predictor"] = {
+        "tool": "MHCnuggets", "version": _ver,
+        "models_release": ("not exposed by MHCnuggets — the package ships its trained weights "
+                           "inside the distribution and publishes no separate release identifier, "
+                           "so the version above is the whole of the provenance available"),
+        "alleles": list(alleles), "peptide_length": 15,
+        "thresholds": {"strong_ic50_nM": IC50_STRONG, "binder_ic50_nM": IC50_BIND},
+        "⛔": ("a predicted IC50 is a SCREEN value, not a statement that a peptide is presented; "
+               "class II prediction is substantially less accurate than class I"),
+    }
+
     pep_file = tempfile.NamedTemporaryFile("w", suffix=".txt", delete=False)
     pep_file.write("\n".join(sorted(peps)) + "\n")
     pep_file.close()
