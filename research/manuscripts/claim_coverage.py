@@ -153,12 +153,11 @@ MAX_MATCH_SHARE = 0.10
 #: ★ A pattern is non-binding only when it matches MORE THAN the greater of one sentence and the
 #: share, so one sentence is always bindable however short the document.
 #:
-#: ⚠ MEASURED AFTER THE DOCUMENT-SCOPE FIX, THE TABLES FILE IS STILL 0/9 — AND FOR A DIFFERENT AND
-#: WORSE REASON, so do not read this line as having fixed it. Only two test files name that document
-#: and no pin is homed to it; of 34 in-scope patterns exactly one matches anything, and that one is
-#: `5′|[.;:]`, a punctuation splitter that hits all nine. The display items the journal article cites
-#: have essentially NO instruments. That is a manuscript finding, tracked separately; this constant
-#: is fixed so a future binding cannot be silently discarded by arithmetic.
+#: ⚠ AT THE TIME THIS WAS WRITTEN THE TABLES FILE STILL READ 0/9 AFTER THE SCOPE FIX, for a different
+#: and worse reason than the arithmetic: almost nothing named that document. That has since been
+#: closed — six test files name it now and the census reads 4 of 10 — so this constant is not what
+#: fixed it and must not be read as though it were. It is fixed so that a future binding on a short
+#: document cannot be silently discarded before the coverage loop runs.
 
 
 def _binds_literal_text(pattern, runlen=4):

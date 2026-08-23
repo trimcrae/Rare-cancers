@@ -138,7 +138,23 @@ def test_the_document_is_byte_identical_after_an_ablation():
     before = io.open(path, encoding="utf-8").read()
     rows = [r for r in claim_coverage.census("journal-article")
             if r["covered"] and re.search(r"\d", r["sentence"])]
-    claim_ablation.ablate("journal-article", rows[0], witnesses=[])
+
+    # ⛔⛔ THIS TEST WAS VACUOUS FROM THE DAY IT WAS WRITTEN (round 17 seat A, 2026-08-23). It took
+    # `rows[0]`, whose sentence has no verbatim home in the raw file, so `ablate` returned
+    # NOT_APPLIED before performing a single write — instrumented: ZERO writes. It asserted a file
+    # was unchanged after an operation that never began, and passed on every run.
+    # ⚠ `ablate` returns a `status` FOR THIS REASON and the docstring says a caller reading `red`
+    # without checking it is reading absence as evidence. The test written to guard the manuscript
+    # against corruption made exactly that mistake about itself.
+    result = None
+    for row in rows:
+        result = claim_ablation.ablate("journal-article", row, witnesses=[])
+        if result["status"] == claim_ablation.APPLIED:
+            break
+    assert result is not None and result["status"] == claim_ablation.APPLIED, (
+        "no covered numbered sentence could be perturbed at all, so this test performed no write "
+        "and its assertion below is about an operation that never happened. That is the failure "
+        "mode it exists to detect, one level up.")
     assert io.open(path, encoding="utf-8").read() == before, (
         f"{os.path.basename(path)} was not restored after an ablation. The restore is in a `finally` "
         "and digest-verified; if this fires, the process was killed mid-mutation — recover the file "

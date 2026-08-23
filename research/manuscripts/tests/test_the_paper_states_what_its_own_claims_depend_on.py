@@ -168,12 +168,13 @@ COVERAGE_FLOOR = {"journal-article": {"covered": 68, "with_a_number_covered": 44
 #: one reason only: the MEASUREMENT changed, not the coverage. No binding was removed. Lowering a
 #: floor because a run went red would be the defect; lowering it because the instrument was proved
 #: wrong is the correction. Say which, in the commit, every time.
-#: ⛔ journal-tables sits at 0 of 9 and is DELIBERATELY ABSENT rather than pinned at zero: a floor of
-#: zero reads as covered-enough. It is an open finding — and round 16 established WHY it is zero, which
-#: is worse than the arithmetic bug first suspected: only two test files name that document, no pin is
-#: homed to it, and of 34 in-scope patterns exactly one matches anything (`5′|[.;:]`, a punctuation
-#: splitter hitting all nine sentences). The display items the journal article cites have essentially
-#: no instruments.
+#: ⛔⛔ THE PARAGRAPH THAT STOOD HERE DESCRIBED A STATE THIS FILE HAD ALREADY FIXED (round 17 seat A,
+#: 2026-08-23). It said journal-tables "sits at 0 of 9", is "DELIBERATELY ABSENT rather than pinned at
+#: zero", that "only two test files name that document" and that "of 34 in-scope patterns exactly one
+#: matches anything" — every number wrong, and contradicted by the FLOOR CONSTANT THREE LINES ABOVE
+#: IT, which pins that document at 4/1. Measured now: 4 of 10, six test files naming it, 90 in-scope
+#: patterns. ⚠ Narration ages; a constant does not. When they disagree the constant is the reading and
+#: the prose is the bug — which is this suite's own subject, committed into its own margin.
 #:
 #: ⛔⛔ AND THESE FLOORS MOVED DOWN A SECOND TIME (51/40 -> 44/33), WHICH IS TWICE IN ONE SESSION AND
 #: MUST NOT BECOME A HABIT. The cause is again the instrument, not the coverage: the census counted a

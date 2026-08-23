@@ -42,11 +42,19 @@ TWO ERROR DIRECTIONS, BOTH FATAL, AND THE SECOND IS THE ONE INSPECTION NEVER FIN
                    -> the census under-reports. Wastes review budget, and (round 16) is what a
                       threshold that cannot represent a short document looks like from outside.
 
-⚠ SCOPE, STATED HONESTLY. The perturbation is defined only where it is unambiguous: a sentence
-stating a NUMBER, whose first digit-run is changed to a different value. That is exactly the
-population the coverage ratchet floors (`with_a_number_covered`), and it is the population whose
-guards are supposed to be numeric. Sentences carrying only a PREDICATE are out of scope here and
-are covered by the title-predicate guards instead; this module does not pretend otherwise.
+⚠ SCOPE, STATED HONESTLY, AND THE FIRST VERSION OF THIS PARAGRAPH WAS NOT (round 17 seat A). It
+said the perturbation changes "the first digit-run", while `ablate`'s own docstring said EVERY digit
+run is tried — the module documented two different behaviours, and the function implementing the one
+described here had ZERO callers. It also disposed of predicate sentences as "out of scope", which is
+false: 9 of the 44 covered numbered article sentences carry no claim number at all, only digits
+inside identifiers ("RNase-H1", "5-6-5", "three of three"), so they are perturbed on something that
+is not their claim and pass for the wrong reason.
+
+WHAT IS ACTUALLY TRUE: every digit run in the sentence is tried and the FIRST one that trips any
+guard wins. That answers "would anything notice a change here?", which is the question the census is
+a proxy for. It does NOT answer "is this sentence's own claim watched?" — a sentence can pass on an
+exon number while its rate goes unread. Reported, not hidden: `claim_coverage.json` records the
+per-sentence witness list, and the gap between the two questions is the honest residue.
 """
 from __future__ import annotations
 
@@ -69,20 +77,6 @@ import claim_coverage as cc  # noqa: E402
 
 #: The witness kinds the census emits, and the command that re-runs each one.
 _LINT_CONSISTENCY = [sys.executable, os.path.join(HERE, "lint_consistency.py")]
-
-
-def perturb(sentence):
-    """Change the first digit-run to a DIFFERENT value, or return None if there is none.
-
-    ⚠ Changing the LAST digit and keeping the width avoids `1` -> `10` style edits that shift meaning
-    by an order of magnitude rather than by a value.
-    """
-    m = re.search(r"\d+", sentence)
-    if not m:
-        return None
-    run = m.group(0)
-    repl = run[:-1] + ("7" if run[-1] != "7" else "4")
-    return None if repl == run else sentence[:m.start()] + repl + sentence[m.end():]
 
 
 def _locate(text, sentence):
