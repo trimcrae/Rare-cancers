@@ -169,7 +169,32 @@ service must actually offer the cell-based assays EMC needs (transfection/knockd
 qPCR/RNA-seq readout), not just chemistry/liquid-handling; and (3) *material* — a cloud lab supplies
 robots and generic reagents, **not** the EMC/FET-fusion cell line, which stays coupled to the
 patient-derived-model row. So the trigger is "a cloud lab reaches *solo-affordable, EMC-assay-capable*
-scope," and even then the cell-line/reagent gate is separate. **Integrity guardrail (same as every
+scope," and even then the cell-line/reagent gate is separate.
+
+**⭐ GATE (1) NOW HAS A NUMBER, AND GATE (3) IS UNMOVED BY IT — measured 2026-08-23, $0.**
+[`wet-lab-contracting-costs.md`](manuscripts/modality-census/wet-lab-contracting-costs.md) prices the
+experiments this row exists for, bottom-up from published academic core-facility rate cards
+([`wetlab-contracting-costs.json`](modalities/wetlab-contracting-costs.json) owns every figure —
+**do not restate one here**). Three things this row needs to carry:
+
+- **Cost, gate (1).** The decisive junction-ASO experiment this row names prices in the **tens of
+  thousands**, and the portfolio's smallest ask is roughly a fifth of that. Not enterprise money — and
+  not solo money either, against the ~$1,000 filter `what-a-civilian-can-buy.md` applies.
+- **⛔ Automation moves gate (1) part-way and gate (3) not at all.** Hourly technician time is
+  **60.9%** of the modelled total and **82–85%** of the plate experiments — genuinely the layer a
+  robotic lab removes, and ECL's own comparison replaces four technicians with none. But with hands
+  entirely **FREE**, **no costed experiment falls below $2,000**, and the cell-engineering ones
+  (an isogenic knock-in, a degron line) **do not move at all**, because a fixed clonal-selection
+  project fee is not billed by the hour and a faster pipettor does not make cells divide faster.
+  **So the arithmetic agrees with what this row already said**: a cloud lab flips the *execution*
+  gate, not the *material* gate.
+- **⚠ And the tier is still quote-only — re-checked, not assumed.** `what-a-civilian-can-buy.md` §4.7
+  flagged the cloud lab as *"the one item worth re-checking if the model ever becomes self-serve."*
+  **Re-checked 2026-08-23: it has not.** Emerald Cloud Lab's own documentation states its displayed
+  prices *"are only for the sake of example and do not represent actual prices"*, and its pricing
+  function still bills **`PriceOperatorTime`** as a line item beside `PriceInstrumentTime` — a robotic
+  lab still bills a human. Its vocabulary is `team`, `notebook` and *financing team*: an
+  organisation's shape, not an individual's. **This row does not fire.** **Integrity guardrail (same as every
 row):** the arrival of a way to *run* the experiment never licenses reporting an outcome before the
 experiment is actually run.
 

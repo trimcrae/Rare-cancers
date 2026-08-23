@@ -27,7 +27,7 @@ last_verified: 2026-08-06
 that will use it. It IS unreachable from the hierarchy, which is why it is shown rather than
 omitted, and why `[L5]` reports the count.
 
-**19 objects · 15 evidence items · 43 artifacts · 14 pinned claims.**
+**19 objects · 15 evidence items · 44 artifacts · 14 pinned claims.**
 
 ## Objects — the biological and molecular entities the program reasons about
 
@@ -122,6 +122,7 @@ omitted, and why `[L5]` reports the count.
 | **ART-VALB-PSERIES-CHEM** | `research/modalities/valb-pseries-chem.json` | `research/modalities/valb_pseries_chem.py` | [LANE-5](registers/lanes.md) |
 | **ART-VALB-TRIANGLE-CLOSURE** | `research/modalities/valb-triangle-closure.json` | `research/modalities/valb_triangle_closure.py` | [LANE-9](registers/lanes.md) |
 | **ART-VALB-TRIANGLE-REDUCTION** | `research/modalities/valb-triangle-reduction.json` | `research/modalities/valb_triangle_reduce.py` | [LANE-9](registers/lanes.md) |
+| **ART-WETLAB-CONTRACTING-COSTS** | `research/modalities/wetlab-contracting-costs.json` | `research/modalities/wetlab_contracting_costs.py` | ⚠ **nothing** |
 
 ## Claims — a document's sentence pinned to the field that has to support it
 

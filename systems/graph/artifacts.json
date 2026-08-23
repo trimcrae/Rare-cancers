@@ -430,5 +430,15 @@
       "literature-cache"
     ],
     "note": "What the published record actually contains about radiotherapy to metastatic EMC: four deliveries in four modalities, two of them to lung, against a denominator of five papers naming the disease and stereotactic radiotherapy in title or abstract at all. ⛔ THE FOUR REPORTS ARE ALL POSITIVE AND ALL UNCONTROLLED — usable as existence proofs that the treatment is deliverable, never as evidence that it works, because nobody publishes the metastasis that was irradiated and progressed. ⭐ Its most important output is a distinction nobody had drawn: every study on both sides of this disease's radioresistance question concerns conventionally fractionated dose to a PRIMARY, and those nulls have been read as evidence about ablative dose to a METASTASIS. ⚠ Also records two search defects that each manufactured a zero on the central question — a wildcard inside a quoted phrase, and an exact-phrase field query that cannot match a plural title — so every zero in the citation index is a statement about the query string and not about the literature."
+  },
+  {
+    "id": "ART-WETLAB-CONTRACTING-COSTS",
+    "path": "research/modalities/wetlab-contracting-costs.json",
+    "produced_by": "research/modalities/wetlab_contracting_costs.py",
+    "workflow": "fetch-literature.yml, slugs=wetlab-pricing / wetlab-pricing-b / wetlab-automation (the rate-card corpus on literature-cache); the artifact itself is generated locally",
+    "published_to": [
+      "main"
+    ],
+    "note": "⭐ WHAT IT IS: a bottom-up estimate of contracting the wet-lab experiments this repository names, closing the F1 (cost) filter that what-a-civilian-can-buy.md §4.4 declared unevaluable. That memo asked CROs, none of which publishes a price; academic core facilities are recharge centres and publish rate cards, several with an explicit external-commercial tier. ⛔ TWO CLASSES OF INPUT ARE KEPT APART AND MUST STAY APART: `rate` rows are MEASURED (a named facility's published figure, each carrying its tier and its literature-cache path); `qty` rows are ESTIMATES made by the producer and are the dominant uncertainty, because labour dominates every total. ⚠ IT IS NOT A QUOTE AND NOT AN ELIGIBILITY FINDING — no vendor was contacted, and the EMC cell lines stay institution-gated by policy, which is what actually closes these routes. ⭐ Its `cost_structure` and `labour_sensitivity` blocks exist to answer the automation question against the model rather than by eye, and they keep hourly `hands` apart from bundled cell-engineering service fees because only the first is what a robot displaces. `automation_evidence` records a VENDOR'S CLAIM, labelled as marketing and carrying the counter-evidence from the same vendor."
   }
 ]
