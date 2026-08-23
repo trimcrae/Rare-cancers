@@ -449,8 +449,18 @@ def test_the_two_named_reagents_carry_their_own_seams_and_their_own_duplex_lengt
     # ⚠ AND THE ABSTRACT SAYS IT AGAIN, IN ITS OWN CONSTRUCTION. The first version of this test
     # bound §2 alone and the abstract's "of eight and nine base pairs" mutated straight through —
     # the same site-census mistake round 14 recorded against 45.8% and 40.6%, one round later.
+    # ⚠ RE-ANCHORED 2026-08-23, AND THE LOOSENING IS BOUNDED ON PURPOSE. Cutting the abstract to
+    # Nucleic Acid Therapeutics' 200-word cap rewrote "duplexes through the whole gap of eight and
+    # nine" as "gap duplexes eight and nine", and this row went red — correctly: it had stopped
+    # matching, which is the failure this file exists to make loud. The pattern now binds the
+    # SEMANTIC CORE ("longest wild-type parent ... duplexes ... X and Y base pairs") and lets the
+    # connective words between them vary, instead of enumerating one phrasing. ⛔ It is still
+    # narrow, and must stay so: §2 states the SAME two numbers in a different construction
+    # ("... are eight base pairs against wild-type *EWSR1* and nine against ..."), which this
+    # pattern deliberately does not reach — `[\w\s]` cannot cross the `*` of a gene name, and the
+    # windows are short enough that "X and Y base pairs" cannot be assembled from it.
     _every_site(prose,
-                r"longest wild-type parent duplexes through the whole gap of (\w+) and (\w+) base pairs",
+                r"longest wild-type parent[\w\s-]{0,20}duplexes[\w\s]{0,20}?(\w+) and (\w+) base pairs",
                 (_word(int(ew["duplex"])), _word(int(taf["duplex"]))),
                 "the same two duplex lengths as the abstract states them")
 

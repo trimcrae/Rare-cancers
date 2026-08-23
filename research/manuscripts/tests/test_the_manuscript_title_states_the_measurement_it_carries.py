@@ -271,10 +271,31 @@ def test_the_cover_letters_subject_line_is_the_submitted_manuscripts_own_title()
 #: guessed at. A synonym of "pair" that nobody listed fails loudly and gets added; a synonym of
 #: "spare" that nobody listed is the defect shipping. The asymmetry is deliberate — a title is
 #: rewritten every few rounds and this list must be the thing that resists it.
-_PAIRING_VERBS = (r"pair(?:s|ed|ing)?|form(?:s)?\s+a\s+duplex|are\s+liable|carry\s+a\s+duplex"
-                  r"|let\s+a\s+(?:mature\s+)?wild-type\s+parent")
-_SPARING_VERBS = (r"spare(?:s|d)?|avoid(?:s|ed)?|clear(?:s|ed)?|miss(?:es|ed)?|escape(?:s|d)?"
-                  r"|do(?:es)?\s+not\s+pair|fail\s+to\s+pair")
+#: ⛔⛔ WORD BOUNDARIES, AND THEY WERE MISSING (measured 2026-08-23, and it is the SECOND time this
+#: repository has paid for exactly this). `miss(?:es|ed)?` with no `\b` matches the middle of
+#: "sub**miss**ion" — every occurrence of the word "submission" in the cover letter was scoring as
+#: an inverting verb. It surfaced from the coverage census, which credited a retraction paragraph to
+#: this guard purely on that substring and then withdrew the credit when the letter grew and the
+#: pattern crossed the selectivity cap; the "lost binding" was never a binding.
+#: ⛔ THE LIVE HAZARD IS THE OTHER DIRECTION AND IT IS WORSE. `clear(?:s|ed)?` matches inside
+#: "nu**clear**" and "un**clear**", and this is a paper about an orphan NUCLEAR receptor: a title
+#: reading "… a wild-type parent of this nuclear receptor" would have failed a guard whose message
+#: says the title states the inverse of the paper's central negative. A gate that reds on true input
+#: is worse than one that greens on false input, because the first thing anyone does is loosen it.
+#: The affirmative half has the same shape — unbounded `pair(?:s|ed|ing)?` matches "re**pair**" and
+#: "im**pair**ed" — which is the guard going quiet rather than loud, and is how
+#: `\bpairs?\b`-matching-"ten-base-pair" was found before.
+#: ⚠ AND A HYPHEN IS A WORD BOUNDARY, so `\bpair\b` still matches the UNIT inside "ten-base-pair".
+#: That is this repository's oldest instance of this defect and `\b` alone does not fix it; the
+#: affirmative half therefore also refuses a "pair" that a hyphen introduces.
+def _verb(alts):
+    return r"\b(?:" + alts + r")\b"
+
+
+_PAIRING_VERBS = _verb(r"(?<!-)pair(?:s|ed|ing)?|form(?:s)?\s+a\s+duplex|are\s+liable"
+                       r"|carry\s+a\s+duplex|let\s+a\s+(?:mature\s+)?wild-type\s+parent")
+_SPARING_VERBS = _verb(r"spare(?:s|d)?|avoid(?:s|ed)?|clear(?:s|ed)?|miss(?:es|ed)?|escape(?:s|d)?"
+                       r"|do(?:es)?\s+not\s+pair|fail\s+to\s+pair")
 
 
 @pytest.mark.parametrize("paper", sorted(ARTICLES), ids=sorted(ARTICLES))

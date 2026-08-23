@@ -244,6 +244,18 @@ PDFSTAMP
 }
 run_step "deposited PDF · journal format"    "python3 $MAN/build_submission_pdf.py" "_pdf_stamps_current"
 run_step "deposited PDF · submission format" "python3 $MAN/build_submission_pdf.py --style manuscript" "_pdf_stamps_current"
+# ⛔ AND THE WORD FILE, WHICH IS THE ONE A JOURNAL ACTUALLY ACCEPTS (added 2026-08-23). Nucleic
+# Acid Therapeutics: "The preferred format for your manuscript is Word … The LaTeX files are also
+# accepted." PDF is not on that list, so the .docx is a deposit artifact on exactly the same footing
+# as the two PDFs above and goes stale the same silent way. It is built from the same HTML as the
+# submission-format PDF, so it belongs immediately after them and BEFORE the archive manifest, which
+# hashes it.
+# ⚠ NEEDS `libreoffice-writer` ON THE MACHINE. `libreoffice-core` alone reports every input as
+# unloadable, including a two-line .txt, which reads as a corrupt manuscript rather than a missing
+# filter. If this step fails for that reason the fix is to install the package, NOT to drop the step:
+# a submission whose only manuscript formats are PDF is returned before peer review.
+run_step "Word manuscript · submission format" "python3 $MAN/build_submission_docx.py" \
+         "python3 -m pytest $MAN/tests/test_the_word_manuscript_is_current_and_whole.py -q"
 run_step "archive manifest"    "python3 $MAN/aso_archive_manifest.py" "python3 $MAN/aso_archive_manifest.py --check"
 
 # ── 2 · the gates that read what was just written ────────────────────────────────────────────

@@ -456,6 +456,106 @@ occasionally collided with a predicate, and counting them as coverage is what le
 anchor-failure message say **check the meaning before the regex** — re-anchor only when the sentence
 says the same thing in different words.
 
+### 8b.1a · ⛔⛔ AN INSTRUMENT THAT BATCHES ITS CHECKS CAN MANUFACTURE A FINDING THAT LOOKS REAL
+
+**THE UNIT OF EXCLUSION MUST BE THE FAILING CHECK, NEVER THE BATCH THAT CONTAINS IT** (measured
+2026-08-23, and it is the sharpest version of §8b's "the instrument is a new unmeasured claim").
+`claim_ablation` runs every pytest witness for a document in ONE invocation — a real optimisation,
+fourteen modules for the price of one interpreter — and subtracts the commands that are already red
+before the mutation, so an unrelated failure cannot make every sentence look bound. Both halves are
+right. Together they are not: *"the command is red"* and *"this witness is red"* stopped being the
+same statement the moment the command held more than one witness.
+
+What it produced: `claim-coverage.json` was stale, so ONE module failed, so the single batched
+command was red at baseline, so **all fourteen modules were excluded from ever firing**. The gate
+then reported three sentences BLIND — one of them `NR4A3` → `NR4A7`, which
+`test_the_manuscripts_gene_identifiers_are_ones_an_artifact_names.py` exists specifically to catch
+and was sitting inside the excluded batch.
+
+★ **THE DAMAGE IS NOT THE FALSE VERDICT, IT IS WHERE THE VERDICT POINTS.** A blindness report reads
+as *the paper has an unguarded claim*, so the reviewer goes to the manuscript and writes a new
+guard — for a hole that was never open. That is the blocker-count treadmill of §8a, fed by the
+instrument itself. **The fix is cheap and belongs in every batching checker: when a batch is red at
+baseline, DECOMPOSE it and re-measure, so only the member that is actually red is subtracted.** The
+cost is paid only in the case that was silently wrong.
+
+⚠ **AND THE GENERAL FORM, WHICH IS WORTH MORE THAN THE INSTANCE.** Any check that reports
+`state(group)` and then reasons about a member of that group has this defect. Ask of every gate:
+*if one thing in this batch is broken for an unrelated reason, does the gate go quiet about the
+others — and does its output still look like a finding?*
+
+### 8b.1b · ★★ COUNT THE PAYLOAD, NEVER THE POINTER TO IT
+
+Same day, same shape, in a converter written that hour. The .docx builder asserts the figure
+survived conversion by counting `<w:drawing>` elements in `word/document.xml`. It passed. The
+archive's `word/media/` was **empty**: LibreOffice had written a *link* to
+`file:///home/user/.../figure.png`, so the file carried a pointer into the build container and would
+have rendered as a broken frame for the journal. The count was of the REFERENCE, and a reference is
+exactly what a missing payload still has.
+
+⛔ **So when a check asks "does this artifact CONTAIN X", it must read X's BYTES** — the media entry,
+the embedded stream, the row itself — never the element that names it. This is CLAUDE.md §4's
+"presence is never evidence of provenance" reproduced inside the verifier written to enforce it,
+which is where it keeps turning up: **the check you write to catch a class of defect is itself a
+member of that class until something measures it.**
+
+### 8b.1c · ★ A MECHANICAL MIGRATION NEEDS AN INVARIANT, NOT A PROOFREAD
+
+Converting 23 hand-maintained reference entries to a venue's citation style is a pure re-arrangement:
+every surname, title word, journal name, page range, PMID and DOI is COPIED, never retyped
+(CLAUDE.md §7 — never write an identifier from recollection). That makes one invariant available and
+it is worth more than reading the output: **every word of the input must appear in the output.**
+
+It fired on entry 15, whose *title* begins "Establishment, characterization and functional testing …"
+— the author-splitter split on ", ", the title's own comma looked like an author boundary, and
+everything from "characterization" onward was silently dropped. Twenty-two entries were perfect;
+that one was not, and it is precisely the one a reader skims past. ⚠ **Write the invariant BEFORE the
+transform, print the whole proposed output, and let the assertion be what clears it** — a migration
+that "looks right" across twenty entries is a sample, not a check.
+
+### 8b.1d · ★★ A COVERAGE NUMBER THAT FALLS IS NOT AUTOMATICALLY A REGRESSION — DIFF THE SENTENCE FIRST
+
+The coverage ratchet's remedy text says *find the reworded sentence; do NOT lower the floor.* Right
+almost always, and on 2026-08-23 it pointed at the wrong thing. `cover-letter.covered` fell 7 → 6
+after an ordinary prose edit. **The sentence that lost its witness was byte-identical before and
+after.**
+
+The procedure that settled it, and it is three cheap steps in this order:
+
+1. **Diff the SENTENCE, not the count.** Census the pre-edit document *inside an ablation clone*, at
+   its real basename — witness discovery greps for the basename, so a census of `/tmp/old-copy.md`
+   silently credits nothing and reports every sentence uncovered. That fake reading looks like a
+   catastrophic loss and is pure instrument error.
+2. **If the sentence is unchanged, ask which PATTERN dropped it** and count that pattern's matches
+   before and after. A pattern crossing the selectivity cap because the DOCUMENT GREW is not the
+   same event as a sentence losing its binding.
+3. **Then look at the pattern itself.** Here it was `…|miss(?:es|ed)?|…` with no word boundaries,
+   matching the middle of "sub·miss·ion" — all five of its hits in the letter were the word
+   "submission". The seventh covered sentence had never been covered by anything.
+
+⛔ **AND THE FIX GOES IN THE GUARD, NOT THE FLOOR.** Bounding the alternation removed the phantom
+credit *and* closed a live red-on-true-input hazard in the same expression: unbounded
+`clear(?:s|ed)?` matches inside "nu·clear", in a paper about an orphan NUCLEAR receptor, in the guard
+that checks the title does not assert the inverse of the central negative. ⚠ `\b` alone is not
+enough — a HYPHEN is a word boundary, so `\bpair\b` still matches the unit inside "ten-base-pair",
+which is this repository's oldest instance of the class.
+
+★ **THE GENERAL RULE: A SUBSTRING MATCH INFLATES COVERAGE AND CAN INVERT A GATE, AND THE TWO ARE THE
+SAME BUG.** Every unbounded word in an alternation is both a false witness somewhere and a false
+alarm somewhere else. Grep your own guards for `[a-z]\(\?:` with no `\b` in front — it is a
+two-minute sweep and it has paid three times here.
+
+⚠ **THE SWEEP WAS RUN, AND WHAT IT RETURNED IS WORTH KNOWING.** Beyond the one fixed, every
+remaining unbounded alternation in this suite is a NOUN or VERB list embedded inside a longer
+anchored pattern (`_BINDING_VERB`, `_UNPAIRED_NOUN`, `_RUN_LIST` in
+`test_paired_numeric_lists_are_bound_in_the_right_order.py`), where the surrounding structure —
+`\s+of\s+`, an adjacent number list — supplies the boundary the alternation lacks. They are not
+clean, and `has|have` unbounded would match inside "p·has·e" given the chance; they are green
+today because nothing in these documents assembles the rest of the structure around a substring.
+**Recorded as a known residue rather than fixed blind**, because rewriting a passing pattern is how
+a guard becomes vacuous, and the three instances that actually bit were all found by a measurement
+(a red on true input, or a coverage number moving), never by reading the regex.
+
 ### 8b.2 · ★★ A FIX BOUND TO A LIST REGRESSES AT A SIBLING. A FIX BOUND TO A PREDICATE DOES NOT.
 
 **This is the sharpest structural result of the series, and it was measured, not reasoned** (round 17

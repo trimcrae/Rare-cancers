@@ -100,7 +100,7 @@ last_verified: 2026-08-10
 
 **Figures to upload** — none; this paper's display items are all tables.
 
-## bioRxiv (preprint; the journal submission goes to Nucleic Acid Therapeutics)
+## bioRxiv (DECLINED 2026-08-23, author unaffiliated; the journal submission of the condensed article goes to Nucleic Acid Therapeutics)
 
 **Manuscript** `aso/fusion-junction-aso-research-article.md`
 
@@ -110,11 +110,11 @@ last_verified: 2026-08-10
 | Abstract | 399 words  |
 | Display items | 10 (3 figures, 7 tables) |
 | References | 53 |
-| Cover letter | n/a (preprint deposit) |
+| Cover letter | `aso/fusion-junction-aso-cover-letter.md` |
 | Supplementary file | yes |
 | Fee route | not recorded |
 
-⚠ Limits provenance: VERIFIED at primary source: bioRxiv sets no word, abstract or display-item limit and its deposit is free — the one venue fact in this table that was read rather than searched. ⚠ ALL-`None` IS A STATEMENT, NOT A GAP: it means this manuscript is measured and ungated, which is the honest state while the journal is undecided. A journal's limits apply when one is chosen, and cutting the abstract to any particular cap before then means cutting twice, because the venues under consideration disagree on both length AND whether a structured abstract is wanted at all..
+⚠ Limits provenance: VERIFIED at primary source: bioRxiv sets no word, abstract or display-item limit and its deposit is free — the one venue fact in this table that was read rather than searched. ⛔ AND bioRxiv DECLINED THIS SUBMISSION ON 2026-08-23 BECAUSE THE AUTHOR IS UNAFFILIATED, so this row grades a manuscript against a server that will not take it. The limits stay correct and the row stays ungated for that reason — the extended report is archived on Zenodo and has since been submitted elsewhere — but nobody should read the row name as a live plan. Accounting: aso/fusion-junction-aso-preprint-checklist.md §2 step 3. ⚠ ALL-`None` IS A STATEMENT, NOT A GAP: it means this manuscript is measured and ungated, which is the honest state while the journal is undecided. A journal's limits apply when one is chosen, and cutting the abstract to any particular cap before then means cutting twice, because the venues under consideration disagree on both length AND whether a structured abstract is wanted at all..
 
 **Figures to upload**
 
@@ -129,15 +129,15 @@ last_verified: 2026-08-10
 
 | field | value |
 |---|---|
-| Word count, main text | 3146 (no limit found) |
-| Abstract | 229 words  |
-| Display items | 3 (1 figures, 2 tables) |
+| Word count, main text | 3146 (limit 4000) |
+| Abstract | 199 words (limit 200) |
+| Display items | 3 (1 figures, 2 tables) (limit 5) |
 | References | 23 |
 | Cover letter | `aso/fusion-junction-aso-cover-letter.md` |
 | Supplementary file | none |
 | Fee route | not recorded |
 
-⚠ Limits provenance: UNREAD, AND NOW ESTABLISHED AS UNREACHABLE BY EVERY AUTOMATED ROUTE. The journal transferred from Mary Ann Liebert to SAGE; the Liebert-era pages return 403, and journals.sagepub.com returns 403 to the egress proxy, to a plain CI fetch and to a real headless Chromium alike -- re-confirmed 2026-08-23 by Actions run 32644971152, whose author-instructions and journal-home fetches both came back HTTP 403 with the Cloudflare body 'Just a moment...'. in.sagepub.com answers 200 and carries no limits. SO THIS IS AN AUTHOR ACTION, NOT A DEFERRED FETCH: the page loads normally in a human browser and no further tooling will change that. Three things to read there before submitting. (1) The editorial rule that manuscripts CLAIMING ANTISENSE EFFICACY must carry at least two control oligodeoxynucleotides or be returned without review -- surfaced from search snippets and NOT from the page, so a lead to confirm rather than a fact; this paper claims no efficacy, runs no assay, and specifies three controls for the experiment it proposes, so it is very likely out of scope. (2) Word, abstract and display-item limits for the article type. (3) Whether the $90/page Publishing Services Fee survived the SAGE transfer -- at six pages that is about $540..
+⚠ Limits provenance: READ AT PRIMARY SOURCE 2026-08-23 by trimcrae in a human web browser, and captured verbatim to research/literature/nat-submission-guidelines-2026-08-23.md, which is the source of record for every figure below. Article type Original Paper: 4,000-word limit, unstructured abstract of no more than 200 words, maximum total of five (5) figures and/or tables, and no reference cap for this type. THE COUNTING RULES AGREE WITH THIS MODULE'S: 'Word limits do NOT pertain to the abstract, disclosure statements, author contribution statements, funding information, acknowledgments, tables, figure legends, or references' -- which is the boundary `TAIL` already draws, so main_words here is comparable to the cap rather than merely near it. ⚠ NOT AUTOMATABLE: journals.sagepub.com returns HTTP 403 to the egress proxy, to a plain CI fetch and to a real headless Chromium alike (re-confirmed 2026-08-23, Actions run 32644971152), so this row cannot be refreshed by any tool here and must be re-read by a person before submission. ⚠ THE PAGE CONTRADICTS ITSELF ON THE REVIEW MODEL and the contradiction changes what is submitted: 'Identity transparency: Single-anonymized' appears twice, while the peer-review section says 'The journal adheres to a rigorous double-anonymized reviewing policy in which the identity of both the reviewer and author are always concealed from both parties.' Under the second reading the manuscript needs an anonymized copy. Tracked as an open item in the preprint checklist; not resolved here, because nothing here can resolve it. SETTLED BY THE SAME READ, and each was previously carried as an open risk: (1) 'Accepts preprints? Yes' -- posting before submission does not disqualify, and the submission form asks for the preprint DOI. (2) The Publishing Services Fee survived the Liebert-to-SAGE transfer unchanged at $90 per typeset page, assessed on acceptance, with colour charged separately at $800 for the first print image. (3) The control-oligodeoxynucleotide rule is real and is scoped to efficacy: 'All manuscripts that claim antisense efficacy must, in addition to the antisense oligodeoxynucleotide construct, include at least two control oligodeoxynucleotides.' This paper claims no efficacy and runs no assay, so it is out of that rule's scope..
 
 **Figures to upload**
 

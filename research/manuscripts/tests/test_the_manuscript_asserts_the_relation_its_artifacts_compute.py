@@ -89,31 +89,48 @@ POLARITY = [
      r"\beven before the breakpoint\b|\bwithout waiting\b",
      "the ordering rule test_every_ordering_route_carries_the_same_verdict.py enforces elsewhere",
      "Order from the canonical record even before the breakpoint is known, before sequencing."),
+    # ⚠ RE-ANCHORED 2026-08-23 when the Declarations were restructured to Nucleic Acid
+    # Therapeutics' required template, which splits the single "Ethics approval, consent to
+    # participate and consent for publication" statement into three headed ones. The RELATION is
+    # unchanged; only its heading moved. ⛔ The `forbid` half now admits "or animals" as well as
+    # "and animals": the cheapest inversion of this sentence is deleting the word "No", which
+    # leaves the conjunction alone, and the old pattern demanded a conjunction swap the inverter
+    # has no reason to make.
     ("ethics-not-applicable",
-     r"Ethics approval, consent to participate[^#]{0,220}?involved\.",
+     r"\*\*Ethical considerations\.\*\*[^#]{0,220}?required\.",
      r"No human\s+subjects, human material or animals were involved",
-     r"(?<!No )Human\s+subjects, human material and animals were involved",
+     r"(?<!No )Human\s+subjects, human material (?:or|and) animals were involved",
      "the repository's no-wet-lab invariant",
-     "Ethics approval, consent to participate. Human subjects, human material and animals "
-     "were involved."),
+     "**Ethical considerations.** Human subjects, human material or animals were involved, and "
+     "ethics approval was required."),
+    # ⚠ RE-ANCHORED 2026-08-23: "**Competing interests.**" -> the venue's required
+    # "**Declaration of conflicting interest.**". Relation unchanged.
     ("competing-interests",
-     r"\*\*Competing interests\.\*\*[^#]{0,320}",
+     r"\*\*Declaration of conflicting interest\.\*\*[^#]{0,320}",
      r"declares no financial competing interests",
      r"declares financial competing interests",
      "the cover letter: 'I received no funding and have no financial competing interests'",
-     "**Competing interests.** The author declares financial competing interests."),
+     "**Declaration of conflicting interest.** The author declares financial competing "
+     "interests."),
     ("ai-use",
      r"\*\*Use of artificial intelligence\.\*\*[^#]{0,140}",
      r"A large language model \(Claude, Anthropic\) was used",
      r"No large language model was used",
      "the repository's own AI-use record",
      "**Use of artificial intelligence.** No large language model was used."),
+    # ⛔⛔ THE RELATION THIS ROW GUARDS CHANGED, NOT JUST ITS WORDING (2026-08-23). The sentence
+    # said the extended report was "prepared for bioRxiv and not yet posted". bioRxiv DECLINED the
+    # submission — the author is unaffiliated — so a paper claiming a bioRxiv deposit was in
+    # preparation was stating something that is not going to happen. The claim is now the weaker
+    # and true one: it is not posted as a preprint anywhere, so the archived copy is what a reader
+    # cites. ⚠ `forbid` uses a lookbehind rather than naming a server, because the failure mode is
+    # the word "not" going missing, not the word "bioRxiv" coming back.
     ("deposit-not-yet-posted",
      r"inside that deposit;[^#]{0,140}",
-     r"prepared for bioRxiv and not yet\s+posted",
-     r"posted on bioRxiv already",
-     "deposit-state.json:pending",
-     "inside that deposit; it was posted on bioRxiv already."),
+     r"it is not posted as a preprint",
+     r"(?<!not )posted as a preprint|posted on bioRxiv|is already posted",
+     "deposit-state.json: a `pending` Zenodo draft and no preprint server record",
+     "inside that deposit; it is posted as a preprint already."),
     ("coverage-is-not-a-measurement",
      r"That prices which published junctions[^.]{0,220}\.",
      r"it is not a coverage measurement, no patient having been screened",

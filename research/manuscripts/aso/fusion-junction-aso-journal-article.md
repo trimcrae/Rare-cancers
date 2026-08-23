@@ -9,7 +9,7 @@ canonical_for:
 purpose: >
   The journal submission for PUB-ASO. It names the reagents to synthesise, the material to test them
   in and the experiment that would falsify the ranking. The full screen, its bounds and its methods
-  are in fusion-junction-aso-research-article.md, prepared for bioRxiv deposit and not yet posted,
+  are in fusion-junction-aso-research-article.md, archived and not posted as a preprint,
   which this manuscript cites as its extended report; the numbers live in the artifacts under
   research/modalities/ and are restated here where the argument needs them, each pinned or
   reproducible from those artifacts.
@@ -35,29 +35,29 @@ ORCID: [0000-0002-1823-1451](https://orcid.org/0000-0002-1823-1451)
 
 **Running title.** Parent pairing in NR4A3 junction gapmers
 
-**Keywords.** antisense oligonucleotide; gapmer; RNase-H1; fusion transcript; NR4A3; extraskeletal
-myxoid chondrosarcoma; off-target screening
-
 ---
 
 ## Abstract
 
-Extraskeletal myxoid chondrosarcoma (EMC) is an ultra-rare sarcoma defined in most cases
-by an in-frame fusion of a variable partner gene to *NR4A3*. That junction is present in no
-normal transcript, so an antisense gapmer could in principle cleave the fusion and spare both parents. This work is computational; every sequence
-named is a research reagent not for administration. Of
+Extraskeletal myxoid chondrosarcoma (EMC) is an ultra-rare sarcoma usually defined by an
+in-frame partner-gene fusion to *NR4A3*. That junction is in no normal transcript, so an antisense
+gapmer could in principle cleave the fusion and spare its parents. This work is
+computational; every sequence named is a research reagent not for administration. Of
 190 junction-spanning 16-mers tiled at 5-6-5 across the 38 in-frame junctions of five
 modelled partners, 87 let a mature wild-type parent transcript pair their whole catalytic gap over
 ten or more contiguous base pairs, 61 of those against wild-type *NR4A3* itself. Ten is a
-convention rather than a measurement, and chimeras built at real exon termini of the same
-transcripts meet the same screen at 40.6% against the panel's 45.8%, so most of that liability is
-what joining two exon termini of these genes gives rather than anything specific to this disease. Two reagents are
-named at the two most frequently reported breakpoints: 5′-GGGCATATCATCAAAC-3′ at *EWSR1* exon 12 and
-5′-GGGCATATCTTGTGTG-3′ at *TAF15* exon 6 to *NR4A3* exon 3, both at the panel's top gap-level
-margin of three, with
-longest wild-type parent duplexes through the whole gap of eight and nine base pairs. Five test
-articles are named; the two fusion-positive EMC cell models are reported at an *NR4A3*
-exon-2 acceptor and match different designs. The design pipeline is released.
+convention, not a measurement: exon-terminus chimeras of these transcripts meet the same
+screen at 40.6% against the panel's 45.8%, so most of that liability follows from joining exon
+termini, not this disease. Two reagents are named at the most reported breakpoints,
+5′-GGGCATATCATCAAAC-3′ at *EWSR1* exon 12 and 5′-GGGCATATCTTGTGTG-3′ at *TAF15*
+exon 6 to *NR4A3* exon 3, both at the panel's top gap-level margin of three, longest
+wild-type parent gap duplexes eight and nine base pairs. Five test articles are named; the two fusion-positive EMC cell models are
+reported at an *NR4A3* exon-2 acceptor and match different designs. The design pipeline is released.
+
+## Keywords
+
+**Keywords.** antisense oligonucleotide; gapmer; RNase-H1; fusion transcript; NR4A3; extraskeletal
+myxoid chondrosarcoma; off-target screening
 
 ---
 
@@ -335,34 +335,45 @@ any patient is reported to carry.** The junction windows of *EWSR1* exon 12, *TA
 *FUS* exon 10 joined to *NR4A3* exon 3, aligned at the breakpoint, each row carrying its own
 reporting status.
 
-## Declarations
+## Author Contributions
+
+T.D.M. is the sole author, and is responsible for the conception and design of the study, the
+analysis code, the screens and their interpretation, and the drafting and revision of this
+manuscript.
+
+## Statements and Declarations
 
 **Research use only, and not for administration to any person or animal.** Every sequence here is a
 research reagent for laboratory investigation only, and none has been synthesised or tested. Order from the canonical record, `fusion-junction-aso-sequences.csv`, which specifies the sequence,
 every locked residue and the backbone, and not until the breakpoint has been established at
 nucleotide resolution by RNA sequencing.
 
-**Ethics approval, consent to participate and consent for publication.** Not applicable. No human
-subjects, human material or animals were involved.
+**Ethical considerations.** Not applicable. No human
+subjects, human material or animals were involved, and no ethics approval was required.
 
-**Data and code availability.** All code, graded artefacts and per-design tables are deposited under
-[doi:10.5281/zenodo.22061075](https://doi.org/10.5281/zenodo.22061075). The extended report,
-carrying every screen's parameters and the complete bounds on each claim, is
-`fusion-junction-aso-research-article.md` inside that deposit; it is prepared for bioRxiv and not yet
-posted, so the archived copy is the citable one. An earlier version
-of these analyses placed the acceptor junction incorrectly through a coding-versus-transcript exon
-indexing error and was withdrawn in full; the panels were rebuilt and verified, and the complete
-correction record is released with the archive.
+**Consent to participate.** Not applicable. No participants were enrolled.
+
+**Consent for publication.** Not applicable. The manuscript contains no data from any individual
+person.
+
+**Declaration of conflicting interest.** The author declares no financial competing interests: he holds no patent,
+patent application, equity or consultancy relating to any sequence or method described here. A
+non-financial interest is disclosed to the editor in the accompanying cover letter.
+
+**Funding statement.** No external funding; self-funded by the author.
 
 **Use of artificial intelligence.** A large language model (Claude, Anthropic) was used throughout
 this work: to write and review the analysis code, to run the screens, to retrieve and check
 literature, and to draft and revise this manuscript. The author directed all work reported here
 and is responsible for its content.
 
-**Funding.** No external funding; self-funded by the author.
-
-**Competing interests.** The author declares no financial competing interests: he holds no patent,
-patent application, equity or consultancy relating to any sequence or method described here. A
-non-financial interest is disclosed to the editor in the accompanying cover letter.
+**Data availability.** All code, graded artefacts and per-design tables are deposited under
+[doi:10.5281/zenodo.22061075](https://doi.org/10.5281/zenodo.22061075). The extended report,
+carrying every screen's parameters and the complete bounds on each claim, is
+`fusion-junction-aso-research-article.md` inside that deposit; it is not posted as a preprint, so
+the archived copy is the citable one. An earlier version
+of these analyses placed the acceptor junction incorrectly through a coding-versus-transcript exon
+indexing error and was withdrawn in full; the panels were rebuilt and verified, and the complete
+correction record is released with the archive.
 
 ## References

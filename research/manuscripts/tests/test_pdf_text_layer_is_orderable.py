@@ -154,16 +154,36 @@ def _every_stamped_pdf():
     ⚠ THE FAILURE MODE OF A HAND-KEPT LIST IS ALWAYS THE SAME. Nobody omits a document on purpose;
     a second paper is added, its PDFs are built, and the list that was correct for one paper is
     silently correct for less. Asking the DIRECTORY removes the step a human has to remember.
+
+    ⛔⛔ AND THE ARTIFACT'S NAME IS READ FROM THE STAMP, NOT RECONSTRUCTED FROM THE STAMP'S OWN
+    (2026-08-23). This appended `.pdf` to whatever preceded `.build-stamp.json`, which is a rule
+    about NAMING that silently encoded an assumption about TYPE: that every stamped artifact is a
+    PDF. The moment a Word manuscript — the format Nucleic Acid Therapeutics actually accepts — got
+    a stamp, this reported a stale `…-manuscript.docx.pdf`, a file that has never existed and never
+    should. The remedy the message printed was "rebuild it", which no rebuild could satisfy.
+    ★ Every stamp now carries `artifact`, so this selects by what the stamp SAYS it stamps. Still
+    no list: a new PDF is picked up the moment it is built, and a new artifact of another kind is
+    ignored here and checked by its own gate. ⚠ A stamp with no `artifact` key is an ERROR rather
+    than a skip — it means a builder was not updated, and skipping it would drop that artifact out
+    of every staleness check exactly as the hand-kept list used to.
     """
     out = {}
     for root, _dirs, files in os.walk(os.path.join(REPO, "research", "manuscripts")):
         for name in sorted(files):
             if not name.endswith(".build-stamp.json"):
                 continue
-            pdf = os.path.join(root, name[: -len(".build-stamp.json")] + ".pdf")
-            rel = os.path.relpath(pdf, os.path.join(REPO, "research", "manuscripts"))
-            out[rel] = pdf
-    assert out, "no build stamp was found at all; this guard has lost its subject"
+            stamp_path = os.path.join(root, name)
+            stamp = json.load(open(stamp_path, encoding="utf-8"))
+            artifact = stamp.get("artifact")
+            assert artifact, (
+                f"{os.path.relpath(stamp_path, REPO)} does not say which artifact it stamps. "
+                "Every builder writes an `artifact` key; a stamp without one was written by a "
+                "builder that was not updated, and guessing the name is what this key replaced.")
+            if not artifact.endswith(".pdf"):
+                continue
+            pdf = os.path.join(root, artifact)
+            out[os.path.relpath(pdf, os.path.join(REPO, "research", "manuscripts"))] = pdf
+    assert out, "no PDF build stamp was found at all; this guard has lost its subject"
     return out
 
 

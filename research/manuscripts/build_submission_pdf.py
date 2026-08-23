@@ -109,10 +109,21 @@ PAPERS = {
         ),
         "figures": {"Figure 1.": "aso-multipartner-seam.svg"},
         "journal": {
-            "article_type": "Article",
+            #: ⭐ THE VENUE'S OWN NAME FOR THE TYPE, read 2026-08-23 from its Submission Guidelines
+            #: (research/literature/nat-submission-guidelines-2026-08-23.md). NAT offers Original
+            #: Paper, Review Article, Brief Communication, Editorial, Letters to the Editor and
+            #: Protocol; "Article" is not among them, and it is the type that carries the 4,000-word
+            #: cap this manuscript is graded against.
+            "article_type": "Original Paper",
             "section": "",
-            "preprint_note": "The extended report of this work is prepared for deposit as a bioRxiv "
-                             "preprint and is not yet posted; the archived copy is citable.",
+            #: ⛔ THIS LINE NAMED bioRxiv UNTIL 2026-08-23, WHEN bioRxiv DECLINED THE SUBMISSION
+            #: because the author is unaffiliated (checklist §2 step 3). A masthead saying a
+            #: bioRxiv deposit is in preparation was describing something that is not going to
+            #: happen, and it prints on every page-one build. It now states only what the
+            #: repository can stand behind: the extended report is archived, and it is not posted
+            #: as a preprint anywhere.
+            "preprint_note": "The extended report of this work is archived and is not posted as a "
+                             "preprint; the archived copy is citable.",
         },
         "out": "aso/fusion-junction-aso-journal-article.pdf",
     },
@@ -135,8 +146,10 @@ PAPERS = {
         "journal": {
             "article_type": "Article",
             "section": "",
-            "preprint_note": "This manuscript is prepared for deposit as a bioRxiv preprint and is "
-                             "not yet posted.",
+            #: ⛔ NO SERVER IS NAMED, for the reason recorded on the aso-journal note above: the
+            #: one this said had already refused this author by the time anyone read it.
+            "preprint_note": "This manuscript is prepared for deposit as a preprint and is not yet "
+                             "posted.",
         },
         "out": "neoantigen/emc-vaccine-development-path.pdf",
     },
@@ -410,6 +423,21 @@ def deposit_filenames(paper):
     # decision, not a broken pointer, and it is tracked as its own item.
     names.setdefault("fusion-junction-aso-submission-tables.md",
                      "fusion-junction-aso-submission-tables.md")
+    # ⭐ A CROSS-REFERENCE TO ANOTHER PAPER RESOLVES TO THAT PAPER'S BUILT PDF, DERIVED FROM ITS OWN
+    # `out` RATHER THAN TYPED. The condensed article's Data availability sends a Nucleic Acid
+    # Therapeutics editor to the extended report by its repository name,
+    # `fusion-junction-aso-research-article.md`. That pointer is CORRECT — the `.md` is one of the
+    # 482 files in the deposit, verified against fusion-junction-aso-archive-manifest.json — but it
+    # hands a journal editor a Markdown source when the same deposit carries the typeset PDF beside
+    # it. Both travel; only one is meant to be read.
+    # ⚠ `setdefault`, so a paper's own manuscript keeps the submission-format mapping above; this
+    # only fills in names no other rule claimed. And it is a PREDICATE over `PAPERS`, not a second
+    # list of filenames — a paper added or renamed here needs no edit at this line.
+    for other in PAPERS.values():
+        if other is paper or not other.get("manuscript"):
+            continue
+        names.setdefault(os.path.basename(other["manuscript"]),
+                         os.path.basename(other["out"]))
     return names
 
 
@@ -1721,6 +1749,15 @@ def wrap_manuscript(front_title, body_html, front_block=""):
                        + "</section>", body_html, count=1, flags=re.S)
     body_html = re.sub(r"(<h2>References</h2>.*?)<ol", r'\1<ol id="references-list"',
                        body_html, count=1, flags=re.S)
+    #: ⚠ A LABEL DIRECTLY UNDER A HEADING OF THE SAME NAME READS AS A FORMATTING SLIP. Nucleic Acid
+    #: Therapeutics wants the keywords "listed after the abstract", so they moved out of the title
+    #: block into their own `## Keywords` section — where the `**Keywords.**` label the front-matter
+    #: parser anchors on (`label_paragraph`) rendered immediately below the heading, giving the
+    #: submitted Word file "Keywords / Keywords. antisense oligonucleotide; …". The label stays in
+    #: the SOURCE, because the journal build reads the keywords out of it; only the rendering drops
+    #: it, and only where the heading already says the same word.
+    body_html = re.sub(r"(<h2>(Keywords)</h2>\s*<p>)<strong>\2\.</strong>\s*",
+                       r"\1", body_html, count=1)
     #: The identity block goes directly under the H1, which is where a screener looks and where the
     #: old build carried nothing at all: no date, no version, no build.
     if front_block:
@@ -1778,19 +1815,57 @@ def _defer_landscape_floats(main):
     return main.replace(' data-deferred="1"', "")
 
 
+#: ⛔⛔ THE SPLIT POINT IS A PROPERTY OF THE PAPER, AND EVERY VERSION OF THIS CHECK HAS BEEN A
+#: DISGUISED LIST OF THE HEADINGS THAT HAPPENED TO EXIST. It began as the literal
+#: "<h2>Declarations</h2>", which could not build "## 9. Declarations" at all; that was widened to
+#: allow a numeric prefix, and then Nucleic Acid Therapeutics' required back matter — "## Author
+#: Contributions" followed by "## Statements and Declarations" — broke it again, this time by
+#: raising SystemExit on a correct paper. Each widening enumerated one more sentence length, in
+#: exactly the shape `test_the_manuscript_asserts_the_relation_its_artifacts_compute.py` warns
+#: about: a window is a disguised list, and a document that grows by one heading leaves the guard
+#: with no signal that it did.
+#:
+#: What the split actually needs is a PREDICATE: back matter is the suffix beginning at the
+#: EARLIEST back-matter heading. Taking the earliest is what makes the sections that follow it
+#: — contributions, declarations, acknowledgements, references — travel together whatever order a
+#: venue asks for them in, instead of one of them being typeset in the main flow because the
+#: anchor happened to name a later sibling.
+#:
+#: ⚠ THIS LIST STILL CANNOT SEE A BACK-MATTER SECTION NOBODY NAMED HERE, and no arrangement of
+#: strings can. That residual is bound by CONTENT rather than by heading, in
+#: tests/test_every_declaration_is_typeset_as_back_matter.py, which asserts the operative
+#: sentences of the declarations — the no-administration instruction, the ethics statement, the
+#: conflicting-interest statement — land after the split in every paper that carries them.
+BACK_MATTER_HEADINGS = (
+    "Author Contributions",
+    "Statements and Declarations",
+    "Declarations",
+    "Acknowledgement",
+    "Acknowledgment",
+    "References",
+)
+_BACK_MATTER_RX = re.compile(
+    r"<h2>[\d.\s\u00b7]*(?:" + "|".join(re.escape(h) for h in BACK_MATTER_HEADINGS) + r")s?</h2>",
+    re.I)
+
+
+def split_back_matter(body_html):
+    """(main flow, back matter), cut at the earliest back-matter heading in the document."""
+    hits = list(_BACK_MATTER_RX.finditer(body_html))
+    if not hits:
+        raise SystemExit(
+            "no back-matter heading — the split needs a level-2 heading naming one of: "
+            + ", ".join(BACK_MATTER_HEADINGS))
+    cut = hits[0].start()
+    return body_html[:cut], body_html[cut:]
+
+
 def wrap_journal(paper, front, body_html, doc_title=None):
     meta = paper.get("journal", {})
     body_html = re.sub(r"(<h2>References</h2>.*?)<ol", r'\1<ol id="references-list"',
                        body_html, count=1, flags=re.S)
     # Declarations and the reference list are back matter: smaller, and outside the main flow.
-    # ⚠ MATCHES A NUMBERED HEADING TOO. This anchored on the exact string "<h2>Declarations</h2>",
-    # so a manuscript numbering its sections — "## 9. Declarations", which renders as
-    # "<h2>9. Declarations</h2>" — could not be built at all. The property the split needs is a
-    # level-2 heading whose text ENDS in "Declarations", not one whose text is exactly that.
-    split = re.search(r"<h2>(?:[\d.\s]*)Declarations</h2>", body_html)
-    if not split:
-        raise SystemExit("no '## Declarations' heading — the back matter split is anchored on it")
-    main, back = body_html[:split.start()], body_html[split.start():]
+    main, back = split_back_matter(body_html)
     main = _defer_landscape_floats(main)
 
     head = (
@@ -2199,6 +2274,14 @@ def _write_build_stamp(pdf_path, paper):
     if missing:
         stamp["_declared_but_absent_at_build"] = sorted(missing)
 
+    #: ⛔ THE STAMP NAMES ITS OWN ARTIFACT, because reconstructing the artifact's name from the
+    #: stamp's is a rule that holds only while one KIND of artifact is stamped (2026-08-23).
+    #: `test_pdf_text_layer_is_orderable._every_stamped_pdf` walks the tree for `*.build-stamp.json`
+    #: and appends `.pdf` to whatever is left — a deliberately list-free predicate, and correct
+    #: until a Word manuscript got a stamp of its own, at which point it reported a missing
+    #: `…-manuscript.docx.pdf` that was never supposed to exist. A stamp that says what it stamps
+    #: lets every consumer select by artifact TYPE without anybody maintaining a list.
+    stamp["artifact"] = os.path.basename(pdf_path)
     stamp["_what"] = ("sha256 of each document AND figure this PDF renders, written by "
                       "build_submission_pdf.py. A PDF is current when every hash here matches the "
                       "file on disk; mtimes are not evidence, because the regeneration chain "

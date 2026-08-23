@@ -113,32 +113,41 @@ reports four false gaps); competing-interests, funding, ethics and AI-use statem
    preprint question is now the CONDENSED article, and it needs a server that accepts unaffiliated
    authors — see the preprint-venue note below.
 
-## 2b · The preprint venue question, and why the ORDER matters more than the server
+## 2b · The preprint venue question — the ORDER is now SETTLED, the SERVER is not
 
-**⛔ DO NOT POST THE CONDENSED ARTICLE AS A PREPRINT BEFORE SUBMITTING IT TO NAT — not until NAT's own
-policy has been read.** SAGE's author archiving page says this, verbatim, and both its UK and US
-copies agree word for word (fetched 2026-08-23, `literature-cache:literature/sage-preprint-policy-2026-08-23/`,
-HTTP 200, 7,222 bytes each):
+**✅ NAT ACCEPTS PREVIOUSLY-POSTED PREPRINTS. POSTING THE CONDENSED ARTICLE FIRST DOES NOT
+DISQUALIFY IT.** Read at primary source 2026-08-23 by trimcrae in a human web browser and captured
+verbatim to [`nat-submission-guidelines-2026-08-23.md`](../../literature/nat-submission-guidelines-2026-08-23.md),
+which is the source of record for every NAT statement in this repository. The journal's own words:
 
-> You may share the Original Submission or Accepted Manuscript **at any time after your paper is
-> accepted** and in any format. … **Please note some journals will not consider papers that have been
-> posted as preprints prior to submission** and you may check a journal's policy regarding
-> considering previously-posted papers by referring to the journal's submission guidelines.
+> Key information — **Accepts preprints? Yes**
 
-That is the publisher warning that posting first can DISQUALIFY the submission, and pointing at the
-one page no automated route can reach (`journals.sagepub.com` is 403 to the egress proxy, to a plain
-CI fetch and to a real headless Chromium — see the submission packet's limits-provenance note). So
-the sequencing question outranks the server question: if NAT will not consider a previously-posted
-paper, which server would have taken it is irrelevant.
+> **Preprints.** The journal will consider submissions of manuscripts that have been posted on
+> preprint servers. Please enter the preprint DOI in the designated field when submitting your
+> manuscript. We advise that you inform the Journal Editorial office about your posted preprint at
+> submission.
+>
+> Note that you should not post an updated version of your manuscript on a preprint server while it
+> is being peer reviewed.
 
-**Two clean paths.**
+⚠ *Superseded, retained: "**⛔ DO NOT POST THE CONDENSED ARTICLE AS A PREPRINT BEFORE SUBMITTING IT
+TO NAT — not until NAT's own policy has been read**", and with it the two-paths framing that made
+submitting-first the safe default. The generic SAGE archiving page warns that "some journals will
+not consider papers that have been posted as preprints prior to submission" and tells the author to
+check the journal's own guidelines — which has now been done, and NAT is not one of those journals.
+The warning was correctly stated and correctly acted on; it was a publisher-level caution standing
+in for a journal-level fact nobody had yet read.*
 
-1. **Submit to NAT first, post after.** SAGE explicitly permits sharing the Original Submission after
-   acceptance, at no charge, under non-commercial no-derivative re-use. If NAT rejects, the preprint
-   can go up immediately and freely. This path cannot disqualify anything, and it costs only the
-   preprint's priority date.
-2. **Read NAT's submission guidelines first** (a human browser, two minutes) and post only if they
-   permit prior posting. Faster to a public record; requires the one reading nobody here can take.
+**⛔ TWO OBLIGATIONS THIS CREATES, BOTH OWNED BY THE AUTHOR AT SUBMISSION TIME:**
+
+1. **The preprint DOI goes in the designated field on the submission form**, and the editorial
+   office is told about the posting. A preprint the journal is not told about is the failure mode
+   the field exists to prevent.
+2. **⛔ ONCE THE MANUSCRIPT IS UNDER PEER REVIEW, THE PREPRINT IS FROZEN.** No updated version may be
+   posted while it is being reviewed. This repository regenerates papers on nearly every commit, so
+   the ordinary working rhythm is exactly what would breach this — the constraint is on POSTING a
+   new version to the preprint server, not on committing, but nothing here enforces the difference
+   and nothing here can.
 
 **The server shortlist, with what is and is not established.** bioRxiv is out: it declined this
 submission because the author is unaffiliated (2026-08-23). ⚠ For the rest, this repository has NO
@@ -148,13 +157,61 @@ Candidates, to be checked at the source before use:
 
 | server | established here | not established |
 |---|---|---|
-| **Zenodo** | accepts this author — a record is already published under `10.5281/zenodo.22028916`; supports a `preprint` resource type and mints a DOI | whether NAT would count a Zenodo preprint as a prior posting |
+| **Zenodo** | accepts this author — a record is already published under `10.5281/zenodo.22028916`; supports a `preprint` resource type and mints a DOI | whether NAT's submission form treats a Zenodo DOI as a preprint DOI |
 | **Research Square** | screens for ethics and consent statements, competing-interest disclosure, patient identifiers and pseudoscientific claims; mints a DOI | affiliation policy |
 | **OSF Preprints** | persistent identifier and a Crossref DOI; moderation varies by branded community | affiliation policy |
 
 ⚠ **THE EXTENDED REPORT IS NOT THIS QUESTION.** It has been submitted elsewhere (trimcrae,
-2026-08-23). What is open is the CONDENSED article — which is also the one going to NAT, so it is
-precisely the risky one to post early.
+2026-08-23). What is open is the CONDENSED article, which is also the one going to NAT.
+
+## 2c · The one NAT requirement that is genuinely ambiguous, and it changes what gets uploaded
+
+**⛔ THE GUIDELINES CONTRADICT THEMSELVES ON THE REVIEW MODEL.** Both readings are on the same page,
+in the capture cited above, and they call for different submission files:
+
+> Key information — Identity transparency: **Single anonymized**
+
+> Peer review policy — Identity transparency: **Single-anonymized**
+
+> The journal adheres to a rigorous **double-anonymized** reviewing policy in which the identity of
+> both the reviewer and author are always concealed from both parties.
+
+Under single-anonymized the manuscript ships as it stands, author line and all. Under
+double-anonymized it needs an anonymized main file: no author block, no ORCID, no correspondence
+address, and no self-identifying repository or archive links in the body.
+
+★ **NOT A REASON TO ANONYMISE PRE-EMPTIVELY, AND NOT A REASON TO GUESS.** Two of the three
+statements say single, the Sage Track submission form states the model for the journal at the point
+of upload, and an anonymized file is a mechanical derivation of a finished manuscript rather than a
+rewrite. So this is read off the form at submission time. It is recorded here because it is the one
+requirement that would otherwise be discovered after the paper had been returned — NAT's own
+initial-evaluation rule is that a manuscript not conforming to these guidelines "will be returned to
+you for amendments prior to peer review".
+
+## 2d · ⛔⛔ THE ORDER IS FORCED, AND POSTING THE PREPRINT FIRST FREEZES A DEAD CITATION
+
+**The condensed article's Data availability cites `doi:10.5281/zenodo.22061075`. That DOI is
+RESERVED, not published — it resolves to nothing today**, which is the deliberate
+reserve-then-rebuild ordering §3 describes and is fine while the paper sits in this repository.
+
+⛔ **It stops being fine the moment the paper is posted publicly.** A preprint is immutable in the
+way that matters: the version that goes up is the version that is cited, indexed and read, and it
+would carry a data-availability statement pointing at a DOI that returns nothing. That is the single
+worst impression a data-availability statement can make, and unlike everything else on this page it
+cannot be fixed after the fact by posting a new version — the first reading is the one that counts.
+
+★ **SO THE SEQUENCE IS NOT A PREFERENCE:**
+
+1. **Publish Zenodo deposition 22061075** (§3 — re-run the deposit first, then publish by hand).
+   Every archive link in both papers starts resolving at that moment.
+2. **Post the condensed article as a preprint.** Server open — §2b.
+3. **Submit to NAT**, entering the preprint DOI in the designated field and telling the editorial
+   office, and thereafter posting no updated version while the manuscript is under review (§2b).
+
+⚠ **Step 1 is the only irreversible one and only the author can take it.** Steps 2 and 3 are the
+ones with a deadline attached; step 1 is the one they are waiting on, which is worth saying plainly
+because the deposit item has been sitting under a heading that says it blocks the JOURNAL
+submission, and it blocks the preprint first.
 
 ## 3 · Open, and blocking the journal submission
 
@@ -191,12 +248,51 @@ precisely the risky one to post early.
   this item goes missing while a version is pending, and equally if it is left standing after one is
   published. **Do not edit that file to silence the gate.**
 
+## 3c · Where NAT conformance stands, 2026-08-23 — and the one item nothing here can fix
+
+⛔ **THE CAPS ARE NOT RESTATED HERE.** Word, abstract, display-item and reference counts are graded
+against the read limits in [`submission-metrics.json`](../submission-metrics.json), regenerated by
+`submission_metrics.py`; the limits themselves are in the `NAT-Article` row of that module, sourced
+from [`nat-submission-guidelines-2026-08-23.md`](../../literature/nat-submission-guidelines-2026-08-23.md).
+Read the grade, never a number copied out of it.
+
+**Closed by this round, each because the guidelines named a requirement nothing here had met:**
+
+| requirement, as the guidelines state it | where it now lives |
+|---|---|
+| "The preferred format for your manuscript is Word" | `build_submission_docx.py` builds `fusion-junction-aso-journal-article-manuscript.docx` from the same HTML the submission-format PDF uses, with the figure embedded as bytes |
+| "an unstructured abstract of 200 words … between the title and main body" | measured every regeneration; ⛔ the abstract sits at the cap, so any edit to it is a trade |
+| "a minimum of 4 keywords, listed after the abstract" | the manuscript's own `## Keywords` section, after the abstract |
+| "include a section with the heading 'Statements and Declarations' … including each of the sub-headings listed below" | all six of the venue's sub-headings, in the venue's own order, plus this paper's two extras |
+| "Please include the Author Contributions heading" | `## Author Contributions`, before the declarations |
+| "The journal follows the Sage Vancouver reference style" | converted in one pass and held by `tests/test_journal_references_match_the_prose.py`; ⚠ the journal-name ABBREVIATION half is NOT applied and the reason is recorded there |
+
+**⛔ AND THE ONE THAT IS NOT CLOSED, BECAUSE IT IS A FACT ABOUT THE AUTHOR RATHER THAN THE PAPER.**
+The submission form asks for a "Complete list of authors, with their institutional affiliations",
+and the guidelines say "The listed affiliation should be the institution where the research was
+conducted." **There is none.** That is exactly the ground bioRxiv gave for declining the extended
+report on 2026-08-23, and it cannot be engineered away here: the papers state
+*"Independent researcher, unaffiliated"*, which is the true answer, and whether a journal's
+submission system accepts it is discovered by trying. ⚠ **It is NOT evidence that NAT will refuse** —
+a preprint server's screening rule is not a journal's editorial rule, and CLAUDE.md §4 is explicit
+that a remembered reading of an outside system understates. It is recorded so that a rejection on
+this ground is a known risk rather than a surprise, and so nobody spends another round looking for
+the defect in the manuscript.
+
 ## 3b · Deliberately not done, and why
 
-- **The abstract has not been cut to 200 words.** bioRxiv sets no limit, and 200 is a
-  *journal-specific* cap, so cutting to the wrong target now means cutting twice. The measured
-  length is in [`submission-metrics.json`](../submission-metrics.json), which grades this paper
-  against bioRxiv rather than against a journal the plan had already eliminated.
+- **The extended report's abstract has not been cut, and will not be.** Its venue sets no abstract
+  limit and it has been submitted elsewhere; cutting it would be work against no cap.
+  ✅ *The CONDENSED article's abstract HAS been cut, 2026-08-23, and it now grades against a REAL
+  limit rather than a believed one: Nucleic Acid Therapeutics' Original Paper takes an unstructured
+  abstract of no more than 200 words, read at primary source and captured to
+  [`nat-submission-guidelines-2026-08-23.md`](../../literature/nat-submission-guidelines-2026-08-23.md).*
+  ⚠ *Superseded, retained: "**The abstract has not been cut to 200 words.** bioRxiv sets no limit,
+  and 200 is a journal-specific cap, so cutting to the wrong target now means cutting twice", and
+  "[`submission-metrics.json`](../submission-metrics.json) … grades this paper against bioRxiv
+  rather than against a journal the plan had already eliminated." The reasoning was right and is
+  spent: the target stopped being a guess the day the guidelines were read, and the cut was made to
+  the read cap, not to a searched one.*
   ⚠ *Superseded, retained: "the British Journal of Cancer wants a structured abstract under
   mandatory Background/Methods/Results/Conclusions headings, **which this one already has**, while
   Cancer Gene Therapy wants an unstructured one", and "**The cut got bigger on 2026-08-13** — the
@@ -204,22 +300,33 @@ precisely the risky one to post early.
   abstract, so whoever does the cut is starting from further out."* The venue facts are unchanged
   and BJC still mandates those headings; what changed is that the abstract is now unstructured
   (2026-08-14, see submission-plan §1c), so the parenthetical no longer describes it. The second
-  sentence is retired for a different reason: both results are still reported, but compactly, the
-  pre-mRNA compartment as "19 pair a parent in precursor RNA … and 13 of those 19 are already among
-  the 87" and the censoring test as "designs that look clean mostly
-  stop looking clean under a tenfold deeper search". ⛔ **DO NOT STATE THE DISTANCE TO A CAP HERE.**
+  sentence is retired for a different reason: both results are still reported, but compactly.
+  ⛔ **DO NOT STATE THE DISTANCE TO A CAP HERE.**
   ⚠ *Superseded, retained, one commit after it was written: "The measured distance to a 200-word cap
   is now a few words, not seventy."* It was true at 223 words and false at the next edit, which
   traded jargon for plain English and cost about fifty words — plain language is longer than the
   compressed technical register it replaces, and that trade will be made again. The length has one
   home, [`submission-metrics.json`](../submission-metrics.json), which is regenerated rather than
   typed; a distance quoted here is a subtraction against a number that moves.
-- **The figures have not been made greyscale-only.** Colour is free on bioRxiv. The accessibility
-  problem — that red against green carries nothing to a colour-blind reader or a monochrome printer
-  — has been fixed by adding a shape cue, which is the part that matters regardless of venue.
-- **The journal is not chosen.** See `fusion-junction-aso-submission-plan.md` §1c. Cancer Gene
-  Therapy is eliminated on its own read fee schedule; the venue is reopened and the decision waits
-  on what the author is willing to spend.
+- **The figures have not been made greyscale-only, and colour is no longer free.**
+  ⚠ *Superseded, retained: "Colour is free on bioRxiv."* True of bioRxiv, and bioRxiv is no longer
+  the destination. At Nucleic Acid Therapeutics colour is free ONLINE — "Figures supplied in color
+  will appear in color online regardless of whether or not these illustrations are reproduced in
+  color in the printed version" — and charged in PRINT, per the rates in the capture cited above.
+  ⛔ **That is an author decision at acceptance, not a build decision now**, and it is not a reason
+  to degrade the figures: print colour is opted into, so declining it costs nothing here. The
+  accessibility problem — that red against green carries nothing to a colour-blind reader or a
+  monochrome printer — has been fixed by adding a shape cue, which is the part that matters
+  regardless of venue and which is exactly what makes declining print colour safe.
+- **The journal IS chosen: Nucleic Acid Therapeutics, Original Paper.**
+  ⚠ *Superseded, retained: "**The journal is not chosen.** … the venue is reopened and the decision
+  waits on what the author is willing to spend."* Cancer Gene Therapy stays eliminated on its own
+  read fee schedule. What settled NAT was the condensed article: its Publishing Services Fee is
+  charged per typeset page, so the page count IS the bill, which is why the page budget is a
+  measured gate (`tests/test_the_journal_pdf_fits_its_page_budget.py`, which owns both the budget
+  and the built count) rather than a claim in prose. ⛔ **DO NOT MULTIPLY THE RATE BY THE PAGE COUNT
+  HERE** — the rate's one home is the guidelines capture, the count's is the gate, and a product
+  typed here is a third number that drifts against both.
 
 ## 4 · What the preprint says that the journal version may not
 

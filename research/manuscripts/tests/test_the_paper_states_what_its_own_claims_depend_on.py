@@ -154,7 +154,31 @@ def test_the_article_states_it(label, pattern, why, prose):
 #: never to make a red run green.
 COVERAGE_FLOOR = {"journal-article": {"covered": 68, "with_a_number_covered": 44},
                   "journal-tables": {"covered": 4, "with_a_number_covered": 1},
-                  "cover-letter": {"covered": 7, "with_a_number_covered": 4}}
+                  "cover-letter": {"covered": 6, "with_a_number_covered": 4}}
+#: ⛔⛔ `cover-letter.covered` 7 -> 6 ON 2026-08-23, AND THE SEVENTH WAS THE STRING "sub-miss-ion".
+#: This is the second documented downward correction and, like the first, it is licensed by a
+#: measurement rather than by a red run. What happened, in order, because the order is the lesson:
+#:   1. The letter was edited (a false bioRxiv statement removed) and `covered` fell 7 -> 6.
+#:   2. This ratchet fired and printed its own remedy: find the reworded sentence, do NOT lower the
+#:      floor. ⚠ THE SENTENCE HAD NOT BEEN REWORDED. It is byte-identical in both versions —
+#:      confirmed by censusing the pre-edit letter inside a `claim_ablation` clone, which is the
+#:      only way to census an old revision, since witness discovery greps for the BASENAME.
+#:   3. The sentence was credited to `test_the_manuscript_title_states_the_measurement_it_carries.py`
+#:      by one harvested pattern: `...|miss(?:es|ed)?|...` WITH NO WORD BOUNDARIES, matching the
+#:      middle of "sub**miss**ion". All five of its hits in the letter were the word "submission".
+#:   4. The edit added sentences containing "submission", the pattern crossed `MAX_MATCH_SHARE`, and
+#:      the census dropped it as non-selective — which is the selectivity filter working correctly
+#:      and by accident, since the pattern was never selective and the document merely grew.
+#: ★ THE FIX WENT INTO THE GUARD, NOT THE FLOOR: `_PAIRING_VERBS` and `_SPARING_VERBS` are now
+#: `\b`-bounded (and refuse a hyphen-introduced "pair", because `\b` alone still matches the unit
+#: inside "ten-base-pair"). ⛔ That mattered in the OTHER direction too, which is the part worth
+#: keeping: unbounded `clear(?:s|ed)?` matches inside "nu**clear**", and a title of this paper —
+#: about an orphan NUCLEAR receptor — would have failed a guard that says the title asserts the
+#: inverse of the central negative. A gate that reds on true input is the worse failure.
+#: ⛔ SO 6 IS THE TRUE READING AND 7 NEVER WAS. Do not read this entry as permission to lower a
+#: floor that falls: the license here is (a) the sentence was proven unchanged, (b) the crediting
+#: pattern was proven to be a substring artifact, and (c) the artifact was FIXED. Absent all three,
+#: a falling floor is the regression it looks like.
 #: ⛔⛔ THESE FLOORS WERE SET ON INFLATED NUMBERS AND ARE NOW CORRECTED DOWNWARD (round 16 seat 4).
 #: The first ratchet read 82/53 and 27/15. Those came from a census that applied EVERY test file's
 #: patterns to EVERY document, so a pattern from a test that never opens the cover letter could mark

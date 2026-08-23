@@ -234,28 +234,64 @@ def _run(cmd, workspace):
     return subprocess.run(cmd, cwd=workspace, capture_output=True, text=True).returncode != 0
 
 
-#: Witness-set signature -> the commands already red BEFORE any mutation. Computed once per set.
+#: Witness-set signature -> (commands, indices already red BEFORE any mutation). Once per set.
 _BASELINE_CACHE = {}
 
 
-def _baseline_reds(witnesses, workspace):
-    """Which of these guards are ALREADY red on the unmutated clone?
+def _is_pytest_batch(cmd):
+    return "pytest" in cmd and sum(1 for a in cmd if a.endswith(".py")) > 1
 
-    ⛔⛔ WITHOUT THIS THE WHOLE GATE PASSES VACUOUSLY ON ANY RED TREE (round 17 seat B, 2026-08-23).
-    `ablate` declared a sentence bound when a witness went red AFTER the mutation, and never asked
-    whether it was red BEFORE. Measured: one unrelated wrong integer in `claim-coverage.json` turns
-    1 of 2 witness commands red on the UNMUTATED clone, after which every sentence in the document
-    reports "a witness noticed" and `test_a_covered_sentence_has_a_witness_that_actually_goes_red`
-    passes without measuring anything.
+
+def _split_pytest(cmd):
+    """One command per test module, preserving the flags."""
+    modules = [a for a in cmd if a.endswith(".py")]
+    flags = [a for a in cmd if not a.endswith(".py")]
+    return [flags + [m] for m in modules]
+
+
+def _baseline_reds(witnesses, workspace):
+    """The commands to run and which are ALREADY red on the unmutated clone.
+
+    ⛔⛔ WITHOUT A BASELINE THE WHOLE GATE PASSES VACUOUSLY ON ANY RED TREE (round 17 seat B,
+    2026-08-23). `ablate` declared a sentence bound when a witness went red AFTER the mutation, and
+    never asked whether it was red BEFORE. Measured: one unrelated wrong integer in
+    `claim-coverage.json` turns 1 of 2 witness commands red on the UNMUTATED clone, after which
+    every sentence in the document reports "a witness noticed" and
+    `test_a_covered_sentence_has_a_witness_that_actually_goes_red` passes without measuring
+    anything.
     ★ That is the exact defect this module was built to detect — a reading taken without
     establishing its own precondition — committed inside the instrument that detects it. A red
     baseline is subtracted, and a baseline with NOTHING green is reported as unmeasurable rather
     than as a pass.
+
+    ⛔⛔ AND SUBTRACTING THE BATCH SUBTRACTED THIRTEEN INNOCENT GUARDS WITH IT (measured 2026-08-23,
+    the same day, one layer down). `_witness_cmds` packs every pytest witness into ONE invocation
+    for speed, so "the command is already red" and "this witness is already red" stopped being the
+    same statement. With `claim-coverage.json` stale, `test_the_paper_states_what_its_own_claims_
+    depend_on.py` failed, the single batched command was red at baseline, and the subtraction
+    excluded ALL FOURTEEN modules from ever firing. The gate then reported three sentences BLIND —
+    including `NR4A3` -> `NR4A7`, which
+    `test_the_manuscripts_gene_identifiers_are_ones_an_artifact_names.py` exists specifically to
+    catch and was sitting inside that batch. A blindness verdict manufactured by the harness reads
+    exactly like a real one, and it points the reader at the paper instead of at the instrument.
+    ★ THE UNIT OF EXCLUSION MUST BE THE FAILING WITNESS, NEVER THE BATCH THAT CONTAINS IT. A red
+    batch is therefore decomposed into one command per module and re-measured, so only the module
+    that is actually red is subtracted. The cost is paid ONLY when something is already red, which
+    is the case that was silently wrong; a green tree still runs one invocation.
     """
     key = (workspace, tuple(sorted(witnesses)))
-    if key not in _BASELINE_CACHE:
-        cmds = _witness_cmds(witnesses, workspace)
-        _BASELINE_CACHE[key] = [i for i, c in enumerate(cmds) if _run(c, workspace)]
+    if key in _BASELINE_CACHE:
+        return _BASELINE_CACHE[key]
+    cmds, final, red = _witness_cmds(witnesses, workspace), [], []
+    for cmd in cmds:
+        if not _run(cmd, workspace):
+            final.append(cmd)
+            continue
+        for sub in (_split_pytest(cmd) if _is_pytest_batch(cmd) else [cmd]):
+            final.append(sub)
+            if _run(sub, workspace):
+                red.append(len(final) - 1)
+    _BASELINE_CACHE[key] = (final, red)
     return _BASELINE_CACHE[key]
 
 
@@ -291,14 +327,13 @@ def ablate(paper_key, row, witnesses=None):
     workspace = _workspace()
     mirror = _mirror(path, workspace)
     before = hashlib.sha256(original.encode()).hexdigest()
-    cmds = _witness_cmds(ws, workspace)
 
     # ⛔ ESTABLISH THE BASELINE BEFORE TRUSTING A RED. A guard already failing for an unrelated
     # reason reds on every mutation and on none of them equally.
     # ⚠ `cmds and` IS LOAD-BEARING: an EMPTY witness set has zero commands, and `0 == 0` would read
     # as "everything is already red". The byte-identity test passes `witnesses=[]` deliberately —
     # it is measuring the file, not the guards — and caught this the moment it was introduced.
-    already_red = _baseline_reds(ws, workspace)
+    cmds, already_red = _baseline_reds(ws, workspace)
     if cmds and len(already_red) == len(cmds):
         return {"status": NOT_APPLIED, "red": [], "witnesses": ws,
                 "reason": f"all {len(cmds)} guard(s) reading this document are ALREADY red on the "

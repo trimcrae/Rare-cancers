@@ -9,8 +9,8 @@ purpose: >
   Hold the cover letter accompanying fusion-junction-aso-journal-article.md — the CONDENSED
   submission, which is the manuscript a journal receives — with the fit statement, the scope
   disclosure, the preprint note and the integrity declarations a journal expects at submission.
-  The extended report it cites, fusion-junction-aso-research-article.md, is prepared for bioRxiv
-  deposit and needs no cover letter of its own.
+  The extended report it cites, fusion-junction-aso-research-article.md, is archived and needs no
+  cover letter of its own.
 scope: >
   The cover letter only. It is a submission document, not a scientific record; every result it
   refers to lives in the manuscript, its tables and their artifacts.
@@ -27,6 +27,16 @@ deposition 22061075 — the corrected archive is drafted and every archive link 
 resolves to nothing until it is published (see the preprint checklist, which carries the two-step
 order). Then fill the bracketed date and confirm the editor's name on the journal's current
 masthead.*
+
+⛔ *AND FOUR BRACKETS MUST BE FILLED OR CUT BEFORE THIS IS SENT — each is a fact this repository
+cannot supply and must not invent.* `[DATE]`; `[PREPRINT DOI]`, once the condensed article is
+posted (the server question is open — preprint checklist §2b); and the extended report's status
+bracket, which needs the venue it was submitted to. ⛔ *That bracket replaced a sentence that told
+the editor the extended report "was submitted to bioRxiv as a preprint on 2026-08-20 and is awaiting
+screening". **bioRxiv declined it on 2026-08-23 because the author is unaffiliated**, so the letter
+carried a false statement to a journal for three days. A status owned by a system outside this
+repository decays silently, and this is what that costs when it reaches an outward-facing
+document.*
 ⚠ *Superseded, retained: "Ready to send except for three items … register an ORCID iD … mint the
 archive DOI and replace both placeholders." Both were closed on 2026-08-20 — the ORCID is in both
 papers' author blocks and no `[ARCHIVE DOI]` placeholder survives — while the one thing that does
@@ -35,10 +45,16 @@ block sending was absent from the list.*
 ⛔ *THE VENUE IS NUCLEIC ACID THERAPEUTICS (trimcrae, 2026-08-22: "NAT is the venue. It's not
 disqualified."). Its per-page charge is a cost to plan the page count against, not a bar; the
 condensed manuscript is built to six typeset pages at the journal's own measured geometry for that
-reason. ⚠ THE FEE AND THE LIMITS ARE BOTH UNCONFIRMED UNDER SAGE: the journal transferred from Mary
-Ann Liebert to SAGE, every SAGE-hosted NAT author page returns 403 to this repository's fetcher, and
-the $90 figure is from the Liebert era. Read the guidelines and the current fee schedule before
-sending this letter.*
+reason. ✅ THE FEE AND THE LIMITS WERE READ ON 2026-08-23, at the journal's own Submission Guidelines,
+by trimcrae in a human web browser — every automated route still returns HTTP 403, and always will.
+Captured verbatim to
+[`nat-submission-guidelines-2026-08-23.md`](../../literature/nat-submission-guidelines-2026-08-23.md),
+which is the source of record: the article type is Original Paper, the Publishing Services Fee
+survived the Liebert-to-SAGE transfer unchanged, and the word, abstract and display-item caps are
+graded against the manuscript in [`submission-metrics.json`](../submission-metrics.json).*
+⚠ *Superseded, retained: "THE FEE AND THE LIMITS ARE BOTH UNCONFIRMED UNDER SAGE … the $90 figure
+is from the Liebert era. Read the guidelines and the current fee schedule before sending this
+letter." The instruction was right and has been carried out.*
 ⚠ *Superseded, retained: "THE VENUE IS OPEN, SO THE ADDRESSEE BELOW IS A PLACEHOLDER. Two venues
 have been eliminated on their full fee schedules … Nucleic Acid Therapeutics was the better
 scientific fit and levies mandatory page charges of $90 per page." The elimination was withdrawn by
@@ -53,7 +69,7 @@ to. Cancer Gene Therapy's £145/$238 per typeset page, read at HTTP 200, stands 
 
 **Date:** [DATE]
 
-**Re:** Submission of an Article — "NR4A3 gapmers in extraskeletal myxoid chondrosarcoma: 87 of 190 pair a wild-type parent through the gap at 10 bp"
+**Re:** Submission of an Original Paper — "NR4A3 gapmers in extraskeletal myxoid chondrosarcoma: 87 of 190 pair a wild-type parent through the gap at 10 bp"
 
 ⚠ *Superseded, retained, TWICE. First: "In-silico design and predicted specificity limits of
 junction-spanning gapmers against NR4A3 fusions in extraskeletal myxoid chondrosarcoma" — the
@@ -66,7 +82,7 @@ retitle the manuscript and this line must be recopied, not retyped.*
 
 Dear Editor,
 
-I submit the manuscript above for consideration as an Article in *Nucleic Acid Therapeutics*.
+I submit the manuscript above for consideration as an Original Paper in *Nucleic Acid Therapeutics*.
 Extraskeletal myxoid chondrosarcoma is an ultra-rare sarcoma defined by rearrangement of *NR4A3* to
 a variable 5′ partner. Its chimeric mRNA carries a breakpoint seam absent from every normal
 transcript, which is the disease's one tumour-exclusive feature at the RNA level, and no
@@ -76,7 +92,7 @@ them against the compartment that decides the design: the six mature wild-type p
 these genes hold. The constraint is not confined to a design's own two halves — for both named
 reagents the limiting duplex is against wild-type *TFG*, which supplies neither. The full five-method screen over four compartments —
 mature transcript, parent pre-mRNA, mature parent transcript and the whole genome — is reported in
-the extended report the manuscript cites, prepared for bioRxiv deposit.
+the extended report the manuscript cites, which is archived and citable.
 
 The fit with the journal is that this is a nucleic-acid therapeutic design study in a
 fusion-driven cancer, reported at the point where computation stops being able to answer the
@@ -122,10 +138,14 @@ patient-level records, and required no ethics approval. No oligonucleotide descr
 synthesised. Nothing in the manuscript asserts efficacy, potency, safety, a therapeutic window,
 delivery to a tumour, or clinical readiness for any sequence.
 
-The extended report this manuscript cites was submitted to bioRxiv as a preprint on 2026-08-20 and
-is awaiting screening; I will link it to the published version. I have not been able to read this
-journal's preprint policy — every SAGE-hosted page for it returns HTTP 403 to me — so I would
-welcome correction if that arrangement does not suit. I am the sole author, an unaffiliated
+This manuscript is a condensed report of a larger body of work. The extended report — every
+screen's parameters and the complete bounds on each claim — is deposited in the archive cited in the
+manuscript's Data availability statement, and I mention it here so the relationship is on the record
+rather than discovered later: it is a separate and much longer manuscript, [STATE ITS CURRENT
+STATUS AND, IF IT IS UNDER CONSIDERATION ANYWHERE, NAME THE VENUE], and the manuscript submitted
+here is not published or under consideration elsewhere. This condensed article has been posted as a
+preprint at [PREPRINT DOI]; per your guidelines I have entered that DOI in the submission form, and
+I will not post an updated version while the manuscript is under review. I am the sole author, an unaffiliated
 independent researcher with no institutional address. Analysis code, the screening pipelines and
 drafting were carried out with substantial AI assistance under my direction, which is disclosed in
 the manuscript; no AI tool is an author, every quantitative statement derived from sequence or from a
