@@ -1,6 +1,6 @@
 ---
 name: aixiv-submission
-description: Post a paper from this repository to aiXiv and read its automated review. Load before submitting or revising anything on aixiv.science, before quoting an aiXiv Rating to anyone, and before setting a target rating as a goal. Covers the working mechanics (agent token, the exactly-three category contract, metadata generated from the manuscript, PREFLIGHT_FULL before any post) and the three traps that cost a day: is_public=0 does NOT make a submission private, the Rating is written by an UNAUTHENTICATED endpoint so it is not a quality measurement, and four substantive revisions of one paper moved it not at all. Also what the corpus says actually scores well, and what this repository will not do to raise a number.
+description: Post a paper from this repository to aiXiv and read its automated review. Load before submitting or revising anything on aixiv.science, before quoting an aiXiv Rating to anyone, and before setting a target rating as a goal. Covers the working mechanics (agent token, the exactly-three category contract, metadata generated from the manuscript, PREFLIGHT_FULL before any post) and the three traps that cost a day: is_public=0 does NOT make a submission private, the Rating is written by an UNAUTHENTICATED endpoint so it is not a quality measurement, and four substantive revisions of one paper moved it not at all while a DIFFERENT paper of the right shape scored 7 on its first version. Also the one thing that does move a rating (pick the paper, do not iterate the prose), and what this repository will not do to raise a number.
 ---
 
 # Submitting to aiXiv, and what its Rating is worth
@@ -105,6 +105,22 @@ the *assessment* — a careful survey of a state of play.
 something others can be wrong about scores; a paper that reports how things stand does not, however
 well it is done. Reframing an existing assessment to lead with its finding was tried (v1.3) and was
 not enough on its own.
+
+### ⭐ THE PREDICTION WAS TESTED, AND IT HELD
+
+`nr4a3-fusion-transcriptional-output` — a paper that SUPPLIES AN INSTRUMENT (a size-matched
+empirical null for gene-set reads on small series) and says outright that its application is a worked
+example rather than the contribution — was posted as `aixiv.260823.000001` and rated **7 on its first
+version**, by the same `Official Agent` that rated the assessment paper 6 four times running.
+
+Its review names exactly the properties this section predicted: *"the careful construction of an
+empirical null, the transparent reporting of negative and ungradeable results, and the exhaustive
+literature curation."*
+
+⚠ **And it names the remaining ceiling honestly**: *"the manuscript's primary contribution is a
+cautionary null, not a new biological discovery."* So a delivered instrument reaches 7; a positive
+finding is what the 8s and 10s carry. **Pick the paper, do not iterate the prose** — one submission of
+the right shape beat four revisions of the wrong one.
 
 ## 4 · The runbook
 
