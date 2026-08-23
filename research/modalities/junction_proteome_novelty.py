@@ -137,6 +137,25 @@ def fetch_proteome(url=PROTEOME_URL, tries=4):
     would be scored NOVEL. That is a silently wrong headline number, which is worse than no number,
     so a short read is an error here and never a result.
     """
+    # ⭐ ONE FETCH PER URL PER RUN (2026-08-23). `junction_selfsimilarity.py` calls this function
+    # too, so a workflow running both fetched the reviewed proteome TWICE — measured ~5 minutes of
+    # pure duplication on a ~15-minute job, for a body of text that cannot change between two steps
+    # of the same run. The cache is a plain file under the runner's temp dir, keyed by the URL, and
+    # it is deliberately NOT in the repository: a proteome snapshot committed beside the results is
+    # a 100 MB artifact nobody diffs and a provenance question nobody wants.
+    # ⚠ THE CACHE IS WRITTEN ONLY AFTER A COMPLETE, VALIDATED FETCH. A partial body is never a
+    # result here (see below), and caching one would turn a single truncation into every downstream
+    # script scoring peptides against a short proteome — the silently-wrong-headline failure this
+    # function's own comments are about, made durable.
+    cache = _cache_path(url)
+    if cache and os.path.exists(cache):
+        with open(cache, encoding="utf-8") as fh:
+            text = fh.read()
+        if text.count(">") > 0:
+            print(f"  proteome: reusing this run's cached fetch ({text.count('>')} records)",
+                  file=sys.stderr)
+            return _parse_fasta(text)
+
     # ⛔ `/stream` TRUNCATES AND CANNOT BE MADE TO WORK BY RETRYING. Measured 2026-08-22 across two
     # runs: IncompleteRead at 8,760,539 bytes (compressed) and at 769,298 bytes (uncompressed) — a
     # different offset each time, so it is the server dropping a long-lived connection rather than a
@@ -144,7 +163,32 @@ def fetch_proteome(url=PROTEOME_URL, tries=4):
     # ⭐ THE FIX IS TO STOP ASKING FOR ONE LONG RESPONSE. `/search` returns bounded pages and a
     # `Link: <...>; rel="next"` cursor, so no single connection has to survive the whole proteome.
     text = _fetch_paginated(url, tries=tries)
+    if cache:
+        try:
+            with open(cache, "w", encoding="utf-8") as fh:
+                fh.write(text)
+        except OSError as e:  # noqa: BLE001 — a cache that cannot be written costs time, not truth
+            print(f"  proteome cache not written ({e}); the fetch itself is unaffected",
+                  file=sys.stderr)
+    return _parse_fasta(text)
 
+
+def _cache_path(url):
+    """Where this run's copy of `url` lives, or None if there is nowhere safe to put it.
+
+    RUNNER_TEMP on Actions, else the system temp dir; never the repository, and never a path that
+    survives the job — the point is to share one fetch between steps, not to pin a proteome.
+    """
+    import hashlib
+    import tempfile
+    base = os.environ.get("RUNNER_TEMP") or tempfile.gettempdir()
+    if not os.path.isdir(base):
+        return None
+    return os.path.join(base, "proteome-" + hashlib.sha256(url.encode()).hexdigest()[:16] + ".fasta")
+
+
+def _parse_fasta(text):
+    """FASTA text -> [(accession, name, seq)]. THE ONE HOME of this parse (rule 1)."""
     entries, acc, name, chunks = [], None, None, []
     for line in io.StringIO(text):
         line = line.rstrip("\n")

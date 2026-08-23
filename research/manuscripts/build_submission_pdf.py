@@ -167,10 +167,13 @@ PAPERS = {
         "journal": {
             "article_type": "Article",
             "section": "",
-            #: ⛔ NO SERVER IS NAMED, for the reason recorded on the aso-journal note above: the
-            #: one this said had already refused this author by the time anyone read it.
-            "preprint_note": "This manuscript is prepared for deposit as a preprint and is not yet "
-                             "posted.",
+            # ⛔ CORRECTED 2026-08-23. This said "prepared for deposit as a bioRxiv preprint and is
+            # not yet posted" while the paper was posted on aiXiv and being read there — so the
+            # first line of the deposited PDF told every reviewer something false about the
+            # document they had open. A venue banner is a claim like any other and goes stale the
+            # moment the deposit happens; it names where the paper actually is.
+            "preprint_note": "Posted as a preprint on aiXiv (aixiv.260822.000005). Not submitted "
+                             "to or accepted by a journal.",
         },
         "out": "neoantigen/emc-vaccine-development-path.pdf",
     },
@@ -845,6 +848,21 @@ def inline(text):
                   lambda m: keep('<a href="' + _html.escape(m.group(2), quote=True) + '">'
                                  + escape_text(m.group(1)) + "</a>"), text)
     text = escape_text(text)
+    #: ⛔⛔ MARKDOWN BACKSLASH ESCAPES, AND THIS PAPER'S SUBJECT IS THE THING THEY WERE BREAKING.
+    #: Measured 2026-08-23 by extracting text from the built deposit: `\\*` was never unescaped
+    #: anywhere in this builder, so an HLA allele written `HLA-B\\*15:01` reached the emphasis rules
+    #: with its backslash intact and its asterisk live. A line carrying ONE such allele printed
+    #: `HLA-B\\*15:01` — a backslash in the deposit. A line carrying TWO had the span BETWEEN their
+    #: asterisks read as emphasis, so `HLA-A\\*01:01, HLA-B\\*07:02` printed as
+    #: `HLA-A\\` + italic `01:01, HLA-B\\` + `07:02`: both allele names destroyed and a run of
+    #: unrelated text italicised. Every posted version of the junction-vaccine manuscript carries
+    #: this, in a paper whose entire subject is which HLA alleles present a peptide.
+    #: ⚠ STASHED, NOT SUBSTITUTED. Replacing `\\*` with `*` here would hand a live asterisk to the
+    #: emphasis rules below and reproduce the same defect from the other direction; the character is
+    #: taken out of the string entirely and put back after every markup rule has run.
+    #: Code spans and links are stashed ABOVE this line, so an escape inside one stays literal.
+    text = re.sub(r"\\([!\"#$%&'()*+,\-./:;<=>?@\[\\\]^_`{|}~])",
+                  lambda m: keep(m.group(1)), text)
     # ⚠ AFTER escaping and BEFORE emphasis: the pattern is pure ASCII bases between two primes, so
     # escaping cannot change it and stashing it here keeps a `*` in the surrounding sentence from
     # ever reaching inside the span.

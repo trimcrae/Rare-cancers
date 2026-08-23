@@ -53,8 +53,10 @@ import argparse
 import json
 import mimetypes
 import os
+import re
 import sys
 import urllib.error
+import urllib.parse
 import urllib.request
 import uuid
 
@@ -80,6 +82,21 @@ REQUIRED_META = (
 
 class AixivError(RuntimeError):
     pass
+
+
+def _redact(path):
+    """Strip a credential out of a path before it can reach an exception, a log or a screen.
+
+    ⛔ MEASURED 2026-08-23, run 32652730342 → 32653xxxxx. `get_pending-review-submissions` takes its
+    token as a QUERY PARAMETER, and `_request` interpolated the whole path into its error text — so
+    a 401 from that endpoint printed the live token into a world-readable Actions log. GitHub's
+    secret masking rendered it `***` and that is the ONLY reason it did not leak; masking is a
+    backstop, not a control, and it protects only values Actions knows are secrets.
+    ⚠ The comment beside that call claimed the exception "carries only the path" — it does, and the
+    path IS the leak. The test that was supposed to cover this passed because its mock raised
+    without a path, which is a test agreeing with itself.
+    """
+    return re.sub(r"([?&](?:token|api_key|access_token)=)[^&]*", r"\1<redacted>", path)
 
 
 def _request(path, *, data=None, headers=None, method="POST", timeout=180):
@@ -109,9 +126,9 @@ def _request(path, *, data=None, headers=None, method="POST", timeout=180):
             body = r.read().decode("utf-8", "replace")
     except urllib.error.HTTPError as e:
         detail = e.read().decode("utf-8", "replace")[:2000]
-        raise AixivError(f"HTTP {e.code} from {path}: {detail}") from None
+        raise AixivError(f"HTTP {e.code} from {_redact(path)}: {detail}") from None
     except urllib.error.URLError as e:
-        raise AixivError(f"could not reach {url}: {e.reason}") from None
+        raise AixivError(f"could not reach {_redact(url)}: {e.reason}") from None
     try:
         return json.loads(body)
     except json.JSONDecodeError:
@@ -237,6 +254,98 @@ def cmd_submit(args):
     out = _request(EP_SUBMIT, data=body, method="POST", headers={
         "Content-Type": ctype, "Authorization": f"Bearer {_token()}"})
     print(json.dumps(out, indent=2))
+    return 0
+
+
+def cmd_status(args):
+    """What does aiXiv itself hold for this paper — which versions, and in what state?
+
+    ⛔ WHY THIS EXISTS. `fetch` returning an empty `review_list` is an absent reading, and an absent
+    reading has at least three causes that it cannot tell apart: the version does not exist, it
+    exists but is not queued for review, or it is queued and the reviewer has not run. Polling
+    harder distinguishes none of them. Measured 2026-08-23: `aixiv.260822.000005` v1.4 posted
+    cleanly — the server's own response carried `"version": "1.4"` and a new submission_id — and 80
+    minutes later `get-review` was still empty. Without this command the only next move was to guess.
+
+    Reads `/api/submissions/public`, which needs no token, and prints every row for the id: version,
+    status, and whether a review comes back for it. ⚠ A paper absent from the PUBLIC listing is not
+    thereby absent from aiXiv — the listing is what is public, and that is said rather than implied.
+    """
+    seen = []
+    skip = 0
+    while True:
+        page = _request(f"/api/submissions/public?skip={skip}&limit=100", method="GET")
+        rows = page if isinstance(page, list) else (page.get("submissions") or page.get("data") or [])
+        if not rows:
+            break
+        for r in rows:
+            if r.get("aixiv_id") == args.aixiv_id:
+                seen.append(r)
+        skip += 100
+        if skip > 5000:                       # the archive is ~1.3k; this is a runaway guard
+            break
+    if not seen:
+        print(f"NOT IN THE PUBLIC LISTING: {args.aixiv_id}")
+        print("  ⚠ That is not the same as absent from aiXiv. The listing serves PUBLIC submissions;")
+        print("    a row can be missing because it is not public, not because it does not exist.")
+        return 0
+    print(f"{args.aixiv_id}: {len(seen)} row(s) in the public listing")
+    print("  ⚠ The public listing appears to serve versions whose review has COMPLETED — measured")
+    print("    2026-08-23, every row for this id read `official review completed` while a freshly")
+    print("    posted version and the original v1.0 were both absent. So absence from this list is")
+    print("    NOT evidence that a version is unqueued; the pending queue below is what says that.")
+    for r in sorted(seen, key=lambda x: str(x.get("version"))):
+        ver = str(r.get("version") or "?")
+        try:
+            rev = _request(EP_GET_REVIEW, method="POST",
+                           data=json.dumps({"aixiv_id": args.aixiv_id,
+                                            "version": _api_version(ver)}).encode(),
+                           headers={"Content-Type": "application/json"})
+            n = len(rev.get("review_list") or [])
+        except AixivError as e:                # a failed lookup is reported, never counted as zero
+            n = f"LOOKUP FAILED: {e}"
+        print(f"  v{ver:<6} status={str(r.get('status')):<26} reviews={n}")
+
+    # ⭐ THE HALF THAT ACTUALLY DISCRIMINATES. `/api/get_pending-review-submissions` describes itself
+    # as returning submissions with status "Under Review" — which is what aiXiv's own scheduler
+    # polls. A version sitting there is QUEUED and the answer is to wait; a version in neither list
+    # was never enqueued, and waiting is then a mistake no amount of patience corrects.
+    # ⛔ THE TOKEN GOES IN THE QUERY STRING HERE, NOT IN A HEADER. Measured 2026-08-23, run
+    # 32652730342: a bearer-header GET returned HTTP 422 `{"loc":["query","token"],"msg":"Field
+    # required"}`. Every other authenticated endpoint on this API takes the header, so this one is
+    # the exception and the exception is the whole reason the first attempt failed.
+    # ⚠ The token is a SECRET and this repository's Actions logs are world-readable. The error path
+    # below prints the exception, and the exception carries the path — WHICH IS THE TOKEN. That is a
+    # leak, it happened (run 32652730342 printed a live credential that only GitHub's masking hid),
+    # and the fix is `_redact` at the request layer rather than discipline at each call site.
+    # ⛔ MEASURED NEXT: an AGENT token is rejected here with HTTP 401 "Invalid token". This endpoint
+    # wants a different credential from the one that submits and fetches, so the pending queue is
+    # NOT readable by this client and the never-enqueued finding below can never fire on real data
+    # until that changes. It stays because the alternative is silently reporting a queue we cannot
+    # see as empty.
+    try:
+        tok = _token()
+    except AixivError as e:
+        print(f"  PENDING QUEUE NOT CHECKED: {e}")
+        print("  ⚠ No token, so the queue was not read. That is an absent reading, not a reading of")
+        print("    absence — do not conclude a missing version was never enqueued.")
+        return 0
+    try:
+        pend = _request(f"/api/get_pending-review-submissions?token={urllib.parse.quote(tok)}",
+                        method="GET")
+    except AixivError as e:
+        print(f"  PENDING QUEUE UNREADABLE: {e}")
+        print("  ⚠ So this run cannot say whether a missing version is queued. That is an absent")
+        print("    reading, not a reading of absence — do not conclude it was never enqueued.")
+        return 0
+    rows = pend if isinstance(pend, list) else (pend.get("submissions") or pend.get("data") or [])
+    mine = [r for r in rows if r.get("aixiv_id") == args.aixiv_id]
+    print(f"  pending review queue: {len(rows)} submission(s) total, {len(mine)} for this id")
+    for r in mine:
+        print(f"    QUEUED v{r.get('version')} status={r.get('status')}")
+    if not mine:
+        print("    ⛔ NOTHING FOR THIS ID IS QUEUED. A version that is in neither list was not")
+        print("       enqueued for review, and waiting longer will not produce one.")
     return 0
 
 
@@ -390,6 +499,21 @@ def cmd_calibrate(args):
     return 0
 
 
+def _api_version(v):
+    """Normalise a version to what aiXiv's API accepts, which is NOT what its own UI prints.
+
+    ⛔ MEASURED 2026-08-23, run 32648024032: `fetch --version v1.4` came back HTTP 422 —
+    "version must be in the format 'X.Y' or 'X.Y.Z', e.g. 1.0, 2.1, 1.9.3". The `v` prefix is how
+    the platform LABELS versions and how this file's own usage examples wrote them, so a caller who
+    reads either writes the form the API rejects. Two rounds of that is a wasted dispatch and a
+    failed run for a typo the client can simply fix.
+    ⚠ Applied at the request boundary only. The `v` form is kept in filenames and log lines, because
+    that is what a human matching an artifact against the aiXiv page will be looking at.
+    """
+    v = str(v).strip()
+    return v[1:] if v[:1].lower() == "v" and v[1:2].isdigit() else v
+
+
 def cmd_new_version(args):
     """Post a revised version of a paper already on aiXiv.
 
@@ -424,7 +548,7 @@ def cmd_review(args):
     fields = {
         "aixiv_id": args.aixiv_id,
         "aixiv_url": aixiv_url,
-        "version": args.version,
+        "version": _api_version(args.version),
         "doc_type": args.doc_type,
     }
     # ⭐ A SEED IS WHAT MAKES A ROUND RE-RUNNABLE. `paper-hardening` §3 reviews a pinned commit so
@@ -450,7 +574,8 @@ def cmd_review(args):
 
 def cmd_fetch(args):
     """Pull the reviews for one submission version. Needs no token per the spec."""
-    payload = json.dumps({"aixiv_id": args.aixiv_id, "version": args.version}).encode()
+    payload = json.dumps({"aixiv_id": args.aixiv_id,
+                          "version": _api_version(args.version)}).encode()
     out = _request(EP_GET_REVIEW, data=payload, method="POST",
                    headers={"Content-Type": "application/json"})
     reviews = out.get("review_list") or []
@@ -516,6 +641,10 @@ def main(argv=None):
     r.add_argument("--lit-search", action="store_true")
     r.add_argument("--dry-run", action="store_true")
     r.set_defaults(fn=cmd_review)
+
+    st = sub.add_parser("status", help="what aiXiv holds for a paper: versions, status, review counts")
+    st.add_argument("--aixiv-id", required=True)
+    st.set_defaults(fn=cmd_status)
 
     f = sub.add_parser("fetch", help="pull recorded reviews for a submission version")
     f.add_argument("--aixiv-id", required=True)

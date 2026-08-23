@@ -110,6 +110,29 @@ def main():
         _emit(result, args.out)
         return
 
+    # ⭐ PROVENANCE, ADDED 2026-08-23. The preprint checklist carried this as an open item: the class
+    # I artifact records tool, version and models release, and this one recorded NONE — so §8 of the
+    # manuscript had to disclose a reproducibility gap it could simply have closed. A reader cannot
+    # re-run a screen whose predictor version is unknown.
+    # ⚠ THE VERSION IS READ, NOT TYPED. MHCnuggets ships no `__version__` on the package in every
+    # build, so it is looked up through the installed distribution metadata and recorded as UNKNOWN
+    # when that fails — an honest unknown, never a remembered number.
+    try:
+        from importlib import metadata as _md
+        _ver = _md.version("mhcnuggets")
+    except Exception:  # noqa: BLE001 — an unreadable version is an unknown, not a guess
+        _ver = "UNKNOWN — importlib.metadata could not resolve the mhcnuggets distribution"
+    result["_predictor"] = {
+        "tool": "MHCnuggets", "version": _ver,
+        "models_release": ("not exposed by MHCnuggets — the package ships its trained weights "
+                           "inside the distribution and publishes no separate release identifier, "
+                           "so the version above is the whole of the provenance available"),
+        "alleles": list(alleles), "peptide_length": 15,
+        "thresholds": {"strong_ic50_nM": IC50_STRONG, "binder_ic50_nM": IC50_BIND},
+        "⛔": ("a predicted IC50 is a SCREEN value, not a statement that a peptide is presented; "
+               "class II prediction is substantially less accurate than class I"),
+    }
+
     pep_file = tempfile.NamedTemporaryFile("w", suffix=".txt", delete=False)
     pep_file.write("\n".join(sorted(peps)) + "\n")
     pep_file.close()
@@ -141,6 +164,18 @@ def main():
                                  f"{m.get('n_from_left','?')} left + "
                                  + ("1 seam codon + " if m.get("seam_codon_included") else "")
                                  + f"{m.get('n_from_right','?')} right")})
+    # ⛔ AN ALLELE MHCNUGGETS COULD NOT SCORE IS NOT AN ALLELE THAT FAILED TO BIND. With the panel
+    # widened to DP and DQ this stopped being hypothetical: a missing model silently folded into
+    # "no strong binder on the panel" would turn an unscreened allele into a negative result, and
+    # the whole point of widening the panel was to stop bounding the question with three alleles.
+    errored = sorted(result.get("allele_errors", {}))
+    result["alleles_without_a_model"] = errored
+    result["n_alleles_screened"] = len(alleles) - len(errored)
+    result["⚠_missing_model_is_not_a_negative"] = (
+        "Alleles listed in alleles_without_a_model were not scored at all. They are excluded from "
+        "every count below and must never be read as alleles that failed to present." if errored
+        else "every declared allele was scored")
+
     rows.sort(key=lambda r: r["ic50_nM"])
     binders = [r for r in rows if r["call"] != "non-binder"]
     result["n_predicted_binders"] = len(binders)

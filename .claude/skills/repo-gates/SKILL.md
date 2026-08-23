@@ -36,6 +36,26 @@ Extracted from CLAUDE.md §7 (plus §5's deliverable map) on 2026-08-15, **verba
   lane must run off a branch, that branch's artifacts belong on `main` too, and reconciling them is
   **port-then-switch, never switch-then-discover**.
 
+- **⛔⛔ `git checkout --ours` OVER THE CONFLICT LIST SILENTLY DISCARDS EVERY RESOLUTION YOU JUST
+  WROTE BY HAND (2026-08-23, caught by luck).** A 39-ahead/49-behind merge produced 14 conflicts:
+  two source files needing real merges, twelve generated artifacts that only needed regenerating.
+  The source conflicts were resolved carefully — a UNION of two generator checks in `preflight.sh`,
+  and `build_submission_pdf.py`'s vaccine-path banner taken from `main` because main's names where
+  that paper actually is. Then a loop ran `git checkout --ours` over
+  `git diff --name-only --diff-filter=U` to clear the *generated* files, and that list **still
+  contained the two source files**, because resolving a conflict in the working tree does not
+  remove it from the unresolved list — only `git add` does. Both hand-written resolutions were
+  overwritten with the branch's side. The build stayed green: main's `vaccine_path_tables` generator
+  check had simply vanished from preflight, and the vaccine paper's PDFs went back to announcing a
+  deposit that had already happened elsewhere.
+  ★ **THE TELL WAS A HASH THAT MATCHED WHEN IT SHOULD NOT HAVE.** `selector-validation.json` reported
+  `preflight.sh: MATCH` — impossible for a union neither side had recorded — and chasing that one
+  surprising line is the only reason it surfaced. ⚠ Nothing else would have: a dropped gate is
+  invisible, and `--ours` is a legitimate command that reported success.
+  **So: `git add` each file the moment you resolve it, and only then clear the remainder.** Better,
+  never blanket-`--ours` a mixed list — name the generated paths explicitly, since those are the
+  ones whose contents you are about to overwrite anyway.
+
 ## Evidence and registry
 
 - **Citing & combining studies:** registry data uses a structured citation map (`registry.citations` +

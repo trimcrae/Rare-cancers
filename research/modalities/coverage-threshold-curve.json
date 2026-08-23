@@ -1,0 +1,6685 @@
+{
+  "_what": "Predicted class I coverage of the EWSR1::NR4A3 junction as a continuous function of the MHCflurry presentation-percentile acceptance threshold, over the fixed 34-allele panel of epitope-allele-matrix.json.",
+  "_why": "The manuscript's coverage figures rest on a threshold it does not defend (\u00a77) and were stated at three points (\u00a72.3). This is the function between and beyond them.",
+  "\u26d4_what_this_is_not": "Not an argument for a looser cut, and not a better coverage number. A threshold chosen to raise coverage is the defect this analysis exists to expose. Every figure here is predicted binding \u2014 a screen, not evidence of presentation, immunogenicity or benefit.",
+  "_method": "presenting alleles at threshold t = alleles with >=1 junction peptide at presentation percentile <= t; coverage = 1 - prod(1-af)^2 over them via hla_coverage.coverage_with_ci on AFND-pooled frequencies \u2014 the manuscript's own formula and frequencies, imported not reimplemented, so this curve cannot disagree with the headline number. CI propagated from per-allele Wilson bounds.",
+  "_sources": [
+    "Gonzalez-Galarza FF, et al. Allele frequency net database (AFND) 2020 update. Nucleic Acids Res. 2020;48:D783-D788. Mirror: github.com/slowkow/allelefrequencies (MIT).",
+    "Region mapping: ISO 3166 / UN M49 sub-regions via github.com/lukes/ISO-3166-Countries-with-Regional-Codes."
+  ],
+  "\u26a0_the_manuscript_withdraws_these_intervals": "coverage_95ci is emitted because hla_coverage computes it, and MUST NOT be quoted. \u00a72.3 withdraws the Wilson intervals: they pool every reference population into one binomial while the same records show HLA-B*15:01 ranging 0 to 0.40 between those populations, so the single-urn model is refuted by its own input \u2014 and the interval is an order of magnitude narrower than the threshold sensitivity this curve maps.",
+  "_provenance": "MHCflurry re-run at the loose cut (this run)",
+  "_ceiling": {
+    "value": 5.0,
+    "meaning": "largest threshold this data can speak to. Above it, an allele's absence means it was never predicted, NOT that it failed to bind.",
+    "above_the_conventional_cut": true
+  },
+  "conventional_threshold": 0.5,
+  "at_conventional_threshold": {
+    "threshold": 0.5,
+    "n_presenting_alleles": 4,
+    "coverage": 0.304,
+    "coverage_95ci": [
+      0.2951,
+      0.3132
+    ],
+    "alleles": [
+      "HLA-A*01:01",
+      "HLA-A*30:02",
+      "HLA-B*07:02",
+      "HLA-B*15:01"
+    ]
+  },
+  "steps": [
+    {
+      "threshold": 0.3736,
+      "alleles_added": [
+        "HLA-B*15:01"
+      ],
+      "coverage_after": 0.0851,
+      "peptides": [
+        "NMPCVQAQY"
+      ]
+    },
+    {
+      "threshold": 0.4033,
+      "alleles_added": [
+        "HLA-A*30:02"
+      ],
+      "coverage_after": 0.1233,
+      "peptides": [
+        "NMPCVQAQY"
+      ]
+    },
+    {
+      "threshold": 0.4061,
+      "alleles_added": [
+        "HLA-A*01:01"
+      ],
+      "coverage_after": 0.2321,
+      "peptides": [
+        "RGDMPCVQAQY"
+      ]
+    },
+    {
+      "threshold": 0.458,
+      "alleles_added": [
+        "HLA-B*07:02"
+      ],
+      "coverage_after": 0.304,
+      "peptides": [
+        "MPPPLRGDM"
+      ]
+    },
+    {
+      "threshold": 0.5094,
+      "alleles_added": [
+        "HLA-B*13:02"
+      ],
+      "coverage_after": 0.3317,
+      "peptides": [
+        "GQQNMPCVQA"
+      ]
+    },
+    {
+      "threshold": 0.5706,
+      "alleles_added": [
+        "HLA-A*26:01"
+      ],
+      "coverage_after": 0.3729,
+      "peptides": [
+        "DMPCVQAQY"
+      ]
+    },
+    {
+      "threshold": 0.9315,
+      "alleles_added": [
+        "HLA-B*35:01"
+      ],
+      "coverage_after": 0.4433,
+      "peptides": [
+        "MPPPLRGDM"
+      ]
+    },
+    {
+      "threshold": 0.9687,
+      "alleles_added": [
+        "HLA-B*44:02"
+      ],
+      "coverage_after": 0.4775,
+      "peptides": [
+        "GDMPCVQAQY"
+      ]
+    },
+    {
+      "threshold": 1.0445,
+      "alleles_added": [
+        "HLA-B*44:03"
+      ],
+      "coverage_after": 0.5166,
+      "peptides": [
+        "GDMPCVQAQY"
+      ]
+    },
+    {
+      "threshold": 1.1421,
+      "alleles_added": [
+        "HLA-B*46:01"
+      ],
+      "coverage_after": 0.5686,
+      "peptides": [
+        "NMPCVQAQY"
+      ]
+    },
+    {
+      "threshold": 1.4654,
+      "alleles_added": [
+        "HLA-B*40:02"
+      ],
+      "coverage_after": 0.6108,
+      "peptides": [
+        "VEWFDDMPCV"
+      ]
+    },
+    {
+      "threshold": 1.6177,
+      "alleles_added": [
+        "HLA-B*08:01"
+      ],
+      "coverage_after": 0.6414,
+      "peptides": [
+        "MPPPLRGDM"
+      ]
+    },
+    {
+      "threshold": 1.6274,
+      "alleles_added": [
+        "HLA-A*32:01"
+      ],
+      "coverage_after": 0.6586,
+      "peptides": [
+        "NMPCVQAQY"
+      ]
+    },
+    {
+      "threshold": 1.6418,
+      "alleles_added": [
+        "HLA-B*53:01"
+      ],
+      "coverage_after": 0.6764,
+      "peptides": [
+        "MPPPLRGDM"
+      ]
+    },
+    {
+      "threshold": 1.7785,
+      "alleles_added": [
+        "HLA-B*14:02"
+      ],
+      "coverage_after": 0.6921,
+      "peptides": [
+        "MPPPLRGDM"
+      ]
+    },
+    {
+      "threshold": 1.8202,
+      "alleles_added": [
+        "HLA-B*51:01"
+      ],
+      "coverage_after": 0.7256,
+      "peptides": [
+        "MPPPLRGDM"
+      ]
+    },
+    {
+      "threshold": 2.0348,
+      "alleles_added": [
+        "HLA-A*02:06"
+      ],
+      "coverage_after": 0.7454,
+      "peptides": [
+        "AAVEWFDDM"
+      ]
+    },
+    {
+      "threshold": 2.0512,
+      "alleles_added": [
+        "HLA-A*02:03"
+      ],
+      "coverage_after": 0.7612,
+      "peptides": [
+        "PLRGDMPCV"
+      ]
+    },
+    {
+      "threshold": 2.2818,
+      "alleles_added": [
+        "HLA-B*27:05"
+      ],
+      "coverage_after": 0.7704,
+      "peptides": [
+        "RGDMPCVQAQY"
+      ]
+    },
+    {
+      "threshold": 2.4633,
+      "alleles_added": [
+        "HLA-B*18:01"
+      ],
+      "coverage_after": 0.7865,
+      "peptides": [
+        "DDMPCVQAQY"
+      ]
+    },
+    {
+      "threshold": 2.7415,
+      "alleles_added": [
+        "HLA-A*02:01"
+      ],
+      "coverage_after": 0.8464,
+      "peptides": [
+        "GQQNMPCVQA"
+      ]
+    },
+    {
+      "threshold": 3.0373,
+      "alleles_added": [
+        "HLA-B*57:01"
+      ],
+      "coverage_after": 0.8525,
+      "peptides": [
+        "SSSYGQQNM"
+      ]
+    },
+    {
+      "threshold": 3.4876,
+      "alleles_added": [
+        "HLA-A*68:01"
+      ],
+      "coverage_after": 0.8618,
+      "peptides": [
+        "DMPCVQAQY"
+      ]
+    },
+    {
+      "threshold": 4.0479,
+      "alleles_added": [
+        "HLA-B*38:01"
+      ],
+      "coverage_after": 0.8658,
+      "peptides": [
+        "GQQNMPCV"
+      ]
+    },
+    {
+      "threshold": 4.3296,
+      "alleles_added": [
+        "HLA-A*03:01"
+      ],
+      "coverage_after": 0.88,
+      "peptides": [
+        "NMPCVQAQY"
+      ]
+    },
+    {
+      "threshold": 4.4546,
+      "alleles_added": [
+        "HLA-A*68:02"
+      ],
+      "coverage_after": 0.8851,
+      "peptides": [
+        "DLDLDMPCV"
+      ]
+    },
+    {
+      "threshold": 4.6576,
+      "alleles_added": [
+        "HLA-B*40:01"
+      ],
+      "coverage_after": 0.895,
+      "peptides": [
+        "GQQNMPCV"
+      ]
+    },
+    {
+      "threshold": 4.9686,
+      "alleles_added": [
+        "HLA-A*23:01"
+      ],
+      "coverage_after": 0.9018,
+      "peptides": [
+        "GQQNMPCV"
+      ]
+    }
+  ],
+  "lowest_threshold_with_any_presenting_allele": {
+    "threshold": 0.3736,
+    "n_presenting_alleles": 1,
+    "coverage": 0.0851,
+    "coverage_95ci": [
+      0.0826,
+      0.0876
+    ],
+    "alleles": [
+      "HLA-B*15:01"
+    ]
+  },
+  "allele_frequencies": {
+    "HLA-A*01:01": {
+      "allele_frequency": 0.0641,
+      "af_95ci": [
+        0.0622,
+        0.066
+      ],
+      "carrier_frequency": 0.124,
+      "n_populations": 210,
+      "total_individuals": 32777,
+      "af_range_across_populations": [
+        0.0,
+        0.333
+      ]
+    },
+    "HLA-A*02:01": {
+      "allele_frequency": 0.1518,
+      "af_95ci": [
+        0.1491,
+        0.1546
+      ],
+      "carrier_frequency": 0.2806,
+      "n_populations": 246,
+      "total_individuals": 33597,
+      "af_range_across_populations": [
+        0.0,
+        0.545
+      ]
+    },
+    "HLA-A*02:03": {
+      "allele_frequency": 0.0314,
+      "af_95ci": [
+        0.0296,
+        0.0332
+      ],
+      "carrier_frequency": 0.0618,
+      "n_populations": 116,
+      "total_individuals": 17897,
+      "af_range_across_populations": [
+        0.0,
+        0.176
+      ]
+    },
+    "HLA-A*02:06": {
+      "allele_frequency": 0.0369,
+      "af_95ci": [
+        0.0353,
+        0.0386
+      ],
+      "carrier_frequency": 0.0725,
+      "n_populations": 161,
+      "total_individuals": 25415,
+      "af_range_across_populations": [
+        0.0,
+        0.349
+      ]
+    },
+    "HLA-A*03:01": {
+      "allele_frequency": 0.0544,
+      "af_95ci": [
+        0.0526,
+        0.0563
+      ],
+      "carrier_frequency": 0.1059,
+      "n_populations": 188,
+      "total_individuals": 28581,
+      "af_range_across_populations": [
+        0.0,
+        0.313
+      ]
+    },
+    "HLA-A*23:01": {
+      "allele_frequency": 0.0328,
+      "af_95ci": [
+        0.0314,
+        0.0342
+      ],
+      "carrier_frequency": 0.0645,
+      "n_populations": 189,
+      "total_individuals": 31388,
+      "af_range_across_populations": [
+        0.0,
+        0.228
+      ]
+    },
+    "HLA-A*26:01": {
+      "allele_frequency": 0.0313,
+      "af_95ci": [
+        0.03,
+        0.0326
+      ],
+      "carrier_frequency": 0.0616,
+      "n_populations": 226,
+      "total_individuals": 34919,
+      "af_range_across_populations": [
+        0.0,
+        0.218
+      ]
+    },
+    "HLA-A*30:02": {
+      "allele_frequency": 0.0211,
+      "af_95ci": [
+        0.0198,
+        0.0224
+      ],
+      "carrier_frequency": 0.0417,
+      "n_populations": 144,
+      "total_individuals": 24179,
+      "af_range_across_populations": [
+        0.0,
+        0.233
+      ]
+    },
+    "HLA-A*32:01": {
+      "allele_frequency": 0.0243,
+      "af_95ci": [
+        0.0232,
+        0.0255
+      ],
+      "carrier_frequency": 0.048,
+      "n_populations": 218,
+      "total_individuals": 33299,
+      "af_range_across_populations": [
+        0.0,
+        0.114
+      ]
+    },
+    "HLA-A*68:01": {
+      "allele_frequency": 0.0321,
+      "af_95ci": [
+        0.0306,
+        0.0337
+      ],
+      "carrier_frequency": 0.0632,
+      "n_populations": 156,
+      "total_individuals": 25736,
+      "af_range_across_populations": [
+        0.0,
+        0.3538
+      ]
+    },
+    "HLA-A*68:02": {
+      "allele_frequency": 0.0217,
+      "af_95ci": [
+        0.0205,
+        0.023
+      ],
+      "carrier_frequency": 0.0429,
+      "n_populations": 163,
+      "total_individuals": 25497,
+      "af_range_across_populations": [
+        0.0,
+        0.372
+      ]
+    },
+    "HLA-B*07:02": {
+      "allele_frequency": 0.048,
+      "af_95ci": [
+        0.0464,
+        0.0498
+      ],
+      "carrier_frequency": 0.0938,
+      "n_populations": 175,
+      "total_individuals": 30647,
+      "af_range_across_populations": [
+        0.0,
+        0.19
+      ]
+    },
+    "HLA-B*08:01": {
+      "allele_frequency": 0.0401,
+      "af_95ci": [
+        0.0386,
+        0.0416
+      ],
+      "carrier_frequency": 0.0786,
+      "n_populations": 196,
+      "total_individuals": 33082,
+      "af_range_across_populations": [
+        0.0,
+        0.182
+      ]
+    },
+    "HLA-B*13:02": {
+      "allele_frequency": 0.0201,
+      "af_95ci": [
+        0.0191,
+        0.0213
+      ],
+      "carrier_frequency": 0.0399,
+      "n_populations": 173,
+      "total_individuals": 31201,
+      "af_range_across_populations": [
+        0.0,
+        0.16
+      ]
+    },
+    "HLA-B*14:02": {
+      "allele_frequency": 0.0245,
+      "af_95ci": [
+        0.0235,
+        0.0256
+      ],
+      "carrier_frequency": 0.0484,
+      "n_populations": 242,
+      "total_individuals": 40354,
+      "af_range_across_populations": [
+        0.0,
+        0.1167
+      ]
+    },
+    "HLA-B*15:01": {
+      "allele_frequency": 0.0435,
+      "af_95ci": [
+        0.0422,
+        0.0448
+      ],
+      "carrier_frequency": 0.085,
+      "n_populations": 265,
+      "total_individuals": 45574,
+      "af_range_across_populations": [
+        0.0,
+        0.4007
+      ]
+    },
+    "HLA-B*18:01": {
+      "allele_frequency": 0.0356,
+      "af_95ci": [
+        0.0342,
+        0.0371
+      ],
+      "carrier_frequency": 0.07,
+      "n_populations": 191,
+      "total_individuals": 30342,
+      "af_range_across_populations": [
+        0.0,
+        0.28
+      ]
+    },
+    "HLA-B*27:05": {
+      "allele_frequency": 0.0195,
+      "af_95ci": [
+        0.0184,
+        0.0208
+      ],
+      "carrier_frequency": 0.0387,
+      "n_populations": 144,
+      "total_individuals": 25581,
+      "af_range_across_populations": [
+        0.0,
+        0.2
+      ]
+    },
+    "HLA-B*35:01": {
+      "allele_frequency": 0.0578,
+      "af_95ci": [
+        0.0561,
+        0.0596
+      ],
+      "carrier_frequency": 0.1123,
+      "n_populations": 201,
+      "total_individuals": 33079,
+      "af_range_across_populations": [
+        0.0,
+        0.485
+      ]
+    },
+    "HLA-B*38:01": {
+      "allele_frequency": 0.0144,
+      "af_95ci": [
+        0.0134,
+        0.0155
+      ],
+      "carrier_frequency": 0.0287,
+      "n_populations": 141,
+      "total_individuals": 25354,
+      "af_range_across_populations": [
+        0.0,
+        0.067
+      ]
+    },
+    "HLA-B*40:01": {
+      "allele_frequency": 0.0442,
+      "af_95ci": [
+        0.0429,
+        0.0456
+      ],
+      "carrier_frequency": 0.0865,
+      "n_populations": 295,
+      "total_individuals": 47702,
+      "af_range_across_populations": [
+        0.0,
+        0.355
+      ]
+    },
+    "HLA-B*40:02": {
+      "allele_frequency": 0.0502,
+      "af_95ci": [
+        0.0488,
+        0.0516
+      ],
+      "carrier_frequency": 0.0979,
+      "n_populations": 278,
+      "total_individuals": 45893,
+      "af_range_across_populations": [
+        0.0,
+        0.398
+      ]
+    },
+    "HLA-B*44:02": {
+      "allele_frequency": 0.0312,
+      "af_95ci": [
+        0.0298,
+        0.0326
+      ],
+      "carrier_frequency": 0.0614,
+      "n_populations": 167,
+      "total_individuals": 28489,
+      "af_range_across_populations": [
+        0.0,
+        0.132
+      ]
+    },
+    "HLA-B*44:03": {
+      "allele_frequency": 0.0381,
+      "af_95ci": [
+        0.0366,
+        0.0397
+      ],
+      "carrier_frequency": 0.0747,
+      "n_populations": 173,
+      "total_individuals": 29695,
+      "af_range_across_populations": [
+        0.0,
+        0.141
+      ]
+    },
+    "HLA-B*46:01": {
+      "allele_frequency": 0.0553,
+      "af_95ci": [
+        0.0531,
+        0.0576
+      ],
+      "carrier_frequency": 0.1075,
+      "n_populations": 110,
+      "total_individuals": 19994,
+      "af_range_across_populations": [
+        0.0,
+        0.254
+      ]
+    },
+    "HLA-B*51:01": {
+      "allele_frequency": 0.0559,
+      "af_95ci": [
+        0.0541,
+        0.0578
+      ],
+      "carrier_frequency": 0.1087,
+      "n_populations": 169,
+      "total_individuals": 30509,
+      "af_range_across_populations": [
+        0.0,
+        0.232
+      ]
+    },
+    "HLA-B*53:01": {
+      "allele_frequency": 0.0265,
+      "af_95ci": [
+        0.0252,
+        0.0279
+      ],
+      "carrier_frequency": 0.0524,
+      "n_populations": 169,
+      "total_individuals": 26487,
+      "af_range_across_populations": [
+        0.0,
+        0.244
+      ]
+    },
+    "HLA-B*57:01": {
+      "allele_frequency": 0.0201,
+      "af_95ci": [
+        0.019,
+        0.0214
+      ],
+      "carrier_frequency": 0.0399,
+      "n_populations": 138,
+      "total_individuals": 26899,
+      "af_range_across_populations": [
+        0.0,
+        0.102
+      ]
+    }
+  },
+  "curve": [
+    {
+      "threshold": 0.01,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.02,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.03,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.04,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.05,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.06,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.07,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.08,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.09,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.1,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.11,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.12,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.13,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.14,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.15,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.16,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.17,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.18,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.19,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.2,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.21,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.22,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.23,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.24,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.25,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.26,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.27,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.28,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.29,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.3,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.31,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.32,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.33,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.34,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.35,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.36,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.37,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.3735,
+      "n_presenting_alleles": 0,
+      "coverage": 0.0,
+      "coverage_95ci": null,
+      "alleles": []
+    },
+    {
+      "threshold": 0.3736,
+      "n_presenting_alleles": 1,
+      "coverage": 0.0851,
+      "coverage_95ci": [
+        0.0826,
+        0.0876
+      ],
+      "alleles": [
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.38,
+      "n_presenting_alleles": 1,
+      "coverage": 0.0851,
+      "coverage_95ci": [
+        0.0826,
+        0.0876
+      ],
+      "alleles": [
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.39,
+      "n_presenting_alleles": 1,
+      "coverage": 0.0851,
+      "coverage_95ci": [
+        0.0826,
+        0.0876
+      ],
+      "alleles": [
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.4,
+      "n_presenting_alleles": 1,
+      "coverage": 0.0851,
+      "coverage_95ci": [
+        0.0826,
+        0.0876
+      ],
+      "alleles": [
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.4032,
+      "n_presenting_alleles": 1,
+      "coverage": 0.0851,
+      "coverage_95ci": [
+        0.0826,
+        0.0876
+      ],
+      "alleles": [
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.4033,
+      "n_presenting_alleles": 2,
+      "coverage": 0.1233,
+      "coverage_95ci": [
+        0.1186,
+        0.128
+      ],
+      "alleles": [
+        "HLA-A*30:02",
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.406,
+      "n_presenting_alleles": 2,
+      "coverage": 0.1233,
+      "coverage_95ci": [
+        0.1186,
+        0.128
+      ],
+      "alleles": [
+        "HLA-A*30:02",
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.4061,
+      "n_presenting_alleles": 3,
+      "coverage": 0.2321,
+      "coverage_95ci": [
+        0.2248,
+        0.2393
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*30:02",
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.41,
+      "n_presenting_alleles": 3,
+      "coverage": 0.2321,
+      "coverage_95ci": [
+        0.2248,
+        0.2393
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*30:02",
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.42,
+      "n_presenting_alleles": 3,
+      "coverage": 0.2321,
+      "coverage_95ci": [
+        0.2248,
+        0.2393
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*30:02",
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.43,
+      "n_presenting_alleles": 3,
+      "coverage": 0.2321,
+      "coverage_95ci": [
+        0.2248,
+        0.2393
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*30:02",
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.44,
+      "n_presenting_alleles": 3,
+      "coverage": 0.2321,
+      "coverage_95ci": [
+        0.2248,
+        0.2393
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*30:02",
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.45,
+      "n_presenting_alleles": 3,
+      "coverage": 0.2321,
+      "coverage_95ci": [
+        0.2248,
+        0.2393
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*30:02",
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.4579,
+      "n_presenting_alleles": 3,
+      "coverage": 0.2321,
+      "coverage_95ci": [
+        0.2248,
+        0.2393
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*30:02",
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.458,
+      "n_presenting_alleles": 4,
+      "coverage": 0.304,
+      "coverage_95ci": [
+        0.2951,
+        0.3132
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.46,
+      "n_presenting_alleles": 4,
+      "coverage": 0.304,
+      "coverage_95ci": [
+        0.2951,
+        0.3132
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.47,
+      "n_presenting_alleles": 4,
+      "coverage": 0.304,
+      "coverage_95ci": [
+        0.2951,
+        0.3132
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.48,
+      "n_presenting_alleles": 4,
+      "coverage": 0.304,
+      "coverage_95ci": [
+        0.2951,
+        0.3132
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.49,
+      "n_presenting_alleles": 4,
+      "coverage": 0.304,
+      "coverage_95ci": [
+        0.2951,
+        0.3132
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.4985,
+      "n_presenting_alleles": 4,
+      "coverage": 0.304,
+      "coverage_95ci": [
+        0.2951,
+        0.3132
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.4986,
+      "n_presenting_alleles": 4,
+      "coverage": 0.304,
+      "coverage_95ci": [
+        0.2951,
+        0.3132
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.5,
+      "n_presenting_alleles": 4,
+      "coverage": 0.304,
+      "coverage_95ci": [
+        0.2951,
+        0.3132
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.5093,
+      "n_presenting_alleles": 4,
+      "coverage": 0.304,
+      "coverage_95ci": [
+        0.2951,
+        0.3132
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.5094,
+      "n_presenting_alleles": 5,
+      "coverage": 0.3317,
+      "coverage_95ci": [
+        0.3218,
+        0.3421
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.55,
+      "n_presenting_alleles": 5,
+      "coverage": 0.3317,
+      "coverage_95ci": [
+        0.3218,
+        0.3421
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.56,
+      "n_presenting_alleles": 5,
+      "coverage": 0.3317,
+      "coverage_95ci": [
+        0.3218,
+        0.3421
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.5601,
+      "n_presenting_alleles": 5,
+      "coverage": 0.3317,
+      "coverage_95ci": [
+        0.3218,
+        0.3421
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.5705,
+      "n_presenting_alleles": 5,
+      "coverage": 0.3317,
+      "coverage_95ci": [
+        0.3218,
+        0.3421
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.5706,
+      "n_presenting_alleles": 6,
+      "coverage": 0.3729,
+      "coverage_95ci": [
+        0.3618,
+        0.3843
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.6,
+      "n_presenting_alleles": 6,
+      "coverage": 0.3729,
+      "coverage_95ci": [
+        0.3618,
+        0.3843
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.65,
+      "n_presenting_alleles": 6,
+      "coverage": 0.3729,
+      "coverage_95ci": [
+        0.3618,
+        0.3843
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.6799,
+      "n_presenting_alleles": 6,
+      "coverage": 0.3729,
+      "coverage_95ci": [
+        0.3618,
+        0.3843
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.68,
+      "n_presenting_alleles": 6,
+      "coverage": 0.3729,
+      "coverage_95ci": [
+        0.3618,
+        0.3843
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.6836,
+      "n_presenting_alleles": 6,
+      "coverage": 0.3729,
+      "coverage_95ci": [
+        0.3618,
+        0.3843
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.6837,
+      "n_presenting_alleles": 6,
+      "coverage": 0.3729,
+      "coverage_95ci": [
+        0.3618,
+        0.3843
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.7,
+      "n_presenting_alleles": 6,
+      "coverage": 0.3729,
+      "coverage_95ci": [
+        0.3618,
+        0.3843
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.75,
+      "n_presenting_alleles": 6,
+      "coverage": 0.3729,
+      "coverage_95ci": [
+        0.3618,
+        0.3843
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.8,
+      "n_presenting_alleles": 6,
+      "coverage": 0.3729,
+      "coverage_95ci": [
+        0.3618,
+        0.3843
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.8339,
+      "n_presenting_alleles": 6,
+      "coverage": 0.3729,
+      "coverage_95ci": [
+        0.3618,
+        0.3843
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.834,
+      "n_presenting_alleles": 6,
+      "coverage": 0.3729,
+      "coverage_95ci": [
+        0.3618,
+        0.3843
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.85,
+      "n_presenting_alleles": 6,
+      "coverage": 0.3729,
+      "coverage_95ci": [
+        0.3618,
+        0.3843
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.9,
+      "n_presenting_alleles": 6,
+      "coverage": 0.3729,
+      "coverage_95ci": [
+        0.3618,
+        0.3843
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.9314,
+      "n_presenting_alleles": 6,
+      "coverage": 0.3729,
+      "coverage_95ci": [
+        0.3618,
+        0.3843
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01"
+      ]
+    },
+    {
+      "threshold": 0.9315,
+      "n_presenting_alleles": 7,
+      "coverage": 0.4433,
+      "coverage_95ci": [
+        0.4314,
+        0.4555
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01"
+      ]
+    },
+    {
+      "threshold": 0.938,
+      "n_presenting_alleles": 7,
+      "coverage": 0.4433,
+      "coverage_95ci": [
+        0.4314,
+        0.4555
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01"
+      ]
+    },
+    {
+      "threshold": 0.9381,
+      "n_presenting_alleles": 7,
+      "coverage": 0.4433,
+      "coverage_95ci": [
+        0.4314,
+        0.4555
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01"
+      ]
+    },
+    {
+      "threshold": 0.95,
+      "n_presenting_alleles": 7,
+      "coverage": 0.4433,
+      "coverage_95ci": [
+        0.4314,
+        0.4555
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01"
+      ]
+    },
+    {
+      "threshold": 0.9686,
+      "n_presenting_alleles": 7,
+      "coverage": 0.4433,
+      "coverage_95ci": [
+        0.4314,
+        0.4555
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01"
+      ]
+    },
+    {
+      "threshold": 0.9687,
+      "n_presenting_alleles": 8,
+      "coverage": 0.4775,
+      "coverage_95ci": [
+        0.4648,
+        0.4905
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*44:02"
+      ]
+    },
+    {
+      "threshold": 1.0,
+      "n_presenting_alleles": 8,
+      "coverage": 0.4775,
+      "coverage_95ci": [
+        0.4648,
+        0.4905
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*44:02"
+      ]
+    },
+    {
+      "threshold": 1.0444,
+      "n_presenting_alleles": 8,
+      "coverage": 0.4775,
+      "coverage_95ci": [
+        0.4648,
+        0.4905
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*44:02"
+      ]
+    },
+    {
+      "threshold": 1.0445,
+      "n_presenting_alleles": 9,
+      "coverage": 0.5166,
+      "coverage_95ci": [
+        0.5033,
+        0.5301
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*44:02",
+        "HLA-B*44:03"
+      ]
+    },
+    {
+      "threshold": 1.05,
+      "n_presenting_alleles": 9,
+      "coverage": 0.5166,
+      "coverage_95ci": [
+        0.5033,
+        0.5301
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*44:02",
+        "HLA-B*44:03"
+      ]
+    },
+    {
+      "threshold": 1.078,
+      "n_presenting_alleles": 9,
+      "coverage": 0.5166,
+      "coverage_95ci": [
+        0.5033,
+        0.5301
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*44:02",
+        "HLA-B*44:03"
+      ]
+    },
+    {
+      "threshold": 1.0781,
+      "n_presenting_alleles": 9,
+      "coverage": 0.5166,
+      "coverage_95ci": [
+        0.5033,
+        0.5301
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*44:02",
+        "HLA-B*44:03"
+      ]
+    },
+    {
+      "threshold": 1.0977,
+      "n_presenting_alleles": 9,
+      "coverage": 0.5166,
+      "coverage_95ci": [
+        0.5033,
+        0.5301
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*44:02",
+        "HLA-B*44:03"
+      ]
+    },
+    {
+      "threshold": 1.0978,
+      "n_presenting_alleles": 9,
+      "coverage": 0.5166,
+      "coverage_95ci": [
+        0.5033,
+        0.5301
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*44:02",
+        "HLA-B*44:03"
+      ]
+    },
+    {
+      "threshold": 1.1,
+      "n_presenting_alleles": 9,
+      "coverage": 0.5166,
+      "coverage_95ci": [
+        0.5033,
+        0.5301
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*44:02",
+        "HLA-B*44:03"
+      ]
+    },
+    {
+      "threshold": 1.142,
+      "n_presenting_alleles": 9,
+      "coverage": 0.5166,
+      "coverage_95ci": [
+        0.5033,
+        0.5301
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*44:02",
+        "HLA-B*44:03"
+      ]
+    },
+    {
+      "threshold": 1.1421,
+      "n_presenting_alleles": 10,
+      "coverage": 0.5686,
+      "coverage_95ci": [
+        0.5546,
+        0.5827
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01"
+      ]
+    },
+    {
+      "threshold": 1.15,
+      "n_presenting_alleles": 10,
+      "coverage": 0.5686,
+      "coverage_95ci": [
+        0.5546,
+        0.5827
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01"
+      ]
+    },
+    {
+      "threshold": 1.2,
+      "n_presenting_alleles": 10,
+      "coverage": 0.5686,
+      "coverage_95ci": [
+        0.5546,
+        0.5827
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01"
+      ]
+    },
+    {
+      "threshold": 1.2366,
+      "n_presenting_alleles": 10,
+      "coverage": 0.5686,
+      "coverage_95ci": [
+        0.5546,
+        0.5827
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01"
+      ]
+    },
+    {
+      "threshold": 1.2367,
+      "n_presenting_alleles": 10,
+      "coverage": 0.5686,
+      "coverage_95ci": [
+        0.5546,
+        0.5827
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01"
+      ]
+    },
+    {
+      "threshold": 1.2492,
+      "n_presenting_alleles": 10,
+      "coverage": 0.5686,
+      "coverage_95ci": [
+        0.5546,
+        0.5827
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01"
+      ]
+    },
+    {
+      "threshold": 1.2493,
+      "n_presenting_alleles": 10,
+      "coverage": 0.5686,
+      "coverage_95ci": [
+        0.5546,
+        0.5827
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01"
+      ]
+    },
+    {
+      "threshold": 1.25,
+      "n_presenting_alleles": 10,
+      "coverage": 0.5686,
+      "coverage_95ci": [
+        0.5546,
+        0.5827
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01"
+      ]
+    },
+    {
+      "threshold": 1.3,
+      "n_presenting_alleles": 10,
+      "coverage": 0.5686,
+      "coverage_95ci": [
+        0.5546,
+        0.5827
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01"
+      ]
+    },
+    {
+      "threshold": 1.338,
+      "n_presenting_alleles": 10,
+      "coverage": 0.5686,
+      "coverage_95ci": [
+        0.5546,
+        0.5827
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01"
+      ]
+    },
+    {
+      "threshold": 1.3381,
+      "n_presenting_alleles": 10,
+      "coverage": 0.5686,
+      "coverage_95ci": [
+        0.5546,
+        0.5827
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01"
+      ]
+    },
+    {
+      "threshold": 1.35,
+      "n_presenting_alleles": 10,
+      "coverage": 0.5686,
+      "coverage_95ci": [
+        0.5546,
+        0.5827
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01"
+      ]
+    },
+    {
+      "threshold": 1.3802,
+      "n_presenting_alleles": 10,
+      "coverage": 0.5686,
+      "coverage_95ci": [
+        0.5546,
+        0.5827
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01"
+      ]
+    },
+    {
+      "threshold": 1.3803,
+      "n_presenting_alleles": 10,
+      "coverage": 0.5686,
+      "coverage_95ci": [
+        0.5546,
+        0.5827
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01"
+      ]
+    },
+    {
+      "threshold": 1.4,
+      "n_presenting_alleles": 10,
+      "coverage": 0.5686,
+      "coverage_95ci": [
+        0.5546,
+        0.5827
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01"
+      ]
+    },
+    {
+      "threshold": 1.444,
+      "n_presenting_alleles": 10,
+      "coverage": 0.5686,
+      "coverage_95ci": [
+        0.5546,
+        0.5827
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01"
+      ]
+    },
+    {
+      "threshold": 1.4441,
+      "n_presenting_alleles": 10,
+      "coverage": 0.5686,
+      "coverage_95ci": [
+        0.5546,
+        0.5827
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01"
+      ]
+    },
+    {
+      "threshold": 1.45,
+      "n_presenting_alleles": 10,
+      "coverage": 0.5686,
+      "coverage_95ci": [
+        0.5546,
+        0.5827
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01"
+      ]
+    },
+    {
+      "threshold": 1.4653,
+      "n_presenting_alleles": 10,
+      "coverage": 0.5686,
+      "coverage_95ci": [
+        0.5546,
+        0.5827
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01"
+      ]
+    },
+    {
+      "threshold": 1.4654,
+      "n_presenting_alleles": 11,
+      "coverage": 0.6108,
+      "coverage_95ci": [
+        0.597,
+        0.6246
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01"
+      ]
+    },
+    {
+      "threshold": 1.5,
+      "n_presenting_alleles": 11,
+      "coverage": 0.6108,
+      "coverage_95ci": [
+        0.597,
+        0.6246
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01"
+      ]
+    },
+    {
+      "threshold": 1.5431,
+      "n_presenting_alleles": 11,
+      "coverage": 0.6108,
+      "coverage_95ci": [
+        0.597,
+        0.6246
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01"
+      ]
+    },
+    {
+      "threshold": 1.5432,
+      "n_presenting_alleles": 11,
+      "coverage": 0.6108,
+      "coverage_95ci": [
+        0.597,
+        0.6246
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01"
+      ]
+    },
+    {
+      "threshold": 1.55,
+      "n_presenting_alleles": 11,
+      "coverage": 0.6108,
+      "coverage_95ci": [
+        0.597,
+        0.6246
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01"
+      ]
+    },
+    {
+      "threshold": 1.6,
+      "n_presenting_alleles": 11,
+      "coverage": 0.6108,
+      "coverage_95ci": [
+        0.597,
+        0.6246
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01"
+      ]
+    },
+    {
+      "threshold": 1.6126,
+      "n_presenting_alleles": 11,
+      "coverage": 0.6108,
+      "coverage_95ci": [
+        0.597,
+        0.6246
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01"
+      ]
+    },
+    {
+      "threshold": 1.6127,
+      "n_presenting_alleles": 11,
+      "coverage": 0.6108,
+      "coverage_95ci": [
+        0.597,
+        0.6246
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01"
+      ]
+    },
+    {
+      "threshold": 1.6176,
+      "n_presenting_alleles": 11,
+      "coverage": 0.6108,
+      "coverage_95ci": [
+        0.597,
+        0.6246
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01"
+      ]
+    },
+    {
+      "threshold": 1.6177,
+      "n_presenting_alleles": 12,
+      "coverage": 0.6414,
+      "coverage_95ci": [
+        0.6275,
+        0.6552
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01"
+      ]
+    },
+    {
+      "threshold": 1.6273,
+      "n_presenting_alleles": 12,
+      "coverage": 0.6414,
+      "coverage_95ci": [
+        0.6275,
+        0.6552
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01"
+      ]
+    },
+    {
+      "threshold": 1.6274,
+      "n_presenting_alleles": 13,
+      "coverage": 0.6586,
+      "coverage_95ci": [
+        0.6446,
+        0.6726
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01"
+      ]
+    },
+    {
+      "threshold": 1.6417,
+      "n_presenting_alleles": 13,
+      "coverage": 0.6586,
+      "coverage_95ci": [
+        0.6446,
+        0.6726
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01"
+      ]
+    },
+    {
+      "threshold": 1.6418,
+      "n_presenting_alleles": 14,
+      "coverage": 0.6764,
+      "coverage_95ci": [
+        0.6623,
+        0.6906
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 1.65,
+      "n_presenting_alleles": 14,
+      "coverage": 0.6764,
+      "coverage_95ci": [
+        0.6623,
+        0.6906
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 1.7,
+      "n_presenting_alleles": 14,
+      "coverage": 0.6764,
+      "coverage_95ci": [
+        0.6623,
+        0.6906
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 1.75,
+      "n_presenting_alleles": 14,
+      "coverage": 0.6764,
+      "coverage_95ci": [
+        0.6623,
+        0.6906
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 1.7784,
+      "n_presenting_alleles": 14,
+      "coverage": 0.6764,
+      "coverage_95ci": [
+        0.6623,
+        0.6906
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 1.7785,
+      "n_presenting_alleles": 15,
+      "coverage": 0.6921,
+      "coverage_95ci": [
+        0.678,
+        0.7062
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 1.8,
+      "n_presenting_alleles": 15,
+      "coverage": 0.6921,
+      "coverage_95ci": [
+        0.678,
+        0.7062
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 1.8201,
+      "n_presenting_alleles": 15,
+      "coverage": 0.6921,
+      "coverage_95ci": [
+        0.678,
+        0.7062
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 1.8202,
+      "n_presenting_alleles": 16,
+      "coverage": 0.7256,
+      "coverage_95ci": [
+        0.7119,
+        0.7392
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 1.85,
+      "n_presenting_alleles": 16,
+      "coverage": 0.7256,
+      "coverage_95ci": [
+        0.7119,
+        0.7392
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 1.9,
+      "n_presenting_alleles": 16,
+      "coverage": 0.7256,
+      "coverage_95ci": [
+        0.7119,
+        0.7392
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 1.95,
+      "n_presenting_alleles": 16,
+      "coverage": 0.7256,
+      "coverage_95ci": [
+        0.7119,
+        0.7392
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 1.9827,
+      "n_presenting_alleles": 16,
+      "coverage": 0.7256,
+      "coverage_95ci": [
+        0.7119,
+        0.7392
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 1.9828,
+      "n_presenting_alleles": 16,
+      "coverage": 0.7256,
+      "coverage_95ci": [
+        0.7119,
+        0.7392
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 2.0,
+      "n_presenting_alleles": 16,
+      "coverage": 0.7256,
+      "coverage_95ci": [
+        0.7119,
+        0.7392
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 2.0122,
+      "n_presenting_alleles": 16,
+      "coverage": 0.7256,
+      "coverage_95ci": [
+        0.7119,
+        0.7392
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 2.0123,
+      "n_presenting_alleles": 16,
+      "coverage": 0.7256,
+      "coverage_95ci": [
+        0.7119,
+        0.7392
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 2.0197,
+      "n_presenting_alleles": 16,
+      "coverage": 0.7256,
+      "coverage_95ci": [
+        0.7119,
+        0.7392
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 2.0198,
+      "n_presenting_alleles": 16,
+      "coverage": 0.7256,
+      "coverage_95ci": [
+        0.7119,
+        0.7392
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 2.0347,
+      "n_presenting_alleles": 16,
+      "coverage": 0.7256,
+      "coverage_95ci": [
+        0.7119,
+        0.7392
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 2.0348,
+      "n_presenting_alleles": 17,
+      "coverage": 0.7454,
+      "coverage_95ci": [
+        0.7319,
+        0.759
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 2.0511,
+      "n_presenting_alleles": 17,
+      "coverage": 0.7454,
+      "coverage_95ci": [
+        0.7319,
+        0.759
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 2.0512,
+      "n_presenting_alleles": 18,
+      "coverage": 0.7612,
+      "coverage_95ci": [
+        0.7475,
+        0.7747
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 2.1733,
+      "n_presenting_alleles": 18,
+      "coverage": 0.7612,
+      "coverage_95ci": [
+        0.7475,
+        0.7747
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 2.1734,
+      "n_presenting_alleles": 18,
+      "coverage": 0.7612,
+      "coverage_95ci": [
+        0.7475,
+        0.7747
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 2.25,
+      "n_presenting_alleles": 18,
+      "coverage": 0.7612,
+      "coverage_95ci": [
+        0.7475,
+        0.7747
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 2.2817,
+      "n_presenting_alleles": 18,
+      "coverage": 0.7612,
+      "coverage_95ci": [
+        0.7475,
+        0.7747
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 2.2818,
+      "n_presenting_alleles": 19,
+      "coverage": 0.7704,
+      "coverage_95ci": [
+        0.7567,
+        0.784
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 2.3669,
+      "n_presenting_alleles": 19,
+      "coverage": 0.7704,
+      "coverage_95ci": [
+        0.7567,
+        0.784
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 2.367,
+      "n_presenting_alleles": 19,
+      "coverage": 0.7704,
+      "coverage_95ci": [
+        0.7567,
+        0.784
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 2.4022,
+      "n_presenting_alleles": 19,
+      "coverage": 0.7704,
+      "coverage_95ci": [
+        0.7567,
+        0.784
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 2.4023,
+      "n_presenting_alleles": 19,
+      "coverage": 0.7704,
+      "coverage_95ci": [
+        0.7567,
+        0.784
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 2.45,
+      "n_presenting_alleles": 19,
+      "coverage": 0.7704,
+      "coverage_95ci": [
+        0.7567,
+        0.784
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 2.4501,
+      "n_presenting_alleles": 19,
+      "coverage": 0.7704,
+      "coverage_95ci": [
+        0.7567,
+        0.784
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 2.4632,
+      "n_presenting_alleles": 19,
+      "coverage": 0.7704,
+      "coverage_95ci": [
+        0.7567,
+        0.784
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 2.4633,
+      "n_presenting_alleles": 20,
+      "coverage": 0.7865,
+      "coverage_95ci": [
+        0.7731,
+        0.7997
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 2.4772,
+      "n_presenting_alleles": 20,
+      "coverage": 0.7865,
+      "coverage_95ci": [
+        0.7731,
+        0.7997
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 2.4773,
+      "n_presenting_alleles": 20,
+      "coverage": 0.7865,
+      "coverage_95ci": [
+        0.7731,
+        0.7997
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 2.5,
+      "n_presenting_alleles": 20,
+      "coverage": 0.7865,
+      "coverage_95ci": [
+        0.7731,
+        0.7997
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 2.5727,
+      "n_presenting_alleles": 20,
+      "coverage": 0.7865,
+      "coverage_95ci": [
+        0.7731,
+        0.7997
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 2.5728,
+      "n_presenting_alleles": 20,
+      "coverage": 0.7865,
+      "coverage_95ci": [
+        0.7731,
+        0.7997
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 2.6922,
+      "n_presenting_alleles": 20,
+      "coverage": 0.7865,
+      "coverage_95ci": [
+        0.7731,
+        0.7997
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 2.6923,
+      "n_presenting_alleles": 20,
+      "coverage": 0.7865,
+      "coverage_95ci": [
+        0.7731,
+        0.7997
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 2.7414,
+      "n_presenting_alleles": 20,
+      "coverage": 0.7865,
+      "coverage_95ci": [
+        0.7731,
+        0.7997
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 2.7415,
+      "n_presenting_alleles": 21,
+      "coverage": 0.8464,
+      "coverage_95ci": [
+        0.8357,
+        0.8568
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 2.75,
+      "n_presenting_alleles": 21,
+      "coverage": 0.8464,
+      "coverage_95ci": [
+        0.8357,
+        0.8568
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 2.7784,
+      "n_presenting_alleles": 21,
+      "coverage": 0.8464,
+      "coverage_95ci": [
+        0.8357,
+        0.8568
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 2.7785,
+      "n_presenting_alleles": 21,
+      "coverage": 0.8464,
+      "coverage_95ci": [
+        0.8357,
+        0.8568
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 2.8328,
+      "n_presenting_alleles": 21,
+      "coverage": 0.8464,
+      "coverage_95ci": [
+        0.8357,
+        0.8568
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 2.8329,
+      "n_presenting_alleles": 21,
+      "coverage": 0.8464,
+      "coverage_95ci": [
+        0.8357,
+        0.8568
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 2.8514,
+      "n_presenting_alleles": 21,
+      "coverage": 0.8464,
+      "coverage_95ci": [
+        0.8357,
+        0.8568
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 2.8515,
+      "n_presenting_alleles": 21,
+      "coverage": 0.8464,
+      "coverage_95ci": [
+        0.8357,
+        0.8568
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 2.8706,
+      "n_presenting_alleles": 21,
+      "coverage": 0.8464,
+      "coverage_95ci": [
+        0.8357,
+        0.8568
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 2.8707,
+      "n_presenting_alleles": 21,
+      "coverage": 0.8464,
+      "coverage_95ci": [
+        0.8357,
+        0.8568
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 2.951,
+      "n_presenting_alleles": 21,
+      "coverage": 0.8464,
+      "coverage_95ci": [
+        0.8357,
+        0.8568
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 2.9511,
+      "n_presenting_alleles": 21,
+      "coverage": 0.8464,
+      "coverage_95ci": [
+        0.8357,
+        0.8568
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 2.9916,
+      "n_presenting_alleles": 21,
+      "coverage": 0.8464,
+      "coverage_95ci": [
+        0.8357,
+        0.8568
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 2.9917,
+      "n_presenting_alleles": 21,
+      "coverage": 0.8464,
+      "coverage_95ci": [
+        0.8357,
+        0.8568
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 3.0,
+      "n_presenting_alleles": 21,
+      "coverage": 0.8464,
+      "coverage_95ci": [
+        0.8357,
+        0.8568
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 3.0372,
+      "n_presenting_alleles": 21,
+      "coverage": 0.8464,
+      "coverage_95ci": [
+        0.8357,
+        0.8568
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01"
+      ]
+    },
+    {
+      "threshold": 3.0373,
+      "n_presenting_alleles": 22,
+      "coverage": 0.8525,
+      "coverage_95ci": [
+        0.8419,
+        0.8629
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 3.25,
+      "n_presenting_alleles": 22,
+      "coverage": 0.8525,
+      "coverage_95ci": [
+        0.8419,
+        0.8629
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 3.2661,
+      "n_presenting_alleles": 22,
+      "coverage": 0.8525,
+      "coverage_95ci": [
+        0.8419,
+        0.8629
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 3.2662,
+      "n_presenting_alleles": 22,
+      "coverage": 0.8525,
+      "coverage_95ci": [
+        0.8419,
+        0.8629
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 3.3587,
+      "n_presenting_alleles": 22,
+      "coverage": 0.8525,
+      "coverage_95ci": [
+        0.8419,
+        0.8629
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 3.3588,
+      "n_presenting_alleles": 22,
+      "coverage": 0.8525,
+      "coverage_95ci": [
+        0.8419,
+        0.8629
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 3.3897,
+      "n_presenting_alleles": 22,
+      "coverage": 0.8525,
+      "coverage_95ci": [
+        0.8419,
+        0.8629
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 3.3898,
+      "n_presenting_alleles": 22,
+      "coverage": 0.8525,
+      "coverage_95ci": [
+        0.8419,
+        0.8629
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 3.4875,
+      "n_presenting_alleles": 22,
+      "coverage": 0.8525,
+      "coverage_95ci": [
+        0.8419,
+        0.8629
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 3.4876,
+      "n_presenting_alleles": 23,
+      "coverage": 0.8618,
+      "coverage_95ci": [
+        0.8514,
+        0.872
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 3.5,
+      "n_presenting_alleles": 23,
+      "coverage": 0.8618,
+      "coverage_95ci": [
+        0.8514,
+        0.872
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 3.5268,
+      "n_presenting_alleles": 23,
+      "coverage": 0.8618,
+      "coverage_95ci": [
+        0.8514,
+        0.872
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 3.5269,
+      "n_presenting_alleles": 23,
+      "coverage": 0.8618,
+      "coverage_95ci": [
+        0.8514,
+        0.872
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 3.5626,
+      "n_presenting_alleles": 23,
+      "coverage": 0.8618,
+      "coverage_95ci": [
+        0.8514,
+        0.872
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 3.5627,
+      "n_presenting_alleles": 23,
+      "coverage": 0.8618,
+      "coverage_95ci": [
+        0.8514,
+        0.872
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 3.5994,
+      "n_presenting_alleles": 23,
+      "coverage": 0.8618,
+      "coverage_95ci": [
+        0.8514,
+        0.872
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 3.5995,
+      "n_presenting_alleles": 23,
+      "coverage": 0.8618,
+      "coverage_95ci": [
+        0.8514,
+        0.872
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 3.6391,
+      "n_presenting_alleles": 23,
+      "coverage": 0.8618,
+      "coverage_95ci": [
+        0.8514,
+        0.872
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 3.6392,
+      "n_presenting_alleles": 23,
+      "coverage": 0.8618,
+      "coverage_95ci": [
+        0.8514,
+        0.872
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 3.6793,
+      "n_presenting_alleles": 23,
+      "coverage": 0.8618,
+      "coverage_95ci": [
+        0.8514,
+        0.872
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 3.6794,
+      "n_presenting_alleles": 23,
+      "coverage": 0.8618,
+      "coverage_95ci": [
+        0.8514,
+        0.872
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 3.72,
+      "n_presenting_alleles": 23,
+      "coverage": 0.8618,
+      "coverage_95ci": [
+        0.8514,
+        0.872
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 3.7201,
+      "n_presenting_alleles": 23,
+      "coverage": 0.8618,
+      "coverage_95ci": [
+        0.8514,
+        0.872
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 3.75,
+      "n_presenting_alleles": 23,
+      "coverage": 0.8618,
+      "coverage_95ci": [
+        0.8514,
+        0.872
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 3.7645,
+      "n_presenting_alleles": 23,
+      "coverage": 0.8618,
+      "coverage_95ci": [
+        0.8514,
+        0.872
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 3.7646,
+      "n_presenting_alleles": 23,
+      "coverage": 0.8618,
+      "coverage_95ci": [
+        0.8514,
+        0.872
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 3.8073,
+      "n_presenting_alleles": 23,
+      "coverage": 0.8618,
+      "coverage_95ci": [
+        0.8514,
+        0.872
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 3.8074,
+      "n_presenting_alleles": 23,
+      "coverage": 0.8618,
+      "coverage_95ci": [
+        0.8514,
+        0.872
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 3.9461,
+      "n_presenting_alleles": 23,
+      "coverage": 0.8618,
+      "coverage_95ci": [
+        0.8514,
+        0.872
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 3.9462,
+      "n_presenting_alleles": 23,
+      "coverage": 0.8618,
+      "coverage_95ci": [
+        0.8514,
+        0.872
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 3.9968,
+      "n_presenting_alleles": 23,
+      "coverage": 0.8618,
+      "coverage_95ci": [
+        0.8514,
+        0.872
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 3.9969,
+      "n_presenting_alleles": 23,
+      "coverage": 0.8618,
+      "coverage_95ci": [
+        0.8514,
+        0.872
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 4.0,
+      "n_presenting_alleles": 23,
+      "coverage": 0.8618,
+      "coverage_95ci": [
+        0.8514,
+        0.872
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 4.0478,
+      "n_presenting_alleles": 23,
+      "coverage": 0.8618,
+      "coverage_95ci": [
+        0.8514,
+        0.872
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 4.0479,
+      "n_presenting_alleles": 24,
+      "coverage": 0.8658,
+      "coverage_95ci": [
+        0.8554,
+        0.8759
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*38:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 4.157,
+      "n_presenting_alleles": 24,
+      "coverage": 0.8658,
+      "coverage_95ci": [
+        0.8554,
+        0.8759
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*38:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 4.1571,
+      "n_presenting_alleles": 24,
+      "coverage": 0.8658,
+      "coverage_95ci": [
+        0.8554,
+        0.8759
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*38:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 4.2134,
+      "n_presenting_alleles": 24,
+      "coverage": 0.8658,
+      "coverage_95ci": [
+        0.8554,
+        0.8759
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*38:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 4.2135,
+      "n_presenting_alleles": 24,
+      "coverage": 0.8658,
+      "coverage_95ci": [
+        0.8554,
+        0.8759
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*38:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 4.25,
+      "n_presenting_alleles": 24,
+      "coverage": 0.8658,
+      "coverage_95ci": [
+        0.8554,
+        0.8759
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*38:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 4.2711,
+      "n_presenting_alleles": 24,
+      "coverage": 0.8658,
+      "coverage_95ci": [
+        0.8554,
+        0.8759
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*38:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 4.2712,
+      "n_presenting_alleles": 24,
+      "coverage": 0.8658,
+      "coverage_95ci": [
+        0.8554,
+        0.8759
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*38:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 4.3295,
+      "n_presenting_alleles": 24,
+      "coverage": 0.8658,
+      "coverage_95ci": [
+        0.8554,
+        0.8759
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*38:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 4.3296,
+      "n_presenting_alleles": 25,
+      "coverage": 0.88,
+      "coverage_95ci": [
+        0.8702,
+        0.8895
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*03:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*38:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 4.3918,
+      "n_presenting_alleles": 25,
+      "coverage": 0.88,
+      "coverage_95ci": [
+        0.8702,
+        0.8895
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*03:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*38:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 4.3919,
+      "n_presenting_alleles": 25,
+      "coverage": 0.88,
+      "coverage_95ci": [
+        0.8702,
+        0.8895
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*03:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*38:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 4.4545,
+      "n_presenting_alleles": 25,
+      "coverage": 0.88,
+      "coverage_95ci": [
+        0.8702,
+        0.8895
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*03:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*38:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 4.4546,
+      "n_presenting_alleles": 26,
+      "coverage": 0.8851,
+      "coverage_95ci": [
+        0.8755,
+        0.8945
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*03:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-A*68:02",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*38:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 4.5,
+      "n_presenting_alleles": 26,
+      "coverage": 0.8851,
+      "coverage_95ci": [
+        0.8755,
+        0.8945
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*03:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-A*68:02",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*38:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 4.5192,
+      "n_presenting_alleles": 26,
+      "coverage": 0.8851,
+      "coverage_95ci": [
+        0.8755,
+        0.8945
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*03:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-A*68:02",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*38:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 4.5193,
+      "n_presenting_alleles": 26,
+      "coverage": 0.8851,
+      "coverage_95ci": [
+        0.8755,
+        0.8945
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*03:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-A*68:02",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*38:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 4.5856,
+      "n_presenting_alleles": 26,
+      "coverage": 0.8851,
+      "coverage_95ci": [
+        0.8755,
+        0.8945
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*03:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-A*68:02",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*38:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 4.5857,
+      "n_presenting_alleles": 26,
+      "coverage": 0.8851,
+      "coverage_95ci": [
+        0.8755,
+        0.8945
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*03:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-A*68:02",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*38:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 4.6575,
+      "n_presenting_alleles": 26,
+      "coverage": 0.8851,
+      "coverage_95ci": [
+        0.8755,
+        0.8945
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*03:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-A*68:02",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*38:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 4.6576,
+      "n_presenting_alleles": 27,
+      "coverage": 0.895,
+      "coverage_95ci": [
+        0.8859,
+        0.9039
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*03:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-A*68:02",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*38:01",
+        "HLA-B*40:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 4.7321,
+      "n_presenting_alleles": 27,
+      "coverage": 0.895,
+      "coverage_95ci": [
+        0.8859,
+        0.9039
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*03:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-A*68:02",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*38:01",
+        "HLA-B*40:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 4.7322,
+      "n_presenting_alleles": 27,
+      "coverage": 0.895,
+      "coverage_95ci": [
+        0.8859,
+        0.9039
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*03:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-A*68:02",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*38:01",
+        "HLA-B*40:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 4.75,
+      "n_presenting_alleles": 27,
+      "coverage": 0.895,
+      "coverage_95ci": [
+        0.8859,
+        0.9039
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*03:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-A*68:02",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*38:01",
+        "HLA-B*40:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 4.807,
+      "n_presenting_alleles": 27,
+      "coverage": 0.895,
+      "coverage_95ci": [
+        0.8859,
+        0.9039
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*03:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-A*68:02",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*38:01",
+        "HLA-B*40:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 4.8071,
+      "n_presenting_alleles": 27,
+      "coverage": 0.895,
+      "coverage_95ci": [
+        0.8859,
+        0.9039
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*03:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-A*68:02",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*38:01",
+        "HLA-B*40:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 4.8873,
+      "n_presenting_alleles": 27,
+      "coverage": 0.895,
+      "coverage_95ci": [
+        0.8859,
+        0.9039
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*03:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-A*68:02",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*38:01",
+        "HLA-B*40:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 4.8874,
+      "n_presenting_alleles": 27,
+      "coverage": 0.895,
+      "coverage_95ci": [
+        0.8859,
+        0.9039
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*03:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-A*68:02",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*38:01",
+        "HLA-B*40:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 4.9685,
+      "n_presenting_alleles": 27,
+      "coverage": 0.895,
+      "coverage_95ci": [
+        0.8859,
+        0.9039
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*03:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-A*68:02",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*38:01",
+        "HLA-B*40:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 4.9686,
+      "n_presenting_alleles": 28,
+      "coverage": 0.9018,
+      "coverage_95ci": [
+        0.893,
+        0.9104
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*03:01",
+        "HLA-A*23:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-A*68:02",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*38:01",
+        "HLA-B*40:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    },
+    {
+      "threshold": 5.0,
+      "n_presenting_alleles": 28,
+      "coverage": 0.9018,
+      "coverage_95ci": [
+        0.893,
+        0.9104
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*02:01",
+        "HLA-A*02:03",
+        "HLA-A*02:06",
+        "HLA-A*03:01",
+        "HLA-A*23:01",
+        "HLA-A*26:01",
+        "HLA-A*30:02",
+        "HLA-A*32:01",
+        "HLA-A*68:01",
+        "HLA-A*68:02",
+        "HLA-B*07:02",
+        "HLA-B*08:01",
+        "HLA-B*13:02",
+        "HLA-B*14:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*27:05",
+        "HLA-B*35:01",
+        "HLA-B*38:01",
+        "HLA-B*40:01",
+        "HLA-B*40:02",
+        "HLA-B*44:02",
+        "HLA-B*44:03",
+        "HLA-B*46:01",
+        "HLA-B*51:01",
+        "HLA-B*53:01",
+        "HLA-B*57:01"
+      ]
+    }
+  ]
+}

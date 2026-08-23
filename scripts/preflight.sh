@@ -275,6 +275,7 @@ for g in "research/manuscripts/submission_tables.py|submission tables|--check" \
          "research/manuscripts/aso_sequence_manifest.py|canonical sequence file|--check" \
          "research/manuscripts/aso_journal_tables.py|journal article tables|--check" \
          "research/manuscripts/submission_packet.py|submission packet|--check" \
+         "research/manuscripts/vaccine_path_tables.py|vaccine-path manuscript tables|--check" \
          "research/manuscripts/aso_archive_manifest.py|archive manifest|--check-archive"; do
   gen="${g%%|*}"; rest="${g#*|}"; label="${rest%%|*}"; mode="${rest##*|}"
   if python3 "$gen" "$mode" >/dev/null 2>&1; then
