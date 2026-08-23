@@ -204,6 +204,34 @@ All four are asserted **offline, before one byte is fetched** (`--selftest`, 8 g
 
 ⛔ **It does not run a fusion search and does not claim one.** See §2.
 
+### 5.1 · What the first run measured (2026-08-23, run `32671782752`, $0)
+
+**Route A1 — the index answers, and it serves more than the design needed.** All three compilations
+responded (`srav3h`, `gtexv2`, `tcgav2`); the transport control returned records and the absent control
+returned none, so the arm's counts are admissible. Junction records at each locus: NR4A3 **5,011**,
+EWSR1 **25,781**, TAF15 **24,012**, TCF12 **37,521**.
+
+⭐ **The design-relevant finding is the served column list**, and it settles the question §2 refused to
+answer from recollection. Each junction record carries `annotated`, **`left_annotated` and
+`right_annotated` separately**, plus **`samples` and `samples_count`** — the list of samples the junction
+was seen in. So a junction with one annotated end and one unannotated end is directly selectable, and
+every such hit names the samples carrying it. ⚠ **And the negative half is equally informative:** every
+record returned for a gene query sits on that gene's own chromosome, so this index does **not** carry
+junctions joining two chromosomes. A search here must therefore key on the intragenic signature a fusion
+leaves inside NR4A3, not on a chimeric junction. That is the design, and it is now written against a
+measurement.
+
+**Route A2 — the deposit is fully readable and carries no diagnoses at all.** All **1,505** declared
+samples were read, on two array platforms (`GPL13534`, `GPL21145`). Samples naming this disease: **zero**
+— and, ⛔ **this is not a reading of absence.** Every sample record is titled *"sarcoma classifier
+reference case N"* with characteristics *"tissue: sarcoma"* and nothing further; the strings `EMC`,
+`chondrosarcoma`, `myxoid` and `NR4A3` appear **zero times across the entire 1,505-sample stream**. The
+GEO records simply do not state which case is which. The guard's `NO_SAMPLE_NAMES_EMC` verdict is
+therefore correct and the route is **not** closed: the per-case diagnoses live in the paper's
+supplementary table, and joining that table to the sample list is the next step. **A deposit that
+withholds its labels in GEO is exactly why the arm was built to report what it could not read rather
+than what it did not find.**
+
 ---
 
 ## 6 · Limits of this memo
