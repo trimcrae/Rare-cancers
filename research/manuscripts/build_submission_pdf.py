@@ -127,6 +127,24 @@ PAPERS = {
     # ⭐ ADDED 2026-08-23. Its own checklist says "the manuscript content itself is
     # submission-ready"; what it lacked was a build entry, so no PDF existed to deposit. The three
     # tolerances this needed (colon labels, a numbered affiliation, back matter as separate
+    # ⭐ ADDED 2026-08-23. Its own checklist states "the manuscript content itself is
+    # submission-ready"; what it lacked was a build entry. The three tolerances this needed (colon
+    # labels, a numbered affiliation, back matter as separate headings) were added to the BUILDER.
+    "fusion-output": {
+        "manuscript": "fusion-output/nr4a3-fusion-transcriptional-output.md",
+        "references": None,
+        "tables": None,
+        "stamp_sources": (
+            "fusion-output/nr4a3-fusion-transcriptional-output.md",
+        ),
+        "figures": {},
+        "journal": {
+            "article_type": "Original Research Article",
+            "section": "",
+            "preprint_note": "This manuscript is a preprint. It has not been peer reviewed.",
+        },
+        "out": "fusion-output/nr4a3-fusion-transcriptional-output.pdf",
+    },
     "vaccine-path": {
         "manuscript": "neoantigen/emc-vaccine-development-path.md",
         "references": None,

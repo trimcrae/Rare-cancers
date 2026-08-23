@@ -405,10 +405,28 @@ def test_every_papers_reference_list_survives_assembly(key):
     # from there. Skipping the assertion for such a paper would be the failure this test is named
     # for — a reference list that vanishes looks like a complete PDF until page 20 — wearing the
     # costume of a configuration difference.
-    source = bsp.read(paper["references"]) if paper.get("references") else bsp.read(paper["manuscript"])
+    # ⛔ COUNT INSIDE THE REFERENCE SECTION, NOT ACROSS THE WHOLE FILE. Measured 2026-08-23 on
+    # `nr4a3-fusion-transcriptional-output.md`: the file has **12** references, and this test counted
+    # **46** — 33 numbered list items in the body, plus a wrapped line beginning "2015.". It then
+    # asserted that "46." appears in the assembled body and failed, reporting a dropped reference
+    # list on a paper whose references were entirely intact (body 107,221 chars, `## References`
+    # present, entries 1–12 and their DOIs all there).
+    # ⚠ A GUARD THAT INVENTS A DEFECT IS WORSE THAN ONE THAT SLEEPS: it cost a real build entry,
+    # which was removed on the strength of this failure. Slice from the heading so the number the
+    # test demands is a reference number rather than an artefact of counting.
+    if paper.get("references"):
+        source = bsp.read(paper["references"])
+    else:
+        whole = bsp.read(paper["manuscript"])
+        head = re.search(r"^##\s+(?:[\d.·\s]*)References\s*$", whole, re.M)
+        assert head, f"{key}: no '## References' heading to read inline entries from"
+        source = whole[head.start():]
     entries = re.findall(r"^(\d+)\.\s", source, re.M)
     assert entries, f"{key}: no numbered entries found in its reference list"
-    assert f"{len(entries)}." in body, f"{key}: the last reference entry did not survive assembly"
+    # The LAST NUMBER, not the count: a list that starts at 1 and runs contiguously makes these
+    # equal, and a list that does not is exactly where the count would lie.
+    last = max(int(n) for n in entries)
+    assert f"{last}." in body, f"{key}: the last reference entry did not survive assembly"
 
 
 def test_wide_tables_go_on_landscape_pages_and_narrow_ones_do_not(journal):

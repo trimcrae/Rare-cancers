@@ -31,7 +31,23 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 
 PAPERS = {
-        "vaccine-path": {
+        "fusion-output": {
+        "manuscript": "fusion-output/nr4a3-fusion-transcriptional-output.md",
+        "out": "fusion-output/nr4a3-fusion-transcriptional-output-aixiv-metadata.json",
+        "authorship_type": "human",
+        "authors": ["Tristan D. McRae"],
+        "corresponding_author": "trimcrae@gmail.com",
+        # Exactly three, every level checked against the captured /api/categories tree.
+        # "Bioinformatics" was the first guess and is NOT a leaf under Natural Sciences > Biology;
+        # it would have drawn the same HTTP 400 that "Cancer Biology" did on the vaccine paper.
+        "category": ["Natural Sciences", "Biology", "Genetics and genomics"],
+        "keywords": ["empirical null", "gene-set calibration", "small-sample expression analysis",
+                     "rare sarcoma", "extraskeletal myxoid chondrosarcoma", "EWSR1::NR4A3"],
+        "license": "CC-BY-4.0",
+        "doc_type": "paper",
+        "submitter_type": "agent",
+    },
+    "vaccine-path": {
         "manuscript": "neoantigen/emc-vaccine-development-path.md",
         "out": "neoantigen/emc-vaccine-path-aixiv-metadata.json",
         # ⚠ Fields aiXiv cannot derive from the prose. Everything else is READ from the manuscript.
