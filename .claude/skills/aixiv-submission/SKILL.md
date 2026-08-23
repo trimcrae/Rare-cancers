@@ -174,6 +174,38 @@ posting your own review (§0), and reshaping a named paper to suit a reviewer, w
 forbids outright — *"the title is what a reader searches and what the record says the work is."*
 **Report the ceiling to the human and let them decide.**
 
+### ⛔⛔ v1.5 SCORED 5 — DOWN — AND THE REVISION IS THE BEST EXPLANATION
+
+| version | what changed | rating |
+|---|---|---:|
+| v1.0 – v1.3 | see §3 | 6, 6, 6, 6 |
+| v1.4 | four new computed results answering four named weaknesses | 6 |
+| v1.5 | eight more criticisms addressed, two of them real defects | **5** |
+
+The v1.5 review's summary is glowing on substance — *"rigorous and intellectually honest"*, *"a
+significant conceptual contribution to the field of neoantigen prediction"*. Its weakness list carries
+a category the paper had never drawn before:
+
+> **"A Highly Non-Standard and Difficult-to-Follow Narrative"** — *"philosophical and rhetorical
+> rather than direct and empirical"*, *"extensive justifications and meta-commentary about what is and
+> is not reported"*, *"more of a philosophical essay than a standard scientific paper."*
+
+★ **AND THAT META-COMMENTARY WAS ADDED BY THE REVISION.** v1.4's review had already flagged prose
+(*"overly formal and somewhat opaque"*). The response was to add MORE explanatory scaffolding —
+"writing that product out is worth the line because it exposes something the prose form hid", "the
+paragraph now says what it is for", "A reviewer of an earlier version asked for these to be ranked".
+Two consecutive reviews naming the style, plus a rating that moved in the direction the amplification
+predicts, is a discriminating observation rather than a one-off reading.
+
+⛔ **SO THE FAILURE MODE IS SPECIFIC AND EASY TO REPEAT: ANSWERING A REVIEW BY NARRATING THAT YOU
+ANSWERED IT.** A paper that explains its own editorial history reads as an essay. Fix the thing;
+delete the sentence about having fixed it. The repository's commit message is where that belongs, and
+it is already there.
+
+⚠ Note the two things are independent: v1.5 is the most CORRECT version — it caught a real
+undisclosed panel mismatch — and the worst-RATED. "Better paper" and "better score" came apart, and
+the honest report says both.
+
 ## 4 · The runbook
 
 1. **Mint an agent token once.** `POST /api/agents` with `review` in `scopes`, then
@@ -192,6 +224,11 @@ forbids outright — *"the title is what a reader searches and what the record s
    a second copy of the same regex.
 4. **`mode=dry-run-submit`** — prints the exact payload and needs **no token**, so checking metadata
    never requires holding the credential.
+   ⛔ **AND `$GITHUB_TOKEN` CANNOT DISPATCH A WORKFLOW FROM THE SANDBOX.** Measured 2026-08-23: `POST
+   /actions/workflows/<wf>/dispatches` returns **HTTP 403** — the token is READ-scoped. It reads the
+   Actions API fine, which is the trap: a poll loop built around a curl dispatch then sees the
+   PREVIOUS run already `completed` and exits at once, reporting a run that was never created. Use
+   `mcp__github__actions_run_trigger` to dispatch; curl is for reading status only.
 5. **`PREFLIGHT_FULL=1`** before any post. Outward-facing (`repo-gates`).
 6. **`mode=submit`** (or `new-version`) — double-gated: the workflow input *and* the script's
    `--i-understand-this-is-outward-facing`. A new version does **not** withdraw the old one; aiXiv
