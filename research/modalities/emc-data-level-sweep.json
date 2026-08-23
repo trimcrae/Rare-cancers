@@ -1,6 +1,6 @@
 {
- "_generated_utc": "2026-08-23T22:52:01Z",
- "_inputs_generated_utc": "2026-08-23T22:50:18Z",
+ "_generated_utc": "2026-08-23T23:06:53Z",
+ "_inputs_generated_utc": "2026-08-23T23:04:52Z",
  "_language_discipline": "Nothing here is an efficacy, selectivity, safety, therapeutic-window or clinical-readiness claim. A sample counted here is a metadata match, never a diagnosis.",
  "_question": "Is there EMC-bearing public molecular data that a depositor-prose search cannot see? `emc_cohort_search.py` bounded its own negative to prose; this asks what lies outside that bound.",
  "arms": {
@@ -20,9 +20,15 @@
    "series": "GSE140686",
    "series_title": "Sarcoma Classification by DNA-methylation profiling",
    "state": "FETCHED",
-   "verdict": "NO_SAMPLE_NAMES_EMC",
-   "\u26a0": "Read at sample level and no record names the disease. That bounds what these sample records say \u2014 a deposit can label by methylation class code rather than by disease name, and this arm cannot see such a label.",
-   "\u26a0 counting_rule": "`n_samples_naming_emc` counts per-sample records whose OWN text matches a disease term. It is a depositor claim exactly as a series title is, and the confusable count is reported separately because a substring search for 'myxoid chondrosarcoma' also hits the skeletal tumour, which is a different disease with a different driver."
+   "supplementary_confusable_rows": 0,
+   "supplementary_emc_rows": 0,
+   "supplementary_emc_rows_sample": [],
+   "supplementary_files_fetched": 0,
+   "supplementary_files_readable": 0,
+   "supplementary_unreadable": [],
+   "verdict": "LABELS_NOT_LOCATED",
+   "\u26a0 counting_rule": "`n_samples_naming_emc` counts per-sample records whose OWN text matches a disease term. It is a depositor claim exactly as a series title is, and the confusable count is reported separately because a substring search for 'myxoid chondrosarcoma' also hits the skeletal tumour, which is a different disease with a different driver.",
+   "\u26d4": "Every one of the deposit's sample records is present and none names a disease, and no supplementary file could be read. Where the per-case diagnoses live is therefore still unmeasured. This is the state in which reporting 'no EMC samples' would close a live route on a label that was never read."
   },
   "snaptron_junction_index": {
    "_what": "Does the public splice-junction index answer at all, and does what it serves carry the fields a fusion-junction search would need?",
@@ -34,6 +40,130 @@
     "tcgav2"
    ],
    "controls_pass": true,
+   "negative_control_rate": 0.02528,
+   "nr4a3_candidates": 1642,
+   "nr4a3_candidates_top": [
+    {
+     "downstream_cov": 2868.0,
+     "five_prime_cov": 55.0,
+     "five_prime_share": 0.01882,
+     "rail_id": "1274714"
+    },
+    {
+     "downstream_cov": 1572.0,
+     "five_prime_cov": 17.0,
+     "five_prime_share": 0.0107,
+     "rail_id": "2026685"
+    },
+    {
+     "downstream_cov": 1469.0,
+     "five_prime_cov": 25.0,
+     "five_prime_share": 0.01673,
+     "rail_id": "219551"
+    },
+    {
+     "downstream_cov": 1395.0,
+     "five_prime_cov": 0.0,
+     "five_prime_share": 0.0,
+     "rail_id": "887149"
+    },
+    {
+     "downstream_cov": 1356.0,
+     "five_prime_cov": 0.0,
+     "five_prime_share": 0.0,
+     "rail_id": "887181"
+    },
+    {
+     "downstream_cov": 1341.0,
+     "five_prime_cov": 0.0,
+     "five_prime_share": 0.0,
+     "rail_id": "887198"
+    },
+    {
+     "downstream_cov": 1328.0,
+     "five_prime_cov": 0.0,
+     "five_prime_share": 0.0,
+     "rail_id": "887166"
+    },
+    {
+     "downstream_cov": 1069.0,
+     "five_prime_cov": 20.0,
+     "five_prime_share": 0.01837,
+     "rail_id": "2026620"
+    },
+    {
+     "downstream_cov": 1015.0,
+     "five_prime_cov": 11.0,
+     "five_prime_share": 0.01072,
+     "rail_id": "2026200"
+    },
+    {
+     "downstream_cov": 985.0,
+     "five_prime_cov": 10.0,
+     "five_prime_share": 0.01005,
+     "rail_id": "186578"
+    },
+    {
+     "downstream_cov": 939.0,
+     "five_prime_cov": 17.0,
+     "five_prime_share": 0.01778,
+     "rail_id": "954669"
+    },
+    {
+     "downstream_cov": 927.0,
+     "five_prime_cov": 13.0,
+     "five_prime_share": 0.01383,
+     "rail_id": "186574"
+    },
+    {
+     "downstream_cov": 868.0,
+     "five_prime_cov": 0.0,
+     "five_prime_share": 0.0,
+     "rail_id": "3768869"
+    },
+    {
+     "downstream_cov": 857.0,
+     "five_prime_cov": 14.0,
+     "five_prime_share": 0.01607,
+     "rail_id": "2140281"
+    },
+    {
+     "downstream_cov": 794.0,
+     "five_prime_cov": 16.0,
+     "five_prime_share": 0.01975,
+     "rail_id": "4752484"
+    },
+    {
+     "downstream_cov": 655.0,
+     "five_prime_cov": 2.0,
+     "five_prime_share": 0.00304,
+     "rail_id": "996251"
+    },
+    {
+     "downstream_cov": 650.0,
+     "five_prime_cov": 0.0,
+     "five_prime_share": 0.0,
+     "rail_id": "2140700"
+    },
+    {
+     "downstream_cov": 630.0,
+     "five_prime_cov": 11.0,
+     "five_prime_share": 0.01716,
+     "rail_id": "807209"
+    },
+    {
+     "downstream_cov": 582.0,
+     "five_prime_cov": 7.0,
+     "five_prime_share": 0.01188,
+     "rail_id": "2533073"
+    },
+    {
+     "downstream_cov": 576.0,
+     "five_prime_cov": 0.0,
+     "five_prime_share": 0.0,
+     "rail_id": "4072994"
+    }
+   ],
    "per_gene": {
     "EWSR1": {
      "chromosomes": {
@@ -41,6 +171,22 @@
      },
      "http": 200,
      "n_records": 25781,
+     "readable": true
+    },
+    "FLI1": {
+     "chromosomes": {
+      "chr11": 14065
+     },
+     "http": 200,
+     "n_records": 14065,
+     "readable": true
+    },
+    "GAPDH": {
+     "chromosomes": {
+      "chr12": 35234
+     },
+     "http": 200,
+     "n_records": 35234,
      "readable": true
     },
     "NR4A3": {
@@ -68,6 +214,64 @@
      "readable": true
     }
    },
+   "positive_control_candidates": 11973,
+   "positive_control_rate": 0.11539,
+   "search": {
+    "EWSR1": {
+     "candidate_rate": 0.04193,
+     "n_annotated_junctions": 41,
+     "n_candidates": 9709,
+     "n_samples_expressing_downstream": 231547,
+     "strand_derived": "+",
+     "usable": true,
+     "why_unusable": null
+    },
+    "FLI1": {
+     "candidate_rate": 0.11539,
+     "n_annotated_junctions": 27,
+     "n_candidates": 11973,
+     "n_samples_expressing_downstream": 103763,
+     "strand_derived": "+",
+     "usable": true,
+     "why_unusable": null
+    },
+    "GAPDH": {
+     "candidate_rate": 0.02528,
+     "n_annotated_junctions": 52,
+     "n_candidates": 6577,
+     "n_samples_expressing_downstream": 260180,
+     "strand_derived": "+",
+     "usable": true,
+     "why_unusable": null
+    },
+    "NR4A3": {
+     "candidate_rate": 0.04828,
+     "n_annotated_junctions": 18,
+     "n_candidates": 1642,
+     "n_samples_expressing_downstream": 34013,
+     "strand_derived": "+",
+     "usable": true,
+     "why_unusable": null
+    },
+    "TAF15": {
+     "candidate_rate": 0.00857,
+     "n_annotated_junctions": 39,
+     "n_candidates": 1589,
+     "n_samples_expressing_downstream": 185331,
+     "strand_derived": "+",
+     "usable": true,
+     "why_unusable": null
+    },
+    "TCF12": {
+     "candidate_rate": 0.02437,
+     "n_annotated_junctions": 51,
+     "n_candidates": 4598,
+     "n_samples_expressing_downstream": 188661,
+     "strand_derived": "+",
+     "usable": true,
+     "why_unusable": null
+    }
+   },
    "served_columns": [
     "DataSource:Type",
     "snaptron_id",
@@ -88,12 +292,13 @@
     "coverage_median",
     "source_dataset_id"
    ],
+   "signature_negative": "GAPDH",
+   "signature_positive": "FLI1",
    "state": "FETCHED",
    "transport_control_records": 35234,
-   "verdict": "PROBED_NOT_SEARCHED",
-   "what_this_does_not_settle": "whether any EMC sample is in there. No fusion search has been run and none is claimed.",
-   "what_this_settles": "that the index answers, which compilation answers, and which columns it serves \u2014 the inputs a fusion-junction search has to be designed against."
+   "verdict": "SEARCHED",
+   "\u26a0 what_a_candidate_is": "a public sample in which this gene's downstream junction coverage is substantial while its 5'-most junctions carry essentially none. That is CONSISTENT WITH a 5'-truncating rearrangement and is not one: an alternative promoter, 3' bias in a degraded library, or a poorly annotated 5' end produce the same pattern. It is a candidate list for orthogonal checking, never a detection and never a diagnosis."
   }
  },
- "headline": "junction index answers (srav3h); no fusion search run yet; GSE140686: NO_SAMPLE_NAMES_EMC"
+ "headline": "junction search ran; NR4A3 5'-depleted candidates: 1642; GSE140686: LABELS_NOT_LOCATED"
 }
