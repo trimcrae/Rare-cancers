@@ -409,7 +409,7 @@ Discovery**.
 | filter | verdict |
 |---|---|
 | **F2 — no hands-on** | ✅ **passes.** This is the one part of the tier that genuinely does: a fully contracted service where the client ships nothing and does nothing is exactly the acceptable shape |
-| **F1 — cost** | ⛔ **cannot even be evaluated.** **Not one of the CROs examined publishes a price.** The closest any page comes is Reaction Biology's *"very cost-effective"*. Establishing a number requires requesting a quote — i.e. contacting a vendor. **An unpriceable spend cannot be authorised against a $1,000 ceiling in advance** |
+| **F1 — cost** | ⛔ **cannot even be evaluated.** **Not one of the CROs examined publishes a price.** The closest any page comes is Reaction Biology's *"very cost-effective"*. Establishing a number requires requesting a quote — i.e. contacting a vendor. **An unpriceable spend cannot be authorised against a $1,000 ceiling in advance.** ⭑ **AMENDED — see Appendix A. This verdict holds for CROs and was re-verified 2026-08-23; it does NOT hold for the whole tier, because academic core facilities publish theirs.** [`wet-lab-contracting-costs.md`](./wet-lab-contracting-costs.md) owns the numbers |
 | **F3 — interpretable** | ⛔ **fails for `R4` specifically**, per §1.2: the formats sold report a binding *event*, and `R4` asks about a *site* |
 
 ⚠ **The sales model is itself a barrier, independent of price.** These are milestone-based project
@@ -517,3 +517,39 @@ and equivalents operate the same model.
 - **This memo does not re-rank anything.** [`emc-treatment-strategy.md`](../program/emc-treatment-strategy.md)
   owns the portfolio ranking and [`nr4a3-program-map.md`](../nr4a3-program-map.md) owns the plan; where
   either differs from this memo, it wins.
+
+---
+
+## Appendix A — Amendment 1 (2026-08-23): F1 is evaluable through a channel this memo did not check
+
+**Nothing in §0–§6 is withdrawn, and the verdict of the memo is unchanged: the buyable tier is still
+empty, and still for the reason given — *eligibility*, not price.** What is amended is one supporting
+claim.
+
+**What this memo said.** §4.4: the assay services are quote-only, therefore **F1** *"cannot even be
+evaluated"*, therefore *"an unpriceable purchase is not a cheap purchase; it is an unbounded one."*
+
+**What is now measured.** That is true of **CROs** — re-verified on 2026-08-23, Altogen's *"Instant
+Quote"* resolves to an email address and 2bind to a *"Quote Inquiry"*. It is **not** true of the
+second supply channel this memo never sampled: **academic core facilities publish rate cards**,
+itemised per instrument-hour and per technician-hour, several with an explicit external-academic and
+**external-commercial** tier. F1 therefore **can** be evaluated at $0, bottom-up, without contacting
+anybody, and it has been.
+
+**What it changes, and what it does not.**
+
+- ✅ **Unchanged: the tier is empty, the levers are the right two levers, and §4.1's cell-line
+  eligibility gate is still what closes every route.** A published rate is not an offer of access.
+- ⭑ **New: the (c) rows now carry a number** — the memo's own "cheapest wet-lab ask" prices at roughly
+  **$18k**, of which the catalogue compounds it emphasises are about **2%**. Labour dominates.
+- ⚠ **Superseded, retained: §1.2's *"an order of magnitude more expensive in both protein and money"*
+  about site resolution.** The **money** half is unsupported by the rate evidence — academic
+  crystallography is priced per structure in the same order as the assays. **The category argument
+  §1.2 actually rests on — that no purchasable binding assay reports a *location*, and that the cheap
+  site-localisation workaround requires the known binder `R4` is asking for — is untouched and remains
+  decisive**, as does §1.6's conclusion that `R4` needs a structural-biology collaborator rather than a
+  credit card.
+
+**One home for the numbers:** [`wet-lab-contracting-costs.md`](./wet-lab-contracting-costs.md), with
+derived totals in [`wetlab-contracting-costs.json`](../../modalities/wetlab-contracting-costs.json).
+**No price is restated here**, and §1.5's protein arithmetic remains owned by this memo.
