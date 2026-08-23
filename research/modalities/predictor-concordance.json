@@ -1,0 +1,700 @@
+{
+  "_what": "Coverage vs. acceptance threshold under a SECOND, independently trained class I predictor (MHCnuggets, IC50 nM), beside the same curve under MHCflurry (presentation percentile).",
+  "_why": "aiXiv review 1365 (W2): the manuscript's threshold sensitivity may be an artifact of one software suite. If it reproduces under an independent predictor it is a property of the junction; if not, the paper's own result is about MHCflurry.",
+  "\u26d4_what_this_is_not": "Not a validation of either predictor and not evidence of presentation. Two prediction tools agreeing are still two prediction tools; concordance narrows the space of software-specific artifacts and does nothing else. The scales are NOT rescaled onto one axis \u2014 each predictor is swept over its own conventional cut and the SHAPES are compared, because a forced rescaling would manufacture the agreement it reports.",
+  "_method": "MHCnuggets class I IC50 over the same peptides and panel; coverage at each cut = 1 - prod(1-af)^2 over presenting alleles via hla_coverage, the same formula and pooled AFND frequencies the manuscript uses. Conventional cuts: 500.0 nM here, 0.5 presentation percentile for MHCflurry.",
+  "_sources": [
+    "Gonzalez-Galarza FF, et al. Allele frequency net database (AFND) 2020 update. Nucleic Acids Res. 2020;48:D783-D788. Mirror: github.com/slowkow/allelefrequencies (MIT)."
+  ],
+  "n_panel": 34,
+  "n_alleles_scored_by_both": 34,
+  "alleles_without_an_mhcnuggets_model": [],
+  "mhcnuggets": {
+    "conventional_cut_nM": 500.0,
+    "at_conventional_cut": {
+      "ic50_nM": 500,
+      "n_presenting_alleles": 8,
+      "coverage": 0.4517,
+      "alleles": [
+        "HLA-A*02:06",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*13:02",
+        "HLA-B*15:01",
+        "HLA-B*18:01",
+        "HLA-B*40:02",
+        "HLA-B*58:01"
+      ]
+    },
+    "curve": [
+      {
+        "ic50_nM": 10,
+        "n_presenting_alleles": 0,
+        "coverage": 0.0,
+        "alleles": []
+      },
+      {
+        "ic50_nM": 20,
+        "n_presenting_alleles": 1,
+        "coverage": 0.0851,
+        "alleles": [
+          "HLA-B*15:01"
+        ]
+      },
+      {
+        "ic50_nM": 50,
+        "n_presenting_alleles": 2,
+        "coverage": 0.1233,
+        "alleles": [
+          "HLA-A*30:02",
+          "HLA-B*15:01"
+        ]
+      },
+      {
+        "ic50_nM": 100,
+        "n_presenting_alleles": 2,
+        "coverage": 0.1233,
+        "alleles": [
+          "HLA-A*30:02",
+          "HLA-B*15:01"
+        ]
+      },
+      {
+        "ic50_nM": 150,
+        "n_presenting_alleles": 5,
+        "coverage": 0.2923,
+        "alleles": [
+          "HLA-A*02:06",
+          "HLA-A*30:02",
+          "HLA-B*07:02",
+          "HLA-B*13:02",
+          "HLA-B*15:01"
+        ]
+      },
+      {
+        "ic50_nM": 200,
+        "n_presenting_alleles": 6,
+        "coverage": 0.3465,
+        "alleles": [
+          "HLA-A*02:06",
+          "HLA-A*30:02",
+          "HLA-B*07:02",
+          "HLA-B*13:02",
+          "HLA-B*15:01",
+          "HLA-B*58:01"
+        ]
+      },
+      {
+        "ic50_nM": 300,
+        "n_presenting_alleles": 6,
+        "coverage": 0.3465,
+        "alleles": [
+          "HLA-A*02:06",
+          "HLA-A*30:02",
+          "HLA-B*07:02",
+          "HLA-B*13:02",
+          "HLA-B*15:01",
+          "HLA-B*58:01"
+        ]
+      },
+      {
+        "ic50_nM": 400,
+        "n_presenting_alleles": 7,
+        "coverage": 0.3922,
+        "alleles": [
+          "HLA-A*02:06",
+          "HLA-A*30:02",
+          "HLA-B*07:02",
+          "HLA-B*13:02",
+          "HLA-B*15:01",
+          "HLA-B*18:01",
+          "HLA-B*58:01"
+        ]
+      },
+      {
+        "ic50_nM": 500,
+        "n_presenting_alleles": 8,
+        "coverage": 0.4517,
+        "alleles": [
+          "HLA-A*02:06",
+          "HLA-A*30:02",
+          "HLA-B*07:02",
+          "HLA-B*13:02",
+          "HLA-B*15:01",
+          "HLA-B*18:01",
+          "HLA-B*40:02",
+          "HLA-B*58:01"
+        ]
+      },
+      {
+        "ic50_nM": 600,
+        "n_presenting_alleles": 9,
+        "coverage": 0.4991,
+        "alleles": [
+          "HLA-A*02:06",
+          "HLA-A*30:02",
+          "HLA-B*07:02",
+          "HLA-B*13:02",
+          "HLA-B*15:01",
+          "HLA-B*18:01",
+          "HLA-B*40:01",
+          "HLA-B*40:02",
+          "HLA-B*58:01"
+        ]
+      },
+      {
+        "ic50_nM": 750,
+        "n_presenting_alleles": 9,
+        "coverage": 0.4991,
+        "alleles": [
+          "HLA-A*02:06",
+          "HLA-A*30:02",
+          "HLA-B*07:02",
+          "HLA-B*13:02",
+          "HLA-B*15:01",
+          "HLA-B*18:01",
+          "HLA-B*40:01",
+          "HLA-B*40:02",
+          "HLA-B*58:01"
+        ]
+      },
+      {
+        "ic50_nM": 1000,
+        "n_presenting_alleles": 10,
+        "coverage": 0.5231,
+        "alleles": [
+          "HLA-A*02:06",
+          "HLA-A*30:02",
+          "HLA-A*32:01",
+          "HLA-B*07:02",
+          "HLA-B*13:02",
+          "HLA-B*15:01",
+          "HLA-B*18:01",
+          "HLA-B*40:01",
+          "HLA-B*40:02",
+          "HLA-B*58:01"
+        ]
+      },
+      {
+        "ic50_nM": 1500,
+        "n_presenting_alleles": 10,
+        "coverage": 0.5231,
+        "alleles": [
+          "HLA-A*02:06",
+          "HLA-A*30:02",
+          "HLA-A*32:01",
+          "HLA-B*07:02",
+          "HLA-B*13:02",
+          "HLA-B*15:01",
+          "HLA-B*18:01",
+          "HLA-B*40:01",
+          "HLA-B*40:02",
+          "HLA-B*58:01"
+        ]
+      },
+      {
+        "ic50_nM": 2000,
+        "n_presenting_alleles": 12,
+        "coverage": 0.5699,
+        "alleles": [
+          "HLA-A*02:06",
+          "HLA-A*30:02",
+          "HLA-A*32:01",
+          "HLA-B*07:02",
+          "HLA-B*13:02",
+          "HLA-B*14:02",
+          "HLA-B*15:01",
+          "HLA-B*18:01",
+          "HLA-B*40:01",
+          "HLA-B*40:02",
+          "HLA-B*53:01",
+          "HLA-B*58:01"
+        ]
+      },
+      {
+        "ic50_nM": 3000,
+        "n_presenting_alleles": 13,
+        "coverage": 0.5859,
+        "alleles": [
+          "HLA-A*02:06",
+          "HLA-A*30:02",
+          "HLA-A*32:01",
+          "HLA-A*33:01",
+          "HLA-B*07:02",
+          "HLA-B*13:02",
+          "HLA-B*14:02",
+          "HLA-B*15:01",
+          "HLA-B*18:01",
+          "HLA-B*40:01",
+          "HLA-B*40:02",
+          "HLA-B*53:01",
+          "HLA-B*58:01"
+        ]
+      },
+      {
+        "ic50_nM": 5000,
+        "n_presenting_alleles": 18,
+        "coverage": 0.6985,
+        "alleles": [
+          "HLA-A*02:06",
+          "HLA-A*23:01",
+          "HLA-A*30:02",
+          "HLA-A*32:01",
+          "HLA-A*33:01",
+          "HLA-B*07:02",
+          "HLA-B*13:02",
+          "HLA-B*14:02",
+          "HLA-B*15:01",
+          "HLA-B*18:01",
+          "HLA-B*27:05",
+          "HLA-B*35:01",
+          "HLA-B*38:01",
+          "HLA-B*40:01",
+          "HLA-B*40:02",
+          "HLA-B*44:02",
+          "HLA-B*53:01",
+          "HLA-B*58:01"
+        ]
+      },
+      {
+        "ic50_nM": 10000,
+        "n_presenting_alleles": 32,
+        "coverage": 0.9397,
+        "alleles": [
+          "HLA-A*01:01",
+          "HLA-A*02:01",
+          "HLA-A*02:03",
+          "HLA-A*02:06",
+          "HLA-A*03:01",
+          "HLA-A*23:01",
+          "HLA-A*24:02",
+          "HLA-A*26:01",
+          "HLA-A*30:01",
+          "HLA-A*30:02",
+          "HLA-A*31:01",
+          "HLA-A*32:01",
+          "HLA-A*33:01",
+          "HLA-A*68:01",
+          "HLA-A*68:02",
+          "HLA-B*07:02",
+          "HLA-B*08:01",
+          "HLA-B*13:02",
+          "HLA-B*14:02",
+          "HLA-B*15:01",
+          "HLA-B*18:01",
+          "HLA-B*27:05",
+          "HLA-B*35:01",
+          "HLA-B*38:01",
+          "HLA-B*40:01",
+          "HLA-B*40:02",
+          "HLA-B*44:02",
+          "HLA-B*44:03",
+          "HLA-B*51:01",
+          "HLA-B*53:01",
+          "HLA-B*57:01",
+          "HLA-B*58:01"
+        ]
+      },
+      {
+        "ic50_nM": 20000,
+        "n_presenting_alleles": 34,
+        "coverage": 0.9589,
+        "alleles": [
+          "HLA-A*01:01",
+          "HLA-A*02:01",
+          "HLA-A*02:03",
+          "HLA-A*02:06",
+          "HLA-A*03:01",
+          "HLA-A*11:01",
+          "HLA-A*23:01",
+          "HLA-A*24:02",
+          "HLA-A*26:01",
+          "HLA-A*30:01",
+          "HLA-A*30:02",
+          "HLA-A*31:01",
+          "HLA-A*32:01",
+          "HLA-A*33:01",
+          "HLA-A*68:01",
+          "HLA-A*68:02",
+          "HLA-B*07:02",
+          "HLA-B*08:01",
+          "HLA-B*13:02",
+          "HLA-B*14:02",
+          "HLA-B*15:01",
+          "HLA-B*18:01",
+          "HLA-B*27:05",
+          "HLA-B*35:01",
+          "HLA-B*38:01",
+          "HLA-B*40:01",
+          "HLA-B*40:02",
+          "HLA-B*44:02",
+          "HLA-B*44:03",
+          "HLA-B*46:01",
+          "HLA-B*51:01",
+          "HLA-B*53:01",
+          "HLA-B*57:01",
+          "HLA-B*58:01"
+        ]
+      },
+      {
+        "ic50_nM": 50000,
+        "n_presenting_alleles": 34,
+        "coverage": 0.9589,
+        "alleles": [
+          "HLA-A*01:01",
+          "HLA-A*02:01",
+          "HLA-A*02:03",
+          "HLA-A*02:06",
+          "HLA-A*03:01",
+          "HLA-A*11:01",
+          "HLA-A*23:01",
+          "HLA-A*24:02",
+          "HLA-A*26:01",
+          "HLA-A*30:01",
+          "HLA-A*30:02",
+          "HLA-A*31:01",
+          "HLA-A*32:01",
+          "HLA-A*33:01",
+          "HLA-A*68:01",
+          "HLA-A*68:02",
+          "HLA-B*07:02",
+          "HLA-B*08:01",
+          "HLA-B*13:02",
+          "HLA-B*14:02",
+          "HLA-B*15:01",
+          "HLA-B*18:01",
+          "HLA-B*27:05",
+          "HLA-B*35:01",
+          "HLA-B*38:01",
+          "HLA-B*40:01",
+          "HLA-B*40:02",
+          "HLA-B*44:02",
+          "HLA-B*44:03",
+          "HLA-B*46:01",
+          "HLA-B*51:01",
+          "HLA-B*53:01",
+          "HLA-B*57:01",
+          "HLA-B*58:01"
+        ]
+      }
+    ]
+  },
+  "mhcflurry": {
+    "conventional_cut_percentile": 0.5,
+    "at_conventional_cut": {
+      "threshold": 0.5,
+      "n_presenting_alleles": 4,
+      "coverage": 0.304,
+      "coverage_95ci": [
+        0.2951,
+        0.3132
+      ],
+      "alleles": [
+        "HLA-A*01:01",
+        "HLA-A*30:02",
+        "HLA-B*07:02",
+        "HLA-B*15:01"
+      ]
+    },
+    "steps": [
+      {
+        "threshold": 0.3736,
+        "alleles_added": [
+          "HLA-B*15:01"
+        ],
+        "coverage_after": 0.0851,
+        "peptides": [
+          "NMPCVQAQY"
+        ]
+      },
+      {
+        "threshold": 0.4033,
+        "alleles_added": [
+          "HLA-A*30:02"
+        ],
+        "coverage_after": 0.1233,
+        "peptides": [
+          "NMPCVQAQY"
+        ]
+      },
+      {
+        "threshold": 0.4061,
+        "alleles_added": [
+          "HLA-A*01:01"
+        ],
+        "coverage_after": 0.2321,
+        "peptides": [
+          "RGDMPCVQAQY"
+        ]
+      },
+      {
+        "threshold": 0.458,
+        "alleles_added": [
+          "HLA-B*07:02"
+        ],
+        "coverage_after": 0.304,
+        "peptides": [
+          "MPPPLRGDM"
+        ]
+      },
+      {
+        "threshold": 0.5094,
+        "alleles_added": [
+          "HLA-B*13:02"
+        ],
+        "coverage_after": 0.3317,
+        "peptides": [
+          "GQQNMPCVQA"
+        ]
+      },
+      {
+        "threshold": 0.5706,
+        "alleles_added": [
+          "HLA-A*26:01"
+        ],
+        "coverage_after": 0.3729,
+        "peptides": [
+          "DMPCVQAQY"
+        ]
+      },
+      {
+        "threshold": 0.9315,
+        "alleles_added": [
+          "HLA-B*35:01"
+        ],
+        "coverage_after": 0.4433,
+        "peptides": [
+          "MPPPLRGDM"
+        ]
+      },
+      {
+        "threshold": 0.9687,
+        "alleles_added": [
+          "HLA-B*44:02"
+        ],
+        "coverage_after": 0.4775,
+        "peptides": [
+          "GDMPCVQAQY"
+        ]
+      },
+      {
+        "threshold": 1.0445,
+        "alleles_added": [
+          "HLA-B*44:03"
+        ],
+        "coverage_after": 0.5166,
+        "peptides": [
+          "GDMPCVQAQY"
+        ]
+      },
+      {
+        "threshold": 1.1421,
+        "alleles_added": [
+          "HLA-B*46:01"
+        ],
+        "coverage_after": 0.5686,
+        "peptides": [
+          "NMPCVQAQY"
+        ]
+      },
+      {
+        "threshold": 1.4654,
+        "alleles_added": [
+          "HLA-B*40:02"
+        ],
+        "coverage_after": 0.6108,
+        "peptides": [
+          "VEWFDDMPCV"
+        ]
+      },
+      {
+        "threshold": 1.6177,
+        "alleles_added": [
+          "HLA-B*08:01"
+        ],
+        "coverage_after": 0.6414,
+        "peptides": [
+          "MPPPLRGDM"
+        ]
+      },
+      {
+        "threshold": 1.6274,
+        "alleles_added": [
+          "HLA-A*32:01"
+        ],
+        "coverage_after": 0.6586,
+        "peptides": [
+          "NMPCVQAQY"
+        ]
+      },
+      {
+        "threshold": 1.6418,
+        "alleles_added": [
+          "HLA-B*53:01"
+        ],
+        "coverage_after": 0.6764,
+        "peptides": [
+          "MPPPLRGDM"
+        ]
+      },
+      {
+        "threshold": 1.7785,
+        "alleles_added": [
+          "HLA-B*14:02"
+        ],
+        "coverage_after": 0.6921,
+        "peptides": [
+          "MPPPLRGDM"
+        ]
+      },
+      {
+        "threshold": 1.8202,
+        "alleles_added": [
+          "HLA-B*51:01"
+        ],
+        "coverage_after": 0.7256,
+        "peptides": [
+          "MPPPLRGDM"
+        ]
+      },
+      {
+        "threshold": 2.0348,
+        "alleles_added": [
+          "HLA-A*02:06"
+        ],
+        "coverage_after": 0.7454,
+        "peptides": [
+          "AAVEWFDDM"
+        ]
+      },
+      {
+        "threshold": 2.0512,
+        "alleles_added": [
+          "HLA-A*02:03"
+        ],
+        "coverage_after": 0.7612,
+        "peptides": [
+          "PLRGDMPCV"
+        ]
+      },
+      {
+        "threshold": 2.2818,
+        "alleles_added": [
+          "HLA-B*27:05"
+        ],
+        "coverage_after": 0.7704,
+        "peptides": [
+          "RGDMPCVQAQY"
+        ]
+      },
+      {
+        "threshold": 2.4633,
+        "alleles_added": [
+          "HLA-B*18:01"
+        ],
+        "coverage_after": 0.7865,
+        "peptides": [
+          "DDMPCVQAQY"
+        ]
+      },
+      {
+        "threshold": 2.7415,
+        "alleles_added": [
+          "HLA-A*02:01"
+        ],
+        "coverage_after": 0.8464,
+        "peptides": [
+          "GQQNMPCVQA"
+        ]
+      },
+      {
+        "threshold": 3.0373,
+        "alleles_added": [
+          "HLA-B*57:01"
+        ],
+        "coverage_after": 0.8525,
+        "peptides": [
+          "SSSYGQQNM"
+        ]
+      },
+      {
+        "threshold": 3.4876,
+        "alleles_added": [
+          "HLA-A*68:01"
+        ],
+        "coverage_after": 0.8618,
+        "peptides": [
+          "DMPCVQAQY"
+        ]
+      },
+      {
+        "threshold": 4.0479,
+        "alleles_added": [
+          "HLA-B*38:01"
+        ],
+        "coverage_after": 0.8658,
+        "peptides": [
+          "GQQNMPCV"
+        ]
+      },
+      {
+        "threshold": 4.3296,
+        "alleles_added": [
+          "HLA-A*03:01"
+        ],
+        "coverage_after": 0.88,
+        "peptides": [
+          "NMPCVQAQY"
+        ]
+      },
+      {
+        "threshold": 4.4546,
+        "alleles_added": [
+          "HLA-A*68:02"
+        ],
+        "coverage_after": 0.8851,
+        "peptides": [
+          "DLDLDMPCV"
+        ]
+      },
+      {
+        "threshold": 4.6576,
+        "alleles_added": [
+          "HLA-B*40:01"
+        ],
+        "coverage_after": 0.895,
+        "peptides": [
+          "GQQNMPCV"
+        ]
+      },
+      {
+        "threshold": 4.9686,
+        "alleles_added": [
+          "HLA-A*23:01"
+        ],
+        "coverage_after": 0.9018,
+        "peptides": [
+          "GQQNMPCV"
+        ]
+      }
+    ]
+  },
+  "agreement_at_each_predictors_own_cut": {
+    "presenting_in_both": [
+      "HLA-A*30:02",
+      "HLA-B*07:02",
+      "HLA-B*15:01"
+    ],
+    "mhcflurry_only": [
+      "HLA-A*01:01"
+    ],
+    "mhcnuggets_only": [
+      "HLA-A*02:06",
+      "HLA-B*13:02",
+      "HLA-B*18:01",
+      "HLA-B*40:02",
+      "HLA-B*58:01"
+    ],
+    "\u26a0_scope": "computed over the alleles BOTH predictors could score; alleles without an MHCnuggets model are excluded from every count here, not scored as absent"
+  }
+}
