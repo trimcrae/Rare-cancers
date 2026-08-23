@@ -1,24 +1,24 @@
 {
-  "_what_this_is": "What the Zenodo record at `published_doi` ACTUALLY CONTAINS, as published, plus any version that has been DRAFTED but not yet published. Not what the repository contains now — that is fusion-junction-aso-archive-manifest.json, which moves with every commit. This file moves only when a version is drafted or published on Zenodo, and publishing is an irreversible act the author performs by hand.",
-  "_why_this_exists": "Round 15, 2026-08-22. Three independent reviewers found the same defect from three directions: the submitted manuscript's Data and code availability says 'the archived copy is the citable one', and the archived copy was 16 files behind the repository — including the extended report itself, whose deposited text still carried two statements this repository had since corrected (the void-test definition, and a claim that the dinucleotide-preserving scramble holds the 5' guanine run). It shipped unnoticed because NOTHING RECORDED WHAT WAS DEPOSITED. `--check-archive` compares the manifest to the working tree, so it turns green exactly as the tree walks away from the deposit, and `archive_content_digest` is stored only inside the manifest that computes it, so it can never disagree with itself.",
-  "_the_window_this_file_exists_to_make_legible": "Between drafting a corrected version and publishing it, the papers cite a DOI that is not yet live and the published record is still the old one. That gap is deliberate and is the whole point of the reserve-then-rebuild ordering: the manuscript must print the identifier the archive will carry BEFORE the files are frozen, because a published version cannot be edited. `pending` records the drafted version so the gap is a stated state rather than a disagreement nobody can see.",
-  "_how_to_update": "When the pending version is PUBLISHED: move its doi/digest/n_files/git_revision up into `published`, set `published.published` to the date, and delete `pending`. When a new version is DRAFTED: set `pending`. NEVER edit either block to silence a gate — the gate is the whole point, and a green gate on a stale deposit is what this file was created to end.",
-  "published": {
-    "doi": "10.5281/zenodo.22028916",
-    "published": "2026-08-20",
-    "n_files": 473,
-    "manifest_digest": "c6b6c9486146df55cbf2ebb5e3917c62d1daf90b3c44e832d90834c7ccaf7c3f",
-    "git_revision": "4ff617b950ddf20a24b3feb97dfe5cc79b552eaa",
-    "_provenance": "Read from the archive manifest as committed at dc79aad2, the last revision whose n_files is 473 — the count fusion-junction-aso-preprint-checklist.md records as published. Nothing here is typed from recollection."
-  },
-  "pending": {
-    "doi": "10.5281/zenodo.22061075",
-    "drafted": "2026-08-22",
-    "supersedes": "10.5281/zenodo.22028916",
-    "_provenance": "Opened by dispatching deposit-zenodo.yml with new_version=true (Actions run 32592867658, job 97079288977), which called the published record's `actions/newversion`. Its log reads: 'opened NEW VERSION draft 22061075 of published record 22028916', 'cleared 1 inherited file(s)', 'uploaded emc-aso-archive.zip', 'DRAFT deposition 22061075 created. NOTHING IS PUBLISHED.' The DOI is the version DOI Zenodo reserved for that draft.",
-    "_what_remains": "Publishing, by hand, on Zenodo — https://zenodo.org/deposit/22061075. Irreversible. Until then the papers cite a DOI that does not yet resolve, which is the ordering the first deposit was built around and is tracked as an open blocking item in fusion-junction-aso-preprint-checklist.md.",
-    "uploaded_manifest_digest": "b19605953ef79bc96d826e9d5e0c001ad772f981158f1d04d35260cce84dadaa",
-    "uploaded_at_git_revision": "b67ba66bd1d7a3bf0c1201a3e57db7a768b64414",
-    "_why_the_uploaded_digest_is_here": "So the draft can be told apart from the tree BEFORE anyone publishes it. The draft on Zenodo holds one specific build; if the repository moves after that upload and nobody re-runs the deposit, publishing would freeze an archive that is already behind — which is the defect this whole file exists to prevent, one step earlier in the process. test_the_deposit_the_papers_cite_is_current.py compares this against the manifest's current digest."
-  }
+ "_what_this_is": "What the Zenodo record at `published_doi` ACTUALLY CONTAINS, as published, plus any version that has been DRAFTED but not yet published. Not what the repository contains now — that is fusion-junction-aso-archive-manifest.json, which moves with every commit. This file moves only when a version is drafted or published on Zenodo, and publishing is an irreversible act the author performs by hand.",
+ "_why_this_exists": "Round 15, 2026-08-22. Three independent reviewers found the same defect from three directions: the submitted manuscript's Data and code availability says 'the archived copy is the citable one', and the archived copy was 16 files behind the repository — including the extended report itself, whose deposited text still carried two statements this repository had since corrected (the void-test definition, and a claim that the dinucleotide-preserving scramble holds the 5' guanine run). It shipped unnoticed because NOTHING RECORDED WHAT WAS DEPOSITED. `--check-archive` compares the manifest to the working tree, so it turns green exactly as the tree walks away from the deposit, and `archive_content_digest` is stored only inside the manifest that computes it, so it can never disagree with itself.",
+ "_the_window_this_file_exists_to_make_legible": "Between drafting a corrected version and publishing it, the papers cite a DOI that is not yet live and the published record is still the old one. That gap is deliberate and is the whole point of the reserve-then-rebuild ordering: the manuscript must print the identifier the archive will carry BEFORE the files are frozen, because a published version cannot be edited. `pending` records the drafted version so the gap is a stated state rather than a disagreement nobody can see.",
+ "_how_to_update": "When the pending version is PUBLISHED: move its doi/digest/n_files/git_revision up into `published`, set `published.published` to the date, and delete `pending`. When a new version is DRAFTED: set `pending`. NEVER edit either block to silence a gate — the gate is the whole point, and a green gate on a stale deposit is what this file was created to end.",
+ "published": {
+  "doi": "10.5281/zenodo.22028916",
+  "published": "2026-08-20",
+  "n_files": 473,
+  "manifest_digest": "c6b6c9486146df55cbf2ebb5e3917c62d1daf90b3c44e832d90834c7ccaf7c3f",
+  "git_revision": "4ff617b950ddf20a24b3feb97dfe5cc79b552eaa",
+  "_provenance": "Read from the archive manifest as committed at dc79aad2, the last revision whose n_files is 473 — the count fusion-junction-aso-preprint-checklist.md records as published. Nothing here is typed from recollection."
+ },
+ "pending": {
+  "doi": "10.5281/zenodo.22061075",
+  "drafted": "2026-08-22",
+  "supersedes": "10.5281/zenodo.22028916",
+  "_provenance": "Opened by dispatching deposit-zenodo.yml with new_version=true (Actions run 32592867658, job 97079288977), which called the published record's `actions/newversion`. Its log reads: 'opened NEW VERSION draft 22061075 of published record 22028916', 'cleared 1 inherited file(s)', 'uploaded emc-aso-archive.zip', 'DRAFT deposition 22061075 created. NOTHING IS PUBLISHED.' The DOI is the version DOI Zenodo reserved for that draft. REFRESHED 2026-08-23 by Actions run 32642384115 (job 97201363409), dispatched with new_version=false so the script updated this draft rather than opening a second one. Its log reads: 'verified 482 files against the manifest', 'updating existing draft 22061075 (10.5281/zenodo.22061075) — not creating a second one', 'uploaded emc-aso-archive.zip', 'DRAFT deposition 22061075 updated. NOTHING IS PUBLISHED.'",
+  "_what_remains": "Publishing, by hand, on Zenodo — https://zenodo.org/deposit/22061075. Irreversible. Until then the papers cite a DOI that does not yet resolve, which is the ordering the first deposit was built around and is tracked as an open blocking item in fusion-junction-aso-preprint-checklist.md.",
+  "uploaded_manifest_digest": "15f45a439d1c570b3d822cf35d6eb1a6ccc654fa4af66dbee4809624b4d74bbf",
+  "uploaded_at_git_revision": "bf15c59b5f3597402395aab4a4e14bd10d1396f2",
+  "_why_the_uploaded_digest_is_here": "So the draft can be told apart from the tree BEFORE anyone publishes it. The draft on Zenodo holds one specific build; if the repository moves after that upload and nobody re-runs the deposit, publishing would freeze an archive that is already behind — which is the defect this whole file exists to prevent, one step earlier in the process. test_the_deposit_the_papers_cite_is_current.py compares this against the manifest's current digest."
+ }
 }
