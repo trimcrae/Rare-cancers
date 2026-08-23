@@ -1,0 +1,255 @@
+{
+  "_what": "Novel peptide supply from the OUT-OF-FRAME EWSR1::NR4A3 exon pairs \u2014 the frameshifted read-through tract of each, its 8- to 11-mers, and whether the premature stop sits in the canonical nonsense-mediated-decay configuration.",
+  "_why": "aiXiv review 1364 asked whether the graded-out junctions could supply novel-ORF antigen. Grading a junction out for not producing the driver does not show it produces no antigen, and nothing here had looked.",
+  "\u26d4_what_this_is_not": "NOT a set of EMC vaccine targets. The 27 exon pairs are a combinatorial window, not observed breakpoints, and a frameshifted junction cannot encode the chimeric transcription factor that defines the disease \u2014 so a tumour carrying one is not driven by it. Predicted binding remains a screen, not presentation or immunogenicity.",
+  "_method": "chimeric mRNA per junction_aso.mrna_junction; translation from the donor's own initiator codon, halting at the first stop; tract = first residue not wholly donor-encoded onward; 8- to 11-mers filtered against both parent proteins; NMD by the 50-nt positional rule against the chimera's last exon-exon junction. MHCflurry over the same 34-allele panel at the same cut (0.5) as epitope-allele-matrix.json",
+  "n_out_of_frame_junctions": 4,
+  "n_distinct_novel_peptides": 97,
+  "shortest_tract_aa": 9,
+  "longest_tract_aa": 31,
+  "n_predicted_strong_binders": 10,
+  "strong_binders": [
+    {
+      "peptide": "LPLQVPVM",
+      "allele": "HLA-B*51:01",
+      "percentile": 0.1039
+    },
+    {
+      "peptide": "LPLQVPVM",
+      "allele": "HLA-B*35:01",
+      "percentile": 0.1704
+    },
+    {
+      "peptide": "CPASKPNIAL",
+      "allele": "HLA-B*07:02",
+      "percentile": 0.2482
+    },
+    {
+      "peptide": "LPLQVPVM",
+      "allele": "HLA-B*07:02",
+      "percentile": 0.2653
+    },
+    {
+      "peptide": "KPNIALPLQV",
+      "allele": "HLA-B*07:02",
+      "percentile": 0.2745
+    },
+    {
+      "peptide": "HTARNTPRR",
+      "allele": "HLA-A*68:01",
+      "percentile": 0.388
+    },
+    {
+      "peptide": "LPLQVPVMR",
+      "allele": "HLA-A*33:01",
+      "percentile": 0.4113
+    },
+    {
+      "peptide": "LPLQVPVMR",
+      "allele": "HLA-A*68:01",
+      "percentile": 0.4698
+    },
+    {
+      "peptide": "IALPLQVPV",
+      "allele": "HLA-A*02:06",
+      "percentile": 0.4718
+    },
+    {
+      "peptide": "KPNIALPL",
+      "allele": "HLA-B*07:02",
+      "percentile": 0.4986
+    }
+  ],
+  "\u26a0_binding_scope": "screened; a count of 0 here is a measured zero",
+  "convergent_tracts": {
+    "\u26a0_why_this_matters": "junctions frameshifting into the SAME acceptor exon read the same nucleotides in the same shifted frame, so their tracts differ only at the seam codon. Summing their peptide counts would overstate the antigen supply several-fold.",
+    "shared_tract_after_the_seam_residue": {
+      "YALRPSPI": [
+        "EWSR1_e6__NR4A3_e3",
+        "EWSR1_e8__NR4A3_e3",
+        "EWSR1_e14__NR4A3_e3"
+      ]
+    }
+  },
+  "junctions": [
+    {
+      "junction_label": "EWSR1_e6__NR4A3_e3",
+      "grade": "OUT_OF_FRAME",
+      "why": "frame register mismatch: (EWSR1 coding nt 581 + acceptor 5'UTR 2) mod 3 = 1, must be 0",
+      "chimeric_protein_length": 202,
+      "seam_residue_index": 193,
+      "novel_tract": "RYALRPSPI",
+      "novel_tract_length_aa": 9,
+      "n_novel_peptides": 3,
+      "novel_peptides": [
+        "RYALRPSP",
+        "RYALRPSPI",
+        "YALRPSPI"
+      ],
+      "nmd": {
+        "last_exon_junction_nt": 2285,
+        "stop_codon_nt": 675,
+        "distance_upstream_nt": 1610,
+        "rule_nt": 50,
+        "nmd_predicted": true,
+        "\u26a0_this_is_positional_not_measured": "the 50-nt rule is a positional criterion on the transcript, not an assay. No decay measurement is made here and none is claimed."
+      }
+    },
+    {
+      "junction_label": "EWSR1_e8__NR4A3_e3",
+      "grade": "OUT_OF_FRAME",
+      "why": "frame register mismatch: (EWSR1 coding nt 974 + acceptor 5'UTR 2) mod 3 = 1, must be 0",
+      "chimeric_protein_length": 333,
+      "seam_residue_index": 324,
+      "novel_tract": "GYALRPSPI",
+      "novel_tract_length_aa": 9,
+      "n_novel_peptides": 3,
+      "novel_peptides": [
+        "GYALRPSP",
+        "GYALRPSPI",
+        "YALRPSPI"
+      ],
+      "nmd": {
+        "last_exon_junction_nt": 2678,
+        "stop_codon_nt": 1068,
+        "distance_upstream_nt": 1610,
+        "rule_nt": 50,
+        "nmd_predicted": true,
+        "\u26a0_this_is_positional_not_measured": "the 50-nt rule is a positional criterion on the transcript, not an assay. No decay measurement is made here and none is claimed."
+      }
+    },
+    {
+      "junction_label": "EWSR1_e11__NR4A3_e3",
+      "grade": "OUT_OF_FRAME",
+      "why": "frame register mismatch: (EWSR1 coding nt 1164 + acceptor 5'UTR 2) mod 3 = 2, must be 0",
+      "chimeric_protein_length": 419,
+      "seam_residue_index": 388,
+      "novel_tract": "ICPASKPNIALPLQVPVMRRRHTARNTPRRS",
+      "novel_tract_length_aa": 31,
+      "n_novel_peptides": 90,
+      "novel_peptides": [
+        "ALPLQVPV",
+        "ALPLQVPVM",
+        "ALPLQVPVMR",
+        "ALPLQVPVMRR",
+        "ARNTPRRS",
+        "ASKPNIAL",
+        "ASKPNIALP",
+        "ASKPNIALPL",
+        "ASKPNIALPLQ",
+        "CPASKPNI",
+        "CPASKPNIA",
+        "CPASKPNIAL",
+        "CPASKPNIALP",
+        "HTARNTPR",
+        "HTARNTPRR",
+        "HTARNTPRRS",
+        "IALPLQVP",
+        "IALPLQVPV",
+        "IALPLQVPVM",
+        "IALPLQVPVMR",
+        "ICPASKPN",
+        "ICPASKPNI",
+        "ICPASKPNIA",
+        "ICPASKPNIAL",
+        "KPNIALPL",
+        "KPNIALPLQ",
+        "KPNIALPLQV",
+        "KPNIALPLQVP",
+        "LPLQVPVM",
+        "LPLQVPVMR",
+        "LPLQVPVMRR",
+        "LPLQVPVMRRR",
+        "LQVPVMRR",
+        "LQVPVMRRR",
+        "LQVPVMRRRH",
+        "LQVPVMRRRHT",
+        "MRRRHTAR",
+        "MRRRHTARN",
+        "MRRRHTARNT",
+        "MRRRHTARNTP",
+        "NIALPLQV",
+        "NIALPLQVP",
+        "NIALPLQVPV",
+        "NIALPLQVPVM",
+        "PASKPNIA",
+        "PASKPNIAL",
+        "PASKPNIALP",
+        "PASKPNIALPL",
+        "PLQVPVMR",
+        "PLQVPVMRR",
+        "PLQVPVMRRR",
+        "PLQVPVMRRRH",
+        "PNIALPLQ",
+        "PNIALPLQV",
+        "PNIALPLQVP",
+        "PNIALPLQVPV",
+        "PVMRRRHT",
+        "PVMRRRHTA",
+        "PVMRRRHTAR",
+        "PVMRRRHTARN",
+        "QVPVMRRR",
+        "QVPVMRRRH",
+        "QVPVMRRRHT",
+        "QVPVMRRRHTA",
+        "RHTARNTP",
+        "RHTARNTPR",
+        "RHTARNTPRR",
+        "RHTARNTPRRS",
+        "RRHTARNT",
+        "RRHTARNTP",
+        "RRHTARNTPR",
+        "RRHTARNTPRR",
+        "RRRHTARN",
+        "RRRHTARNT",
+        "RRRHTARNTP",
+        "RRRHTARNTPR",
+        "SKPNIALP",
+        "SKPNIALPL",
+        "SKPNIALPLQ",
+        "SKPNIALPLQV",
+        "TARNTPRR",
+        "TARNTPRRS",
+        "VMRRRHTA",
+        "VMRRRHTAR",
+        "VMRRRHTARN",
+        "VMRRRHTARNT",
+        "VPVMRRRH",
+        "VPVMRRRHT",
+        "VPVMRRRHTA",
+        "VPVMRRRHTAR"
+      ],
+      "nmd": {
+        "last_exon_junction_nt": 2868,
+        "stop_codon_nt": 1326,
+        "distance_upstream_nt": 1542,
+        "rule_nt": 50,
+        "nmd_predicted": true,
+        "\u26a0_this_is_positional_not_measured": "the 50-nt rule is a positional criterion on the transcript, not an assay. No decay measurement is made here and none is claimed."
+      }
+    },
+    {
+      "junction_label": "EWSR1_e14__NR4A3_e3",
+      "grade": "OUT_OF_FRAME",
+      "why": "frame register mismatch: (EWSR1 coding nt 1580 + acceptor 5'UTR 2) mod 3 = 1, must be 0",
+      "chimeric_protein_length": 535,
+      "seam_residue_index": 526,
+      "novel_tract": "PYALRPSPI",
+      "novel_tract_length_aa": 9,
+      "n_novel_peptides": 3,
+      "novel_peptides": [
+        "PYALRPSP",
+        "PYALRPSPI",
+        "YALRPSPI"
+      ],
+      "nmd": {
+        "last_exon_junction_nt": 3284,
+        "stop_codon_nt": 1674,
+        "distance_upstream_nt": 1610,
+        "rule_nt": 50,
+        "nmd_predicted": true,
+        "\u26a0_this_is_positional_not_measured": "the 50-nt rule is a positional criterion on the transcript, not an assay. No decay measurement is made here and none is claimed."
+      }
+    }
+  ]
+}
