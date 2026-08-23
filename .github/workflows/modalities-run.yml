@@ -170,6 +170,14 @@ jobs:
         continue-on-error: true
         run: python research/modalities/junction_proteome_novelty.py --include-unreviewed
 
+      # ⭐ Added 2026-08-23 answering aiXiv review 1365 (W3): every peptide in this lane comes from
+      # ONE transcript per gene and nothing had asked what a different choice does. Runs after the
+      # proteome novelty step because it reads that artifact for the peptides whose collision it is
+      # testing the stability of.
+      - name: Transcript-model sensitivity of the junction and the B5 isoform collision
+        continue-on-error: true
+        run: python research/modalities/junction_transcript_sensitivity.py
+
       # ⭐ Added 2026-08-23 answering aiXiv review 1364 (suggestion 4): exact-match novelty leaves
       # TCR cross-reactivity with NEAR-self peptides untested, and junction_proteome_novelty.py's
       # own docstring says so. This is that test — a tolerant Hamming scan with a per-query shuffle
@@ -207,6 +215,7 @@ jobs:
           cp research/modalities/junction-proteome-novelty.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/junction-selfsimilarity.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/junction-frameshift-peptides.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+          cp research/modalities/junction-transcript-sensitivity.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           git fetch origin modalities-cache || true
           rm -f research/modalities/*.json research/modalities/*.png
           if git show-ref --verify --quiet refs/remotes/origin/modalities-cache; then

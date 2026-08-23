@@ -79,3 +79,32 @@ def test_the_artifact_refuses_to_read_as_a_list_of_emc_targets():
     t = _art()["⛔_what_this_is_not"].lower()
     assert "not a set of emc vaccine targets" in t
     assert "combinatorial window" in t
+
+
+# ---------------------------------------------------------------------------------------------
+def test_transcript_sensitivity_covers_the_junctions_the_collision_is_actually_at():
+    """⛔ THE BUG THIS EXISTS FOR SHIPPED IN A FIRST DRAFT AND WAS CAUGHT BY READING THE ARTIFACT.
+
+    The sensitivity script originally tested EWSR1 exon 7 alone, because that is the junction the
+    manuscript leads on. Section B5's isoform collision is NOT at exon 7 — `junction-proteome-
+    novelty.json` names e9, e10, e12 and e13. A sensitivity analysis of the wrong junction, reported
+    as the sensitivity of the collision, is worse than none: it would have answered a question nobody
+    asked and looked like diligence.
+    """
+    import json as _json
+    import os as _os
+    mod = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))
+    nov = _os.path.join(mod, "junction-proteome-novelty.json")
+    art = _os.path.join(mod, "junction-transcript-sensitivity.json")
+    if not _os.path.exists(art):
+        import pytest as _pytest
+        _pytest.skip("junction-transcript-sensitivity.json not yet generated (CI)")
+    with open(nov) as fh:
+        collided = _json.load(fh)["peptides_found_in_proteome"]
+    junctions = {j for rec in collided for j in rec["junctions"]}
+    exons = {int(j.split("_e")[1].split("__")[0]) for j in junctions}
+    with open(art) as fh:
+        d = _json.load(fh)
+    assert exons <= set(d["donor_exons_tested"]), (
+        f"the collision sits at donor exons {sorted(exons)} and the sensitivity run tested "
+        f"{d['donor_exons_tested']} — it is not testing the finding it claims to test")
