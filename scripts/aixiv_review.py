@@ -390,6 +390,21 @@ def cmd_calibrate(args):
     return 0
 
 
+def _api_version(v):
+    """Normalise a version to what aiXiv's API accepts, which is NOT what its own UI prints.
+
+    ⛔ MEASURED 2026-08-23, run 32648024032: `fetch --version v1.4` came back HTTP 422 —
+    "version must be in the format 'X.Y' or 'X.Y.Z', e.g. 1.0, 2.1, 1.9.3". The `v` prefix is how
+    the platform LABELS versions and how this file's own usage examples wrote them, so a caller who
+    reads either writes the form the API rejects. Two rounds of that is a wasted dispatch and a
+    failed run for a typo the client can simply fix.
+    ⚠ Applied at the request boundary only. The `v` form is kept in filenames and log lines, because
+    that is what a human matching an artifact against the aiXiv page will be looking at.
+    """
+    v = str(v).strip()
+    return v[1:] if v[:1].lower() == "v" and v[1:2].isdigit() else v
+
+
 def cmd_new_version(args):
     """Post a revised version of a paper already on aiXiv.
 
@@ -424,7 +439,7 @@ def cmd_review(args):
     fields = {
         "aixiv_id": args.aixiv_id,
         "aixiv_url": aixiv_url,
-        "version": args.version,
+        "version": _api_version(args.version),
         "doc_type": args.doc_type,
     }
     # ⭐ A SEED IS WHAT MAKES A ROUND RE-RUNNABLE. `paper-hardening` §3 reviews a pinned commit so
@@ -450,7 +465,8 @@ def cmd_review(args):
 
 def cmd_fetch(args):
     """Pull the reviews for one submission version. Needs no token per the spec."""
-    payload = json.dumps({"aixiv_id": args.aixiv_id, "version": args.version}).encode()
+    payload = json.dumps({"aixiv_id": args.aixiv_id,
+                          "version": _api_version(args.version)}).encode()
     out = _request(EP_GET_REVIEW, data=payload, method="POST",
                    headers={"Content-Type": "application/json"})
     reviews = out.get("review_list") or []

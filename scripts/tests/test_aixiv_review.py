@@ -210,3 +210,29 @@ def test_fetch_writes_the_raw_payload_verbatim(monkeypatch, tmp_path):
     aixiv_review.main(["fetch", "--aixiv-id", "x", "--version", "v1.0", "--out", str(tmp_path)])
     written = json.loads((tmp_path / "x-v1.0-reviews.json").read_text())
     assert written == payload
+
+
+def test_a_v_prefixed_version_is_normalised_before_it_reaches_the_api(monkeypatch, tmp_path):
+    """⛔ MEASURED: `--version v1.4` returned HTTP 422 from /api/get-review, because the API wants
+    'X.Y' while the platform LABELS its versions 'v1.4' — and this file's own usage examples wrote
+    the `v` form. A caller reading either writes the one that fails."""
+    seen = {}
+    monkeypatch.setattr(aixiv_review, "_request",
+                        lambda path, **k: seen.update(k.get("data") and
+                                                      json.loads(k["data"]) or {}) or
+                        {"review_list": [], "code": 0})
+    aixiv_review.main(["fetch", "--aixiv-id", "x", "--version", "v1.4", "--out", str(tmp_path)])
+    assert seen["version"] == "1.4", f"the API was sent {seen['version']!r}"
+
+
+def test_the_filename_keeps_the_form_the_caller_used():
+    """The normalisation is at the request boundary only — a human matching an artifact against the
+    aiXiv page is looking at the labelled form."""
+    assert aixiv_review._api_version("v1.4") == "1.4"
+    assert aixiv_review._api_version("1.4") == "1.4"
+    assert aixiv_review._api_version("v1.9.3") == "1.9.3"
+
+
+def test_a_version_that_only_looks_v_prefixed_is_left_alone():
+    """`velocity-2` is not a version with a `v` prefix, and stripping it would corrupt the request."""
+    assert aixiv_review._api_version("velocity-2") == "velocity-2"
