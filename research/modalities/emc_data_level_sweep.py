@@ -106,6 +106,29 @@ SNAPTRON_TARGETS = ["NR4A3", "EWSR1", "TAF15", "TCF12"]
 SNAPTRON_TRANSPORT_CONTROL = "GAPDH"
 SNAPTRON_ABSENT_CONTROL = "ZZZNOTAGENE9"
 
+# ⛔ THE POSITIVE CONTROL FOR THE SEARCH, AND WITHOUT IT THE SEARCH MAY NOT REPORT.
+# The signature this instrument looks for is 5' DEPLETION: in a sample where a gene's 3' half is
+# transcribed from a partner's promoter, the gene's own 5'-most junctions carry ~no coverage while
+# its downstream junctions carry plenty. That is a property of the ARCHITECTURE, not of EMC, so it
+# is testable on a disease whose samples are certainly in this compilation.
+#   FLI1  — in Ewing sarcoma the FLI1 3' half is driven from the EWSR1 promoter. Public Ewing
+#           RNA-seq is abundant, so if the signature is detectable at all it is detectable here.
+#   GAPDH — a gene with no recurrent 5'-truncating fusion. It must NOT produce a pile of hits, or
+#           the score is measuring depth and annotation sparsity rather than truncation.
+# If FLI1 yields nothing the arm reports SIGNATURE_NOT_DEMONSTRATED and every NR4A3 count is
+# withheld: a null from an instrument that recovers no known positive is a broken search.
+SNAPTRON_SIGNATURE_POSITIVE = "FLI1"
+SNAPTRON_SIGNATURE_NEGATIVE = "GAPDH"
+
+# A sample must carry at least this much coverage on the gene's DOWNSTREAM annotated junctions
+# before its 5' end is worth calling depleted. Below it, "no 5' coverage" is indistinguishable from
+# "this sample barely expresses the gene at all", which is the dominant confound.
+MIN_DOWNSTREAM_COVERAGE = 20
+# The 5' fraction of the gene's annotated junctions treated as the "5' end" for the ratio.
+FIVE_PRIME_FRACTION = 0.34
+# A candidate carries at most this share of its junction coverage on the 5' end.
+MAX_FIVE_PRIME_SHARE = 0.02
+
 # ── ARM 2 · the pan-sarcoma methylation deposit ─────────────────────────────────────────────────
 GEO_SERIES = "GSE140686"
 GEO_ACC_CGI = "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi"
@@ -113,6 +136,20 @@ GEO_ACC_CGI = "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi"
 # did not answer" and "this data is not public" stay distinguishable.
 ARRAYEXPRESS_ACC = "E-MTAB-9875"
 ARRAYEXPRESS_API = "https://www.ebi.ac.uk/biostudies/api/v1/studies/"
+
+# ⛔ WHY THE ARTICLE IS FETCHED AT ALL, AND IT IS THE FINDING OF THE FIRST RUN.
+# All 1,505 sample records in the deposit are titled "sarcoma classifier reference case N" with
+# characteristics "tissue: sarcoma" and nothing else -- the strings EMC, chondrosarcoma, myxoid and
+# NR4A3 appear ZERO times across the whole stream. The repository is fully readable and simply does
+# not state which case is which, so "no sample names EMC" was a statement about the LABELS, not about
+# the samples. The per-case diagnoses are published with the paper. This stage goes and gets them.
+# ⚠ THE SUPPLEMENTARY URLS ARE DISCOVERED, NEVER TYPED. A guessed MOESM number that 404s and a
+# supplement that does not exist are the same length, and this repository does not write identifiers
+# from recollection (CLAUDE.md §7). The article page is parsed for its own links.
+GEO_ARTICLE_URL = "https://www.nature.com/articles/s41467-020-20603-4"
+SUPPL_HOST_HINT = "static-content.springer.com"
+MAX_SUPPL_FILES = 8
+MAX_SUPPL_BYTES = 40_000_000
 
 # Disease name and the abbreviations a per-sample characteristics field actually uses. Matched
 # case-insensitively against sample text; every hit is reported with the sample it came from.
@@ -200,17 +237,111 @@ def parse_snaptron(body):
         if c is not None:
             chrom_counts[c] = chrom_counts.get(c, 0) + 1
 
+    n_annot = sum(1 for r in recs if col(r, "annotated") == "1")
     return {
         "n_lines": len(lines),
         "header": header[:2000],
         "columns": cols,
         "n_records": len(recs),
+        "n_annotated": n_annot,
         # A bounded verbatim sample. Enough to see the shape, never enough to be a dataset.
         "records_sample": ["\t".join(r)[:600] for r in recs[:5]],
         "chromosomes": chrom_counts,
         "has_chromosome_column": "chromosome" in idx,
         "has_samples_count_column": "samples_count" in idx,
         "has_annotated_column": "annotated" in idx,
+    }
+
+
+def five_prime_depletion(body):
+    """Per-sample 5'-depletion profile over ONE gene's annotated junctions.
+
+    ⛔ WHAT THIS MEASURES, STATED BEFORE THE ARITHMETIC. A junction record carries the samples it
+    was seen in and the coverage in each. So for one gene we can rebuild, per sample, how its
+    junction coverage is distributed along the gene. A sample whose coverage sits entirely on the
+    DOWNSTREAM junctions and not at all on the 5'-most ones is a sample in which that gene's 3' half
+    is being transcribed while its own 5' end is not.
+
+    ⛔ WHAT IT IS NOT. That pattern is CONSISTENT WITH a 5'-truncating rearrangement; it does not
+    identify one, does not name a partner, and is not a diagnosis. An alternative promoter, 3' bias
+    in a degraded library, or a poorly-annotated 5' end all produce it too. The output is a
+    CANDIDATE LIST for orthogonal checking, and it is labelled that way in the artifact.
+
+    ⚠ STRAND IS DERIVED, NEVER ASSUMED. "5'-most" is the lowest coordinate on the plus strand and
+    the highest on the minus strand, and getting it backwards silently inverts the whole result. The
+    strand is taken as the majority strand of the gene's ANNOTATED junctions and is reported.
+    """
+    lines = [ln for ln in body.split("\n") if ln.strip()]
+    if len(lines) < 2:
+        return {"usable": False, "why": "no records"}
+    cols = lines[0].lstrip("#").split("\t")
+    idx = {c: i for i, c in enumerate(cols)}
+    need = ("chromosome", "start", "end", "strand", "annotated", "samples")
+    missing = [c for c in need if c not in idx]
+    if missing:
+        return {"usable": False, "why": f"served columns lack {missing}"}
+
+    annotated = []
+    for ln in lines[1:]:
+        r = ln.split("\t")
+        if len(r) <= max(idx.values()):
+            continue
+        if r[idx["annotated"]] != "1":
+            continue
+        annotated.append(r)
+    if len(annotated) < 6:
+        return {"usable": False, "why": f"only {len(annotated)} annotated junctions; too few to split"}
+
+    strands = {}
+    for r in annotated:
+        s = r[idx["strand"]]
+        strands[s] = strands.get(s, 0) + 1
+    strand = max(strands, key=strands.get)
+    annotated = [r for r in annotated if r[idx["strand"]] == strand]
+
+    # Order along the transcript: ascending coordinate on +, descending on -.
+    annotated.sort(key=lambda r: int(r[idx["start"]]), reverse=(strand == "-"))
+    k = max(1, int(len(annotated) * FIVE_PRIME_FRACTION))
+    five, rest = annotated[:k], annotated[k:]
+
+    def accumulate(rows):
+        per = {}
+        for r in rows:
+            for tok in r[idx["samples"]].split(","):
+                if not tok or ":" not in tok:
+                    continue
+                sid, _, cov = tok.partition(":")
+                try:
+                    per[sid] = per.get(sid, 0.0) + float(cov)
+                except ValueError:
+                    continue
+        return per
+
+    cov5, cov3 = accumulate(five), accumulate(rest)
+    candidates = []
+    for sid, down in cov3.items():
+        if down < MIN_DOWNSTREAM_COVERAGE:
+            continue
+        up = cov5.get(sid, 0.0)
+        share = up / (up + down)
+        if share <= MAX_FIVE_PRIME_SHARE:
+            candidates.append({"rail_id": sid, "five_prime_cov": round(up, 1),
+                               "downstream_cov": round(down, 1), "five_prime_share": round(share, 5)})
+    candidates.sort(key=lambda c: -c["downstream_cov"])
+    n_expressing = sum(1 for s, d in cov3.items() if d >= MIN_DOWNSTREAM_COVERAGE)
+    return {
+        "usable": True,
+        "strand_derived": strand,
+        "strand_vote": strands,
+        "n_annotated_junctions": len(annotated),
+        "n_five_prime_junctions": len(five),
+        "n_samples_expressing_downstream": n_expressing,
+        "n_candidates": len(candidates),
+        "candidate_rate": round(len(candidates) / n_expressing, 5) if n_expressing else None,
+        "candidates_top": candidates[:40],
+        "thresholds": {"min_downstream_coverage": MIN_DOWNSTREAM_COVERAGE,
+                       "five_prime_fraction": FIVE_PRIME_FRACTION,
+                       "max_five_prime_share": MAX_FIVE_PRIME_SHARE},
     }
 
 
@@ -247,10 +378,20 @@ def fetch_snaptron():
     out["controls"]["transport"] = {"compilation": comp,
                                     "shape": out["reachability"][comp]["shape"]}
 
-    for g in SNAPTRON_TARGETS:
-        body, rec = _get(_snaptron_url(comp, g), timeout=300, note=f"target gene {g}")
-        out["queries"][g] = {"fetch": rec,
-                             "shape": parse_snaptron(body) if body is not None else None}
+    # The search runs on the targets AND on both controls, from the same fetch, so the control and
+    # the target are never scored by different code paths.
+    genes = list(dict.fromkeys(
+        SNAPTRON_TARGETS + [SNAPTRON_SIGNATURE_POSITIVE, SNAPTRON_SIGNATURE_NEGATIVE]))
+    out["search_genes"] = genes
+    out["signature_positive"] = SNAPTRON_SIGNATURE_POSITIVE
+    out["signature_negative"] = SNAPTRON_SIGNATURE_NEGATIVE
+    for g in genes:
+        body, rec = _get(_snaptron_url(comp, g), timeout=600, note=f"gene {g}")
+        out["queries"][g] = {
+            "fetch": rec,
+            "shape": parse_snaptron(body) if body is not None else None,
+            "depletion": five_prime_depletion(body) if body is not None else None,
+        }
         time.sleep(1)
 
     out["arm_state"] = "FETCHED"
@@ -292,8 +433,80 @@ def fetch_methylation():
     out["fetches"]["arrayexpress"] = rec_ae
     out["arrayexpress_text"] = body_ae[:400000] if body_ae else None
 
+    # ── the per-case diagnosis table, which is what actually decides this arm ────────────────────
+    art, rec_art = _get(GEO_ARTICLE_URL, timeout=180, note="article page, for its supplementary links")
+    out["fetches"]["article"] = rec_art
+    links, suppl = [], {}
+    if art:
+        for m in re.finditer(r'href="(https?://[^"]*%s[^"]*)"' % re.escape(SUPPL_HOST_HINT), art):
+            u = m.group(1).replace("&amp;", "&")
+            if u not in links:
+                links.append(u)
+    out["supplementary_links_found"] = links[:40]
+    for u in links[:MAX_SUPPL_FILES]:
+        raw, rec_s = _get(u, timeout=300, note="supplementary file")
+        entry = {"fetch": rec_s, "parsed": None, "parse_error": None}
+        if raw is not None and rec_s.get("bytes", 0) <= MAX_SUPPL_BYTES:
+            entry["parsed"] = _parse_supplementary(u, raw)
+        elif raw is not None:
+            entry["parse_error"] = f"over the {MAX_SUPPL_BYTES}-byte cap; not parsed"
+        suppl[u] = entry
+        time.sleep(1)
+    out["supplementary"] = suppl
+
     out["arm_state"] = "FETCHED" if body is not None or body_all is not None else "UNREACHABLE"
     return out
+
+
+def _parse_supplementary(url, raw):
+    """Pull disease-term evidence out of one supplementary file, whatever format it arrived in.
+
+    ⛔ REPORTS WHAT IT COULD READ, SEPARATELY FROM WHAT IT FOUND. A binary this parser cannot open
+    is `readable: false` with the reason, never "contains no EMC" -- that distinction is the whole
+    reason the first run's zero did not close this route.
+    """
+    low = url.lower()
+    res = {"url": url, "kind": None, "readable": False, "why": None,
+           "n_rows_scanned": 0, "emc_rows": [], "n_emc_rows": 0, "confusable_rows": 0}
+    try:
+        if low.endswith((".xlsx", ".xls")):
+            res["kind"] = "spreadsheet"
+            try:
+                import openpyxl                                        # noqa: PLC0415
+            except ImportError as exc:                                 # pragma: no cover
+                res["why"] = f"openpyxl unavailable ({exc}); NOT a statement about the file"
+                return res
+            import tempfile
+            with tempfile.NamedTemporaryFile(suffix=".xlsx", delete=False) as fh:
+                fh.write(raw.encode("utf-8", "surrogateescape") if isinstance(raw, str) else raw)
+                tmp = fh.name
+            wb = openpyxl.load_workbook(tmp, read_only=True, data_only=True)
+            rows = []
+            for ws in wb.worksheets:
+                for r in ws.iter_rows(values_only=True):
+                    rows.append(" | ".join("" if c is None else str(c) for c in r))
+                    if len(rows) > 40000:
+                        break
+            res["readable"] = True
+            res["n_rows_scanned"] = len(rows)
+        else:
+            res["kind"] = "text"
+            rows = (raw if isinstance(raw, str) else raw.decode("utf-8", "replace")).split("\n")
+            res["readable"] = True
+            res["n_rows_scanned"] = len(rows)
+    except Exception as exc:                                           # noqa: BLE001
+        res["why"] = f"{type(exc).__name__}: {exc} -- NOT a statement about the file's contents"
+        return res
+
+    for line in rows:
+        hits = _term_hits(line, EMC_TERMS)
+        if _term_hits(line, EMC_CONFUSABLE_TERMS):
+            res["confusable_rows"] += 1
+        if hits:
+            res["n_emc_rows"] += 1
+            if len(res["emc_rows"]) < 25:
+                res["emc_rows"].append(line[:300])
+    return res
 
 
 def _split_geo_samples(txt):
@@ -368,12 +581,7 @@ def derive(inp):
                           "withheld from interpretation: a null from an instrument that recovers no "
                           "known positive is a broken search, not a negative.")
         else:
-            arm1["verdict"] = "PROBED_NOT_SEARCHED"
-            arm1["what_this_settles"] = ("that the index answers, which compilation answers, and "
-                                          "which columns it serves — the inputs a fusion-junction "
-                                          "search has to be designed against.")
-            arm1["what_this_does_not_settle"] = ("whether any EMC sample is in there. No fusion "
-                                                  "search has been run and none is claimed.")
+            arm1.update(_depletion_verdict(s))
     elif s.get("arm_state") == "UNREACHABLE":
         arm1["verdict"] = "UNREACHABLE"
         arm1["⛔"] = ("No compilation answered. That is a statement about this fetch, not about the "
@@ -424,17 +632,47 @@ def derive(inp):
         arm2["mirror_reachable"] = ae is not None
         arm2["mirror_http"] = ((m.get("fetches") or {}).get("arrayexpress") or {}).get("http")
 
+        # ── the supplementary table, which is where the diagnoses actually live ─────────────────
+        sup = m.get("supplementary") or {}
+        parsed = [(u, e.get("parsed")) for u, e in sup.items() if e.get("parsed")]
+        readable = [(u, d) for u, d in parsed if d.get("readable")]
+        arm2["supplementary_files_fetched"] = len(sup)
+        arm2["supplementary_files_readable"] = len(readable)
+        arm2["supplementary_unreadable"] = [
+            {"url": u, "why": d.get("why")} for u, d in parsed if not d.get("readable")]
+        sup_emc = sum(d.get("n_emc_rows", 0) for _, d in readable)
+        arm2["supplementary_emc_rows"] = sup_emc
+        arm2["supplementary_confusable_rows"] = sum(
+            d.get("confusable_rows", 0) for _, d in readable)
+        arm2["supplementary_emc_rows_sample"] = [
+            r for _, d in readable for r in d.get("emc_rows", [])][:20]
+
         if not blobs:
             arm2["verdict"] = "SAMPLE_LEVEL_NOT_READ"
             arm2["⛔"] = ("The series header arrived but no per-sample record did, so the EMC count "
                           "is unmeasured. Absent reading, not a reading of absence.")
         elif len(emc) > 0:
             arm2["verdict"] = "EMC_SAMPLES_PRESENT_IN_A_PROSE_INVISIBLE_DEPOSIT"
+        elif sup_emc > 0:
+            arm2["verdict"] = "EMC_IN_THE_PUBLISHED_TABLE_NOT_IN_THE_DEPOSIT_LABELS"
+            arm2["⭐"] = ("The deposit's own sample records name no disease, and the published "
+                          "supplementary table does. The samples are therefore labelled — just not "
+                          "in the repository — and the join is what makes this cohort usable. "
+                          "⚠ A row naming the disease is not yet a sample count: mapping rows to "
+                          "the deposit's cases is the step after this one.")
+        elif readable:
+            arm2["verdict"] = "NO_EMC_ROW_IN_A_READABLE_SUPPLEMENT"
+            arm2["⚠"] = ("Sample records name no disease AND the supplementary files that could be "
+                          "read carry no row naming it. That is a real negative for what was read "
+                          "— it is not a claim about files that could not be parsed, which are "
+                          "listed in `supplementary_unreadable`.")
         else:
-            arm2["verdict"] = "NO_SAMPLE_NAMES_EMC"
-            arm2["⚠"] = ("Read at sample level and no record names the disease. That bounds what "
-                          "these sample records say — a deposit can label by methylation class code "
-                          "rather than by disease name, and this arm cannot see such a label.")
+            arm2["verdict"] = "LABELS_NOT_LOCATED"
+            arm2["⛔"] = ("Every one of the deposit's sample records is present and none names a "
+                          "disease, and no supplementary file could be read. Where the per-case "
+                          "diagnoses live is therefore still unmeasured. This is the state in which "
+                          "reporting 'no EMC samples' would close a live route on a label that was "
+                          "never read.")
     elif m.get("arm_state") == "UNREACHABLE":
         arm2["verdict"] = "UNREACHABLE"
     else:
@@ -445,16 +683,88 @@ def derive(inp):
     return res
 
 
+def _depletion_verdict(s):
+    """Grade the 5'-depletion search, and REFUSE to report the target if the controls do not hold."""
+    q = s.get("queries") or {}
+    pos_name = s.get("signature_positive", SNAPTRON_SIGNATURE_POSITIVE)
+    neg_name = s.get("signature_negative", SNAPTRON_SIGNATURE_NEGATIVE)
+
+    def dep(g):
+        return ((q.get(g) or {}).get("depletion") or {})
+
+    out = {"search": {}, "signature_positive": pos_name, "signature_negative": neg_name}
+    for g, rec in q.items():
+        d = rec.get("depletion") or {}
+        out["search"][g] = {
+            "usable": d.get("usable", False),
+            "why_unusable": d.get("why"),
+            "strand_derived": d.get("strand_derived"),
+            "n_annotated_junctions": d.get("n_annotated_junctions"),
+            "n_samples_expressing_downstream": d.get("n_samples_expressing_downstream"),
+            "n_candidates": d.get("n_candidates"),
+            "candidate_rate": d.get("candidate_rate"),
+        }
+
+    pos, neg = dep(pos_name), dep(neg_name)
+    if not pos.get("usable"):
+        out["verdict"] = "SIGNATURE_NOT_DEMONSTRATED"
+        out["⛔"] = (f"The positive control ({pos_name}) could not be scored: "
+                     f"{pos.get('why', 'no reason recorded')}. Every target count above is "
+                     "WITHHELD from interpretation — a search that cannot be shown to detect a "
+                     "signature it is known to contain reports nothing about a gene where the "
+                     "answer is unknown.")
+        return out
+
+    pos_n = pos.get("n_candidates", 0)
+    pos_rate = pos.get("candidate_rate")
+    neg_rate = neg.get("candidate_rate") if neg.get("usable") else None
+    out["positive_control_candidates"] = pos_n
+    out["positive_control_rate"] = pos_rate
+    out["negative_control_rate"] = neg_rate
+
+    if pos_n == 0:
+        out["verdict"] = "SIGNATURE_NOT_DEMONSTRATED"
+        out["⛔"] = (f"{pos_name} is scoreable but yielded ZERO candidates. The signature this "
+                     "instrument looks for was not recovered where it is known to exist, so the "
+                     "instrument has not been shown to work and no target count may be read.")
+        return out
+
+    if neg_rate is not None and pos_rate is not None and neg_rate >= pos_rate:
+        out["verdict"] = "SPECIFICITY_NOT_DEMONSTRATED"
+        out["⛔"] = (f"The negative control ({neg_name}) produces candidates at least as often as "
+                     f"the positive one ({neg_rate} vs {pos_rate}), so the score is tracking "
+                     "expression depth or annotation sparsity rather than 5' truncation. Target "
+                     "counts are WITHHELD.")
+        return out
+
+    out["verdict"] = "SEARCHED"
+    tgt = dep("NR4A3")
+    out["nr4a3_candidates"] = tgt.get("n_candidates") if tgt.get("usable") else None
+    out["nr4a3_candidates_top"] = tgt.get("candidates_top", [])[:20] if tgt.get("usable") else None
+    out["⚠ what_a_candidate_is"] = (
+        "a public sample in which this gene's downstream junction coverage is substantial while its "
+        "5'-most junctions carry essentially none. That is CONSISTENT WITH a 5'-truncating "
+        "rearrangement and is not one: an alternative promoter, 3' bias in a degraded library, or a "
+        "poorly annotated 5' end produce the same pattern. It is a candidate list for orthogonal "
+        "checking, never a detection and never a diagnosis.")
+    return out
+
+
 def _headline(arm1, arm2):
     bits = []
     v1 = arm1.get("verdict")
-    if v1 == "PROBED_NOT_SEARCHED":
+    if v1 == "SEARCHED":
+        bits.append(f"junction search ran; NR4A3 5'-depleted candidates: {arm1.get('nr4a3_candidates')}")
+    elif v1 == "PROBED_NOT_SEARCHED":
         bits.append(f"junction index answers ({arm1.get('compilation_used')}); no fusion search run yet")
     elif v1:
         bits.append(f"junction index: {v1}")
     v2 = arm2.get("verdict")
     if v2 == "EMC_SAMPLES_PRESENT_IN_A_PROSE_INVISIBLE_DEPOSIT":
         bits.append(f"{arm2.get('n_samples_naming_emc')} EMC-naming samples in {arm2.get('series')}")
+    elif v2 == "EMC_IN_THE_PUBLISHED_TABLE_NOT_IN_THE_DEPOSIT_LABELS":
+        bits.append(f"{arm2.get('series')}: labels are in the paper, not the deposit — "
+                    f"{arm2.get('supplementary_emc_rows')} EMC row(s) found")
     elif v2:
         bits.append(f"{arm2.get('series')}: {v2}")
     return "; ".join(bits) if bits else "nothing run"
@@ -498,12 +808,19 @@ def selftest():
     ck(derive(leaky)["arms"]["snaptron_junction_index"]["verdict"] == "TRANSPORT_FAILED",
        "an absent control returning records did not fail the arm")
 
-    # 4 · A clean pair of controls yields PROBED_NOT_SEARCHED and NEVER a search verdict.
+    # 4 · ⛔ CLEAN TRANSPORT CONTROLS ARE NOT ENOUGH TO REPORT A TARGET, and this is the guard that
+    #     stops the two control layers being confused. The transport pair only proves the ENDPOINT
+    #     answers. Whether the SEARCH can see the signature is a separate question with its own
+    #     control, so a fetch that answered cleanly but carries no depletion payload must still
+    #     withhold every target count.
     clean = json.loads(json.dumps(broken))
     clean["snaptron"]["controls"]["transport"]["shape"]["n_records"] = 500
     clean["snaptron"]["controls"]["absent"]["shape"]["n_records"] = 0
-    v = derive(clean)["arms"]["snaptron_junction_index"]["verdict"]
-    ck(v == "PROBED_NOT_SEARCHED", f"clean controls gave {v}, expected PROBED_NOT_SEARCHED")
+    a4 = derive(clean)["arms"]["snaptron_junction_index"]
+    ck(a4["verdict"] == "SIGNATURE_NOT_DEMONSTRATED",
+       f"clean transport controls alone gave {a4['verdict']}; the search control must still gate")
+    ck("nr4a3_candidates" not in a4,
+       "a target count was reported on transport controls alone")
 
     # 5 · A series header with NO sample records is SAMPLE_LEVEL_NOT_READ, never "no EMC".
     hdr_only = {"methylation": {"arm_state": "FETCHED",
@@ -547,12 +864,109 @@ def selftest():
        "parser reported a column it was never served")
     ck(shape["chromosomes"] == {"chr9": 2}, f"chromosome tally wrong: {shape['chromosomes']}")
 
+    # 9 · The depletion search must REFUSE to report a target when the positive control is dead.
+    def _snap(pos_cands, neg_cands, tgt_cands, pos_usable=True):
+        def mk(n, usable=True, expr=1000):
+            return {"usable": usable, "why": None if usable else "too few annotated junctions",
+                    "n_candidates": n, "n_samples_expressing_downstream": expr,
+                    "candidate_rate": (n / expr) if (usable and expr) else None,
+                    "candidates_top": [], "n_annotated_junctions": 40, "strand_derived": "+"}
+        return {"snaptron": {
+            "arm_state": "FETCHED", "compilation_used": "srav3h",
+            "compilations_that_answered": ["srav3h"],
+            "signature_positive": "FLI1", "signature_negative": "GAPDH",
+            "controls": {"transport": {"shape": {"n_records": 500, "columns": []}},
+                         "absent": {"shape": {"n_records": 0}}},
+            "queries": {"FLI1": {"fetch": {"http": 200}, "shape": {"n_records": 9},
+                                 "depletion": mk(pos_cands, pos_usable)},
+                        "GAPDH": {"fetch": {"http": 200}, "shape": {"n_records": 9},
+                                  "depletion": mk(neg_cands)},
+                        "NR4A3": {"fetch": {"http": 200}, "shape": {"n_records": 9},
+                                  "depletion": mk(tgt_cands)}}}}
+
+    a = derive(_snap(0, 1, 12))["arms"]["snaptron_junction_index"]
+    ck(a["verdict"] == "SIGNATURE_NOT_DEMONSTRATED",
+       f"a positive control with zero candidates gave {a['verdict']}")
+    ck("nr4a3_candidates" not in a, "target counts were reported despite a dead positive control")
+
+    a = derive(_snap(5, 1, 12, pos_usable=False))["arms"]["snaptron_junction_index"]
+    ck(a["verdict"] == "SIGNATURE_NOT_DEMONSTRATED",
+       "an unscoreable positive control did not withhold the target")
+
+    a = derive(_snap(30, 60, 12))["arms"]["snaptron_junction_index"]
+    ck(a["verdict"] == "SPECIFICITY_NOT_DEMONSTRATED",
+       f"a negative control firing more than the positive gave {a['verdict']}")
+    ck("nr4a3_candidates" not in a, "target counts survived a failed specificity check")
+
+    a = derive(_snap(30, 2, 12))["arms"]["snaptron_junction_index"]
+    ck(a["verdict"] == "SEARCHED", f"clean controls gave {a['verdict']}")
+    ck(a["nr4a3_candidates"] == 12, f"target count was {a.get('nr4a3_candidates')}, expected 12")
+
+    # 10 · 5'-depletion arithmetic, including the strand inversion that would silently flip it.
+    hdr = ("DataSource:Type\tsnaptron_id\tchromosome\tstart\tend\tlength\tstrand\tannotated"
+           "\tleft_motif\tright_motif\tleft_annotated\tright_annotated\tsamples\tsamples_count"
+           "\tcoverage_sum\tcoverage_avg\tcoverage_median\tsource_dataset_id")
+
+    def jrow(i, start, strand, samples):
+        return (f"srav3h:I\t{i}\tchr9\t{start}\t{start+100}\t100\t{strand}\t1\tGT\tAG\t1\t1"
+                f"\t{samples}\t1\t0\t0.0\t0\t0")
+
+    # Nine annotated junctions on +. TRUNC carries coverage only on the three DOWNSTREAM-most.
+    rows = [jrow(i, 1000 + 100 * i, "+",
+                 ",NORMAL:50" + (",TRUNC:200" if i >= 6 else "")) for i in range(9)]
+    d = five_prime_depletion(hdr + "\n" + "\n".join(rows))
+    ck(d["usable"] is True, f"depletion unusable: {d.get('why')}")
+    ck(d["strand_derived"] == "+", "strand vote did not return +")
+    ids = [c["rail_id"] for c in d["candidates_top"]]
+    ck(ids == ["TRUNC"], f"expected only TRUNC as a candidate, got {ids}")
+
+    # Same coverage pattern, minus strand: the "5' end" is now the OTHER end, so TRUNC — which
+    # carries the HIGH coordinates — is no longer 5'-depleted. A strand bug would keep calling it.
+    rows_m = [r.replace("\t+\t", "\t-\t") for r in rows]
+    dm = five_prime_depletion(hdr + "\n" + "\n".join(rows_m))
+    ck(dm["strand_derived"] == "-", "strand vote did not return -")
+    ck([c["rail_id"] for c in dm["candidates_top"]] == [],
+       "a minus-strand gene still called the high-coordinate sample 5'-depleted — strand inverted")
+
+    # A sample below the downstream-coverage floor must not be called: "no 5' coverage" and "barely
+    # expressed" are the confound this floor exists to separate.
+    faint = [jrow(i, 1000 + 100 * i, "+", ",FAINT:1" if i >= 6 else "") for i in range(9)]
+    df = five_prime_depletion(hdr + "\n" + "\n".join(faint))
+    ck([c["rail_id"] for c in df["candidates_top"]] == [],
+       "a barely-expressed sample was called 5'-depleted")
+
+    # Unannotated junctions must not enter the profile at all.
+    unann = [r.replace("\t1\tGT", "\t0\tGT") for r in rows]
+    du = five_prime_depletion(hdr + "\n" + "\n".join(unann))
+    ck(du["usable"] is False, "unannotated junctions were admitted to the profile")
+
+    # 11 · An unreadable supplement is never "no EMC".
+    unread = {"methylation": {"arm_state": "FETCHED", "geo_self_text": "!Series_title = x\n",
+                              "geo_all_text": "^SAMPLE = GSM1\n!Sample_title = case 1\n",
+                              "fetches": {},
+                              "supplementary": {"u": {"parsed": {"readable": False,
+                                                                 "why": "openpyxl unavailable"}}}}}
+    a2 = derive(unread)["arms"]["pan_sarcoma_methylation_deposit"]
+    ck(a2["verdict"] == "LABELS_NOT_LOCATED",
+       f"an unreadable supplement gave {a2['verdict']}, expected LABELS_NOT_LOCATED")
+
+    found = {"methylation": {"arm_state": "FETCHED", "geo_self_text": "!Series_title = x\n",
+                             "geo_all_text": "^SAMPLE = GSM1\n!Sample_title = case 1\n",
+                             "fetches": {},
+                             "supplementary": {"u": {"parsed": {
+                                 "readable": True, "n_emc_rows": 3, "confusable_rows": 0,
+                                 "emc_rows": ["case 12 | extraskeletal myxoid chondrosarcoma"]}}}}}
+    a3 = derive(found)["arms"]["pan_sarcoma_methylation_deposit"]
+    ck(a3["verdict"] == "EMC_IN_THE_PUBLISHED_TABLE_NOT_IN_THE_DEPOSIT_LABELS",
+       f"a supplement naming EMC gave {a3['verdict']}")
+    ck(a3["supplementary_emc_rows"] == 3, "supplementary EMC row count was lost")
+
     if fails:
         print("SELFTEST FAILED:")
         for f in fails:
             print("  -", f)
         return 1
-    print(f"selftest ok ({8} guard groups)")
+    print("selftest ok (11 guard groups)")
     return 0
 
 

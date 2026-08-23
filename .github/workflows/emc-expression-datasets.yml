@@ -813,10 +813,15 @@ jobs:
       # junction classes a fusion transcript produces is not answerable from documentation and must
       # not be answered from recollection. This run measures the served columns and record counts and
       # emits `PROBED_NOT_SEARCHED`; the searchable design is written against that measurement.
+      # openpyxl only — the supplementary diagnosis table is a spreadsheet. If it is missing the
+      # module records `openpyxl unavailable` against that file and the arm reports LABELS_NOT_
+      # LOCATED; it never reports "no EMC" for a file it could not open.
       - name: "Data-level sweep — the junction index and the pan-sarcoma methylation deposit"
         if: inputs.mode == 'data-level-sweep'
-        timeout-minutes: 45
-        run: python research/modalities/emc_data_level_sweep.py --fetch
+        timeout-minutes: 60
+        run: |
+          python -m pip install --quiet openpyxl
+          python research/modalities/emc_data_level_sweep.py --fetch
 
       - name: "Data-level sweep — derive the verdict from the cached inputs"
         if: always() && inputs.mode == 'data-level-sweep'
