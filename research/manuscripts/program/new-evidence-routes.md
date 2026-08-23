@@ -234,6 +234,46 @@ than what it did not find.**
 
 ---
 
+### 5.2 · What the SECOND run measured (2026-08-23, run `32672524143`, $0) — and what each one now needs
+
+**Route A1 — the search RAN, its controls formally passed, and the honest reading is that the score is
+not yet specific enough to report a candidate list.**
+
+| gene | role | annotated junctions | samples expressing | candidates | rate |
+|---|---|---:|---:|---:|---:|
+| FLI1 | ⭐ positive control | 27 | 103,763 | 11,973 | **0.1154** |
+| GAPDH | ⛔ negative control | 52 | 260,180 | 6,577 | **0.0253** |
+| NR4A3 | target | 18 | 34,013 | 1,642 | 0.0483 |
+| EWSR1 | context | 41 | 231,547 | 9,709 | 0.0419 |
+| TAF15 | context | 39 | 185,331 | 1,589 | 0.0086 |
+| TCF12 | context | 51 | 188,661 | 4,598 | 0.0244 |
+
+⭐ **The positive control fires 4.6× the negative one, so the signature is real and detectable.** The gate
+passed on its own terms and the strand was derived as `+` for every gene.
+
+⛔ **But NR4A3's rate is only about 1.9× the negative control's, and the negative control itself returns
+6,577 "candidates". So `1,642` is NOT 1,642 EMC candidates** — it is dominated by whatever background
+also produces GAPDH's hits, and this memo must not quote it as a finding. **The next move is
+specificity, not more searching**, and three levers are available before anything else: require the
+depleted 5' junction to be well covered in OTHER samples (which separates a real absence from a sparsely
+annotated 5' end); raise the downstream-coverage floor; and add a second, independent discriminator —
+NR4A3 absolute expression, which in this disease is driven from a partner promoter and should be high.
+⚠ **A candidate rate is only interpretable against the negative control's rate on the same day**, so
+every tightening must be re-scored on all three genes together.
+
+**Route A2 — the label source is still not located, and the reason is a measured transport failure
+rather than an absence.** The article fetch returned **HTTP 200 in 3,038 bytes** — a stub, not a paper —
+so **zero supplementary links were found and zero files were parsed.** The arm reported
+`LABELS_NOT_LOCATED` exactly as designed; had it reported "no EMC" it would have closed a live route on
+a page it never actually read.
+
+⭐ **And the next route is already measured as open.** The EBI mirror `E-MTAB-9875` answered **HTTP 200
+with a real BioStudies record** (title *"Methylation profiling (450K and EPIC array) for sarcoma
+classification"*, release date 2021-05-01), and it was truncated only by this module's own 400,000-byte
+cap. An ArrayExpress study carries an **SDRF** — the sample-and-data-relationship file whose whole
+purpose is per-sample characteristics — and EBI did not serve a stub. **That, and PMC, are the two
+routes to try before anything is concluded about this deposit.**
+
 ## 6 · Limits of this memo
 
 - **§4's grade is a judgement about fit, not a measured result.** That the coarse-grained condensate
