@@ -187,7 +187,13 @@ That ten-allele panel is the instrument behind every binder figure here, and a w
 34-allele screen of the same peptides at the same threshold returns five strong peptide-allele calls
 rather than four, because NMPCVQAQY is also strong on HLA-A\*30:02. Section 2.3 reports both panels.
 
-**The junctions graded out were not left unexamined.** Twenty-two of the 27 pairs carry no peptides
+**The junctions graded out were not left unexamined, and the reason to look is that a negative here
+is load-bearing.** If the frameshifted junctions carried abundant strong antigen, the thin supply at
+the in-frame junctions would be a fact about which junctions this disease uses rather than about the
+locus; that they do not is what lets Section 2.3's figures be read as a property of the locus at all.
+An external reviewer of a previous version judged this section a distraction from the vaccine
+question, which is fair if it is read as a search for targets — it is not, and the paragraph now says
+what it is for. Twenty-two of the 27 pairs carry no peptides
 above, and four of those are out of frame — *EWSR1* exons 6, 8, 11 and 14 joined to *NR4A3* exon 3. A
 frameshifted junction reads the acceptor exon in a novel register, so every residue after the seam is
 non-self until a stop codon, and in other tumours that class is the richest antigen source available
@@ -223,8 +229,18 @@ search reported under B5 below, leaving 10; all 4 strong binders survive that se
 
 ### 2.3 Population coverage
 
-Coverage here means the union carrier frequency of the presenting alleles, computed as one minus the
-product of squared non-carrier frequencies over Allele Frequency Net Database records [1]. Three properties
+Coverage here means the union carrier frequency of the presenting alleles. Writing *A* for the set of
+alleles that present at least one junction peptide at the acceptance threshold, and *f<sub>a</sub>* for
+the pooled frequency of allele *a* over Allele Frequency Net Database records [1]:
+
+> **C(A)  =  1  −  ∏<sub>a∈A</sub> (1 − f<sub>a</sub>)²**
+
+Each factor (1 − *f<sub>a</sub>*)² is the probability that an individual carries neither copy of
+allele *a* under Hardy-Weinberg, and the product treats loci as independent; *C* is therefore the
+fraction carrying at least one presenting allele. Because *A* is itself a function of the acceptance
+threshold *t* — an allele enters *A* at the percentile of its best junction peptide — coverage is a
+function of *t*, and it is a right-continuous step function whose jumps are exactly the distinct
+peptide-allele percentiles. Section 2.3 computes it. Three properties
 of that quantity govern how the figures below should be read; both are properties of the screen rather
 than of the tumour, and a third, below them, is a property of the population the figure averages over.
 
@@ -456,8 +472,15 @@ Eight of the 11 have at least one human peptide within two substitutions, and ev
 from two self proteins should give, and is a check on the search as much as a result. Three findings
 matter. **The lead peptide is one substitution from self.** NMPCVQAQY differs at position 1 from
 DMPCVQAQY, which occurs in *NR4A3* isoform 3 — the same isoform Section B5 is about — and at positions 1
-and 5 from EMPCIQAQY in an *NR4A1* isoform. Against a chance expectation of 0.02 neighbours for a peptide
-of its length and composition, two is not a coincidence. **Neither difference is at an anchor.** Position
+and 5 from EMPCIQAQY in an *NR4A1* isoform. The chance expectation is stated as a model rather than
+as a number: for a query *q*, draw *N* = 50 uniform random permutations of its own residues, search
+each against the same proteome at the same tolerance, and let *μ(q)* be the mean neighbour count over
+those draws. This holds length and amino-acid composition fixed and destroys only the order, so *μ*
+is the neighbour count attributable to *q* being a string of those residues rather than to *q* being
+that particular sequence. For NMPCVQAQY, *μ* = 0.02 against an observed 2. **No p-value is quoted and
+none should be:** 50 draws bound a rate near zero loosely, the draws are not independent of the
+proteome's own composition, and the comparison this paper needs is an order of magnitude, not a
+tail probability. **Neither difference is at an anchor.** Position
 1 and position 5 face outward or into the groove's middle rather than serving as the primary anchors at
 position 2 and the C-terminus, so a T cell raised against the neoepitope reads a surface that differs from
 the self peptide's at the positions it actually contacts — which is the configuration in which
@@ -527,7 +550,20 @@ epitope as well as the two strong class I epitopes NMPCVQAQY and QQNMPCVQAQY on 
 minimal synthetic long peptide is 15 residues carrying both arms, where the class I-only version was 11.
 And the combined CD8 and CD4 coverage figure can be computed at all for the first time: class II coverage
 is 6.5% on DRB1\*14:01 alone, and the fraction of patients carrying at least one presenting allele of each
-class is 1.8%. That figure is smaller than either arm alone and is the honest one for a construct that
+class is 1.8%. It is the product of the two arms' coverages, and writing that product out is worth the
+line because it exposes something the prose form hid:
+
+> **C<sub>I∧II</sub>  =  C<sub>I</sub> × C<sub>II</sub>  =  0.2737 × 0.0649  =  0.0178**
+
+**The class I term is the TEN-allele screen's 27.4%, not the 34-allele screen's 30.4%** that this
+section quotes two paragraphs above. The instrument builds its class I allele set from the junction
+screen rather than from the broad-panel scan, so the combined figure is on the narrower panel; on the
+34-allele set the same product gives 2.0%. Neither is wrong, and until this equation was written down
+neither was stated — a reader would reasonably have assumed the 30.4%.
+The product also assumes independence between the class I and class II loci, which is the same
+assumption the within-class formula makes and no weaker. HLA-A, HLA-B and DRB1 sit on chromosome 6 in
+linkage disequilibrium, so it is an approximation whose direction is not known without haplotype
+frequencies. That figure is smaller than either arm alone and is the honest one for a construct that
 needs both — and, like every coverage number in this paper, it is a point on the curves of Section 2.3
 rather than an estimate with a tolerance.
 
