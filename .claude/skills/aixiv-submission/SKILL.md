@@ -1,12 +1,13 @@
 ---
 name: aixiv-submission
-description: Post a paper from this repository to aiXiv and read its automated review. Load before submitting or revising anything on aixiv.science, before quoting an aiXiv Rating to anyone, and before setting a target rating as a goal. Covers the working mechanics (agent token, the exactly-three category contract, metadata generated from the manuscript, PREFLIGHT_FULL before any post) and the three traps that cost a day: is_public=0 does NOT make a submission private, the Rating is written by an UNAUTHENTICATED endpoint so it is not a quality measurement, and four substantive revisions of one paper moved it not at all while a DIFFERENT paper of the right shape scored 7 on its first version. Also the one thing that does move a rating (pick the paper, do not iterate the prose), and what this repository will not do to raise a number.
+description: Post a paper from this repository to aiXiv and read its automated review. Load before submitting or revising anything on aixiv.science, before quoting an aiXiv Rating to anyone, and before setting a target rating as a goal. Covers the working mechanics (agent token, the exactly-three category contract, metadata generated from the manuscript, PREFLIGHT_FULL before any post) and the three traps that cost a day: is_public=0 does NOT make a submission private, the Rating is written by an UNAUTHENTICATED endpoint so it is not a quality measurement, and ELEVEN versions of one paper never moved it above 6 — trending DOWN as the paper improved, until the target was abandoned by decision — while a DIFFERENT paper of the right shape scored 7 on its first version. Also the one thing that does move a rating (pick the paper, do not iterate the prose), why the review TEXT is worth having even though the number is not, the version-numbering and review-latency mechanics (the server assigns the version; 1.9 was followed by 2.0), and what this repository will not do to raise a number.
 ---
 
 # Submitting to aiXiv, and what its Rating is worth
 
-Measured 2026-08-22 → 2026-08-23 on `aixiv.260822.000005` (the EMC fusion-junction vaccine paper),
-four versions and four reviews, plus a full-corpus pull of **874 reviews**. Client:
+Measured 2026-08-22 → 2026-08-24 on `aixiv.260822.000005` (the EMC fusion-junction vaccine paper),
+**eleven versions and ten reviews**, plus a full-corpus pull of **874 reviews**. The rating-chasing
+experiment is finished — §3 is its result and closes the question. Client:
 [`scripts/aixiv_review.py`](./scripts/aixiv_review.py). Workflow:
 [`aixiv-review.yml`](./.github/workflows/aixiv-review.yml). API surface read at primary source into
 `literature/aixiv-api-surface-2026-08-22/` on `literature-cache`.
@@ -206,6 +207,81 @@ it is already there.
 undisclosed panel mismatch — and the worst-RATED. "Better paper" and "better score" came apart, and
 the honest report says both.
 
+### ⛔⛔⛔ THE EXPERIMENT RAN TO COMPLETION: ELEVEN VERSIONS, NEVER ABOVE 6, ABANDONED BY DECISION
+
+trimcrae's standing instruction from 2026-08-22 was *"iterate on the vaccine paper until it gets a 7.
+And don't neuter the point it makes."* It was worked for two days and **retired by him on 2026-08-24**:
+*"I think it's time for us to abandon the idea of getting this paper to a 7."* This is the record of
+what that bought, so nobody runs it again.
+
+| version | what changed | rating |
+|---|---|---:|
+| v1.0 – v1.4 | see above | 6, 6, 6, 6, 6 |
+| v1.5 | eight criticisms addressed; meta-commentary ADDED | **5** |
+| v1.6 | meta-commentary stripped | 6 |
+| v1.7 | the paper's first two figures | **4** |
+| v1.8 | three meta-commentary passages verified removed | 5 |
+| v1.9 | cross-paper footer defect fixed; three-axis coverage uncertainty | 5 |
+| v2.0 | one-residue novelty pre-screen; HWE-free bounds; 27-pair table | *pending* |
+
+**Mean of the first five: 6.0. Mean of the last five: 5.0.** The paper strictly gained content and
+correctness across that span. ⛔ **Iteration was not merely ineffective here — over ten reviews the
+rating moved DOWN while the paper improved.**
+
+★★ **THE DECISIVE DATUM IS v1.9, AND IT IS WORTH MORE THAN THE WHOLE SERIES.** That round added the
+one thing every prior review had asked for: a replacement for the confidence intervals the paper had
+withdrawn — the exact within-locus coverage form, distribution-free Fréchet bounds on the between-locus
+dependence, and the empirical spread across 112 source populations. The reviewer **named it and
+praised it**:
+
+> *"The statistical honesty—withdrawing invalid confidence intervals and providing Fréchet bounds and
+> per-population distributions—is commendable"*
+
+**Rating: 5.** When a review compliments precisely the addition you made and the number does not move,
+the number is not measuring the addition. Stop.
+
+⚠ **AND THE UNFIXABLE WEAKNESS LED EVERY SINGLE REVIEW.** Ten for ten: *"purely in silico"*, *"no
+wet-lab data"*, v1.9's phrasing being *"a feasibility study without a feasibility endpoint."* Against
+`aixiv.260823.000001` — also purely computational, no wet lab, **7 on its first version** — the
+difference is shape, not effort, exactly as §3 predicted before either result was in.
+
+### ⛔ A HYPOTHESIS I DERIVED TWICE, RETRACTED TWICE, AND WHICH THEN REVERSED. DO NOT RE-DERIVE IT
+
+Several reviews complain that the work is a poor fit for *"a general AI/ML audience"* or *"a standard
+ICLR/NeurIPS submission"*. It is very tempting to conclude the reviewer is grading against a
+machine-learning conference rubric and that this explains the ceiling. **It was concluded twice, and
+refuted twice** — first by grep (four 6-rated reviews mentioned it zero times), then re-tested on more
+data and retracted again. At n=10 the correlation is:
+
+| ML-venue language | n | mean rating |
+|---|---:|---:|
+| mentioned | 3 | 5.00 |
+| not mentioned | 7 | 5.71 |
+
+⚠ **The direction is the OPPOSITE of the reading taken at n=7 (5.83 vs 6.50).** Three reviews is not a
+sample; the estimate flipped sign as data arrived. ⛔ **Do not infer a cause of the rating from a
+handful of reviews at all** — not this one, not a better one. The corpus-wide `calibrate` pull (§1) is
+the only place inference is affordable, and even it needs de-duplication by submitter.
+
+### ★ WHAT THE POSTING IS ACTUALLY FOR, NOW THAT THE NUMBER IS NOT
+
+The rating was never the return. The **review text** was, and over this series it paid twice in ways
+nothing inside the repository could:
+
+- **v1.8's reviewer found a real cross-paper contamination bug.** It reported an undefined term,
+  `fusion-junction-aso-sequences.csv`, appearing in a figure caption. That filename belongs to a
+  *different paper* about antisense oligonucleotides; the PDF builder derived its running footer from a
+  module-level constant, so **every page of every posted version of the vaccine paper carried
+  "Order from fusion-junction-aso-sequences.csv, never from this PDF"** — a false ordering instruction
+  pointing at another molecule. Every gate in this repository reads the `.md`; the defect existed only
+  after rendering. **An outside reader holding the built PDF caught what nine local gate families
+  could not.**
+- **v1.8 and v1.9 each named a concrete, buildable improvement** — a concrete algorithmic fix for the
+  novelty filter, and a table of the 27 exon pairs. Both were built and both made the paper better.
+
+⛔ **SO: POST TO GET THE READ, NOT TO GET THE SCORE.** One posting per substantive change is worth it.
+A revision loop aimed at a number is not, and this section is the measurement that says so.
+
 ## 4 · The runbook
 
 1. **Mint an agent token once.** `POST /api/agents` with `review` in `scopes`, then
@@ -261,6 +337,19 @@ re-review path is broken server-side, so a review cannot be re-run on a fixed ve
 **variance of the score is unmeasurable**. Reviews arrive automatically, one per new submission.
 `fetch` is the normal path; `review` is a broken override.
 
+## 4a · Version numbering, review latency, and the empty-list state
+
+- ⛔ **VERSION STRINGS ARE BARE.** `"v1.7"` is rejected **HTTP 422** — *"version must be in the format
+  'X.Y' or 'X.Y.Z'"*. The client normalises now, but the raw API does not.
+- ⛔⛔ **aiXiv WENT 1.9 → 2.0, NOT 1.9 → 1.10.** The eleventh post came back
+  `{"success": true, "submission_id": "1381", "version": "2.0"}`. **The server assigns the number; do
+  not predict it.** Read `version` out of the post's own response and fetch with exactly that string —
+  a fetch for `"1.10"` finds nothing and looks identical to "no review yet".
+- **A review takes hours, not minutes.** v1.9 posted 02:27 UTC and was reviewed 10:28 UTC — about 8
+  hours. Fetching sooner is free and returns an empty list.
+- ⛔ **AN EMPTY `review_list` IS AN ABSENT READING, NOT A VERDICT.** It means the review has not been
+  written. Never record it as a score, and never let it end a watch.
+
 ## 4b · ⛔⛔ READ THE BUILT PDF BEFORE YOU POST IT. THE REVIEWER READS THAT, NOT THE MARKDOWN
 
 Every gate in this repository reads the **manuscript source**. `lint_consistency`, `lint_claims`,
@@ -304,5 +393,11 @@ public submissions. It cannot discharge a route's endpoint in
 
 ★ **What it is genuinely good for:** a fast, free external adversarial read with no
 organizational-affiliation gate — which matters here, because bioRxiv declined this author for being
-unaffiliated. The review **text** has earned its place: it produced the unreviewed-proteome search,
-a real measurement now in the paper. **Use the text; do not chase the number.**
+unaffiliated. The review **text** has earned its place three times over: it produced the
+unreviewed-proteome search, the one-residue novelty pre-screen, and the catch of a cross-paper footer
+defect that had shipped in every posted version (§3). **Use the text; do not chase the number.**
+
+⛔ **AND THAT IS NOT A SLOGAN ANY MORE, IT IS A MEASUREMENT.** Eleven versions of one paper were
+posted to test it. The number never moved above 6 and trended down; the text paid every round. If a
+future session is asked to raise a rating, the answer is §3's table and this line — pick the paper, or
+post for the read, but do not run the loop again.
