@@ -108,7 +108,15 @@ PROTOCOL = {
 }
 
 MIN_FRAMES_ANALYSED = 900          # of the 1000 kept after discarding the first 10
-NU_PHYSICAL_RANGE = (0.30, 0.75)   # outside this the integration is broken, not the biology
+# ⚠ AMENDMENT 1 (2026-08-24, before any production run). These were ONE range and that conflated
+# "this chain is compact" with "the integration is broken". The globule limit for a polymer is
+# nu = 1/3, and a finite compact chain can fit BELOW it, so a lower bound of 0.30 would have
+# withheld a real result as an instrument failure. Split, with the reporting made STRICTER rather
+# than looser: outside NU_BROKEN nothing is quoted; outside NU_EXPECTED the value stands but the
+# construct is FLAGGED and its convergence diagnostic must be quoted with it.
+NU_BROKEN_RANGE = (0.15, 0.95)     # outside this no fit of a real trajectory can land: withhold
+NU_EXPECTED_RANGE = (0.30, 0.75)   # outside this, report the value AND the flag AND the convergence
+NU_PHYSICAL_RANGE = NU_EXPECTED_RANGE   # retained name; superseded meaning, see Amendment 1
 ALPHA = 0.05
 SEPARATION_SIGMAS = 3.0            # |dnu| must clear this many pooled replicate SDs
 PLDDT_DISORDER_FRACTION = 0.75     # >= this fraction of window residues below pLDDT 50
@@ -404,8 +412,9 @@ def instrument_verdict(runs, by_construct, sigma):
             if not r.get(field):
                 bad.append(f"{r.get('run_id')}: missing provenance field {field}")
         nu = r.get("nu")
-        if nu is None or not (NU_PHYSICAL_RANGE[0] <= nu <= NU_PHYSICAL_RANGE[1]):
-            bad.append(f"{r.get('run_id')}: nu={nu} outside physical range {NU_PHYSICAL_RANGE}")
+        if nu is None or not (NU_BROKEN_RANGE[0] <= nu <= NU_BROKEN_RANGE[1]):
+            bad.append(f"{r.get('run_id')}: nu={nu} outside the non-physical bound "
+                       f"{NU_BROKEN_RANGE} — no fit of a real trajectory lands there")
     for cid, vals in by_construct.items():
         seeds = [r["random_number_seed"] for r in runs
                  if r.get("construct") == cid and r.get("random_number_seed") is not None]
@@ -463,6 +472,38 @@ def score(runs):
         for key, rej in holm(ps).items():
             pair_rows[key]["holm_reject_at_0.05"] = rej
     result["pairs"] = pair_rows
+
+    # Amendment 1: a value outside the EXPECTED range is reported with its convergence diagnostic,
+    # never silently. A compact globule is a result; a drifting fit is not.
+    flags = {}
+    for cid, vals in by_construct.items():
+        m_ = _mean(vals)
+        if not (NU_EXPECTED_RANGE[0] <= m_ <= NU_EXPECTED_RANGE[1]):
+            deltas = [r.get("nu_half_vs_full_delta") for r in runs
+                      if r.get("construct") == cid and r.get("nu_half_vs_full_delta") is not None]
+            flags[cid] = {
+                "nu_mean": m_, "expected_range": list(NU_EXPECTED_RANGE),
+                "nu_half_vs_full_delta_max": max(deltas) if deltas else None,
+                "_meaning": ("outside the expected range but inside the physical one. Reported, not "
+                             "withheld: the polymer globule limit is nu = 1/3 and a finite compact "
+                             "chain can fit below it. Quote the convergence delta alongside it."),
+            }
+    result["outside_expected_range"] = flags
+    conv = [r.get("nu_half_vs_full_delta") for r in runs
+            if r.get("nu_half_vs_full_delta") is not None]
+    if conv and sigma is not None:
+        n_drifting = sum(1 for d in conv if d > sigma)
+        result["convergence"] = {
+            "n_runs_with_a_delta": len(conv),
+            "max_half_vs_full_delta": max(conv),
+            "n_exceeding_pooled_sd": n_drifting,
+            "fraction_exceeding_pooled_sd": n_drifting / len(conv),
+            "converged": n_drifting / len(conv) <= 0.20,
+            "_rule": ("nu on the second half of each trajectory against nu on the whole "
+                      "post-equilibration trajectory. Reported, never gating: if more than 20% of "
+                      "runs drift by more than the pooled replicate SD, every nu is labelled "
+                      "PROVISIONAL rather than withheld."),
+        }
 
     prim = [pair_rows[f"{a}_vs_{b}"]["separated_D1"] for a, b in PRIMARY_FAMILY
             if f"{a}_vs_{b}" in pair_rows]
@@ -588,9 +629,22 @@ def analyse(rundir):
     rec = dict(prepared)
     rec["frames_written"] = n_total
     rec["frames_analysed"] = frames
+    # ⛔ `platform` and `threads` are read from the config the run ACTUALLY used, not from PROTOCOL.
+    # Measured 2026-08-24 in a local shakeout: this field was never populated at all, and because the
+    # scorer requires it, EVERY production run would have come back INSTRUMENT_FAILED. A required
+    # provenance field that nothing writes is the same defect as one nothing checks.
+    cfg_path = os.path.join(rundir, "config.yaml")
+    cfg_text = open(cfg_path).read() if os.path.exists(cfg_path) else ""
+    for key in ("platform", "threads", "steps", "wfreq", "temp", "ionic"):
+        for line in cfg_text.splitlines():
+            if line.startswith(f"{key}:"):
+                rec[f"config_{key}"] = line.split(":", 1)[1].strip()
+                break
+    rec["platform"] = rec.get("config_platform")
     rec.update(_versions())
     rec["calvados_version"] = rec.pop("calvados", None)
     rec["openmm_version"] = rec.pop("openmm", None)
+    rec["platform"] = rec.get("config_platform")
     rec["trajectory_sha256"] = _sha256(os.path.join(rundir, f"{name}.dcd"))
     log = os.path.join(rundir, "wall_seconds.txt")
     rec["wall_seconds"] = float(open(log).read().strip()) if os.path.exists(log) else None
@@ -858,8 +912,31 @@ def selftest():
        score(runs)["verdict"] == "INSTRUMENT_FAILED")
     runs = synth(clean)
     runs[0]["nu"] = 1.4
-    ck("G9", "an unphysical nu is INSTRUMENT_FAILED",
+    ck("G9", "a non-physical nu is INSTRUMENT_FAILED",
        score(runs)["verdict"] == "INSTRUMENT_FAILED")
+
+    # G12 - Amendment 1: compact is a RESULT, broken is a FAILURE, and they are not the same test
+    compact = dict(clean)
+    compact["T161"] = [0.28 + d for d in (-0.002, -0.001, 0.0, 0.001, 0.002)]
+    rc = score(synth(compact))
+    ck("G12", "a compact-globule nu below the expected range is NOT withheld",
+       rc["verdict"] != "INSTRUMENT_FAILED", str(rc["verdict"]))
+    ck("G12", "it is FLAGGED with its convergence diagnostic",
+       "T161" in rc.get("outside_expected_range", {}))
+    broken = dict(clean)
+    broken["T161"] = [0.05] * 5
+    ck("G12", "a nu no real fit could produce IS withheld",
+       score(synth(broken))["verdict"] == "INSTRUMENT_FAILED")
+    ck("G12", "the two bounds are not the same object",
+       NU_BROKEN_RANGE != NU_EXPECTED_RANGE
+       and NU_BROKEN_RANGE[0] < NU_EXPECTED_RANGE[0] < NU_EXPECTED_RANGE[1] < NU_BROKEN_RANGE[1])
+    drift = synth(clean)
+    for r_ in drift:
+        r_["nu_half_vs_full_delta"] = 0.5
+    rd = score(drift)
+    ck("G12", "wholesale drift is reported as NOT converged, and still not withheld",
+       rd.get("convergence", {}).get("converged") is False
+       and rd["verdict"] != "INSTRUMENT_FAILED")
     runs = synth(clean)
     for r_ in runs:
         if r_["construct"] == "E264":
