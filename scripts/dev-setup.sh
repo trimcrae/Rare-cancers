@@ -76,6 +76,32 @@ _pytest_python() {
   head -1 "$(command -v pytest)" | sed 's/^#!//' | awk '{print $1}'
 }
 
+# ⛔⛔ THE INTERPRETER THAT ACTUALLY RUNS THE SUITES IS CHOSEN BY `preflight.sh`, NOT BY THIS SCRIPT,
+# AND FOR MONTHS THEY DISAGREED. `preflight.sh` takes `python3 -m pytest` whenever `python3 -c
+# "import pytest"` succeeds and only falls back to the bare `pytest` console script when it does not.
+# So when pytest is importable in BOTH interpreters — the normal state here — the tests run in the
+# SYSTEM one, while every scientific dependency this script installs goes to the uv tool venv, whose
+# comment two blocks below asserts the opposite.
+#
+# ⚠ AND THE `--if-needed` PROBE INHERITED THE SAME BLIND SPOT, WHICH IS WHY THE SessionStart HOOK
+# NEVER HEALED IT. It probed `_pytest_python` — the tool venv — found everything importable, and
+# reported nothing to do, while `python3` lacked `pymbar`. Measured 2026-08-24: a publication-gate
+# `PREFLIGHT_FULL=1` run went red with 11 failures in `test_abfe_diagnostics.py`, all
+# `ModuleNotFoundError: No module named 'pymbar'` at `nr4a3_abfe.py:69`; the tool venv had pymbar
+# 4.0.3 the whole time. Installing it into `python3` alone took the file to 21 passed. The failures
+# had nothing to do with the change under test, which is the expensive part: an unnecessary red on a
+# publication gate costs an afternoon of chasing somebody else's lane (CLAUDE.md §6).
+#
+# So this mirrors preflight's selection rather than guessing at it. Keep the two in step: if that
+# `if python3 -c "import pytest"` branch ever changes, this function changes with it.
+_preflight_python() {
+  if python3 -c "import pytest" >/dev/null 2>&1; then
+    command -v python3
+  else
+    _pytest_python
+  fi
+}
+
 _missing_in() {   # $1 = interpreter, $2 = module list; echoes what it cannot import
   local py="$1" out=""
   for m in $2; do
@@ -92,12 +118,21 @@ if [ "${1:-}" = "--if-needed" ]; then
   else
     tool_missing="$(_missing_in "$tool_py" "$TEST_PROBE")"
   fi
-  if [ -z "$sys_missing" ] && [ -z "$tool_missing" ]; then
-    echo "dev-setup: both interpreters already import everything the gates need — nothing to do."
+  # The one that decides whether the suites go red. It is usually the system python3, and it is the
+  # interpreter the two probes above between them managed not to check against TEST_PROBE.
+  run_py="$(_preflight_python || true)"
+  if [ -z "$run_py" ] || [ ! -x "$run_py" ]; then
+    run_missing=" (no interpreter would run the suites)"
+  else
+    run_missing="$(_missing_in "$run_py" "$TEST_PROBE")"
+  fi
+  if [ -z "$sys_missing" ] && [ -z "$tool_missing" ] && [ -z "$run_missing" ]; then
+    echo "dev-setup: every interpreter the gates use already imports what they need — nothing to do."
     exit 0
   fi
   [ -n "$sys_missing" ] && echo "dev-setup: system python3 is missing:$sys_missing"
-  [ -n "$tool_missing" ] && echo "dev-setup: the pytest interpreter is missing:$tool_missing"
+  [ -n "$tool_missing" ] && echo "dev-setup: the pytest tool venv is missing:$tool_missing"
+  [ -n "$run_missing" ] && echo "dev-setup: $run_py — the interpreter preflight RUNS THE SUITES in — is missing:$run_missing"
   echo "dev-setup: installing."
 fi
 
@@ -114,6 +149,32 @@ else
   echo "   uv is not installed, so the pytest tool venv cannot be provisioned." >&2
   echo "   Install uv, or install pytest into system python3 so that both live in one interpreter." >&2
   exit 1
+fi
+
+# ⛔ AND INTO WHICHEVER INTERPRETER PREFLIGHT WILL ACTUALLY USE, WHICH IS USUALLY NOT THE TOOL VENV.
+# See `_preflight_python` above for the incident. Installing TEST_DEPS twice is a few seconds of pip
+# resolving already-satisfied requirements; NOT installing them is a red publication gate whose 11
+# failures name somebody else's lane.
+run_py="$(_preflight_python || true)"
+tool_py="$(_pytest_python || true)"
+if [ -n "$run_py" ] && [ -x "$run_py" ] && [ "$run_py" != "$tool_py" ]; then
+  echo
+  echo "== $run_py (preflight RUNS THE SUITES here — see _preflight_python) =="
+  "$run_py" -m pip install --quiet --disable-pip-version-check "${TEST_DEPS[@]}"
+fi
+
+# ⛔ VERIFY IN THE RUNNING INTERPRETER RATHER THAN TRUSTING THE INSTALLS. Every line above can report
+# success while the gate still goes red — that is the entire failure this script exists to prevent,
+# and it has now happened twice from two different directions (the uv-tool trap, then this one).
+if [ -n "$run_py" ] && [ -x "$run_py" ]; then
+  still="$(_missing_in "$run_py" "$TEST_PROBE")"
+  if [ -n "$still" ]; then
+    echo >&2
+    echo "   ⛔ $run_py still cannot import:$still" >&2
+    echo "   That is the interpreter preflight runs the suites in, so the gates will go red on" >&2
+    echo "   imports rather than on the repository. Fix this before reading any test result." >&2
+    exit 1
+  fi
 fi
 
 echo
