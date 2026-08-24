@@ -500,5 +500,39 @@
       "ft_ampect_erratum_2023 404 - PMC10713098 is not open access.",
       "The discrete-copy-number endpoint IGNORED its entrezGeneId parameter and returned the whole profile (156,526 records, byte-identical for both gene requests). Filtering was therefore done locally on entrezGeneId. A caller that trusted the parameter would have counted every gene's deletions as TSC's."
     ]
+  },
+  "corrections_to_the_premises_this_probe_started_from": {
+    "_why_this_section": "The probe was handed a set of figures explicitly flagged as unverified WebSearch summaries, with an instruction to treat every one as UNVERIFIED until checked against a primary record. Four did not survive the check. Recorded so the next reader inherits the corrected version and can see what a search summary does to a number.",
+    "items": [
+      {
+        "premise": "The case is already recorded in research/data/emc-clinical-registry.json under citation id galitskiy2025emcpembrolizumab.",
+        "status": "FALSE",
+        "what_is_true": "No such citation existed, and no handle for the case - author, DOI, sponsor, conference - appeared anywhere in the repository. The retrieval had been done and cached on the literature-cache branch and never promoted. It is now in the registry.",
+        "how_checked": "grep for galitskiy, bostongene, the DOI and JSMO across the whole tree, plus the registry's own citations map (23 ids, none of them this one)"
+      },
+      {
+        "premise": "15 of 17 authors employed by the company whose assay is the subject.",
+        "status": "WRONG COUNT",
+        "what_is_true": "13 of 16. Counted from the author list and affiliation superscripts on the sponsor's own publication page: 13 carry superscript 1 (BostonGene Corporation), 3 carry superscript 2 (MD Anderson Cancer Center), none is unmarked.",
+        "_note": "The direction of the conflict-of-interest point is unchanged; only the figure was wrong."
+      },
+      {
+        "premise": "PRECISION 1 (NCT05103358): open, registration-intent, tumour-agnostic phase 2 basket.",
+        "status": "NO LONGER OPEN",
+        "what_is_true": "ACTIVE_NOT_RECRUITING, last posted update 2024-06-03, estimated completion 2025-12-31. Everything else about it in the premise checks out against the record: tumour-agnostic, pathogenic inactivating TSC1/TSC2, age >=12, 120 estimated enrolment, 100 mg/m2 IV days 1 and 8 of a 21-day cycle, primary endpoint ORR by independent radiographic review.",
+        "_and_the_consequence_did_not_follow": "The premise also said a closed trial makes the reachability argument moot. It does not - see reachability. Two other trials that match TSC1/TSC2 to an mTOR inhibitor are recruiting."
+      },
+      {
+        "premise": "AMPECT exploratory biomarker analysis: 8/9 (89%) patients with inactivating TSC2 alterations responded, versus 1/5 (20%) for TSC1.",
+        "status": "TWO REAL NUMBERS, PAIRED INTO A COMPARISON THE PAPER DOES NOT MAKE",
+        "what_is_true": "Both figures appear in the primary text, but they are not each other's comparator. The paper's stated comparison is 89% (8 of 9) with a TSC2 mutation versus 13% (2 of 16) WITHOUT a TSC2 mutation (P < .001, Fisher's exact). The 1-of-5 figure is a separate sentence: 'Additional confirmed PRs were seen in 20% (1 of 5) of patients with a TSC1 mutation, and in 9% (1 of 11) without a mutation in TSC1 or TSC2.'",
+        "why_it_matters": "The paired version reads as a head-to-head showing TSC2 beats TSC1, on n=5. The paper explicitly declines that reading: 'it remains unclear as to why TSC2 mutations and not TSC1 mutations were associated with response in this study. This analysis is limited by the small number of patients (n = 5) with TSC1-mutant tumors.'"
+      },
+      {
+        "premise": "AMPECT: ORR 38.7%, median PFS 10.6 months, median duration of response 39.7 months.",
+        "status": "CONFIRMED against the primary record, with one clarification",
+        "what_is_true": "Those three are the 2024 long-term update's figures (PMID 38427923). The 2021 primary report (PMID 34637337) gives ORR 39% (12 of 31) and median OS 40.8 months, with median DOR not reached. Quoting 38.7% and 39.7 months together is correct only against the 2024 paper."
+      }
+    ]
   }
 }
