@@ -80,6 +80,16 @@ THAT IS THE FINDING THAT GOVERNS THE WHOLE CHOICE.** Read at primary source, 202
 > "…and **inappropriate, alarming, highly controversial, or pseudoscientific claims**. Articles with
 > strong conclusions, especially in the absence of fully accessible data, may also be screened out."
 
+⭐ **AND THIS IS NO LONGER AN INFERENCE FROM TWO SERVERS — A THIRD CARRIES THE SAME TWO CLAUSES,
+NEARLY WORD FOR WORD.** Preprints.org, read 2026-08-24 from a 2026-06-13 archive snapshot
+([capture](../../literature/preprints-org-screening-2026-06-13-snapshot.md)), screens for content
+that does not contain *"harmful, provocative, controversial, or pseudoscientific statements"* and
+rejects *"manuscripts drawing strong conclusions without fully accessible supporting data"*. Set
+beside Research Square §6 — *"inappropriate, alarming, highly controversial, or pseudoscientific
+claims"*, *"articles with strong conclusions, especially in the absence of fully accessible data"* —
+these are the same screen. **It is common preprint-server boilerplate, not one venue's house style,
+and the first memo's second choice is therefore the same door rather than a way around it.**
+
 **So swapping servers does not, on its own, clear the thing that fired.** A paper that prints
 orderable 16-mers against a human oncogene, opens with a box of do-not-administer cautions, and is
 authored by a person with the disease will meet this screen at every server that has one. ⚠ **The
@@ -98,9 +108,9 @@ produced the bioRxiv error.
 | Host | 1 eligibility | 2 $0 | 3 DOI+ver | 4 Europe PMC | 5 content screen | overall |
 |---|---|---|---|---|---|---|
 | **Qeios** | ✅ no affiliation gate — affiliation appears only as "which one is primary"; ORCID recommended | ✅ "no Article Processing Charges (APCs), and no reader fees" | ✅ | ✅ indexed | ⭐ **the thinnest surface found.** Its Publishing Policy has **no screening section and no article-type list**, and says *"Researchers shall be free to pursue their research activity without being censored."* ⚠ See the two cautions below | **best fit on test 5** |
-| **Preprints.org** | ⚠ **UNKNOWN — 403 twice** | ✅ | ✅ | ✅ indexed | ⚠ **UNKNOWN — 403 twice** | first memo's second choice, still unread |
+| **Preprints.org** | ✅ **CLOSED 2026-08-24 via web archive** — institutional email "where possible, **or email addresses used in previously published papers**"; ORCID recommended. Both fallbacks are open to this author. Not an affiliation gate | ✅ | ✅ | ✅ indexed | ⛔ **THE SAME SCREEN THAT DECLINED THIS PAPER**, in near-identical words: "harmful, provocative, controversial, or pseudoscientific statements" and "strong conclusions without fully accessible supporting data" | **passes 1–4, fails the same test 5** |
 | **SciELO Preprints** | ✅ no affiliation item in the submission checklist | ✅ | ✅ | ✅ indexed | ⚠ not captured | ⛔ **one-shot**: the checklist requires authors to declare the manuscript *"não foi depositado e/ou disponibilizado previamente em outro servidor de preprints"* — posting here forecloses posting anywhere else |
-| **ChemRxiv** | ⚠ **UNKNOWN — 403 twice** | ✅ | ✅ | ✅ indexed | ⚠ unread, and the only thing reported of it is an exclusion for *"materials that may pose a health or security risk"* — the exact clause class | unread; also the degrader paper's plan of record depends on this row |
+| **ChemRxiv** | ⚠ **STILL UNKNOWN** — 403 live from every route, and the archive has **zero snapshots** of `/policies-and-procedures`, so that path is probably not the real one. Attempts and the real archived paths: [capture §last](../../literature/preprints-org-screening-2026-06-13-snapshot.md) | ✅ | ✅ | ✅ indexed | ⚠ unread. ⛔ The reported exclusion for *"materials that may pose a health or security risk"* is a SEARCH SUMMARY and is not evidence | unread; also the degrader paper's plan of record depends on this row |
 | **medRxiv** | ⚠ its submit page carries **no** affiliation sentence, unlike bioRxiv's — but same operator, and registration was not reached | ✅ | ✅ | ✅ indexed | same screening family as bioRxiv | scope is clinical/health research; this is neither |
 | **OSF Preprints** | ✅ affiliation is an optional paid institutional feature, not a gate | ✅ | ✅ | ❌ **the generic server is NOT on the list** — the four OSF communities that are (PsyArXiv, MetaArXiv, EcoEvoRxiv, PaleorXiv) are not cancer biology | — | **fails test 4** |
 | **Zenodo** | ✅ | ✅ | ✅ | ❌ DataCite DOI, Europe PMC requires Crossref | n/a | the floor, already secured; not the channel |
