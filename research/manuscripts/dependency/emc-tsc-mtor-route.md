@@ -268,11 +268,13 @@ directly and better.
 chondrosarcoma, and the access routes it already opens.*** Unwritten.
 
 > **The one sentence, written so a reader can disagree with it.** Extraskeletal myxoid chondrosarcoma
-> carries TSC2-inactivating mutations in about one of seventy-five sequenced patients and TSC1 mutations
-> in none of them — rare enough to explain why no EMC series has ever reported either gene, but not
-> zero — and a patient in that fraction can today enter a recruiting tumour-agnostic trial arm that
-> matches the genotype to an mTOR inhibitor, so the binding constraint on this route is neither the drug
-> nor the trial but whether EMC patients are sequenced on a panel that already contains both genes.
+> carries TSC2-inactivating mutations in about one of seventy-five sequenced patients — a rate
+> indistinguishable from the pan-sarcoma background in the same cohort on the same assay, and low enough
+> that every published EMC series is too small to have expected to see one — so the field's report that
+> this genome is quiet beyond the fusion is a statement about sample sizes rather than about the genome;
+> and because a patient in that fraction can today enter a recruiting tumour-agnostic trial arm matching
+> the genotype to an mTOR inhibitor, the binding constraint on this route is neither the drug nor the
+> trial but whether EMC patients are sequenced on a panel that already contains both genes.
 
 **What is missing from it**, stated plainly so the row is honest:
 
