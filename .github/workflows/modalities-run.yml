@@ -155,6 +155,14 @@ jobs:
         continue-on-error: true
         run: python research/modalities/coverage_uncertainty.py
 
+      # ⭐ Added 2026-08-24 answering v1.8's reviewer, who asked for a concrete algorithmic fix for
+      # the §B5 novelty-filter defect rather than the one sentence naming it. Reads only committed
+      # artifacts — the proteome search for the collision alphabet, the transcript scan to validate
+      # against — so it MUST run after both, and it fetches nothing.
+      - name: Novelty seam pre-screen — the one-residue test, and its validation
+        continue-on-error: true
+        run: python research/modalities/novelty_seam_test.py
+
       - name: Candidate vaccine construct (minimal SLP + string-of-beads)
         continue-on-error: true
         run: python research/modalities/vaccine_construct.py

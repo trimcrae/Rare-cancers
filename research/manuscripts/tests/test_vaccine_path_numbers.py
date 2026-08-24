@@ -40,6 +40,7 @@ NOVELTY = os.path.join(MOD, "junction-proteome-novelty.json")
 CD4 = os.path.join(MOD, "patient-cd4-demo.json")
 CONSTRUCT = os.path.join(MOD, "vaccine-construct.json")
 UNCERTAINTY = os.path.join(MOD, "coverage-uncertainty.json")
+SEAM_TEST = os.path.join(MOD, "novelty-seam-test.json")
 
 
 def _required(path, what):
@@ -618,3 +619,92 @@ def test_the_combined_figures_dependence_ceiling_is_the_artifacts(flat, uncertai
     ratio = comb["coverage_class_ii"] / comb["product_under_independence"]
     assert f"{ratio:.1f} times the product" in flat, (
         f"the distance from product to ceiling ({ratio:.1f}x) is not the artifact's")
+
+
+# ---------------------------------------------------------------------------------------------
+# ⛔ §B5 NOW PRINTS A PERFECT SCORE, AND A PERFECT SCORE IN PROSE IS THE EASIEST THING TO LEAVE
+# BEHIND. 502 / 468 / 970 are what the one-residue test agreed with on the day it ran; a regenerated
+# scan that moves any of them must move the paragraph too, or the manuscript is quoting a validation
+# that no longer exists.
+
+@pytest.fixture(scope="module")
+def seam_test():
+    return _load(SEAM_TEST, "the novelty seam pre-screen")
+
+
+def test_the_seam_tests_score_is_the_artifacts(flat, seam_test):
+    v = seam_test["validation"]
+    for n in (v["n_pairs_tested"], v["true_positive"], v["true_negative"]):
+        assert f"{n:,}" in flat or str(n) in flat, (
+            f"§B5 quotes the seam test's counts; {n} is not in the manuscript")
+    assert v["false_positive"] == 0 and v["false_negative"] == 0, (
+        "§B5 says the test agrees on every pair in both directions. It no longer does, so the "
+        "paragraph is wrong — fix the prose, not this assertion.")
+
+
+def test_the_seam_tests_exactness_claim_names_the_residues_that_did_not_fire(flat, seam_test):
+    """⛔ THE NEGATIVE HALF IS WHAT MAKES THE RESULT MEAN ANYTHING. A rule flagging the aspartate
+    seam is unremarkable unless it declines to flag the others, so §B5 names the two largest
+    non-colliding classes by size and both must be the artifact's."""
+    by_residue = seam_test["by_seam_residue"]
+    clean = sorted(((r, rec) for r, rec in by_residue.items()
+                    if r not in seam_test["collision_alphabet"]),
+                   key=lambda kv: -kv[1]["pairs"])[:2]
+    for residue, rec in clean:
+        assert rec["collided"] == 0, f"seam {residue} collides in the artifact but is quoted as clean"
+        assert str(rec["pairs"]) in flat, (
+            f"§B5 must name the {rec['pairs']} pairs of the {residue} seam that the test declines "
+            "to flag; without the negative half a perfect score says nothing")
+
+
+def test_the_prescription_keeps_its_limit_attached(flat, seam_test):
+    """A pre-screen quoted without the sentence that it is not the filter is worse than no
+    prescription: a reader who substitutes it for the proteome search reintroduces §B5's defect."""
+    assert "does not replace the search" in flat, (
+        "§B5's prescription must keep the sentence saying it does not replace the proteome search")
+    assert "RGDMPCVQAQY" in flat, (
+        "the counterexample that shows the pre-screen is not the filter must stay in the prose")
+
+
+def test_table_4_carries_every_candidate_exon_pair(flat, breakpoints):
+    """⛔ ASKED FOR BY v1.9's REVIEWER, AND ITS WHOLE VALUE IS BEING COMPLETE. A table of "the
+    interesting ones" would restate §2.2's prose in a grid; the point is that all 27 are checkable,
+    so a row count that drifts from the screen's own is the defect."""
+    rows = [ln for ln in flat.split("|") if ln.strip()]
+    graded = breakpoints["junctions_graded"]
+    assert breakpoints["n_candidate_exon_pairs"] == len(graded), (
+        "the screen's own pair count and its graded list disagree")
+    for r in graded:
+        pair = f"| {r['donor_exon_end']} | {r['acceptor_exon_start']} |"
+        assert pair in " ".join(flat.split()), (
+            f"exon pair {r['donor_exon_end']}::{r['acceptor_exon_start']} is graded by the screen "
+            "but missing from Table 4")
+
+
+def test_a_pair_with_no_chimeric_orf_is_not_labelled_in_frame(flat, breakpoints):
+    """⛔ A MEANINGLESS CELL PRINTED AS A MEANINGFUL ONE. `frame_sum_mod3` is computed for every
+    pair, but where the acceptor exon is non-coding there is no chimeric frame for the donor to be
+    in frame with. Five rows printed 'yes' beside 'no chimeric ORF' in the first render, which reads
+    as the table contradicting itself."""
+    compact = " ".join(flat.split())
+    for r in breakpoints["junctions_graded"]:
+        if r["grade"] in ("EMITTABLE", "OUT_OF_FRAME"):
+            continue
+        phase = r.get("donor_coding_phase")
+        cell = (f"| {r['donor_exon_end']} | {r['acceptor_exon_start']} | "
+                f"{'n/a' if phase is None else phase} | n/a |")
+        assert cell in compact, (
+            f"pair {r['donor_exon_end']}::{r['acceptor_exon_start']} has no chimeric ORF, so its "
+            "In frame cell must read n/a rather than a yes/no verdict")
+
+
+def test_the_hardy_weinberg_free_bound_is_the_artifacts(flat, uncertainty):
+    """v1.9's reviewer: the within-locus form 'assumes Hardy-Weinberg equilibrium, an assumption not
+    explicitly tested'. It cannot be tested from allele frequencies; it can be bounded from them,
+    and §2.3 now prints that bound. It must be the artifact's."""
+    rec = uncertainty["sets"]["class_i_any_strong_binder"]
+    lo, hi = rec["bounds_without_hardy_weinberg_or_independence"]
+    assert f"[{_pct(lo)}, {_pct(hi)}]" in flat, (
+        f"§2.3's assumption-free bound must be the artifact's [{_pct(lo)}, {_pct(hi)}]")
+    assert lo <= rec["coverage_within_locus_exact"] <= hi + 1e-9, (
+        "the point estimate must lie inside the bound the paper says contains it")

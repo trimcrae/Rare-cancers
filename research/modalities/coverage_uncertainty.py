@@ -100,6 +100,28 @@ def within_locus_exact(freqs):
     return 1.0 - non
 
 
+def hardy_weinberg_free_bounds(summed_frequency):
+    """Carrier frequency at ONE locus without assuming Hardy-Weinberg, given the allele frequency.
+
+    ⛔ HWE IS THE ASSUMPTION UNDER THE ASSUMPTION, AND v1.9's REVIEWER NAMED IT: the within-locus
+    "exact" form is exact only in the sense that it stops treating same-locus alleles as independent
+    events — it still reads a carrier frequency off an allele frequency through (1 - p)^2, which is
+    Hardy-Weinberg, and nothing here tests HWE. AFND publishes allele frequencies rather than genotype
+    counts, so it cannot be tested from this source at all. It can be BOUNDED from the same source,
+    exactly, which is the honest thing available.
+
+    Write p for the summed frequency of the presenting alleles at the locus — a fraction of
+    CHROMOSOMES. Every arrangement of those copies into people lies between two extremes:
+      * every copy paired in a homozygote: each carrier holds two, so carriers = p;
+      * no homozygotes at all: each carrier holds one, so carriers = min(1, 2p).
+    Hardy-Weinberg's 1 - (1 - p)^2 = 2p - p^2 lies inside that interval for every p, near its top
+    when p is small. So the HWE step is worth at most min(1, 2p) - p here, and a reader who rejects
+    HWE outright can take the interval instead of the point.
+    """
+    p = min(max(summed_frequency, 0.0), 1.0)
+    return p, min(1.0, 2.0 * p)
+
+
 def frechet_bounds(freqs):
     """Exact bounds on the union under ANY dependence between loci (Fréchet–Hoeffding)."""
     carriers, _ = per_locus_carrier(freqs)
@@ -198,6 +220,13 @@ def analyse(name, freqs, by_pop, pop_n):
             complete.append(within_locus_exact(here))
             n_complete += 1
 
+    hwe_free = {loc: hardy_weinberg_free_bounds(s) for loc, s in sums.items()}
+    #: The union under BOTH freedoms at once: no Hardy-Weinberg inside a locus, no independence
+    #: between them. Lower is the largest locus lower bound (a union is at least any one of its
+    #: parts); upper is the capped sum (a union is at most the sum of its parts).
+    joint_lo = max((lo for lo, _hi in hwe_free.values()), default=0.0)
+    joint_hi = min(1.0, sum(hi for _lo, hi in hwe_free.values()))
+
     return {
         "alleles": sorted(freqs),
         "pooled_allele_frequencies": {a: round(f, 5) for a, f in sorted(freqs.items())},
@@ -209,6 +238,9 @@ def analyse(name, freqs, by_pop, pop_n):
         "ld_bounds_across_loci": [round(lo, 4) if lo is not None else None,
                                   round(hi, 4) if hi is not None else None],
         "ld_bound_width_pp": round(100 * (hi - lo), 2) if lo is not None else None,
+        "per_locus_carrier_bounds_without_hardy_weinberg": {
+            loc: [round(b[0], 4), round(b[1], 4)] for loc, b in sorted(hwe_free.items())},
+        "bounds_without_hardy_weinberg_or_independence": [round(joint_lo, 4), round(joint_hi, 4)],
         "between_population": {
             "complete_panel": quantiles(complete),
             "absent_scored_zero_floor": quantiles(floor),

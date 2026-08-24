@@ -1,0 +1,74 @@
+{
+ "_what": "A one-residue pre-screen for the novelty-filter failure mode of \u00a7B5, and its validation against every in-frame transcript pair of this locus.",
+ "_the_test": "seam_residue in collision_alphabet -> the seam-proximal window is not tumour-exclusive. The alphabet is a property of the ACCEPTOR gene alone and is computed once from its isoform set.",
+ "\u26d4_what_this_is_not": "NOT a replacement for the proteome search. It predicts one failure mode \u2014 a seam-proximal peptide reconstructing an acceptor isoform boundary \u2014 and is silent on collisions with unrelated proteins and on peptides extending far enough into the donor to be novel again. In this locus RGDMPCVQAQY carries the same stem and remains novel.",
+ "collision_alphabet": [
+  "D"
+ ],
+ "stems_each_alphabet_residue_precedes": {
+  "D": [
+   "MPCVQAQ",
+   "MPCVQAQY",
+   "MPCVQAQYS",
+   "MPCVQAQYSP"
+  ]
+ },
+ "accessions_that_carry_them": {
+  "D": [
+   "Q92570-3"
+  ]
+ },
+ "validation": {
+  "_denominator": "in-frame emitting pairs only; a pair with no seam has no residue to test and is excluded rather than scored as a correct negative",
+  "n_pairs_tested": 970,
+  "true_positive": 502,
+  "false_positive": 0,
+  "true_negative": 468,
+  "false_negative": 0,
+  "sensitivity": 1.0,
+  "specificity": 1.0,
+  "disagreements": []
+ },
+ "by_seam_residue": {
+  "C": {
+   "pairs": 2,
+   "collided": 0
+  },
+  "D": {
+   "pairs": 502,
+   "collided": 502
+  },
+  "G": {
+   "pairs": 251,
+   "collided": 0
+  },
+  "H": {
+   "pairs": 2,
+   "collided": 0
+  },
+  "N": {
+   "pairs": 118,
+   "collided": 0
+  },
+  "None": {
+   "pairs": 31,
+   "collided": 0
+  },
+  "R": {
+   "pairs": 1,
+   "collided": 0
+  },
+  "S": {
+   "pairs": 59,
+   "collided": 0
+  },
+  "Y": {
+   "pairs": 4,
+   "collided": 0
+  }
+ },
+ "_sources": {
+  "collision_alphabet_from": "junction-proteome-novelty.json",
+  "validated_against": "junction-transcript-sensitivity.json"
+ }
+}
