@@ -1,5 +1,5 @@
 {
- "_generated_utc": "2026-08-24T00:40:49Z",
+ "_generated_utc": "2026-08-24T01:11:10Z",
  "_merged_from": {
   "_why": "The two arms hit different hosts and were fetched by different runs, so neither branch's cache is a superset of the other's. They are composed PER ARM rather than one side being picked: taking either whole would silently discard a real measurement, which is the branch-drift data-loss case CLAUDE.md \u00a77 names. This is the same per-arm independence `--only` exists to express.",
   "methylation": {
@@ -10,6 +10,11 @@
    "fetched_utc": "2026-08-24T00:18:19Z",
    "from": "origin/main"
   }
+ },
+ "_partial_refetch": {
+  "arm": "methylation",
+  "at": "2026-08-24T01:11:10Z",
+  "carried_over_from": "2026-08-24T00:40:49Z"
  },
  "_what": "raw retrieval only; every verdict is computed in derive()",
  "methylation": {
@@ -23,7 +28,7 @@
     "accessions": [],
     "fetch": {
      "bytes": 263,
-     "elapsed_s": 1.11,
+     "elapsed_s": 0.41,
      "error": null,
      "http": 200,
      "note": "BioStudies search control (absent)",
@@ -39,7 +44,7 @@
     ],
     "fetch": {
      "bytes": 1218,
-     "elapsed_s": 0.68,
+     "elapsed_s": 0.67,
      "error": null,
      "http": 200,
      "note": "BioStudies search control (transport)",
@@ -92,7 +97,7 @@
     "accession": "E-GEOD-4560",
     "fetch": {
      "bytes": 5568,
-     "elapsed_s": 0.6,
+     "elapsed_s": 0.42,
      "error": null,
      "http": 200,
      "note": "BioStudies record E-GEOD-4560",
@@ -131,7 +136,7 @@
     "accession": "E-GEOD-57107",
     "fetch": {
      "bytes": 48727,
-     "elapsed_s": 0.83,
+     "elapsed_s": 0.55,
      "error": null,
      "http": 200,
      "note": "BioStudies record E-GEOD-57107",
@@ -170,7 +175,7 @@
     "accession": "E-MTAB-9875",
     "fetch": {
      "bytes": 665144,
-     "elapsed_s": 1.49,
+     "elapsed_s": 1.05,
      "error": null,
      "http": 200,
      "note": "BioStudies record E-MTAB-9875",
@@ -268,7 +273,7 @@
     "accession": "S-EPMC10039902",
     "fetch": {
      "bytes": 13029,
-     "elapsed_s": 0.63,
+     "elapsed_s": 0.44,
      "error": null,
      "http": 200,
      "note": "BioStudies record S-EPMC10039902",
@@ -307,7 +312,7 @@
     "accession": "S-EPMC10453223",
     "fetch": {
      "bytes": 10481,
-     "elapsed_s": 0.62,
+     "elapsed_s": 0.44,
      "error": null,
      "http": 200,
      "note": "BioStudies record S-EPMC10453223",
@@ -346,7 +351,7 @@
     "accession": "S-EPMC11118320",
     "fetch": {
      "bytes": 11447,
-     "elapsed_s": 0.63,
+     "elapsed_s": 0.45,
      "error": null,
      "http": 200,
      "note": "BioStudies record S-EPMC11118320",
@@ -385,7 +390,7 @@
     "accession": "S-EPMC11552688",
     "fetch": {
      "bytes": 6856,
-     "elapsed_s": 0.6,
+     "elapsed_s": 0.75,
      "error": null,
      "http": 200,
      "note": "BioStudies record S-EPMC11552688",
@@ -424,7 +429,7 @@
     "accession": "S-EPMC11842776",
     "fetch": {
      "bytes": 7344,
-     "elapsed_s": 0.61,
+     "elapsed_s": 0.43,
      "error": null,
      "http": 200,
      "note": "BioStudies record S-EPMC11842776",
@@ -463,7 +468,7 @@
     "accession": "S-EPMC11977784",
     "fetch": {
      "bytes": 7032,
-     "elapsed_s": 0.6,
+     "elapsed_s": 0.45,
      "error": null,
      "http": 200,
      "note": "BioStudies record S-EPMC11977784",
@@ -502,7 +507,7 @@
     "accession": "S-EPMC7819999",
     "fetch": {
      "bytes": 48109,
-     "elapsed_s": 1.31,
+     "elapsed_s": 0.57,
      "error": null,
      "http": 200,
      "note": "BioStudies record S-EPMC7819999",
@@ -541,7 +546,7 @@
     "accession": "S-EPMC9812612",
     "fetch": {
      "bytes": 6663,
-     "elapsed_s": 0.92,
+     "elapsed_s": 0.63,
      "error": null,
      "http": 200,
      "note": "BioStudies record S-EPMC9812612",
@@ -594,7 +599,7 @@
     ],
     "fetch": {
      "bytes": 8532,
-     "elapsed_s": 0.7,
+     "elapsed_s": 0.49,
      "error": null,
      "http": 200,
      "note": "BioStudies search (geo_accession)",
@@ -633,7 +638,7 @@
     ],
     "fetch": {
      "bytes": 18446,
-     "elapsed_s": 1.34,
+     "elapsed_s": 0.74,
      "error": null,
      "http": 200,
      "note": "BioStudies search (series_title)",
@@ -643,10 +648,180 @@
     "query": "Sarcoma Classification by DNA-methylation profiling"
    }
   },
+  "emc_idat_probes": {
+   "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM4180nnn/GSM4180711/suppl/GSM4180711_201172580026_R03C01_Grn.idat.gz": {
+    "content_length": 7345244,
+    "error": null,
+    "http": 200,
+    "note": "IDAT for REFERENCE_SAMPLE 259 (GSM4180711)",
+    "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM4180nnn/GSM4180711/suppl/GSM4180711_201172580026_R03C01_Grn.idat.gz"
+   },
+   "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM4180nnn/GSM4180711/suppl/GSM4180711_201172580026_R03C01_Red.idat.gz": {
+    "content_length": 7379054,
+    "error": null,
+    "http": 200,
+    "note": "IDAT for REFERENCE_SAMPLE 259 (GSM4180711)",
+    "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM4180nnn/GSM4180711/suppl/GSM4180711_201172580026_R03C01_Red.idat.gz"
+   },
+   "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM4180nnn/GSM4180874/suppl/GSM4180874_200406080083_R06C01_Grn.idat.gz": {
+    "content_length": 4251728,
+    "error": null,
+    "http": 200,
+    "note": "IDAT for REFERENCE_SAMPLE 422 (GSM4180874)",
+    "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM4180nnn/GSM4180874/suppl/GSM4180874_200406080083_R06C01_Grn.idat.gz"
+   },
+   "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM4180nnn/GSM4180874/suppl/GSM4180874_200406080083_R06C01_Red.idat.gz": {
+    "content_length": 4343794,
+    "error": null,
+    "http": 200,
+    "note": "IDAT for REFERENCE_SAMPLE 422 (GSM4180874)",
+    "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM4180nnn/GSM4180874/suppl/GSM4180874_200406080083_R06C01_Red.idat.gz"
+   },
+   "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM4181nnn/GSM4181103/suppl/GSM4181103_3998909033_R02C02_Grn.idat.gz": {
+    "content_length": 4263623,
+    "error": null,
+    "http": 200,
+    "note": "IDAT for REFERENCE_SAMPLE 651 (GSM4181103)",
+    "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM4181nnn/GSM4181103/suppl/GSM4181103_3998909033_R02C02_Grn.idat.gz"
+   },
+   "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM4181nnn/GSM4181103/suppl/GSM4181103_3998909033_R02C02_Red.idat.gz": {
+    "content_length": 4371161,
+    "error": null,
+    "http": 200,
+    "note": "IDAT for REFERENCE_SAMPLE 651 (GSM4181103)",
+    "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM4181nnn/GSM4181103/suppl/GSM4181103_3998909033_R02C02_Red.idat.gz"
+   },
+   "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM4181nnn/GSM4181117/suppl/GSM4181117_3999547153_R01C02_Grn.idat.gz": {
+    "content_length": 4221248,
+    "error": null,
+    "http": 200,
+    "note": "IDAT for REFERENCE_SAMPLE 665 (GSM4181117)",
+    "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM4181nnn/GSM4181117/suppl/GSM4181117_3999547153_R01C02_Grn.idat.gz"
+   },
+   "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM4181nnn/GSM4181117/suppl/GSM4181117_3999547153_R01C02_Red.idat.gz": {
+    "content_length": 4345259,
+    "error": null,
+    "http": 200,
+    "note": "IDAT for REFERENCE_SAMPLE 665 (GSM4181117)",
+    "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM4181nnn/GSM4181117/suppl/GSM4181117_3999547153_R01C02_Red.idat.gz"
+   },
+   "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM4181nnn/GSM4181118/suppl/GSM4181118_3999547153_R06C01_Grn.idat.gz": {
+    "content_length": 4267010,
+    "error": null,
+    "http": 200,
+    "note": "IDAT for REFERENCE_SAMPLE 666 (GSM4181118)",
+    "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM4181nnn/GSM4181118/suppl/GSM4181118_3999547153_R06C01_Grn.idat.gz"
+   },
+   "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM4181nnn/GSM4181118/suppl/GSM4181118_3999547153_R06C01_Red.idat.gz": {
+    "content_length": 4374092,
+    "error": null,
+    "http": 200,
+    "note": "IDAT for REFERENCE_SAMPLE 666 (GSM4181118)",
+    "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM4181nnn/GSM4181118/suppl/GSM4181118_3999547153_R06C01_Red.idat.gz"
+   },
+   "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM4181nnn/GSM4181119/suppl/GSM4181119_3999547153_R05C01_Grn.idat.gz": {
+    "content_length": 4268084,
+    "error": null,
+    "http": 200,
+    "note": "IDAT for REFERENCE_SAMPLE 667 (GSM4181119)",
+    "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM4181nnn/GSM4181119/suppl/GSM4181119_3999547153_R05C01_Grn.idat.gz"
+   },
+   "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM4181nnn/GSM4181119/suppl/GSM4181119_3999547153_R05C01_Red.idat.gz": {
+    "content_length": 4374849,
+    "error": null,
+    "http": 200,
+    "note": "IDAT for REFERENCE_SAMPLE 667 (GSM4181119)",
+    "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM4181nnn/GSM4181119/suppl/GSM4181119_3999547153_R05C01_Red.idat.gz"
+   },
+   "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM4181nnn/GSM4181120/suppl/GSM4181120_3999547153_R04C01_Grn.idat.gz": {
+    "content_length": 4258926,
+    "error": null,
+    "http": 200,
+    "note": "IDAT for REFERENCE_SAMPLE 668 (GSM4181120)",
+    "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM4181nnn/GSM4181120/suppl/GSM4181120_3999547153_R04C01_Grn.idat.gz"
+   },
+   "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM4181nnn/GSM4181120/suppl/GSM4181120_3999547153_R04C01_Red.idat.gz": {
+    "content_length": 4358985,
+    "error": null,
+    "http": 200,
+    "note": "IDAT for REFERENCE_SAMPLE 668 (GSM4181120)",
+    "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM4181nnn/GSM4181120/suppl/GSM4181120_3999547153_R04C01_Red.idat.gz"
+   },
+   "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM4181nnn/GSM4181121/suppl/GSM4181121_3999547153_R03C01_Grn.idat.gz": {
+    "content_length": 4252959,
+    "error": null,
+    "http": 200,
+    "note": "IDAT for REFERENCE_SAMPLE 669 (GSM4181121)",
+    "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM4181nnn/GSM4181121/suppl/GSM4181121_3999547153_R03C01_Grn.idat.gz"
+   },
+   "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM4181nnn/GSM4181121/suppl/GSM4181121_3999547153_R03C01_Red.idat.gz": {
+    "content_length": 4364095,
+    "error": null,
+    "http": 200,
+    "note": "IDAT for REFERENCE_SAMPLE 669 (GSM4181121)",
+    "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM4181nnn/GSM4181121/suppl/GSM4181121_3999547153_R03C01_Red.idat.gz"
+   },
+   "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM4181nnn/GSM4181122/suppl/GSM4181122_3999547153_R02C01_Grn.idat.gz": {
+    "content_length": 4239616,
+    "error": null,
+    "http": 200,
+    "note": "IDAT for REFERENCE_SAMPLE 670 (GSM4181122)",
+    "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM4181nnn/GSM4181122/suppl/GSM4181122_3999547153_R02C01_Grn.idat.gz"
+   },
+   "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM4181nnn/GSM4181122/suppl/GSM4181122_3999547153_R02C01_Red.idat.gz": {
+    "content_length": 4359211,
+    "error": null,
+    "http": 200,
+    "note": "IDAT for REFERENCE_SAMPLE 670 (GSM4181122)",
+    "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM4181nnn/GSM4181122/suppl/GSM4181122_3999547153_R02C01_Red.idat.gz"
+   },
+   "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM4181nnn/GSM4181387/suppl/GSM4181387_200406080083_R01C01_Grn.idat.gz": {
+    "content_length": 4177363,
+    "error": null,
+    "http": 200,
+    "note": "IDAT for REFERENCE_SAMPLE 935 (GSM4181387)",
+    "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM4181nnn/GSM4181387/suppl/GSM4181387_200406080083_R01C01_Grn.idat.gz"
+   },
+   "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM4181nnn/GSM4181387/suppl/GSM4181387_200406080083_R01C01_Red.idat.gz": {
+    "content_length": 4316421,
+    "error": null,
+    "http": 200,
+    "note": "IDAT for REFERENCE_SAMPLE 935 (GSM4181387)",
+    "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM4181nnn/GSM4181387/suppl/GSM4181387_200406080083_R01C01_Red.idat.gz"
+   },
+   "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM4181nnn/GSM4181583/suppl/GSM4181583_203259190094_R01C01_Grn.idat.gz": {
+    "content_length": 7446064,
+    "error": null,
+    "http": 200,
+    "note": "IDAT for VALIDATION_SAMPLE 54 (GSM4181583)",
+    "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM4181nnn/GSM4181583/suppl/GSM4181583_203259190094_R01C01_Grn.idat.gz"
+   },
+   "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM4181nnn/GSM4181583/suppl/GSM4181583_203259190094_R01C01_Red.idat.gz": {
+    "content_length": 7580307,
+    "error": null,
+    "http": 200,
+    "note": "IDAT for VALIDATION_SAMPLE 54 (GSM4181583)",
+    "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM4181nnn/GSM4181583/suppl/GSM4181583_203259190094_R01C01_Red.idat.gz"
+   },
+   "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM4181nnn/GSM4181934/suppl/GSM4181934_203038290075_R02C01_Grn.idat.gz": {
+    "content_length": 7343949,
+    "error": null,
+    "http": 200,
+    "note": "IDAT for VALIDATION_SAMPLE 405 (GSM4181934)",
+    "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM4181nnn/GSM4181934/suppl/GSM4181934_203038290075_R02C01_Grn.idat.gz"
+   },
+   "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM4181nnn/GSM4181934/suppl/GSM4181934_203038290075_R02C01_Red.idat.gz": {
+    "content_length": 7506869,
+    "error": null,
+    "http": 200,
+    "note": "IDAT for VALIDATION_SAMPLE 405 (GSM4181934)",
+    "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM4181nnn/GSM4181934/suppl/GSM4181934_203038290075_R02C01_Red.idat.gz"
+   }
+  },
   "fetches": {
    "article": {
     "bytes": 3038,
-    "elapsed_s": 0.07,
+    "elapsed_s": 0.21,
     "error": null,
     "http": 200,
     "note": "article page, for its supplementary links",
@@ -654,15 +829,15 @@
    },
    "geo_all": {
     "bytes": 10970690,
-    "elapsed_s": 68.37,
-    "error": null,
+    "elapsed_s": 90.0,
+    "error": "IncompleteRead: IncompleteRead(9367233 bytes read)",
     "http": 200,
     "note": "GEO series + every sample record",
     "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE140686&targ=all&form=text&view=brief"
    },
    "geo_self": {
     "bytes": 50324,
-    "elapsed_s": 0.47,
+    "elapsed_s": 0.28,
     "error": null,
     "http": 200,
     "note": "GEO series header",
@@ -676,7 +851,7 @@
    "fetches": {
     "elink": {
      "bytes": 3192,
-     "elapsed_s": 0.33,
+     "elapsed_s": 0.24,
      "error": null,
      "http": 200,
      "note": "elink pubmed->pmc, to DISCOVER the PMCID",
@@ -684,7 +859,7 @@
     },
     "europepmc_fulltext": {
      "bytes": 132351,
-     "elapsed_s": 1.44,
+     "elapsed_s": 1.48,
      "error": null,
      "http": 200,
      "note": "Europe PMC full text XML, for its declared supplements",
@@ -692,7 +867,7 @@
     },
     "ncbi_oa": {
      "bytes": 445,
-     "elapsed_s": 0.22,
+     "elapsed_s": 0.08,
      "error": null,
      "http": 200,
      "note": "NCBI OA service, to DISCOVER the article's package location",
@@ -700,7 +875,7 @@
     },
     "ncbi_oa_package": {
      "bytes": 0,
-     "elapsed_s": 0.35,
+     "elapsed_s": 0.13,
      "error": "HTTPError 404",
      "http": 404,
      "note": "NCBI OA package (tar.gz) for this article",
@@ -708,7 +883,7 @@
     },
     "pmc_article": {
      "bytes": 309650,
-     "elapsed_s": 0.56,
+     "elapsed_s": 0.27,
      "error": null,
      "http": 200,
      "note": "PMC article page, for its supplementary links",
@@ -718,7 +893,7 @@
    "fulltext_bytes": 132083,
    "fulltext_interstitial_markers": [],
    "oa_package_url": "https://ftp.ncbi.nlm.nih.gov/pub/pmc/oa_package/15/f1/PMC7819999.tar.gz",
-   "oa_response_head": "<OA><responseDate>2026-08-23 20:42:04</responseDate><request id=\"PMC7819999\">https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?id=PMC7819999</request><records returned-count=\"1\" total-count=\"1\"><record id=\"PMC7819999\" citation=\"Nat Commun. 2021 Jan 21; 12:498\" license=\"CC BY\" retracted=\"no\"><link format=\"tgz\" updated=\"2021-01-29 00:16:18\" href=\"ftp://ftp.ncbi.nlm.nih.gov/pub/pmc/oa_package/15/f1/PMC7819999.tar.gz\" /></record></records></OA>\n",
+   "oa_response_head": "<OA><responseDate>2026-08-23 21:12:46</responseDate><request id=\"PMC7819999\">https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?id=PMC7819999</request><records returned-count=\"1\" total-count=\"1\"><record id=\"PMC7819999\" citation=\"Nat Commun. 2021 Jan 21; 12:498\" license=\"CC BY\" retracted=\"no\"><link format=\"tgz\" updated=\"2021-01-29 00:16:18\" href=\"ftp://ftp.ncbi.nlm.nih.gov/pub/pmc/oa_package/15/f1/PMC7819999.tar.gz\" /></record></records></OA>\n",
    "pmc_article_bytes": 309650,
    "pmc_article_head": "\n<!DOCTYPE html>\n<html lang=\"en\" >\n    <head >\n\n        <meta charset=\"UTF-8\" />\n        <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\" />\n        <meta name=\"HandheldFriendly\" content=\"True\" />\n        <meta name=\"MobileOptimized\" content=\"320\" />\n        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n\n        \n        \n\n        \n        \n  <link  rel=\"stylesheet\" href=\"https://cdn.ncbi.nlm.nih.gov/pmc/pd-medc-pmc-cloudpmc-viewer/production/bb3d0162/var/data/static/assets/base_style-BxRs1iOp.css\" />\n<script type=\"module\" crossorigin=\"\" src=\"https://cdn.ncbi.nlm.nih.gov/pmc/pd-medc-pmc-cloudpmc-viewer/production/bb3d0162/var/data/static/assets/base_style-D-jH62-1.js\"></script>\n\n  <link  rel=\"stylesheet\" href=\"https://cdn.ncbi.nlm.nih.gov/pmc/pd-medc-pmc-cloudpmc-viewer/production/bb3d0162/var/data/static/assets/article_style-B67IZFds.css\" />\n<link  rel=\"stylesheet\" href=\"https://cdn.ncbi.nlm.nih.gov/pmc/pd-medc-pmc-cloudpmc-viewer/production/bb3d0162/var/data/static/assets/style-D77LS1kY.css\" />\n<script type=\"module\" crossorigin=\"\" src=\"https://cdn.ncbi.nlm.nih.gov/pmc/pd-medc-pmc-cloudpmc-viewer/production/bb3d0162/var/data/static/assets/article_style-CTAd1LmM.js\"></script>\n\n  \n  \n    <style>\n  \n  \n  @media screen and (min-width: 64em) {\n    div.pmc-wm {\n      background: repeat-y;\n      background-image: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='350' xmlns:xlink='http://www.w3.org/1999/xlink'%3E%3Cde",
    "pmc_article_interstitial_markers": [],
@@ -726,11 +901,12 @@
    "pmcid": "PMC7819999",
    "pmcid_source": "elink",
    "pmid": "33479225",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/33479225/",
    "supplementary": {
     "https://pmc.ncbi.nlm.nih.gov/articles/instance/7819999/bin/41467_2020_20603_MOESM1_ESM.pdf": {
      "fetch": {
-      "bytes": 1817,
-      "elapsed_s": 0.13,
+      "bytes": 21350,
+      "elapsed_s": 0.12,
       "error": null,
       "http": 200,
       "note": "PMC supplementary file",
@@ -752,7 +928,7 @@
     },
     "https://pmc.ncbi.nlm.nih.gov/articles/instance/7819999/bin/41467_2020_20603_MOESM2_ESM.pdf": {
      "fetch": {
-      "bytes": 1817,
+      "bytes": 21350,
       "elapsed_s": 0.13,
       "error": null,
       "http": 200,
@@ -776,7 +952,7 @@
     "https://pmc.ncbi.nlm.nih.gov/articles/instance/7819999/bin/41467_2020_20603_MOESM3_ESM.pdf": {
      "fetch": {
       "bytes": 1817,
-      "elapsed_s": 0.13,
+      "elapsed_s": 0.11,
       "error": null,
       "http": 200,
       "note": "PMC supplementary file",
@@ -798,7 +974,7 @@
     },
     "https://pmc.ncbi.nlm.nih.gov/articles/instance/7819999/bin/41467_2020_20603_MOESM4_ESM.xlsx": {
      "fetch": {
-      "bytes": 1817,
+      "bytes": 1816,
       "elapsed_s": 0.14,
       "error": null,
       "http": 200,
@@ -822,7 +998,7 @@
     "https://pmc.ncbi.nlm.nih.gov/articles/instance/7819999/bin/41467_2020_20603_MOESM5_ESM.xlsx": {
      "fetch": {
       "bytes": 1816,
-      "elapsed_s": 0.13,
+      "elapsed_s": 0.11,
       "error": null,
       "http": 200,
       "note": "PMC supplementary file",
@@ -845,7 +1021,7 @@
     "https://pmc.ncbi.nlm.nih.gov/articles/instance/7819999/bin/41467_2020_20603_MOESM6_ESM.xlsx": {
      "fetch": {
       "bytes": 1817,
-      "elapsed_s": 0.12,
+      "elapsed_s": 0.14,
       "error": null,
       "http": 200,
       "note": "PMC supplementary file",
@@ -867,8 +1043,8 @@
     },
     "https://pmc.ncbi.nlm.nih.gov/articles/instance/7819999/bin/41467_2020_20603_MOESM7_ESM.xlsx": {
      "fetch": {
-      "bytes": 1816,
-      "elapsed_s": 0.13,
+      "bytes": 1817,
+      "elapsed_s": 0.12,
       "error": null,
       "http": 200,
       "note": "PMC supplementary file",
@@ -891,7 +1067,7 @@
     "https://pmc.ncbi.nlm.nih.gov/articles/instance/7819999/bin/41467_2020_20603_MOESM8_ESM.pdf": {
      "fetch": {
       "bytes": 1816,
-      "elapsed_s": 0.13,
+      "elapsed_s": 0.14,
       "error": null,
       "http": 200,
       "note": "PMC supplementary file",
@@ -914,7 +1090,7 @@
     "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7819999/supplementaryFiles": {
      "fetch": {
       "bytes": 10516062,
-      "elapsed_s": 3.16,
+      "elapsed_s": 2.69,
       "error": null,
       "http": 200,
       "note": "Europe PMC supplementaryFiles (zip)",
