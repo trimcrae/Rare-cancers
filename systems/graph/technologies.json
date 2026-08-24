@@ -2468,5 +2468,31 @@
     "confidence": "moderate",
     "forecast": "FC-RECONSTRUCTED-IPD",
     "not_scannable_because": "⛔ NOTHING EXTERNAL WILL ANNOUNCE THIS ONE, AND THAT IS WHY IT NEEDS SAYING RATHER THAN A TRIGGER. Every other capability here waits on someone else's paper, so a literature scan is the right watcher. This one waits on a method published in 2012 being applied to figures already retrieved — the algorithm landed fourteen years ago and the instrument is built and validated in this repository. A scan would return reconstruction papers in other diseases forever and none of them would move it.\n\nWHAT WATCHES IT INSTEAD: `curves_supplied` in research/modalities/emc-ipd-survival.json, which is 0 today and is the only number that can change this capability's state, plus research/modalities/tests/test_emc_ipd_survival.py, which fails the build if a curve is added without digitization provenance. ⚠ The genuinely uncertain input is not a method but a COUNT — how many published EMC series print a numbers-at-risk table beside their curve — and nobody has taken it."
+  },
+  {
+    "id": "TECH-CONDENSATE-RESOLUTION",
+    "name": "A residue-resolution phase-behaviour model — a second independent force field such as Mpipi, or a CALVADOS successor — demonstrated to resolve differences between closely related disordered sequences finer than the Flory-exponent floor the CALVADOS 2 single-chain arm measured; OR a published EMC condensate measurement (droplet formation, FRAP recovery, saturation concentration) reported stratified by 5' fusion partner rather than pooled",
+    "category": "conformational_ensemble",
+    "why_it_matters": "It is the one thing that reopens the shelved CALVADOS single-chain arm, and that arm was closed by RESOLUTION rather than by failure -- it ran to its prespecified standard, both controls passed, and it returned a bounded null that excludes only partner differences larger than its own separation threshold. ⛔ Re-running the same arm with more sampling is NOT this capability and is forbidden by that arm's own prespecification: the reason to reopen is resolution, never repetition. ⚠ Fan-out one is the honest size -- nothing else in the portfolio waits on it, and the route it serves was parked on expected value.",
+    "unblocks": {
+      "blockers": [],
+      "routes": [],
+      "requirements": [],
+      "instruments": [
+        "INS-CALVADOS-SINGLE-CHAIN"
+      ]
+    },
+    "current_state": "early_signals",
+    "evidence": [
+      "The CLASS of model exists and works here: CALVADOS 2 is installed and validated two-sidedly -- the package's own shipped single-IDR example reproduces end to end, and the directional control moves nu by more than the arm's separation threshold. A residue-resolution phase-behaviour force field is a usable instrument today (INS-CALVADOS-SINGLE-CHAIN).",
+      "What has NOT landed is resolution below that instrument's floor: run to the package's shipped protocol with five replicates, CALVADOS 2 single-chain nu separates none of EMC's 5' partner windows from each other, nor any of them from wild-type NR4A3's own disordered region. The floor, the pooled replicate spread and the threshold have one home: research/modalities/emc-condensate-calvados-findings.md.",
+      "UNKNOWN and deliberately not guessed: whether any other residue-resolution force field already resolves finer than that floor between closely related disordered sequences. Nobody here has measured it or searched for it -- TRG-CONDENSATE-PARTNER-RESOLUTION is the query that would find it, and this row is what a hit lands on.",
+      "No published EMC condensate measurement stratified by 5' fusion partner is recorded anywhere in this repository. That is the second disjunct's reason for existing: a pooled measurement cannot answer the partner question however good it is."
+    ],
+    "confidence": "low",
+    "forecast": "FC-CONDENSATE-RESOLUTION",
+    "scan_trigger": [
+      "TRG-CONDENSATE-PARTNER-RESOLUTION"
+    ]
   }
 ]

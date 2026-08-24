@@ -179,6 +179,7 @@ each, and what would move them are in [registers/technologies.md](registers/tech
 | **2028** | 4 | TECH-E3-RECRUITER-STRUCTURE | `moderate` | `speculative` | `absent` |
 | **2028** | 4 | TECH-NONCOVALENT-PARALOGUE-CONTROL | `large` | `speculative` | `absent` |
 | **2028** | 1 | TECH-ASO-SPECIFICITY-MODEL | `moderate` | `extrapolated` | `absent` |
+| **2028** | 1 | TECH-CONDENSATE-RESOLUTION | `marginal` | `speculative` | `early_signals` |
 | **2029** | 14 | TECH-EMC-MODEL-ACCESS | `transformative` | `speculative` | `absent` |
 | **2029** | 10 | TECH-EMC-EXPRESSION-DATA | `transformative` | `speculative` | `early_signals` |
 | **2029** | 7 | TECH-CLOUD-WET-LAB | `transformative` | `extrapolated` | `early_signals` |
