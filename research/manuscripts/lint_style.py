@@ -50,12 +50,11 @@ TARGETS = [
     "research/manuscripts/repurposing/repurposing-hypotheses.md",
     "research/manuscripts/surface-targets/emc-surface-target-landscape.md",
     "research/manuscripts/surface-targets/emc-surface-target-landscape-si.md",
-    # ⭐ ADDED 2026-08-23 with the ICD-O classification note, on the day it was first drafted
-    # rather than on the day it goes out. Gate 5 checks REGISTER, and register is cheapest to fix
-    # while the prose is a day old; the four texts above were added retroactively and cost 96, 283
-    # and 81 findings between them to clean up. A submission text belongs here from its first
-    # commit.
-    "research/manuscripts/care-delivery/emc-icdo-9231-classification.md",
+    # ⚠ REMOVED 2026-08-23, the day it was added. emc-icdo-9231-classification.md was listed here
+    # as a submission text and is no longer one: trimcrae closed it as "not a paper" and it is now
+    # a findings note. This list is SUBMISSION TEXTS ONLY, and the comment at the top of it says a
+    # findings note must not be added — so it comes back out. The register rule did its job while
+    # the file was aimed at a venue; a note is correctly written in house style.
     # ⭐ THE ASO SUBMISSION, ADDED 2026-08-12 WHEN IT BECAME A SUBMISSION TEXT RATHER THAN A
     # WORKING DOCUMENT. It passes on merit, not by exemption; its 24,000-word predecessor could not,
     # and the split is what made both readable — see the note below.

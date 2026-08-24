@@ -473,6 +473,24 @@ SIZE = {
     "MAY NOT BE COMBINED: that is the cross-paper ratio "
     "`registration.how_a_number_may_not_be_obtained` forbids, and it is no longer needed, because "
     "one study supplies both halves.",
+    "⛔_THE_ROUTE_WAS_CLOSED_ON_THIS_NUMBER_NOT_DESPITE_IT": "trimcrae, 2026-08-23: 'this is not a "
+    "paper. Document what we have, merge to main, and drop it.' The measurement stands and is "
+    "unpublished as far as a bounded search could tell. What it lacks is a CONSEQUENCE. The paper "
+    "would have had to claim that querying 9231/3 without a topography restriction is common "
+    "practice, and this artifact's own corpus refutes that: PMID 27819877 restricted to soft "
+    "connective tissue, PMC9303001 excluded bone site codes explicitly, and PMID 31283732 "
+    "classified by topography and removed 404 cases by name. Three of four checkable cohorts "
+    "restrict. So 32.1% prices a practice the field already follows. ⚠ AND AN OVERCLAIM WAS "
+    "CORRECTED ON THE WAY OUT: the draft asserted the unrestricted query was 'the standard "
+    "construction in this literature', which this corpus does not support. Reopen ONLY on evidence "
+    "that PMID 32856598 did not restrict on topography — that is the one finding that would supply "
+    "a consequence, and it needs a subscription copy of its Methods.",
+    "prior_art_search": "⚠ INCONCLUSIVE, NOT NEGATIVE (2026-08-23). Five Europe PMC searches for "
+    "prior work on registry histology miscoding, ICD-O coding validity, soft-tissue-sarcoma "
+    "topography contamination, myxoid-chondrosarcoma nomenclature and rare-cancer case definitions "
+    "returned hitCounts of 887, 3021, and others, of which only the first 100 by relevance were "
+    "retrieved per query. Nothing in those 100s reports this quantity. ⛔ That is a statement about "
+    "100 of 887, and it must NOT be read as 'nobody has published this'.",
     "what_would_still_improve_it": [
         "A cross-tab of site against histology for this cohort, removing the one inferred step.",
         "The same query without a lymph-node-status requirement, removing the known downward bias "

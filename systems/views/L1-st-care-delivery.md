@@ -37,7 +37,7 @@ last_verified: 2026-08-05
 ```mermaid
 flowchart LR
   ST_CARE_DELIVERY["ST-CARE-DELIVERY"]:::fam
-  RT_DIAGNOSTIC_PATHWAY["○ RT-DIAGNOSTIC-PATHWAY"]:::fam
+  RT_DIAGNOSTIC_PATHWAY["✓ RT-DIAGNOSTIC-PATHWAY"]:::fam
   ST_CARE_DELIVERY --> RT_DIAGNOSTIC_PATHWAY
   RT_IPD_SURVIVAL["○ RT-IPD-SURVIVAL"]:::fam
   ST_CARE_DELIVERY --> RT_IPD_SURVIVAL
@@ -74,7 +74,7 @@ flowchart LR
 
 | route | state | maturity | readiness today | ends in | next action |
 |---|---|---|---|---|---|
-| **[RT-DIAGNOSTIC-PATHWAY](L2-rt-diagnostic-pathway.md)**<br/>The diagnosis itself — code contamination and a name that misleads | ○ ready | computed | `preprint` | [PUB-EMC-CLASSIFICATION](L3-publications.md) ◐ *contributing* | ⭐ The measurement landed: research/manuscripts/care-delivery/emc-icdo-9231-classification.md now MEASURES the  |
+| **[RT-DIAGNOSTIC-PATHWAY](L2-rt-diagnostic-pathway.md)**<br/>The diagnosis itself — code contamination and a name that misleads | ✓ closed | computed | `internal_note` | [PUB-EMC-CLASSIFICATION](L3-publications.md) ◐ *contributing* | ⛔ NOTHING. CLOSED 2026-08-23 — 'this is not a paper. Document what we have, merge to main, and drop it.' The r |
 | **[RT-IPD-SURVIVAL](L2-rt-ipd-survival.md)**<br/>Patient-level survival reconstructed from published Kaplan-Meier curves | ○ ready | computed | `internal_note` | [PUB-IPD-SURVIVAL](L3-publications.md) ○ *contributing* | Digitize the Kaplan-Meier curve and numbers-at-risk table of the largest open-access EMC series and admit or r |
 | **[RT-METASTASECTOMY](L2-rt-metastasectomy.md)**<br/>Pulmonary metastasectomy as a decision rather than a modality | ○ ready | concept | `internal_note` | [PUB-CARE-DELIVERY](L3-publications.md) ○ *contributing* | Curate metastatic site and lesion burden from the open-access EMC series and size the metastasectomy-eligible  |
 | **[RT-POPULATION-REGISTRY](L2-rt-population-registry.md)**<br/>Population cancer-registry microdata (SEER, NCDB) | ○ blocked | concept | `internal_note` | [PUB-EMC-CLASSIFICATION](L3-publications.md) ◐ *contributing* | The denominator is now understood, which is what this route was waiting for — and the answer makes the topogra |
