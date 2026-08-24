@@ -77,7 +77,7 @@ to. Cancer Gene Therapy's £145/$238 per typeset page, read at HTTP 200, stands 
 
 **Date:** [DATE]
 
-**Re:** Submission of an Original Paper — "NR4A3 gapmers in extraskeletal myxoid chondrosarcoma: 87 of 190 pair a wild-type parent through the gap at 10 bp"
+**Re:** Submission of an Original Paper — "NR4A3 fusion-junction antisense gapmers for extraskeletal myxoid chondrosarcoma: reagents, test articles and a pre-registrable knockdown experiment"
 
 ⚠ *Superseded, retained, TWICE. First: "In-silico design and predicted specificity limits of
 junction-spanning gapmers against NR4A3 fusions in extraskeletal myxoid chondrosarcoma" — the
@@ -104,7 +104,12 @@ the extended report the manuscript cites, which is archived and citable.
 
 The fit with the journal is that this is a nucleic-acid therapeutic design study in a
 fusion-driven cancer, reported at the point where computation stops being able to answer the
-question. Designability is not the constraint: junction-spanning designs exist at every one of the
+question. It is also written to a standard this journal published: the screens carry out the
+in-silico step of the 2025 Oligonucleotide Safety Working Group recommendations on
+hybridisation-dependent off-target risk (Andersson et al., *Nucleic Acid Ther* 2025;35:16–33),
+including the energy-based re-evaluation those recommendations prescribe for the candidates an
+over-sensitive similarity search returns, and the manuscript stops where that workflow turns
+experimental. Designability is not the constraint: junction-spanning designs exist at every one of the
 38 frame-compatible junctions. On the one existence statistic tested, specificity does not sort by
 partner: at the default search ceiling each of the five partners has a junction whose *cleanest*
 design carries no sense-strand near-match across the catalytic gap, and at a tenfold deeper ceiling
@@ -146,6 +151,37 @@ patient-level records, and required no ethics approval. No oligonucleotide descr
 synthesised. Nothing in the manuscript asserts efficacy, potency, safety, a therapeutic window,
 delivery to a tumour, or clinical readiness for any sequence.
 
+One point on the journal's control-oligonucleotide policy, raised here rather than left for the
+editorial office to raise. The Instructions state that "all manuscripts that claim antisense
+efficacy must, in addition to the antisense oligodeoxynucleotide construct, include at least two
+control oligodeoxynucleotides", and that manuscripts without them are returned without review. This
+manuscript claims no antisense efficacy, and says so in its abstract, its reagents section and its
+Declarations: no sequence here has been synthesised or tested, and the paper's conclusion is the
+experiment that remains to be done rather than a result. I therefore read the policy as not
+engaging this submission, and would welcome the editors' confirmation.
+
+Read strictly, the requirement is met in substance anyway, and in the direction the policy intends.
+The manuscript specifies the controls the proposed experiment requires rather than reporting an
+experiment without them, and two of the three are control oligonucleotides in the policy's own
+sense: a dinucleotide-preserving scramble of each named reagent, which the manuscript requires to
+clear the mature-parent screen itself before synthesis; and a positive control carrying the test
+articles' own gapmer geometry. Both are specified as classes with their required properties rather
+than as catalogue items, because neither exists until a laboratory draws it against its own test
+article. The third control is not an oligonucleotide and is named as what it is: a fusion-negative
+isogenic pair, which only the construct route supplies and which neither patient-derived model has.
+These are given with the pre-registrable selectivity threshold and the replicate count that powers
+the test. The
+journal's related encouragement to "report all of the oligonucleotides or constructs that were
+studied, not just those that gave the best result" is met in full: every design in the panel is
+reported with its screen outcome, including those the screen condemns, and the two reagents named
+for synthesis are named alongside the ways in which they are close calls rather than clean ones.
+
+Two files are uploaded with the manuscript as Supplemental Material for review, so that the
+reviewers are not asked to assess the paper against an archive they have to go and find: the
+extended report, which carries every screen's parameters and the complete bounds on each claim, and
+the canonical machine-readable sequence file, which is the record an oligonucleotide should be
+ordered from and which carries every design in the panel rather than the two named here.
+
 This manuscript is a condensed report of a larger body of work. The extended report — every
 screen's parameters and the complete bounds on each claim — is deposited in the archive cited in the
 manuscript's Data availability statement, and I mention it here so the relationship is on the record
@@ -165,9 +201,12 @@ Retired 2026-08-15 — it is not true of the clinical statistics, which are read
 publications. The manuscript's Declarations were corrected in the same round and this line was not,
 which is why the two now say the same thing rather than one of them being right.*
 
+**Colour reproduction is not requested in the print edition.** The figure is supplied in colour and
+may appear in colour online at no charge; it is designed to carry every distinction it makes without
+colour, so greyscale print costs the reader nothing.
+
 The work is original, has not been published, and is not under consideration elsewhere. I received
-no funding and have no financial competing interests. I declare one non-financial interest: I am a
-survivor of extraskeletal myxoid chondrosarcoma, the disease this work addresses.
+no funding and have no financial competing interests.
 
 Should it help the editors, appropriate reviewer expertise would include antisense oligonucleotide
 design and RNase-H1 mechanism, fusion-transcript-directed therapeutics, and sarcoma molecular

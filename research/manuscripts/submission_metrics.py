@@ -55,14 +55,15 @@ REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 #: mistakes one of these for a retrieved fact.
 VENUES = {
     "bioRxiv-preprint": {
-        "journal": "NO PREPRINT VENUE — bioRxiv declined 2026-08-23 (author unaffiliated); Research Square declined 2026-08-24 (content type or screening). Ungated because none is chosen",
+        "journal": "QEIOS (the call, 2026-08-24) — not yet submitted. bioRxiv declined 2026-08-23 (author unaffiliated); Research Square declined 2026-08-24 (content type or screening). Ungated because Qeios publishes no length limits",
         "limits": {"main_words": None, "abstract_words": None, "display_items": None,
                    "references": None},
         #: ⛔ THE FLAG THAT SEPARATES "NO LIMIT" FROM "UNREAD". Without it the grader reads four
         #: nulls as ignorance and reports the one venue whose rules are fully known as ungraded.
         "no_limits_by_policy": True,
-        "provenance": ("⛔ THIS ROW GRADES THE EXTENDED REPORT AGAINST NO VENUE, BECAUSE IT HAS "
-                       "NONE. Two servers have refused it and for different stated reasons: "
+        "provenance": ("⭐ THE VENUE IS QEIOS, trimcrae's call of 2026-08-24, AND NOTHING HAS BEEN "
+                       "SUBMITTED — choosing a venue and submitting to it are different acts. "
+                       "Two servers have already refused this paper, for different stated reasons: "
                        "bioRxiv on 2026-08-23 because the author is unaffiliated, and Research "
                        "Square on 2026-08-24 at screening, citing content type or screening and "
                        "nothing more, with no appeal. Candidates and the test that actually fired "
@@ -124,6 +125,16 @@ VENUES = {
         #: and/or tables".
         "limits": {"main_words": 4000, "abstract_words": 200, "display_items": 5,
                    "references": None},
+        #: ⛔ NOT A ZERO-DOLLAR ROUTE, AND THE PACKET MUST SAY THE NUMBER RATHER THAN "not
+        #: recorded". Every other venue in this repository was graded on whether a $0 subscription
+        #: route exists; NAT's does not, and the fee is why this article carries a page budget at
+        #: all. Leaving the packet's Fee route cell empty read as an unknown when it is the
+        #: best-evidenced venue fact here — read by a person at the primary source, in the same
+        #: sitting as the limits above, and quoted verbatim in `provenance`.
+        "fee_route": ("NO ZERO-DOLLAR ROUTE. Publishing Services Fee $90 per typeset page, "
+                      "assessed on acceptance; colour charged separately at $800 for the first "
+                      "print image, which this submission does not request. READ AT PRIMARY "
+                      "SOURCE 2026-08-23, same capture as the limits."),
         "provenance": (
             "READ AT PRIMARY SOURCE 2026-08-23 by trimcrae in a human web browser, and captured "
             "verbatim to research/literature/nat-submission-guidelines-2026-08-23.md, which is the "
@@ -143,8 +154,13 @@ VENUES = {
             "peer-review section says 'The journal adheres to a rigorous double-anonymized "
             "reviewing policy in which the identity of both the reviewer and author are always "
             "concealed from both parties.' Under the second reading the manuscript needs an "
-            "anonymized copy. Tracked as an open item in the preprint checklist; not resolved "
-            "here, because nothing here can resolve it. "
+            "anonymized copy. ✅ NO LONGER AN OPEN ITEM: both files are built, by "
+            "`build_submission_pdf.py --anonymized` on every chain run, so the contradiction is "
+            "decided at the upload form instead of after a return. ⚠ Superseded, retained: "
+            "'Tracked as an open item in the preprint checklist; not resolved here, because "
+            "nothing here can resolve it.' The second clause is still true of THIS module and the "
+            "first is not: nothing here can read the form, but the fix never needed the form "
+            "read -- it needed both uploads to exist. "
             "SETTLED BY THE SAME READ, and each was previously carried as an open risk: (1) "
             "'Accepts preprints? Yes' -- posting before submission does not disqualify, and the "
             "submission form asks for the preprint DOI. (2) The Publishing Services Fee survived "
@@ -537,9 +553,19 @@ def main(argv=None):
                     "rather than why it was dropped (trimcrae, 2026-08-22). ⚠ Superseded, retained: "
                     "this read \"was rejected anyway once its guidelines were read\", which "
                     "contradicted the same packet's own venue table. "
-                    "The same question has not been put to CGT. Until a "
-                    "CGT author-guideline or fee page is read, the venue's compliance with the $0 "
-                    "constraint is established for APCs and unestablished overall.",
+                    "✅ CLOSED 2026-08-24, AND THE ANSWER IS NO. ⚠ Superseded, retained: \"The same "
+                    "question has not been put to CGT. Until a CGT author-guideline or fee page is "
+                    "read, the venue's compliance with the $0 constraint is established for APCs "
+                    "and unestablished overall.\" The Guide to Authors was READ at HTTP 200 "
+                    "(nature.com/cgt/authors-and-referees/gta, headless-browser fetch, "
+                    "research/literature/browser-fetch.json) and it states under Charges: 'After "
+                    "final layout for publication, each page of an article will incur a fixed "
+                    "charge of £145 / $238 per page', colour inclusive, waived only for authors "
+                    "who pay the open-access APC (£3490, read the same day at "
+                    "nature.com/cgt/open-access). So CGT is NOT a $0 route on either option, and "
+                    "its per-page charge is the higher of the two per-page venues under "
+                    "consideration. ⛔ Do not multiply either rate by a page count anywhere in this "
+                    "repository — the rate has one home and the count has another.",
             "⚠_none_of_this_gates_the_preprint": "bioRxiv sets no word, abstract or display-item "
                     "limit, and its deposit being free is verified verbatim at primary source.",
             "counting_rule": "Main text runs from the first substantive heading to the last heading "

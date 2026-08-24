@@ -26,6 +26,7 @@ Usage:
 from __future__ import annotations
 
 import csv
+import json
 import re
 import os
 import sys
@@ -119,10 +120,55 @@ def _twin(row):
     return seq, cell[cell.index("(") + 1:cell.rindex(")")]
 
 
+def _controls():
+    """The two screened control oligonucleotides, read from `aso-control-oligos.json`.
+
+    ⛔ READ, NEVER TYPED. A control is a sequence a laboratory will order; typing one into a table
+    is the transcription hazard this deposit exists to avoid, and a control differing by one base
+    from the screened one has not been screened.
+    """
+    path = os.path.join(os.path.dirname(os.path.dirname(HERE)),
+                        "research", "modalities", "aso-control-oligos.json")
+    with open(path, encoding="utf-8") as fh:
+        return json.load(fh)["controls"]
+
+
+def _tm(row):
+    """The fusion-versus-parent Tm SEPARATION, as a floor. Never the absolute melting points.
+
+    ⛔⛔ THE ABSOLUTES WERE WRONG FOR THIS MOLECULE AND WERE PRINTED ANYWAY (external review,
+    2026-08-24). The nearest-neighbour table is for an unmodified DNA:RNA hybrid; these reagents are
+    5-6-5 beta-D-oxy-LNA with a full phosphorothioate backbone, 10 of 16 residues locked. Locked
+    residues raise Tm by several degrees each, so an absolute of "51.3 °C" understates the real
+    molecule badly — and this is being submitted to the oligonucleotide-therapeutics journal, whose
+    readers know that. The SEPARATION survives the modification in a stated direction: the fusion
+    duplex pairs all ten locked residues and each parent half-duplex exactly five, by construction
+    for every design in the panel, so LNA widens the gap rather than closing it. That makes the
+    unmodified separation a FLOOR, which is a claim this table can stand behind.
+
+    ⛔ AND THE PARENT HERE IS NOT THE PARENT IN THE COLUMN BESIDE IT. The duplex column reports the
+    longest contiguous duplex a mature wild-type parent forms through the catalytic gap, found by
+    search — wild-type TFG for both reagents. This column's parent is the more stable HALF of the
+    design's own target window, donor or acceptor, which is where the seam splits it. Both reagents
+    share an NR4A3 exon-3 acceptor half, so that half is the same 8 nt in both and its melting point
+    was identical (24.7 °C) while the duplex column read 8 and 9 — two different genes' numbers side
+    by side, each correct, together implying one quantity. Printing the difference rather than the
+    endpoints removes the false pairing; the caption names both parents.
+
+    ⛔ BLANK IS PRINTED AS A DASH, NEVER AS A NUMBER. A design outside the 5-6-5 thermodynamics
+    panel carries no Tm in the canonical file, and an empty cell in a submitted table reads as a
+    missing value rather than as a number somebody forgot.
+    """
+    f, p = row.get("predicted_tm_fusion_c"), row.get("predicted_tm_best_parent_c")
+    if not f or not p:
+        return "—"
+    return f"≥ {round(float(f) - float(p), 1)}"
+
+
 def build() -> str:
     rows = _rows()
-    out = ["<!-- GENERATED — DO NOT EDIT. Regenerate: python3 research/manuscripts/aso_journal_tables.py -->",
-           "", "# Display items — fusion-junction ASO journal article", "",
+    out = ["<!-- GENERATED, DO NOT EDIT. Regenerate: python3 research/manuscripts/aso_journal_tables.py -->",
+           "", "# Display items: fusion-junction ASO journal article", "",
            "*Every cell below is a column of `fusion-junction-aso-sequences.csv`, the canonical "
            "machine-readable record, except the test-article column of Table 1, which is a "
            "literature fact and carries its source in the caption. Every reagent named here is a "
@@ -140,60 +186,39 @@ def build() -> str:
             "articles are the engineered constructs of Brenca et al. "
             "(PMID:31020999); the two patient-derived models of Bangerter et al. (PMID:36316541) are "
             "REPORTED at an NR4A3 exon-2 acceptor and match different designs, not these two. "
+            "ΔTm separates the fusion duplex from the more stable half of the design's own "
+            "target window, which is a different parent from the duplex column's searched "
+            "wild-type TFG. It is a floor, by the method and for the reason given in Methods; "
+            "absolute melting points are not reported for a locked, phosphorothioate "
+            "oligonucleotide. "
             "Nothing here has been synthesised or tested, and no sequence may be administered to "
             "any person or animal.", ""]
-    out += ["| seam | reagent | margin | WT gap duplex (bp) | test article |",
-            "|---|---|---:|---|---|"]
+    out += ["| seam | reagent | margin | WT gap duplex (bp) | ΔTm floor (°C) | "
+            "test article |",
+            "|---|---|---:|---|---:|---|"]
     for j in LEADS:
         r = _lead(rows, j)
-        out.append(f"| {_seam(j)} | 5′-{r['sequence']}-3′ | {r['gap_level_margin']} | "
-                   f"{_duplex(r)} | {TEST_ARTICLE[j]} |")
+        out.append(f"| {_seam(j)} | 5\u2032-{r['sequence']}-3\u2032 | {r['gap_level_margin']} | "
+                   f"{_duplex(r)} | {_tm(r)} | {TEST_ARTICLE[j]} |")
     out.append("")
 
-    #: ⭐ HOW FAR THE NEAREST CONDEMNED DESIGN SITS FROM A REAGENT WE TELL PEOPLE TO BUY, DERIVED
-    #: RATHER THAN TYPED. The caption used to say only that these are "not a reagent this paper
-    #: names", which is true and reads as reassurance. It is the opposite: one of the condemned
-    #: designs is a register of the SAME seam as a named lead, so the distance between the molecule
-    #: to order and a molecule that pairs its whole catalytic gap against wild-type NR4A3 is a
-    #: countable number of single-base slides. That number is what makes an off-by-one in a
-    #: synthesis order a real hazard rather than a hypothetical one, so it is computed here from the
-    #: sequences themselves and cannot drift from them.
-    near = _slides_to_a_named_lead(rows)
-    #: ⛔⛔ THE CAPTION COUNTS THE ROWS IT SITS OVER, IT DOES NOT ASSERT THEM (2026-08-22, round 14
-    #: seat 5, BLOCKER). This read "Four near-identical designs at two seams, two orderable and two
-    #: not" as a typed literal while the rows below it are derived from CONDEMNED. Cutting the panel
-    #: to one pair for the six-page budget left the caption describing four designs at two seams
-    #: over a two-row, one-seam table — and it shipped in both built PDFs. `--check` was clean
-    #: throughout, because the generator reproduces its own output faithfully; what it cannot catch
-    #: is a sentence inside that output disagreeing with the rows beside it. Same defect as every
-    #: other typed count this session: the number went out of date, the content did not.
-    n_designs = 2 * len(CONDEMNED)
-    n_seams = len({_at(rows, seq)["junction"] for seq in CONDEMNED})
-    _cap = (f"{_spell(n_designs)} near-identical designs at "
-            f"{_spell(n_seams)} seam{'s' if n_seams != 1 else ''}, half orderable and half not"
-            if len(CONDEMNED) > 1 else
-            f"{_spell(n_designs)} near-identical designs at one seam, one orderable and one not")
-    out += [f"**Table 2. {_cap[0].upper() + _cap[1:]}.** Each "
-            "pair is two consecutive registers of one seam differing by a single-base slide, and "
-            "the two members carry opposite verdicts: the condemned member pairs its whole "
-            "catalytic gap against a wild-type parent at the ten-base-pair criterion and the "
-            "orderable member does not. " + near + " Neither may be substituted for the other, and "
-            "neither is named for synthesis. The pairing is read from the canonical file's own "
-            "cross-reference column.", ""]
-    out += ["| seam | design | verdict | margin | WT gap duplex (bp) |",
-            "|---|---|---|---:|---|"]
-    for seq in CONDEMNED:
-        bad = _at(rows, seq)
-        twin_seq, relation = _twin(bad)
-        good = _at(rows, twin_seq)
-        # `relation` is the twin cell's parenthetical, e.g. "a single-base slide; orderable" —
-        # the slide description and the OTHER member's verdict, both from the canonical file.
-        slide, _, twin_verdict = relation.partition(";")
-        out.append(f"| {_seam(bad['junction'])} | 5′-{bad['sequence']}-3′ | {_verdict(bad)} | "
-                   f"{bad['gap_level_margin']} | {_duplex(bad)} |")
-        out.append(f"| {_seam(good['junction'])} | 5′-{good['sequence']}-3′ | "
-                   f"{_verdict(good, twin_verdict.strip())} ({slide.strip()}) | "
-                   f"{good['gap_level_margin']} | {_duplex(good)} |")
+    controls = _controls()
+    out += ["**Table 2. The two control oligonucleotides, each screened as its reagent was.** Each "
+            "is a dinucleotide-preserving scramble of the reagent it controls, matching it in "
+            "length, first and last base, base composition and dinucleotide counts while spanning "
+            "no junction, and each cleared the same mature-parent screen the reagent did. Section 5 "
+            "gives why that screening step is what makes a scramble a control.", ""]
+    out += ["| control | sequence | scramble of | WT gap duplex (bp) |",
+            "|---|---|---|---|"]
+    for c in controls:
+        #: ⛔ ONE SEQUENCE PER ROW. The reagent this control scrambles is named by its SEAM, not by
+        #: repeating its sequence: a table row that prints two oligonucleotides is two chances to
+        #: copy the wrong one into an order, and `test_the_journal_display_items_say_what_their_rows
+        #: _say` enforces the rule for exactly that reason. Table 1 carries the seam-to-sequence map.
+        out.append(f"| {c['label']} | 5\u2032-{c['control_5to3']}-3\u2032 | "
+                   f"the {c['seam']} reagent | "
+                   f"{c['control_longest_parent_duplex_through_gap_bp']} bp, wild-type "
+                   f"*{c['control_longest_parent_duplex_gene']}* |")
     out.append("")
     return "\n".join(out)
 

@@ -25,6 +25,38 @@ last_verified: 2026-08-24
 > [`preprint-host-decision.md`](./preprint-host-decision.md) and nothing else in it. That memo's
 > four tests, its bioRxiv reading, its arXiv measurement and its Zenodo floor all stand.
 
+## 0 · ⭐ THE CALL — QEIOS IS THE BEST NEXT PLACE TO TRY
+
+**Qeios (trimcrae, 2026-08-24).** It is the recommended next venue for the extended fusion-junction
+ASO report, and it is the only surviving candidate that passes all five tests on read evidence.
+
+| test | Qeios |
+|---|---|
+| 1 · unaffiliated author may post | ✅ no affiliation gate anywhere in its Publishing Policy; affiliation appears only as "which of an author's several is primary". ORCID recommended, and this author holds one |
+| 2 · $0 | ✅ *"no per-article fees, i.e., no Article Processing Charges (APCs), and no reader fees, i.e., no paywalls"* — the platform is funded by Pro-plan subscriptions |
+| 3 · DOI and versions | ✅ |
+| 4 · Europe PMC indexed | ✅ on the list, re-read 2026-08-24 and unchanged at 34 servers |
+| 5 · content screen | ⭐ **the thinnest surface of any candidate.** Its Publishing Policy carries **no screening section and no article-type list**, and states *"Researchers shall be free to pursue their research activity without being censored"* |
+
+★ **TEST 5 IS WHY IT WINS, AND THE MARGIN IS NOT SMALL.** Research Square declined this paper under
+a screening clause; Preprints.org carries that clause almost word for word (§2); bioRxiv puts the
+same question to its Affiliates. Qeios's stated policy is the only one of the four with no
+equivalent. **Every other live candidate is the same door.**
+
+⛔ **AND THE TWO HONEST COSTS, WHICH THE CALL DOES NOT HIDE — BOTH ARE IN §3 AND NEITHER IS FATAL:**
+
+1. **"No screening section" is not "no screen."** Europe PMC's indexing criteria REQUIRE a public
+   screening statement, and Qeios is indexed, so one very likely exists on a page not yet fetched.
+   The claim here is about what its Publishing Policy contains, not about what Qeios does.
+2. **Its generative-AI permission is NARROWER than this paper's disclosure** — *"to improve the
+   language and readability"* — while this manuscript declares an LLM that wrote analysis code, ran
+   pipelines, drafted and revised the text and ran internal review. Qeios does not forbid that; it
+   does not address it. **On stated text Qeios is worse on AI than Research Square was**, and that
+   is the one axis where this call trades down.
+
+⚠ **THE CALL SELECTS A VENUE. IT DOES NOT AUTHORISE A SUBMISSION**, which is a separate act and
+trimcrae's alone (CLAUDE.md §3). Nothing here has been posted.
+
 ## 1 · What was refuted, and it was the call rather than the reasoning
 
 The first memo's call was **"Post it to Research Square. It clears all four tests with no
@@ -173,5 +205,12 @@ a paper nobody can find still beats a paper nobody can read.
 
 ## 6 · What this memo does not do
 
-It selects no venue and submits nothing. Choosing the paper and the act is trimcrae's, per
-CLAUDE.md §3, and the outstanding 403s mean two of the five candidates cannot honestly be ranked yet.
+It submits nothing. §0 now records a chosen venue — Qeios, trimcrae's call of 2026-08-24 — and
+choosing a venue is not the same act as submitting to it; the submission remains his, per
+CLAUDE.md §3, and nothing has been posted.
+⚠ *Superseded, retained: "It selects no venue and submits nothing … the outstanding 403s mean two of
+the five candidates cannot honestly be ranked yet." Written before §0. One of those two rows has
+since been closed — Preprints.org, from a web-archive snapshot, and it FAILS test 5 — so the
+ranking no longer waits on it. **ChemRxiv is still unread and still cannot be ranked**, and the call
+above is therefore made over a field with one genuine unknown left in it, which is stated rather
+than smoothed.*

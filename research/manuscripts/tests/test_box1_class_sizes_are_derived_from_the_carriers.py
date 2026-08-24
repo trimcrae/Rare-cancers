@@ -54,10 +54,19 @@ def _require(path):
 
 
 def _rows():
-    """The canonical CSV's data rows. The header block is comment lines, and they are not rows."""
+    """The canonical CSV's DESIGN rows. The header block is comment lines, and they are not rows.
+
+    ⛔ CONTROLS ARE EXCLUDED, AND THE DENOMINATOR IS WHY (2026-08-24). Box 1 sizes the do-not-order
+    class against "the records the canonical file holds", and that file gained two screened control
+    oligonucleotides when the condensed article started naming them. A control is not a design: it
+    spans no junction and was never a candidate, so counting it in the denominator would shrink the
+    reported liability rate without a single design changing — the direction that flatters the
+    paper. The population this claim is about is designs, so that is the population counted here.
+    """
     raw = open(_require(CSV), encoding="utf-8").read().splitlines()
     body = "\n".join(ln for ln in raw if not ln.startswith("#"))
-    return list(csv.DictReader(io.StringIO(body)))
+    rows = list(csv.DictReader(io.StringIO(body)))
+    return [r for r in rows if not (r.get("role") or "").startswith("control")]
 
 
 def _artifact():

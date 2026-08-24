@@ -158,6 +158,12 @@ run_step() {
 run_step "locus collapse"      "python3 $MOD/junction_aso_locus_collapse.py --write" ""
 run_step "chance baseline"     "python3 $MOD/offtarget_chance_baseline.py"           ""
 run_step "duplex thermodynamics" "python3 $MOD/junction_aso_thermo.py"   "python3 $MOD/junction_aso_thermo.py --check"
+# ⛔ THE ENERGY RE-EVALUATION RUNS AFTER THE SCREENS AND READS THEIR OUTPUT, SO IT BELONGS HERE
+# AND NOT EARLIER. It re-scores every alignment `junction_aso_offtarget.py` returned, which is the
+# second stage the 2025 industry recommendations (PMID 39912803) prescribe after an over-sensitive
+# similarity search. Its figures are quoted by the condensed article and pinned, so a screen that
+# moves without this step rerunning would leave the manuscript quoting a stale separation.
+run_step "offtarget duplex energy" "python3 $MOD/aso_offtarget_duplex_energy.py" "python3 $MOD/aso_offtarget_duplex_energy.py --check"
 # ⛔ THE PER-JUNCTION TABLE WAS NOT IN THIS CHAIN, AND FIVE ARTIFACTS DOWNSTREAM READ IT (2026-08-17).
 # `aso-per-junction-table.json` supplies every clinical tier, best-available design and parent-duplex
 # figure that Tables 2, 3 and 5, the coverage ladder and the canonical sequence file are built from —
@@ -244,6 +250,14 @@ PDFSTAMP
 }
 run_step "deposited PDF · journal format"    "python3 $MAN/build_submission_pdf.py" "_pdf_stamps_current"
 run_step "deposited PDF · submission format" "python3 $MAN/build_submission_pdf.py --style manuscript" "_pdf_stamps_current"
+# ⛔ THE ANONYMIZED UPLOAD IS BUILT EVERY TIME, BECAUSE THE VENUE WILL NOT SAY WHICH IT WANTS.
+# NAT's guidelines state single-anonymized twice and double-anonymized once, on one page, and the
+# journal returns a non-conforming manuscript for amendments BEFORE peer review. Building both
+# turns that contradiction into a choice made at the upload form instead of a discovery made
+# after a rejection. It is a mechanical derivation of the finished manuscript, guarded by
+# research/manuscripts/tests/test_the_anonymized_build_hides_only_identity.py, which pins that it
+# removes identity and changes nothing else.
+run_step "anonymized upload · journal format" "python3 $MAN/build_submission_pdf.py --paper aso-journal --anonymized" ""
 # ⛔ AND THE WORD FILE, WHICH IS THE ONE A JOURNAL ACTUALLY ACCEPTS (added 2026-08-23). Nucleic
 # Acid Therapeutics: "The preferred format for your manuscript is Word … The LaTeX files are also
 # accepted." PDF is not on that list, so the .docx is a deposit artifact on exactly the same footing

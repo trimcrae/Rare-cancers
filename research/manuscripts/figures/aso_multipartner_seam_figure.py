@@ -159,8 +159,18 @@ def main(argv=None):
     top = y_sub + len(sub_lines) * (FS_SUB + 4) + 30      # first sequence row's baseline
 
     notes = [
-        (f"Blue, donor exon; green, NR4A3 acceptor exon; boxed and purple, {divergent_words}. "
-         f"Shaded box, the window this reagent targets."),
+        #: ⛔ THE NON-COLOUR CHANNEL IS NAMED FIRST, AND THAT IS A COST DECISION AS WELL AS AN
+        #: ACCESSIBILITY ONE (2026-08-24). Nucleic Acid Therapeutics prints in greyscale unless the
+        #: author REQUESTS colour reproduction, which is charged at $800 for the first print image;
+        #: this submission does not request it, so the printed figure has no colour at all while the
+        #: online version keeps it. The panel itself survives that — the breakpoint is a rule, donor
+        #: and acceptor are left and right of it, the divergent base is BOXED, and every row's
+        #: reporting status is spelled out in words — but this note did not: it told a print reader
+        #: to look for a blue and a green that are not there. Colour is now named as the online
+        #: cue it is, after the channel that survives the print.
+        (f"Left of the breakpoint rule, donor exon; right, NR4A3 acceptor exon; boxed, "
+         f"{divergent_words}. Shaded box, the window this reagent targets. Online, donor bases are "
+         f"blue, acceptor bases green and the boxed position purple."),
         #: The first sentence of this note used to restate the column header "target mRNA (sense,
         #: 5′ to 3′)" and the "(antisense)" tag on the reagent row, both inside this same panel.
         #: What remains is the hazard itself, which nothing else in the panel says.

@@ -183,7 +183,19 @@ def delta_g37(dh, ds):
 
 
 def _tm(dh, ds, conc_nm=CONC_NM):
-    """Melting temperature in °C, for validation against Biopython only."""
+    """Melting temperature in °C at `conc_nm` total strand concentration.
+
+    ⭐ ALSO WRITTEN PER DESIGN SINCE 2026-08-24. It was computed for the Biopython cross-check only,
+    and external review of the condensed article asked for predicted Tm — which a laboratory
+    ordering these oligonucleotides needs and which this module was already computing and throwing
+    away. Same ΔH/ΔS, same table, same conditions block as every ΔG in this artifact, so a Tm and a
+    ΔG here can never come from different arithmetic.
+    ⚠ THE `⚠_lna_not_modelled` CAVEAT APPLIES TO Tm EXACTLY AS IT DOES TO ΔG, AND MATTERS MORE:
+    these are the values for an UNMODIFIED DNA:RNA hybrid, and a 5-6-5 LNA gapmer's real Tm is
+    substantially higher. The fusion duplex pairs all ten locked residues and each parent duplex
+    exactly five, so LNA raises the fusion Tm more than the parent Tm — the Tm SEPARATION below is
+    a floor on the modified oligonucleotide's, not an estimate of it.
+    """
     if dh is None:
         return None
     ct = (conc_nm / 4.0) * 1e-9                    # non-self-complementary duplex convention
@@ -318,6 +330,12 @@ def build():
                 continue
             # The parent that binds best is the one with the MOST NEGATIVE ΔG.
             g_best_parent = min(g_d, g_a)
+            t_f, t_d, t_a = _tm(dh_f, ds_f), _tm(dh_d, ds_d), _tm(dh_a, ds_a)
+            #: ⛔ THE WORST CASE IS THE HOTTEST PARENT, AND IT IS SELECTED ON Tm RATHER THAN
+            #: INHERITED FROM THE ΔG CHOICE. The two orderings agree for every design in this panel,
+            #: but they are different questions — ΔG ranks at 37 °C and Tm ranks the melting point —
+            #: and taking `min(ΔG)`'s parent would silently make the Tm column a ΔG result.
+            t_best_parent = max(t_d, t_a)
             rows.append({
                 "junction": panel["junction_label"],
                 "antisense_5to3": anti,
@@ -332,6 +350,12 @@ def build():
                 #: Positive = the fusion duplex is the more stable one. This is the thermodynamic
                 #: analogue of the gap-level margin, and the two are compared in `agreement`.
                 "ddg37_discrimination": round(g_best_parent - g_f, 3),
+                "tm_fusion_duplex_c": round(t_f, 1),
+                "tm_donor_parent_duplex_c": round(t_d, 1),
+                "tm_acceptor_parent_duplex_c": round(t_a, 1),
+                "tm_best_parent_duplex_c": round(t_best_parent, 1),
+                #: Positive = the fusion duplex melts higher than the closest parent duplex.
+                "dtm_discrimination_c": round(t_f - t_best_parent, 1),
                 "design_rules": design_rule_audit(anti, d.get("gc_percent") or 0.0),
             })
 

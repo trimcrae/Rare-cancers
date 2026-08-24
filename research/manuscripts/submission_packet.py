@@ -166,6 +166,46 @@ def _cgt_fee_line():
             " Confirm at the portal before submitting there; this is a fetch record, not an invoice.")
 
 
+
+
+def _builder_papers():
+    """`build_submission_pdf.PAPERS`, loaded once. {} if the builder cannot be imported.
+
+    ⚠ ONE FACT, ONE HOME — the builder decides what each paper renders and submits, and every
+    question this module asks about a paper's files is answered from here rather than from a
+    directory scan.
+    """
+    global _BUILDER_PAPERS
+    if _BUILDER_PAPERS is not None:
+        return _BUILDER_PAPERS
+    try:
+        import importlib.util
+        path = os.path.join(HERE, "build_submission_pdf.py")
+        spec = importlib.util.spec_from_file_location("_bsp_for_packet", path)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        _BUILDER_PAPERS = dict(getattr(mod, "PAPERS", {}))
+    except Exception:  # noqa: BLE001 — a builder that will not import is reported by its own gate
+        _BUILDER_PAPERS = {}
+    return _BUILDER_PAPERS
+
+
+_BUILDER_PAPERS = None
+
+
+def _paper_review_supplements(manuscript_rel):
+    """Files the builder says are uploaded with this submission for the reviewers.
+
+    Returns () when the paper declares none. ⛔ NOT a directory scan: whether a file is submitted
+    for review is a decision recorded on the paper, and the deposit directory holds artefacts that
+    are archived rather than submitted. Guessing here would put the wrong files in an envelope.
+    """
+    for paper in _builder_papers().values():
+        if paper.get("manuscript") == manuscript_rel:
+            return tuple(paper.get("supplementary_for_review") or ())
+    return ()
+
+
 def _paper_supplementary(manuscript_rel):
     """The SI `build_submission_pdf.PAPERS` says this manuscript has, or "" if it has none.
 
@@ -173,17 +213,10 @@ def _paper_supplementary(manuscript_rel):
     same question by globbing a directory is a second home for it, and the second home is the one
     that was wrong.
     """
-    try:
-        import importlib.util
-        path = os.path.join(HERE, "build_submission_pdf.py")
-        spec = importlib.util.spec_from_file_location("_bsp_for_packet", path)
-        mod = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(mod)
-    except Exception:
-        return ""
-    for paper in getattr(mod, "PAPERS", {}).values():
+    for paper in _builder_papers().values():
         if paper.get("manuscript") == manuscript_rel:
             return paper.get("supplementary") or ""
+    return ""
     return ""
 
 
@@ -208,6 +241,21 @@ def _companion(stem, suffixes):
     for name in sorted(os.listdir(d)):
         if name.startswith(base) and any(name.endswith(s) for s in suffixes):
             return os.path.join(os.path.dirname(stem), name)
+    return ""
+
+
+def venue_fee(row):
+    """The venue's own fee statement, where its record carries one. Read, never composed here."""
+    try:
+        import submission_metrics as sm
+    except Exception:  # noqa: BLE001
+        return ""
+    for venue in getattr(sm, "VENUES", {}).values():
+        #: ⚠ THE ROW CALLS IT `venue` AND THE VENUE RECORD CALLS IT `journal`. Matching the wrong
+        #: one returns "" for every paper, which degrades to "not recorded" — a silent miss that
+        #: reads exactly like a venue with no fee fact. Measured: it did, on the first cut.
+        if venue.get("journal") == row.get("venue"):
+            return venue.get("fee_route", "")
     return ""
 
 
@@ -286,6 +334,16 @@ def main():
         # builder is where it is now read from. The directory scan stays for the cover letter, where
         # one letter legitimately serves the submission.
         si = bool(_paper_supplementary(row["file"]))
+        #: Files uploaded ALONGSIDE the manuscript for the reviewers, distinct from an SI document.
+        #: Read from the builder entry, never guessed from the directory: "for review only" is a
+        #: submission decision, and a directory scan cannot tell it from an archive artefact.
+        review_only = _paper_review_supplements(row["file"])
+        #: ⛔ ASK THE DISK, NOT THE BUILDER CONFIG. `--anonymized` is a build FLAG rather than a
+        #: per-paper key, so there is nothing in PAPERS to read; what decides whether a blinded
+        #: upload is ready is whether the file is on disk. Named off the paper's own output path so
+        #: it cannot pick up a sibling paper's blinded copy.
+        anon_rel = row["file"].replace(".md", "-anonymized.pdf")
+        anon = anon_rel if os.path.exists(os.path.join(HERE, anon_rel)) else ""
 
         L += [f"## {row['venue']}", "", f"**Manuscript** `{row['file']}`", ""]
         L += ["| field | value |", "|---|---|",
@@ -299,7 +357,20 @@ def main():
               f"{' (limit ' + str(lim['references']) + ')' if lim.get('references') else ''} |",
               f"| Cover letter | {'n/a (preprint deposit)' if preprint else ('`' + letter + '`' if letter else 'MISSING')} |",
               f"| Supplementary file | {'yes' if si else 'none'} |",
-              f"| Fee route | {v.get('zero_dollar_route', 'not recorded')} |", ""]
+              #: ⛔ THE BLINDED COPY IS PART OF THE ENVELOPE WHEREVER ONE EXISTS. NAT's guidelines
+              #: state single-anonymized twice and double-anonymized once on the same page, so
+              #: which file the form wants is not knowable before the form; the row reports which
+              #: files are READY rather than which is required, because the failure this packet
+              #: exists to prevent is arriving at the form without one.
+              f"| Anonymized copy | {'`' + anon + '`' if anon else 'none built for this paper'} |",
+              f"| Supplemental material, for review | "
+              f"{', '.join('`' + f + '`' for f in review_only) if review_only else 'none'} |",
+              # ⛔ A VENUE MAY OWN ITS OWN FEE FACT, AND THEN IT WINS. The fee-routes artifact
+              # grades venues on whether a $0 subscription route exists; NAT's does not, and its
+              # fee was read by a person at the primary source in the same sitting as its limits,
+              # so it lives beside them in submission_metrics rather than being retyped here or
+              # into an artifact whose question it does not answer.
+              f"| Fee route | {venue_fee(row) or v.get('zero_dollar_route', 'not recorded')} |", ""]
         if row.get("over_limit"):
             L += ["> **Over a stated limit:** " + "; ".join(row["over_limit"]), ""]
         L += [f"⚠ Limits provenance: {row.get('limits_provenance', 'unknown')}.", ""]

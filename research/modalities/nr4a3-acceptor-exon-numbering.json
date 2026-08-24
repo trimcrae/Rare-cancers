@@ -1,0 +1,79 @@
+{
+ "_what": "Every annotated NR4A3 transcript, with the transcript-exon rank of its first CODING exon. Answers one narrow question: can 'NR4A3 exon 2' name the first coding exon on some annotated transcript?",
+ "_why": "The two fusion-positive EMC cell models (PMID 36316541) are reported at NR4A3 'exon 2' with no transcript accession; this panel is tiled at transcript exon 3 of ENST00000395097, which is that transcript's first coding exon.",
+ "⛔_what_this_is_not": "NOT a determination of either cell model's breakpoint, NOT a claim about which transcript any tumour expresses, and NOT a licence to quote any reagent as valid for those models. RNA sequencing of the test article remains required before synthesis.",
+ "_method": "Ensembl REST lookup/symbol?expand=1; per-exon coding length computed by intersecting each exon with the CDS span, the same construction nr4a3_exon_audit and emc_fet_construct_designs use. RefSeq mRNA accessions read from the xrefs endpoint, not typed.",
+ "panel_acceptor": {
+  "transcript": "ENST00000395097",
+  "transcript_exon_rank": 3
+ },
+ "screen_refseq": "NM_006981",
+ "n_transcripts": 4,
+ "n_coding_transcripts": 4,
+ "first_coding_exon_ranks_observed": [
+  1,
+  3
+ ],
+ "transcripts_with_first_coding_exon_at_rank_2": [],
+ "transcripts_with_first_coding_exon_at_rank_3": [
+  "ENST00000338488",
+  "ENST00000618101",
+  "ENST00000395097"
+ ],
+ "transcripts_cross_referenced_to_screen_refseq": [
+  "ENST00000395097"
+ ],
+ "a_transcript_numbering_exists_where_exon_2_is_the_first_coding_exon": false,
+ "transcripts": [
+  {
+   "transcript": "ENST00000338488",
+   "biotype": "protein_coding",
+   "is_canonical": false,
+   "is_mane_select": null,
+   "n_transcript_exons": 5,
+   "n_noncoding_5prime_exons": 2,
+   "first_coding_transcript_exon_rank": 3,
+   "translated": true,
+   "refseq_mrna": [
+    "NM_173199"
+   ]
+  },
+  {
+   "transcript": "ENST00000618101",
+   "biotype": "protein_coding",
+   "is_canonical": false,
+   "is_mane_select": null,
+   "n_transcript_exons": 9,
+   "n_noncoding_5prime_exons": 2,
+   "first_coding_transcript_exon_rank": 3,
+   "translated": true,
+   "refseq_mrna": [
+    "NM_173200"
+   ]
+  },
+  {
+   "transcript": "ENST00000395097",
+   "biotype": "protein_coding",
+   "is_canonical": true,
+   "is_mane_select": null,
+   "n_transcript_exons": 8,
+   "n_noncoding_5prime_exons": 2,
+   "first_coding_transcript_exon_rank": 3,
+   "translated": true,
+   "refseq_mrna": [
+    "NM_006981"
+   ]
+  },
+  {
+   "transcript": "ENST00000330847",
+   "biotype": "protein_coding",
+   "is_canonical": false,
+   "is_mane_select": null,
+   "n_transcript_exons": 7,
+   "n_noncoding_5prime_exons": 0,
+   "first_coding_transcript_exon_rank": 1,
+   "translated": true,
+   "refseq_mrna": []
+  }
+ ]
+}

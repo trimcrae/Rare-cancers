@@ -14,7 +14,7 @@ on:
       task:
         description: "which task to run"
         type: choice
-        options: [fusion, vast_smoke, nrv04_cys, nr4a_unique_residues, nr4a_e3_widened, nr4a_basin_search, nr4a_linker_chem, nr4a_e3_stage, e3_recruiter_stage, e3_vhl_recheck, vast_bid_advise, vast_price_history, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_ffcache_status, nrv04_input_audit, nrv04_retro_prespend, nrv04_retro_price_forensics, nrv04_retro_secondaries, nrv04_adduct_build, nrv04_s3_tail, nrv04_bake, fep_bake, nrv04_vast_launch, step1_fanout, bioemu_bake, bioemu_run, bioemu_collect, bioemu_status, bioemu_stop, map_audit, map_diag, energy_probe, s1f_liveness, s_calibrator_survey, cys_chemoproteomics, fusion_census, pgr_transcript, pgr_tissue_expression, nr4a3_intron2_cryptic]
+        options: [fusion, vast_smoke, nrv04_cys, nr4a_unique_residues, nr4a_e3_widened, nr4a_basin_search, nr4a_linker_chem, nr4a_e3_stage, e3_recruiter_stage, e3_vhl_recheck, vast_bid_advise, vast_price_history, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_ffcache_status, nrv04_input_audit, nrv04_retro_prespend, nrv04_retro_price_forensics, nrv04_retro_secondaries, nrv04_adduct_build, nrv04_s3_tail, nrv04_bake, fep_bake, nrv04_vast_launch, step1_fanout, bioemu_bake, bioemu_run, bioemu_collect, bioemu_status, bioemu_stop, map_audit, map_diag, energy_probe, s1f_liveness, s_calibrator_survey, cys_chemoproteomics, fusion_census, pgr_transcript, pgr_tissue_expression, nr4a3_intron2_cryptic, nat_submission_meta, nat_scope_census]
         default: fusion
       fanout_mode:
         description: "step1_fanout: plan | stage | precheck | launch (dry) | launch_confirm (SPENDS) | collect | monitor | diag | reap (destroy + BLACKLIST a bad HOST) | block (stop launching a UNIT no host can fix) | stop"
@@ -2703,3 +2703,87 @@ jobs:
             "Fusion junction census: universe sources + per-fusion oligo prior art (CI)" \
             research/modalities/fusion-junction-orphan-census.json \
             research/modalities/fusion-junction-census-source-probe.json
+
+  # ⭐ NAT SUBMISSION METADATA — the two fetches the condensed ASO article's external review
+  # (2026-08-24) turned into blockers, both of which the dev sandbox 403s at CONNECT.
+  #   1. NR4A3 acceptor exon numbering (Ensembl). The reviewer's highest-value no-lab fix: the only
+  #      two fusion-positive EMC cell models are reported at NR4A3 "exon 2" and this panel is tiled
+  #      at transcript exon 3, so the paper cannot currently say whether its reagents engage the
+  #      only available test articles. Annotation cannot read the authors' intent, but it CAN say
+  #      whether any annotated NR4A3 transcript places its first coding exon at rank 2.
+  #   2. NLM journal-title abbreviations (NCBI ESummary). Sage Vancouver wants abbreviated journal
+  #      names; the hand-maintained list mixes full titles and abbreviations, and an abbreviation is
+  #      a bibliographic fact that must be READ rather than recalled (CLAUDE.md §7).
+  # Pure stdlib, $0 CPU. Publishes both artifacts to the TRIGGERING branch, because both are
+  # submission inputs the manuscript will cite directly.
+  nat_submission_meta:
+    if: ${{ github.event.inputs.task == 'nat_submission_meta' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "NR4A3 acceptor exon numbering across every annotated transcript (Ensembl)"
+        run: python research/modalities/nr4a3_acceptor_numbering.py
+      - name: "NLM journal abbreviations for every cited PMID (NCBI ESummary)"
+        run: python research/manuscripts/journal_abbreviations.py
+      # A second home for both answers, so a failure in the publish step below cannot lose them.
+      - name: Upload both artifacts as a run artifact (redundant home)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nat-submission-meta
+          path: |
+            research/modalities/nr4a3-acceptor-exon-numbering.json
+            research/manuscripts/aso/journal-abbreviations.json
+          if-no-files-found: warn
+      - name: Commit both artifacts back to the triggering branch
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "NAT submission metadata: NR4A3 acceptor exon numbering + NLM journal abbreviations (CI)" \
+            research/modalities/nr4a3-acceptor-exon-numbering.json \
+            research/manuscripts/aso/journal-abbreviations.json
+
+  # ⭐ IS A COMPUTATION-ONLY PAPER IN SCOPE FOR NAT? Asked of the journal's own published record
+  # rather than of its editor, because trimcrae declined to send a presubmission enquiry
+  # (2026-08-24) and a journal's scope is what it has actually published. Needs NCBI E-utilities,
+  # 403'd at CONNECT by the dev sandbox. Pure stdlib, $0 CPU.
+  nat_scope_census:
+    if: ${{ github.event.inputs.task == 'nat_scope_census' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Census every NAT article for computation-only work"
+        run: python research/manuscripts/nat_scope_census.py
+      - name: Upload the census as a run artifact (redundant home)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nat-scope-census
+          path: research/manuscripts/aso/nat-scope-census.json
+          if-no-files-found: warn
+      - name: Commit the census back to the triggering branch
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "NAT scope census: computation-only papers in the journal's own record (CI)" \
+            research/manuscripts/aso/nat-scope-census.json

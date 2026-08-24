@@ -152,9 +152,36 @@ def test_the_article_states_it(label, pattern, why, prose):
 #: after its selectivity filter was added. These are FLOORS, not targets: coverage may rise freely
 #: and may not fall. ⚠ Raising a floor is a deliberate act — do it when you have closed a class, and
 #: never to make a red run green.
-COVERAGE_FLOOR = {"journal-article": {"covered": 68, "with_a_number_covered": 44},
+COVERAGE_FLOOR = {"journal-article": {"covered": 66, "with_a_number_covered": 44},
                   "journal-tables": {"covered": 4, "with_a_number_covered": 1},
                   "cover-letter": {"covered": 6, "with_a_number_covered": 4}}
+#: ⛔ `journal-article.covered` 67 -> 66 ON 2026-08-24, SAME DAY, AND FOR A DELETED SENTENCE AGAIN.
+#: trimcrae removed his diagnosis from the whole submission envelope, so the manuscript's pointer
+#: sentence — "a non-financial interest is disclosed to the editor in the accompanying cover
+#: letter" — had to go with it: with the letter no longer declaring one, that sentence would have
+#: been false in a published paper. It was bound (by test_the_envelope_declares_one_interest.py),
+#: so removing it costs one covered sentence, and the cover letter's own census falls 11 -> 10 for
+#: the same edit. ⚠ The ratchet's remedy was checked and does not apply: the sentence is GONE, not
+#: reworded, and re-anchoring a guard to a sentence the author deleted is not available.
+#: ⛔⛔ `journal-article.covered` 68 -> 67 ON 2026-08-24, AND THE CAUSE IS A DELETED SECTION.
+#: This is the THIRD documented downward correction, and like both before it, it is licensed by a
+#: measurement rather than by a red run. In order, because the order is the lesson:
+#:   1. trimcrae capped publication spend at $600. The condensed article is charged per typeset page,
+#:      so the six-page budget stopped being a preference and became the cap; the reviewer-requested
+#:      Tm column and the measured exon-numbering finding had pushed the build to seven pages.
+#:   2. Section 6 ("Beyond the panel") was cut on his instruction — measured as exactly the cut that
+#:      returns the article to six pages. It carried THREE covered sentences.
+#:   3. One of its claims survived, reworded into the abstract ("Also released is the procedure that
+#:      produced the 190 designs"), and is covered there. Net: -3 +1 = -2 covered.
+#:   4. ⚠ THE RATCHET'S OWN REMEDY WAS CHECKED FIRST AND DID NOT APPLY. It says to find the reworded
+#:      sentence and re-anchor rather than lower the floor. All three sentences were confirmed ABSENT
+#:      from the document by literal substring search, not reworded past a pattern — a section the
+#:      author removed cannot be re-anchored to a document that no longer contains it.
+#:   5. ★ AND THE MEASURE THAT MATTERS DID NOT MOVE: 69/129 = 53.5% before, 67/126 = 53.2% after.
+#:      The paper got SHORTER; its binding to artifacts did not get looser. An absolute floor cannot
+#:      tell those two apart, which is the one real limitation of this ratchet and is recorded here
+#:      rather than designed around, because a ratio floor would let a paper shed bound sentences
+#:      and unbound ones together and still read green.
 #: ⛔⛔ `cover-letter.covered` 7 -> 6 ON 2026-08-23, AND THE SEVENTH WAS THE STRING "sub-miss-ion".
 #: This is the second documented downward correction and, like the first, it is licensed by a
 #: measurement rather than by a red run. What happened, in order, because the order is the lesson:
