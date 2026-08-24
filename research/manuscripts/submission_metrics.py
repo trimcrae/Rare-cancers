@@ -55,26 +55,36 @@ REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 #: mistakes one of these for a retrieved fact.
 VENUES = {
     "bioRxiv-preprint": {
-        "journal": "bioRxiv (DECLINED 2026-08-23, author unaffiliated; the journal submission of the condensed article goes to Nucleic Acid Therapeutics)",
+        "journal": "NO PREPRINT VENUE — bioRxiv declined 2026-08-23 (author unaffiliated); Research Square declined 2026-08-24 (content type or screening). Ungated because none is chosen",
         "limits": {"main_words": None, "abstract_words": None, "display_items": None,
                    "references": None},
         #: ⛔ THE FLAG THAT SEPARATES "NO LIMIT" FROM "UNREAD". Without it the grader reads four
         #: nulls as ignorance and reports the one venue whose rules are fully known as ungraded.
         "no_limits_by_policy": True,
-        "provenance": ("VERIFIED at primary source: bioRxiv sets no word, abstract or display-item "
-                       "limit and its deposit is free — the one venue fact in this table that was "
-                       "read rather than searched. ⛔ AND bioRxiv DECLINED THIS SUBMISSION ON "
-                       "2026-08-23 BECAUSE THE AUTHOR IS UNAFFILIATED, so this row grades a "
-                       "manuscript against a server that will not take it. The limits stay correct "
-                       "and the row stays ungated for that reason — the extended report is "
-                       "archived on Zenodo and has since been submitted elsewhere — but nobody "
-                       "should read the row name as a live plan. Accounting: "
-                       "aso/fusion-junction-aso-preprint-checklist.md §2 step 3. ⚠ ALL-`None` IS A STATEMENT, NOT A GAP: it means "
-                       "this manuscript is measured and ungated, which is the honest state while the "
-                       "journal is undecided. A journal's limits apply when one is chosen, and "
-                       "cutting the abstract to any particular cap before then means cutting twice, "
-                       "because the venues under consideration disagree on both length AND whether a "
-                       "structured abstract is wanted at all."),
+        "provenance": ("⛔ THIS ROW GRADES THE EXTENDED REPORT AGAINST NO VENUE, BECAUSE IT HAS "
+                       "NONE. Two servers have refused it and for different stated reasons: "
+                       "bioRxiv on 2026-08-23 because the author is unaffiliated, and Research "
+                       "Square on 2026-08-24 at screening, citing content type or screening and "
+                       "nothing more, with no appeal. Candidates and the test that actually fired "
+                       "are in program/preprint-host-decision-round2.md. "
+                       "⚠ SO THE REASON THE ROW IS UNGATED HAS CHANGED, AND THE FLAG NO LONGER "
+                       "MEANS WHAT ITS NAME SAYS: `no_limits_by_policy` was set because bioRxiv "
+                       "publishes no word, abstract or display-item limit — still true of bioRxiv, "
+                       "and no longer why this row carries no limits. It carries none because "
+                       "nobody has chosen a venue, which is an UNKNOWN wearing the same four "
+                       "nulls. The flag is kept so the grader does not report the row as merely "
+                       "unread, and this sentence is the only thing separating the two states. "
+                       "⚠ Superseded, retained: \'the extended report is archived on Zenodo and "
+                       "has since been submitted elsewhere\'. Written 2026-08-23 while the "
+                       "Research Square submission was pending, it read as placement and is the "
+                       "same stale-external-status defect the preprint checklist already records "
+                       "against its own three-day \'⏳ Awaiting bioRxiv screening\' row: nothing "
+                       "here re-reads an outside queue, so a status owned by another system decays "
+                       "silently. The archive half is unchanged and true — Zenodo "
+                       "10.5281/zenodo.22061075 is published. "
+                       "⚠ AND CUTTING TO A CAP IS STILL PREMATURE: the surviving candidates "
+                       "disagree on length and on whether a structured abstract is wanted, so a "
+                       "cut made now is a cut made twice."),
     },
     "GCC-Research-Article": {
         "journal": "Genes, Chromosomes and Cancer (Wiley)",
