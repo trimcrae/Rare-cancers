@@ -492,8 +492,12 @@ so the join is a dictionary lookup. ⚠ Matching the two **by ordinal position**
 case a plausible-looking partner and been **invisible if wrong**; nothing does, and a label with no
 deposited counterpart is reported unjoined rather than absorbed by a neighbour.
 
-**All 12 join. All 12 have downloadable IDATs — 24 files, Grn+Red per case; 9 on 450K (`GPL13534`),
-3 on EPIC (`GPL21145`).**
+**All 12 join, and all 12 have downloadable IDATs — 24 files, Grn+Red per case; 9 on 450K
+(`GPL13534`), 3 on EPIC (`GPL21145`).** ⭐ **"Downloadable" here is MEASURED, not listed:** every one
+of the 24 was probed with a `HEAD` request and every one answered **200**, **122,009,911 bytes** in
+total, none unreachable. That distinction is not pedantry — `!Sample_supplementary_file` is a string
+in a metadata record, and a cohort described as downloadable on the strength of it would be a
+populated field reported as a measured one.
 
 ⛔ **What this count is and is not.** It is what the paper's authors labelled, carried across a
 declared join. **It is not a diagnosis, not a re-review of any case, and not a patient count.** The
