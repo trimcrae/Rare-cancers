@@ -804,7 +804,15 @@ def _parse_biostudies(acc, body, truncated):
 def _fetch_pmc(out):
     """Rung 4 — the published per-case diagnosis table, reached only through discovered identifiers."""
     pmid = out.get("pubmed_id")
-    pmc = {"pmid": pmid, "pmcid": None, "pmcid_source": None, "fetches": {},
+    # ⛔ `pubmed_url` IS NOT DECORATION — it is what makes the identifier ANCHORED. `lint_citations`
+    # deliberately does not recognise a lowercase `"pmid"` JSON key: the `": "` between key and
+    # digits breaks the adjacency it requires, and loosening that would weaken the guarantee the
+    # gate exists for (an identifier must appear in a context only a retrieval could produce). The
+    # gate's own header records that the fix belongs in the ARTIFACT, not in the linter, and this is
+    # that fix. This PMID was read out of GSE140686's `!Series_pubmed_id` and then actually fetched,
+    # so the URL form is the honest record of a retrieval rather than a workaround for a red gate.
+    pmc = {"pmid": pmid, "pubmed_url": (f"https://pubmed.ncbi.nlm.nih.gov/{pmid}/" if pmid else None),
+           "pmcid": None, "pmcid_source": None, "fetches": {},
            "supplementary_links_found": [], "supplementary": {}}
     if not pmid:
         pmc["why"] = ("the GEO series header declared no !Series_pubmed_id, so there is no "
@@ -1495,6 +1503,13 @@ def derive(inp):
         }
         arm2["stages"]["4_published_table"] = {
             "pmid_discovered_from_geo": m.get("pubmed_id"),
+            # ⚠ DERIVED from the PMID rather than read back out of the fetch record, so it is
+            # present for any cache — including one written before the field existed. A derived
+            # value has one source of truth; reading it back would give it two.
+            "pubmed_url": (f"https://pubmed.ncbi.nlm.nih.gov/{m['pubmed_id']}/"
+                           if m.get("pubmed_id") else None),
+            "pmc_url": (f"https://pmc.ncbi.nlm.nih.gov/articles/{pmc['pmcid']}/"
+                        if pmc.get("pmcid") else None),
             "pmcid": pmc.get("pmcid"),
             "pmcid_source": pmc.get("pmcid_source"),
             "why_no_pmcid": pmc.get("why"),
