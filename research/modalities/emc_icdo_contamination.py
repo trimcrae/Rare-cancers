@@ -593,7 +593,9 @@ PUBLIC_AGGREGATE_TIER = {
 GUIDELINE_PLACEMENT = {
     "the_question": "Does any treatment guidance actually import conventional-chondrosarcoma "
     "reasoning for EMC?",
-    "answer": "NO EVIDENCE FOUND AT THE GUIDELINE LEVEL, and the specialist literature is "
+    "answer": "NO. ⭐ ANSWERED AT PRIMARY SOURCE ON THE NCCN SIDE -- its Soft Tissue Sarcoma "
+    "guideline lists extraskeletal myxoid chondrosarcoma among its covered histologies and its "
+    "Bone Cancer guideline does not -- and the specialist literature is "
     "explicit in the other direction: EMC is managed under SOFT TISSUE SARCOMA guidance. ⛔ This "
     "is a NEGATIVE for the route's clinical half and is reported as one. It does not weaken the "
     "coding finding, which is about the research record rather than about the clinic.",
@@ -622,7 +624,29 @@ GUIDELINE_PLACEMENT = {
             "provenance": "[FT]",
         },
     ],
-    "⚠_the_honest_bound_on_that_answer": "BOTH READINGS ARE SECONDARY. What has been read is "
+    "⭐⭐_AND_NCCN_ANSWERS_IT_AT_PRIMARY_SOURCE_ON_ITS_OWN_PUBLIC_INDEX": {
+        "how_obtained": "nccn.org returns HTTP 200 to a real headless browser (it 403s nothing "
+        "here; it was the ESMO side that refused). Two guideline-detail pages were read: "
+        "https://www.nccn.org/guidelines/guidelines-detail?category=1&id=1464 (Soft Tissue "
+        "Sarcoma) and ...&id=1418 (Bone Cancer). Each publishes the list of histologies its "
+        "guideline covers.",
+        "nccn_soft_tissue_sarcoma_v5_2026": "Lists 'Extraskeletal myxoid chondrosarcoma' "
+        "explicitly, among 'Alveolar Soft Part Sarcoma', 'Clear cell sarcoma', 'Extraskeletal "
+        "Osteosarcoma', 'Mesenchymal chondrosarcoma', 'Myxoid/round cell liposarcoma', 'Synovial "
+        "sarcoma' and the rest.",
+        "nccn_bone_cancer_v1_2027": "Covers exactly six topics -- Bone Cancer, Chondrosarcoma, "
+        "Chordoma, Ewing Sarcoma, Giant Cell Tumor of Bone, Osteosarcoma -- and does NOT list "
+        "extraskeletal myxoid chondrosarcoma.",
+        "⭐_the_verdict": "NCCN places EMC under SOFT TISSUE SARCOMA and not under Bone Cancer or "
+        "Chondrosarcoma. That is a primary reading of the guideline body's own published topic "
+        "index, not a review's description of it, and it is a clean negative for the proposition "
+        "that guidance imports conventional-chondrosarcoma reasoning for EMC.",
+        "⚠_what_it_is_not": "The topic index says WHERE EMC is placed and WHAT IT IS GROUPED "
+        "WITH. It does not say what the guideline TEXT recommends for EMC -- the guideline PDFs "
+        "are behind a login and were not sought.",
+        "provenance": "[DOC]",
+    },
+    "⚠_the_honest_bound_on_the_ESMO_half": "BOTH ESMO READINGS ARE SECONDARY. What has been read is "
     "what two EMC reviews say the guidelines say, not the guideline texts. The ESMO clinical "
     "practice guidelines are not open access: Europe PMC reports isOpenAccess=N for every version "
     "of both the soft-tissue and the bone guideline, five doi.org resolutions returned an "
@@ -860,6 +884,14 @@ PROVENANCE_LEDGER = [
         "identifier": "SEER*Explorer Cancer Site Definitions",
         "how_obtained": "https://seer.cancer.gov/statistics-network/explorer/cancer-sites.html "
         "fetched on an Actions runner, HTTP 200, 5,519 characters.",
+        "read_level": "[DOC]",
+    },
+    {
+        "identifier": "NCCN Guidelines topic indexes (Soft Tissue Sarcoma v5.2026, id=1464; Bone "
+        "Cancer v1.2027, id=1418)",
+        "how_obtained": "nccn.org guideline-detail pages fetched with a headless Chromium on an "
+        "Actions runner, HTTP 200 (4,118 and 2,269 characters of visible text). ⚠ PUBLIC INDEX "
+        "PAGES ONLY -- the guideline PDFs are behind a login and were not sought.",
         "read_level": "[DOC]",
     },
     {
