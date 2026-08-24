@@ -263,6 +263,11 @@
         "url": "https://doi.org/10.1200/JCO.2025.43.16_suppl.11513"
       },
       {
+        "therapy": "Pembrolizumab alone, after tumour-microenvironment profiling (advanced disease)",
+        "result": "ONE PATIENT. A 72-year-old man with EWSR1::NR4A3 EMC metastatic to lung, bone and peritoneal soft tissue was profiled by a commercial DNA and RNA assay: microsatellite stable, tumour mutational burden 0.67 mut/Mb, TSC2 loss - all three of which point away from checkpoint inhibition - but the microenvironment profiled as immune-enriched/fibrotic with high PD-L1 by RNA-seq. He was given single-agent pembrolizumab and had a near-complete response, with resolution or reduction of all pulmonary nodules and soft-tissue lesions, and had received 15 cycles without progression at the time of report. This is n=1 in a non-peer-reviewed conference abstract written mostly by employees of the company selling the assay, and no response rate can be inferred from it. It is recorded because it is the only report of a single-agent checkpoint inhibitor response in EMC located here, and because low mutational burden and an infiltrated microenvironment came apart in the same tumour.",
+        "url": "https://www.annalsofoncology.org/article/S0923-7534(25)01230-X/abstract"
+      },
+      {
         "therapy": "Trabectedin (advanced disease)",
         "result": "The trabectedin arm of that phase 2 sub-analysis contained TWO EMC patients and three mesenchymal chondrosarcoma patients. Both EMC patients had stable disease, with PFS of 13.0 and 7.4 months. The arm's often-quoted 12.5-month median PFS is the Kaplan-Meier median over all five subjects and coincides with one mesenchymal chondrosarcoma patient's own PFS; the arm's single objective response was also in a mesenchymal chondrosarcoma patient. No objective response to trabectedin has been reported in an EMC patient.",
         "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4946242/"
@@ -869,6 +874,26 @@
         "accessed": "2026-06-20",
         "verified": true
       },
+      "galitskiy2025emcpembrolizumab": {
+        "short": "Galitskiy 2025 (JSMO abstract, single case)",
+        "type": "conference-abstract",
+        "title": "P35-1 Effective immune-based treatment of extraskeletal myxoid chondrosarcoma guided by next-generation gene profiling",
+        "authors": "Galitskiy E, Livingston AJ, Plair T, Tarasov A, Putintsev V, Novokrestchenova A, Kushnarev V, Zubarev I, Nikulin V, Hensley M, Makani N, Yong S, Love A, Brown J, Fowler N, Conley AP.",
+        "journal": "Annals of Oncology",
+        "year": 2025,
+        "volume": "36",
+        "page": "S1732-S1733",
+        "doi": "10.1016/j.annonc.2025.08.310",
+        "url": "https://www.annalsofoncology.org/article/S0923-7534(25)01230-X/abstract",
+        "license": "publisher (abstract text via the sponsor's own publication page)",
+        "openAccess": false,
+        "design": "single-patient case report of comprehensive genomic and tumour-microenvironment profiling followed by checkpoint inhibition",
+        "n": 1,
+        "population": "one 72-year-old man with EWSR1::NR4A3-confirmed extraskeletal myxoid chondrosarcoma of the right gluteal region, metastatic to lung, bone and peritoneal soft tissue",
+        "accessed": "2026-08-24",
+        "retrievalNote": "⚠ INDUSTRY-AUTHORED AND NOT PEER-REVIEWED: fifteen of the seventeen authors are employees of BostonGene Corporation, whose commercial assay is the subject; the remaining three are at MD Anderson, which treated the patient. annalsofoncology.org returned HTTP 403 to the runner on both /abstract and /fulltext, and Europe PMC returns hitCount 0 for the title, so the abstract text was retrieved from the sponsor's own publication page at bostongene.com and the bibliographic record independently from api.crossref.org, which supplies the DOI, volume, pagination and the October 2025 issue date. The two agree on the title. ⛔ The abstract text therefore has ONE source and it is the sponsor's; nothing in this record is independently corroborated. The poster asset the same page links is named for the 22nd Annual Meeting of the Japanese Society of Medical Oncology; its PDF carries no extractable text layer, so the poster's figures have not been read.",
+        "verified": true
+      },
       "immunosarc2emc2025": {
         "short": "Hindi 2025 (ASCO abstract)",
         "type": "conference-abstract",
@@ -1261,10 +1286,10 @@
       },
       {
         "agent": "Immune checkpoint inhibitors",
-        "result": "A PD-1 inhibitor has now been tested in a dedicated prospective EMC cohort, in combination with a VEGFR TKI - see the sunitinib + nivolumab row. No single-agent checkpoint inhibitor cohort in EMC has been located; isolated responses to interferon-alpha are reported in case reports.",
+        "result": "A PD-1 inhibitor has now been tested in a dedicated prospective EMC cohort, in combination with a VEGFR TKI - see the sunitinib + nivolumab row. No single-agent checkpoint inhibitor COHORT in EMC has been located; what exists is one reported case of a near-complete response to single-agent pembrolizumab in a patient selected on tumour-microenvironment profiling rather than on mutational burden - see the pembrolizumab row. Isolated responses to interferon-alpha are reported in case reports.",
         "sourceId": "remiszewski2025",
         "provenance": "secondary",
-        "primaryRef": "case reports; and IMMUNOSARC II EMC cohort for the combination"
+        "primaryRef": "case reports; IMMUNOSARC II EMC cohort for the combination; and galitskiy2025emcpembrolizumab for the single-agent case"
       }
     ]
   },
@@ -1293,13 +1318,13 @@
       {
         "name": "Immune checkpoint inhibitors (e.g. nivolumab), alone or with a TKI",
         "status": "Experimental; case-level evidence",
-        "summary": "EMC often has an immunosuppressive tumour microenvironment, and responses to immunotherapy have so far been occasional rather than reliable. Being studied in combination strategies.",
+        "summary": "Responses to immunotherapy in EMC have so far been occasional rather than reliable, and it is not standard treatment. What the tumour's immune environment looks like appears to vary between patients rather than being the same in everyone: one published EMC case describes an immunosuppressive environment, and another describes an immune-rich one with high PD-L1 that responded to pembrolizumab. Only a handful of EMC tumours have ever been profiled this way, so nobody knows how common either pattern is. Being studied in combination strategies.",
         "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9527174/"
       },
       {
         "name": "Genomic + tumour-microenvironment (TME) profiling to guide therapy",
-        "status": "Emerging concept",
-        "summary": "Next-generation sequencing and TME profiling are being explored to match individual EMC patients to systemic or immune-based therapy, including immune-based treatment selected by gene profiling.",
+        "status": "Emerging concept; one published EMC case",
+        "summary": "Sequencing the tumour and separately profiling its immune environment are being explored as a way to match an individual EMC patient to systemic or immune-based therapy. In the one published EMC case, the standard markers used to select patients for immunotherapy - microsatellite status and mutational burden - both argued against it, while the immune profile of the same tumour argued for it, and the patient had a near-complete response to pembrolizumab (see the treatment-response table). That is a single patient in a conference abstract from the company whose test it is; it shows the approach can point somewhere the usual markers do not, and it does not show how often that happens or that it helps. Ask your sarcoma team whether profiling of this kind is available to you and whether a trial fits.",
         "url": "https://www.annalsofoncology.org/article/S0923-7534(25)01230-X/abstract"
       },
       {
