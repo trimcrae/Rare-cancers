@@ -57,5 +57,6 @@ the routes cleanly; method cuts across them, so it gets this view.
 | **INS-FUSION-COFOLD** Fusion protein-level co-folding model | `none` | — | — |
 | **INS-HLA-COVERAGE** HLA population-coverage calculator | `none` | RT-JUNCTION-NEOANTIGEN, RT-TCR-IMMTAC, RT-TCRT-CTA, RT-VACCINE | `TECH-JUNCTION-PMHC` |
 | **INS-GEO-SERIES-CHARACTERISE** Sample-level GEO series characterisation + disease-label corroboration | `passes` | RT-ATR-ASSESS | — |
+| **INS-CALVADOS-SINGLE-CHAIN** CALVADOS 2 single-chain conformational model of the retained 5' partne | `passes` | — | — |
 
 [← L0](L0-ecosystem.md)

@@ -308,4 +308,40 @@ which the model, not this measurement, infers phase behaviour.
 
 ## 11 · Amendment log
 
-*(empty at freeze; an amendment is appended here, dated and numbered, and never edited in place)*
+*(an amendment is appended here, dated and numbered, and never edited in place)*
+
+### Amendment 1 — 2026-08-24, before any production run — the ν gate conflated *compact* with *broken*
+
+**What changed.** §6's single range `[0.30, 0.75]` was doing two jobs at once: deciding whether a fit
+could be believed at all, and deciding whether a value was surprising. Those are split:
+
+| | range | consequence |
+|---|---|---|
+| `NU_BROKEN_RANGE` | ν ∉ (0.15, 0.95) | **INSTRUMENT_FAILED** — no fit of a real trajectory lands there, so nothing is quoted |
+| `NU_EXPECTED_RANGE` | ν ∉ [0.30, 0.75] | the value **stands**, the construct is **flagged**, and its convergence diagnostic must be quoted with it |
+
+A convergence diagnostic is also now **required output** rather than an incidental field: ν on the
+second half of each trajectory against ν on the whole post-equilibration trajectory. If more than 20 %
+of runs drift by more than the pooled replicate SD, every ν is labelled **PROVISIONAL** — reported,
+never withheld.
+
+**Why, and the evidence.** The polymer **globule limit is ν = 1/3**, and a finite compact chain can fit
+*below* it. A lower bound of 0.30 would therefore have withheld a genuinely compact FET LC domain as an
+instrument failure — the single most likely real result this arm can produce, discarded by a threshold
+meant to catch broken integration. The conflation was exposed by a **local shakeout** on TAF15 1–161 at
+reduced sampling (84 000 steps, 110 analysed frames, wall 93 s): ν = 0.337 over the whole trajectory and
+0.289 over its second half, a chain still collapsing out of its initial configuration. **No production
+number exists at the time of writing** — this shakeout used a deliberately shortened trajectory, is not
+a construct in §3's sense, and no value from it enters any claim.
+
+⚠ **Read this as what it is: a gate being loosened, which is the dangerous direction.** Two things bound
+it. The independent reason is a textbook polymer fact available before any result rather than a
+rationalisation built around one. And the **reporting is strictly stricter than before** — a value
+outside the expected range previously vanished with the whole panel and now must be published together
+with a convergence delta. What was removed is a withholding, not a check.
+
+**Also fixed in the same commit, and it is a plain bug rather than an amendment:** the analysis record
+never populated `platform`, which the scorer requires — so **every production run would have returned
+INSTRUMENT_FAILED**. `platform`, `threads`, `steps`, `wfreq`, `temp` and `ionic` are now read back from
+the config each run actually used. A required provenance field that nothing writes is the same defect as
+one nothing checks.

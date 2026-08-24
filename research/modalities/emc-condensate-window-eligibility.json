@@ -1,0 +1,110 @@
+{
+ "_what": "AlphaFold DB per-residue pLDDT over every candidate window. Entry criterion for the CALVADOS 2 single-chain arm, fixed before the fetch: at least 75% of window residues below pLDDT 50.",
+ "_cutoff": 50.0,
+ "_fraction_required": 0.75,
+ "_source": "https://alphafold.ebi.ac.uk/api/prediction/{acc}",
+ "windows": {
+  "E264": {
+   "read": true,
+   "gene": "EWSR1",
+   "window": "EWSR1 1-264",
+   "n_residues_read": 264,
+   "mean_plddt": 38.81,
+   "frac_below_50": 0.9811,
+   "eligible_for_calvados2_single_chain": true
+  },
+  "E360": {
+   "read": true,
+   "gene": "EWSR1",
+   "window": "EWSR1 1-360",
+   "n_residues_read": 360,
+   "mean_plddt": 40.44,
+   "frac_below_50": 0.9333,
+   "eligible_for_calvados2_single_chain": true
+  },
+  "T161": {
+   "read": true,
+   "gene": "TAF15",
+   "window": "TAF15 1-161",
+   "n_residues_read": 161,
+   "mean_plddt": 39.0,
+   "frac_below_50": 0.9938,
+   "eligible_for_calvados2_single_chain": true
+  },
+  "C161": {
+   "read": true,
+   "gene": "TCF12",
+   "window": "TCF12 1-161",
+   "n_residues_read": 161,
+   "mean_plddt": 44.92,
+   "frac_below_50": 0.8075,
+   "eligible_for_calvados2_single_chain": true
+  },
+  "C264": {
+   "read": true,
+   "gene": "TCF12",
+   "window": "TCF12 1-264",
+   "n_residues_read": 264,
+   "mean_plddt": 43.48,
+   "frac_below_50": 0.8712,
+   "eligible_for_calvados2_single_chain": true
+  },
+  "C360": {
+   "read": true,
+   "gene": "TCF12",
+   "window": "TCF12 1-360",
+   "n_residues_read": 360,
+   "mean_plddt": 43.41,
+   "frac_below_50": 0.8556,
+   "eligible_for_calvados2_single_chain": true
+  },
+  "N260": {
+   "read": true,
+   "gene": "NR4A3",
+   "window": "NR4A3 1-260",
+   "n_residues_read": 260,
+   "mean_plddt": 37.66,
+   "frac_below_50": 0.9654,
+   "eligible_for_calvados2_single_chain": true
+  },
+  "F212": {
+   "read": true,
+   "gene": "FUS",
+   "window": "FUS 1-212",
+   "n_residues_read": 212,
+   "mean_plddt": 41.03,
+   "frac_below_50": 0.9575,
+   "eligible_for_calvados2_single_chain": true
+  }
+ },
+ "_resolved": {
+  "EWSR1": {
+   "accession": "Q01844",
+   "url": "https://alphafold.ebi.ac.uk/files/AF-Q01844-F1-model_v6.pdb"
+  },
+  "TAF15": {
+   "accession": "Q92804",
+   "url": "https://alphafold.ebi.ac.uk/files/AF-Q92804-F1-model_v6.pdb"
+  },
+  "FUS": {
+   "accession": "P35637",
+   "url": "https://alphafold.ebi.ac.uk/files/AF-P35637-F1-model_v6.pdb"
+  },
+  "NR4A3": {
+   "accession": "Q92570",
+   "url": "https://alphafold.ebi.ac.uk/files/AF-Q92570-F1-model_v6.pdb"
+  },
+  "TCF12": {
+   "accession": "Q99081",
+   "url": "https://alphafold.ebi.ac.uk/files/AF-Q99081-F1-model_v6.pdb"
+  }
+ },
+ "_lengths": {
+  "EWSR1": 656,
+  "TAF15": 592,
+  "FUS": 526,
+  "NR4A3": 626,
+  "TCF12": 682
+ },
+ "all_primary_windows_eligible": true
+}
