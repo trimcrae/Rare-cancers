@@ -1,0 +1,448 @@
+{
+ "_what": "Every Nucleic Acid Therapeutics article PubMed indexes, screened for papers whose abstract describes computation and no wet-lab experiment.",
+ "_why": "To answer 'is a computation-only design paper in scope' from the journal's own published record rather than by asking its editor.",
+ "⛔_this_is_a_screen_not_a_reading": "A keyword classifier cannot read a paper and is wrong in both directions on individual records. The candidates are listed with their titles and PMIDs so the ones that matter are read directly; the count alone establishes nothing.",
+ "⚠_precedent_is_not_acceptance": "This answers whether the journal has published work of this shape. It does not predict whether this manuscript is sent for review.",
+ "_method": "esearch over the journal, efetch for title/abstract/publication types. A record counts as computation-only when its abstract matches no wet-lab pattern and at least one computational pattern. Records with no usable abstract are excluded and counted separately.",
+ "journal": "Nucleic Acid Ther",
+ "n_indexed": 614,
+ "n_with_abstract": 574,
+ "n_without_usable_abstract": 40,
+ "n_computation_only_candidates": 31,
+ "publication_types_seen": [
+  "<PublicationType UI=\"D003160\">Comparative Study",
+  "<PublicationType UI=\"D016421\">Editorial",
+  "<PublicationType UI=\"D016422\">Letter",
+  "<PublicationType UI=\"D016423\">Conference Proceedings",
+  "<PublicationType UI=\"D016425\">Published Erratum",
+  "<PublicationType UI=\"D016428\">Journal Article",
+  "<PublicationType UI=\"D016431\">Guideline",
+  "<PublicationType UI=\"D016446\">Consensus Statement",
+  "<PublicationType UI=\"D016449\">Randomized Controlled Trial",
+  "<PublicationType UI=\"D016454\">Review",
+  "<PublicationType UI=\"D016456\">Historical Article",
+  "<PublicationType UI=\"D017426\">Clinical Trial, Phase I",
+  "<PublicationType UI=\"D017427\">Clinical Trial, Phase II",
+  "<PublicationType UI=\"D017428\">Clinical Trial, Phase III",
+  "<PublicationType UI=\"D019215\">Biography",
+  "<PublicationType UI=\"D023362\">Evaluation Study",
+  "Clinical Trial, Phase II",
+  "Clinical Trial, Phase III",
+  "Comment",
+  "Editorial",
+  "Historical Article",
+  "Introductory Journal Article",
+  "Journal Article",
+  "Lecture",
+  "Meta-Analysis",
+  "Multicenter Study",
+  "Personal Narrative",
+  "Portrait",
+  "Randomized Controlled Trial",
+  "Research Support, N.I.H., Extramural",
+  "Research Support, N.I.H., Intramural",
+  "Research Support, Non-U.S. Gov't",
+  "Research Support, U.S. Gov't, Non-P.H.S.",
+  "Research Support, U.S. Gov't, P.H.S.",
+  "Review",
+  "Validation Study"
+ ],
+ "candidates": [
+  {
+   "pmid": "39912803",
+   "year": 2025,
+   "title": "Assessing Hybridization-Dependent Off-Target Risk for Therapeutic Oligonucleotides: Updated Industry Recommendations.",
+   "markers": [
+    "in silico",
+    "machine learning",
+    "prediction"
+   ],
+   "pub_types": [
+    "<PublicationType UI=\"D016428\">Journal Article",
+    "Review"
+   ]
+  },
+  {
+   "pmid": "40608538",
+   "year": 2025,
+   "title": "Molecular Modeling of Antisense Oligonucleotide Analogs.",
+   "markers": [
+    "computational",
+    "molecular dynamics",
+    "simulation"
+   ],
+   "pub_types": [
+    "<PublicationType UI=\"D016428\">Journal Article",
+    "Review",
+    "Research Support, Non-U.S. Gov't"
+   ]
+  },
+  {
+   "pmid": "38227794",
+   "year": 2024,
+   "title": "Safety and Tolerability of GalNAc3-Conjugated Antisense Drugs Compared to the Same-Sequence 2'-O-Methoxyethyl-Modified Antisense Drugs: Results from an Integrated Assessment of Phase 1 Clinical Trial Data.",
+   "markers": [
+    "database"
+   ],
+   "pub_types": [
+    "<PublicationType UI=\"D017426\">Clinical Trial, Phase I",
+    "Journal Article",
+    "Research Support, Non-U.S. Gov't"
+   ]
+  },
+  {
+   "pmid": "39311689",
+   "year": 2024,
+   "title": "An Evaluation of First-in-Human Studies for RNA Oligonucleotides.",
+   "markers": [
+    "prediction"
+   ],
+   "pub_types": [
+    "<PublicationType UI=\"D016428\">Journal Article",
+    "Review"
+   ]
+  },
+  {
+   "pmid": "36735616",
+   "year": 2023,
+   "title": "Drug Metabolism and Pharmacokinetics of Antisense Oligonucleotide Therapeutics: Typical Profiles, Evaluation Approaches, and Points to Consider Compared with Small Molecule Drugs.",
+   "markers": [
+    "prediction"
+   ],
+   "pub_types": [
+    "<PublicationType UI=\"D016428\">Journal Article",
+    "Review"
+   ]
+  },
+  {
+   "pmid": "34788571",
+   "year": 2022,
+   "title": "Long-Term Safety and Efficacy Data of Golodirsen in Ambulatory Patients with Duchenne Muscular Dystrophy Amenable to Exon 53 Skipping: A First-in-human, Multicenter, Two-Part, Open-Label, Phase 1/2 Trial.",
+   "markers": [
+    "predicted"
+   ],
+   "pub_types": [
+    "<PublicationType UI=\"D017426\">Clinical Trial, Phase I",
+    "Clinical Trial, Phase II",
+    "Journal Article",
+    "Multicenter Study",
+    "Randomized Controlled Trial",
+    "Research Support, Non-U.S. Gov't"
+   ]
+  },
+  {
+   "pmid": "35833796",
+   "year": 2022,
+   "title": "Antisense Oligonucleotide Rescue of Deep-Intronic Variants Activating Pseudoexons in the 6-Pyruvoyl-Tetrahydropterin Synthase Gene.",
+   "markers": [
+    "predicted"
+   ],
+   "pub_types": [
+    "<PublicationType UI=\"D016428\">Journal Article",
+    "Research Support, Non-U.S. Gov't"
+   ]
+  },
+  {
+   "pmid": "33891483",
+   "year": 2021,
+   "title": "Interspecies Scaling of Human Clearance and Plasma Trough Exposure for Antisense Oligonucleotides: A Retrospective Analysis of GalNAc3-Conjugated and Unconjugated-Antisense Oligonucleotides.",
+   "markers": [
+    "predicted",
+    "prediction"
+   ],
+   "pub_types": [
+    "<PublicationType UI=\"D016428\">Journal Article",
+    "Research Support, Non-U.S. Gov't"
+   ]
+  },
+  {
+   "pmid": "34097476",
+   "year": 2021,
+   "title": "Delivery of Antisense RNA Therapeutics: Turning Negative Results Into a Positive Development.",
+   "markers": [
+    "predicted"
+   ],
+   "pub_types": [
+    "<PublicationType UI=\"D016421\">Editorial",
+    "Introductory Journal Article"
+   ]
+  },
+  {
+   "pmid": "34242101",
+   "year": 2021,
+   "title": "Improvements in the Tolerability Profile of 2'-O-Methoxyethyl Chimeric Antisense Oligonucleotides in Parallel with Advances in Design, Screening, and Other Methods.",
+   "markers": [
+    "database"
+   ],
+   "pub_types": [
+    "<PublicationType UI=\"D016428\">Journal Article",
+    "Research Support, Non-U.S. Gov't"
+   ]
+  },
+  {
+   "pmid": "34388351",
+   "year": 2021,
+   "title": "Transcriptome-Wide Off-Target Effects of Steric-Blocking Oligonucleotides.",
+   "markers": [
+    "in silico",
+    "machine learning"
+   ],
+   "pub_types": [
+    "<PublicationType UI=\"D016428\">Journal Article"
+   ]
+  },
+  {
+   "pmid": "31990606",
+   "year": 2020,
+   "title": "Pyrene-Modified DNA Aptamers with High Affinity to Wild-Type EGFR and EGFRvIII.",
+   "markers": [
+    "docking"
+   ],
+   "pub_types": [
+    "<PublicationType UI=\"D016428\">Journal Article",
+    "Research Support, Non-U.S. Gov't"
+   ]
+  },
+  {
+   "pmid": "32125928",
+   "year": 2020,
+   "title": "Likelihood of Nonspecific Activity of Gapmer Antisense Oligonucleotides Is Associated with Relative Hybridization Free Energy.",
+   "markers": [
+    "free energy",
+    "predicted"
+   ],
+   "pub_types": [
+    "<PublicationType UI=\"D016428\">Journal Article",
+    "Research Support, Non-U.S. Gov't"
+   ]
+  },
+  {
+   "pmid": "32286934",
+   "year": 2020,
+   "title": "Population Pharmacokinetic-Pharmacodynamic Modeling of Inotersen, an Antisense Oligonucleotide for Treatment of Patients with Hereditary Transthyretin Amyloidosis.",
+   "markers": [
+    "simulation"
+   ],
+   "pub_types": [
+    "<PublicationType UI=\"D017426\">Clinical Trial, Phase I",
+    "Clinical Trial, Phase II",
+    "Clinical Trial, Phase III",
+    "Journal Article",
+    "Randomized Controlled Trial",
+    "Research Support, Non-U.S. Gov't"
+   ]
+  },
+  {
+   "pmid": "30864877",
+   "year": 2019,
+   "title": "Probing the Nitroindole-Modified Central Loop of Thrombin Aptamer HD1 as a Recognition Site.",
+   "markers": [
+    "molecular dynamics"
+   ],
+   "pub_types": [
+    "<PublicationType UI=\"D016428\">Journal Article",
+    "Research Support, Non-U.S. Gov't"
+   ]
+  },
+  {
+   "pmid": "31107154",
+   "year": 2019,
+   "title": "Evaluation and Reduction of CRISPR Off-Target Cleavage Events.",
+   "markers": [
+    "algorithm",
+    "prediction"
+   ],
+   "pub_types": [
+    "<PublicationType UI=\"D016428\">Journal Article"
+   ]
+  },
+  {
+   "pmid": "30095329",
+   "year": 2018,
+   "title": "Role of Computationally Evaluated Target Specificity in the Hepatotoxicity of Gapmer Antisense Oligonucleotides.",
+   "markers": [
+    "computational",
+    "in silico"
+   ],
+   "pub_types": [
+    "<PublicationType UI=\"D016428\">Journal Article",
+    "Research Support, Non-U.S. Gov't"
+   ]
+  },
+  {
+   "pmid": "26720796",
+   "year": 2016,
+   "title": "Complement Propriety and Conspiracy in Nanomedicine: Perspective and a Hypothesis.",
+   "markers": [
+    "predictive"
+   ],
+   "pub_types": [
+    "<PublicationType UI=\"D016428\">Journal Article"
+   ]
+  },
+  {
+   "pmid": "27500826",
+   "year": 2016,
+   "title": "Truncation and Mutation of a Transferrin Receptor Aptamer Enhances Binding Affinity.",
+   "markers": [
+    "predicted"
+   ],
+   "pub_types": [
+    "<PublicationType UI=\"D016428\">Journal Article",
+    "Research Support, Non-U.S. Gov't"
+   ]
+  },
+  {
+   "pmid": "24444023",
+   "year": 2014,
+   "title": "Multiple microRNAs derived from chemically synthesized precursors regulate thrombospondin 1 expression.",
+   "markers": [
+    "predicted"
+   ],
+   "pub_types": [
+    "<PublicationType UI=\"D016428\">Journal Article",
+    "Research Support, Non-U.S. Gov't"
+   ]
+  },
+  {
+   "pmid": "25272198",
+   "year": 2014,
+   "title": "Chitosan nanoparticles for siRNA delivery: optimization of processing/formulation parameters.",
+   "markers": [
+    "predicted"
+   ],
+   "pub_types": [
+    "<PublicationType UI=\"D016428\">Journal Article",
+    "Research Support, Non-U.S. Gov't"
+   ]
+  },
+  {
+   "pmid": "23276255",
+   "year": 2013,
+   "title": "Annotation and specificity of existing genome-wide small interfering RNA libraries.",
+   "markers": [
+    "algorithm",
+    "database"
+   ],
+   "pub_types": [
+    "<PublicationType UI=\"D016428\">Journal Article"
+   ]
+  },
+  {
+   "pmid": "23557118",
+   "year": 2013,
+   "title": "Designing DNA barcodes orthogonal in melting temperature by simulated annealing optimization.",
+   "markers": [
+    "algorithm"
+   ],
+   "pub_types": [
+    "<PublicationType UI=\"D016428\">Journal Article"
+   ]
+  },
+  {
+   "pmid": "23971908",
+   "year": 2013,
+   "title": "Sequence-specific cleavage of BM2 gene transcript of influenza B virus by 10-23 catalytic motif containing DNA enzymes significantly inhibits viral RNA translation and replication.",
+   "markers": [
+    "predicted"
+   ],
+   "pub_types": [
+    "<PublicationType UI=\"D016428\">Journal Article"
+   ]
+  },
+  {
+   "pmid": "24206267",
+   "year": 2013,
+   "title": "Computational selection and experimental validation of allosteric ribozymes that sense a specific sequence of human telomerase reverse transcriptase mRNAs as universal anticancer therapy agents.",
+   "markers": [
+    "algorithm",
+    "computational",
+    "in silico"
+   ],
+   "pub_types": [
+    "<PublicationType UI=\"D016428\">Journal Article",
+    "Research Support, Non-U.S. Gov't"
+   ]
+  },
+  {
+   "pmid": "24279298",
+   "year": 2013,
+   "title": "A computationally designed DNA aptamer template with specific binding to phosphatidylserine.",
+   "markers": [
+    "computational"
+   ],
+   "pub_types": [
+    "<PublicationType UI=\"D016428\">Journal Article",
+    "Research Support, Non-U.S. Gov't"
+   ]
+  },
+  {
+   "pmid": "22809313",
+   "year": 2012,
+   "title": "Clinical expert panel on monitoring potential lung toxicity of inhaled oligonucleotides: consensus points and recommendations.",
+   "markers": [
+    "predictive"
+   ],
+   "pub_types": [
+    "<PublicationType UI=\"D016446\">Consensus Statement",
+    "Journal Article"
+   ]
+  },
+  {
+   "pmid": "21749299",
+   "year": 2011,
+   "title": "Dissection of the functional structure of aptamer17, which specifically recognizes differentiated PC12 cells.",
+   "markers": [
+    "predicted"
+   ],
+   "pub_types": [
+    "<PublicationType UI=\"D016428\">Journal Article",
+    "Research Support, Non-U.S. Gov't"
+   ]
+  },
+  {
+   "pmid": "21793789",
+   "year": 2011,
+   "title": "Nucleotide bias observed with a short SELEX RNA aptamer library.",
+   "markers": [
+    "bioinformatic",
+    "predicted"
+   ],
+   "pub_types": [
+    "<PublicationType UI=\"D016428\">Journal Article",
+    "Research Support, N.I.H., Extramural",
+    "Research Support, Non-U.S. Gov't"
+   ]
+  },
+  {
+   "pmid": "21916609",
+   "year": 2011,
+   "title": "Pharmacokinetic allometric scaling of oligonucleotides.",
+   "markers": [
+    "predict",
+    "predicted",
+    "predictive"
+   ],
+   "pub_types": [
+    "<PublicationType UI=\"D016428\">Journal Article"
+   ]
+  },
+  {
+   "pmid": "22004414",
+   "year": 2011,
+   "title": "Rational truncation of an RNA aptamer to prostate-specific membrane antigen using computational structural modeling.",
+   "markers": [
+    "algorithm",
+    "computational",
+    "docking",
+    "prediction",
+    "structural model"
+   ],
+   "pub_types": [
+    "<PublicationType UI=\"D016428\">Journal Article",
+    "Research Support, N.I.H., Extramural",
+    "Research Support, Non-U.S. Gov't"
+   ]
+  }
+ ]
+}
