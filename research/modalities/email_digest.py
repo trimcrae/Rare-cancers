@@ -59,6 +59,109 @@ SYSTEM = (
 )
 
 
+# --- the treatment headlines, lifted straight from the digest -------------------------------
+# WHY THIS IS NOT LEFT TO THE SUMMARY. The email body is whatever prose the filter chain
+# produced, and that chain has three stages in series (a scheduled Claude session's prompt >
+# SYSTEM above > the fallback). The stage that usually wins is a prompt stored OUTSIDE this
+# repository, in the claude.ai Routines UI, which no commit here can reach. That is precisely
+# how the 2026-08-19 INTerpath-001 readout was lost: the prompt asked only for methods.
+# So the highest-consequence rows do not depend on any of it — they are read off the generated
+# digest deterministically and shown above the prose. If the summary already covers them, this
+# block is a two-line duplicate; if the summary is stale, narrow or missing, it is the only
+# place the news appears. That asymmetry is the whole argument for it.
+NEWS_SECTION = "### News feeds"
+HEADLINE_CAP = 6
+CAVEAT = "Treatment headlines this week — reported, not verified; read the source before citing."
+
+
+def treatment_headlines(md, cap=HEADLINE_CAP):
+    """Fresh ('🆕') items under the digest's news-feed subsection, deduped, breadth-first.
+
+    ORDERING IS NOT BY DATE, deliberately. The digest prints its news rows in our own priority
+    order (the broad pivotal-readout catch-all first, then the modality rows that map onto a
+    route, then sarcoma, then approvals), and a straight date sort throws that away — the first
+    render of this block put a generic ASCO Post round-up above the Phase 3 readout because it
+    was a day newer. So items are taken breadth-first: the top item of each row, then the second
+    of each, until the cap. Every priority row gets a voice before any row gets a second one.
+
+    Returns [] when the digest has no news section (an older digest, or a generator that failed
+    before it) — the caller then renders nothing, which is correct: absence of a section is not
+    a claim that the week was quiet.
+    """
+    lines = md.splitlines()
+    try:
+        start = next(i for i, ln in enumerate(lines) if ln.strip().startswith(NEWS_SECTION))
+    except StopIteration:
+        return []
+    rows, cur = [], None
+    for ln in lines[start + 1:]:
+        st = ln.strip()
+        if st.startswith("## "):  # next top-level watch; the news section is over
+            break
+        if st.startswith("#### "):
+            cur = []
+            rows.append(cur)
+            continue
+        m = re.match(r"^-\s*🆕\s*\*\*(?P<date>[^*]+)\*\*\s*—\s*(?P<rest>.+)$", st)
+        if not m or cur is None:
+            continue
+        rest = m.group("rest")
+        lm = re.search(r"(https?://\S+)", rest)
+        cur.append({
+            "date": m.group("date").strip(),
+            "title": rest.split(" — http")[0].strip(),
+            "link": lm.group(1) if lm else "",
+        })
+    out, seen = [], set()
+    for depth in range(max((len(r) for r in rows), default=0)):
+        for row in rows:
+            if depth >= len(row):
+                continue
+            h = row[depth]
+            # Dedupe on the headline text before the outlet suffix: one story legitimately appears
+            # under several feeds, and six copies of one readout is not six headlines.
+            key = re.sub(r"[^a-z0-9]+", " ", h["title"].split(" - ")[0].lower()).strip()[:70]
+            if not key or key in seen:
+                continue
+            seen.add(key)
+            out.append(h)
+            if len(out) >= cap:
+                return out
+    return out
+
+
+def headlines_md(items):
+    """Plain-text headline block, or '' when there is nothing fresh.
+
+    NO URLs here. These are Google News redirect links — hundreds of base64 characters each —
+    and six of them turn the text alternative into a wall. The HTML part carries the links on
+    the titles; the text part carries the headlines and the outlet, which is what a plain-text
+    reader can actually use.
+    """
+    if not items:
+        return ""
+    L = ["**" + CAVEAT + "**"]
+    L += [f"- **{h['date']}** — {h['title']}" for h in items]
+    return "\n".join(L)
+
+
+def headlines_html(items):
+    """HTML headline block with the title as the link, or '' when there is nothing fresh.
+
+    Built directly rather than through md_to_html, which escapes markup and has no link syntax.
+    """
+    if not items:
+        return ""
+    L = [f'<div style="font-weight:700;margin:0 0 6px">{esc(CAVEAT)}</div>',
+         '<ul style="margin:0;padding-left:20px">']
+    for h in items:
+        t = esc(h["title"])
+        body = f'<a href="{esc(h["link"])}" style="color:#2b6cb0">{t}</a>' if h["link"] else t
+        L.append(f'<li style="margin:3px 0"><b>{esc(h["date"])}</b> — {body}</li>')
+    L.append("</ul>")
+    return "".join(L)
+
+
 def _summary_override():
     """A summary written elsewhere (e.g. by a scheduled Claude session that reads the digest and
     filters it down, committed to email-outbox/newsletter-summary.md). This is the newsletter's
@@ -111,7 +214,7 @@ FOOTER = (
 )
 
 
-def build_html(summary_md, date_line, md, include_full):
+def build_html(summary_md, date_line, md, include_full, headlines=None):
     """A clean, mobile-first newsletter: masthead, filtered summary body, small footer."""
     summary_html = md_to_html(summary_md)
     P = []
@@ -127,6 +230,13 @@ def build_html(summary_md, date_line, md, include_full):
              '<div style="font-size:13px;color:#718096;margin-top:4px">Cancer treatment news, and the '
              'in-silico capabilities and NR4A3 advances worth knowing about this week.</div></div>')
     P.append('<div style="height:1px;background:#e2e8f0;margin:0 24px"></div>')
+    # treatment headlines, read off the digest rather than out of the prose (see the comment on
+    # treatment_headlines). Rendered ABOVE the summary because a pivotal readout outranks it.
+    hl = headlines_html(headlines or [])
+    if hl:
+        P.append('<div style="margin:14px 24px 4px;padding:12px 14px;background:#fffaf0;'
+                 'border-left:3px solid #dd6b20;border-radius:6px;font-size:14px;line-height:1.55;'
+                 f'color:#2d3748">{hl}</div>')
     # body (the filtered summary IS the newsletter)
     P.append(f'<div style="padding:16px 24px 8px;font-size:15px;line-height:1.6;color:#2d3748">'
              f'{summary_html}</div>')
@@ -143,8 +253,12 @@ def build_html(summary_md, date_line, md, include_full):
     return "\n".join(P)
 
 
-def build_text(summary_md, date_line, md, include_full):
-    L = ["METHOD-WATCH NEWSLETTER", date_line, "=" * 40, "", summary_md, ""]
+def build_text(summary_md, date_line, md, include_full, headlines=None):
+    L = ["METHOD-WATCH NEWSLETTER", date_line, "=" * 40, ""]
+    hl = headlines_md(headlines or [])
+    if hl:
+        L += [hl, ""]
+    L += [summary_md, ""]
     if include_full:
         L += ["-" * 40, "FULL DIGEST (every source):", "", md]
     else:
@@ -173,10 +287,11 @@ def main():
     # session reads this digest, drops the keyword-collision noise, and commits the readable summary.
     summary_md = _summary_override() or llm_summarize(md, SYSTEM, max_tokens=900) or fallback_summary(md, title)
 
+    headlines = treatment_headlines(md)
     date_line = digest_date(md)
     subject = subject_line(summary_md, date_line)
-    text = build_text(summary_md, date_line, md, include_full)
-    html = build_html(summary_md, date_line, md, include_full)
+    text = build_text(summary_md, date_line, md, include_full, headlines)
+    html = build_html(summary_md, date_line, md, include_full, headlines)
 
     if mode == "dry_run":
         Path("digest_email.html").write_text(html)
