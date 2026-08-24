@@ -57,15 +57,18 @@ grade it uses.
    checkpoint-responsive solid tumour; the other asked whether a vaccine alone beats nothing, in 144
    patients, in one of the least. Two trials cannot separate seven axes, and nothing in this memo should
    be read as a trend.
-2. **Neither 2026 result is evidence yet.** Both are company announcements with no publication and no
-   congress presentation `[PRESS]`. INTerpath-001 disclosed no effect size at all. AMPLIFY-7P disclosed
+2. **Neither 2026 result is evidence yet.** Both are company announcements, and **neither has a
+   peer-reviewed publication among the records retrieved for this memo** `[PRESS]`. INTerpath-001
+   disclosed no effect size at all, and its release says data will be presented at a future medical
+   meeting. AMPLIFY-7P disclosed
    no intent-to-treat effect size either — every efficacy number in its release is post-hoc, landmark or a
    responder split, and it also reports a baseline prognostic imbalance against its own treated arm. What
    each announcement *is* evidence of is that the announcement was made.
 3. **The published randomized evidence for individualized neoantigen therapy is thinner than the
-   headline.** Its one randomized publication, KEYNOTE-942, reported a recurrence-free-survival hazard
-   ratio of 0.561 (95% CI 0.309–1.017) at a two-sided p of 0.053 — its own primary endpoint did not
-   reach the conventional cut `[PRIMARY]`. The 5-year update is explicitly descriptive `[PRIMARY]`.
+   headline.** The only randomized publication of this agent among the records retrieved here,
+   KEYNOTE-942, reported a recurrence-free-survival hazard ratio of 0.561 (95% CI 0.309–1.017) at a
+   two-sided p of 0.053 — its own primary endpoint did not reach the conventional cut `[PRIMARY]`. The
+   5-year update is explicitly descriptive `[PRIMARY]`.
 4. **Shared neoantigen vaccines are not failing for want of immunogenicity.** The shared mKRAS
    amphiphile vaccine raised direct *ex vivo* mKRAS-specific T-cell responses in 21 of 25 patients in its
    phase 1 `[PRIMARY]`. Where a shared multi-epitope vaccine did fail cleanly, in advanced solid tumours,
@@ -157,9 +160,9 @@ nothing*.
 - The shared platform is **highly immunogenic**: 21 of 25 patients raised direct *ex vivo*
   mKRAS-specific T cells `[PRIMARY]`. Whatever went wrong in AMPLIFY-7P, "shared antigens do not raise
   T cells" is not supported.
-- The individualized platform's **own randomized publication missed the conventional cut** on its
-  primary endpoint (p=0.053) `[PRIMARY]`, and its most recent update is descriptive `[PRIMARY]`. The
-  Phase 3 that would settle it is unpublished `[PRESS]`.
+- The individualized platform's **only randomized publication retrieved here missed the conventional
+  cut** on its primary endpoint (p=0.053) `[PRIMARY]`, and its most recent update is descriptive
+  `[PRIMARY]`. The Phase 3 that would settle it is unpublished `[PRESS]`.
 - The individualized platform has a **terminated** study in another resected solid tumour `[REGISTRY]`.
   Platform-level success is not uniform across diseases, which is the same conclusion the confounding
   table forces.
@@ -229,8 +232,10 @@ finding of absence.
 ### 5.1 INTerpath-001
 
 - Hazard ratio, confidence interval, p-value, event counts, absolute RFS or DMFS difference, median
-  follow-up, and every subgroup result: **not disclosed**, and no publication or congress presentation
-  exists as of 2026-08-24.
+  follow-up, and every subgroup result: **not disclosed**. No peer-reviewed publication of this trial
+  appears among the Europe PMC records retrieved on 2026-08-24, and the release itself says the data
+  will be presented at a future medical meeting. **That is a statement about what these searches
+  returned, not proof that nothing exists.**
 - The release states 1,137 patients enrolled; the registry record's enrollment count is 1,089. **This
   memo cannot reconcile the two and does not assert either as the analysis population.**
 - Whether the RFS benefit is attributable to the neoantigen content, to the mRNA-LNP platform's own
