@@ -6,7 +6,7 @@ name: tests (modalities)
 #
 # ⭐ TWO JOBS, NOT ONE, SINCE 2026-08-24 — and the name is now the fastest thing about a red build:
 #   `gates`   the doc linters, the artifact `--check` verify modes and the CI-shape guards.  ~2 min.
-#   `pytest`  the ~9,200-test suite over modalities / manuscripts / systems / scripts.        ~7 min.
+#   `pytest`  the ~9,200-test suite over modalities / manuscripts / systems / scripts.       ~10 min.
 # Neither `needs:` the other, so a guard failure can no longer skip the suite and the suite's
 # runtime no longer hides the guards. The rationale and the measurements are at each job.
 
@@ -439,6 +439,26 @@ jobs:
         # a reliable tripwire when two modules skip for the same reason at the same line. Assert on
         # the PASSED/FAILED node IDs, never on the skip tally.
         #
+        # ⭐ AND HERE IS THE MEASUREMENT IN CI ITSELF, run 32723621338, which is the only one that
+        # measures the real population — SO THE LOCAL RATIO ABOVE MUST NOT BE QUOTED AS THIS
+        # WORKFLOW'S SPEEDUP:
+        #     before (serial, run 32717951013)   9233 passed, 52 skipped in 1132.19s
+        #     after  (-n 4,   run 32723621338)   9233 passed, 52 skipped in  582.94s   1.94x
+        # The verdict is byte-identical. ⚠ The dev sandbox lacks numpy/scipy/rdkit/boto3, so it runs
+        # 8,615 passed + 59 failed + 36 errors where CI runs 9,233 passed: the two boxes execute
+        # DIFFERENT POPULATIONS, and scaling the local wall clock to predict this one was wrong by
+        # 35 % when it was tried. Local parity answers "is the verdict the same?"; only CI answers
+        # "how long does it take?".
+        # ⭐ The skip-tally artifact documented above does NOT appear here, as expected: numpy is
+        # installed in CI, so neither numpy-guarded module skips, and both runs report 52.
+        # ⚠ 1.94x is well short of the 4x an ideal split would give, and WHY is NOT established —
+        # the plausible mechanism is that `--dist loadfile` bounds the critical path by the slowest
+        # single FILE, and the heaviest here are whole files (test_nrv04_retro_collect_contract.py
+        # ~126 s across four tests, test_ternary_ligand_identification.py ~101 s), but
+        # `--durations` cannot show per-worker totals so that is a hypothesis, not a finding. Do not
+        # write it down as a cause without measuring per-worker load. The headroom is real and
+        # unclaimed; `--dist loadfile` is not negotiable for it (see above).
+
         # ⛔ `-n 4`, NOT `-n auto`. `auto` follows whatever the runner reports, so a runner-image
         # change silently changes how this suite is distributed — and the parity above was measured
         # at 4. A hosted `ubuntu-latest` runner is 4 cores today; if that changes, re-measure parity
