@@ -18,6 +18,25 @@ _backfilled: true
 moment a specific in-silico capability becomes usable. This file is the **watch config +
 trigger table** (what to look for, and what to do when it appears).
 
+> **★ 2026-08-24 — LAYER 1'S NON-DELIVERY HAS A NAMED CAUSE NOW, NOT JUST A SYMPTOM.** This file has
+> recorded since 2026-08-03 that the field-scan Routine "has never written an entry" without saying why.
+> The discriminating observation is in the Routine's own stored config (`list_triggers`, $0): the weekly
+> **newsletter** Routine (`trig_01Rjh49ujsZttmDSbTki58tT`, `created_via: http_api` — the claude.ai UI)
+> carries a `sources: [git_repository trimcrae/Rare-cancers]` entry in its session context; the
+> **field-scan** Routine (`trig_01X5xHy1cmkLjkATEijZSNJf`, `created_via: meta_mcp` — agent-created)
+> carries **no `sources` at all**. Its STEP 0 is `git fetch origin main && git checkout main`, which has
+> nothing to check out, so the run dies before it scans anything — which is exactly the ⚠ two sections
+> below, the one that says an agent-created Routine does not get the repo grant. It has fired every
+> Friday and produced nothing since 2026-07-13, and its `last_run` is a firing, not a delivery.
+> ⛔ **A FIRED ROUTINE IS NOT A DELIVERED ONE** — read the artifact it was supposed to write, never its
+> fire record. **Fix requires trimcrae:** recreate it from the claude.ai Routines UI with the repo
+> attached as a source. Nothing in this repository can grant it.
+>
+> ⚠ This matters for scope as well as liveness: layer 1 is the layer whose prompt ALREADY covers
+> immunotherapy, neoantigen and "any new solid-tumor modality". Had it been running, it — not layer 2 —
+> would have been the natural home for the 2026-08-19 INTerpath-001 readout. Layer 2 has been carrying
+> the newsletter alone for six weeks, which is why its methods-only scope was load-bearing.
+
 **Three automated layers now run this watch.** ⚠ **AND ONE OF THEM HAS NOT BEEN DELIVERING — checked
 2026-08-03, free, from committed history rather than assumed.** Layer 1's Routine is credited in this file and
 in `IDEAS.md` with auto-capturing advances to `main`, and **it has never written an entry**:
