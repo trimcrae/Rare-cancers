@@ -324,7 +324,8 @@ Stated as falsifiers, so that a future session can check them rather than re-arg
 1. **A shared, truncal, fully tumour-specific fusion-junction vaccine fails on a checkpoint backbone, in
    a checkpoint-responsive fusion-driven tumour, with adequate power.** That would attack the antigen
    class itself rather than the setting, and it is the single result that would most damage this route.
-   Nothing of that shape exists today.
+   **No result of that shape appears among the records retrieved for this memo** — which is a statement
+   about these searches, not proof that none exists.
 2. **Immunopeptidomics on EMC tissue or a patient-derived line finds no junction peptide presented.**
    This bounds the whole route and is already listed as a required validation, blocked on
    `BLK-NO-EMC-DATA`.
