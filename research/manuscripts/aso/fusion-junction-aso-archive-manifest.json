@@ -10,10 +10,10 @@
     "Not a licence statement. The depositor chooses the licence at step 4 below."
   ],
   "deposition_doi": "10.5281/zenodo.22061075",
-  "git_revision": "5f76b984ba23043b97b9979194d6f6f684c9c961",
-  "git_tree_is_clean_apart_from_this_manifest": true,
+  "git_revision": "7c989d4760a6f4be6210fbc3d3bf2d66187af1b9",
+  "git_tree_is_clean_apart_from_this_manifest": false,
   "inventory_limited_to_tracked_files": true,
-  "archive_content_digest": "4ca2e379b5dbd2e552fdbf7db5f5fcdd306762a438bbf8768eed40158fa2bdad",
+  "archive_content_digest": "73547eadc77d75ac157a6b4f418d982a7ad983f9666a9ea635e268fbda077843",
   "n_files": 483,
   "self_entry": {
     "path": "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
@@ -24,18 +24,18 @@
     "_why_not_counted": "It is excluded from `files`, `n_files`, `total_bytes` and `archive_content_digest` for the same reason, which is also what keeps two runs over an unchanged tree byte-identical — the property this module's header calls the only cheap check a reader has that the file is derived rather than edited.",
     "how_a_reader_checks_it_anyway": "Two ways, neither needing a self-hash. (1) Re-derive it: check out `git_revision` and run `python3 research/manuscripts/aso_archive_manifest.py --check`, which rebuilds the whole file and exits non-zero on any difference. (2) Compare the downloaded copy's `sha256sum` against the value the deposition record states — step 4 below tells the depositor to record it there, which is the one place it can live without being self-referential."
   },
-  "total_bytes": 47315141,
-  "total_mib": 45.123,
+  "total_bytes": 47319266,
+  "total_mib": 45.127,
   "payload_file_types": {
     "_what": "Extension census of the payload, derived from the file list. A preprint or journal uploader that accepts only document, image and container types cannot take most of these one by one; step 3 below builds the single container that sidesteps the question entirely. Check the accepted types on the uploader itself — none is asserted here.",
     "by_extension": {
       ".json": {
         "n_files": 382,
-        "bytes": 35866034
+        "bytes": 35870154
       },
       ".py": {
         "n_files": 68,
-        "bytes": 3014753
+        "bytes": 3014758
       },
       ".md": {
         "n_files": 13,
@@ -963,8 +963,8 @@
   "files": [
     {
       "path": "research/data/emc-clinical-registry.json",
-      "bytes": 95792,
-      "sha256": "bd51d023b8d907165ca324165c4e2ce9766308793f1f091bad2e5dd9e5ef9e2b",
+      "bytes": 99912,
+      "sha256": "56619d1eac1cc62958e75af53a732fedae5cbffce91fa31f28ddb10b2c3edf9f",
       "serves": "retrieval_records",
       "also_serves": [],
       "contributes": "Bibliographic record each numbered reference was rendered from, and the retrieval products those records were harvested out of. No field in the reference list is typed from recollection."
@@ -1615,8 +1615,8 @@
     },
     {
       "path": "research/manuscripts/lint_style.py",
-      "bytes": 25981,
-      "sha256": "1afce0103c37838c038bc8698fbc1abd8625b9318fa41827925ed801c0249440",
+      "bytes": 25986,
+      "sha256": "cabde9d828654466410e23ad044ead179a744b11be1c0ead50e5fb72fba7d190",
       "serves": "reproduction_command",
       "also_serves": [],
       "contributes": "Re-derives every offline-derivable artefact below in dependency order and re-runs the consistency, citation and style gates; the command a reader is told to run to establish that this archive is current. The script AND every step it invokes that no other row here already carries."

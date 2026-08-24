@@ -1,9 +1,15 @@
 name: Method-watch
 
-# Periodic digest of the in-silico capabilities we are waiting on (virtual-cell /
-# perturbation prediction, AF3-class ternary modelling, de-novo binder design, cryptic
-# pockets, and in-silico oligo/nanoparticle tumour-DELIVERY prediction, + direct NR4A3
-# advances). Runs scripts/method-watch.mjs and publishes the dated digest to the
+# Weekly newsletter digest. Four watches, in the order the digest prints them:
+#   1. CLINICAL / TREATMENT NEWS (added 2026-08-24) — ClinicalTrials.gov API v2 + dated
+#      RSS/Atom feeds. This is the only layer that can carry a trial readout announced by
+#      press release; before it existed, a Phase 3 topline could not appear in the
+#      newsletter by any query. It leads the digest because it outranks everything below.
+#   2. The in-silico capabilities we are waiting on (virtual-cell / perturbation
+#      prediction, AF3-class ternary modelling, de-novo binder design, cryptic pockets,
+#      in-silico oligo/nanoparticle tumour-DELIVERY prediction, + direct NR4A3 advances).
+#   3. Tool / model releases.  4. Open AI/compute funding (grants.gov).
+# Runs scripts/method-watch.mjs and publishes the dated digest to the
 # `method-watch-cache` branch. Read it with:
 #   git fetch origin method-watch-cache
 #   git show origin/method-watch-cache:research/method-watch-digest.md

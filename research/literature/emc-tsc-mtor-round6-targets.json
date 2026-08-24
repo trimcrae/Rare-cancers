@@ -1,0 +1,13 @@
+{
+  "_readme": "EMC x TSC1/TSC2, ROUND 6, 2026-08-24 -- VERIFY THE ONE POSITIVE. The whole measured frequency rests on a single sample, sarcoma_msk_2022-2691, carrying TSC2 Q955*. Before that number is quoted anywhere, two things about that sample should be checked against the record rather than assumed: (a) its full clinical annotation, to confirm the histology call really is Extraskeletal Myxoid Chondrosarcoma and to read whatever else the cohort records about it; (b) whether it carries an NR4A3 structural variant. EMC is DEFINED by NR4A3 rearrangement, and sarcoma_msk_2022 carries a structural-variant profile, so an NR4A3 fusion in this sample would be independent confirmation that the histology label is not a mis-annotation -- and its ABSENCE would be a real caveat on the one data point the frequency depends on. The structural-variant endpoint's GET shape is not known from here, so several are tried; a 404 is information about the API and costs nothing. NR4A3 entrez id is fetched rather than assumed.",
+  "cbio_gene_nr4a3": "https://www.cbioportal.org/api/genes/NR4A3",
+  "cbio_gene_ewsr1": "https://www.cbioportal.org/api/genes/EWSR1",
+  "cbio_sample_2691_clinical": "https://www.cbioportal.org/api/studies/sarcoma_msk_2022/samples/sarcoma_msk_2022-2691/clinical-data?projection=DETAILED",
+  "cbio_sample_2691_record": "https://www.cbioportal.org/api/studies/sarcoma_msk_2022/samples/sarcoma_msk_2022-2691",
+  "cbio_patient_2691_clinical": "https://www.cbioportal.org/api/studies/sarcoma_msk_2022/patients/sarcoma_msk_2022-2691/clinical-data?projection=DETAILED",
+  "cbio_sv_shape_a": "https://www.cbioportal.org/api/molecular-profiles/sarcoma_msk_2022_structural_variants/structural-variant?sampleListId=sarcoma_msk_2022_sv&projection=DETAILED&pageSize=200000",
+  "cbio_sv_shape_b": "https://www.cbioportal.org/api/structural-variant?molecularProfileId=sarcoma_msk_2022_structural_variants&sampleListId=sarcoma_msk_2022_sv&projection=DETAILED&pageSize=200000",
+  "cbio_sv_shape_c": "https://www.cbioportal.org/api/molecular-profiles/sarcoma_msk_2022_structural_variants/structural-variants?sampleListId=sarcoma_msk_2022_sv&projection=DETAILED&pageSize=200000",
+  "cbio_sarcoma_msk_2022_clinical_attributes": "https://www.cbioportal.org/api/studies/sarcoma_msk_2022/clinical-attributes",
+  "cbio_sarcoma_msk_2022_oncotree_codes": "https://www.cbioportal.org/api/studies/sarcoma_msk_2022/clinical-data?attributeId=ONCOTREE_CODE&clinicalDataType=SAMPLE&projection=SUMMARY&pageSize=100000"
+}

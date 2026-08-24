@@ -2,7 +2,7 @@
 id: DOC-EMC-ICDO-9231-CLASSIFICATION
 title: "One code, three diseases: what a registry cohort selected on ICD-O-3 morphology 9231/3 actually contains"
 level: L3
-kind: manuscript
+kind: memo
 status: live
 canonical_for: []
 purpose: >-
@@ -15,7 +15,7 @@ scope: >-
   coding system can and cannot distinguish. It contains no new patient data, involved no
   wet-laboratory work, and makes no statement about treatment, efficacy, safety or what any
   patient should receive.
-audience: [external reviewers, collaborators, maintainers, autonomous research agents]
+audience: [maintainers, autonomous research agents]
 date: 2026-08-23
 last_verified: 2026-08-23
 related: [DOC-VIEW-RT-DIAGNOSTIC-PATHWAY]
@@ -23,47 +23,27 @@ related: [DOC-VIEW-RT-DIAGNOSTIC-PATHWAY]
 
 # One code, three diseases: what a registry cohort selected on ICD-O-3 morphology 9231/3 actually contains
 
-**Tristan D. McRae**
-
-*Independent researcher, unaffiliated.* Correspondence: trimcrae@gmail.com
-ORCID: [ORCID TO BE SUPPLIED BY THE AUTHOR BEFORE SUBMISSION]
-
-Running title: What a 9231/3 registry cohort contains
-
-<!-- EDITORIAL, NOT FOR SUBMISSION.
-SCOPE DECISION, trimcrae, 2026-08-23: publish the CODING half without waiting for the magnitude,
-and demote the naming argument to a cited paragraph. NOTE: THE PREMISE OF THE FIRST HALF OF THAT
-DECISION NO LONGER HOLDS AND HE HAS BEEN TOLD: the magnitude was recovered the same day from a
-cohort already published, so section 6 now MEASURES it instead of stating it as an open query. The
-decision to narrow to the coding half is unaffected and stands. See systems/graph/publications.json ->
-PUB-EMC-CLASSIFICATION.scope_decision. That decision fixed the SCOPE and the TITLE. It is not
-authorisation to post, submit or deposit; CLAUDE.md s3 requires the paper to be named for the act.
-TITLE HISTORY: this was "One code, two diseases" until the CBTRUS grouping document supplied a
-third published reading. Renamed on explicit instruction, never posted under the old title.
-EVERY NUMBER AND QUOTE HERE has a row in research/modalities/emc-icdo-contamination.json, which
-records how each was obtained and at what provenance level: [FT] full text read, [DOC] a primary
-document from the body that owns the thing described, [2o] a figure quoted from a review rather
-than from its source, [API] an abstract only.
-UNREAD AND SAID SO: PMID 32856598 is a subscription article; not in PMC, not open access, its
-publisher PDF URL serves a JavaScript shim, its DOI and article pages return HTTP 403. It is now an
-INDEPENDENT REPLICATION rather than the primary route, and section 6 says so.
-NOW READ: Table 1 of PMID 31283732. The PMC article HTML and its ?report=classic view do not inline
-table cells and the Europe PMC fullTextXML endpoint 404s for that PMCID — the article PDF, via the
-Europe PMC render, does. That route was not tried until it was pointed out that SEER access was
-being treated as the blocker when the free routes were not exhausted.
-NO FIGURE IS DRAWN. The natural display item is now a filled two-by-two of morphology against
-topography for the section 6 cohort — 404 soft tissue, 191 bone — rather than the mostly-empty grid
-this note previously described. -->
-
-> *Declarations for preprint deposit.* Ethics approval and consent were not required and were not
-> sought: this work analyses only published literature and public registry documentation, and
-> involves no human participants, no identifiable data and no patient-level records. Funding:
-> none. Competing interests: none. Data and code: section 7.
-
-> *Scope of the claims.* This is a classification and registry-epidemiology report. It asserts
-> nothing about treatment, efficacy, safety, therapeutic window or clinical readiness, and makes
-> no treatment recommendation, including a negative one. No count below is a patient count and
-> nothing below is a diagnosis.
+> ⛔ **THIS IS A RECORD, NOT A PAPER. Closed by trimcrae, 2026-08-23: "this is not a paper.
+> Document what we have, merge to main, and drop it."** It keeps its report shape because the
+> findings are easier to check that way, not because it is going anywhere. It has no author block,
+> no deposit declarations and no venue, and it is not in the prose-style gate's submission-text
+> list.
+>
+> **WHY IT IS NOT A PAPER, so nobody reopens this on the strength of the number alone.** The
+> measurement in section 6 is real and, as far as a bounded search could tell, unpublished. What it
+> lacks is a consequence. The paper would have had to say that querying this code without a
+> topography restriction is common practice — and this report's own corpus contradicts that. Of the
+> registry cohorts examined here, the radiotherapy series restricted to soft connective tissue, the
+> pan-sarcoma series excluded bone site codes explicitly, and the lymph node series classified by
+> topography and removed 404 cases by name. Three of the four checkable cohorts restrict. The one
+> that might not is a subscription article nobody here has read. So the honest reading is that the
+> field already does the thing this report would have told it to do, and 32.1% prices that practice
+> rather than correcting an error.
+>
+> **What would have to change for this to become a paper again:** evidence that the largest and
+> most-cited EMC registry series did NOT restrict on topography, which needs its Methods section
+> and therefore a library subscription. Absent that, the number belongs here, as a thing the next
+> person designing a registry study of this disease should know.
 
 ## Abstract
 
@@ -87,8 +67,10 @@ Its magnitude has never been reported. We recover it from a single published coh
 both halves: of 595 records carrying morphology 9231/3 in SEER 18 for 1988 to 2015, 404 had a
 soft-tissue primary and 191 a bone primary, so at least 32% of a morphology-only 9231/3 pull is
 bone. Both identified biases push that figure down, and an adjustment for the one whose direction
-is known gives about 38%. A cohort assembled by querying 9231/3 without a topography restriction,
-which is the standard construction in this literature, is therefore not a soft-tissue cohort.
+is known gives about 38%. We do not claim that querying without a topography restriction is common
+practice: of the registry cohorts examined here, most restrict explicitly, and the value of the
+figure is that it prices what that restriction is worth rather than that it corrects widespread
+error.
 
 **Keywords:** extraskeletal myxoid chondrosarcoma; ICD-O-3; cancer registry; SEER; morphology
 coding; misclassification.
@@ -123,9 +105,10 @@ is already acknowledged in print. Fourth, it is large: at least a third of a mor
 
 The largest published registry series of EMC states its selection in one sentence: "We queried the
 SEER 1973-2016 database for patients with myxoid chondrosarcoma (ICD-O-3: 9231/3)" [1]. No
-topography restriction is stated. This is the standard construction in the EMC registry
-literature, and every population-level EMC figure in common circulation descends from a query of
-this shape.
+topography restriction is stated in the abstract, and we have not read the Methods, so whether one
+was applied is unknown to us. We flag this rather than assert it: most of the registry cohorts
+examined in this report do restrict on topography explicitly, and this study is the one whose
+selection we cannot check.
 
 ### 2.2 A histological subtype of chondrosarcoma of bone
 

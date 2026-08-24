@@ -69,7 +69,14 @@ CONSTRUCT_DESIGNS = os.path.join(HERE, "emc-fet-construct-designs.json")
 IDR_CENSUS = os.path.join(HERE, "emc-fet-idr-census.json")
 STRUCTURE = os.path.join(HERE, "nr4a3-structure-assessment.json")
 
-AFDB = "https://alphafold.ebi.ac.uk/files/AF-{acc}-F1-model_v4.pdb"
+# ⛔ RESOLVE THE URL, DO NOT SPELL IT. This was `.../AF-{acc}-F1-model_v4.pdb` and every accession
+# returned 404 in CI (run 32676756175): AlphaFold DB bumps the model version and the old filename
+# stops existing. A version baked into a URL is a remembered fact with a date on it. The API says
+# which file is current, and the resolved URL and version are recorded in the artifact so a future
+# reader knows which model the eligibility table was read from.
+AFDB_API = "https://alphafold.ebi.ac.uk/api/prediction/{acc}"
+AFDB_FILES = "https://alphafold.ebi.ac.uk/files/AF-{acc}-F1-model_v{v}.pdb"
+AFDB_FALLBACK_VERSIONS = (6, 5, 4)
 ACCESSIONS = {"EWSR1": "Q01844", "TAF15": "Q92804", "FUS": "P35637",
               "NR4A3": "Q92570", "TCF12": "Q99081"}
 
@@ -101,7 +108,15 @@ PROTOCOL = {
 }
 
 MIN_FRAMES_ANALYSED = 900          # of the 1000 kept after discarding the first 10
-NU_PHYSICAL_RANGE = (0.30, 0.75)   # outside this the integration is broken, not the biology
+# ⚠ AMENDMENT 1 (2026-08-24, before any production run). These were ONE range and that conflated
+# "this chain is compact" with "the integration is broken". The globule limit for a polymer is
+# nu = 1/3, and a finite compact chain can fit BELOW it, so a lower bound of 0.30 would have
+# withheld a real result as an instrument failure. Split, with the reporting made STRICTER rather
+# than looser: outside NU_BROKEN nothing is quoted; outside NU_EXPECTED the value stands but the
+# construct is FLAGGED and its convergence diagnostic must be quoted with it.
+NU_BROKEN_RANGE = (0.15, 0.95)     # outside this no fit of a real trajectory can land: withhold
+NU_EXPECTED_RANGE = (0.30, 0.75)   # outside this, report the value AND the flag AND the convergence
+NU_PHYSICAL_RANGE = NU_EXPECTED_RANGE   # retained name; superseded meaning, see Amendment 1
 ALPHA = 0.05
 SEPARATION_SIGMAS = 3.0            # |dnu| must clear this many pooled replicate SDs
 PLDDT_DISORDER_FRACTION = 0.75     # >= this fraction of window residues below pLDDT 50
@@ -397,8 +412,9 @@ def instrument_verdict(runs, by_construct, sigma):
             if not r.get(field):
                 bad.append(f"{r.get('run_id')}: missing provenance field {field}")
         nu = r.get("nu")
-        if nu is None or not (NU_PHYSICAL_RANGE[0] <= nu <= NU_PHYSICAL_RANGE[1]):
-            bad.append(f"{r.get('run_id')}: nu={nu} outside physical range {NU_PHYSICAL_RANGE}")
+        if nu is None or not (NU_BROKEN_RANGE[0] <= nu <= NU_BROKEN_RANGE[1]):
+            bad.append(f"{r.get('run_id')}: nu={nu} outside the non-physical bound "
+                       f"{NU_BROKEN_RANGE} — no fit of a real trajectory lands there")
     for cid, vals in by_construct.items():
         seeds = [r["random_number_seed"] for r in runs
                  if r.get("construct") == cid and r.get("random_number_seed") is not None]
@@ -456,6 +472,38 @@ def score(runs):
         for key, rej in holm(ps).items():
             pair_rows[key]["holm_reject_at_0.05"] = rej
     result["pairs"] = pair_rows
+
+    # Amendment 1: a value outside the EXPECTED range is reported with its convergence diagnostic,
+    # never silently. A compact globule is a result; a drifting fit is not.
+    flags = {}
+    for cid, vals in by_construct.items():
+        m_ = _mean(vals)
+        if not (NU_EXPECTED_RANGE[0] <= m_ <= NU_EXPECTED_RANGE[1]):
+            deltas = [r.get("nu_half_vs_full_delta") for r in runs
+                      if r.get("construct") == cid and r.get("nu_half_vs_full_delta") is not None]
+            flags[cid] = {
+                "nu_mean": m_, "expected_range": list(NU_EXPECTED_RANGE),
+                "nu_half_vs_full_delta_max": max(deltas) if deltas else None,
+                "_meaning": ("outside the expected range but inside the physical one. Reported, not "
+                             "withheld: the polymer globule limit is nu = 1/3 and a finite compact "
+                             "chain can fit below it. Quote the convergence delta alongside it."),
+            }
+    result["outside_expected_range"] = flags
+    conv = [r.get("nu_half_vs_full_delta") for r in runs
+            if r.get("nu_half_vs_full_delta") is not None]
+    if conv and sigma is not None:
+        n_drifting = sum(1 for d in conv if d > sigma)
+        result["convergence"] = {
+            "n_runs_with_a_delta": len(conv),
+            "max_half_vs_full_delta": max(conv),
+            "n_exceeding_pooled_sd": n_drifting,
+            "fraction_exceeding_pooled_sd": n_drifting / len(conv),
+            "converged": n_drifting / len(conv) <= 0.20,
+            "_rule": ("nu on the second half of each trajectory against nu on the whole "
+                      "post-equilibration trajectory. Reported, never gating: if more than 20% of "
+                      "runs drift by more than the pooled replicate SD, every nu is labelled "
+                      "PROVISIONAL rather than withheld."),
+        }
 
     prim = [pair_rows[f"{a}_vs_{b}"]["separated_D1"] for a, b in PRIMARY_FAMILY
             if f"{a}_vs_{b}" in pair_rows]
@@ -581,9 +629,22 @@ def analyse(rundir):
     rec = dict(prepared)
     rec["frames_written"] = n_total
     rec["frames_analysed"] = frames
+    # ⛔ `platform` and `threads` are read from the config the run ACTUALLY used, not from PROTOCOL.
+    # Measured 2026-08-24 in a local shakeout: this field was never populated at all, and because the
+    # scorer requires it, EVERY production run would have come back INSTRUMENT_FAILED. A required
+    # provenance field that nothing writes is the same defect as one nothing checks.
+    cfg_path = os.path.join(rundir, "config.yaml")
+    cfg_text = open(cfg_path).read() if os.path.exists(cfg_path) else ""
+    for key in ("platform", "threads", "steps", "wfreq", "temp", "ionic"):
+        for line in cfg_text.splitlines():
+            if line.startswith(f"{key}:"):
+                rec[f"config_{key}"] = line.split(":", 1)[1].strip()
+                break
+    rec["platform"] = rec.get("config_platform")
     rec.update(_versions())
     rec["calvados_version"] = rec.pop("calvados", None)
     rec["openmm_version"] = rec.pop("openmm", None)
+    rec["platform"] = rec.get("config_platform")
     rec["trajectory_sha256"] = _sha256(os.path.join(rundir, f"{name}.dcd"))
     log = os.path.join(rundir, "wall_seconds.txt")
     rec["wall_seconds"] = float(open(log).read().strip()) if os.path.exists(log) else None
@@ -629,18 +690,44 @@ def prepared_residues_path():
 # ---------------------------------------------------------------------------------------------
 
 
+def _get(url, timeout=120):
+    req = urllib.request.Request(url, headers={"User-Agent": "emc-condensate-calvados"})
+    with urllib.request.urlopen(req, timeout=timeout) as fh:
+        return fh.read().decode()
+
+
+def _fetch_afdb_pdb(acc):
+    """Return (pdb_text, url). Ask the API which file is current; fall back over known versions."""
+    tried = []
+    try:
+        meta = json.loads(_get(AFDB_API.format(acc=acc), timeout=60))
+        url = (meta[0].get("pdbUrl") if isinstance(meta, list) and meta else None)
+        if url:
+            return _get(url), url
+        tried.append("API returned no pdbUrl")
+    except Exception as exc:                                   # noqa: BLE001 - reported, not hidden
+        tried.append(f"API: {exc}")
+    for v in AFDB_FALLBACK_VERSIONS:
+        url = AFDB_FILES.format(acc=acc, v=v)
+        try:
+            return _get(url), url
+        except Exception as exc:                               # noqa: BLE001
+            tried.append(f"v{v}: {exc}")
+    raise SystemExit(f"::error::could not fetch AlphaFold coordinates for {acc}; tried {tried}")
+
+
 def fetch_plddt():
     out = {"_what": "AlphaFold DB per-residue pLDDT over every candidate window. Entry criterion "
                     f"for the CALVADOS 2 single-chain arm, fixed before the fetch: at least "
                     f"{PLDDT_DISORDER_FRACTION:.0%} of window residues below pLDDT "
                     f"{PLDDT_DISORDER_CUTOFF:.0f}.",
            "_cutoff": PLDDT_DISORDER_CUTOFF, "_fraction_required": PLDDT_DISORDER_FRACTION,
-           "_source": AFDB, "windows": {}}
+           "_source": AFDB_API, "windows": {}}
     per_gene = {}
+    out["_resolved"] = {}
     for gene, acc in ACCESSIONS.items():
-        req = urllib.request.Request(AFDB.format(acc=acc), headers={"User-Agent": "emc-condensate"})
-        with urllib.request.urlopen(req, timeout=120) as fh:
-            pdb = fh.read().decode()
+        pdb, url = _fetch_afdb_pdb(acc)
+        out["_resolved"][gene] = {"accession": acc, "url": url}
         plddt = {}
         for line in pdb.splitlines():
             if line.startswith("ATOM") and line[12:16].strip() == "CA":
@@ -668,6 +755,61 @@ def fetch_plddt():
     out["all_primary_windows_eligible"] = all(
         w.get("eligible_for_calvados2_single_chain") for w in out["windows"].values())
     return out
+
+# ---------------------------------------------------------------------------------------------
+# COMPOSITION BASELINE - the number the manuscript ALREADY has, on exactly these windows
+# ---------------------------------------------------------------------------------------------
+COMPOSITION_OUT = os.path.join(HERE, "emc-condensate-composition.json")
+
+
+def composition_table():
+    """The manuscript's own sequence-derived descriptors, recomputed on the simulated windows.
+
+    ⭐ WHY THIS EXISTS. The prespecification's negative N1 asks whether the simulation resolves
+    anything the manuscript's amino-acid composition counting does not. That question is not
+    answerable without the composition numbers for exactly the windows that were simulated - the
+    manuscript's own table uses DIFFERENT windows (it characterises TAF15 1-205, while the only
+    reported TAF15::NR4A3 coding junction retains 1-161).
+
+    ⛔ AND IT REUSES `fusion_idr_features.features` RATHER THAN REIMPLEMENTING IT. A second copy of
+    a descriptor is a second thing that can drift from the manuscript it is being compared against.
+
+    ⚠ READ THE SCRAMBLE ROWS. A composition-preserving shuffle leaves every composition descriptor
+    BYTE-IDENTICAL to its parent and changes only SCD, which is order-dependent. That is the honest
+    limit of N1 as prespecified: a scramble-sensitive nu shows the simulation exceeds COMPOSITION,
+    and does not by itself show it exceeds the manuscript's full descriptor set, because SCD is in
+    that set and the scramble does not hold it fixed.
+    """
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "fusion_idr_features", os.path.join(HERE, "fusion_idr_features.py"))
+    fif = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(fif)
+    rows = {}
+    for c in build_constructs():
+        rows[c["id"]] = dict(fif.features(c["sequence"]),
+                             role=c["role"], window=c["window"])
+    out = {"_what": ("the manuscript's own sequence-derived descriptors "
+                     "(fusion_idr_features.features, imported not copied), computed on exactly the "
+                     "windows this lane simulates"),
+           "_why": ("negative N1 asks whether the simulation resolves anything composition counting "
+                    "does not; that is unanswerable without composition on the SAME windows"),
+           "_scramble_note": ("a composition-preserving shuffle leaves every composition descriptor "
+                              "identical and changes only SCD, which is order-dependent - see the "
+                              "identical rows below, and the limit they imply for N1"),
+           "rows": rows}
+    parents = {"E264": [f"E264_scr{i}" for i in (1, 2, 3)],
+               "C264": [f"C264_scr{i}" for i in (1, 2, 3)]}
+    checks = {}
+    comp_keys = [k for k in next(iter(rows.values())) if k not in ("SCD", "role", "window")]
+    for par, kids in parents.items():
+        same = all(all(rows[k][kk] == rows[par][kk] for kk in comp_keys) for k in kids)
+        scd_moved = all(rows[k]["SCD"] != rows[par]["SCD"] for k in kids)
+        checks[par] = {"every_composition_descriptor_identical_to_parent": same,
+                       "SCD_differs_from_parent_in_every_scramble": scd_moved}
+    out["scramble_checks"] = checks
+    return out
+
 
 # ---------------------------------------------------------------------------------------------
 # GUARDS - all offline, all asserted before any integration step
@@ -825,14 +967,49 @@ def selftest():
        score(runs)["verdict"] == "INSTRUMENT_FAILED")
     runs = synth(clean)
     runs[0]["nu"] = 1.4
-    ck("G9", "an unphysical nu is INSTRUMENT_FAILED",
+    ck("G9", "a non-physical nu is INSTRUMENT_FAILED",
        score(runs)["verdict"] == "INSTRUMENT_FAILED")
+
+    # G12 - Amendment 1: compact is a RESULT, broken is a FAILURE, and they are not the same test
+    compact = dict(clean)
+    compact["T161"] = [0.28 + d for d in (-0.002, -0.001, 0.0, 0.001, 0.002)]
+    rc = score(synth(compact))
+    ck("G12", "a compact-globule nu below the expected range is NOT withheld",
+       rc["verdict"] != "INSTRUMENT_FAILED", str(rc["verdict"]))
+    ck("G12", "it is FLAGGED with its convergence diagnostic",
+       "T161" in rc.get("outside_expected_range", {}))
+    broken = dict(clean)
+    broken["T161"] = [0.05] * 5
+    ck("G12", "a nu no real fit could produce IS withheld",
+       score(synth(broken))["verdict"] == "INSTRUMENT_FAILED")
+    ck("G12", "the two bounds are not the same object",
+       NU_BROKEN_RANGE != NU_EXPECTED_RANGE
+       and NU_BROKEN_RANGE[0] < NU_EXPECTED_RANGE[0] < NU_EXPECTED_RANGE[1] < NU_BROKEN_RANGE[1])
+    drift = synth(clean)
+    for r_ in drift:
+        r_["nu_half_vs_full_delta"] = 0.5
+    rd = score(drift)
+    ck("G12", "wholesale drift is reported as NOT converged, and still not withheld",
+       rd.get("convergence", {}).get("converged") is False
+       and rd["verdict"] != "INSTRUMENT_FAILED")
     runs = synth(clean)
     for r_ in runs:
         if r_["construct"] == "E264":
             r_["random_number_seed"] = 7
     ck("G9", "repeated replicate seeds are INSTRUMENT_FAILED",
        score(runs)["verdict"] == "INSTRUMENT_FAILED")
+
+    # G13 - the composition baseline, and the honest limit of N1 that it exposes
+    ct = composition_table()
+    ck("G13", "every construct has a composition row",
+       set(ct["rows"]) == set(cons))
+    for par in ("E264", "C264"):
+        chk = ct["scramble_checks"][par]
+        ck("G13", f"{par} scrambles are composition-identical to the parent",
+           chk["every_composition_descriptor_identical_to_parent"])
+        ck("G13", f"{par} scrambles DO move SCD, which is order-dependent",
+           chk["SCD_differs_from_parent_in_every_scramble"],
+           "so N1 tests composition, not the manuscript's whole descriptor set")
 
     # G10 - the permutation floor is what the prespecification says it is
     p = permutation_p([1, 2, 3, 4, 5], [6, 7, 8, 9, 10])
@@ -878,6 +1055,7 @@ def main():
     ap.add_argument("--selftest", action="store_true")
     ap.add_argument("--manifest", action="store_true")
     ap.add_argument("--plddt", action="store_true")
+    ap.add_argument("--composition", action="store_true")
     ap.add_argument("--prepare", nargs=2, metavar=("CONSTRUCT", "REPLICATE"))
     ap.add_argument("--outdir", default=".")
     ap.add_argument("--analyse", metavar="RUNDIR")
@@ -901,6 +1079,14 @@ def main():
         with open(dest, "w") as fh:
             json.dump(payload, fh, indent=1)
         print(f"wrote {dest}: {len(cons)} constructs, {payload['n_runs']} runs")
+        return 0
+    if args.composition:
+        res = composition_table()
+        dest = args.out or COMPOSITION_OUT
+        with open(dest, "w") as fh:
+            json.dump(res, fh, indent=1)
+        print(json.dumps(res["scramble_checks"], indent=1))
+        print(f"wrote {dest}")
         return 0
     if args.plddt:
         res = fetch_plddt()

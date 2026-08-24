@@ -562,5 +562,22 @@
     "scope_note": "Characterises an EXTERNAL dataset before anything is built on it. ⛔ It `characterises` OBJ-LINE-HEMCSS, whose status is `identity_disputed` — the line is cited here ONLY as the cautionary precedent that an EMC LABEL is not an EMC FUSION, which is why a new EMC-labelled sample is corroborated against 67 sarcoma samples from the same deposit before anything rests on it. No reading of that line grounds anything. ⚠ Its control passing does not make the readout sensitive: the artifact discloses LOW SENSITIVITY for fusion status by construction, because a wild-type transcript index has no fusion entry. Ported from the legacy registry 2026-08-05, where its `serves` held two prose values — the seventh instance of the untyped-relation defect, arriving while the other six were being removed.",
     "closure_kind": "open",
     "revival_trigger": []
+  },
+  {
+    "id": "INS-CALVADOS-SINGLE-CHAIN",
+    "name": "CALVADOS 2 single-chain conformational model of the retained 5' partner segments",
+    "module": "research/modalities/emc_condensate_calvados.py",
+    "owner": {
+      "file": "research/modalities/emc-condensate-calvados-prespecification.md",
+      "anchor": "#2--the-exact-quantity-read-out"
+    },
+    "known_answer_control": {
+      "description": "Two-sided and both prespecified. (1) The CALVADOS package's OWN shipped single-IDR example is reproduced end to end on the same install and its nu must land in the physical range - the only step separating 'the instrument works' from 'our wrapper does something and nobody checked'. (2) Directional: EWSR1 1-264 with 15% of positions substituted to Glu must EXPAND relative to the parent, because like charges repel under the model's Debye-Huckel term. Failing (2) withholds every nu.",
+      "state": "passes",
+      "note": "BOTH CONTROLS RETURNED 2026-08-24 and both passed. (1) The package's shipped single-IDR example reproduced end to end on the same install. (2) The directional control moved nu by 0.082 against a prespecified separation threshold of 0.057, so the model resolves a difference of that size when one is present. ⛔ THE CONTROLS PASSING IS WHAT MAKES THE NULL ADMISSIBLE, AND IT IS NOT A LICENCE TO QUOTE THE NULL AS A PROOF OF IDENTITY. The run did NOT meet its own prespecified convergence criterion — about a quarter of runs drift by more than the pooled replicate spread — so every value is provisional, and the arm excludes only partner differences larger than about 0.06 in nu. ⭐ The noise floor is confirmed by a second route: two runs of the same construct with the SAME seed on different machines differ by 0.022, about one pooled SD, because the CPU platform is not bit-reproducible across hosts."
+    },
+    "scope_note": "Reads one single-chain conformational observable - the Flory scaling exponent nu - for the retained N-terminal segments of EMC's reported 5' partners, each length-matched to a TCF12 window so chain length is not the between-partner variable. ⛔ It does NOT measure a saturation concentration, a phase diagram or condensate formation; the link from single-chain properties to phase behaviour is the MODEL's premise, not this instrument's measurement. ⚠ The commonest reported junction retains EWSR1 1-431 while this repository's AlphaFold assessment puts the folded RRM at 361-442, so the type-1 window is truncated before the RRM and the multi-domain reading is out of scope. The slab phase-coexistence arm - the one that would make 'phase behaviour' a measurement rather than a premise - needs a GPU and is not authorised. MEASURED RESULT 2026-08-24: a null on every prespecified comparison — no partner window separates from any other, and none separates from wild-type NR4A3's own disordered region. One home for the numbers: emc-condensate-calvados-findings.md.",
+    "closure_kind": "open",
+    "revival_trigger": []
   }
 ]
