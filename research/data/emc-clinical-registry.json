@@ -1068,6 +1068,27 @@
         ],
         "accessed": "2026-06-20",
         "verified": true
+      },
+      "galitskiy2025emcpembrolizumab": {
+        "short": "Galitskiy 2025 (JSMO abstract)",
+        "type": "conference-abstract",
+        "title": "P35-1 Effective immune-based treatment of extraskeletal myxoid chondrosarcoma guided by next-generation gene profiling",
+        "authors": "Galitskiy E, Livingston AJ, Plair T, Tarasov A, Putintsev V, Novokrestchenova A, Kushnarev V, Zubarev I, Nikulin V, Hensley M, Makani N, Yong S, Love A, Brown J, Fowler N, Conley AP.",
+        "journal": "Annals of Oncology",
+        "year": 2025,
+        "volume": "36",
+        "page": "S1732-S1733",
+        "doi": "10.1016/j.annonc.2025.08.310",
+        "url": "https://doi.org/10.1016/j.annonc.2025.08.310",
+        "license": "publisher copyright (Annals of Oncology conference supplement); abstract text read from the sponsor's own publication page",
+        "openAccess": false,
+        "design": "single-patient case report presented as a conference abstract",
+        "n": 1,
+        "population": "one 72-year-old man with EWSR1::NR4A3-confirmed gluteal EMC, metastatic to lung, bone and peritoneal soft tissue",
+        "accessed": "2026-08-24",
+        "retrievalNote": "annalsofoncology.org returned HTTP 403 (Cloudflare interstitial) on both /abstract and /fulltext. Europe PMC returns hitCount 0 for a title search, so this abstract is not indexed there. The bibliographic record (DOI, container, volume, pages) was resolved from api.crossref.org by title query; the abstract TEXT was read from the sponsor's own publication page. The JSMO poster PDF fetched HTTP 200 but yielded 0 extractable characters (no text layer), so it adds nothing beyond the abstract.",
+        "independence": "13 of the 16 authors are affiliated to BostonGene Corporation, whose comprehensive-genomic-profiling assay is the subject of the report; the remaining 3 are at the treating centre. Counted from the author list and affiliation superscripts on the sponsor's publication page, 2026-08-24.",
+        "verified": true
       }
     }
   },
@@ -1261,10 +1282,20 @@
       },
       {
         "agent": "Immune checkpoint inhibitors",
-        "result": "A PD-1 inhibitor has now been tested in a dedicated prospective EMC cohort, in combination with a VEGFR TKI - see the sunitinib + nivolumab row. No single-agent checkpoint inhibitor cohort in EMC has been located; isolated responses to interferon-alpha are reported in case reports.",
+        "result": "A PD-1 inhibitor has now been tested in a dedicated prospective EMC cohort, in combination with a VEGFR TKI - see the sunitinib + nivolumab row. No single-agent checkpoint inhibitor COHORT in EMC has been located; the only single-agent report located is one case - see the pembrolizumab row. Isolated responses to interferon-alpha are reported in case reports.",
         "sourceId": "remiszewski2025",
         "provenance": "secondary",
         "primaryRef": "case reports; and IMMUNOSARC II EMC cohort for the combination"
+      },
+      {
+        "agent": "Pembrolizumab (PD-1), single agent",
+        "n": 1,
+        "nBasis": "one patient; a case report, not a cohort",
+        "result": "Metastatic EWSR1::NR4A3 EMC after neoadjuvant radiotherapy, radical resection and subsequent progression to lung, bone and peritoneal soft tissue. Comprehensive genomic profiling reported microsatellite stability, tumour mutational burden 0.67 mut/Mb and TSC2 gene loss; the tumour microenvironment was called immune-enriched/fibrotic with high PD-L1 by RNA-seq. Pembrolizumab was started after molecular tumour board review, 15 cycles were given, and the report describes a near-complete response without progression at the time of writing. CONFERENCE ABSTRACT, n=1, not peer reviewed.",
+        "sourceId": "galitskiy2025emcpembrolizumab",
+        "provenance": "primary",
+        "evidenceTier": "conference-abstract",
+        "caveat": "A single patient reported by the vendor of the assay being evaluated (13 of 16 authors), so both the selection of this case for publication and the framing of the biomarker are subject to that interest. No denominator is given: how many EMC cases were profiled, and how many responded, is not stated. The reported TSC2 loss was never acted on therapeutically and carries no functional or protein-level confirmation in the report."
       }
     ]
   },
