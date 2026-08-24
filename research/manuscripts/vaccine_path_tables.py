@@ -142,8 +142,81 @@ def shortlist_block():
     return "\n".join(out)
 
 
+def exon_pairs_block():
+    """Every candidate exon pair and why each one is or is not carried forward.
+
+    ⛔ ASKED FOR BY NAME BY v1.9's REVIEWER: "key information like the 27 exon pairs and the framing
+    of the 5 in-frame junctions could be communicated more efficiently with a simple table". §2.2
+    stated the four grades and their counts in prose, so a reader could see that 22 of 27 pairs drop
+    out but not WHICH, and could not check the frame arithmetic on any single row.
+
+    Generated, not typed, and every cell is read out of the screen's own record: the grade is the
+    screen's grade and the seam residue is its own, so a regeneration that regrades a pair moves the
+    table with it rather than leaving the paper asserting a superseded one.
+    """
+    d = json.load(open(os.path.join(HERE, "..", "modalities",
+                                    "fusion-breakpoint-neoantigens.json")))
+    graded = d["junctions_graded"]
+    #: The screen's machine grades, in the order a reader meets them in §2.2, with the plain-English
+    #: reading each one carries there. A grade absent from this map is a NEW grade the screen has
+    #: started emitting, and it must fail loudly rather than print as a blank cell.
+    #: ⚠ NO EM-DASH IN A CELL. These readings repeat on up to nine rows each, and `lint_style`
+    #: measures em-dash density over the whole document: the first version of this table pushed the
+    #: manuscript from 5.6 to 6.8 per thousand words against a limit of 6.0, on punctuation that
+    #: exists only because a table cell was written as a sentence.
+    reading = {
+        "EMITTABLE": "in frame; peptides emitted",
+        "OUT_OF_FRAME": "out of frame; read-through tract, then a premature stop",
+        "NON_CODING_ACCEPTOR": "acceptor exon is non-coding; no chimeric ORF",
+        "SEAM_NOT_PRODUCED": "no seam produced at this pair",
+    }
+    unknown = sorted({r["grade"] for r in graded} - set(reading))
+    if unknown:
+        raise SystemExit(f"fusion_breakpoints.py now emits grade(s) {unknown} that this table has no "
+                         "reading for. Add it here rather than shipping a blank cell.")
+    order = {g: i for i, g in enumerate(["EMITTABLE", "OUT_OF_FRAME", "NON_CODING_ACCEPTOR",
+                                         "SEAM_NOT_PRODUCED"])}
+    rows = sorted(graded, key=lambda r: (order[r["grade"]], r["donor_exon_end"],
+                                         r["acceptor_exon_start"]))
+    counts = d["grade_counts"]
+    lines = ["| *EWSR1* exon | *NR4A3* exon | Donor phase | In frame | Grade |", "|---|---|---|---|---|"]
+    for r in rows:
+        phase = r.get("donor_coding_phase")
+        #: ⛔ "IN FRAME: YES" ON A ROW GRADED "NO CHIMERIC ORF" READS AS A CONTRADICTION, AND IT IS
+        #: NOT ONE — it is a meaningless cell printed as a meaningful one. The screen computes
+        #: `frame_sum_mod3` for every pair, but where the acceptor exon is non-coding or no seam is
+        #: produced there is no chimeric reading frame for the donor to be in frame WITH, so the
+        #: arithmetic has no referent. Five such rows printed "yes" in the first render of this
+        #: table. A dash says the question does not arise, which is what the screen means.
+        #: ⚠ "n/a" RATHER THAN AN EM-DASH, AND THE REASON IS MEASURED. The first version wrote "—"
+        #: here, which is the house marker for an absent cell elsewhere in this paper — but 18 of
+        #: these rows carry it, and `lint_style` counts em-dashes across the whole document: the
+        #: manuscript went from 5.5 to 6.8 per thousand words against a limit of 6.0, failing the
+        #: gate on punctuation that only existed inside a generated table. "n/a" also says the thing
+        #: more plainly: the question does not arise, rather than the answer is missing.
+        has_orf = r["grade"] in ("EMITTABLE", "OUT_OF_FRAME")
+        in_frame = ("yes" if r.get("in_frame") else "no") if has_orf else "n/a"
+        lines.append(f"| {r['donor_exon_end']} | {r['acceptor_exon_start']} | "
+                     f"{'n/a' if phase is None else phase} | "
+                     f"{in_frame} | {reading[r['grade']]} |")
+    summary = ", ".join(f"{counts[g]} {reading[g].split(';')[0]}"
+                        for g in ["EMITTABLE", "OUT_OF_FRAME", "NON_CODING_ACCEPTOR",
+                                  "SEAM_NOT_PRODUCED"] if g in counts)
+    return (
+        f"**Table 4. Every candidate exon pair, and why each is or is not carried forward.** All "
+        f"{d['n_candidate_exon_pairs']} pairs the declared window produces, graded by the screen of "
+        f"§2.2: {summary}. *Donor phase* is the number of coding nucleotides of the donor's last "
+        "codon left over at the cut, so phase 0 is a codon-aligned break and phases 1 and 2 build "
+        "the seam codon from retained acceptor nucleotides. An *In frame* cell reading n/a is a pair "
+        "with no chimeric reading frame for the question to be about, not a pair that failed it. "
+        "These are "
+        "a combinatorial window of "
+        "declared exon pairs, not observed breakpoints, and the window is an assumption of this "
+        "work rather than a finding of it (§2.2).\n\n" + "\n".join(lines))
+
+
 BLOCKS = {"regional-coverage": regional_block, "class-i-panel": panel_block,
-          "test-shortlist": shortlist_block}
+          "test-shortlist": shortlist_block, "exon-pairs": exon_pairs_block}
 
 
 def render(text):

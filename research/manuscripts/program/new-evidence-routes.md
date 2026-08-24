@@ -553,6 +553,57 @@ been downloaded, nothing processed, and no methylation claim of any kind is made
 Twelve cases is a small n on a heterogeneous array platform, and what such a cohort could actually
 answer — and what it could not — is the scoping question this route now owes, not a result it has.
 
+### 5.6 · The paper judgement, and the decision — NOT a priority (trimcrae, 2026-08-24)
+
+★ **The route can now name its paper, which is what §5 of CLAUDE.md asks of it. It was then
+deprioritised on the merits, and that is a settled call — do not re-litigate it.**
+
+⛔ **Locating the data is not a result.** *"We found which samples in a public deposit carry this
+disease"* is a data-availability note. The paper, if there is one, is what the data then says.
+
+**What is already published and cannot be claimed:** Koelsche et al. established that this disease
+forms its own methylation class — that is what the classifier does, and their own class table reports
+it at **n=10, 100% pure**. *"EMC has a distinct methylome"* is theirs.
+
+**What is genuinely open:** a pan-sarcoma classifier paper establishes *that* classes separate; it
+asks of no single class *what* is methylated. For this disease that is untouched. The specific hook
+is **the NR4A3 locus itself** — the fusion drives the gene's 3' half from a partner promoter, so the
+gene's own promoter is bypassed, and whether it is also epigenetically silenced is a mechanistic,
+pre-registerable question. ⭐ **Its value is CROSS-MODALITY corroboration, not a second look at the
+same data:** §5.3–5.4's arm-1 work measures 5' depletion from RNA, and methylation would say
+independently whether that quiet 5' end is quiet *because it is switched off*. Two instruments, one
+claim — which is the only thing that answers the complaint this memo opens with.
+
+⛔ **And the bars, one of which nearly sinks it.** **n=12**, which no analysis fixes. **Ten of the
+twelve are the classifier's own training set**, so anything about what *defines* the class is
+circular by construction; the locus question escapes that only because the classifier clusters
+genome-wide and never singles out that locus, and that escape is an argument a reviewer will probe.
+Two array platforms across 12 samples forces the analysis onto shared probes. FFPE material is
+noisier. The ~1,490 other sarcomas as a comparison group is the one thing here that is better than
+typical.
+
+**THE DECISION (trimcrae, 2026-08-24): not a priority paper. Documented and stopped here.** What
+that does and does not mean:
+
+- ⛔ It is **not** a finding that the route is dead, and it is **not** a negative result. Nothing was
+  run. The cohort is real, open and still there.
+- ✅ It **is** a ranking call against the rest of the board, made with the paper shape and its bars on
+  the table rather than in the abstract.
+- ⚠ **A broad *"methylation landscape of EMC"* paper is refused on the merits, separately from the
+  ranking** — 12 samples on mixed platforms cannot carry it, and it would collapse into the
+  circularity above. That refusal stands even if the route is later re-prioritised.
+- **What would change the ranking:** more EMC methylation cases from any source, matched normals, or
+  the arm-1 5'-depletion result landing in a state where an independent epigenetic read would settle
+  something it otherwise cannot.
+
+⚠ **One downstream record was wrong because of this and has been corrected:** `MOD-DNMT` in the
+modality census was parked on the claim that *no methylation dataset for this disease is available to
+this program in any form*. That premise is now false. ⛔ **The route stays parked anyway** — the
+cohort is tumour-only, carries no drug response, and cannot say whether hypomethylating agents do
+anything in this disease. **What changed is the premise, not the grade.** `BLK-NO-EMC-DATA` is
+untouched: it is about functional-genomics data (one DepMap line, no CRISPR), and a methylation
+reference set is not a dependency screen.
+
 ## 6 · Limits of this memo
 
 - **§4's grade is a judgement about fit, not a measured result.** That the coarse-grained condensate

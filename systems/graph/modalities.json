@@ -1125,8 +1125,8 @@
     "band": "drug_mechanism",
     "group": "enzyme_inhibitor_non_kinase",
     "verdict": "parked_capability",
-    "prior_coverage": "never_searched",
-    "rationale": "Hypomethylating agents have a coherent rationale in fusion-driven tumours with quiet genomes, but grading it needs EMC methylation data, and no methylation dataset for this disease is available to this program in any form.",
+    "prior_coverage": "searched_before",
+    "rationale": "Hypomethylating agents have a coherent rationale in fusion-driven tumours with quiet genomes. This record previously said no methylation dataset for this disease was available to this program in any form; that is no longer true. GSE140686 carries 12 EMC-labelled cases with open raw arrays (10 reference, 2 validation), located by joining the deposit to its paper's per-case table on an identifier both declare. ⛔ THAT DOES NOT MAKE THIS MODALITY GRADEABLE AND THE ROUTE STAYS PARKED. The cohort is tumour-only with no matched normals, no drug-response data of any kind, 12 samples across two array platforms, and 10 of the 12 are the set the source classifier was trained on. It can support a bounded locus-level question; it cannot support any statement about whether hypomethylating agents do anything in this disease. What changed is the premise, not the grade.",
     "exemplar": "azacitidine",
     "blockers": [
       "BLK-NO-EMC-DATA"
@@ -1138,6 +1138,9 @@
       "owner": {
         "file": "systems/graph/modalities.json"
       }
+    },
+    "prior_ref": {
+      "file": "research/modalities/emc-data-level-sweep.json"
     }
   },
   {

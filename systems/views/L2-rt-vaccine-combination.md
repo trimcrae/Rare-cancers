@@ -59,7 +59,7 @@ The priming-directed classes were excluded for this disease on the ground that a
 
 - Whether any junction peptide is presented on EMC tissue at all, which bounds the whole route.
 - Whether the novel seam residues fall at anchor positions or at T-cell-receptor contact positions.
-- Whether EMC retains HLA class I expression, which is unmeasured in this disease.
+- Whether EMC retains HLA class I expression. ⚠ SUPERSEDED WORDING, RETAINED: 'which is unmeasured in this disease' — it was already false when written. The antigen-presentation precondition group (B2M, HLA-A/B/C, TAP1/2, TAPBP, NLRC5, PSMB8/9, CIITA, ERAP1) is measured on both EMC array platforms in emc-expression-panels.json reads.read_8_SURFACE_ANTIGEN and tabulated in emc-surface-target-landscape-si.md Tables S3 and S7, where HLA-A, HLA-C and TAP1 read FLAT_ON_BOTH against comparator sarcomas rather than lost. What is genuinely unknown is narrower: class I at the PROTEIN level, per-tumour rather than per-cohort, and whether any individual patient's tumour has lost it.
 - Whether the reported backbone activity is attributable to the immune arm or to the tyrosine kinase inhibitor.
 
 ## Required validation

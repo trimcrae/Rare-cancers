@@ -27,18 +27,18 @@ last_verified: 2026-08-09
 
 **217 modality classes · 19 groups · 4 bands.**
 
-## ⭑ 112 classes no prior search here had pointed at
+## ⭑ 111 classes no prior search here had pointed at
 
 This is the census's result. `never_searched` is orthogonal to the verdict, and the
 orthogonality carries the finding: a class can be unsearched and still not reach EMC —
 nobody looked, and now that someone has, it does not — or unsearched **and** live, which
-is the residue no prior sweep could have returned. **15 of the 112
+is the residue no prior sweep could have returned. **14 of the 111
 are live** (`candidate` or `parked_capability`).
 
 | verdict | classes | of which never searched |
 |---|---:|---:|
 | ⭑ `candidate` | 20 | 6 |
-| ⏸ `parked_capability` | 9 | 9 |
+| ⏸ `parked_capability` | 9 | 8 |
 | ✓ `on_board` | 41 | 0 |
 | ● `in_clinical_use` | 8 | 0 |
 | ✕ `already_rejected` | 33 | 0 |
@@ -52,7 +52,7 @@ not rejected, never queried — which is the reason the census carries them at a
 
 | band | classes | never searched |
 |---|---:|---:|
-| `drug_mechanism` | 162 | 87 |
+| `drug_mechanism` | 162 | 86 |
 | `delivery_and_conjugate` | 26 | 18 |
 | `physical_locoregional` | 15 | 3 |
 | `strategy_and_architecture` | 14 | 4 |
@@ -73,7 +73,6 @@ carries the cheapest observation that would move it.
 | **MOD-AAV-GENE-THERAPY** — AAV and lentiviral gene therapy | `gene_and_cell_engineering` | ⏸ `parked_capability` | — |
 | **MOD-APTAMER** — Aptamers | `nucleic_acid` | ⏸ `parked_capability` | — |
 | **MOD-BASE-PRIME-EDITING** — Base and prime editing | `gene_and_cell_engineering` | ⏸ `parked_capability` | — |
-| **MOD-DNMT** — DNA methyltransferase inhibitors | `enzyme_inhibitor_non_kinase` | ⏸ `parked_capability` | — |
 | **MOD-EXOSOME** — Extracellular-vesicle delivery | `delivery_and_formulation` | ⏸ `parked_capability` | — |
 | **MOD-LNP** — Lipid nanoparticles for oligonucleotide delivery | `delivery_and_formulation` | ⏸ `parked_capability` | — |
 | **MOD-MACROCYCLE** — Macrocyclic small molecules for protein-protein interfaces | `ppi_and_undruggable` | ⏸ `parked_capability` | — |
@@ -148,7 +147,7 @@ carries the cheapest observation that would move it.
 | class | exemplar | verdict | prior | where it lands |
 |---|---|---|---|---|
 | **MOD-BET**<br/>BET bromodomain inhibitors | BET inhibitors | ✓ `on_board` | · | [RT-HDAC-BET](L2-rt-hdac-bet.md) — HDAC / BET to lower fusion expression |
-| **MOD-DNMT**<br/>DNA methyltransferase inhibitors | azacitidine | ⏸ `parked_capability` | ⭑ **new** | Hypomethylating agents have a coherent rationale in fusion-driven tumours with quiet genomes, but grading it needs EMC methylation data, and no … |
+| **MOD-DNMT**<br/>DNA methyltransferase inhibitors | azacitidine | ⏸ `parked_capability` | · | Hypomethylating agents have a coherent rationale in fusion-driven tumours with quiet genomes. … |
 | **MOD-EZH2**<br/>EZH2 / PRC2 inhibitors | tazemetostat | ✕ `excluded` | · | [RT-EZH2](L2-rt-ezh2.md) — EZH2 / PRC2 inhibition |
 | **MOD-FASN**<br/>Fatty-acid synthase inhibitors | FASN inhibitors | ✕ `already_rejected` | · | already ruled — [emc-unexplored-treatment-lanes.md](../../research/manuscripts/program/emc-unexplored-treatment-lanes.md#6--considered-and-rejected) |
 | **MOD-GLUTAMINASE**<br/>Glutaminase inhibitors | telaglenastat | ✕ `already_rejected` | · | already ruled — [emc-unexplored-treatment-lanes.md](../../research/manuscripts/program/emc-unexplored-treatment-lanes.md#6--considered-and-rejected) |

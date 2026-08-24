@@ -34,7 +34,7 @@ EXPECTED = [
     "epitope-allele-matrix-mhcnuggets.json", "predictor-concordance.json",
     "junction-proteome-novelty.json", "junction-selfsimilarity.json",
     "junction-frameshift-peptides.json", "junction-transcript-sensitivity.json",
-    "coverage-uncertainty.json",
+    "coverage-uncertainty.json", "novelty-seam-test.json",
     "patient-cd4-demo.json", "vaccine-construct.json",
 ]
 
