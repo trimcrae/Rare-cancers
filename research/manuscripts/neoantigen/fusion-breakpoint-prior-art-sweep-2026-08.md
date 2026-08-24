@@ -25,24 +25,52 @@ limit** for the first time. 161 records; 14 titles pair a breakpoint/fusion term
 ⚠ **Identifier provenance:** every record below is copied from
 [`research/literature/fusion-breakpoint-sweep-2026-08-24.json`](../../literature/fusion-breakpoint-sweep-2026-08-24.json),
 itself copied from a committed Europe PMC fetch product. Nothing here was typed from recollection.
-⚠ **These are TITLES AND ABSTRACTS-level reads.** Where a claim about a paper's contents appears below it is
-flagged; the full texts have not been read.
+⚠ **Reading depth is per item.** §1 is a **full-text read** from the committed fetch product. Everything
+else is titles-and-abstracts level, flagged as such where a claim about contents appears.
 
-## 1 · The one that bears on the manuscript's weakest point
+## 1 · READ. Endogenous, tumour-processed fusion-breakpoint neoepitopes in humans
 
 **Endogenous T cell responses to fusion-derived neoantigens in pediatric acute leukemias.** *Leukemia*,
-PMID **40707674**, PMC**12463655**, doi:10.1038/s41375-025-02710-7. **Open access.**
+PMID **40707674**, PMC**12463655**, doi:10.1038/s41375-025-02710-7. Open access; **full text read** from the
+committed fetch product `literature/fusion-breakpoint-immunotherapy-sweep/PMC12463655.txt`.
 
-The vaccine paper's sharpest self-criticism (its B2) is that a vaccination study measures T-cell responses to
-peptides **that were injected**, which is not evidence that the same sequence is naturally processed out of
-the endogenous fusion protein and displayed on a tumour cell. **An *endogenous* response is that missing
-evidence class** — an immune response arising without anyone administering a peptide implies the epitope was
-processed and presented by the tumour itself.
+**What it establishes, and why it is the evidence class this manuscript said was missing.** The vaccine
+paper's sharpest self-criticism (B2) is that a vaccination study measures responses to peptides **that were
+injected**, which is not evidence the sequence is naturally processed from the endogenous fusion protein and
+displayed on a tumour cell. This study never vaccinates anyone. T cells were expanded from patient **bone
+marrow**, co-cultured with **autologous leukaemic blasts**, and the reactive population sorted on activation
+markers (4-1BB on CD8; 4-1BB/OX40 on CD4). Reactivity therefore arose against antigen the tumour itself
+processed and presented. Reactive TCRs were then cloned and tested against the **fusion sequence versus
+wild-type** on patient-matched HLAs in several presentation systems (patient APCs, K562, 293T-CIITA), so
+fusion specificity is established rather than assumed:
 
-⛔ **This is a lead, not a conclusion.** It is a different fusion, a different disease, and a haematological
-malignancy rather than a solid tumour. Whether it supports B2, partially answers it, or is irrelevant to it
-depends entirely on what the paper actually measured, and **the full text has not been read**. It is open
-access, so reading it costs nothing. **That is the single highest-value next read in this file.**
+- **KMT2A::AFF1** (breakpoint KMT2A exon 10 / AFF1 exon 4) — restricted to **HLA-DPA1\*02:01/DPB1\*01:01**
+- a second KMT2A::AFF1 (KMT2A exon 10 / AFF1 exon 5) — restricted to **HLA-DQA1\*03:03/DQB1\*03:01**
+- **PICALM::MLLT10** — restricted to **HLA-B\*51:01**, from a CD8 clone
+
+One KMT2A::AFF1-specific TCR also improved survival in mice engrafted with that patient's own blasts.
+
+⚠ **A CONVERGENCE WORTH NOTICING, AND IT BEARS ON B4.** Two of the three fusion-specific restrictions
+above are **class II**, and the 2026 Ewing breakpoint-vaccine case's only de novo response was **CD4+**.
+Three independent lines, three different fusions, and the class II arm carries the signal in most of them.
+The vaccine paper treats class II as the lesser result; the accumulating human evidence does not support
+that ranking. This repo's own `lead_public_construct` carries a strong class II epitope, so the point is
+not academic. ⛔ Three observations is a pattern to test, **not** a rule — say it that way.
+
+⛔ **WHAT IT DOES NOT ESTABLISH, and the first limit is the authors' own.** They attribute the finding partly
+to anatomy: *"Leukemia is frequently found in tissues where T cells reside, and this proximity is conducive
+for frequent engagement between T cells and leukemic blasts."* **An EMC nodule is not that tissue.** This is
+a haematological malignancy; nothing here speaks to a T-cell-excluded solid-tumour microenvironment, which
+is `RT-VACCINE`'s actual parked blocker (`BLK-ANTIGEN-COLD`). Further limits, all from the paper:
+- The fusion-reactive clones sat at **0.0062%, 0.001% and 0.001%** frequency — vanishingly rare.
+- They were detected **only at diagnosis or relapse**, i.e. off therapy, and at **no later timepoint even
+  with deep sequencing**.
+- Of five samples taken forward, four had major clonotypes; one had **no reactivity to either** the fusion
+  neoantigen or the blasts.
+- Different fusions, different disease, and KMT2A breakpoints cluster in a way EWSR1::NR4A3 need not.
+
+**Net:** it removes "no one has shown a fusion breakpoint is naturally processed and presented in humans"
+from the list of things this route cannot claim. It does **not** move the blocker the route is parked on.
 
 ## 2 · An entire prior clinical programme class the repository had nothing on
 
@@ -79,6 +107,7 @@ and the two months of missing clinical news merely exposed it.
 
 ⛔ **Nothing here re-grades a route, and nothing here has been added to any manuscript.** The manuscript's
 prior-art additions were made separately and are already committed; this file is a queue of reads, best first:
-1. PMID 40707674 full text — does it evidence endogenous processing and presentation? (open access)
+1. ~~PMID 40707674 full text~~ — **DONE, see §1.** It does evidence endogenous processing and
+   presentation, in leukaemia, with the authors' own anatomical caveat against reading it into a solid tumour.
 2. PMID 19536894 — what did a Phase 2 breakpoint vaccine actually produce?
 3. PMID 36043380 — anything usable against `BLK-ANTIGEN-COLD`?
