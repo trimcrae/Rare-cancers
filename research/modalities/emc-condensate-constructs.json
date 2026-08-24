@@ -1,0 +1,264 @@
+{
+ "_prespecification": "emc-condensate-calvados-prespecification.md",
+ "_frozen": "the construct set, the protocol and the scorer are frozen with the prespecification; an amendment is appended, dated and numbered",
+ "protocol": {
+  "model": "CALVADOS 2",
+  "residue_parameters": "the CALVADOS package default (calvados/data/residues.csv), which agrees with the shipped residues_CALVADOS2.csv to 5e-13 in every lambda",
+  "temperature_K": 293.15,
+  "ionic_strength_M": 0.19,
+  "pH": 7.5,
+  "box_nm": 150.0,
+  "timestep_fs": 10,
+  "steps_per_frame": 7000,
+  "n_frames": 1010,
+  "steps": 7070000,
+  "discard_frames": 10,
+  "platform": "CPU",
+  "charge_termini": "both",
+  "_box_provenance": "the shipped example uses 50 nm for a 131-mer; 150 nm was MEASURED to cost nothing (48.5 s vs 48.8 s for 20k steps of a 431-mer at 4 threads) and removes any chance of a chain interacting with its own periodic image. Identical for every construct, so box is not a between-construct variable.",
+  "_sampling_provenance": "1010 frames x 7000 steps is the CALVADOS package's own shipped single-IDR protocol (examples/single_IDR/prepare.py), unmodified."
+ },
+ "n_constructs": 15,
+ "n_runs": 55,
+ "primary_family": [
+  [
+   "E264",
+   "C264"
+  ],
+  [
+   "E360",
+   "C360"
+  ],
+  [
+   "T161",
+   "C161"
+  ]
+ ],
+ "secondary_pairs": [
+  [
+   "E264",
+   "T161"
+  ],
+  [
+   "E360",
+   "T161"
+  ],
+  [
+   "E264",
+   "E360"
+  ],
+  [
+   "E264",
+   "N260"
+  ],
+  [
+   "T161",
+   "N260"
+  ],
+  [
+   "E264",
+   "F212"
+  ],
+  [
+   "F212",
+   "C264"
+  ]
+ ],
+ "constructs": [
+  {
+   "id": "E264",
+   "role": "TEST",
+   "family": "FET",
+   "n_replicates": 5,
+   "window": "EWSR1 1-264",
+   "length": 264,
+   "sequence": "MASTDYSTYSQAAAQQGYSAYTAQPTQGYAQTTQAYGQQSYGTYGQPTDVSYTQAQTTATYGQTAYATSYGQPPTGYTTPTAPQAYSQPVQGYGTGAYDTTTATVTTTQASYAAQSAYGTQPAYPAYGQQPAATAPTRPQDGNKPTETSQPQSSTGGYNQPSLGYGQSNYSYPQVPGSYPMQPVTAPPSYPPTSYSSTQPTSYDQSSYSQQNTYGQPSSYGQQSSYGQQSSYGQQPPTSYPPQTGSYSQAPSQYSQQSSSYGQQ",
+   "sha256": "bef64104cdf12d5699479a7551b8e95ab6d96fd78d51eb4b20914076bb321492",
+   "registered_prediction": "more compact (lower nu) than the length-matched TCF12 window C264",
+   "falsifier": "nu(E264) >= nu(C264), or the two not separated under D1",
+   "note": "double-anchored: this is BOTH the committed AlphaFold LC/disorder window and the retained 5' segment of the reported EWSR1::NR4A3 type-2 junction"
+  },
+  {
+   "id": "E360",
+   "role": "TEST",
+   "family": "FET",
+   "n_replicates": 5,
+   "window": "EWSR1 1-360",
+   "length": 360,
+   "sequence": "MASTDYSTYSQAAAQQGYSAYTAQPTQGYAQTTQAYGQQSYGTYGQPTDVSYTQAQTTATYGQTAYATSYGQPPTGYTTPTAPQAYSQPVQGYGTGAYDTTTATVTTTQASYAAQSAYGTQPAYPAYGQQPAATAPTRPQDGNKPTETSQPQSSTGGYNQPSLGYGQSNYSYPQVPGSYPMQPVTAPPSYPPTSYSSTQPTSYDQSSYSQQNTYGQPSSYGQQSSYGQQSSYGQQPPTSYPPQTGSYSQAPSQYSQQSSSYGQQSSFRQDHPSSMGVYGQESGGFSGPGENRSMSGPDNRGRGRGGFDRGGMSRGGRGGGRGGMGSAGERGGFNKPGGPMDEGPDLDLGPPVDPDEDSDN",
+   "sha256": "5f69a5f02933dbcbf92593fd065ad122f885a87f5071168bc93dd222fc6a04d5",
+   "registered_prediction": "more compact (lower nu) than the length-matched TCF12 window C360",
+   "falsifier": "nu(E360) >= nu(C360), or the two not separated under D1",
+   "note": "the reported type-1 (commonest) junction retains EWSR1 1-431, which runs 71 residues into the committed folded RRM (361-442). CALVADOS 2 treats every residue as disordered, so the type-1 segment is truncated at the last residue before the RRM and the multi-domain reading is named in the prespecification and NOT run here"
+  },
+  {
+   "id": "T161",
+   "role": "TEST",
+   "family": "FET",
+   "n_replicates": 5,
+   "window": "TAF15 1-161",
+   "length": 161,
+   "sequence": "MSDSGSYGQSGGEQQSYSTYGNPGSQGYGQASQSYSGYGQTTDSSYGQNYSGYSSYGQSQSGYSQSYGGYENQKQSSYSQQPYNNQGQQQNMESSGSQGGRAPSYDQPDYGQQDSYDQQSGYDQHQGSYDEQSNYDQQHDSYSQNQQSYHSQRENYSHHTQ",
+   "sha256": "757097e1914eb47da6793b2ce696b5c0db5fd0194724d7238605f8d82cb21e42",
+   "registered_prediction": "more compact (lower nu) than the length-matched TCF12 window C161",
+   "falsifier": "nu(T161) >= nu(C161), or the two not separated under D1",
+   "note": "the only reported TAF15::NR4A3 coding junction"
+  },
+  {
+   "id": "C161",
+   "role": "TEST",
+   "family": "nonFET",
+   "n_replicates": 5,
+   "window": "TCF12 1-161",
+   "length": 161,
+   "sequence": "MNPQQQRMAAIGTDKELSDLLDFSAMFSPPVNSGKTRPTTLGSSQFSGSGIDERGGTTSWGTSGQPSPSYDSSRGFTDSPHYSDHLNDSRLGAHEGLSPTPFMNSNLMGKTSERGSFSLYSRDTGLPGCQSSLLRQDLGLGSPAQLSSSGKPGTAYYSFSA",
+   "sha256": "e46f4167bdfeb8a5058d48a417ccae364da49d1fcf03f05c140a06f73f702d3f",
+   "registered_prediction": "less compact (higher nu) than T161",
+   "falsifier": "not separated from T161 under D1",
+   "note": "length-matched non-FET comparator; isoform-independent (the two TCF12 isoforms in this repository are identical over 1-396)"
+  },
+  {
+   "id": "C264",
+   "role": "TEST",
+   "family": "nonFET",
+   "n_replicates": 5,
+   "window": "TCF12 1-264",
+   "length": 264,
+   "sequence": "MNPQQQRMAAIGTDKELSDLLDFSAMFSPPVNSGKTRPTTLGSSQFSGSGIDERGGTTSWGTSGQPSPSYDSSRGFTDSPHYSDHLNDSRLGAHEGLSPTPFMNSNLMGKTSERGSFSLYSRDTGLPGCQSSLLRQDLGLGSPAQLSSSGKPGTAYYSFSATSSRRRPLHDSAALDPLQAKKVRKVPPGLPSSVYAPSPNSDDFNRESPSYPSPKPPTSMFASTFFMQDGTHNSSDLWSSSNGMSQPGFGGILGTSTSHMSQSS",
+   "sha256": "399257697e37a06a3960defcb070e605cd2686ac3ec2b610b4f8a200e7b11911",
+   "registered_prediction": "less compact (higher nu) than E264",
+   "falsifier": "not separated from E264 under D1",
+   "note": "length-matched non-FET comparator; isoform-independent"
+  },
+  {
+   "id": "C360",
+   "role": "TEST",
+   "family": "nonFET",
+   "n_replicates": 5,
+   "window": "TCF12 1-360",
+   "length": 360,
+   "sequence": "MNPQQQRMAAIGTDKELSDLLDFSAMFSPPVNSGKTRPTTLGSSQFSGSGIDERGGTTSWGTSGQPSPSYDSSRGFTDSPHYSDHLNDSRLGAHEGLSPTPFMNSNLMGKTSERGSFSLYSRDTGLPGCQSSLLRQDLGLGSPAQLSSSGKPGTAYYSFSATSSRRRPLHDSAALDPLQAKKVRKVPPGLPSSVYAPSPNSDDFNRESPSYPSPKPPTSMFASTFFMQDGTHNSSDLWSSSNGMSQPGFGGILGTSTSHMSQSSSYGNLHSHDRLSYPPHSVSPTDINTSLPPMSSFHRGSTSSSPYVAASHTPPINGSDSILGTRGNAAGSSQTGDALGKALASIYSPDHTSSSFPSNP",
+   "sha256": "90b299c956658f519c00d91ccdd1f89c2d618b44b5bbba21209cc37589280fa3",
+   "registered_prediction": "less compact (higher nu) than E360",
+   "falsifier": "not separated from E360 under D1",
+   "note": "length-matched non-FET comparator; isoform-independent"
+  },
+  {
+   "id": "N260",
+   "role": "CONTROL",
+   "family": "wildtype",
+   "n_replicates": 5,
+   "window": "NR4A3 1-260",
+   "length": 260,
+   "sequence": "MPCVQAQYSPSPPGSSYAAQTYSSEYTTEIMNPDYTKLTMDLGSTEITATATTSLPSISTFVEGYSSNYELKPSCVYQMQRPLIKVEEGRAPSYHHHHHHHHHHHHHHQQQHQQPSIPPASSPEDEVLPSTSMYFKQSPPSTPTTPAFPPQAGALWDEALPSAPGCIAPGPLLDPPMKAVPTVAGARFPLFHFKPSPPHPPAPSPAGGHHLGYDPTAAAALSLPLGAAAAAGSQAAALESHPYGLPLAKRAAPLAFPPLG",
+   "sha256": "9c5218e7bd78ae787638c648b0c171cb038177399e12459cc2718605e1ee6e31",
+   "registered_prediction": "less compact (higher nu) than E264 - it is disordered but not prion-like",
+   "falsifier": "N260 not separated from E264 under D1, which would be negative N3",
+   "note": "wild-type NR4A3's own disordered AF1; the manuscript's internal negative control at the composition level, re-asked at the phase-behaviour level"
+  },
+  {
+   "id": "F212",
+   "role": "CONTROL",
+   "family": "FET",
+   "n_replicates": 5,
+   "window": "FUS 1-212",
+   "length": 212,
+   "sequence": "MASNDYTQQATQSYGAYPTQPGQGYSQQSSQPYGQQSYSGYSQSTDTSGYGQSSYSSYGQSQNTGYGTQSTPQGYGSTGGYGSSQSSQSSYGQQSSYPGYGQQPAPSSTSGSYGSSSQSSSYGQPQSGSYSQQPSYGGQQQSYGQQQSYNPPQGYGQQNQYNSSSGGGGGGGGGGNYGQDQSSMSSGGGSGGGYGNQDQSGGGGSGGYGQQD",
+   "sha256": "60cd7175bc2ca8c43e8dab30ab56ebbdd44df7d05fd30f5246cb0acc74b75082",
+   "registered_prediction": "in the same range as E264 and T161, not in the TCF12 range",
+   "falsifier": "F212 lands in the TCF12 range rather than the FET range",
+   "note": "the third FET gene, at the RG-free ceiling read from emc-fet-idr-census.json; a FET anchor that is not an EMC construct"
+  },
+  {
+   "id": "E264_scr1",
+   "role": "NULL",
+   "family": "scramble",
+   "n_replicates": 2,
+   "window": "EWSR1 1-264 shuffled, seed 20260824",
+   "length": 264,
+   "sequence": "SSTYSTQPYTQGQQSGPQDQGYQSNPPGYTQQYGPPGGSTQGGQSTYGSQPYYQSQVSQTYYQRTQAPGTYPPQGPSYTPTSQTPSPSQYGYSDPQGTADYQQAQTTQSPAQQYEQYSYSYAPATPVATGSASQGATYSATPSQSQSTTQATASASYPPYTGTQPTQTQGTYAAVGQPAYASAAGPGYQPSATPTYQQTYTSMGQPYKDQQSYAGPAAYSNYAYNYQPAMTSSYYNTTASGSSGTQSTTTPQTASVQSYVDYLQ",
+   "sha256": "00c64f8df0482b24a19c9448ef667e1a4536730b385b7b1a02db70839584f07b",
+   "registered_prediction": "nu differs from E264 by at least 3 pooled replicate SDs",
+   "falsifier": "nu indistinguishable from E264, which is negative N1 for this parent",
+   "note": "composition is preserved EXACTLY; only the order changes"
+  },
+  {
+   "id": "E264_scr2",
+   "role": "NULL",
+   "family": "scramble",
+   "n_replicates": 2,
+   "window": "EWSR1 1-264 shuffled, seed 20260825",
+   "length": 264,
+   "sequence": "QYTPYRSPTDGTASPYNQTAPGSVAYTETGAQQYASQGPPYPGNTNAYSPDTTTTAQQPPASSGSQQQGTPQAGTYQAAAYTQGYTYSYSPTQAQTQPYTYGYSSSYYSGLQDSVPSTDYGQMPTTSGMPATSSGYQSYQTYTQPYPSQQQAGAPASTYTPYSAAQQTYGQTPTYSYAQQTQAYPQTTYGTQQQPSVVATPAVGGSSTQPSSSQQYTSTSSSYSAQQPPGKQQAQQGSGYGYGSSTQTYPAPAQYNDSQYPGQY",
+   "sha256": "f476d209110fac979e32f051c80f2e3b3eb44b1c8a2e8e79d400e2c5030fc5c4",
+   "registered_prediction": "nu differs from E264 by at least 3 pooled replicate SDs",
+   "falsifier": "nu indistinguishable from E264, which is negative N1 for this parent",
+   "note": "composition is preserved EXACTLY; only the order changes"
+  },
+  {
+   "id": "E264_scr3",
+   "role": "NULL",
+   "family": "scramble",
+   "n_replicates": 2,
+   "window": "EWSR1 1-264 shuffled, seed 20260826",
+   "length": 264,
+   "sequence": "STQASAAPTGGGYGYYSQSAQQGDSQQAKTTSAGQGGTAQYPSSYADTGASQTTSTVPSAYDYTQYVSPQSSTQTPQAVYQTSGPGPPSAQMYASQTQYQSPTQSPPDQSGTGPASTSTYPSYQYMQQVTYTQDPPSTTAYPPSQPSYQQAYTSSYPNEYPATNGYATYQQPYTSPQGYTYYPTTAYGYQSSQPTAYAYGGYAVTGTQAPQTSQQYPSQPGQLQPSYNGTPGYTRSQQSYQPATYGQQAASSGGSYTATTNQQQ",
+   "sha256": "18e412ed7db375064ba707e459687bb5a2d00648e45479f14709f3b6b1192bfe",
+   "registered_prediction": "nu differs from E264 by at least 3 pooled replicate SDs",
+   "falsifier": "nu indistinguishable from E264, which is negative N1 for this parent",
+   "note": "composition is preserved EXACTLY; only the order changes"
+  },
+  {
+   "id": "C264_scr1",
+   "role": "NULL",
+   "family": "scramble",
+   "n_replicates": 2,
+   "window": "TCF12 1-264 shuffled, seed 20260824",
+   "length": 264,
+   "sequence": "NMFSSSLDLLDQSAAHSDSPGGGGFSPGTLQGQGSAQLTDFPRLSPSFPFSPPSTSLHSSTPKLNSGQNGGSPSSNRQMQDVNSGDVTGSSRGGAGDNRQLSAVDLQSTRLTGFSLDISRSLSFMSRTPGSLSISHNHPDSDPCGVDSMSGSNPLTLPNDGKSPLTRAPYWARSSMTGESGAKPFGLPPATQERKTSSWYMEMYGPSAPRYDPSRAKMSFLMDYPAQPYKTIQSLPTDSLTTSSGFSSYHKEEFTRKGHGFSSS",
+   "sha256": "d2157584919f9c774d46cc0aadda007631b71f426d7555a16769a138d3f76ffd",
+   "registered_prediction": "nu differs from C264 by at least 3 pooled replicate SDs",
+   "falsifier": "nu indistinguishable from C264, which is negative N1 for this parent",
+   "note": "composition is preserved EXACTLY; only the order changes"
+  },
+  {
+   "id": "C264_scr2",
+   "role": "NULL",
+   "family": "scramble",
+   "n_replicates": 2,
+   "window": "TCF12 1-264 shuffled, seed 20260825",
+   "length": 264,
+   "sequence": "SPEPLLHPDSDLKTASLIPMSYSSLSWSDFFASSGDEPSSFRYPSFTQSDGMHSYDDPSDPFQNTGSYQTGDLSLYPGSSTPQSPGDPSSQDRLVSCNDSAKTVERGSGGSFFDLVPNQPRLMGQGTLKGQMGTSYGGPLGLTRAGNPGQSRGHLVISRLPSDESSNMSTGSSASTLLGTFSNAKDNNHSKKPPQSGRFESGRFGITWSRSRTGSQSLSSATSNKSSPPGASFRSKRGQPLLMAMTAMSSDAYFHPPPTMAHLT",
+   "sha256": "ed8a0c4561405802655f18c41944a8fd7d70e906a3fdfc0b95da7c708130b608",
+   "registered_prediction": "nu differs from C264 by at least 3 pooled replicate SDs",
+   "falsifier": "nu indistinguishable from C264, which is negative N1 for this parent",
+   "note": "composition is preserved EXACTLY; only the order changes"
+  },
+  {
+   "id": "C264_scr3",
+   "role": "NULL",
+   "family": "scramble",
+   "n_replicates": 2,
+   "window": "TCF12 1-264 shuffled, seed 20260826",
+   "length": 264,
+   "sequence": "FMTHAYFNSSLHSFLQNSISSGDFTFRLANTSLSCFMEDDDPRPSDSARLRIHQDFGAGLGPSGNSRTSSLDMGLDAGLSLDEGPYPQTKFKHRTPYPSGPSTGQVAGSTGDSNTSDIGPSASLHMSDSKLMSQSKSEMETRSTQGMLEASMPGSSALSYRFTPKFNWTSQPQLGSGPASRLLSPVPNTLHSSASKSSGGLPRRGQSYPSSSVFRPQSKPTPSKGPYPYNDGSSLPSDGPTGMLARSVGGTTSQDDWQNSFPSG",
+   "sha256": "3df1c33e92383f1312976a1a32ec10608b380e63e6144212802194bce82d0f94",
+   "registered_prediction": "nu differs from C264 by at least 3 pooled replicate SDs",
+   "falsifier": "nu indistinguishable from C264, which is negative N1 for this parent",
+   "note": "composition is preserved EXACTLY; only the order changes"
+  },
+  {
+   "id": "E264_E15",
+   "role": "INSTRUMENT",
+   "family": "instrument",
+   "n_replicates": 3,
+   "window": "EWSR1 1-264 with 15% of positions substituted to Glu, seed 20260827",
+   "length": 264,
+   "sequence": "MESEDYSTYEQAEAQEGYSAYTEQPTQGYAQTTQAYGQQSYGTEGEPTEESYTQAQTEATYGQEAYATSYGQEPTGYTEPTAPQAYSQPVQGYGTGAYDTTTATVTTTEESYEAQSAYGEQPAYEAYGQQPAAEAPTREEDGNKPTEESQPQSSTGGYNQPSLEYGESNYSEPQVPGEYPMQPVTAPPSYPETSYESTEETSYDQSSEEEQNTYGQPSSYGQESSYGQESSYGQQPPEEYPPQTGSYEQAPSQYSQQSSSYGQE",
+   "sha256": "3f891fc5546466b829188b452c6afa76bfe1ca21612b410675fd4b9418ad7e30",
+   "registered_prediction": "STRICTLY more expanded (higher nu) than E264 - like charges repel under the model's Debye-Huckel term, so this is a property of the force field, not of the biology",
+   "falsifier": "nu(E264_E15) not above nu(E264) by 3 pooled replicate SDs, which is INSTRUMENT_FAILED and withholds every nu in the run",
+   "note": "directional instrument control"
+  }
+ ]
+}
