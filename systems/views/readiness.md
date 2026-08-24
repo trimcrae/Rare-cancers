@@ -35,7 +35,7 @@ the other. Where a route cannot reach an output, the missing items are a work li
 | [RT-ASO](L2-rt-aso.md) | ST-NUCLEIC-ACID | `chemrxiv` | a named delivery candidate FOR THE SYSTEMIC ROUTE -- rescoped 2026-08-12; the local and inhaled routes never required one, and grading the whole route on the systemic route's missi |
 | [RT-ATR-ASSESS](L2-rt-atr-assess.md) | ST-DEPENDENCY | `preprint` | an EMC-specific measurement |
 | [RT-DEGRADER](L2-rt-degrader.md) | ST-PROXIMITY | `preprint` | a passing selectivity known-answer control; an anti-target panel that recovers its own cognate ligands |
-| [RT-DIAGNOSTIC-PATHWAY](L2-rt-diagnostic-pathway.md) | ST-CARE-DELIVERY | `preprint` | nothing to start on the CODING half — three published readings, a registry edit rule stable across eighteen years of errata, a bone-framed cohort that states it includes EMC, a mea |
+| [RT-DIAGNOSTIC-PATHWAY](L2-rt-diagnostic-pathway.md) | ST-CARE-DELIVERY | `preprint` | nothing on the CODING half — and the magnitude is now IN the paper rather than deferred; an independent replication of the 32.1% over a different window (Table 1 of PMID 32856598,  |
 | [RT-MODALITY-CENSUS](L2-rt-modality-census.md) | ST-DISSEMINATION | `preprint` | — |
 | [RT-MTAP-PRMT5](L2-rt-mtap-prmt5.md) | ST-DEPENDENCY | `preprint` | nothing for the preprint — it is written and every figure resolves to a committed artifact |
 | [RT-PANNR4A-EXVIVO](L2-rt-pannr4a-exvivo.md) | ST-IMMUNO | `preprint` | a cellular persistence readout |

@@ -32,8 +32,10 @@ Running title: What a 9231/3 registry cohort contains
 
 <!-- EDITORIAL, NOT FOR SUBMISSION.
 SCOPE DECISION, trimcrae, 2026-08-23: publish the CODING half without waiting for the magnitude,
-and demote the naming argument to a cited paragraph. The size is stated as an open, fully
-specified query rather than answered. See systems/graph/publications.json ->
+and demote the naming argument to a cited paragraph. NOTE: THE PREMISE OF THE FIRST HALF OF THAT
+DECISION NO LONGER HOLDS AND HE HAS BEEN TOLD: the magnitude was recovered the same day from a
+cohort already published, so section 6 now MEASURES it instead of stating it as an open query. The
+decision to narrow to the coding half is unaffected and stands. See systems/graph/publications.json ->
 PUB-EMC-CLASSIFICATION.scope_decision. That decision fixed the SCOPE and the TITLE. It is not
 authorisation to post, submit or deposit; CLAUDE.md s3 requires the paper to be named for the act.
 TITLE HISTORY: this was "One code, two diseases" until the CBTRUS grouping document supplied a
@@ -43,13 +45,15 @@ records how each was obtained and at what provenance level: [FT] full text read,
 document from the body that owns the thing described, [2o] a figure quoted from a review rather
 than from its source, [API] an abstract only.
 UNREAD AND SAID SO: PMID 32856598 is a subscription article; not in PMC, not open access, its
-publisher PDF URL serves a JavaScript shim, its DOI and article pages return HTTP 403. Its Table 1
-is the single highest-value unread object for this work and is named as such in section 6.
-STILL OPEN: Table 1 of PMID 31283732, which would give the skeletal 9231/3 count directly. The
-PMC article page does not inline its table cells.
-NO FIGURE IS DRAWN. If a reviewer asks for one, the natural display item is a two-by-three grid of
-morphology against topography with the published counts placed in the cells that have them, which
-would make the empty cells the point. -->
+publisher PDF URL serves a JavaScript shim, its DOI and article pages return HTTP 403. It is now an
+INDEPENDENT REPLICATION rather than the primary route, and section 6 says so.
+NOW READ: Table 1 of PMID 31283732. The PMC article HTML and its ?report=classic view do not inline
+table cells and the Europe PMC fullTextXML endpoint 404s for that PMCID — the article PDF, via the
+Europe PMC render, does. That route was not tried until it was pointed out that SEER access was
+being treated as the blocker when the free routes were not exhausted.
+NO FIGURE IS DRAWN. The natural display item is now a filled two-by-two of morphology against
+topography for the section 6 cohort — 404 soft tissue, 191 bone — rather than the mostly-empty grid
+this note previously described. -->
 
 > *Declarations for preprint deposit.* Ethics approval and consent were not required and were not
 > sought: this work analyses only published literature and public registry documentation, and
@@ -79,8 +83,12 @@ its myxoid bucket includes EMC and then analyses it under a location variable wi
 category; and that morphology-selected SEER sarcoma cohorts demonstrably contain bone primaries,
 one study having excluded 1,668 of 115,800 retrieved records on topography. The contamination
 therefore runs in both directions and is acknowledged in print by authors who tried to remove it.
-Its magnitude has never been published. We show that it is reducible to a single registry query,
-one half of which is already in the literature, and we state that query rather than answer it.
+Its magnitude has never been reported. We recover it from a single published cohort that supplies
+both halves: of 595 records carrying morphology 9231/3 in SEER 18 for 1988 to 2015, 404 had a
+soft-tissue primary and 191 a bone primary, so at least 32% of a morphology-only 9231/3 pull is
+bone. Both identified biases push that figure down, and an adjustment for the one whose direction
+is known gives about 38%. A cohort assembled by querying 9231/3 without a topography restriction,
+which is the standard construction in this literature, is therefore not a soft-tissue cohort.
 
 **Keywords:** extraskeletal myxoid chondrosarcoma; ICD-O-3; cancer registry; SEER; morphology
 coding; misclassification.
@@ -103,10 +111,11 @@ most morphology codes this is harmless, because the rubric names an entity that 
 compartment. For 9231/3 it is not, because the entity it is used for in the soft-tissue literature
 is defined by its extraskeletal location, and the rubric drops that word.
 
-We report three consequences. First, three published bodies of work use 9231/3 for three
+We report four consequences. First, three published bodies of work use 9231/3 for three
 incompatible populations, and none of them misuses it. Second, registry infrastructure itself does
-not agree with the soft-tissue reading. Third, the contamination this produces is bidirectional,
-is already acknowledged in print, and has never been quantified.
+not agree with the soft-tissue reading. Third, the contamination this produces is bidirectional and
+is already acknowledged in print. Fourth, it is large: at least a third of a morphology-only
+9231/3 pull has a bone primary, a figure recoverable from a cohort already published.
 
 ## 2. Three readings of one code
 
@@ -254,29 +263,50 @@ lack central pathology review [6]. The one EMC cohort we are aware of that carri
 ambiguity at all is a molecularly confirmed, centrally reviewed multicentre series of 67
 patients [8], and it is not a registry cohort.
 
-## 6. The closing query
+## 6. The magnitude
 
-The quantity that is missing is the topography split of a cohort selected on 9231/3 alone. Two
-published routes would supply it, and neither requires a new study.
+One published cohort supplies both halves of the fraction, so nothing has to be combined across
+papers. The lymph node analysis of section 4.2 covers SEER 18 registries and diagnosis years 1988
+to 2015, and it reports each half separately. Its Methods give the soft-tissue half: 404 patients
+excluded as extraskeletal myxoid chondrosarcoma [6]. Its Table 1 gives the bone half: under
+"Histologic type", "Myxoid chondrosarcoma 187 (6%) 4 (9%)", the two columns being patients without
+and with regional node involvement, so 191 in total [6].
 
-The first is one registry query, and one half of it is already published. A SEER query over the 18
-registries, diagnosis years 2000 to 2018, on ICD-O-3 morphology 9231 with no site restriction,
-divided by the 459 non-bone records reported for exactly that registry set and window [5], gives
-the bone-primary fraction with matched registries, years and code. That is a single frequency
-session, not a research programme. The access it requires is SEER Research data, which is granted
-on an institutional email address, an application form and a data use agreement, without
-institutional review board approval; the analysis client, SEER*Stat, requires Microsoft Windows.
+Those 191 are the myxoid cases that survived an exclusion which removed every extraskeletal one.
+The study classifies site from ICD-O topography codes and retains 9231/3 on its included-morphology
+list, so the cases remaining under that code are the skeletal ones. We note this step because it is
+a deduction from two Methods statements rather than a printed cross-tabulation of site against
+histology, which the paper does not provide.
 
-The second is one table. The largest EMC registry series analysed primary tumour site, reporting
-that there was no overall survival difference by primary site [1], so its baseline table very
-probably prints the site distribution of a 439-case 9231/3 cohort. That paper is a subscription
-article and we have not read it; its abstract is the only part of it cited here.
+Taking the two together, the cohort's morphology 9231/3 content is 404 soft-tissue and 191 bone
+primaries, 595 in all, and the bone-primary fraction is 32.1%.
 
-We report the two numbers now in hand side by side and decline to divide them. The 459 non-bone
-records above cover SEER 18 for 2000 to 2018; the 791 records reported elsewhere as the raw 9231/3
-pull cover 1973 to 2016 over an unstated registry set, and that second figure reaches us through a
-review rather than from its source [7]. A ratio built from two different year windows and two
-different registry coverages would look like a measurement and would not be one.
+Table 1 reconciles with every total the paper prints, which is the check that this reading is
+correct. Its site rows sum to 3,374 and so do its histology rows; the site totals reproduce the
+2,948 skeletal and 426 extraskeletal quoted in the Results; and 4,273 minus 899 recovers the same
+3,374.
+
+We report 32.1% as a floor rather than an estimate, because both biases we can identify push it
+downward. The 191 is counted after the lymph-node-status requirement, which removed 899 of 4,273
+patients, while the 404 was excluded at an earlier stage; if skeletal myxoid cases lost node status
+at the cohort-average rate, the pre-filter count is about 242 and the fraction about 37.5%. That
+adjustment assumes equal attrition and is offered as an adjustment, not a measurement. Separately,
+the order in which the remaining inclusion criteria were applied relative to the 404 exclusion is
+not stated; if the 404 is the rawer of the two counts, the bone share is higher still. We have
+found no bias acting in the other direction.
+
+Two further readings would sharpen this and neither is a new study. A cross-tabulation of site
+against histology for this cohort would remove the one inferred step. The baseline table of the
+largest EMC registry series would give an independent replication over a different window; that
+paper is a subscription article and we have not read it, and its abstract is the only part of it
+cited here.
+
+We decline to compute a second, cross-paper version of this fraction from the other counts in hand.
+The 459 non-bone records of section 4.1 cover SEER 18 for 2000 to 2018, and the 791-record raw
+9231/3 pull attributed elsewhere to the largest series covers 1973 to 2016 over an unstated
+registry set, reaching us through a review rather than from its source [7]. A ratio spanning two
+year windows and two registry coverages would look like a measurement and would not be one. It is
+also unnecessary, since one study supplies both halves on matched terms.
 
 ## 7. Limitations
 
@@ -290,7 +320,12 @@ editions; the argument that its placement of 9231/3 is stable rests on the errat
 completeness we cannot verify from the record itself.
 
 The 791-record figure in section 6 reaches us at second hand. We use it only to explain why a
-ratio is not computed.
+cross-paper ratio is not computed.
+
+The central fraction rests on one cohort, one registry programme and one diagnosis window, and on
+one step that the source does not print. It is a floor for that cohort. Whether it generalises to
+other windows, other registries, or the cohorts assembled by the EMC literature specifically is not
+established here, and section 6 names the reading that would test it.
 
 We have not read the full text of the largest EMC registry series, for the reason given in
 section 6, and we have not read the baseline table of the chondrosarcoma lymph node analysis,
