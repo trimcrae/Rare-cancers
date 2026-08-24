@@ -189,9 +189,11 @@ the excess over the strongest null changes sign four times.
 ## 4 · Test articles
 
 Five test articles bear on the junctions this panel designs against, and they divide into two
-sources with opposite limits. Every design in the panel joins its donor to *NR4A3* exon 3; the two
-cell models are reported at exon 2, so they carry a panel junction only under the exon-3 reading
-their acceptor index leaves open.
+sources with opposite limits. Every design in the panel joins its donor to *NR4A3* exon 3, which is
+that gene's first coding exon; the two cell models are reported at exon 2, and annotation does not
+reconcile the two. On all four annotated *NR4A3* transcripts, including the three carrying a RefSeq
+accession, the first coding exon is transcript exon 3 and exon 2 is non-coding, so a reported
+exon-2 acceptor is not this panel's acceptor renumbered.
 
 Three are engineered constructs from a published functional study,<sup>14</sup><!--PMID:31020999-->
 whose exon spans that paper states verbatim; two of them, E-N and T-N*, carry exactly the junctions
@@ -204,9 +206,10 @@ tumours,<sup>15</sup><!--PMID:36316541--> USZ20-EMC1 (RRID:CVCL_C6MX) and USZ22-
 (RRID:CVCL_C6MY) — the only source of a fusion-positive EMC cell identified here. They are available
 on request with no repository deposit, and are slow, at reported doubling times of five to six
 days. Their fusions are reported as *EWSR1* exon 13 and *TAF15* exon 6
-joined to *NR4A3* exon 2 rather than exon 3, but that acceptor index is not settled: the report
-carries no sequenced exon-exon boundary, no transcript accession and no junction sequence, and this
-work's own withdrawn version arose from an error of exactly this class. Reagents exist at both
+joined to *NR4A3* exon 2 rather than exon 3, and the report carries no sequenced exon-exon
+boundary, no transcript accession and no junction sequence. Whether it names a non-coding exon-2
+acceptor or a numbering no annotated model supports is therefore not decidable from what is
+published, and this work's own withdrawn version arose from an error of exactly this class. Reagents exist at both
 acceptors, and in neither case is it the same molecule as the reagent named above:
 5′-AGTGGGCTCTCCACGG-3′ at *EWSR1* exon 13 to exon 2 and 5′-AGTGGGCTCTTGTGTG-3′ at *TAF15* exon 6
 to exon 2, both at the panel's top margin. Neither reaches the ten-base-pair criterion, and their longest wild-type parent
@@ -321,7 +324,10 @@ near-match is a transcript window pairing a design at 14 or more of its 16 posit
 liable where a wild-type parent pairs its whole catalytic gap over a contiguous run of ten base
 pairs or more, ten being adopted rather than measured. Null ensembles were built as scrambles of
 each design and as chimeras joining the same two parent transcripts at real exon termini, screened
-identically.
+identically. Melting temperatures are nearest-neighbour values for an unmodified DNA:RNA hybrid at
+250 nM strand concentration, computed from published parameters,<sup>24</sup><!--PMID:7545436--> so
+the locked residues are not modelled; the fusion duplex pairs all ten of them and each parent duplex
+five, which makes the reported separation a floor.
 
 ## Tables
 
@@ -357,15 +363,17 @@ subjects, human material or animals were involved, and no ethics approval was re
 person.
 
 **Declaration of conflicting interest.** The author declares no financial competing interests: he holds no patent,
-patent application, equity or consultancy relating to any sequence or method described here. A
-non-financial interest is disclosed to the editor in the accompanying cover letter.
+patent application, equity or consultancy relating to any sequence or method described here. One
+non-financial interest is declared: the author is a survivor of extraskeletal myxoid
+chondrosarcoma, the disease this work addresses.
 
 **Funding statement.** No external funding; self-funded by the author.
 
 **Use of artificial intelligence.** A large language model (Claude, Anthropic) was used throughout
 this work: to write and review the analysis code, to run the screens, to retrieve and check
-literature, and to draft and revise this manuscript. The author directed all work reported here
-and is responsible for its content.
+literature, and to draft and revise this manuscript. Every reference's bibliographic record was
+retrieved from PubMed rather than written from model output, and each citation was checked against
+the retrieved record. The author directed all work reported here and is responsible for its content.
 
 **Data availability.** All code, graded artefacts and per-design tables are deposited under
 [doi:10.5281/zenodo.22061075](https://doi.org/10.5281/zenodo.22061075). The extended report,

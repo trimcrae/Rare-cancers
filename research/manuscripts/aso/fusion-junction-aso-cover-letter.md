@@ -146,6 +146,32 @@ patient-level records, and required no ethics approval. No oligonucleotide descr
 synthesised. Nothing in the manuscript asserts efficacy, potency, safety, a therapeutic window,
 delivery to a tumour, or clinical readiness for any sequence.
 
+One point on the journal's control-oligonucleotide policy, raised here rather than left for the
+editorial office to raise. The Instructions state that "all manuscripts that claim antisense
+efficacy must, in addition to the antisense oligodeoxynucleotide construct, include at least two
+control oligodeoxynucleotides", and that manuscripts without them are returned without review. This
+manuscript claims no antisense efficacy, and says so in its abstract, its reagents section and its
+Declarations: no sequence here has been synthesised or tested, and the paper's conclusion is the
+experiment that remains to be done rather than a result. I therefore read the policy as not
+engaging this submission, and would welcome the editors' confirmation.
+
+Read strictly, the requirement is met in substance anyway, and in the direction the policy intends.
+The manuscript specifies the controls the proposed experiment requires rather than reporting an
+experiment without them, and two of the three are control oligonucleotides in the policy's own
+sense: a dinucleotide-preserving scramble of each named reagent, which must itself clear the
+mature-parent screen before synthesis because 10.0% of such scrambles pair a parent's whole
+catalytic gap; and a positive control carrying the test articles' 5-6-5 beta-D-oxy-LNA
+phosphorothioate geometry. Both are specified as classes with their required properties rather than
+as catalogue items, because neither exists until a laboratory draws it against its own test
+article. The third control is not an oligonucleotide and is named as what it is: a fusion-negative
+isogenic pair, which only the construct route supplies and which neither patient-derived model has.
+These are given with the pre-registrable selectivity threshold and the replicate count that gives
+the test power. The
+journal's related encouragement to "report all of the oligonucleotides or constructs that were
+studied, not just those that gave the best result" is met in full: all 190 designs are reported
+with their screen outcomes, including the 87 the screen condemns, and the two reagents named for
+synthesis are named alongside the ways in which they are close calls rather than clean ones.
+
 This manuscript is a condensed report of a larger body of work. The extended report — every
 screen's parameters and the complete bounds on each claim — is deposited in the archive cited in the
 manuscript's Data availability statement, and I mention it here so the relationship is on the record

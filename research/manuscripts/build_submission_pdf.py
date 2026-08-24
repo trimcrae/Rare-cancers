@@ -125,6 +125,11 @@ PAPERS = {
             "preprint_note": "The extended report of this work is archived and is not posted as a "
                              "preprint; the archived copy is citable.",
         },
+        #: ⭐ NO PER-PAGE RUNNING HEAD ON THIS PAPER (external review, 2026-08-24). The band is
+        #: stripped in production, and this is the one manuscript here held to a per-page FEE
+        #: budget, so furniture is not free. The running title is still DECLARED in the front
+        #: matter, which is what the submission form asks for; only the printed band goes.
+        "running_head": False,
         "out": "aso/fusion-junction-aso-journal-article.pdf",
     },
     # ⭐ THE EMC VACCINE PATH, ADDED 2026-08-22 AT ROUND 1 OF ITS HARDENING CYCLE.
@@ -2177,13 +2182,24 @@ def handling_footers(paper):
             f"Order from {orderable}, never from this PDF."), FOOTER_SHORT
 
 
-def templates(running_head, footer_text):
+def templates(running_head, footer_text, show_running_head=True):
     # 8px = 6 pt, the floor below which a screen reader called the header unreadable. It was 7px
     # (5.2 pt) because the full 30-word title had to be squeezed in; the declared running title is
     # five words and needs no squeezing.
+    #
+    # ⭐ `show_running_head=False` PRINTS AN EMPTY HEADER BAND, and is set per paper. External
+    # review of the NAT submission (2026-08-24): a per-page running head is stripped in production
+    # anyway, so on a manuscript going to an editor it is furniture that costs vertical space on a
+    # paper held to a SIX-PAGE FEE BUDGET. The running title itself is NOT dropped — the manuscript
+    # still declares it in its front matter, which is where a journal's submission form asks for
+    # it, and `declared_running_title` still parses it. What goes is the printed band.
+    # ⚠ The header element is still emitted, empty. Chromium reserves the top margin either way, so
+    # returning no header at all would not reclaim the space and would change page geometry between
+    # papers; an empty band keeps every other paper's layout byte-identical.
     style = ("font-size:8px;font-family:'Liberation Sans',Helvetica,sans-serif;color:#7c8b99;"
              "width:100%;padding:0 14mm;display:flex;justify-content:space-between;")
-    header = (f'<div style="{style}"><span>{_html.escape(running_head)}</span>'
+    head_text = _html.escape(running_head) if show_running_head else ""
+    header = (f'<div style="{style}"><span>{head_text}</span>'
               '<span></span></div>')
     #: ⛔ THE FOOTER CARRIES THE HANDLING STATEMENT ON EVERY PAGE (blind safety screen, 2026-08-19).
     #: 20 of the 27 pages that print a sequence carried no handling language of any kind — 125 of
@@ -2342,7 +2358,7 @@ def _postprocess(full_pdf, short_pdf, pdf_path, running_head, meta, headings=(),
 
 
 def print_pdf(chrome, html_path, pdf_path, running_head, meta=None, split_footer=True,
-              headings=(), footers=(FOOTER_FULL, FOOTER_SHORT)):
+              headings=(), footers=(FOOTER_FULL, FOOTER_SHORT), show_running_head=True):
     profile = tempfile.mkdtemp(prefix="ccpdf-")
     proc = subprocess.Popen(
         [chrome, "--headless", "--disable-gpu", "--no-sandbox", "--no-first-run",
@@ -2369,7 +2385,7 @@ def print_pdf(chrome, html_path, pdf_path, running_head, meta=None, split_footer
         time.sleep(2.5)
 
         def render(footer_text):
-            header, footer = templates(running_head, footer_text)
+            header, footer = templates(running_head, footer_text, show_running_head)
             #: ⛔ `generateDocumentOutline` IS THE WHOLE FIX FOR "NO BOOKMARKS" AND IT IS ONE FLAG.
             #: Measured 2026-08-19: 0 outline entries across 116 pages with six numbered sections,
             #: seven tables, four figures, Declarations and 52 references. Chromium builds the
@@ -2597,7 +2613,8 @@ def build(name, paper, style="journal", html_only=False):
         return 1
     pdf_path = os.path.join(HERE, out_name)
     grafted, pages = print_pdf(chrome, html_path, pdf_path, running, meta,
-                               headings=headings_of(page), footers=handling_footers(paper))
+                               headings=headings_of(page), footers=handling_footers(paper),
+                               show_running_head=paper.get("running_head", True))
     os.remove(html_path)
     _write_build_stamp(pdf_path, paper)
     size = os.path.getsize(pdf_path)

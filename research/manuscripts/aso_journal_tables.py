@@ -119,6 +119,19 @@ def _twin(row):
     return seq, cell[cell.index("(") + 1:cell.rindex(")")]
 
 
+def _tm(row):
+    """The two Tm cells as one column: fusion / closest wild-type parent.
+
+    ⛔ BLANK IS PRINTED AS A DASH, NEVER AS A NUMBER. A design outside the 5-6-5 thermodynamics
+    panel carries no Tm in the canonical file, and an empty cell in a submitted table reads as a
+    missing value rather than as a number somebody forgot.
+    """
+    f, p = row.get("predicted_tm_fusion_c"), row.get("predicted_tm_best_parent_c")
+    if not f or not p:
+        return "—"
+    return f"{f} / {p}"
+
+
 def build() -> str:
     rows = _rows()
     out = ["<!-- GENERATED — DO NOT EDIT. Regenerate: python3 research/manuscripts/aso_journal_tables.py -->",
@@ -140,14 +153,20 @@ def build() -> str:
             "articles are the engineered constructs of Brenca et al. "
             "(PMID:31020999); the two patient-derived models of Bangerter et al. (PMID:36316541) are "
             "REPORTED at an NR4A3 exon-2 acceptor and match different designs, not these two. "
+            "Tm is the nearest-neighbour melting temperature of the UNMODIFIED DNA:RNA hybrid at "
+            "250 nM strand concentration, printed against the fusion target and against the closest "
+            "wild-type parent; the locked residues are not modelled, and because the fusion duplex "
+            "pairs all ten of them and each parent duplex five, the separation printed here is a "
+            "floor on the modified oligonucleotide's rather than an estimate of it. "
             "Nothing here has been synthesised or tested, and no sequence may be administered to "
             "any person or animal.", ""]
-    out += ["| seam | reagent | margin | WT gap duplex (bp) | test article |",
-            "|---|---|---:|---|---|"]
+    out += ["| seam | reagent | margin | WT gap duplex (bp) | Tm fusion / WT parent (°C) | "
+            "test article |",
+            "|---|---|---:|---|---:|---|"]
     for j in LEADS:
         r = _lead(rows, j)
         out.append(f"| {_seam(j)} | 5′-{r['sequence']}-3′ | {r['gap_level_margin']} | "
-                   f"{_duplex(r)} | {TEST_ARTICLE[j]} |")
+                   f"{_duplex(r)} | {_tm(r)} | {TEST_ARTICLE[j]} |")
     out.append("")
 
     #: ⭐ HOW FAR THE NEAREST CONDEMNED DESIGN SITS FROM A REAGENT WE TELL PEOPLE TO BUY, DERIVED

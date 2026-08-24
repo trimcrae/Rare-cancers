@@ -490,6 +490,7 @@ def _rows():
         row["also_tiled_at_junctions"] = "; ".join(
             sorted(j for j in others if j and j != row["junction"]))
 
+    _stamp_the_predicted_tm(rows)
     _stamp_the_unmeasured_state(rows)
     # ⚠ BEFORE the twin pass: that pass partitions on `do_not_order`, so a row condemned here must
     # already carry its verdict or it would be offered as the clean member of a near-identical pair.
@@ -543,6 +544,51 @@ def _mark_the_near_identical_twins(rows):
 #: The columns that would otherwise assert a mature-parent reading the row does not have.
 _UNMEASURED_COLUMNS = ("mature_parent_duplex_through_gap_bp", "mature_parent_duplex_gene",
                        "pairs_a_wild_type_parent_through_the_gap")
+
+
+def _stamp_the_predicted_tm(rows):
+    """Fill the two Tm columns from `junction-aso-thermo.json`, keyed on the SEQUENCE.
+
+    ⭐ ADDED 2026-08-24 after external review asked for predicted Tm. A laboratory ordering these
+    oligonucleotides needs the melting temperature, and this repository was already computing it and
+    writing only the free energies.
+
+    ⛔ KEYED ON SEQUENCE, AND THAT IS ONLY SAFE BECAUSE IT IS ASSERTED. One antisense sequence is
+    tiled at up to three junctions (the 16-mer spanning the EWSR1, TAF15 and FUS breakpoints is the
+    reason Figure 1 exists). Its fusion target is that sequence's reverse complement whatever the
+    junction is called, and the 8/8 donor/acceptor split is the same, so the thermodynamics are
+    identical across those rows — but "identical" is a property of the current panel, not a law, and
+    a geometry change could break it silently. So a sequence carrying two different Tm values in the
+    thermo artifact RAISES rather than letting the first one win.
+
+    ⚠ A ROW WITH NO THERMO RECORD KEEPS ITS BLANK. The 18-mer and 20-mer geometries and the
+    noncoding-acceptor designs are not in the 5-6-5 thermo panel, and an empty cell says so; the
+    `_UNMEASURED_COLUMNS` machinery is not extended to these, because blank here means "this design
+    is outside that artifact's panel", not "measured and found absent".
+    """
+    try:
+        thermo = _load("junction-aso-thermo.json")
+    except FileNotFoundError:
+        return
+    if not thermo:
+        return
+    by_sequence = {}
+    for rec in thermo.get("per_design") or []:
+        seq = rec.get("antisense_5to3")
+        pair = (rec.get("tm_fusion_duplex_c"), rec.get("tm_best_parent_duplex_c"))
+        if seq is None or pair[0] is None or pair[1] is None:
+            continue
+        held = by_sequence.setdefault(seq, pair)
+        if held != pair:
+            raise SystemExit(
+                f"junction-aso-thermo.json gives sequence {seq} two different Tm pairs, {held} and "
+                f"{pair}. The manifest keys Tm on the sequence because the panel's duplexes do not "
+                "depend on which junction a design is named at; that is no longer true, so this "
+                "column must be keyed on (sequence, junction) before it can be written.")
+    for row in rows:
+        pair = by_sequence.get(row["sequence"])
+        if pair and row.get("geometry") == "5-6-5":
+            row["predicted_tm_fusion_c"], row["predicted_tm_best_parent_c"] = pair
 
 
 def _stamp_the_unmeasured_state(rows):
@@ -604,7 +650,9 @@ _FIELDS = ("sequence", "do_not_order", "near_identical_design_with_a_different_v
            "also_tiled_at_junctions", "gap_level_margin",
            "mature_parent_duplex_through_gap_bp", "mature_parent_duplex_gene",
            "parent_paired_gap_dna_nt", "parent_seam_hybrid_bp",
-           "pairs_a_wild_type_parent_through_the_gap", "role", "clinical_tier")
+           "pairs_a_wild_type_parent_through_the_gap",
+           "predicted_tm_fusion_c", "predicted_tm_best_parent_c",
+           "role", "clinical_tier")
 
 #: ⛔⛔ THE COLUMN HEADER IS LINE 1 AND THE PROSE FOLLOWS IT, NOT THE OTHER WAY ROUND (2026-08-19).
 #: This file shipped with 55 comment lines ahead of the column header, and MEASURED with pandas

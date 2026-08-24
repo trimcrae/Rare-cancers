@@ -113,6 +113,47 @@ def build() -> dict:
     }
 
 
+def _norm(s: str) -> str:
+    """Lowercase, alphanumerics only. Punctuation is the ONLY thing this is allowed to forgive."""
+    return re.sub(r"[^a-z0-9]", "", s.lower())
+
+
+def _candidates(rec):
+    """Journal strings the fetch actually returned, longest first.
+
+    ⚠ THE THIRD CANDIDATE IS THE FULL TITLE CUT AT ITS NLM SUBTITLE SEPARATOR. PubMed returns
+    "Clinical cancer research : an official journal of the American Association for Cancer
+    Research"; a reference list writes "Clinical cancer research". That leading segment is still a
+    value READ from the fetch, not a shortening invented here — which is the line between forgiving
+    a known formatting difference and guessing at a journal name.
+    """
+    full, abbrev = rec.get("full_title"), rec.get("abbreviation")
+    out = {c for c in (full, abbrev) if c}
+    if full and " : " in full:
+        out.add(full.split(" : ")[0])
+    return sorted(out, key=len, reverse=True)
+
+
+def _match_journal(head: str, rec):
+    """The candidate the entry's journal string actually IS, or None.
+
+    Compared token-wise from the end and normalised for punctuation only, so "The Lancet Oncology"
+    matches the fetched "The Lancet. Oncology" while nothing that is not one of the fetched strings
+    can match at all. Returns the literal trailing substring of `head`, so the caller replaces
+    exactly the characters it matched.
+    """
+    tokens = head.split(" ")
+    for cand in _candidates(rec):
+        n = len(cand.split(" "))
+        for k in (n, n + 1, n - 1):
+            if not 0 < k <= len(tokens):
+                continue
+            tail = " ".join(tokens[-k:])
+            if _norm(tail) == _norm(cand):
+                return tail
+    return None
+
+
 def apply_to_list() -> int:
     """Rewrite each entry's journal name to the fetched abbreviation. Offline."""
     if not os.path.exists(OUT):
@@ -127,12 +168,8 @@ def apply_to_list() -> int:
             unmatched.append((pmid, "no fetched record"))
             continue
         abbrev = meta[pmid]["abbreviation"]
-        full = meta[pmid]["full_title"]
         head = line[span[0]:span[1]]
-        # The current journal string must be one the fetch actually returned. Longest first, so a
-        # full title that CONTAINS the abbreviation is not half-replaced.
-        cands = sorted({c for c in (full, abbrev) if c}, key=len, reverse=True)
-        hit = next((c for c in cands if head.lower().endswith(c.lower())), None)
+        hit = _match_journal(head, meta[pmid])
         if hit is None:
             unmatched.append((pmid, f"journal string not recognised: ...{head[-60:]!r}"))
             continue
@@ -162,7 +199,7 @@ def check() -> int:
             continue
         abbrev = meta[pmid]["abbreviation"]
         head = line[span[0]:span[1]]
-        if not head.endswith(abbrev):
+        if _match_journal(head, meta[pmid]) != abbrev:
             bad.append((pmid, abbrev, head[-60:]))
     for pmid, abbrev, tail in bad:
         print(f"  {pmid}: expected journal {abbrev!r}, entry ends ...{tail!r}", file=sys.stderr)
