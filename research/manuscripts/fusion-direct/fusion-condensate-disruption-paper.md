@@ -15,12 +15,17 @@ _backfilled: true
 # Disrupting the fusion's condensate: an EWS-low-complexity-domain phase-separation strategy as a fusion-selective route in EWSR1::NR4A3 extraskeletal myxoid chondrosarcoma
 
 > **IN-SILICO / CONCEPT PAPER — earliest-stage of the three protein-level fusion-unique routes.**
-> No wet lab. **No new GPU/AWS compute run was performed for this manuscript.** The first-party data
-> here are previously-committed AlphaFold disorder numbers
-> (`../modalities/nr4a3-structure-assessment.json`) plus a new **CPU-only sequence-feature analysis**
-> run on a GitHub runner (`../modalities/fusion-idr-features.json`, §3.2); everything else is cited
-> literature. The sequence-feature descriptors are phase-separation **proxies**, not a condensate
-> measurement. The rationale is **fusion-exclusive**: the aberrant
+> No wet lab. **No GPU was used.** The first-party data here are previously-committed AlphaFold
+> disorder numbers (`../modalities/nr4a3-structure-assessment.json`), a **CPU-only sequence-feature
+> analysis** run on a GitHub runner (`../modalities/fusion-idr-features.json`, §3.2), and — added
+> 2026-08-24 — a **residue-resolution coarse-grained simulation** of the retained partner segments
+> (CALVADOS 2, 55 runs, CPU, §3.3). The sequence-feature descriptors are phase-separation
+> **proxies**, not a condensate measurement.
+> **⛔ READ §3.3 BEFORE §3.2.** The field-standard phase-behaviour model, run on the segments the
+> fusions actually retain, **does not separate them** — not from each other and not from wild-type
+> NR4A3's own disordered region. The compositional asymmetry §3.2 reports is large and real; it does
+> not translate into a single-chain conformational difference under that model. This paper reports
+> that null rather than omitting it. The rationale is **fusion-exclusive**: the aberrant
 > condensate/phase-separation behaviour is an *emergent* property of the EWS::NR4A3 chimera that
 > **wild-type NR4A3 does not have**, so a condensate-directed agent is functionally fusion-selective
 > in a way the repo's NR4A3 PROTAC (which binds the **shared** NR4A3 LBD) is not. **Read this caveat
@@ -59,7 +64,12 @@ domains carry the LLPS/prion compositional signature (high SYGQ and aromatic con
 Shannon entropy) while folded controls do not — and, **crucially, the non-prion NR4A3_AF1 control
 (NR4A3's own disordered N-terminus) lacks the signature**, providing real first-party evidence that the
 condensate-driving composition is EWS/TAF15-emergent and not a generic property of NR4A3's own disorder.
-These remain sequence-derived **proxies** for phase-separation propensity, not a condensate measurement. We outline three condensate-directed
+These remain sequence-derived **proxies** for phase-separation propensity, not a condensate measurement.
+**We then ran the field-standard instrument for that class of claim and it returned a null** (§3.3):
+a residue-resolution coarse-grained model of disordered-chain conformation, applied to the segments
+the reported fusions actually retain, does not distinguish the EWSR1, TAF15 and TCF12 partners from
+one another, nor any of them from wild-type NR4A3's own disordered N-terminus, at the sampling and
+effect size the analysis was prespecified to resolve. We outline three condensate-directed
 modality classes, the decisive condensate assays others would run, and an honest selectivity/safety
 analysis whose real risk is **not** wild-type NR4A3 but cross-reactivity with the cell's many normal
 condensates. This is the **earliest-stage and least-proven** of the three protein-level fusion-unique
@@ -245,6 +255,59 @@ condensate formation**. Demonstrating that the fusion phase-separates and that i
 *depends* on the condensed state is still the wet-lab step in §4. No GPU/AWS run was involved; the job
 is CPU- and sequence-only, with real tools and real numbers reported as committed.
 
+### 3.3 First-party phase-behaviour simulation — RUN, and it returned a NULL
+
+The descriptors in §3.2 are compositional proxies, and §6 has always said so. The field-standard
+instrument for the underlying claim is a **residue-resolution coarse-grained model of disordered-chain
+behaviour**; it had never been run in this project. It has now been run, on CPU, at no cost, and the
+analysis was **frozen before any simulation** — the quantity, the constructs, the controls, the
+difference rule and, importantly, what would count as a clean negative
+(`../../modalities/emc-condensate-calvados-prespecification.md`). Full tables:
+[`emc-condensate-calvados-findings.md`](../../modalities/emc-condensate-calvados-findings.md).
+
+**What was simulated, and why these windows.** Fifteen constructs, five replicates each for the
+primary ones, 55 runs. The test arms are the segments the **reported fusions actually retain** —
+not the low-complexity domains in the abstract — each **length-matched** to a TCF12 window so that
+chain length is not the variable. ⚠ Two things had to be fixed before this was meaningful, and both
+correct assumptions this manuscript could have inherited. The commonest reported EWSR1::NR4A3
+junction retains **EWSR1 1–431**, not 1–264, and the folded RRM begins at **361** — so the commonest
+fusion's retained segment runs into a folded domain and an all-disordered model may not be pointed at
+it; that window is truncated before the RRM. And the only reported TAF15::NR4A3 coding junction
+retains **TAF15 1–161**, while §3.2's TAF15 row characterises 1–205.
+
+**The readout** is ν, the Flory scaling exponent — the length-normalised measure of how compact the
+chain is, which is what allows windows of different length to be compared at all.
+
+**The result is a null on every prespecified comparison.** All fifteen constructs fall in a narrow
+band, ν ≈ 0.46–0.50, against a prespecified separation threshold of **0.057** (three pooled replicate
+standard deviations, with disjoint replicate ranges also required). No pair separates; the largest
+difference between any two partner windows is **0.021**. Wild-type NR4A3's own disordered AF1 sits
+inside the same band. Composition-preserving scrambles of two parents are indistinguishable from
+their parents.
+
+**The instrument was working.** A prespecified directional control — the same EWSR1 window with 15%
+of positions substituted to glutamate — moved ν by **0.082**, comfortably past the threshold. So the
+model resolves a difference of that size when one is present; these sequences do not present one.
+
+⚠ **Three limits, stated here rather than left to a reviewer.** First, the run **did not meet its own
+prespecified convergence criterion** — about a quarter of runs drift by more than the pooled replicate
+spread — so every value is **provisional**. Second, the noise floor is genuine and independently
+confirmed: two runs of the same construct with the *same random seed*, on two different machines,
+differ by 0.022, which is about one pooled standard deviation, because the CPU platform is not
+bit-reproducible across hosts. Third, and consequently, this arm **excludes a partner difference
+larger than about 0.06 in ν and says nothing about smaller ones**. It is a bounded null, not a proof
+of identity.
+
+**What it means for this route, at its true weight.** The compositional signature §3.2 reports is
+large — the SYGQ fraction across these windows spans 0.26 to 0.82 — and it **does not translate into
+a single-chain conformational difference** under the standard model of exactly that behaviour. Two
+consequences follow and neither is comfortable. The differential prediction across fusion partners
+that motivated running this instrument is **not supported** by it. And the fusion-versus-wild-type
+asymmetry in §5, which is compositionally sharp, is **not reproduced** at this level. Single-chain
+conformation is one axis and not the whole of phase behaviour — the coexistence arm that would make
+"phase behaviour" a measurement rather than a model's premise needs a GPU and has not been run — but
+the axis that was cheap to test was tested, and it did not support the hypothesis.
+
 ---
 
 ## 4. The decisive experiment others would run (computation cannot replace this)
@@ -278,11 +341,18 @@ roadmap. We state that falsifier plainly.
 
 **The fusion-selectivity argument is genuinely strong on the wild-type-NR4A3 axis.** Because the
 condensate behaviour is encoded by the EWS LC domain that wild-type NR4A3 does not carry, a
-condensate-directed agent acts on a property the wild-type protein lacks. This now has **first-party
+condensate-directed agent acts on a property the wild-type protein lacks. This has **first-party
 sequence-feature support** (§3.2): the EWS/TAF15 LC domains carry the LLPS/prion compositional signature
 and the **non-prion NR4A3_AF1 control** — NR4A3's own disordered N-terminus — does **not**, evidence
 that the condensate-driving composition is fusion-emergent rather than a generic property of NR4A3's
-disorder. (These are sequence proxies, not a condensate measurement; see the §3.2 and §6 caveats.) This is precisely the
+disorder. (These are sequence proxies, not a condensate measurement; see the §3.2 and §6 caveats.)
+⛔ **And the support stops at the composition level.** When the same asymmetry was put to a
+residue-resolution model of disordered-chain conformation (§3.3), **wild-type NR4A3's AF1 was
+indistinguishable from the EWSR1 low-complexity window** — a prespecified negative, reported here
+because it bears directly on this section's argument. The domain-content claim is unchanged and is a
+fact about the sequences: wild-type NR4A3 does not carry an EWS-type prion-like LC domain. What is
+**not** established is that this produces a difference in chain behaviour, and the one instrument we
+could run to check found none it could resolve. This is precisely the
 selectivity gap the LBD-shared degrader cannot close: that agent removes NR4A3 protein (fusion and
 wild-type alike) and must rely on the tumour's *dependence* on NR4A3 for its therapeutic window,
 whereas a condensate-directed agent is, in mechanism, blind to wild-type NR4A3 monomer. Sparing
@@ -327,9 +397,23 @@ here must confront, and as a key counter-screen design requirement in §4.
 - **The new computation is sequence proxies, not a condensate measurement.** The first-party numbers
   are now the pre-existing pLDDT values **plus** the §3.2 sequence-feature descriptors
   (`../modalities/fusion-idr-features.json`, run CPU-only on a GitHub runner). The latter are
-  composition/charge-patterning/entropy **proxies** for phase-separation propensity — they strengthen
-  the premise and supply the non-prion NR4A3_AF1 control, but they do **not** demonstrate that the
+  composition/charge-patterning/entropy **proxies** for phase-separation propensity — they supply the
+  non-prion NR4A3_AF1 control, but they do **not** demonstrate that the
   fusion forms condensates or that its transcription depends on them; that remains the §4 wet-lab step.
+- **⛔ The one non-proxy computation we could run returned a NULL, and it constrains this paper (§3.3).**
+  A residue-resolution coarse-grained model of disordered-chain conformation, prespecified before it
+  ran and applied to the segments the reported fusions actually retain, **separates none of them** —
+  not EWSR1 from TAF15, not either from the non-FET partner TCF12 at matched length, and not any of
+  them from wild-type NR4A3's own disordered region. Its directional control moved, so the instrument
+  was working. Three things bound how far that null goes: it is **provisional**, because the run did
+  not meet its own convergence criterion; it excludes only differences **larger than about 0.06 in ν**;
+  and single-chain conformation is one axis of phase behaviour rather than the whole of it. It is a
+  bounded negative, and it is the reason the differential-across-partners argument is not made in this
+  paper.
+- **The multi-chain coexistence arm — the one that would make "phase behaviour" a measurement rather
+  than a model's premise — has not been run.** It needs a GPU. Measured rather than assumed: the same
+  system on CPU manages under five integration steps a second against the roughly 150 million the
+  standard protocol needs, so there is no cheap route to it.
 - **Wild-type side stated carefully.** The selectivity claim is specifically that wild-type NR4A3
   lacks the EWS prion-like LC domain that drives FET-fusion LLPS — not a claim that wild-type NR4A3 is
   wholly devoid of disorder or coactivator interactions.
@@ -352,7 +436,8 @@ The mechanism is not EMC-specific, which both motivates the route and shares its
 
 EMC remains the clean entry point: a single near-clonal driver, a quiet genome, and a sharp
 fusion-vs-wild-type structural asymmetry (the EWS LC domain present only in the fusion) that makes the
-fusion-selectivity argument unusually crisp. It is the entry point, not the endpoint — but it is the
+fusion-selectivity argument unusually crisp — **crisp at the level of domain content, which §3.3 shows
+is not the same as crisp at the level of chain behaviour.** It is the entry point, not the endpoint — but it is the
 earliest-stage route, and this paper's job is to state the hypothesis honestly, not to oversell it.
 
 ---
@@ -401,7 +486,9 @@ sarcoma-specialist and biophysics review before any submission. No competing int
 wet-lab/biophysics collaborator is explicitly sought to run the condensate assays of §4. Medical-
 integrity note: no medical facts, statistics, citations, DOIs, PMIDs, authors, or data were fabricated;
 the first-party numbers are the committed pLDDT values in `../modalities/nr4a3-structure-assessment.json`
-(EWSR1 1–264 pLDDT 38.8 / 98.1% < 50; NR4A3 LBD 85.0) and the §3.2 sequence-feature descriptors in
+(EWSR1 1–264 pLDDT 38.8 / 98.1% < 50; NR4A3 LBD 85.0), the §3.2 sequence-feature descriptors in
 `../modalities/fusion-idr-features.json` (run CPU-only on a GitHub runner; quoted faithfully and flagged
-as phase-separation proxies, not a condensate measurement); unverifiable citations are flagged
+as phase-separation proxies, not a condensate measurement), and the §3.3 simulation in
+`../modalities/emc-condensate-calvados.json` (55 CPU runs, scored by a rule frozen before any of them
+ran, and reported as the null it returned); unverifiable citations are flagged
 "to verify"; condensate pharmacology is flagged throughout as an emerging, unproven field.*

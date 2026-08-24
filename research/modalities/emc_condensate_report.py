@@ -24,6 +24,7 @@ RESULT = os.path.join(HERE, "emc-condensate-calvados.json")
 ELIGIBILITY = os.path.join(HERE, "emc-condensate-window-eligibility.json")
 MANIFEST = os.path.join(HERE, "emc-condensate-constructs.json")
 COMPOSITION = os.path.join(HERE, "emc-condensate-composition.json")
+PILOT = os.path.join(HERE, "emc-condensate-pilot-T161-r1.json")
 OUT = os.path.join(HERE, "emc-condensate-calvados-findings.md")
 
 PRESPEC = "emc-condensate-calvados-prespecification.md"
@@ -278,6 +279,35 @@ def render():
         for k, v in flags.items():
             A(f"| `{k}` | {_fmt(v['nu_mean'])} | {v['expected_range']} | "
               f"{_fmt(v['nu_half_vs_full_delta_max'])} |")
+        A("")
+
+    pilot = _load(PILOT)
+    runs_by_id = {r["run_id"]: r for r in (res.get("runs") or [])}
+    if pilot and pilot["run_id"] in runs_by_id:
+        m = runs_by_id[pilot["run_id"]]
+        A("## 6.2 · The same seed, run twice on different machines")
+        A("")
+        A("The pilot run and the matrix's own `T161_r1` carry the **same deterministic seed** and the "
+          "same protocol, on two different GitHub runners. This was not designed as a control; it "
+          "fell out of running a pilot before the matrix, and it turned out to be the most useful "
+          "single check in the arm.")
+        A("")
+        A("| | pilot | matrix | ")
+        A("|---|---:|---:|")
+        A(f"| seed | {pilot['random_number_seed']} | {m.get('random_number_seed')} |")
+        A(f"| ν | {_fmt(pilot['nu'])} | {_fmt(m.get('nu'))} |")
+        A(f"| R_g (nm) | {_fmt(pilot['rg_mean_nm'])} | {_fmt(m.get('rg_mean_nm'))} |")
+        A(f"| trajectory SHA-256 | `{pilot['trajectory_sha256'][:16]}…` | "
+          f"`{str(m.get('trajectory_sha256'))[:16]}…` |")
+        A("")
+        dn = abs(pilot["nu"] - m["nu"])
+        sig = res.get("pooled_replicate_sd_nu")
+        A(f"**The trajectories are not identical and |Δν| = {dn:.4f}.** A fixed seed does not make "
+          f"the CPU platform bit-reproducible across machines. ⭐ The number that matters is the "
+          f"comparison: that gap is **{dn/sig:.2f}× the pooled replicate SD** of "
+          f"{sig:.4f}. Two runs that were meant to be the same differ by about as much as two "
+          f"deliberately independent replicates do — which confirms the noise floor by a second, "
+          f"independent route rather than from the replicate design that defines it.")
         A("")
 
     A("## 7 · Claim ceiling")

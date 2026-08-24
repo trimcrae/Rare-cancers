@@ -205,6 +205,31 @@ and the four named negatives. **Do not restate any of it here.**
    quietly running the shorter junction and calling it canonical — which is the exact error this page
    warns about two paragraphs above.
 
+### 4.2 · ⛔ THE ARM RAN AND RETURNED A NULL, 2026-08-24 — this route's headline claim is NOT supported
+
+55 CPU runs, $0. **No partner window separates from any other, and none separates from wild-type
+NR4A3's own disordered region.** The directional instrument control moved, so the model resolves a
+difference of the size it was asked about; these sequences do not present one. One home for every
+number: [`emc-condensate-calvados-findings.md`](../../modalities/emc-condensate-calvados-findings.md).
+
+⭐ **The differential-across-partners prediction — the thing that made this route worth doing rather
+than merely respectable, per §4 above — is the specific thing that failed.** That is the outcome the
+prespecification named as its most valuable, and it is recorded here at full weight rather than
+softened: this page argued a condensate model *makes* a differential prediction across the chimeras,
+and the field-standard single-chain model does not make one.
+
+⚠ **What the null does and does not license.** It is **provisional** — the run did not meet its own
+convergence criterion — and it excludes only differences **larger than about 0.06 in ν**. Single-chain
+conformation is one axis of phase behaviour, not the whole of it. So this closes the *cheap* version of
+the question, not the question. ⛔ **It is not a licence to re-run the same arm with more sampling in
+the hope of a different answer**; the prespecification forbids exactly that, and the standard was
+scoped up front for this reason.
+
+**The remaining arm is the multi-chain coexistence run, and it needs a GPU.** Measured rather than
+assumed: the same system on CPU manages under five integration steps per second against the ~150
+million the standard protocol needs. That is a real-dollar spend and a decision for trimcrae; nothing
+here authorises it.
+
 ---
 
 ## 5 · What was built for this memo, and what it deliberately does not claim

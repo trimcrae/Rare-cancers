@@ -27,31 +27,21 @@ last_verified: 2026-08-24
 
 ## 1 · Verdict
 
-**INCOMPLETE — the run set does not match the frozen manifest, so no verdict about any partner is emitted.** This is not a negative result and must never be read as one. An absent reading is not a reading of absence; the missing runs are named below and the arm is finished when they land.
+**NO_SEPARATION — no prespecified pair separates under rule D1.** ⭐ This is a RESULT, not a failure. It says the model does not distinguish the reported partners' retained segments on this axis, which contradicts the differential prediction the route memo was about to build on.
 
-Conditions that fired:
+**N2 · no partner stratification.** No length-matched FET-vs-TCF12 pair separates. The differential prediction across the chimeras is not supported on this axis.
 
-- C161: 0 of 5 replicates carry a nu — the run set does not match the frozen manifest, so no verdict about any partner is emitted
-- C264: 0 of 5 replicates carry a nu — the run set does not match the frozen manifest, so no verdict about any partner is emitted
-- C264_scr1: 0 of 2 replicates carry a nu — the run set does not match the frozen manifest, so no verdict about any partner is emitted
-- C264_scr2: 0 of 2 replicates carry a nu — the run set does not match the frozen manifest, so no verdict about any partner is emitted
-- C264_scr3: 0 of 2 replicates carry a nu — the run set does not match the frozen manifest, so no verdict about any partner is emitted
-- C360: 0 of 5 replicates carry a nu — the run set does not match the frozen manifest, so no verdict about any partner is emitted
-- E264: 0 of 5 replicates carry a nu — the run set does not match the frozen manifest, so no verdict about any partner is emitted
-- E264_E15: 0 of 3 replicates carry a nu — the run set does not match the frozen manifest, so no verdict about any partner is emitted
-- E264_scr1: 0 of 2 replicates carry a nu — the run set does not match the frozen manifest, so no verdict about any partner is emitted
-- E264_scr2: 0 of 2 replicates carry a nu — the run set does not match the frozen manifest, so no verdict about any partner is emitted
-- E264_scr3: 0 of 2 replicates carry a nu — the run set does not match the frozen manifest, so no verdict about any partner is emitted
-- E360: 0 of 5 replicates carry a nu — the run set does not match the frozen manifest, so no verdict about any partner is emitted
-- F212: 0 of 5 replicates carry a nu — the run set does not match the frozen manifest, so no verdict about any partner is emitted
-- N260: 0 of 5 replicates carry a nu — the run set does not match the frozen manifest, so no verdict about any partner is emitted
-- T161: 0 of 5 replicates carry a nu — the run set does not match the frozen manifest, so no verdict about any partner is emitted
+**N4 · FET identity carries no signal here.** None of the three length-matched pairs separates, so the clinical reading — that a TCF12-partnered patient is different on this axis — is unsupported by this instrument.
+
+**N3 · the wild-type control does not separate.** NR4A3's own disordered AF1 is indistinguishable from the EWSR1 low-complexity window on this readout. The manuscript's central fusion-versus-wild-type asymmetry survives at the composition level and fails at the phase-behaviour level, and the manuscript has to say so.
+
+**N1 · composition-only.** Neither scrambled parent's ν moved from its parent by the separation threshold. Composition-preserving shuffles change the *order* of the sequence and nothing else, so the simulation is resolving nothing beyond amino-acid composition — and composition counting is already the manuscript's existing evidence. ⚠ Read with the verdict above: if partners also separate, that separation is real but is a composition effect, and CALVADOS has added a more expensive route to a number the paper already had.
 
 ## 2 · What was run
 
-- Constructs in the frozen manifest: **15**; runs: **55**; analyses reduced: **0**.
+- Constructs in the frozen manifest: **15**; runs: **55**; analyses reduced: **55**.
 - Protocol: CALVADOS 2, 293.15 K, 0.19 M ionic strength, pH 7.5, 10 fs timestep, 1010 frames × 7000 steps, first 10 discarded, 150 nm box, CPU platform.
-- Pooled replicate SD of ν: **—**; separation threshold (3 SD): **—**.
+- Pooled replicate SD of ν: **0.0191**; separation threshold (3 SD): **0.0574**.
 
 ### 2.1 · Window eligibility (AlphaFold pLDDT, fetched before any simulation)
 
@@ -69,6 +59,52 @@ Entry criterion, fixed before the fetch: at least 75% of window residues below p
 | `F212` | FUS 1-212 | 212 | 41.03 | 0.9575 | yes |
 
 All primary windows eligible: **yes**.
+
+## 3 · Measured ν per construct
+
+| construct | role | window | N | n | ν mean | ν SD | ν min | ν max |
+|---|---|---|---:|---:|---:|---:|---:|---:|
+| `E264` | TEST | EWSR1 1-264 | 264 | 5 | 0.4785 | 0.0318 | 0.4330 | 0.5198 |
+| `E360` | TEST | EWSR1 1-360 | 360 | 5 | 0.4754 | 0.0224 | 0.4509 | 0.5050 |
+| `T161` | TEST | TAF15 1-161 | 161 | 5 | 0.4959 | 0.0205 | 0.4683 | 0.5231 |
+| `C161` | TEST | TCF12 1-161 | 161 | 5 | 0.5027 | 0.0081 | 0.4933 | 0.5124 |
+| `C264` | TEST | TCF12 1-264 | 264 | 5 | 0.4813 | 0.0197 | 0.4584 | 0.5047 |
+| `C360` | TEST | TCF12 1-360 | 360 | 5 | 0.4636 | 0.0060 | 0.4562 | 0.4696 |
+| `N260` | CONTROL | NR4A3 1-260 | 260 | 5 | 0.4897 | 0.0210 | 0.4613 | 0.5141 |
+| `F212` | CONTROL | FUS 1-212 | 212 | 5 | 0.4762 | 0.0078 | 0.4623 | 0.4811 |
+| `E264_scr1` | NULL | EWSR1 1-264 shuffled, seed 20260824 | 264 | 2 | 0.4887 | 0.0003 | 0.4885 | 0.4889 |
+| `E264_scr2` | NULL | EWSR1 1-264 shuffled, seed 20260825 | 264 | 2 | 0.4852 | 0.0190 | 0.4718 | 0.4986 |
+| `E264_scr3` | NULL | EWSR1 1-264 shuffled, seed 20260826 | 264 | 2 | 0.4663 | 0.0222 | 0.4507 | 0.4820 |
+| `C264_scr1` | NULL | TCF12 1-264 shuffled, seed 20260824 | 264 | 2 | 0.4713 | 0.0129 | 0.4622 | 0.4804 |
+| `C264_scr2` | NULL | TCF12 1-264 shuffled, seed 20260825 | 264 | 2 | 0.4259 | 0.0004 | 0.4256 | 0.4262 |
+| `C264_scr3` | NULL | TCF12 1-264 shuffled, seed 20260826 | 264 | 2 | 0.4606 | 0.0405 | 0.4319 | 0.4892 |
+| `E264_E15` | INSTRUMENT | EWSR1 1-264 with 15% of positions substituted to Glu, seed 20260827 | 264 | 3 | 0.5604 | 0.0105 | 0.5506 | 0.5716 |
+
+## 4 · Prespecified comparisons
+
+`D1` is the frozen rule: |Δν̄| ≥ 3 pooled replicate SDs **and** disjoint replicate ranges. `p` is an exact two-sided permutation test; Holm is applied across the primary family only.
+
+| pair | family | Δν̄ | separated (D1) | p | arrangements | powered | Holm |
+|---|---|---:|---|---:|---:|---|---|
+| `E264_vs_C264` | primary | -0.0028 | no | 0.8651 | 252 | yes | no |
+| `E360_vs_C360` | primary | 0.0117 | no | 0.2857 | 252 | yes | no |
+| `T161_vs_C161` | primary | -0.0067 | no | 0.5317 | 252 | yes | no |
+| `E264_vs_E360` | secondary | 0.0031 | no | 0.8651 | 252 | yes | — |
+| `E264_vs_F212` | secondary | 0.0023 | no | 0.8492 | 252 | yes | — |
+| `E264_vs_N260` | secondary | -0.0112 | no | 0.5556 | 252 | yes | — |
+| `E264_vs_T161` | secondary | -0.0174 | no | 0.3413 | 252 | yes | — |
+| `E360_vs_T161` | secondary | -0.0205 | no | 0.1667 | 252 | yes | — |
+| `F212_vs_C264` | secondary | -0.0051 | no | 0.5635 | 252 | yes | — |
+| `T161_vs_N260` | secondary | 0.0062 | no | 0.6429 | 252 | yes | — |
+
+## 5 · The composition-only null
+
+Each parent against the mean of its three composition-preserving scrambles. A shuffle changes sequence *order* and preserves composition exactly, so a parent that does not move from its scrambles is a parent whose ν carries no information beyond composition.
+
+| parent | Δν̄ vs scramble mean | exceeds the 3-SD threshold |
+|---|---:|---|
+| `E264` | -0.0016 | no |
+| `C264` | 0.0287 | no |
 
 ### 5.1 · The composition baseline these ν have to beat
 
@@ -94,9 +130,28 @@ The manuscript's own sequence-derived descriptors (`fusion_idr_features.features
 
 ⚠ **Read the scramble rows, because they bound what N1 can prove.** A composition-preserving shuffle leaves **every composition descriptor byte-identical** to its parent and moves only **SCD**, which is order-dependent. Both facts are asserted by the guard suite rather than eyeballed here. So a scramble-sensitive ν shows the simulation exceeds *composition* — it does **not** by itself show it exceeds the manuscript's full descriptor set, because SCD is in that set and the scramble does not hold it fixed. That is a limit of the prespecified null, stated rather than glossed.
 
+## 6 · Convergence
+
+ν on the second half of each trajectory against ν on the whole post-equilibration trajectory. Largest drift **0.0519**; **14 of 55** runs drift by more than the pooled replicate SD (25%). Converged by the frozen rule: **no**.
+
+⚠ **Every ν above is therefore labelled PROVISIONAL** — reported, never withheld, per Amendment 1.
+
+## 6.2 · The same seed, run twice on different machines
+
+The pilot run and the matrix's own `T161_r1` carry the **same deterministic seed** and the same protocol, on two different GitHub runners. This was not designed as a control; it fell out of running a pilot before the matrix, and it turned out to be the most useful single check in the arm.
+
+| | pilot | matrix | 
+|---|---:|---:|
+| seed | 1714282698 | 1714282698 |
+| ν | 0.5011 | 0.5231 |
+| R_g (nm) | 3.3674 | 3.4503 |
+| trajectory SHA-256 | `3fc44ac77d63afa5…` | `e99455803c2fe5d9…` |
+
+**The trajectories are not identical and |Δν| = 0.0219.** A fixed seed does not make the CPU platform bit-reproducible across machines. ⭐ The number that matters is the comparison: that gap is **1.15× the pooled replicate SD** of 0.0191. Two runs that were meant to be the same differ by about as much as two deliberately independent replicates do — which confirms the noise floor by a second, independent route rather than from the replicate design that defines it.
+
 ## 7 · Claim ceiling
 
-ν is a single-chain conformational observable. No efficacy, no selectivity in a patient, no safety, no therapeutic window, no clinical readiness.
+nu is a single-chain conformational observable. A difference in nu between two retained partner segments is a difference in nu between two retained partner segments. No saturation concentration, phase diagram, condensate, efficacy, patient-level selectivity, safety, therapeutic window or clinical readiness is measured or claimed.
 
 ## 8 · What was not run
 
