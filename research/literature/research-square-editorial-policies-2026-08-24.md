@@ -159,7 +159,9 @@ the Methods section or a suitable alternative part. It is not named in §6 as a 
 >
 > **16. Citation**
 > Please use the following format to cite preprints on Research Square:
-> Martina Bientzle, Ulrike Cress, Joachim Kimmerle. Development of domain-specific epistemological beliefs of physiotherapists: A longitudinal study, 22 October 2019, PREPRINT (Version 3) available at Research Square [https://doi.org/10.21203/rs.2.9685/v3]
+> [Author names]. [Title], [date], PREPRINT (Version [n]) available at Research Square [the preprint's Research Square DOI]
+>
+> ⚠ **ELIDED BY THIS REPOSITORY, deliberately, and this is the ONLY departure from verbatim on this page.** Research Square's §16 illustrates its citation format with a real third-party preprint, and reproducing it would put a live DOI into this repository's prose that **no fetch here corroborates** — `lint_citations` correctly went red on exactly that, and Crossref is unreachable from the sandbox (`CONNECT tunnel failed, 403`) so it could not be anchored. The elided fields are formatting boilerplate: nothing in the citation *format* is lost, and this repository makes no claim, in either direction, about the paper Research Square chose as its example. Every policy sentence on this page is untouched.
 >
 > **17. Versioning**
 > Research Square supports versions of preprints and encourages authors to issue new versions when corrections need to be made or in response to reviewer/community feedback. Preprints are limited to 5 revisions.
