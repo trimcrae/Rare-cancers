@@ -50,6 +50,12 @@ TARGETS = [
     "research/manuscripts/repurposing/repurposing-hypotheses.md",
     "research/manuscripts/surface-targets/emc-surface-target-landscape.md",
     "research/manuscripts/surface-targets/emc-surface-target-landscape-si.md",
+    # ⭐ ADDED 2026-08-23 with the ICD-O classification note, on the day it was first drafted
+    # rather than on the day it goes out. Gate 5 checks REGISTER, and register is cheapest to fix
+    # while the prose is a day old; the four texts above were added retroactively and cost 96, 283
+    # and 81 findings between them to clean up. A submission text belongs here from its first
+    # commit.
+    "research/manuscripts/care-delivery/emc-icdo-9231-classification.md",
     # ⭐ THE ASO SUBMISSION, ADDED 2026-08-12 WHEN IT BECAME A SUBMISSION TEXT RATHER THAN A
     # WORKING DOCUMENT. It passes on merit, not by exemption; its 24,000-word predecessor could not,
     # and the split is what made both readable — see the note below.

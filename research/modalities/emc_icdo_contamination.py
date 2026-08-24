@@ -785,8 +785,15 @@ WHAT_HAS_NOT_BEEN_READ = [
     "1973-2016 accrual window. SEER's ICD-O-3 archive page lists fourteen errata sheets "
     "documenting every update to that list since 2001 and names none of their paths in its "
     "visible text; a link-harvesting browser fetch is the route and has been built.",
-    "SEER Cancer PathCHART -- https://seer.cancer.gov/tools/pathchart/ returned HTTP 404, so the "
-    "path is wrong rather than the tool absent.",
+    "SEER Cancer PathCHART -- four candidate paths returned HTTP 404, so the path is wrong rather "
+    "than the tool absent.",
+    "⚠ HOW MANY PRIMARY EMC-OF-BONE CASES HAVE BEEN PUBLISHED. Attempted and INCONCLUSIVE, not "
+    "negative: a Europe PMC search for '\"extraskeletal myxoid chondrosarcoma\" AND (\"of "
+    "bone\" OR intraosseous OR osseous)' returned hitCount 881 and the request took only the "
+    "first 100 by relevance; none of those 100 titles names a bone site. ⛔ That is a statement "
+    "about 100 of 881 records, and it must not be read as 'no bone-primary EMC is reported'. The "
+    "caveat in `bone_primary_is_not_automatically_not_emc` rests on the 2020 review's explicit "
+    "statement and the two series it names, not on this sweep.",
     "The Dictionary of SEER Variables entry for Primary Site under the Research product, which "
     "would turn the topography-availability reading from an argument-from-an-exclusion-list into "
     "a positive confirmation. ⚠ Four candidate paths for it returned HTTP 404, so the path is "

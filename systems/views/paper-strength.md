@@ -55,8 +55,8 @@ last_verified: 2026-08-09
 | 2 | [**PUB-ATR-PANEL-ASK**](../../research/manuscripts/dependency/emc-atr-collaborator-package.md) | ⭐ could still help a patient | 🧪 **bench, pre-built** | **14.0** | 0 | 0 | 0 | 0% of 1 | ◐ `drafted` |
 | 3 | [**PUB-REPURPOSING**](../../research/manuscripts/repurposing/repurposing-hypotheses.md) | ⭐ could still help a patient | 🧪 bench, to build | **12.5** | 2 | 0 | 0 | 20% of 5 | ◐ `drafted` |
 | 4 | [**PUB-SURFACE-TARGETS**](../../research/manuscripts/surface-targets/emc-surface-target-landscape.md) | ⭐ could still help a patient | 🧪 bench, to build | **12.5** | 2 | 3 | 0 | 0% of 8 | ◐ `drafted` |
-| 5 | **PUB-CARE-DELIVERY** | ⭐ could still help a patient | 🏥 clinical adoption | **11.5** | 4 | 0 | 0 | 29% of 7 | ○ `unwritten` |
-| 6 | **PUB-EMC-CLASSIFICATION** | ⭐ could still help a patient | 🏥 clinical adoption | **11.5** | 2 | 0 | 0 | 25% of 4 | ◔ `outlined` |
+| 5 | [**PUB-EMC-CLASSIFICATION**](../../research/manuscripts/care-delivery/emc-icdo-9231-classification.md) | ⭐ could still help a patient | 🏥 clinical adoption | **12.0** | 2 | 0 | 0 | 25% of 4 | ◐ `drafted` |
+| 6 | **PUB-CARE-DELIVERY** | ⭐ could still help a patient | 🏥 clinical adoption | **11.5** | 4 | 0 | 0 | 29% of 7 | ○ `unwritten` |
 | 7 | [**PUB-STRATEGY-ARCH**](../../research/manuscripts/care-delivery/emc-trial-reachability.md) | ⭐ could still help a patient | ⭐ **no bench needed** | **11.5** | 1 | 2 | 0 | 57% of 7 | ◐ `drafted` · ✎ short report |
 | 8 | **PUB-IPD-SURVIVAL** | ⭐ could still help a patient | ⭐ **no bench needed** | **11.0** | 1 | 0 | 0 | 50% of 2 | ○ `unwritten` |
 | 9 | [**PUB-ATR**](../../research/manuscripts/dependency/emc-atr-vulnerability-assessment.md) | ⭐ could still help a patient | 🧪 bench, to build | **8.0** | 1 | 0 | 0 | 0% of 1 | ◐ `drafted` |
@@ -99,15 +99,15 @@ last_verified: 2026-08-09
 - [RT-PRAME-IMMTAC](L2-rt-prame-immtac.md) — *Is a PRAME-directed T-cell engager or receptor therapy applicable to EMC?* — `blocked` / `computed` / confidence `moderate` · last verified `2026-08-05`
 - [RT-FAP-RLT](L2-rt-fap-rlt.md) — *Could a fibroblast-activation-protein radioligand reach EMC through its stroma?* — `blocked` / `concept` / confidence `unknown` · last verified `2026-08-05`
 
+**PUB-EMC-CLASSIFICATION** — score 12.0
+- [RT-DIAGNOSTIC-PATHWAY](L2-rt-diagnostic-pathway.md) — *Does EMC's classification — the ICD-O code it shares and the tumour class its name implies — change what patients are counted and what they are given?* — `ready` / `computed` / confidence `moderate` · last verified `2026-08-23`
+- [RT-POPULATION-REGISTRY](L2-rt-population-registry.md) — *What do population-level treatment patterns and outcomes say about EMC that the published series cannot?* — `blocked` / `concept` / confidence `low` · last verified `2026-08-23`
+
 **PUB-CARE-DELIVERY** — score 11.5
 - [RT-SURGICAL-QUALITY](L2-rt-surgical-quality.md) — *How much of EMC's survival is decided by whether the first operation cleared the tumour, and by where it was performed?* — `ready` / `concept` / confidence `low` · last verified `2026-08-09`
 - [RT-SURVEILLANCE](L2-rt-surveillance.md) — *Does follow-up in EMC stop before the disease does, and how much resectable recurrence is lost when it does?* — `ready` / `concept` / confidence `low` · last verified `2026-08-09`
 - [RT-METASTASECTOMY](L2-rt-metastasectomy.md) — *In a lung-metastasis-dominant indolent sarcoma, what should decide whether — and how often — metastases are resected?* — `ready` / `concept` / confidence `low` · last verified `2026-08-09`
 - [RT-RISK-MODEL](L2-rt-risk-model.md) — *Can the prognostic factors reported piecemeal across EMC's series be combined into a stratification that would let treatment intensity be matched to risk?* — `ready` / `concept` / confidence `low` · last verified `2026-08-09`
-
-**PUB-EMC-CLASSIFICATION** — score 11.5
-- [RT-DIAGNOSTIC-PATHWAY](L2-rt-diagnostic-pathway.md) — *Does EMC's classification — the ICD-O code it shares and the tumour class its name implies — change what patients are counted and what they are given?* — `ready` / `computed` / confidence `moderate` · last verified `2026-08-23`
-- [RT-POPULATION-REGISTRY](L2-rt-population-registry.md) — *What do population-level treatment patterns and outcomes say about EMC that the published series cannot?* — `blocked` / `concept` / confidence `low` · last verified `2026-08-23`
 
 **PUB-STRATEGY-ARCH** — score 11.5
 - [RT-TRIAL-REACH](L2-rt-trial-reach.md) — *Can a patient with this disease actually reach the trials and the agents that a computational result would point them toward?* — `ready` / `computed` / confidence `moderate` · last verified `2026-08-09`
