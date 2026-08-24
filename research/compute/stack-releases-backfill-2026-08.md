@@ -140,7 +140,7 @@ The other v1.12.0 changes, checked and not applicable: the 191-line rewrite of
 `_rfe_utils/topologyhelpers.py` is entirely the **alchemical charge-correction** path
 (`_get_ion_parameters`, keyed on `charge_difference`) and is only entered when state A and state B
 differ in formal charge — our committed fan-out legs are `neutral__neutral`. `PersesAtomMapper` was
-removed; we use LOMAP and Kartograf. The new `MultiStateAnalysisSettings` in `omm_settings.py` is
+removed; we use LOMAP and Kartograf. The new `MultiStateAnalysisSettings` in upstream OpenFE's `omm_settings.py` is
 purely additive. **`time_per_iteration` (2.5 ps), `timestep` (4.0 fs), `equilibration_length`
 (1.0 ns) and `production_length` (5.0 ns) are byte-identical between v1.11.1 and v1.12.0** — verified
 by grep at both tags. No repeat of the v1.7.0 `time_per_iteration` event.
@@ -265,15 +265,15 @@ Release: <https://github.com/microsoft/bioemu/releases/tag/v1.4.0>
 The diff v1.3.1 → v1.4.0 is 8,796 insertions, and the substance is that the single
 `src/bioemu/steering.py` module (358 lines, deleted) became a `src/bioemu/steering/` package:
 
-| new module | what it adds |
+| new module (all paths below are upstream, inside `microsoft/bioemu` — not this repository) | what it adds |
 |---|---|
-| `dpm_smc.py` (287 lines) | Sequential Monte Carlo over the diffusion sampler |
-| `dpm_fkc.py` (370 lines) | Feynman-Kac correctors |
-| `collective_variables.py` (262 lines) | A CV abstraction |
-| `potentials.py` (136 lines) | Biasing potentials against those CVs |
-| `utils.py` (458 lines) | Supporting machinery |
+| upstream `dpm_smc.py` (287 lines) | Sequential Monte Carlo over the diffusion sampler |
+| upstream `dpm_fkc.py` (370 lines) | Feynman-Kac correctors |
+| upstream `collective_variables.py` (262 lines) | A CV abstraction |
+| upstream `potentials.py` (136 lines) | Biasing potentials against those CVs |
+| upstream `utils.py` (458 lines) | Supporting machinery |
 
-`denoiser.py` (+436 lines) and `sample.py` (+94) were reworked to match, and the test suite grew a
+Upstream `denoiser.py` (+436 lines) and `sample.py` (+94) were reworked to match, and the test suite grew a
 whole `tests/steering/` tree including a chignolin end-to-end.
 
 **Why this is the item to look at.** This repo already runs bioemu
