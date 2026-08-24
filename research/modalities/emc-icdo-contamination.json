@@ -72,13 +72,106 @@
       "the_location_variable_is_a_bone_taxonomy": "Tumor location was classified as axial (including pelvic bones, sacrum, coccyx, ribs, sternum, and vertebral columns), extremities (including bones of the upper and lower extremities) and other group (including bones of skull, mandible, and other atypical locations)",
       "what_that_does_to_the_size_question": "⛔ IT DESTROYS IT FOR THIS PAPER. Every one of the three location buckets is defined in terms of BONES, so a soft-tissue EMC of the thigh is absorbed into 'bones of the upper and lower extremities' or into 'other atypical locations' and becomes unrecoverable. The paper reports tumour location for all 743 patients (axial 212, extremities 326, other 205) and the split cannot be read as bone-versus-soft-tissue, because the taxonomy has no soft-tissue category to be counted in. This is not a criticism of the paper; it is the same code ambiguity reappearing in the variable that would have resolved it.",
       "provenance": "[FT]"
+    },
+    {
+      "pmid": "32856598",
+      "pmcid": null,
+      "doi": "10.1158/1055-9965.epi-20-0447",
+      "year": 2020,
+      "title": "Long-term Outcomes for Extraskeletal Myxoid Chondrosarcoma: A SEER Database Analysis",
+      "reads_9231_3_as": "extraskeletal myxoid chondrosarcoma",
+      "cohort": "SEER 1973-2016, selected on morphology 9231/3 with no stated topography restriction",
+      "n_identified_on_the_code_alone": 791,
+      "n_after_exclusions": 439,
+      "n_provenance": "⚠ [2°] -- BOTH COUNTS ARE READ FROM A REVIEW, NOT FROM THIS PAPER. The 2025 review at PMC12504171 states: 'a recent study has utilised SEER database and identified 791 cases diagnosed as myxoid chondrosarcoma, with 439 cases meeting the inclusion criteria following exclusions (Wagner et al. 2020)'. The 439 is corroborated independently by this paper's own abstract, which reports 373 locoregional cases as 85% of the cohort. The 791 has ONE source and it is secondary.",
+      "why_791_matters": "⭐ It is the only published count of a SEER 9231/3 pull BEFORE any exclusion, and it is the natural denominator for the question this route asks. ⛔ AND IT IS NOT THE ANSWER: 352 cases were dropped and NOBODY HAS READ WHY. If the exclusions were topography-based the gap would bound the contamination; if they were for missing survival time, unknown treatment or non-primary status it says nothing about site. Reading 791-439 as a bone fraction would be exactly the manufactured ratio `registration.how_a_number_may_not_be_obtained` forbids.",
+      "site_restriction_applied": "UNKNOWN -- the abstract states none, and the Methods have not been read.",
+      "reachability": "⛔ UNREACHABLE AT $0. Europe PMC reports isOpenAccess=N and inPMC=N; the NCBI ID converter returns 'Identifier not found in PMC'; the publisher PDF URL Europe PMC advertises returns HTTP 200 with Content-Type text/html and a ten-character body reading 'Loading...', i.e. a JavaScript shim; the DOI landing page and the AACR article page both return HTTP 403. This is a subscription article and no attempt was made to get around that.",
+      "what_it_would_settle": "Its abstract says 'Logistic regression assessed associations between tumor location and distant disease' and 'There was no OS difference by primary tumor site', so the paper analysed primary site and its Table 1 very likely prints the distribution. That table is the single highest-value unread object for this route.",
+      "provenance": "[API] for the abstract; [2°] for the 791"
+    },
+    {
+      "pmid": "27819877",
+      "pmcid": null,
+      "doi": "10.1097/coc.0000000000000341",
+      "year": 2018,
+      "title": "Benefit of Radiotherapy in Extraskeletal Myxoid Chondrosarcoma: A Propensity Score Weighted Population-based Analysis of the SEER Database",
+      "reads_9231_3_as": "extraskeletal myxoid chondrosarcoma",
+      "cohort": "SEER 1973-2012, 'queried for cases of localized EMC arising from soft connective tissues of the trunk and extremities treated with surgery and/or EBRT'; 172 patients identified, all diagnosed 2004-2012",
+      "why_it_matters": "⭐ THIS IS THE ONLY PUBLISHED EMC COHORT THAT APPLIES A TOPOGRAPHY RESTRICTION EXPLICITLY, and it is therefore the only one whose selection would produce the split if the pre-restriction count were also printed. ⛔ The abstract gives the post-restriction count only. Whether the paper reports what the restriction removed is unread; it is not open access and has no PMCID.",
+      "provenance": "[API]"
+    },
+    {
+      "pmid": "35144048",
+      "pmcid": null,
+      "doi": "10.1016/j.ctarc.2022.100530",
+      "year": 2022,
+      "title": "Extraskeletal myxoid chondrosarcoma: Clinical features and overall survival",
+      "reads_9231_3_as": "extraskeletal myxoid chondrosarcoma",
+      "cohort": "SEER 2004-2015, 270 cases",
+      "why_it_matters": "Its Methods state 'Cases were stratified according to the anatomic site of the primary tumor', and its Results name 'pelvic location' as a univariate prognostic factor -- so an anatomic-site table exists. Whether its site categories distinguish bone from soft tissue, or repeat PMID 31765367's error of using a taxonomy with no soft-tissue category, cannot be told from the abstract.",
+      "provenance": "[API]"
     }
   ],
+  "indeterminate_diagnosis_paper": {
+    "pmid": "39899751",
+    "pmcid": "PMC11789853",
+    "doi": "10.5435/jaaosglobal-d-24-00370",
+    "year": 2025,
+    "title": "What Is the Prevalence and Fate of Myxoid Soft-Tissue Tumors With an Indeterminate Diagnosis Prior to Resection?",
+    "the_question_asked_of_it": "Does the measured chain from diagnostic uncertainty to surgical failure hold in EMC, or only in myxoid soft-tissue tumours as a class?",
+    "answer": "IT CANNOT ANSWER IT, and now we know by how much. Table 2 gives the final resection diagnoses of all 66 patients who had an indeterminate diagnosis before resection: myxoma 26, myxofibrosarcoma 20, myxoid liposarcoma 5, fibromyxoid sarcoma 4, EXTRASKELETAL MYXOID CHONDROSARCOMA 4, myxoid sarcoma 2, other 5.",
+    "emc_share_of_the_indeterminate_cohort": {
+      "n_emc": 4,
+      "n_total": 66
+    },
+    "why_that_settles_it": "⛔ The 37%-versus-15% positive-margin contrast is computed over 27 and 74 patients -- the subset that proved sarcoma AND had two-year follow-up -- and the whole indeterminate cohort contains FOUR EMC patients. No EMC-specific statement can rest on that, in either direction. The route's unknown is therefore answered as UNANSWERABLE FROM THIS SOURCE, with a count, rather than left open as a caveat.",
+    "what_the_paper_may_still_be_cited_for": "The class-level finding, stated as a class-level finding: in musculoskeletal myxoid soft-tissue tumours, 28% (66/235) had an indeterminate preoperative diagnosis, and among those proving sarcoma with two-year follow-up the positive-margin rate was 37% (10/27) against 15% (11/74). EMC is one of at least seven entities inside that class.",
+    "provenance": "[FT]"
+  },
+  "public_aggregate_tier": {
+    "the_question": "SEER has web-facing tools that serve aggregate statistics without a data-use agreement. Will any of them cross morphology 9231/3 against ICD-O topography?",
+    "answer": "NO, and the reason is structural rather than a gap someone forgot to fill.",
+    "the_evidence": {
+      "source": "SEER*Explorer -> Cancer Site Definitions",
+      "url": "https://seer.cancer.gov/statistics-network/explorer/cancer-sites.html",
+      "the_load_bearing_sentence": "The cancer sites available in SEER*Explorer are primarily defined using the SEER Site Recode ICD-O-3/WHO 2008 variable. However, there are additional sites included that are defined below and are based on specific behaviors and/or histologies, and only valid for specific years.",
+      "provenance": "[DOC]"
+    },
+    "what_the_tool_can_do": "⭐ IT CAN CROSS SITE WITH HISTOLOGY -- and the page shows the exact shape this route would need. Its subtype definitions read, verbatim in form, 'Site recode ICD-O-3/WHO 2008 = Lung and Bronchus' AND 'ICD-O-3 Histology (Type) = 8015, 8050, 8140 ...'. So the cross-tab is not a capability SEER*Explorer lacks.",
+    "what_it_cannot_do": "⛔ THE HISTOLOGY AXIS IS A FIXED LIST NCI AUTHORS, NOT A FIELD THE USER SUPPLIES. The subtype definitions exist for exactly five families -- Brain and Other Nervous System, Breast, Esophagus, Lung and Bronchus, Thyroid -- plus three special histology-defined sites (CMML 9945, chronic myeloproliferative disorders 9950-9964, myelodysplastic syndromes 9980-9989). There is NO bone family, NO soft-tissue family, NO chondrosarcoma subtype and no 9231. Everything else is served at Site Recode granularity, and Site Recode is the topography axis with the morphology already collapsed into it.",
+    "so_the_public_tier_verdict": "A 9231/3-by-topography cross-tab is not available from SEER*Explorer at any setting. The help page's downloadable CSV is a download OF THE DISPLAYED STATISTIC, not of case-level data, so it inherits the same granularity.",
+    "what_was_checked_and_did_not_answer": [
+      "SEER CanQues: https://seer.cancer.gov/canques/ REDIRECTS to the Cancer Statistics Explorer Network landing page, i.e. the old query system is retired into SEER*Explorer.",
+      "https://api.seer.cancer.gov/rest/ returns HTTP 401 -- that is the registrar-facing SEER*API, which needs a key and serves coding reference data rather than case counts.",
+      "CDC's U.S. Cancer Statistics pages returned HTTP 403 to the runner, so the USCS route is UNTESTED rather than closed. ⚠ Recorded as untested. USCS's own documentation states its public-use database is made available through SEER*Stat, which would inherit the Windows barrier below.",
+      "rarecarenet.eu refused the connection outright (ConnectionRefusedError), so RARECAREnet is UNREACHABLE rather than checked."
+    ],
+    "the_honest_bound": "⚠ THIS IS A READING OF SEER'S OWN DEFINITION PAGE, WHICH IS STRONG FOR SEER*Explorer AND SAYS NOTHING ABOUT TOOLS NOT EXAMINED. Two named routes above returned a 403 and a refused connection; neither is evidence that they would not serve the cross-tab."
+  },
   "size": {
-    "state": "NOT_YET_MEASURED",
-    "what_is_held": "A bound-shaped observation from the bone side only: 87 of 743 high-grade SEER chondrosarcoma cases (11.7%) carry morphology 9231, in a cohort whose authors state that this bucket includes EMC and whose site variable cannot separate the two. That is a measurement of how much 9231 sits inside a BONE-framed cohort. It is NOT the fraction the route asks for, which is how much BONE sits inside a 9231/3 cohort, and it must not be reported as if it were.",
-    "what_is_still_needed": "The primary-site distribution of a cohort selected on 9231/3 without a grade or site restriction. PMID 32856598 is that cohort (SEER 1973-2016, n~439) and its abstract states it analysed primary tumour site, so the distribution is likely printed in its Table 1.",
-    "provenance": "[DOC]"
+    "state": "NOT_MEASURED -- and the reason is now specific rather than general",
+    "the_question": "Of a registry cohort selected on morphology 9231/3, what fraction has a bone primary?",
+    "why_it_is_still_open": "Four SEER cohorts selected on this code are published. NONE of them prints a bone-versus-soft-tissue split, and the reason differs per paper: PMID 31765367 has a location variable with no soft-tissue category at all; PMID 32856598 almost certainly has the table and is a subscription article this project cannot read at $0; PMID 27819877 applied the topography restriction but publishes only the post-restriction count; PMID 35144048 stratifies by anatomic site but its categories are unread.",
+    "the_closest_published_numbers_and_what_each_is_not": [
+      {
+        "number": "791 identified on morphology 9231/3, 439 after exclusions (SEER 1973-2016, PMID 32856598)",
+        "what_it_is_not": "⛔ NOT a contamination fraction. Nobody has read what the 352 exclusions were for. Dividing them would be the manufactured ratio the registration forbids.",
+        "provenance": "[2°] via PMC12504171"
+      },
+      {
+        "number": "87 of 743 (11.7%) high-grade SEER chondrosarcoma cases carry morphology 9231 (SEER 1973-2014, PMID 31765367)",
+        "what_it_is_not": "⛔ NOT the bone-primary fraction of a 9231/3 cohort. It is the converse -- how much 9231 sits inside a bone-FRAMED cohort -- and it is restricted to high grade, which EMC often is not.",
+        "provenance": "[FT]"
+      }
+    ],
+    "what_would_close_it_now_ranked": [
+      "Table 1 of PMID 32856598. One table, in a subscription article. This is the cheapest close available and it costs an institutional subscription or an interlibrary request, not a data-use agreement. ⚠ THAT REORDERS THE ROUTE: the repository has carried this as blocked on BLK-REGISTRY-DUA, and the highest-value next step is a PDF, not a DUA.",
+      "The Methods of PMID 27819877, if they report what the soft-tissue restriction removed.",
+      "The anatomic-site table of PMID 35144048.",
+      "A SEER Research (base tier) query, which is now measured as needing an institutional email, an application form and a DUA -- and which carries the topography field."
+    ],
+    "provenance": "[DOC] + [FT] + [2°], per row above"
   },
   "sequencing": {
     "apparent_deadlock": "RT-POPULATION-REGISTRY is deliberately sequenced BEHIND this contamination question, and this question's size needs a registry query. Read quickly that is a cycle.",
@@ -116,12 +209,12 @@
     }
   },
   "what_has_not_been_read": [
-    "PMID 32856598 full text. Europe PMC reports isOpenAccess=N, inPMC=N, and the NCBI ID converter returns 'Identifier not found in PMC'. The publisher PDF URL Europe PMC advertises is https://cebp.aacrjournals.org/content/cebp/29/11/2351.full.pdf; a fetch has been dispatched and its result is not in this artifact yet.",
-    "PMID 39899751 full text (PMC11789853, open access) -- specifically whether the 439-tumour myxoid cohort breaks out how many were EMC.",
-    "Earlier versions of the SEER site/histology validation list contemporaneous with the 1973-2016 accrual window.",
-    "SEER Cancer PathCHART site-morphology validation.",
-    "The Dictionary of SEER Variables entry for Primary Site under the Research product.",
-    "Whether any treatment guidance imports conventional-chondrosarcoma reasoning for EMC."
+    "PMID 32856598 full text -- Table 1 in particular. ⛔ UNREACHABLE AT $0 and recorded as such: not in PMC, not open access, publisher PDF serves a JavaScript shim, DOI and article pages 403. A subscription article, and no attempt was made to get around that.",
+    "PMID 27819877 full text (Am J Clin Oncol, no PMCID, not open access).",
+    "PMID 35144048 full text (Cancer Treat Res Commun, no PMCID in Europe PMC).",
+    "Earlier versions of the SEER site/histology validation list contemporaneous with the 1973-2016 accrual window. SEER's ICD-O-3 archive page lists fourteen errata sheets documenting every update to that list since 2001 and names none of their paths in its visible text; a link-harvesting browser fetch is the route and has been built.",
+    "SEER Cancer PathCHART -- https://seer.cancer.gov/tools/pathchart/ returned HTTP 404, so the path is wrong rather than the tool absent.",
+    "The Dictionary of SEER Variables entry for Primary Site under the Research product, which would turn the topography-availability reading from an argument-from-an-exclusion-list into a positive confirmation."
   ],
   "provenance_ledger": [
     {
@@ -145,6 +238,26 @@
       "read_level": "[DOC]"
     },
     {
+      "identifier": "PMID 27819877 / doi:10.1097/coc.0000000000000341 (Kemmerer et al., Am J Clin Oncol 2018)",
+      "how_obtained": "Surfaced by a Europe PMC search for '\"extraskeletal myxoid chondrosarcoma\" AND SEER' (31 hits) run on an Actions runner; DOI read from its core record. Only the abstract has been read. Independently named in the 2025 review at PMC12504171, whose reference list gives the same journal, volume and pages.",
+      "read_level": "[API]"
+    },
+    {
+      "identifier": "PMID 35144048 / doi:10.1016/j.ctarc.2022.100530",
+      "how_obtained": "Same Europe PMC search; DOI read from its core record. Abstract only.",
+      "read_level": "[API]"
+    },
+    {
+      "identifier": "PMC12504171 (2025 EMC review) and PMC7563993 (2020 EMC state of the art)",
+      "how_obtained": "Europe PMC fullTextXML on an Actions runner, HTTP 200 (226,703 and 132,954 characters). The 791/439 counts for PMID 32856598 are quoted FROM PMC12504171 and are therefore secondary; they are labelled [2°] wherever they appear.",
+      "read_level": "[FT], used as a [2°] source for another paper's numbers"
+    },
+    {
+      "identifier": "SEER*Explorer Cancer Site Definitions",
+      "how_obtained": "https://seer.cancer.gov/statistics-network/explorer/cancer-sites.html fetched on an Actions runner, HTTP 200, 5,519 characters.",
+      "read_level": "[DOC]"
+    },
+    {
       "identifier": "Comparison of SEER Data Products",
       "how_obtained": "https://seer.cancer.gov/data/product-comparison.html, fetched on an Actions runner in an earlier session and already on the literature-cache branch under literature/seer-access-product-comparison/. Read from that committed copy.",
       "read_level": "[DOC]"
@@ -158,8 +271,10 @@
     "Nothing here is a patient count and nothing here is a diagnosis."
   ],
   "pmids": [
+    "27819877",
     "31765367",
     "32856598",
+    "35144048",
     "39899751"
   ]
 }

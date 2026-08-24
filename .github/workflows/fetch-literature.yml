@@ -251,6 +251,32 @@ jobs:
           path: research/literature/browser-fetch.json
           if-no-files-found: error
 
+      # ⛔ A RUN ARTIFACT IS NOT A READABLE RESULT (measured 2026-08-23, the first run of this
+      # mode). The artifact upload succeeded and the JSON was 5,191 bytes — and a run artifact
+      # needs an authenticated download that the dev sandbox cannot make, so the only thing
+      # actually readable was the one status line per target the job log prints. Every other mode
+      # in this file publishes to the triggering branch for exactly this reason; this one was
+      # written without that step and the omission cost a re-dispatch.
+      - name: Publish generic browser fetch to the triggering branch (best effort)
+        if: ${{ always() && inputs.slug == 'browser-fetch' }}
+        continue-on-error: true
+        env:
+          TARGET_REF: ${{ github.ref_name }}
+        run: |
+          [ -f research/literature/browser-fetch.json ] || {
+            echo "::error::browser fetch produced no artifact"; exit 1; }
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/literature/browser-fetch.json
+          git diff --cached --quiet && { echo "no change"; exit 0; }
+          git commit -q -m "browser fetch: caller-supplied pages retrieved with a real browser"
+          for i in 1 2 3; do
+            git push origin "HEAD:$TARGET_REF" && { echo "pushed"; exit 0; }
+            git fetch origin "$TARGET_REF" && git rebase "origin/$TARGET_REF" || true
+          done
+          echo "::warning::ref push failed; the run artifact and the per-target status lines in"
+          echo "::warning::this log are the record — do NOT record these sources as unreachable"
+
       # ⭐ THE PRINTED PAGE COUNT IS A COST, NOT A PREFERENCE (2026-08-20). Nucleic Acid
       # Therapeutics charges $90 per printed page, so a manuscript's page count has to be estimated
       # before submission. A journal publishes its SUBMISSION format and not its TYPESET design, so
