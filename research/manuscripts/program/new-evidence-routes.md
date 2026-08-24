@@ -326,7 +326,12 @@ the signal however favourable the ratio looks. The pre-registered rule is theref
 where the negative-panel envelope sits at or under the ceiling **and** a positive control still
 recovers a population, take the cell with the largest positive-control enrichment.
 
-**The three pre-registered outcomes, and all three are reportable.**
+**The three pre-registered outcomes, and all three are reportable.** ⚠ **A FOURTH was added after
+the run** — `TARGET_UNDERPOWERED_AT_THE_OPERATING_POINT` — because this list has a hole that only
+showed up once the grid had been swept: it assumes the cell the controls select still leaves the
+target enough samples to answer, and the run's did not. §5.4 records the amendment, what it reads
+(pool size and background rate, never the target's count) and why the gap existed. **This paragraph
+is left as it was written**, because what was pre-registered is part of the record.
 
 - **`NO_SPECIFIC_REGIME`** — no cell holds the negative panel at the ceiling while a positive
   control survives. Target counts withheld. ⭐ This is a **result, not a failure**: it says the
