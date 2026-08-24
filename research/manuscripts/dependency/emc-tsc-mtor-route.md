@@ -79,9 +79,17 @@ The 75 came from one institution on one assay, so ten further public cohorts wer
 EMC at all**. Four do, and two of those — China Pan-cancer (OrigiMed) and the NCI Patient-Derived Models
 Repository — are **non-MSK and therefore independent** of the original 75.
 
-**Across those 11 independent EMC samples: zero TSC1 or TSC2 mutations.** Small, and consistent with a low
-single-digit rate rather than with anything like PEComa's 36%. The control passes in every cohort — each
-shows tens to hundreds of TSC1- and TSC2-mutated samples study-wide, so both genes are on each assay.
+**Across those independent samples: zero TSC1 or TSC2 mutations.** The control passes in every cohort —
+each shows tens to hundreds of TSC1- and TSC2-mutated samples study-wide, so both genes are on each assay.
+
+⚠ **But count patients, not samples, and the independence is much thinner than it looks.** The nine EMC
+"samples" in the model repository are **nine derivative models of one tumour** — an originator, an
+organoid, a PDC and several sublines, all from patient P-194179. By patients the independent evidence is
+**0 of 3**, not 0 of 11. Three patients with no event is consistent with a low rate and is not replication
+of anything.
+
+⭐ **The same check strengthens the main result, though.** `sarcoma_msk_2022`'s 75 EMC samples are **75
+distinct patients**. The principal denominator is 75 people, not 75 specimens.
 
 ⛔ **The cohorts must never be added together.** `sarcoma_msk_2022` uses anonymised study-prefixed sample
 ids while `msk_impact_50k_2026` uses real MSK P-ids, so the MSK cohorts **cannot be deduplicated against
@@ -118,12 +126,23 @@ single-copy deletion, this measurement would not have counted it, and the true f
 That is the largest single limitation here, and it is not a reason to discount the measurement — it is a
 reason to read it as **a floor on mutation and a floor on deep deletion, not a ceiling on inactivation.**
 
-⚠ **And the first attempt to close this gap produced a zero that was not one.** Asking the 50K cohort's
+⚠ **The first attempt to close this gap produced a zero that was not one.** Asking the 50K cohort's
 copy-number profile for single-copy loss returned **zero records study-wide** — across all 54,331 samples
 and every gene, not just EMC. That is not "no EMC has single-copy TSC2 loss"; it is proof that **the
 profile stores no single-copy state at all.** Reading only the EMC count would have yielded the wrong
-conclusion, confidently. The study-wide count is what caught it, and the question stays open until a cohort
-with *continuous* copy number is read.
+conclusion, confidently.
+
+**Checking every cohort for that same defect showed how narrow the ground is.** Four of the five
+copy-number profiles read carry only `0`, `-2` and `2` — **no single-copy state anywhere** — and the
+seventy-five-patient cohort has no copy-number profile at all. Exactly one cohort can answer the question,
+and it holds **one** EMC patient.
+
+**In that patient, TSC2 is diploid**: `GISTIC 0` across all nine derivative samples, log2 ratio −0.18 to
++0.07. TSC1 shows no loss either, if anything a slight gain.
+
+So the position is: **homozygous deletion is measured across roughly thirty EMC patients and is zero
+everywhere; single-copy loss has been looked for in one patient and was absent.** The alteration class the
+index case actually reported is still the least-measured half of this question — narrowed, not closed.
 
 ## 3 · What the published record contains, as a count
 
@@ -170,8 +189,13 @@ Everything known about TSC2-and-rapalog response comes from **PEComa**, and the 
 AMPECT trial's exploratory biomarker analysis. Its figures are quoted verbatim in
 `how_good_is_the_biomarker` — including three things that a summary of it usually drops:
 
-- The paper cannot explain **why TSC2 and not TSC1** predicted response, and says so, limited by five
-  TSC1-mutant patients.
+- At final analysis the split is **8 of 9 with a TSC2 alteration versus 1 of 5 with a TSC1 alteration**,
+  with median duration of response 51.7 months against 5.6. But the trial **cannot explain why**, and
+  says so — n=5 for TSC1 — and its own conclusion is that "responses and prolonged disease control were
+  also observed in patients with differing tumor genotypes".
+- ⭐ **Both complete responders had a TSC2 alteration and one of them was a homozygous deletion**, so the
+  qualifying class is not mutation alone. That matters here: the index case reported *loss*, and deletion
+  is the half of the EMC measurement that is least well covered (§2.4).
 - An **immunohistochemical** marker of mTORC1 output, pS6, was an independent predictor — no patient
   whose tumour lacked it responded. **The genotype was not the only discriminator.**
 - The only multicentre attempt to reproduce the genotype effect found no difference — but on 2 TSC1 and
@@ -217,13 +241,15 @@ chondrosarcoma, and the access routes it already opens.*** Unwritten.
 
 **What is missing from it**, stated plainly so the row is honest:
 
-1. **The single-copy question** (§2.4). Until a cohort with continuous copy number is read, the frequency
-   is a floor on two alteration classes rather than a rate for inactivation.
-2. **A second positive.** Eleven EMC samples in two non-MSK cohorts were read and carry no TSC1/TSC2
-   mutation (§2.2), which supports the rate being low but **confirms nothing about the numerator**. There
-   is still exactly one positive sample in the world as far as this probe can see, and it is
-   somatic-by-inference (§2.3). This is the item that matters most.
-3. **Patients, not samples.** cBioPortal rows are samples; the denominator is an upper bound.
+1. **The single-copy question** (§2.4), now answered for exactly one patient and open for everyone else,
+   because only one public cohort carries a copy-number profile fine-grained enough to ask it.
+2. **A second positive, and genuine independence.** The independent evidence is three patients (§2.2),
+   which supports the rate being low and **confirms nothing about the numerator**. There is still exactly
+   one positive sample in the world as far as this probe can see, and it is somatic-by-inference (§2.3).
+   This is the item that matters most.
+3. ~~Patients, not samples.~~ **Discharged.** Every cohort's sample-to-patient ratio was checked: the
+   principal denominator is 75 distinct patients, and the one place where samples badly overstated
+   patients (nine to one) is now handled in §2.2.
 4. **Any evidence that a TSC2-inactivated EMC responds like a TSC2-inactivated PEComa.** There is none,
    and there is no route to it here that does not involve a patient.
 

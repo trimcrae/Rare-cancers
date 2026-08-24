@@ -10,7 +10,7 @@
   },
   "measurement": {
     "_what": "cBioPortal public API, read on a GitHub Actions runner. EMC is a codable OncoTree type (EMCHS), so samples can be counted directly instead of inferred from prose.",
-    "_sample_vs_patient": "cBioPortal rows are SAMPLES. One patient can contribute more than one. The count below is therefore an upper bound on patients, and the two MSK cohorts almost certainly overlap each other and overlap the 18-patient series PMID 40828003. Do not add the cohorts together.",
+    "_sample_vs_patient": "MEASURED, not assumed. cBioPortal rows are SAMPLES, and the sample-to-patient ratio was checked in every cohort rather than left as a caveat. It matters enormously in one of them: sarcoma_msk_2022 is 75 samples = 75 DISTINCT PATIENTS, so the main denominator really is 75 people. msk_impact_50k_2026 is 15 samples = 13 patients. sarcoma_mskcc_2022 is 11 = 11. msk_impact_2017 is 5 = 5. pan_origimed_2020 is 2 = 2. But pancan_pdmr_2025 is 9 samples = ONE PATIENT (P-194179): all nine share the prefix 194179-226-R and are derivative models of a single tumour (ORIGINATOR, an organoid, a PDC and several sublines). Counting those nine as nine would inflate any denominator they enter. The MSK cohorts still cannot be deduplicated against each other and must never be summed.",
     "cohorts": [
       {
         "studyId": "sarcoma_msk_2022",
@@ -24,7 +24,8 @@
         "tsc1_mutated_samples": 0,
         "tsc2_mutated_samples": 1,
         "tsc1_mutated_study_wide_samples": 37,
-        "tsc2_mutated_study_wide_samples": 66
+        "tsc2_mutated_study_wide_samples": 66,
+        "emc_patients": 75
       },
       {
         "studyId": "msk_impact_50k_2026",
@@ -41,13 +42,15 @@
         "tsc1_mutated_study_wide_samples": 1128,
         "tsc2_mutated_study_wide_samples": 1382,
         "tsc1_homdel_study_wide_records": 69,
-        "tsc2_homdel_study_wide_records": 68
+        "tsc2_homdel_study_wide_records": 68,
+        "emc_patients": 13
       },
       {
         "studyId": "sarcoma_mskcc_2022",
         "samples_typed": 2138,
         "emc_samples": 11,
-        "note": "counted for completeness; TSC status not separately queried, and it overlaps the two above"
+        "note": "counted for completeness; TSC status not separately queried, and it overlaps the two above",
+        "emc_patients": 11
       }
     ],
     "the_one_positive": {
@@ -113,13 +116,9 @@
       },
       "tsc1_or_tsc2_homozygous_deletion": {
         "k": 0,
-        "n": 15,
-        "pct": 0.0,
-        "ci95_clopper_pearson": [
-          0.0,
-          21.8
-        ],
-        "note": "the 15 are the EMC samples in the only queried cohort that HAS a copy-number profile"
+        "n_patients_with_a_homdel_capable_readout": 32,
+        "_composition": "msk_impact_50k_2026 13 + sarcoma_mskcc_2022 11 + msk_impact_2017 5 + pan_origimed_2020 2 + pancan_pdmr_2025 1. ⚠ The MSK components overlap unknowably, so 32 is an UPPER bound on distinct people, not a clean denominator - no confidence interval is quoted on it for that reason.",
+        "result": "zero homozygous deletions of TSC1 or TSC2 in any EMC sample in any cohort that reports them"
       },
       "_ci_method": "Clopper-Pearson exact binomial, alpha=0.05, computed from the counts in this file"
     },
@@ -157,7 +156,8 @@
           "tsc1_mutated_emc": 0,
           "tsc2_mutated_emc": 0,
           "tsc1_mutated_study_wide": 184,
-          "tsc2_mutated_study_wide": 344
+          "tsc2_mutated_study_wide": 344,
+          "emc_patients": 2
         },
         {
           "studyId": "pancan_pdmr_2025",
@@ -168,7 +168,9 @@
           "tsc1_mutated_emc": 0,
           "tsc2_mutated_emc": 0,
           "tsc1_mutated_study_wide": 230,
-          "tsc2_mutated_study_wide": 484
+          "tsc2_mutated_study_wide": 484,
+          "emc_patients": 1,
+          "⛔_note": "all 9 samples are derivative models of ONE tumour (patient P-194179): ORIGINATOR, an organoid, a PDC and several sublines. Nine samples, one patient."
         },
         {
           "studyId": "msk_impact_2017",
@@ -178,7 +180,8 @@
           "tsc1_mutated_emc": 0,
           "tsc2_mutated_emc": 0,
           "tsc1_mutated_study_wide": 193,
-          "tsc2_mutated_study_wide": 261
+          "tsc2_mutated_study_wide": 261,
+          "emc_patients": 5
         },
         {
           "studyId": "sarcoma_mskcc_2022",
@@ -188,7 +191,8 @@
           "tsc1_mutated_emc": 0,
           "tsc2_mutated_emc": 0,
           "tsc1_mutated_study_wide": 22,
-          "tsc2_mutated_study_wide": 32
+          "tsc2_mutated_study_wide": 32,
+          "emc_patients": 11
         }
       ],
       "cohorts_with_no_emc_at_all": [
@@ -200,14 +204,30 @@
         "sarc_tcga_pan_can_atlas_2018 (255)"
       ],
       "control": "PASSES for every cohort above: each has all samples in its mutation sample list, and each shows hundreds (or, for the small sarcoma cohort, tens) of TSC1- and TSC2-mutated samples study-wide, which proves both genes are on the assay. The EMC zeros are readings of absence.",
-      "⭐_independent_replication": "0 of 11 EMC samples in two non-MSK cohorts (pan_origimed_2020 and pancan_pdmr_2025) carry a TSC1 or TSC2 mutation. Small, but it is independent of the 75 and it is consistent with a low single-digit rate rather than with a PEComa-like 36%."
+      "⭐_independent_replication": "⚠ CORRECTED, AND IT IS WEAKER THAN IT FIRST LOOKED. An earlier version of this file recorded '0 of 11 EMC samples in two non-MSK cohorts'. That count was of SAMPLES. By PATIENTS it is 0 of 3 - two in pan_origimed_2020 and ONE in pancan_pdmr_2025, whose nine samples are nine derivative models of a single tumour. Three independent patients with no TSC1/TSC2 event is consistent with a low rate and is far too small to be replication of anything. The independence limitation on the 1-of-75 result therefore STANDS essentially undischarged."
     },
     "the_single_copy_question": {
-      "_status": "STILL OPEN after round 5; round 7 dispatched against the right instrument.",
-      "round_5_result": "HETLOSS was requested for TSC1 and TSC2 from msk_impact_50k_2026's GISTIC profile and returned ZERO records STUDY-WIDE - across all 54,331 samples and every gene, not just EMC.",
-      "⛔_what_that_actually_means": "NOT 'no EMC has single-copy TSC loss'. It means THAT PROFILE STORES NO -1 STATE AT ALL. Reading the EMC count alone (0 of 15) would have yielded exactly the wrong conclusion, stated confidently. The study-wide count is what caught it, and that check is the reason it is recorded here as an open question rather than as a second zero.",
-      "the_right_instrument": "pancan_pdmr_2025 carries a log2CNA profile - continuous copy number rather than a thresholded call - and holds 9 EMC samples. Requested in round 7.",
-      "why_it_matters": "The index case reported TSC2 gene LOSS. If that is a single-copy loss, nothing measured so far would have counted it."
+      "_status": "ANSWERED FOR EXACTLY ONE EMC PATIENT, AND OPEN FOR EVERY OTHER.",
+      "why_it_matters": "The index case reported TSC2 gene LOSS, and AMPECT's final analysis shows the qualifying class includes deletion - one of its two complete responders had a TSC2 homozygous deletion. So 'is one copy of TSC2 gone' is not a footnote to the mutation count; it is half the question.",
+      "which_cohorts_can_even_answer_it": {
+        "_test": "does the cohort's copy-number profile contain a -1 (single-copy loss) state at all?",
+        "msk_impact_50k_2026": "NO. GISTIC values seen study-wide: only -2 and 2. Round 5's HETLOSS request returned zero records across all 54,331 samples and every gene, which proves the profile is thresholded, not that nothing is lost.",
+        "pan_origimed_2020": "NO. CNA values study-wide: {0: 10184, -2: 10} for TSC1 and {0: 10178, -2: 16} for TSC2. No -1 state.",
+        "sarcoma_mskcc_2022": "NO. CNA values study-wide: {0, -2, 2} only.",
+        "msk_impact_2017": "NO. CNA values study-wide: {0, -2, 2} only.",
+        "sarcoma_msk_2022": "NO - it has no copy-number profile at all.",
+        "pancan_pdmr_2025": "YES. Its GISTIC profile carries -1 for 1,005 samples at TSC1 and 581 at TSC2, and it also has a CONTINUOUS log2CNA profile."
+      },
+      "the_reading": {
+        "cohort": "pancan_pdmr_2025",
+        "emc_patients": 1,
+        "emc_samples": 9,
+        "patient": "P-194179, nine derivative models of one tumour",
+        "TSC2": "GISTIC 0 in all nine; log2 ratio -0.1824 to +0.0651. DIPLOID - no single-copy loss.",
+        "TSC1": "GISTIC 0 or +1 in all nine; log2 ratio +0.2006 to +0.5948. No loss; if anything a slight gain.",
+        "verdict": "In the only EMC patient anywhere in public panel data with an instrument able to detect single-copy loss, TSC2 is diploid."
+      },
+      "⛔_what_this_does_and_does_not_settle": "It settles the single-copy question for ONE patient. It does not give a rate. The honest position is that homozygous deletion is measured across roughly 32 EMC patients and is zero everywhere, while SINGLE-COPY loss has been looked for in one patient and was absent - so the alteration class the index case actually reported remains the least-measured half of this question, and the gap named when the measurement was first written is narrowed rather than closed."
     }
   },
   "literature_bound": {
@@ -408,7 +428,49 @@
       "orr_final": "38.7% (95% CI 21.8 to 57.8) by independent radiologist review, RECIST v1.1",
       "median_pfs": "10.6 months (95% CI 5.5 to 41.2)",
       "median_duration_of_response": "39.7 months (95% CI 6.5 to not reached)",
-      "median_overall_survival": "53.1 months (95% CI 22.2 to not reached)"
+      "median_overall_survival": "53.1 months (95% CI 22.2 to not reached)",
+      "final_biomarker_table_2": {
+        "_source": "Table 2, 'Summary of Key Efficacy End Points in Final Analysis', PMID 38427923, verbatim",
+        "_denominator_note": "Of the 25 patients with tissue sufficient for next-generation sequencing, 14 had inactivating alterations in TSC1 or TSC2.",
+        "all_efficacy_evaluable": {
+          "n": 31,
+          "orr_pct": 38.7,
+          "orr_ci95": [
+            21.8,
+            57.8
+          ],
+          "complete_response": 2,
+          "partial_response": 10,
+          "stable_disease": 16,
+          "progressive_disease": 3,
+          "disease_control_rate_pct": 71.0,
+          "dcr_ci95": [
+            52.0,
+            85.8
+          ],
+          "median_dor_months": 39.7
+        },
+        "tsc1_altered": {
+          "n": 5,
+          "complete_response": 0,
+          "partial_response": 1,
+          "stable_disease": 3,
+          "progressive_disease": 1,
+          "responders": "1 of 5",
+          "median_dor_months": 5.6
+        },
+        "tsc2_altered": {
+          "n": 9,
+          "complete_response": 2,
+          "partial_response": 6,
+          "stable_disease": 1,
+          "progressive_disease": 0,
+          "responders": "8 of 9",
+          "median_dor_months": 51.7
+        },
+        "⭐_deletion_counts_as_a_qualifying_alteration": "Both confirmed complete responders had a TSC2-inactivating alteration - 'one frameshift, one homozygous deletion'. So the qualifying class is not mutation alone, which matters for EMC: the index case reported LOSS, and this repository's measurement of deletion is the half that is least well covered.",
+        "_the_paper_s_own_reading": "'Although responses were most commonly seen in patients with tumors harboring TSC2 mutations, responses and prolonged disease control were also observed in patients with differing tumor genotypes, suggesting that mTOR inhibition is effective for a broader patient population with malignant PEComa.'"
+      }
     },
     "the_counterweight": {
       "pmid": "36360169",
@@ -524,9 +586,11 @@
       },
       {
         "premise": "AMPECT exploratory biomarker analysis: 8/9 (89%) patients with inactivating TSC2 alterations responded, versus 1/5 (20%) for TSC1.",
-        "status": "TWO REAL NUMBERS, PAIRED INTO A COMPARISON THE PAPER DOES NOT MAKE",
-        "what_is_true": "Both figures appear in the primary text, but they are not each other's comparator. The paper's stated comparison is 89% (8 of 9) with a TSC2 mutation versus 13% (2 of 16) WITHOUT a TSC2 mutation (P < .001, Fisher's exact). The 1-of-5 figure is a separate sentence: 'Additional confirmed PRs were seen in 20% (1 of 5) of patients with a TSC1 mutation, and in 9% (1 of 11) without a mutation in TSC1 or TSC2.'",
-        "why_it_matters": "The paired version reads as a head-to-head showing TSC2 beats TSC1, on n=5. The paper explicitly declines that reading: 'it remains unclear as to why TSC2 mutations and not TSC1 mutations were associated with response in this study. This analysis is limited by the small number of patients (n = 5) with TSC1-mutant tumors.'"
+        "status": "CORRECT — and an earlier entry in this file said otherwise, which was wrong",
+        "what_is_true": "Table 2 of the 2024 FINAL ANALYSIS (PMID 38427923) presents TSC1 (n=5) and TSC2 (n=9) as parallel columns, and 8 of 9 versus 1 of 5 is read directly off it: TSC2 complete response 2 (22.2%), partial response 6 (66.7%), stable 1, progressive 0; TSC1 complete 0, partial 1 (20.0%), stable 3 (60.0%), progressive 1 (20.0%). Median duration of response 51.7 months for TSC2 versus 5.6 months for TSC1.",
+        "why_it_matters": "The paired version reads as a head-to-head showing TSC2 beats TSC1, on n=5. The paper explicitly declines that reading: 'it remains unclear as to why TSC2 mutations and not TSC1 mutations were associated with response in this study. This analysis is limited by the small number of patients (n = 5) with TSC1-mutant tumors.'",
+        "_correction": "An earlier version of this entry called the premise 'two real numbers paired into a comparison the paper does not make'. That was based on the 2021 primary report alone, whose stated statistical comparison is 8 of 9 with a TSC2 mutation versus 2 of 16 WITHOUT one. The 2024 final analysis does make the TSC1-versus-TSC2 presentation directly, so the premise was right and the objection was wrong. Recorded rather than silently overwritten.",
+        "what_still_stands": "The caution about reading it as a settled head-to-head is the PAPERS' OWN, in both reports. 2021: 'it remains unclear as to why TSC2 mutations and not TSC1 mutations were associated with response ... limited by the small number of patients (n = 5) with TSC1-mutant tumors.' 2024: 'responses and prolonged disease control were also observed in patients with differing tumor genotypes, suggesting that mTOR inhibition is effective for a broader patient population with malignant PEComa. The sample size in this single-arm phase II study was too small to draw definitive conclusions about the exploratory analysis of tumor genotypes.'"
       },
       {
         "premise": "AMPECT: ORR 38.7%, median PFS 10.6 months, median duration of response 39.7 months.",
