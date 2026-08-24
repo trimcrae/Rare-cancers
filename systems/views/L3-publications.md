@@ -570,7 +570,7 @@ For each parked modality there is a single named capability — a glue design me
 | [RT-DEGRADER](L2-rt-degrader.md) | [ST-PROXIMITY](L1-st-proximity.md) | `preprint` | **PUB-DEGRADER** ◐ | `journal_submission` | `primary` |
 | [RT-PANNR4A-EXVIVO](L2-rt-pannr4a-exvivo.md) | [ST-IMMUNO](L1-st-immuno.md) | `preprint` | **PUB-DEGRADER** ◐ | `journal_submission` | `contributing` |
 | [RT-UBIQ-SELECTIVE](L2-rt-ubiq-selective.md) | [ST-PROXIMITY](L1-st-proximity.md) | `internal_note` | **PUB-DEGRADER** ◐ | `journal_submission` | `contributing` |
-| [RT-DIAGNOSTIC-PATHWAY](L2-rt-diagnostic-pathway.md) | [ST-CARE-DELIVERY](L1-st-care-delivery.md) | `internal_note` | **PUB-EMC-CLASSIFICATION** ◐ | `preprint` | `contributing` |
+| [RT-DIAGNOSTIC-PATHWAY](L2-rt-diagnostic-pathway.md) | [ST-CARE-DELIVERY](L1-st-care-delivery.md) | `preprint` | **PUB-EMC-CLASSIFICATION** ◐ | `preprint` | `contributing` |
 | [RT-POPULATION-REGISTRY](L2-rt-population-registry.md) | [ST-CARE-DELIVERY](L1-st-care-delivery.md) | `internal_note` | **PUB-EMC-CLASSIFICATION** ◐ | `preprint` | `contributing` |
 | [RT-ICI-TKI](L2-rt-ici-tki.md) | [ST-IMMUNO](L1-st-immuno.md) | `internal_note` | **PUB-EMC-PROGRAM** ◐ | `journal_submission` | `context` |
 | [RT-TRABECTEDIN](L2-rt-trabectedin.md) | [ST-REPURPOSING](L1-st-repurposing.md) | `internal_note` | **PUB-EMC-PROGRAM** ◐ | `journal_submission` | `context` |

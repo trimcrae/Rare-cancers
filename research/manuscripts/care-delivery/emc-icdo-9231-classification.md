@@ -173,10 +173,23 @@ osseous and chondromatous neoplasms, with every group heading intact and no 918x
 appearing in the three bone sections plus nasal cavity, larynx and trachea, and likewise absent
 from connective and soft tissue.
 
-Two limits belong with this observation. "Must be reviewed" is an override flag rather than a
-rejection, so the list does not show that no soft-tissue 9231/3 record exists; and the edition read
-is dated 2022, while the cohorts at issue accrued from 1988 and 1973 onward under earlier editions.
-What the list does establish is that the skeletal reading of 9231/3 is not one author's
+The placement is not a recent revision. SEER publishes errata documenting every update to this
+list since February 2001, and we read all sixteen sheets: the two ICD-O-3 errata sets and the
+fourteen site and type validation errata issued between June 2001 and July 2019 [12]. None of them
+touches 9231/3. Across eighteen years of published changes the code is never added to a site
+section, removed from one, or moved between them. Since the current list places it under bone, and
+since a move would have had to be recorded to put it there, the skeletal placement holds across the
+accrual window of every cohort discussed here. That inference rests on the errata being complete,
+which the record cannot attest to about itself, and we did not read the pre-2001 base list.
+
+One erratum is worth reporting for a separate reason. The sheet of 16 September 2002 adds, in full,
+"C700-C709 ! OTHER CHONDROSARCOMA 924  9240/3 Mesenchymal chondrosarcoma" [12], extending a
+chondrosarcoma morphology to meningeal topography. That is the same pairing the CBTRUS grouping
+document makes in section 2.3, arriving independently from the registry that maintains the list.
+
+One limit belongs with all of this. "Must be reviewed" is an override flag rather than a rejection,
+so the list does not show that no soft-tissue 9231/3 record exists, and section 4.1 reports 459
+that do. What the list establishes is that the skeletal reading of 9231/3 is not one author's
 idiosyncrasy. It is the reading built into the registry's own validation program, and it is used
 operationally by other registries: the CBTRUS alignment document above prunes its data against that
 list by name, instructing that code 8771 be removed as "not in SEER site/type validation list" [3].
@@ -272,8 +285,9 @@ registry, and every count in it is quoted as its source printed it, with two exc
 computed here from printed counts and labelled at the point of use: the 1.44% bone-primary rate in
 section 4.1 and the 11.7% myxoid share in section 2.2.
 
-The validation list read in section 3 is the April 2022 edition. Earlier editions contemporaneous
-with the accrual windows of the cohorts discussed have not been read.
+The validation list read in section 3 is the April 2022 edition. We did not read earlier full
+editions; the argument that its placement of 9231/3 is stable rests on the errata record, whose
+completeness we cannot verify from the record itself.
 
 The 791-record figure in section 6 reaches us at second hand. We use it only to explain why a
 ratio is not computed.
@@ -357,3 +371,7 @@ surgery improves local control. 2019. PMID 31436747; PMC7771031.
 [11] National Comprehensive Cancer Network. NCCN Clinical Practice Guidelines in Oncology: Soft
 Tissue Sarcoma, version 5.2026, and Bone Cancer, version 1.2027. Guideline topic listings,
 https://www.nccn.org/guidelines/category_1
+
+[12] National Cancer Institute, Surveillance, Epidemiology and End Results Program. ICD-O-3 coding
+materials archive: errata to the ICD-O-3 SEER site/histology validation list, sixteen sheets dated
+22 May 2001 to 11 July 2019. https://seer.cancer.gov/archive/icd-o-3/

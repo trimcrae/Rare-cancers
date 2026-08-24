@@ -129,10 +129,34 @@ CODING_SYSTEM = {
     "ways and neither misuses it. That still holds. This adds that the registry's own edit rules "
     "take the BONE side, which makes the soft-tissue reading -- the one every EMC study uses -- "
     "the one that sits outside the validation list.",
-    "open_question_it_creates": "Whether earlier versions of the same list (the cohorts span "
-    "1973-2016) listed 9231/3 under soft tissue, and what SEER's current Cancer PathCHART "
-    "site-morphology validation says. Both are $0 fetches and are recorded in "
-    "`what_has_not_been_read` until they are done.",
+    "⭐_the_date_caveat_is_now_CLOSED_by_the_errata_record": {
+        "what_was_done": "All sixteen errata sheets SEER publishes for this list were fetched and "
+        "read: the two ICD-O-3 errata sets (2001-05-22, 2003-05-06) and the fourteen site/type "
+        "validation errata from 2001-06-14 through 2019-07-11, which the archive page states "
+        "'document updates to the ICD-O-3 SEER Site/Histology Validation List since 2/9/2001'.",
+        "finding": "⭐ NOT ONE OF THEM TOUCHES 9231/3. Across eighteen years of published changes "
+        "the code is never added to a site section, removed from one, or moved between them. Only "
+        "two of the sixteen mention any chondrosarcoma code at all.",
+        "the_inference_and_its_logic": "The 2022 list places 9231/3 under bone. The errata record "
+        "no move. If the code had been under connective and soft tissue at any point since 2001, "
+        "a move would have had to be recorded to get it where it now is. So the skeletal "
+        "placement holds across the whole accrual window of every cohort discussed here, and the "
+        "'this is the 2022 edition' caveat no longer limits the claim.",
+        "⚠_the_bound_on_that_inference": "It rests on the errata being COMPLETE. SEER states the "
+        "sheets document updates since 2001-02-09 and labels the archive 'provided for reference "
+        "purposes only'; whether every change was captured is not something the record can attest "
+        "to about itself. The pre-2001 base list was not read.",
+        "⭐_and_one_erratum_corroborates_the_THIRD_reading_from_SEERs_own_side": "The 2002-09-16 "
+        "sheet adds, verbatim, 'C700-C709 ! OTHER CHONDROSARCOMA 924  9240/3 Mesenchymal "
+        "chondrosarcoma' -- SEER deliberately extending a chondrosarcoma morphology to MENINGEAL "
+        "topography. That is the same pairing CBTRUS's grouping document makes, arriving "
+        "independently from the registry that maintains the list.",
+        "provenance": "[DOC] -- sixteen PDFs fetched on an Actions runner, all HTTP 200, "
+        "published to literature-cache under literature/seer-sitetype-errata-history/",
+    },
+    "open_question_it_creates": "What SEER's current Cancer PathCHART site-morphology validation "
+    "says. Four candidate paths returned HTTP 404, so the path is unknown rather than the tool "
+    "absent.",
 }
 
 # ---------------------------------------------------------------------------
@@ -781,10 +805,10 @@ WHAT_HAS_NOT_BEEN_READ = [
     "403. A subscription article, and no attempt was made to get around that.",
     "PMID 27819877 full text (Am J Clin Oncol, no PMCID, not open access).",
     "PMID 35144048 full text (Cancer Treat Res Commun, no PMCID in Europe PMC).",
-    "Earlier versions of the SEER site/histology validation list contemporaneous with the "
-    "1973-2016 accrual window. SEER's ICD-O-3 archive page lists fourteen errata sheets "
-    "documenting every update to that list since 2001 and names none of their paths in its "
-    "visible text; a link-harvesting browser fetch is the route and has been built.",
+    "✅ CLOSED 2026-08-23: earlier versions of the SEER site/histology validation list. All "
+    "sixteen published errata sheets were located (by a link-harvesting browser fetch of the "
+    "archive page, which names none of their paths in its visible text) and read. See "
+    "`coding_system`.",
     "SEER Cancer PathCHART -- four candidate paths returned HTTP 404, so the path is wrong rather "
     "than the tool absent.",
     "⚠ HOW MANY PRIMARY EMC-OF-BONE CASES HAVE BEEN PUBLISHED. Attempted and INCONCLUSIVE, not "
@@ -871,6 +895,25 @@ PROVENANCE_LEDGER = [
         "irrelevant -- the string also matches page and record numbers). fullTextXML 404'd; the "
         "PMC article HTML page returned HTTP 200 (50,643 characters).",
         "read_level": "[FT]",
+    },
+    {
+        "identifier": "PMID 31283732 / PMC6903832 / doi:10.1097/CORR.0000000000000846 (Wan et al., "
+        "Clin Orthop Relat Res 2019 — the topography-split study)",
+        "how_obtained": "Surfaced by a Europe PMC free-text search for '9231/3'; DOI read from its "
+        "Europe PMC core record, fetched on an Actions runner. Full text read from the PMC article "
+        "HTML page (HTTP 200, 47,396 characters) because the Europe PMC fullTextXML endpoint 404s "
+        "for this PMCID. ⚠ Its Table 1 is served as a separate resource the article HTML does not "
+        "inline, and has NOT been read.",
+        "read_level": "[FT] for the body, NOT for Table 1",
+    },
+    {
+        "identifier": "doi:10.1158/1055-9965.EPI-20-0447",
+        "how_obtained": "The same DOI as the PMID 32856598 row above, recorded here in the "
+        "publisher's canonical capitalisation because that is how a reference list prints it. "
+        "⚠ Europe PMC returns it lower-cased (`10.1158/1055-9965.epi-20-0447`); DOIs are "
+        "case-insensitive by specification, and both forms denote one identifier obtained from "
+        "one fetch. Only the abstract behind it has been read.",
+        "read_level": "[API]",
     },
     {
         "identifier": "PMID 35875111 / PMC9303001 (pan-soft-tissue-sarcoma SEER analysis)",

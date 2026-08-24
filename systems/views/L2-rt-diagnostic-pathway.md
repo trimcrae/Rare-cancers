@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-CARE-DELIVERY](L1-st-care-delivery.md) · **state:** ○ ready · computed · confidence moderate · verified 2026-08-23
 
-**Grade** (owned by [`systems/graph/routes.json`](../graph/routes.json)): ⭐ ANSWERED AT $0, AND THE CODE IS READ THREE WAYS RATHER THAN TWO. ICD-O-3 morphology 9231/3 is queried as extraskeletal myxoid chondrosarcoma by one SEER study (PMID 32856598), enumerated as a histological subtype of chondrosarcoma of BONE by another (PMID 31765367 — whose Methods state its myxoid bucket 'includes extraskeletal myxoid chondrosarcoma', so the merge is acknowledged, and whose 87/743 myxoid cases sit under a location variable with no soft-tissue category at all), and listed as an intracranial MESENCHYMAL/MENINGEAL tumour by a third registry's own grouping document (CBTRUS, PMC9290890). None misuses the code: a morphology code carries no topography. ⭐⭐ AND THE PHENOMENON IS MEASURED IN SEER PRACTICE, not merely permitted — a pan-soft-tissue SEER study (PMC9303001) had to exclude 1,668 bone-primary records from 115,800 retrieved on morphology (1.44%), and its Supplementary Table 1 prints 459 NON-BONE 9231 records for SEER 18, 2000-2018. SEER's own site/histology validation list (April 2022) lists 9231/3 under three BONE site groups and not under CONNECTIVE & SOFT TISSUE. ⛔ THE SIZE IS STILL NOT MEASURED, but it is now ONE precisely specified query rather than a research problem: SEER 18, 2000-2018, morphology 9231, no site restriction, divided by 459. ⛔ AND THE NAMING HALF IS WEAKER THAN THIS ROUTE ASSUMED — PMC7771031 already published it ('this tumor name has likely influenced local management patterns'), and the guideline check came back NEGATIVE at primary source — NCCN's Soft Tissue Sarcoma guideline lists extraskeletal myxoid chondrosarcoma among its histologies while its Bone Cancer guideline does not. ⭐⭐ SEPARATELY, PMID 31283732 is the one published SEER study that split chondrosarcoma by ICD-O TOPOGRAPHY, and it excluded '404 patients with extraskeletal myxoid chondrosarcoma because it is a misnomer to call it a real chondrosarcoma' while KEEPING 9231/3 on its included-morphology list — and its own Discussion concedes it could not rule out further EMC hiding among its 426 retained extraskeletal cases.
+**Grade** (owned by [`systems/graph/routes.json`](../graph/routes.json)): ⭐ ANSWERED AT $0, AND THE CODE IS READ THREE WAYS RATHER THAN TWO. ICD-O-3 morphology 9231/3 is queried as extraskeletal myxoid chondrosarcoma by one SEER study (PMID 32856598), enumerated as a histological subtype of chondrosarcoma of BONE by another (PMID 31765367 — whose Methods state its myxoid bucket 'includes extraskeletal myxoid chondrosarcoma', so the merge is acknowledged, and whose 87/743 myxoid cases sit under a location variable with no soft-tissue category at all), and listed as an intracranial MESENCHYMAL/MENINGEAL tumour by a third registry's own grouping document (CBTRUS, PMC9290890). None misuses the code: a morphology code carries no topography. ⭐⭐ AND THE PHENOMENON IS MEASURED IN SEER PRACTICE, not merely permitted — a pan-soft-tissue SEER study (PMC9303001) had to exclude 1,668 bone-primary records from 115,800 retrieved on morphology (1.44%), and its Supplementary Table 1 prints 459 NON-BONE 9231 records for SEER 18, 2000-2018. SEER's own site/histology validation list lists 9231/3 under three BONE site groups and not under CONNECTIVE & SOFT TISSUE — and that placement is NOT a recent revision: all sixteen published errata sheets covering every update to the list from 2001 to 2019 were read and none touches 9231/3. ⛔ THE SIZE IS STILL NOT MEASURED, but it is now ONE precisely specified query rather than a research problem: SEER 18, 2000-2018, morphology 9231, no site restriction, divided by 459. ⛔ AND THE NAMING HALF IS WEAKER THAN THIS ROUTE ASSUMED — PMC7771031 already published it ('this tumor name has likely influenced local management patterns'), and the guideline check came back NEGATIVE at primary source — NCCN's Soft Tissue Sarcoma guideline lists extraskeletal myxoid chondrosarcoma among its histologies while its Bone Cancer guideline does not. ⭐⭐ SEPARATELY, PMID 31283732 is the one published SEER study that split chondrosarcoma by ICD-O TOPOGRAPHY, and it excluded '404 patients with extraskeletal myxoid chondrosarcoma because it is a misnomer to call it a real chondrosarcoma' while KEEPING 9231/3 on its included-morphology list — and its own Discussion concedes it could not rule out further EMC hiding among its 426 retained extraskeletal cases.
 
 ## What has to land for this route to move
 
@@ -53,14 +53,13 @@ This repository already noticed the edge of this and filed it as a one-line reje
 
 ## Readiness — what this could become today
 
-**`internal_note`**
+**`preprint`**
 
-Two things changed and they pull opposite ways. The coding argument got stronger and is now multi-registry and documented. The naming argument got weaker: it has prior art, and the guideline check came back negative. A paper should carry them at different weights rather than as one claim.
+It IS at preprint readiness now, for the coding half. The draft exists and states the size as an open query rather than claiming it. What would raise it further is the query itself, or Table 1 of PMID 32856598.
 
 **Missing:**
-- nothing to start on the CODING half — it is now three published readings, a registry edit rule, and a measured 1.44% base rate
-- the SIZE, which is one query behind SEER access
-- for the NAMING half: a way to say anything PMC7771031 has not already said
+- nothing to start on the CODING half — three published readings, a registry edit rule stable across eighteen years of errata, a bone-framed cohort that states it includes EMC, a measured 1.44% base rate, and a registry study that excluded 404 EMC and conceded it could not remove the rest
+- the SIZE, which is one query behind SEER access and is stated as such rather than waited on
 
 ## Where this route ends — the paper
 
@@ -96,7 +95,7 @@ Every input is either committed or free to curate, and the work is $0.
 
 ## Best next action
 
-Write the classification note around the CODING half, which needs nobody's cooperation: three published readings of one morphology code, SEER's own validation list taking the skeletal side, a bone-framed cohort that states it includes EMC and has no soft-tissue location category, and a 1.44% base rate for bone primaries in morphology-selected SEER sarcoma cohorts. Cite PMC7771031 for the naming half and position against it rather than restating it. Record the size as one specified query.
+⭐ DRAFTED 2026-08-23 on trimcrae's decision to publish without the magnitude: research/manuscripts/care-delivery/emc-icdo-9231-classification.md, 3,376 words, coding half only, naming half demoted to one cited paragraph, size stated as an open specified query. ⛔ NOT AUTHORISED FOR POSTING — CLAUDE.md s3 needs the paper named for the act. Next: adversarial review rounds (`paper-hardening`), and a decision on whether to draw the morphology-by-topography display item the draft's editorial note describes.
 
 *Cost:* $0
 
