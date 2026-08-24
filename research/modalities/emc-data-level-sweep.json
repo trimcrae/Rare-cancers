@@ -1,14 +1,13 @@
 {
- "_generated_utc": "2026-08-23T23:06:53Z",
+ "_generated_utc": "2026-08-23T23:59:22Z",
  "_inputs_generated_utc": "2026-08-23T23:04:52Z",
  "_language_discipline": "Nothing here is an efficacy, selectivity, safety, therapeutic-window or clinical-readiness claim. A sample counted here is a metadata match, never a diagnosis.",
  "_question": "Is there EMC-bearing public molecular data that a depositor-prose search cannot see? `emc_cohort_search.py` bounded its own negative to prose; this asks what lies outside that bound.",
  "arms": {
   "pan_sarcoma_methylation_deposit": {
-   "_what": "Does GSE140686 \u2014 a pan-sarcoma deposit whose title names no disease \u2014 carry EMC samples, and are they open?",
+   "_what": "Does GSE140686 \u2014 a pan-sarcoma deposit whose title names no disease \u2014 carry EMC samples, and are they open? And where are its per-case diagnoses actually published?",
+   "ebi_deposits": [],
    "emc_samples_sample": {},
-   "mirror_http": 200,
-   "mirror_reachable": true,
    "n_samples_declared_by_series": 1505,
    "n_samples_naming_a_confusable": 0,
    "n_samples_naming_emc": 0,
@@ -19,6 +18,43 @@
    ],
    "series": "GSE140686",
    "series_title": "Sarcoma Classification by DNA-methylation profiling",
+   "stages": {
+    "1_geo_deposit": {
+     "n_samples_naming_emc": 0,
+     "n_samples_read": 1505,
+     "read": true,
+     "verdict": "SAMPLES_CARRY_NO_DIAGNOSIS"
+    },
+    "2_ebi_mirror_search": {
+     "a_real_mirror_of_the_geo_series_was_found": false,
+     "absent_hits": null,
+     "controls_passed": false,
+     "discovered": [],
+     "mirrors": [],
+     "transport_hits": null,
+     "verdict": "SEARCH_CONTROLS_FAILED",
+     "\u26d4": "A search whose transport control returns nothing, or whose absent control returns hits, cannot support 'no mirror exists' \u2014 that would be a broken search reported as a negative."
+    },
+    "3_ebi_records": {
+     "n_emc_samples_in_complete_censuses": 0,
+     "n_records_fetched": 0,
+     "n_with_a_complete_census": 0,
+     "\u2b50 completeness_rule": "A per-disease census counts as COMPLETE only when its own category counts sum to the record's declared `Sample count`. Only then does a zero mean 'no EMC anywhere in this deposit' rather than 'no EMC in the part that was read'."
+    },
+    "4_published_table": {
+     "n_emc_rows": 0,
+     "n_supplementary_files_readable": 0,
+     "pmc_page_bytes": null,
+     "pmc_page_was_a_stub": null,
+     "pmcid": null,
+     "pmcid_source": null,
+     "pmid_discovered_from_geo": null,
+     "publisher_page_bytes": 3038,
+     "publisher_page_was_a_stub": null,
+     "why_no_pmcid": null,
+     "\u26a0": "A publisher page served as a short interstitial yields zero discoverable links. That is a transport failure and is recorded as one; it is never a statement that the paper has no supplement."
+    }
+   },
    "state": "FETCHED",
    "supplementary_confusable_rows": 0,
    "supplementary_emc_rows": 0,
