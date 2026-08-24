@@ -134,3 +134,35 @@ def test_the_committed_artifact_keeps_the_two_population_readings_apart():
         assert rec["coverage_within_locus_exact"] >= rec["coverage_published_form"] - 1e-9
         lo, hi = rec["ld_bounds_across_loci"]
         assert lo <= rec["coverage_within_locus_exact"] <= hi + 1e-9
+
+
+def test_the_intersection_bounds_are_not_the_union_bounds():
+    """⛔ THE ONE MISTAKE THIS PAIR OF FUNCTIONS INVITES. `frechet_bounds` bounds a UNION and
+    `intersection_bounds` an INTERSECTION; the formulae are near-mirrors and the wrong one applied to
+    §B4's combined figure would print a lower bound where the constraining statement is an upper one.
+    Both are checked against the same marginals so a swap cannot pass."""
+    p_a, p_b = 0.2737, 0.0649
+    lo, hi = cu.intersection_bounds(p_a, p_b)
+    assert (lo, hi) == (pytest.approx(0.0), pytest.approx(p_b)), (
+        "with marginals summing below 1 the intersection can be empty, and its ceiling is the "
+        "smaller marginal")
+    assert lo <= p_a * p_b <= hi, "independence must lie inside its own bounds"
+    union_lo, union_hi = cu.frechet_bounds({"HLA-A*01:01": 0.0, "HLA-B*07:02": 0.0})
+    assert (union_lo, union_hi) == (0.0, 0.0), "degenerate marginals give a degenerate union"
+
+
+def test_the_intersection_lower_bound_is_positive_when_the_marginals_force_an_overlap():
+    """Two events covering more than everyone between them must overlap, by exactly the excess."""
+    lo, hi = cu.intersection_bounds(0.8, 0.7)
+    assert lo == pytest.approx(0.5) and hi == pytest.approx(0.7)
+
+
+@pytest.mark.committed_artifact
+def test_the_committed_combined_bounds_bracket_the_product():
+    if not os.path.exists(ART):
+        pytest.fail(f"{ART} is committed; regenerate it rather than passing over this assertion")
+    with open(ART, encoding="utf-8") as fh:
+        comb = json.load(fh)["combined_class_i_and_class_ii"]
+    lo, hi = comb["bounds_under_any_dependence"]
+    assert lo <= comb["product_under_independence"] <= hi + 1e-9
+    assert hi == pytest.approx(min(comb["coverage_class_i"], comb["coverage_class_ii"]))

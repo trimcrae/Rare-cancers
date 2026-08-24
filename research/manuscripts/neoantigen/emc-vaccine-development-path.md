@@ -619,7 +619,13 @@ from the broad-panel scan. On the 34-allele set the same product gives 2.0%. The
 independence between the class I and class II loci, the same assumption the within-class formula makes
 and no weaker. HLA-A, HLA-B and DRB1 sit on chromosome 6 in
 linkage disequilibrium, so it is an approximation whose direction is not known without haplotype
-frequencies. It is a carrier-frequency product and nothing more: it says what fraction of patients carry a
+frequencies. The magnitude is bounded even though the direction is not, and by the same argument
+§2.3 applies to the within-class formula. This figure is an intersection rather than a union, so the
+bounds invert: under any dependence structure whatever it lies in [0.0%, 6.5%], and the upper end is
+the useful half. A construct that needs a presenting allele of each class can never reach a larger
+fraction of patients than its scarcer arm alone, which here is the class II arm at 6.5%. That
+ceiling holds without any haplotype data, and it is 3.6 times the product rather than an order of
+magnitude above it. It is a carrier-frequency product and nothing more: it says what fraction of patients carry a
 presenting allele of each class, not what a class II response contributes. Class II help for a CD8
 response is cognate rather than additive, and no model of that is offered here. That figure is
 smaller than either arm alone and is the eligibility fraction for a construct that
