@@ -73,7 +73,41 @@ if the genes were on the panel that was run. They were: **TSC1 and TSC2 are on e
 version**, including the smallest, and every sample in the larger cohort carries both mutation and
 copy-number data. See `measurement.the_control_that_makes_a_zero_meaningful`.
 
-### 2.2 · ⛔ The gap between what was measured and what the case reported
+### 2.2 · Ten more cohorts, and what two of them add
+
+The 75 came from one institution on one assay, so ten further public cohorts were read. Six contain **no
+EMC at all**. Four do, and two of those — China Pan-cancer (OrigiMed) and the NCI Patient-Derived Models
+Repository — are **non-MSK and therefore independent** of the original 75.
+
+**Across those 11 independent EMC samples: zero TSC1 or TSC2 mutations.** Small, and consistent with a low
+single-digit rate rather than with anything like PEComa's 36%. The control passes in every cohort — each
+shows tens to hundreds of TSC1- and TSC2-mutated samples study-wide, so both genes are on each assay.
+
+⛔ **The cohorts must never be added together.** `sarcoma_msk_2022` uses anonymised study-prefixed sample
+ids while `msk_impact_50k_2026` uses real MSK P-ids, so the MSK cohorts **cannot be deduplicated against
+each other**. Only the non-MSK ones are independent of the 75.
+
+⚠ **And independence cuts one way only here.** Eleven more samples with no event raise confidence that the
+rate is low; they do nothing to confirm that EMC *ever* carries TSC2 inactivation. **There is still exactly
+one positive sample, ever.** That is the limitation that matters for what this route can claim.
+
+### 2.3 · The one positive, checked rather than trusted
+
+The entire frequency rests on one sample, so it was verified against the record. Two independent histology
+fields agree — on it and on the whole denominator: 75 by `ONCOTREE_CODE=EMCHS`, 75 by
+`CANCER_TYPE_DETAILED`, intersection 75, **symmetric difference 0**. The patient's diagnosis was *revised*
+from chondrosarcoma to EMC, so the label is a considered call rather than a default. Tumour purity 77%,
+four mutations, TMB 0.13 — consistent with EMC's quiet genome, and not a low-fraction artefact.
+
+⛔ **Its real caveat, recorded rather than smoothed over: the sample is `MATCHED_STATUS = Unmatched`.** The
+variant record says `Somatic`, but without a matched normal that status is **inferred by filtering rather
+than demonstrated**. A germline TSC2 Q955* would mean tuberous sclerosis, which is clinically conspicuous,
+so the germline reading is unlikely — **but unlikely is not excluded**, and the single data point this
+frequency rests on is somatic-by-inference. The NR4A3 structural-variant check that would have confirmed
+the histology a third way is recorded as **not done** (three candidate endpoint shapes returned 404), not
+as a negative.
+
+### 2.4 · ⛔ The gap between what was measured and what the case reported
 
 The index case reports TSC2 **loss**. What was measured is **mutation** in 75 samples and **homozygous
 deletion** in the 15 that have copy-number data. The discrete copy-number profile stores only homozygous
@@ -83,6 +117,13 @@ single-copy deletion, this measurement would not have counted it, and the true f
 
 That is the largest single limitation here, and it is not a reason to discount the measurement — it is a
 reason to read it as **a floor on mutation and a floor on deep deletion, not a ceiling on inactivation.**
+
+⚠ **And the first attempt to close this gap produced a zero that was not one.** Asking the 50K cohort's
+copy-number profile for single-copy loss returned **zero records study-wide** — across all 54,331 samples
+and every gene, not just EMC. That is not "no EMC has single-copy TSC2 loss"; it is proof that **the
+profile stores no single-copy state at all.** Reading only the EMC count would have yielded the wrong
+conclusion, confidently. The study-wide count is what caught it, and the question stays open until a cohort
+with *continuous* copy number is read.
 
 ## 3 · What the published record contains, as a count
 
@@ -176,11 +217,12 @@ chondrosarcoma, and the access routes it already opens.*** Unwritten.
 
 **What is missing from it**, stated plainly so the row is honest:
 
-1. **The single-copy question** (§2.2). Until a cohort with continuous copy number is read, the frequency
+1. **The single-copy question** (§2.4). Until a cohort with continuous copy number is read, the frequency
    is a floor on two alteration classes rather than a rate for inactivation.
-2. **Independent samples.** The 75 are one institution on one assay, and the one published EMC
-   secondary-alteration series is probably inside them. A second cohort would make this a rate rather
-   than an observation.
+2. **A second positive.** Eleven EMC samples in two non-MSK cohorts were read and carry no TSC1/TSC2
+   mutation (§2.2), which supports the rate being low but **confirms nothing about the numerator**. There
+   is still exactly one positive sample in the world as far as this probe can see, and it is
+   somatic-by-inference (§2.3). This is the item that matters most.
 3. **Patients, not samples.** cBioPortal rows are samples; the denominator is an upper bound.
 4. **Any evidence that a TSC2-inactivated EMC responds like a TSC2-inactivated PEComa.** There is none,
    and there is no route to it here that does not involve a patient.
