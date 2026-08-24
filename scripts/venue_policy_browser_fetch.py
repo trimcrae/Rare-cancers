@@ -251,12 +251,33 @@ def _targets_from_env():
 #: Home pages whose author-facing links are worth harvesting, because guessing their paths failed.
 HARVEST_LINKS_FROM = ["cgt_journal_home"]
 
+
+def _harvest_names():
+    """Which targets get their links enumerated. Callers may add names via env.
+
+    ⭐ ADDED 2026-08-23 for the same reason the list itself exists: SEER's ICD-O-3 archive page
+    lists fourteen errata PDFs to its own site/histology validation list and NAMES none of their
+    paths in the visible text, so a plain-text fetch of that page cannot reach any of them and
+    guessing `/archive/icd-o-3/<something>.pdf` is the invented-URL failure this file already paid
+    for once.
+    """
+    extra = [n.strip() for n in os.environ.get("BROWSER_HARVEST_LINKS", "").split(",") if n.strip()]
+    return set(HARVEST_LINKS_FROM) | set(extra)
+
 #: A link is author-facing if its text or href says so. Deliberately broad: the cost of recording
 #: an irrelevant link is one line of JSON, and the cost of missing the fee schedule is a venue
 #: chosen on an unread policy — which this file already did once.
 LINK_WORDS = re.compile(
     r"author|submi|guideline|instruction|for-authors|article.?type|charge|fee|"
     r"policies|publish|editorial", re.I)
+
+#: ⚠ A CALLER HARVESTING A NON-VENUE PAGE IS NOT LOOKING FOR AUTHOR-FACING LINKS. Set
+#: BROWSER_HARVEST_ALL_LINKS=1 to keep every link instead of filtering on LINK_WORDS -- the filter
+#: is tuned to publisher navigation and would drop, for example, an errata PDF named by its date.
+def _link_filter():
+    if os.environ.get("BROWSER_HARVEST_ALL_LINKS", "").strip() in ("1", "true", "yes"):
+        return None
+    return LINK_WORDS
 
 
 def harvest_links(page):
@@ -275,7 +296,8 @@ def harvest_links(page):
     for text, href in raw:
         if not href or href in seen:
             continue
-        if LINK_WORDS.search(text or "") or LINK_WORDS.search(href):
+        keep = _link_filter()
+        if keep is None or keep.search(text or "") or keep.search(href):
             seen.add(href)
             out.append({"text": re.sub(r"\s+", " ", text or "")[:80], "href": href})
     return out
@@ -296,6 +318,7 @@ def main():
     from playwright.sync_api import sync_playwright
 
     targets, out_path, override_note = _targets_from_env()
+    harvest_from = _harvest_names()
     records = {}
     with sync_playwright() as pw:
         browser = pw.chromium.launch(args=["--disable-blink-features=AutomationControlled"])
@@ -326,7 +349,7 @@ def main():
                         rec.update({"final_url": page.url, "status": status,
                                     "title": page.title(), "chars": len(text),
                                     "probe_hits": probe_hits(text), "text": text[:120000]})
-                        if name in HARVEST_LINKS_FROM:
+                        if name in harvest_from:
                             rec["author_facing_links"] = harvest_links(page)
                         break
                     if status == 403:

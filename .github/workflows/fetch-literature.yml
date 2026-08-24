@@ -42,6 +42,22 @@ on:
         description: "replace (default) or extend — how targets_file/targets_json combine with built-in TARGETS"
         required: false
         default: "replace"
+      browser_harvest_links:
+        description: >-
+          browser-fetch mode only: comma-separated target NAMES whose links should be enumerated
+          into the artifact. Use when a page LISTS documents but names none of their paths in its
+          visible text -- SEER's ICD-O-3 archive page lists fourteen errata PDFs that way, and
+          guessing their URLs is the invented-path failure scripts/venue_policy_browser_fetch.py
+          already paid for once.
+        required: false
+        default: ""
+      browser_harvest_all_links:
+        description: >-
+          browser-fetch mode only: set to 1 to keep EVERY harvested link instead of only the
+          author-facing ones. The default filter is tuned to publisher navigation and would drop,
+          for example, an errata PDF named by its date.
+        required: false
+        default: ""
       expect_pmids:
         description: >-
           Known-positive control: PMID(s) the query MUST return, comma/space separated. Missing -> the run FAILS.
@@ -223,6 +239,8 @@ jobs:
         env:
           BROWSER_TARGETS_JSON: ${{ inputs.targets_json }}
           BROWSER_OUT: research/literature/browser-fetch.json
+          BROWSER_HARVEST_LINKS: ${{ inputs.browser_harvest_links }}
+          BROWSER_HARVEST_ALL_LINKS: ${{ inputs.browser_harvest_all_links }}
         run: python3 scripts/venue_policy_browser_fetch.py
 
       - name: Keep generic browser fetch as a run artifact
