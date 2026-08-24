@@ -105,7 +105,7 @@ retrieved facts.
 | venue | author-facing cost | route | provenance |
 |---|---|---|---|
 | **Nucleic Acid Therapeutics** (SAGE) | **$90 per typeset page** | subscription; APC-free | ✅ **READ** at primary source 2026-08-23 by trimcrae in a browser → [`nat-submission-guidelines-2026-08-23.md`](../../literature/nat-submission-guidelines-2026-08-23.md) |
-| **Cancer Gene Therapy** (Springer Nature) | **$238 per page** (£145), colour inclusive; or APC £3490 | subscription charges per page, OA waives it | ✅ **READ** 2026-08-24, HTTP 200, headless browser → [`browser-fetch.json`](../../literature/browser-fetch.json) |
+| **Cancer Gene Therapy** (Springer Nature) | **$238 per page** (£145), colour inclusive; or APC £3490 | subscription charges per page, OA waives it | ✅ **READ** 2026-08-24, HTTP 200, headless browser → [`venue-fee-pages-2026-08-24.json`](../../literature/venue-fee-pages-2026-08-24.json) |
 | Molecular Therapy — Nucleic Acids (Elsevier) | ~$3,900 APC | gold OA, mandatory | ⚠ **SEARCH-DERIVED** — the guide-for-authors page returned **403** to the runner |
 | NAR Cancer (OUP) | ~$2,391 APC | gold OA, mandatory | ⚠ **SEARCH-DERIVED** — both author-guideline and charges pages returned **403** |
 | British Journal of Cancer | $0 | subscription | ✅ READ previously; desk-rejection risk for a wet-lab-free ultra-rare sarcoma design study |
@@ -117,6 +117,12 @@ Cancer Gene Therapy rested on its open-access page alone and every author-guidel
 returned 404. The Guide to Authors has now been read, and the answer is that **CGT is not a $0 route
 either** — it charges per page on the subscription option, at a higher rate than the current venue.
 That note is corrected in place rather than deleted.
+
+⚠ **THE CAPTURE HAS ITS OWN FILENAME BECAUSE A SHARED ONE WAS OVERWRITTEN WITHIN HOURS.** These
+readings first landed in `research/literature/browser-fetch.json`, which is the generic output of
+the browser-fetch workflow mode — so the next dispatch of that mode, fetching something unrelated,
+replaced them with its own results and left this table citing a file that no longer contained what
+the citation said. A dated, purpose-named capture cannot be clobbered by the next caller.
 
 ⛔ **Do not multiply any rate above by a page count anywhere in this repository.** The rate has one
 home and the page count has another
