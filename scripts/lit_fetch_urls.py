@@ -153,19 +153,50 @@ def fetch(name: str, url: str) -> dict:
     # `text/html` -- a reCAPTCHA interstitial. Keying off the ".jpg" in the URL would have written
     # a captcha page into a file named like an image and called the step a success. Keying off the
     # declared type sends it down the text path, where it is legible as the refusal it is.
+    # ⛔ AND AN OFFICE DOCUMENT IS THE SAME BUG WITH A DIFFERENT EXTENSION (measured 2026-08-23).
+    # A .docx/.xlsx/.pptx is a ZIP, so it is as binary as a JPEG -- and none of its content types
+    # was listed here, so three Supplemental Digital Content tables from a CORR paper
+    # (links.lww.com serving `application/vnd.openxmlformats-...wordprocessingml.document`) went
+    # down the TEXT path, were replacement-charactered, and were recorded in the manifest with a
+    # plausible five-figure `chars` count and no `binary_path`. The run reported success; the
+    # tables were destroyed; and the record looked like a retrieval. That is precisely the
+    # populated-field-is-not-a-measured-field shape the comment above already exists for, which is
+    # why the fix is a WIDER SNIFF rather than three more content types: the ZIP magic catches
+    # every OOXML container whatever the server declares, and the OLE2 magic catches the legacy
+    # .doc/.xls/.ppt binaries that a 2015-era archive still serves.
     _ct = ctype.split(";")[0].strip().lower()
     _binary_ext = {"image/jpeg": "jpg", "image/png": "png", "image/gif": "gif",
                    "image/tiff": "tif", "application/x-tar": "tar", "application/gzip": "gz",
-                   "application/x-gzip": "gz", "application/zip": "zip"}
+                   "application/x-gzip": "gz", "application/zip": "zip",
+                   "application/msword": "doc",
+                   "application/vnd.ms-excel": "xls",
+                   "application/msexcel": "xls",
+                   "application/vnd.ms-powerpoint": "ppt",
+                   "application/vnd.openxmlformats-officedocument."
+                   "wordprocessingml.document": "docx",
+                   "application/vnd.openxmlformats-officedocument."
+                   "spreadsheetml.sheet": "xlsx",
+                   "application/vnd.openxmlformats-officedocument."
+                   "presentationml.presentation": "pptx",
+                   "application/vnd.oasis.opendocument.text": "odt",
+                   "application/vnd.oasis.opendocument.spreadsheet": "ods"}
+    _ooxml_by_ct = {"docx": "docx", "xlsx": "xlsx", "pptx": "pptx"}
     if (_ct in _binary_ext or _ct.startswith("image/")
             or data[:3] == b"\xff\xd8\xff" or data[:8] == b"\x89PNG\r\n\x1a\n"
-            or data[:2] == b"\x1f\x8b"):
+            or data[:2] == b"\x1f\x8b" or data[:4] == b"PK\x03\x04"
+            or data[:8] == b"\xd0\xcf\x11\xe0\xa1\xb1\x1a\xe1"):
         ext = _binary_ext.get(_ct)
         if ext is None:
             if data[:8] == b"\x89PNG\r\n\x1a\n":
                 ext = "png"
             elif data[:2] == b"\x1f\x8b":
                 ext = "gz"
+            elif data[:4] == b"PK\x03\x04":
+                # An OOXML container declared as something else. `zip` is the honest fallback:
+                # it is what the bytes are, and it opens with the same reader.
+                ext = _ooxml_by_ct.get(_ct.rsplit(".", 1)[-1], "zip")
+            elif data[:8] == b"\xd0\xcf\x11\xe0\xa1\xb1\x1a\xe1":
+                ext = "bin"       # OLE2 compound file: .doc/.xls/.ppt, undeclared
             else:
                 ext = "jpg"
         binpath = os.path.join(OUT, f"{name}.{ext}")
@@ -178,7 +209,7 @@ def fetch(name: str, url: str) -> dict:
             fh.write(f"SOURCE URL: {url}\nFINAL URL: {rec.get('final_url')}\n"
                      f"HTTP: {rec.get('status')}\nCONTENT-TYPE: {ctype}\n"
                      f"BINARY: {os.path.basename(binpath)} ({len(data)} bytes)\n"
-                     + "=" * 70 + "\nBinary image saved alongside this stub; not text.\n")
+                     + "=" * 70 + "\nBinary payload saved alongside this stub; not text.\n")
         return rec
 
     if "pdf" in ctype.lower() or data[:5] == b"%PDF-":

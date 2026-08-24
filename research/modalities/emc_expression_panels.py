@@ -725,6 +725,85 @@ PANELS = {
                                  "here asserts activity, selectivity, safety, a therapeutic window or "
                                  "clinical readiness for any of the three agents in this disease.",
     },
+    # ⭐ READ 19, ADDED 2026-08-24. THE PREMISE THAT PARKS THE WHOLE IMMUNO FAMILY HAD NEVER BEEN
+    # READ IN EMC TISSUE HERE. `BLK-ANTIGEN-COLD` ("EMC is antigen-cold") is inherited by every
+    # ST-IMMUNO route on the board, and `emc-vaccine-development-path.md` §B8 states plainly that
+    # the cold characterisation is "inferred from the disease's mutational burden, its histology
+    # and sarcoma-wide immunotherapy experience, rather than from published EMC-specific immune
+    # profiling", and names infiltrate quantification as what would clear it.
+    # ⚠ The trigger is an external observation that CONTRADICTS the premise in one patient:
+    # Galitskiy et al., Annals of Oncology 2025 (JSMO P35-1) report an EWSR1::NR4A3 EMC with
+    # TMB 0.67 mut/Mb and microsatellite stability whose tumour-microenvironment profile was
+    # nonetheless immune-enriched/fibrotic with high PD-L1 by RNA-seq, and a near-complete
+    # response to single-agent pembrolizumab. That is n = 1, industry-authored and a conference
+    # abstract — it settles nothing. What it does is make the reading below decision-relevant:
+    # a low mutational burden and an infiltrated microenvironment came apart in this disease, and
+    # this repository has bulk EMC tumour tissue on two platforms and has never looked.
+    # ⛔ THIS IS NOT A TME CLASSIFIER AND MUST NEVER BE REPORTED AS ONE. The "immune-enriched /
+    # fibrotic" label in that case is the output of a proprietary classifier calibrated on RNA-seq.
+    # This panel is z-scored marker abundance on archival arrays. It can say whether the markers
+    # move; it cannot assign a published TME subtype and it cannot reproduce anyone's classifier.
+    "immune_tme": {
+        "read_id": "read_19_IMMUNE_TME",
+        "question": "Does EMC tumour tissue carry a cytotoxic-lymphocyte, interferon-γ and "
+                    "PD-L1 program at all — the infiltrate reading the 'antigen-cold' premise "
+                    "has never had in this disease, and which one published case reports as "
+                    "present despite a low mutational burden?",
+        "provenance": CURATED + " Membership is canonical lineage and effector markers plus the "
+                                "interferon-γ effector axis, the checkpoint ligands and receptors, "
+                                "the suppressive compartment, and a fibrotic/vascular axis carried "
+                                "because the case that motivates this read describes the "
+                                "microenvironment as fibrotic as well as immune-enriched. The "
+                                "published cross-checks are the FETCHED hallmark sets in "
+                                "SIGNATURE_SLOTS; these groups are the recognisable anchor.",
+        # ⛔ CLASS I IS NOT RE-LISTED HERE (CLAUDE.md §1, one fact one place). B2M, HLA-A/B/C,
+        # TAP1/TAP2, TAPBP, NLRC5, PSMB8/9, CIITA and ERAP1 are the `surface_antigen` panel's
+        # "antigen-presentation precondition" group and are ALREADY MEASURED on both platforms.
+        # A consumer asking "does EMC retain class I?" reads read_8, not this read.
+        "class_I_is_measured_elsewhere": (
+            "reads.read_8_SURFACE_ANTIGEN — antigen-presentation precondition group. ⚠ That "
+            "measurement already exists and predates this read; any document still calling HLA "
+            "class I status in EMC unmeasured is stale against it."),
+        "groups": {
+            "cytotoxic_lymphocyte": ["CD8A", "CD8B", "GZMA", "GZMB", "GZMK", "PRF1", "NKG7",
+                                     "KLRD1", "KLRK1"],
+            "t_cell_core": ["CD2", "CD3D", "CD3E", "CD3G", "CD247", "PTPRC", "LCK", "ZAP70"],
+            "interferon_gamma_effector_axis": ["IFNG", "STAT1", "IRF1", "GBP1", "IDO1", "CXCL9",
+                                               "CXCL10", "CXCL11"],
+            "checkpoint_ligands_and_receptors": ["CD274", "PDCD1LG2", "PDCD1", "CTLA4", "LAG3",
+                                                 "HAVCR2", "TIGIT", "VSIR"],
+            "myeloid_compartment": ["CD68", "CD163", "CSF1R", "ITGAM", "MRC1", "MSR1"],
+            "suppressive_compartment": ["FOXP3", "IL10", "TGFB1", "ENTPD1", "NT5E", "ARG1"],
+            "b_cell_and_tertiary_lymphoid_structure": ["MS4A1", "CD79A", "CD79B", "CXCL13",
+                                                       "CCL19", "CCL21"],
+            "antigen_presentation_class_II": ["HLA-DRA", "HLA-DPA1", "HLA-DPB1", "HLA-DMA",
+                                              "CIITA"],
+            "fibrotic_axis": ["COL1A1", "COL1A2", "COL3A1", "COL5A1", "FN1", "FAP", "ACTA2",
+                              "POSTN", "LRRC15"],
+            "vascular_axis": ["PECAM1", "VWF", "CDH5", "KDR", "VEGFA"],
+        },
+        "direction_that_supports_the_lane": (
+            "⚠ THERE IS NO DIRECTION THAT 'SUPPORTS' THIS LANE, AND SAYING SO IS THE POINT. A "
+            "cytotoxic and interferon-γ module reading UP in EMC weakens BLK-ANTIGEN-COLD and "
+            "makes the checkpoint routes more interesting; reading DOWN strengthens the premise "
+            "the immuno family is already parked on and is a publishable negative for it. Both "
+            "outcomes are informative, so this read is not written to want either."),
+        "what_it_cannot_settle": (
+            "⛔ AN IMMUNE TRANSCRIPT IN BULK TISSUE IS NOT AN INFILTRATE, A LOCATION OR A "
+            "FUNCTION. (1) These are BULK arrays: a marker's signal can come from infiltrating "
+            "leukocytes, from stroma, or from the tumour cells themselves, and nothing here "
+            "separates them — CD274 in particular is expressed by tumour and myeloid cells "
+            "alike. (2) It cannot distinguish an infiltrated tumour from an EXCLUDED one, which "
+            "is the specific distinction `emc-vaccine-development-path.md` §B7 draws for this "
+            "disease; that needs spatial data, which these platforms do not carry. (3) The "
+            "comparator arm is OTHER SARCOMAS, so 'flat against comparator' means 'like other "
+            "sarcomas', never 'cold' — the sarcomas are not an immune-normal reference. (4) With "
+            "6 and 10 EMC tumours it cannot estimate what FRACTION of EMC is infiltrated, which "
+            "is the quantity a patient-selection argument would need. (5) It is not a published "
+            "TME classifier and does not reproduce one. (6) Nothing here asserts efficacy, "
+            "response, safety, a therapeutic window or clinical readiness for pembrolizumab, any "
+            "checkpoint inhibitor, or any other agent in EMC."),
+    },
     "surface_antigen": {
         "read_id": "read_8_SURFACE_ANTIGEN",
         "question": "Which candidate surface / therapeutic-address antigens are READABLE in EMC "
@@ -1062,6 +1141,51 @@ SIGNATURE_SLOTS = {
         "what": "HALLMARK_HYPOXIA — the MSigDB hallmark set, which resolves reliably, included so "
                 "read 5 cannot come back empty on a retrieval failure alone.",
         "enrichr": [("hallmark", "hypoxia")],
+    },
+    # --- read 19: IMMUNE / TME ------------------------------------------------------------------
+    # ⭐ THE CURATED GROUPS ARE THE ANCHOR; THESE FETCHED SETS CARRY THE WEIGHT. Four independent
+    # hallmark modules are taken rather than one, for the same reason read 3 takes several PPARγ
+    # instruments: there is no single canonical "is this tumour immune-hot" set, and picking one
+    # would be a choice this file could not defend. Interferon-γ response is the effector axis the
+    # case that motivates this read describes; inflammatory response and allograft rejection are
+    # two widely used infiltration proxies that fail differently; TGF-β is the fibrotic half of the
+    # "immune-enriched/fibrotic" description and is also the axis §B7 of the vaccine path names.
+    "ifng_response_hallmark": {
+        "read_id": "read_19_IMMUNE_TME", "role": "immune_effector_metagene",
+        "what": "HALLMARK_INTERFERON_GAMMA_RESPONSE — the interferon-γ effector program.",
+        "enrichr": [("hallmark", "interferongammaresponse")],
+    },
+    "inflammatory_response_hallmark": {
+        "read_id": "read_19_IMMUNE_TME", "role": "immune_infiltration_proxy",
+        "what": "HALLMARK_INFLAMMATORY_RESPONSE — a broad inflammation proxy, included because it "
+                "fails differently from the interferon axis: it can move on innate/myeloid content "
+                "with no lymphocyte effector program at all.",
+        "enrichr": [("hallmark", "inflammatoryresponse")],
+    },
+    "allograft_rejection_hallmark": {
+        "read_id": "read_19_IMMUNE_TME", "role": "immune_infiltration_proxy",
+        "what": "HALLMARK_ALLOGRAFT_REJECTION — lymphocyte-weighted, and the hallmark set most "
+                "often used as a bulk T-cell-infiltration proxy. ⚠ Its NAME is about transplant "
+                "biology; it is used here for its membership, not its label.",
+        "enrichr": [("hallmark", "allograftrejection")],
+    },
+    "tgf_beta_hallmark": {
+        "read_id": "read_19_IMMUNE_TME", "role": "fibrotic_axis_cross_check",
+        "what": "HALLMARK_TGF_BETA_SIGNALING — the fibrotic/exclusion axis, carried because the "
+                "case describes the microenvironment as fibrotic as well as immune-enriched and "
+                "because transforming growth factor β is the standard proposal for an immune-"
+                "excluded tumour. ⚠ Fibrotic here is a transcriptional axis, not the myxoid matrix "
+                "compartment, which is a different thing this instrument cannot see.",
+        "enrichr": [("hallmark", "tgfbetasignaling")],
+    },
+    "antigen_processing_class_i_gobp": {
+        "read_id": "read_19_IMMUNE_TME", "role": "published_cross_check",
+        "what": "GO biological process antigen processing and presentation via MHC class I — the "
+                "published cross-check on the curated precondition group read_8 already measures.",
+        "enrichr": [("gobp", "antigenprocessingandpresentationofendogenouspeptideantigenvia"
+                             "mhcclassi"),
+                    ("gobp", "antigenprocessingandpresentationofpeptideantigenviamhcclassi"),
+                    ("gobp", "antigenprocessingandpresentationviamhcclassi")],
     },
     # --- read 2: CS/GAG cross-check -------------------------------------------------------------
     "cs_biosynthesis_reactome": {
@@ -1763,6 +1887,17 @@ def derive(inp):
                 "`state` before any number: NOT_READABLE_ON_EITHER_PLATFORM is an instrument "
                 "statement and is never a biological negative, and no state in this board is a "
                 "protein, surface-localisation, tumour-restriction or safety claim."),
+            "read_19_IMMUNE_TME": (
+                "reads.read_19_IMMUNE_TME  (detail: panels.immune_tme, signature_scores."
+                "ifng_response_hallmark / inflammatory_response_hallmark / "
+                "allograft_rejection_hallmark / tgf_beta_hallmark). Bears on BLK-ANTIGEN-COLD, "
+                "which every ST-IMMUNO route inherits, and on the B8 ledger entry in "
+                "`emc-vaccine-development-path.md`. ⛔ A consumer MUST carry "
+                "`what_it_cannot_settle` with any number it quotes: this is bulk marker "
+                "abundance against OTHER SARCOMAS, so it cannot locate a cell, separate "
+                "infiltrated from excluded, estimate what fraction of EMC is infiltrated, or "
+                "reproduce any published TME classifier. Class I is NOT here — it is "
+                "read_8's antigen-presentation precondition group."),
             "every_gene": "gene_reads.<SYMBOL>.<matrix_file> — carries `readable`, "
                           "`n_probes_mapping`, `probe_ids`, per-sample values, `array_percentile`, "
                           "the Welch contrast and a verdict sentence.",
@@ -2256,7 +2391,12 @@ def _assemble_reads(res):
                         # read 18, 2026-08-09: the proteostatic axis behind the best
                         # ex-vivo drug-sensitivity result this disease has, which had never
                         # been read here — not one proteasome subunit was on this panel.
-                        ("read_18_PROTEOSTASIS", "proteostasis")):
+                        ("read_18_PROTEOSTASIS", "proteostasis"),
+                        # read 19, 2026-08-24: the immune/TME read. Added because the premise that
+                        # parks every ST-IMMUNO route — that EMC is antigen-cold — had never been
+                        # read in EMC tissue here, and because a published case reports the
+                        # opposite in one patient at a mutational burden of 0.67 mut/Mb.
+                        ("read_19_IMMUNE_TME", "immune_tme")):
         R[_rid] = _read_entry(res, _rid, _pkey)
 
     R["read_8_SURFACE_ANTIGEN"] = _read_entry(

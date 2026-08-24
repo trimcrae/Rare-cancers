@@ -627,3 +627,72 @@ def test_every_papers_footer_is_derived_from_its_own_sources(key):
         assert orderable in {os.path.basename(s)
                              for s in paper.get("stamp_sources", bsp.STAMP_SOURCES)}, (
             "the footer's filename must be READ from stamp_sources, never typed (rule 1)")
+
+
+# ---------------------------------------------------------------------------------------------
+# ⛔⛔ TWO BLOCK-LEVEL DEFECTS THAT ONLY A RASTERISED PAGE COULD SHOW (found 2026-08-24). Both were
+# invisible to every text-layer check in this file, because both produce text that EXTRACTS
+# correctly and RENDERS wrongly — the first prints a character a reader sees and a grep does not
+# care about, the second deletes a sentence that no gate reads the built document to miss.
+
+def test_a_blockquote_renders_as_a_blockquote_and_not_as_a_literal_marker():
+    r"""⛔ THE PAPER'S TWO CENTRAL EQUATIONS SHIPPED WITH THEIR MARKER PRINTED, NINE TIMES.
+    `markdown_to_html` had no blockquote branch at all, so `> C(A) = 1 - ...` fell through to the
+    paragraph collector and `inline()` escaped the `>` faithfully into the body text of every posted
+    version of aixiv.260822.000005."""
+    html = bsp.markdown_to_html("> **C(A)  =  1  −  x**")
+    assert "<blockquote>" in html, "a quoted line must produce a blockquote element"
+    assert not re.search(r"<p[^>]*>\s*&gt;", html), "the marker must not survive into body text"
+
+
+def test_a_multi_line_blockquote_is_one_block():
+    """The seam test's statement wraps across two source lines and is one sentence."""
+    html = bsp.markdown_to_html("> a junction whose seam residue lies in the alphabet\n"
+                                "> has a window that is not tumour-exclusive.")
+    assert html.count("<blockquote>") == 1
+    assert "alphabet has a window" in html, "the two lines must join with a space between them"
+
+
+def test_a_wrapped_number_stays_inside_its_paragraph():
+    """⛔⛔ THE EXACT INPUT THAT DELETED A SENTENCE OF FIGURE 1'S LEGEND. The legend wraps as
+    '...as internal residue' / '266. Four of the five...', and the line before it opens with `*j₀*`.
+    The old guard called any line starting with `*` a list item, so `266.` opened an ordered list and
+    SPLIT the caption; suppressing the list branch alone then made the paragraph collector stop
+    there instead, `para` came back empty, and the fall-through advanced past the line — turning a
+    layout defect into a content defect. CommonMark's actual rule is that an ordered marker may not
+    interrupt a paragraph unless it numbers 1, and it has to hold in BOTH places."""
+    src = ("**Figure 1. A legend.** Donor sequence ends mid-codon, giving the seam residue at\n"
+           "*j₀* = 264, after which the acceptor resumes with its methionine 1 as internal residue\n"
+           "266. Four of the five in-frame junctions place aspartate at this position.")
+    html = bsp.markdown_to_html(src)
+    assert "266. Four of the five" in html, (
+        "the wrapped number and the rest of its sentence were dropped from the legend")
+    assert "<ol" not in html, "a wrapped number must not open an ordered list"
+    assert html.count("<p") == 1, "the legend is one paragraph and must render as one"
+
+
+def test_a_real_numbered_list_still_renders_as_a_list():
+    """⛔ THE OTHER HALF, WITHOUT WHICH THE FIX ABOVE IS JUST A DELETION. §2.2's derivation is a
+    genuine six-item ordered list and must keep its markup."""
+    html = bsp.markdown_to_html("Steps:\n\n1. Build the chimeric mRNA.\n2. Translate from the "
+                                "initiator codon.\n3. Let j0 be the first residue.")
+    assert "<ol" in html and html.count("<li>") == 3, "a list that opens a block is still a list"
+
+
+def test_a_bulleted_list_after_an_italic_opening_line_is_unaffected():
+    """The guard now tests for a marker, so an italic word at the start of the previous line no
+    longer masquerades as one. A real bullet after ordinary prose must still start a list."""
+    html = bsp.markdown_to_html("*Emphasis* opens this line and it is prose.\n\n- first\n- second")
+    assert "<ul>" in html and html.count("<li>") == 2
+
+
+@pytest.mark.committed_artifact
+@pytest.mark.parametrize("pdf", sorted(_glob.glob(
+    os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "*", "*.pdf"))))
+def test_no_blockquote_marker_survives_into_a_deposited_pdf(pdf):
+    """The rendered half of the guard above, over every built document in the tree."""
+    text = " ".join(_pdf_text(pdf).split())
+    leaked = re.findall(r"(?<![-<=>])>\s+[A-Za-z(]", text)
+    assert not leaked, (
+        f"{os.path.basename(pdf)} prints {len(leaked)} literal blockquote marker(s) {leaked[:3]} — "
+        "markdown_to_html must render a quoted line as a <blockquote>, not as body text.")
