@@ -2,7 +2,7 @@
   "_readme": "Does extraskeletal myxoid chondrosarcoma (EMC) carry inactivating TSC1 or TSC2 alterations often enough to make an mTOR inhibitor a reachable option for a subset? Probed 2026-08-24; nobody in this repository had asked before. THIS FILE IS THE ONE HOME for every number the probe produced. The prompt was a single JSMO 2025 case abstract (registry citation galitskiy2025emcpembrolizumab) reporting TSC2 gene loss in an EWSR1::NR4A3 EMC whose TSC2 finding was never acted on, because the patient responded to pembrolizumab.",
   "_not_medical_advice": "A record of database and registry reads. NOT medical advice. Nothing here claims that any agent works, is safe, is selective, has a therapeutic window, or is clinically ready in EMC or in any patient. An eligibility criterion that admits a histology on paper says nothing about whether a particular person should enrol; a trial team decides that after its own review.",
   "document_date_et": "2026-08-24",
-  "headline": "EMC does carry TSC2-inactivating alterations, and they are RARE rather than absent: 1 of 75 sequenced EMC samples (1.33%, 95% CI 0.03-7.21%) carries a somatic TSC2 nonsense mutation, and 0 of 75 carries a TSC1 mutation. This is a MEASUREMENT, not a literature inference, and it is the first TSC1/TSC2 frequency for this disease that this repository is aware of.",
+  "headline": "EMC does carry TSC2-inactivating alterations, and they are RARE rather than absent: 1 of 75 sequenced EMC PATIENTS (1.33%, 95% CI 0.03-7.21%) carries a somatic TSC2 nonsense mutation, and 0 of 75 carries a TSC1 mutation. The 75 samples were checked to be 75 distinct patients. This is a MEASUREMENT, not a literature inference, and it is the first TSC1/TSC2 frequency for this disease that this repository is aware of. ⚠ It rests on ONE positive, from ONE institution, on a sample sequenced without a matched normal - read the measurement section's caveats before quoting the rate.",
   "question": {
     "primary": "How often does EMC carry a pathogenic inactivating TSC1 or TSC2 alteration?",
     "secondary": "If such a subset exists, could it reach an open trial or another access route?",
@@ -103,7 +103,8 @@
         "ci95_clopper_pearson": [
           0.03,
           7.21
-        ]
+        ],
+        "_denominator_is_patients": true
       },
       "tsc1_mutation": {
         "k": 0,
@@ -112,7 +113,8 @@
         "ci95_clopper_pearson": [
           0.0,
           4.8
-        ]
+        ],
+        "_denominator_is_patients": true
       },
       "tsc1_or_tsc2_homozygous_deletion": {
         "k": 0,

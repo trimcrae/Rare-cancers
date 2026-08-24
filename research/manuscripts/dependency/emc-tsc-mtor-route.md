@@ -56,7 +56,7 @@ conference-abstract tier.
 The expected outcome was a bounded zero. It is not one.
 
 **EMC is a codable OncoTree type (`EMCHS`)**, which turned a literature question into a counting
-question. MSK's public sarcoma cohort holds **75 samples typed as extraskeletal myxoid chondrosarcoma** —
+question. MSK's public sarcoma cohort holds **75 patients typed as extraskeletal myxoid chondrosarcoma** —
 an order of magnitude more sequenced EMC than any published series, the largest of which is six.
 
 Of those 75, **one carries a somatic TSC2 nonsense mutation** and none carries a TSC1 mutation. The rate
@@ -117,7 +117,7 @@ as a negative.
 
 ### 2.4 · ⛔ The gap between what was measured and what the case reported
 
-The index case reports TSC2 **loss**. What was measured is **mutation** in 75 samples and **homozygous
+The index case reports TSC2 **loss**. What was measured is **mutation** in 75 patients and **homozygous
 deletion** in the 15 that have copy-number data. The discrete copy-number profile stores only homozygous
 deletion and amplification; **there is no single-copy state in it at all.** So if the case's "loss" is a
 single-copy deletion, this measurement would not have counted it, and the true frequency of
@@ -158,7 +158,7 @@ is not simply returning zero for everything.
 Beneath that: none of eleven pan-sarcoma comprehensive-genomic-profiling full texts links EMC to
 TSC1/TSC2 or to mTOR, and the one purpose-built study — *Secondary Genetic Alterations in Extraskeletal
 Myxoid Chondrosarcoma*, 18 patients on the same MSK-IMPACT panel — names only TP53 as recurrent and does
-not name TSC. ⚠ **That study is very likely inside the 75 samples counted above**, being the same
+not name TSC. ⚠ **That study is very likely inside the 75 patients counted above**, being the same
 institution and the same assay, so it is the same evidence seen twice rather than two independent
 readings.
 
