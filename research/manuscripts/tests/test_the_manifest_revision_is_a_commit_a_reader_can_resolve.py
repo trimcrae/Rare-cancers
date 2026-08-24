@@ -49,7 +49,14 @@ def test_the_recorded_revision_is_a_commit_this_clone_can_resolve():
     shallow = _git("rev-parse", "--is-shallow-repository").stdout.strip() == "true"
     known = _git("cat-file", "-e", rev + "^{commit}").returncode == 0
     if shallow and not known:
-        # Announce the weakening rather than pass quietly (tests.yml:83 makes the same choice).
+        # Announce the weakening rather than pass quietly — the same choice `tests.yml` makes in its
+        # "EMC systems map — registry invariants" step, whose `git fetch origin main || echo "could
+        # not fetch origin/main …"` lets the check degrade to the working tree and say so out loud.
+        # ⚠ Cited by STEP NAME, not by line: this was `tests.yml:83` until 2026-08-24, when that
+        # file was split into two jobs and line 83 became an unrelated comment. A `:NNNN` citation
+        # still RESOLVES after the target moves — it just points at a sentence that no longer says
+        # what it is cited for, which is the silent rot CLAUDE.md §1 and `line_citations.py` exist
+        # to catch, and which nothing was checking here because this is a test comment.
         print(f"⚠ shallow clone: {rev[:8]} is not present, so its reachability was NOT checked. "
               "Run this in a full clone before depositing.")
         return

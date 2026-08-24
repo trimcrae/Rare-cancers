@@ -22,6 +22,18 @@ on:
         description: "send (generate digest + email) | dry_run (generate + publish digest, no email — used by the summary-writer Routine)"
         default: "send"
         required: false
+      backfill_from:
+        description: "One-off BACKFILL: sweep clinical/treatment news + registry over a PAST window (YYYY-MM-DD). Set with backfill_to. Publishes research/method-watch-backfill.md to method-watch-cache and SENDS NO EMAIL."
+        default: ""
+        required: false
+      backfill_to:
+        description: "Backfill window end (YYYY-MM-DD)."
+        default: ""
+        required: false
+      backfill_slice_days:
+        description: "Backfill slice size in days (default 14). Google News caps results per query, so a long window must be swept in slices or it silently returns only its recent end."
+        default: "14"
+        required: false
       probe_grants:
         description: "One-off diagnostic: space-separated grants.gov opportunity IDs to print applicant-eligibility detail for (prints to the job log; the digest still runs)"
         default: ""
@@ -54,7 +66,15 @@ jobs:
           PROBE_GRANTS: ${{ inputs.probe_grants }}
         run: node scripts/fetch-grants-eligibility.mjs $PROBE_GRANTS
 
+      - name: Backfill sweep (one-off; past window)
+        if: ${{ inputs.backfill_from != '' && inputs.backfill_to != '' }}
+        run: |
+          node scripts/method-watch-backfill.mjs \
+            "${{ inputs.backfill_from }}" "${{ inputs.backfill_to }}" \
+            research/method-watch-backfill.md "${{ inputs.backfill_slice_days }}"
+
       - name: Generate method-watch digest
+        if: ${{ inputs.backfill_from == '' || inputs.backfill_to == '' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node scripts/method-watch.mjs research/method-watch-digest.md
@@ -83,7 +103,7 @@ jobs:
           fi
 
       - name: Email the digest (bite-sized summary + full digest)
-        if: ${{ vars.NEWSLETTER_EMAIL != 'off' && (github.event_name == 'schedule' || inputs.mode != 'dry_run') }}
+        if: ${{ vars.NEWSLETTER_EMAIL != 'off' && (github.event_name == 'schedule' || inputs.mode != 'dry_run') && (inputs.backfill_from == '' || inputs.backfill_to == '') }}
         env:
           DIGEST_FILE: research/method-watch-digest.md
           DIGEST_TITLE: "Method-watch newsletter"
@@ -111,8 +131,9 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           mkdir -p "$RUNNER_TEMP/res"
           cp research/method-watch-digest.md "$RUNNER_TEMP/res/" 2>/dev/null || true
+          cp research/method-watch-backfill.md "$RUNNER_TEMP/res/" 2>/dev/null || true
           git fetch origin method-watch-cache || true
-          rm -f research/method-watch-digest.md
+          rm -f research/method-watch-digest.md research/method-watch-backfill.md
           if git show-ref --verify --quiet refs/remotes/origin/method-watch-cache; then
             git checkout -B method-watch-cache origin/method-watch-cache
           else
@@ -121,6 +142,8 @@ jobs:
           fi
           mkdir -p research
           cp "$RUNNER_TEMP/res/method-watch-digest.md" research/ 2>/dev/null || true
-          git add research/method-watch-digest.md
+          cp "$RUNNER_TEMP/res/method-watch-backfill.md" research/ 2>/dev/null || true
+          git add research/method-watch-digest.md research/method-watch-backfill.md 2>/dev/null || \
+            git add research/method-watch-digest.md
           git commit -m "Method-watch digest $(date -u +%Y-%m-%d)" || { echo "no changes"; exit 0; }
           git push origin method-watch-cache

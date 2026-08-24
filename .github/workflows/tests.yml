@@ -3,6 +3,12 @@ name: tests (modalities)
 # Runs the pure-Python unit tests for the research/modalities compute scripts on every push/PR.
 # These tests gate the parsing/mapping logic that the fpocket off-by-one bug lived in — no GPU/AWS
 # needed. Keep this green before dispatching any SageMaker experiment.
+#
+# ⭐ TWO JOBS, NOT ONE, SINCE 2026-08-24 — and the name is now the fastest thing about a red build:
+#   `gates`   the doc linters, the artifact `--check` verify modes and the CI-shape guards.  ~2 min.
+#   `pytest`  the ~9,200-test suite over modalities / manuscripts / systems / scripts.       ~10 min.
+# Neither `needs:` the other, so a guard failure can no longer skip the suite and the suite's
+# runtime no longer hides the guards. The rationale and the measurements are at each job.
 
 on:
   push:
@@ -12,44 +18,94 @@ on:
 permissions:
   contents: read
 
+# ⛔⛔ EVERY PUSH USED TO LEAVE ITS PREDECESSOR RUNNING, AND THE PREDECESSOR'S VERDICT IS WORTHLESS
+# (measured 2026-08-24). In the 30 most recent runs of this workflow, ONE branch
+# (claude/emc-tsc-alterations-frequency-ou1rv7) accounted for 15 of them — pushes at 03:37, 03:39,
+# 03:41, 03:43, 03:45, 03:49, 04:01, 04:05 and 04:06 — and 12 runs were in flight simultaneously.
+# Fourteen of those fifteen were obsolete the moment the next commit landed, and each still ran to
+# completion: ~25 min of runner time apiece, on a tree nobody would ever read a verdict for.
+# ⚠ NOTHING IS LOST BY CANCELLING ONE. A cancelled run reports as CANCELLED, never as green, so
+# this cannot manufacture a pass — which is the property that separates it from the loosened gates
+# CLAUDE.md §4 is written about. The superseding run measures the superseding tree.
+# ⭐ AND `main` IS DELIBERATELY EXEMPT. Feature branches are worked in bursts and only the tip
+# matters; `main` is the trunk that ~50 other workflows dispatch from, so every commit on it keeps
+# its own per-commit verdict rather than inheriting the next one's. Cancelling there would save
+# runner time by giving up exactly the history that gets consulted when a lane goes red.
+# The same idiom is already in `modalities-run.yml`, which has carried `cancel-in-progress` since it
+# was written; this workflow is the one that never got it.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+# ⛔ ONE LIST, ONE PLACE (CLAUDE.md §1). This install list is not a convenience — every entry below
+# is annotated at length at its point of use, because each was added after a guard was found to be
+# SKIPPING rather than passing. Splitting this file into two jobs means two `pip install` lines, and
+# two hand-maintained copies of a load-bearing list is a drift that would be found the same way the
+# originals were: by a guard quietly not running. So the list lives here once and both jobs read it.
+env:
+  # rdkit is needed for the null-map guard regression test (stereo-only edges must fail setup) and the
+  # structural-alerts / nrv04 tests; without it those importorskip-skip and the guard goes untested.
+  # pyyaml backs test_workflows_parse.py, which catches an unparseable workflow. GitHub reports
+  # that as a MISSING TRIGGER rather than a syntax error, and a cron on such a file silently
+  # never fires — so without this gate a broken workflow looks like a workflow with nothing to do.
+  # boto3 is NOT optional here, and a skip would have been the wrong fix. `test_congeneric_fanout.py`'s
+  # credential pre-flight test monkeypatches `boto3.client` to prove the launcher FAILS CLOSED on a dead
+  # object-store credential — the guard standing between a rented GPU and a leg that cannot write its
+  # checkpoints. Without the package that test errored on import and main stayed red, and a red main is
+  # not cosmetic: on 2026-07-27 another lane's red assertions took the whole step-1 supervision tick down
+  # with them (the tick gated on pytest before it measured). The test CAN run anywhere — it needs no
+  # credentials and touches no network — so the fix is to install the dependency, not to skip the test.
+  # biopython backs junction_aso_thermo.py's nearest-neighbour table. Without it that module
+  # REFUSES to run rather than hand-entering the table, which is correct behaviour and which
+  # made test_the_16mer_thermo_artifact_still_reproduces read as an artifact drift when it was
+  # a missing dependency. Verified 2026-08-14: with biopython the check answers "thermo
+  # artifact is current". A guard that cannot run is not a guard that passed.
+  # pdfminer.six reads the TEXT LAYER of the built submission PDF, which is the only artifact a
+  # depositor uploads and a screener opens. Added 2026-08-17 after a blind screen of the PDF
+  # found table sequences printed without their 5′-/-3′ delimiters, adjacent to numeric cells —
+  # a wrong-reagent hazard for a paper whose deliverable is orderable oligos, and one that seven
+  # rounds of review over the MARKDOWN could not see. Same rule as boto3 and biopython above:
+  # the test needs no credentials and no network, so the fix is to install the dependency.
+  # ⛔ pypdf ADDED 2026-08-19, AND IT IS NOT OPTIONAL ANY MORE. The submission builder now writes
+  # the PDF outline and the DOI/URL link annotations through pypdf, so without it the builder
+  # itself fails rather than degrading. Two guards in the deposit suite had ALSO been importing
+  # pypdf and pymupdf, neither of which was ever installed here -- so both had been SKIPPING in
+  # CI and reporting green for a check that never ran. They are ported to pdfminer.six; this
+  # line covers the builder.
+  # ⭐ pytest-xdist ADDED 2026-08-24 — see the suite step for the parity measurement. It is only
+  # USED by the `pytest` job, but it is listed here rather than appended in that job so there is
+  # exactly one list to keep correct.
+  PIP_PACKAGES: >-
+    pytest pytest-xdist numpy scipy pymbar rdkit pyyaml boto3 jsonschema biopython
+    pdfminer.six pypdf pdfplumber matplotlib
+
 jobs:
-  pytest:
+  # ⭐⭐ THE LINTERS AND GUARDS ARE THEIR OWN JOB AS OF 2026-08-24, AND THE SPLIT IS A CORRECTNESS
+  # FIX BEFORE IT IS A SPEED ONE (trimcrae: the suite *"takes forever and … ends up blocking a lot
+  # of work"*).
+  #
+  # MEASURED on run 32717951013, the whole job wall clock 20 m 53 s:
+  #   setup + all 29 guard steps below   1 m 57 s   <-  9.4 %
+  #   the pytest suite (one step)       18 m 54 s   <- 90.6 %
+  # and on run 32687069810 the same suite step took 28 m 25 s. So every linter in this file — the
+  # ones that actually catch things, and that name the offending file:line in their own step — was
+  # invisible for twenty to thirty minutes behind a suite they do not depend on.
+  #
+  # ⛔ AND THE COUPLING WAS ALREADY KNOWN TO BE A BUG. The suite step carried `if: always()` with a
+  # note recording that on 2026-07-29 a failing guard step SKIPPED it for 9+ commits, so the repo's
+  # test gate did not run at all while every merge in that window reported red for an unrelated
+  # reason. `if: always()` patched the symptom; two jobs remove the mechanism, because a job cannot
+  # skip a job it has no `needs:` on. Neither job gates the other — both are reported, both go red
+  # on their own evidence, and which KIND of failure occurred is now readable from the check name
+  # instead of from a traceback twenty minutes in.
+  gates:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      # rdkit is needed for the null-map guard regression test (stereo-only edges must fail setup) and the
-      # structural-alerts / nrv04 tests; without it those importorskip-skip and the guard goes untested.
-      # pyyaml backs test_workflows_parse.py, which catches an unparseable workflow. GitHub reports
-      # that as a MISSING TRIGGER rather than a syntax error, and a cron on such a file silently
-      # never fires — so without this gate a broken workflow looks like a workflow with nothing to do.
-      # boto3 is NOT optional here, and a skip would have been the wrong fix. `test_congeneric_fanout.py`'s
-      # credential pre-flight test monkeypatches `boto3.client` to prove the launcher FAILS CLOSED on a dead
-      # object-store credential — the guard standing between a rented GPU and a leg that cannot write its
-      # checkpoints. Without the package that test errored on import and main stayed red, and a red main is
-      # not cosmetic: on 2026-07-27 another lane's red assertions took the whole step-1 supervision tick down
-      # with them (the tick gated on pytest before it measured). The test CAN run anywhere — it needs no
-      # credentials and touches no network — so the fix is to install the dependency, not to skip the test.
-      # biopython backs junction_aso_thermo.py's nearest-neighbour table. Without it that module
-      # REFUSES to run rather than hand-entering the table, which is correct behaviour and which
-      # made test_the_16mer_thermo_artifact_still_reproduces read as an artifact drift when it was
-      # a missing dependency. Verified 2026-08-14: with biopython the check answers "thermo
-      # artifact is current". A guard that cannot run is not a guard that passed.
-      # pdfminer.six reads the TEXT LAYER of the built submission PDF, which is the only artifact a
-      # depositor uploads and a screener opens. Added 2026-08-17 after a blind screen of the PDF
-      # found table sequences printed without their 5′-/-3′ delimiters, adjacent to numeric cells —
-      # a wrong-reagent hazard for a paper whose deliverable is orderable oligos, and one that seven
-      # rounds of review over the MARKDOWN could not see. Same rule as boto3 and biopython above:
-      # the test needs no credentials and no network, so the fix is to install the dependency.
-      # ⛔ pypdf ADDED 2026-08-19, AND IT IS NOT OPTIONAL ANY MORE. The submission builder now writes
-      # the PDF outline and the DOI/URL link annotations through pypdf, so without it the builder
-      # itself fails rather than degrading. Two guards in the deposit suite had ALSO been importing
-      # pypdf and pymupdf, neither of which was ever installed here -- so both had been SKIPPING in
-      # CI and reporting green for a check that never ran. They are ported to pdfminer.six; this
-      # line covers the builder.
-      - run: pip install pytest numpy scipy pymbar rdkit pyyaml boto3 jsonschema biopython pdfminer.six pypdf pdfplumber matplotlib
+      - run: pip install $PIP_PACKAGES
       # Run the doc linters FIRST and standalone. Both are also asserted inside the pytest
       # suite, but a doc author who breaks one should see the offending file:line as a
       # failing step named after the linter, not a traceback buried in ~1500 tests.
@@ -311,28 +367,102 @@ jobs:
       # reported it. Also asserts that 'unrecorded' reports as UNKNOWN rather than as agreement.
       - name: Cross-leg system identity (particles / charge / setup version)
         run: python3 research/modalities/tests/test_system_identity_consistency.py
+
+  # ★★ THE SUITE. Its own job as of 2026-08-24 — see the `gates` header above for why, and note
+  # what that split RETIRES: this step used to carry `if: always()` because every guard was a
+  # sibling `run:` step and any one of them failing SKIPPED the suite (2026-07-29: it did, for 9+
+  # commits, and every merge in that window was reported on a suite nobody executed). A job with no
+  # `needs:` cannot be skipped by another job's failure, so the property that note was defending is
+  # now structural rather than a flag somebody has to remember to keep. The two jobs report
+  # separately and each goes red on its own evidence.
+  pytest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install $PIP_PACKAGES
       # --continue-on-collection-errors, because ONE unimportable file must not be able to hide the other
       # ~2000 results. Twice on 2026-07-26 a module-scope failure in a single test file (a sys.exit(0) in an
       # import guard, then an unguarded open() after a partial-environment staging failure) aborted collection
       # and the job reported "no tests ran" — a red build that looked ordinary while the guard gate in front of
       # every GPU launch had stopped checking anything. With this flag the broken file is one ERROR, the build
       # is still red, and everything else still reports. It does not excuse the bug; it stops the blast radius.
-      # ★★ `if: always()` — THE SUITE MUST RUN EVEN IF A GUARD STEP ABOVE FAILED (measured 2026-07-29).
-      # Every guard above is a `run:` step in THIS job, so any one of them failing skips this one, and the
-      # ~3000-test suite silently stops executing while the build still goes red for an unrelated reason.
-      # That is exactly what happened: `test_watchdog_restraint_guards.sh` began failing when a landed watch
-      # entry was auto-disabled, and for 9+ commits the repo's test gate did not run at all — every merge in
-      # that window was reported green on a suite nobody executed. A guard failure and a suite failure are
-      # different facts and both must be visible on the same run; the job still fails either way.
       # research/manuscripts/tests was added 2026-08-03 for the EMC systems-map guards. It is listed
       # explicitly rather than by widening to `research/` because a bare directory walk would start
       # collecting whatever lands anywhere under research/ — and a suite that silently changes what
       # it runs is the same failure as a suite that silently stops running (the incident above).
-      - if: always()
+      - name: The suite (modalities, manuscripts, systems, scripts)
         # ⛔ `--durations` IS NOT DECORATION HERE, AND ITS ABSENCE COST A WHOLE DIAGNOSIS
         # (2026-08-08). This step ran 22.7 min and nothing recorded WHERE. Profiling it locally
         # was actively misleading: numpy, scipy, rdkit and boto3 are absent from the dev sandbox,
         # so ~48 tests that run HERE do not run there, and the local profile put 96.8% of the cost
         # on one test that is only ~7 min of this job. A suite can only be profiled where it
         # actually runs. Cost of the flag itself: zero.
-        run: python -m pytest research/modalities/tests research/manuscripts/tests systems/tests scripts/tests -q --continue-on-collection-errors --durations=25
+        #
+        # ⭐⭐ `-n 4 --dist loadfile` ADDED 2026-08-24. THE SUITE HAD BEEN SINGLE-THREADED ON A
+        # FOUR-CORE RUNNER FOR ITS ENTIRE LIFE, AND THAT WAS THE WHOLE COST OF THIS WORKFLOW:
+        # 1,132 s of the 20 m 53 s job (run 32717951013), and 1,705 s on run 32687069810.
+        # The `--durations=25` above is what made the shape readable, and the shape is why
+        # parallelism is the right lever rather than pruning: the slowest 25 tests are ~600 s, so
+        # the other ~535 s is ~9,200 tests at ~58 ms each. There is no fat to cut — there is a long
+        # tail to spread over idle cores.
+        #
+        # ⚠ `--dist loadfile` IS LOAD-BEARING, NOT A TUNING CHOICE, and it is the same reasoning
+        # `scripts/preflight.sh` records for its own copy: several tests here regenerate a committed
+        # artifact and then assert against it, so distributing by TEST rather than by FILE would let
+        # two workers race the same file and produce failures that look real and are not. Keeping a
+        # file's tests on one worker preserves the within-file ordering they rely on.
+        #
+        # ⛔ MEASURED OVER THIS EXACT FOUR-DIRECTORY SET BEFORE THE FLAG WENT IN, NOT INFERRED FROM
+        # PREFLIGHT'S NUMBER (which covers the MODALITIES half only). Clean worktree at HEAD, same
+        # box, serial vs `-n 4 --dist loadfile`:
+        #     serial     1196.0 s   59 failed, 8615 passed, 132 skipped, 36 errors
+        #     parallel    455.1 s   59 failed, 8615 passed, 131 skipped, 36 errors   (2.62x)
+        # The PASSED and FAILED sets were compared two-sided by NODE ID, not by count — 8,615 and
+        # 59 names, identical both directions — and `git status --porcelain` was empty after each
+        # run, which is the evidence that nothing regenerated or raced.
+        #
+        # ⚠ AND THE ONE DIFFERENCE IS A REPORTING ARTIFACT, RUN DOWN RATHER THAN WAVED AT, BECAUSE
+        # "131 vs 132" IS EXACTLY THE SHAPE OF A TEST THAT SILENTLY STOPPED RUNNING. It is not one.
+        # `test_contact_moiety_pose_rmsd.py` and `test_contact_pose_timeseries.py` both take a
+        # module-level skip through `_skip_guard.py:34` with the identical reason "numpy
+        # unavailable" (numpy is absent from the dev sandbox; CI installs it, so neither skips
+        # there). xdist deduplicates collection-time skip reports keyed on (location, reason), so
+        # the two collapse into one tally entry. Discriminating experiment: run either file ALONE
+        # under `-n 4` and it reports its skip; run the two together and the tally is 1; pair one of
+        # them with `test_5aks_pose.py`, whose skip shares the LOCATION but carries a different
+        # REASON, and the tally is correctly 2. Zero tests execute inside a module-level-skipped
+        # file in either mode, so no coverage moved.
+        # ⛔ WHAT THIS DOES COST, STATED SO NOBODY REDISCOVERS IT: under xdist the skip COUNT is not
+        # a reliable tripwire when two modules skip for the same reason at the same line. Assert on
+        # the PASSED/FAILED node IDs, never on the skip tally.
+        #
+        # ⭐ AND HERE IS THE MEASUREMENT IN CI ITSELF, run 32723621338, which is the only one that
+        # measures the real population — SO THE LOCAL RATIO ABOVE MUST NOT BE QUOTED AS THIS
+        # WORKFLOW'S SPEEDUP:
+        #     before (serial, run 32717951013)   9233 passed, 52 skipped in 1132.19s
+        #     after  (-n 4,   run 32723621338)   9233 passed, 52 skipped in  582.94s   1.94x
+        # The verdict is byte-identical. ⚠ The dev sandbox lacks numpy/scipy/rdkit/boto3, so it runs
+        # 8,615 passed + 59 failed + 36 errors where CI runs 9,233 passed: the two boxes execute
+        # DIFFERENT POPULATIONS, and scaling the local wall clock to predict this one was wrong by
+        # 35 % when it was tried. Local parity answers "is the verdict the same?"; only CI answers
+        # "how long does it take?".
+        # ⭐ The skip-tally artifact documented above does NOT appear here, as expected: numpy is
+        # installed in CI, so neither numpy-guarded module skips, and both runs report 52.
+        # ⚠ 1.94x is well short of the 4x an ideal split would give, and WHY is NOT established —
+        # the plausible mechanism is that `--dist loadfile` bounds the critical path by the slowest
+        # single FILE, and the heaviest here are whole files (test_nrv04_retro_collect_contract.py
+        # ~126 s across four tests, test_ternary_ligand_identification.py ~101 s), but
+        # `--durations` cannot show per-worker totals so that is a hypothesis, not a finding. Do not
+        # write it down as a cause without measuring per-worker load. The headroom is real and
+        # unclaimed; `--dist loadfile` is not negotiable for it (see above).
+
+        # ⛔ `-n 4`, NOT `-n auto`. `auto` follows whatever the runner reports, so a runner-image
+        # change silently changes how this suite is distributed — and the parity above was measured
+        # at 4. A hosted `ubuntu-latest` runner is 4 cores today; if that changes, re-measure parity
+        # and then change this number, in that order.
+        run: >-
+          python -m pytest research/modalities/tests research/manuscripts/tests systems/tests scripts/tests
+          -q --continue-on-collection-errors --durations=25 -n 4 --dist loadfile

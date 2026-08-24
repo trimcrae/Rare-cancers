@@ -165,7 +165,14 @@ jobs:
     timeout-minutes: 350
     strategy:
       fail-fast: false
-      max-parallel: 20
+      # ⛔ 8, NOT 20, AND THE REASON IS MEASURED. On 2026-08-24 this account was at its concurrency
+      # ceiling — 20 runs in progress and 17 queued — with a GCP fan-out and four Vast FEP lane runs
+      # sitting BEHIND the queue. This lane's jobs are hours long while the repository's own ticks
+      # are minutes long, so holding 20 slots would starve every short job in the account, including
+      # the supervision ticks that watch fleets which can bill real money. The work here is $0 and
+      # nobody is racing it; taking ~40% of the account's capacity instead of 100% costs this lane
+      # wall-clock and costs the repository nothing.
+      max-parallel: 8
       matrix:
         run: ${{ fromJson(needs.plan.outputs.runs) }}
     name: ${{ matrix.run.run_id }} (N=${{ matrix.run.length }})
