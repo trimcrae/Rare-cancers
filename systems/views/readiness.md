@@ -35,7 +35,6 @@ the other. Where a route cannot reach an output, the missing items are a work li
 | [RT-ASO](L2-rt-aso.md) | ST-NUCLEIC-ACID | `chemrxiv` | a named delivery candidate FOR THE SYSTEMIC ROUTE -- rescoped 2026-08-12; the local and inhaled routes never required one, and grading the whole route on the systemic route's missi |
 | [RT-ATR-ASSESS](L2-rt-atr-assess.md) | ST-DEPENDENCY | `preprint` | an EMC-specific measurement |
 | [RT-DEGRADER](L2-rt-degrader.md) | ST-PROXIMITY | `preprint` | a passing selectivity known-answer control; an anti-target panel that recovers its own cognate ligands |
-| [RT-DIAGNOSTIC-PATHWAY](L2-rt-diagnostic-pathway.md) | ST-CARE-DELIVERY | `preprint` | nothing on the CODING half — and the magnitude is now IN the paper rather than deferred; an independent replication of the 32.1% over a different window (Table 1 of PMID 32856598,  |
 | [RT-MODALITY-CENSUS](L2-rt-modality-census.md) | ST-DISSEMINATION | `preprint` | — |
 | [RT-MTAP-PRMT5](L2-rt-mtap-prmt5.md) | ST-DEPENDENCY | `preprint` | nothing for the preprint — it is written and every figure resolves to a committed artifact |
 | [RT-PANNR4A-EXVIVO](L2-rt-pannr4a-exvivo.md) | ST-IMMUNO | `preprint` | a cellular persistence readout |
@@ -56,6 +55,7 @@ the other. Where a route cannot reach an output, the missing items are a work li
 | [RT-COVALENT-PROBE](L2-rt-covalent-probe.md) | ST-OCCUPANCY | `internal_note` | a criterion that passes its positive control |
 | [RT-CRISPR-CAS13](L2-rt-crispr-cas13.md) | ST-NUCLEIC-ACID | `internal_note` | a solid-tumour vector |
 | [RT-DBD](L2-rt-dbd.md) | ST-FUSION-DIRECT | `internal_note` | — |
+| [RT-DIAGNOSTIC-PATHWAY](L2-rt-diagnostic-pathway.md) | ST-CARE-DELIVERY | `internal_note` | nothing — the route is CLOSED. The measurement landed and the endpoint was closed as not-a-paper. |
 | [RT-DNAPK](L2-rt-dnapk.md) | ST-DEPENDENCY | `internal_note` | a sarcoma-class dependency prior for the kinase, which is queued and $0; a measurement in a cell carrying the fusion, which needs a model |
 | [RT-EWSR1-PROTEIN](L2-rt-ewsr1-protein.md) | ST-FUSION-DIRECT | `internal_note` | — |
 | [RT-EZH2](L2-rt-ezh2.md) | ST-DEPENDENCY | `internal_note` | nothing — the selection question was asked and answered negatively |
