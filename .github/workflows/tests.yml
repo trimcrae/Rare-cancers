@@ -72,8 +72,11 @@ env:
   # pypdf and pymupdf, neither of which was ever installed here -- so both had been SKIPPING in
   # CI and reporting green for a check that never ran. They are ported to pdfminer.six; this
   # line covers the builder.
+  # ⭐ pytest-xdist ADDED 2026-08-24 — see the suite step for the parity measurement. It is only
+  # USED by the `pytest` job, but it is listed here rather than appended in that job so there is
+  # exactly one list to keep correct.
   PIP_PACKAGES: >-
-    pytest numpy scipy pymbar rdkit pyyaml boto3 jsonschema biopython
+    pytest pytest-xdist numpy scipy pymbar rdkit pyyaml boto3 jsonschema biopython
     pdfminer.six pypdf pdfplumber matplotlib
 
 jobs:
@@ -398,13 +401,48 @@ jobs:
         # on one test that is only ~7 min of this job. A suite can only be profiled where it
         # actually runs. Cost of the flag itself: zero.
         #
-        # ⏳ THIS STEP IS STILL SINGLE-THREADED ON A FOUR-CORE RUNNER, AND THAT IS THE WHOLE COST
-        # OF THIS WORKFLOW: 1,132 s of the 20 m 53 s job above, 1,705 s on run 32687069810.
-        # `-n 4 --dist loadfile` is the obvious lever and is NOT applied here, because the evidence
-        # that it is SAFE is a two-sided verdict-parity measurement over this exact four-directory
-        # set that was still running when this landed. `scripts/preflight.sh` records 2.9x with an
-        # identical verdict for the MODALITIES half; that is not the same claim as this set, and
-        # shipping the flag on it would be assuming the result of a measurement already in flight.
+        # ⭐⭐ `-n 4 --dist loadfile` ADDED 2026-08-24. THE SUITE HAD BEEN SINGLE-THREADED ON A
+        # FOUR-CORE RUNNER FOR ITS ENTIRE LIFE, AND THAT WAS THE WHOLE COST OF THIS WORKFLOW:
+        # 1,132 s of the 20 m 53 s job (run 32717951013), and 1,705 s on run 32687069810.
+        # The `--durations=25` above is what made the shape readable, and the shape is why
+        # parallelism is the right lever rather than pruning: the slowest 25 tests are ~600 s, so
+        # the other ~535 s is ~9,200 tests at ~58 ms each. There is no fat to cut — there is a long
+        # tail to spread over idle cores.
+        #
+        # ⚠ `--dist loadfile` IS LOAD-BEARING, NOT A TUNING CHOICE, and it is the same reasoning
+        # `scripts/preflight.sh` records for its own copy: several tests here regenerate a committed
+        # artifact and then assert against it, so distributing by TEST rather than by FILE would let
+        # two workers race the same file and produce failures that look real and are not. Keeping a
+        # file's tests on one worker preserves the within-file ordering they rely on.
+        #
+        # ⛔ MEASURED OVER THIS EXACT FOUR-DIRECTORY SET BEFORE THE FLAG WENT IN, NOT INFERRED FROM
+        # PREFLIGHT'S NUMBER (which covers the MODALITIES half only). Clean worktree at HEAD, same
+        # box, serial vs `-n 4 --dist loadfile`:
+        #     serial     1196.0 s   59 failed, 8615 passed, 132 skipped, 36 errors
+        #     parallel    455.1 s   59 failed, 8615 passed, 131 skipped, 36 errors   (2.62x)
+        # The PASSED and FAILED sets were compared two-sided by NODE ID, not by count — 8,615 and
+        # 59 names, identical both directions — and `git status --porcelain` was empty after each
+        # run, which is the evidence that nothing regenerated or raced.
+        #
+        # ⚠ AND THE ONE DIFFERENCE IS A REPORTING ARTIFACT, RUN DOWN RATHER THAN WAVED AT, BECAUSE
+        # "131 vs 132" IS EXACTLY THE SHAPE OF A TEST THAT SILENTLY STOPPED RUNNING. It is not one.
+        # `test_contact_moiety_pose_rmsd.py` and `test_contact_pose_timeseries.py` both take a
+        # module-level skip through `_skip_guard.py:34` with the identical reason "numpy
+        # unavailable" (numpy is absent from the dev sandbox; CI installs it, so neither skips
+        # there). xdist deduplicates collection-time skip reports keyed on (location, reason), so
+        # the two collapse into one tally entry. Discriminating experiment: run either file ALONE
+        # under `-n 4` and it reports its skip; run the two together and the tally is 1; pair one of
+        # them with `test_5aks_pose.py`, whose skip shares the LOCATION but carries a different
+        # REASON, and the tally is correctly 2. Zero tests execute inside a module-level-skipped
+        # file in either mode, so no coverage moved.
+        # ⛔ WHAT THIS DOES COST, STATED SO NOBODY REDISCOVERS IT: under xdist the skip COUNT is not
+        # a reliable tripwire when two modules skip for the same reason at the same line. Assert on
+        # the PASSED/FAILED node IDs, never on the skip tally.
+        #
+        # ⛔ `-n 4`, NOT `-n auto`. `auto` follows whatever the runner reports, so a runner-image
+        # change silently changes how this suite is distributed — and the parity above was measured
+        # at 4. A hosted `ubuntu-latest` runner is 4 cores today; if that changes, re-measure parity
+        # and then change this number, in that order.
         run: >-
           python -m pytest research/modalities/tests research/manuscripts/tests systems/tests scripts/tests
-          -q --continue-on-collection-errors --durations=25
+          -q --continue-on-collection-errors --durations=25 -n 4 --dist loadfile

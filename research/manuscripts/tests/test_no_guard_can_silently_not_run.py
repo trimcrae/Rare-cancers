@@ -73,6 +73,14 @@ DISTRIBUTION_PROVIDES = {
     "biopython": ("Bio", "BioSQL"),
     "pdfminer.six": ("pdfminer", "cryptography", "cffi", "charset_normalizer"),
     "pypdf": ("pypdf",),
+    # ⭐ ADDED 2026-08-24 WITH THE WORKFLOW LINE THAT INSTALLS IT. pytest-xdist is what lets the
+    # suite step run `-n 4 --dist loadfile` instead of single-threaded on a four-core runner; the
+    # parity measurement is at that step in `tests.yml`. It is a pytest PLUGIN, so nothing under
+    # test imports `xdist` by name — but the mapping is declared anyway, because this table's
+    # contract is that every distribution CI installs has its import name written down. An entry
+    # nobody imports costs nothing; a distribution with no entry makes any future guard that DOES
+    # import it read as "not installed in CI", which is the reading this whole file prevents.
+    "pytest-xdist": ("xdist", "execnet"),
     # ⭐ ADDED 2026-08-19 WITH THE WORKFLOW LINE THAT INSTALLS IT. pdfplumber is what the
     # blast-radius snapshot uses to read a table CELL rather than a page's raw text, which is the
     # only way the "is this sequence cell well-formed?" invariant can be measured at all -- raw
