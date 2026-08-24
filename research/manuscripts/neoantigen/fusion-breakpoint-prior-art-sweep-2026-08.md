@@ -105,9 +105,12 @@ and a paper addressing the route's named blocker** — neither of which any prio
 was not one missed paper in August 2026; **it was a standing blind spot over the whole prior literature**,
 and the two months of missing clinical news merely exposed it.
 
-⛔ **Nothing here re-grades a route, and nothing here has been added to any manuscript.** The manuscript's
-prior-art additions were made separately and are already committed; this file is a queue of reads, best first:
-1. ~~PMID 40707674 full text~~ — **DONE, see §1.** It does evidence endogenous processing and
-   presentation, in leukaemia, with the authors' own anatomical caveat against reading it into a solid tumour.
+⛔ **Nothing here re-grades a route.** §1 has since been carried into the vaccine manuscript — B2, B4 and
+the "different fusion" bullet of Section 6 of
+[`emc-vaccine-development-path.md`](./emc-vaccine-development-path.md), with the limits below intact and
+`BLK-ANTIGEN-COLD` untouched; §§2-4 have not. This file is a queue of reads, best first:
+1. ~~PMID 40707674 full text~~ — **DONE, see §1**, and applied to B2, B4 and Section 6. It does evidence
+   endogenous processing and presentation, in leukaemia, with the authors' own anatomical caveat against
+   reading it into a solid tumour.
 2. PMID 19536894 — what did a Phase 2 breakpoint vaccine actually produce?
 3. PMID 36043380 — anything usable against `BLK-ANTIGEN-COLD`?
