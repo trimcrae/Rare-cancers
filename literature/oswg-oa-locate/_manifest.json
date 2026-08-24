@@ -1,0 +1,79 @@
+[
+  {
+    "name": "openalex",
+    "url": "https://api.openalex.org/works/doi:10.1089/nat.2024.0072",
+    "status": 200,
+    "final_url": "https://api.openalex.org/works/doi:10.1089/nat.2024.0072",
+    "content_type": "application/json",
+    "chars": 33725
+  },
+  {
+    "name": "s2",
+    "url": "https://api.semanticscholar.org/graph/v1/paper/DOI:10.1089/nat.2024.0072?fields=title,abstract,isOpenAccess,openAccessPdf,externalIds",
+    "status": 200,
+    "final_url": "https://api.semanticscholar.org/graph/v1/paper/DOI:10.1089/nat.2024.0072?fields=title,abstract,isOpenAccess,openAccessPdf,externalIds",
+    "content_type": "application/json",
+    "chars": 3647
+  },
+  {
+    "name": "s2_citations",
+    "url": "https://api.semanticscholar.org/graph/v1/paper/DOI:10.1089/nat.2024.0072/citations?fields=title,year,externalIds,isOpenAccess,openAccessPdf&limit=100",
+    "status": 200,
+    "final_url": "https://api.semanticscholar.org/graph/v1/paper/DOI:10.1089/nat.2024.0072/citations?fields=title,year,externalIds,isOpenAccess,openAccessPdf&limit=100",
+    "content_type": "application/json",
+    "chars": 10439
+  },
+  {
+    "name": "core_search",
+    "url": "https://api.core.ac.uk/v3/search/works?q=%22Assessing%20Hybridization-Dependent%20Off-Target%20Risk%22",
+    "status": 200,
+    "final_url": "https://api.core.ac.uk/v3/search/works/?q=%22Assessing%20Hybridization-Dependent%20Off-Target%20Risk%22",
+    "content_type": "application/json",
+    "chars": 84540,
+    "n_attempts": 4
+  },
+  {
+    "name": "fatcat",
+    "url": "https://api.fatcat.wiki/v0/release/lookup?doi=10.1089/nat.2024.0072&expand=files,filesets,webcaptures",
+    "status": null,
+    "error": "URLError(TimeoutError('timed out'))"
+  },
+  {
+    "name": "openaire",
+    "url": "https://api.openaire.eu/search/publications?doi=10.1089/nat.2024.0072",
+    "status": 200,
+    "final_url": "https://api.openaire.eu/search/publications?doi=10.1089/nat.2024.0072",
+    "content_type": "application/xml;charset=UTF-8",
+    "chars": 29491
+  },
+  {
+    "name": "jina_liebert",
+    "url": "https://r.jina.ai/https://www.liebertpub.com/doi/full/10.1089/nat.2024.0072",
+    "status": 403,
+    "error": "HTTPError 403",
+    "chars": 16
+  },
+  {
+    "name": "jina_sage",
+    "url": "https://r.jina.ai/https://journals.sagepub.com/doi/full/10.1089/nat.2024.0072",
+    "status": 403,
+    "error": "HTTPError 403",
+    "chars": 16
+  },
+  {
+    "name": "scilifelab_pulse",
+    "url": "https://www.scilifelab.se/event/pulse-challenge-properties-and-challenges-with-therapeutic-oligonucleotides-illustrated-by-hybridization-dependent-off-target-assessment/",
+    "status": 200,
+    "final_url": "https://www.scilifelab.se/event/pulse-challenge-properties-and-challenges-with-therapeutic-oligonucleotides-illustrated-by-hybridization-dependent-off-target-assessment/",
+    "content_type": "text/html; charset=UTF-8",
+    "chars": 10574
+  },
+  {
+    "name": "epmc_40608538_ft",
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID%3A40608538&resultType=core&format=json",
+    "status": 200,
+    "final_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID%3A40608538&resultType=core&format=json",
+    "content_type": "application/json;charset=UTF-8",
+    "chars": 3946
+  }
+]
