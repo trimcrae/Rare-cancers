@@ -180,13 +180,33 @@ Under single-anonymized the manuscript ships as it stands, author line and all. 
 double-anonymized it needs an anonymized main file: no author block, no ORCID, no correspondence
 address, and no self-identifying repository or archive links in the body.
 
-★ **NOT A REASON TO ANONYMISE PRE-EMPTIVELY, AND NOT A REASON TO GUESS.** Two of the three
-statements say single, the Sage Track submission form states the model for the journal at the point
-of upload, and an anonymized file is a mechanical derivation of a finished manuscript rather than a
-rewrite. So this is read off the form at submission time. It is recorded here because it is the one
-requirement that would otherwise be discovered after the paper had been returned — NAT's own
-initial-evaluation rule is that a manuscript not conforming to these guidelines "will be returned to
-you for amendments prior to peer review".
+✅ **CLOSED 2026-08-24 BY BUILDING BOTH, WHICH IS CHEAPER THAN RESOLVING IT.**
+`build_submission_pdf.py --anonymized` now emits
+`fusion-junction-aso-journal-article-anonymized.pdf` beside the unblinded file, and
+`regenerate_aso_chain.sh` builds it on every run, so the contradiction is decided at the upload form
+rather than discovered after a return. NAT's own initial-evaluation rule is that a manuscript not
+conforming to these guidelines "will be returned to you for amendments prior to peer review", and
+that is the cost this avoids.
+
+⚠ *Superseded, retained: "**NOT A REASON TO ANONYMISE PRE-EMPTIVELY, AND NOT A REASON TO GUESS.**
+Two of the three statements say single, the Sage Track submission form states the model for the
+journal at the point of upload, and an anonymized file is a mechanical derivation of a finished
+manuscript rather than a rewrite. So this is read off the form at submission time." Every clause of
+that is still true, and the conclusion no longer follows: it was written while the manuscript was
+still moving, when a derivation would have had to be redone after every edit. The manuscript is
+finished, the derivation is generated rather than maintained, and building it costs one chain step.
+What it never licensed and still does not is GUESSING the model — both files exist precisely so the
+form decides.*
+
+⛔ **THE REDACTION IS GUARDED, BECAUSE ITS DANGEROUS FAILURE IS SILENT.** A rule written to take an
+e-mail out of a title block can, on a manuscript that later gains a sentence, take a clause out of a
+result — and the anonymized file is not the one anybody proofreads.
+`tests/test_the_anonymized_build_hides_only_identity.py` pins both directions: no identifier
+survives (with a control asserting each is present before redaction, so an empty document cannot
+pass), and every line that differs between the two bodies carries an identifier or its placeholder.
+It carries its own mutation test — a rule that deletes a chemistry sentence must produce a
+disallowed diff line — and it checks the PDF document properties too, since `/Author` naming the
+author under a redacted body is not an anonymized file.
 
 ## 2d · The order that was forced — SATISFIED, and worth keeping for the next deposit
 

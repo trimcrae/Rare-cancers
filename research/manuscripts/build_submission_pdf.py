@@ -2545,6 +2545,11 @@ def build_supplementary(paper, html_only=False):
         + f' · {_html.escape(provenance_line(paper, "supplementary"))}</p>')
     page = wrap_manuscript(title, markdown_to_html(body), front_block)
     out_name = paper["out"].replace(".pdf", "-supplementary-information.pdf")
+    #: ⚠ NO ANONYMIZED SI, AND NOT BY OVERSIGHT. `--anonymized` skips supplementary builds entirely
+    #: (see main), because the one paper with an SI is the archived extended report rather than a
+    #: blinded submission. An earlier edit put the suffix here too — an unbounded string replace
+    #: that hit both call sites — and it failed loudly on an undefined name rather than silently
+    #: writing an SI under a filename nothing would ever look for.
     html_path = os.path.join(HERE, out_name.replace(".pdf", ".build.html"))
     with open(html_path, "w", encoding="utf-8") as fh:
         fh.write(page)
@@ -2602,8 +2607,75 @@ FORMATS = {
 }
 
 
-def build(name, paper, style="journal", html_only=False):
+#: ⛔⛔ WHY AN ANONYMIZED BUILD EXISTS AT ALL, AND WHY IT IS DERIVED RATHER THAN WRITTEN.
+#: NAT's own submission guidelines contradict themselves on the review model — "Identity
+#: transparency: Single-anonymized" appears twice, and the peer-review section says the journal
+#: "adheres to a rigorous double-anonymized reviewing policy in which the identity of both the
+#: reviewer and author are always concealed from both parties" (captured verbatim in
+#: research/literature/nat-submission-guidelines-2026-08-23.md). The two readings call for
+#: DIFFERENT UPLOADS, the form states the model at the point of upload, and the journal returns a
+#: non-conforming manuscript for amendments BEFORE peer review. So both files are built and the
+#: right one is chosen at the form; guessing is what this avoids.
+#: ⛔ IT MUST NOT CHANGE A SINGLE CLAIM. Everything below removes an IDENTIFIER or replaces it with
+#: a neutral placeholder. Nothing rewrites a result, a hedge, a number or a limitation, and
+#: `tests/test_the_anonymized_build_hides_only_identity.py` pins that by diffing the two bodies.
+_ANON_NOTE = "[author and archive identifiers removed for anonymized review]"
+
+#: Each entry: (pattern, replacement, what identity it carries, required). `required` is False only
+#: for a CATCH-ALL that a more specific rule above it is expected to have already consumed — the
+#: bare-initials rule exists for an occurrence somewhere in the manuscript nobody has written yet,
+#: and matching nothing today is it working, not it broken. Every other rule matching nothing means
+#: the manuscript changed shape under the redaction, which
+#: tests/test_the_anonymized_build_hides_only_identity.py fails the build on.
+#: ⚠ "Independent researcher, unaffiliated" IS KEPT, AND DELIBERATELY. It names no institution and
+#: no person, so it identifies nobody; it is also the line `parse_front_matter` anchors the title
+#: page on, and removing it failed the build rather than producing a page with no affiliation —
+#: which is the parser working. What identifies is the NAME, the correspondence address and the
+#: ORCID, and those are what these two rules take.
+_ANON_RULES = (
+    (r"(?m)^\*\*Author\.\*\*.*(?:\n(?!\s*\n).*)*$",
+     "**Author.** " + _ANON_NOTE, "the author's name", True),
+    (r"(?m)^(\*Independent researcher, unaffiliated\.\*).*(?:\n(?!\s*\n).*)*$",
+     r"\1", "correspondence e-mail and ORCID", True),
+    (r"\[doi:10\.5281/zenodo\.\d+\]\(https://doi\.org/10\.5281/zenodo\.\d+\)",
+     "the archived deposit cited in the unblinded copy",
+     "the Zenodo deposit, which names the author", True),
+    (r"T\.D\.M\. is the sole author, and is", "The sole author is", "author initials", True),
+    (r"\bT\.D\.M\.\b", "The author", "any remaining author initials", False),
+)
+
+
+def anonymise(body):
+    """Strip author and archive identity from a finished manuscript. A derivation, not a rewrite.
+
+    Returns (body, applied) so the caller can fail the build when a rule stops matching: a
+    redaction rule that silently matches nothing is how an identifier reaches a blinded reviewer.
+    """
+    applied = []
+    for pattern, replacement, what, _required in _ANON_RULES:
+        body, n = re.subn(pattern, replacement, body)
+        if n:
+            applied.append((what, n))
+    return body, applied
+
+
+def _assert_anonymous(body):
+    """Refuse to write a file that still carries a known identifier."""
+    leaks = [t for t in ("Tristan", "McRae", "T.D.M.", "trimcrae", "orcid.org", "ORCID",
+                         "zenodo") if re.search(re.escape(t), body, re.I)]
+    if leaks:
+        raise SystemExit("anonymized build still carries identity: " + ", ".join(sorted(set(leaks)))
+                         + " — add a rule to _ANON_RULES rather than shipping it")
+
+
+def build(name, paper, style="journal", html_only=False, anonymized=False):
     body, floats = assemble(paper, style)
+    if anonymized:
+        body, applied = anonymise(body)
+        if not applied:
+            raise SystemExit(f"{name}: --anonymized matched nothing — the front matter changed "
+                             "shape and the redaction rules no longer bind")
+        _assert_anonymous(body)
     # ⛔ ONE SOURCE FOR THE RUNNING HEAD IN BOTH STYLES. The manuscript declares it; neither
     # renderer may substitute anything else, and a manuscript that stops declaring one fails the
     # build rather than falling back to the full title.
@@ -2615,7 +2687,11 @@ def build(name, paper, style="journal", html_only=False):
     meta = {
         "/Title": f"{plain_title} {suffix}",
         "/Subject": subject.format(other=other),
-        "/Author": re.sub(r"[*_`]", "", label_paragraph(body, "Author")),
+        #: ⛔ THE DOCUMENT PROPERTIES ARE PART OF THE BLIND. A reviewer's PDF viewer shows /Author
+        #: in a properties panel, so a redacted body under an /Author field naming the author is
+        #: not an anonymized file. Sage Track also reads these fields when it renders the proof.
+        "/Author": ("Anonymized for review" if anonymized
+                    else re.sub(r"[*_`]", "", label_paragraph(body, "Author"))),
         "/Keywords": re.sub(r"[*_`]", "", label_paragraph(body, "Keywords")),
         #: ⛔ NOT A BROWSER UA STRING. `/Creator` is what a screener reads under "Application", and
         #: it said `Mozilla/5.0 … HeadlessChrome/141.0.0.0`. `/Producer` stays Skia, which is true.
@@ -2633,6 +2709,8 @@ def build(name, paper, style="journal", html_only=False):
             f'<p class="version">{_html.escape(provenance_line(paper, "manuscript"))}</p>')
         out_name = paper["out"].replace(".pdf", "-manuscript.pdf")
 
+    if anonymized:
+        out_name = out_name.replace(".pdf", "-anonymized.pdf")
     html_path = os.path.join(HERE, out_name.replace(".pdf", ".build.html"))
     with open(html_path, "w", encoding="utf-8") as fh:
         fh.write(page)
@@ -2654,7 +2732,8 @@ def build(name, paper, style="journal", html_only=False):
     size = os.path.getsize(pdf_path)
     split = (f"the full handling sentence is on {pages - grafted} of them and the short rule on "
              f"{grafted}") if grafted else "the handling statement is on every page"
-    print(f"{name} [{style}]: wrote {os.path.relpath(pdf_path, REPO)} "
+    print(f"{name} [{style}{', anonymized' if anonymized else ''}]: "
+          f"wrote {os.path.relpath(pdf_path, REPO)} "
           f"({size / 1024:.0f} KB, {pages} pages; {split})")
     return 0
 
@@ -2665,11 +2744,16 @@ def main(argv):
     ap.add_argument("--style", choices=("journal", "manuscript"), default="journal",
                     help="journal = typeset article (default); manuscript = submission format")
     ap.add_argument("--html-only", action="store_true")
+    ap.add_argument("--anonymized", action="store_true",
+                    help="strip author and archive identity — the double-anonymized upload. "
+                         "Writes alongside the unblinded file rather than replacing it, because "
+                         "which one a venue wants is read off its submission form.")
     args = ap.parse_args(argv)
     names = [args.paper] if args.paper else sorted(PAPERS)
-    rc = max(build(n, PAPERS[n], args.style, args.html_only) for n in names)
-    for n in names:
-        rc = max(rc, build_supplementary(PAPERS[n], args.html_only))
+    rc = max(build(n, PAPERS[n], args.style, args.html_only, args.anonymized) for n in names)
+    if not args.anonymized:
+        for n in names:
+            rc = max(rc, build_supplementary(PAPERS[n], args.html_only))
     return rc
 
 

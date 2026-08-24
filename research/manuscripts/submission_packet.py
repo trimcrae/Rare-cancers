@@ -244,6 +244,21 @@ def _companion(stem, suffixes):
     return ""
 
 
+def venue_fee(row):
+    """The venue's own fee statement, where its record carries one. Read, never composed here."""
+    try:
+        import submission_metrics as sm
+    except Exception:  # noqa: BLE001
+        return ""
+    for venue in getattr(sm, "VENUES", {}).values():
+        #: ⚠ THE ROW CALLS IT `venue` AND THE VENUE RECORD CALLS IT `journal`. Matching the wrong
+        #: one returns "" for every paper, which degrades to "not recorded" — a silent miss that
+        #: reads exactly like a venue with no fee fact. Measured: it did, on the first cut.
+        if venue.get("journal") == row.get("venue"):
+            return venue.get("fee_route", "")
+    return ""
+
+
 def main():
     metrics = _load("research/manuscripts/submission-metrics.json") or {}
     fees = _load("research/literature/venue-fee-routes-2026-08-10.json") or {}
@@ -323,6 +338,12 @@ def main():
         #: Read from the builder entry, never guessed from the directory: "for review only" is a
         #: submission decision, and a directory scan cannot tell it from an archive artefact.
         review_only = _paper_review_supplements(row["file"])
+        #: ⛔ ASK THE DISK, NOT THE BUILDER CONFIG. `--anonymized` is a build FLAG rather than a
+        #: per-paper key, so there is nothing in PAPERS to read; what decides whether a blinded
+        #: upload is ready is whether the file is on disk. Named off the paper's own output path so
+        #: it cannot pick up a sibling paper's blinded copy.
+        anon_rel = row["file"].replace(".md", "-anonymized.pdf")
+        anon = anon_rel if os.path.exists(os.path.join(HERE, anon_rel)) else ""
 
         L += [f"## {row['venue']}", "", f"**Manuscript** `{row['file']}`", ""]
         L += ["| field | value |", "|---|---|",
@@ -336,9 +357,20 @@ def main():
               f"{' (limit ' + str(lim['references']) + ')' if lim.get('references') else ''} |",
               f"| Cover letter | {'n/a (preprint deposit)' if preprint else ('`' + letter + '`' if letter else 'MISSING')} |",
               f"| Supplementary file | {'yes' if si else 'none'} |",
+              #: ⛔ THE BLINDED COPY IS PART OF THE ENVELOPE WHEREVER ONE EXISTS. NAT's guidelines
+              #: state single-anonymized twice and double-anonymized once on the same page, so
+              #: which file the form wants is not knowable before the form; the row reports which
+              #: files are READY rather than which is required, because the failure this packet
+              #: exists to prevent is arriving at the form without one.
+              f"| Anonymized copy | {'`' + anon + '`' if anon else 'none built for this paper'} |",
               f"| Supplemental material, for review | "
               f"{', '.join('`' + f + '`' for f in review_only) if review_only else 'none'} |",
-              f"| Fee route | {v.get('zero_dollar_route', 'not recorded')} |", ""]
+              # ⛔ A VENUE MAY OWN ITS OWN FEE FACT, AND THEN IT WINS. The fee-routes artifact
+              # grades venues on whether a $0 subscription route exists; NAT's does not, and its
+              # fee was read by a person at the primary source in the same sitting as its limits,
+              # so it lives beside them in submission_metrics rather than being retyped here or
+              # into an artifact whose question it does not answer.
+              f"| Fee route | {venue_fee(row) or v.get('zero_dollar_route', 'not recorded')} |", ""]
         if row.get("over_limit"):
             L += ["> **Over a stated limit:** " + "; ".join(row["over_limit"]), ""]
         L += [f"⚠ Limits provenance: {row.get('limits_provenance', 'unknown')}.", ""]

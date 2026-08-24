@@ -114,6 +114,16 @@ VENUES = {
         #: and/or tables".
         "limits": {"main_words": 4000, "abstract_words": 200, "display_items": 5,
                    "references": None},
+        #: ⛔ NOT A ZERO-DOLLAR ROUTE, AND THE PACKET MUST SAY THE NUMBER RATHER THAN "not
+        #: recorded". Every other venue in this repository was graded on whether a $0 subscription
+        #: route exists; NAT's does not, and the fee is why this article carries a page budget at
+        #: all. Leaving the packet's Fee route cell empty read as an unknown when it is the
+        #: best-evidenced venue fact here — read by a person at the primary source, in the same
+        #: sitting as the limits above, and quoted verbatim in `provenance`.
+        "fee_route": ("NO ZERO-DOLLAR ROUTE. Publishing Services Fee $90 per typeset page, "
+                      "assessed on acceptance; colour charged separately at $800 for the first "
+                      "print image, which this submission does not request. READ AT PRIMARY "
+                      "SOURCE 2026-08-23, same capture as the limits."),
         "provenance": (
             "READ AT PRIMARY SOURCE 2026-08-23 by trimcrae in a human web browser, and captured "
             "verbatim to research/literature/nat-submission-guidelines-2026-08-23.md, which is the "
@@ -133,8 +143,13 @@ VENUES = {
             "peer-review section says 'The journal adheres to a rigorous double-anonymized "
             "reviewing policy in which the identity of both the reviewer and author are always "
             "concealed from both parties.' Under the second reading the manuscript needs an "
-            "anonymized copy. Tracked as an open item in the preprint checklist; not resolved "
-            "here, because nothing here can resolve it. "
+            "anonymized copy. ✅ NO LONGER AN OPEN ITEM: both files are built, by "
+            "`build_submission_pdf.py --anonymized` on every chain run, so the contradiction is "
+            "decided at the upload form instead of after a return. ⚠ Superseded, retained: "
+            "'Tracked as an open item in the preprint checklist; not resolved here, because "
+            "nothing here can resolve it.' The second clause is still true of THIS module and the "
+            "first is not: nothing here can read the form, but the fix never needed the form "
+            "read -- it needed both uploads to exist. "
             "SETTLED BY THE SAME READ, and each was previously carried as an open risk: (1) "
             "'Accepts preprints? Yes' -- posting before submission does not disqualify, and the "
             "submission form asks for the preprint DOI. (2) The Publishing Services Fee survived "

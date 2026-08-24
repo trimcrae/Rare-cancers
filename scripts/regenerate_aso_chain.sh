@@ -250,6 +250,14 @@ PDFSTAMP
 }
 run_step "deposited PDF · journal format"    "python3 $MAN/build_submission_pdf.py" "_pdf_stamps_current"
 run_step "deposited PDF · submission format" "python3 $MAN/build_submission_pdf.py --style manuscript" "_pdf_stamps_current"
+# ⛔ THE ANONYMIZED UPLOAD IS BUILT EVERY TIME, BECAUSE THE VENUE WILL NOT SAY WHICH IT WANTS.
+# NAT's guidelines state single-anonymized twice and double-anonymized once, on one page, and the
+# journal returns a non-conforming manuscript for amendments BEFORE peer review. Building both
+# turns that contradiction into a choice made at the upload form instead of a discovery made
+# after a rejection. It is a mechanical derivation of the finished manuscript, guarded by
+# research/manuscripts/tests/test_the_anonymized_build_hides_only_identity.py, which pins that it
+# removes identity and changes nothing else.
+run_step "anonymized upload · journal format" "python3 $MAN/build_submission_pdf.py --paper aso-journal --anonymized" ""
 # ⛔ AND THE WORD FILE, WHICH IS THE ONE A JOURNAL ACTUALLY ACCEPTS (added 2026-08-23). Nucleic
 # Acid Therapeutics: "The preferred format for your manuscript is Word … The LaTeX files are also
 # accepted." PDF is not on that list, so the .docx is a deposit artifact on exactly the same footing

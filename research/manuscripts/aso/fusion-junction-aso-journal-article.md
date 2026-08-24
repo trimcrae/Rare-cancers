@@ -265,7 +265,10 @@ molecule offered as a negative control. Clearing the screen is not a claim of in
 property a negative control has to have.
 
 Selectivity is the wild-type *NR4A3* half-maximal knockdown concentration divided by the fusion's,
-from a matched dose-response in the same wells, at a cut of 5.0 adopted as a convention. At a
+from a matched dose-response in the same wells, at a cut of 5.0 adopted as a convention — a
+comparison of the two half-maximal concentrations is the margin assessment the recommendations
+specify at this step, and they decline to set a default value for it.<sup>22</sup><!--PMID:39912803-->
+At a
 replicate standard deviation of 0.35 on the natural-log scale, six independent biological replicates
 give about 80% power to falsify a true selectivity of 3 and three give about 30%. Above a realised
 standard deviation of about 0.65 at three replicates — 1.53 at six, 2.25 at ten —
