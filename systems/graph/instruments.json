@@ -562,5 +562,22 @@
     "scope_note": "Characterises an EXTERNAL dataset before anything is built on it. ⛔ It `characterises` OBJ-LINE-HEMCSS, whose status is `identity_disputed` — the line is cited here ONLY as the cautionary precedent that an EMC LABEL is not an EMC FUSION, which is why a new EMC-labelled sample is corroborated against 67 sarcoma samples from the same deposit before anything rests on it. No reading of that line grounds anything. ⚠ Its control passing does not make the readout sensitive: the artifact discloses LOW SENSITIVITY for fusion status by construction, because a wild-type transcript index has no fusion entry. Ported from the legacy registry 2026-08-05, where its `serves` held two prose values — the seventh instance of the untyped-relation defect, arriving while the other six were being removed.",
     "closure_kind": "open",
     "revival_trigger": []
+  },
+  {
+    "id": "INS-CALVADOS-SINGLE-CHAIN",
+    "name": "CALVADOS 2 single-chain conformational model of the retained 5' partner segments",
+    "module": "research/modalities/emc_condensate_calvados.py",
+    "owner": {
+      "file": "research/modalities/emc-condensate-calvados-prespecification.md",
+      "anchor": "#2--the-exact-quantity-read-out"
+    },
+    "known_answer_control": {
+      "description": "Two-sided and both prespecified. (1) The CALVADOS package's OWN shipped single-IDR example is reproduced end to end on the same install and its nu must land in the physical range - the only step separating 'the instrument works' from 'our wrapper does something and nobody checked'. (2) Directional: EWSR1 1-264 with 15% of positions substituted to Glu must EXPAND relative to the parent, because like charges repel under the model's Debye-Huckel term. Failing (2) withholds every nu.",
+      "state": "none",
+      "note": "⚠ NOT YET RUN AT REGISTRATION. Both controls are DEFINED and frozen in the prespecification; neither has returned, so no output of this instrument may support any claim yet. ⛔ And note what (1) is NOT: the shipped example runs at reduced sampling and is compared against no published number, so it demonstrates the PIPELINE and never calibrates a scientific quantity."
+    },
+    "scope_note": "Reads one single-chain conformational observable - the Flory scaling exponent nu - for the retained N-terminal segments of EMC's reported 5' partners, each length-matched to a TCF12 window so chain length is not the between-partner variable. ⛔ It does NOT measure a saturation concentration, a phase diagram or condensate formation; the link from single-chain properties to phase behaviour is the MODEL's premise, not this instrument's measurement. ⚠ The commonest reported junction retains EWSR1 1-431 while this repository's AlphaFold assessment puts the folded RRM at 361-442, so the type-1 window is truncated before the RRM and the multi-domain reading is out of scope. The slab phase-coexistence arm - the one that would make 'phase behaviour' a measurement rather than a premise - needs a GPU and is not authorised.",
+    "closure_kind": "open",
+    "revival_trigger": []
   }
 ]
