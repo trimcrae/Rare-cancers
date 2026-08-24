@@ -1256,6 +1256,14 @@ def markdown_to_html(text, floats=None):
         #: than a fix to the one generator, because the number in that cell is derived and the next
         #: regeneration can put any number at the start of any line.
         item = re.match(r"^(\s*)([-*]|\d+\.)\s+(.*)$", line)
+        #: ⚠ THIS BRANCH IS NOT WHERE THE 2026-08-24 LEGEND DEFECT LIVED, THOUGH IT LOOKS LIKE IT.
+        #: Figure 1's legend wraps as "...as internal residue" / "266. Four of the five...", and the
+        #: line before it opens `*j₀* = 264` — italic text that `startswith("*")` reads as a bullet,
+        #: so this guard does not fire. But it never gets the chance: the paragraph collector below
+        #: absorbs the wrapped number into the legend before the outer loop reaches it as a line of
+        #: its own, which is where the rule was missing and where it was added. Tightening the test
+        #: here to a real marker was tried and reverted — mutation-testing showed the collector fix
+        #: alone repairs the defect and no input reaches this line with the two readings differing.
         if item and item.group(2)[:-1].isdigit() and item.group(2) != "1." \
                 and i > 0 and lines[i - 1].strip() and not lines[i - 1].lstrip().startswith(("#", "|", "-", "*")):
             item = None
@@ -1280,10 +1288,44 @@ def markdown_to_html(text, floats=None):
             out.append(f"</{tag}>")
             continue
 
+        #: ⛔⛔ A MARKDOWN BLOCKQUOTE HAD NO BRANCH AT ALL, SO ITS MARKER PRINTED (found 2026-08-24
+        #: by rasterising a page, invisible to every text probe that had read this document). This
+        #: paper sets its two central equations as blockquotes — the coverage formula of §2.3 and the
+        #: combined-coverage product of §B4 — and both shipped in nine posted versions of
+        #: aixiv.260822.000005 as `> C(A) = 1 - ...`, with the marker rendered as body text. The
+        #: paragraph collector below had no `>` terminator, so a quote line simply became a
+        #: paragraph and `inline()` escaped the marker faithfully.
+        #: ⚠ THE TEXT LAYER IS WHY NOBODY CAUGHT IT. `pdftotext` and pypdf both return `> C(A) = …`,
+        #: which reads as a correctly-rendered quote to anything grepping for the formula; the defect
+        #: is that a reader SEES the character. That is the same class as the escape leak of
+        #: 2026-08-23 and it is why the figure rule is now "rasterise the page".
+        if stripped.startswith(">"):
+            quoted = []
+            while i < len(lines) and lines[i].strip().startswith(">"):
+                quoted.append(re.sub(r"^\s*>\s?", "", lines[i]).strip())
+                i += 1
+            out.append("<blockquote>" + inline(" ".join(quoted).strip()) + "</blockquote>")
+            continue
+
+        #: ⛔⛔ AND THE COLLECTOR MUST APPLY THE SAME RULE, OR THE LINE IS DROPPED INSTEAD OF SPLIT.
+        #: Suppressing the list branch above is only half of it: this loop stopped on ANY ordered
+        #: marker, so "266. Four of the five in-frame junctions…" ended the legend's paragraph, the
+        #: outer loop then declined to make it a list, `para` came back empty, and the `else: i += 1`
+        #: below advanced past it — DELETING a sentence of Figure 1's legend from the deposit PDF.
+        #: A split caption is a layout defect; a dropped sentence is a content defect, and trading
+        #: the first for the second is a worse outcome than leaving it alone.
+        #: So CommonMark's rule lives here too: an ordered marker may not interrupt a paragraph
+        #: already in progress unless it numbers 1. A marker that OPENS a block still starts a list.
         para = []
-        while i < len(lines) and lines[i].strip() and not re.match(
-                r"^(#{1,6}\s|\||-{3,}$|\s*([-*]|\d+\.)\s|<figure|<svg|@@FLOAT)", lines[i].strip()):
-            para.append(lines[i].strip())
+        while i < len(lines) and lines[i].strip():
+            _s = lines[i].strip()
+            if re.match(r"^(#{1,6}\s|\||>|-{3,}$|<figure|<svg|@@FLOAT)", _s):
+                break
+            _ordered = re.match(r"^\s*(\d+)\.\s", _s)
+            if re.match(r"^\s*([-*]|\d+\.)\s", _s) and not (para and _ordered
+                                                             and _ordered.group(1) != "1"):
+                break
+            para.append(_s)
             i += 1
         if para:
             joined = " ".join(para)
@@ -1325,6 +1367,15 @@ def markdown_to_html(text, floats=None):
             seq_attr = ' data-seq="1"' if 'class="seq"' in rendered else ""
             out.append(f"<p{css}{seq_attr}>{rendered}</p>")
         else:
+            #: ⛔ THIS BRANCH DELETES A LINE OF THE MANUSCRIPT, SILENTLY, AND IT HAS DONE SO. Nothing
+            #: above claimed the line and the paragraph collector refused it, so it is advanced past
+            #: and never rendered. That is how a sentence of Figure 1's legend left the deposit PDF
+            #: (2026-08-24) with every gate green: no linter reads the built document, and the text
+            #: layer of a PDF cannot report what is not in it. The line is still skipped — there is
+            #: nothing else to do with it — but it can no longer be skipped QUIETLY.
+            if lines[i].strip():
+                print(f"  ⚠ markdown_to_html dropped a line no rule claimed: "
+                      f"{lines[i].strip()[:90]!r}", file=sys.stderr)
             i += 1
     return "\n".join(out)
 
@@ -1485,6 +1536,14 @@ def parse_front_matter(body):
 COMMON = """
 html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 sup { font-size: 0.72em; line-height: 0; }
+/* A blockquote in these manuscripts is a DISPLAY EQUATION, not a quotation — the only three in the
+   vaccine paper are the coverage formula, the combined-coverage product, and the one-line statement
+   of the seam test. Set them centred and off the text block so they read as displayed mathematics,
+   and never with a quotation rule down the side, which would assert an attribution that does not
+   exist. `break-inside: avoid` because a two-line statement split across a column boundary is the
+   one place a reader loses the equation entirely. */
+blockquote { margin: 6pt 0 8pt 0; padding: 0 6%; text-align: center; break-inside: avoid; }
+blockquote p { margin: 0; text-align: center; }
 /* ⛔ `word-break: break-all` USED TO BE HERE AND IT BROKE FILENAMES MID-TOKEN. Measured in the
    built PDF 2026-08-17: "as / o-premrna-offtarget-genomic.json", "PRE / FLIGHT_FULL=1",
    "github.com/tr / imcrae/Rare-cancers", "emc-atr-vulnerability.j / son", "aso_genome_offtarg /
