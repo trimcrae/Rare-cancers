@@ -243,7 +243,7 @@ directly and better.
 chondrosarcoma, and the access routes it already opens.*** Unwritten.
 
 > **The one sentence, written so a reader can disagree with it.** Extraskeletal myxoid chondrosarcoma
-> carries TSC2-inactivating mutations in about one of seventy-five sequenced samples and TSC1 mutations
+> carries TSC2-inactivating mutations in about one of seventy-five sequenced patients and TSC1 mutations
 > in none of them — rare enough to explain why no EMC series has ever reported either gene, but not
 > zero — and a patient in that fraction can today enter a recruiting tumour-agnostic trial arm that
 > matches the genotype to an mTOR inhibitor, so the binding constraint on this route is neither the drug
@@ -264,10 +264,17 @@ chondrosarcoma, and the access routes it already opens.*** Unwritten.
    and there is no route to it here that does not involve a patient.
 
 ⭐ **Why this is a paper and not a note.** The measurement is small but it is the first of its kind for
-this disease, and the interesting half is not the number — it is that **the access routes are already
-open and the bottleneck is upstream of them.** A field that reports "the EMC genome is quiet beyond the
-fusion" has been reporting the absence of a *reading*, and one gene on a panel every major centre already
-runs turns that into a rate. That claim generalises past TSC2, and it is the paper's reason to exist.
+this disease, and the interesting half is not the number. It is two things the number makes visible.
+
+**First, the rate explains the silence.** At one in seventy-five, every published EMC series is too small
+to expect an event — so "the EMC genome is quiet beyond the fusion" has been a statement about sample
+sizes that the field reads as a statement about the genome. **That inference error is not specific to
+TSC2**, and correcting it for one gene shows how to correct it for the rest.
+
+**Second, the bottleneck sits upstream of everything this route needs.** The drug exists, trial arms are
+recruiting, and both genes are already on the panel every major centre runs. Nothing between an eligible
+patient and an open trial is missing except the test result — an unusual place for an ultra-rare disease's
+obstacle to sit, and worth saying out loud.
 
 ⛔ **What this route is NOT.** It is not a lead family, it is not a degrader competitor, and it does not
 belong in `systems/graph/` on the strength of one positive sample until item 2 above is discharged —
