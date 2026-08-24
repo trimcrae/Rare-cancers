@@ -42,6 +42,22 @@ on:
         description: "replace (default) or extend — how targets_file/targets_json combine with built-in TARGETS"
         required: false
         default: "replace"
+      browser_harvest_links:
+        description: >-
+          browser-fetch mode only: comma-separated target NAMES whose links should be enumerated
+          into the artifact. Use when a page LISTS documents but names none of their paths in its
+          visible text -- SEER's ICD-O-3 archive page lists fourteen errata PDFs that way, and
+          guessing their URLs is the invented-path failure scripts/venue_policy_browser_fetch.py
+          already paid for once.
+        required: false
+        default: ""
+      browser_harvest_all_links:
+        description: >-
+          browser-fetch mode only: set to 1 to keep EVERY harvested link instead of only the
+          author-facing ones. The default filter is tuned to publisher navigation and would drop,
+          for example, an errata PDF named by its date.
+        required: false
+        default: ""
       expect_pmids:
         description: >-
           Known-positive control: PMID(s) the query MUST return, comma/space separated. Missing -> the run FAILS.
@@ -202,6 +218,65 @@ jobs:
           path: research/literature/venue-policy-browser-fetch.json
           if-no-files-found: warn
 
+      # ── GENERIC BROWSER FETCH (slug == 'browser-fetch') ────────────────────────────────
+      # Added 2026-08-23. The `venue-policy-browser` mode above proved the METHOD -- a real
+      # headless Chromium defeats bot protection keyed on TLS fingerprint, which no amount of
+      # retrying or User-Agent spoofing does -- but wired it to ONE hardcoded corpus. The ESMO
+      # clinical practice guidelines are the case that forced the seam: they are free to read on
+      # annalsofoncology.org and return HTTP 403 to plain urllib from the sandbox AND from this
+      # runner, so the question "where do the sarcoma guidelines place EMC" had no route at all.
+      # Targets come from `targets_json`, the same input the plain-HTTP path already takes.
+      # ⛔ PUBLIC PAGES ONLY. This is not a paywall route. A subscription article a browser cannot
+      # read without a login is UNREACHABLE, and recording it as unreachable is the finding.
+      - name: Install Playwright Chromium (generic browser fetch)
+        if: ${{ inputs.slug == 'browser-fetch' }}
+        run: |
+          python3 -m pip install --quiet playwright
+          python3 -m playwright install --with-deps chromium
+
+      - name: Fetch caller-supplied pages with a real browser
+        if: ${{ inputs.slug == 'browser-fetch' }}
+        env:
+          BROWSER_TARGETS_JSON: ${{ inputs.targets_json }}
+          BROWSER_OUT: research/literature/browser-fetch.json
+          BROWSER_HARVEST_LINKS: ${{ inputs.browser_harvest_links }}
+          BROWSER_HARVEST_ALL_LINKS: ${{ inputs.browser_harvest_all_links }}
+        run: python3 scripts/venue_policy_browser_fetch.py
+
+      - name: Keep generic browser fetch as a run artifact
+        if: ${{ always() && inputs.slug == 'browser-fetch' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-fetch-${{ github.run_id }}
+          path: research/literature/browser-fetch.json
+          if-no-files-found: error
+
+      # ⛔ A RUN ARTIFACT IS NOT A READABLE RESULT (measured 2026-08-23, the first run of this
+      # mode). The artifact upload succeeded and the JSON was 5,191 bytes — and a run artifact
+      # needs an authenticated download that the dev sandbox cannot make, so the only thing
+      # actually readable was the one status line per target the job log prints. Every other mode
+      # in this file publishes to the triggering branch for exactly this reason; this one was
+      # written without that step and the omission cost a re-dispatch.
+      - name: Publish generic browser fetch to the triggering branch (best effort)
+        if: ${{ always() && inputs.slug == 'browser-fetch' }}
+        continue-on-error: true
+        env:
+          TARGET_REF: ${{ github.ref_name }}
+        run: |
+          [ -f research/literature/browser-fetch.json ] || {
+            echo "::error::browser fetch produced no artifact"; exit 1; }
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/literature/browser-fetch.json
+          git diff --cached --quiet && { echo "no change"; exit 0; }
+          git commit -q -m "browser fetch: caller-supplied pages retrieved with a real browser"
+          for i in 1 2 3; do
+            git push origin "HEAD:$TARGET_REF" && { echo "pushed"; exit 0; }
+            git fetch origin "$TARGET_REF" && git rebase "origin/$TARGET_REF" || true
+          done
+          echo "::warning::ref push failed; the run artifact and the per-target status lines in"
+          echo "::warning::this log are the record — do NOT record these sources as unreachable"
+
       # ⭐ THE PRINTED PAGE COUNT IS A COST, NOT A PREFERENCE (2026-08-20). Nucleic Acid
       # Therapeutics charges $90 per printed page, so a manuscript's page count has to be estimated
       # before submission. A journal publishes its SUBMISSION format and not its TYPESET design, so
@@ -321,7 +396,7 @@ jobs:
         # ⚠ Fixed by INTENT, not by removing the default: a caller supplying a targets corpus
         # is asking for those URLs, so the sweep is suppressed. Callers who want both pass a
         # query explicitly and get both, which is the only case that ever wanted both.
-        if: ${{ inputs.query != '' && inputs.slug != 'lane-probe' && inputs.slug != 'consensus-probe' && inputs.slug != 'rt-probe' && inputs.slug != 'venue-typeset-geometry'
+        if: ${{ inputs.query != '' && inputs.slug != 'lane-probe' && inputs.slug != 'consensus-probe' && inputs.slug != 'rt-probe' && inputs.slug != 'venue-typeset-geometry' && inputs.slug != 'browser-fetch'
                 && inputs.targets_file == '' && inputs.targets_json == '' }}
         env:
           QUERY: ${{ inputs.query }}
@@ -347,7 +422,7 @@ jobs:
         # ⚠ Fixed by INTENT, not by removing the default: a caller supplying a targets corpus
         # is asking for those URLs, so the sweep is suppressed. Callers who want both pass a
         # query explicitly and get both, which is the only case that ever wanted both.
-        if: ${{ inputs.query != '' && inputs.slug != 'lane-probe' && inputs.slug != 'consensus-probe' && inputs.slug != 'rt-probe' && inputs.slug != 'venue-typeset-geometry'
+        if: ${{ inputs.query != '' && inputs.slug != 'lane-probe' && inputs.slug != 'consensus-probe' && inputs.slug != 'rt-probe' && inputs.slug != 'venue-typeset-geometry' && inputs.slug != 'browser-fetch'
                 && inputs.targets_file == '' && inputs.targets_json == '' }}
         env:
           LIT_EXPECT_PMIDS: ${{ inputs.expect_pmids }}
@@ -361,7 +436,7 @@ jobs:
       # the same contamination the publish step's slug guard below was written to prevent, arriving
       # from the other direction. A query-only run now runs the query path ONLY.
       - name: Fetch literature URLs (generic, runner has unrestricted egress)
-        if: ${{ (inputs.targets_file != '' || inputs.targets_json != '' || inputs.query == '') && inputs.slug != 'lane-probe' && inputs.slug != 'consensus-probe' && inputs.slug != 'rt-probe' && inputs.slug != 'venue-typeset-geometry' }}
+        if: ${{ (inputs.targets_file != '' || inputs.targets_json != '' || inputs.query == '') && inputs.slug != 'lane-probe' && inputs.slug != 'consensus-probe' && inputs.slug != 'rt-probe' && inputs.slug != 'venue-typeset-geometry' && inputs.slug != 'browser-fetch' }}
         env:
           LIT_TARGETS_FILE: ${{ inputs.targets_file }}
           LIT_TARGETS_JSON: ${{ inputs.targets_json }}
