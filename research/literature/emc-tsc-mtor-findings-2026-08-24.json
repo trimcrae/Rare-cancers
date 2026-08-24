@@ -60,7 +60,37 @@
       "locus": "chr16:2127624 C>T (GRCh37)",
       "mutationStatus": "Somatic",
       "validationStatus": "NA",
-      "why_it_counts": "A somatic nonsense mutation is a truncating, inactivating alteration - the class PRECISION 1 and the MD Anderson trial both require, not a variant of unknown significance."
+      "why_it_counts": "A somatic nonsense mutation is a truncating, inactivating alteration - the class PRECISION 1 and the MD Anderson trial both require, not a variant of unknown significance.",
+      "verification_round_6": {
+        "_why": "The whole measured frequency rests on this one sample, so it was checked against the record rather than trusted because the query returned cleanly.",
+        "two_independent_histology_fields_agree": {
+          "CANCER_TYPE_DETAILED": "Extraskeletal Myxoid Chondrosarcoma",
+          "ONCOTREE_CODE": "EMCHS",
+          "cohort_wide_agreement": "75 samples by ONCOTREE_CODE=EMCHS, 75 by CANCER_TYPE_DETAILED, intersection 75, symmetric difference 0. The denominator does not rest on one string in one column."
+        },
+        "patient_level": {
+          "AGE": 62,
+          "SEX": "Male",
+          "INITIAL_DIAGNOSIS": "Chondrosarcoma",
+          "FINAL_DIAGNOSIS": "Extraskeletal Myxoid Chondrosarcoma",
+          "_note": "the diagnosis was revised to EMC, so the label is a considered call rather than a default"
+        },
+        "sample_level": {
+          "sampleType": "Primary Solid Tumor",
+          "SAMPLE_TISSUE": "Lymph Node",
+          "sequenced": true,
+          "TUMOR_PURITY": 77,
+          "MUTATION_COUNT": 4,
+          "TMB_NONSYNONYMOUS": 0.133333333,
+          "MSI_STATUS": "MSS",
+          "GENOME_LOH": 0.01,
+          "copyNumberSegmentPresent": false,
+          "_consistency": "4 mutations and TMB 0.13 are consistent with EMC's reported quiet genome; 77% purity means the variant call is not a low-fraction artefact",
+          "_inconsistency_in_the_record": "sampleType says Primary Solid Tumor while SAMPLE_TISSUE says Lymph Node. Noted, not resolved; it does not affect the histology call."
+        },
+        "⛔_the_real_caveat": "MATCHED_STATUS = Unmatched. This sample was NOT sequenced against a matched normal, so although the mutation record carries mutationStatus 'Somatic', somatic status here is INFERRED BY FILTERING rather than demonstrated. A germline TSC2 Q955* would mean tuberous sclerosis, which is clinically conspicuous and makes that reading unlikely - but 'unlikely' is not 'excluded', and the one data point the frequency rests on is therefore somatic-by-inference.",
+        "structural_variant_check_not_obtained": "EMC is defined by NR4A3 rearrangement and this cohort has a structural-variant profile, so an NR4A3 fusion in this sample would have confirmed the histology a third way. All three candidate GET shapes for that endpoint returned HTTP 404, so it was not obtained. Recorded as NOT DONE rather than as a negative."
+      }
     },
     "rates": {
       "tsc2_inactivating_mutation": {
@@ -113,7 +143,72 @@
       "Loss of heterozygosity without deletion.",
       "Protein-level inactivation with an intact gene.",
       "Whether the 75 samples are 75 patients (see _sample_vs_patient)."
-    ]
+    ],
+    "additional_cohorts_round_5": {
+      "_why": "The 75 came from one institution on one assay. These add count, and two of them add independence.",
+      "⛔_never_add_these_together": "sarcoma_msk_2022 uses anonymised study-prefixed sample ids (e.g. sarcoma_msk_2022-2691) while msk_impact_50k_2026 uses real MSK P-ids (e.g. P-0000379-T02-IM3). The MSK cohorts therefore CANNOT be deduplicated against each other and their EMC counts must not be summed. Only the non-MSK cohorts are independent of the 75.",
+      "rows": [
+        {
+          "studyId": "pan_origimed_2020",
+          "name": "China Pan-cancer (OrigiMed, Nature 2022)",
+          "independent_of_msk": true,
+          "samples_typed": 10194,
+          "emc_samples": 2,
+          "tsc1_mutated_emc": 0,
+          "tsc2_mutated_emc": 0,
+          "tsc1_mutated_study_wide": 184,
+          "tsc2_mutated_study_wide": 344
+        },
+        {
+          "studyId": "pancan_pdmr_2025",
+          "name": "NCI Patient-Derived Models Repository",
+          "independent_of_msk": true,
+          "samples_typed": 6271,
+          "emc_samples": 9,
+          "tsc1_mutated_emc": 0,
+          "tsc2_mutated_emc": 0,
+          "tsc1_mutated_study_wide": 230,
+          "tsc2_mutated_study_wide": 484
+        },
+        {
+          "studyId": "msk_impact_2017",
+          "independent_of_msk": false,
+          "samples_typed": 10945,
+          "emc_samples": 5,
+          "tsc1_mutated_emc": 0,
+          "tsc2_mutated_emc": 0,
+          "tsc1_mutated_study_wide": 193,
+          "tsc2_mutated_study_wide": 261
+        },
+        {
+          "studyId": "sarcoma_mskcc_2022",
+          "independent_of_msk": false,
+          "samples_typed": 2138,
+          "emc_samples": 11,
+          "tsc1_mutated_emc": 0,
+          "tsc2_mutated_emc": 0,
+          "tsc1_mutated_study_wide": 22,
+          "tsc2_mutated_study_wide": 32
+        }
+      ],
+      "cohorts_with_no_emc_at_all": [
+        "sarcoma_ucla_2024 (63)",
+        "msk_met_2021 (25775)",
+        "soft_tissue_msk_2025 (422)",
+        "sarcoma_msk_2026 (157)",
+        "usarc_msk_2020 (108)",
+        "sarc_tcga_pan_can_atlas_2018 (255)"
+      ],
+      "control": "PASSES for every cohort above: each has all samples in its mutation sample list, and each shows hundreds (or, for the small sarcoma cohort, tens) of TSC1- and TSC2-mutated samples study-wide, which proves both genes are on the assay. The EMC zeros are readings of absence.",
+      "⭐_independent_replication": "0 of 11 EMC samples in two non-MSK cohorts (pan_origimed_2020 and pancan_pdmr_2025) carry a TSC1 or TSC2 mutation. Small, but it is independent of the 75 and it is consistent with a low single-digit rate rather than with a PEComa-like 36%."
+    },
+    "the_single_copy_question": {
+      "_status": "STILL OPEN after round 5; round 7 dispatched against the right instrument.",
+      "round_5_result": "HETLOSS was requested for TSC1 and TSC2 from msk_impact_50k_2026's GISTIC profile and returned ZERO records STUDY-WIDE - across all 54,331 samples and every gene, not just EMC.",
+      "⛔_what_that_actually_means": "NOT 'no EMC has single-copy TSC loss'. It means THAT PROFILE STORES NO -1 STATE AT ALL. Reading the EMC count alone (0 of 15) would have yielded exactly the wrong conclusion, stated confidently. The study-wide count is what caught it, and that check is the reason it is recorded here as an open question rather than as a second zero.",
+      "the_right_instrument": "pancan_pdmr_2025 carries a log2CNA profile - continuous copy number rather than a thresholded call - and holds 9 EMC samples. Requested in round 7.",
+      "why_it_matters": "The index case reported TSC2 gene LOSS. If that is a single-copy loss, nothing measured so far would have counted it."
+    }
   },
   "literature_bound": {
     "_what": "What the published record contains, established so that 'nobody has reported this' is a count rather than a recollection.",
