@@ -180,6 +180,31 @@ audited ([`emc-fet-idr-census.json`](../../modalities/emc-fet-idr-census.json));
 sample and no access. It is the one route on this page that is blocked on nothing but a decision to
 scope it.
 
+### 4.1 · ✅ SCOPED AND FROZEN, 2026-08-24 — the decision this section asked for has been taken
+
+The scoping decision is made and the arm is **prespecified before it ran**:
+[`emc-condensate-calvados-prespecification.md`](../../modalities/emc-condensate-calvados-prespecification.md),
+whose executable half — the construct set, the protocol, the guards and the scorer — is
+[`emc_condensate_calvados.py`](../../modalities/emc_condensate_calvados.py). That document, not this
+section, is the one home of the quantity read out, the constructs, what counts as a real difference,
+and the four named negatives. **Do not restate any of it here.**
+
+⭐ **Two things this section got wrong, both corrected by measurement rather than argument.**
+
+1. **"Only TCF12 needs fetching" was false — TCF12 needed no fetch at all.** Both an Ensembl (706 aa)
+   and a UniProt (682 aa) TCF12 sequence were already committed in
+   [`emc-construct-inputs.json`](../../modalities/emc-construct-inputs.json). A $0 check answered in
+   seconds what a paragraph had assumed.
+2. **⛔ The breakpoint this page treats as characterised is the SECOND-commonest one.** This section
+   inherited "EWSR1 residues 1–264 retained", and that is reported **type 2**. This repository's own
+   construct audit records **type 1 — EWSR1 exon 12, retaining EWSR1 1–431 — as the commonest reported
+   transcript type**, and its AlphaFold assessment places EWSR1's **folded RRM at 361–442**. So the
+   commonest fusion's retained segment runs 71 residues into a folded domain, and an all-disordered
+   coarse-grained model **may not be pointed at it**. The prespecification handles this by truncating
+   the type-1 window before the RRM and putting the multi-domain reading out of scope, rather than by
+   quietly running the shorter junction and calling it canonical — which is the exact error this page
+   warns about two paragraphs above.
+
 ---
 
 ## 5 · What was built for this memo, and what it deliberately does not claim
