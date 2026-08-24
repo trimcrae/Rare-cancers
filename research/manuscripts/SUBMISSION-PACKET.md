@@ -134,10 +134,10 @@ last_verified: 2026-08-10
 
 | field | value |
 |---|---|
-| Word count, main text | 3271 (limit 4000) |
-| Abstract | 197 words (limit 200) |
+| Word count, main text | 3452 (limit 4000) |
+| Abstract | 200 words (limit 200) |
 | Display items | 3 (1 figures, 2 tables) (limit 5) |
-| References | 21 |
+| References | 22 |
 | Cover letter | `aso/fusion-junction-aso-cover-letter.md` |
 | Supplementary file | none |
 | Supplemental material, for review | `aso/fusion-junction-aso-research-article.pdf`, `aso/fusion-junction-aso-sequences.csv` |

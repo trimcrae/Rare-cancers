@@ -213,9 +213,19 @@ exact remedy on 2026-08-23 — and that same day `main` came up red on a clean t
 gate 2 wanting `jsonschema`, and 29 manuscript guards wanting `pdfminer.six`/`pypdf`, while CI was
 green on the same commit. **Instructions in a skill file run only if a session loads that skill and
 acts on it.** A script plus a hook runs either way. ⭐ Note also that the two interpreters need
-**different** lists: system `python3` gets `jsonschema` only, because this image's distro
-`cryptography` panics on import and `pypdf` imports it — and nothing under `preflight.sh` needs
-pypdf there, since the PDF guards are TESTS and resolve inside the pytest venv.
+**different** lists — system `python3` runs the fast gates AND everything
+`regenerate_aso_chain.sh` calls, so it needs `jsonschema`, `pypdf`, `cffi` and `biopython`.
+⚠ *Superseded 2026-08-24, retained: "system `python3` gets `jsonschema` only, because this image's
+distro `cryptography` panics on import and `pypdf` imports it — and nothing under `preflight.sh`
+needs pypdf there, since the PDF guards are TESTS and resolve inside the pytest venv." Both halves
+were wrong in a way that cost a chain run each.* **The panic's cause is a missing `_cffi_backend`,
+not the distro package** — `RUST_BACKTRACE=1 python3 -c "from cryptography.hazmat.bindings._rust
+import exceptions"` prints that `ModuleNotFoundError` one line above the panic, pyo3 having
+swallowed it into `Python API call failed`; `pip3 install cffi` fixed it with no distro package
+touched. **And preflight is not the only thing that runs in that interpreter**:
+`build_submission_pdf.py` imports `pypdf` and `junction_aso_thermo.py` imports `Bio`, so a probe
+scoped to preflight reported "nothing to do" while no ASO PDF could be built and the thermodynamics
+step refused. `SYSTEM_PROBE` now covers both.
 
 #### The original note, retained
 

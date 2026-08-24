@@ -108,6 +108,9 @@ def _records(pmids):
     return recs
 
 
+_PUBMED_URL = "pubmed.ncbi.nlm.nih.gov/%s"
+
+
 def build() -> dict:
     total, pmids = _pmids()
     recs = _records(pmids)
@@ -119,7 +122,13 @@ def build() -> dict:
             continue
         hits = sorted({m.group(0).lower() for m in _DRY.finditer(text)})
         if hits:
-            dry.append({"pmid": r["pmid"], "year": r["year"], "title": r["title"],
+            # ⚠ `pubmed_url` IS NOT DECORATION — it is what anchors these identifiers for
+            # lint_citations.py, whose scanner does not recognise a lowercase `"pmid"` JSON key
+            # (the `": "` breaks the `PMID` pattern). A record fetched from PubMed and stored
+            # without the URL form reads to that gate exactly like a citation typed from memory,
+            # which is a false fabrication alarm on honest work.
+            dry.append({"pmid": r["pmid"], "pubmed_url": _PUBMED_URL % r["pmid"],
+                        "year": r["year"], "title": r["title"],
                         "markers": hits, "pub_types": r["pub_types"]})
     dry.sort(key=lambda r: (-(r["year"] or 0), r["pmid"]))
     return {

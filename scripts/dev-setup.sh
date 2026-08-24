@@ -45,15 +45,39 @@ cd "$(dirname "$0")/.."
 # The first cut installed one list into both and then reported `pypdf` and `pdfplumber` as still
 # missing from system python3 after a successful install. The cause is not pip: this image's
 # system interpreter carries a distro `cryptography` (41.0.7, /usr/lib/python3/dist-packages) that
-# raises `pyo3_runtime.PanicException` on import, and `pypdf` imports it. Nothing under
-# `preflight.sh` needs pypdf in that interpreter — the PDF guards are TESTS, and tests import from
-# the pytest venv, which carries its own working cryptography. So the fix is to ask each
-# interpreter only for what it actually runs, rather than to fight the distro package.
+# raises `pyo3_runtime.PanicException` on import, and `pypdf` imports it.
+#
+# ⭐⭐ THE PANIC'S ROOT CAUSE WAS FOUND ON 2026-08-24 AND IT IS NOT THE DISTRO PACKAGE.
+# `RUST_BACKTRACE=1 python3 -c "from cryptography.hazmat.bindings._rust import exceptions"` prints
+# ONE line above the panic: `ModuleNotFoundError: No module named '_cffi_backend'`. The pyo3 binding
+# raises inside a Python call it cannot propagate, so the real error is swallowed and the caller
+# sees only `Python API call failed` — which reads like a broken build and is a missing dependency.
+# `pip3 install cffi` fixed it, with no distro package touched, and `pypdf` then imported in the
+# system interpreter. ⚠ Superseded, retained: the claim that the distro `cryptography` is unusable
+# in this interpreter and must be worked around rather than satisfied.
+#
+# ⛔ AND THE GAP THAT COST THE TIME IS THE PROBE'S, NOT THE PANIC'S. `--if-needed` reported
+# "every interpreter the gates use already imports what they need" while
+# `build_submission_pdf.py` — which runs in the SYSTEM interpreter and imports pypdf at
+# `_postprocess` — could not build a PDF at all. The old comment below said "nothing under
+# preflight.sh needs pypdf in that interpreter", which was true of preflight and false of the
+# chain script every ASO manuscript edit runs. A probe that omits what the build path imports
+# answers a narrower question than the one being asked of it.
 #
 # SYSTEM: `systems_check.py` needs jsonschema and refuses to run without it (deliberately — it has
 # no fallback, because a hand-rolled subset validator silently ignores every keyword it does not
 # implement). The other fast gates are pure stdlib plus node.
-SYSTEM_DEPS=(jsonschema pyyaml)
+# ⛔ `pypdf`, `cffi` AND `biopython` ARE HERE BECAUSE `regenerate_aso_chain.sh` RUNS IN THIS
+# INTERPRETER (2026-08-24). The list was derived by reading every `python3 …` step the chain
+# script runs and grepping those files for a third-party import, rather than by adding modules one
+# red run at a time: `build_submission_pdf.py` imports `pypdf`, `junction_aso_thermo.py` imports
+# `Bio`. ⚠ `junction_aso_thermo.py` REFUSES rather than falling back when Biopython is absent
+# ("a hand-entered table would be indistinguishable from this one"), which is the correct
+# behaviour and also means the sandbox gap surfaces as a chain failure, not as a wrong number.
+# `cffi` is not imported by name anywhere in this repository — it is what `cryptography`'s rust
+# binding needs, and without it `import pypdf` panics. Pinning it by name is how a dependency that
+# is only ever reached transitively gets probed at all.
+SYSTEM_DEPS=(jsonschema pyyaml pypdf cffi biopython)
 # PYTEST: the scientific and PDF stack every test import resolves against.
 # ⛔ `pytest-xdist` IS ON THIS LIST FOR A MEASURED REASON, NOT FOR TIDINESS. `preflight.sh` runs the
 # suites at `-n <cores> --dist loadfile` when xdist is importable and SERIAL when it is not — and it
@@ -67,7 +91,7 @@ TEST_DEPS=(pdfminer.six pypdf pdfplumber jsonschema numpy scipy rdkit boto3 netC
 # system python3 is exactly the mistake that makes the uv-tool trap cost an hour: it answers yes
 # while every test still fails on the same import. The tool venv is found by asking `pytest` itself
 # where it lives, never by hard-coding a path under ~/.local.
-SYSTEM_PROBE="jsonschema yaml"
+SYSTEM_PROBE="jsonschema yaml pypdf Bio"
 TEST_PROBE="pdfminer pypdf pdfplumber jsonschema numpy scipy rdkit boto3 netCDF4 pymbar yaml Bio matplotlib xdist"
 
 _pytest_python() {

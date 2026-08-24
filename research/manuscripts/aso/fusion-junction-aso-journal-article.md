@@ -40,10 +40,10 @@ ORCID: [0000-0002-1823-1451](https://orcid.org/0000-0002-1823-1451)
 ## Abstract
 
 Extraskeletal myxoid chondrosarcoma (EMC) is an ultra-rare sarcoma usually defined by an
-in-frame fusion to *NR4A3*. That junction is in no normal transcript, so an antisense
-gapmer could in principle cleave the fusion and spare its parents; none is reported for any
-*NR4A3* fusion. This work is computational; every sequence named is a research reagent not
-for administration. It sets out what a laboratory needs: two reagents at the most reported
+in-frame *NR4A3* fusion. That junction is in no normal transcript, so an antisense
+gapmer could in principle cleave the fusion, sparing its parents; none is reported for any
+*NR4A3* fusion. This work is computational, executing an industry off-target framework's in-silico
+step; every sequence named is a research reagent not for administration. It sets out what a laboratory needs: two reagents at the most reported
 breakpoints, 5′-GGGCATATCATCAAAC-3′ at *EWSR1* exon 12 and 5′-GGGCATATCTTGTGTG-3′ at
 *TAF15* exon 6, both to *NR4A3* exon 3, longest wild-type parent gap duplexes eight and nine base
 pairs; two screened controls; and a pre-registrable selectivity threshold. Both come from a panel of
@@ -51,7 +51,7 @@ pairs; two screened controls; and a pre-registrable selectivity threshold. Both 
 parent pair their whole catalytic gap over ten or more contiguous base pairs, 61 against wild-type
 *NR4A3* itself. Ten is a convention, not a measurement: exon-terminus chimeras meet the same screen
 at 40.6% against the panel's 45.8%. Five test articles are named; the two fusion-positive EMC cell
-models are reported at an *NR4A3* exon-2 acceptor, not this panel's acceptor renumbered. Also
+models are reported at an *NR4A3* exon-2 acceptor, not this panel's. Also
 released is the procedure that produced the 190 designs.
 
 ## Keywords
@@ -90,7 +90,15 @@ nucleotides, with seven to ten the working range; the screen below counts a liab
 contiguous base pairs of duplex through that gap, a length of hybrid rather than a count of gap
 nucleotides. Whether a wild-type parent pairs the catalytic gap contiguously is therefore a separate
 question from overall similarity, and it is the one this work puts to all 190 designs before
-recommending any.
+recommending any. That direction is the one an industry working group's 2025 off-target
+recommendations report: off-target effects are seen more often where an oligonucleotide's mismatches
+fall in its wings than where they fall in its central gap, on which reading a flanking mismatch is
+suggested as the more important one to avoid.<sup>22</sup><!--PMID:39912803--> Those recommendations
+set five steps: in-silico identification with transcriptomics, a focus on cell types showing
+activity, in-vitro verification and margin assessment, risk assessment of what is confirmed, and
+management of what remains. This work performs the in-silico half of the first step and stops there;
+the margin measurement of the third is what §5 specifies, against the wild-type parent §3 identifies
+as the liability.
 
 ## 2 · The reagents
 
@@ -125,7 +133,10 @@ Both loads are predictions from sequence search rather than measured activity.
 Both reagents are phosphorothioate throughout, with wings of five contiguous β-D-oxy-locked
 residues — a high locked content against the two to four per wing taken here as usual, so these are
 not conventional locked-nucleic-acid reagents and their matched-duplex melting temperatures are
-correspondingly high. Both begin 5′-GGG, a contiguous locked G-tract. High affinity is taken to
+correspondingly high. That cuts against the screens: a high-affinity chemistry is reported to
+retain knockdown at more extensively mismatched sites than a conventional design
+does,<sup>22</sup><!--PMID:39912803--> so the two-mismatch ceiling the near-match screens run at may
+under-call for reagents of this locked content. Both begin 5′-GGG, a contiguous locked G-tract. High affinity is taken to
 carry a risk of sequence-dependent hepatotoxicity; that is a premise adopted here rather than a
 retrieved finding, and nothing here measures it.
 
@@ -316,7 +327,10 @@ Five specificity screens were applied: an alignment screen against human RefSeq 
 each near-match by whether the catalytic gap is paired; an exhaustive transcript scan complete for
 substitutions within a one-mismatch budget; a screen of the parents' unspliced sequence; a
 mature-parent screen recording the longest contiguous duplex any of six wild-type parent transcripts
-forms through the catalytic gap; and a genome-wide screen over every position of GRCh38. A
+forms through the catalytic gap; and a genome-wide screen over every position of GRCh38, mitochondrial sequence
+included. Between them they cover mature transcript, unspliced precursor, exon-exon junction,
+non-coding and mitochondrial sequence, which is the search scope the 2025 recommendations
+ask for.<sup>22</sup><!--PMID:39912803--> A
 near-match is a transcript window pairing a design at 14 or more of its 16 positions. A design is
 liable where a wild-type parent pairs its whole catalytic gap over a contiguous run of ten base
 pairs or more, ten being adopted rather than measured. Null ensembles were built as scrambles of
