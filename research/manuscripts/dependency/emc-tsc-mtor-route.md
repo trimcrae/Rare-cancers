@@ -22,6 +22,39 @@ related: [DOC-EMC-BIOMARKER-SELECTED]
 
 # TSC2 inactivation in EMC — measured, and what it does and does not open
 
+> ## ⏸ STATUS: DEPRIORITISED — the finding stands, the paper is not being written
+>
+> **trimcrae, 2026-08-24, on being shown the measured rate:** *"if it's 1 in 75, that doesn't really
+> sound like a high priority paper. Document this and merge it to main but this is where we'll leave
+> it for now."*
+>
+> **Nothing below is withdrawn.** The measurement, the reachability verdict and the corrections are
+> unchanged and stay citable. What is parked is the **writing of PUB-EMC-TSC** (§7), which is now an
+> endpoint this route *has* rather than one anybody is working towards.
+>
+> **⛔ This is a priority call, not a refutation.** It is not that the route was tested and failed —
+> a 1-in-75 biomarker in an ultra-rare disease is a small number of people, and the work needed to
+> turn one positive sample into a publishable rate is large next to what that buys. Recording it as
+> "deprioritised" rather than "closed" is the difference between the two.
+>
+> **What would reopen it**, so the next session does not have to re-derive the trigger:
+>
+> 1. **A second positive**, from a cohort independent of MSK. The rate rests on one sample; a second
+>    would move this from an observation to a finding. §2.2 lists what was already searched.
+> 2. **A public cohort with continuous copy number and more than one EMC patient.** Single-copy loss
+>    — the alteration class the index case actually reported — has been looked for in exactly one
+>    patient (§2.4). A cohort that can ask it properly changes the numerator's ceiling.
+> 3. **Any report of an mTOR inhibitor given in EMC.** Zero exist today (§3). One would change what
+>    the paper is about.
+> 4. **A named EMC patient with a TSC1/TSC2 alteration needing a route.** The reachability half (§4)
+>    is the part that is useful without a paper, and it is useful immediately.
+>
+> ⭐ **And the finding that outlives the paper is §3's, not §2's.** "The EMC genome is quiet beyond
+> the fusion" is a statement about sample sizes, not about the genome — every published series is
+> too small to have expected to see this. That reasoning is not specific to TSC2 and does not need
+> this paper to be written in order to be reused.
+
+
 > ⛔ **Nothing here asserts efficacy, safety, selectivity, a therapeutic window or clinical readiness
 > for nab-sirolimus, for any rapalog, or for anything else, in EMC or in any disease.** This memo reads
 > databases. It reports how often an alteration is present and which doors are open; it does not claim
