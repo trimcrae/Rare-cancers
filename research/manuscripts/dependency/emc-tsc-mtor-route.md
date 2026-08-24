@@ -148,8 +148,16 @@ index case actually reported is still the least-measured half of this question �
 
 ## 3 · What the published record contains, as a count
 
-The literature answer and the database answer agree, and it is worth saying how the literature answer was
-bounded, because a hitCount alone would have misled.
+⭐ **The two answers do not merely coexist — the measured rate explains the literature's silence.** At
+roughly one in seventy-five, a series of six patients sees a TSC2 event about 8% of the time and a series
+of eighteen about 21%. **Every published EMC sequencing series is small enough that reporting nothing is
+the expected outcome**, so the field's silence was never evidence the alteration is absent. It is what a
+rare event looks like through small series — which is exactly why the count was worth taking, and why "the
+EMC genome is quiet beyond the fusion" needs reading as a statement about sample sizes. (The
+probabilities, the series they refer to, and the caveat that they inherit a wide interval are in the
+findings file under `why_no_published_series_reports_it`.)
+
+It is worth saying how the literature side was bounded, because a hitCount alone would have misled.
 
 Europe PMC returns 41 records co-mentioning EMC and TSC1/TSC2 — but Europe PMC indexes open-access **full
 text**, so a hit can be a paper naming EMC in one table and TSC1 in another. The discriminating test is

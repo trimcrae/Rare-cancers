@@ -600,5 +600,22 @@
         "what_is_true": "Those three are the 2024 long-term update's figures (PMID 38427923). The 2021 primary report (PMID 34637337) gives ORR 39% (12 of 31) and median OS 40.8 months, with median DOR not reached. Quoting 38.7% and 39.7 months together is correct only against the 2024 paper."
       }
     ]
+  },
+  "why_no_published_series_reports_it": {
+    "_what": "The measured rate EXPLAINS the literature's silence rather than merely coexisting with it. This is the probe's most transferable finding and the reason the route names a paper.",
+    "_method": "P(at least one event in a series of n) = 1 - (1 - 1/75)^n, using the measured point estimate.",
+    "probability_a_series_of_n_sees_at_least_one_tsc2_event": {
+      "6": 0.077,
+      "16": 0.193,
+      "18": 0.215,
+      "58": 0.541
+    },
+    "_the_series_those_n_refer_to": {
+      "6": "PMID 28423517, exome + transcriptome, the largest EMC sequencing series this repository already held",
+      "16": "PMID 41644428, 2026 Chinese two-centre clinicopathological and molecular series",
+      "18": "PMID 40828003, the purpose-built EMC secondary-alterations study, the largest published",
+      "58": "PMID 36948401, FISH-confirmed EMCs - listed for scale, though that study sequenced only KIT"
+    },
+    "conclusion": "Every published EMC sequencing series is small enough that reporting NOTHING is the expected outcome at this rate. The field's silence was therefore never evidence that the alteration is absent - it is what a rare event looks like through small series. ⚠ These probabilities are illustrative and inherit all the uncertainty of a 1-of-75 point estimate whose 95% interval runs from 0.03% to 7.21%; at the upper bound a series of 18 would see an event more often than not."
   }
 }
