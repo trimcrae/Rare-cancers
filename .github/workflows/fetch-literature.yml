@@ -202,6 +202,37 @@ jobs:
           path: research/literature/venue-policy-browser-fetch.json
           if-no-files-found: warn
 
+      # ── GENERIC BROWSER FETCH (slug == 'browser-fetch') ────────────────────────────────
+      # Added 2026-08-23. The `venue-policy-browser` mode above proved the METHOD -- a real
+      # headless Chromium defeats bot protection keyed on TLS fingerprint, which no amount of
+      # retrying or User-Agent spoofing does -- but wired it to ONE hardcoded corpus. The ESMO
+      # clinical practice guidelines are the case that forced the seam: they are free to read on
+      # annalsofoncology.org and return HTTP 403 to plain urllib from the sandbox AND from this
+      # runner, so the question "where do the sarcoma guidelines place EMC" had no route at all.
+      # Targets come from `targets_json`, the same input the plain-HTTP path already takes.
+      # ⛔ PUBLIC PAGES ONLY. This is not a paywall route. A subscription article a browser cannot
+      # read without a login is UNREACHABLE, and recording it as unreachable is the finding.
+      - name: Install Playwright Chromium (generic browser fetch)
+        if: ${{ inputs.slug == 'browser-fetch' }}
+        run: |
+          python3 -m pip install --quiet playwright
+          python3 -m playwright install --with-deps chromium
+
+      - name: Fetch caller-supplied pages with a real browser
+        if: ${{ inputs.slug == 'browser-fetch' }}
+        env:
+          BROWSER_TARGETS_JSON: ${{ inputs.targets_json }}
+          BROWSER_OUT: research/literature/browser-fetch.json
+        run: python3 scripts/venue_policy_browser_fetch.py
+
+      - name: Keep generic browser fetch as a run artifact
+        if: ${{ always() && inputs.slug == 'browser-fetch' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-fetch-${{ github.run_id }}
+          path: research/literature/browser-fetch.json
+          if-no-files-found: error
+
       # ⭐ THE PRINTED PAGE COUNT IS A COST, NOT A PREFERENCE (2026-08-20). Nucleic Acid
       # Therapeutics charges $90 per printed page, so a manuscript's page count has to be estimated
       # before submission. A journal publishes its SUBMISSION format and not its TYPESET design, so
@@ -321,7 +352,7 @@ jobs:
         # ⚠ Fixed by INTENT, not by removing the default: a caller supplying a targets corpus
         # is asking for those URLs, so the sweep is suppressed. Callers who want both pass a
         # query explicitly and get both, which is the only case that ever wanted both.
-        if: ${{ inputs.query != '' && inputs.slug != 'lane-probe' && inputs.slug != 'consensus-probe' && inputs.slug != 'rt-probe' && inputs.slug != 'venue-typeset-geometry'
+        if: ${{ inputs.query != '' && inputs.slug != 'lane-probe' && inputs.slug != 'consensus-probe' && inputs.slug != 'rt-probe' && inputs.slug != 'venue-typeset-geometry' && inputs.slug != 'browser-fetch'
                 && inputs.targets_file == '' && inputs.targets_json == '' }}
         env:
           QUERY: ${{ inputs.query }}
@@ -347,7 +378,7 @@ jobs:
         # ⚠ Fixed by INTENT, not by removing the default: a caller supplying a targets corpus
         # is asking for those URLs, so the sweep is suppressed. Callers who want both pass a
         # query explicitly and get both, which is the only case that ever wanted both.
-        if: ${{ inputs.query != '' && inputs.slug != 'lane-probe' && inputs.slug != 'consensus-probe' && inputs.slug != 'rt-probe' && inputs.slug != 'venue-typeset-geometry'
+        if: ${{ inputs.query != '' && inputs.slug != 'lane-probe' && inputs.slug != 'consensus-probe' && inputs.slug != 'rt-probe' && inputs.slug != 'venue-typeset-geometry' && inputs.slug != 'browser-fetch'
                 && inputs.targets_file == '' && inputs.targets_json == '' }}
         env:
           LIT_EXPECT_PMIDS: ${{ inputs.expect_pmids }}
@@ -361,7 +392,7 @@ jobs:
       # the same contamination the publish step's slug guard below was written to prevent, arriving
       # from the other direction. A query-only run now runs the query path ONLY.
       - name: Fetch literature URLs (generic, runner has unrestricted egress)
-        if: ${{ (inputs.targets_file != '' || inputs.targets_json != '' || inputs.query == '') && inputs.slug != 'lane-probe' && inputs.slug != 'consensus-probe' && inputs.slug != 'rt-probe' && inputs.slug != 'venue-typeset-geometry' }}
+        if: ${{ (inputs.targets_file != '' || inputs.targets_json != '' || inputs.query == '') && inputs.slug != 'lane-probe' && inputs.slug != 'consensus-probe' && inputs.slug != 'rt-probe' && inputs.slug != 'venue-typeset-geometry' && inputs.slug != 'browser-fetch' }}
         env:
           LIT_TARGETS_FILE: ${{ inputs.targets_file }}
           LIT_TARGETS_JSON: ${{ inputs.targets_json }}

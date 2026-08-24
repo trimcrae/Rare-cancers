@@ -209,6 +209,45 @@ UA = ("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) "
       "Chrome/126.0.0.0 Safari/537.36")
 
 
+# ---------------------------------------------------------------------------
+# Caller-supplied targets — the same instrument pointed at a different corpus
+# ---------------------------------------------------------------------------
+# ⭐ WHY THIS SEAM EXISTS (2026-08-23). The venue corpus above is one QUESTION answered with this
+# METHOD. The method -- a real browser against hosts whose bot protection is keyed on TLS
+# fingerprint rather than on IP -- is the only route this repository has to several classes of
+# publicly readable page, and rebuilding it per question would be the tail wagging the dog. The
+# ESMO clinical practice guidelines are the case that forced it: they are free to read on
+# annalsofoncology.org and return HTTP 403 to plain urllib from both the sandbox and a CI runner.
+#
+# ⛔ AND THE SCOPE RULE IS UNCHANGED BY THE SEAM, WHICH IS THE POINT OF STATING IT HERE. This
+# fetcher takes PUBLICLY READABLE pages only. It is not a paywall route and must never be pointed
+# at one: a subscription article that a browser cannot read without a login is UNREACHABLE, and
+# "unreachable" is the honest finding to record. Measured the day this seam was added: PMID
+# 32856598 (Cancer Epidemiol Biomarkers Prev) is not in PMC, is not open access, and its publisher
+# PDF URL serves a JavaScript shim. That paper was recorded as unreachable rather than pursued
+# here, and this comment is the record of that decision.
+def _targets_from_env():
+    """(targets, out_path, override_note) — TARGETS/OUT unless the caller replaced them."""
+    raw = os.environ.get("BROWSER_TARGETS_JSON", "").strip()
+    if not raw:
+        return TARGETS, OUT, None
+    try:
+        supplied = json.loads(raw)
+    except json.JSONDecodeError as exc:
+        raise SystemExit(f"BROWSER_TARGETS_JSON is not valid JSON: {exc}") from exc
+    if not isinstance(supplied, dict) or not supplied:
+        raise SystemExit("BROWSER_TARGETS_JSON: expected a non-empty JSON object of name -> url")
+    for name, url in supplied.items():
+        if not isinstance(url, str) or not url.startswith(("http://", "https://")):
+            raise SystemExit(f"BROWSER_TARGETS_JSON: {name!r} is not an http(s) URL")
+    out = os.environ.get("BROWSER_OUT", "").strip() or os.path.join(
+        "research", "literature", "browser-fetch.json")
+    return supplied, out, (
+        f"TARGETS were REPLACED by the caller via BROWSER_TARGETS_JSON ({len(supplied)} URLs); "
+        "the built-in venue corpus did not run. Public pages only -- this is not a paywall route."
+    )
+
+
 #: Home pages whose author-facing links are worth harvesting, because guessing their paths failed.
 HARVEST_LINKS_FROM = ["cgt_journal_home"]
 
@@ -256,6 +295,7 @@ def probe_hits(text):
 def main():
     from playwright.sync_api import sync_playwright
 
+    targets, out_path, override_note = _targets_from_env()
     records = {}
     with sync_playwright() as pw:
         browser = pw.chromium.launch(args=["--disable-blink-features=AutomationControlled"])
@@ -269,7 +309,7 @@ def main():
         })
         page = ctx.new_page()
 
-        for name, url in TARGETS.items():
+        for name, url in targets.items():
             rec = {"url": url, "attempts": []}
             # ⚠ Backoff is for the 429 case specifically; a 403 will not clear by waiting, so the
             # loop stops on it rather than burning six minutes proving that again.
@@ -304,9 +344,8 @@ def main():
         ctx.close()
         browser.close()
 
-    os.makedirs(os.path.dirname(OUT), exist_ok=True)
-    with open(OUT, "w", encoding="utf-8") as fh:
-        json.dump({
+    os.makedirs(os.path.dirname(out_path), exist_ok=True)
+    payload = {
             "_what": "Publisher policy and author-guidance pages fetched with a headless Chromium "
                      "from a GitHub Actions runner, 2026-08-10.",
             "_why": "These pages return 403 (publisher bot protection) or 429 (shared runner IPs) to "
@@ -316,10 +355,14 @@ def main():
                       "no article full text.",
             "_generator": "scripts/venue_policy_browser_fetch.py",
             "targets": records,
-        }, fh, indent=2, ensure_ascii=False)
+    }
+    if override_note:
+        payload["_targets_overridden"] = override_note
+    with open(out_path, "w", encoding="utf-8") as fh:
+        json.dump(payload, fh, indent=2, ensure_ascii=False)
         fh.write("\n")
     got = sum(1 for r in records.values() if (r.get("status") or 999) < 400)
-    print(f"\nwrote {OUT}: {got}/{len(records)} pages retrieved")
+    print(f"\nwrote {out_path}: {got}/{len(records)} pages retrieved")
     return 0 if got else 1
 
 
