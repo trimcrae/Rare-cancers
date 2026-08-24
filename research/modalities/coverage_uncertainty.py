@@ -109,6 +109,20 @@ def frechet_bounds(freqs):
     return max(p), min(1.0, sum(p))
 
 
+def intersection_bounds(p_a, p_b):
+    """Exact bounds on P(A and B) given the two marginals, under ANY dependence (Fréchet).
+
+    ⛔ THE COMBINED CD8-AND-CD4 FIGURE IS AN INTERSECTION, NOT A UNION, AND THE BOUNDS INVERT.
+    §B4 multiplies the class I and class II coverages and then says the independence this assumes is
+    "an approximation whose direction is not known without haplotype frequencies" — true, and the
+    magnitude is boundable even though the direction is not. For an intersection the Fréchet bounds
+    are [max(0, p_a + p_b - 1), min(p_a, p_b)], and the UPPER one is the useful half: a construct
+    needing an allele of each class can never reach more patients than its scarcer arm alone,
+    whatever the linkage between chromosome 6 loci. That ceiling holds without any haplotype data.
+    """
+    return max(0.0, p_a + p_b - 1.0), min(p_a, p_b)
+
+
 def afnd_by_population(alleles):
     """`population -> {allele: f}` and `population -> n`, for the alleles asked about."""
     want = {a.replace("HLA-", ""): a for a in alleles}
@@ -247,10 +261,29 @@ def main():
             continue
         out["sets"][name] = analyse(name, freqs, by_pop, pop_n)
 
+    #: The combined CD8-and-CD4 eligibility fraction, which §B4 computes as a product. Read the two
+    #: arms out of the SAME artifact the manuscript quotes them from, so the bound cannot come to be
+    #: about a different pair of numbers than the product it bounds.
+    c_i, c_ii = g["coverage_any_strong_binder_allele"], g["coverage_cd4_classii"]
+    lo, hi = intersection_bounds(c_i, c_ii)
+    out["combined_class_i_and_class_ii"] = {
+        "_note": "An INTERSECTION: the fraction carrying >=1 presenting allele of each class. The "
+                 "manuscript computes it as a product, which assumes independence between HLA-A/B "
+                 "and DRB1 on chromosome 6. These bounds hold under any dependence whatever.",
+        "coverage_class_i": round(c_i, 4),
+        "coverage_class_ii": round(c_ii, 4),
+        "product_under_independence": round(c_i * c_ii, 4),
+        "bounds_under_any_dependence": [round(lo, 4), round(hi, 4)],
+        "ceiling_is_the_scarcer_arm": round(hi, 4),
+    }
+
     with open(OUT, "w", encoding="utf-8") as fh:
         json.dump(out, fh, indent=1, sort_keys=False)
         fh.write("\n")
     print(f"wrote {os.path.relpath(OUT, os.path.dirname(HERE))}")
+    comb = out["combined_class_i_and_class_ii"]
+    print(f"  combined CD8 and CD4: product {comb['product_under_independence']:.4f}; "
+          f"bounds under any dependence {comb['bounds_under_any_dependence']}")
     for name, rec in out["sets"].items():
         bp = rec["between_population"]["complete_panel"]
         print(f"  {name}: published {rec['coverage_published_form']:.4f} -> exact "

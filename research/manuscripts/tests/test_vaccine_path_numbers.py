@@ -598,3 +598,23 @@ def test_the_floor_reading_is_never_offered_as_the_estimate(flat, uncertainty):
     assert "floor" in window and "reporting gap" in window, (
         f"{printed} is printed without the sentence that makes it a floor. A reader meeting it bare "
         "would take a database gap for a population with no presenting allele.")
+
+
+def test_the_combined_figures_dependence_ceiling_is_the_artifacts(flat, uncertainty):
+    """⛔ AN INTERSECTION, NOT A UNION, AND THE BOUNDS INVERT. §B4's combined CD8-and-CD4 figure is a
+    product of two coverages; §2.3's Fréchet argument applies to it, but a reader who carried the
+    union form across would get a lower bound where the useful statement is an upper one. The
+    ceiling — a both-arms construct can never reach more patients than its scarcer arm — is the half
+    that constrains the design, so it is the half bound here."""
+    comb = uncertainty["combined_class_i_and_class_ii"]
+    lo, hi = comb["bounds_under_any_dependence"]
+    assert hi == pytest.approx(min(comb["coverage_class_i"], comb["coverage_class_ii"])), (
+        "the intersection ceiling must be the scarcer arm; if it is not, the generator has the "
+        "union bounds where it needs the intersection ones")
+    assert lo <= comb["product_under_independence"] <= hi + 1e-9, (
+        "the independence product falls outside its own dependence bounds")
+    assert f"[{_pct(lo)}, {_pct(hi)}]" in flat, (
+        f"§B4's dependence bounds must be the artifact's [{_pct(lo)}, {_pct(hi)}]")
+    ratio = comb["coverage_class_ii"] / comb["product_under_independence"]
+    assert f"{ratio:.1f} times the product" in flat, (
+        f"the distance from product to ceiling ({ratio:.1f}x) is not the artifact's")
