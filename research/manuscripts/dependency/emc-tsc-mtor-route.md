@@ -57,14 +57,16 @@ The expected outcome was a bounded zero. It is not one.
 
 **EMC is a codable OncoTree type (`EMCHS`)**, which turned a literature question into a counting
 question. MSK's public sarcoma cohort holds **75 patients typed as extraskeletal myxoid chondrosarcoma** —
-an order of magnitude more sequenced EMC than any published series, the largest of which is six.
+about four times the largest published EMC sequencing series (18 patients), and more than twelve times the
+largest this repository already held (six).
 
 Of those 75, **one carries a somatic TSC2 nonsense mutation** and none carries a TSC1 mutation. The rate
 and its exact binomial interval are in the findings file under `measurement.rates`.
 
-⭐ **The one positive is the right kind of alteration.** It is a truncating nonsense variant, called
-somatic against a matched normal — the pathogenic inactivating class the trials require, not a variant of
-unknown significance. A single case is a single case; but it is not a near-miss.
+⭐ **The one positive is the right kind of alteration.** It is a truncating nonsense variant — the
+pathogenic inactivating class the trials require, not a variant of unknown significance. A single case is
+a single case; but it is not a near-miss. ⚠ Its somatic status is *inferred* rather than demonstrated,
+for the reason given in §2.3.
 
 ### 2.1 · Why the zeros are readings of absence rather than absent readings
 
