@@ -184,6 +184,19 @@ on:
         default: "false"
         type: choice
         options: ["false", "true"]
+      sweep_arm:
+        description: >-
+          data-level-sweep mode only: which arm to fetch. The two arms hit different hosts, fail
+          for unrelated reasons and answer different questions, so re-running the junction search
+          to re-read a methylation deposit spends a runner AND overwrites arm 1's measured numbers
+          for nothing. "methylation" and "snaptron" MERGE into the existing inputs cache, carrying
+          the other arm through verbatim; "both" refetches everything, which is what a cold start
+          needs. Refusing to fetch an arm is never the same as that arm returning nothing, and the
+          artifact records which arm was refetched.
+        required: false
+        default: "both"
+        type: choice
+        options: ["both", "methylation", "snaptron"]
       series:
         description: "gse-series mode only: the GEO series accession to characterise."
         required: false
@@ -849,7 +862,12 @@ jobs:
         timeout-minutes: 90
         run: |
           python -m pip install --quiet openpyxl
-          python research/modalities/emc_data_level_sweep.py --fetch
+          ARM="${{ inputs.sweep_arm }}"
+          if [ -z "$ARM" ] || [ "$ARM" = "both" ]; then
+            python research/modalities/emc_data_level_sweep.py --fetch
+          else
+            python research/modalities/emc_data_level_sweep.py --fetch --only "$ARM"
+          fi
 
       - name: "Data-level sweep — derive the verdict from the cached inputs"
         if: always() && inputs.mode == 'data-level-sweep'

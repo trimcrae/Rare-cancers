@@ -39,6 +39,7 @@ MATRIX = os.path.join(MOD, "epitope-allele-matrix.json")
 NOVELTY = os.path.join(MOD, "junction-proteome-novelty.json")
 CD4 = os.path.join(MOD, "patient-cd4-demo.json")
 CONSTRUCT = os.path.join(MOD, "vaccine-construct.json")
+UNCERTAINTY = os.path.join(MOD, "coverage-uncertainty.json")
 
 
 def _required(path, what):
@@ -517,3 +518,103 @@ def test_the_author_block_carries_no_placeholder(prose):
             f"the author block carries the placeholder {placeholder!r}; a preprint is posted under a "
             "real identity or not at all")
     assert "0000-0002-1823-1451" in prose, "the author's ORCID iD is not in the manuscript"
+
+
+# ---------------------------------------------------------------------------------------------
+# ⛔⛔ THE REPLACEMENT FOR A WITHDRAWN INTERVAL NEEDS A TIGHTER BINDING THAN THE INTERVAL DID.
+# `test_no_confidence_interval_survives_in_the_prose` above guards the withdrawal. Section 2.3 now
+# prints three quantities in its place — the exact within-locus form, the Fréchet bounds on the
+# between-locus dependence, and the between-population spread — and a bare number in prose is exactly
+# how the withdrawn interval got there. Every one of them is bound to `coverage-uncertainty.json`
+# here, so the paragraph cannot outlive a regeneration that moves it.
+
+@pytest.fixture(scope="module")
+def uncertainty():
+    return _load(UNCERTAINTY, "the coverage uncertainty analysis")
+
+
+def _pct(x):
+    """The manuscript's own rendering of a fraction: one decimal place, as a percentage."""
+    return f"{round(x * 100, 1):.1f}%"
+
+
+def test_the_within_locus_correction_is_the_artifacts(flat, uncertainty):
+    """The exact form and its DIRECTION. The direction is the load-bearing half: the paper claims no
+    coverage figure can be too high for this reason, which is only true while exact >= published."""
+    rec = uncertainty["sets"]["class_i_any_strong_binder"]
+    exact, published = rec["coverage_within_locus_exact"], rec["coverage_published_form"]
+    assert exact >= published, (
+        "the within-locus form came out BELOW the published form, which inverts the claim §2.3 "
+        "makes about the direction of the approximation. Fix the paragraph, not this assertion.")
+    assert _pct(exact) in flat, (
+        f"§2.3 states the exact within-locus coverage; the artifact says {_pct(exact)}")
+    gap = rec["understatement_of_published_form_pp"]
+    assert f"{gap:.2f} percentage points" in flat, (
+        f"the size of the correction ({gap:.2f} pp) is not the artifact's")
+
+
+def test_the_ld_bounds_are_the_artifacts(flat, uncertainty):
+    """Fréchet bounds are exact, so a typed pair that drifts from the artifact is simply wrong —
+    there is no modelling slack in which a difference could be defensible."""
+    rec = uncertainty["sets"]["class_i_any_strong_binder"]
+    lo, hi = rec["ld_bounds_across_loci"]
+    assert f"[{_pct(lo)}, {_pct(hi)}]" in flat, (
+        f"§2.3's dependence bounds must be the artifact's [{_pct(lo)}, {_pct(hi)}]")
+    width = rec["ld_bound_width_pp"]
+    assert f"{width:.1f} percentage points" in flat, (
+        f"the width attributed to the independence assumption ({width:.1f} pp) is not the artifact's")
+    for locus, p in rec["per_locus_carrier_frequency"].items():
+        assert _pct(p) in flat, (
+            f"the per-locus carrier frequency at HLA-{locus} ({_pct(p)}) is quoted in §2.3 as the "
+            "input to the bounds and must be the artifact's")
+
+
+def test_the_between_population_spread_is_the_artifacts(flat, uncertainty):
+    """The widest of the three, and the one §2.3 tells the reader to carry away."""
+    rec = uncertainty["sets"]["class_i_any_strong_binder"]
+    bp = rec["between_population"]
+    complete = bp["complete_panel"]
+    for key in ("median", "p25", "p75", "max"):
+        assert _pct(complete[key]) in flat, (
+            f"the complete-panel {key} ({_pct(complete[key])}) is not the artifact's")
+    assert str(complete["n"]) in flat, "the number of complete-panel populations is not the artifact's"
+    floor = bp["absent_scored_zero_floor"]
+    assert _pct(floor["median"]) in flat, "the absent-as-zero floor median is not the artifact's"
+    assert str(floor["n"]) in flat, "the size of the absent-as-zero population set is not the artifact's"
+
+
+def test_the_floor_reading_is_never_offered_as_the_estimate(flat, uncertainty):
+    """⛔ THE TWO READINGS MUST STAY LABELLED APART. An allele missing from a population's AFND record
+    was not measured there; scoring it zero manufactures low-coverage populations out of a reporting
+    gap. The floor is therefore a bound on the database's coverage of the panel, not on HLA, and the
+    paper must say so wherever it prints it — this is the same failure mode as
+    §4's 'an absent reading is not a reading of absence', arriving through a percentile."""
+    floor = uncertainty["sets"]["class_i_any_strong_binder"]["between_population"][
+        "absent_scored_zero_floor"]
+    printed = _pct(floor["median"])
+    where = flat.find(printed)
+    assert where >= 0, f"the floor median {printed} is not in the manuscript"
+    window = flat[where:where + 400]
+    assert "floor" in window and "reporting gap" in window, (
+        f"{printed} is printed without the sentence that makes it a floor. A reader meeting it bare "
+        "would take a database gap for a population with no presenting allele.")
+
+
+def test_the_combined_figures_dependence_ceiling_is_the_artifacts(flat, uncertainty):
+    """⛔ AN INTERSECTION, NOT A UNION, AND THE BOUNDS INVERT. §B4's combined CD8-and-CD4 figure is a
+    product of two coverages; §2.3's Fréchet argument applies to it, but a reader who carried the
+    union form across would get a lower bound where the useful statement is an upper one. The
+    ceiling — a both-arms construct can never reach more patients than its scarcer arm — is the half
+    that constrains the design, so it is the half bound here."""
+    comb = uncertainty["combined_class_i_and_class_ii"]
+    lo, hi = comb["bounds_under_any_dependence"]
+    assert hi == pytest.approx(min(comb["coverage_class_i"], comb["coverage_class_ii"])), (
+        "the intersection ceiling must be the scarcer arm; if it is not, the generator has the "
+        "union bounds where it needs the intersection ones")
+    assert lo <= comb["product_under_independence"] <= hi + 1e-9, (
+        "the independence product falls outside its own dependence bounds")
+    assert f"[{_pct(lo)}, {_pct(hi)}]" in flat, (
+        f"§B4's dependence bounds must be the artifact's [{_pct(lo)}, {_pct(hi)}]")
+    ratio = comb["coverage_class_ii"] / comb["product_under_independence"]
+    assert f"{ratio:.1f} times the product" in flat, (
+        f"the distance from product to ceiling ({ratio:.1f}x) is not the artifact's")

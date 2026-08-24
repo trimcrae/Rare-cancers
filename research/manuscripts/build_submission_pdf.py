@@ -480,7 +480,9 @@ def apply_deposit_filenames(text, paper, where):
     for source, deposited in names.items():
         text = text.replace(source, deposited)
     _NEVER_BREAK.update(names.values())
-    _NEVER_BREAK.update({ORDER_FROM, ORDER_FROM.replace(".csv", ".fasta")})
+    orderable = order_from(paper)
+    if orderable:
+        _NEVER_BREAK.update({orderable, orderable.replace(".csv", ".fasta")})
     unmapped = sorted({m.group(0) for m in _MD_NAME_RE.finditer(text)}
                       - set(names.values()) - set(names))
     if unmapped:
@@ -2085,6 +2087,37 @@ FOOTER_FULL = ("Research use only — not for administration. "
 FOOTER_SHORT = "Research use only — not for administration."
 
 
+def order_from(paper):
+    """The canonical orderable file this ONE paper sends a reader to, or None if it has none.
+
+    ⛔ THE FOOTER IS A PROPERTY OF THE PAPER, NOT OF THE BUILDER (measured 2026-08-24, in a posted
+    preprint, by an external reviewer). `ORDER_FROM` above is derived from the module-level
+    `STAMP_SOURCES`, which are the ASO paper's — so every paper this builder touched was stamped,
+    on every page, with "Order from fusion-junction-aso-sequences.csv, never from this PDF." The
+    vaccine paper has no orderable file and never mentions that CSV anywhere in its text; a reviewer
+    of `aixiv.260822.000005` reported the filename as an undefined term appearing in a figure
+    caption, which is exactly what a page footer looks like to a reader extracting text. A handling
+    statement that names the wrong paper's file is worse than none: it is a false instruction on a
+    document about a different molecule.
+    """
+    return next((os.path.basename(s) for s in paper.get("stamp_sources", STAMP_SOURCES)
+                 if s.endswith(".csv")), None)
+
+
+def handling_footers(paper):
+    """`(full, short)` handling statements for one paper.
+
+    The prohibition is universal and stays on every page. The DESTINATION is only meaningful for a
+    paper that has a canonical orderable file; when there is none the two lengths are the same
+    string, and `print_pdf` skips the second render rather than grafting a page onto itself.
+    """
+    orderable = order_from(paper)
+    if not orderable:
+        return FOOTER_SHORT, FOOTER_SHORT
+    return ("Research use only — not for administration. "
+            f"Order from {orderable}, never from this PDF."), FOOTER_SHORT
+
+
 def templates(running_head, footer_text):
     # 8px = 6 pt, the floor below which a screen reader called the header unreadable. It was 7px
     # (5.2 pt) because the full 30-word title had to be squeezed in; the declared running title is
@@ -2120,10 +2153,10 @@ def _pages_needing_the_full_footer(reader):
     return keep
 
 
-def _body_of(page, head):
+def _body_of(page, head, footers=(FOOTER_FULL, FOOTER_SHORT)):
     """A page's text with the running head, either footer and the page number removed."""
     text = re.sub(r"\s+", " ", page.extract_text() or "")
-    for chrome_bit in (head, FOOTER_FULL, FOOTER_SHORT):
+    for chrome_bit in (head,) + tuple(footers):
         text = text.replace(re.sub(r"\s+", " ", chrome_bit), " ")
     return re.sub(r"[^A-Za-z0-9]", "", text)
 
@@ -2182,7 +2215,8 @@ def headings_of(html):
     return out
 
 
-def _postprocess(full_pdf, short_pdf, pdf_path, running_head, meta, headings=()):
+def _postprocess(full_pdf, short_pdf, pdf_path, running_head, meta, headings=(),
+                 footers=(FOOTER_FULL, FOOTER_SHORT)):
     """Assemble the delivered PDF: short rule on body pages, and a real Info dictionary.
 
     ⛔ TWO RENDERS, ONE LAYOUT, AND THE EQUALITY IS CHECKED RATHER THAN ASSUMED. The two prints
@@ -2214,7 +2248,8 @@ def _postprocess(full_pdf, short_pdf, pdf_path, running_head, meta, headings=())
         keep = _pages_needing_the_full_footer(full)
         same_length = len(short.pages) == len(full.pages)
         bodies_match = same_length and all(
-            _body_of(full.pages[i], running_head) == _body_of(short.pages[i], running_head)
+            _body_of(full.pages[i], running_head, footers)
+            == _body_of(short.pages[i], running_head, footers)
             for i in range(len(full.pages)))
         if not bodies_match:
             print("  ⚠ the two footer renders do not paginate identically — shipping the full "
@@ -2248,7 +2283,7 @@ def _postprocess(full_pdf, short_pdf, pdf_path, running_head, meta, headings=())
 
 
 def print_pdf(chrome, html_path, pdf_path, running_head, meta=None, split_footer=True,
-              headings=()):
+              headings=(), footers=(FOOTER_FULL, FOOTER_SHORT)):
     profile = tempfile.mkdtemp(prefix="ccpdf-")
     proc = subprocess.Popen(
         [chrome, "--headless", "--disable-gpu", "--no-sandbox", "--no-first-run",
@@ -2285,8 +2320,12 @@ def print_pdf(chrome, html_path, pdf_path, running_head, meta=None, split_footer
                 generateDocumentOutline=True, displayHeaderFooter=True,
                 headerTemplate=header, footerTemplate=footer)["data"])
 
-        full_pdf = render(FOOTER_FULL)
-        short_pdf = render(FOOTER_SHORT) if split_footer else None
+        footer_full, footer_short = footers
+        full_pdf = render(footer_full)
+        #: A paper with no orderable file has one footer in both lengths; a second identical render
+        #: would be grafted onto itself and reported as a saving that did not happen.
+        short_pdf = (render(footer_short)
+                     if split_footer and footer_short != footer_full else None)
     finally:
         proc.terminate()
         try:
@@ -2294,7 +2333,8 @@ def print_pdf(chrome, html_path, pdf_path, running_head, meta=None, split_footer
         except subprocess.TimeoutExpired:
             proc.kill()
         shutil.rmtree(profile, ignore_errors=True)
-    return _postprocess(full_pdf, short_pdf, pdf_path, running_head, meta or {}, headings)
+    return _postprocess(full_pdf, short_pdf, pdf_path, running_head, meta or {}, headings,
+                        footers)
 
 
 # --------------------------------------------------------------------------- driver
@@ -2421,7 +2461,7 @@ def build_supplementary(paper, html_only=False):
     }
     print_pdf(chrome, html_path, pdf_path, declared_running_title(body)
               if re.search(r"running[- ]title", body, re.I) else title[:60], meta,
-              headings=headings_of(page))
+              headings=headings_of(page), footers=handling_footers(paper))
     #: ⛔ THE SI WAS THE ONE BUILT PDF WITH NO BUILD STAMP (round 14 seat 4). Four of the five PDFs
     #: in `aso/` carry `<name>.build-stamp.json` and the staleness gate reads it; the SI carried
     #: none, so "is the deposited SI current?" was a question nothing could ask — and it is the file
@@ -2498,13 +2538,14 @@ def build(name, paper, style="journal", html_only=False):
         return 1
     pdf_path = os.path.join(HERE, out_name)
     grafted, pages = print_pdf(chrome, html_path, pdf_path, running, meta,
-                               headings=headings_of(page))
+                               headings=headings_of(page), footers=handling_footers(paper))
     os.remove(html_path)
     _write_build_stamp(pdf_path, paper)
     size = os.path.getsize(pdf_path)
+    split = (f"the full handling sentence is on {pages - grafted} of them and the short rule on "
+             f"{grafted}") if grafted else "the handling statement is on every page"
     print(f"{name} [{style}]: wrote {os.path.relpath(pdf_path, REPO)} "
-          f"({size / 1024:.0f} KB, {pages} pages; the full handling sentence is on "
-          f"{pages - grafted} of them and the short rule on {grafted})")
+          f"({size / 1024:.0f} KB, {pages} pages; {split})")
     return 0
 
 

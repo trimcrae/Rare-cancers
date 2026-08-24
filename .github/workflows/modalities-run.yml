@@ -144,6 +144,17 @@ jobs:
         continue-on-error: true
         run: python research/modalities/predictor_concordance.py --curve
 
+      # ⭐ Added 2026-08-24. Eight successive external reviews of aixiv.260822.000005 named the same
+      # gap: the Wilson intervals were withdrawn (correctly — they pool unrelated populations into
+      # one binomial) and nothing replaced them, leaving a bare point estimate on a step function.
+      # This computes the three readings that DO mean what they look like — the exact within-locus
+      # form, distribution-free Fréchet bounds on the between-locus dependence, and the empirical
+      # spread across AFND source populations. MUST run after hla_coverage.py: it reads that step's
+      # pooled frequencies and presenting-allele sets so the two can never disagree.
+      - name: Coverage uncertainty — within-locus exact form, LD bounds, between-population spread
+        continue-on-error: true
+        run: python research/modalities/coverage_uncertainty.py
+
       - name: Candidate vaccine construct (minimal SLP + string-of-beads)
         continue-on-error: true
         run: python research/modalities/vaccine_construct.py

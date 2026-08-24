@@ -555,3 +555,75 @@ def test_the_leaked_escape_pattern_actually_matches_the_defect_it_is_for():
     assert re.findall(pat, r"HLA-A\01:01, HLA-B\07:02"), "the emphasis-eaten leak is not caught"
     assert not re.findall(pat, "DONOR_EXON_END=5 \\\n    python3 junction_aso.py"), (
         "a shell line continuation is content and must not be flagged")
+
+
+# ---------------------------------------------------------------------------------------------
+# ⛔⛔ ONE PAPER'S HANDLING FOOTER RODE EVERY OTHER PAPER'S PAGES, AND AN EXTERNAL REVIEWER FOUND IT.
+# `build_submission_pdf.py` derived its running footer from a MODULE-level `STAMP_SOURCES` — the ASO
+# paper's — so every page of the vaccine preprint carried "Order from fusion-junction-aso-sequences
+# .csv, never from this PDF." That file is a set of antisense oligonucleotides; the vaccine paper is
+# about peptides, never mentions the file, and has nothing to order. A reviewer of
+# aixiv.260822.000005 reported the filename as an undefined term in a figure caption, which is what a
+# page footer looks like once the text layer is flattened. Chrome that names a file the document does
+# not is not typography — it is a false instruction pointing at a different molecule.
+
+def _orderable_names(key):
+    """The reagent files this paper tells a reader to ORDER FROM, in both its committed forms.
+
+    ⚠ NARROWED ON PURPOSE, AND THE NARROWING IS THE POINT. The first version of this guard flagged
+    every filename any paper declares, and promptly fired on the ASO journal article for naming
+    `fusion-junction-aso-research-article.md` — its own extended report, cited in the text, exactly
+    as it should be. A cross-reference between two papers is CONTENT and is often correct; a
+    do-not-order-from-this-PDF instruction pointing at another paper's reagents is FURNITURE and is
+    never correct. Only the second is a defect, so only the second is what this reads.
+    """
+    orderable = bsp.order_from(bsp.PAPERS[key])
+    if not orderable:
+        return set()
+    return {orderable, orderable.replace(".csv", ".fasta")}
+
+
+@pytest.mark.committed_artifact
+@pytest.mark.parametrize("key", sorted(bsp.PAPERS))
+def test_no_paper_is_stamped_with_another_papers_orderable_file(key):
+    r"""The rendered PDF may only send a reader to a file that paper's own build declares.
+
+    Read from the RENDERED text, not the source: the defect lives entirely in the page furniture,
+    which no `.md` gate can see. Every paper in PAPERS has its `out` PDF committed, so a missing one
+    is a broken tree — which is exactly when a guard must speak rather than step aside.
+    """
+    pdf = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                       *bsp.PAPERS[key]["out"].split("/"))
+    assert os.path.exists(pdf), (
+        f"{bsp.PAPERS[key]['out']} is missing. It is a committed deposit artifact, so rebuild it "
+        "with build_submission_pdf.py rather than passing over the footer check.")
+    text = _pdf_text(pdf)
+    mine = _orderable_names(key)
+    foreign = sorted({name
+                      for other in bsp.PAPERS
+                      for name in _orderable_names(other)
+                      if name not in mine and name in text})
+    assert not foreign, (
+        f"{bsp.PAPERS[key]['out']} sends its reader to {foreign} — another paper's reagent files, "
+        "which this paper has none of and never declares. Check the running footer: it must come "
+        "from handling_footers(paper), not from the module-level ORDER_FROM.")
+
+
+@pytest.mark.parametrize("key", sorted(bsp.PAPERS))
+def test_every_papers_footer_is_derived_from_its_own_sources(key):
+    """The unit half of the guard above, so the rule holds for a paper before its first build."""
+    paper = bsp.PAPERS[key]
+    full, short = bsp.handling_footers(paper)
+    assert "not for administration" in full and "not for administration" in short, (
+        "the prohibition is universal and must survive in both lengths")
+    orderable = bsp.order_from(paper)
+    if orderable is None:
+        assert full == short, (
+            f"{key} has no orderable file, so there is no destination to state and the two lengths "
+            "must be the same string — otherwise print_pdf grafts a page onto itself")
+        assert ".csv" not in full, f"{key}'s footer names a file it has none of: {full!r}"
+    else:
+        assert orderable in full, f"{key}'s footer must name its own {orderable}"
+        assert orderable in {os.path.basename(s)
+                             for s in paper.get("stamp_sources", bsp.STAMP_SOURCES)}, (
+            "the footer's filename must be READ from stamp_sources, never typed (rule 1)")

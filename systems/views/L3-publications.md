@@ -43,6 +43,7 @@ last_verified: 2026-08-06
 | **PUB-BIOMARKER-DEP**<br/>[Biomarker-selected therapeutic classes in an ultra-rare sarcoma — what …](../../research/manuscripts/dependency/emc-biomarker-selected-classes.md) | ◐ `drafted` | `preprint` | 5 | — |
 | **PUB-CLOSED-ROUTES**<br/>[Seven routes closed on argument rather than on experiment — the negativ…](../../research/manuscripts/methods-record/closed-routes-negative-record.md) | ◐ `drafted` | `preprint` | 7 | — |
 | **PUB-DEGRADER**<br/>[In silico design of a paralogue-favoured ligand for a cryptic NR4A3 poc…](../../research/manuscripts/degrader/nr4a3-degrader-paper.md) | ◐ `drafted` | `journal_submission` | 5 | — |
+| **PUB-EMC-CLASSIFICATION**<br/>[One code, three diseases: what a registry cohort selected on ICD-O-3 mo…](../../research/manuscripts/care-delivery/emc-icdo-9231-classification.md) | ◐ `drafted` | `preprint` | 2 | ⭐ IT IS NOW DRAFTED — see `document`. Scope and title were decided by trimcrae on 2026-08-23: publish the CODING half without waiting for the … |
 | **PUB-EMC-PROGRAM**<br/>[Attacking an "undruggable" fusion oncoprotein by computation alone: a d…](../../research/manuscripts/program/emc-treatment-roadmap.md) | ◐ `drafted` | `journal_submission` | 2 | — |
 | **PUB-ENDPOINT**<br/>[Objective response and disease control on identical patients: what the …](../../research/manuscripts/endpoint/response-endpoint-indolent-tumours.md) | ◐ `drafted` | `journal_submission` | 1 | — |
 | **PUB-FUSION-OUTPUT**<br/>[Almost every gene set reads higher in the index arm: a size-matched emp…](../../research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md) | ◐ `drafted` | `journal_submission` | 1 | — |
@@ -60,7 +61,6 @@ last_verified: 2026-08-06
 | **PUB-TCIP**<br/>[The induced-interface floor that proximity design inherits from degrade…](../../research/manuscripts/tcip/tcip-induced-interface-preprint.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-TXN-DEPENDENCY**<br/>[Transcriptional and proteostatic dependency of a fusion transcription f…](../../research/manuscripts/dependency/emc-transcriptional-proteostatic-dependency.md) | ◐ `drafted` | `preprint` | 2 | — |
 | **PUB-VACCINE-PATH**<br/>[A fusion-junction vaccine in extraskeletal myxoid chondrosarcoma: what …](../../research/manuscripts/neoantigen/emc-vaccine-development-path.md) | ◐ `drafted` | `preprint` | 1 | — |
-| **PUB-EMC-CLASSIFICATION**<br/>*One code, two diseases: what registry-based extraskeletal myxoid chondr…* | ◔ `outlined` | `preprint` | 2 | ⭐ The contradiction is MEASURED and quoted from both papers' own Methods sections (emc-care-delivery-evidence.json -> icd_o_9231_3), which is enough … |
 | **PUB-KINASE-LEADS**<br/>*Four kinase observations in extraskeletal myxoid chondrosarcoma that no…* | ◔ `outlined` | `preprint` | 4 | ⚠ ITS BLOCKER IS RETIRED — THE CONSOLIDATION IS DONE AND IT INVERTED THE PAPER. … |
 | **PUB-LOCOREGIONAL**<br/>*Anatomical selectivity in an indolent, extremity-primary, lung-metastas…* | ◔ `outlined` | `preprint` | 4 | ⚠ ITS BLOCKER WAS HALF RIGHT, AND THE HALF IT GOT WRONG IS THE INTERESTING ONE. … |
 | **PUB-MATRIX-ADDRESS**<br/>*The myxoid matrix as an address rather than an obstacle* | ◔ `outlined` | `preprint` | 4 | ⚠ ITS BLOCKER IS NOW RETIRED AND THE PAPER IS MOSTLY NEGATIVE. All four routes are graded as of 2026-08-09. … |
@@ -179,6 +179,23 @@ A cryptic pocket on the NR4A3 ligand-binding domain can be found and a paralogue
 | [RT-DEGRADER](L2-rt-degrader.md) — NR4A3-LBD PROTAC degrader | `primary` | The cryptic-pocket search, the designed paralogue-favoured ligand, and the margin arithmetic on which the paper's central negative rests. |
 | [RT-PANNR4A-EXVIVO](L2-rt-pannr4a-exvivo.md) — Ex-vivo pan-NR4A pole (CAR-T manufacturing additive) | `contributing` | The ex-vivo pole — the argument that this family's chemistry has a use that does not depend on solving paralogue selectivity. Without it the paper carries only the blocked application. |
 | [RT-UBIQ-SELECTIVE](L2-rt-ubiq-selective.md) — Fusion-selective ubiquitination — discriminate at th | `contributing` | The categorical lysine inventory, carried as a disclosed-limitation supplement because no degradation-geometry claim may rest on a composed assembly. |
+
+### PUB-EMC-CLASSIFICATION — One code, three diseases: what a registry cohort selected on ICD-O-3 morphology 9231/3 actually contains
+
+**◐ `drafted` · aimed at `preprint` · [`research/manuscripts/care-delivery/emc-icdo-9231-classification.md`](../../research/manuscripts/care-delivery/emc-icdo-9231-classification.md)**
+
+ICD-O-3 morphology code 9231/3 is read by published work as THREE mutually incompatible populations — extraskeletal myxoid chondrosarcoma of soft tissue (PMID 32856598), a histological subtype of chondrosarcoma of bone (PMID 31765367), and an intracranial mesenchymal/meningeal tumour (CBTRUS, PMC9290890) — because a morphology code carries no topography; SEER's own site/histology validation list takes the skeletal reading; and morphology-selected SEER sarcoma cohorts demonstrably contain bone primaries (PMC9303001 excluded 1,668 of 115,800, 1.44%). So registry-based EMC statistics carry a contamination whose size is unmeasured and is reducible to one specified query, which the paper states rather than answers.
+
+**Not written because:** ⭐ IT IS NOW DRAFTED — see `document`. Scope and title were decided by trimcrae on 2026-08-23: publish the CODING half without waiting for the magnitude, and demote the naming argument to a cited paragraph. The draft therefore states the contamination's size as an open, fully specified query rather than answering it. ⛔ THAT DECISION FIXED THE SCOPE AND THE TITLE. IT IS NOT AUTHORISATION TO POST, SUBMIT OR DEPOSIT — CLAUDE.md s3 requires trimcrae to name THIS paper for THAT act, per act, and he has not. Nothing has been posted anywhere. ⚠ TITLE HISTORY, recorded here because the file's frontmatter now owns the title and would otherwise carry no memory of the change: this endpoint read 'One code, two diseases: what registry-based extraskeletal myxoid chondrosarcoma cohorts actually contain' until 2026-08-23, when a third published reading of 9231/3 (CBTRUS, PMC9290890) made 'two' an understatement. Renamed on explicit instruction only. The paper was never posted under the old title, so no outside record carries it. ★ WHAT IS STILL MISSING, and it is one number rather than a programme: the topography split of a 9231/3 cohort. Two published routes would supply it, both named in the draft's section 6 — a single SEER frequency session (SEER 18, 2000-2018, morphology 9231, no site restriction, divided by the 459 non-bone records PMC9303001 already publishes), or Table 1 of PMID 32856598, which is a subscription PDF rather than a data-use-agreement problem.
+
+**Blocks on the PAPER** — deliberately not the same set its routes inherit, because a route can be blocked on a capability while its paper is publishable today as an honest negative:
+
+- **BLK-REGISTRY-DUA** (`requires_authorization`) — Population cancer-registry microdata (SEER, NCDB) needs a signed data-use agreement
+
+| route | role | what it contributes |
+|---|---|---|
+| [RT-DIAGNOSTIC-PATHWAY](L2-rt-diagnostic-pathway.md) — The diagnosis itself — code contamination and a name | `contributing` | The whole argument: one code read as two diseases, and a measured cost of diagnostic uncertainty. |
+| [RT-POPULATION-REGISTRY](L2-rt-population-registry.md) — Population cancer-registry microdata (SEER, NCDB) | `contributing` | The measurement that would size the contamination the classification paper can currently only demonstrate. |
 
 ### PUB-EMC-PROGRAM — Attacking an "undruggable" fusion oncoprotein by computation alone: a driver-directed treatment program for EWSR1::NR4A3
 
@@ -391,23 +408,6 @@ That the obstacles between the EWSR1::NR4A3 junction and a therapeutic vaccine a
 |---|---|---|
 | [RT-VACCINE-COMBINATION](L2-rt-vaccine-combination.md) — Junction vaccine on a checkpoint and antiangiogenic  | `primary` | The blocker ledger, the staged path and the explicit falsifiers, plus the observation that the standing negative was reached by grading the vaccine alone. |
 
-### PUB-EMC-CLASSIFICATION — One code, two diseases: what registry-based extraskeletal myxoid chondrosarcoma cohorts actually contain
-
-**◔ `outlined` · aimed at `preprint`**
-
-ICD-O-3 morphology code 9231/3 is read by the published literature as two mutually incompatible diseases — extraskeletal myxoid chondrosarcoma in one SEER study and a histological subtype of chondrosarcoma of bone in another — so every registry-based EMC statistic carries an unquantified contamination, and the disease's name imports a tumour class it does not belong to.
-
-**Not written because:** ⭐ The contradiction is MEASURED and quoted from both papers' own Methods sections (emc-care-delivery-evidence.json -> icd_o_9231_3), which is enough for the argument. What is missing is the SIZE of the contamination — a SEER query split by ICD-O topography — and that needs a data-use agreement rather than a fetch.
-
-**Blocks on the PAPER** — deliberately not the same set its routes inherit, because a route can be blocked on a capability while its paper is publishable today as an honest negative:
-
-- **BLK-REGISTRY-DUA** (`requires_authorization`) — Population cancer-registry microdata (SEER, NCDB) needs a signed data-use agreement
-
-| route | role | what it contributes |
-|---|---|---|
-| [RT-DIAGNOSTIC-PATHWAY](L2-rt-diagnostic-pathway.md) — The diagnosis itself — code contamination and a name | `contributing` | The whole argument: one code read as two diseases, and a measured cost of diagnostic uncertainty. |
-| [RT-POPULATION-REGISTRY](L2-rt-population-registry.md) — Population cancer-registry microdata (SEER, NCDB) | `contributing` | The measurement that would size the contamination the classification paper can currently only demonstrate. |
-
 ### PUB-KINASE-LEADS — Four kinase observations in extraskeletal myxoid chondrosarcoma that nobody followed up
 
 **◔ `outlined` · aimed at `preprint`**
@@ -570,8 +570,8 @@ For each parked modality there is a single named capability — a glue design me
 | [RT-DEGRADER](L2-rt-degrader.md) | [ST-PROXIMITY](L1-st-proximity.md) | `preprint` | **PUB-DEGRADER** ◐ | `journal_submission` | `primary` |
 | [RT-PANNR4A-EXVIVO](L2-rt-pannr4a-exvivo.md) | [ST-IMMUNO](L1-st-immuno.md) | `preprint` | **PUB-DEGRADER** ◐ | `journal_submission` | `contributing` |
 | [RT-UBIQ-SELECTIVE](L2-rt-ubiq-selective.md) | [ST-PROXIMITY](L1-st-proximity.md) | `internal_note` | **PUB-DEGRADER** ◐ | `journal_submission` | `contributing` |
-| [RT-DIAGNOSTIC-PATHWAY](L2-rt-diagnostic-pathway.md) | [ST-CARE-DELIVERY](L1-st-care-delivery.md) | `internal_note` | **PUB-EMC-CLASSIFICATION** ◔ | `preprint` | `contributing` |
-| [RT-POPULATION-REGISTRY](L2-rt-population-registry.md) | [ST-CARE-DELIVERY](L1-st-care-delivery.md) | `internal_note` | **PUB-EMC-CLASSIFICATION** ◔ | `preprint` | `contributing` |
+| [RT-DIAGNOSTIC-PATHWAY](L2-rt-diagnostic-pathway.md) | [ST-CARE-DELIVERY](L1-st-care-delivery.md) | `preprint` | **PUB-EMC-CLASSIFICATION** ◐ | `preprint` | `contributing` |
+| [RT-POPULATION-REGISTRY](L2-rt-population-registry.md) | [ST-CARE-DELIVERY](L1-st-care-delivery.md) | `internal_note` | **PUB-EMC-CLASSIFICATION** ◐ | `preprint` | `contributing` |
 | [RT-ICI-TKI](L2-rt-ici-tki.md) | [ST-IMMUNO](L1-st-immuno.md) | `internal_note` | **PUB-EMC-PROGRAM** ◐ | `journal_submission` | `context` |
 | [RT-TRABECTEDIN](L2-rt-trabectedin.md) | [ST-REPURPOSING](L1-st-repurposing.md) | `internal_note` | **PUB-EMC-PROGRAM** ◐ | `journal_submission` | `context` |
 | [RT-ENDPOINT-CHOICE](L2-rt-endpoint-choice.md) | [ST-DISSEMINATION](L1-st-dissemination.md) | `journal_submission` | **PUB-ENDPOINT** ◐ | `journal_submission` | `primary` |
