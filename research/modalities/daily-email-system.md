@@ -78,6 +78,18 @@ summary that the newsletter send picks up. Without it, the newsletter falls back
   dispatches to get a fresh digest to summarize); and (b) a "Pick up Claude-written newsletter summary"
   step that fetches `email-outbox:newsletter-summary.md` and uses it if ≤2 days old.
 
+### ⚠ 2026-08-24 — THE FILTER'S SCOPE WAS THE SECOND HALF OF A MISS, AND IT IS NOW WIDER
+The Merck/Moderna Phase 3 INTerpath-001 readout (2026-08-19) did not reach the 2026-08-21 newsletter.
+**Two independent causes, both fixed, and either alone was sufficient to lose it:**
+1. **No source could carry it.** `scripts/method-watch.mjs` read Europe PMC, eight GitHub release feeds and
+   grants.gov — a topline announced by press release is none of those. A **clinical / treatment-news watch**
+   (ClinicalTrials.gov API v2 + dated RSS/Atom) is now the digest's FIRST section.
+2. **Three filters in series, all scoped to methods.** The prompt above, `email_digest.py`'s `SYSTEM`
+   (the API fallback) and the generator's watch list each said "methods, tools, NR4A3" — so the item would
+   have been dropped even once a source existed. All three now lead with clinical/treatment news and carry
+   an explicit *never drop a large treatment result for being off-topic*.
+⛔ **THE NARROWEST OF THE THREE DECIDES WHAT TRISTAN READS — keep them in step when any one changes.**
+
 **Routine side — DONE, and verified firing.** It was created in the claude.ai Routines UI with repo
 `trimcrae/Rare-cancers` attached as a source (that repo source is what grants the fired session the
 `mcp__github__*` tools — an agent-created `create_trigger` Routine does NOT get them, see the ⚠️ above).
@@ -96,6 +108,11 @@ Work fully autonomously — do not ask questions, do not stop to report progress
 
 Repo: trimcrae/rare-cancers (use the GitHub MCP tools, prefixed mcp__github__). All times US Eastern, 12-hour AM/PM.
 
+CONTEXT YOU NEED TO JUDGE RELEVANCE: Tristan runs an entirely in-silico program (NO wet lab) against
+extraskeletal myxoid chondrosarcoma (EMC / EWSR1::NR4A3), across a PORTFOLIO of routes — a NR4A3-selective
+degrader, a fusion-junction ASO, and a fusion-junction NEOANTIGEN VACCINE among them. So "relevant" is wider
+than methods: a clinical result in a modality one of those routes uses is directly plan-relevant.
+
 Steps:
 1. Dispatch workflow `method-watch.yml` on ref `main` with input mode=dry_run
    (mcp__github__actions_run_trigger, method run_workflow). This regenerates the digest and publishes it to
@@ -104,17 +121,38 @@ Steps:
    curl "https://api.github.com/repos/trimcrae/rare-cancers/actions/workflows/method-watch.yml/runs?per_page=1"
    ; wait ~15s between polls (background bash sleep — foreground short sleeps are blocked); up to ~5 minutes.
 3. Read the fresh digest: mcp__github__get_file_contents for research/method-watch-digest.md on branch
-   method-watch-cache. It is a long Markdown digest of literature hits + tool releases, grouped by capability
-   topic, each with an "*Unlocks:*" trigger line. MANY HITS ARE FALSE POSITIVES from keyword collisions —
-   e.g. "ASO Author Reflections" (ASO = Annals of Surgical Oncology, NOT antisense oligonucleotide), "protein
-   dynamics" in a forensics paper, unrelated NR4A3 case reports. IGNORE those.
-4. WRITE a short brief Tristan can read at a glance on his phone, keeping ONLY what genuinely matters (a new
-   method/tool/model he could run or that changes the plan; a watched tool that shipped a release; a real
-   NR4A / EWSR1::NR4A3 / EMC advance). Shape:
+   method-watch-cache. Its FIRST section is "Clinical / treatment-news watch" (a ClinicalTrials.gov registry
+   sweep + dated news feeds); after it come the literature watch, the tool/model release watch and the
+   funding watch, each grouped by topic with an "*Unlocks:*" trigger line.
+   MANY LITERATURE HITS ARE FALSE POSITIVES from keyword collisions — e.g. "ASO Author Reflections"
+   (ASO = Annals of Surgical Oncology, NOT antisense oligonucleotide), "protein dynamics" in a forensics
+   paper, unrelated NR4A3 case reports. IGNORE those.
+   NEWS-FEED ITEMS ARE LEADS, NOT EVIDENCE. Write them as reported and name the source; never restate a
+   press claim as an established medical fact, and never attach a PMID or any other identifier to one.
+   A row reading "feed returned no items at all" means the feed could not be READ — say "unread", never "quiet".
+4. WRITE a short brief Tristan can read at a glance on his phone. Shape:
    - One headline line: did anything material land this week, or is it all quiet?
-   - A few short bullets, each naming the item in bold and one clause on why it matters / what it unlocks.
+   - A few short bullets, most consequential first, each naming the item in bold with one clause on why it
+     matters / what it unlocks.
    - If nothing material changed, say so plainly in one or two lines — do NOT pad.
-   Under ~180 words. Plain prose + short bullets. NO tables. Do not invent anything not in the digest.
+   Under ~220 words. Plain prose + short bullets. NO tables. Do not invent anything not in the digest.
+
+   ★ LEAD WITH CLINICAL / TREATMENT NEWS WHEN THERE IS ANY. A pivotal trial readout, an approval, or a
+   program halt is the highest-consequence thing the digest carries. Keep it if it is:
+     (a) in a modality one of his routes uses — individualized neoantigen therapy / cancer vaccines,
+         antisense or siRNA in solid tumours, targeted protein degraders; or
+     (b) anything touching sarcoma, EMC, or a fusion-driven cancer; or
+     (c) a first-in-class or practice-changing cancer result IN ANY TUMOUR TYPE, even if it touches none of
+         his routes — add one clause saying which route it bears on, or that it bears on none.
+   ⛔ NEVER DROP A LARGE TREATMENT RESULT FOR BEING OFF-TOPIC. That is the exact failure this instruction
+   exists to prevent: on 2026-08-19 the Merck/Moderna Phase 3 INTerpath-001 readout — intismeran autogene
+   (mRNA-4157/V940) plus pembrolizumab meeting recurrence-free and distant-metastasis-free survival in
+   resected stage IIB-IV melanoma, the FIRST positive Phase 3 for an individualized neoantigen therapy —
+   never reached the 2026-08-21 newsletter, though it is direct precedent for the junction-vaccine route.
+
+   Then the rest, in this order: a new method/tool/model he could run or that changes the plan; a watched
+   tool that shipped a release; a real NR4A / EWSR1::NR4A3 / EMC advance; a newly-opened funding opportunity
+   open to individuals or unrestricted.
 5. Save it: write file `newsletter-summary.md` on branch `email-outbox` using mcp__github__create_or_update_file
    (first mcp__github__get_file_contents for newsletter-summary.md on branch email-outbox to get its sha, if it
    exists, and pass that sha to update). Content = your summary. Commit message: "newsletter summary <today's date>".

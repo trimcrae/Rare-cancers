@@ -18,6 +18,25 @@ _backfilled: true
 moment a specific in-silico capability becomes usable. This file is the **watch config +
 trigger table** (what to look for, and what to do when it appears).
 
+> **★ 2026-08-24 — LAYER 1'S NON-DELIVERY HAS A NAMED CAUSE NOW, NOT JUST A SYMPTOM.** This file has
+> recorded since 2026-08-03 that the field-scan Routine "has never written an entry" without saying why.
+> The discriminating observation is in the Routine's own stored config (`list_triggers`, $0): the weekly
+> **newsletter** Routine (`trig_01Rjh49ujsZttmDSbTki58tT`, `created_via: http_api` — the claude.ai UI)
+> carries a `sources: [git_repository trimcrae/Rare-cancers]` entry in its session context; the
+> **field-scan** Routine (`trig_01X5xHy1cmkLjkATEijZSNJf`, `created_via: meta_mcp` — agent-created)
+> carries **no `sources` at all**. Its STEP 0 is `git fetch origin main && git checkout main`, which has
+> nothing to check out, so the run dies before it scans anything — which is exactly the ⚠ two sections
+> below, the one that says an agent-created Routine does not get the repo grant. It has fired every
+> Friday and produced nothing since 2026-07-13, and its `last_run` is a firing, not a delivery.
+> ⛔ **A FIRED ROUTINE IS NOT A DELIVERED ONE** — read the artifact it was supposed to write, never its
+> fire record. **Fix requires trimcrae:** recreate it from the claude.ai Routines UI with the repo
+> attached as a source. Nothing in this repository can grant it.
+>
+> ⚠ This matters for scope as well as liveness: layer 1 is the layer whose prompt ALREADY covers
+> immunotherapy, neoantigen and "any new solid-tumor modality". Had it been running, it — not layer 2 —
+> would have been the natural home for the 2026-08-19 INTerpath-001 readout. Layer 2 has been carrying
+> the newsletter alone for six weeks, which is why its methods-only scope was load-bearing.
+
 **Three automated layers now run this watch.** ⚠ **AND ONE OF THEM HAS NOT BEEN DELIVERING — checked
 2026-08-03, free, from committed history rather than assumed.** Layer 1's Routine is credited in this file and
 in `IDEAS.md` with auto-capturing advances to `main`, and **it has never written an entry**:
@@ -46,7 +65,21 @@ assume layer 1 ran.** The claim below describes what the Routine is CONFIGURED t
    [`.github/workflows/method-watch.yml`](../.github/workflows/method-watch.yml) — a keyword scan of
    EBI/GitHub/grants.gov that commits a dated digest to the `method-watch-cache` branch and emails it.
    NOT synthesized; it's the comprehensive raw-hit backstop the weekly newsletter can consult, not a
-   deliverable. ⚠ **Its cadence has ONE home — the `schedule:` block in that workflow file — and this line
+   deliverable.
+   ⭑ **It now also carries a CLINICAL / TREATMENT-NEWS watch, and that is its FIRST section (2026-08-24).**
+   Until then its only sources were Europe PMC, eight GitHub release feeds and grants.gov, so a Phase 3
+   readout announced by press release — not a paper, not a tool, not a grant — **could not appear in it by
+   any query**. The Merck/Moderna INTerpath-001 topline (2026-08-19) is the measured case: the first
+   positive Phase 3 for an individualized neoantigen therapy, direct precedent for this repo's own
+   junction-vaccine route, absent from the 2026-08-21 newsletter. The watch adds two layers of different
+   kind — **ClinicalTrials.gov API v2** (structured, dated, citable; catches status flips and posted
+   results) and **dated RSS/Atom feeds** (the only layer that carries a same-day topline) — scoped to the
+   modality classes this program actually pursues **plus a deliberately broad oncology catch-all**, which
+   is the row whose absence lost INTerpath-001. ⚠ **A news hit is a LEAD, NOT EVIDENCE**: it may prompt
+   reading the primary source and may never itself be cited as a medical fact (CLAUDE.md §7). The scope
+   is shared with two prompts that filter this digest before Tristan sees it, and **the narrowest of the
+   three decides what he reads** — one home for that accounting:
+   [`modalities/daily-email-system.md`](modalities/daily-email-system.md). ⚠ **Its cadence has ONE home — the `schedule:` block in that workflow file — and this line
    used to restate it, wrongly**: it read *"Monthly … (cron `0 7 1 * *`)"* long after the workflow went
    weekly, which is exactly the copy-drift CLAUDE.md §1 exists to stop. *(Superseded, retained: "Monthly
    mechanical digest … cron `0 7 1 * *`".)*
