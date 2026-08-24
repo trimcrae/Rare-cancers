@@ -181,19 +181,14 @@ failure and a reader cannot locate a failure in prose. For one donor exon *d* an
    which is precisely how four peptides that occur in a normal *NR4A3* isoform passed it.
 
 Step 6 is the whole of the defect: the filter is correct for what it tests and the set it tests
-against is too small by everything except two canonical sequences.
+against is too small by everything except two canonical sequences. Figure 1 shows the seam this
+produces, and the out-of-frame case beside it.
 
 That ten-allele panel is the instrument behind every binder figure here, and a wider one changes them: a
 34-allele screen of the same peptides at the same threshold returns five strong peptide-allele calls
 rather than four, because NMPCVQAQY is also strong on HLA-A\*30:02. Section 2.3 reports both panels.
 
-**The junctions graded out were not left unexamined, and the reason to look is that a negative here
-is load-bearing.** If the frameshifted junctions carried abundant strong antigen, the thin supply at
-the in-frame junctions would be a fact about which junctions this disease uses rather than about the
-locus; that they do not is what lets Section 2.3's figures be read as a property of the locus at all.
-An external reviewer of a previous version judged this section a distraction from the vaccine
-question, which is fair if it is read as a search for targets. It is not, and the paragraph now says
-what it is for. Twenty-two of the 27 pairs carry no peptides
+**The out-of-frame junctions.** Twenty-two of the 27 pairs carry no peptides
 above, and four of those are out of frame — *EWSR1* exons 6, 8, 11 and 14 joined to *NR4A3* exon 3. A
 frameshifted junction reads the acceptor exon in a novel register, so every residue after the seam is
 non-self until a stop codon, and in other tumours that class is the richest antigen source available
@@ -236,7 +231,10 @@ the pooled frequency of allele *a* over Allele Frequency Net Database records [1
 > **C(A)  =  1  −  ∏<sub>a∈A</sub> (1 − f<sub>a</sub>)²**
 
 Each factor (1 − *f<sub>a</sub>*)² is the probability that an individual carries neither copy of
-allele *a* under Hardy-Weinberg, and the product treats loci as independent; *C* is therefore the
+allele *a* under Hardy-Weinberg, and the product treats loci as independent. Every coverage figure
+in the running text uses *f<sub>a</sub>* pooled across all AFND populations; Table 1 applies the same
+formula with *f<sub>a</sub>* restricted to one sub-region's records, which is the only difference
+between its cells and the global row; *C* is therefore the
 fraction carrying at least one presenting allele. Because *A* is itself a function of the acceptance
 threshold *t* — an allele enters *A* at the percentile of its best junction peptide — coverage is a
 function of *t*, and it is a right-continuous step function whose jumps are exactly the distinct
@@ -293,8 +291,9 @@ place in this paper where two independent instruments say the same thing.
 **None of this is an argument for a looser cut.** A threshold chosen because it raises coverage would be the same defect this paper
 exists to name, arriving from the other side; the 28 alleles at a percentile of 5 are not a better
 answer than the 4 at 0.5, they are a demonstration that the question "what fraction of patients
-could this reach?" has no answer until somebody defends a cut, and nobody has. The whole curve, on
-the same pooled frequencies and the same formula as every figure above, is deposited as
+could this reach?" has no answer until somebody defends a cut, and nobody has. Figure 2 plots the function on a log
+axis, which is the axis its shape needs: the four steps span 0.0844 percentile units and a linear
+axis collapses them into the left margin. The whole curve is deposited as
 `coverage-threshold-curve.json`, so a reader who would set the cut elsewhere can read off what it
 gives instead of taking three points on trust.
 
@@ -362,11 +361,9 @@ Ten limits are enumerated, and the second column is the one that matters. Diseas
 properties of this tumour and are not expected to move; instrument-bounded limits move when methods move;
 access-bounded limits are properties of this programme's circumstances rather than of anyone's knowledge.
 
-A reviewer of an earlier version asked for these to be ranked, so that a reader can tell which limit
-is worth attacking rather than only what each one is. The cost-to-move column is that ranking. Its
-units are the ones this paper can defend, namely whose permission and whose material a row requires,
-rather than money or months, neither of which this programme can estimate. No time estimate is offered
-for any row, for the reason Section 3.1 gives.
+The cost-to-move column's units are whose permission and whose material a row requires, rather than
+money or months, neither of which this programme can estimate. No time estimate is offered for any
+row, for the reason Section 3.1 gives.
 
 | ID | Limit | Bounded by | Best available answer today | Cost to move | What would move it |
 |---|---|---|---|---|---|
@@ -420,9 +417,6 @@ form that settling would take, and no such benchmark restricted to fusion-juncti
 to the author; calibrating on point-mutation neoantigens instead would import an assumption about
 junction peptides that is the very thing in question. Measured immunopeptidomics (B2) could promote peptides the predictor ranks weakly or remove
 ones it ranks strongly, in a direction not knowable in advance.
-
-**What would not move it.** Manufacturing improvements, delivery formulation and adjuvant selection
-change nothing here. This limit is about which patients have a target at all.
 
 **Residual.** Some fraction of patients will have no presented junction peptide and no second antigen to
 substitute. That fraction is a real and permanent exclusion from this approach, and it should be stated
@@ -594,10 +588,9 @@ DMPCVQAQYSP all occur in Q92570-3, an isoform of *NR4A3* itself. One of them, DM
 binder on HLA-B\*35:01 at 369.1 nM. Those four peptides are not tumour-exclusive, and DMPCVQAQY is
 withdrawn as a candidate.
 
-**And the pattern is a mechanism, tested across every annotated transcript.** A reviewer of an earlier
-version asked, fairly, how much of this depends on the transcript model: a seam defined by exon
+**The pattern is a mechanism, and it survives the transcript model.** A seam defined by exon
 boundaries is defined by whichever transcript declares them, and every figure in Section 2 comes from
-one canonical transcript per gene. The junction was therefore rebuilt across all 99 protein-coding
+one canonical transcript per gene. The junction was rebuilt across all 99 protein-coding
 *EWSR1* transcripts against all 4 of *NR4A3*, at each of the five in-frame donor exons: 1,980 pairs, of
 which 970 emit an in-frame seam. The seam residue is not stable across them, taking nine distinct
 values — aspartate in 502 pairs, glycine in 251, asparagine in 118, serine in 59, no seam residue at
@@ -837,10 +830,22 @@ running them out of order spends the expensive ones on a question a cheap one wo
    validated set restricted to fusion-junction peptides exists, that absence is itself the finding
    and Section 2.3's curve is the only honest report of coverage. Until this is done every figure in
    B1 is a point on a curve.
-2. **Measure whether the lead peptide binds its allele at all.** Synthesise NMPCVQAQY and test
-   binding to HLA-B\*15:01 in a cell-based stabilisation assay. Positive says the predictor is
-   calibrated at the one peptide this route leans on; negative removes the lead and, with it, 8.5%
-   of the 30.4%. This is a peptide and a cell line, not tissue.
+2. **Measure whether the lead peptides bind their alleles at all.** Four peptide-allele pairs carry
+   every class I figure in this paper; Table 3 ranks them by what each costs if it fails. Synthesise
+   them and test binding in a cell-based stabilisation assay, first pair first.
+
+<!-- GENERATED by vaccine_path_tables.py (test-shortlist) — do not hand-edit -->
+
+**Table 3. The four peptide-allele pairs every class I figure rests on, ranked by what each costs if it fails.** *Coverage at risk* is a leave-one-out difference — the pooled figure with all four presenting alleles minus the figure without this one — and not the allele's marginal contribution as it enters Section 2.3's curve, which is order-dependent and larger. *Percentile* is the call that put the allele in the set. Testing binding for these four is the only step in Section 6.1 that needs neither an EMC specimen nor a proteomics facility.
+
+| Order | Peptide | Allele | Percentile | Coverage at risk |
+|---|---|---|---|---|
+| 1 | RGDMPCVQAQY | HLA-A\*01:01 | 0.4061 | 9.9 pp |
+| 2 | MPPPLRGDM | HLA-B\*07:02 | 0.458 | 7.2 pp |
+| 3 | NMPCVQAQY | HLA-B\*15:01 | 0.3736 | 6.5 pp |
+| 4 | NMPCVQAQY | HLA-A\*30:02 | 0.4033 | 3.0 pp |
+
+<!-- END GENERATED (test-shortlist) -->
 3. **Look for the peptide on a tumour.** Immunopeptidomics on EMC tissue or a patient-derived line,
    with the limit of detection, the specimen count and their HLA types, and the abundance-matched
    positive control all fixed before the run, per B2. This is the decisive step and the first that
@@ -908,6 +913,27 @@ rather than the general availability of helper epitopes. No claim is made that a
 that any construct would be immunogenic, that any combination would be safe or effective, or that any of
 this is ready for clinical use. No wet-laboratory work was performed, and the measurements this
 characterisation most needs require work this programme cannot carry out.
+
+## Figure legends
+
+**Figure 1. The seam codon is built from leftover donor nucleotides and the acceptor exon's retained
+5' untranslated region, and its identity decides whether the isoform collision occurs.** (a) The
+*EWSR1* exon 7 to *NR4A3* exon 3 junction. Donor coding sequence ends mid-codon with one nucleotide
+left over; two retained acceptor 5' untranslated nucleotides complete it, giving the seam residue at
+*j₀* = 264, after which *NR4A3* resumes in its own frame with its methionine 1 as internal residue
+266. Four of the five in-frame junctions place aspartate at this position rather than asparagine, and
+that is the difference Section B5 is about. (b) An out-of-frame junction reads the same acceptor exon
+in a shifted register: 9 novel residues, then a premature stop 1,610 nucleotides upstream of the
+chimera's last exon-exon junction, which is the canonical nonsense-mediated-decay configuration.
+Predicted binding is a screen; neither panel is evidence of presentation.
+
+**Figure 2. Predicted class I coverage against the acceptance threshold, log axis.** The step
+function over the 34-allele panel, each step one peptide-allele call, drawn to the largest threshold
+the predictions can speak to. Filled circles mark the four steps below the conventional cut, which
+span 0.0844 percentile units; the dashed line is that cut, drawn as one annotated vertical rather
+than as the plot's endpoint. The axis is logarithmic because the function's shape occupies two
+decades and a linear axis collapses every step the argument rests on into the left margin. Coverage
+is the union carrier frequency of the presenting alleles on pooled AFND frequencies.
 
 ## 8. Reproducibility
 

@@ -163,7 +163,8 @@ PAPERS = {
         "stamp_sources": (
             "neoantigen/emc-vaccine-development-path.md",
         ),
-        "figures": {},
+        "figures": {"Figure 1.": "vaccine-junction-schematic.svg",
+                    "Figure 2.": "vaccine-threshold-curve.svg"},
         "journal": {
             "article_type": "Article",
             "section": "",

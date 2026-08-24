@@ -96,7 +96,54 @@ def panel_block():
         f"| HLA-B ({len(b)}) | {fmt(b)} |")
 
 
-BLOCKS = {"regional-coverage": regional_block, "class-i-panel": panel_block}
+def shortlist_block():
+    """The peptide-allele pairs to test first, ranked by what each one costs if it fails.
+
+    ⛔ LEAVE-ONE-OUT, NOT THE ENTRY DELTA. A first hand-written version of this table used each
+    allele's marginal contribution AS IT ENTERS the threshold curve, which is order-dependent and
+    gave three of four values wrong (10.9/8.5/3.8 against the true 9.9/6.5/3.0). The quantity a
+    reader needs for "if this pair fails" is C(all four) - C(the other three), and it is computed
+    here from the artifact rather than typed.
+    """
+    curve = json.load(open(os.path.join(HERE, "..", "modalities", "coverage-threshold-curve.json")))
+    strict = json.load(open(MATRIX))
+    af = {a: v["allele_frequency"] for a, v in curve["allele_frequencies"].items()
+          if v.get("allele_frequency") is not None}
+    present = curve["at_conventional_threshold"]["alleles"]
+
+    def cov(alleles):
+        prod = 1.0
+        for a in alleles:
+            prod *= (1 - af[a]) ** 2
+        return 1 - prod
+
+    full = cov(present)
+    # the call that put each allele in the set: its lowest-percentile peptide
+    best = {}
+    for c in strict["strong_binders"]:
+        if c["allele"] not in best or c["percentile"] < best[c["allele"]]["percentile"]:
+            best[c["allele"]] = c
+    rows = sorted(((full - cov([x for x in present if x != a]), a) for a in present), reverse=True)
+    out = [
+        "**Table 3. The four peptide-allele pairs every class I figure rests on, ranked by what each "
+        "costs if it fails.** *Coverage at risk* is a leave-one-out difference — the pooled figure "
+        "with all four presenting alleles minus the figure without this one — and not the allele's "
+        "marginal contribution as it enters Section 2.3's curve, which is order-dependent and larger. "
+        "*Percentile* is the call that put the allele in the set. Testing binding for these four is "
+        "the only step in Section 6.1 that needs neither an EMC specimen nor a proteomics facility.",
+        "",
+        "| Order | Peptide | Allele | Percentile | Coverage at risk |",
+        "|---|---|---|---|---|",
+    ]
+    for i, (loss, a) in enumerate(rows, 1):
+        c = best[a]
+        out.append(f"| {i} | {c['peptide']} | {a.replace('*', chr(92) + '*')} | "
+                   f"{c['percentile']} | {loss * 100:.1f} pp |")
+    return "\n".join(out)
+
+
+BLOCKS = {"regional-coverage": regional_block, "class-i-panel": panel_block,
+          "test-shortlist": shortlist_block}
 
 
 def render(text):
