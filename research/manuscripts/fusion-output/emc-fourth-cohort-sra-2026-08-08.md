@@ -263,8 +263,11 @@ depositors' own strings. It is recorded verbatim in the artifact; it does not ch
 > n = 12 FFPE EMC tumours, public and downloadable since 2025-11-11, carrying per-sample
 > `EWSR1` break-apart FISH status, site, size, morphology and outcome-adjacent annotation. It is
 > larger than any of the three cohorts the manuscript reads. It is TempO-Seq targeted panel data,
-> so its gene space is the panel's and the panel is not named in the metadata; there is no linked
-> publication and no GEO mirror.**
+> so its gene space is the panel's and the panel is not named in the structured metadata; there is
+> no GEO mirror.**
+>
+> ⚠ **SUPERSEDED CLAUSE, RETAINED: "there is no linked publication".** There is, and it was already
+> published when this note was written. See §10.
 
 ⛔ **What this is NOT.** It is not a processed expression matrix, not whole-transcriptome, not
 fusion-partner-resolved, and not yet read. Nothing in this note is an expression measurement. The
@@ -293,6 +296,11 @@ n = 12 counts **BioSamples**, which is the closest thing the metadata supports t
    Cheaper still: wait for the depositors' publication, which does not exist yet (§5).
    **Everything below is gated on this** — the panel's gene list determines which of the reads
    below are even askable. One CI run, no GPU.
+   ⚠ **SUPERSEDED 2026-08-24, RETAINED.** The depositors' publication existed on the day this
+   line was written and it names the assay as **whole-transcriptome** targeted RNA sequencing —
+   which is this note's own ≈20,000-gene variant, not S1500+. The download is no longer the
+   cheapest way to name the panel, and it is still the only way to *verify* the name against the
+   reads, which nothing here has done. §10.
 2. **Quantify against the panel.** Once named, TempO-Seq quantification is probe-count matching,
    not spliced alignment — cheap, CPU-only, and it does **not** need the alignment pipeline
    §3.0a's table assumed.
@@ -323,3 +331,79 @@ written into `systems/graph/` as a per-route claim: which routes actually benefi
 until the panel is named**, and recording a benefit the panel may not support would be exactly the
 "populated field is not a measured one" failure. The graph records **the lead and what would retire
 the blocker**, and nothing more.
+
+---
+
+## 10 · Update 2026-08-24 — the deposit's publication exists, has existed all along, and the field this note searched for was the wrong one
+
+**The finding.** `PRJNA1357027` / `SRP640302` is the data behind
+**Chaiboonchoe A, Chanthercrob J, Sakamula R, et al. "Prognostic biomarkers for enhanced risk
+stratification in extraskeletal myxoid chondrosarcoma: a retrospective cohort study." PeerJ 2026;
+doi 10.7717/peerj.21497; PMID 42465974**, first published **2026-07-13** — twenty-six days before
+§5 of this note concluded there was no linked publication.
+
+**The evidence, all of it already inside the payloads §5 searched.**
+
+| what matches | archive record | publication |
+|---|---|---|
+| study title | `STUDY_TITLE` = *"Prognostic Biomarkers for Enhanced Risk Stratification in Extraskeletal Myxoid Chondrosarcoma: A Retrospective Cohort Study"* (§3) | the paper's title, word for word |
+| depositor | `Submitter contact_name="amphun chaiboonchoe"`, `center_name="Mahidol University"` | first author `Chaiboonchoe A` |
+| specimen source | `Biomaterial Provider = Siriraj Hospital`, `Geographic location = Thailand` | Siriraj Hospital, Mahidol University |
+| n and material | 12 BioSamples, every one `Isolate = FFPE` | "12 molecularly confirmed EMC cases", archival FFPE |
+| assay | `Targeted RNA-seq (TempO-Seq) of EMC` | "whole-transcriptome targeted RNA sequencing (TempO-Seq)" |
+| prognosis split | `Prognosis` `B` 6 · `G` 6 | good-prognosis n = 6 (OS > 8 y) versus poor-prognosis n = 6 (OS < 8 y) |
+
+⛔ **The defect is not that the search was shallow. It is that it asked for identifiers and read
+their absence as the absence of a publication.** §5's table looked for a `pubmed` field, a `PMID`,
+a `DOI` and a GEO accession, found none of the four, and concluded correctly that none of the four
+was present — then the verdict turned that into *"there is no linked publication"*. The title was in
+the same payload and the depositor's name was in the same payload, and either one resolves the
+question in a single query. **An absent reading is not a reading of absence** (CLAUDE.md §4), and
+this is that rule failing on the field the rule is usually quoted about.
+
+### 10.1 · What it unblocks: the panel is named
+
+§4 called the panel identity **"the single most decision-relevant unknown"**, and §8 gated every
+downstream read on naming it. The paper's own Methods sentence names it: **whole-transcriptome**
+TempO-Seq, which is this note's ≈20,000-gene variant rather than S1500+ ≈ 3,000.
+
+⚠ **That is the depositors' description, not a measurement.** It comes from the same authors who
+wrote the deposit, so it is one source, not two, and it does not say which catalogue build or how
+many probes passed QC. §8's step 1 — count the distinct probe sequences in one downloaded run —
+remains the only *independent* check, and it is now a verification rather than a discovery. What
+changes for planning is the prior: a read that needs a gene outside a 3,000-gene panel is no longer
+likely to be unaskable.
+
+### 10.2 · What it adds that this note did not anticipate: EMC immune profiling
+
+The paper reports, in EMC tumour tissue: computational immune-infiltration estimates with **higher
+B-cell infiltration in the low-risk group (P = 0.005)**, and proof-of-concept **multiplex
+immunofluorescence on two specimens** describing a spatially localised immunosuppressive
+microenvironment in the high-risk specimen — increased exhausted **CD3⁺CD8⁺PD1⁺** T cells
+(P = 6.4 × 10⁻⁵) and **FOXP3⁺** regulatory T cells (P = 0.006). The authors state that all
+multiplex-immunofluorescence comparisons are within-specimen region-of-interest analyses, that the
+cohort is small, that their prognostic model overfits, and that the findings are exploratory and
+hypothesis-generating. Their own conclusion on this axis is that immune microenvironment
+heterogeneity in EMC warrants further investigation.
+
+⭐ **This is the class of observation `emc-vaccine-development-path.md` §B8 says does not exist for
+this disease** — that entry's proposition is that EMC's characterisation as cold and as excluded is
+inferred from mutational burden, histology and sarcoma-wide experience "rather than from published
+EMC-specific immune profiling", and its *what would clear it* is infiltrate quantification on a
+series of EMC specimens. A twelve-specimen series with two-specimen spatial validation is not that
+series, and it does not clear B8. It does mean B8's proposition is no longer literally true, and
+the direction of the exploratory finding is that lymphocytes are **present and exhausted or
+suppressed** rather than absent — which distinguishes B7 (excluded) from B6 (cold) in the direction
+this note cannot itself adjudicate.
+
+⛔ **Nothing in §10.2 is read from data.** Every figure is quoted from the paper's abstract as
+retrieved from Europe PMC; the full text returned HTTP 403 to the runner and has not been read
+here, so the infiltration method, the external validation cohorts and the per-sample values are
+unexamined. No efficacy, treatment or clinical claim follows from any of it.
+
+### 10.3 · What this does not change
+
+The verdict grade, the counts, the annotation table, the transport controls and the GEO-side
+negatives all stand exactly as measured. `BLK-NO-EMC-DATA` is **still not retired** for the reason
+§9 gives — its statement is about functional-genomics data, and a tumour expression panel is not a
+dependency screen, whoever published it.

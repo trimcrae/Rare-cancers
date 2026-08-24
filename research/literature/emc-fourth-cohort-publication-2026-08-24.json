@@ -1,0 +1,53 @@
+{
+ "_what": "The publication behind the fourth EMC cohort PRJNA1357027 / SRP640302, identified 2026-08-24. Fetched from Europe PMC on a GitHub Actions runner; the dev sandbox egress proxy 403s www.ebi.ac.uk on CONNECT.",
+ "_why_this_file_exists": "emc-fourth-cohort-sra-2026-08-08.md section 5 concluded the deposit had no linked publication because no pubmed/PMID/DOI field was present in the archive payloads. The publication existed and was already 26 days old. This file is the fetch product that anchors its identifiers, so no session has to type them from recollection (CLAUDE.md section 7).",
+ "_how_the_link_was_made": "Not by an identifier field -- there is none. The SRA STUDY_TITLE, the submitter contact name (amphun chaiboonchoe / Mahidol University), the biomaterial provider (Siriraj Hospital, Thailand), n = 12 FFPE, the TempO-Seq assay string and the 6/6 prognosis split each match the paper independently. All six were already inside emc-sra-study-inputs.json.",
+ "_language_discipline": "A bibliographic record and an abstract quoted from the publisher's own indexed text. Nothing here is an expression measurement, an immune measurement, an efficacy, safety or clinical-readiness claim, and no figure below was computed in this repository.",
+ "_retrieved_utc": "2026-08-24T01:35:01+00:00",
+ "_retrieval": {
+  "endpoint": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A%2210.7717%2Fpeerj.21497%22&format=json&resultType=core",
+  "http_status": 200,
+  "workflow": "fetch-literature.yml slug=emc-immune-infiltration-peerj-21497",
+  "full_text_note": "peerj.com returned HTTP 403 to the runner on both the article page and the PDF, so ONLY the abstract has been read. The infiltration method, the external validation cohorts and every per-sample value are unexamined here."
+ },
+ "linked_deposit": {
+  "bioproject": "PRJNA1357027",
+  "sra_study": "SRP640302",
+  "characterised_in": "research/manuscripts/fusion-output/emc-fourth-cohort-sra-2026-08-08.md",
+  "artifact": "research/modalities/emc-sra-study.json"
+ },
+ "record": {
+  "id": "42465974",
+  "source": "MED",
+  "pmid": "42465974",
+  "pmcid": null,
+  "doi": "10.7717/peerj.21497",
+  "title": "Prognostic biomarkers for enhanced risk stratification in extraskeletal myxoid chondrosarcoma: a retrospective cohort study.",
+  "authorString": "Chaiboonchoe A, Chanthercrob J, Sakamula R, Likhityungyuen T, Muangsomboon S, Chantharasamee J, Lee F, Suwanpukdee K, Thanapipatsiri P, Phimolsarnti R, Asavamongkolkul A, Sampattavanich S, Chandhanayingyong C.",
+  "journalInfo": {
+   "volume": "14",
+   "journalIssueId": 4087018,
+   "dateOfPublication": "2026 ",
+   "monthOfPublication": 0,
+   "yearOfPublication": 2026,
+   "printPublicationDate": "2026-01-01",
+   "journal": {
+    "title": "PeerJ",
+    "medlineAbbreviation": "PeerJ",
+    "essn": "2167-8359",
+    "isoabbreviation": "PeerJ",
+    "issn": "2167-8359",
+    "nlmid": "101603425"
+   }
+  },
+  "pubYear": "2026",
+  "firstPublicationDate": "2026-07-13",
+  "isOpenAccess": "N",
+  "license": null,
+  "pubModel": "Electronic-eCollection",
+  "citedByCount": 0,
+  "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/42465974/",
+  "_pubmed_url_note": "Constructed from the PMID that Europe PMC returned in this same fetch, not looked up separately -- it is the canonical resolver form of a retrieved identifier, and it is written out so lint_citations.py can anchor prose that cites this paper."
+ },
+ "abstract_text": "<h4>Background</h4>Extraskeletal myxoid chondrosarcoma (EMC) is a rare soft-tissue sarcoma driven by the <i>EWSR1::NR4A3</i> fusion. Its unpredictable clinical course and lack of validated molecular prognostic tools complicate patient treatment.<h4>Methods</h4>We performed whole-transcriptome targeted RNA sequencing (TempO-Seq) on archival formalin-fixed paraffin-embedded (FFPE) tumor specimens from 12 molecularly confirmed EMC cases. To explore potential biological markers, the cohort was stratified into good-prognosis (<i>n</i> = 6; overall survival (OS) >8 years) and poor-prognosis (<i>n</i> = 6; OS < 8 years) groups. We conducted differential expression analysis, gene set enrichment analysis (GSEA), and applied least absolute shrinkage and selection operator (LASSO)-Cox regression with bootstrap validation (1,000 iterations). Candidate genes were cross-validated using 31 external EMC cases across public microarray and NGS datasets. Immune infiltration was estimated computationally and spatially validated <i>via</i> multiplex immunofluorescence (mIF) on two representative specimens.<h4>Results</h4>We identified 550 differentially expressed genes and derived a three-gene prognostic candidate (<i>PXN, TYMS, H1FX</i>) that stratified patients by overall survival in the training cohort (log-rank <i>P</i> = 0.0099), despite internal validation indicating model overfitting. <i>H1FX</i> was significantly upregulated in EMC versus other cartilaginous tumors across independent datasets (<i>P</i> = 0.001). Immune profiling revealed higher B-cell infiltration in low-risk tumors (<i>P</i> = 0.005). Proof-of-concept mIF in two specimens suggested a spatially localized immunosuppressive microenvironment in the high-risk tumor, with increased exhausted CD3<sup>+</sup>CD8<sup>+</sup>PD1<sup>+</sup> T cells (<i>P</i> = 6.4 × 10<sup>-5</sup>), FOXP3<sup>+</sup> regulatory T cells (<i>P</i> = 0.006), and elevated PXN protein expression (<i>P</i> = 0.008). All mIF comparisons are within-specimen region of interest (ROI) analyses and should be interpreted as hypothesis-generating.<h4>Conclusions</h4>This integrated transcriptomic and spatial immune characterization identifies <i>PXN, TYMS,</i> and <i>H1FX</i> as exploratory EMC biomarker candidates, with <i>PXN</i> showing the most consistent cross-platform support. Immune microenvironment heterogeneity in EMC warrants further investigation. Given the small cohort and model overfitting, these findings are exploratory. Prospective validation in larger, multi-center cohorts is required."
+}
