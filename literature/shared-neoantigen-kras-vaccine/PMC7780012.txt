@@ -1,0 +1,203 @@
+2682casCancer ScienceCancer SciWileyPMC7780012778001277800123315534110.1111/cas.14720Neoantigen prediction in human breast cancer using RNA sequencing data
+HashimotoSachie NoguchiEmiko BandoHiroko MiyaderaHiroko MoriiWataru NakamuraTakako HaraHisato 1Department of Breast and Endocrine Surgery, Graduate School of Comprehensive Human Sciences, University of Tsukuba, Ibaraki, Japan2Department of Medical Genetics, Faculty of Medicine, University of Tsukuba, Ibaraki, Japan3Department of Breast and Endocrine Surgery, Faculty of Medicine, University of Tsukuba, Ibaraki, Japan*Correspondence, 
+Emiko Noguchi, Department of Medical Genetics, Faculty of Medicine, University of Tsukuba, 1‐1‐1 Tennodai, Tsukuba, Ibaraki 305‐8575, Japan. 
+Email: enoguchi@md.tsukuba.ac.jp
+✉Corresponding author.
+291120201121465465–475812021© 2020 The Authors. Cancer Science published by John Wiley & Sons Australia, Ltd on behalf of Japanese Cancer Association.This is an open access article under the terms of the http://creativecommons.org/licenses/by-nc/4.0/ License, which permits use, distribution and reproduction in any medium, provided the original work is properly cited and is not used for commercial purposes.
+
+## Abstract
+Neoantigens have attracted attention as biomarkers or therapeutic targets. However, accurate prediction of neoantigens is still challenging, especially in terms of its accuracy and cost. Variant detection using RNA sequencing (RNA‐seq) data has been reported to be a low‐accuracy but cost‐effective tool, but the feasibility of RNA‐seq data for neoantigen prediction has not been fully examined. In the present study, we used whole‐exome sequencing (WES) and RNA‐seq data of tumor and matched normal samples from six breast cancer patients to evaluate the utility of RNA‐seq data instead of WES data in variant calling to detect neoantigen candidates. Somatic variants were called in three protocols using: (i) tumor and normal WES data (DNA method, Dm); (ii) tumor and normal RNA‐seq data (RNA method, Rm); and (iii) combination of tumor RNA‐seq and normal WES data (Combination method, Cm). We found that the Rm had both high false‐positive and high false‐negative rates because this method depended greatly on the expression status of normal transcripts. When we compared the results of Dm with those of Cm, only 14% of the neoantigen candidates detected in Dm were identified in Cm, but the majority of the missed candidates lacked coverage or variant allele reads in the tumor RNA. In contrast, about 70% of the neoepitope candidates with higher expression and rich mutant transcripts could be detected in Cm. Our results showed that Cm could be an efficient and a cost‐effective approach to predict highly expressed neoantigens in tumor samples.
+Keywords: breast neoplasms, neoantigen, RNA‐seq, sequence analysis, whole‐exome sequencing
+
+We evaluated the utility of RNA‐seq data instead of WES data in variant calling to detect neoantigen candidates. We found that the method combining tumor RNA‐seq data and normal WES data (Combination method) could detect neoantigen candidates that have higher expression and rich variant transcripts, and this method may be an efficient and cost‐effective strategy alternative to the conventional method (DNA method).
+ 
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2020 Aug 4; Revised 2020 Oct 8; Accepted 2020 Nov 2; Issue date 2021 Jan.
+
+## Abbreviations
+BAMbinary alignment map
+CmCombination method
+DmDNA method
+GATKGenome Analysis Toolkit
+HLAhuman leukocyte antigen
+Indelinsertion and deletion
+IQRinterquartile range
+RmRNA method
+RNA‐seqRNA sequencing
+TPMtranscripts per million
+VAFvariant allele frequency
+VCFvariant call format
+VEPVariant Effect Predictor
+WESwhole‐exome sequencing
+1.
+
+## INTRODUCTION
+Neoantigens are tumor‐specific antigens derived from somatic variants with amino acid substitutions. A number of studies reported that neoantigens play principal roles in antitumor immune responses. , It has been reported, through phase I clinical trials of personalized neoantigen vaccines for melanoma and glioblastoma, that vaccination induced neoantigen‐specific T‐cell responses, which suggested the effectiveness of this therapeutic strategy. , , Other studies reported that the landscape of neoantigens is associated with clinical outcome and with response to immune checkpoint inhibitors. , Hence, identification of neoantigens is critically important to identify potential biomarkers and immunotherapeutic targets.
+Recent improvements in next‐generation sequencing have enabled rapid and high throughput prediction of neoantigens. The current standard method for prediction of neoantigens consists of four steps: , , (i) identification of somatic variants through comparison of WES data from tumor and normal materials; (ii) gene expression analysis by RNA‐seq of tumor materials; (iii) selection of nonsynonymous variants with expression in tumor samples; and (iv) prediction of binding affinities of a mutated region with the MHC of patients by use of in silico prediction algorithms such as NetMHCpan. Although this approach could comprehensively detect candidate neoantigens and has been used in clinical trials, , , many challenges remain. One of the critical problems of this approach is the cost of obtaining multiple sequencing data, even though the cost of next‐generation sequencing is decreasing.
+RNA‐seq data, which are commonly used for gene expression analysis, gene fusion detection, and identification of splice events, can be used to detect somatic variants. Previous studies showed that variant detection using RNA‐seq data is a feasible and cost‐effective tool, , , , , whereas this approach is still challenging in terms of its low accuracy. Compared with the use of WES data, the use of RNA‐seq data in variant calling is error‐prone owing to several issues, including alignment errors near splice junctions, errors provoked during reverse transcription, and RNA‐editing sites. In addition, low coverage and low expression in RNA‐seq data are the main causes for missing variants in variant calling with RNA‐seq data. However, gene expression and the presence of mutant transcripts are indispensable factors for neoantigen candidates, so the matter of missing variants due to low coverage and expression is considered permissible for prediction of neoantigen candidates. RNA‐seq has the potential to enable prediction of neoantigens with increased efficiency and lower cost; however, this possibility has not been fully examined.
+In the present study, we evaluated the utility of RNA‐seq in the prediction of neoantigens by using breast cancer and matched normal samples from six patients. We established three protocols for prediction of neoantigens: (i) variant calling with tumor and normal WES data (DNA method, Dm); (ii) tumor and normal RNA‐seq data (RNA method, Rm); and (iii) combination of tumor RNA‐seq data and normal WES data (Combination method, Cm). We examined characteristics such as coverage, gene expression, and type of base substitution for unique or shared neoantigen candidates among each method. We observed that Cm could detect candidate neoantigens, especially those that have higher expression levels and rich variant allele reads in the tumor RNA, and that Cm could be an alternative approach for predicting neoantigens.
+
+2.
+
+## MATERIALS AND METHODS
+2.1.
+
+## Patients and samples
+Six patients with breast cancer who underwent surgical resection at University of Tsukuba Hospital were included in this study. All the patients had hormone receptor‐positive and human epidermal growth factor receptor 2‐negative invasive carcinoma. Median age at diagnosis was 65 years (range, 39‐74) and one male patient (BC06) was included. Two patients (BC02 and BC07) underwent neoadjuvant endocrine therapy, and one patient (BC02) developed recurrence in the lung two months after surgery. Clinicopathologic characteristics of the patients are shown in Table . The study was approved by the ethics committee of University of Tsukuba Hospital (H29‐069), and all the patients provided written informed consent.
+ Paired tumor and matched normal breast tissue blocks, collected from all the patients and cut into several slices immediately after surgery, were prepared as fresh‐frozen tissues. Peripheral blood samples were obtained from four patients (BC02, 04, 06, and 07) as normal DNA materials. Genomic DNA samples were extracted from the paired tumor and normal fresh‐frozen slices by use of a DNeasy Blood & Tissue Kit (Qiagen, Hilden, Germany), according to the manufacturer’s protocol. Extraction of DNA from peripheral blood samples was carried out using a QuickGene DNA whole blood kit L (Kurabo Industries Ltd., Osaka, Japan) and QuickGene‐610L (Fujifilm, Tokyo, Japan). Total RNA was extracted from the paired fresh‐frozen slices by use of a TRIzol reagent (Invitrogen, Carlsbad, CA, USA).
+
+2.2.
+
+## Whole‐exome sequencing and RNA‐seq
+Twelve genomic DNA samples (six from tumor tissue, two from matched normal breast tissue, and four from peripheral blood) underwent library construction by use of a SureSelectXT Human All Exon V6 (Agilent Technologies, Santa Clara, CA, USA). The captured DNA libraries were sequenced with paired‐end reads of 150 bp on a NovaSeq6000 (Illumina, San Diego, CA, USA).
+RNA purification was carried out using a NEBNext rRNA Depletion Kit (New England Biolabs, Ipswich, MA, USA) for the normal breast tissue of BC02 and using a NEBNext Poly(A) mRNA Magnetic Isolation Module (New England Biolabs) for the other 11 samples according to RNA integrity measured with an Agilent 2100 Bioanalyzer (Agilent Technologies). The RNA libraries were constructed with a NEBNext Ultra Directional RNA Library Prep Kit for Illumina (New England Biolabs). These libraries were sequenced with paired‐end reads of 36 bp on a NextSeq500 (Illumina).
+
+2.3.
+
+## Mapping and data cleanup
+We used BWA‐MEM (v0.7.17) for WES and STAR aligner (v2.7.3a) for RNA‐seq data to align to the reference genome (hg38, https://genome.ucsc.edu/). Alignment and data cleanup were carried out following the workflow of Genome Analysis Toolkit (GATK) Best Practices except for the addition of LeftAlignIndels (GATK v4.1.4.1) at the end of the RNA‐seq data procedure to adjust for differences in indel positions between aligners (Doc ).
+
+2.4.
+
+## Gene expression quantification and tumor purity estimation
+We used kallisto (v0.46.1) on tumor RNA FASTQ files with Ensembl reference transcriptomes (GRCh38 release 99, http://jan2020.archive.ensembl.org/) and subsequently used sleuth (v0.30.0) for evaluation of gene‐level expression. Tumor purity was calculated from the expression data using ESTIMATE (v1.0.13), a package of R (v3.6.3, https://www.R‐project.org/). 
+
+2.5.
+
+## Variant calling and annotation
+We tested three methods of variant calling: (i) that with tumor and normal WES data, named the DNA method (Dm); (ii) that with tumor and normal RNA‐seq data, named the RNA method (Rm); and (iii) that with tumor RNA‐seq data and normal WES data, named the Combination method (Cm).
+For variant calling in the Dm, we used Mutect2 (GATK) with the default filtering thresholds.
+For Rm and Cm, we used VarScan2 (v2.4.4), which accepts not only DNA data but also RNA‐seq data, and applied the parameters based on TCGA‐ICGC DREAM‐3 SNV Challenge results, adding the estimated tumor purity and adjusting the trimmed read length (Doc ). To filter potential false‐positive variants often observed in variant calling with RNA‐seq data, , , , , we applied four filtering methods of SNPiR on the Rm and Cm: (i) removal of variants located in repetitive regions in RepeatMasker track (hg38); (ii) removal of variants located in homopolymer bases of ≥5 bp; (iii) removal of variants caused by reads mapped to multiple sites using BLAT; and (iv) removal of variants registered as RNA‐editing sites in RADAR (version 2). 
+
+The VCF files were normalized using vt (v0.5772) and annotated using the Ensembl Variant Effect Predictor (VEP v99). We excluded variants located in immunoglobulin and HLA genes because alignment of these highly polymorphic regions is error‐prone and requires specialized analysis tools. , 
+
+2.6.
+
+## Prediction of neoantigens
+Human leukocyte antigen class I alleles of each patient were determined from normal DNA FASTQ files using HLA‐HD (v1.2.0.1). The annotated VCF files were analyzed using pVACseq, a tool of pVACtools (v1.5.9), with the default setting except for turning off the coverage and VAF filters. We used all MHC class I binding algorithms implemented in pVACseq to predict HLA class I (A, B, or C) binding 7‐ to 11‐mer epitopes. The epitopes with a median IC50 binding score ≤500 nM were chosen as neoantigen candidates. Somatic variants that generate neoantigen candidates were manually checked using Integrative Genomics Viewer (v2.8.2). 
+
+The general workflow of neoantigen prediction and detailed methods of data processing are described in Figure  and Supplementary Methods (Doc ), respectively.
+ 
+2.7.
+
+## Statistical analysis
+The Mann‐Whitney U test was used to compare coverage and VAF between two groups. For multiple comparison of gene expression levels and variant allele coverage among method unique variants and shared variants, the Kruskal‐Wallis test followed by the Mann‐Whitney U test with Bonferroni adjustment was used. Missing values of coverage, VAF, and gene expression level were excluded from the analysis. The Pearson chi‐squared test followed by a Bonferroni post hoc test was used to compare the proportion of coding variants among method unique variants and shared variants. All statistical analyses were carried out using R (v3.6.3).
+
+3.
+
+## RESULTS
+3.1.
+
+## Number of somatic variants detected in each method
+Whole‐exome sequencing and RNA‐seq were carried out on six breast cancer tissues and matched normal samples. Respective median numbers of the total and mapped reads were 158.9 million and 142.9 million for WES data, and 37.9 million and 31.5 million for RNA‐seq data, respectively (Table ). Tumor purities of each sample, calculated from the ESTIMATE scores, were applied to variant calling in Cm and Rm (Table ). Somatic variants were called by Mutect2 in Dm and by VarScan2 in Cm and Rm, and the respective total numbers of the somatic variants in all the patients detected in Dm, Cm, and Rm were 3443, 401, and 54 (Figure  ). Detailed numbers of the variants for each patient are shown in Table . The numbers of variants shared among the methods were small, especially in Rm, with only five common variants being detected in all the methods.
+ 
+3.2.
+
+## Comparison of the RNA method and the Combination method variants
+Because the difference between Cm and Rm is based on whether the normal sample is DNA or RNA, we first compared the results of Cm and Rm. A large number of the variants detected in Cm were not detected in Rm because there was either no or low coverage in the normal RNA at the variant sites (Figure  ). Of the Rm unique variants, 68% (32 of 47) were classified as germline or LOH in Cm because of wild‐type allele‐specific expression in the normal RNA; 30% (14 of 47) was not detected in Cm, mainly owing to low coverage in the normal DNA; and one was considered an artifactual variant allele in Cm (Figure  ). Among the 14 Rm unique variants not detected in Cm, all the variants were located in the noncoding region, and 12 variants were deposited in dbSNP (build 146). Of note, most of the Rm unique somatic variants (45 of 47) were included in the dbSNP (build 146) database.
+ 
+3.3.
+
+## Comparison of the DNA method and the Combination method variants
+When comparing Dm and Cm, 3353 somatic variants were detected only in Dm; 311 only in Cm; and 90 in both methods. Features of total coverage and VAF in the tumor DNA for the Dm variants and in the tumor RNA for the Cm variants are shown in Figure  . The Cm variants showed a high and wide range of VAF: median 0.40 (IQR, 0.22‐0.75), and relatively low coverage: median 8.0 (4.0‐17.0). In contrast, the Dm variants showed lower VAF: median 0.13 (IQR, 0.08‐0.22), and median coverage was 69.0 (25.0‐167.0). Subsequently, we examined the coverage and VAF of the Dm unique variants in the tumor RNA and of the Cm unique variants in the tumor DNA to investigate the reasons for the inconsistency between the results of these methods (Figure  ). A large number of the Dm unique variants showed low coverage in the tumor RNA and 74% (2471 of 3353) had no reads, whereas the Cm unique variants had a relatively high coverage in the tumor DNA: median 57.0 (IQR, 5.5‐168.5). However, 74% (231 of 311) of the Cm unique variants had no variant allele read in the tumor DNA. The shared variants showed higher coverage and VAF in the tumor DNA than those of the Cm unique variants, and coverage and VAF were also higher in the tumor RNA than those of the Dm unique variants: median coverage of 192.5 (Cm unique variants, median: 57.0, P < .001, Mann‐Whitney U test) and median VAF of 0.16 (Cm unique variants, median: 0.0, P < .001) in the tumor DNA, and median coverage of 16.0 (Dm unique variants, median: 0.0, P < .001) and median VAF of 0.31 (Dm unique variants, median: 0.0, P < .001) in the tumor RNA. Next, we examined the proportion of base substitution patterns of the Dm unique, Cm unique, and shared variants (Figure  ). Proportion of A‐to‐G and T‐to‐C substitutions, which are known as common substitutions of human RNA editing, were higher in the Cm unique variants than in the Dm unique and shared variants although the 59 Cm unique variants had already been excluded as known RNA‐editing sites. Distributions of expression quantification of genes, in which variants were detected, in the tumor samples are shown in Figure  . Median transcripts per million (TPM) of the Dm unique, Cm unique, and shared variants were 4.8 (IQR, 0.07‐22.3), 21.9 (7.5‐51.8), and 38.7 (17.9‐102.5), respectively. The Kruskal‐Wallis test showed significant differences among these groups (P < .001), and multiple comparison tests showed significant differences in gene expression levels among these three groups: that of the shared variants was highest and that of the Dm unique variants was lowest (P < .001).
+ As a result of variant annotation with VEP, the proportions of variants in the protein‐coding regions were 23% (787 of 3353) in the Dm unique, 31% (95 of 311) in the Cm unique, and 69% (62 of 90) in the shared variants (Figure ). Differences among the three groups were significant (P < .001, chi‐squared test): the shared variants had the highest proportion and the Dm unique variants had the lowest (Table ).
+
+3.4.
+
+## Neoantigen candidates detected in the DNA method and in the Combination method
+With in silico prediction of neoantigen, we used multiple prediction algorithms on somatic variants detected in Dm and Cm with patients’ individual HLA‐A, ‐B, and ‐C alleles determined by HLA‐HD. There were 154 epitope candidates detected in the Dm only, 28 candidates detected in the Cm only, and 26 candidates shared by both methods (Figure  ). Detailed information on these neoantigen candidates is shown in Table .
+ First, we examined why the Dm unique epitope candidates were missed in the Cm, by manually checking with Integrative Genomics Viewer and also by checking the filters in VarScan2 to determine if the variant allele was present in the tumor RNA. A large proportion of the Dm unique candidates (135 of 154) was not present in the output files of VarScan2, mainly owing to no coverage (n = 29) and to no or low variant allele reads (n = 97) in the tumor RNA. There were 12 insertion/deletion (two insertions and 10 deletions) that generated the Dm unique candidates, and eight of the 10 deletions were misidentified as soft clipped reads: bases in the 5′ or 3′ ends of the reads that are not aligned to the reference sequence (Table ).
+ Second, we examined the characteristics of the 28 Cm unique epitope candidates. Two candidates were generated from variants in the variant‐clustered reads and excluded because these were considered false‐positive owing to mapping error. Of the 26 candidates, one had six variant allele reads at the DNA level (VAF of 0.042) but was not detected in Dm, and five of the remaining 25 candidates that had no variant allele reads in the tumor DNA were A‐to‐G or T‐to‐C substitutions (Table ).
+ Third, we compared gene expression levels of the Dm unique epitope candidates, Cm unique ones (excluding two candidates considered false‐positive), and the shared ones. Median TPM of the Dm unique, Cm unique, and shared candidates were 6.0 (IQR, 2.7‐16.7), 11.6 (6.7‐23.4), and 22.0 (9.6‐44.3), respectively. There were significant differences among these three groups (P < .001, Kruskal‐Wallis test). The shared ones had higher expression levels than those of the Dm unique ones (P < .001, Mann‐Whitney U test with the Bonferroni adjustment), but no significant differences were observed between the Cm unique ones and the Dm unique ones (P = .29) and the shared ones (P = .23) (Figure ).
+Theoretically, not only high expression levels in the tumor but also actual expression of the mutant alleles, rich variant allele reads in the tumor RNA, is desirable as neoantigen candidates, especially for neoantigen‐targeted therapies. The means of variant allele coverage in the tumor RNA were 0 (IQR, 0‐1.0), 2.0 (1.3‐3.0), and 5.5 (3.3‐9.8) in the Dm unique, Cm unique, and shared epitope candidates, respectively. The Kruskal‐Wallis test (P < .001) followed by a post hoc test showed significant differences among the three groups (Figure ). Finally, we assessed the number of mutant allele reads in the tumor RNA in conjunction with the gene expression levels (Figure  ). All the Dm unique candidates with >1000 TPM (n = 5) were derived from mitochondrial DNA, and three of the five candidates, which also had abundant variant allele reads in the tumor RNA, were filtered in Cm by BLAT filter because of mapping to multiple sites. Of the neoepitope candidates with >10 TPM and variant allele reads in the tumor RNA >5, 68% (13 of 19) could be identified in the Cm. These results showed that neoepitope candidates detected in both methods had higher gene expression levels and a rich amount of mutant transcripts.
+
+4.
+
+## DISCUSSION
+In the present study, we investigated whether we could detect neoantigen candidates efficiently using RNA‐seq data instead of WES data in the variant calling step. Our results showed that the method using RNA‐seq data for both tumor and normal tissues (RNA method, Rm) had both high false‐positive and high false‐negative rates and is not suitable for neoantigen prediction, whereas the method combining tumor RNA‐seq data and normal WES data (Combination method, Cm) may be an efficient neoantigen prediction method because this method could detect neoepitope candidates that showed high expression levels and abundant variant allele reads in the tumor RNA. Although Cm requires normal WES data, we propose that Cm could be a cost‐effective alternative strategy to the conventional method (DNA method, Dm) because it omits the most costly tumor WES, which generally demands higher coverage than the normal WES owing to tumor heterogeneity. 
+
+The main causes for the high false‐positive and false‐negative rates in Rm were the misidentification of germline variants as somatic ones when there were no variant alleles in the normal RNA, or the overlooking of somatic variants when there were no or few transcripts in the normal sample (Figure  ). Although the accuracy of variant calling in the Rm depended greatly on the expression status of the normal transcripts, Cm could avoid these types of errors caused by transcripts from normal samples. As a result of comparing the somatic variants between Dm and Cm, a majority of variants detected in Dm were missed in Cm, mainly owing to low coverage in the tumor RNA (Figure  ). The detection rate was improved at the level of neoantigen candidates (Figure  ), but still 86% (154 of 180) of candidates detected in the Dm were not detected in the Cm, mainly owing to no or few variant allele reads in the tumor RNA (Table ). Previous studies regarding somatic variant detection using RNA‐seq data have also reported a small overlap between DNA and RNA, with recall rates of approximately 10%‐20% in the exonic regions, and the fundamental factor of the missing variants at the RNA level was low expression. , , , However, not only the gene expression but also the assured existence of mutant transcripts in tumor tissue is a crucial factor for precise identification of true neoantigens; therefore, neoepitopes missed for this reason could be permissible in terms of neoantigen prediction. Actually, about 70% of neoepitope candidates with higher expression and abundant variant allele reads in the tumor RNA could be detected in the Cm (Figure  ).
+In contrast, a large proportion of the Cm unique variants had no variant alleles in the tumor DNA (Figure  ). A possible reason for this could be RNA editing. RNA editing is the post‐transcriptional process leading to nucleotide substitution in mRNA, and the major types of human RNA editing are A‐to‐I substitution catalyzed by Adenosine Deaminase Acting on RNA (ADAR). Aberrant regulation of RNA editing is reported in multiple cancer types, , , and a recent study showed that several epitopes generated from RNA editing have a function to elicit the immune response as cancer antigens. Although we excluded variants known as RNA‐editing sites in the present study to verify the accuracy of the variant calling step among different methods, the proportion of A‐to‐G and T‐to‐C substitutions was high in Cm (Figure  ). The Cm has a potential to find novel RNA editing‐derived epitopes.
+Another possible cause of the Cm unique variants is technical artifacts or true variants not found in the tumor DNA. Variant calling with RNA‐seq data is known to have a high false‐positive rate due to several reasons such as alignment or sequencing errors around the splice junction or repetitive regions, and misalignment to paralogous regions. , , , Although we reduced a large amount of false‐positive variants by adding several filters of SNPiR, some of the Cm unique epitope candidates were derived from the variant‐clustered reads that considered mapping error. It is probably effective to add a filter to remove clustered variants for improving the accuracy of the Cm. As reported previously, variant calling with RNA‐seq data may find true mutations that were missed at the DNA level or a novel RNA‐editing site. , In the present study, we detected one epitope candidate missed in the Dm and 25 Cm unique candidates or novel RNA‐editing sites (Table ). Hence, modifying the filters and manual checking are necessary not only to reduce false‐positive variants but also to detect true neoantigen candidates identified only at the RNA level.
+We acknowledge that there are several limitations to the present study. First, this study showed a small overlap between Dm and Cm even in the coding region and one that was slightly inferior to those shown in previous studies. , , , Possible reasons are the low number of RNA‐seq reads and short read length (36 bp). The majority of RNA‐seq data used in previous studies were with reads of ≥50 million and read lengths of ≥50 bp. In the present study, the number of total reads in the tumor RNA‐seq data was <40 million, whereas it has been shown that total reads ≥50 million are required to improve the detection accuracy of mutant mRNA. In addition, a short read length has the risk of missing indels and multiple mapping, especially around the splice junction. In fact, a majority of indels could not be detected correctly in the Cm in the present study and some neoantigen candidates were filtered by multiple mapping (Table ). Neoantigens derived from indels are known to be highly immunogenic, and accurate identification of indels is essential for neoantigen candidate prediction. It has been reported that STAR aligner misidentified indels as soft clips at read lengths ≤50 bp, but the detection rate of indels improved at read lengths of 100 bp. As several software programs have been developed for indel‐sensitive detection with RNA‐seq data, , the detection rate of indels could be improved using longer read length and appropriate tools. Moreover, longer read length is known to improve the detection of the splice junction. Further investigation regarding appropriate library size and read length in RNA‐seq is necessary to optimize neoantigen prediction using RNA‐seq data.
+Second, although we applied the GATK Best Practices pipeline, one of the most popular workflows for processing next‐generation sequencing data, and major variant calling software (Mutect2 and VarScan2), it has been reported that the results of somatic calls differ depending on the variant calling algorithms, and the choice of alignment tools also affects the results of variant detection with RNA‐seq data. Somatic variant calling using RNA‐seq data is still challenging and a standardized analytical pipeline has not yet been established, although several algorithms were developed for RNA‐seq data analysis. , , Sophistication of the analysis pipeline for RNA‐seq data is needed to improve the accuracy of variant and neoantigen candidate discovery in Cm.
+Third, neoantigen prediction using in silico MHC‐binding predictors is not sufficient to determine the immunogenicity of the neoantigens. There are many factors associated with immunogenicity of neoepitopes besides MHC peptide‐binding affinity, such as T‐cell recognition, processing in tumor, T‐cell repertoires of individual patients, and clonality of the neoantigen. Experimental validations are necessary to detect truly immunogenic neoepitopes.
+In summary, the present study showed that the neoantigen prediction method using tumor RNA‐seq data and normal WES data could detect neoantigen candidates that have higher expression and rich variant transcripts and also has a potential to find novel neoantigen candidates that were not detected using the conventional strategy. The Cm has potential clinical applications, including vaccine target detection and prediction of therapeutic effects of immune checkpoint inhibitors that have been reported to be associated with the degree of tumor mutation burdens. , Although we focused on SNV in the present study, several software programs for predicting neoantigens derived from fusion genes and alternative splice events , have been developed using RNA‐seq data. These variants are known to be an important source of potentially immunogenic neoantigens; , , therefore, further utilization of RNA‐seq data in addition to Cm may provide a comprehensive landscape of immunogenic neoantigens.
+
+## DISCLOSURE STATEMENT
+The authors have no conflicts of interest.
+
+## Supporting information
+
+Figure S1
+
+Click here for additional data file.
+
+Figure S2
+
+Click here for additional data file.
+
+Table S1
+
+Click here for additional data file.
+
+Table S2
+
+Click here for additional data file.
+
+Table S3
+
+Click here for additional data file.
+
+Table S4
+
+Click here for additional data file.
+
+Table S5
+
+Click here for additional data file.
+
+Material S1
+
+Click here for additional data file.
+
+## ACKNOWLEDGMENTS
+This work was supported by JSPS KAKENHI Grant Number JP18K08564. We are also grateful to Flaminia Miyamasu for suggestions that greatly improved the manuscript.
+
+## REFERENCES
+ 
+
+## Associated Data
+
+## Supplementary Materials
+
+Figure S1
+
+Click here for additional data file.
+
+Figure S2
+
+Click here for additional data file.
+
+Table S1
+
+Click here for additional data file.
+
+Table S2
+
+Click here for additional data file.
+
+Table S3
+
+Click here for additional data file.
+
+Table S4
+
+Click here for additional data file.
+
+Table S5
+
+Click here for additional data file.
+
+Material S1
+
+Click here for additional data file.

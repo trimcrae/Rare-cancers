@@ -1,0 +1,102 @@
+BMC Med GenomicsBMC Med Genomics573bmcmedgeno101319628BMC Medical Genomics1755-8794BMCPMC7036241PMC7036241.1703624170362413208772710.1186/s12920-020-0694-16941SoftwareneoANT-HILL: an integrated tool for identification of potential neoantigens
+CoelhoAna Carolina M. F. FonsecaAndré L. MartinsDanilo L. LinsPaulo B. R. da CunhaLucas M. de SouzaSandro J.sandro@imd.ufrn.br 10000 0000 9687 399Xgrid.411233.6Bioinformatics Multidisciplinary Enviroment (BioME), Institute Metropolis Digital, Federal University of Rio Grande do Norte, UFRN, Natal, Brazil 2PhD Program in Bioinformatics, UFRN, Natal, Brazil 30000 0000 9687 399Xgrid.411233.6Brain Institute, Federal University of Rio Grande do Norte, UFRN, Natal, Brazil 40000 0001 0807 1581grid.13291.38Institutes for Systems Genetics, West China Hospital, Sichuan University, Chengdu, China 22220202020133490863021020191122020220220200203202013032026© The Author(s). 2020https://creativecommons.org/licenses/by/4.0/Open AccessThis article is distributed under the terms of the Creative Commons Attribution 4.0 International License (http://creativecommons.org/licenses/by/4.0/), which permits unrestricted use, distribution, and reproduction in any medium, provided you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons license, and indicate if changes were made. The Creative Commons Public Domain Dedication waiver (http://creativecommons.org/publicdomain/zero/1.0/) applies to the data made available in this article, unless otherwise stated.
+
+## Background
+Cancer neoantigens have attracted great interest in immunotherapy due to their capacity to elicit antitumoral responses. These molecules arise from somatic mutations in cancer cells, resulting in alterations on the original protein. Neoantigens identification remains a challenging task due largely to a high rate of false-positives.
+
+## Results
+We have developed an efficient and automated pipeline for the identification of potential neoantigens. neoANT-HILL integrates several immunogenomic analyses to improve neoantigen detection from Next Generation Sequence (NGS) data. The pipeline has been compiled in a pre-built Docker image such that minimal computational background is required for download and setup. NeoANT-HILL was applied in The Cancer Genome Atlas (TCGA) melanoma dataset and found several putative neoantigens including ones derived from the recurrent RAC1:P29S and SERPINB3:E250K mutations. neoANT-HILL was also used to identify potential neoantigens in RNA-Seq data with a high sensitivity and specificity.
+
+## Conclusion
+neoANT-HILL is a user-friendly tool with a graphical interface that performs neoantigens prediction efficiently. neoANT-HILL is able to process multiple samples, provides several binding predictors, enables quantification of tumor-infiltrating immune cells and considers RNA-Seq data for identifying potential neoantigens. The software is available through github at https://github.com/neoanthill/neoANT-HILL.
+
+## Keywords
+NeoantigensCancerImmunogenomic analysesCoordenação de Aperfeiçoamento de Pessoal de Nível Superior (BR)23038.004629/2014-1923038.004629/2014-1923038.004629/2014-1923038.004629/2014-1923038.004629/2014-19pmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementyespmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyespmc-license-refCC BYissue-copyright-statement© The Author(s) 2020
+
+## Background
+Recent studies have demonstrated that T cells can recognize tumor-specific antigens that bind to human leukocyte antigens (HLA) molecules at the surface of tumor cells [ , ]. During tumor progression, accumulating somatic mutations in the tumor genome can affect protein-coding genes and result in mutated peptides [ ]. These mutated peptides, which are present in the malignant cells but not in the normal cells, may act as neoantigens and trigger T-cell responses due to the lack of thymic elimination of autoreactive T-cells (central tolerance) [ – ]. As result, these neoantigens appear to represent ideal targets attracting great interest for cancer immunotherapeutic strategies, including therapeutic vaccines and engineered T cells [ , ].
+In the last few years, advances in next-generation sequencing have provided an accessible way to generate patient-specific data, which allows the prediction of tumor neoantigens in a rapid and comprehensive manner [ ]. Several approaches have been developed, such as pVAC-Seq [ ], MuPeXI [ ], TIminer [ ] and TSNAD [ ], which predict potential neoantigens produced by non- synonymous mutations. However, none of these proposed tools considers tumor transcriptome sequencing data (RNA-seq) for identifying somatic mutations. Moreover, only one of these tools provides quantification of the fraction of tumor-infiltrating immune cell types (Supplementary: Table ).
+Here we present a versatile tool with a graphical user interface (GUI), called neoANT-HILL, designed to identify potential neoantigens arising from cancer somatic mutations. neoANT-HILL integrates complementary features to prioritizing mutant peptides based on predicted binding affinity and mRNA expression level (Fig.  ). We used datasets from GEUVADIS RNA sequencing project [ ] to demonstrate that RNA-seq is also a potential source of mutation detection. Finally, we applied our pipeline on a large melanoma cohort from The Cancer Genome Atlas [ ] to demonstrate its utility in predicting and suggesting potential neoantigens that could be used in personalized immunotherapy.
+ 
+
+## Implementation
+neoANT-HILL requires a variant list for potential neoantigen prediction. Our pipeline is able to handle a VCF file (single- or multi-sample) for the genome data or a tumor transcriptome sequence data (RNA-seq) in which somatic mutation will be called following GATK best practices [ , ] with Mutect2 [ ] on tumor-only mode. However, the RNA-seq data must be previously aligned to the reference genome (BAM) by the user. The size of corresponding BAM files from the RNA-Seq can be a limiting factor in the analysis. Since neoANT-HILL is run locally, the user must guarantee that enough space and memory are available for a proper execution of the program. In the current implementation, neoANT-HILL supports VCF files generated using the human genome version GRCh37. The variants are properly annotated by snpEff [ ] to identify non-synonymous mutations (missense, frameshift and inframe).
+Once the VCF files have been annotated, the resulting altered amino acid sequences are inferred from the NCBI Reference Sequence database (RefSeq) [ ]. For frameshift mutations, the altered amino acid sequence is inferred by translating the resulting cDNA sequence. Altered epitopes (neoepitopes) are translated into a 21-mer sequence where the altered residue is at the center. If the mutation is at the beginning or at the end of the transcript, the neoepitope sequence is built by taking the 20 following or preceding amino acids, respectively. The neoepitope sequence and its corresponding wild-type are stored in a FASTA file. Non-overlapping neoepitopes can be derived from frameshift mutations.
+A list of HLA haplotypes is also required. If this data had not been provided by the user, neoANT-HILL includes the Optitype algorithm [ ] to infers class-I HLA molecules from RNA-Seq. The subsequent step is the binding affinity prediction between the predicted neoepitopes and HLA molecules. This can be executed on single or multi-sample using parallelization with the custom configured parameters. The correspondent wild-type sequences are also submitted at this stage, which allows calculation of the fold change between wild-type and neoepitopes binding scores, known as differential agretopicity index (DAI) as proposed by [ ]. This additional neoantigen quality metric contributes to a better prediction of neoantigens that can elicit an antitumor response [ ].
+neoANT-HILL employs seven binding prediction algorithms from Immune Epitope Database (IEDB) [ ], including NetMHC (v. 4.0) [ , ], NetMHCpan (v. 4.0) [ ], NetMHCcons [ ], NetMHCstabpan [ ], PickPocket [ ], SMM [ ] and SMMPMBEC [ ], and the MHCflurry algorithm [ ] for HLA class I. The user is able to specify the neoepitope lengths to perform binding predictions. Each neoepitope sequence is parsed through a sliding window metric. Our pipeline also employs four IEDB-algorithms for HLA class II binding affinity prediction: NetMHCIIpan (v. 3.1) [ ], NN-align [ ], SMM- align [ ], and Sturniolo [ ].
+Moreover, when the unmapped RNA-seq reads are available (fastq), neoANT-HILL can quantify the expression levels of genes carrying a potential neoantigen. Our pipeline uses the Kallisto algorithm [ ] and the output is reported as transcripts per million (TPM). Potential neoantigens arising from genes showing an expression level under 1 TPM are excluded. In addition, neoANT-HILL also offers the possibility of estimating quantitatively, via deconvolution, the relative fractions of tumor-infiltrating immune cell types through the use of quanTIseq [ ].
+Our software was developed under a pre-built Docker image. The required dependencies are packed up, which simplify the installation process and avoid possible incompatibilities between versions. As previously described, several analyses are supported and each one relies on different tools. Several scripts were implemented on Python to complete automate the execution of these single tools and data integration.
+
+## Results
+neoANT-HILL was designed through a user-friendly graphical interface (Fig.  ) implemented on Flask framework. The interface comprises three main sections: (i) Home (Fig.  a), (ii) Processing (Fig.  b), and (iii) Results (Fig.  c). neoANT-HILL stores the outputs in sample-specific folders. Our pipeline provides a table of ranked predicted neoantigens with HLA alleles, variant information, binding prediction score (neoepitope and wild-type) and binding affinity classification. When optional analyses are set by the user, the outputs are stored in separated tabs. Gene expression is provided as a list with corresponding RNA expression levels and it is used to filter the neoantigens candidates.
+ 
+
+## Variant identification on RNA-Seq
+We evaluate the utility of RNA-seq for identifying frameshift, indels and point mutations by using samples (n = 15) from the GEUVADIS RNA sequencing project. Although these samples are not derived from tumor cells, the goal of these analysis was to benchmark the efficiency of our pipeline to detect somatic mutations from RNA-Seq data. We limited our analysis to variants with read depth (DP) > = 10 and supported by at least five reads. The overall called variants were then compared to the corresponding genotypes (same individuals) provided by the 1000 Genomes Project Consortium (1KG) [ ]. We found that on average 71% of variants in coding regions detected by RNA-seq were confirmed by the genome sequencing (concordant calls) (Supplementary Table ). Variants in genes that are not expressed cannot be detected by RNA-seq and RNA editing sites could partially explain the discordant calls. Furthermore, some of the discrepancies can be also due to low coverage in the genome sequence, which generated a false-negative in the calling. Although calling variants from RNA-Seq data has been shown to be more challenging, it is an interesting alternative for genome sequencing and a large amount of tumor RNA-seq samples do not have normal matched data [ , ].
+
+## Use case
+We applied our pipeline on a large melanoma cohort (SKCM, n = 466) from TCGA to demonstrate its utility in identifying potential neoantigens. We found approximately 198,000 instances of predicted neoantigens binding to HLA-I. It is important to note that the large number of mutant peptides is due to: i) the larger cohort size, ii) the high mutational burden of melanoma and iii) the large set of HLA alleles that was used to run the binding prediction. These neoepitopes were classified as strong (IC50 under 50 nM), intermediate (IC50 between 50 nM and 250 nM) or weak binders (IC50 over 250 nM and under 500 nM) (Supplementary Table ). We limited our analyses to high binding affinity candidates to reduce potential false positives.
+We observed that the majority of strong binder mutant peptides are private and unique, which is likely linked to the high intratumor genetic diversity. However, we observed that frequent mutations may be likely to generate recurrent mutant peptides (Table  ). These recurrent neoantigens are interesting since they could be used as a vaccine for more than one patient. Figure  shows potential neoepitopes arising from recurrent mutations. The potential neoantigen (FSGEYIPTV), which was predicted to form a complex with HLA-A*02:01 allele, was found to be shared among 17 samples (3.65%). It was generated from the P29S mutation in gene RAC1 (Fig.  a). RAC1 P29S have been described as a candidate biomarker for treatment with anti-PD1 or anti-PD-L1 antibodies [ ]. Another mutation (P29L) in the same gene formed a recurrent potential neoantigen (FLGEYIPTV) and was found in 5 samples (1.07%). As another example, we can also highlight the potential shared neoantigen (LSMIVLLPNK) related to mutation E250K in the SERPINB3 gene (Fig.  b). This was found in 6 samples (1.29%) and it was likely to form a complex with the HLA-A*11:01 allele. Mutations in SERPINB3 have also been related to response to immunotherapy [ ].
+ 
+ 
+
+## Conclusion
+We present neoANT-HILL, a completely integrated, efficient and user-friendly software for predicting and screening potential neoantigens. We have shown that neoANT-HILL can predict neoantigen candidates, which can be targets for immunotherapies and predictive biomarkers for immune responses. Our pipeline is available through a user-friendly graphical interface which enables its usage by users without advanced programming skills. Furthermore, neoANT-HILL offers several binding prediction algorithms for both HLA classes and can process multiple samples in a single running. Unlike the majority of existing tools, our pipeline enables the quantification of tumor-infiltrating lymphocytes and considers RNA-Seq data for variant identification. The source code is available at https://github.com/neoanthill/neoANT-HILL.
+
+## Availability and requirements
+Project name: neoANT-HILL.
+Project home page:
+https://github.com/neoanthill/neoANT-HILL
+
+Operating system(s): Unix-based operating system, Mac OS, Windows.
+Programming language: Python 2.7.
+Other requirements: Docker.
+License: Apache License 2.0.
+Any restrictions to use by non-academics: None.
+
+## Supplementary information
+
+Additional file 1.
+
+Additional file 2.
+
+Additional file 3.
+
+## Abbreviations
+DAIDifferential Agretopicity Index
+DPRead Depth
+GUIGraphical User Interface
+HLAHuman Leukocyte Antigens
+NGSNext Generation Sequencing
+RNA-SeqRNA-Sequencing
+SKCMSkin Cutaneous Melanoma
+TCGAThe Cancer Genome Atlas
+TPMTranscripts per Million
+Publisher’s Note
+Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.
+
+## Supplementary information
+Supplementary information accompanies this paper at 10.1186/s12920-020-0694-1.
+
+Not applicable.
+
+## Author’s contributions
+ACMFC, DLM and PRBL designed and carried out the implementation of the computational pipeline. DLM led debugging efforts, LMC contributed to design the computational pipeline. ACMFC and ALF analyzed the data. SJS supervised the project. ACMFC and ALF discussed the results and commented on the manuscript in consultation with SJS. SJS reviewed and edited the manuscript. All authors read and approved the final manuscript.
+
+## Funding
+This work was supported by a CAPES grant (23038.004629/2014–19). ACMFC, DLM, ALF, LMC and PRBL were supported by CAPES. The funding body had no role in the design of the study and collection, analysis, and interpretation of data and in writing the manuscript.
+
+## Availability of data and materials
+The RNA-Seq dataset from Geuvadis RNA sequencing project analyzed during the current study are available in the ArrayExpress database (http://www.ebi.ac.uk/arrayexpress/) under the accession number E-GEUV-1. The corresponding genotyping data (Phase I) from each sample are available from the 1000 Genomes Project and was downloaded from the FTP site hosted at the EBI.
+ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/phase1/data/ (ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/phase1/data/NA12812/exome_alignment/NA12812.mapped.SOLID.bfast.CEU.exome.20110411.bam, ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/phase1/data/NA12749/exome_alignment/NA12749.mapped.illumina.mosaik.CEU.exome.20110521.bam, ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/phase1/data/NA20510/exome_alignment/NA20510.mapped.SOLID.bfast.TSI.exome.20110521.bam, ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/phase1/data/NA19119/exome_alignment/NA19119.mapped.illumina.mosaik.YRI.exome.20110411.bam, ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/phase1/data/NA19204/exome_alignment/NA19204.mapped.illumina.mosaik.YRI.exome.20110411.bam,
+ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/phase1/data/NA18498/exome_alignment/NA18498.mapped.illumina.mosaik.YRI.exome.20110411.bam, ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/phase1/data/NA12489/exome_alignment/NA12489.mapped.SOLID.bfast.CEU.exome.20110411.bam,
+ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/phase1/data/NA20752/exome_alignment/NA20752.mapped.illumina.mosaik.TSI.exome.20110521.bam, ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/phase1/data/NA18517/exome_alignment/NA18517.mapped.illumina.mosaik.YRI.exome.20110521.bam, ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/phase1/data/NA11992/exome_alignment/NA11992.mapped.SOLID.bfast.CEU.exome.20110411.bam, ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/phase1/data/NA19144/exome_alignment/NA19144.mapped.illumina.mosaik.YRI.exome.20110411.bam, ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/phase1/data/NA20759/exome_alignment/NA20759.mapped.illumina.mosaik.TSI.exome.20110521.bam, ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/phase1/data/NA19137/exome_alignment/NA19137.mapped.illumina.mosaik.YRI.exome.20110411.bam, ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/phase1/data/NA19257/exome_alignment/NA19257.mapped.illumina.mosaik.YRI.exome.20110521.bam, ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/phase1/data/NA12006/exome_alignment/NA12006.mapped.SOLID.bfast.CEU.exome.20110411.bam). The melanoma TCGA mutation data was downloaded from the cBio datahub (https://github.com/cBioPortal/datahub/blob/master/public/skcm_tcga/data_mutations_extended.txt).
+
+## Ethics approval and consent to participate
+Not applicable.
+
+## Consent for publication
+Not applicable.
+
+## Competing interests
+The authors declare that they have no competing interests.
