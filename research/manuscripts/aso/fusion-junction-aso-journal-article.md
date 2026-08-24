@@ -163,7 +163,9 @@ so against wild-type *NR4A3*; 85 are paired by one of the design's own two paren
 designs carry a sense-strand near-match in parent precursor RNA pairing the gap in full. As a union
 rather than a sum the two screens condemn 93 of the 190. A design whose gap carries a mismatch is
 scored zero rather than short, so the 87 bound the fully-paired class, not the whole parent
-liability.
+liability. Re-scored on duplex stability rather than on mismatch count, 8 designs carry a fully
+paired sixteen-base-pair off-target duplex and 45 one inside 2 kcal/mol of their own; neither named
+reagent is in either class, the closest to each being 3.2 and 3.0 kcal/mol weaker.
 
 Lengthening the catalytic gap does not remove this liability, for an arithmetic reason: every base
 inside the gap comes from the donor or the acceptor exon, so a longer gap buys margin only by
@@ -331,7 +333,9 @@ forms through the catalytic gap; and a genome-wide screen over every position of
 included. Between them they cover mature transcript, unspliced precursor, exon-exon junction,
 non-coding and mitochondrial sequence, which is the search scope the 2025 recommendations
 ask for.<sup>22</sup><!--PMID:39912803--> A
-near-match is a transcript window pairing a design at 14 or more of its 16 positions. A design is
+near-match is a transcript window pairing a design at 14 or more of its 16 positions. Each alignment
+was then re-scored on the nearest-neighbour stability of its longest contiguous paired run, the
+energy-based second stage those recommendations prescribe; only separations are reported. A design is
 liable where a wild-type parent pairs its whole catalytic gap over a contiguous run of ten base
 pairs or more, ten being adopted rather than measured. Null ensembles were built as scrambles of
 each design and as chimeras joining the same two parent transcripts at real exon termini, screened

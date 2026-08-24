@@ -158,6 +158,12 @@ run_step() {
 run_step "locus collapse"      "python3 $MOD/junction_aso_locus_collapse.py --write" ""
 run_step "chance baseline"     "python3 $MOD/offtarget_chance_baseline.py"           ""
 run_step "duplex thermodynamics" "python3 $MOD/junction_aso_thermo.py"   "python3 $MOD/junction_aso_thermo.py --check"
+# ⛔ THE ENERGY RE-EVALUATION RUNS AFTER THE SCREENS AND READS THEIR OUTPUT, SO IT BELONGS HERE
+# AND NOT EARLIER. It re-scores every alignment `junction_aso_offtarget.py` returned, which is the
+# second stage the 2025 industry recommendations (PMID 39912803) prescribe after an over-sensitive
+# similarity search. Its figures are quoted by the condensed article and pinned, so a screen that
+# moves without this step rerunning would leave the manuscript quoting a stale separation.
+run_step "offtarget duplex energy" "python3 $MOD/aso_offtarget_duplex_energy.py" "python3 $MOD/aso_offtarget_duplex_energy.py --check"
 # ⛔ THE PER-JUNCTION TABLE WAS NOT IN THIS CHAIN, AND FIVE ARTIFACTS DOWNSTREAM READ IT (2026-08-17).
 # `aso-per-junction-table.json` supplies every clinical tier, best-available design and parent-duplex
 # figure that Tables 2, 3 and 5, the coverage ladder and the canonical sequence file are built from —

@@ -1275,6 +1275,50 @@
     "research/manuscripts/aso/fusion-junction-aso-cover-letter.md"
    ],
    "regenerate": "python3 research/modalities/aso_parent_null.py, then update every home of the figure IN THE SAME COMMIT (CLAUDE.md rule 1.3) — the journal article is now one of them"
+  },
+  {
+   "id": "aso_energy_designs_with_a_fully_paired_offtarget",
+   "description": "How many of the 190 designs carry a hybridisable off-target whose longest perfectly paired run is the whole 16-mer. This is the class the energy re-evaluation exists to separate out: edit distance counted each of these as one near-match among many, and neither named reagent is in it.",
+   "artifact": "research/modalities/aso-offtarget-duplex-energy.json",
+   "key": "summary.n_designs_with_a_fully_paired_offtarget_duplex",
+   "context": "on mismatch count, ([\\d,]+) designs carry a fully",
+   "must_appear_in": [
+    "research/manuscripts/aso/fusion-junction-aso-journal-article.md"
+   ],
+   "regenerate": "python3 research/modalities/aso_offtarget_duplex_energy.py, then update the figure the manuscript quotes IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
+  },
+  {
+   "id": "aso_energy_designs_within_2_kcal",
+   "description": "How many designs have a gap-paired near-match whose paired core comes within 2 kcal/mol of their own intended duplex.",
+   "artifact": "research/modalities/aso-offtarget-duplex-energy.json",
+   "key": "summary.n_designs_with_a_gap_paired_near_match_within_2_kcal",
+   "context": "duplex and ([\\d,]+) one inside 2 kcal/mol",
+   "must_appear_in": [
+    "research/manuscripts/aso/fusion-junction-aso-journal-article.md"
+   ],
+   "regenerate": "python3 research/modalities/aso_offtarget_duplex_energy.py, then update the figure the manuscript quotes IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
+  },
+  {
+   "id": "aso_energy_closest_ddg_ewsr1_reagent",
+   "description": "How far the EWSR1 e12 reagent's closest gap-paired near-match sits from its own intended duplex, in kcal/mol, at one decimal as the manuscript prints it.",
+   "artifact": "research/modalities/aso-offtarget-duplex-energy.json",
+   "key": "named_reagents.EWSR1_e12__NR4A3_e3.closest_gap_paired_ddg_1dp",
+   "context": "the closest to each being ([\\d.]+) and",
+   "must_appear_in": [
+    "research/manuscripts/aso/fusion-junction-aso-journal-article.md"
+   ],
+   "regenerate": "python3 research/modalities/aso_offtarget_duplex_energy.py, then update the figure the manuscript quotes IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
+  },
+  {
+   "id": "aso_energy_closest_ddg_taf15_reagent",
+   "description": "The same reading for the TAF15 e6 reagent. ⚠ Its load is eight gap-paired near-matches against the EWSR1 reagent's 123, so the two numbers are close for different reasons and neither is a ranking of the two reagents.",
+   "artifact": "research/modalities/aso-offtarget-duplex-energy.json",
+   "key": "named_reagents.TAF15_e6__NR4A3_e3.closest_gap_paired_ddg_1dp",
+   "context": "being [\\d.]+ and ([\\d.]+) kcal/mol weaker",
+   "must_appear_in": [
+    "research/manuscripts/aso/fusion-junction-aso-journal-article.md"
+   ],
+   "regenerate": "python3 research/modalities/aso_offtarget_duplex_energy.py, then update the figure the manuscript quotes IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
   }
  ],
  "table_completeness": [
