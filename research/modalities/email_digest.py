@@ -28,16 +28,34 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from mailer import llm_summarize, md_to_html, send_email  # noqa: E402
 
 
+# ⚠ SCOPE. This prompt, the scheduled Claude session's prompt (research/modalities/
+# daily-email-system.md) and scripts/method-watch.mjs's watch list must agree about what counts as
+# news, because they are three filters in series and the NARROWEST one decides what Tristan reads.
+# On 2026-08-19 the Merck/Moderna Phase 3 INTerpath-001 readout — the first positive Phase 3 for an
+# individualized neoantigen therapy — did not reach the 2026-08-21 newsletter. The generator had no
+# source that could carry it, AND this prompt asked only for methods/tools/NR4A3, so it would have
+# been dropped even if a source had. Both halves are fixed; keep them in step.
 SYSTEM = (
     "You write a SHORT newsletter-style email brief for Tristan (trimcrae), a solo researcher, from a longer "
-    "Markdown digest about the in-silico methods and NR4A3/degrader advances he is tracking. Turn it into "
-    "something he can read at a glance on his phone. Rules: under ~180 words; NO tables; a one-line headline, "
-    "then a few short bullets grouping only what MATTERS (new capability that changes what he can do, a "
-    "watched method that shipped, a relevant NR4A3 advance, a newly-opened funding opportunity he could "
-    "apply to — especially AI/compute grants open to individuals/unrestricted, which fund his GPU time). "
-    "Bold the item names sparingly. If nothing "
-    "materially changed, say that plainly instead of padding. Do not invent anything not in the digest. End "
-    "with one line pointing to the full digest below."
+    "Markdown digest. He runs an entirely in-silico program against extraskeletal myxoid chondrosarcoma "
+    "(EMC / EWSR1::NR4A3), across a PORTFOLIO of routes — a selective degrader, a fusion-junction ASO, and a "
+    "fusion-junction NEOANTIGEN VACCINE among them. Turn the digest into something he can read at a glance "
+    "on his phone. Rules: under ~220 words; NO tables; a one-line headline, then short bullets, most "
+    "consequential first.\n"
+    "LEAD WITH CLINICAL / TREATMENT NEWS when there is any. A pivotal trial readout, an approval, or a "
+    "program halt is the highest-consequence thing this digest carries — ESPECIALLY in a modality one of his "
+    "routes uses (individualized neoantigen therapy or cancer vaccines; antisense/siRNA in solid tumours; "
+    "targeted protein degraders) or anything touching sarcoma. A first-in-class or practice-changing cancer "
+    "result belongs in this brief EVEN IF it is in another tumour type and touches none of his routes — say "
+    "in one clause what it would mean for the route it bears on, or that it bears on none. Never drop a "
+    "large treatment result for being off-topic.\n"
+    "Then the rest: a new capability that changes what he can do, a watched method or tool that shipped, a "
+    "relevant NR4A3/EMC advance, and a newly-opened funding opportunity he could apply to — especially "
+    "AI/compute grants open to individuals/unrestricted, which fund his GPU time.\n"
+    "Bold item names sparingly. A news-feed item is a LEAD, NOT EVIDENCE: write it as reported, name the "
+    "source, and never restate a press claim as an established medical fact. If nothing materially changed, "
+    "say that plainly instead of padding. Do not invent anything not in the digest. End with one line "
+    "pointing to the full digest below."
 )
 
 
@@ -106,8 +124,8 @@ def build_html(summary_md, date_line, md, include_full):
              '<div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#2b6cb0;'
              'font-weight:700">Method-Watch Newsletter</div>'
              f'<div style="font-size:20px;font-weight:700;color:#1a202c;margin-top:4px">{esc(date_line)}</div>'
-             '<div style="font-size:13px;color:#718096;margin-top:4px">The in-silico capabilities and '
-             'NR4A3 advances worth knowing about this week.</div></div>')
+             '<div style="font-size:13px;color:#718096;margin-top:4px">Cancer treatment news, and the '
+             'in-silico capabilities and NR4A3 advances worth knowing about this week.</div></div>')
     P.append('<div style="height:1px;background:#e2e8f0;margin:0 24px"></div>')
     # body (the filtered summary IS the newsletter)
     P.append(f'<div style="padding:16px 24px 8px;font-size:15px;line-height:1.6;color:#2d3748">'

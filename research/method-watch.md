@@ -46,7 +46,21 @@ assume layer 1 ran.** The claim below describes what the Routine is CONFIGURED t
    [`.github/workflows/method-watch.yml`](../.github/workflows/method-watch.yml) — a keyword scan of
    EBI/GitHub/grants.gov that commits a dated digest to the `method-watch-cache` branch and emails it.
    NOT synthesized; it's the comprehensive raw-hit backstop the weekly newsletter can consult, not a
-   deliverable. ⚠ **Its cadence has ONE home — the `schedule:` block in that workflow file — and this line
+   deliverable.
+   ⭑ **It now also carries a CLINICAL / TREATMENT-NEWS watch, and that is its FIRST section (2026-08-24).**
+   Until then its only sources were Europe PMC, eight GitHub release feeds and grants.gov, so a Phase 3
+   readout announced by press release — not a paper, not a tool, not a grant — **could not appear in it by
+   any query**. The Merck/Moderna INTerpath-001 topline (2026-08-19) is the measured case: the first
+   positive Phase 3 for an individualized neoantigen therapy, direct precedent for this repo's own
+   junction-vaccine route, absent from the 2026-08-21 newsletter. The watch adds two layers of different
+   kind — **ClinicalTrials.gov API v2** (structured, dated, citable; catches status flips and posted
+   results) and **dated RSS/Atom feeds** (the only layer that carries a same-day topline) — scoped to the
+   modality classes this program actually pursues **plus a deliberately broad oncology catch-all**, which
+   is the row whose absence lost INTerpath-001. ⚠ **A news hit is a LEAD, NOT EVIDENCE**: it may prompt
+   reading the primary source and may never itself be cited as a medical fact (CLAUDE.md §7). The scope
+   is shared with two prompts that filter this digest before Tristan sees it, and **the narrowest of the
+   three decides what he reads** — one home for that accounting:
+   [`modalities/daily-email-system.md`](modalities/daily-email-system.md). ⚠ **Its cadence has ONE home — the `schedule:` block in that workflow file — and this line
    used to restate it, wrongly**: it read *"Monthly … (cron `0 7 1 * *`)"* long after the workflow went
    weekly, which is exactly the copy-drift CLAUDE.md §1 exists to stop. *(Superseded, retained: "Monthly
    mechanical digest … cron `0 7 1 * *`".)*
