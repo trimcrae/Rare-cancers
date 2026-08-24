@@ -61,6 +61,14 @@ assume layer 1 ran.** The claim below describes what the Routine is CONFIGURED t
    `IDEAS.md`, and `compute/cheap-gpu-plan.md`). This is the thing you actually read. Manage via the
    claude-code-remote trigger tools (list/update/delete). NB: `update_trigger` cannot edit a Routine's PROMPT —
    to change the scan scope, recreate the trigger (delete + create) as was done 2026-07-14/15.
+   ⛔ **BEFORE DELETING IT, DUMP ITS PROMPT — THE PROMPT IS THE ONLY COPY AND DELETION IS FINAL.**
+   This exact loss already happened once: the retired daily summary-writer's parameters went with it, and
+   [`modalities/daily-email-system.md`](modalities/daily-email-system.md) now tells the reader to dig them
+   out of git history. The field-scan prompt has no copy in this repository at all — it lives solely in the
+   Routine's stored config. Recover it with the claude-code-remote MCP tool `list_triggers` and read
+   `job_config.ccr.events[0].data.message.content` for `trig_01X5xHy1cmkLjkATEijZSNJf`; paste that into the
+   new UI-created Routine. **It is not transcribed here on purpose** — a hand-copied 1,500-word prompt is a
+   recollection, and §7 says never write one of those down as if it were the source.
 2. **Mechanical BROAD digest** (raw feed). `scripts/method-watch.mjs` via
    [`.github/workflows/method-watch.yml`](../.github/workflows/method-watch.yml) — a keyword scan of
    EBI/GitHub/grants.gov that commits a dated digest to the `method-watch-cache` branch and emails it.
