@@ -113,6 +113,20 @@ const TOPICS = [
     trigger: "new patient-derived EMC model (line/organoid/PDX) → enables the decisive junction-ASO knockdown + parental-sparing experiment (aso-paper §4) and a fusion-dependence readout",
   },
   {
+    // ⭑ ADDED 2026-08-24, by the backfill that swept the two months nothing was watching clinical
+    // news. It surfaced "Durable clinical and immunologic response to an off-the-shelf EWSR1-FLI1
+    // peptide vaccine in metastatic Ewing sarcoma" (2026-08-08) — a fusion-BREAKPOINT peptide
+    // vaccine in a FET-fusion sarcoma, which is this repository's junction-vaccine route's exact
+    // modality in a sibling fusion. NO ROW HERE COULD MATCH IT. The only FET row above requires a
+    // MODEL word (cell line / organoid / PDX / xenograft / model) alongside the disease term, so it
+    // catches new experimental systems and structurally cannot catch a THERAPEUTIC result in the
+    // same disease. That is a gap in what we watch, not a ranking miss, and it is the second one
+    // this episode has found: the first was having no clinical source at all.
+    key: "fusion-BREAKPOINT-directed immunotherapy in FET / translocation sarcomas",
+    query: '(TITLE:"EWSR1" OR TITLE:"EWS-FLI1" OR TITLE:"EWSR1-FLI1" OR TITLE:"EWSR1::FLI1" OR TITLE:"fusion breakpoint" OR TITLE:"fusion-derived" OR TITLE:"breakpoint peptide" OR TITLE:"Ewing sarcoma" OR TITLE:"synovial sarcoma" OR TITLE:"myxoid chondrosarcoma" OR TITLE:"fusion-positive sarcoma") AND (TITLE:vaccine OR TITLE:vaccination OR TITLE:neoantigen OR TITLE:immunotherapy OR TITLE:immunogenicity OR TITLE:epitope OR TITLE:"T cell" OR TITLE:"T-cell" OR TITLE:TCR)',
+    trigger: "clinical or immunologic evidence for a fusion-BREAKPOINT-directed immunotherapy in ANY FET / translocation sarcoma → the closest available precedent for the EWSR1::NR4A3 junction-vaccine route (vaccine-construct.json); re-grade that route's central immunogenicity assumption and check whether the vaccine manuscript should cite it",
+  },
+  {
     // The ONE row that is not in-silico: a remote-controlled / cloud robotic wet lab a solo
     // researcher can rent by the experiment (Emerald Cloud Lab, Strateos/Transcriptic-class, or an
     // autonomous "self-driving lab" / lab-in-the-loop service). This is the only watched capability
