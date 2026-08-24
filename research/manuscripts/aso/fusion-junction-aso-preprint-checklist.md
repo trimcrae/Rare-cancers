@@ -112,6 +112,27 @@ reports four false gaps); competing-interests, funding, ethics and AI-use statem
    ★ WHAT THIS DOES NOT BLOCK: the extended report has since been submitted elsewhere. The open
    preprint question is now the CONDENSED article, and it needs a server that accepts unaffiliated
    authors — see the preprint-venue note below.
+4. **Post the EXTENDED REPORT at Research Square** — ⛔ **REJECTED 2026-08-24, 3:29 PM ET, at
+   screening.** This is where "submitted elsewhere" in item 3 went. The decline email gives no
+   reason beyond a template: *"our screeners have determined that the manuscript type or its
+   content is not suitable for posting"*, decided *"on the basis of our editorial policies with
+   respect to content type and screening"*. Per their §11 the decision **cannot be appealed**, and
+   no further reading of this decision is obtainable.
+   ⛔ **DO NOT RECORD THIS AS AN AFFILIATION REJECTION. THAT IS THE bioRxiv REASON BEING CARRIED
+   ACROSS, AND RESEARCH SQUARE'S OWN POLICY DOES NOT SUPPORT IT.** Their Editorial Policies,
+   captured verbatim on the day at
+   [`research-square-editorial-policies-2026-08-24.md`](../../literature/research-square-editorial-policies-2026-08-24.md),
+   contain **no author-affiliation requirement anywhere**; the word "affiliations" appears once, in
+   §5, meaning a competing interest to disclose. Nor is LLM use a bar: their §1.3 requires it to be
+   **documented**, which this manuscript does, and §6 does not list it as a screening ground.
+   ★ **WHAT THE TEMPLATE DOES NAME is exactly two clauses — their §1.2 (Content types) and their §6
+   (Screening) — and it does not say which.** The candidates that FIT, ranked by fit and each
+   written as an inference rather than a finding, are in the capture's Appendix A and in §2e below.
+   ⚠ **TWO REFUSALS ARE NOT EVIDENCE OF ONE CAUSE.** bioRxiv stated affiliation; Research Square
+   stated content type or screening. Collapsing them into "nobody takes unaffiliated authors" would
+   pick the one remedy — find an institution — that neither venue's stated reason actually calls for
+   at Research Square, and would leave the real cause untouched at the next server.
+
 
 ## 2b · The preprint venue question — the ORDER is now SETTLED, the SERVER is not
 
@@ -158,7 +179,7 @@ Candidates, to be checked at the source before use:
 | server | established here | not established |
 |---|---|---|
 | **Zenodo** | accepts this author — a record is already published under `10.5281/zenodo.22028916`; supports a `preprint` resource type and mints a DOI | whether NAT's submission form treats a Zenodo DOI as a preprint DOI |
-| **Research Square** | screens for ethics and consent statements, competing-interest disclosure, patient identifiers and pseudoscientific claims; mints a DOI | affiliation policy |
+| **Research Square** | ⛔ **DECLINED THIS PAPER at screening, 2026-08-24**, citing content type or screening and nothing more; no appeal (their §11). Editorial Policies captured verbatim: **no affiliation requirement**, LLM use requires documentation not abstention | which of their §1.2 / §6 clauses fired — they do not say and will not |
 | **OSF Preprints** | persistent identifier and a Crossref DOI; moderation varies by branded community | affiliation policy |
 
 ⚠ **THE EXTENDED REPORT IS NOT THIS QUESTION.** It has been submitted elsewhere (trimcrae,
@@ -208,6 +229,62 @@ that is real but not yet live, which is fine while it sits here and is not fine 
 out. So before ANY outward-facing act, the question is whether every identifier the artefact prints
 resolves for a stranger — and `deposit-zenodo.yml` with `record=verify` is how that is answered
 without a token and without taking anyone's word for it.
+
+## 2e · What plausibly fired at Research Square — RANKED BY FIT, and every row is an inference
+
+⛔ **NOTHING BELOW IS A FINDING. Research Square named two sections and refused an appeal, so the
+cause is not obtainable and will not become obtainable.** What IS obtainable is the fit between
+their clauses and what this manuscript measurably is, and that is what this section holds. Written
+so the next server is chosen against evidence rather than against the last rejection's reason.
+
+**Measured on the submitted artifacts, 2026-08-24, before any of the ranking below was written:**
+
+| their clause | does this paper trip it? | the observation |
+|---|---|---|
+| §1.2 complete Methods and Results sections | **no** | `## 2 · Results` and `## 6 · Methods` are both top-level sections of `fusion-junction-aso-research-article.md`, each complete |
+| §6 missing figures | **no** | figures render in the built PDF as vector, held by `tests/test_aso_figures_are_vector_not_raster.py` |
+| §6 missing reference lists | **no** | the numbered list is IN the built PDF, not only in the sidecar — text-extracted from `fusion-junction-aso-research-article.pdf`, entries 1–53+ present |
+| §6 ethics / competing interests / patient identifiers | **no** | all three statements present in Declarations; no human subjects, no identifiers |
+| §4 data fully accessible | **no** | the Zenodo version DOI resolves to a published record, read back with no token (`deposit-state.json`) |
+| §1.3 LLM documented | **no** | declared in Declarations. ⚠ Their §1.3 asks for the **Methods section** "or a suitable alternative part" — Declarations is arguably that, but it is not Methods, and this is the one place the paper is not squarely inside the letter of their text |
+| §6 already published at a journal | **no** | it has not been |
+| affiliation | **not a clause** | it appears nowhere in their Editorial Policies |
+
+**So the eliminable clauses are eliminated, and what remains is judgement — theirs, exercised on a
+skim.** Ranked:
+
+1. **§6, "inappropriate, alarming … claims."** ★ **THE STRONGEST FIT, AND IT IS THE PAPER'S OWN
+   SAFETY APPARATUS THAT TRIPS IT.** A screener who is not an oligonucleotide chemist opens a
+   manuscript whose Box 1 is titled "Sequences, cautions and the void condition", which opens
+   *"must not be administered to any person or animal"*, then *"Do not order an oligonucleotide by
+   copying it out of this PDF"*, then *"Three designs not to be used"*, then a second class *"not to
+   be ordered, and it is much larger"* — beside printed, orderable 16-mers, in a paper whose author
+   declares he is a survivor of the disease. Every one of those sentences is there because this
+   repository decided a reader might act on the paper. **That is exactly the inference a risk
+   screener draws, and they draw it from the warnings rather than in spite of them.** The paper
+   reads, at a skim, as anticipating self-administration.
+   ⚠ This does not mean the cautions were wrong to write. It means they are load-bearing evidence
+   FOR the screener, and any future submission has to decide where they sit and how the framing
+   carries them.
+2. **§1.2, "Theories … are not eligible for preprinting."** Research Square accepts "computational
+   research articles" by name, so this is not automatic. But the manuscript reports **no
+   experiment**, its §4 is titled "Reagents, controls and the falsification experiment" and
+   specifies an experiment nobody has run, and §4.5 releases a design procedure whose output the
+   paper itself calls *"a candidate, not a validated reagent"*. A screener classifying by what was
+   DONE rather than by what was COMPUTED can land on proposal-not-result.
+3. **§6, "Articles with strong conclusions."** The clause's own qualifier — "especially in the
+   absence of fully accessible data" — does **not** apply here; the data resolve. What does apply
+   is the title, which is measured at **52 words and 356 characters** and is a declarative
+   quantitative result sentence about drug candidates for a human cancer, asserted *in silico*. It
+   is the first and possibly the only thing a screener reads in full.
+4. **AI-generation gestalt.** ⚠ **NOT A STATED GROUND** — §1.3 requires documentation and §6 does
+   not list LLM use — so this cannot be asserted from their policy. It is named here only because
+   the signals a screener would use co-occur in this submission: sole unaffiliated author, no
+   funder, no institution, no wet lab, a maximally broad AI declaration ("used throughout this
+   work … to draft and revise this manuscript"), and a 52-word title. **Any claim that this is what
+   happened is a remembered impression of how screeners behave, not a reading**, and the honest
+   entry is UNKNOWN.
+5. **Affiliation.** ⛔ Not supported. See §2 item 4.
 
 ## 3 · Open, and blocking the journal submission
 
