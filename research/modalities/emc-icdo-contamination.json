@@ -277,29 +277,41 @@
     "⭐_and_it_cuts_the_other_way_too": "By the same logic the soft-tissue side is not pure either: a soft-tissue 9231/3 record is a registrar's morphology assignment, not an NR4A3-confirmed diagnosis. The one EMC cohort in this repository that carries no coding ambiguity at all is the Italian Sarcoma Group series (PMID 32572850, n=67), which is NR4A3-rearrangement confirmed and centrally reviewed -- and it is not a registry cohort."
   },
   "size": {
-    "state": "NOT_MEASURED -- and the reason is now specific rather than general",
+    "state": "MEASURED AS A BOUND, 2026-08-23",
     "the_question": "Of a registry cohort selected on morphology 9231/3, what fraction has a bone primary?",
-    "why_it_is_still_open": "Four SEER cohorts selected on this code are published. NONE of them prints a bone-versus-soft-tissue split, and the reason differs per paper: PMID 31765367 has a location variable with no soft-tissue category at all; PMID 32856598 almost certainly has the table and is a subscription article this project cannot read at $0; PMID 27819877 applied the topography restriction but publishes only the post-restriction count; PMID 35144048 stratifies by anatomic site but its categories are unread.",
-    "the_closest_published_numbers_and_what_each_is_not": [
-      {
-        "number": "791 identified on morphology 9231/3, 439 after exclusions (SEER 1973-2016, PMID 32856598)",
-        "what_it_is_not": "⛔ NOT a contamination fraction. Nobody has read what the 352 exclusions were for. Dividing them would be the manufactured ratio the registration forbids.",
-        "provenance": "[2°] via PMC12504171"
+    "the_answer": {
+      "bone_primary_fraction": "at least 32.1%, and about 37.5% once the one bias whose direction is known is corrected for",
+      "source": "PMID 31283732 / PMC6903832 -- SEER 18 registries, diagnosis years 1988-2015. BOTH HALVES COME FROM THE SAME STUDY, so registries, years and morphology code match by construction and nothing has to be combined across papers.",
+      "derivation": {
+        "skeletal_9231_retained": 191,
+        "skeletal_9231_where": "Table 1, 'Histologic type' row: 'Myxoid chondrosarcoma 187 (6%) 4 (9%)'. The two columns are 'No regional lymph node involvement (n = 3330)' and 'Regional lymph node involvement (n = 44)', so the row total is 187 + 4 = 191.",
+        "extraskeletal_9231_excluded": 404,
+        "extraskeletal_9231_where": "Methods: 'We excluded 404 patients with extraskeletal myxoid chondrosarcoma because it is a misnomer to call it a real chondrosarcoma'.",
+        "total_9231_in_the_pull": 595,
+        "fraction": "191 / 595 = 32.1%"
       },
-      {
-        "number": "87 of 743 (11.7%) high-grade SEER chondrosarcoma cases carry morphology 9231 (SEER 1973-2014, PMID 31765367)",
-        "what_it_is_not": "⛔ NOT the bone-primary fraction of a 9231/3 cohort. It is the converse -- how much 9231 sits inside a bone-FRAMED cohort -- and it is restricted to high grade, which EMC often is not.",
-        "provenance": "[FT]"
-      }
+      "⚠_the_one_step_that_is_INFERRED_rather_than_printed": "That the 191 retained myxoid cases are all SKELETAL. The paper does not cross-tabulate site against histology. The inference is that its authors classify site from ICD-O topography codes, excluded every EXTRASKELETAL myxoid case as EMC, and kept 9231/3 on their included-morphology list -- so any myxoid case still in the cohort must be skeletal. Tight, but a deduction from two Methods statements rather than a printed cross-tab."
+    },
+    "arithmetic_checks_that_passed": [
+      "Table 1's site rows sum to 3,374 (2,917+31 skeletal, 413+13 extraskeletal), matching the cohort size the paper states.",
+      "Its histology rows sum independently to 3,374.",
+      "The site totals reproduce the 2,948 and 426 the Results text quotes.",
+      "4,273 - 899 = 3,374, the paper's own flow."
     ],
-    "what_would_close_it_now_ranked": [
-      "⭐ THE EXACT QUERY, now fully specified by a published half: SEER 18 registries, diagnosis years 2000-2018, ICD-O-3 morphology 9231, NO site restriction. Divide 459 into it (see `base_rate_of_bone_primaries`) and the bone-primary fraction falls out with matched registries, years and code. This is the route's blocking step and it is one frequency session in SEER*Stat, not a study.",
-      "Table 1 of PMID 32856598. One table, in a subscription article. This is the cheapest close available and it costs an institutional subscription or an interlibrary request, not a data-use agreement. ⚠ THAT REORDERS THE ROUTE: the repository has carried this as blocked on BLK-REGISTRY-DUA, and the highest-value next step is a PDF, not a DUA.",
-      "The Methods of PMID 27819877, if they report what the soft-tissue restriction removed.",
-      "The anatomic-site table of PMID 35144048.",
-      "A SEER Research (base tier) query, which is now measured as needing an institutional email, an application form and a DUA -- and which carries the topography field."
+    "the_two_biases_and_their_DIRECTIONS": {
+      "makes_32_percent_TOO_LOW": "The 191 is counted AFTER the lymph-node-status filter, which removed 899 of 4,273 (21.0%) of the pool; the 404 was excluded at an earlier stage. If skeletal 9231 cases lost lymph-node status at the cohort-average rate, the pre-filter skeletal count is about 242 and the fraction is 242/646 = 37.5%. ⚠ THAT SECOND FIGURE IS AN ADJUSTMENT, NOT A MEASUREMENT -- it assumes equal attrition, which nobody has shown.",
+      "also_makes_32_percent_TOO_LOW": "The paper's other inclusion criteria (living patient, microscopic confirmation, first primary) were applied somewhere between the 5,528 enrolled and the 4,273 pool, and their ORDER relative to the 404 exclusion is not stated. If the 404 is a rawer count than the 191, the true skeletal share is higher again.",
+      "⛔_what_does_NOT_make_it_too_high": "Nothing identified. Both known biases push the same way, which is why 32.1% is reported as a FLOOR rather than an estimate."
+    },
+    "⛔_what_this_fraction_is_NOT": "It is NOT the share of a 9231/3 cohort that is 'the wrong disease'. Primary EMC of bone is a documented entity (see `bone_primary_is_not_automatically_not_emc`), so some of the 191 are genuine EMC. The bone-primary fraction is an UPPER bound on non-EMC contamination and a LOWER bound as measured. Two different bounds on two different quantities; they must not be collapsed.",
+    "⭐_why_it_is_decision_relevant": "IT IS LARGE. Roughly one record in three in a SEER morphology-9231/3 pull has a bone primary. A study querying 9231/3 with no topography restriction -- the standard construction in the EMC registry literature -- is therefore not assembling a soft-tissue cohort. ⛔ AND THE PRE-REGISTERED NEGATIVE DID NOT FIRE: `registration.what_a_negative_looks_like` defined a SMALL fraction as a real result that would RETIRE this repository's caveat on SEER-derived EMC figures. The fraction is not small, so the caveat stands, and it is now quantified rather than asserted.",
+    "cross_checks_against_the_other_published_counts": "No contradiction. PMC9303001 reports 459 NON-BONE 9231 records for SEER 18 over 2000-2018; this study's 404 extraskeletal covers SEER 18 over 1988-2015 -- different overlapping windows, same order of magnitude. ⛔ THEY STILL MAY NOT BE COMBINED: that is the cross-paper ratio `registration.how_a_number_may_not_be_obtained` forbids, and it is no longer needed, because one study supplies both halves.",
+    "what_would_still_improve_it": [
+      "A cross-tab of site against histology for this cohort, removing the one inferred step.",
+      "The same query without a lymph-node-status requirement, removing the known downward bias and turning the floor into a point estimate.",
+      "Table 1 of PMID 32856598, as an independent replication over a different window."
     ],
-    "provenance": "[DOC] + [FT] + [2°], per row above"
+    "provenance": "[FT] -- Table 1 read from the article PDF (Europe PMC render, 45,987 characters), after the PMC article HTML and its ?report=classic view were both found not to inline table cells and the Europe PMC fullTextXML endpoint returned HTTP 404 for this PMCID."
   },
   "sequencing": {
     "apparent_deadlock": "RT-POPULATION-REGISTRY is deliberately sequenced BEHIND this contamination question, and this question's size needs a registry query. Read quickly that is a cycle.",
