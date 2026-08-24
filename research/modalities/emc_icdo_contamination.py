@@ -330,6 +330,35 @@ SIZE = {
 }
 
 # ---------------------------------------------------------------------------
+# 2c - A THIRD READING OF THE SAME CODE, from a third registry
+# ---------------------------------------------------------------------------
+# The committed framing says 9231/3 is read two ways. Found 2026-08-23: there is a third, in a
+# national registry's own published grouping document.
+THIRD_READING = {
+    "pmid": "35859542",
+    "pmcid": "PMC9290890",
+    "year": 2022,
+    "title": "Aligning the Central Brain Tumor Registry of the United States (CBTRUS) histology "
+    "groupings with current definitions",
+    "reads_9231_as": "a CNS tumour -- listed under 'Tumors of Meninges -> Mesenchymal tumors' "
+    "and again under 'Other neoplasms related to the meninges'",
+    "the_quote": "Tumors of Meninges Meningioma 9535 ... Mesenchymal tumors 8710, 8711, 8810, "
+    "8821, 8825, 8840, 9120, 9125, 9130, 9131, 9133, 9161, 9220, 9231, 9240, 9243, 9370-9372",
+    "quote_source": "full text, reclassification table",
+    "why_it_matters": "⭐ THE CODE IS READ THREE WAYS, NOT TWO -- soft-tissue EMC, a bone "
+    "chondrosarcoma subtype, and an intracranial mesenchymal/meningeal tumour -- and the third "
+    "reading comes from a national registry's own grouping document rather than from a single "
+    "study. ⚠ All three are legitimate. A morphology code carries no topography, so 9231/3 "
+    "paired with C70-C72 is a CNS tumour, paired with C40-C41 is a bone tumour, and paired with "
+    "C49 is soft tissue. That is the route's thesis stated by the coding system's own users.",
+    "and_it_corroborates_the_validation_list": "The same document treats SEER's site/type "
+    "validation list as an operational authority -- one of its recode instructions reads '8771 "
+    "(remove from data, not in SEER site/type validation list)'. So that list is not a dormant "
+    "reference: another registry prunes its data against it.",
+    "provenance": "[FT]",
+}
+
+# ---------------------------------------------------------------------------
 # 3a - THE BASE RATE: how often a morphology-selected SEER sarcoma cohort carries a bone primary
 # ---------------------------------------------------------------------------
 # ⭐ The nearest published measurement of the thing this route asks about, found 2026-08-23. It is
@@ -430,6 +459,82 @@ PUBLIC_AGGREGATE_TIER = {
 }
 
 # ---------------------------------------------------------------------------
+# 3c - DOES ANY TREATMENT GUIDANCE IMPORT CONVENTIONAL-CHONDROSARCOMA REASONING FOR EMC?
+# ---------------------------------------------------------------------------
+# RT-DIAGNOSTIC-PATHWAY's third open unknown, and the route says answering it "would raise the
+# finding's weight considerably". ⭐ IT IS ANSWERED, AND IT IS LARGELY A NEGATIVE.
+GUIDELINE_PLACEMENT = {
+    "the_question": "Does any treatment guidance actually import conventional-chondrosarcoma "
+    "reasoning for EMC?",
+    "answer": "NO EVIDENCE FOUND AT THE GUIDELINE LEVEL, and the specialist literature is "
+    "explicit in the other direction: EMC is managed under SOFT TISSUE SARCOMA guidance. ⛔ This "
+    "is a NEGATIVE for the route's clinical half and is reported as one. It does not weaken the "
+    "coding finding, which is about the research record rather than about the clinic.",
+    "what_two_independent_reviews_say": [
+        {
+            "pmcid": "PMC12504171",
+            "year": 2025,
+            "quote": "Due to the rarity of EMC, we recommend standardising care in line with the "
+            "ESMO-EURACAN-GENTURIS and NCCN STS guidelines",
+            "and_on_the_name": "Despite its name, EMC does not exhibit true cartilaginous "
+            "differentiation and is now classified as a mesenchymal tumour of uncertain "
+            "differentiation rather than a conventional chondrosarcoma",
+            "provenance": "[FT]",
+        },
+        {
+            "pmcid": "PMC7563993",
+            "year": 2020,
+            "quote": "the same recommendations about the use of adjuvant or neo-adjuvant RT in "
+            "soft tissue sarcoma also apply to EMC: wide surgical margin resection and "
+            "radiotherapy are standard for all sarcomas greater than 5 cm, deep and "
+            "intermediate/high-grade lesions, as reported in the European Society of Medical "
+            "Oncology (ESMO) and National Comprehensive Cancer Network (NCCN) guidelines",
+            "and_on_the_name": "EMC is now classified as a mesenchymal tumor of uncertain "
+            "differentiation ... it shows no cartilage differentiation, despite the name, which "
+            "has been retained only for historical reasons",
+            "provenance": "[FT]",
+        },
+    ],
+    "⚠_the_honest_bound_on_that_answer": "BOTH READINGS ARE SECONDARY. What has been read is "
+    "what two EMC reviews say the guidelines say, not the guideline texts. The ESMO clinical "
+    "practice guidelines are not open access: Europe PMC reports isOpenAccess=N for every version "
+    "of both the soft-tissue and the bone guideline, five doi.org resolutions returned an "
+    "identical 1,327-character shim page under a real headless browser, and "
+    "annalsofoncology.org returned HTTP 403 to that same browser. So 'no guideline imports "
+    "chondrosarcoma reasoning' is supported by two specialist reviews and is NOT a reading of the "
+    "guidelines themselves.",
+    "⭐_but_there_is_prior_art_for_the_clinical_claim_and_it_had_never_been_read_here": {
+        "pmid": "31436747",
+        "pmcid": "PMC7771031",
+        "year": 2019,
+        "title": "Extraskeletal Myxoid Chondrosarcomas: Combined Modality Therapy With Both "
+        "Radiation and Surgery Improves Local Control",
+        "quote": "despite its name, EMC is genetically and histolo[g]ically distinct from "
+        "conventional chondrosarcoma of bone and in fact, is classified by the WHO as a tumor of "
+        "uncertain lineage. Unfortunately however, [t]his tumor name has likely influenced local "
+        "management patterns. Based on our data in this study, and similar to data related to "
+        "other extraskeletal osteogenic tumors, the bone sarcoma treatment pathways do not apply "
+        "for soft tissue origins. Ultimately, for patients with EMC, RT should not be omitted due "
+        "to misconceptions of tumor grade or extrapolations related to primary bone tumor "
+        "paradigms.",
+        "quote_source": "full text, Discussion",
+        "what_this_does_to_the_route": "⛔ IT MAKES THE NAMING ARGUMENT PRIOR ART RATHER THAN A "
+        "NEW OBSERVATION, and any paper from this route must cite it and position against it. A "
+        "peer-reviewed clinical series has already published the claim that EMC's name misleads "
+        "management, in almost the words this repository was preparing to use. ⚠ Their claim is "
+        "ASSERTED, not measured -- 'has LIKELY influenced local management patterns' -- so what "
+        "is still unclaimed is a measurement, not the idea.",
+        "provenance": "[FT]",
+    },
+    "what_this_means_for_the_papers_shape": "★ The two halves separate cleanly and should be "
+    "reported at different weights. The CODING half is novel, documented and multi-registry: one "
+    "morphology code read three ways, an edit rule that says bone, and published cohorts that "
+    "merge the populations without separating them. The NAMING half has prior art (PMC7771031), "
+    "no guideline-level evidence, and specialist guidance pointing the other way. Writing them as "
+    "one claim would overstate the second on the strength of the first.",
+}
+
+# ---------------------------------------------------------------------------
 # 4 - the sequencing that looks circular and is not
 # ---------------------------------------------------------------------------
 SEQUENCING = {
@@ -495,12 +600,23 @@ ACCESS_TIERS = {
         },
     ],
     "seerstat_is_windows": {
-        "state": "NOT_YET_VERIFIED",
-        "why_it_matters": "If SEER*Stat is Windows-only it is a real practical barrier for this "
-        "project and may decide the route on its own, independently of whether the DUA is easy.",
-        "what_was_attempted": "https://seer.cancer.gov/seerstat/installation/ returned HTTP 404 "
-        "on the runner. The SEER*Stat home page (https://seer.cancer.gov/seerstat/, HTTP 200) "
-        "was retrieved and the system-requirements statement has not yet been read out of it.",
+        "state": "CONFIRMED AT PRIMARY SOURCE",
+        "source": "https://seer.cancer.gov/help/seerstat/seer-stat-configuration/"
+        "system-requirements, fetched on an Actions runner, HTTP 200",
+        "the_quote": "To run SEER*Stat, you will need a personal computer with at least: A "
+        "Pentium or equivalent processor. 64 MB application RAM. 41 MB hard disk space. A 32-bit "
+        "or 64-bit version of Microsoft Windows - Windows 10 or later. Screen resolution set to "
+        "1024 by 768 pixels or greater.",
+        "what_it_means_for_this_project": "⚠ SEER*Stat IS WINDOWS-ONLY, AND IT IS THE ONLY "
+        "SUPPORTED CLIENT FOR THE RESEARCH DATA. This project's compute is Linux -- the dev "
+        "sandbox, the Actions runners and the GPU hosts -- so the base-tier route needs a "
+        "Windows machine or an emulation layer that NCI does not support, in addition to the "
+        "form and the DUA. It does not CLOSE the route; it means the route's cost is a machine "
+        "as well as a signature, and neither is an agent's to arrange.",
+        "⛔_what_this_is_not": "It is not a reason to prefer the public tier, because the public "
+        "tier has been measured (see `public_aggregate_tier`) not to serve the cross-tab at all. "
+        "The comparison is between a Windows client that can answer the question and a web tool "
+        "that cannot.",
         "provenance": "[DOC]",
     },
 }
@@ -522,7 +638,13 @@ WHAT_HAS_NOT_BEEN_READ = [
     "path is wrong rather than the tool absent.",
     "The Dictionary of SEER Variables entry for Primary Site under the Research product, which "
     "would turn the topography-availability reading from an argument-from-an-exclusion-list into "
-    "a positive confirmation.",
+    "a positive confirmation. ⚠ Four candidate paths for it returned HTTP 404, so the path is "
+    "unknown rather than the document absent.",
+    "The ESMO and NCCN guideline texts themselves. ⛔ NOT OPEN ACCESS AND NOT REACHABLE: Europe "
+    "PMC reports isOpenAccess=N for every version of the ESMO soft-tissue and bone sarcoma "
+    "guidelines; five doi.org resolutions returned an identical 1,327-character shim under a real "
+    "headless browser; annalsofoncology.org returned HTTP 403 to that browser. NCCN's public "
+    "guideline-detail pages DID answer (HTTP 200) and are the remaining readable surface.",
 ]
 
 # ---------------------------------------------------------------------------
@@ -577,6 +699,37 @@ PROVENANCE_LEDGER = [
         "read_level": "[FT], used as a [2°] source for another paper's numbers",
     },
     {
+        "identifier": "PMID 31436747 / PMC7771031 (prior art for the naming claim)",
+        "how_obtained": "Surfaced by the Europe PMC 'extraskeletal myxoid chondrosarcoma AND "
+        "SEER' search. ⚠ Its Europe PMC fullTextXML endpoint returned HTTP 404 despite the record "
+        "carrying a PMCID; the PMC article HTML page returned HTTP 200 (34,641 characters) and is "
+        "what was read. Recording the route matters: a 404 on one endpoint is not evidence the "
+        "paper is unreadable.",
+        "read_level": "[FT]",
+    },
+    {
+        "identifier": "PMID 35859542 / PMC9290890 (CBTRUS histology alignment)",
+        "how_obtained": "Surfaced by a Europe PMC free-text search for '9231/3' (54 hits, mostly "
+        "irrelevant -- the string also matches page and record numbers). fullTextXML 404'd; the "
+        "PMC article HTML page returned HTTP 200 (50,643 characters).",
+        "read_level": "[FT]",
+    },
+    {
+        "identifier": "PMID 35875111 / PMC9303001 (pan-soft-tissue-sarcoma SEER analysis)",
+        "how_obtained": "Same Europe PMC search; Europe PMC fullTextXML, HTTP 200, 99,834 "
+        "characters.",
+        "read_level": "[FT]",
+    },
+    {
+        "identifier": "SEER*Stat system requirements",
+        "how_obtained": "⚠ THE URL CAME FROM A WEB SEARCH AND THE READING DID NOT. "
+        "https://seer.cancer.gov/seerstat/installation/ returned HTTP 404, a search located "
+        "/help/seerstat/seer-stat-configuration/system-requirements, and that page was then "
+        "fetched on an Actions runner (HTTP 200) so the quoted requirement is a primary reading "
+        "rather than a search snippet.",
+        "read_level": "[DOC]",
+    },
+    {
         "identifier": "SEER*Explorer Cancer Site Definitions",
         "how_obtained": "https://seer.cancer.gov/statistics-network/explorer/cancer-sites.html "
         "fetched on an Actions runner, HTTP 200, 5,519 characters.",
@@ -606,6 +759,14 @@ CLAIM_CEILING = [
     "The 11.7% figure is the share of morphology 9231 inside one high-grade bone-framed "
     "chondrosarcoma cohort. It is NOT the bone-primary fraction of a 9231/3 cohort and is not a "
     "contamination rate.",
+    "The naming half of this route has PRIOR ART (PMC7771031, 2019) and must be written as "
+    "positioning against it rather than as a new observation. What is unclaimed there is a "
+    "MEASUREMENT; the idea is published.",
+    "'No guideline imports conventional-chondrosarcoma reasoning for EMC' rests on two specialist "
+    "reviews describing the guidelines, not on the guideline texts, which are not open access and "
+    "were not readable by any route tried. State it at that strength.",
+    "The 1.44% bone-primary rate is across ALL soft-tissue sarcoma morphologies in one SEER "
+    "study. It is a comparator, never a stand-in for a 9231/3 figure.",
     "Nothing here is a patient count and nothing here is a diagnosis.",
 ]
 
@@ -627,7 +788,9 @@ def build() -> dict:
         "coding_system": CODING_SYSTEM,
         "published_cohorts": PUBLISHED_COHORTS,
         "indeterminate_diagnosis_paper": INDETERMINATE_DIAGNOSIS_PAPER,
+        "third_reading": THIRD_READING,
         "base_rate_of_bone_primaries": BASE_RATE_OF_BONE_PRIMARIES,
+        "guideline_placement": GUIDELINE_PLACEMENT,
         "public_aggregate_tier": PUBLIC_AGGREGATE_TIER,
         "size": SIZE,
         "sequencing": SEQUENCING,
