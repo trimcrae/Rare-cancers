@@ -921,9 +921,12 @@ CLAIM_CEILING = [
     "The naming half of this route has PRIOR ART (PMC7771031, 2019) and must be written as "
     "positioning against it rather than as a new observation. What is unclaimed there is a "
     "MEASUREMENT; the idea is published.",
-    "'No guideline imports conventional-chondrosarcoma reasoning for EMC' rests on two specialist "
-    "reviews describing the guidelines, not on the guideline texts, which are not open access and "
-    "were not readable by any route tried. State it at that strength.",
+    "'No guideline imports conventional-chondrosarcoma reasoning for EMC' has TWO strengths and "
+    "they must not be merged. The NCCN half is PRIMARY but narrow: its published topic index "
+    "places EMC under Soft Tissue Sarcoma and not under Bone Cancer — that is where EMC sits, not "
+    "what the guideline says about it, because the guideline PDFs are behind a login. The ESMO "
+    "half is SECONDARY: two specialist reviews describing guidelines that are not open access and "
+    "were not readable by any route tried, including a real headless browser.",
     "The 1.44% bone-primary rate is across ALL soft-tissue sarcoma morphologies in one SEER "
     "study. It is a comparator, never a stand-in for a 9231/3 figure.",
     "⛔ A measured bone-primary fraction is an UPPER BOUND on non-EMC contamination, never the "
@@ -933,8 +936,31 @@ CLAIM_CEILING = [
 ]
 
 
+def _pmids_in(obj) -> set:
+    """Every value stored under a `pmid` key, at any depth. See the comment at the call site."""
+    found = set()
+    if isinstance(obj, dict):
+        for key, value in obj.items():
+            if key == "pmid" and isinstance(value, str) and value.isdigit():
+                found.add(value)
+            else:
+                found |= _pmids_in(value)
+    elif isinstance(obj, list):
+        for value in obj:
+            found |= _pmids_in(value)
+    return found
+
+
 def build() -> dict:
     """Pure over this module's tables. Touches no file."""
+    payload_blocks = [
+        PUBLISHED_COHORTS,
+        INDETERMINATE_DIAGNOSIS_PAPER,
+        THIRD_READING,
+        BASE_RATE_OF_BONE_PRIMARIES,
+        GUIDELINE_PLACEMENT,
+        TOPOGRAPHY_SPLIT_STUDY,
+    ]
     return {
         "_generated_by": "research/modalities/emc_icdo_contamination.py",
         "_do_not_hand_edit": (
@@ -962,9 +988,12 @@ def build() -> dict:
         "what_has_not_been_read": WHAT_HAS_NOT_BEEN_READ,
         "provenance_ledger": PROVENANCE_LEDGER,
         "claim_ceiling": CLAIM_CEILING,
-        "pmids": sorted(
-            {r["pmid"] for r in PUBLISHED_COHORTS} | {INDETERMINATE_DIAGNOSIS_PAPER["pmid"]}
-        ),
+        # ⛔ DERIVED, NEVER TYPED (CLAUDE.md rule 1.1). The first version of this line unioned two
+        # named blocks and silently omitted every PMID that arrived later in a new block — four of
+        # them, including the topography-split study this artifact's best finding rests on. A
+        # hand-maintained union of hand-named blocks is a total that drifts the moment the shape
+        # changes, which is exactly what rule 1.1 is about.
+        "pmids": sorted(_pmids_in(payload_blocks)),
     }
 
 
