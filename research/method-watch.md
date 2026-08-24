@@ -470,3 +470,38 @@ triggers not yet integrated into the curated sections above — review + fold in
   only if a fast affinity pre-filter is ever wanted — physics stays the ranker. https://rowansci.com/tools/boltz-2
 - **2026-07-13 — Independent Boltz-2 reliability eval (arXiv 2603.05532).** Strong binary classifier, weak
   quantitative ranking — reinforces "generator scores never enter S_d." https://arxiv.org/html/2603.05532v1
+- **2026-08-19 — OpenMM 8.6.0: native `ReplicaExchangeSampler` + `ExpandedEnsembleSampler`.** New multistate-
+  sampling primitives usable to accelerate/validate the warhead RBFE and physics-ensemble ΔG_coop legs — a new
+  axis of evidence per the breadth-first rule (§CLAUDE.md), not a depth-past-standard add. Evaluate before the
+  next sampling campaign. https://github.com/openmm/openmm/releases/tag/8.6.0
+- **2026-08-24 (dated ~2026, exact issue date unverified) — Riepenhausen et al., "AI-Based Prediction of
+  PROTAC- and Molecular Glue-Mediated Ternary Complexes: A Comparative Evaluation of AlphaFold 3 and Boltz-2,"
+  Archiv der Pharmazie, e70225.** Head-to-head benchmark of AF3 vs Boltz-2 on 40 resolved ternary complexes (25
+  PROTAC + 15 glue) — directly informs which co-fold engine to trust for our ternary GENERATION step; read
+  before the next ternary rebuild. https://onlinelibrary.wiley.com/doi/10.1002/ardp.70225
+- **2026-08-11 — DegradeQuery (arXiv 2608.10595).** Counterfactual-tuple pretraining that exploits unlabeled
+  molecule–target–E3 records in PROTAC databases for degradation-activity prediction (AUROC 0.907 / accuracy
+  0.85 on PROTAC-8K). A candidate weak prioritization signal only — same guardrail as DeepTernary/FKSFold:
+  generator/predictor scores never enter `S_d`, physics stays the ranker. https://arxiv.org/abs/2608.10595
+- **2026-08-05 — DCAF11-dependent molecular glue activated by glutathionylation (Nature, Dana-Farber).**
+  First-in-kind *metabolically activated* molecular glue (prodrug M12, turned "on" by GST-mediated
+  glutathionylation in oxidative-stress-high cancer cells), discovered via a new systematic degrader-discovery
+  platform that broadens usable E3 ligases beyond CRBN/VHL. New axis: conditional/context-dependent degrader
+  activation + a non-CRBN/VHL E3 discovery route — worth a look if the DCAF11 handle is ever relevant to a
+  paralogue-selectivity design. https://www.nature.com/articles/s41586-026-10873-1 ·
+  https://www.dana-farber.org/newsroom/news-releases/2026/dana-farber-investigators-develop-protein-degrader-discovery-platform-and-find-first-in-kind-metabolically-activated-molecular-glue-degrader
+- **2026-08-12/2026-08-01 — Two stack releases landed, specifics UNKNOWN (egress-blocked from docs sites this
+  scan; follow up via CI escape hatch before relying on either for a numeric change): OpenFF toolkit 0.19.0**
+  (https://github.com/openforcefield/openff-toolkit/releases/tag/0.19.0) **and RDKit 2026.03.5**
+  (https://github.com/rdkit/rdkit/releases/tag/Release_2026.03.5, a patch on 2026.03.4). OpenFE, gufe,
+  openmmtools, Kartograf and LOMAP2 had no new release in this window (last: OpenFE v1.12.0 2026-07-01, gufe
+  v1.12.0 2026-06-23, openmmtools v0.26.0 2026-01-07, Kartograf v2.0.0 2026-06-23, LOMAP2 v3.3.0 2026-06-15) —
+  all just outside or already inside the prior baseline. No new open-weight Boltz release (still v2.2.1,
+  2025-09-08); Boltz 2.1 stays closed/API-only, already-tracked. No new DeepTernary or FKSFold release found.
+- **2026-08-24 — Frontier-model access re-confirmed, no restriction, no supersession.** Claude Opus 5
+  (released 2026-07-24) remains the current top generally-available tier for this bio work: same ASL-3
+  protections as Opus 4.8, CB-1 (non-novel weapons synthesis) not CB-2, and blocked Fable-5 biology requests
+  route to Opus 5 rather than being refused — matches the 2026-08-24 CLAUDE.md correction. No newer/more-
+  capable model found since 2026-07-13 that out-measures Opus 5 for scientific/biology reasoning (xAI Grok 4.6
+  and Alibaba Qwen3.5-Max shipped in-window with no head-to-head showing them ahead; treat as UNKNOWN, not
+  inferior). https://www.anthropic.com/news/claude-opus-5

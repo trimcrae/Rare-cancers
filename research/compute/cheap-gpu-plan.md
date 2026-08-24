@@ -410,3 +410,22 @@ and could fund the whole program). **Integrity guardrail:** eligibility on any s
 authoritative only on its own detail page / full announcement — a grants.gov applicant-type tag is a prompt to
 read, not a guarantee. Reusable check: dispatch `method-watch.yml` with `probe_grants=<oppId>` to pull a given
 opportunity's authoritative eligibility (`scripts/fetch-grants-eligibility.mjs`).
+
+## 🔄 Auto-captured field-scan compute-cost updates (review + integrate above)
+
+Appended by the weekly field-scan Routine. Provider choice is trimcrae's decision — items here are flagged
+⚠ for human review, never auto-integrated into the waterfall/policy above.
+
+- **2026-08-24 — ⚠ for human review: no major price cut this period on providers already in use.** Checked
+  Vast.ai, RunPod, GCP, AWS spot/preemptible pricing — no material move found since 2026-07-13. Vast.ai remains
+  the cheapest marketplace floor (e.g. H100 SXM ≈$1.49/hr vs Lambda on-demand $3.99/hr; beats RunPod on-demand
+  on 26 of 29 compared GPU models) — consistent with the existing waterfall, not a change to it.
+- **2026-08-24 — ⚠ for human review, UNPRICED for our workload: RTX 5090 falling in cloud price.** ~1,792 GB/s
+  memory bandwidth (~1.8× the RTX 4090's ~1,008 GB/s) — for our memory-bandwidth-bound OpenMM PME MD, this is
+  the axis that predicts ns/day. Median cloud on-demand price ~$0.46–0.56/hr, down ~23% y/y. **No OpenMM/OpenFE
+  $/ns benchmark exists for it yet** — do not call it cheap until measured; Phoronix confirms real NAMD/CUDA
+  throughput gains, which is suggestive but not our workload. Candidate for a cheap smoke-test $/ns measurement
+  before the next 4090-class fleet decision. No primary pricing link independently re-verified this scan.
+- **2026-08-24 — no new provider or free/academic credit program found this period.** NSF ACCESS Explore
+  allocations and the NVIDIA Academic Hardware Grant Program remain open (not new) — flagged only because they
+  remain unused free-compute options per the existing waterfall.

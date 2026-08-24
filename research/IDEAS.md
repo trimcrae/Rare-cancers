@@ -506,3 +506,23 @@ dispatch; the run history that says whether the scan fired lives in
 - **2026-08-21 — trigger `TRG-POSE-ORIENTATION-CONVERGENCE` matched: A pose-prediction protocol validated on ORIENTATION, not only on location.** ⚠ **Unvalidated lead — machine-matched on the trigger's own queries, not read and not graded.** **Would reopen:** _(no mapping recorded)_. Hit: *Elucidating the Mechanisms of Trichloroethylene-Induced Kidney Cancer: Network Toxicology, Molecular Docking, and In Vitro Validation* (J Biochem Mol Toxicol, 2026-08-01, MED/42585599) https://europepmc.org/article/MED/42585599 . If it holds: Check the paper reports an ORIENTATION metric (symmetry-corrected RMSD or an interaction-fingerprint agreement) on held-out receptors. A pocket-identification success rate is not this. Trigger definition + queries: [`research/method-watch-triggers.json`](./method-watch-triggers.json).
 - **2026-08-21 — trigger `TRG-COVALENT-EXPOSURE-CRITERION` matched: A solvent-exposure or thiol-reactivity criterion that calls covalent-site engageability on a state-matched model.** ⚠ **Unvalidated lead — machine-matched on the trigger's own queries, not read and not graded.** **Would reopen:** _(no mapping recorded)_. Hit: *Cysteine Thioaldehydes: Photolytic Generation, Reactivity, and Biological Implications* (Angew Chem Int Ed Engl, 2026-08-17, MED/42605888) https://europepmc.org/article/MED/42605888 . If it holds: Check the criterion was applied to a conformational state, not to a single apo structure — and that its known-answer set includes a cysteine that is buried in apo and engageable in practice. Trigger definition + queries: [`research/method-watch-triggers.json`](./method-watch-triggers.json).
 - **2026-08-21 — trigger `TRG-COVALENT-EXPOSURE-CRITERION` matched: A solvent-exposure or thiol-reactivity criterion that calls covalent-site engageability on a state-matched model.** ⚠ **Unvalidated lead — machine-matched on the trigger's own queries, not read and not graded.** **Would reopen:** _(no mapping recorded)_. Hit: *Protocol for covalent ligand discovery via library-versus-proteome screening* (STAR Protoc, 2026-08-17, MED/42606932) https://europepmc.org/article/MED/42606932 . If it holds: Check the criterion was applied to a conformational state, not to a single apo structure — and that its known-answer set includes a cysteine that is buried in apo and engageable in practice. Trigger definition + queries: [`research/method-watch-triggers.json`](./method-watch-triggers.json).
+- **2026-08-24 — weekly field-scan: fusion-junction peptide vaccine precedent, corrected identifier.** A
+  research subagent's first pass reported this trial under **NCT07430202** — that identifier does **not**
+  resolve on ClinicalTrials.gov or in a bare-ID web search and was dropped rather than cited (CLAUDE.md §7:
+  never write an identifier from recollection). Re-search confirms the real registration is **NCT06789198**,
+  "Peptide Vaccine for Fibrolamellar Hepatocellular Carcinoma Patients and Other Tumor Entities Carrying the
+  Driver Fusion DNAJB1-PRKACA." Structurally the closest external precedent yet for a fusion-breakpoint-
+  directed vaccine reaching the clinic — relevant to the parked vaccine/HLA-coverage row above (still not a
+  treatment path on its own merits, but strengthens the "fusion-junction vaccines are a live modality
+  elsewhere" prior). Whether it is the same registration already tracked as "FusionVAC22_01" elsewhere in this
+  program, or a distinct newer trial, is unconfirmed this scan (clinicaltrials.gov WebFetch is egress-blocked;
+  identity confirmed only via WebSearch snippet) — verify directly before citing further.
+  https://clinicaltrials.gov/study/NCT06789198. ⚠ may warrant noting in the parked vaccine row's context — for
+  human review.
+- **2026-08-24 — weekly field-scan: AOC delivery-platform-in-clinic precedent (not knockdown, but a real
+  extrahepatic-delivery data point).** **TAC-001** (Tallac Therapeutics) — antibody-oligonucleotide conjugate
+  in Phase I/II for solid tumors: CD22-targeting antibody carrying a TLR9-agonist oligo payload. Not a
+  knockdown ASO and not sarcoma-specific, but it is a real clinical AOC reaching solid tumors, relevant as a
+  delivery-platform precedent for the fusion-junction ASO route's dominant gate. Trial-registry identity not
+  independently confirmed this scan (egress-blocked) — verify before citing. ⚠ for human review — does not by
+  itself change the ASO route's delivery-gate grade.

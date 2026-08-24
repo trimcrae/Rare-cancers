@@ -102,3 +102,117 @@ FEP** papers is direct prior art for our Track B method; and (3) on the **non-de
 
 *Caveat: produced manually; reflects current landscape, not strictly the past 7 days. Links are real search
 hits; dating/novelty flagged where uncertain.*
+
+---
+
+## 2026-08-24 (Mon) — AUTOMATED weekly field-scan (delta vs 2026-07-13 — a six-week gap)
+
+> ⚠ **This run's own checkout succeeded** (`git fetch origin main && git checkout main && git reset --hard
+> origin/main` completed cleanly, HEAD landed on `main` with a clean tree) — the STOP-and-say-so condition in
+> this Routine's prompt did not fire. This does not resolve the separately-documented failure of the
+> claude.ai-UI Routine `trig_01X5xHy1cmkLjkATEijZSNJf` (`method-watch.md` → the 2026-08-24 note on its missing
+> `sources` grant) — that is a different triggering mechanism and still needs trimcrae to recreate from the UI.
+> It does mean *this* run had full repo read/write access throughout.
+
+**This week's takeaway:** quiet on NR4A3 itself — no new primary paper, ligand, or structure — but real
+movement on three other axes: **OpenMM 8.6.0** shipped native replica-exchange/expanded-ensemble sampling (a
+genuine new axis for our RBFE/ΔG_coop legs), a first-in-kind **glutathionylation-activated molecular glue**
+targeting **DCAF11** landed in *Nature* with a new systematic degrader-discovery platform, and a **fusion-
+junction peptide vaccine** trial (DNAJB1-PRKACA, fibrolamellar carcinoma, NCT06789198) is now the closest
+external precedent yet for the parked vaccine route. The gap since the last entry is six weeks, not one; item
+dates are given so recency within that window is checkable, and the mechanical trigger-scan layer
+(`method-watch-trigger-scan.md`, via `IDEAS.md`'s auto-capture section) already logged dozens of narrower hits
+across 2026-08-03 through 2026-08-21 — this entry does not re-list those, only genuinely new items the
+mechanical scan's fixed queries would not catch, plus the tooling/operating-environment watch it doesn't cover.
+
+### 1) METHOD-WATCH (plan-relevant)
+- **OpenMM 8.6.0 (2026-08-19) — native `ReplicaExchangeSampler` + `ExpandedEnsembleSampler`.** New multistate-
+  sampling primitives for the warhead RBFE and physics-ensemble ΔG_coop legs — a new evidence axis, default-
+  worth-evaluating per the breadth-first rule. https://github.com/openmm/openmm/releases/tag/8.6.0
+- **Riepenhausen et al., "AI-Based Prediction of PROTAC- and Molecular Glue-Mediated Ternary Complexes: A
+  Comparative Evaluation of AlphaFold 3 and Boltz-2," Archiv der Pharmazie, e70225.** Head-to-head AF3-vs-
+  Boltz-2 benchmark on 40 resolved ternary complexes (25 PROTAC + 15 glue) — read before the next ternary
+  rebuild; issue date not independently re-verified. https://onlinelibrary.wiley.com/doi/10.1002/ardp.70225
+- **DegradeQuery (arXiv 2608.10595, 2026-08-11).** Counterfactual-tuple pretraining on unlabeled PROTAC-DB
+  molecule–target–E3 records for degradation-activity prediction (AUROC 0.907 on PROTAC-8K). Candidate weak
+  prioritization signal only — physics stays the ranker. https://arxiv.org/abs/2608.10595
+- **No DeepTernary or FKSFold update found this period.**
+
+### 2) NR4A / EMC
+- **No new NR4A3-specific primary paper, ligand, structure, or trial found this period.** Genuinely quiet —
+  not padded with older NR4A1/NR4A2 background.
+
+### 3) Degrader methodology
+- **★ DCAF11-dependent molecular glue activated by glutathionylation (Nature, 2026-08-05, Dana-Farber).**
+  First-in-kind *metabolically activated* molecular glue (prodrug M12, switched on by GST-mediated
+  glutathionylation in oxidative-stress-high cancer cells), found via a new systematic degrader-discovery
+  platform that broadens usable E3 ligases beyond CRBN/VHL. New axis: conditional/context-dependent activation
+  + a non-CRBN/VHL E3 route. https://www.nature.com/articles/s41586-026-10873-1 ·
+  https://www.dana-farber.org/newsroom/news-releases/2026/dana-farber-investigators-develop-protein-degrader-discovery-platform-and-find-first-in-kind-metabolically-activated-molecular-glue-degrader
+- (TriGlue, arXiv 2607.22143, is NOT new here — already captured by the mechanical trigger scan on 2026-08-03.)
+
+### 4) NON-DEGRADER ROUTES
+- **★ NCT06789198 (corrected identifier — the first-pass hit "NCT07430202" did not resolve and was dropped
+  per CLAUDE.md §7) — "Peptide Vaccine for Fibrolamellar Hepatocellular Carcinoma Patients and Other Tumor
+  Entities Carrying the Driver Fusion DNAJB1-PRKACA."** Structurally the closest external precedent yet for a
+  fusion-breakpoint-directed vaccine reaching clinic. Whether this is the same registration already tracked
+  elsewhere in this program as "FusionVAC22_01" or a distinct trial is unconfirmed this scan (WebFetch to
+  clinicaltrials.gov is egress-blocked; identity confirmed only via WebSearch snippet, not a direct fetch) —
+  verify directly before citing further. https://clinicaltrials.gov/study/NCT06789198
+- **NCT07648069 "SarVac" (Sun Yat-sen Univ.) — neoantigen vaccine + tumor-specific-lymphocyte reinfusion,
+  advanced/unresectable sarcoma.** Not fusion-specific, but a live personalized-vaccine-plus-adoptive-cell
+  precedent in sarcoma. https://clinicaltrials.gov/study/NCT07648069
+- **TAC-001 (Tallac Therapeutics) — AOC in Phase I/II, solid tumors.** CD22-targeting antibody + TLR9-agonist
+  oligo payload. Not knockdown, not sarcoma-specific, but a real clinical AOC reaching solid tumors — a
+  delivery-platform precedent for the ASO route's dominant gate. Identity not independently re-verified.
+- **AOC design-principles reviews** (J Hematol Oncol; Gene Therapy, both 2026) — synthesize AOC architecture,
+  flag endosomal escape as rate-limiting for extrahepatic delivery; framing only, no new data. Exact issue
+  dates UNKNOWN (springer.com egress-blocked). https://link.springer.com/article/10.1186/s13045-026-01824-4 ·
+  https://www.nature.com/articles/s41434-026-00621-5
+- **In vivo mRNA-LNP CAR generation (preclinical, e.g. FAP-CAR platforms).** Systemic LNP reprograms host
+  T/myeloid cells in situ, avoiding ex vivo manufacturing. Speculative for EMC — no EMC surface/stromal target
+  is defined yet to hang it on. https://www.pnas.org/doi/10.1073/pnas.2509698123
+
+### 5) Tooling & operating-environment watch
+**(a) Library releases (OpenFE/OpenMM/openmmtools/gufe/OpenFF-toolkit/openff-nagl/LOMAP2/Kartograf/RDKit/
+Boltz).** OpenMM 8.6.0 (2026-08-19, see §1). **OpenFF toolkit 0.19.0** (2026-08-12) and **RDKit 2026.03.5**
+(2026-08-01, patch) landed in-window but their changelog specifics are UNKNOWN — docs sites were egress-
+blocked this scan; follow up via a CI fetch before relying on either for a numeric change.
+https://github.com/openforcefield/openff-toolkit/releases/tag/0.19.0 ·
+https://github.com/rdkit/rdkit/releases/tag/Release_2026.03.5. OpenFE, gufe, openmmtools, Kartograf and
+LOMAP2 had **no new release** this window. No new open-weight Boltz release; Boltz 2.1 stays closed/API-only
+(already tracked).
+
+**(b) Frontier-model access.** No change to report as a restriction — that framing is retired per the
+2026-08-24 CLAUDE.md correction. **Claude Opus 5** (released 2026-07-24) remains the current top generally-
+available tier for this bio work (same ASL-3 protections as Opus 4.8, CB-1 not CB-2; blocked Fable-5 biology
+requests fall back to Opus 5). No newer/more-capable model found since 2026-07-13 that out-measures Opus 5 for
+scientific/biology reasoning — xAI Grok 4.6 and Alibaba Qwen3.5-Max shipped in-window with no head-to-head
+benchmark showing them ahead (treat as UNKNOWN, not inferior). https://www.anthropic.com/news/claude-opus-5
+
+**(c) Phone-drivable coding agents.** No change this period. Codex-side additions since 2026-07-13 (read-only
+chat sharing, synced pinned chats, an Apple Messages plugin) are minor and don't shift the Codex-mobile-vs-
+Claude-mobile comparison.
+
+**(d) Compute-cost / GPU-market.** No major price move on Vast.ai/RunPod/GCP/AWS spot pricing this period —
+Vast.ai remains the cheapest marketplace floor. **RTX 5090** (~1,792 GB/s, ~1.8× the RTX 4090's bandwidth —
+the axis that predicts ns/day for our memory-bandwidth-bound OpenMM PME MD) continues falling in cloud price
+(median on-demand ~$0.46–0.56/hr, down ~23% y/y), but **no OpenMM/OpenFE $/ns benchmark exists for it yet** —
+UNPRICEABLE for our workload until measured, not "cheap." Auto-captured to `compute/cheap-gpu-plan.md` for
+human review. No new provider or free/academic credit program found.
+
+### Action items for the program
+1. Evaluate OpenMM 8.6.0's replica-exchange/expanded-ensemble sampler against the current RBFE/ΔG_coop driver.
+2. Read the Riepenhausen AF3-vs-Boltz-2 ternary benchmark before the next ternary rebuild.
+3. Verify NCT06789198 and NCT07648069 details directly (this scan's clinicaltrials.gov WebFetch access was
+   egress-blocked) before citing either further in the vaccine-route context.
+4. If a cheap RTX 5090 smoke-test $/ns measurement is ever warranted, it would settle whether it beats the
+   4090 for our workload — not scheduled, just noted as measurable.
+5. Fix `trig_01X5xHy1cmkLjkATEijZSNJf`'s missing repo `sources` grant remains outstanding and needs trimcrae
+   (unchanged from the 2026-08-24 method-watch.md note — this run used a different mechanism with working
+   access, so it does not close that item).
+
+*Sources are real search hits from four parallel research passes (method-watch/tooling, NR4A/EMC + degrader
+methodology, non-degrader routes, model/mobile-agent/GPU-market); several were egress-blocked mid-scan
+(clinicaltrials.gov, springer.com, docs.openforcefield.org, rdkit.org) and are flagged UNKNOWN rather than
+guessed. No fabricated papers, trials, releases, or prices.*
