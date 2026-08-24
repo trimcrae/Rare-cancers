@@ -1,0 +1,410 @@
+{
+  "_note": "Identifier ANCHOR + retrieval record for research/manuscripts/aso/atu027-systemic-sirna-solid-tumour-evidence.md. Every identifier below was RETURNED BY A NETWORK FETCH executed on a GitHub Actions runner on 2026-08-24 and is read here from branch `literature-cache`; none was typed from recollection. This file exists so research/manuscripts/lint_citations.py can anchor the memo's prose identifiers to a fetch product.",
+  "_limits": [
+    "A record here is evidence THE RECORD EXISTS with that title, abstract, full text or registry content. It is NOT evidence of efficacy, safety, a therapeutic window, clinical readiness, or that any delivery gate has moved, for any agent named, in EMC or in any other disease.",
+    "TOLERATED IS NOT ENGAGED. Every safety and pharmacokinetic figure recorded here describes what the source reported about administration and plasma exposure. None of it is evidence that an oligonucleotide reached, entered or silenced a target inside a solid tumour. The memo keeps those two classes of evidence in separate sections for exactly this reason.",
+    "The Journal of Clinical Oncology 2014 article (NCT00938574) is NOT open access (Europe PMC isOpenAccess=N, no PMCID) and its body was not retrieved. Questions only the body can answer are recorded as UNKNOWN in the memo, not inferred.",
+    "A ClinicalTrials.gov search returning a small totalCount is a CONVENIENCE SAMPLE of that registry under that query spelling, not a census of oligonucleotide trials in solid tumours. It says nothing about EU CTIS, jRCT, ChiCTR or any other national register.",
+    "The Silence Therapeutics press releases recorded here are COMPANY STATEMENTS retrieved verbatim from the company's own site. Retrieval makes the quotation reliable; it does not make the claim inside it a measurement."
+  ],
+  "generated_utc": "2026-08-24T13:20:00Z",
+  "produced_by": {
+    "workflow": ".github/workflows/fetch-literature.yml",
+    "runs": [
+      {
+        "run_id": 32729443745,
+        "path": "targets_json",
+        "slug": "atu027-systemic-sirna-solid-tumour",
+        "what": "ClinicalTrials.gov API v2 full records for NCT00938574 and NCT01808638; Europe PMC core records for the three Atu027 publications; Europe PMC fullTextXML for PMC7693593; ClinicalTrials.gov searches for siRNA/ASO in solid tumours and for the sponsor; two known-positive controls",
+        "all_targets_http": 200
+      },
+      {
+        "run_id": 32729529915,
+        "path": "targets_json",
+        "slug": "systemic-oligo-solid-tumour-precedents",
+        "what": "ClinicalTrials.gov API v2 records for NCT00689065 and NCT01591356; Europe PMC core records for the CALAA-01 and EPHARNA literature; Semantic Scholar record for the 2025 EPHARNA conference abstract; a nonsense-term negative control",
+        "all_targets_http": 200
+      },
+      {
+        "run_id": 32730579283,
+        "path": "targets_json",
+        "slug": "calaa01-tumour-target-engagement",
+        "what": "Europe PMC fullTextXML for PMC2855406 (Davis et al. 2010); Europe PMC CALAA-01 search; a known-positive control and a nonsense negative control",
+        "all_targets_http": 200
+      },
+      {
+        "run_id": 32730655340,
+        "path": "targets_json",
+        "slug": "atu027-programme-status",
+        "what": "Silence Therapeutics investor press releases on Atu027 (2013, 2016) and the company pipeline page",
+        "all_targets_http": "200, 200, 404 (pipeline URL no longer exists)"
+      }
+    ],
+    "network": "GitHub-hosted runner. The dev sandbox egress proxy blocks pubmed.ncbi.nlm.nih.gov, pmc.ncbi.nlm.nih.gov, www.mdpi.com and silence-therapeutics.com on CONNECT, all confirmed by an EGRESS_BLOCKED refusal before the runner was used.",
+    "cost": "$0"
+  },
+
+  "controls": [
+    {
+      "control": "ClinicalTrials.gov query.term=Atu027",
+      "purpose": "known-positive for the term endpoint used to enumerate this programme",
+      "result": "totalCount 2 — NCT00938574 and NCT01808638, exactly the two trials sought",
+      "verdict": "PASSED"
+    },
+    {
+      "control": "ClinicalTrials.gov query.intr=patisiran",
+      "purpose": "known-positive for the intervention endpoint used for the survey searches",
+      "result": "totalCount 17",
+      "verdict": "PASSED"
+    },
+    {
+      "control": "ClinicalTrials.gov query.term=zzqqxxnotadrugname",
+      "purpose": "negative control — does the endpoint return an honest zero rather than a default page",
+      "result": "totalCount 0, empty studies array",
+      "verdict": "PASSED"
+    },
+    {
+      "control": "Europe PMC search EXT_ID:20305636 AND SRC:MED",
+      "purpose": "known-positive for the Europe PMC search endpoint",
+      "result": "hitCount 1",
+      "verdict": "PASSED"
+    },
+    {
+      "control": "Europe PMC search for the literal string \"qqzzxx-not-a-real-term-9f3b\"",
+      "purpose": "negative control",
+      "result": "hitCount 0",
+      "verdict": "PASSED"
+    },
+    {
+      "_carried_forward": "research/manuscripts/aso/aso-delivery-evidence-2026-08.json records that ClinicalTrials.gov query.term=divesiran returned zero for a drug whose trial IS in the registry under its code name. That is a KNOWN FAILURE MODE of query.term for brand/code-name synonyms. It does not apply to the zeros in this memo, because no conclusion here rests on a query.term zero: the term control for Atu027 PASSED and returned the sought records."
+    }
+  ],
+
+  "trials": [
+    {
+      "nct": "NCT00938574",
+      "grade": "registry_record_retrieved_verbatim",
+      "org_study_id": "Atu027-I-01",
+      "eudract": "2008-005588-32",
+      "brief_title": "Study With Atu027 in Patients With Advanced Solid Cancer",
+      "official_title": "A Prospective, Open-label, Single Center, Dose Finding Phase I-study With Atu027 (an siRNA Formulation) in Subjects With Advanced Solid Cancer",
+      "lead_sponsor": "Silence Therapeutics GmbH",
+      "phases": ["PHASE1"],
+      "enrollment": {"count": 34, "type": "ACTUAL"},
+      "design": {"allocation": "NA", "interventionModel": "SINGLE_GROUP", "masking": "NONE"},
+      "conditions": ["Advanced Solid Tumors"],
+      "overall_status": "COMPLETED",
+      "start": "2009-06",
+      "primary_completion": "2012-07 (ACTUAL)",
+      "completion": "2012-09 (ACTUAL)",
+      "why_stopped": null,
+      "last_update_submit": "2013-04-08",
+      "has_results": false,
+      "results_section_present": false,
+      "primary_outcomes": [
+        "Determination of dose-limiting toxicities (DLT) and maximum tolerated dose (MTD) of single and repeated intravenous infusion with Atu027 in subjects with advanced solid tumors"
+      ],
+      "secondary_outcomes": [
+        "Collection of data concerning pharmacokinetics of Atu027 and its components",
+        "Collection of data concerning clinical safety and tolerability",
+        "Clinical response as measured by RECIST criteria"
+      ],
+      "tumour_target_engagement_endpoint_prespecified": false,
+      "⛔ note": "The outcome list above is COMPLETE as returned by the API. There is no tumour biopsy, no biodistribution, no tissue PKN3 measurement and no pharmacodynamic endpoint of any kind in this record."
+    },
+    {
+      "nct": "NCT01808638",
+      "grade": "registry_record_retrieved_verbatim",
+      "org_study_id": "Atu027-I-02",
+      "eudract": "2012-004429-26",
+      "brief_title": "Atu027 Plus Gemcitabine in Advanced or Metastatic Pancreatic Cancer (Atu027-I-02)",
+      "official_title": "A PHASE Ib/IIa STUDY OF COMBINATION THERAPY WITH GEMCITABINE AND ATU027 IN SUBJECTS WITH LOCALLY ADVANCED OR METASTATIC PANCREATIC ADENOCARCINOMA",
+      "lead_sponsor": "Silence Therapeutics GmbH",
+      "phases": ["PHASE1", "PHASE2"],
+      "enrollment": {"count": 29, "type": "ACTUAL"},
+      "design": {"allocation": "RANDOMIZED", "interventionModel": "PARALLEL", "masking": "NONE"},
+      "conditions": ["Carcinoma, Pancreatic Ductal"],
+      "overall_status": "COMPLETED",
+      "start": "2013-03",
+      "primary_completion": "2015-08 (ACTUAL)",
+      "completion": "2016-01 (ACTUAL)",
+      "why_stopped": null,
+      "last_update_submit": "2016-03-10",
+      "has_results": false,
+      "results_section_present": false,
+      "primary_outcomes_summary": "adverse events; physical examination; vital signs and body weight; 12-lead ECG; clinically significant laboratory parameters; PLASMA pharmacokinetics (Cmax, AUC, tmax, t-half) of the Atu027 siRNA A-strand, AtuFect01 and the helper lipid DPyPE",
+      "secondary_outcomes_summary": "objective response rate (RECIST 1.1 by MRI/CT); progression-free and overall survival; ECOG; biomarker response (serum protein markers and circulating microRNA); tumour marker response; EORTC quality of life",
+      "tumour_target_engagement_endpoint_prespecified": false,
+      "⛔ note": "The only 'biomarker response' endpoint prespecified is SERUM protein markers and CIRCULATING microRNA — both blood compartment. No tumour biopsy, no tissue PKN3, no biodistribution.",
+      "⚠ enrollment_discrepancy": "The registry records 29 ACTUAL. The primary publication describes 3 lead-in safety subjects plus 24 randomised of whom 1 was a screening failure, i.e. 23 treated in the treatment period. The two counts are not reconciled by anything retrieved, and the memo records the discrepancy rather than picking a number."
+    },
+    {
+      "nct": "NCT00689065",
+      "grade": "registry_record_retrieved_verbatim",
+      "brief_title": "Safety Study of CALAA-01 to Treat Solid Tumor Cancers",
+      "official_title": "A Phase I, Dose-Escalating Study of the Safety of Intravenous CALAA-01 in Adults With Solid Tumors Refractory to Standard-of-Care Therapies",
+      "lead_sponsor": "Calando Pharmaceuticals",
+      "phases": ["PHASE1"],
+      "enrollment": {"count": 24, "type": "ACTUAL"},
+      "overall_status": "TERMINATED",
+      "why_stopped": null,
+      "completion": "2012-09 (ACTUAL)",
+      "last_update_submit": "2013-10-30",
+      "has_results": false,
+      "tumour_target_engagement_endpoint_prespecified": false,
+      "⚠ note": "The registry prespecifies no tissue endpoint, yet the primary publication reports tumour-biopsy target engagement. Biopsies were VOLUNTARY — the paper states the regulatory process 'explicitly precluded a provision for mandatory biopsies in all patients'. A registry outcome list is therefore a floor on what a trial measured, not a ceiling."
+    },
+    {
+      "nct": "NCT01591356",
+      "grade": "registry_record_retrieved_verbatim",
+      "brief_title": "EphA2 siRNA in Treating Patients With Advanced or Recurrent Solid Tumors",
+      "official_title": "EphA2 Gene Targeting Using Neutral Liposomal Small Interfering RNA Delivery: A Phase I Clinical Trial",
+      "lead_sponsor": "M.D. Anderson Cancer Center",
+      "phases": ["PHASE1"],
+      "enrollment": {"count": 49, "type": "ACTUAL"},
+      "overall_status": "ACTIVE_NOT_RECRUITING",
+      "estimated_completion": "2027-04-30",
+      "last_update_submit": "2026-07-17",
+      "has_results": false,
+      "tumour_target_engagement_endpoint_prespecified": true,
+      "⭐ prespecified_tissue_endpoints_verbatim": [
+        "Percent of patients with ephrin type-A receptor 2 expression modulation, defined as a 50% decrease from baseline expression",
+        "Changes in ephrin type-A receptor 2 expression — Tissue effects will be assessed in core biopsy samples collected pre-treatment and course 1 day 2 or day 3 (timed with biomarker assessment).",
+        "Changes in endothelial and tumor cell apoptosis conducted by terminal deoxynucleotidyl transferase dUTP nick end labeling assay"
+      ]
+    }
+  ],
+
+  "publications": [
+    {
+      "grade": "traced_to_primary_source_abstract_level",
+      "of_trial": "NCT00938574",
+      "title": "First-in-human phase I study of the liposomal RNA interference therapeutic Atu027 in patients with advanced solid tumors.",
+      "authors": "Schultheis B, Strumberg D, Santel A, Vank C, Gebhardt F, Keil O, Lange C, Giese K, Kaufmann J, Khan M, Drevs J.",
+      "journal": "Journal of clinical oncology : official journal of the American Society of Clinical Oncology",
+      "journalAbbrev": "J Clin Oncol",
+      "volume": "32",
+      "issue": "36",
+      "pages": "4141-4148",
+      "year": 2014,
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/25403217",
+      "doi": "10.1200/jco.2013.55.0376",
+      "europepmc_source": "MED",
+      "europepmc_id": "25403217",
+      "isOpenAccess": false,
+      "citedByCount_at_retrieval": 193,
+      "pubTypes": ["Clinical Trial, Phase I", "Journal Article"],
+      "full_text_retrieved": false,
+      "abstract_verbatim": "Purpose: Atu027 is a novel liposomal RNA interference therapeutic that includes a short-interfering RNA (siRNA), which silences expression of protein kinase N3 in the vascular endothelium. Atu027 has previously been shown to inhibit local tumor invasion as well as lymph node and pulmonary metastasis in mouse cancer models. This first-in-human study aimed to assess the safety, tolerability, and pharmacokinetics of Atu027 while evaluating therapeutic effects on both primary tumors and metastatic lesions. Patients and methods: Thirty-four patients with advanced solid tumors received 10 escalating doses of Atu027 without premedication, as one single followed by eight intravenous infusions twice per week during a 28-day cycle. Response was monitored by computed tomography/magnetic resonance imaging at baseline, at the end of treatment (EoT), and at final follow-up (EoS), and was assessed according to RECIST. Results: Atu027 was well tolerated up to dose levels of 0.336 mg/kg; most adverse events (AEs) were low-grade toxicities (grade 1 or 2). No maximum tolerated dose was reached. Plasma levels of siRNA strands and lipids were dose proportional, peaking during 4-hour infusion. Disease stabilization was achieved in 41% of patients at EoT (n = 14 of 34 treated patients); eight patients had stable disease at EoS, and some experienced complete or partial regression of metastases. sFLT1 (soluble variant of vascular endothelial growth factor receptor-1) decreased from pretreatment levels in most patients after dose levels 04 to 10. Conclusion: Atu027 was safe in patients with advanced solid tumors, with 41% of patients having stable disease for at least 8 weeks. In view of these results, further clinical trials have been initiated, and sFLT1 will be investigated as a potential biomarker.",
+      "⛔ what_the_abstract_does_not_contain": "No mention of a tumour biopsy, biodistribution, tissue sampling, PKN3 measurement in any tissue, or any pharmacodynamic readout other than the PLASMA protein sFLT1. The word 'tumor' appears only as a disease descriptor and in the RECIST imaging context."
+    },
+    {
+      "grade": "registry_and_bibliographic_record_only",
+      "of_trial": "NCT00938574",
+      "title": "Phase I clinical development of Atu027, a siRNA formulation targeting PKN3 in patients with advanced solid tumors.",
+      "authors": "Strumberg D, Schultheis B, Traugott U, Vank C, Santel A, Keil O, Giese K, Kaufmann J, Drevs J.",
+      "journal": "International journal of clinical pharmacology and therapeutics",
+      "journalAbbrev": "Int J Clin Pharmacol Ther",
+      "volume": "50",
+      "issue": "1",
+      "pages": "76-78",
+      "year": 2012,
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/22192654",
+      "doi": "10.5414/cpp50076",
+      "europepmc_source": "MED",
+      "europepmc_id": "22192654",
+      "isOpenAccess": false,
+      "citedByCount_at_retrieval": 98,
+      "abstract_verbatim": null,
+      "⛔ note": "Europe PMC carries NO abstract for this record (abstractText absent), and it is not open access. Three printed pages. Nothing is claimed from it beyond its existence and bibliographic detail."
+    },
+    {
+      "grade": "traced_to_primary_source_full_text",
+      "of_trial": "NCT01808638",
+      "title": "Safety, Efficacy and Pharcacokinetics of Targeted Therapy with The Liposomal RNA Interference Therapeutic Atu027 Combined with Gemcitabine in Patients with Pancreatic Adenocarcinoma. A Randomized Phase Ib/IIa Study.",
+      "_title_note": "'Pharcacokinetics' is the publisher's spelling in the record as returned, reproduced unaltered.",
+      "authors": "Schultheis B, Strumberg D, Kuhlmann J, Wolf M, Link K, Seufferlein T, Kaufmann J, Feist M, Gebhardt F, Khan M, Stintzing S, Pelzer U.",
+      "journal": "Cancers",
+      "journalAbbrev": "Cancers (Basel)",
+      "volume": "12",
+      "issue": "11",
+      "pages": "E3130",
+      "year": 2020,
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/33114652",
+      "pmcid": "PMC7693593",
+      "doi": "10.3390/cancers12113130",
+      "europepmc_source": "MED",
+      "europepmc_id": "33114652",
+      "isOpenAccess": true,
+      "citedByCount_at_retrieval": 56,
+      "full_text_retrieved": true,
+      "full_text_route": "Europe PMC fullTextXML for PMC7693593, HTTP 200, 86630 characters",
+      "⛔ full_text_keyword_census": {
+        "_method": "XML tags stripped, whitespace collapsed, case-insensitive count over the whole retrieved body including references",
+        "biops": 0,
+        "biodistribution": 0,
+        "knockdown": 0,
+        "knock-down": 0,
+        "tumor tissue": 0,
+        "tumour tissue": 0,
+        "target engagement": 0,
+        "pharmacodynam": 0,
+        "immunohisto": 0,
+        "sFLT": 0,
+        "VEGF": 0,
+        "microRNA": 0,
+        "PKN3": 6,
+        "endotheli": 8,
+        "_reading": "All six PKN3 mentions are statements of the agent's DESIGN INTENT or citations to preclinical work. None reports a PKN3 measurement made in a trial subject."
+      },
+      "what_was_measured_verbatim": {
+        "pharmacokinetics": "A total of 11 subjects was included in the PK analysis—the 3 subjects from the lead-in safety period, 4 from Arm 1 and 4 from Arm 2. ... T max for all compounds was achieved at or just after the end of infusion (4 h). The mean t 1/2 was ~10 h for Atu027 siRNA, ~20 h for AtuFect01 and ~17 h for DPyPE. The C max and AUC of Atu027 siRNA remained relatively constant over the consecutive administrations with both once- (Arm 1) and twice-weekly (Arm 2) administration (~150 ng/mL for C max and ~1000 h·ng/mL for AUC).",
+        "biomarkers": "Of the 301 analytes assessed as potential biomarkers, 46 and 59 analytes changed significantly from baseline in Arms 1 and 2, respectively, and 13 biomarkers were significantly associated with response status. Once adjusted using the Benjamini–Hochberg method for multiple hypothesis testing, only one analyte (Factor VII in Arm 1) changed significantly from baseline, and one (Angiopoietin-2) was significantly associated with response status at the first follow-up.",
+        "safety": "Four subjects (17%) reported Grade 4 AEs ( n = 1 increased lipase level, n = 1 hyperglycemia, n = 2 decreased neutrophil count). A total of 23 SAEs was reported by 16 subjects. Only two SAEs were judged to be related to treatment—one Grade 3 SAE of pneumonia in Arm 1 was judged to be possibly related to both Atu027 and gemcitabine, and one Grade 2 SAE of fever in Arm 2 was judged to be possibly related to gemcitabine (both recovered).",
+        "atu027_related_ae": "Twice as many AEs were judged to be related to gemcitabine ( n = 110) as to Atu027 ( n = 49). Consistent with the phase 1 study, the most frequent Atu027-related AE was fatigue; however, this was never dose-limiting.",
+        "survival_as_reported": "median PFS Kaplan–Meier estimates 5.33 (95%CI 1.51–6.02) months Arm 2 versus 1.81 (95%CI 0.39–5.49) months Arm 1, p = 0.3985, 22% censored; post-hoc metastatic-only mPFS 1.61 (95%CI 0.39–2.07) Arm 1 versus 2.89 (95%CI 1.02–7.26) Arm 2, p = 0.0247, 21% censored; mOS 5.6 Arm 1 versus 7.8 Arm 2, p = 0.6082, 35% censored; post-hoc metastatic-only mOS 3.3 Arm 1 versus 6.7 Arm 2, p = 0.5943, 26% censored.",
+        "authors_own_conclusion_on_the_target": "Our clinical results support the significant involvement of the vascular endothelium in the spread of cancer, and thus the further investigation of its target role."
+      },
+      "⚠ dose_inconsistency_inside_the_paper": "The abstract states '0.235 mg/kg once weekly vs. 0.235 mg/kg twice weekly'. The Subjects and Methods section states 'Atu027 0.253 mg/kg' for both arms. The two figures are digit transpositions of each other and the paper does not reconcile them. Which is correct is UNKNOWN and no dose figure from this trial is asserted in the memo without this caveat.",
+      "funding_verbatim": "The trial was sponsored by Silnce Therapeutics. Grant Number: Charite 88174238. ... Conflicts of Interest: The authors declare no conflict of interest. ('Silnce' is the publisher's spelling in the record as returned.) Two of the twelve authors give a Silence Therapeutics GmbH affiliation."
+    },
+    {
+      "grade": "traced_to_primary_source_full_text",
+      "of_trial": "NCT00689065",
+      "⭐ why_it_is_here": "This is the ON-GATE record. It was not sought — it was surfaced by the same $0 registry queries run for Atu027 — and it is the only retrieved human result in which a SYSTEMICALLY administered oligonucleotide was shown to be inside a non-hepatic solid tumour and to have cleaved its target transcript there.",
+      "title": "Evidence of RNAi in humans from systemically administered siRNA via targeted nanoparticles.",
+      "authors": "Davis ME, Zuckerman JE, Choi CH, Seligson D, Tolcher A, Alabi CA, Yen Y, Heidel JD, Ribas A.",
+      "journal": "Nature",
+      "volume": "464",
+      "issue": "7291",
+      "pages": "1067-1070",
+      "year": 2010,
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/20305636",
+      "pmcid": "PMC2855406",
+      "doi": "10.1038/nature08956",
+      "europepmc_source": "MED",
+      "europepmc_id": "20305636",
+      "isOpenAccess": true,
+      "citedByCount_at_retrieval": 1672,
+      "full_text_retrieved": true,
+      "full_text_route": "Europe PMC fullTextXML for PMC2855406, HTTP 200, 64930 characters",
+      "agent": "CALAA-01 — a cyclodextrin-polymer nanoparticle carrying an siRNA against RRM2, surface-decorated with PEG and a human transferrin targeting ligand. NOT a GalNAc conjugate and NOT hepatocyte-directed.",
+      "administration": "intravenous, days 1, 3, 8 and 10 of a 21-day cycle, 30-minute infusion",
+      "tissue_evidence_verbatim": [
+        "In order to ascertain whether the targeted delivery system can provide effective delivery of functional siRNA to human tumors, we investigated biopsies from three patients from three different dosing cohorts; patients A, B and C, all of whom had metastatic melanoma and received doses of CALAA-01 of 18, 24 and 30 mg-siRNA/m 2 , respectively.",
+        "Given the highly experimental nature of this protocol, the regulatory process at both the local and federal levels explicitly precluded a provision for mandatory biopsies in all patients. Therefore, biopsies were obtained on a voluntary basis.",
+        "Samples A, B and C1, analyzed in a blinded fashion, demonstrated a heterogeneous distribution of nanoparticles only in post-dosing tumor tissue. The nanoparticles can localize intracellularly in tumor tissue and are not found in the adjacent epidermis.",
+        "Samples C1 post and C2 post reveal the highest number and intensity of stained regions, B post exhibits a decreased amount of staining relative to samples C1 post and C2 post, A post does not reveal the presence of the stain, and all the pre-dosing samples are completely negative for the stain. This is the first example of a dose-dependent accumulation of targeted nanoparticles in tumors of humans from systemic injections for nanoparticles of any type.",
+        "Significant reduction in RRM2 is observed (mean scoring of RRM2 from the 10 sections was reduced 5-fold) after treatment while TfR levels are somewhat elevated (mean scoring of TfR from the 10 sections was increased 1.2-fold) in the C1 pre and C1 post samples.",
+        "the PCR data from the C2 pre vs. C2 post samples (collected 10 days apart) provide direct evidence for RRM2 mRNA reduction via the treatment of the patient with the nanoparticles"
+      ],
+      "⛔ limits_stated_by_the_authors_themselves": [
+        "Since samples A pre and B pre are from tissues collected many months before the initiation of siRNA treatment, the fraction of the overall reduction in mRNA observed in A post and B post attributable to the nanoparticle treatment cannot be directly ascertained.",
+        "Unfortunately, we were not able to perform PCR on the C1 samples.",
+        "The IHC data from patient A do not reveal changes in RRM2 expression after dosing, while results from patient B are indicative of reductions in maximal RRM2 expression (IHC scoring of the regions of maximal expression showed a 1.5-fold decrease) but the overall mean expression levels remained relatively constant.",
+        "In these biopsies TEM images were dominated by melanosomes inhibiting the identification of the nanoparticles (data not shown)."
+      ],
+      "⚠ scale": "Three patients, one tumour type (metastatic melanoma), cutaneous/subcutaneous lesions accessible to voluntary biopsy. The RNAi-specific cleavage-fragment result comes from ONE patient at the highest dose. The trial itself is TERMINATED with no registry results record."
+    },
+    {
+      "grade": "conference_abstract_traced_to_bibliographic_record",
+      "of_trial": "NCT01591356",
+      "title": "EphA2 siRNA in DOPC nanoliposomes (EPHARNA): A phase I clinical trial in patients with solid tumors.",
+      "authors": "Reddy RA, Naing A, Lopez-Berestein G, Rodríguez-Aguayo C, Momin HA, Madhyannapu A, Yuan Y, Pasyar S, Karp D, Pant S, Piha-Paul S, Fu S, Tsimberidou A, Coleman RL, Sood A, Westin S.",
+      "venue": "Journal of Clinical Oncology (2025 ASCO Annual Meeting abstract 3086)",
+      "year": 2025,
+      "doi": "10.1200/jco.2025.43.16_suppl.3086",
+      "retrieved_via": "Semantic Scholar Graph API, HTTP 200",
+      "abstract_key_content": "A total of 48 patients were treated ... 36 (75%) experienced an AE ... 5 (10.4%) treated patients experienced Grade 3 AEs that were dose-limiting toxicities ... No Grade 4 AEs were noted. Of the 25 patients evaluable for response, disease control rate was 44% (95% CI: 24.5-63.5%) with 11 patients demonstrating stable disease for at least 2 cycles. No patients demonstrated partial or complete response. ... The study was closed to enrollment prior to confirmation of the MTD due to unavailability of the drug.",
+      "⛔ the_gate_relevant_gap": "The trial PRESPECIFIES pre- and post-treatment core-biopsy EphA2 expression modulation and tumour/endothelial apoptosis. This abstract reports NONE of it — only safety and RECIST response. Whether the tissue endpoint was analysed, and what it showed, is UNKNOWN.",
+      "⚠ grade_caveat": "This is a conference abstract, not a peer-reviewed article, and it was retrieved from a bibliographic aggregator rather than from the publisher. It is recorded at abstract grade."
+    }
+  ],
+
+  "programme_status": {
+    "registry_evidence": {
+      "grade": "registry_verified",
+      "finding": "ClinicalTrials.gov query.spons=Silence Therapeutics returns totalCount 8. Both Atu027 trials appear under 'Silence Therapeutics GmbH'. The six later trials are all under 'Silence Therapeutics plc' and none is an oncology solid-tumour study: NCT05499013 (SLN124, polycythemia vera), NCT04718844, NCT04176653 (WITHDRAWN), NCT04559971, NCT04606602, NCT05537571 (SLN360, elevated Lp(a)).",
+      "reading": "No Atu027 trial is registered on ClinicalTrials.gov after NCT01808638. The sponsor's registered clinical activity since then is hepatocyte-directed GalNAc-siRNA — the canonical liver paradigm the ASO route already discounts. ⛔ This is an absence from ONE registry under a sponsor-name query whose control passed; it is not proof the programme was formally terminated."
+    },
+    "company_statement": {
+      "grade": "press_retrieved_verbatim",
+      "source": "Silence Therapeutics plc investor press release, 'Atu027 Update', dated 05 April 2016, RNS Number 1376U, retrieved HTTP 200 from the company's own site on 2026-08-24",
+      "url": "https://silence-therapeutics.com/investors/press-releases/press-releases-details/2016/Silence-Therapeutics-PLC---Atu027-Update/default.aspx",
+      "quotes_verbatim": [
+        "We will now actively pursue partnering and collaboration opportunities both with Atu027 and PKN3 as a target.",
+        "We plan to do further pre-clinical work in order to ensure that PKN3 is targeted as effectively as possible. These R&D activities will include optimisation of in house technology (AtuPLEX) as well as evaluation of external delivery systems with the potential of complementing proprietary assets to strengthen our drug candidate."
+      ],
+      "⭐ reading": "The sponsor did not announce a stop. It announced a move to partnering plus further PRE-CLINICAL work, and named DELIVERY as the thing to be improved — 'evaluation of external delivery systems ... to strengthen our drug candidate'. That is the sponsor's own placement of the open problem, and it is the same problem BLK-DELIVERY names. It is a company statement, not a measurement.",
+      "⚠ also_in_the_same_release": "The release reports OS figures (7.79 vs 5.62 months; metastatic-only 6.74 vs 3.29) that match the peer-reviewed paper's Kaplan–Meier estimates to one more decimal place. Where press and paper agree, the paper is cited; nothing is taken from the press that the paper does not carry."
+    },
+    "⛔ no_formal_discontinuation_statement_located": "No document stating that the Atu027 programme was discontinued, and no stated reason for its non-continuation, was retrieved. The company site's current navigation lists only Divesiran and Zerlasiran as pipeline products (read from the retrieved page's own navigation, 2026-08-24); the pipeline URL tried returned HTTP 404. Absence of Atu027 from a navigation menu is not a discontinuation statement. Recorded as UNKNOWN."
+  },
+
+  "other_systemic_oligonucleotide_trials_in_solid_tumours": {
+    "_grade": "registry_existence_and_status_only — no outcome, efficacy or safety is read or implied for any row",
+    "_method": "ClinicalTrials.gov API v2. query.intr=siRNA + query.cond=solid tumor (totalCount 11); query.intr=antisense oligonucleotide + query.cond=solid tumor (totalCount 13); query.intr=small interfering RNA + query.cond=neoplasms (totalCount 23). The query.intr endpoint's known-positive control PASSED (patisiran, 17 studies) and the nonsense control returned 0.",
+    "⛔ _not_a_census": "These totals are what ClinicalTrials.gov matched under three spellings. They are a CONVENIENCE SAMPLE, not an enumeration of oligonucleotide trials in solid tumours, and rows whose route of administration is not stated in the registry title were not individually verified as systemic.",
+    "_excluded_deliberately": "Rows that are ex vivo cell products (APN401, TIL, dendritic-cell), local/intratumoural devices or injections (siG12D LODER, NCP-CD47), or liver-targeted (TKM-080301 in liver cancer) are listed below with that label rather than dropped, so the next reader does not re-derive the filter.",
+    "rows": [
+      {"nct": "NCT01591356", "agent": "EphA2 siRNA in DOPC neutral liposomes (EPHARNA)", "route": "intravenous", "phase": "PHASE1", "status": "ACTIVE_NOT_RECRUITING", "class": "systemic siRNA, non-hepatic solid tumour", "⭐": "prespecifies pre/post tumour core biopsy and target-expression modulation"},
+      {"nct": "NCT00689065", "agent": "CALAA-01, transferrin-targeted cyclodextrin nanoparticle siRNA vs RRM2", "route": "intravenous", "phase": "PHASE1", "status": "TERMINATED", "class": "systemic siRNA, non-hepatic solid tumour", "⭐": "tumour-biopsy target engagement published (PMC2855406)"},
+      {"nct": "NCT00938574", "agent": "Atu027", "route": "intravenous", "phase": "PHASE1", "status": "COMPLETED", "class": "systemic siRNA, non-hepatic solid tumour"},
+      {"nct": "NCT01808638", "agent": "Atu027 + gemcitabine", "route": "intravenous", "phase": "PHASE1/2", "status": "COMPLETED", "class": "systemic siRNA, non-hepatic solid tumour"},
+      {"nct": "NCT02110563", "agent": "DCR-MYC (lipid-nanoparticle DsiRNA vs MYC)", "phase": "PHASE1", "status": "TERMINATED", "class": "systemic siRNA, solid tumours"},
+      {"nct": "NCT02314052", "agent": "DCR-MYC", "phase": "PHASE1/2", "status": "TERMINATED", "class": "systemic siRNA, hepatocellular — LIVER indication"},
+      {"nct": "NCT01437007", "agent": "TKM-080301", "phase": "PHASE1", "status": "COMPLETED", "class": "systemic siRNA, primary or secondary LIVER cancer"},
+      {"nct": "NCT03608631", "agent": "MSC-derived exosomes with KRAS G12D siRNA (iExosomes)", "phase": "PHASE1/2", "status": "RECRUITING", "class": "systemic siRNA in a non-lipid-nanoparticle carrier, pancreatic cancer"},
+      {"nct": "NCT06424301", "agent": "NUDT21-targeting siRNA", "phase": "EARLY_PHASE1", "status": "RECRUITING", "class": "siRNA, refractory retinoblastoma — route not verified here"},
+      {"nct": "NCT00543231", "agent": "G3139 / oblimersen (Bcl-2 ASO)", "phase": "PHASE1", "status": "COMPLETED", "class": "systemic ASO, solid tumours"},
+      {"nct": "NCT00054548", "agent": "oblimersen + paclitaxel", "phase": "PHASE1", "status": "COMPLETED", "class": "systemic ASO, solid tumours"},
+      {"nct": "NCT00636545", "agent": "oblimersen (Genasense) 2-hour IV infusion", "phase": "PHASE1", "status": "COMPLETED", "class": "systemic ASO, solid tumours"},
+      {"nct": "NCT00471432", "agent": "custirsen (OGX-011) + docetaxel", "phase": "PHASE1", "status": "COMPLETED", "class": "systemic ASO, solid tumours"},
+      {"nct": "NCT00385775", "agent": "AEG35156 (XIAP ASO)", "phase": "PHASE1", "status": "TERMINATED", "class": "systemic ASO, advanced cancers"},
+      {"nct": "NCT00466583", "agent": "EZN-2968 (HIF-1α LNA antisense)", "phase": "PHASE1", "status": "COMPLETED", "class": "systemic ASO, solid tumours"},
+      {"nct": "NCT01120288", "agent": "EZN-2968 pilot", "phase": "PHASE1", "status": "COMPLETED", "class": "systemic ASO, solid tumours"},
+      {"nct": "NCT02144051", "agent": "AZD5312", "phase": "PHASE1", "status": "COMPLETED", "class": "systemic ASO, solid tumours"},
+      {"nct": "NCT03101839", "agent": "AZD4785 (KRAS ASO)", "phase": "PHASE1", "status": "COMPLETED", "class": "systemic ASO, solid tumours"},
+      {"nct": "NCT04504669", "agent": "AZD8701 ± durvalumab", "phase": "PHASE1", "status": "COMPLETED", "class": "systemic ASO, solid tumours"},
+      {"nct": "NCT04196257", "agent": "BP1001-A (liposomal Grb2 antisense)", "phase": "PHASE1", "status": "RECRUITING", "class": "systemic ASO, advanced or recurrent solid tumours"},
+      {"nct": "NCT04862767", "agent": "TASO-001 (TGF-β2 ASO) + aldesleukin", "phase": "PHASE1", "status": "COMPLETED", "class": "systemic ASO, advanced solid tumours"},
+      {"nct": "NCT05267899", "agent": "WGI-0301", "phase": "PHASE1", "status": "UNKNOWN", "class": "ASO, first-in-human — route not verified here"},
+      {"nct": "NCT01188785", "agent": "siG12D LODER", "phase": "PHASE1", "status": "COMPLETED", "class": "LOCAL implanted drug-eluting device, not systemic"},
+      {"nct": "NCT01676259", "agent": "siG12D LODER + chemotherapy", "phase": "PHASE2", "status": "UNKNOWN", "class": "LOCAL implanted device, not systemic"},
+      {"nct": "NCT07583914", "agent": "NCP-CD47 siRNA", "phase": "PHASE1", "status": "NOT_YET_RECRUITING", "class": "INTRATUMOURAL injection, not systemic"},
+      {"nct": "NCT02166255", "agent": "APN401", "phase": "PHASE1", "status": "COMPLETED", "class": "EX VIVO siRNA-transfected PBMC, not a delivered oligonucleotide"},
+      {"nct": "NCT03087591", "agent": "APN401", "phase": "PHASE1", "status": "COMPLETED", "class": "EX VIVO siRNA-transfected PBMC"},
+      {"nct": "NCT06172894", "agent": "APN401", "phase": "PHASE1", "status": "COMPLETED", "class": "EX VIVO siRNA-transfected PBMC"},
+      {"nct": "NCT00672542", "agent": "proteasome siRNA + tumour antigen RNA transfected dendritic cells", "status": "COMPLETED", "class": "EX VIVO cell product"},
+      {"nct": "NCT04995536", "agent": "CpG-STAT3 siRNA CAS3/SS3 + radiotherapy", "phase": "PHASE1", "status": "WITHDRAWN", "class": "withdrawn, never conducted"}
+    ]
+  },
+
+  "gate_verdict": {
+    "blocker": "BLK-DELIVERY",
+    "question_it_asks": "is there a validated way to deliver an oligonucleotide to a non-hepatic solid tumour",
+    "atu027_verdict": "DOES NOT MOVE THE GATE",
+    "atu027_reason": "Both trials measured administration tolerability and PLASMA pharmacokinetics. Neither prespecified a tumour biopsy, a biodistribution measurement or any tissue-level PKN3 readout, and the open-access full text of the later trial contains zero occurrences of biopsy, biodistribution, knockdown, tumour tissue, pharmacodynamics or immunohistochemistry. A drug that was given systemically and tolerated is not a drug shown to have engaged a target inside a solid tumour.",
+    "⚠ additional_reason_specific_to_this_agent": "Atu027's intended target cell is the VASCULAR ENDOTHELIUM, by the sponsor's and the authors' own description. Endothelium lines the lumen and is on the blood side of the vessel wall. Even a fully successful Atu027 would therefore not have demonstrated that an oligonucleotide crosses the vasculature into a tumour parenchyma — which is what an EWSR1::NR4A3 fusion-junction ASO would have to do in an EMC nodule.",
+    "⭐ what_did_land_on_the_gate": "PMC2855406 / PMID 20305636 — a systemically infused, non-GalNAc, non-hepatic-targeted siRNA nanoparticle found intracellularly in melanoma tumour biopsies in a dose-correlated way, with reduced target mRNA and protein versus pre-dosing tissue and an RNAi-specific cleavage fragment in one patient. Three patients, one accessible tumour type, voluntary biopsies, two of three baselines archived months earlier, and the trial TERMINATED. It is a proof of principle at n=3 from 2010, not a validated delivery route, and it is nothing at all about EMC or its myxoid matrix.",
+    "⛔ this_memo_does_not_regrade_anything": "No route is unparked, no blocker is re-graded, and research/method-watch.md is untouched. This is evidence plus a recommendation."
+  },
+
+  "unknowns": [
+    "Whether the Journal of Clinical Oncology 2014 article (NCT00938574) reports any tissue-level measurement in its body. It is not open access, no PMCID exists, and its full text was not retrieved. The registry outcome list contains no tissue endpoint and the abstract names only the plasma protein sFLT1, but a paper's abstract and its registry record are a floor on what it measured, not a ceiling — CALAA-01 is the counter-example in this very memo.",
+    "What the Int J Clin Pharmacol Ther 2012 record contains. Europe PMC carries no abstract for it and it is not open access.",
+    "Whether the correct Atu027 dose in NCT01808638 is 0.235 or 0.253 mg/kg. The paper states both.",
+    "Why the ClinicalTrials.gov actual enrolment for NCT01808638 (29) differs from the publication's 3 lead-in plus 23 treated.",
+    "What the NCT01808638 prespecified 'circulating microRNA' biomarker endpoint showed. The primary publication reports 301 plasma analytes and never mentions microRNA.",
+    "Whether the Atu027 programme was formally discontinued, and on what stated reason. No such statement was retrieved; the last sponsor statement located (2016-04-05) announced partnering plus further pre-clinical delivery work, not a stop.",
+    "What the EPHARNA (NCT01591356) prespecified tumour-biopsy EphA2 modulation and apoptosis endpoints showed. The 2025 conference abstract reports only safety and RECIST. hasResults is false. This is the single most gate-relevant open question surfaced here.",
+    "Whether any of the systemic-ASO trials listed above reported tumour-tissue target engagement. Only their registry existence and status were read."
+  ],
+
+  "recommendation": [
+    "Do NOT unpark RT-ASO and do NOT re-grade BLK-DELIVERY on Atu027. Nothing in either trial is a tumour target-engagement result.",
+    "Raise with whoever owns systems/graph/blockers.json that BLK-DELIVERY's evidence base now has a named human precedent it did not have (PMC2855406) and a named ONGOING trial with the right endpoint prespecified (NCT01591356). Neither clears the blocker; both change what 'no precedent exists' may honestly be taken to mean.",
+    "Chase the EPHARNA tissue endpoint. It is the only live, registered, on-gate readout located, at an academic centre, with pre/post core biopsies prespecified, and it is a $0 watch rather than a spend.",
+    "Do not put any of this in the fusion-junction ASO manuscript as a delivery claim. A 2010 n=3 melanoma result and an unreported endpoint in an ongoing trial are not a delivery route for an EMC nodule."
+  ]
+}

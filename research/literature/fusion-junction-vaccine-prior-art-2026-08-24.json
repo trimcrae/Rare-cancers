@@ -1,0 +1,87 @@
+{
+ "_what": "The clinical and preclinical prior art for FUSION-JUNCTION-DIRECTED peptide vaccination, cited by research/manuscripts/neoantigen/emc-vaccine-development-path.md as references 17-22. Two bibliographic records copied verbatim from a committed fetch product, plus four identifiers whose records live in a sibling artifact (see _one_fact_one_place).",
+ "_why_this_file_exists": "The vaccine-path manuscript proposes a peptide vaccine against the EWSR1::NR4A3 junction and cited no prior clinical work on the same modality. These are the closest such records. This file is the fetch product that anchors their identifiers so that no session types a PMID or DOI from recollection (CLAUDE.md section 7), and so lint_citations.py can trace every one.",
+ "_provenance": {
+  "source_branch": "literature-cache",
+  "source_path": "literature/ewsr1-fli1-peptide-vaccine/_index.json",
+  "source_commit": "444c2bc2bb8bcd2d2899ac9317f2f35b7e9c6177",
+  "source_commit_date": "2026-08-24T12:08:24+00:00",
+  "records_in_source_index": 343,
+  "how": "git fetch origin literature-cache --depth=1; git show FETCH_HEAD:literature/ewsr1-fli1-peptide-vaccine/_index.json. Every field below is copied from that record; the dev sandbox has no outbound network and nothing here was retrieved or typed by hand.",
+  "pubmed_url_note": "Constructed from the PMID carried in the same record, not looked up separately. It is the canonical resolver form of a retrieved identifier and is written out so lint_citations.py can anchor prose that cites these papers."
+ },
+ "_language_discipline": "Bibliographic records and publisher-indexed abstracts. Nothing here is a measurement made in this repository, and nothing here is an efficacy, safety, therapeutic-window or clinical-readiness claim. Record 42570981 is a SINGLE-PATIENT report and is described as such wherever it is cited.",
+ "_reading": {
+  "42570981": "THE key item: an off-the-shelf multi-peptide vaccine spanning the type 1 EWSR1-FLI1 breakpoint. De novo polyfunctional CD4+ T-cell responses against all four fusion-derived peptides, first detectable by month 7 and persisting beyond two years. n = 1, after multimodal therapy, with GM-CSF and topical imiquimod as adjuvants. Not an efficacy result and not a controlled comparison.",
+  "22726592": "The larger of the two SYT-SSX junction-peptide vaccine trials in synovial sarcoma: 21 patients, four single-arm protocols, DTH negative in all, 9 with a greater than twofold rise in tetramer-positive CTLs, half of the 12 patients on the adjuvant-plus-interferon protocols with stable disease during vaccination, one intracerebral haemorrhage after the second vaccination.",
+  "15647119": "The phase I SYT-SSX junction-peptide trial that preceded it: 6 patients, 16 vaccinations, peptide-specific CTLs induced in some, no serious adverse effects and no DTH reactions reported.",
+  "23252384": "A commentary evaluating 22726592; the source of the reading that no robust immune response to the target epitope was demonstrated in that trial.",
+  "31011208": "Gene-fusion-derived neoantigens elicit cytotoxic T-cell responses, with evidence of negative selective pressure against them in fusion-positive tumours.",
+  "36900411": "Routine EWS fusion analysis in a clinical genomics workflow; 182 EWS fusion events among 2471 samples, with breakpoints clustering tightly. Cited for the enumerability of a fixed breakpoint panel, not for any immunological measurement."
+ },
+ "records": [
+  {
+   "title": "Vaccination using peptides spanning the SYT-SSX tumor-specific translocation.",
+   "authors": "Bloom JE, McNeel DG, Olson BM.",
+   "journal": "Expert review of vaccines",
+   "journalAbbrev": "Expert Rev Vaccines",
+   "volume": "11",
+   "issue": "12",
+   "pages": "1401-1404",
+   "year": 2012,
+   "pmid": "23252384",
+   "pmcid": "PMC3556272",
+   "doi": "10.1586/erv.12.122",
+   "source": "MED",
+   "isOpenAccess": false,
+   "url": "https://doi.org/10.1586/erv.12.122",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/23252384/",
+   "abstract": "Evaluation of: Kawaguchi S, Tsukahara T, Ida K et al. SYT-SSX breakpoint peptide vaccines in patients with synovial sarcoma: a study from the Japanese Musculoskeletal Oncology Group. Cancer Sci. 103(9), 1625-1630 (2012).   The identification of genetic translocations as key tumor-initiating events has led to the development of novel antigen-specific vaccines targeting these tumor-specific breakpoint regions. Previous studies have evaluated vaccines targeting the breakpoints in the BCR-ABL translocation in patients with chronic myelogenous leukemia and EWS-FLI1 in patients with Ewing sarcoma. In the article under evaluation, the authors evaluated a peptide vaccine targeting the breakpoint in the SYT-SSX translocation, the genetic translocation essentially pathognomonic for synovial sarcoma. This is the second small clinical trial reported by this group using HLA-A24-binding peptides as vaccine antigens. In this four-arm trial, using a native or HLA-A24-optimized SYT-SSX peptide with or without adjuvant plus IFN-α, they immunized patients with metastatic synovial sarcoma. Immune responses were evaluated by delayed-type hypersensitivity testing and tetramer analysis. No robust evidence of immune response to the target epitope was detected. Some patients treated with peptide in adjuvant plus IFN-α had stable disease. These results suggest that future similar studies might best evaluate patients with a lower burden of disease, consider alternative immunization approaches to the SYT-SSX target antigen and consider the efficacy of IFN-α alone for the treatment of synovial sarcoma."
+  },
+  {
+   "title": "Routine EWS Fusion Analysis in the Oncology Clinic to Identify Cancer-Specific Peptide Sequence Patterns That Span Breakpoints in Ewing Sarcoma and DSRCT.",
+   "authors": "Anderson PM, Tu ZJ, Kilpatrick SE, Trucco M, Hanna R, Chan T.",
+   "journal": "Cancers",
+   "journalAbbrev": "Cancers (Basel)",
+   "volume": "15",
+   "issue": "5",
+   "pages": "1623",
+   "year": 2023,
+   "pmid": "36900411",
+   "pmcid": "PMC10001040",
+   "doi": "10.3390/cancers15051623",
+   "source": "MED",
+   "isOpenAccess": true,
+   "url": "https://doi.org/10.3390/cancers15051623",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/36900411/",
+   "abstract": "(1) Background: EWS fusion genes are associated with Ewing sarcoma and other Ewing family tumors including desmoplastic small round tumor, DSRCT. We utilize a clinical genomics workflow to reveal real-world frequencies of EWS fusion events, cataloging events that are similar, or divergent at the EWS breakpoint. (2) Methods: EWS fusion events from our next-generation sequencing panel (NGS) samples were first sorted by breakpoint or fusion junctions to map out the frequency of breakpoints. Fusion results were illustrated as in-frame fusion peptides involving EWS and a partner gene. (3) Results: From 2471 patient pool samples for fusion analysis at the Cleveland Clinic Molecular Pathology Laboratory, we identified 182 fusion samples evolved with the EWS gene. They are clustered in several breakpoints: chr22:29683123 (65.9%), and chr22:29688595 (2.7%). About 3/4 of Ewing sarcoma and DSRCT tumors have an identical EWS breakpoint motif at Exon 7 (SQQSSSYGQQ-) fused to a specific part of FLI1 (NPSYDSVRRG or-SSLLAYNTSS), ERG (NLPYEPPRRS), FEV (NPVGDGLFKD) or WT1 (SEKPYQCDFK). Our method also worked with Caris transcriptome data, too. Our primary clinical utility is to use this information to identify neoantigens for therapeutic purposes. (4) Conclusions and future perspectives: our method allows interpretation of what peptides result from the in-frame translation of EWS fusion junctions. These sequences, coupled with HLA-peptide binding data, are used to identify potential sequences of cancer-specific immunogenic peptides for Ewing sarcoma or DSRCT patients. This information may also be useful for immune monitoring (e.g., circulating T-cells with fusion-peptide specificity) to detect vaccine candidates, responses, or residual disease."
+  }
+ ],
+ "_one_fact_one_place": "Four of the six records this manuscript cites already have a home in research/literature/shared-vs-individualized-neoantigen-sources-2026-08-24.json, committed on this branch on 2026-08-24. Their bibliographic metadata is NOT restated here: `identifier_only` below carries the identifier and points at that file, so citations still trace and the records are not duplicated. `records` holds the two this repository had no home for.",
+ "identifier_only": [
+  {
+   "pmid": "42570981",
+   "doi": "10.1038/s41698-026-01642-4",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/42570981/",
+   "record_home": "research/literature/shared-vs-individualized-neoantigen-sources-2026-08-24.json"
+  },
+  {
+   "pmid": "22726592",
+   "doi": "10.1111/j.1349-7006.2012.02370.x",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/22726592/",
+   "record_home": "research/literature/shared-vs-individualized-neoantigen-sources-2026-08-24.json"
+  },
+  {
+   "pmid": "15647119",
+   "doi": "10.1186/1479-5876-3-1",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/15647119/",
+   "record_home": "research/literature/shared-vs-individualized-neoantigen-sources-2026-08-24.json"
+  },
+  {
+   "pmid": "31011208",
+   "doi": "10.1038/s41591-019-0434-2",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/31011208/",
+   "record_home": "research/literature/shared-vs-individualized-neoantigen-sources-2026-08-24.json"
+  }
+ ]
+}

@@ -32,7 +32,7 @@
 // api.grants.gov, clinicaltrials.gov, news.google.com, www.fda.gov
 
 import { writeFileSync } from "node:fs";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import { dirname, join } from "node:path";
 
 const EPMC = "https://www.ebi.ac.uk/europepmc/webservices/rest/search";
@@ -111,6 +111,20 @@ const TOPICS = [
     key: "patient-derived EMC / FET-fusion-sarcoma functional models",
     query: '(TITLE:"myxoid chondrosarcoma" OR TITLE:"EWSR1-NR4A3" OR TITLE:"EWSR1::NR4A3" OR TITLE:"fusion-positive sarcoma" OR TITLE:"Ewing sarcoma") AND (TITLE:"cell line" OR TITLE:organoid OR TITLE:"patient-derived" OR TITLE:xenograft OR TITLE:PDX OR TITLE:model)',
     trigger: "new patient-derived EMC model (line/organoid/PDX) → enables the decisive junction-ASO knockdown + parental-sparing experiment (aso-paper §4) and a fusion-dependence readout",
+  },
+  {
+    // ⭑ ADDED 2026-08-24, by the backfill that swept the two months nothing was watching clinical
+    // news. It surfaced "Durable clinical and immunologic response to an off-the-shelf EWSR1-FLI1
+    // peptide vaccine in metastatic Ewing sarcoma" (2026-08-08) — a fusion-BREAKPOINT peptide
+    // vaccine in a FET-fusion sarcoma, which is this repository's junction-vaccine route's exact
+    // modality in a sibling fusion. NO ROW HERE COULD MATCH IT. The only FET row above requires a
+    // MODEL word (cell line / organoid / PDX / xenograft / model) alongside the disease term, so it
+    // catches new experimental systems and structurally cannot catch a THERAPEUTIC result in the
+    // same disease. That is a gap in what we watch, not a ranking miss, and it is the second one
+    // this episode has found: the first was having no clinical source at all.
+    key: "fusion-BREAKPOINT-directed immunotherapy in FET / translocation sarcomas",
+    query: '(TITLE:"EWSR1" OR TITLE:"EWS-FLI1" OR TITLE:"EWSR1-FLI1" OR TITLE:"EWSR1::FLI1" OR TITLE:"fusion breakpoint" OR TITLE:"fusion-derived" OR TITLE:"breakpoint peptide" OR TITLE:"Ewing sarcoma" OR TITLE:"synovial sarcoma" OR TITLE:"myxoid chondrosarcoma" OR TITLE:"fusion-positive sarcoma") AND (TITLE:vaccine OR TITLE:vaccination OR TITLE:neoantigen OR TITLE:immunotherapy OR TITLE:immunogenicity OR TITLE:epitope OR TITLE:"T cell" OR TITLE:"T-cell" OR TITLE:TCR)',
+    trigger: "clinical or immunologic evidence for a fusion-BREAKPOINT-directed immunotherapy in ANY FET / translocation sarcoma → the closest available precedent for the EWSR1::NR4A3 junction-vaccine route (vaccine-construct.json); re-grade that route's central immunogenicity assumption and check whether the vaccine manuscript should cite it",
   },
   {
     // The ONE row that is not in-silico: a remote-controlled / cloud robotic wet lab a solo
@@ -276,27 +290,27 @@ const NEWS_FEEDS = [
     // Deliberately NOT scoped to our modalities: this row exists so that treatment news large
     // enough to matter surfaces even when it is outside the route portfolio. It is the row whose
     // absence lost INTerpath-001.
-    url: 'https://news.google.com/rss/search?q=("phase+3"+OR+"phase+III")+cancer+(topline+OR+"primary+endpoint"+OR+"met+its+endpoint"+OR+approval)+when:14d&hl=en-US&gl=US&ceid=US:en',
+    q: '("phase+3"+OR+"phase+III")+cancer+(topline+OR+"primary+endpoint"+OR+"met+its+endpoint"+OR+approval)',
     trigger: "any practice-changing or first-in-class oncology result → ask whether the MODALITY maps onto EWSR1::NR4A3 / EMC; if it does, re-grade that route and read the primary source before citing anything",
   },
   {
     key: "cancer vaccines / individualized neoantigen therapy",
-    url: 'https://news.google.com/rss/search?q=("cancer+vaccine"+OR+"neoantigen"+OR+"mRNA+cancer")+(trial+OR+results+OR+approval)+when:14d&hl=en-US&gl=US&ceid=US:en',
+    q: '("cancer+vaccine"+OR+"neoantigen"+OR+"mRNA+cancer")+(trial+OR+results+OR+approval)',
     trigger: "neoantigen-therapy news → direct precedent for the junction-vaccine route (the route's premise is that an individualized neoantigen approach can work); read the primary source, then re-grade",
   },
   {
     key: "oligonucleotide therapeutics in solid tumours (the ASO route's gate)",
-    url: 'https://news.google.com/rss/search?q=("antisense"+OR+"siRNA"+OR+"oligonucleotide"+OR+"RNA+therapeutic")+(tumor+OR+tumour+OR+cancer+OR+sarcoma)+when:14d&hl=en-US&gl=US&ceid=US:en',
+    q: '("antisense"+OR+"siRNA"+OR+"oligonucleotide"+OR+"RNA+therapeutic")+(tumor+OR+tumour+OR+cancer+OR+sarcoma)',
     trigger: "an oligo delivered to a non-hepatic solid tumour in humans → the fusion-junction ASO route's dominant gate; re-grade delivery feasibility",
   },
   {
     key: "targeted protein degradation (clinical)",
-    url: 'https://news.google.com/rss/search?q=("protein+degrader"+OR+PROTAC+OR+"molecular+glue")+(clinical+OR+trial+OR+patients)+when:14d&hl=en-US&gl=US&ceid=US:en',
+    q: '("protein+degrader"+OR+PROTAC+OR+"molecular+glue")+(clinical+OR+trial+OR+patients)',
     trigger: "degrader clinical progress or failure → clinical precedent for the NR4A3 degrader route",
   },
   {
     key: "sarcoma treatment news",
-    url: 'https://news.google.com/rss/search?q=(sarcoma+OR+"soft+tissue+cancer")+(treatment+OR+trial+OR+approval+OR+therapy+OR+drug)+-awareness+-fundraiser+-fundraising+-wedding+-obituary+-"in+memory"+when:14d&hl=en-US&gl=US&ceid=US:en',
+    q: '(sarcoma+OR+"soft+tissue+cancer")+(treatment+OR+trial+OR+approval+OR+therapy+OR+drug)+-awareness+-fundraiser+-fundraising+-wedding+-obituary+-"in+memory"',
     trigger: "sarcoma treatment news → the disease area itself; anything touching EMC or a fusion-driven sarcoma goes into the registry after reading the primary source",
   },
   {
@@ -309,10 +323,18 @@ const NEWS_FEEDS = [
     // An approval reported by the trade press is the same signal, on a mechanism already proven
     // working in the rows above; if an official endpoint is ever confirmed, swap this URL for it.
     key: "regulatory approvals in oncology (via news; FDA's own RSS endpoint is UNKNOWN)",
-    url: 'https://news.google.com/rss/search?q=(FDA+OR+EMA)+(approves+OR+approval)+(cancer+OR+oncology+OR+tumor+OR+sarcoma+OR+melanoma)+when:14d&hl=en-US&gl=US&ceid=US:en',
+    q: '(FDA+OR+EMA)+(approves+OR+approval)+(cancer+OR+oncology+OR+tumor+OR+sarcoma+OR+melanoma)',
     trigger: "an oncology approval → a modality cleared a regulator, which is the strongest available precedent signal for any route using it; confirm against the regulator's own notice before citing",
   },
 ];
+
+// A feed's QUERY has one home (the `q` above); the WINDOW is supplied per run. Live runs pass
+// `when:<N>d`; the backfill sweep passes `after:<date> before:<date>` for each slice. Keeping the
+// two apart is what lets a backfill reuse the live query set instead of duplicating it — a second
+// copy of these queries would drift from the first the day either is edited.
+function feedUrl(f, windowToken) {
+  return `https://news.google.com/rss/search?q=${f.q}+${windowToken}&hl=en-US&gl=US&ceid=US:en`;
+}
 
 function decodeEntities(s) {
   return String(s || "")
@@ -490,7 +512,7 @@ async function main() {
     L.push(`#### ${f.key}`);
     L.push(`*Unlocks:* ${f.trigger}`);
     try {
-      const items = parseFeed(await fetchText(f.url), 25);
+      const items = parseFeed(await fetchText(feedUrl(f, `when:${NEWS_DAYS}d`)), 25);
       if (!items.length) {
         // Distinguish "the feed said nothing happened" from "we could not read the feed" —
         // an absent reading is not a reading of absence (CLAUDE.md §4).
@@ -587,7 +609,13 @@ async function main() {
   console.error(`wrote ${out}`);
 }
 
-main().catch((e) => {
-  console.error("method-watch failed:", e);
-  process.exit(1);
-});
+export { CTGOV, NEWS_FEEDS, TRIALS, ctgov, decodeEntities, feedUrl, fetchText, isoDaysAgo, parseFeed, withinDays };
+
+// Only sweep when run as a command. scripts/method-watch-backfill.mjs imports the config above,
+// and an import that fired a live digest run would be a surprise with a network bill attached.
+if (import.meta.url === pathToFileURL(process.argv[1] || "").href) {
+  main().catch((e) => {
+    console.error("method-watch failed:", e);
+    process.exit(1);
+  });
+}

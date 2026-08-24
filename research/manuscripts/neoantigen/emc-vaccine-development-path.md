@@ -42,7 +42,12 @@ rearrangement of *NR4A3*, most often to *EWSR1*. The fusion junction encodes a p
 from either parent protein, and because the fusion is the truncal driver it is present in every tumour
 cell and cannot be lost without loss of the driver. The sponsors of an individualised neoantigen therapy
 have announced a positive phase 3 result in resected melanoma [9], which makes the platform question
-timely for other tumours.
+timely for other tumours. The nearer prior art is smaller: junction peptide vaccines have been given to
+patients in two other translocation sarcomas, a six-patient phase I trial and a 21-patient trial of a
+SYT-SSX junction peptide in synovial sarcoma [17,18,19] and one reported patient given an off-the-shelf
+*EWSR1*::*FLI1* breakpoint peptide vaccine [20]. Together they show that such constructs can be
+administered and can raise measurable T-cell responses; none of them shows benefit, and the Ewing sarcoma
+report is a single patient.
 
 **Purpose.** This paper neither predicts that an EMC vaccine will work nor argues that it will not. It
 reports what current instruments and access establish about the target, separates limits of the tumour
@@ -134,6 +139,26 @@ size was disclosed in it, and the peer-reviewed evidence in this setting remains
 The result does not transfer to EMC, and Section 4 sets out the axis on which the transfer fails. What it
 shows is that the manufacturing and delivery apparatus for an individualised RNA vaccine exists as a
 clinical reality rather than as a proposal.
+
+A closer precedent than melanoma exists for the modality proposed here, and it is much smaller. A 9-mer
+peptide spanning the SYT-SSX junction of synovial sarcoma, restricted to HLA-A\*24:02, was given to six
+patients in a phase I trial [17] and then to 21 patients across four protocols by the Japanese
+Musculoskeletal Oncology Group [18]. Peptide-specific cytotoxic T cells were induced in some patients,
+delayed-type hypersensitivity responses were absent in both trials, half the 12 patients on the arms
+combining peptide with incomplete Freund's adjuvant and interferon-alpha had stable disease during the
+vaccination period, and one patient in that series developed an intracerebral haemorrhage after the second
+vaccination; an accompanying evaluation of the later trial concluded that no robust immune response to the
+target epitope had been shown [19]. More recently, an off-the-shelf multi-peptide vaccine spanning the
+type 1 *EWSR1*::*FLI1* breakpoint, given with GM-CSF and topical imiquimod after multimodal therapy,
+raised de novo polyfunctional CD4+ T-cell responses against all four fusion-derived peptides in one
+patient with metastatic Ewing sarcoma, first detected at about month 7 and persisting beyond two years
+[20]. That report is a single patient and carries no control arm, so it supports no response rate and no
+statement about how such a construct would perform in anyone else. Fusion-derived neoantigens have
+separately been shown to elicit cytotoxic T-cell responses in fusion-driven tumours, alongside evidence
+of negative selective pressure against them [21].
+The human evidence for fusion-junction vaccination is therefore one case report and two small early-phase
+trials in a different translocation sarcoma: more than nothing, and much less than a demonstration that
+the approach works. Nothing in it concerns *EWSR1*::*NR4A3* or EMC.
 
 ## 2. Results: the target and its current evidence base
 
@@ -523,10 +548,14 @@ class I alleles to the full validated set is a computational task and would rais
 acceptance threshold is a convention rather than a result — nothing here defends 0.5 against 0.4 or 0.6 —
 and settling what the cut should be for junction peptides would do more to this figure than any panel
 extension. Calibrating that cut against a benchmark of experimentally validated neoepitopes is the
-form that settling would take, and no such benchmark restricted to fusion-junction peptides is known
-to the author; calibrating on point-mutation neoantigens instead would import an assumption about
-junction peptides that is the very thing in question. Measured immunopeptidomics (B2) could promote peptides the predictor ranks weakly or remove
-ones it ranks strongly, in a direction not knowable in advance.
+form that settling would take. The experimentally validated fusion-junction epitopes in the literature are
+individual sequences across a few fusions, the HLA-A\*24:02-restricted SYT-SSX junction peptide [17,18],
+the four *EWSR1*::*FLI1* breakpoint peptides of the Ewing sarcoma case report [20] and the fusion
+neoantigens of a head and neck series [21], and a handful of epitopes is not a set against which a
+threshold can be calibrated; calibrating on point-mutation neoantigens instead would import an assumption
+about junction peptides that is the very thing in question. Measured immunopeptidomics (B2) could promote
+peptides the predictor ranks weakly or remove ones it ranks strongly, in a direction not knowable in
+advance.
 
 **Residual.** Some fraction of patients will have no presented junction peptide and no second antigen to
 substitute. That fraction is a real and permanent exclusion from this approach, and it should be stated
@@ -537,7 +566,10 @@ in any protocol rather than discovered at screening.
 **Proposition.** No junction peptide has been shown to be presented on the surface of an EMC cell.
 
 **Evidence.** All binding figures in Section 2 come from the sequence-based predictor named there [2].
-No EMC immunopeptidomic dataset is known to the author, and the repository contains none.
+No EMC immunopeptidomic dataset is known to the author, and the repository contains none. The clinical
+reports in Section 1 do not close this for any fusion: they measure T-cell responses to synthetic peptides
+that were administered, which is not evidence that the same sequence is processed from the endogenous
+fusion protein and presented on a tumour cell [17,18,20].
 
 **What would clear it.** Mass-spectrometry immunopeptidomics on EMC tumour tissue or on one of the
 patient-derived EMC cell lines that have been established and characterised [6,14]. A single positive
@@ -609,6 +641,15 @@ peptides three substitutions apart can present near-identical surfaces and pepti
 different ones. This search excludes one more failure mode — a close self peptide nobody had looked for —
 and leaves the question of whether a repertoire exists exactly where it was.
 
+**What the clinical prior art bears on it.** Junction peptides from two other fusions have raised T-cell
+responses in patients: peptide-specific cytotoxic T cells against the SYT-SSX junction in synovial sarcoma
+[17,18], and de novo CD4+ responses against all four *EWSR1*::*FLI1* breakpoint peptides in one patient
+with Ewing sarcoma [20]. A repertoire able to see a fusion seam therefore survives central tolerance at
+some junctions. Neither result concerns this junction, these alleles, or this junction's single-residue
+distance to DMPCVQAQY; the SYT-SSX responses were weak and were not accompanied by demonstrated benefit;
+and the Ewing sarcoma observation is one patient. The limit is narrowed by an existence proof elsewhere
+rather than answered here.
+
 **What would clear or narrow it.** Only a T-cell reactivity assay against the specific peptide-HLA
 complex answers the question. The search above changes what such an assay would be testing: the
 comparator is no longer a hypothetical self peptide but a named one, DMPCVQAQY, at a known single-residue
@@ -653,8 +694,10 @@ does establish is narrow and worth having: the junction is not devoid of predict
 is what three alleles could not distinguish from a junction that is.
 
 **What would clear or move it.** Only measured class II presentation settles it; a wider panel now has
-much less headroom to move it than it did. A construct can also supply help from a heterologous source
-rather than from the junction itself, which is standard practice in peptide vaccine design and would make
+much less headroom to move it than it did. The one reported de novo T-cell response to a fusion-breakpoint
+vaccine in a patient was CD4+ rather than CD8+ [20], which calibrates nothing on this panel but argues
+against treating the class II arm as the lesser of the two. A construct can also supply help from a
+heterologous source rather than from the junction itself, which is standard practice in peptide vaccine design and would make
 this limit a design constraint rather than a blocking one.
 
 **Consequence for the construct, and for the combined figure.** Two things follow directly, and both
@@ -920,8 +963,12 @@ determined by which exon pair the patient carries, of which five are in frame; t
 therefore small, enumerable in advance, and shared across patients with the same breakpoint. Second,
 because the fusion is truncal, the antigen does not need re-selection over the disease course. A small
 fixed panel of breakpoint-specific constructs, allocated by a diagnostic assay, is closer to a stratified
-product than to a bespoke one. Whether that is commercially tractable is a question for a platform holder
-and not one this analysis can answer.
+product than to a bespoke one. A construct of that shape has been made and administered once already: the
+Ewing sarcoma vaccine was an off-the-shelf multi-peptide product spanning a recurrent breakpoint rather
+than a per-patient design [20], and routine fusion analysis in a clinical genomics workflow finds EWS
+breakpoints clustered tightly, with about three quarters of Ewing sarcoma and desmoplastic small round
+cell tumours sharing one exon 7 motif [22]. Whether that is commercially tractable is a question for a
+platform holder and not one this analysis can answer.
 
 ### B10. Trial design below the randomisation threshold
 
@@ -1021,11 +1068,12 @@ other. B6 and B7 are properties of the tumour that no computational advance miti
 Each capability this route waits on has a plausible near-miss that the literature would report in language
 resembling a hit.
 
-**A result on a different fusion is not a result on this one.** A presentation or immunogenicity study on
-another fusion-driven tumour raises the prior that fusion junctions in general can be seen by T cells. It
-does not establish that this junction, on these alleles, is presented at usable abundance. The
-discriminating question to ask of any such report is whether its evidence concerns presentation,
-abundance, or only a different fusion.
+**A result on a different fusion is not a result on this one.** Immunogenicity studies on other
+fusion-driven tumours already exist and raise the prior that fusion junctions in general can be seen by
+T cells [17,18,20,21]. None establishes that this junction, on these alleles, is presented at usable
+abundance, and none of them measured presentation at all. The discriminating question to ask of any such
+report is whether its evidence concerns presentation, abundance, or only a different fusion, and the
+reports available today answer only the last.
 
 **Robotic execution is not material access.** A cloud laboratory with per-experiment pricing supplies
 robots and generic reagents, not an EMC line or organoid, and without that none of the tissue-gated items
@@ -1133,8 +1181,11 @@ characterisation as immune-excluded rests on inference; its characterisation as 
 rests on the two archival cohorts read here against comparator sarcomas, which is a contrast and not an
 absolute, and on one twelve-tumour series read here only as an abstract. Neither instrument separates a
 cold tumour from an excluded one, which is limit B8 and the reason B6 and B7 remain graded apart.
-The class II panel is 23 alleles across DR, DP and DQ, its one strong call lands on a single
-uncommon allele, and class II prediction is less accurate than class I, so B4's positive bounds less than
+The clinical prior art for fusion-junction peptide vaccination is two small early-phase synovial sarcoma
+trials whose immunological readouts were weak and one single-patient Ewing sarcoma report [17,18,19,20];
+it bears on whether such a construct can be administered and immunologically monitored, and on nothing
+about benefit in any disease. The class II panel is 23 alleles across DR, DP and DQ, its one strong call
+lands on a single uncommon allele, and class II prediction is less accurate than class I, so B4's positive bounds less than
 a class I call of the same nominal strength. No claim is made that any peptide is presented,
 that any construct would be immunogenic, that any combination would be safe or effective, or that any of
 this is ready for clinical use. No wet-laboratory work was performed, and the measurements this
@@ -1327,6 +1378,36 @@ verification workflow that accompanies this work. None is written from recollect
     employees of the company whose assay is the subject, and the abstract text held in this repository
     has that company's own publication page as its only source. Registry entry
     `galitskiy2025emcpembrolizumab` in `research/data/emc-clinical-registry.json`.
+
+17. Kawaguchi S, Wada T, Ida K, Sato Y, Nagoya S, Tsukahara T, et al. Phase I vaccination trial of
+    SYT-SSX junction peptide in patients with disseminated synovial sarcoma. *Journal of Translational
+    Medicine* 2005;3(1):1. doi:10.1186/1479-5876-3-1. PMID 15647119. Six patients, 16 vaccinations;
+    an early-phase immunological study, not an efficacy trial.
+18. Kawaguchi S, Tsukahara T, Ida K, Kimura S, Murase M, Kano M, et al. SYT-SSX breakpoint peptide
+    vaccines in patients with synovial sarcoma: a study from the Japanese Musculoskeletal Oncology Group.
+    *Cancer Science* 2012;103(9):1625-1630. doi:10.1111/j.1349-7006.2012.02370.x. PMID 22726592.
+    Twenty-one patients across four single-arm protocols; delayed-type hypersensitivity negative in all,
+    9 with a greater than twofold rise in tetramer-positive cells, and one intracerebral haemorrhage after
+    the second vaccination.
+19. Bloom JE, McNeel DG, Olson BM. Vaccination using peptides spanning the SYT-SSX tumor-specific
+    translocation. *Expert Review of Vaccines* 2012;11(12):1401-1404. doi:10.1586/erv.12.122.
+    PMID 23252384. A commentary evaluating reference 18, and the source of the reading that no robust
+    immune response to the target epitope was demonstrated there.
+20. Calukovic B, Benzler K, Zelba H, Seitz C, Kayser S, Feldhahn M, et al. Durable clinical and
+    immunologic response to an off-the-shelf EWSR1-FLI1 peptide vaccine in metastatic Ewing sarcoma.
+    *npj Precision Oncology* 2026;10(1):305. doi:10.1038/s41698-026-01642-4. PMID 42570981.
+    **A single patient**, treated after multimodal therapy with GM-CSF and topical imiquimod as adjuvants.
+    There is no control arm and no response rate; it is cited for the de novo CD4+ responses reported
+    against the four breakpoint peptides and for the off-the-shelf construct, and not as evidence of
+    efficacy or safety.
+21. Yang W, Lee KW, Srivastava RM, Kuo F, Krishna C, Chowell D, et al. Immunogenic neoantigens derived
+    from gene fusions stimulate T cell responses. *Nature Medicine* 2019;25(5):767-775.
+    doi:10.1038/s41591-019-0434-2. PMID 31011208.
+22. Anderson PM, Tu ZJ, Kilpatrick SE, Trucco M, Hanna R, Chan T. Routine EWS fusion analysis in the
+    oncology clinic to identify cancer-specific peptide sequence patterns that span breakpoints in Ewing
+    sarcoma and DSRCT. *Cancers* 2023;15(5):1623. doi:10.3390/cancers15051623. PMID 36900411.
+    A clinical genomics series of 182 EWS fusion events; cited for breakpoint clustering, not for any
+    immunological measurement.
 
 **Data sources cited as resources rather than as publications.** Transcript structures are Ensembl
 records for *EWSR1* and *NR4A3*, retrieved and cached as committed inputs. The proteome searched in

@@ -1,0 +1,507 @@
+{
+ "_what": "Fetch-provenance record for research/manuscripts/neoantigen/shared-vs-individualized-neoantigen-evidence.md. Every PMID, DOI and NCT number cited by that memo appears here in the form the retrieval returned it.",
+ "_why_this_file_exists": "The memo grades shared/off-the-shelf against individualized neoantigen vaccines and cites eleven publications and seven trial registrations. None was written from recollection (CLAUDE.md section 7). This file is the tracked fetch product that anchors them, so lint_citations.py can verify the memo's identifiers and no later session has to re-derive their provenance.",
+ "_language_discipline": "Bibliographic records, registry design fields and verbatim quotations from company announcements. Nothing here was computed in this repository. A registry record establishes DESIGN, not RESULT. A company announcement establishes that the announcement was made, in those words, on that date -- it is a LEAD, NOT EVIDENCE, and is not citable as a medical fact.",
+ "_retrieved_utc": "2026-08-24T12:42:26+00:00",
+ "_retrieval": {
+  "workflow": ".github/workflows/fetch-literature.yml",
+  "runner_note": "Run on a GitHub Actions runner; the dev sandbox egress proxy blocks CONNECT to clinicaltrials.gov, www.ebi.ac.uk, merck.com and elicio.com.",
+  "europe_pmc_slugs": [
+   "ewsr1-fli1-peptide-vaccine",
+   "individualized-neoantigen-mrna4157",
+   "shared-neoantigen-kras-vaccine"
+  ],
+  "url_fetch_slugs": [
+   "literature/neoantigen-press-primary-sources",
+   "literature/amplify7p-topline-2026-06-15",
+   "literature/interpath-001-announcement-2026-08-22"
+  ],
+  "published_to_branch": "literature-cache"
+ },
+ "publications": [
+  {
+   "title": "Individualised neoantigen therapy mRNA-4157 (V940) plus pembrolizumab versus pembrolizumab monotherapy in resected melanoma (KEYNOTE-942): a randomised, phase 2b study.",
+   "authors": "Weber JS, Carlino MS, Khattak A, Meniawy T, Ansstas G, Taylor MH, Kim KB, McKean M, Long GV, Sullivan RJ, Faries M, Tran TT, Cowey CL, Pecora A, Shaheen M, Segar J, Medina T, Atkinson V, Gibney GT, Luke JJ, Thomas S, Buchbinder EI, Healy JA, Huang M, Morrissey M, Feldman I, Sehgal V, Robert-Tissot C, Hou P, Zhu L, Brown M, Aanur P, Meehan RS, Zaks T.",
+   "journal": "Lancet (London, England)",
+   "journalAbbrev": "Lancet",
+   "volume": "403",
+   "issue": "10427",
+   "pages": "632-644",
+   "year": 2024,
+   "pmid": "38246194",
+   "doi": "10.1016/s0140-6736(23)02268-7",
+   "source": "MED",
+   "id": "38246194",
+   "pubType": "",
+   "abstract": "<h4>Background</h4>Checkpoint inhibitors are standard adjuvant treatment for stage IIB-IV resected melanoma, but many patients recur. Our study aimed to evaluate whether mRNA-4157 (V940), a novel mRNA-based individualised neoantigen therapy, combined with pembrolizumab, improved recurrence-free survival and distant metastasis-free survival versus pembrolizumab monotherapy in resected high-risk melanoma.<h4>Methods</h4>We did an open-label, randomised, phase 2b, adjuvant study of mRNA-4157 plus pembrolizumab versus pembrolizumab monotherapy in patients, enrolled from sites in the USA and Australia, with completely resected high-risk cutaneous melanoma. Patients with completely resected melanoma (stage IIIB-IV) were assigned 2:1 to receive open-label mRNA-4157 plus pembrolizumab or pembrolizumab monotherapy. mRNA-4157 was administered intramuscularly (maximum nine doses) and pembrolizumab intravenously (maximum 18 doses) in 3-week cycles. The primary endpoint was recurrence-free survival in the intention-to-treat population. This ongoing trial is registered at ClinicalTrials.gov, NCT03897881.<h4>Findings</h4>From July 18, 2019, to Sept 30, 2021, 157 patients were assigned to mRNA-4157 plus pembrolizumab combination therapy (n=107) or pembrolizumab monotherapy (n=50); median follow-up was 23 months and 24 months, respectively. Recurrence-free survival was longer with combination versus monotherapy (hazard ratio [HR] for recurrence or death, 0·561 [95% CI 0·309-1·017]; two-sided p=0·053), with lower recurrence or death event rate (24 [22%] of 107 vs 20 [40%] of 50); 18-month recurrence-free survival was 79% (95% CI 69·0-85·6) versus 62% (46·9-74·3). Most treatment-related adverse events were grade 1-2. Grade ≥3 treatment-related adverse events occurred in 25% of patients in the combination group and 18% of patients in the monotherapy group, with no mRNA-4157-related grade 4-5 events. Immune-mediated adverse event frequency was similar for the combination (37 [36%]) and monotherapy (18 [36%]) groups.<h4>Interpretation</h4>Adjuvant mRNA-4157 plus pembrolizumab prolonged recurrence-free survival versus pembrolizumab monotherapy in patients with resected high-risk melanoma and showed a manageable safety profile. These results provide evidence that an mRNA-based individualised neoantigen therapy might be beneficial in the adjuvant setting.<h4>Funding</h4>Moderna in collaboration with Merck Sharp & Dohme, a subsidiary of Merck & Co, Rahway, NJ, USA.",
+   "isOpenAccess": false,
+   "citedBy": 604,
+   "url": "https://doi.org/10.1016/s0140-6736(23)02268-7",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/38246194/",
+   "_retrieval_slug": "literature/individualized-neoantigen-mrna4157/_index.json (branch literature-cache)"
+  },
+  {
+   "title": "Intismeran Autogene Plus Pembrolizumab Versus Pembrolizumab Alone in High-Risk Resected Melanoma: 5-Year Update of the Randomized Phase IIb KEYNOTE-942 Study.",
+   "authors": "Khattak A, Carlino MS, Meniawy T, Ansstas G, Taylor MH, Kim KB, McKean M, Long GV, Sullivan RJ, Faries M, Tran TT, Cowey CL, Pecora A, Medina T, Atkinson V, Krepler C, Jemielita T, Mao H, Chow J, Ojalvo LS, Mehnert JM, KEYNOTE-942 Investigators.",
+   "journal": "Journal of clinical oncology : official journal of the American Society of Clinical Oncology",
+   "journalAbbrev": "J Clin Oncol",
+   "volume": "",
+   "issue": "",
+   "pages": "JCO2600835",
+   "year": 2026,
+   "pmid": "42223134",
+   "doi": "10.1200/jco-26-00835",
+   "source": "MED",
+   "id": "42223134",
+   "pubType": "",
+   "abstract": "Intismeran autogene (intismeran; formerly V940 or mRNA-4157) is an mRNA-based individualized neoantigen therapy. We report 5-year outcomes of intismeran plus pembrolizumab from the phase IIb KEYNOTE-942 study (ClinicalTrials.gov identifier: NCT03897881). Eligible patients with resected stage IIIB to IV cutaneous melanoma were randomly assigned 2:1 to receive nine doses of intramuscular intismeran 1 mg once every 3 weeks plus 18 doses of intravenous pembrolizumab 200 mg once every 3 weeks or 18 doses of intravenous pembrolizumab 200 mg once every 3 weeks. The primary end point was recurrence-free survival (RFS); secondary end points included distant metastasis-free survival (DMFS) and safety. Five-year analyses were descriptive. Among 157 randomly assigned patients (intismeran plus pembrolizumab, n = 107; pembrolizumab, n = 50), the median planned follow-up at data cutoff (December 15, 2025) was 60.3 (range, 50.5-76.4) months. Intismeran plus pembrolizumab continued to prolong RFS (hazard ratio [HR], 0.510 [95% CI, 0.294 to 0.887) and DMFS (HR, 0.411 [95% CI, 0.200 to 0.843]), with a favorable trend in overall survival (HR, 0.471 [95% CI, 0.165 to 1.345]) versus pembrolizumab. Safety profile continued to be manageable, with no new safety signals. Intismeran plus pembrolizumab was associated with increased T-cell receptor clonality and novel clonotypes versus pembrolizumab; greater novel clone expansion was observed in patients without versus with recurrence in the combination arm. After a 5-year follow-up, intismeran plus pembrolizumab demonstrated sustained, durable treatment benefits versus pembrolizumab alone in resected high-risk melanoma.",
+   "isOpenAccess": false,
+   "citedBy": 0,
+   "url": "https://doi.org/10.1200/jco-26-00835",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/42223134/",
+   "_retrieval_slug": "literature/individualized-neoantigen-mrna4157/_index.json (branch literature-cache)",
+   "doi_publisher_case": "10.1200/JCO-26-00835"
+  },
+  {
+   "title": "T-cell Responses to Individualized Neoantigen Therapy mRNA-4157 (V940) Alone or in Combination with Pembrolizumab in the Phase 1 KEYNOTE-603 Study.",
+   "authors": "Gainor JF, Patel MR, Weber JS, Gutierrez M, Bauman JE, Clarke JM, Julian R, Scott AJ, Geiger JL, Kirtane K, Robert-Tissot C, Coder B, Tasneem M, Sun J, Zheng W, Gerbereux L, Laino A, Porichis F, Pollard JR, Hou P, Sehgal V, Chen X, Morrissey M, Daghestani HN, Feldman I, Srinivasan L, Frederick JP, Brown M, Aanur P, Meehan R, Burris HA.",
+   "journal": "Cancer discovery",
+   "journalAbbrev": "Cancer Discov",
+   "volume": "14",
+   "issue": "11",
+   "pages": "2209-2223",
+   "year": 2024,
+   "pmid": "39115419",
+   "doi": "10.1158/2159-8290.cd-24-0158",
+   "source": "MED",
+   "id": "39115419",
+   "pubType": "",
+   "abstract": "mRNA-4157 (V940) is an individualized neoantigen therapy targeting up to 34 patient-specific tumor neoantigens to induce T-cell responses and potentiate antitumor activity. We report mechanistic insights into the immunogenicity of mRNA-4157 via characterization of T-cell responses to neoantigens from the first-in-human, phase 1, KEYNOTE-603 study (NCT03313778) in patients with resected non-small cell lung cancer (Part A: 1-mg mRNA-4157, n = 4) or resected cutaneous melanoma (Part D: 1-mg mRNA-4157 + 200-mg pembrolizumab, n = 12). Safety, tolerability, and immunogenicity were assessed. All patients experienced ≥1 treatment-emergent adverse event; there were no grade 4/5 adverse events or dose-limiting toxicities. mRNA-4157 alone induced consistent de novo and strengthened preexisting T-cell responses to targeted neoantigens. Following combination therapy, sustained mRNA-4157-induced neoantigen-specific T-cell responses and expansion of cytotoxic CD8 and CD4 T cells were observed. These findings show the potential of a novel mRNA individualized neoantigen therapy approach in oncology. Significance: The safety and immunogenicity results from this phase 1 study of mRNA-4157 as adjuvant monotherapy or combination therapy with pembrolizumab show generation of de novo and enhancement of existing neoantigen-specific T-cell responses and provide mechanistic proof of concept to support further development of mRNA-4157 for patients with resected solid tumors. See related commentary by Berraondo et al., p. 2021.",
+   "isOpenAccess": false,
+   "citedBy": 78,
+   "url": "https://doi.org/10.1158/2159-8290.cd-24-0158",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/39115419/",
+   "_retrieval_slug": "literature/individualized-neoantigen-mrna4157/_index.json (branch literature-cache)",
+   "doi_publisher_case": "10.1158/2159-8290.CD-24-0158"
+  },
+  {
+   "title": "Autogene cevumeran with or without atezolizumab in advanced solid tumors: a phase 1 trial.",
+   "authors": "Lopez J, Powles T, Braiteh F, Siu LL, LoRusso P, Friedman CF, Balmanoukian AS, Gordon M, Yachnin J, Rottey S, Karydis I, Fisher GA, Schmidt M, Schuler M, Sullivan RJ, Burris HA, Galvao V, Henick BS, Dirix L, Jaeger D, Ott PA, Wong KM, Jerusalem G, Schiza A, Fong L, Steeghs N, Leidner RS, Rittmeyer A, Laurie SA, Gort E, Aljumaily R, Melero I, Sabado RL, Rhee I, Mancuso MR, Muller L, Fine GD, Yadav M, Kim L, Leveque VJP, Robert A, Darwish M, Qi T, Zhu J, Zhang J, Twomey P, Rao GK, Low DW, Petry C, Lo AA, Schartner JM, Delamarre L, Mellman I, Löwer M, Müller F, Derhovanessian E, Cortini A, Manning L, Maurus D, Brachtendorf S, Lörks V, Omokoko T, Godehardt E, Becker D, Hawner C, Wallrapp C, Albrecht C, Kröner C, Tadmor AD, Diekmann J, Vormehr M, Jork A, Paruzynski A, Lang M, Blake J, Hennig O, Kuhn AN, Sahin U, Türeci Ö, Camidge DR.",
+   "journal": "Nature medicine",
+   "journalAbbrev": "Nat Med",
+   "volume": "31",
+   "issue": "1",
+   "pages": "152-164",
+   "year": 2025,
+   "pmid": "39762422",
+   "pmcid": "PMC11750724",
+   "doi": "10.1038/s41591-024-03334-7",
+   "source": "MED",
+   "id": "39762422",
+   "pubType": "",
+   "abstract": "Effective targeting of somatic cancer mutations to enhance the efficacy of cancer immunotherapy requires an individualized approach. Autogene cevumeran is a uridine messenger RNA lipoplex-based individualized neoantigen-specific immunotherapy designed from tumor-specific somatic mutation data obtained from tumor tissue of each individual patient to stimulate T cell responses against up to 20 neoantigens. This ongoing phase 1 study evaluated autogene cevumeran as monotherapy (n = 30) and in combination with atezolizumab (n = 183) in pretreated patients with advanced solid tumors. The primary objective was safety and tolerability; exploratory objectives included evaluation of pharmacokinetics, pharmacodynamics, preliminary antitumor activity and immunogenicity. Non-prespecified interim analysis showed that autogene cevumeran was well tolerated and elicited poly-epitopic neoantigen-specific responses, encompassing CD4<sup>+</sup> and/or CD8<sup>+</sup> T cells, in 71% of patients, most of them undetectable at baseline. Responses were detectable up to 23 months after treatment initiation. CD8<sup>+</sup> T cells specific for several neoantigens constituted a median of 7.3% of circulating CD8<sup>+</sup> T cells, reaching up to 23% in some patients. Autogene cevumeran-induced T cells were found within tumor lesions constituting up to 7.2% of tumor-infiltrating T cells. Clinical activity was observed, including one objective response in monotherapy dose escalation and in two patients with disease characteristics unfavorable for response to immunotherapy treated in combination with atezolizumab. These findings support the continued development of autogene cevumeran in earlier treatment lines. ClinicalTrials.gov registration: NCT03289962 .",
+   "isOpenAccess": true,
+   "citedBy": 93,
+   "url": "https://doi.org/10.1038/s41591-024-03334-7",
+   "fullTextFile": "PMC11750724.txt",
+   "chars": 83339,
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/39762422/",
+   "_retrieval_slug": "literature/individualized-neoantigen-mrna4157/_index.json (branch literature-cache)"
+  },
+  {
+   "title": "Lymph-node-targeted, mKRAS-specific amphiphile vaccine in pancreatic and colorectal cancer: the phase 1 AMPLIFY-201 trial.",
+   "authors": "Pant S, Wainberg ZA, Weekes CD, Furqan M, Kasi PM, Devoe CE, Leal AD, Chung V, Basturk O, VanWyk H, Tavares AM, Seenappa LM, Perry JR, Kheoh T, McNeil LK, Welkowsky E, DeMuth PC, Haqq CM, O'Reilly EM.",
+   "journal": "Nature medicine",
+   "journalAbbrev": "Nat Med",
+   "volume": "30",
+   "issue": "2",
+   "pages": "531-542",
+   "year": 2024,
+   "pmid": "38195752",
+   "pmcid": "PMC10878978",
+   "doi": "10.1038/s41591-023-02760-3",
+   "source": "MED",
+   "id": "38195752",
+   "pubType": "",
+   "abstract": "Pancreatic and colorectal cancers are often KRAS mutated and are incurable when tumor DNA or protein persists or recurs after curative intent therapy. Cancer vaccine ELI-002 2P enhances lymph node delivery and immune response using amphiphile (Amph) modification of G12D and G12R mutant KRAS (mKRAS) peptides (Amph-Peptides-2P) together with CpG oligonucleotide adjuvant (Amph-CpG-7909). We treated 25 patients (20 pancreatic and five colorectal) who were positive for minimal residual mKRAS disease (ctDNA and/or serum tumor antigen) after locoregional treatment in a phase 1 study of fixed-dose Amph-Peptides-2P and ascending-dose Amph-CpG-7909; study enrollment is complete with patient follow-up ongoing. Primary endpoints included safety and recommended phase 2 dose (RP2D). The secondary endpoint was tumor biomarker response (longitudinal ctDNA or tumor antigen), with exploratory endpoints including immunogenicity and relapse-free survival (RFS). No dose-limiting toxicities were observed, and the RP2D was 10.0 mg of Amph-CpG-7909. Direct ex vivo mKRAS-specific T cell responses were observed in 21 of 25 patients (84%; 59% both CD4<sup>+</sup> and CD8<sup>+</sup>); tumor biomarker responses were observed in 21 of 25 patients (84%); biomarker clearance was observed in six of 25 patients (24%; three pancreatic and three colorectal); and the median RFS was 16.33 months. Efficacy correlated with T cell responses above or below the median fold increase over baseline (12.75-fold): median tumor biomarker reduction was -76.0% versus -10.2% (P < 0.0014), and the median RFS was not reached versus 4.01 months (hazard ratio = 0.14; P = 0.0167). ELI-002 2P was safe and induced considerable T cell responses in patients with immunotherapy-recalcitrant KRAS-mutated tumors. ClinicalTrials.gov identifier: NCT04853017 .",
+   "isOpenAccess": true,
+   "citedBy": 201,
+   "url": "https://doi.org/10.1038/s41591-023-02760-3",
+   "fullTextFile": "PMC10878978.txt",
+   "chars": 62117,
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/38195752/",
+   "_retrieval_slug": "literature/shared-neoantigen-kras-vaccine/_index.json (branch literature-cache)"
+  },
+  {
+   "title": "Lymph node-targeted, mKRAS-specific amphiphile vaccine in pancreatic and colorectal cancer: phase 1 AMPLIFY-201 trial final results.",
+   "authors": "Wainberg ZA, Weekes CD, Furqan M, Kasi PM, Devoe CE, Leal AD, Chung V, Perry JR, Kheoh T, McNeil LK, Welkowsky E, DeMuth PC, Haqq CM, Pant S, O'Reilly EM.",
+   "journal": "Nature medicine",
+   "journalAbbrev": "Nat Med",
+   "volume": "31",
+   "issue": "11",
+   "pages": "3648-3653",
+   "year": 2025,
+   "pmid": "40790272",
+   "pmcid": "PMC12618236",
+   "doi": "10.1038/s41591-025-03876-4",
+   "source": "MED",
+   "id": "40790272",
+   "pubType": "",
+   "abstract": "Cellular immunity, mediated by tumor antigen-specific CD4<sup>+</sup> and CD8<sup>+</sup> T cells, has a critical role in the success of cancer immunotherapy by targeting intracellular driver and passenger tumor mutations. We present the final results of the phase 1 AMPLIFY-201 trial, in which patients who completed standard locoregional treatment, with minimal residual mKRAS disease (n = 25, 20 pancreatic cancer and 5 colorectal cancer), received monotherapy vaccination with lymph node-targeting ELI-002 2P, including mutant KRAS (mKRAS) amphiphile-peptide antigens (G12D, G12R) and amphiphile-adjuvant CpG-7909. At a median follow-up of 19.7 months, efficacy correlated with mKRAS-specific T cell responses above or below a threshold 9.17-fold increase over baseline, with median radiographic relapse-free survival not reached, versus 3.02 months (hazard ratio (HR) = 0.12, P = 0.0002) and median overall survival not reached versus 15.98 months (HR = 0.23, P = 0.0099). Seventy-one percent of evaluable patients induced both CD4<sup>+</sup> and CD8<sup>+</sup> subsets, with sustained immunogenicity. Following ELI-002 2P treatment, antigen spreading was observed in 67% of patients, with increased T cells reactive to personalized, tumor antigens absent from the ELI-002 2P vaccine. Therefore, lymph node-targeting amphiphile vaccination induces persistent T cell responses targeting oncogenic driver KRAS mutations, alongside personalized, tumor antigen-specific T cells, which may correlate to clinical outcomes in pancreatic and colorectal cancer. ClinicalTrials.gov registration: NCT04853017 .",
+   "isOpenAccess": true,
+   "citedBy": 51,
+   "url": "https://doi.org/10.1038/s41591-025-03876-4",
+   "fullTextFile": "PMC12618236.txt",
+   "chars": 46869,
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/40790272/",
+   "_retrieval_slug": "literature/shared-neoantigen-kras-vaccine/_index.json (branch literature-cache)"
+  },
+  {
+   "title": "A shared neoantigen vaccine combined with immune checkpoint blockade for advanced metastatic solid tumors: phase 1 trial interim results.",
+   "authors": "Rappaport AR, Kyi C, Lane M, Hart MG, Johnson ML, Henick BS, Liao CY, Mahipal A, Shergill A, Spira AI, Goldman JW, Scallan CD, Schenk D, Palmer CD, Davis MJ, Kounlavouth S, Kemp L, Yang A, Li YJ, Likes M, Shen A, Boucher GR, Egorova M, Veres RL, Espinosa JA, Jaroslavsky JR, Kraemer Tardif LD, Acrebuche L, Puccia C, Sousa L, Zhou R, Bae K, Hecht JR, Carbone DP, Johnson B, Allen A, Ferguson AR, Jooss K.",
+   "journal": "Nature medicine",
+   "journalAbbrev": "Nat Med",
+   "volume": "30",
+   "issue": "4",
+   "pages": "1013-1022",
+   "year": 2024,
+   "pmid": "38538867",
+   "doi": "10.1038/s41591-024-02851-9",
+   "source": "MED",
+   "id": "38538867",
+   "pubType": "",
+   "abstract": "Therapeutic vaccines that elicit cytotoxic T cell responses targeting tumor-specific neoantigens hold promise for providing long-term clinical benefit to patients with cancer. Here we evaluated safety and tolerability of a therapeutic vaccine encoding 20 shared neoantigens derived from selected common oncogenic driver mutations as primary endpoints in an ongoing phase 1/2 study in patients with advanced/metastatic solid tumors. Secondary endpoints included immunogenicity, overall response rate, progression-free survival and overall survival. Eligible patients were selected if their tumors expressed one of the human leukocyte antigen-matched tumor mutations included in the vaccine, with the majority of patients (18/19) harboring a mutation in KRAS. The vaccine regimen, consisting of a chimp adenovirus (ChAd68) and self-amplifying mRNA (samRNA) in combination with the immune checkpoint inhibitors ipilimumab and nivolumab, was shown to be well tolerated, with observed treatment-related adverse events consistent with acute inflammation expected with viral vector-based vaccines and immune checkpoint blockade, the majority grade 1/2. Two patients experienced grade 3/4 serious treatment-related adverse events that were also dose-limiting toxicities. The overall response rate was 0%, and median progression-free survival and overall survival were 1.9 months and 7.9 months, respectively. T cell responses were biased toward human leukocyte antigen-matched TP53 neoantigens encoded in the vaccine relative to KRAS neoantigens expressed by the patients' tumors, indicating a previously unknown hierarchy of neoantigen immunodominance that may impact the therapeutic efficacy of multiepitope shared neoantigen vaccines. These data led to the development of an optimized vaccine exclusively targeting KRAS-derived neoantigens that is being evaluated in a subset of patients in phase 2 of the clinical study. ClinicalTrials.gov registration: NCT03953235 .",
+   "isOpenAccess": false,
+   "citedBy": 120,
+   "url": "https://doi.org/10.1038/s41591-024-02851-9",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/38538867/",
+   "_retrieval_slug": "literature/shared-neoantigen-kras-vaccine/_index.json (branch literature-cache)"
+  },
+  {
+   "title": "Durable clinical and immunologic response to an off-the-shelf EWSR1-FLI1 peptide vaccine in metastatic Ewing sarcoma.",
+   "authors": "Calukovic B, Benzler K, Zelba H, Seitz C, Kayser S, Feldhahn M, Shao B, Schulze M, Maksimovic O, Scheble V, Battke F, Zender L, Lauer UM, Biskup S, Deinzer CKW.",
+   "journal": "NPJ precision oncology",
+   "journalAbbrev": "NPJ Precis Oncol",
+   "volume": "10",
+   "issue": "1",
+   "pages": "305",
+   "year": 2026,
+   "pmid": "42570981",
+   "doi": "10.1038/s41698-026-01642-4",
+   "source": "MED",
+   "id": "42570981",
+   "pubType": "",
+   "abstract": "Ewing sarcoma is a rare, fusion-driven malignancy with poor prognosis in the metastatic setting, for which no established immunotherapeutic treatment is currently available. Fusion breakpoints are rational precision immunotherapy targets, yet clinical evidence of immunogenicity is scarce. We administered an off-the-shelf multi-peptide vaccine spanning the type 1 EWSR1-FLI1 breakpoint to a patient with high-burden metastatic Ewing sarcoma following multimodal therapy. Vaccinations were combined with GM-CSF and topical imiquimod. Longitudinal immune monitoring by in vitro peptide stimulation and intracellular cytokine staining revealed de novo polyfunctional CD4⁺ T-cell responses against all four fusion-derived peptides, first detectable by month 7 and persisting beyond two years. Treatment was well tolerated with only grade 1 local reactions. Durable disease stability was maintained for more than 26 months. These first-in-human data support the feasibility, safety, and immunogenicity of a fusion-derived peptide vaccine and warrant further evaluation of precision immunotherapy in sarcomas driven by recurrent gene fusions.",
+   "isOpenAccess": false,
+   "citedBy": 0,
+   "url": "https://doi.org/10.1038/s41698-026-01642-4",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/42570981/",
+   "_retrieval_slug": "literature/ewsr1-fli1-peptide-vaccine/_index.json (branch literature-cache)"
+  },
+  {
+   "title": "Phase I vaccination trial of SYT-SSX junction peptide in patients with disseminated synovial sarcoma.",
+   "authors": "Kawaguchi S, Wada T, Ida K, Sato Y, Nagoya S, Tsukahara T, Kimura S, Sahara H, Ikeda H, Shimozawa K, Asanuma H, Torigoe T, Hiraga H, Ishii T, Tatezaki SI, Sato N, Yamashita T.",
+   "journal": "Journal of translational medicine",
+   "journalAbbrev": "J Transl Med",
+   "volume": "3",
+   "issue": "1",
+   "pages": "1",
+   "year": 2005,
+   "pmid": "15647119",
+   "pmcid": "PMC545052",
+   "doi": "10.1186/1479-5876-3-1",
+   "source": "MED",
+   "id": "15647119",
+   "pubType": "",
+   "abstract": "BACKGROUND: Synovial sarcoma is a high-grade malignant tumor of soft tissue, characterized by the specific chromosomal translocation t(X;18), and its resultant SYT-SSX fusion gene. Despite intensive multimodality therapy, the majority of metastatic or relapsed diseases still remain incurable, thus suggesting a need for new therapeutic options. We previously demonstrated the antigenicity of SYT-SSX gene-derived peptides by in vitro analyses. The present study was designed to evaluate in vivo immunological property of a SYT-SSX junction peptide in selected patients with synovial sarcoma. METHODS: A 9-mer peptide (SYT-SSX B: GYDQIMPKK) spanning the SYT-SSX fusion region was synthesized. Eligible patients were those (i) who have histologically and genetically confirmed, unresectable synovial sarcoma (SYT-SSX1 or SYT-SSX2 positive), (ii) HLA-A*2402 positive, (iii) between 20 and 70 years old, (iv) ECOG performance status between 0 and 3, and (v) who gave informed consent. Vaccinations with SYT-SSX B peptide (0.1 mg or 1.0 mg) were given subcutaneously six times at 14-day intervals. These patients were evaluated for DTH skin test, adverse events, tumor size, tetramer staining, and peptide-specific CTL induction. RESULTS: A total of 16 vaccinations were carried out in six patients. The results were (i) no serious adverse effects or DTH reactions, (ii) suppression of tumor progression in one patient, (iii) increases in the frequency of peptide-specific CTLs in three patients and a decrease in one patient, and (iv) successful induction of peptide-specific CTLs from four patients. CONCLUSIONS: Our findings indicate the safety of the SYT-SSX junction peptide in the use of vaccination and also give support to the property of the peptide to evoke in vivo immunological responses. Modification of both the peptide itself and the related protocol is required to further improve the therapeutic efficacy.",
+   "isOpenAccess": true,
+   "citedBy": 77,
+   "url": "https://doi.org/10.1186/1479-5876-3-1",
+   "fullTextFile": "PMC545052.txt",
+   "chars": 20562,
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/15647119/",
+   "_retrieval_slug": "literature/ewsr1-fli1-peptide-vaccine/_index.json (branch literature-cache)"
+  },
+  {
+   "title": "SYT-SSX breakpoint peptide vaccines in patients with synovial sarcoma: a study from the Japanese Musculoskeletal Oncology Group.",
+   "authors": "Kawaguchi S, Tsukahara T, Ida K, Kimura S, Murase M, Kano M, Emori M, Nagoya S, Kaya M, Torigoe T, Ueda E, Takahashi A, Ishii T, Tatezaki S, Toguchida J, Tsuchiya H, Osanai T, Sugita T, Sugiura H, Ieguchi M, Ihara K, Hamada K, Kakizaki H, Morii T, Yasuda T, Tanizawa T, Ogose A, Yabe H, Yamashita T, Sato N, Wada T.",
+   "journal": "Cancer science",
+   "journalAbbrev": "Cancer Sci",
+   "volume": "103",
+   "issue": "9",
+   "pages": "1625-1630",
+   "year": 2012,
+   "pmid": "22726592",
+   "pmcid": "PMC7659233",
+   "doi": "10.1111/j.1349-7006.2012.02370.x",
+   "source": "MED",
+   "id": "22726592",
+   "pubType": "",
+   "abstract": "In the present study, we evaluated the safety and effectiveness of SYT-SSX-derived peptide vaccines in patients with advanced synovial sarcoma. A 9-mer peptide spanning the SYT-SSX fusion region (B peptide) and its HLA-A*2402 anchor substitute (K9I) were synthesized. In Protocols A1 and A2, vaccines with peptide alone were administered subcutaneously six times at 14-day intervals. The B peptide was used in Protocol A1, whereas the K9I peptide was used in Protocol A2. In Protocols B1 and B2, the peptide was mixed with incomplete Freund's adjuvant and then administered subcutaneously six times at 14-day intervals. In addition, interferon-α was injected subcutaneously on the same day and again 3 days after the vaccination. The B peptide and K9I peptide were used in Protocols B1 and B2, respectively. In total, 21 patients (12 men, nine women; mean age 43.6 years) were enrolled in the present study. Each patient had multiple metastatic lesions of the lung. Thirteen patients completed the six-injection vaccination schedule. One patient developed intracerebral hemorrhage after the second vaccination. Delayed-type hypersensitivity skin tests were negative in all patients. Nine patients showed a greater than twofold increase in the frequency of CTLs in tetramer analysis. Recognized disease progression occurred in all but one of the nine patients in Protocols A1 and A2. In contrast, half the 12 patients had stable disease during the vaccination period in Protocols B1 and B2. Of note, one patient showed transient shrinkage of a metastatic lesion. The response of the patients to the B protocols is encouraging and warrants further investigation.",
+   "isOpenAccess": false,
+   "citedBy": 82,
+   "url": "https://doi.org/10.1111/j.1349-7006.2012.02370.x",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/22726592/",
+   "_retrieval_slug": "literature/ewsr1-fli1-peptide-vaccine/_index.json (branch literature-cache)"
+  },
+  {
+   "title": "Immunogenic neoantigens derived from gene fusions stimulate T cell responses.",
+   "authors": "Yang W, Lee KW, Srivastava RM, Kuo F, Krishna C, Chowell D, Makarov V, Hoen D, Dalin MG, Wexler L, Ghossein R, Katabi N, Nadeem Z, Cohen MA, Tian SK, Robine N, Arora K, Geiger H, Agius P, Bouvier N, Huberman K, Vanness K, Havel JJ, Sims JS, Samstein RM, Mandal R, Tepe J, Ganly I, Ho AL, Riaz N, Wong RJ, Shukla N, Chan TA, Morris LGT.",
+   "journal": "Nature medicine",
+   "journalAbbrev": "Nat Med",
+   "volume": "25",
+   "issue": "5",
+   "pages": "767-775",
+   "year": 2019,
+   "pmid": "31011208",
+   "pmcid": "PMC6558662",
+   "doi": "10.1038/s41591-019-0434-2",
+   "source": "MED",
+   "id": "31011208",
+   "pubType": "",
+   "abstract": "Anti-tumor immunity is driven by self versus non-self discrimination. Many immunotherapeutic approaches to cancer have taken advantage of tumor neoantigens derived from somatic mutations. Here, we demonstrate that gene fusions are a source of immunogenic neoantigens that can mediate responses to immunotherapy. We identified an exceptional responder with metastatic head and neck cancer who experienced a complete response to immune checkpoint inhibitor therapy, despite a low mutational load and minimal pre-treatment immune infiltration in the tumor. Using whole-genome sequencing and RNA sequencing, we identified a novel gene fusion and demonstrated that it produces a neoantigen that can specifically elicit a host cytotoxic T cell response. In a cohort of head and neck tumors with low mutation burden, minimal immune infiltration and prevalent gene fusions, we also identified gene fusion-derived neoantigens that generate cytotoxic T cell responses. Finally, analyzing additional datasets of fusion-positive cancers, including checkpoint-inhibitor-treated tumors, we found evidence of immune surveillance resulting in negative selective pressure against gene fusion-derived neoantigens. These findings highlight an important class of tumor-specific antigens and have implications for targeting gene fusion events in cancers that would otherwise be less poised for response to immunotherapy, including cancers with low mutational load and minimal immune infiltration.",
+   "isOpenAccess": true,
+   "citedBy": 309,
+   "url": "https://doi.org/10.1038/s41591-019-0434-2",
+   "fullTextFile": "PMC6558662.txt",
+   "chars": 48448,
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/31011208/",
+   "_retrieval_slug": "literature/ewsr1-fli1-peptide-vaccine/_index.json (branch literature-cache)"
+  }
+ ],
+ "trial_registrations": {
+  "NCT05933577": {
+   "identificationModule": {
+    "nctId": "NCT05933577",
+    "briefTitle": "A Clinical Study of Intismeran Autogene (V940) Plus Pembrolizumab in People With High-Risk Melanoma (V940-001)",
+    "officialTitle": "A Phase 3, Randomized, Double-Blind, Placebo- and Active-Comparator-Controlled Clinical Study of Adjuvant V940 (mRNA-4157) Plus Pembrolizumab Versus Adjuvant Placebo Plus Pembrolizumab in Participants With High-Risk Stage II-IV Melanoma (INTerpath-001)"
+   },
+   "statusModule": {
+    "overallStatus": "ACTIVE_NOT_RECRUITING"
+   },
+   "sponsorCollaboratorsModule": {
+    "leadSponsor": {
+     "name": "Merck Sharp & Dohme LLC"
+    }
+   },
+   "designModule": {
+    "phases": [
+     "PHASE3"
+    ],
+    "enrollmentInfo": {
+     "count": 1089
+    }
+   },
+   "outcomesModule": {
+    "primaryOutcomes": [
+     {
+      "measure": "Recurrence-Free Survival (RFS)"
+     }
+    ]
+   }
+  },
+  "NCT05726864": {
+   "identificationModule": {
+    "nctId": "NCT05726864",
+    "briefTitle": "A Study of ELI-002 7P in Subjects With KRAS/NRAS Mutated Solid Tumors",
+    "officialTitle": "First in Human Phase 1/2 Trial of ELI-002 7P Immunotherapy as Treatment for Subjects With Kirsten Rat Sarcoma (KRAS)/Neuroblastoma RAS Viral Oncogene Homolog (NRAS) Mutated Pancreatic Ductal Adenocarcinoma (PDAC) and Other Solid Tumors"
+   },
+   "statusModule": {
+    "overallStatus": "ACTIVE_NOT_RECRUITING"
+   },
+   "sponsorCollaboratorsModule": {
+    "leadSponsor": {
+     "name": "Elicio Therapeutics"
+    }
+   },
+   "designModule": {
+    "phases": [
+     "PHASE1",
+     "PHASE2"
+    ],
+    "enrollmentInfo": {
+     "count": 158
+    }
+   },
+   "outcomesModule": {
+    "primaryOutcomes": [
+     {
+      "measure": "Phase 1: Evaluate the safety of ELI-002 7P"
+     },
+     {
+      "measure": "Phase 2: Compare ELI-002 7P versus standard of care (SOC; observation) in DFS (disease free survival)"
+     }
+    ]
+   }
+  },
+  "NCT06295809": {
+   "identificationModule": {
+    "nctId": "NCT06295809",
+    "briefTitle": "A Study of (Neo)Adjuvant Intismeran Autogene (V940) and Pembrolizumab in Cutaneous Squamous Cell Carcinoma (V940-007)",
+    "officialTitle": "A Phase 2/3, Adaptive, Randomized, Open-label, Clinical Study to Evaluate Neoadjuvant and Adjuvant Intismeran Autogene (mRNA-4157) in Combination With Pembrolizumab (MK-3475) Versus Standard of Care, and Pembrolizumab Monotherapy in Participants With Resectable Locally Advanced Cutaneous Squamous Cell Carcinoma (LA cSCC) (INTerpath-007)"
+   },
+   "statusModule": {
+    "overallStatus": "TERMINATED"
+   },
+   "sponsorCollaboratorsModule": {
+    "leadSponsor": {
+     "name": "Merck Sharp & Dohme LLC"
+    }
+   },
+   "designModule": {
+    "phases": [
+     "PHASE2",
+     "PHASE3"
+    ],
+    "enrollmentInfo": {
+     "count": 46
+    }
+   },
+   "outcomesModule": {
+    "primaryOutcomes": [
+     {
+      "measure": "Event Free Survival (EFS)"
+     }
+    ]
+   }
+  },
+  "NCT04853017": {
+   "identificationModule": {
+    "nctId": "NCT04853017",
+    "orgStudyIdInfo": {
+     "id": "ELI-002-001"
+    },
+    "organization": {
+     "fullName": "Elicio Therapeutics",
+     "class": "INDUSTRY"
+    },
+    "briefTitle": "A Study of ELI-002 in Subjects With KRAS Mutated Pancreatic Ductal Adenocarcinoma (PDAC) and Other Solid Tumors",
+    "officialTitle": "First in Human Phase 1 Trial of ELI-002 Immunotherapy as Treatment for Subjects With Kirsten Rat Sarcoma (KRAS) Mutated Pancreatic Ductal Adenocarcinoma and Other Solid Tumors",
+    "acronym": "AMPLIFY-201"
+   },
+   "statusModule": {
+    "statusVerifiedDate": "2025-08",
+    "overallStatus": "COMPLETED",
+    "expandedAccessInfo": {
+     "hasExpandedAccess": false
+    },
+    "startDateStruct": {
+     "date": "2021-10-04",
+     "type": "ACTUAL"
+    },
+    "primaryCompletionDateStruct": {
+     "date": "2023-01-26",
+     "type": "ACTUAL"
+    },
+    "completionDateStruct": {
+     "date": "2024-09-24",
+     "type": "ACTUAL"
+    },
+    "studyFirstSubmitDate": "2021-04-16",
+    "studyFirstSubmitQcDate": "2021-04-16",
+    "studyFirstPostDateStruct": {
+     "date": "2021-04-21",
+     "type": "ACTUAL"
+    },
+    "resultsFirstSubmitDate": "2024-10-08",
+    "resultsFirstSubmitQcDate": "2024-12-03",
+    "resultsFirstPostDateStruct": {
+     "date": "2025-01-17",
+     "type": "ACTUAL"
+    },
+    "lastUpdateSubmitDate": "2025-08-19",
+    "lastUpdatePostDateStruct": {
+     "date": "2025-09-05",
+     "type": "ACTUAL"
+    }
+   },
+   "sponsorCollaboratorsModule": {
+    "responsibleParty": {
+     "type": "SPONSOR"
+    },
+    "leadSponsor": {
+     "name": "Elicio Therapeutics",
+     "class": "INDUSTRY"
+    }
+   },
+   "designModule": {
+    "studyType": "INTERVENTIONAL",
+    "phases": [
+     "PHASE1"
+    ],
+    "designInfo": {
+     "allocation": "NON_RANDOMIZED",
+     "interventionModel": "SEQUENTIAL",
+     "primaryPurpose": "TREATMENT",
+     "maskingInfo": {
+      "masking": "NONE"
+     }
+    },
+    "enrollmentInfo": {
+     "count": 25,
+     "type": "ACTUAL"
+    }
+   },
+   "outcomesModule": {
+    "primaryOutcomes": [
+     {
+      "measure": "The Participant Incidence of Treatment-emergent Adverse Events Considered by the Investigator as Related to ELI-002",
+      "description": "The safety of ELI-002 was monitored through adverse events, including those considered related to treatment by the investigator",
+      "timeFrame": "Adverse events were collected through 28 days after the last dose"
+     }
+    ]
+   }
+  }
+ },
+ "announcements": {
+  "_grade": "PRESS. Company announcements. Each establishes that the announcement was made, on that date, in those words. Neither establishes a result. Quoted verbatim from the retrieved page text so no session restates them from memory.",
+  "interpath_001_2026_08_19": {
+   "sponsor": "Merck (MSD) and Moderna",
+   "date": "August 19, 2026 6:45 am EDT",
+   "source_url": "https://www.merck.com/news/merck-and-moderna-announce-phase-3-interpath-001-trial-of-intismeran-autogene-plus-keytruda-met-endpoints-of-recurrence-free-survival-rfs-and-distant-metastasis-free-survival-dmfs-in-patient/",
+   "http_status": 200,
+   "retrieval_records": [
+    "literature/interpath-001-announcement-2026-08-22/merck_interpath001_release.txt",
+    "literature/neoantigen-press-primary-sources/merck-interpath001-2026-08-19.txt"
+   ],
+   "verbatim": [
+    "At a pre-specified interim analysis, intismeran in combination with KEYTRUDA as adjuvant therapy demonstrated statistically significant and clinically meaningful improvements in RFS and DMFS compared to KEYTRUDA alone for patients with completely resected stage IIB, IIC, III or IV cutaneous melanoma who had not undergone prior treatment with systemic therapy. In accordance with the trial protocol, the study will continue in order to evaluate other key secondary endpoints, including overall survival (OS).",
+    "INTerpath-001 is a randomized, double-blind, placebo- and active-comparator-controlled global Phase 3 trial (ClinicalTrials.gov, NCT05933577 ) evaluating the safety and efficacy of intismeran in combination with KEYTRUDA compared to KEYTRUDA alone in patients with high-risk (stage IIB-IV) resected cutaneous melanoma. The trial enrolled 1,137 patients who, following complete surgical resection, were randomized 2:1 to receive intismeran (1 mg every three weeks for up to nine doses) and KEYTRUDA (400 mg every six weeks up to nine cycles [for approximately one year]) versus KEYTRUDA alone for approximately one year until disease recurrence or unacceptable toxicity, or for a total treatment duration of up to approximately 56 weeks, whichever was sooner.",
+    "Intismeran autogene (intismeran; V940 or mRNA-4157) is a novel, potential first-in-class investigational messenger RNA (mRNA)-based individualized neoantigen therapy (INT) jointly developed by Merck and Moderna. Intismeran is designed and produced using a patient's tumor sample to identify the unique mutational signature, or \"fingerprint,\" of their cancer and generate an anti-tumor immune response. Each therapy consists of a synthetic mRNA coding for up to 34 neoantigens and is tailored to the unique biology of an individual patient's tumor. Upon administration, the RNA-encoded neoantigen sequences are translated in the body and presented to the immune system, a key step in generating specific T-cell responses against cancer cells. Individualized neoantigen therapies are designed to train and activate an anti-tumor immune response based on the unique mutational signature of a patient's tumor.",
+    "The safety profiles of intismeran and KEYTRUDA in this trial were consistent with those observed in previously reported studies for the combination, with no new safety signals observed."
+   ],
+   "_no_effect_size": "No hazard ratio, confidence interval, p-value, event count or absolute RFS/DMFS difference for INTerpath-001 appears anywhere in the retrieved release text.",
+   "_registry_discrepancy": "The release says 1,137 patients enrolled; the ClinicalTrials.gov record for NCT05933577 gives an enrollment count of 1089. This file records both and reconciles neither."
+  },
+  "amplify_7p_2026_06_15": {
+   "sponsor": "Elicio Therapeutics (Nasdaq: ELTX)",
+   "date": "June 15, 2026",
+   "source_url": "https://elicio.com/press_releases/elicio-therapeutics-reports-results-from-phase-2-amplify-7p-study-and-outlines-refined-phase-3-development-strategy-for-eli-002-7p-in-adjuvant-pancreatic-cancer/",
+   "http_status": 200,
+   "retrieval_records": [
+    "literature/amplify7p-topline-2026-06-15/elicio_release_site.txt"
+   ],
+   "failed_retrievals": [
+    {
+     "url": "https://www.globenewswire.com/news-release/2026/06/15/3311657/0/en/elicio-therapeutics-reports-results-from-phase-2-amplify-7p-study-and-outlines-refined-phase-3-development-strategy-for-eli-002-7p-in-adjuvant-pancreatic-cancer.html",
+     "error": "TimeoutError('The read operation timed out')",
+     "attempts": 2,
+     "note": "A fetch that never answered is an unanswered question, not an empty result. Nothing is recorded as absent on its basis. The company's own page answered on the third attempt and is the record used."
+    }
+   ],
+   "verbatim": [
+    "AMPLIFY-7P did not meet the pre-specified primary endpoint of disease-free survival (“DFS”) in the intent-to-treat population.",
+    "The AMPLIFY-7P study enrolled 144 patients across 24 U.S. sites and evaluated ELI-002 7P versus observation in patients with resected Stage I-III mKRAS-driven PDAC who had completed surgery and standard locoregional therapy and were radiographically free of disease at enrollment.",
+    "Randomization was stratified by nodal status; however, there was an imbalance in baseline R1 resection status, a known adverse prognostic factor, which disproportionately favored the observation arm (ELI-002 7P 19% vs. observation 10%).",
+    "Post-hoc analyses demonstrated stronger treatment effect in the R0 resected patient population (HR 0.65, p=0.048, n=121).",
+    "Post-hoc landmark analyses demonstrated a ~14% absolute improvement in DFS rates during active treatment at both 3 months (90.3% vs. 76.6%, p=0.022) and 6 months (75.7% vs. 61.7%, p=0.056).",
+    "mKRAS-specific T cell responses strongly correlated with improved DFS, with patients demonstrating the strongest immune responses experiencing the most favorable outcomes (T cell fold change from baseline, >9.17x vs <9.17x: HR 0.22, p<0.0001, n=90 evaluable).",
+    "Multivariable analyses identified R1 resection as an adverse prognostic factor for recurrence (HR 1.56, p=0.181).",
+    "ELI-002 7P demonstrated a favorable safety profile with no treatment-related discontinuations or treatment-related deaths. ELI-002 7P treatment was associated with proportionally fewer adverse events than SOC observation."
+   ],
+   "_no_itt_effect_size": "The release states the primary DFS endpoint was not met in the intent-to-treat population and reports no intent-to-treat hazard ratio, confidence interval, p-value or event count. Every efficacy number it gives is post-hoc, landmark, or a responder split above and below a 9.17-fold T-cell threshold.",
+   "_prespecification": "Whether any post-hoc or landmark analysis was prespecified, the multiplicity handling, and the powering assumption are not stated in the release."
+  }
+ },
+ "_doi_case_note": "Europe PMC returns DOI suffixes lower-cased. DOIs are case-insensitive by specification, so the publisher's canonical casing and the returned casing are the SAME identifier -- but a string comparison is not, and lint_citations.py compares strings. Where the memo prints the publisher's canonical casing, the record below carries BOTH forms in `doi` (as returned) and `doi_publisher_case`. Nothing is asserted here beyond letter case: no identifier was looked up separately and none was written from recollection."
+}
