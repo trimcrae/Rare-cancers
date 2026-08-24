@@ -288,10 +288,13 @@ serves under that accession is **a different study** — *"Methylation profiling
 for sarcoma classification"*, from UCL, **n=986**, whose own Description names its paper as a
 **validation study of the DKFZ sarcoma classifier**. Koelsche et al. is the classifier it validates,
 not the study it mirrors, and `Koelsche` and `GSE140686` appear **zero times** in it. Nothing had ever
-checked. ⚠ The search that should have settled it was then run: BioStudies returned **36** accessions
-for `GSE140686`, and **31 of them are Europe PMC *literature* records — papers citing the deposit, not
-copies of it.** The instrument's first pass called ten of those "mirrors" on a bare string match; a
-mirror must be a **data** record, and the rule is now enforced rather than described.
+checked. ⚠ The search that should have settled it was then run, and it found **no EBI mirror of this series
+at all**: BioStudies returned **36** accessions for `GSE140686`, **34 of them Europe PMC *literature*
+records — papers citing the deposit, not copies of it** — and the two that are not (`E-GEOD-57107`,
+`E-GEOD-4560`) are other studies. The instrument's first pass called ten of the literature records
+"mirrors" on a bare string match; a mirror must be a **data** record, and the rule is now enforced
+rather than described. Both search controls hold (a known accession returns hits, a nonexistent one
+returns none), so *"no mirror"* is a finding here and not a broken query.
 
 ★ **The correction is not a loss, because a second deposit is a second chance — and this one's labels
 are open.** E-MTAB-9875's per-sample `disease` field is populated, its **54** categories sum to
