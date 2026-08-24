@@ -9,6 +9,9 @@
 // ASO off-target / RNase-H cleavage predictor (to retire the gap-mismatch heuristic), an
 // improved ASO/siRNA efficacy + target-accessibility predictor, and new patient-derived
 // EMC / FET-fusion-sarcoma functional models (to unblock the decisive knockdown experiment).
+// It ALSO watches CLINICAL / TREATMENT NEWS (added 2026-08-24 — see the section comment below
+// for the miss that forced it): pivotal readouts, approvals and trial-registry movement in the
+// modality classes this program pursues, plus a deliberately broad oncology catch-all.
 // This script runs the search so a human/agent doesn't have to, and emits a digest tied
 // to a capability->action trigger table (kept in research/method-watch.md and the
 // strategy doc). It does NOT decide anything — it surfaces hits for triage.
@@ -17,13 +20,16 @@
 //   - Europe PMC REST (literature)            https://www.ebi.ac.uk/europepmc
 //   - GitHub Releases API (tool/model drops)  https://api.github.com
 //   - grants.gov Search2 API (funding)        https://api.grants.gov
+//   - ClinicalTrials.gov API v2 (trials)      https://clinicaltrials.gov
+//   - RSS/Atom news feeds (treatment news)    https://news.google.com, https://www.fda.gov
 //
 // Usage:  node scripts/method-watch.mjs [out.md]
 // Output: a Markdown digest (default research/method-watch-digest.md). The CI workflow
 // publishes it to the `method-watch-cache` branch; read it with
 //   git fetch origin method-watch-cache && git show origin/method-watch-cache:research/method-watch-digest.md
 //
-// NETWORK hosts (add to env egress to run locally): www.ebi.ac.uk, api.github.com, api.grants.gov
+// NETWORK hosts (add to env egress to run locally): www.ebi.ac.uk, api.github.com,
+// api.grants.gov, clinicaltrials.gov, news.google.com, www.fda.gov
 
 import { writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
@@ -194,6 +200,205 @@ async function grantsSearch(body) {
   }));
 }
 
+// ---- Clinical / treatment-news watch ------------------------------------------------------
+// WHY THIS EXISTS (2026-08-24, trimcrae). The Merck/Moderna Phase 3 INTerpath-001 readout —
+// intismeran autogene (mRNA-4157/V940) + pembrolizumab meeting RFS and DMFS in resected
+// stage IIB-IV melanoma, the FIRST positive Phase 3 for an individualized neoantigen therapy —
+// was announced 2026-08-19 and did NOT appear in the 2026-08-21 newsletter. It could not have:
+// this script's only sources were Europe PMC (TITLE-anchored METHOD queries), eight GitHub
+// release feeds and grants.gov. A topline readout announced by press release is not a paper,
+// not a tool release and not a grant, so no query here could return it. That is an ABSENT
+// SOURCE, not a bad filter — and it is exactly the class of item this program must see, because
+// the repo carries a live EWSR1::NR4A3 junction-neoantigen vaccine route whose central premise
+// is the modality that just read out.
+//
+// So two layers are added, and they are deliberately different in kind:
+//   (1) TRIALS — ClinicalTrials.gov API v2, the authoritative registry. Slower than news but
+//       structured, dated and citable; catches status flips, phase advances and posted results.
+//   (2) NEWS — dated RSS/Atom. This is the layer that carries a same-day topline announcement.
+// Both are TRIAGE, on the same terms as everything else in this digest: a hit is a prompt to
+// check the trigger table, never a status change and never a result. NEWS ITEMS ARE PRESS
+// SOURCES — a press release is not evidence at the standard this repo cites papers to
+// (CLAUDE.md section 7), so a news hit may prompt reading the primary source, and may never
+// itself be cited as a medical fact.
+const NEWS_DAYS = Number(process.env.METHOD_WATCH_NEWS_DAYS || 14);
+const CTG_DAYS = Number(process.env.METHOD_WATCH_CTG_DAYS || 60);
+
+const CTGOV = "https://clinicaltrials.gov/api/v2/studies";
+
+function isoDaysAgo(n) {
+  return new Date(Date.now() - n * 86400000).toISOString().slice(0, 10);
+}
+
+// Registry watch. Scoped to the modality classes THIS program actually pursues, so a hit maps
+// onto a route we hold rather than onto oncology at large.
+const TRIALS = [
+  {
+    key: "individualized neoantigen therapy / therapeutic cancer vaccine (phase 2-3)",
+    // ⚠ This row keeps query.term while its neighbours moved to query.intr, and the reason is
+    // measured, not stylistic. Under query.intr (run 32719107868) the row lost INTerpath-009 —
+    // the sibling Phase 3 of the very agent that prompted this whole watch — because the
+    // intervention is registered as "Intismeran Autogene (V940)" and matches no modality word.
+    // Under query.term (run 32718034880) it found it, and that row's other hits were all
+    // genuinely vaccine/immunotherapy trials, so query.term costs little here. The ASO and
+    // degrader rows went the other way on the same kind of evidence. Per-row, on what each
+    // actually returned.
+    term: '"neoantigen" OR "cancer vaccine" OR "individualized neoantigen therapy"',
+    cond: 'cancer OR sarcoma OR melanoma OR "solid tumor"',
+    trigger: "a pivotal readout, approval or halt for an individualized neoantigen therapy → re-grade the EWSR1::NR4A3 junction-vaccine route's precedent and feasibility (vaccine-construct.json); it is the modality that route assumes",
+  },
+  {
+    key: "antisense / siRNA / oligonucleotide in SOLID tumours (phase 1-3)",
+    intr: '"antisense oligonucleotide" OR antisense OR siRNA OR gapmer OR "RNA interference"',
+    cond: 'cancer OR sarcoma OR "solid tumor"',
+    trigger: "an oligonucleotide reaching a solid-tumour endpoint in humans → re-grade the fusion-junction ASO route's dominant gate (delivery), which is the whole reason that route is parked",
+  },
+  {
+    key: "targeted protein degrader / molecular glue (clinical)",
+    intr: '"protein degrader" OR PROTAC OR "molecular glue" OR "targeted protein degradation"',
+    cond: "cancer",
+    trigger: "clinical validation or failure of a degrader against a transcription-factor-class target → re-grade the NR4A3 degrader route's clinical precedent",
+  },
+  {
+    key: "sarcoma / fusion-driven sarcoma — any interventional trial",
+    term: '"myxoid chondrosarcoma" OR "extraskeletal myxoid chondrosarcoma" OR "fusion-positive sarcoma" OR "translocation-associated sarcoma"',
+    cond: "sarcoma",
+    trigger: "ANY trial recruiting in EMC or a fusion-driven sarcoma → a real-world route for a patient, and a possible collaborator/model source; fold into the registry (emc-clinical-registry.json) after reading the record",
+  },
+];
+
+// News watch. Google News RSS is keyless and same-day, which is what a topline press release
+// needs; the FDA feed is the official channel for the approval half. A dead feed prints its own
+// failure and the digest still builds — never let one feed take the newsletter down.
+const NEWS_FEEDS = [
+  {
+    key: "PIVOTAL ONCOLOGY READOUTS — the broad catch-all",
+    // Deliberately NOT scoped to our modalities: this row exists so that treatment news large
+    // enough to matter surfaces even when it is outside the route portfolio. It is the row whose
+    // absence lost INTerpath-001.
+    url: 'https://news.google.com/rss/search?q=("phase+3"+OR+"phase+III")+cancer+(topline+OR+"primary+endpoint"+OR+"met+its+endpoint"+OR+approval)+when:14d&hl=en-US&gl=US&ceid=US:en',
+    trigger: "any practice-changing or first-in-class oncology result → ask whether the MODALITY maps onto EWSR1::NR4A3 / EMC; if it does, re-grade that route and read the primary source before citing anything",
+  },
+  {
+    key: "cancer vaccines / individualized neoantigen therapy",
+    url: 'https://news.google.com/rss/search?q=("cancer+vaccine"+OR+"neoantigen"+OR+"mRNA+cancer")+(trial+OR+results+OR+approval)+when:14d&hl=en-US&gl=US&ceid=US:en',
+    trigger: "neoantigen-therapy news → direct precedent for the junction-vaccine route (the route's premise is that an individualized neoantigen approach can work); read the primary source, then re-grade",
+  },
+  {
+    key: "oligonucleotide therapeutics in solid tumours (the ASO route's gate)",
+    url: 'https://news.google.com/rss/search?q=("antisense"+OR+"siRNA"+OR+"oligonucleotide"+OR+"RNA+therapeutic")+(tumor+OR+tumour+OR+cancer+OR+sarcoma)+when:14d&hl=en-US&gl=US&ceid=US:en',
+    trigger: "an oligo delivered to a non-hepatic solid tumour in humans → the fusion-junction ASO route's dominant gate; re-grade delivery feasibility",
+  },
+  {
+    key: "targeted protein degradation (clinical)",
+    url: 'https://news.google.com/rss/search?q=("protein+degrader"+OR+PROTAC+OR+"molecular+glue")+(clinical+OR+trial+OR+patients)+when:14d&hl=en-US&gl=US&ceid=US:en',
+    trigger: "degrader clinical progress or failure → clinical precedent for the NR4A3 degrader route",
+  },
+  {
+    key: "sarcoma treatment news",
+    url: 'https://news.google.com/rss/search?q=(sarcoma+OR+"soft+tissue+cancer")+(treatment+OR+trial+OR+approval+OR+therapy+OR+drug)+-awareness+-fundraiser+-fundraising+-wedding+-obituary+-"in+memory"+when:14d&hl=en-US&gl=US&ceid=US:en',
+    trigger: "sarcoma treatment news → the disease area itself; anything touching EMC or a fusion-driven sarcoma goes into the registry after reading the primary source",
+  },
+  {
+    // ⚠ NOT an FDA-hosted feed, and deliberately so. The first version of this row pointed at
+    // https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/press-releases/rss.xml
+    // and returned HTTP 404 on the validating CI run (2026-08-24, run 32717738350). FDA publishes
+    // an oncology approval-notifications PAGE but no RSS endpoint that could be confirmed for it,
+    // so the honest state of "the official feed URL" is UNKNOWN — and CLAUDE.md §4 says write
+    // UNKNOWN rather than guess. Guessing a second FDA path would have bought another 404.
+    // An approval reported by the trade press is the same signal, on a mechanism already proven
+    // working in the rows above; if an official endpoint is ever confirmed, swap this URL for it.
+    key: "regulatory approvals in oncology (via news; FDA's own RSS endpoint is UNKNOWN)",
+    url: 'https://news.google.com/rss/search?q=(FDA+OR+EMA)+(approves+OR+approval)+(cancer+OR+oncology+OR+tumor+OR+sarcoma+OR+melanoma)+when:14d&hl=en-US&gl=US&ceid=US:en',
+    trigger: "an oncology approval → a modality cleared a regulator, which is the strongest available precedent signal for any route using it; confirm against the regulator's own notice before citing",
+  },
+];
+
+function decodeEntities(s) {
+  return String(s || "")
+    .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&apos;|&#0?39;/g, "'")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&#(\d+);/g, (_, d) => String.fromCharCode(Number(d)))
+    .replace(/&amp;/g, "&")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+// Minimal RSS/Atom reader. Zero dependencies is a hard constraint of this script (see header),
+// so this is a regex reader, not a parser — it reads well-formed feeds and is not asked to do
+// more. Anything it cannot read shows up as a missing/failed row, never as a silent empty one.
+function parseFeed(xml, limit) {
+  const blocks = String(xml).match(/<(item|entry)\b[\s\S]*?<\/\1>/g) || [];
+  return blocks.slice(0, limit).map((b) => {
+    const title = decodeEntities((b.match(/<title[^>]*>([\s\S]*?)<\/title>/) || [, ""])[1]);
+    let link = ((b.match(/<link[^>]*>([\s\S]*?)<\/link>/) || [, ""])[1] || "").trim();
+    if (!link) link = (b.match(/<link[^>]*href="([^"]+)"/) || [, ""])[1] || "";
+    const date = decodeEntities(
+      (b.match(/<(pubDate|published|updated|dc:date)[^>]*>([\s\S]*?)<\/\1>/) || [, , ""])[2] || "",
+    );
+    return { title, link: decodeEntities(link), date };
+  });
+}
+
+async function fetchText(url, ms = 25000) {
+  const r = await fetch(url, {
+    headers: { "User-Agent": "rare-cancers-method-watch", Accept: "*/*" },
+    signal: AbortSignal.timeout(ms),
+  });
+  if (!r.ok) throw new Error(`HTTP ${r.status}`);
+  return r.text();
+}
+
+// ClinicalTrials.gov API v2. The advanced filter + sort are the parts most likely to be
+// rejected if the API's Essie syntax moves under us, so a 4xx retries WITHOUT them rather than
+// returning nothing: a coarser row is a real reading, an empty row is an absent one, and
+// CLAUDE.md section 4 forbids letting the second masquerade as the first.
+async function ctgov(spec) {
+  const since = isoDaysAgo(CTG_DAYS);
+  const base = { format: "json", pageSize: "6", countTotal: "false" };
+  // query.intr searches the INTERVENTION field; query.term searches everything and both stems and
+  // expands, which is how the first validating run put a tamoxifen dose-optimisation trial in the
+  // antisense row. A modality row means "this intervention", so it says so.
+  if (spec.intr) base["query.intr"] = spec.intr;
+  if (spec.term) base["query.term"] = spec.term;
+  if (spec.cond) base["query.cond"] = spec.cond;
+  const full = {
+    ...base,
+    "filter.advanced": `AREA[LastUpdatePostDate]RANGE[${since},MAX]`,
+    sort: "LastUpdatePostDate:desc",
+  };
+  let json;
+  let degraded = false;
+  try {
+    json = JSON.parse(await fetchText(`${CTGOV}?${new URLSearchParams(full)}`));
+  } catch (e) {
+    if (!/HTTP 4\d\d/.test(String(e.message))) throw e;
+    degraded = true;
+    json = JSON.parse(await fetchText(`${CTGOV}?${new URLSearchParams(base)}`));
+  }
+  const studies = json?.studies || [];
+  return {
+    degraded,
+    hits: studies.map((st) => {
+      const p = st.protocolSection || {};
+      return {
+        nct: p.identificationModule?.nctId || "",
+        title: (p.identificationModule?.briefTitle || "").replace(/\s+/g, " ").trim(),
+        phase: (p.designModule?.phases || []).join("/"),
+        status: p.statusModule?.overallStatus || "",
+        updated: p.statusModule?.lastUpdatePostDateStruct?.date || "",
+        sponsor: p.sponsorCollaboratorsModule?.leadSponsor?.name || "",
+        hasResults: Boolean(st.hasResults),
+      };
+    }),
+  };
+}
+
 const SINCE_DAYS = Number(process.env.METHOD_WATCH_DAYS || 120);
 
 async function epmc(query) {
@@ -221,10 +426,14 @@ async function ghLatest(repo) {
   return { repo, tag: j.tag_name, name: (j.name || "").trim(), date: j.published_at };
 }
 
-function recent(dateStr) {
+function withinDays(dateStr, days) {
   const d = Date.parse(dateStr);
   if (Number.isNaN(d)) return false;
-  return (Date.now() - d) / 86400000 <= SINCE_DAYS;
+  return (Date.now() - d) / 86400000 <= days;
+}
+
+function recent(dateStr) {
+  return withinDays(dateStr, SINCE_DAYS);
 }
 
 async function main() {
@@ -234,13 +443,77 @@ async function main() {
   const L = [];
   L.push(`# Method-watch digest — ${today}`);
   L.push("");
-  L.push(`Auto-generated by \`scripts/method-watch.mjs\`. Watches the in-silico capabilities that`);
-  L.push(`unlock blocked routes, plus **open AI/compute funding** a solo researcher could apply to`);
+  L.push(`Auto-generated by \`scripts/method-watch.mjs\`. Four watches: **clinical / treatment news**`);
+  L.push(`(trial registry + dated feeds), the **in-silico capabilities** that unlock blocked routes,`);
+  L.push(`**tool/model releases**, and **open AI/compute funding** a solo researcher could apply to`);
   L.push(`(grants.gov). **Triage, don't trust:** a hit is a prompt to check the trigger table in`);
   L.push(`[research/method-watch.md](./method-watch.md), not a decision. Newest results first;`);
-  L.push(`"🆕" = within ${SINCE_DAYS} days.`);
+  L.push(`"🆕" = within ${SINCE_DAYS} days for literature/tools, ${NEWS_DAYS} days for news and trials.`);
   L.push("");
 
+  // Clinical / treatment news comes FIRST: a pivotal readout outranks every keyword hit below it,
+  // and burying it was half of why INTerpath-001 went unread even once a source existed for it.
+  L.push(`## Clinical / treatment-news watch`);
+  L.push(`*Added 2026-08-24* because a Phase 3 readout announced by press release is not a paper, a`);
+  L.push(`tool release or a grant — so **no query in the three sections below could ever have returned`);
+  L.push(`one.** ⚠ **Press sources are LEADS, NOT EVIDENCE:** a hit here is a prompt to read the`);
+  L.push(`primary source (the registry record, the abstract, the regulator's notice). Nothing from a`);
+  L.push(`news feed may be cited as a medical fact — repo rule, CLAUDE.md §7.`);
+  L.push("");
+  L.push(`### Trial registry — ClinicalTrials.gov (records updated within ${CTG_DAYS} days)`);
+  for (const t of TRIALS) {
+    L.push("");
+    L.push(`#### ${t.key}`);
+    L.push(`*Unlocks:* ${t.trigger}`);
+    try {
+      const { hits, degraded } = await ctgov(t);
+      if (degraded) L.push(`- ⚠ _date filter/sort rejected by the API; showing an UNFILTERED, UNSORTED page instead — the recency flags below are not a recency filter._`);
+      if (!hits.length) {
+        L.push(`- _(no matching records)_`);
+      } else {
+        for (const h of hits) {
+          const flag = withinDays(h.updated, NEWS_DAYS) ? "🆕 " : "";
+          const bits = [h.phase, h.status, h.sponsor].filter(Boolean).join(" · ");
+          const res = h.hasResults ? " · **results posted**" : "";
+          L.push(`- ${flag}**${h.updated || "?"}** — ${h.title} (${bits}${res}) — https://clinicaltrials.gov/study/${h.nct}`);
+        }
+      }
+    } catch (e) {
+      L.push(`- _query failed: ${e.message}_`);
+    }
+  }
+
+  L.push("");
+  L.push(`### News feeds (items from the last ${NEWS_DAYS} days)`);
+  for (const f of NEWS_FEEDS) {
+    L.push("");
+    L.push(`#### ${f.key}`);
+    L.push(`*Unlocks:* ${f.trigger}`);
+    try {
+      const items = parseFeed(await fetchText(f.url), 25);
+      if (!items.length) {
+        // Distinguish "the feed said nothing happened" from "we could not read the feed" —
+        // an absent reading is not a reading of absence (CLAUDE.md §4).
+        L.push(`- ⚠ _feed returned no items at all — treat as UNREAD, not as quiet; check the feed URL._`);
+      } else {
+        const fresh = items.filter((i) => withinDays(i.date, NEWS_DAYS));
+        if (!fresh.length) {
+          L.push(`- _(feed live, ${items.length} items read; none dated in the last ${NEWS_DAYS} days)_`);
+        } else {
+          for (const i of fresh.slice(0, 8)) {
+            const d = Date.parse(i.date);
+            const day = Number.isNaN(d) ? i.date : new Date(d).toISOString().slice(0, 10);
+            L.push(`- 🆕 **${day}** — ${i.title}${i.link ? ` — ${i.link}` : ""}`);
+          }
+          if (fresh.length > 8) L.push(`- _…and ${fresh.length - 8} more in window (not listed)._`);
+        }
+      }
+    } catch (e) {
+      L.push(`- _feed failed: ${e.message}_`);
+    }
+  }
+
+  L.push("");
   L.push(`## Literature watch`);
   for (const t of TOPICS) {
     L.push("");

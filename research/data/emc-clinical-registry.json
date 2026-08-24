@@ -891,7 +891,7 @@
         "n": 1,
         "population": "one 72-year-old man with EWSR1::NR4A3-confirmed extraskeletal myxoid chondrosarcoma of the right gluteal region, metastatic to lung, bone and peritoneal soft tissue",
         "accessed": "2026-08-24",
-        "retrievalNote": "⚠ INDUSTRY-AUTHORED AND NOT PEER-REVIEWED: fifteen of the seventeen authors are employees of BostonGene Corporation, whose commercial assay is the subject; the remaining three are at MD Anderson, which treated the patient. annalsofoncology.org returned HTTP 403 to the runner on both /abstract and /fulltext, and Europe PMC returns hitCount 0 for the title, so the abstract text was retrieved from the sponsor's own publication page at bostongene.com and the bibliographic record independently from api.crossref.org, which supplies the DOI, volume, pagination and the October 2025 issue date. The two agree on the title. ⛔ The abstract text therefore has ONE source and it is the sponsor's; nothing in this record is independently corroborated. The poster asset the same page links is named for the 22nd Annual Meeting of the Japanese Society of Medical Oncology; its PDF carries no extractable text layer, so the poster's figures have not been read.",
+        "retrievalNote": "⚠ INDUSTRY-AUTHORED AND NOT PEER-REVIEWED: THIRTEEN OF THE SIXTEEN authors are employees of BostonGene Corporation, whose commercial assay is the subject; the remaining three are at MD Anderson, which treated the patient. (Counted 2026-08-24 by parsing the author list and its affiliation superscripts on the sponsor's publication page: 16 names, 13 carrying superscript 1 = BostonGene, 3 carrying superscript 2 = MD Anderson, none unmarked. ⚠ Superseded, retained: 'fifteen of the seventeen ... the remaining three', which was both wrong and internally inconsistent - fifteen plus three is eighteen.) annalsofoncology.org returned HTTP 403 to the runner on both /abstract and /fulltext, and Europe PMC returns hitCount 0 for the title, so the abstract text was retrieved from the sponsor's own publication page at bostongene.com and the bibliographic record independently from api.crossref.org, which supplies the DOI, volume, pagination and the October 2025 issue date. The two agree on the title. ⛔ The abstract text therefore has ONE source and it is the sponsor's; nothing in this record is independently corroborated. The poster asset the same page links is named for the 22nd Annual Meeting of the Japanese Society of Medical Oncology; its PDF carries no extractable text layer, so the poster's figures have not been read.",
         "verified": true
       },
       "immunosarc2emc2025": {
@@ -1093,6 +1093,27 @@
         ],
         "accessed": "2026-06-20",
         "verified": true
+      },
+      "galitskiy2025emcpembrolizumab": {
+        "short": "Galitskiy 2025 (JSMO abstract)",
+        "type": "conference-abstract",
+        "title": "P35-1 Effective immune-based treatment of extraskeletal myxoid chondrosarcoma guided by next-generation gene profiling",
+        "authors": "Galitskiy E, Livingston AJ, Plair T, Tarasov A, Putintsev V, Novokrestchenova A, Kushnarev V, Zubarev I, Nikulin V, Hensley M, Makani N, Yong S, Love A, Brown J, Fowler N, Conley AP.",
+        "journal": "Annals of Oncology",
+        "year": 2025,
+        "volume": "36",
+        "page": "S1732-S1733",
+        "doi": "10.1016/j.annonc.2025.08.310",
+        "url": "https://doi.org/10.1016/j.annonc.2025.08.310",
+        "license": "publisher copyright (Annals of Oncology conference supplement); abstract text read from the sponsor's own publication page",
+        "openAccess": false,
+        "design": "single-patient case report presented as a conference abstract",
+        "n": 1,
+        "population": "one 72-year-old man with EWSR1::NR4A3-confirmed gluteal EMC, metastatic to lung, bone and peritoneal soft tissue",
+        "accessed": "2026-08-24",
+        "retrievalNote": "annalsofoncology.org returned HTTP 403 (Cloudflare interstitial) on both /abstract and /fulltext. Europe PMC returns hitCount 0 for a title search, so this abstract is not indexed there. The bibliographic record (DOI, container, volume, pages) was resolved from api.crossref.org by title query; the abstract TEXT was read from the sponsor's own publication page. The JSMO poster PDF fetched HTTP 200 but yielded 0 extractable characters (no text layer), so it adds nothing beyond the abstract.",
+        "independence": "13 of the 16 authors are affiliated to BostonGene Corporation, whose comprehensive-genomic-profiling assay is the subject of the report; the remaining 3 are at the treating centre. Counted from the author list and affiliation superscripts on the sponsor's publication page, 2026-08-24.",
+        "verified": true
       }
     }
   },
@@ -1290,6 +1311,16 @@
         "sourceId": "remiszewski2025",
         "provenance": "secondary",
         "primaryRef": "case reports; IMMUNOSARC II EMC cohort for the combination; and galitskiy2025emcpembrolizumab for the single-agent case"
+      },
+      {
+        "agent": "Pembrolizumab (PD-1), single agent",
+        "n": 1,
+        "nBasis": "one patient; a case report, not a cohort",
+        "result": "Metastatic EWSR1::NR4A3 EMC after neoadjuvant radiotherapy, radical resection and subsequent progression to lung, bone and peritoneal soft tissue. Comprehensive genomic profiling reported microsatellite stability, tumour mutational burden 0.67 mut/Mb and TSC2 gene loss; the tumour microenvironment was called immune-enriched/fibrotic with high PD-L1 by RNA-seq. Pembrolizumab was started after molecular tumour board review, 15 cycles were given, and the report describes a near-complete response without progression at the time of writing. CONFERENCE ABSTRACT, n=1, not peer reviewed.",
+        "sourceId": "galitskiy2025emcpembrolizumab",
+        "provenance": "primary",
+        "evidenceTier": "conference-abstract",
+        "caveat": "A single patient reported by the vendor of the assay being evaluated (13 of 16 authors), so both the selection of this case for publication and the framing of the biomarker are subject to that interest. No denominator is given: how many EMC cases were profiled, and how many responded, is not stated. The reported TSC2 loss was never acted on therapeutically and carries no functional or protein-level confirmation in the report."
       }
     ]
   },
