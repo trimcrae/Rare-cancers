@@ -17,16 +17,25 @@
 #   * every check's status captured explicitly and re-reported at the end;
 #   * a non-zero exit if ANY check failed, so `./scripts/preflight.sh && git commit` is actually safe.
 #
-# Sandbox note: this box lacks the scientific deps, so those tests fail here and pass in CI, where the
-# baked images supply them. MEASURED 2026-08-05, rather than remembered -- absent: numpy, scipy, pymbar,
+# ⭐ SANDBOX NOTE, CORRECTED 2026-08-23: THE DEPS ARE INSTALLABLE AND NOW INSTALLED BY A SCRIPT.
+# `./scripts/dev-setup.sh` provisions both interpreters and a SessionStart hook runs it
+# `--if-needed`, so a fresh box no longer fails these tests: the run that fixed it went from
+# 9 failed + 20 errors to **878 passed** on the manuscripts suite and 7,859 passed on modalities,
+# with no tracked file touched. The baseline machinery below stays exactly as it is, because it
+# describes the environment a session gets BEFORE that hook has run — and if the hook is ever
+# absent or fails, this is again the only thing standing between a dep gap and a false green.
+# ⚠ Superseded, retained (CLAUDE.md rule 1.2): "this box lacks the scientific deps, so those tests
+# fail here and pass in CI, where the baked images supply them." MEASURED 2026-08-05, rather than remembered -- absent: numpy, scipy, pymbar,
 # rdkit, boto3, netCDF4; present: pyyaml, jsonschema. (The line here used to name "scipy, pymbar, rdkit"
 # and omitted numpy and boto3, which between them account for 29 of the 48 baseline failures.) Rather
 # than hide that behind an ignore list -- which would be the very "silently measures nothing" pattern
 # above -- the test step reports a BASELINE count and fails only when failures EXCEED it. Update the
 # baseline deliberately, in a commit, when the environment changes.
 #
-# Usage:  ./scripts/preflight.sh          # lint + tests
-#         SKIP_TESTS=1 ./scripts/preflight.sh   # docs-only change
+# Usage:  ./scripts/preflight.sh                      # the commit loop: the ten fast gates
+#         PREFLIGHT_TESTS=1 ./scripts/preflight.sh    # + both suites, modalities scoped to the change
+#         PREFLIGHT_FULL=1 ./scripts/preflight.sh     # + everything, unscoped -- PUBLICATION ONLY
+#         SKIP_TESTS=1 ./scripts/preflight.sh         # retired spelling of the default; still honoured
 set -euo pipefail
 
 cd "$(dirname "$0")/.."
@@ -89,12 +98,175 @@ cd "$(dirname "$0")/.."
 # ⚠ THIS DOES NOT WEAKEN THE GATE. What actually fails a run is a failure NOT NAMED in the list, and
 # that check is untouched -- see the `comm -23` below. Deriving the count removes bookkeeping noise;
 # it does not raise a ceiling, because the ceiling was never what caught anything.
+# ⛔⛔ THE TRAP GOES HERE, ABOVE EVERY LINE THAT CAN ABORT — AND THE FIRST VERSION DID NOT (2026-08-23).
+# It was installed after the baseline count, which is the line that actually died, so it reported
+# nothing on the very failure it was written for. Verified by re-introducing that failure: trap
+# below the assignment -> 0 bytes of output; trap above it -> the message. A `set -e` abort during
+# setup otherwise produces ZERO stdout and ZERO stderr, which reads as "nothing ran" and is
+# indistinguishable from a killed process — the exact ambiguity that makes a silent gate dangerous.
+# ⛔⛔ AND IT MUST COVER THE WHOLE RUN, NOT JUST SETUP (2026-08-23). An unguarded `grep` in a pipeline
+# aborted this script AFTER the modality suite reported 7,804 passing and zero failures, so every
+# gate below that line never ran and the only evidence was `PF_EXIT=1` with no message. That is the
+# same shape as the 2026-08-12 incident recorded at the `comm` block, and it is worse than a failing
+# check: a failing check names itself, while this one leaves a green-looking log and an exit code
+# nobody reads. `_preflight_summary_reached` is set only where the run prints its own verdict, so
+# any exit before that is reported here with the line that caused it.
+_preflight_reached_first_check=0
+_preflight_summary_reached=0
+_preflight_died() {
+  if [ "$_preflight_summary_reached" = 1 ]; then
+    return
+  fi
+  if [ "$_preflight_reached_first_check" = 0 ]; then
+    echo "PREFLIGHT ABORTED DURING SETUP at ${BASH_SOURCE[0]}:${1} -- NO CHECK RAN." >&2
+    echo "  A clean working tree proves nothing here: the gate never started." >&2
+  else
+    echo "PREFLIGHT ABORTED MID-RUN at ${BASH_SOURCE[0]}:${1}, before its summary." >&2
+    echo "  ⛔ EVERY GATE BELOW THAT LINE NEVER RAN. The checks that printed OK above are the only" >&2
+    echo "     ones that executed; this is NOT a pass, and the usual cause is a command whose" >&2
+    echo "     non-zero exit propagates under 'set -euo pipefail' -- a grep matching nothing is the" >&2
+    echo "     one that has done it twice." >&2
+  fi
+}
+trap '_preflight_died $LINENO' ERR
+
 _baseline_file=research/modalities/tests/sandbox-failure-baseline.txt
+# ⛔⛔ `|| true` IS LOAD-BEARING: AN EMPTY BASELINE KILLED THIS SCRIPT SILENTLY (2026-08-23).
+# `grep -v '^#'` exits 1 when it selects NOTHING, which is exactly what happens once every entry has
+# been pruned -- and pruning to empty is the end state a PREFLIGHT_FULL=1 run advises you toward, so
+# this was waiting for whoever finished the job. Under `pipefail` the pipeline then exits 1, and
+# under `set -e` the assignment aborts the script BEFORE THE FIRST echo: zero stdout, zero stderr,
+# exit 1. A gate that fails with no output is the "reports while measuring nothing" defect this
+# file's own header was written about, in the file itself.
 BASELINE_FAILURES="${PREFLIGHT_BASELINE_FAILURES:-$(
-  grep -v '^#' "$_baseline_file" 2>/dev/null | sed '/^[[:space:]]*$/d' | sort -u | wc -l | tr -d ' '
+  { grep -v '^#' "$_baseline_file" 2>/dev/null || true; } |
+    sed '/^[[:space:]]*$/d' | sort -u | wc -l | tr -d ' '
 )}"
 BASELINE_FAILURES="${BASELINE_FAILURES:-0}"
 rc=0
+_preflight_reached_first_check=1
+
+# ⭐⭐ THE TEST SUITES LEFT THE DEFAULT COMMIT LOOP ON 2026-08-23 (trimcrae: *"change the rules so
+# that it's not constantly running and blocking things"*), AND THE NUMBERS ARE WHY.
+#
+#   ten fast gates                    31.4 s
+#   + gate 13, the selector contract   39.3 s   <- added by `main` after this was measured; it runs
+#                                                  unconditionally, so the DEFAULT tier is 77.5 s
+#   + manuscripts suite              176.1 s   <- 878 tests, run in full on EVERY commit
+#   + modalities suite                 ~0 s    <- already scoped; a typical change selects nothing
+#
+# So the gate was ~85 % one step, and that step ran identically whether the change was a manuscript
+# rewrite or nothing at all: the measurement that opened this was a run on a CLEAN TREE at
+# origin/main, which still executed all 878.
+#
+# ⚠ AND GATE 13 IS NOW HALF THE DEFAULT LOOP, WHICH IS WORTH SOMEBODY'S DECISION RATHER THAN MY
+# SILENT ONE. It was added on `main` on the reasoning that it is "a fast, offline, pure-logic suite";
+# measured here it is **39.3 s of the 77.5 s**, because each of its 55 tests builds the selector's
+# import graph over ~400 modules and shells out to git. It is left exactly where `main` put it --
+# reversing another session's deliberate placement inside a merge is not this change's business --
+# but the "fast" in that note is not what the clock says, and moving it under PREFLIGHT_TESTS would
+# take the commit loop to ~31 s.
+#
+# ⛔ AND SCOPING IT WAS TRIED FIRST, PROPERLY, AND THE MEASUREMENT KILLED IT. A selector for this
+# suite was built and validated against ground truth — all 50 guards traced in their own processes
+# to record every file each one really reads — and it reached ZERO under-selection. It still could
+# not help: these guards bind to directory scans and to paths read out of committed artifacts, so
+# 28 of 50 are unscopeable on their own terms and the floor stayed at 132.5 s of 176.1 s. A 25 %
+# saving is not worth a new selector's failure surface, so it was reverted rather than shipped. The
+# honest finding is that this suite is not scopeable, not that nobody had tried.
+#
+# ⚠ THIS IS THE 2026-08-12 ARGUMENT, APPLIED TO THE STEP IT ORIGINALLY SPARED. That day's note says
+# it in full, about the other suite: *"the expensive copy is the WEAKER one … tests.yml runs
+# `on: push` WITH those dependencies installed, so the version of this suite that means something
+# runs in CI on every push regardless"*, and CLAUDE.md §6 draws the conclusion — **"Watch CI; do not
+# pre-run it locally."** CI is the authority and it runs both suites in full on every push.
+#
+# ⛔⛔ AND HERE IS WHAT THIS COSTS, STATED PLAINLY RATHER THAN GLOSSED. Gate 12 was put in the commit
+# loop on 2026-08-12 for a real reason, recorded below: *"a citation guard that only fires after the
+# push is a citation guard that fires after the mistake is shared."* That reason does not evaporate
+# — it is now paid. What makes it payable is the distinction CLAUDE.md §6 draws between rigour of
+# CONTENT, which never relaxes, and ceremony of GATING, which scales with who reads the result: a
+# push to this repository is read by CI and by the next session, both of which see the failure and
+# fix it with another commit. **Publication is unchanged and still requires PREFLIGHT_FULL=1.**
+# ⚠ If you are about to commit a manuscript, its SI, a citation or a deposit artifact,
+# `PREFLIGHT_TESTS=1` is one word and 176 s. Spend it there; that is what the flag is for.
+# ⛔⛔ RESOLVED OUTSIDE THE TEST TIER, AND THAT IS A BUG FIX, NOT A TIDY-UP (2026-08-24).
+# These two were assigned INSIDE the `if` that runs the suites, while the scripts-selector gate near
+# the end of this file uses `$PYTEST` unconditionally. Under `set -u` that is an unbound variable
+# the moment the suites do not run. ⚠ MEASURED ON `main` BEFORE THIS BRANCH TOUCHED IT:
+# `SKIP_TESTS=1 ./scripts/preflight.sh` dies with `PYTEST: unbound variable` at that gate. It was
+# latent there because skipping was the unusual path; making the fast tier the DEFAULT would have
+# fired it on every single run, so the merge that changes the default is the merge that owes the fix.
+# ⛔ HOW PYTEST IS INVOKED, AND WHY IT IS NOT `python3 -m pytest` (measured 2026-08-15).
+# Both test steps below called `python3 -m pytest` and BOTH reported "No module named pytest" in
+# this sandbox, which the count guard correctly turned into a hard FAILED -- so preflight could
+# not be run at all, and the only ways past it were to skip tests or to mask the exit code. The
+# cause is not a missing pytest: `pytest --version` answers 9.0.2. It is installed as a **uv
+# tool**, in an isolated venv under /root/.local/share/uv/tools/pytest, whose interpreter is not
+# the `python3` on PATH -- so the console script works and `-m` cannot. Resolved once, here, and
+# exported, rather than at each call site: a per-call fallback is how one of the two steps ends up
+# fixed and the other silently left behind. If neither form exists, PYTEST stays as `python3 -m
+# pytest` so the run still FAILS loudly with the same message rather than skipping quietly --
+# never resolve this to `true` or to a no-op.
+#
+# ⛔ THE ORDER OF THESE TWO BRANCHES IS LOAD-BEARING, AND THE CONSOLE-SCRIPT FALLBACK IS A TRAP
+# (measured 2026-08-15, the same day, an hour after the block above was written). Resolving to the
+# bare `pytest` on PATH made the gate report **36 failures that do not exist**: that pytest was a
+# uv TOOL, and a uv tool runs in its OWN isolated venv, so `import yaml` failed inside the tests
+# while `python3 -c "import yaml"` succeeded in the shell one line earlier. Every one of the 36 was
+# a ModuleNotFoundError for a package the repository actually has. They were proved spurious the
+# expensive way -- a worktree at origin/main, the same eight files, two-sided `comm` on the failure
+# NAME SETS: 39 on main, 39 on branch, both directions EMPTY.
+# ⚠ SO A GREEN `python3 -c "import pytest"` IS NOT MERELY THE PREFERRED BRANCH, IT IS THE ONLY ONE
+# THAT SEES THE REPOSITORY'S DEPENDENCIES. The fix when the first branch is false is to
+# `python3 -m pip install pytest`, NOT to fall through -- the fallback exists so the gate can still
+# run somewhere degraded, and its failures must be read as suspect until traced. A gate that
+# invents failures is as broken as one that hides them: this one nearly got 36 healthy tests
+# written into the sandbox baseline as permanent known-failures, which would have masked a real
+# regression in any of them forever.
+if python3 -c "import pytest" >/dev/null 2>&1; then
+  PYTEST="python3 -m pytest"
+elif command -v pytest >/dev/null 2>&1; then
+  PYTEST="pytest"
+else
+  PYTEST="python3 -m pytest"
+fi
+
+# ⛔ THE GATE WAS SINGLE-THREADED ON A FOUR-CORE BOX, AND THAT COST 16 MINUTES A RUN.
+# Measured 2026-08-17 on this tree: the modalities suite is 968.9s serial and 336.9s at `-n 4
+# --dist loadfile`, a 2.9x saving, with the verdict IDENTICAL -- 14 failed, 7,756 passed, 58
+# skipped both ways, the same 14 tests by name, every one already in sandbox-failure-baseline.txt,
+# and the working tree clean afterwards.
+# ⚠ `--dist loadfile` IS LOAD-BEARING, NOT A TUNING CHOICE. Several tests regenerate a committed
+# artifact and then assert against it; distributing by TEST rather than by FILE would let two
+# workers race the same file and produce failures that are real-looking and untrue. Keeping every
+# test in a file on one worker preserves the within-file ordering those tests rely on. The clean
+# tree after the parallel run is the evidence that no regeneration raced.
+# ⛔ IF XDIST IS ABSENT, RUN SERIAL. A missing plugin must slow the gate down, never skip it.
+# ⛔⛔ THE PROBE ASKED THE WRONG INTERPRETER, AND THE 2.9x SPEEDUP HAD BEEN OFF THE WHOLE TIME
+# (measured 2026-08-23). This tested `python3 -c "import xdist"` while the tests run under $PYTEST,
+# which in this sandbox is a uv TOOL in its own venv — the identical trap the block above this one
+# documents at length for pytest itself, repeated 20 lines later for its plugin. Evidence: neither
+# interpreter had xdist at all, so the branch was correctly false; but once installed it would have
+# gone into the tool venv and this line would STILL have said no. Measured cost of the miss on the
+# run that found it: the modalities suite took **1090.4 s serial** where this file's own note
+# records 336.9 s at `-n 4`. ⭐ So the probe now runs under the same interpreter as the tests, via
+# pytest's own plugin list — the one answer that cannot disagree with what the run will do.
+PYTEST_PAR=""
+if [ "${PREFLIGHT_SERIAL:-0}" != "1" ] && $PYTEST --version --version 2>/dev/null | grep -q xdist; then
+  _cores=$(nproc 2>/dev/null || echo 1)
+  [ "$_cores" -gt 1 ] && PYTEST_PAR="-n $_cores --dist loadfile"
+fi
+
+
+RUN_TESTS=0
+[ "${PREFLIGHT_TESTS:-0}" = "1" ] && RUN_TESTS=1
+[ "${PREFLIGHT_FULL:-0}" = "1" ] && RUN_TESTS=1
+# ⚠ RETIRED SPELLING, HONOURED ON PURPOSE. `SKIP_TESTS=1` was how a docs-only change opted out when
+# tests were the default. It is now the default, so the variable can only ever mean "and I still
+# do not want them" -- which is already true. Kept so an old command line or a stale note does not
+# fail; it is deliberately not an error.
+[ "${SKIP_TESTS:-0}" = "1" ] && RUN_TESTS=0
 
 echo "== lint_consistency =="
 if python3 research/manuscripts/lint_consistency.py; then
@@ -108,12 +280,25 @@ fi
 # systems_check or parser_guard at all: ~35 invariants — a failing instrument cited as SUPPORT, a
 # permanent blocker claiming a technology, a drifted generated view, a parser that has lost its input —
 # were CI-only. Anyone following the documented workflow would not have run them.
+# ⛔ A GATE THAT FAILS ON A MISSING IMPORT MUST SAY SO, BECAUSE THE RED LOOKS IDENTICAL OTHERWISE
+# (2026-08-23). `main` came up red on a CLEAN TREE at origin/main: this gate wanting `jsonschema`
+# and 29 manuscript guards wanting pdfminer/pypdf, while CI was green on the same commit. The
+# script reported "FAILED -- rerun to see why", which is true and sends the next session hunting a
+# defect in the systems model. Naming the cause is not a weakening: the gate still FAILS, and it
+# must — a check that cannot run has not passed. It just stops misattributing.
+_dep_hint() {
+  echo "   ⭐ that is a MISSING PACKAGE, not a defect in the repository — run ./scripts/dev-setup.sh"
+  echo "     (a SessionStart hook runs it with --if-needed; if you are seeing this, it did not)"
+}
 echo "== systems model (invariants, pointers, view drift) =="
-if python3 systems/systems_check.py --check >/dev/null 2>&1; then
+_sc=$(mktemp)
+if python3 systems/systems_check.py --check >"$_sc" 2>&1; then
   echo "   OK"
 else
   echo "   FAILED -- rerun 'python3 systems/systems_check.py --check' to see why"; rc=1
+  { grep -qE "No module named|needs .jsonschema." "$_sc" && _dep_hint; } || true
 fi
+rm -f "$_sc"
 
 # ⛔ ADDED 2026-08-06, AND IT COST A RED `main` TO NOTICE. This is the SIBLING registry of the gate
 # above -- same shape, same "regenerate the view and diff it" discipline, pure stdlib, ~2 s -- and it
@@ -233,6 +418,7 @@ for g in "research/manuscripts/submission_tables.py|submission tables|--check" \
          "research/manuscripts/submission_metrics.py|submission metrics|--check" \
          "research/manuscripts/aso_sequence_manifest.py|canonical sequence file|--check" \
          "research/manuscripts/aso_journal_tables.py|journal article tables|--check" \
+         "research/manuscripts/submission_packet.py|submission packet|--check" \
          "research/manuscripts/vaccine_path_tables.py|vaccine-path manuscript tables|--check" \
          "research/manuscripts/aso_archive_manifest.py|archive manifest|--check-archive"; do
   gen="${g%%|*}"; rest="${g#*|}"; label="${rest%%|*}"; mode="${rest##*|}"
@@ -245,7 +431,7 @@ for g in "research/manuscripts/submission_tables.py|submission tables|--check" \
 done
 [ -n "$gen_fail" ] && echo "   ⛔ a stale generated file ships a claim its own artifacts no longer support:$gen_fail"
 
-if [ "${SKIP_TESTS:-0}" != "1" ]; then
+if [ "$RUN_TESTS" = "1" ]; then
   # ⭐ CHANGE-SCOPED BY DEFAULT, FULL ON DEMAND (trimcrae, 2026-08-12: the suite was the bottleneck,
   # and "only the ones affected by the changes" plus "not on every push, manually before
   # publication").
@@ -269,57 +455,6 @@ if [ "${SKIP_TESTS:-0}" != "1" ]; then
   # ⛔ BEFORE ANYTHING OUTWARD-FACING — a preprint, a submission, a release, a DOI — run
   #     PREFLIGHT_FULL=1 ./scripts/preflight.sh
   # Scoping is for the commit loop. It is not a claim that the rest of the suite passes.
-  # ⛔ HOW PYTEST IS INVOKED, AND WHY IT IS NOT `python3 -m pytest` (measured 2026-08-15).
-  # Both test steps below called `python3 -m pytest` and BOTH reported "No module named pytest" in
-  # this sandbox, which the count guard correctly turned into a hard FAILED -- so preflight could
-  # not be run at all, and the only ways past it were to skip tests or to mask the exit code. The
-  # cause is not a missing pytest: `pytest --version` answers 9.0.2. It is installed as a **uv
-  # tool**, in an isolated venv under /root/.local/share/uv/tools/pytest, whose interpreter is not
-  # the `python3` on PATH -- so the console script works and `-m` cannot. Resolved once, here, and
-  # exported, rather than at each call site: a per-call fallback is how one of the two steps ends up
-  # fixed and the other silently left behind. If neither form exists, PYTEST stays as `python3 -m
-  # pytest` so the run still FAILS loudly with the same message rather than skipping quietly --
-  # never resolve this to `true` or to a no-op.
-  #
-  # ⛔ THE ORDER OF THESE TWO BRANCHES IS LOAD-BEARING, AND THE CONSOLE-SCRIPT FALLBACK IS A TRAP
-  # (measured 2026-08-15, the same day, an hour after the block above was written). Resolving to the
-  # bare `pytest` on PATH made the gate report **36 failures that do not exist**: that pytest was a
-  # uv TOOL, and a uv tool runs in its OWN isolated venv, so `import yaml` failed inside the tests
-  # while `python3 -c "import yaml"` succeeded in the shell one line earlier. Every one of the 36 was
-  # a ModuleNotFoundError for a package the repository actually has. They were proved spurious the
-  # expensive way -- a worktree at origin/main, the same eight files, two-sided `comm` on the failure
-  # NAME SETS: 39 on main, 39 on branch, both directions EMPTY.
-  # ⚠ SO A GREEN `python3 -c "import pytest"` IS NOT MERELY THE PREFERRED BRANCH, IT IS THE ONLY ONE
-  # THAT SEES THE REPOSITORY'S DEPENDENCIES. The fix when the first branch is false is to
-  # `python3 -m pip install pytest`, NOT to fall through -- the fallback exists so the gate can still
-  # run somewhere degraded, and its failures must be read as suspect until traced. A gate that
-  # invents failures is as broken as one that hides them: this one nearly got 36 healthy tests
-  # written into the sandbox baseline as permanent known-failures, which would have masked a real
-  # regression in any of them forever.
-  if python3 -c "import pytest" >/dev/null 2>&1; then
-    PYTEST="python3 -m pytest"
-  elif command -v pytest >/dev/null 2>&1; then
-    PYTEST="pytest"
-  else
-    PYTEST="python3 -m pytest"
-  fi
-
-  # ⛔ THE GATE WAS SINGLE-THREADED ON A FOUR-CORE BOX, AND THAT COST 16 MINUTES A RUN.
-  # Measured 2026-08-17 on this tree: the modalities suite is 968.9s serial and 336.9s at `-n 4
-  # --dist loadfile`, a 2.9x saving, with the verdict IDENTICAL -- 14 failed, 7,756 passed, 58
-  # skipped both ways, the same 14 tests by name, every one already in sandbox-failure-baseline.txt,
-  # and the working tree clean afterwards.
-  # ⚠ `--dist loadfile` IS LOAD-BEARING, NOT A TUNING CHOICE. Several tests regenerate a committed
-  # artifact and then assert against it; distributing by TEST rather than by FILE would let two
-  # workers race the same file and produce failures that are real-looking and untrue. Keeping every
-  # test in a file on one worker preserves the within-file ordering those tests rely on. The clean
-  # tree after the parallel run is the evidence that no regeneration raced.
-  # ⛔ IF XDIST IS ABSENT, RUN SERIAL. A missing plugin must slow the gate down, never skip it.
-  PYTEST_PAR=""
-  if [ "${PREFLIGHT_SERIAL:-0}" != "1" ] && python3 -c "import xdist" >/dev/null 2>&1; then
-    _cores=$(nproc 2>/dev/null || echo 1)
-    [ "$_cores" -gt 1 ] && PYTEST_PAR="-n $_cores --dist loadfile"
-  fi
 
   # ⛔ THE SELECTOR IS ASKED ONCE, AND ITS THREE ANSWERS ARE KEPT APART (measured 2026-08-16).
   # This block used to call `affected_tests.py` here, discard the result, and call it AGAIN below to
@@ -437,7 +572,14 @@ if [ "${SKIP_TESTS:-0}" != "1" ]; then
       # records; here the skip was caused by the suite being green.
       grep -E '^FAILED' "$out" | sed 's/^FAILED //; s/ - .*//' | sed 's/[[:space:]]*$//' \
         | sort -u >"$got" || true
-      grep -v '^#' "$base" | sed '/^[[:space:]]*$/d' | sort -u >"$known"
+      # ⛔⛔ THE SAME `|| true`, AND IT WAS MISSING ON THIS LINE ONLY (2026-08-23). The comment
+      # directly above records the 2026-08-12 incident in which an unguarded `grep` in a pipeline
+      # "killed preflight at exactly the moment everything passed" — and the fix was applied to one
+      # of the pair. This line greps the BASELINE, which exits 1 when the file holds no entries, so
+      # once the list was legitimately pruned to empty the script aborted here: 7,804 modality tests
+      # passing, zero failures, and every gate BELOW this line silently never ran. One-of-a-pair,
+      # inside the fix for the defect it repeats.
+      { grep -v '^#' "$base" || true; } | sed '/^[[:space:]]*$/d' | sort -u >"$known"
       new=$(comm -23 "$got" "$known"); fixed=$(comm -13 "$got" "$known")
       if [ -n "$new" ]; then
         echo "   FAILED: $(printf '%s\n' "$new" | wc -l | tr -d ' ') failure(s) NOT in the sandbox baseline."
@@ -445,6 +587,7 @@ if [ "${SKIP_TESTS:-0}" != "1" ]; then
         printf '%s\n' "$new" | sed 's/^/     /'
         echo "   If one is genuinely a missing-dependency failure, trace it to the module and add it to"
         echo "   $base in the same commit, with the reason. Never add one to silence it."
+        { grep -q "ModuleNotFoundError" "$out" && _dep_hint; } || true
         rc=1
       else
         echo "   OK ($failed failure(s), every one named in the sandbox baseline as dep-related;"
@@ -497,7 +640,12 @@ if [ "${SKIP_TESTS:-0}" != "1" ]; then
     echo "   FAILED: pytest reported no test count -- the run collected nothing."
     tail -5 "$mout"; rc=1
   elif grep -qE '^(FAILED|ERROR )' "$mout"; then
-    echo "   FAILED:"; grep -E '^(FAILED|ERROR )' "$mout" | sed 's/^/     /'
+    echo "   FAILED:"; { grep -E '^(FAILED|ERROR )' "$mout" || true; } | sed 's/^/     /'
+    # ⛔ `|| true` ON THE HINT TOO, FOR THE REASON THE LINE ABOVE CARRIES IT. `grep -q X && f` is a
+    # single AND-list: when grep finds nothing it returns 1, the list returns 1, and `set -e` kills
+    # the run at the moment there was nothing to report. That is the empty-baseline death this file
+    # was just fixed for twice; a new call site must not reintroduce its shape.
+    { grep -q "ModuleNotFoundError" "$mout" && _dep_hint; } || true
     rc=1
   else
     echo "   OK"
@@ -505,9 +653,53 @@ if [ "${SKIP_TESTS:-0}" != "1" ]; then
   rm -f "$mout"
 fi
 
+# ⛔⛔ THE SELECTOR'S OWN TESTS RAN NOWHERE (2026-08-22, round 14 seat 4). This script cites
+# scripts/tests/test_affected_tests.py as the evidence for the selector's safety contract -- "the
+# selector fails to FULL, and that is the entire safety argument" -- and neither this script nor
+# tests.yml ever executed that directory. There is no pytest.ini or testpaths either, so nothing
+# collected it by accident. Nineteen assertions about the gate that decides what this script runs,
+# asserted by nobody. It is a fast, offline, pure-logic suite; it runs every time now.
+echo "== pytest (scripts: the test selector's own contract) =="
+sout=$(mktemp)
+$PYTEST $PYTEST_PAR scripts/tests -q --continue-on-collection-errors >"$sout" 2>&1 || true
+tail -1 "$sout"
+if ! grep -qE '[0-9]+ (passed|failed)' "$sout"; then
+  echo "   FAILED: pytest reported no test count -- the run collected nothing."
+  tail -5 "$sout"; rc=1
+elif grep -qE '^(FAILED|ERROR )' "$sout"; then
+  echo "   FAILED:"; { grep -E '^(FAILED|ERROR )' "$sout" || true; } | sed 's/^/     /'
+  rc=1
+else
+  echo "   OK"
+fi
+rm -f "$sout"
+
+# The run reached its own verdict, so an exit from here on is the verdict rather than an abort.
+_preflight_summary_reached=1
+
+# ⛔ A GREEN LINE MUST SAY WHAT IT MEASURED. "PREFLIGHT OK" after a run that executed no test reads
+# as "the suite passes", which is the exact "reports while measuring nothing" defect this file's
+# header was written against -- and it would be a NEW instance of it, created by the change that
+# made tests opt-in. So the tier is printed in the verdict, every time.
 if [ "$rc" -ne 0 ]; then
   echo; echo "PREFLIGHT FAILED -- do not commit."
+elif [ "${PREFLIGHT_FULL:-0}" = "1" ]; then
+  echo; echo "PREFLIGHT OK (FULL: every gate, both suites unscoped)"
+elif [ "$RUN_TESTS" = "1" ]; then
+  # ⚠ THIS LINE USED TO SAY "modalities scoped to this change" AND THAT WAS SOMETIMES A LIE — caught
+  # on its first real run, which printed it after the selector had asked for the FULL suite (the
+  # working tree held an edit to preflight.sh, which is ALWAYS_FULL). The gate heading above already
+  # states which mode ran and is derived from the selector; a summary line must not re-assert it
+  # from an assumption. One fact, one place.
+  echo; echo "PREFLIGHT OK (fast gates + tests -- see the modalities heading above for its scope)"
 else
-  echo; echo "PREFLIGHT OK"
+  # ⚠ "no test ran here" WAS WRONG THE MOMENT THIS BRANCH REBASED, AND IT IS THE FAILURE THIS BLOCK
+  # EXISTS TO PREVENT. `main` added gate 13 -- the selector's own contract -- and runs it OUTSIDE
+  # the tier, so 55 tests DO run in the default loop. A verdict line that names what it measured is
+  # worth having only if it is re-derived when the gates move; this one is now written from what
+  # actually ran rather than from what the tier was designed to run.
+  echo; echo "PREFLIGHT OK (fast gates + the selector's own contract; NEITHER large suite ran here."
+  echo "             CI runs both on push. PREFLIGHT_TESTS=1 to run them locally,"
+  echo "             PREFLIGHT_FULL=1 before publishing.)"
 fi
 exit "$rc"

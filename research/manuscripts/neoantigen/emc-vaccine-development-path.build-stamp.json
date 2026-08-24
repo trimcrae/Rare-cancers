@@ -1,6 +1,9 @@
 {
- "_what": "sha256 of each document this PDF renders, written by build_submission_pdf.py. A PDF is current when every hash here matches the file on disk; mtimes are not evidence, because the regeneration chain rewrites unchanged files.",
+ "_what": "sha256 of each document AND figure this PDF renders, written by build_submission_pdf.py. A PDF is current when every hash here matches the file on disk; mtimes are not evidence, because the regeneration chain rewrites unchanged files.",
+ "artifact": "emc-vaccine-development-path.pdf",
  "built_from": {
+  "figures/vaccine-junction-schematic.svg": "b650928f9680ad8dec465981994e0aa15a62a83fad417c16fc226edb54f4ae93",
+  "figures/vaccine-threshold-curve.svg": "5e5c793ea94f1852c4e66e8ab623fea800f91ffd83bbd77621a22e378149008c",
   "neoantigen/emc-vaccine-development-path.md": "4e3f91f72752200efe836c9fe72aa557977d3c1919a798e1d93433de3bd8c501"
  }
 }

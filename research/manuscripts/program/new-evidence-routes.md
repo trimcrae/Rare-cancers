@@ -112,7 +112,7 @@ population `emc_cohort_search.py` says it cannot.
 **GSE140686** is the reference set of Koelsche et al., *Sarcoma classification by DNA methylation
 profiling*, [Nat Commun 2021;12:498](https://www.nature.com/articles/s41467-020-20603-4) — a classifier
 trained across sarcoma methylation classes, with **extraskeletal myxoid chondrosarcoma among them**.
-IDATs are open in GEO; **E-MTAB-9875** is the EBI mirror of the same study.
+IDATs are open in GEO. ⛔ **A previous version of this line called `E-MTAB-9875` "the EBI mirror of the same study". That was an identifier written from recollection and it is wrong** — see §5.5, which records what the record actually serves.
 
 ★ **Its title names no disease.** It is the textbook instance of the missed case in §1 — a pan-sarcoma
 deposit under a generic title — and it is invisible to every query this repository has ever run.
@@ -125,6 +125,9 @@ deposit under a generic title — and it is invisible to every query this reposi
   **depositor claim**, exactly as a series title is — never a diagnosis. And a deposit may label by
   methylation-class code rather than by disease name, which a term match cannot see; that is a bound on
   the read, recorded as such rather than reported as an absence.
+- ✅ **ANSWERED — see §5.5.** The deposit states no diagnoses at all; the labels are in the paper, and
+  the two are joined by an identifier **both sides declare**. ⚠ The caution above stands unchanged and
+  now applies to the joined count: it is an author claim carried across a join, not a diagnosis.
 
 ⚠ **Note what these two routes are NOT.** Neither is a new patient and neither is new follow-up. They are
 existing measurements on existing material that nobody has pointed at this disease. That is the honest
@@ -267,12 +270,244 @@ so **zero supplementary links were found and zero files were parsed.** The arm r
 `LABELS_NOT_LOCATED` exactly as designed; had it reported "no EMC" it would have closed a live route on
 a page it never actually read.
 
-⭐ **And the next route is already measured as open.** The EBI mirror `E-MTAB-9875` answered **HTTP 200
+⭐ **And the next route is already measured as open.** ⚠ *Superseded, retained: `E-MTAB-9875` is called
+"the EBI mirror" here and is not one — §5.5.* It answered **HTTP 200
 with a real BioStudies record** (title *"Methylation profiling (450K and EPIC array) for sarcoma
 classification"*, release date 2021-05-01), and it was truncated only by this module's own 400,000-byte
 cap. An ArrayExpress study carries an **SDRF** — the sample-and-data-relationship file whose whole
 purpose is per-sample characteristics — and EBI did not serve a stub. **That, and PMC, are the two
 routes to try before anything is concluded about this deposit.**
+
+---
+
+### 5.3 · The specificity revision (2026-08-24) — PRE-REGISTERED, written before the fetch
+
+⭐ **This section states what the instrument will do and what would make it a negative, before the
+run that answers it.** Nothing below is a result. The run's numbers land in
+[`emc-data-level-sweep.json`](../../modalities/emc-data-level-sweep.json), which is their one home.
+
+**What changed, and why the change is structural rather than a tuning pass.** §5.2's search fixed
+one operating point in advance and reported one number per gene. When that number turned out not to
+separate there was no way to ask what a tighter one would have done — and because a candidate rate
+is only interpretable against the negative rate on the same day's compilation, a second fetch could
+not answer it either. So the module now sweeps a **four-axis grid inside one fetch and scores every
+gene at every cell from one parse.** Re-scoring every tightening on the controls and the target
+together is now a property of the code, not something a future session has to remember.
+
+**The five levers.** Three are the ones §5.2 named; two are added here.
+
+| # | lever | what it separates |
+|---|---|---|
+| 1 | **5'-junction support** — the 5' junctions used in the ratio must be carried by a minimum fraction of the gene's own expressing samples | a real absence from a **sparsely annotated or alternatively-used 5' end**, which is the confound most likely to be producing the background |
+| 2 | **downstream-coverage floor** | "5' end replaced" from "gene barely on" |
+| 3 | **absolute expression**, as a within-gene percentile of downstream coverage | in this disease the 3' half is driven from a partner promoter, so it should be **abundant, not merely present**. A percentile rather than an absolute floor, because GAPDH's median and NR4A3's median are orders of magnitude apart |
+| 4 | **promiscuity track** — drop candidates that are also candidates at an ordinary gene in the same cell | a **3'-biased library**, which looks 5'-depleted at every gene at once, from a gene-specific truncation. ⚠ A real EMC sample can also be a degraded library, so this is a *track* the selection may or may not pick, scored beside the unfiltered one |
+| 5 | **breakpoint-rank concentration** — how tightly a gene's candidates agree on where, along the transcript, coverage starts | a **recurrent** rearrangement, which joins the partner to the same place in most tumours, from background that has no reason to start anywhere in particular. Reported as a contrast across all genes, never read alone |
+
+⛔ **A negative PANEL replaces the single negative control, and this is the biggest change.** One
+negative gene gives one number and no idea of its spread — and §5.2's own context row already ranged
+over a factor of five between ordinary genes, which is why "above GAPDH" and "above what an ordinary
+gene does" are different claims and only the second is worth anything. Seven genes spanning a wide
+range of expression depth now define an **envelope, taken as the maximum**: the target has to clear
+the hottest ordinary gene, not the average one. ⚠ Its one assumption is stated in the code — that no
+panel gene is itself a recurrent 3' fusion partner — and the error is conservative by construction,
+because a panel gene that *is* one fires more, raises the envelope, and makes the target harder to
+call specific. A **second positive control** is added for the same reason: one positive tells you the
+score can fire, not whether the rate it fires at is typical of the signature or a peculiarity of one
+locus.
+
+⛔⛔ **The operating point is chosen on the CONTROLS ALONE and the target is read at it afterwards.**
+Sweeping a grid and then reading off the cell where the target looks best is how a null becomes a
+finding. The selection function is handed the positive controls and the negative panel and is not
+handed the target at all, and the offline suite asserts it by replacing every target number with
+anything whatsoever and requiring the selected cell not to move.
+
+★ **Why the selection rule is "drive the background to a ceiling, then keep the positive" and not
+"maximise a ratio."** This disease is vanishingly rare and public RNA-seq is overwhelmingly not
+sarcoma, so whatever the true number of EMC samples in the compilation is, it is *a number of
+samples, not a percentage of them*. A background that calls even one sample in two hundred swamps
+the signal however favourable the ratio looks. The pre-registered rule is therefore: among cells
+where the negative-panel envelope sits at or under the ceiling **and** a positive control still
+recovers a population, take the cell with the largest positive-control enrichment.
+
+**The three pre-registered outcomes, and all three are reportable.** ⚠ **A FOURTH was added after
+the run** — `TARGET_UNDERPOWERED_AT_THE_OPERATING_POINT` — because this list has a hole that only
+showed up once the grid had been swept: it assumes the cell the controls select still leaves the
+target enough samples to answer, and the run's did not. §5.4 records the amendment, what it reads
+(pool size and background rate, never the target's count) and why the gap existed. **This paragraph
+is left as it was written**, because what was pre-registered is part of the record.
+
+- **`NO_SPECIFIC_REGIME`** — no cell holds the negative panel at the ceiling while a positive
+  control survives. Target counts withheld. ⭐ This is a **result, not a failure**: it says the
+  5'-depletion signature, scored over this index, cannot be made specific enough for a candidate
+  list at any combination of these thresholds, and the whole trade-off surface is in the artifact so
+  the shape of that limit is readable rather than asserted.
+- **`TARGET_DOES_NOT_SEPARATE`** — a specific regime exists on the controls and the target does not
+  clear the envelope by the pre-registered margin. No candidate list. ⭐ **This is the outcome the
+  §5.2 numbers point at, and it is the publishable one:** every public human RNA-seq sample in this
+  compilation scored for the intragenic signature a 5'-truncating rearrangement leaves, on an
+  instrument whose positive controls fire and whose negative panel is held at the ceiling, and the
+  target does not rise above what an ordinary gene does. Nobody has made that statement.
+- **`TARGET_SEPARATES`** — the 95% lower bound on the target's enrichment over the envelope exceeds
+  the pre-registered bar. ⛔ **That would be an ENRICHMENT, NOT A DETECTION.** No individual sample
+  in such a list is thereby a fusion, a tumour, or a diagnosis, and the bar is an effect size rather
+  than a p-value precisely because with tens of thousands of samples in each denominator a lower
+  bound above 1 is reachable on an effect far too small to be a candidate list.
+
+⛔ **What §5.2's `1,642` is, and what it is not.** It is the count at what the grid now calls the
+reference cell — the first search's operating point, retained so the two runs stay comparable. It is
+dominated by whatever background also produces the negative control's thousands of hits. It is not a
+candidate list, it is not a count of anything about this disease, and it must not be quoted as one.
+
+---
+
+### 5.4 · What the THIRD run measured (2026-08-24, run `32676239799`, $0) — the answer, and it is a negative
+
+**The instrument works, the target does not separate, and the reason the second run looked like it
+might is now measured.** Every figure below has its one home in
+[`emc-data-level-sweep.json`](../../modalities/emc-data-level-sweep.json).
+
+⭐ **First, the scorer reproduces the second run exactly at the reference cell** — FLI1, GAPDH,
+NR4A3, EWSR1, TAF15 and TCF12 all return the counts and rates §5.2 records. The grid is a
+superset of the old search, not a different one, so the two runs are directly comparable.
+
+⛔⛔ **THE NEGATIVE PANEL SETTLES §5.2's QUESTION IMMEDIATELY: THE "1.9×" WAS MEASURING GAPDH, NOT
+BACKGROUND.** At that same reference cell the ordinary genes run **TBP 0.0699 · RPL13A 0.0419 ·
+PGK1 0.0399 · ACTB 0.0331 · POLR2A 0.0322 · GAPDH 0.0253 · SDHA 0.0158** — a 4.4-fold spread among
+genes that have nothing in common with this disease. NR4A3's 0.0483 sits **inside** that spread,
+under its top. GAPDH is the second-quietest gene in the panel, so scoring the target against it
+alone manufactured a ratio out of where one arbitrary gene happens to fall. ⚠ **One negative control
+was never measuring background; it was measuring one gene, and the spread is the whole point.**
+
+⭐ **The controls do reach a specific regime, and comfortably.** Both positive controls fired; 28 of
+384 cells hold the ordinary-gene envelope at or under the pre-registered ceiling while a positive
+control survives. At the control-selected point ERG runs at **252× the envelope** and FLI1 at
+**13.4×**, against panel rates of 0.0000–0.0011. The signature is real, and this instrument
+separates it from background by more than two orders of magnitude.
+
+⛔ **But the operating point cannot answer about the target, and this is the honest core of the
+run.** The regime tight enough to hold the background down leaves NR4A3 only **219 samples**. At an
+envelope of 0.0011, a target enriched at the pre-registered 3× would be expected to yield **0.73**
+candidates there. NR4A3 returned zero — in that cell, and in all 28 — and **a zero in a pool of 219
+excludes nothing.** The artifact reports `TARGET_UNDERPOWERED_AT_THE_OPERATING_POINT` and says what
+pool it would have needed (~1,498). ⚠ *This power criterion was added after seeing the first grid
+run land there;* it reads the target's pool size and the background rate and never its count, and
+the offline suite asserts the operating point does not move under it.
+
+★ **The statement that IS powered.** Asked of every cell at once, the weaker question — does the
+target's rate exceed the ordinary-gene envelope **at all** — stays answerable at the loose cells,
+where NR4A3 still has all 34,013 of its samples. **It does not, at any of the 288 comparable
+cells.** At the best-powered comparison the envelope gene predicts 2,477 candidates and NR4A3
+returns 1,665: a ratio of **0.67, 95% CI 0.64–0.71**.
+
+⚠ **And the honest qualifier, which the artifact carries so it cannot be dropped: the envelope is a
+MAXIMUM, and clearing it is a weaker result than being quiet.** At that same cell NR4A3 is above
+**five of the six** scoreable panel genes and runs at **1.50× the panel median**. So the correct
+reading is not "below background" — it is **inside the ordinary-gene distribution, under its top
+and above its middle**, in a panel whose own genes span 4.5-fold. That is what no excess looks
+like when the background is characterised properly instead of by one gene.
+
+⛔ **What the run does and does not say.** At the loose end the target is indistinguishable from
+ordinary genes; at the sharp end — where the instrument demonstrably resolves a real 5'-truncated
+population at 13× and 252× — it returns zero but cannot be believed. **Neither end shows an
+excess, and no candidate list exists here.** It does **not** say EMC is absent from this
+compilation, and it is not a statement about the disease. The instrument's limit is now measured
+from both sides rather than argued: the regime sharp enough to be specific is too sharp to leave
+the target enough samples, and the regime loose enough to keep them cannot tell a truncation from
+an alternative promoter. ★ **That limit — with the pool a decisive test would need, ~1,498 against
+the 219 available — is the most useful thing this run produces**, because it says what would have
+to change for the question to be answerable at all, and the whole 384-row surface behind it is in
+the artifact.
+
+⭐ **Why this is worth publishing as it stands.** Nobody has queried every public human RNA-seq
+sample in this compilation for this disease's structural signature, with two positive controls
+firing at 13× and 252×, a seven-gene background panel, a pre-registered read-out and an operating
+point chosen without ever looking at the target. The negative is bounded, the bound is stated in
+samples rather than in adjectives, and the instrument that produced it recovers a known
+5'-truncated population where one exists. ⚠ **The routes it does not close** are the ones that do
+not depend on this signature: a chimeric junction is not in this index at all (§5.1), and the
+deposits in §3 and §5.2 are untouched by this result.
+
+⚠ **Route A2's status here is SUPERSEDED BY §5.5, retained because it was true when written.** This
+run's Springer article fetch did again return a stub and the arm did again report
+`LABELS_NOT_LOCATED`, both correctly and for the same measured reason. ⛔ **But the closing clause —
+that the EBI and PMC routes "remain the next step and remain untried" — stopped being true about an
+hour later.** They were tried, and §5.5 records what they returned: the labels are public, and the
+route is open.
+
+---
+
+### 5.5 · What the ARM-2 runs measured (2026-08-24, runs `32676258708` / `32676775613` / `32677318919`, $0) — **Route A2 is OPEN**
+
+⚠ **Numbered by ARM, not by a global run count.** §5.3–5.4 report arm 1 (the junction index) and were dispatched independently on the same day, so a single ordinal across both arms would name two different runs.
+
+⭐⭐ **The labels are public, the join is exact, and the IDATs are downloadable.** Full record:
+[`emc-data-level-sweep.json`](../../modalities/emc-data-level-sweep.json).
+
+**First, this memo was wrong about the mirror, and the error was an identifier written from
+recollection.** §3 called `E-MTAB-9875` "the EBI mirror of the same study". The record EBI actually
+serves under that accession is **a different study** — *"Methylation profiling (450K and EPIC array)
+for sarcoma classification"*, from UCL, **n=986**, whose own Description names its paper as a
+**validation study of the DKFZ sarcoma classifier**. Koelsche et al. is the classifier it validates,
+not the study it mirrors, and `Koelsche` and `GSE140686` appear **zero times** in it. Nothing had ever
+checked. ⚠ The search that should have settled it was then run, and it found **no EBI mirror of this series
+at all**: BioStudies returned **36** accessions for `GSE140686`, **34 of them Europe PMC *literature*
+records — papers citing the deposit, not copies of it** — and the two that are not (`E-GEOD-57107`,
+`E-GEOD-4560`) are other studies. The instrument's first pass called ten of the literature records
+"mirrors" on a bare string match; a mirror must be a **data** record, and the rule is now enforced
+rather than described. Both search controls hold (a known accession returns hits, a nonexistent one
+returns none), so *"no mirror"* is a finding here and not a broken query.
+
+★ **The correction is not a loss, because a second deposit is a second chance — and this one's labels
+are open.** E-MTAB-9875's per-sample `disease` field is populated, its **54** categories sum to
+**986 = its own declared sample count**, and **none of them is this disease.** That zero is admissible
+precisely *because* the census is complete: every sample is accounted for by name. ⛔ Its **112**
+`Chondrosarcoma`, **17** `Chondroblastoma` and **14** `Chondromyxoid Fibroma` are **skeletal tumours in
+their own bucket and are never summed into an EMC count** — a substring search would have turned 143
+cases of other diseases into a cohort that does not exist.
+
+**And then GSE140686 itself opened.** The rungs, each recorded with its own outcome:
+
+| rung | outcome |
+|---|---|
+| nature.com | **HTTP 200 in 3,038 bytes** — a stub. Zero links discoverable. |
+| PMC article page | **a Google reCAPTCHA challenge page**, HTTP 200 in 21,246 bytes on the first attempt — which a byte-size stub test grades as healthy. It served the real article on a later attempt. |
+| GEO series header | declares `!Series_pubmed_id` → **PMID 33479225** |
+| `elink` (pubmed→pmc) | → **PMC7819999**. ⭐ Every identifier discovered from the one above it; none typed. |
+| Europe PMC `supplementaryFiles` | **the route that worked** — 18 members, on the *second* candidate URL shape |
+
+⭐ **Three of the paper's supplementary tables name this disease**, and they agree with each other:
+
+- **MOESM4** (reference set) — **10** cases labelled *Extraskeletal myxoid chondrosarcoma*, each also
+  carrying *methylation class extraskeletal myxoid chondrosarcoma*;
+- **MOESM5** (class table) — the EMC methylation class, **n = 10**, median age 54 (39–79). That it
+  matches MOESM4's row count is an internal consistency check, and it passes;
+- **MOESM6** (validation set) — **2** further cases: one histologically EMC that the classifier called
+  SEF, and one *"Sarcoma, NOS"* carrying an **EWSR1:NR4A3 fusion**.
+
+⭐⭐ **The join is a lookup, not an alignment, and that is the whole value of the route.** GSE140686's
+sample records name no disease — but each one carries `!Sample_description = REFERENCE_SAMPLE 259`,
+and the paper's tables key their rows on **exactly that string**. Both sides declare the identifier,
+so the join is a dictionary lookup. ⚠ Matching the two **by ordinal position** would have handed every
+case a plausible-looking partner and been **invisible if wrong**; nothing does, and a label with no
+deposited counterpart is reported unjoined rather than absorbed by a neighbour.
+
+**All 12 join. All 12 have downloadable IDATs — 24 files, Grn+Red per case; 9 on 450K (`GPL13534`),
+3 on EPIC (`GPL21145`).**
+
+⛔ **What this count is and is not.** It is what the paper's authors labelled, carried across a
+declared join. **It is not a diagnosis, not a re-review of any case, and not a patient count.** The
+reference and validation sets are reported separately and must not be pooled without saying so: the
+reference set is the class the classifier was **trained on**, so it is enriched for cases that look
+like the class by construction, and the validation set is held out. **Any claim resting on these
+twelve inherits both bounds.**
+
+★ **What is now true that was not this morning: this repository can hold DNA methylation data for
+extraskeletal myxoid chondrosarcoma, a modality it had none of, in a deposit whose title names no
+disease and which no prose search here could ever have found.** ⚠ **What it is not yet:** nothing has
+been downloaded, nothing processed, and no methylation claim of any kind is made or implied here.
+Twelve cases is a small n on a heterogeneous array platform, and what such a cohort could actually
+answer — and what it could not — is the scoping question this route now owes, not a result it has.
 
 ## 6 · Limits of this memo
 
@@ -282,8 +517,9 @@ routes to try before anything is concluded about this deposit.**
   fusion partners is a **hypothesis**, and the honest first step is a scoping pass that states, before
   anything runs, what the read would have to show to be worth reporting — and what result would make it
   a negative rather than an inconclusive.
-- **Route A2's EMC sample count is unmeasured at the time of writing.** That the deposit exists, is open
-  and includes this disease as a class is sourced; how many samples it holds is what the probe is for.
+- ✅ **Route A2's EMC sample count is no longer unmeasured — §5.5 answers it** (12 cases, 10 reference
+  + 2 validation, 24 IDATs, joined on an identifier both the deposit and the paper declare). ⚠ What
+  remains unmeasured is what such a cohort could *answer*; that is a scoping question, not a count.
 - **Nothing here reorders the plan.** The roadmap owns the ordering and the spend ladder. This memo adds
   an axis — *where would a new fact come from* — that no register on the board carries.
 - ⚠ **And it does not claim these are the only three.** They are the ones that survived asking, of every

@@ -109,10 +109,21 @@ PAPERS = {
         ),
         "figures": {"Figure 1.": "aso-multipartner-seam.svg"},
         "journal": {
-            "article_type": "Article",
+            #: ⭐ THE VENUE'S OWN NAME FOR THE TYPE, read 2026-08-23 from its Submission Guidelines
+            #: (research/literature/nat-submission-guidelines-2026-08-23.md). NAT offers Original
+            #: Paper, Review Article, Brief Communication, Editorial, Letters to the Editor and
+            #: Protocol; "Article" is not among them, and it is the type that carries the 4,000-word
+            #: cap this manuscript is graded against.
+            "article_type": "Original Paper",
             "section": "",
-            "preprint_note": "The extended report of this work is prepared for deposit as a bioRxiv "
-                             "preprint and is not yet posted; the archived copy is citable.",
+            #: ⛔ THIS LINE NAMED bioRxiv UNTIL 2026-08-23, WHEN bioRxiv DECLINED THE SUBMISSION
+            #: because the author is unaffiliated (checklist §2 step 3). A masthead saying a
+            #: bioRxiv deposit is in preparation was describing something that is not going to
+            #: happen, and it prints on every page-one build. It now states only what the
+            #: repository can stand behind: the extended report is archived, and it is not posted
+            #: as a preprint anywhere.
+            "preprint_note": "The extended report of this work is archived and is not posted as a "
+                             "preprint; the archived copy is citable.",
         },
         "out": "aso/fusion-junction-aso-journal-article.pdf",
     },
@@ -437,6 +448,21 @@ def deposit_filenames(paper):
     # decision, not a broken pointer, and it is tracked as its own item.
     names.setdefault("fusion-junction-aso-submission-tables.md",
                      "fusion-junction-aso-submission-tables.md")
+    # ⭐ A CROSS-REFERENCE TO ANOTHER PAPER RESOLVES TO THAT PAPER'S BUILT PDF, DERIVED FROM ITS OWN
+    # `out` RATHER THAN TYPED. The condensed article's Data availability sends a Nucleic Acid
+    # Therapeutics editor to the extended report by its repository name,
+    # `fusion-junction-aso-research-article.md`. That pointer is CORRECT — the `.md` is one of the
+    # 482 files in the deposit, verified against fusion-junction-aso-archive-manifest.json — but it
+    # hands a journal editor a Markdown source when the same deposit carries the typeset PDF beside
+    # it. Both travel; only one is meant to be read.
+    # ⚠ `setdefault`, so a paper's own manuscript keeps the submission-format mapping above; this
+    # only fills in names no other rule claimed. And it is a PREDICATE over `PAPERS`, not a second
+    # list of filenames — a paper added or renamed here needs no edit at this line.
+    for other in PAPERS.values():
+        if other is paper or not other.get("manuscript"):
+            continue
+        names.setdefault(os.path.basename(other["manuscript"]),
+                         os.path.basename(other["out"]))
     return names
 
 
@@ -1758,7 +1784,14 @@ li { margin-bottom: 3pt; text-align: justify; }
 .backmatter h2:first-child { margin-top: 0; }
 .backmatter p { margin: 0 0 4pt 0; }
 #references-list { padding-left: 11pt; }
-#references-list li { text-align: left; margin-bottom: 2.6pt; }
+/* ⚠ THE REFERENCE LIST WAS SET AT BODY SIZE AND BODY LEADING (2026-08-22). Body is 10.5pt/1.5;
+   the venue's own typeset geometry, measured off its published PDFs in
+   research/literature/venue-typeset-geometry.json, is 9.8pt on 10.9pt leading — a ratio of 1.11
+   against this sheet's 1.5. So the back matter was being set looser than the journal sets its
+   running text, and a page budget was being paid for in prose. Reference lists are conventionally
+   set down a size with tight leading; doing that here costs no content. */
+#references-list { font-size: 9pt; line-height: 1.22; }
+#references-list li { text-align: left; margin-bottom: 1.6pt; }
 """
 
 
@@ -1768,6 +1801,15 @@ def wrap_manuscript(front_title, body_html, front_block=""):
                        + "</section>", body_html, count=1, flags=re.S)
     body_html = re.sub(r"(<h2>References</h2>.*?)<ol", r'\1<ol id="references-list"',
                        body_html, count=1, flags=re.S)
+    #: ⚠ A LABEL DIRECTLY UNDER A HEADING OF THE SAME NAME READS AS A FORMATTING SLIP. Nucleic Acid
+    #: Therapeutics wants the keywords "listed after the abstract", so they moved out of the title
+    #: block into their own `## Keywords` section — where the `**Keywords.**` label the front-matter
+    #: parser anchors on (`label_paragraph`) rendered immediately below the heading, giving the
+    #: submitted Word file "Keywords / Keywords. antisense oligonucleotide; …". The label stays in
+    #: the SOURCE, because the journal build reads the keywords out of it; only the rendering drops
+    #: it, and only where the heading already says the same word.
+    body_html = re.sub(r"(<h2>(Keywords)</h2>\s*<p>)<strong>\2\.</strong>\s*",
+                       r"\1", body_html, count=1)
     #: The identity block goes directly under the H1, which is where a screener looks and where the
     #: old build carried nothing at all: no date, no version, no build.
     if front_block:
@@ -1825,39 +1867,79 @@ def _defer_landscape_floats(main):
     return main.replace(' data-deferred="1"', "")
 
 
+#: ⛔⛔ THE SPLIT POINT IS A PROPERTY OF THE PAPER, AND EVERY VERSION OF THIS CHECK HAS BEEN A
+#: DISGUISED LIST OF THE HEADINGS THAT HAPPENED TO EXIST. It began as the literal
+#: "<h2>Declarations</h2>", which could not build "## 9. Declarations" at all; that was widened to
+#: allow a numeric prefix, and then Nucleic Acid Therapeutics' required back matter — "## Author
+#: Contributions" followed by "## Statements and Declarations" — broke it again, this time by
+#: raising SystemExit on a correct paper. Each widening enumerated one more sentence length, in
+#: exactly the shape `test_the_manuscript_asserts_the_relation_its_artifacts_compute.py` warns
+#: about: a window is a disguised list, and a document that grows by one heading leaves the guard
+#: with no signal that it did.
+#:
+#: What the split actually needs is a PREDICATE: back matter is the suffix beginning at the
+#: EARLIEST back-matter heading. Taking the earliest is what makes the sections that follow it
+#: — contributions, declarations, acknowledgements, references — travel together whatever order a
+#: venue asks for them in, instead of one of them being typeset in the main flow because the
+#: anchor happened to name a later sibling.
+#:
+#: ⚠ THIS LIST STILL CANNOT SEE A BACK-MATTER SECTION NOBODY NAMED HERE, and no arrangement of
+#: strings can. That residual is bound by CONTENT rather than by heading, in
+#: tests/test_every_declaration_is_typeset_as_back_matter.py, which asserts the operative
+#: sentences of the declarations — the no-administration instruction, the ethics statement, the
+#: conflicting-interest statement — land after the split in every paper that carries them.
+#: ⭐ AND A PAPER MAY DECLARE ITS BACK MATTER AS SEPARATE HEADINGS RATHER THAN ONE GROUP.
+#: `nr4a3-fusion-transcriptional-output.md` carries seven journal-standard headings — Data and code
+#: availability, Funding, Conflicts of interest, Ethics, Author contributions, Use of generative AI,
+#: Acknowledgements — with no "Declarations" umbrella, which is correct for its target journal and
+#: made the paper unbuildable here. ⛔ THE FIX ADAPTS THE TOOL, NOT THE MANUSCRIPT: restructuring a
+#: submission-ready paper to suit a builder would be the tail wagging the dog.
+#: ⚠ MERGED FROM TWO INDEPENDENT FIXES, 2026-08-23, and the union is the point. `main` kept the
+#: umbrella-first rule and fell back to this list only when no "Declarations" heading existed; this
+#: branch replaced the anchor with the earliest-hit predicate. Taking either alone drops a paper —
+#: the umbrella branch cannot build "## Author Contributions" + "## Statements and Declarations",
+#: and the predicate branch without these names cannot build the transcriptional-output paper.
+#: ★ EARLIEST-HIT SUBSUMES UMBRELLA-FIRST: where a "Declarations" umbrella is the first back-matter
+#: heading the two rules agree, and where something else comes first — an Acknowledgements section
+#: above it — the earliest hit is the correct split and the umbrella rule was leaving it in the
+#: main flow.
+BACK_MATTER_HEADINGS = (
+    "Author Contributions",
+    "Statements and Declarations",
+    "Declarations",
+    "Data and code availability",
+    "Data availability",
+    "Funding",
+    "Conflicts of interest",
+    "Competing interests",
+    "Ethics approval",
+    "Use of generative AI",
+    "Acknowledgement",
+    "Acknowledgment",
+    "References",
+)
+_BACK_MATTER_RX = re.compile(
+    r"<h2>[\d.\s\u00b7]*(?:" + "|".join(re.escape(h) for h in BACK_MATTER_HEADINGS) + r")s?</h2>",
+    re.I)
+
+
+def split_back_matter(body_html):
+    """(main flow, back matter), cut at the earliest back-matter heading in the document."""
+    hits = list(_BACK_MATTER_RX.finditer(body_html))
+    if not hits:
+        raise SystemExit(
+            "no back-matter heading — the split needs a level-2 heading naming one of: "
+            + ", ".join(BACK_MATTER_HEADINGS))
+    cut = hits[0].start()
+    return body_html[:cut], body_html[cut:]
+
+
 def wrap_journal(paper, front, body_html, doc_title=None):
     meta = paper.get("journal", {})
     body_html = re.sub(r"(<h2>References</h2>.*?)<ol", r'\1<ol id="references-list"',
                        body_html, count=1, flags=re.S)
     # Declarations and the reference list are back matter: smaller, and outside the main flow.
-    # ⚠ MATCHES A NUMBERED HEADING TOO. This anchored on the exact string "<h2>Declarations</h2>",
-    # so a manuscript numbering its sections — "## 9. Declarations", which renders as
-    # "<h2>9. Declarations</h2>" — could not be built at all. The property the split needs is a
-    # level-2 heading whose text ENDS in "Declarations", not one whose text is exactly that.
-    split = re.search(r"<h2>(?:[\d.\s]*)Declarations</h2>", body_html)
-    # ⭐ AND A PAPER MAY DECLARE ITS BACK MATTER AS SEPARATE HEADINGS RATHER THAN ONE GROUP.
-    # `nr4a3-fusion-transcriptional-output.md` carries seven journal-standard headings — Data and
-    # code availability, Funding, Conflicts of interest, Ethics, Author contributions, Use of
-    # generative AI, Acknowledgements — with no "Declarations" umbrella, which is correct for its
-    # target journal and made the paper unbuildable here.
-    # ⛔ THE FIX ADAPTS THE TOOL, NOT THE MANUSCRIPT. Restructuring a submission-ready paper to suit
-    # a builder would be the tail wagging the dog; the property the split actually needs is "where
-    # does the back matter start", and that is the FIRST of these headings, whichever it is.
-    # ⚠ Strictly additive: an umbrella "Declarations" still wins when present, so the papers that
-    # already built are untouched.
-    if not split:
-        names = ("Data and code availability", "Data availability", "Funding",
-                 "Conflicts of interest", "Competing interests", "Ethics approval",
-                 "Author contributions", "Use of generative AI", "Acknowledgements")
-        hits = [m for n in names
-                for m in [re.search(rf"<h2>(?:[\d.\s·]*){re.escape(n)}", body_html)] if m]
-        split = min(hits, key=lambda m: m.start()) if hits else None
-    if not split:
-        raise SystemExit("no back-matter heading found — expected '## Declarations' or one of the "
-                         "standard declaration headings (Data and code availability, Funding, "
-                         "Conflicts of interest, Ethics approval, Author contributions, "
-                         "Use of generative AI, Acknowledgements)")
-    main, back = body_html[:split.start()], body_html[split.start():]
+    main, back = split_back_matter(body_html)
     main = _defer_landscape_floats(main)
 
     head = (
@@ -2276,13 +2358,46 @@ def _write_build_stamp(pdf_path, paper):
     #: it stamps the second paper's PDF with the FIRST paper's hashes, so the stamp reports current
     #: for a PDF built from something else — the exact failure the stamp exists to prevent.
     stamp = {"built_from": {}}
+    missing = []
     for rel in paper.get("stamp_sources", STAMP_SOURCES):
         src = os.path.join(HERE, rel)
         if os.path.exists(src):
             stamp["built_from"][rel] = hashlib.sha256(open(src, "rb").read()).hexdigest()
-    stamp["_what"] = ("sha256 of each document this PDF renders, written by build_submission_pdf.py. "
-                      "A PDF is current when every hash here matches the file on disk; mtimes are "
-                      "not evidence, because the regeneration chain rewrites unchanged files.")
+        else:
+            missing.append(rel)
+
+    # ⛔⛔ THE FIGURES WERE OUTSIDE EVERY STALENESS GATE (round 15, found independently by two
+    # seats). The stamp's own `_what` says "sha256 of each document this PDF renders" — and it named
+    # no figure. One seat proved it the expensive way: edit a figure's drawing script, redraw,
+    # re-rasterise, re-pin provenance; `aso-figure-provenance.json` did not change one byte, both
+    # staleness guards passed, 848 tests passed, and the chain reported "deposited PDF: current"
+    # while the built PDFs still rendered the OLD panel. A deposited figure that disagrees with the
+    # artifact it was drawn from is a figure making a claim nothing supports.
+    for rel in sorted(set((paper.get("figures") or {}).values())):
+        src = os.path.join(HERE, "figures", rel)
+        if os.path.exists(src):
+            stamp["built_from"][f"figures/{rel}"] = hashlib.sha256(open(src, "rb").read()).hexdigest()
+        else:
+            missing.append(f"figures/{rel}")
+
+    # ⚠ A DECLARED SOURCE THAT IS ABSENT USED TO BE SKIPPED IN SILENCE (round 15 seat 2, P3-c), so a
+    # PDF could be stamped as current against a list shorter than the one it was built from. Record
+    # it instead: an absent source is a finding for whoever reads the stamp, not a smaller stamp.
+    if missing:
+        stamp["_declared_but_absent_at_build"] = sorted(missing)
+
+    #: ⛔ THE STAMP NAMES ITS OWN ARTIFACT, because reconstructing the artifact's name from the
+    #: stamp's is a rule that holds only while one KIND of artifact is stamped (2026-08-23).
+    #: `test_pdf_text_layer_is_orderable._every_stamped_pdf` walks the tree for `*.build-stamp.json`
+    #: and appends `.pdf` to whatever is left — a deliberately list-free predicate, and correct
+    #: until a Word manuscript got a stamp of its own, at which point it reported a missing
+    #: `…-manuscript.docx.pdf` that was never supposed to exist. A stamp that says what it stamps
+    #: lets every consumer select by artifact TYPE without anybody maintaining a list.
+    stamp["artifact"] = os.path.basename(pdf_path)
+    stamp["_what"] = ("sha256 of each document AND figure this PDF renders, written by "
+                      "build_submission_pdf.py. A PDF is current when every hash here matches the "
+                      "file on disk; mtimes are not evidence, because the regeneration chain "
+                      "rewrites unchanged files.")
     with open(pdf_path.replace(".pdf", ".build-stamp.json"), "w", encoding="utf-8") as fh:
         json.dump(stamp, fh, indent=1, sort_keys=True)
         fh.write("\n")
@@ -2347,6 +2462,12 @@ def build_supplementary(paper, html_only=False):
     print_pdf(chrome, html_path, pdf_path, declared_running_title(body)
               if re.search(r"running[- ]title", body, re.I) else title[:60], meta,
               headings=headings_of(page), footers=handling_footers(paper))
+    #: ⛔ THE SI WAS THE ONE BUILT PDF WITH NO BUILD STAMP (round 14 seat 4). Four of the five PDFs
+    #: in `aso/` carry `<name>.build-stamp.json` and the staleness gate reads it; the SI carried
+    #: none, so "is the deposited SI current?" was a question nothing could ask — and it is the file
+    #: a depositor uploads BESIDE the manuscript, edited least often and therefore likeliest to go
+    #: stale unnoticed. Its stamp records the source IT renders, not the manuscript's list.
+    _write_build_stamp(pdf_path, {"stamp_sources": [paper["supplementary"]]})
     #: ⚠ THE INTERMEDIATE IS DELETED HERE, AS IT IS IN `build` (2026-08-19). Without this the SI
     #: build left a `.build.html` beside the deposit artefacts on every run — untracked, so it
     #: turned up as a new file in `git status` and invited being committed as though it were a

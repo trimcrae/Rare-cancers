@@ -6,11 +6,16 @@ suite ran 745.9 s of a ~15-minute gate — ~7,000 tests, single-threaded, on eve
 one that edited only prose. The doc, systems-model and medical-integrity gates that have ACTUALLY
 caught things in this repository cost about a minute between them.
 
-⚠ AND THE EXPENSIVE COPY IS THE WEAKER ONE. This sandbox has no numpy, rdkit, boto3, scipy, pymbar
-or netCDF4, so 48 of those tests fail as missing imports and five modules do not import at all.
-`tests.yml` runs `on: push` with the real dependencies installed, so the version of this suite that
-means something runs in CI on every push regardless. Paying twelve local minutes for a degraded
-rerun of a check that is about to run properly is poor value, and it is why this selector exists.
+⚠ AND THE EXPENSIVE COPY WAS THE WEAKER ONE. `tests.yml` runs `on: push` with the real dependencies
+installed, so the version of this suite that means something runs in CI on every push regardless,
+and paying twelve local minutes for a rerun of a check that is about to run properly is poor value.
+That is why this selector exists — and on 2026-08-23 the argument was carried to its conclusion:
+the test suites left preflight's DEFAULT tier altogether (`PREFLIGHT_TESTS=1` opts back in), so this
+selector now scopes the opt-in and publication tiers rather than every commit.
+⚠ Superseded, retained (CLAUDE.md rule 1.2): "This sandbox has no numpy, rdkit, boto3, scipy, pymbar
+or netCDF4, so 48 of those tests fail as missing imports and five modules do not import at all."
+`./scripts/dev-setup.sh` installs them into both interpreters and a SessionStart hook runs it, so a
+provisioned box now reports 7,859 passed and 0 failed over this suite.
 
 HOW IT CHOOSES. Static import graph, pure stdlib, no execution:
 
@@ -38,6 +43,8 @@ Usage:
 from __future__ import annotations
 
 import ast
+import hashlib
+import json
 import os
 import subprocess
 import sys
@@ -78,6 +85,31 @@ def _git(*args):
     except Exception:  # noqa: BLE001 — an unanswered git is an uncertainty, and uncertainty is FULL
         return None
     return r.stdout if r.returncode == 0 else None
+
+
+#: Where the validated content of the gatekeeping files is recorded. See `_unvalidated_gatekeepers`.
+VALIDATION_RECORD = os.path.join(ROOT, "scripts", "selector-validation.json")
+
+
+def _unvalidated_gatekeepers():
+    """Which of `ALWAYS_FULL_PATHS` differ from the content a full run validated.
+
+    Returns a (possibly empty) set, or None if the record cannot be read — which the caller treats
+    as FULL, because an unreadable record is an unanswered question and uncertainty is FULL.
+    """
+    try:
+        rec = json.load(open(VALIDATION_RECORD, encoding="utf-8")).get("validated") or {}
+    except Exception:  # noqa: BLE001 — unreadable or absent record is an uncertainty
+        return None
+    out = set()
+    for rel in ALWAYS_FULL_PATHS:
+        want = rec.get(rel)
+        path = os.path.join(ROOT, rel)
+        if want is None or not os.path.exists(path):
+            return None
+        if hashlib.sha256(open(path, "rb").read()).hexdigest() != want:
+            out.add(rel)
+    return out
 
 
 def uncommitted_files():
@@ -190,15 +222,26 @@ def select(explain=False):
         say("no changed files — nothing to run")
         return []
 
-    # ⛔ THE UNSCOPEABLE CHECK READS THE UNCOMMITTED SET, NOT THE BRANCH SPAN. See
-    # `uncommitted_files`: a selector or preflight edit is FULL-gated at its own commit, and a
-    # committed one that already passed does not re-gate every later commit on the branch. If git
-    # cannot say what is uncommitted, every changed file is treated as unscopeable, which is FULL.
-    unscopeable = uncommitted_files()
-    if unscopeable is None:
-        unscopeable = files
-    for f in sorted(unscopeable):
-        if os.path.basename(f) in ALWAYS_FULL_BASENAMES or f in ALWAYS_FULL_PATHS:
+    # ⛔⛔ THE SELECTOR AND PREFLIGHT ARE GATED ON CONTENT, NOT ON HOW THE CONTENT ARRIVED
+    # (2026-08-22, round 14 seat 4, reproduced exploit). The previous rule asked whether the file
+    # was UNCOMMITTED, on the premise that a selector edit is always dirty at the moment of its own
+    # commit and therefore FULL-gated there. `git cherry-pick` falsifies that premise outright: it
+    # auto-commits, so the change lands with a zero-width dirty window and the new selector
+    # immediately scopes itself. Measured by that seat: after a cherry-pick the new selector picks 0
+    # modality modules while the old selector on the identical git state says FULL. merge, revert
+    # and rebase behave the same way, and CLAUDE.md §7 mandates them.
+    # ⭐ So the question is whether THIS CONTENT has passed a full run, which scripts/
+    # selector-validation.json records as a hash. A file that matches its record is one a
+    # PREFLIGHT_FULL run has already validated, however it got here; anything else is FULL.
+    stale = _unvalidated_gatekeepers()
+    if stale is None:
+        say("the selector validation record could not be read — FULL")
+        return None
+    for f in sorted(stale):
+        say(f"{f} does not match its validated hash — FULL")
+        return None
+    for f in sorted(files):
+        if os.path.basename(f) in ALWAYS_FULL_BASENAMES:
             say(f"{f} cannot be scoped — FULL")
             return None
         # a non-test .py inside tests/ is a shared helper; its blast radius is the whole suite

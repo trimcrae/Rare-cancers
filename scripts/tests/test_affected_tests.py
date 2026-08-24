@@ -7,6 +7,8 @@ is the exact failure class CLAUDE.md §4 exists for. Every assertion below is th
 FULL being returned when the answer is uncertain, and about a changed module reaching the tests that
 cover it — including transitively, which is where a naive name-match selector would fail.
 """
+import hashlib
+import json
 import os
 import sys
 
@@ -17,6 +19,21 @@ ROOT = os.path.dirname(os.path.dirname(HERE))
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
 
 import affected_tests as A  # noqa: E402
+
+
+@pytest.fixture(autouse=True)
+def _validated(monkeypatch, tmp_path_factory):
+    """Every test runs against a record that MATCHES the gatekeepers on disk.
+
+    Otherwise a test exercising the scoping path would be answering "is the selector validated
+    right now?" instead of the question it was written to ask, and would go red for a reason that
+    has nothing to do with it. The two tests that are about the record patch it themselves.
+    """
+    rec = tmp_path_factory.mktemp("val") / "selector-validation.json"
+    rec.write_text(json.dumps({"validated": {
+        p: hashlib.sha256(open(os.path.join(ROOT, p), "rb").read()).hexdigest()
+        for p in A.ALWAYS_FULL_PATHS}}))
+    monkeypatch.setattr(A, "VALIDATION_RECORD", str(rec))
 
 
 @pytest.fixture
@@ -75,10 +92,23 @@ def test_a_changed_test_helper_takes_the_whole_suite(fake):
     assert A.select() is None
 
 
-def test_editing_the_selector_or_preflight_takes_the_whole_suite(fake):
-    for p in ("scripts/affected_tests.py", "scripts/preflight.sh"):
-        fake({p})
-        assert A.select() is None, p
+def test_editing_the_selector_or_preflight_takes_the_whole_suite(fake, tmp_path, monkeypatch):
+    """⚠ NOW EXERCISED THROUGH THE CONTENT HASH, WHICH IS THE MECHANISM (2026-08-22).
+
+    This used to fake the file into the CHANGED SET and assert FULL. That path is gone: membership
+    in a diff never made a selector unsafe, and a `git cherry-pick` produced a changed selector that
+    was in no diff the check looked at. Editing a gatekeeper still takes the whole suite — because
+    editing it changes its hash — so the test now moves the hash, which is what an edit does.
+    """
+    for target in A.ALWAYS_FULL_PATHS:
+        rec = tmp_path / f"{os.path.basename(target)}.json"
+        good = {p: hashlib.sha256(open(os.path.join(ROOT, p), "rb").read()).hexdigest()
+                for p in A.ALWAYS_FULL_PATHS}
+        good[target] = "0" * 64          # as if this one had just been edited
+        rec.write_text(json.dumps({"validated": good}))
+        monkeypatch.setattr(A, "VALIDATION_RECORD", str(rec))
+        fake({"research/modalities/junction_aso_offtarget.py"})
+        assert A.select() is None, f"an edited {target} must take the whole suite"
 
 
 def test_git_not_answering_takes_the_whole_suite(monkeypatch):
@@ -169,26 +199,69 @@ def test_the_selector_reports_a_documents_guard_truthfully(fake, capsys):
 # is FULL-gated there; what is dropped is re-gating a question already answered.
 
 
-def test_a_committed_selector_change_does_not_force_full_on_later_commits(fake_split):
-    """Selector edited earlier on the branch, working tree now holding only a manuscript."""
+def test_a_validated_selector_change_does_not_force_full_on_later_commits(fake_split):
+    """Selector edited earlier on the branch and VALIDATED; tree now holds only a manuscript.
+
+    This is the case the branch-span rule got wrong: one commit touching the selector forced FULL on
+    every later commit of that branch, so a prose-only edit ran all 398 modality modules. Validation
+    is what licenses scoping — not the fact that the change is old.
+    """
     doc = "research/manuscripts/aso/fusion-junction-aso-journal-article.md"
     fake_split({"scripts/affected_tests.py", "scripts/preflight.sh", doc}, {doc})
     sel = A.select()
     assert sel is not None, (
-        "a selector change committed earlier on this branch was FULL-gated at its own commit; "
+        "a selector whose content matches its validated hash has already passed a full run; "
         "re-gating every later commit costs the scoped path for the rest of the branch")
     assert all(p.startswith("research/modalities/tests/") for p in sel), sel
 
 
-def test_an_uncommitted_selector_change_still_forces_full(fake_split):
-    """The direction that must never weaken: the selector on disk is not the one that was gated."""
-    for p in ("scripts/affected_tests.py", "scripts/preflight.sh"):
-        fake_split({p, "research/modalities/junction_aso_offtarget.py"}, {p})
-        assert A.select() is None, f"{p} uncommitted must take the whole suite"
-
-
 def test_git_not_answering_about_the_working_tree_takes_the_whole_suite(monkeypatch):
-    """⛔ An unanswered git is an uncertainty, and uncertainty is FULL — in this direction too."""
-    monkeypatch.setattr(A, "changed_files", lambda: {"scripts/affected_tests.py"})
+    """⛔ An unanswered git is an uncertainty, and uncertainty is FULL.
+
+    `changed_files` is built on `uncommitted_files`, so a git that cannot describe the working tree
+    still reaches FULL through it. Asserted on the real composition rather than on a patched
+    `changed_files`, because that composition is the thing that must not quietly change.
+    """
     monkeypatch.setattr(A, "uncommitted_files", lambda: None)
+    assert A.changed_files() is None
     assert A.select() is None
+
+
+# ⛔⛔ CONTENT, NOT PROVENANCE (2026-08-22, round 14 seat 4, reproduced exploit). The rule was "an
+# UNCOMMITTED selector edit takes the whole suite", on the premise that a selector change is always
+# dirty at the moment of its own commit. `git cherry-pick` auto-commits: the change lands with a
+# zero-width dirty window and the new selector immediately scopes itself. merge, revert and rebase
+# are the same, and CLAUDE.md §7 mandates them. The gate is now the recorded hash of the validated
+# content, so how the file arrived stops mattering.
+
+
+def test_a_selector_that_does_not_match_its_validated_hash_takes_the_whole_suite(fake, tmp_path,
+                                                                                monkeypatch):
+    rec = tmp_path / "selector-validation.json"
+    rec.write_text(json.dumps({"validated": {p: "0" * 64 for p in A.ALWAYS_FULL_PATHS}}))
+    monkeypatch.setattr(A, "VALIDATION_RECORD", str(rec))
+    fake({"research/modalities/junction_aso_offtarget.py"})
+    assert A.select() is None, (
+        "a gatekeeping file whose content no full run has validated must take the whole suite, "
+        "however it reached the working tree — a cherry-pick commits with no dirty window at all")
+
+
+def test_an_unreadable_validation_record_takes_the_whole_suite(fake, tmp_path, monkeypatch):
+    """⛔ An unanswered question is an uncertainty, and uncertainty is FULL."""
+    monkeypatch.setattr(A, "VALIDATION_RECORD", str(tmp_path / "does-not-exist.json"))
+    fake({"research/modalities/junction_aso_offtarget.py"})
+    assert A.select() is None
+
+
+def test_the_committed_record_matches_the_committed_gatekeepers():
+    """⚠ THE RECORD IS PART OF THE COMMIT THAT CHANGES THE SELECTOR, NOT A LATER CHORE.
+
+    A record left stale costs a full run on every commit until someone notices — the safe direction,
+    but a silent tax. This fails loudly instead, and names the command that fixes it.
+    """
+    stale = A._unvalidated_gatekeepers()
+    assert stale is not None, f"{A.VALIDATION_RECORD} is unreadable or incomplete"
+    assert not stale, (
+        f"{sorted(stale)} do not match scripts/selector-validation.json. Run "
+        "`PREFLIGHT_FULL=1 ./scripts/preflight.sh` to green, then "
+        "`python3 scripts/record_selector_validation.py`, and commit both together.")

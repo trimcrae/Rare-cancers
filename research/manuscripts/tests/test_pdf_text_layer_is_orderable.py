@@ -37,7 +37,8 @@ import pytest
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(os.path.dirname(os.path.dirname(HERE)))
-ASO = os.path.join(REPO, "research", "manuscripts", "aso")
+MANUSCRIPTS = os.path.join(REPO, "research", "manuscripts")
+ASO = os.path.join(MANUSCRIPTS, "aso")
 
 #: BOTH BUILT PDFs, and covering only one of them was itself a gap (found 2026-08-17, by the author
 #: asking "on ANY of the PDF formats?"). The submission-format build is what bioRxiv asks for and what
@@ -59,6 +60,55 @@ PDFS = {
     "journal-article-manuscript": os.path.join(
         ASO, "fusion-junction-aso-journal-article-manuscript.pdf"),
 }
+#: The `--paper`/`--style` pair that BUILDS each key, so the remediation a failing assertion prints
+#: is a command that runs.
+#: ⛔ WHY THIS IS A MAP AND NOT AN f-STRING (round 14 seat 2). The staleness message formatted
+#: `--paper aso --style {style}` over these four keys, which is right for the two extended-report
+#: keys and INVALID for both journal-article keys — `--style` takes `journal` or `manuscript` only.
+#: The half-fix a reader reaches for is worse than the error, because dropping the suffix SUCCEEDS
+#: and rebuilds the extended report while the journal PDF the gate is complaining about stays stale.
+BUILDS = {
+    "manuscript": ("aso", "manuscript"),
+    "journal": ("aso", "journal"),
+    "journal-article": ("aso-journal", "journal"),
+    "journal-article-manuscript": ("aso-journal", "manuscript"),
+}
+
+
+def _rebuild_command(pdf_key):
+    paper, style = BUILDS[pdf_key]
+    return (f"python3 research/manuscripts/build_submission_pdf.py "
+            f"--paper {paper} --style {style}")
+
+
+def _built_from(pdf_key):
+    """Every document the PDF renders, READ FROM THE BUILD STAMP the builder itself writes.
+
+    ⛔ THIS USED TO BE A HAND-TYPED `SOURCES` MAP (round 14 seat 4). The builder already records
+    exactly this, hashed, in `<pdf>.build-stamp.json`; a second copy beside it is a second home for
+    one fact, and the copy is the one that goes stale — silently, because a source the build gains
+    and the map does not is simply never checked.
+    """
+    stamp = PDFS[pdf_key].rsplit(".pdf", 1)[0] + ".build-stamp.json"
+    assert os.path.exists(stamp), (
+        f"{os.path.basename(stamp)} is missing, so nothing records what {pdf_key} was built from "
+        "and the staleness and coverage checks below have no ground truth")
+    return json.load(open(stamp, encoding="utf-8"))["built_from"]
+
+
+def _source_texts(pdf_key):
+    """The markdown behind `pdf_key`. A named source that is absent is a finding, never a skip."""
+    out = []
+    for rel in sorted(_built_from(pdf_key)):
+        if not rel.endswith(".md"):
+            continue
+        path = os.path.join(REPO, "research", "manuscripts", rel)
+        assert os.path.exists(path), f"{rel} is a committed source of {pdf_key} and is missing"
+        out.append(open(path, encoding="utf-8").read())
+    assert out, f"the build stamp for {pdf_key} names no markdown source"
+    return out
+
+
 #: The one a depositor uploads, for the checks that are about the deposit rather than the typesetting.
 PDF = PDFS["manuscript"]
 SEQ_CSV = os.path.join(ASO, "fusion-junction-aso-sequences.csv")
@@ -92,6 +142,73 @@ _SOURCES = (
 )
 
 
+def _every_stamped_pdf():
+    """Every PDF in `research/manuscripts/` that CLAIMS to be current, found on disk.
+
+    ⛔ DERIVED, NOT LISTED, AND THE LIST IS WHY (2026-08-22). A build stamp is a PDF asserting "I
+    render these exact bytes"; the assertion is worthless unless something checks it. `PDFS` named
+    four, seven stamps existed, and one of the three unnamed — the vaccine paper's manuscript-format
+    build — was measurably stale on `main`: a chain run rebuilt it and its stamp changed, so the
+    committed PDF had been rendering an older markdown under thirteen green gates.
+
+    ⚠ THE FAILURE MODE OF A HAND-KEPT LIST IS ALWAYS THE SAME. Nobody omits a document on purpose;
+    a second paper is added, its PDFs are built, and the list that was correct for one paper is
+    silently correct for less. Asking the DIRECTORY removes the step a human has to remember.
+
+    ⛔⛔ AND THE ARTIFACT'S NAME IS READ FROM THE STAMP, NOT RECONSTRUCTED FROM THE STAMP'S OWN
+    (2026-08-23). This appended `.pdf` to whatever preceded `.build-stamp.json`, which is a rule
+    about NAMING that silently encoded an assumption about TYPE: that every stamped artifact is a
+    PDF. The moment a Word manuscript — the format Nucleic Acid Therapeutics actually accepts — got
+    a stamp, this reported a stale `…-manuscript.docx.pdf`, a file that has never existed and never
+    should. The remedy the message printed was "rebuild it", which no rebuild could satisfy.
+    ★ Every stamp now carries `artifact`, so this selects by what the stamp SAYS it stamps. Still
+    no list: a new PDF is picked up the moment it is built, and a new artifact of another kind is
+    ignored here and checked by its own gate. ⚠ A stamp with no `artifact` key is an ERROR rather
+    than a skip — it means a builder was not updated, and skipping it would drop that artifact out
+    of every staleness check exactly as the hand-kept list used to.
+    """
+    out = {}
+    for root, _dirs, files in os.walk(os.path.join(REPO, "research", "manuscripts")):
+        for name in sorted(files):
+            if not name.endswith(".build-stamp.json"):
+                continue
+            stamp_path = os.path.join(root, name)
+            stamp = json.load(open(stamp_path, encoding="utf-8"))
+            artifact = stamp.get("artifact")
+            assert artifact, (
+                f"{os.path.relpath(stamp_path, REPO)} does not say which artifact it stamps. "
+                "Every builder writes an `artifact` key; a stamp without one was written by a "
+                "builder that was not updated, and guessing the name is what this key replaced.")
+            if not artifact.endswith(".pdf"):
+                continue
+            pdf = os.path.join(root, artifact)
+            out[os.path.relpath(pdf, os.path.join(REPO, "research", "manuscripts"))] = pdf
+    assert out, "no PDF build stamp was found at all; this guard has lost its subject"
+    return out
+
+
+def test_every_stamped_pdf_renders_the_documents_its_stamp_names():
+    """⛔ EVERY BUILT PDF IN THE REPOSITORY, NOT THE FOUR SOMEONE REMEMBERED TO LIST."""
+    stale = []
+    for rel, pdf in sorted(_every_stamped_pdf().items()):
+        stamp = pdf.rsplit(".pdf", 1)[0] + ".build-stamp.json"
+        if not os.path.exists(pdf):
+            stale.append(f"{rel}: the stamp exists and the PDF does not")
+            continue
+        built_from = json.load(open(stamp, encoding="utf-8"))["built_from"]
+        for src_rel, want in sorted(built_from.items()):
+            src = os.path.join(REPO, "research", "manuscripts", src_rel)
+            if not os.path.exists(src):
+                stale.append(f"{rel}: names {src_rel}, which is missing")
+            elif hashlib.sha256(open(src, "rb").read()).hexdigest() != want:
+                stale.append(f"{rel}: was built from a different version of {src_rel}")
+    assert not stale, (
+        "a committed PDF renders a version of its source that is no longer on disk, so what a "
+        "depositor would upload is not what the repository says:\n  " + "\n  ".join(stale)
+        + "\n\nRebuild it — `bash scripts/regenerate_aso_chain.sh` rebuilds every paper, because "
+          "build_submission_pdf.py with no --paper builds all of them.")
+
+
 def test_the_deposited_pdfs_are_not_stale():
     """⛔ A GUARD THAT PASSES AGAINST A STALE PDF IS WORSE THAN NO GUARD, AND THIS ONE DID.
 
@@ -118,7 +235,11 @@ def test_the_deposited_pdfs_are_not_stale():
             built_from = json.load(fh)["built_from"]
         drifted = []
         for rel, want in sorted(built_from.items()):
-            src = os.path.join(ASO, os.path.basename(rel))
+            # ⚠ RESOLVE THE STAMP'S PATH, DO NOT REBUILD IT FROM A BASENAME (2026-08-22). This joined
+            # `ASO` to `os.path.basename(rel)`, which was invisible while every source lived in
+            # `aso/` — and went red the moment the stamp gained the figures it renders, which live
+            # in `figures/`. A path the stamp states is a path this check must honour.
+            src = os.path.join(MANUSCRIPTS, rel)
             if not os.path.exists(src):
                 drifted.append(f"{rel} (missing)")
                 continue
@@ -128,8 +249,7 @@ def test_the_deposited_pdfs_are_not_stale():
         assert not drifted, (
             f"the {style}-format PDF was built from a different version of {drifted}, so it does not "
             "contain the current manuscript and every other check in this file would be asserting "
-            "about the wrong document. Rebuild with `python3 "
-            f"research/manuscripts/build_submission_pdf.py --paper aso --style {style}`.")
+            f"about the wrong document. Rebuild with `{_rebuild_command(style)}`.")
 
 
 @pytest.fixture(scope="module", params=sorted(PDFS), ids=sorted(PDFS))
@@ -256,11 +376,25 @@ def test_every_sequence_the_pdf_prints_is_in_the_canonical_file(pdf_text, pdf_ke
     #: which prints 10 by editorial choice across two tables and its reagent paragraphs — a false
     #: red that would teach a reader to widen the guard rather than read it. Each floor is set well
     #: under that paper's measured count; what is not negotiable is that the extractor found some.
-    floor = 20 if pdf_key in ("manuscript", "journal") else 8
-    assert len(printed) >= floor, (
-        f"only {len(printed)} delimited sequence(s) could be read out of {pdf_key}'s text layer "
-        f"(floor {floor}). Either the delimiters are gone — which is what this file exists to "
-        "catch — or the extractor is no longer reading the sequence cells.")
+    #: ⛔⛔ AND THE FLOOR IS NOW DERIVED FROM THE SOURCES, NOT TYPED (2026-08-22). It was 8 for the
+    #: journal article, calibrated when Table 2 printed two near-twin pairs. Dropping that table to
+    #: one pair — an editorial choice made to fit six typeset pages — took the count to 7 and the
+    #: guard went red on a build that was perfectly correct. A hardcoded count beside content that
+    #: an editor is expected to change is the same staleness this file exists to catch, one level
+    #: up: the number went out of date, not the PDF. The sources are read instead, so the guard now
+    #: says the stronger thing — every sequence the markdown prints survived typesetting — and
+    #: cannot be made red by an editorial decision that is not a defect.
+    in_source = set()
+    for src in _source_texts(pdf_key):
+        in_source |= set(re.findall(r"5[′']-([ACGT]{12,25})-3[′']", src))
+    assert in_source, (
+        f"no delimited sequence was found in {pdf_key}'s own markdown sources, so this guard has "
+        "nothing to compare the PDF against — the delimiters or the source list have moved")
+    missing = in_source - printed
+    assert not missing, (
+        f"{len(missing)} sequence(s) the markdown prints could not be read out of {pdf_key}'s text "
+        f"layer: {sorted(missing)}. Either the delimiters are gone — which is what this file exists "
+        "to catch — or the extractor is no longer reading the sequence cells.")
     #: ⛔ ONE DELIBERATE EXCEPTION, AND IT IS THE REVERSE-COMPLEMENT TRAP RATHER THAN A HOLE.
     #: Figure 2 draws the TARGET mRNA at the multi-partner seam, because the point of the panel is
     #: where three partners' breakpoints coincide ON THE TRANSCRIPT; the reagent is that strand's

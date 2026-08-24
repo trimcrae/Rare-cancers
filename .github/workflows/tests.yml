@@ -114,6 +114,25 @@ jobs:
           python3 research/manuscripts/endpoint_prior_art_audit.py --check
           python3 research/manuscripts/endpoint_regime_figure.py --check
           python3 research/manuscripts/endpoint_result_figures.py --check
+      # ⛔⛔ THE DEPOSIT GENERATORS RAN IN NO CI GATE AT ALL (round 15 seat 4, 2026-08-22). All six
+      # were wired into scripts/preflight.sh and nowhere else, while their ENDPOINT siblings sit in
+      # the step above under a comment saying preflight-only is not enough. Measured: a mutation to
+      # Table 2's caption AND its cell, with both PDFs rebuilt, passed seven CI linters and 848
+      # tests, and `13 bp` shipped twice in the deposited PDF — only `aso_journal_tables.py --check`
+      # sees that, and CI never called it.
+      # ⚠ THESE PRODUCE THE FILES A DEPOSITOR UPLOADS. A local-only gate protects a commit made on
+      # a machine that ran it; it protects nothing about what reaches Zenodo or a journal portal.
+      - name: ASO deposit artifacts reproduce from their generators
+        run: |
+          python3 research/manuscripts/submission_tables.py --check
+          python3 research/manuscripts/submission_citations.py --check
+          python3 research/manuscripts/submission_metrics.py --check
+          python3 research/manuscripts/aso_sequence_manifest.py --check
+          python3 research/manuscripts/aso_journal_tables.py --check
+          python3 research/manuscripts/submission_packet.py --check
+          # --check-archive, not --check: the manifest stamps git_revision, which advances on every
+          # commit, so the strict form is red the instant you commit the manifest you just built.
+          python3 research/manuscripts/aso_archive_manifest.py --check-archive
       - name: Endpoint producer logic and --check are real (not just wired)
         run: |
           python3 -m pytest research/manuscripts/tests/test_endpoint_logic.py \
@@ -316,4 +335,4 @@ jobs:
         # so ~48 tests that run HERE do not run there, and the local profile put 96.8% of the cost
         # on one test that is only ~7 min of this job. A suite can only be profiled where it
         # actually runs. Cost of the flag itself: zero.
-        run: python -m pytest research/modalities/tests research/manuscripts/tests systems/tests -q --continue-on-collection-errors --durations=25
+        run: python -m pytest research/modalities/tests research/manuscripts/tests systems/tests scripts/tests -q --continue-on-collection-errors --durations=25

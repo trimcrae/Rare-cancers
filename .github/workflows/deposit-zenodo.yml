@@ -1,5 +1,13 @@
 # Create a paper's Zenodo deposition and RESERVE its DOI. Dispatch-only, and it never publishes.
 #
+# ⛔ TO CORRECT AN ALREADY-PUBLISHED RECORD, dispatch with new_version=true. A published version's
+# files cannot be edited, only superseded, so a correction opens a NEW VERSION of the same record:
+# it inherits the concept DOI, reserves a version DOI of its own, and the reserve-then-rebuild
+# ordering below then works for a correction exactly as it worked for the first deposit — paste the
+# reserved DOI into the manuscript, rebuild, and only then publish by hand.
+# ⚠ NOT `--new`, which makes an unrelated SECOND record with its own concept DOI and orphans the
+# citation trail from the published paper.
+#
 # ⛔ THIS IS TIER 2, AND IT IS NOT release.yml. `deploy/release-doi.md` wires GitHub Releases to
 # Zenodo and archives the WHOLE REPOSITORY under one concept DOI that moves to the newest release —
 # right for citing a living project, wrong for citing a paper, whose availability statement has to
@@ -33,6 +41,15 @@ on:
         description: "Rehearse against sandbox.zenodo.org (mints nothing real). Leave TRUE until a rehearsal has passed."
         type: boolean
         default: true
+      new_version:
+        description: "The record is already PUBLISHED and needs correcting: open a new VERSION of it and reserve that version's DOI. Still never publishes."
+        type: boolean
+        default: false
+      record:
+        description: "archive = the paper's code and artefacts (a dataset record). preprint = the condensed article itself, as its OWN record with its own DOI — never a version of the archive. verify = touch nothing; READ the published record the papers cite and report what a reader gets."
+        type: choice
+        options: [archive, preprint, verify]
+        default: archive
 
 permissions:
   contents: read
@@ -52,23 +69,65 @@ jobs:
       # (This line typed "all 473" against a manifest whose own n_files had moved to 476: a count
       # retyped beside the artifact that derives it is the drift the manifest exists to prevent.)
       - name: Verify the manifest against this tree and build the payload
+        if: inputs.record == 'archive'
         run: python3 scripts/zenodo_deposit.py --paper "${{ inputs.paper }}" --build-only
 
+      # ⛔ THE PREPRINT RECORD IS A SEPARATE RECORD, NOT A VERSION OF THE ARCHIVE, and
+      # scripts/zenodo_preprint.py's header carries the whole argument. In one line: a Zenodo
+      # version means SUPERSESSION and the concept DOI follows the newest one, so making the paper
+      # a version of the artefact archive would point the archive's own DOI at a 6-page manuscript
+      # and assert that the condensed article obsoletes the extended report it cites. The two are
+      # linked by `related_identifiers` instead, which is the mechanism for "related" as against
+      # "the same thing at a later date".
+      # ⚠ --build-only READS AND PRINTS every field it will send. That is not decoration: the first
+      # run of this script reported 35 keywords because a lazy quantifier had escaped its paragraph
+      # and swallowed the paper, and nothing but the printed value would have shown it.
+      - name: Read the preprint metadata out of the manuscript and show it
+        if: inputs.record == 'preprint'
+        run: python3 scripts/zenodo_preprint.py --build-only
+
+      # ⛔ READ-ONLY, NO TOKEN, AND IT ANSWERS THE ONE QUESTION A CLICK CANNOT. "I published it" is
+      # a report about an outside system; "the DOI printed in the paper resolves to a published
+      # record holding N files" is a reading. This repository carried "⏳ Awaiting bioRxiv
+      # screening" for three days after bioRxiv had declined, which is what the difference costs.
+      - name: Read the published record the papers cite
+        if: inputs.record == 'verify'
+        shell: bash
+        run: python3 scripts/zenodo_verify.py | tee deposit.log
+
       - name: Create the draft deposition and reserve the DOI
+        if: inputs.record != 'verify'
         env:
           ZENODO_TOKEN: ${{ secrets.ZENODO_TOKEN }}
+        # ⛔⛔ `shell: bash` IS LOAD-BEARING, AND ITS ABSENCE MADE THIS STEP REPORT SUCCESS ON A
+        # FAILED DEPOSIT (measured 2026-08-22, run 32592438100). GitHub's DEFAULT shell for a `run:`
+        # block is `bash -e {0}` — `-e` and NO `pipefail`. The command below ends `| tee
+        # deposit.log`, so the pipeline's exit status is tee's, and tee always succeeds. The script
+        # exited non-zero on a Zenodo 404, the error printed in the log, and every step and the run
+        # itself came back green. Naming `bash` explicitly gets `bash --noprofile --norc -eo
+        # pipefail {0}`, which is the only difference that matters here.
+        # ⚠ THIS IS THE REPOSITORY'S HEADER DEFECT IN A WORKFLOW: a step that reports while
+        # measuring nothing. It was found by dispatching the rehearsal the workflow exists to
+        # provide, which is the argument for rehearsing.
+        shell: bash
         run: |
           if [ -z "$ZENODO_TOKEN" ]; then
             echo "::error::ZENODO_TOKEN is not set. See this file's SETUP block." && exit 1
           fi
-          python3 scripts/zenodo_deposit.py --paper "${{ inputs.paper }}" \
-            ${{ inputs.sandbox && '--sandbox' || '' }} | tee deposit.log
+          if [ "${{ inputs.record }}" = "preprint" ]; then
+            python3 scripts/zenodo_preprint.py \
+              ${{ inputs.sandbox && '--sandbox' || '' }} | tee deposit.log
+          else
+            python3 scripts/zenodo_deposit.py --paper "${{ inputs.paper }}" \
+              ${{ inputs.sandbox && '--sandbox' || '' }} \
+              ${{ inputs.new_version && '--new-version' || '' }} | tee deposit.log
+          fi
 
       - name: Put the reserved DOI in the job summary
         if: always()
         run: |
           {
-            echo "## Zenodo deposition — ${{ inputs.paper }}"
+            echo "## Zenodo deposition — ${{ inputs.paper }} (${{ inputs.record }})"
             [ "${{ inputs.sandbox }}" = "true" ] && echo "**Rehearsal against sandbox.zenodo.org — nothing real was minted.**"
             echo '```'
             cat deposit.log 2>/dev/null || echo "no log — the run failed before the deposition step"

@@ -636,8 +636,16 @@ PROMISES = [
                         "submission format, the typeset preview of the same text, the Supporting "
                         "Information rendered from the same builder, and the build stamps that "
                         "record the SHA-256 of every source each PDF was rendered from."),
-        "patterns": ["research/manuscripts/aso/fusion-junction-aso-research-article*.pdf",
-                     "research/manuscripts/aso/fusion-junction-aso-research-article*"
+        # ⛔⛔ AND THEN IT MISSED THE SECOND PAPER ENTIRELY (round 15 seat 4, 2026-08-22). These
+        # globs said `-research-article*`, written the day before the condensed journal article was
+        # registered — so the deposit carried that article's tables, its references and its
+        # generator while omitting the article itself and both of its built PDFs. The submission's
+        # own Data and code availability points a NAT editor at this archive.
+        # ⚠ THE PATTERN IS NOW `-*article*`, WHICH REACHES BOTH PAPERS AND ANY THIRD. A hand-kept
+        # list is what produced both this hole and the 2026-08-19 one recorded above; the fix for a
+        # list that goes stale is not a longer list.
+        "patterns": ["research/manuscripts/aso/fusion-junction-aso-*article*.pdf",
+                     "research/manuscripts/aso/fusion-junction-aso-*article*"
                      ".build-stamp.json"],
     },
     {
@@ -672,6 +680,10 @@ PROMISES = [
                      "research/manuscripts/figures/aso_figure_provenance.py",
                      "research/manuscripts/tests/test_aso_figure_provenance.py",
                      "research/manuscripts/tests/test_aso_figures_are_vector_not_raster.py",
+                     # ⛔ THE CONDENSED SUBMISSION AND ITS COMPANIONS (round 15 seat 4). This row
+                     # names literal paths, so the paper split that created the journal article
+                     # could not add it — the row's own warning above, firing a second time.
+                     "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
                      "research/manuscripts/aso_archive_manifest.py"],
     },
 ]
@@ -1276,7 +1288,7 @@ def build():
         # ⚠ NOT DERIVED — it is issued by Zenodo and can only be transcribed. It is pinned so that
         # a transcription error appears as a linter failure rather than as a citation that resolves
         # to somebody else's record.
-        "deposition_doi": "10.5281/zenodo.22028916",
+        "deposition_doi": "10.5281/zenodo.22061075",
         "git_revision": _git("rev-parse", "HEAD"),
         # ⚠ EXCLUDES THE MANIFEST ITSELF, AND THE EXCLUSION IS THE WHOLE POINT — see
         # `_tree_clean_apart_from_this_manifest`. `null` means "no git available", never "clean".

@@ -158,8 +158,10 @@ on:
           data-level-sweep = the COMPLEMENT of cohort-search. That mode's negative is bounded to
           depositor PROSE by its own header; this one asks what lies outside that bound — the public
           splice-junction index (a property of the reads, not of the description) and a pan-sarcoma
-          methylation deposit whose title names no disease. Probe first: it measures what each
-          endpoint serves and emits no fusion search. Writes its OWN artifact.
+          methylation deposit whose title names no disease. It searches the index for the 5'-
+          DEPLETION a fusion leaves inside its 3' partner, over a four-axis specificity grid scored
+          in ONE fetch on two positive controls, a seven-gene negative PANEL and the target
+          together; the operating point is chosen on the controls alone. Writes its OWN artifact.
         required: false
         default: "part-b"
         type: choice
@@ -182,6 +184,19 @@ on:
         default: "false"
         type: choice
         options: ["false", "true"]
+      sweep_arm:
+        description: >-
+          data-level-sweep mode only: which arm to fetch. The two arms hit different hosts, fail
+          for unrelated reasons and answer different questions, so re-running the junction search
+          to re-read a methylation deposit spends a runner AND overwrites arm 1's measured numbers
+          for nothing. "methylation" and "snaptron" MERGE into the existing inputs cache, carrying
+          the other arm through verbatim; "both" refetches everything, which is what a cold start
+          needs. Refusing to fetch an arm is never the same as that arm returning nothing, and the
+          artifact records which arm was refetched.
+        required: false
+        default: "both"
+        type: choice
+        options: ["both", "methylation", "snaptron"]
       series:
         description: "gse-series mode only: the GEO series accession to characterise."
         required: false
@@ -365,6 +380,20 @@ jobs:
             # records, a header-only read rendering as "no EMC samples", and a substring hit on the
             # SKELETAL tumour being summed into the extraskeletal count. All four are asserted here,
             # before one byte is fetched.
+            #
+            # ⛔ AND FROM THE SPECIFICITY REVISION ONWARD THE SUITE CARRIES THE THREE WAYS A SWEPT
+            # GRID LIES, WHICH ARE WORSE THAN A WRONG ZERO BECAUSE THEY LOOK LIKE FINDINGS:
+            #   * an operating point picked where the TARGET happens to look best — the guard
+            #     replaces every target number with anything at all and asserts the selected cell
+            #     does not move;
+            #   * a 5'-support filter that empties the 5' junction set, which would give every
+            #     sample a 5' share of zero and call the whole compilation depleted — the cell must
+            #     come back NOT MEASURED with a reason, never as a clean zero;
+            #   * a negative-panel gene filtered against its OWN candidates by the promiscuity
+            #     track, which zeroes the control by construction and manufactures a separation.
+            # An end-to-end group drives synthetic junction streams through the real scorer, the
+            # real promiscuity track and the real derive, because a field the fetch writes and
+            # derive no longer reads is invisible to every unit guard and costs a whole run.
             python research/modalities/emc_data_level_sweep.py --selftest
           elif [ "${{ inputs.mode }}" = "nuccore-sweep" ]; then
             # ⛔ NOT OPTIONAL. This mode's whole value is an ALIAS TABLE — NR4A3 is TEC/CHN/NOR1
@@ -809,19 +838,36 @@ jobs:
       # found that series by accident. This mode asks the complement, and it must be its own
       # artifact because a bound and the thing outside the bound are different measurements.
       #
-      # ⛔ IT PROBES BEFORE IT SEARCHES, ON PURPOSE. Whether a splice-junction index carries the
-      # junction classes a fusion transcript produces is not answerable from documentation and must
-      # not be answered from recollection. This run measures the served columns and record counts and
-      # emits `PROBED_NOT_SEARCHED`; the searchable design is written against that measurement.
+      # ⛔ IT PROBED BEFORE IT SEARCHED, ON PURPOSE. Whether a splice-junction index carries the
+      # junction classes a fusion transcript produces was not answerable from documentation and was
+      # not answered from recollection. The first run measured the served columns and record counts
+      # and emitted `PROBED_NOT_SEARCHED`; the searchable design was written against that
+      # measurement, and it is why the search keys on the INTRAGENIC signature a fusion leaves
+      # inside the 3' partner rather than on a chimeric junction — the index was measured to carry
+      # no junction joining two chromosomes.
       # openpyxl only — the supplementary diagnosis table is a spreadsheet. If it is missing the
       # module records `openpyxl unavailable` against that file and the arm reports LABELS_NOT_
       # LOCATED; it never reports "no EMC" for a file it could not open.
+      # ⭐ THIRD RUN ONWARD: THE SPECIFICITY GRID. The second run's search formally passed its
+      # controls and still could not report — the target fired at ~1.9x a single negative control
+      # that was itself firing on thousands of samples, which is a background, not a candidate
+      # list. The module now sweeps a four-axis threshold GRID inside ONE fetch and scores EVERY
+      # gene at EVERY cell, so a tightening is re-scored on the positive controls, the negative
+      # PANEL and the target together by construction rather than by remembering to. The operating
+      # point is then chosen on the CONTROLS ALONE and the target read at it afterwards.
+      # ⚠ The fetch is bigger than it was — thirteen gene queries rather than six, tens of MB each
+      # — hence the wider timeout. It is still $0 CPU minutes.
       - name: "Data-level sweep — the junction index and the pan-sarcoma methylation deposit"
         if: inputs.mode == 'data-level-sweep'
-        timeout-minutes: 60
+        timeout-minutes: 90
         run: |
           python -m pip install --quiet openpyxl
-          python research/modalities/emc_data_level_sweep.py --fetch
+          ARM="${{ inputs.sweep_arm }}"
+          if [ -z "$ARM" ] || [ "$ARM" = "both" ]; then
+            python research/modalities/emc_data_level_sweep.py --fetch
+          else
+            python research/modalities/emc_data_level_sweep.py --fetch --only "$ARM"
+          fi
 
       - name: "Data-level sweep — derive the verdict from the cached inputs"
         if: always() && inputs.mode == 'data-level-sweep'

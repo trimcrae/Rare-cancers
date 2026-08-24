@@ -98,7 +98,7 @@ def test_this_guard_fails_on_the_defect_it_was_written_for():
     fixed = "applied anywhere in this work, §6) — every one of the 190 designs"
     broken = "applied anywhere in this work (§6) — every one of the 190 designs"
     assert original.count(fixed) == 1, (
-        "the §2.10 sentence this proof mutates has been reworded; re-anchor the proof on the text "
+        "the §2.10 sentence this proof mutates has been reworded; re-anchor the proof on the text ⛔ CHECK THE MEANING BEFORE THE REGEX: if the claim was INVERTED or DROPPED, re-anchoring makes the guard agree with the new wording and the finding disappears. Re-anchor only when the sentence says the same thing in different words."
         "that is there now rather than deleting it — an unexercised guard is an absent one.")
     mutated = original.replace(fixed, broken, 1)
     assert mutated != original, "the mutation did not change the text; this proof would be vacuous"

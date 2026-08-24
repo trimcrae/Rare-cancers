@@ -94,6 +94,17 @@ DEFAULT_TARGETS = [
     # rounds; the short paper's has been through none.
     "research/manuscripts/aso/fusion-junction-aso-research-article.md",
     "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+    # ⛔ THE TABLES FILE IS PROSE TOO, ADDED 2026-08-22 (round 14 seat 2). Its captions are spliced
+    # into both journal PDFs and carry the two DO NOT ORDER verdicts. Until this line no
+    # build-failing instrument read it at all, and a caption stating "four designs at two seams"
+    # over a two-row, one-seam table shipped in both built PDFs with every gate green.
+    "research/manuscripts/aso/fusion-junction-aso-journal-tables.md",
+    # ⛔ THE COVER LETTER IS A SUBMISSION TEXT AND NO LINTER OPENED IT (round 15 seat 3, 2026-08-22).
+    # It is the FIRST thing an editor reads and it makes claims of its own — a novelty claim, a fit
+    # statement paraphrasing the extended report, integrity declarations. Four of one seat's five P1s
+    # landed in this one file, which is what an unguarded surface looks like from the outside.
+    # ⚠ It is a submission text, so it belongs to gate 4 and gate 7 exactly as the manuscripts do.
+    "research/manuscripts/aso/fusion-junction-aso-cover-letter.md",
     "research/manuscripts/nr4a3-program-map.md",
     # Added 2026-08-05, IN THE SAME COMMIT that moved THE ORDERED PLAN and the spend ladder out of the
     # map and into the systems model. ⚠ WITHOUT THIS LINE THE MOVE WOULD HAVE SILENTLY NARROWED
