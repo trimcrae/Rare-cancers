@@ -286,6 +286,70 @@ INDETERMINATE_DIAGNOSIS_PAPER = {
 }
 
 # ---------------------------------------------------------------------------
+# 2e - ⭐⭐⭐ THE ONE PUBLISHED STUDY THAT ACTUALLY SPLIT A CHONDROSARCOMA COHORT BY TOPOGRAPHY
+# ---------------------------------------------------------------------------
+# Found 2026-08-23, and it is the closest anything published comes to the number this route asks
+# for. It is also independent corroboration of the route's thesis, written by authors who hit the
+# problem while trying to do something else entirely.
+TOPOGRAPHY_SPLIT_STUDY = {
+    "pmid": "31283732",
+    "pmcid": "PMC6903832",
+    "year": 2019,
+    "journal": "Clinical Orthopaedics and Related Research",
+    "title": "Regional Lymph Node Involvement Is Associated With Poorer Survivorship in Patients "
+    "With Chondrosarcoma: A SEER Analysis",
+    "design": "SEER 18 registries, diagnosis years 1988-2015, morphology codes 9220/3, 9221/3, "
+    "9231/3, 9240/3, 9242/3, 9243/3",
+    "⭐_it_classifies_on_TOPOGRAPHY_explicitly": "Patients with chondrosarcoma of bone and soft "
+    "tissue were also included in this analysis, skeletal (axial bone, extremity bone, and bone "
+    "[not other specified]) and extraskeletal (arising in site other than bone) chondrosarcoma "
+    "were classified based on the International Classification of Diseases for Oncology "
+    "topography codes in the SEER database",
+    "⭐⭐_and_it_excluded_EMC_BY_NAME_AND_COUNT": {
+        "quote": "We excluded 404 patients with extraskeletal myxoid chondrosarcoma because it "
+        "is a misnomer to call it a real chondrosarcoma",
+        "n": 404,
+        "what_that_number_is": "Patients this study identified as EXTRASKELETAL myxoid "
+        "chondrosarcoma inside a SEER 18 chondrosarcoma-morphology pull covering 1988-2015. ⚠ "
+        "Since 9231/3 remains on the study's own list of INCLUDED morphology codes, the "
+        "discriminator between the excluded 404 and the retained 9231/3 patients can only be "
+        "TOPOGRAPHY -- which is exactly the split this route wants. The skeletal 9231/3 count is "
+        "therefore in the study's Table 1 histologic-subtype row.",
+        "⛔_status_of_that_reading": "INFERRED FROM THE METHODS, NOT YET CONFIRMED FROM TABLE 1. "
+        "Table 1 is served as a separate resource that the article HTML does not inline, and it "
+        "has been requested. Until it is read, `404` is recorded as the study's extraskeletal "
+        "myxoid count and NOTHING is divided by it.",
+    },
+    "the_cohort_flow_as_printed": {
+        "enrolled_1988_2015": 5528,
+        "pool_before_the_lymph_node_exclusion": 4273,
+        "excluded_for_unreported_lymph_node_status": 899,
+        "included": 3374,
+        "of_the_included_extraskeletal": 426,
+        "of_the_included_skeletal": 2948,
+        "arithmetic_check": "426 + 2948 = 3374, and 4273 - 899 = 3374. Both close.",
+    },
+    "⭐⭐⭐_ITS_OWN_LIMITATION_IS_THIS_ROUTES_THESIS_IN_THE_AUTHORS_WORDS": {
+        "quote": "We could not guarantee patients diagnosed with extraskeletal 'Chondrosarcoma, "
+        "not other specified' did not have extraskeletal myxoid chondrosarcoma, which is not "
+        "considered a chondrosarcoma, but we have tried to diminish the potential inaccuracies by "
+        "only including patients with histological confirmation and excluding those patients with "
+        "extraskeletal myxoid chondrosarcoma",
+        "why_it_matters": "A peer-reviewed registry study states, in its own Discussion, that it "
+        "cannot rule out EMC hiding inside its 426 retained extraskeletal chondrosarcoma cases. "
+        "⛔ SO THE CONTAMINATION IS NOT ONLY UNMEASURED -- IT IS ALREADY ACKNOWLEDGED IN PRINT AS "
+        "UNRESOLVABLE FROM THE REGISTRY, by authors who tried. Any paper from this route must "
+        "cite this and cannot present the problem as unnoticed.",
+        "⚠_and_it_runs_the_OTHER_WAY_from_this_routes_framing": "This repository has framed the "
+        "contamination as bone leaking into EMC cohorts. Here it is EMC leaking into a bone "
+        "cohort, twice over: 404 removed deliberately, and an unknown number left behind under "
+        "'chondrosarcoma NOS'. Both directions are the same defect and the paper should say so.",
+    },
+    "provenance": "[FT] -- PMC article HTML page (the Europe PMC fullTextXML endpoint 404s for "
+    "this PMCID). ⚠ Table 1 itself is NOT in that HTML and has NOT been read.",
+}
+
+# ---------------------------------------------------------------------------
 # 2d - ⚠ THE CAVEAT THAT DECIDES HOW A BONE FRACTION MAY BE READ
 # ---------------------------------------------------------------------------
 # ⛔ WITHOUT THIS, A MEASURED BONE FRACTION WOULD BE OVER-READ THE MOMENT IT ARRIVED. It is written
@@ -858,6 +922,7 @@ def build() -> dict:
         "base_rate_of_bone_primaries": BASE_RATE_OF_BONE_PRIMARIES,
         "guideline_placement": GUIDELINE_PLACEMENT,
         "public_aggregate_tier": PUBLIC_AGGREGATE_TIER,
+        "topography_split_study": TOPOGRAPHY_SPLIT_STUDY,
         "bone_primary_is_not_automatically_not_emc": BONE_PRIMARY_IS_NOT_AUTOMATICALLY_NOT_EMC,
         "size": SIZE,
         "sequencing": SEQUENCING,
