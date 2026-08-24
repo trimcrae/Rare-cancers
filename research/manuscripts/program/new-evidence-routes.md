@@ -274,6 +274,82 @@ cap. An ArrayExpress study carries an **SDRF** — the sample-and-data-relations
 purpose is per-sample characteristics — and EBI did not serve a stub. **That, and PMC, are the two
 routes to try before anything is concluded about this deposit.**
 
+---
+
+### 5.3 · The specificity revision (2026-08-24) — PRE-REGISTERED, written before the fetch
+
+⭐ **This section states what the instrument will do and what would make it a negative, before the
+run that answers it.** Nothing below is a result. The run's numbers land in
+[`emc-data-level-sweep.json`](../../modalities/emc-data-level-sweep.json), which is their one home.
+
+**What changed, and why the change is structural rather than a tuning pass.** §5.2's search fixed
+one operating point in advance and reported one number per gene. When that number turned out not to
+separate there was no way to ask what a tighter one would have done — and because a candidate rate
+is only interpretable against the negative rate on the same day's compilation, a second fetch could
+not answer it either. So the module now sweeps a **four-axis grid inside one fetch and scores every
+gene at every cell from one parse.** Re-scoring every tightening on the controls and the target
+together is now a property of the code, not something a future session has to remember.
+
+**The five levers.** Three are the ones §5.2 named; two are added here.
+
+| # | lever | what it separates |
+|---|---|---|
+| 1 | **5'-junction support** — the 5' junctions used in the ratio must be carried by a minimum fraction of the gene's own expressing samples | a real absence from a **sparsely annotated or alternatively-used 5' end**, which is the confound most likely to be producing the background |
+| 2 | **downstream-coverage floor** | "5' end replaced" from "gene barely on" |
+| 3 | **absolute expression**, as a within-gene percentile of downstream coverage | in this disease the 3' half is driven from a partner promoter, so it should be **abundant, not merely present**. A percentile rather than an absolute floor, because GAPDH's median and NR4A3's median are orders of magnitude apart |
+| 4 | **promiscuity track** — drop candidates that are also candidates at an ordinary gene in the same cell | a **3'-biased library**, which looks 5'-depleted at every gene at once, from a gene-specific truncation. ⚠ A real EMC sample can also be a degraded library, so this is a *track* the selection may or may not pick, scored beside the unfiltered one |
+| 5 | **breakpoint-rank concentration** — how tightly a gene's candidates agree on where, along the transcript, coverage starts | a **recurrent** rearrangement, which joins the partner to the same place in most tumours, from background that has no reason to start anywhere in particular. Reported as a contrast across all genes, never read alone |
+
+⛔ **A negative PANEL replaces the single negative control, and this is the biggest change.** One
+negative gene gives one number and no idea of its spread — and §5.2's own context row already ranged
+over a factor of five between ordinary genes, which is why "above GAPDH" and "above what an ordinary
+gene does" are different claims and only the second is worth anything. Seven genes spanning a wide
+range of expression depth now define an **envelope, taken as the maximum**: the target has to clear
+the hottest ordinary gene, not the average one. ⚠ Its one assumption is stated in the code — that no
+panel gene is itself a recurrent 3' fusion partner — and the error is conservative by construction,
+because a panel gene that *is* one fires more, raises the envelope, and makes the target harder to
+call specific. A **second positive control** is added for the same reason: one positive tells you the
+score can fire, not whether the rate it fires at is typical of the signature or a peculiarity of one
+locus.
+
+⛔⛔ **The operating point is chosen on the CONTROLS ALONE and the target is read at it afterwards.**
+Sweeping a grid and then reading off the cell where the target looks best is how a null becomes a
+finding. The selection function is handed the positive controls and the negative panel and is not
+handed the target at all, and the offline suite asserts it by replacing every target number with
+anything whatsoever and requiring the selected cell not to move.
+
+★ **Why the selection rule is "drive the background to a ceiling, then keep the positive" and not
+"maximise a ratio."** This disease is vanishingly rare and public RNA-seq is overwhelmingly not
+sarcoma, so whatever the true number of EMC samples in the compilation is, it is *a number of
+samples, not a percentage of them*. A background that calls even one sample in two hundred swamps
+the signal however favourable the ratio looks. The pre-registered rule is therefore: among cells
+where the negative-panel envelope sits at or under the ceiling **and** a positive control still
+recovers a population, take the cell with the largest positive-control enrichment.
+
+**The three pre-registered outcomes, and all three are reportable.**
+
+- **`NO_SPECIFIC_REGIME`** — no cell holds the negative panel at the ceiling while a positive
+  control survives. Target counts withheld. ⭐ This is a **result, not a failure**: it says the
+  5'-depletion signature, scored over this index, cannot be made specific enough for a candidate
+  list at any combination of these thresholds, and the whole trade-off surface is in the artifact so
+  the shape of that limit is readable rather than asserted.
+- **`TARGET_DOES_NOT_SEPARATE`** — a specific regime exists on the controls and the target does not
+  clear the envelope by the pre-registered margin. No candidate list. ⭐ **This is the outcome the
+  §5.2 numbers point at, and it is the publishable one:** every public human RNA-seq sample in this
+  compilation scored for the intragenic signature a 5'-truncating rearrangement leaves, on an
+  instrument whose positive controls fire and whose negative panel is held at the ceiling, and the
+  target does not rise above what an ordinary gene does. Nobody has made that statement.
+- **`TARGET_SEPARATES`** — the 95% lower bound on the target's enrichment over the envelope exceeds
+  the pre-registered bar. ⛔ **That would be an ENRICHMENT, NOT A DETECTION.** No individual sample
+  in such a list is thereby a fusion, a tumour, or a diagnosis, and the bar is an effect size rather
+  than a p-value precisely because with tens of thousands of samples in each denominator a lower
+  bound above 1 is reachable on an effect far too small to be a candidate list.
+
+⛔ **What §5.2's `1,642` is, and what it is not.** It is the count at what the grid now calls the
+reference cell — the first search's operating point, retained so the two runs stay comparable. It is
+dominated by whatever background also produces the negative control's thousands of hits. It is not a
+candidate list, it is not a count of anything about this disease, and it must not be quoted as one.
+
 ## 6 · Limits of this memo
 
 - **§4's grade is a judgement about fit, not a measured result.** That the coarse-grained condensate
