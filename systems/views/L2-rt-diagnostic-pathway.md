@@ -18,9 +18,9 @@ last_verified: 2026-08-05
 
 # RT-DIAGNOSTIC-PATHWAY — The diagnosis itself — code contamination and a name that misleads
 
-**Family:** [ST-CARE-DELIVERY](L1-st-care-delivery.md) · **state:** ○ ready · computed · confidence moderate · verified 2026-08-09
+**Family:** [ST-CARE-DELIVERY](L1-st-care-delivery.md) · **state:** ○ ready · computed · confidence moderate · verified 2026-08-23
 
-**Grade** (owned by [`systems/graph/routes.json`](../graph/routes.json)): ⭐ ANSWERED, AT $0, AND THE ANSWER IS A CONTRADICTION BETWEEN TWO PUBLISHED METHODS SECTIONS. ICD-O-3 morphology code 9231/3 is queried as extraskeletal myxoid chondrosarcoma by one SEER study (PMID 32856598: 'We queried the SEER 1973-2016 database for patients with myxoid chondrosarcoma (ICD-O-3: 9231/3)') and enumerated as one histological subtype of chondrosarcoma of bone by another (PMID 31765367, beside 9220 chondrosarcoma NOS and 9221 juxtacortical). Neither misuses the code: a morphology code carries no skeletal-versus-extraskeletal information, which lives on the separate topography axis. ⭐⭐ AND THE CLINICAL HALF IS MEASURED TOO: 28% of musculoskeletal myxoid soft-tissue tumours have an INDETERMINATE preoperative diagnosis, and those patients' positive-margin rate is 37% versus 15% when malignancy is known beforehand (PMID 39899751) — a measured chain from diagnostic uncertainty to surgical failure.
+**Grade** (owned by [`systems/graph/routes.json`](../graph/routes.json)): ⭐ ANSWERED AT $0, AND THE CODE IS READ THREE WAYS RATHER THAN TWO. ICD-O-3 morphology 9231/3 is queried as extraskeletal myxoid chondrosarcoma by one SEER study (PMID 32856598), enumerated as a histological subtype of chondrosarcoma of BONE by another (PMID 31765367 — whose Methods state its myxoid bucket 'includes extraskeletal myxoid chondrosarcoma', so the merge is acknowledged, and whose 87/743 myxoid cases sit under a location variable with no soft-tissue category at all), and listed as an intracranial MESENCHYMAL/MENINGEAL tumour by a third registry's own grouping document (CBTRUS, PMC9290890). None misuses the code: a morphology code carries no topography. ⭐⭐ AND THE PHENOMENON IS MEASURED IN SEER PRACTICE, not merely permitted — a pan-soft-tissue SEER study (PMC9303001) had to exclude 1,668 bone-primary records from 115,800 retrieved on morphology (1.44%), and its Supplementary Table 1 prints 459 NON-BONE 9231 records for SEER 18, 2000-2018. SEER's own site/histology validation list (April 2022) lists 9231/3 under three BONE site groups and not under CONNECTIVE & SOFT TISSUE. ⛔ THE SIZE IS STILL NOT MEASURED, but it is now ONE precisely specified query rather than a research problem: SEER 18, 2000-2018, morphology 9231, no site restriction, divided by 459. ⛔ AND THE NAMING HALF IS WEAKER THAN THIS ROUTE ASSUMED — PMC7771031 already published it ('this tumor name has likely influenced local management patterns'), and two EMC reviews place EMC squarely under ESMO and NCCN SOFT TISSUE SARCOMA guidance.
 
 ## What has to land for this route to move
 
@@ -35,28 +35,32 @@ This repository already noticed the edge of this and filed it as a one-line reje
 | ref | supports | strength |
 |---|---|---|
 | `ART-CARE-DELIVERY-EVIDENCE` | both sides of the ICD-O contradiction quoted from their own Methods sections, and the indeterminate-diagnosis margin penalty | `direct` |
+| `ART-ICDO-CONTAMINATION` | the third reading of the code, the measured base rate of bone primaries in morphology-selected SEER sarcoma cohorts, the 459 non-bone 9231 count that specifies the closing query, the guideline-placement negative, and the prior art for the naming claim | `direct` |
 
 ## Remaining unknowns
 
-- The SIZE of the contamination — what fraction of a 9231/3 cohort has a bone primary — which needs a topography-split registry query.
-- Whether the indeterminate-diagnosis margin penalty holds in EMC specifically; the measured cohort is myxoid soft-tissue tumours broadly, of which EMC is a small part.
-- Whether any treatment guidance actually imports conventional-chondrosarcoma reasoning for EMC, which has not been checked and would raise the finding's weight considerably.
+- The SIZE of the contamination. ⭐ NOW ONE QUERY, NOT A RESEARCH PROBLEM: SEER 18 registries, diagnosis years 2000-2018, ICD-O-3 morphology 9231, NO site restriction, divided by the 459 non-bone records PMC9303001's Supplementary Table 1 already publishes for exactly that registry set and window. ⛔ The two numbers already in hand (that 459 and PMID 32856598's 791 over 1973-2016) must NOT be divided — different windows, different registry coverage.
+- CLOSED, WITH A COUNT: whether the indeterminate-diagnosis margin penalty holds in EMC specifically. It cannot be answered from PMID 39899751 — its Table 2 gives the final diagnoses of all 66 indeterminate patients and FOUR are EMC, against a margin contrast computed over 27 and 74 patients. Unanswerable from that source, in either direction.
+- ANSWERED, AND LARGELY A NEGATIVE: whether treatment guidance imports conventional-chondrosarcoma reasoning for EMC. No evidence found at guideline level; two independent EMC reviews (PMC7563993 2020, PMC12504171 2025) place EMC under ESMO-EURACAN-GENTURIS and NCCN SOFT TISSUE SARCOMA guidance. ⚠ Both readings are SECONDARY — the guideline texts are not open access and returned a shim page or HTTP 403 to every route tried including a real headless browser. ⚠ And one clinical series asserts the opposite about PRACTICE rather than guidance (PMC7771031), unmeasured.
 
 ## Required validation
 
 | what | instrument | feasible today | blocked by |
 |---|---|---|---|
-| Split a registry 9231/3 cohort by ICD-O topography and report the bone-versus-soft-tissue fraction | ⛔ none built | **no** | BLK-REGISTRY-DUA |
+| Run the one query that closes the size: SEER 18, 2000-2018, morphology 9231, no site restriction. Divide by 459. ⚠ Needs SEER Research base tier, which is measured as requiring an institutional email + application form + DUA (not a bare email), and SEER*Stat, which requires Microsoft Windows 10 or later — a machine this Linux-only project does not have. | ⛔ none built | **no** | BLK-REGISTRY-DUA |
+| Read Table 1 of PMID 32856598, which its abstract implies prints the primary-site distribution of a 439-case 9231/3 cohort. ⚠ THIS IS NOT A DUA PROBLEM — it is a subscription PDF. Not in PMC, not open access, publisher PDF serves a JavaScript shim, DOI and article pages 403. | ⛔ none built | **no** | — |
 | Upgrade both quoted Methods passages from the abstract to the full text | ⛔ none built | yes | — |
 
 ## Readiness — what this could become today
 
 **`internal_note`**
 
-The argument is complete and citable; the contamination's SIZE is not measured, and a paper that can state the problem but not its magnitude is weaker than one that can.
+Two things changed and they pull opposite ways. The coding argument got stronger and is now multi-registry and documented. The naming argument got weaker: it has prior art, and the guideline check came back negative. A paper should carry them at different weights rather than as one claim.
 
 **Missing:**
-- nothing to start — the contradiction is measured and quoted
+- nothing to start on the CODING half — it is now three published readings, a registry edit rule, and a measured 1.44% base rate
+- the SIZE, which is one query behind SEER access
+- for the NAMING half: a way to say anything PMC7771031 has not already said
 
 ## Where this route ends — the paper
 
@@ -66,9 +70,9 @@ The argument is complete and citable; the contamination's SIZE is not measured, 
 
 **This route contributes:** The whole argument: one code read as two diseases, and a measured cost of diagnostic uncertainty.
 
-**The paper would claim:** ICD-O-3 morphology code 9231/3 is read by the published literature as two mutually incompatible diseases — extraskeletal myxoid chondrosarcoma in one SEER study and a histological subtype of chondrosarcoma of bone in another — so every registry-based EMC statistic carries an unquantified contamination, and the disease's name imports a tumour class it does not belong to.
+**The paper would claim:** ICD-O-3 morphology code 9231/3 is read by published work as THREE mutually incompatible populations — extraskeletal myxoid chondrosarcoma of soft tissue (PMID 32856598), a histological subtype of chondrosarcoma of bone (PMID 31765367), and an intracranial mesenchymal/meningeal tumour (CBTRUS, PMC9290890) — because a morphology code carries no topography; SEER's own site/histology validation list takes the skeletal reading; and morphology-selected SEER sarcoma cohorts demonstrably contain bone primaries (PMC9303001 excluded 1,668 of 115,800, 1.44%). So registry-based EMC statistics carry a contamination whose size is unmeasured and is now reducible to one specified query.
 
-**It is not written because:** ⭐ The contradiction is MEASURED and quoted from both papers' own Methods sections (emc-care-delivery-evidence.json -> icd_o_9231_3), which is enough for the argument. What is missing is the SIZE of the contamination — a SEER query split by ICD-O topography — and that needs a data-use agreement rather than a fetch.
+**It is not written because:** ⭐ The CODING half is ready to write and needs nobody's cooperation: three published readings, a registry edit rule, a bone-framed cohort that states it includes EMC and has no soft-tissue location category, and a measured base rate. What is missing is the SIZE. ⚠ AND THE BLOCKER IS MIS-STATED IN THIS REPOSITORY'S HISTORY: the cheapest close is Table 1 of PMID 32856598, a SUBSCRIPTION PDF, not a data-use agreement. The DUA route is the second one, and under it the question is a single frequency session (SEER 18, 2000-2018, morphology 9231, no site restriction, divided by 459) rather than a study. ⛔ SEPARATELY, THE NAMING HALF IS WEAKER THAN THIS ENDPOINT ASSUMED: PMC7771031 already published it, and two EMC reviews place EMC under ESMO and NCCN SOFT TISSUE SARCOMA guidance, so the paper must position against prior art rather than restate it. ⚠ THE WORKING TITLE NOW UNDERSTATES THE FINDING — the code is read three ways, not two. The title is deliberately left unchanged: renaming a named paper is trimcrae's call, not an agent's (CLAUDE.md s3).
 
 ## Strategic timing — the wait equation
 
@@ -92,7 +96,7 @@ Every input is either committed or free to curate, and the work is $0.
 
 ## Best next action
 
-Upgrade the two quoted Methods passages to full text, then write the classification note — it needs nobody's cooperation and no data-use agreement.
+Write the classification note around the CODING half, which needs nobody's cooperation: three published readings of one morphology code, SEER's own validation list taking the skeletal side, a bone-framed cohort that states it includes EMC and has no soft-tissue location category, and a 1.44% base rate for bone primaries in morphology-selected SEER sarcoma cohorts. Cite PMC7771031 for the naming half and position against it rather than restating it. Record the size as one specified query.
 
 *Cost:* $0
 
@@ -100,6 +104,6 @@ Upgrade the two quoted Methods passages to full text, then write the classificat
 
 *L4 instruments and L5 objects, evidence and artifacts. Every row here is asserted by this route; the [evidence base](L5-evidence-base.md) shows the same edges from the other end.*
 
-**L5 artifacts:** [ART-CARE-DELIVERY-EVIDENCE](L5-evidence-base.md#artifacts--the-files-a-claim-can-be-checked-against)
+**L5 artifacts:** [ART-CARE-DELIVERY-EVIDENCE](L5-evidence-base.md#artifacts--the-files-a-claim-can-be-checked-against), [ART-ICDO-CONTAMINATION](L5-evidence-base.md#artifacts--the-files-a-claim-can-be-checked-against)
 
 [← ST-CARE-DELIVERY](L1-st-care-delivery.md) · [← L0](L0-ecosystem.md)

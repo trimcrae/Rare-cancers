@@ -18,7 +18,7 @@ last_verified: 2026-08-05
 
 # RT-POPULATION-REGISTRY — Population cancer-registry microdata (SEER, NCDB)
 
-**Family:** [ST-CARE-DELIVERY](L1-st-care-delivery.md) · **state:** ○ blocked · concept · confidence low · verified 2026-08-09
+**Family:** [ST-CARE-DELIVERY](L1-st-care-delivery.md) · **state:** ○ blocked · concept · confidence low · verified 2026-08-23
 
 **Grade** (owned by [`systems/graph/routes.json`](../graph/routes.json)): ⛔ GATED, AND DELIBERATELY BEHIND RT-DIAGNOSTIC-PATHWAY RATHER THAN BEHIND THE DATA-USE AGREEMENT. Registry microdata would supply the denominators, treatment patterns and facility-level variation that no case series can — but a cohort keyed on ICD-O-3 9231/3 is of unknown composition, because two published SEER studies read that one code as two mutually incompatible diseases. Access bought before the split is quantified buys a contaminated denominator. NCDB returns zero files repo-wide; SEER appears eighteen times and always as somebody else's published analysis.
 
@@ -41,7 +41,7 @@ flowchart LR
 
 ## Scientific rationale
 
-This is the only route in the family that this programme cannot execute alone, and the reason is administrative rather than scientific — which is exactly the kind of blocker CLAUDE.md s0 warns is usually mis-stated. It is registered so that the dependency is visible and so nobody re-proposes it as free.
+This is the only route in the family that this programme cannot execute alone, and the reason is administrative rather than scientific — which is exactly the kind of blocker CLAUDE.md s0 warns is usually mis-stated. It is registered so that the dependency is visible and so nobody re-proposes it as free. ★★ AND THE SEQUENCING THAT LOOKS CIRCULAR IS NOT — SAY SO RATHER THAN TRIPPING OVER IT. This route sits BEHIND RT-DIAGNOSTIC-PATHWAY, and that route's open question needs a registry query, which reads as a cycle. It is not one. The rule is: do not use registry data for population ESTIMATES until the denominator is understood. Measuring the contamination is the DIAGNOSTIC query that establishes the denominator — it is what earns the right to the estimates, not an instance of them. A diagnostic query asks what the cohort CONTAINS; an estimate asks what the cohort IMPLIES about a population. Running the first before the second is the correct order, not a violation of it. ⚠ So the single SEER access request, when it is made, serves BOTH: the first query run under it is RT-DIAGNOSTIC-PATHWAY's frequency session (SEER 18, 2000-2018, morphology 9231, no site restriction, divided by the 459 non-bone records PMC9303001 already publishes), and only its answer decides whether this route's estimates are worth computing.
 
 ## Supporting evidence
 
@@ -51,7 +51,7 @@ This is the only route in the family that this programme cannot execute alone, a
 
 ## Remaining unknowns
 
-- What fraction of a 9231/3 registry cohort has a bone primary — the whole question.
+- What fraction of a 9231/3 registry cohort has a bone primary — the whole question, and it is RT-DIAGNOSTIC-PATHWAY's to answer first. ⭐ It is now ONE frequency session rather than a research problem: SEER 18, diagnosis years 2000-2018, ICD-O-3 morphology 9231, no site restriction, divided by 459 (PMC9303001 Supplementary Table 1, same registries and window, bone primaries already excluded).
 - Whether SEER records enough treatment detail to say anything about surgical completeness, which it generally does not.
 - Whether facility volume is recoverable at all in the public files, which affects whether the referral question is answerable from this source.
 
@@ -84,9 +84,9 @@ The analysis is fully specified and cannot be run. ⚠ Registering it as ready w
 
 **This route contributes:** The measurement that would size the contamination the classification paper can currently only demonstrate.
 
-**The paper would claim:** ICD-O-3 morphology code 9231/3 is read by the published literature as two mutually incompatible diseases — extraskeletal myxoid chondrosarcoma in one SEER study and a histological subtype of chondrosarcoma of bone in another — so every registry-based EMC statistic carries an unquantified contamination, and the disease's name imports a tumour class it does not belong to.
+**The paper would claim:** ICD-O-3 morphology code 9231/3 is read by published work as THREE mutually incompatible populations — extraskeletal myxoid chondrosarcoma of soft tissue (PMID 32856598), a histological subtype of chondrosarcoma of bone (PMID 31765367), and an intracranial mesenchymal/meningeal tumour (CBTRUS, PMC9290890) — because a morphology code carries no topography; SEER's own site/histology validation list takes the skeletal reading; and morphology-selected SEER sarcoma cohorts demonstrably contain bone primaries (PMC9303001 excluded 1,668 of 115,800, 1.44%). So registry-based EMC statistics carry a contamination whose size is unmeasured and is now reducible to one specified query.
 
-**It is not written because:** ⭐ The contradiction is MEASURED and quoted from both papers' own Methods sections (emc-care-delivery-evidence.json -> icd_o_9231_3), which is enough for the argument. What is missing is the SIZE of the contamination — a SEER query split by ICD-O topography — and that needs a data-use agreement rather than a fetch.
+**It is not written because:** ⭐ The CODING half is ready to write and needs nobody's cooperation: three published readings, a registry edit rule, a bone-framed cohort that states it includes EMC and has no soft-tissue location category, and a measured base rate. What is missing is the SIZE. ⚠ AND THE BLOCKER IS MIS-STATED IN THIS REPOSITORY'S HISTORY: the cheapest close is Table 1 of PMID 32856598, a SUBSCRIPTION PDF, not a data-use agreement. The DUA route is the second one, and under it the question is a single frequency session (SEER 18, 2000-2018, morphology 9231, no site restriction, divided by 459) rather than a study. ⛔ SEPARATELY, THE NAMING HALF IS WEAKER THAN THIS ENDPOINT ASSUMED: PMC7771031 already published it, and two EMC reviews place EMC under ESMO and NCCN SOFT TISSUE SARCOMA guidance, so the paper must position against prior art rather than restate it. ⚠ THE WORKING TITLE NOW UNDERSTATES THE FINDING — the code is read three ways, not two. The title is deliberately left unchanged: renaming a named paper is trimcrae's call, not an agent's (CLAUDE.md s3).
 
 ## Strategic timing — the wait equation
 
@@ -110,7 +110,7 @@ Every input is either committed or free to curate, and the work is $0.
 
 ## Best next action
 
-Do NOT seek access yet. Finish RT-DIAGNOSTIC-PATHWAY first, then decide — a contaminated denominator is worse than no denominator.
+Do NOT seek access for THIS route yet — a contaminated denominator is worse than no denominator. ⚠ But note what the sequencing does and does not forbid: it forbids ESTIMATES, not the diagnostic query. If SEER access is obtained for RT-DIAGNOSTIC-PATHWAY's frequency session, that is the correct first use of it, and this route resumes on the answer.
 
 *Cost:* $0
 

@@ -56,7 +56,7 @@ last_verified: 2026-08-09
 | 3 | [**PUB-REPURPOSING**](../../research/manuscripts/repurposing/repurposing-hypotheses.md) | ⭐ could still help a patient | 🧪 bench, to build | **12.5** | 2 | 0 | 0 | 20% of 5 | ◐ `drafted` |
 | 4 | [**PUB-SURFACE-TARGETS**](../../research/manuscripts/surface-targets/emc-surface-target-landscape.md) | ⭐ could still help a patient | 🧪 bench, to build | **12.5** | 2 | 3 | 0 | 0% of 8 | ◐ `drafted` |
 | 5 | **PUB-CARE-DELIVERY** | ⭐ could still help a patient | 🏥 clinical adoption | **11.5** | 4 | 0 | 0 | 29% of 7 | ○ `unwritten` |
-| 6 | **PUB-EMC-CLASSIFICATION** | ⭐ could still help a patient | 🏥 clinical adoption | **11.5** | 2 | 0 | 0 | 33% of 3 | ◔ `outlined` |
+| 6 | **PUB-EMC-CLASSIFICATION** | ⭐ could still help a patient | 🏥 clinical adoption | **11.5** | 2 | 0 | 0 | 25% of 4 | ◔ `outlined` |
 | 7 | [**PUB-STRATEGY-ARCH**](../../research/manuscripts/care-delivery/emc-trial-reachability.md) | ⭐ could still help a patient | ⭐ **no bench needed** | **11.5** | 1 | 2 | 0 | 57% of 7 | ◐ `drafted` · ✎ short report |
 | 8 | **PUB-IPD-SURVIVAL** | ⭐ could still help a patient | ⭐ **no bench needed** | **11.0** | 1 | 0 | 0 | 50% of 2 | ○ `unwritten` |
 | 9 | [**PUB-ATR**](../../research/manuscripts/dependency/emc-atr-vulnerability-assessment.md) | ⭐ could still help a patient | 🧪 bench, to build | **8.0** | 1 | 0 | 0 | 0% of 1 | ◐ `drafted` |
@@ -106,8 +106,8 @@ last_verified: 2026-08-09
 - [RT-RISK-MODEL](L2-rt-risk-model.md) — *Can the prognostic factors reported piecemeal across EMC's series be combined into a stratification that would let treatment intensity be matched to risk?* — `ready` / `concept` / confidence `low` · last verified `2026-08-09`
 
 **PUB-EMC-CLASSIFICATION** — score 11.5
-- [RT-DIAGNOSTIC-PATHWAY](L2-rt-diagnostic-pathway.md) — *Does EMC's classification — the ICD-O code it shares and the tumour class its name implies — change what patients are counted and what they are given?* — `ready` / `computed` / confidence `moderate` · last verified `2026-08-09`
-- [RT-POPULATION-REGISTRY](L2-rt-population-registry.md) — *What do population-level treatment patterns and outcomes say about EMC that the published series cannot?* — `blocked` / `concept` / confidence `low` · last verified `2026-08-09`
+- [RT-DIAGNOSTIC-PATHWAY](L2-rt-diagnostic-pathway.md) — *Does EMC's classification — the ICD-O code it shares and the tumour class its name implies — change what patients are counted and what they are given?* — `ready` / `computed` / confidence `moderate` · last verified `2026-08-23`
+- [RT-POPULATION-REGISTRY](L2-rt-population-registry.md) — *What do population-level treatment patterns and outcomes say about EMC that the published series cannot?* — `blocked` / `concept` / confidence `low` · last verified `2026-08-23`
 
 **PUB-STRATEGY-ARCH** — score 11.5
 - [RT-TRIAL-REACH](L2-rt-trial-reach.md) — *Can a patient with this disease actually reach the trials and the agents that a computational result would point them toward?* — `ready` / `computed` / confidence `moderate` · last verified `2026-08-09`

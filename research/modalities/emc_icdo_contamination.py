@@ -317,6 +317,11 @@ SIZE = {
         },
     ],
     "what_would_close_it_now_ranked": [
+        "⭐ THE EXACT QUERY, now fully specified by a published half: SEER 18 registries, "
+        "diagnosis years 2000-2018, ICD-O-3 morphology 9231, NO site restriction. Divide 459 into "
+        "it (see `base_rate_of_bone_primaries`) and the bone-primary fraction falls out with "
+        "matched registries, years and code. This is the route's blocking step and it is one "
+        "frequency session in SEER*Stat, not a study.",
         "Table 1 of PMID 32856598. One table, in a subscription article. This is the cheapest "
         "close available and it costs an institutional subscription or an interlibrary request, "
         "not a data-use agreement. ⚠ THAT REORDERS THE ROUTE: the repository has carried this as "
@@ -398,9 +403,37 @@ BASE_RATE_OF_BONE_PRIMARIES = {
     "qualifier at all -- which is the route's entire premise. The paper's per-subtype counts are "
     "POST-exclusion (extraskeletal myxoid chondrosarcoma, 139 + 25 = 164), so it does not report "
     "how many 9231/3 records its bone filter removed.",
-    "what_would_extract_the_9231_number_from_it": "Its Figure 1 flow chart and Supplementary Table "
-    "1, if either breaks the 1,668 bone exclusions down by morphology. Requested; unread at the "
-    "time of writing.",
+    "⭐_its_supplementary_table_1_gives_the_9231_HALF_of_the_ratio": {
+        "value": 459,
+        "what_it_is": "Records with ICD-O-3 morphology 9231 and a NON-BONE primary site, in SEER "
+        "18 registries, 2000-2018, after the C40.0-C42.1 exclusion. Printed as 'Extraskeletal "
+        "myxoid chondrosarcoma | 9231 | 459 | .4' in Supplementary table 1, 'Pathological "
+        "subtypes enrolled according to ICD-O-3 code'.",
+        "internally_consistent": "The table's rows sum to the paper's stated post-exclusion total "
+        "of 113,715.",
+        "⛔_do_not_confuse_it_with": "The '139 + 25 = 164' extraskeletal myxoid chondrosarcoma "
+        "figure in the same paper's lung-metastasis table, which is the subset with known "
+        "metastasis status, not the cohort.",
+        "and_the_retrieval_used_no_other_chondrosarcoma_code": "9231 is the ONLY 922x-924x code "
+        "in the paper's whole morphology list -- no 9220, no 9240, no 9242, no 9243. Its authors "
+        "treated 9231 as the soft-tissue chondrosarcoma code, which is the reading PMID 31765367 "
+        "does not take.",
+        "provenance": "[FT] -- extracted from the study's own Supplementary Table 1 (.docx), "
+        "fetched via the Europe PMC supplementaryFiles endpoint on an Actions runner",
+    },
+    "⭐⭐_WHAT_THIS_MAKES_POSSIBLE_AND_IT_IS_THE_ROUTES_BEST_NEXT_STEP": "★ THE DENOMINATOR IS NOW "
+    "A SINGLE, PRECISELY SPECIFIED QUERY RATHER THAN AN OPEN RESEARCH PROBLEM. A SEER query on "
+    "morphology 9231 with NO site restriction, over SEER 18 registries, diagnosis years "
+    "2000-2018, divided by 459, IS the bone-primary fraction -- same registries, same years, same "
+    "code, one published half and one query. That is a far cheaper and far more exactly stated "
+    "ask than 'obtain a data-use agreement and design a study', and it is what should be recorded "
+    "as this route's blocking step.",
+    "⛔_and_the_ratio_may_not_be_taken_from_the_numbers_already_in_hand": "PMID 32856598's 791 "
+    "covers SEER 1973-2016 and an unstated registry set. Dividing 459 into it would cross year "
+    "windows and registry coverage and produce a number that looks like a measurement and is not "
+    "one. `registration.how_a_number_may_not_be_obtained` forbids it, and it is forbidden here "
+    "explicitly because the two numbers are now sitting next to each other and the temptation is "
+    "real.",
     "⚠_it_also_contradicts_the_validation_list_in_the_useful_direction": "SEER's 2022 "
     "site/histology validation list does not list 9231/3 under CONNECTIVE & SOFT TISSUE, yet this "
     "study counts 164 extraskeletal myxoid chondrosarcomas AFTER excluding every bone-primary "

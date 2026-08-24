@@ -421,6 +421,16 @@
     "note": "Mostly [API]-level provenance — the structured Europe PMC record, i.e. the abstract. ⚠ An abstract is not a paper: a number read from one has not been checked against the source's own tables, and the artifact's verification_level field says so. The one [FT] passage is the ICD-O code enumeration in PMID 31765367."
   },
   {
+    "id": "ART-ICDO-CONTAMINATION",
+    "path": "research/modalities/emc-icdo-contamination.json",
+    "produced_by": "research/modalities/emc_icdo_contamination.py",
+    "workflow": ".github/workflows/fetch-literature.yml",
+    "published_to": [
+      "claude/emc-icdo-contamination-reo221"
+    ],
+    "note": "The attempt to MEASURE the size of the 9231/3 contamination, cheapest route first, and what each route returned. Carries a negative pre-registered before any fraction was observed, a per-identifier provenance ledger, and three provenance levels: [FT] full text read, [DOC] a primary document from the body that owns the thing described, [2°] a number quoted from a review rather than from its source. ⚠ The size is NOT_MEASURED and the artifact says so; two numbers sitting next to each other in it must not be divided, and it says that too."
+  },
+  {
     "id": "ART-EMC-RT-LUNG-METS",
     "path": "research/literature/emc-rt-lung-mets-findings.json",
     "produced_by": "scripts/lit_rt_probe.py, plus hand curation of the retrieved full texts",

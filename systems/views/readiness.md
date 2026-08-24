@@ -55,7 +55,7 @@ the other. Where a route cannot reach an output, the missing items are a work li
 | [RT-COVALENT-PROBE](L2-rt-covalent-probe.md) | ST-OCCUPANCY | `internal_note` | a criterion that passes its positive control |
 | [RT-CRISPR-CAS13](L2-rt-crispr-cas13.md) | ST-NUCLEIC-ACID | `internal_note` | a solid-tumour vector |
 | [RT-DBD](L2-rt-dbd.md) | ST-FUSION-DIRECT | `internal_note` | — |
-| [RT-DIAGNOSTIC-PATHWAY](L2-rt-diagnostic-pathway.md) | ST-CARE-DELIVERY | `internal_note` | nothing to start — the contradiction is measured and quoted |
+| [RT-DIAGNOSTIC-PATHWAY](L2-rt-diagnostic-pathway.md) | ST-CARE-DELIVERY | `internal_note` | nothing to start on the CODING half — it is now three published readings, a registry edit rule, and a measured 1.44% base rate; the SIZE, which is one query behind SEER access; for |
 | [RT-DNAPK](L2-rt-dnapk.md) | ST-DEPENDENCY | `internal_note` | a sarcoma-class dependency prior for the kinase, which is queued and $0; a measurement in a cell carrying the fusion, which needs a model |
 | [RT-EWSR1-PROTEIN](L2-rt-ewsr1-protein.md) | ST-FUSION-DIRECT | `internal_note` | — |
 | [RT-EZH2](L2-rt-ezh2.md) | ST-DEPENDENCY | `internal_note` | nothing — the selection question was asked and answered negatively |
