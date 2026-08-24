@@ -112,7 +112,7 @@ population `emc_cohort_search.py` says it cannot.
 **GSE140686** is the reference set of Koelsche et al., *Sarcoma classification by DNA methylation
 profiling*, [Nat Commun 2021;12:498](https://www.nature.com/articles/s41467-020-20603-4) — a classifier
 trained across sarcoma methylation classes, with **extraskeletal myxoid chondrosarcoma among them**.
-IDATs are open in GEO; **E-MTAB-9875** is the EBI mirror of the same study.
+IDATs are open in GEO. ⛔ **A previous version of this line called `E-MTAB-9875` "the EBI mirror of the same study". That was an identifier written from recollection and it is wrong** — see §5.5, which records what the record actually serves.
 
 ★ **Its title names no disease.** It is the textbook instance of the missed case in §1 — a pan-sarcoma
 deposit under a generic title — and it is invisible to every query this repository has ever run.
@@ -125,6 +125,9 @@ deposit under a generic title — and it is invisible to every query this reposi
   **depositor claim**, exactly as a series title is — never a diagnosis. And a deposit may label by
   methylation-class code rather than by disease name, which a term match cannot see; that is a bound on
   the read, recorded as such rather than reported as an absence.
+- ✅ **ANSWERED — see §5.5.** The deposit states no diagnoses at all; the labels are in the paper, and
+  the two are joined by an identifier **both sides declare**. ⚠ The caution above stands unchanged and
+  now applies to the joined count: it is an author claim carried across a join, not a diagnosis.
 
 ⚠ **Note what these two routes are NOT.** Neither is a new patient and neither is new follow-up. They are
 existing measurements on existing material that nobody has pointed at this disease. That is the honest
@@ -267,7 +270,8 @@ so **zero supplementary links were found and zero files were parsed.** The arm r
 `LABELS_NOT_LOCATED` exactly as designed; had it reported "no EMC" it would have closed a live route on
 a page it never actually read.
 
-⭐ **And the next route is already measured as open.** The EBI mirror `E-MTAB-9875` answered **HTTP 200
+⭐ **And the next route is already measured as open.** ⚠ *Superseded, retained: `E-MTAB-9875` is called
+"the EBI mirror" here and is not one — §5.5.* It answered **HTTP 200
 with a real BioStudies record** (title *"Methylation profiling (450K and EPIC array) for sarcoma
 classification"*, release date 2021-05-01), and it was truncated only by this module's own 400,000-byte
 cap. An ArrayExpress study carries an **SDRF** — the sample-and-data-relationship file whose whole
@@ -424,9 +428,86 @@ samples rather than in adjectives, and the instrument that produced it recovers 
 not depend on this signature: a chimeric junction is not in this index at all (§5.1), and the
 deposits in §3 and §5.2 are untouched by this result.
 
-⚠ **Route A2 is unchanged and still open.** The Springer article fetch again returned a stub, so the
-arm again reported `LABELS_NOT_LOCATED` — correctly, and for the same measured reason. The EBI SDRF
-and PMC routes §5.2 names remain the next step and remain untried.
+⚠ **Route A2's status here is SUPERSEDED BY §5.5, retained because it was true when written.** This
+run's Springer article fetch did again return a stub and the arm did again report
+`LABELS_NOT_LOCATED`, both correctly and for the same measured reason. ⛔ **But the closing clause —
+that the EBI and PMC routes "remain the next step and remain untried" — stopped being true about an
+hour later.** They were tried, and §5.5 records what they returned: the labels are public, and the
+route is open.
+
+---
+
+### 5.5 · What the ARM-2 runs measured (2026-08-24, runs `32676258708` / `32676775613` / `32677318919`, $0) — **Route A2 is OPEN**
+
+⚠ **Numbered by ARM, not by a global run count.** §5.3–5.4 report arm 1 (the junction index) and were dispatched independently on the same day, so a single ordinal across both arms would name two different runs.
+
+⭐⭐ **The labels are public, the join is exact, and the IDATs are downloadable.** Full record:
+[`emc-data-level-sweep.json`](../../modalities/emc-data-level-sweep.json).
+
+**First, this memo was wrong about the mirror, and the error was an identifier written from
+recollection.** §3 called `E-MTAB-9875` "the EBI mirror of the same study". The record EBI actually
+serves under that accession is **a different study** — *"Methylation profiling (450K and EPIC array)
+for sarcoma classification"*, from UCL, **n=986**, whose own Description names its paper as a
+**validation study of the DKFZ sarcoma classifier**. Koelsche et al. is the classifier it validates,
+not the study it mirrors, and `Koelsche` and `GSE140686` appear **zero times** in it. Nothing had ever
+checked. ⚠ The search that should have settled it was then run, and it found **no EBI mirror of this series
+at all**: BioStudies returned **36** accessions for `GSE140686`, **34 of them Europe PMC *literature*
+records — papers citing the deposit, not copies of it** — and the two that are not (`E-GEOD-57107`,
+`E-GEOD-4560`) are other studies. The instrument's first pass called ten of the literature records
+"mirrors" on a bare string match; a mirror must be a **data** record, and the rule is now enforced
+rather than described. Both search controls hold (a known accession returns hits, a nonexistent one
+returns none), so *"no mirror"* is a finding here and not a broken query.
+
+★ **The correction is not a loss, because a second deposit is a second chance — and this one's labels
+are open.** E-MTAB-9875's per-sample `disease` field is populated, its **54** categories sum to
+**986 = its own declared sample count**, and **none of them is this disease.** That zero is admissible
+precisely *because* the census is complete: every sample is accounted for by name. ⛔ Its **112**
+`Chondrosarcoma`, **17** `Chondroblastoma` and **14** `Chondromyxoid Fibroma` are **skeletal tumours in
+their own bucket and are never summed into an EMC count** — a substring search would have turned 143
+cases of other diseases into a cohort that does not exist.
+
+**And then GSE140686 itself opened.** The rungs, each recorded with its own outcome:
+
+| rung | outcome |
+|---|---|
+| nature.com | **HTTP 200 in 3,038 bytes** — a stub. Zero links discoverable. |
+| PMC article page | **a Google reCAPTCHA challenge page**, HTTP 200 in 21,246 bytes on the first attempt — which a byte-size stub test grades as healthy. It served the real article on a later attempt. |
+| GEO series header | declares `!Series_pubmed_id` → **PMID 33479225** |
+| `elink` (pubmed→pmc) | → **PMC7819999**. ⭐ Every identifier discovered from the one above it; none typed. |
+| Europe PMC `supplementaryFiles` | **the route that worked** — 18 members, on the *second* candidate URL shape |
+
+⭐ **Three of the paper's supplementary tables name this disease**, and they agree with each other:
+
+- **MOESM4** (reference set) — **10** cases labelled *Extraskeletal myxoid chondrosarcoma*, each also
+  carrying *methylation class extraskeletal myxoid chondrosarcoma*;
+- **MOESM5** (class table) — the EMC methylation class, **n = 10**, median age 54 (39–79). That it
+  matches MOESM4's row count is an internal consistency check, and it passes;
+- **MOESM6** (validation set) — **2** further cases: one histologically EMC that the classifier called
+  SEF, and one *"Sarcoma, NOS"* carrying an **EWSR1:NR4A3 fusion**.
+
+⭐⭐ **The join is a lookup, not an alignment, and that is the whole value of the route.** GSE140686's
+sample records name no disease — but each one carries `!Sample_description = REFERENCE_SAMPLE 259`,
+and the paper's tables key their rows on **exactly that string**. Both sides declare the identifier,
+so the join is a dictionary lookup. ⚠ Matching the two **by ordinal position** would have handed every
+case a plausible-looking partner and been **invisible if wrong**; nothing does, and a label with no
+deposited counterpart is reported unjoined rather than absorbed by a neighbour.
+
+**All 12 join. All 12 have downloadable IDATs — 24 files, Grn+Red per case; 9 on 450K (`GPL13534`),
+3 on EPIC (`GPL21145`).**
+
+⛔ **What this count is and is not.** It is what the paper's authors labelled, carried across a
+declared join. **It is not a diagnosis, not a re-review of any case, and not a patient count.** The
+reference and validation sets are reported separately and must not be pooled without saying so: the
+reference set is the class the classifier was **trained on**, so it is enriched for cases that look
+like the class by construction, and the validation set is held out. **Any claim resting on these
+twelve inherits both bounds.**
+
+★ **What is now true that was not this morning: this repository can hold DNA methylation data for
+extraskeletal myxoid chondrosarcoma, a modality it had none of, in a deposit whose title names no
+disease and which no prose search here could ever have found.** ⚠ **What it is not yet:** nothing has
+been downloaded, nothing processed, and no methylation claim of any kind is made or implied here.
+Twelve cases is a small n on a heterogeneous array platform, and what such a cohort could actually
+answer — and what it could not — is the scoping question this route now owes, not a result it has.
 
 ## 6 · Limits of this memo
 
@@ -436,8 +517,9 @@ and PMC routes §5.2 names remain the next step and remain untried.
   fusion partners is a **hypothesis**, and the honest first step is a scoping pass that states, before
   anything runs, what the read would have to show to be worth reporting — and what result would make it
   a negative rather than an inconclusive.
-- **Route A2's EMC sample count is unmeasured at the time of writing.** That the deposit exists, is open
-  and includes this disease as a class is sourced; how many samples it holds is what the probe is for.
+- ✅ **Route A2's EMC sample count is no longer unmeasured — §5.5 answers it** (12 cases, 10 reference
+  + 2 validation, 24 IDATs, joined on an identifier both the deposit and the paper declare). ⚠ What
+  remains unmeasured is what such a cohort could *answer*; that is a scoping question, not a count.
 - **Nothing here reorders the plan.** The roadmap owns the ordering and the spend ladder. This memo adds
   an axis — *where would a new fact come from* — that no register on the board carries.
 - ⚠ **And it does not claim these are the only three.** They are the ones that survived asking, of every
