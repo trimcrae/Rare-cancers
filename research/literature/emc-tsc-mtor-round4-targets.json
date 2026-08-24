@@ -1,0 +1,17 @@
+{
+  "_readme": "EMC x TSC1/TSC2, ROUND 4, 2026-08-24 -- THE MEASUREMENT. Round 2 established that cBioPortal's sarcoma_msk_2022 contains 75 samples typed 'Extraskeletal Myxoid Chondrosarcoma' out of 7,494, and msk_impact_50k_2026 contains 15 out of 54,281. That is an order of magnitude more sequenced EMC than any published series (the largest this repository holds is six). Round 4 reads TSC1 and TSC2 status for those samples. Entrez ids are taken from the API's own /genes lookup in round 2, not from recollection: TSC1=7248, TSC2=7249. Round 2's mutations call returned HTTP 400 'Request parameter is missing: entrezGeneId', which is why these are per-gene; and 'Molecular profile not found: sarcoma_msk_2022_cna', which is the finding that sarcoma_msk_2022 carries NO copy-number profile at all -- so that cohort can answer 'TSC1/TSC2 MUTATION' and cannot answer 'TSC2 GENE LOSS', which is the alteration class the index case actually reported. msk_impact_50k_2026 does carry a discrete CNA profile (gistic), so it can. THE PANEL ROWS ARE THE CONTROL AND ARE NOT OPTIONAL: a count of zero mutations is only a reading of absence if the genes were on the panel that was run. The gene-panel rows establish whether TSC1 and TSC2 are sequenced at all by the MSK-IMPACT panels these cohorts use. Without them a zero means 'not looked for', which is a different statement and the one this repository has a standing rule about.",
+  "cbio_sarcoma_msk_2022_mut_tsc1": "https://www.cbioportal.org/api/molecular-profiles/sarcoma_msk_2022_mutations/mutations?sampleListId=sarcoma_msk_2022_sequenced&entrezGeneId=7248&projection=DETAILED&pageSize=100000",
+  "cbio_sarcoma_msk_2022_mut_tsc2": "https://www.cbioportal.org/api/molecular-profiles/sarcoma_msk_2022_mutations/mutations?sampleListId=sarcoma_msk_2022_sequenced&entrezGeneId=7249&projection=DETAILED&pageSize=100000",
+  "cbio_msk_impact_50k_2026_mut_tsc1": "https://www.cbioportal.org/api/molecular-profiles/msk_impact_50k_2026_mutations/mutations?sampleListId=msk_impact_50k_2026_all&entrezGeneId=7248&projection=DETAILED&pageSize=100000",
+  "cbio_msk_impact_50k_2026_mut_tsc2": "https://www.cbioportal.org/api/molecular-profiles/msk_impact_50k_2026_mutations/mutations?sampleListId=msk_impact_50k_2026_all&entrezGeneId=7249&projection=DETAILED&pageSize=100000",
+  "cbio_msk_impact_50k_2026_cna_tsc1": "https://www.cbioportal.org/api/molecular-profiles/msk_impact_50k_2026_gistic/discrete-copy-number?sampleListId=msk_impact_50k_2026_all&entrezGeneId=7248&projection=DETAILED&pageSize=100000",
+  "cbio_msk_impact_50k_2026_cna_tsc2": "https://www.cbioportal.org/api/molecular-profiles/msk_impact_50k_2026_gistic/discrete-copy-number?sampleListId=msk_impact_50k_2026_all&entrezGeneId=7249&projection=DETAILED&pageSize=100000",
+  "cbio_msk_impact_50k_2026_samplelists": "https://www.cbioportal.org/api/studies/msk_impact_50k_2026/sample-lists",
+  "cbio_gene_panels_index": "https://www.cbioportal.org/api/gene-panels?projection=SUMMARY&pageSize=2000",
+  "cbio_panel_IMPACT341": "https://www.cbioportal.org/api/gene-panels/IMPACT341",
+  "cbio_panel_IMPACT410": "https://www.cbioportal.org/api/gene-panels/IMPACT410",
+  "cbio_panel_IMPACT468": "https://www.cbioportal.org/api/gene-panels/IMPACT468",
+  "cbio_panel_IMPACT505": "https://www.cbioportal.org/api/gene-panels/IMPACT505",
+  "cbio_panel_IMPACT_HEME_400": "https://www.cbioportal.org/api/gene-panels/IMPACT-HEME-400",
+  "cbio_panel_IMPACT_HEME_468": "https://www.cbioportal.org/api/gene-panels/IMPACT-HEME-468"
+}
