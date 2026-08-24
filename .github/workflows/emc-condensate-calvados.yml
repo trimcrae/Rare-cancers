@@ -1,0 +1,228 @@
+name: EMC condensate — CALVADOS single-chain arm
+
+# ⭐ WHY THIS IS ITS OWN WORKFLOW.
+# The condensate manuscript's entire first-party evidence is amino-acid composition counting, which
+# its own artifact calls a proxy and not a condensate measurement. CALVADOS is the field-standard
+# residue-resolution instrument for that claim and returned ZERO matches repo-wide before this lane.
+# Its single-chain arm — the one carrying the partner contrast — is CPU-only and therefore $0 here.
+#
+# ⛔ THE PRESPECIFICATION IS FROZEN AND WAS COMMITTED BEFORE THIS FILE EVER RAN:
+#   research/modalities/emc-condensate-calvados-prespecification.md
+# The construct set, the protocol, the guards and the scorer are code
+# (research/modalities/emc_condensate_calvados.py). This workflow may not reinterpret any of it; it
+# runs `--selftest` before every mode, so a drifted contract fails the job rather than the science.
+#
+# ⚠ pandas<3 IS PINNED FOR A MEASURED REASON, NOT A GUESS. `calvados.analysis.get_masses` mutates a
+# pandas view in place (`masses[0] += 2.`), which raises `ValueError: assignment destination is
+# read-only` under pandas 3.0.5, where `.values` returns a non-writeable array. Reproduced in two
+# lines; absent under pandas 2.3.3. Pinning lets the library run exactly as its authors wrote it.
+#
+# ⚠ CALVADOS IS PINNED TO A COMMIT. `pip install git+...@main` would make every future re-run a
+# different experiment and there would be nothing in the record to say so.
+#
+# MODES
+#   plddt   — $0, no simulation. AlphaFold DB pLDDT for every candidate window -> the eligibility
+#             table. The dev sandbox gets 403 at the egress proxy for alphafold.ebi.ac.uk.
+#   pilot   — ONE construct/replicate at the FULL protocol, plus the package's own shipped example
+#             reproduced end to end. An unproven pipeline gets a first-time risk, so the fleet does
+#             not launch until this has reached its real success terminus.
+#   matrix  — every (construct, replicate) in the frozen manifest, one job each, uploaded as an
+#             Actions artifact. ⛔ NOT pushed per-job: 55 concurrent pushes to one branch is a race,
+#             and the reduce job publishes exactly one commit.
+#   reduce  — download every analysis, apply the FROZEN scorer, publish the result.
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "which stage to run"
+        type: choice
+        options: [plddt, pilot, matrix, reduce]
+        default: plddt
+      pilot_construct:
+        description: "pilot mode: construct id from the frozen manifest"
+        type: string
+        default: "T161"
+      pilot_replicate:
+        description: "pilot mode: replicate index"
+        type: string
+        default: "1"
+      only:
+        description: "matrix mode: optional comma-separated run ids (e.g. E264_r3,T161_r2) to re-run just those"
+        type: string
+        default: ""
+      source_run_id:
+        description: "reduce mode: the workflow run id whose analysis artifacts to score (blank = this run)"
+        type: string
+        default: ""
+
+permissions:
+  contents: write
+
+env:
+  CALVADOS_REPO: https://github.com/KULL-Centre/CALVADOS.git
+  # Pinned. `Merge pull request #55 from KULL-Centre/slab_orient`, 2026-08-21T18:52:30+02:00.
+  CALVADOS_COMMIT: c16f59a67679cd78f83ff666f8ba2319ca7c1ce9
+  CALVADOS_THREADS: "4"
+
+jobs:
+  # ---------------------------------------------------------------------------------------------
+  plddt:
+    if: ${{ inputs.mode == 'plddt' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: The frozen contract must hold before anything is fetched
+        run: python research/modalities/emc_condensate_calvados.py --selftest
+      - name: AlphaFold DB pLDDT -> window eligibility ($0, no simulation)
+        run: python research/modalities/emc_condensate_calvados.py --plddt
+      - name: Publish
+        if: always()
+        env:
+          PUBLISH_IF_CHANGED: "1"
+        run: |
+          bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "condensate arm: AlphaFold pLDDT window eligibility (CI)" \
+            research/modalities/emc-condensate-window-eligibility.json
+
+  # ---------------------------------------------------------------------------------------------
+  pilot:
+    if: ${{ inputs.mode == 'pilot' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: The frozen contract must hold before anything runs
+        run: python research/modalities/emc_condensate_calvados.py --selftest
+      - name: Install CALVADOS at the pinned commit
+        run: bash .github/scripts/calvados_install.sh
+      - name: Reproduce the package's OWN shipped single-IDR example end to end
+        run: bash .github/scripts/calvados_shipped_example.sh
+      - name: Pilot run at the FULL protocol
+        run: |
+          bash .github/scripts/calvados_run.sh \
+            "${{ inputs.pilot_construct }}" "${{ inputs.pilot_replicate }}" runs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pilot-${{ inputs.pilot_construct }}-r${{ inputs.pilot_replicate }}
+          path: |
+            runs/**/analysis.json
+            runs/**/prepared.json
+            runs/**/wall_seconds.txt
+            shipped_example/analysis.json
+          if-no-files-found: warn
+          retention-days: 30
+
+  # ---------------------------------------------------------------------------------------------
+  plan:
+    if: ${{ inputs.mode == 'matrix' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      runs: ${{ steps.build.outputs.runs }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: python research/modalities/emc_condensate_calvados.py --selftest
+      - id: build
+        name: Expand the FROZEN manifest into one job per (construct, replicate)
+        env:
+          ONLY: ${{ inputs.only }}
+        run: |
+          python - <<'PY' > /tmp/matrix.txt
+          import importlib.util, json, os, sys
+          spec = importlib.util.spec_from_file_location(
+              "m", "research/modalities/emc_condensate_calvados.py")
+          m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
+          only = {s.strip() for s in os.environ.get("ONLY", "").split(",") if s.strip()}
+          runs = [{"construct": c["id"], "replicate": k, "run_id": f"{c['id']}_r{k}",
+                   "length": c["length"]}
+                  for c in m.build_constructs() for k in range(1, c["n_replicates"] + 1)]
+          if only:
+              runs = [r for r in runs if r["run_id"] in only]
+              missing = only - {r["run_id"] for r in runs}
+              if missing:
+                  print(f"::error::not in the frozen manifest: {sorted(missing)}", file=sys.stderr)
+                  raise SystemExit(1)
+          # longest chains first so the slowest jobs start earliest
+          runs.sort(key=lambda r: -r["length"])
+          print("runs=" + json.dumps(runs))
+          PY
+          cat /tmp/matrix.txt >> "$GITHUB_OUTPUT"
+          python -c "import json,sys; d=json.loads(open('/tmp/matrix.txt').read().split('runs=',1)[1]); print(f'{len(d)} run(s) planned')"
+
+  simulate:
+    if: ${{ inputs.mode == 'matrix' }}
+    needs: plan
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    strategy:
+      fail-fast: false
+      max-parallel: 20
+      matrix:
+        run: ${{ fromJson(needs.plan.outputs.runs) }}
+    name: ${{ matrix.run.run_id }} (N=${{ matrix.run.length }})
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: python research/modalities/emc_condensate_calvados.py --selftest
+      - name: Install CALVADOS at the pinned commit
+        run: bash .github/scripts/calvados_install.sh
+      - name: Simulate and analyse
+        run: |
+          bash .github/scripts/calvados_run.sh \
+            "${{ matrix.run.construct }}" "${{ matrix.run.replicate }}" runs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: analysis-${{ matrix.run.run_id }}
+          path: runs/${{ matrix.run.run_id }}/analysis.json
+          if-no-files-found: error
+          retention-days: 30
+
+  # ---------------------------------------------------------------------------------------------
+  reduce:
+    if: ${{ always() && (inputs.mode == 'reduce' || inputs.mode == 'matrix') }}
+    needs: [simulate]
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: python research/modalities/emc_condensate_calvados.py --selftest
+      # ⚠ `run-id` lets `reduce` score a PREVIOUS run's artifacts, which is what makes a partial
+      # matrix recoverable: re-dispatch the missing run ids with `only`, then reduce over both runs.
+      - uses: actions/download-artifact@v4
+        with:
+          path: collected
+          pattern: analysis-*
+          merge-multiple: false
+          run-id: ${{ inputs.source_run_id || github.run_id }}
+          github-token: ${{ github.token }}
+      - name: Apply the FROZEN scorer
+        run: |
+          set -e
+          shopt -s nullglob
+          FILES=(collected/*/analysis.json)
+          echo "collected ${#FILES[@]} analysis file(s)"
+          # ⛔ NO GUARD HERE THAT SKIPS ON ZERO FILES. An empty collection must reach the scorer,
+          # which returns INCOMPLETE — a run set that does not match the manifest is absent, not
+          # negative, and that distinction is the scorer's job, not this shell's.
+          python research/modalities/emc_condensate_calvados.py --reduce "${FILES[@]}"
+      - name: Publish
+        if: always()
+        env:
+          PUBLISH_IF_CHANGED: "1"
+        run: |
+          bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "condensate arm: CALVADOS single-chain result, scored against the frozen prespec (CI)" \
+            research/modalities/emc-condensate-calvados.json
