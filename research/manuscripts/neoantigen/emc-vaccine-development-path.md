@@ -686,20 +686,48 @@ resolved.
 
 ### B8. Absent EMC immune-profiling data
 
-**Proposition.** The characterisations of EMC as cold and as excluded are inferred from the disease's
-mutational burden, its histology and sarcoma-wide immunotherapy experience, rather than from published
-EMC-specific immune profiling.
+**Proposition.** The characterisations of EMC as cold and as excluded were inferred from the disease's
+mutational burden, its histology and sarcoma-wide immunotherapy experience rather than from
+EMC-specific immune profiling. The proposition as originally stated, that no such profiling exists,
+no longer holds; what follows replaces it.
 
-**Consequence.** Several exclusions above rest on an assumption that has not been measured in this
-disease. The absence of a reading is not a reading of absence, and it is possible that EMC is less cold
+**Consequence.** Several exclusions above rested on an assumption nobody had measured in this disease.
+The absence of a reading is not a reading of absence, and it remained possible that EMC is less cold
 than assumed, or excluded in a manner that suggests a specific intervention.
 
-**What would clear it.** Infiltrate quantification, HLA class I expression status and antigen-presentation
-machinery assessment on a series of EMC specimens. HLA class I loss would independently disable every
-antigen-directed route including this one, and is not known for this disease.
+**What has since been read, in EMC tumour tissue.** Two archival bulk expression cohorts, 6 and 10 EMC
+tumours against 29 and 6 comparator sarcomas, were scored against lineage, effector and
+antigen-presentation modules and against published hallmark infiltration proxies. The interferon-γ
+effector axis, the myeloid compartment and class II antigen presentation are lower in EMC than in the
+comparator sarcomas on both platforms; the cytotoxic-lymphocyte and T-cell modules are lower on the
+larger cohort; and two hallmark proxies, the interferon-γ response and the lymphocyte-weighted
+allograft-rejection set, are lower on both. The class I apparatus is the exception. β2-microglobulin
+and the class I heavy chains sit near the top of the expressed range on the larger platform, and
+HLA-A, HLA-C and TAP1 read flat against the comparator rather than lost. Values and their contrasts
+have one home, `research/modalities/emc-expression-panels.json`, reads 8 and 19.
 
-**Cost and owner.** Requires tissue. This is the cheapest tissue-based item in the ledger and the one that
-most efficiently informs the others.
+**What points the other way, in individual patients.** A twelve-tumour series with proof-of-concept
+multiplex immunofluorescence on two specimens reports exhausted CD8 T cells and regulatory T cells in
+tissue, which its authors call exploratory and hypothesis-generating. A single reported case profiled
+as immune-enriched with high PD-L1 at a tumour mutational burden of 0.67 mut/Mb. Neither is a cohort
+estimate, and a quiet distribution with occasional infiltrated members is consistent with both those
+observations and with the paragraph above.
+
+**What none of it settles.** The comparator arm is other sarcomas, which are not an immune-normal
+reference, so lower than that comparator is not the same statement as cold. Bulk expression cannot
+locate a transcript in a cell, and therefore cannot separate a cold tumour from the excluded one B7
+describes. Sixteen tumours cannot estimate what fraction of EMC is infiltrated, which is the quantity
+a patient-selection argument would need. The class I reading is transcript abundance in a cohort, not
+protein on a cell surface in a patient, and class I loss would independently disable every
+antigen-directed route including this one.
+
+**What would still clear it.** Per-tumour profiling with spatial resolution on a series large enough
+to estimate that fraction, and class I assessed as protein.
+
+**Cost and owner.** The cohort reading is done. It ran on a continuous-integration runner over two
+public archival series, with no rental, no accelerator and no purchased compute. What remains
+requires tissue, and it is still the cheapest tissue-based item in the ledger and the one that most
+efficiently informs the others.
 
 ### B9. Manufacturing economics at this incidence
 
@@ -1130,3 +1158,15 @@ that leaves no trace is indistinguishable from a claim that was never made.
 | Reference 8 quoted as "correlated with disease outcome" | The study's title names immune response in placenta and colorectal cancer, which is the tissue setting it examined. |
 | References 10 and 11 as "[citation to verify]" | Both were resolvable in this repository at no cost and are now written out. The one reference that genuinely has no record — the class II predictor — says so in its own entry instead. |
 | "24 patients across nine centres … gives a realistic accrual rate" | Unfiltered by this paper's own eligibility criteria. Applying them gives roughly 0.3 to 1.4 eligible patients a year. |
+
+## Appendix C. Statements withdrawn after the first adversarial review
+
+The review recorded in Appendix B was not the last correction. The statements below stood after it
+and do not stand now, and they are recorded on the same principle: a correction that leaves no trace
+is indistinguishable from a claim that was never made.
+
+| Withdrawn statement | Why it does not stand |
+|---|---|
+| B8, "rather than from published EMC-specific immune profiling" | Such profiling was published on 2026-07-13, four weeks before this manuscript's date, on the twelve-tumour cohort described in B8's own revision. |
+| B8, HLA class I expression status "is not known for this disease" | The antigen-presentation precondition — β2-microglobulin, the class I heavy chains, the peptide transporters, tapasin, NLRC5, the immunoproteasome subunits and ERAP1 — had been read on both EMC array platforms on 2026-08-09, in this author's own artifacts, before the sentence was written. |
+| B6 and B8 read together, that whether EMC is immunologically quiet was unmeasured here | It is now measured in the two archival cohorts, and the direction is that EMC is quieter than the comparator sarcomas on the interferon axis, the myeloid compartment and class II presentation. That is a cohort contrast against other sarcomas and not a statement that the disease is cold; the distinction is stated in B8. |
