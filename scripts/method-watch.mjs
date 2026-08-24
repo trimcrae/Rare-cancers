@@ -235,7 +235,15 @@ function isoDaysAgo(n) {
 const TRIALS = [
   {
     key: "individualized neoantigen therapy / therapeutic cancer vaccine (phase 2-3)",
-    intr: '"neoantigen" OR "cancer vaccine" OR "individualized neoantigen therapy" OR "therapeutic vaccine"',
+    // ⚠ This row keeps query.term while its neighbours moved to query.intr, and the reason is
+    // measured, not stylistic. Under query.intr (run 32719107868) the row lost INTerpath-009 —
+    // the sibling Phase 3 of the very agent that prompted this whole watch — because the
+    // intervention is registered as "Intismeran Autogene (V940)" and matches no modality word.
+    // Under query.term (run 32718034880) it found it, and that row's other hits were all
+    // genuinely vaccine/immunotherapy trials, so query.term costs little here. The ASO and
+    // degrader rows went the other way on the same kind of evidence. Per-row, on what each
+    // actually returned.
+    term: '"neoantigen" OR "cancer vaccine" OR "individualized neoantigen therapy"',
     cond: 'cancer OR sarcoma OR melanoma OR "solid tumor"',
     trigger: "a pivotal readout, approval or halt for an individualized neoantigen therapy → re-grade the EWSR1::NR4A3 junction-vaccine route's precedent and feasibility (vaccine-construct.json); it is the modality that route assumes",
   },
