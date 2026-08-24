@@ -69,7 +69,14 @@ CONSTRUCT_DESIGNS = os.path.join(HERE, "emc-fet-construct-designs.json")
 IDR_CENSUS = os.path.join(HERE, "emc-fet-idr-census.json")
 STRUCTURE = os.path.join(HERE, "nr4a3-structure-assessment.json")
 
-AFDB = "https://alphafold.ebi.ac.uk/files/AF-{acc}-F1-model_v4.pdb"
+# ⛔ RESOLVE THE URL, DO NOT SPELL IT. This was `.../AF-{acc}-F1-model_v4.pdb` and every accession
+# returned 404 in CI (run 32676756175): AlphaFold DB bumps the model version and the old filename
+# stops existing. A version baked into a URL is a remembered fact with a date on it. The API says
+# which file is current, and the resolved URL and version are recorded in the artifact so a future
+# reader knows which model the eligibility table was read from.
+AFDB_API = "https://alphafold.ebi.ac.uk/api/prediction/{acc}"
+AFDB_FILES = "https://alphafold.ebi.ac.uk/files/AF-{acc}-F1-model_v{v}.pdb"
+AFDB_FALLBACK_VERSIONS = (6, 5, 4)
 ACCESSIONS = {"EWSR1": "Q01844", "TAF15": "Q92804", "FUS": "P35637",
               "NR4A3": "Q92570", "TCF12": "Q99081"}
 
@@ -629,18 +636,44 @@ def prepared_residues_path():
 # ---------------------------------------------------------------------------------------------
 
 
+def _get(url, timeout=120):
+    req = urllib.request.Request(url, headers={"User-Agent": "emc-condensate-calvados"})
+    with urllib.request.urlopen(req, timeout=timeout) as fh:
+        return fh.read().decode()
+
+
+def _fetch_afdb_pdb(acc):
+    """Return (pdb_text, url). Ask the API which file is current; fall back over known versions."""
+    tried = []
+    try:
+        meta = json.loads(_get(AFDB_API.format(acc=acc), timeout=60))
+        url = (meta[0].get("pdbUrl") if isinstance(meta, list) and meta else None)
+        if url:
+            return _get(url), url
+        tried.append("API returned no pdbUrl")
+    except Exception as exc:                                   # noqa: BLE001 - reported, not hidden
+        tried.append(f"API: {exc}")
+    for v in AFDB_FALLBACK_VERSIONS:
+        url = AFDB_FILES.format(acc=acc, v=v)
+        try:
+            return _get(url), url
+        except Exception as exc:                               # noqa: BLE001
+            tried.append(f"v{v}: {exc}")
+    raise SystemExit(f"::error::could not fetch AlphaFold coordinates for {acc}; tried {tried}")
+
+
 def fetch_plddt():
     out = {"_what": "AlphaFold DB per-residue pLDDT over every candidate window. Entry criterion "
                     f"for the CALVADOS 2 single-chain arm, fixed before the fetch: at least "
                     f"{PLDDT_DISORDER_FRACTION:.0%} of window residues below pLDDT "
                     f"{PLDDT_DISORDER_CUTOFF:.0f}.",
            "_cutoff": PLDDT_DISORDER_CUTOFF, "_fraction_required": PLDDT_DISORDER_FRACTION,
-           "_source": AFDB, "windows": {}}
+           "_source": AFDB_API, "windows": {}}
     per_gene = {}
+    out["_resolved"] = {}
     for gene, acc in ACCESSIONS.items():
-        req = urllib.request.Request(AFDB.format(acc=acc), headers={"User-Agent": "emc-condensate"})
-        with urllib.request.urlopen(req, timeout=120) as fh:
-            pdb = fh.read().decode()
+        pdb, url = _fetch_afdb_pdb(acc)
+        out["_resolved"][gene] = {"accession": acc, "url": url}
         plddt = {}
         for line in pdb.splitlines():
             if line.startswith("ATOM") and line[12:16].strip() == "CA":
