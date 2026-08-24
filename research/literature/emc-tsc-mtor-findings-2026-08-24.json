@@ -17,7 +17,7 @@
         "study_name": "Soft Tissue and Bone Sarcoma (MSK, Nat Commun 2022)",
         "samples_typed": 7494,
         "emc_samples": 75,
-        "assay": "MSK-IMPACT targeted DNA panel. ⚠ The cohort is described as tumour-normal, but MATCHED_STATUS is a PER-SAMPLE field and the one TSC2-positive sample is 'Unmatched'. The cohort-wide distribution is measured in round 8.",
+        "assay": "MSK-IMPACT targeted DNA panel, UNMATCHED (MATCHED_STATUS is 'Unmatched' for all 7,494 samples). Somatic calls are inferred by filtering rather than demonstrated against a matched normal - see is_the_rate_biased_downward.",
         "has_mutation_profile": true,
         "has_copy_number_profile": false,
         "copy_number_note": "HTTP 404 'Molecular profile not found: sarcoma_msk_2022_cna'. This cohort cannot answer the gene-LOSS question at all, only the MUTATION question.",
@@ -230,6 +230,25 @@
         "verdict": "In the only EMC patient anywhere in public panel data with an instrument able to detect single-copy loss, TSC2 is diploid."
       },
       "⛔_what_this_does_and_does_not_settle": "It settles the single-copy question for ONE patient. It does not give a rate. The honest position is that homozygous deletion is measured across roughly 32 EMC patients and is zero everywhere, while SINGLE-COPY loss has been looked for in one patient and was absent - so the alteration class the index case actually reported remains the least-measured half of this question, and the gap named when the measurement was first written is narrowed rather than closed."
+    },
+    "is_the_rate_biased_downward": {
+      "_why_asked": "The one positive sample is MATCHED_STATUS 'Unmatched'. Unmatched tumour pipelines filter out variants that look germline, and TSC1/TSC2 truncating variants are exactly the class such a filter can discard (they are recurrent germline pathogenic variants in tuberous sclerosis). If the denominator is largely unmatched, the measured rate could be an UNDER-estimate - and 'the route is closed because the rate is low' would then be a filtering artefact rather than a finding.",
+      "what_was_found": "⚠ THE WHOLE COHORT IS UNMATCHED, not just that sample. MATCHED_STATUS is 'Unmatched' for all 7,494 samples in sarcoma_msk_2022, and for all 75 EMC among them. The cohort-level description 'matched tumour-normal' does not apply to this study at all.",
+      "the_internal_control_that_bounds_the_worry": {
+        "_test": "If the germline filter were suppressing TSC calls wholesale, the cohort would show almost no TSC1/TSC2 mutations at all. It does not.",
+        "tsc1_cohort_wide": "37 of 7,494 = 0.49%",
+        "tsc2_cohort_wide": "66 of 7,494 = 0.88%",
+        "verdict": "The filter is calling TSC1/TSC2 mutations at a plausible pan-sarcoma rate, so it is not removing the class wholesale. The worry is bounded, not eliminated: an unmatched pipeline can still lose individual recurrent variants."
+      },
+      "⭐_and_this_reframes_the_result": {
+        "emc_tsc2": "1 of 75 = 1.33%",
+        "cohort_wide_tsc2": "66 of 7,494 = 0.88%",
+        "emc_tsc1": "0 of 75 = 0.00%",
+        "cohort_wide_tsc1": "37 of 7,494 = 0.49%",
+        "reading": "EMC's TSC2 rate is at or slightly ABOVE the pan-sarcoma background in the very same cohort, on the very same assay and the very same filtering. EMC is NOT an outlier-low histology for this gene - it is unremarkable, and it looked like an absence only because nobody had counted. That is a stronger and more defensible statement than the bare 1-of-75, because it is an internal comparison that cancels the assay, the pipeline and the institution.",
+        "_caveat": "With one event in EMC the comparison cannot be pushed further than 'indistinguishable from background'. It does not show EMC is enriched, and no test is quoted for it."
+      },
+      "gene_panel_version_per_sample": "NOT AVAILABLE. GENE_PANEL is not among this study's clinical attributes (the full list is AGE, CANCER_TYPE, CANCER_TYPE_DETAILED, FINAL_DIAGNOSIS, GENOME_LOH, INITIAL_DIAGNOSIS, MATCHED_STATUS, MSI_STATUS, MUTATION_COUNT, MUTATION_LOAD, ONCOTREE_CODE, SAMPLE_COUNT, SAMPLE_TISSUE, SEX, TMB_NONSYNONYMOUS, TUMOR_PURITY), so which IMPACT version each sample ran cannot be determined from here. Mitigated but not closed by the panel control: TSC1 and TSC2 are on every IMPACT version including the 341-gene one, so any IMPACT panel covers them."
     }
   },
   "literature_bound": {

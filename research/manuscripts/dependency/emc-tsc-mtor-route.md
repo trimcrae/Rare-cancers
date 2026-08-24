@@ -117,7 +117,32 @@ frequency rests on is somatic-by-inference. The NR4A3 structural-variant check t
 the histology a third way is recorded as **not done** (three candidate endpoint shapes returned 404), not
 as a negative.
 
-### 2.4 · ⛔ The gap between what was measured and what the case reported
+### 2.4 · Is the rate biased downward? — and the comparison that answers it better
+
+The positive sample is `MATCHED_STATUS = Unmatched`, and checking the rest showed **the whole cohort is**:
+all 7,494 samples. That is the bias direction that would matter, because unmatched pipelines filter out
+variants that look germline and **TSC1/TSC2 truncating variants are exactly that class** — recurrent
+germline pathogenic variants in tuberous sclerosis. A rate depressed by filtering would make "the route is
+closed because the rate is low" an artefact rather than a finding.
+
+**The cohort's own numbers bound the worry.** If the filter were suppressing the class wholesale there
+would be almost no TSC calls at all; instead there are 37 TSC1- and 66 TSC2-mutated samples across the
+7,494 — a plausible pan-sarcoma rate.
+
+⭐ **And that internal comparison is a better statement of the result than the bare 1-of-75.**
+
+| | EMC | whole cohort |
+|---|---|---|
+| TSC2 mutated | 1 of 75 (1.33%) | 66 of 7,494 (0.88%) |
+| TSC1 mutated | 0 of 75 (0%) | 37 of 7,494 (0.49%) |
+
+Same assay, same pipeline, same institution, same filtering — so the comparison cancels all of them.
+**EMC's TSC2 rate is indistinguishable from the pan-sarcoma background.** EMC is not an outlier-low
+histology for this gene; it is unremarkable, and it looked like an absence only because nobody had counted.
+⚠ With one event the comparison cannot be pushed further than "indistinguishable"; it does not show
+enrichment, and no test is quoted for it.
+
+### 2.5 · ⛔ The gap between what was measured and what the case reported
 
 The index case reports TSC2 **loss**. What was measured is **mutation** in 75 patients and **homozygous
 deletion** in the 15 that have copy-number data. The discrete copy-number profile stores only homozygous
@@ -205,7 +230,7 @@ AMPECT trial's exploratory biomarker analysis. Its figures are quoted verbatim i
   also observed in patients with differing tumor genotypes".
 - ⭐ **Both complete responders had a TSC2 alteration and one of them was a homozygous deletion**, so the
   qualifying class is not mutation alone. That matters here: the index case reported *loss*, and deletion
-  is the half of the EMC measurement that is least well covered (§2.4).
+  is the half of the EMC measurement that is least well covered (§2.5).
 - An **immunohistochemical** marker of mTORC1 output, pS6, was an independent predictor — no patient
   whose tumour lacked it responded. **The genotype was not the only discriminator.**
 - The only multicentre attempt to reproduce the genotype effect found no difference — but on 2 TSC1 and
@@ -251,7 +276,7 @@ chondrosarcoma, and the access routes it already opens.*** Unwritten.
 
 **What is missing from it**, stated plainly so the row is honest:
 
-1. **The single-copy question** (§2.4), now answered for exactly one patient and open for everyone else,
+1. **The single-copy question** (§2.5), now answered for exactly one patient and open for everyone else,
    because only one public cohort carries a copy-number profile fine-grained enough to ask it.
 2. **A second positive, and genuine independence.** The independent evidence is three patients (§2.2),
    which supports the rate being low and **confirms nothing about the numerator**. There is still exactly
