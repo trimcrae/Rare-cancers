@@ -929,6 +929,41 @@ def apply_promiscuity_track(queries, ids_by_gene, negatives, max_ids=OVERLAP_MAX
 # "this deposit has no EMC".
 # ────────────────────────────────────────────────────────────────────────────────────────────────
 
+def _head(url, timeout=60, note=""):
+    """Is this file actually there? A HEAD request, recorded like every other fetch.
+
+    ⛔ "LISTED" AND "DOWNLOADABLE" ARE DIFFERENT CLAIMS AND THIS MODULE MUST NOT CONFLATE THEM.
+    `!Sample_supplementary_file` is a string in a metadata record — a depositor claim, exactly as a
+    series title is. Reporting a cohort's IDATs as downloadable because GEO lists them would be
+    reporting a populated field as a measured one, which CLAUDE.md §4 names explicitly. So the
+    files are probed, and a probe that does not answer is recorded as unverified with its reason —
+    never as missing, and never silently as present.
+    """
+    rec = {"url": url, "note": note, "http": None, "error": None, "content_length": None}
+    try:
+        req = urllib.request.Request(url, method="HEAD", headers={"User-Agent": UA})
+        with urllib.request.urlopen(req, timeout=timeout) as r:
+            rec["http"] = r.status
+            cl = r.headers.get("Content-Length")
+            rec["content_length"] = int(cl) if cl and cl.isdigit() else None
+    except urllib.error.HTTPError as e:
+        rec["http"] = e.code
+        rec["error"] = f"HTTPError {e.code}"
+    except Exception as e:                                             # noqa: BLE001
+        rec["error"] = f"{type(e).__name__}: {e}"
+    return rec
+
+
+def ftp_to_https(url):
+    """GEO lists its per-sample files as ftp://; the same paths are served over https.
+
+    ⚠ A REWRITE, NOT A GUESS: only the scheme and host prefix change, and the path is the
+    depositor's verbatim. If the rewrite is ever wrong the probe returns a 404, which is reported
+    as an unreachable file rather than silently dropped.
+    """
+    return url.replace("ftp://ftp.ncbi.nlm.nih.gov/", "https://ftp.ncbi.nlm.nih.gov/")
+
+
 def _interstitial_markers(body):
     """Which bot-wall markers does this body carry? Empty list = it looks like real content.
 
@@ -1422,8 +1457,38 @@ def fetch_methylation():
     _fetch_publisher(out)
     _fetch_pmc(out)
     _fetch_biostudies(out)
+    _probe_emc_idats(out)
     out["arm_state"] = "FETCHED" if reached else "UNREACHABLE"
     return out
+
+
+def _probe_emc_idats(out):
+    """HEAD every IDAT belonging to a case the paper labels with this disease.
+
+    Runs at FETCH time because it is a network act; the join it depends on is recomputed here from
+    the same two declared sources `derive()` uses, so the probe can never be pointed at a case the
+    verdict does not also name.
+    """
+    case_ids = []
+    for _, entry in ((out.get("pmc") or {}).get("supplementary") or {}).items():
+        for cid in ((entry.get("parsed") or {}).get("emc_case_ids") or []):
+            if cid not in case_ids:
+                case_ids.append(cid)
+    for _, entry in (out.get("supplementary") or {}).items():
+        for cid in ((entry.get("parsed") or {}).get("emc_case_ids") or []):
+            if cid not in case_ids:
+                case_ids.append(cid)
+    idx = _index_geo_cases(out.get("geo_all_text") or "")
+    probes = {}
+    for cid in case_ids[:40]:
+        hit = idx.get(cid)
+        if not hit:
+            continue
+        for u in hit["idat_urls"][:4]:
+            https = ftp_to_https(u)
+            probes[https] = _head(https, note=f"IDAT for {cid} ({hit['gsm']})")
+            time.sleep(0.3)
+    out["emc_idat_probes"] = probes
 
 
 def _bucket(text):
@@ -1879,6 +1944,24 @@ def derive(inp):
                            "set": cid.split("_")[0].lower(),
                            "n_idat_files": len(hit["idat_urls"]),
                            "idat_urls": hit["idat_urls"]})
+        # ⛔ LISTED vs VERIFIED, KEPT APART. `n_idat_files` counts what GEO's metadata LISTS for the
+        # case; `n_idat_files_verified` counts the ones a HEAD request actually answered 200 for.
+        # A run with no probes leaves the verified count at None -- an unprobed file is unverified,
+        # never "missing" and never quietly counted as present.
+        probes = m.get("emc_idat_probes") or {}
+        for c in cohort:
+            ok = [u for u in c["idat_urls"]
+                  if (probes.get(ftp_to_https(u)) or {}).get("http") == 200]
+            unreach = [{"url": ftp_to_https(u),
+                        "http": (probes.get(ftp_to_https(u)) or {}).get("http"),
+                        "error": (probes.get(ftp_to_https(u)) or {}).get("error")}
+                       for u in c["idat_urls"]
+                       if ftp_to_https(u) in probes
+                       and (probes.get(ftp_to_https(u)) or {}).get("http") != 200]
+            c["n_idat_files_verified"] = len(ok) if probes else None
+            c["idat_files_unreachable"] = unreach
+            c["idat_bytes_verified"] = sum(
+                (probes.get(ftp_to_https(u)) or {}).get("content_length") or 0 for u in ok) or None
         cohort.sort(key=lambda c: (c["set"], c["gsm"]))
         n_ref = sum(1 for c in cohort if c["set"] == "reference")
         n_val = sum(1 for c in cohort if c["set"] == "validation")
@@ -1890,8 +1973,22 @@ def derive(inp):
             "case_ids_not_joined": unjoined[:20],
             "n_in_the_reference_set": n_ref,
             "n_in_the_validation_set": n_val,
-            "n_with_downloadable_idats": len(with_idats),
-            "n_idat_files_total": sum(c["n_idat_files"] for c in cohort),
+            "n_with_idats_LISTED_by_the_deposit": len(with_idats),
+            "n_idat_files_LISTED": sum(c["n_idat_files"] for c in cohort),
+            "n_with_idats_VERIFIED_reachable": (
+                sum(1 for c in cohort if (c.get("n_idat_files_verified") or 0) > 0)
+                if m.get("emc_idat_probes") else None),
+            "n_idat_files_VERIFIED": (
+                sum(c.get("n_idat_files_verified") or 0 for c in cohort)
+                if m.get("emc_idat_probes") else None),
+            "idat_bytes_VERIFIED": (
+                sum(c.get("idat_bytes_verified") or 0 for c in cohort) or None
+                if m.get("emc_idat_probes") else None),
+            "⛔ listed_is_not_downloadable": (
+                "`..._LISTED` counts what GEO's per-sample metadata states exists — a depositor "
+                "claim. `..._VERIFIED` counts files a HEAD request actually answered 200 for. They "
+                "are reported separately and a null VERIFIED means the probe did not run, which is "
+                "not the same as the files being absent."),
             "platforms": sorted({c["platform"] for c in cohort if c["platform"]}),
             "case_ids_came_from_capped_display_rows": from_display_rows,
             "cases": cohort,
@@ -1927,7 +2024,10 @@ def derive(inp):
             "n_supplementary_files_readable": len(all_readable),
             "n_emc_rows": sup_emc,
             "n_emc_cases_joined_to_deposited_samples": len(cohort),
-            "n_emc_cases_with_downloadable_idats": len(with_idats),
+            "n_emc_cases_with_idats_listed": len(with_idats),
+            "n_emc_cases_with_idats_verified_reachable": (
+                sum(1 for c in cohort if (c.get("n_idat_files_verified") or 0) > 0)
+                if m.get("emc_idat_probes") else None),
             "⚠": ("A publisher page served as a short interstitial yields zero discoverable "
                    "links. That is a transport failure and is recorded as one; it is never a "
                    "statement that the paper has no supplement."),
@@ -3287,12 +3387,12 @@ def selftest():
     geo = "\n".join([
         "^SAMPLE = GSM1", "!Sample_title = sarcoma classifier reference case 259",
         "!Sample_description = REFERENCE_SAMPLE 259", "!Sample_platform_id = GPL13534",
-        "!Sample_supplementary_file_1 = ftp://x/GSM1_A_Grn.idat.gz",
-        "!Sample_supplementary_file_2 = ftp://x/GSM1_A_Red.idat.gz",
+        "!Sample_supplementary_file_1 = ftp://ftp.ncbi.nlm.nih.gov/geo/x/GSM1_A_Grn.idat.gz",
+        "!Sample_supplementary_file_2 = ftp://ftp.ncbi.nlm.nih.gov/geo/x/GSM1_A_Red.idat.gz",
         "^SAMPLE = GSM2", "!Sample_title = sarcoma classifier validation case 54",
         "!Sample_description = VALIDATION_SAMPLE 54", "!Sample_platform_id = GPL21145",
-        "!Sample_supplementary_file_1 = ftp://x/GSM2_B_Grn.idat.gz",
-        "!Sample_supplementary_file_2 = ftp://x/GSM2_B_Red.idat.gz",
+        "!Sample_supplementary_file_1 = ftp://ftp.ncbi.nlm.nih.gov/geo/x/GSM2_B_Grn.idat.gz",
+        "!Sample_supplementary_file_2 = ftp://ftp.ncbi.nlm.nih.gov/geo/x/GSM2_B_Red.idat.gz",
         # A sample that declares NO case id. It must never be used to absorb an unmatched label.
         "^SAMPLE = GSM3", "!Sample_title = sarcoma classifier reference case 999",
         "!Sample_description = Methylation data from sarcoma sample",
@@ -3301,8 +3401,9 @@ def selftest():
     idx = _index_geo_cases(geo)
     ck(set(idx) == {"REFERENCE_SAMPLE 259", "VALIDATION_SAMPLE 54"},
        f"the case index keyed on the wrong thing: {sorted(idx)}")
-    ck(idx["REFERENCE_SAMPLE 259"]["idat_urls"] == ["ftp://x/GSM1_A_Grn.idat.gz",
-                                                    "ftp://x/GSM1_A_Red.idat.gz"],
+    ck(idx["REFERENCE_SAMPLE 259"]["idat_urls"]
+       == ["ftp://ftp.ncbi.nlm.nih.gov/geo/x/GSM1_A_Grn.idat.gz",
+           "ftp://ftp.ncbi.nlm.nih.gov/geo/x/GSM1_A_Red.idat.gz"],
        "IDAT urls were not carried through the case index")
 
     def _joined(case_ids, geo_text=geo):
@@ -3318,8 +3419,13 @@ def selftest():
     ck(j["n_joined_to_a_deposited_sample"] == 2, f"join found {j['n_joined_to_a_deposited_sample']}")
     ck(j["n_in_the_reference_set"] == 1 and j["n_in_the_validation_set"] == 1,
        "the reference and validation sets were not separated")
-    ck(j["n_with_downloadable_idats"] == 2 and j["n_idat_files_total"] == 4,
-       f"IDAT accounting wrong: {j['n_with_downloadable_idats']}, {j['n_idat_files_total']}")
+    ck(j["n_with_idats_LISTED_by_the_deposit"] == 2 and j["n_idat_files_LISTED"] == 4,
+       f"IDAT accounting wrong: {j['n_with_idats_LISTED_by_the_deposit']}, {j['n_idat_files_LISTED']}")
+    # ⛔ WITH NO PROBE RUN, THE VERIFIED COUNTS ARE NULL — NEVER ZERO AND NEVER THE LISTED COUNT.
+    # Zero would read as "the files are gone"; the listed count would silently promote a depositor
+    # claim to a measurement. Both are wrong in opposite directions and both are worse than null.
+    ck(j["n_idat_files_VERIFIED"] is None and j["n_with_idats_VERIFIED_reachable"] is None,
+       "an unprobed cohort reported a verified IDAT count")
     ck(sorted(j["platforms"]) == ["GPL13534", "GPL21145"], "platforms were lost in the join")
 
     # ⛔ A LABEL WITH NO DEPOSITED COUNTERPART IS REPORTED UNJOINED. GSM3 exists, is a reference
@@ -3348,12 +3454,43 @@ def selftest():
     ck(j["case_ids_came_from_capped_display_rows"] is False,
        "a join built from the full field wrongly flagged itself as bounded")
 
+    # 31 · ⛔ A PROBED FILE AND A LISTED FILE ARE DIFFERENT CLAIMS. A 404 must reduce the VERIFIED
+    # count without touching the LISTED one, and must be reported with its status rather than
+    # vanishing — "GEO says this file exists" and "this file answered" are the two halves that get
+    # conflated when a cohort is described as downloadable.
+    probed = derive({"methylation": {
+        "arm_state": "FETCHED", "geo_self_text": "!Series_title = x\n", "geo_all_text": geo,
+        "fetches": {},
+        "emc_idat_probes": {
+            "https://ftp.ncbi.nlm.nih.gov/geo/x/GSM1_A_Grn.idat.gz":
+                {"http": 200, "content_length": 1000},
+            "https://ftp.ncbi.nlm.nih.gov/geo/x/GSM1_A_Red.idat.gz":
+                {"http": 404, "error": "HTTPError 404"},
+        },
+        "supplementary": {"u": {"parsed": {
+            "readable": True, "n_emc_rows": 1, "confusable_rows": 0, "emc_rows": [],
+            "emc_case_ids": ["REFERENCE_SAMPLE 259"]}}}}}
+    )["arms"]["pan_sarcoma_methylation_deposit"]["emc_cohort"]
+    ck(probed["n_idat_files_LISTED"] == 2,
+       f"a 404 changed the LISTED count ({probed['n_idat_files_LISTED']})")
+    ck(probed["n_idat_files_VERIFIED"] == 1,
+       f"the verified count was {probed['n_idat_files_VERIFIED']}, expected 1 of 2")
+    ck(probed["idat_bytes_VERIFIED"] == 1000, "verified bytes were not summed from the probes")
+    one = probed["cases"][0]
+    ck([u["http"] for u in one["idat_files_unreachable"]] == [404],
+       f"the unreachable file was not reported: {one['idat_files_unreachable']}")
+    ck(one["n_idat_files"] == 2 and one["n_idat_files_verified"] == 1,
+       "per-case listed/verified counts were conflated")
+    ck(ftp_to_https("ftp://ftp.ncbi.nlm.nih.gov/geo/samples/x.idat.gz")
+       == "https://ftp.ncbi.nlm.nih.gov/geo/samples/x.idat.gz",
+       "the ftp->https rewrite changed more than the scheme and host")
+
     if fails:
         print("SELFTEST FAILED:")
         for f in fails:
             print("  -", f)
         return 1
-    print("selftest ok (30 guard groups)")
+    print("selftest ok (31 guard groups)")
     return 0
 
 
