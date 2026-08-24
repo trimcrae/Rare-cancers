@@ -288,13 +288,21 @@ const NEWS_FEEDS = [
   },
   {
     key: "sarcoma treatment news",
-    url: 'https://news.google.com/rss/search?q=(sarcoma+OR+"soft+tissue+cancer")+(treatment+OR+trial+OR+approval+OR+therapy)+when:14d&hl=en-US&gl=US&ceid=US:en',
+    url: 'https://news.google.com/rss/search?q=(sarcoma+OR+"soft+tissue+cancer")+(treatment+OR+trial+OR+approval+OR+therapy+OR+drug)+-awareness+-fundraiser+-fundraising+-wedding+-obituary+-"in+memory"+when:14d&hl=en-US&gl=US&ceid=US:en',
     trigger: "sarcoma treatment news → the disease area itself; anything touching EMC or a fusion-driven sarcoma goes into the registry after reading the primary source",
   },
   {
-    key: "FDA press announcements (official channel for approvals)",
-    url: "https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/press-releases/rss.xml",
-    trigger: "an oncology approval → a modality cleared a regulator, which is the strongest available precedent signal for any route using it",
+    // ⚠ NOT an FDA-hosted feed, and deliberately so. The first version of this row pointed at
+    // https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/press-releases/rss.xml
+    // and returned HTTP 404 on the validating CI run (2026-08-24, run 32717738350). FDA publishes
+    // an oncology approval-notifications PAGE but no RSS endpoint that could be confirmed for it,
+    // so the honest state of "the official feed URL" is UNKNOWN — and CLAUDE.md §4 says write
+    // UNKNOWN rather than guess. Guessing a second FDA path would have bought another 404.
+    // An approval reported by the trade press is the same signal, on a mechanism already proven
+    // working in the rows above; if an official endpoint is ever confirmed, swap this URL for it.
+    key: "regulatory approvals in oncology (via news; FDA's own RSS endpoint is UNKNOWN)",
+    url: 'https://news.google.com/rss/search?q=(FDA+OR+EMA)+(approves+OR+approval)+(cancer+OR+oncology+OR+tumor+OR+sarcoma+OR+melanoma)+when:14d&hl=en-US&gl=US&ceid=US:en',
+    trigger: "an oncology approval → a modality cleared a regulator, which is the strongest available precedent signal for any route using it; confirm against the regulator's own notice before citing",
   },
 ];
 
