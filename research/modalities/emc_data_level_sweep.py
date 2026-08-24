@@ -204,6 +204,16 @@ MAX_SUPPL_FILES = 12
 MAX_SUPPL_BYTES = 40_000_000
 STUB_BYTES = 20_000          # a "paper" smaller than this was not a paper
 
+# ⭐⭐ THE JOIN KEY, AND IT IS DECLARED BY BOTH SIDES RATHER THAN INFERRED BY US.
+# GSE140686's sample records name no disease, but each one carries
+#     !Sample_description = REFERENCE_SAMPLE 259
+# and the paper's supplementary tables key their per-case rows on exactly that string. So the
+# deposit and the paper share an explicit identifier, and joining them is a lookup rather than an
+# alignment. ⚠ THAT DISTINCTION IS THE WHOLE VALUE OF THIS ROUTE: matching the two by ORDINAL
+# POSITION would be an inference this module is not entitled to make, and it would be invisible if
+# wrong -- every case would still get a plausible-looking partner. Nothing here matches on order.
+CASE_ID_RE = re.compile(r"\b(REFERENCE|VALIDATION)_SAMPLE\s+(\d+)", re.I)
+
 # Disease name and the abbreviations a per-sample characteristics field actually uses. Matched
 # case-insensitively against sample text; every hit is reported with the sample it came from.
 EMC_TERMS = [
@@ -1048,7 +1058,7 @@ def _parse_supplementary(url, raw):
     low = url.lower()
     res = {"url": url, "kind": None, "readable": False, "why": None,
            "n_rows_scanned": 0, "emc_rows": [], "n_emc_rows": 0, "confusable_rows": 0,
-           "members": []}
+           "emc_case_ids": [], "members": []}
     blob = raw if isinstance(raw, bytes) else (raw or "").encode("utf-8", "surrogateescape")
     try:
         # A zip is a CONTAINER, not a format: Europe PMC returns every supplement in one, so it is
@@ -1078,6 +1088,9 @@ def _parse_supplementary(url, raw):
                     for r in inner["emc_rows"]:
                         if len(res["emc_rows"]) < 25:
                             res["emc_rows"].append(f"[{mem.name}] {r}")
+                    for cid in inner["emc_case_ids"]:
+                        if cid not in res["emc_case_ids"]:
+                            res["emc_case_ids"].append(cid)
             res["readable"] = any(m["readable"] for m in res["members"])
             if not res["readable"]:
                 res["why"] = "no member of the archive could be opened by this parser"
@@ -1100,6 +1113,9 @@ def _parse_supplementary(url, raw):
                     for r in inner["emc_rows"]:
                         if len(res["emc_rows"]) < 25:
                             res["emc_rows"].append(f"[{nm}] {r}")
+                    for cid in inner["emc_case_ids"]:
+                        if cid not in res["emc_case_ids"]:
+                            res["emc_case_ids"].append(cid)
             res["readable"] = any(m["readable"] for m in res["members"])
             if not res["readable"]:
                 res["why"] = "no member of the archive could be opened by this parser"
@@ -1149,7 +1165,39 @@ def _parse_supplementary(url, raw):
             res["n_emc_rows"] += 1
             if len(res["emc_rows"]) < 25:
                 res["emc_rows"].append(line[:300])
+            # ⭐ THE JOIN KEY, EXTRACTED SEPARATELY FROM THE DISPLAY ROW. `emc_rows` is a bounded
+            # sample for a human to read; the join must not depend on how many rows we happened to
+            # keep for display, so the case identifiers are collected in their own field.
+            for cid in CASE_ID_RE.findall(line):
+                norm = f"{cid[0].upper()}_SAMPLE {int(cid[1])}"
+                if norm not in res["emc_case_ids"]:
+                    res["emc_case_ids"].append(norm)
     return res
+
+
+def _index_geo_cases(txt):
+    """GSM -> {case_id, platform, idat_urls} from the deposit's own per-sample records.
+
+    ⛔ KEYED ON THE DECLARED IDENTIFIER, NEVER ON ORDER. See CASE_ID_RE. A sample that declares no
+    case id is simply absent from the index rather than being matched to a neighbouring position.
+    """
+    out = {}
+    for gsm, blob in _split_geo_samples(txt).items():
+        cid = None
+        for line in blob.split("\n"):
+            if line.startswith("!Sample_description"):
+                mm = CASE_ID_RE.search(line)
+                if mm:
+                    cid = f"{mm.group(1).upper()}_SAMPLE {int(mm.group(2))}"
+                    break
+        if not cid:
+            continue
+        plat = re.findall(r"!Sample_platform_id\s*=\s*(\S+)", blob)
+        files = re.findall(r"!Sample_supplementary_file[^=]*=\s*(\S+)", blob)
+        out[cid] = {"gsm": gsm, "platform": plat[0] if plat else None,
+                    "files": files,
+                    "idat_urls": [f for f in files if ".idat" in f.lower()]}
+    return out
 
 
 def _split_geo_samples(txt):
@@ -1385,6 +1433,66 @@ def derive(inp):
             d.get("confusable_rows", 0) for _, d in all_readable)
         arm2["supplementary_emc_rows_sample"] = [
             r for _, d in all_readable for r in d.get("emc_rows", [])][:20]
+        # ── the join · published labels -> deposited samples -> IDATs ───────────────────────────
+        case_ids, from_display_rows = [], False
+        for _, dd in all_readable:
+            ids = dd.get("emc_case_ids")
+            if ids is None:
+                # ⚠ AN OLDER CACHE, PARSED BEFORE `emc_case_ids` EXISTED. Fall back to scraping the
+                # display rows so the join still runs — and FLAG it, because `emc_rows` is capped
+                # for display at 25 entries. A cache with more EMC rows than that would join a
+                # SUBSET and look complete, which is the exact shape of error this module exists to
+                # refuse. The flag is what stops a bounded join being read as a full one.
+                from_display_rows = True
+                ids = []
+                for line in (dd.get("emc_rows") or []):
+                    for cid in CASE_ID_RE.findall(line):
+                        norm = f"{cid[0].upper()}_SAMPLE {int(cid[1])}"
+                        if norm not in ids:
+                            ids.append(norm)
+            for cid in ids:
+                if cid not in case_ids:
+                    case_ids.append(cid)
+        geo_idx = _index_geo_cases(allt)
+        cohort, unjoined = [], []
+        for cid in case_ids:
+            hit = geo_idx.get(cid)
+            if not hit:
+                unjoined.append(cid)
+                continue
+            cohort.append({"case_id": cid, "gsm": hit["gsm"], "platform": hit["platform"],
+                           "set": cid.split("_")[0].lower(),
+                           "n_idat_files": len(hit["idat_urls"]),
+                           "idat_urls": hit["idat_urls"]})
+        cohort.sort(key=lambda c: (c["set"], c["gsm"]))
+        n_ref = sum(1 for c in cohort if c["set"] == "reference")
+        n_val = sum(1 for c in cohort if c["set"] == "validation")
+        with_idats = [c for c in cohort if c["n_idat_files"] > 0]
+        arm2["emc_cohort"] = {
+            "n_cases_named_by_the_paper": len(case_ids),
+            "n_joined_to_a_deposited_sample": len(cohort),
+            "n_not_joined": len(unjoined),
+            "case_ids_not_joined": unjoined[:20],
+            "n_in_the_reference_set": n_ref,
+            "n_in_the_validation_set": n_val,
+            "n_with_downloadable_idats": len(with_idats),
+            "n_idat_files_total": sum(c["n_idat_files"] for c in cohort),
+            "platforms": sorted({c["platform"] for c in cohort if c["platform"]}),
+            "case_ids_came_from_capped_display_rows": from_display_rows,
+            "cases": cohort,
+            "⛔ what_this_count_is": (
+                "A count of samples the PAPER'S OWN supplementary table labels with this disease, "
+                "joined to the deposit by an identifier BOTH sides declare (GEO's "
+                "`!Sample_description = REFERENCE_SAMPLE n` and the table's row key). It is an "
+                "author claim carried across a declared join — it is NOT a diagnosis, not a "
+                "re-review of any case, and not a patient count. The reference and validation sets "
+                "are reported separately because they are different things: the reference set is "
+                "the class the classifier was TRAINED on, the validation set is held out."),
+            "⚠ what_would_break_it": (
+                "The join is a lookup on a declared string. If a future deposit stops carrying the "
+                "case id in `!Sample_description`, cases appear in `case_ids_not_joined` rather "
+                "than being matched by position — an unjoined case is reported, never guessed."),
+        }
         arm2["stages"]["4_published_table"] = {
             "pmid_discovered_from_geo": m.get("pubmed_id"),
             "pmcid": pmc.get("pmcid"),
@@ -1396,6 +1504,8 @@ def derive(inp):
             "pmc_page_was_a_stub": pmc.get("pmc_article_looks_like_a_stub"),
             "n_supplementary_files_readable": len(all_readable),
             "n_emc_rows": sup_emc,
+            "n_emc_cases_joined_to_deposited_samples": len(cohort),
+            "n_emc_cases_with_downloadable_idats": len(with_idats),
             "⚠": ("A publisher page served as a short interstitial yields zero discoverable "
                    "links. That is a transport failure and is recorded as one; it is never a "
                    "statement that the paper has no supplement."),
@@ -1911,12 +2021,80 @@ def selftest():
     st_dat = _mirror_stage(dat, "E-MTAB-1")
     ck(st_dat["mirrors"] == ["E-MTAB-1"], "a genuine data mirror was not reported")
 
+    # 17 · ⛔ THE JOIN IS A LOOKUP ON A DECLARED KEY, AND AN UNJOINED CASE IS REPORTED, NEVER GUESSED.
+    # This is the arm's payoff and also its most dangerous arithmetic: matching published labels to
+    # deposited samples BY POSITION would give every case a plausible-looking partner and be
+    # invisible when wrong. Every assertion below is offline.
+    geo = "\n".join([
+        "^SAMPLE = GSM1", "!Sample_title = sarcoma classifier reference case 259",
+        "!Sample_description = REFERENCE_SAMPLE 259", "!Sample_platform_id = GPL13534",
+        "!Sample_supplementary_file_1 = ftp://x/GSM1_A_Grn.idat.gz",
+        "!Sample_supplementary_file_2 = ftp://x/GSM1_A_Red.idat.gz",
+        "^SAMPLE = GSM2", "!Sample_title = sarcoma classifier validation case 54",
+        "!Sample_description = VALIDATION_SAMPLE 54", "!Sample_platform_id = GPL21145",
+        "!Sample_supplementary_file_1 = ftp://x/GSM2_B_Grn.idat.gz",
+        "!Sample_supplementary_file_2 = ftp://x/GSM2_B_Red.idat.gz",
+        # A sample that declares NO case id. It must never be used to absorb an unmatched label.
+        "^SAMPLE = GSM3", "!Sample_title = sarcoma classifier reference case 999",
+        "!Sample_description = Methylation data from sarcoma sample",
+        "!Sample_platform_id = GPL13534",
+    ])
+    idx = _index_geo_cases(geo)
+    ck(set(idx) == {"REFERENCE_SAMPLE 259", "VALIDATION_SAMPLE 54"},
+       f"the case index keyed on the wrong thing: {sorted(idx)}")
+    ck(idx["REFERENCE_SAMPLE 259"]["idat_urls"] == ["ftp://x/GSM1_A_Grn.idat.gz",
+                                                    "ftp://x/GSM1_A_Red.idat.gz"],
+       "IDAT urls were not carried through the case index")
+
+    def _joined(case_ids, geo_text=geo):
+        return derive({"methylation": {
+            "arm_state": "FETCHED", "geo_self_text": "!Series_title = x\n",
+            "geo_all_text": geo_text, "fetches": {},
+            "supplementary": {"u": {"parsed": {
+                "readable": True, "n_emc_rows": len(case_ids), "confusable_rows": 0,
+                "emc_rows": [], "emc_case_ids": case_ids}}}}}
+        )["arms"]["pan_sarcoma_methylation_deposit"]["emc_cohort"]
+
+    j = _joined(["REFERENCE_SAMPLE 259", "VALIDATION_SAMPLE 54"])
+    ck(j["n_joined_to_a_deposited_sample"] == 2, f"join found {j['n_joined_to_a_deposited_sample']}")
+    ck(j["n_in_the_reference_set"] == 1 and j["n_in_the_validation_set"] == 1,
+       "the reference and validation sets were not separated")
+    ck(j["n_with_downloadable_idats"] == 2 and j["n_idat_files_total"] == 4,
+       f"IDAT accounting wrong: {j['n_with_downloadable_idats']}, {j['n_idat_files_total']}")
+    ck(sorted(j["platforms"]) == ["GPL13534", "GPL21145"], "platforms were lost in the join")
+
+    # ⛔ A LABEL WITH NO DEPOSITED COUNTERPART IS REPORTED UNJOINED. GSM3 exists, is a reference
+    # case, and has no declared id — so it must NOT be handed this label.
+    j2 = _joined(["REFERENCE_SAMPLE 259", "REFERENCE_SAMPLE 999"])
+    ck(j2["n_joined_to_a_deposited_sample"] == 1,
+       f"an unmatched label was joined anyway ({j2['n_joined_to_a_deposited_sample']})")
+    ck(j2["case_ids_not_joined"] == ["REFERENCE_SAMPLE 999"],
+       f"the unjoined case was not reported: {j2['case_ids_not_joined']}")
+    ck(j2["n_cases_named_by_the_paper"] == 2,
+       "the paper's own count was quietly reduced to the joinable subset")
+    ck("GSM3" not in json.dumps(j2["cases"]),
+       "a sample declaring NO case id was matched to a label by position")
+
+    # ⚠ The older-cache fallback must FLAG itself: `emc_rows` is capped at 25 for display, so a
+    # join built from it can be a subset that looks complete.
+    legacy = derive({"methylation": {
+        "arm_state": "FETCHED", "geo_self_text": "!Series_title = x\n", "geo_all_text": geo,
+        "fetches": {}, "supplementary": {"u": {"parsed": {
+            "readable": True, "n_emc_rows": 1, "confusable_rows": 0,
+            "emc_rows": ["REFERENCE_SAMPLE 259 | Extraskeletal myxoid chondrosarcoma"]}}}}}
+    )["arms"]["pan_sarcoma_methylation_deposit"]["emc_cohort"]
+    ck(legacy["n_joined_to_a_deposited_sample"] == 1, "the legacy-cache fallback did not join")
+    ck(legacy["case_ids_came_from_capped_display_rows"] is True,
+       "a join built from CAPPED display rows did not flag itself as bounded")
+    ck(j["case_ids_came_from_capped_display_rows"] is False,
+       "a join built from the full field wrongly flagged itself as bounded")
+
     if fails:
         print("SELFTEST FAILED:")
         for f in fails:
             print("  -", f)
         return 1
-    print("selftest ok (16 guard groups)")
+    print("selftest ok (17 guard groups)")
     return 0
 
 
