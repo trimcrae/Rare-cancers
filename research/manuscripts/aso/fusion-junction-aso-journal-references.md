@@ -63,4 +63,4 @@ related: [DOC-FUSION-JUNCTION-ASO-JOURNAL]
 21. Hamers AA, RN Hanna, H Nowyhed, CC Hedrick and CJ de Vries. (2013). NR4A nuclear receptors in immunity and atherosclerosis. Curr Opin Lipidol 24:381–385. PMID: 24005216. doi:10.1097/mol.0b013e3283643eac
 22. Dyer SC, O Austine-Orimoloye, AG Azov, et al. (2025). Ensembl 2025. Nucleic Acids Res 53:D948–D957. PMID: 39656687. doi:10.1093/nar/gkae1071
 23. Kauppinen S, B Vester and J Wengel. (2005). Locked nucleic acid (LNA): High affinity targeting of RNA for diagnostics and therapeutics. Drug Discov Today Technol 2:287–290. PMID: 24981949. doi:10.1016/j.ddtec.2005.08.012
-24. Sugimoto N, S Nakano, M Katoh, A Matsumura, H Nakamuta, T Ohmichi, et al. (1995). Thermodynamic parameters to predict stability of RNA/DNA hybrid duplexes. Biochemistry 34:11211–11216. PMID: 7545436.
+24. Sugimoto N, S Nakano, M Katoh, et al. (1995). Thermodynamic parameters to predict stability of RNA/DNA hybrid duplexes. Biochemistry 34:11211–11216. PMID: 7545436.

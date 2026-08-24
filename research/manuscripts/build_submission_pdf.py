@@ -130,6 +130,18 @@ PAPERS = {
         #: budget, so furniture is not free. The running title is still DECLARED in the front
         #: matter, which is what the submission form asks for; only the printed band goes.
         "running_head": False,
+        #: ⭐ Sage Vancouver carries the DOI, not the PMID. See `_drop_printed_pmids`: the markdown
+        #: keeps every PMID because the citation guards bind to it, and only the rendering drops it.
+        "drop_pmids_from_printed_references": True,
+        #: ⭐ SUPPLEMENTAL MATERIAL — FOR REVIEW ONLY (external review, 2026-08-24). The condensed
+        #: article cites the extended report and the canonical sequence file through the Zenodo DOI,
+        #: and a reviewer cannot assess what is not in the envelope. These are UPLOADED WITH THE
+        #: SUBMISSION as well as being in the archive. ⚠ This is not an SI document: the paper has
+        #: none, and `supplementary` stays absent so no SI PDF is built or claimed.
+        "supplementary_for_review": (
+            "aso/fusion-junction-aso-research-article.pdf",
+            "aso/fusion-junction-aso-sequences.csv",
+        ),
         "out": "aso/fusion-junction-aso-journal-article.pdf",
     },
     # ⭐ THE EMC VACCINE PATH, ADDED 2026-08-22 AT ROUND 1 OF ITS HARDENING CYCLE.
@@ -474,6 +486,26 @@ def deposit_filenames(paper):
 _MD_NAME_RE = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]*\.md\b")
 
 
+
+#: `PMID: 12345678.` as it is written in a reference entry, with the space that precedes it.
+_PRINTED_PMID = re.compile(r"\s*PMID:\s*\d+\.")
+
+
+def _drop_printed_pmids(references):
+    """Remove the `PMID: …` token from each printed entry, per paper.
+
+    ⭐ WHY THE MARKDOWN KEEPS IT AND THE PDF DOES NOT. Sage Vancouver does not carry PMIDs in the
+    reference list; this repository does, because the PMID is what
+    `test_journal_references_match_the_prose.py` binds each entry to its citation with, and what
+    `lint_citations.py` anchors to a fetch product. Stripping it from the SOURCE would delete the
+    provenance link that stops a fabricated reference; printing it puts a repository mechanism in
+    front of a journal reader. So the source keeps the identifier and the rendering drops it.
+    ⚠ THE DOI SURVIVES, deliberately — it is the identifier a reader of the published article
+    actually follows, and it is what the style wants in that slot.
+    """
+    return _PRINTED_PMID.sub("", references)
+
+
 def apply_deposit_filenames(text, paper, where):
     """Rewrite every deposited-document filename in `text`, and REPORT the ones with no mapping.
 
@@ -606,6 +638,8 @@ def assemble(paper, style="journal"):
               if paper.get("tables") else {})
     references = (strip_generated_banner(strip_frontmatter(read(paper["references"])))
                   if paper.get("references") else None)
+    if references is not None and paper.get("drop_pmids_from_printed_references"):
+        references = _drop_printed_pmids(references)
 
     if style == "manuscript":
         if tables:

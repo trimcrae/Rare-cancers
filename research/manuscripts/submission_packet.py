@@ -166,6 +166,46 @@ def _cgt_fee_line():
             " Confirm at the portal before submitting there; this is a fetch record, not an invoice.")
 
 
+
+
+def _builder_papers():
+    """`build_submission_pdf.PAPERS`, loaded once. {} if the builder cannot be imported.
+
+    ⚠ ONE FACT, ONE HOME — the builder decides what each paper renders and submits, and every
+    question this module asks about a paper's files is answered from here rather than from a
+    directory scan.
+    """
+    global _BUILDER_PAPERS
+    if _BUILDER_PAPERS is not None:
+        return _BUILDER_PAPERS
+    try:
+        import importlib.util
+        path = os.path.join(HERE, "build_submission_pdf.py")
+        spec = importlib.util.spec_from_file_location("_bsp_for_packet", path)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        _BUILDER_PAPERS = dict(getattr(mod, "PAPERS", {}))
+    except Exception:  # noqa: BLE001 — a builder that will not import is reported by its own gate
+        _BUILDER_PAPERS = {}
+    return _BUILDER_PAPERS
+
+
+_BUILDER_PAPERS = None
+
+
+def _paper_review_supplements(manuscript_rel):
+    """Files the builder says are uploaded with this submission for the reviewers.
+
+    Returns () when the paper declares none. ⛔ NOT a directory scan: whether a file is submitted
+    for review is a decision recorded on the paper, and the deposit directory holds artefacts that
+    are archived rather than submitted. Guessing here would put the wrong files in an envelope.
+    """
+    for paper in _builder_papers().values():
+        if paper.get("manuscript") == manuscript_rel:
+            return tuple(paper.get("supplementary_for_review") or ())
+    return ()
+
+
 def _paper_supplementary(manuscript_rel):
     """The SI `build_submission_pdf.PAPERS` says this manuscript has, or "" if it has none.
 
@@ -173,17 +213,10 @@ def _paper_supplementary(manuscript_rel):
     same question by globbing a directory is a second home for it, and the second home is the one
     that was wrong.
     """
-    try:
-        import importlib.util
-        path = os.path.join(HERE, "build_submission_pdf.py")
-        spec = importlib.util.spec_from_file_location("_bsp_for_packet", path)
-        mod = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(mod)
-    except Exception:
-        return ""
-    for paper in getattr(mod, "PAPERS", {}).values():
+    for paper in _builder_papers().values():
         if paper.get("manuscript") == manuscript_rel:
             return paper.get("supplementary") or ""
+    return ""
     return ""
 
 
@@ -286,6 +319,10 @@ def main():
         # builder is where it is now read from. The directory scan stays for the cover letter, where
         # one letter legitimately serves the submission.
         si = bool(_paper_supplementary(row["file"]))
+        #: Files uploaded ALONGSIDE the manuscript for the reviewers, distinct from an SI document.
+        #: Read from the builder entry, never guessed from the directory: "for review only" is a
+        #: submission decision, and a directory scan cannot tell it from an archive artefact.
+        review_only = _paper_review_supplements(row["file"])
 
         L += [f"## {row['venue']}", "", f"**Manuscript** `{row['file']}`", ""]
         L += ["| field | value |", "|---|---|",
@@ -299,6 +336,8 @@ def main():
               f"{' (limit ' + str(lim['references']) + ')' if lim.get('references') else ''} |",
               f"| Cover letter | {'n/a (preprint deposit)' if preprint else ('`' + letter + '`' if letter else 'MISSING')} |",
               f"| Supplementary file | {'yes' if si else 'none'} |",
+              f"| Supplemental material, for review | "
+              f"{', '.join('`' + f + '`' for f in review_only) if review_only else 'none'} |",
               f"| Fee route | {v.get('zero_dollar_route', 'not recorded')} |", ""]
         if row.get("over_limit"):
             L += ["> **Over a stated limit:** " + "; ".join(row["over_limit"]), ""]

@@ -48,6 +48,62 @@ ARTICLES = {
                                     "fusion-junction-aso-journal-article.md"),
 }
 ARTICLE = ARTICLES["extended-report"]
+
+#: ⭐⭐ WHAT KIND OF CLAIM EACH TITLE MAKES, DECLARED PER PAPER (2026-08-24, trimcrae).
+#:
+#: ⛔ READ THIS BEFORE CHANGING A ROW. This file was written on the premise that BOTH ASO titles
+#: state the central negative — its own words: "a title that drops the proportion drops the
+#: finding." That premise held while both papers were the same argument at two lengths. It stopped
+#: holding when the condensed article was retitled to what a laboratory receives (reagents, test
+#: articles, an experiment) rather than to what the screen found, because the paper's stated purpose
+#: is to be a blueprint a wet lab can execute. The extended report is unchanged and still states
+#: the measurement.
+#:
+#: ⚠ THIS IS A SCOPING, NOT A RELAXATION, AND THE DIFFERENCE IS THE WHOLE POINT. A
+#: `deliverable` title is not exempt from checking — it is held to the OPPOSITE contract: it must
+#: carry no rate, no ratio, no criterion and no liability predicate AT ALL, so there is nothing in
+#: it that can go stale silently. Put a number back in that title and the checks below fail and
+#: tell you to move the row to `measurement`. The one thing this file must never become is a file
+#: that silently checks nothing, which is exactly what it caught itself doing twice: a bare
+#: `return` that made the predicate check vacuous on the extended report (round 16 seat 5), and an
+#: alternation satisfied by the unit inside "ten-base-pair" (same round).
+TITLE_CONTRACT = {
+    "extended-report": "measurement",
+    "journal-article": "deliverable",
+}
+MEASUREMENT_PAPERS = sorted(k for k, v in TITLE_CONTRACT.items() if v == "measurement")
+
+
+def _contract(paper):
+    assert paper in TITLE_CONTRACT, (
+        f"{paper} has no entry in TITLE_CONTRACT, so nothing declares what kind of claim its title "
+        "makes and every check below would silently choose one for it.")
+    return TITLE_CONTRACT[paper]
+
+
+def _assert_states_no_measurement(paper, title):
+    """A `deliverable` title's contract: it carries nothing that can go stale.
+
+    ⛔ EVERY CHANNEL THE `measurement` CHECKS POLICE IS REFUSED HERE, not ignored. If a rate word,
+    an `n of N`, a base-pair criterion or a liability predicate ever appears in this title, it is
+    making a quantitative claim again and must be checked as one.
+    """
+    offenders = []
+    if _RATE_SCANNER.search(title):
+        offenders.append(f"a rate word ({_RATE_SCANNER.search(title).group(0).strip()!r})")
+    if re.search(r"\b\d+ of \d+\b", title):
+        offenders.append("an 'n of N' ratio")
+    if re.search(r"\b([a-z]+|\d+)[- ]base[- ]pairs?\b|\b(\d+)\s*bp\b", title, re.I):
+        offenders.append("a base-pair criterion")
+    if _LIABILITY_PREDICATE.search(title):
+        offenders.append("the liability predicate")
+    assert not offenders, (
+        f"{paper}'s title is declared `deliverable` in TITLE_CONTRACT — a title that names what the "
+        f"paper provides and states no measurement — but it now carries "
+        f"{', '.join(offenders)}:\n  {title}\n\n"
+        "A number in a title goes stale silently, which is why this file exists. Either take it out, "
+        f"or move {paper!r} to `measurement` in TITLE_CONTRACT so the rate, criterion and predicate "
+        "checks apply to it again.")
 NULL = os.path.join(REPO, "research", "modalities", "aso-parent-null.json")
 
 _WORDS = ("zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen "
@@ -144,6 +200,9 @@ def test_the_titles_rate_word_is_one_the_measurement_supports(paper):
     observed = _artifact()["observed"]
     rate = observed["n_liable"] / observed["n_designs"]
     title = _plain(_front_matter_title(ARTICLES[paper]))
+    if _contract(paper) == "deliverable":
+        _assert_states_no_measurement(paper, title)
+        return
     # ⭐ AN EXACT RATIO IS A RATE, AND A STRICTLY BETTER ONE (2026-08-22). The condensed title says
     # "87 of 190" where the extended report says "nearly half": no band to license, both numbers
     # checked against the artifact directly, and the reader is told the denominator. A guard that
@@ -174,6 +233,9 @@ def test_the_title_states_the_criterion_the_artifact_was_read_at(paper):
     """The rate is meaningless without its cut, and the cut is adopted rather than measured."""
     cut = _artifact()["method"]["min_duplex_bp"]
     title = _plain(_front_matter_title(ARTICLES[paper]))
+    if _contract(paper) == "deliverable":
+        _assert_states_no_measurement(paper, title)
+        return
     # ⚠ THREE SPELLINGS, ONE PROPERTY. The extended report writes "a ten-base-pair duplex"; the
     # condensed title, which is built to a page budget where every character is charged for, writes
     # "at 10 bp". Both name the same cut, and a guard that admitted only the hyphenated form would
@@ -378,6 +440,12 @@ def test_the_titles_predicate_is_the_relation_the_artifact_counts(paper):
     """⛔ WHAT THE COUNT DOES, NOT ONLY WHAT THE COUNT IS."""
     title = _plain(_front_matter_title(ARTICLES[paper]))
     observed = _artifact()["observed"]
+    # ⚠ THE `deliverable` BRANCH IS NOT THE BARE `return` THIS COMMENT WARNS ABOUT. That defect was
+    # an early exit that asserted NOTHING; this one asserts the opposite contract first and only
+    # then returns, so the case can still fail. Removing the call below would recreate the defect.
+    if _contract(paper) == "deliverable":
+        _assert_states_no_measurement(paper, title)
+        return
     # ⛔⛔ THIS WAS A BARE `return`, AND IT MEANT THIS TEST NEVER ASSERTED ANYTHING ON THE EXTENDED
     # REPORT (round 16 seat 5, 2026-08-22). Round 15 added the predicate check because a title could
     # be inverted -- "87 designs SPARE a wild-type parent" -- with every number still correct. The
@@ -424,7 +492,15 @@ def test_the_predicate_patterns_are_exercised_by_the_titles_they_police():
     # matching the UNIT inside "ten-base-pair". The alternation is now anchored against compound
     # units (above), and this guard asks the stronger question: EVERY policed title must match, so a
     # single reworded title fails here instead of hiding behind its sibling.
-    titles = {k: _plain(_front_matter_title(ARTICLES[k])) for k in ARTICLES}
+    # ⚠ SCOPED TO THE `measurement` TITLES (2026-08-24). A `deliverable` title is REQUIRED to carry
+    # no liability predicate, so demanding one of every title would make the two contracts
+    # contradict. The alternation is still proven live two ways: every measurement-stating title
+    # must match it, and the synthetic assertions below fail if it can be satisfied by a unit alone
+    # — so it cannot go stale merely because fewer real titles exercise it.
+    assert MEASUREMENT_PAPERS, (
+        "no paper is declared `measurement` in TITLE_CONTRACT, so _LIABILITY_PREDICATE is exercised "
+        "by no real title at all and the predicate check is vacuous everywhere.")
+    titles = {k: _plain(_front_matter_title(ARTICLES[k])) for k in MEASUREMENT_PAPERS}
     missing = sorted(k for k, t in titles.items() if not _LIABILITY_PREDICATE.search(t))
     assert not missing, (
         f"{', '.join(missing)}: the title does not match _LIABILITY_PREDICATE, so the predicate "

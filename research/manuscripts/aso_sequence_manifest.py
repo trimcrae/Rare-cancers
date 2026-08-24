@@ -566,14 +566,25 @@ def _stamp_the_predicted_tm(rows):
     `_UNMEASURED_COLUMNS` machinery is not extended to these, because blank here means "this design
     is outside that artifact's panel", not "measured and found absent".
     """
-    try:
-        thermo = _load("junction-aso-thermo.json")
-    except FileNotFoundError:
-        return
-    if not thermo:
+    #: BOTH thermodynamics panels. The 5-6-5 manuscript panel and the noncoding-acceptor panel are
+    #: separate artifacts on purpose — the manuscript quotes the first one's counts and medians, so
+    #: adding designs to it would move numbers the prose pins. They are merged only HERE, where the
+    #: question is "what is this sequence's Tm", which has one answer per sequence either way.
+    #: ⭐ The exon-2 acceptor panel is included because the measured acceptor numbering
+    #: (`nr4a3-acceptor-exon-numbering.json`) makes exon 2 the acceptor the only available
+    #: fusion-positive EMC cell models may actually carry, so a laboratory ordering against those
+    #: models needs these values as much as the exon-3 ones.
+    records = []
+    for name in ("junction-aso-thermo.json", "junction-aso-thermo-noncoding-acceptor.json"):
+        try:
+            block = _load(name)
+        except FileNotFoundError:
+            continue
+        records.extend((block or {}).get("per_design") or [])
+    if not records:
         return
     by_sequence = {}
-    for rec in thermo.get("per_design") or []:
+    for rec in records:
         seq = rec.get("antisense_5to3")
         pair = (rec.get("tm_fusion_duplex_c"), rec.get("tm_best_parent_duplex_c"))
         if seq is None or pair[0] is None or pair[1] is None:
@@ -581,7 +592,7 @@ def _stamp_the_predicted_tm(rows):
         held = by_sequence.setdefault(seq, pair)
         if held != pair:
             raise SystemExit(
-                f"junction-aso-thermo.json gives sequence {seq} two different Tm pairs, {held} and "
+                f"the thermo panels give sequence {seq} two different Tm pairs, {held} and "
                 f"{pair}. The manifest keys Tm on the sequence because the panel's duplexes do not "
                 "depend on which junction a design is named at; that is no longer true, so this "
                 "column must be keyed on (sequence, junction) before it can be written.")

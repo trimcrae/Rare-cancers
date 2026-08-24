@@ -51,6 +51,89 @@ is and is not established about each, is in the preprint checklist §2b. The ORD
 question: NAT's own guidelines say "Accepts preprints? Yes", so posting first cannot disqualify the
 submission.
 
+## 1a‴ · THE AUTHOR'S CAP IS $600 TOTAL, AND ONLY TWO VENUES CLEAR IT (trimcrae, 2026-08-24)
+
+⛔ **THIS IS A HARD CEILING ON WHAT PUBLISHING THIS PAPER MAY COST, AND IT RE-PRICES EVERY ROW
+ABOVE.** Against it:
+
+| venue | what it would cost | clears $600? |
+|---|---|---|
+| **Nucleic Acid Therapeutics** | page charges at the read rate, for a manuscript held to the six-page budget, with **no colour requested in print** | ✅ **yes, with one page of headroom and no more** |
+| British Journal of Cancer | nothing | ✅ yes — but a desk-rejection risk this paper has already reasoned about |
+| Cancer Gene Therapy | page charges at its read rate, which is the higher one | ❌ no |
+| NAR Cancer · Molecular Therapy — Nucleic Acids | a mandatory APC in either case | ❌ no, by a wide margin |
+
+★★ **TWO THINGS NOW COST REAL MONEY THAT DID NOT BEFORE, AND BOTH ARE SILENT UNTIL ACCEPTANCE.**
+
+1. **A SEVENTH TYPESET PAGE BREAKS THE CAP.** The six-page budget was a fee-minimisation
+   preference; it is now the difference between clearing $600 and not.
+   [`test_the_journal_pdf_fits_its_page_budget.py`](../tests/test_the_journal_pdf_fits_its_page_budget.py)
+   is what enforces it, and its instruction — pay for an overflow by cutting elsewhere, never by
+   raising the budget — is now backed by the author's ceiling rather than by taste alone.
+   ⚠ **AND THE PAGE COUNT IS A MODEL, NOT THE JOURNAL'S TYPESETTER.** Our count is taken at NAT's
+   own measured geometry ([`venue-typeset-geometry.json`](../../literature/venue-typeset-geometry.json),
+   read off its published PDFs), which is the best instrument available here and is still not their
+   compositor. **One page of disagreement is the whole headroom**, so the honest statement is that
+   this clears the cap on our measurement, not that it is guaranteed to.
+2. **⛔ DO NOT REQUEST COLOUR REPRODUCTION IN PRINT.** The guidelines capture is explicit that
+   figures supplied in colour appear in colour **online regardless**, and that a print colour
+   charge applies only where the author **requests** print colour — at a first-image rate that
+   alone would exceed this cap several times over. The election is stated in the cover letter so
+   it is not left to a proof-stage default.
+   ⭐ **AND THE FIGURE WAS MADE TO SURVIVE THAT, 2026-08-24.** Its panel already did: the breakpoint
+   is a rule, donor and acceptor sit either side of it, the divergent base is boxed, and each row's
+   reporting status is spelled out in words. **Its own caption did not** — it read "Blue, donor
+   exon; green, NR4A3 acceptor exon", naming two channels a greyscale print reader cannot see, and
+   measured in greyscale those two fills separate at about 1.1:1. The caption now leads with the
+   channel that survives print and names colour as the online cue.
+
+⛔ **Do not multiply any rate by any page count in this repository.** The rates have one home
+(the guidelines capture), the page count has another (the budget test), and this section states the
+verdict rather than the product.
+
+## 1a″ · The reviewer's two alternatives were priced, and both are worse (2026-08-24)
+
+External review proposed *Molecular Therapy — Nucleic Acids* or *NAR Cancer* as better first targets
+given the absence of wet-lab data. Both were priced. **Neither is cheaper than the current venue,
+and both break the $0 constraint harder than it is already broken.**
+
+⚠ **THE PROVENANCE COLUMN IS THE POINT — two of these rows are READ and two are not.** Elsevier and
+Oxford University Press both returned **403 to the runner**, which is the same datacenter-IP refusal
+this repository has recorded before, so their figures remain search-derived and must not be cited as
+retrieved facts.
+
+| venue | author-facing cost | route | provenance |
+|---|---|---|---|
+| **Nucleic Acid Therapeutics** (SAGE) | **$90 per typeset page** | subscription; APC-free | ✅ **READ** at primary source 2026-08-23 by trimcrae in a browser → [`nat-submission-guidelines-2026-08-23.md`](../../literature/nat-submission-guidelines-2026-08-23.md) |
+| **Cancer Gene Therapy** (Springer Nature) | **$238 per page** (£145), colour inclusive; or APC £3490 | subscription charges per page, OA waives it | ✅ **READ** 2026-08-24, HTTP 200, headless browser → [`browser-fetch.json`](../../literature/browser-fetch.json) |
+| Molecular Therapy — Nucleic Acids (Elsevier) | ~$3,900 APC | gold OA, mandatory | ⚠ **SEARCH-DERIVED** — the guide-for-authors page returned **403** to the runner |
+| NAR Cancer (OUP) | ~$2,391 APC | gold OA, mandatory | ⚠ **SEARCH-DERIVED** — both author-guideline and charges pages returned **403** |
+| British Journal of Cancer | $0 | subscription | ✅ READ previously; desk-rejection risk for a wet-lab-free ultra-rare sarcoma design study |
+
+⭐ **THIS ALSO CLOSES A RISK THIS REPOSITORY HAD FLAGGED AND LEFT OPEN.**
+[`submission-metrics.json`](../submission-metrics.json) carried
+`⛔_the_CGT_fee_schedule_is_unread_and_that_is_a_live_submission_risk`, because the $0 reading of
+Cancer Gene Therapy rested on its open-access page alone and every author-guideline path tried had
+returned 404. The Guide to Authors has now been read, and the answer is that **CGT is not a $0 route
+either** — it charges per page on the subscription option, at a higher rate than the current venue.
+That note is corrected in place rather than deleted.
+
+⛔ **Do not multiply any rate above by a page count anywhere in this repository.** The rate has one
+home and the page count has another
+([`test_the_journal_pdf_fits_its_page_budget.py`](../tests/test_the_journal_pdf_fits_its_page_budget.py)),
+and a product typed into prose drifts against both.
+
+**What this does not settle.** Cost is not the only axis, and the reviewer's underlying point — that
+an oligonucleotide-therapeutics journal is a hard room for a paper with no wet-lab data — is not
+answered by pricing.
+
+⛔ **AND IT IS NOT TO BE PUT TO THE EDITOR (trimcrae, 2026-08-24: "Don't ask the editor anything").**
+⚠ *Superseded, retained: "It is answered, if at all, by the article type: whether NAT's **Methods**
+type fits … That question is for the editor and is trimcrae's to ask."* A pre-submission enquiry is
+an outward-facing act, it is not authorised, and no session should open one. The submission stands
+or falls on the manuscript as built; the article type stays **Original Paper**, which is what the
+builder declares and what the page budget is graded against.
+
 ## 1a′ · The $0 rule does not survive this venue, and that is a decision already taken
 
 ⛔ **NAT'S FEE IS REAL, MANDATORY AND NOW READ.** The Publishing Services Fee is charged per typeset

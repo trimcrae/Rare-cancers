@@ -1,0 +1,553 @@
+{
+ "_what": "Nearest-neighbour duplex thermodynamics for every fusion-specific junction gapmer, and an audit of each against conventional antisense design rules.",
+ "_why": "The manuscript's limiting question is discrimination between the fusion and its two parent transcripts. It was answered with a base-count margin; this is the same question asked with the field's standard instrument.",
+ "\u26a0_not_a_cleavage_prediction": "\u0394\u0394G is a statement about duplex stability. RNase-H1 additionally requires a paired DNA gap, which is geometric and not encoded in a free energy. These two instruments answer adjacent questions; that is why their agreement is informative rather than circular.",
+ "\u26a0_lna_not_modelled": "The designs are 5-6-5 LNA/DNA/LNA and this table is for an unmodified DNA:RNA hybrid, so these are the duplexes the DNA backbone would form. Because the seam lies inside the gap, the fusion duplex pairs all TEN LNA residues while each parent duplex pairs exactly FIVE, for every design by construction \u2014 so LNA widens \u0394\u0394G rather than compressing it, and the discrimination reported here is a conservative FLOOR on the modified oligonucleotide's, not a ceiling. Argued from the architecture, not computed: no LNA parameters are applied. \u26a0 Superseded, retained: this field previously said the opposite, that LNA 'compresses \u0394\u0394G' and the value is an UPPER bound.",
+ "parameters": {
+  "table": "Bio.SeqUtils.MeltingTemp.R_DNA_NN1",
+  "biopython_version": "1.88",
+  "primary_source": "Sugimoto N, Nakano S, Katoh M, Matsumura A, Nakamuta H, Ohmichi T, Yoneyama M, Sasaki M. Thermodynamic parameters to predict stability of RNA/DNA hybrid duplexes. Biochemistry. 1995;34(35):11211-11216.",
+  "pmid": "7545436",
+  "units": "(delta_H kcal/mol, delta_S cal/mol/K)",
+  "\u26a0_read_not_typed": "Values come from the installed package, which names the paper above in its own source. No parameter in this artifact was entered by hand."
+ },
+ "conditions": {
+  "temperature_k": 310.15,
+  "strand_conc_nm": 250.0,
+  "delta_g_units": "kcal/mol"
+ },
+ "convention_validation": {
+  "ran": true,
+  "n_sequences": 20,
+  "max_abs_tm_difference_c": 0.0,
+  "agrees": true,
+  "_what_this_proves": "This module's nearest-neighbour SUMMATION AND KEYING reproduce an independent implementation (Biopython's Tm_NN, walking the same table through its own code path) over 20 of the design set's 16-mers, to within 0.01 \u00b0C. That is the whole of what it establishes.",
+  "\u26d4_what_this_does_NOT_prove": "It does NOT rule out a reversed strand convention, and this field said it did until 2026-08-13. Both implementations build the nearest-neighbour key the same way from whatever sequence they are handed, so they agree on either strand. Measured on design GGGCATATCCGTGGAC: the target strand gives \u0394G\u00b037 -21.371 and the antisense strand -22.975, and at BOTH the two implementations agree to 0.0000 \u00b0C. The strand is fixed instead by Biopython's documented convention for R_DNA_NN1 \u2014 the sequence supplied must be the RNA one \u2014 and this module supplies target_mRNA_5to3, which is that sequence.",
+  "\u26a0_superseded_what_this_proves": "Rule 1.2, retained: 'This module's nearest-neighbour keying reproduces an independent implementation over the real design set. A reversed strand convention would diverge here and is ruled out.' Both halves were wrong. The check ran on a [:60] slice of the 190 designs while the artifact's own n_sequences read 60, and it has no power over the strand at all. The slice is gone and the claim is now scoped to what was measured."
+ },
+ "n_designs": 20,
+ "discrimination_ddg37": {
+  "min": 8.027,
+  "median": 10.935,
+  "\u26a0_superseded_median": "Rule 1.2, retained: 9.603, the value this field carried until 2026-08-13. It was `sorted(ddg)[len(ddg) // 2]` over 190 values \u2014 the upper of the two central values (9.582 and 9.603), not their mean. The corrected median is 9.5925; both round to the 9.6 the manuscript prints, so no sentence changes.",
+  "max": 13.832,
+  "n_favouring_fusion": 20,
+  "n_favouring_a_parent": 0
+ },
+ "mean_ddg37_by_gap_level_margin": {
+  "1": 10.123,
+  "2": 11.828,
+  "3": 12.458
+ },
+ "design_rule_audit": {
+  "_what": "How many designs satisfy each conventional rule, and how many satisfy all.",
+  "rules": {
+   "gc_in_band": {
+    "what": "GC content within the conventional 40-60% gapmer window",
+    "why": "the band most gapmer design guidance uses; outside it, affinity or specificity is usually the reason"
+   },
+   "no_g_quadruplex_motif": {
+    "what": "no G-quadruplex motif (four runs of >=2 G)",
+    "why": "G-quadruplex-forming oligonucleotides aggregate and show sequence-independent protein binding"
+   },
+   "no_run_of_four": {
+    "what": "no homopolymer run of four or more identical bases",
+    "why": "long runs, G-runs especially, are a standard exclusion in oligonucleotide design"
+   },
+   "no_cpg": {
+    "what": "no CpG dinucleotide",
+    "why": "unmethylated CpG is the canonical TLR9 immunostimulatory motif and is routinely avoided in therapeutic oligonucleotides"
+   }
+  },
+  "n_satisfying_each": {
+   "gc_in_band": 8,
+   "no_g_quadruplex_motif": 20,
+   "no_run_of_four": 20,
+   "no_cpg": 16
+  },
+  "n_satisfying_all": 8,
+  "n_designs": 20
+ },
+ "per_design": [
+  {
+   "junction": "EWSR1_e7__NR4A3_e2",
+   "antisense_5to3": "AGTGGGCTTCTGCTGC",
+   "gc_percent": 62.5,
+   "gap_specificity_margin": 3,
+   "n_donor_side": 8,
+   "n_acceptor_side": 8,
+   "dg37_fusion_duplex": -22.634,
+   "dg37_donor_parent_duplex": -9.029,
+   "dg37_acceptor_parent_duplex": -9.488,
+   "dg37_best_parent_duplex": -9.488,
+   "ddg37_discrimination": 13.146,
+   "tm_fusion_duplex_c": 72.4,
+   "tm_donor_parent_duplex_c": 30.5,
+   "tm_acceptor_parent_duplex_c": 33.0,
+   "tm_best_parent_duplex_c": 33.0,
+   "dtm_discrimination_c": 39.4,
+   "design_rules": {
+    "gc_in_band": false,
+    "no_g_quadruplex_motif": true,
+    "no_run_of_four": true,
+    "no_cpg": true
+   }
+  },
+  {
+   "junction": "EWSR1_e7__NR4A3_e2",
+   "antisense_5to3": "CAGTGGGCTTCTGCTG",
+   "gc_percent": 62.5,
+   "gap_specificity_margin": 2,
+   "n_donor_side": 7,
+   "n_acceptor_side": 9,
+   "dg37_fusion_duplex": -21.53,
+   "dg37_donor_parent_duplex": -6.333,
+   "dg37_acceptor_parent_duplex": -11.079,
+   "dg37_best_parent_duplex": -11.079,
+   "ddg37_discrimination": 10.451,
+   "tm_fusion_duplex_c": 68.2,
+   "tm_donor_parent_duplex_c": 13.7,
+   "tm_acceptor_parent_duplex_c": 41.1,
+   "tm_best_parent_duplex_c": 41.1,
+   "dtm_discrimination_c": 27.2,
+   "design_rules": {
+    "gc_in_band": false,
+    "no_g_quadruplex_motif": true,
+    "no_run_of_four": true,
+    "no_cpg": true
+   }
+  },
+  {
+   "junction": "EWSR1_e7__NR4A3_e2",
+   "antisense_5to3": "GTGGGCTTCTGCTGCC",
+   "gc_percent": 68.8,
+   "gap_specificity_margin": 2,
+   "n_donor_side": 9,
+   "n_acceptor_side": 7,
+   "dg37_fusion_duplex": -24.65,
+   "dg37_donor_parent_duplex": -11.936,
+   "dg37_acceptor_parent_duplex": -8.598,
+   "dg37_best_parent_duplex": -11.936,
+   "ddg37_discrimination": 12.714,
+   "tm_fusion_duplex_c": 76.8,
+   "tm_donor_parent_duplex_c": 44.9,
+   "tm_acceptor_parent_duplex_c": 27.0,
+   "tm_best_parent_duplex_c": 44.9,
+   "dtm_discrimination_c": 31.8,
+   "design_rules": {
+    "gc_in_band": false,
+    "no_g_quadruplex_motif": true,
+    "no_run_of_four": true,
+    "no_cpg": true
+   }
+  },
+  {
+   "junction": "EWSR1_e7__NR4A3_e2",
+   "antisense_5to3": "GCAGTGGGCTTCTGCT",
+   "gc_percent": 62.5,
+   "gap_specificity_margin": 1,
+   "n_donor_side": 6,
+   "n_acceptor_side": 10,
+   "dg37_fusion_duplex": -23.321,
+   "dg37_donor_parent_duplex": -5.428,
+   "dg37_acceptor_parent_duplex": -13.776,
+   "dg37_best_parent_duplex": -13.776,
+   "ddg37_discrimination": 9.545,
+   "tm_fusion_duplex_c": 74.1,
+   "tm_donor_parent_duplex_c": 2.9,
+   "tm_acceptor_parent_duplex_c": 52.6,
+   "tm_best_parent_duplex_c": 52.6,
+   "dtm_discrimination_c": 21.5,
+   "design_rules": {
+    "gc_in_band": false,
+    "no_g_quadruplex_motif": true,
+    "no_run_of_four": true,
+    "no_cpg": true
+   }
+  },
+  {
+   "junction": "EWSR1_e7__NR4A3_e2",
+   "antisense_5to3": "TGGGCTTCTGCTGCCC",
+   "gc_percent": 68.8,
+   "gap_specificity_margin": 1,
+   "n_donor_side": 10,
+   "n_acceptor_side": 6,
+   "dg37_fusion_duplex": -25.472,
+   "dg37_donor_parent_duplex": -14.842,
+   "dg37_acceptor_parent_duplex": -6.512,
+   "dg37_best_parent_duplex": -14.842,
+   "ddg37_discrimination": 10.63,
+   "tm_fusion_duplex_c": 76.9,
+   "tm_donor_parent_duplex_c": 55.7,
+   "tm_acceptor_parent_duplex_c": 12.3,
+   "tm_best_parent_duplex_c": 55.7,
+   "dtm_discrimination_c": 21.2,
+   "design_rules": {
+    "gc_in_band": false,
+    "no_g_quadruplex_motif": true,
+    "no_run_of_four": true,
+    "no_cpg": true
+   }
+  },
+  {
+   "junction": "EWSR1_e13__NR4A3_e2",
+   "antisense_5to3": "AGTGGGCTCTCCACGG",
+   "gc_percent": 68.8,
+   "gap_specificity_margin": 3,
+   "n_donor_side": 8,
+   "n_acceptor_side": 8,
+   "dg37_fusion_duplex": -23.32,
+   "dg37_donor_parent_duplex": -9.41,
+   "dg37_acceptor_parent_duplex": -9.488,
+   "dg37_best_parent_duplex": -9.488,
+   "ddg37_discrimination": 13.832,
+   "tm_fusion_duplex_c": 71.0,
+   "tm_donor_parent_duplex_c": 33.4,
+   "tm_acceptor_parent_duplex_c": 33.0,
+   "tm_best_parent_duplex_c": 33.4,
+   "dtm_discrimination_c": 37.6,
+   "design_rules": {
+    "gc_in_band": false,
+    "no_g_quadruplex_motif": true,
+    "no_run_of_four": true,
+    "no_cpg": false
+   }
+  },
+  {
+   "junction": "EWSR1_e13__NR4A3_e2",
+   "antisense_5to3": "GTGGGCTCTCCACGGA",
+   "gc_percent": 68.8,
+   "gap_specificity_margin": 2,
+   "n_donor_side": 9,
+   "n_acceptor_side": 7,
+   "dg37_fusion_duplex": -23.928,
+   "dg37_donor_parent_duplex": -10.908,
+   "dg37_acceptor_parent_duplex": -8.598,
+   "dg37_best_parent_duplex": -10.908,
+   "ddg37_discrimination": 13.02,
+   "tm_fusion_duplex_c": 72.3,
+   "tm_donor_parent_duplex_c": 39.8,
+   "tm_acceptor_parent_duplex_c": 27.0,
+   "tm_best_parent_duplex_c": 39.8,
+   "dtm_discrimination_c": 32.6,
+   "design_rules": {
+    "gc_in_band": false,
+    "no_g_quadruplex_motif": true,
+    "no_run_of_four": true,
+    "no_cpg": false
+   }
+  },
+  {
+   "junction": "EWSR1_e13__NR4A3_e2",
+   "antisense_5to3": "CAGTGGGCTCTCCACG",
+   "gc_percent": 68.8,
+   "gap_specificity_margin": 2,
+   "n_donor_side": 7,
+   "n_acceptor_side": 9,
+   "dg37_fusion_duplex": -22.807,
+   "dg37_donor_parent_duplex": -7.306,
+   "dg37_acceptor_parent_duplex": -11.079,
+   "dg37_best_parent_duplex": -11.079,
+   "ddg37_discrimination": 11.728,
+   "tm_fusion_duplex_c": 69.3,
+   "tm_donor_parent_duplex_c": 22.6,
+   "tm_acceptor_parent_duplex_c": 41.1,
+   "tm_best_parent_duplex_c": 41.1,
+   "dtm_discrimination_c": 28.2,
+   "design_rules": {
+    "gc_in_band": false,
+    "no_g_quadruplex_motif": true,
+    "no_run_of_four": true,
+    "no_cpg": false
+   }
+  },
+  {
+   "junction": "EWSR1_e13__NR4A3_e2",
+   "antisense_5to3": "TGGGCTCTCCACGGAG",
+   "gc_percent": 68.8,
+   "gap_specificity_margin": 1,
+   "n_donor_side": 10,
+   "n_acceptor_side": 6,
+   "dg37_fusion_duplex": -22.733,
+   "dg37_donor_parent_duplex": -11.798,
+   "dg37_acceptor_parent_duplex": -6.512,
+   "dg37_best_parent_duplex": -11.798,
+   "ddg37_discrimination": 10.935,
+   "tm_fusion_duplex_c": 68.6,
+   "tm_donor_parent_duplex_c": 42.9,
+   "tm_acceptor_parent_duplex_c": 12.3,
+   "tm_best_parent_duplex_c": 42.9,
+   "dtm_discrimination_c": 25.8,
+   "design_rules": {
+    "gc_in_band": false,
+    "no_g_quadruplex_motif": true,
+    "no_run_of_four": true,
+    "no_cpg": false
+   }
+  },
+  {
+   "junction": "EWSR1_e13__NR4A3_e2",
+   "antisense_5to3": "GCAGTGGGCTCTCCAC",
+   "gc_percent": 68.8,
+   "gap_specificity_margin": 1,
+   "n_donor_side": 6,
+   "n_acceptor_side": 10,
+   "dg37_fusion_duplex": -23.812,
+   "dg37_donor_parent_duplex": -5.614,
+   "dg37_acceptor_parent_duplex": -13.776,
+   "dg37_best_parent_duplex": -13.776,
+   "ddg37_discrimination": 10.036,
+   "tm_fusion_duplex_c": 74.8,
+   "tm_donor_parent_duplex_c": 7.4,
+   "tm_acceptor_parent_duplex_c": 52.6,
+   "tm_best_parent_duplex_c": 52.6,
+   "dtm_discrimination_c": 22.1,
+   "design_rules": {
+    "gc_in_band": false,
+    "no_g_quadruplex_motif": true,
+    "no_run_of_four": true,
+    "no_cpg": true
+   }
+  },
+  {
+   "junction": "PGR_e2__NR4A3_e2",
+   "antisense_5to3": "AGTGGGCTCTTCCATT",
+   "gc_percent": 50.0,
+   "gap_specificity_margin": 3,
+   "n_donor_side": 8,
+   "n_acceptor_side": 8,
+   "dg37_fusion_duplex": -21.326,
+   "dg37_donor_parent_duplex": -7.416,
+   "dg37_acceptor_parent_duplex": -9.488,
+   "dg37_best_parent_duplex": -9.488,
+   "ddg37_discrimination": 11.838,
+   "tm_fusion_duplex_c": 67.8,
+   "tm_donor_parent_duplex_c": 23.1,
+   "tm_acceptor_parent_duplex_c": 33.0,
+   "tm_best_parent_duplex_c": 33.0,
+   "dtm_discrimination_c": 34.8,
+   "design_rules": {
+    "gc_in_band": true,
+    "no_g_quadruplex_motif": true,
+    "no_run_of_four": true,
+    "no_cpg": true
+   }
+  },
+  {
+   "junction": "PGR_e2__NR4A3_e2",
+   "antisense_5to3": "GTGGGCTCTTCCATTG",
+   "gc_percent": 56.2,
+   "gap_specificity_margin": 2,
+   "n_donor_side": 9,
+   "n_acceptor_side": 7,
+   "dg37_fusion_duplex": -21.341,
+   "dg37_donor_parent_duplex": -8.321,
+   "dg37_acceptor_parent_duplex": -8.598,
+   "dg37_best_parent_duplex": -8.598,
+   "ddg37_discrimination": 12.743,
+   "tm_fusion_duplex_c": 67.3,
+   "tm_donor_parent_duplex_c": 28.7,
+   "tm_acceptor_parent_duplex_c": 27.0,
+   "tm_best_parent_duplex_c": 28.7,
+   "dtm_discrimination_c": 38.6,
+   "design_rules": {
+    "gc_in_band": true,
+    "no_g_quadruplex_motif": true,
+    "no_run_of_four": true,
+    "no_cpg": true
+   }
+  },
+  {
+   "junction": "PGR_e2__NR4A3_e2",
+   "antisense_5to3": "CAGTGGGCTCTTCCAT",
+   "gc_percent": 56.2,
+   "gap_specificity_margin": 2,
+   "n_donor_side": 7,
+   "n_acceptor_side": 9,
+   "dg37_fusion_duplex": -21.91,
+   "dg37_donor_parent_duplex": -6.408,
+   "dg37_acceptor_parent_duplex": -11.079,
+   "dg37_best_parent_duplex": -11.079,
+   "ddg37_discrimination": 10.831,
+   "tm_fusion_duplex_c": 68.8,
+   "tm_donor_parent_duplex_c": 15.8,
+   "tm_acceptor_parent_duplex_c": 41.1,
+   "tm_best_parent_duplex_c": 41.1,
+   "dtm_discrimination_c": 27.8,
+   "design_rules": {
+    "gc_in_band": true,
+    "no_g_quadruplex_motif": true,
+    "no_run_of_four": true,
+    "no_cpg": true
+   }
+  },
+  {
+   "junction": "PGR_e2__NR4A3_e2",
+   "antisense_5to3": "TGGGCTCTTCCATTGC",
+   "gc_percent": 56.2,
+   "gap_specificity_margin": 1,
+   "n_donor_side": 10,
+   "n_acceptor_side": 6,
+   "dg37_fusion_duplex": -21.952,
+   "dg37_donor_parent_duplex": -11.017,
+   "dg37_acceptor_parent_duplex": -6.512,
+   "dg37_best_parent_duplex": -11.017,
+   "ddg37_discrimination": 10.935,
+   "tm_fusion_duplex_c": 68.6,
+   "tm_donor_parent_duplex_c": 40.2,
+   "tm_acceptor_parent_duplex_c": 12.3,
+   "tm_best_parent_duplex_c": 40.2,
+   "dtm_discrimination_c": 28.3,
+   "design_rules": {
+    "gc_in_band": true,
+    "no_g_quadruplex_motif": true,
+    "no_run_of_four": true,
+    "no_cpg": true
+   }
+  },
+  {
+   "junction": "PGR_e2__NR4A3_e2",
+   "antisense_5to3": "GCAGTGGGCTCTTCCA",
+   "gc_percent": 62.5,
+   "gap_specificity_margin": 1,
+   "n_donor_side": 6,
+   "n_acceptor_side": 10,
+   "dg37_fusion_duplex": -23.719,
+   "dg37_donor_parent_duplex": -5.521,
+   "dg37_acceptor_parent_duplex": -13.776,
+   "dg37_best_parent_duplex": -13.776,
+   "ddg37_discrimination": 9.943,
+   "tm_fusion_duplex_c": 74.5,
+   "tm_donor_parent_duplex_c": 6.9,
+   "tm_acceptor_parent_duplex_c": 52.6,
+   "tm_best_parent_duplex_c": 52.6,
+   "dtm_discrimination_c": 21.9,
+   "design_rules": {
+    "gc_in_band": false,
+    "no_g_quadruplex_motif": true,
+    "no_run_of_four": true,
+    "no_cpg": true
+   }
+  },
+  {
+   "junction": "TAF15_e6__NR4A3_e2",
+   "antisense_5to3": "AGTGGGCTCTTGTGTG",
+   "gc_percent": 56.2,
+   "gap_specificity_margin": 3,
+   "n_donor_side": 8,
+   "n_acceptor_side": 8,
+   "dg37_fusion_duplex": -20.505,
+   "dg37_donor_parent_duplex": -6.595,
+   "dg37_acceptor_parent_duplex": -9.488,
+   "dg37_best_parent_duplex": -9.488,
+   "ddg37_discrimination": 11.017,
+   "tm_fusion_duplex_c": 66.9,
+   "tm_donor_parent_duplex_c": 17.4,
+   "tm_acceptor_parent_duplex_c": 33.0,
+   "tm_best_parent_duplex_c": 33.0,
+   "dtm_discrimination_c": 34.0,
+   "design_rules": {
+    "gc_in_band": true,
+    "no_g_quadruplex_motif": true,
+    "no_run_of_four": true,
+    "no_cpg": true
+   }
+  },
+  {
+   "junction": "TAF15_e6__NR4A3_e2",
+   "antisense_5to3": "GTGGGCTCTTGTGTGT",
+   "gc_percent": 56.2,
+   "gap_specificity_margin": 2,
+   "n_donor_side": 9,
+   "n_acceptor_side": 7,
+   "dg37_fusion_duplex": -21.7,
+   "dg37_donor_parent_duplex": -8.68,
+   "dg37_acceptor_parent_duplex": -8.598,
+   "dg37_best_parent_duplex": -8.68,
+   "ddg37_discrimination": 13.02,
+   "tm_fusion_duplex_c": 71.1,
+   "tm_donor_parent_duplex_c": 29.2,
+   "tm_acceptor_parent_duplex_c": 27.0,
+   "tm_best_parent_duplex_c": 29.2,
+   "dtm_discrimination_c": 41.9,
+   "design_rules": {
+    "gc_in_band": true,
+    "no_g_quadruplex_motif": true,
+    "no_run_of_four": true,
+    "no_cpg": true
+   }
+  },
+  {
+   "junction": "TAF15_e6__NR4A3_e2",
+   "antisense_5to3": "CAGTGGGCTCTTGTGT",
+   "gc_percent": 56.2,
+   "gap_specificity_margin": 2,
+   "n_donor_side": 7,
+   "n_acceptor_side": 9,
+   "dg37_fusion_duplex": -21.192,
+   "dg37_donor_parent_duplex": -5.69,
+   "dg37_acceptor_parent_duplex": -11.079,
+   "dg37_best_parent_duplex": -11.079,
+   "ddg37_discrimination": 10.113,
+   "tm_fusion_duplex_c": 68.7,
+   "tm_donor_parent_duplex_c": 8.5,
+   "tm_acceptor_parent_duplex_c": 41.1,
+   "tm_best_parent_duplex_c": 41.1,
+   "dtm_discrimination_c": 27.6,
+   "design_rules": {
+    "gc_in_band": true,
+    "no_g_quadruplex_motif": true,
+    "no_run_of_four": true,
+    "no_cpg": true
+   }
+  },
+  {
+   "junction": "TAF15_e6__NR4A3_e2",
+   "antisense_5to3": "TGGGCTCTTGTGTGTG",
+   "gc_percent": 56.2,
+   "gap_specificity_margin": 1,
+   "n_donor_side": 10,
+   "n_acceptor_side": 6,
+   "dg37_fusion_duplex": -20.52,
+   "dg37_donor_parent_duplex": -9.585,
+   "dg37_acceptor_parent_duplex": -6.512,
+   "dg37_best_parent_duplex": -9.585,
+   "ddg37_discrimination": 10.935,
+   "tm_fusion_duplex_c": 66.4,
+   "tm_donor_parent_duplex_c": 34.1,
+   "tm_acceptor_parent_duplex_c": 12.3,
+   "tm_best_parent_duplex_c": 34.1,
+   "dtm_discrimination_c": 32.3,
+   "design_rules": {
+    "gc_in_band": true,
+    "no_g_quadruplex_motif": true,
+    "no_run_of_four": true,
+    "no_cpg": true
+   }
+  },
+  {
+   "junction": "TAF15_e6__NR4A3_e2",
+   "antisense_5to3": "GCAGTGGGCTCTTGTG",
+   "gc_percent": 62.5,
+   "gap_specificity_margin": 1,
+   "n_donor_side": 6,
+   "n_acceptor_side": 10,
+   "dg37_fusion_duplex": -21.803,
+   "dg37_donor_parent_duplex": -3.605,
+   "dg37_acceptor_parent_duplex": -13.776,
+   "dg37_best_parent_duplex": -13.776,
+   "ddg37_discrimination": 8.027,
+   "tm_fusion_duplex_c": 70.0,
+   "tm_donor_parent_duplex_c": -8.1,
+   "tm_acceptor_parent_duplex_c": 52.6,
+   "tm_best_parent_duplex_c": 52.6,
+   "dtm_discrimination_c": 17.4,
+   "design_rules": {
+    "gc_in_band": false,
+    "no_g_quadruplex_motif": true,
+    "no_run_of_four": true,
+    "no_cpg": true
+   }
+  }
+ ]
+}

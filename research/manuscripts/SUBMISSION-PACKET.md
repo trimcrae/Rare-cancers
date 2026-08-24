@@ -32,6 +32,7 @@ last_verified: 2026-08-10
 | References | 11 |
 | Cover letter | `mtap-prmt5/emc-mtap-prmt5-hypothesis-cover-letter.md` |
 | Supplementary file | none |
+| Supplemental material, for review | none |
 | Fee route | VERIFIED |
 
 ⚠ Limits provenance: search-derived; onlinelibrary.wiley.com serves a bot challenge to CI and to a real headless browser alike.
@@ -56,6 +57,7 @@ last_verified: 2026-08-10
 | References | 8 |
 | Cover letter | `dependency/emc-atr-collaborator-package-cover-letter.md` |
 | Supplementary file | none |
+| Supplemental material, for review | none |
 | Fee route | VERIFIED |
 
 ⚠ Limits provenance: search-derived; onlinelibrary.wiley.com serves a bot challenge to CI and to a real headless browser alike.
@@ -74,6 +76,7 @@ last_verified: 2026-08-10
 | References | 20 |
 | Cover letter | `repurposing/repurposing-hypotheses-cover-letter.md` |
 | Supplementary file | none |
+| Supplemental material, for review | none |
 | Fee route | VERIFIED, and this is the most explicit statement obtained |
 
 ⚠ Limits provenance: search-derived; sciencedirect.com blocks the datacenter IP.
@@ -94,6 +97,7 @@ last_verified: 2026-08-10
 | References | 18 (limit 80) |
 | Cover letter | `surface-targets/emc-surface-target-landscape-cover-letter.md` |
 | Supplementary file | none |
+| Supplemental material, for review | none |
 | Fee route | VERIFIED at the journal's own pages, with one real caveat |
 
 ⚠ Limits provenance: nature.com pages DO answer; these were read from the journal's own guide to authors at HTTP 200.
@@ -112,6 +116,7 @@ last_verified: 2026-08-10
 | References | 53 |
 | Cover letter | `aso/fusion-junction-aso-cover-letter.md` |
 | Supplementary file | yes |
+| Supplemental material, for review | none |
 | Fee route | not recorded |
 
 ⚠ Limits provenance: VERIFIED at primary source: bioRxiv sets no word, abstract or display-item limit and its deposit is free — the one venue fact in this table that was read rather than searched. ⛔ AND bioRxiv DECLINED THIS SUBMISSION ON 2026-08-23 BECAUSE THE AUTHOR IS UNAFFILIATED, so this row grades a manuscript against a server that will not take it. The limits stay correct and the row stays ungated for that reason — the extended report is archived on Zenodo and has since been submitted elsewhere — but nobody should read the row name as a live plan. Accounting: aso/fusion-junction-aso-preprint-checklist.md §2 step 3. ⚠ ALL-`None` IS A STATEMENT, NOT A GAP: it means this manuscript is measured and ungated, which is the honest state while the journal is undecided. A journal's limits apply when one is chosen, and cutting the abstract to any particular cap before then means cutting twice, because the venues under consideration disagree on both length AND whether a structured abstract is wanted at all..
@@ -129,12 +134,13 @@ last_verified: 2026-08-10
 
 | field | value |
 |---|---|
-| Word count, main text | 3146 (limit 4000) |
-| Abstract | 199 words (limit 200) |
+| Word count, main text | 3028 (limit 4000) |
+| Abstract | 200 words (limit 200) |
 | Display items | 3 (1 figures, 2 tables) (limit 5) |
-| References | 23 |
+| References | 24 |
 | Cover letter | `aso/fusion-junction-aso-cover-letter.md` |
 | Supplementary file | none |
+| Supplemental material, for review | `aso/fusion-junction-aso-research-article.pdf`, `aso/fusion-junction-aso-sequences.csv` |
 | Fee route | not recorded |
 
 ⚠ Limits provenance: READ AT PRIMARY SOURCE 2026-08-23 by trimcrae in a human web browser, and captured verbatim to research/literature/nat-submission-guidelines-2026-08-23.md, which is the source of record for every figure below. Article type Original Paper: 4,000-word limit, unstructured abstract of no more than 200 words, maximum total of five (5) figures and/or tables, and no reference cap for this type. THE COUNTING RULES AGREE WITH THIS MODULE'S: 'Word limits do NOT pertain to the abstract, disclosure statements, author contribution statements, funding information, acknowledgments, tables, figure legends, or references' -- which is the boundary `TAIL` already draws, so main_words here is comparable to the cap rather than merely near it. ⚠ NOT AUTOMATABLE: journals.sagepub.com returns HTTP 403 to the egress proxy, to a plain CI fetch and to a real headless Chromium alike (re-confirmed 2026-08-23, Actions run 32644971152), so this row cannot be refreshed by any tool here and must be re-read by a person before submission. ⚠ THE PAGE CONTRADICTS ITSELF ON THE REVIEW MODEL and the contradiction changes what is submitted: 'Identity transparency: Single-anonymized' appears twice, while the peer-review section says 'The journal adheres to a rigorous double-anonymized reviewing policy in which the identity of both the reviewer and author are always concealed from both parties.' Under the second reading the manuscript needs an anonymized copy. Tracked as an open item in the preprint checklist; not resolved here, because nothing here can resolve it. SETTLED BY THE SAME READ, and each was previously carried as an open risk: (1) 'Accepts preprints? Yes' -- posting before submission does not disqualify, and the submission form asks for the preprint DOI. (2) The Publishing Services Fee survived the Liebert-to-SAGE transfer unchanged at $90 per typeset page, assessed on acceptance, with colour charged separately at $800 for the first print image. (3) The control-oligodeoxynucleotide rule is real and is scoped to efficacy: 'All manuscripts that claim antisense efficacy must, in addition to the antisense oligodeoxynucleotide construct, include at least two control oligodeoxynucleotides.' This paper claims no efficacy and runs no assay, so it is out of that rule's scope..

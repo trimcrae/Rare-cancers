@@ -527,9 +527,19 @@ def main(argv=None):
                     "rather than why it was dropped (trimcrae, 2026-08-22). ⚠ Superseded, retained: "
                     "this read \"was rejected anyway once its guidelines were read\", which "
                     "contradicted the same packet's own venue table. "
-                    "The same question has not been put to CGT. Until a "
-                    "CGT author-guideline or fee page is read, the venue's compliance with the $0 "
-                    "constraint is established for APCs and unestablished overall.",
+                    "✅ CLOSED 2026-08-24, AND THE ANSWER IS NO. ⚠ Superseded, retained: \"The same "
+                    "question has not been put to CGT. Until a CGT author-guideline or fee page is "
+                    "read, the venue's compliance with the $0 constraint is established for APCs "
+                    "and unestablished overall.\" The Guide to Authors was READ at HTTP 200 "
+                    "(nature.com/cgt/authors-and-referees/gta, headless-browser fetch, "
+                    "research/literature/browser-fetch.json) and it states under Charges: 'After "
+                    "final layout for publication, each page of an article will incur a fixed "
+                    "charge of £145 / $238 per page', colour inclusive, waived only for authors "
+                    "who pay the open-access APC (£3490, read the same day at "
+                    "nature.com/cgt/open-access). So CGT is NOT a $0 route on either option, and "
+                    "its per-page charge is the higher of the two per-page venues under "
+                    "consideration. ⛔ Do not multiply either rate by a page count anywhere in this "
+                    "repository — the rate has one home and the count has another.",
             "⚠_none_of_this_gates_the_preprint": "bioRxiv sets no word, abstract or display-item "
                     "limit, and its deposit being free is verified verbatim at primary source.",
             "counting_rule": "Main text runs from the first substantive heading to the last heading "

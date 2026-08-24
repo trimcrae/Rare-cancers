@@ -153,11 +153,8 @@ def build() -> str:
             "articles are the engineered constructs of Brenca et al. "
             "(PMID:31020999); the two patient-derived models of Bangerter et al. (PMID:36316541) are "
             "REPORTED at an NR4A3 exon-2 acceptor and match different designs, not these two. "
-            "Tm is the nearest-neighbour melting temperature of the UNMODIFIED DNA:RNA hybrid at "
-            "250 nM strand concentration, printed against the fusion target and against the closest "
-            "wild-type parent; the locked residues are not modelled, and because the fusion duplex "
-            "pairs all ten of them and each parent duplex five, the separation printed here is a "
-            "floor on the modified oligonucleotide's rather than an estimate of it. "
+            "Tm is against the fusion target and against the closest wild-type parent, by the "
+            "method and with the caveat given in Methods. "
             "Nothing here has been synthesised or tested, and no sequence may be administered to "
             "any person or animal.", ""]
     out += ["| seam | reagent | margin | WT gap duplex (bp) | Tm fusion / WT parent (°C) | "

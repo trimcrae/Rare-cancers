@@ -1,6 +1,6 @@
 ---
 id: DOC-FUSION-JUNCTION-ASO-JOURNAL
-title: "NR4A3 gapmers in extraskeletal myxoid chondrosarcoma: 87 of 190 pair a wild-type parent through the gap at 10 bp"
+title: "NR4A3 fusion-junction antisense gapmers for extraskeletal myxoid chondrosarcoma: reagents, test articles and a pre-registrable knockdown experiment"
 level: L3
 kind: manuscript
 status: live
@@ -26,14 +26,14 @@ last_verified: 2026-08-22
 related: [DOC-FUSION-JUNCTION-ASO-SUBMISSION]
 ---
 
-# *NR4A3* gapmers in extraskeletal myxoid chondrosarcoma: 87 of 190 pair a wild-type parent through the gap at 10 bp
+# *NR4A3* fusion-junction antisense gapmers for extraskeletal myxoid chondrosarcoma: reagents, test articles and a pre-registrable knockdown experiment
 
 **Author.** Tristan D. McRae
 
 *Independent researcher, unaffiliated.* Correspondence: trimcrae@gmail.com
 ORCID: [0000-0002-1823-1451](https://orcid.org/0000-0002-1823-1451)
 
-**Running title.** Parent pairing in NR4A3 junction gapmers
+**Running title.** NR4A3 junction gapmers for EMC
 
 ---
 
@@ -41,18 +41,18 @@ ORCID: [0000-0002-1823-1451](https://orcid.org/0000-0002-1823-1451)
 
 Extraskeletal myxoid chondrosarcoma (EMC) is an ultra-rare sarcoma usually defined by an
 in-frame partner-gene fusion to *NR4A3*. That junction is in no normal transcript, so an antisense
-gapmer could in principle cleave the fusion and spare its parents. This work is
-computational; every sequence named is a research reagent not for administration. Of
-190 junction-spanning 16-mers tiled at 5-6-5 across the 38 in-frame junctions of five
-modelled partners, 87 let a mature wild-type parent transcript pair their whole catalytic gap over
-ten or more contiguous base pairs, 61 of those against wild-type *NR4A3* itself. Ten is a
-convention, not a measurement: exon-terminus chimeras of these transcripts meet the same
-screen at 40.6% against the panel's 45.8%, so most of that liability follows from joining exon
-termini, not this disease. Two reagents are named at the most reported breakpoints,
-5′-GGGCATATCATCAAAC-3′ at *EWSR1* exon 12 and 5′-GGGCATATCTTGTGTG-3′ at *TAF15*
-exon 6 to *NR4A3* exon 3, both at the panel's top gap-level margin of three, longest
-wild-type parent gap duplexes eight and nine base pairs. Five test articles are named; the two fusion-positive EMC cell models are
-reported at an *NR4A3* exon-2 acceptor and match different designs. The design pipeline is released.
+gapmer could in principle cleave the fusion and spare its parents, and no such design is reported
+for any *NR4A3* fusion. This work is computational; every sequence named is a research reagent not
+for administration. It sets out what a laboratory needs: two reagents at the most
+reported breakpoints, 5′-GGGCATATCATCAAAC-3′ at *EWSR1* exon 12 and 5′-GGGCATATCTTGTGTG-3′ at
+*TAF15* exon 6, both to *NR4A3* exon 3, longest wild-type parent gap duplexes eight and nine base
+pairs; the controls; and a pre-registrable selectivity threshold. Both come from a panel of
+190 junction-spanning 16-mers tiled at 5-6-5 across 38 in-frame junctions: 87 let a mature wild-type
+parent pair their whole catalytic gap over ten or more contiguous base pairs, 61 against wild-type
+*NR4A3* itself. Ten is a convention, not a measurement: exon-terminus chimeras meet the same screen
+at 40.6% against the panel's 45.8%. Five test articles are named; the two fusion-positive EMC cell
+models are reported at an *NR4A3* exon-2 acceptor, not this panel's acceptor renumbered. Also
+released is the procedure that produced the 190 designs.
 
 ## Keywords
 
@@ -189,11 +189,11 @@ the excess over the strongest null changes sign four times.
 ## 4 · Test articles
 
 Five test articles bear on the junctions this panel designs against, and they divide into two
-sources with opposite limits. Every design in the panel joins its donor to *NR4A3* exon 3, which is
-that gene's first coding exon; the two cell models are reported at exon 2, and annotation does not
-reconcile the two. On all four annotated *NR4A3* transcripts, including the three carrying a RefSeq
-accession, the first coding exon is transcript exon 3 and exon 2 is non-coding, so a reported
-exon-2 acceptor is not this panel's acceptor renumbered.
+sources with opposite limits. Every design in the panel joins its donor to *NR4A3* exon 3, its first
+coding exon; the two cell models are reported at exon 2, and annotation does not reconcile the two.
+On all four annotated *NR4A3* transcripts, the three with a RefSeq accession included, exon 3 is the
+first coding exon and exon 2 is non-coding, so a reported exon-2 acceptor is not this panel's
+acceptor renumbered.
 
 Three are engineered constructs from a published functional study,<sup>14</sup><!--PMID:31020999-->
 whose exon spans that paper states verbatim; two of them, E-N and T-N*, carry exactly the junctions
@@ -207,11 +207,11 @@ tumours,<sup>15</sup><!--PMID:36316541--> USZ20-EMC1 (RRID:CVCL_C6MX) and USZ22-
 on request with no repository deposit, and are slow, at reported doubling times of five to six
 days. Their fusions are reported as *EWSR1* exon 13 and *TAF15* exon 6
 joined to *NR4A3* exon 2 rather than exon 3, and the report carries no sequenced exon-exon
-boundary, no transcript accession and no junction sequence. Whether it names a non-coding exon-2
-acceptor or a numbering no annotated model supports is therefore not decidable from what is
-published, and this work's own withdrawn version arose from an error of exactly this class. Reagents exist at both
-acceptors, and in neither case is it the same molecule as the reagent named above:
-5′-AGTGGGCTCTCCACGG-3′ at *EWSR1* exon 13 to exon 2 and 5′-AGTGGGCTCTTGTGTG-3′ at *TAF15* exon 6
+boundary, no transcript accession and no junction sequence, so whether that names a non-coding
+acceptor or an unsupported numbering is not decidable from what is published. This work's own
+withdrawn version arose from an error of exactly this class. The released builder will not emit an
+exon-2 acceptor unaided: a non-coding acceptor needs its published-breakpoint list extended first. Reagents exist at both acceptors, neither of them a
+molecule named above: 5′-AGTGGGCTCTCCACGG-3′ at *EWSR1* exon 13 to exon 2 and 5′-AGTGGGCTCTTGTGTG-3′ at *TAF15* exon 6
 to exon 2, both at the panel's top margin. Neither reaches the ten-base-pair criterion, and their longest wild-type parent
 duplexes through the whole gap are eight base pairs against wild-type *EWSR1* and nine against
 wild-type *NR4A3* — the second against the acceptor parent on which §5's selectivity ratio is
@@ -250,24 +250,8 @@ replicate count, or no falsification test at all, and never three. The threshold
 acceptor parent alone, so a reagent can clear it while pairing a donor transcript through its whole
 gap.
 
-## 6 · Beyond the panel
 
-The panel is bounded by what has been sequenced rather than by what can be designed, and the
-procedure that produced the 190 designs is released unchanged with the artefacts. It is not a turnkey service for an arbitrary breakpoint: the
-builder's published-breakpoint list is a waiver list rather than a gate, admitting seams that would
-otherwise be refused for a non-coding acceptor or an out-of-frame join. A seam needing such a waiver
-requires the list to be extended first; a seam needing none is emitted without any check that a
-patient has been reported to carry it.
-
-A design is certifiable where all five screens could be run on it and it cleared all five; one that
-a screen cannot address is uncertifiable whatever the others return. The reagent for the third
-engineered construct of §4 is uncertifiable on that definition, its seam lying outside the
-compartment three of the five screens reach. The two that reach it — the precursor-RNA and genome
-arms — agree design by design, clearing the seam's top-margin design and condemning a lower-margin
-one at a wild-type *NR4A3* site each records as pairing the whole catalytic gap; two screens
-agreeing is not the clearance the other three would supply.
-
-## 7 · Discussion
+## 6 · Discussion
 
 Designability is not the constraint: junction-spanning designs exist at every in-frame *NR4A3*
 fusion junction modelled here, and 35 of the 38 have one clearing the parent screen.
@@ -300,7 +284,7 @@ The method-level novelty is nil, junction-directed oligonucleotides being long e
 new is the indication and the screen applied before synthesis. And systemic delivery to a solid
 tumour remains unsolved, the gate this modality faces after any result reported here. Every source of a test article named here ends at someone culturing cells.
 
-## 8 · Methods
+## 7 · Methods
 
 All analyses are computational and use public data; no laboratory work was performed. Full
 parameters, the complete bounds on each claim and the per-design tables are in the extended report
@@ -325,14 +309,13 @@ liable where a wild-type parent pairs its whole catalytic gap over a contiguous 
 pairs or more, ten being adopted rather than measured. Null ensembles were built as scrambles of
 each design and as chimeras joining the same two parent transcripts at real exon termini, screened
 identically. Melting temperatures are nearest-neighbour values for an unmodified DNA:RNA hybrid at
-250 nM strand concentration, computed from published parameters,<sup>24</sup><!--PMID:7545436--> so
-the locked residues are not modelled; the fusion duplex pairs all ten of them and each parent duplex
-five, which makes the reported separation a floor.
+250 nM strand;<sup>24</sup><!--PMID:7545436--> the locked residues are not modelled, and the fusion
+duplex pairs all ten where each parent pairs five, so the reported separation is a floor.
 
 ## Tables
 
 Tables 1 and 2 are in `fusion-junction-aso-journal-tables.md`, generated from the canonical sequence
-file by `research/manuscripts/aso_journal_tables.py` so that a cell and its source cannot diverge.
+file so that a cell and its source cannot diverge.
 
 ## Figure legends
 
@@ -357,15 +340,12 @@ nucleotide resolution by RNA sequencing.
 **Ethical considerations.** Not applicable. No human
 subjects, human material or animals were involved, and no ethics approval was required.
 
-**Consent to participate.** Not applicable. No participants were enrolled.
-
-**Consent for publication.** Not applicable. The manuscript contains no data from any individual
-person.
+**Consent to participate and for publication.** Not applicable. No participants were enrolled and
+the manuscript contains no data from any individual person.
 
 **Declaration of conflicting interest.** The author declares no financial competing interests: he holds no patent,
-patent application, equity or consultancy relating to any sequence or method described here. One
-non-financial interest is declared: the author is a survivor of extraskeletal myxoid
-chondrosarcoma, the disease this work addresses.
+patent application, equity or consultancy relating to any sequence or method described here. A
+non-financial interest is disclosed to the editor in the accompanying cover letter.
 
 **Funding statement.** No external funding; self-funded by the author.
 
