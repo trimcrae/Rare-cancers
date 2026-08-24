@@ -658,5 +658,31 @@
     "what_would_move_this": "A count of how many published EMC series print a numbers-at-risk table beside their Kaplan-Meier curve. That single census decides whether the capability is reachable at all, and it is free.",
     "adoption_note": "⚠ The date refers to a DATASET existing, not to any clinical question being answered by it. Reconstruction adds censoring structure and no patients, so a landed forecast here licenses time-to-event ANALYSIS and licenses nothing about the strength of the underlying series.",
     "last_reviewed": "2026-08-09"
+  },
+  {
+    "id": "FC-CONDENSATE-RESOLUTION",
+    "tech_ref": "TECH-CONDENSATE-RESOLUTION",
+    "scenarios": {
+      "conservative": {
+        "date_band": "beyond-2029",
+        "rationale": "Neither disjunct is anybody's stated target. The wet-lab half needs somebody to run a partner-stratified condensate measurement in a tumour type this rare; the modelling half needs a force-field generation benchmarked on DISCRIMINATION between similar sequences rather than on agreement with experiment across dissimilar ones.",
+        "confidence": "moderate"
+      },
+      "expected": {
+        "date_band": "2028",
+        "rationale": "Coarse-grained IDR force fields are a live and iterating field -- the line this repository uses is already at version 2 -- so a successor arriving is likely. What is uncertain is whether any of them reports the discrimination this needs, which is not the axis such papers usually publish.",
+        "confidence": "low"
+      },
+      "optimistic": {
+        "date_band": "2027H1",
+        "rationale": "One published benchmark reporting nu discrimination between closely related disordered sequences below this floor satisfies the modelling half immediately, and a single EMC condensate paper that splits its readouts by 5' partner instead of pooling them satisfies the other.",
+        "confidence": "low"
+      }
+    },
+    "expected_impact": "marginal",
+    "basis": "speculative",
+    "what_would_move_this": "A published benchmark that reports resolution between closely related disordered sequences on this axis at all -- today's papers report agreement with experiment on sequences that are not close, which does not bound the discrimination. ⛔ A re-run of this repository's own arm with more sampling moves nothing.",
+    "adoption_note": "The modelling half arrives as usable software long before it arrives VALIDATED at this discrimination, and only the second date reopens anything here: the arm was closed by a resolution floor, so a successor force field shipping without a discrimination benchmark leaves the same question open at a new version number.",
+    "last_reviewed": "2026-08-24"
   }
 ]
