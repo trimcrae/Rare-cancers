@@ -32,7 +32,7 @@
 // api.grants.gov, clinicaltrials.gov, news.google.com, www.fda.gov
 
 import { writeFileSync } from "node:fs";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import { dirname, join } from "node:path";
 
 const EPMC = "https://www.ebi.ac.uk/europepmc/webservices/rest/search";
@@ -276,27 +276,27 @@ const NEWS_FEEDS = [
     // Deliberately NOT scoped to our modalities: this row exists so that treatment news large
     // enough to matter surfaces even when it is outside the route portfolio. It is the row whose
     // absence lost INTerpath-001.
-    url: 'https://news.google.com/rss/search?q=("phase+3"+OR+"phase+III")+cancer+(topline+OR+"primary+endpoint"+OR+"met+its+endpoint"+OR+approval)+when:14d&hl=en-US&gl=US&ceid=US:en',
+    q: '("phase+3"+OR+"phase+III")+cancer+(topline+OR+"primary+endpoint"+OR+"met+its+endpoint"+OR+approval)',
     trigger: "any practice-changing or first-in-class oncology result → ask whether the MODALITY maps onto EWSR1::NR4A3 / EMC; if it does, re-grade that route and read the primary source before citing anything",
   },
   {
     key: "cancer vaccines / individualized neoantigen therapy",
-    url: 'https://news.google.com/rss/search?q=("cancer+vaccine"+OR+"neoantigen"+OR+"mRNA+cancer")+(trial+OR+results+OR+approval)+when:14d&hl=en-US&gl=US&ceid=US:en',
+    q: '("cancer+vaccine"+OR+"neoantigen"+OR+"mRNA+cancer")+(trial+OR+results+OR+approval)',
     trigger: "neoantigen-therapy news → direct precedent for the junction-vaccine route (the route's premise is that an individualized neoantigen approach can work); read the primary source, then re-grade",
   },
   {
     key: "oligonucleotide therapeutics in solid tumours (the ASO route's gate)",
-    url: 'https://news.google.com/rss/search?q=("antisense"+OR+"siRNA"+OR+"oligonucleotide"+OR+"RNA+therapeutic")+(tumor+OR+tumour+OR+cancer+OR+sarcoma)+when:14d&hl=en-US&gl=US&ceid=US:en',
+    q: '("antisense"+OR+"siRNA"+OR+"oligonucleotide"+OR+"RNA+therapeutic")+(tumor+OR+tumour+OR+cancer+OR+sarcoma)',
     trigger: "an oligo delivered to a non-hepatic solid tumour in humans → the fusion-junction ASO route's dominant gate; re-grade delivery feasibility",
   },
   {
     key: "targeted protein degradation (clinical)",
-    url: 'https://news.google.com/rss/search?q=("protein+degrader"+OR+PROTAC+OR+"molecular+glue")+(clinical+OR+trial+OR+patients)+when:14d&hl=en-US&gl=US&ceid=US:en',
+    q: '("protein+degrader"+OR+PROTAC+OR+"molecular+glue")+(clinical+OR+trial+OR+patients)',
     trigger: "degrader clinical progress or failure → clinical precedent for the NR4A3 degrader route",
   },
   {
     key: "sarcoma treatment news",
-    url: 'https://news.google.com/rss/search?q=(sarcoma+OR+"soft+tissue+cancer")+(treatment+OR+trial+OR+approval+OR+therapy+OR+drug)+-awareness+-fundraiser+-fundraising+-wedding+-obituary+-"in+memory"+when:14d&hl=en-US&gl=US&ceid=US:en',
+    q: '(sarcoma+OR+"soft+tissue+cancer")+(treatment+OR+trial+OR+approval+OR+therapy+OR+drug)+-awareness+-fundraiser+-fundraising+-wedding+-obituary+-"in+memory"',
     trigger: "sarcoma treatment news → the disease area itself; anything touching EMC or a fusion-driven sarcoma goes into the registry after reading the primary source",
   },
   {
@@ -309,10 +309,18 @@ const NEWS_FEEDS = [
     // An approval reported by the trade press is the same signal, on a mechanism already proven
     // working in the rows above; if an official endpoint is ever confirmed, swap this URL for it.
     key: "regulatory approvals in oncology (via news; FDA's own RSS endpoint is UNKNOWN)",
-    url: 'https://news.google.com/rss/search?q=(FDA+OR+EMA)+(approves+OR+approval)+(cancer+OR+oncology+OR+tumor+OR+sarcoma+OR+melanoma)+when:14d&hl=en-US&gl=US&ceid=US:en',
+    q: '(FDA+OR+EMA)+(approves+OR+approval)+(cancer+OR+oncology+OR+tumor+OR+sarcoma+OR+melanoma)',
     trigger: "an oncology approval → a modality cleared a regulator, which is the strongest available precedent signal for any route using it; confirm against the regulator's own notice before citing",
   },
 ];
+
+// A feed's QUERY has one home (the `q` above); the WINDOW is supplied per run. Live runs pass
+// `when:<N>d`; the backfill sweep passes `after:<date> before:<date>` for each slice. Keeping the
+// two apart is what lets a backfill reuse the live query set instead of duplicating it — a second
+// copy of these queries would drift from the first the day either is edited.
+function feedUrl(f, windowToken) {
+  return `https://news.google.com/rss/search?q=${f.q}+${windowToken}&hl=en-US&gl=US&ceid=US:en`;
+}
 
 function decodeEntities(s) {
   return String(s || "")
@@ -490,7 +498,7 @@ async function main() {
     L.push(`#### ${f.key}`);
     L.push(`*Unlocks:* ${f.trigger}`);
     try {
-      const items = parseFeed(await fetchText(f.url), 25);
+      const items = parseFeed(await fetchText(feedUrl(f, `when:${NEWS_DAYS}d`)), 25);
       if (!items.length) {
         // Distinguish "the feed said nothing happened" from "we could not read the feed" —
         // an absent reading is not a reading of absence (CLAUDE.md §4).
@@ -587,7 +595,13 @@ async function main() {
   console.error(`wrote ${out}`);
 }
 
-main().catch((e) => {
-  console.error("method-watch failed:", e);
-  process.exit(1);
-});
+export { CTGOV, NEWS_FEEDS, TRIALS, ctgov, decodeEntities, feedUrl, fetchText, isoDaysAgo, parseFeed, withinDays };
+
+// Only sweep when run as a command. scripts/method-watch-backfill.mjs imports the config above,
+// and an import that fired a live digest run would be a surprise with a network bill attached.
+if (import.meta.url === pathToFileURL(process.argv[1] || "").href) {
+  main().catch((e) => {
+    console.error("method-watch failed:", e);
+    process.exit(1);
+  });
+}
