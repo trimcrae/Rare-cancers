@@ -10,10 +10,10 @@
     "Not a licence statement. The depositor chooses the licence at step 4 below."
   ],
   "deposition_doi": "10.5281/zenodo.22061075",
-  "git_revision": "1b5faa46adc54c0295800a7e03477b8bee2e2d30",
+  "git_revision": "7fc426bf6f7ee383c58b505194afee3050b7a09d",
   "git_tree_is_clean_apart_from_this_manifest": false,
   "inventory_limited_to_tracked_files": true,
-  "archive_content_digest": "08a809d52d3c30acc78671036c9083b6f8100fd909bd8ef7786400d7770faa74",
+  "archive_content_digest": "f09ecd176c169d3cf14c6109bdb47e1f50cea964402a7fa9dcb41ead090c3638",
   "n_files": 483,
   "self_entry": {
     "path": "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
@@ -24,8 +24,8 @@
     "_why_not_counted": "It is excluded from `files`, `n_files`, `total_bytes` and `archive_content_digest` for the same reason, which is also what keeps two runs over an unchanged tree byte-identical — the property this module's header calls the only cheap check a reader has that the file is derived rather than edited.",
     "how_a_reader_checks_it_anyway": "Two ways, neither needing a self-hash. (1) Re-derive it: check out `git_revision` and run `python3 research/manuscripts/aso_archive_manifest.py --check`, which rebuilds the whole file and exits non-zero on any difference. (2) Compare the downloaded copy's `sha256sum` against the value the deposition record states — step 4 below tells the depositor to record it there, which is the one place it can live without being self-referential."
   },
-  "total_bytes": 46310414,
-  "total_mib": 44.165,
+  "total_bytes": 46321684,
+  "total_mib": 44.176,
   "payload_file_types": {
     "_what": "Extension census of the payload, derived from the file list. A preprint or journal uploader that accepts only document, image and container types cannot take most of these one by one; step 3 below builds the single container that sidesteps the question entirely. Check the accepted types on the uploader itself — none is asserted here.",
     "by_extension": {
@@ -35,7 +35,7 @@
       },
       ".py": {
         "n_files": 68,
-        "bytes": 2995844
+        "bytes": 3007114
       },
       ".md": {
         "n_files": 13,
@@ -2835,8 +2835,8 @@
     },
     {
       "path": "research/modalities/emc_expression_panels.py",
-      "bytes": 170613,
-      "sha256": "c5955e5b2129aaa290dcee521bfd5576f9e677c616f4d3c542083fe927aeae6c",
+      "bytes": 181883,
+      "sha256": "3712455ada6f7641d12f11d2f4b282a0ba2347ce229467245fdd05c8e11fba47",
       "serves": "import_closure",
       "also_serves": [],
       "contributes": "Imported by a released module. Not named by any availability promise; present because the code the promises DO name cannot be imported without it."
