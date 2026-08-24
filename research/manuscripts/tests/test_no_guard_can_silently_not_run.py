@@ -100,6 +100,51 @@ DELIBERATE_SKIP_MARKER = "SKIP IS DELIBERATE"
 MARKER_WINDOW_LINES = 12
 
 _PIP_LINE = re.compile(r"^\s*-\s*run:\s*pip install\s+(.+?)\s*$", re.M)
+#: ⛔⛔ THE INSTALL LIST MOVED BEHIND A VARIABLE ON 2026-08-24, AND THIS FILE'S OWN FAILURE MESSAGE
+#: PREDICTED IT: *"the install moved to a form this cannot read, and the rules below would pass by
+#: finding nothing."* `tests.yml` was split into a `gates` job and a `pytest` job, which would have
+#: meant two hand-maintained copies of a list whose every entry was added after a guard was found to
+#: be SKIPPING rather than passing — so the list became one workflow-level `env: PIP_PACKAGES` that
+#: both jobs read as `pip install $PIP_PACKAGES`.
+#: ⚠ THE NEAR MISS IS WHY THIS IS RESOLVED RATHER THAN RE-ANCHORED. `_PIP_LINE` still MATCHES that
+#: line, so the `assert found` above stays green; the captured "distribution" is the literal token
+#: `$PIP_PACKAGES`, `DISTRIBUTION_PROVIDES` knows nothing by that name, and the importable set
+#: silently empties. That is this file's own defect class — a check that reports while measuring
+#: nothing — reached through the one branch it does not guard.
+#: Deliberately regex rather than PyYAML: this file is stdlib-only, and a guard that needs a
+#: third-party parser to read the record of what CI installs can itself stop running for want of an
+#: install. An unresolvable reference is a hard failure below, never an empty list.
+_ENV_REF = re.compile(r"^\$(?:\{)?([A-Za-z_][A-Za-z0-9_]*)(?:\})?$|^\$\{\{\s*env\.([A-Za-z_][A-Za-z0-9_]*)\s*\}\}$")
+
+
+def _workflow_env(text):
+    """The workflow-level `env:` block as {name: value}, with folded (`>-`) scalars joined.
+
+    Only the top-level block is read — a `env:` nested under a job or a step is indented past
+    column 0 and is not what `$PIP_PACKAGES` in a top-level-env workflow resolves to.
+    """
+    lines = text.splitlines()
+    try:
+        start = next(i for i, ln in enumerate(lines) if ln.rstrip() == "env:")
+    except StopIteration:
+        return {}
+    out, name, buf = {}, None, []
+    for ln in lines[start + 1:]:
+        if ln.strip() == "" or ln.lstrip().startswith("#"):
+            continue
+        if not ln.startswith((" ", "\t")):  # dedented to column 0 -> the env block has ended
+            break
+        m = re.match(r"^  ([A-Za-z_][A-Za-z0-9_]*):\s*(.*)$", ln)
+        if m:
+            if name:
+                out[name] = " ".join(buf).strip()
+            name, rest = m.group(1), m.group(2).strip()
+            buf = [] if rest in (">-", ">", "|-", "|", "") else [rest]
+        elif name is not None:
+            buf.append(ln.strip())
+    if name:
+        out[name] = " ".join(buf).strip()
+    return out
 
 
 def _scope_files():
@@ -125,9 +170,41 @@ def _installed_distributions():
         "workflow stopped installing anything — in which case every guard needing a package is "
         "silently skipping — or the install moved to a form this cannot read, and the rules below "
         "would pass by finding nothing. Re-anchor rather than deleting.")
+    env = _workflow_env(open(WORKFLOW, encoding="utf-8").read())
     dists = []
     for line in found:
-        dists += [tok for tok in line.split() if not tok.startswith("-")]
+        for tok in line.split():
+            if tok.startswith("-"):  # a pip flag, not a distribution
+                continue
+            ref = _ENV_REF.match(tok)
+            if not ref:
+                dists.append(tok)
+                continue
+            key = ref.group(1) or ref.group(2)
+            value = (env.get(key) or "").strip().strip("\"'").strip()
+            #: ⛔ AN UNRESOLVED REFERENCE IS A HARD FAILURE, NEVER A SKIPPED TOKEN. Dropping it
+            #: would leave a SHORTER package list that still looks like a list, and every rule
+            #: below would then be enforced against a machine that installs more than this says —
+            #: guards would be reported as "not installable in CI" when CI installs them fine, and
+            #: the fix somebody reached for would be to loosen the guard.
+            assert value, (
+                f"`pip install {tok}` in .github/workflows/tests.yml refers to `{key}`, which is "
+                f"not resolvable from the workflow's top-level `env:` block (found: "
+                f"{sorted(env) or 'nothing'}). The real install list is therefore unknown, and "
+                "every rule in this file would be enforced against the wrong one. Re-anchor this "
+                "resolver on the form the workflow actually uses rather than dropping the token.")
+            expanded = [t for t in value.split() if not t.startswith("-")]
+            #: ⛔ AND A REFERENCE THAT RESOLVES TO NOTHING IS THE SAME FAILURE WEARING A VALUE.
+            #: Found by mutation 2026-08-24: `PIP_PACKAGES: ""` passed the truthiness check above
+            #: and yielded the single "distribution" `""`, so the list was non-empty, no assert
+            #: fired, and the importable set was empty — every guard in scope would have been
+            #: reported as needing a package CI does not install. The quote-strip on `value` kills
+            #: that spelling; this kills every other way of resolving to no packages.
+            assert expanded, (
+                f"`pip install {tok}` resolves `{key}` to a value that contains no package names "
+                f"({value!r}). CI would install nothing, so every guard needing a package is "
+                "silently skipping, and this file would enforce its rules against an empty list.")
+            dists += expanded
     return sorted(set(dists))
 
 
