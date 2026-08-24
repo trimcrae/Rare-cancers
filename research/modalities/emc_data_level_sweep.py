@@ -171,7 +171,27 @@ BIOSTUDIES_ABSENT_CONTROL = "E-MTAB-99999999"
 EUTILS_ELINK = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/elink.fcgi"
 NCBI_IDCONV = "https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/"
 PMC_ARTICLE_FMT = "https://pmc.ncbi.nlm.nih.gov/articles/{pmcid}/"
-EPMC_SUPPL_FMT = "https://www.ebi.ac.uk/europepmc/webservices/rest/{pmcid}/supplementaryFiles"
+# ⛔ THE HTML ARTICLE PAGE IS NOT A ROUTE TO THE SUPPLEMENT AND THE FIRST RUN PROVED IT. It answered
+# HTTP 200 in 21,246 bytes and the body was a **Google reCAPTCHA challenge page** — `<base
+# href="https://www.google.com/recaptcha/challengepage/">` — not the article. A byte-size stub test
+# passes that happily, which is exactly the "a plausible-looking record is more dangerous than an
+# empty one" failure: 21 KB of the wrong page reads as a healthy fetch. It is kept as a rung, but it
+# is graded on CONTENT and the two endpoints below are the ones expected to answer.
+INTERSTITIAL_MARKERS = [
+    "recaptcha", "challengepage", "enable javascript and cookies",
+    "unusual traffic", "are you a robot", "cf-browser-verification", "access denied",
+]
+# Europe PMC serves the article XML and its supplement listing from EBI, which has been measured on
+# this study to serve real records rather than interstitials.
+EPMC_REST = "https://www.ebi.ac.uk/europepmc/webservices/rest/"
+# ⚠ CANDIDATE SHAPES, TRIED AND RECORDED — NOT ASSERTED. The single shape this module used first
+# returned HTTP 404, and "the endpoint 404s" and "we wrote the path wrong" are the same length. Each
+# candidate's status is stored so the artifact says which one answered rather than implying the
+# supplement does not exist.
+EPMC_SUPPL_SHAPES = ["{pmcid}/supplementaryFiles", "PMC/{pmcid}/supplementaryFiles"]
+# The NCBI Open Access service. It is a DISCOVERY endpoint: it is asked for the article's package
+# and it returns the location, so no archive path is ever typed here.
+NCBI_OA_FCGI = "https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi"
 
 # ⛔ WHY THE PUBLISHER PAGE IS STILL FETCHED, AND WHAT IT MEASURED. nature.com answered HTTP 200 in
 # 3,038 bytes — a stub, not a paper — so zero supplementary links were discoverable from it. That is
@@ -492,6 +512,21 @@ def fetch_snaptron():
 # "this deposit has no EMC".
 # ────────────────────────────────────────────────────────────────────────────────────────────────
 
+def _interstitial_markers(body):
+    """Which bot-wall markers does this body carry? Empty list = it looks like real content.
+
+    ⛔ GRADE A PAGE ON WHAT IS IN IT, NEVER ON HOW BIG IT IS. Measured 2026-08-24: PMC answered
+    HTTP 200 in 21,246 bytes and the body was a Google reCAPTCHA challenge page. A size threshold
+    calls that healthy and hands the link parser a wall, which then finds zero supplementary links
+    — and "zero links found" reads exactly like "this paper has no supplement". Presence is never
+    evidence of provenance (CLAUDE.md §4).
+    """
+    if not body:
+        return []
+    low = body[:20000].lower()
+    return [k for k in INTERSTITIAL_MARKERS if k in low]
+
+
 def _fetch_geo(out):
     """Rung 1 — the deposit itself, header then every sample record."""
     q_self = f"{GEO_ACC_CGI}?acc={GEO_SERIES}&targ=self&form=text&view=brief"
@@ -557,9 +592,25 @@ def _fetch_biostudies(out):
     # ── rung 3 · the full record for every accession, discovered ones and the pinned one ────────
     # ⚠ PROVENANCE IS CARRIED PER ACCESSION. "we searched and found it" and "a previous session
     # typed it into this file" are different epistemic states and the artifact must not blur them.
+    # ⛔ THE ORDER IS A FIX, NOT A PREFERENCE, AND THE FIRST RUN IS WHY. The search returned 36
+    # accessions and this took the first ten. Thirty-one of them were Europe PMC LITERATURE records
+    # — papers citing the deposit — so ten fetches were spent on abstracts, while the two records
+    # that could actually carry labels sat further down the list and were never fetched at all:
+    # the ArrayExpress-style `E-` data records, and `S-EPMC<n>` for THIS article, which is the
+    # paper's own record. Data records first, then this paper's own, then the rest.
+    own = f"S-EPMC{(out.get('pmc') or {}).get('pmcid', '')[3:]}" if (
+        out.get("pmc") or {}).get("pmcid") else None
+    data_first = [a for a in discovered if a.startswith("E-")]
+    mine = [a for a in discovered if own and a == own]
+    rest = [a for a in discovered if a not in data_first and a not in mine]
+    ordered = data_first + mine + rest
+
     targets = []
-    for a in discovered[:10]:
+    for a in ordered[:10]:
         targets.append((a, "discovered_by_search"))
+    if own and own not in [t[0] for t in targets]:
+        # Discovered from the PMID the GEO header declared -> the PMCID -> this record. Not typed.
+        targets.append((own, "derived_from_the_discovered_pmcid"))
     for a in BIOSTUDIES_KNOWN:
         if a not in [t[0] for t in targets]:
             targets.append((a, "pinned_in_module_NOT_a_mirror"))
@@ -651,7 +702,8 @@ def _parse_biostudies(acc, body, truncated):
     `census_complete` carries that distinction and `derive()` refuses to call it a negative without it.
     """
     res = {"accession": acc, "readable": False, "why": None, "truncated": truncated,
-           "title": None, "description": None, "release_date": None,
+           "title": None, "description": None, "release_date": None, "data_source": None,
+           "is_a_data_record": False,
            "declared_sample_count": None, "disease_census": {}, "census_sum": 0,
            "census_complete": False, "n_categories": 0,
            "emc_categories": {}, "confusable_categories": {},
@@ -674,6 +726,15 @@ def _parse_biostudies(acc, body, truncated):
         if isinstance(a, dict):
             top.setdefault(str(a.get("name")), a.get("value"))
     res["release_date"] = top.get("ReleaseDate")
+    # ⛔ WHAT KIND OF RECORD IS THIS? BioStudies serves two very different things under one API and
+    # conflating them is how the first run reported ten "mirrors" that were nothing of the kind:
+    #   DataSource "Europe PMC" / AttachTo "EuropePMC" -> a LITERATURE record. A paper, with an
+    #       abstract. It mentions GSE140686 because it CITES it. It has no samples and no IDATs.
+    #   AttachTo "ArrayExpress"                        -> a DATA record, with samples and files.
+    # A mirror of a GEO series is necessarily the second kind, so `is_a_data_record` gates it.
+    res["data_source"] = top.get("DataSource") or top.get("AttachTo")
+    src = str(res["data_source"] or "").lower()
+    res["is_a_data_record"] = "europepmc" not in src.replace(" ", "")
 
     section = d.get("section") or {}
     sat = _attrs(section)
@@ -783,34 +844,101 @@ def _fetch_pmc(out):
         return
 
     links = []
-    # 4a · the PMC article page, parsed for its OWN supplementary hrefs.
+    # 4a · the PMC article page. ⛔ MEASURED TO BE A CAPTCHA, KEPT AS A CONTROL. It is graded on
+    # CONTENT, not length: the first run's 21,246-byte "200" was a reCAPTCHA challenge page, and a
+    # size threshold called that healthy.
     art_url = PMC_ARTICLE_FMT.format(pmcid=pmc["pmcid"])
     body, rec = _get(art_url, timeout=240, note="PMC article page, for its supplementary links")
     pmc["fetches"]["pmc_article"] = rec
     pmc["pmc_article_bytes"] = rec.get("bytes")
-    pmc["pmc_article_looks_like_a_stub"] = (
-        rec.get("bytes") is not None and rec.get("bytes") < STUB_BYTES)
+    pmc["pmc_article_interstitial_markers"] = _interstitial_markers(body)
+    pmc["pmc_article_was_served"] = bool(body) and not pmc["pmc_article_interstitial_markers"]
     if body:
         pmc["pmc_article_head"] = body[:1500]
-        for m in re.finditer(r'href="([^"]+)"', body):
-            u = m.group(1).replace("&amp;", "&")
-            if re.search(r"\.(xlsx?|csv|tsv|txt|zip|pdf|docx?)(\?|$)", u, re.I) and "/bin/" in u:
-                full = urllib.parse.urljoin(art_url, u)
-                if full not in links:
-                    links.append(full)
+        if pmc["pmc_article_was_served"]:
+            for m in re.finditer(r'href="([^"]+)"', body):
+                u = m.group(1).replace("&amp;", "&")
+                if re.search(r"\.(xlsx?|csv|tsv|txt|zip|pdf|docx?)(\?|$)", u, re.I) and "/bin/" in u:
+                    full = urllib.parse.urljoin(art_url, u)
+                    if full not in links:
+                        links.append(full)
 
-    # 4b · Europe PMC's supplementaryFiles endpoint — one ZIP of every supplement, and EBI has
-    # already been measured to serve real records rather than interstitials.
-    epmc_url = EPMC_SUPPL_FMT.format(pmcid=pmc["pmcid"])
-    raw, rec = _get_bytes(epmc_url, timeout=600, note="Europe PMC supplementaryFiles (zip)")
-    pmc["fetches"]["europepmc_supplementary"] = rec
-    if raw is not None and len(raw) <= MAX_SUPPL_BYTES:
-        pmc["supplementary"][epmc_url] = {
-            "fetch": rec, "parsed": _parse_supplementary(epmc_url, raw), "parse_error": None}
-    elif raw is not None:
-        pmc["supplementary"][epmc_url] = {
-            "fetch": rec, "parsed": None,
-            "parse_error": f"over the {MAX_SUPPL_BYTES}-byte cap; not parsed"}
+    # 4b · Europe PMC full text XML — EBI, no interstitial, and <supplementary-material> is where an
+    # article DECLARES its own supplementary files. The names come from the article, never from us.
+    fx_url = f"{EPMC_REST}{pmc['pmcid']}/fullTextXML"
+    xml, rec = _get(fx_url, timeout=300, note="Europe PMC full text XML, for its declared supplements")
+    pmc["fetches"]["europepmc_fulltext"] = rec
+    pmc["fulltext_interstitial_markers"] = _interstitial_markers(xml)
+    if xml:
+        pmc["fulltext_bytes"] = len(xml)
+        decl = []
+        for m in re.finditer(r"<supplementary-material\b[^>]*>(.*?)</supplementary-material>",
+                             xml, re.S | re.I):
+            blk = m.group(1)
+            for h in re.finditer(r'xlink:href="([^"]+)"', blk):
+                if h.group(1) not in decl:
+                    decl.append(h.group(1))
+        for h in re.finditer(r'<media\b[^>]*xlink:href="([^"]+)"', xml, re.I):
+            if h.group(1) not in decl:
+                decl.append(h.group(1))
+        pmc["supplements_declared_by_the_article"] = decl[:40]
+        # A declared name resolves against the article's own /bin/ path on PMC.
+        for nm in decl[:MAX_SUPPL_FILES]:
+            if nm.startswith("http"):
+                full = nm
+            else:
+                full = f"https://pmc.ncbi.nlm.nih.gov/articles/instance/{pmc['pmcid'][3:]}/bin/{nm}"
+            if full not in links:
+                links.append(full)
+
+    # 4c · Europe PMC's supplementaryFiles zip. Candidate URL shapes are TRIED and each status
+    # recorded — the previous single guess 404'd, and a wrong path must never read as no supplement.
+    pmc["supplementary_endpoint_attempts"] = []
+    for shape in EPMC_SUPPL_SHAPES:
+        epmc_url = EPMC_REST + shape.format(pmcid=pmc["pmcid"])
+        raw, rec = _get_bytes(epmc_url, timeout=600, tries=2,
+                              note="Europe PMC supplementaryFiles (zip)")
+        pmc["supplementary_endpoint_attempts"].append(
+            {"url": epmc_url, "http": rec.get("http"), "bytes": rec.get("bytes")})
+        if raw is None:
+            continue
+        if len(raw) <= MAX_SUPPL_BYTES:
+            pmc["supplementary"][epmc_url] = {
+                "fetch": rec, "parsed": _parse_supplementary(epmc_url, raw), "parse_error": None}
+        else:
+            pmc["supplementary"][epmc_url] = {
+                "fetch": rec, "parsed": None,
+                "parse_error": f"over the {MAX_SUPPL_BYTES}-byte cap; not parsed"}
+        break
+
+    # 4d · the NCBI Open Access package — the canonical programmatic route to an OA article's whole
+    # supplement bundle. The archive LOCATION is discovered from the service, never constructed.
+    oa_body, rec = _get(f"{NCBI_OA_FCGI}?id={pmc['pmcid']}", timeout=180,
+                        note="NCBI OA service, to DISCOVER the article's package location")
+    pmc["fetches"]["ncbi_oa"] = rec
+    pkg = None
+    if oa_body:
+        pmc["oa_response_head"] = oa_body[:800]
+        mm = re.search(r'<error[^>]*code="([^"]*)"[^>]*>([^<]*)', oa_body)
+        if mm:
+            pmc["oa_error"] = f"{mm.group(1)}: {mm.group(2)}"
+        cands = re.findall(r'<link[^>]*format="(tgz|pdf)"[^>]*href="([^"]+)"', oa_body)
+        for fmt, href in cands:
+            if fmt == "tgz":
+                # ftp:// is not fetchable here; the same path is served over https.
+                pkg = href.replace("ftp://ftp.ncbi.nlm.nih.gov/", "https://ftp.ncbi.nlm.nih.gov/")
+                break
+    pmc["oa_package_url"] = pkg
+    if pkg:
+        raw, rec = _get_bytes(pkg, timeout=900, note="NCBI OA package (tar.gz) for this article")
+        pmc["fetches"]["ncbi_oa_package"] = rec
+        if raw is not None and len(raw) <= MAX_SUPPL_BYTES:
+            pmc["supplementary"][pkg] = {
+                "fetch": rec, "parsed": _parse_supplementary(pkg, raw), "parse_error": None}
+        elif raw is not None:
+            pmc["supplementary"][pkg] = {
+                "fetch": rec, "parsed": None,
+                "parse_error": f"over the {MAX_SUPPL_BYTES}-byte cap; not parsed"}
 
     pmc["supplementary_links_found"] = links[:40]
     for u in links[:MAX_SUPPL_FILES]:
@@ -832,8 +960,13 @@ def _fetch_publisher(out):
     # ⛔ STORED, so "nature.com served an interstitial" is provable from the artifact rather than
     # asserted. A 200 that is 3 KB long is not a paper and the body is the evidence of which it is.
     out["article_head"] = art[:1500] if art else None
+    out["article_interstitial_markers"] = _interstitial_markers(art)
+    # Two independent reasons a publisher page is not a paper, reported separately: it was too short
+    # to be one, or it carried a bot wall. Either means zero links is a TRANSPORT result.
     out["article_looks_like_a_stub"] = (
         rec_art.get("bytes") is not None and rec_art.get("bytes") < STUB_BYTES)
+    out["article_was_served"] = bool(art) and not (
+        out["article_looks_like_a_stub"] or out["article_interstitial_markers"])
     links = []
     if art:
         for m in re.finditer(r'href="(https?://[^"]*%s[^"]*)"' % re.escape(SUPPL_HOST_HINT), art):
@@ -856,10 +989,14 @@ def _fetch_publisher(out):
 
 def fetch_methylation():
     out = {"series": GEO_SERIES, "fetches": {}}
+    # ⚠ ORDER MATTERS AND IT IS A DEPENDENCY, NOT A STYLE. GEO declares the PMID; the PMC rung turns
+    # that into a PMCID; and the BioStudies rung uses the PMCID to fetch the paper's OWN record.
+    # Run BioStudies first and that record is unreachable, because nothing has discovered its name
+    # yet — and the alternative is typing it, which is the thing this module exists not to do.
     reached = _fetch_geo(out)
-    _fetch_biostudies(out)
     _fetch_publisher(out)
     _fetch_pmc(out)
+    _fetch_biostudies(out)
     out["arm_state"] = "FETCHED" if reached else "UNREACHABLE"
     return out
 
@@ -917,6 +1054,35 @@ def _parse_supplementary(url, raw):
         # A zip is a CONTAINER, not a format: Europe PMC returns every supplement in one, so it is
         # unpacked and each member parsed by the same rules. A member this parser cannot open is
         # listed as unreadable with its reason, exactly as a standalone file would be.
+        if blob[:2] == b"\x1f\x8b" or low.endswith((".tar.gz", ".tgz")):
+            # The NCBI OA package is a gzipped tar of the article's whole file set. Same contract as
+            # the zip branch: every member is parsed, and a member this parser cannot open is listed
+            # with its reason rather than counted as empty.
+            import io, tarfile                                         # noqa: PLC0415
+            res["kind"] = "tar.gz"
+            with tarfile.open(fileobj=io.BytesIO(blob), mode="r:gz") as tf:
+                for mem in tf.getmembers()[:80]:
+                    if not mem.isfile():
+                        continue
+                    fh = tf.extractfile(mem)
+                    if fh is None:
+                        continue
+                    inner = _parse_supplementary(mem.name, fh.read())
+                    res["members"].append({"name": mem.name, "readable": inner["readable"],
+                                           "why": inner["why"], "size": mem.size,
+                                           "n_emc_rows": inner["n_emc_rows"],
+                                           "confusable_rows": inner["confusable_rows"]})
+                    res["n_rows_scanned"] += inner["n_rows_scanned"]
+                    res["n_emc_rows"] += inner["n_emc_rows"]
+                    res["confusable_rows"] += inner["confusable_rows"]
+                    for r in inner["emc_rows"]:
+                        if len(res["emc_rows"]) < 25:
+                            res["emc_rows"].append(f"[{mem.name}] {r}")
+            res["readable"] = any(m["readable"] for m in res["members"])
+            if not res["readable"]:
+                res["why"] = "no member of the archive could be opened by this parser"
+            return res
+
         if blob[:2] == b"PK" and not low.endswith((".xlsx", ".xls", ".docx")):
             import io, zipfile                                         # noqa: PLC0415
             res["kind"] = "zip"
@@ -1127,8 +1293,17 @@ def derive(inp):
         search_ok = bool(t_hits) and a_hits == 0
         recs = m.get("biostudies_records") or {}
         parsed = {a: (e.get("parsed") or {}) for a, e in recs.items()}
+        # ⛔ A MIRROR IS A DATA RECORD THAT NAMES THE SERIES — not any record that mentions it.
+        # The first run flagged ten "mirrors" which were all Europe PMC LITERATURE records: papers
+        # that cite GSE140686 in their text. They carry an abstract and no samples, so treating a
+        # string match as a mirror would have reported the deposit as mirrored at EBI when it is
+        # not, and pointed the next session at ten papers as though they were cohorts.
         mirror_found = [a for a, p in parsed.items()
-                        if p.get("readable") and p.get("mentions_geo_series")]
+                        if p.get("readable") and p.get("mentions_geo_series")
+                        and p.get("is_a_data_record")]
+        citing_papers = [a for a, p in parsed.items()
+                         if p.get("readable") and p.get("mentions_geo_series")
+                         and not p.get("is_a_data_record")]
         deposits = []
         for a, e in recs.items():
             p = parsed.get(a) or {}
@@ -1142,7 +1317,11 @@ def derive(inp):
                 "why_unreadable": p.get("why"),
                 "title": p.get("title"),
                 "description": p.get("description"),
-                "is_a_mirror_of_the_geo_series": p.get("mentions_geo_series"),
+                "data_source": p.get("data_source"),
+                "is_a_data_record": p.get("is_a_data_record"),
+                "mentions_the_geo_series": p.get("mentions_geo_series"),
+                "is_a_mirror_of_the_geo_series": bool(p.get("mentions_geo_series")
+                                                      and p.get("is_a_data_record")),
                 "declared_sample_count": p.get("declared_sample_count"),
                 "n_disease_categories": p.get("n_categories"),
                 "census_sum": p.get("census_sum"),
@@ -1165,6 +1344,11 @@ def derive(inp):
             "discovered": m.get("biostudies_discovered") or [],
             "a_real_mirror_of_the_geo_series_was_found": bool(mirror_found),
             "mirrors": mirror_found,
+            "literature_records_citing_the_series": citing_papers,
+            "⚠ mirror_rule": (
+                "A mirror must be a DATA record (samples, files) that names the series. A Europe "
+                "PMC literature record that mentions the accession is a paper CITING the deposit "
+                "and is listed separately — it is not a second copy of the data."),
             "verdict": ("SEARCH_CONTROLS_FAILED" if not search_ok
                         else "MIRROR_FOUND" if mirror_found else "NO_EBI_MIRROR_OF_THIS_SERIES"),
             "⛔": ("A search whose transport control returns nothing, or whose absent control "
@@ -1667,12 +1851,72 @@ def selftest():
     ck(complete["declared_sample_count"] == 100,
        "the walker did not reach a Samples node nested inside a list-of-lists")
 
+    # 16 · ⛔ A BOT WALL IS NOT A PAPER, AND A CITING PAPER IS NOT A MIRROR. Both were measured on
+    # 2026-08-24 and both had already produced a wrong reading before these guards existed.
+    ck(_interstitial_markers('<base href="https://www.google.com/recaptcha/challengepage/">') != [],
+       "a reCAPTCHA challenge page was graded as real content")
+    ck(_interstitial_markers("Please enable JavaScript and cookies to continue") != [],
+       "a JS/cookie bot wall was graded as real content")
+    ck(_interstitial_markers("<article><p>Sarcoma classification by DNA methylation</p></article>")
+       == [], "a real article body was graded as an interstitial")
+    ck(_interstitial_markers(None) == [], "a missing body invented interstitial markers")
+
+    # ⚠ The 21,246-byte reCAPTCHA page is the case a SIZE test cannot see. Asserted with a body big
+    # enough to pass any length threshold, so the guard fails if the content test is ever swapped
+    # back for a byte count.
+    # A real bot wall declares itself in the <head> and pads afterwards, which is exactly the shape
+    # that defeats a size test: 21,246 bytes of "200" that contain no article.
+    big_wall = ('<html><head><base href="https://www.google.com/recaptcha/challengepage/">'
+                "</head><body>" + ("padding " * 4000) + "</body></html>")
+    ck(len(big_wall) > STUB_BYTES, "the fixture is too small to exercise the size-test failure mode")
+    ck(_interstitial_markers(big_wall) != [],
+       "a bot wall LARGER than the stub threshold was graded as real content")
+
+    def _rec(source, mentions):
+        # ⚠ The accession goes INSIDE the JSON. Appending it after the closing brace makes the body
+        # unparseable, which the module correctly reports as `readable: false` — so the fixture
+        # would exercise the parse-failure path instead of the classification path it is aiming at.
+        abstract = ("we reanalysed " + GEO_SERIES) if mentions else "no accession here"
+        body = {"attributes": [{"name": "DataSource", "value": source},
+                               {"name": "Title", "value": "t"}],
+                "section": {"attributes": [{"name": "Title", "value": "t"},
+                                           {"name": "Abstract", "value": abstract}],
+                            "subsections": []}}
+        return _parse_biostudies("S-TEST", json.dumps(body), False)
+
+    lit = _rec("Europe PMC", True)
+    ck(lit["is_a_data_record"] is False,
+       "a Europe PMC literature record was classified as a data record")
+    ck(lit["mentions_geo_series"] is True, "the citation match itself was lost")
+    dat = _rec("ArrayExpress", True)
+    ck(dat["is_a_data_record"] is True, "an ArrayExpress data record was classified as literature")
+
+    def _mirror_stage(rec_parsed, acc):
+        inp = {"methylation": {
+            "arm_state": "FETCHED", "geo_self_text": "!Series_title = x\n",
+            "geo_all_text": "^SAMPLE = GSM1\n!Sample_title = case 1\n", "fetches": {},
+            "biostudies_controls": {"transport": {"n_hits": 1}, "absent": {"n_hits": 0}},
+            "biostudies_records": {acc: {"provenance": "discovered_by_search",
+                                         "fetch": {"http": 200}, "served_bytes": 10,
+                                         "truncated": False, "parsed": rec_parsed}}}}
+        return derive(inp)["arms"]["pan_sarcoma_methylation_deposit"]["stages"]["2_ebi_mirror_search"]
+
+    st_lit = _mirror_stage(lit, "S-EPMC1")
+    ck(st_lit["mirrors"] == [],
+       f"a paper CITING the deposit was reported as a mirror of it: {st_lit['mirrors']}")
+    ck(st_lit["literature_records_citing_the_series"] == ["S-EPMC1"],
+       "a citing paper was dropped instead of being reported in its own list")
+    ck(st_lit["verdict"] == "NO_EBI_MIRROR_OF_THIS_SERIES",
+       f"citations alone produced {st_lit['verdict']}")
+    st_dat = _mirror_stage(dat, "E-MTAB-1")
+    ck(st_dat["mirrors"] == ["E-MTAB-1"], "a genuine data mirror was not reported")
+
     if fails:
         print("SELFTEST FAILED:")
         for f in fails:
             print("  -", f)
         return 1
-    print("selftest ok (15 guard groups)")
+    print("selftest ok (16 guard groups)")
     return 0
 
 

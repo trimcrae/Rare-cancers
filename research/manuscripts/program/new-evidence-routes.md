@@ -112,7 +112,7 @@ population `emc_cohort_search.py` says it cannot.
 **GSE140686** is the reference set of Koelsche et al., *Sarcoma classification by DNA methylation
 profiling*, [Nat Commun 2021;12:498](https://www.nature.com/articles/s41467-020-20603-4) — a classifier
 trained across sarcoma methylation classes, with **extraskeletal myxoid chondrosarcoma among them**.
-IDATs are open in GEO; **E-MTAB-9875** is the EBI mirror of the same study.
+IDATs are open in GEO. ⛔ **A previous version of this line called `E-MTAB-9875` "the EBI mirror of the same study". That was an identifier written from recollection and it is wrong** — see §5.3, which records what the record actually serves.
 
 ★ **Its title names no disease.** It is the textbook instance of the missed case in §1 — a pan-sarcoma
 deposit under a generic title — and it is invisible to every query this repository has ever run.
