@@ -1,0 +1,232 @@
+{
+  "_note": "Identifier ANCHOR + retrieval record for research/manuscripts/aso/aso-delivery-evidence-2026-08.md. Every identifier below was RETURNED BY A NETWORK FETCH executed on a GitHub Actions runner on 2026-08-24 and is read here from branch `literature-cache`; none was typed from recollection. This file exists so research/manuscripts/lint_citations.py can anchor the memo's prose identifiers to a fetch product.",
+  "_limits": [
+    "A record here is evidence THE RECORD EXISTS with that title/abstract/registry content. It is NOT evidence of efficacy, safety, a therapeutic window, clinical readiness, or that any delivery gate has moved.",
+    "Retrieval reached ABSTRACT and REGISTRY level only. No full text of the Journal of Cell Biology article was retrieved (Europe PMC reports isOpenAccess=false for it), so questions that only the body can answer are recorded as UNKNOWN in the memo rather than inferred.",
+    "A ClinicalTrials.gov query returning zero studies is evidence of absence FROM CLINICALTRIALS.GOV ONLY, and only for the spelling queried. It says nothing about EU CTIS, the Israeli MoH registry, or any other national register."
+  ],
+  "generated_utc": "2026-08-24T12:40:00Z",
+  "produced_by": {
+    "workflow": ".github/workflows/fetch-literature.yml",
+    "runs": [
+      {
+        "run_id": 32726834532,
+        "path": "query",
+        "slug": "aso-delivery-epha2-cd44-2026-08",
+        "what": "Europe PMC search for the primary paper behind the 2026-08-11 press"
+      },
+      {
+        "run_id": 32726913322,
+        "path": "targets_json",
+        "slug": "aso-press-verification-2026-08",
+        "what": "ClinicalTrials.gov API v2 — SANRECO record + SIL204/Silexion searches"
+      },
+      {
+        "run_id": 32727102818,
+        "path": "targets_json",
+        "slug": "aso-press-verification-2026-08-controls",
+        "what": "ClinicalTrials.gov API v2 — known-positive controls for the zero-result searches"
+      },
+      {
+        "run_id": 32726803048,
+        "path": "targets_json",
+        "slug": "aso-delivery-epha2-cd44-preprint",
+        "what": "bioRxiv preprint PDF — REFUSED, HTTP 429 after paced retries; an unanswered question, not an empty result"
+      },
+      {
+        "run_id": 32727116445,
+        "path": "targets_json",
+        "slug": "aso-delivery-epha2-cd44-fulltext",
+        "what": "Europe PMC preprint fullTextXML — 404; core search record — 200 (it is what advertises the OA PDF URL below)"
+      },
+      {
+        "run_id": 32727996816,
+        "path": "targets_json",
+        "slug": "aso-delivery-epha2-cd44-oapdf",
+        "what": "Europe PMC OA-repository PDF for PPR974551 — REFUSED, HTTP 403, despite isOpenAccess=Y"
+      },
+      {
+        "run_id": 32727869107,
+        "path": "targets_json",
+        "slug": "aso-delivery-epha2-cd44-body",
+        "what": "rupress.org article page and DOI landing — HTTP 403 both; bioRxiv full text — HTTP 429 again; bioRxiv details API — 200"
+      }
+    ],
+    "network": "GitHub-hosted runner (the dev sandbox egress proxy blocks doi.org, biorxiv.org, eurekalert.org, news-medical.net, medicalxpress.com on CONNECT)",
+    "cost": "$0"
+  },
+  "primary_publication": {
+    "grade": "traced_to_primary_source_abstract_level",
+    "title": "EPHA2/CD44-directed trafficking enhances endosomal leakiness and antisense therapy delivery.",
+    "authors": "Marco S, Walsh PJ, Revenko AS, Schmidt T, Thomason PA, McGarry L, MacLeod AR, Ansel S, Tataran D, Bushell M, Braconi C, Norman JC.",
+    "journal": "The Journal of cell biology",
+    "journalAbbrev": "J Cell Biol",
+    "volume": "225",
+    "issue": "9",
+    "pages": "e202507217",
+    "year": 2026,
+    "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/42578958",
+    "doi": "10.1083/jcb.202507217",
+    "europepmc_source": "MED",
+    "europepmc_id": "42578958",
+    "isOpenAccess": false,
+    "retrieved_from": "literature/aso-delivery-epha2-cd44-2026-08/_index.json on branch literature-cache",
+    "abstract_verbatim": "The potential for using therapeutic antisense oligonucleotides (ASOs) has been hampered by a lack of understanding of how they enter cells and subsequently access their targets. Endocytosis contributes to ASO uptake, but the machinery mediating subsequent ASO trafficking to permit suppression of their target mRNAs has not been described. Here, we show that direct ASO engagement with a scavenger receptor (CD44) activates the ERK-RSK axis to promote serine phosphorylation of a receptor tyrosine kinase (EPHA2). Serine phosphorylation of EPHA2 permits endocytosis, trafficking, and accumulation of ASOs in nuclear-captured endosomes. These endosomes are then subject to lipid peroxidation and become leaky, allowing ASOs to escape and effectively suppress target mRNA expression. Inhibition of stress granule-mediated repair of these leaky endosomes further enhances ASO effectiveness. These data identify an endocytic route to the nucleus which may be exploited to maximize the effectiveness of ASO-mediated therapies."
+  },
+  "primary_publication_preprint": {
+    "grade": "traced_to_primary_source_abstract_level",
+    "title": "EPHA2 and scavenger receptor-directed trafficking enhances endosomal leakiness and antisense therapy delivery",
+    "authors": "Marco S, Walsh PJ, Revenko AS, Thomason PA, McGarry L, MacLeod AR, Ansell S, Tataran D, Bushell M, Braconi C, Norman JC.",
+    "year": 2025,
+    "doi": "10.1101/2025.02.05.635637",
+    "europepmc_source": "PPR",
+    "europepmc_id": "PPR974551",
+    "isOpenAccess": true,
+    "note": "Earlier version of the same study. Its abstract differs from the journal version in two respects worth recording: 'nuclear-adjacent' rather than 'nuclear-captured' endosomes, and no mention of lipid peroxidation as the leakiness mechanism. Full text was NOT retrieved — the bioRxiv PDF fetch was refused with HTTP 429."
+  },
+  "press_items": [
+    {
+      "id": "PRESS-ASO-DELIVERY-2026-08-11",
+      "grade": "traced_to_primary_source",
+      "press_claim_as_held_in_repo": "a cellular delivery route for antisense therapies reported (multiple outlets), 2026-08-11",
+      "resolves_to": "10.1083/jcb.202507217",
+      "outlets_named_in_the_backfill_memo": [
+        "Inside Precision Medicine",
+        "News-Medical",
+        "EurekAlert",
+        "Bioengineer.org"
+      ]
+    },
+    {
+      "id": "PRESS-SILEXION-SIL204-2026-07-29",
+      "grade": "press_only",
+      "press_claim_as_held_in_repo": "Silexion initiated a Phase 2/3 of SIL204 in locally advanced pancreatic cancer, 2026-07-29",
+      "clinicaltrials_gov_registration": "NONE FOUND",
+      "queries_run": [
+        {
+          "url": "https://clinicaltrials.gov/api/v2/studies?query.term=SIL204&format=json&pageSize=20",
+          "http": 200,
+          "studies_returned": 0
+        },
+        {
+          "url": "https://clinicaltrials.gov/api/v2/studies?query.spons=Silexion&format=json&pageSize=20",
+          "http": 200,
+          "studies_returned": 0
+        },
+        {
+          "url": "https://clinicaltrials.gov/api/v2/studies?query.term=SIL-204+OR+SIL204&format=json&pageSize=20",
+          "http": 200,
+          "studies_returned": 0
+        },
+        {
+          "url": "https://clinicaltrials.gov/api/v2/studies?query.term=Silexion&format=json&pageSize=20",
+          "http": 200,
+          "studies_returned": 0
+        }
+      ],
+      "controls_for_those_zeros": [
+        {
+          "url": "https://clinicaltrials.gov/api/v2/studies?query.spons=Silence+Therapeutics&format=json&pageSize=20",
+          "http": 200,
+          "studies_returned": 8,
+          "reads": "the query.spons endpoint DOES answer non-empty, and it partial-matches ('Silence Therapeutics plc', 'Silence Therapeutics GmbH'), so a sponsor named 'Silexion Therapeutics ...' would have matched. The zero for query.spons=Silexion is therefore a real absence from this registry."
+        },
+        {
+          "url": "https://clinicaltrials.gov/api/v2/studies?query.term=divesiran&format=json&pageSize=20",
+          "http": 200,
+          "studies_returned": 0,
+          "reads": "⛔ THE CONTROL FAILED, AND THAT IS THE FINDING. divesiran is the INN of SLN124, whose trial NCT05499013 is in this registry under the code name — so query.term does not reach drug synonyms. Every query.term zero above is therefore UNINFORMATIVE and only the query.spons zero carries weight."
+        }
+      ],
+      "nct": "UNKNOWN"
+    },
+    {
+      "id": "PRESS-SILENCE-DIVESIRAN-2026-08",
+      "grade": "press_only_for_the_result_registry_verified_for_the_trial",
+      "press_claim_as_held_in_repo": "Silence Therapeutics reported positive siRNA results in a rare blood cancer, 2026-08-11/21",
+      "trial": {
+        "nct": "NCT05499013",
+        "org_study_id": "SLN124-004",
+        "acronym_secondary_id": "SANRECO",
+        "brief_title": "Study to Assess SLN124 in Patients With Polycythemia Vera",
+        "official_title": "Phase 1/2 Study With an Open-label Dose Escalation Phase Followed by a Randomized, Double-blind Phase of SLN124 in Patients With Polycythemia Vera",
+        "lead_sponsor": "Silence Therapeutics plc",
+        "phases": [
+          "PHASE1",
+          "PHASE2"
+        ],
+        "overall_status": "ACTIVE_NOT_RECRUITING",
+        "enrollment_actual": 69,
+        "conditions": [
+          "Polycythemia Vera"
+        ],
+        "intervention": "SLN124 — a double-stranded small interfering RNA targeting TMPRSS6 mRNA (registry's own wording)",
+        "hasResults": false,
+        "statusVerifiedDate": "2025-12",
+        "lastUpdatePostDate": "2025-12-19",
+        "retrieved_from": "literature/aso-press-verification-2026-08/ctgov-sanreco-nct05499013.txt on branch literature-cache"
+      },
+      "discrepancies_with_the_press_line": [
+        "The press describes 'the Phase 2 SANRECO trial'. The registry record is a PHASE 1/2 study; the randomised double-blind portion is its phase-2 part.",
+        "The registry carries NO results (hasResults=false) and was last updated 2025-12-19, before the reported readout. The reported outcome is therefore press-only — no peer-reviewed publication and no registry results record was traced."
+      ]
+    }
+  ],
+  "on_gate_registry_finds_surfaced_by_the_same_queries": {
+    "_why_recorded": "These were NOT in the press window and were not what the query was for. They are systemic siRNA trials in a NON-HEPATIC SOLID TUMOUR by the same sponsor, i.e. they sit on the ASO route's actual gate, which the press item does not. Registry existence and status only — no efficacy, safety or outcome is read or claimed here.",
+    "studies": [
+      {
+        "nct": "NCT00938574",
+        "brief_title": "Study With Atu027 in Patients With Advanced Solid Cancer",
+        "lead_sponsor": "Silence Therapeutics GmbH",
+        "phases": [
+          "PHASE1"
+        ],
+        "overall_status": "COMPLETED"
+      },
+      {
+        "nct": "NCT01808638",
+        "brief_title": "Atu027 Plus Gemcitabine in Advanced or Metastatic Pancreatic Cancer (Atu027-I-02)",
+        "lead_sponsor": "Silence Therapeutics GmbH",
+        "phases": [
+          "PHASE1",
+          "PHASE2"
+        ],
+        "overall_status": "COMPLETED"
+      }
+    ],
+    "retrieved_from": "literature/aso-press-verification-2026-08-controls/ctgov-control-spons-silence.txt on branch literature-cache"
+  },
+  "gate_verdict": {
+    "blocker": "BLK-DELIVERY",
+    "technology_that_would_retire_it": "TECH-OLIGO-DELIVERY",
+    "moved": false,
+    "one_line": "No. The primary paper is cell-level uptake and endosomal-escape mechanism; it names no delivery vehicle, no EMC-enriched targeting antigen and no demonstrated biodistribution to a non-hepatic solid tumour, which is what BLK-DELIVERY (as rescoped 2026-08-12) actually requires."
+  },
+  "full_text_retrieval": {
+    "outcome": "NOT RETRIEVED — five distinct routes refused on 2026-08-24, each read from the runner job log",
+    "attempts": [
+      {
+        "route": "Europe PMC record, journal version",
+        "result": "isOpenAccess: false (paywalled)"
+      },
+      {
+        "route": "bioRxiv preprint PDF",
+        "result": "HTTP 429 after paced retries, on two separate runs"
+      },
+      {
+        "route": "Europe PMC preprint fullTextXML (PPR974551)",
+        "result": "HTTP 404"
+      },
+      {
+        "route": "Europe PMC OA-repository PDF (PPR974551)",
+        "result": "HTTP 403 — the URL Europe PMC's own fullTextUrlList advertises as Open access"
+      },
+      {
+        "route": "rupress.org article page and DOI landing",
+        "result": "HTTP 403"
+      }
+    ],
+    "consequence": "Whether the study contains any in vivo experiment is UNKNOWN. Neither abstract claims one. ⛔ An absent reading is not a reading of absence — nothing here may be rounded to 'cell-only'."
+  }
+}
