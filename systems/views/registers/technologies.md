@@ -54,6 +54,7 @@ unlabelled forecast is indistinguishable from a measurement.
 | 3 | **TECH-COMPUTE-COST** | `compute_economics` | `early_signals` | 2029 | **2027H2** | 2026H2 | `evidence_based` | `moderate` | n/a — watched another way |
 | 1 | **TECH-RXR-HETERODIMER-REPORT** | `published_measurement` | `absent` | never | **beyond-2031** | 2029 | `speculative` | `marginal` | yes |
 | 1 | **TECH-ASO-SPECIFICITY-MODEL** | `foundation_model_biology` | `absent` | 2029 | **2028** | 2027 | `extrapolated` | `moderate` | yes |
+| 1 | **TECH-CONDENSATE-RESOLUTION** | `conformational_ensemble` | `early_signals` | beyond-2029 | **2028** | 2027H1 | `speculative` | `marginal` | yes |
 
 **2 dependency(ies) cannot be seen by a literature search and are watched
 another way** — each says how, under `not_scannable_because` in its Detail entry: `TECH-COMPUTE-COST`, `TECH-RECONSTRUCTED-IPD`. ⛔ This is a recorded decision, not a gap; the
@@ -917,5 +918,37 @@ WHAT WATCHES IT INSTEAD: `curves_supplied` in research/modalities/emc-ipd-surviv
 **⚠ Adoption note.** ⚠ This could move the route in EITHER direction. The current heuristic is deliberately conservative, so a calibrated model might reveal more off-targets rather than fewer — and that is a reason to want it, not a reason to avoid it.
 
 *Scanned by:* `TRG-ASO-OFFTARGET-PREDICTOR`, `TRG-ASO-EFFICACY-ACCESSIBILITY`
+
+### TECH-CONDENSATE-RESOLUTION — fan-out 1
+
+**A residue-resolution phase-behaviour model — a second independent force field such as Mpipi, or a CALVADOS successor — demonstrated to resolve differences between closely related disordered sequences finer than the Flory-exponent floor the CALVADOS 2 single-chain arm measured; OR a published EMC condensate measurement (droplet formation, FRAP recovery, saturation concentration) reported stratified by 5' fusion partner rather than pooled**
+
+*Category:* `conformational_ensemble` · *state:* `early_signals` · *confidence in that state:* `low`
+
+**Why it matters.** It is the one thing that reopens the shelved CALVADOS single-chain arm, and that arm was closed by RESOLUTION rather than by failure -- it ran to its prespecified standard, both controls passed, and it returned a bounded null that excludes only partner differences larger than its own separation threshold. ⛔ Re-running the same arm with more sampling is NOT this capability and is forbidden by that arm's own prespecification: the reason to reopen is resolution, never repetition. ⚠ Fan-out one is the honest size -- nothing else in the portfolio waits on it, and the route it serves was parked on expected value.
+
+**What the state assessment rests on:**
+- The CLASS of model exists and works here: CALVADOS 2 is installed and validated two-sidedly -- the package's own shipped single-IDR example reproduces end to end, and the directional control moves nu by more than the arm's separation threshold. A residue-resolution phase-behaviour force field is a usable instrument today (INS-CALVADOS-SINGLE-CHAIN).
+- What has NOT landed is resolution below that instrument's floor: run to the package's shipped protocol with five replicates, CALVADOS 2 single-chain nu separates none of EMC's 5' partner windows from each other, nor any of them from wild-type NR4A3's own disordered region. The floor, the pooled replicate spread and the threshold have one home: research/modalities/emc-condensate-calvados-findings.md.
+- UNKNOWN and deliberately not guessed: whether any other residue-resolution force field already resolves finer than that floor between closely related disordered sequences. Nobody here has measured it or searched for it -- TRG-CONDENSATE-PARTNER-RESOLUTION is the query that would find it, and this row is what a hit lands on.
+- No published EMC condensate measurement stratified by 5' fusion partner is recorded anywhere in this repository. That is the second disjunct's reason for existing: a pooled measurement cannot answer the partner question however good it is.
+
+**Unblocks.** instruments: INS-CALVADOS-SINGLE-CHAIN
+
+**Forecast.**
+
+| scenario | band | confidence | rationale |
+|---|---|---|---|
+| conservative | `beyond-2029` | moderate | Neither disjunct is anybody's stated target. The wet-lab half needs somebody to run a partner-stratified condensate measurement in a tumour type this rare; the modelling half needs a force-field generation benchmarked on DISCRIMINATION between similar sequences rather than on agreement with experiment across dissimilar ones. |
+| expected | `2028` | low | Coarse-grained IDR force fields are a live and iterating field -- the line this repository uses is already at version 2 -- so a successor arriving is likely. What is uncertain is whether any of them reports the discrimination this needs, which is not the axis such papers usually publish. |
+| optimistic | `2027H1` | low | One published benchmark reporting nu discrimination between closely related disordered sequences below this floor satisfies the modelling half immediately, and a single EMC condensate paper that splits its readouts by 5' partner instead of pooling them satisfies the other. |
+
+*Basis:* `speculative` · *impact here:* `marginal` · *last reviewed:* 2026-08-24
+
+**What would move this.** A published benchmark that reports resolution between closely related disordered sequences on this axis at all -- today's papers report agreement with experiment on sequences that are not close, which does not bound the discrimination. ⛔ A re-run of this repository's own arm with more sampling moves nothing.
+
+**⚠ Adoption note.** The modelling half arrives as usable software long before it arrives VALIDATED at this discrimination, and only the second date reopens anything here: the arm was closed by a resolution floor, so a successor force field shipping without a discrimination benchmark leaves the same question open at a new version number.
+
+*Scanned by:* `TRG-CONDENSATE-PARTNER-RESOLUTION`
 
 [← L0](../L0-ecosystem.md)
