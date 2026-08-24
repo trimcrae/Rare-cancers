@@ -53,9 +53,11 @@ exon is retained whole including its 5' untranslated region. Class I binding was
 2.1.4, models release 2.2.0 [2], on a ten-allele panel for the junction screen and a 34-allele panel for
 the coverage scan, calling a peptide strong at a presentation percentile of 0.5 or below; class II binding
 with MHCnuggets [12] on 23 class II alleles across DR, DP and DQ at 100 and 1000 nM. Coverage is the union carrier frequency of
-the presenting alleles over Allele Frequency Net Database records [1]; the sampling model that pooling
-would require does not hold, so no confidence interval is placed on it and the threshold sensitivity is
-reported instead. Novelty was assessed by exact-match search against the UniProt reviewed human proteome
+the presenting alleles over Allele Frequency Net Database records [1]; the sampling model a pooled
+binomial would require does not hold, so no confidence interval is placed on it and three other
+readings are reported in its place: the exact within-locus form of the coverage expression,
+distribution-free Fréchet bounds on the between-locus dependence the formula assumes away, and the
+empirical spread of the same quantity recomputed inside each source population. Novelty was assessed by exact-match search against the UniProt reviewed human proteome
 including isoforms, with the unreviewed entries of the same reference proteome searched separately and
 reported separately. Clinical figures come from a curated EMC registry. No wet-laboratory data were
 generated.
@@ -72,7 +74,13 @@ percentile units wide that closes before the cut is reached. Across the span of 
 routinely uses it runs from 0% at a conservative 0.2 through 30.4% at 0.5 to 72.6% at 2.0, so the
 reported figure is one point on a curve rather than an estimate with a tolerance. It also moves with the predictor: an independently
 trained class I model over the same peptides and panel returns 8 presenting alleles and 45.2% at its own
-conventional cut, sharing only three alleles with the four above. 170 of 174
+conventional cut, sharing only three alleles with the four above. In place of the confidence interval
+withdrawn from earlier versions, the pooled figure is bounded three ways: the exact within-locus form
+raises it by 0.33 percentage points, so it cannot be too high for that reason; Fréchet bounds place it
+in [17.5%, 29.9%] under any linkage disequilibrium whatever; and recomputed inside each of the 112
+source populations that measured the whole presenting panel it has a median of 24.5% and a range of 0%
+to 66.0%. That last is the width a reader should carry: it is an order of magnitude wider than the
+other two, and wider than the panel and the predictor axes, though not than the threshold. 170 of 174
 peptides are absent from the reviewed human proteome including isoforms and all 4 strong binders survive;
 the 4 that do not occur in an *NR4A3* isoform, belong to the four aspartate-seam junctions, and cost one
 predicted binder. A near-self search at one to two substitutions places the lead peptide one residue from
@@ -123,7 +131,7 @@ The result does not transfer to EMC, and Section 4 sets out the axis on which th
 shows is that the manufacturing and delivery apparatus for an individualised RNA vaccine exists as a
 clinical reality rather than as a proposal.
 
-## 2. The target and its current evidence base
+## 2. Results: the target and its current evidence base
 
 ### 2.1 Disease and fusion
 
@@ -239,8 +247,10 @@ fraction carrying at least one presenting allele. Because *A* is itself a functi
 threshold *t* — an allele enters *A* at the percentile of its best junction peptide — coverage is a
 function of *t*, and it is a right-continuous step function whose jumps are exactly the distinct
 peptide-allele percentiles. Section 2.3 computes it. Three properties
-of that quantity govern how the figures below should be read; both are properties of the screen rather
-than of the tumour, and a third, below them, is a property of the population the figure averages over.
+of that quantity govern how the figures below should be read: the panel, the threshold and the
+predictor. All three are properties of the screen rather than of the tumour. A fourth, below them, is
+a property of the population the figure averages over, and a fifth is the uncertainty the pooled
+figure carries and does not print.
 
 **It moves with the panel.** On the ten-allele screen the *EWSR1* exon 7 junction is presented on
 HLA-B\*15:01 alone and covers 8.5%; on 34 alleles the same lead peptide is also strong on HLA-A\*30:02 and
@@ -333,13 +343,59 @@ given so that it need not be.
 
 <!-- END GENERATED (regional-coverage) -->
 
-**What is not reported, and why.** Earlier versions printed Wilson 95% intervals about half a percentage
-point wide on every figure above. They are withdrawn. They were computed by pooling every reference
-population into one binomial, and the same records show HLA-B\*15:01 ranging from 0 to 0.40 in frequency
-between those populations, so the single-urn model the interval assumes is refuted by its own input — and
-the interval is an order of magnitude narrower than the threshold sensitivity above. The regional
-figures in Table 1 are point values for the same reason, and the reason is stronger there: the sample
-behind a sub-region's cell is smaller and less homogeneous than the pooled one, not more.
+**What the withdrawn interval was, and what stands in its place.** Earlier versions printed Wilson 95%
+intervals about half a percentage point wide on every figure above. They are withdrawn. They were
+computed by pooling every reference population into one binomial, and the same records show
+HLA-B\*15:01 ranging from 0 to 0.40 in frequency between those populations, so the single-urn model
+the interval assumes is refuted by its own input — and the interval is an order of magnitude narrower
+than the threshold sensitivity above. The regional figures in Table 1 are point values for the same
+reason, and the reason is stronger there: the sample behind a sub-region's cell is smaller and less
+homogeneous than the pooled one, not more.
+
+Withdrawing a wrong interval and printing a bare point estimate is not an improvement on printing a
+wrong one, and this section previously stopped there. Three quantities are given instead. Each answers
+a question the Wilson interval was standing in for, none of them is a confidence interval, and all
+three are deposited in `coverage-uncertainty.json`.
+
+*The same-locus approximation, and its direction.* The formula above multiplies (1 − *f<sub>a</sub>*)²
+over alleles, taking HLA-B\*07:02 and HLA-B\*15:01 to be independent events when a diploid genome
+carries at most two alleles at HLA-B and the two compete for the same pair of slots. Grouping by locus
+is exact under the same Hardy-Weinberg assumption: the probability of carrying neither of a locus's
+presenting alleles is (1 − Σ *f<sub>a</sub>*)², not ∏ (1 − *f<sub>a</sub>*)². Since
+(1 − *f*₁ − *f*₂) < (1 − *f*₁)(1 − *f*₂), the published form is a lower bound and not an approximation
+of unknown sign. Recomputed exactly, the pooled ten-allele figure is 27.7% against the 27.4% printed
+above: 0.33 percentage points, in the direction that means no coverage figure in this paper is too
+high for this reason. The correction is small here only because the two same-locus frequencies are
+small; it grows with the panel, and a screen reporting many alleles at one locus under the published
+form would understate by considerably more.
+
+*Dependence between loci, bounded rather than assumed away.* What remains is independence between
+HLA-A and HLA-B, which linkage disequilibrium violates and which nothing in this work measures. It
+does not have to be measured to be bounded. Pooled per-locus carrier frequencies are 12.4% at A and
+17.5% at B, and for a union of events with those marginals the Fréchet bounds place coverage in
+[17.5%, 29.9%] under *any* dependence structure whatever, exactly and distribution-free, assuming
+nothing about haplotypes. Positive disequilibrium, presenting alleles clustering in the same people,
+pushes coverage toward the lower end; negative disequilibrium toward the upper. So the independence
+assumption is worth at most 12.4 percentage points here, and the reader who distrusts it can take the
+bound instead of the estimate.
+
+*The spread that matters is between populations, and it is far wider than either.* Recomputing *C*
+inside each AFND study population from that population's own frequencies, restricted to the 112
+populations of at least 50 individuals that measured all three presenting alleles, gives a median of
+24.5%, an interquartile range of 9.6% to 35.6%, and a full range of 0% to 66.0%. That is the figure to
+carry away: the pooled 27.4% sits near the median of a distribution whose middle half spans 26
+percentage points and whose extremes are 0% and 66.0%. That is an order of magnitude wider than
+either reading above it, wider than the panel and predictor axes of this same figure, and narrower
+only than the threshold axis. Taken instead over every population with any
+measurement, scoring an unmeasured allele as absent, the median falls to 3.1% across 482 populations.
+That is a floor rather than an estimate, because absence from AFND is a reporting gap and not a
+measured zero.
+The distance between those two readings is a statement about the database, not about HLA, and it is
+given here so that the 112-population figure is not read as a survey of the world.
+
+None of the three is the quantity a confidence interval would give, and none is offered as one. What
+is still absent is any interval on the *screen* — on whether the peptide-allele calls that define *A*
+are correct. That is limit B2, which no rearrangement of population statistics can reach.
 
 Because an individualised platform selects against the patient's own genotype rather than a public
 epitope, the relevant figure is the pooled-junction one. Selecting per patient moves it from 8.5% to
@@ -935,7 +991,7 @@ than as the plot's endpoint. The axis is logarithmic because the function's shap
 decades and a linear axis collapses every step the argument rests on into the left margin. Coverage
 is the union carrier frequency of the presenting alleles on pooled AFND frequencies.
 
-## 8. Reproducibility
+## 8. Methods and reproducibility
 
 Every figure in Sections 2 and 3 is generated by a script in `research/modalities/` and is committed as a
 JSON artifact beside it: `fusion_breakpoints.py` for the junction set and predicted binders,
@@ -944,13 +1000,16 @@ curve, `coverage_threshold_curve.py` for the coverage-versus-threshold curve of 
 `junction_proteome_novelty.py` for the proteome search of Section B5,
 `junction_frameshift_peptides.py` for the out-of-frame screen of Section 2.2,
 `junction_selfsimilarity.py` for the near-self search of Section B3,
-`predictor_concordance.py` for the second-predictor check, `patient_neoepitopes.py` and
+`predictor_concordance.py` for the second-predictor check,
+`coverage_uncertainty.py` for the within-locus form, the Fréchet bounds and the between-population
+spread of Section 2.3, `patient_neoepitopes.py` and
 `patient_cd4_epitopes.py` for the per-patient shortlisters, and `vaccine_construct.py` for the candidate
 construct and its minimal synthetic long peptide. The corresponding artifacts are
 `fusion-breakpoint-neoantigens.json`, `hla-coverage.json`, `coverage-curve.json`,
 `coverage-threshold-curve.json`, `epitope-allele-matrix.json`, `epitope-allele-loose-matrix.json`,
 `junction-proteome-novelty.json`, `junction-frameshift-peptides.json`,
-`junction-selfsimilarity.json`, `predictor-concordance.json`, `patient-cd4-demo.json` and
+`junction-selfsimilarity.json`, `predictor-concordance.json`, `coverage-uncertainty.json`,
+`patient-cd4-demo.json` and
 `vaccine-construct.json`. The two tables in this paper are generated from those artifacts by
 `vaccine_path_tables.py` and a build fails if a cell and its source diverge. The predictor versions those artifacts record are MHCflurry 2.1.4 with models
 release 2.2.0 for class I and MHCnuggets 2.4.1 for class II. MHCnuggets publishes no models-release
