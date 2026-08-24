@@ -237,6 +237,35 @@ assumed: the same system on CPU manages under five integration steps per second 
 million the standard protocol needs. That is a real-dollar spend and a decision for trimcrae; nothing
 here authorises it.
 
+### 4.3 · SHELVED 2026-08-24 — what would reopen it
+
+**Decision: trimcrae, 2026-08-24 — *"it sounds like this is all chasing."*** The route is parked here,
+with the coexistence arm priced and declined. ⛔ **It is parked on expected value, not on failure.**
+The arm ran to its prespecified standard, both controls passed, and it answered.
+
+**Why the price was not the reason.** The coexistence arm was costed at the repository's own planning
+rate ([`pricing.md`](../../compute/pricing.md) §B) and came to **tens of dollars** across the plausible
+throughput range — the money was never the obstacle. What argued against it is that **this model's
+founding claim is that single-chain properties inform its phase behaviour**, and the single-chain
+readout had just come back empty. Buying the expensive arm immediately after the cheap correlated one
+returns nothing is chasing, and the honest expected value was low.
+
+**⛔ THE ONE THING THAT MUST NOT HAPPEN ON REOPENING: re-running this arm with more sampling.** Its own
+prespecification forbids extending it after the numbers are in, and that rule was written before any
+of them existed. The reason to reopen is **resolution**, never repetition.
+
+**What is watching for it, so that "shelved" is not "abandoned".** Registered and machine-checked:
+trigger `TR-CONDENSATE-PARTNER-SIGNAL`, scanned as `TRG-CONDENSATE-PARTNER-RESOLUTION`
+([`method-watch-triggers.json`](../../method-watch-triggers.json)), with a capability→action row in
+[`method-watch.md`](../../method-watch.md). It fires on either a phase-behaviour model demonstrated to
+resolve finer than **0.06 in ν** between closely related disordered sequences, or a published EMC
+condensate measurement reported **stratified by 5′ partner** rather than pooled.
+
+**What survives the shelving and is worth having on its own.** The compositional signature across these
+windows is large — SYGQ fraction spans 0.26 to 0.82 — and **none of that variation appeared in the
+simulation**. That is a bounded, first-party statement about how far sequence-composition proxies can
+be pushed, and it is not specific to this disease.
+
 ---
 
 ## 5 · What was built for this memo, and what it deliberately does not claim
