@@ -191,7 +191,8 @@ GRID_TRACKS = ["raw", "promiscuity_filtered"]
 # scored it costs the run. The harshest corner (a 5' junction used by nine samples in ten, exactly
 # zero coverage on it, the top percentile of expression) is almost certainly too tight to keep the
 # positive controls alive — and finding out WHERE it dies is the shape of the limit, which is the
-# publishable part if the target never separates.
+# part worth having if the target never separates. ⚠ It is a BOUND, not a paper (`new-evidence-
+# routes.md` §5.4): it prices the next decision, it does not make a claim about the disease.
 
 # The cell that reproduces the first search run's operating point exactly, so the two runs are
 # comparable and a change in the underlying compilation shows up as a moved number rather than as
@@ -2403,12 +2404,17 @@ def _depletion_verdict(s):
         out["⛔"] = (
             "At the control-selected operating point the target does NOT clear the negative-panel "
             f"envelope by the pre-registered margin (95% lower bound {ci_low} against a bar of "
-            f"{min_enrich}). No candidate list is emitted and no count here is a finding. This is "
-            "the honest reading and it is publishable as it stands: every public human RNA-seq "
-            "sample in this compilation was scored for the intragenic signature a 5'-truncating "
-            "rearrangement leaves, on an instrument whose positive controls fire and whose "
-            "negative panel is held at the ceiling, and the target does not rise above what an "
-            "ordinary gene does.")
+            f"{min_enrich}). No candidate list is emitted and no count here is a finding. What was "
+            "measured: every public human RNA-seq sample in this compilation was scored for the "
+            "intragenic signature a 5'-truncating rearrangement leaves, on an instrument whose "
+            "positive controls fire and whose negative panel is held at the ceiling, and the "
+            "target does not rise above what an ordinary gene does. "
+            "⛔ WHETHER THAT IS WORTH PUBLISHING IS NOT THIS MODULE'S CALL AND IS NO LONGER "
+            "ASSERTED HERE. It said 'publishable as it stands' until 2026-08-24, when the answer "
+            "was read and the call went the other way (`new-evidence-routes.md` §5.4): an honest "
+            "bounded null about a SIGNATURE is not a statement about the DISEASE. An instrument "
+            "reports what it measured; a deliverable judgement belongs to a human and lives in "
+            "the memo, not in a verdict string a future session would read as settled.")
     out["⚠ what_a_candidate_is"] = (
         "a public sample in which this gene's downstream junction coverage is substantial while its "
         "5'-most junctions carry essentially none. That is CONSISTENT WITH a 5'-truncating "

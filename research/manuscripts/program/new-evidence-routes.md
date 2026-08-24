@@ -104,6 +104,10 @@ population `emc_cohort_search.py` says it cannot.
   `PROBED_NOT_SEARCHED`. The searchable design is written against that measurement.
 - **Even the null is a result**, and a publishable one: *every public human RNA-seq sample was queried
   for this disease's driver junction, and here is the census*. That is a statement no one has made.
+  ⛔ **SUPERSEDED BY §5.4, retained because it is what the route was proposed on.** The null arrived
+  and it is NOT a paper — the census the bullet imagines is a census of what the instrument can
+  reach, not of the disease. The bullet is the reason the route was worth running; it is not a
+  finding, and it must not be quoted as one.
 
 ---
 
@@ -348,6 +352,11 @@ is left as it was written**, because what was pre-registered is part of the reco
   compilation scored for the intragenic signature a 5'-truncating rearrangement leaves, on an
   instrument whose positive controls fire and whose negative panel is held at the ceiling, and the
   target does not rise above what an ordinary gene does. Nobody has made that statement.
+  ⛔ **"THE PUBLISHABLE ONE" IS SUPERSEDED BY §5.4 — retained because it is what was pre-registered,
+  and a pre-registration is worthless if it is edited once the answer is in.** The outcome landed
+  and it is not a paper. ⚠ Note WHERE the prediction failed: not on whether the outcome would be
+  honest — it is — but on the assumption that an honest bounded null about a SIGNATURE is a
+  statement about the DISEASE. It is not, and §5.4 says why.
 - **`TARGET_SEPARATES`** — the 95% lower bound on the target's enrichment over the envelope exceeds
   the pre-registered bar. ⛔ **That would be an ENRICHMENT, NOT A DETECTION.** No individual sample
   in such a list is thereby a fusion, a tumour, or a diagnosis, and the bar is an effect size rather
@@ -419,14 +428,45 @@ the 219 available — is the most useful thing this run produces**, because it s
 to change for the question to be answerable at all, and the whole 384-row surface behind it is in
 the artifact.
 
-⭐ **Why this is worth publishing as it stands.** Nobody has queried every public human RNA-seq
-sample in this compilation for this disease's structural signature, with two positive controls
-firing at 13× and 252×, a seven-gene background panel, a pre-registered read-out and an operating
-point chosen without ever looking at the target. The negative is bounded, the bound is stated in
-samples rather than in adjectives, and the instrument that produced it recovers a known
-5'-truncated population where one exists. ⚠ **The routes it does not close** are the ones that do
-not depend on this signature: a chimeric junction is not in this index at all (§5.1), and the
-deposits in §3 and §5.2 are untouched by this result.
+⛔⛔ **THIS IS NOT A PAPER** (trimcrae, 2026-08-24, on being shown the result in plain language).
+**SUPERSEDES the paragraph this replaces**, which argued it was worth publishing as it stands; that
+was the agent's judgement and it was wrong. ⚠ **The claim that this arm's null is publishable
+appears in three earlier places written before the answer existed — §2's last bullet, §5.3's
+`TARGET_DOES_NOT_SEPARATE` row and this section. All three are now marked. Do not re-derive the
+argument from any of them.**
+
+★ **And the reason is diagnosable in this memo's own opening terms, which is what makes it worth
+recording rather than merely obeying.** §0 says this programme's problem is that it keeps producing
+measurements about its own INSTRUMENTS rather than about the disease. Read what this run actually
+established, in order:
+
+- the junction index answers, and what it serves — *about the index*;
+- the 5'-depletion score fires on two known 5'-truncated genes and not on ordinary ones — **about
+  the score**;
+- the regime that makes the score specific leaves the target too few samples to test — **about the
+  score's reach**;
+- NR4A3 sits inside the ordinary-gene spread — about the target, and it is the only line here that
+  is, but it is a null obtained at the setting where the instrument cannot tell a truncated 5' end
+  from an ordinary alternative start.
+
+⛔ **So the one statement about the disease is the one the instrument was least able to make.** A
+paper built on this would be another paper about our own apparatus wearing a disease's name — the
+exact thing §0 was written to stop, and the exact thing that makes a manuscript infinitely
+revisable because there is nothing in it for a reviewer to disagree with.
+
+✅ **What the run IS for, undiminished.** It is a **bound**, and bounds are how the next decision
+gets made cheaply. ⚠ **Stated at exactly its strength, because the stronger version is tempting and
+wrong:** this signature, scored over this index, **did not** reach this disease — *not* that it
+cannot. The test that could have decided it was underpowered, and the price of powering it is now a
+number rather than a guess: about **1,498** target samples where **219** exist. That is what belongs
+in the record, and it is in the record. It **bounds** a route at $0 that would otherwise have been
+re-proposed on the assumption the bullet in §2 was written on. ⚠ **The routes it does not touch** are
+the ones that do not depend on this signature: a chimeric junction is not in this index at all
+(§5.1), and the deposits in §3 and §5.5 are unaffected by this result.
+
+⚠ **What would change the call** — stated so a later session tests it instead of re-arguing it:
+a source that supplies enough NR4A3-expressing samples to power the sharp regime, or a signature
+that does not degrade at the loose end. Neither is this run, and neither is a re-run of it.
 
 ⚠ **Route A2's status here is SUPERSEDED BY §5.5, retained because it was true when written.** This
 run's Springer article fetch did again return a stub and the arm did again report
