@@ -152,9 +152,17 @@ def test_the_article_states_it(label, pattern, why, prose):
 #: after its selectivity filter was added. These are FLOORS, not targets: coverage may rise freely
 #: and may not fall. ⚠ Raising a floor is a deliberate act — do it when you have closed a class, and
 #: never to make a red run green.
-COVERAGE_FLOOR = {"journal-article": {"covered": 67, "with_a_number_covered": 44},
+COVERAGE_FLOOR = {"journal-article": {"covered": 66, "with_a_number_covered": 44},
                   "journal-tables": {"covered": 4, "with_a_number_covered": 1},
                   "cover-letter": {"covered": 6, "with_a_number_covered": 4}}
+#: ⛔ `journal-article.covered` 67 -> 66 ON 2026-08-24, SAME DAY, AND FOR A DELETED SENTENCE AGAIN.
+#: trimcrae removed his diagnosis from the whole submission envelope, so the manuscript's pointer
+#: sentence — "a non-financial interest is disclosed to the editor in the accompanying cover
+#: letter" — had to go with it: with the letter no longer declaring one, that sentence would have
+#: been false in a published paper. It was bound (by test_the_envelope_declares_one_interest.py),
+#: so removing it costs one covered sentence, and the cover letter's own census falls 11 -> 10 for
+#: the same edit. ⚠ The ratchet's remedy was checked and does not apply: the sentence is GONE, not
+#: reworded, and re-anchoring a guard to a sentence the author deleted is not available.
 #: ⛔⛔ `journal-article.covered` 68 -> 67 ON 2026-08-24, AND THE CAUSE IS A DELETED SECTION.
 #: This is the THIRD documented downward correction, and like both before it, it is licensed by a
 #: measurement rather than by a red run. In order, because the order is the lesson:

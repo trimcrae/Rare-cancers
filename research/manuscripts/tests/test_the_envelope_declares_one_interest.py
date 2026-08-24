@@ -60,41 +60,56 @@ def _flat(path):
         return " ".join(fh.read().split())
 
 
-def test_the_cover_letter_discloses_the_interest_to_the_editor():
-    """⛔ THE EDITOR IS THE PERSON IT BEARS ON, AND THE LETTER IS HOW THEY LEARN IT."""
-    text = _flat(COVER_LETTER)
-    assert _PATIENT_INTEREST.search(text), (
-        "the cover letter no longer discloses the author's non-financial interest to the editor. "
-        "The author chose to keep it out of the published manuscript (2026-08-22) — that choice "
-        "rests on the editor being told here. If this line goes, the interest is disclosed nowhere "
-        "in the envelope at all.\n\nDo not satisfy this by adding the WORD 'survivorship': round 8's "
-        "repair did exactly that and the disclosure stayed missing for four rounds.")
+def test_the_diagnosis_appears_nowhere_in_the_submission_envelope():
+    """⛔ THE AUTHOR'S DIAGNOSIS IS OUT OF THE ENVELOPE ENTIRELY (trimcrae, 2026-08-24).
+
+    ⚠ THIS REVERSES WHAT THIS FILE USED TO REQUIRE, AND THE REVERSAL IS THE AUTHOR'S TO MAKE.
+    Until today the contract was "the manuscript may omit it, the cover letter must declare it",
+    resting on his 2026-08-22 answer that it "doesn't need to be in the manuscript". Asked again on
+    2026-08-24 he removed it from the letter too. A diagnosis is the author's own medical
+    information; whether to disclose it anywhere is his decision and not a guard's, and an external
+    reviewer asking for it in the published declaration does not change whose decision it is.
+
+    ★ SO THE PROPERTY FLIPS DIRECTION BUT DOES NOT WEAKEN. It is no longer "is it declared" but
+    "is it absent from BOTH documents", which is checkable in exactly the same way and fails just as
+    loudly if a later edit — or a later reviewer's advice — puts it back.
+    """
+    for name, path in (("manuscript", JOURNAL_ARTICLE), ("cover letter", COVER_LETTER)):
+        m = _PATIENT_INTEREST.search(_flat(path))
+        assert not m, (
+            f"the {name} names the author's diagnosis: ...{m.group(0)}...\n\n"
+            "It was removed from the whole submission envelope on 2026-08-24 at the author's "
+            "instruction. Do not reinstate it on a reviewer's advice — it is his medical "
+            "information and his call, and this guard exists because it was put back once already.")
 
 
 def test_the_manuscript_does_not_deny_an_interest_it_has():
     """⛔ AN OMISSION IS A CHOICE; A FALSE NEGATIVE DECLARATION IS A MISSTATEMENT.
 
-    The manuscript may leave the diagnosis out. It may not say there are no non-financial interests,
-    because there is one — and the cover letter in the same envelope says so.
+    ⚠ THIS HALF IS UNCHANGED BY THE 2026-08-24 DECISION, AND IT IS THE HALF THAT KEEPS THE PAPER
+    HONEST. Removing the disclosure from the envelope does not make the interest cease to exist, so
+    the manuscript still may not say there are none. Declaring the financial interests specifically,
+    and saying nothing about the other kind, is true in a way that "no competing interests" is not.
     """
     text = _flat(JOURNAL_ARTICLE)
     m = _DENIES_NON_FINANCIAL.search(text)
     assert not m, (
-        "the submitted manuscript denies having any non-financial competing interest, and the cover "
-        f"letter in the same envelope discloses one:\n  ...{text[max(0, m.start() - 90):m.end() + 90]}..."
+        "the submitted manuscript denies having any non-financial competing interest, and it has "
+        f"one:\n  ...{text[max(0, m.start() - 90):m.end() + 90]}..."
         "\n\nDeclare the financial interests specifically (as it does) and say nothing that denies "
         "the other kind.")
 
 
-def test_the_manuscript_points_at_where_the_interest_is_disclosed():
-    """⚠ SO A READER OF THE PAPER ALONE KNOWS THE QUESTION WAS ANSWERED SOMEWHERE.
+def test_the_manuscript_does_not_point_at_a_disclosure_that_is_not_there():
+    """⛔ A POINTER TO A DISCLOSURE THAT NO LONGER EXISTS IS A FALSE STATEMENT IN A PUBLISHED PAPER.
 
-    Not a journal requirement, and not a claim about the interest's content — a pointer, so the
-    absence reads as a routing decision rather than as nothing having been considered.
+    The manuscript used to say the interest was "disclosed to the editor in the accompanying cover
+    letter" — correct while the letter declared it, and false the moment it did not. The two moved
+    together on 2026-08-24; this asserts they stay together.
     """
     text = _flat(JOURNAL_ARTICLE)
-    assert re.search(r"non-financial interest[^.]{0,80}cover letter", text, re.I), (
-        "the manuscript's Competing interests no longer says that a non-financial interest is "
-        "disclosed to the editor in the cover letter. With the diagnosis deliberately out of the "
-        "published text, this sentence is the only thing distinguishing a considered omission from "
-        "an oversight.")
+    m = re.search(r"non-financial interest[^.]{0,80}cover letter", text, re.I)
+    assert not m, (
+        f"the manuscript still says a non-financial interest is disclosed in the cover letter — "
+        f"...{m.group(0)}... — but the letter no longer discloses one. Remove the sentence, or "
+        "restore the disclosure to the letter; they may not disagree.")

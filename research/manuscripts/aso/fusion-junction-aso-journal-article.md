@@ -344,8 +344,7 @@ subjects, human material or animals were involved, and no ethics approval was re
 the manuscript contains no data from any individual person.
 
 **Declaration of conflicting interest.** The author declares no financial competing interests: he holds no patent,
-patent application, equity or consultancy relating to any sequence or method described here. A
-non-financial interest is disclosed to the editor in the accompanying cover letter.
+patent application, equity or consultancy relating to any sequence or method described here.
 
 **Funding statement.** No external funding; self-funded by the author.
 

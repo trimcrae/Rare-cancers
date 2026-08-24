@@ -201,8 +201,7 @@ may appear in colour online at no charge; it is designed to carry every distinct
 colour, so greyscale print costs the reader nothing.
 
 The work is original, has not been published, and is not under consideration elsewhere. I received
-no funding and have no financial competing interests. I declare one non-financial interest: I am a
-survivor of extraskeletal myxoid chondrosarcoma, the disease this work addresses.
+no funding and have no financial competing interests.
 
 Should it help the editors, appropriate reviewer expertise would include antisense oligonucleotide
 design and RNase-H1 mechanism, fusion-transcript-directed therapeutics, and sarcoma molecular
