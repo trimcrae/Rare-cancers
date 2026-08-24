@@ -235,19 +235,19 @@ function isoDaysAgo(n) {
 const TRIALS = [
   {
     key: "individualized neoantigen therapy / therapeutic cancer vaccine (phase 2-3)",
-    term: '"neoantigen" OR "cancer vaccine" OR "individualized neoantigen therapy"',
+    intr: '"neoantigen" OR "cancer vaccine" OR "individualized neoantigen therapy" OR "therapeutic vaccine"',
     cond: 'cancer OR sarcoma OR melanoma OR "solid tumor"',
     trigger: "a pivotal readout, approval or halt for an individualized neoantigen therapy → re-grade the EWSR1::NR4A3 junction-vaccine route's precedent and feasibility (vaccine-construct.json); it is the modality that route assumes",
   },
   {
     key: "antisense / siRNA / oligonucleotide in SOLID tumours (phase 1-3)",
-    term: '"antisense oligonucleotide" OR "siRNA" OR "gapmer" OR "RNA interference"',
+    intr: '"antisense oligonucleotide" OR antisense OR siRNA OR gapmer OR "RNA interference"',
     cond: 'cancer OR sarcoma OR "solid tumor"',
     trigger: "an oligonucleotide reaching a solid-tumour endpoint in humans → re-grade the fusion-junction ASO route's dominant gate (delivery), which is the whole reason that route is parked",
   },
   {
     key: "targeted protein degrader / molecular glue (clinical)",
-    term: '"protein degrader" OR "PROTAC" OR "molecular glue" OR "degradation"',
+    intr: '"protein degrader" OR PROTAC OR "molecular glue" OR "targeted protein degradation"',
     cond: "cancer",
     trigger: "clinical validation or failure of a degrader against a transcription-factor-class target → re-grade the NR4A3 degrader route's clinical precedent",
   },
@@ -352,7 +352,12 @@ async function fetchText(url, ms = 25000) {
 // CLAUDE.md section 4 forbids letting the second masquerade as the first.
 async function ctgov(spec) {
   const since = isoDaysAgo(CTG_DAYS);
-  const base = { format: "json", pageSize: "6", countTotal: "false", "query.term": spec.term };
+  const base = { format: "json", pageSize: "6", countTotal: "false" };
+  // query.intr searches the INTERVENTION field; query.term searches everything and both stems and
+  // expands, which is how the first validating run put a tamoxifen dose-optimisation trial in the
+  // antisense row. A modality row means "this intervention", so it says so.
+  if (spec.intr) base["query.intr"] = spec.intr;
+  if (spec.term) base["query.term"] = spec.term;
   if (spec.cond) base["query.cond"] = spec.cond;
   const full = {
     ...base,
