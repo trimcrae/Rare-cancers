@@ -72,6 +72,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import os
 import re
 import sys
@@ -93,12 +94,16 @@ UA = "rare-cancers-emc-data-level-sweep/1.0 (research; contact via repository)"
 SNAPTRON_HOST = "https://snaptron.cs.jhu.edu"
 SNAPTRON_COMPILATIONS = ["srav3h", "gtexv2", "tcgav2"]
 
-# The gene the disease is defined by, its two commonest 5' partners, and the third partner that is
-# NOT a FET protein. Partner frequencies are the Mod Pathol 2023 (PMID 36948401) distribution the
-# roadmap already carries; they are not restated as numbers here (CLAUDE.md §1).
-SNAPTRON_TARGETS = ["NR4A3", "EWSR1", "TAF15", "TCF12"]
+# The gene the disease is defined by, and — as CONTEXT, not as controls — its two commonest 5'
+# partners plus the third partner that is NOT a FET protein. Partner frequencies are the Mod Pathol
+# 2023 (PMID 36948401) distribution the roadmap already carries; they are not restated as numbers
+# here (CLAUDE.md §1). ⚠ The three partners are the 5' HALF of the chimera, so the fusion gives them
+# no 5'-depletion signature at all; they are read to show what an ordinary gene's rate looks like at
+# each grid cell, never as a control that gates anything.
+SNAPTRON_TARGETS = ["NR4A3"]
+SNAPTRON_CONTEXT = ["EWSR1", "TAF15", "TCF12"]
 
-# ⛔ THE TWO CONTROLS. Neither is optional and neither is decoration.
+# ⛔ THE TWO TRANSPORT CONTROLS. Neither is optional and neither is decoration.
 #   transport — a ubiquitously expressed gene with a dense, well-known junction structure. If this
 #               returns nothing the endpoint is not answering and every zero below is meaningless.
 #   absent    — a symbol that is not an HGNC gene. If this returns records the service is matching
@@ -106,28 +111,144 @@ SNAPTRON_TARGETS = ["NR4A3", "EWSR1", "TAF15", "TCF12"]
 SNAPTRON_TRANSPORT_CONTROL = "GAPDH"
 SNAPTRON_ABSENT_CONTROL = "ZZZNOTAGENE9"
 
-# ⛔ THE POSITIVE CONTROL FOR THE SEARCH, AND WITHOUT IT THE SEARCH MAY NOT REPORT.
+# ⛔ THE SEARCH CONTROLS, AND WITHOUT THEM THE SEARCH MAY NOT REPORT.
 # The signature this instrument looks for is 5' DEPLETION: in a sample where a gene's 3' half is
 # transcribed from a partner's promoter, the gene's own 5'-most junctions carry ~no coverage while
 # its downstream junctions carry plenty. That is a property of the ARCHITECTURE, not of EMC, so it
-# is testable on a disease whose samples are certainly in this compilation.
-#   FLI1  — in Ewing sarcoma the FLI1 3' half is driven from the EWSR1 promoter. Public Ewing
-#           RNA-seq is abundant, so if the signature is detectable at all it is detectable here.
-#   GAPDH — a gene with no recurrent 5'-truncating fusion. It must NOT produce a pile of hits, or
-#           the score is measuring depth and annotation sparsity rather than truncation.
-# If FLI1 yields nothing the arm reports SIGNATURE_NOT_DEMONSTRATED and every NR4A3 count is
-# withheld: a null from an instrument that recovers no known positive is a broken search.
-SNAPTRON_SIGNATURE_POSITIVE = "FLI1"
+# is testable on diseases whose samples are certainly in this compilation.
+#
+# ⭐ TWO POSITIVES, NOT ONE, added after run 32672524143. A single positive control tells you the
+# score CAN fire; it cannot tell you whether the rate it fires at is typical of the signature or a
+# peculiarity of that one locus. Both of these are 3' partners — the half driven from a foreign
+# promoter — which is the same architecture NR4A3 has in this disease:
+#   FLI1 — in Ewing sarcoma the FLI1 3' half is driven from the EWSR1 promoter.
+#   ERG  — the 3' partner of the commonest prostate-cancer rearrangement, and public prostate
+#          RNA-seq is abundant. It is also a 3' partner in a minority of Ewing tumours; both
+#          roles point the same way, so neither confounds the other.
+# ⚠ THE ARM REQUIRES AT LEAST ONE OF THEM TO FIRE, NOT BOTH. A positive control that comes back
+# silent is a measurement about that locus, and it is reported; it does not get to veto a search
+# the other one demonstrably detects.
+SNAPTRON_SIGNATURE_POSITIVES = ["FLI1", "ERG"]
+# Retained under its old name so the cross-run comparison has one fixed anchor: this is the gene
+# whose rate the first search run reported as the negative control (CLAUDE.md §1 — one fact, one
+# place; the number itself lives in the artifact, not here).
 SNAPTRON_SIGNATURE_NEGATIVE = "GAPDH"
 
-# A sample must carry at least this much coverage on the gene's DOWNSTREAM annotated junctions
-# before its 5' end is worth calling depleted. Below it, "no 5' coverage" is indistinguishable from
-# "this sample barely expresses the gene at all", which is the dominant confound.
-MIN_DOWNSTREAM_COVERAGE = 20
+# ⛔ A NEGATIVE PANEL, NOT A NEGATIVE CONTROL — THIS IS THE SINGLE BIGGEST CHANGE OF THIS REVISION.
+# The first search run compared the target against GAPDH alone and got ~1.9x, which is not a
+# candidate list. One negative gene gives you one number and no idea of its spread: the context
+# genes in that same run ranged over a factor of five between them, so "above GAPDH" and "above
+# what an ordinary gene does" are different claims and only the second one is worth anything.
+# This panel spans a wide range of expression depth on purpose, because depth is the confound the
+# score is most likely to be tracking, and the envelope it defines is the MAXIMUM over the panel —
+# the target has to clear the hottest ordinary gene, not the average one.
+# ⚠ ITS ONE ASSUMPTION, STATED: that none of these is a recurrent 3' fusion partner driven from a
+# foreign promoter in some tumour type. That is a design assumption, not a cited fact. Note which
+# way it can be wrong: a panel gene that IS such a partner fires MORE, raises the envelope, and
+# makes the target harder to call specific. The error is therefore conservative by construction.
+SNAPTRON_SIGNATURE_NEGATIVE_PANEL = ["GAPDH", "ACTB", "RPL13A", "PGK1", "POLR2A", "SDHA", "TBP"]
+
 # The 5' fraction of the gene's annotated junctions treated as the "5' end" for the ratio.
 FIVE_PRIME_FRACTION = 0.34
-# A candidate carries at most this share of its junction coverage on the 5' end.
-MAX_FIVE_PRIME_SHARE = 0.02
+
+# ── THE SPECIFICITY GRID ─────────────────────────────────────────────────────────────────────────
+# ⭐ WHY A GRID AND NOT A THRESHOLD, AND WHY IT IS SWEPT INSIDE THE FETCH.
+# The first search run fixed one operating point a priori and reported one number per gene. When
+# that number turned out not to separate, there was no way to ask "what would a tighter one have
+# done" without another fetch — and a rate is only interpretable against the negative rate ON THE
+# SAME DAY'S DATA, so a second fetch cannot answer it either. The fix is structural: every cell of
+# the grid is scored for every gene inside ONE fetch, from ONE parse, and the whole surface is
+# cached. Every tightening is therefore re-scored on the positives, the negative panel and the
+# target together by construction, not by remembering to.
+#
+# The four axes are the three levers §5.2 of `new-evidence-routes.md` names, plus the track below.
+GRID_MIN_DOWNSTREAM_COVERAGE = [20, 100, 500, 2000]
+# ⭐ LEVER 1, and the one most likely to be doing real work. A 5' junction that is ITSELF rare
+# across the compilation carries no information when it is absent: "this sample does not use that
+# first exon" and "this sample's 5' end was replaced" are indistinguishable. Requiring the 5'
+# junctions used in the ratio to be carried by at least this fraction of the gene's own expressing
+# samples separates a real absence from a sparsely annotated 5' end.
+GRID_FIVE_PRIME_MIN_SUPPORT = [0.0, 0.10, 0.50, 0.90]
+GRID_MAX_FIVE_PRIME_SHARE = [0.02, 0.005, 0.0]
+# ⭐ LEVER 3 — the independent discriminator. In this disease NR4A3's 3' half is driven from a
+# partner promoter, so the transcript should be ABUNDANT, not merely present. Expressed as a
+# WITHIN-GENE percentile of downstream coverage rather than an absolute floor, because GAPDH's
+# median and NR4A3's median are orders of magnitude apart and an absolute floor would compare the
+# top of one distribution with the middle of another.
+GRID_MIN_EXPRESSION_PERCENTILE = [0.0, 0.50, 0.90, 0.99]
+# ⭐ LEVER 4 — the track, added here and not named in §5.2. A sample whose libraries are 3'-biased
+# looks 5'-depleted at EVERY gene at once, so being a candidate at an ordinary gene is evidence
+# that a hit is technical. The `promiscuity_filtered` track removes, from every gene's candidate
+# list at every cell, the samples that are also candidates at a NEGATIVE-PANEL gene in the same
+# cell. ⛔ Leave-one-out for the panel genes themselves: a panel gene is never filtered against its
+# own candidate set, which would zero it by construction and manufacture a separation.
+GRID_TRACKS = ["raw", "promiscuity_filtered"]
+
+# ⚠ THE GRID IS DELIBERATELY WIDER THAN THE REGIME WE EXPECT TO NEED, and the reason is that the
+# expensive resource here is not CPU — it is a CI ROUND TRIP, because the controls and the target
+# have to be scored on the same day's compilation and a cell nobody swept cannot be recovered
+# without re-fetching everything. Scoring a cell costs a scan over an in-memory list; not having
+# scored it costs the run. The harshest corner (a 5' junction used by nine samples in ten, exactly
+# zero coverage on it, the top percentile of expression) is almost certainly too tight to keep the
+# positive controls alive — and finding out WHERE it dies is the shape of the limit, which is the
+# publishable part if the target never separates.
+
+# The cell that reproduces the first search run's operating point exactly, so the two runs are
+# comparable and a change in the underlying compilation shows up as a moved number rather than as
+# an unexplained one.
+REFERENCE_CELL = (20, 0.0, 0.02, 0.0)
+
+# ⛔ A 5' SET THAT SHRINKS TO NOTHING SILENTLY CALLS EVERY SAMPLE DEPLETED. If the support filter
+# leaves fewer than this many 5' junctions the gene is UNSCOREABLE at that cell and says so; it
+# never reports zero candidates, which would read as "clean" when it means "not measured".
+MIN_FIVE_PRIME_JUNCTIONS_REQUIRED = 2
+# A junction carrying at least this much coverage in a sample counts as "covered" for the
+# breakpoint-rank statistic below. Absolute, so it needs no second pass over the gene.
+BREAKPOINT_MIN_COVERAGE = 5
+
+# ── THE PRE-REGISTERED READ-OUT ──────────────────────────────────────────────────────────────────
+# ⛔⛔ THE OPERATING POINT IS CHOSEN ON THE CONTROLS ALONE, AND THE TARGET IS READ AT IT AFTERWARDS.
+# Sweeping a grid and then picking the cell where the target looks best is how a null becomes a
+# finding. The selection rule below reads ONLY the positive controls and the negative panel; the
+# target's numbers are not an input to it, and `selftest` asserts that mutating the target's counts
+# to anything at all leaves the selected cell unchanged.
+#
+# ⭐ WHY THE RULE IS "DRIVE THE BACKGROUND TO A CEILING, THEN KEEP THE POSITIVE" AND NOT "MAXIMISE
+# A RATIO". Extraskeletal myxoid chondrosarcoma is vanishingly rare, and public RNA-seq is
+# overwhelmingly not sarcoma; whatever the true number of EMC samples in this compilation is, it is
+# a number of samples, not a percentage of them. So a background that calls even one sample in two
+# hundred swamps the signal no matter how favourable the ratio looks. A regime in which the
+# negative panel is at or near zero while a real 5'-truncated population is still recovered is the
+# ONLY regime in which a target hit list means anything, and if the grid contains no such cell that
+# is itself the finding.
+NEG_PANEL_RATE_CEILING = 0.005
+MIN_POSITIVE_CONTROL_CANDIDATES = 30
+# An envelope taken over one or two surviving genes is not an envelope. If fewer than this many
+# panel genes are scoreable at a cell, the cell cannot be an operating point.
+MIN_NEG_PANEL_GENES_SCOREABLE = 4
+# The 95% lower bound on the target's enrichment over the negative-panel envelope must exceed this
+# for the target to be called separated. Pre-registered here, before the fetch, and deliberately
+# well above 1: with tens of thousands of samples in the denominator a lower bound above 1 is
+# reachable on an effect far too small to be a candidate list.
+TARGET_MIN_ENRICHMENT = 3.0
+# ⛔⛔ A ZERO IN A POOL OF TWO HUNDRED EXCLUDES NOTHING, AND THE FIRST GRID RUN LANDED EXACTLY THERE.
+# The control-selected regime is tight by construction, and tight thresholds shrink the TARGET's pool
+# as well as the background: run 32676239799 chose a cell where NR4A3 held 219 samples and an
+# envelope of 0.0011, so even a real threefold enrichment would have been expected to produce 0.73
+# candidates. It produced none — and that zero is an absent reading, not a reading of absence
+# (CLAUDE.md §4). A cell may only return a verdict on the target if, WERE the target enriched by the
+# pre-registered factor, at least this many candidates would be expected. Below it the read says
+# UNDERPOWERED and says what pool it would have needed.
+# ⚠ This criterion was added AFTER seeing that the first grid run's operating point was underpowered.
+# It reads only the target's POOL SIZE and the envelope rate — never whether the target fired — so it
+# cannot select a cell for looking good, and `selftest` asserts the operating point is unmoved by it.
+MIN_EXPECTED_UNDER_ALTERNATIVE = 5.0
+# Above this many ids in one cell's negative union the promiscuity track stops being tracked for
+# that cell and says so. A cap that silently truncated would understate every overlap.
+OVERLAP_MAX_IDS = 400_000
+# Reserved key under which the scorer hands back a gene's expressing-sample id set alongside the
+# per-cell candidate sets. It is not a grid cell and never reaches the artifact.
+EXPRESSING_KEY = "__expressing__"
 
 # ── ARM 2 · the pan-sarcoma methylation deposit ─────────────────────────────────────────────────
 GEO_SERIES = "GSE140686"
@@ -253,8 +374,23 @@ def parse_snaptron(body):
     }
 
 
+def cell_key(min_cov, support, max_share, pct):
+    """One stable, sortable name for a grid cell. Formatting is fixed so a key written by the
+    fetch and a key rebuilt by `derive` can never disagree on trailing zeros."""
+    return f"mc{int(min_cov)}|sup{float(support):.2f}|sh{float(max_share):.4f}|pct{float(pct):.2f}"
+
+
+def grid_cells():
+    """The cartesian grid, in one deterministic order, so two runs list cells identically."""
+    for mc in GRID_MIN_DOWNSTREAM_COVERAGE:
+        for sup in GRID_FIVE_PRIME_MIN_SUPPORT:
+            for sh in GRID_MAX_FIVE_PRIME_SHARE:
+                for pct in GRID_MIN_EXPRESSION_PERCENTILE:
+                    yield (mc, sup, sh, pct)
+
+
 def five_prime_depletion(body):
-    """Per-sample 5'-depletion profile over ONE gene's annotated junctions.
+    """Per-sample 5'-depletion profile over ONE gene's annotated junctions, swept over the GRID.
 
     ⛔ WHAT THIS MEASURES, STATED BEFORE THE ARITHMETIC. A junction record carries the samples it
     was seen in and the coverage in each. So for one gene we can rebuild, per sample, how its
@@ -270,16 +406,21 @@ def five_prime_depletion(body):
     ⚠ STRAND IS DERIVED, NEVER ASSUMED. "5'-most" is the lowest coordinate on the plus strand and
     the highest on the minus strand, and getting it backwards silently inverts the whole result. The
     strand is taken as the majority strand of the gene's ANNOTATED junctions and is reported.
+
+    Returns `(summary, candidate_ids)`. `summary` is JSON-serialisable and is what gets cached;
+    `candidate_ids` maps a cell key to the SET of rail ids called at it and is held only in memory,
+    because the cross-gene overlap that feeds the promiscuity track needs the ids and the artifact
+    does not.
     """
     lines = [ln for ln in body.split("\n") if ln.strip()]
     if len(lines) < 2:
-        return {"usable": False, "why": "no records"}
+        return {"usable": False, "why": "no records"}, {}
     cols = lines[0].lstrip("#").split("\t")
     idx = {c: i for i, c in enumerate(cols)}
     need = ("chromosome", "start", "end", "strand", "annotated", "samples")
     missing = [c for c in need if c not in idx]
     if missing:
-        return {"usable": False, "why": f"served columns lack {missing}"}
+        return {"usable": False, "why": f"served columns lack {missing}"}, {}
 
     annotated = []
     for ln in lines[1:]:
@@ -290,7 +431,8 @@ def five_prime_depletion(body):
             continue
         annotated.append(r)
     if len(annotated) < 6:
-        return {"usable": False, "why": f"only {len(annotated)} annotated junctions; too few to split"}
+        return ({"usable": False,
+                 "why": f"only {len(annotated)} annotated junctions; too few to split"}, {})
 
     strands = {}
     for r in annotated:
@@ -301,48 +443,172 @@ def five_prime_depletion(body):
 
     # Order along the transcript: ascending coordinate on +, descending on -.
     annotated.sort(key=lambda r: int(r[idx["start"]]), reverse=(strand == "-"))
-    k = max(1, int(len(annotated) * FIVE_PRIME_FRACTION))
-    five, rest = annotated[:k], annotated[k:]
+    n_j = len(annotated)
+    k = max(1, int(n_j * FIVE_PRIME_FRACTION))
+    si = idx["samples"]
 
-    def accumulate(rows):
-        per = {}
-        for r in rows:
-            for tok in r[idx["samples"]].split(","):
-                if not tok or ":" not in tok:
-                    continue
-                sid, _, cov = tok.partition(":")
-                try:
-                    per[sid] = per.get(sid, 0.0) + float(cov)
-                except ValueError:
-                    continue
-        return per
+    def tokens(row):
+        for tok in row[si].split(","):
+            if not tok or ":" not in tok:
+                continue
+            sid, _, cov = tok.partition(":")
+            try:
+                yield sid, float(cov)
+            except ValueError:
+                continue
 
-    cov5, cov3 = accumulate(five), accumulate(rest)
-    candidates = []
-    for sid, down in cov3.items():
-        if down < MIN_DOWNSTREAM_COVERAGE:
+    # ── PASS 1 · downstream coverage, 5'-junction support counts, breakpoint rank ────────────────
+    # One walk in transcript order. `breakpoint_rank` is the 5'-most annotated junction at which the
+    # sample carries non-trivial coverage — where, in this sample, the transcript effectively
+    # starts. It needs no per-sample maximum, hence no extra pass.
+    cov3, bp_rank = {}, {}
+    for rank, row in enumerate(annotated):
+        downstream = rank >= k
+        for sid, cov in tokens(row):
+            if downstream:
+                cov3[sid] = cov3.get(sid, 0.0) + cov
+            if cov >= BREAKPOINT_MIN_COVERAGE and rank < bp_rank.get(sid, n_j):
+                bp_rank[sid] = rank
+
+    base_floor = min(GRID_MIN_DOWNSTREAM_COVERAGE)
+    expressing_base = {s for s, d in cov3.items() if d >= base_floor}
+    n_base = len(expressing_base)
+    if not n_base:
+        return ({"usable": False,
+                 "why": f"no sample carries {base_floor}+ downstream coverage"}, {})
+
+    # ── PASS 2 · 5'-junction SUPPORT, then 5' coverage per distinct support level ────────────────
+    # ⚠ Support is counted over the gene's OWN EXPRESSING SAMPLES, which is the only denominator
+    # that makes the fraction mean "how often, when this gene is on, is this junction used". Using
+    # every sample in the compilation would let a fraction exceed 1 and would quietly rescale the
+    # lever. The 5' region is a handful of rows, so walking it twice costs nothing.
+    five_support = [0] * k
+    for rank in range(k):
+        for sid, cov in tokens(annotated[rank]):
+            if cov > 0 and sid in expressing_base:
+                five_support[rank] += 1
+    support_frac = [round(c / n_base, 5) for c in five_support]
+
+    five_sets = {sup: [r for r in range(k) if support_frac[r] >= sup]
+                 for sup in GRID_FIVE_PRIME_MIN_SUPPORT}
+    cov5 = {sup: {} for sup in GRID_FIVE_PRIME_MIN_SUPPORT}
+    for rank in range(k):
+        active = [sup for sup in GRID_FIVE_PRIME_MIN_SUPPORT if rank in five_sets[sup]]
+        if not active:
             continue
-        up = cov5.get(sid, 0.0)
-        share = up / (up + down)
-        if share <= MAX_FIVE_PRIME_SHARE:
-            candidates.append({"rail_id": sid, "five_prime_cov": round(up, 1),
-                               "downstream_cov": round(down, 1), "five_prime_share": round(share, 5)})
-    candidates.sort(key=lambda c: -c["downstream_cov"])
-    n_expressing = sum(1 for s, d in cov3.items() if d >= MIN_DOWNSTREAM_COVERAGE)
+        for sid, cov in tokens(annotated[rank]):
+            for sup in active:
+                cov5[sup][sid] = cov5[sup].get(sid, 0.0) + cov
+
+    # ── SCORE THE GRID ──────────────────────────────────────────────────────────────────────────
+    # Both coverage thresholds reduce to a floor on downstream coverage, so sorting once turns
+    # every (min_cov, percentile) pair into a prefix of one list.
+    cells, ids = {}, {}
+    shares_desc = sorted(GRID_MAX_FIVE_PRIME_SHARE, reverse=True)
+    for sup in GRID_FIVE_PRIME_MIN_SUPPORT:
+        n_five_used = len(five_sets[sup])
+        prof = None
+        if n_five_used >= MIN_FIVE_PRIME_JUNCTIONS_REQUIRED:
+            up = cov5[sup]
+            prof = [(d, (up.get(s, 0.0) / (up.get(s, 0.0) + d)), s)
+                    for s, d in cov3.items() if d >= base_floor]
+            prof.sort(key=lambda t: -t[0])
+        for mc in GRID_MIN_DOWNSTREAM_COVERAGE:
+            # `prof` is sorted by downstream coverage descending, so the expressing set at any
+            # floor is a PREFIX of it and is found once per floor rather than once per cell.
+            expressing = [t for t in prof if t[0] >= mc] if prof is not None else None
+            for pct in GRID_MIN_EXPRESSION_PERCENTILE:
+                if prof is None:
+                    for sh in GRID_MAX_FIVE_PRIME_SHARE:
+                        cells[cell_key(mc, sup, sh, pct)] = {
+                            "scoreable": False,
+                            "why": (f"the 5'-support filter leaves {n_five_used} of {k} 5' "
+                                    f"junctions, below the {MIN_FIVE_PRIME_JUNCTIONS_REQUIRED} "
+                                    "this ratio needs; an empty 5' set would call every sample "
+                                    "depleted, so this cell is NOT MEASURED rather than zero"),
+                            "n_five_prime_junctions_used": n_five_used}
+                    continue
+                n_expr = len(expressing)
+                # ⚠ `int(n * (1 - pct))` is NOT this expression: 1 - 0.9 is 0.09999999...,
+                # which silently loses one sample off every top-decile pool.
+                n_pool = n_expr - int(n_expr * pct)
+                pool = expressing[:n_pool]
+                hit = {sh: [] for sh in GRID_MAX_FIVE_PRIME_SHARE}
+                for d, share, sid in pool:
+                    for sh in shares_desc:
+                        if share <= sh:
+                            hit[sh].append(sid)
+                        else:
+                            break
+                for sh in GRID_MAX_FIVE_PRIME_SHARE:
+                    key = cell_key(mc, sup, sh, pct)
+                    got = hit[sh]
+                    hist, unassigned = {}, 0
+                    for sid in got:
+                        r = bp_rank.get(sid)
+                        if r is None:
+                            unassigned += 1
+                        else:
+                            hist[str(r)] = hist.get(str(r), 0) + 1
+                    cells[key] = {
+                        "scoreable": True,
+                        "n_five_prime_junctions_used": n_five_used,
+                        "n_samples_expressing_downstream": n_expr,
+                        "n_pool": n_pool,
+                        "n_candidates": len(got),
+                        "candidate_rate": round(len(got) / n_pool, 6) if n_pool else None,
+                        "breakpoint_rank_hist": hist,
+                        # ⚠ Reported so the histogram can never read as complete when it is not: a
+                        # candidate whose every junction sits under the coverage floor has no
+                        # breakpoint rank, and the concentration is over what WAS assigned.
+                        "breakpoint_rank_unassigned": unassigned,
+                        "breakpoint_rank_concentration": _concentration(hist),
+                    }
+                    ids[key] = set(got)
+
+    ids[EXPRESSING_KEY] = expressing_base
+    ref = cell_key(*REFERENCE_CELL)
+    ref_cell = cells.get(ref, {})
+    ref_ids = sorted(ids.get(ref, ()), key=lambda s: -cov3.get(s, 0.0))[:40]
     return {
         "usable": True,
         "strand_derived": strand,
         "strand_vote": strands,
-        "n_annotated_junctions": len(annotated),
-        "n_five_prime_junctions": len(five),
-        "n_samples_expressing_downstream": n_expressing,
-        "n_candidates": len(candidates),
-        "candidate_rate": round(len(candidates) / n_expressing, 5) if n_expressing else None,
-        "candidates_top": candidates[:40],
-        "thresholds": {"min_downstream_coverage": MIN_DOWNSTREAM_COVERAGE,
-                       "five_prime_fraction": FIVE_PRIME_FRACTION,
-                       "max_five_prime_share": MAX_FIVE_PRIME_SHARE},
-    }
+        "n_annotated_junctions": n_j,
+        "n_five_prime_region_junctions": k,
+        "five_prime_support_fraction": support_frac,
+        "n_samples_expressing_at_base_floor": n_base,
+        "reference_cell": ref,
+        "cells": cells,
+        # Bounded and for eyeballing only. The reference cell is the FIRST run's operating point,
+        # which is the one that did not separate — these are shown so the shape of the background
+        # is visible, and they are not a candidate list (CLAUDE.md §4).
+        "reference_cell_examples": [
+            {"rail_id": s, "downstream_cov": round(cov3.get(s, 0.0), 1),
+             "breakpoint_rank": bp_rank.get(s)} for s in ref_ids],
+        "reference_cell_n_candidates": ref_cell.get("n_candidates"),
+        "reference_cell_rate": ref_cell.get("candidate_rate"),
+        "grid": {"min_downstream_coverage": GRID_MIN_DOWNSTREAM_COVERAGE,
+                 "five_prime_min_support": GRID_FIVE_PRIME_MIN_SUPPORT,
+                 "max_five_prime_share": GRID_MAX_FIVE_PRIME_SHARE,
+                 "min_expression_percentile": GRID_MIN_EXPRESSION_PERCENTILE,
+                 "five_prime_fraction": FIVE_PRIME_FRACTION},
+    }, ids
+
+
+def _concentration(hist):
+    """How concentrated a breakpoint-rank histogram is: the share held by its commonest rank.
+
+    ⭐ WHY IT IS HERE. A recurrent rearrangement joins the partner to the SAME place in the gene in
+    most tumours carrying it, so its samples pile up at one rank. A 3'-biased or degraded library
+    has no reason to start anywhere in particular, so its samples scatter. The statistic is
+    reported for every gene at every cell — including both positive controls and the whole negative
+    panel — so it is read as a contrast and never on its own.
+    """
+    tot = sum(hist.values())
+    if not tot:
+        return None
+    return round(max(hist.values()) / tot, 4)
 
 
 def fetch_snaptron():
@@ -378,24 +644,165 @@ def fetch_snaptron():
     out["controls"]["transport"] = {"compilation": comp,
                                     "shape": out["reachability"][comp]["shape"]}
 
-    # The search runs on the targets AND on both controls, from the same fetch, so the control and
-    # the target are never scored by different code paths.
-    genes = list(dict.fromkeys(
-        SNAPTRON_TARGETS + [SNAPTRON_SIGNATURE_POSITIVE, SNAPTRON_SIGNATURE_NEGATIVE]))
-    out["search_genes"] = genes
-    out["signature_positive"] = SNAPTRON_SIGNATURE_POSITIVE
-    out["signature_negative"] = SNAPTRON_SIGNATURE_NEGATIVE
-    for g in genes:
-        body, rec = _get(_snaptron_url(comp, g), timeout=600, note=f"gene {g}")
-        out["queries"][g] = {
-            "fetch": rec,
-            "shape": parse_snaptron(body) if body is not None else None,
-            "depletion": five_prime_depletion(body) if body is not None else None,
-        }
-        time.sleep(1)
+    def fetch_one(gene):
+        return _get(_snaptron_url(comp, gene), timeout=600, note=f"gene {gene}")
 
+    return score_snaptron_bodies(out, fetch_one)
+
+
+def score_snaptron_bodies(out, fetch_one, pause=1.0):
+    """Score every gene of the panel over the whole grid and fill `out` in place.
+
+    ⛔ EVERY GENE IS SCORED IN THE SAME RUN, FROM THE SAME PARSE, OVER THE SAME GRID. A candidate
+    rate means nothing except against the negative panel's rate on the same day's compilation, so
+    the controls and the target are never in different runs and never on different code paths.
+
+    ⭐ IT IS A SEPARATE FUNCTION FROM `fetch_snaptron` FOR ONE REASON: so `selftest` can drive the
+    whole chain — scorer, promiscuity track, `derive` — over synthetic bodies with no network. A
+    structural mismatch between what the fetch writes and what `derive` reads is exactly the class
+    of bug that would otherwise be discovered only after a CI run had spent its time.
+
+    `fetch_one(gene)` returns `(body_or_None, fetch_record)`. It is called ONCE per gene and its
+    body is released as soon as the gene is scored, because these bodies are tens of megabytes
+    each and holding thirteen of them at once is a CI runner's memory spent on nothing.
+    """
+    # ⚠ THE ORDER IS LOAD-BEARING: the negative panel is scored FIRST because the promiscuity track
+    # needs the union of its candidate ids before any other gene can be filtered against it.
+    negatives = list(dict.fromkeys(SNAPTRON_SIGNATURE_NEGATIVE_PANEL))
+    others = [g for g in dict.fromkeys(
+        SNAPTRON_SIGNATURE_POSITIVES + SNAPTRON_TARGETS + SNAPTRON_CONTEXT) if g not in negatives]
+    out.setdefault("queries", {})
+    out["search_genes"] = negatives + others
+    out["signature_positives"] = SNAPTRON_SIGNATURE_POSITIVES
+    out["signature_negative_panel"] = negatives
+    out["signature_negative"] = SNAPTRON_SIGNATURE_NEGATIVE
+    out["targets"] = SNAPTRON_TARGETS
+    out["context_genes"] = SNAPTRON_CONTEXT
+    out["grid_tracks"] = GRID_TRACKS
+    out["thresholds"] = {
+        "neg_panel_rate_ceiling": NEG_PANEL_RATE_CEILING,
+        "min_positive_control_candidates": MIN_POSITIVE_CONTROL_CANDIDATES,
+        "min_neg_panel_genes_scoreable": MIN_NEG_PANEL_GENES_SCOREABLE,
+        "target_min_enrichment": TARGET_MIN_ENRICHMENT,
+        "min_expected_under_alternative": MIN_EXPECTED_UNDER_ALTERNATIVE,
+        "min_five_prime_junctions_required": MIN_FIVE_PRIME_JUNCTIONS_REQUIRED,
+        "breakpoint_min_coverage": BREAKPOINT_MIN_COVERAGE,
+        "reference_cell": cell_key(*REFERENCE_CELL),
+    }
+
+    # ⚠ Only TWO expressing-sample sets are kept, and the rest are dropped the moment the gene is
+    # scored: thirteen sets of a quarter-million ids each, held to the end of the run, is a few
+    # hundred megabytes of a CI runner spent on nothing.
+    keep_expressing = {SNAPTRON_TRANSPORT_CONTROL} | set(SNAPTRON_TARGETS)
+    expressing = {}
+
+    def one(gene):
+        body, rec = fetch_one(gene)
+        shape = parse_snaptron(body) if body is not None else None
+        dep, ids = (five_prime_depletion(body) if body is not None
+                    else ({"usable": False, "why": "no body"}, {}))
+        # The scorer hands back the gene's expressing-sample id set under a reserved key. It is not
+        # a grid cell and must reach neither the promiscuity arithmetic nor the artifact.
+        expr = ids.pop(EXPRESSING_KEY, set())
+        if gene in keep_expressing:
+            expressing[gene] = expr
+        out["queries"][gene] = {"fetch": rec, "shape": shape, "depletion": dep}
+        if pause:
+            time.sleep(pause)
+        return ids
+
+    ids_by_gene = {g: one(g) for g in negatives + others}
+
+    # ⛔ THE ID SPACES MUST BE THE SAME ONE, AND THIS IS MEASURED RATHER THAN ASSUMED. Every
+    # cross-gene statement here — the promiscuity track most of all — is nonsense if two gene
+    # queries name their samples differently. The check is the overlap between the transport
+    # control's expressing samples and the TARGET's: two loci sampled across one compilation must
+    # share most of the rarer one's samples, and a near-empty intersection would mean the ids are
+    # not comparable and nothing cross-gene may be read.
+    tc = expressing.get(SNAPTRON_TRANSPORT_CONTROL, set())
+    tn = next((g for g in SNAPTRON_TARGETS if g in expressing), None)
+    tg = expressing.get(tn, set()) if tn else set()
+    out["id_space_check"] = {
+        "transport_control": SNAPTRON_TRANSPORT_CONTROL,
+        "transport_control_expressing": len(tc),
+        "target": tn,
+        "target_expressing": len(tg),
+        "shared_with_transport_control": len(tc & tg),
+        "shared_fraction_of_target": round(len(tc & tg) / len(tg), 4) if tg else None,
+        "_what": ("a floor-level check that the rail ids one gene query returns are the same "
+                  "identifiers another one returns. It is not a biological reading."),
+    }
+    expressing.clear()
+    del tc, tg
+
+    out["promiscuity_cells_not_tracked"] = apply_promiscuity_track(
+        out["queries"], ids_by_gene, negatives)
     out["arm_state"] = "FETCHED"
     return out
+
+
+def apply_promiscuity_track(queries, ids_by_gene, negatives, max_ids=OVERLAP_MAX_IDS):
+    """LEVER 4, applied in place to every gene's cells. Pure arithmetic over candidate id sets.
+
+    ⭐ WHAT IT REMOVES AND WHY. A 3'-biased library looks 5'-depleted at every gene at once, so a
+    sample that is a candidate at an ORDINARY gene is evidence that its hit anywhere else is
+    technical. This drops, from each gene's candidate list at each cell, the samples that are also
+    candidates at a negative-panel gene at the SAME cell. The denominator is left alone, so the
+    filtered rate is a rate over the same pool and stays comparable across genes.
+
+    ⛔ LEAVE-ONE-OUT FOR THE PANEL ITSELF, AND IT IS NOT A DETAIL. Filtering GAPDH against a union
+    that contains GAPDH's own candidates zeroes it by construction, and a negative control forced
+    to zero manufactures exactly the separation this revision exists to avoid claiming. Every panel
+    gene is filtered against the union of the OTHERS, and `selftest` asserts it.
+
+    ⚠ IT IS A LEVER, NOT A TRUTH: an EMC sample really can be a degraded library, and this filter
+    would drop it. That is why it is a TRACK the control-selection may or may not pick, scored
+    beside the raw one, rather than a filter applied unconditionally.
+
+    Returns the sorted cell keys where the union grew past `max_ids` and the track was therefore
+    NOT tracked — recorded, because a silently truncated union understates every overlap.
+    """
+    def cell_of(gene, key):
+        c = ((queries.get(gene) or {}).get("depletion") or {}).get("cells", {}).get(key)
+        return c if (c and c.get("scoreable")) else None
+
+    keys = sorted({k for g in negatives for k in ids_by_gene.get(g, {})})
+    untracked = []
+    for key in keys:
+        per_gene = {g: ids_by_gene.get(g, {}).get(key, frozenset()) for g in negatives}
+        if sum(len(v) for v in per_gene.values()) > max_ids:
+            untracked.append(key)
+            for gene in ids_by_gene:
+                cell = cell_of(gene, key)
+                if cell:
+                    cell["promiscuity_tracked"] = False
+            continue
+        # ⛔ THE LEAVE-ONE-OUT IS A COUNT, NOT A SUBTRACTION. `union_of_everything - own` is NOT
+        # `union of the others`: an id that two panel genes both carry survives the subtraction and
+        # the gene is wrongly exempted from its own promiscuous candidates — which, since shared
+        # background is the exact thing this lever hunts, is the case that matters most. Counting
+        # carriers gets it right: an id is in the union of the others iff some OTHER gene carries
+        # it, i.e. iff its carrier count exceeds this gene's own contribution of one.
+        carriers = {}
+        for own_set in per_gene.values():
+            for i in own_set:
+                carriers[i] = carriers.get(i, 0) + 1
+        for gene, ids in ids_by_gene.items():
+            cell = cell_of(gene, key)
+            if cell is None:
+                continue
+            own = per_gene.get(gene)
+            got = ids.get(key, frozenset())
+            if own is None:
+                kept = sum(1 for i in got if i not in carriers)
+            else:
+                kept = sum(1 for i in got
+                           if carriers.get(i, 0) - (1 if i in own else 0) <= 0)
+            cell["promiscuity_tracked"] = True
+            cell["n_candidates_promiscuity_filtered"] = kept
+            cell["candidate_rate_promiscuity_filtered"] = (
+                round(kept / cell["n_pool"], 6) if cell.get("n_pool") else None)
+    return untracked
 
 
 # ────────────────────────────────────────────────────────────────────────────────────────────────
@@ -683,64 +1090,330 @@ def derive(inp):
     return res
 
 
+def _rate_ratio_ci(c1, n1, c0, n0, z=1.96):
+    """95% interval on a ratio of two candidate rates (Katz log method), or an honest refusal.
+
+    ⚠ WHAT IT IS AN INTERVAL ON. Sampling variability, and nothing else. It says how much of the
+    gap between two rates could be counting noise. It says NOTHING about whether the two genes are
+    comparable — different expression depths, different annotation densities and different tissue
+    mixes in the samples that express them are all confounds this interval cannot see, and none of
+    them shrinks as n grows. With tens of thousands of samples in each denominator a lower bound
+    above 1 is reachable on an effect far too small to be a candidate list, which is exactly why
+    the pre-registered bar is an EFFECT SIZE and not a p-value.
+    """
+    if n1 <= 0 or n0 <= 0 or c1 <= 0:
+        return {"ratio": None, "why": "a zero numerator or an empty denominator; ratio undefined"}
+    p1 = c1 / n1
+    if c0 == 0:
+        # The negative side is empty. A ratio against zero is unbounded, so report the CONSERVATIVE
+        # side of it: the rule of three puts a 95% upper bound of 3/n on a rate that produced no
+        # events, and dividing by that upper bound gives a lower bound on the ratio.
+        return {"ratio": None, "ci_low": round(p1 / (3.0 / n0), 4), "ci_high": None,
+                "method": "rule-of-three lower bound (the negative side produced no candidates)"}
+    p0 = c0 / n0
+    rr = p1 / p0
+    se = math.sqrt(1.0 / c1 - 1.0 / n1 + 1.0 / c0 - 1.0 / n0)
+    return {"ratio": round(rr, 4), "ci_low": round(math.exp(math.log(rr) - z * se), 4),
+            "ci_high": round(math.exp(math.log(rr) + z * se), 4), "se_log": round(se, 5),
+            "method": "Katz log method, 95%"}
+
+
+def _cell_view(dep, key, track):
+    """One gene's numbers at one cell on one track, or why they are not there."""
+    if not dep.get("usable"):
+        return {"scoreable": False, "why": dep.get("why", "gene not scoreable")}
+    cell = (dep.get("cells") or {}).get(key)
+    if cell is None:
+        return {"scoreable": False, "why": "cell absent from this gene's grid"}
+    if not cell.get("scoreable"):
+        return {"scoreable": False, "why": cell.get("why"),
+                "n_five_prime_junctions_used": cell.get("n_five_prime_junctions_used")}
+    if track == "promiscuity_filtered":
+        if not cell.get("promiscuity_tracked"):
+            return {"scoreable": False,
+                    "why": "the promiscuity track was not tracked at this cell"}
+        c, r = (cell.get("n_candidates_promiscuity_filtered"),
+                cell.get("candidate_rate_promiscuity_filtered"))
+    else:
+        c, r = cell.get("n_candidates"), cell.get("candidate_rate")
+    return {"scoreable": True, "n_candidates": c, "n_pool": cell.get("n_pool"), "rate": r,
+            "n_samples_expressing_downstream": cell.get("n_samples_expressing_downstream"),
+            "breakpoint_rank_concentration": cell.get("breakpoint_rank_concentration"),
+            "n_five_prime_junctions_used": cell.get("n_five_prime_junctions_used")}
+
+
 def _depletion_verdict(s):
-    """Grade the 5'-depletion search, and REFUSE to report the target if the controls do not hold."""
+    """Grade the 5'-depletion search over the whole grid, and REFUSE to report the target unless a
+    regime exists in which the controls behave.
+
+    ⛔⛔ THE ONE RULE THIS FUNCTION EXISTS TO ENFORCE: THE OPERATING POINT IS CHOSEN ON THE CONTROLS
+    ALONE. `_select_operating_point` below is handed the positive controls and the negative panel
+    and is not handed the target at all. Sweeping a grid and then reading off the cell where the
+    target looks best is how a null becomes a finding, and `selftest` asserts that replacing every
+    target number with anything whatsoever leaves the selected cell where it was.
+    """
     q = s.get("queries") or {}
-    pos_name = s.get("signature_positive", SNAPTRON_SIGNATURE_POSITIVE)
-    neg_name = s.get("signature_negative", SNAPTRON_SIGNATURE_NEGATIVE)
+    th = s.get("thresholds") or {}
+    ceiling = th.get("neg_panel_rate_ceiling", NEG_PANEL_RATE_CEILING)
+    min_pos = th.get("min_positive_control_candidates", MIN_POSITIVE_CONTROL_CANDIDATES)
+    min_neg_genes = th.get("min_neg_panel_genes_scoreable", MIN_NEG_PANEL_GENES_SCOREABLE)
+    min_enrich = th.get("target_min_enrichment", TARGET_MIN_ENRICHMENT)
+    ref_key = th.get("reference_cell", cell_key(*REFERENCE_CELL))
+
+    def present(names):
+        return [g for g in names if g in q]
+
+    positives = present(s.get("signature_positives") or SNAPTRON_SIGNATURE_POSITIVES)
+    negatives = present(s.get("signature_negative_panel") or SNAPTRON_SIGNATURE_NEGATIVE_PANEL)
+    targets = present(s.get("targets") or SNAPTRON_TARGETS)
+    context = present(s.get("context_genes") or SNAPTRON_CONTEXT)
+    tracks = s.get("grid_tracks") or GRID_TRACKS
 
     def dep(g):
         return ((q.get(g) or {}).get("depletion") or {})
 
-    out = {"search": {}, "signature_positive": pos_name, "signature_negative": neg_name}
-    for g, rec in q.items():
-        d = rec.get("depletion") or {}
+    out = {"signature_positives": positives, "signature_negative_panel": negatives,
+           "targets": targets, "context_genes": context, "tracks": tracks,
+           "reference_cell": ref_key,
+           "thresholds_applied": {"neg_panel_rate_ceiling": ceiling,
+                                  "min_positive_control_candidates": min_pos,
+                                  "min_neg_panel_genes_scoreable": min_neg_genes,
+                                  "target_min_enrichment": min_enrich},
+           "id_space_check": s.get("id_space_check"),
+           "search": {}}
+
+    # The reference cell reproduces the FIRST search run's operating point, so the two runs are
+    # directly comparable and a moved compilation shows up as a moved number rather than a mystery.
+    for g in q:
+        d = dep(g)
+        v = _cell_view(d, ref_key, "raw")
         out["search"][g] = {
+            "role": ("positive_control" if g in positives else
+                     "negative_panel" if g in negatives else
+                     "target" if g in targets else "context"),
             "usable": d.get("usable", False),
             "why_unusable": d.get("why"),
             "strand_derived": d.get("strand_derived"),
             "n_annotated_junctions": d.get("n_annotated_junctions"),
-            "n_samples_expressing_downstream": d.get("n_samples_expressing_downstream"),
-            "n_candidates": d.get("n_candidates"),
-            "candidate_rate": d.get("candidate_rate"),
+            "five_prime_support_fraction": d.get("five_prime_support_fraction"),
+            "at_reference_cell": v,
         }
 
-    pos, neg = dep(pos_name), dep(neg_name)
-    if not pos.get("usable"):
+    # ── GATE 0 · the cache must have been written by THIS scorer ─────────────────────────────────
+    # ⛔ A cache from before the grid carries a `depletion` block with no `cells`, and every cell
+    # lookup below would come back empty — which would render as SIGNATURE_NOT_DEMONSTRATED, i.e.
+    # as a dead positive control. That is an absent reading dressed as a reading of absence
+    # (CLAUDE.md §4), so it gets its own verdict and its own words.
+    stale = [g for g in q if (dep(g).get("usable") and "cells" not in dep(g))]
+    if stale:
+        out["verdict"] = "CACHE_PREDATES_THE_GRID_SCORER"
+        out["⛔"] = (
+            f"The cached retrieval for {', '.join(sorted(stale))} was written by the single-"
+            "threshold scorer that came before the specificity grid, so it carries no cells to "
+            "read. NOTHING here is a statement about the controls or the target — it is a "
+            "statement about the cache. Re-run `--fetch` in CI.")
+        return out
+
+    # ── GATE 1 · a positive control must have fired somewhere ────────────────────────────────────
+    live_pos = [g for g in positives
+                if any((c or {}).get("n_candidates", 0) > 0
+                       for c in (dep(g).get("cells") or {}).values())]
+    out["positive_controls_that_fired"] = live_pos
+    if not live_pos:
         out["verdict"] = "SIGNATURE_NOT_DEMONSTRATED"
-        out["⛔"] = (f"The positive control ({pos_name}) could not be scored: "
-                     f"{pos.get('why', 'no reason recorded')}. Every target count above is "
-                     "WITHHELD from interpretation — a search that cannot be shown to detect a "
-                     "signature it is known to contain reports nothing about a gene where the "
-                     "answer is unknown.")
+        out["⛔"] = (
+            f"No positive control ({', '.join(positives) or 'none configured'}) produced a single "
+            "candidate at any cell of the grid. Every target count is WITHHELD from "
+            "interpretation: a search that cannot be shown to detect a signature where it is known "
+            "to exist reports nothing about a gene where the answer is unknown.")
         return out
 
-    pos_n = pos.get("n_candidates", 0)
-    pos_rate = pos.get("candidate_rate")
-    neg_rate = neg.get("candidate_rate") if neg.get("usable") else None
-    out["positive_control_candidates"] = pos_n
-    out["positive_control_rate"] = pos_rate
-    out["negative_control_rate"] = neg_rate
+    # ── THE GRID, SCORED ON THE CONTROLS ────────────────────────────────────────────────────────
+    keys = sorted({k for g in q for k in (dep(g).get("cells") or {})})
+    rows = []
+    for key in keys:
+        for track in tracks:
+            neg = {g: _cell_view(dep(g), key, track) for g in negatives}
+            scoreable_neg = {g: v for g, v in neg.items() if v.get("scoreable")
+                             and v.get("rate") is not None}
+            row = {"cell": key, "track": track, "n_neg_panel_scoreable": len(scoreable_neg)}
+            if len(scoreable_neg) < min_neg_genes:
+                row["admissible"] = False
+                row["why_not"] = (f"only {len(scoreable_neg)} negative-panel genes are scoreable "
+                                  f"here; an envelope over fewer than {min_neg_genes} is not an "
+                                  "envelope")
+                rows.append(row)
+                continue
+            env_gene = max(scoreable_neg, key=lambda g: (scoreable_neg[g]["rate"], g))
+            env = scoreable_neg[env_gene]
+            row.update({"neg_envelope_gene": env_gene, "neg_envelope_rate": env["rate"],
+                        "neg_envelope_candidates": env["n_candidates"],
+                        "neg_envelope_pool": env["n_pool"],
+                        "neg_panel_rates": {g: v["rate"] for g, v in scoreable_neg.items()}})
+            # A zero envelope is the regime we want and an infinite ratio is not a number, so the
+            # RANKING uses a conservative stand-in rate. It is recorded, never hidden.
+            env_for_ratio = env["rate"] or (0.5 / env["n_pool"] if env.get("n_pool") else None)
+            row["neg_envelope_is_zero"] = not env["rate"]
+            best = None
+            for g in positives:
+                v = _cell_view(dep(g), key, track)
+                if not v.get("scoreable") or v.get("rate") is None:
+                    continue
+                enr = (v["rate"] / env_for_ratio) if env_for_ratio else None
+                cand = {"gene": g, "rate": v["rate"], "n_candidates": v["n_candidates"],
+                        "n_pool": v["n_pool"], "enrichment": round(enr, 3) if enr else None}
+                if best is None or (cand["enrichment"] or 0) > (best["enrichment"] or 0):
+                    best = cand
+            row["positive_best"] = best
+            if best is None:
+                row["admissible"] = False
+                row["why_not"] = "no positive control is scoreable at this cell"
+            elif env["rate"] is not None and env["rate"] > ceiling:
+                row["admissible"] = False
+                row["why_not"] = (f"negative-panel envelope {env['rate']} exceeds the "
+                                  f"{ceiling} ceiling")
+            elif (best["n_candidates"] or 0) < min_pos:
+                row["admissible"] = False
+                row["why_not"] = (f"the best positive control retains {best['n_candidates']} "
+                                  f"candidates, below the {min_pos} floor")
+            elif env["rate"] is not None and best["rate"] <= env["rate"]:
+                # ⛔ The first search run's SPECIFICITY_NOT_DEMONSTRATED check, now applied per
+                # cell: where an ordinary gene fires at least as often as a known 5'-truncated
+                # one, the score is tracking depth or annotation sparsity, not truncation.
+                row["admissible"] = False
+                row["why_not"] = (f"the negative envelope ({env['rate']}) is at least the best "
+                                  f"positive control's rate ({best['rate']}); the score is not "
+                                  "measuring truncation here")
+            else:
+                row["admissible"] = True
+            rows.append(row)
+    out["grid"] = rows
 
-    if pos_n == 0:
-        out["verdict"] = "SIGNATURE_NOT_DEMONSTRATED"
-        out["⛔"] = (f"{pos_name} is scoreable but yielded ZERO candidates. The signature this "
-                     "instrument looks for was not recovered where it is known to exist, so the "
-                     "instrument has not been shown to work and no target count may be read.")
+    # ⭐ ASKED OF EVERY CELL, AND ASKED WHETHER OR NOT A SPECIFIC REGIME EXISTS. The operating
+    # point can be too tight to answer; this cannot, because it keeps the loose cells where the
+    # target still holds all its samples. It is computed before the admissibility branch precisely
+    # so that a NO_SPECIFIC_REGIME run still carries a statement someone can read.
+    if targets:
+        out["envelope_comparison"] = _envelope_comparison(
+            rows, dep(targets[0]), targets[0],
+            th.get("min_expected_under_alternative", MIN_EXPECTED_UNDER_ALTERNATIVE))
+
+    admissible = [r for r in rows if r.get("admissible")]
+    out["n_cells_scored"] = len(rows)
+    out["n_cells_admissible"] = len(admissible)
+
+    if not admissible:
+        out["verdict"] = "NO_SPECIFIC_REGIME"
+        out["⛔"] = (
+            "No cell of the grid drives the negative panel to the pre-registered ceiling while a "
+            "positive control still recovers a population. Target counts are WITHHELD, and this "
+            "is a result rather than a failure: it says the 5'-depletion signature, as scored "
+            "here over this index, cannot be made specific enough for a candidate list at any "
+            "combination of these thresholds. The whole trade-off surface is in `grid` so the "
+            "shape of that limit is readable rather than asserted.")
+        # The nearest misses, so the limit can be described rather than merely stated.
+        near = [r for r in rows if r.get("neg_envelope_rate") is not None
+                and (r.get("positive_best") or {}).get("n_candidates")]
+        near.sort(key=lambda r: (r["neg_envelope_rate"], -(r["positive_best"]["n_candidates"])))
+        out["closest_cells"] = near[:5]
         return out
 
-    if neg_rate is not None and pos_rate is not None and neg_rate >= pos_rate:
-        out["verdict"] = "SPECIFICITY_NOT_DEMONSTRATED"
-        out["⛔"] = (f"The negative control ({neg_name}) produces candidates at least as often as "
-                     f"the positive one ({neg_rate} vs {pos_rate}), so the score is tracking "
-                     "expression depth or annotation sparsity rather than 5' truncation. Target "
-                     "counts are WITHHELD.")
-        return out
+    # ── SELECT, ON THE CONTROLS ALONE ───────────────────────────────────────────────────────────
+    op = _select_operating_point(admissible)
+    out["operating_point"] = op
+    out["⭐ how_the_operating_point_was_chosen"] = (
+        "Only the positive controls and the negative panel were read. Among cells where the "
+        "negative-panel envelope is at or under the ceiling and a positive control still retains "
+        "the minimum number of candidates, the cell with the largest positive-control enrichment "
+        "wins; ties break on more positive-control candidates, then on the cell key, then on "
+        "track order. The target's numbers are not an input to this choice.")
 
+    key, track = op["cell"], op["track"]
+    env_gene = op["neg_envelope_gene"]
+    env = _cell_view(dep(env_gene), key, track)
+
+    def read(g):
+        v = _cell_view(dep(g), key, track)
+        if not v.get("scoreable") or v.get("rate") is None:
+            return {"scoreable": False, "why": v.get("why")}
+        ci = _rate_ratio_ci(v["n_candidates"], v["n_pool"], env["n_candidates"], env["n_pool"])
+        expected = env["rate"] * v["n_pool"] if env["rate"] is not None else None
+        return {"scoreable": True, "n_candidates": v["n_candidates"], "n_pool": v["n_pool"],
+                "rate": v["rate"], "enrichment_over_negative_envelope": ci,
+                "expected_from_background": round(expected, 1) if expected is not None else None,
+                "excess_over_background": (round(v["n_candidates"] - expected, 1)
+                                           if expected is not None else None),
+                "breakpoint_rank_concentration": v.get("breakpoint_rank_concentration")}
+
+    out["at_operating_point"] = {g: read(g) for g in q}
     out["verdict"] = "SEARCHED"
-    tgt = dep("NR4A3")
-    out["nr4a3_candidates"] = tgt.get("n_candidates") if tgt.get("usable") else None
-    out["nr4a3_candidates_top"] = tgt.get("candidates_top", [])[:20] if tgt.get("usable") else None
+
+    tgt_name = targets[0] if targets else None
+    tgt = out["at_operating_point"].get(tgt_name) if tgt_name else None
+    out["target"] = tgt_name
+    if not tgt or not tgt.get("scoreable"):
+        out["target_verdict"] = "TARGET_NOT_SCOREABLE_AT_THE_OPERATING_POINT"
+        out["⛔"] = ("A specific regime exists on the controls, but the target could not be scored "
+                     "in it: " + ((tgt or {}).get("why") or "no reason recorded") + ". That is an "
+                     "absent reading, not a reading of absence.")
+        return out
+
+    # ⛔ CAN THIS CELL ANSWER AT ALL? Asked before the answer is read, and of the POOL, not the count.
+    min_expected = th.get("min_expected_under_alternative", MIN_EXPECTED_UNDER_ALTERNATIVE)
+    env_rate = env.get("rate")
+    expected_if_enriched = ((tgt["n_pool"] * env_rate * min_enrich)
+                            if (env_rate is not None and tgt.get("n_pool")) else None)
+    out["target_power_at_operating_point"] = {
+        "n_pool": tgt.get("n_pool"),
+        "negative_envelope_rate": env_rate,
+        "expected_candidates_if_enriched_at_the_bar": (round(expected_if_enriched, 2)
+                                                       if expected_if_enriched is not None else None),
+        "minimum_required": min_expected,
+        "powered": bool(expected_if_enriched is not None and expected_if_enriched >= min_expected),
+        "pool_that_would_be_needed": (int(math.ceil(min_expected / (env_rate * min_enrich)))
+                                      if env_rate else None),
+        "_what": ("whether a cell tight enough to hold the background down still leaves the target "
+                  "enough samples to show an enrichment at the pre-registered bar. It reads the "
+                  "pool size and the background rate, never the target's own count."),
+    }
+
+    ci_low = (tgt["enrichment_over_negative_envelope"] or {}).get("ci_low")
+    out["target_enrichment_ci_low"] = ci_low
+    if not out["target_power_at_operating_point"]["powered"]:
+        out["target_verdict"] = "TARGET_UNDERPOWERED_AT_THE_OPERATING_POINT"
+        need = out["target_power_at_operating_point"]["pool_that_would_be_needed"]
+        out["⛔"] = (
+            "The regime the controls select is tight enough to hold the background down and, in "
+            f"doing so, leaves the target only {tgt['n_pool']} samples. Against an envelope of "
+            f"{env_rate}, a target enriched at the pre-registered {min_enrich}x would be expected "
+            f"to yield {out['target_power_at_operating_point']['expected_candidates_if_enriched_at_the_bar']} "
+            f"candidates here — so whatever the target returned, this cell cannot answer. It is an "
+            f"ABSENT READING, NOT A READING OF ABSENCE (CLAUDE.md §4), and it is reported as one. "
+            f"A pool of about {need} would have been needed. ⭐ The statement that IS powered is in "
+            "`envelope_comparison`, which asks a different and weaker question of every cell at "
+            "once and answers it where the target has all its samples.")
+    elif ci_low is not None and ci_low > min_enrich:
+        out["target_verdict"] = "TARGET_SEPARATES"
+        out["⭐"] = (
+            f"At the control-selected operating point the target's candidate rate clears the "
+            f"negative-panel envelope with a 95% lower bound of {ci_low} on the ratio, above the "
+            f"pre-registered {min_enrich}. ⛔ THAT IS AN ENRICHMENT, NOT A DETECTION: the excess "
+            "over background is an estimate of how many candidates are not explained by what an "
+            "ordinary gene does, and no individual sample in the list is thereby a fusion, a "
+            "tumour, or a diagnosis.")
+        if tgt_name == "NR4A3":
+            out["nr4a3_candidates"] = tgt["n_candidates"]
+    else:
+        out["target_verdict"] = "TARGET_DOES_NOT_SEPARATE"
+        out["⛔"] = (
+            "At the control-selected operating point the target does NOT clear the negative-panel "
+            f"envelope by the pre-registered margin (95% lower bound {ci_low} against a bar of "
+            f"{min_enrich}). No candidate list is emitted and no count here is a finding. This is "
+            "the honest reading and it is publishable as it stands: every public human RNA-seq "
+            "sample in this compilation was scored for the intragenic signature a 5'-truncating "
+            "rearrangement leaves, on an instrument whose positive controls fire and whose "
+            "negative panel is held at the ceiling, and the target does not rise above what an "
+            "ordinary gene does.")
     out["⚠ what_a_candidate_is"] = (
         "a public sample in which this gene's downstream junction coverage is substantial while its "
         "5'-most junctions carry essentially none. That is CONSISTENT WITH a 5'-truncating "
@@ -750,11 +1423,154 @@ def _depletion_verdict(s):
     return out
 
 
+def _envelope_comparison(rows, dep, target, min_expected):
+    """⭐ THE WEAKER QUESTION, ASKED OF EVERY CELL — AND THE ONE THE DATA CAN ACTUALLY ANSWER.
+
+    The operating point asks whether the target clears the ordinary-gene envelope by a
+    pre-registered margin, and pays for that sharpness with a pool small enough that a zero means
+    nothing. This asks only whether the target's rate EXCEEDS the envelope at all — a question that
+    stays answerable at the loose cells, where the target still has every sample it has.
+
+    ⚠ It is not a substitute for the operating point and it is not a detection test. A target that
+    never exceeds what an ordinary gene does has produced no signal ABOVE BACKGROUND; that bounds
+    the signature's reach over this index, and it bounds nothing about the disease.
+    """
+    out = {"target": target, "n_cells_compared": 0, "n_cells_target_exceeds_envelope": 0,
+           "exceedances": [],
+           "_what": ("does the target's candidate rate EXCEED the ordinary-gene envelope at any "
+                     "cell at all — a weaker question than the operating point's, and one that "
+                     "stays answerable at the loose cells where the target still has every sample "
+                     "it has. It is not a detection test: a target that never exceeds what an "
+                     "ordinary gene does has produced no signal above background, which bounds "
+                     "this signature's reach over this index and bounds nothing about the disease.")}
+    best = None
+    for r in rows:
+        if r.get("neg_envelope_rate") is None:
+            continue
+        v = _cell_view(dep, r["cell"], r["track"])
+        if not v.get("scoreable") or v.get("rate") is None or not v.get("n_pool"):
+            continue
+        out["n_cells_compared"] += 1
+        if v["rate"] > r["neg_envelope_rate"]:
+            out["n_cells_target_exceeds_envelope"] += 1
+            out["exceedances"].append(
+                {"cell": r["cell"], "track": r["track"], "target_rate": v["rate"],
+                 "envelope_rate": r["neg_envelope_rate"], "envelope_gene": r["neg_envelope_gene"],
+                 # ⚠ An envelope of exactly zero is a real exceedance with no finite ratio. It is
+                 # recorded as one rather than divided into a crash or a fabricated number.
+                 "ratio": (round(v["rate"] / r["neg_envelope_rate"], 4)
+                           if r["neg_envelope_rate"] else None),
+                 "envelope_is_zero": not r["neg_envelope_rate"],
+                 "admissible": bool(r.get("admissible"))})
+        # ⛔ THE BEST COMPARISON IS THE BEST-POWERED ONE, NOT THE MOST FLATTERING ONE. Ranking by
+        # ratio would pick whichever cell happened to look most extreme; ranking by how many
+        # background candidates the cell expects picks the one where a real excess would be
+        # hardest to miss, and that choice is made without reading the target's count.
+        expected = v["n_pool"] * r["neg_envelope_rate"]
+        if best is None or expected > best[0]:
+            best = (expected, r, v)
+    # An exceedance over a zero envelope is the most extreme there is, so it sorts first.
+    out["exceedances"] = sorted(
+        out["exceedances"], key=lambda e: (0 if e["ratio"] is None else 1, -(e["ratio"] or 0)))[:10]
+    if best:
+        expected, r, v = best
+        ci = _rate_ratio_ci(v["n_candidates"], v["n_pool"],
+                            r["neg_envelope_candidates"], r["neg_envelope_pool"])
+        # ⛔ WHERE THE TARGET SITS INSIDE THE PANEL, NOT JUST WHETHER IT CLEARS THE TOP OF IT. The
+        # envelope is a MAXIMUM over several genes, so "does not exceed the envelope" can be true
+        # of a target sitting above most of the panel — and reporting only the envelope would let
+        # that read as though the target were quiet. The rank and the median are recorded so the
+        # weaker claim cannot be mistaken for the stronger one.
+        panel = sorted((r.get("neg_panel_rates") or {}).items(), key=lambda kv: kv[1])
+        rates = [x[1] for x in panel]
+        med = (rates[len(rates) // 2] if len(rates) % 2
+               else (rates[len(rates) // 2 - 1] + rates[len(rates) // 2]) / 2) if rates else None
+        out["where_the_target_sits_in_the_panel"] = {
+            "panel_rates_ascending": dict(panel),
+            "panel_median_rate": med,
+            "n_panel_genes_the_target_exceeds": sum(1 for x in rates if v["rate"] > x),
+            "n_panel_genes": len(rates),
+            "ratio_to_panel_median": (round(v["rate"] / med, 4) if med else None),
+            "_what": ("the envelope is a MAXIMUM, so clearing it is a weaker bar than being quiet. "
+                      "A target inside the ordinary-gene spread has produced no excess; a target "
+                      "above most of the panel but under its top is inside that spread, not below "
+                      "it, and this row is here so the two cannot be confused."),
+        }
+        out["most_powered_comparison"] = {
+            "cell": r["cell"], "track": r["track"], "n_pool": v["n_pool"],
+            "n_candidates": v["n_candidates"], "rate": v["rate"],
+            "envelope_gene": r["neg_envelope_gene"], "envelope_rate": r["neg_envelope_rate"],
+            "expected_from_background": round(expected, 1),
+            "ratio_to_envelope": (round(v["rate"] / r["neg_envelope_rate"], 4)
+                                  if r["neg_envelope_rate"] else None),
+            "enrichment_ci": ci,
+            "powered": bool(expected >= min_expected),
+        }
+    if not out["n_cells_compared"]:
+        out["verdict"] = "NOT_COMPARABLE"
+    elif out["n_cells_target_exceeds_envelope"]:
+        out["verdict"] = "TARGET_EXCEEDS_THE_ORDINARY_GENE_ENVELOPE_SOMEWHERE"
+    else:
+        out["verdict"] = "TARGET_NEVER_EXCEEDS_THE_ORDINARY_GENE_ENVELOPE"
+    return out
+
+
+def _select_operating_point(admissible):
+    """⛔ CONTROLS ONLY. This function never sees a target gene: it is handed rows that already
+    carry the positive-control and negative-panel numbers and nothing else, and it returns one of
+    them. Keeping the selection in its own function with its own inputs is what makes the
+    "the target did not choose its own threshold" claim checkable rather than asserted."""
+    def rank(r):
+        best = r.get("positive_best") or {}
+        return (-(best.get("enrichment") or 0.0), -(best.get("n_candidates") or 0),
+                r["cell"], GRID_TRACKS.index(r["track"]) if r["track"] in GRID_TRACKS else 99)
+    return sorted(admissible, key=rank)[0]
+
+
+def _target_headline(arm1):
+    """⛔ THE HEADLINE LEADS WITH WHATEVER THE RUN CAN ACTUALLY SUPPORT, and never carries a
+    candidate count a verdict withheld. The first search run's number went straight into a memo as
+    though it were a finding; a headline that prints a count beside a verdict saying the count is
+    background is how that happens."""
+    tv = arm1.get("target_verdict")
+    op = arm1.get("operating_point") or {}
+    where = f"{op.get('cell')} [{op.get('track')}]" if op else "no operating point"
+    tgt = arm1.get("target")
+    if tv == "TARGET_SEPARATES":
+        return (f"junction search: {tgt} SEPARATES at {where} (95% lower bound "
+                f"{arm1.get('target_enrichment_ci_low')}x over the ordinary-gene envelope)")
+    if tv == "TARGET_UNDERPOWERED_AT_THE_OPERATING_POINT":
+        pw = arm1.get("target_power_at_operating_point") or {}
+        return (f"junction search ran; the specific regime leaves {tgt} only {pw.get('n_pool')} "
+                f"samples, too few to answer at {where} — " + _envelope_headline(arm1))
+    return (f"junction search ran and {tgt} does not separate from the ordinary-gene envelope at "
+            f"{where}; no candidate list")
+
+
+def _envelope_headline(arm1):
+    ec = arm1.get("envelope_comparison") or {}
+    if not ec:
+        return "target counts withheld"
+    mp = ec.get("most_powered_comparison") or {}
+    if ec.get("verdict") == "TARGET_NEVER_EXCEEDS_THE_ORDINARY_GENE_ENVELOPE":
+        return (f"{ec.get('target')} does not exceed the ordinary-gene envelope at any of "
+                f"{ec.get('n_cells_compared')} comparable cells (best-powered: "
+                f"{mp.get('ratio_to_envelope')}x on {mp.get('n_pool')} samples)")
+    return (f"{ec.get('target')} exceeds the ordinary-gene envelope at "
+            f"{ec.get('n_cells_target_exceeds_envelope')} of {ec.get('n_cells_compared')} cells")
+
+
 def _headline(arm1, arm2):
     bits = []
     v1 = arm1.get("verdict")
     if v1 == "SEARCHED":
-        bits.append(f"junction search ran; NR4A3 5'-depleted candidates: {arm1.get('nr4a3_candidates')}")
+        # ⛔ THE HEADLINE NEVER CARRIES A CANDIDATE COUNT THE TARGET VERDICT WITHHELD. The first
+        # search run's number went straight into a memo as though it were a finding; a headline
+        # that prints a count next to a verdict saying the count is background is how that happens.
+        bits.append(_target_headline(arm1))
+    elif v1 == "NO_SPECIFIC_REGIME":
+        bits.append("junction search: no grid cell holds the negative panel at the ceiling while a "
+                    "positive control survives; " + _envelope_headline(arm1))
     elif v1 == "PROBED_NOT_SEARCHED":
         bits.append(f"junction index answers ({arm1.get('compilation_used')}); no fusion search run yet")
     elif v1:
@@ -864,45 +1680,200 @@ def selftest():
        "parser reported a column it was never served")
     ck(shape["chromosomes"] == {"chr9": 2}, f"chromosome tally wrong: {shape['chromosomes']}")
 
-    # 9 · The depletion search must REFUSE to report a target when the positive control is dead.
-    def _snap(pos_cands, neg_cands, tgt_cands, pos_usable=True):
-        def mk(n, usable=True, expr=1000):
-            return {"usable": usable, "why": None if usable else "too few annotated junctions",
-                    "n_candidates": n, "n_samples_expressing_downstream": expr,
-                    "candidate_rate": (n / expr) if (usable and expr) else None,
-                    "candidates_top": [], "n_annotated_junctions": 40, "strand_derived": "+"}
+    # 9 · THE CONTROL LADDER OVER THE GRID. Each rung withholds the target for a different reason.
+    REF = cell_key(*REFERENCE_CELL)
+    TIGHT = cell_key(500, 0.50, 0.0, 0.90)
+    PANEL = ["GAPDH", "ACTB", "RPL13A", "PGK1"]
+
+    def _gene(cells):
+        """One gene's cached depletion block. `cells` maps a cell key to (n_candidates, n_pool),
+        or to None for a cell the 5'-support filter left unscoreable."""
+        d = {"usable": True, "why": None, "strand_derived": "+", "n_annotated_junctions": 40,
+             "five_prime_support_fraction": [0.9, 0.8, 0.05], "reference_cell": REF, "cells": {}}
+        for k, v in cells.items():
+            if v is None:
+                d["cells"][k] = {"scoreable": False, "n_five_prime_junctions_used": 1,
+                                 "why": "the 5'-support filter leaves 1 of 3 5' junctions"}
+                continue
+            c, n = v
+            rate = round(c / n, 6) if n else None
+            d["cells"][k] = {
+                "scoreable": True, "n_five_prime_junctions_used": 3,
+                "n_samples_expressing_downstream": n, "n_pool": n, "n_candidates": c,
+                "candidate_rate": rate, "breakpoint_rank_hist": {},
+                "breakpoint_rank_concentration": None, "promiscuity_tracked": True,
+                "n_candidates_promiscuity_filtered": c,
+                "candidate_rate_promiscuity_filtered": rate}
+        return d
+
+    def _snap(genes, panel=PANEL, tracks=("raw",)):
         return {"snaptron": {
             "arm_state": "FETCHED", "compilation_used": "srav3h",
             "compilations_that_answered": ["srav3h"],
-            "signature_positive": "FLI1", "signature_negative": "GAPDH",
+            "signature_positives": ["FLI1", "ERG"], "signature_negative_panel": list(panel),
+            "signature_negative": "GAPDH", "targets": ["NR4A3"], "context_genes": [],
+            "grid_tracks": list(tracks),
+            "thresholds": {"neg_panel_rate_ceiling": 0.005,
+                           "min_positive_control_candidates": 30,
+                           "min_neg_panel_genes_scoreable": 4,
+                           "target_min_enrichment": 3.0, "reference_cell": REF},
             "controls": {"transport": {"shape": {"n_records": 500, "columns": []}},
                          "absent": {"shape": {"n_records": 0}}},
-            "queries": {"FLI1": {"fetch": {"http": 200}, "shape": {"n_records": 9},
-                                 "depletion": mk(pos_cands, pos_usable)},
-                        "GAPDH": {"fetch": {"http": 200}, "shape": {"n_records": 9},
-                                  "depletion": mk(neg_cands)},
-                        "NR4A3": {"fetch": {"http": 200}, "shape": {"n_records": 9},
-                                  "depletion": mk(tgt_cands)}}}}
+            "queries": {g: {"fetch": {"http": 200}, "shape": {"n_records": 9}, "depletion": d}
+                        for g, d in genes.items()}}}
 
-    a = derive(_snap(0, 1, 12))["arms"]["snaptron_junction_index"]
+    def _scene(pos=(400, 200), tgt=(12, 2000), panel_tight=20, panel=PANEL, pos_pool=4000,
+               **extra):
+        """The standard fixture: at REF the panel is hot (0.025, over the ceiling) and at TIGHT it
+        is quiet (0.002, under it). Only TIGHT can therefore ever be an operating point."""
+        genes = {g: _gene({REF: (250, 10000), TIGHT: (panel_tight, 10000)}) for g in panel}
+        genes["FLI1"] = _gene({REF: (1200, 10000), TIGHT: (pos[0], pos_pool)})
+        genes["ERG"] = _gene({REF: (900, 10000), TIGHT: (pos[1], pos_pool)})
+        genes["NR4A3"] = _gene({REF: (480, 10000), TIGHT: tgt})
+        genes.update(extra)
+        return _snap(genes, panel=panel)
+
+    def arm1(inp):
+        return derive(inp)["arms"]["snaptron_junction_index"]
+
+    dead = _scene()
+    for g in ("FLI1", "ERG"):
+        for c in dead["snaptron"]["queries"][g]["depletion"]["cells"].values():
+            c["n_candidates"], c["candidate_rate"] = 0, 0.0
+            c["n_candidates_promiscuity_filtered"] = 0
+            c["candidate_rate_promiscuity_filtered"] = 0.0
+    a = arm1(dead)
     ck(a["verdict"] == "SIGNATURE_NOT_DEMONSTRATED",
-       f"a positive control with zero candidates gave {a['verdict']}")
-    ck("nr4a3_candidates" not in a, "target counts were reported despite a dead positive control")
+       f"positive controls with zero candidates everywhere gave {a['verdict']}")
+    ck("nr4a3_candidates" not in a, "target counts were reported despite dead positive controls")
 
-    a = derive(_snap(5, 1, 12, pos_usable=False))["arms"]["snaptron_junction_index"]
+    unusable = _scene()
+    for g in ("FLI1", "ERG"):
+        unusable["snaptron"]["queries"][g]["depletion"] = {
+            "usable": False, "why": "too few annotated junctions"}
+    a = arm1(unusable)
     ck(a["verdict"] == "SIGNATURE_NOT_DEMONSTRATED",
-       "an unscoreable positive control did not withhold the target")
+       "unscoreable positive controls did not withhold the target")
 
-    a = derive(_snap(30, 60, 12))["arms"]["snaptron_junction_index"]
-    ck(a["verdict"] == "SPECIFICITY_NOT_DEMONSTRATED",
-       f"a negative control firing more than the positive gave {a['verdict']}")
+    # The first run's SPECIFICITY_NOT_DEMONSTRATED, now per cell: an ordinary gene firing as often
+    # as a known 5'-truncated one means the score is measuring depth, not truncation.
+    hot = _scene(panel_tight=2000)          # panel at 0.20 everywhere, far over the ceiling
+    a = arm1(hot)
+    ck(a["verdict"] == "NO_SPECIFIC_REGIME",
+       f"a negative panel firing above the positives gave {a['verdict']}")
     ck("nr4a3_candidates" not in a, "target counts survived a failed specificity check")
+    ck(bool(a.get("closest_cells")), "NO_SPECIFIC_REGIME reported no nearest misses to read")
 
-    a = derive(_snap(30, 2, 12))["arms"]["snaptron_junction_index"]
-    ck(a["verdict"] == "SEARCHED", f"clean controls gave {a['verdict']}")
-    ck(a["nr4a3_candidates"] == 12, f"target count was {a.get('nr4a3_candidates')}, expected 12")
+    # Under the ceiling but the positive control does not clear the envelope: still no regime.
+    # 45/10000 = 0.0045 is under the 0.005 ceiling, and 30/20000 = 0.0015 puts both positive
+    # controls BELOW that envelope while still clearing the 30-candidate floor.
+    a = arm1(_scene(pos=(30, 30), pos_pool=20000, panel_tight=45))
+    ck(a["verdict"] == "NO_SPECIFIC_REGIME",
+       f"a positive control below the negative envelope gave {a['verdict']}")
 
-    # 10 · 5'-depletion arithmetic, including the strand inversion that would silently flip it.
+    # Too few panel genes scoreable at the only quiet cell -> that cell cannot be an operating point.
+    thin = _scene()
+    for g in PANEL[:2]:
+        thin["snaptron"]["queries"][g]["depletion"]["cells"][TIGHT] = {
+            "scoreable": False, "why": "unscoreable in this fixture"}
+    a = arm1(thin)
+    ck(a["verdict"] == "NO_SPECIFIC_REGIME",
+       f"an envelope over 2 panel genes was accepted; got {a['verdict']}")
+
+    # A quiet panel is not enough: a cell where the positive control has been tightened down to
+    # almost nothing proves nothing about specificity, because a handful of survivors is consistent
+    # with a threshold that has stopped detecting the signature at all.
+    # ⚠ The positive control here still fires at FIVE TIMES the envelope (0.01 against 0.002), so
+    # the per-cell specificity check passes and the candidate floor is the only thing left to
+    # refuse the cell. A fixture where the rate also failed would not test this rung at all.
+    a = arm1(_scene(pos=(5, 5), pos_pool=500))
+    ck(a["verdict"] == "NO_SPECIFIC_REGIME",
+       f"a cell keeping 5 positive-control candidates was accepted as an operating point; "
+       f"got {a['verdict']}")
+    tightest = [r for r in a["grid"] if r["cell"] == TIGHT and r["track"] == "raw"][0]
+    ck("below the 30 floor" in (tightest.get("why_not") or ""),
+       f"the cell was refused for the wrong reason: {tightest.get('why_not')}")
+
+    weak = arm1(_scene(tgt=(12, 2000)))      # 0.006 against an envelope of 0.002 -> ratio 3.0
+    ck(weak["verdict"] == "SEARCHED", f"clean controls gave {weak['verdict']}")
+    ck(weak["target_verdict"] == "TARGET_DOES_NOT_SEPARATE",
+       f"a target at ~3x the envelope was called {weak['target_verdict']}")
+    ck("nr4a3_candidates" not in weak,
+       "a candidate count was published under TARGET_DOES_NOT_SEPARATE")
+
+    strong = arm1(_scene(tgt=(200, 2000)))   # 0.10 against 0.002 -> ratio 50
+    ck(strong["target_verdict"] == "TARGET_SEPARATES",
+       f"a target at 50x the envelope was called {strong['target_verdict']}")
+    ck(strong["nr4a3_candidates"] == 200,
+       f"target count was {strong.get('nr4a3_candidates')}, expected 200")
+    ck(strong["at_operating_point"]["NR4A3"]["excess_over_background"] == 196.0,
+       "the background-subtracted excess was lost or miscomputed")
+
+    # ⛔ A cache from before the grid must say so, not impersonate a dead positive control.
+    old_cache = _scene()
+    old_cache["snaptron"]["queries"]["FLI1"]["depletion"] = {
+        "usable": True, "n_candidates": 11973, "candidate_rate": 0.11539}
+    a = arm1(old_cache)
+    ck(a["verdict"] == "CACHE_PREDATES_THE_GRID_SCORER",
+       f"a pre-grid cache gave {a['verdict']}, which reads as a biological result")
+    ck("nr4a3_candidates" not in a, "a pre-grid cache still reported a target count")
+
+    # 10 · ⛔⛔ THE OPERATING POINT IS CHOSEN ON THE CONTROLS ALONE. This is the guard that stops a
+    #      swept grid from becoming a fishing expedition: the same controls must select the same
+    #      cell whatever the target does, including a target rigged to look perfect somewhere else.
+    rigged = _scene(tgt=(0, 2000))
+    rigged["snaptron"]["queries"]["NR4A3"]["depletion"]["cells"][REF] = {
+        "scoreable": True, "n_five_prime_junctions_used": 3,
+        "n_samples_expressing_downstream": 10000, "n_pool": 10000, "n_candidates": 9999,
+        "candidate_rate": 0.9999, "breakpoint_rank_hist": {}, "promiscuity_tracked": True,
+        "breakpoint_rank_concentration": None, "n_candidates_promiscuity_filtered": 9999,
+        "candidate_rate_promiscuity_filtered": 0.9999}
+    a = arm1(rigged)
+    ck(a["operating_point"]["cell"] == weak["operating_point"]["cell"]
+       and a["operating_point"]["track"] == weak["operating_point"]["track"],
+       "the target's own numbers moved the operating point — the selection is not control-only")
+    ck(a["operating_point"]["cell"] == TIGHT,
+       f"the operating point was {a['operating_point']['cell']}, expected the quiet cell")
+    ck(a["target_verdict"] == "TARGET_DOES_NOT_SEPARATE",
+       "a target rigged to look perfect at an inadmissible cell was still reported")
+
+    # 11 · THE ENVELOPE IS THE MAX OVER THE PANEL, NOT THE NAMED NEGATIVE CONTROL. One negative gene
+    #      gives one number and no idea of its spread, which is how ~1.9x over GAPDH got mistaken
+    #      for a signal in the first place.
+    spread = _scene(tgt=(200, 2000))
+    spread["snaptron"]["queries"]["RPL13A"]["depletion"]["cells"][TIGHT].update(
+        {"n_candidates": 45, "candidate_rate": 0.0045,
+         "n_candidates_promiscuity_filtered": 45, "candidate_rate_promiscuity_filtered": 0.0045})
+    a = arm1(spread)
+    ck(a["operating_point"]["neg_envelope_gene"] == "RPL13A",
+       f"the envelope was taken from {a['operating_point'].get('neg_envelope_gene')}, not the "
+       "hottest panel gene")
+    ck(a["at_operating_point"]["NR4A3"]["enrichment_over_negative_envelope"]["ratio"]
+       < strong["at_operating_point"]["NR4A3"]["enrichment_over_negative_envelope"]["ratio"],
+       "a hotter panel gene did not lower the target's enrichment")
+
+    # 12 · The rate-ratio interval, including the branch where the negative side produced nothing.
+    ci = _rate_ratio_ci(200, 2000, 20, 10000)
+    ck(abs(ci["ratio"] - 50.0) < 1e-9, f"rate ratio was {ci['ratio']}, expected 50")
+    ck(ci["ci_low"] < 50.0 < ci["ci_high"], "the interval does not contain its own point estimate")
+    z = _rate_ratio_ci(200, 2000, 0, 10000)
+    ck(z["ratio"] is None and z["ci_low"] is not None,
+       "a zero negative side did not fall back to a rule-of-three lower bound")
+    ck(abs(z["ci_low"] - (0.1 / 0.0003)) < 1e-3,
+       f"rule-of-three lower bound was {z['ci_low']}, expected 0.1/(3/10000)")
+    ck(_rate_ratio_ci(0, 2000, 20, 10000)["ratio"] is None,
+       "a zero numerator produced a ratio instead of a refusal")
+
+    # 13 · GRID GEOMETRY. Keys must be stable under equivalent numeric spellings, or a cell written
+    #      by the fetch and looked up by derive silently misses.
+    ck(cell_key(20, 0.0, 0.02, 0.0) == cell_key(20.0, 0, 0.0200, 0),
+       "cell keys disagree on equivalent numeric spellings")
+    ck(len(list(grid_cells())) ==
+       len(GRID_MIN_DOWNSTREAM_COVERAGE) * len(GRID_FIVE_PRIME_MIN_SUPPORT)
+       * len(GRID_MAX_FIVE_PRIME_SHARE) * len(GRID_MIN_EXPRESSION_PERCENTILE),
+       "the grid enumerator does not cover the cartesian product")
+
+    # 14 · 5'-depletion arithmetic, including the strand inversion that would silently flip it.
     hdr = ("DataSource:Type\tsnaptron_id\tchromosome\tstart\tend\tlength\tstrand\tannotated"
            "\tleft_motif\tright_motif\tleft_annotated\tright_annotated\tsamples\tsamples_count"
            "\tcoverage_sum\tcoverage_avg\tcoverage_median\tsource_dataset_id")
@@ -911,36 +1882,183 @@ def selftest():
         return (f"srav3h:I\t{i}\tchr9\t{start}\t{start+100}\t100\t{strand}\t1\tGT\tAG\t1\t1"
                 f"\t{samples}\t1\t0\t0.0\t0\t0")
 
+    def build(rows):
+        return five_prime_depletion(hdr + "\n" + "\n".join(rows))
+
     # Nine annotated junctions on +. TRUNC carries coverage only on the three DOWNSTREAM-most.
     rows = [jrow(i, 1000 + 100 * i, "+",
                  ",NORMAL:50" + (",TRUNC:200" if i >= 6 else "")) for i in range(9)]
-    d = five_prime_depletion(hdr + "\n" + "\n".join(rows))
+    d, ids = build(rows)
     ck(d["usable"] is True, f"depletion unusable: {d.get('why')}")
     ck(d["strand_derived"] == "+", "strand vote did not return +")
-    ids = [c["rail_id"] for c in d["candidates_top"]]
-    ck(ids == ["TRUNC"], f"expected only TRUNC as a candidate, got {ids}")
+    ck(sorted(ids[REF]) == ["TRUNC"], f"expected only TRUNC as a candidate, got {sorted(ids[REF])}")
 
     # Same coverage pattern, minus strand: the "5' end" is now the OTHER end, so TRUNC — which
     # carries the HIGH coordinates — is no longer 5'-depleted. A strand bug would keep calling it.
-    rows_m = [r.replace("\t+\t", "\t-\t") for r in rows]
-    dm = five_prime_depletion(hdr + "\n" + "\n".join(rows_m))
+    dm, idm = build([r.replace("\t+\t", "\t-\t") for r in rows])
     ck(dm["strand_derived"] == "-", "strand vote did not return -")
-    ck([c["rail_id"] for c in dm["candidates_top"]] == [],
+    ck(sorted(idm[REF]) == [],
        "a minus-strand gene still called the high-coordinate sample 5'-depleted — strand inverted")
 
     # A sample below the downstream-coverage floor must not be called: "no 5' coverage" and "barely
     # expressed" are the confound this floor exists to separate.
-    faint = [jrow(i, 1000 + 100 * i, "+", ",FAINT:1" if i >= 6 else "") for i in range(9)]
-    df = five_prime_depletion(hdr + "\n" + "\n".join(faint))
-    ck([c["rail_id"] for c in df["candidates_top"]] == [],
-       "a barely-expressed sample was called 5'-depleted")
+    faint = [jrow(i, 1000 + 100 * i, "+",
+                  ",NORMAL:50" + (",FAINT:1" if i >= 6 else "")) for i in range(9)]
+    df, idf = build(faint)
+    ck(df["usable"] is True, f"the faint fixture was not scoreable: {df.get('why')}")
+    ck(sorted(idf[REF]) == [], "a barely-expressed sample was called 5'-depleted")
 
     # Unannotated junctions must not enter the profile at all.
-    unann = [r.replace("\t1\tGT", "\t0\tGT") for r in rows]
-    du = five_prime_depletion(hdr + "\n" + "\n".join(unann))
+    du, _ = build([r.replace("\t1\tGT", "\t0\tGT") for r in rows])
     ck(du["usable"] is False, "unannotated junctions were admitted to the profile")
 
-    # 11 · An unreadable supplement is never "no EMC".
+    # 15 · ⭐ LEVER 1 — the 5'-support filter, and the failure it must never produce. A 5' set the
+    #      filter empties would give every sample a 5' share of zero and call the whole compilation
+    #      depleted. The cell must come back NOT MEASURED, with a reason, never as zero candidates.
+    many = [f"S{i}" for i in range(20)]
+    sup_rows = []
+    for i in range(9):
+        toks = []
+        if i >= 2:                                   # ranks 2..8 carried by everyone
+            toks += [f"{s}:50" for s in many]
+        if i < 2:                                    # ranks 0,1 carried by ONE sample only
+            toks.append("S0:50")
+        if i >= 6:                                   # a truly 5'-truncated sample
+            toks.append("TRUNC:200")
+        sup_rows.append(jrow(i, 1000 + 100 * i, "+", "," + ",".join(toks)))
+    ds, idsup = build(sup_rows)
+    ck(ds["usable"] is True, f"support fixture unusable: {ds.get('why')}")
+    ck(sorted(idsup[REF]) == ["TRUNC"],
+       f"at zero support the truncated sample was not recovered: {sorted(idsup[REF])}")
+    tight_sup = ds["cells"][cell_key(20, 0.50, 0.02, 0.0)]
+    ck(tight_sup["scoreable"] is False,
+       "a 5' set emptied by the support filter was scored instead of refused")
+    ck("n_candidates" not in tight_sup,
+       "an unscoreable cell still reported a candidate count, which reads as a clean zero")
+    ck(tight_sup["n_five_prime_junctions_used"] < MIN_FIVE_PRIME_JUNCTIONS_REQUIRED,
+       "the unscoreable cell did not record how few 5' junctions survived")
+    ck(ds["five_prime_support_fraction"][0] < 0.1 <= ds["five_prime_support_fraction"][2],
+       f"5' support fractions look wrong: {ds['five_prime_support_fraction']}")
+
+    # ⚠ SUPPORT IS COUNTED OVER THE GENE'S OWN EXPRESSING SAMPLES. Here a 5' junction is carried by
+    # a hundred samples that have NO downstream coverage at all — they do not express the gene, so
+    # that junction's support among expressing samples is zero and the lever must drop it. Counting
+    # over every sample in the compilation instead gives a "fraction" of ten, and a junction nobody
+    # who expresses the gene actually uses would sail through the filter as its best-supported one.
+    ghost_rows = []
+    for i in range(9):
+        toks = []
+        if i == 0:
+            toks += [f"G{j}:50" for j in range(100)]      # carried ONLY by non-expressers
+        if 1 <= i <= 2:
+            toks += [f"E{j}:50" for j in range(10)]
+        if i >= 3:
+            toks += [f"E{j}:50" for j in range(10)]
+        ghost_rows.append(jrow(i, 1000 + 100 * i, "+", "," + ",".join(toks)))
+    dg, _ = build(ghost_rows)
+    ck(dg["n_samples_expressing_at_base_floor"] == 10,
+       f"the ghost fixture should have 10 expressing samples, got "
+       f"{dg['n_samples_expressing_at_base_floor']}")
+    ck(dg["five_prime_support_fraction"][0] == 0.0,
+       f"a 5' junction carried only by NON-expressing samples reported support "
+       f"{dg['five_prime_support_fraction'][0]}; the denominator is not the expressing set")
+    ck(dg["cells"][cell_key(20, 0.10, 0.02, 0.0)]["n_five_prime_junctions_used"] == 2,
+       "the unsupported 5' junction survived the support filter")
+
+    # 16 · ⭐ LEVER 3 — the absolute-expression discriminator. A truncated but barely-expressed
+    #      sample must fall out of the pool at a high percentile while a strongly-expressed one
+    #      survives; that asymmetry is the whole point of the lever.
+    pct_rows = []
+    for i in range(9):
+        toks = [f"N{j}:50" for j in range(18)]
+        if i >= 3:
+            toks += ["HI:500", "LO:5"]
+        pct_rows.append(jrow(i, 1000 + 100 * i, "+", "," + ",".join(toks)))
+    dp, idp = build(pct_rows)
+    ck(sorted(idp[cell_key(20, 0.0, 0.02, 0.0)]) == ["HI", "LO"],
+       f"at no percentile floor both truncated samples should be called: "
+       f"{sorted(idp[cell_key(20, 0.0, 0.02, 0.0)])}")
+    top = dp["cells"][cell_key(20, 0.0, 0.02, 0.90)]
+    n_expr = top["n_samples_expressing_downstream"]
+    ck(top["n_pool"] == n_expr - int(n_expr * 0.90) == 2,
+       f"the top-decile pool was {top['n_pool']} of {n_expr}, expected 2")
+    ck(sorted(idp[cell_key(20, 0.0, 0.02, 0.90)]) == ["HI"],
+       "the weakly-expressed truncated sample survived the top-decile expression floor")
+
+    # 17 · LEVER 2 and the grid's monotonicity. Tightening any axis may only ever remove candidates;
+    #      a prefix bug in the sorted scan would show up here as a count that went UP.
+    for sup in GRID_FIVE_PRIME_MIN_SUPPORT:
+        for pct in GRID_MIN_EXPRESSION_PERCENTILE:
+            got = []
+            for mc in GRID_MIN_DOWNSTREAM_COVERAGE:
+                row = [dp["cells"][cell_key(mc, sup, sh, pct)] for sh in (0.02, 0.005, 0.0)]
+                if not all(c.get("scoreable") for c in row):
+                    continue
+                ns = [c["n_candidates"] for c in row]
+                ck(ns[0] >= ns[1] >= ns[2],
+                   f"tightening the 5' share raised the count at sup={sup} pct={pct}: {ns}")
+                got.append(ns[0])
+            ck(got == sorted(got, reverse=True),
+               f"raising the downstream-coverage floor raised the count at sup={sup}: {got}")
+
+    # 18 · ⭐ LEVER 4 — the promiscuity track, and the leave-one-out that keeps it honest.
+    q4 = {"GAPDH": {"depletion": _gene({REF: (3, 100)})},
+          "ACTB": {"depletion": _gene({REF: (3, 100)})},
+          "NR4A3": {"depletion": _gene({REF: (4, 100)})}}
+    ids4 = {"GAPDH": {REF: {"s1", "s2", "s3"}},
+            "ACTB": {REF: {"s4", "s5", "s6"}},
+            "NR4A3": {REF: {"s1", "s2", "s9", "s10"}}}
+    untracked = apply_promiscuity_track(q4, ids4, ["GAPDH", "ACTB"])
+    ck(untracked == [], f"nothing should have exceeded the id cap; got {untracked}")
+    ck(q4["GAPDH"]["depletion"]["cells"][REF]["n_candidates_promiscuity_filtered"] == 3,
+       "a panel gene was filtered against its OWN candidates and zeroed by construction")
+    ck(q4["NR4A3"]["depletion"]["cells"][REF]["n_candidates_promiscuity_filtered"] == 2,
+       "the target kept candidates that are also candidates at an ordinary gene")
+    ck(q4["NR4A3"]["depletion"]["cells"][REF]["candidate_rate_promiscuity_filtered"] == 0.02,
+       "the filtered rate did not keep the same denominator")
+    # ⛔ THE MUTATION THAT `union - own` SURVIVES: every panel gene carrying the SAME candidates.
+    #    Subtracting a gene's own set from the union empties it and exempts everybody; counting
+    #    carriers correctly removes candidates that another panel gene also carries.
+    q4b = {"GAPDH": {"depletion": _gene({REF: (3, 100)})},
+           "ACTB": {"depletion": _gene({REF: (3, 100)})},
+           "NR4A3": {"depletion": _gene({REF: (3, 100)})}}
+    same = {"GAPDH": {REF: {"s1", "s2", "s3"}}, "ACTB": {REF: {"s1", "s2", "s3"}},
+            "NR4A3": {REF: {"s1", "s2", "s3"}}}
+    apply_promiscuity_track(q4b, same, ["GAPDH", "ACTB"])
+    ck(q4b["GAPDH"]["depletion"]["cells"][REF]["n_candidates_promiscuity_filtered"] == 0,
+       "a panel gene kept candidates that ANOTHER panel gene also carries — the leave-one-out is "
+       "a subtraction from the union rather than a carrier count")
+    ck(q4b["NR4A3"]["depletion"]["cells"][REF]["n_candidates_promiscuity_filtered"] == 0,
+       "the target kept candidates every panel gene also carries")
+
+    q5 = {"GAPDH": {"depletion": _gene({REF: (3, 100)})},
+          "ACTB": {"depletion": _gene({REF: (3, 100)})}}
+    ck(apply_promiscuity_track(q5, {"GAPDH": {REF: {"a"}}, "ACTB": {REF: {"b"}}},
+                               ["GAPDH", "ACTB"], max_ids=1) == [REF],
+       "a union past the id cap was not recorded as untracked")
+    ck(q5["GAPDH"]["depletion"]["cells"][REF]["promiscuity_tracked"] is False,
+       "an untracked cell was left looking tracked")
+
+    # 19 · The breakpoint-rank concentration, which is a contrast statistic and must be None rather
+    #      than a number when there is nothing to concentrate.
+    ck(_concentration({"3": 8, "5": 2}) == 0.8, "concentration arithmetic is wrong")
+    ck(_concentration({}) is None, "an empty histogram produced a concentration")
+    ck(ds["cells"][REF]["breakpoint_rank_hist"] == {"6": 1},
+       f"breakpoint rank was not read off the fixture: {ds['cells'][REF]['breakpoint_rank_hist']}")
+
+    # 20 · The promiscuity TRACK must be selectable and must withhold where it was not tracked.
+    tracked = _scene(tgt=(200, 2000))
+    tracked["snaptron"]["grid_tracks"] = ["raw", "promiscuity_filtered"]
+    for g in tracked["snaptron"]["queries"]:
+        tracked["snaptron"]["queries"][g]["depletion"]["cells"][TIGHT]["promiscuity_tracked"] = False
+    a = arm1(tracked)
+    rows_f = [r for r in a["grid"] if r["track"] == "promiscuity_filtered" and r["cell"] == TIGHT]
+    ck(rows_f and rows_f[0]["admissible"] is False,
+       "an untracked promiscuity cell was still offered as an operating point")
+    ck(a["operating_point"]["track"] == "raw",
+       f"the selection fell to an untracked track: {a['operating_point']['track']}")
+
+    # 21 · An unreadable supplement is never "no EMC".
     unread = {"methylation": {"arm_state": "FETCHED", "geo_self_text": "!Series_title = x\n",
                               "geo_all_text": "^SAMPLE = GSM1\n!Sample_title = case 1\n",
                               "fetches": {},
@@ -961,12 +2079,138 @@ def selftest():
        f"a supplement naming EMC gave {a3['verdict']}")
     ck(a3["supplementary_emc_rows"] == 3, "supplementary EMC row count was lost")
 
+    # 22 · ⭐ END TO END, WITH NO NETWORK. Synthetic Snaptron bodies driven through the REAL scorer,
+    #      the REAL promiscuity track and the REAL `derive`. Every guard above tests one piece
+    #      against a hand-built fixture; this one is the only thing that proves the pieces still
+    #      fit together — a field the fetch writes and `derive` no longer reads is invisible to all
+    #      of them and costs a whole CI run to discover.
+    def synth(n_clean, truncated, shared):
+        """One gene: `n_clean` ordinary samples, plus gene-specific and shared truncated ones."""
+        rows = []
+        for i in range(9):
+            toks = [f"C{j}:50" for j in range(n_clean)]
+            if i >= 6:
+                toks += [f"{t}:200" for t in truncated] + [f"{b}:200" for b in shared]
+            rows.append(jrow(i, 1000 + 100 * i, "+", "," + ",".join(toks)))
+        return hdr + "\n" + "\n".join(rows)
+
+    # `B*` are the same ids in every gene: the 3'-biased libraries lever 4 exists to notice.
+    shared_bg = [f"B{i}" for i in range(5)]
+    bodies = {g: synth(1000, [], shared_bg) for g in SNAPTRON_SIGNATURE_NEGATIVE_PANEL}
+    for g in SNAPTRON_SIGNATURE_POSITIVES:
+        bodies[g] = synth(1000, [f"{g}T{i}" for i in range(50)], shared_bg)
+    for g in SNAPTRON_TARGETS + SNAPTRON_CONTEXT:
+        bodies[g] = synth(1000, [f"{g}T{i}" for i in range(3)], shared_bg)
+
+    e2e = {"queries": {},
+           "controls": {"transport": {"shape": {"n_records": 500, "columns": []}},
+                        "absent": {"shape": {"n_records": 0}}}}
+    score_snaptron_bodies(e2e, lambda g: (bodies[g], {"http": 200}), pause=0)
+    a = derive({"snaptron": e2e})["arms"]["snaptron_junction_index"]
+    ck(a["verdict"] == "SEARCHED",
+       f"the end-to-end chain gave {a['verdict']}: the fetch and derive halves disagree")
+    ck(a["target_verdict"] in ("TARGET_SEPARATES", "TARGET_DOES_NOT_SEPARATE",
+                               "TARGET_UNDERPOWERED_AT_THE_OPERATING_POINT"),
+       f"end-to-end target verdict was {a.get('target_verdict')}")
+    ck(bool(a.get("envelope_comparison", {}).get("verdict")),
+       "the end-to-end run carried no envelope comparison, so an underpowered operating point "
+       "would leave nothing readable at all")
+    ck(set(a["at_operating_point"]) == set(bodies),
+       "a gene the fetch scored did not survive into the operating-point read")
+    tcell = e2e["queries"][SNAPTRON_TARGETS[0]]["depletion"]["cells"][REF]
+    ck(tcell["n_candidates"] == 8,
+       f"the target should carry 3 own + 5 shared truncated samples, got {tcell['n_candidates']}")
+    ck(tcell["n_candidates_promiscuity_filtered"] == 3,
+       f"lever 4 did not remove the shared background: "
+       f"{tcell['n_candidates_promiscuity_filtered']}")
+    ncell = e2e["queries"][SNAPTRON_SIGNATURE_NEGATIVE_PANEL[0]]["depletion"]["cells"][REF]
+    ck(ncell["n_candidates_promiscuity_filtered"] == 0,
+       "a panel gene whose every candidate is shared with the rest of the panel kept them; the "
+       "leave-one-out is exempting genes from background they demonstrably share")
+    ck(a["id_space_check"]["shared_with_transport_control"] > 0,
+       "the id-space check found no shared samples in a fixture that is entirely shared")
+
+    # 23 · ⛔⛔ A ZERO IN A SMALL POOL IS AN ABSENT READING, NOT A READING OF ABSENCE. The tighter
+    #      the regime the controls choose, the smaller the TARGET's pool gets too — and run
+    #      32676239799 landed on a cell holding 219 target samples against an envelope of 0.0011,
+    #      where even a real threefold enrichment expects under one candidate. Whatever the target
+    #      returned there, that cell could not answer, and the verdict has to say so.
+    # ⚠ ONE candidate, not zero — so this also shows the verdict turns on the POOL and not on the
+    #   count: a rate of 1-in-60 is eight times the envelope here and still cannot be believed.
+    thin_pool = _scene(tgt=(1, 60))          # 60 x 0.002 x 3 = 0.36 expected at the bar
+    a = arm1(thin_pool)
+    ck(a["target_verdict"] == "TARGET_UNDERPOWERED_AT_THE_OPERATING_POINT",
+       f"a target pool of 60 gave {a['target_verdict']}; nothing there excludes anything")
+    ck("nr4a3_candidates" not in a, "a candidate count was published from an unanswerable cell")
+    pw = a["target_power_at_operating_point"]
+    ck(pw["powered"] is False and pw["pool_that_would_be_needed"] > 60,
+       f"the power block did not say what pool was needed: {pw}")
+
+    # ⛔ AND THE POWER CHECK READS THE POOL, NEVER THE COUNT. If it looked at what the target
+    #    returned it would be one more way to let the answer choose its own threshold.
+    b = arm1(_scene(tgt=(60, 60)))           # same pool, every sample a candidate
+    ck(b["target_power_at_operating_point"]["powered"] is False,
+       "the power verdict moved when only the target's COUNT changed")
+    ck(b["operating_point"]["cell"] == a["operating_point"]["cell"],
+       "the operating point moved when only the target's count changed")
+
+    # A pool that IS big enough must go back to answering.
+    ck(arm1(_scene(tgt=(12, 2000)))["target_verdict"] == "TARGET_DOES_NOT_SEPARATE",
+       "an adequately powered cell was called underpowered")
+    ck(arm1(_scene(tgt=(200, 2000)))["target_verdict"] == "TARGET_SEPARATES",
+       "an adequately powered cell with a real effect stopped separating")
+
+    # 24 · ⭐ THE WEAKER QUESTION, WHICH IS THE ONE THE DATA CAN ANSWER WHEN THE SHARP ONE CANNOT.
+    ec = a["envelope_comparison"]
+    ck(ec["verdict"] == "TARGET_EXCEEDS_THE_ORDINARY_GENE_ENVELOPE_SOMEWHERE",
+       f"a target above the envelope at the loose cell gave {ec['verdict']}")
+    # ⛔ THE BEST COMPARISON IS THE BEST-POWERED ONE, NOT THE MOST EXTREME ONE. In this fixture the
+    #    tight cell carries the LARGER ratio (3.0 against 1.92) and the loose cell carries fifty
+    #    times the expected background; ranking on ratio would report the flattering cell.
+    mp = ec["most_powered_comparison"]
+    ck(mp["cell"] == REF,
+       f"the most-powered comparison was {mp['cell']}, not the cell with the most background to "
+       "see an excess against")
+    ck(mp["powered"] is True, "the loose cell was called underpowered")
+    ck(mp["ratio_to_envelope"] < max(e["ratio"] for e in ec["exceedances"]),
+       "the best-powered cell happens to also be the most extreme; the fixture is not testing "
+       "what it claims to test")
+
+    # ⛔ "DOES NOT EXCEED THE ENVELOPE" IS NOT "IS QUIET". The envelope is a maximum, so a target
+    #    sitting above most of the panel still clears the test — and the artifact has to say so, or
+    #    the weaker claim reads as the stronger one.
+    where = ec["where_the_target_sits_in_the_panel"]
+    ck(where["n_panel_genes"] == len(PANEL),
+       f"the panel-position row saw {where['n_panel_genes']} genes, expected {len(PANEL)}")
+    ck(where["n_panel_genes_the_target_exceeds"] == len(PANEL),
+       "a target above every panel gene was not recorded as such")
+    ck(where["ratio_to_panel_median"] > 1.0,
+       f"ratio to the panel median came back {where['ratio_to_panel_median']} for a target above "
+       "every panel gene")
+
+    quiet = _scene(tgt=(1, 10000))
+    quiet["snaptron"]["queries"]["NR4A3"]["depletion"]["cells"][REF].update(
+        {"n_candidates": 1, "candidate_rate": 0.0001,
+         "n_candidates_promiscuity_filtered": 1, "candidate_rate_promiscuity_filtered": 0.0001})
+    ec2 = arm1(quiet)["envelope_comparison"]
+    ck(ec2["verdict"] == "TARGET_NEVER_EXCEEDS_THE_ORDINARY_GENE_ENVELOPE",
+       f"a target below the envelope everywhere gave {ec2['verdict']}")
+    ck(ec2["n_cells_target_exceeds_envelope"] == 0 and ec2["n_cells_compared"] > 0,
+       f"exceedance tally wrong: {ec2['n_cells_compared']} compared, "
+       f"{ec2['n_cells_target_exceeds_envelope']} exceeding")
+
+    # ⛔ AND IT MUST SURVIVE A RUN WITH NO ADMISSIBLE CELL AT ALL, which is exactly when a reader
+    #    would otherwise be left with nothing but "no regime".
+    a = arm1(_scene(panel_tight=2000))
+    ck(a["verdict"] == "NO_SPECIFIC_REGIME" and a.get("envelope_comparison"),
+       "a run with no specific regime carried no envelope comparison to read")
+
     if fails:
         print("SELFTEST FAILED:")
         for f in fails:
             print("  -", f)
         return 1
-    print("selftest ok (11 guard groups)")
+    print("selftest ok (24 guard groups)")
     return 0
 
 
