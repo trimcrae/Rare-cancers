@@ -6,11 +6,16 @@ suite ran 745.9 s of a ~15-minute gate — ~7,000 tests, single-threaded, on eve
 one that edited only prose. The doc, systems-model and medical-integrity gates that have ACTUALLY
 caught things in this repository cost about a minute between them.
 
-⚠ AND THE EXPENSIVE COPY IS THE WEAKER ONE. This sandbox has no numpy, rdkit, boto3, scipy, pymbar
-or netCDF4, so 48 of those tests fail as missing imports and five modules do not import at all.
-`tests.yml` runs `on: push` with the real dependencies installed, so the version of this suite that
-means something runs in CI on every push regardless. Paying twelve local minutes for a degraded
-rerun of a check that is about to run properly is poor value, and it is why this selector exists.
+⚠ AND THE EXPENSIVE COPY WAS THE WEAKER ONE. `tests.yml` runs `on: push` with the real dependencies
+installed, so the version of this suite that means something runs in CI on every push regardless,
+and paying twelve local minutes for a rerun of a check that is about to run properly is poor value.
+That is why this selector exists — and on 2026-08-23 the argument was carried to its conclusion:
+the test suites left preflight's DEFAULT tier altogether (`PREFLIGHT_TESTS=1` opts back in), so this
+selector now scopes the opt-in and publication tiers rather than every commit.
+⚠ Superseded, retained (CLAUDE.md rule 1.2): "This sandbox has no numpy, rdkit, boto3, scipy, pymbar
+or netCDF4, so 48 of those tests fail as missing imports and five modules do not import at all."
+`./scripts/dev-setup.sh` installs them into both interpreters and a SessionStart hook runs it, so a
+provisioned box now reports 7,859 passed and 0 failed over this suite.
 
 HOW IT CHOOSES. Static import graph, pure stdlib, no execution:
 
