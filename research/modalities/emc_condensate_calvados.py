@@ -757,6 +757,61 @@ def fetch_plddt():
     return out
 
 # ---------------------------------------------------------------------------------------------
+# COMPOSITION BASELINE - the number the manuscript ALREADY has, on exactly these windows
+# ---------------------------------------------------------------------------------------------
+COMPOSITION_OUT = os.path.join(HERE, "emc-condensate-composition.json")
+
+
+def composition_table():
+    """The manuscript's own sequence-derived descriptors, recomputed on the simulated windows.
+
+    ⭐ WHY THIS EXISTS. The prespecification's negative N1 asks whether the simulation resolves
+    anything the manuscript's amino-acid composition counting does not. That question is not
+    answerable without the composition numbers for exactly the windows that were simulated - the
+    manuscript's own table uses DIFFERENT windows (it characterises TAF15 1-205, while the only
+    reported TAF15::NR4A3 coding junction retains 1-161).
+
+    ⛔ AND IT REUSES `fusion_idr_features.features` RATHER THAN REIMPLEMENTING IT. A second copy of
+    a descriptor is a second thing that can drift from the manuscript it is being compared against.
+
+    ⚠ READ THE SCRAMBLE ROWS. A composition-preserving shuffle leaves every composition descriptor
+    BYTE-IDENTICAL to its parent and changes only SCD, which is order-dependent. That is the honest
+    limit of N1 as prespecified: a scramble-sensitive nu shows the simulation exceeds COMPOSITION,
+    and does not by itself show it exceeds the manuscript's full descriptor set, because SCD is in
+    that set and the scramble does not hold it fixed.
+    """
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "fusion_idr_features", os.path.join(HERE, "fusion_idr_features.py"))
+    fif = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(fif)
+    rows = {}
+    for c in build_constructs():
+        rows[c["id"]] = dict(fif.features(c["sequence"]),
+                             role=c["role"], window=c["window"])
+    out = {"_what": ("the manuscript's own sequence-derived descriptors "
+                     "(fusion_idr_features.features, imported not copied), computed on exactly the "
+                     "windows this lane simulates"),
+           "_why": ("negative N1 asks whether the simulation resolves anything composition counting "
+                    "does not; that is unanswerable without composition on the SAME windows"),
+           "_scramble_note": ("a composition-preserving shuffle leaves every composition descriptor "
+                              "identical and changes only SCD, which is order-dependent - see the "
+                              "identical rows below, and the limit they imply for N1"),
+           "rows": rows}
+    parents = {"E264": [f"E264_scr{i}" for i in (1, 2, 3)],
+               "C264": [f"C264_scr{i}" for i in (1, 2, 3)]}
+    checks = {}
+    comp_keys = [k for k in next(iter(rows.values())) if k not in ("SCD", "role", "window")]
+    for par, kids in parents.items():
+        same = all(all(rows[k][kk] == rows[par][kk] for kk in comp_keys) for k in kids)
+        scd_moved = all(rows[k]["SCD"] != rows[par]["SCD"] for k in kids)
+        checks[par] = {"every_composition_descriptor_identical_to_parent": same,
+                       "SCD_differs_from_parent_in_every_scramble": scd_moved}
+    out["scramble_checks"] = checks
+    return out
+
+
+# ---------------------------------------------------------------------------------------------
 # GUARDS - all offline, all asserted before any integration step
 # ---------------------------------------------------------------------------------------------
 
@@ -944,6 +999,18 @@ def selftest():
     ck("G9", "repeated replicate seeds are INSTRUMENT_FAILED",
        score(runs)["verdict"] == "INSTRUMENT_FAILED")
 
+    # G13 - the composition baseline, and the honest limit of N1 that it exposes
+    ct = composition_table()
+    ck("G13", "every construct has a composition row",
+       set(ct["rows"]) == set(cons))
+    for par in ("E264", "C264"):
+        chk = ct["scramble_checks"][par]
+        ck("G13", f"{par} scrambles are composition-identical to the parent",
+           chk["every_composition_descriptor_identical_to_parent"])
+        ck("G13", f"{par} scrambles DO move SCD, which is order-dependent",
+           chk["SCD_differs_from_parent_in_every_scramble"],
+           "so N1 tests composition, not the manuscript's whole descriptor set")
+
     # G10 - the permutation floor is what the prespecification says it is
     p = permutation_p([1, 2, 3, 4, 5], [6, 7, 8, 9, 10])
     ck("G10", "5 vs 5 gives 252 arrangements", p["n_arrangements"] == 252, str(p))
@@ -988,6 +1055,7 @@ def main():
     ap.add_argument("--selftest", action="store_true")
     ap.add_argument("--manifest", action="store_true")
     ap.add_argument("--plddt", action="store_true")
+    ap.add_argument("--composition", action="store_true")
     ap.add_argument("--prepare", nargs=2, metavar=("CONSTRUCT", "REPLICATE"))
     ap.add_argument("--outdir", default=".")
     ap.add_argument("--analyse", metavar="RUNDIR")
@@ -1011,6 +1079,14 @@ def main():
         with open(dest, "w") as fh:
             json.dump(payload, fh, indent=1)
         print(f"wrote {dest}: {len(cons)} constructs, {payload['n_runs']} runs")
+        return 0
+    if args.composition:
+        res = composition_table()
+        dest = args.out or COMPOSITION_OUT
+        with open(dest, "w") as fh:
+            json.dump(res, fh, indent=1)
+        print(json.dumps(res["scramble_checks"], indent=1))
+        print(f"wrote {dest}")
         return 0
     if args.plddt:
         res = fetch_plddt()

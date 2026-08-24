@@ -23,6 +23,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 RESULT = os.path.join(HERE, "emc-condensate-calvados.json")
 ELIGIBILITY = os.path.join(HERE, "emc-condensate-window-eligibility.json")
 MANIFEST = os.path.join(HERE, "emc-condensate-constructs.json")
+COMPOSITION = os.path.join(HERE, "emc-condensate-composition.json")
 OUT = os.path.join(HERE, "emc-condensate-calvados-findings.md")
 
 PRESPEC = "emc-condensate-calvados-prespecification.md"
@@ -221,6 +222,32 @@ def render():
         for k, v in comp.items():
             A(f"| `{k}` | {_fmt(v['delta_nu_vs_scramble_mean'])} | "
               f"{_fmt(v['exceeds_threshold'])} |")
+        A("")
+
+    comp_tbl = _load(COMPOSITION)
+    if comp_tbl:
+        A("### 5.1 · The composition baseline these ν have to beat")
+        A("")
+        A("The manuscript's own sequence-derived descriptors "
+          "(`fusion_idr_features.features`, imported rather than copied), computed on **exactly the "
+          "windows simulated here** — the manuscript's own table uses different ones, and "
+          "characterises TAF15 1–205 while the only reported TAF15::NR4A3 coding junction retains "
+          "1–161.")
+        A("")
+        A("| construct | N | SYGQ | aromatic (FYW) | FCR | NCPR | entropy (bits) | SCD |")
+        A("|---|---:|---:|---:|---:|---:|---:|---:|")
+        for cid, v in comp_tbl["rows"].items():
+            A(f"| `{cid}` | {v['length']} | {v['frac_SYGQ']} | {v['frac_aromatic_FYW']} | "
+              f"{v['frac_charged_FCR']} | {v['net_charge_per_residue_NCPR']} | "
+              f"{v['shannon_entropy_bits']} | {v['SCD']} |")
+        A("")
+        A("⚠ **Read the scramble rows, because they bound what N1 can prove.** A "
+          "composition-preserving shuffle leaves **every composition descriptor byte-identical** to "
+          "its parent and moves only **SCD**, which is order-dependent. Both facts are asserted by "
+          "the guard suite rather than eyeballed here. So a scramble-sensitive ν shows the "
+          "simulation exceeds *composition* — it does **not** by itself show it exceeds the "
+          "manuscript's full descriptor set, because SCD is in that set and the scramble does not "
+          "hold it fixed. That is a limit of the prespecified null, stated rather than glossed.")
         A("")
 
     conv = res.get("convergence")

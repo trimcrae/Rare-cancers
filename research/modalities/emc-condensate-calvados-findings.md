@@ -70,6 +70,30 @@ Entry criterion, fixed before the fetch: at least 75% of window residues below p
 
 All primary windows eligible: **yes**.
 
+### 5.1 · The composition baseline these ν have to beat
+
+The manuscript's own sequence-derived descriptors (`fusion_idr_features.features`, imported rather than copied), computed on **exactly the windows simulated here** — the manuscript's own table uses different ones, and characterises TAF15 1–205 while the only reported TAF15::NR4A3 coding junction retains 1–161.
+
+| construct | N | SYGQ | aromatic (FYW) | FCR | NCPR | entropy (bits) | SCD |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| `E264` | 264 | 0.5606 | 0.1402 | 0.0303 | -0.0152 | 3.154 | 0.218 |
+| `E360` | 360 | 0.5278 | 0.1167 | 0.0944 | -0.0222 | 3.499 | 0.561 |
+| `T161` | 161 | 0.7267 | 0.1491 | 0.1118 | -0.0745 | 3.107 | 2.6196 |
+| `C161` | 161 | 0.3975 | 0.0807 | 0.1615 | -0.0124 | 3.835 | -0.2612 |
+| `C264` | 264 | 0.3788 | 0.0795 | 0.1591 | 0.0 | 3.854 | -0.5765 |
+| `C360` | 360 | 0.3778 | 0.075 | 0.1417 | -0.0028 | 3.837 | -0.4254 |
+| `N260` | 260 | 0.2577 | 0.0769 | 0.1077 | -0.0231 | 3.875 | 0.0281 |
+| `F212` | 212 | 0.816 | 0.1274 | 0.0236 | -0.0236 | 2.728 | 0.4639 |
+| `E264_scr1` | 264 | 0.5606 | 0.1402 | 0.0303 | -0.0152 | 3.154 | 0.1944 |
+| `E264_scr2` | 264 | 0.5606 | 0.1402 | 0.0303 | -0.0152 | 3.154 | 0.144 |
+| `E264_scr3` | 264 | 0.5606 | 0.1402 | 0.0303 | -0.0152 | 3.154 | 0.0619 |
+| `C264_scr1` | 264 | 0.3788 | 0.0795 | 0.1591 | 0.0 | 3.854 | -0.4979 |
+| `C264_scr2` | 264 | 0.3788 | 0.0795 | 0.1591 | 0.0 | 3.854 | -2.8437 |
+| `C264_scr3` | 264 | 0.3788 | 0.0795 | 0.1591 | 0.0 | 3.854 | -1.0263 |
+| `E264_E15` | 264 | 0.4848 | 0.1288 | 0.178 | -0.1629 | 3.288 | 30.5695 |
+
+⚠ **Read the scramble rows, because they bound what N1 can prove.** A composition-preserving shuffle leaves **every composition descriptor byte-identical** to its parent and moves only **SCD**, which is order-dependent. Both facts are asserted by the guard suite rather than eyeballed here. So a scramble-sensitive ν shows the simulation exceeds *composition* — it does **not** by itself show it exceeds the manuscript's full descriptor set, because SCD is in that set and the scramble does not hold it fixed. That is a limit of the prespecified null, stated rather than glossed.
+
 ## 7 · Claim ceiling
 
 ν is a single-chain conformational observable. No efficacy, no selectivity in a patient, no safety, no therapeutic window, no clinical readiness.
