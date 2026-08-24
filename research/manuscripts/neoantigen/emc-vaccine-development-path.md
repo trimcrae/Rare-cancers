@@ -94,7 +94,9 @@ before a premature stop, and their 10 strong calls are tighter than any in-frame
 in this work surviving a conservative cut come from junctions that cannot encode the driver.
 
 **What bounds each conclusion.** Ten limits are enumerated in Section 3 and graded there as bounded by
-the disease, by current instruments, or by access. Each movable one is paired with the advance that would
+the disease, by current instruments, or by access. Two of them, the cold-tumour limit and the
+physical-exclusion limit, are re-graded here against EMC immune evidence that postdates the previous
+version and does not choose between them. Each movable one is paired with the advance that would
 move it and the observation that would show it had arrived; no date is offered for any of them.
 
 **Interpretation.** The most defensible present statement is neither that the route is viable nor that it
@@ -115,11 +117,11 @@ nothing here supports use of any agent outside a clinical trial.
 A verdict of "unpromising" delivered against a target whose presentation has never been measured records
 the state of the measuring apparatus, in a form that reads as a statement about the tumour and that
 nobody revisits when the apparatus improves. This paper separates the three kinds of limit such a verdict
-conflates. Some are properties of this disease and this junction — a quiet genome, a myxoid matrix that
-excludes lymphocytes, an incidence below one per million per year — and will not move. Some are
+conflates. Some are properties of this disease and this junction (a quiet genome, a myxoid matrix
+proposed to exclude lymphocytes, an incidence below one per million per year) and will not move. Some are
 properties of today's instruments, chiefly a sequence-based predictor standing in for a measurement
-nobody has taken. Some are limits of access rather than of knowledge: no published EMC immune profiling,
-no reachable patient material, no manufacturing route at this incidence. Section 3 records, for each
+nobody has taken. Some are limits of access rather than of knowledge: no reachable patient material, no
+measured presentation, no manufacturing route at this incidence. Section 3 records, for each
 movable limit, the advance that would move it and the evidence that would count as that advance arriving,
 with no date attached; Section 6 records what would look like each arriving without being it.
 
@@ -408,8 +410,9 @@ Predicted binding is a screen. It is not evidence that any peptide is presented 
 a measure of the density at which it would be presented, and not evidence of T-cell recognition. No EMC
 immunopeptidomic dataset is known to the author. Sequence-level novelty against the proteome has now been
 tested and is reported under B5, which excludes one failure mode and leaves presentation, immunogenicity
-and cross-reactivity untouched. These gaps are enumerated as limits B2 and B3 rather than treated as
-resolved.
+and cross-reactivity untouched. The machinery a presented peptide would require has since been read at
+the transcript level in EMC tumour tissue and is not lost (B8), which establishes a precondition rather
+than a presentation. These gaps are enumerated as limits B2 and B3 rather than treated as resolved.
 
 ## 3. The standing state, limit by limit
 
@@ -428,9 +431,9 @@ row, for the reason Section 3.1 gives.
 | B3 | Self-adjacency and central tolerance | disease | Lead peptide is 1 substitution (position 1, not an anchor) from DMPCVQAQY in an *NR4A3* isoform, against a chance expectation of 0.02; 0 of 11 binders has an anchor-only near-self neighbour | **a T-cell assay on matched donors** — needs material and a laboratory | T-cell reactivity assay against the specific peptide-HLA complex |
 | B4 | One strong CD4 epitope, on one allele of 23 | instrument | 44 binders, 1 strong (SYGQQNMPCVQAQYS on DRB1\*14:01, 66.1 nM) over 14 of 23 alleles; class II coverage 6.5%, combined CD8 and CD4 1.8% | **computational**, and now largely spent | A class II threshold; measured presentation |
 | B5 | Seam-proximal peptides of four junctions occur in an *NR4A3* isoform | instrument, one failure mode resolved | 170 of 174 novel proteome-wide; one binder withdrawn | **computational** — needs nobody's permission | Sequence novelty answered; cross-reactivity is not, and the filter should become isoform-aware |
-| B6 | Immunologically cold microenvironment | disease, addressable in combination | Inferred, not measured in EMC | **not movable by any computation** | A vaccine supplies antigen; a checkpoint inhibitor supplies release |
-| B7 | Physical exclusion by the myxoid matrix | disease | Inferred from histology and pathway expression | **not movable by any computation** | Vascular normalisation; matrix-directed agents |
-| B8 | No EMC immune profiling published | access | None; the cold and excluded readings are inferences | **a deposited series** — free if one appears, impossible to force | A deposited EMC series, or a pan-sarcoma atlas reaching this histology |
+| B6 | Immunologically cold microenvironment | disease, addressable in combination | Quieter than comparator sarcomas on both archival cohorts; two individual-patient reports point the other way | **spatial profiling on tissue** | A vaccine supplies antigen; a checkpoint inhibitor supplies release |
+| B7 | Physical exclusion by the myxoid matrix | disease | Inferred from histology; the matrix pathway is now read in EMC and does not carry the analogy | **spatial profiling on tissue** | Vascular normalisation; matrix-directed agents |
+| B8 | EMC immune profiling is thin, not absent | access | Two archival cohorts read here; one published 12-tumour series, its spatial arm 2 specimens | **a larger series with spatial resolution** | Per-tumour spatial profiling at a scale that estimates an infiltrated fraction; class I as protein |
 | B9 | Manufacturing economics at this incidence | access | Five enumerable in-frame junctions, not per-patient discovery | **not this programme's to move** | A platform holder; a master-protocol vehicle |
 | B10 | Trial design below the randomisation threshold | disease | A 24-patient histology cohort has been run across nine centres | **a trial design decision, not a measurement** | Adaptive or histology-cohort design with a defensible endpoint |
 
@@ -694,7 +697,15 @@ excludes one specific failure mode and leaves the others standing.
 ### B6. Immunologically cold microenvironment
 
 **Proposition.** EMC has a low mutational burden and a sparse infiltrate, so there is little pre-existing
-antigen-specific response for an intervention to amplify.
+antigen-specific response for an intervention to amplify. The mutational-burden half is not disputed
+here. The infiltrate half was an assumption when this section was first written and is now a
+measurement, reported at B8 and not restated here.
+
+**What that measurement does to this proposition, and what it does not.** It supports the direction B6
+asserts and does not license the word cold, because the comparator is other sarcomas rather than an
+immune-normal reference, and because a bulk average over whole tissue cannot tell a tumour with no T
+cells from one whose T cells are held outside it. That second reading is B7's, the two are not the same
+claim, and B7 states why the evidence now available does not choose between them.
 
 **Evidence, and an observation about this programme's own grading.** This proposition is why this
 programme set most immune-modulating classes aside for this disease in its route ledger, a committed
@@ -730,9 +741,14 @@ rather than a signalling programme.
 **Evidence.** The myxoid matrix is the disease's defining histological compartment. The oncofetal
 chondroitin sulfate pathway is the mechanism proposed for it here by analogy: the glycosaminoglycan
 biosynthesis genes of that pathway are differentially expressed and correlated with immune response in
-placenta and colorectal cancer [8], which is the tissue setting that study examined. No EMC-specific
-expression evidence for the pathway is cited, because none is known to the author, and the inference from
-those tissues to this one is the author's. Transforming growth factor beta inhibition, which is the standard proposal for
+placenta and colorectal cancer [8], which is the tissue setting that study examined. That pathway has
+since been read in the same two EMC cohorts and the reading does not carry the analogy across: the
+linker and core-protein modules are higher in EMC than in the comparator sarcomas on both platforms, the
+backbone-polymerisation and 4-O-sulfotransferase modules disagree between platforms, the sulfate-donor
+module is lower on both, and three sulfotransferase modules fall below the read's own readability floor.
+Values have one home, `research/modalities/emc-expression-panels.json`, read 2. A transcript level is a
+capacity to build a glycan and not the glycan, so the inference from those tissues to this one remains
+the author's. Transforming growth factor beta inhibition, which is the standard proposal for
 immune-excluded tumours, was set aside for EMC precisely on the ground that the exclusion here is
 physical rather than driven by a fibroblast programme.
 
@@ -741,27 +757,73 @@ response that cannot reach the target. These require different interventions, an
 one does not address the other. A vaccine can raise the circulating frequency of junction-specific T cells
 without changing whether those cells can enter the tumour.
 
+**Why the new EMC immune evidence does not choose between them.** Both instruments that speak to the
+question arrived in 2026 and neither sees what the other sees. The bulk cohort reading of B8 runs in the
+direction B6 predicts, and it is an average over whole tissue with no spatial resolution, so a cold
+tumour and an excluded one return the same value. The multiplex immunofluorescence arm of the
+twelve-tumour series runs in the direction B7 predicts, because a T cell that is present and suppressed
+is not a T cell that is absent, and it is two specimens compared within themselves and called proof of
+concept by its own authors [15]. The instrument with a cohort has no spatial resolution and the
+instrument with spatial resolution has no cohort. This paper therefore does not resolve the disagreement
+and does not treat either limit as retired by the other's evidence; what would resolve it is the
+observation B8 names, per-tumour spatial profiling on a series large enough to estimate a fraction.
+
 **What would clear or mitigate it.** Vascular normalisation is the mechanism with the most direct EMC
 evidence, discussed in Section 4. Matrix-directed approaches, including addressing the oncofetal
 chondroitin sulfate modification itself, are registered in this programme as candidates and are not
 resolved.
 
-### B8. Absent EMC immune-profiling data
+### B8. Thin EMC immune-profiling data
 
-**Proposition.** The characterisations of EMC as cold and as excluded are inferred from the disease's
-mutational burden, its histology and sarcoma-wide immunotherapy experience, rather than from published
-EMC-specific immune profiling.
+**Proposition.** The characterisations of EMC as cold and as excluded were inferred from the disease's
+mutational burden, its histology and sarcoma-wide immunotherapy experience rather than from
+EMC-specific immune profiling. The proposition as originally stated, that no such profiling exists,
+no longer holds; what follows replaces it.
 
-**Consequence.** Several exclusions above rest on an assumption that has not been measured in this
-disease. The absence of a reading is not a reading of absence, and it is possible that EMC is less cold
-than assumed, or excluded in a manner that suggests a specific intervention.
+**Consequence.** Several exclusions above rested on an assumption nobody had measured in this disease,
+and an absent reading was never a reading of absence.
 
-**What would clear it.** Infiltrate quantification, HLA class I expression status and antigen-presentation
-machinery assessment on a series of EMC specimens. HLA class I loss would independently disable every
-antigen-directed route including this one, and is not known for this disease.
+**What has since been read, in EMC tumour tissue.** Two archival bulk expression cohorts, 6 and 10 EMC
+tumours against 29 and 6 comparator sarcomas, were scored against lineage, effector and
+antigen-presentation modules and against published hallmark infiltration proxies. The interferon-γ
+effector axis, the myeloid compartment and class II antigen presentation are lower in EMC than in the
+comparator sarcomas on both platforms; the cytotoxic-lymphocyte and T-cell modules are lower on the
+larger cohort; and two hallmark proxies, the interferon-γ response and the lymphocyte-weighted
+allograft-rejection set, are lower on both. The class I apparatus is the exception. β2-microglobulin
+and the class I heavy chains sit near the top of the expressed range on the larger platform, and
+HLA-A, HLA-C and TAP1 read flat against the comparator rather than lost. Values and their contrasts
+have one home, `research/modalities/emc-expression-panels.json`, reads 8 and 19.
 
-**Cost and owner.** Requires tissue. This is the cheapest tissue-based item in the ledger and the one that
-most efficiently informs the others.
+**What points the other way, in individual patients.** Twelve archival EMC tumours profiled by
+whole-transcriptome targeted sequencing carry more B-cell infiltration in the low-risk half of the
+series than in the high-risk half, and proof-of-concept multiplex immunofluorescence on two of the
+specimens reports exhausted CD3+CD8+PD1+ T cells and FOXP3+ regulatory T cells in the high-risk one;
+the authors state that every immunofluorescence comparison is a within-specimen region-of-interest
+analysis, that their prognostic model overfits, and that the work is exploratory and
+hypothesis-generating [15]. A single reported case profiled as immune-enriched despite a low mutational
+burden is graded in Section 4 [16]. Neither is a cohort estimate, and a quiet
+distribution with occasional infiltrated members is consistent with both those observations and with
+the paragraph above. What the twelve-tumour series adds beyond direction is that the variation it
+reports is within EMC rather than between EMC and something else, which is the axis a
+patient-selection argument would have to run on.
+
+**What none of it settles.** The comparator arm is other sarcomas, which are not an immune-normal
+reference, so lower than that comparator is not the same statement as cold. Bulk expression cannot
+locate a transcript in a cell, and therefore cannot separate a cold tumour from the excluded one B7
+describes. Sixteen tumours cannot estimate what fraction of EMC is infiltrated, which is the quantity
+a patient-selection argument would need. The class I reading is transcript abundance in a cohort, not
+protein on a cell surface in a patient, and class I loss would independently disable every
+antigen-directed route including this one. And the twelve-tumour series has been read here only as its
+published abstract, because the publisher returned an access error to this work's retrieval runner, so
+its infiltration method, its external validation cohorts and its per-specimen values are unexamined.
+
+**What would still clear it.** Per-tumour profiling with spatial resolution on a series large enough
+to estimate that fraction, and class I assessed as protein.
+
+**Cost and owner.** The cohort reading is done. It ran on a continuous-integration runner over two
+public archival series, with no rental, no accelerator and no purchased compute. What remains
+requires tissue, and it is still the cheapest tissue-based item in the ledger and the one that most
+efficiently informs the others.
 
 ### B9. Manufacturing economics at this incidence
 
@@ -824,6 +886,18 @@ progression-free survival of about 19 months [11], and a sunitinib series report
 EMC [13]. The checkpoint component addresses the release arm of B6. Neither addresses antigen supply,
 which is what the vaccine would contribute.
 
+**One reported single-agent checkpoint response, and what it changes.** The checkpoint half of that
+backbone has never been given alone in a reported EMC cohort, and one patient has been reported outside
+one: a man with *EWSR1*::*NR4A3* EMC, microsatellite stable at a tumour mutational burden of 0.67 mut/Mb and with *TSC2*
+loss, whose microenvironment a commercial assay profiled as immune-enriched and fibrotic with high PD-L1,
+and who received single-agent pembrolizumab with a near-complete response reported over 15 cycles [16].
+One patient in an industry-authored conference abstract that has not been peer reviewed supports no
+response rate, and it is not read here as a promotion of the checkpoint arm. What it does is name the
+selection axis: the markers conventionally used to choose a patient for checkpoint inhibition and the
+markers describing that patient's microenvironment pointed in opposite directions in the same tumour,
+which is the heterogeneity B8's cohort reading permits and cannot measure. That is a question for B8's
+observation to settle, not a case for adding a third agent.
+
 This is also the architecture of the melanoma programme behind the recent announcement, where the
 individualised vaccine is given with pembrolizumab and never alone [3,9]. The transfer to EMC fails on
 antigen depth — melanoma supplies a pool of private neoantigens, EMC one junction — and not on
@@ -852,11 +926,14 @@ identified in B5 is still unbuilt. None of the remainder requires permission, ma
 
 Everything else waits. Measured presentation (B2) would change the character of this route rather than its
 score, because the screen in Section 2 would stop being a stand-in and become a hypothesis with a
-calibrating dataset. A deposited EMC expression or proteomics series would settle B8, which is the
-cheapest item that informs the most others, since infiltrate density and HLA class I expression status
-bear on every antigen-directed route in this disease. Access to a patient-derived line would additionally
-make B2 executable rather than merely specified; these are separate arrivals and neither implies the
-other. B6 and B7 are properties of the tumour that no computational advance addresses at all.
+calibrating dataset. B8 is no longer an absence: two archival EMC expression series have been read here
+and a twelve-tumour series has been published, and what remains of that limit is spatial resolution on a
+series large enough to estimate an infiltrated fraction, together with class I assessed as protein rather
+than as transcript. It is still the cheapest tissue-gated item and the one that informs the most others,
+because infiltrate location and HLA class I status bear on every antigen-directed route in this disease.
+Access to a patient-derived line would additionally make B2 executable rather than merely
+specified; these are separate arrivals and neither implies the
+other. B6 and B7 are properties of the tumour that no computational advance mitigates.
 
 ## 6. Distinguishing a real advance from an apparent one
 
@@ -934,8 +1011,9 @@ would be changed by a wider DR, DP and DQ panel — named there as the single mo
 to it. That panel has since been run and it did change it, from no strong epitope on three alleles to one
 on 23; the statement in B4 is now the wider panel's, and what would change it again is measured class II
 presentation rather than more prediction. And the argument in Section 4 would be closed
-altogether by an EMC immune-profiling series showing HLA class I loss, which would end every
-antigen-directed route in this disease including this one.
+altogether by an EMC series showing HLA class I loss as protein; the transcript-level reading in B8 does
+not show it, and a protein-level series that did would end every antigen-directed route in this disease
+including this one.
 
 ## 7. Limitations
 
@@ -968,10 +1046,15 @@ would need a defended threshold to be a null of anything.
 The IMMUNOSARC II EMC cohort result is a conference abstract, single-arm and not peer reviewed, and it
 evaluates a combination whose component with the larger independent EMC evidence base is the tyrosine
 kinase inhibitor rather than the checkpoint inhibitor; it is cited to establish that a vehicle and a
-backbone exist, not to attribute activity to the immune arm. The characterisations of EMC as cold and as
-immune-excluded rest on inference rather than on published EMC-specific immune profiling, which is limit
-B8. The class II panel is three DR alleles with no DP or DQ, so its negative bounds a narrow question
-rather than the general availability of helper epitopes. No claim is made that any peptide is presented,
+backbone exist, not to attribute activity to the immune arm. The single-agent checkpoint response cited
+beside it is one patient in an industry-authored conference abstract and bounds nothing. EMC's
+characterisation as immune-excluded rests on inference; its characterisation as immunologically quiet
+rests on the two archival cohorts read here against comparator sarcomas, which is a contrast and not an
+absolute, and on one twelve-tumour series read here only as an abstract. Neither instrument separates a
+cold tumour from an excluded one, which is limit B8 and the reason B6 and B7 remain graded apart.
+The class II panel is 23 alleles across DR, DP and DQ, its one strong call lands on a single
+uncommon allele, and class II prediction is less accurate than class I, so B4's positive bounds less than
+a class I call of the same nominal strength. No claim is made that any peptide is presented,
 that any construct would be immunogenic, that any combination would be safe or effective, or that any of
 this is ready for clinical use. No wet-laboratory work was performed, and the measurements this
 characterisation most needs require work this programme cannot carry out.
@@ -1144,6 +1227,24 @@ verification workflow that accompanies this work. None is written from recollect
 14. Bangerter JL, Harnisch KJ, Chen Y, Hagedorn C, Planas-Paz L, Pauli C. Establishment, characterization
     and functional testing of two novel ex vivo extraskeletal myxoid chondrosarcoma (EMC) cell models.
     *Human Cell* 2023;36(1):446-455. doi:10.1007/s13577-022-00818-x. PMID 36316541.
+15. Chaiboonchoe A, Chanthercrob J, Sakamula R, Likhityungyuen T, Muangsomboon S, Chantharasamee J, et al.
+    Prognostic biomarkers for enhanced risk stratification in extraskeletal myxoid chondrosarcoma: a
+    retrospective cohort study. *PeerJ* 2026;14. doi:10.7717/peerj.21497. PMID 42465974. Twelve archival
+    formalin-fixed EMC tumours by whole-transcriptome targeted sequencing, with multiplex
+    immunofluorescence on two of them; the authors report internal validation indicating that their
+    prognostic model overfits, state that every immunofluorescence comparison is a within-specimen
+    region-of-interest analysis, and describe the work as exploratory and hypothesis-generating.
+    **Only the abstract has been read for this manuscript**: the publisher returned HTTP 403 to the
+    retrieval runner used here, so the infiltration method, the external validation cohorts and the
+    per-specimen values are unexamined. Retrieval record
+    `research/literature/emc-fourth-cohort-publication-2026-08-24.json`.
+16. Galitskiy E, Livingston AJ, Plair T, Tarasov A, Putintsev V, Novokrestchenova A, et al. P35-1
+    Effective immune-based treatment of extraskeletal myxoid chondrosarcoma guided by next-generation
+    gene profiling. *Annals of Oncology* 2025;36:S1732-S1733. doi:10.1016/j.annonc.2025.08.310.
+    **Conference abstract, one patient, not peer reviewed**; fifteen of the seventeen authors are
+    employees of the company whose assay is the subject, and the abstract text held in this repository
+    has that company's own publication page as its only source. Registry entry
+    `galitskiy2025emcpembrolizumab` in `research/data/emc-clinical-registry.json`.
 
 **Data sources cited as resources rather than as publications.** Transcript structures are Ensembl
 records for *EWSR1* and *NR4A3*, retrieved and cached as committed inputs. The proteome searched in
@@ -1195,3 +1296,20 @@ that leaves no trace is indistinguishable from a claim that was never made.
 | Reference 8 quoted as "correlated with disease outcome" | The study's title names immune response in placenta and colorectal cancer, which is the tissue setting it examined. |
 | References 10 and 11 as "[citation to verify]" | Both were resolvable in this repository at no cost and are now written out. The one reference that genuinely has no record — the class II predictor — says so in its own entry instead. |
 | "24 patients across nine centres … gives a realistic accrual rate" | Unfiltered by this paper's own eligibility criteria. Applying them gives roughly 0.3 to 1.4 eligible patients a year. |
+
+## Appendix C. Statements withdrawn after the first adversarial review
+
+The review recorded in Appendix B was not the last correction. The statements below stood after it
+and do not stand now, and they are recorded on the same principle: a correction that leaves no trace
+is indistinguishable from a claim that was never made.
+
+| Withdrawn statement | Why it does not stand |
+|---|---|
+| B8, "rather than from published EMC-specific immune profiling" | Such profiling was published on 2026-07-13, four weeks before this manuscript's date, on the twelve-tumour cohort described in B8's own revision. |
+| B8, HLA class I expression status "is not known for this disease" | The antigen-presentation precondition — β2-microglobulin, the class I heavy chains, the peptide transporters, tapasin, NLRC5, the immunoproteasome subunits and ERAP1 — had been read on both EMC array platforms on 2026-08-09, in this author's own artifacts, before the sentence was written. |
+| B6 and B8 read together, that whether EMC is immunologically quiet was unmeasured here | It is now measured in the two archival cohorts, and the direction is that EMC is quieter than the comparator sarcomas on the interferon axis, the myeloid compartment and class II presentation. That is a cohort contrast against other sarcomas and not a statement that the disease is cold; the distinction is stated in B8. |
+| Section 1, "no published EMC immune profiling" listed among the limits of access | The same statement as B8's, in a second place, and false for the same reason. It is the one-of-a-pair defect: correcting B8 alone would have left the claim standing where a reader meets it first. |
+| Section 7, "The characterisations of EMC as cold and as immune-excluded rest on inference rather than on published EMC-specific immune profiling" | Third home of the same claim. The exclusion half still rests on inference; the quiet half no longer does. |
+| Section 7, "The class II panel is three DR alleles with no DP or DQ, so its negative bounds a narrow question" | Superseded by the panel widening reported in B4 and in Appendix A, and stale in this section since that widening. Section 7 was contradicting B4 inside the same document: the panel is 23 alleles and the arm is not negative. This was not found by any adversarial round; it is a wording that no numeric guard reads. |
+| B7, "No EMC-specific expression evidence for the pathway is cited, because none is known to the author" | The chondroitin-sulfate biosynthetic and sulfation machinery had been read on both EMC array platforms in this author's own artifacts before the sentence was written. The reading is reported in B7 and does not support the analogy the sentence was protecting, which is a different correction from the one the sentence claimed to make. |
+| The B6 and B7 rows of Section 3, cost to move "not movable by any computation" | True of each limit and false of the evidence bearing on it: a computation over public archival series moved what is known about both. Those cells now name what the remaining move costs, which is spatial profiling on tissue. |
