@@ -365,36 +365,58 @@ def _table2_rows():
     return rows
 
 
-def test_the_register_hazard_sentence_is_read_off_table_2(prose):
-    """⛔ "Consecutive registers of one seam differ by a single-base slide and can carry opposite
-    verdicts (Table 2)" — three claims, all decidable from the table it cites, none of them read.
+def test_the_register_hazard_sentence_is_read_off_the_canonical_file(prose):
+    """⛔ §2's register hazard now names its own molecule, so it is checked against the data.
 
-    Round 14's blocker was a Table 2 caption counting rows it no longer had. This is the sentence
-    four inches above it making the same three claims in the body, where no gate reaches at all.
+    The sentence: "Consecutive registers of one seam differ by a single-base slide and can carry
+    opposite verdicts, and the condemned class reaches these reagents: 5′-AGGGCATATCTTGTGT-3′ is one
+    slide from the TAF15 reagent and pairs 11 base pairs of wild-type NR4A3 through its whole
+    catalytic gap." Three checkable claims: it IS a single-base slide, it IS condemned, and 11 bp is
+    what the screen measured.
+
+    ⚠ RE-ANCHORED 2026-08-24, FROM A TABLE TO THE CANONICAL FILE. This guard used to read Table 2,
+    the near-identical-twins display item, which was cut when the controls table pushed the article
+    past its six-page fee budget; the hazard moved into §2 prose with its molecule named. Binding to
+    `fusion-junction-aso-sequences.csv` is strictly better than binding to a table — the table was
+    itself generated from that file, so this removes a hop rather than adding one, and the claim now
+    fails if the SCREEN moves rather than only if the table is reformatted.
     """
-    rows = _table2_rows()
-    seams = {r[0] for r in rows}
-    assert len(seams) == 1, f"Table 2's two designs are no longer at ONE seam: {sorted(seams)}"
-    a, b = (r[1] for r in rows)
-    slides = {a[i:] == b[:len(b) - i] or b[i:] == a[:len(a) - i] for i in (1, 2)}
-    assert True in slides, (
-        f"§2 says consecutive registers of one seam differ by a single-base slide; {a} and {b} are "
-        "not slides of one another")
-    verdicts = {r[2].split("(")[0].strip().lower() for r in rows}
-    assert len(verdicts) == 2, (
-        f"§2 says the two members carry OPPOSITE verdicts; Table 2 now gives them {sorted(verdicts)}")
-    assert any(v.startswith("do not order") for v in verdicts), (
-        f"neither member of Table 2 is condemned, so 'opposite verdicts' names nothing: {sorted(verdicts)}")
-    assert re.search(r"Consecutive registers of one seam differ by a single-base slide and can "
-                     r"carry opposite verdicts \(Table 2\)", prose), \
-        "§2's register-hazard sentence has been reworded, or now cites a different table ⛔ CHECK THE MEANING BEFORE THE REGEX: if the claim was INVERTED or DROPPED, re-anchoring makes the guard agree with the new wording and the finding disappears. Re-anchor only when the sentence says the same thing in different words."
+    m = re.search(r"5′-(?P<condemned>[ACGT]+)-3′ is one\s+slide from the \*TAF15\* reagent and pairs "
+                  r"(?P<bp>\d+) base pairs of wild-type\s+\*NR4A3\*", prose)
+    assert m, ("§2 no longer names the condemned neighbour of the TAF15 reagent, its slide relation "
+               "and its duplex length in one sentence; re-anchor this guard or restore the claim")
+    condemned, stated_bp = m.group("condemned"), int(m.group("bp"))
 
-#: The two sequences Table 1 names for synthesis, read from the canonical file rather than typed.
-def _panel_5_6_5():
+    rows = {r["sequence"]: r for r in _all_csv_rows()}
+    reagent = "GGGCATATCTTGTGTG"
+    assert condemned in rows, f"{condemned} is not in the canonical sequence file at all"
+    row = rows[condemned]
+
+    slides = {condemned[i:] == reagent[:len(reagent) - i] or
+              reagent[i:] == condemned[:len(condemned) - i] for i in (1, 2)}
+    assert True in slides, (
+        f"§2 calls {condemned} one slide from {reagent}; they are not slides of one another")
+    assert (row.get("do_not_order") or "").strip(), (
+        f"§2 calls {condemned} condemned, but the canonical file does not flag it do-not-order")
+    measured = int(row["mature_parent_duplex_through_gap_bp"])
+    assert measured == stated_bp, (
+        f"§2 says {condemned} pairs {stated_bp} bp of a wild-type parent through its whole gap; the "
+        f"canonical file measures {measured}")
+    assert row["mature_parent_duplex_gene"] == "NR4A3", (
+        f"§2 names wild-type NR4A3 as the parent; the file says "
+        f"{row['mature_parent_duplex_gene']}")
+
+
+def _all_csv_rows():
+    """Every row of the canonical sequence file, comments dropped."""
     import csv
     path = os.path.join(ASO, "fusion-junction-aso-sequences.csv")
     with io.open(path, encoding="utf-8") as fh:
-        rows = list(csv.DictReader(ln for ln in fh if not ln.startswith("#")))
+        return list(csv.DictReader(ln for ln in fh if not ln.startswith("#")))
+
+
+def _panel_5_6_5():
+    rows = _all_csv_rows()
     out = [r for r in rows if r["geometry"] == "5-6-5" and r["gap_level_margin"]]
     assert out, f"{path} carries no 5-6-5 design with a gap-level margin"
     return out

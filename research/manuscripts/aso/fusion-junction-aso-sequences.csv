@@ -5,14 +5,14 @@ sequence,do_not_order,near_identical_design_with_a_different_verdict,length_nt,g
 #
 # ⛔ ORDER SAFETY. READ THE do_not_order VERDICT — in COLUMN 2, beside the sequence it condemns —
 # BEFORE ORDERING ANY SEQUENCE IN THIS FILE. A verdict means the paper names that design as one
-# NOT to be carried forward. 257 of the 780 records carry one: 249 pair their whole catalytic gap
+# NOT to be carried forward. 257 of the 782 records carry one: 249 pair their whole catalytic gap
 # against a wild-type parent gene at the criterion below, 5 carry a sense-strand near-match in
 # parent precursor RNA that pairs the gap in full and touches intronic sequence, and 3 pair the
 # patient's own un-rearranged NR4A3 allele at a non-canonical acceptor.
 #
 # ⛔ AND CHECK THE NEIGHBOUR BEFORE YOU ORDER. near_identical_design_with_a_different_verdict
 # names, for each record, the closest design in this file that carries the OPPOSITE verdict —
-# within two substitutions at the same length, or one base slid. 295 of the 780 records have one,
+# within two substitutions at the same length, or one base slid. 295 of the 782 records have one,
 # and on 145 of them the record itself is orderable while its neighbour is condemned — 21 within
 # two substitutions and 124 a single base slid. A transcription error of one base can therefore
 # carry a reader from a design the paper keeps to one it condemns. An EMPTY cell here is a
@@ -24,7 +24,7 @@ sequence,do_not_order,near_identical_design_with_a_different_verdict,length_nt,g
 #
 # HOW TO READ THIS FILE. The column header is line 1, so pandas.read_csv(path) and a spreadsheet
 # import both find the columns without options. These # lines are prose; pandas.read_csv(path,
-# comment='#') drops them and returns the 780 data rows alone. Join by column NAME — the column
+# comment='#') drops them and returns the 782 data rows alone. Join by column NAME — the column
 # order is not an interface and has changed once already, to put the verdict beside the sequence.
 #
 # THE PAPER. In silico, nearly half of junction-spanning 5-6-5 gapmer designs across 38 modelled
@@ -47,7 +47,7 @@ sequence,do_not_order,near_identical_design_with_a_different_verdict,length_nt,g
 #   locked wing, a six-nucleotide DNA gap and a five-nucleotide locked wing; 5-8-5 and 5-10-5 are
 #   the same wings around gaps of eight and ten.
 #   Linkages: every internucleoside linkage is a phosphorothioate, and the count is the record's
-#   own length minus one — 16-mer 15 linkages (206 records); 18-mer 17 linkages (250 records);
+#   own length minus one — 16-mer 15 linkages (208 records); 18-mer 17 linkages (250 records);
 #   20-mer 19 linkages (324 records).
 #     Section 6 states it for the 16-mer: Every one of the 15 internucleoside linkages is a
 #     phosphorothioate — wings and gap alike, not the wing-only variant — and that backbone is
@@ -116,6 +116,8 @@ sequence,do_not_order,near_identical_design_with_a_different_verdict,length_nt,g
 # molecules (9 molecules tiled at more than one junction account for the 14 extra records).
 # `also_tiled_at_junctions` carries the other junctions; search both columns before concluding
 # that a junction has no reagent.
+GGGCATCAACATAATC,,,16,5-6-5,,,,6,TAF15,,,no,,,control (dinucleotide-preserving scramble),
+GTATGTCATTGGCTGG,,,16,5-6-5,,,,7,EWSR1,,,no,,,control (dinucleotide-preserving scramble),
 ACGCAGGGCATATCTAGATC,"DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative",CGCAGGGCATATCTAGATCA (a single-base slide; orderable),20,5-10-5,EWSR1_e10__NR4A3_e3,,2,15,NR4A3,8,13,True,,,screened design,
 AGGGCATATCTAGATCAAGA,,,20,5-10-5,EWSR1_e10__NR4A3_e3,,4,0,,6,11,False,,,screened design,
 CAGGGCATATCTAGATCAAG,,,20,5-10-5,EWSR1_e10__NR4A3_e3,,5,0,,5,10,False,,,screened design,

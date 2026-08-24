@@ -160,9 +160,19 @@ def test_every_printed_cell_is_the_column_the_preamble_promises(tables, rows_by_
             if row is None:
                 wrong.append(f"Table {n}: {seq} has no 5-6-5 row in the canonical file")
                 continue
-            checks = {"seam": _seam_cell(row["junction"]),
-                      "margin": row["gap_level_margin"],
-                      "WT gap duplex (bp)": _duplex_cell(row)}
+            #: ⚠ A CONTROL HAS NO SEAM AND NO MARGIN, AND THAT IS THE POINT OF IT (2026-08-24).
+            #: The controls table prints screened scrambles, which span no junction — so the
+            #: canonical file gives them an empty `junction` and no gap-level margin, and asking
+            #: for a seam raised rather than reporting. What still MUST be checked for them is the
+            #: screen result, which is the only quantitative cell they print.
+            checks = {"WT gap duplex (bp)": _duplex_cell(row)}
+            if row["junction"]:
+                checks["seam"] = _seam_cell(row["junction"])
+                checks["margin"] = row["gap_level_margin"]
+            else:
+                assert (row.get("role") or "").startswith("control"), (
+                    f"Table {n}: {seq} has no junction in the canonical file and is not marked a "
+                    "control; a design without a seam is a defect, not a row to wave through")
             for column, expected in checks.items():
                 if column in printed and printed[column] != expected:
                     wrong.append(f"Table {n} {seq}: {column!r} prints {printed[column]!r}; the "
@@ -452,10 +462,18 @@ def test_the_hazard_distance_is_the_panels_worst_case_not_the_printed_pairs(rows
         "Either the canonical file changed or this guard is reading the wrong column; the caption's "
         "stated distance has to be re-derived either way, not left at whatever it says.")
 
-    caption = " ".join(t["caption"] for t in tables.values())
-    assert "one single-base slide" in caption, (
+    #: ⚠ THE CLAIM MOVED FROM A CAPTION INTO THE BODY (2026-08-24), SO THIS READS BOTH. The
+    #: near-identical-twins table was cut when the controls table pushed the article past its
+    #: six-page fee budget, and the hazard sentence went into §2 with its molecule named. What must
+    #: not happen is the claim disappearing, or the stated distance growing: this guard therefore
+    #: asks whether the paper says it ANYWHERE a reader sees, caption or prose.
+    article = io.open(os.path.join(ASO, "fusion-junction-aso-journal-article.md"),
+                      encoding="utf-8").read()
+    seen = " ".join(t["caption"] for t in tables.values()) + " " + " ".join(article.split())
+    assert "one single-base slide" in seen or "is one\nslide from" in article or \
+           "is one slide from" in " ".join(article.split()), (
         "the closest condemned design is ONE single-base slide from a reagent this paper names for "
-        f"synthesis, and no caption says so:\n  {caption[:400]}\n\n"
+        f"synthesis, and neither a caption nor the body says so:\n  {seen[:400]}\n\n"
         "A larger number here tells a reader the hazard is further away than it is.")
 
 

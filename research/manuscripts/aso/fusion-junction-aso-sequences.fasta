@@ -4,14 +4,14 @@
 ;
 ; ⛔ ORDER SAFETY. READ THE do_not_order VERDICT — on the defline, tagged DO NOT ORDER — BEFORE
 ; ORDERING ANY SEQUENCE IN THIS FILE. A verdict means the paper names that design as one NOT to be
-; carried forward. 257 of the 780 records carry one: 249 pair their whole catalytic gap against a
+; carried forward. 257 of the 782 records carry one: 249 pair their whole catalytic gap against a
 ; wild-type parent gene at the criterion below, 5 carry a sense-strand near-match in parent
 ; precursor RNA that pairs the gap in full and touches intronic sequence, and 3 pair the patient's
 ; own un-rearranged NR4A3 allele at a non-canonical acceptor.
 ;
 ; ⛔ AND CHECK THE NEIGHBOUR BEFORE YOU ORDER. near_identical_design_with_a_different_verdict
 ; names, for each record, the closest design in this file that carries the OPPOSITE verdict —
-; within two substitutions at the same length, or one base slid. 295 of the 780 records have one,
+; within two substitutions at the same length, or one base slid. 295 of the 782 records have one,
 ; and on 145 of them the record itself is orderable while its neighbour is condemned — 21 within
 ; two substitutions and 124 a single base slid. A transcription error of one base can therefore
 ; carry a reader from a design the paper keeps to one it condemns. An EMPTY cell here is a
@@ -21,7 +21,7 @@
 ; or a candidate drug. None has been synthesised or tested by anyone. No efficacy and no safety
 ; result is reported for any sequence here.
 ;
-; HOW TO READ THIS FILE. These ; lines are FASTA comments and every common parser skips them. 780
+; HOW TO READ THIS FILE. These ; lines are FASTA comments and every common parser skips them. 782
 ; records follow, each a defline and one sequence line, and the defline carries the same fields
 ; the CSV beside this file carries as columns. The two are generated together from the same rows
 ; and cannot disagree.
@@ -46,7 +46,7 @@
 ;   locked wing, a six-nucleotide DNA gap and a five-nucleotide locked wing; 5-8-5 and 5-10-5 are
 ;   the same wings around gaps of eight and ten.
 ;   Linkages: every internucleoside linkage is a phosphorothioate, and the count is the record's
-;   own length minus one — 16-mer 15 linkages (206 records); 18-mer 17 linkages (250 records);
+;   own length minus one — 16-mer 15 linkages (208 records); 18-mer 17 linkages (250 records);
 ;   20-mer 19 linkages (324 records).
 ;     Section 6 states it for the 16-mer: Every one of the 15 internucleoside linkages is a
 ;     phosphorothioate — wings and gap alike, not the wing-only variant — and that backbone is
@@ -125,6 +125,10 @@
 ; Each defline reads: sequence, then geometry, junction, any further junctions the same
 ; molecule is tiled at, gap_level_margin, role, clinical_tier, the mature-parent duplex,
 ; and the do-not-order verdict where there is one.
+>GGGCATCAACATAATC 5-6-5 | no-panel-junction | role=control (dinucleotide-preserving scramble) | parent_duplex=6bp (TAF15) | antisense 5'->3', research use only
+GGGCATCAACATAATC
+>GTATGTCATTGGCTGG 5-6-5 | no-panel-junction | role=control (dinucleotide-preserving scramble) | parent_duplex=7bp (EWSR1) | antisense 5'->3', research use only
+GTATGTCATTGGCTGG
 >ACGCAGGGCATATCTAGATC 5-10-5 | EWSR1_e10__NR4A3_e3 | gap_level_margin=2 | role=screened design | parent_duplex=15bp (NR4A3) | DO NOT ORDER — pairs its whole catalytic gap against a wild-type parent gene at the ten-base-pair criterion, which is this paper's central negative | ⚠ near-identical design with the opposite verdict: CGCAGGGCATATCTAGATCA (a single-base slide; orderable) | antisense 5'->3', research use only
 ACGCAGGGCATATCTAGATC
 >AGGGCATATCTAGATCAAGA 5-10-5 | EWSR1_e10__NR4A3_e3 | gap_level_margin=4 | role=screened design | parent_duplex=0bp (unnamed) | antisense 5'->3', research use only

@@ -490,6 +490,7 @@ def _rows():
         row["also_tiled_at_junctions"] = "; ".join(
             sorted(j for j in others if j and j != row["junction"]))
 
+    _add_control_oligos(rows, add)
     _stamp_the_predicted_tm(rows)
     _stamp_the_unmeasured_state(rows)
     # ⚠ BEFORE the twin pass: that pass partitions on `do_not_order`, so a row condemned here must
@@ -544,6 +545,42 @@ def _mark_the_near_identical_twins(rows):
 #: The columns that would otherwise assert a mature-parent reading the row does not have.
 _UNMEASURED_COLUMNS = ("mature_parent_duplex_through_gap_bp", "mature_parent_duplex_gene",
                        "pairs_a_wild_type_parent_through_the_gap")
+
+
+def _add_control_oligos(rows, add):
+    """Put the screened control oligonucleotides in the canonical record.
+
+    ⭐ WHY THEY BELONG HERE. This file's own banner calls it the canonical machine-readable record of
+    every sequence this repository names, and a control is a molecule a laboratory ORDERS — from
+    here, per the handling rule, rather than transcribed off a page. Leaving them out meant the
+    journal tables printed two orderable sequences that the file the tables tell you to order from
+    did not contain, which `test_the_journal_display_items_say_what_their_rows_say` caught.
+
+    ⛔ THEY ARE NOT DESIGNS AND MUST NOT BE COUNTED AS ONE. `role` marks them, they span no junction,
+    and their `junction` is empty: a control that drifted into a design census would inflate every
+    panel count in the paper. The screen result carried is the control's OWN, measured by
+    `aso_control_oligos.py` with the same screen the reagents faced.
+    """
+    try:
+        controls = _load("aso-control-oligos.json")["controls"]
+    except FileNotFoundError:
+        return
+    for c in controls:
+        #: ⚠ EVERY COLUMN IS SET, BLANKS EXPLICITLY. Downstream passes index the row by name, so a
+        #: control carrying only the fields it happens to have raises on the first pass that asks
+        #: for another. A blank here means "not applicable to a control", which is what the header
+        #: says a blank means.
+        row = {f: "" for f in _FIELDS}
+        row.update(
+            sequence=c["control_5to3"],
+            length_nt=len(c["control_5to3"]),
+            geometry=c["geometry"],
+            junction="",
+            role="control (dinucleotide-preserving scramble)",
+            mature_parent_duplex_through_gap_bp=c["control_longest_parent_duplex_through_gap_bp"],
+            mature_parent_duplex_gene=c["control_longest_parent_duplex_gene"],
+            pairs_a_wild_type_parent_through_the_gap="no")
+        add(**row)
 
 
 def _stamp_the_predicted_tm(rows):
