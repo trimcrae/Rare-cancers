@@ -350,6 +350,79 @@ reference cell — the first search's operating point, retained so the two runs 
 dominated by whatever background also produces the negative control's thousands of hits. It is not a
 candidate list, it is not a count of anything about this disease, and it must not be quoted as one.
 
+---
+
+### 5.4 · What the THIRD run measured (2026-08-24, run `32676239799`, $0) — the answer, and it is a negative
+
+**The instrument works, the target does not separate, and the reason the second run looked like it
+might is now measured.** Every figure below has its one home in
+[`emc-data-level-sweep.json`](../../modalities/emc-data-level-sweep.json).
+
+⭐ **First, the scorer reproduces the second run exactly at the reference cell** — FLI1, GAPDH,
+NR4A3, EWSR1, TAF15 and TCF12 all return the counts and rates §5.2 records. The grid is a
+superset of the old search, not a different one, so the two runs are directly comparable.
+
+⛔⛔ **THE NEGATIVE PANEL SETTLES §5.2's QUESTION IMMEDIATELY: THE "1.9×" WAS MEASURING GAPDH, NOT
+BACKGROUND.** At that same reference cell the ordinary genes run **TBP 0.0699 · RPL13A 0.0419 ·
+PGK1 0.0399 · ACTB 0.0331 · POLR2A 0.0322 · GAPDH 0.0253 · SDHA 0.0158** — a 4.4-fold spread among
+genes that have nothing in common with this disease. NR4A3's 0.0483 sits **inside** that spread,
+under its top. GAPDH is the second-quietest gene in the panel, so scoring the target against it
+alone manufactured a ratio out of where one arbitrary gene happens to fall. ⚠ **One negative control
+was never measuring background; it was measuring one gene, and the spread is the whole point.**
+
+⭐ **The controls do reach a specific regime, and comfortably.** Both positive controls fired; 28 of
+384 cells hold the ordinary-gene envelope at or under the pre-registered ceiling while a positive
+control survives. At the control-selected point ERG runs at **252× the envelope** and FLI1 at
+**13.4×**, against panel rates of 0.0000–0.0011. The signature is real, and this instrument
+separates it from background by more than two orders of magnitude.
+
+⛔ **But the operating point cannot answer about the target, and this is the honest core of the
+run.** The regime tight enough to hold the background down leaves NR4A3 only **219 samples**. At an
+envelope of 0.0011, a target enriched at the pre-registered 3× would be expected to yield **0.73**
+candidates there. NR4A3 returned zero — in that cell, and in all 28 — and **a zero in a pool of 219
+excludes nothing.** The artifact reports `TARGET_UNDERPOWERED_AT_THE_OPERATING_POINT` and says what
+pool it would have needed (~1,498). ⚠ *This power criterion was added after seeing the first grid
+run land there;* it reads the target's pool size and the background rate and never its count, and
+the offline suite asserts the operating point does not move under it.
+
+★ **The statement that IS powered.** Asked of every cell at once, the weaker question — does the
+target's rate exceed the ordinary-gene envelope **at all** — stays answerable at the loose cells,
+where NR4A3 still has all 34,013 of its samples. **It does not, at any of the 288 comparable
+cells.** At the best-powered comparison the envelope gene predicts 2,477 candidates and NR4A3
+returns 1,665: a ratio of **0.67, 95% CI 0.64–0.71**.
+
+⚠ **And the honest qualifier, which the artifact carries so it cannot be dropped: the envelope is a
+MAXIMUM, and clearing it is a weaker result than being quiet.** At that same cell NR4A3 is above
+**five of the six** scoreable panel genes and runs at **1.50× the panel median**. So the correct
+reading is not "below background" — it is **inside the ordinary-gene distribution, under its top
+and above its middle**, in a panel whose own genes span 4.5-fold. That is what no excess looks
+like when the background is characterised properly instead of by one gene.
+
+⛔ **What the run does and does not say.** At the loose end the target is indistinguishable from
+ordinary genes; at the sharp end — where the instrument demonstrably resolves a real 5'-truncated
+population at 13× and 252× — it returns zero but cannot be believed. **Neither end shows an
+excess, and no candidate list exists here.** It does **not** say EMC is absent from this
+compilation, and it is not a statement about the disease. The instrument's limit is now measured
+from both sides rather than argued: the regime sharp enough to be specific is too sharp to leave
+the target enough samples, and the regime loose enough to keep them cannot tell a truncation from
+an alternative promoter. ★ **That limit — with the pool a decisive test would need, ~1,498 against
+the 219 available — is the most useful thing this run produces**, because it says what would have
+to change for the question to be answerable at all, and the whole 384-row surface behind it is in
+the artifact.
+
+⭐ **Why this is worth publishing as it stands.** Nobody has queried every public human RNA-seq
+sample in this compilation for this disease's structural signature, with two positive controls
+firing at 13× and 252×, a seven-gene background panel, a pre-registered read-out and an operating
+point chosen without ever looking at the target. The negative is bounded, the bound is stated in
+samples rather than in adjectives, and the instrument that produced it recovers a known
+5'-truncated population where one exists. ⚠ **The routes it does not close** are the ones that do
+not depend on this signature: a chimeric junction is not in this index at all (§5.1), and the
+deposits in §3 and §5.2 are untouched by this result.
+
+⚠ **Route A2 is unchanged and still open.** The Springer article fetch again returned a stub, so the
+arm again reported `LABELS_NOT_LOCATED` — correctly, and for the same measured reason. The EBI SDRF
+and PMC routes §5.2 names remain the next step and remain untried.
+
 ## 6 · Limits of this memo
 
 - **§4's grade is a judgement about fit, not a measured result.** That the coarse-grained condensate

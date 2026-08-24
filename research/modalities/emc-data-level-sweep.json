@@ -1,5 +1,5 @@
 {
- "_generated_utc": "2026-08-24T00:21:54Z",
+ "_generated_utc": "2026-08-24T00:30:44Z",
  "_inputs_generated_utc": "2026-08-24T00:18:19Z",
  "_language_discipline": "Nothing here is an efficacy, selectivity, safety, therapeutic-window or clinical-readiness claim. A sample counted here is a metadata match, never a diagnosis.",
  "_question": "Is there EMC-bearing public molecular data that a depositor-prose search cannot see? `emc_cohort_search.py` bounded its own negative to prose; this asks what lies outside that bound.",
@@ -249,6 +249,48 @@
     "TCF12"
    ],
    "controls_pass": true,
+   "envelope_comparison": {
+    "_what": "does the target's candidate rate EXCEED the ordinary-gene envelope at any cell at all \u2014 a weaker question than the operating point's, and one that stays answerable at the loose cells where the target still has every sample it has. It is not a detection test: a target that never exceeds what an ordinary gene does has produced no signal above background, which bounds this signature's reach over this index and bounds nothing about the disease.",
+    "exceedances": [],
+    "most_powered_comparison": {
+     "cell": "mc20|sup0.50|sh0.0200|pct0.00",
+     "enrichment_ci": {
+      "ci_high": 0.7068,
+      "ci_low": 0.6393,
+      "method": "Katz log method, 95%",
+      "ratio": 0.6722,
+      "se_log": 0.0256
+     },
+     "envelope_gene": "TBP",
+     "envelope_rate": 0.072826,
+     "expected_from_background": 2477.0,
+     "n_candidates": 1665,
+     "n_pool": 34013,
+     "powered": true,
+     "rate": 0.048952,
+     "ratio_to_envelope": 0.6722,
+     "track": "raw"
+    },
+    "n_cells_compared": 288,
+    "n_cells_target_exceeds_envelope": 0,
+    "target": "NR4A3",
+    "verdict": "TARGET_NEVER_EXCEEDS_THE_ORDINARY_GENE_ENVELOPE",
+    "where_the_target_sits_in_the_panel": {
+     "_what": "the envelope is a MAXIMUM, so clearing it is a weaker bar than being quiet. A target inside the ordinary-gene spread has produced no excess; a target above most of the panel but under its top is inside that spread, not below it, and this row is here so the two cannot be confused.",
+     "n_panel_genes": 6,
+     "n_panel_genes_the_target_exceeds": 5,
+     "panel_median_rate": 0.0326515,
+     "panel_rates_ascending": {
+      "ACTB": 0.033135,
+      "GAPDH": 0.025298,
+      "POLR2A": 0.032168,
+      "RPL13A": 0.042158,
+      "SDHA": 0.016006,
+      "TBP": 0.072826
+     },
+     "ratio_to_panel_median": 1.4992
+    }
+   },
    "grid": [
     {
      "admissible": false,
@@ -10009,7 +10051,16 @@
    "state": "FETCHED",
    "target": "NR4A3",
    "target_enrichment_ci_low": null,
-   "target_verdict": "TARGET_DOES_NOT_SEPARATE",
+   "target_power_at_operating_point": {
+    "_what": "whether a cell tight enough to hold the background down still leaves the target enough samples to show an enrichment at the pre-registered bar. It reads the pool size and the background rate, never the target's own count.",
+    "expected_candidates_if_enriched_at_the_bar": 0.73,
+    "minimum_required": 5.0,
+    "n_pool": 219,
+    "negative_envelope_rate": 0.001113,
+    "pool_that_would_be_needed": 1498,
+    "powered": false
+   },
+   "target_verdict": "TARGET_UNDERPOWERED_AT_THE_OPERATING_POINT",
    "targets": [
     "NR4A3"
    ],
@@ -10026,9 +10077,9 @@
    "transport_control_records": 35234,
    "verdict": "SEARCHED",
    "\u26a0 what_a_candidate_is": "a public sample in which this gene's downstream junction coverage is substantial while its 5'-most junctions carry essentially none. That is CONSISTENT WITH a 5'-truncating rearrangement and is not one: an alternative promoter, 3' bias in a degraded library, or a poorly annotated 5' end produce the same pattern. It is a candidate list for orthogonal checking, never a detection and never a diagnosis.",
-   "\u26d4": "At the control-selected operating point the target does NOT clear the negative-panel envelope by the pre-registered margin (95% lower bound None against a bar of 3.0). No candidate list is emitted and no count here is a finding. This is the honest reading and it is publishable as it stands: every public human RNA-seq sample in this compilation was scored for the intragenic signature a 5'-truncating rearrangement leaves, on an instrument whose positive controls fire and whose negative panel is held at the ceiling, and the target does not rise above what an ordinary gene does.",
+   "\u26d4": "The regime the controls select is tight enough to hold the background down and, in doing so, leaves the target only 219 samples. Against an envelope of 0.001113, a target enriched at the pre-registered 3.0x would be expected to yield 0.73 candidates here \u2014 so whatever the target returned, this cell cannot answer. It is an ABSENT READING, NOT A READING OF ABSENCE (CLAUDE.md \u00a74), and it is reported as one. A pool of about 1498 would have been needed. \u2b50 The statement that IS powered is in `envelope_comparison`, which asks a different and weaker question of every cell at once and answers it where the target has all its samples.",
    "\u2b50 how_the_operating_point_was_chosen": "Only the positive controls and the negative panel were read. Among cells where the negative-panel envelope is at or under the ceiling and a positive control still retains the minimum number of candidates, the cell with the largest positive-control enrichment wins; ties break on more positive-control candidates, then on the cell key, then on track order. The target's numbers are not an input to this choice."
   }
  },
- "headline": "junction search ran and NR4A3 does not separate from the negative panel at mc2000|sup0.10|sh0.0000|pct0.50 [promiscuity_filtered]; no candidate list; GSE140686: LABELS_NOT_LOCATED"
+ "headline": "junction search ran; the specific regime leaves NR4A3 only 219 samples, too few to answer at mc2000|sup0.10|sh0.0000|pct0.50 [promiscuity_filtered] \u2014 NR4A3 does not exceed the ordinary-gene envelope at any of 288 comparable cells (best-powered: 0.6722x on 34013 samples); GSE140686: LABELS_NOT_LOCATED"
 }

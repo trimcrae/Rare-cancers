@@ -231,6 +231,18 @@ MIN_NEG_PANEL_GENES_SCOREABLE = 4
 # well above 1: with tens of thousands of samples in the denominator a lower bound above 1 is
 # reachable on an effect far too small to be a candidate list.
 TARGET_MIN_ENRICHMENT = 3.0
+# ⛔⛔ A ZERO IN A POOL OF TWO HUNDRED EXCLUDES NOTHING, AND THE FIRST GRID RUN LANDED EXACTLY THERE.
+# The control-selected regime is tight by construction, and tight thresholds shrink the TARGET's pool
+# as well as the background: run 32676239799 chose a cell where NR4A3 held 219 samples and an
+# envelope of 0.0011, so even a real threefold enrichment would have been expected to produce 0.73
+# candidates. It produced none — and that zero is an absent reading, not a reading of absence
+# (CLAUDE.md §4). A cell may only return a verdict on the target if, WERE the target enriched by the
+# pre-registered factor, at least this many candidates would be expected. Below it the read says
+# UNDERPOWERED and says what pool it would have needed.
+# ⚠ This criterion was added AFTER seeing that the first grid run's operating point was underpowered.
+# It reads only the target's POOL SIZE and the envelope rate — never whether the target fired — so it
+# cannot select a cell for looking good, and `selftest` asserts the operating point is unmoved by it.
+MIN_EXPECTED_UNDER_ALTERNATIVE = 5.0
 # Above this many ids in one cell's negative union the promiscuity track stops being tracked for
 # that cell and says so. A cap that silently truncated would understate every overlap.
 OVERLAP_MAX_IDS = 400_000
@@ -672,6 +684,7 @@ def score_snaptron_bodies(out, fetch_one, pause=1.0):
         "min_positive_control_candidates": MIN_POSITIVE_CONTROL_CANDIDATES,
         "min_neg_panel_genes_scoreable": MIN_NEG_PANEL_GENES_SCOREABLE,
         "target_min_enrichment": TARGET_MIN_ENRICHMENT,
+        "min_expected_under_alternative": MIN_EXPECTED_UNDER_ALTERNATIVE,
         "min_five_prime_junctions_required": MIN_FIVE_PRIME_JUNCTIONS_REQUIRED,
         "breakpoint_min_coverage": BREAKPOINT_MIN_COVERAGE,
         "reference_cell": cell_key(*REFERENCE_CELL),
@@ -1276,6 +1289,15 @@ def _depletion_verdict(s):
             rows.append(row)
     out["grid"] = rows
 
+    # ⭐ ASKED OF EVERY CELL, AND ASKED WHETHER OR NOT A SPECIFIC REGIME EXISTS. The operating
+    # point can be too tight to answer; this cannot, because it keeps the loose cells where the
+    # target still holds all its samples. It is computed before the admissibility branch precisely
+    # so that a NO_SPECIFIC_REGIME run still carries a statement someone can read.
+    if targets:
+        out["envelope_comparison"] = _envelope_comparison(
+            rows, dep(targets[0]), targets[0],
+            th.get("min_expected_under_alternative", MIN_EXPECTED_UNDER_ALTERNATIVE))
+
     admissible = [r for r in rows if r.get("admissible")]
     out["n_cells_scored"] = len(rows)
     out["n_cells_admissible"] = len(admissible)
@@ -1336,9 +1358,41 @@ def _depletion_verdict(s):
                      "absent reading, not a reading of absence.")
         return out
 
+    # ⛔ CAN THIS CELL ANSWER AT ALL? Asked before the answer is read, and of the POOL, not the count.
+    min_expected = th.get("min_expected_under_alternative", MIN_EXPECTED_UNDER_ALTERNATIVE)
+    env_rate = env.get("rate")
+    expected_if_enriched = ((tgt["n_pool"] * env_rate * min_enrich)
+                            if (env_rate is not None and tgt.get("n_pool")) else None)
+    out["target_power_at_operating_point"] = {
+        "n_pool": tgt.get("n_pool"),
+        "negative_envelope_rate": env_rate,
+        "expected_candidates_if_enriched_at_the_bar": (round(expected_if_enriched, 2)
+                                                       if expected_if_enriched is not None else None),
+        "minimum_required": min_expected,
+        "powered": bool(expected_if_enriched is not None and expected_if_enriched >= min_expected),
+        "pool_that_would_be_needed": (int(math.ceil(min_expected / (env_rate * min_enrich)))
+                                      if env_rate else None),
+        "_what": ("whether a cell tight enough to hold the background down still leaves the target "
+                  "enough samples to show an enrichment at the pre-registered bar. It reads the "
+                  "pool size and the background rate, never the target's own count."),
+    }
+
     ci_low = (tgt["enrichment_over_negative_envelope"] or {}).get("ci_low")
     out["target_enrichment_ci_low"] = ci_low
-    if ci_low is not None and ci_low > min_enrich:
+    if not out["target_power_at_operating_point"]["powered"]:
+        out["target_verdict"] = "TARGET_UNDERPOWERED_AT_THE_OPERATING_POINT"
+        need = out["target_power_at_operating_point"]["pool_that_would_be_needed"]
+        out["⛔"] = (
+            "The regime the controls select is tight enough to hold the background down and, in "
+            f"doing so, leaves the target only {tgt['n_pool']} samples. Against an envelope of "
+            f"{env_rate}, a target enriched at the pre-registered {min_enrich}x would be expected "
+            f"to yield {out['target_power_at_operating_point']['expected_candidates_if_enriched_at_the_bar']} "
+            f"candidates here — so whatever the target returned, this cell cannot answer. It is an "
+            f"ABSENT READING, NOT A READING OF ABSENCE (CLAUDE.md §4), and it is reported as one. "
+            f"A pool of about {need} would have been needed. ⭐ The statement that IS powered is in "
+            "`envelope_comparison`, which asks a different and weaker question of every cell at "
+            "once and answers it where the target has all its samples.")
+    elif ci_low is not None and ci_low > min_enrich:
         out["target_verdict"] = "TARGET_SEPARATES"
         out["⭐"] = (
             f"At the control-selected operating point the target's candidate rate clears the "
@@ -1369,6 +1423,98 @@ def _depletion_verdict(s):
     return out
 
 
+def _envelope_comparison(rows, dep, target, min_expected):
+    """⭐ THE WEAKER QUESTION, ASKED OF EVERY CELL — AND THE ONE THE DATA CAN ACTUALLY ANSWER.
+
+    The operating point asks whether the target clears the ordinary-gene envelope by a
+    pre-registered margin, and pays for that sharpness with a pool small enough that a zero means
+    nothing. This asks only whether the target's rate EXCEEDS the envelope at all — a question that
+    stays answerable at the loose cells, where the target still has every sample it has.
+
+    ⚠ It is not a substitute for the operating point and it is not a detection test. A target that
+    never exceeds what an ordinary gene does has produced no signal ABOVE BACKGROUND; that bounds
+    the signature's reach over this index, and it bounds nothing about the disease.
+    """
+    out = {"target": target, "n_cells_compared": 0, "n_cells_target_exceeds_envelope": 0,
+           "exceedances": [],
+           "_what": ("does the target's candidate rate EXCEED the ordinary-gene envelope at any "
+                     "cell at all — a weaker question than the operating point's, and one that "
+                     "stays answerable at the loose cells where the target still has every sample "
+                     "it has. It is not a detection test: a target that never exceeds what an "
+                     "ordinary gene does has produced no signal above background, which bounds "
+                     "this signature's reach over this index and bounds nothing about the disease.")}
+    best = None
+    for r in rows:
+        if r.get("neg_envelope_rate") is None:
+            continue
+        v = _cell_view(dep, r["cell"], r["track"])
+        if not v.get("scoreable") or v.get("rate") is None or not v.get("n_pool"):
+            continue
+        out["n_cells_compared"] += 1
+        if v["rate"] > r["neg_envelope_rate"]:
+            out["n_cells_target_exceeds_envelope"] += 1
+            out["exceedances"].append(
+                {"cell": r["cell"], "track": r["track"], "target_rate": v["rate"],
+                 "envelope_rate": r["neg_envelope_rate"], "envelope_gene": r["neg_envelope_gene"],
+                 # ⚠ An envelope of exactly zero is a real exceedance with no finite ratio. It is
+                 # recorded as one rather than divided into a crash or a fabricated number.
+                 "ratio": (round(v["rate"] / r["neg_envelope_rate"], 4)
+                           if r["neg_envelope_rate"] else None),
+                 "envelope_is_zero": not r["neg_envelope_rate"],
+                 "admissible": bool(r.get("admissible"))})
+        # ⛔ THE BEST COMPARISON IS THE BEST-POWERED ONE, NOT THE MOST FLATTERING ONE. Ranking by
+        # ratio would pick whichever cell happened to look most extreme; ranking by how many
+        # background candidates the cell expects picks the one where a real excess would be
+        # hardest to miss, and that choice is made without reading the target's count.
+        expected = v["n_pool"] * r["neg_envelope_rate"]
+        if best is None or expected > best[0]:
+            best = (expected, r, v)
+    # An exceedance over a zero envelope is the most extreme there is, so it sorts first.
+    out["exceedances"] = sorted(
+        out["exceedances"], key=lambda e: (0 if e["ratio"] is None else 1, -(e["ratio"] or 0)))[:10]
+    if best:
+        expected, r, v = best
+        ci = _rate_ratio_ci(v["n_candidates"], v["n_pool"],
+                            r["neg_envelope_candidates"], r["neg_envelope_pool"])
+        # ⛔ WHERE THE TARGET SITS INSIDE THE PANEL, NOT JUST WHETHER IT CLEARS THE TOP OF IT. The
+        # envelope is a MAXIMUM over several genes, so "does not exceed the envelope" can be true
+        # of a target sitting above most of the panel — and reporting only the envelope would let
+        # that read as though the target were quiet. The rank and the median are recorded so the
+        # weaker claim cannot be mistaken for the stronger one.
+        panel = sorted((r.get("neg_panel_rates") or {}).items(), key=lambda kv: kv[1])
+        rates = [x[1] for x in panel]
+        med = (rates[len(rates) // 2] if len(rates) % 2
+               else (rates[len(rates) // 2 - 1] + rates[len(rates) // 2]) / 2) if rates else None
+        out["where_the_target_sits_in_the_panel"] = {
+            "panel_rates_ascending": dict(panel),
+            "panel_median_rate": med,
+            "n_panel_genes_the_target_exceeds": sum(1 for x in rates if v["rate"] > x),
+            "n_panel_genes": len(rates),
+            "ratio_to_panel_median": (round(v["rate"] / med, 4) if med else None),
+            "_what": ("the envelope is a MAXIMUM, so clearing it is a weaker bar than being quiet. "
+                      "A target inside the ordinary-gene spread has produced no excess; a target "
+                      "above most of the panel but under its top is inside that spread, not below "
+                      "it, and this row is here so the two cannot be confused."),
+        }
+        out["most_powered_comparison"] = {
+            "cell": r["cell"], "track": r["track"], "n_pool": v["n_pool"],
+            "n_candidates": v["n_candidates"], "rate": v["rate"],
+            "envelope_gene": r["neg_envelope_gene"], "envelope_rate": r["neg_envelope_rate"],
+            "expected_from_background": round(expected, 1),
+            "ratio_to_envelope": (round(v["rate"] / r["neg_envelope_rate"], 4)
+                                  if r["neg_envelope_rate"] else None),
+            "enrichment_ci": ci,
+            "powered": bool(expected >= min_expected),
+        }
+    if not out["n_cells_compared"]:
+        out["verdict"] = "NOT_COMPARABLE"
+    elif out["n_cells_target_exceeds_envelope"]:
+        out["verdict"] = "TARGET_EXCEEDS_THE_ORDINARY_GENE_ENVELOPE_SOMEWHERE"
+    else:
+        out["verdict"] = "TARGET_NEVER_EXCEEDS_THE_ORDINARY_GENE_ENVELOPE"
+    return out
+
+
 def _select_operating_point(admissible):
     """⛔ CONTROLS ONLY. This function never sees a target gene: it is handed rows that already
     carry the positive-control and negative-panel numbers and nothing else, and it returns one of
@@ -1381,6 +1527,39 @@ def _select_operating_point(admissible):
     return sorted(admissible, key=rank)[0]
 
 
+def _target_headline(arm1):
+    """⛔ THE HEADLINE LEADS WITH WHATEVER THE RUN CAN ACTUALLY SUPPORT, and never carries a
+    candidate count a verdict withheld. The first search run's number went straight into a memo as
+    though it were a finding; a headline that prints a count beside a verdict saying the count is
+    background is how that happens."""
+    tv = arm1.get("target_verdict")
+    op = arm1.get("operating_point") or {}
+    where = f"{op.get('cell')} [{op.get('track')}]" if op else "no operating point"
+    tgt = arm1.get("target")
+    if tv == "TARGET_SEPARATES":
+        return (f"junction search: {tgt} SEPARATES at {where} (95% lower bound "
+                f"{arm1.get('target_enrichment_ci_low')}x over the ordinary-gene envelope)")
+    if tv == "TARGET_UNDERPOWERED_AT_THE_OPERATING_POINT":
+        pw = arm1.get("target_power_at_operating_point") or {}
+        return (f"junction search ran; the specific regime leaves {tgt} only {pw.get('n_pool')} "
+                f"samples, too few to answer at {where} — " + _envelope_headline(arm1))
+    return (f"junction search ran and {tgt} does not separate from the ordinary-gene envelope at "
+            f"{where}; no candidate list")
+
+
+def _envelope_headline(arm1):
+    ec = arm1.get("envelope_comparison") or {}
+    if not ec:
+        return "target counts withheld"
+    mp = ec.get("most_powered_comparison") or {}
+    if ec.get("verdict") == "TARGET_NEVER_EXCEEDS_THE_ORDINARY_GENE_ENVELOPE":
+        return (f"{ec.get('target')} does not exceed the ordinary-gene envelope at any of "
+                f"{ec.get('n_cells_compared')} comparable cells (best-powered: "
+                f"{mp.get('ratio_to_envelope')}x on {mp.get('n_pool')} samples)")
+    return (f"{ec.get('target')} exceeds the ordinary-gene envelope at "
+            f"{ec.get('n_cells_target_exceeds_envelope')} of {ec.get('n_cells_compared')} cells")
+
+
 def _headline(arm1, arm2):
     bits = []
     v1 = arm1.get("verdict")
@@ -1388,19 +1567,10 @@ def _headline(arm1, arm2):
         # ⛔ THE HEADLINE NEVER CARRIES A CANDIDATE COUNT THE TARGET VERDICT WITHHELD. The first
         # search run's number went straight into a memo as though it were a finding; a headline
         # that prints a count next to a verdict saying the count is background is how that happens.
-        tv = arm1.get("target_verdict")
-        op = arm1.get("operating_point") or {}
-        where = f"{op.get('cell')} [{op.get('track')}]" if op else "no operating point"
-        if tv == "TARGET_SEPARATES":
-            bits.append(f"junction search: {arm1.get('target')} SEPARATES at {where} "
-                        f"(95% lower bound {arm1.get('target_enrichment_ci_low')}x over the "
-                        "negative panel)")
-        else:
-            bits.append(f"junction search ran and {arm1.get('target')} does not separate from the "
-                        f"negative panel at {where}; no candidate list")
+        bits.append(_target_headline(arm1))
     elif v1 == "NO_SPECIFIC_REGIME":
         bits.append("junction search: no grid cell holds the negative panel at the ceiling while a "
-                    "positive control survives; target counts withheld")
+                    "positive control survives; " + _envelope_headline(arm1))
     elif v1 == "PROBED_NOT_SEARCHED":
         bits.append(f"junction index answers ({arm1.get('compilation_used')}); no fusion search run yet")
     elif v1:
@@ -1939,8 +2109,12 @@ def selftest():
     a = derive({"snaptron": e2e})["arms"]["snaptron_junction_index"]
     ck(a["verdict"] == "SEARCHED",
        f"the end-to-end chain gave {a['verdict']}: the fetch and derive halves disagree")
-    ck(a["target_verdict"] in ("TARGET_SEPARATES", "TARGET_DOES_NOT_SEPARATE"),
+    ck(a["target_verdict"] in ("TARGET_SEPARATES", "TARGET_DOES_NOT_SEPARATE",
+                               "TARGET_UNDERPOWERED_AT_THE_OPERATING_POINT"),
        f"end-to-end target verdict was {a.get('target_verdict')}")
+    ck(bool(a.get("envelope_comparison", {}).get("verdict")),
+       "the end-to-end run carried no envelope comparison, so an underpowered operating point "
+       "would leave nothing readable at all")
     ck(set(a["at_operating_point"]) == set(bodies),
        "a gene the fetch scored did not survive into the operating-point read")
     tcell = e2e["queries"][SNAPTRON_TARGETS[0]]["depletion"]["cells"][REF]
@@ -1956,12 +2130,87 @@ def selftest():
     ck(a["id_space_check"]["shared_with_transport_control"] > 0,
        "the id-space check found no shared samples in a fixture that is entirely shared")
 
+    # 23 · ⛔⛔ A ZERO IN A SMALL POOL IS AN ABSENT READING, NOT A READING OF ABSENCE. The tighter
+    #      the regime the controls choose, the smaller the TARGET's pool gets too — and run
+    #      32676239799 landed on a cell holding 219 target samples against an envelope of 0.0011,
+    #      where even a real threefold enrichment expects under one candidate. Whatever the target
+    #      returned there, that cell could not answer, and the verdict has to say so.
+    # ⚠ ONE candidate, not zero — so this also shows the verdict turns on the POOL and not on the
+    #   count: a rate of 1-in-60 is eight times the envelope here and still cannot be believed.
+    thin_pool = _scene(tgt=(1, 60))          # 60 x 0.002 x 3 = 0.36 expected at the bar
+    a = arm1(thin_pool)
+    ck(a["target_verdict"] == "TARGET_UNDERPOWERED_AT_THE_OPERATING_POINT",
+       f"a target pool of 60 gave {a['target_verdict']}; nothing there excludes anything")
+    ck("nr4a3_candidates" not in a, "a candidate count was published from an unanswerable cell")
+    pw = a["target_power_at_operating_point"]
+    ck(pw["powered"] is False and pw["pool_that_would_be_needed"] > 60,
+       f"the power block did not say what pool was needed: {pw}")
+
+    # ⛔ AND THE POWER CHECK READS THE POOL, NEVER THE COUNT. If it looked at what the target
+    #    returned it would be one more way to let the answer choose its own threshold.
+    b = arm1(_scene(tgt=(60, 60)))           # same pool, every sample a candidate
+    ck(b["target_power_at_operating_point"]["powered"] is False,
+       "the power verdict moved when only the target's COUNT changed")
+    ck(b["operating_point"]["cell"] == a["operating_point"]["cell"],
+       "the operating point moved when only the target's count changed")
+
+    # A pool that IS big enough must go back to answering.
+    ck(arm1(_scene(tgt=(12, 2000)))["target_verdict"] == "TARGET_DOES_NOT_SEPARATE",
+       "an adequately powered cell was called underpowered")
+    ck(arm1(_scene(tgt=(200, 2000)))["target_verdict"] == "TARGET_SEPARATES",
+       "an adequately powered cell with a real effect stopped separating")
+
+    # 24 · ⭐ THE WEAKER QUESTION, WHICH IS THE ONE THE DATA CAN ANSWER WHEN THE SHARP ONE CANNOT.
+    ec = a["envelope_comparison"]
+    ck(ec["verdict"] == "TARGET_EXCEEDS_THE_ORDINARY_GENE_ENVELOPE_SOMEWHERE",
+       f"a target above the envelope at the loose cell gave {ec['verdict']}")
+    # ⛔ THE BEST COMPARISON IS THE BEST-POWERED ONE, NOT THE MOST EXTREME ONE. In this fixture the
+    #    tight cell carries the LARGER ratio (3.0 against 1.92) and the loose cell carries fifty
+    #    times the expected background; ranking on ratio would report the flattering cell.
+    mp = ec["most_powered_comparison"]
+    ck(mp["cell"] == REF,
+       f"the most-powered comparison was {mp['cell']}, not the cell with the most background to "
+       "see an excess against")
+    ck(mp["powered"] is True, "the loose cell was called underpowered")
+    ck(mp["ratio_to_envelope"] < max(e["ratio"] for e in ec["exceedances"]),
+       "the best-powered cell happens to also be the most extreme; the fixture is not testing "
+       "what it claims to test")
+
+    # ⛔ "DOES NOT EXCEED THE ENVELOPE" IS NOT "IS QUIET". The envelope is a maximum, so a target
+    #    sitting above most of the panel still clears the test — and the artifact has to say so, or
+    #    the weaker claim reads as the stronger one.
+    where = ec["where_the_target_sits_in_the_panel"]
+    ck(where["n_panel_genes"] == len(PANEL),
+       f"the panel-position row saw {where['n_panel_genes']} genes, expected {len(PANEL)}")
+    ck(where["n_panel_genes_the_target_exceeds"] == len(PANEL),
+       "a target above every panel gene was not recorded as such")
+    ck(where["ratio_to_panel_median"] > 1.0,
+       f"ratio to the panel median came back {where['ratio_to_panel_median']} for a target above "
+       "every panel gene")
+
+    quiet = _scene(tgt=(1, 10000))
+    quiet["snaptron"]["queries"]["NR4A3"]["depletion"]["cells"][REF].update(
+        {"n_candidates": 1, "candidate_rate": 0.0001,
+         "n_candidates_promiscuity_filtered": 1, "candidate_rate_promiscuity_filtered": 0.0001})
+    ec2 = arm1(quiet)["envelope_comparison"]
+    ck(ec2["verdict"] == "TARGET_NEVER_EXCEEDS_THE_ORDINARY_GENE_ENVELOPE",
+       f"a target below the envelope everywhere gave {ec2['verdict']}")
+    ck(ec2["n_cells_target_exceeds_envelope"] == 0 and ec2["n_cells_compared"] > 0,
+       f"exceedance tally wrong: {ec2['n_cells_compared']} compared, "
+       f"{ec2['n_cells_target_exceeds_envelope']} exceeding")
+
+    # ⛔ AND IT MUST SURVIVE A RUN WITH NO ADMISSIBLE CELL AT ALL, which is exactly when a reader
+    #    would otherwise be left with nothing but "no regime".
+    a = arm1(_scene(panel_tight=2000))
+    ck(a["verdict"] == "NO_SPECIFIC_REGIME" and a.get("envelope_comparison"),
+       "a run with no specific regime carried no envelope comparison to read")
+
     if fails:
         print("SELFTEST FAILED:")
         for f in fails:
             print("  -", f)
         return 1
-    print("selftest ok (22 guard groups)")
+    print("selftest ok (24 guard groups)")
     return 0
 
 
