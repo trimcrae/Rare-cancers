@@ -31,16 +31,41 @@ consideration outright, and it removes most of the obvious ones here.
 
 | candidate | topical fit | fee model | verdict |
 |---|---|---|---|
-| **Nucleic Acid Therapeutics** (~~Mary Ann Liebert~~ → **SAGE**, see below) | the field's dedicated oligonucleotide-therapeutics journal; publishes design, mechanism and computational work | ⛔ **UNKNOWN — the Liebert-era assumption is void** | ◐ **TARGET, fee model unconfirmed** |
+| **Nucleic Acid Therapeutics** (~~Mary Ann Liebert~~ → **SAGE**, see below) | the field's dedicated oligonucleotide-therapeutics journal; publishes design, mechanism and computational work | ✅ **READ 2026-08-23** — mandatory Publishing Services Fee per typeset page, assessed on acceptance; colour charged separately in print. Rates: [`nat-submission-guidelines-2026-08-23.md`](../../literature/nat-submission-guidelines-2026-08-23.md) | ⭐ **TARGET, Original Paper. Not $0 — see §1a′** |
 | Molecular Therapy — Nucleic Acids | excellent fit, higher profile | fully gold OA, APC mandatory | ❌ out on fee |
 | Cancers / IJMS (MDPI) | would accept a computation-only paper | APC mandatory | ❌ out on fee |
 | PLOS ONE · Scientific Reports · Frontiers | would accept | APC mandatory | ❌ out on fee |
 | JCIM (ACS) | the degrader paper's venue; $0 subscription route confirmed | free route | ❌ out on **scope** — a small-molecule/computational-chemistry journal; this is an RNA paper |
 | Briefings in Bioinformatics | methods-general | hybrid | ⚠ fallback, but the emphasis is wrong: this is a therapeutic-design paper, not a method paper |
 
-**Plan of record: bioRxiv preprint (free) + Nucleic Acid Therapeutics, subscription route.**
-bioRxiv rather than ChemRxiv because the framing is biological rather than chemical — the degrader
-paper's ChemRxiv choice does not transfer.
+**Plan of record: a preprint of the CONDENSED article (server open) + Nucleic Acid Therapeutics,
+Original Paper.**
+
+⚠ *Superseded, retained: "**Plan of record: bioRxiv preprint (free) + Nucleic Acid Therapeutics,
+subscription route.** bioRxiv rather than ChemRxiv because the framing is biological rather than
+chemical — the degrader paper's ChemRxiv choice does not transfer."* The reasoning about framing
+still holds and is not what changed. **bioRxiv DECLINED the submission on 2026-08-23 because the
+author is unaffiliated** — the extended report went there on 2026-08-20 and was refused on that
+ground alone. The server question is reopened for the condensed article and the shortlist, with what
+is and is not established about each, is in the preprint checklist §2b. The ORDER is no longer a
+question: NAT's own guidelines say "Accepts preprints? Yes", so posting first cannot disqualify the
+submission.
+
+## 1a′ · The $0 rule does not survive this venue, and that is a decision already taken
+
+⛔ **NAT'S FEE IS REAL, MANDATORY AND NOW READ.** The Publishing Services Fee is charged per typeset
+page and assessed on acceptance; the rate is in the guidelines capture and is not restated here. It
+is not avoidable by choosing the subscription route — it IS the subscription route. So the standing
+"AUTHOR PAYS $0" constraint at the head of §1 is not satisfied by this venue and cannot be made to
+be.
+
+★ **THAT IS WHY THE PAPER WAS CONDENSED, AND THE PAGE COUNT IS THEREFORE A BUDGET RATHER THAN AN
+AESTHETIC.** trimcrae reopened NAT on 2026-08-20 on exactly this basis: a full-length manuscript
+priced the venue out, and a short article does not. The page budget is measured by
+`tests/test_the_journal_pdf_fits_its_page_budget.py`, which owns both the budget and the built
+count; a change that adds a page adds a page's fee, which is why that gate is a hard one and not
+advice. ⛔ **Do not multiply the rate by the page count anywhere in this repository** — the rate has
+one home and the count has another, and a product typed into prose drifts against both.
 
 ⛔ **THE PUBLISHER CHANGED, AND THE FETCH IS WHY WE KNOW (measured 2026-08-12).** The venue row
 above was written from a Liebert-era assumption about the fee model, flagged in this file as a plan
@@ -251,9 +276,11 @@ the three are already on this page — NAT as the preferred fit whose fee model 
 new is the ceiling: this page had been treating venue as a fee-constrained optimisation, and the
 constraint that actually binds is the absence of an experiment.
 
-⭐ **AND THE HIGHER-VALUE MOVE IS PARALLEL RATHER THAN SEQUENTIAL.** Post to bioRxiv now — that was
-already the plan of record and it is unaffected by the journal question — and separately approach a
-group holding molecularly confirmed EMC material with breakpoint sequencing. **Two oligonucleotides
+⭐ **AND THE HIGHER-VALUE MOVE IS PARALLEL RATHER THAN SEQUENTIAL.** Post the preprint now — the
+posting was already the plan of record and is unaffected by the journal question — and separately
+approach a group holding molecularly confirmed EMC material with breakpoint sequencing.
+⚠ *Superseded, retained: "Post to bioRxiv now".* The server, not the sequencing, is what changed:
+bioRxiv declined this author on 2026-08-23. **Two oligonucleotides
 and three controls is a small ask for a laboratory that already has the cells**, and §5 of the
 manuscript is written as exactly that request: named sequences, named controls, and a
 pre-registered decision threshold.

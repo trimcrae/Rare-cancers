@@ -31,7 +31,7 @@ last_verified: 2026-08-10
 | Display items | 5 (5 figures, 0 tables) |
 | References | 11 |
 | Cover letter | `mtap-prmt5/emc-mtap-prmt5-hypothesis-cover-letter.md` |
-| Supplementary file | yes |
+| Supplementary file | none |
 | Fee route | VERIFIED |
 
 ⚠ Limits provenance: search-derived; onlinelibrary.wiley.com serves a bot challenge to CI and to a real headless browser alike.
@@ -93,20 +93,20 @@ last_verified: 2026-08-10
 | Display items | 6 (1 figures, 5 tables) (limit 8) |
 | References | 18 (limit 80) |
 | Cover letter | `surface-targets/emc-surface-target-landscape-cover-letter.md` |
-| Supplementary file | yes |
+| Supplementary file | none |
 | Fee route | VERIFIED at the journal's own pages, with one real caveat |
 
 ⚠ Limits provenance: nature.com pages DO answer; these were read from the journal's own guide to authors at HTTP 200.
 
 **Figures to upload** — none; this paper's display items are all tables.
 
-## bioRxiv (preprint; journal venue still open)
+## bioRxiv (DECLINED 2026-08-23, author unaffiliated; the journal submission of the condensed article goes to Nucleic Acid Therapeutics)
 
 **Manuscript** `aso/fusion-junction-aso-research-article.md`
 
 | field | value |
 |---|---|
-| Word count, main text | 35600 (no limit found) |
+| Word count, main text | 35927 (no limit found) |
 | Abstract | 399 words  |
 | Display items | 10 (3 figures, 7 tables) |
 | References | 53 |
@@ -114,7 +114,7 @@ last_verified: 2026-08-10
 | Supplementary file | yes |
 | Fee route | not recorded |
 
-⚠ Limits provenance: VERIFIED at primary source: bioRxiv sets no word, abstract or display-item limit and its deposit is free — the one venue fact in this table that was read rather than searched. ⚠ ALL-`None` IS A STATEMENT, NOT A GAP: it means this manuscript is measured and ungated, which is the honest state while the journal is undecided. A journal's limits apply when one is chosen, and cutting the abstract to any particular cap before then means cutting twice, because the venues under consideration disagree on both length AND whether a structured abstract is wanted at all..
+⚠ Limits provenance: VERIFIED at primary source: bioRxiv sets no word, abstract or display-item limit and its deposit is free — the one venue fact in this table that was read rather than searched. ⛔ AND bioRxiv DECLINED THIS SUBMISSION ON 2026-08-23 BECAUSE THE AUTHOR IS UNAFFILIATED, so this row grades a manuscript against a server that will not take it. The limits stay correct and the row stays ungated for that reason — the extended report is archived on Zenodo and has since been submitted elsewhere — but nobody should read the row name as a live plan. Accounting: aso/fusion-junction-aso-preprint-checklist.md §2 step 3. ⚠ ALL-`None` IS A STATEMENT, NOT A GAP: it means this manuscript is measured and ungated, which is the honest state while the journal is undecided. A journal's limits apply when one is chosen, and cutting the abstract to any particular cap before then means cutting twice, because the venues under consideration disagree on both length AND whether a structured abstract is wanted at all..
 
 **Figures to upload**
 
@@ -129,15 +129,15 @@ last_verified: 2026-08-10
 
 | field | value |
 |---|---|
-| Word count, main text | 4571 (no limit found) |
-| Abstract | 261 words  |
-| Display items | 3 (1 figures, 2 tables) |
+| Word count, main text | 3146 (limit 4000) |
+| Abstract | 199 words (limit 200) |
+| Display items | 3 (1 figures, 2 tables) (limit 5) |
 | References | 23 |
-| Cover letter | MISSING |
+| Cover letter | `aso/fusion-junction-aso-cover-letter.md` |
 | Supplementary file | none |
 | Fee route | not recorded |
 
-⚠ Limits provenance: UNREAD. The journal transferred from Mary Ann Liebert to SAGE and the Liebert-era pages return 403; no SAGE author-guideline page for this journal has been read. The per-page fee that eliminated the venue is on record at $90 from the Liebert era and is itself unconfirmed under SAGE. Read the guidelines and the fee schedule before submitting..
+⚠ Limits provenance: READ AT PRIMARY SOURCE 2026-08-23 by trimcrae in a human web browser, and captured verbatim to research/literature/nat-submission-guidelines-2026-08-23.md, which is the source of record for every figure below. Article type Original Paper: 4,000-word limit, unstructured abstract of no more than 200 words, maximum total of five (5) figures and/or tables, and no reference cap for this type. THE COUNTING RULES AGREE WITH THIS MODULE'S: 'Word limits do NOT pertain to the abstract, disclosure statements, author contribution statements, funding information, acknowledgments, tables, figure legends, or references' -- which is the boundary `TAIL` already draws, so main_words here is comparable to the cap rather than merely near it. ⚠ NOT AUTOMATABLE: journals.sagepub.com returns HTTP 403 to the egress proxy, to a plain CI fetch and to a real headless Chromium alike (re-confirmed 2026-08-23, Actions run 32644971152), so this row cannot be refreshed by any tool here and must be re-read by a person before submission. ⚠ THE PAGE CONTRADICTS ITSELF ON THE REVIEW MODEL and the contradiction changes what is submitted: 'Identity transparency: Single-anonymized' appears twice, while the peer-review section says 'The journal adheres to a rigorous double-anonymized reviewing policy in which the identity of both the reviewer and author are always concealed from both parties.' Under the second reading the manuscript needs an anonymized copy. Tracked as an open item in the preprint checklist; not resolved here, because nothing here can resolve it. SETTLED BY THE SAME READ, and each was previously carried as an open risk: (1) 'Accepts preprints? Yes' -- posting before submission does not disqualify, and the submission form asks for the preprint DOI. (2) The Publishing Services Fee survived the Liebert-to-SAGE transfer unchanged at $90 per typeset page, assessed on acceptance, with colour charged separately at $800 for the first print image. (3) The control-oligodeoxynucleotide rule is real and is scoped to efficacy: 'All manuscripts that claim antisense efficacy must, in addition to the antisense oligodeoxynucleotide construct, include at least two control oligodeoxynucleotides.' This paper claims no efficacy and runs no assay, so it is out of that rule's scope..
 
 **Figures to upload**
 
@@ -145,14 +145,13 @@ last_verified: 2026-08-10
 
 ## Outstanding for every paper, and only the author can supply these
 
-- **ORCID.** THE ONE REMAINING ITEM, and the only thing in this packet an agent cannot do. The British Journal of Cancer's Guide to Authors states that the corresponding author should also provide an ORCID identifier; the Wiley and Elsevier author guides are bot-walled, so their position is unknown rather than assumed. Registration is free at orcid.org and takes a few minutes, and it is an identity registration, so it must be done by the author and not on their behalf. Each manuscript now carries an ORCID line in its author block reading ORCID TO BE SUPPLIED BY THE AUTHOR BEFORE SUBMISSION; replacing that string in four files is the whole of the remaining work.
 - **Corresponding-author e-mail and affiliation.** The BJC title-page specification asks for full author names and affiliations together with the corresponding author's e-mail. The manuscripts give the e-mail and state 'independent researcher, unaffiliated', which is an affiliation statement. No postal address is requested.
 - **Suggested reviewers.** PROBABLY NOT NEEDED, and previously overstated here. BJC's Guide to Authors does not mention suggesting, opposing or excluding reviewers anywhere. Some portals offer an optional field; where it is optional it can be left blank. The Wiley and Elsevier guides could not be retrieved, so their position is unknown. If a portal does ask, the candidates are in each paper's own reference list, and the choice is a conflict-of-interest judgement only the author can make.
 
 ## Not verified, and stated rather than assumed
 
 - The per-journal author guidelines could not be retrieved: Wiley serves a JavaScript bot challenge and ScienceDirect blocks the datacenter IP, and both persist under a real headless browser from CI. Word, abstract and display-item limits above are search-derived except for the British Journal of Cancer row, which was read from the journal's own page. Confirm each at the portal, where the pages load normally.
-- Cancer Gene Therapy is a separate and worse case, because it is a CHOSEN venue whose fee schedule has never been read. nature.com answers, and its open-access page was read at HTTP 200 and establishes that open access is the optional paid upgrade — so the subscription route carries no article processing charge. But `/cgt/for-authors`, `/cgt/submission-guidelines` and `/cgt/about` all returned 404, so that journal's page, colour and over-length charges are unknown. Nucleic Acid Therapeutics passed the same APC test and was then disqualified by mandatory page charges of $90/page. Load the journal's author guidelines in an ordinary browser and confirm the full fee schedule before submitting there.
+- Cancer Gene Therapy's charges HAVE been read, contrary to a claim this file carried until 2026-08-22. Of 6 fetched pages, 4 answered HTTP 200 (cgt_about, cgt_gta, cgt_journal_home, cgt_open_access) and 2 did not (cgt_article_types, cgt_author_instructions). Its guide to authors states, verbatim: "layout for publication, each page of an article will incur a fixed charge of £145 / $238 per page." Confirm at the portal before submitting there; this is a fetch record, not an invoice.
 - The $0 route rests on publisher-wide policy statements quoted verbatim in `research/literature/venue-fee-routes-2026-08-10.json`, not on the per-journal fee page. Elect the subscription route at the fee step and decline the open-access upgrade.
 - The British Journal of Cancer levies a colour charge for figures in print, waived only for open-access papers. That paper has no figures, so the charge cannot arise.
 

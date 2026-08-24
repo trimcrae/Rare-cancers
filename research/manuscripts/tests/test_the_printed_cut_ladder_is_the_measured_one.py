@@ -147,6 +147,6 @@ def test_the_prose_claim_of_four_sign_changes_is_the_measured_one():
         f"the excess over the strongest null now changes sign {flips} times, not four. §2.5 says "
         "four; recompute the sentence rather than the guard")
     assert "changes sign four times" in text, (
-        "§2.5's sign-change claim has been reworded away from the measured value; it is the "
+        "§2.5's sign-change claim has been reworded away from the measured value; it is the ⛔ CHECK THE MEANING BEFORE THE REGEX: if the claim was INVERTED or DROPPED, re-anchoring makes the guard agree with the new wording and the finding disappears. Re-anchor only when the sentence says the same thing in different words."
         "sentence that replaced 'ten is the cut at which the observed rate stands clear of "
         "every null', so it must keep saying what the ladder measures")

@@ -11,6 +11,17 @@
           }
         ]
       }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "./scripts/dev-setup.sh --if-needed 2>&1 | tail -3 || true",
+            "timeout": 600
+          }
+        ]
+      }
     ]
   }
 }

@@ -79,6 +79,52 @@ def test_each_entry_carries_the_pmid_its_citation_names():
         "points the reader at a real paper that is the wrong one:\n  " + "\n  ".join(wrong))
 
 
+#: ⭐ THE VENUE'S OWN STYLE, AS THE VENUE'S OWN EXAMPLES SHOW IT (2026-08-23). Nucleic Acid
+#: Therapeutics: "The journal follows the Sage Vancouver reference style." Its worked examples put
+#: the YEAR in parentheses after the authors, name every author after the first as
+#: `Initials Surname`, drop the issue number, and run the journal straight into `volume:pages` with
+#: no period between them:
+#:
+#:     Aartsma-Rus A. (2017). FDA approval of nusinersen … Nucleic Acid Ther 27:67–69
+#:     Malerba A, L Boldrin and G Dickson. (2011). Long-term systemic administration … 21:293–298.
+#:
+#: Source of record: research/literature/nat-submission-guidelines-2026-08-23.md.
+#: ⚠ WHAT THIS PATTERN DOES NOT CHECK, STATED RATHER THAN IMPLIED: Sage Vancouver also ABBREVIATES
+#: the journal name, and the full specification lives on a page linked from the guidelines that no
+#: route here can fetch. Abbreviating a journal name means writing an identifier this repository
+#: cannot attest, which CLAUDE.md §7 forbids outright — so the names are carried as they were
+#: recorded and the gap is declared here rather than papered over with a guess. A copy editor
+#: abbreviates journal names; nobody desk-rejects a paper for spelling one out.
+#: ⚠ AND THE PMID AND DOI TAILS ARE KEPT, which the venue's examples do not show. They are the
+#: provenance of every citation in this repository and `test_each_entry_carries_the_pmid_its_
+#: citation_names` above is bound to them; dropping them to match an example would trade a checked
+#: fact for a cosmetic one.
+_SAGE_VANCOUVER = re.compile(
+    r"^\d+\. "                       # the entry number
+    r".+?"                           # authors, first as `Surname Initials`
+    r"\. \(\d{4}\)\. "               # ". (YEAR). "
+    r".+ "                           # title. journal
+    r"[A-Z]?\d+:[A-Za-z]*\d[\w–-]*\. "  # volume:pages, no issue number
+    r"PMID: \d+\.")
+
+
+def test_every_entry_is_in_the_style_the_venue_asks_for():
+    """⛔ A HAND-ADDED ENTRY IN THE OLD STYLE IS INVISIBLE UNTIL AN EDITOR SEES IT.
+
+    The list is hand-maintained, and the whole of it was converted in one pass on 2026-08-23. The
+    next entry will be typed by hand next to twenty-three that already look right, which is exactly
+    the condition under which a style silently forks.
+    """
+    wrong = [n for n, body in sorted(_entries().items(), key=lambda kv: int(kv[0]))
+             if not _SAGE_VANCOUVER.match(f"{n}. {body}")]
+    assert not wrong, (
+        f"{len(wrong)} reference(s) are not in Sage Vancouver form: {wrong}.\n"
+        "Expected `N. Surname II, II Surname and II Surname. (YEAR). Title. Journal VOL:PAGES. "
+        "PMID: nnn.` — year in parentheses after the authors, every author after the first as "
+        "initials-then-surname, no issue number, no period between the journal and the volume. "
+        "Nucleic Acid Therapeutics returns a non-conforming manuscript before peer review.")
+
+
 @pytest.mark.parametrize("path", [ARTICLE, REFS])
 def test_the_reference_list_is_not_described_as_generated(path):
     #: The banner said GENERATED FROM THE MANUSCRIPT while nothing generated it. A file that claims

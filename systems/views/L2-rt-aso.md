@@ -107,7 +107,7 @@ The computational arc is complete and the delivery gate is stated honestly as a 
 
 ## Where this route ends — the paper
 
-**[PUB-ASO](L3-publications.md)** — [Two NR4A3 fusion-junction gapmers for extraskeletal myxoid chondrosarcoma, screened against wild-type parents](../../research/manuscripts/aso/fusion-junction-aso-journal-article.md)
+**[PUB-ASO](L3-publications.md)** — [NR4A3 gapmers in extraskeletal myxoid chondrosarcoma: 87 of 190 pair a wild-type parent through the gap at 10 bp](../../research/manuscripts/aso/fusion-junction-aso-journal-article.md)
 
 `primary` · ◕ `complete_unposted` · aimed at `journal_submission`
 

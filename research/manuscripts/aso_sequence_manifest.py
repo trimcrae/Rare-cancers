@@ -835,9 +835,13 @@ def _notes(rows, carrier="csv"):
          " (front matter of fusion-junction-aso-research-article.md).", prefix="#   ")
     para(paper["preprint"], prefix="#   ")
     para("Archive: " + paper["doi"], prefix="#   ")
+    _deposited = "doi:" in (paper["doi"] or "").lower()
     para("Repository: " + paper["repo"] + ". Version: this file is regenerated from the "
-         "repository and carries no separate version of its own; the archived version has not been "
-         "deposited, as the line above says.", prefix="#   ")
+         "repository and carries no separate version of its own; the archived copy is the version "
+         "at the DOI above." if _deposited else
+         "Repository: " + paper["repo"] + ". Version: this file is regenerated from the "
+         "repository and carries no separate version of its own; no archived version has been "
+         "deposited yet, as the line above says.", prefix="#   ")
     gap()
     para("CHEMISTRY — THE FULL SPECIFICATION, FROM SECTION 6 OF THE MANUSCRIPT. Ordering the bases "
          "without these modifications gives a DIFFERENT MOLECULE about which nothing in the paper "

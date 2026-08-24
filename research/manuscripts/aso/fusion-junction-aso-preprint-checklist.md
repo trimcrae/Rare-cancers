@@ -97,20 +97,214 @@ reports four false gaps); competing-interests, funding, ethics and AI-use statem
    after the files were frozen. `deposition_doi` in `aso_archive_manifest.py` is where it lives;
    [`test_aso_deposition_doi_is_one_fact.py`](../tests/test_aso_deposition_doi_is_one_fact.py) holds
    the article's two copies of it against that one.
-3. ~~**Post at `biorxiv.org/submit-a-manuscript`**~~ ✅ **submitted 2026-08-20.** Article type New
-   Results, subject area Cancer Biology, licence CC-BY, corresponding author ORCID-linked, the
-   Zenodo DOI given as External Data, and the survivorship non-financial interest entered verbatim
-   from Declarations. Manuscript and SI uploaded as the two files.
-   ⏳ **Awaiting bioRxiv screening.** It screens for scope and plausibility, not peer review, so
-   turnaround is usually a few days. The preprint DOI is minted by bioRxiv AT POSTING and cannot be
-   obtained before it — it is not a placeholder in the manuscript and blocks nothing.
+3. **Post at `biorxiv.org/submit-a-manuscript`** — ⛔ **REJECTED. bioRxiv declined the submission
+   because the author is unaffiliated** (trimcrae, 2026-08-23). Submitted 2026-08-20 as New Results,
+   Cancer Biology, CC-BY, ORCID-linked, with the Zenodo DOI as External Data and the survivorship
+   non-financial interest entered verbatim from Declarations; manuscript and SI uploaded as the two
+   files. None of that was the problem — the affiliation was.
+   ⚠ **THIS ENTRY READ "⏳ Awaiting bioRxiv screening" FOR THREE DAYS AFTER THE REJECTION**, which is
+   the stale-status defect this repository keeps paying for: a ⏳ is a claim with a date on it, and
+   nothing here re-reads an external queue. The lesson is not "check bioRxiv" — it is that any status
+   owned by a system outside this repository decays silently, so it carries the date it was taken and
+   the name of whoever can refresh it.
+   ⚠ Generic advice that bioRxiv "does not require an institutional ID" is contradicted by what
+   actually happened to this submission. The lived outcome is the reading; a web answer is not.
+   ★ WHAT THIS DOES NOT BLOCK: the extended report has since been submitted elsewhere. The open
+   preprint question is now the CONDENSED article, and it needs a server that accepts unaffiliated
+   authors — see the preprint-venue note below.
 
-## 3 · Deliberately not done, and why
+## 2b · The preprint venue question — the ORDER is now SETTLED, the SERVER is not
 
-- **The abstract has not been cut to 200 words.** bioRxiv sets no limit, and 200 is a
-  *journal-specific* cap, so cutting to the wrong target now means cutting twice. The measured
-  length is in [`submission-metrics.json`](../submission-metrics.json), which grades this paper
-  against bioRxiv rather than against a journal the plan had already eliminated.
+**✅ NAT ACCEPTS PREVIOUSLY-POSTED PREPRINTS. POSTING THE CONDENSED ARTICLE FIRST DOES NOT
+DISQUALIFY IT.** Read at primary source 2026-08-23 by trimcrae in a human web browser and captured
+verbatim to [`nat-submission-guidelines-2026-08-23.md`](../../literature/nat-submission-guidelines-2026-08-23.md),
+which is the source of record for every NAT statement in this repository. The journal's own words:
+
+> Key information — **Accepts preprints? Yes**
+
+> **Preprints.** The journal will consider submissions of manuscripts that have been posted on
+> preprint servers. Please enter the preprint DOI in the designated field when submitting your
+> manuscript. We advise that you inform the Journal Editorial office about your posted preprint at
+> submission.
+>
+> Note that you should not post an updated version of your manuscript on a preprint server while it
+> is being peer reviewed.
+
+⚠ *Superseded, retained: "**⛔ DO NOT POST THE CONDENSED ARTICLE AS A PREPRINT BEFORE SUBMITTING IT
+TO NAT — not until NAT's own policy has been read**", and with it the two-paths framing that made
+submitting-first the safe default. The generic SAGE archiving page warns that "some journals will
+not consider papers that have been posted as preprints prior to submission" and tells the author to
+check the journal's own guidelines — which has now been done, and NAT is not one of those journals.
+The warning was correctly stated and correctly acted on; it was a publisher-level caution standing
+in for a journal-level fact nobody had yet read.*
+
+**⛔ TWO OBLIGATIONS THIS CREATES, BOTH OWNED BY THE AUTHOR AT SUBMISSION TIME:**
+
+1. **The preprint DOI goes in the designated field on the submission form**, and the editorial
+   office is told about the posting. A preprint the journal is not told about is the failure mode
+   the field exists to prevent.
+2. **⛔ ONCE THE MANUSCRIPT IS UNDER PEER REVIEW, THE PREPRINT IS FROZEN.** No updated version may be
+   posted while it is being reviewed. This repository regenerates papers on nearly every commit, so
+   the ordinary working rhythm is exactly what would breach this — the constraint is on POSTING a
+   new version to the preprint server, not on committing, but nothing here enforces the difference
+   and nothing here can.
+
+**The server shortlist, with what is and is not established.** bioRxiv is out: it declined this
+submission because the author is unaffiliated (2026-08-23). ⚠ For the rest, this repository has NO
+fetched evidence on affiliation policy, and a search answer is not evidence — the generic claim that
+bioRxiv "does not require an institutional ID" was contradicted by what actually happened here.
+Candidates, to be checked at the source before use:
+
+| server | established here | not established |
+|---|---|---|
+| **Zenodo** | accepts this author — a record is already published under `10.5281/zenodo.22028916`; supports a `preprint` resource type and mints a DOI | whether NAT's submission form treats a Zenodo DOI as a preprint DOI |
+| **Research Square** | screens for ethics and consent statements, competing-interest disclosure, patient identifiers and pseudoscientific claims; mints a DOI | affiliation policy |
+| **OSF Preprints** | persistent identifier and a Crossref DOI; moderation varies by branded community | affiliation policy |
+
+⚠ **THE EXTENDED REPORT IS NOT THIS QUESTION.** It has been submitted elsewhere (trimcrae,
+2026-08-23). What is open is the CONDENSED article, which is also the one going to NAT.
+
+## 2c · The one NAT requirement that is genuinely ambiguous, and it changes what gets uploaded
+
+**⛔ THE GUIDELINES CONTRADICT THEMSELVES ON THE REVIEW MODEL.** Both readings are on the same page,
+in the capture cited above, and they call for different submission files:
+
+> Key information — Identity transparency: **Single anonymized**
+
+> Peer review policy — Identity transparency: **Single-anonymized**
+
+> The journal adheres to a rigorous **double-anonymized** reviewing policy in which the identity of
+> both the reviewer and author are always concealed from both parties.
+
+Under single-anonymized the manuscript ships as it stands, author line and all. Under
+double-anonymized it needs an anonymized main file: no author block, no ORCID, no correspondence
+address, and no self-identifying repository or archive links in the body.
+
+★ **NOT A REASON TO ANONYMISE PRE-EMPTIVELY, AND NOT A REASON TO GUESS.** Two of the three
+statements say single, the Sage Track submission form states the model for the journal at the point
+of upload, and an anonymized file is a mechanical derivation of a finished manuscript rather than a
+rewrite. So this is read off the form at submission time. It is recorded here because it is the one
+requirement that would otherwise be discovered after the paper had been returned — NAT's own
+initial-evaluation rule is that a manuscript not conforming to these guidelines "will be returned to
+you for amendments prior to peer review".
+
+## 2d · The order that was forced — SATISFIED, and worth keeping for the next deposit
+
+**✅ CLOSED 2026-08-23.** The constraint held for three days and was discharged in the order it
+specified: the archive was published first, so nothing the paper cites resolves to nothing any
+more.
+
+⚠ *Superseded, retained: "**⛔⛔ THE ORDER IS FORCED, AND POSTING THE PREPRINT FIRST FREEZES A DEAD
+CITATION.** The condensed article's Data availability cites `doi:10.5281/zenodo.22061075`. That DOI
+is RESERVED, not published — it resolves to nothing today … A preprint is immutable in the way that
+matters: the version that goes up is the version that is cited, indexed and read, and it would
+carry a data-availability statement pointing at a DOI that returns nothing."* Every clause of that
+was true when written and none of it is now.
+
+★ **THE PART THAT IS NOT SPENT, AND THIS IS THE REUSABLE HALF.** The rule was never about this
+particular DOI: **anything posted publicly freezes whatever it cites at the moment of posting.**
+The reserve-then-rebuild ordering means a manuscript in this repository routinely carries a DOI
+that is real but not yet live, which is fine while it sits here and is not fine the instant it goes
+out. So before ANY outward-facing act, the question is whether every identifier the artefact prints
+resolves for a stranger — and `deposit-zenodo.yml` with `record=verify` is how that is answered
+without a token and without taking anyone's word for it.
+
+## 3 · Open, and blocking the journal submission
+
+**✅ THE ITEM THAT BLOCKED IS CLOSED. What stands here now is TRACKED, and it does not block.**
+
+### 3-i · The published deposit is behind the repository again — and this time it is ordinary
+
+⚠ **THE PUBLISHED DEPOSIT IS BEHIND THE REPOSITORY**, by construction and within hours of being
+published: `archive_content_digest` moved from `989d462e…` to `859f044e…` while the record was
+still being written up. Declared here because
+[`test_the_deposit_the_papers_cite_is_current.py`](../tests/test_the_deposit_the_papers_cite_is_current.py)
+requires drift to be acknowledged rather than silent, which is the right rule and the reason that
+gate exists.
+
+★ **WHAT ACTUALLY MOVED, MEASURED RATHER THAN CHARACTERISED — AND IT IS NOT THE SCIENCE.** The file
+SET is unchanged at 483. **Neither manuscript's source text changed**: `git diff 09172151 --
+fusion-junction-aso-journal-article.md fusion-junction-aso-research-article.md` is empty. What moved
+is the cover letter, this checklist, `deposit-state.json`, the coverage census, tooling and skills,
+plus the built PDFs — whose bytes move on every rebuild because the build stamps a creation time,
+so the digest shifts even when nothing a reader would notice does.
+
+⛔ **SO THIS IS NOT THE 2026-08-20 DEFECT WEARING A NEW DATE, AND THE DIFFERENCE IS THE ONE THAT
+MATTERS.** That one was: the deposit held an EARLIER VERSION OF THE PAPER, including two statements
+this repository had already retracted, and a reader following the citation read withdrawn text.
+This one is: the deposit holds the current text of both papers and an older copy of the scaffolding
+around them. **A reader following `10.5281/zenodo.22061075` gets the manuscripts as they stand.**
+
+**It does not block the journal submission, and nothing needs doing before that submission.** The
+next deposit version is warranted when a MANUSCRIPT changes, not when the repository breathes —
+otherwise every commit mints a version and the version history stops meaning anything. Re-run
+`deposit-zenodo.yml` with `new_version=true` at the next manuscript change, or before any further
+outward-facing act that cites the archive.
+
+⚠ *Superseded by measurement, retained: the framing above replaced a straight "the deposit is
+behind" line. Both are true; only the second says whether anyone should care, and a gate that
+cannot distinguish "the papers are stale in the archive" from "a skill file changed" will be read
+as noise by the third week.*
+
+⚠ *The superseded wording is retained in Appendix A rather than here, and that placement is forced
+rather than tidy — see the appendix.*
+
+**Closed 2026-08-23, in the order the item itself specified.** The deposit was re-run first
+(Actions run 32664681847: 483 files verified, the existing draft updated rather than a second one
+opened) so the click would not freeze an archive already behind the tree — it was behind by
+exactly this round's Nucleic Acid Therapeutics conformance work. trimcrae then published
+deposition 22061075 by hand.
+
+★ **AND IT WAS READ BACK, NOT TAKEN ON HIS WORD.** Actions run 32666842965 fetched the public
+records API with no token: `state: done (submitted=True)`, `published: 2026-08-23`, one file
+`emc-aso-archive.zip` at 9,175,316 bytes, and *"PUBLISHED. The DOI both papers cite resolves to
+this record."* ⚠ That distinction is not ceremony — this checklist carried "⏳ Awaiting bioRxiv
+screening" for three days after bioRxiv had declined, and the lesson recorded there is that a
+status owned by an outside system decays silently. `record=verify` on `deposit-zenodo.yml` is how
+it is re-read, and it needs no secret.
+
+⭐ **THE READ ALSO SURFACED A FACT NOBODY HERE HAD: the record's CONCEPT DOI is
+`10.5281/zenodo.22028915`** — Zenodo's per-record identifier, which always resolves to the newest
+version. It is recorded in [`deposit-state.json`](./deposit-state.json) with the reason no paper
+may cite it: a Data availability statement must name a FROZEN version, or the archive it promises
+changes under the reader at the next correction. Both papers cite the version DOI and must go on
+doing so.
+
+## 3a · What is open now, and it is one decision rather than a defect
+
+**⛔ THE CONDENSED PREPRINT IS ON HOLD, BY THE AUTHOR'S DECISION** (trimcrae, 2026-08-23: *"I'm
+waiting till the longer preprint gets a response before I publish this preprint"*). The draft
+tooling is built and rehearsable — `deposit-zenodo.yml` with `record=preprint` — and nothing is
+posted.
+
+★★ **AND THE HOLD DOES NOT BLOCK THE JOURNAL SUBMISSION, WHICH IS THE THING WORTH SAYING OUT LOUD.**
+Nucleic Acid Therapeutics ACCEPTS a previously-posted preprint; it does not REQUIRE one. §2b read
+that from the guidelines, and the asymmetry is easy to lose: the preprint was the author's chosen
+next step, never a precondition. With the archive published, every DOI in the condensed article
+resolves, and the paper is graded inside every one of the venue's limits, the submission is
+unblocked today.
+
+⚠ **THE ONE SEQUENCING TRAP IF BOTH ARE WANTED.** The guidelines say *"you should not post an
+updated version of your manuscript on a preprint server while it is being peer reviewed."* A first
+posting is not literally an updated version, but the clean readings are **post before submitting**
+or **post after a decision** — not during review. So the hold and the submission are compatible in
+one direction only: submitting now leaves posting-during-review as the awkward case, and posting
+first removes it entirely.
+
+## 3b · Deliberately not done, and why
+
+- **The extended report's abstract has not been cut, and will not be.** Its venue sets no abstract
+  limit and it has been submitted elsewhere; cutting it would be work against no cap.
+  ✅ *The CONDENSED article's abstract HAS been cut, 2026-08-23, and it now grades against a REAL
+  limit rather than a believed one: Nucleic Acid Therapeutics' Original Paper takes an unstructured
+  abstract of no more than 200 words, read at primary source and captured to
+  [`nat-submission-guidelines-2026-08-23.md`](../../literature/nat-submission-guidelines-2026-08-23.md).*
+  ⚠ *Superseded, retained: "**The abstract has not been cut to 200 words.** bioRxiv sets no limit,
+  and 200 is a journal-specific cap, so cutting to the wrong target now means cutting twice", and
+  "[`submission-metrics.json`](../submission-metrics.json) … grades this paper against bioRxiv
+  rather than against a journal the plan had already eliminated." The reasoning was right and is
+  spent: the target stopped being a guess the day the guidelines were read, and the cut was made to
+  the read cap, not to a searched one.*
   ⚠ *Superseded, retained: "the British Journal of Cancer wants a structured abstract under
   mandatory Background/Methods/Results/Conclusions headings, **which this one already has**, while
   Cancer Gene Therapy wants an unstructured one", and "**The cut got bigger on 2026-08-13** — the
@@ -118,22 +312,33 @@ reports four false gaps); competing-interests, funding, ethics and AI-use statem
   abstract, so whoever does the cut is starting from further out."* The venue facts are unchanged
   and BJC still mandates those headings; what changed is that the abstract is now unstructured
   (2026-08-14, see submission-plan §1c), so the parenthetical no longer describes it. The second
-  sentence is retired for a different reason: both results are still reported, but compactly, the
-  pre-mRNA compartment as "19 pair a parent in precursor RNA … and 13 of those 19 are already among
-  the 87" and the censoring test as "designs that look clean mostly
-  stop looking clean under a tenfold deeper search". ⛔ **DO NOT STATE THE DISTANCE TO A CAP HERE.**
+  sentence is retired for a different reason: both results are still reported, but compactly.
+  ⛔ **DO NOT STATE THE DISTANCE TO A CAP HERE.**
   ⚠ *Superseded, retained, one commit after it was written: "The measured distance to a 200-word cap
   is now a few words, not seventy."* It was true at 223 words and false at the next edit, which
   traded jargon for plain English and cost about fifty words — plain language is longer than the
   compressed technical register it replaces, and that trade will be made again. The length has one
   home, [`submission-metrics.json`](../submission-metrics.json), which is regenerated rather than
   typed; a distance quoted here is a subtraction against a number that moves.
-- **The figures have not been made greyscale-only.** Colour is free on bioRxiv. The accessibility
-  problem — that red against green carries nothing to a colour-blind reader or a monochrome printer
-  — has been fixed by adding a shape cue, which is the part that matters regardless of venue.
-- **The journal is not chosen.** See `fusion-junction-aso-submission-plan.md` §1c. Cancer Gene
-  Therapy is eliminated on its own read fee schedule; the venue is reopened and the decision waits
-  on what the author is willing to spend.
+- **The figures have not been made greyscale-only, and colour is no longer free.**
+  ⚠ *Superseded, retained: "Colour is free on bioRxiv."* True of bioRxiv, and bioRxiv is no longer
+  the destination. At Nucleic Acid Therapeutics colour is free ONLINE — "Figures supplied in color
+  will appear in color online regardless of whether or not these illustrations are reproduced in
+  color in the printed version" — and charged in PRINT, per the rates in the capture cited above.
+  ⛔ **That is an author decision at acceptance, not a build decision now**, and it is not a reason
+  to degrade the figures: print colour is opted into, so declining it costs nothing here. The
+  accessibility problem — that red against green carries nothing to a colour-blind reader or a
+  monochrome printer — has been fixed by adding a shape cue, which is the part that matters
+  regardless of venue and which is exactly what makes declining print colour safe.
+- **The journal IS chosen: Nucleic Acid Therapeutics, Original Paper.**
+  ⚠ *Superseded, retained: "**The journal is not chosen.** … the venue is reopened and the decision
+  waits on what the author is willing to spend."* Cancer Gene Therapy stays eliminated on its own
+  read fee schedule. What settled NAT was the condensed article: its Publishing Services Fee is
+  charged per typeset page, so the page count IS the bill, which is why the page budget is a
+  measured gate (`tests/test_the_journal_pdf_fits_its_page_budget.py`, which owns both the budget
+  and the built count) rather than a claim in prose. ⛔ **DO NOT MULTIPLY THE RATE BY THE PAGE COUNT
+  HERE** — the rate's one home is the guidelines capture, the count's is the gate, and a product
+  typed here is a third number that drifts against both.
 
 ## 4 · What the preprint says that the journal version may not
 
@@ -152,3 +357,29 @@ than rescaling them.
 fields and not `hit-frame`. It belongs in the paper so a reader can see why these counts differ from
 an earlier version of the same analysis, and it should not be presented anywhere as a finding about
 off-target screening in general.
+
+## Appendix A · Superseded
+
+⛔ **WHY THIS APPENDIX EXISTS, AND IT IS A REAL CONSTRAINT RATHER THAN HOUSE STYLE.** Rule 1.2
+requires a superseded statement to be retained verbatim. `test_the_deposit_the_papers_cite_is_
+current.py` decides whether the deposit is openly tracked by asking whether the string "PUBLISHED
+DEPOSIT IS BEHIND" appears inside **§3's slice** — a deliberately strict check, tightened in round
+16 after the item was moved to another section and the guard stayed green on the substring alone.
+
+★ Those two rules collide exactly here: quoting the retired blocker verbatim inside §3 re-asserts
+it to the guard, which cannot tell a retraction from a live item and should not try — a guard that
+parses whether a quote is "really" a claim is a guard that can be talked out of firing. So the
+verbatim text lives one section down, where §3's slice does not reach, and §3 states only what is
+true now. This is the same separation `lint_style.py` already makes when it exempts every section
+under an `Appendix` heading from the prose-register gate.
+
+⚠ *Superseded, retained, 2026-08-23: "**⛔ THE PUBLISHED DEPOSIT IS BEHIND THE REPOSITORY, A
+CORRECTED VERSION IS DRAFTED, AND NOBODY HAS PUBLISHED IT.** The Zenodo record published 2026-08-20
+holds 473 files. The repository moved 16 of them and added 4, and the changed set includes
+`fusion-junction-aso-research-article.md` itself — the extended report the condensed submission
+points a reader at six times and calls 'the citable one'. … Until then every archive link in both
+papers resolves to nothing, which is why this item is blocking rather than informational."*
+
+It was the correct reading from 2026-08-20 to 2026-08-23 and it is spent: deposition 22061075 was
+re-run against the current tree and then published, and the record was read back — §3 carries the
+reading and [`deposit-state.json`](./deposit-state.json) carries its provenance.

@@ -85,6 +85,21 @@ TARGETS = [
     # above records: gate 5 checks REGISTER, and a manuscript absent from this list is not
     # checked at all rather than checked and passing.
     "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+    # ⛔ THE TABLES FILE IS PROSE TOO, ADDED 2026-08-22 (round 14 seat 2). Its captions are spliced
+    # into both journal PDFs and carry the two DO NOT ORDER verdicts. Until this line no
+    # build-failing instrument read it at all, and a caption stating "four designs at two seams"
+    # over a two-row, one-seam table shipped in both built PDFs with every gate green.
+    "research/manuscripts/aso/fusion-junction-aso-journal-tables.md",
+    # ⚠ THE COVER LETTER IS DELIBERATELY NOT HERE, AND IT IS IN `lint_claims` (round 15, 2026-08-22).
+    # It was added to both gates and then removed from this one on measurement, not on preference:
+    # this linter's rules are a MANUSCRIPT register, and a letter is a different genre. It fired
+    # `second-person` on "Thank you for considering this manuscript" and on "Yours sincerely" —
+    # correspondence conventions, not tics — and a gate that reports a salutation as a defect is one
+    # its reader learns to skip, which costs the gate on the findings that are real.
+    # ⛔ THE CLAIM GATE IS THE ONE THAT MATTERS FOR THIS FILE AND IT DOES READ IT. Every real finding
+    # a reviewer has ever raised against the letter has been a CLAIM finding — an unhedged novelty
+    # claim, a qualifier dropped off a paraphrase of the extended report, an "as well as" inverted
+    # into a "rather than". Those are R1-R5's business, and `lint_claims.DEFAULT_TARGETS` carries it.
     # ⭐ THE EMC VACCINE DEVELOPMENT PATH, ADDED 2026-08-19 AS A SUBMISSION TEXT FROM THE START.
     # Written to this gate rather than retrofitted to it: it entered at bold 9.1/1000 and em-dashes
     # 0.0/1000, and its only findings were 9 sentence-shaped headings and one fragment, all fixed

@@ -26,6 +26,7 @@ Usage:
 from __future__ import annotations
 
 import csv
+import re
 import os
 import sys
 
@@ -57,7 +58,19 @@ TEST_ARTICLE = {
 #: The near-twin pairs Table 2 prints, named by the CONDEMNED member. Each seam contributes one pair.
 #: ⚠ NAMED BY THE CONDEMNED MEMBER ON PURPOSE: the orderable twin is then read out of the canonical
 #: file's own cross-reference column rather than asserted here, so the pairing cannot drift from it.
-CONDEMNED = ("GGCATATCAAGCGCTG", "CAGGGCATATCATCAA")
+#: ⚠ ONE PAIR, NOT TWO (2026-08-22, page budget). This printed a *TCF12* pair as well, and the
+#: table's point — consecutive registers of one seam carrying opposite verdicts — is made once. The
+#: pair kept is the one that touches a reagent this paper names for synthesis, which is the sharper
+#: example and the one §2 cites the table for; the *TCF12* pair is in the extended report.
+CONDEMNED = ("CAGGGCATATCATCAA",)
+
+
+_WORDS = {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six"}
+
+
+def _spell(n):
+    """`n` in words, or a KeyError naming it — never a silent numeral in a caption."""
+    return _WORDS[n]
 
 
 def _rows():
@@ -112,21 +125,23 @@ def build() -> str:
            "", "# Display items — fusion-junction ASO journal article", "",
            "*Every cell below is a column of `fusion-junction-aso-sequences.csv`, the canonical "
            "machine-readable record, except the test-article column of Table 1, which is a "
-           "literature fact and carries its source in the caption. An oligonucleotide should be "
+           "literature fact and carries its source in the caption. Every reagent named here is a "
+           f"{GEOMETRY} phosphorothioate gapmer. An oligonucleotide should be "
            "ordered from that file rather than transcribed from this page.*", ""]
 
+    # ⚠ A CAPTION LABELS A TABLE; IT DOES NOT CARRY THE ARGUMENT (2026-08-22, page budget). These
+    # two captions had grown to 350 words between them, restating §2 and §4 beside the rows. What a
+    # caption owes the reader is what the columns mean and where the cells come from; the reasoning
+    # lives in the section that cites the table.
     out += ["**Table 1. The two reagents named for synthesis, with their parent-duplex label and "
-            "their test article.** Both are the best available design at their junction and both "
-            "hold the panel's top gap-level margin. The parent-duplex column is the longest "
-            "contiguous duplex any of six mature wild-type parent transcripts forms through the "
-            "catalytic gap; neither reagent reaches the ten-base-pair criterion, and both sit close "
-            "to it, so the length is printed rather than a pass mark. Test articles are the "
-            "engineered constructs of Brenca et al. (PMID:31020999), whose exon spans that paper "
-            "states verbatim. The two patient-derived models of Bangerter et al. "
-            "(PMID:36316541) are REPORTED to carry NR4A3 exon-2 acceptors, an index the article records as "
-            "unsettled, and on that reading are matched to different "
-            "designs, not to these two. Nothing here has been synthesised or tested, and no "
-            "sequence may be administered to any person or animal.", ""]
+            "their test article.** The parent-duplex column is the longest contiguous duplex a "
+            "mature wild-type parent forms through the catalytic gap; neither reagent reaches the "
+            "ten-base-pair criterion, so the length is printed rather than a pass mark. Test "
+            "articles are the engineered constructs of Brenca et al. "
+            "(PMID:31020999); the two patient-derived models of Bangerter et al. (PMID:36316541) are "
+            "REPORTED at an NR4A3 exon-2 acceptor and match different designs, not these two. "
+            "Nothing here has been synthesised or tested, and no sequence may be administered to "
+            "any person or animal.", ""]
     out += ["| seam | reagent | margin | WT gap duplex (bp) | test article |",
             "|---|---|---:|---|---|"]
     for j in LEADS:
@@ -144,30 +159,68 @@ def build() -> str:
     #: synthesis order a real hazard rather than a hypothetical one, so it is computed here from the
     #: sequences themselves and cannot drift from them.
     near = _slides_to_a_named_lead(rows)
-    out += ["**Table 2. Four near-identical designs at two seams, two orderable and two not.** Each "
+    #: ⛔⛔ THE CAPTION COUNTS THE ROWS IT SITS OVER, IT DOES NOT ASSERT THEM (2026-08-22, round 14
+    #: seat 5, BLOCKER). This read "Four near-identical designs at two seams, two orderable and two
+    #: not" as a typed literal while the rows below it are derived from CONDEMNED. Cutting the panel
+    #: to one pair for the six-page budget left the caption describing four designs at two seams
+    #: over a two-row, one-seam table — and it shipped in both built PDFs. `--check` was clean
+    #: throughout, because the generator reproduces its own output faithfully; what it cannot catch
+    #: is a sentence inside that output disagreeing with the rows beside it. Same defect as every
+    #: other typed count this session: the number went out of date, the content did not.
+    n_designs = 2 * len(CONDEMNED)
+    n_seams = len({_at(rows, seq)["junction"] for seq in CONDEMNED})
+    _cap = (f"{_spell(n_designs)} near-identical designs at "
+            f"{_spell(n_seams)} seam{'s' if n_seams != 1 else ''}, half orderable and half not"
+            if len(CONDEMNED) > 1 else
+            f"{_spell(n_designs)} near-identical designs at one seam, one orderable and one not")
+    out += [f"**Table 2. {_cap[0].upper() + _cap[1:]}.** Each "
             "pair is two consecutive registers of one seam differing by a single-base slide, and "
             "the two members carry opposite verdicts: the condemned member pairs its whole "
-            "catalytic gap against a wild-type parent gene at the ten-base-pair criterion, and the "
-            "orderable member does not. " + near + " Neither member of a pair may be substituted "
-            "for the other, and neither is named for synthesis as a reagent against a patient's "
-            "fusion. \u26a0 The orderable *TCF12* design IS one of the three all-screen-clear "
-            "designs the falsification experiment offers as a control arm, which is a different "
-            "role at a junction no patient is reported to carry. The pairing is "
-            "read from the canonical file's own cross-reference column rather than asserted here.", ""]
+            "catalytic gap against a wild-type parent at the ten-base-pair criterion and the "
+            "orderable member does not. " + near + " Neither may be substituted for the other, and "
+            "neither is named for synthesis. The pairing is read from the canonical file's own "
+            "cross-reference column.", ""]
     out += ["| seam | design | verdict | margin | WT gap duplex (bp) |",
             "|---|---|---|---:|---|"]
     for seq in CONDEMNED:
         bad = _at(rows, seq)
         twin_seq, relation = _twin(bad)
         good = _at(rows, twin_seq)
-        out.append(f"| {_seam(bad['junction'])} | 5′-{bad['sequence']}-3′ | DO NOT ORDER | "
+        # `relation` is the twin cell's parenthetical, e.g. "a single-base slide; orderable" —
+        # the slide description and the OTHER member's verdict, both from the canonical file.
+        slide, _, twin_verdict = relation.partition(";")
+        out.append(f"| {_seam(bad['junction'])} | 5′-{bad['sequence']}-3′ | {_verdict(bad)} | "
                    f"{bad['gap_level_margin']} | {_duplex(bad)} |")
-        out.append(f"| {_seam(good['junction'])} | 5′-{good['sequence']}-3′ | orderable "
-                   f"({relation.replace('; orderable','')}) | {good['gap_level_margin']} | "
-                   f"{_duplex(good)} |")
+        out.append(f"| {_seam(good['junction'])} | 5′-{good['sequence']}-3′ | "
+                   f"{_verdict(good, twin_verdict.strip())} ({slide.strip()}) | "
+                   f"{good['gap_level_margin']} | {_duplex(good)} |")
     out.append("")
     return "\n".join(out)
 
+
+
+def _verdict(row, twin_relation=None):
+    """The verdict cell, READ from the canonical file, never typed here.
+
+    ⛔⛔ THIS COLUMN WAS TWO f-STRING LITERALS, AND THAT MADE THE PREAMBLE FALSE (round 16 seat 2).
+    The page opens by promising "every cell below is a column of `fusion-junction-aso-sequences.csv`
+    … except the test-article column of Table 1" — one exception named, and there were two. That is
+    the sentence the whole page's authority rests on, and it was the only checkable provenance claim
+    in the file, so it was the one thing worth auditing mechanically and nothing did.
+    ⚠ WORSE THAN A WRONG NUMBER: a typed verdict can be pointed at a design the canonical file
+    CLEARS, printing DO NOT ORDER against an orderable reagent and `orderable` against a condemned
+    one, under a caption that still reads correctly.
+    ★ Both words are already in the record — `do_not_order` carries the condemned label, and the
+    twin's `near_identical_design_with_a_different_verdict` cell names the other member's verdict —
+    so neither needs typing, and the preamble becomes true again with no rewording. Word cost: 0.
+    """
+    cell = (row.get("do_not_order") or "").strip()
+    if cell:
+        return re.split(r"\s+[—-]\s+", cell, maxsplit=1)[0].strip()
+    if not twin_relation:
+        raise SystemExit(f"{row['sequence']}: the canonical file records no verdict for this design "
+                         "and no twin naming one, so Table 2's verdict cell would have to be typed")
+    return twin_relation
 
 
 def _slides_to_a_named_lead(rows):
@@ -181,8 +234,14 @@ def _slides_to_a_named_lead(rows):
         return a[1:] == b[:-1] or b[1:] == a[:-1]
 
     best = None
-    for seq in CONDEMNED:
-        bad = _at(rows, seq)
+    #: ⛔ THE MINIMUM IS OVER THE WHOLE CONDEMNED CLASS, NOT OVER THE PAIR THIS TABLE HAPPENS TO
+    #: PRINT (2026-08-22, round 16 seat 2). Scoped to `CONDEMNED` this returned TWO slides, for the
+    #: *EWSR1* reagent — while the canonical file records `AGGGCATATCTTGTGT`, 11 bp against wild-type
+    #: *NR4A3*, ONE slide from the *TAF15* reagent this paper names for synthesis and printed in
+    #: neither PDF. The number exists to size an off-by-one in a synthesis order, so it has to be the
+    #: panel's worst case and not the printed pair's.
+    condemned = [r for r in rows if r.get("do_not_order") and r.get("geometry") == GEOMETRY]
+    for bad in condemned:
         for j in LEADS:
             lead = _lead(rows, j)
             if lead["junction"] != bad["junction"]:
@@ -205,12 +264,10 @@ def _slides_to_a_named_lead(rows):
         return ""
     step, lead_seq, bad_seq, duplex = best
     slides = "one single-base slide" if step == 1 else f"{_number_word(step)} single-base slides"
-    #: `_duplex` renders as "11 bp, wild-type *NR4A3*", which does not read as a noun phrase in the
-    #: middle of a sentence; split it so the length and the gene each land where they belong.
     length, _, gene = duplex.partition(", wild-type ")
-    return (f"One of the condemned designs is not at an unrelated seam: 5\u2032-{bad_seq}-3\u2032 is "
-            f"{slides} from 5\u2032-{lead_seq}-3\u2032, a reagent this paper names for synthesis, "
-            f"and pairs {length} of wild-type {gene} through its whole catalytic gap.")
+    return (f"The condemned class reaches the reagents this paper names for synthesis: "
+            f"5\u2032-{bad_seq}-3\u2032 is {slides} from 5\u2032-{lead_seq}-3\u2032 and pairs "
+            f"{length} of wild-type {gene} through its whole catalytic gap.")
 
 
 def _number_word(n):

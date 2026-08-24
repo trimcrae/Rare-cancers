@@ -36,6 +36,26 @@ Extracted from CLAUDE.md §7 (plus §5's deliverable map) on 2026-08-15, **verba
   lane must run off a branch, that branch's artifacts belong on `main` too, and reconciling them is
   **port-then-switch, never switch-then-discover**.
 
+- **⛔⛔ `git checkout --ours` OVER THE CONFLICT LIST SILENTLY DISCARDS EVERY RESOLUTION YOU JUST
+  WROTE BY HAND (2026-08-23, caught by luck).** A 39-ahead/49-behind merge produced 14 conflicts:
+  two source files needing real merges, twelve generated artifacts that only needed regenerating.
+  The source conflicts were resolved carefully — a UNION of two generator checks in `preflight.sh`,
+  and `build_submission_pdf.py`'s vaccine-path banner taken from `main` because main's names where
+  that paper actually is. Then a loop ran `git checkout --ours` over
+  `git diff --name-only --diff-filter=U` to clear the *generated* files, and that list **still
+  contained the two source files**, because resolving a conflict in the working tree does not
+  remove it from the unresolved list — only `git add` does. Both hand-written resolutions were
+  overwritten with the branch's side. The build stayed green: main's `vaccine_path_tables` generator
+  check had simply vanished from preflight, and the vaccine paper's PDFs went back to announcing a
+  deposit that had already happened elsewhere.
+  ★ **THE TELL WAS A HASH THAT MATCHED WHEN IT SHOULD NOT HAVE.** `selector-validation.json` reported
+  `preflight.sh: MATCH` — impossible for a union neither side had recorded — and chasing that one
+  surprising line is the only reason it surfaced. ⚠ Nothing else would have: a dropped gate is
+  invisible, and `--ours` is a legitimate command that reported success.
+  **So: `git add` each file the moment you resolve it, and only then clear the remainder.** Better,
+  never blanket-`--ours` a mixed list — name the generated paths explicitly, since those are the
+  ones whose contents you are about to overwrite anyway.
+
 ## Evidence and registry
 
 - **Citing & combining studies:** registry data uses a structured citation map (`registry.citations` +
@@ -56,14 +76,37 @@ Extracted from CLAUDE.md §7 (plus §5's deliverable map) on 2026-08-15, **verba
   `tests.yml` runs `on: push` with the real dependencies. Twelve local minutes bought a degraded
   rerun of a check that was about to run properly. Scoped, a typical change now runs in **under a
   second** (measured: a `junction_aso_offtarget.py` edit selects 3 test modules, 39 tests, 0.51 s).
-  - **`./scripts/preflight.sh`** — every fast gate, plus only the tests the change can reach
-    ([`affected_tests.py`](./scripts/affected_tests.py), a static import graph with transitive
-    closure). **This is the commit loop.**
+  - **`./scripts/preflight.sh`** — every fast gate, and **no test**. ~**30 s**. **This is the
+    commit loop.** ⚠ *Superseded 2026-08-23, retained (CLAUDE.md rule 1.2): "every fast gate, plus
+    only the tests the change can reach". True from 2026-08-12 until the day the remaining suite was
+    measured — see the tier below.*
+  - **`PREFLIGHT_TESTS=1 ./scripts/preflight.sh`** — the fast gates plus both suites, modalities
+    scoped to the change ([`affected_tests.py`](./scripts/affected_tests.py), a static import graph
+    with transitive closure), manuscripts in full. **Run this when the change touches a manuscript,
+    an SI, a citation or a deposit artifact.**
   - **`PREFLIGHT_FULL=1 ./scripts/preflight.sh`** — everything, **~25 minutes** (the modalities
     suite alone is ~20). **Required before PUBLISHING, and publishing is a CLOSED LIST OF FOUR: a
     preprint, a submission, a release, a DOI.** Scoping is not a claim that the rest of the suite
     passes — but `tests.yml` makes that claim on every push, with the real dependencies, and it is
     the authority. Watch CI; do not pre-run it locally.
+    - ⭐⭐ **AND THE TEST SUITES LEFT THE DEFAULT TIER ON 2026-08-23, WHICH IS THE OTHER HALF OF
+      THE SAME 2026-08-12 ARGUMENT** (trimcrae: *"change the rules so that it's not constantly
+      running and blocking things"*). That day scoped the modalities suite because *"the expensive
+      copy is the WEAKER one"*; the manuscripts suite was never scoped and inherited the whole cost.
+      Measured: **fast gates 31.4 s, manuscripts 176.1 s on every commit** — including a run against
+      a **clean tree at `origin/main`**, which still executed all 878 tests — and modalities ~0 s.
+      So ~85 % of the gate was one step that could not tell a manuscript rewrite from no change at
+      all. ⚠ **Scoping it was tried first and the measurement refused it.** A selector was built and
+      validated against traced ground truth — all 50 guards run in their own processes under a
+      tracer recording every file each really reads, content reads kept apart from directory
+      enumeration — and reached **zero under-selection**. It still left a **132.5 s floor of the
+      176.1 s**, because these guards bind to directory scans and to paths read out of committed
+      artifacts: 28 of 50 are unscopeable on their own terms. A 25 % saving does not pay for a new
+      selector's failure surface, so it was reverted. ⛔ **The cost is real and is not glossed:**
+      gate 12 entered the commit loop so a citation guard would not *"fire after the mistake is
+      shared"*, and it now fires later — caught by CI minutes afterwards and fixed with another
+      commit, which is precisely the content-vs-ceremony line below. **`PREFLIGHT_TESTS=1` is one
+      word; spend it on manuscript work.**
     - ⛔ **A MERGE OR PUSH TO `main` IS NOT ON THE LIST, AND READING IT ONTO THE LIST COST ABOUT TWO
       HOURS (2026-08-23).** The reasoning that gets you there is seductive and wrong: *`main` is the
       trunk every workflow runs from, so surely it deserves the full gate.* The rule defined FULL by
@@ -97,20 +140,25 @@ Extracted from CLAUDE.md §7 (plus §5's deliverable map) on 2026-08-15, **verba
     gate; `scripts/tests/test_affected_tests.py` asserts each of those directions, and the
     baseline-pruning readout is suppressed on a scoped run because **a subset cannot say a test it
     never executed is fixed.**
-- **Before committing:** `./scripts/preflight.sh` must pass. **Twelve gates, in this order:** (1) the consistency
-  linter, (2) `systems/systems_check.py --check`, (3) `research/manuscripts/emc_systems_map_check.py --check`,
+- **Before committing:** `./scripts/preflight.sh` must pass. **Thirteen gates, in this order:** (1) the consistency
+  linter (`research/manuscripts/lint_consistency.py`), (2) `systems/systems_check.py --check`, (3) `research/manuscripts/emc_systems_map_check.py --check`,
   (4) claim strength (`lint_claims.py`), (5) changed prose (`lint_changed_prose.py`, warnings only),
   (6) `research/manuscripts/lint_citations.py`, (7) `research/manuscripts/lint_style.py`,
   (8) `systems/parser_guard.py`, (9) the registry evidence
   contract (`validate-registry.mjs`), (10) the generated deposit artifacts reproducing from their
-  generators, (11) the modalities tests, (12) the manuscripts tests. Its exit code cannot be masked. **Do not
+  generators, (11) the modalities tests, (12) the manuscripts tests, (13) `scripts/tests`, the test
+  selector's own contract. Its exit code cannot be masked. **Do not
   re-type an ordinal from memory** — `[P1]` derives it from the script and fails the build on any document
   that disagrees. *(It did exactly that when the citation gate was inserted, catching four documents in one run.)*
   ⚠ *Superseded 2026-08-22, TWICE OVER: `lint_claims.py` WAS CI-only, and a manuscript repair then shipped a word that fires R2 — preflight green, CI red at that step, and the 26 steps behind it skipped. The note that added it here then said it was **gate 7** and `lint_changed_prose.py` **gate 8**, typed from the intended reading rather than derived from the script, which runs both BEFORE the citation gate: they are **4** and **5**, and everything from citations to parser guard shifted down by two. `[P1]` did not catch it because it only ever derived the REGISTRY VALIDATOR's ordinal — the one number four documents had already got wrong once — and nothing checked the enumerated list this very sentence lives in. It does now.* *Superseded, retained: "It runs the registry evidence contract
   (`validate-registry.mjs`), the doc linters and the modalities tests" — written before gates 2 and 3 existed,
   and "the doc linters" plural was never true of this script. And: **"Five gates"**, which listed the map
   check nowhere, **"Six gates"**, written before citation provenance was one, and **"Seven gates"**, written
-  before manuscript prose style was one, and **"Eight gates"**, written before the manuscript tests
+  before manuscript prose style was one, **"Eight gates"**, written before the manuscript tests, and
+  **"Twelve gates"**, written before `scripts/tests` was one — the selector's own contract, cited by this
+  very section as the safety evidence for scoping while running in no gate at all (round 14 seat 4). The
+  count above is not typed twice: `[P1]` derives it from `preflight.sh`, and `check_preflight_gate_list`
+  derives the enumerated list beside it.
   were run locally at all — CI had run them since 2026-08-03 and this script had not, so a green
   preflight was silent about every guard in `research/manuscripts/tests`, the newest of which checks
   citation numbering.*
@@ -153,7 +201,23 @@ Extracted from CLAUDE.md §7 (plus §5's deliverable map) on 2026-08-15, **verba
     of them was invisible locally while the other was trusted. ⚠ **When you add a check to `tests.yml`, the
     question is not "does CI run it" but "would a session that only ran preflight have seen it".**
 
-### ⭐ THE SANDBOX DEP GAP IS FIXABLE, AND UNTIL 2026-08-23 NOBODY HAD FIXED IT
+### ⭐ THE SANDBOX DEP GAP IS FIXABLE — AND SINCE 2026-08-23 IT IS `./scripts/dev-setup.sh`
+
+**⛔ RUN `./scripts/dev-setup.sh` BEFORE BELIEVING A RED PREFLIGHT IN A FRESH SANDBOX.** A
+`SessionStart` hook in `.claude/settings.json` runs `dev-setup.sh --if-needed` (an import probe of
+both interpreters, not a marker file), so this should already be done; the command is here for when
+it is not.
+
+⚠ **THE PROSE BELOW WAS TRUE AND STILL DID NOT FIX ANYTHING, WHICH IS THE LESSON.** It recorded the
+exact remedy on 2026-08-23 — and that same day `main` came up red on a clean tree at `origin/main`:
+gate 2 wanting `jsonschema`, and 29 manuscript guards wanting `pdfminer.six`/`pypdf`, while CI was
+green on the same commit. **Instructions in a skill file run only if a session loads that skill and
+acts on it.** A script plus a hook runs either way. ⭐ Note also that the two interpreters need
+**different** lists: system `python3` gets `jsonschema` only, because this image's distro
+`cryptography` panics on import and `pypdf` imports it — and nothing under `preflight.sh` needs
+pypdf there, since the PDF guards are TESTS and resolve inside the pytest venv.
+
+#### The original note, retained
 
 **`PREFLIGHT_FULL=1` could not pass in this dev sandbox at all — on `main`, before any change.**
 Measured that day: **84 modality failures and 29 manuscript failures, every one a missing import**,

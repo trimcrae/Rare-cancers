@@ -36,7 +36,7 @@ last_verified: 2026-08-06
 
 | endpoint | state | aimed at | routes | what is still missing |
 |---|---|---|---:|---|
-| **PUB-ASO**<br/>[Two NR4A3 fusion-junction gapmers for extraskeletal myxoid chondrosarco…](../../research/manuscripts/aso/fusion-junction-aso-journal-article.md) | ◕ `complete_unposted` | `journal_submission` | 2 | — |
+| **PUB-ASO**<br/>[NR4A3 gapmers in extraskeletal myxoid chondrosarcoma: 87 of 190 pair a …](../../research/manuscripts/aso/fusion-junction-aso-journal-article.md) | ◕ `complete_unposted` | `journal_submission` | 2 | — |
 | **PUB-ANDGATE**<br/>[A coincidence-detection ("AND-gate") bivalent degrader for protein-leve…](../../research/manuscripts/degrader/fusion-selective-andgate-degrader-paper.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-ATR**<br/>[The in-silico ATR vulnerability assessment for EMC](../../research/manuscripts/dependency/emc-atr-vulnerability-assessment.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-ATR-PANEL-ASK**<br/>[Transcript-level models of the NR4A3 fusions of extraskeletal myxoid ch…](../../research/manuscripts/dependency/emc-atr-collaborator-package.md) | ◐ `drafted` | `experimental_proposal` | 1 | — |
@@ -73,7 +73,7 @@ last_verified: 2026-08-06
 
 *One statement per endpoint, written so a reader can disagree with it. If this sentence cannot be written, there is no endpoint — there is an activity.*
 
-### PUB-ASO — Two NR4A3 fusion-junction gapmers for extraskeletal myxoid chondrosarcoma, screened against wild-type parents
+### PUB-ASO — NR4A3 gapmers in extraskeletal myxoid chondrosarcoma: 87 of 190 pair a wild-type parent through the gap at 10 bp
 
 **◕ `complete_unposted` · aimed at `journal_submission` · [`research/manuscripts/aso/fusion-junction-aso-journal-article.md`](../../research/manuscripts/aso/fusion-junction-aso-journal-article.md)**
 

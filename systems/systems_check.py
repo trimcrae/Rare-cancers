@@ -1535,6 +1535,11 @@ def _preflight_gates():
     return gates
 
 
+#: Words in a preflight heading that do not distinguish one gate from another.
+_GATE_HEADING_STOPWORDS = {"pytest", "tests", "test", "gate", "gates", "their", "from", "every",
+                           "that", "which", "with"}
+
+
 def check_preflight_gate_list(g, f):
     """An ENUMERATED gate list in a document must match the order `preflight.sh` runs its tools.
 
@@ -1563,10 +1568,30 @@ def check_preflight_gate_list(g, f):
             continue
         with open(path, encoding="utf-8") as fh:
             text = fh.read()
-        m = re.search(r"\*\*(\w+) gates, in this order:\*\*(.{0,1200}?)(?:\n\n|Its exit code)",
-                      text, re.S)
+        # ⛔⛔ THE `continue` WAS AN OFF-SWITCH, AND SO WAS THE 1200-CHARACTER CEILING (round 15
+        # seat 2, both demonstrated). `check_preflight_gate_list` polices exactly ONE document —
+        # `git grep "gates, in this order"` returns repo-gates/SKILL.md and nothing else — so a
+        # non-match here was not partial coverage loss, it was total. Changing the heading's colon
+        # to an em dash, or letting the list grow past 1200 characters before its blank line, turned
+        # the whole check off with every gate green; the seat then reinstated the exact mis-ordering
+        # the round-14 note records as having shipped, and nothing fired.
+        # ⚠ So the list is now matched to the paragraph break rather than to a character budget, and
+        # its ABSENCE from the one document that must carry it is an error rather than a skip.
+        body = text.split("gates, in this order", 1)
+        m = None
+        if len(body) > 1:
+            head = re.search(r"\*\*(\w+) gates, in this order", text)
+            tail = re.split(r"\n\s*\n|Its exit code", body[1], maxsplit=1)[0]
+            if head:
+                m = (head.group(1), tail)
         if not m:
+            if rel.endswith("repo-gates/SKILL.md"):
+                f.err("[P1]", f"{rel} no longer carries an enumerated '<N> gates, in this order' "
+                              "list that this check can read. That list is the only one in the "
+                              "repository, so this is not reduced coverage — it is none. Restore "
+                              "the enumeration rather than rewording its heading.")
             continue
+        m = type("_M", (), {"group": staticmethod(lambda i, _m=m: _m[i - 1])})()
         claimed_total = _WORD_TO_INT.get(m.group(1).lower())
         if claimed_total is not None and claimed_total != len(gates):
             f.err("[P1]", f"{rel} says `{m.group(1)} gates` but scripts/preflight.sh runs "
@@ -1577,15 +1602,57 @@ def check_preflight_gate_list(g, f):
         # (`lint_claims.py`)" — which is exactly how the two newest gates are written, so the first
         # version of this check silently skipped the two entries it was added for.
         segments = re.split(r"\((\d+)\)", m.group(2))
-        for num, seg in zip(segments[1::2], segments[2::2]):
-            tools = [t for t in _GATE_TOOLS if t in seg]
-            if len(tools) != 1:
-                continue  # an entry naming no tool, or two, is not one this check can place
-            tool = tools[0]
-            if tool in where and int(num) != where[tool]:
-                f.err("[P1]", f"{rel} lists `{tool}` as gate {num}, but scripts/preflight.sh runs "
-                              f"it at gate {where[tool]} — re-derive the list rather than editing "
-                              "the one entry, because inserting a gate shifts every entry after it")
+        listed = [int(n) for n in segments[1::2]]
+        seg_by_num = {int(n): s for n, s in zip(segments[1::2], segments[2::2])}
+
+        # ⛔⛔ THE SKIP WAS THE HOLE (round 14 seat 4, demonstrated). Until 2026-08-22 this loop
+        # `continue`d on any entry that did not name exactly one member of _GATE_TOOLS — and only
+        # eight of the thirteen entries name one at all. So five wrong lists passed: an entry could
+        # be DROPPED, DUPLICATED, RENUMBERED or moved to the wrong position and, as long as it was
+        # one of the five that name no tool ("the consistency linter", "the modalities tests", "the
+        # manuscripts tests", the generated-artifacts row, `scripts/tests`), nothing saw it. The
+        # check reported on a list it had mostly not read, which is this file's own header defect.
+        #
+        # Two assertions close it. The first is about the LIST — its ordinals must be exactly
+        # 1..N, once each, in order — so a missing, extra or misnumbered entry is caught whether or
+        # not it names a tool. The second iterates over the GATES rather than over the entries, so
+        # a gate whose tool has vanished from the entry that should name it is a finding rather
+        # than a skip.
+        if listed != list(range(1, len(gates) + 1)):
+            f.err("[P1]", f"{rel} enumerates gates {listed}, but scripts/preflight.sh runs "
+                          f"{len(gates)} in order — the list is missing, duplicating or "
+                          "misnumbering an entry. Re-derive the whole list; do not patch one entry.")
+            continue
+        # ⛔ AND EVERY GATE, NOT ONLY THE NINE THAT NAME A TOOL (round 15 seat 2). The round-14
+        # repair iterated `where`, which holds only members of _GATE_TOOLS — so gates 10-13, the
+        # generated-artifacts row and the three pytest rows, were still unread, and permuting the
+        # last three entries passed every gate. That sends a reader whose preflight died at gate 11
+        # to the wrong suite, which is the exact harm this check exists to prevent.
+        # ⚠ THE TOKEN IS DERIVED FROM preflight.sh's OWN HEADING, so renaming a gate re-aims the
+        # check instead of breaking it.
+        for idx, (title, _body) in enumerate(gates, 1):
+            toks = [w for w in re.findall(r"[a-z_/][a-z0-9_./-]{4,}", title.lower())
+                    if w not in _GATE_HEADING_STOPWORDS]
+            if not toks:
+                continue
+            if toks[0] not in seg_by_num.get(idx, "").lower():
+                f.err("[P1]", f"{rel}'s entry ({idx}) does not name `{toks[0]}`, and "
+                              f"scripts/preflight.sh runs '{title}' at that position — so the list "
+                              "sends a reader whose preflight failed there to the wrong gate")
+        for tool, idx in sorted(where.items(), key=lambda kv: kv[1]):
+            seg = seg_by_num.get(idx, "")
+            if tool in seg:
+                continue
+            elsewhere = [n for n, s in seg_by_num.items() if tool in s]
+            if elsewhere:
+                f.err("[P1]", f"{rel} lists `{tool}` as gate {elsewhere[0]}, but "
+                              f"scripts/preflight.sh runs it at gate {idx} — re-derive the list "
+                              "rather than editing the one entry, because inserting a gate shifts "
+                              "every entry after it")
+            else:
+                f.err("[P1]", f"{rel}'s entry ({idx}) does not name `{tool}`, which is what "
+                              "scripts/preflight.sh runs at that position. An entry that names no "
+                              "tool is an entry this check cannot verify, so it must name one.")
 
 
 def check_preflight_gate_ordinal(g, f):

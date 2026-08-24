@@ -1,0 +1,160 @@
+{
+ "_note": "What the population-coverage number's uncertainty ACTUALLY is, on three axes the pooled\npoint estimate does not carry.",
+ "_source": "Gonzalez-Galarza FF, et al. Allele frequency net database (AFND) 2020 update. Nucleic Acids Res. 2020;48:D783-D788. Mirror: github.com/slowkow/allelefrequencies (MIT).",
+ "_source_url": "https://raw.githubusercontent.com/slowkow/allelefrequencies/main/afnd.tsv",
+ "_min_population_n": 50,
+ "_reading_order": [
+  "coverage_published_form is what the manuscript prints.",
+  "coverage_within_locus_exact corrects the same-locus independence error; it is >= the published form, so the published figure cannot be too high for that reason.",
+  "ld_bounds_across_loci hold under ANY linkage disequilibrium between loci and are exact, not modelled.",
+  "between_population is the empirical spread of the same quantity recomputed inside each AFND study population, and is the widest of the three by a large margin."
+ ],
+ "sets": {
+  "class_i_any_strong_binder": {
+   "alleles": [
+    "HLA-A*01:01",
+    "HLA-B*07:02",
+    "HLA-B*15:01"
+   ],
+   "pooled_allele_frequencies": {
+    "HLA-A*01:01": 0.0641,
+    "HLA-B*07:02": 0.048,
+    "HLA-B*15:01": 0.0435
+   },
+   "per_locus_carrier_frequency": {
+    "A": 0.1241,
+    "B": 0.1746
+   },
+   "per_locus_summed_allele_frequency": {
+    "A": 0.0641,
+    "B": 0.0915
+   },
+   "coverage_published_form": 0.2737,
+   "coverage_within_locus_exact": 0.277,
+   "understatement_of_published_form_pp": 0.33,
+   "ld_bounds_across_loci": [
+    0.1746,
+    0.2987
+   ],
+   "ld_bound_width_pp": 12.41,
+   "between_population": {
+    "complete_panel": {
+     "min": 0.0,
+     "p25": 0.0964,
+     "median": 0.2447,
+     "p75": 0.3559,
+     "max": 0.6595,
+     "n": 112
+    },
+    "absent_scored_zero_floor": {
+     "min": 0.0,
+     "p25": 0.0,
+     "median": 0.0309,
+     "p75": 0.1379,
+     "max": 0.6595,
+     "n": 482
+    },
+    "populations_measuring_every_presenting_allele": 112,
+    "populations_with_any_measurement": 482
+   },
+   "_name": "class_i_any_strong_binder"
+  },
+  "class_i_e7e3_public": {
+   "alleles": [
+    "HLA-B*15:01"
+   ],
+   "pooled_allele_frequencies": {
+    "HLA-B*15:01": 0.0435
+   },
+   "per_locus_carrier_frequency": {
+    "B": 0.0851
+   },
+   "per_locus_summed_allele_frequency": {
+    "B": 0.0435
+   },
+   "coverage_published_form": 0.0851,
+   "coverage_within_locus_exact": 0.0851,
+   "understatement_of_published_form_pp": 0.0,
+   "ld_bounds_across_loci": [
+    0.0851,
+    0.0851
+   ],
+   "ld_bound_width_pp": 0.0,
+   "between_population": {
+    "complete_panel": {
+     "min": 0.0,
+     "p25": 0.0293,
+     "median": 0.0636,
+     "p75": 0.0919,
+     "max": 0.6408,
+     "n": 224
+    },
+    "absent_scored_zero_floor": {
+     "min": 0.0,
+     "p25": 0.0,
+     "median": 0.0,
+     "p75": 0.0568,
+     "max": 0.6408,
+     "n": 482
+    },
+    "populations_measuring_every_presenting_allele": 224,
+    "populations_with_any_measurement": 482
+   },
+   "_name": "class_i_e7e3_public"
+  },
+  "class_ii_cd4_helper": {
+   "alleles": [
+    "DRB1*14:01"
+   ],
+   "pooled_allele_frequencies": {
+    "DRB1*14:01": 0.033
+   },
+   "per_locus_carrier_frequency": {
+    "DRB1": 0.0649
+   },
+   "per_locus_summed_allele_frequency": {
+    "DRB1": 0.033
+   },
+   "coverage_published_form": 0.0649,
+   "coverage_within_locus_exact": 0.0649,
+   "understatement_of_published_form_pp": 0.0,
+   "ld_bounds_across_loci": [
+    0.0649,
+    0.0649
+   ],
+   "ld_bound_width_pp": 0.0,
+   "between_population": {
+    "complete_panel": {
+     "min": 0.0,
+     "p25": 0.0298,
+     "median": 0.0572,
+     "p75": 0.088,
+     "max": 0.5644,
+     "n": 310
+    },
+    "absent_scored_zero_floor": {
+     "min": 0.0,
+     "p25": 0.0,
+     "median": 0.027,
+     "p75": 0.0695,
+     "max": 0.5644,
+     "n": 482
+    },
+    "populations_measuring_every_presenting_allele": 310,
+    "populations_with_any_measurement": 482
+   },
+   "_name": "class_ii_cd4_helper"
+  }
+ },
+ "combined_class_i_and_class_ii": {
+  "_note": "An INTERSECTION: the fraction carrying >=1 presenting allele of each class. The manuscript computes it as a product, which assumes independence between HLA-A/B and DRB1 on chromosome 6. These bounds hold under any dependence whatever.",
+  "coverage_class_i": 0.2737,
+  "coverage_class_ii": 0.0649,
+  "product_under_independence": 0.0178,
+  "bounds_under_any_dependence": [
+   0.0,
+   0.0649
+  ],
+  "ceiling_is_the_scarcer_arm": 0.0649
+ }
+}

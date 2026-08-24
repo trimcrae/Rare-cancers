@@ -376,9 +376,35 @@ def test_the_journal_article_states_voidness_as_a_property_of_the_variance():
     assert "no observed ratio at or above one" in text, (
         "the void gate lost its 'at or above one' restriction in the journal article — the "
         "unrestricted form is false and round 7 already fixed it once in the extended report")
-    assert "whatever the reagent does" not in text, (
-        "the journal article claims a void run cannot falsify 'whatever the reagent does', which "
-        "an anti-selective observed ratio refutes")
+    # ⛔⛔ A BANNED LITERAL WITH UNBANNED SYNONYMS IS A BAN ON ONE WORDING (round 16 seat 3, P1-d).
+    # "whatever the reagent does" was the only forbidden phrasing, so "regardless of what the
+    # reagent does" or "no matter the reagent's effect" states the same refuted claim and passes.
+    unrestricted = re.compile(
+        r"whatever the reagent does|regardless of (?:what the reagent|the reagent)"
+        r"|no matter (?:what the reagent|the reagent)|irrespective of (?:what )?the reagent", re.I)
+    for path in (JOURNAL, ART):
+        body = open(path, encoding="utf-8").read()
+        hit = unrestricted.search(body)
+        assert not hit, (
+            f"{os.path.basename(path)} claims a void run cannot falsify {hit.group(0)!r}, which an "
+            "anti-selective observed ratio refutes (n=3, s=0.90, ratio 0.50 -> upper limit 4.677).")
+    assert unrestricted.search("cannot falsify regardless of the reagent's effect"), (
+        "the unrestricted-form alternation no longer matches a synonym of the phrasing it exists to "
+        "ban, so the check above is a ban on one wording rather than on the claim.")
+
+    # ⛔ AND THE GUARD MUST ASSERT THE RELATION ITS OWN NAME CLAIMS. It was named for voidness being
+    # a property of the VARIANCE, and checked only that three other phrasings were present or
+    # absent — so the paper could drop the property entirely and this would still pass. Both papers
+    # state it, in their own vocabulary, and both are now read: one-of-a-pair is the defect this
+    # module exists to catch.
+    for path, expected in ((JOURNAL, "realised variance"), (ART, "assay's variance")):
+        body = re.sub(r"\s+", " ", open(path, encoding="utf-8").read())
+        assert re.search(rf"voidness is a property of the {re.escape(expected)} rather than of the "
+                         rf"design", body), (
+            f"{os.path.basename(path)} no longer states that voidness is a property of the "
+            f"{expected} rather than of the design. That relation is what makes a pilot-based gate "
+            "coherent; without it a reader takes voidness for a property of the DESIGN, which would "
+            "make the reagent, not the assay, the thing that failed.")
 
 
 def test_the_journal_article_keeps_both_branches_of_the_pilot_gate():

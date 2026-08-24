@@ -29,7 +29,18 @@ import pytest
 HERE = os.path.dirname(os.path.abspath(__file__))
 MANUSCRIPTS = os.path.abspath(os.path.join(HERE, ".."))
 REPO = os.path.abspath(os.path.join(MANUSCRIPTS, "..", ".."))
-PAPER = os.path.join(MANUSCRIPTS, "aso", "fusion-junction-aso-research-article.md")
+#: ⛔ BOTH ABSTRACTS (round 14 seat 2). `PAPER` named the extended report alone, so the journal
+#: article's abstract — the one a NAT reviewer reads first — had no length bound and no scope
+#: needle of any kind. That is the ninth instrument this review has found bound to one of a pair
+#: while reporting on both, and the shape is always the same: the second document was added to the
+#: repository and the guard was not widened with it.
+PAPERS = {
+    "extended-report": os.path.join(MANUSCRIPTS, "aso",
+                                    "fusion-junction-aso-research-article.md"),
+    "journal-article": os.path.join(MANUSCRIPTS, "aso",
+                                    "fusion-junction-aso-journal-article.md"),
+}
+PAPER = PAPERS["extended-report"]
 NULL = os.path.join(REPO, "research", "modalities", "aso-parent-null.json")
 
 #: Not a venue limit — bioRxiv has none. A drift bound; see the module docstring.
@@ -52,12 +63,35 @@ NULL = os.path.join(REPO, "research", "modalities", "aso-parent-null.json")
 #: something, and if the abstract reaches 400 the question is which Result it has absorbed.
 ABSTRACT_DRIFT_BOUND = 400
 
+#: The condensed submission's own bound.
+#:
+#: ⚠ ALSO NOT A VENUE LIMIT, AND THE DOCSTRING'S INSTRUCTION CANNOT BE FOLLOWED YET. The module
+#: docstring says to replace the bound with the venue's own once a journal is targeted. NAT is the
+#: targeted venue, and its author instructions could not be read: every Sage-hosted NAT page in
+#: `research/literature/venue-policy-browser-fetch.json` — `author-instructions/NAT`,
+#: `aims-scope/NAT`, `home/nat` — returned **403** to the fetcher. So this stays a drift bound, and
+#: it is NOT to be described as NAT's limit until someone has read NAT's limit.
+#:
+#: 250 rather than 400 because this paper is on a six-page budget: a word in its abstract is a word
+#: not available to its Results. The abstract stands at 227, so the bound buys one qualification
+#: and no more.
+JOURNAL_ABSTRACT_DRIFT_BOUND = 250
 
-def _abstract():
-    if not os.path.exists(PAPER):
-        pytest.fail(f"the manuscript is missing: {PAPER}")
-    text = open(PAPER, encoding="utf-8").read()
-    assert "## Abstract" in text, "the abstract heading has moved; re-anchor this guard"
+#: Which needles apply to a paper that reports fewer results. The two below are SCOPE bounds — they
+#: say what the work is and what the criterion is — and every abstract of this work owes both. The
+#: rest of `_needles()` names results the condensed paper deliberately does not carry, and
+#: demanding them there would push its Results into its abstract to satisfy a guard.
+UNIVERSAL_NEEDLES = ("the criterion is adopted rather than measured",
+                     "that the work is computational and nothing was made")
+
+
+def _abstract(paper=None):
+    paper = paper or PAPER
+    if not os.path.exists(paper):
+        pytest.fail(f"the manuscript is missing: {paper}")
+    text = open(paper, encoding="utf-8").read()
+    assert "## Abstract" in text, (
+        f"the abstract heading has moved in {os.path.basename(paper)}; re-anchor this guard")
     body = text.split("## Abstract", 1)[1].split("\n---\n", 1)[0]
     return [w for w in re.sub(r"\*", "", body).split() if w.strip()]
 
@@ -136,7 +170,18 @@ def _needles():
     return [
         ("the criterion is adopted rather than measured",
          re.compile(r"adopted[^.]{0,60}not measured|not measured[^.]{0,60}adopted"
-                    r"|adopted rather than measured|is a choice", re.I),
+                    r"|adopted rather than measured"
+                    #: ⚠ NOT A BARE "is a choice" (round 15 seat 2). Three words loose in a 227-word
+                    #: abstract are satisfied by a sentence asserting the cut IS measured, so the
+                    #: needle passed on prose stating the opposite of the property it guards. Every
+                    #: alternative here must carry the CONTRAST, not just one half of it.
+                    r"|is a choice rather than a measurement"
+                    r"|a choice[^.]{0,40}not a measurement"
+                    #: ⚠ THE JOURNAL ARTICLE SAYS IT AS "a convention rather than a measurement",
+                    #: which is the same property in different words. This file's own rule is
+                    #: tolerant of wording, intolerant on substance.
+                    r"|convention rather than a measurement"
+                    r"|a convention[^.]{0,60}not a measurement", re.I),
          f"{f['strict']} base pairs is a convention this work took from the literature, not a "
          "value it derived; an abstract that states the count without it reads as a measurement",
          None),
@@ -196,23 +241,28 @@ def _needles():
          _SURVIVES_EVERY_SCREEN),
         ("that the work is computational and nothing was made",
          re.compile(r"nothing (?:has been|was) synthesi[sz]ed|no wet-lab"
-                    r"|the work is computational", re.I),
+                    #: ⚠ "This work is computational" is the condensed abstract's wording and was
+                    #: not admitted by `the work is computational`. Substance, not article.
+                    r"|th(?:e|is) work is computational", re.I),
          "the abstract is the part of the paper that travels alone, and the repository "
          "frontmatter that says this is stripped from both rendered PDFs",
          None),
     ]
 
 
-def test_the_abstract_reads_this_paper_and_is_bounded():
+@pytest.mark.parametrize("key,bound", [("extended-report", ABSTRACT_DRIFT_BOUND),
+                                       ("journal-article", JOURNAL_ABSTRACT_DRIFT_BOUND)])
+def test_the_abstract_reads_this_paper_and_is_bounded(key, bound):
     """⚠ The first assertion is the one that failed to exist before: that we opened THIS file."""
-    words = _abstract()
+    words = _abstract(PAPERS[key])
     assert 150 < len(words), (
-        f"the abstract is only {len(words)} words — either it has been gutted or this guard is "
+        f"{key}'s abstract is only {len(words)} words — either it has been gutted or this guard is "
         "reading the wrong file, which is the exact defect it was written for")
-    assert len(words) <= ABSTRACT_DRIFT_BOUND, (
-        f"the abstract is {len(words)} words against a drift bound of {ABSTRACT_DRIFT_BOUND}. This "
-        "is not a venue limit — bioRxiv sets none — so the question is whether the abstract is "
-        "absorbing the Results. Trim it, or raise the bound deliberately and say why here.")
+    assert len(words) <= bound, (
+        f"{key}'s abstract is {len(words)} words against a drift bound of {bound}. This is not a "
+        "venue limit — bioRxiv sets none and NAT's author instructions return 403 to the fetcher — "
+        "so the question is whether the abstract is absorbing the Results. Trim it, or raise the "
+        "bound deliberately and say why beside the constant.")
 
 
 def test_the_abstract_carries_the_qualifications_the_results_attach():
@@ -239,3 +289,28 @@ def test_the_abstract_carries_the_qualifications_the_results_attach():
         + "\n\nEvery number above is read from research/modalities/aso-parent-null.json at run "
           "time, so if a figure genuinely moved, regenerate the artifact and restate the abstract; "
           "do not retype the number here.")
+
+
+def test_the_condensed_abstract_carries_the_two_scope_bounds_every_abstract_of_this_work_owes():
+    """⛔ THE SHORT PAPER'S ABSTRACT IS THE ONE THAT TRAVELS ALONE THE FURTHEST.
+
+    It is what a NAT editor reads first and the only part of this work most readers will ever see,
+    and until 2026-08-22 no guard opened it. It does not owe the extended report's result needles —
+    it deliberately reports fewer results, and demanding them here would push its Results into its
+    abstract to satisfy a test. It does owe both SCOPE bounds, because those are not results: they
+    say what the work is and what the criterion is, and dropping either is the R1-R5 defect the
+    language discipline exists to prevent.
+    """
+    body = " ".join(_abstract(PAPERS["journal-article"]))
+    needles = {name: pattern for name, pattern, _why, _scope in _needles()}
+    for name in UNIVERSAL_NEEDLES:
+        assert name in needles, (
+            f"{name!r} is no longer a needle in _needles(), so this test is silently checking "
+            "nothing — re-anchor it to the needle that replaced it")
+    missing = [name for name in UNIVERSAL_NEEDLES if not needles[name].search(body)]
+    assert not missing, (
+        "the journal article's abstract no longer states "
+        + f"{len(missing)} scope bound(s) it owes:\n  " + "\n  ".join(missing)
+        + "\n\nThese are not results and cannot be traded for length: an abstract that states the "
+          "count without saying the criterion was adopted reads as a measurement, and one that "
+          "does not say the work is computational travels without the frontmatter that says so.")

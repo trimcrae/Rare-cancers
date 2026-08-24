@@ -57,14 +57,22 @@
 # No separate serial re-run was needed: preflight performs exactly this comparison every build.
 # THIS NUMBER SHOULD KEEP FALLING as the sandbox gains packages. It describes a deficient
 # environment; it is not a tolerance for broken tests, and every entry is a missing import.
-research/modalities/tests/test_abfe_diagnostics.py::test_autocorr_inefficiency_correlated_is_large
-research/modalities/tests/test_abfe_diagnostics.py::test_ess_report_shape_and_fields
-research/modalities/tests/test_abfe_diagnostics.py::test_forward_reverse_converged_leg_agrees
-research/modalities/tests/test_abfe_diagnostics.py::test_forward_reverse_matches_engine_reduce_leg_at_full_data
-research/modalities/tests/test_abfe_diagnostics.py::test_leg_diagnostics_bundle_keys
-research/modalities/tests/test_abfe_diagnostics.py::test_mbar_ess_identical_states_equals_total_samples
-research/modalities/tests/test_abfe_diagnostics.py::test_mbar_ess_separated_states_near_own_N
-research/modalities/tests/test_abfe_diagnostics.py::test_overlap_identical_states_is_uniform_1_over_K
-research/modalities/tests/test_abfe_diagnostics.py::test_overlap_separated_states_near_identity
-research/modalities/tests/test_abfe_diagnostics.py::test_overlap_symmetric_and_adjacent_beats_far
-research/modalities/tests/test_abfe_diagnostics.py::test_receptor_dg_bind_matches_combine_legs
+#
+# ================================================================================================
+# BASELINE IS EMPTY BY MEASUREMENT (2026-08-23), NOT BY TRUNCATION.
+#
+# A PREFLIGHT_FULL=1 run measured 7,803 modality tests passing, 48 skipped, ZERO failures, and
+# reported all eleven remaining entries as "no longer fail -- prune them from
+# research/modalities/tests/sandbox-failure-baseline.txt". They were pruned, and each was then
+# re-run directly to confirm it passes (test_abfe_diagnostics.py: 21 passed).
+#
+# ⚠ WHAT AN EMPTY LIST NOW ASSERTS, AND IT IS A STRONGER CLAIM THAN A FULL ONE: this sandbox
+# reproduces CI exactly, so EVERY failure is a real failure and none is tolerated. That is the
+# correct state, and it is perishable — a dependency can go missing again. When one does, add the
+# test id back with the missing dependency named, and DELETE THIS BLOCK, because the claim above
+# will no longer be true.
+#
+# ⛔ NEVER ADD AN ENTRY TO SILENCE A FAILING TEST. An entry means "the dependency is absent here and
+# present in CI", and nothing else. test_sandbox_failure_baseline.py asserts this block is present
+# whenever the list is empty, so emptiness can never be reached by accident or by truncation.
+# ================================================================================================

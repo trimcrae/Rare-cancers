@@ -35,16 +35,37 @@ OUT = os.path.join(HERE, "SUBMISSION-PACKET.md")
 #: address item — the guide asks for affiliations and a corresponding-author e-mail, never a postal
 #: address. The Wiley and Elsevier guides remain unreadable, so their requirements are unknown
 #: rather than assumed either way.
+def _orcid_present():
+    """Does every submission manuscript carry a real ORCID iD in its author block?
+
+    Derived, because the packet's "outstanding" list is the one thing in this repository a person
+    ACTS on, and an item there that is already done costs them a trip to orcid.org.
+    """
+    import glob
+    pat = re.compile(r"ORCID[:\s]*\[?(\d{4}-\d{4}-\d{4}-\d{3}[\dX])")
+    seen = []
+    for path in sorted(glob.glob(os.path.join(HERE, "aso", "fusion-junction-aso-*article*.md"))):
+        seen.append(bool(pat.search(open(path, encoding="utf-8").read())))
+    return bool(seen) and all(seen)
+
+
 AUTHOR_ONLY = [
-    ("ORCID", "THE ONE REMAINING ITEM, and the only thing in this packet an agent cannot do. "
-              "The British Journal of Cancer's Guide to Authors states that the corresponding "
-              "author should also provide an ORCID identifier; the Wiley and Elsevier author "
-              "guides are bot-walled, so their position is unknown rather than assumed. "
-              "Registration is free at orcid.org and takes a few minutes, and it is an identity "
-              "registration, so it must be done by the author and not on their behalf. Each "
-              "manuscript now carries an ORCID line in its author block reading ORCID TO BE "
-              "SUPPLIED BY THE AUTHOR BEFORE SUBMISSION; replacing that string in four files is "
-              "the whole of the remaining work."),
+    # ⛔⛔ THIS ENTRY TOLD THE AUTHOR TO DO SOMETHING ALREADY DONE (2026-08-23). It read "THE ONE
+    # REMAINING ITEM ... each manuscript now carries an ORCID line reading ORCID TO BE SUPPLIED BY
+    # THE AUTHOR BEFORE SUBMISSION; replacing that string in four files is the whole of the
+    # remaining work." Measured: that placeholder is in NO file, every submission manuscript carries
+    # a real iD, and the preprint checklist had already struck the item through as done. The one
+    # document whose whole job is to say what still blocks submission was naming a finished task as
+    # the blocker — which is worse than a stale comment, because a reader acts on it.
+    # ★ So it is DERIVED. The status is read from the manuscripts, and the entry only appears while
+    # something is actually outstanding.
+    *(( ) if _orcid_present() else ((
+        "ORCID",
+        "The corresponding author's ORCID iD is not in the author block of every submission "
+        "manuscript. Registration is free at orcid.org and is an identity registration, so it must "
+        "be done by the author and not on their behalf. The British Journal of Cancer's Guide to "
+        "Authors asks the corresponding author to supply one; the Wiley and Elsevier guides are "
+        "bot-walled, so their position is unknown rather than assumed."),)),
     ("Corresponding-author e-mail and affiliation", "The BJC title-page specification asks for full "
               "author names and affiliations together with the corresponding author's e-mail. The "
               "manuscripts give the e-mail and state 'independent researcher, unaffiliated', which "
@@ -103,7 +124,67 @@ def figures_for(stem, declared=()):
 
 #: Suffixes a manuscript stem may carry that its companion documents drop. Ordered longest-first so
 #: `-research-article` is stripped before a hypothetical `-article` could match a prefix of it.
-_STEM_TAILS = ("-research-article", "-manuscript", "-paper")
+#: ⛔ `-journal-article` ADDED 2026-08-22 (round 14 seat 5). The condensed NAT submission's stem is
+#: `fusion-junction-aso-journal-article`, which matched none of these, so `_companion` looked for a
+#: sibling starting with the FULL stem and the row printed `Cover letter | MISSING` beside a letter
+#: sitting in the same directory — the same false negative this list was created to fix, one paper
+#: later. The expensive direction, again: a checklist telling a depositor to write a document that
+#: already exists.
+_STEM_TAILS = ("-research-article", "-journal-article", "-manuscript", "-paper")
+
+
+def _cgt_fee_line():
+    """What the FETCH RECORD says about Cancer Gene Therapy's charges — read, not remembered.
+
+    ⛔⛔ THIS PARAGRAPH WAS A HAND-TYPED LITERAL AND IT WAS WRONG ON THREE COUNTS (round 16 seat 4,
+    2026-08-22), inside a generator whose own banner reads "every value is derived from a committed
+    artifact". It said the fee schedule "has never been read" — `cgt_gta` is HTTP 200 and contains
+    "£145 / $238 per page" verbatim; it said `/cgt/about` "returned 404" — it returned 200; and it
+    said the page and colour charges "are unknown" — the fetched text states the charge and says it
+    is "fully inclusive of colour reproduction".
+    ⚠ A GENERATED FILE IS ONLY AS DERIVED AS ITS LEAST DERIVED SENTENCE, and a "DO NOT HAND-EDIT"
+    banner over a hand-typed claim is worse than no banner: it tells the reader not to check.
+    """
+    rec = os.path.join(REPO, "research", "literature", "venue-policy-browser-fetch.json")
+    if not os.path.exists(rec):
+        return ("- Cancer Gene Therapy's fee schedule could not be checked: "
+                "`research/literature/venue-policy-browser-fetch.json` is missing.")
+    targets = json.load(open(rec, encoding="utf-8")).get("targets", {})
+    cgt = {k: v for k, v in targets.items() if k.startswith("cgt")}
+    answered = sorted(k for k, v in cgt.items() if v.get("status") == 200)
+    unread = sorted(k for k, v in cgt.items() if v.get("status") != 200)
+    fee = ""
+    for key in answered:
+        m = re.search(r"[^.]{0,90}per page[^.]{0,120}\.", " ".join((cgt[key].get("text") or "").split()))
+        if m:
+            fee = f' Its guide to authors states, verbatim: "{m.group(0).strip()}"'
+            break
+    return ("- Cancer Gene Therapy's charges HAVE been read, contrary to a claim this file carried "
+            f"until 2026-08-22. Of {len(cgt)} fetched pages, {len(answered)} answered HTTP 200 "
+            f"({', '.join(answered)}) and {len(unread)} did not "
+            f"({', '.join(unread) if unread else 'none'})." + fee +
+            " Confirm at the portal before submitting there; this is a fetch record, not an invoice.")
+
+
+def _paper_supplementary(manuscript_rel):
+    """The SI `build_submission_pdf.PAPERS` says this manuscript has, or "" if it has none.
+
+    ⚠ ONE FACT, ONE HOME. The builder decides what each paper renders; a packet that answers the
+    same question by globbing a directory is a second home for it, and the second home is the one
+    that was wrong.
+    """
+    try:
+        import importlib.util
+        path = os.path.join(HERE, "build_submission_pdf.py")
+        spec = importlib.util.spec_from_file_location("_bsp_for_packet", path)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+    except Exception:
+        return ""
+    for paper in getattr(mod, "PAPERS", {}).values():
+        if paper.get("manuscript") == manuscript_rel:
+            return paper.get("supplementary") or ""
+    return ""
 
 
 def _companion(stem, suffixes):
@@ -142,6 +223,13 @@ def main():
                  # true state: nature.com/cgt/open-access answered 200 and establishes that open
                  # access is the paid upgrade, so there is no APC on the subscription route — but
                  # every author-facing CGT path tried returned 404, so page, colour and
+                 # ⚠ SUPERSEDED 2026-08-22, trimcrae: "NAT is the venue. It's not disqualified."
+                 # This file previously carried "Nucleic Acid Therapeutics passed the same APC test
+                 # and was then disqualified by mandatory page charges of $90/page" in its
+                 # not-verified section, while the packet's own venue table targeted the journal
+                 # article AT Nucleic Acid Therapeutics -- a file recommending a venue it elsewhere
+                 # called disqualified. The page charge is a real cost to plan the length against,
+                 # not a disqualification, and it is why the article carries a page budget.
                  # over-length charges are UNREAD. Nucleic Acid Therapeutics passed the APC test
                  # and was then disqualified by $90/page, so an unread fee schedule is the live
                  # risk on this submission and not a formality.
@@ -182,8 +270,22 @@ def main():
         # shortened stem drops a trailing `-research-article`/`-manuscript`/`-paper`, which is the
         # only thing that differed.
         letter = _companion(stem, ("-cover-letter.md",))
+        # ⚠ A PREPRINT SERVER TAKES NO COVER LETTER, so "MISSING" would be a false demand and naming
+        # the journal letter here would be a false claim about what this deposit carries. Both ASO
+        # rows now resolve the same file — there is one cover letter for this work and it is the
+        # journal submission's — and this is what keeps the preprint row from claiming it.
+        preprint = "preprint" in row["venue"].lower()
         figs = figures_for(stem, row.get("figure_files") or ())
-        si = bool(_companion(stem, ("-SI.md", "-si.md", "-supplementary-information.md")))
+        # ⛔ ASK THE BUILDER, NOT THE DIRECTORY (round 15 seats 4 and 5, 2026-08-22). `_companion`
+        # anchors at both ends so "a companion belonging to a different paper cannot be claimed by
+        # this one" — but round 14 added `-journal-article` to `_STEM_TAILS`, which reduces BOTH ASO
+        # stems to `fusion-junction-aso`, so the condensed submission claimed the extended report's
+        # SI and this row told a NAT depositor "Supplementary file: yes". The SI's own title page
+        # reads "Supplementary Information to [the research article]"; `PAPERS['aso-journal']` has
+        # no `supplementary` key at all. Whether a paper HAS an SI is the builder's fact, and the
+        # builder is where it is now read from. The directory scan stays for the cover letter, where
+        # one letter legitimately serves the submission.
+        si = bool(_paper_supplementary(row["file"]))
 
         L += [f"## {row['venue']}", "", f"**Manuscript** `{row['file']}`", ""]
         L += ["| field | value |", "|---|---|",
@@ -195,7 +297,7 @@ def main():
               f"{' (limit ' + str(lim['display_items']) + ')' if lim.get('display_items') else ''} |",
               f"| References | {m['references']}"
               f"{' (limit ' + str(lim['references']) + ')' if lim.get('references') else ''} |",
-              f"| Cover letter | {'`' + letter + '`' if letter else 'MISSING'} |",
+              f"| Cover letter | {'n/a (preprint deposit)' if preprint else ('`' + letter + '`' if letter else 'MISSING')} |",
               f"| Supplementary file | {'yes' if si else 'none'} |",
               f"| Fee route | {v.get('zero_dollar_route', 'not recorded')} |", ""]
         if row.get("over_limit"):
@@ -219,23 +321,35 @@ def main():
           "headless browser from CI. Word, abstract and display-item limits above are "
           "search-derived except for the British Journal of Cancer row, which was read from the "
           "journal's own page. Confirm each at the portal, where the pages load normally.",
-          "- Cancer Gene Therapy is a separate and worse case, because it is a CHOSEN venue whose "
-          "fee schedule has never been read. nature.com answers, and its open-access page was read "
-          "at HTTP 200 and establishes that open access is the optional paid upgrade — so the "
-          "subscription route carries no article processing charge. But `/cgt/for-authors`, "
-          "`/cgt/submission-guidelines` and `/cgt/about` all returned 404, so that journal's page, "
-          "colour and over-length charges are unknown. Nucleic Acid Therapeutics passed the same "
-          "APC test and was then disqualified by mandatory page charges of $90/page. Load the "
-          "journal's author guidelines in an ordinary browser and confirm the full fee schedule "
-          "before submitting there.",
+          _cgt_fee_line(),
           "- The $0 route rests on publisher-wide policy statements quoted verbatim in "
           "`research/literature/venue-fee-routes-2026-08-10.json`, not on the per-journal fee page. "
           "Elect the subscription route at the fee step and decline the open-access upgrade.",
           "- The British Journal of Cancer levies a colour charge for figures in print, waived only "
           "for open-access papers. That paper has no figures, so the charge cannot arise.", ""]
 
+    text = "\n".join(L) + "\n"
+
+    # ⛔⛔ `--check` ADDED 2026-08-22 (round 15 seat 5). This was the ONE deposit generator without
+    # it, so `SUBMISSION-PACKET.md` was read by nothing at all: the seat wrote four fabricated facts
+    # into the committed file — including a made-up NAT page limit, for the venue whose limits the
+    # same file calls UNREAD, and a figure filename that does not exist — and all five linters plus
+    # the 848-test manuscripts suite stayed green. The file carries a "Do not hand-edit" banner,
+    # which is an instruction to humans backed by nothing until a gate re-derives it.
+    # ⚠ A CHECKLIST'S FALSE CONTENT IS THE EXPENSIVE DIRECTION: it is read at the portal, at the
+    # moment when there is no time to verify it.
+    if "--check" in sys.argv:
+        if not os.path.exists(OUT):
+            print(f"MISSING {OUT} — run without --check")
+            return 1
+        if open(OUT, encoding="utf-8").read() != text:
+            print(f"STALE {os.path.relpath(OUT, REPO)} — rerun without --check and commit the result")
+            return 1
+        print("submission packet reproduces from submission-metrics.json and the filesystem")
+        return 0
+
     with open(OUT, "w", encoding="utf-8") as fh:
-        fh.write("\n".join(L) + "\n")
+        fh.write(text)
     print(f"wrote {os.path.relpath(OUT, REPO)} for {len(metrics.get('rows', []))} paper(s)")
     return 0
 

@@ -258,6 +258,34 @@ repository has paid for most often.
 
 ## 8 · Convergence — when to stop
 
+### 8.0 · ⛔⛔ WHAT A BLOCKER IS, BECAUSE GETTING THIS WRONG MAKES CONVERGENCE UNMEASURABLE
+
+**trimcrae, 2026-08-23, on being handed nine of them: *"That is just so many blockers. Are you
+confirming that they actually are blockers and not nitpicks?"* They were not.** Audited on the spot:
+of round 16's nine BLOCKERs, **ZERO were a wrong statement in the shipped paper.** In every case the
+mutation was green BEFORE and red after — and "before" was the clean, correct text. The round changed
+**16 test files, 4 tools, and 2 manuscript files; the journal article itself was never edited at all.**
+
+| grade | the test |
+|---|---|
+| **BLOCKER** | the artifact **as it stands now** is wrong, misleading or unsafe. A reader acting on the committed text would be misled. Quote the wrong text and the record that contradicts it. |
+| **P1** | the artifact is **correct now**, but an ordinary future edit would silently make it wrong and nothing would catch that. **Every guard gap belongs here, however central the claim.** |
+
+**⛔ "COULD BE INVERTED" / "NO INSTRUMENT READS IT" IS A P1 BY CONSTRUCTION.** The severity of what
+*would* happen never promotes a hypothetical to a defect. ⛔ **And the converse, which is the half
+that gets forgotten: text that is actually wrong today is a BLOCKER even when it looks small.** Round
+16's one real defect was a caption reading *"two single-base slides"* where the canonical file records
+**one** — an order-safety margin understated 2× — and it was worth more than the other eight together.
+
+**★★ WHY THIS IS NOT PEDANTRY ABOUT LABELS.** Grading coverage gaps as blockers means the count can
+never reach zero, because there is always another unguarded sentence. So *"iterate until no blockers"*
+silently becomes *"iterate until every sentence has an instrument"*, which is unbounded — the blocker
+count starts tracking INSTRUMENT COVERAGE rather than PAPER DEFECTS. That is §8a's own diagnosis
+applied to the scoreboard instead of the paper, and it went unnoticed for a whole round **because the
+inflated grade made the work look more urgent than it was.** ⚠ Report the two counts separately and
+never merge them: **defects found in the artifact**, and **coverage gaps found**.
+
+
 **⛔ STOP WHEN A ROUND RETURNS NO BLOCKERS *AND* NO P1s.**
 
 ⚠ *Superseded, retained: "a round with no blockers is converged."* **Round 12 was the first round with
@@ -267,9 +295,64 @@ in it is a round whose repairs have not yet been reviewed.
 
 **Track the blocker trend; it is the signal, not the round number:**
 
-| round | 8 | 9 | 10 | 11 | 12 | 13 |
-|---|---|---|---|---|---|---|
-| blockers filed | **24** | 7 | 3 | 2 | **0** | **1** |
+| round | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 |
+|---|---|---|---|---|---|---|---|---|
+| distinct blockers | **24** | 7 | 3 | 2 | **0** | 1 | 3 | **6** |
+
+## 8a · ★★ WHEN THE BLOCKER COUNT STOPS FALLING, YOU ARE SAMPLING SURFACES, NOT FIXING A PAPER
+
+**⛔ THE TREND ABOVE REVERSED, AND ITERATING HARDER WAS THE WRONG ANSWER (trimcrae, 2026-08-22:
+*"If we keep playing whack a mole on blockers, put some thought into why that is and alter your
+approach."*).** Rounds 14 and 15 went 3 → 6 while every finding was being applied and
+mutation-verified. The paper was not decaying. Read the nine distinct blockers of those two rounds
+together and they are **one finding wearing nine costumes**:
+
+| the blocker | what read that surface before |
+|---|---|
+| Table 2's caption counted rows it no longer had | nothing |
+| §5's void figure was cut, orphaning a claim that needed it | nothing |
+| the paper never stated its own chemistry | nothing — **absence has no anchor** |
+| the wrong non-financial interest was declared | nothing reads a Declarations block |
+| both reagents named by donor exon alone | nothing reads sequence-and-exon *together* |
+| "ten" is a WORD, so no numeric instrument saw it | nothing reads criteria as words |
+| the title's PREDICATE could be inverted (`pair` → `spare`) | nothing reads verbs |
+| the two reagents swappable against their own table | nothing joins prose to a table cell |
+| the frozen deposit drifted from the tree | nothing recorded what was deposited |
+
+**Not one is a number a guard got wrong. Every one is a surface with ZERO instruments.** So the
+blocker rate was tracking **how many new lenses each round introduced**, not how many defects
+remained — a new seat looks where nobody looked and finds the first thing there. ⛔ **That process
+cannot converge by iteration, because there is always another unexamined patch.** Adding a
+sixteenth round buys a sixteenth patch.
+
+★ **THE STRUCTURAL CAUSE, IN ONE LINE: a claim is a QUANTITY and a RELATION, and the whole guard set
+was built on the quantity half.** Numbers have pins, `_every_site` bindings and linters. Verbs,
+criteria-as-words, attributions, absences, prose-to-table correspondences and whole Declarations
+blocks had almost nothing. That is why `pair` → `spare` inverted the paper's central negative on the
+one sentence every reader sees, with every number still correct and every gate still green.
+
+⛔ **SO CHANGE THE INSTRUMENT, NOT THE ITERATION COUNT. ENUMERATE THE SURFACES.**
+[`research/manuscripts/claim_coverage.py`](./research/manuscripts/claim_coverage.py) asks, of every
+assertive sentence, whether any **selective** committed pattern matches it. Run it BEFORE designing
+the next round's seats; its uncovered list is the remaining blocker risk, available all at once
+instead of one per round. First honest run, 2026-08-22: **76 of 124 sentences in the journal
+article, 47 of the 66 that state a number** — and the uncovered set contained the next round's
+blockers in plain sight.
+
+- ⚠ **ITS FIRST RUN REPORTED 100% AND THAT WAS THE BUG IT EXISTS TO FIND.** Harvesting patterns
+  picks up `\s+`, `\d`, `[^.]{0,140}` — matchers that hit every sentence and bind none. **A guard
+  earns the word "covers" only by distinguishing the sentence it guards from the ones it does not**,
+  so a pattern matching more than `MAX_MATCH_SHARE` of a document is dropped. A census that counted
+  those as coverage would be a gate reporting while measuring nothing, inside the instrument built
+  to detect exactly that.
+- ⚠ **COVERED ≠ CORRECT.** The census says only whether anything would NOTICE a change. A covered
+  sentence can still be false; an uncovered one is merely unwatched.
+- ⚠ **AND SOME CLAIMS ARE NOT MECHANICALLY BINDABLE AT ALL** — "no such design is reported in the
+  literature retrieved here" rests on a fetch record and on honesty. **Name those separately rather
+  than letting them hide among the ones a test can hold**, or the coverage number becomes a comfort.
+- ★ **THE SECOND-ORDER RULE THIS GIVES YOU:** when a seat files a blocker, ask *what class of
+  surface was unwatched here* and close **the class**, not the instance. Nine instances above
+  reduce to about five classes; closing classes is what makes the next round's yield fall.
 
 - **★★ A ROUND THAT FINDS ONLY DEFECTS INTRODUCED BY THE PREVIOUS ROUND'S REPAIRS MEANS THE REPAIRS,
   NOT THE PAPER, ARE NOW THE PROBLEM.** Tighten the edit discipline (§1's replace-don't-append, §5's
@@ -285,6 +368,274 @@ in it is a round whose repairs have not yet been reviewed.
   `research/manuscripts/aso/fusion-junction-aso-paper-redteam-round*.md`.
 
 ---
+
+## 8b · ★★ THE FIX IS AN INSTRUMENT, AND AN INSTRUMENT IS A NEW UNMEASURED CLAIM — ABLATE, DON'T READ
+
+**⛔ §8a WAS RIGHT AND NOT ENOUGH. Round 16 pointed three seats at the census §8a prescribed and found
+the SAME defect one level up.** The diagnosis had been *"a claim is a QUANTITY and a RELATION, and the
+guard set was built on the quantity half"*, and the remedy was to enumerate surfaces instead of
+sampling them. `claim_coverage.py` then turned out to be **a coverage claim is a PATTERN and a
+DOCUMENT, built on the pattern half** — it credited a guard's regexes to documents that guard never
+opens (22 of 27 "covered" cover-letter sentences were false positives), its selectivity threshold could
+not be REPRESENTED on a nine-sentence document (1/9 = 0.111 > 0.10, so every pattern was discarded and
+`journal-tables: 0 of 9` was integer arithmetic), and it scored *"matches few sentences"* where
+*"distinguishes this sentence"* was meant.
+
+**★★ WHY ITERATION CANNOT CONVERGE, STATED PROPERLY.** Every fix ships a NEW INSTRUMENT, and every new
+instrument is a new claim asserted in prose and measured nowhere. Each round's fix **refills the pool
+the next round drains.** Reviewing instruments by READING them never catches up with writing them.
+This is CLAUDE.md's *"a property asserted in prose about a value passed by a caller is not a property;
+it is a hope"*, applied to the review process itself.
+
+**★ WHAT CHANGES THE SHAPE: ABLATION.** *"Sentence S is covered by witness W"* predicts that if S
+changed, W would go red. **So change it and look.** Ablation is different in kind from every fix that
+preceded it — it introduces **no new hand-written constant**, and it derives its expectation from the
+instrument's OWN output, so it cannot drift from what the instrument claims. One mechanism catches
+document-blindness, non-selective patterns and the threshold bug, because all three make the census
+credit coverage that is not there. Home: `claim_ablation.py`,
+`test_the_census_word_covered_survives_ablation.py`.
+
+**⛔⛔ AND THE FIRST THREE ABLATION READINGS OF THE DAY WERE FABRICATED — ALL THREE THE SAME WAY.**
+A mutation that never lands reports exactly what a guard that never fires reports.
+
+| the reading | what actually happened |
+|---|---|
+| "seven guards are BLIND" | `sentence in text` never matched — the flattener joins lines, so **no file was ever edited** |
+| "the generator catches nothing" | the literal was split across source lines, so `old in s` was False |
+| "generated ⇒ every sentence bound" | the ablation mutated the **artifact**; the realistic edit is to the **generator**, and that IS unguarded |
+
+**★★ SO THE RULE IS: ASSERT THE MUTATION LANDED BEFORE READING THE RESULT, AND KEEP A POSITIVE
+CONTROL IN THE GATE.** A sample in which nothing was applied must FAIL, never pass quietly — an absent
+reading is not a reading of absence (CLAUDE.md §4), and the comfortable direction is the one to
+distrust: a false POSITIVE inflates coverage and HIDES surfaces, so it is worse than the false negative
+that merely wastes a seat. ⚠ **Ablate the object that would really change.** A generated document's
+claim lives in its GENERATOR: "ten-base-pair criterion" → "eleven-base-pair" in `aso_journal_tables.py`,
+then regenerate, and `--check` plus all three linters plus 24 tests were rc=0. **Reproduction is not
+derivation**, so a generator is NOT a witness.
+
+**⛔ AND ABLATION INHERITS THE BLIND SPOT OF WHATEVER IT PERTURBS.** This one perturbs NUMBERS, because
+the perturbation is unambiguous there — and round 16 seat 3 then applied **73 predicate inversions**,
+of which **66 survived every gate and 44 sat in sentences the census calls COVERED**. Among them: the
+central negative inverting at all four prose homes, the two reagents' clearance claims inverting
+against their own CSV rows, and **a single deleted word** giving *"Research use only, and **for**
+administration to any person or animal"*. The relation half needs its own table —
+`test_the_manuscript_asserts_the_relation_its_artifacts_compute.py`, `(span, require, forbid)` per
+claim, both halves asserted separately because *"the right verb is present"* and *"no wrong verb is
+present"* fail differently. **Whatever axis your instrument does not perturb is the axis the next round
+will find.**
+
+### 8b.1 · Four rules the ablation round produced, each from a mistake made that day
+
+**⛔ ABLATE A CLONE, NEVER THE WORKING TREE.** The first harness mutated the real manuscript with a
+`finally` restore and a digest check. That makes the window SHORT, not SAFE — safety is about
+everything else reading the repo during it. Proven: perturbing a pinned figure while
+`test_lint_consistency::test_the_real_repo_is_consistent` runs reproduces exactly the failure a
+preflight reported. And the `finally` is not even reliable — a SIGTERM (or an orphaned grandchild
+`pkill -P` does not reach) skips it and leaves a **deposit artifact corrupted on disk**. `cp -al`
+costs **0.03 s for 3,326 files**, so there was never a reason to accept the risk. ⚠ The clone shares
+inodes, so an in-place write still reaches the original — measured, it does. Write a new file and
+`os.replace` it, which breaks the link instead of following it.
+
+**⛔ THE SAMPLE IS NOT THE SWEEP.** Six sentences per document per commit catches an instrument that
+has stopped binding anything; it does not enumerate what is unbound. The bounded sample was green
+while `PREFLIGHT_FULL=1` found **1 of 41** journal sentences fully unbound — and chasing that one
+sentence's only DIGIT turned up a second gap behind it. Run the full sweep before anything
+outward-facing.
+
+**★★ A GATE THAT REDS ON TRUE INPUT IS WORSE THAN ONE THAT GREENS ON FALSE INPUT**, because the
+first thing anyone does is loosen it. Two in one round: `_RATE_SCANNER` had no word boundaries, so
+*"the **all**ele frequency"* and *"an over**all** rate"* both resolved as the band `all` at
+[1.0, 1.0] — an honest title containing "overall" failed against a correct measurement; and every
+polarity `span` was written with ordinary spaces while the source **wraps mid-phrase**, so a correct
+sentence read as MISSING. ⚠ Fix the class, not the instance: normalise the text once rather than
+anchoring sixteen patterns. And assert **both directions** — over-anchoring silently makes every
+check vacuous, which is the same failure wearing the other costume.
+
+**★ MEASURE BEFORE YOU WRITE THE RULE.** The artifacts' `_what_this_is_not` fields deny knockdown,
+tolerability, delivery and a cleavage measurement, none of which `lint_claims` names — an obvious
+gap to close with a ban. Measured first: **every** occurrence in the paper is already in a denying
+or design frame. A ban would have red-flagged an honest paper. The real exposure was DELETION, so
+the fix was a floor under the sentences that do the denying — and reading the delivered PDF for it
+showed that *"efficacy"*, *"potency"*, *"therapeutic window"* and *"clinical readiness"* appear
+**nowhere** in the condensed paper, which no amount of reasoning about the markdown would have said.
+
+**⛔ A GUARD'S REMEDY TEXT TEACHES THE WRONG FIX IF IT SAYS "RE-ANCHOR" FIRST (round 16 seat 3,
+P1-e).** Rewriting four claims *without* preserving their anchors fired four guards, and every
+message said the same thing: *"the sentence was reworded and this guard needs to follow it."* True
+of a guard that measures WORDING — and an author who has just INVERTED a predicate sees a red build
+whose printed remedy is *update the regex*, after which the finding disappears. The same inversion
+with the anchor preserved is silent, which is the tell: **these were wording guards that
+occasionally collided with a predicate, and counting them as coverage is what let the census read
+82/124.** Two fixes, and both are needed: bind the predicate separately (§8b), and make every
+anchor-failure message say **check the meaning before the regex** — re-anchor only when the sentence
+says the same thing in different words.
+
+### 8b.1a · ⛔⛔ AN INSTRUMENT THAT BATCHES ITS CHECKS CAN MANUFACTURE A FINDING THAT LOOKS REAL
+
+**THE UNIT OF EXCLUSION MUST BE THE FAILING CHECK, NEVER THE BATCH THAT CONTAINS IT** (measured
+2026-08-23, and it is the sharpest version of §8b's "the instrument is a new unmeasured claim").
+`claim_ablation` runs every pytest witness for a document in ONE invocation — a real optimisation,
+fourteen modules for the price of one interpreter — and subtracts the commands that are already red
+before the mutation, so an unrelated failure cannot make every sentence look bound. Both halves are
+right. Together they are not: *"the command is red"* and *"this witness is red"* stopped being the
+same statement the moment the command held more than one witness.
+
+What it produced: `claim-coverage.json` was stale, so ONE module failed, so the single batched
+command was red at baseline, so **all fourteen modules were excluded from ever firing**. The gate
+then reported three sentences BLIND — one of them `NR4A3` → `NR4A7`, which
+`test_the_manuscripts_gene_identifiers_are_ones_an_artifact_names.py` exists specifically to catch
+and was sitting inside the excluded batch.
+
+★ **THE DAMAGE IS NOT THE FALSE VERDICT, IT IS WHERE THE VERDICT POINTS.** A blindness report reads
+as *the paper has an unguarded claim*, so the reviewer goes to the manuscript and writes a new
+guard — for a hole that was never open. That is the blocker-count treadmill of §8a, fed by the
+instrument itself. **The fix is cheap and belongs in every batching checker: when a batch is red at
+baseline, DECOMPOSE it and re-measure, so only the member that is actually red is subtracted.** The
+cost is paid only in the case that was silently wrong.
+
+⚠ **AND THE GENERAL FORM, WHICH IS WORTH MORE THAN THE INSTANCE.** Any check that reports
+`state(group)` and then reasons about a member of that group has this defect. Ask of every gate:
+*if one thing in this batch is broken for an unrelated reason, does the gate go quiet about the
+others — and does its output still look like a finding?*
+
+### 8b.1b · ★★ COUNT THE PAYLOAD, NEVER THE POINTER TO IT
+
+Same day, same shape, in a converter written that hour. The .docx builder asserts the figure
+survived conversion by counting `<w:drawing>` elements in `word/document.xml`. It passed. The
+archive's `word/media/` was **empty**: LibreOffice had written a *link* to
+`file:///home/user/.../figure.png`, so the file carried a pointer into the build container and would
+have rendered as a broken frame for the journal. The count was of the REFERENCE, and a reference is
+exactly what a missing payload still has.
+
+⛔ **So when a check asks "does this artifact CONTAIN X", it must read X's BYTES** — the media entry,
+the embedded stream, the row itself — never the element that names it. This is CLAUDE.md §4's
+"presence is never evidence of provenance" reproduced inside the verifier written to enforce it,
+which is where it keeps turning up: **the check you write to catch a class of defect is itself a
+member of that class until something measures it.**
+
+### 8b.1c · ★ A MECHANICAL MIGRATION NEEDS AN INVARIANT, NOT A PROOFREAD
+
+Converting 23 hand-maintained reference entries to a venue's citation style is a pure re-arrangement:
+every surname, title word, journal name, page range, PMID and DOI is COPIED, never retyped
+(CLAUDE.md §7 — never write an identifier from recollection). That makes one invariant available and
+it is worth more than reading the output: **every word of the input must appear in the output.**
+
+It fired on entry 15, whose *title* begins "Establishment, characterization and functional testing …"
+— the author-splitter split on ", ", the title's own comma looked like an author boundary, and
+everything from "characterization" onward was silently dropped. Twenty-two entries were perfect;
+that one was not, and it is precisely the one a reader skims past. ⚠ **Write the invariant BEFORE the
+transform, print the whole proposed output, and let the assertion be what clears it** — a migration
+that "looks right" across twenty entries is a sample, not a check.
+
+### 8b.1d · ★★ A COVERAGE NUMBER THAT FALLS IS NOT AUTOMATICALLY A REGRESSION — DIFF THE SENTENCE FIRST
+
+The coverage ratchet's remedy text says *find the reworded sentence; do NOT lower the floor.* Right
+almost always, and on 2026-08-23 it pointed at the wrong thing. `cover-letter.covered` fell 7 → 6
+after an ordinary prose edit. **The sentence that lost its witness was byte-identical before and
+after.**
+
+The procedure that settled it, and it is three cheap steps in this order:
+
+1. **Diff the SENTENCE, not the count.** Census the pre-edit document *inside an ablation clone*, at
+   its real basename — witness discovery greps for the basename, so a census of `/tmp/old-copy.md`
+   silently credits nothing and reports every sentence uncovered. That fake reading looks like a
+   catastrophic loss and is pure instrument error.
+2. **If the sentence is unchanged, ask which PATTERN dropped it** and count that pattern's matches
+   before and after. A pattern crossing the selectivity cap because the DOCUMENT GREW is not the
+   same event as a sentence losing its binding.
+3. **Then look at the pattern itself.** Here it was `…|miss(?:es|ed)?|…` with no word boundaries,
+   matching the middle of "sub·miss·ion" — all five of its hits in the letter were the word
+   "submission". The seventh covered sentence had never been covered by anything.
+
+⛔ **AND THE FIX GOES IN THE GUARD, NOT THE FLOOR.** Bounding the alternation removed the phantom
+credit *and* closed a live red-on-true-input hazard in the same expression: unbounded
+`clear(?:s|ed)?` matches inside "nu·clear", in a paper about an orphan NUCLEAR receptor, in the guard
+that checks the title does not assert the inverse of the central negative. ⚠ `\b` alone is not
+enough — a HYPHEN is a word boundary, so `\bpair\b` still matches the unit inside "ten-base-pair",
+which is this repository's oldest instance of the class.
+
+★ **THE GENERAL RULE: A SUBSTRING MATCH INFLATES COVERAGE AND CAN INVERT A GATE, AND THE TWO ARE THE
+SAME BUG.** Every unbounded word in an alternation is both a false witness somewhere and a false
+alarm somewhere else. Grep your own guards for `[a-z]\(\?:` with no `\b` in front — it is a
+two-minute sweep and it has paid three times here.
+
+⚠ **THE SWEEP WAS RUN, AND WHAT IT RETURNED IS WORTH KNOWING.** Beyond the one fixed, every
+remaining unbounded alternation in this suite is a NOUN or VERB list embedded inside a longer
+anchored pattern (`_BINDING_VERB`, `_UNPAIRED_NOUN`, `_RUN_LIST` in
+`test_paired_numeric_lists_are_bound_in_the_right_order.py`), where the surrounding structure —
+`\s+of\s+`, an adjacent number list — supplies the boundary the alternation lacks. They are not
+clean, and `has|have` unbounded would match inside "p·has·e" given the chance; they are green
+today because nothing in these documents assembles the rest of the structure around a substring.
+**Recorded as a known residue rather than fixed blind**, because rewriting a passing pattern is how
+a guard becomes vacuous, and the three instances that actually bit were all found by a measurement
+(a red on true input, or a coverage number moving), never by reading the regex.
+
+### 8b.1e · ⛔⛔ A PATTERN COMPOSED AT RUNTIME IS INVISIBLE TO ANYTHING THAT READS SOURCE
+
+The `\b` fix in §8b.1d was applied **and the defect stayed live for hours**, in the same document,
+found again by the same gate. Worth its own entry because the fix LOOKED complete and was verified
+the wrong way.
+
+The bounds went into a helper:
+
+    def _verb(alts):
+        return r"\b(?:" + alts + r")\b"
+    _SPARING_VERBS = _verb(r"spare(?:s|d)?|…|miss(?:es|ed)?|…")
+
+At runtime that is correct, and it was proven correct — `clear` stopped matching inside "nu·clear",
+`miss` stopped matching inside "sub·miss·ion", asserted case by case. **But `claim_coverage`
+harvests regexes by STATICALLY READING THE TEST SOURCE**, so what it saw was the unbounded string
+literal going IN to the call, never the bounded value coming out. It kept crediting sentences to
+that guard on `miss` inside "submission", and the ablation gate caught it a second time.
+
+★ **THE RULE: A REGEX THAT OTHER TOOLING READS MUST BE COMPLETE WHERE IT IS WRITTEN.** Not
+assembled, not `.format()`-ed, not concatenated from a constant — complete, in the literal. The cost
+is repeating six characters; the benefit is that the file says what it does to every reader, human
+or harvester.
+
+⚠ **AND THE VERIFICATION LESSON IS THE SHARPER ONE.** Testing the runtime value proved the guard
+worked and said nothing about the census — two consumers of one expression, and only one was
+checked. **When a fix touches something a second tool reads, re-run the second tool**, not just the
+first. The tell that this was missed: coverage counts did not move after a change that should have
+lowered them. When they finally did, `journal-article` fell 69 → 68 and `cover-letter` 9 → 6, and
+all three papers landed exactly on their floors.
+
+### 8b.2 · ★★ A FIX BOUND TO A LIST REGRESSES AT A SIBLING. A FIX BOUND TO A PREDICATE DOES NOT.
+
+**This is the sharpest structural result of the series, and it was measured, not reasoned** (round 17
+seat B, 2026-08-23, over 33 mutations each asserted landed by `git diff` before any gate was read).
+Of eleven round-16 fixes re-attacked, **every one whose scope was a PREDICATE held. Six of eleven
+whose scope was a LIST regressed at a sibling the fix did not name:**
+
+| the fix's scope | what it missed |
+|---|---|
+| `ARTICLE` | 1 of 3 manuscripts |
+| `DOCUMENTS` | 4 of 6 |
+| `PAPERS` | 2 of 4 |
+| one polarity `span` | 1 of 4 prose homes of the same claim |
+| the re-anchor remedy text | 5 of 7 surfaces |
+| the early-return repair | 1 of 12 sites |
+
+**⛔⛔ AND IN THREE OF THE SIX, THE MISSED SIBLING WAS NAMED IN THE FIX'S OWN COMMENT** — including a
+check headed *"⛔ EVERY DOCUMENT, NOT THE TWO OBVIOUS ONES"* that enumerated four and missed two, so
+`NR4A7` in the supplementary information and `RNase-H7` in the deposit tables shipped green into both
+rebuilt PDFs. **Writing "every" above a list does not make it one.** That is §8a's one-of-a-pair
+class with its mechanism finally named: **a list is a thing somebody must remember to extend, and the
+remembering is what fails.**
+
+**★ SO SCOPE BY THE PROPERTY.** Not *"these four files"* but *"every document that CONTAINS the
+clause"* — which puts a document added tomorrow in scope without anybody remembering it. The
+safety-critical Declarations lines are scoped that way now, and it immediately caught the single-word
+deletion in two documents the list-scoped version had never read.
+
+**⚠ AND THE WRONG PREDICATE REDS ON TRUE INPUT, WHICH IS WORSE THAN THE LIST.** The first attempt was
+*"every `.md` in the submission directory"*; it swept up working notes and a review backlog that
+legitimately name genes no artifact attests, and went red on a correct tree. **A widening is only a
+fix once you have run it** — the honest predicate here was *"a document this submission SHIPS"*, read
+from the archive manifest, which is a record rather than a memory. ⛔ Same trap one level down: the
+identifier regex matched a single leading letter and so claimed PMC accessions and mutation notation;
+tightening a pattern can equally make a guard vacuous, so **assert the discrimination survives** —
+`NR4A7`, `EWSR7` and `TAF19` must still fall outside the attested set.
 
 ## 9 · Where the rest lives
 

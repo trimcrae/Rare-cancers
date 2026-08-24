@@ -1,8 +1,8 @@
 {
   "_what": "What each submission-form manuscript actually is, measured, against the limits its venue is believed to set.",
   "_why": "Most of these venues block automated retrieval of their author guidelines with deliberate security controls that persist under a real browser. The limits stay unverified; this pins down OUR side so checking theirs is a sixty-second job.",
-  "⛔_the_limits_below_are_not_verified": "They fall into three states and the difference matters. READ: only the BJC row was retrieved from the journal's own guide to authors at HTTP 200. SEARCH-DERIVED: the two GCC rows and the CROH row come from search summaries, because Wiley serves a bot challenge and Elsevier blocks the datacenter IP; do not cite them as retrieved facts. UNREAD: the Cancer Gene Therapy row carries no limits at all — its `null`s mean nobody has seen the guidelines, NOT that the journal sets no limit. That row is reported ungraded rather than compliant, and its numbers must never be borrowed from the BJC row merely because both journals are Springer Nature.",
-  "⛔_the_CGT_fee_schedule_is_unread_and_that_is_a_live_submission_risk": "The $0 route for Cancer Gene Therapy rests on ONE page: nature.com/cgt/open-access (HTTP 200) states that open access requires an APC and that authors 'can also choose to publish under the traditional publishing model (no APC charges apply)'. That answers the APC question and ONLY the APC question. Page charges, colour charges, submission fees and over-length charges on the subscription route are UNREAD, because they live in the author guidelines and every author-guideline path tried returned 404. ⛔ THIS IS NOT A HYPOTHETICAL: Nucleic Acid Therapeutics was the preferred venue for this paper, PASSED the no-APC test, and was rejected anyway once its guidelines were read — they levy mandatory Publishing Services Fees of $90 per page on every accepted manuscript, roughly $700-1,100 for this one. The same question has not been put to CGT. Until a CGT author-guideline or fee page is read, the venue's compliance with the $0 constraint is established for APCs and unestablished overall.",
+  "⛔_the_limits_below_are_not_verified": "They fall into three states and the difference matters. READ: the BJC row was retrieved from the journal's own guide to authors at HTTP 200, and the NAT row was read at primary source on 2026-08-23 by a person in a web browser and captured verbatim to research/literature/nat-submission-guidelines-2026-08-23.md — a human read is primary-source evidence and is labelled as one, never as a fetch. SEARCH-DERIVED: the two GCC rows and the CROH row come from search summaries, because Wiley serves a bot challenge and Elsevier blocks the datacenter IP; do not cite them as retrieved facts. UNREAD: the Cancer Gene Therapy row carries no limits at all — its `null`s mean nobody has seen the guidelines, NOT that the journal sets no limit. That row is reported ungraded rather than compliant, and its numbers must never be borrowed from the BJC row merely because both journals are Springer Nature.",
+  "⛔_the_CGT_fee_schedule_is_unread_and_that_is_a_live_submission_risk": "The $0 route for Cancer Gene Therapy rests on ONE page: nature.com/cgt/open-access (HTTP 200) states that open access requires an APC and that authors 'can also choose to publish under the traditional publishing model (no APC charges apply)'. That answers the APC question and ONLY the APC question. Page charges, colour charges, submission fees and over-length charges on the subscription route are UNREAD, because they live in the author guidelines and every author-guideline path tried returned 404. ⛔ THIS IS NOT A HYPOTHETICAL: Nucleic Acid Therapeutics passed the no-APC test and then turned out to levy mandatory Publishing Services Fees of $90 per page on every accepted manuscript. It REMAINS the venue — the fee is why the article carries a six-page budget rather than why it was dropped (trimcrae, 2026-08-22). ⚠ Superseded, retained: this read \"was rejected anyway once its guidelines were read\", which contradicted the same packet's own venue table. The same question has not been put to CGT. Until a CGT author-guideline or fee page is read, the venue's compliance with the $0 constraint is established for APCs and unestablished overall.",
   "⚠_none_of_this_gates_the_preprint": "bioRxiv sets no word, abstract or display-item limit, and its deposit being free is verified verbatim at primary source.",
   "counting_rule": "Main text runs from the first substantive heading to the last heading before Declarations, excluding frontmatter, HTML comments, fenced blocks, the abstract, table bodies, the display-item block under any of its names ('Display items', 'Tables', 'Figure legends'), references and every Appendix. Figures and tables are counted as DISTINCT NUMBERS across the manuscript and its `companion_files`, so an embedded figure and its own caption count once and a table generated into a separate file still counts. References are the numbered entries inside a References section, wherever that section lives; a numbered list anywhere else in the file is not a reference.",
   "⚠_superseded_measurements": [
@@ -169,9 +169,9 @@
     },
     {
       "file": "aso/fusion-junction-aso-research-article.md",
-      "venue": "bioRxiv (preprint; journal venue still open)",
+      "venue": "bioRxiv (DECLINED 2026-08-23, author unaffiliated; the journal submission of the condensed article goes to Nucleic Acid Therapeutics)",
       "measured": {
-        "main_words": 35600,
+        "main_words": 35927,
         "abstract_words": 399,
         "figures": 3,
         "tables": 7,
@@ -194,7 +194,7 @@
         "display_items": null,
         "references": null
       },
-      "limits_provenance": "VERIFIED at primary source: bioRxiv sets no word, abstract or display-item limit and its deposit is free — the one venue fact in this table that was read rather than searched. ⚠ ALL-`None` IS A STATEMENT, NOT A GAP: it means this manuscript is measured and ungated, which is the honest state while the journal is undecided. A journal's limits apply when one is chosen, and cutting the abstract to any particular cap before then means cutting twice, because the venues under consideration disagree on both length AND whether a structured abstract is wanted at all.",
+      "limits_provenance": "VERIFIED at primary source: bioRxiv sets no word, abstract or display-item limit and its deposit is free — the one venue fact in this table that was read rather than searched. ⛔ AND bioRxiv DECLINED THIS SUBMISSION ON 2026-08-23 BECAUSE THE AUTHOR IS UNAFFILIATED, so this row grades a manuscript against a server that will not take it. The limits stay correct and the row stays ungated for that reason — the extended report is archived on Zenodo and has since been submitted elsewhere — but nobody should read the row name as a live plan. Accounting: aso/fusion-junction-aso-preprint-checklist.md §2 step 3. ⚠ ALL-`None` IS A STATEMENT, NOT A GAP: it means this manuscript is measured and ungated, which is the honest state while the journal is undecided. A journal's limits apply when one is chosen, and cutting the abstract to any particular cap before then means cutting twice, because the venues under consideration disagree on both length AND whether a structured abstract is wanted at all.",
       "limits_read": true,
       "no_limits_by_policy": true,
       "over_limit": []
@@ -203,8 +203,8 @@
       "file": "aso/fusion-junction-aso-journal-article.md",
       "venue": "Nucleic Acid Therapeutics (SAGE)",
       "measured": {
-        "main_words": 4571,
-        "abstract_words": 261,
+        "main_words": 3146,
+        "abstract_words": 199,
         "figures": 1,
         "tables": 2,
         "display_items": 3,
@@ -218,13 +218,13 @@
         "figures/aso-multipartner-seam.svg"
       ],
       "limits": {
-        "main_words": null,
-        "abstract_words": null,
-        "display_items": null,
+        "main_words": 4000,
+        "abstract_words": 200,
+        "display_items": 5,
         "references": null
       },
-      "limits_provenance": "UNREAD. The journal transferred from Mary Ann Liebert to SAGE and the Liebert-era pages return 403; no SAGE author-guideline page for this journal has been read. The per-page fee that eliminated the venue is on record at $90 from the Liebert era and is itself unconfirmed under SAGE. Read the guidelines and the fee schedule before submitting.",
-      "limits_read": false,
+      "limits_provenance": "READ AT PRIMARY SOURCE 2026-08-23 by trimcrae in a human web browser, and captured verbatim to research/literature/nat-submission-guidelines-2026-08-23.md, which is the source of record for every figure below. Article type Original Paper: 4,000-word limit, unstructured abstract of no more than 200 words, maximum total of five (5) figures and/or tables, and no reference cap for this type. THE COUNTING RULES AGREE WITH THIS MODULE'S: 'Word limits do NOT pertain to the abstract, disclosure statements, author contribution statements, funding information, acknowledgments, tables, figure legends, or references' -- which is the boundary `TAIL` already draws, so main_words here is comparable to the cap rather than merely near it. ⚠ NOT AUTOMATABLE: journals.sagepub.com returns HTTP 403 to the egress proxy, to a plain CI fetch and to a real headless Chromium alike (re-confirmed 2026-08-23, Actions run 32644971152), so this row cannot be refreshed by any tool here and must be re-read by a person before submission. ⚠ THE PAGE CONTRADICTS ITSELF ON THE REVIEW MODEL and the contradiction changes what is submitted: 'Identity transparency: Single-anonymized' appears twice, while the peer-review section says 'The journal adheres to a rigorous double-anonymized reviewing policy in which the identity of both the reviewer and author are always concealed from both parties.' Under the second reading the manuscript needs an anonymized copy. Tracked as an open item in the preprint checklist; not resolved here, because nothing here can resolve it. SETTLED BY THE SAME READ, and each was previously carried as an open risk: (1) 'Accepts preprints? Yes' -- posting before submission does not disqualify, and the submission form asks for the preprint DOI. (2) The Publishing Services Fee survived the Liebert-to-SAGE transfer unchanged at $90 per typeset page, assessed on acceptance, with colour charged separately at $800 for the first print image. (3) The control-oligodeoxynucleotide rule is real and is scoped to efficacy: 'All manuscripts that claim antisense efficacy must, in addition to the antisense oligodeoxynucleotide construct, include at least two control oligodeoxynucleotides.' This paper claims no efficacy and runs no assay, so it is out of that rule's scope.",
+      "limits_read": true,
       "no_limits_by_policy": false,
       "over_limit": []
     }
