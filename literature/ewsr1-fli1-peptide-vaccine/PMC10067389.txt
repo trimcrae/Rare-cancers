@@ -1,0 +1,233 @@
+2682casCancer ScienceCancer SciWileyPMC1006738910067389100673893647834910.1111/cas.15688Characterization of myeloid signature genes for predicting prognosis and immune landscape in Ewing sarcoma
+ZhangZhao ShiYubo ZhuZhijie FuJun LiuDong LiuXincheng DangJingyi TaoHuiren FanHongbin 
+1
+Department of Orthopaedic Surgery, Xi‐Jing Hospital, The Fourth Military Medical University, Xi'an, China
+2
+Department of Orthopaedics, Shenzhen University General Hospital, Shenzhen, China*
+
+Correspondence
+, 
+Hongbin Fan, Department of Orthopaedic Surgery, Xi‐jing Hospital, The Fourth Military Medical University, Xi'an 710032, China. 
+Email: fanhb@fmmu.edu.cn
+
+✉Corresponding author.
+19122022114412401240–1255442023© 2022 The Authors. Cancer Science published by John Wiley & Sons Australia, Ltd on behalf of Japanese Cancer Association.This is an open access article under the terms of the http://creativecommons.org/licenses/by-nc-nd/4.0/ License, which permits use and distribution in any medium, provided the original work is properly cited, the use is non‐commercial and no modifications or adaptations are made.
+
+## Abstract
+Myeloid cells as a highly heterogeneous subpopulation of the tumor microenvironment (TME) are intimately associated with tumor development. Ewing sarcoma (EWS) is characterized by abundant myeloid cell infiltration in the TME. However, the correlation between myeloid signature genes (MSGs) and the prognosis of EWS patients was unclear. In this research, we synthetically characterized the expression of MSGs in a training cohort and classified EWS patients into two subtypes. Immune cell infiltration analysis revealed that MSGs subtypes correlated closely with different immune statuses. Furthermore, a three‐gene prognostic model (CTSD, SIRPA, and FN1) was constructed by univariate, LASSO, and multivariate Cox analysis, and it showed excellent prognostic accuracy in EWS patients. We also developed a nomogram for better predicting the long‐term survival of EWS. Functional enrichment analysis showed immune‐related pathways were distinctly different in the high‐ and low‐risk groups. Further analysis revealed that patients in the high‐risk group were tightly associated with an immunosuppressive microenvironment. Finally, we validated the expression of these candidate genes by Western blot (WB), qPCR, and immunohistochemistry (IHC) analysis. To sum up, our study identified that the MSGs model was strongly linked to prognostic prediction and immune infiltration in EWS patients, providing novel insights into the clinical treatment and management of EWS patients.
+Keywords: Ewing sarcoma, immune infiltration, myeloid cell, nomogram, prognostic prediction
+
+Myeloid cell signature can predict the prognostic accuracy and immune infiltration in Ewing sarcoma patients
+ 
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoRevised 2022 Nov 29; Received 2022 Jul 25; Accepted 2022 Dec 3; Collection date 2023 Apr.
+
+## Abbreviations
+AUCarea under the curve
+CCRchemokine receptor
+CDFcumulative distribution function
+DEdifferential expression
+DEGsdifferentially expressed genes
+EWSEwing sarcoma
+GEOGene Expression Omnibus
+GOGene Ontology
+GSEAgene set enrichment analysis
+HNSCCHead and neck squamous cell carcinoma
+ICGCInternational Cancer Genome Consortium
+ICPimmune checkpoint
+IHCimmunohistochemistry
+KEGGKyoto Encyclopedia of Genes and Genomes
+KMKaplan‐Meier
+LASSOleast absolute shrinkage and selection operator
+MDSCmyeloid‐derived suppressor cell
+MSGsmyeloid signature genes
+NCNitrocellulose
+OSosteosarcoma
+qPCRquantitative polymerase chain reaction
+ROCreceiver‐operating characteristic
+ssGSEAsingle sample Gene Set Enrichment Analysis
+STSsoft tissue sarcoma
+TARGETTherapeutically Applicable Research to Generate Effective Treatments
+TCGAThe Cancer Genome Atlas
+TMEtumor microenvironment
+WBWestern blot
+1.
+
+## INTRODUCTION
+Ewing sarcoma (EWS) is a rare and highly aggressive malignant tumor that can arise throughout the skeleton, with a prevalence in children and adolescents. Owing to lifestyle changes and diagnostic advances, the incidence of EWS has risen dramatically in recent years. However, with the extremely aggressive nature of EWS, nearly 25% of patients have obvious metastases at the time of diagnosis, often requiring systematic chemotherapy and local treatment involving surgery and radiotherapy. Despite advances in multimodal treatment that has greatly improved the prognosis of EWS patients, the 5‐year survival rate for recurrence or metastasis patients stands at only 30%. , , EWS is characterized by a specific EWS/FLI1 fusion gene driving oncogenic transcription, but the outcome of targeted therapy remains unsatisfactory due to the high complexity and heterogeneity of the tumor microenvironment (TME). Consequently, there is an urgent need to explore new targets to improve the outcome of EWS prognosis and treatment.
+Ewing sarcoma presents an immunosuppressive TME, which is tightly related to tumor progression, metastasis, and drug resistance. Myeloid cells are the most abundant heterogeneous population in the TME, including macrophages, dendritic cells, neutrophils, and myeloid‐derived suppressor cells (MDSCs). Myeloid cells have a high‐level of functional and phenotypic plasticity involved in all stages of tumorigenesis with an essential function in angiogenesis, invasion, and metastasis. The crosstalk between tumor and immune cells in the TME is thought to be critical in managing tumor progression and occurrence. Numerous studies have revealed that tumors can recruit substantial myeloid cells and regulate their differentiation to preserve an immunosuppressive microenvironment to facilitate tumor growth directly. Moreover, myeloid cells once converted into an immunosuppressive phenotype can also inhibit the activation of antitumor immune cells and induce tumor immune escape. Myeloid cells are now widely recognized as a pivotal regulator of immune escape, allowing for the expression of PD‐1 and CTLA4 to induce T cell exhaustion and hinder the efficacy of immunotherapy. , Additionally, myeloid cells also secrete large amounts of inflammatory cytokines to remodel the tumor stroma, which are likely responsible for the treatment resistance. , Previous research has proven EWS features a substantial myeloid cell infiltration in the TME, which is relevant to the progression and treatment of EWS. Targeting myeloid cell populations to improve the efficacy of conventional therapy and reverse tumor progression now holds great clinical promise. , Hence, a comprehensive analysis of myeloid signature might identify novel therapeutic targets and prognostic biomarkers for EWS.
+In this study, we performed a bioinformatic study to systematically analyze the differential expression (DE) of myeloid signature genes (MSGs) in EWS and classified EWS patients into two subtypes with different immune statuses. Moreover, we constructed and verified a novel signature to evaluate the prognostic role of MSGs in patients with EWS. Our work revealed the important role of MSGs in EWS and offered a new strategy for precision treatment.
+
+2.
+
+## MATERIALS AND METHODS
+2.1.
+
+## Data acquisition
+A total of 106 RNA‐seqs and clinical information were obtained from the GSE17679 data set (88 EWS and 18 normal tissues) in the GEO database and were set as training cohort. The data of MSGs were extracted from the previous literature, of which 82 genes in the training cohort were identified for the present study (Table  ). Furthermore, RNA‐seq data and clinical information obtained from the International Cancer Genome Consortium (ICGC, 57 EWS tissues) database were set as external validation cohort. The clinical information of EWS patients is shown in Table  . Additionally, we obtained the RNA‐seq data from Therapeutically Applicable Research to Generate Effective Treatments (TARGET) and The Cancer Genome Atlas (TCGA) databases for osteosarcoma (OS) and soft tissue sarcoma (STS) patients, respectively, to evaluate the specificity of the MSGs model.
+
+2.2.
+
+## Identification of DE‐MSGs in EWS patients
+The DE‐MSGs between EWS tissue and normal control were analyzed by R package “limma,” with adj. p < 0.05 and |fold change (FC)| ≥ 1.5. Subsequently, the heat map and volcano map were established to show the DE‐MSGs and their correlations.
+
+2.3.
+
+## Consensus clustering analysis
+According to the mRNA expression profile of DE‐MSGs, consensus clustering was performed to determine the EWS subtypes via R package “ConsensusClusterPlus,” with 1000 replicates to ascertain stability. The cumulative distribution function (CDF) and relative change in area under the CDF curve were applied to define the optimal number of clusters.
+
+2.4.
+
+## Development and validation of risk signature
+To assess the prognostic contribution of MSGs in EWS, univariate Cox regression was used to screen for prognostic‐related DE‐MSGs. Subsequently, LASSO Cox regression was used to further select candidate genes for the prognostic models to avoid overfitting. Finally, the prognostic risk model was further optimized and constructed by multivariate Cox regression. The risk score for each sample was calculated as follows: risk score = ∑n
+i (Coefi * Xi). Based on the median of the risk score, the EWS patients in the training cohort were separated into high‐risk or low‐risk groups. The KM curve was utilized to compare the overall survival time of the two groups, and the time‐dependent receiver‐operating characteristic (ROC) curve was employed to estimate the prediction accuracy of the prognostic model. Subsequently, we further evaluated the accuracy of the prognostic model in validation cohorts.
+
+2.5.
+
+## Construction and calibration of a nomogram
+The nomogram model was constructed to predict the 3‐ and 5‐year survival probabilities of EWS patients by combining risk scores and clinical information. The C‐index, ROC curves, and calibration plot were used to assess the predictive accuracy of the constructed nomogram.
+
+2.6.
+
+## Identification of DEGs and functional enrichment analysis
+We screened the differentially expressed genes (DEGs) between high and low risk groups by adj. p < 0.01 and |FC| ≥ 1.5. Subsequently, R package “clusterProfiler” was applied for Gene Ontology (GO) and Kyoto Encyclopedia of Genes and Genomes (KEGG) analysis. Additionally, gene set enrichment analysis (GSEA) was employed to characterize the hallmark of different risk groups.
+
+2.7.
+
+## 
+TME analysis
+The ESTIMATE algorithm was used to quantify the TME scores for each sample. The CIBERSORT, TIMER, and ssGSEA algorithms were employed to assess the abundance of immune cell infiltration in different subtypes. We also assessed differences in the expression of common immune checkpoints (ICPs) and chemokine receptors (CCRs) between the high‐risk and low‐risk groups.
+
+2.8.
+
+## Cell culture
+The human EWS cell lines ARD‐ES and 673 were obtained from Meisen Cell Technology Co., Ltd and Procell Life Science Technology Co., Ltd, respectively. The hMSC cells were acquired from Hengya Biotechnology Co., Ltd. as normal samples. A673 and hMSC were cultured in DMEM medium with 10% fetal bovine serum (FBS), and 1% (v/v) P/S. RD‐ES was cultured in RPMI 1640 medium consisting of 10% FBS and 1% (v/v) P/S. All cells were incubated at 37°C, 5% CO2.
+
+2.9.
+
+## Western blot analysis
+The RIPA lysis buffer (Solarbio) was applied to extract total protein from all cells. The BCA Protein Assay Kit (Solarbio) was used for protein quantification. Then, the proteins were boiled, loaded, separated by electrophoresis, and transferred to NC membranes. The membranes were blocked with non‐fat milk and incubated at 4°C overnight with the appropriate primary antibody CTSD (Proteintech, 21327‐1‐AP), SIRPA (Affinity, AF0253), FN1 (Proteintech, 15613‐1‐AP), and GAPDH (Proteintech, 10494‐1‐AP). Finally, the membranes were incubated in secondary antibody (1:2000) for 1 hour at room temperature and developed with ECL luminescent agent.
+
+2.10.
+
+## Quantitative polymerase chain reaction (qPCR)
+The trizol method was used to extract and purify RNA from cells. Subsequently, cDNA synthesis kits (Takara) were used for reverse transcription of RNA. qRT‐PCR was performed with TB Green Premux Ex Taq II (Tli RNaseH Plus) and Bio‐Rad CFX96 real‐time fluorescent quantitative PCR (Bio‐Rad). The internal control was GAPDH. The primer sequences of the candidate genes are shown in Table  , and all genes were repeated three times for analysis.
+ 
+2.11.
+
+## Immunohistochemistry
+To further verify the accuracy of validating these three genes, six pairs of paraffin‐embedded EWS and adjacent tissues were collected for immunohistochemical analysis. This study was approved by the Institutional Review Board of Xijing Hospital, Fourth Military Medical University, and all patients signed informed consents. All tissue slices were subjected to a series of steps such as dewaxing, antigen retrieval, blocking, primary antibody incubation, and secondary antibody incubation, including CTSD (Proteintech, 21327‐1‐AP), SIRPA (Affinity, AF0253), FN1 (Proteintech, 15613‐1‐AP), CD8 (Proteintech, 66868‐1‐lg), CD206 (Proteintech, 60143‐1‐lg), CD66b (Abcam, ab300122), and CD57 (Servicebio, GB113461). Finally, the slices were subjected to DAB kit (CWBIO, CW2035S) color rendering and hematoxylin redye. The microscopy was used to observe protein expression for each stained section, and the positive rate of each immunohistochemically stained section was calculated using Image J software.
+
+2.12.
+
+## Statistics
+All statistical analyses were conducted using R 4.0.5 software, GraphPad Prism 8, and SPSS 21.0. For samples with two experimental groups, t test was performed, and for those with three experimental groups, one‐way ANOVA was performed. p<0.05 was deemed to be a statistical difference. *p < 0.05; **p < 0.01; ***p < 0.001.
+
+3.
+
+## RESULT
+3.1.
+
+## Screening DE‐MSGs in normal and tumor tissues
+The flow chart of the study is shown in Figure  . The heat map demonstrated the expression of these MSGs in EWS and normal tissue (Figure  ). As a result, our study identified a total of 30 DE‐MSGs between EWS and normal tissue: 12 genes with upregulated and 18 genes with downregulated expression (Figure  ). To better evaluate the correlation of these DE‐MSGs in EWS, we analyzed the interaction network of these DE‐MSGs (Figure  ).
+ 
+3.2.
+
+## Identification of myeloid gene subtypes on the basis of DEGs
+
+Based on the expression profiles of 30 DE‐MSGs, clustering analysis indicated a high correlation between subtypes when k = 2, suggesting that EWS patients could be well classified into two subtypes (Figure  ). Heat maps were applied to demonstrate the gene expression and clinical features of the two subtypes (Figure  ). In addition, we found a noticeable increase in the infiltration abundance of CD8 T cells, neutrophils, macrophages, and dendritic cells in cluster 2 by the TIMER algorithm (Figure  ). The ssGSEA algorithm also revealed that nearly all tumor‐associated infiltrating lymphocytes (TILs, 25/28) were clearly upregulated in cluster 2 to cluster 1 (Figure  ). The findings indicated that myeloid gene subtypes may be intimately connected with immune status, which can contribute to treatment decision for EWS patients.
+ 
+3.3.
+
+## Construction of myeloid risk signature for EWS patients
+To assess the prognostic effect of MSGs in EWS, we selected nine prognostic DE‐MSGs using univariate Cox analysis (Figure  ). Subsequently, LASSO regression was used to further compression the candidate genes, and nine genes were determined with minimal lambda values (Figure  ). The final formula for MSGs score for each sample was defined as follows: risk score = 0.786 × CTSD ‐ 0.578 × SIRPA ‐ 0.817 × FN1(Table  ).
+ 
+3.4.
+
+## Evaluation and validation of myeloid risk signature
+Based on the above formula, the MSGs score was calculated for each patient in the training cohort, and all patients were classified into a high‐ and a low‐risk group in accordance with the median of the MSGs scores. Our results demonstrated that the survival time of patients in the high‐risk group was shorter than that of the low‐risk group, and more deaths occurred as the MSGs score increased (Figure  ). KM curves indicated a substantially worse prognosis in the high‐risk group (Figure  ), and the ROC curve indicated the AUC values of the myeloid risk signature at 1, 3, and 5 years were 0.792, 0.826, and 0.850, respectively(Figure  ). The findings illustrated that the myeloid risk signature had an excellent accuracy for EWS patients. Subsequently, we evaluated the prognostic value of the myeloid risk signature in the validation cohort. Similarly, patients in the high‐risk group had a reduced survival time and poorer prognosis compared with the low‐risk group (Figure  ). The AUC values for the validation cohort were 0.691, 0.768, and 0.633 at 1, 3, and 5 years, respectively (Figure  ). Additionally, we observed no statistical difference between the prognosis of the high‐risk and low‐risk groups in either OS or STS patients.(Figure  A,B) ROC analysis revealed AUC values of 0.578, 0.492, and 0.446 at 1, 3, and 5 years for OS patients and 0.502, 0.456, and 0.435 at 1, 3, and 5 years for STS patients, respectively.(Figure  C,D) These findings suggested that myeloid risk signature could specifically predict the prognosis of EWS patients.
+ 
+3.5.
+
+## Developing and evaluating a predictive nomogram
+Based on the training cohort, Cox regression analysis by integrating clinical characteristics revealed that MSGs scores can act as an independent prognostic predictor for EWS patients in the training cohort (Figure  ). For further application of the myeloid risk signature, we integrated the MSGs score and clinical characteristics to construct a nomogram to predict the prognosis of EWS patients at 5 and 7 years (Figure  ). The C‐index for the nomogram predicting the survival TME of EWS was 0.759. The ROC curve indicated that the AUC values were 0.851 and 0.859 at 5 and 7 years, respectively (Figure  ). Moreover, calibration curves showed that the constructed nomogram possesses excellent prediction accuracy at 5 and 7 years (Figure  ). These results point to the nomogram serving as a robust tool to accurately predict the prognosis of EWS patients.
+ 
+3.6.
+
+## Functional enrichment analysis of myeloid risk signature
+To reveal the underlying mechanisms of the MSGs model affecting the prognosis of EWS, we conducted a DEGs analysis of the high– and low–MSGs‐score groups. As shown in Figure  , there were a total of 248 genes with upregulated expression and 270 genes with downregulated expression. GO analysis showed that these DEGs were mostly associated with immune‐related functions, such as immune system process, leukocyte activation, immune response, etc. (Figure  ). KEGG analysis revealed that these DEGs were mainly linked to immune‐related pathways, including Th1 and Th2 cell differentiation, antigen processing and presentation, Th17 cell differentiation, etc. (Figure  ). Moreover, GSEA analysis showed that the interferon gamma response, complement, and inflammatory response were clearly upregulated in the high‐risk group compared with those in the low‐risk group (Figure  and Table  ).
+ 
+3.7.
+
+## Evaluation of TME in the high– and low–MSGs‐score groups
+Extensive studies have proven that myeloid cells have a major function in immune escape, so we further evaluated the TME in high‐ and low‐risk groups. The ESTIMATE algorithm identified stromal scores, immune scores, and ESTIMATE scores were markedly elevated in the high‐risk group compared with the low‐risk group, while the opposite results were observed for tumor purity(Figure  ). The results of the CIBORSORT algorithm showed that M2 macrophage and neutrophil infiltration significantly increased in the high‐risk group, while the infiltration of activated CD8 T cells, follicular helper T cells, and NK cell noticeably increased in the low‐risk group (Figure  ). In addition, we also uncovered that the expression of several ICPs and CCRs was clearly upregulated in the high‐risk group (Figure  ). The above results indicated that patients in the high‐risk group might develop an immunosuppressive microenvironment to facilitate immune escape, resulting in a poor prognosis for EWS.
+ 
+3.8.
+
+## Validation of candidate genes by WB, qPCR, and IHC analysis
+The WB and qPCR analysis identified that the expressions of CTSD, SIRPA, and FN1 were all markedly elevated in EWS cell lines compared with control cells (Figure  ). In addition, IHC analysis also showed that the expression of CTSD, SIRPA, and FN1 was obviously stronger in EWS tissues than in normal tissues, which was consistent with the previous results (Figure  ).
+ 
+3.9.
+
+## Verification of immune cell infiltration via IHC analysis
+Based on the positivity rate of candidate genes, we calculated MSGs scores for each patient and divided the patients into high‐ and low‐risk groups. Subsequently, we assessed the level of immune cell infiltration in each sample. Similar to the results of immune infiltration analysis, the expressions of M2 macrophages and neutrophils were considerably higher in the high‐risk group than in the low‐risk group, while T cells CD8 and NK cells exhibited opposite results (Figure  ).
+ 
+
+4.
+
+## DISCUSSION
+Myeloid cells, a highly heterogeneous cell population in the tumor microenvironment, have been shown to be strictly relevant to tumor invasion, angiogenesis, and immunosuppression in terms of their phenotypic and functional plasticity. , EWS is a highly aggressive malignancy with a large infiltration of myeloid cells in the TME, which will accelerate tumor growth once these myeloid cells turn into an immunosuppressive phenotype. EWS was found to target myeloid cells by secreting exosomes to increase the expression of various inflammatory factors and inhibit the differentiation of dendritic cells, which resulted in the formation of an immunosuppressive microenvironment and weakened adaptive immunity. EWS also could trigger the activation and migration of MDSCs by increasing the secretion of cytokines/chemokines, thus leading to T cell exhaustion. Furthermore, Fujiwara et al found that macrophages in the TME were able to induce angiogenesis and osteoclast activation to promote the progression of EWS, ultimately causing poor prognosis in EWS patients. These results demonstrate that myeloid cells perform a vital function in the progression, development and immune regulation of EWS, but the contribution of MSGs in EWS is still unclear.
+In our study, we systematically analyzed the expression of MSGs in EWS and identified 30 DE‐MSGs between EWS tumors and normal controls. Subsequently, according to the expression profiles of these DE‐MSGs, EWS patients were classified into two myeloid subtypes using unsupervised clustering analysis. Immune infiltration analysis showed a higher abundance of multiple immune cell infiltrates in cluster 2 than in cluster 1, suggesting that the myeloid subtype was strongly associated with immune status. These findings showed that myeloid subtypes could precisely categorize EWS patients into “hot” and “cold” tumors, providing a new strategy for the molecular classification and immunotherapy of EWS patients. Additionally, we constructed and verified a novel signature to predict the prognosis of EWS patients. The risk distribution analysis, KM curves, and ROC curves showed that the MSGs model exhibited excellent accuracy in both the training and validation cohorts. To further prove the specificity of the MSGs model in EWS, we validated the MSGs model in OS and STS patients. The results revealed that the MSGs model was not a significant prognostic indicator for OS and STS patients. We believed that it may be due to the high heterogeneity and complexity of the genomic profile of sarcoma, and our study was primarily based on the prognosis‐related genes of EWS to construct a prognosis model. Therefore, the MSGs model exhibited specificity to predict the prognosis of EWS patients. Besides, we discovered that the MSGs score acted as an independent prognostic factor to predict the prognosis of EWS and constructed a nomogram that could accurately predict the survival rate of EWS patients at 5 and 7 years. Collectively, our findings provided a robust tool for clinical decision‐making and treatment strategies for EWS patients.
+The MSGs prognostic signature was composed of three genes including CTSD, SIRPA, and FN1. CTSD encodes a member of the A1 family of peptidases, which is involved in the processing and presentation of antigens. Numerous reports have demonstrated that aberrant expression of CTSD is an independent prognostic agent for a wide range of tumors, and CTSD has been considered as a potential therapeutic target. CTSD can activate complement C5a/C5aR1‐mediated β‐catenin stabilization in tumor cells to promote tumor growth. CTSD also induces breast cancer cell proliferation through targeting mTOC1 signaling. Ashraf et al identified that targeting CTSD could significantly inhibit the recruitment of M2 macrophages and MDSCs in the TME and activate NK cells to exert antitumor immunity. SIRPA, a member of the signal‐regulatory‐protein (SIRP) family, is strongly expressed in various myeloid cells, including dendritic cells and macrophages, which mediate intercellular signaling. SIRPA has been shown to be instrumental in regulating dendritic cell homeostasis. Sugimura‐Nagata et al discovered that high expression of SIRPA was tightly tied to mismatch repair system deficiency and could serve as a protective factor for colorectal cancer. In addition, SIRPA receptor on macrophages can specifically bind to CD47 ligand on tumor cells to block phagocytosis, and target CD47 was shown to increase migration and phagocytosis of macrophages to exert antitumor effects. FN1 encodes fibronectin, which is engaged in cell migration and adhesion. The aberrant expression of FN1 has been proven to be associated closely with the invasion and prognosis of a variety of solid tumors, including renal, gastric, and lung cancers. , FN1 upregulation was strongly associated with M2 macrophage polarization and might be implicated in the progression of HNSCC through the Akt and MAPK signaling pathways. Besides, Zhang et al demonstrated that FN1 increased the sensitivity of OS cells to cisplatin to promote cell apoptosis. These studies suggest that these three MSGs have a major role in tumor progression. Our study revealed that the expression of all these genes was markedly elevated in EWS versus normal controls by WB, qPCR, and IHC, which was consistent with bioinformatic analysis. Overall, we believe that these three genes might be promising therapeutic targets and prognostic markers for EWS, and further experiments will be required to focus on the function of these genes in EWS.
+Functional enrichment analysis showed that DEGs in the high‐ and low‐risk groups were highly relevant to immune‐related pathways. The immune system has a dual role in tumor development, as it can recognize and eradicate tumor cells on the one hand, while promoting tumor growth by establishing a favorable microenvironment on the other hand. Moreover, the results of the GSEA analysis also support these findings. We found that the interferonγ response was significantly more active in the high‐risk group than in the low‐risk group. Interferonγ has been shown to recruit and activate large amounts of myeloid cells to infiltrate tumor tissue and induce PD‐L1 expression to impair tumor immunity effector. , These results suggested that immune dysregulation in the MSGs model might be a major cause of progression and poor prognosis in EWS. The tumor microenvironment consists of numerous immune/stromal cells and cytokines, which have a major effect in tumor immune regulation. , We evaluated TME in different risk groups and found that patients in the high‐risk group had higher immune scores and stromal scores compared with the low‐risk group, which might determine a worse prognosis. Previous literature has shown that elevated immune scores and stromal scores in multiple solid tumors correlate closely with poor prognosis, which was consistent with our results. , Our results revealed that the high‐risk group was predominantly infiltrated with myeloid cells, including M2 macrophages and neutrophils, whereas the low‐risk group was predominantly infiltrated with lymphoid cells, such as CD8+ T cells and NK cells. The IHC analysis further validated these results in EWS tissues. EWS is characterized by a predominance of immunosuppressive myeloid cells and weak lymphoid cells infiltration, resulting in a hyperinflammatory microenvironment and diminished immunogenicity. Previous studies have identified that M2 macrophage and neutrophil increases could lead to poor prognosis in EWS, while CD8+ T cells infiltration and NK cell activation could prolong the survival time of EWS patients. , M2 macrophage infiltration in EWS formed a protumor microenvironment, which promoted angiogenesis and metastasis in EWS. Also, neutrophil chemotaxis in the TME stimulated angiogenesis and immune escape to promote tumor development and progression. It has been found that neutrophils can cause metastasis and recurrence in EWS patients through releasing neutrophil extracellular traps. These findings suggested that the increased abundance of myeloid infiltrating cells might be a latent cause of the poorer prognosis of EWS, while CD8+ T cells and NK cells, as the main tumor‐killing cells, can exert antitumor immune effects through multiple mechanisms. It was found that decreased infiltration abundance and activity of CD8+ T/NK cells tended to induce tumor immune escape, resulting in poor prognosis in EWS patients. , Several adaptive complementary therapies targeting CD8+ T cells or NK cells have been effective in reducing the invasion and metastasis of EWS. , The increase of lymphoid cells might be the main contributor to the better prognosis of EWS patients in the low‐risk group. Hence, we suggest that myeloid cells may be the most critical cell subpopulation in the immune microenvironment of EWS associated with poor prognosis. Our results indicated that the MSGs model provided a new perspective for distinguishing the infiltration of myeloid and lymphoid cells. Moreover, we observed a significantly increased expression of multiple ICPs and CCRs in the high‐risk group. ICPs inhibit the capacity of immune cells to kill tumors which perform an imperative function in tumorigenesis and immune escape. CCRs are not only essential mediators of tumor invasion and angiogenesis, but they also recruit substantial populations of suppressor myeloid cells to contribute to tumor progression. , Taken together, these findings demonstrated that the high‐risk group might contribute to the development and poor prognosis of EWS by invoking the formation of an immunosuppressive microenvironment, and intervention with immunotherapy for patients with high MSGs scores might be an effective personalized treatment strategy.
+To our knowledge, this is the first study to characterize the interaction of MSGs in EWS patients. Despite the many strengths demonstrated in our study, some limitations remain. First, this study was based on data mining from a public database with a small sample size; therefore, the prognostic signature might have some bias. Second, further experiments are required in the future to verify the functional role of core genes and specific molecular pathways of the MSGs model in EWS.
+In conclusion, our study revealed that MSGs had a significant effect on the prognosis and immune infiltration of EWS. Moreover, we developed and validated a novel prognostic signature demonstrating excellent predictive accuracy in EWS patients. Further research on the identified MSGs might help to develop new therapeutic targets and contribute to personalized treatment of EWS patients.
+
+## AUTHOR CONTRIBUTIONS
+HF and ZZ conceived the original ideas of this manuscript and executed supervision throughout the process. ZZ and YS have written the article, ZJZ, JF, DL, XL,JD and HT have analyzed the data. All authors have read and approved it for publication.
+
+## DISCLOSURE
+The authors declare that the research was conducted without any commercial or financial relationships that could be construed as a potential conflict of interest.
+
+## ETHICS STATEMENT
+Approval of the Research Protocol. This study was approved by the Institutional Review Board of Xijing Hospital, Fourth Military Medical University and conformed to the provisions of the Declaration of Helsinki.
+Informed Consent: All patients in this study have signed informed consents. Registry and the Registration No. of the study/trial.
+Registry and the Registration No. of the study/trial: N/A.
+Animal Studies: N/A.
+
+## Supporting information
+
+Figure S1.
+
+Click here for additional data file.
+
+Tables S1‐S4.
+
+Click here for additional data file.
+
+## ACKNOWLEDGMENTS
+This work was supported by National Natural Science Foundation of China (No. 31971272), Sanming Project of Medicine in Shenzhen (No. SZSM201911011), and Xijing Hospital Discipline Promotion Program (XJZT21CM).
+
+Zhang Z, Shi Y, Zhu Z, et al. Characterization of myeloid signature genes for predicting prognosis and immune landscape in Ewing sarcoma. Cancer Sci. 2023;114:1240‐1255. doi: 10.1111/cas.15688
+
+Zhao Zhang, Yubo Shi, and Zhijie Zhu contributed equally to this work.
+
+## DATA AVAILABILITY STATEMENT
+The datasets presented in this study can be found in online databases. The names of the databases and accession number(s) can be found in the article.
+
+## REFERENCES
+ 
+
+## Associated Data
+
+## Supplementary Materials
+
+Figure S1.
+
+Click here for additional data file.
+
+Tables S1‐S4.
+
+Click here for additional data file.
+
+## Data Availability Statement
+The datasets presented in this study can be found in online databases. The names of the databases and accession number(s) can be found in the article.

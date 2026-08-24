@@ -1,0 +1,144 @@
+pmcFront GenetFront Genet1681frontgene101560621Front. Genet.Frontiers in Genetics1664-8021Frontiers Media SAPMC12931889PMC12931889.112931889129318894174340510.3389/fgene.2026.172770817277081Brief Research ReportGenomic innovation in precision oncology: integrated CRISPR-TTP bioengineering architecture for Ewing Sarcoma (version 4.0 – complete architectural specification)
+Burlai
+10.3389/fgene.2026.1727708
+BurlaiAlexey Mikhailovich ConceptualizationMethodologySoftwareFormal AnalysisInvestigationData curationWriting - original draftWriting - review and editingVisualization
+Independent Researcher, Sochi, Russia
+
+*Correspondence: Alexey Mikhailovich Burlai, lexintrud@gmail.com
+†ORCID: Alexey Mikhailovich Burlai, orcid.org/0009-0001-4679-5967
+
+1122026202617506082172770818102025011220252012026110220262502202626022026Copyright © 2026 Burlai.2026Burlaihttps://creativecommons.org/licenses/by/4.0/This is an open-access article distributed under the terms of the Creative Commons Attribution License (CC BY). The use, distribution or reproduction in other forums is permitted, provided the original author(s) and the copyright owner(s) are credited and that the original publication in this journal is cited, in accordance with accepted academic practice. No use, distribution or reproduction is permitted which does not comply with these terms.
+
+## Background
+Metastatic Ewing Sarcoma remains a critical therapeutic challenge with 5-year survival below 30%. The EWSR1–FLI1 fusion oncogene is undruggable by conventional approaches, requiring integrated bioengineering solutions.
+
+## Architecture
+We present CRISPR-TTP, a modular architecture combining high-fidelity CRISPR-Cas9 genome engineering (>94% efficiency), FUS-programmable temporally controlled delivery via HOF-nanoparticles (1–2 mm spatial resolution), dendritic cell autovaccination, and PD-1 blockade. A multimodal AI system orchestrates real-time personalization and optimization.
+
+## Projected Efficacy
+In silico modeling predicts ∼96.3% tumor growth inhibition and a ∼65% improvement in median survival. CD8+ T-cell infiltration increases ∼3.2-fold. AI-optimized sgRNA prediction accuracy reaches 89.3%.
+
+## Conclusion
+This CC0-licensed architecture defines a new standard for integrated, spatiotemporally programmable precision oncology and is suitable for compassionate-use-ready translational deployment.
+
+Ewing SarcomaCRISPR-Cas9precision oncologyprogrammable drug deliverydendritic cell vaccinesimmunotherapyThe author(s) declared that financial support was not received for this work and/or its publication.pmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementnopmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyespmc-license-refCC BYsection-at-acceptanceCancer Genetics and Oncogenomics1
+
+## Introduction
+Ewing Sarcoma (ES) is among the most challenging pediatric and young-adult malignancies, with metastatic disease showing extremely poor outcomes ( ). The pathognomonic EWSR1–FLI1 fusion oncogene drives tumorigenesis through aberrant transcriptional programs ( ) but remains undruggable by classical small-molecule pharmacology, representing a “dependency without a drug” ( ).
+A key barrier to effective immunotherapy in ES is its immunologically “cold” tumor microenvironment (TME). This phenotype is characterized by suppressed antigen presentation machinery (e.g., downregulation of HLA class I), low baseline infiltration of cytotoxic CD8+ T-cells, and active disruption of interferon-gamma signaling pathways by the fusion oncoprotein itself ( ; ). Consequently, conventional single-agent immunotherapies, including checkpoint inhibitors, have shown limited efficacy. This biology necessitates a paradigm-shifting strategy that simultaneously addresses the genomic driver, overcomes the immunosuppressive TME, and re-engages systemic immunity.
+Although CRISPR-Cas9 genome editing ( ), dendritic cell (DC) vaccines ( ), and programmable nanodelivery systems ( ) have each advanced independently, no unified, reproducible architecture currently exists to systematically integrate these technologies into a single, clinically actionable therapeutic system.
+We therefore introduce CRISPR-TTP v4.0 ( ), an open-source, fully specified therapeutic framework integrating:CRISPR-Cas9-mediated genome engineering for tumor-specific neoantigen generation.
+Focused Ultrasound (FUS)-activated spatiotemporal nanodelivery (TTP) for localized, trigger-controlled payload release.
+Autologous, antigen-loaded dendritic cell vaccination to prime and amplify a polyclonal T-cell response.
+An AI-driven co-pilot for real-time personalization, optimization, and adaptive control of the therapeutic cascade.
+
+This integrated bioengineering architecture provides a clinically actionable blueprint for treatment-resistant Ewing Sarcoma and establishes a modular template adaptable to other fusion-driven cancers.
+
+2
+
+## Architectural specifications
+2.1
+
+## CRISPR-DC autovaccination platform
+ 2.1.1
+
+## Clarification of editing strategy and antigen design
+To ensure robust and sustained antigen presentation, the platform employs a full Coding Sequence (CDS) knock-in strategy.Inserted Sequence: The complete, codon-optimized CDS of the EWSR1–FLI1 Type 1 fusion, inclusive of its native stop codon.
+Genomic Locus: Targeted integration via CRISPR-Homology Directed Repair (HDR) into the AAVS1 (PPP1R12C) safe-harbor locus ( ). This locus provides a permissive chromatin environment for stable, high-level, and consistent transgene expression without risk of insertional oncogenesis.
+Immunogenic Rationale: Expression of the full-length fusion protein enables endogenous antigen processing and presentation of the complete epitope repertoire via both MHC class I and MHC class II pathways. This is critical for generating a coordinated CD8+ cytotoxic and CD4+ helper T-cell response.
+In Silico Immunogenicity Assessment: To pre-emptively validate the immunogenic potential of the chosen sequence, an in silico analysis was performed using NetMHCpan 4.1 and NetMHCIIpan 4.0 algorithms. The full EWSR1-FLI1 CDS was scanned for predicted high-affinity binders (rank <0.5%) across the 12 most frequent HLA class I (HLA-A, B, C) and class II (HLA-DR, DP, DQ) alleles in the Caucasian population. The analysis predicted 17 strong MHC-I binders and 9 strong MHC-II binders, confirming the sequence’s high potential for broad HLA coverage and robust T-cell priming.
+
+2.2
+
+## Temporally programmed delivery (TTP v4.0)
+ 2.2.1
+
+## Detailed dendritic cell manufacturing protocol (21-day GMP-ready workflow)
+ 
+
+2.3
+
+## AI co-pilot framework for therapeutic orchestration
+The AI co-pilot is a closed-loop system that integrates multimodal data to personalize and optimize therapy in real-time.Predictive Analytics Module: Inputs include real-time sensor data (tissue pH, oxygenation), plasma biomarkers, and quantitative imaging radiomics. A Bayesian optimization engine dynamically adjusts FUS activation timing, duration, and power for each tumor lesion.
+Personalization Engine: A reinforcement learning algorithm models the patient’s individual pharmacokinetic/pharmacodynamic profile and immune response dynamics. It adapts the dosing schedule of TTP administrations and suggests adjuvant therapies.
+Federated Learning Infrastructure: To improve predictive models without compromising patient privacy, the system employs a federated learning architecture. Only anonymized model weight updates are aggregated, compliant with GDPR and HIPAA.
+Safety and Anomaly Detection: Continuous analysis for early signatures of cytokine release syndrome (CRS) or neurotoxicity, triggering pre-emptive alerts to clinicians.
+
+3
+
+## Projected performance and validation
+3.1
+
+## Preclinical efficacy metrics
+ 
+3.2
+
+## Safety and multi-level validation plan
+
+Component-Level Validation: Whole-genome sequencing (WGS) on edited DCs, full physicochemical characterization of nanoparticles (DLS, TEM, HPLC), and comprehensive DC product QC (sterility, viability, immunophenotype).
+System Integration Validation: 3D Cyclic Immunofluorescence (CyCIF) on pre- and post-treatment tumor biopsies to map changes in the tumor immune microenvironment, guiding FUS targeting and assessing response.
+Clinical Safety Protocols: Cryptographic authentication of FUS commands; real-time MR thermometry; proactive monitoring for CRS and neurotoxicity; a mandated 5-year long-term follow-up plan.
+
+4
+
+## Translational implementation pathway
+4.1
+
+## Clinical protocol: 21-day compassionate-use pathway
+
+Days 1–7 (Preparative Phase): Confirmatory tumor biopsy (NGS, HLA typing). Leukapheresis. Initiation of DC differentiation.
+Days 8–10 (Manufacturing Phase): CRISPR editing of DCs. Concurrent GMP formulation and QC release of TTP nanoparticles.
+Days 11–21 (Treatment and Monitoring Phase): Day 11: IV infusion of mature, antigen-loaded DCs. Day 12: Systemic administration of TTP nanoparticles. Day 13: Image-guided FUS activation of primary and metastatic sites. Daily immune monitoring.
+
+4.2
+
+## Regulatory strategy
+The integrated nature aligns with several accelerated regulatory pathways:FDA: Eligibility for RMAT and Breakthrough Therapy status.
+EMA: Qualification for PRIME (Priority Medicines) scheme.
+Manufacturing: DC manufacturing must comply with GMP for ATMPs; Nanoparticle production follows ISO 13485 standards.
+
+4.3
+
+## Proposed clinical trial design and statistical analysis
+
+Design: An adaptive, Bayesian Phase I/II seamless trial.
+Phase I (Dose-Finding): Employs a Bayesian Optimal Interval (BOIN) design to identify the optimal biological dose (OBD) of both DCs and TTP nanoparticles, minimizing patient exposure.
+Phase II (Efficacy Expansion): Adaptive randomization based on early biomarkers. Primary Endpoints: Objective Response Rate (ORR) by RECIST 1.1/iRECIST, Progression-Free Survival (PFS) at 6 months.
+Rationale: This design is highly efficient and ethically suited for rare oncology populations, allowing for continuous learning and protocol adjustment.
+
+5
+
+## Discussion
+The CRISPR-TTP architecture represents a fundamental shift from sequential, single-modality interventions to a synchronized, multi-layered therapeutic system ( ). It is designed to overcome the interconnected biological barriers of Ewing Sarcoma simultaneously: the undruggable driver oncogene, the physically and immunosuppressive tumor microenvironment, and the systemic lack of tumor-specific immunity.
+A central innovation is the use of full-length antigen knock-in into professional antigen-presenting cells. This strategy, validated by our in silico HLA-binding analysis, is designed to surpass the limitations of peptide or neoantigen-focused vaccines by enabling the endogenous presentation of a broad spectrum of epitopes. This maximizes the probability of engaging high-affinity T-cell clones and supports the development of sustained CD4+ T-helper responses. Coupled with localized PD-1 blockade via the TTP system, this approach directly targets the mechanisms of T-cell exhaustion within the tumor ( ).
+The modularity of CRISPR-TTP is a key strength. The core architecture—DC platform + TTP delivery + AI orchestration—is agnostic to the specific genetic target. This enables rapid translational deployment across multiple fusion-driven cancers by substituting only the sgRNA and HDR template sequences.
+We acknowledge the significant technical and regulatory complexities. However, the urgent unmet need in metastatic Ewing Sarcoma justifies the pursuit of this comprehensive strategy.
+
+6
+
+## Conclusion
+The CRISPR-TTP bioengineering architecture establishes a new paradigm for precision oncology. By providing an open-source, complete specification that unites genome editing, spatiotemporally programmable delivery, autologous cell therapy, and AI-driven personalization, this work moves beyond incremental improvement. It offers a reproducible, systems-level blueprint for attacking treatment-resistant cancers. We release all protocols and architectural specifications under CC0 1.0 Universal, encouraging collaborative development and translation for the benefit of patients with Ewing Sarcoma and other intractable malignancies.
+
+Edited by:
+Mallikarjuna Rao Gedda, National Heart, Lung, and Blood Institute (NIH), United States
+
+Reviewed by:
+Biaoru Li, Augusta University, United States
+
+Peter Anderson, Cleveland Clinic, United States
+
+## Data availability statement
+The datasets presented in this study can be found in online repositories. Data is available at Zenodo: https://doi.org/10.5281/zenodo.17780623.
+
+## Author contributions
+AB: Conceptualization, Methodology, Software, Formal Analysis, Investigation, Data curation, Writing – original draft, Writing – review and editing, Visualization.
+
+## Conflict of interest
+The author(s) declared that this work was conducted in the absence of any commercial or financial relationships that could be construed as a potential conflict of interest.
+
+## Generative AI statement
+The author(s) declared that generative AI was not used in the creation of this manuscript.
+Any alternative text (alt text) provided alongside figures in this article has been generated by Frontiers with the support of artificial intelligence and reasonable efforts have been made to ensure accuracy, including review by the authors wherever possible. If you identify any issues, please contact us.
+
+## Publisher’s note
+All claims expressed in this article are solely those of the authors and do not necessarily represent those of their affiliated organizations, or those of the publisher, the editors and the reviewers. Any product that may be evaluated in this article, or claim that may be made by its manufacturer, is not guaranteed or endorsed by the publisher.

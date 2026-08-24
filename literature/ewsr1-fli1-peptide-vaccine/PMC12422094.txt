@@ -1,0 +1,1031 @@
+pmcAdv MaterAdv Mater379blackwellopen9885358ADMAAdvanced Materials (Deerfield Beach, Fla.)0935-96481521-4095pmc-is-collection-domainyespmc-collection-titleWiley Open Access CollectionPMC12422094PMC12422094.112422094124220944080152810.1002/adma.202510115ADMA701831ReviewReviewBiomolecular Condensates as Emerging Biomaterials: Functional Mechanisms and Advances in Computational and Experimental Approaches
+ZhuQianghttps://orcid.org/0000-0002-5612-0728 RazaZahra Do‐HaDzunghttps://orcid.org/0000-0002-5544-2987 De CostaEmma SashevaPavlinahttps://orcid.org/0000-0001-7164-3765 McAlaryLukehttps://orcid.org/0000-0002-1764-3809 MahmodiHadihttps://orcid.org/0000-0003-4820-5614 BowenWarwick P.https://orcid.org/0000-0001-8127-1715 OoiLezannehttps://orcid.org/0000-0001-9241-8268 KabakovaIrinahttps://orcid.org/0000-0002-6831-9478 YuHaibohttps://orcid.org/0000-0002-1099-2803 hyu@uow.edu.au 
+
+1
+
+School of Science and Molecular Horizons
+ARC Centre of Excellence in Quantum Biotechnology
+University of Wollongong
+Wollongong
+NSW
+2522
+Australia
+
+2
+
+School of Mathematics and Physics
+ARC Centre of Excellence in Quantum Biotechnology
+The University of Queensland
+Brisbane
+Qld
+4072
+Australia
+
+3
+
+School of Mathematical and Physical Sciences
+ARC Centre of Excellence in Quantum Biotechnology
+University of Technology Sydney
+Sydney
+NSW
+2007
+Australia
+
+*
+E‐mail: hyu@uow.edu.au
+
+13820251192025373649660510.1002/adma.v37.36Special Issue: 50th Anniversary of University of Wollongonge10115
+2272025
+2852025
+100920251109202511092025© 2025 The Author(s). Advanced Materials published by Wiley‐VCH GmbHhttps://creativecommons.org/licenses/by-nc/4.0/This is an open access article under the terms of the http://creativecommons.org/licenses/by-nc/4.0/ License, which permits use, distribution and reproduction in any medium, provided the original work is properly cited and is not used for commercial purposes.
+
+## Abstract
+Biomolecular condensates, a ubiquitous class of biomaterials found in living cells, have been shown to be responsible for key physiological processes, such as gene regulation, signal transduction, and stress response. Since their discovery, extensive efforts have been devoted to this field to better understand the underlying mechanisms using both computational and experimental techniques. While great progress has been achieved, the key challenges still exist. With advancements in computational power and methods and improvements in experimental precision, the gap between computation and experimentation is gradually narrowing. By integrating these approaches, researchers can elucidate the molecular mechanisms governing biomolecular condensates. This review summarizes the recent progress in utilizing computational and experimental techniques to study biomolecular condensates. Detailed discussions are provided on the key advantages and limitations of each technique, along with their successful applications to specific systems. Moreover, further discussions are focused on the possibility of utilizing biomolecular condensates as a versatile platform for drug delivery and novel bioreactor design with the help of these techniques. Finally, future directions are outlined for technique development to better understand the role of biomolecular condensates in health and disease and enable their applications as tunable biomaterials.
+
+Integration of computational and experimental approaches for deciphering the underlying mechanism of biomolecular condensates and potential biomaterials design (Created in Biorender. Raza, Z. (2025) https://BioRender.com/irgmeqi).
+
+ 
+
+biomaterialsbiomolecular condensatecomputer simulationscondensate characterizationliquid–liquid phase separation
+Australian Research Council10.13039/501100000923
+CE230100021DP250103803
+University of Wollongong Vice‐Chancellor's Research Fellowship
+
+CSIRO Next Generation Quantum Graduates Program
+
+Office of National Intelligence National Intelligence Postdoctoral Grant
+NIPG202310
+Air Force Office of Scientific Research10.13039/100000181
+FA9550‐22‐1‐0047FA9550‐24‐1‐0286 The studies from as early as the 1800s identified MLOs, such as the nucleolus[
+ , 
+] and cytoplasmic stress granules[
+ , 
+]. The functional diversity and biological significance of these structures have been demonstrated in the regulation of gene expression and cellular signaling.[
+ , , , , , 
+] Within the nucleus, the nucleolus–the largest MLO in a eukaryotic cell–is the main site for ribosomal biogenesis. The nucleolus concentrates ribosomal proteins and ribonucleic acid (RNA) to enhance assembly efficiency and prevent non‐specific interactions that could disrupt ribosomal biogenesis. Importantly, the nucleolus itself is organized in a multiphase liquid condensate (i.e. liquid condensates contained within other liquid condensates[
+ 
+]). The multiphase organization of the nucleolus reflects the sub‐compartmentalization which is specific to different processes involved in ribosomal biogenesis,[
+ 
+] thus highlighting how nucleolar organization is linked to its function. In contrast, stress granules are inducible MLOs that form transiently in response to cellular stress, such as oxidative stress, osmotic stress, or heat shock. Stress granules sequester untranslated mRNAs and translation initiation factors, effectively halting protein synthesis to conserve resources and protect cellular integrity.[
+ 
+]
+
+Many other factors may influence the process of biomolecular condensates, including pressure,[
+ , 
+] temperature change,[
+ , 
+] ionic concentration, pH, peptide sequence and length,[
+ , , 
+] and charge pattern[
+ , 
+] (Figure  ). Extensive experimental and computational techniques have been proposed and significant efforts have been dedicated to this field to uncover the principles governing their formation. Although the precise mechanism remains elusive, the current consensus is that reversible condensate formation is important for maintaining healthy cellular function. Dysfunction of biomolecular condensation is related to diseases such as amyotrophic lateral sclerosis (ALS), frontotemporal dementia (FTD), and cancer[
+ 
+] (Figure  ). Of particular interest to disease progression is the role of proteins containing low complexity or intrinsically disordered domains, such as transactive response DNA‐binding protein of 43 kDa (TDP‐43) and fused in sarcoma (FUS). Mutations that are associated with neurodegenerative diseases can either increase or decrease phase separation, presumably through altering molecular interactions.[
+ 
+]
+
+The key features of biomolecular condensates include: i) dynamic assembly and disassembly, allowing them to form and dissolve rapidly in response to cellular conditions; ii) selectivity, whereby only specific proteins and RNA molecules are incorporated; and iii) reversibility, enabling components to transition in and out of the condensate. These properties make biomolecular condensates not only essential for biological processes but also a promising platform for the design of innovative biomaterials, such as drug delivery systems[
+ , 
+] and bioreactors.[
+ , 
+] For example, biomolecular condensates can selectively compartmentalize target molecules and bypass the lipid barrier, making them promising candidates for drug delivery and release. In addition, the confined environment within condensates enables them to function as microreactors, potentially enhancing reaction rates.[
+ 
+] Moreover, the distinct capability of LLPS to generate visually recognizable homogeneous or heterogeneous liquid phases has established it as a valuable tool in diverse biological assays, including detection of protein‐protein interactions, and monitoring of kinase activities.[
+ , 
+] Under external stimuli, these reversible biomolecular condensates can spontaneously organize into micro‐ or macroscale structures, such as fibers and gels, to serve specific functions[
+ , 
+] (Figure  ).
+The growing discovery of diverse condensates within cells, along with their emerging applications in designing biomaterials, underscores the need for innovative tools and methods to investigate their underlying processes and mechanisms. In this review, we aim to provide a comprehensive overview of biomolecular condensates, including factors that contribute to their formation, the driving forces behind their assembly, and their associated biological functions and derived biomaterials. In the aspect of advancements in the approaches for investigating the biomolecular condensates, both computational and experimental techniques are explored, along with their advantages and limitations. Furthermore, we highlight key directions for future research while promoting broader accessibility to these insights within the scientific community.
+
+2
+
+## Factors Contributing to Biomolecular Condensates
+2.1
+
+## Structured Proteins: Indispensable Partners in Condensate Assembly and Function
+Proteins are essential biomacromolecules that play critical roles in a wide range of biological functions, including catalyzing reactions,[
+ 
+] mediating transport,[
+ 
+] signaling[
+ 
+] and providing cellular structural support.[
+ 
+] The function of a protein is highly dependent on its 3D structure and associated conformational changes, which is delineated by the specific linear sequence of 20 different amino acids linked by peptide bonds.[
+ 
+] Proteins enriched in condensates often contain structured domains, which are essential for their function and contribute to phase separation.[
+ , , 
+] In this context, proteins can be considered biological analogues of polymers with respect to their role in LLPS. However, proteins are considerably more complex and diverse than synthetic polymer systems, due to their chain‐like structure, intrinsic flexibility, variable length, hydrophobicity, and charge distribution. Arguably, the most significant principle in driving LLPS is multivalency. In structured proteins, this arises from the presence of multiple domains capable of engaging in a range of weak, non‐covalent interactions. These interactions include electrostatic, hydrophobic, cation‐π, π–π stacking, and hydrogen bonding, which all play key roles in regulating LLPS.[
+ 
+] Additionally, post‐translational modifications and mutations can further modulate their role in LLPS.[
+ , 
+]
+
+2.2
+
+## Intrinsically Disordered Proteins and Short Synthetic Peptides: Essential for Condensate Formation
+
+Intrinsically Disordered Proteins: While many structured proteins can participate in LLPS, the majority of proteins involved are IDPs or those containing IDRs, which lack a stable 3D structure and can adopt a wide range of conformations and interactions.[
+ 
+] These regions contain low complexity domains (LCDs), linear motif domains, or prion‐like domains. These regions are often composed of repetitive sequences. For instance, prion‐like domains are typically enriched in amino acids such as glycine, serine, and glutamine, which can mediate weak, transient interactions.[
+ , 
+] These domains contribute significantly to the flexibility and multivalency of the molecule, making them key drivers in the formation of biomolecular condensates.[
+ 
+] Thus, the role of IDPs/IDRs is essential in biological LLPS. Within condensation‐associated proteins, not all residues directly contribute to the interactions that promote LLPS. Rather, a “stickers and spacers model” is suggested, whereby strings of flexible disorder‐promoting residues in IDRs/IDPs will have interaction‐promoting residues or domains spaced throughout them. This allows substantial freedom for these proteins to orient themselves whilst maintaining the quaternary interactions necessary to promote condensation.[
+ 
+] These interaction‐promotion domains are often enriched with charged amino acids which play a central role in electrostatic and ionic interactions that drive LLPS and biomolecular condensate formation.[
+ , 
+] However, electrostatic interactions are highly sensitive to environmental conditions such as pH, salt composition and concentration, which can directly influence the formation, stability and material properties of the biomolecular condensate.[
+ , , 
+]
+
+Short Synthetic Peptides: Due to the sequence complexity and conformational heterogeneity of IDPs/IDRs, short synthetic peptides have emerged as tractable models for probing the sequence determinants and physical principles underlying phase separation.[
+ 
+] Their simplicity, ease of synthesis, and tunable design allow systematic dissection of how specific residues and interactions influence LLPS behavior. For instance, Frederix et al. explored the complete combinatorial landscape of di‐ (202) and tri‐peptides (203) using integrated computational and experimental approaches.[
+ , 
+] Through their computational screening and experimental validation, they established a set of design rules for promoting aggregation in tripeptides, showing that aromatic residues are most favorable at positions 2 and 3, while positively charged and hydrogen‐bonding residues are preferred at position 1 (N‐terminus), and negatively charged residues at position 3 (C‐terminus).[
+ 
+] However, as sequence length increases, brute‐force exploration becomes intractable. With the aid of artificial intelligence, this exploration can be extended to sequences of up to 10 amino acids without human bias.[
+ , , , 
+] Moreover, synthetic peptides offer excellent biocompatibility, biodegradability, low immunogenicity and toxicity, along with their ability to dynamically respond to external stimuli, making them highly promising candidates for applications in drug delivery, vaccination, and tissue engineering.[
+ , 
+]
+
+2.3
+
+## Nucleic Acids: Versatile Scaffolds and Regulators
+Proteins are not the only type of biomacromolecules that participate in LLPS. Nucleic acids can also be found in biomolecular condensates within complex networks involving protein‐protein, protein‐nucleic acid, and nucleic acid–nucleic acid interactions that further govern the functionality of the biomolecular condensate. Many‐folded proteins contain multiple binding domains that promote multivalency. For instance, RNA‐binding motifs within RNA‐binding proteins (RBPs), which are known to initiate phase separation when nucleic acids are bound.[
+ , , 
+] This interaction is believed to induce conformational changes within the RBP that can alter phase separation. For example, the well‐known SARS‐CoV‐2 virus contains a nucleocapsid protein that has been shown to undergo phase separation through interactions with non‐specific nucleic acids and adenosine triphosphate (ATP).[
+ 
+] These proteins were shown to biphasically modulate LLPS, where at low nucleic acid concentrations LLPS was induced but at higher concentrations, LLPS dissolved. This biphasic phenomenon has also been observed in human RBPs such as FUS[
+ , 
+] and TDP‐43[
+ 
+] through interactions between RNA and respective RNA‐binding motifs. The properties of proteins and nucleic acids and their intrinsic interactions are key in determining the physical characteristics of biomolecular condensates such as viscoelasticity, dynamics, density, surface tension, and diffusivity.[
+ 
+]
+
+2.4
+
+## Physicochemical Perturbations: Critical Modulators of Condensate Assembly and Material State
+Environmental conditions such as pH, temperature, protein, and salt concentration are all known to directly modulate the physical properties of biomolecular condensates.[
+ 
+] Both salt concentration and pH are important physicochemical perturbations that can regulate LLPS via influencing electrostatic interactions, solubility, and the conformations of proteins, particularly IDPs. Salt plays a crucial role in modulating the LLPS behavior of proteins, with its effects depending not only on the concentration but also on the specific chemical identity of the ions involved, such as the Hofmeister series.[
+ 
+] Similar salt‐dependent behaviors have been observed across various protein solutions and soft matter systems, highlighting the widespread influence of salt on LLPS. Emerging theories have sought to better understand the effects of salt on phase separating IDPs/IDRs by combining self‐consistent field theory with solution thermodynamics. It is hypothesized that at low salt concentrations, proteins tend to precipitate, as salt ions reduce the electrostatic repulsion between charged regions. At high salt concentrations, smaller ions may continue to promote precipitation, while larger ions can enhance protein solubility. This shift is driven by a balance between ion solvation, the extent to which ions are surrounded by water molecules and their translational entropy, or freedom of movement.[
+ 
+]
+
+Similarly, pH alters the protonation states of ionizable side chains, affecting net charge and solubility of the protein. Phase separation often occurs near the isoelectric point of a protein, where solubility is minimized, although many LLPS‐prone proteins exhibit maximal solubility and condensation near physiological pH.[
+ , 
+] These effects are highly context‐dependent, as minor changes in salt concentrations or pH can shift phase boundaries, to promote or suppress condensate formation or even drive pathological transitions to solid‐like states. Temperature is another key factor influencing LLPS, affecting protein behavior and playing a critical role in cellular stress responses. Additionally, it serves as a tunable parameter in vitro, allowing precise control of thermoresponsive LLPS systems. For example, heat shock factor 1 undergoes temperature‐dependent phase separation with lower critical solution temperature behavior, driven by specific molecular interactions and post‐translational modifications.[
+ 
+]
+
+Moreover, post‐translational modifications and specific mutations in IDP/IDR sequences are also able to influence the interactions within the biomolecular condensate. For instance, post‐translational modifications such as phosphorylation can modulate electrostatic interactions of IDRs by introducing or ablating charged residues.[
+ 
+] Mutations in protein sequences can also alter a protein's ability to undergo phase separation, influence the material properties of the resulting condensates, in some cases promoting the formation of pathological aggregates. In the case of TDP‐43, ALS‐associated mutations within its LCD can either enhance phase separation or inhibit LLPS. These effects arise due to amino acid substitutions that disrupt the LCD's conformation. Such mutations can directly affect the capacity of the protein for self‐interaction and the material properties of the condensates.[
+ 
+]
+
+Thus, finely tuned interplay between all these factors can influence the formation and dissolution of the biomolecular condensate depending on the molecular composition and the biomolecular condensate's function. For example, stress granules can form in response to a variety of different cellular stresses. The formation and dissolution of stress granules are tightly regulated by the nature of the stress, the properties of the constituent proteins, and post‐translational modifications that modulate phase behavior.[
+ 
+] Of concern, specific variations in these factors can trigger phase transitions of the condensate from liquid to gel or solid aggregates, which are implicated in pathologies such as neurodegenerative diseases. It is currently challenging to determine which factors primarily drive physiological LLPS and pathological aggregation in each specific case, as no single environmental condition is universally responsible across all pathological contexts. The development of new technologies and further investigations into the driving forces of phase transitions are required to elucidate these differences. The key takeaway of this section is that the amino acid sequence, weak transient interactions of the molecules and the physicochemical environment are all heavily involved in a delicate balancing act to govern biomolecular condensate formation and in modulating its physical properties.
+
+3
+
+## Molecular Driving Forces for Biomolecular Condensates
+The formation of biomolecular condensates via LLPS is governed by a network of weak, transient interactions. The main driving forces between weak protein‐protein, protein‐RNA and RNA‐RNA interactions have been classified as π‐π interactions, cation‐π interactions, hydrogen bonds and hydrophobic interactions.[
+ 
+] A schematic illustration can be found in Figure  .
+ 3.1
+
+## Electrostatic Interactions
+Electrostatic interactions are one of the key driving forces of biomolecular condensate formation.[
+ 
+] These long‐range interactions involve attraction between oppositely charged molecules. This can include both intra and inter‐molecular interactions between negatively charged and positively charged residues. Electrostatic interactions between cationic proteins and anionic RNA can also drive the formation of dynamic biomolecular condensates. For instance, electrostatic interactions between a positively charged IDP and the negatively charged backbone of a nucleic acid are known to drive phase separation of certain proteins such as FUS[
+ , 
+], TDP‐43,[
+ 
+] Tau[
+ 
+] and hnRNPA1 (heterogeneous nuclear ribonucleoprotein A1) [
+ 
+] In particular, the RNA‐binding protein, hnRNPA1 possesses a disordered C‐terminal domain that is observed to drive LLPS via electrostatic interactions with interactions with RNA. Similarly, the protein Tau, responsible for neuronal structure and stability, and has implications in Alzheimer's disease, was also found to participate in LLPS.[
+ 
+] This process is primarily driven by electrostatic interactions between its negatively charged N‐terminus and positively charged C‐terminus.[
+ 
+] However, these charged interactions are highly susceptible to environmental changes such as pH, which can alter the protonation state of the ionizable side chains of the amino acids, which in turn can affect the protein's ability to phase separate.
+
+3.2
+
+## π–π and Cation‐π Interactions
+Another vital driving force in biological phase separation is π‐interactions such as π–π stacking and π‐cation interactions. π–π stacking involves non‐covalent interactions between aromatic side chains or other sp
+2‐hybridized groups. These are especially common within IDPs containing aromatic side chains such as tryptophan, phenylalanine, and tyrosine.[
+ 
+] While π–π stacking is generally weaker than electrostatic interactions, their specificity makes them an important factor in tuning the internal structure and stability of biomolecular condensates. Interestingly, it is proposed that the peptide backbone also contains partial π bonds, due to resonance structure, which can also be involved in π–π stacking.[
+ 
+] This raises the possibility that backbone‐mediated π–π interactions may play a predominant role in LLPS.[
+ 
+] π–π stacking is also important in protein‐nucleic acid interactions, where arginine and/or lysine residues in RNA‐binding proteins can engage inπ–π stacking with the sp
+2‐hybridized groups ofRNA nucleobases.[
+ , , 
+] These interactions can facilitate the selective recruitment of RNA into condensates, thereby influencing the viscoelastic properties and internal organization of condensates, affecting their material state and dynamics. π‐cation interactions are also common in biological LLPS, specifically between electron‐rich aromatic groups and positively charged residues such as tyrosine and arginine, respectively. These interactions are highly relevant in IDR‐ATP interactions within biomolecular condensates, where positively charged side chains interact with negatively charged phosphates in ATP. A study on the RNA‐binding protein FUS, established that cation‐π interactions between the C‐terminal domain, rich in arginine and lysine were able to form π‐cation interactions with the phosphate of ATP.[
+ , 
+] This interaction was found to biphasically modulate LLPS and suggests that other RNA‐binding proteins with arginine and/or lysine rich domains may have similar capabilities, which were also observed in TDP‐43.[
+ 
+] This highlights that π–π interactions and especially π‐cation interactions play a significant role in the stability of biomolecular condensates, even when other interactions like electrostatics dominate. Increasing evidence suggests that π‐cation interactions become more important at higher ionic strengths, where electrostatic interactions weaken.[
+ , 
+] This implies a potential trade‐off or compensatory relationship between electrostatics and π‐based interactions, rather than a simple additive effect. The distribution and positioning of charged and aromatic residues and their locations within the protein are crucial in modulating these effects. These insights have important implications for designing synthetic condensates, as tuning these interaction types can modulate condensate stability and dynamics.
+
+3.3
+
+## Hydrogen Bonding Interactions
+While hydrogen bonds are well known for their role in stabilizing the secondary structure of folded proteins, they are also crucial for the formation and stabilization of biomolecular condensates. Although more prevalent in maintaining secondary structure of folded proteins, hydrogen bonds also facilitate transient secondary structures within IDRs. For example, the C‐terminal domain of TDP‐43 is intrinsically disordered yet contains a conserved α‐helical region stabilized by hydrogen bonds between backbone atoms.[
+ , 
+] This helical region is thought to mediate phase separation of the LCD of TDP‐43 via dimerisation.[
+ 
+] Furthermore, under varying conditions such as pH, temperature or salt concentration, this α‐helix can transform into a β‐sheet structure, promoting tight packing of TDP‐43 LCDs within the condensate via intermolecular hydrogen bonds. This structural transition can influence the viscoelastic properties of the condensate and can promote aggregation and amyloid formation, commonly observed in neurodegenerative diseases.[
+ , 
+] Another relevant example involves the formation of structures called low complexity aromatic rich kinked segments (LARKS), which are β‐sheet structures derived from IDRs.[
+ 
+] LARKS have been identified in low‐complexity domains of proteins such as TDP‐43,[
+ 
+] FUS,[
+ 
+] and hnRNAPs.[
+ 
+] These structures consist of kinked β‐sheets connected by weak hydrogen bonds and π–π interactions resulting in strong inter‐peptide binding.[
+ 
+] LARKS enable proteins to form β‐sheet–rich structures via hydrogen bonding, but sharp kinks are introduced that interrupt the regular pleated β‐sheets, which can influence the reversibility of structural transitions. However, not all LCDs of proteins capable of phase separation can form LARKS that drive LLPS, and may have roles in simply modulating the physical properties of condensates via transient interactions. These features contribute to both the reversible self‐association in LLPS and the potential for irreversible aggregate formation that has been observed in post‐mortem tissue of ALS and frontotemporal lobar degeneration (FTLD) inclusions.[
+ , , 
+] Notably, in the context of coacervate‐based drug delivery systems, hydrogen bonding can also play critical role in cargo encapsulation and controlled drug release by influencing the internal network and dynamic behavior of the coacervate.[
+ , 
+] Beyond stabilizing secondary and tertiary protein structures, hydrogen bonds can also mediate intermolecular interactions essential for LLPS, contributing to both the formation and material properties of condensates.
+
+3.4
+
+## Hydrophobic Interactions
+Among the various driving forces of LLPS, hydrophobic interactions are also widely recognized as significant contributors to biological LLPS. Whilst not as evidently crucial as electrostatic or π–π interactions in biomolecular condensate formation, they are still vital in maintaining the liquid‐like properties of condensates. Interestingly, hydrophobic interactions in biomolecular condensates may be more vital under specific environmental conditions. It was hypothesized that at low salt concentrations, LLPS is primarily driven by electrostatic interactions, whereas at high salt concentrations, hydrophobic and non‐ionic interactions become dominant.[
+ 
+] This salt‐dependent transition in the driving forces of LLPS has been observed for several proteins, including FUS, TDP‐43, Brd4 (bromodomain‐containing 4), and annexin A11.[
+ 
+] Specific amino acids such as alanine, proline, tyrosine, serine, phenylalanine, lysine, and arginine are well known in engaging in electrostatic interactions. However, under high salt concentrations, it was discovered that they can engage in hydrophobic interactions to a larger extent.[
+ 
+] Notably, arginine‐arginine and lysine‐phenylalanine pairs exhibited a switch‐like behavior in response to salt, transitioning from predominantly electrostatic interactions, including cation‐cation and cation‐π interactions to primarily hydrophobic interactions. Moreover, in this context, arginine emerges as a particularly important residue. Whilst arginine is well known to be a significant residue in π‐cation interactions and electrostatics as discussed above, its role in inducing LLPS is thought to be more potent than other charged residues. Compared with other positively charged amino acids, such as lysine, arginine displays more versatility in terms of interactions it can participate in, across a broader range of conditions. This suggests that it may also be the key amino acid in driving hydrophobic interactions at high salt concentrations in condensates.[
+ 
+] A study conducted on poly‐lysine and protamine (an arginine‐rich polymer) explored this hypothesis. The authors discovered that protamine was able to exhibit re‐entrant phase behavior at high salt concentrations and temperatures, which was attributed to arginine's greater hydrophobicity relative to lysine.[
+ 
+] Furthermore, using hyaluronic acid (HA) as a model cargo, the researchers were able to demonstrate the function of protamine‐HA polymers as a coacervate drug delivery vesicle. These polymers were capable of modulating coacervate dissolution and cargo release at high salt concentrations, driven by the arginine‐based hydrophobic interactions. Arginine is thus significant in driving LLPS via electrostatic and cation‐π interactions and also salt‐dependent re‐entrant behavior through hydrophobic interactions. These discoveries provide critical insights into the role of hydrophobic interactions in LLPS and inform the design of arginine‐rich biomolecular condensates with tailored material properties.
+Although these interactions have been well characterized and studied, much remains unclear about how they act in combination within the crowded and complex environment of the cell. The interplay of these interactions, and how they contribute to the material properties and functional outcomes of condensates is not yet fully understood. Future work involving structural biology, biophysics, and cell biology is essential to understand how these forces are tuned to drive and affect the assembly of biomolecular condensates and apply them to fields such as medicine, biomaterials and biotechnology.
+
+4
+
+## Biomolecular Condensates in Cellular Functions and Diseases Progression
+Under normal physiological conditions, LLPS is implicated in a wide variety of processes including cell compartmentalization, cellular signaling, chromatin organization, and gene regulation.[
+ , , , , , , , 
+] Biomolecular condensates are best known as essential components of cellular compartmentalization. In the dynamic and complex intracellular environment, where numerous processes occur simultaneously, biomolecular condensates enable precise spatial and temporal organization. Moreover, condensates can effectively segregate biochemical activities and rapidly respond to environmental changes, thereby supporting cellular regulation during both stress and homeostasis. Increasingly, biological LLPS is also emerging as a key mechanism in immune signaling and the sequestration of pathogenic factors. The ability of immune cells to quickly recognize and respond to foreign agents is essential, and LLPS plays a crucial role in immune signaling pathways such as DNA sensing and T‐cell receptor signaling by forming condensates that enhance enzymatic activity and signal transduction. Moreover, LLPS prevents aberrant immune cell signaling by sequestering key signaling molecules in a concentration‐dependent manner.[
+ 
+] Furthermore, LLPS has also been implicated in chromatin organization, although the underlying mechanisms remain incompletely understood. In the nucleus of cells, DNA is packaged as chromatin, with the basic unit being a nucleosome, where DNA is wrapped around a histone core. These histone proteins have positively charged, multivalent tails that can undergo various post‐translational modifications, influencing key nuclear processes such as transcription, replication, and DNA repair. These tails can also drive LLPS under physiological conditions, forming histone tail droplets, suggesting that LLPS plays a critical role in the organization and regulation of the eukaryotic genome.[
+ 
+] Finally, LLPS is also implicated in the formation of transcriptional condensates, which contain transcription factors and co‐factors essential for gene regulation. These condensates facilitate the rapid and efficient delivery of these molecules and factors to important genomic sites, enabling effective transcription of key genes that define cell identity.[
+ 
+] However, LLPS is also implicated in diseases, particularly neurodegeneration and cancer progression. In neurodegenerative diseases, many IDRs capable of undergoing LLPS have also been implicated in forming pathological aggregates associated with Alzheimer's, ALS, FTLD, Parkinson's disease, and prion disease,[
+ , 
+] suggesting a possible link between the two processes. The precise mechanisms that drives aggregation of IDRs such as TDP‐43, FUS, Tau and other aggregation prone IDRs, remains poorly understood. A common hypothesis proposes that LLPS leads to the formation of liquid‐like droplets, which over time or in response to environmental stressors, “mature” into more solid‐ or gel‐like assemblies, ultimately initiating aggregation.[
+ 
+] In this context, “maturation” refers to a reversible process where there is gradual loss of fluidity and dynamic behaviour in a droplet over time. Notably, such maturation has also been observed in droplets formed by proteins not prone to aggregation, indicating that IDRs may simply accelerate rather than dictate the process.[
+ , 
+] Thus, despite many experimental observations, it is debated whether LLPS contributes to aggregate formation or the processes occur independently without a direct relationship in some cases. A study on alpha‐synuclein (αSyn) revealed that LLPS and aggregation are independent processes. LLPS does not necessarily occur under the same conditions as aggregation and can either promote or inhibit aggregate formation.[
+ 
+] However, whether this applies to other LLPS‐ and aggregation‐prone IDRs remains to be fully investigated.
+In this context, proteins are classified as key components in physiologically relevant processes for health but also in the formation of pathological condensates and aggregates that harm cell function and promote disease progression. However, the precise mechanisms that drive the transition from physiological LLPS to pathological LLPS remain poorly understood. An imbalance of physiological factors such as pH, salt concentration, protein concentrations, and disease‐like mutations, and/or post‐translational modifications may promote pathological condensates.
+4.1
+
+## Gene Regulation and Cancer
+The regulation of gene expression is mediated by proteins called transcription factors. Proteins that interact with nucleic acids contain binding domains which are well‐defined structures that are able to recognize specific RNA/DNA sequences. Additionally, they also contain LCDs which are capable of phase separation.[
+ , 
+] These LCDs have been observed to interact with other LCDs of transcriptional proteins such as RNA Polymerase II (Pol II), BRD4, MED1[
+ 
+] and other co‐factors, forming transcriptional condensates.[
+ 
+] These condensates are able to transport important molecules and proteins to specific areas in the genome to promote and enhance transcription and chromatin organization.
+However, dysregulated LLPS in these processes can be the underlying cause for the loss of control over cell growth and proliferation and resistance to death, which are hallmark features of cancer.[
+ 
+] As a result, aberrant phase separation has been increasingly recognized as an implication for the development and progress of various types of cancer such as leukemia,[
+ 
+] lung cancer[
+ 
+] and Ewing Sarcomas in bone cancer[
+ 
+]. One such transcription factor “EWS‐FLI1” is an oncogenic fusion protein known for causing Ewing sarcoma.[
+ 
+] Ewing sarcoma is an aggressive bone cancer, present in many pediatric cases present in the arms, legs, and pelvic bones. EWS‐FLI1 forms due to dysfunctional splicing via chromosomal translocation, resulting in a fusion protein containing the intrinsically disordered LCD from EWSR1 and the well‐structured DNA‐binding domain from FLI1, allowing it to bind to repetitive GGAA sequences in the genome. Studies have shown that EWS‐FLI1 undergoes LLPS due to its LCD, forming transcriptional condensates at target DNA sites to recruit RNA polymerase II, co‐factors, and other transcriptional factors to initiate transcription of genes involved in oncogenic processes such as cell survival and proliferation to promote tumorigenesis.[
+ , 
+] Understanding how EWS‐FLI1 exploits phase separation may provide deeper insights into the molecular mechanisms of tumorigenesis and inform strategies on how to mitigate deadly cancers.
+
+4.2
+
+## Neurodegenerative Diseases
+Many RBPs play a central role in LLPS, contributing to the formation of dynamic, membrane‐less organelles involved in RNA processing and regulation. Under physiological conditions, RBPs facilitate the organization of intracellular space by driving the assembly of membraneless compartments such as stress granules, nucleoli, and processing bodies, thereby regulating RNA metabolism and gene expression. Well‐known RBPs include FUS, TDP‐43, and heterogeneous nuclear ribonucleoprotein proteins (hnRNPA1, hnRNPA2, etc), amongst others.[
+ 
+] However, several of these proteins are implicated in various neurodegenerative diseases due to their propensity for aberrant phase separation and aggregation. Diseases such as ALS and FTLD are characterized by hallmark aggregates composed of full‐length or fragmented RBPs, including proteins like FUS[
+ 
+] and TDP‐43.[
+ 
+] TDP‐43 is a multi‐domain RNA/DNA‐binding protein from the heterogeneous hnRNP family. Under physiological conditions, it is primarily localized in the nucleus where it has various roles in RNA synthesis, splicing, transport, translation, processing, stabilization and inhibition of DNA transcription.[
+ , 
+] In proteinopathies, however, TDP‐43 mislocalizes to the cytoplasm, leading to self‐aggregation and the formation of inclusions. TDP‐43 contains an N‐terminal domain with a nuclear localization signal (NLS), two RNA recognition motifs (RRMs) and an intrinsically disordered C‐terminal domain or low‐complexity domain (CTD/LCD). The NLS and N‐terminal domain facilitate the nuclear‐cytoplasmic shuttling of TDP‐43, self‐association and reversible oligomerization.[
+ , 
+] However, mutations within the NLS are hypothesized to cause mislocalization of TDP‐43 to the cytoplasm.[
+ 
+] The two RRMs enable specific RNA and DNA binding particularly to GU‐rich RNA sequences, which maintain the liquid properties of TDP‐43 condensates and regulate full‐length TDP‐43 phase separation. Loss of RNA‐binding capabilities has been shown to increase aggregation in both the nucleus and cytoplasm, suggesting RNA‐binding is essential for maintaining solubility of the protein.[
+ , 
+] The CTD/LCD at the terminal end of TDP‐43, is responsible for mediating biomolecular condensate formation during cellular stress and is involved in splicing activity, autoregulation and protein‐protein interactions.[
+ , 
+] Due to its intrinsically disordered nature, the CTD is able to adopt different conformations that promotes self‐association and drives LLPS. Different physiological factors including pH, salt concentration, protein concentration, mutations and/or post‐translational modifications, can influence the CTD to take on different conformations which can enhance or disrupt LLPS and aggregation.[
+ , , 
+] The CTD is also capable of phase seperating and forming aggregates commonly observed in ALS and FTLD. These inclusions are most often found within the cytoplasm of motor neurons and glial cells and are believed to contribute to cellular toxicity and subsequent neuronal death.[
+ 
+] Although, all regions of TDP‐43 have been implicated in contributing to pathological aggregation, the molecular mechanisms of how soluble TDP‐43 transitions into solid‐like or aggregated states remains poorly understood. In particular, the conformational dynamics of the CTD of TDP‐43 as well as the potential involvement of the specific transient interactions have not been fully elucidated. These interactions play a critical role in modulating phase behavior and ultimately driving the formation of irreversible aggregates observed in neurodegenerative diseases.
+
+5
+
+## Biomolecular Condensates as Versatile Biomaterials
+Although the dysregulation of LLPS can lead to serious diseases, biomolecular condensates possess several unique physical and functional properties–such as dynamic fluidity,[
+ 
+] selective permeability,[
+ 
+] viscoelasticity,[
+ 
+] and reversible assembly[
+ 
+]–that make them highly attractive for tuning biomaterials. In particular, their good cytocompatibility, ability to recruit biomolecules from the surrounding environment, and responsiveness to external stimuli (e.g., changes in pH, temperature, or ionic strength) position them as promising candidates for biomedical applications and beyond. Their capabilities have been widely demonstrated in diverse fields, including tissue repair,[
+ , 
+] bioactive drug delivery,[
+ , , , 
+] synthetic biosystems,[
+ , , 
+] and diagnostic and therapeutic probe development.[
+ 
+]
+
+5.1
+
+## Drug Delivery–Protection and Site‐Specific Targeting
+A major challenge in drug development is ensuring that therapeutics reach their biological targets without undergoing premature degradation. The administration of peptide‐based therapeutics can be limited due to their susceptibility to cleavage and denaturation under physiological conditions of the body.[
+ 
+] A promising strategy for improving drug delivery is the use of artificial LLPS systems that encapsulate therapeutics to ensure controlled release after reaching the target. A carefully selected biological polymer can be used to control coacervate stability and dissolution, ensuring the drug is only released upon reaching the desired location. The biocompatibility and biosafety of these polymers are also essential to be considered in the design of these drug‐carrying vesicles. By selecting the appropriate polymers, the dissolution of the vesicles can be finely tuned so that drug release occurs only in response to specific physiological cues or environmental stimuli such as changes in pH, allowing for either rapid or sustained release depending on therapeutic needs. This approach also has benefits in enhancing drugs with poor water solubility as encapsulating these drugs can enhance solubility, improve bioavailability and overall efficacy.[
+ , 
+]
+
+Wound healing is a complex, multi‐stage process involving growth factors, extracellular matrix proteins, immune cells such as platelets and macrophages, and structural proteins like collagen. Imbalances in this process can lead to excessive scarring, and current treatments for scar reduction are often invasive or marginally effective. Alternative strategies are being investigated. For instance, growth factors such as interleukin‐10 (IL‐10) and transforming growth factor beta‐3 (TGF‐β3) show promise for improved wound healing and reduced scar formation. However, these peptide‐based therapeutics have limitations. They exhibit short half‐lives in the body, rapidly dilute, and are highly susceptible to degradation. An effective solution involves delivering the peptide therapeutics directly to the wound site using biocompatible LLPS‐based coacervates. Following this strategy, Park et al. employed LLPS‐formed coacervates to enhance wound healing rates and reduce scar formation.[
+ 
+] These coacervates were created using a synthetic biodegradable polycation called poly(ethylene argininylaspartate diglyceride) (PEAD) in complex with heparin. These molecules formed coacervates through electrostatic interactions between the negatively charged amine and guanidine groups of PEAD and the negatively charged heparin. Heparin further enabled the recruitment of various growth factors and proteins. It was observed that the coacervates could effectively regulate dissolution of the coacervate based on the isoelectric point of their components, enabling controlled site‐specific release. This allowed for specifically timed release of the cargo peptides, where IL‐10 was released slowly and TGF‐β3 was released in short, rapid bursts.[
+ 
+] The PEAD‐heparin coacervate system has also been applied and adapted with other cargo proteins for clinical applications such as angiogenesis for promoting new blood vessel formation,[
+ 
+] myocardial tissue regeneration in cardiovascular disease,[
+ 
+] and cartilage and bone regeneration.[
+ 
+]
+
+Another notable example of targeted therapeutic delivery is in cancer treatment, where the aim is to maximize drug accumulation in tumor tissues while minimizing off‐target effects on healthy cells. A promising strategy involves elastin‐like polypeptides (ELPs), temperature‐sensitive peptide‐based polymers composed of repeating pentapeptide units (VPGXG), where X can be any amino acid except proline.[
+ 
+] ELPs are soluble in aqueous solution below their critical temperature but undergo a reversible phase transition into coacervates above it. This temperature responsiveness can be finely tuned by altering the peptide sequence, chain length, and concentration. Specifically, the transition temperature decreases with increasing chain length and follows an inverse logarithmic relationship with concentration. Through such tuning, ELPs can be engineered to remain soluble at room temperature for ease of injection and form coacervates at physiological or slightly elevated temperatures. ELPs have been designed with a critical temperature between normal body temperature (37 °C) and the upper range of mild hyperthermia (42 °C).[
+ 
+] When mild hyperthermia is applied locally to tumor tissues, a clinically used method to enhance blood flow and sensitize tumors to chemotherapy, ELPs aggregate and form coacervates at the heated tumor site. This targeted aggregation increases the local concentration of drug‐loaded coacervates at the site, improving drug delivery efficacy while reducing systemic side effects.
+
+5.2
+
+## Drug Delivery–Bypassing Biological Barriers
+Another major challenge in drug development remains in ensuring that therapeutics can cross the cell membrane to reach intracellular targets within cytoplasm. This limitation may be attributed to factors such as their size, charge or solubility.[
+ 
+] One promising approach to overcome this limitation is the application of biosafe, peptide‐based coacervates that can encapsulate therapeutics and facilitate intracellular delivery via alternative pathways.[
+ 
+] This approach offers several advantages including rapid recruitment of cargo molecules, protection from the extracellular environment, and low toxicity. Researchers have developed pH‐responsive peptide‐based coacervates using histidine‐rich beak peptides (HBpep), which successfully delivered therapeutics ranging from 726 Da to 430 KDa to intracellular targets via an endocytosis‐independent pathway.[
+ 
+] HBpep was developed as a peptide‐polymer with high histidine content to provide enhanced sensitivity to environmental pH changes to control coacervate dissolution. Additionally, HBpep exhibits broad cargo‐binding capabilities due to its low‐complexity domains, which confer multivalency and enable it to recruit a variety of therapeutic molecules and macromolecules. HBpep's functionality was further enhanced by conjugation with acetyl (HBpep‐SA) and phenyl (HBpep‐SP) groups for further modulation in acidic environments. The modified peptide‐polymers were also able to recruit a wider range of macromolecules, including mRNAs. The vesicles were confirmed to be stable under physiological conditions and capable of internalization by various cell types. Successful release of cargo therapeutics through a redox reaction in the cytoplasm was confirmed in both cancerous and healthy cells via modified HBpep‐SP coacervates. This signifies the versatility of these coacervates in broad circumstances for healthy or pathological cells targeting broad biomedical applications. The size limitation of the coacervates was minimal, despite the fact that these coacervates are relatively larger than traditional nano‐compartments used in drug delivery. The coacervates were small enough to enter the cell and deliver cargo of sizes up to 430 KDa. Additional modifications were also made to the amino acid sequence of the HBpep polymers to induce more π‐cation interactions by introducing charged residues and aromatic amino acids to create various HBpep variants tailored for different scenarios. It was found that π‐cation interactions between arginine and tyrosine facilitated LLPS and coacervate formation and could be fine‐tuned to control cargo release. These interactions are also sensitive to high protein concentrations, which induced rapid release in a crowded intracellular environment. This particular coacervate also demonstrated successful cargo protection and release of CRISPR/Cas9 machinery to macrophages, resulting in the successful knock‐down of the SIRPα protein.[
+ 
+] These advancements highlight the potential of engineered peptide‐based coacervates as modular and controllable nano‐compartments capable of delivering a wide variety of molecular cargos directly into the cytoplasm. They demonstrate that artificial peptides can be effectively modified, and their interactions precisely balanced to regulate coacervate formation, cargo encapsulation, and intracellular release.
+As briefly mentioned in Section  , the chemical properties of lysine and arginine residues and their ability to engage in diverse interactions make them suitable candidates for designing coacervate‐based drug delivery systems. Polymers composed of these residues, particularly poly‐lysine, have shown significant promise. Poly‐lysine is a widely studied peptide due to its cationic nature, water solubility, biocompatibility, and versatility.[
+ 
+] These characteristics make poly‐lysine‐based coacervates particularly attractive for treating diseases such as osteoarthritis. A major challenge in osteoarthritis therapy is achieving sufficient bioavailability and diffusion through cartilage. The joint and cartilage microenvironment presents significant barriers: the negatively charged cartilage matrix impedes penetration of large or anionic molecules, while synovial fluid promotes rapid clearance of small solutes, including therapeutic agents. However, the positive charge of poly‐lysine can overcome the electrostatic barrier and enhance drug retention and penetration into cartilage. Furthermore, tuning the size and charge of coacervates can modulate properties such as the partition coefficient, facilitating diffusion into cartilage and reducing clearance. In in vitro experiments, kartogenin, a small‐molecule Osteoarthritis drug that stimulates cartilage regeneration, demonstrated improved bioavailability when encapsulated in ε‐poly‐L‐lysine and delivered via intra‐articular injection in a mouse model. These findings highlight the potential of poly‐lysine‐based coacervates as effective drug delivery vehicles.[
+ 
+]
+
+5.3
+
+## Biomolecular Condensate‐Inspired Microreactors for Biosynthesis
+Given the dynamic and spontaneous nature of biomolecular condensates, along with their ability to provide confined compartments, they also represent a promising platform for engineering soft materials and enhancing the synthesis of both organic and inorganic products.[
+ , , , , , , 
+] For example, Saini and Mukherjee used the horseradish peroxidase (HRP) and glucose oxidase (GOx) cascade pair as a proof of concept. This enzyme pair is capable of undergoing homotypic LLPS through enthalpically driven multivalent electrostatic and hydrophobic interactions. They demonstrated that the intrinsic catalytic efficiencies of both HRP and GOx increased by two orders of magnitude upon the formation of liquid‐like condensates, compared to their activities in bulk aqueous solution. With the help of kinetic and microscopic experiments, they revealed that the enhanced enzymatic activity mainly comes from the conformational change of active enzymes and activity alteration of substrates induced by confinement. Moreover, they generalized the conclusion to other enzymes that can spontaneously form LLPS under macromolecular crowding.[
+ 
+]
+
+Martin et al. proposed a dynamic nested protocell system by spontaneously assembling glucose oxidase (GOx)‐loaded proteinosomes within pH‐sensitive fatty acid micelle coacervate droplets. The system exhibits both synergistic (enzyme cascade) and antagonistic (guest‐induced host disassembly) behaviors driven by enzyme‐mediated internal reactions. High substrate levels trigger pH‐induced droplet disassembly and reconfiguration into vesicle‐in‐proteinosome structures. By co‐encapsulating antagonistic enzymes such as urease and GOx, they further demonstrated programmable capture and restructuring processes, highlighting new strategies for constructing self‐reconfigurable, multi‐compartmentalized protocells.[
+ 
+] Later, Gobbo et al. utilized the membrane‐free molecularly crowded polydiallydimethylammonium chloride (PDDA) and ATP coacervate microdroplets and reconfigured them into catalytic membrane‐bound polyoxometalate coacervate vesicles (PCVs) when incorporating a bio‐inspired Ru(IV)‐based polyoxometalate (Ru4POM) and sodium phosphotungstate (PTA) polyanionic cluster via electrostatic interactions. With the surface coated with PTA and Ru4POM and treated with H2O2, the resulting Ru4PCVs are capable of internally generating sufficient oxygen to drive catalytically powered, gas‐induced flotation.[
+ 
+] (Figure  ) A short peptide synthon which only incorporates two dipeptide stickers connected through a hydrophilic spacer was proposed. It is capable of self‐coacervate into liquid droplets at micrometer and served as protocells for catalyzing two anabolic reactions.[
+ 
+] Additionally, proteins that inherently lack catalytic activity can acquire such capabilities through incorporation into condensates and be utilized for biologically relevant hydrolysis reactions. Their catalytic behavior can further be programmed via sequence design to modulate electrochemical properties.[
+ 
+]
+
+5.4
+
+## Dynamic and Tunable Scaffolds
+Aside from serving as microreactors or protocell mimics, biomolecular condensates can also be utilized for providing dynamic networks through crosslinking.[
+ , , 
+] For instance, macroporous and interconnected dextran scaffolds were fabricated via LLPS, which was induced by the interaction between polyethylene glycol (PEG) and methacrylated dextran during the radical crosslinking of methacrylate groups. By adjusting the PEG concentration in the solution, the morphology of the resulting dextran hydrogels could be finely tuned, ranging from a microporous network to a macroporous gel‐wall structure or an interconnected macroporous beaded architecture.[
+ 
+] Their mechanical properties can be further strengthened through copolymerizing monomers of varying solubilities. An interesting example is incorporating acrylamide and acrylic acid into 1‐ethyl‐3‐methylimidazolium ethyl sulfate for copolymerization. This strategy imparts ionogels with high fracture strength and large strain endurance via in situ phase separation, while also endowing them with self‐healing and shape‐memory properties.[
+ 
+] Similarly, via in situ polymerization of emulsion system of hydrophilic and oleophilic monomers, organohydrogels of high strain capacity and distinguished shape memory behavior were simultaneously achieved.[
+ 
+] Furthermore, a new aqueous two‐phase system (ATPS) composed of poly(N‐isopropylacrylamide) (PNIPAM) and dextran was developed to construct viscoelastic networks. In this system, viscoelastic networks were formed through the liquid–liquid phase separation of dextran and subsequently treated as templates for the liquid‐to‐solid transition of the PNIPAM‐rich phase. Its great potential was further demonstrated in dissolving liquid FUS condensates.[
+ 
+]
+
+A more ordered scaffold example is the fabrication of microtubules, where tubulin serves as the primary structural component. This process involves a transition from nucleation to polymerization. Literature reports that this process is initiated by self‐assembling microtubule‐associated proteins through LLPS, which facilitates the segregation of tubulin from a dilute solution.[
+ , 
+] Notably, Alzheimer's‐associated tau protein has been shown to nucleate microtubule bundles by forming liquid‐like droplets, which subsequently partition tubulin and promote microtubule polymerization within the droplets, eventually deforming into rod‐like structures.[
+ 
+] A similar phenomenon was observed in the context of protein condensation mediated by TPX2, however, both the microtubule growth speed and direction can be significantly tuned. For example, the microtubule growth in the tau droplet is almost bidirectional,[
+ 
+] while isotropical and spike‐like structures were observed in the TPX2 condensates.[
+ 
+] The scaffold coordinate can further be tuned through coating the microtubules and forming uniformly spaced droplets with TPX2.[
+ 
+]
+
+In addition to protein‐ and polymer‐based systems, short synthetic peptides have also emerged as promising building blocks for LLPS‐driven scaffold design, thanks to their programmable sequences and dynamic responsiveness. Leveraging binary mixture of diphenylalanine‐based short peptide, Cao et al. was able to stabilize the microdroplets coacervate phase and preventing them evolving into rigid nanostructures, demonstrating their capability of being utilised as stable adaptive compartments. Furthermore, this approach enables precise control over droplet formation and dynamic morphological transitions in response to physiological conditions, including pH change, heating, oxidation chemistry, organic solvent exchange, and urea addition.[
+ 
+] In parallel, by harnessing the irreversible characteristics of biomolecular condensates–specifically LSTs–biomaterials with enhanced mechanical strength and long‐term structural stability can be developed. These transitions complement their role in forming dynamic, crosslinked networks, offering opportunities to design adaptive yet mechanically robust systems for advanced biomedical applications. For instance, spider silk fibers are formed through a hierarchical assembly process initiated by LLPS of spidroin proteins, triggered by multivalent anions and acidification. This is followed by a rapid LST driven by nanofibril formation and mechanical stress, ultimately yielding robust, β‐sheet–rich fibers with exceptional mechanical properties.[
+ 
+]
+
+6
+
+## Current Technologies for Investigating Biomolecular Condensates
+6.1
+
+## Experimental Techniques: Successes, Challenges and Limitations
+The understanding of biomolecular condensates as an essential cellular function and structure, along with their potential as tunable biomaterials, has driven advancements in utilizing and enhancing existing techniques for their analysis. The recent emphasis on LLPS as a primary mechanism of condensate formation has necessitated a comprehensive set of techniques to characterize their diverse properties, especially considering that inherently, condensates do not have a distinct, uniform composition and structure due to location in different cell regions, causes of formation, age, and biological function. This section of the review will focus on the current established methodologies utilized to investigate the formation, composition, and physical characteristics of biomolecular condensates in vitro, in living and fixed cells. These methods are orchestrated in a suite of bulk assays to test macroscopic phase transitions, imaging‐based approaches for direct visualization, and dynamic measurement techniques to quantify molecular behaviors. The fundamental principles of these current methodologies will be described, along with the specific insights they offer and their limitations, presented in order of increasing resolution (Figure  and Table  ). While in vitro assays offer the advantage of controlled conditions and defined components, they often fail to recapitulate the complexity of the cellular environment. Factors such as macromolecular crowding, post‐translational modifications, and heterotypic interactions present in vivo can significantly influence phase behavior, making it challenging to directly extrapolate in vitro findings to physiological contexts.[
+ 
+]
+
+ 6.1.1
+
+## Bulk Assays for Condensate Formation and Stability
+Biomolecular condensates can be observed through macroscopic phenomena, and their propensity and extent of formation can be visualized using bulk assays, particularly by measuring turbidity. Turbidity assays measured by optical density (OD) represent the simplest and most direct approach, providing a rapid and high‐throughput means of assessing condensate formation in vitro by quantifying turbidity changes associated with phase separation.[
+ 
+] Optical density measurements at 600 nm primarily capture the light scattering from suspended condensates. As condensates form and grow in number or size, OD values increase correspondingly. This increase is not only quantifiable but also often visible: the sample becomes more opaque and can take on a whitish appearance, especially at higher turbidity levels, due to increased scattering of incident light. Samples can be measured using either cuvettes or microplates, depending on the available instrumentation. Microplates are particularly beneficial for screening phase behaviors across a matrix of protein concentrations, pH levels, buffer compositions, ionic strengths, and potential interactions with small molecules. They also allow for faster data collection and environmental manipulation than repeatedly exchanging cuvettes. The visual observation of turbidity–appearing as increased cloudiness in the well–can serve as a preliminary indication of phase separation, even prior to OD quantification. However, turbidity assays have notable limitations: they lack spatial resolution and are unable to distinguish between large, dense droplets and small, dilute ones that fall below the detection threshold, which may have different physical or chemical properties. Furthermore, condensate heterogeneity and molecular crowding in cellular environments complicate the application of turbidity assays for cell systems. Despite their limitations, turbidity assays offer a rapid and valuable means of estimating biomolecular condensate formation, serving as a complementary tool for bulk‐phase analysis when used alongside other techniques.[
+ 
+]
+
+To deepen our understanding and quantify the distribution of material between the dense and dilute phases after condensate formation, sedimentation assays combined with protein quantification at 280 nm have been proposed, offering a more quantitative and physical assessment of condensate stability and mass.[
+ 
+] Absorbance at 280 nm leverages the intrinsic absorbance properties of aromatic amino acids (primarily tryptophan and tyrosine) to estimate protein concentration. In this assay, the sample is first centrifuged to pellet condensates, and the protein content remaining in the supernatant is measured. This enables quantification of the soluble fraction and, by extension, the degree of protein incorporation into condensates. Comparisons can be made either between pre‐ and post‐centrifugation protein levels or across samples subjected to varying pH, buffer composition, ionic strength, or temperature–providing insight into how environmental conditions influence phase separation. While the method is valued for its simplicity, speed, and broad applicability, it has several limitations. It does not provide information on the structure, morphology, or molecular interactions within condensates, and its endpoint nature cannot capture the dynamic behavior of phase‐separated systems. Additionally, absorbance at 280 nm may be affected by the presence of other biomolecules, reducing measurement specificity.
+A specific example of turbidity assays is their use in conjunction with 1,6‐hexanediol treatment to probe the underlying driving forces of condensate formation. 1,6‐hexanediol, a small aliphatic alcohol, disrupts weak hydrophobic interactions and is commonly used to dissolve LLPS. A significant decrease in turbidity treated by 1,6‐hexanediol suggests that the condensates are liquid‐like and primarily driven by hydrophobic interactions. Although 1,6‐hexanediol has since been used to dissolve condensates driven by IDRs in vitro and in cells by interfering with LLPS, incorporating 1,6‐hexanediol carries significant caveats that complicate interpretation.[
+ , , 
+] Its effects do not extend to phase‐separated structures stabilised by a combination of interactions—including π–π stacking, cation‐π interactions, and electrostatic forces—many of which are insensitive to hexanediol treatment.[
+ 
+] Moreover, hexanediol can impair enzymatic activities such as kinases and phosphatases independently of LLPS, confounding mechanistic interpretations.[
+ 
+] In live‐cell contexts, it alters membrane permeability[
+ 
+] and can non‐specifically disrupt cellular structures,[
+ 
+] confounding the interpretation of observed effects. Notably, 1,6‐hexanediol treatment and classical FRAP fail to distinguish LLPS from alternative mechanisms like binding to spatially clustered sites, underscoring the need for complementary approaches when characterizing condensates.[
+ 
+]
+
+6.1.2
+
+## Imaging‐based Approaches
+Imaging‐based methods provide valuable information regarding the size, morphology, quantity, and spatial localization of condensates. However, the effectiveness of these observations is highly dependent on the appropriate application of each technique, given the distinct advantages and limitations inherent to each imaging modality. Classical light microscopy and its related modalities, such as differential interference contrast (DIC) microscopy and fluorescence microscopy, remain the most common instances for initial detection and characterization of condensates, whether in vitro, in live cells or in fixed cells.[
+ , , , , , , , 
+]
+
+## Differential Interference Contrast Microscopy
+To address the limitation of low refractive index contrast that hampers brightfield visualization of condensates, DIC microscopy employs polarized light and a Nomarski or Wollaston prism to detect subtle differences in optical path lengths. This technique generates high‐resolution, 3D‐like images, making it well‐suited for visualizing dynamic, spherical condensates that are otherwise difficult to observe using conventional brightfield microscopy.[
+ 
+] Considering the ease of the technique to undertake with the aid of a polarizing interferometer, it is unsurprising that DIC is still widely used to assess morphology and to identify successful phase separation.[
+ 
+] While the conventional DIC microscopy is primarily limited to in vitro observations due to its sensitivity to sample orientation and refractive index mismatch, modified versions have extended its application to live‐cell imaging. Great successes have been achieved in visualizing the liquid‐like behavior of nucleoli in Xenopus laevis oocytes,[
+ 
+] Cajal bodies in Drosophila melanogaster,[
+ 
+] and Ddx4 condensates in HeLa cells.[
+ 
+] In vitro visualization of condensates has also been widely demonstrated for proteins associated with neurodegenerative diseases,[
+ , , 
+] RNA‐binding proteins,[
+ , 
+] DNA‐binding proteins,[
+ , 
+] and many others, reflecting the over 2900 biomolecules reported to undergo LLPS in vitro.[
+ 
+] Modified versions of DIC microscopy, such as orientation‐independent DIC (OI‐DIC), have further enabled high‐resolution imaging in live cells, such as visualizing mitotic chromosome condensation in HCT116 cells[
+ 
+] and heterochromatin density in live mouse NIH3T3 cells.[
+ 
+] Despite the advantages of DIC microscopy as an easy and widely used light microscopy modality due to the ability to avoid artifacts with fluorescent labeling, it is constrained by the diffraction limit and minimal refractive index differences from the surrounding medium. This restricts the capacity for quantitative analysis of DIC microscopy images and prevents insight into molecular composition or internal dynamics of the condensates, which emphasizes the importance of complementary techniques.
+
+## Fluorescence Microscopy–Immunocytochemistry
+Fluorescence microscopy uses the unique properties of fluorophores to deliver high molecular specificity and dynamic imaging capabilities, which enable quantitative analysis of condensates. Using genetically encoded fluorescent tags such as mCherry (monomeric Cherry) and GFP (Green Fluorescent Protein), or small molecule dyes, this technique allows visualization of spatial distribution, assembly, and disassembly of condensates. This is achieved by illuminating the sample with light of an excitatory wavelength whilst simultaneously collecting and separating the comparatively weaker light emitted by the sample.[
+ 
+] For optimal imaging, a fluorescence microscope uses a dichroic mirror which matches the excitation and emission spectra, the Stokes shift, of the chosen fluorophore. If the use of multiple fluorophores is required, fluorescence microscopy can accommodate several filter cubes to match the emission and excitation spectra of a number of fluorophores, yet the key is to choose fluorophores whose emission spectra overlap as little as possible.[
+ , 
+]
+
+An instance of fluorescence microscopy is immunocytochemistry (ICC), a foundational technique in discerning spatial and morphological information on phase‐separated protein assemblies in fixed cells.[
+ 
+] This technique relies on the principle of antibodies to specifically detect and visualize antigens within cells. Antibodies are either monoclonal with high specificity, or polyclonal, which offer a broader epitope recognition for detection of target antigens.[
+ 
+] Such sensitivity and selectivity have supported biological and medical science to unravel the particulars of the natural world and human disease in detail. As such, this technique has been applied to understand the protein composition of biomolecular condensates in cell cultures and animal models under normal and perturbed conditions, leading to greater understanding of cellular processes that can alter morphological and compositional properties of condensates. The general protocol for ICC typically involves the following steps: 1) fixation of the sample using paraformaldehyde or methanol to preserve cellular structures; 2) optional permeabilization to allow antibody access to intracellular targets; 3) blocking of non‐specific binding sites to minimize background signal; 4) incubation with a primary antibody raised against the target protein (commonly from mouse or rabbit); 5) washing to remove excess unbound primary antibody; 6) incubation with a fluorescently conjugated secondary antibody raised against the primary antibody species (typically goat‐derived); 7) washing to eliminate unbound secondary antibody; 8) optional counterstaining to highlight specific cellular features, such as nuclei with DAPI; and 9) mounting the sample with an appropriate medium for fluorescence imaging.[
+ 
+] Depending on whether the fluorophore is conjugated directly to the primary antibody or to a secondary antibody that binds the primary, ICC can be classified as direct or indirect,[
+ 
+] respectively. These protocols can be adapted for multicolor ICC, for staining cells with two or more sets of antibodies.
+ICC facilitates the visualization of condensate‐associated proteins, enabling quantitative analysis of subcellular localization (e.g., nuclear vs. cytoplasmic), morphology (e.g., size, shape, and boundary features), and relative abundance through intensity‐based measurements.[
+ 
+] These quantitative parameters are essential for understanding condensate formation under both physiological and pathological conditions. Nonetheless, the accurate interpretation of such measurements depends heavily on antibody specificity and quality. Issues such as cross‐reactivity, batch variability, and epitope masking due to fixation can lead to artefactual staining or misinterpretation of localization. Therefore, antibody validation such as the use of appropriate controls, knockout models, and orthogonal detection methods are important for accurate interpretation of condensate characteristics.[
+ 
+] Beyond antibody validation, a more specific consideration for the study of biomolecular condensates is the fixation method, which has been shown to substantially affect important measurements of condensates such as their morphology and even existence.[
+ 
+] Work by Irgen‐Gioro and colleagues showed that cells expressing the GFP‐tagged IDRs of Ewing sarcoma protein, FUS, and TATA‐box binding protein‐associated factor 15 showed up to seven‐fold increases in the number of puncta in cells following paraformaldehyde fixation.[
+ 
+] Modification of fixation method (different PFA percentages or addition of glycine) and different tagging modes (DsRed and HaloTag) altered condensate size and number in a protein‐specific manner, leading to increases and decreases in condensate number. Irgen–Gioro and colleagues explain that overall fixation rate is a key parameter for their observations. However, they did not consider other factors–such as rapid changes in pH, temperature, and osmolarity–that can occur during fixation. We recommend that pH, temperature, and osmolarity are tightly maintained at physiological levels to reduce potential changes to target condensates when fixing cells for ICC investigations of condensates.
+
+## Super‐Resolution Microscopy
+Most standard microscopes are diffraction‐limited and therefore cannot image structures under 200 nm (the Abbe diffraction limit). This parameter is often overlooked, especially in confocal imaging, yet remains highly important since a particle might appear larger than it is due to its brightness and this effect. In some instances, one might want to understand if there is a substructure to a condensate that is already small in size. To do this, super‐resolution microscopy can be used. There are various super‐resolution techniques[
+ , , , , , , , , 
+] that all have different degrees by which they surpass the diffraction limit, often with advantages and disadvantages. For quick super‐resolution imaging, often structured illumination microscopy (SIM) is utilized due to the rapid acquisition times facilitating live analysis, effectively doubling resolution to roughly 100 nm per pixel. The current state of the art is a method called minimal fluorescence photon fluxes (MINFLUX) nanoscopy, which has achieved 1 nm pixel resolutions by precisely scanning a donut‐shaped excitation beam across a sample so that a single fluorophore position can be accurately determined.[
+ 
+] Super‐resolution microscopy has been used to understand that some condensates inside cells do not contain a uniform distribution of constituent proteins throughout their structure. For example, super‐resolution microscopy using 3D STORM of stress granules revealed that G3BP1 forms cluster cores within granules that are resistant to destabilization under mild conditions,[
+ 
+] supporting the finding that stress granules have a stable core and more dynamic outer shell.[
+ 
+] Despite the amazing potential of super‐resolution to reveal more information about condensate structures, the technique has not become standard in the field yet due to the expertise and tools required. As this tool becomes more accessible, it will likely form an essential component in understanding condensates.
+
+6.1.3
+
+## Dynamic Measurement Techniques
+While the aforementioned experimental approaches provide valuable static insights into biomolecular condensates, they fall short in capturing one of the most defining features of condensates–their dynamic nature. To fully understand the formation, maintenance, and dissolution of these structures, it is essential to develop techniques that can assess molecular mobility and exchange over time.
+
+## Live‐Cell Imaging
+Given the limitations of ICC due to fixation, live‐cell imaging was introduced to capture dynamic processes by acquiring images of living cells over time using microscopy. It is a highly versatile technique, enabled by the use of fluorescence, transmitted light, various imaging modalities, adjustable magnifications, and the ability to introduce experimental perturbations. This technique is particularly powerful and important when experimenting on cellular biomolecular condensation as it allows for the dynamic analysis of puncta, which is necessary when confirming their material properties. Commonly, live‐cell imaging of condensates involves genetically fluorescently tagged proteins (e.g., GFP), high magnification to resolve small structures, and confocal microscopy to minimize out‐of‐focus light artifacts. During live‐cell imaging, cells should be maintained at physiological pH, temperature, and osmolarity by imaging in appropriate media. Of course, when studying how these parameters may affect condensates, they can be altered on the microscope by buffer exchange, but care should be taken as fluctuations in these parameters may change condensate behavior. Temperature changes have previously been employed to induce heat shock in cells, triggering stress granule formation with or without the ALS‐associated TIA‐1 protein variant. These studies revealed that while ALS mutants do not impair granule formation, they do hinder granule dissolution.[
+ 
+] Furthermore, chemicals that alter condensates can be added to cells to examine how they might affect condensate formation, dynamics, and dissolution.[
+ , 
+]
+
+Despite the versatility of live‐cell imaging, there are serious considerations one should make when performing these experiments and analyzing the resulting data. The first experimental consideration is phototoxicity, which is the toxic effect of light on living samples. UV light is ionizing and therefore substantially and quickly affects the health of biological samples with repetitive exposure. Light in the visible spectrum is non‐ionizing, but can also cause phototoxicity by reacting with chemicals in cells and their growth medium such as riboflavin, causing the formation of toxic products.[
+ 
+] To prevent or reduce phototoxicity, researchers can use red‐shifted fluorophores (e.g. mScarlet), lower excitation light levels, shorter acquisition times, and specially formulated media. Another major consideration for live‐cell imaging is establishing and maintaining appropriate image acquisition settings which include choice of objective immersion medium, magnification and resolution of an objective, and image acquisition speed. Live‐cell imaging should be carried out with an immersion medium refractive index matching that of live‐cell medium and corresponding objective (typically water) to prevent artifacts from spherical aberration which may affect image quality and quantification.
+
+## Fluorescence Recovery After Photobleaching
+Fluorescence recovery after photobleaching (FRAP) serves as one surrogate to address aforementioned challenges, which exploits the fact that fluorescent molecules can be switched into an off state (bleached) by extreme light exposure.[
+ 
+] FRAP requires fluorescently tagged molecules, which can include labeled molecules in vitro or tagged proteins in cyto. FRAP typically makes use of laser scanning confocal systems to tightly control the localization of the bleaching light, resulting in the ability to spatially bleach fluorescent molecules. Following bleaching of a specific site in a sample, time‐lapse imaging is used to monitor the fluorescence “recovery” within that site, effectively allowing for the measurement of time‐based diffusion kinetics and for the determination of the fraction of molecules that are mobile. FRAP analysis often employs high frame rate imaging over several minutes to accurately quantify the diffusion of molecules. However, the limitations of microscopy equipment can hinder the detection of rapidly diffusing species. This makes biomolecular condensates particularly well‐suited for FRAP analysis, as the molecules within them typically diffuse slowly enough to be effectively measured within short timescales.
+When performing FRAP in general, several considerations need to be made, including choice of fluorophore, bleaching light power, bleaching spot size, imaging light intensity, frame rate, and imaging location. Some fluorophores are incredibly resistant to bleaching and should therefore not be used for FRAP since the time to bleach them would be so long that one would miss the early kinetic changes occurring in the system. Generally, bright and relatively photostable fluorophores, such as monomeric EGFP (Enhanced Green Fluorescent Protein), are well‐suited for FRAP. It is recommended to select a fluorophore that best aligns with the specific experimental needs.[
+ 
+] The bleaching light power needs to be high enough that the fluorophore is bleached as rapidly and deeply as possible, which are parameters that can be derived by testing bleaching settings on fixed samples to prevent molecular diffusion. Importantly, some molecules can undergo photoswitching or spontaneously recover from the bleached state, potentially confounding accurate FRAP analysis.[
+ 
+] The size of the bleach spot generally depends on the size of the target structure. However, it is advisable to maintain a spot size above 1 µm to balance the diffraction limit and ensure sufficient pixel coverage for accurate analysis. Larger bleach spots tend to bleach more slowly; therefore, it is important to ensure that the spot size remains consistent across replicates to maintain experimental reliability. When imaging the recovery of molecules, the light intensity should be reduced enough to minimize photobleaching but also high enough to make accurate measurements of recovering signal. A good rule is to set this according to the structure to be imaged prior to bleaching and to use 16‐bit depth imaging so that image dynamic range is higher. The frame rate should be kept as high as possible during the pre‐bleach, bleach, and immediate frames after bleach portions of a FRAP experiment so that rapidly diffusing molecules can be captured. Finally, the quality of structures selected for FRAP should be consistent across replicates. Each image should include some background signal for accurate background subtraction, as well as an additional fluorescent object to normalize for photobleaching caused by post‐bleach image acquisition.
+Beyond the above considerations, there are additional ones to account for when examining condensates with FRAP. Since condensates undergo internal molecular rearrangement and can exchange molecules with the surrounding deplete phase, care must be taken when performing FRAP and interpreting data. The easiest measurement to make is one where an entire condensate is bleached and recovery is monitored, thus determining the rate of molecular exchange between a condensate and its surrounding environment. More difficult is the analysis of internal condensate dynamics, where a small spot inside a condensate is bleached, as both internal dynamics and molecular exchange with the surrounding environment are being measured. Once data are collected, analysis can be performed in a simplistic manner, deriving the mobile fraction and/or the half‐time to recovery. If more detailed analysis is required, significantly greater care must be taken, as highlighted by Taylor and colleagues,[
+ 
+] who systematically tested and evaluated the assumptions underlying FRAP curve fitting. Their findings revealed that both the experimental setup and the choice of fitting parameters can substantially influence the estimated diffusion rates–by as much as an order of magnitude.
+Moreover, FRAP typically tracks a single fluorescently tagged molecule, whereas condensates often consist of a complex mixture of proteins. As different components may exhibit distinct interactions within the condensate, conclusions about its material state should be drawn cautiously. For example, in scaffold‐based condensate formation, scaffold proteins typically exhibit much slower diffusion kinetics than client proteins that bind to them. Consequently, performing FRAP on the scaffold and using that data to infer the condensate's material state could misleadingly suggest a more viscous or solid‐like behavior than is actually the case. These consequences have been reported in the study of condensates formed between Balbiani bodies and client proteins of DAZAP1 and TIA1.[
+ , 
+] These fundamental aspects of FRAP highlight the importance of using it as a complementary technique alongside other methods for characterizing the nature of condensates.
+
+## Fluorescence Correlation Spectroscopy
+Fluorescence correlation spectroscopy (FCS) enables dynamic measurements by analyzing temporal fluorescence intensity fluctuations within a defined microscopic observation volume.[
+ 
+] The typical instrumentation setup of FCS consists of a continuous wave‐laser source directed through confocal optics to create a diffraction‐limited excitation volume. The emitted fluorescence is collected by the same objective and then passed through a pinhole to reject out‐of‐focus light, detected by a highly sensitive avalanche photodiode or hybrid detector. For accurate fluctuation analysis, the stability and alignment of the optical path and photon‐counting precision of the detector are critical. The theoretical foundation of FCS was first established in the early 1970s[
+ , 
+] with the groundwork taken from the fundamentals of dynamic light scattering (DLS). The principle of DLS is based on the idea that random thermal motion (Brownian motion) of particles in solution leads to fluctuations in the local concentration of solutes. These fluctuations cause changes in the local refractive index, which in turn scatter incident light. By analyzing the time‐dependent fluctuations in the intensity of scattered light, DLS determines the diffusion coefficient of particles, which is then used to calculate their size distribution, particularly in early in vitro characterization. However, the limitations of DLS–such as its requirement for high concentrations, inability to distinguish between different molecular species, inability to derive chemical kinetics, and its non‐microscopic nature–highlighted the need for a more sophisticated technique.[
+ 
+]
+
+Utilizing the amplified and specific fluorescent proteins, FCS is able to investigate the molecular properties of heterogeneous environments at the single‐molecule level. More recently, FCS has been used in studies of LLPS both in vitro and in live cells. Similar to DLS, FCS analyzes fluorescence intensity fluctuations caused by the random motion of fluorescently labeled molecules in solution or within cells. These fluctuations are quantified using an autocorrelation function (ACF), which reveals diffusion and interaction dynamics based on how the signal decays over time. This allows extraction of key parameters such as diffusion rates, binding kinetics, and further parameters that single bulk kinetic measurements are incapable of determining.[
+ 
+] Technological advancements have greatly expanded the capabilities of FCS. For instance, dual‐color fluorescence cross‐correlation spectroscopy (dcFCCS) has enabled the characterization of liquid condensates as small as 23 nm–well beyond the detection limits of traditional methods such as DLS, OD, or DIC microscopy.[
+ 
+]
+
+However, FCS is not without limitations. Many instruments used in basic research are home‐built and suffer from challenges like precise optical path alignment and pinhole positioning.[
+ 
+] The data analysis also requires deep knowledge of FCS principles and fluorophore photophysics, which can interfere with the correlation data. In terms of accessibility, the easiest FCS unit to operate is the benchtop FCS, but it is currently limited to samples of cell lysate or solution only. While microscope‐based FCS is suitable for live‐cell studies, it is an expensive tool to add into the LLPS and condensate research toolbox if not already available. The technique also requires large imaging datasets with 50 000 frames at 1 ms time resolution for the most accurate parameter estimates.[
+ 
+] As expected, this makes evaluation slow and is further hampered without a pre‐existing analytical model. A significant portion of the past limitations of FCS originated from the confocal modality. However, many of these challenges–particularly in data analysis–are being progressively overcome with advancements in computational power. Despite these improvements, FCS still faces considerable obstacles in LLPS research, such as the complexity of its underlying principles and the lack of user‐friendly instrumentation and software. Nevertheless, it remains one of the few techniques capable of providing detailed, quantitative insights into the molecular mechanisms of condensate formation, both in vitro and in live cells. For a deeper understanding of the underlying equations in the context of LLPS, see the review by Wang et al.[
+ 
+]
+
+## Single Molecule Tracking
+Single molecule tracking (SMT), also known as single‐particle tracking, is based on the fundamental principle of single‐molecule detection, which relies on an extremely small detection volume, often less than one femtoliter, to achieve a high signal‐to‐background ratio. The original techniques used to achieve single molecule detection were confocal and total internal reflection (TIRF) microscopy. Confocal microscopy has a detection volume of 0.2 femtoliter[
+ 
+] and detects one molecule at a time, which results in low data throughput. In contrast, TIRF microscopy utilizes wide‐field illumination to image hundreds of single molecules simultaneously. However, this requires surface tethering due to the ∼150 nm penetration depth of the evanescent field.[
+ 
+] While effective for in vitro surface studies, tethering limits physiological relevance and precludes its use in studying dynamic environments like biomolecular condensates.
+A decade of advances in fluorophore chemistry, self‐labeling tags, genome editing, and microscopy have enabled the adoption of SMT for dynamic intracellular studies. SMT allows untethered, real‐time tracking of individual molecules, capturing their trajectories and interactions across time and space. Sample preparation involves tagging target proteins with photoactivatable or photoswitchable fluorescent proteins or self‐labeling tags such as HaloTag.[
+ , 
+] Functional validation is essential to confirm that labeling does not alter cellular behaviours like morphology or growth. Imaging is typically conducted using highly inclined laminated optical sheet (HILO) or total internal reflection fluorescence illumination to minimize out‐of‐focus fluorescence, in conjunction with oxygen‐scavenging buffers (e.g., glucose oxidase systems) to extend fluorophore lifetime. To enable high‐performance SMT imaging, specialized equipments are required, including high‐speed cameras operating at >100 Hz, precise laser control, and implementation of techniques such as single‐particle tracking photoactivated localisation microscopy (sptPALM).[
+ 
+] Temporal resolution should be tailored to molecular mobility, ranging from milliseconds to seconds. For fast‐diffusing molecules, laser excitation can be pulsed for 1‐2 ms per frame to minimize motion blur.[
+ 
+]
+
+Relying on high‐sensitivity fluorescence detection in a small observation volume, SMT enables the tracking of individual, freely diffusing molecules without the need for immobilization, allowing for the reconstruction of their spatial and temporal trajectories. SMT distinguishes between free diffusion, transient binding, and stable incorporation, enabling spatial mapping of molecular crowding and heterogeneity at nanometer and millisecond resolution. Recently, SMT has revealed that RNA and protein diffusion is restricted within nanodomains inside FUS condensates–domains that regulate sequestration and percolation within the condensate matrix.[
+ 
+] Moreover, SMT trajectories provide the basis for quantitative analysis, adding depth to these observations by enabling precise measurement of diffusion coefficients, dwell times, and spatial confinement. Metrics such as mean squared displacement (MSD) enable classification of molecular motion as free, confined, or anomalous. Power‐law fitting of dwell times contrasts transient (millisecond‐scale) and stable (second‐scale) interactions. Heatmaps of trajectory density can reveal binding hotspots and the physical boundaries of condensates. SMT also facilitates analysis of entry and exit kinetics, offering insight into selective permeability, energy barriers, and molecular partitioning. It can detect anomalous diffusion indicative of crowding or viscoelasticity within condensates.
+However, a practical consideration in applying SMT to condensates is the uneven distribution of detectable trajectories across the condensate volume. Some condensates may not yield sufficient trajectory coverage or may display strip‐like patterns due to a “lensing effect,” where the condensate itself alters light propagation and skews illumination.[
+ 
+] To mitigate this variability, it is recommended to image and analyze an overcompensated number of condensates to ensure statistically robust conclusions. Given the volume and complexity of SMT data, several computational tools and software have emerged to support analysis. SMTracker[
+ 
+] allows management of molecular trajectories and visualization of motion states, while open‐source platforms like TrackPy and uTrack[
+ , 
+] offer robust pipelines for MSD calculations and trajectory linking.[
+ 
+]
+
+Despite the powerful capabilities of SMT, several limitations remain. First, the incorporation of fluorophores introduces challenges such as photobleaching and the finite lifespan of fluorescent tags, which can limit observation times. Tracking molecules within condensates further increases the likelihood of overlapping fluorescence signals, complicating single‐molecule resolution. Additionally, fluorescent tagging itself can perturb the physiological behavior of molecules, potentially introducing artifacts. These concerns are amplified in live‐cell imaging, where the dynamic and crowded intracellular environment introduces further complications, including phototoxicity, rapid movement of cellular structures, and interference from unlabeled endogenous proteins. Such factors can obscure the accurate interpretation of diffusion coefficients and binding kinetics. Second, SMT tends to generate large datasets that require a robust computational pipeline for accurate trajectory analysis. Techniques like 3D SMT amplify these “big data” challenges by introducing additional complexity into acquisition, data transfer storage, reconstruction and analysis.[
+ 
+] Nonetheless, the development of machine learning algorithms tailored for condensate research and the application of compressive image methods hold promise for overcoming these hurdles.[
+ 
+] Although the SMT field has not yet reached full maturity, ongoing advancements in both instrumentation and data analysis frameworks are likely to address many of these challenges in future iterations of the technology.[
+ , 
+]
+
+6.2
+
+## Computational Techniques: Progresses and Challenges
+Although significant efforts have been devoted to experimentally disclosing the underlying mechanisms of biomolecular condensates, the fundamental principles remain elusive, particularly at the atomic level. Complementary to experimental techniques reviewed in Section  , computational approaches provide powerful capabilities for analyzing details at resolutions and scales that are difficult to achieve experimentally, while also enabling predictive insights.[
+ , , 
+] These strengths make them promising in the study of biomolecular condensates.[
+ , , , 
+] Successful applications have been achieved using both computational and theoretical methods, accounting for various effects. To name a few here, notable examples include the impact of charge patterns,[
+ , 
+] as well as the influence of ATP inclusion, the length of peptide, and ionic concentrations.[
+ , , 
+] However, their wide applications suffer from challenges incurred from both accuracies and efficiencies in the context of simulating biomolecular condensates. To be specific, the accuracy refers to the quality of the potential employed in both particle‐based simulations (force fields) and field theoretic simulations (free energy function). The efficiency issue mainly arises from the complex and rugged landscape of biomolecular condensates. Additionally, the dynamic nature of IDPs and IDRs leads to numerous metastable states and the corresponding phenomenon occurs on timescales spanning from microseconds to seconds, far beyond the reach of conventional simulation methods, especially the all‐atom simulations.
+In this section, we first briefly introduce current models spanning from all‐atom resolutions (particle‐based simulations) to theoretical simulations and review recent progress on accuracy across these models, followed by strategies to improve efficiency from both hardware and software perspectives. A schematic illustration of the computational methods used to investigate biomolecular condensates is provided, mapping them based on length scale, level of detail, time scale and computational efficiency (Figure  ).
+ 6.2.1
+
+## Models at Different Levels of Resolutions Are Required to Study Biomolecular Condensates
+The methods employed for simulating biomolecular condensates can be categorized into atomistic, coarse‐grained, and analytical ones. These methods exhibit a trade‐off: resolution decreases from atomistic to analytical, while computational efficiency and the accessible timescales increase. Diving into their underlying principles, these methods can further be classified into physics‐driven and theory & data‐driven approaches. In atomistic‐resolution methods, the corresponding representation is derived directly from all‐atom structures. Under this resolution reside two distinct methods, namely, quantum mechanics (QM) and molecular mechanics (MM). The former governed by the Schrödinger equation, is capable of describing electronic structures, while the latter employs Newton's laws of motion or the Monte Carlo method to track the conformational changes. Although these methods are limited in scope when studying biomolecular condensates, they remain valuable tools for two key purposes: 1) obtaining and refining parameters for large scale simulations[
+ 
+] and accurately capturing inter‐residue potentials[
+ , 
+] Coarse‐grained (CG) models are another physics‐driven approach, which groups several atoms into a dummy bead to reduce the complexity in atomistic simulations and increase the computational efficiency in turn. Their resolution ranges from multiple beads per residue to a single bead per molecule.[
+ , 
+] The choice of CG resolution largely depends on the problem being addressed and the available computational resources, balancing accuracy and efficiency. For representations where a single bead models one or multiple residues, computational efficiency is maximized; however, the ability to accurately dissect chiral effects–an area of increasing interest in biomolecular condensates[
+ , 
+]–is substantially reduced. Lattice theory[
+ 
+] is a specific representation of coarse‐grained models, where each lattice site is occupied by a single bead representing either a monomer unit or segments corresponding to stickers and spacers in associative polymer theory.[
+ , 
+] Its movement is governed by a Monte Carlo engine following the Metropolis criterion. Analytical methods such as the Flory‐Huggins (FH) theory,[
+ , 
+] originated in polymer physics, were proposed to capture the phase behaviors, and compartmentalization processes at the phenomenological level. Its basis idea is inherited from simple lattice theories, where each site is occupied by either a solvent molecule or a polymer segment, and free energy profile is constructed using the polymer volume fraction (ϕ) to represent concentrations. A detailed protocol guiding which theoretic level to choose is provided by Li et al.[
+ 
+]
+
+6.2.2
+
+## Progress Advancing Accuracy
+Force fields (the mathematical functions and their associated parameters) are central to physics‐driven methods. These models are typically fitted to reproduce the properties derived from either high‐level quantum mechanical calculations or experimental data, such as the electrostatic potentials, vibrational spectra, and subsequently benchmarked over proteins with well‐defined 3D structures, particularly at the atomic level. However, it is now widely accepted that biomolecular condensates predominantly involve IDPs or IDRs, (see Section  ) which lack a unique 3D structure. These conventional force fields, such as AMBER[
+ , 
+] and CHARMM,[
+ , 
+] have been reported to poorly reproduce reasonable experimental observations, particularly the radius of gyration (R
+
+g
+) for IDPs/IDRs.[
+ , 
+] Recognizing this, conventional all‐atom force fields were refined to better suit biological condensate simulations.[
+ 
+] For example, CHARMM36m,[
+ 
+] incorporating additional non‐bonded corrections to enhance the balance between folded and disordered proteins, was proposed based on CHARMM36[
+ 
+] without changing its original TIP3P[
+ 
+] water model. To strengthen the short‐range protein–water pair interactions, the Amber family ff03ws[
+ 
+] was derived from its parent Amber ff03* protein model with replacing the TIP3P by TIP4P/2005[
+ 
+] water model. Decent performance was reported in the description of short IDPs.[
+ 
+] Retaining the TIP4P geometry but refining the dispersion term of van der Waals interactions, TIP4P‐D water model[
+ 
+] was proposed and married with ff99SB*‐ILDN,[
+ 
+] where backbone energy corrections were included together with ILDN (Ile, Leu, Asp, Asn) torsion potential improvements. Another four‐point water model, OPC,[
+ 
+] was deployed to pair with another AMBER force field, ff19SB,[
+ 
+] and improvement was observed in the description of IDPs compared to simulations using TIP3P model.[
+ 
+]
+
+At the coarse‐grained level, the Martini force field is widely adopted due to its straightforward parametrization and high transferability across different molecular systems. It was initially designed to study lipid bilayers, membrane‐protein interactions, and self‐assembly processes.[
+ 
+] Extending the original Martini force field to proteins and other biomolecules revealed discrepancies between experiments and simulations,[
+ , , 
+] necessitating further refinements.[
+ 
+] Several refinements have been proposed. For instance, the protein‐protein interaction parameters in the original model were adjusted to describe excess transfer free energies between the dense and dilute phases of protein condensates, with validation on the FUS low‐complexity domain.[
+ 
+] By increasing protein‐water interactions, the refined model better captures the broader conformational space of disordered and multidomain proteins, aligning well with small‐angle X‐ray scattering (SAXS) and paramagnetic relaxation enhancement experiments.[
+ 
+] Recently, a specialized Martini force field for IDPs, Martini3‐IDP, was developed with optimized bonded parameters, fitted to reference simulations of a dozen IDPs at atomistic resolution. It significantly improved the reproduction of experimental R
+
+g
+ without relying on ad hoc scaling of protein‐protein or protein‐water interactions, while preserving the overall interaction framework of Martini 3.[
+ 
+]
+
+Besides the Martini coarse‐grained model, many other specialized coarse‐grained or multiscale models exist for simulating biomolecular condensates. For instance, to quantitatively describe the secondary structure propensity of IDPs, a hybrid resolution CG model (HyRes) combining an atomistic backbone with intermediate resolution side chains was proposed.[
+ 
+] Under this frame, its parameters were fitted with atomistic and CG models and statistical potentials derived from the protein structure database.[
+ 
+] Further improvements were made on the description of global structures and transient interactions via introducing a solvent‐accessible surface area‐based implicit solvent term along with refined effective interaction strengths.[
+ , 
+] Another multiscale instance is the South American Initiative for a Rapid and Accurate Hamiltonian (SIRAH) force field, capable of treating regions concerned with an atomistic force field while the rest at CG level, using the WT4 solvent model[
+ 
+] or implicit solvent treatment.[
+ 
+] Modifications to the solvation energy were made to alleviate conformational biases and great improvements were observed in describing IDP α‐synuclein[
+ 
+] and hydration free energies.[
+ 
+] Additionally, parameters for post‐translational modifications have been incorporated into the SIRAH framework, expanding its applicability to the study of aggregation processes.[
+ 
+] AWSEM (Associative Memory, Water Mediated, Structure and Energy Model) represents each amino acid with three beads and employs an implicit solvent model within the framework of energy landscape theory. It has been adapted for various applications, including studies of protein aggregation,[
+ 
+] membrane protein folding,[
+ 
+] and IDPs.[
+ 
+] Augmenting AWSEM with SAXS data enabled the sampling of broader protein conformations that align well with experimental observations, making the resulting variant, AWSEM‐SAXS, more suitable for investigating the phase separation of IDPs.[
+ 
+]
+
+The Hydrophobicity Scale (HPS) model[
+ 
+] and the Kim‐Hummer (KH) model[
+ 
+] are two extreme coarse‐grained models in which each amino acid is modeled as a single bead. The underlying potentials are governed by hydropathy values that capture the balance between hydrophobic and hydrophilic tendencies of individual residues and Miyazawa–Jernigan potential, respectively. Under the similar framework and parameterized using atomistic simulations and bioinformatics data, the Mpipi model was developed to quantitatively describe changes in protein critical temperatures as a function of amino acid sequence, capturing the dominant contributions of π–π and cation‐π interactions, and highlighting the stronger attractive forces mediated by arginines compared to lysines.[
+ 
+] To address the loss of accuracy in charge‐rich condensates caused by the implicit treatment of solvent and ions, a pair‐specific asymmetric Yukawa electrostatic potential was introduced, leading to the development of the Mpipi–Recharged model.[
+ 
+]
+
+The FH theory[
+ , 
+] and Overbeek–Voorn (OV) theory[
+ 
+] are mean‐field approaches originally proposed to describe the basic phase behavior of polymers driven by short‐range contact‐like interactions and long‐range Coulombic interactions at thermal equilibrium, respectively. To more realistically capture condensate formation in cells (e.g. accounting for factors such as molecular modifications and intrinsic motility), modifications are modeled as distinct solutes, and the Cahn–Hilliard framework[
+ , , 
+] is employed to describe molecular fluxes between dilute and dense phases over time and space. Besides, the simple formalism of these theories that account approximately for effects of sequence composition hinders their application in distinguishing sequence dependence, an important aspect of protein interactions.[
+ , , 
+] Advancing these theories for augmenting the sequence distinction, two additional order parameters, namely, charge patterning parameter (κ)[
+ 
+] and sequence charge decoration (SCD),[
+ 
+] were incorporated.
+Here, we only briefly touched the concept of multiscale simulations. Further details on the underlying principles and procedures are available elsewhere.[
+ , , , 
+] The current force fields together with their compatible water models employed for investigating biomolecular condensates are summarized in Table  . A complete enumeration of all instances is beyond the scope of this review. Additionally, comprehensive benchmark studies evaluating the performance of these models on biological condensates have been summarized, and readers are encouraged to refer to them for further details.[
+ , , , , 
+] While current publicly released models are generally incapable of simulating environmental stimuli–such as pH changes–emerging protocols have been proposed within established frameworks, such as Martini[
+ 
+] and Mpipi,[
+ 
+] to address these limitations.
+ 
+6.2.3
+
+## Progress Addressing Efficiency
+Recent advancements in hardware, including Graph Processing Units (GPUs), Tensor Processing Units (TPUs)[
+ 
+] and specialized supercomputers like Anton,[
+ 
+] together with more efficient algorithms and software,[
+ , 
+] have enabled molecular simulations to reach relevant timescales for studying biomolecular condensates.
+The most straightforward strategy is to reduce the particle assembled in biomolecular systems. As mentioned in Section  , although CG simulations treat solvent and solute at a reduced resolution and significantly improve computational efficiency compared to atomistic models, a large portion of resources is still consumed by the evaluation of solvent–solvent interactions, as an extensive number of solvent beads is still required to mimic the crowded cellular environment. To address this challenge, implicit solvent models have been introduced, wherein the solvent is treated as a continuous medium using mean‐field approximations. This approach drastically reduces computational demands while preserving essential thermodynamic and structural features. Consequently, the parameterization of protein force fields in such frameworks is carefully calibrated to implicitly capture solvent–protein interactions, ensuring realistic behavior despite the absence of explicit solvent representation.[
+ , , , , 
+] However, even when solvent‐protein interactions are amended, implicit solvent models inherently neglect hydrodynamic effects, solvent entropy contributions, and real solvent fluctuations. These omissions limit their ability to capture solvent‐mediated phenomena, especially in cases where solvent effects are dominant,[
+ 
+] thereby constraining the accurate description of the thermodynamics and kinetics of LLPS and related phase transitions.
+In the aspect of software and algorithms, a hierarchical domain decomposition scheme with dynamic load balancing was proposed to address the limited computational efficiency caused by the non‐uniform distribution of biomolecules in large simulation systems.[
+ 
+] Using this scheme, Ostwald ripening–a phenomenon in which smaller droplets dissolve and their components redeposit into larger ones–was directly observed in CG simulations, with droplet sizes comparable to those observed in confocal microscopy images. Moreover, since force computations (i.e., first derivatives of energy with respect to coordinates) and integration over classical equations of motion are not required, the Monte Carlo strategy enables more efficient sampling of the entire phase space. LASSI (LAttice simulation engine for Sticker and Spacer Interactions) is such an approach which confines molecular movements to a lattice and each move step is determined by the acceptance probability to fulfill the detailed balance.[
+ 
+] Successful applications have been demonstrated in the phenomenological modeling of spontaneous phase transition in systems containing multivalent proteins and RNA molecules. The conventional bulk phase simulations require larger computational resources and are more complex in tracking the interface and studying phase separation kinetics in three dimensions. To relieve the computational burden and speed up equilibration, a slab model coexisting dense phase and dilute phase and with their interface normal to the elongated direction was proposed.[
+ , , 
+] Their efficiency arises from two key aspects: 1) the dense phase is pre‐equilibrated, leading to much faster convergence; and 2) the finite‐size effects can be minimized through the application of slab geometry.[
+ 
+] Its efficiency has been successfully demonstrated in simulating biomolecules that can form coacervates.[
+ , , , 
+] To further advance their efficiency in conformational sampling, the state‐of‐the‐art enhanced sampling methods were married with CG models.[
+ , , 
+] For example, the Martini force field integrating gREM (generalized replica exchange method) is more efficient and accurate to observe the phase transitions of freezing and melting dipalmitoylphosphatidylcholine bilayers.[
+ 
+] Similarly, with the help of replica‐exchange molecular dynamics simulation, sol‐gel phase transitions were detected and the thickness of the lipid bilayer in the un‐tilted gel state is somewhat smaller than the tilted gel state.[
+ 
+]
+
+Machine learning (ML) and artificial intelligence (AI) have opened up transformative possibilities across a wide range of disciplines, enabling data‐driven discoveries, enhancing predictive capabilities, and accelerating innovation. Bypassing the limitations of traditional physics‐based methods in extensive simulations to generate the conformational ensemble, great efficiency was achieved in linking sequences directly to their biophysical properties and biological functions with the help of ML and AI. For instance, Gupta et al. employed a variational autoencoder to compress MD‐generated conformers of disordered Aβ40 and ChiZ proteins into a low‐dimensional latent space, from which conformers were reconstructed and later validated against independent NMR chemical shifts and SAXS data.[
+ 
+] Similarly, Janson et al. introduced a generative adversarial network model, idpGAN, trained on coarse‐grained simulations to generate realistic conformations of IDPs.[
+ 
+] Moreover, the generative recurrent neural network (GRNN) model DynamICE was developed to produce ensembles consistent with NMR measurements. Instead of reweighting pre‐existing ensembles to fit the data, DynamICE iteratively updates residue torsion angles (ϕ, ψ, ω, χ) to modulate structural conformations. The results show that this approach effectively incorporates experimental constraints, even when the original ensemble has limited overlap with the experimental observations.[
+ 
+] These studies demonstrate the potential of ML‐based generative models in capturing the sequence–ensemble relationships of IDPs. For a detailed overview of ML and AI methods used to explore sequence–ensemble–function relationships in IDPs, readers are referred to the cited references.[
+ , , 
+]
+
+All the aforementioned strategies primarily focus on advancements in software and algorithms. However, substantial progress has also been made in computational power. By harnessing these advances, most popular force fields and molecular dynamics engines have been ported to GPUs or TPUs, resulting in significant speedups compared to their non‐accelerated counterparts.[
+ , 
+]
+
+7
+
+## Emerging and Future Technologies
+Current experimental techniques for studying biomolecular condensates often require fluorescent labeling or chemical modifications to monitor phase separation, nucleation, and material properties. While effective, these approaches risk disrupting native molecular interactions, introducing artifacts, or compromising temporal resolution due to photobleaching and phototoxicity. Emerging experimental techniques such as Brillouin microscopy, interferometric scattering microscopy, and optical tweezers are overcoming these constraints, offering label‐free, non‐invasive methods to probe viscoelasticity, nucleation dynamics, and mechanical interactions at micro‐ and nanoscale.
+7.1
+
+## Brillouin Microscopy to Characterize the Mechanical Properties of Condensates
+By definition, the formation of biomolecular condensates is characterized by the phase transition of biomacromolecules suspended in a buffer (or a cell cytosol) into gel‐like condensate droplets or solid‐like aggregates. These changes in molecular interactions, protein conformation and secondary structure lead to changes in their physical properties, e.g. local density changes within condensates and mechanical changes of condensate's viscoelasticity. Brillouin microscopy has recently been suggested as a label‐free and noncontact light‐based method for direct dynamic measurements of viscoelasticity that can be useful for understanding condensation and aggregation phenomena in proteins.[
+ , 
+] The physical principles of this method are based on the detection of inelastically scattered light, which results from the interaction between incident laser light and thermodynamically excited pressure waves inside the material. These pressure waves travel with the speed of sound, and therefore light upon interaction receives a small frequency shift proportional to the velocity of sound, which, in turn, depends on the material's longitudinal elastic modulus.[
+ , 
+] The average life‐time of these pressure waves, on the other hand, can be related to the viscosity of the material: the higher the viscosity, the faster the pressure waves decay and the shorter distance they travel. In this manner, the local elasticity and viscosity inside a biomaterial can be measured simply by scanning a laser beam in three dimensions (see Figure  ). Importantly, such measurements can be achieved with only a few milliwatts of probing light, focused to a diffraction‐limited spot below a micrometer in size, thus providing access to the intrinsic viscoelasticity of intracellular and extracellular environments without causing cell photodamage.[
+ , , 
+]
+
+ Figure  demonstrates the application of Brillouin microscopy to studies of biomolecular condensation in situ: Ubiquilins (UBQLNs) undergoes LLPS, forming gel‐like protein‐rich droplets in liquid solution. The 2D distribution of the Brillouin frequency shift (BFS) and Brillouin linewidth (LW) shows vastly different mechanical properties of protein droplets when compared to the surrounding buffer solution: the average frequency shift calculated across the droplets is over 15 % higher than that of buffer, whereas the linewidth is increased by 2.6 folds. This suggests a significant increase in both longitudinal elastic modulus and viscosity of the droplets compared to the buffer solution, as expected from the phase‐transition phenomenon.
+To estimate the exact values of the longitudinal modulus and viscosity, the local refractive index and density across protein sample need to be measured (not available here). This is typically achieved by combining Brillouin microscopy with Quantitative Phase Imaging as recently reported.[
+ 
+] The latter study confirmed that conditions favoring phase separation increased Brillouin shift, linewidth, and protein concentration. Therefore, it has been proposed that Brillouin microscopy can serve as a direct measurement of average molecular interactions and dissipation strength, and thus can be used as an alternative technique to FRAP microscopy.[
+ 
+] With significant efforts taken recently in standardization of Brillouin imaging and microscopy protocols,[
+ 
+] this field of research is expected to grow rapidly and expand from physics labs to biomedical and clinical applications.
+In addition, Brillouin microscopy can be used for investigation of stress granule formation in cells as previously reported by Antonnaci et al.[
+ 
+] and demonstrated by us in Figure  . Since the size of stress granules can be quite small (below 1 µm), resolving subcellular features spatially and spectroscopically becomes the main challenge of such measurements. Overall the spectral resolution of Brillouin microscopy instrumentation is determined by the equipment type, but generally is above 100 MHz.[
+ 
+] This means that many closely positioned spectral peaks in the Brillouin spectrum can partially overlap, requiring signal processing methods for careful analysis and de‐convolution of spectroscopic data.[
+ , 
+] On the other hand, the spatial resolution of Brillouin imaging is limited by several factors,[
+ , 
+] but generally it is above 1 µm in biological samples, which is still sufficient to resolve large‐sized stress granules and protein aggregates. Figure  demonstrates a 2D scan across two motor neurons, where the color scale represents the absolute value of the Brillouin frequency shift. The higher the shift (red color), the stiffer is the region within the cells. Black errors indicate hotspot regions within the cells where the BFS reaches its maximum, suggesting the sites of protein aggregation. The spatial resolution of this image and the step size is 0.5 µm, pushing the resolving power of this technique to its limit.
+
+7.2
+
+## Interferometric Scattering Microscopy to Detect Single Unlabeled Proteins Optically in Condensates
+Interferometric scattering microscopy (iSCAT) is an emerging technique with potential application in the label‐free study of nucleation and dynamics of biomolecular condensates. Introduced in 2004 and first used for the detection of a gold nanoparticle,[
+ 
+] iSCAT proved a valuable tool for the detection and imaging of nanosized biological systems with great spatiotemporal resolution.[
+ , , , 
+] Examples of the iSCAT capability include detection of Influenza virus (100 nm in diameter),[
+ 
+] observation of the rocking and tumbling motion of Simian virus 40 (45 nm in diameter),[
+ 
+] and observation of lambda bacteriophages (50 nm in diameter) interaction with surfaces characterized by the precise measurement of position and orientation of the bacteriophage.[
+ 
+] Recently, Dahmardeh et al.[
+ 
+] were able to achieve a new lower limit of detection of a protein with a size less than 10 kDa, noting that this was achieved through the use of an unsupervised machine learning algorithm.[
+ 
+]
+
+It has recently been shown that iSCAT microscopy[
+ 
+] and LIFE microscopy,[
+ 
+] a related technique with greatly suppressed phase noise that enables faster dynamics to be tracked, can access not only structures and slow motions of cells, but also characterization of biological activity in the hundreds‐of‐hertz to tens‐of‐kilohertz frequency range. This may provide a new tool to probe the viscoelasticity and dynamics of biomolecular condensates as they nucleate, grow, and evolve.
+The underlying principle behind the iSCAT technique is the interference of two optical fields. Specifically, the interference occurs between a reference optical field and a second optical field that interacts with the studied subject. (Figure  ). The interfered fields produce a contrast signal that provides information about the mass and the binding position of the biological specimen under investigation.[
+ 
+] Although the technique has great spatiotemporal resolution, its sensitivity is constrained by technical noise sources such as laser intensity fluctuations and substrate scattering. The current state‐of‐the‐art achieves detection of very small proteins with greatly improved sensitivity through optimized post‐data acquisition processing that addresses background noise.[
+ 
+] Experimental approaches to increase the sensitivity have been described in detail elsewhere[
+ 
+] and can include low ionic strength of the buffer in which the analyte is dissolved, the use of homodyne configuration to suppress the technical noise, and for ultra‐sensitive iSCAT setups–use of squeezed light to overcome shot noise limitations.[
+ 
+]
+
+ For application in biomolecular condensates, however, of particular interest to the biology community is the interaction between proteins in the nucleation phase, as well as the presence of agents and conditions that can influence the nucleation and the progression toward aggregate and fibril formation. In 2023, Ray et al.[
+ 
+] reported a study investigating the nucleation stages of α‐synuclein, a Parkinson's disease‐related protein, in a polyethylene glycol crowded environment. Their results showed that even under sub‐saturated concentrations of the α‐synuclein, the protein can form nanoclusters under a range of solution conditions. They noted that these nanoclusters are weakly bound and can be reversible but can act as a precursor for macroscopic droplet and amyloid fibril formation.[
+ 
+] It is apparent that iSCAT will play important role in future studies of nucleation and aggregate formation of other proteins associated with neurodegenerative diseases such as TDP‐43.
+
+7.3
+
+## Optical Tweezers to Measure the Mechanical Properties of Condensates Non‐Invasively
+Optical tweezers emerged as a technique in the 1970s[
+ 
+] and have been widely used to optically trap and exert a 3D control onto cells, their organelles, and single proteins. To achieve this control, the optical tweezers use tightly focused light to optically trap micro‐ and nanosized objects. The light propagates through a medium and interacts with an object (e.g. organelle in buffer). The object is trapped in the tightly focused light because of the momentum the photons carry. When photons propagate through the medium and interact with an object with refractive index different than that of the medium (e.g. organelle in buffer), it exerts force. The object will experience force guiding it toward the higher intensities of the laser beam, where it is trapped.
+The optical tweezers enable precise force measurement and mechanical characterisation of cells, organelles and proteins (Figure  ). These mechano‐biological and microrheological insights have been used to assess cellular health and behavior during neuronal differentiation,[
+ 
+] to study the viscoelasticity of membranes and intercellular fluids in relation to disease onset and progression,[
+ 
+] and to investigate the stepping dynamics of molecular motors.[
+ 
+] An overview of practical considerations and application of optical tweezers for cell biology research is provided by Favre–Bulle and Scott,[
+ 
+] while their application in single‐molecule biology is reviewed by Bustamante et al.[
+ 
+] Here, we focus on the use of optical tweezers to study membraneless organelles.
+A common approach to studying the material properties of biomolecular condensates involves trapping polystyrene beads either within the condensates to probe its internal viscoelastic properties[
+ 
+] or at its interface to measure the interfacial tension.[
+ 
+] When an oscillatory force is applied to the bead, the condensate's viscous and elastic moduli are extracted. Jawerth et al.[
+ 
+] used this approach to study P‐granule protein (PGL‐3) condensates and found that the surface tension increased as the salt concentration decreased. In subsequent experiments, the authors reported that condensates of FUS, TDP‐43 and hnRNPA1 undergo age‐dependent changes in their rheological properties. Notably, the viscosity of the condensates increased significantly with age while their elastic modulus remained unchanged.[
+ 
+]
+
+In addition to the approach mentioned above, optical tweezers were also used to directly observe the fusion of condensates. When two condensates are brought in proximity and allowed to fuse, determinants of the fusion dynamics such as rate, interfacial tension and phase behavior can reveal important information about the age of the condensates and how the presence or lack of mutations affects the dynamics.[
+ 
+] Patel and colleagues studied FUS, a protein implicated in ALS, and the role of the disease‐associated mutations in the aging of the condensates. The authors found that ALS‐related mutations contribute to faster aging of the condensates, which is characterised by rapid change in the biophysical properties.[
+ 
+] In studies of mature TDP‐43 condensates, Zheng and colleagues found that RNA assisted the fusion of droplets and suggested that the proteins are in active equilibrium.[
+ 
+] Although there are a few dedicated studies of TDP‐43 condensates using optical tweezers, approaches used to study biomechanical properties of other proteins could be used to gain further insight into the behavior of TDP‐43 and its LCD in the initial stages of nucleation and condensate maturation.
+Recently, optical tweezers have reached the ballistic regime of particle tracking[
+ 
+]–that is, they have reached measurement precision sufficiently precise that they are able to track smooth trajectories of the trapped particle rather than random Brownian motion. This means that it is possible to determine not only the particle position, but also its instantaneous velocity. Since velocity is directly connected to kinetic energy, this provides a new way to probe the energetics of cells. Ref.[
+ 
+] showed that this approach allows measurements of viscosity at tens of microsecond speeds–four orders of magnitude faster than previous methods. This opens up the prospect to use viscosity, not only as a static parameter within biomolecular condensates, but as a dynamic variable that provides information about the evolution and dynamics of the condensate at high speed. Moreover, quantum correlated light has recently been applied into optical tweezers[
+ , 
+] and other biological microscopes.[
+ 
+] This allows the noise floor of measurements to be reduced beneath the otherwise fundamental shot noise limit. This could further increase the speed of measurements of biomolecular condensate biophysics.
+
+8
+
+## Conclusion and Outlook
+Biomolecular condensates represent a fascinating frontier in cellular biology and materials science, yet their inherent complexity poses significant challenges to both experimental and computational investigations. The dynamic, multiscale nature of condensates–driven by weak, transient interactions among disordered proteins, nucleic acids, and environmental factors–renders them difficult to capture with conventional methodologies. Experimentally, limitations in spatial and temporal resolution, potential artifacts from labeling or fixation, and the inability to resolve heterogeneous substructures within condensates hinder a comprehensive understanding of their formation, material properties, and functional transitions. Computationally, the vast timescales and system sizes required to model phase separation, coupled with the need for accurate force fields to describe IDRs and multivalent interactions, strain existing simulation frameworks. These challenges are compounded by the delicate balance of driving forces that govern condensate behavior, which are highly sensitive to perturbations in pH, temperature, and ionic strength.
+Future advancements in computational approaches for studying biomolecular condensates will hinge on overcoming current limitations in accuracy, efficiency, and scalability. A critical focus will be refining coarse‐grained and all‐atom force fields to better capture the dynamic, multivalent interactions of IDPs/IDRs and nucleic acids, which are central to condensate formation. In benchmarking force fields, only a limited set of statistical properties–such as the radius of gyration, solvent‐accessible surface area, and mean end‐to‐end distance–are typically used for IDPs/IDRs. However, more quantitative experimental measurements and dynamic properties, such as surface tension and diffusion coefficients, should also be employed in the parameterization process to improve reliability. Additionally, with the growing interest in biomolecular condensate‐based biomaterials, increased attention should be directed toward coarse‐grained force fields capable of modeling non‐standard residues–particularly small organic molecules[
+ 
+] and material‐related components[
+ , 
+]–as well as capturing bond formation and breakage,[
+ , , 
+] thereby more accurately representing the non‐equilibrium nature of condensates and polymerization processes. Although machine learning techniques have shown promise in advancing these developments,[
+ 
+] careful attention must be paid to issues such as overfitting[
+ 
+] and interpretability[
+ 
+].
+Emerging experimental technologies are poised to revolutionize the study of biomolecular condensates by addressing limitations in spatial‐temporal resolution, invasiveness, and dynamic tracking. Unlike traditional fluorescence‐based methods, label‐free approaches offer the ability to observe condensate formation, composition, and dynamics without invading the system. These techniques enable real‐time quantitative analysis of molecular interactions, stoichiometry, and material properties in the native environment. Additionally, another promising direction is integrating currently well‐defined techniques for a combination of reversibility and dynamic assessments. Such experimental framework has been proposed for studying biomolecular condensates in bacterial systems.[
+ 
+] Emerging technologies such as iSCAT and optical tweezers have already narrowed the gap between computer simulations and experiments, thus providing unprecedented spatiotemporal resolution to track fast dynamics and probe the energetics in a range of biological systems. The use of quantum correlated light in optical tweezers[
+ , 
+] and other microscopes[
+ 
+] allows the noise floor to be pushed beyond the fundamental shot noise limit. We expect that new and improved state‐of‐the‐art quantum‐enabled technologies will allow increased precision and speed in measurement to reveal how mutations and modulators are implicated in the condensate behavior.[
+ 
+] This is ultimately important for understanding how dysregulation of LLPS can lead to disease but also to emulate an incredibly dynamic and environment‐responsive structure that can be used as drug delivery vehicles and bio‐inspired tunable scaffolds.
+
+## Conflict of Interest
+The authors declare no conflict of interest.
+
+## Acknowledgements
+Parts of this research were supported by the Australian Research Council Centre of Excellence in Quantum Biotechnology through project number CE230100021 and Discovery Project (DP250103803). Q.Z. is supported by UOW Vice‐Chancellor's Research Fellowship. Z.R. is supported by the CSIRO Next Generation Quantum Graduates Program. P.S. is the recipient of an Office of National Intelligence National Intelligence Postdoctoral Grant (project number NIPG202310) funded by the Australian Government. W.P.B. acknowledges the support of the Air Force Office of Scientific Research (grants no FA9550‐22‐1‐0047 and FA9550‐24‐1‐0286).
+
+Qiang Zhu is a Vice Chancellor's Postdoctoral Research Fellow at the University of Wollongong, Australia. He earned his PhD at the Institute of Theoretical and Computational Chemistry, Nanjing University, China under the supervision of Prof. Jing Ma and Prof. Hao Dong, studying small molecule transport and enhanced sampling methods. He then conducted postdoctoral research at the School of Physics, Nanjing University, applying machine learning to predict molecular properties. After two years training, he joined the UC Irvine, USA with Prof. Ray Luo, streamlining polarizable force fields in Amber and investigating liquid‐liquid phase separation mechanisms.
+ 
+Zahra Raza is a PhD student at the University of Wollongong, Australia, where she has also completed an undergraduate and honours degree in medical biotechnology. Currently, she is pursuing her PhD in computational biochemistry, with a particular interest in the field of intrinsically disordered proteins and liquid‐liquid phase separation. Zahra's work is currently supported by CSIRO's Next Generation Quantum Graduates Program, and she is partnered with the Australian Research Council Centre of Excellence in Quantum Biotechnology (QUBIC) to explore innovative ways to integrate quantum principles into biotechnology. Her passion for scientific discovery and interdisciplinary research drives her motivation for exploring biological systems at the molecular level.
+ 
+Dzung Do‐Ha is an Associate Research Fellow at the University of Wollongong, Australia and a member of the Australian Research Council Centre of Excellence in Quantum Biotechnology. She earned her PhD in cellular neuroscience, studying neuronal excitability changes in motor neurone disease. Her research integrates stem cell disease modeling, electrophysiology, and emerging quantum tools to investigate how alterations in neuronal excitability and biomolecular condensates drive neurodegenerative diseases. Bridging neuroscience, cell biology, and biophysics, Dr Do‐Ha explores how disrupted interconnected molecular networks contribute to neurodegeneration with the aim to identify novel therapeutic targets for neurodegenerative disorders.
+ 
+Emma De Costa is a 1st year PhD student at the University of Wollongong, where she has also completed an undergraduate and honours degree in cell and molecular biology. Her research focuses on the behavior of TDP‐43 low complexity domain mutations and how emerging quantum techniques can provide new insights into aggregation and phase separation. Emma is the recipient of the University of Wollongong / University of Surrey (UK) Joint‐Dual Degree PhD Scholarship, and her PhD project is within the Brain Theme of QUBIC under the mentorship of Prof. Lezanne Ooi and Prof. Haibo Yu, in collaboration with Dr. Youngchan Kim and A/Prof. Marco Sacchi. Her passion is utilizing interdisciplinary research for neurodegenerative diseases and is an advocate for effective science communication.
+ 
+Pavlina Sasheva is a National Intelligence Postdoctoral Grant Research Fellow at the University of Queensland and an affiliate of the Australian Research Council Centre of Excellence in Quantum Biotechnology. She earned her PhD in pharmacognosy and phytochemistry from the Medical University of Sofia, Bulgaria, where she was recognized for her research on plant‐derived small molecules for chemotherapy. Currently, Dr Sasheva investigates protein dynamics at the single molecule level using biomolecular optomechanics. Her research interests lie in the application of quantum tools to understand the behavior of single proteins and the dynamic interactions between proteins in biomolecular condensates.
+ 
+Luke McAlary is a Group Leader at the School of Science at the University of Wollongong, Australia. He completed his PhD at the University of Wollongong studying protein homeostasis in motor neuron disease (MND) under the late Prof. Justin Yerbury. He then spent 2 years at the University of British Columbia, Canada with Prof. Steven S. Plotkin and Prof. Neil Cashman investigating protein condensation and aggregation. Now, he leads an MND research lab that seeks to use our understanding of protein homeostasis to treat MND.
+ 
+Hadi Mahmodi is a researcher at the University of Technology Sydney, where he works in the Brillouin Imaging Laboratory. He earned his PhD in Optoelectronic Materials and currently specializes in developing advanced microscopy techniques based on Brillouin light scattering. His research primarily focuses on mapping local viscoelastic properties of biomaterials at the microscale. These insights can contribute significantly to studies in fundamental mechanobiology, as well as in the optimization of biomedical diagnostic and therapeutic methods.
+ 
+Warwick Bowen is Director of the Australian Research Council Centre of Excellence in Quantum Biotechnology, applying quantum technologies into the life sciences. He leads the Quantum Optics Laboratory at the University of Queensland, Australia, which develops quantum and precision sensors for both fundamental science and applications ranging from biological imaging to single molecule sensing, navigation, geological surveying and aerospace. He is also a founder of the start‐up Elemental Instruments.
+ 
+Lezanne Ooi is a Professor in the School of Science at the University of Wollongong, Australia and Group Leader of the Neurodevelopment and Neurodegeneration Lab. Her research speciality is cellular neuroscience and the regulation of neuronal function and neuroinflammation in neurodegenerative diseases. The Ooi lab uses electrophysiology, imaging and a range of cell and molecular biology techniques to investigate disease mechanisms and for drug discovery, using induced pluripotent stem cells, tissue and disease models. She completed her PhD and post‐doctoral training at the Institute of Membrane and Systems Biology, University of Leeds, UK. She is the Brain Theme Leader of the Australian Research Council Centre of Excellence in Quantum Biotechnology, the Cell Biology Theme Leader of an NHMRC Dementia Teams Grant and leading grants from the Michael J. Fox Foundation and US Department of Defense.
+ 
+Irina Kabakova is a Professor in the School of Mathematical and Physical Sciences, the University of Technology Sydney, Australia. She specializes in developing novel microscopy techniques based on Brillouin light scattering that can be used to map local compressibility and viscoelasticity of cells and tissues at the microscale. These findings can be applied to studies of fundamental biology and mechanobiology as well as in design and optimization of biomaterials for drug discovery, tissue engineering and biomedical diagnostics methods. Additionally, Irina has interests in photonic integration and miniaturization of imaging setups that will enable translation of laboratory techniques toward clinical use. She is a Chief Investigator at the Australian Research Council Centre of Excellence in Quantum Biotechnology and the Australian Research Council Centre of Excellence on Optical Microcombs for Breakthrough Science.
+ 
+Haibo Yu is a Professor in the School of Science at the University of Wollongong, Australia, and a Chief Investigator at the Australian Research Council (ARC) Centre of Excellence in Quantum Biotechnology. He completed his undergraduate studies at the University of Science and Technology of China and earned his PhD at ETH Zürich, Switzerland. Following postdoctoral training at the University of Wisconsin‐Madison and the University of Chicago, USA, he began his independent career at the University of Wollongong in 2010. His research interests include developing and applying computational models to study molecular systems and enable molecular engineering.
