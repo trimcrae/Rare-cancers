@@ -41,6 +41,7 @@ from __future__ import annotations
 
 import argparse
 import base64
+import struct
 import hashlib
 import json
 import os
@@ -104,11 +105,41 @@ def _svg_to_png(html, paper):
     # "presence is never evidence of provenance" reproduced inside the check written to enforce it.
     # A data: URI leaves LibreOffice nothing to link TO, so the bytes go into the archive; the
     # verifier now reads `word/media/` and would fail this again.
+    # ⛔⛔ AND `style="width:100%"` PUT THE FIGURE IN AT THE WRONG SHAPE, WHICH IS THE OTHER WAY A
+    # CONVERSION LOSES A FIGURE WITHOUT LOSING THE COUNT (trimcrae, 2026-08-25: "the figures on the
+    # word doc look super weird"). LibreOffice's HTML import has no containing block to resolve a
+    # PERCENTAGE against, so it does not fall back to the image's natural size — it invents a box.
+    # MEASURED in the built .docx: `aso-multipartner-seam.png` is 2126x1068 (a 2:1 landscape panel)
+    # and `<wp:extent>` placed it at 0.79in wide by 3.56in tall — squeezed into a narrow vertical
+    # frame at roughly 1:4.5, so the panel rendered unreadable while every check here stayed green.
+    # ⚠ THE COUNT CANNOT SEE THIS. `_verify` asserts that the bytes are in `word/media/` and that
+    # the drawing count matches; an image can be present, embedded and correctly counted while being
+    # displayed at a shape nobody can read. The geometry is asserted below for that reason.
+    # ★ THE FIX IS ABSOLUTE UNITS DERIVED FROM THE FILE'S OWN PIXELS. Width is the A4 text measure
+    # (210mm less 25mm margins each side), height follows from the PNG's real aspect ratio, so the
+    # figure cannot be placed at a shape its source does not have.
     for block, png in zip(reversed(blocks), reversed(pngs)):
-        b64 = base64.b64encode(open(png, "rb").read()).decode("ascii")
-        img = f'<img src="data:image/png;base64,{b64}" style="width:100%" />'
+        raw = open(png, "rb").read()
+        px_w, px_h = _png_size(raw, png)
+        mm_w = 160.0
+        mm_h = mm_w * px_h / px_w
+        b64 = base64.b64encode(raw).decode("ascii")
+        img = (f'<img src="data:image/png;base64,{b64}" '
+               f'style="width:{mm_w:.1f}mm;height:{mm_h:.1f}mm" />')
         html = html[:block.start()] + img + html[block.end():]
     return html, len(pngs)
+
+
+def _png_size(raw, path):
+    """(width, height) in pixels, read from the PNG's own IHDR rather than assumed.
+
+    ⛔ NOT A GUESS AND NOT A CONSTANT. The whole defect this guards against was a figure placed at
+    a shape its source does not have, so the shape has to come out of the file.
+    """
+    if raw[:8] != b"\x89PNG\r\n\x1a\n" or raw[12:16] != b"IHDR":
+        raise SystemExit(f"{os.path.basename(path)} is not a PNG this can measure; the figure's "
+                         f"aspect ratio would have to be assumed, which is the defect itself.")
+    return struct.unpack(">II", raw[16:24])
 
 
 def _verify(docx_path, want_figures):
@@ -122,6 +153,11 @@ def _verify(docx_path, want_figures):
     with zipfile.ZipFile(docx_path) as z:
         xml = z.read("word/document.xml").decode("utf-8")
         media = [n for n in z.namelist() if n.startswith("word/media/")]
+        media_px = {}
+        for n in media:
+            raw = z.read(n)
+            if raw[:8] == b"\x89PNG\r\n\x1a\n" and raw[12:16] == b"IHDR":
+                media_px[n] = struct.unpack(">II", raw[16:24])
     words = len(re.sub(r"<[^>]+>", " ", xml).split())
     headings = len(re.findall(r'w:pStyle w:val="Heading', xml))
     #: ⛔ THE IMAGE COUNT IS THE NUMBER OF FILES IN `word/media/`, NEVER THE NUMBER OF `<w:drawing>`
@@ -143,6 +179,25 @@ def _verify(docx_path, want_figures):
         problems.append(f"{images} embedded image(s) against {want_figures} declared figure(s); "
                         f"word/media holds {len(media)} file(s). LibreOffice drops what it cannot "
                         f"import WITHOUT reporting it, so this is the check that catches it")
+    #: ⛔⛔ SHAPE, NOT JUST PRESENCE. A figure can be embedded, counted and correctly referenced
+    #: while being DISPLAYED at a shape nobody can read, and every check above passes it. Measured
+    #: 2026-08-25: a 2126x1068 panel was placed at 0.79in by 3.56in — squeezed to about 1:4.5 from a
+    #: source that is 2:1 — because the <img> carried `width:100%`, which LibreOffice's HTML import
+    #: has no containing block to resolve. `_svg_to_png` now emits absolute mm derived from the
+    #: file's own pixels; this asserts the RESULT rather than trusting that it did.
+    #: ⚠ The tolerance is 2%, which is rounding to the nearest 0.1mm and nothing else. This is not a
+    #: taste check — it fires only when the placed box disagrees with the source image's own aspect.
+    placed = [(int(a), int(b)) for a, b in re.findall(r'<wp:extent cx="(\d+)" cy="(\d+)"', xml)]
+    natural = [px for _, px in sorted(media_px.items())]
+    for (cx, cy), (px_w, px_h) in zip(placed, natural):
+        if not cx or not cy or not px_h:
+            continue
+        want, got = px_w / px_h, cx / cy
+        if abs(got - want) / want > 0.02:
+            problems.append(
+                f"a figure is placed at aspect {got:.2f} ({cx / 914400:.2f}in x "
+                f"{cy / 914400:.2f}in) against its source image's {want:.2f} ({px_w}x{px_h}px) — "
+                f"the picture is in the file and is being drawn at the wrong shape")
     if problems:
         raise SystemExit(f"{os.path.relpath(docx_path, REPO)} converted but is not a usable "
                          "submission file:\n  - " + "\n  - ".join(problems))
