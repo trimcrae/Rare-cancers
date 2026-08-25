@@ -57,6 +57,17 @@ silently falling back to writing up closed routes looks identical to progress.
   correctly-written retractions — so **a red build is a real
   inconsistency; fix the doc, don't loosen the pattern.**
 - **⏰ Times: ET, 12-hour.** Container is UTC — `TZ=America/New_York date '+%-I:%M %p ET'`, never bare `date`.
+- **🗣️ TALKING TO TRIMCRAE: BE CONCISE, AND WRITE IT THE `eli5` WAY — THERE AND NOWHERE ELSE**
+  (trimcrae, 2026-08-25). **Concise always**: the answer he asked for, not the transcript of how you
+  got it. Every reply addressed to him is plain language — lead with the point, one idea per
+  sentence, jargon replaced rather than glossed. Rewrite rules: `eli5`.
+  ⛔ **AND ONLY THERE.** A manuscript, an SI, a commit message, this file, a code comment, a docstring
+  or an artifact keeps its own register: those are written for reviewers and for the NEXT SESSION,
+  and they are dense on purpose. Plain language in a reply to him is a service; plain language in a
+  deposit artifact is lost precision.
+  ⛔ **PLAIN NEVER MEANS WEAKER.** A hedge, a null, an UNKNOWN, a negative and a number keep exactly
+  the strength they had. Making a result sound cleaner than its evidence is the one failure this
+  rule can cause, and it is worse than the density it replaced.
 - **⏱️ If your final message leaves real compute running, it ENDS with an "In flight:" board.** Real compute
   only (GPU/CI jobs, working subagents) — never your own timers, pollers or schedules. Nothing running →
   "Nothing in flight". Replaces status narration. **Columns and the $/ns buy line: `inflight-reporting`.**
