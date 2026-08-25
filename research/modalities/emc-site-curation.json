@@ -1,0 +1,174 @@
+{
+  "_what": "Anatomical site of the primary tumour and of the metastases in extraskeletal myxoid chondrosarcoma, transcribed from the primary reports of the open-access series.",
+  "_why": "emc-locoregional-eligibility.json records primary site as NOT computable and metastatic site as computable only from one free-text note, and names re-curation from the primary reports as the highest-value step the locoregional endpoint is waiting on.",
+  "_not_medical_advice": "Nothing here is medical advice, and nothing here asserts efficacy, safety, a therapeutic window or clinical readiness. An 'eligible fraction' says who a strategy could be OFFERED to and nothing about whether it would work.",
+  "_generated_by": "research/modalities/emc_site_curation.py",
+  "_method": {
+    "estimator": "crude denominator-weighted proportions",
+    "interval": "Wilson score, 95%",
+    "contract": "systems/POLICY-evidence.md §2 (binding)",
+    "⚠_what_is_pooled": "TWO series, both reporting a site distribution over their whole cohort. They are non-overlapping (an Italian two-institution series and a Japanese national registry study).",
+    "⛔_the_inclusive_pool_is_NOT_symmetric": "Only one of the two series breaks out the junctional sites at all. Chiusole reports 'chest 3, abdomen 7, other 3' with no shoulder, groin, axilla or buttock row, so any junctional primaries it contains are invisible and it contributes ZERO extra patients to the inclusive reading. ⇒ The inclusive pool applies a category widening to one series and not to the other, which biases it DOWNWARD by an unknown amount. The per-cohort column, not the pooled figure, is the honest object here."
+  },
+  "⛔_the_category_boundary": "Masunaga files shoulder (9), groin (8), axilla (3) and buttock (15) under TRUNK. Every one of those is a primary a perfusion service would argue about rather than refuse outright, and together they are 35 of 171 patients. Both readings are computed and NEITHER is called the answer: the gap between them is WIDER than the sampling interval on either, so the binding uncertainty in this quantity is a definition, not a sample size. ⛔ Anyone quoting a single extremity fraction for this disease is quoting a category boundary they did not state.",
+  "⭐_local_therapy_of_metastases_is_already_being_given": "Both series record it: masunaga, 8 of 29 patients presenting with distant metastases (27.6%) underwent metastasectomy; chiusole, 8 lung metastasectomies and 2 radiofrequency ablations among 59 patients, 26 of whom were metastatic. ⇒ RT-LUNG-DIRECTED's premise is not hypothetical — a lung-directed local strategy is the standard of care for a substantial minority of these patients already, and the route's question is whether perfusion, inhaled delivery or ablation extends it to patients surgery cannot reach. ⚠ Nothing here says any of it works: these are counts of what was DONE, with no comparator and no outcome attached.",
+  "⛔_what_is_still_not_computable": {
+    "lesion_burden": "no series prints per-patient lesion counts, so no oligometastatic threshold fraction can be stated. Unchanged by this curation.",
+    "time_to_metastasis": "printed as a median in one series (5.9 years, chiusole2020) and nowhere per patient.",
+    "lung_confined_fraction_pooled": "readable in ONE series' presenting cohort (27/29) and NOT readable in the other, whose metastatic-site rows are non-exclusive and over-sum their denominator.",
+    "the_other_nine_series": "not open access. Europe PMC returns no PMC record and isOpenAccess: N for all nine remaining candidate series, so their site tables are unreachable at $0."
+  },
+  "series": [
+    {
+      "source_id": "chiusole2020",
+      "n_total": 59,
+      "printed_in": "TABLE 1 | Patients' characteristics — 'Primary Location (n. 59)' and 'Metastatic Sites (n. 26)'",
+      "verified_against": "the text layer of the article PDF retrieved via europepmc.org/articles/PMC7308468?pdf=render",
+      "primary_site_counts": {
+        "lower limb": 40,
+        "upper limb": 6,
+        "chest": 3,
+        "abdomen": 7,
+        "other": 3
+      },
+      "extremity_strict": [
+        "lower limb",
+        "upper limb"
+      ],
+      "extremity_inclusive_extra": [],
+      "locoregional_treatment_already_given": {
+        "printed_in": "TABLE 1 | Patients' characteristics — 'Locoregional Treatment'",
+        "counts": {
+          "radiation therapy": 23,
+          "lung metastasectomy": 8,
+          "excision of local recurrence": 14,
+          "radiofrequency ablation": 2
+        },
+        "⚠_denominator": "The table prints percentages against 47, not against 59 or 26, and does not say what 47 is. The COUNTS are transcribed; the rates are not, because a denominator nobody stated cannot be reconstructed."
+      },
+      "primary_site_counts_sum": 59,
+      "⚠_sum_vs_n": "the site counts exhaust the series",
+      "metastatic": {
+        "denominator": 26,
+        "denominator_means": "patients with metastatic disease in this series",
+        "counts_non_exclusive": {
+          "lung": 23,
+          "bone": 4,
+          "other": 14
+        },
+        "⚠_non_exclusive": "23 + 4 + 14 = 41 over a denominator of 26, so a patient may be counted in more than one row. A lung-CONFINED fraction cannot be read off this table and must not be inferred from it.",
+        "⛔_internal_discrepancy": "The running text of the same paper says 'the most frequent metastatic site was the lung (22 patients); 4 patients had bone metastases and 12 patients presented metastases in other sites'. TABLE 1 says 23 lung and 14 other. The two printed statements disagree by one and by two patients respectively. Recorded, NOT resolved — picking the convenient one would be a silent edit to somebody's data."
+      }
+    },
+    {
+      "source_id": "masunaga2025",
+      "n_total": 171,
+      "printed_in": "Table 1 'Patient characteristics and clinical outcomes…' — 'Tumor site, n (%)'; metastatic sites from the 'Patients with metastases at diagnosis' paragraph",
+      "verified_against": "the text layer of the article PDF retrieved via europepmc.org/articles/PMC12398172?pdf=render",
+      "primary_site_counts": {
+        "lower limb": 100,
+        "upper limb": 16,
+        "trunk": 55
+      },
+      "primary_site_subcounts": {
+        "lower limb": {
+          "thigh": 61,
+          "knee": 17,
+          "lower leg": 8,
+          "ankle": 4,
+          "foot": 10
+        },
+        "upper limb": {
+          "upper arm": 6,
+          "elbow": 3,
+          "forearm": 2,
+          "hand": 5
+        },
+        "trunk": {
+          "perineum": 1,
+          "intrathoracic": 1,
+          "chest wall": 5,
+          "neck": 1,
+          "shoulder": 9,
+          "retroperitoneum": 3,
+          "lumbar": 1,
+          "groin": 8,
+          "back": 4,
+          "abdominal wall": 4,
+          "axilla": 3,
+          "buttock": 15
+        }
+      },
+      "extremity_strict": [
+        "lower limb",
+        "upper limb"
+      ],
+      "extremity_inclusive_extra": [
+        "shoulder",
+        "groin",
+        "axilla",
+        "buttock"
+      ],
+      "locoregional_treatment_already_given": {
+        "printed_in": "'Patients with metastases at diagnosis' paragraph",
+        "counts": {
+          "metastasectomy": 8
+        },
+        "denominator": 29,
+        "percent_printed": 27.6
+      },
+      "primary_site_counts_sum": 171,
+      "⚠_sum_vs_n": "the site counts exhaust the series",
+      "metastatic": {
+        "denominator": 29,
+        "denominator_means": "patients with distant metastases AT DIAGNOSIS — a presenting cohort, not everyone who ever metastasised",
+        "counts_non_exclusive": {
+          "lung": 27,
+          "peritoneal": 2
+        },
+        "regional_lymph_node_at_diagnosis": 6,
+        "⭐_lung_confined_readable_here": "27 + 2 = 29 over a denominator of 29, so these two rows exhaust the cohort and 27/29 IS a lung-only fraction for THIS presenting cohort. It is one series' metastatic-at-diagnosis stratum and must not be quoted as a pooled distribution."
+      }
+    }
+  ],
+  "pooled_extremity_fraction": {
+    "extremity_strict": {
+      "definition": "limb primaries only, as each series' own top-level category defines them",
+      "events": 162,
+      "denom": 230,
+      "percent": 70.4,
+      "ci95_lo_percent": 64.2,
+      "ci95_hi_percent": 76.0,
+      "estimator": "crude denominator-weighted proportion (POLICY-evidence §2.2)",
+      "interval": "Wilson score, 95%",
+      "per_cohort_percent": {
+        "chiusole2020": 78.0,
+        "masunaga2025": 67.8
+      },
+      "heterogeneity_range_percent": [
+        67.8,
+        78.0
+      ],
+      "⚠_heterogeneity_note": "The range is the honest signal; I² is deliberately not computed (POLICY-evidence §2.2)."
+    },
+    "extremity_inclusive": {
+      "definition": "limb primaries plus the junctional girdle sites — shoulder, groin, axilla and buttock — which one series files under trunk",
+      "events": 197,
+      "denom": 230,
+      "percent": 85.7,
+      "ci95_lo_percent": 80.5,
+      "ci95_hi_percent": 89.6,
+      "estimator": "crude denominator-weighted proportion (POLICY-evidence §2.2)",
+      "interval": "Wilson score, 95%",
+      "per_cohort_percent": {
+        "chiusole2020": 78.0,
+        "masunaga2025": 88.3
+      },
+      "heterogeneity_range_percent": [
+        78.0,
+        88.3
+      ],
+      "⚠_heterogeneity_note": "The range is the honest signal; I² is deliberately not computed (POLICY-evidence §2.2)."
+    }
+  }
+}

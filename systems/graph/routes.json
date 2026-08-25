@@ -7266,7 +7266,7 @@
     "kind": "route",
     "title": "Isolated limb perfusion for extremity disease",
     "grade": {
-      "value": "⚠ NOT GRADEABLE ON ELIGIBILITY — THE ONE NUMBER THIS ROUTE NEEDS IS NOT A CURATED FIELD (2026-08-09). Isolated limb perfusion is offerable only for an extremity primary, so the eligible fraction IS the extremity fraction. ⛔ No cohort in the registry carries a site field: the registry's site information is a prose ordering with no counts behind it, and a prose ordering cannot become a denominator. That is an absent reading, NOT a reading of absence — nothing here says the extremity fraction is low, and the premise remains untested. ⭐ What the arithmetic DID supply is the size of the problem this route addresses: local recurrence runs at a substantial minority across four non-overlapping series, with a wide between-study range the pooled figure hides.",
+      "value": "⚠ NOT GRADEABLE ON ELIGIBILITY — THE ONE NUMBER THIS ROUTE NEEDS IS NOT A CURATED FIELD (2026-08-09). Isolated limb perfusion is offerable only for an extremity primary, so the eligible fraction IS the extremity fraction. ⛔ No cohort in the registry carries a site field: the registry's site information is a prose ordering with no counts behind it, and a prose ordering cannot become a denominator. That is an absent reading, NOT a reading of absence — nothing here says the extremity fraction is low, and the premise remains untested. ⭐ What the arithmetic DID supply is the size of the problem this route addresses: local recurrence runs at a substantial minority across four non-overlapping series, with a wide between-study range the pooled figure hides.\n\n⭐ 2026-08-25 — THE ELIGIBLE FRACTION IS NOW COMPUTED, AND ITS UNCERTAINTY IS A DEFINITION RATHER THAN A SAMPLE SIZE. Isolated limb perfusion is offerable only for an extremity primary, so the eligible fraction IS the extremity fraction, and that quantity was recorded as NOT COMPUTABLE because no registry cohort carries a site field. It was never a literature problem: the site tables are printed in the primary reports, and transcribing the two open-access ones (`emc-site-curation.json`, 230 patients across an Italian two-institution series and a Japanese national registry study) gives **70.4% (64.2-76.0) on a strict limb-only reading and 85.7% (80.5-89.6) once the junctional girdle sites are admitted** — shoulder, groin, axilla and buttock, 35 of 171 patients in one series, every one a primary a perfusion service would argue about rather than refuse. ⛔ THE GAP BETWEEN THE TWO READINGS IS WIDER THAN THE CONFIDENCE INTERVAL ON EITHER, so anyone quoting a single extremity fraction for this disease is quoting a category boundary they did not state. ⚠ Nothing here says perfusion works; it sizes who it could be OFFERED to.",
       "owner": {
         "file": "research/modalities/emc-locoregional-eligibility.json"
       }
@@ -7302,7 +7302,7 @@
       "status": "blocked",
       "maturity": "computed",
       "confidence": "low",
-      "last_verified": "2026-08-09"
+      "last_verified": "2026-08-25"
     },
     "rationale": "A regional technique with an approved agent and an established role in unresectable extremity soft-tissue sarcoma — and this disease's most common primary site is deep soft tissue of the thigh and lower limb, so the anatomical precondition is met more often here than in most sarcomas. It was invisible to every prior search, all of which looked only at molecular modalities.",
     "supporting_evidence": [
@@ -7347,6 +7347,11 @@
     "next": {
       "best_next_action": "Curate primary anatomical site from the open-access pooled series, then search the perfusion literature for myxoid histologies.",
       "cost": "$0"
+    },
+    "best_next_action": {
+      "what": "Decide which junctional sites a perfusion service would actually accept, and state the eligible fraction under that definition rather than under both.",
+      "why": "The quantity is computed and its uncertainty is now entirely a category boundary, which is a clinical judgement rather than a measurement — so it is trimcrae's or a collaborator's to make, not this program's.",
+      "cost": "$0 (a decision)"
     }
   },
   {
@@ -7356,7 +7361,7 @@
     "kind": "route",
     "title": "Lung-directed local therapy (regional perfusion, inhaled delivery, ablation)",
     "grade": {
-      "value": "◐ THE POPULATION EXISTS; THE ELIGIBILITY CRITERION IS NOT CURATED (2026-08-09). ⭐ The route's premise half holds and is now sized: across three non-overlapping series, roughly a third of localised patients develop distant disease, so the population a lung-directed strategy exists for is real and is a substantial minority rather than a rarity. ⛔ But the criterion that decides OFFERABILITY is not computable here. Metastatic SITE is recorded in one series' free-text note and nowhere as a field; lesion BURDEN and time-to-metastasis are absent from every cohort. So the fraction meeting any conventional oligometastatic threshold cannot be stated, and the route must stop describing that as an extraction — the data was never curated, not merely un-extracted.",
+      "value": "◐ THE POPULATION EXISTS; THE ELIGIBILITY CRITERION IS NOT CURATED (2026-08-09). ⭐ The route's premise half holds and is now sized: across three non-overlapping series, roughly a third of localised patients develop distant disease, so the population a lung-directed strategy exists for is real and is a substantial minority rather than a rarity. ⛔ But the criterion that decides OFFERABILITY is not computable here. Metastatic SITE is recorded in one series' free-text note and nowhere as a field; lesion BURDEN and time-to-metastasis are absent from every cohort. So the fraction meeting any conventional oligometastatic threshold cannot be stated, and the route must stop describing that as an extraction — the data was never curated, not merely un-extracted.\n\n⚠ 2026-08-25 — A SECOND SERIES WAS CURATED AND IT DOES NOT MAKE THE METASTATIC-SITE DISTRIBUTION POOLABLE. The primary reports were retrieved and their site tables transcribed (`emc-site-curation.json`). Masunaga's metastatic-at-diagnosis stratum reports 27 lung and 2 peritoneal on n=29 — those rows exhaust the cohort, so 27/29 IS a lung-only fraction for that presenting stratum. ⛔ Chiusole's cannot be added: its rows are NON-EXCLUSIVE (23 lung + 4 bone + 14 other = 41 over a denominator of 26), so no lung-CONFINED fraction is readable from it at all, and its own table and running text disagree by one and by two patients. ⇒ The honest state is unchanged in kind — ONE presenting cohort, not a pooled distribution — and the reason has moved from 'nobody curated it' to 'the second series does not report it in a form that can be pooled'. ⛔ Lesion BURDEN remains absent from every reachable series, so no oligometastatic threshold fraction can be stated, and the other nine candidate series are not open access.",
       "owner": {
         "file": "research/modalities/emc-locoregional-eligibility.json"
       }
@@ -7392,7 +7397,7 @@
       "status": "blocked",
       "maturity": "computed",
       "confidence": "low",
-      "last_verified": "2026-08-09"
+      "last_verified": "2026-08-25"
     },
     "rationale": "The curated record for this disease states both that distant spread is mostly to lung and that removing isolated metastases can give long disease-free intervals — which is already the surgical form of this argument. Regional perfusion, inhaled delivery and percutaneous ablation extend it to patients and lesions surgery cannot reach, and none had ever been considered here.",
     "supporting_evidence": [

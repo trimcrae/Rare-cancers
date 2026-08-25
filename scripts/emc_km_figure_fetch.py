@@ -151,6 +151,43 @@ def resolve_pmcid(pmid: str) -> dict:
     return out
 
 
+# ⛔ AN EMAIL IS REQUIRED BY UNPAYWALL AND IT MUST NOT BE A PERSON'S. The repository's own bot
+# address identifies the caller for rate-limiting, which is all the API asks for, and sends nobody's
+# personal address to a third-party service.
+UNPAYWALL_CONTACT = "41898282+github-actions[bot]@users.noreply.github.com"
+
+
+def unpaywall(doi: str) -> dict:
+    """Is there a FREE copy of this DOI anywhere, and where?
+
+    ⭐ WHY THIS RUNG EXISTS. Europe PMC answering `isOpenAccess: N` means "not open access HERE",
+    which is a fact about one index. Turning that into "unreachable at $0" is the inference this
+    program keeps making and should not: a paper can be free on the publisher's own site, in an
+    institutional repository, or as an author manuscript, and none of those is a PMC record.
+    Unpaywall answers the question that was actually being asked.
+    """
+    url = f"https://api.unpaywall.org/v2/{doi}?email={UNPAYWALL_CONTACT}"
+    code, _ctype, body = _get(url)
+    out = {"query_url": url.split("?")[0], "http": code, "is_oa": None,
+           "oa_status": None, "best_url_for_pdf": None, "best_host_type": None, "licence": None}
+    if code != 200:
+        out["error"] = f"HTTP {code}"
+        return out
+    try:
+        doc = json.loads(body.decode("utf-8", "replace"))
+    except Exception as exc:  # noqa: BLE001
+        out["error"] = f"unparseable: {type(exc).__name__}: {exc}"
+        return out
+    out["is_oa"] = doc.get("is_oa")
+    out["oa_status"] = doc.get("oa_status")
+    best = doc.get("best_oa_location") or {}
+    out["best_url_for_pdf"] = best.get("url_for_pdf") or best.get("url")
+    out["best_host_type"] = best.get("host_type")
+    out["licence"] = best.get("license")
+    out["n_oa_locations"] = len(doc.get("oa_locations") or [])
+    return out
+
+
 def candidate_urls(pmcid: str, oa: dict, pdf_url: str | None) -> list[tuple[str, str]]:
     """(route_name, url) in the order the docstring's ladder describes."""
     urls: list[tuple[str, str]] = []
@@ -162,7 +199,8 @@ def candidate_urls(pmcid: str, oa: dict, pdf_url: str | None) -> list[tuple[str,
         urls.append(("oa_pdf_ftp", oa["pdf"]))
         urls.append(("oa_pdf_https", oa["pdf"].replace("ftp://ftp.ncbi.nlm.nih.gov/",
                                                        "https://ftp.ncbi.nlm.nih.gov/")))
-    urls.append(("europepmc_pdf_render", f"https://europepmc.org/articles/{pmcid}?pdf=render"))
+    if pmcid:
+        urls.append(("europepmc_pdf_render", f"https://europepmc.org/articles/{pmcid}?pdf=render"))
     if pdf_url:
         urls.append(("caller_pdf_url", pdf_url))
     return urls
@@ -274,15 +312,24 @@ def main() -> int:
             pmcid = rec["pmcid"] = resolved.get("pmcid")
             print(f"{sid:32s} pmid={tgt['pmid']} -> pmcid={pmcid} "
                   f"open_access={resolved.get('is_open_access')}")
-        if not pmcid:
-            rec["⛔"] = ("no PMC identifier: this candidate has no open route at $0. That is a "
-                        "reachability statement, not a statement about the paper.")
+        if not pmcid and tgt.get("doi"):
+            # ⭐ NOT IN PMC IS NOT THE SAME AS NOT FREE. Ask the question that was meant.
+            up = unpaywall(tgt["doi"])
+            rec["unpaywall"] = up
+            print(f"{sid:32s} doi={tgt['doi']} -> is_oa={up.get('is_oa')} "
+                  f"status={up.get('oa_status')} host={up.get('best_host_type')}")
+            if up.get("best_url_for_pdf"):
+                tgt = dict(tgt, pdf_url=up["best_url_for_pdf"])
+        if not pmcid and not tgt.get("pdf_url"):
+            rec["⛔"] = ("no PMC identifier and no free copy located: this candidate has no open "
+                        "route at $0. That is a reachability statement, not a statement about the "
+                        "paper.")
             manifest["targets"].append(rec)
             continue
-        oa = oa_records(pmcid)
+        oa = oa_records(pmcid) if pmcid else {"lookup_url": None, "skipped": "no PMC id"}
         rec["oa_service"] = {k: v for k, v in oa.items() if k != "raw"}
         rec["oa_service_raw"] = oa["raw"]
-        for route, url in candidate_urls(pmcid, oa, tgt.get("pdf_url")):
+        for route, url in candidate_urls(pmcid or "", oa, tgt.get("pdf_url")):
             if total >= MAX_BYTES:
                 rec["routes"].append({"route": route, "url": url, "skipped": "byte cap reached"})
                 continue
