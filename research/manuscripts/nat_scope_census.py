@@ -129,54 +129,98 @@ def _json(text, what):
             raise exc from None
 
 
-def _pmids(journal=JOURNAL, term=None):
-    """Run the search and hand back (total, WebEnv, query_key) from the History server.
+#: PubMed refuses a retrieval offset at or beyond this, on esearch paging AND on efetch against a
+#: History-server result set alike. Measured both ways on 2026-08-25: esearch said so in words
+#: ("'retstart' cannot be larger than 9998"), efetch just returned HTTP 400 at retstart=10050.
+_CEILING = 9999
 
-    ⛔ THE HISTORY SERVER IS NOT AN OPTIMISATION HERE, IT IS THE ONLY ROUTE PAST A HARD CEILING.
-    Paging esearch with retstart worked for both journal censuses and died on the first corpus
-    bigger than a journal. NCBI said so in as many words, once the parse stopped hiding it
-    (CI 2026-08-25): "'retstart' cannot be larger than 9998. For PubMed, ESearch can only retrieve
-    the first 9,999 records matching the query." NAT is 614 records and GCC 4,060, so neither ever
-    reached it; the whole antisense corpus does. usehistory=y parks the result set on NCBI's side
-    and efetch then walks it by offset with no such bound.
-    """
-    q = urllib.parse.quote(term if term else f'"{journal}"[Journal]')
+
+def _search(query):
+    """(count, WebEnv, query_key) for one query, parked on the History server."""
+    q = urllib.parse.quote(query)
     d = _json(_get(f"{EUTILS}/esearch.fcgi?db=pubmed&retmode=json&retmax=0&usehistory=y&term={q}"
-                   "&tool=rare-cancers&email=trimcrae@gmail.com"), "esearch count")
+                   "&tool=rare-cancers&email=trimcrae@gmail.com"), f"esearch: {query[:70]}")
     res = d.get("esearchresult", {})
-    if "count" not in res or "webenv" not in res or "querykey" not in res:
-        # ⚠ Quote the body. An E-utilities failure arrives as a normal 200 with an ERROR field,
-        # so a missing key here is NCBI's message, not a bug in the caller — print it.
+    if "count" not in res:
+        # ⚠ An E-utilities failure arrives as a normal 200 with an ERROR field, so a missing key
+        # here is NCBI's message rather than a caller bug. Quote it.
         raise RuntimeError(f"esearch returned no usable result set: {json.dumps(d)[:600]}")
-    return int(res["count"]), res["webenv"], res["querykey"]
+    return int(res["count"]), res.get("webenv"), res.get("querykey")
 
 
-def _records(total, webenv, querykey):
-    """title, journal, abstract and publication types, walked off the History server in batches."""
-    recs = {}
-    for i in range(0, total, 150):
+def _fetch(count, webenv, querykey, recs):
+    """Walk one parked result set into `recs`, keyed by PMID. Caller guarantees count < _CEILING."""
+    for i in range(0, count, 150):
         xml = _get(f"{EUTILS}/efetch.fcgi?db=pubmed&retmode=xml"
                    f"&WebEnv={urllib.parse.quote(webenv)}&query_key={querykey}"
                    f"&retstart={i}&retmax=150"
                    "&tool=rare-cancers&email=trimcrae@gmail.com")
-        for chunk in xml.split("<PubmedArticle>")[1:]:
-            pm = re.search(r"<PMID[^>]*>(\d+)</PMID>", chunk)
-            ti = re.search(r"<ArticleTitle[^>]*>(.*?)</ArticleTitle>", chunk, re.S)
-            ab = " ".join(re.findall(r"<AbstractText[^>]*>(.*?)</AbstractText>", chunk, re.S))
-            yr = re.search(r"<PubDate>.*?<Year>(\d{4})</Year>", chunk, re.S)
-            pt = re.findall(r"<PublicationType[^>]*>(.*?)</PublicationType>", chunk)
-            # ⚠ ISOAbbreviation, not Title: the abbreviation is what a journal tally can group on
-            # without one publisher's punctuation splitting a journal into two rows.
-            jr = re.search(r"<ISOAbbreviation>(.*?)</ISOAbbreviation>", chunk, re.S)
-            if not pm:
-                continue
-            strip = lambda t: re.sub(r"<[^>]+>", "", t or "").strip()  # noqa: E731
-            recs[pm.group(1)] = {"pmid": pm.group(1), "title": strip(ti.group(1) if ti else ""),
-                                 "abstract": strip(ab), "year": int(yr.group(1)) if yr else None,
-                                 "journal": strip(jr.group(1)) if jr else "",
-                                 "pub_types": pt}
+        _parse_into(xml, recs)
         time.sleep(0.4)
-    return recs
+
+
+def _collect(query, recs, lo, hi):
+    """Retrieve every record for `query` by splitting the publication-date range until each window
+    fits under the ceiling.
+
+    ⛔ PARTITIONING IS THE ONLY WAY PAST 9,999 AND THE HISTORY SERVER IS NOT (measured 2026-08-25).
+    usehistory=y was tried first and got further — 10,050 records instead of 9,999 — then returned
+    HTTP 400 at the same boundary, because the ceiling is on RETRIEVAL, not on how the result set
+    was stored. NCBI's own advice is to batch, which is what EDirect does internally; a date-range
+    bisection is that, written out. A window that cannot be split further and still exceeds the
+    ceiling raises rather than silently truncating: a census that quietly returns 9,999 of 25,000
+    would report a floor as a total, which is the one failure this artifact must not have.
+    """
+    scoped = f"({query}) AND {lo}:{hi}[dp]"
+    count, webenv, querykey = _search(scoped)
+    if count == 0:
+        return 0
+    if count < _CEILING:
+        _fetch(count, webenv, querykey, recs)
+        print(f"  {lo}-{hi}: {count} records fetched, {len(recs)} held", file=sys.stderr)
+        return count
+    if lo >= hi:
+        raise RuntimeError(f"publication year {lo} alone holds {count} records, above the "
+                           f"{_CEILING} retrieval ceiling, and a year cannot be split further")
+    mid = (lo + hi) // 2
+    return _collect(query, recs, lo, mid) + _collect(query, recs, mid + 1, hi)
+
+
+def _parse_into(xml, recs):
+    """title, journal, abstract and publication types out of one efetch XML page."""
+    for chunk in xml.split("<PubmedArticle>")[1:]:
+        pm = re.search(r"<PMID[^>]*>(\d+)</PMID>", chunk)
+        ti = re.search(r"<ArticleTitle[^>]*>(.*?)</ArticleTitle>", chunk, re.S)
+        ab = " ".join(re.findall(r"<AbstractText[^>]*>(.*?)</AbstractText>", chunk, re.S))
+        yr = re.search(r"<PubDate>.*?<Year>(\d{4})</Year>", chunk, re.S)
+        pt = re.findall(r"<PublicationType[^>]*>(.*?)</PublicationType>", chunk)
+        # ⚠ ISOAbbreviation, not Title: the abbreviation is what a journal tally can group on
+        # without one publisher's punctuation splitting a journal into two rows.
+        jr = re.search(r"<ISOAbbreviation>(.*?)</ISOAbbreviation>", chunk, re.S)
+        if not pm:
+            continue
+        strip = lambda t: re.sub(r"<[^>]+>", "", t or "").strip()  # noqa: E731
+        recs[pm.group(1)] = {"pmid": pm.group(1), "title": strip(ti.group(1) if ti else ""),
+                             "abstract": strip(ab), "year": int(yr.group(1)) if yr else None,
+                             "journal": strip(jr.group(1)) if jr else "",
+                             "pub_types": pt}
+
+
+def _corpus(journal=JOURNAL, term=None):
+    """(reported_total, records). Fetches unpartitioned when the corpus fits under the ceiling —
+    which is the path both journal censuses were validated on — and bisects by date only when it
+    does not."""
+    query = term if term else f'"{journal}"[Journal]'
+    total, webenv, querykey = _search(query)
+    recs = {}
+    if total < _CEILING:
+        _fetch(total, webenv, querykey, recs)
+        print(f"  whole corpus: {total} records, {len(recs)} held", file=sys.stderr)
+    else:
+        print(f"  {total} records is above the {_CEILING} ceiling; bisecting by publication date",
+              file=sys.stderr)
+        _collect(query, recs, 1945, 2035)
+    return total, recs
 
 
 _PUBMED_URL = "pubmed.ncbi.nlm.nih.gov/%s"
@@ -184,8 +228,7 @@ _PUBMED_URL = "pubmed.ncbi.nlm.nih.gov/%s"
 
 def build(journal=JOURNAL, topics=None, term=None) -> dict:
     topics = topics or {}
-    total, webenv, querykey = _pmids(journal, term)
-    recs = _records(total, webenv, querykey)
+    total, recs = _corpus(journal, term)
     with_abstract = [r for r in recs.values() if len(r["abstract"]) > 200]
     dry = []
     for r in with_abstract:
@@ -247,6 +290,11 @@ def build(journal=JOURNAL, topics=None, term=None) -> dict:
         "journal": journal,
         "journal_full_title": full,
         "n_indexed": total,
+        "n_retrieved": len(recs),
+        "⚠_retrieved_vs_indexed": (
+            "n_indexed is what esearch reported for the whole query; n_retrieved is how many "
+            "records were actually parsed. A date-bisected run can differ if a record carries no "
+            "usable publication date, so the gap is reported rather than smoothed over."),
         "n_with_abstract": len(with_abstract),
         "n_without_usable_abstract": len(recs) - len(with_abstract),
         "n_computation_only_candidates": len(dry),
