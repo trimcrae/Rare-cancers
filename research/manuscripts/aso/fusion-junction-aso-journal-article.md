@@ -78,8 +78,7 @@ pairs, at the six-nucleotide DNA gap at the centre of a 5-6-5 architecture.
 Junction-directed nucleic-acid agents are a thirty-five-year lineage, reported against at least six
 fusion oncogenes: two as antisense oligonucleotides, the rest as RNA-interference agents, one of those from
 a lentiviral vector rather than an administered oligonucleotide.<sup>6,7,8,9,10,11</sup><!--PMID:1794439,9049825,33241214,21846246,23052253,37980543--> No
-such design is reported for any *NR4A3* fusion in the literature retrieved here, and that absence is
-why this work exists.
+such design is reported for any *NR4A3* fusion in the literature retrieved here.
 
 What a junction design must survive follows from its construction. Both halves are parent-gene
 sequence, so each parent matches roughly half the oligonucleotide — far outside the mismatch budget
@@ -89,8 +88,7 @@ from the criterion this paper screens on. The requirement is reported as a DNA g
 nucleotides, with seven to ten the working range; the screen below counts a liability only at ten
 contiguous base pairs of duplex through that gap, a length of hybrid rather than a count of gap
 nucleotides. Whether a wild-type parent pairs the catalytic gap contiguously is therefore a separate
-question from overall similarity, and it is the one this work puts to all 190 designs before
-recommending any. That direction is the one an industry working group's 2025 off-target
+question from overall similarity, and it is the one this work puts to all 190 designs. That direction is the one an industry working group's 2025 off-target
 recommendations report: off-target effects are seen more often where an oligonucleotide's mismatches
 fall in its wings than where they fall in its central gap, on which reading a flanking mismatch is
 suggested as the more important one to avoid.<sup>22</sup><!--PMID:39912803--> Those recommendations
@@ -149,9 +147,10 @@ nominal level: two of its four inputs do not vary, and it assumes a breakpoint d
 in one cohort transfers to a second collected twenty-one years later. The *TAF15* arm is priced at
 three of three reported breakpoints, an upper bound rather than an estimate.
 
-That figure is not a ceiling: a third design at *EWSR1* exon 13 joined to *NR4A3* exon 3, already
-tiled and screened at the same top margin, would take the figure above to 79.0%. It is not named for synthesis, on grounds the
-extended report sets out.
+That figure is not a ceiling: a third design, 5′-GGGCATATCTCCACGG-3′ at *EWSR1* exon 13 joined to
+*NR4A3* exon 3, already tiled and screened at the same top margin, would take the figure above to
+79.0%. It is not named for synthesis: this junction is third by
+reported prevalence and the selection above takes the first two.
 
 ## 3 · Selection from a panel of 190 designs
 
@@ -189,11 +188,9 @@ at a deeper one.
 
 The ten-base-pair criterion is adopted rather than measured, and the comparison against null models
 does not resolve an excess specific to this disease. What the screen does establish is structural
-rather than statistical, and it does not depend on the cut: each parent supplies about half of any
-junction design, which is far outside the mismatch budget of a conventional off-target search, so
-that search cannot return a parent as a near-match at any threshold it is normally run at. The
-liability is therefore invisible to the instrument a designer would ordinarily use, which is the
-case for screening it directly whatever cut is adopted. Mononucleotide scrambles — the weakest of the
+rather than statistical, and it does not depend on the cut: the parent liability §1 describes is
+invisible to the instrument a designer would ordinarily use at any threshold it is normally run at,
+which is the case for screening it directly whatever cut is adopted. Mononucleotide scrambles — the weakest of the
 ten nulls screened, and not the dinucleotide-preserving control §5 prescribes — meet the parent
 screen at 6.2% against 45.8% for the panel, but chimeras built at real exon termini of the same two
 transcripts, at junctions almost never reported in a patient, meet it at 40.6%. The adopted cut does not escape that comparison: at ten the
@@ -213,6 +210,17 @@ On all four annotated *NR4A3* transcripts, the three with a RefSeq accession inc
 first coding exon and exon 2 is non-coding, so a reported exon-2 acceptor is not this panel's
 acceptor renumbered.
 
+That mismatch is a property of how the panel was selected, not of the disease. Its 38 junctions were
+graded for a fusion protein, so an acceptor upstream of the *NR4A3* initiation codon was dropped as
+non-coding. That is the right filter for a degrader or a neoantigen and the wrong one for an
+RNase-H1 gapmer, which cleaves a transcript whether or not its reading frame survives. Exon 2 is a sequenced acceptor in this disease: *EWSR1*
+exon 7 joined to *NR4A3* exon 2 was resolved in one of five *EWSR1*-rearranged tumours of a
+whole-transcriptome series,<sup>23</sup><!--PMID:29937513--> and a *PGR*::*NR4A3* case joins exon 2
+to the *NR4A3* 5′ untranslated region.<sup>16</sup><!--PMID:36103645--> Beyond exon 3 the position
+is the reverse: across the exon-resolved *NR4A3* junctions retrieved here every acceptor is exon 2,
+exon 3, or a cryptic exon in intron 2,<sup>14</sup><!--PMID:31020999--> none 3′ of exon 3, so
+nothing is designed there because no patient is reported there.
+
 Three are engineered constructs from a published functional study,<sup>14</sup><!--PMID:31020999-->
 whose exon spans that paper states verbatim; two of them, E-N and T-N*, carry exactly the junctions
 the reagents above span, so both named reagents have a stated test article. Rebuilding them is the faster route, but a complementary DNA
@@ -229,16 +237,17 @@ boundary, no transcript accession and no junction sequence, so whether that name
 acceptor or an unsupported numbering is not decidable from what is published. This work's own
 withdrawn version arose from an error of exactly this class.
 
-One reading is nonetheless more parsimonious, and it favours the reagents named here. EMC's defining
-lesion produces a chimeric transcription factor.<sup>1,14</sup><!--PMID:8634690,31020999--> A donor
-joined to *NR4A3*'s non-coding exon 2 would sit upstream of that gene's own initiation codon and so
-would not yield one; a donor joined to its first coding exon does, and that exon is transcript exon
-3, the acceptor this panel is tiled at. On the coding-exon reading, therefore, the two cell models
-carry the junctions the reagents above span. This is an inference and not a determination: a
-5′-untranslated acceptor is reported in this disease at least once, in a *PGR*::*NR4A3*
-case,<sup>16</sup><!--PMID:36103645--> and the requirement below is unchanged. The released builder will not emit an
-exon-2 acceptor unaided: a non-coding acceptor needs its published-breakpoint list extended first. Reagents exist at both acceptors, neither of them a
-molecule named above: 5′-AGTGGGCTCTCCACGG-3′ at *EWSR1* exon 13 to exon 2 and 5′-AGTGGGCTCTTGTGTG-3′ at *TAF15* exon 6
+One reading is nonetheless more parsimonious. EMC's defining lesion produces a chimeric
+transcription factor.<sup>1,14</sup><!--PMID:8634690,31020999--> A donor joined to *NR4A3*'s
+non-coding exon 2 would sit upstream of that gene's own initiation codon and so would not yield one
+— though it would leave that codon intact and place *NR4A3* under the donor's promoter, a lesion of
+another kind rather than none. A donor joined to the first coding exon — transcript exon 3 — does yield a chimera. On that reading USZ22-EMC2 carries the junction the *TAF15* reagent
+spans, and USZ20-EMC1 carries *EWSR1* exon 13 joined to exon 3 — the third design of §2, not a
+reagent named for synthesis. This is an inference and not a determination, and the requirement below
+is unchanged. The released builder emits an
+exon-2 acceptor in two cases only: a seam a published report places a patient at, and one the user
+supplies from their own sequencing, checked against the builder's transcript models. Reagents exist at both acceptors:
+5′-AGTGGGCTCTCCACGG-3′ at *EWSR1* exon 13 to exon 2 and 5′-AGTGGGCTCTTGTGTG-3′ at *TAF15* exon 6
 to exon 2, both at the panel's top margin. Neither reaches the ten-base-pair criterion, and their longest wild-type parent
 duplexes through the whole gap are eight base pairs against wild-type *EWSR1* and nine against
 wild-type *NR4A3* — the second against the acceptor parent on which §5's selectivity ratio is
@@ -255,8 +264,8 @@ partner.<sup>3</sup><!--PMID:41055792-->
 
 An isogenic fusion-positive against fusion-negative comparison has been run in an analogous fusion
 sarcoma, against *NAB2::STAT6* in solitary fibrous
-tumour.<sup>17</sup><!--PMID:37370737--> The extended report specifies it for these reagents, with
-three controls a knockdown assay alone cannot distinguish. Two are named as sequences (Table 2): a
+tumour.<sup>17</sup><!--PMID:37370737--> It is specified here for these reagents, with three
+controls a knockdown assay alone cannot distinguish. Two are named as sequences (Table 2): a
 dinucleotide-preserving scramble of each reagent, drawn and then put through the same mature-parent
 screen the reagent passed. That screening is what makes a scramble a control — 10.0% of such
 scrambles pair a parent's whole catalytic gap at the ten-base-pair criterion and 3.9% do so against
@@ -344,9 +353,9 @@ pairs or more, ten being adopted rather than measured. Null ensembles were built
 each design and as chimeras joining the same two parent transcripts at real exon termini, screened
 identically. Melting temperatures are nearest-neighbour values for an unmodified DNA:RNA hybrid at
 250 nM strand.<sup>21</sup><!--PMID:7545436--> Those parameters do not describe a locked,
-phosphorothioate oligonucleotide, so no absolute melting point is reported for these reagents; only
-the fusion-versus-parent separation is, and as a floor, because the fusion duplex pairs all ten
-locked residues where each parent half-duplex pairs five, by construction for every design here.
+phosphorothioate oligonucleotide, so no absolute melting point is reported; only the
+fusion-versus-parent separation, and as a floor, the fusion duplex pairing all ten locked residues
+to each parent half-duplex's five, by construction throughout.
 
 ## Tables
 

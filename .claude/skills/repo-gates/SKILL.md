@@ -76,6 +76,9 @@ Extracted from CLAUDE.md §7 (plus §5's deliverable map) on 2026-08-15, **verba
   `tests.yml` runs `on: push` with the real dependencies. Twelve local minutes bought a degraded
   rerun of a check that was about to run properly. Scoped, a typical change now runs in **under a
   second** (measured: a `junction_aso_offtarget.py` edit selects 3 test modules, 39 tests, 0.51 s).
+  - ⛔ **BEFORE YOU START ANY TIER: it gates the COMMIT, not the work.** Settle the tree first —
+    edits AND their regenerations — then run it ONCE in the background and keep working through the
+    backlog while it runs. **Polling a running gate is not work.** Rule and evidence: CLAUDE.md §6.
   - **`./scripts/preflight.sh`** — every fast gate, and **no test**. ~**30 s**. **This is the
     commit loop.** ⚠ *Superseded 2026-08-23, retained (CLAUDE.md rule 1.2): "every fast gate, plus
     only the tests the change can reach". True from 2026-08-12 until the day the remaining suite was

@@ -71,6 +71,21 @@ narratives** (the rule keeps a one-clause "why"; the retelling lives here).
 
 ## B · Incident evidence behind the standing rules
 
+**§6 · Waiting on preflight instead of working (2026-08-25).** trimcrae: *"I'm so sick of you doing no
+work 90% of the time because you just sit around waiting for preflight to run… This is a constant issue in
+this repo."* Measured over the session that drew it: five `PREFLIGHT_TESTS=1` runs at **767 s, 741 s, 733 s
+and 733 s** of suite time plus one killed after ~2 min — about **50 minutes of suite time** and roughly an
+hour of wall clock, of which **three runs were spent entirely on `tail`-ing the log**. Only the last was
+strictly necessary. Runs 1 and 3 failed on `claim-coverage.json` being stale, a $0 regeneration a settled tree
+would have carried before the run started; run 2 was killed because a manuscript claim was found stale
+mid-run. The session DID work in parallel during the first run — the lab-supplied design lane was written
+while it ran — and then stopped doing it, which is the shape of the defect: parallelism treated as an
+optimisation to remember rather than the default, so it decays the moment attention goes elsewhere.
+⚠ **Second complaint of the same family.** On 2026-08-23 *"change the rules so that it's not constantly
+running and blocking things"* moved the test suites behind `PREFLIGHT_TESTS=1`. That reduced how often the
+suites run and did nothing about waiting through the ones that do, because **the cost was never the suites —
+it was the serialization**, which is why the live rule is about the WAIT and not about the tier.
+
 **§0 · Axis D ranks finished things first (2026-08-06).** A session took
 [`emc-post-degrader-options.md`](./research/manuscripts/program/emc-post-degrader-options.md)'s Axis D ranking
 at face value and put four parallel agents on a failure-record paper, a closed-route paper and two

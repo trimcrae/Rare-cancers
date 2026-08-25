@@ -311,6 +311,33 @@ skim.** Ranked:
 
 **✅ THE ITEM THAT BLOCKED IS CLOSED. What stands here now is TRACKED, and it does not block.**
 
+### 3-ii · The extended report is a historical checkpoint, and the 6-page article must stand alone
+
+★★ **trimcrae, 2026-08-25, asked whether the deposited extended report's exon-4 rationale should be
+corrected:** *"The extended report is like 70 pages long. Nobody is ever going to read it. The 6
+page version must be self contained. Treat the 70 page version as nothing more than a checkpoint in
+the historical record."*
+
+⛔ **SO THE EXTENDED REPORT IS NOT EDITED TO TRACK A CORRECTION.** Its §2.1 still excludes an exon-4
+acceptor on protein grounds — *"an exon-4 acceptor would delete the NR4A3 DNA-binding domain that
+every reported EMC chimera retains"* — which is the argument its own §2.6 says does not transfer to
+an RNase-H mechanism. That stands as deposited. The condensed article carries the reason that is
+correct for this modality instead: no acceptor 3′ of exon 3 is reported anywhere in the record this
+work retrieved, so nothing is designed there because no patient is reported there.
+
+★ **AND THE STANDING REQUIREMENT THIS CREATES IS THE HALF THAT IS EASY TO MISS.** "Self-contained"
+is a property to be CHECKED, not a description. Every place the 6-page article defers a load-bearing
+statement to the extended report is a defect against it. Audited 2026-08-25, and one was real: §2
+told a reader that a screened design at the panel's top margin, which would raise the addressed
+figure to 79.0%, was *"not named for synthesis, on grounds the extended report sets out"* — a
+withheld reason, and the reason turned out to be §2's own stated selection rule (that junction is
+third by reported prevalence). It is stated in §2 now. §5's *"the extended report specifies it"*
+became *"it is specified here"*, which it was. The remaining pointers were checked and left: they
+are scope statements and data-availability pointers, not conclusions held elsewhere — §6 says which
+compartment this paper does NOT screen, §7 and the availability statement say where the per-design
+tables live. ⚠ **The test to apply is whether a reader could ACT on the paper without the other
+one**, not whether the phrase "extended report" appears.
+
 ### 3-i · The published deposit is behind the repository again — and this time it is ordinary
 
 ⚠ **THE PUBLISHED DEPOSIT IS BEHIND THE REPOSITORY**, by construction and within hours of being
@@ -320,24 +347,39 @@ still being written up. Declared here because
 requires drift to be acknowledged rather than silent, which is the right rule and the reason that
 gate exists.
 
-★ **WHAT ACTUALLY MOVED, MEASURED RATHER THAN CHARACTERISED — AND IT IS NOT THE SCIENCE.** The file
-SET is unchanged at 483. **Neither manuscript's source text changed**: `git diff 09172151 --
-fusion-junction-aso-journal-article.md fusion-junction-aso-research-article.md` is empty. What moved
-is the cover letter, this checklist, `deposit-state.json`, the coverage census, tooling and skills,
-plus the built PDFs — whose bytes move on every rebuild because the build stamps a creation time,
-so the digest shifts even when nothing a reader would notice does.
+★ **WHAT ACTUALLY MOVED — AND IT IS NOW THE JOURNAL ARTICLE'S TEXT.** The file SET is unchanged at
+483. The scaffolding drift is still there: the cover letter, this checklist, `deposit-state.json`,
+the coverage census, tooling and skills, plus the built PDFs, whose bytes move on every rebuild
+because the build stamps a creation time. **On top of it the condensed manuscript's source text has
+moved, over seven commits since the deposited revision** — `git diff 09172151 HEAD --
+fusion-junction-aso-journal-article.md` is 105 insertions and 80 deletions as of 2026-08-24. It
+begins with the external-review pass (`d2f714d17`) and the OSWG off-target framework (`9820f483a`),
+and ends with the exon-2 rationale in §2 and §4: the panel's exon-3-only acceptor set stated as a
+property of the grade that selected it rather than of the disease, the correction of which cell
+model each named reagent's junction belongs to, and reference 23 (PMID 29937513) added with them.
+**The extended report's source text is unchanged against `09172151`** — verified, not assumed.
 
-⛔ **SO THIS IS NOT THE 2026-08-20 DEFECT WEARING A NEW DATE, AND THE DIFFERENCE IS THE ONE THAT
-MATTERS.** That one was: the deposit held an EARLIER VERSION OF THE PAPER, including two statements
-this repository had already retracted, and a reader following the citation read withdrawn text.
-This one is: the deposit holds the current text of both papers and an older copy of the scaffolding
-around them. **A reader following `10.5281/zenodo.22061075` gets the manuscripts as they stand.**
+⚠ *Superseded, retained: "**Neither manuscript's source text changed**: `git diff 09172151 --
+fusion-junction-aso-journal-article.md fusion-junction-aso-research-article.md` is empty", and with
+it "**A reader following `10.5281/zenodo.22061075` gets the manuscripts as they stand**". Both were
+true when written on 2026-08-23 and both went stale within the day, at `d2f714d17` — not on
+2026-08-24 when someone finally re-ran the diff. ⛔ The lesson is the one this section already
+carries about outside-owned status: a claim of the form "the diff is empty" is a MEASUREMENT WITH A
+DATE, and writing it into prose freezes a reading that the next commit invalidates. It is exactly
+what `test_the_deposit_the_papers_cite_is_current.py` compares digests for, and the digest comparison
+never went stale — only the sentence did.*
 
-**It does not block the journal submission, and nothing needs doing before that submission.** The
-next deposit version is warranted when a MANUSCRIPT changes, not when the repository breathes —
-otherwise every commit mints a version and the version history stops meaning anything. Re-run
-`deposit-zenodo.yml` with `new_version=true` at the next manuscript change, or before any further
-outward-facing act that cites the archive.
+⛔ **SO THIS IS NO LONGER THE ORDINARY CASE, AND THE ITEM RE-OPENS ON ITS OWN STATED RULE.** The rule
+below is that a new deposit version is warranted when a MANUSCRIPT changes. One has. A reader
+following `10.5281/zenodo.22061075` now gets a journal article that predates the exon-2 rationale —
+which is the same shape as the 2026-08-20 defect, at a much smaller amplitude: not a retracted
+statement, but an argument the current text no longer rests on.
+
+**It still does not block the journal submission** — the submission carries its own current PDF, not
+the archive's copy — **and it does block any outward-facing act that cites the archive.** Re-run
+`deposit-zenodo.yml` with `new_version=true` before the submission goes out, so the DOI the paper
+prints resolves to the paper that was submitted. Publishing the drafted version is trimcrae's by-hand
+act, as it was on 2026-08-23.
 
 ⚠ *Superseded by measurement, retained: the framing above replaced a straight "the deposit is
 behind" line. Both are true; only the second says whether anyone should care, and a gate that
