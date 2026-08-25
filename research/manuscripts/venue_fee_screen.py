@@ -161,7 +161,14 @@ def _nlm(abbrev):
         # the original wrong-journal bug is narrower than that: take the ISSNs out of the MATCHED
         # RECORD's chunk, not out of the whole multi-record document. Reading across records is
         # what handed "Nucleic Acids Res" an ISSN belonging to a different journal.
-        allissn = re.findall(r"<ISSN[^>]*>([\dXx-]+)</ISSN>", chunk)
+        # ⛔ AND THE RECORD NESTS OTHER JOURNALS' ISSNs INSIDE ITSELF. Nucleic Acids Research's
+        # first <ISSN> is 0952-3472, sitting inside a <TitleRelated> block for a title called
+        # "Nucleotide sequences" — read off the captured document, not inferred. Strip the related
+        # and alternate title blocks before reading ISSNs, or the screen keeps resolving journals
+        # to their neighbours.
+        own = re.sub(r"<TitleRelated\b.*?</TitleRelated>", " ", chunk, flags=re.S)
+        own = re.sub(r"<TitleAlternate\b.*?</TitleAlternate>", " ", own, flags=re.S)
+        allissn = re.findall(r"<ISSN[^>]*>([\dXx-]+)</ISSN>", own)
         uid = re.search(r"<NlmUniqueID>(\w+)</NlmUniqueID>", chunk)
         title = re.search(r"<TitleMain>.*?<Title>(.*?)</Title>", chunk, re.S)
         notes = re.findall(r"<GeneralNote[^>]*>(.*?)</GeneralNote>", chunk, re.S)
@@ -243,17 +250,33 @@ def build():
         print(f"  {abbrev} …", file=sys.stderr)
         nlm = _nlm(abbrev)
         time.sleep(0.4)
-        oa, dj, used = {}, {}, None
+        # ⭐⭐ THE GUARD THAT MATTERS, AND IT IS NOT THE ISSN RULE. Three separate structural
+        # mistakes in this screen all produced the SAME symptom — a confident fee verdict about a
+        # different journal — and each was fixed by a rule that assumed the next document would
+        # look like the last one. This check does not care about the structure: whatever ISSN is
+        # used, OpenAlex's own name for what it returned must match NLM's title for what was asked.
+        # It would have caught all three, and it catches the fourth.
+        def _norm(t):
+            return re.sub(r"[^a-z0-9]+", " ", (t or "").lower()).strip()
+
+        want = _norm(nlm.get("full_title") or nlm.get("medline_ta"))
+        oa, dj, used, rejected = {}, {}, None, []
         for issn in nlm.get("issns_in_record", []):
-            oa = _openalex(issn)
+            cand = _openalex(issn)
             time.sleep(0.3)
-            if oa.get("openalex_display_name"):
-                used = issn
+            got = _norm(cand.get("openalex_display_name"))
+            if not got:
+                continue
+            if got and want and (got.startswith(want[:18]) or want.startswith(got[:18])):
+                oa, used = cand, issn
                 dj = _doaj(issn)
                 time.sleep(0.3)
                 break
+            rejected.append({"issn": issn, "openalex_called_it": cand.get("openalex_display_name")})
         oa["issn_used"] = used
+        oa["issns_rejected_as_a_different_journal"] = rejected
         if not oa.get("issn_used") or not oa.get("openalex_display_name"):
+            oa.setdefault("issns_rejected_as_a_different_journal", rejected if 'rejected' in dir() else [])
             # ⛔ No verdict without an identifier we can defend. An unresolved row must read as
             # unresolved, never as the permissive default.
             verdict, reading = ("UNRESOLVED",
