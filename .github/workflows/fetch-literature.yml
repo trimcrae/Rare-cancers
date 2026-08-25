@@ -295,6 +295,10 @@ jobs:
         env:
           KM_TARGETS_JSON: ${{ inputs.targets_json }}
           KM_OUT_DIR: .cache/literature
+          # `browser_harvest_links` is reused as a plain knob string for this mode; setting it to
+          # `no-raster` publishes the PDFs without page PNGs, which is a ~7x smaller corpus and
+          # loses nothing a local `pdftoppm` cannot regenerate at higher resolution.
+          KM_RASTERISE: ${{ inputs.browser_harvest_links == 'no-raster' && '0' || '1' }}
         run: python3 scripts/emc_km_figure_fetch.py
 
       # ⭐ THE PRINTED PAGE COUNT IS A COST, NOT A PREFERENCE (2026-08-20). Nucleic Acid

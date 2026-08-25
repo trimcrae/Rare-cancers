@@ -58,6 +58,12 @@ UA = "Mozilla/5.0 (compatible; rare-cancers-research/1.0; +https://github.com/tr
 OUT_DIR = os.environ.get("KM_OUT_DIR", ".cache/literature")
 MAX_BYTES = int(os.environ.get("KM_MAX_BYTES", str(60 * 1024 * 1024)))
 DPI = int(os.environ.get("KM_RENDER_DPI", "200"))
+# ⭐ RASTERISING ON THE RUNNER IS OPTIONAL, AND USUALLY THE WRONG PLACE TO DO IT. Page PNGs at
+# 200 dpi were 36 MB for five papers, against 5.6 MB for the PDFs that produced them — and a
+# session that needs a figure will re-render the one page it wants at 600 dpi anyway. Set
+# KM_RASTERISE=0 to publish the PDFs only. The runner's job is the part the sandbox cannot do,
+# which is reaching the network, not the part it can.
+RASTERISE = os.environ.get("KM_RASTERISE", "1") != "0"
 
 # The candidate set is OWNED by research/modalities/emc_ipd_survival.py:CANDIDATE_SOURCES, which
 # records why each row is a candidate and what its overlap risk is. Only the rows with a resolved
@@ -109,6 +115,39 @@ def oa_records(pmcid: str) -> dict:
         m = re.search(rf'<link\s+format="{fmt}"[^>]*href="([^"]+)"', text)
         if m:
             out[fmt] = m.group(1)
+    return out
+
+
+def resolve_pmcid(pmid: str) -> dict:
+    """Ask Europe PMC what PMC identifier, if any, a PMID has, and whether it is open access.
+
+    ⛔ A MISSING PMCID IS A FINDING, NOT AN ERROR. Most of this program's candidate series are
+    older or subscription-only; recording "no PMC record" is a statement about REACHABILITY at $0,
+    and it is the honest end of the road for that row until somebody pays for a copy.
+    """
+    url = ("https://www.ebi.ac.uk/europepmc/webservices/rest/search"
+           f"?query=EXT_ID:{pmid}%20AND%20SRC:MED&format=json&resultType=core&pageSize=1")
+    code, ctype, body = _get(url)
+    out = {"query_url": url, "http": code, "pmcid": None, "is_open_access": None,
+           "in_epmc": None, "title": None, "journal": None}
+    if code != 200:
+        out["error"] = f"HTTP {code}"
+        return out
+    try:
+        doc = json.loads(body.decode("utf-8", "replace"))
+    except Exception as exc:  # noqa: BLE001
+        out["error"] = f"unparseable: {type(exc).__name__}: {exc}"
+        return out
+    hits = (doc.get("resultList") or {}).get("result") or []
+    if not hits:
+        out["error"] = "no Europe PMC record for this PMID"
+        return out
+    rec = hits[0]
+    out["pmcid"] = rec.get("pmcid")
+    out["is_open_access"] = rec.get("isOpenAccess")
+    out["in_epmc"] = rec.get("inEPMC")
+    out["title"] = (rec.get("title") or "")[:200]
+    out["journal"] = ((rec.get("journalInfo") or {}).get("journal") or {}).get("title")
     return out
 
 
@@ -172,7 +211,12 @@ def harvest_pdf(body: bytes, dest: str, source_id: str) -> dict:
     with open(pdf_path, "wb") as fh:
         fh.write(body)
     info = {"pdf": os.path.basename(pdf_path), "pdf_bytes": len(body), "pages": [],
-            "poppler": shutil.which("pdftoppm") is not None}
+            "poppler": shutil.which("pdftoppm") is not None,
+            "rasterised": RASTERISE}
+    if not RASTERISE:
+        info["note"] = ("PDF published without page rasters (KM_RASTERISE=0). Re-render the page "
+                        "you need locally: pdftoppm -r 600 -f <page> -l <page> -png <pdf> <out>.")
+        return info
     if not info["poppler"]:
         info["⛔"] = "poppler-utils absent: the PDF was saved but no page was rasterised."
         return info
@@ -220,8 +264,21 @@ def main() -> int:
     }
     total = 0
     for tgt in targets:
-        pmcid, sid = tgt["pmcid"], tgt["source_id"]
+        sid = tgt["source_id"]
+        pmcid = tgt.get("pmcid")
         rec = {"source_id": sid, "pmcid": pmcid, "routes": [], "assets": None, "route_used": None}
+        if not pmcid and tgt.get("pmid"):
+            resolved = resolve_pmcid(str(tgt["pmid"]))
+            rec["pmid"] = tgt["pmid"]
+            rec["pmid_resolution"] = resolved
+            pmcid = rec["pmcid"] = resolved.get("pmcid")
+            print(f"{sid:32s} pmid={tgt['pmid']} -> pmcid={pmcid} "
+                  f"open_access={resolved.get('is_open_access')}")
+        if not pmcid:
+            rec["⛔"] = ("no PMC identifier: this candidate has no open route at $0. That is a "
+                        "reachability statement, not a statement about the paper.")
+            manifest["targets"].append(rec)
+            continue
         oa = oa_records(pmcid)
         rec["oa_service"] = {k: v for k, v in oa.items() if k != "raw"}
         rec["oa_service_raw"] = oa["raw"]
