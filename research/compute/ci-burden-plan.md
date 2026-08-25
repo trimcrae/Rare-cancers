@@ -225,6 +225,35 @@ counts strings, not dispatches; read the line before believing the count.**
 
 ---
 
+## 6a · MERGED AND VERIFIED ON `main` — run 32911668926, 2026-08-25 7:39 PM ET
+
+⭐ **BOTH HALVES NOW MEASURED ON THE TRUNK, not inferred.** The branch could only prove the job-level gates
+(§3); `supervision-alarm` hard-checks-out `main`, so its half was untestable until the merge landed. It has
+now been dispatched on `main` at the merge commit:
+
+| job | before (19 days) | run 6766 |
+|---|---|---|
+| `supervision-alarm` | **failure**, every tick | ✅ **success** |
+| — its step *"Push the verdict to a human (SES)"* | ran, emailed | ✅ **skipped** |
+| `resurrect-supervisor` | ran → dispatched | ✅ skipped |
+| `resurrect-lane-watch` | ran → dispatched | ✅ skipped |
+| `cross-lane-staleness-watch` | ran → dispatched | ✅ skipped |
+| `account-orphan-alarm` | ran → dispatched | ✅ skipped |
+| `account-reaper` | ran → dispatched | ✅ skipped |
+| `tick` | failure | failure — **correct, see row 6** |
+
+★ **THE EMAIL STOPPED, AND THAT WAS THE POINT.** trimcrae, 2026-07-31: *"You're emailing me way too much.
+You should not be emailing me."* The SES step is now `skipped` on an idle account rather than firing a false
+FAILING verdict every tick.
+
+⚠ **THE TICK IS STILL RED AND MUST STAY RED** until the row-6 decision is made — it is the escalated market
+hold, not a defect. What changed is that its red no longer propagates into five more workflows.
+
+⚠ **STILL OUTSTANDING: the RATE re-measurement (row 1).** The gates are proven per-run; the runs/hour figure
+needs ~24 h of the new cadence before it can be quoted. Do not write a number here until then.
+
+---
+
 ## 6b · SECOND PASS — EXECUTED 2026-08-25, on trimcrae's instruction
 
 ★ **THE STEER THAT CHANGED THE DESIGN** (trimcrae, 2026-08-25): *"we haven't used vast in a month and don't
