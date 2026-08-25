@@ -188,9 +188,9 @@ def build() -> str:
             "REPORTED at an NR4A3 exon-2 acceptor and match different designs, not these two. "
             "ΔTm separates the fusion duplex from the more stable half of the design's own "
             "target window, which is a different parent from the duplex column's searched "
-            "wild-type TFG. It is a floor, by the method and for the reason given in Methods; "
-            "absolute melting points are not reported for a locked, phosphorothioate "
-            "oligonucleotide. "
+            "wild-type TFG. The separation is a floor rather than an estimate, for the reason "
+            "Methods gives; absolute melting points are not reported for a locked, "
+            "phosphorothioate oligonucleotide. "
             "Nothing here has been synthesised or tested, and no sequence may be administered to "
             "any person or animal.", ""]
     out += ["| seam | reagent | margin | WT gap duplex (bp) | ΔTm floor (°C) | "

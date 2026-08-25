@@ -174,9 +174,15 @@ SECOND_PERSON = re.compile(r"(?<![\w-])(you|your|yours)(?![\w-])", re.I)
 # A short sentence opening with a negation or restriction and carrying no finite verb is the
 # fragment-for-emphasis tic ("Not a landmark result.", "Only in one direction.").
 FRAGMENT = re.compile(r"(?:^|(?<=[.!?]\s))(Not|Never|Only|No)\b([^.!?]{0,60})[.!?]")
+# ⭐ `exists?` ADDED 2026-08-25, and it is a gap in this list rather than a relaxation of the rule.
+# Nucleic Acid Therapeutics requires the disclosure sentence "No competing financial interests
+# exist." verbatim. That is a COMPLETE sentence — subject "No competing financial interests", finite
+# verb "exist" — and it was reported as a fragment only because the verb was missing from this
+# enumeration. ⛔ The rule still fires on a real fragment: "No competing financial interests." has no
+# verb at all and is caught, which is asserted in the mutation check beside this file's own tests.
 FINITE_VERB = re.compile(
     r"\b(is|are|was|were|has|have|had|does|do|did|will|would|can|could|may|might|must|shall|"
-    r"should|remains?|becomes?|shows?|gives?|carries|holds?|means?|makes?)\b", re.I)
+    r"should|remains?|becomes?|shows?|gives?|carries|holds?|means?|makes?|exists?)\b", re.I)
 
 HEADING_VERBS = re.compile(
     r"\b(is|are|was|were|does|do|did|cannot|can|must|should|would|will|has|have|means|makes|"

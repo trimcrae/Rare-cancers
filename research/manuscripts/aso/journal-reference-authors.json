@@ -1,0 +1,1548 @@
+{
+ "_what": "The author list of every reference the condensed ASO article cites, and the author segment each entry prints under the venue's count rule.",
+ "_why": "Nucleic Acid Therapeutics checklist A4: all authors up to 11; more than 11, the first 9 then et al. Every entry carried first-three-then-et-al.",
+ "_provenance": "Europe PMC and Crossref fetch products on branch literature-cache, plus the reference corpora on main. No author name here was typed by hand; a PMID with no fetched list is listed in `without_fetched_authors` and its entry is left alone.",
+ "⚠_a_count_and_a_name_are_separate_facts": "Pre-1996 MEDLINE caps an author list at ten and marks it in no way. `n_authors` is the longest list ANY product gives — Crossref included — while `names` is the longest MEDLINE-form list, because Crossref writes full given names and shortening one to an initial would derive an identifier rather than read it.",
+ "⚠_not_a_verification_of_the_reference": "This reads author lists. It says nothing about whether an entry's title, year, volume, pages or PMID are correct, nor whether the paper supports its citation.",
+ "rule": {
+  "name_all_up_to": 11,
+  "then_first": 9,
+  "source": "research/literature/nat-submission-guidelines-2026-08-23.md"
+ },
+ "n_entries": 23,
+ "n_fetched": 23,
+ "without_fetched_authors": [],
+ "sources": [
+  {
+   "path": "origin/literature-cache:literature/labelle-1995-type3-primary-routes/79_epmc_labelle_core.txt",
+   "blob": "2513410b8c8af2ed801f28fc170033c82ffc8c50"
+  },
+  {
+   "path": "origin/literature-cache:literature/labelle-1995-type3-primary-routes/75_crossref_labelle_doi.txt",
+   "blob": "c171abcca81eb6056b43c7bc1423df22582bee2f"
+  },
+  {
+   "path": "origin/literature-cache:literature/emc-partner-events/paioli2021_epmc_core.txt",
+   "blob": "dc752d2421171c0f65fad0c30d3411a8f2991243"
+  },
+  {
+   "path": "origin/literature-cache:literature/emc-partner-events/stacchiotti2019_epmc_core.txt",
+   "blob": "f6259d460b21db449c405d4856ba747a9040941f"
+  },
+  {
+   "path": "origin/literature-cache:literature/emc-partner-events/huang2023_epmc_core.txt",
+   "blob": "53b86f686d448a284affe5e7d45522f297dffb23"
+  },
+  {
+   "path": "origin/literature-cache:literature/emc-partner-events/epmc_search_taf15_fulltext.txt",
+   "blob": "bfd551d768e80ae7c26863f71768c325d575f3c8"
+  },
+  {
+   "path": "origin/literature-cache:literature/emc-endpoint-benchmarks-r2/epmc_core_anthracycline_24345066.txt",
+   "blob": "b5f21c6f9ee8dcc2f70b8b44387aa5f27a6bd1c3"
+  },
+  {
+   "path": "origin/literature-cache:literature/emc-cell-models-registry-2026-08-15/epmc_emc_models.txt",
+   "blob": "7d424803ab06eaf09dfe2c0ff34542faddbd84a3"
+  },
+  {
+   "path": "origin/literature-cache:literature/emc-cell-models-registry-2026-08-15/epmc_nr4a3_cellline.txt",
+   "blob": "ef58914ede5f58789432e00fdb954dbed14dee0e"
+  },
+  {
+   "path": "origin/literature-cache:literature/emc-clinical-sweep-fulltext-2026-08-07/epmc_pmid_36103645.txt",
+   "blob": "61bcfe42e1c658cb183cdb9fa2f0d5f56c5651c0"
+  },
+  {
+   "path": "origin/literature-cache:literature/ews-type-nomenclature-epmc/epmc_chn_exon2_exon3.txt",
+   "blob": "f98e033a2074d903472110dba4388aa9eaa02b3a"
+  },
+  {
+   "path": "origin/literature-cache:literature/aso-round7-precedents-and-geo/epmc_core_PMID21846246.txt",
+   "blob": "e340e54b3deccd7b9bc2c009cca8bf9e9461f964"
+  },
+  {
+   "path": "origin/literature-cache:literature/aso-round7-precedents-and-geo/epmc_core_PMID23052253.txt",
+   "blob": "7c1f4b44df7767a99be587ae78ff8e49ebe215af"
+  },
+  {
+   "path": "origin/literature-cache:literature/aso-round7-precedents-and-geo/epmc_core_PMID33241214.txt",
+   "blob": "2506c97ae14d9cf2c595a93019df913c12d1f2fc"
+  },
+  {
+   "path": "origin/literature-cache:literature/aso-round7-precedents-and-geo/epmc_core_PMID36265509.txt",
+   "blob": "5508615f22a3fbb95ccd2db11a997b9b06614391"
+  },
+  {
+   "path": "origin/literature-cache:literature/aso-round7-precedents-and-geo/epmc_core_PMID37980543.txt",
+   "blob": "e5f182f0ea6b845f1bd8ee7f9909dd95f1d37b6f"
+  },
+  {
+   "path": "origin/literature-cache:literature/oswg-offtarget-2025/epmc_core_39912803.txt",
+   "blob": "a7fc4ca220469678ded58b74c79267d26615160e"
+  },
+  {
+   "path": "origin/literature-cache:literature/oswg-offtarget-2025/crossref_nat20240072.txt",
+   "blob": "11696d939729b3ed33935a0da5193a190687f716"
+  },
+  {
+   "path": "origin/literature-cache:literature/aso-round5-citation-support/_index.json",
+   "blob": "3f10de152e8bc08666e81a01c53827d8a6879ee6"
+  },
+  {
+   "path": "origin/literature-cache:literature/fusion-oligo-delivery-progress/_index.json",
+   "blob": "0b77b3dd1dc02ed38d03e4cea706755398a43082"
+  },
+  {
+   "path": "origin/literature-cache:literature/resource-citations/_index.json",
+   "blob": "5793a0fc5b0207ecf6be031790797467d8b60c14"
+  },
+  {
+   "path": "origin/literature-cache:literature/aso-bibliography-completion/_index.json",
+   "blob": "2b10a9e7ec5a3473ddfb0e9a4833369314a6c98a"
+  },
+  {
+   "path": "origin/literature-cache:literature/aso-thermo-parameters/_index.json",
+   "blob": "64bf2117740638c49f00db2e7916a386d8688ee7"
+  },
+  {
+   "path": "research/manuscripts/aso/fusion-junction-aso-submission-references.json",
+   "blob": "4f61d333e356137ee9af40c82e5771faaaa96bbc"
+  },
+  {
+   "path": "research/manuscripts/aso/fusion-junction-aso-references.json",
+   "blob": "d89f62e2df0231d951c5d0c82cd76de131e2763a"
+  },
+  {
+   "path": "research/manuscripts/aso/lit-targets-aso-bibliography-completion.json",
+   "blob": "9c8c8f01157cf13ca54be5bfc841770857b0ec21"
+  },
+  {
+   "path": "research/literature/remaining-reference-metadata-2026-08-09.json",
+   "blob": "8235f72b08162374058451954165a8ca0760c991"
+  },
+  {
+   "path": "research/literature/submission-reference-metadata-2026-08-09.json",
+   "blob": "6e636c9b8db4375b57d237d586632436ee861c76"
+  }
+ ],
+ "by_pmid": {
+  "8634690": {
+   "n_authors": 13,
+   "n_authors_source": "origin/literature-cache:literature/labelle-1995-type3-primary-routes/75_crossref_labelle_doi.txt/message author",
+   "n_printed": 9,
+   "rule": "more than 11: first 9 then et al.",
+   "names": [
+    "Labelle Y",
+    "Zucman J",
+    "Stenman G",
+    "Kindblom LG",
+    "Knight J",
+    "Turc-Carel C",
+    "Dockhorn-Dworniczak B",
+    "Mandahl N",
+    "Desmaze C",
+    "Peter M"
+   ],
+   "names_source": "origin/literature-cache:literature/labelle-1995-type3-primary-routes/79_epmc_labelle_core.txt/resultList/result[0] authorList",
+   "rendered": "Labelle Y, J Zucman, G Stenman, LG Kindblom, J Knight, C Turc-Carel, B Dockhorn-Dworniczak, N Mandahl, C Desmaze, et al",
+   "conflicting_sources": [],
+   "candidates": [
+    [
+     10,
+     false,
+     "medline",
+     "origin/literature-cache:literature/aso-round5-citation-support/_index.json[28] authors"
+    ],
+    [
+     10,
+     false,
+     "medline",
+     "origin/literature-cache:literature/labelle-1995-type3-primary-routes/79_epmc_labelle_core.txt/resultList/result[0] authorList"
+    ],
+    [
+     10,
+     false,
+     "medline",
+     "origin/literature-cache:literature/labelle-1995-type3-primary-routes/79_epmc_labelle_core.txt/resultList/result[0] authorString"
+    ],
+    [
+     10,
+     false,
+     "medline",
+     "research/manuscripts/aso/fusion-junction-aso-references.json/references[54] authors"
+    ],
+    [
+     10,
+     false,
+     "medline",
+     "research/manuscripts/aso/fusion-junction-aso-submission-references.json/records/8634690 authors"
+    ],
+    [
+     13,
+     false,
+     "crossref",
+     "origin/literature-cache:literature/labelle-1995-type3-primary-routes/75_crossref_labelle_doi.txt/message author"
+    ]
+   ]
+  },
+  "32572850": {
+   "n_authors": 16,
+   "n_authors_source": "origin/literature-cache:literature/emc-partner-events/paioli2021_epmc_core.txt/resultList/result[0] authorList",
+   "n_printed": 9,
+   "rule": "more than 11: first 9 then et al.",
+   "names": [
+    "Paioli A",
+    "Stacchiotti S",
+    "Campanacci D",
+    "Palmerini E",
+    "Frezza AM",
+    "Longhi A",
+    "Radaelli S",
+    "Donati DM",
+    "Beltrami G",
+    "Bianchi G",
+    "Barisella M",
+    "Righi A",
+    "Benini S",
+    "Fiore M",
+    "Picci P",
+    "Gronchi A"
+   ],
+   "names_source": "origin/literature-cache:literature/emc-partner-events/paioli2021_epmc_core.txt/resultList/result[0] authorList",
+   "rendered": "Paioli A, S Stacchiotti, D Campanacci, E Palmerini, AM Frezza, A Longhi, S Radaelli, DM Donati, G Beltrami, et al",
+   "conflicting_sources": [],
+   "candidates": [
+    [
+     10,
+     true,
+     "medline",
+     "research/manuscripts/aso/fusion-junction-aso-submission-references.json/records/32572850 authors"
+    ],
+    [
+     16,
+     false,
+     "medline",
+     "origin/literature-cache:literature/aso-bibliography-completion/_index.json[8] authors"
+    ],
+    [
+     16,
+     false,
+     "medline",
+     "origin/literature-cache:literature/aso-round5-citation-support/_index.json[9] authors"
+    ],
+    [
+     16,
+     false,
+     "medline",
+     "origin/literature-cache:literature/emc-partner-events/paioli2021_epmc_core.txt/resultList/result[0] authorList"
+    ],
+    [
+     16,
+     false,
+     "medline",
+     "origin/literature-cache:literature/emc-partner-events/paioli2021_epmc_core.txt/resultList/result[0] authorString"
+    ],
+    [
+     16,
+     false,
+     "medline",
+     "research/manuscripts/aso/lit-targets-aso-bibliography-completion.json/records/32572850 authors"
+    ]
+   ]
+  },
+  "41055792": {
+   "n_authors": 6,
+   "n_authors_source": "origin/literature-cache:literature/emc-partner-events/epmc_search_taf15_fulltext.txt/resultList/result[1] authorList",
+   "n_printed": 6,
+   "rule": "all authors",
+   "names": [
+    "Remiszewski P",
+    "Falkowski S",
+    "Szumera-Ciećkiewicz A",
+    "Spałek MJ",
+    "Rutkowski P",
+    "Czarnecka AM"
+   ],
+   "names_source": "origin/literature-cache:literature/emc-partner-events/epmc_search_taf15_fulltext.txt/resultList/result[1] authorList",
+   "rendered": "Remiszewski P, S Falkowski, A Szumera-Ciećkiewicz, MJ Spałek, P Rutkowski and AM Czarnecka",
+   "conflicting_sources": [],
+   "candidates": [
+    [
+     6,
+     false,
+     "medline",
+     "origin/literature-cache:literature/aso-round5-citation-support/_index.json[1] authors"
+    ],
+    [
+     6,
+     false,
+     "medline",
+     "origin/literature-cache:literature/emc-cell-models-registry-2026-08-15/epmc_nr4a3_cellline.txt/resultList/result[1] authorList"
+    ],
+    [
+     6,
+     false,
+     "medline",
+     "origin/literature-cache:literature/emc-cell-models-registry-2026-08-15/epmc_nr4a3_cellline.txt/resultList/result[1] authorString"
+    ],
+    [
+     6,
+     false,
+     "medline",
+     "origin/literature-cache:literature/emc-partner-events/epmc_search_taf15_fulltext.txt/resultList/result[1] authorList"
+    ],
+    [
+     6,
+     false,
+     "medline",
+     "origin/literature-cache:literature/emc-partner-events/epmc_search_taf15_fulltext.txt/resultList/result[1] authorString"
+    ],
+    [
+     6,
+     false,
+     "medline",
+     "research/literature/submission-reference-metadata-2026-08-09.json/records/41055792 authors"
+    ],
+    [
+     6,
+     false,
+     "medline",
+     "research/manuscripts/aso/fusion-junction-aso-references.json/references[41] authors"
+    ],
+    [
+     6,
+     false,
+     "medline",
+     "research/manuscripts/aso/fusion-junction-aso-submission-references.json/records/41055792 authors"
+    ]
+   ]
+  },
+  "24345066": {
+   "n_authors": 14,
+   "n_authors_source": "origin/literature-cache:literature/emc-endpoint-benchmarks-r2/epmc_core_anthracycline_24345066.txt/resultList/result[0] authorList",
+   "n_printed": 9,
+   "rule": "more than 11: first 9 then et al.",
+   "names": [
+    "Stacchiotti S",
+    "Dagrada GP",
+    "Sanfilippo R",
+    "Negri T",
+    "Vittimberga I",
+    "Ferrari S",
+    "Grosso F",
+    "Apice G",
+    "Tricomi M",
+    "Colombo C",
+    "Gronchi A",
+    "Dei Tos AP",
+    "Pilotti S",
+    "Casali PG"
+   ],
+   "names_source": "origin/literature-cache:literature/emc-endpoint-benchmarks-r2/epmc_core_anthracycline_24345066.txt/resultList/result[0] authorList",
+   "rendered": "Stacchiotti S, GP Dagrada, R Sanfilippo, T Negri, I Vittimberga, S Ferrari, F Grosso, G Apice, M Tricomi, et al",
+   "conflicting_sources": [],
+   "candidates": [
+    [
+     6,
+     true,
+     "medline",
+     "research/manuscripts/aso/fusion-junction-aso-submission-references.json/records/24345066 authors"
+    ],
+    [
+     14,
+     false,
+     "medline",
+     "origin/literature-cache:literature/aso-bibliography-completion/_index.json[15] authors"
+    ],
+    [
+     14,
+     false,
+     "medline",
+     "origin/literature-cache:literature/aso-round5-citation-support/_index.json[18] authors"
+    ],
+    [
+     14,
+     false,
+     "medline",
+     "origin/literature-cache:literature/emc-endpoint-benchmarks-r2/epmc_core_anthracycline_24345066.txt/resultList/result[0] authorList"
+    ],
+    [
+     14,
+     false,
+     "medline",
+     "origin/literature-cache:literature/emc-endpoint-benchmarks-r2/epmc_core_anthracycline_24345066.txt/resultList/result[0] authorString"
+    ],
+    [
+     14,
+     false,
+     "medline",
+     "research/manuscripts/aso/lit-targets-aso-bibliography-completion.json/records/24345066 authors"
+    ]
+   ]
+  },
+  "31331701": {
+   "n_authors": 30,
+   "n_authors_source": "origin/literature-cache:literature/emc-partner-events/stacchiotti2019_epmc_core.txt/resultList/result[0] authorList",
+   "n_printed": 9,
+   "rule": "more than 11: first 9 then et al.",
+   "names": [
+    "Stacchiotti S",
+    "Ferrari S",
+    "Redondo A",
+    "Hindi N",
+    "Palmerini E",
+    "Vaz Salgado MA",
+    "Frezza AM",
+    "Casali PG",
+    "Gutierrez A",
+    "Lopez-Pousa A",
+    "Grignani G",
+    "Italiano A",
+    "LeCesne A",
+    "Dumont S",
+    "Blay JY",
+    "Penel N",
+    "Bernabeu D",
+    "de Alava E",
+    "Karanian M",
+    "Morosi C",
+    "Brich S",
+    "Dagrada GP",
+    "Vallacchi V",
+    "Castelli C",
+    "Brenca M",
+    "Racanelli D",
+    "Maestro R",
+    "Collini P",
+    "Cruz J",
+    "Martin-Broto J"
+   ],
+   "names_source": "origin/literature-cache:literature/emc-partner-events/stacchiotti2019_epmc_core.txt/resultList/result[0] authorList",
+   "rendered": "Stacchiotti S, S Ferrari, A Redondo, N Hindi, E Palmerini, MA Vaz Salgado, AM Frezza, PG Casali, A Gutierrez, et al",
+   "conflicting_sources": [],
+   "candidates": [
+    [
+     17,
+     true,
+     "medline",
+     "research/manuscripts/aso/fusion-junction-aso-submission-references.json/records/31331701 authors"
+    ],
+    [
+     30,
+     false,
+     "medline",
+     "origin/literature-cache:literature/aso-bibliography-completion/_index.json[9] authors"
+    ],
+    [
+     30,
+     false,
+     "medline",
+     "origin/literature-cache:literature/aso-round5-citation-support/_index.json[11] authors"
+    ],
+    [
+     30,
+     false,
+     "medline",
+     "origin/literature-cache:literature/emc-partner-events/stacchiotti2019_epmc_core.txt/resultList/result[0] authorList"
+    ],
+    [
+     30,
+     false,
+     "medline",
+     "origin/literature-cache:literature/emc-partner-events/stacchiotti2019_epmc_core.txt/resultList/result[0] authorString"
+    ],
+    [
+     30,
+     false,
+     "medline",
+     "research/manuscripts/aso/lit-targets-aso-bibliography-completion.json/records/31331701 authors"
+    ]
+   ]
+  },
+  "1794439": {
+   "n_authors": 4,
+   "n_authors_source": "origin/literature-cache:literature/aso-round5-citation-support/_index.json[30] authors",
+   "n_printed": 4,
+   "rule": "all authors",
+   "names": [
+    "Skórski T",
+    "Szczylik C",
+    "Malaguarnera L",
+    "Calabretta B"
+   ],
+   "names_source": "origin/literature-cache:literature/aso-round5-citation-support/_index.json[30] authors",
+   "rendered": "Skórski T, C Szczylik, L Malaguarnera and B Calabretta",
+   "conflicting_sources": [],
+   "candidates": [
+    [
+     4,
+     false,
+     "medline",
+     "origin/literature-cache:literature/aso-bibliography-completion/_index.json[23] authors"
+    ],
+    [
+     4,
+     false,
+     "medline",
+     "origin/literature-cache:literature/aso-round5-citation-support/_index.json[30] authors"
+    ],
+    [
+     4,
+     false,
+     "medline",
+     "research/manuscripts/aso/fusion-junction-aso-references.json/references[0] authors"
+    ],
+    [
+     4,
+     false,
+     "medline",
+     "research/manuscripts/aso/fusion-junction-aso-submission-references.json/records/1794439 authors"
+    ],
+    [
+     4,
+     false,
+     "medline",
+     "research/manuscripts/aso/lit-targets-aso-bibliography-completion.json/records/1794439 authors"
+    ]
+   ]
+  },
+  "9049825": {
+   "n_authors": 4,
+   "n_authors_source": "origin/literature-cache:literature/aso-round5-citation-support/_index.json[27] authors",
+   "n_printed": 4,
+   "rule": "all authors",
+   "names": [
+    "Toretsky JA",
+    "Connell Y",
+    "Neckers L",
+    "Bhat NK"
+   ],
+   "names_source": "origin/literature-cache:literature/aso-round5-citation-support/_index.json[27] authors",
+   "rendered": "Toretsky JA, Y Connell, L Neckers and NK Bhat",
+   "conflicting_sources": [],
+   "candidates": [
+    [
+     4,
+     false,
+     "medline",
+     "origin/literature-cache:literature/aso-round5-citation-support/_index.json[27] authors"
+    ],
+    [
+     4,
+     false,
+     "medline",
+     "research/manuscripts/aso/fusion-junction-aso-references.json/references[1] authors"
+    ],
+    [
+     4,
+     false,
+     "medline",
+     "research/manuscripts/aso/fusion-junction-aso-submission-references.json/records/9049825 authors"
+    ]
+   ]
+  },
+  "33241214": {
+   "n_authors": 13,
+   "n_authors_source": "origin/literature-cache:literature/aso-round7-precedents-and-geo/epmc_core_PMID33241214.txt/resultList/result[0] authorList",
+   "n_printed": 9,
+   "rule": "more than 11: first 9 then et al.",
+   "names": [
+    "Parker Kerrigan BC",
+    "Ledbetter D",
+    "Kronowitz M",
+    "Phillips L",
+    "Gumin J",
+    "Hossain A",
+    "Yang J",
+    "Mendt M",
+    "Singh S",
+    "Cogdell D",
+    "Ene C",
+    "Shpall E",
+    "Lang FF"
+   ],
+   "names_source": "origin/literature-cache:literature/aso-round7-precedents-and-geo/epmc_core_PMID33241214.txt/resultList/result[0] authorList",
+   "rendered": "Parker Kerrigan BC, D Ledbetter, M Kronowitz, L Phillips, J Gumin, A Hossain, J Yang, M Mendt, S Singh, et al",
+   "conflicting_sources": [],
+   "candidates": [
+    [
+     13,
+     false,
+     "medline",
+     "origin/literature-cache:literature/aso-round5-citation-support/_index.json[10] authors"
+    ],
+    [
+     13,
+     false,
+     "medline",
+     "origin/literature-cache:literature/aso-round7-precedents-and-geo/epmc_core_PMID33241214.txt/resultList/result[0] authorList"
+    ],
+    [
+     13,
+     false,
+     "medline",
+     "origin/literature-cache:literature/aso-round7-precedents-and-geo/epmc_core_PMID33241214.txt/resultList/result[0] authorString"
+    ],
+    [
+     13,
+     false,
+     "medline",
+     "research/manuscripts/aso/fusion-junction-aso-references.json/references[10] authors"
+    ],
+    [
+     13,
+     false,
+     "medline",
+     "research/manuscripts/aso/fusion-junction-aso-submission-references.json/records/33241214 authors"
+    ]
+   ]
+  },
+  "21846246": {
+   "n_authors": 3,
+   "n_authors_source": "origin/literature-cache:literature/aso-round7-precedents-and-geo/epmc_core_PMID21846246.txt/resultList/result[0] authorList",
+   "n_printed": 3,
+   "rule": "all authors",
+   "names": [
+    "Ward SV",
+    "Sternsdorf T",
+    "Woods NB"
+   ],
+   "names_source": "origin/literature-cache:literature/aso-round7-precedents-and-geo/epmc_core_PMID21846246.txt/resultList/result[0] authorList",
+   "rendered": "Ward SV, T Sternsdorf and NB Woods",
+   "conflicting_sources": [],
+   "candidates": [
+    [
+     3,
+     false,
+     "medline",
+     "origin/literature-cache:literature/aso-round5-citation-support/_index.json[21] authors"
+    ],
+    [
+     3,
+     false,
+     "medline",
+     "origin/literature-cache:literature/aso-round7-precedents-and-geo/epmc_core_PMID21846246.txt/resultList/result[0] authorList"
+    ],
+    [
+     3,
+     false,
+     "medline",
+     "origin/literature-cache:literature/aso-round7-precedents-and-geo/epmc_core_PMID21846246.txt/resultList/result[0] authorString"
+    ],
+    [
+     3,
+     false,
+     "medline",
+     "origin/literature-cache:literature/fusion-oligo-delivery-progress/_index.json[902] authors"
+    ],
+    [
+     3,
+     false,
+     "medline",
+     "research/manuscripts/aso/fusion-junction-aso-references.json/references[19] authors"
+    ],
+    [
+     3,
+     false,
+     "medline",
+     "research/manuscripts/aso/fusion-junction-aso-submission-references.json/records/21846246 authors"
+    ]
+   ]
+  },
+  "23052253": {
+   "n_authors": 9,
+   "n_authors_source": "origin/literature-cache:literature/aso-round7-precedents-and-geo/epmc_core_PMID23052253.txt/resultList/result[0] authorList",
+   "n_printed": 9,
+   "rule": "all authors",
+   "names": [
+    "Shao L",
+    "Tekedereli I",
+    "Wang J",
+    "Yuca E",
+    "Tsang S",
+    "Sood A",
+    "Lopez-Berestein G",
+    "Ozpolat B",
+    "Ittmann M"
+   ],
+   "names_source": "origin/literature-cache:literature/aso-round7-precedents-and-geo/epmc_core_PMID23052253.txt/resultList/result[0] authorList",
+   "rendered": "Shao L, I Tekedereli, J Wang, E Yuca, S Tsang, A Sood, G Lopez-Berestein, B Ozpolat and M Ittmann",
+   "conflicting_sources": [],
+   "candidates": [
+    [
+     9,
+     false,
+     "medline",
+     "origin/literature-cache:literature/aso-round5-citation-support/_index.json[20] authors"
+    ],
+    [
+     9,
+     false,
+     "medline",
+     "origin/literature-cache:literature/aso-round7-precedents-and-geo/epmc_core_PMID23052253.txt/resultList/result[0] authorList"
+    ],
+    [
+     9,
+     false,
+     "medline",
+     "origin/literature-cache:literature/aso-round7-precedents-and-geo/epmc_core_PMID23052253.txt/resultList/result[0] authorString"
+    ],
+    [
+     9,
+     false,
+     "medline",
+     "origin/literature-cache:literature/fusion-oligo-delivery-progress/_index.json[1097] authors"
+    ],
+    [
+     9,
+     false,
+     "medline",
+     "research/manuscripts/aso/fusion-junction-aso-references.json/references[17] authors"
+    ],
+    [
+     9,
+     false,
+     "medline",
+     "research/manuscripts/aso/fusion-junction-aso-submission-references.json/records/23052253 authors"
+    ]
+   ]
+  },
+  "37980543": {
+   "n_authors": 9,
+   "n_authors_source": "origin/literature-cache:literature/aso-round7-precedents-and-geo/epmc_core_PMID37980543.txt/resultList/result[0] authorList",
+   "n_printed": 9,
+   "rule": "all authors",
+   "names": [
+    "Neumayer C",
+    "Ng D",
+    "Requena D",
+    "Jiang CS",
+    "Qureshi A",
+    "Vaughan R",
+    "Prakash TP",
+    "Revenko A",
+    "Simon SM"
+   ],
+   "names_source": "origin/literature-cache:literature/aso-round7-precedents-and-geo/epmc_core_PMID37980543.txt/resultList/result[0] authorList",
+   "rendered": "Neumayer C, D Ng, D Requena, CS Jiang, A Qureshi, R Vaughan, TP Prakash, A Revenko and SM Simon",
+   "conflicting_sources": [],
+   "candidates": [
+    [
+     9,
+     false,
+     "medline",
+     "origin/literature-cache:literature/aso-round5-citation-support/_index.json[4] authors"
+    ],
+    [
+     9,
+     false,
+     "medline",
+     "origin/literature-cache:literature/aso-round7-precedents-and-geo/epmc_core_PMID37980543.txt/resultList/result[0] authorList"
+    ],
+    [
+     9,
+     false,
+     "medline",
+     "origin/literature-cache:literature/aso-round7-precedents-and-geo/epmc_core_PMID37980543.txt/resultList/result[0] authorString"
+    ],
+    [
+     9,
+     false,
+     "medline",
+     "origin/literature-cache:literature/fusion-oligo-delivery-progress/_index.json[261] authors"
+    ],
+    [
+     9,
+     false,
+     "medline",
+     "research/manuscripts/aso/fusion-junction-aso-references.json/references[27] authors"
+    ],
+    [
+     9,
+     false,
+     "medline",
+     "research/manuscripts/aso/fusion-junction-aso-submission-references.json/records/37980543 authors"
+    ]
+   ]
+  },
+  "12378528": {
+   "n_authors": 12,
+   "n_authors_source": "origin/literature-cache:literature/ews-type-nomenclature-epmc/epmc_chn_exon2_exon3.txt/resultList/result[2] authorList",
+   "n_printed": 9,
+   "rule": "more than 11: first 9 then et al.",
+   "names": [
+    "Panagopoulos I",
+    "Mertens F",
+    "Isaksson M",
+    "Domanski HA",
+    "Brosjö O",
+    "Heim S",
+    "Bjerkehagen B",
+    "Sciot R",
+    "Dal Cin P",
+    "Fletcher JA",
+    "Fletcher CD",
+    "Mandahl N"
+   ],
+   "names_source": "origin/literature-cache:literature/ews-type-nomenclature-epmc/epmc_chn_exon2_exon3.txt/resultList/result[2] authorList",
+   "rendered": "Panagopoulos I, F Mertens, M Isaksson, HA Domanski, O Brosjö, S Heim, B Bjerkehagen, R Sciot, P Dal Cin, et al",
+   "conflicting_sources": [],
+   "candidates": [
+    [
+     12,
+     false,
+     "medline",
+     "origin/literature-cache:literature/aso-round5-citation-support/_index.json[23] authors"
+    ],
+    [
+     12,
+     false,
+     "medline",
+     "origin/literature-cache:literature/ews-type-nomenclature-epmc/epmc_chn_exon2_exon3.txt/resultList/result[2] authorList"
+    ],
+    [
+     12,
+     false,
+     "medline",
+     "origin/literature-cache:literature/ews-type-nomenclature-epmc/epmc_chn_exon2_exon3.txt/resultList/result[2] authorString"
+    ],
+    [
+     12,
+     false,
+     "medline",
+     "research/literature/remaining-reference-metadata-2026-08-09.json/records/12378528 authors"
+    ],
+    [
+     12,
+     false,
+     "medline",
+     "research/manuscripts/aso/fusion-junction-aso-references.json/references[35] authors"
+    ],
+    [
+     12,
+     false,
+     "medline",
+     "research/manuscripts/aso/fusion-junction-aso-submission-references.json/records/12378528 authors"
+    ]
+   ]
+  },
+  "36948401": {
+   "n_authors": 20,
+   "n_authors_source": "origin/literature-cache:literature/emc-partner-events/huang2023_epmc_core.txt/resultList/result[0] authorList",
+   "n_printed": 9,
+   "rule": "more than 11: first 9 then et al.",
+   "names": [
+    "Huang SC",
+    "Lee JC",
+    "Hsu YC",
+    "Tsai JW",
+    "Kao YC",
+    "Hsieh TH",
+    "Chang YM",
+    "Chang KC",
+    "Wu PS",
+    "Chen PC",
+    "Chen CH",
+    "Chang CD",
+    "Lee PH",
+    "Tai HC",
+    "Liu TT",
+    "Wen MC",
+    "Li WS",
+    "Yu SC",
+    "Wang JC",
+    "Huang HY"
+   ],
+   "names_source": "origin/literature-cache:literature/emc-partner-events/huang2023_epmc_core.txt/resultList/result[0] authorList",
+   "rendered": "Huang SC, JC Lee, YC Hsu, JW Tsai, YC Kao, TH Hsieh, YM Chang, KC Chang, PS Wu, et al",
+   "conflicting_sources": [],
+   "candidates": [
+    [
+     20,
+     false,
+     "medline",
+     "origin/literature-cache:literature/aso-bibliography-completion/_index.json[3] authors"
+    ],
+    [
+     20,
+     false,
+     "medline",
+     "origin/literature-cache:literature/aso-round5-citation-support/_index.json[6] authors"
+    ],
+    [
+     20,
+     false,
+     "medline",
+     "origin/literature-cache:literature/emc-partner-events/epmc_search_taf15_fulltext.txt/resultList/result[5] authorList"
+    ],
+    [
+     20,
+     false,
+     "medline",
+     "origin/literature-cache:literature/emc-partner-events/epmc_search_taf15_fulltext.txt/resultList/result[5] authorString"
+    ],
+    [
+     20,
+     false,
+     "medline",
+     "origin/literature-cache:literature/emc-partner-events/huang2023_epmc_core.txt/resultList/result[0] authorList"
+    ],
+    [
+     20,
+     false,
+     "medline",
+     "origin/literature-cache:literature/emc-partner-events/huang2023_epmc_core.txt/resultList/result[0] authorString"
+    ],
+    [
+     20,
+     false,
+     "medline",
+     "research/literature/submission-reference-metadata-2026-08-09.json/records/36948401 authors"
+    ],
+    [
+     20,
+     false,
+     "medline",
+     "research/manuscripts/aso/fusion-junction-aso-submission-references.json/records/36948401 authors"
+    ],
+    [
+     20,
+     false,
+     "medline",
+     "research/manuscripts/aso/lit-targets-aso-bibliography-completion.json/records/36948401 authors"
+    ]
+   ]
+  },
+  "31020999": {
+   "n_authors": 21,
+   "n_authors_source": "origin/literature-cache:literature/emc-partner-events/epmc_search_taf15_fulltext.txt/resultList/result[10] authorList",
+   "n_printed": 9,
+   "rule": "more than 11: first 9 then et al.",
+   "names": [
+    "Brenca M",
+    "Stacchiotti S",
+    "Fassetta K",
+    "Sbaraglia M",
+    "Janjusevic M",
+    "Racanelli D",
+    "Polano M",
+    "Rossi S",
+    "Brich S",
+    "Dagrada GP",
+    "Collini P",
+    "Colombo C",
+    "Gronchi A",
+    "Astolfi A",
+    "Indio V",
+    "Pantaleo MA",
+    "Picci P",
+    "Casali PG",
+    "Dei Tos AP",
+    "Pilotti S",
+    "Maestro R"
+   ],
+   "names_source": "origin/literature-cache:literature/emc-partner-events/epmc_search_taf15_fulltext.txt/resultList/result[10] authorList",
+   "rendered": "Brenca M, S Stacchiotti, K Fassetta, M Sbaraglia, M Janjusevic, D Racanelli, M Polano, S Rossi, S Brich, et al",
+   "conflicting_sources": [],
+   "candidates": [
+    [
+     6,
+     true,
+     "medline",
+     "research/manuscripts/aso/fusion-junction-aso-submission-references.json/records/31020999 authors"
+    ],
+    [
+     21,
+     false,
+     "medline",
+     "origin/literature-cache:literature/aso-bibliography-completion/_index.json[10] authors"
+    ],
+    [
+     21,
+     false,
+     "medline",
+     "origin/literature-cache:literature/aso-round5-citation-support/_index.json[12] authors"
+    ],
+    [
+     21,
+     false,
+     "medline",
+     "origin/literature-cache:literature/emc-cell-models-registry-2026-08-15/epmc_emc_models.txt/resultList/result[45] authorList"
+    ],
+    [
+     21,
+     false,
+     "medline",
+     "origin/literature-cache:literature/emc-cell-models-registry-2026-08-15/epmc_emc_models.txt/resultList/result[45] authorString"
+    ],
+    [
+     21,
+     false,
+     "medline",
+     "origin/literature-cache:literature/emc-cell-models-registry-2026-08-15/epmc_nr4a3_cellline.txt/resultList/result[46] authorList"
+    ],
+    [
+     21,
+     false,
+     "medline",
+     "origin/literature-cache:literature/emc-cell-models-registry-2026-08-15/epmc_nr4a3_cellline.txt/resultList/result[46] authorString"
+    ],
+    [
+     21,
+     false,
+     "medline",
+     "origin/literature-cache:literature/emc-partner-events/epmc_search_taf15_fulltext.txt/resultList/result[10] authorList"
+    ],
+    [
+     21,
+     false,
+     "medline",
+     "origin/literature-cache:literature/emc-partner-events/epmc_search_taf15_fulltext.txt/resultList/result[10] authorString"
+    ],
+    [
+     21,
+     false,
+     "medline",
+     "research/literature/remaining-reference-metadata-2026-08-09.json/records/31020999 authors"
+    ],
+    [
+     21,
+     false,
+     "medline",
+     "research/manuscripts/aso/lit-targets-aso-bibliography-completion.json/records/31020999 authors"
+    ]
+   ]
+  },
+  "36316541": {
+   "n_authors": 6,
+   "n_authors_source": "origin/literature-cache:literature/emc-partner-events/epmc_search_taf15_fulltext.txt/resultList/result[18] authorList",
+   "n_printed": 6,
+   "rule": "all authors",
+   "names": [
+    "Bangerter JL",
+    "Harnisch KJ",
+    "Chen Y",
+    "Hagedorn C",
+    "Planas-Paz L",
+    "Pauli C"
+   ],
+   "names_source": "origin/literature-cache:literature/emc-partner-events/epmc_search_taf15_fulltext.txt/resultList/result[18] authorList",
+   "rendered": "Bangerter JL, KJ Harnisch, Y Chen, C Hagedorn, L Planas-Paz and C Pauli",
+   "conflicting_sources": [],
+   "candidates": [
+    [
+     6,
+     false,
+     "medline",
+     "origin/literature-cache:literature/aso-round5-citation-support/_index.json[7] authors"
+    ],
+    [
+     6,
+     false,
+     "medline",
+     "origin/literature-cache:literature/emc-cell-models-registry-2026-08-15/epmc_emc_models.txt/resultList/result[2] authorList"
+    ],
+    [
+     6,
+     false,
+     "medline",
+     "origin/literature-cache:literature/emc-cell-models-registry-2026-08-15/epmc_emc_models.txt/resultList/result[2] authorString"
+    ],
+    [
+     6,
+     false,
+     "medline",
+     "origin/literature-cache:literature/emc-cell-models-registry-2026-08-15/epmc_nr4a3_cellline.txt/resultList/result[15] authorList"
+    ],
+    [
+     6,
+     false,
+     "medline",
+     "origin/literature-cache:literature/emc-cell-models-registry-2026-08-15/epmc_nr4a3_cellline.txt/resultList/result[15] authorString"
+    ],
+    [
+     6,
+     false,
+     "medline",
+     "origin/literature-cache:literature/emc-partner-events/epmc_search_taf15_fulltext.txt/resultList/result[18] authorList"
+    ],
+    [
+     6,
+     false,
+     "medline",
+     "origin/literature-cache:literature/emc-partner-events/epmc_search_taf15_fulltext.txt/resultList/result[18] authorString"
+    ],
+    [
+     6,
+     false,
+     "medline",
+     "research/literature/submission-reference-metadata-2026-08-09.json/records/36316541 authors"
+    ],
+    [
+     6,
+     false,
+     "medline",
+     "research/manuscripts/aso/fusion-junction-aso-references.json/references[57] authors"
+    ],
+    [
+     6,
+     false,
+     "medline",
+     "research/manuscripts/aso/fusion-junction-aso-submission-references.json/records/36316541 authors"
+    ]
+   ]
+  },
+  "36103645": {
+   "n_authors": 6,
+   "n_authors_source": "origin/literature-cache:literature/emc-cell-models-registry-2026-08-15/epmc_nr4a3_cellline.txt/resultList/result[24] authorList",
+   "n_printed": 6,
+   "rule": "all authors",
+   "names": [
+    "Wilbur HC",
+    "Robinson DR",
+    "Wu YM",
+    "Kumar-Sinha C",
+    "Chinnaiyan AM",
+    "Chugh R"
+   ],
+   "names_source": "origin/literature-cache:literature/emc-cell-models-registry-2026-08-15/epmc_nr4a3_cellline.txt/resultList/result[24] authorList",
+   "rendered": "Wilbur HC, DR Robinson, YM Wu, C Kumar-Sinha, AM Chinnaiyan and R Chugh",
+   "conflicting_sources": [],
+   "candidates": [
+    [
+     6,
+     false,
+     "medline",
+     "origin/literature-cache:literature/emc-cell-models-registry-2026-08-15/epmc_nr4a3_cellline.txt/resultList/result[24] authorList"
+    ],
+    [
+     6,
+     false,
+     "medline",
+     "origin/literature-cache:literature/emc-cell-models-registry-2026-08-15/epmc_nr4a3_cellline.txt/resultList/result[24] authorString"
+    ],
+    [
+     6,
+     false,
+     "medline",
+     "origin/literature-cache:literature/emc-clinical-sweep-fulltext-2026-08-07/epmc_pmid_36103645.txt/resultList/result[0] authorList"
+    ],
+    [
+     6,
+     false,
+     "medline",
+     "origin/literature-cache:literature/emc-clinical-sweep-fulltext-2026-08-07/epmc_pmid_36103645.txt/resultList/result[0] authorString"
+    ],
+    [
+     6,
+     false,
+     "medline",
+     "research/manuscripts/aso/fusion-junction-aso-submission-references.json/records/36103645 authors"
+    ]
+   ]
+  },
+  "37370737": {
+   "n_authors": 11,
+   "n_authors_source": "origin/literature-cache:literature/aso-round5-citation-support/_index.json[5] authors",
+   "n_printed": 11,
+   "rule": "all authors",
+   "names": [
+    "Li Y",
+    "Nguyen JT",
+    "Ammanamanchi M",
+    "Zhou Z",
+    "Harbut EF",
+    "Mondaza-Hernandez JL",
+    "Meyer CA",
+    "Moura DS",
+    "Martin-Broto J",
+    "Hayenga HN",
+    "Bleris L"
+   ],
+   "names_source": "origin/literature-cache:literature/aso-round5-citation-support/_index.json[5] authors",
+   "rendered": "Li Y, JT Nguyen, M Ammanamanchi, Z Zhou, EF Harbut, JL Mondaza-Hernandez, CA Meyer, DS Moura, J Martin-Broto, HN Hayenga and L Bleris",
+   "conflicting_sources": [],
+   "candidates": [
+    [
+     11,
+     false,
+     "medline",
+     "origin/literature-cache:literature/aso-round5-citation-support/_index.json[5] authors"
+    ],
+    [
+     11,
+     false,
+     "medline",
+     "origin/literature-cache:literature/fusion-oligo-delivery-progress/_index.json[411] authors"
+    ],
+    [
+     11,
+     false,
+     "medline",
+     "research/manuscripts/aso/fusion-junction-aso-references.json/references[53] authors"
+    ],
+    [
+     11,
+     false,
+     "medline",
+     "research/manuscripts/aso/fusion-junction-aso-submission-references.json/records/37370737 authors"
+    ]
+   ]
+  },
+  "36265509": {
+   "n_authors": 15,
+   "n_authors_source": "origin/literature-cache:literature/aso-round7-precedents-and-geo/epmc_core_PMID36265509.txt/resultList/result[0] authorList",
+   "n_printed": 9,
+   "rule": "more than 11: first 9 then et al.",
+   "names": [
+    "Lee MS",
+    "An S",
+    "Song JY",
+    "Sung M",
+    "Jung K",
+    "Chang ES",
+    "Choi J",
+    "Oh DY",
+    "Jeon YK",
+    "Yang H",
+    "Lakshmi C",
+    "Park S",
+    "Han J",
+    "Lee SH",
+    "Choi YL"
+   ],
+   "names_source": "origin/literature-cache:literature/aso-round7-precedents-and-geo/epmc_core_PMID36265509.txt/resultList/result[0] authorList",
+   "rendered": "Lee MS, S An, JY Song, M Sung, K Jung, ES Chang, J Choi, DY Oh, YK Jeon, et al",
+   "conflicting_sources": [],
+   "candidates": [
+    [
+     15,
+     false,
+     "medline",
+     "origin/literature-cache:literature/aso-round5-citation-support/_index.json[8] authors"
+    ],
+    [
+     15,
+     false,
+     "medline",
+     "origin/literature-cache:literature/aso-round7-precedents-and-geo/epmc_core_PMID36265509.txt/resultList/result[0] authorList"
+    ],
+    [
+     15,
+     false,
+     "medline",
+     "origin/literature-cache:literature/aso-round7-precedents-and-geo/epmc_core_PMID36265509.txt/resultList/result[0] authorString"
+    ],
+    [
+     15,
+     false,
+     "medline",
+     "origin/literature-cache:literature/fusion-oligo-delivery-progress/_index.json[283] authors"
+    ],
+    [
+     15,
+     false,
+     "medline",
+     "research/manuscripts/aso/fusion-junction-aso-references.json/references[11] authors"
+    ],
+    [
+     15,
+     false,
+     "medline",
+     "research/manuscripts/aso/fusion-junction-aso-submission-references.json/records/36265509 authors"
+    ]
+   ]
+  },
+  "39656687": {
+   "n_authors": 91,
+   "n_authors_source": "origin/literature-cache:literature/resource-citations/_index.json[0] authors",
+   "n_printed": 9,
+   "rule": "more than 11: first 9 then et al.",
+   "names": [
+    "Dyer SC",
+    "Austine-Orimoloye O",
+    "Azov AG",
+    "Barba M",
+    "Barnes I",
+    "Barrera-Enriquez VP",
+    "Becker A",
+    "Bennett R",
+    "Beracochea M",
+    "Berry A",
+    "Bhai J",
+    "Bhurji SK",
+    "Boddu S",
+    "Branco Lins PR",
+    "Brooks L",
+    "Ramaraju SB",
+    "Campbell LI",
+    "Martinez MC",
+    "Charkhchi M",
+    "Cortes LA",
+    "Davidson C",
+    "Denni S",
+    "Dodiya K",
+    "Donaldson S",
+    "El Houdaigui B",
+    "El Naboulsi T",
+    "Falola O",
+    "Fatima R",
+    "Genez T",
+    "Martinez JG",
+    "Gurbich T",
+    "Hardy M",
+    "Hollis Z",
+    "Hunt T",
+    "Kay M",
+    "Kaykala V",
+    "Lemos D",
+    "Lodha D",
+    "Mathlouthi N",
+    "Merino GA",
+    "Merritt R",
+    "Mirabueno LP",
+    "Mushtaq A",
+    "Hossain SN",
+    "Pérez-Silva JG",
+    "Perry M",
+    "Piližota I",
+    "Poppleton D",
+    "Prosovetskaia I",
+    "Raj S",
+    "Salam AIA",
+    "Saraf S",
+    "Saraiva-Agostinho N",
+    "Sinha S",
+    "Sipos B",
+    "Sitnik V",
+    "Steed E",
+    "Suner MM",
+    "Surapaneni L",
+    "Sutinen K",
+    "Tricomi FF",
+    "Tsang I",
+    "Urbina-Gómez D",
+    "Veidenberg A",
+    "Walsh TA",
+    "Willhoft NL",
+    "Allen J",
+    "Alvarez-Jarreta J",
+    "Chakiachvili M",
+    "Cheema J",
+    "da Rocha JB",
+    "De Silva NH",
+    "Giorgetti S",
+    "Haggerty L",
+    "Ilsley GR",
+    "Keatley J",
+    "Loveland JE",
+    "Moore B",
+    "Mudge JM",
+    "Naamati G",
+    "Tate J",
+    "Trevanion SJ",
+    "Winterbottom A",
+    "Flint B",
+    "Frankish A",
+    "Hunt SE",
+    "Finn RD",
+    "Freeberg MA",
+    "Harrison PW",
+    "Martin FJ",
+    "Yates AD"
+   ],
+   "names_source": "origin/literature-cache:literature/resource-citations/_index.json[0] authors",
+   "rendered": "Dyer SC, O Austine-Orimoloye, AG Azov, M Barba, I Barnes, VP Barrera-Enriquez, A Becker, R Bennett, M Beracochea, et al",
+   "conflicting_sources": [],
+   "candidates": [
+    [
+     91,
+     false,
+     "medline",
+     "origin/literature-cache:literature/resource-citations/_index.json[0] authors"
+    ],
+    [
+     91,
+     false,
+     "medline",
+     "research/manuscripts/aso/fusion-junction-aso-submission-references.json/records/39656687 authors"
+    ]
+   ]
+  },
+  "24981949": {
+   "n_authors": 3,
+   "n_authors_source": "origin/literature-cache:literature/aso-bibliography-completion/_index.json[19] authors",
+   "n_printed": 3,
+   "rule": "all authors",
+   "names": [
+    "Kauppinen S",
+    "Vester B",
+    "Wengel J"
+   ],
+   "names_source": "origin/literature-cache:literature/aso-bibliography-completion/_index.json[19] authors",
+   "rendered": "Kauppinen S, B Vester and J Wengel",
+   "conflicting_sources": [],
+   "candidates": [
+    [
+     3,
+     false,
+     "medline",
+     "origin/literature-cache:literature/aso-bibliography-completion/_index.json[19] authors"
+    ],
+    [
+     3,
+     false,
+     "medline",
+     "research/manuscripts/aso/fusion-junction-aso-submission-references.json/records/24981949 authors"
+    ],
+    [
+     3,
+     false,
+     "medline",
+     "research/manuscripts/aso/lit-targets-aso-bibliography-completion.json/records/24981949 authors"
+    ]
+   ]
+  },
+  "7545436": {
+   "n_authors": 8,
+   "n_authors_source": "origin/literature-cache:literature/aso-thermo-parameters/_index.json[1] authors",
+   "n_printed": 8,
+   "rule": "all authors",
+   "names": [
+    "Sugimoto N",
+    "Nakano S",
+    "Katoh M",
+    "Matsumura A",
+    "Nakamuta H",
+    "Ohmichi T",
+    "Yoneyama M",
+    "Sasaki M"
+   ],
+   "names_source": "origin/literature-cache:literature/aso-thermo-parameters/_index.json[1] authors",
+   "rendered": "Sugimoto N, S Nakano, M Katoh, A Matsumura, H Nakamuta, T Ohmichi, M Yoneyama and M Sasaki",
+   "conflicting_sources": [],
+   "candidates": [
+    [
+     8,
+     false,
+     "medline",
+     "origin/literature-cache:literature/aso-thermo-parameters/_index.json[1] authors"
+    ],
+    [
+     8,
+     false,
+     "medline",
+     "research/manuscripts/aso/fusion-junction-aso-submission-references.json/records/7545436 authors"
+    ]
+   ]
+  },
+  "39912803": {
+   "n_authors": 14,
+   "n_authors_source": "origin/literature-cache:literature/oswg-offtarget-2025/epmc_core_39912803.txt/resultList/result[0] authorList",
+   "n_printed": 9,
+   "rule": "more than 11: first 9 then et al.",
+   "names": [
+    "Andersson P",
+    "Burel SA",
+    "Estrella H",
+    "Foy J",
+    "Hagedorn PH",
+    "Harper TA Jr",
+    "Henry SP",
+    "Hoflack JC",
+    "Holgersen EM",
+    "Levin AA",
+    "Morrison E",
+    "Pavlicek A",
+    "Penso-Dolfin L",
+    "Saxena U"
+   ],
+   "names_source": "origin/literature-cache:literature/oswg-offtarget-2025/epmc_core_39912803.txt/resultList/result[0] authorList",
+   "rendered": "Andersson P, SA Burel, H Estrella, J Foy, PH Hagedorn, TA Harper Jr, SP Henry, JC Hoflack, EM Holgersen, et al",
+   "conflicting_sources": [],
+   "candidates": [
+    [
+     14,
+     false,
+     "crossref",
+     "origin/literature-cache:literature/oswg-offtarget-2025/crossref_nat20240072.txt/message author"
+    ],
+    [
+     14,
+     false,
+     "medline",
+     "origin/literature-cache:literature/oswg-offtarget-2025/epmc_core_39912803.txt/resultList/result[0] authorList"
+    ],
+    [
+     14,
+     false,
+     "medline",
+     "origin/literature-cache:literature/oswg-offtarget-2025/epmc_core_39912803.txt/resultList/result[0] authorString"
+    ]
+   ]
+  },
+  "29937513": {
+   "n_authors": 19,
+   "n_authors_source": "origin/literature-cache:literature/emc-partner-events/epmc_search_taf15_fulltext.txt/resultList/result[46] authorList",
+   "n_printed": 9,
+   "rule": "more than 11: first 9 then et al.",
+   "names": [
+    "Urbini M",
+    "Indio V",
+    "Astolfi A",
+    "Tarantino G",
+    "Renne SL",
+    "Pilotti S",
+    "Dei Tos AP",
+    "Maestro R",
+    "Collini P",
+    "Nannini M",
+    "Saponara M",
+    "Murrone L",
+    "Dagrada GP",
+    "Colombo C",
+    "Gronchi A",
+    "Pession A",
+    "Casali PG",
+    "Stacchiotti S",
+    "Pantaleo MA"
+   ],
+   "names_source": "origin/literature-cache:literature/emc-partner-events/epmc_search_taf15_fulltext.txt/resultList/result[46] authorList",
+   "rendered": "Urbini M, V Indio, A Astolfi, G Tarantino, SL Renne, S Pilotti, AP Dei Tos, R Maestro, P Collini, et al",
+   "conflicting_sources": [],
+   "candidates": [
+    [
+     19,
+     false,
+     "medline",
+     "origin/literature-cache:literature/aso-round5-citation-support/_index.json[13] authors"
+    ],
+    [
+     19,
+     false,
+     "medline",
+     "origin/literature-cache:literature/emc-partner-events/epmc_search_taf15_fulltext.txt/resultList/result[46] authorList"
+    ],
+    [
+     19,
+     false,
+     "medline",
+     "origin/literature-cache:literature/emc-partner-events/epmc_search_taf15_fulltext.txt/resultList/result[46] authorString"
+    ],
+    [
+     19,
+     false,
+     "medline",
+     "research/manuscripts/aso/fusion-junction-aso-references.json/references[29] authors"
+    ],
+    [
+     19,
+     false,
+     "medline",
+     "research/manuscripts/aso/fusion-junction-aso-submission-references.json/records/29937513 authors"
+    ]
+   ]
+  }
+ }
+}

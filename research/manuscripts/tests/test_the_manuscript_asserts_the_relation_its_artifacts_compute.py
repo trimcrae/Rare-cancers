@@ -105,13 +105,25 @@ POLARITY = [
      "ethics approval was required."),
     # ⚠ RE-ANCHORED 2026-08-23: "**Competing interests.**" -> the venue's required
     # "**Declaration of conflicting interest.**". Relation unchanged.
+    # ⚠ RE-ANCHORED AGAIN 2026-08-25, and the wording is the VENUE'S, not a preference. Nucleic Acid
+    # Therapeutics requires the heading "Author Disclosure Statement" verbatim, immediately after
+    # Acknowledgments, carrying the sentence "No competing financial interests exist." So the claim
+    # moved out of Statements and Declarations into a section of its own. ⛔ THE RELATION IS
+    # UNCHANGED AND MUST STAY SCOPED TO *FINANCIAL* INTERESTS: the author has a non-financial one,
+    # and `test_the_envelope_declares_one_interest.py` is the guard that stops this paper ever
+    # denying it. A row here that read "no competing interests" would be the misstatement that guard
+    # exists to catch.
     ("competing-interests",
-     r"\*\*Declaration of conflicting interest\.\*\*[^#]{0,320}",
-     r"declares no financial competing interests",
-     r"declares financial competing interests",
+     r"## Author Disclosure Statement[^#]{0,320}",
+     r"No competing financial interests exist",
+     # ⛔ THE INVERSE NEEDLE MUST NOT MATCH INSIDE ITS OWN POSITIVE. "Competing financial interests
+     # exist" is a substring of "NO competing financial interests exist", and the search is
+     # case-insensitive, so without the lookbehind this row reported the inversion as present at the
+     # moment the paper stated the correct thing. Same trap `test_the_envelope_declares_one_interest`
+     # records against its survivorship needle.
+     r"(?<!No )Competing financial interests exist",
      "the cover letter: 'I received no funding and have no financial competing interests'",
-     "**Declaration of conflicting interest.** The author declares financial competing "
-     "interests."),
+     "## Author Disclosure Statement\n\nCompeting financial interests exist."),
     ("ai-use",
      r"\*\*Use of artificial intelligence\.\*\*[^#]{0,140}",
      r"A large language model \(Claude, Anthropic\) was used",

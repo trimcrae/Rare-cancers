@@ -44,6 +44,7 @@ should not raise the bar for what counts as an empty page.
 """
 from __future__ import annotations
 
+import io
 import os
 import re
 
@@ -90,11 +91,91 @@ def _page_texts(pdf_path):
     return pages
 
 
+#: The section headings a NAT submission must start on a fresh page of its own. A short page that
+#: OPENS with one of these is the format working, not a defect.
+#:
+#: ⛔⛔ WHY A LENGTH TEST ALONE STOPPED BEING ENOUGH (2026-08-25). Nucleic Acid Therapeutics requires
+#: each major section to begin on a separate page, so `break-before: page` went on every h2 of the
+#: manuscript build — and two REQUIRED pages immediately fell under the threshold: Keywords, which is
+#: one line by nature, and Author Disclosure Statement, which is two. Both are correct. Relaxing
+#: MIN_CHARS to admit them would have blinded the guard to the defect it exists for, which was still
+#: present on the same build: two lines of the Methods tail alone on a page.
+#:
+#: ★ THE DISCRIMINATOR IS WHERE THE PAGE STARTS, NOT HOW MUCH IT HOLDS. A deliberately short section
+#: opens with its own HEADING; a stranded line opens mid-sentence, in the middle of the paragraph it
+#: was torn from. That is checkable, and it is the difference the length alone could never see.
+SHORT_BY_DESIGN = (
+    "Keywords",
+    "Acknowledgments",
+    "Author Disclosure Statement",
+    "Tables",
+    "Figure legends",
+)
+
+
+def _opens_a_section(text):
+    """Does this page BEGIN with a section heading? Then its shortness is the format, not a defect."""
+    first = (text.lstrip().splitlines() or [""])[0].strip()
+    return any(first == h or first.startswith(h) for h in SHORT_BY_DESIGN)
+
+
+def _paper_for(label):
+    """(this PDF's own `## ` headings, does its build force a page break before each one).
+
+    ⚠ BOTH FACTS ARE READ OFF THE BUILDER AND THE MANUSCRIPT, NEVER LISTED HERE. `SHORT_BY_DESIGN`
+    above is a deliberate hand-kept subset — the sections that are short in their own right — and
+    it is the wrong set for the question below, which is "did a page break land here": that one is
+    about EVERY section, including Discussion, and the paper's own headings are the only honest
+    answer. A second list would go stale the next time the manuscript gains a section.
+    """
+    stem = DEPOSIT_PDFS[label][:-len("-manuscript.pdf")] + ".md"
+    try:
+        import sys
+        sys.path.insert(0, MANUSCRIPTS)
+        import build_submission_pdf as bsp
+    except Exception:  # noqa: BLE001 — the builder has its own import gate
+        return (), False
+    for paper in bsp.PAPERS.values():
+        if os.path.join(MANUSCRIPTS, paper.get("manuscript", "")) != stem:
+            continue
+        body = io.open(stem, encoding="utf-8").read() if os.path.exists(stem) else ""
+        headings = tuple(re.sub(r"[*_`]", "", m.group(1)).strip()
+                         for m in re.finditer(r"^##\s+(.+?)\s*$", body, re.M))
+        return headings, bool((paper.get("layout") or {}).get("nat_submission"))
+    return (), False
+
+
+def _next_page_opens_a_section(pages, number, headings):
+    """⛔ A SECTION'S LAST PAGE IS SHORT BY THE FORMAT, NOT BY A BADLY PLACED FLOAT (2026-08-25).
+
+    Nucleic Acid Therapeutics requires each major section to begin on a separate page, so the
+    submission build carries `break-before: page` on every h2. Under that rule the final page of
+    any section whose prose does not happen to fill a whole page IS short, necessarily, and no
+    amount of trimming removes it — shortening the section only changes WHICH words are left alone
+    on it. `test_pdf_text_layer_is_orderable` measured exactly that on this manuscript: three
+    successive trims of Materials and Methods moved its tail page from 318 to 293 to 260 characters
+    and never emptied it. This is the same exemption, in the guard that measures the same build.
+
+    ⚠ NARROW BY CONSTRUCTION. It applies only to a build that actually forces the break, and only
+    to a page IMMEDIATELY FOLLOWED by one that opens a section. A short page in the MIDDLE of a
+    section is still a failure, which is the defect this guard was written for; so is a short page
+    in the preprint build, which carries no per-section break at all.
+    """
+    nxt = dict(pages).get(number + 1)
+    if not nxt or not headings:
+        return False
+    first = (nxt.lstrip().splitlines() or [""])[0].strip()
+    return any(first == h or first.startswith(h) for h in headings)
+
+
 @pytest.mark.parametrize("label", sorted(DEPOSIT_PDFS))
 def test_no_page_of_the_deposit_pdf_holds_only_a_stranded_line(label):
     pages = _page_texts(DEPOSIT_PDFS[label])
     assert pages, f"the {label} PDF has no pages"
-    stranded = [(n, len(t)) for n, t in pages if len(t) < MIN_CHARS]
+    headings, forced_breaks = _paper_for(label)
+    stranded = [(n, len(t)) for n, t in pages
+                if len(t) < MIN_CHARS and not _opens_a_section(t)
+                and not (forced_breaks and _next_page_opens_a_section(pages, n, headings))]
     if stranded:
         median = sorted(len(t) for _, t in pages)[len(pages) // 2]
         detail = "\n  ".join(

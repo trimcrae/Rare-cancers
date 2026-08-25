@@ -94,6 +94,39 @@ def wrapped_text(x, y, text, font_size, max_width, fill, leading=1.25, **attrs):
     return out, len(out) * step
 
 
+def blend_over_white(colour, alpha):
+    """`colour` composited onto white at `alpha`, returned as a solid `#rrggbb`.
+
+    ⛔⛔ WHY THIS EXISTS: `opacity=` ON ONE RECT RASTERISES THE WHOLE EPS (measured 2026-08-25).
+    Nucleic Acid Therapeutics wants figures as EPS or TIFF, and the only offline converter that
+    reaches EPS is Ghostscript's `eps2write`. PostScript has NO transparency model, so when the
+    input PDF carries a transparency group Ghostscript cannot translate it and falls back to
+    rendering the entire page into ONE inline image — text, rules and all.
+
+    Measured on the four ASO figures, and the comparison is what proves the mechanism rather than
+    suggesting it. `aso-junction-space.pdf` is the only one with zero `/Transparency` groups, and
+    it is the only one that converts to a real EPS: 164 live text-showing operators, no image.
+    The other three each carry `/Transparency` — 3, 39 and 136 groups — and each converts to a
+    single `BI … ID` inline image with ZERO text operators. That is a figure a journal cannot
+    re-typeset, cannot search and cannot print at its own resolution, and it is precisely the
+    defect `tests/test_aso_figures_are_vector_not_raster.py` was written to stop in the PDF.
+
+    ⚠ THE SUBSTITUTION IS EXACT, NOT AN APPROXIMATION, WHEREVER THE BACKDROP IS THE PAGE. Alpha
+    compositing of a source over an opaque backdrop is `a*src + (1-a)*dst` per channel, so a
+    solid fill of that value is the same pixel the renderer would have produced. It is exact ONLY
+    over white: two of these marks drawn on top of each other would have blended with each other,
+    and a solid fill cannot. Every call site here draws over the page background, and the
+    regeneration was verified by pixel-differencing the 300 dpi PNGs before and after.
+    """
+    if not (isinstance(colour, str) and colour.startswith("#") and len(colour) == 7):
+        raise ValueError(f"blend_over_white needs a #rrggbb colour, got {colour!r}")
+    if not 0.0 <= float(alpha) <= 1.0:
+        raise ValueError(f"alpha must be within [0, 1], got {alpha!r}")
+    a = float(alpha)
+    channels = (int(colour[i:i + 2], 16) for i in (1, 3, 5))
+    return "#" + "".join(f"{round(a * c + (1.0 - a) * 255):02x}" for c in channels)
+
+
 #: ⚠ SMALL COUNTS ARE SET AS WORDS, THE WAY THE MANUSCRIPT SETS THEM. A derived count printed as
 #: a digit reads in a different register from the prose beside it ("the 10-base-pair criterion"
 #: against "the ten-base-pair criterion"), and the fix must not be to type the word — that is how

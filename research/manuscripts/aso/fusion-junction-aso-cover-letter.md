@@ -91,6 +91,10 @@ retitle the manuscript and this line must be recopied, not retyped.*
 Dear Editor,
 
 I submit the manuscript above for consideration as an Original Paper in *Nucleic Acid Therapeutics*.
+It executes the in-silico half of the first step of the off-target framework this journal published
+(Andersson et al., *Nucleic Acid Ther* 2025;35:16–33), and stops where that framework turns
+experimental — which is the fit, and the reason it is offered here rather than elsewhere.
+
 Extraskeletal myxoid chondrosarcoma is an ultra-rare sarcoma defined by rearrangement of *NR4A3* to
 a variable 5′ partner. Its chimeric mRNA carries a breakpoint seam absent from every normal
 transcript, which is the disease's one tumour-exclusive feature at the RNA level, and no
@@ -160,12 +164,22 @@ Declarations: no sequence here has been synthesised or tested, and the paper's c
 experiment that remains to be done rather than a result. I therefore read the policy as not
 engaging this submission, and would welcome the editors' confirmation.
 
+The same paragraph of the Instructions asks authors to note this journal's editorial policy as set
+out in Stein and Krieg, "Problems in interpretation of data derived from in vitro and in vivo use of
+antisense oligodeoxynucleotides" (*Antisense and Nucleic Acid Drug Development* 1994;4:67–69). That
+policy is about over-interpretation of antisense data, and it is the standard this manuscript is
+built to rather than one it has to be held to. No sequence here has been synthesised, so there is no
+activity to over-read; the paper's central number is reported with the comparison that undercuts it,
+its criterion is stated as a convention rather than a measurement, and the assessable subset is
+given as a floor rather than a total. Where the design problem is unresolved the manuscript says so
+and names the experiment instead of the conclusion.
+
 Read strictly, the requirement is met in substance anyway, and in the direction the policy intends.
 The manuscript specifies the controls the proposed experiment requires rather than reporting an
 experiment without them, and two of the three are control oligonucleotides in the policy's own
-sense: a dinucleotide-preserving scramble of each named reagent, which the manuscript requires to
-clear the mature-parent screen itself before synthesis; and a positive control carrying the test
-articles' own gapmer geometry. Both are specified as classes with their required properties rather
+sense, both named as sequences in Table 2: a dinucleotide-preserving scramble of each named
+reagent, which the manuscript requires to clear the mature-parent screen itself before synthesis;
+and a positive control carrying the test articles' own gapmer geometry. Both are specified as classes with their required properties rather
 than as catalogue items, because neither exists until a laboratory draws it against its own test
 article. The third control is not an oligonucleotide and is named as what it is: a fusion-negative
 isogenic pair, which only the construct route supplies and which neither patient-derived model has.
