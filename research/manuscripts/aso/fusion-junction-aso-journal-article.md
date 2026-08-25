@@ -149,7 +149,8 @@ three of three reported breakpoints, an upper bound rather than an estimate.
 
 That figure is not a ceiling: a third design, 5′-GGGCATATCTCCACGG-3′ at *EWSR1* exon 13 joined to
 *NR4A3* exon 3, already tiled and screened at the same top margin, would take the figure above to
-79.0%. It is not named for synthesis, on grounds the extended report sets out.
+79.0%. It is not named for synthesis: this junction is third by
+reported prevalence and the selection above takes the first two.
 
 ## 3 · Selection from a panel of 190 designs
 
@@ -187,11 +188,9 @@ at a deeper one.
 
 The ten-base-pair criterion is adopted rather than measured, and the comparison against null models
 does not resolve an excess specific to this disease. What the screen does establish is structural
-rather than statistical, and it does not depend on the cut: each parent supplies about half of any
-junction design, which is far outside the mismatch budget of a conventional off-target search, so
-that search cannot return a parent as a near-match at any threshold it is normally run at. The
-liability is therefore invisible to the instrument a designer would ordinarily use, which is the
-case for screening it directly whatever cut is adopted. Mononucleotide scrambles — the weakest of the
+rather than statistical, and it does not depend on the cut: the parent liability §1 describes is
+invisible to the instrument a designer would ordinarily use at any threshold it is normally run at,
+which is the case for screening it directly whatever cut is adopted. Mononucleotide scrambles — the weakest of the
 ten nulls screened, and not the dinucleotide-preserving control §5 prescribes — meet the parent
 screen at 6.2% against 45.8% for the panel, but chimeras built at real exon termini of the same two
 transcripts, at junctions almost never reported in a patient, meet it at 40.6%. The adopted cut does not escape that comparison: at ten the
@@ -265,8 +264,8 @@ partner.<sup>3</sup><!--PMID:41055792-->
 
 An isogenic fusion-positive against fusion-negative comparison has been run in an analogous fusion
 sarcoma, against *NAB2::STAT6* in solitary fibrous
-tumour.<sup>17</sup><!--PMID:37370737--> The extended report specifies it for these reagents, with
-three controls a knockdown assay alone cannot distinguish. Two are named as sequences (Table 2): a
+tumour.<sup>17</sup><!--PMID:37370737--> It is specified here for these reagents, with three
+controls a knockdown assay alone cannot distinguish. Two are named as sequences (Table 2): a
 dinucleotide-preserving scramble of each reagent, drawn and then put through the same mature-parent
 screen the reagent passed. That screening is what makes a scramble a control — 10.0% of such
 scrambles pair a parent's whole catalytic gap at the ten-base-pair criterion and 3.9% do so against

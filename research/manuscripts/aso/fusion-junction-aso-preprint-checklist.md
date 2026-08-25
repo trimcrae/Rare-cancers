@@ -311,6 +311,33 @@ skim.** Ranked:
 
 **✅ THE ITEM THAT BLOCKED IS CLOSED. What stands here now is TRACKED, and it does not block.**
 
+### 3-ii · The extended report is a historical checkpoint, and the 6-page article must stand alone
+
+★★ **trimcrae, 2026-08-25, asked whether the deposited extended report's exon-4 rationale should be
+corrected:** *"The extended report is like 70 pages long. Nobody is ever going to read it. The 6
+page version must be self contained. Treat the 70 page version as nothing more than a checkpoint in
+the historical record."*
+
+⛔ **SO THE EXTENDED REPORT IS NOT EDITED TO TRACK A CORRECTION.** Its §2.1 still excludes an exon-4
+acceptor on protein grounds — *"an exon-4 acceptor would delete the NR4A3 DNA-binding domain that
+every reported EMC chimera retains"* — which is the argument its own §2.6 says does not transfer to
+an RNase-H mechanism. That stands as deposited. The condensed article carries the reason that is
+correct for this modality instead: no acceptor 3′ of exon 3 is reported anywhere in the record this
+work retrieved, so nothing is designed there because no patient is reported there.
+
+★ **AND THE STANDING REQUIREMENT THIS CREATES IS THE HALF THAT IS EASY TO MISS.** "Self-contained"
+is a property to be CHECKED, not a description. Every place the 6-page article defers a load-bearing
+statement to the extended report is a defect against it. Audited 2026-08-25, and one was real: §2
+told a reader that a screened design at the panel's top margin, which would raise the addressed
+figure to 79.0%, was *"not named for synthesis, on grounds the extended report sets out"* — a
+withheld reason, and the reason turned out to be §2's own stated selection rule (that junction is
+third by reported prevalence). It is stated in §2 now. §5's *"the extended report specifies it"*
+became *"it is specified here"*, which it was. The remaining pointers were checked and left: they
+are scope statements and data-availability pointers, not conclusions held elsewhere — §6 says which
+compartment this paper does NOT screen, §7 and the availability statement say where the per-design
+tables live. ⚠ **The test to apply is whether a reader could ACT on the paper without the other
+one**, not whether the phrase "extended report" appears.
+
 ### 3-i · The published deposit is behind the repository again — and this time it is ordinary
 
 ⚠ **THE PUBLISHED DEPOSIT IS BEHIND THE REPOSITORY**, by construction and within hours of being
