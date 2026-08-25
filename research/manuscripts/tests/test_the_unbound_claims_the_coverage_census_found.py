@@ -51,9 +51,13 @@ def _artifact(path, what):
     return json.load(io.open(path, encoding="utf-8"))
 
 
-def _named_reagents():
+def _rows():
     with io.open(SEQ_CSV, encoding="utf-8") as fh:
-        rows = list(csv.DictReader(ln for ln in fh if not ln.startswith("#")))
+        return list(csv.DictReader(ln for ln in fh if not ln.startswith("#")))
+
+
+def _named_reagents():
+    rows = _rows()
     seqs = set(re.findall(r"5′-([ACGT]{16})-3′",
                           re.sub(r"\s+", " ", io.open(ARTICLE, encoding="utf-8").read())))
     named = {r["sequence"]: r for r in rows if r["sequence"] in seqs
@@ -117,12 +121,38 @@ def test_the_near_match_definition_is_the_screens_own_ceiling(prose):
         f"{length - at_least} mismatches; the screen was run at max_mismatches={ceiling}")
 
 
+def _synthesis_reagents(prose):
+    """The reagents §2 names FOR SYNTHESIS, read off the sentence that names them.
+
+    ⛔⛔ WHY NOT `_named_reagents()` (2026-08-24). That helper returns every 16-mer the article
+    prints whose canonical row is an exon-3 "best available at this junction" design, and until this
+    date that set happened to equal the synthesis pair. §2 then gained a THIRD such sequence —
+    5′-GGGCATATCTCCACGG-3′ at *EWSR1* exon 13, printed so a laboratory holding USZ20-EMC1 can order
+    the molecule §4 sends it to, and explicitly NOT named for synthesis. The g-tract sentence below
+    says "Both", so a guard reading three molecules is no longer reading that sentence's subject.
+    ★ THE FIX IS TO READ THE SUBJECT FROM THE PROSE, not to widen the claim to whatever is printed:
+    "Both" is a count, and a guard that silently accepts three has stopped checking it.
+    """
+    m = re.search(r"The (two) reagents named for synthesis are.*?\(Table 1\)", prose)
+    assert m, ("§2 no longer names its synthesis reagents in the sentence this guard reads. "
+               "⛔ CHECK THE MEANING BEFORE THE REGEX: if the paper now names a different number "
+               "of reagents, that is a change to what it asks a laboratory to make, not a wording "
+               "change to re-anchor past.")
+    seqs = re.findall(r"5′-([ACGT]{16})-3′", m.group(0))
+    assert len(seqs) == 2, (
+        f"§2 says TWO reagents are named for synthesis and that sentence prints {len(seqs)}: "
+        f"{seqs}. The count and the sequences must agree — a reader orders what is printed.")
+    return seqs
+
+
 def test_the_named_reagents_g_tract_claim_is_read_off_their_sequences(prose):
     """⛔ "Both begin 5′-GGG, a contiguous locked G-tract" — a SEQUENCE property, from the sequences."""
-    named = _named_reagents()
-    assert len(named) == 2, (
-        f"expected two named exon-3 reagents in the article and the canonical file; found "
-        f"{sorted(named)} — re-anchor this guard")
+    named = _synthesis_reagents(prose)
+    rows = {r["sequence"] for r in _rows()}
+    unknown = [s for s in named if s not in rows]
+    assert not unknown, (
+        f"§2 names {unknown} for synthesis and the canonical sequence file carries no such row. A "
+        "sequence printed as an order must be one the canonical file decides the properties of.")
     m = re.search(r"Both begin 5′-([ACGT]+), a contiguous locked", prose)
     assert m, "§2's G-tract sentence has been reworded; re-anchor this guard ⛔ CHECK THE MEANING BEFORE THE REGEX: if the claim was INVERTED or DROPPED, re-anchoring makes the guard agree with the new wording and the finding disappears. Re-anchor only when the sentence says the same thing in different words."
     tract = m.group(1)

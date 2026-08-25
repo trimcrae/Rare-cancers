@@ -961,8 +961,218 @@ def build():
     }
 
 
+#: ⭐⭐ THE LAB-SUPPLIED LANE — DESIGNS AT A SEAM THIS REPOSITORY HAS NOT READ IN A PAPER.
+#:
+#: ⛔ WHY IT IS NOT A HOLE IN THE WHITELIST. `PUBLISHED_NONCODING_ACCEPTOR_JUNCTIONS` gates the
+#: COMMITTED ARTIFACT, and the thing it protects is a claim: every seam this repository publishes
+#: designs for is one a published report places a patient at. That guard is untouched below — the
+#: lab lane cannot add a key to it, cannot write `OUT`, and appears in no committed artifact.
+#:
+#: ⭐ WHAT THE GUARD WAS NEVER FOR. It was never a statement that an unpublished seam is not a
+#: target. A laboratory that has sequenced its own cells' breakpoint holds exactly the evidence the
+#: whitelist is a proxy for — better evidence, in fact, since it is that lab's own material rather
+#: than a report about someone else's — and the manuscript already requires nucleotide-resolution
+#: confirmation in test material before any oligonucleotide is ordered. Refusing that lab a design
+#: enforced the proxy against the thing it stood for.
+#:
+#: ⛔ SO THE GATE MOVES RATHER THAN OPENING: from "is it published?" to "is it SEQUENCED, and does
+#: the sequence agree with the model the designs are built on?". `--sequenced-by` is mandatory and
+#: recorded verbatim into the output; `--junction-mrna` is optional, and when given it is CHECKED
+#: against the seam the transcript models produce, so a caller whose numbering disagrees with this
+#: repository's is refused rather than handed sequences built on the wrong seam. That is this
+#: repository's own retracted-version defect, and it is the one failure this lane can actually cause.
+_LAB_LANE_IS_NOT = [
+    "⛔ NOT PUBLISHED EVIDENCE AND NOT PART OF THE PANEL. This seam is in no committed artifact, "
+    "no coverage rung, no manuscript table and no deposit. It rests on the caller's attestation, "
+    "which this repository has not seen and cannot check.",
+    "⛔ NOT SCREENED. The five deep screens the panel's junctions went through have not run here — "
+    "see each design's `⚠_offtarget_screens_run`. Unscreened is not clean.",
+    "Not an efficacy, activity or safety claim. Sequence arithmetic and a parent-exclusion screen.",
+    "Not a coverage claim. A seam with no published patient count moves no coverage figure at all.",
+]
+
+
+def lab_supplied_designs(donor_sym, d_end, acceptor_sym, a_start, sequenced_by,
+                         observed_junction_mrna=None):
+    """Designs at a breakpoint the CALLER sequenced, gated on attestation rather than publication.
+
+    Returns a record; writes nothing. `sequenced_by` is required and is carried verbatim into the
+    output, because a design whose only warrant is an attestation must travel with that attestation.
+
+    `observed_junction_mrna` is the caller's own read across the seam, in the same
+    `...12nt|12nt...` form this module prints (the bar is optional, and case and U/T are
+    normalised). When supplied it is checked against the seam the transcript models build. A
+    mismatch RAISES: it means the caller's exon numbering and this repository's disagree, and
+    emitting sequences anyway is precisely how this work's withdrawn version came about.
+    """
+    if not (sequenced_by or "").strip():
+        raise ValueError(
+            "sequenced_by is required. This lane's whole gate is that the breakpoint was "
+            "established at nucleotide resolution in the caller's own material — the same "
+            "requirement the manuscript places on the exon-3 reagents. Name the assay and the "
+            "record it lives in; it is written into the output beside the sequences.")
+
+    retracted = retraction_for(donor_sym, d_end, acceptor_sym, a_start)
+    if retracted:
+        raise ValueError(
+            f"{donor_sym}_e{d_end}__{acceptor_sym}_e{a_start} is a WITHDRAWN seam in this "
+            f"repository, and a caller-supplied breakpoint does not overturn a retraction: "
+            f"{retracted.get('⛔_verdict') or retracted.get('status')}. If your own sequencing "
+            "genuinely reads this seam, that is evidence which reopens the retraction record — "
+            "raise it there rather than routing around it here.")
+
+    donor = ja.transcript_model(donor_sym)
+    acceptor = ja.transcript_model(acceptor_sym)
+    j = ja.mrna_junction_generic(donor, acceptor, d_end, a_start)
+    label = j["junction_label"]
+
+    if observed_junction_mrna:
+        want = _normalise_seam(j["junction_context_mRNA"])
+        got = _normalise_seam(observed_junction_mrna)
+        if want != got:
+            raise ValueError(
+                f"the junction you sequenced does not match the seam {label} builds here.\n"
+                f"  you gave   : {got}\n"
+                f"  models give: {want}\n"
+                "⛔ REFUSING TO EMIT. The two most likely causes are a different exon numbering "
+                "convention (this module counts TRANSCRIPT exons from the 5' end, non-coding exons "
+                "included) and a different transcript isoform. Designs built on the wrong seam are "
+                "the defect this work's own withdrawn version arose from, so this refuses rather "
+                "than emitting sequences that would not span your junction.")
+
+    parents = _parents()
+    oligos = ja.design(j["_left"], j["_right"], j["_fusion"],
+                       parents={k: v for k, v in parents.items() if v})
+    clean = [o for o in oligos if o["fusion_specific"]]
+    wt = _wild_type_allele_liability([o["antisense_5to3"] for o in oligos], parents)
+    condemned = set(wt["designs_cleaving_wild_type_NR4A3"])
+    per_design_scan = (wt["scan"].get("per_design") or {})
+
+    designs = []
+    for o in oligos:
+        v = per_design_scan.get(o["antisense_5to3"]) or {}
+        designs.append({
+            "antisense_5to3": o["antisense_5to3"],
+            "target_mRNA_5to3": o["target_mRNA_5to3"],
+            "architecture": o["architecture"],
+            "gap_specificity_margin": o["gap_specificity_margin"],
+            "gap_bases_donor_side": o["gap_bases_from_EWSR1"],
+            "gap_bases_acceptor_side": o["gap_bases_from_NR4A3"],
+            "gc_percent": o["gc_percent"],
+            "has_G4_motif": o["has_G4_motif"],
+            "clears_parent_exclusion": o["fusion_specific"],
+            "exact_parent_hits": o["exact_parent_hits"],
+            "⛔_cleaves_wild_type_NR4A3": o["antisense_5to3"] in condemned,
+            "wild_type_NR4A3_verdict": v.get("verdict", "NOT SCANNED — absent, not clean"),
+            "⚠_offtarget_screens_run": _screens_run_on(label),
+        })
+    usable = [d for d in designs
+              if d["clears_parent_exclusion"] and not d["⛔_cleaves_wild_type_NR4A3"]]
+
+    return {
+        "_what": (f"Gapmer designs at {label} — a breakpoint supplied and sequenced by the caller, "
+                  "not one this repository read in a published report."),
+        "_lane": "lab-supplied",
+        "⛔_this_is_not": _LAB_LANE_IS_NOT,
+        "⛔_the_warrant_for_these_sequences_is_this_and_nothing_else": {
+            "sequenced_by": sequenced_by,
+            "checked_against_the_transcript_models": bool(observed_junction_mrna),
+            "observed_junction_mRNA_as_given": observed_junction_mrna,
+            "⚠": ("This repository has NOT seen the caller's data. The attestation is recorded, "
+                  "not verified. What IS verified, when `--junction-mrna` is given, is that the "
+                  "caller's seam and this module's transcript models describe the same junction."),
+        },
+        "junction_label": label,
+        "junction_context_mRNA": j["junction_context_mRNA"],
+        "acceptor_exon_is_coding": j["nr4a3_acceptor_exon_is_coding"],
+        "in_frame_at_the_mRNA_level": j["in_frame"],
+        "_frame_note": ("reported because it is a reading, not because it gates anything. An "
+                        "RNase-H gapmer cleaves the transcript; the frame decides what protein the "
+                        "tumour makes. This lane does not filter on either."),
+        "geometry": {"oligo_len": ja.OLIGO_LEN, "wing": ja.WING, "gap": ja.GAP,
+                     "architecture": f"{ja.WING}-{ja.GAP}-{ja.WING} (LNA-DNA-LNA)"},
+        "transcript_source": ja.transcript_source_provenance(),
+        "parents_screened": sorted(s for s, v in parents.items() if v),
+        "parents_unavailable": sorted(s for s, v in parents.items() if not v),
+        "n_designs_spanning_the_seam": len(oligos),
+        "n_clearing_the_parent_exclusion": len(clean),
+        "n_clearing_parent_exclusion_AND_the_wild_type_allele": len(usable),
+        "best_by_gap_specificity_margin": (usable[0]["antisense_5to3"] if usable else None),
+        "_how_best_is_chosen": (
+            "highest gap_specificity_margin among designs that clear the parent exclusion AND "
+            "carry no cleavage-competent site in wild-type NR4A3. ⛔ Not a recommendation: the "
+            "deep screens have not run at this seam."),
+        "designs": designs,
+        "⭐_wild_type_NR4A3_cleavage_liability": wt,
+        "what_would_make_these_usable": [
+            "Run the five deep screens at this seam — the same aso-offtarget CI path the panel's "
+            "38 junctions used. CPU and network only; no GPU, no rental.",
+            "Confirm the seam in the material you will actually treat, if the sequence above came "
+            "from a different passage, vial or specimen.",
+        ],
+    }
+
+
+def _normalise_seam(s):
+    """A seam string reduced to the bases either side, so two conventions can be compared."""
+    return "".join(c for c in (s or "").upper().replace("U", "T") if c in "ACGT")
+
+
+def _arg(argv, flag):
+    """`--flag value` or `--flag=value`, or None."""
+    for i, a in enumerate(argv):
+        if a == flag:
+            return argv[i + 1] if i + 1 < len(argv) else ""
+        if a.startswith(flag + "="):
+            return a.split("=", 1)[1]
+    return None
+
+
+def _parse_breakpoint(spec):
+    """`EWSR1:13::NR4A3:2` -> ("EWSR1", 13, "NR4A3", 2)."""
+    try:
+        donor, acceptor = spec.split("::")
+        d_sym, d_end = donor.split(":")
+        a_sym, a_start = acceptor.split(":")
+        return d_sym.strip().upper(), int(d_end), a_sym.strip().upper(), int(a_start)
+    except (ValueError, AttributeError):
+        raise SystemExit(
+            f"--lab-breakpoint {spec!r} is not readable. The form is DONOR:EXON::ACCEPTOR:EXON, "
+            "e.g. EWSR1:13::NR4A3:2. Exon numbers are TRANSCRIPT exon indices counted from the "
+            "transcript 5' end, non-coding exons included — the same convention the manuscript "
+            "states, and the one an acceptor label read under the coding-exon convention will "
+            "disagree with.")
+
+
 def main(argv=None):
     argv = list(sys.argv[1:] if argv is None else argv)
+
+    # ── the lab-supplied lane. Writes NOTHING to OUT: the committed artifact stays whitelist-only.
+    spec = _arg(argv, "--lab-breakpoint")
+    if spec is not None:
+        rec = lab_supplied_designs(*_parse_breakpoint(spec),
+                                   sequenced_by=(_arg(argv, "--sequenced-by") or ""),
+                                   observed_junction_mrna=_arg(argv, "--junction-mrna"))
+        text = json.dumps(rec, indent=1, sort_keys=False, ensure_ascii=False) + "\n"
+        dest = _arg(argv, "--lab-out")
+        if dest:
+            if os.path.abspath(dest) == os.path.abspath(OUT):
+                raise SystemExit(
+                    f"refusing to write the lab-supplied lane over {os.path.basename(OUT)}. That "
+                    "artifact is the published-breakpoint one, and a caller-attested seam must not "
+                    "enter it — the whitelist is what lets this repository say every seam it "
+                    "publishes designs for is one a report places a patient at.")
+            with open(dest, "w", encoding="utf-8") as fh:
+                fh.write(text)
+            print(f"wrote {dest}", file=sys.stderr)
+        else:
+            sys.stdout.write(text)
+        print(f"  {rec['junction_label']}  seam {rec['junction_context_mRNA']}  "
+              f"{rec['n_clearing_parent_exclusion_AND_the_wild_type_allele']}"
+              f"/{rec['n_designs_spanning_the_seam']} designs clear the parent exclusion and the "
+              "wild-type allele", file=sys.stderr)
+        return 0
+
     art = build()
     new = json.dumps(art, indent=1, sort_keys=False, ensure_ascii=False) + "\n"
     if "--check" in argv:
