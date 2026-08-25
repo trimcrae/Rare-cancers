@@ -75,7 +75,9 @@ HTML_FILTER = "HTML (StarWriter)"
 #: `build_submission_pdf` also builds a vaccine paper, and quietly writing a submission artefact
 #: for a paper nobody asked about is how a submission folder grows files whose provenance
 #: no one can explain.
-PAPERS = ("aso-journal", "aso")
+#: ⛔ THE EXTENDED REPORT CAME OUT ON 2026-08-25 — it is no longer in `build_submission_pdf.PAPERS`
+#: at all, so a legends file for it could not be built even if this list still asked for one.
+PAPERS = ("aso-journal",)
 
 #: Word stores line spacing in twentieths of a point. Single is 240; double is 480.
 #: `lineRule="auto"` makes it a multiple of the line rather than an exact height, which is what

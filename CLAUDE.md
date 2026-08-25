@@ -230,7 +230,8 @@ carry every rule verbatim, with its evidence. **A tripwire that did not fire is 
 | dispatch a workflow · run a branch's CI without merging · supervise a billing fleet · set up a self-wake poller | **`ci-escape-hatches`** |
 | **rent, relaunch or refuse a host** · launch a fleet · pick a provider · write a job that checkpoints · diagnose a Vast/GCP provisioning, quota or teardown problem · install anything on a machine we pay for | **`gpu-compute`** |
 | your final message **leaves real compute running** · about to print a `$/ns`, cost row or drift flag | **`inflight-reporting`** |
-| **commit or push** (a merge to `main` included — that is the ordinary commit loop) · run preflight · a gate goes red · edit a manuscript or SI · touch `systems/` or the registry · **PUBLISH** — and publishing is the closed list *preprint, submission, release, DOI*, the only four things `PREFLIGHT_FULL=1` is for (the default run is fast gates only; `PREFLIGHT_TESTS=1` adds the suites) | **`repo-gates`** |
+| **commit or push** (a merge to `main` included — that is the ordinary commit loop) · run preflight · a gate goes red · edit a manuscript or SI · touch `systems/` or the registry · **PUBLISH** — and publishing is the closed list *preprint, submission, release, DOI*, the only four things `PREFLIGHT_FULL=1` is for (the default run is fast gates only; `PREFLIGHT_TESTS=1` adds the manuscripts suite,
+`PREFLIGHT_MODALITIES=1` the modalities one) | **`repo-gates`** |
 
 **Four rules that must fire even if you never load a skill**, because each guards an irreversible or expensive
 act you'd commit *before* thinking to consult anything:
@@ -267,6 +268,19 @@ act you'd commit *before* thinking to consult anything:
     ⚠ *Second complaint of this family — 2026-08-23 produced `PREFLIGHT_TESTS=1` and the failure
     survived it, because the cost was never the suites, it was the serialization. Measured evidence:
     [CLAUDE-history.md](./CLAUDE-history.md).*
+  - ⭐⭐ **AND MODALITIES CAME OUT OF `PREFLIGHT_TESTS` ENTIRELY ON 2026-08-25 — `PREFLIGHT_MODALITIES=1`**
+    (trimcrae: *"Just turn off modalities completely if it's that big an issue"*). Measured that day over
+    four runs: modalities **481–535 s** against manuscripts **225–255 s**, fast gates ~31 s, selector suite
+    ~55 s — **62% of a 13.5-minute gate**, every run of it the full 7,924 tests.
+    ⛔ **AND THE "FULL" WAS NOT A CHOICE ANYBODY MADE.** `affected_tests.py` fails safe: if it or
+    `preflight.sh` differ from what `scripts/selector-validation.json` says a FULL run validated, it
+    answers FULL. **Both hashes are stale** — `preflight.sh` changed 2026-08-23, `affected_tests.py`
+    arrived by merge 2026-08-24 — and **only a `PREFLIGHT_FULL=1` run re-stamps that record**, which this
+    section reserves for publication. A tripwire clearable only by a rare act is a permanent tripwire.
+    ⚠ **That diagnosis is still open and is NOT fixed by the flag** — re-stamping is a separate call.
+    ⛔ **The cost, plainly: a modality break is no longer caught before the commit.** `tests.yml` runs
+    both suites in full on every push with the real dependencies and is the authority, so it is caught
+    minutes later and costs one more commit — the same trade already made for the manuscripts suite below.
   - ⭐ **THE TEST SUITES ARE OPT-IN AS OF 2026-08-23 — `PREFLIGHT_TESTS=1` — BECAUSE THEY WERE THE GATE**
     (trimcrae: *"change the rules so that it's not constantly running and blocking things"*). Measured
     that day: fast gates **31.4 s**, manuscripts suite **176.1 s on every single commit** including one

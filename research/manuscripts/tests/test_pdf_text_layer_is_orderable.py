@@ -54,12 +54,20 @@ ASO = os.path.join(MANUSCRIPTS, "aso")
 #: article's two built PDFs was read by any delimiter, fusion, split or staleness guard here — the
 #: same one-of-a-pair scoping this review has now closed in four separate instruments. The journal
 #: builds were clean when this was widened; again the gap was in ENFORCEMENT, not the artifacts.
+#: ⛔ THE EXTENDED REPORT'S TWO BUILDS CAME OUT ON 2026-08-25 (trimcrae). It is not in
+#: `build_submission_pdf.PAPERS` any more, so there is nothing to rebuild if one of these went
+#: stale, and a guard whose remediation command cannot run is worse than no guard.
 PDFS = {
-    "manuscript": os.path.join(ASO, "fusion-junction-aso-research-article-manuscript.pdf"),
-    "journal": os.path.join(ASO, "fusion-junction-aso-research-article.pdf"),
     "journal-article": os.path.join(ASO, "fusion-junction-aso-journal-article.pdf"),
     "journal-article-manuscript": os.path.join(
         ASO, "fusion-junction-aso-journal-article-manuscript.pdf"),
+    #: ⭐ THE PREPRINT-SERVER FILE (2026-08-25). It is a THIRD build of the journal article — same
+    #: text, single column, none of the journal house style — and it goes to a preprint server
+    #: under the author's name, so every text-layer assertion in this module applies to it exactly
+    #: as it does to the other three. A submission text that reaches a reader and is not in this
+    #: map is the shrinking-scope hole the comment above already records once.
+    "journal-article-preprint": os.path.join(
+        ASO, "fusion-junction-aso-journal-article-preprint.pdf"),
 }
 #: The `--paper`/`--style` pair that BUILDS each key, so the remediation a failing assertion prints
 #: is a command that runs.
@@ -69,10 +77,9 @@ PDFS = {
 #: The half-fix a reader reaches for is worse than the error, because dropping the suffix SUCCEEDS
 #: and rebuilds the extended report while the journal PDF the gate is complaining about stays stale.
 BUILDS = {
-    "manuscript": ("aso", "manuscript"),
-    "journal": ("aso", "journal"),
     "journal-article": ("aso-journal", "journal"),
     "journal-article-manuscript": ("aso-journal", "manuscript"),
+    "journal-article-preprint": ("aso-journal", "preprint"),
 }
 
 
@@ -111,7 +118,9 @@ def _source_texts(pdf_key):
 
 
 #: The one a depositor uploads, for the checks that are about the deposit rather than the typesetting.
-PDF = PDFS["manuscript"]
+#: ⛔ WAS `PDFS["manuscript"]` — the extended report's submission build, which left the gate on
+#: 2026-08-25. The ASO paper a depositor now uploads is the journal article's submission build.
+PDF = PDFS["journal-article-manuscript"]
 SEQ_CSV = os.path.join(ASO, "fusion-junction-aso-sequences.csv")
 
 

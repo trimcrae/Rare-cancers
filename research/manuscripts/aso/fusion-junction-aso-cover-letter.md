@@ -104,7 +104,7 @@ them against the compartment that decides the design: the six mature wild-type p
 these genes hold. The constraint is not confined to a design's own two halves — for both named
 reagents the limiting duplex is against wild-type *TFG*, which supplies neither. The full five-method screen over four compartments —
 mature transcript, parent pre-mRNA, mature parent transcript and the whole genome — is reported in
-the extended report the manuscript cites, which is archived and citable.
+the archived deposit the manuscript cites, which is citable.
 
 The fit with the journal is that this is a nucleic-acid therapeutic design study in a
 fusion-driven cancer, reported at the point where computation stops being able to answer the
@@ -140,7 +140,7 @@ therefore names the experiment, its required controls and its decision threshold
 claiming the design problem is solved.
 
 Two methodological corrections are disclosed rather than left to the archive, because both changed
-reported numbers, and both are reported in full in the extended report. A nucleotide alignment
+reported numbers, and both are reported in full in the archived deposit. A nucleotide alignment
 search reports both strands, and a transcript carrying the reverse complement of the target window
 cannot be hybridised by an antisense oligonucleotide; such hits were being counted as cleavage
 risks, and all 38 junction screens are now orientation-filtered. Separately, an earlier version
@@ -190,17 +190,16 @@ studied, not just those that gave the best result" is met in full: every design 
 reported with its screen outcome, including those the screen condemns, and the two reagents named
 for synthesis are named alongside the ways in which they are close calls rather than clean ones.
 
-Two files are uploaded with the manuscript as Supplemental Material for review, so that the
+One file is uploaded with the manuscript as Supplemental Material for review, so that the
 reviewers are not asked to assess the paper against an archive they have to go and find: the
-extended report, which carries every screen's parameters and the complete bounds on each claim, and
-the canonical machine-readable sequence file, which is the record an oligonucleotide should be
+canonical machine-readable sequence file, which is the record an oligonucleotide should be
 ordered from and which carries every design in the panel rather than the two named here.
 
-This manuscript is a condensed report of a larger body of work. The extended report — every
-screen's parameters and the complete bounds on each claim — is deposited in the archive cited in the
-manuscript's Data availability statement, and I mention it here so the relationship is on the record
-rather than discovered later: it is a separate and much longer manuscript, [STATE ITS CURRENT
-STATUS AND, IF IT IS UNDER CONSIDERATION ANYWHERE, NAME THE VENUE], and the manuscript submitted
+This manuscript is a condensed report of a larger body of work. Every screen's parameters and
+the complete bounds on each claim are deposited in the archive cited in the manuscript's Data
+availability statement, and I mention it here so the relationship is on the record
+rather than discovered later: the archive is a data and code deposit rather than a manuscript, it
+is under consideration nowhere, and the manuscript submitted
 here is not published or under consideration elsewhere. This condensed article has not been posted as a
 preprint; should that change before a decision, I will inform the editorial office and supply the
 DOI. I am the sole author, an unaffiliated

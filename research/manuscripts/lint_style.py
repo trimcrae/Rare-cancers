@@ -66,7 +66,9 @@ TARGETS = [
     # pre-mRNA compartment, the censoring re-screen and Table 3 landed, and this comment went on
     # reading as a current measurement. That is the exact failure rule 1 exists to stop, sitting
     # inside the gate that enforces it.
-    "research/manuscripts/aso/fusion-junction-aso-research-article.md",
+    # ⛔ THE EXTENDED REPORT WAS REMOVED FROM THIS TARGET LIST ON 2026-08-25 (trimcrae:
+    # "Remove any checks requiring it from the gate"). Nothing in the gate reads
+    # fusion-junction-aso-research-article.md any more; the file stays in the tree as history.
     # ⭐ THE ASO SUPPORTING INFORMATION, ADDED 2026-08-16 — THE SAME SPLIT-HALVES HOLE
     # `lint_claims.py` records for the degrader SI, in the paper that is next to be deposited. The
     # 2026-08-16 editorial restructure moved six Methods blocks out of the research article and into

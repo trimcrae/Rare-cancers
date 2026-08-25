@@ -48,7 +48,9 @@ REPO = os.path.dirname(os.path.dirname(HERE))
 # criterion, the "floor over that subset" bound, the parent-sparing reports and the all-screen-clear
 # count, none of which this gate could have seen. Anything spliced into a built paper belongs here.
 DEFAULT_TARGETS = [
-    "research/manuscripts/aso/fusion-junction-aso-research-article.md",
+    # ⛔ THE EXTENDED REPORT WAS REMOVED FROM THIS TARGET LIST ON 2026-08-25 (trimcrae:
+    # "Remove any checks requiring it from the gate"). Nothing in the gate reads
+    # fusion-junction-aso-research-article.md any more; the file stays in the tree as history.
     "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
     "research/manuscripts/aso/fusion-junction-aso-journal-references.md",
     "research/manuscripts/submission_tables.py",

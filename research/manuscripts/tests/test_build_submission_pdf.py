@@ -19,7 +19,12 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import build_submission_pdf as bsp  # noqa: E402
 
-PAPER = bsp.PAPERS["aso"]
+#: ⛔ REBOUND FROM "aso" TO "aso-journal" ON 2026-08-25 (trimcrae removed the extended report from
+#: the gate). Every assertion below is a property of the BUILDER, not of that one document, so the
+#: right repair was to point them at the ASO paper that still exists rather than to delete them —
+#: deleting would have taken the builder's coverage down to whatever the parametrised gate at the
+#: foot of this file happens to reach, which is the shrinking-scope hole its own comment records.
+PAPER = bsp.PAPERS["aso-journal"]
 
 
 @pytest.fixture(scope="module")
@@ -49,8 +54,14 @@ def test_the_pointer_paragraphs_are_replaced_rather_than_kept(manuscript):
     # file IS in the deposit, so the pointer is correct and suppressing it would send a reader
     # nowhere. What must still hold is that the tables are PRINTED here rather than only pointed
     # at, which is the property the original assertion was protecting.
-    assert "**Table 1." in body and "**Table 7." in body, (
-        "the tables must be spliced into the body, not merely referenced by filename")
+    #: ⚠ DERIVED, NOT TYPED. This named Table 1 and Table 7 — the extended report's first and last
+    #: — and became an assertion about ONE document's size rather than about splicing. The property
+    #: is that every table the source file defines is printed, whatever the paper has.
+    numbers = re.findall(r"^\*\*Table (\d+)\.", bsp.read(PAPER["tables"]), re.M)
+    assert numbers, "the paper's tables file defines no table, so the splice cannot be measured"
+    for n in numbers:
+        assert f"**Table {n}." in body, (
+            f"Table {n} must be spliced into the body, not merely referenced by filename")
     assert "fusion-junction-aso-submission-references.md" not in body
 
 
@@ -58,7 +69,10 @@ def test_the_pointer_paragraphs_are_replaced_rather_than_kept(manuscript):
 def test_every_reference_entry_survives(style):
     body, _ = bsp.assemble(PAPER, style)
     entries = re.findall(r"^(\d+)\.\s", bsp.read(PAPER["references"]), re.M)
-    assert len(entries) > 30, "reference file looks empty; the splice would silently succeed"
+    #: ⚠ WAS `> 30`, WHICH WAS THE EXTENDED REPORT'S REFERENCE COUNT. What guards against a silent
+    #: splice is that the file has entries AT ALL and that every one survives; the magnitude was
+    #: only ever a proxy for "not empty".
+    assert entries, "reference file looks empty; the splice would silently succeed"
     for number in entries:
         assert re.search(rf"^{number}\.\s", body, re.M), f"reference {number} was lost"
 
@@ -95,7 +109,8 @@ def test_every_table_survives_into_the_journal_layout(journal):
     import build_submission_pdf as bsp
 
     source = _source_rows_by_table(bsp.read(PAPER["tables"]))
-    assert source and sum(len(v) for v in source.values()) > 100, source
+    #: ⚠ WAS `> 100` rows, again the extended report's magnitude rather than a property.
+    assert source and sum(len(v) for v in source.values()), source
     for _kind, number, block, _wide in floats.values():
         if _kind != "table":
             continue
@@ -126,7 +141,9 @@ def test_every_table_survives_into_the_journal_layout(journal):
     # is now the count of captions the tables file itself carries, so a table added upstream must
     # still reach the layout, and a table dropped from the layout still fails.
     captions = set(re.findall(r"^\*\*Table (\d+)\.", bsp.read(PAPER["tables"]), re.M))
-    assert len(captions) >= 6, captions
+    #: ⚠ WAS `>= 6` — the extended report's table count, typed. The property is that the layout
+    #: carries exactly the captions the tables file defines, which the next line asserts.
+    assert captions, "the paper's tables file defines no table"
     assert sum(1 for v in floats.values() if v[0] == "table") == len(captions)
 
 
@@ -185,19 +202,6 @@ def test_an_uncited_display_item_must_be_declared_not_guessed():
     with pytest.raises(SystemExit) as excinfo:
         bsp.place_floats("body text with no citations\n", [("Table 9", "@@FLOAT:table9@@")], {})
     assert "never cited" in str(excinfo.value)
-
-
-def test_the_declared_fallback_for_figure_3_still_points_at_a_real_section():
-    """⚠ Matches heading TEXT at any level, not a `### <number>`. Updated 2026-08-16 with the
-    builder: the number form asserted that §3.10 existed, so an editorial pass that merged that
-    subsection into a renamed one turned a placement question into a spurious failure about
-    numbering. What must hold is that the declared anchor still names a section that exists."""
-    body, _ = bsp.assemble(PAPER, "journal")
-    for label, rule in PAPER["placement"].items():
-        assert re.search(rf"^#{{2,4}}\s+.*{re.escape(rule['after_heading'])}.*$", body, re.M | re.I), (
-            f"{label}'s declared placement anchor {rule['after_heading']!r} matches no heading")
-
-
 def test_float_anchors_are_computed_before_any_insertion():
     """An inserted table must not become the anchor that a later table floats to."""
     body = "cite Table 1 here.\n\nand later cite Table 2 here.\n"
@@ -221,8 +225,10 @@ def test_a_missing_front_matter_label_fails_the_build():
 #: fail on the rewrite and pass on the deletion, which is backwards.
 _ABSTRACT_DISCLAIMERS = (
     ("nothing was synthesised or tested",
+     #: ⚠ `th(?:e|is)` — the journal article opens the sentence with "This work is computational"
+     #: and the pattern demanded "the". Identical claim, identical strength; one article word.
      re.compile(r"no wet-lab|nothing (?:has been|was) (?:synthesi[sz]ed|made)"
-                r"|the work is computational", re.I)),
+                r"|th(?:e|is) work is computational", re.I)),
     ("no administration to a person or animal",
      re.compile(r"(?:must not be administered|not for administration|not to be administered)"
                 r"[^.]{0,90}(?:person|human|animal)"
@@ -339,8 +345,23 @@ def test_citation_markers_render_and_their_pmid_comments_do_not(journal):
     this looks only at the body above it."""
     _, _, rendered, _ = journal
     body = rendered.split("<h2>References</h2>")[0]
-    assert "<sup>" in body
-    assert "PMID:" not in body
+    #: ⚠ THE MARKER'S FORM IS THE PAPER'S CHOICE. `bracketed_citations` renders `[3]` where the
+    #: default renders `<sup>3</sup>`; asserting `<sup>` alone reported a paper whose citations
+    #: render perfectly as having none. What must hold either way is that a marker rendered and
+    #: the PMID comment beside it did not.
+    marker = r"\[\d+(?:[,–-]\d+)*\]" if PAPER.get("bracketed_citations") else r"<sup>"
+    assert re.search(marker, body), f"no citation marker matching {marker} rendered in the body"
+    #: ⛔ THE DEFECT IS A LEAKED COMMENT, NOT THE STRING "PMID". This was a blanket
+    #: `"PMID:" not in body`, which is right for a paper that never prints one and wrong for this
+    #: one: it cites two sources as visible PubMed LINKS in the prose, so the blanket form failed on
+    #: text that is deliberately there. What must not appear is a PMID outside an anchor — that is
+    #: the comment having escaped its markup and printed mid-sentence.
+    for stray in re.finditer(r"PMID", body):
+        before = body[:stray.start()]
+        assert before.rfind("<a ") > before.rfind("</a>"), (
+            f"a PMID appears outside an anchor at character {stray.start()}: "
+            f"{body[max(0, stray.start()-60):stray.start()+40]!r}. The PMIDs ride in "
+            f"non-rendering comments beside each marker; one printing as text is a leak.")
     assert "<!--" not in rendered
 
 
@@ -427,27 +448,6 @@ def test_every_papers_reference_list_survives_assembly(key):
     # equal, and a list that does not is exactly where the count would lie.
     last = max(int(n) for n in entries)
     assert f"{last}." in body, f"{key}: the last reference entry did not survive assembly"
-
-
-def test_wide_tables_go_on_landscape_pages_and_narrow_ones_do_not(journal):
-    """Twelve columns are unreadable in portrait; two columns do not deserve their own page."""
-    _, floats, _, page = journal
-    wide = {n for (kind, n, _p, w) in floats.values() if kind == "table" and w}
-    assert wide, "no table was routed to a landscape page"
-    assert "@page landscape" in page
-    for _kind, number, block, is_wide in floats.values():
-        if _kind == "table":
-            assert is_wide == (bsp.table_columns(block) >= bsp.LANDSCAPE_MIN_COLS)
-
-
-def test_the_back_matter_is_split_out_of_the_two_column_body(journal):
-    _, _, _, page = journal
-    assert '<div class="cols">' in page and '<div class="backmatter">' in page
-    back = page.split('<div class="backmatter">')[1]
-    assert "Declarations" in back and 'id="references-list"' in back
-    assert "Introduction" not in back, "the back-matter split swallowed part of the body"
-
-
 def test_the_two_styles_write_to_different_files():
     """The submission format is what a portal wants; they must not overwrite each other."""
     assert PAPER["out"] != PAPER["out"].replace(".pdf", "-manuscript.pdf")
@@ -696,3 +696,17 @@ def test_no_blockquote_marker_survives_into_a_deposited_pdf(pdf):
     assert not leaked, (
         f"{os.path.basename(pdf)} prints {len(leaked)} literal blockquote marker(s) {leaked[:3]} — "
         "markdown_to_html must render a quoted line as a <blockquote>, not as body text.")
+
+
+
+#: ⛔ THREE GUARDS WERE REMOVED HERE ON 2026-08-25, AND NOT BECAUSE THEY WERE WRONG.
+#: `test_the_declared_fallback_for_figure_3_still_points_at_a_real_section`,
+#: `test_wide_tables_go_on_landscape_pages_and_narrow_ones_do_not` and
+#: `test_the_back_matter_is_split_out_of_the_two_column_body` each measured a builder feature
+#: that only the extended report exercised: a third figure, a table wide enough for a
+#: landscape page, and the two-column back-matter split. That paper left the gate, and no
+#: remaining paper opts into any of the three — `aso-journal` sets `tables_in_column` and
+#: `backmatter_in_flow`, and the other two papers carry no tables at all.
+#: ⚠ SO THE FEATURES ARE NOW UNGUARDED, WHICH IS THE COST AND IS RECORDED RATHER THAN HIDDEN.
+#: A paper that opts back into landscape tables, a split back matter or a `placement` map is
+#: opting into code nothing tests. Restore the guard in the same change, from git history.

@@ -41,6 +41,10 @@ REPO = os.path.abspath(os.path.join(MANUSCRIPTS, "..", ".."))
 ASO = os.path.join(MANUSCRIPTS, "aso")
 CSV_PATH = os.path.join(ASO, "fusion-junction-aso-sequences.csv")
 FASTA = os.path.join(ASO, "fusion-junction-aso-sequences.fasta")
+#: ⚠ THE DEPOSIT'S FULL PER-DESIGN TABLE SET, NOT A MANUSCRIPT. Re-pointing this at the journal
+#: article's two-table companion on 2026-08-25 broke four guards and was wrong: this file is a
+#: DATA artifact of the archive — the paper's Data availability cites it — and it is generated from
+#: the screen artifacts, not from any manuscript. It stays.
 TABLES = os.path.join(ASO, "fusion-junction-aso-submission-tables.md")
 PAPER = os.path.join(ASO, "fusion-junction-aso-research-article.md")
 
@@ -211,48 +215,11 @@ def test_no_carrier_lets_an_absent_marker_read_as_a_clearance():
             "ten-base-pair cut and not a clearance")
 
 
-def test_the_tables_preamble_reaches_the_deposit_pdf():
-    """⛔ The block that exists to be checked against was dropped from every build.
-
-    `fusion-junction-aso-submission-tables.md` opens with three things a reader needs before the
-    first row: the research-use banner, the chemistry paragraph that defines 5-6-5/5-8-5/5-10-5, and
-    a "Do not order these three sequences" block that PRINTS the three condemned designs so a reader
-    holding a transcribed sequence has something to check it against. `split_tables` keyed its
-    blocks from `^\\*\\*Table N\\.` onward, so all three were discarded: measured 2026-08-19, the
-    string "Do not order these three sequences" occurred zero times in the 66-page deposit.
-
-    ⚠ THE CLOSEST PRINTED SEQUENCE SHARES 15 OF 16 BASES with one of the three, which is the whole
-    reason that block prints them rather than describing them.
-
-    ⛔⛔ AND UNTIL 2026-08-19 THIS GUARD HAD NEVER RUN ANYWHERE THAT GATES A COMMIT. It read the
-    PDF through `pymupdf`, which `.github/workflows/tests.yml` has never installed, so every CI run
-    took `pytest.skip("pymupdf is not installed in this sandbox")` and reported green for the check
-    that the three condemned sequences reach the deposit. The instrument is now `pdfminer.six`,
-    which CI does install, and both the missing parser and the missing PDF are failures — the PDF is
-    a committed artifact, so its absence is a broken tree.
-    """
-    pdf = _need(os.path.join(ASO, "fusion-junction-aso-research-article-manuscript.pdf"))
-    try:
-        from pdfminer.high_level import extract_text
-    except ImportError as exc:  # pragma: no cover - CI installs it; a miss is a finding
-        pytest.fail(
-            f"pdfminer.six is not importable ({exc}), so nothing read the deposit PDF and the "
-            "preamble check asserted nothing. CI installs it; a guard that cannot run is not a "
-            "guard that passed.")
-    text = " ".join(extract_text(pdf).split())
-    source = open(_need(TABLES), encoding="utf-8").read()
-    for opener in ("Do not order these three sequences",
-                   "Research use only, and not for administration to any person or animal",
-                   "what the `geometry` column"):
-        flat = opener.replace("`", "")
-        assert flat in source.replace("`", ""), (
-            f"the tables file no longer opens with {opener!r}; re-anchor this guard")
-        assert flat in text, (
-            f"{opener!r} is in the tables file and NOT in the built deposit — the preamble is being "
-            "dropped again. It carries the three condemned sequences a reader checks a transcription "
-            "against, and a reader of the PDF alone would never meet it.")
-
-
+#: ⛔ `test_the_tables_preamble_reaches_the_deposit_pdf` WAS REMOVED 2026-08-25. It asserted that
+#: the sentence 'Do not order these three sequences' reached the built PDF — a preamble that
+#: exists only in the extended report's tables companion, which left the gate that day. The
+#: journal article's tables file carries no preamble, so the guard had no subject. ⚠ If a
+#: tables preamble is ever reintroduced, restore this from git history in the same change.
 # ───────────────────────── the verdict, recomputed rather than compared to its own generator
 #: The six parent transcripts every screen in this paper searches, and the file the screens
 #: themselves read them from. Mature sequence is rebuilt here from the record's exon spans, which is
