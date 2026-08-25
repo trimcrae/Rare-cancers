@@ -290,6 +290,15 @@ jobs:
         if: ${{ startsWith(inputs.slug, 'km-figures') }}
         run: sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils
 
+      # ⛔ ONLY WHEN THE CALLER ASKS, because it costs ~40 s of install for a rung most runs do not
+      # need. `browser` in the knob string turns on the Chromium retry for a PDF Unpaywall has
+      # already graded open access and the publisher has already refused to plain urllib.
+      - name: Install Playwright Chromium (km-figures browser rung)
+        if: ${{ startsWith(inputs.slug, 'km-figures') && contains(inputs.browser_harvest_links, 'browser') }}
+        run: |
+          python3 -m pip install --quiet playwright
+          python3 -m playwright install --with-deps chromium
+
       - name: Fetch Kaplan-Meier figure graphics
         if: ${{ startsWith(inputs.slug, 'km-figures') }}
         env:
@@ -298,7 +307,8 @@ jobs:
           # `browser_harvest_links` is reused as a plain knob string for this mode; setting it to
           # `no-raster` publishes the PDFs without page PNGs, which is a ~7x smaller corpus and
           # loses nothing a local `pdftoppm` cannot regenerate at higher resolution.
-          KM_RASTERISE: ${{ inputs.browser_harvest_links == 'no-raster' && '0' || '1' }}
+          KM_RASTERISE: ${{ contains(inputs.browser_harvest_links, 'no-raster') && '0' || '1' }}
+          KM_BROWSER: ${{ contains(inputs.browser_harvest_links, 'browser') && '1' || '0' }}
         run: python3 scripts/emc_km_figure_fetch.py
 
       # ⭐ THE PRINTED PAGE COUNT IS A COST, NOT A PREFERENCE (2026-08-20). Nucleic Acid

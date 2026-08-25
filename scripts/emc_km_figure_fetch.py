@@ -64,6 +64,15 @@ DPI = int(os.environ.get("KM_RENDER_DPI", "200"))
 # KM_RASTERISE=0 to publish the PDFs only. The runner's job is the part the sandbox cannot do,
 # which is reaching the network, not the part it can.
 RASTERISE = os.environ.get("KM_RASTERISE", "1") != "0"
+# ⭐ THE LAST RUNG, AND IT IS NOT A PAYWALL ROUTE. Three of the nine remaining candidate series are
+# FREE TO READ -- Unpaywall grades seer270_2022 gold and huang2023 and japan2003 bronze -- and all
+# three answer plain urllib with HTTP 403. That is publisher bot protection keyed on TLS fingerprint
+# and header order, which the escape-hatch skill records as clearing under a real headless Chromium
+# and under nothing else: no User-Agent string and no amount of retrying touches it.
+# ⛔ IT IS ONLY EVER POINTED AT A URL UNPAYWALL HAS ALREADY GRADED AS OPEN ACCESS. A subscription
+# article a browser cannot read without a login stays unreachable, and recording it as unreachable
+# is the finding.
+USE_BROWSER = os.environ.get("KM_BROWSER", "0") == "1"
 
 # The candidate set is OWNED by research/modalities/emc_ipd_survival.py:CANDIDATE_SOURCES, which
 # records why each row is a candidate and what its overlap risk is. Only the rows with a resolved
@@ -222,6 +231,7 @@ def unpaywall(doi: str) -> dict:
     out["oa_status"] = doc.get("oa_status")
     best = doc.get("best_oa_location") or {}
     out["best_url_for_pdf"] = best.get("url_for_pdf") or best.get("url")
+    out["best_url"] = best.get("url")
     out["best_host_type"] = best.get("host_type")
     out["licence"] = best.get("license")
     out["n_oa_locations"] = len(doc.get("oa_locations") or [])
@@ -244,6 +254,42 @@ def candidate_urls(pmcid: str, oa: dict, pdf_url: str | None) -> list[tuple[str,
     if pdf_url:
         urls.append(("caller_pdf_url", pdf_url))
     return urls
+
+
+def browser_get(url: str, referer: str | None = None) -> tuple[int, str, bytes]:
+    """Fetch through a real Chromium, so the request carries a browser's TLS fingerprint.
+
+    The article landing page is visited FIRST when one is known, because several publishers gate the
+    PDF on a cookie the landing page sets; the PDF is then requested through the same browser
+    context so it carries that cookie and that fingerprint.
+    """
+    try:
+        from playwright.sync_api import sync_playwright  # noqa: PLC0415 -- optional by design
+    except Exception as exc:  # noqa: BLE001
+        return 0, f"playwright unavailable: {type(exc).__name__}: {exc}", b""
+    try:
+        with sync_playwright() as pw:
+            browser = pw.chromium.launch(args=["--disable-blink-features=AutomationControlled"])
+            ctx = browser.new_context(
+                user_agent=("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like "
+                            "Gecko) Chrome/124.0.0.0 Safari/537.36"),
+                accept_downloads=True)
+            if referer:
+                try:
+                    page = ctx.new_page()
+                    page.goto(referer, wait_until="domcontentloaded", timeout=60000)
+                    page.wait_for_timeout(1500)
+                    page.close()
+                except Exception:  # noqa: BLE001 -- the landing page is a courtesy, not the fetch
+                    pass
+            resp = ctx.request.get(url, timeout=90000)
+            body = resp.body()
+            code = resp.status
+            ctype = resp.headers.get("content-type", "")
+            browser.close()
+            return code, ctype, body
+    except Exception as exc:  # noqa: BLE001
+        return 0, f"{type(exc).__name__}: {exc}"[:300], b""
 
 
 def _looks_like(kind: str, ctype: str, body: bytes) -> bool:
@@ -366,7 +412,8 @@ def run_target(tgt: dict, dest: str, budget_left: int) -> tuple[dict, int]:
         print(f"{sid:32s} doi={tgt['doi']} -> is_oa={up.get('is_oa')} "
               f"status={up.get('oa_status')} host={up.get('best_host_type')}")
         if up.get("best_url_for_pdf"):
-            tgt = dict(tgt, pdf_url=up["best_url_for_pdf"])
+            tgt = dict(tgt, pdf_url=up["best_url_for_pdf"],
+                       landing_url=up.get("best_url") or None)
     if not pmcid and not tgt.get("pdf_url"):
         rec["⛔"] = ("no PMC identifier and no free copy located: this candidate has no open route "
                     "at $0. That is a reachability statement, not a statement about the paper.")
@@ -385,6 +432,14 @@ def run_target(tgt: dict, dest: str, budget_left: int) -> tuple[dict, int]:
         code, ctype, body = _get(url)
         entry = {"route": route, "url": url, "http": code, "content_type": ctype,
                  "bytes": len(body)}
+        if (USE_BROWSER and route == "caller_pdf_url" and not _looks_like("pdf", ctype, body)):
+            # the plain fetch was refused; retry the SAME url through a real browser
+            b_code, b_ctype, b_body = browser_get(url, referer=tgt.get("landing_url"))
+            entry["browser_retry"] = {"http": b_code, "content_type": b_ctype,
+                                      "bytes": len(b_body)}
+            if _looks_like("pdf", b_ctype, b_body):
+                code, ctype, body = b_code, b_ctype, b_body
+                entry["route"] = route = "caller_pdf_url_via_browser"
         if _looks_like("tgz", ctype, body):
             entry["kind"] = "tgz"
             try:

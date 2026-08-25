@@ -18,9 +18,9 @@ last_verified: 2026-08-05
 
 # RT-ICI-TKI — Checkpoint inhibitor + anti-angiogenic TKI combination
 
-**Family:** [ST-IMMUNO](L1-st-immuno.md) · **state:** ○ delegated · concept · confidence moderate · verified 2026-08-05
+**Family:** [ST-IMMUNO](L1-st-immuno.md) · **state:** ○ delegated · concept · confidence moderate · verified 2026-08-25
 
-**Grade** (owned by [`research/manuscripts/neoantigen/immunotherapy-options-emc.md`](../../research/manuscripts/neoantigen/immunotherapy-options-emc.md#2-checkpoint-inhibitor--anti-angiogenic-tki-combination--real-emc-signal-new-lead)): Landscape comparator — the only approved-drug combination with any reported EMC response
+**Grade** (owned by [`research/manuscripts/neoantigen/immunotherapy-options-emc.md`](../../research/manuscripts/neoantigen/immunotherapy-options-emc.md#2-checkpoint-inhibitor--anti-angiogenic-tki-combination--real-emc-signal-new-lead)): Landscape comparator — the only approved-drug combination with any reported EMC response ⭐ 2026-08-25 — THE PARENT TRIAL'S EMC PATIENTS ARE NOW READABLE ONE BY ONE. IMMUNOSARC's phase II figure is a swimmer plot rather than a Kaplan-Meier curve, so each bar is one patient: the four extraskeletal myxoid chondrosarcoma patients (Table 1 confirms four) had progression-free survival of 11.6, 15.5, 16.3 and 19.3 months, three of them still progression-free at last assessment, against a whole-cohort median of 5.6 months. Read by `km_digitize.read_swimmer_plot`; three checks the paper itself supplies all pass, and every censoring flag was confirmed by eye. One home: `research/modalities/km-swimmer-readings.json`. ⛔ CLAIM CEILING, AND IT IS TIGHT: four patients, identified by BAR COLOUR, in a subgroup the trial neither pre-specified nor analysed, with no comparator arm and no adjustment. This is what those four patients' bars show. It is not a response rate, not a comparison against other histologies, and not evidence that the combination works. ⚠ AND THEY MAY NOT BE FOUR NEW PATIENTS: the registry flags immunosarc2emc2025 as possibly an expansion of this same trial, so these four could be inside that cohort's 24. Adjudicate before either count is used as a denominator.
 
 ## What has to land for this route to move
 
@@ -88,7 +88,7 @@ Both components are approved for OTHER indications, and one EMC partial responde
 This is clinical evidence synthesis, not computation, and this program's contribution to it is limited. It belongs in the landscape context of a paper rather than as a result of its own. ⚠ 'ready' previously read as ready-as-a-treatment on a nivolumab+sunitinib route; it is ready only as a paragraph of a paper.
 
 **Missing:**
-- a larger clinical series
+- a larger clinical series — unchanged. Four patient-level PFS values now exist for this route (km-swimmer-readings.json) and four patients is not a series.
 
 ## Where this route ends — the paper
 

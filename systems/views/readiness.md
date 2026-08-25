@@ -65,7 +65,7 @@ the other. Where a route cannot reach an output, the missing items are a work li
 | [RT-HDAC-BET](L2-rt-hdac-bet.md) | ST-REPURPOSING | `internal_note` | — |
 | [RT-HORMONE-PARTNER](L2-rt-hormone-partner.md) | ST-REPURPOSING | `internal_note` | nothing at the arithmetic level — the pooled fraction was computed and is a negative |
 | [RT-HYPOXIA-PRODRUG](L2-rt-hypoxia-prodrug.md) | ST-MICROENV | `internal_note` | a third EMC series — the falsifier the owning memo names |
-| [RT-ICI-TKI](L2-rt-ici-tki.md) | ST-IMMUNO | `internal_note` | a larger clinical series |
+| [RT-ICI-TKI](L2-rt-ici-tki.md) | ST-IMMUNO | `internal_note` | a larger clinical series — unchanged. Four patient-level PFS values now exist for this route (km-swimmer-readings.json) and four patients is not a series. |
 | [RT-IMMUNOCYTOKINE](L2-rt-immunocytokine.md) | ST-MICROENV | `internal_note` | an isoform-resolved read, which needs RNA-seq rather than an array — the fourth public cohort is the first candidate that could carry it |
 | [RT-IPD-SURVIVAL](L2-rt-ipd-survival.md) | ST-CARE-DELIVERY | `internal_note` | ⛔ THE CEILING IS WHAT THE FIGURES PRINT, NOT THE INSTRUMENT. Both instruments now exist and both have controls; the reachable literature supplies one admissible EMC curve.; more cu |
 | [RT-JUNCTION-NEOANTIGEN](L2-rt-junction-neoantigen.md) | ST-IMMUNO | `internal_note` | patient-cd4-demo.json regenerated at the corrected junction — the class-II arm and every CD8∧CD4 figure are withheld until it is; the TAF15::NR4A3 panel regenerated — patient_neoep |
