@@ -405,13 +405,17 @@ def run_target(tgt: dict, dest: str, budget_left: int) -> tuple[dict, int]:
         pmcid = rec["pmcid"] = resolved.get("pmcid")
         print(f"{sid:32s} pmid={tgt['pmid']} -> pmcid={pmcid} "
               f"open_access={resolved.get('is_open_access')}")
-    if not pmcid and tgt.get("doi"):
-        # ⭐ NOT IN PMC IS NOT THE SAME AS NOT FREE. Ask the question that was meant.
+    # ⭐ NOT IN PMC IS NOT THE SAME AS NOT FREE -- AND NEITHER IS "IN PMC BUT THE PMC ROUTE FAILED".
+    # ⚠ The first version asked Unpaywall only when there was NO PMC id, so drilon2008 and
+    # bishop2019 -- which HAVE PMC ids whose every route answers HTTP 500 -- were never asked at
+    # all and came out of the census as `unresolved`. A paper being in an index this program cannot
+    # read from is not a reason to skip the index that might work.
+    if tgt.get("doi"):
         up = unpaywall(tgt["doi"])
         rec["unpaywall"] = up
         print(f"{sid:32s} doi={tgt['doi']} -> is_oa={up.get('is_oa')} "
               f"status={up.get('oa_status')} host={up.get('best_host_type')}")
-        if up.get("best_url_for_pdf"):
+        if up.get("best_url_for_pdf") and not tgt.get("pdf_url"):
             tgt = dict(tgt, pdf_url=up["best_url_for_pdf"],
                        landing_url=up.get("best_url") or None)
     if not pmcid and not tgt.get("pdf_url"):
