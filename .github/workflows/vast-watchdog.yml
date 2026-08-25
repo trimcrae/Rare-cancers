@@ -41,7 +41,7 @@ name: Vast job watchdog — any kind (session-independent)
 
 on:
   schedule:
-    - cron: "*/15 * * * *"    # ⚠ THE "~55-65 min" THAT USED TO BE WRITTEN HERE IS RETIRED — IT WAS A
+    - cron: "8 * * * *"    # ⚠ THE "~55-65 min" THAT USED TO BE WRITTEN HERE IS RETIRED — IT WAS A
                               # ONE-DAY OBSERVATION QUOTED AS A CONSTANT. It held on 2026-07-26; MEASURED
                               # delivery of THIS workflow on 2026-07-27 was 1:59 AM, 5:56 AM, 8:53 AM and
                               # 11:37 AM ET -> gaps of 235, 238, 177 and 164 MINUTES. Planning against the
@@ -254,7 +254,38 @@ jobs:
       contents: read
       actions: write        # required to POST a workflow_dispatch; the watch job stays contents:read
     steps:
+      # ⭐⭐ IS THERE ANYTHING TO SUPERVISE? ADDED 2026-08-25 (research/compute/ci-burden-plan.md).
+      #
+      # ⛔ WHY THIS JOB IS A BURDEN AND NOT A WATCHDOG. Its own header calls this dispatch "a SECOND,
+      # INDEPENDENT trigger alongside that workflow's own schedule … Redundancy on the release of the 18
+      # edges, not a repair." At `*/15` that is FOUR extra `step1-fanout-autoscale` runs an hour, each of
+      # which used to fan out to five more workflows — and the account has held ZERO instances on every one
+      # of the 886 census readings committed since 2026-08-05. Redundancy over an empty fleet is not
+      # redundancy; it is the run rate.
+      #
+      # ⚠ SELF-CONTAINED, NOT `needs: watch` — THE HEADER ABOVE FORBIDS THE COUPLING. The `watch` job exits
+      # non-zero on an alert, and this job depends on nothing precisely so a stalled leg cannot also stop the
+      # fan-out being released. So the arming read is done HERE, on its own sparse checkout, and the two
+      # failure domains stay separate.
+      #
+      # ⚠ FAIL-ARMED: `|| rc=$?` under `bash -e`, `armed=true` on any exit that is not exactly 10, and the
+      # dispatch below tests `!= 'false'`. A checkout that fails, a missing module or an unreadable census
+      # all dispatch exactly as they do today.
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: research/modalities
+          sparse-checkout-cone-mode: true
+      - name: Is there anything to supervise?
+        id: armed
+        run: |
+          rc=0
+          python3 research/modalities/fleet_armed.py vast-watchdog || rc=$?
+          if [ "$rc" -eq 10 ]; then armed=false; else armed=true; fi
+          echo "armed=$armed" >> "$GITHUB_OUTPUT"
+          echo "::notice::armed=$armed (fleet_armed exit $rc; 10=idle, anything else=armed)"
+
       - name: Dispatch the Step 1 fan-out tick unless one is already in flight
+        if: ${{ steps.armed.outputs.armed != 'false' }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # GH_REPO, not a --repo flag on each call. This job has NO actions/checkout on purpose (it needs no

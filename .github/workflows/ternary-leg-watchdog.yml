@@ -23,7 +23,7 @@ name: Ternary leg watchdog (session-independent)
 
 on:
   schedule:
-    - cron: "*/15 * * * *"      # */15 is the REQUEST. IT IS NOT WHAT YOU GET, and the difference matters:
+    - cron: "26 * * * *"      # */15 is the REQUEST. IT IS NOT WHAT YOU GET, and the difference matters:
                                 # measured 2026-07-26, GitHub ran this repo's crons at ~2-4 h intervals, not 15
                                 # min (this workflow: 9:17 PM then nothing for 3h40m). NOT a fault in this file
                                 # -- state=active, it parses, manual dispatch works, and the repo was nearly

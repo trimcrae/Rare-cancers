@@ -12,7 +12,7 @@ name: FEP early-stop monitor (scheduled — robust, session-independent)
 
 on:
   schedule:
-    - cron: "*/15 * * * *"        # every 15 min (GitHub cron min ~5 min; may be delayed under load — fine here)
+    - cron: "32 * * * *"        # every 15 min (GitHub cron min ~5 min; may be delayed under load — fine here)
   workflow_dispatch:
     inputs:
       target_ddg:
