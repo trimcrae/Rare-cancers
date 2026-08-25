@@ -21,9 +21,26 @@ answer whether this particular manuscript will be sent for review.
 
 NETWORK. NCBI E-utilities, 403'd at CONNECT by the dev sandbox, so this runs on an Actions runner.
 
+⭐ GENERALISED 2026-08-25 TO ANY JOURNAL, BECAUSE THE SAME QUESTION WAS ASKED OF A SECOND VENUE.
+trimcrae asked whether Genes, Chromosomes and Cancer fits this paper better than NAT. That is the
+identical question — has this journal published work of this SHAPE — and it deserves the identical
+instrument rather than an impression. The NAT defaults are unchanged, so a bare run still writes the
+NAT artifact; `--journal`/`--out` point the same screen at another venue.
+
+⚠ AND FOR A NON-MODALITY VENUE THE COMPUTATION-ONLY COUNT IS NOT THE WHOLE QUESTION. NAT is the
+oligonucleotide journal, so "does it take dry papers" was the only doubt. A cancer-genetics journal
+raises the mirror doubt — does it take THERAPEUTIC-DESIGN papers at all, and does it publish this
+disease — so `--topics` tallies named patterns over the same corpus and lists the hits. A topic tally
+is the same kind of screen as the wet/dry one and carries the same warning: it counts abstracts, it
+does not read them.
+
 Run:
     python3 research/manuscripts/nat_scope_census.py           # fetch + write (CI)
     python3 research/manuscripts/nat_scope_census.py --check    # offline: re-read the artifact
+    python3 research/manuscripts/nat_scope_census.py \
+        --journal "Genes Chromosomes Cancer" --out research/manuscripts/aso/gcc-scope-census.json \
+        --topics nr4a3='NR4A3|extraskeletal myxoid' \
+        --topics antisense='antisense|oligonucleotide|siRNA|gapmer|RNA interference'
 """
 from __future__ import annotations
 
@@ -39,6 +56,13 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "aso", "nat-scope-census.json")
 EUTILS = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils"
 JOURNAL = "Nucleic Acid Ther"
+
+#: Journals this screen has been pointed at, NLM abbreviation -> full title, so the artifact says
+#: which journal in the words a reader recognises rather than in the abbreviation esearch needs.
+_FULL_TITLE = {
+    "Nucleic Acid Ther": "Nucleic Acid Therapeutics",
+    "Genes Chromosomes Cancer": "Genes, Chromosomes and Cancer",
+}
 
 #: Abstract language that means an experiment was performed. Deliberately broad: a false WET reading
 #: only makes the computational count more conservative, which is the safe direction for a paper
@@ -70,8 +94,8 @@ def _get(url, tries=4):
     raise RuntimeError(f"failed: {url}: {last}")
 
 
-def _pmids():
-    q = urllib.parse.quote(f'"{JOURNAL}"[Journal]')
+def _pmids(journal=JOURNAL):
+    q = urllib.parse.quote(f'"{journal}"[Journal]')
     first = json.loads(_get(f"{EUTILS}/esearch.fcgi?db=pubmed&retmode=json&retmax=0&term={q}"
                             "&tool=rare-cancers&email=trimcrae@gmail.com"))
     total = int(first["esearchresult"]["count"])
@@ -111,8 +135,9 @@ def _records(pmids):
 _PUBMED_URL = "pubmed.ncbi.nlm.nih.gov/%s"
 
 
-def build() -> dict:
-    total, pmids = _pmids()
+def build(journal=JOURNAL, topics=None) -> dict:
+    topics = topics or {}
+    total, pmids = _pmids(journal)
     recs = _records(pmids)
     with_abstract = [r for r in recs.values() if len(r["abstract"]) > 200]
     dry = []
@@ -131,8 +156,26 @@ def build() -> dict:
                         "year": r["year"], "title": r["title"],
                         "markers": hits, "pub_types": r["pub_types"]})
     dry.sort(key=lambda r: (-(r["year"] or 0), r["pmid"]))
-    return {
-        "_what": ("Every Nucleic Acid Therapeutics article PubMed indexes, screened for papers whose "
+
+    # ⭐ TOPIC TALLIES. Same corpus, same screen discipline: a named pattern over title+abstract,
+    # with the matching records listed so the count is auditable rather than trusted. Only the most
+    # recent 40 hits per topic are listed — the count is over all of them and says so.
+    topic_out = {}
+    for name, pattern in topics.items():
+        rx = re.compile(pattern, re.I)
+        hits = [r for r in recs.values() if rx.search(r["title"] + " " + r["abstract"])]
+        hits.sort(key=lambda r: (-(r["year"] or 0), r["pmid"]))
+        topic_out[name] = {
+            "pattern": pattern,
+            "n_matching": len(hits),
+            "n_listed": min(40, len(hits)),
+            "most_recent": [{"pmid": r["pmid"], "pubmed_url": _PUBMED_URL % r["pmid"],
+                             "year": r["year"], "title": r["title"]} for r in hits[:40]],
+        }
+
+    full = _FULL_TITLE.get(journal, journal)
+    out = {
+        "_what": (f"Every {full} article PubMed indexes, screened for papers whose "
                   "abstract describes computation and no wet-lab experiment."),
         "_why": ("To answer 'is a computation-only design paper in scope' from the journal's own "
                  "published record rather than by asking its editor."),
@@ -147,7 +190,8 @@ def build() -> dict:
                     "counts as computation-only when its abstract matches no wet-lab pattern and at "
                     "least one computational pattern. Records with no usable abstract are excluded "
                     "and counted separately."),
-        "journal": JOURNAL,
+        "journal": journal,
+        "journal_full_title": full,
         "n_indexed": total,
         "n_with_abstract": len(with_abstract),
         "n_without_usable_abstract": len(recs) - len(with_abstract),
@@ -155,23 +199,62 @@ def build() -> dict:
         "publication_types_seen": sorted({t for r in recs.values() for t in r["pub_types"]}),
         "candidates": dry,
     }
+    if topic_out:
+        out["⛔_a_topic_tally_counts_abstracts_it_does_not_read_them"] = (
+            "Each topic is a regular expression over title and abstract. It answers 'has this "
+            "journal published on this subject', not 'would it publish this manuscript', and it is "
+            "wrong in both directions on individual records — read the listed ones.")
+        out["topics"] = topic_out
+    return out
+
+
+def _parse(argv):
+    """--journal J, --out PATH, --topics name=regex (repeatable). Deliberately tiny: the defaults
+    are the NAT run, so a bare invocation behaves exactly as it did before this was generalised."""
+    journal, out, topics = JOURNAL, OUT, {}
+    i = 0
+    while i < len(argv):
+        a = argv[i]
+        if a == "--journal":
+            journal = argv[i + 1]
+            i += 2
+        elif a == "--out":
+            out = argv[i + 1]
+            i += 2
+        elif a == "--topics":
+            name, _, pattern = argv[i + 1].partition("=")
+            if not pattern:
+                raise SystemExit("--topics wants name=regex")
+            topics[name] = pattern
+            i += 2
+        elif a == "--check":
+            i += 1
+        else:
+            raise SystemExit(f"unknown argument: {a}")
+    return journal, out, topics
 
 
 def main(argv=None):
     argv = list(sys.argv[1:] if argv is None else argv)
+    journal, out_path, topics = _parse(argv)
     if "--check" in argv:
-        if not os.path.exists(OUT):
-            print("nat-scope-census.json is not built", file=sys.stderr)
+        if not os.path.exists(out_path):
+            print(f"{os.path.basename(out_path)} is not built", file=sys.stderr)
             return 1
-        d = json.load(open(OUT, encoding="utf-8"))
+        d = json.load(open(out_path, encoding="utf-8"))
         print(f"{d['n_computation_only_candidates']} computation-only candidates of "
               f"{d['n_with_abstract']} abstracts, over {d['n_indexed']} indexed articles")
+        for name, t in (d.get("topics") or {}).items():
+            print(f"  topic {name}: {t['n_matching']} matching abstracts")
         return 0
-    d = build()
-    with open(OUT, "w", encoding="utf-8") as fh:
+    d = build(journal, topics)
+    OUT_DIR = os.path.dirname(out_path)
+    if OUT_DIR:
+        os.makedirs(OUT_DIR, exist_ok=True)
+    with open(out_path, "w", encoding="utf-8") as fh:
         json.dump(d, fh, indent=1, ensure_ascii=False)
         fh.write("\n")
-    print(f"wrote {OUT}: {d['n_computation_only_candidates']} computation-only candidates of "
+    print(f"wrote {out_path}: {d['n_computation_only_candidates']} computation-only candidates of "
           f"{d['n_with_abstract']} abstracts ({d['n_indexed']} indexed)", file=sys.stderr)
     return 0
 
