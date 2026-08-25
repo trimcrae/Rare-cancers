@@ -205,6 +205,13 @@ run_step "submission tables"   "python3 $MAN/submission_tables.py"   "python3 $M
 run_step "submission references" "python3 $MAN/submission_citations.py --write" "python3 $MAN/submission_citations.py --check"
 run_step "submission metrics"  "python3 $MAN/submission_metrics.py"  "python3 $MAN/submission_metrics.py --check"
 run_step "submission packet"   "python3 $MAN/submission_packet.py"                   ""
+# ⛔ THE CLAIM CENSUS WAS NOT A STEP HERE UNTIL 2026-08-25, AND IT IS CHECKED AGAINST A LIVE
+# RECOMPUTATION. `test_claim_coverage_has_not_regressed` runs the census itself and diffs it against
+# the committed artifact, so every edit to a manuscript leaves the artifact stale and the whole
+# manuscripts suite goes red on a file no step rebuilt — which is how it went red on this change,
+# reporting 76 committed against 79 counted. It takes under a second and has no --check of its own:
+# re-running it IS the check.
+run_step "claim coverage census" "python3 $MAN/claim_coverage.py --write"               ""
 # ⛔ THE CANONICAL SEQUENCE FILE IS DERIVED, AND IT RUNS BEFORE THE MANIFEST HASHES IT. Added
 # 2026-08-17: the deposited PDF prints table sequences without their delimiters, so whether a
 # copy-pasted oligo carries a trailing digit is a property of the reader's PDF extractor. The
@@ -250,6 +257,15 @@ PDFSTAMP
 }
 run_step "deposited PDF · journal format"    "python3 $MAN/build_submission_pdf.py" "_pdf_stamps_current"
 run_step "deposited PDF · submission format" "python3 $MAN/build_submission_pdf.py --style manuscript" "_pdf_stamps_current"
+# ⛔ AND THE PREPRINT-SERVER FILE (2026-08-25). Qeios is the 6-page article's preprint destination
+# and imposes no template — .docx or PDF, the ordinary Title/Abstract/Introduction/Methods/Results/
+# Discussion/References structure, nothing else. So what it should receive is the READABLE build:
+# single column, ordinary spacing, no page break before every section. The submission build above
+# is double-spaced with a break at every heading, which is a journal convention that runs the same
+# text from 10 pages to 23 — correct for a reviewer marking it up, wrong for a reader.
+# ⚠ Journal article only: the extended report is archived and is not going to a preprint server
+# (trimcrae, 2026-08-25).
+run_step "deposited PDF · preprint format" "python3 $MAN/build_submission_pdf.py --paper aso-journal --style preprint" "_pdf_stamps_current"
 # ⛔ THE ANONYMIZED UPLOAD IS BUILT EVERY TIME, BECAUSE THE VENUE WILL NOT SAY WHICH IT WANTS.
 # NAT's guidelines state single-anonymized twice and double-anonymized once, on one page, and the
 # journal returns a non-conforming manuscript for amendments BEFORE peer review. Building both
@@ -268,8 +284,42 @@ run_step "anonymized upload · journal format" "python3 $MAN/build_submission_pd
 # unloadable, including a two-line .txt, which reads as a corrupt manuscript rather than a missing
 # filter. If this step fails for that reason the fix is to install the package, NOT to drop the step:
 # a submission whose only manuscript formats are PDF is returned before peer review.
+# ⛔ THESE FILES GO STALE SILENTLY IF THEY ARE NOT IN THIS CHAIN (2026-08-25). Each is cut from the
+# manuscript — the legends from its "## Figure legends" section, the title page from its front matter
+# and declarations — so every article edit invalidates them. The legends file was added OUTSIDE this
+# script first, and `--check` then reported the whole chain STALE immediately after a clean
+# regeneration, naming a stamp no step here rebuilds. A producer whose output is hashed by the
+# staleness check must be a STEP of the chain, or the check measures a file nothing maintains.
+run_step "submission parts · title page and figure legends" "python3 $MAN/build_submission_parts.py" \
+         "python3 $MAN/build_submission_parts.py --check"
+# ⛔ THE PRINT DELIVERABLES ARE IN THE CHAIN AS OF 2026-08-25, and the reason is the packet, not the
+# figures. SUBMISSION-PACKET.md's upload manifest now names the EPS and TIFF files by reading
+# print-formats-manifest.json, so a stale manifest puts a stale filename on the checklist a
+# depositor reads at the portal — the exact failure mode that file's own --check was written for.
+# A producer whose output is READ by another generated artifact has to be a step here.
+# ⚠ AND IT IS THE ONE STEP HERE THAT BUILDS ONLY IF IT CAN. Ghostscript is absent from a fresh
+# sandbox, and this script's own note used to argue from that to keeping the step OUT: "a chain step
+# most sessions cannot run is a chain that is red for everyone". That objection was right when
+# nothing read these files. It is answered rather than overruled — `--check` needs NO ghostscript,
+# because it only compares recorded hashes against the PDFs on disk. So a session that has it
+# rebuilds, and a session that does not VERIFIES. A sandbox that changed no figure stays green; a
+# sandbox that changed one goes red, which is the honest state — the deliverable really is stale,
+# and `svg_to_print_formats.py` says `apt-get install -y ghostscript` in its own failure text.
+run_step "figure print formats · EPS and TIFF" \
+         "if command -v gs >/dev/null 2>&1; then python3 $MAN/figures/svg_to_print_formats.py; \
+          else python3 $MAN/figures/svg_to_print_formats.py --check; fi" \
+         "python3 $MAN/figures/svg_to_print_formats.py --check"
+# ⛔ THE CHECK BELOW CALLS `pytest`, NOT `python3 -m pytest` (2026-08-25). This sandbox installs
+# pytest as a standalone tool, so `python3 -m pytest` answers "No module named pytest" and this step
+# reported STALE against a docx that was current — every hash in its build stamp matched, checked
+# one by one.
+# ⛔⛔ AND THE OBVIOUS FIX WAS THE EXPENSIVE ONE. Installing pytest into system python3 to satisfy
+# this line broke BOTH large suites: modalities went from 7,924 passed to 53 failed and from 8
+# minutes to 24, and the manuscripts suite threw 30 collection errors. Removing it restored 7,929
+# passed in 8 minutes. Never install into the system interpreter to satisfy a tooling check — call
+# the tool the way the environment provides it.
 run_step "Word manuscript · submission format" "python3 $MAN/build_submission_docx.py" \
-         "python3 -m pytest $MAN/tests/test_the_word_manuscript_is_current_and_whole.py -q"
+         "pytest $MAN/tests/test_the_word_manuscript_is_current_and_whole.py -q"
 run_step "archive manifest"    "python3 $MAN/aso_archive_manifest.py" "python3 $MAN/aso_archive_manifest.py --check"
 
 # ── 2 · the gates that read what was just written ────────────────────────────────────────────

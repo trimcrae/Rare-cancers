@@ -77,12 +77,16 @@ LANDSCAPE_MIN_COLS = 8
 _TABLES_IN_COLUMN = False
 
 PAPERS = {
-    #: ⭐ THE CONDENSED JOURNAL SUBMISSION, ADDED 2026-08-20. Same work as "aso" below, second
-    #: document: 3,113 main-text words against that one's 35,501. It carries its own references and
-    #: tables companions and NO supplementary file — the preprint is its extended report.
+    #: ⭐ THE JOURNAL SUBMISSION, AND SINCE 2026-08-25 THE ONLY ASO PAPER THIS BUILDER KNOWS.
+    #: It carries its own references and tables companions and no supplementary file.
     "aso-journal": {
         "layout": {"tables_in_column": True, "no_provenance_line": True,
-                   "backmatter_in_flow": True},
+                   "backmatter_in_flow": True,
+                   #: ⭐ This is the paper going to Nucleic Acid Therapeutics, so its SUBMISSION
+                   #: build takes that journal's house format (NAT_SUBMISSION_CSS): double-spaced,
+                   #: ample margins, each section on its own page. The journal-format build is
+                   #: untouched by it — that one is the typeset preview the charge is levied on.
+                   "nat_submission": True},
         #: Nucleic Acid Therapeutics, MEASURED from 14 of its own published articles by
         #: scripts/venue_typeset_geometry.py (research/literature/venue-typeset-geometry.json):
         #: US Letter, two columns of 239pt with a 12pt gutter, 9.8pt body on 10.9pt leading, and a
@@ -101,6 +105,8 @@ PAPERS = {
         "manuscript": "aso/fusion-junction-aso-journal-article.md",
         "tables": "aso/fusion-junction-aso-journal-tables.md",
         "references": "aso/fusion-junction-aso-journal-references.md",
+        #: ⭐ NAT prints bracketed numerals. Build-time only — see `_bracket_citations`.
+        "bracketed_citations": True,
         "stamp_sources": (
             "aso/fusion-junction-aso-journal-article.md",
             "aso/fusion-junction-aso-journal-tables.md",
@@ -122,8 +128,8 @@ PAPERS = {
             #: happen, and it prints on every page-one build. It now states only what the
             #: repository can stand behind: the extended report is archived, and it is not posted
             #: as a preprint anywhere.
-            "preprint_note": "The extended report of this work is archived and is not posted as a "
-                             "preprint; the archived copy is citable.",
+            "preprint_note": "The complete screens, artefacts and per-design tables behind this "
+                             "work are archived and citable.",
         },
         #: ⭐ NO PER-PAGE RUNNING HEAD ON THIS PAPER (external review, 2026-08-24). The band is
         #: stripped in production, and this is the one manuscript here held to a per-page FEE
@@ -138,8 +144,9 @@ PAPERS = {
         #: and a reviewer cannot assess what is not in the envelope. These are UPLOADED WITH THE
         #: SUBMISSION as well as being in the archive. ⚠ This is not an SI document: the paper has
         #: none, and `supplementary` stays absent so no SI PDF is built or claimed.
+        #: ⛔ REDUCED TO THE SEQUENCE FILE ON 2026-08-25. The extended report was the other entry
+        #: and is no longer a document this repository builds, uploads or grades.
         "supplementary_for_review": (
-            "aso/fusion-junction-aso-research-article.pdf",
             "aso/fusion-junction-aso-sequences.csv",
         ),
         "out": "aso/fusion-junction-aso-journal-article.pdf",
@@ -195,49 +202,12 @@ PAPERS = {
         },
         "out": "neoantigen/emc-vaccine-development-path.pdf",
     },
-    "aso": {
-        "manuscript": "aso/fusion-junction-aso-research-article.md",
-        "tables": "aso/fusion-junction-aso-submission-tables.md",
-        "references": "aso/fusion-junction-aso-submission-references.md",
-        #: Legend prefix -> the SVG that legend describes. Stated rather than inferred from
-        #: filename order, because `aso_figure_provenance.py` is explicit that nothing checks
-        #: whether a legend describes its figure, and a silent mis-pairing is unreadable in a PDF.
-        #: ⚠ RENUMBERED 2026-08-17 TO CITATION ORDER. The multi-partner seam is cited in §2.2 and
-        #: the gap-length identity in §2.9, so numbering them 2 and 3 the other way round made the
-        #: paper cite Figure 3 before Figure 2 — the order every journal style and every reader
-        #: expects display items to run in. Was: Figure 2 = gap-length, Figure 3 = multi-partner.
-        "figures": {
-            "Figure 1.": "aso-junction-space.svg",
-            "Figure 2.": "aso-multipartner-seam.svg",
-            "Figure 3.": "aso-gap-length-tradeoff.svg",
-            "Supplementary Figure S1.": "aso-chance-baseline.svg",
-        },
-        #: ⚠ THE CHANCE-BASELINE PANEL IS NEVER CITED BY NAME IN THE BODY, so the journal style
-        #: has no anchor to float it to and would otherwise place it arbitrarily. It floats to the
-        #: section that states the baseline it draws — the 8.2 expectation against the measured
-        #: 718,571,139-nucleotide span. Declared here rather than guessed at render time, and the
-        #: build fails if an uncited item has no declaration.
-        #: ⚠ RENUMBERED 2026-08-15: it was Figure 3 until a fourth panel was added and pushed it to
-        #: the supplement. Which of the other two is Figure 2 changed again on 2026-08-17; this
-        #: panel is supplementary either way, because it is cited nowhere in the body.
-        #: ⚠ RE-ANCHORED 2026-08-16 from the number "3.10" to heading TEXT: the editorial pass
-        #: merged that subsection away and the build failed on a stale number. Numbers drift here
-        #: roughly every restructure; the title travels with the argument.
-        "placement": {"Supplementary Figure S1": {"after_heading": "conditions for falsification"}},
-        "journal": {
-            "article_type": "Research article",
-            "section": "Cancer genomics · RNA therapeutics",
-            # ⛔ THE MASTHEAD MUST NOT ASSERT A POSTING THAT HAS NOT HAPPENED (blind screen of the
-            # journal build, 2026-08-17). It read "Posted to bioRxiv under CC-BY" on page 1
-            # while the author block on the SAME page carried "the deposit is blocked until it
-            # is replaced" and Availability said no DOI has been reserved — two contradictory
-            # statements about the document's own publication status, side by side. The licence
-            # is also chosen AT submission, so pre-declaring it is a second small untruth.
-            "preprint_note": "Preprint — not peer reviewed. Prepared for deposit; not yet posted.",
-        },
-        "supplementary": "aso/fusion-junction-aso-supplementary-information.md",
-        "out": "aso/fusion-junction-aso-research-article.pdf",
-    },
+    #: ⛔ THE EXTENDED REPORT WAS REMOVED FROM THIS BUILDER ON 2026-08-25 (trimcrae: "The
+    #: extended report is not a thing… Remove any checks requiring it from the gate"). It was
+    #: `"aso"`, the 36,000-word research article, and it is no longer built, graded, hashed or
+    #: guarded here. The source markdown stays in the tree as history; nothing in the gate
+    #: reads it. ⚠ Do not re-add an entry for it — a paper in this dict is a paper the whole
+    #: PDF guard family then requires on disk and current.
 }
 
 
@@ -565,7 +535,7 @@ def provenance_line(paper, style):
     """The one line under the author block saying WHICH document this is and where it came from."""
     commit, dirty, date = build_provenance()
     what = {"journal": "typeset preview", "manuscript": "submission format",
-            "supplementary": "supplementary information"}[style]
+            "preprint": "preprint", "supplementary": "supplementary information"}[style]
     #: ⛔ A SUBMITTED PAPER DOES NOT CARRY ITS BUILD METADATA (reviewer read, 2026-08-20). The line
     #: is right for a document under internal review, where which commit rendered it is the
     #: question. On a manuscript going to an editor it is noise, and "tree not clean at build time"
@@ -616,6 +586,42 @@ def _fold_the_figure_legends_preamble(body, paper):
 
 # --------------------------------------------------------------------------- assembly
 
+#: `.<sup>6,7,8,9,10,11</sup><!--PMID:…-->` — the PUNCTUATION is captured on purpose. A superscript
+#: citation sits AFTER the sentence punctuation and a bracketed numeral goes BEFORE it, so a bare tag
+#: swap would print "…chemotherapy.[3]". 23 of this article's 25 citations sit after a `.` or a `,`.
+_SUP_CITE = re.compile(r"(?P<punct>[.,;:])?<sup>(?P<nums>[\d,\s–-]+)</sup>"
+                       r"(?P<marker>\s*<!--\s*PMID:[^>]*?-->)?")
+
+
+def _bracket_citations(body):
+    """Superscript citations -> Vancouver bracketed numerals, at BUILD time only.
+
+    ⛔ THE MARKDOWN KEEPS ITS SUPERSCRIPTS, AND THAT IS THE POINT. Three guards bind to
+    `<sup>N</sup><!--PMID:…-->` in the source — `test_journal_references_match_the_prose`,
+    `test_journal_article_numbers` and `test_submission_citations` — and every one of them stays
+    green because the source is untouched. Rewriting the manuscript instead would have traded a
+    venue's house style for three checks of whether the numbering is right.
+
+    ⚠ SCOPED PER PAPER, NEVER GLOBAL: the extended report's markdown carries en-dash ranges of its
+    own (`<sup>13–16</sup>`), and the other two papers still want superscripts.
+    """
+    def one(m):
+        ns = [int(x) for x in re.findall(r"\d+", m.group("nums"))]
+        if not ns:
+            return m.group(0)
+        out, i = [], 0
+        while i < len(ns):
+            j = i
+            while j + 1 < len(ns) and ns[j + 1] == ns[j] + 1:
+                j += 1
+            #: a RANGE only at three or more — "[1,2]" is shorter than "[1-2]" and is what the
+            #: venue's own examples print.
+            out.append(f"{ns[i]}-{ns[j]}" if j - i >= 2 else ",".join(str(n) for n in ns[i:j + 1]))
+            i = j + 1
+        return "[" + ",".join(out) + "]" + (m.group("punct") or "") + (m.group("marker") or "")
+    return _SUP_CITE.sub(one, body)
+
+
 def assemble(paper, style="journal"):
     """Return (markdown, prerendered_floats). In manuscript style the float map is empty."""
     body = strip_frontmatter(read(paper["manuscript"]))
@@ -640,6 +646,12 @@ def assemble(paper, style="journal"):
                   if paper.get("references") else None)
     if references is not None and paper.get("drop_pmids_from_printed_references"):
         references = _drop_printed_pmids(references)
+
+    #: ⭐ Nucleic Acid Therapeutics wants bracketed numerals, not superscripts. Applied to the
+    #: assembled BODY so both styles — and `build_submission_docx.py`, which calls this same
+    #: function — inherit it, and the markdown keeps the form its guards read.
+    if paper.get("bracketed_citations"):
+        body = _bracket_citations(body)
 
     if style == "manuscript":
         if tables:
@@ -1123,9 +1135,16 @@ def table_label(number, block):
     #: read from the caption, which is where they are written.
     grid = "\n".join(ln for ln in block.split("\n") if ln.strip().startswith("|"))
     label = f"Table {number}"
-    title = _caption_title(block)
-    if title:
-        label += ". " + title
+    #: ⛔ THE TITLE IS NOT REPEATED HERE, AND THAT IS THE FIX FOR A REPORTED PRODUCTION FAULT
+    #: (external reviewer, 2026-08-25: "Table 1 caption and table are duplicated"). This label rides
+    #: in <thead>, which paged media repeats — so on a table that FITS ON ONE PAGE it renders once,
+    #: directly under the caption it was echoing, and an editor reads two captions. Measured on the
+    #: journal build: both occurrences of "Table 1." landed on page 2, and Table 1 spans no page
+    #: break at all.
+    #: ★ WHAT THE LABEL IS ACTUALLY FOR SURVIVES UNCHANGED. The 2026-08-19 blind screen did not ask
+    #: for the title on continuation pages; it found readers given a prohibition with no cut
+    #: attached, and unmarked rows readable as clearances. That is the criterion, the caveat and the
+    #: marker keys below — all still built, all still repeated. Only the echoed title is gone.
     if re.search(r"[¹²³⁴⁵⁶⁷⁸⁹]", grid):
         label += "  ·  numbered notes are under the caption, on this table's first page"
     if "†" in grid:
@@ -1562,10 +1581,18 @@ def parse_front_matter(body):
     # "## 1. Introduction" — ordinary punctuation, and what the vaccine path uses — failed the build
     # with a message about a missing section. The anchor that matters is "a level-2 heading whose
     # number is 1", not which character follows the digit.
-    start = re.search(r"^##\s+1[.\s]", body, re.M)
+    # ⭐ AND AN IMRaD MANUSCRIPT HAS NO NUMBERED SECTIONS AT ALL (2026-08-25). Nucleic Acid
+    # Therapeutics requires Introduction / Materials and Methods / Results / Discussion, unnumbered,
+    # so `^##\s+1[.\s]` found nothing and the build died claiming the front matter would be
+    # duplicated. The property this anchor actually needs is "where does the front matter END", and
+    # the front matter is a closed set — title block, Abstract, Keywords. So accept EITHER a numbered
+    # first section or the first IMRaD section heading, and keep the failure loud if neither exists.
+    start = (re.search(r"^##\s+1[.\s]", body, re.M)
+             or re.search(r"^##\s+Introduction\s*$", body, re.M))
     if not start:
-        raise SystemExit("could not find '## 1 …' — the body must start at the first numbered "
-                         "section, or the front matter would be duplicated into it")
+        raise SystemExit("could not find '## 1 …' or '## Introduction' — the body must start at the "
+                         "first section after the front matter, or the front matter would be "
+                         "duplicated into it")
     front["body"] = body[start.start():]
     return front
 
@@ -1893,7 +1920,60 @@ li { margin-bottom: 3pt; text-align: justify; }
 """
 
 
-def wrap_manuscript(front_title, body_html, front_block=""):
+#: ⭐ NUCLEIC ACID THERAPEUTICS SUBMISSION FORMAT, AS AN OPT-IN OVERLAY (2026-08-25).
+#:
+#: ⛔⛔ IT WAS FIRST WRITTEN STRAIGHT INTO `MANUSCRIPT_CSS`, WHICH EVERY PAPER'S SUBMISSION BUILD
+#: SHARES. That reformatted the extended report — a DEPOSITED artifact this repository has decided to
+#: leave alone as a historical checkpoint — and the nearly-empty-page guard caught it immediately, on
+#: three pages of a document nobody had asked to change. A venue's house style belongs to the paper
+#: going to that venue, never to the renderer.
+#:
+#: What NAT requires, from its guidelines captured at
+#: research/literature/nat-submission-guidelines-2026-08-23.md: double-spaced throughout, ample
+#: margins on all sides, and each major section beginning on a separate page. None of it applies to
+#: the journal-format build, which is the TYPESET preview the per-page charge is levied on.
+NAT_SUBMISSION_CSS = """
+@page { size: A4; margin: 25mm; }
+@page landscape { size: A4 landscape; margin: 20mm; }
+body { font-size: 12pt; line-height: 2.0; }
+h2 { break-before: page; }
+h2.runs-on { break-before: auto; margin-top: 18pt; }
+"""
+
+#: Level-2 headings that DO NOT start a new page, because nothing asks them to.
+#:
+#: ⛔ THE BREAK WAS COSTING SEVEN PAGES AND ONLY FIVE WERE EARNED (measured 2026-08-25, after
+#: trimcrae asked why a 6-page article was a 25-page manuscript). Built with `break-before: page` on
+#: every h2 the file is 25 pages; built with none it is 18. So the requirement itself is not the
+#: defect — 18 pages IS a 3,722-word paper double-spaced, and the other seven are what "each section
+#: begins on a separate page" costs. What was wrong is that the rule was applied to EVERY h2, and
+#: the checklist item asking for it (A1) names the sections it means: Introduction, Materials and
+#: Methods, Results, Discussion, Acknowledgments, references, tables, figures, figure legends.
+#:
+#: ★ SO THE THREE BELOW ARE NOT ON THAT LIST AND EACH WAS EATING A PAGE: Keywords (21 words),
+#: Author Disclosure Statement (34) and Statements and Declarations. The disclosure one is worse
+#: than wasteful — checklist item A5 asks for that heading "immediately after Acknowledgments", and
+#: a forced page break is the one layout that makes it not immediately after anything.
+#: ⚠ ABSTRACT IS DELIBERATELY NOT HERE. It is also absent from A1's list, but a title page followed
+#: by the abstract on its own page is the ordinary shape of a submitted manuscript, and running the
+#: abstract up onto the title page would be a change nobody asked for.
+NAT_RUNS_ON = ("Keywords", "Author Disclosure Statement", "Statements and Declarations")
+
+
+def wrap_manuscript(front_title, body_html, front_block="", paper=None, house_style=True):
+    #: ⚠ APPLIED ONLY TO THE PAPER THAT OPTED INTO THE NAT OVERLAY, for the reason the overlay's own
+    #: note gives: a venue's house style belongs to the paper going to that venue. On any other
+    #: paper these headings carry no break to suppress, so the class would be inert — but adding a
+    #: class to a document that never asked for it is how the first version of this overlay
+    #: reformatted a deposited artifact.
+    #: ⚠ `house_style` IS WHAT SEPARATES A SUBMISSION FROM A PREPRINT, and the flag lives here
+    #: rather than in a second PAPERS entry because it is a property of the OUTPUT, not of the
+    #: paper: one manuscript legitimately produces both files. The paper still has to have opted
+    #: in — a paper going nowhere near Nucleic Acid Therapeutics gets neither build.
+    if house_style and (paper or {}).get("layout", {}).get("nat_submission"):
+        for heading in NAT_RUNS_ON:
+            body_html = body_html.replace(f"<h2>{heading}</h2>",
+                                          f'<h2 class="runs-on">{heading}</h2>')
     body_html = re.sub(r"(<h2>Tables</h2>)(.*?)(?=<h2>)",
                        lambda m: '<section class="landscape">' + m.group(1) + m.group(2)
                        + "</section>", body_html, count=1, flags=re.S)
@@ -1912,7 +1992,10 @@ def wrap_manuscript(front_title, body_html, front_block=""):
     #: old build carried nothing at all: no date, no version, no build.
     if front_block:
         body_html = re.sub(r"(</h1>)", r"\1" + front_block, body_html, count=1)
-    return page_shell(front_title, MANUSCRIPT_CSS, body_html)
+    css = MANUSCRIPT_CSS
+    if house_style and ((paper or {}).get("layout") or {}).get("nat_submission"):
+        css = css + NAT_SUBMISSION_CSS
+    return page_shell(front_title, css, body_html)
 
 
 #: One `<div class="float … landscape-float" id="…">…</div>`, matched by its opening tag and closed
@@ -2604,6 +2687,18 @@ FORMATS = {
     "manuscript": ("[submission manuscript]",
                    "Submission-format preprint manuscript: the version of record for this deposit. "
                    "A typeset preview of the same text is {other}."),
+    #: ⭐ THE PREPRINT-SERVER FILE (2026-08-25). Same single-column layout as `manuscript` and
+    #: NONE of the journal house style: no double spacing, no page break before every section.
+    #: ⛔ WHY IT IS A THIRD BUILD AND NOT ONE OF THE OTHER TWO. `journal` is the two-column typeset
+    #: preview the per-page charge is levied on, and `manuscript` carries a venue's submission
+    #: conventions — double-spaced with each section on a fresh page, which is a format built for a
+    #: reviewer to mark up and which ran a 6-page article to 23 pages. Qeios enforces neither: it
+    #: takes .docx or PDF, expects the ordinary Title/Abstract/Introduction/Methods/Results/
+    #: Discussion/References structure this paper already has, and imposes no template. So the file
+    #: it should receive is the readable one, and neither existing build was that.
+    "preprint": ("[preprint]",
+                 "Preprint-server file: single column, ordinary spacing, no journal house style. "
+                 "The submission-format copy of the same text is {other}."),
 }
 
 
@@ -2682,7 +2777,7 @@ def build(name, paper, style="journal", html_only=False, anonymized=False):
     running = declared_running_title(body)
     suffix, subject = FORMATS[style]
     other = os.path.basename(paper["out"].replace(".pdf", "-manuscript.pdf")
-                             if style == "journal" else paper["out"])
+                             if style in ("journal", "preprint") else paper["out"])
     plain_title = re.sub(r"[*_`]", "", re.search(r"^#\s+(.*)$", body, re.M).group(1))
     meta = {
         "/Title": f"{plain_title} {suffix}",
@@ -2706,8 +2801,9 @@ def build(name, paper, style="journal", html_only=False, anonymized=False):
     else:
         page = wrap_manuscript(
             meta["/Title"], markdown_to_html(body, floats),
-            f'<p class="version">{_html.escape(provenance_line(paper, "manuscript"))}</p>')
-        out_name = paper["out"].replace(".pdf", "-manuscript.pdf")
+            f'<p class="version">{_html.escape(provenance_line(paper, style))}</p>',
+            paper=paper, house_style=(style == "manuscript"))
+        out_name = paper["out"].replace(".pdf", f"-{style}.pdf")
 
     if anonymized:
         out_name = out_name.replace(".pdf", "-anonymized.pdf")
@@ -2741,8 +2837,9 @@ def build(name, paper, style="journal", html_only=False, anonymized=False):
 def main(argv):
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--paper", choices=sorted(PAPERS))
-    ap.add_argument("--style", choices=("journal", "manuscript"), default="journal",
-                    help="journal = typeset article (default); manuscript = submission format")
+    ap.add_argument("--style", choices=("journal", "manuscript", "preprint"), default="journal",
+                    help="journal = typeset article (default); manuscript = journal submission "
+                         "format; preprint = single column, no house style, for a preprint server")
     ap.add_argument("--html-only", action="store_true")
     ap.add_argument("--anonymized", action="store_true",
                     help="strip author and archive identity — the double-anonymized upload. "

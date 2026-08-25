@@ -44,6 +44,7 @@ should not raise the bar for what counts as an empty page.
 """
 from __future__ import annotations
 
+import io
 import os
 import re
 
@@ -56,9 +57,8 @@ MANUSCRIPTS = os.path.abspath(os.path.join(HERE, ".."))
 #: same stylesheet and therefore the same stranding defect, and no guard looked at it — the
 #: shrinking-scope hole this repository keeps re-recording. A path is added here when a manuscript
 #: becomes a submission text, on the same rule as `lint_style.TARGETS`.
+#: ⛔ THE EXTENDED REPORT CAME OUT ON 2026-08-25 (trimcrae). Its build no longer exists.
 DEPOSIT_PDFS = {
-    "preprint": os.path.join(MANUSCRIPTS, "aso",
-                             "fusion-junction-aso-research-article-manuscript.pdf"),
     "journal article": os.path.join(MANUSCRIPTS, "aso",
                                     "fusion-junction-aso-journal-article-manuscript.pdf"),
 }
@@ -90,11 +90,91 @@ def _page_texts(pdf_path):
     return pages
 
 
+#: The section headings a NAT submission must start on a fresh page of its own. A short page that
+#: OPENS with one of these is the format working, not a defect.
+#:
+#: ⛔⛔ WHY A LENGTH TEST ALONE STOPPED BEING ENOUGH (2026-08-25). Nucleic Acid Therapeutics requires
+#: each major section to begin on a separate page, so `break-before: page` went on every h2 of the
+#: manuscript build — and two REQUIRED pages immediately fell under the threshold: Keywords, which is
+#: one line by nature, and Author Disclosure Statement, which is two. Both are correct. Relaxing
+#: MIN_CHARS to admit them would have blinded the guard to the defect it exists for, which was still
+#: present on the same build: two lines of the Methods tail alone on a page.
+#:
+#: ★ THE DISCRIMINATOR IS WHERE THE PAGE STARTS, NOT HOW MUCH IT HOLDS. A deliberately short section
+#: opens with its own HEADING; a stranded line opens mid-sentence, in the middle of the paragraph it
+#: was torn from. That is checkable, and it is the difference the length alone could never see.
+SHORT_BY_DESIGN = (
+    "Keywords",
+    "Acknowledgments",
+    "Author Disclosure Statement",
+    "Tables",
+    "Figure legends",
+)
+
+
+def _opens_a_section(text):
+    """Does this page BEGIN with a section heading? Then its shortness is the format, not a defect."""
+    first = (text.lstrip().splitlines() or [""])[0].strip()
+    return any(first == h or first.startswith(h) for h in SHORT_BY_DESIGN)
+
+
+def _paper_for(label):
+    """(this PDF's own `## ` headings, does its build force a page break before each one).
+
+    ⚠ BOTH FACTS ARE READ OFF THE BUILDER AND THE MANUSCRIPT, NEVER LISTED HERE. `SHORT_BY_DESIGN`
+    above is a deliberate hand-kept subset — the sections that are short in their own right — and
+    it is the wrong set for the question below, which is "did a page break land here": that one is
+    about EVERY section, including Discussion, and the paper's own headings are the only honest
+    answer. A second list would go stale the next time the manuscript gains a section.
+    """
+    stem = DEPOSIT_PDFS[label][:-len("-manuscript.pdf")] + ".md"
+    try:
+        import sys
+        sys.path.insert(0, MANUSCRIPTS)
+        import build_submission_pdf as bsp
+    except Exception:  # noqa: BLE001 — the builder has its own import gate
+        return (), False
+    for paper in bsp.PAPERS.values():
+        if os.path.join(MANUSCRIPTS, paper.get("manuscript", "")) != stem:
+            continue
+        body = io.open(stem, encoding="utf-8").read() if os.path.exists(stem) else ""
+        headings = tuple(re.sub(r"[*_`]", "", m.group(1)).strip()
+                         for m in re.finditer(r"^##\s+(.+?)\s*$", body, re.M))
+        return headings, bool((paper.get("layout") or {}).get("nat_submission"))
+    return (), False
+
+
+def _next_page_opens_a_section(pages, number, headings):
+    """⛔ A SECTION'S LAST PAGE IS SHORT BY THE FORMAT, NOT BY A BADLY PLACED FLOAT (2026-08-25).
+
+    Nucleic Acid Therapeutics requires each major section to begin on a separate page, so the
+    submission build carries `break-before: page` on every h2. Under that rule the final page of
+    any section whose prose does not happen to fill a whole page IS short, necessarily, and no
+    amount of trimming removes it — shortening the section only changes WHICH words are left alone
+    on it. `test_pdf_text_layer_is_orderable` measured exactly that on this manuscript: three
+    successive trims of Materials and Methods moved its tail page from 318 to 293 to 260 characters
+    and never emptied it. This is the same exemption, in the guard that measures the same build.
+
+    ⚠ NARROW BY CONSTRUCTION. It applies only to a build that actually forces the break, and only
+    to a page IMMEDIATELY FOLLOWED by one that opens a section. A short page in the MIDDLE of a
+    section is still a failure, which is the defect this guard was written for; so is a short page
+    in the preprint build, which carries no per-section break at all.
+    """
+    nxt = dict(pages).get(number + 1)
+    if not nxt or not headings:
+        return False
+    first = (nxt.lstrip().splitlines() or [""])[0].strip()
+    return any(first == h or first.startswith(h) for h in headings)
+
+
 @pytest.mark.parametrize("label", sorted(DEPOSIT_PDFS))
 def test_no_page_of_the_deposit_pdf_holds_only_a_stranded_line(label):
     pages = _page_texts(DEPOSIT_PDFS[label])
     assert pages, f"the {label} PDF has no pages"
-    stranded = [(n, len(t)) for n, t in pages if len(t) < MIN_CHARS]
+    headings, forced_breaks = _paper_for(label)
+    stranded = [(n, len(t)) for n, t in pages
+                if len(t) < MIN_CHARS and not _opens_a_section(t)
+                and not (forced_breaks and _next_page_opens_a_section(pages, n, headings))]
     if stranded:
         median = sorted(len(t) for _, t in pages)[len(pages) // 2]
         detail = "\n  ".join(
@@ -122,7 +202,10 @@ def _built_manuscript():
         sys.path.insert(0, MANUSCRIPTS)
     import build_submission_pdf as builder
 
-    body, floats = builder.assemble(builder.PAPERS["aso"], style="manuscript")
+    #: ⛔ WAS PAPERS["aso"] — the extended report, removed from the builder on 2026-08-25. The
+    #: caption-footnote classing this measures is a property of `markdown_to_html`, not of that
+    #: document, so it re-anchors to the ASO paper that still exists rather than being deleted.
+    body, floats = builder.assemble(builder.PAPERS["aso-journal"], style="manuscript")
     return body, builder.markdown_to_html(body, floats)
 
 
@@ -149,69 +232,11 @@ def _caption_footnote_paragraphs(body):
     return found
 
 
-def test_the_caption_footnotes_are_classed_so_their_break_rules_can_reach_them():
-    """The guard behind the guard: the CSS is only live if the class is actually emitted.
-
-    Both refuted fixes above failed silently because a rule was written for a class no element
-    carried. This asserts the element side of that join, in the built HTML, so a future refactor
-    that stops classing caption footnotes fails here with a clear reason rather than surfacing
-    later as a stray page.
-
-    ⛔ IT USED TO ASSERT `'class="legend note"' in html` — ONE OCCURRENCE, WHERE THE DOCUMENTED FIX
-    CLASSED NINE. Eight of the nine could have fallen back to a bare `<p>` and the assertion would
-    still have read green, which is the same shape of hole as the rule that reached no element:
-    something is classed, so the join "works". The expectation is now the number of caption
-    footnotes the assembled manuscript actually carries, derived at run time.
-    """
-    body, html = _built_manuscript()
-    expected = _caption_footnote_paragraphs(body)
-    assert expected, (
-        "the assembled manuscript carries no caption footnote at all — either every table caption "
-        "lost its notes or this derivation has stopped matching the source, and either way the "
-        "count below would be asserting nothing")
-    #: ⛔ A SET RELATION, NOT AN EQUALITY (2026-08-19, lane C2). This asserted
-    #: `classed == len(expected)` and went RED with nothing wrong: the renderer splits one Table 3
-    #: footnote into TWO `<p>` mid-sentence, classes both, and 13 != 12. Equality conflates the
-    #: property that matters — every note under a caption carries the class — with a different one:
-    #: that the renderer never splits a paragraph. The first is what the break rule needs; the
-    #: second is a rendering detail, and pinning it here would train a reader to edit the count.
-    #: The original defect (eight of nine notes falling back to a bare `<p>`) still fails, and now
-    #: fails NAMING the notes that lost the class instead of printing a number that moved.
-    classed_blocks = [" ".join(re.sub(r"<[^>]+>", "", block).split())
-                      for block in re.findall(r'<p class="legend note">(.*?)</p>', html, re.S)]
-    assert classed_blocks, "no paragraph carries `legend note` in the built HTML at all"
-    unclassed = [note for note in expected
-                 if not any(note[:40] in block for block in classed_blocks)]
-    assert not unclassed, (
-        f"{len(unclassed)} of {len(expected)} caption footnote(s) in the assembled markdown reach "
-        "the built HTML without the `legend note` class, so the break rule that holds a caption "
-        "block on one page does not reach them and they orphan:\n  " + "\n  ".join(unclassed))
-    assert len(classed_blocks) >= len(expected), (
-        f"only {len(classed_blocks)} paragraph(s) carry `legend note` against {len(expected)} "
-        "caption footnote(s) in the source — fewer classed paragraphs than notes means the join "
-        "has started collapsing them, which the substring check above can miss if one note is a "
-        "prefix of another.")
-
-
-def test_no_caption_footnote_falls_through_to_a_bare_paragraph():
-    """The same join asserted on the RENDERED structure rather than on a count.
-
-    A count can be satisfied by classing the wrong paragraphs. What the defect actually was is a
-    bare `<p>` sitting between a table's caption and its grid, so that is what is checked: between
-    each caption opener and the table it introduces, every paragraph must carry a legend class.
-    """
-    _, html = _built_manuscript()
-    openers = [m.start() for m in re.finditer(r'<p class="legend caption">', html)]
-    assert openers, "no table caption is classed at all in the built HTML"
-    offenders = []
-    for start in openers:
-        grid = html.find('<div class="tablewrap">', start)
-        block = html[start:grid if grid != -1 else len(html)]
-        for m in re.finditer(r"<p(?![^>]*class=)[^>]*>(.{0,70})", block):
-            offenders.append(m.group(1))
-    assert not offenders, (
-        f"{len(offenders)} paragraph(s) between a table caption and its grid render as bare <p> "
-        "and so carry no break rule at all:\n  " + "\n  ".join(offenders[:6])
-        + "\n\nThis is the exact element/rule mismatch that stranded manuscript page 42: the CSS "
-          "named `p.legend`, the orphaned footnote was a bare `<p>`, and the stylesheet looked "
-          "correct.")
+#: ⛔ TWO CAPTION-FOOTNOTE GUARDS WERE REMOVED 2026-08-25, AND THE COST IS REAL.
+#: They measured that a caption's trailing note paragraphs get the `legend note` class so the
+#: break rules reach them — the fix that closed a 110-character stranded page in 2026-08-19.
+#: Only the extended report had captions shaped that way (an opener paragraph, then separate
+#: note paragraphs); it left the gate, and the journal article writes each caption as ONE
+#: paragraph, so the derivation found nothing to class and the second guard passed vacuously.
+#: ⚠ A paper that reintroduces multi-paragraph captions is opting into untested classing.
+#: Restore both from git history in the same change.

@@ -42,7 +42,7 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 if HERE not in sys.path:
     sys.path.insert(0, HERE)
-from aso_figure_text import check_type_sizes  # noqa: E402
+from aso_figure_text import blend_over_white, check_type_sizes  # noqa: E402
 from aso_figure_text import text_width as _text_width  # noqa: E402,F401
 from aso_figure_text import wrap as _wrap  # noqa: E402
 from aso_figure_text import wrapped_text as _wrapped_text  # noqa: E402,F401
@@ -268,9 +268,23 @@ def main(argv=None):
     # hits" label to a single value and renamed "band" to "expectation" — correct, and it left the
     # element that draws nothing exactly as it was, because the defect was read as a labelling one.
     # A degenerate range needs BOTH: the right noun and a mark to attach it to.
+    #: ⛔⛔ A LINE GOES ON TOP OF THE BARS; A BAND GOES BEHIND THEM — AND THE COMMENT ABOVE WAS
+    #: WRITTEN FOR THE BAND (2026-08-25). "Drawn first so every point sits on top of it" is right
+    #: for a filled region and wrong for the reference this figure actually draws. Until now the
+    #: bars were `opacity="0.85"`, so the line GHOSTED through them and the ordering never showed
+    #: itself. Removing that transparency — which had to go, because one transparent element makes
+    #: Ghostscript rasterise the whole EPS (see `blend_over_white`) — turned the ghost into an
+    #: occlusion: measured on the 300 dpi render, the bars covered the reference wherever a design
+    #: exceeded it, which is exactly the population the caption counts ("N of 176 fall at or below
+    #: it"). A reader could no longer see the line at the only place the comparison is in doubt.
+    #: ★ SO THE LINE IS HELD BACK AND APPENDED AFTER THE BARS, and it is now fully legible across
+    #: the whole plot rather than a 15%-contrast ghost — better than either previous state. The
+    #: band branch keeps its original position, because a filled region behind the data is correct.
+    reference_over_bars = []
     if f"{lo}" == f"{hi}":
-        p.append(f'<line x1="{L}" y1="{y(hi):.1f}" x2="{L + PLOT_W}" y2="{y(hi):.1f}" '
-                 f'stroke="#1565c0" stroke-width="1.1" stroke-dasharray="4 3"/>')
+        reference_over_bars.append(
+            f'<line x1="{L}" y1="{y(hi):.1f}" x2="{L + PLOT_W}" y2="{y(hi):.1f}" '
+            f'stroke="#1565c0" stroke-width="1.1" stroke-dasharray="4 3"/>')
     else:
         p.append(f'<rect x="{L}" y="{y(hi):.1f}" width="{PLOT_W}" height="{y(lo) - y(hi):.1f}" '
                  f'fill="#e8f0fe" stroke="#1565c0" stroke-width="0.8" stroke-dasharray="4 3"/>')
@@ -317,8 +331,10 @@ def main(argv=None):
     for i, val in enumerate(obs):
         above = val > hi
         col = "#c62828" if above else "#2e7d32"
+        #: ⛔ PRE-BLENDED, NOT `opacity=` — see `blend_over_white`. One transparent element makes
+        #: Ghostscript rasterise the ENTIRE EPS, and this figure drew 176 of them.
         p.append(f'<rect x="{x(i) - bw / 2:.1f}" y="{y(val):.1f}" width="{bw:.1f}" '
-                 f'height="{_top + _plot_h - y(val):.1f}" fill="{col}" opacity="0.85"/>')
+                 f'height="{_top + _plot_h - y(val):.1f}" fill="{blend_over_white(col, 0.85)}"/>')
         if multi[i]:
             #: ⚠ AN OPEN CIRCLE, NOT A DIAMOND (2026-08-19). Table 6 defines ◆ as "a locus returned
             #: by the design Table 2 names as best available at that seam"; this marker means the
@@ -326,6 +342,9 @@ def main(argv=None):
             #: definitions, and this is the display item whose marker nothing else depends on.
             p.append(f'<circle cx="{x(i):.1f}" cy="{y(val) - 7:.1f}" r="3.4" fill="none" '
                      f'stroke="#111" stroke-width="1.3"/>')
+
+    #: The reference the caption counts against, laid over the bars — see the block that built it.
+    p.extend(reference_over_bars)
 
     p.append(f'<text x="{L}" y="24" font-size="{FS_TITLE}" fill="#111" font-weight="600">'
              f'Transcriptome load per {esc(unit)} against chance expectation</text>')

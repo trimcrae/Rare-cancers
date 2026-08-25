@@ -69,7 +69,8 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 if HERE not in sys.path:
     sys.path.insert(0, HERE)
-from aso_figure_text import check_type_sizes, number_word, text_width, wrap  # noqa: E402
+from aso_figure_text import (blend_over_white, check_type_sizes, number_word,  # noqa: E402
+                             text_width, wrap)
 
 MOD = os.path.join(HERE, "..", "..", "modalities")
 ATLASES = [
@@ -324,8 +325,11 @@ def main(argv=None):
         for k in range(gap):
             from_donor = k < dn
             fill = "#c62828" if from_donor else "#2e7d32"
+            #: ⛔ PRE-BLENDED, NOT `opacity=` — see `blend_over_white`. A single transparency
+            #: group makes Ghostscript rasterise the whole EPS, and the key swatch below must stay the
+            #: SAME solid so the key and the cells it explains cannot drift apart.
             p.append(f'<rect x="{x0 + (wing + k) * cell}" y="{y}" width="{cell - 1}" '
-                     f'height="{cell}" fill="{fill}" opacity="0.82" '
+                     f'height="{cell}" fill="{blend_over_white(fill, 0.82)}" '
                      f'stroke="#37474f" stroke-width="0.6"/>')
         # the breakpoint, between the two colours
         bx = x0 + (wing + dn) * cell - 0.5
@@ -352,8 +356,9 @@ def main(argv=None):
                           #: and every other figure here sets gene names plain for that reason.
                           (250, "#2e7d32", "NR4A3 gap bases"),
                           (530, "#eceff1", "LNA wing, not cleaved")):
-        p.append(f'<rect x="{x0 + 24 + dx}" y="{ky}" width="13" height="13" fill="{fill}" '
-                 f'opacity="0.82" stroke="#37474f" stroke-width="0.6"/>')
+        p.append(f'<rect x="{x0 + 24 + dx}" y="{ky}" width="13" height="13" '
+                 f'fill="{blend_over_white(fill, 0.82)}" '
+                 f'stroke="#37474f" stroke-width="0.6"/>')
         p.append(f'<text x="{x0 + 24 + dx + 19}" y="{ky + 11}" font-size="{FS_KEY}" fill="#555">'
                  f'{esc(lab)}</text>')
 
@@ -432,10 +437,25 @@ def main(argv=None):
                     f"panel B: the label {k} does not fit its own marker (r={r:.1f} px at "
                     f"{FS_COUNT} px type). Raise RMAX or lower FS_COUNT — the caption says the "
                     f"label is that count, so it cannot be dropped.")
+            #: ⛔ PRE-BLENDED, NOT `opacity=` — see `blend_over_white`. ⚠ AND THIS ONE IS THE
+            #: CALL THAT IS NOT PIXEL-IDENTICAL, WHICH IS WHY IT IS FLAGGED HERE RATHER THAN LEFT TO A
+            #: DIFF: the trend polyline is drawn BEFORE the markers, so at 0.55 it showed through
+            #: each bubble and now stops at the bubble's edge. That is the ordinary reading of a
+            #: connected bubble chart — the marker is the datum and the line is the trend between
+            #: data — and it is the price of an EPS a journal can re-typeset. Markers of different
+            #: series that overlapped each other also no longer tint; the stroke still separates
+            #: them, and the count label inside each is unchanged.
             p.append(f'<circle cx="{px(mx):.1f}" cy="{py(run):.1f}" r="{r:.1f}" '
-                     f'fill="{g["colour"]}" opacity="0.55" stroke="{g["colour"]}"/>')
+                     f'fill="{blend_over_white(g["colour"], 0.55)}" stroke="{g["colour"]}"/>')
+            #: ⛔ BLACK, NOT WHITE, AND THE NUMBER IS WHY. The marker fill is the series colour
+            #: composited onto white at 0.55, so a white numeral sits on a light ground: measured
+            #: contrast 2.42 : 1 on the blue, 3.09 on the purple and 1.87 on the orange, against
+            #: WCAG's 4.5 : 1 for text of this size. Black on the same three fills measures 8.67,
+            #: 6.79 and 11.22. The alternative — white on the UNBLENDED colour — was measured too
+            #: and refused: 3.08 on the orange, still failing, and it would hide the overlaps the
+            #: light fill exists to show.
             p.append(f'<text x="{px(mx):.1f}" y="{py(run) + 4.2:.1f}" font-size="{FS_COUNT}" '
-                     f'fill="#ffffff" text-anchor="middle" font-weight="600">{k}</text>')
+                     f'fill="#000000" text-anchor="middle" font-weight="600">{k}</text>')
 
     # the key column, beside the plot rather than inside it: the panel is tall and narrow now
     ly = T + 12

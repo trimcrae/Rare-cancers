@@ -33,7 +33,11 @@
 # baseline deliberately, in a commit, when the environment changes.
 #
 # Usage:  ./scripts/preflight.sh                      # the commit loop: the ten fast gates
-#         PREFLIGHT_TESTS=1 ./scripts/preflight.sh    # + both suites, modalities scoped to the change
+#         PREFLIGHT_TESTS=1 ./scripts/preflight.sh    # + the manuscripts suite (~4 min)
+#         PREFLIGHT_MODALITIES=1 PREFLIGHT_TESTS=1 …    # + the modalities suite too (~8 min more)
+#   ⚠ Superseded, retained: "+ both suites, modalities scoped to the change". PREFLIGHT_TESTS no
+#     longer implies modalities — see the note beside RUN_MODALITIES — and "scoped to the change"
+#     had not been true for days: the selector was answering FULL on every run.
 #         PREFLIGHT_FULL=1 ./scripts/preflight.sh     # + everything, unscoped -- PUBLICATION ONLY
 #         SKIP_TESTS=1 ./scripts/preflight.sh         # retired spelling of the default; still honoured
 set -euo pipefail
@@ -262,6 +266,32 @@ fi
 RUN_TESTS=0
 [ "${PREFLIGHT_TESTS:-0}" = "1" ] && RUN_TESTS=1
 [ "${PREFLIGHT_FULL:-0}" = "1" ] && RUN_TESTS=1
+
+# ⭐⭐ THE MODALITIES SUITE IS OFF IN THE COMMIT LOOP AS OF 2026-08-25 (trimcrae: "Just turn off
+# modalities completely if it's that big an issue"). `PREFLIGHT_MODALITIES=1` runs it; so does
+# PREFLIGHT_FULL=1.
+#
+# ⛔ MEASURED, NOT ESTIMATED. Four runs that day: modalities 481-535 s against manuscripts 225-255 s,
+# the fast gates ~31 s and the selector's own suite ~55 s. Modalities was about 62% of a 13.5-minute
+# gate, and EVERY run of it was the full 7,924 tests.
+#
+# ⛔ AND IT WAS FULL FOR A REASON NOBODY CHOSE. `affected_tests.py` fails safe: if the selector or
+# this script differ from the content `scripts/selector-validation.json` says a FULL run validated,
+# it answers FULL. Both hashes are stale — preflight.sh changed 2026-08-23, affected_tests.py
+# arrived by merge 2026-08-24 — and the ONLY thing that re-stamps that record is a PREFLIGHT_FULL=1
+# run, which CLAUDE.md §6 reserves for publication. So the tripwire could only be cleared by an act
+# that is meant to be rare, and until then every commit paid eight minutes to re-run docking, ABFE
+# and GPU-fleet tests that a manuscript edit cannot reach.
+# ⚠ That diagnosis is UNCHANGED BY THIS FLAG and is not fixed by it. Re-stamping the record is a
+# separate decision; this only stops the commit loop paying for it.
+#
+# ⛔⛔ WHAT THIS COSTS, STATED PLAINLY: a modality break is no longer caught before the commit. It is
+# caught by `tests.yml`, which runs BOTH suites in full on every push with the real dependencies and
+# is the authority — the same trade this repository already made for the manuscripts suite on
+# 2026-08-23. Minutes later rather than never, and one more commit to fix it.
+RUN_MODALITIES=0
+[ "${PREFLIGHT_MODALITIES:-0}" = "1" ] && RUN_MODALITIES=1
+[ "${PREFLIGHT_FULL:-0}" = "1" ] && RUN_MODALITIES=1
 # ⚠ RETIRED SPELLING, HONOURED ON PURPOSE. `SKIP_TESTS=1` was how a docs-only change opted out when
 # tests were the default. It is now the default, so the variable can only ever mean "and I still
 # do not want them" -- which is already true. Kept so an old command line or a stale note does not
@@ -434,6 +464,11 @@ done
 [ -n "$gen_fail" ] && echo "   ⛔ a stale generated file ships a claim its own artifacts no longer support:$gen_fail"
 
 if [ "$RUN_TESTS" = "1" ]; then
+  # ⚠ ONLY THE MODALITIES STAGE IS GATED HERE. The first cut put `RUN_MODALITIES` on the OUTER
+  # block and silently took the manuscripts suite out with it — measured immediately: a run that
+  # printed PREFLIGHT OK having executed neither suite. The manuscripts guards are the ones a
+  # manuscript edit can actually break, so they stay in `PREFLIGHT_TESTS`.
+if [ "$RUN_MODALITIES" = "1" ]; then
   # ⭐ CHANGE-SCOPED BY DEFAULT, FULL ON DEMAND (trimcrae, 2026-08-12: the suite was the bottleneck,
   # and "only the ones affected by the changes" plus "not on every push, manually before
   # publication").
@@ -619,6 +654,7 @@ if [ "$RUN_TESTS" = "1" ]; then
     fi
   fi
   rm -f "$out"
+fi   # end of the modalities stage
 
   # ⛔ GATE 9: THE MANUSCRIPT TESTS, WHICH THIS SCRIPT DID NOT RUN UNTIL 2026-08-12.
   #
@@ -701,7 +737,8 @@ else
   # worth having only if it is re-derived when the gates move; this one is now written from what
   # actually ran rather than from what the tier was designed to run.
   echo; echo "PREFLIGHT OK (fast gates + the selector's own contract; NEITHER large suite ran here."
-  echo "             CI runs both on push. PREFLIGHT_TESTS=1 to run them locally,"
+  echo "             CI runs both on push. PREFLIGHT_TESTS=1 for the manuscripts suite,"
+  echo "             PREFLIGHT_MODALITIES=1 for the modalities suite,"
   echo "             PREFLIGHT_FULL=1 before publishing.)"
 fi
 exit "$rc"

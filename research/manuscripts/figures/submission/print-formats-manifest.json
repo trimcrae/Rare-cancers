@@ -1,0 +1,160 @@
+{
+ "_colour": "Ghostscript's default CMYK ICC profile, embedded in each TIFF. A real colour-managed separation with black generation, not a naive inversion \u2014 but not any named press condition either, so a publisher may re-separate.",
+ "_regenerate": "python3 research/manuscripts/figures/svg_to_print_formats.py",
+ "_requires": "ghostscript (apt-get install -y ghostscript); absent from a fresh sandbox, so scripts/regenerate_aso_chain.sh builds this step where ghostscript exists and runs --check where it does not, which needs none",
+ "_what": "the EPS and TIFF deliverables for Nucleic Acid Therapeutics checklist A8, and the hash of the figure PDF each was built from",
+ "_why": "nothing else ties a submission file to the figure it depicts. --check compares these hashes against the PDFs on disk and refuses a stale deliverable.",
+ "dpi": 1200,
+ "figures": {
+  "aso-chance-baseline": {
+   "eps": {
+    "bytes": 262174,
+    "cmyk_operators": 80,
+    "embedded_images": 0,
+    "file": "aso-chance-baseline.eps",
+    "rgb_operators": 0,
+    "sha256": "d76259a93b1946afbdd827ad6a81348fa4d0a463bd372365f894bb6b17b27666",
+    "svg_labels": 22,
+    "text_operators": 166
+   },
+   "page_mm": [
+    179.92,
+    113.96
+   ],
+   "page_pt": [
+    510.0,
+    323.04
+   ],
+   "source_pdf": "aso-chance-baseline.pdf",
+   "source_pdf_sha256": "c7cd22f093cafb35bf1a268c54f0aa2df03708daebce8ae6c70f29507deab550",
+   "source_svg_sha256": "4b8b6be605de587ceef833dd0b2d7af49294d9dcd63b4ebdb2a08d2c04c34edd",
+   "tiff": {
+    "bytes": 3601646,
+    "compression": 5,
+    "dpi": 1200,
+    "file": "aso-chance-baseline.tif",
+    "icc_profile_bytes": 187484,
+    "photometric": "Separated (CMYK)",
+    "pixels": [
+     8500,
+     5384
+    ],
+    "samples_per_pixel": 4,
+    "sha256": "85d7b7f0232384ab23a69a889e3da47aa1c5f928a27f378c88a2b6918514b314"
+   }
+  },
+  "aso-gap-length-tradeoff": {
+   "eps": {
+    "bytes": 345556,
+    "cmyk_operators": 358,
+    "embedded_images": 0,
+    "file": "aso-gap-length-tradeoff.eps",
+    "rgb_operators": 0,
+    "sha256": "a53f47228424774cf2af93ac559a7c075d4e61e438051ed08828dcaeff15e366",
+    "svg_labels": 68,
+    "text_operators": 174
+   },
+   "page_mm": [
+    179.92,
+    171.79
+   ],
+   "page_pt": [
+    510.0,
+    486.96
+   ],
+   "source_pdf": "aso-gap-length-tradeoff.pdf",
+   "source_pdf_sha256": "784da28473533ad6da4d68b6dc2786f335f3103fd1f7fd682c6a0bde816fe639",
+   "source_svg_sha256": "72457e8f71b0095e9c90e4b54641591abca8a880e8616a71fb4e5688642821ee",
+   "tiff": {
+    "bytes": 5851925,
+    "compression": 5,
+    "dpi": 1200,
+    "file": "aso-gap-length-tradeoff.tif",
+    "icc_profile_bytes": 187484,
+    "photometric": "Separated (CMYK)",
+    "pixels": [
+     8500,
+     8116
+    ],
+    "samples_per_pixel": 4,
+    "sha256": "0757b0fb01cb7907a567d2fb0a20ee1abe05dc5f84277b6eb679681329cf476a"
+   }
+  },
+  "aso-junction-space": {
+   "eps": {
+    "bytes": 275071,
+    "cmyk_operators": 662,
+    "embedded_images": 0,
+    "file": "aso-junction-space.eps",
+    "rgb_operators": 0,
+    "sha256": "517f73764d5044a5ce9b83f9621a9463bf4c6c69ee18639127c3d19e93ddf17c",
+    "svg_labels": 101,
+    "text_operators": 164
+   },
+   "page_mm": [
+    179.92,
+    196.85
+   ],
+   "page_pt": [
+    510.0,
+    558.0
+   ],
+   "source_pdf": "aso-junction-space.pdf",
+   "source_pdf_sha256": "6b5b6e63ff736d06d79065ba13fa98f6e5df9a879c04cd979d990f556b2f6b03",
+   "source_svg_sha256": "0eb4cb9c730f77fb5babe058f267f17a2088f50a2501933f3f9c6f1cc3dc5b68",
+   "tiff": {
+    "bytes": 8720852,
+    "compression": 5,
+    "dpi": 1200,
+    "file": "aso-junction-space.tif",
+    "icc_profile_bytes": 187484,
+    "photometric": "Separated (CMYK)",
+    "pixels": [
+     8500,
+     9300
+    ],
+    "samples_per_pixel": 4,
+    "sha256": "4ae19c639e0a1542d0c5bb00f26735e1e3ec55b072f429bb5a312fb3d0734729"
+   }
+  },
+  "aso-multipartner-seam": {
+   "eps": {
+    "bytes": 275682,
+    "cmyk_operators": 68,
+    "embedded_images": 0,
+    "file": "aso-multipartner-seam.eps",
+    "rgb_operators": 0,
+    "sha256": "09663a154157141d1cfcce468bc24869353409cc8ae6eb959a81d907d56a9f10",
+    "svg_labels": 97,
+    "text_operators": 141
+   },
+   "page_mm": [
+    179.92,
+    90.34
+   ],
+   "page_pt": [
+    510.0,
+    256.08
+   ],
+   "source_pdf": "aso-multipartner-seam.pdf",
+   "source_pdf_sha256": "2dc81d8d52917556c3bc85a0e39e726af515bd862cd26f87e43672b8dba140da",
+   "source_svg_sha256": "89259b6450e03af5b0bac15626d30aae94f80ae80c68907c15dc6538805c0a5b",
+   "tiff": {
+    "bytes": 3212396,
+    "compression": 5,
+    "dpi": 1200,
+    "file": "aso-multipartner-seam.tif",
+    "icc_profile_bytes": 187484,
+    "photometric": "Separated (CMYK)",
+    "pixels": [
+     8500,
+     4268
+    ],
+    "samples_per_pixel": 4,
+    "sha256": "285ad3ce355884fa818ef59c44d5d8f594f768d2e53fe8b4ede9cafb13c6fe94"
+   }
+  }
+ },
+ "ghostscript": "10.02.1",
+ "tiff_colour_space": "DeviceCMYK"
+}

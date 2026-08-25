@@ -480,6 +480,43 @@ def _numbered_sections(text):
     return {int(parts[i]): parts[i + 1] for i in range(1, len(parts), 2)}
 
 
+def _named_cross_references_resolve(text, flat):
+    """The IMRaD half: a NAMED section reference must resolve, and carry what it is cited for."""
+    headings = set(re.findall(r"(?m)^##\s+(.+?)\s*$", text))
+    names = [h for h in ("Introduction", "Materials and Methods", "Results", "Discussion")
+             if h in headings]
+    assert names, ("the article has neither numbered sections nor any of the four IMRaD headings, "
+                   "so nothing here is checkable — re-anchor this guard to whatever it now uses")
+
+    bodies = {}
+    for name in names:
+        m = re.search(rf"(?m)^##\s+{re.escape(name)}\s*$(.*?)(?=^##\s|\Z)", text, re.S | re.M)
+        bodies[name] = re.sub(r"\s+", " ", m.group(1)).lower() if m else ""
+
+    cited = sorted({n for n in names if re.search(rf"\bthe {re.escape(n)}\b", flat)})
+    assert cited, ("the article makes no section cross-reference at all — if the references were "
+                   "deliberately removed, retire this guard rather than leaving it green on nothing")
+
+    # ★ THE SEMANTIC HALF, where the sentence names both the section and the thing:
+    #   "the parent liability the Introduction describes" -> 'parent liability' must be IN it.
+    misdirected = []
+    pattern = (r"([a-z][a-z-]+(?:\s+[a-z][a-z-]+)?)\s+the\s+("
+               + "|".join(re.escape(n) for n in names)
+               + r")\s+(?:describes|specifies|defines|prescribes|identifies|states)")
+    for m in re.finditer(pattern, flat):
+        phrase, name = m.group(1).strip().lower(), m.group(2)
+        if phrase in ("what", "which", "that", "and the", "of the", "is what", "it is",
+                      "and what", "is the"):
+            continue
+        if phrase not in bodies[name]:
+            misdirected.append((name, phrase))
+    assert not misdirected, (
+        "a cross-reference names a term the section it points at does not state:\n  "
+        + "\n  ".join(f"{n} is cited for {p!r}, which does not appear in it" for n, p in misdirected)
+        + "\n\nEither the reference points at the wrong section, or the term moved and the "
+          "reference was not followed. Both send a reader to the wrong definition.")
+
+
 def test_a_section_cross_reference_points_at_the_section_that_states_the_thing():
     """⛔⛔ THE LAST SENTENCE THE EXHAUSTIVE ABLATION SWEEP COULD NOT BIND (2026-08-22).
 
@@ -498,10 +535,19 @@ def test_a_section_cross_reference_points_at_the_section_that_states_the_thing()
     only by the existence check below, and that is the limit.
     """
     text = io.open(ARTICLE, encoding="utf-8").read()
-    sections = _numbered_sections(text)
-    assert sections, "the journal article has no numbered `## N` headings, so this guard is vacuous"
-
     flat = re.sub(r"\s+", " ", text)
+    sections = _numbered_sections(text)
+
+    # ⭐ AN IMRaD MANUSCRIPT HAS NO NUMBERED SECTIONS, AND THE PROPERTY SURVIVES THE CONVENTION
+    # CHANGE (2026-08-25). Nucleic Acid Therapeutics requires Introduction / Materials and Methods /
+    # Results / Discussion, unnumbered, so every `§N` reference in this article was rewritten as a
+    # NAMED one. The binding this guard exists for is unchanged — the section a claim cites must
+    # CONTAIN the thing it is cited for — and it is still checkable, just against names.
+    # ⛔ NOT RETIRED AND NOT MADE VACUOUS: a guard that returns early when its subject changes shape
+    # is the "reports while measuring nothing" defect this repository keeps paying for.
+    if not sections:
+        return _named_cross_references_resolve(text, flat)
+
     refs = sorted({int(n) for n in re.findall(r"§\s*(\d+)", flat)})
     assert refs, "the article makes no section cross-reference at all — re-anchor or retire this"
     dangling = [n for n in refs if n not in sections]

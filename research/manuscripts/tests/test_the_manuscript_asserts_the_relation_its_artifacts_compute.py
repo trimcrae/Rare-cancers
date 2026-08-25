@@ -105,32 +105,42 @@ POLARITY = [
      "ethics approval was required."),
     # ⚠ RE-ANCHORED 2026-08-23: "**Competing interests.**" -> the venue's required
     # "**Declaration of conflicting interest.**". Relation unchanged.
+    # ⚠ RE-ANCHORED AGAIN 2026-08-25, and the wording is the VENUE'S, not a preference. Nucleic Acid
+    # Therapeutics requires the heading "Author Disclosure Statement" verbatim, immediately after
+    # Acknowledgments, carrying the sentence "No competing financial interests exist." So the claim
+    # moved out of Statements and Declarations into a section of its own. ⛔ THE RELATION IS
+    # UNCHANGED AND MUST STAY SCOPED TO *FINANCIAL* INTERESTS: the author has a non-financial one,
+    # and `test_the_envelope_declares_one_interest.py` is the guard that stops this paper ever
+    # denying it. A row here that read "no competing interests" would be the misstatement that guard
+    # exists to catch.
     ("competing-interests",
-     r"\*\*Declaration of conflicting interest\.\*\*[^#]{0,320}",
-     r"declares no financial competing interests",
-     r"declares financial competing interests",
+     r"## Author Disclosure Statement[^#]{0,320}",
+     r"No competing financial interests exist",
+     # ⛔ THE INVERSE NEEDLE MUST NOT MATCH INSIDE ITS OWN POSITIVE. "Competing financial interests
+     # exist" is a substring of "NO competing financial interests exist", and the search is
+     # case-insensitive, so without the lookbehind this row reported the inversion as present at the
+     # moment the paper stated the correct thing. Same trap `test_the_envelope_declares_one_interest`
+     # records against its survivorship needle.
+     r"(?<!No )Competing financial interests exist",
      "the cover letter: 'I received no funding and have no financial competing interests'",
-     "**Declaration of conflicting interest.** The author declares financial competing "
-     "interests."),
+     "## Author Disclosure Statement\n\nCompeting financial interests exist."),
     ("ai-use",
      r"\*\*Use of artificial intelligence\.\*\*[^#]{0,140}",
      r"A large language model \(Claude, Anthropic\) was used",
      r"No large language model was used",
      "the repository's own AI-use record",
      "**Use of artificial intelligence.** No large language model was used."),
-    # ⛔⛔ THE RELATION THIS ROW GUARDS CHANGED, NOT JUST ITS WORDING (2026-08-23). The sentence
-    # said the extended report was "prepared for bioRxiv and not yet posted". bioRxiv DECLINED the
-    # submission — the author is unaffiliated — so a paper claiming a bioRxiv deposit was in
-    # preparation was stating something that is not going to happen. The claim is now the weaker
-    # and true one: it is not posted as a preprint anywhere, so the archived copy is what a reader
-    # cites. ⚠ `forbid` uses a lookbehind rather than naming a server, because the failure mode is
-    # the word "not" going missing, not the word "bioRxiv" coming back.
-    ("deposit-not-yet-posted",
-     r"inside that deposit;[^#]{0,140}",
-     r"it is not posted as a preprint",
-     r"(?<!not )posted as a preprint|posted on bioRxiv|is already posted",
-     "deposit-state.json: a `pending` Zenodo draft and no preprint server record",
-     "inside that deposit; it is posted as a preprint already."),
+    # ⛔ THE `deposit-not-yet-posted` ROW WAS REMOVED 2026-08-25 WITH ITS SUBJECT. It anchored on
+    # "inside that deposit; it is not posted as a preprint", a sentence about the EXTENDED REPORT's
+    # preprint status. That document left the gate that day and the Data availability statement was
+    # rewritten to cite the archive itself, so the phrase the row bound to no longer exists — and a
+    # polarity row whose anchor cannot be found is inert, which is exactly what this module's own
+    # `test_every_polarity_row_still_finds_the_claim_it_guards` exists to catch.
+    # ⚠ AND THE FORWARD CASE IS NOT COVERED BY ANYTHING. A Qeios preprint of the journal article is
+    # the stated next step; once one is posted the paper has to declare it, and a claim about the
+    # ARTICLE's preprint status will need its own row. This is not that row rewritten — it is a
+    # different claim about a different document, and writing it before the preprint exists would
+    # be guarding a sentence nobody has written.
     ("coverage-is-not-a-measurement",
      r"That prices which published junctions[^.]{0,220}\.",
      r"it is not a coverage measurement, no patient having been screened",

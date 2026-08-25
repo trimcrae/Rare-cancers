@@ -54,6 +54,40 @@ regenerated from committed data by a committed script, every caption states what
 
 - **`fusion-architecture.svg`** + `fusion_architecture_figure.py` — a schematic, not a plot.
 
+## The last mile: `submission/` — EPS and TIFF for a print journal
+
+`svg_to_submission_formats.py` stops at PDF and PNG, which is what a preprint server and this
+repository want. A print journal wants neither. Nucleic Acid Therapeutics' checklist item A8 reads
+*"Figures: TIFF or EPS. Line art 1200 DPI. CMYK not RGB. No Word, PowerPoint or JPEG"*, so
+[`svg_to_print_formats.py`](./svg_to_print_formats.py) converts each committed figure **PDF** into a
+vector CMYK **EPS** and a 1200 dpi CMYK **TIFF**, and writes `submission/print-formats-manifest.json`
+pinning the hash of the PDF each was built from.
+
+```bash
+apt-get install -y ghostscript                                   # not preinstalled in this sandbox
+python3 research/manuscripts/figures/svg_to_print_formats.py
+python3 research/manuscripts/figures/svg_to_print_formats.py --check   # verifies, writes nothing
+```
+
+⛔ **`opacity=` IN A FIGURE MAKES THE WHOLE EPS A PHOTOGRAPH OF ITSELF.** PostScript has no
+transparency model, so a PDF carrying a transparency group cannot be translated and Ghostscript
+falls back to rasterising the entire page — every rule and every glyph — into one inline image.
+Measured 2026-08-25 across the four ASO figures: the one with no `opacity=` converted to real vector
+with 164 live text operators; the three with 3, 39 and 136 transparency groups each converted to a
+single image with **zero**. Colour that used to be transparent now goes through
+`aso_figure_text.blend_over_white`, which composites onto the page and returns a solid, so the drawn
+pixel is unchanged and the group never exists. **Do not reintroduce `opacity=` in a figure that has
+to ship as EPS** — `svg_to_print_formats.py` fails the build if the EPS comes back as an image, and
+that failure is the figure's, not the converter's.
+
+⚠ **This step joined `scripts/regenerate_aso_chain.sh` on 2026-08-25, and it is the one step there
+that builds only if it can.** It was kept out because Ghostscript is absent from a fresh sandbox and
+a chain step most sessions cannot run is a chain that is red for everyone. What changed is that
+`SUBMISSION-PACKET.md` now names these files in the upload manifest read at the portal, so a stale
+deliverable becomes a wrong filename on a checklist. The old objection is answered rather than
+overruled: `--check` needs no Ghostscript, so the chain **builds** where it is installed and
+**verifies** where it is not. A session that changed no figure stays green.
+
 ## Retired
 
 - **`fusion-target-evidence-matrix.svg`** — a hand-emitted SVG that violated the rule above, and its

@@ -28,6 +28,7 @@ A guard that cannot run is not a guard that passed." `pdfminer.six` is installed
 that reason, and a missing import fails here rather than passing quietly.
 """
 import csv
+import functools
 import hashlib
 import json
 import os
@@ -53,12 +54,20 @@ ASO = os.path.join(MANUSCRIPTS, "aso")
 #: article's two built PDFs was read by any delimiter, fusion, split or staleness guard here — the
 #: same one-of-a-pair scoping this review has now closed in four separate instruments. The journal
 #: builds were clean when this was widened; again the gap was in ENFORCEMENT, not the artifacts.
+#: ⛔ THE EXTENDED REPORT'S TWO BUILDS CAME OUT ON 2026-08-25 (trimcrae). It is not in
+#: `build_submission_pdf.PAPERS` any more, so there is nothing to rebuild if one of these went
+#: stale, and a guard whose remediation command cannot run is worse than no guard.
 PDFS = {
-    "manuscript": os.path.join(ASO, "fusion-junction-aso-research-article-manuscript.pdf"),
-    "journal": os.path.join(ASO, "fusion-junction-aso-research-article.pdf"),
     "journal-article": os.path.join(ASO, "fusion-junction-aso-journal-article.pdf"),
     "journal-article-manuscript": os.path.join(
         ASO, "fusion-junction-aso-journal-article-manuscript.pdf"),
+    #: ⭐ THE PREPRINT-SERVER FILE (2026-08-25). It is a THIRD build of the journal article — same
+    #: text, single column, none of the journal house style — and it goes to a preprint server
+    #: under the author's name, so every text-layer assertion in this module applies to it exactly
+    #: as it does to the other three. A submission text that reaches a reader and is not in this
+    #: map is the shrinking-scope hole the comment above already records once.
+    "journal-article-preprint": os.path.join(
+        ASO, "fusion-junction-aso-journal-article-preprint.pdf"),
 }
 #: The `--paper`/`--style` pair that BUILDS each key, so the remediation a failing assertion prints
 #: is a command that runs.
@@ -68,10 +77,9 @@ PDFS = {
 #: The half-fix a reader reaches for is worse than the error, because dropping the suffix SUCCEEDS
 #: and rebuilds the extended report while the journal PDF the gate is complaining about stays stale.
 BUILDS = {
-    "manuscript": ("aso", "manuscript"),
-    "journal": ("aso", "journal"),
     "journal-article": ("aso-journal", "journal"),
     "journal-article-manuscript": ("aso-journal", "manuscript"),
+    "journal-article-preprint": ("aso-journal", "preprint"),
 }
 
 
@@ -110,7 +118,9 @@ def _source_texts(pdf_key):
 
 
 #: The one a depositor uploads, for the checks that are about the deposit rather than the typesetting.
-PDF = PDFS["manuscript"]
+#: ⛔ WAS `PDFS["manuscript"]` — the extended report's submission build, which left the gate on
+#: 2026-08-25. The ASO paper a depositor now uploads is the journal article's submission build.
+PDF = PDFS["journal-article-manuscript"]
 SEQ_CSV = os.path.join(ASO, "fusion-junction-aso-sequences.csv")
 
 
@@ -341,6 +351,93 @@ def test_no_sequence_is_split_across_a_line_in_the_pdf(pdf_text):
         f"{split[0]!r}. Set sequences non-breaking at the generator.")
 
 
+#: Two text lines that overlap by more than this in BOTH axes are colliding, not merely touching.
+#: ★ CALIBRATED, NOT GUESSED. Measured across all four built PDFs — 14,344 text lines — the largest
+#: overlap between any two lines that are NOT colliding is 0.127 pt, a single glyph extent reaching
+#: into a neighbouring line's box, and the next largest is 0.009 pt. A collision of the kind A14
+#: reported runs to whole characters. 1.0 pt sits about eight times clear of the largest benign
+#: case and orders of magnitude below a real one, so nothing here is a near call.
+_COLLISION_PT = 1.0
+
+
+@functools.lru_cache(maxsize=None)
+def _text_lines(path):
+    """(page number, bbox, text) for every text line of a built PDF.
+
+    Cached because the geometry costs a full `extract_pages` pass with layout analysis — about
+    seven seconds on the 84-page extended report — and more than one assertion wants it.
+    """
+    from pdfminer.high_level import extract_pages
+    from pdfminer.layout import LAParams, LTTextContainer, LTTextLine
+    out = []
+    for number, layout in enumerate(extract_pages(path, laparams=LAParams()), 1):
+        for element in layout:
+            if not isinstance(element, LTTextContainer):
+                continue
+            for line in element:
+                if isinstance(line, LTTextLine) and line.get_text().strip():
+                    out.append((number, line.bbox, line.get_text().strip()))
+    return tuple(out)
+
+
+def test_no_two_lines_of_the_pdf_are_printed_on_top_of_each_other(pdf_key):
+    """⛔ BODY TEXT OVERPRINTING A TABLE, WHICH A READER FOUND IN A SHIPPED PDF (item A14, 2026-08-25).
+
+    The reviewer's report named two production faults in the built article. One was a duplicated
+    Table 1 caption. The other was body text colliding with the table, and it was quoted as the two
+    strings it produced on the page — "test articlense-strand near-matches" and "constructEWSR1
+    reagent". Both are two runs of text laid over one another: "test articles" through
+    "sense-strand near-matches", and "construct" through "EWSR1 reagent".
+
+    ⛔⛔ AND NOTHING IN THIS REPOSITORY WOULD HAVE CAUGHT IT. The sequence guards above check that a
+    base string is not fused to the column beside it — the same defect class, scoped to one column
+    pair in one table, because that is where it was first found. Every other overlap on every other
+    page was unguarded, which is the shrinking-scope hole this module keeps re-recording. A reader
+    found this one; the machine should find the next.
+
+    ★ MEASURED AS GEOMETRY, NOT AS VOCABULARY. The tempting check is on the extracted string —
+    hunt for a lowercase letter followed by an uppercase one, or for a word not in a dictionary —
+    and it is the wrong instrument twice over: this paper legitimately prints `NAB2::STAT6`,
+    `USZ22-EMC2` and bare base strings, and a collision between two lowercase runs produces a
+    "word" no rule of that kind can see. Two boxes either occupy the same space or they do not.
+
+    ⚠ EXTRACTOR-INDEPENDENT, WHICH THE STRING FORM IS NOT. Whether two overlapping runs come out
+    of a text layer interleaved, concatenated or in either order is a property of the READER's
+    extractor — the same lesson this module's opening measurement records, where one extractor
+    fused a sequence to a digit and another did not. The overlap itself is in the document.
+    """
+    path = PDFS[pdf_key]
+    assert os.path.exists(path), (
+        f"{path} is missing. Every built format ships; the absence of one is not a reason to skip "
+        "the check.")
+    lines = _text_lines(path)
+    assert lines, f"{os.path.basename(path)} has no extractable text lines at all"
+
+    by_page = {}
+    for number, bbox, text in lines:
+        by_page.setdefault(number, []).append((bbox, text))
+    collisions = []
+    for number, recs in sorted(by_page.items()):
+        for i in range(len(recs)):
+            (ax0, ay0, ax1, ay1), atext = recs[i]
+            for j in range(i + 1, len(recs)):
+                (bx0, by0, bx1, by1), btext = recs[j]
+                wide = min(ax1, bx1) - max(ax0, bx0)
+                high = min(ay1, by1) - max(ay0, by0)
+                if wide > _COLLISION_PT and high > _COLLISION_PT:
+                    collisions.append(
+                        f"page {number}, {wide:.1f} x {high:.1f} pt: "
+                        f"{atext[:60]!r} over {btext[:60]!r}")
+    assert not collisions, (
+        f"⛔ {len(collisions)} pair(s) of text lines are printed on top of each other in "
+        f"{os.path.basename(path)}:\n  " + "\n  ".join(collisions[:10])
+        + f"\n\nA reader sees one run of characters through another, and the text layer a "
+          f"screener copies out is whatever the extractor makes of the two. Fix the typesetting "
+          f"in build_submission_pdf.py — a float that does not clear the prose beside it, or a "
+          f"table wider than the column it is placed in. Do NOT raise {_COLLISION_PT} pt: the "
+          f"largest overlap measured on a document with no collision at all is 0.127 pt.")
+
+
 def test_the_pdf_names_the_canonical_machine_readable_sequence_file(pdf_text):
     """The durable fix for a text layer is not needing to read it.
 
@@ -441,8 +538,16 @@ _STRANDED_PAGE_FRACTION = 0.45
 _DISPLAY_ITEM_MIN_RULES = 40
 
 
+@functools.lru_cache(maxsize=None)
 def _pages(path):
-    """One record per page: number, characters, placed graphics, drawn rules, height, text."""
+    """One record per page: number, characters, placed graphics, drawn rules, height, text.
+
+    ⚠ CACHED, AND A TUPLE FOR THAT REASON. Every assertion in this module that wants page geometry
+    pays a full `extract_pages` pass — about seven seconds on the 84-page extended report — and
+    four of them ran the same pass over the same four files. Handing out a cached LIST would let
+    one caller's edit reach every other; the synthetic-document proofs below build their own
+    sequences and read the same way, so a tuple costs nothing and closes that.
+    """
     from pdfminer.high_level import extract_pages
     from pdfminer.layout import LTTextContainer, LTFigure, LTImage, LTCurve
     out = []
@@ -457,7 +562,7 @@ def _pages(path):
             "height": round(layout.height),
             "text": text,
         })
-    return out
+    return tuple(out)
 
 
 def _carries_a_display_item(page):
@@ -482,6 +587,44 @@ def _next_page_opens_a_display_item(pages, number):
     """
     nxt = next((p for p in pages if p["number"] == number + 1), None)
     return bool(nxt) and _carries_a_display_item(nxt)
+
+
+#: The section headings a Nucleic Acid Therapeutics submission must each start a fresh page on.
+_SECTION_OPENERS = (
+    "Abstract", "Keywords", "Introduction", "Materials and Methods", "Results", "Discussion",
+    "Acknowledgments", "Author Disclosure Statement", "Statements and Declarations",
+    "References", "Tables", "Figure legends",
+)
+
+
+def _opens_a_section(page):
+    """Does this page BEGIN a section? Under `break-before: page` that makes it a new page by rule."""
+    text = (page.get("text") or "").lstrip()
+    for line in text.splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        #: the running head repeats the short title on every page; the heading is the line after it
+        return any(line == h or line.startswith(h) for h in _SECTION_OPENERS)
+    return False
+
+
+def _next_page_opens_a_section(pages, number):
+    """⛔ A SECTION'S LAST PAGE IS SHORT BY THE FORMAT, NOT BY A BADLY PLACED FLOAT (2026-08-25).
+
+    Nucleic Acid Therapeutics requires each major section to begin on a separate page, so the
+    submission build carries `break-before: page` on every heading. Under that rule the final page
+    of any section whose prose does not happen to fill a whole page IS short, necessarily, and no
+    amount of trimming removes it — shortening the section only changes WHICH words are left alone
+    on it. Measured on this manuscript: three successive trims of Materials and Methods moved its
+    tail page from 318 to 293 to 260 characters and never emptied it.
+
+    ⚠ NARROW BY CONSTRUCTION, exactly like the display-item exemptions above: the page must be
+    IMMEDIATELY FOLLOWED by a page that opens a section. A short page in the MIDDLE of a section is
+    still a failure, which is the defect this guard was written for.
+    """
+    nxt = next((p for p in pages if p["number"] == number + 1), None)
+    return bool(nxt) and _opens_a_section(nxt)
 
 
 def _stranded_pages(pages):
@@ -522,6 +665,9 @@ def _stranded_pages(pages):
         #: ⚠ NARROW BY CONSTRUCTION: the page must carry no display item of its own AND be followed
         #: by one. A short page that simply runs out of prose is still a failure.
         if _next_page_opens_a_display_item(pages, number):
+            continue
+        #: A section's final page under the NAT per-section page break — see the helper's note.
+        if _next_page_opens_a_section(pages, number):
             continue
         stranded.append((number, page["chars"]))
     return stranded, median

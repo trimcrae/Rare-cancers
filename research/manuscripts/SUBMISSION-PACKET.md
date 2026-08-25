@@ -46,6 +46,19 @@ last_verified: 2026-08-10
 - `mtap-prmt5-fig4-comparator-classes.png` — raster present, vector present
 - `mtap-prmt5-fig5-motif-map.png` — raster present, vector present
 
+**Files to upload, one per portal slot** — not one composed PDF
+
+| file | what it is | why it is on this list |
+|---|---|---|
+| `mtap-prmt5/emc-mtap-prmt5-hypothesis-cover-letter.md` | cover letter | every portal asks for one |
+| `figures/mtap-prmt5-fig1-readings.png` | figure — SUBMISSION FORMAT NOT BUILT | NAT's checklist A8 wants EPS or TIFF; run `python3 research/manuscripts/figures/svg_to_print_formats.py`; this venue's own file requirements are unread |
+| `figures/mtap-prmt5-fig2-locus-genewise.png` | figure — SUBMISSION FORMAT NOT BUILT | NAT's checklist A8 wants EPS or TIFF; run `python3 research/manuscripts/figures/svg_to_print_formats.py`; this venue's own file requirements are unread |
+| `figures/mtap-prmt5-fig3-dependency-qualifier.png` | figure — SUBMISSION FORMAT NOT BUILT | NAT's checklist A8 wants EPS or TIFF; run `python3 research/manuscripts/figures/svg_to_print_formats.py`; this venue's own file requirements are unread |
+| `figures/mtap-prmt5-fig4-comparator-classes.png` | figure — SUBMISSION FORMAT NOT BUILT | NAT's checklist A8 wants EPS or TIFF; run `python3 research/manuscripts/figures/svg_to_print_formats.py`; this venue's own file requirements are unread |
+| `figures/mtap-prmt5-fig5-motif-map.png` | figure — SUBMISSION FORMAT NOT BUILT | NAT's checklist A8 wants EPS or TIFF; run `python3 research/manuscripts/figures/svg_to_print_formats.py`; this venue's own file requirements are unread |
+
+⚠ The portal's own file-designation menu is shown at the upload form and is not readable from here; journals.sagepub.com returns HTTP 403 to every tool in this repository. The one designation the captured guidelines name verbatim is "Supplemental Material - For Review Only", which is why that row alone quotes one.
+
 ## Genes, Chromosomes and Cancer (Wiley)
 
 **Manuscript** `dependency/emc-atr-collaborator-package.md`
@@ -65,6 +78,14 @@ last_verified: 2026-08-10
 ⚠ Limits provenance: search-derived; onlinelibrary.wiley.com serves a bot challenge to CI and to a real headless browser alike.
 
 **Figures to upload** — none; this paper's display items are all tables.
+
+**Files to upload, one per portal slot** — not one composed PDF
+
+| file | what it is | why it is on this list |
+|---|---|---|
+| `dependency/emc-atr-collaborator-package-cover-letter.md` | cover letter | every portal asks for one |
+
+⚠ The portal's own file-designation menu is shown at the upload form and is not readable from here; journals.sagepub.com returns HTTP 403 to every tool in this repository. The one designation the captured guidelines name verbatim is "Supplemental Material - For Review Only", which is why that row alone quotes one.
 
 ## Critical Reviews in Oncology/Hematology (Elsevier)
 
@@ -88,6 +109,15 @@ last_verified: 2026-08-10
 
 - `repurposing-fig1-design.png` — raster present, vector present
 
+**Files to upload, one per portal slot** — not one composed PDF
+
+| file | what it is | why it is on this list |
+|---|---|---|
+| `repurposing/repurposing-hypotheses-cover-letter.md` | cover letter | every portal asks for one |
+| `figures/repurposing-fig1-design.png` | figure — SUBMISSION FORMAT NOT BUILT | NAT's checklist A8 wants EPS or TIFF; run `python3 research/manuscripts/figures/svg_to_print_formats.py`; this venue's own file requirements are unread |
+
+⚠ The portal's own file-designation menu is shown at the upload form and is not readable from here; journals.sagepub.com returns HTTP 403 to every tool in this repository. The one designation the captured guidelines name verbatim is "Supplemental Material - For Review Only", which is why that row alone quotes one.
+
 ## British Journal of Cancer (Springer Nature)
 
 **Manuscript** `surface-targets/emc-surface-target-landscape.md`
@@ -108,30 +138,13 @@ last_verified: 2026-08-10
 
 **Figures to upload** — none; this paper's display items are all tables.
 
-## QEIOS (the call, 2026-08-24) — not yet submitted. bioRxiv declined 2026-08-23 (author unaffiliated); Research Square declined 2026-08-24 (content type or screening). Ungated because Qeios publishes no length limits
+**Files to upload, one per portal slot** — not one composed PDF
 
-**Manuscript** `aso/fusion-junction-aso-research-article.md`
+| file | what it is | why it is on this list |
+|---|---|---|
+| `surface-targets/emc-surface-target-landscape-cover-letter.md` | cover letter | every portal asks for one |
 
-| field | value |
-|---|---|
-| Word count, main text | 35927 (no limit found) |
-| Abstract | 399 words  |
-| Display items | 10 (3 figures, 7 tables) |
-| References | 53 |
-| Cover letter | `aso/fusion-junction-aso-cover-letter.md` |
-| Supplementary file | yes |
-| Anonymized copy | none built for this paper |
-| Supplemental material, for review | none |
-| Fee route | not recorded |
-
-⚠ Limits provenance: ⭐ THE VENUE IS QEIOS, trimcrae's call of 2026-08-24, AND NOTHING HAS BEEN SUBMITTED — choosing a venue and submitting to it are different acts. Two servers have already refused this paper, for different stated reasons: bioRxiv on 2026-08-23 because the author is unaffiliated, and Research Square on 2026-08-24 at screening, citing content type or screening and nothing more, with no appeal. Candidates and the test that actually fired are in program/preprint-host-decision-round2.md. ⚠ SO THE REASON THE ROW IS UNGATED HAS CHANGED, AND THE FLAG NO LONGER MEANS WHAT ITS NAME SAYS: `no_limits_by_policy` was set because bioRxiv publishes no word, abstract or display-item limit — still true of bioRxiv, and no longer why this row carries no limits. It carries none because nobody has chosen a venue, which is an UNKNOWN wearing the same four nulls. The flag is kept so the grader does not report the row as merely unread, and this sentence is the only thing separating the two states. ⚠ Superseded, retained: 'the extended report is archived on Zenodo and has since been submitted elsewhere'. Written 2026-08-23 while the Research Square submission was pending, it read as placement and is the same stale-external-status defect the preprint checklist already records against its own three-day '⏳ Awaiting bioRxiv screening' row: nothing here re-reads an outside queue, so a status owned by another system decays silently. The archive half is unchanged and true — Zenodo 10.5281/zenodo.22061075 is published. ⚠ AND CUTTING TO A CAP IS STILL PREMATURE: the surviving candidates disagree on length and on whether a structured abstract is wanted, so a cut made now is a cut made twice..
-
-**Figures to upload**
-
-- `aso-junction-space.svg` — raster present, vector present
-- `aso-multipartner-seam.svg` — raster present, vector present
-- `aso-gap-length-tradeoff.svg` — raster present, vector present
-- `aso-chance-baseline.svg` — raster present, vector present
+⚠ The portal's own file-designation menu is shown at the upload form and is not readable from here; journals.sagepub.com returns HTTP 403 to every tool in this repository. The one designation the captured guidelines name verbatim is "Supplemental Material - For Review Only", which is why that row alone quotes one.
 
 ## Nucleic Acid Therapeutics (SAGE)
 
@@ -139,14 +152,14 @@ last_verified: 2026-08-10
 
 | field | value |
 |---|---|
-| Word count, main text | 3684 (limit 4000) |
+| Word count, main text | 3722 (limit 4000) |
 | Abstract | 200 words (limit 200) |
 | Display items | 3 (1 figures, 2 tables) (limit 5) |
 | References | 23 |
 | Cover letter | `aso/fusion-junction-aso-cover-letter.md` |
 | Supplementary file | none |
 | Anonymized copy | `aso/fusion-junction-aso-journal-article-anonymized.pdf` |
-| Supplemental material, for review | `aso/fusion-junction-aso-research-article.pdf`, `aso/fusion-junction-aso-sequences.csv` |
+| Supplemental material, for review | `aso/fusion-junction-aso-sequences.csv` |
 | Fee route | NO ZERO-DOLLAR ROUTE. Publishing Services Fee $90 per typeset page, assessed on acceptance; colour charged separately at $800 for the first print image, which this submission does not request. READ AT PRIMARY SOURCE 2026-08-23, same capture as the limits. |
 
 ⚠ Limits provenance: READ AT PRIMARY SOURCE 2026-08-23 by trimcrae in a human web browser, and captured verbatim to research/literature/nat-submission-guidelines-2026-08-23.md, which is the source of record for every figure below. Article type Original Paper: 4,000-word limit, unstructured abstract of no more than 200 words, maximum total of five (5) figures and/or tables, and no reference cap for this type. THE COUNTING RULES AGREE WITH THIS MODULE'S: 'Word limits do NOT pertain to the abstract, disclosure statements, author contribution statements, funding information, acknowledgments, tables, figure legends, or references' -- which is the boundary `TAIL` already draws, so main_words here is comparable to the cap rather than merely near it. ⚠ NOT AUTOMATABLE: journals.sagepub.com returns HTTP 403 to the egress proxy, to a plain CI fetch and to a real headless Chromium alike (re-confirmed 2026-08-23, Actions run 32644971152), so this row cannot be refreshed by any tool here and must be re-read by a person before submission. ⚠ THE PAGE CONTRADICTS ITSELF ON THE REVIEW MODEL and the contradiction changes what is submitted: 'Identity transparency: Single-anonymized' appears twice, while the peer-review section says 'The journal adheres to a rigorous double-anonymized reviewing policy in which the identity of both the reviewer and author are always concealed from both parties.' Under the second reading the manuscript needs an anonymized copy. ✅ NO LONGER AN OPEN ITEM: both files are built, by `build_submission_pdf.py --anonymized` on every chain run, so the contradiction is decided at the upload form instead of after a return. ⚠ Superseded, retained: 'Tracked as an open item in the preprint checklist; not resolved here, because nothing here can resolve it.' The second clause is still true of THIS module and the first is not: nothing here can read the form, but the fix never needed the form read -- it needed both uploads to exist. SETTLED BY THE SAME READ, and each was previously carried as an open risk: (1) 'Accepts preprints? Yes' -- posting before submission does not disqualify, and the submission form asks for the preprint DOI. (2) The Publishing Services Fee survived the Liebert-to-SAGE transfer unchanged at $90 per typeset page, assessed on acceptance, with colour charged separately at $800 for the first print image. (3) The control-oligodeoxynucleotide rule is real and is scoped to efficacy: 'All manuscripts that claim antisense efficacy must, in addition to the antisense oligodeoxynucleotide construct, include at least two control oligodeoxynucleotides.' This paper claims no efficacy and runs no assay, so it is out of that rule's scope..
@@ -154,6 +167,22 @@ last_verified: 2026-08-10
 **Figures to upload**
 
 - `aso-multipartner-seam.svg` — raster present, vector present
+
+**Files to upload, one per portal slot** — not one composed PDF
+
+| file | what it is | why it is on this list |
+|---|---|---|
+| `aso/fusion-junction-aso-cover-letter.md` | cover letter | every portal asks for one |
+| `aso/fusion-junction-aso-journal-article-title-page.docx` | title page — the identity file | checklist A7; and the identity a blinded manuscript has had removed |
+| `aso/fusion-junction-aso-journal-article-manuscript.docx` | main document, double-spaced Word | checklist A6; a Word file is the copy an editor edits |
+| `aso/fusion-junction-aso-journal-article-manuscript.pdf` | main document, same content as PDF | for a portal that will not take .docx |
+| `aso/fusion-junction-aso-journal-article-anonymized.pdf` | main document with identity removed | the double-anonymized reading of the guidelines; upload this OR the two above, never both |
+| `aso/fusion-junction-aso-journal-article-figure-legends.docx` | figure legends, separate and double-spaced | checklist A9 |
+| `figures/submission/aso-multipartner-seam.eps` | figure — vector, CMYK | checklist A8; one file per figure |
+| `figures/submission/aso-multipartner-seam.tif` | figure — raster, CMYK, 1200 dpi | checklist A8; one file per figure |
+| `aso/fusion-junction-aso-sequences.csv` | supplemental material, for review only | the one designation the guidelines name verbatim: "Supplemental Material - For Review Only" |
+
+⚠ The portal's own file-designation menu is shown at the upload form and is not readable from here; journals.sagepub.com returns HTTP 403 to every tool in this repository. The one designation the captured guidelines name verbatim is "Supplemental Material - For Review Only", which is why that row alone quotes one.
 
 ## Outstanding for every paper, and only the author can supply these
 
