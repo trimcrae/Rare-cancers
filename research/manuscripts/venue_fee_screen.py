@@ -119,29 +119,51 @@ def _get(url, tries=4):
 
 
 def _nlm(abbrev):
-    """ISSN, full title and title-continuation notes from the NLM Catalog."""
+    """ISSN-Linking, title and title history for the catalogue record whose MedlineTA is EXACTLY
+    the abbreviation asked for.
+
+    ⛔ TAKING THE FIRST ISSN IN THE RECORD IS THE BUG THIS REPLACES (found 2026-08-25). An NLM
+    catalogue record lists the ISSNs of related and continuing titles too, so `issns[0]` for
+    "Nucleic Acids Res" was 0261-3166 — a different journal — and OpenAlex duly answered about that
+    one, returning "no mandatory APC" for a journal that is fully open access with a mandatory APC.
+    A wrong identifier does not fail loudly; it returns a confident answer about something else.
+
+    So: ISSNLinking is NLM's single canonical ISSN for the record, and MedlineTA is checked against
+    the abbreviation before the record is accepted at all. A record that cannot be matched returns
+    empty and the row says so, rather than inheriting a neighbour's fee model.
+    """
     q = urllib.parse.quote(f'"{abbrev}"[ta]')
-    js = _get(f"{EUTILS}/esearch.fcgi?db=nlmcatalog&retmode=json&retmax=5&term={q}"
+    js = _get(f"{EUTILS}/esearch.fcgi?db=nlmcatalog&retmode=json&retmax=10&term={q}"
               "&tool=rare-cancers&email=trimcrae@gmail.com")
     if not js:
-        return {}
+        return {"lookup": "esearch failed"}
     try:
         ids = json.loads(js)["esearchresult"]["idlist"]
     except Exception:  # noqa: BLE001
-        return {}
+        return {"lookup": "esearch returned no idlist"}
     if not ids:
-        return {}
-    xml = _get(f"{EUTILS}/efetch.fcgi?db=nlmcatalog&retmode=xml&id={ids[0]}"
+        return {"lookup": "no catalogue record"}
+    xml = _get(f"{EUTILS}/efetch.fcgi?db=nlmcatalog&retmode=xml&id={','.join(ids)}"
                "&tool=rare-cancers&email=trimcrae@gmail.com") or ""
-    issns = re.findall(r"<ISSN[^>]*>([\dXx-]+)</ISSN>", xml)
-    title = re.search(r"<TitleMain>\s*<Title>(.*?)</Title>", xml, re.S)
-    # ⭐ The continuation notes are what settle "two journals or one renamed" without guessing.
-    notes = re.findall(r"<GeneralNote[^>]*>(.*?)</GeneralNote>", xml, re.S)
-    cont = [re.sub(r"<[^>]+>", "", n).strip() for n in notes
-            if re.search(r"continu|former|absorbed|split|merge", n, re.I)]
-    return {"issns": sorted(set(issns)),
-            "full_title": re.sub(r"<[^>]+>", "", title.group(1)).strip(". ") if title else "",
-            "title_history_notes": cont}
+    for chunk in re.split(r"<NLMCatalogRecord>", xml)[1:]:
+        ta = re.search(r"<MedlineTA>(.*?)</MedlineTA>", chunk, re.S)
+        ta = re.sub(r"<[^>]+>", "", ta.group(1)).strip() if ta else ""
+        if ta.lower() != abbrev.lower():
+            continue
+        linking = re.search(r"<ISSNLinking>([\dXx-]+)</ISSNLinking>", chunk)
+        allissn = re.findall(r"<ISSN[^>]*>([\dXx-]+)</ISSN>", chunk)
+        title = re.search(r"<TitleMain>.*?<Title>(.*?)</Title>", chunk, re.S)
+        notes = re.findall(r"<GeneralNote[^>]*>(.*?)</GeneralNote>", chunk, re.S)
+        hist = re.findall(r"<(?:PreviousTitle|IndexingHistory|TitleRelated)[^>]*>(.*?)"
+                          r"</(?:PreviousTitle|IndexingHistory|TitleRelated)>", chunk, re.S)
+        clean = lambda t: re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", t or "")).strip()  # noqa: E731
+        return {"lookup": "matched on MedlineTA",
+                "medline_ta": ta,
+                "issn_linking": linking.group(1) if linking else "",
+                "issns_in_record": sorted(set(allissn)),
+                "full_title": clean(title.group(1)) if title else "",
+                "title_history_notes": [clean(n) for n in notes + hist if clean(n)][:6]}
+    return {"lookup": f"no record whose MedlineTA equals {abbrev!r}"}
 
 
 def _openalex(issn):
@@ -208,19 +230,28 @@ def build():
         nlm = _nlm(abbrev)
         time.sleep(0.4)
         oa, dj = {}, {}
-        for issn in nlm.get("issns", []):
+        issn = nlm.get("issn_linking") or ""
+        if issn:
             oa = _openalex(issn)
             time.sleep(0.3)
             if oa:
                 dj = _doaj(issn)
                 time.sleep(0.3)
-                break
-        verdict, reading = _classify(oa, dj)
+        oa["issn_used"] = issn or None
+        if not oa.get("issn_used") or not oa.get("openalex_display_name"):
+            # ⛔ No verdict without an identifier we can defend. An unresolved row must read as
+            # unresolved, never as the permissive default.
+            verdict, reading = ("UNRESOLVED",
+                                "no canonical ISSN matched, or no OpenAlex record for it — this row "
+                                "is not evidence of anything and must be read by hand")
+        else:
+            verdict, reading = _classify(oa, dj)
         rows.append({"journal_abbrev": abbrev, "why_shortlisted": why,
                      "computation_only_papers_in_census": counts.get(abbrev, 0),
                      **nlm, **oa, **dj, "verdict": verdict, "reading": reading})
     rows.sort(key=lambda r: (r["verdict"] != "OPEN_AND_NO_APC",
                              r["verdict"] != "SUBSCRIPTION_OR_HYBRID",
+                             r["verdict"] == "UNRESOLVED",
                              -r["computation_only_papers_in_census"]))
     return {
         "_what": ("A fee screen of the journals that have actually published this paper's shape, "
@@ -238,6 +269,13 @@ def build():
             "OpenAlex and DOAJ are bibliographic databases. They are the best machine-readable "
             "evidence available and they are not the journal's own fee page. A row is a lead to "
             "confirm in a browser before submitting, not a fee quotation."),
+        "⛔_a_wrong_identifier_answers_confidently": (
+            "The first run of this screen took the first ISSN in each NLM record. Those records "
+            "list related and continuing titles too, so Nucleic Acids Research resolved to "
+            "0261-3166 — a different journal — and the screen reported 'no mandatory APC' for a "
+            "fully open-access journal that charges one. Rows are now keyed on ISSNLinking and "
+            "accepted only when MedlineTA matches the abbreviation exactly; anything unmatched is "
+            "UNRESOLVED rather than defaulted."),
         "_sources": ["NLM Catalog via E-utilities", "api.openalex.org", "doaj.org/api"],
         "excluded_from_the_shortlist": EXCLUDED,
         "journals": rows,
