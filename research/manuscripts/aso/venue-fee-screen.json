@@ -3,6 +3,7 @@
  "_why": "trimcrae, 2026-08-25: 'we need to find out what journals are free… just the good fits'. The shortlist and its exclusions are both written down so the filter can be argued with.",
  "⛔_no_mandatory_APC_is_not_free": "SUBSCRIPTION_OR_HYBRID means no article-processing charge, NOT $0. Nucleic Acid Therapeutics is subscription, has no APC, and charges $90 per typeset page plus colour — read at primary source 2026-08-23. Page and colour charges are per-journal, live only on author-guideline pages that 403 to the proxy and to CI alike, and appear in no structured source. Every row below carries that unknown.",
  "⚠_these_are_databases_not_publisher_pages": "OpenAlex and DOAJ are bibliographic databases. They are the best machine-readable evidence available and they are not the journal's own fee page. A row is a lead to confirm in a browser before submitting, not a fee quotation.",
+ "⛔_a_wrong_identifier_answers_confidently": "The first run of this screen took the first ISSN in each NLM record. Those records list related and continuing titles too, so Nucleic Acids Research resolved to 0261-3166 — a different journal — and the screen reported 'no mandatory APC' for a fully open-access journal that charges one. Rows are now keyed on ISSNLinking and accepted only when MedlineTA matches the abbreviation exactly; anything unmatched is UNRESOLVED rather than defaulted.",
  "_sources": [
   "NLM Catalog via E-utilities",
   "api.openalex.org",
@@ -42,428 +43,181 @@
    "journal_abbrev": "Nucleic Acids Res",
    "why_shortlisted": "highest count of any journal in the census",
    "computation_only_papers_in_census": 22,
-   "issns": [
-    "0261-3166",
-    "0301-5610",
-    "0305-1048",
-    "0952-3472",
-    "1362-4962",
-    "2632-8674"
-   ],
-   "full_title": "",
-   "title_history_notes": [],
-   "openalex_display_name": "Nucleic Acids Symposium Series",
-   "publisher": "Oxford University Press",
-   "is_oa": false,
-   "is_in_doaj": false,
-   "apc_usd": null,
-   "in_doaj": false,
-   "verdict": "SUBSCRIPTION_OR_HYBRID",
-   "reading": "no mandatory APC — open access is an option the author declines. ⛔ NOT the same as free: page and colour charges are set per journal, are in no database, and NAT charges them on exactly this footing"
-  },
-  {
-   "journal_abbrev": "Nucleic Acid Ther",
-   "why_shortlisted": "the modality journal, and the current plan of record",
-   "computation_only_papers_in_census": 7,
-   "issns": [
-    "1545-4576",
-    "2159-3337",
-    "2159-3345"
-   ],
-   "full_title": "",
-   "title_history_notes": [],
-   "openalex_display_name": "Oligonucleotides",
-   "publisher": "Mary Ann Liebert, Inc.",
-   "is_oa": false,
-   "is_in_doaj": false,
-   "apc_usd": null,
-   "in_doaj": false,
-   "verdict": "SUBSCRIPTION_OR_HYBRID",
-   "reading": "no mandatory APC — open access is an option the author declines. ⛔ NOT the same as free: page and colour charges are set per journal, are in no database, and NAT charges them on exactly this footing"
-  },
-  {
-   "journal_abbrev": "RNA",
-   "why_shortlisted": "RNA biology; a junction-pairing screen is an RNA result",
-   "computation_only_papers_in_census": 6,
-   "issns": [
-    "1355-8382",
-    "1469-9001"
-   ],
-   "full_title": "",
-   "title_history_notes": [],
-   "openalex_display_name": "RNA",
-   "publisher": "Cold Spring Harbor Laboratory Press",
-   "is_oa": false,
-   "is_in_doaj": false,
-   "apc_usd": null,
-   "in_doaj": false,
-   "verdict": "SUBSCRIPTION_OR_HYBRID",
-   "reading": "no mandatory APC — open access is an option the author declines. ⛔ NOT the same as free: page and colour charges are set per journal, are in no database, and NAT charges them on exactly this footing"
-  },
-  {
-   "journal_abbrev": "Mol Ther",
-   "why_shortlisted": "gene and oligonucleotide therapy, parent journal of MTNA",
-   "computation_only_papers_in_census": 6,
-   "issns": [
-    "1525-0016",
-    "1525-0024"
-   ],
-   "full_title": "",
-   "title_history_notes": [],
-   "openalex_display_name": "Molecular Therapy",
-   "publisher": "Elsevier BV",
-   "is_oa": false,
-   "is_in_doaj": false,
-   "apc_usd": 4500,
-   "in_doaj": false,
-   "verdict": "SUBSCRIPTION_OR_HYBRID",
-   "reading": "no mandatory APC — open access is an option the author declines. ⛔ NOT the same as free: page and colour charges are set per journal, are in no database, and NAT charges them on exactly this footing"
-  },
-  {
-   "journal_abbrev": "Oligonucleotides",
-   "why_shortlisted": "apparent former title of Nucleic Acid Ther — verified below, not assumed",
-   "computation_only_papers_in_census": 5,
-   "issns": [
-    "1087-2906",
-    "1545-4576",
-    "1557-8526",
-    "2159-3337"
-   ],
-   "full_title": "",
-   "title_history_notes": [],
-   "openalex_display_name": "Antisense and Nucleic Acid Drug Development",
-   "publisher": "Mary Ann Liebert, Inc.",
-   "is_oa": false,
-   "is_in_doaj": false,
-   "apc_usd": null,
-   "in_doaj": false,
-   "verdict": "SUBSCRIPTION_OR_HYBRID",
-   "reading": "no mandatory APC — open access is an option the author declines. ⛔ NOT the same as free: page and colour charges are set per journal, are in no database, and NAT charges them on exactly this footing"
-  },
-  {
-   "journal_abbrev": "Biochem Biophys Res Commun",
-   "why_shortlisted": "broad, takes short computational reports",
-   "computation_only_papers_in_census": 4,
-   "issns": [
-    "0006-291X",
-    "1090-2104",
-    "1522-4724"
-   ],
-   "full_title": "",
-   "title_history_notes": [],
-   "openalex_display_name": "Biochemical and Biophysical Research Communications",
-   "publisher": "Elsevier BV",
-   "is_oa": false,
-   "is_in_doaj": false,
-   "apc_usd": 3110,
-   "in_doaj": false,
-   "verdict": "SUBSCRIPTION_OR_HYBRID",
-   "reading": "no mandatory APC — open access is an option the author declines. ⛔ NOT the same as free: page and colour charges are set per journal, are in no database, and NAT charges them on exactly this footing"
-  },
-  {
-   "journal_abbrev": "J Chem Inf Model",
-   "why_shortlisted": "the degrader paper's venue; $0 route already established here",
-   "computation_only_papers_in_census": 4,
-   "issns": [
-    "0095-2338",
-    "1549-9596",
-    "1549-960X"
-   ],
-   "full_title": "",
-   "title_history_notes": [],
-   "openalex_display_name": "Journal of Chemical Information and Computer Sciences",
-   "publisher": "American Chemical Society",
-   "is_oa": false,
-   "is_in_doaj": false,
-   "apc_usd": null,
-   "in_doaj": false,
-   "verdict": "SUBSCRIPTION_OR_HYBRID",
-   "reading": "no mandatory APC — open access is an option the author declines. ⛔ NOT the same as free: page and colour charges are set per journal, are in no database, and NAT charges them on exactly this footing"
-  },
-  {
-   "journal_abbrev": "Bioinformatics",
-   "why_shortlisted": "the screen is a method; a methods framing has a home here",
-   "computation_only_papers_in_census": 3,
-   "issns": [
-    "0266-7061",
-    "1367-4803",
-    "1367-4811",
-    "1460-2059",
-    "1553-0833"
-   ],
-   "full_title": "",
-   "title_history_notes": [
-    "Absorbed: International Conference On Intelligent Systems for Molecular Biology proceedings."
-   ],
-   "openalex_display_name": "Computer applications in the biosciences",
-   "publisher": "Oxford University Press",
-   "is_oa": false,
-   "is_in_doaj": false,
-   "apc_usd": null,
-   "in_doaj": false,
-   "verdict": "SUBSCRIPTION_OR_HYBRID",
-   "reading": "no mandatory APC — open access is an option the author declines. ⛔ NOT the same as free: page and colour charges are set per journal, are in no database, and NAT charges them on exactly this footing"
-  },
-  {
-   "journal_abbrev": "Antisense Nucleic Acid Drug Dev",
-   "why_shortlisted": "apparent earlier title of the same journal",
-   "computation_only_papers_in_census": 2,
-   "issns": [
-    "1050-5261",
-    "1087-2906",
-    "1545-4576"
-   ],
-   "full_title": "",
-   "title_history_notes": [],
-   "openalex_display_name": "Antisense Research and Development",
-   "publisher": "Mary Ann Liebert, Inc.",
-   "is_oa": false,
-   "is_in_doaj": false,
-   "apc_usd": null,
-   "in_doaj": false,
-   "verdict": "SUBSCRIPTION_OR_HYBRID",
-   "reading": "no mandatory APC — open access is an option the author declines. ⛔ NOT the same as free: page and colour charges are set per journal, are in no database, and NAT charges them on exactly this footing"
-  },
-  {
-   "journal_abbrev": "Biochem J",
-   "why_shortlisted": "broad biochemistry, hybrid publisher",
-   "computation_only_papers_in_census": 2,
-   "issns": [
-    "0006-2936",
-    "0264-6021",
-    "0306-3275",
-    "0306-3283",
-    "1356-739X",
-    "1470-8728"
-   ],
-   "full_title": "",
-   "title_history_notes": [],
-   "openalex_display_name": "Biochemical Journal",
-   "publisher": "Portland Press",
-   "is_oa": false,
-   "is_in_doaj": false,
-   "apc_usd": null,
-   "in_doaj": false,
-   "verdict": "SUBSCRIPTION_OR_HYBRID",
-   "reading": "no mandatory APC — open access is an option the author declines. ⛔ NOT the same as free: page and colour charges are set per journal, are in no database, and NAT charges them on exactly this footing"
-  },
-  {
-   "journal_abbrev": "Genes Cells",
-   "why_shortlisted": "broad molecular biology, hybrid publisher",
-   "computation_only_papers_in_census": 2,
-   "issns": [
-    "1356-9597",
-    "1365-2443"
-   ],
-   "full_title": "",
-   "title_history_notes": [],
-   "openalex_display_name": "Genes to Cells",
-   "publisher": "Wiley",
-   "is_oa": false,
-   "is_in_doaj": false,
-   "apc_usd": 3800,
-   "in_doaj": false,
-   "verdict": "SUBSCRIPTION_OR_HYBRID",
-   "reading": "no mandatory APC — open access is an option the author declines. ⛔ NOT the same as free: page and colour charges are set per journal, are in no database, and NAT charges them on exactly this footing"
+   "lookup": "no record whose MedlineTA equals 'Nucleic Acids Res'",
+   "issn_used": null,
+   "verdict": "UNRESOLVED",
+   "reading": "no canonical ISSN matched, or no OpenAlex record for it — this row is not evidence of anything and must be read by hand"
   },
   {
    "journal_abbrev": "Mol Ther Nucleic Acids",
    "why_shortlisted": "second-highest count; nucleic-acid therapeutics, exact scope",
    "computation_only_papers_in_census": 16,
-   "issns": [
-    "2162-2531"
-   ],
-   "full_title": "",
-   "title_history_notes": [],
-   "openalex_display_name": "Molecular Therapy — Nucleic Acids",
-   "publisher": "Cell Press",
-   "is_oa": true,
-   "is_in_doaj": true,
-   "apc_usd": 3900,
-   "in_doaj": true,
-   "doaj_has_apc": true,
-   "doaj_apc": [
-    "3900 USD"
-   ],
-   "verdict": "GOLD_OA_APC",
-   "reading": "fully open access with an article-processing charge; there is no subscription route to decline, so this is not a $0 venue"
+   "lookup": "no record whose MedlineTA equals 'Mol Ther Nucleic Acids'",
+   "issn_used": null,
+   "verdict": "UNRESOLVED",
+   "reading": "no canonical ISSN matched, or no OpenAlex record for it — this row is not evidence of anything and must be read by hand"
+  },
+  {
+   "journal_abbrev": "Nucleic Acid Ther",
+   "why_shortlisted": "the modality journal, and the current plan of record",
+   "computation_only_papers_in_census": 7,
+   "lookup": "no record whose MedlineTA equals 'Nucleic Acid Ther'",
+   "issn_used": null,
+   "verdict": "UNRESOLVED",
+   "reading": "no canonical ISSN matched, or no OpenAlex record for it — this row is not evidence of anything and must be read by hand"
+  },
+  {
+   "journal_abbrev": "RNA",
+   "why_shortlisted": "RNA biology; a junction-pairing screen is an RNA result",
+   "computation_only_papers_in_census": 6,
+   "lookup": "no record whose MedlineTA equals 'RNA'",
+   "issn_used": null,
+   "verdict": "UNRESOLVED",
+   "reading": "no canonical ISSN matched, or no OpenAlex record for it — this row is not evidence of anything and must be read by hand"
+  },
+  {
+   "journal_abbrev": "Mol Ther",
+   "why_shortlisted": "gene and oligonucleotide therapy, parent journal of MTNA",
+   "computation_only_papers_in_census": 6,
+   "lookup": "no record whose MedlineTA equals 'Mol Ther'",
+   "issn_used": null,
+   "verdict": "UNRESOLVED",
+   "reading": "no canonical ISSN matched, or no OpenAlex record for it — this row is not evidence of anything and must be read by hand"
   },
   {
    "journal_abbrev": "Int J Mol Sci",
    "why_shortlisted": "publishes exactly this shape; fee model needs stating",
    "computation_only_papers_in_census": 6,
-   "issns": [
-    "1422-0067"
-   ],
-   "full_title": "",
-   "title_history_notes": [],
-   "openalex_display_name": "International Journal of Molecular Sciences",
-   "publisher": "Multidisciplinary Digital Publishing Institute",
-   "is_oa": true,
-   "is_in_doaj": false,
-   "apc_usd": 3499,
-   "in_doaj": false,
-   "verdict": "GOLD_OA_APC",
-   "reading": "fully open access with an article-processing charge; there is no subscription route to decline, so this is not a $0 venue"
+   "lookup": "no record whose MedlineTA equals 'Int J Mol Sci'",
+   "issn_used": null,
+   "verdict": "UNRESOLVED",
+   "reading": "no canonical ISSN matched, or no OpenAlex record for it — this row is not evidence of anything and must be read by hand"
   },
   {
    "journal_abbrev": "Sci Rep",
    "why_shortlisted": "generalist that takes computation-only work",
    "computation_only_papers_in_census": 6,
-   "issns": [
-    "2045-2322"
-   ],
-   "full_title": "",
-   "title_history_notes": [],
-   "openalex_display_name": "Scientific Reports",
-   "publisher": "Nature Portfolio",
-   "is_oa": true,
-   "is_in_doaj": true,
-   "apc_usd": 2690,
-   "in_doaj": true,
-   "doaj_has_apc": true,
-   "doaj_apc": [
-    "2490 EUR",
-    "2850 USD",
-    "2290 GBP"
-   ],
-   "verdict": "GOLD_OA_APC",
-   "reading": "fully open access with an article-processing charge; there is no subscription route to decline, so this is not a $0 venue"
+   "lookup": "no record whose MedlineTA equals 'Sci Rep'",
+   "issn_used": null,
+   "verdict": "UNRESOLVED",
+   "reading": "no canonical ISSN matched, or no OpenAlex record for it — this row is not evidence of anything and must be read by hand"
+  },
+  {
+   "journal_abbrev": "Oligonucleotides",
+   "why_shortlisted": "apparent former title of Nucleic Acid Ther — verified below, not assumed",
+   "computation_only_papers_in_census": 5,
+   "lookup": "no record whose MedlineTA equals 'Oligonucleotides'",
+   "issn_used": null,
+   "verdict": "UNRESOLVED",
+   "reading": "no canonical ISSN matched, or no OpenAlex record for it — this row is not evidence of anything and must be read by hand"
   },
   {
    "journal_abbrev": "NAR Genom Bioinform",
    "why_shortlisted": "nucleic-acid methods, plausible for a screening paper",
    "computation_only_papers_in_census": 4,
-   "issns": [
-    "0305-1048",
-    "2631-9268"
-   ],
-   "full_title": "",
-   "title_history_notes": [],
-   "openalex_display_name": "Nucleic Acids Research",
-   "publisher": "Oxford University Press",
-   "is_oa": true,
-   "is_in_doaj": true,
-   "apc_usd": 3992,
-   "in_doaj": true,
-   "doaj_has_apc": true,
-   "doaj_apc": [
-    "4192 USD"
-   ],
-   "verdict": "GOLD_OA_APC",
-   "reading": "fully open access with an article-processing charge; there is no subscription route to decline, so this is not a $0 venue"
+   "lookup": "no record whose MedlineTA equals 'NAR Genom Bioinform'",
+   "issn_used": null,
+   "verdict": "UNRESOLVED",
+   "reading": "no canonical ISSN matched, or no OpenAlex record for it — this row is not evidence of anything and must be read by hand"
   },
   {
    "journal_abbrev": "RNA Biol",
    "why_shortlisted": "same reasoning as RNA",
    "computation_only_papers_in_census": 4,
-   "issns": [
-    "1547-6286",
-    "1555-8584"
-   ],
-   "full_title": "",
-   "title_history_notes": [],
-   "openalex_display_name": "RNA Biology",
-   "publisher": "Taylor & Francis",
-   "is_oa": true,
-   "is_in_doaj": true,
-   "apc_usd": 3175,
-   "in_doaj": true,
-   "doaj_has_apc": true,
-   "doaj_apc": [
-    "3650 USD",
-    "2920 GBP",
-    "3505 EUR",
-    "5085 AUD"
-   ],
-   "verdict": "GOLD_OA_APC",
-   "reading": "fully open access with an article-processing charge; there is no subscription route to decline, so this is not a $0 venue"
+   "lookup": "no record whose MedlineTA equals 'RNA Biol'",
+   "issn_used": null,
+   "verdict": "UNRESOLVED",
+   "reading": "no canonical ISSN matched, or no OpenAlex record for it — this row is not evidence of anything and must be read by hand"
   },
   {
    "journal_abbrev": "BMC Bioinformatics",
    "why_shortlisted": "same reasoning as Bioinformatics",
    "computation_only_papers_in_census": 4,
-   "issns": [
-    "1471-2105"
-   ],
-   "full_title": "",
-   "title_history_notes": [],
-   "openalex_display_name": "BMC Bioinformatics",
-   "publisher": "BioMed Central",
-   "is_oa": true,
-   "is_in_doaj": true,
-   "apc_usd": 2990,
-   "in_doaj": true,
-   "doaj_has_apc": true,
-   "doaj_apc": [
-    "2590 EUR",
-    "3090 USD",
-    "2290 GBP"
-   ],
-   "verdict": "GOLD_OA_APC",
-   "reading": "fully open access with an article-processing charge; there is no subscription route to decline, so this is not a $0 venue"
+   "lookup": "no record whose MedlineTA equals 'BMC Bioinformatics'",
+   "issn_used": null,
+   "verdict": "UNRESOLVED",
+   "reading": "no canonical ISSN matched, or no OpenAlex record for it — this row is not evidence of anything and must be read by hand"
+  },
+  {
+   "journal_abbrev": "Biochem Biophys Res Commun",
+   "why_shortlisted": "broad, takes short computational reports",
+   "computation_only_papers_in_census": 4,
+   "lookup": "no record whose MedlineTA equals 'Biochem Biophys Res Commun'",
+   "issn_used": null,
+   "verdict": "UNRESOLVED",
+   "reading": "no canonical ISSN matched, or no OpenAlex record for it — this row is not evidence of anything and must be read by hand"
   },
   {
    "journal_abbrev": "PLoS One",
    "why_shortlisted": "generalist that takes computation-only work",
    "computation_only_papers_in_census": 4,
-   "issns": [
-    "1932-6203"
-   ],
-   "full_title": "",
-   "title_history_notes": [],
-   "openalex_display_name": "PLoS ONE",
-   "publisher": "Public Library of Science",
-   "is_oa": true,
-   "is_in_doaj": true,
-   "apc_usd": 2382,
-   "in_doaj": true,
-   "doaj_has_apc": true,
-   "doaj_apc": [
-    "2477 USD"
-   ],
-   "verdict": "GOLD_OA_APC",
-   "reading": "fully open access with an article-processing charge; there is no subscription route to decline, so this is not a $0 venue"
+   "lookup": "no record whose MedlineTA equals 'PLoS One'",
+   "issn_used": null,
+   "verdict": "UNRESOLVED",
+   "reading": "no canonical ISSN matched, or no OpenAlex record for it — this row is not evidence of anything and must be read by hand"
+  },
+  {
+   "journal_abbrev": "J Chem Inf Model",
+   "why_shortlisted": "the degrader paper's venue; $0 route already established here",
+   "computation_only_papers_in_census": 4,
+   "lookup": "no record whose MedlineTA equals 'J Chem Inf Model'",
+   "issn_used": null,
+   "verdict": "UNRESOLVED",
+   "reading": "no canonical ISSN matched, or no OpenAlex record for it — this row is not evidence of anything and must be read by hand"
+  },
+  {
+   "journal_abbrev": "Bioinformatics",
+   "why_shortlisted": "the screen is a method; a methods framing has a home here",
+   "computation_only_papers_in_census": 3,
+   "lookup": "no record whose MedlineTA equals 'Bioinformatics'",
+   "issn_used": null,
+   "verdict": "UNRESOLVED",
+   "reading": "no canonical ISSN matched, or no OpenAlex record for it — this row is not evidence of anything and must be read by hand"
   },
   {
    "journal_abbrev": "Biomedicines",
    "why_shortlisted": "same as IJMS — appears in the census, fee model needs stating",
    "computation_only_papers_in_census": 3,
-   "issns": [
-    "2227-9059"
-   ],
-   "full_title": "",
-   "title_history_notes": [],
-   "openalex_display_name": "Biomedicines",
-   "publisher": "Multidisciplinary Digital Publishing Institute",
-   "is_oa": true,
-   "is_in_doaj": true,
-   "apc_usd": 3137,
-   "in_doaj": true,
-   "doaj_has_apc": true,
-   "doaj_apc": [
-    "2600 CHF"
-   ],
-   "verdict": "GOLD_OA_APC",
-   "reading": "fully open access with an article-processing charge; there is no subscription route to decline, so this is not a $0 venue"
+   "lookup": "no record whose MedlineTA equals 'Biomedicines'",
+   "issn_used": null,
+   "verdict": "UNRESOLVED",
+   "reading": "no canonical ISSN matched, or no OpenAlex record for it — this row is not evidence of anything and must be read by hand"
+  },
+  {
+   "journal_abbrev": "Antisense Nucleic Acid Drug Dev",
+   "why_shortlisted": "apparent earlier title of the same journal",
+   "computation_only_papers_in_census": 2,
+   "lookup": "no record whose MedlineTA equals 'Antisense Nucleic Acid Drug Dev'",
+   "issn_used": null,
+   "verdict": "UNRESOLVED",
+   "reading": "no canonical ISSN matched, or no OpenAlex record for it — this row is not evidence of anything and must be read by hand"
+  },
+  {
+   "journal_abbrev": "Biochem J",
+   "why_shortlisted": "broad biochemistry, hybrid publisher",
+   "computation_only_papers_in_census": 2,
+   "lookup": "no record whose MedlineTA equals 'Biochem J'",
+   "issn_used": null,
+   "verdict": "UNRESOLVED",
+   "reading": "no canonical ISSN matched, or no OpenAlex record for it — this row is not evidence of anything and must be read by hand"
+  },
+  {
+   "journal_abbrev": "Genes Cells",
+   "why_shortlisted": "broad molecular biology, hybrid publisher",
+   "computation_only_papers_in_census": 2,
+   "lookup": "no record whose MedlineTA equals 'Genes Cells'",
+   "issn_used": null,
+   "verdict": "UNRESOLVED",
+   "reading": "no canonical ISSN matched, or no OpenAlex record for it — this row is not evidence of anything and must be read by hand"
   },
   {
    "journal_abbrev": "Genes (Basel)",
    "why_shortlisted": "two ASO-design papers in the census design-language list",
    "computation_only_papers_in_census": 1,
-   "issns": [
-    "2073-4425"
-   ],
-   "full_title": "",
-   "title_history_notes": [],
-   "openalex_display_name": "Genes",
-   "publisher": "Multidisciplinary Digital Publishing Institute",
-   "is_oa": true,
-   "is_in_doaj": false,
-   "apc_usd": 3137,
-   "in_doaj": false,
-   "verdict": "GOLD_OA_APC",
-   "reading": "fully open access with an article-processing charge; there is no subscription route to decline, so this is not a $0 venue"
+   "lookup": "no record whose MedlineTA equals 'Genes (Basel)'",
+   "issn_used": null,
+   "verdict": "UNRESOLVED",
+   "reading": "no canonical ISSN matched, or no OpenAlex record for it — this row is not evidence of anything and must be read by hand"
   }
  ]
 }
