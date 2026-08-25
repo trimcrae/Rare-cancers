@@ -145,6 +145,10 @@ def _nlm(abbrev):
         return {"lookup": "no catalogue record"}
     xml = _get(f"{EUTILS}/efetch.fcgi?db=nlmcatalog&retmode=xml&id={','.join(ids)}"
                "&tool=rare-cancers&email=trimcrae@gmail.com") or ""
+    # ⛔ CAPTURE THE BYTES ON FAILURE. Two parses of NCBI XML have now been written from an
+    # assumption about the element names and both were wrong, returning empty rather than raising.
+    # The head of the real response is carried out in the artifact so the next fix is made against
+    # the document instead of against another guess.
     for chunk in re.split(r"<NLMCatalogRecord>", xml)[1:]:
         ta = re.search(r"<MedlineTA>(.*?)</MedlineTA>", chunk, re.S)
         ta = re.sub(r"<[^>]+>", "", ta.group(1)).strip() if ta else ""
@@ -163,7 +167,10 @@ def _nlm(abbrev):
                 "issns_in_record": sorted(set(allissn)),
                 "full_title": clean(title.group(1)) if title else "",
                 "title_history_notes": [clean(n) for n in notes + hist if clean(n)][:6]}
-    return {"lookup": f"no record whose MedlineTA equals {abbrev!r}"}
+    return {"lookup": f"no record whose MedlineTA equals {abbrev!r}",
+            "raw_efetch_head": xml[:2000],
+            "raw_efetch_len": len(xml),
+            "element_names_seen": sorted(set(re.findall(r"<([A-Za-z][\w:-]*)[ >]", xml)))[:60]}
 
 
 def _openalex(issn):
