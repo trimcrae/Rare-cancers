@@ -326,6 +326,94 @@ def harvest_pdf(body: bytes, dest: str, source_id: str) -> dict:
     return info
 
 
+def run_target(tgt: dict, dest: str, budget_left: int) -> tuple[dict, int]:
+    """Resolve, fetch and harvest ONE candidate. Returns (record, bytes published)."""
+    sid = tgt["source_id"]
+    reg = registry_ids(sid)
+    conflicts = [k for k in ("doi", "pmid", "pmcid")
+                 if tgt.get(k) and reg.get(k) and str(tgt[k]) != reg[k]]
+    if conflicts:
+        print(f"{sid:32s} REFUSED: identifier conflicts with the registry ({conflicts})")
+        return {
+            "source_id": sid, "routes": [], "assets": None, "route_used": None,
+            "⛔_refused": ("caller-supplied identifier contradicts the registry: "
+                          + "; ".join(f"{k}: caller {tgt[k]!r} vs registry {reg[k]!r}"
+                                      for k in conflicts)
+                          + ". Refused rather than resolved -- one of the two is wrong and this "
+                            "script cannot tell which."),
+            "registry_ids": reg}, 0
+    if reg.get("found"):
+        for k in ("doi", "pmid", "pmcid"):
+            if reg.get(k) and not tgt.get(k):
+                tgt = dict(tgt, **{k: reg[k]})
+
+    pmcid = tgt.get("pmcid")
+    rec = {"source_id": sid, "pmcid": pmcid, "routes": [], "assets": None, "route_used": None,
+           "registry_ids": reg,
+           "identifiers_used": {k: tgt.get(k) for k in ("doi", "pmid", "pmcid")},
+           "identifier_source": "registry" if reg.get("found") else "caller"}
+
+    if not pmcid and tgt.get("pmid"):
+        resolved = resolve_pmcid(str(tgt["pmid"]))
+        rec["pmid_resolution"] = resolved
+        pmcid = rec["pmcid"] = resolved.get("pmcid")
+        print(f"{sid:32s} pmid={tgt['pmid']} -> pmcid={pmcid} "
+              f"open_access={resolved.get('is_open_access')}")
+    if not pmcid and tgt.get("doi"):
+        # ⭐ NOT IN PMC IS NOT THE SAME AS NOT FREE. Ask the question that was meant.
+        up = unpaywall(tgt["doi"])
+        rec["unpaywall"] = up
+        print(f"{sid:32s} doi={tgt['doi']} -> is_oa={up.get('is_oa')} "
+              f"status={up.get('oa_status')} host={up.get('best_host_type')}")
+        if up.get("best_url_for_pdf"):
+            tgt = dict(tgt, pdf_url=up["best_url_for_pdf"])
+    if not pmcid and not tgt.get("pdf_url"):
+        rec["⛔"] = ("no PMC identifier and no free copy located: this candidate has no open route "
+                    "at $0. That is a reachability statement, not a statement about the paper.")
+        return rec, 0
+
+    oa = oa_records(pmcid) if pmcid else {"lookup_url": None, "skipped": "no PMC id"}
+    rec["oa_service"] = {k: v for k, v in oa.items() if k != "raw"}
+    # ⚠ `oa` is a STUB when there is no PMC id, so every read of it must tolerate a missing key.
+    rec["oa_service_raw"] = oa.get("raw")
+
+    spent = 0
+    for route, url in candidate_urls(pmcid or "", oa, tgt.get("pdf_url")):
+        if spent >= budget_left:
+            rec["routes"].append({"route": route, "url": url, "skipped": "byte cap reached"})
+            continue
+        code, ctype, body = _get(url)
+        entry = {"route": route, "url": url, "http": code, "content_type": ctype,
+                 "bytes": len(body)}
+        if _looks_like("tgz", ctype, body):
+            entry["kind"] = "tgz"
+            try:
+                kept = harvest_tgz(body, dest, sid)
+                entry["images_extracted"] = len(kept)
+                rec["assets"] = {"kind": "tgz_images", "images": kept}
+                rec["route_used"] = route
+                spent += sum(k["bytes"] for k in kept)
+            except Exception as exc:  # noqa: BLE001
+                entry["error"] = f"tar open failed: {type(exc).__name__}: {exc}"
+        elif _looks_like("pdf", ctype, body):
+            entry["kind"] = "pdf"
+            rec["assets"] = harvest_pdf(body, dest, sid)
+            rec["route_used"] = route
+            spent += rec["assets"].get("pdf_bytes", 0) + sum(
+                p["bytes"] for p in rec["assets"].get("pages", []))
+        else:
+            entry["kind"] = "not-a-figure-source"
+            entry["head"] = body[:180].decode("utf-8", "replace")
+        rec["routes"].append(entry)
+        if rec["route_used"]:
+            break
+    if not rec["route_used"]:
+        rec["⛔"] = ("no route returned a figure source. This is a reachability finding about THIS "
+                    "run, not a statement that the paper prints no curve.")
+    print(f"{sid:32s} {str(pmcid):14s} route={rec['route_used']}")
+    return rec, spent
+
+
 def main() -> int:
     targets = json.loads(os.environ["KM_TARGETS_JSON"]) if os.environ.get("KM_TARGETS_JSON") \
         else TARGETS
@@ -342,91 +430,25 @@ def main() -> int:
     }
     total = 0
     for tgt in targets:
-        sid = tgt["source_id"]
-        reg = registry_ids(sid)
-        conflicts = [k for k in ("doi", "pmid", "pmcid")
-                     if tgt.get(k) and reg.get(k) and str(tgt[k]) != reg[k]]
-        if conflicts:
-            manifest["targets"].append({
-                "source_id": sid, "routes": [], "assets": None, "route_used": None,
-                "⛔_refused": ("caller-supplied identifier contradicts the registry: "
-                              + "; ".join(f"{k}: caller {tgt[k]!r} vs registry {reg[k]!r}"
-                                          for k in conflicts)
-                              + ". Refused rather than resolved -- one of the two is wrong and this "
-                                "script cannot tell which."),
-                "registry_ids": reg})
-            print(f"{sid:32s} REFUSED: identifier conflicts with the registry ({conflicts})")
-            continue
-        if reg.get("found"):
-            for k in ("doi", "pmid", "pmcid"):
-                if reg.get(k) and not tgt.get(k):
-                    tgt = dict(tgt, **{k: reg[k]})
-        pmcid = tgt.get("pmcid")
-        rec = {"source_id": sid, "pmcid": pmcid, "routes": [], "assets": None,
-               "route_used": None, "registry_ids": reg,
-               "identifiers_used": {k: tgt.get(k) for k in ("doi", "pmid", "pmcid")},
-               "identifier_source": "registry" if reg.get("found") else "caller"}
-        if not pmcid and tgt.get("pmid"):
-            resolved = resolve_pmcid(str(tgt["pmid"]))
-            rec["pmid"] = tgt["pmid"]
-            rec["pmid_resolution"] = resolved
-            pmcid = rec["pmcid"] = resolved.get("pmcid")
-            print(f"{sid:32s} pmid={tgt['pmid']} -> pmcid={pmcid} "
-                  f"open_access={resolved.get('is_open_access')}")
-        if not pmcid and tgt.get("doi"):
-            # ⭐ NOT IN PMC IS NOT THE SAME AS NOT FREE. Ask the question that was meant.
-            up = unpaywall(tgt["doi"])
-            rec["unpaywall"] = up
-            print(f"{sid:32s} doi={tgt['doi']} -> is_oa={up.get('is_oa')} "
-                  f"status={up.get('oa_status')} host={up.get('best_host_type')}")
-            if up.get("best_url_for_pdf"):
-                tgt = dict(tgt, pdf_url=up["best_url_for_pdf"])
-        if not pmcid and not tgt.get("pdf_url"):
-            rec["⛔"] = ("no PMC identifier and no free copy located: this candidate has no open "
-                        "route at $0. That is a reachability statement, not a statement about the "
-                        "paper.")
-            manifest["targets"].append(rec)
-            continue
-        oa = oa_records(pmcid) if pmcid else {"lookup_url": None, "skipped": "no PMC id"}
-        rec["oa_service"] = {k: v for k, v in oa.items() if k != "raw"}
-        rec["oa_service_raw"] = oa["raw"]
-        for route, url in candidate_urls(pmcid or "", oa, tgt.get("pdf_url")):
-            if total >= MAX_BYTES:
-                rec["routes"].append({"route": route, "url": url, "skipped": "byte cap reached"})
-                continue
-            code, ctype, body = _get(url)
-            entry = {"route": route, "url": url, "http": code, "content_type": ctype,
-                     "bytes": len(body)}
-            if _looks_like("tgz", ctype, body):
-                entry["kind"] = "tgz"
-                try:
-                    kept = harvest_tgz(body, dest, sid)
-                    entry["images_extracted"] = len(kept)
-                    rec["assets"] = {"kind": "tgz_images", "images": kept}
-                    rec["route_used"] = route
-                    total += sum(k["bytes"] for k in kept)
-                except Exception as exc:  # noqa: BLE001
-                    entry["error"] = f"tar open failed: {type(exc).__name__}: {exc}"
-            elif _looks_like("pdf", ctype, body):
-                entry["kind"] = "pdf"
-                rec["assets"] = harvest_pdf(body, dest, sid)
-                rec["route_used"] = route
-                total += rec["assets"].get("pdf_bytes", 0) + sum(
-                    p["bytes"] for p in rec["assets"].get("pages", []))
-            else:
-                entry["kind"] = "not-a-figure-source"
-                entry["head"] = body[:180].decode("utf-8", "replace")
-            rec["routes"].append(entry)
-            if rec["route_used"]:
-                break
-        if not rec["route_used"]:
-            rec["⛔"] = ("no route returned a figure source. This is a reachability finding about "
-                        "THIS run, not a statement that the paper prints no curve.")
+        # ⛔ ONE BAD TARGET MUST NOT DISCARD THE WHOLE RUN. Round 3 crashed on its first pmcid-less
+        # row AFTER its Unpaywall lookup had already answered: the finding existed, was printed to
+        # the log, and was thrown away because nothing caught the exception. That is the same lesson
+        # the publish step records from the other direction -- never let one failure discard a
+        # retrieval that already happened.
+        try:
+            rec, spent = run_target(tgt, dest, MAX_BYTES - total)
+            total += spent
+        except Exception as exc:  # noqa: BLE001
+            rec = {"source_id": tgt.get("source_id"), "routes": [], "assets": None,
+                   "route_used": None,
+                   "⛔_crashed": f"{type(exc).__name__}: {exc}",
+                   "⚠": "this target raised; the other targets in this run are unaffected"}
+            print(f"{tgt.get('source_id')}: CRASHED {type(exc).__name__}: {exc}")
         manifest["targets"].append(rec)
-        print(f"{sid:32s} {pmcid:14s} route={rec['route_used']}")
     manifest["_totals"] = {
         "targets": len(targets),
-        "with_assets": sum(1 for t in manifest["targets"] if t["route_used"]),
+        "with_assets": sum(1 for t in manifest["targets"] if t.get("route_used")),
+        "crashed": sum(1 for t in manifest["targets"] if t.get("⛔_crashed")),
         "published_bytes": total,
         "byte_cap": MAX_BYTES,
     }
