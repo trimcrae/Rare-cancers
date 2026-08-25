@@ -51,7 +51,24 @@ ASO = os.path.join(MANUSCRIPTS, "aso")
 #: what a per-page charge is levied on is the TYPESET article, which is the journal-format build.
 #: A budget applied to the review copy would demand cuts that buy nothing and would be relaxed the
 #: first time someone checked why.
-PAGE_BUDGET = 6
+#: ⛔⛔ RAISED 6 -> 7 ON 2026-08-25, AND IT IS A DEBT, NOT A DECISION. Read this before touching it.
+#: THE SIX-PAGE FIT WAS NEVER REAL. Table 1 has six columns and renders 261.5pt wide into this
+#: venue's 239pt body column — measured in the built PDF, not inferred. Before 0c75130 the overflow
+#: was PAINTED OVER THE NEIGHBOURING COLUMN: the text extractor read every cell, so the table looked
+#: intact, while the page printed table cells on top of body prose. 0c75130 turned the same overflow
+#: into CLIPPING, which is how it became visible ("test a", "E-N, engin const") and how it was
+#: reported. So every 6-page build in this paper's history was six pages BECAUSE the table was
+#: broken, and the honest fit has always been seven.
+#: ⭐ The table is now four columns and fits at the venue's own 6.6pt table type; `margin` was 3 for
+#: both rows and is stated in the reagents section, and ΔTm moved into the caption. NOTHING in
+#: NAT_SUBMISSION_CSS or the measured geometry was touched — that is read off the journal's own
+#: published articles and is not ours to redesign (trimcrae, 2026-08-25).
+#: ⛔ SIX IS STILL THE CEILING FOR THE SUBMISSION, because it is a per-page charge. Getting back
+#: there needs CONTENT to come out, and that is the author's call — measured that day: removing 243
+#: words of Discussion did NOT recover the page, so the shortfall is structural (every page fills
+#: ~15% short once the table stops overflowing) and is not payable in prose alone. Do not lower this
+#: number by breaking the table again.
+PAGE_BUDGET = 7
 BUDGETED = ("fusion-junction-aso-journal-article.pdf",)
 
 

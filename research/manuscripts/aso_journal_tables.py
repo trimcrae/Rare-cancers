@@ -186,20 +186,31 @@ def build() -> str:
             "articles are the engineered constructs of Brenca et al. "
             "(PMID:31020999); the two patient-derived models of Bangerter et al. (PMID:36316541) are "
             "REPORTED at an NR4A3 exon-2 acceptor and match different designs, not these two. "
-            "ΔTm separates the fusion duplex from the more stable half of the design's own "
-            "target window, which is a different parent from the duplex column's searched "
-            "wild-type TFG. The separation is a floor rather than an estimate, for the reason "
-            "Methods gives; absolute melting points are not reported for a locked, "
-            "phosphorothioate oligonucleotide. "
+            #: ⚠ ΔTm IS NO LONGER A COLUMN, so what the caption owes is the two values and the one
+            #: thing a reader must not mistake about them — that they are floors. The rest of the
+            #: explanation was written for a column that is gone, and Methods still carries it.
+            f"ΔTm separates the fusion duplex from the more stable half of the design's own target "
+            f"window: {_tm(_lead(rows, LEADS[0]))} °C and {_tm(_lead(rows, LEADS[1]))} °C for the "
+            f"two rows in order, floors rather than estimates, for the reason Methods gives. "
             "Nothing here has been synthesised or tested, and no sequence may be administered to "
             "any person or animal.", ""]
-    out += ["| seam | reagent | margin | WT gap duplex (bp) | ΔTm floor (°C) | "
-            "test article |",
-            "|---|---|---:|---|---:|---|"]
+    #: ⛔ FOUR COLUMNS, AND THE TABLE NEVER FITTED IN SIX. MEASURED in the built PDF: at the venue's
+    #: own 6.6pt table type the six-column grid renders 261.5pt wide into a 239pt body column. Before
+    #: 0c75130 the overflow was PAINTED OVER THE NEIGHBOURING COLUMN — the text extractor read the
+    #: cells in full, which is why this looked fine, while the page had table cells printed on top of
+    #: body prose. After 0c75130 the same overflow is CLIPPED instead, which is how it became
+    #: visible: "test a", "E-N, engin const". Neither is a table anyone can read.
+    #: ⭐ THE WIDTH CAME OUT OF THE COLUMN COUNT, NOT OUT OF THE TYPE. Shrinking to 5.7pt also fits
+    #: and is too small to set a journal table in; NAT's geometry is measured from its own published
+    #: articles (research/literature/venue-typeset-geometry.json) and is not ours to redesign.
+    #: ⚠ NEITHER DROPPED FIGURE IS LOST: `margin` was 3 for BOTH rows and the reagents section says
+    #: so in words, and ΔTm moves into the caption below, still read from the same artifact column.
+    out += ["| seam | reagent | WT gap duplex (bp) | test article |",
+            "|---|---|---|---|"]
     for j in LEADS:
         r = _lead(rows, j)
-        out.append(f"| {_seam(j)} | 5\u2032-{r['sequence']}-3\u2032 | {r['gap_level_margin']} | "
-                   f"{_duplex(r)} | {_tm(r)} | {TEST_ARTICLE[j]} |")
+        out.append(f"| {_seam(j)} | 5\u2032-{r['sequence']}-3\u2032 | "
+                   f"{_duplex(r)} | {TEST_ARTICLE[j]} |")
     out.append("")
 
     controls = _controls()

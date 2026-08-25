@@ -52,7 +52,7 @@ block sending was absent from the list.*
 
 ⛔ *THE VENUE IS NUCLEIC ACID THERAPEUTICS (trimcrae, 2026-08-22: "NAT is the venue. It's not
 disqualified."). Its per-page charge is a cost to plan the page count against, not a bar; the
-condensed manuscript is built to six typeset pages at the journal's own measured geometry for that
+condensed manuscript is built to seven typeset pages — six until 2026-08-25, when Table 1 was found to have never fitted the body column and the honest fit became seven at the journal's own measured geometry for that
 reason. ✅ THE FEE AND THE LIMITS WERE READ ON 2026-08-23, at the journal's own Submission Guidelines,
 by trimcrae in a human web browser — every automated route still returns HTTP 403, and always will.
 Captured verbatim to

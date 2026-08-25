@@ -403,7 +403,12 @@ JOURNAL_TABLES = os.path.join(MANUSCRIPTS, "aso", "fusion-junction-aso-journal-t
 #: `| *EWSR1* e12::*NR4A3* e3 | 5′-GGGCATATCATCAAAC-3′ | 3 | 8 bp, wild-type *TFG* | … |`
 _TABLE1_ROW = re.compile(
     r"^\|\s*\*?(?P<donor>[A-Z0-9]+)\*?\s+e(?P<dexon>\d+)::\*?(?P<acc>[A-Z0-9]+)\*?\s+e(?P<aexon>\d+)"
-    r"\s*\|\s*(?P<seq>5′-[ACGT]+-3′)\s*\|[^|]*\|\s*(?P<duplex>\d+)\s*bp", re.M)
+    #: ⚠ THE COLUMNS BETWEEN THE SEQUENCE AND THE DUPLEX ARE NOT COUNTED (2026-08-25). This read
+    #: `\|[^|]*\|` — exactly one intervening cell — which silently meant "the `margin` column".
+    #: When Table 1 dropped to four columns so it would fit the venue's body width, the pattern
+    #: matched NOTHING and the guard reported that the paper no longer names two reagents. It binds
+    #: the seam to its duplex length; how many cells sit between them is the table's business.
+    r"\s*\|\s*(?P<seq>5′-[ACGT]+-3′)\s*\|(?:[^|]*\|)*?\s*(?P<duplex>\d+)\s*bp", re.M)
 
 
 def _named_reagents():

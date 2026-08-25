@@ -4,12 +4,12 @@
 
 *Every cell below is a column of `fusion-junction-aso-sequences.csv`, the canonical machine-readable record, except the test-article column of Table 1, which is a literature fact and carries its source in the caption. Every reagent named here is a 5-6-5 phosphorothioate gapmer. An oligonucleotide should be ordered from that file rather than transcribed from this page.*
 
-**Table 1. The two reagents named for synthesis, with their parent-duplex label and their test article.** The parent-duplex column is the longest contiguous duplex a mature wild-type parent forms through the catalytic gap; neither reagent reaches the ten-base-pair criterion, so the length is printed rather than a pass mark. Test articles are the engineered constructs of Brenca et al. (PMID:31020999); the two patient-derived models of Bangerter et al. (PMID:36316541) are REPORTED at an NR4A3 exon-2 acceptor and match different designs, not these two. ΔTm separates the fusion duplex from the more stable half of the design's own target window, which is a different parent from the duplex column's searched wild-type TFG. The separation is a floor rather than an estimate, for the reason Methods gives; absolute melting points are not reported for a locked, phosphorothioate oligonucleotide. Nothing here has been synthesised or tested, and no sequence may be administered to any person or animal.
+**Table 1. The two reagents named for synthesis, with their parent-duplex label and their test article.** The parent-duplex column is the longest contiguous duplex a mature wild-type parent forms through the catalytic gap; neither reagent reaches the ten-base-pair criterion, so the length is printed rather than a pass mark. Test articles are the engineered constructs of Brenca et al. (PMID:31020999); the two patient-derived models of Bangerter et al. (PMID:36316541) are REPORTED at an NR4A3 exon-2 acceptor and match different designs, not these two. ΔTm separates the fusion duplex from the more stable half of the design's own target window: ≥ 26.6 °C and ≥ 36.0 °C for the two rows in order, floors rather than estimates, for the reason Methods gives. Nothing here has been synthesised or tested, and no sequence may be administered to any person or animal.
 
-| seam | reagent | margin | WT gap duplex (bp) | ΔTm floor (°C) | test article |
-|---|---|---:|---|---:|---|
-| *EWSR1* e12::*NR4A3* e3 | 5′-GGGCATATCATCAAAC-3′ | 3 | 8 bp, wild-type *TFG* | ≥ 26.6 | E-N, engineered construct |
-| *TAF15* e6::*NR4A3* e3 | 5′-GGGCATATCTTGTGTG-3′ | 3 | 9 bp, wild-type *TFG* | ≥ 36.0 | T-N*, engineered construct |
+| seam | reagent | WT gap duplex (bp) | test article |
+|---|---|---|---|
+| *EWSR1* e12::*NR4A3* e3 | 5′-GGGCATATCATCAAAC-3′ | 8 bp, wild-type *TFG* | E-N, engineered construct |
+| *TAF15* e6::*NR4A3* e3 | 5′-GGGCATATCTTGTGTG-3′ | 9 bp, wild-type *TFG* | T-N*, engineered construct |
 
 **Table 2. The two control oligonucleotides, each screened as its reagent was.** Each is a dinucleotide-preserving scramble of the reagent it controls, matching it in length, first and last base, base composition and dinucleotide counts while spanning no junction, and each cleared the same mature-parent screen the reagent did. That screening is what separates a negative control from a second active molecule; Results gives the rate at which an unscreened scramble would be one.
 
