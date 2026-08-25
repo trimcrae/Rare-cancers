@@ -444,8 +444,12 @@
   "pooled": {
     "n_patients": 11,
     "n_events": 9,
+    "endpoint": "pfs",
     "curves_pooled": [
       "stacchiotti2013_pfs_anthracycline::risk_table_anchored"
+    ],
+    "sources_pooled": [
+      "stacchiotti2013anthracycline"
     ],
     "kaplan_meier": [
       {
@@ -498,7 +502,8 @@
         "survival": 0.0
       }
     ],
-    "median_survival": 7.984996
+    "median_survival": 7.984996,
+    "⛔_this_is_not_a_pool": "ONE curve, from ONE series (stacchiotti2013anthracycline), on endpoint pfs, in the population: NR4A3-confirmed extraskeletal myxoid chondrosarcoma treated with anthracycline-based chemotherapy. Everything in this block is that series' own reconstruction and inherits its every selection effect and its treatment. It is NOT a pooled extraskeletal myxoid chondrosarcoma estimate, and `median_survival` here is not this disease's median survival."
   },
   "status": "curves supplied; see quality[] for what was admitted and why"
 }

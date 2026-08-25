@@ -337,3 +337,52 @@ def test_printed_rows_are_reported_but_never_pooled():
         assert pooled["n_patients"] != block["n_rows"] + 0, "printed rows leaked into the pool"
         for curve_id in pooled["curves_pooled"]:
             assert "morioka" not in curve_id
+
+
+# ---------------------------------------------------------------------------
+# what "pooled" is allowed to mean
+# ---------------------------------------------------------------------------
+def _fake_record(rid, source, endpoint, times):
+    return {"id": rid, "source_id": source, "endpoint": endpoint,
+            "population": f"synthetic {source}",
+            "ipd": [{"time": float(t), "event": 1} for t in times]}
+
+
+def test_pooling_across_endpoints_raises_rather_than_caveats():
+    """⛔ A category error, not a bias. OS and PFS are different events on different clocks, so a
+    curve over both estimates nothing — and a caveat on a number that wrong travels worse than a
+    crash. Shown capable of failing by the same-endpoint case immediately below."""
+    mixed = [_fake_record("a", "s1", "os", [1, 2, 3]),
+             _fake_record("b", "s2", "pfs", [1, 2, 3])]
+    with pytest.raises(ValueError) as exc:
+        mod.pool_reconstructions(mixed)
+    assert "endpoint" in str(exc.value)
+
+
+def test_pooling_within_one_endpoint_is_allowed():
+    same = [_fake_record("a", "s1", "os", [1, 2, 3]),
+            _fake_record("b", "s2", "os", [4, 5, 6])]
+    out = mod.pool_reconstructions(same)
+    assert out["n_patients"] == 6
+    assert out["endpoint"] == "os"
+    assert out["sources_pooled"] == ["s1", "s2"]
+    assert "⛔_this_is_not_a_pool" not in out
+
+
+def test_a_single_curve_says_it_is_not_a_pool():
+    """The state this program is actually in: one admitted curve wearing the word 'pooled'."""
+    one = [_fake_record("a", "s1", "pfs", [1, 2, 3])]
+    out = mod.pool_reconstructions(one)
+    note = out.get("⛔_this_is_not_a_pool")
+    assert note, "a one-curve pool did not say so"
+    assert "s1" in note and "NOT a pooled" in note
+
+
+@pytest.mark.committed_artifact
+def test_the_committed_artifact_does_not_present_one_curve_as_a_pool():
+    payload = mod.build()
+    pooled = payload.get("pooled")
+    if not pooled:
+        pytest.skip("no curves admitted in this checkout")
+    if len(pooled["curves_pooled"]) == 1:
+        assert "⛔_this_is_not_a_pool" in pooled

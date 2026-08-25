@@ -763,19 +763,47 @@ def pool_reconstructions(records: list[dict]) -> dict:
     binds here exactly as it binds the proportion poolers. This function does not police overlap;
     the caller must have set `pool: false` on the smaller of any overlapping pair, and the reason
     travels in the artifact.
+
+    ⛔⛔ IT DOES POLICE THE ENDPOINT, BECAUSE MERGING TWO IS A CATEGORY ERROR RATHER THAN A BIAS.
+    Overall survival and progression-free survival are different events on different clocks; a
+    Kaplan-Meier curve over both is not a worse estimate of anything, it is an estimate of nothing.
+    A mixed set therefore RAISES rather than returning a caveat, because a caveat on a number this
+    wrong travels worse than a crash.
+
+    ⚠ AND A SINGLE CURVE IS NOT A POOL, WHICH IS THE STATE THIS PROGRAM IS ACTUALLY IN. With one
+    admitted curve the returned block is one series' reconstruction wearing the word "pooled", and a
+    reader scanning the artifact will take `median_survival` for a pooled EMC estimate. It says so
+    itself instead.
     """
+    endpoints = sorted({r.get("endpoint") for r in records if r.get("endpoint")})
+    if len(endpoints) > 1:
+        raise ValueError(
+            f"refusing to pool across endpoints {endpoints}: overall survival and "
+            "progression-free survival are different events on different clocks, and a curve over "
+            "both estimates nothing. Pool within an endpoint, or report them separately.")
     pooled = []
     for rec in records:
         for row in rec["ipd"]:
             pooled.append({**row, "source": rec["source_id"], "curve": rec["id"]})
     km = kaplan_meier(pooled)
-    return {
+    out = {
         "n_patients": len(pooled),
         "n_events": sum(1 for r in pooled if r["event"]),
+        "endpoint": endpoints[0] if endpoints else None,
         "curves_pooled": [r["id"] for r in records],
+        "sources_pooled": sorted({r.get("source_id") for r in records}),
         "kaplan_meier": km,
         "median_survival": _median_survival(km),
     }
+    if len(records) == 1:
+        rec = records[0]
+        out["⛔_this_is_not_a_pool"] = (
+            f"ONE curve, from ONE series ({rec.get('source_id')}), on endpoint "
+            f"{rec.get('endpoint')}, in the population: {rec.get('population')}. Everything in this "
+            "block is that series' own reconstruction and inherits its every selection effect and "
+            "its treatment. It is NOT a pooled extraskeletal myxoid chondrosarcoma estimate, and "
+            "`median_survival` here is not this disease's median survival.")
+    return out
 
 
 def _median_survival(km: list) -> float | None:

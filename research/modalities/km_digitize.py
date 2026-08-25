@@ -961,6 +961,18 @@ SWIMMER_RECIPES = [
             "subgroup_count": {"expected": 4,
                                "printed_where": "Table 1, 'Extraskeletal myxoid chondrosarcoma "
                                                 "0 / 4 (7)' — phase Ib / phase II"},
+            # ⭐ THE CHECK THAT PINS EVERY CENSORING FLAG. The arrow-versus-star discrimination was
+            # the shakiest part of this reading, and the paper prints the number it decides: "37 of
+            # 49 (76%) per-protocol evaluable patients experienced progression according to central
+            # assessment". One misread arrow moves this count by one.
+            "event_count": {"expected": 37,
+                            "printed_where": "Results: '37 of 49 (76%) per-protocol evaluable "
+                                             "patients experienced progression according to "
+                                             "central assessment'"},
+            "landmark_pfs": {"at_time": 6.0, "expected": 0.48, "tolerance": 0.03,
+                             "printed_where": "Results: 'The 6-month PFSR according to central and "
+                                              "local assessments was 48% (95% CI 41 to 55) and "
+                                              "51% ... respectively'"},
         },
         "read_by": "km_digitize.read_swimmer_plot, agent session of 2026-08-25",
     },
@@ -1103,11 +1115,26 @@ def read_swimmer_plot(recipe: dict, image_path: str) -> dict:
     km_median = ipd_mod._median_survival(ipd_mod.kaplan_meier(cohort)) if cohort else None
     sub = recipe.get("subgroup_of_interest")
     subgroup = [p for p in patients if p["histology"] == sub]
+    n_events = sum(1 for p in patients if not p["censored"])
+    landmark = checks.get("landmark_pfs") or {}
+    lm_at = landmark.get("at_time")
+    lm_read = None
+    if lm_at is not None and cohort:
+        km = ipd_mod.kaplan_meier(cohort)
+        lm_read = 1.0
+        for row in km:
+            if row["time"] <= lm_at + 1e-9:
+                lm_read = row["survival"]
+        lm_read = round(lm_read, 4)
     results = {
         "bar_count": _check_count(len(patients), checks.get("bar_count")),
         "km_median_months": _check_number(km_median, checks.get("km_median_months")),
         "subgroup_count": _check_count(len(subgroup), checks.get("subgroup_count")),
+        "event_count": _check_count(n_events, checks.get("event_count")),
+        "landmark_pfs": _check_number(lm_read, landmark),
     }
+    if lm_at is not None:
+        results["landmark_pfs"]["at_time"] = lm_at
     return {
         "id": recipe["id"], "source_id": recipe["source_id"], "figure": recipe["figure"],
         "endpoint": recipe["endpoint"], "time_unit": recipe["time_unit"],

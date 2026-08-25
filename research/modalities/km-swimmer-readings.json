@@ -87,6 +87,16 @@
       "subgroup_count": {
         "expected": 4,
         "printed_where": "Table 1, 'Extraskeletal myxoid chondrosarcoma 0 / 4 (7)' — phase Ib / phase II"
+      },
+      "event_count": {
+        "expected": 37,
+        "printed_where": "Results: '37 of 49 (76%) per-protocol evaluable patients experienced progression according to central assessment'"
+      },
+      "landmark_pfs": {
+        "at_time": 6.0,
+        "expected": 0.48,
+        "tolerance": 0.03,
+        "printed_where": "Results: 'The 6-month PFSR according to central and local assessments was 48% (95% CI 41 to 55) and 51% ... respectively'"
       }
     },
     "read_by": "km_digitize.read_swimmer_plot, agent session of 2026-08-25"
@@ -651,6 +661,18 @@
         "read": 4,
         "expected": 4,
         "passes": true
+      },
+      "event_count": {
+        "read": 37,
+        "expected": 37,
+        "passes": true
+      },
+      "landmark_pfs": {
+        "read": 0.4829,
+        "expected": 0.48,
+        "tolerance": 0.03,
+        "passes": true,
+        "at_time": 6.0
       }
     },
     "all_external_checks_pass": true,
