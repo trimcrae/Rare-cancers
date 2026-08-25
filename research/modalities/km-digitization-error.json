@@ -5,7 +5,7 @@
   "⛔_direction_of_the_bound": "A SYNTHETIC RENDER IS EASIER THAN A JOURNAL FIGURE. This control can REFUTE the reader and cannot certify it: an error measured here is a LOWER bound on the error of reading a real published curve. What it does establish exactly is that the pixel-to-data pipeline is sound under the degradations that ARE modelled, and which of them the reader refuses rather than guesses at.",
   "⛔_not_modelled": [
     "a curve drawn over a photographic or textured background",
-    "a legend, annotation or p-value box drawn ON TOP of the curve",
+    "a legend, annotation or p-value box drawn ON TOP of the curve — ⭐ NOW MODELLED, as the `annotation_box_*` pair: beside the curve it is read once the caller excludes the rectangle, on the curve it is refused, and WITHOUT the exclusion even the beside case refuses. That last measurement is the point: the reader would have refused every real EMC figure under the darkness matcher, because every one of them has a panel in the plot area",
     "an axis anchor grossly misidentified (the +/-1 px case IS modelled)",
     "a figure whose axis is non-linear or whose time origin is not zero",
     "a curve that REACHES S = 0: its final segment is drawn on the x-axis, and a reader that excludes the axis row -- which it must, or the axis reads as a curve at S = 0 across the full width -- cannot see it. Read that tail by hand."
@@ -178,6 +178,7 @@
           "monotonicity_fixes": 0,
           "survival_at_first_read_column": 1.0,
           "step_points": 20,
+          "excluded_boxes": [],
           "axis": {
             "time_units_per_pixel": 0.28125,
             "survival_per_pixel": 0.002380952380952381,
@@ -229,6 +230,7 @@
           "monotonicity_fixes": 0,
           "survival_at_first_read_column": 1.0,
           "step_points": 38,
+          "excluded_boxes": [],
           "axis": {
             "time_units_per_pixel": 0.28125,
             "survival_per_pixel": 0.002380952380952381,
@@ -280,6 +282,7 @@
           "monotonicity_fixes": 0,
           "survival_at_first_read_column": 1.0,
           "step_points": 20,
+          "excluded_boxes": [],
           "axis": {
             "time_units_per_pixel": 0.28125,
             "survival_per_pixel": 0.002380952380952381,
@@ -329,6 +332,7 @@
           "monotonicity_fixes": 0,
           "survival_at_first_read_column": 1.0,
           "step_points": 20,
+          "excluded_boxes": [],
           "axis": {
             "time_units_per_pixel": 0.28125,
             "survival_per_pixel": 0.002380952380952381,
@@ -380,6 +384,7 @@
           "monotonicity_fixes": 0,
           "survival_at_first_read_column": 1.0,
           "step_points": 20,
+          "excluded_boxes": [],
           "axis": {
             "time_units_per_pixel": 0.28125,
             "survival_per_pixel": 0.002380952380952381,
@@ -431,6 +436,7 @@
           "monotonicity_fixes": 0,
           "survival_at_first_read_column": 1.0,
           "step_points": 20,
+          "excluded_boxes": [],
           "axis": {
             "time_units_per_pixel": 0.28125,
             "survival_per_pixel": 0.002380952380952381,
@@ -545,6 +551,7 @@
           "monotonicity_fixes": 0,
           "survival_at_first_read_column": 1.0,
           "step_points": 20,
+          "excluded_boxes": [],
           "axis": {
             "time_units_per_pixel": 0.28125,
             "survival_per_pixel": 0.002380952380952381,
@@ -596,6 +603,7 @@
           "monotonicity_fixes": 0,
           "survival_at_first_read_column": 1.0,
           "step_points": 20,
+          "excluded_boxes": [],
           "axis": {
             "time_units_per_pixel": 0.28125,
             "survival_per_pixel": 0.002380952380952381,
@@ -649,6 +657,7 @@
           "monotonicity_fixes": 0,
           "survival_at_first_read_column": 1.0,
           "step_points": 29,
+          "excluded_boxes": [],
           "axis": {
             "time_units_per_pixel": 0.28125,
             "survival_per_pixel": 0.002380952380952381,
@@ -700,6 +709,7 @@
           "monotonicity_fixes": 0,
           "survival_at_first_read_column": 1.0,
           "step_points": 20,
+          "excluded_boxes": [],
           "axis": {
             "time_units_per_pixel": 0.28125,
             "survival_per_pixel": 0.002380952380952381,
@@ -730,6 +740,84 @@
         }
       },
       {
+        "scenario": "annotation_box_beside_the_curve",
+        "arm": "sweep",
+        "why": "a p-value box drawn INSIDE the plot area but clear of the curve — the shape every reachable EMC figure actually has. It must NOT trigger the occlusion guard, because a reader that refuses on any box in the plot refuses every real figure",
+        "render": {
+          "annotation_box": "beside"
+        },
+        "degrade": null,
+        "skipped": null,
+        "read_ok": true,
+        "refusal": null,
+        "diagnostics": {
+          "n_columns": 639,
+          "n_populated": 639,
+          "n_columns_no_pixel": 0,
+          "leading_empty_columns": 0,
+          "trailing_empty_columns": 0,
+          "longest_gap_columns": 0,
+          "est_line_width_px": 2.0,
+          "monotonicity_fixes": 0,
+          "survival_at_first_read_column": 1.0,
+          "step_points": 20,
+          "excluded_boxes": [
+            [
+              164,
+              355,
+              318,
+              419
+            ]
+          ],
+          "axis": {
+            "time_units_per_pixel": 0.28125,
+            "survival_per_pixel": 0.002380952380952381,
+            "pixel_uncertainty_px": 0.5,
+            "systematic_time_shift_bound": 0.140625,
+            "systematic_survival_shift_bound": 0.0011904761904761906,
+            "⚠": "A SYSTEMATIC offset, not noise: it moves every point of the curve the same way, so averaging over points does not reduce it and a tight scatter does not detect it."
+          }
+        },
+        "max_abs_curve_error": 0.0292,
+        "max_abs_curve_error_off_step": 0.0012,
+        "mean_abs_curve_error": 0.0008,
+        "step_guard_time_units": 0.9,
+        "grid_points": 401,
+        "reconstruction": {
+          "n_reconstructed": 44,
+          "n_events": 18,
+          "n_censored": 26,
+          "events_delta_vs_truth": 0,
+          "censored_delta_vs_truth": -15,
+          "events_delta_vs_exact_baseline": 0,
+          "censored_delta_vs_exact_baseline": -8,
+          "median_survival": 95.90625,
+          "median_delta_vs_truth": -72.094,
+          "internal_max_abs_km_deviation": 0.0183,
+          "admissible_under_the_floor": true,
+          "quality_failures": []
+        }
+      },
+      {
+        "scenario": "annotation_box_over_the_curve",
+        "arm": "sweep",
+        "why": "⛔ THE PAIR TO THE ROW ABOVE. The same box moved onto the curve must be REFUSED — the pixels behind it are gone and any value there would be invented",
+        "render": {
+          "annotation_box": "over"
+        },
+        "degrade": null,
+        "skipped": null,
+        "read_ok": false,
+        "refusal": "gap",
+        "diagnostics": {
+          "n_columns": 639,
+          "n_populated": 520,
+          "est_line_width_px": 2.0,
+          "longest_gap_columns": 119
+        },
+        "⭐": "refused: the reader could not support a number here"
+      },
+      {
         "scenario": "axis_anchor_off_by_one",
         "arm": "sweep",
         "why": "the calibration itself read one pixel wrong -- a SYSTEMATIC shift, which is the error class no amount of curve-reading skill removes",
@@ -751,6 +839,7 @@
           "monotonicity_fixes": 0,
           "survival_at_first_read_column": 1.0,
           "step_points": 20,
+          "excluded_boxes": [],
           "axis": {
             "time_units_per_pixel": 0.28125,
             "survival_per_pixel": 0.002380952380952381,
@@ -783,9 +872,9 @@
     ],
     "jpeg_arm_ran": true,
     "summary": {
-      "scenarios_total": 14,
-      "scenarios_read": 11,
-      "scenarios_refused": 3,
+      "scenarios_total": 16,
+      "scenarios_read": 12,
+      "scenarios_refused": 4,
       "scenarios_skipped": 0,
       "worst_max_abs_curve_error": 0.0636,
       "worst_max_abs_curve_error_off_step": 0.0035,

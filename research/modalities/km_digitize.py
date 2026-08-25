@@ -50,7 +50,9 @@ has to infer it, the ways a real figure is harder:
   1. lossy compression the renderer does not apply (JPEG is applied when Pillow is importable, and
      the artifact records whether that arm ran -- an absent arm is not a passed arm);
   2. curves drawn over a photographic or textured background;
-  3. a legend, an annotation or a p-value box drawn ON TOP of the curve;
+  3. a legend, annotation or p-value box in the plot area — ⭐ MODELLED as of 2026-08-25, and it
+     found a defect: the reader refused EVERY such figure under the darkness matcher until the
+     caller was given a way to exclude the rectangle;
   4. two curves of the SAME colour separated only by dash pattern (the module refuses this case
      rather than guessing -- see `extract_series`);
   5. an axis anchor GROSSLY misidentified. The +/- 1 pixel case IS modelled, as its own
@@ -372,6 +374,7 @@ def extract_series(img: Image, calib: Calibration, matcher, *,
                    max_gap_columns: int = 12,
                    refuse_if_disjoint_runs_exceed: int = 3,
                    min_start_survival: float | None = 0.90,
+                   exclude_boxes: list | None = None,
                    series_label: str = "series") -> dict:
     """Read one monotone step curve out of the plot box.
 
@@ -403,6 +406,21 @@ def extract_series(img: Image, calib: Calibration, matcher, *,
         the one legitimate exception, a LANDMARK plot whose axis deliberately starts part-way down;
         that is a property of the figure the caller can see and this function cannot.
 
+    ⛔ `exclude_boxes` — RECTANGLES THE READER MUST IGNORE, AND WHY THEY ARE THE CALLER'S TO NAME.
+    Measured 2026-08-25: a p-value or legend panel drawn INSIDE the plot area — which every
+    reachable EMC survival figure has — makes the darkness matcher refuse with `two_black_curves`,
+    because the panel's horizontal borders are long black runs and nothing in the pixels says they
+    are not a second curve. The reader as first written would therefore have refused every real
+    figure it was built for, and the control did not catch it because the control drew no panels.
+    ⚠ THE FIX IS NOT A HEURISTIC. A rule that guesses "that shape is probably a legend" fails
+    silently in the direction that matters — it would eventually swallow a real curve — so the
+    caller passes the rectangles explicitly, as `[x0, y0, x1, y1]` in image pixels, and they are
+    recorded in the recipe as provenance alongside the axis anchors. A human looked at the figure
+    and said what to ignore; that is auditable in a way an inference is not.
+    ⚠ AND IT CANNOT RESCUE AN OCCLUSION. Excluding a box that sits ON the curve does not restore the
+    pixels behind it: the reader then refuses on `gap`, which is correct, because any value there
+    would be invented.
+
     ⭐ WHY A THIRD GUARD EXISTS AT ALL, measured rather than anticipated: loosening the darkness
     threshold to rescue a heavily resampled figure produced a CONFIDENT, ADMISSIBLE-LOOKING, and
     completely wrong curve -- 3 step points, S(0) read as 0.005, every patient reconstructed as an
@@ -410,7 +428,15 @@ def extract_series(img: Image, calib: Calibration, matcher, *,
     A refusal is the correct output for an unreadable figure, and a looser threshold is not a fix.
     """
     x0, y0, x1, y1 = calib.box
+    boxes = [tuple(b) for b in (exclude_boxes or [])]
+
     cols = _columns(img, calib.box, matcher)
+    if boxes:
+        for i in range(len(cols)):
+            x = x0 + i
+            cols[i] = [y for y in cols[i]
+                       if not any(bx0 <= x <= bx1 and by0 <= y <= by1
+                                  for bx0, by0, bx1, by1 in boxes)]
     lw = estimate_line_width(cols)
     populated = sum(1 for ys in cols if ys)
     if populated == 0:
@@ -531,6 +557,7 @@ def extract_series(img: Image, calib: Calibration, matcher, *,
                 "monotonicity_fixes": fixes,
                 "survival_at_first_read_column": s_at_start,
                 "step_points": len(pts),
+                "excluded_boxes": [list(b) for b in boxes],
                 "axis": calib.axis_shift_bound()},
             "⚠": "digitized_by must record WHO calibrated the axes and from WHICH image file. "
                  "This function reads pixels; it cannot know where they came from."}
@@ -561,10 +588,12 @@ class _Rng:
 class Figure:
     """A rendered survival plot plus the EXACT calibration used to draw it."""
 
-    def __init__(self, img: Image, calib: Calibration, t_max: float):
+    def __init__(self, img: Image, calib: Calibration, t_max: float, annotation_boxes=None):
         self.img = img
         self.calib = calib
         self.t_max = t_max
+        # the rectangles this render drew, so a control can hand the reader what a human would
+        self.annotation_boxes = annotation_boxes or []
 
 
 def _hline(img, y, x0, x1, rgb, width=1):
@@ -591,6 +620,7 @@ def render_km(steps: list[tuple[float, float]], *, t_max: float,
               censor_times: list[float] | None = None,
               ci_band: float = 0.0, second_curve: list[tuple[float, float]] | None = None,
               second_rgb=(200, 30, 30), dashed: bool = False,
+              annotation_box: str | None = None,
               anchor_error_px: int = 0) -> Figure:
     """Draw a Kaplan-Meier step curve the way a journal draws one.
 
@@ -660,6 +690,33 @@ def render_km(steps: list[tuple[float, float]], *, t_max: float,
                     s = v
             _vline(img, px(ct), py(s) - 5, py(s) + 5, curve_rgb, max(1, line_width - 1))
 
+    drawn_boxes = []
+    if annotation_box:
+        # An opaque white box with a black border — a p-value or legend panel. "beside" puts it in
+        # the empty lower-left region every survival plot has; "over" puts it on the curve itself.
+        bw, bh = 150, 60
+        if annotation_box == "over":
+            # ⛔ PLACE IT ON THE CURVE'S OWN VALUE, not at a guessed height. The first version put
+            # the box at a fixed S = 0.55 and called the scenario "over the curve"; at that time the
+            # curve was at 0.727, so the box sat clear of it and the scenario tested nothing while
+            # reporting a pass. A scenario that does not do what its name says is worse than none.
+            t_at = t_max * 0.35
+            s_at = 1.0
+            for tt, ss in steps:
+                if tt <= t_at:
+                    s_at = ss
+            bx, by = int(px(t_at)), int(py(s_at) - bh / 2)
+        else:
+            bx, by = int(px(t_max * 0.12)), int(py(0.22))
+        for yy in range(by, min(by + bh, height)):
+            for xx in range(bx, min(bx + bw, width)):
+                img.px[yy][xx] = (255, 255, 255)
+        _hline(img, by, bx, bx + bw, (0, 0, 0))
+        _hline(img, by + bh, bx, bx + bw, (0, 0, 0))
+        _vline(img, bx, by, by + bh, (0, 0, 0))
+        _vline(img, bx + bw, by, by + bh, (0, 0, 0))
+        drawn_boxes.append([bx - 2, by - 2, bx + bw + 2, by + bh + 2])
+
     # axes last, so they sit on top exactly as a plotting library draws them
     _hline(img, y1, x0, x1, (0, 0, 0), 2)
     _vline(img, x0, y0, y1, (0, 0, 0), 2)
@@ -673,7 +730,7 @@ def render_km(steps: list[tuple[float, float]], *, t_max: float,
                         y_pix=(py(0.0) + anchor_error_px, py(1.0) + anchor_error_px),
                         y_val=(0.0, 1.0), box=box,
                         pixel_uncertainty_px=1.0 if anchor_error_px else 0.5)
-    return Figure(img, calib, t_max)
+    return Figure(img, calib, t_max, annotation_boxes=drawn_boxes)
 
 
 # ---------------------------------------------------------------------------
@@ -1278,6 +1335,15 @@ SCENARIOS = [
     {"name": "dashed", "render": {"dashed": True},
      "why": "a dashed arm: every gap is a column with no pixel, so the gap guard decides whether "
             "this is readable or refused"},
+    {"name": "annotation_box_beside_the_curve", "render": {"annotation_box": "beside"},
+     "exclude_annotation": True,
+     "why": "a p-value box drawn INSIDE the plot area but clear of the curve — the shape every "
+            "reachable EMC figure actually has. It must NOT trigger the occlusion guard, because a "
+            "reader that refuses on any box in the plot refuses every real figure"},
+    {"name": "annotation_box_over_the_curve", "render": {"annotation_box": "over"},
+     "exclude_annotation": True,
+     "why": "⛔ THE PAIR TO THE ROW ABOVE. The same box moved onto the curve must be REFUSED — the "
+            "pixels behind it are gone and any value there would be invented"},
     {"name": "axis_anchor_off_by_one", "render": {"anchor_error_px": 1},
      "why": "the calibration itself read one pixel wrong -- a SYSTEMATIC shift, which is the error "
             "class no amount of curve-reading skill removes"},
@@ -1394,6 +1460,7 @@ def run_control() -> dict:
     jpeg_ran = None
     for sc in SCENARIOS:
         rkw = dict(sc.get("render", {}))
+        rkw.pop("exclude_annotation", None)
         same_colour = rkw.pop("second_same_colour", False)
         if rkw.pop("censor_ticks", False):
             rkw["censor_times"] = censor_times
@@ -1426,6 +1493,8 @@ def run_control() -> dict:
             continue
 
         read = extract_series(img, fig.calib, dark_matcher(**sc.get("matcher", {})),
+                              exclude_boxes=fig.annotation_boxes if sc.get("exclude_annotation")
+                              else None,
                               series_label=sc["name"])
         row["read_ok"] = read["ok"]
         row["refusal"] = read.get("refusal")
@@ -1550,7 +1619,12 @@ def build() -> dict:
             "of them the reader refuses rather than guesses at."),
         "⛔_not_modelled": [
             "a curve drawn over a photographic or textured background",
-            "a legend, annotation or p-value box drawn ON TOP of the curve",
+            "a legend, annotation or p-value box drawn ON TOP of the curve — ⭐ NOW MODELLED, as "
+            "the `annotation_box_*` pair: beside the curve it is read once the caller excludes the "
+            "rectangle, on the curve it is refused, and WITHOUT the exclusion even the beside case "
+            "refuses. That last measurement is the point: the reader would have refused every real "
+            "EMC figure under the darkness matcher, because every one of them has a panel in the "
+            "plot area",
             "an axis anchor grossly misidentified (the +/-1 px case IS modelled)",
             "a figure whose axis is non-linear or whose time origin is not zero",
             "a curve that REACHES S = 0: its final segment is drawn on the x-axis, and a reader "

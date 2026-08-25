@@ -305,3 +305,51 @@ def test_the_committed_swimmer_reading_passed_every_external_check():
     assert reading["all_external_checks_pass"], reading["external_checks"]
     assert doc["recipe"]["image_committed"] is False
     assert doc["recipe"]["regenerate"]["pdf_url"]
+
+
+# ---------------------------------------------------------------------------
+# annotation panels — the shape every real figure has
+# ---------------------------------------------------------------------------
+def test_a_legend_panel_refuses_the_reader_until_the_caller_excludes_it():
+    """⛔ THE DEFECT THIS DOCUMENTS. A p-value or legend panel drawn inside the plot area — which
+    every reachable EMC survival figure has — makes the darkness matcher refuse with
+    `two_black_curves`, because the panel's horizontal borders are long black runs and nothing in
+    the pixels says they are not a second curve. The reader would have refused every real figure it
+    was built for, and the control did not catch it because the control drew no panels.
+
+    The fix is the caller naming the rectangle, not the reader guessing at shapes.
+    """
+    _cohort, steps = _truth()
+    fig = kd.render_km(steps, t_max=180.0, annotation_box="beside")
+    assert fig.annotation_boxes, "the render drew no box"
+
+    refused = kd.extract_series(fig.img, fig.calib, kd.dark_matcher(), series_label="panel")
+    assert refused["ok"] is False
+    assert refused["refusal"] == "two_black_curves"
+
+    read = kd.extract_series(fig.img, fig.calib, kd.dark_matcher(),
+                             exclude_boxes=fig.annotation_boxes, series_label="panel")
+    assert read["ok"] is True, read.get("refusal")
+    err = kd.curve_error(read["digitized"], steps, 180.0)
+    assert err["max_abs_curve_error_off_step"] < 0.01, err
+
+
+def test_excluding_a_box_that_sits_ON_the_curve_does_not_rescue_it():
+    """⚠ THE PAIR. Excluding a rectangle removes it from consideration; it does not restore the
+    pixels behind it. A box over the curve must still refuse, because any value there is invented.
+    """
+    _cohort, steps = _truth()
+    fig = kd.render_km(steps, t_max=180.0, annotation_box="over")
+    read = kd.extract_series(fig.img, fig.calib, kd.dark_matcher(),
+                             exclude_boxes=fig.annotation_boxes, series_label="occluded")
+    assert read["ok"] is False
+    assert read["refusal"] == "gap"
+
+
+def test_the_excluded_boxes_are_reported_in_the_diagnostics():
+    """A reading conditional on what a human chose to ignore must say what that was."""
+    _cohort, steps = _truth()
+    fig = kd.render_km(steps, t_max=180.0, annotation_box="beside")
+    read = kd.extract_series(fig.img, fig.calib, kd.dark_matcher(),
+                             exclude_boxes=fig.annotation_boxes, series_label="panel")
+    assert read["diagnostics"]["excluded_boxes"] == [list(b) for b in fig.annotation_boxes]
