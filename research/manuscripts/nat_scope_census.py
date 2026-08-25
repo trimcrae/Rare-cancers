@@ -34,6 +34,14 @@ disease — so `--topics` tallies named patterns over the same corpus and lists 
 is the same kind of screen as the wet/dry one and carries the same warning: it counts abstracts, it
 does not read them.
 
+⭐ AND GENERALISED AGAIN 2026-08-25, FROM "WHICH JOURNAL" TO "ANY JOURNAL AT ALL". trimcrae asked
+whether ANY journal anywhere has published a design-only ASO paper. That is not a question about a
+venue, it is a question about whether this paper's SHAPE exists in the literature, and it is the same
+screen with the journal scoping removed: `--term` takes a raw PubMed query, and the artifact then
+tallies which journals the computation-only records were published in. A venue census asks "would
+they take this"; a shape census asks "has anyone, ever" — and a null answer there is worth more to
+this paper than any venue comparison, because it would say the shape itself is the risk.
+
 Run:
     python3 research/manuscripts/nat_scope_census.py           # fetch + write (CI)
     python3 research/manuscripts/nat_scope_census.py --check    # offline: re-read the artifact
@@ -41,6 +49,9 @@ Run:
         --journal "Genes Chromosomes Cancer" --out research/manuscripts/aso/gcc-scope-census.json \
         --topics nr4a3='NR4A3|extraskeletal myxoid' \
         --topics antisense='antisense|oligonucleotide|siRNA|gapmer|RNA interference'
+    python3 research/manuscripts/nat_scope_census.py \\
+        --term '"antisense oligonucleotide"[tiab] OR gapmer[tiab]' \\
+        --out research/manuscripts/aso/aso-design-only-census.json
 """
 from __future__ import annotations
 
@@ -94,8 +105,8 @@ def _get(url, tries=4):
     raise RuntimeError(f"failed: {url}: {last}")
 
 
-def _pmids(journal=JOURNAL):
-    q = urllib.parse.quote(f'"{journal}"[Journal]')
+def _pmids(journal=JOURNAL, term=None):
+    q = urllib.parse.quote(term if term else f'"{journal}"[Journal]')
     first = json.loads(_get(f"{EUTILS}/esearch.fcgi?db=pubmed&retmode=json&retmax=0&term={q}"
                             "&tool=rare-cancers&email=trimcrae@gmail.com"))
     total = int(first["esearchresult"]["count"])
@@ -122,11 +133,15 @@ def _records(pmids):
             ab = " ".join(re.findall(r"<AbstractText[^>]*>(.*?)</AbstractText>", chunk, re.S))
             yr = re.search(r"<PubDate>.*?<Year>(\d{4})</Year>", chunk, re.S)
             pt = re.findall(r"<PublicationType[^>]*>(.*?)</PublicationType>", chunk)
+            # ⚠ ISOAbbreviation, not Title: the abbreviation is what a journal tally can group on
+            # without one publisher's punctuation splitting a journal into two rows.
+            jr = re.search(r"<ISOAbbreviation>(.*?)</ISOAbbreviation>", chunk, re.S)
             if not pm:
                 continue
             strip = lambda t: re.sub(r"<[^>]+>", "", t or "").strip()  # noqa: E731
             recs[pm.group(1)] = {"pmid": pm.group(1), "title": strip(ti.group(1) if ti else ""),
                                  "abstract": strip(ab), "year": int(yr.group(1)) if yr else None,
+                                 "journal": strip(jr.group(1)) if jr else "",
                                  "pub_types": pt}
         time.sleep(0.4)
     return recs
@@ -135,9 +150,9 @@ def _records(pmids):
 _PUBMED_URL = "pubmed.ncbi.nlm.nih.gov/%s"
 
 
-def build(journal=JOURNAL, topics=None) -> dict:
+def build(journal=JOURNAL, topics=None, term=None) -> dict:
     topics = topics or {}
-    total, pmids = _pmids(journal)
+    total, pmids = _pmids(journal, term)
     recs = _records(pmids)
     with_abstract = [r for r in recs.values() if len(r["abstract"]) > 200]
     dry = []
@@ -153,7 +168,7 @@ def build(journal=JOURNAL, topics=None) -> dict:
             # without the URL form reads to that gate exactly like a citation typed from memory,
             # which is a false fabrication alarm on honest work.
             dry.append({"pmid": r["pmid"], "pubmed_url": _PUBMED_URL % r["pmid"],
-                        "year": r["year"], "title": r["title"],
+                        "year": r["year"], "title": r["title"], "journal": r["journal"],
                         "markers": hits, "pub_types": r["pub_types"]})
     dry.sort(key=lambda r: (-(r["year"] or 0), r["pmid"]))
 
@@ -172,6 +187,13 @@ def build(journal=JOURNAL, topics=None) -> dict:
             "most_recent": [{"pmid": r["pmid"], "pubmed_url": _PUBMED_URL % r["pmid"],
                              "year": r["year"], "title": r["title"]} for r in hits[:40]],
         }
+
+    # ⭐ WHICH JOURNALS PUBLISHED THE COMPUTATION-ONLY RECORDS. Meaningless for a single-journal run
+    # (one row, by construction) and the whole point of a --term run, which is asking whether a shape
+    # exists anywhere rather than whether one venue takes it.
+    jtally = {}
+    for r in dry:
+        jtally[r["journal"] or "(unrecorded)"] = jtally.get(r["journal"] or "(unrecorded)", 0) + 1
 
     full = _FULL_TITLE.get(journal, journal)
     out = {
@@ -199,6 +221,13 @@ def build(journal=JOURNAL, topics=None) -> dict:
         "publication_types_seen": sorted({t for r in recs.values() for t in r["pub_types"]}),
         "candidates": dry,
     }
+    if term:
+        out["_corpus"] = "PubMed query, not a journal"
+        out["query_term"] = term
+        out["journal"] = None
+        out["journal_full_title"] = None
+        out["journals_of_computation_only_candidates"] = dict(
+            sorted(jtally.items(), key=lambda kv: (-kv[1], kv[0])))
     if topic_out:
         out["⛔_a_topic_tally_counts_abstracts_it_does_not_read_them"] = (
             "Each topic is a regular expression over title and abstract. It answers 'has this "
@@ -211,7 +240,7 @@ def build(journal=JOURNAL, topics=None) -> dict:
 def _parse(argv):
     """--journal J, --out PATH, --topics name=regex (repeatable). Deliberately tiny: the defaults
     are the NAT run, so a bare invocation behaves exactly as it did before this was generalised."""
-    journal, out, topics = JOURNAL, OUT, {}
+    journal, out, topics, term = JOURNAL, OUT, {}, None
     i = 0
     while i < len(argv):
         a = argv[i]
@@ -220,6 +249,9 @@ def _parse(argv):
             i += 2
         elif a == "--out":
             out = argv[i + 1]
+            i += 2
+        elif a == "--term":
+            term = argv[i + 1]
             i += 2
         elif a == "--topics":
             name, _, pattern = argv[i + 1].partition("=")
@@ -231,12 +263,12 @@ def _parse(argv):
             i += 1
         else:
             raise SystemExit(f"unknown argument: {a}")
-    return journal, out, topics
+    return journal, out, topics, term
 
 
 def main(argv=None):
     argv = list(sys.argv[1:] if argv is None else argv)
-    journal, out_path, topics = _parse(argv)
+    journal, out_path, topics, term = _parse(argv)
     if "--check" in argv:
         if not os.path.exists(out_path):
             print(f"{os.path.basename(out_path)} is not built", file=sys.stderr)
@@ -247,7 +279,7 @@ def main(argv=None):
         for name, t in (d.get("topics") or {}).items():
             print(f"  topic {name}: {t['n_matching']} matching abstracts")
         return 0
-    d = build(journal, topics)
+    d = build(journal, topics, term)
     OUT_DIR = os.path.dirname(out_path)
     if OUT_DIR:
         os.makedirs(OUT_DIR, exist_ok=True)

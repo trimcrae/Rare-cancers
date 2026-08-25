@@ -14,7 +14,7 @@ on:
       task:
         description: "which task to run"
         type: choice
-        options: [fusion, vast_smoke, nrv04_cys, nr4a_unique_residues, nr4a_e3_widened, nr4a_basin_search, nr4a_linker_chem, nr4a_e3_stage, e3_recruiter_stage, e3_vhl_recheck, vast_bid_advise, vast_price_history, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_ffcache_status, nrv04_input_audit, nrv04_retro_prespend, nrv04_retro_price_forensics, nrv04_retro_secondaries, nrv04_adduct_build, nrv04_s3_tail, nrv04_bake, fep_bake, nrv04_vast_launch, step1_fanout, bioemu_bake, bioemu_run, bioemu_collect, bioemu_status, bioemu_stop, map_audit, map_diag, energy_probe, s1f_liveness, s_calibrator_survey, cys_chemoproteomics, fusion_census, pgr_transcript, pgr_tissue_expression, nr4a3_intron2_cryptic, nat_submission_meta, nat_scope_census, gcc_scope_census]
+        options: [fusion, vast_smoke, nrv04_cys, nr4a_unique_residues, nr4a_e3_widened, nr4a_basin_search, nr4a_linker_chem, nr4a_e3_stage, e3_recruiter_stage, e3_vhl_recheck, vast_bid_advise, vast_price_history, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_ffcache_status, nrv04_input_audit, nrv04_retro_prespend, nrv04_retro_price_forensics, nrv04_retro_secondaries, nrv04_adduct_build, nrv04_s3_tail, nrv04_bake, fep_bake, nrv04_vast_launch, step1_fanout, bioemu_bake, bioemu_run, bioemu_collect, bioemu_status, bioemu_stop, map_audit, map_diag, energy_probe, s1f_liveness, s_calibrator_survey, cys_chemoproteomics, fusion_census, pgr_transcript, pgr_tissue_expression, nr4a3_intron2_cryptic, nat_submission_meta, nat_scope_census, gcc_scope_census, aso_shape_census]
         default: fusion
       fanout_mode:
         description: "step1_fanout: plan | stage | precheck | launch (dry) | launch_confirm (SPENDS) | collect | monitor | diag | reap (destroy + BLACKLIST a bad HOST) | block (stop launching a UNIT no host can fix) | stop"
@@ -2830,3 +2830,45 @@ jobs:
           bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
             "GCC scope census: computation-only and topical precedent in the journal's own record (CI)" \
             research/manuscripts/aso/gcc-scope-census.json
+
+  # ⭐ HAS ANY JOURNAL ANYWHERE PUBLISHED A DESIGN-ONLY ASO PAPER? (trimcrae, 2026-08-25). Not a
+  # venue question — a question about whether this paper's SHAPE exists in the literature at all, so
+  # the journal scoping comes off and the same wet/dry screen runs over the whole antisense corpus,
+  # tallying which journals the computation-only records landed in. A null here would matter more
+  # than any venue comparison, because it would say the shape itself is the risk. $0 CPU.
+  aso_shape_census:
+    if: ${{ github.event.inputs.task == 'aso_shape_census' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: "Census the whole antisense corpus for papers that report no experiment"
+        run: |
+          python research/manuscripts/nat_scope_census.py \
+            --term '"antisense oligonucleotide"[tiab] OR "antisense oligonucleotides"[tiab] OR gapmer[tiab] OR gapmers[tiab] OR "splice-switching oligonucleotide"[tiab] OR "splice-switching oligonucleotides"[tiab]' \
+            --out research/manuscripts/aso/aso-design-only-census.json \
+            --topics fusion='fusion transcript|fusion junction|fusion oncogene|chimeric transcript|breakpoint' \
+            --topics design_language='we designed|were designed|design of|candidate (?:oligonucleotide|ASO|gapmer)|rational design' \
+            --topics offtarget='off-target|offtarget|specificity screen|hybridization-dependent'
+      - name: Upload the census as a run artifact (redundant home)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: aso-design-only-census
+          path: research/manuscripts/aso/aso-design-only-census.json
+          if-no-files-found: warn
+      - name: Commit the census back to the triggering branch
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "ASO shape census: does a design-only antisense paper exist anywhere (CI)" \
+            research/manuscripts/aso/aso-design-only-census.json
