@@ -130,28 +130,34 @@ def _json(text, what):
 
 
 def _pmids(journal=JOURNAL, term=None):
+    """Run the search and hand back (total, WebEnv, query_key) from the History server.
+
+    ⛔ THE HISTORY SERVER IS NOT AN OPTIMISATION HERE, IT IS THE ONLY ROUTE PAST A HARD CEILING.
+    Paging esearch with retstart worked for both journal censuses and died on the first corpus
+    bigger than a journal. NCBI said so in as many words, once the parse stopped hiding it
+    (CI 2026-08-25): "'retstart' cannot be larger than 9998. For PubMed, ESearch can only retrieve
+    the first 9,999 records matching the query." NAT is 614 records and GCC 4,060, so neither ever
+    reached it; the whole antisense corpus does. usehistory=y parks the result set on NCBI's side
+    and efetch then walks it by offset with no such bound.
+    """
     q = urllib.parse.quote(term if term else f'"{journal}"[Journal]')
-    first = _json(_get(f"{EUTILS}/esearch.fcgi?db=pubmed&retmode=json&retmax=0&term={q}"
-                       "&tool=rare-cancers&email=trimcrae@gmail.com"), "esearch count")
-    if "esearchresult" not in first or "count" not in first.get("esearchresult", {}):
-        raise RuntimeError(f"esearch returned no count: {json.dumps(first)[:400]}")
-    total = int(first["esearchresult"]["count"])
-    out = []
-    for start in range(0, total, 500):
-        d = _json(_get(f"{EUTILS}/esearch.fcgi?db=pubmed&retmode=json&retmax=500"
-                       f"&retstart={start}&term={q}"
-                       "&tool=rare-cancers&email=trimcrae@gmail.com"), f"esearch page {start}")
-        out.extend(d["esearchresult"]["idlist"])
-        time.sleep(0.4)
-    return total, out
+    d = _json(_get(f"{EUTILS}/esearch.fcgi?db=pubmed&retmode=json&retmax=0&usehistory=y&term={q}"
+                   "&tool=rare-cancers&email=trimcrae@gmail.com"), "esearch count")
+    res = d.get("esearchresult", {})
+    if "count" not in res or "webenv" not in res or "querykey" not in res:
+        # ⚠ Quote the body. An E-utilities failure arrives as a normal 200 with an ERROR field,
+        # so a missing key here is NCBI's message, not a bug in the caller — print it.
+        raise RuntimeError(f"esearch returned no usable result set: {json.dumps(d)[:600]}")
+    return int(res["count"]), res["webenv"], res["querykey"]
 
 
-def _records(pmids):
-    """title, abstract and publication types, in batches, from efetch XML."""
+def _records(total, webenv, querykey):
+    """title, journal, abstract and publication types, walked off the History server in batches."""
     recs = {}
-    for i in range(0, len(pmids), 150):
-        batch = pmids[i:i + 150]
-        xml = _get(f"{EUTILS}/efetch.fcgi?db=pubmed&retmode=xml&id={','.join(batch)}"
+    for i in range(0, total, 150):
+        xml = _get(f"{EUTILS}/efetch.fcgi?db=pubmed&retmode=xml"
+                   f"&WebEnv={urllib.parse.quote(webenv)}&query_key={querykey}"
+                   f"&retstart={i}&retmax=150"
                    "&tool=rare-cancers&email=trimcrae@gmail.com")
         for chunk in xml.split("<PubmedArticle>")[1:]:
             pm = re.search(r"<PMID[^>]*>(\d+)</PMID>", chunk)
@@ -178,8 +184,8 @@ _PUBMED_URL = "pubmed.ncbi.nlm.nih.gov/%s"
 
 def build(journal=JOURNAL, topics=None, term=None) -> dict:
     topics = topics or {}
-    total, pmids = _pmids(journal, term)
-    recs = _records(pmids)
+    total, webenv, querykey = _pmids(journal, term)
+    recs = _records(total, webenv, querykey)
     with_abstract = [r for r in recs.values() if len(r["abstract"]) > 200]
     dry = []
     for r in with_abstract:
