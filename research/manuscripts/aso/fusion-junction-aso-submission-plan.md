@@ -173,6 +173,56 @@ back as though the census said it.
 ⚠ **PLAN OF RECORD IS UNCHANGED BY THIS SECTION.** It records what the two records say. The venue
 is trimcrae's to set.
 
+## 1a⁵ · THE SHAPE PUBLISHES. IT IS THE FUSION HALF THAT HAS NO PRECEDENT (2026-08-25)
+
+trimcrae, 2026-08-25: *"Is there any journal anywhere in the world that has published a design only
+ASO paper?"* That is not a venue question — it asks whether this manuscript's SHAPE exists in the
+literature at all, and a null answer would have outranked every venue comparison above, because no
+choice between NAT and GCC would address it. **The answer is not null.** Artifact:
+[`aso-design-only-census.json`](aso-design-only-census.json), the same wet/dry screen as the two
+venue censuses with the journal scoping removed.
+
+**⛔ THE "NO WET LAB" OBJECTION IS WEAKER THAN THIS FILE HAS BEEN TREATING IT.** Of 15,916 indexed
+antisense papers, 539 report no wet-lab experiment, across 328 journals; excluding reviews, **323
+original papers across 183 journals**. A computation-only oligonucleotide paper is ordinary. The
+closest single analogue found is a 2024 *Virus Genes* paper designing an antisense oligonucleotide
+against hepatitis C entirely in silico — this paper's shape, published, with no experiment.
+
+**★★ AND THE FUSION COLUMN IS THE FINDING.** In the same 15,916 papers, **20** abstracts mention a
+fusion transcript, junction, oncogene, chimeric transcript or breakpoint AT ALL. Read: almost
+entirely BCR-ABL and BCL-2 work from 1991–2001 performed in cells and mice, plus three modern
+entries (a DNAJB1-PRKACA siRNA, and NAB2-STAT6). **None is a design-only fusion-junction paper.**
+The manuscript's prior-art claim therefore survives an instrument built to refute it, and the rare
+thing about this work is the COMBINATION — design-only *and* junction-directed — not either half.
+
+**Where this shape lands, which is largely not where this file has been looking:**
+
+| journal | computation-only papers (reviews excluded) |
+|---|---|
+| Nucleic Acids Research | 22 |
+| Molecular Therapy — Nucleic Acids | 16 |
+| bioRxiv | 10 |
+| **Nucleic Acid Therapeutics** | 7 (11 counting reviews) |
+| Int J Mol Sci · Mol Ther · RNA · Sci Rep | 6 each |
+| **Genes, Chromosomes and Cancer** | **0 — absent from the tally entirely** |
+
+⭐ **GCC's absence is now measured from two independent directions** and they agree: §1a⁗ found no
+therapeutic-oligonucleotide design paper in GCC's own 4,060 articles, and this census finds no GCC
+row among 328 journals that have published computation-only antisense work.
+
+⛔ **THIS DOES NOT SELECT A VENUE, AND TWO OF THE TOP ROWS ARE ALREADY REFUSED ON FEE.** NAR is
+fully open access and Molecular Therapy — Nucleic Acids was priced out at §1a″; bioRxiv declined
+this author as unaffiliated (§1). **A fee screen of the journals that actually publish this shape
+has NOT been run** and is the obvious next observation, but it is a new venue search rather than a
+correction to this one, and the venue is trimcrae's to set.
+
+⚠ **SCREEN LIMITS, UNCHANGED FROM THE OTHER TWO CENSUSES.** A keyword classifier cannot read a
+paper; none of the records above has been read beyond title and abstract, and the counts are wrong
+in both directions on individual records. Separately, **30 of the 15,916 records (0.2%) were not
+retrieved**, because the corpus exceeds PubMed's 9,999-record retrieval ceiling and must be
+bisected on publication date, which drops a record carrying no usable date. The artifact reports
+`n_retrieved` beside `n_indexed` so that gap is visible rather than smoothed over.
+
 ## 1a″ · The reviewer's two alternatives were priced, and both are worse (2026-08-24)
 
 External review proposed *Molecular Therapy — Nucleic Acids* or *NAR Cancer* as better first targets
