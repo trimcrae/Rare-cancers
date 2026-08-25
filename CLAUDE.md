@@ -83,6 +83,7 @@ moving**.
 | **"Which should I do first?"** when all are self-doable | Ordering self-doable work is self-doable. Do them all. |
 | Work that is **optional / nice-to-have** | "It's extra" is not a reason to offer instead of act. |
 | A **failure** you could chase | Chase the fix. Try the next approach, don't ask which. |
+| A **gate running** (preflight, CI, a suite) | It gates the COMMIT, not the work. Background it and take the next task — §6. **Polling is not work.** |
 
 **⛔ THE PHRASING TEST.** About to write *"want me to X?" · "I can also X" · "should I also X?" · "happy to X" ·
 "I could X"* and X is self-doable? **The phrasing is the violation. Delete the offer and do X.** Ending a turn
@@ -225,6 +226,23 @@ act you'd commit *before* thinking to consult anything:
   builds the selector's import graph and shells out to git. Moving it behind `PREFLIGHT_TESTS=1`
   would take the commit loop back to ~31 s — that is trimcrae's call, not a silent one to make
   inside a merge.*
+  - ⭐⭐ **A GATE RUNNING IS NOT A REASON TO STOP WORKING, AND POLLING IT IS NOT WORK**
+    (trimcrae, 2026-08-25: *"it absolutely murders our wall clock time when we wait for preflight
+    when we KNOW there's more work to be done"*). **Preflight and CI gate the COMMIT, not the
+    work** — no edit, read, investigation, draft, CI dispatch, subagent or question to trimcrae is
+    blocked by a running suite. Start it in the background and take the next task.
+    ⛔ **If your next action is "check whether it's done", you have no plan.** A `tail` in a loop is
+    the tell; take the next backlog item, or say the backlog is empty.
+    ★ **AND RUN IT ONCE, WITH THE TREE SETTLED.** Every tree-touching edit invalidates the run in
+    flight, so a preflight started before the edits AND their regenerations are done is one you will
+    throw away — finish them, then one run, with the non-tree-touching work (reporting, dispatch,
+    reading, the question for trimcrae) placed in the window it occupies. **An invalidated run is
+    cheap and an idle wait is not** (§5: engineering and CPU are free), so kill a run the tree moved
+    under rather than sit through it to protect it.
+    ⛔ **What does not bend: the run you report green must be the run that saw the tree you commit.**
+    ⚠ *Second complaint of this family — 2026-08-23 produced `PREFLIGHT_TESTS=1` and the failure
+    survived it, because the cost was never the suites, it was the serialization. Measured evidence:
+    [CLAUDE-history.md](./CLAUDE-history.md).*
   - ⭐ **THE TEST SUITES ARE OPT-IN AS OF 2026-08-23 — `PREFLIGHT_TESTS=1` — BECAUSE THEY WERE THE GATE**
     (trimcrae: *"change the rules so that it's not constantly running and blocking things"*). Measured
     that day: fast gates **31.4 s**, manuscripts suite **176.1 s on every single commit** including one
