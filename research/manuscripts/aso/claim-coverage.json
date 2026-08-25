@@ -3,28 +3,28 @@
  "_generated_by": "research/manuscripts/claim_coverage.py",
  "papers": {
   "journal-article": {
-   "sentences": 154,
-   "covered": 81,
-   "with_a_number": 78,
-   "with_a_number_covered": 54,
+   "sentences": 160,
+   "covered": 79,
+   "with_a_number": 77,
+   "with_a_number_covered": 53,
    "uncovered_with_a_number": [
-    "That junction is in no normal transcript, so an antisense gapmer could in principle cleave the fusion, sparing its parents; none is reported for any *NR4A3* fusion.",
     "That gap is the shortest length the cited source credits rather than its preferred one, and six is used because the genome-wide arm is not available above a 16-mer.",
     "Five specificity screens were applied: an alignment screen against human RefSeq RNA, classifying each near-match by whether the catalytic gap is paired; an exhaustive transcript scan complete for substitutions within a one-mismatch budget; a screen of the parents' unspliced sequence; a mature-parent screen recording the longest contiguous duplex any of six wild-type parent transcripts forms through the catalytic gap; and a genome-wide screen over every position of GRCh38, mitochondrial sequence included.",
     "Between them they cover mature transcript, unspliced precursor, exon-exon junction, non-coding and mitochondrial sequence — the search scope the 2025 recommendations ask for.",
     "Melting temperatures are nearest-neighbour values for an unmodified DNA:RNA hybrid at 250 nM strand.",
     "Exon numbers throughout are transcript exon indices counted from the transcript 5′ end, including non-coding exons; an acceptor exon number read under the coding-exon convention instead selects a different reagent.",
+    "The cut therefore decides how they read: at eight both fall inside the class this work marks as not to be ordered, at nine the *TAF15* reagent alone does, and only at ten does neither.",
     "Both also pair a wild-type parent through part of the gap at the *NR4A3* exon-2/exon-3 seam their acceptor halves share, neither in full; those partial duplexes are not counted here and have not been measured.",
     "The *EWSR1* reagent also carries a sense-strand near-match in wild-type *TAF15* precursor RNA at two mismatches, one inside the catalytic gap, spanning an intron-exon boundary: the cost of the same ten shared donor bases that let one oligonucleotide span the *EWSR1*, *TAF15* and *FUS* breakpoints at once (Figure 1).",
+    "The mature-parent screen is a sequence computation, not a database query: it ran on all 190, and the counts that follow carry neither bound.",
     "A design whose gap carries a mismatch is scored zero rather than short, so the 87 bound the fully-paired class, not the whole parent liability.",
     "These are whole-duplex run lengths rather than the enzyme's own unit, and the availability the named reagents rest on fails at nine, where the *TAF15* junction's best design is itself liable.",
     "Its 38 junctions were graded for a fusion protein, so an acceptor upstream of the *NR4A3* initiation codon was dropped as non-coding.",
     "On that reading USZ22-EMC2 carries the junction the *TAF15* reagent spans, and USZ20-EMC1 carries *EWSR1* exon 13 joined to exon 3 — the third design named above, not a reagent named for synthesis.",
-    "The released builder emits an exon-2 acceptor in two cases only: a seam a published report places a patient at, and one the user supplies from their own sequencing, checked against the builder's transcript models.",
     "Reagents exist at both acceptors: 5′-AGTGGGCTCTCCACGG-3′ at *EWSR1* exon 13 to exon 2 and 5′-AGTGGGCTCTTGTGTG-3′ at *TAF15* exon 6 to exon 2, both at the panel's top margin.",
     "Routine diagnosis does not supply the seam, since break-apart *NR4A3* fluorescence in situ hybridisation detects a rearrangement irrespective of partner.",
     "An isogenic fusion-positive against fusion-negative comparison has been run in an analogous fusion sarcoma, against *NAB2::STAT6* in solitary fibrous tumour.",
-    "At an assumed replicate standard deviation of 0.35 on the natural-log scale — like the cut, adopted for pre-registration rather than measured here — six independent biological replicates give about 80% power to falsify a true selectivity of 3 and three give about 30%.",
+    "At an assumed replicate standard deviation of 0.35 on the natural-log scale — a 1.42-fold replicate spread, and like the cut adopted for pre-registration rather than measured here — six independent biological replicates give about 80% power to falsify a true selectivity of 3 and three give about 30%.",
     "Above a realised standard deviation of about 0.65 at three replicates — 1.53 at six, 2.25 at ten — no observed ratio at or above one can put the upper limit of a two-sided 95% interval below 5, so the test can fail only on an anti-selective reading.",
     "Where a one-sided 95% chi-square bound on the pilot's standard deviation lies at or above the void figure for the count proposed, the decision is a larger replicate count, or no falsification test at all, and never three.",
     "A third compartment is searched only in the extended report: the patient's own un-rearranged *NR4A3* allele, at a two-mismatch ceiling that bounds its class from below.",
@@ -34,11 +34,14 @@
     "The *TAF15* row is exon 11 — a different junction from Table 1's *TAF15* exon 6 reagent, and one of the two further breakpoints the *EWSR1* reagent also spans."
    ],
    "uncovered_without_a_number": [
+    "An antisense gapmer could in principle cleave it, sparing the parents; none is reported.",
+    "Designability is not the constraint; discrimination from the parents is.",
+    "That liability is invisible to a conventional off-target search and must be screened directly before synthesis.",
     "The fusion junction is the one feature of an EMC tumour that exists at the RNA level and in no normal cell.",
     "Junction-directed nucleic-acid agents are a thirty-five-year lineage, reported against at least six fusion oncogenes: two as antisense oligonucleotides, the rest as RNA-interference agents, one of those from a lentiviral vector rather than an administered oligonucleotide.",
     "What a junction design must survive follows from its construction.",
     "Both halves are parent-gene sequence, so each parent matches roughly half the oligonucleotide — far outside the mismatch budget of a conventional off-target search, which therefore never returns a parent as a near-match.",
-    "That parent liability is the one this work screens for directly.",
+    "Whether a wild-type parent pairs the catalytic gap contiguously is therefore a separate question from overall similarity.",
     "Those recommendations set five steps: in-silico identification with transcriptomics, a focus on cell types showing activity, in-vitro verification and margin assessment, risk assessment of what is confirmed, and management of what remains.",
     "This work performs the in-silico half of the first step and stops there; the margin measurement of the third is what the Discussion specifies, against the wild-type parent the panel screen below identifies as the liability.",
     "All analyses are computational and use public data; no laboratory work was performed.",
@@ -50,6 +53,8 @@
     "Both loads are predictions from sequence search rather than measured activity.",
     "High affinity is taken to carry a risk of sequence-dependent hepatotoxicity; that is a premise adopted here rather than a retrieved finding, and nothing here measures it.",
     "It is not named for synthesis: this junction is third by reported prevalence and the selection above takes the first two.",
+    "Two bounds apply to the cleanliness counts below, and to those alone.",
+    "Most designs clean at the default ceiling are not clean at a deeper one.",
     "Lengthening the catalytic gap does not remove this liability, for an arithmetic reason: every base inside the gap comes from the donor or the acceptor exon, so a longer gap buys margin only by conceding parent-paired gap DNA at the design's own seam.",
     "Across three geometries the liable count does not fall; the extended report gives the series.",
     "Both readings are properties of the cut.",
@@ -58,13 +63,15 @@
     "The comparison is narrower than it reads, the panel arm being itself mostly unreported junctions — the property the chimeric null is discounted for.",
     "That mismatch is a property of how the panel was selected, not of the disease.",
     "Rebuilding them is the faster route, but a complementary DNA over-expressed in a heterologous background speaks to junction-selective knockdown of the intended transcript, not to activity at an endogenous locus.",
-    "They are available on request with no repository deposit, and are slow, at reported doubling times of five to six days.",
+    "They are available on request with no repository deposit, at reported doubling times of five to six days.",
+    "The report carries no sequenced exon-exon boundary, no transcript accession and no junction sequence, so whether that names a non-coding acceptor or an unsupported numbering is not decidable from what is published.",
     "This work's own withdrawn version arose from an error of exactly this class.",
     "One reading is nonetheless more parsimonious.",
     "EMC's defining lesion produces a chimeric transcription factor.",
     "This is an inference and not a determination, and the requirement below is unchanged.",
     "Clearing the screen is not a claim of inertness; it is the property a negative control has to have.",
     "It is specified here for these reagents, with three controls a knockdown assay alone cannot distinguish, two of them the screened scrambles above.",
+    "Comparing the two half-maximal concentrations is the margin assessment the recommendations specify at this step; they decline to set a default value for it.",
     "Those figures are computed on that interval; a normal-approximation interval would move them.",
     "Voidness is a property of the realised variance rather than of the design, so a pilot-based gate on the population variance bounds it from one side only.",
     "The constraint is discrimination between the fusion and its parents, and it is not resolved here.",
@@ -76,11 +83,12 @@
     "Every source of a test article named here ends at someone culturing cells.",
     "No person other than the author contributed to this work.",
     "T.D.M. is the sole author, and is responsible for the conception and design of the study, the analysis code, the screens and their interpretation, and the drafting and revision of this manuscript.",
-    "The author holds no patent, patent application, equity or consultancy relating to any sequence or method described here.",
     "The manuscript contains no data from any individual person.",
+    "**Declaration of conflicting interest.** The author holds no patent, patent application, equity or consultancy relating to any sequence or method described here.",
     "**Funding statement.** No external funding; self-funded by the author.",
     "Every reference's bibliographic record was retrieved from PubMed rather than written from model output, and each citation was checked against the retrieved record.",
     "The author directed all work reported here and is responsible for its content.",
+    "The extended report, carrying every screen's parameters and the complete bounds on each claim, is `fusion-junction-aso-research-article.md` inside that deposit, and the archived copy is the citable one.",
     "An earlier version of these analyses placed the acceptor junction incorrectly through a coding-versus-transcript exon indexing error and was withdrawn in full; the panels were rebuilt and verified, and the complete correction record is released with the archive.",
     "No reagent is named at it."
    ]
@@ -88,22 +96,22 @@
   "journal-tables": {
    "sentences": 9,
    "covered": 4,
-   "with_a_number": 5,
+   "with_a_number": 4,
    "with_a_number_covered": 2,
    "uncovered_with_a_number": [
     "*Every cell below is a column of `fusion-junction-aso-sequences.csv`, the canonical machine-readable record, except the test-article column of Table 1, which is a literature fact and carries its source in the caption.",
-    "Every reagent named here is a 5-6-5 phosphorothioate gapmer.",
-    "Section 5 gives why that screening step is what makes a scramble a control."
+    "Every reagent named here is a 5-6-5 phosphorothioate gapmer."
    ],
    "uncovered_without_a_number": [
     "The separation is a floor rather than an estimate, for the reason Methods gives; absolute melting points are not reported for a locked, phosphorothioate oligonucleotide.",
-    "The two control oligonucleotides, each screened as its reagent was.** Each is a dinucleotide-preserving scramble of the reagent it controls, matching it in length, first and last base, base composition and dinucleotide counts while spanning no junction, and each cleared the same mature-parent screen the reagent did."
+    "The two control oligonucleotides, each screened as its reagent was.** Each is a dinucleotide-preserving scramble of the reagent it controls, matching it in length, first and last base, base composition and dinucleotide counts while spanning no junction, and each cleared the same mature-parent screen the reagent did.",
+    "That screening is what separates a negative control from a second active molecule; Results gives the rate at which an unscreened scramble would be one."
    ]
   },
   "cover-letter": {
-   "sentences": 66,
+   "sentences": 67,
    "covered": 10,
-   "with_a_number": 24,
+   "with_a_number": 25,
    "with_a_number_covered": 8,
    "uncovered_with_a_number": [
     "*Sendable once the brackets below are filled. ✅ The item that used to block it is closed: Zenodo deposition 22061075 was published on 2026-08-23 and read back (checklist §3), so every archive link in both papers now resolves.",
@@ -121,6 +129,7 @@
     "Designability is not the constraint: junction-spanning designs exist at every one of the 38 frame-compatible junctions.",
     "A nucleotide alignment search reports both strands, and a transcript carrying the reverse complement of the target window cannot be hybridised by an antisense oligonucleotide; such hits were being counted as cleavage risks, and all 38 junction screens are now orientation-filtered.",
     "The same paragraph of the Instructions asks authors to note this journal's editorial policy as set out in Stein and Krieg, \"Problems in interpretation of data derived from in vitro and in vivo use of antisense oligodeoxynucleotides\" (*Antisense and Nucleic Acid Drug Development* 1994;4:67–69).",
+    "The extended report — every screen's parameters and the complete bounds on each claim — is prior archived work: it is deposited and citable at doi:10.5281/zenodo.22061075, which the manuscript's Data availability statement cites.",
     "Retired 2026-08-15 — it is not true of the clinical statistics, which are read out of cited publications."
    ],
    "uncovered_without_a_number": [
@@ -156,7 +165,7 @@
     "The journal's related encouragement to \"report all of the oligonucleotides or constructs that were studied, not just those that gave the best result\" is met in full: every design in the panel is reported with its screen outcome, including those the screen condemns, and the two reagents named for synthesis are named alongside the ways in which they are close calls rather than clean ones.",
     "Two files are uploaded with the manuscript as Supplemental Material for review, so that the reviewers are not asked to assess the paper against an archive they have to go and find: the extended report, which carries every screen's parameters and the complete bounds on each claim, and the canonical machine-readable sequence file, which is the record an oligonucleotide should be ordered from and which carries every design in the panel rather than the two named here.",
     "This manuscript is a condensed report of a larger body of work.",
-    "The extended report — every screen's parameters and the complete bounds on each claim — is deposited in the archive cited in the manuscript's Data availability statement, and I mention it here so the relationship is on the record rather than discovered later: it is a separate and much longer manuscript, [STATE ITS CURRENT STATUS AND, IF IT IS UNDER CONSIDERATION ANYWHERE, NAME THE VENUE], and the manuscript submitted here is not published or under consideration elsewhere.",
+    "I mention it here so the relationship is on the record rather than discovered later: it is a separate and much longer manuscript, [STATE ITS CURRENT STATUS AND, IF IT IS UNDER CONSIDERATION ANYWHERE, NAME THE VENUE], and the manuscript submitted here is not published or under consideration elsewhere.",
     "This condensed article has not been posted as a preprint; should that change before a decision, I will inform the editorial office and supply the DOI.",
     "I am the sole author, an unaffiliated independent researcher with no institutional address.",
     "Analysis code, the screening pipelines and drafting were carried out with substantial AI assistance under my direction, which is disclosed in the manuscript; no AI tool is an author, every quantitative statement derived from sequence or from a screen is produced by code in the released archive and is reproducible from it, the clinical figures are transcribed from the publications cited for them, and I take full responsibility for the content. ⚠ *Superseded, retained: \"every quantitative statement is produced by code in the released archive\".",

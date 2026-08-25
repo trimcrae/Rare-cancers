@@ -5,15 +5,16 @@ level: L3
 kind: memo
 status: live
 canonical_for:
-  - the disposition of every item on the 2026-08-25 NAT revision checklist
+  - the disposition of every item on the 2026-08-25 NAT revision checklists, first and second pass
 purpose: >
   Hold the NAT revision checklist and its per-item disposition in one place. It exists because the
   checklist arrived as a chat paste, was lost to a context compaction, and had to be recovered from
   a session transcript — a work list living only in a conversation is a data-loss bug, and the same
   recovery is not available to a session on another machine.
 scope: >
-  ONE checklist — 2026-08-25, against the condensed journal article for Nucleic Acid Therapeutics,
-  its cover letter, its generators and its guard suite. ⛔ It is a work list and NOT a quality
+  The 2026-08-25 NAT revision checklists — the first pass (A–D) and the second (E), both against the
+  condensed journal article for Nucleic Acid Therapeutics, its cover letter, its generators and its
+  guard suite. ⛔ It is a work list and NOT a quality
   claim: an item's presence here means it was raised, and a DONE means the change was made and a
   gate saw it, never that the paper is ready. Two items are the author's and are not actionable
   here. Nothing in it authorises a submission.
@@ -96,3 +97,72 @@ Nothing else on the list is open.
 
 ⛔ **Nothing on this list authorises a submission.** Every item above is a change to a document or a
 gate. Which paper goes out, and when, is trimcrae's and is not implied by the list being finished.
+
+## E · Second pass, 2026-08-25 — trimcrae's pre-submission checklist
+
+> ⛔ **Reproduced as received, and graded against the manuscript at `0c75130`, which is where its
+> quoted strings live.** Three items are stale relative to that revision and one is stale relative
+> to the venue; each says so rather than being silently dropped. ⚠ **A stale premise is not a wrong
+> item** — E4 and E5 are stale *because the first pass restructured the paper to IMRaD*, and the
+> defects they name are real consequences of that restructure that nothing had caught.
+
+### Blocking
+
+| # | asked for | disposition |
+|---|---|---|
+| E1 | Abstract ~240 → 200 words; cut the final data-release sentence; tighten the 4th sentence; add a conclusion | **DONE, and the count premise was stale**: the abstract measured **200** at `0c75130`, already at the cap (`submission_metrics.py`). The three structural asks were all real and all applied. The release note — *"Also released is the procedure that produced the 190 designs"* — is gone; the panel sentence is tightened; and the abstract now ENDS ON ITS CONCLUSION: designability is not the constraint, discrimination from the parents is, and that liability must be screened directly before synthesis. Back to exactly 200 after the swap, ⛔ with every hedge intact — *could in principle*, *a convention, not a measurement*, *not for administration*. |
+
+### Results, panel subsection
+
+| # | asked for | disposition |
+|---|---|---|
+| E2 | Move the structural claim out of Results and into the Introduction, expanding the existing seed | **DONE.** The seed — *"That parent liability is the one this work screens for directly"* — now carries the claim: the case for screening it is structural rather than statistical, because it is invisible to the standard instrument at any threshold that instrument is normally run at. The Results subsection opens on the bounds paragraph, and the restatement of *"the ten-base-pair criterion is adopted rather than measured"* is deleted rather than moved: Methods already says it. |
+| E3 | Split the bounds sentence — the two bounds have different scopes | **DONE, and the item understates the defect.** ⛔ *"Two bounds apply to every panel count below"* was not merely an over-claim of scope, it was **wrong about which numbers it bounded**, and wrong in the direction of attaching a censoring caveat to counts that carry none. Checked against the artifacts rather than the prose: `aso-parent-null.json` records `n_designs: 190`, `n_liable: 87`, `rate_liable: 0.45789` — **87 sits on 190** — and `aso-per-junction-table.json` gives 35 of 38 junctions with a design clearing the parent screen, 5 of 5 among those with a published breakpoint. The mature-parent screen is a local sequence computation over six known transcripts; the seven failures and the 47-of-183 censoring are properties of the **remote alignment screen** alone, which is exactly why the extended report says *"a free energy needs only a sequence where a screen needs a query that came back"*. Both bounds are now scoped to the cleanliness counts, and the paragraph says in terms that the parent-liability counts carry neither. |
+
+### Stale cross-references and typos
+
+| # | asked for | disposition |
+|---|---|---|
+| E4 | Table 2 caption: *"Section 5 gives why…"* — no longer exists | **DONE, and the premise is right for a reason worth recording**: the first pass restructured the paper to IMRaD (A1), which deleted every numbered section, and nothing was checking captions for references into the old numbering. Fixed in the GENERATOR (`aso_journal_tables.py`), not the artifact. ⭐ And not by renumbering: this caption is uploaded as its **own file** (A7/A9), so it now states the reason itself — screening is what separates a negative control from a second active molecule — and defers only the rate, to the one place that derives it. |
+| E5 | Results: *"the ten-base-pair criterion below"* — now defined above, in Methods | **DONE**, same root cause as E4 and same one-line fix: IMRaD moved Methods ahead of Results, so a forward reference became a backward one. Now *"the ten-base-pair criterion Methods sets"*. |
+| E6 | Ref 23: `AAstolfi` → `A Astolfi` | **NOT A DEFECT, AND ALREADY ANSWERED AT A4.** The string does not exist — not in the working tree, not in any built PDF's text layer, not in any of the 70,524 blobs on `origin/literature-cache`. The entry reads `Urbini M, V Indio, A Astolfi, …`, and the author segment is not typed at all: `journal_reference_authors.py` writes it from a fetched PubMed record. ⚠ The likeliest source of the reading is a PDF copy-paste dropping the thin space between an initial and a surname, which is a property of the reader rather than of the file. |
+| E7 | Check the Statements and Declarations block — Sage convention vs Liebert's Author Disclosure Statement; confirm where author contributions sit | **DONE, and it found a real gap — the premise is inverted, but checking it was right.** The venue is **Sage**, not Liebert (A13, and the guidelines trimcrae read on 2026-08-23), and those guidelines require a `Statements and Declarations` section carrying each listed sub-heading, *"even if not applicable"*. **`Declaration of conflicting interest` was the one required sub-heading with no home** — the first pass had moved that claim out to NAT's own `Author Disclosure Statement` (A5) and nothing put a heading back. It is back. Author contributions were a bare paragraph inside Acknowledgments; Sage asks for the heading in its own right, after Acknowledgments, so `## Author Contributions` now exists (and is registered in `test_no_page_is_nearly_empty.py`'s short-by-design list in the same commit). ⛔⛔ **THE WORDING IS SCOPED TO *FINANCIAL* INTERESTS AND MUST STAY THAT WAY.** Sage's suggested boilerplate — *"declared no potential conflicts of interest"* — is unqualified and **would be false in this manuscript**: the author is a survivor of the disease this work is about, an interest disclosed to the editor in the cover letter and, by his own decision of 2026-08-22, deliberately not carried in the paper. `test_the_envelope_declares_one_interest.py` exists to stop exactly that sentence being written. |
+
+### Submission mechanics
+
+| # | asked for | disposition |
+|---|---|---|
+| E8 | Upload individual files, not one composed PDF | Already **A7**. `build_submission_parts.py` cuts a title page and a legends file out of the manuscript; `SUBMISSION-PACKET.md` carries the upload manifest. |
+| E9 | Figure 1 as TIFF or EPS, line art 1200 dpi | Already **A8** — both formats are built. ⚠ Note the captured Sage guidelines say **300 dpi**; 1200 is the Liebert-era line-art figure and is above the stated requirement either way. |
+| E10 | Double-spaced, each section on a separate page | Already **A6/A1**, and measured rather than asserted — `w:line="480"` is read back out of the converted `document.xml`. ⚠ Not in the captured Sage guidelines, which ask only that heading levels be clear; it is done because the earlier instruction asked for it and it costs nothing. |
+| E11 | Figure legends double-spaced in a separate file | Already **A9**, by the same builder, CUT from the manuscript rather than retyped. |
+| E12 | Colour is author-subsidised — confirm the panel reads with colour off | Already **A10**, and measured: the donor/acceptor pair was 2.1% apart in BT.601 luma and now differs by solid/dashed rules and filled/open markers. Greyscale proofs are committed under `figures/submission/greyscale-proof/`. Captured rates: **$800** first print image, **$200** each subsequent; online colour is free, and the cover letter declines print colour. |
+| E13 | Budget $90/page on acceptance | Already **A12**, as a hard gate — `test_the_journal_pdf_fits_its_page_budget`, held at 6 pages through this pass too. |
+| E14 | Verify the portal — possible publisher transition | Already **A13**, and the transition is CONFIRMED rather than possible: **Sage Track**, read at primary source 2026-08-23; the Publishing Services Fee survived unchanged. ⚠ `journals.sagepub.com` returns HTTP 403 to every automated route, so a person re-reads the page before submitting. |
+
+### Cover letter
+
+| # | asked for | disposition |
+|---|---|---|
+| E15 | Lead with fit — this executes the in-silico step of the framework the journal published | Already **C1**, and it is the letter's first paragraph. |
+| E16 | State that no efficacy is claimed and that two controls are named | Already **C2**, naming **Table 2** so the screening rule can be checked without reading the paper. |
+| E17 | Declare the Zenodo report plainly as prior archived work; drop the "not posted as a preprint" distinction from Data availability too | **DONE, in three places.** The letter now calls the extended report prior archived work and gives `doi:10.5281/zenodo.22061075` in its own sentence rather than pointing at the manuscript. The distinction is gone from Data availability, from the manuscript front matter, and from the **page-one masthead** in `build_submission_pdf.py`, which printed it on every build. The reasoning is the captured guidelines' own: *"Accepts preprints? Yes"*, with a designated field for the DOI — so arguing the distinction bought nothing and drew attention to a status the venue is indifferent to. ⚠ The letter KEEPS its factual sentence that this article is not posted and that the office will be told if that changes: the guidelines ask to be informed, so that one answers a question rather than pre-empting an objection. |
+| E18 | Declare the withdrawn earlier version up front | Already **C4** — declared in the letter and in the manuscript's own Declarations. ⚠ NOT moved to the top: E15 requires the fit paragraph to lead, and the two asks compete for the same position. The withdrawal sits with the other methodological corrections, which is where a reader looking for it will expect it. |
+| E19 | Optional framing: borrow the editors' "interesting but not definitive" phrase | **DECLINED, and it is marked optional.** That phrase is the guidelines' description of **Brief Communications**, a 1,000-word type; this is a 3,748-word Original Paper, which is the type the packet targets and the type D2 settled on. Handing the editor the article-type language for a shorter format, in the letter arguing for a longer one, invites the redirect rather than pre-empting it. |
+
+### Scientific — worth doing, not blocking
+
+| # | asked for | disposition |
+|---|---|---|
+| E20 | Email the Zurich group for the USZ20 / USZ22 junction sequence | Already **B3**, and ⛔ **already ruled on by trimcrae on 2026-08-25**: *"I don't want to gate this paper on getting a response from a specific lab. The science should stand on its own based on published work."* The reasoning is not disputed — it would convert the exon-2 reading from inference to determination — and the paper is written so that nothing waits on it. |
+| E21 | Consider actually pre-registering the falsification experiment (OSF) | **OPEN, AND IT IS TRIMCRAE'S** — same item as B6, raised again. It is an outward-facing act against his own identity, so no session takes it. Nothing in the manuscript depends on it: the threshold, the replicate count and the void gate are all stated in the paper itself. |
+| E22 | Add a citation for the log-scale replicate SD of 0.35, if one exists | **NO CITATION EXISTS IN THIS REPOSITORY'S LITERATURE, AND NONE WAS INVENTED.** Searched the committed literature artifacts and the extended report; the 0.35 has never carried a source, and the design makes it a quantity the **pilot** estimates rather than one the paper asserts. ⭐ What was done instead is the cheap half that answers the underlying concern: the manuscript now states what 0.35 MEANS — *a 1.42-fold replicate spread* — so a reader can check the planning assumption against their own platform without a reference. ⚠ Registered as an honest UNKNOWN, not as done: a citation would still be an improvement, and adding one costs a fetch, a committed record and a renumbering of the reference list. |
+| E23 | Engage Stein & Krieg (1994), cited in the journal's own instructions | Already **B8** — a full paragraph in the cover letter, sourced from the captured guidelines, which carry the citation verbatim. ⚠ No bibliographic detail was written from recollection: the CI fetch for this reference failed, and the capture is the only admissible source here, which is also why it is engaged in the LETTER rather than added to the reference list. |
+| E24 | Prose density pass | **DONE, and measured rather than eyeballed.** Main-text sentences: 132, median 26 words, 17 over 45. The five worst multi-clause sentences were split at the point where each turns into a second thought — the two non-comparable screens, the reagents' own duplex lengths, the new bounds paragraph, the selectivity definition, and the cell models' reported junctions. ⚠ The single longest sentence (71 words) is LEFT: it is the enumerated list of the five screens, where the length is the list. `lint_style.py` reports the manuscript clean. |
+
+## Still open after the second pass
+
+- **E21 / B6 is trimcrae's** — whether to pre-register on OSF.
+- **E22 is an honest UNKNOWN** — the 0.35 carries no citation, and is now stated with its fold-spread reading so a reader can judge it.
+- **E14's re-read is a person's job** — the guidelines page refuses every automated route.
+

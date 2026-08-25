@@ -197,11 +197,12 @@ the canonical machine-readable sequence file, which is the record an oligonucleo
 ordered from and which carries every design in the panel rather than the two named here.
 
 This manuscript is a condensed report of a larger body of work. The extended report — every
-screen's parameters and the complete bounds on each claim — is deposited in the archive cited in the
-manuscript's Data availability statement, and I mention it here so the relationship is on the record
-rather than discovered later: it is a separate and much longer manuscript, [STATE ITS CURRENT
-STATUS AND, IF IT IS UNDER CONSIDERATION ANYWHERE, NAME THE VENUE], and the manuscript submitted
-here is not published or under consideration elsewhere. This condensed article has not been posted as a
+screen's parameters and the complete bounds on each claim — is prior archived work: it is deposited
+and citable at doi:10.5281/zenodo.22061075, which the manuscript's Data availability statement
+cites. I mention it here so the relationship is on the record rather than discovered later: it is a
+separate and much longer manuscript, [STATE ITS CURRENT STATUS AND, IF IT IS UNDER CONSIDERATION
+ANYWHERE, NAME THE VENUE], and the manuscript submitted here is not published or under
+consideration elsewhere. This condensed article has not been posted as a
 preprint; should that change before a decision, I will inform the editorial office and supply the
 DOI. I am the sole author, an unaffiliated
 independent researcher with no institutional address. Analysis code, the screening pipelines and

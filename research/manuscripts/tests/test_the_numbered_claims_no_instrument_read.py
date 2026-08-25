@@ -93,6 +93,19 @@ def _every_site(prose, pattern, expected, what):
                        f"at {len(wrong)} of its {len(found)} site(s)")
 
 
+def _every_site_ci(prose, pattern, expected, what):
+    """`_every_site`, comparing case-insensitively. Same at-least-one-match contract."""
+    found = [tuple(g.lower() for g in f) if isinstance(f, tuple) else f.lower()
+             for f in re.findall(pattern, prose)]
+    want = tuple(e.lower() for e in expected) if isinstance(expected, tuple) else expected.lower()
+    assert found, (f"nothing in the journal article matches the construction that states {what} "
+                   f"(/{pattern}/) — either the sentence was reworded and this guard must follow "
+                   "it, or the claim was dropped")
+    wrong = [f for f in found if f != want]
+    assert not wrong, (f"{what} is {want!r} in the artifact, and the article states {wrong!r} "
+                       f"at {len(wrong)} of its {len(found)} site(s)")
+
+
 def _oligo(path, sequence, what):
     rows = [o for o in _load(path, what)["oligos"] if o["antisense_5to3"] == sequence]
     assert len(rows) == 1, (f"{os.path.basename(path)} carries {len(rows)} records for {sequence}; "
@@ -217,11 +230,21 @@ def test_the_cleanliness_bounds_are_the_screens_own_counts(prose):
                if o.get("status") == "screened" and o.get("n_offtarget_near_matches") is not None]
     never_returned = len(rows) - len(counted)
     assessable = sum(1 for c in counted if c <= 15)
-    _every_site(prose,
-                r"(\w+) of the (\d+) screens never returned, and the alignment screen censors the "
-                r"rest, leaving (\d+) of (\d+) assessable at all",
-                (_word(never_returned), str(len(rows)), str(assessable), str(len(counted))),
-                "the two cleanliness bounds, with both of their denominators")
+    #: ⭐ RE-ANCHORED 2026-08-25 (trimcrae's call). This was ONE pattern spanning a whole clause and
+    #: capturing all four numbers, so any rewording of the sentence failed the guard even when every
+    #: number was right — which is exactly what happened when the bounds were re-scoped that day.
+    #: Two short anchors instead, one per sentence: the numbers are still bound to the screens that
+    #: compute them, and the prose around them is free to move.
+    #: ⚠ The spelt count opens its paragraph, so it is capitalised there and lower-case anywhere
+    #: else. Compare case-insensitively rather than pinning the capital: which sentence starts a
+    #: paragraph is a layout fact, and a guard that fails when a paragraph is re-ordered is
+    #: guarding typography instead of the number.
+    _every_site_ci(prose, r"(\w+) of the (\d+) alignment screens never returned",
+                   (_word(never_returned), str(len(rows))),
+                   "the non-returning screens and the panel they are counted over")
+    _every_site(prose, r"leaving (\d+) of those (\d+) assessable",
+                (str(assessable), str(len(counted))),
+                "the assessable subset and the screens it is drawn from")
 
 
 def test_the_panel_size_is_the_screens_at_every_site_that_states_it(prose):
@@ -234,10 +257,16 @@ def test_the_panel_size_is_the_screens_at_every_site_that_states_it(prose):
     later. §1's "puts to all 190 designs" is a fourth.
     """
     n = _load(GAP_PAIRING, "the mature-parent gap-pairing screen")["corpus"]["n_designs"]
-    _every_site(prose, r"the procedure that produced the (\d+) designs", str(n),
-                "the panel size §6 says the released procedure produced")
-    _every_site(prose, r"puts to all (\d+) designs", str(n),
-                "the panel size §1 says the parent question is put to")
+    #: ⭐ RE-POINTED 2026-08-25. The two sites this guard named are gone from the paper: the
+    #: abstract's "the procedure that produced the 190 designs" was cut as the release-note ending
+    #: (checklist item 1, which asked for a conclusion in its place), and §1's "puts to all 190
+    #: designs" went as duplication of the seed sentence three lines above it. Neither was a
+    #: number changing, so neither is a supersession — but a guard whose every site has been
+    #: deleted is inert, and the panel size is still stated at two places no pin context reaches.
+    _every_site(prose, r"of the (\d+) alignment screens", str(n),
+                "the panel size the censoring bound is counted over")
+    _every_site(prose, r"it ran on all (\d+)", str(n),
+                "the panel size the mature-parent screen ran on")
 
 
 # ────────────────────────────────────────────────────────── §8's inputs

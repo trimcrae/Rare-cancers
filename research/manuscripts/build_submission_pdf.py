@@ -126,11 +126,15 @@ PAPERS = {
             #: ⛔ THIS LINE NAMED bioRxiv UNTIL 2026-08-23, WHEN bioRxiv DECLINED THE SUBMISSION
             #: because the author is unaffiliated (checklist §2 step 3). A masthead saying a
             #: bioRxiv deposit is in preparation was describing something that is not going to
-            #: happen, and it prints on every page-one build. It now states only what the
-            #: repository can stand behind: the extended report is archived, and it is not posted
-            #: as a preprint anywhere.
-            "preprint_note": "The extended report of this work is archived and is not posted as a "
-                             "preprint; the archived copy is citable.",
+            #: happen, and it prints on every page-one build.
+            #: ⭐ AND THE REPLACEMENT'S NEGATIVE HALF WENT ON 2026-08-25 (checklist item 17). It read
+            #: "archived and is not posted as a preprint", which pre-empted an objection this venue
+            #: does not raise: the guidelines captured on 2026-08-23 say "Accepts preprints? Yes"
+            #: and ask for the preprint DOI in a designated field. Arguing the distinction bought
+            #: nothing and drew attention to a status the journal is indifferent to. The positive
+            #: half carries all the information a reader needs — what to cite.
+            "preprint_note": "The extended report of this work is archived, and the archived copy "
+                             "is citable.",
         },
         #: ⭐ NO PER-PAGE RUNNING HEAD ON THIS PAPER (external review, 2026-08-24). The band is
         #: stripped in production, and this is the one manuscript here held to a per-page FEE

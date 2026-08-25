@@ -107,6 +107,9 @@ def _page_texts(pdf_path):
 SHORT_BY_DESIGN = (
     "Keywords",
     "Acknowledgments",
+    #: Sage asks for this heading in its own right, after Acknowledgments; for a sole author it is
+    #: one sentence. Added 2026-08-25 with the heading itself, not ahead of it.
+    "Author Contributions",
     "Author Disclosure Statement",
     "Tables",
     "Figure legends",

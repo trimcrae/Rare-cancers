@@ -138,6 +138,13 @@ _TITLE_PAGE_PARTS = (
     {"label": "Running title.", "required": True},
     {"heading": "Keywords", "required": True},
     {"heading": "Acknowledgments", "required": True},
+    #: ⭐ ADDED 2026-08-25 WITH THE HEADING ITSELF, and `test_the_title_page_carries_every_identifier
+    #: _the_blinded_copy_strips` is why. Sage asks for Author Contributions as its own section after
+    #: Acknowledgments, so the contributions sentence moved out of Acknowledgments — and it names
+    #: the author ("T.D.M."). `anonymise` strips that token from the blinded body, so with the
+    #: section on neither file the identifier was not redacted, it was GONE. The title page is the
+    #: one file that names the author under the double-anonymized reading, so it carries this too.
+    {"heading": "Author Contributions", "required": True},
     {"heading": "Author Disclosure Statement", "required": True},
     #: ⚠ THE FUNDING STATEMENT IS A RUN-IN PARAGRAPH INSIDE `## Statements and Declarations`,
     #: not a section of its own, and Sage asks for it on the title page. Cut by its own label so

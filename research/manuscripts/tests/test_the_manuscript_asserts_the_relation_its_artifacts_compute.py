@@ -137,12 +137,18 @@ POLARITY = [
     # and true one: it is not posted as a preprint anywhere, so the archived copy is what a reader
     # cites. ⚠ `forbid` uses a lookbehind rather than naming a server, because the failure mode is
     # the word "not" going missing, not the word "bioRxiv" coming back.
-    ("deposit-not-yet-posted",
-     r"inside that deposit;[^#]{0,140}",
-     r"it is not posted as a preprint",
-     r"(?<!not )posted as a preprint|posted on bioRxiv|is already posted",
-     "deposit-state.json: a `pending` Zenodo draft and no preprint server record",
-     "inside that deposit; it is posted as a preprint already."),
+    # ⛔ RETIRED 2026-08-25, AND RETIRED AS A DECISION RATHER THAN AS A REWORDING. The sentence this
+    # row guarded — "it is not posted as a preprint, so the archived copy is the citable one" — was
+    # REMOVED from Data availability on trimcrae's checklist item 17: the captured Sage guidelines
+    # say "Accepts preprints? Yes" and ask for the DOI in a designated field, so arguing the
+    # distinction pre-empted an objection this venue does not raise. The positive half survives and
+    # carries what a reader needs ("the archived copy is the citable one").
+    # ⚠ AND THE CONDITION THE ROW WAS WRITTEN FOR IS ALSO GONE: it names "deposit-state.json: a
+    # `pending` Zenodo draft", and that file now carries a `published` block alone — DOI
+    # 10.5281/zenodo.22061075, published 2026-08-23 — with no `pending` key at all. The window
+    # between drafting a corrected version and publishing it, which is the whole thing this row
+    # made legible, closed two days before the row failed.
+    # ★ If a preprint IS ever posted, the disclosure comes back and so does a row for it.
     ("coverage-is-not-a-measurement",
      r"That prices which published junctions[^.]{0,220}\.",
      r"it is not a coverage measurement, no patient having been screened",

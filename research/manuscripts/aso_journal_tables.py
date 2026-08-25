@@ -206,8 +206,15 @@ def build() -> str:
     out += ["**Table 2. The two control oligonucleotides, each screened as its reagent was.** Each "
             "is a dinucleotide-preserving scramble of the reagent it controls, matching it in "
             "length, first and last base, base composition and dinucleotide counts while spanning "
-            "no junction, and each cleared the same mature-parent screen the reagent did. Section 5 "
-            "gives why that screening step is what makes a scramble a control.", ""]
+            #: ⛔ THIS SENTENCE NAMED "Section 5" UNTIL 2026-08-25, AND THE PAPER HAD STOPPED
+            #: HAVING NUMBERED SECTIONS when it was restructured to IMRaD — so a caption that the
+            #: builder uploads as its OWN FILE pointed at nothing. A caption is the worst place in
+            #: a submission to carry a cross-reference: it is typeset away from the body and, at
+            #: this venue, uploaded separately. So the reason is stated here rather than pointed
+            #: at, and only the RATE is deferred, to the one place that derives it.
+            "no junction, and each cleared the same mature-parent screen the reagent did. That "
+            "screening is what separates a negative control from a second active molecule; Results "
+            "gives the rate at which an unscreened scramble would be one.", ""]
     out += ["| control | sequence | scramble of | WT gap duplex (bp) |",
             "|---|---|---|---|"]
     for c in controls:
