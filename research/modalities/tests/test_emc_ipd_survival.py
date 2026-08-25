@@ -163,13 +163,60 @@ def test_median_survival_is_none_when_not_reached_rather_than_a_number():
 def test_the_curves_table_is_empty_and_the_artifact_says_so():
     """Guards the one thing that would be fabrication: a curve coordinate nobody read."""
     assert mod.CURVES == [], (
-        "CURVES is non-empty. Every entry must carry `digitized_by` naming who read the figure "
-        "and with what tool; a coordinate without that provenance is a fabricated clinical datum."
+        "CURVES is non-empty. A coordinate typed into the generator has no derivation behind it "
+        "and looks identical whether it was measured or guessed. Digitized curves must arrive "
+        "through load_digitized_curves(), which can only return a curve attached to a recipe "
+        "naming the image it was read from."
     )
     payload = mod.build()
-    assert payload["curves_supplied"] == 0
-    assert "NO CURVES DIGITIZED" in payload["status"]
-    assert payload["pooled"] is None
+    loaded = mod.load_digitized_curves()
+    assert payload["curves_hand_typed"] == 0
+    assert payload["curves_supplied"] == len(loaded)
+    if not loaded:
+        assert "NO CURVES DIGITIZED" in payload["status"]
+        assert payload["pooled"] is None
+
+
+def test_every_loaded_curve_carries_its_provenance_and_passed_an_external_check():
+    """⚠ THIS IS THE PROPERTY THE EMPTINESS ASSERTION USED TO STAND IN FOR.
+
+    While no figure had been read, "CURVES is empty" was a complete defence against a fabricated
+    clinical datum. It is no longer, because curves now exist -- so the property has to be asserted
+    directly: every coordinate in this program traces to a COMMITTED image, a recorded reader, and
+    a quantity the paper printed that the reconstruction never saw.
+    """
+    for curve in mod.load_digitized_curves():
+        assert curve["digitized"], curve["id"]
+        assert curve["risk_table"], f"{curve['id']}: admitted without a numbers-at-risk table"
+        assert curve["digitized_by"], f"{curve['id']}: no digitization provenance"
+        assert curve.get("image"), f"{curve['id']}: names no source image"
+        img = os.path.join(os.path.dirname(mod.READINGS), "figures", curve["image"])
+        assert os.path.exists(img), (
+            f"{curve['id']}: its source image {curve['image']} is not committed, so the reading "
+            "cannot be re-run or refuted by anyone reading the artifact")
+        chk = curve.get("external_check") or {}
+        assert chk.get("printed_value") is not None, (
+            f"{curve['id']}: admitted with no externally printed quantity to check the READING "
+            "against. Self-consistent arithmetic is not evidence that a figure was read right.")
+
+
+def test_a_reading_that_fails_its_external_check_is_not_loaded(tmp_path, monkeypatch):
+    """Shown capable of failing: flip the external check in the artifact and the loader drops it."""
+    if not os.path.exists(mod.READINGS):
+        pytest.skip("no readings artifact in this checkout")
+    with open(mod.READINGS, encoding="utf-8") as fh:
+        doc = json.load(fh)
+    before = len(mod.load_digitized_curves())
+    if not before:
+        pytest.skip("no curves loaded in this checkout")
+    for reading in doc["readings"]:
+        for rec in (reading.get("reconstructions") or {}).values():
+            rec["external_check_passes"] = False
+    perturbed = tmp_path / "readings.json"
+    with open(perturbed, "w", encoding="utf-8") as fh:
+        json.dump(doc, fh)
+    monkeypatch.setattr(mod, "READINGS", str(perturbed))
+    assert mod.load_digitized_curves() == []
 
 
 def test_check_refuses_a_perturbed_artifact_and_writes_nothing(tmp_path):
@@ -219,14 +266,74 @@ def test_every_candidate_source_resolves_to_a_real_registry_citation():
     assert not unresolved, f"candidate rows point at citations that do not exist: {unresolved}"
 
 
-def test_no_candidate_claims_its_figure_has_been_read():
+def test_every_checked_candidate_records_what_the_graphic_actually_showed():
     """Presence on the work list must never be mistaken for evidence.
 
-    A row with figure_checked True and no corresponding entry in CURVES would assert that a
-    published figure was read while the artifact still reports zero curves -- the 2026-07-31
-    failure in a new costume, where a populated field was read as a measured one.
+    ⚠ *Superseded, retained: this guard asserted `not checked or mod.CURVES` -- that no row could
+    claim `figure_checked` while the artifact reported zero curves.* That was right while nothing
+    had been read and is wrong now, and in a way worth naming: FOUR of the five figures checked on
+    2026-08-25 produced NO curve, because they print no numbers-at-risk row. Under the old form,
+    correctly recording four negatives would have required either lying about the flag or
+    inventing a curve. **A checked row with no curve is the normal outcome of looking.**
+
+    What replaces it is stronger: a flag must be accompanied by the FINDING it stands for, and a
+    row that claims a digitized curve must have one that the loader actually returns.
     """
-    checked = [r["source_id"] for r in mod.CANDIDATE_SOURCES if r.get("figure_checked")]
-    assert not checked or mod.CURVES, (
-        f"rows claim a figure was read while CURVES is empty: {checked}"
-    )
+    checked = [r for r in mod.CANDIDATE_SOURCES if r.get("figure_checked")]
+    for row in checked:
+        finding = row.get("figure_finding")
+        assert finding, (
+            f"{row['source_id']}: figure_checked is True with no figure_finding. A flag without a "
+            "finding is a populated field that was never measured -- the 2026-07-31 failure.")
+        assert "km_figures" in finding, row["source_id"]
+        assert "numbers_at_risk_row" in finding, row["source_id"]
+
+    loaded = {c["source_id"] for c in mod.load_digitized_curves()}
+    for row in checked:
+        if row["figure_finding"].get("digitized"):
+            assert row["source_id"] in loaded, (
+                f"{row['source_id']}: claims a digitized curve that load_digitized_curves() does "
+                "not return")
+    for source_id in loaded:
+        row = next(r for r in mod.CANDIDATE_SOURCES if r["source_id"] == source_id)
+        assert row.get("figure_checked"), (
+            f"{source_id}: a curve was loaded from a figure the work list still calls unchecked")
+
+
+# ---------------------------------------------------------------------------
+# transcribed patient-level data
+# ---------------------------------------------------------------------------
+def test_every_printed_ipd_row_names_its_table_and_its_verification():
+    """Transcription's failure mode is a silent digit, so provenance is the whole guard.
+
+    ⛔ A misread `17` as `12` produces a perfectly plausible cohort and no symptom. The defence is
+    that each row names the exact table and row it came from and records that the digits were
+    checked against the PDF TEXT LAYER, not only against a rendered page — a raster is exactly
+    where an OCR-style slip happens.
+    """
+    for row in mod.PRINTED_IPD:
+        assert row.get("printed_in"), row
+        assert "Table" in row["printed_in"], row["printed_in"]
+        assert "text layer" in (row.get("verified_against") or ""), row
+        assert row["source_id"] in {c["source_id"] for c in mod.CANDIDATE_SOURCES}, row
+
+
+def test_printed_ipd_carries_only_the_disease_this_program_is_about():
+    """The one table transcribed here also lists MESENCHYMAL chondrosarcoma patients.
+
+    Taking a whole table because the paper is EMC-relevant is the ICD-O-3 conflation
+    RT-DIAGNOSTIC-PATHWAY exists to record, so the histology is asserted rather than assumed.
+    """
+    for row in mod.PRINTED_IPD:
+        assert row["histology"] in {"EMCS", "EMC"}, row
+
+
+def test_printed_rows_are_reported_but_never_pooled():
+    payload = mod.build()
+    block = payload["printed_patient_level_data"]
+    assert block["n_rows"] == len(mod.PRINTED_IPD)
+    pooled = payload.get("pooled")
+    if pooled:
+        assert pooled["n_patients"] != block["n_rows"] + 0, "printed rows leaked into the pool"
+        for curve_id in pooled["curves_pooled"]:
+            assert "morioka" not in curve_id

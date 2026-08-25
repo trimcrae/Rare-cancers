@@ -1,0 +1,662 @@
+{
+  "_what": "Patient-level progression-free survival read off a SWIMMER PLOT, where each bar is one patient and no Kaplan-Meier inversion is involved.",
+  "_not_medical_advice": "Nothing here is medical advice, and nothing here asserts efficacy, safety or clinical readiness. These are re-expressions of an already-published figure.",
+  "⛔_not_re_runnable_from_a_bare_checkout": "The source figure is CC BY-NC 4.0 and this repository is Apache-2.0, so the image is not committed. `regenerate` in the recipe names the URL, page and dpi that reproduce the exact raster. Until someone does that, the numbers below rest on the three external checks rather than on a re-run.",
+  "⛔_claim_ceiling": "FOUR patients, identified by BAR COLOUR inside a mixed-histology trial, in a subgroup the paper did not analyse and did not pre-specify. This supports a statement about what those four patients' figures show and NOTHING about efficacy, about extraskeletal myxoid chondrosarcoma as a population, or about any comparison between histologies.",
+  "recipe": {
+    "id": "martinbroto2020_immunosarc_phase2_pfs",
+    "source_id": "martinbroto2020immunosarc1",
+    "figure": "Figure 3",
+    "endpoint": "pfs",
+    "population": "the 49-patient phase II analysis population of a nivolumab + sunitinib trial in advanced soft-tissue sarcoma (the trial's own term for this set is its efficacy population; nothing here asserts efficacy); the extraskeletal myxoid chondrosarcoma patients are a colour-identified subgroup, NOT a pre-specified stratum",
+    "time_unit": "months",
+    "image_committed": false,
+    "image_licence": "CC BY-NC 4.0 — non-commercial reuse only, which is why it is not here",
+    "regenerate": {
+      "pdf_url": "https://europepmc.org/articles/PMC7674086?pdf=render",
+      "page": 6,
+      "dpi": 600,
+      "note": "pdftoppm -r 600 -f 6 -l 6 -png; the figure occupies the lower right of the page"
+    },
+    "x_zero_px": 2629.25,
+    "px_per_month": 76.85,
+    "x_calibration_from": "the light-grey vertical gridlines at 5/10/15/20/25 months, found at x = 3013.5, 3397.5, 3781.5, 4166.5, 4550.5 (spacing 384.25 px per 5 months). Extrapolating one spacing left of the first gridline gives x = 2629.25 for month 0, which lands on the measured left edge of every bar (2629-2631) — the calibration and the drawing agree without either being fitted to the other.",
+    "scan_box": [
+      2600,
+      4050,
+      4750,
+      5300
+    ],
+    "bridge_px": 14,
+    "⚠_bridge": "The dashed median line and the grey gridlines cross every bar, so a naive left-to-right walk stops at the first dash and reports the MEDIAN as the length of every long bar. Measured before the bridge was added: 12 of 49 bars returned 5.61-5.63 months, which is the dashed line's position, not a datum.",
+    "arrow_min_run_px": 15,
+    "⚠_arrow_threshold": "An arrow is a long HORIZONTAL black run at the bar's end; the dashed median line is a 3-px vertical dash. Measured runs cluster at 0, 3, 12-13 and 45-48 px, so 15 sits inside an empty band rather than being tuned. The 12-13 cluster is the dark star glyph marking a RECIST response, which is not a censoring.",
+    "palette": {
+      "Undifferentiated pleomorphic sarcoma": [
+        112,
+        48,
+        160
+      ],
+      "Extraskeletal myxoid chondrosarcoma": [
+        47,
+        85,
+        151
+      ],
+      "Alveolar soft-part sarcoma": [
+        146,
+        208,
+        80
+      ],
+      "Solitary Fibrous Tumor": [
+        252,
+        118,
+        232
+      ],
+      "Epithelioid sarcoma": [
+        255,
+        192,
+        0
+      ],
+      "Clear cell sarcoma": [
+        255,
+        255,
+        0
+      ],
+      "Synovial sarcoma": [
+        0,
+        176,
+        240
+      ],
+      "Angiosarcoma": [
+        255,
+        0,
+        0
+      ]
+    },
+    "subgroup_of_interest": "Extraskeletal myxoid chondrosarcoma",
+    "external_checks": {
+      "bar_count": {
+        "expected": 49,
+        "printed_where": "Figure 3 caption, 'bars (n=49)'"
+      },
+      "km_median_months": {
+        "expected": 5.6,
+        "tolerance": 0.3,
+        "printed_where": "Figure 3 caption, 'median progression-free survival (5.6 months)'"
+      },
+      "subgroup_count": {
+        "expected": 4,
+        "printed_where": "Table 1, 'Extraskeletal myxoid chondrosarcoma 0 / 4 (7)' — phase Ib / phase II"
+      }
+    },
+    "read_by": "km_digitize.read_swimmer_plot, agent session of 2026-08-25"
+  },
+  "reading": {
+    "id": "martinbroto2020_immunosarc_phase2_pfs",
+    "source_id": "martinbroto2020immunosarc1",
+    "figure": "Figure 3",
+    "endpoint": "pfs",
+    "time_unit": "months",
+    "n_patients": 49,
+    "n_events": 37,
+    "n_censored": 12,
+    "patients": [
+      {
+        "histology": "Synovial sarcoma",
+        "months": 23.25,
+        "censored": true,
+        "colour_margin_px": 99.5,
+        "bar_end_spread_px": 0,
+        "longest_black_run_px": 47,
+        "row_y": 4096
+      },
+      {
+        "histology": "Solitary Fibrous Tumor",
+        "months": 21.35,
+        "censored": true,
+        "colour_margin_px": 158.8,
+        "bar_end_spread_px": 1,
+        "longest_black_run_px": 45,
+        "row_y": 4119
+      },
+      {
+        "histology": "Synovial sarcoma",
+        "months": 20.556,
+        "censored": false,
+        "colour_margin_px": 109.4,
+        "bar_end_spread_px": 1,
+        "longest_black_run_px": 0,
+        "row_y": 4143
+      },
+      {
+        "histology": "Extraskeletal myxoid chondrosarcoma",
+        "months": 19.346,
+        "censored": true,
+        "colour_margin_px": 67.8,
+        "bar_end_spread_px": 0,
+        "longest_black_run_px": 46,
+        "row_y": 4167
+      },
+      {
+        "histology": "Epithelioid sarcoma",
+        "months": 17.056,
+        "censored": true,
+        "colour_margin_px": 63.0,
+        "bar_end_spread_px": 0,
+        "longest_black_run_px": 46,
+        "row_y": 4191
+      },
+      {
+        "histology": "Alveolar soft-part sarcoma",
+        "months": 16.796,
+        "censored": false,
+        "colour_margin_px": 116.0,
+        "bar_end_spread_px": 1,
+        "longest_black_run_px": 0,
+        "row_y": 4213
+      },
+      {
+        "histology": "Angiosarcoma",
+        "months": 16.64,
+        "censored": false,
+        "colour_margin_px": 124.5,
+        "bar_end_spread_px": 0,
+        "longest_black_run_px": 12,
+        "row_y": 4238
+      },
+      {
+        "histology": "Extraskeletal myxoid chondrosarcoma",
+        "months": 16.301,
+        "censored": true,
+        "colour_margin_px": 66.7,
+        "bar_end_spread_px": 2,
+        "longest_black_run_px": 45,
+        "row_y": 4261
+      },
+      {
+        "histology": "Extraskeletal myxoid chondrosarcoma",
+        "months": 15.481,
+        "censored": false,
+        "colour_margin_px": 42.0,
+        "bar_end_spread_px": 34,
+        "longest_black_run_px": 12,
+        "row_y": 4285
+      },
+      {
+        "histology": "Angiosarcoma",
+        "months": 14.948,
+        "censored": false,
+        "colour_margin_px": 175.2,
+        "bar_end_spread_px": 0,
+        "longest_black_run_px": 13,
+        "row_y": 4309
+      },
+      {
+        "histology": "Clear cell sarcoma",
+        "months": 13.517,
+        "censored": false,
+        "colour_margin_px": 63.0,
+        "bar_end_spread_px": 0,
+        "longest_black_run_px": 0,
+        "row_y": 4333
+      },
+      {
+        "histology": "Solitary Fibrous Tumor",
+        "months": 12.593,
+        "censored": true,
+        "colour_margin_px": 156.9,
+        "bar_end_spread_px": 1,
+        "longest_black_run_px": 47,
+        "row_y": 4355
+      },
+      {
+        "histology": "Solitary Fibrous Tumor",
+        "months": 11.929,
+        "censored": false,
+        "colour_margin_px": 154.5,
+        "bar_end_spread_px": 1,
+        "longest_black_run_px": 0,
+        "row_y": 4379
+      },
+      {
+        "histology": "Extraskeletal myxoid chondrosarcoma",
+        "months": 11.591,
+        "censored": true,
+        "colour_margin_px": 66.4,
+        "bar_end_spread_px": 1,
+        "longest_black_run_px": 46,
+        "row_y": 4403
+      },
+      {
+        "histology": "Angiosarcoma",
+        "months": 11.513,
+        "censored": true,
+        "colour_margin_px": 126.8,
+        "bar_end_spread_px": 1,
+        "longest_black_run_px": 48,
+        "row_y": 4427
+      },
+      {
+        "histology": "Alveolar soft-part sarcoma",
+        "months": 10.016,
+        "censored": true,
+        "colour_margin_px": 117.2,
+        "bar_end_spread_px": 0,
+        "longest_black_run_px": 46,
+        "row_y": 4450
+      },
+      {
+        "histology": "Alveolar soft-part sarcoma",
+        "months": 9.717,
+        "censored": true,
+        "colour_margin_px": 111.7,
+        "bar_end_spread_px": 1,
+        "longest_black_run_px": 46,
+        "row_y": 4475
+      },
+      {
+        "histology": "Alveolar soft-part sarcoma",
+        "months": 9.613,
+        "censored": false,
+        "colour_margin_px": 118.5,
+        "bar_end_spread_px": 0,
+        "longest_black_run_px": 0,
+        "row_y": 4497
+      },
+      {
+        "histology": "Solitary Fibrous Tumor",
+        "months": 7.466,
+        "censored": false,
+        "colour_margin_px": 165.5,
+        "bar_end_spread_px": 0,
+        "longest_black_run_px": 0,
+        "row_y": 4521
+      },
+      {
+        "histology": "Solitary Fibrous Tumor",
+        "months": 7.284,
+        "censored": false,
+        "colour_margin_px": 153.6,
+        "bar_end_spread_px": 1,
+        "longest_black_run_px": 0,
+        "row_y": 4544
+      },
+      {
+        "histology": "Synovial sarcoma",
+        "months": 6.516,
+        "censored": false,
+        "colour_margin_px": 106.3,
+        "bar_end_spread_px": 1,
+        "longest_black_run_px": 0,
+        "row_y": 4569
+      },
+      {
+        "histology": "Synovial sarcoma",
+        "months": 6.047,
+        "censored": false,
+        "colour_margin_px": 99.6,
+        "bar_end_spread_px": 1,
+        "longest_black_run_px": 0,
+        "row_y": 4592
+      },
+      {
+        "histology": "Clear cell sarcoma",
+        "months": 5.553,
+        "censored": false,
+        "colour_margin_px": 63.0,
+        "bar_end_spread_px": 0,
+        "longest_black_run_px": 3,
+        "row_y": 4617
+      },
+      {
+        "histology": "Clear cell sarcoma",
+        "months": 5.15,
+        "censored": false,
+        "colour_margin_px": 41.8,
+        "bar_end_spread_px": 0,
+        "longest_black_run_px": 3,
+        "row_y": 4639
+      },
+      {
+        "histology": "Clear cell sarcoma",
+        "months": 4.46,
+        "censored": false,
+        "colour_margin_px": 48.7,
+        "bar_end_spread_px": 1,
+        "longest_black_run_px": 0,
+        "row_y": 4664
+      },
+      {
+        "histology": "Synovial sarcoma",
+        "months": 4.408,
+        "censored": false,
+        "colour_margin_px": 101.2,
+        "bar_end_spread_px": 1,
+        "longest_black_run_px": 0,
+        "row_y": 4687
+      },
+      {
+        "histology": "Clear cell sarcoma",
+        "months": 4.187,
+        "censored": true,
+        "colour_margin_px": 48.7,
+        "bar_end_spread_px": 0,
+        "longest_black_run_px": 47,
+        "row_y": 4711
+      },
+      {
+        "histology": "Undifferentiated pleomorphic sarcoma",
+        "months": 4.109,
+        "censored": false,
+        "colour_margin_px": 53.6,
+        "bar_end_spread_px": 0,
+        "longest_black_run_px": 0,
+        "row_y": 4734
+      },
+      {
+        "histology": "Synovial sarcoma",
+        "months": 3.953,
+        "censored": true,
+        "colour_margin_px": 130.7,
+        "bar_end_spread_px": 3,
+        "longest_black_run_px": 48,
+        "row_y": 4759
+      },
+      {
+        "histology": "Angiosarcoma",
+        "months": 3.9,
+        "censored": false,
+        "colour_margin_px": 129.0,
+        "bar_end_spread_px": 0,
+        "longest_black_run_px": 0,
+        "row_y": 4781
+      },
+      {
+        "histology": "Epithelioid sarcoma",
+        "months": 3.783,
+        "censored": false,
+        "colour_margin_px": 48.1,
+        "bar_end_spread_px": 1,
+        "longest_black_run_px": 0,
+        "row_y": 4806
+      },
+      {
+        "histology": "Epithelioid sarcoma",
+        "months": 3.653,
+        "censored": false,
+        "colour_margin_px": 63.0,
+        "bar_end_spread_px": 1,
+        "longest_black_run_px": 0,
+        "row_y": 4829
+      },
+      {
+        "histology": "Angiosarcoma",
+        "months": 3.653,
+        "censored": false,
+        "colour_margin_px": 124.5,
+        "bar_end_spread_px": 1,
+        "longest_black_run_px": 0,
+        "row_y": 4853
+      },
+      {
+        "histology": "Solitary Fibrous Tumor",
+        "months": 3.523,
+        "censored": false,
+        "colour_margin_px": 157.9,
+        "bar_end_spread_px": 1,
+        "longest_black_run_px": 0,
+        "row_y": 4875
+      },
+      {
+        "histology": "Undifferentiated pleomorphic sarcoma",
+        "months": 3.484,
+        "censored": false,
+        "colour_margin_px": 54.0,
+        "bar_end_spread_px": 0,
+        "longest_black_run_px": 0,
+        "row_y": 4900
+      },
+      {
+        "histology": "Epithelioid sarcoma",
+        "months": 3.315,
+        "censored": false,
+        "colour_margin_px": 47.5,
+        "bar_end_spread_px": 1,
+        "longest_black_run_px": 0,
+        "row_y": 4923
+      },
+      {
+        "histology": "Solitary Fibrous Tumor",
+        "months": 3.263,
+        "censored": false,
+        "colour_margin_px": 166.2,
+        "bar_end_spread_px": 0,
+        "longest_black_run_px": 0,
+        "row_y": 4947
+      },
+      {
+        "histology": "Epithelioid sarcoma",
+        "months": 2.82,
+        "censored": false,
+        "colour_margin_px": 63.0,
+        "bar_end_spread_px": 0,
+        "longest_black_run_px": 0,
+        "row_y": 4971
+      },
+      {
+        "histology": "Synovial sarcoma",
+        "months": 2.82,
+        "censored": false,
+        "colour_margin_px": 103.3,
+        "bar_end_spread_px": 1,
+        "longest_black_run_px": 0,
+        "row_y": 4995
+      },
+      {
+        "histology": "Clear cell sarcoma",
+        "months": 2.105,
+        "censored": false,
+        "colour_margin_px": 63.0,
+        "bar_end_spread_px": 0,
+        "longest_black_run_px": 0,
+        "row_y": 5019
+      },
+      {
+        "histology": "Undifferentiated pleomorphic sarcoma",
+        "months": 1.923,
+        "censored": false,
+        "colour_margin_px": 53.9,
+        "bar_end_spread_px": 1,
+        "longest_black_run_px": 0,
+        "row_y": 5042
+      },
+      {
+        "histology": "Clear cell sarcoma",
+        "months": 1.884,
+        "censored": false,
+        "colour_margin_px": 41.5,
+        "bar_end_spread_px": 0,
+        "longest_black_run_px": 0,
+        "row_y": 5065
+      },
+      {
+        "histology": "Undifferentiated pleomorphic sarcoma",
+        "months": 1.779,
+        "censored": false,
+        "colour_margin_px": 55.9,
+        "bar_end_spread_px": 0,
+        "longest_black_run_px": 0,
+        "row_y": 5089
+      },
+      {
+        "histology": "Undifferentiated pleomorphic sarcoma",
+        "months": 1.61,
+        "censored": false,
+        "colour_margin_px": 49.2,
+        "bar_end_spread_px": 0,
+        "longest_black_run_px": 0,
+        "row_y": 5113
+      },
+      {
+        "histology": "Synovial sarcoma",
+        "months": 1.61,
+        "censored": false,
+        "colour_margin_px": 98.5,
+        "bar_end_spread_px": 0,
+        "longest_black_run_px": 0,
+        "row_y": 5135
+      },
+      {
+        "histology": "Epithelioid sarcoma",
+        "months": 1.311,
+        "censored": false,
+        "colour_margin_px": 48.1,
+        "bar_end_spread_px": 0,
+        "longest_black_run_px": 0,
+        "row_y": 5160
+      },
+      {
+        "histology": "Synovial sarcoma",
+        "months": 1.181,
+        "censored": false,
+        "colour_margin_px": 129.6,
+        "bar_end_spread_px": 0,
+        "longest_black_run_px": 0,
+        "row_y": 5183
+      },
+      {
+        "histology": "Undifferentiated pleomorphic sarcoma",
+        "months": 0.751,
+        "censored": false,
+        "colour_margin_px": 59.1,
+        "bar_end_spread_px": 0,
+        "longest_black_run_px": 0,
+        "row_y": 5207
+      },
+      {
+        "histology": "Epithelioid sarcoma",
+        "months": 0.413,
+        "censored": false,
+        "colour_margin_px": 49.2,
+        "bar_end_spread_px": 0,
+        "longest_black_run_px": 0,
+        "row_y": 5231
+      }
+    ],
+    "subgroup": {
+      "histology": "Extraskeletal myxoid chondrosarcoma",
+      "patients": [
+        {
+          "histology": "Extraskeletal myxoid chondrosarcoma",
+          "months": 19.346,
+          "censored": true,
+          "colour_margin_px": 67.8,
+          "bar_end_spread_px": 0,
+          "longest_black_run_px": 46,
+          "row_y": 4167
+        },
+        {
+          "histology": "Extraskeletal myxoid chondrosarcoma",
+          "months": 16.301,
+          "censored": true,
+          "colour_margin_px": 66.7,
+          "bar_end_spread_px": 2,
+          "longest_black_run_px": 45,
+          "row_y": 4261
+        },
+        {
+          "histology": "Extraskeletal myxoid chondrosarcoma",
+          "months": 15.481,
+          "censored": false,
+          "colour_margin_px": 42.0,
+          "bar_end_spread_px": 34,
+          "longest_black_run_px": 12,
+          "row_y": 4285
+        },
+        {
+          "histology": "Extraskeletal myxoid chondrosarcoma",
+          "months": 11.591,
+          "censored": true,
+          "colour_margin_px": 66.4,
+          "bar_end_spread_px": 1,
+          "longest_black_run_px": 46,
+          "row_y": 4403
+        }
+      ]
+    },
+    "black_run_histogram": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      3,
+      3,
+      12,
+      12,
+      13,
+      45,
+      45,
+      46,
+      46,
+      46,
+      46,
+      46,
+      47,
+      47,
+      47,
+      48,
+      48
+    ],
+    "external_checks": {
+      "bar_count": {
+        "read": 49,
+        "expected": 49,
+        "passes": true
+      },
+      "km_median_months": {
+        "read": 5.553,
+        "expected": 5.6,
+        "tolerance": 0.3,
+        "passes": true
+      },
+      "subgroup_count": {
+        "read": 4,
+        "expected": 4,
+        "passes": true
+      }
+    },
+    "all_external_checks_pass": true,
+    "⚠_checks_not_run": [],
+    "worst_colour_margin_px": 41.5,
+    "worst_bar_end_spread_px": 34,
+    "read_by": "km_digitize.read_swimmer_plot, agent session of 2026-08-25"
+  }
+}

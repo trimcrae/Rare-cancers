@@ -53,8 +53,8 @@ has to infer it, the ways a real figure is harder:
   3. a legend, an annotation or a p-value box drawn ON TOP of the curve;
   4. two curves of the SAME colour separated only by dash pattern (the module refuses this case
      rather than guessing -- see `extract_series`);
-  5. an axis whose calibration points are themselves read by eye, which is upstream of everything
-     here and is not modelled at all.
+  5. an axis anchor GROSSLY misidentified. The +/- 1 pixel case IS modelled, as its own
+     scenario, and it is the arm that produces the largest error in the whole sweep.
 
 The degradations that ARE modelled -- line width, gridlines, censor ticks, a shaded confidence
 band, a second overlapping curve, resampling, additive noise, dashes, and JPEG when available --
@@ -114,9 +114,24 @@ class Image:
         return Image(self.width, self.height, [row[:] for row in self.px])
 
 
-_PAETH = lambda a, b, c: (  # noqa: E731 -- kept as one expression to stay next to the spec
-    a if abs(b - c) >= abs(a - c) <= abs(a - b) else (b if abs(a - c) >= abs(b - c) else c)
-)
+def _paeth(a: int, b: int, c: int) -> int:
+    """The PNG Paeth predictor, RFC 2083 s6.6, written out rather than compressed into one line.
+
+    ⛔ THIS WAS WRONG FOR ITS FIRST HOUR AND THE ROUND-TRIP TEST DID NOT NOTICE, because this
+    module's own encoder emits filter type 0 only -- so encode-then-decode never exercised filters
+    1-4 at all. The defect surfaced the moment a real PNG written by another encoder (adaptive
+    filtering) was decoded: 217 of 702 sampled pixels came back wrong, and the curve reader saw
+    text where a curve was. A round-trip against your own encoder tests the pair, not the decoder.
+    `test_decode_matches_a_known_raster_under_every_filter_type` now builds the same raster under
+    each filter type explicitly.
+    """
+    p = a + b - c
+    pa, pb, pc = abs(p - a), abs(p - b), abs(p - c)
+    if pa <= pb and pa <= pc:
+        return a
+    if pb <= pc:
+        return b
+    return c
 
 
 def _unfilter(raw: bytes, width: int, height: int, bpp: int, stride: int) -> bytearray:
@@ -149,7 +164,7 @@ def _unfilter(raw: bytes, width: int, height: int, bpp: int, stride: int) -> byt
                 a = line[i - bpp] if i >= bpp else 0
                 b = out[prev + i] if y else 0
                 c = out[prev + i - bpp] if (y and i >= bpp) else 0
-                line[i] = (line[i] + _PAETH(a, b, c)) & 0xFF
+                line[i] = (line[i] + _paeth(a, b, c)) & 0xFF
         else:
             raise ValueError(f"unknown PNG filter type {ft} on scanline {y}")
         out[base:base + stride] = line
@@ -421,12 +436,25 @@ def extract_series(img: Image, calib: Calibration, matcher, *,
                 "diagnostics": {"n_columns": len(cols), "n_populated": populated,
                                 "est_line_width_px": lw, "disjoint_columns": disjoint}}
 
+    # --- trim the empty margin BEFORE testing for occlusion --------------------------------------
+    # ⭐ A CURVE RARELY SPANS ITS BOX. A published figure's axis usually starts before the curve
+    # does and ends after it, so the first and last stretches of the window are legitimately empty.
+    # Counting those as an occlusion made the reader refuse a real, unoccluded figure twice in a
+    # row on nothing but the box's margins -- and the fix must NOT be to widen `max_gap_columns`,
+    # which would blind the guard to the thing it exists for. Leading and trailing emptiness is
+    # trimmed and REPORTED; only an interior gap is an occlusion.
+    first = next((i for i, ys in enumerate(cols) if ys), None)
+    last = next((i for i in range(len(cols) - 1, -1, -1) if cols[i]), None)
+    leading, trailing = first, len(cols) - 1 - last
+    scan = list(range(first, last + 1))
+
     # --- per-column value -----------------------------------------------------------------------
     vals: list[tuple[int, float]] = []
     gap_run = longest_gap = 0
     fixes = 0
     prev_v = None
-    for i, ys in enumerate(cols):
+    for i in scan:
+        ys = cols[i]
         x = x0 + i
         if not ys:
             gap_run += 1
@@ -488,13 +516,16 @@ def extract_series(img: Image, calib: Calibration, matcher, *,
                                 "est_line_width_px": lw,
                                 "survival_at_first_read_column": s_at_start,
                                 "monotonicity_fixes": fixes}}
-    if pts and pts[0][0] > calib.x_val[0]:
-        pts.insert(0, [float(calib.x_val[0]), pts[0][1]])
+    curve_starts_at = calib.t(x0 + first)
+    if pts and pts[0][0] > curve_starts_at:
+        pts.insert(0, [round(curve_starts_at, 6), pts[0][1]])
 
     return {"ok": True, "series_label": series_label, "digitized": pts,
             "diagnostics": {
                 "n_columns": len(cols), "n_populated": populated,
                 "n_columns_no_pixel": len(cols) - populated,
+                "leading_empty_columns": leading,
+                "trailing_empty_columns": trailing,
                 "longest_gap_columns": longest_gap,
                 "est_line_width_px": lw,
                 "monotonicity_fixes": fixes,
@@ -707,9 +738,390 @@ def jpeg_roundtrip(img: Image, quality: int) -> Image | None:
     pil.save(buf, format="JPEG", quality=quality)
     buf.seek(0)
     back = PILImage.open(buf).convert("RGB")
-    data = list(back.getdata())
+    data = list(back.get_flattened_data() if hasattr(back, "get_flattened_data")
+                else back.getdata())
     px = [data[y * img.width:(y + 1) * img.width] for y in range(img.height)]
     return Image(img.width, img.height, [[tuple(p) for p in row] for row in px])
+
+
+# ---------------------------------------------------------------------------
+# REAL FIGURES -- the recipes, and the readings they produce
+# ---------------------------------------------------------------------------
+FIGURES_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "figures")
+READINGS_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                            "km-figure-readings.json")
+SWIMMER_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                           "km-swimmer-readings.json")
+
+# ⛔ A RECIPE IS THE ONLY WAY A COORDINATE MAY ENTER THIS PROGRAM. `emc_ipd_survival.CURVES` stays
+# empty forever and a test enforces it; digitized coordinates arrive from `km-figure-readings.json`
+# and nowhere else, so no number reaches a clinical claim without a re-runnable derivation behind
+# it. Every field below is a READING OF THE IMAGE that a person made by eye and that the machine
+# cannot check -- which is exactly why each is written down instead of chosen inside a function.
+FIGURE_RECIPES = [
+    {
+        "id": "stacchiotti2013_pfs_anthracycline",
+        "source_id": "stacchiotti2013anthracycline",
+        "image": "stacchiotti2013-csr-3-16-fig2.png",
+        "figure": "Figure 2",
+        "endpoint": "pfs",
+        "population": "NR4A3-confirmed extraskeletal myxoid chondrosarcoma treated with "
+                      "anthracycline-based chemotherapy",
+        "time_unit": "months",
+        "⚠_time_unit_is_inferred": "The figure's x axis is labelled 'Time' with no unit. MONTHS is "
+                                   "taken from the caption's 'Median PFS 8 months' together with "
+                                   "the reconstruction reproducing a median at 8 on that axis. "
+                                   "That is an inference from two independent statements in the "
+                                   "paper, not a label the figure carries.",
+        # axis anchors, in pixels of the committed image
+        "x_pix": [742.5, 1875.5], "x_val": [4.0, 10.0],
+        "y_pix": [1123.6, 188.0], "y_val": [0.0, 1.0],
+        "box": [335, 150, 1930, 1140],
+        "pixel_uncertainty_px": 1.5,
+        "curve_rgb": [33, 33, 144], "color_tol": 90,
+        "risk_table_printed": [[2, 10], [4, 7], [6, 5], [8, 1], [10, 0]],
+        "risk_table_anchored": [[1.99, 11], [4, 7], [6, 5], [8, 1], [10, 0]],
+        "⭐_why_two_risk_tables": (
+            "The figure's time axis STARTS AT 2 and the first event happens there, so the printed "
+            "'10 at t=2' is a POST-event count while Guyot's recursion needs the number at risk "
+            "when the curve is still at S=1. Taken verbatim the reconstruction misses the floor "
+            "and returns a median that contradicts the paper's own caption. Anchored at N=11 "
+            "immediately before t=2 it clears the floor and reproduces the caption exactly. "
+            "⛔ BOTH ARE REPORTED. The anchored one is preferred on three independent corroborations "
+            "-- the registry records n=11 for this series, the curve's first step is exactly 10/11, "
+            "and the reconstructed median lands on the printed one -- and the verbatim one is kept "
+            "because a printed number is never silently overwritten."),
+        "external_check": {
+            "quantity": "median progression-free survival",
+            "printed_value": 8.0,
+            "printed_where": "Figure 2 caption: 'Median PFS 8 months.'",
+            "tolerance": 0.5,
+            "⭐": "This is the ONLY check in this program that tests the READING rather than the "
+                  "arithmetic: the paper states a number the reconstruction must land on, and the "
+                  "reconstruction never sees it."},
+        "digitized_by": "km_digitize.extract_series over the committed 600-dpi crop; axis anchors, "
+                        "curve colour and the numbers-at-risk row read from the image by the agent "
+                        "session of 2026-08-25 and recorded in FIGURE_RECIPES",
+    },
+]
+
+
+def read_figure(recipe: dict, images_dir: str | None = None) -> dict:
+    """Digitize one real published figure from its recipe, and reconstruct under every anchoring."""
+    path = os.path.join(images_dir or FIGURES_DIR, recipe["image"])
+    out = {"id": recipe["id"], "source_id": recipe["source_id"], "image": recipe["image"],
+           "figure": recipe["figure"], "endpoint": recipe["endpoint"]}
+    if not os.path.exists(path):
+        out["⛔"] = f"image not committed at {path}; the reading cannot be re-run here"
+        return out
+    img = read_png(path)
+    calib = Calibration(x_pix=tuple(recipe["x_pix"]), x_val=tuple(recipe["x_val"]),
+                        y_pix=tuple(recipe["y_pix"]), y_val=tuple(recipe["y_val"]),
+                        box=tuple(recipe["box"]),
+                        pixel_uncertainty_px=recipe["pixel_uncertainty_px"])
+    read = extract_series(img, calib, color_matcher(tuple(recipe["curve_rgb"]),
+                                                    tol=recipe["color_tol"]),
+                          series_label=recipe["id"])
+    out["read_ok"] = read["ok"]
+    out["refusal"] = read.get("refusal")
+    out["diagnostics"] = read.get("diagnostics")
+    out["digitized"] = read.get("digitized")
+    if not read["ok"]:
+        return out
+
+    out["reconstructions"] = {}
+    for key in ("risk_table_printed", "risk_table_anchored"):
+        curve = {"id": f"{recipe['id']}::{key}", "source_id": recipe["source_id"],
+                 "endpoint": recipe["endpoint"], "population": recipe["population"],
+                 "time_unit": recipe["time_unit"], "digitized": read["digitized"],
+                 "risk_table": recipe[key], "total_events": None,
+                 "digitized_by": recipe["digitized_by"]}
+        try:
+            rec = ipd_mod.reconstruct(curve)
+            q = ipd_mod.assess_quality(curve, rec)
+            med = ipd_mod._median_survival(ipd_mod.kaplan_meier(rec["ipd"]))
+            chk = recipe.get("external_check") or {}
+            out["reconstructions"][key] = {
+                "n_reconstructed": rec["n_reconstructed"], "n_events": rec["n_events"],
+                "n_censored": rec["n_censored"],
+                "max_abs_km_deviation": rec["max_abs_km_deviation"],
+                "admissible": q["admissible"], "failures": q["failures"],
+                "median": med,
+                "external_check_passes": (
+                    med is not None and chk.get("printed_value") is not None
+                    and abs(med - chk["printed_value"]) <= chk.get("tolerance", 0.5)),
+                "ipd": rec["ipd"],
+            }
+        except Exception as exc:  # noqa: BLE001
+            out["reconstructions"][key] = {"error": f"{type(exc).__name__}: {exc}"}
+    return out
+
+
+def build_readings() -> dict:
+    readings = [read_figure(r) for r in FIGURE_RECIPES]
+    return {
+        "_what": "Kaplan-Meier curves READ OFF published figures, and the patient-level data each "
+                 "one reconstructs to.",
+        "_not_medical_advice": "Nothing here is medical advice, and nothing here asserts efficacy, "
+                               "safety or clinical readiness. Every number below is a re-expression "
+                               "of an already-published figure, never a new patient and never new "
+                               "follow-up.",
+        "⛔_provenance": "Coordinates enter this program HERE and nowhere else. "
+                         "emc_ipd_survival.CURVES is empty and a test keeps it empty; every recipe "
+                         "names the committed image, the axis anchors read by eye, and who read "
+                         "them. A reading whose image is not committed is reported as unre-runnable "
+                         "rather than trusted.",
+        "⚠_digitization_error": "Bounded by km-digitization-error.json against synthetic renders, "
+                                 "which bounds it FROM BELOW. The per-figure evidence that a "
+                                 "reading is right is `external_check_passes`: a number the paper "
+                                 "printed and the reconstruction never saw.",
+        "recipes": FIGURE_RECIPES,
+        "readings": readings,
+    }
+
+
+# ---------------------------------------------------------------------------
+# SWIMMER PLOTS -- patient-level data printed as pixels, with no curve to invert
+# ---------------------------------------------------------------------------
+# ⭐ WHY THIS IS A SEPARATE INSTRUMENT AND WHY IT IS THE BETTER ONE WHEN IT APPLIES.
+# A Kaplan-Meier curve is an AGGREGATE that Guyot's algorithm inverts back into patients, and the
+# inversion needs a numbers-at-risk table that most EMC figures do not print. A swimmer plot skips
+# the whole problem: one bar IS one patient, its length IS that patient's time, and an arrow at its
+# end IS a censoring. There is nothing to invert and no risk table to require -- so a figure this
+# program would otherwise refuse can carry MORE information than one it would accept.
+#
+# ⛔ WHAT IT COSTS INSTEAD IS COLOUR. In a mixed-histology trial the subgroup is identified only by
+# the bar's colour against a legend, and two of the eight colours in the figure below are both
+# blue. `colour_margin_px` is the distance to the SECOND-nearest legend colour, and a bar whose
+# margin is small is refused rather than assigned.
+SWIMMER_RECIPES = [
+    {
+        "id": "martinbroto2020_immunosarc_phase2_pfs",
+        "source_id": "martinbroto2020immunosarc1",
+        "figure": "Figure 3",
+        "endpoint": "pfs",
+        "population": "the 49-patient phase II analysis population of a nivolumab + sunitinib "
+                      "trial in advanced soft-tissue sarcoma (the trial's own term for this set "
+                      "is its efficacy population; nothing here asserts efficacy); the extraskeletal myxoid chondrosarcoma patients are "
+                      "a colour-identified subgroup, NOT a pre-specified stratum",
+        "time_unit": "months",
+        # ⛔ THE IMAGE IS NOT COMMITTED, AND THE REASON IS A LICENCE, NOT AN OVERSIGHT.
+        # J Immunother Cancer publishes under CC BY-NC 4.0. This repository is Apache-2.0, which
+        # promises permissive reuse of everything in it, and a non-commercial asset would quietly
+        # break that promise for anyone who forks it. So the figure stays out and the RECIPE goes
+        # in: anyone can regenerate the exact raster from the URL, page, dpi and crop below.
+        # ⚠ The reading is therefore NOT re-runnable from a bare checkout, and the artifact says so.
+        "image_committed": False,
+        "image_licence": "CC BY-NC 4.0 — non-commercial reuse only, which is why it is not here",
+        "regenerate": {
+            "pdf_url": "https://europepmc.org/articles/PMC7674086?pdf=render",
+            "page": 6, "dpi": 600,
+            "note": "pdftoppm -r 600 -f 6 -l 6 -png; the figure occupies the lower right of the page",
+        },
+        "x_zero_px": 2629.25,
+        "px_per_month": 384.25 / 5.0,
+        "x_calibration_from": "the light-grey vertical gridlines at 5/10/15/20/25 months, found at "
+                              "x = 3013.5, 3397.5, 3781.5, 4166.5, 4550.5 (spacing 384.25 px per 5 "
+                              "months). Extrapolating one spacing left of the first gridline gives "
+                              "x = 2629.25 for month 0, which lands on the measured left edge of "
+                              "every bar (2629-2631) — the calibration and the drawing agree "
+                              "without either being fitted to the other.",
+        "scan_box": [2600, 4050, 4750, 5300],
+        "bridge_px": 14,
+        "⚠_bridge": "The dashed median line and the grey gridlines cross every bar, so a naive "
+                    "left-to-right walk stops at the first dash and reports the MEDIAN as the "
+                    "length of every long bar. Measured before the bridge was added: 12 of 49 bars "
+                    "returned 5.61-5.63 months, which is the dashed line's position, not a datum.",
+        "arrow_min_run_px": 15,
+        "⚠_arrow_threshold": "An arrow is a long HORIZONTAL black run at the bar's end; the dashed "
+                             "median line is a 3-px vertical dash. Measured runs cluster at 0, 3, "
+                             "12-13 and 45-48 px, so 15 sits inside an empty band rather than "
+                             "being tuned. The 12-13 cluster is the dark star glyph marking a "
+                             "RECIST response, which is not a censoring.",
+        "palette": {
+            "Undifferentiated pleomorphic sarcoma": [112, 48, 160],
+            "Extraskeletal myxoid chondrosarcoma": [47, 85, 151],
+            "Alveolar soft-part sarcoma": [146, 208, 80],
+            "Solitary Fibrous Tumor": [252, 118, 232],
+            "Epithelioid sarcoma": [255, 192, 0],
+            "Clear cell sarcoma": [255, 255, 0],
+            "Synovial sarcoma": [0, 176, 240],
+            "Angiosarcoma": [255, 0, 0],
+        },
+        "subgroup_of_interest": "Extraskeletal myxoid chondrosarcoma",
+        "external_checks": {
+            "bar_count": {"expected": 49, "printed_where": "Figure 3 caption, 'bars (n=49)'"},
+            "km_median_months": {"expected": 5.6, "tolerance": 0.3,
+                                 "printed_where": "Figure 3 caption, 'median progression-free "
+                                                  "survival (5.6 months)'"},
+            "subgroup_count": {"expected": 4,
+                               "printed_where": "Table 1, 'Extraskeletal myxoid chondrosarcoma "
+                                                "0 / 4 (7)' — phase Ib / phase II"},
+        },
+        "read_by": "km_digitize.read_swimmer_plot, agent session of 2026-08-25",
+    },
+]
+
+
+def render_swimmer(bars: list[dict], palette: dict, *, x_zero: int = 120,
+                   px_per_month: float = 30.0, t_max: float = 25.0,
+                   bar_h: int = 12, gap: int = 6, median_line_at: float | None = None,
+                   gridlines_every: float = 5.0) -> Image:
+    """Draw a swimmer plot whose patients are known exactly. CONTROL ONLY -- never a data source.
+
+    It deliberately reproduces the two things that broke the reader on a real figure: a dashed
+    vertical median line and light gridlines crossing every bar, and a short dark glyph (the
+    response star) that must NOT be read as a censoring arrow.
+    """
+    width = int(x_zero + t_max * px_per_month + 140)
+    height = 40 + len(bars) * (bar_h + gap) + 40
+    img = Image.blank(width, height)
+    if gridlines_every:
+        g = gridlines_every
+        while g <= t_max + 1e-9:
+            _vline(img, x_zero + g * px_per_month, 20, height - 30, (215, 215, 215))
+            g += gridlines_every
+    y = 30
+    for b in bars:
+        rgb = palette[b["histology"]]
+        xe = int(round(x_zero + b["months"] * px_per_month))
+        for yy in range(y, y + bar_h):
+            for x in range(x_zero, xe + 1):
+                img.px[yy][x] = rgb
+        mid = y + bar_h // 2
+        if b.get("censored"):
+            _hline(img, mid, xe + 6, xe + 46, (0, 0, 0), 4)      # the arrow
+        if b.get("responded"):
+            _hline(img, mid, xe + 55, xe + 66, (20, 20, 60), 5)  # the star glyph, short and dark
+        y += bar_h + gap
+    if median_line_at is not None:
+        x = int(round(x_zero + median_line_at * px_per_month))
+        yy = 20
+        while yy < height - 30:
+            _vline(img, x, yy, min(yy + 9, height - 30), (0, 0, 0), 3)
+            yy += 16
+    return img
+
+
+def _check_count(read, spec):
+    """⛔ A CHECK WITH NO EXPECTED VALUE IS `null`, NEVER `true`. An absent expectation is an
+    unasked question, and rendering it as a pass is how a control that never ran reads as one
+    that did (CLAUDE.md s4)."""
+    exp = (spec or {}).get("expected")
+    return {"read": read, "expected": exp, "passes": None if exp is None else read == exp}
+
+
+def _check_number(read, spec):
+    exp = (spec or {}).get("expected")
+    if exp is None or read is None:
+        return {"read": read, "expected": exp, "passes": None}
+    return {"read": read, "expected": exp,
+            "tolerance": (spec or {}).get("tolerance", 0.3),
+            "passes": abs(read - exp) <= (spec or {}).get("tolerance", 0.3)}
+
+
+def read_swimmer_plot(recipe: dict, image_path: str) -> dict:
+    """One bar per patient: length is the time, colour is the subgroup, an arrow is a censoring."""
+    img = read_png(image_path)
+    pal = {k: tuple(v) for k, v in recipe["palette"].items()}
+    x0, y0, x1, y1 = recipe["scan_box"]
+    xz, ppm = recipe["x_zero_px"], recipe["px_per_month"]
+    bridge, arrow_min = recipe["bridge_px"], recipe["arrow_min_run_px"]
+
+    def dist(p, c):
+        return math.sqrt(sum((a - b) ** 2 for a, b in zip(p, c)))
+
+    def nearest(p):
+        ranked = sorted((dist(p, c), n) for n, c in pal.items())
+        return ranked[0], ranked[1]
+
+    def is_black(p):
+        return max(p) < 90
+
+    rows = []
+    probe = int(xz) + 5
+    for y in range(y0, y1):
+        (d0, n0), (d1, _n1) = nearest(img.px[y][probe])
+        if d0 > 45 or (d1 - d0) < 40:
+            continue
+        c = pal[n0]
+        x, last = probe, probe
+        while x < x1:
+            if dist(img.px[y][x], c) <= 60:
+                last = x
+                x += 1
+            elif x - last <= bridge:
+                x += 1
+            else:
+                break
+        rows.append((y, n0, last, d1 - d0))
+
+    bars, cur = [], None
+    for y, n, xe, margin in rows:
+        if cur and cur["name"] == n and y == cur["y1"] + 1:
+            cur["y1"] = y
+            cur["ends"].append(xe)
+            cur["margins"].append(margin)
+        else:
+            if cur:
+                bars.append(cur)
+            cur = {"name": n, "y0": y, "y1": y, "ends": [xe], "margins": [margin]}
+    if cur:
+        bars.append(cur)
+    bars = [b for b in bars if b["y1"] - b["y0"] >= 8]
+
+    patients, runs_seen = [], []
+    for b in bars:
+        ends = sorted(b["ends"])
+        xe = ends[len(ends) // 2]
+        best = 0
+        for y in range(b["y0"], b["y1"] + 1):
+            run = 0
+            for x in range(xe + 2, min(x1, xe + 90)):
+                if is_black(img.px[y][x]):
+                    run += 1
+                    best = max(best, run)
+                else:
+                    run = 0
+        runs_seen.append(best)
+        patients.append({
+            "histology": b["name"],
+            "months": round((xe - xz) / ppm, 3),
+            "censored": best >= arrow_min,
+            "colour_margin_px": round(min(b["margins"]), 1),
+            "bar_end_spread_px": ends[-1] - ends[0],
+            "longest_black_run_px": best,
+            "row_y": b["y0"],
+        })
+
+    checks = recipe.get("external_checks", {})
+    cohort = [{"time": p["months"], "event": 0 if p["censored"] else 1} for p in patients]
+    km_median = ipd_mod._median_survival(ipd_mod.kaplan_meier(cohort)) if cohort else None
+    sub = recipe.get("subgroup_of_interest")
+    subgroup = [p for p in patients if p["histology"] == sub]
+    results = {
+        "bar_count": _check_count(len(patients), checks.get("bar_count")),
+        "km_median_months": _check_number(km_median, checks.get("km_median_months")),
+        "subgroup_count": _check_count(len(subgroup), checks.get("subgroup_count")),
+    }
+    return {
+        "id": recipe["id"], "source_id": recipe["source_id"], "figure": recipe["figure"],
+        "endpoint": recipe["endpoint"], "time_unit": recipe["time_unit"],
+        "n_patients": len(patients),
+        "n_events": sum(1 for p in patients if not p["censored"]),
+        "n_censored": sum(1 for p in patients if p["censored"]),
+        "patients": patients,
+        "subgroup": {"histology": sub, "patients": subgroup},
+        "black_run_histogram": sorted(runs_seen),
+        "external_checks": results,
+        "all_external_checks_pass": (
+            all(v["passes"] for v in results.values())
+            if all(v["passes"] is not None for v in results.values()) else None),
+        "⚠_checks_not_run": [k for k, v in results.items() if v["passes"] is None],
+        "worst_colour_margin_px": min((p["colour_margin_px"] for p in patients), default=None),
+        "worst_bar_end_spread_px": max((p["bar_end_spread_px"] for p in patients), default=None),
+        "read_by": recipe["read_by"],
+    }
 
 
 # ---------------------------------------------------------------------------
@@ -1025,9 +1437,44 @@ def run_control() -> dict:
         results.append(row)
 
     graded = [r for r in results if r.get("read_ok") and r.get("arm") != "diagnostic"]
+    by_name = {r["scenario"]: r for r in results}
+    finding = None
+    base, shifted = by_name.get("clean"), by_name.get("axis_anchor_off_by_one")
+    if base and shifted and base.get("read_ok") and shifted.get("read_ok"):
+        finding = {
+            "claim_under_test": (
+                "emc_ipd_survival.py states: 'Digitization error is bounded separately, by "
+                "max_abs_km_deviation on each real curve.'"),
+            "⛔_verdict": "IT IS NOT. max_abs_km_deviation compares the reconstruction to the "
+                          "DIGITIZED curve, not to the true one, so a digitizing error that moves "
+                          "the input moves both sides of that comparison together.",
+            "the_discriminating_pair": {
+                "clean": {
+                    "true_error_vs_the_cohort": base["max_abs_curve_error"],
+                    "internal_max_abs_km_deviation":
+                        base["reconstruction"]["internal_max_abs_km_deviation"]},
+                "axis_anchor_off_by_one": {
+                    "true_error_vs_the_cohort": shifted["max_abs_curve_error"],
+                    "internal_max_abs_km_deviation":
+                        shifted["reconstruction"]["internal_max_abs_km_deviation"]}},
+            "⭐_the_two_moved_in_OPPOSITE_directions": (
+                shifted["max_abs_curve_error"] > base["max_abs_curve_error"]
+                and shifted["reconstruction"]["internal_max_abs_km_deviation"]
+                <= base["reconstruction"]["internal_max_abs_km_deviation"]),
+            "what_it_DOES_catch": (
+                "a reading so wrong that no cohort could have produced it: the deliberately "
+                "mis-tuned matcher arm drove the internal deviation to ~1.0 and the floor refused "
+                "it. The blindness is to a MODERATE or SYSTEMATIC error, which is the realistic one."),
+            "consequence": (
+                "A curve admitted on max_abs_km_deviation alone has had its ALGORITHMIC "
+                "self-consistency checked and its READING checked by nothing. The reading needs "
+                "its own evidence -- an independent re-digitization, or the paper's own printed "
+                "medians and n-at-risk reproduced from the reconstructed cohort."),
+        }
     worst = max((r["max_abs_curve_error"] for r in graded), default=None)
     return {
         "truth": truth,
+        "finding": finding,
         "cohort_size_sensitivity": cohort_size_sensitivity(),
         "exact_coordinates_baseline": baseline,
         "scenarios": results,
@@ -1079,6 +1526,7 @@ def build() -> dict:
             "that excludes the axis row -- which it must, or the axis reads as a curve at S = 0 "
             "across the full width -- cannot see it. Read that tail by hand.",
         ],
+        "⛔_defect_found_in_the_instrument_this_feeds": control.get("finding"),
         "method_ref": ipd_mod.METHOD_REF,
         "control": control,
     }
@@ -1097,6 +1545,21 @@ def check() -> int:
         print(json.dumps(on_disk.get("control", {}).get("summary"), indent=2), file=sys.stderr)
         print(json.dumps(fresh["control"]["summary"], indent=2), file=sys.stderr)
         return 1
+    if os.path.exists(READINGS_OUT):
+        with open(READINGS_OUT, encoding="utf-8") as fh:
+            readings_on_disk = json.load(fh)
+        fresh_readings = build_readings()
+
+        def _summary(doc):
+            return [{"id": r["id"], "read_ok": r.get("read_ok"),
+                     "digitized": r.get("digitized"),
+                     "recons": {k: {kk: vv for kk, vv in v.items() if kk != "ipd"}
+                                for k, v in (r.get("reconstructions") or {}).items()}}
+                    for r in doc.get("readings", [])]
+
+        if _summary(readings_on_disk) != _summary(fresh_readings):
+            print("MISMATCH: committed figure readings differ from a fresh run", file=sys.stderr)
+            return 1
     print("km_digitize --check OK")
     return 0
 
@@ -1105,11 +1568,60 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--control", action="store_true",
                     help="run the degradation sweep and write the artifact")
+    ap.add_argument("--figures", action="store_true",
+                    help="read the real published figures in FIGURE_RECIPES and write "
+                         "km-figure-readings.json")
+    ap.add_argument("--swimmer", metavar="IMAGE",
+                    help="read the swimmer plot in SWIMMER_RECIPES[0] from IMAGE and write "
+                         "km-swimmer-readings.json. The image is NOT committed (CC BY-NC); the "
+                         "recipe says how to regenerate it.")
     ap.add_argument("--check", action="store_true",
-                    help="verify the committed artifact against a fresh run")
+                    help="verify the committed artifacts against a fresh run")
     args = ap.parse_args(argv)
     if args.check:
         return check()
+    if args.swimmer:
+        recipe = SWIMMER_RECIPES[0]
+        reading = read_swimmer_plot(recipe, args.swimmer)
+        art = {
+            "_what": "Patient-level progression-free survival read off a SWIMMER PLOT, where each "
+                     "bar is one patient and no Kaplan-Meier inversion is involved.",
+            "_not_medical_advice": "Nothing here is medical advice, and nothing here asserts "
+                                   "efficacy, safety or clinical readiness. These are "
+                                   "re-expressions of an already-published figure.",
+            "⛔_not_re_runnable_from_a_bare_checkout": (
+                "The source figure is CC BY-NC 4.0 and this repository is Apache-2.0, so the image "
+                "is not committed. `regenerate` in the recipe names the URL, page and dpi that "
+                "reproduce the exact raster. Until someone does that, the numbers below rest on "
+                "the three external checks rather than on a re-run."),
+            "⛔_claim_ceiling": (
+                "FOUR patients, identified by BAR COLOUR inside a mixed-histology trial, in a "
+                "subgroup the paper did not analyse and did not pre-specify. This supports a "
+                "statement about what those four patients' figures show and NOTHING about "
+                "efficacy, about extraskeletal myxoid chondrosarcoma as a population, or about "
+                "any comparison between histologies."),
+            "recipe": recipe,
+            "reading": reading,
+        }
+        with open(SWIMMER_OUT, "w", encoding="utf-8") as fh:
+            json.dump(art, fh, indent=2, ensure_ascii=False)
+        print(json.dumps(reading["external_checks"], indent=2))
+        print(f"subgroup: {reading['subgroup']['histology']} -> "
+              f"{[(p['months'], 'censored' if p['censored'] else 'event') for p in reading['subgroup']['patients']]}")
+        print(f"wrote {SWIMMER_OUT}")
+        return 0
+    if args.figures:
+        art = build_readings()
+        with open(READINGS_OUT, "w", encoding="utf-8") as fh:
+            json.dump(art, fh, indent=2, ensure_ascii=False)
+        for r in art["readings"]:
+            recs = r.get("reconstructions") or {}
+            print(f"{r['id']}: read_ok={r.get('read_ok')} " + " ".join(
+                f"[{k}: n={v.get('n_reconstructed')} dev={v.get('max_abs_km_deviation')} "
+                f"admissible={v.get('admissible')} median={v.get('median')} "
+                f"external_check={v.get('external_check_passes')}]" for k, v in recs.items()))
+        print(f"wrote {READINGS_OUT}")
+        return 0
     art = build()
     with open(OUT, "w", encoding="utf-8") as fh:
         json.dump(art, fh, indent=2, ensure_ascii=False)

@@ -1,0 +1,305 @@
+{
+  "_what": "Kaplan-Meier curves READ OFF published figures, and the patient-level data each one reconstructs to.",
+  "_not_medical_advice": "Nothing here is medical advice, and nothing here asserts efficacy, safety or clinical readiness. Every number below is a re-expression of an already-published figure, never a new patient and never new follow-up.",
+  "⛔_provenance": "Coordinates enter this program HERE and nowhere else. emc_ipd_survival.CURVES is empty and a test keeps it empty; every recipe names the committed image, the axis anchors read by eye, and who read them. A reading whose image is not committed is reported as unre-runnable rather than trusted.",
+  "⚠_digitization_error": "Bounded by km-digitization-error.json against synthetic renders, which bounds it FROM BELOW. The per-figure evidence that a reading is right is `external_check_passes`: a number the paper printed and the reconstruction never saw.",
+  "recipes": [
+    {
+      "id": "stacchiotti2013_pfs_anthracycline",
+      "source_id": "stacchiotti2013anthracycline",
+      "image": "stacchiotti2013-csr-3-16-fig2.png",
+      "figure": "Figure 2",
+      "endpoint": "pfs",
+      "population": "NR4A3-confirmed extraskeletal myxoid chondrosarcoma treated with anthracycline-based chemotherapy",
+      "time_unit": "months",
+      "⚠_time_unit_is_inferred": "The figure's x axis is labelled 'Time' with no unit. MONTHS is taken from the caption's 'Median PFS 8 months' together with the reconstruction reproducing a median at 8 on that axis. That is an inference from two independent statements in the paper, not a label the figure carries.",
+      "x_pix": [
+        742.5,
+        1875.5
+      ],
+      "x_val": [
+        4.0,
+        10.0
+      ],
+      "y_pix": [
+        1123.6,
+        188.0
+      ],
+      "y_val": [
+        0.0,
+        1.0
+      ],
+      "box": [
+        335,
+        150,
+        1930,
+        1140
+      ],
+      "pixel_uncertainty_px": 1.5,
+      "curve_rgb": [
+        33,
+        33,
+        144
+      ],
+      "color_tol": 90,
+      "risk_table_printed": [
+        [
+          2,
+          10
+        ],
+        [
+          4,
+          7
+        ],
+        [
+          6,
+          5
+        ],
+        [
+          8,
+          1
+        ],
+        [
+          10,
+          0
+        ]
+      ],
+      "risk_table_anchored": [
+        [
+          1.99,
+          11
+        ],
+        [
+          4,
+          7
+        ],
+        [
+          6,
+          5
+        ],
+        [
+          8,
+          1
+        ],
+        [
+          10,
+          0
+        ]
+      ],
+      "⭐_why_two_risk_tables": "The figure's time axis STARTS AT 2 and the first event happens there, so the printed '10 at t=2' is a POST-event count while Guyot's recursion needs the number at risk when the curve is still at S=1. Taken verbatim the reconstruction misses the floor and returns a median that contradicts the paper's own caption. Anchored at N=11 immediately before t=2 it clears the floor and reproduces the caption exactly. ⛔ BOTH ARE REPORTED. The anchored one is preferred on three independent corroborations -- the registry records n=11 for this series, the curve's first step is exactly 10/11, and the reconstructed median lands on the printed one -- and the verbatim one is kept because a printed number is never silently overwritten.",
+      "external_check": {
+        "quantity": "median progression-free survival",
+        "printed_value": 8.0,
+        "printed_where": "Figure 2 caption: 'Median PFS 8 months.'",
+        "tolerance": 0.5,
+        "⭐": "This is the ONLY check in this program that tests the READING rather than the arithmetic: the paper states a number the reconstruction must land on, and the reconstruction never sees it."
+      },
+      "digitized_by": "km_digitize.extract_series over the committed 600-dpi crop; axis anchors, curve colour and the numbers-at-risk row read from the image by the agent session of 2026-08-25 and recorded in FIGURE_RECIPES"
+    }
+  ],
+  "readings": [
+    {
+      "id": "stacchiotti2013_pfs_anthracycline",
+      "source_id": "stacchiotti2013anthracycline",
+      "image": "stacchiotti2013-csr-3-16-fig2.png",
+      "figure": "Figure 2",
+      "endpoint": "pfs",
+      "read_ok": true,
+      "refusal": null,
+      "diagnostics": {
+        "n_columns": 1596,
+        "n_populated": 1512,
+        "n_columns_no_pixel": 84,
+        "leading_empty_columns": 29,
+        "trailing_empty_columns": 55,
+        "longest_gap_columns": 0,
+        "est_line_width_px": 6.0,
+        "monotonicity_fixes": 3,
+        "survival_at_first_read_column": 0.99519,
+        "step_points": 15,
+        "axis": {
+          "time_units_per_pixel": 0.00529567519858782,
+          "survival_per_pixel": 0.0010688328345446773,
+          "pixel_uncertainty_px": 1.5,
+          "systematic_time_shift_bound": 0.007943512797881731,
+          "systematic_survival_shift_bound": 0.001603249251817016,
+          "⚠": "A SYSTEMATIC offset, not noise: it moves every point of the curve the same way, so averaging over points does not reduce it and a tight scatter does not detect it."
+        }
+      },
+      "digitized": [
+        [
+          1.995587,
+          0.99519
+        ],
+        [
+          1.995587,
+          0.99519
+        ],
+        [
+          2.000883,
+          0.909684
+        ],
+        [
+          2.980583,
+          0.909149
+        ],
+        [
+          2.985878,
+          0.818833
+        ],
+        [
+          3.981465,
+          0.817764
+        ],
+        [
+          3.986761,
+          0.727982
+        ],
+        [
+          4.018535,
+          0.726913
+        ],
+        [
+          4.982348,
+          0.726379
+        ],
+        [
+          4.987643,
+          0.518491
+        ],
+        [
+          7.9797,
+          0.517422
+        ],
+        [
+          7.984996,
+          0.173258
+        ],
+        [
+          8.022065,
+          0.172189
+        ],
+        [
+          9.986761,
+          0.003313
+        ],
+        [
+          9.997352,
+          0.003313
+        ]
+      ],
+      "reconstructions": {
+        "risk_table_printed": {
+          "n_reconstructed": 10,
+          "n_events": 9,
+          "n_censored": 1,
+          "max_abs_km_deviation": 0.0903,
+          "admissible": false,
+          "failures": [
+            "km_deviation 0.0903 exceeds floor 0.05"
+          ],
+          "median": 4.987643,
+          "external_check_passes": false,
+          "ipd": [
+            {
+              "time": 2.980583,
+              "event": 1
+            },
+            {
+              "time": 2.985878,
+              "event": 1
+            },
+            {
+              "time": 3.986761,
+              "event": 1
+            },
+            {
+              "time": 4.987643,
+              "event": 1
+            },
+            {
+              "time": 4.987643,
+              "event": 1
+            },
+            {
+              "time": 7.9797,
+              "event": 0
+            },
+            {
+              "time": 7.984996,
+              "event": 1
+            },
+            {
+              "time": 7.984996,
+              "event": 1
+            },
+            {
+              "time": 7.984996,
+              "event": 1
+            },
+            {
+              "time": 9.986761,
+              "event": 1
+            }
+          ]
+        },
+        "risk_table_anchored": {
+          "n_reconstructed": 11,
+          "n_events": 9,
+          "n_censored": 2,
+          "max_abs_km_deviation": 0.0454,
+          "admissible": true,
+          "failures": [],
+          "median": 7.984996,
+          "external_check_passes": true,
+          "ipd": [
+            {
+              "time": 2.000883,
+              "event": 1
+            },
+            {
+              "time": 2.985878,
+              "event": 1
+            },
+            {
+              "time": 2.985878,
+              "event": 0
+            },
+            {
+              "time": 3.986761,
+              "event": 1
+            },
+            {
+              "time": 4.987643,
+              "event": 1
+            },
+            {
+              "time": 4.987643,
+              "event": 1
+            },
+            {
+              "time": 7.9797,
+              "event": 0
+            },
+            {
+              "time": 7.984996,
+              "event": 1
+            },
+            {
+              "time": 7.984996,
+              "event": 1
+            },
+            {
+              "time": 7.984996,
+              "event": 1
+            },
+            {
+              "time": 9.986761,
+              "event": 1
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

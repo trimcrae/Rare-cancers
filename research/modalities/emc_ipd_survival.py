@@ -46,9 +46,89 @@ reconstruction recovers the original cohort. That is a genuine known-answer cont
 established independently of the reconstruction -- but it feeds the algorithm exact coordinates,
 whereas a real curve is read off a figure by eye. **It therefore bounds algorithmic error and says
 NOTHING about digitization error.** Per CLAUDE.md s4, an instrument's control must be described by
-what it can fail, and this one cannot fail on a mis-read pixel. Digitization error is bounded
+what it can fail, and this one cannot fail on a mis-read pixel.
+
+⛔ AND THE FIELD THIS HEADER USED TO NAME AS THE SEPARATE BOUND DOES NOT BOUND IT EITHER
+(measured 2026-08-25, `km-digitization-error.json`). ⚠ *Superseded, retained: "Digitization error
+is bounded separately, by `max_abs_km_deviation` on each real curve, and that field is reported per
+curve rather than averaged away."* The first half of that sentence is false and the second half is
+true: the field IS reported per curve, and it is **not a digitization bound**.
+`max_abs_km_deviation` compares the reconstruction's own product-limit estimate to the **digitized**
+curve, so an error made while READING the figure moves both sides of that comparison together.
+
+The discriminating measurement, run against a cohort whose patient-level data is known exactly: the
+same rendered figure read with a calibration wrong by ONE PIXEL carries more than twice the true
+error against that cohort, and a LOWER `max_abs_km_deviation` than the clean read. The two moved in
+opposite directions, which no bound can do.
+
+What the field does catch is a reading so wrong that no cohort could have produced it -- a
+deliberately mis-tuned matcher drove it to ~1.0 and the floor correctly refused the curve. It is
+blind to the moderate and to the systematic error, which are the realistic ones. **A curve admitted
+on this field alone has had its arithmetic checked and its READING checked by nothing.** A real
+curve therefore needs reading evidence of its own: an independent re-digitization, or the paper's
+printed medians and risk table reproduced out of the reconstructed cohort.
+`research/modalities/km_digitize.py` is the reader, and its control is where a digitization bound
+actually lives.
+
+WHAT THIS FILE DOES NOT CONTAIN.
+
+WHAT A RECONSTRUCTION IS, AND WHAT IT IS NOT
+--------------------------------------------
+A reconstruction is a **re-expression of a published curve**, never new patients and never new
+follow-up. It cannot fix publication bias, it cannot recover a covariate the paper did not print,
+and it inherits every selection effect of the series it came from. Two patients who are
+indistinguishable in the published figure are indistinguishable here.
+
+The one thing it does add is **censoring structure**, which is exactly what s2.4 says the current
+method throws away -- and censoring structure is what makes a Cox model, a competing-risks
+decomposition and a stratified curve legal instead of a category error.
+
+THE QUALITY FLOOR IS LOAD-BEARING, NOT DECORATION
+-------------------------------------------------
+Guyot's algorithm is driven by the numbers-at-risk table. Without one, the number of censored
+patients in each interval is unidentifiable and the reconstruction degrades from "solved" to
+"assumed" -- and small single-institution series, which is most of what EMC has, frequently print
+no risk table at all. So `assess_quality` grades every curve BEFORE it is admitted and
+`pool_reconstructions` REFUSES a curve below the floor rather than pooling it with a caveat. A
+caveat travels badly; a refusal is checkable.
+
+⛔ THE KNOWN-ANSWER CONTROL TESTS THE ARITHMETIC, NOT THE DIGITIZATION, AND THE DIFFERENCE IS THE
+WHOLE RISK. `research/modalities/tests/test_emc_ipd_survival.py` builds a cohort with KNOWN
+patient-level data, computes its EXACT Kaplan-Meier curve and risk table, and asserts the
+reconstruction recovers the original cohort. That is a genuine known-answer control -- the truth is
+established independently of the reconstruction -- but it feeds the algorithm exact coordinates,
+whereas a real curve is read off a figure by eye. **It therefore bounds algorithmic error and says
+NOTHING about digitization error.** Per CLAUDE.md s4, an instrument's control must be described by
+what it can fail, and this one cannot fail on a mis-read pixel.
+
+⛔ AND THE FIELD THIS HEADER USED TO NAME AS THE SEPARATE BOUND DOES NOT BOUND IT EITHER (measured
+2026-08-25, `km-digitization-error.json`). ⚠ *Superseded, retained: "Digitization error is bounded
 separately, by `max_abs_km_deviation` on each real curve, and that field is reported per curve
-rather than averaged away.
+rather than
+averaged away."* The first half of that sentence is false and the second half is true: the field IS
+reported
+per curve, and it is **not a digitization bound**. `max_abs_km_deviation` compares the
+reconstruction's own
+product-limit estimate to the **digitized** curve, so an error made while reading the figure moves
+BOTH
+sides of the comparison together. The discriminating measurement: the same rendered figure read
+with a
+calibration wrong by one pixel has **more** than twice the true error against the known cohort and
+a
+**lower** `max_abs_km_deviation` than the clean read -- the two moved in opposite directions.
+
+What the field does catch is a reading so wrong that no cohort could have produced it (a
+deliberately
+mis-tuned matcher drove it to ~1.0 and the floor refused the curve). It is blind to the moderate
+and to the
+systematic error, which are the realistic ones. **A curve admitted on this field alone has had its
+arithmetic checked and its READING checked by nothing**, so a real curve needs reading evidence of
+its own:
+an independent re-digitization, or the paper's own printed medians and risk table reproduced out of
+the
+reconstructed cohort. `research/modalities/km_digitize.py` is the reader, and its control is where
+a
+digitization bound actually lives.
 
 WHAT THIS FILE DOES NOT CONTAIN
 -------------------------------
@@ -125,11 +205,20 @@ CURVE_SCHEMA = {
 # LIST, not evidence: presence here asserts only that the source is in the registry, never that
 # its figure has been read or that its curve is admissible.
 #
-# ⛔ EVERY ROW HERE HAS `figure_checked: False`. Nobody has opened these papers to confirm a
-# Kaplan-Meier figure exists, let alone that it carries a numbers-at-risk table. `why_candidate`
-# records why the DESIGN implies a survival endpoint -- that is an inference from the registry's
-# own metadata, not a reading of the paper. Enumerating the work list is free; reading the
-# figures is the step that is not, and it has not been taken.
+# ⭐ FIVE ROWS WERE CHECKED ON 2026-08-25 BY LOOKING AT THE GRAPHICS. ⚠ *Superseded, retained:
+# "EVERY ROW HERE HAS `figure_checked: False`. Nobody has opened these papers ... reading the
+# figures is the step that is not [free], and it has not been taken."* It has now been taken for
+# every candidate whose full text is reachable: the article PDFs were retrieved by
+# `scripts/emc_km_figure_fetch.py`, rasterised, and looked at. `figure_finding` records what the
+# GRAPHIC shows, which is a different fact from anything a text search can return -- and the
+# difference is the whole point, because a numbers-at-risk row is typeset INSIDE the image.
+#
+# ⛔ THE HEADLINE IS A NEGATIVE AND IT BINDS THE ROUTE: the two largest EMC-specific series that
+# can be reached print NO numbers-at-risk row, and the only two figures that do print one are the
+# two smallest cohorts in the set. Full census: `emc-km-figure-census.json`.
+#
+# Rows still reading `figure_checked: False` are the ones whose full text this program cannot
+# reach at $0. That is a REACHABILITY statement, never a statement about the paper.
 #
 # ⚠ OVERLAP IS THE TRAP THAT WOULD MAKE A POOLED RESULT WRONG. systems/POLICY-evidence.md admits
 # NON-OVERLAPPING COHORTS ONLY, and several of these are the same Milan/INT patients reported
@@ -143,7 +232,19 @@ CANDIDATE_SOURCES: list[dict] = [
      "⛔_caveat": "Keyed on ICD-O-3 9231/3, the code RT-DIAGNOSTIC-PATHWAY shows two published SEER analyses read as mutually incompatible diseases. Cohort composition is UNKNOWN and this row must not anchor a pooled estimate until that split is quantified."},
     {"source_id": "masunaga2025", "n": 171, "endpoint_hint": "os",
      "why_candidate": "retrospective national registry study of radiotherapy and chemotherapy roles; survival endpoint implied by the question",
-     "full_text_reachable": "PMC12398172", "figure_checked": False, "overlap_risk": "none with institutional series"},
+     "full_text_reachable": "PMC12398172", "figure_checked": True,
+     # ⛔ CHECKED 2026-08-25 -- three Kaplan-Meier figures, NONE with a numbers-at-risk row.
+     "figure_finding": {
+        "km_figures": 3,
+        "figures": ["Fig. 1 disease-specific survival by distant metastases at diagnosis",
+                    "Fig. 2 local recurrence-free survival by (neo)adjuvant radiotherapy",
+                    "Fig. 3 disease-specific survival by advanced-stage chemotherapy"],
+        "numbers_at_risk_row": False,
+        "style": "two arms, 95% CI shading, p-value in panel, no risk table beneath the axis",
+        "⛔_consequence": "REFUSED by the quality floor. This is the LARGEST reachable EMC series "
+                          "(n=171) and it is unreconstructable for a reporting reason, not a "
+                          "scientific one."},
+     "overlap_risk": "none with institutional series"},
     # --- multi-institution / referral-centre series ---------------------------------------
     {"source_id": "meisKindblom1999", "n": 117, "endpoint_hint": "os",
      "why_candidate": "the classic long-term prognostic pathology series; prognosis is its stated subject",
@@ -156,7 +257,20 @@ CANDIDATE_SOURCES: list[dict] = [
      "full_text_reachable": None, "figure_checked": False, "overlap_risk": "⚠ US institutions overlap drilon2008 and uMich2023"},
     {"source_id": "chiusole2020", "n": 59, "endpoint_hint": "os",
      "why_candidate": "two-institution retrospective, outcomes in the title",
-     "full_text_reachable": "PMC7308468", "figure_checked": False, "overlap_risk": "⚠ likely shares Milan/INT patients with the Stacchiotti series"},
+     "full_text_reachable": "PMC7308468", "figure_checked": True,
+     # ⛔ CHECKED 2026-08-25 -- four overall-survival figures, NONE with a numbers-at-risk row.
+     "figure_finding": {
+        "km_figures": 4,
+        "figures": ["Figure 1 OS by extent of primary resection", "Figure 2 OS by sex",
+                    "Figure 3 OS by primary location", "Figure 4 OS by site of metastases"],
+        "numbers_at_risk_row": False,
+        "style": "two or three arms, censoring ticks drawn on the curve, legend with p-value, "
+                 "no risk table beneath the axis",
+        "⭐_what_IS_printed": "median OS 180 months, 75% alive at 5 years, 63% at 10 years, "
+                              "20 deaths of 59 -- printed in the text, so a printed-numbers "
+                              "analysis is possible where a reconstruction is not.",
+        "⛔_consequence": "REFUSED by the quality floor."},
+     "overlap_risk": "⚠ likely shares Milan/INT patients with the Stacchiotti series"},
     {"source_id": "japan2003", "n": 42, "endpoint_hint": "os",
      "why_candidate": "multi-institution series of 42 cases",
      "full_text_reachable": None, "figure_checked": False, "overlap_risk": "⚠ may overlap morioka2016 (Japanese trial population)"},
@@ -184,24 +298,167 @@ CANDIDATE_SOURCES: list[dict] = [
      "⚠_caveat": "type is conference-abstract -- abstracts rarely print a numbers-at-risk table, so this may fail the quality floor on reporting completeness alone"},
     {"source_id": "martinbroto2020immunosarc1", "n": 68, "endpoint_hint": "pfs",
      "why_candidate": "single-arm phase Ib/II; EMC may appear only as a subgroup",
-     "full_text_reachable": "PMC7674086", "figure_checked": False,
+     "full_text_reachable": "PMC7674086", "figure_checked": True,
+     # ⛔ CHECKED 2026-08-25 -- NO Kaplan-Meier figure at all. Its Figure 3 is a SWIMMER PLOT.
+     "figure_finding": {
+        "km_figures": 0,
+        "figures": ["Figure 1 CONSORT", "Figure 2 waterfall by RECIST",
+                    "Figure 3 per-patient PFS swimmer plot, coloured by histology"],
+        "numbers_at_risk_row": None,
+        "⚠_correction": "emc-ipd-admissibility-2026-08-12.json counted this paper among those "
+                        "that 'report Kaplan-Meier survival analysis'. It reports one in TEXT and "
+                        "prints no KM curve, which a caption scan cannot distinguish.",
+        "⭐_a_different_instrument_applies": "A swimmer plot is per-patient data drawn as pixels: "
+                                             "each bar is one patient's PFS, with censoring shown "
+                                             "by an arrow. Reading it needs no Guyot recursion "
+                                             "because it IS the patient-level data -- but the EMC "
+                                             "patients are one colour inside a mixed soft-tissue "
+                                             "sarcoma cohort, so the subgroup must be separated by "
+                                             "colour before anything can be claimed."},
      "overlap_risk": "⚠ likely the parent trial of immunosarc2emc2025",
      "⚠_caveat": "cohort is advanced soft-tissue sarcoma broadly; an EMC-specific curve may not exist"},
     {"source_id": "stacchiotti2013anthracycline", "n": 11, "endpoint_hint": "pfs",
      "why_candidate": "retrospective centrally-reviewed systemic-therapy series",
-     "full_text_reachable": "PMC3879193", "figure_checked": False, "overlap_risk": "⚠ Milan series, overlaps stacchiotti2014sunitinib and chiusole2020"},
+     "full_text_reachable": "PMC3879193", "figure_checked": True,
+     # ✅ CHECKED 2026-08-25 -- ONE PFS curve WITH a numbers-at-risk row, and it has been READ.
+     "figure_finding": {
+        "km_figures": 1,
+        "figures": ["Figure 2 overall PFS on anthracycline-based chemotherapy"],
+        "numbers_at_risk_row": True,
+        "risk_table_printed": [[2, 10], [4, 7], [6, 5], [8, 1], [10, 0]],
+        "⚠_axis_starts_at_2": "The time axis begins at 2, not 0, and the first event lands on the "
+                              "origin -- so the printed '10 at t=2' is a post-event count. See "
+                              "km_digitize.FIGURE_RECIPES for what that does to the recursion.",
+        "digitized": "km-figure-readings.json -> stacchiotti2013_pfs_anthracycline",
+        "⭐": "The reconstruction reproduces the caption's printed median PFS of 8 months, which "
+              "the reconstruction never saw. That is this program's only check of a READING."},
+     "overlap_risk": "⚠ Milan series, overlaps stacchiotti2014sunitinib and chiusole2020"},
     {"source_id": "stacchiotti2014sunitinib", "n": 10, "endpoint_hint": "pfs",
      "why_candidate": "retrospective consecutively-treated series, 6 of 10 RECIST partial responses",
      "full_text_reachable": None, "figure_checked": False, "overlap_risk": "⚠ Milan series, overlaps stacchiotti2013anthracycline and stacchiotti2019pazopanib"},
     {"source_id": "morioka2016trabectedin", "n": 5, "endpoint_hint": "pfs",
      "why_candidate": "sub-analysis of a randomised trial; EMC arm is tiny",
-     "full_text_reachable": "PMC4946242", "figure_checked": False, "overlap_risk": "⚠ may overlap japan2003 institutions",
+     "full_text_reachable": "PMC4946242", "figure_checked": True,
+     # ✅ CHECKED 2026-08-25 -- one PFS curve WITH a numbers-at-risk row, AND the paper prints the
+     # patient-level data outright in Table 2, which makes reconstruction unnecessary here.
+     "figure_finding": {
+        "km_figures": 1,
+        "figures": ["Fig. 1 Kaplan-Meier plot of progression-free survival, two arms"],
+        "numbers_at_risk_row": True,
+        "risk_table_printed": {"trabectedin": [[0, 5], [3, 5], [6, 5], [9, 3], [12, 3],
+                                                [15, 1], [18, 1], [21, 1]],
+                               "best_supportive_care": [[0, 3]]},
+        "⛔_it_is_not_an_EMC_cohort": "Five patients in the trabectedin arm, of whom the paper's "
+                                      "Table 2 identifies TWO as EMCS and three as mesenchymal "
+                                      "chondrosarcoma; all three best-supportive-care patients are "
+                                      "MCS. A curve over that arm is not an EMC curve.",
+        "⭐_no_reconstruction_needed": "Table 2 prints per-subject PFS, overall survival and "
+                                       "censoring flags. Where a paper prints patient-level data, "
+                                       "reading it is transcription, and inverting a curve to "
+                                       "recover what is already printed adds error for nothing."},
+     "overlap_risk": "⚠ may overlap japan2003 institutions",
      "⚠_caveat": "n=5 is below the >=5-per-study inclusion floor used by the reconstructed-IPD exemplar only if that floor is read as strictly greater; adjudicate before admitting"},
 ]
 
-# ⛔ EMPTY BY CONSTRUCTION. A coordinate here would be a fabricated clinical datum. See
-# "WHAT THIS FILE DOES NOT CONTAIN".
+# ⛔ EMPTY BY CONSTRUCTION, AND IT STAYS EMPTY. A coordinate typed here would be a clinical datum
+# with no derivation behind it. Digitized curves reach this module ONLY through
+# `load_digitized_curves()` below, which reads the artifact a re-runnable digitizer wrote.
 CURVES: list[dict] = []
+
+# Written by `research/modalities/km_digitize.py --figures`, whose FIGURE_RECIPES name the
+# committed image, the axis anchors and who read them.
+READINGS = os.path.join(os.path.dirname(os.path.abspath(__file__)), "km-figure-readings.json")
+
+
+def load_digitized_curves() -> list[dict]:
+    """Curves read off real figures, loaded from the digitizer's artifact. Never hand-typed.
+
+    ⭐ WHY A LOADER RATHER THAN A TABLE. The rule this module opens with -- no invented coordinate
+    -- is easy to state and hard to keep, because a table of numbers in a source file looks
+    identical whether it was measured or guessed. A loader makes the provenance STRUCTURAL: a
+    coordinate can only arrive attached to a recipe naming the image it came from, so "where did
+    this number come from" is answerable by construction rather than by trust.
+
+    ⛔ A READING IS ADMITTED HERE ONLY IF IT PASSED ITS OWN EXTERNAL CHECK -- a quantity the paper
+    printed and the reconstruction never saw. A curve whose reconstruction cannot reproduce the
+    paper's own printed median has been read wrong somewhere, and admitting it because the
+    arithmetic is self-consistent is the exact blindness recorded at the top of this file.
+    """
+    if not os.path.exists(READINGS):
+        return []
+    with open(READINGS, encoding="utf-8") as fh:
+        doc = json.load(fh)
+    recipes = {r["id"]: r for r in doc.get("recipes", [])}
+    out = []
+    for reading in doc.get("readings", []):
+        if not reading.get("read_ok"):
+            continue
+        recipe = recipes.get(reading["id"]) or {}
+        for key, rec in (reading.get("reconstructions") or {}).items():
+            if not rec.get("admissible") or not rec.get("external_check_passes"):
+                continue
+            out.append({
+                "id": f"{reading['id']}::{key}",
+                "source_id": reading["source_id"],
+                "endpoint": reading["endpoint"],
+                "population": recipe.get("population", ""),
+                "time_unit": recipe.get("time_unit", ""),
+                "digitized": reading["digitized"],
+                "risk_table": recipe.get(key),
+                "total_events": None,
+                "digitized_by": recipe.get("digitized_by", ""),
+                "figure": reading.get("figure"),
+                "image": reading.get("image"),
+                "external_check": recipe.get("external_check"),
+            })
+    return out
+
+
+# ---------------------------------------------------------------------------
+# PRINTED patient-level data -- transcription, not reconstruction
+# ---------------------------------------------------------------------------
+# ⭐ THE BEST SOURCE IN THIS FILE IS THE ONE THAT NEEDS NO INSTRUMENT. Some papers print the
+# patient-level data outright, in a table. Reading it is TRANSCRIPTION -- digits, not pixels -- and
+# inverting a curve to recover numbers the same paper already printed adds error for nothing.
+#
+# ⛔ TRANSCRIPTION IS NOT FREE OF ITS OWN FAILURE MODE, AND IT IS A WORSE ONE THAN DIGITIZATION'S:
+# a misread `17` as `12` is silent, local and produces a perfectly plausible cohort, whereas a
+# misread curve is loud and global. So every row names the exact table and row it came from, and
+# `verified_against` records that the digits were checked against the PDF's TEXT LAYER rather than
+# only against a rendered image -- a rendered image is exactly where an OCR-style slip happens.
+#
+# ⚠ THESE ROWS ARE NOT POOLED WITH ANYTHING. POLICY-evidence.md forbids merging populations, and
+# these patients differ from every other source here in treatment, line and endpoint. They are
+# reported; they are not added to anyone else's denominator.
+PRINTED_IPD = [
+    {
+        "source_id": "morioka2016trabectedin",
+        "printed_in": "Table 2 'Summary of efficacy', trabectedin group, subject 1",
+        "histology": "EMCS",
+        "population": "extraskeletal myxoid chondrosarcoma, trabectedin arm of a randomised "
+                      "phase 2 study in translocation-related sarcoma",
+        "pfs_months": 13.0, "pfs_censored": False,
+        "os_months": 26.4, "os_censored": False,
+        "best_overall_response": "SD",
+        "verified_against": "the PDF text layer of PMC4946242 page 4, not only a page raster",
+    },
+    {
+        "source_id": "morioka2016trabectedin",
+        "printed_in": "Table 2 'Summary of efficacy', trabectedin group, subject 2",
+        "histology": "EMCS",
+        "population": "extraskeletal myxoid chondrosarcoma, trabectedin arm of a randomised "
+                      "phase 2 study in translocation-related sarcoma",
+        "pfs_months": 7.4, "pfs_censored": False,
+        "os_months": 10.4, "os_censored": False,
+        "best_overall_response": "SD",
+        "verified_against": "the PDF text layer of PMC4946242 page 4, not only a page raster",
+    },
+]
+
+# ⛔ WHY THE OTHER SIX ROWS OF THAT TABLE ARE NOT HERE. Subjects 3-5 (trabectedin) and 6-8 (best
+# supportive care) are MESENCHYMAL chondrosarcoma, a different disease that shares a name fragment.
+# Taking the whole table because it is in an EMC-relevant paper is the exact ICD-O-3 conflation
+# RT-DIAGNOSTIC-PATHWAY exists to record.
 
 
 # ---------------------------------------------------------------------------
@@ -526,10 +783,16 @@ def _median_survival(km: list) -> float | None:
 # build / check
 # ---------------------------------------------------------------------------
 def build() -> dict:
-    """Pure over this module's tables. Touches no file -- see the note in the sibling poolers:
-    a verify mode that regenerates and then compares against its own output cannot fail."""
+    """Pure over this module's tables PLUS the digitizer's readings artifact.
+
+    ⚠ It is no longer file-free, and that is deliberate: the alternative was a table of
+    coordinates typed into this source file, which is the one thing this module exists to refuse.
+    A verify mode that regenerates and compares against its own output still cannot fail, so
+    `--check` compares the committed artifact against a fresh build of BOTH inputs.
+    """
+    curves = CURVES + load_digitized_curves()
     reconstructions, quality, errors = [], [], []
-    for curve in CURVES:
+    for curve in curves:
         rec, err = None, None
         try:
             rec = reconstruct(curve)
@@ -565,7 +828,16 @@ def build() -> dict:
         },
         "curve_schema": CURVE_SCHEMA,
         "candidate_sources": CANDIDATE_SOURCES,
-        "curves_supplied": len(CURVES),
+        "printed_patient_level_data": {
+            "_what": "patient-level rows a paper PRINTED, transcribed rather than reconstructed",
+            "⚠_not_pooled": "different treatments and lines; POLICY-evidence.md forbids merging "
+                             "them with each other or with any reconstructed curve",
+            "n_rows": len(PRINTED_IPD),
+            "rows": PRINTED_IPD,
+        },
+        "curves_supplied": len(curves),
+        "curves_hand_typed": len(CURVES),
+        "curves_from_digitizer": len(curves) - len(CURVES),
         "curves_admissible": len(admissible),
         "curves_pooled": len(reconstructions),
         "quality": quality,
@@ -580,7 +852,7 @@ def build() -> dict:
             "the figure, and inventing a coordinate would fabricate a clinical datum. This field "
             "is the honest state, not a placeholder to be filled in with plausible numbers."
         )
-        if not CURVES
+        if not curves
         else "curves supplied; see quality[] for what was admitted and why",
     }
 
