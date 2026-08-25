@@ -105,16 +105,42 @@ def _get(url, tries=4):
     raise RuntimeError(f"failed: {url}: {last}")
 
 
+def _json(text, what):
+    """⛔ PARSE WITH THE RESPONSE IN HAND. A bare json.loads on an E-utilities reply reports the
+    column it choked at and nothing about what arrived, which is unactionable from a CI log — the
+    2026-08-25 shape-census run died on `Invalid control character at line 1 column 105` and the
+    log could not say whether that was an NCBI error payload, a truncated body or a bad decode.
+    On failure this prints the head of the actual bytes, which is the observation that discriminates."""
+    try:
+        return json.loads(text)
+    except json.JSONDecodeError as exc:
+        print(f"  {what}: strict parse failed ({exc})", file=sys.stderr)
+        print(f"  first 400 chars, repr: {text[:400]!r}", file=sys.stderr)
+        # ⭐ RETRY NON-STRICT, BECAUSE THE LIKELY BODY IS AN ERROR MESSAGE AND STRICT PARSING IS
+        # WHAT HIDES IT. E-utilities puts backend failures in `esearchresult.ERROR` as free text,
+        # and a message carrying a literal newline is a control character inside a JSON string —
+        # which strict json.loads refuses, so the run dies quoting a COLUMN NUMBER instead of the
+        # reason NCBI gave. strict=False accepts it, and the caller's own no-count check then
+        # raises with the message itself. Never used to accept a malformed RESULT: a body that
+        # parses only this way is an error payload, and the caller treats it as one.
+        try:
+            return json.loads(text, strict=False)
+        except json.JSONDecodeError:
+            raise exc from None
+
+
 def _pmids(journal=JOURNAL, term=None):
     q = urllib.parse.quote(term if term else f'"{journal}"[Journal]')
-    first = json.loads(_get(f"{EUTILS}/esearch.fcgi?db=pubmed&retmode=json&retmax=0&term={q}"
-                            "&tool=rare-cancers&email=trimcrae@gmail.com"))
+    first = _json(_get(f"{EUTILS}/esearch.fcgi?db=pubmed&retmode=json&retmax=0&term={q}"
+                       "&tool=rare-cancers&email=trimcrae@gmail.com"), "esearch count")
+    if "esearchresult" not in first or "count" not in first.get("esearchresult", {}):
+        raise RuntimeError(f"esearch returned no count: {json.dumps(first)[:400]}")
     total = int(first["esearchresult"]["count"])
     out = []
     for start in range(0, total, 500):
-        d = json.loads(_get(f"{EUTILS}/esearch.fcgi?db=pubmed&retmode=json&retmax=500"
-                            f"&retstart={start}&term={q}"
-                            "&tool=rare-cancers&email=trimcrae@gmail.com"))
+        d = _json(_get(f"{EUTILS}/esearch.fcgi?db=pubmed&retmode=json&retmax=500"
+                       f"&retstart={start}&term={q}"
+                       "&tool=rare-cancers&email=trimcrae@gmail.com"), f"esearch page {start}")
         out.extend(d["esearchresult"]["idlist"])
         time.sleep(0.4)
     return total, out
