@@ -149,13 +149,20 @@ def _nlm(abbrev):
     # assumption about the element names and both were wrong, returning empty rather than raising.
     # The head of the real response is carried out in the artifact so the next fix is made against
     # the document instead of against another guess.
-    for chunk in re.split(r"<NLMCatalogRecord>", xml)[1:]:
+    # ⛔ THE TAG CARRIES ATTRIBUTES: <NLMCatalogRecord Owner="NLM" Status="Completed">. Splitting on
+    # the bare "<NLMCatalogRecord>" matched nothing, so this loop never ran once and every journal
+    # came back UNRESOLVED while MedlineTA sat in the document reading exactly what was searched for.
+    for chunk in re.split(r"<NLMCatalogRecord[\s>]", xml)[1:]:
         ta = re.search(r"<MedlineTA>(.*?)</MedlineTA>", chunk, re.S)
         ta = re.sub(r"<[^>]+>", "", ta.group(1)).strip() if ta else ""
         if ta.lower() != abbrev.lower():
             continue
-        linking = re.search(r"<ISSNLinking>([\dXx-]+)</ISSNLinking>", chunk)
+        # ⛔ AND THERE IS NO ISSNLinking ELEMENT IN THIS SCHEMA — it was invented. The real fix for
+        # the original wrong-journal bug is narrower than that: take the ISSNs out of the MATCHED
+        # RECORD's chunk, not out of the whole multi-record document. Reading across records is
+        # what handed "Nucleic Acids Res" an ISSN belonging to a different journal.
         allissn = re.findall(r"<ISSN[^>]*>([\dXx-]+)</ISSN>", chunk)
+        uid = re.search(r"<NlmUniqueID>(\w+)</NlmUniqueID>", chunk)
         title = re.search(r"<TitleMain>.*?<Title>(.*?)</Title>", chunk, re.S)
         notes = re.findall(r"<GeneralNote[^>]*>(.*?)</GeneralNote>", chunk, re.S)
         hist = re.findall(r"<(?:PreviousTitle|IndexingHistory|TitleRelated)[^>]*>(.*?)"
@@ -163,7 +170,7 @@ def _nlm(abbrev):
         clean = lambda t: re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", t or "")).strip()  # noqa: E731
         return {"lookup": "matched on MedlineTA",
                 "medline_ta": ta,
-                "issn_linking": linking.group(1) if linking else "",
+                "nlm_unique_id": uid.group(1) if uid else "",
                 "issns_in_record": sorted(set(allissn)),
                 "full_title": clean(title.group(1)) if title else "",
                 "title_history_notes": [clean(n) for n in notes + hist if clean(n)][:6]}
@@ -236,15 +243,16 @@ def build():
         print(f"  {abbrev} …", file=sys.stderr)
         nlm = _nlm(abbrev)
         time.sleep(0.4)
-        oa, dj = {}, {}
-        issn = nlm.get("issn_linking") or ""
-        if issn:
+        oa, dj, used = {}, {}, None
+        for issn in nlm.get("issns_in_record", []):
             oa = _openalex(issn)
             time.sleep(0.3)
-            if oa:
+            if oa.get("openalex_display_name"):
+                used = issn
                 dj = _doaj(issn)
                 time.sleep(0.3)
-        oa["issn_used"] = issn or None
+                break
+        oa["issn_used"] = used
         if not oa.get("issn_used") or not oa.get("openalex_display_name"):
             # ⛔ No verdict without an identifier we can defend. An unresolved row must read as
             # unresolved, never as the permissive default.
