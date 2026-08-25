@@ -43,7 +43,8 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 if HERE not in sys.path:
     sys.path.insert(0, HERE)
-from aso_figure_text import check_type_sizes, number_word, text_width, wrap  # noqa: E402
+from aso_figure_text import (blend_over_white, check_type_sizes, number_word,  # noqa: E402
+                             text_width, wrap)
 
 MOD = os.path.join(HERE, "..", "..", "modalities")
 SRC = os.path.join(MOD, "nr4a3-fusion-junction-atlas.json")
@@ -137,7 +138,11 @@ def main(argv=None):
 
     ncols = len(donors[0]) + len(acceptors[0])
     tag_x = L + ncols * CW + 14
-    tag_w = W - 32 - tag_x
+    #: The reported/not-reported marker sits in the gutter ahead of the words, so the words get
+    #: what is left. ONE constant, read by the fit check here and by the draw below — a second
+    #: literal is how a tag starts overhanging the canvas that nothing measured.
+    TAG_MARKER_W = 15
+    tag_w = W - 32 - tag_x - TAG_MARKER_W
     for lab in labels:
         wide = text_width(f"{lab.split('_')[0]} · {TIER_WORDS[tiers[lab]]}", FS_TAG)
         if wide > tag_w:
@@ -156,7 +161,21 @@ def main(argv=None):
 
     y_title = 26
     y_sub = y_title + len(title_lines) * (FS_TITLE + 5) - 4
-    top = y_sub + len(sub_lines) * (FS_SUB + 4) + 30      # first sequence row's baseline
+    #: ⛔ THE SPAN BAND IS WHAT MAKES THIS FIGURE READ IN GREYSCALE, AND IT IS A REQUIREMENT, NOT A
+    #: FLOURISH (Nucleic Acid Therapeutics checklist A10, 2026-08-25). The journal prints in
+    #: greyscale unless colour reproduction is bought, and this panel's donor/acceptor distinction
+    #: was carried by hue alone: #1565c0 and #2e7d32 sit at BT.601 luma 87.5 and 92.8 out of 255 —
+    #: 2.1% apart, which is the same grey. A 300 dpi greyscale proof of the shipped figure shows
+    #: twenty-four identical mid-grey letters. The breakpoint rule did carry the split positionally,
+    #: but nothing on the panel NAMED either side; the reader had to find it in a note.
+    #: ⚠ TWO REDUNDANT CHANNELS, NOT ONE — LINE STYLE **AND** DIRECT LABELLING. Each half now
+    #: carries a rule under its own columns, solid for the donor and dashed for the acceptor, with
+    #: the words on it. Line style survives greyscale, photocopying and every form of colour
+    #: blindness; a word survives all three and needs no key at all.
+    SPAN_BAND = 24
+    top = y_sub + len(sub_lines) * (FS_SUB + 4) + 30 + SPAN_BAND   # first sequence row's baseline
+    y_span_label = top - 52                                # the words naming each half
+    y_span_rule = top - 46                                 # the rule under those words
 
     notes = [
         #: ⛔ THE NON-COLOUR CHANNEL IS NAMED FIRST, AND THAT IS A COST DECISION AS WELL AS AN
@@ -168,9 +187,12 @@ def main(argv=None):
         #: reporting status is spelled out in words — but this note did not: it told a print reader
         #: to look for a blue and a green that are not there. Colour is now named as the online
         #: cue it is, after the channel that survives the print.
-        (f"Left of the breakpoint rule, donor exon; right, NR4A3 acceptor exon; boxed, "
-         f"{divergent_words}. Shaded box, the window this reagent targets. Online, donor bases are "
-         f"blue, acceptor bases green and the boxed position purple."),
+        (f"Solid rule and its label, the donor-exon columns; dashed rule and its label, the NR4A3 "
+         f"acceptor-exon columns; the two meet at the breakpoint. Boxed, {divergent_words}; filled "
+         f"marker, a seam reported in patients at this exon, open marker, one that is not. Shaded "
+         f"box, the window this reagent targets. Every one of those cues is drawn, so the panel "
+         f"reads in greyscale; online, the same donor bases are blue, acceptor bases green and the "
+         f"boxed position purple."),
         #: The first sentence of this note used to restate the column header "target mRNA (sense,
         #: 5′ to 3′)" and the "(antisense)" tag on the reagent row, both inside this same panel.
         #: What remains is the hazard itself, which nothing else in the panel says.
@@ -217,6 +239,32 @@ def main(argv=None):
     # what the rows ARE, said once above them and once per row below
     p.append(f'<text x="32" y="{top - 26}" font-size="{FS_MARK}" fill="#111" font-weight="600">'
              f'target mRNA (sense, 5′ to 3′)</text>')
+
+    #: THE SPAN BAND — the non-colour channel for the donor/acceptor split (see SPAN_BAND above).
+    #: ⛔ THE RULE IS DRAWN FROM THE SAME `seam_x` THE BREAKPOINT LINE USES, so the label and the
+    #: colour can never disagree about where the junction is; both are derived from the artifact's
+    #: own donor/acceptor split. A hard-coded column count here would be a second home for a fact
+    #: the atlas already owns.
+    right_x = L + ncols * CW
+    for x0, x1, dash, words in ((L, seam_x, None, "donor exon"),
+                                (seam_x, right_x, "5 3", "NR4A3 acceptor exon")):
+        dash_attr = f' stroke-dasharray="{dash}"' if dash else ""
+        p.append(f'<line x1="{x0}" y1="{y_span_rule}" x2="{x1}" y2="{y_span_rule}" '
+                 f'stroke="#111" stroke-width="1.2"{dash_attr}/>')
+        #: The end ticks turn a rule into a span: without them a dashed line reads as a
+        #: leader pointing somewhere rather than as a bracket over these columns. They drop
+        #: TOWARDS the bases, so the bracket points at what it names.
+        for tick in (x0, x1):
+            p.append(f'<line x1="{tick}" y1="{y_span_rule}" x2="{tick}" '
+                     f'y2="{y_span_rule + 4}" stroke="#111" stroke-width="1.2"/>')
+        #: ⛔ THE LABEL MUST FIT THE SPAN IT NAMES, for the same reason the architecture labels
+        #: below must — an over-long word centred on a short span overhangs into its neighbour and
+        #: nothing else in the build would notice.
+        if text_width(words, FS_MARK) > (x1 - x0):
+            raise SystemExit(f"span label {words!r} needs {text_width(words, FS_MARK):.0f} px and "
+                             f"its span is {x1 - x0} px; widen CW or shorten the label")
+        p.append(f'<text x="{(x0 + x1) / 2:.1f}" y="{y_span_label}" font-size="{FS_MARK}" '
+                 f'fill="#111" text-anchor="middle">{esc(words)}</text>')
 
     # the target window, shaded behind the sequence rows
     win_x0 = seam_x - d_bases * CW
@@ -268,7 +316,18 @@ def main(argv=None):
         #: the row rather than in a caption a reader may not have. Text is the channel that
         #: survives greyscale, photocopying and colour-blindness alike.
         reported = tiers[lab] == TIER_IS_REPORTED
-        p.append(f'<text x="{tag_x}" y="{y}" font-size="{FS_TAG}" '
+        #: ⛔ AND THE COLOUR ON THOSE WORDS IS THE ONE CUE A PRINT READER LOSES, SO A SHAPE CARRIES
+        #: IT TOO (checklist A10, 2026-08-25). Green #2e7d32 and red #b71c1c are BT.601 luma 92.8
+        #: and 74.3 of 255 — 7.3% apart, effectively one grey. The words are the primary channel
+        #: and always were; a filled versus open marker makes the split SCANNABLE down the rows
+        #: without reading three phrases, which is what the colour was doing for a colour reader.
+        #: ⚠ A DRAWN CIRCLE, NOT A GLYPH. "●"/"○" would depend on the renderer's font carrying
+        #: U+25CF/U+25CB — Liberation Sans is what fontconfig substitutes here, and a
+        #: missing glyph prints as tofu in the deliverable rather than failing the build.
+        p.append(f'<circle cx="{tag_x + TAG_MARKER_W / 2:.1f}" cy="{y - 4}" r="4" '
+                 f'fill="{"#2e7d32" if reported else "#ffffff"}" '
+                 f'stroke="{"#2e7d32" if reported else "#b71c1c"}" stroke-width="1.3"/>')
+        p.append(f'<text x="{tag_x + TAG_MARKER_W}" y="{y}" font-size="{FS_TAG}" '
                  f'fill="{"#2e7d32" if reported else "#b71c1c"}">'
                  f'{esc(gene)} · {esc(TIER_WORDS[tiers[lab]])}</text>')
 
@@ -281,8 +340,18 @@ def main(argv=None):
     # the gapmer architecture under the window
     geom = d["oligo_geometry"]
     wing, gap = geom["wing"], geom["gap"]
-    segs = [("LNA wing", wing, "#90a4ae"), ("DNA gap", gap, "#ef6c00"),
-            ("LNA wing", wing, "#90a4ae")]
+    #: ⛔ LIGHT FILL WITH INK TYPE, NOT WHITE TYPE ON A MID TONE (checklist A10, 2026-08-25). These
+    #: bars were `opacity="0.85"` over white with white labels, which composites to #a1b2ba and
+    #: #f18226 — white text on those is 1.9:1 and 2.4:1, under the 4.5:1 anyone can read and worse
+    #: once the colour is gone. The label IS the channel that names each segment, so it is the one
+    #: thing here that must survive greyscale, and it was the least legible mark on the panel.
+    #: ⚠ THE TWO ALPHAS DIFFER ON PURPOSE. Tinting both segments equally would print two identical
+    #: greys; at 0.22 and 0.55 the wings and the gap land at BT.601 luma 234 and 189 of 255, an 18%
+    #: separation a print reader can see, with #111 type at better than 12:1 on both.
+    #: Pre-blended rather than transparent for the EPS reason in `blend_over_white`.
+    segs = [("LNA wing", wing, blend_over_white("#90a4ae", 0.22)),
+            ("DNA gap", gap, blend_over_white("#ef6c00", 0.55)),
+            ("LNA wing", wing, blend_over_white("#90a4ae", 0.22))]
     sx = win_x0
     for name, ln, col in segs:
         #: ⛔ THE LABEL HAS TO FIT THE SEGMENT IT NAMES. "DNA gap (RNase-H1)" at a legible size does
@@ -292,9 +361,9 @@ def main(argv=None):
             raise SystemExit(f"architecture label {name!r} needs "
                              f"{text_width(name, FS_ARCH):.0f} px and its segment is {ln * CW} px")
         p.append(f'<rect x="{sx}" y="{gy}" width="{ln * CW}" height="18" fill="{col}" '
-                 f'opacity="0.85" stroke="#ffffff"/>')
+                 f'stroke="#37474f" stroke-width="0.7"/>')
         p.append(f'<text x="{sx + ln * CW / 2:.1f}" y="{gy + 13}" font-size="{FS_ARCH}" '
-                 f'fill="#ffffff" text-anchor="middle">{esc(name)}</text>')
+                 f'fill="#111" text-anchor="middle">{esc(name)}</text>')
         sx += ln * CW
     p.append(f'<text x="{win_x0}" y="{gy + 36}" font-size="{FS_ARCH}" fill="#333">'
              f'reagent 5′-{esc(OLIGO)}-3′ (antisense), {esc(d_bases)} donor and {esc(a_bases)} '

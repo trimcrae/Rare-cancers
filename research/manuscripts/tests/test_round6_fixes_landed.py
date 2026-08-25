@@ -397,10 +397,16 @@ def test_the_journal_article_states_voidness_as_a_property_of_the_variance():
     # absent — so the paper could drop the property entirely and this would still pass. Both papers
     # state it, in their own vocabulary, and both are now read: one-of-a-pair is the defect this
     # module exists to catch.
+    # ⚠ CASE-INSENSITIVE, AND THE OMISSION COST A RED BUILD (2026-08-25). Reviewer item B7 split
+    # "Such a test is void, and voidness is a property of…" into two sentences, which capitalised
+    # the V and nothing else. The claim this guard is named for was untouched and present, and the
+    # guard failed on a sentence boundary. A check that a RELATION is stated must not also be a
+    # check on where the sentence starts — that is measuring formatting, and it trains the next
+    # session to un-fix prose to please a regex.
     for path, expected in ((JOURNAL, "realised variance"), (ART, "assay's variance")):
         body = re.sub(r"\s+", " ", open(path, encoding="utf-8").read())
         assert re.search(rf"voidness is a property of the {re.escape(expected)} rather than of the "
-                         rf"design", body), (
+                         rf"design", body, re.I), (
             f"{os.path.basename(path)} no longer states that voidness is a property of the "
             f"{expected} rather than of the design. That relation is what makes a pilot-based gate "
             "coherent; without it a reader takes voidness for a property of the DESIGN, which would "
@@ -413,7 +419,11 @@ def test_the_journal_article_keeps_both_branches_of_the_pilot_gate():
     The gate is always satisfiable by adding replicates, which is why 'more replicates' alone is not
     an answer: at a replicate SD of 1.5 the count it admits runs at about 10% power.
     """
-    text = open(JOURNAL, encoding="utf-8").read()
+    # ⚠ WHITESPACE-NORMALISED, for the reason its sibling above already was. This read the RAW
+    # file, so the phrase it looks for stopped being found the moment a re-wrap put a newline
+    # between "no" and "falsification" — the manuscript is hard-wrapped, so every edit anywhere in
+    # a paragraph can move that break. The phrase was present and intact both times.
+    text = re.sub(r"\s+", " ", open(JOURNAL, encoding="utf-8").read())
     assert "no falsification test at all" in text, (
         "the journal article's pilot gate dropped the second branch the extended report states at "
         "its own section 4.4 — with only the first branch it prescribes an underpowered test")

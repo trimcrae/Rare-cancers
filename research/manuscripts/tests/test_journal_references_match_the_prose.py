@@ -15,6 +15,7 @@ Three things are checked, and each is a way the two documents can silently disag
      extended report, so the numbers are deliberately NOT contiguous and a renumbering slip would
      otherwise point a reader at the wrong paper).
 """
+import json
 import os
 import re
 
@@ -123,6 +124,54 @@ def test_every_entry_is_in_the_style_the_venue_asks_for():
         "PMID: nnn.` — year in parentheses after the authors, every author after the first as "
         "initials-then-surname, no issue number, no period between the journal and the volume. "
         "Nucleic Acid Therapeutics returns a non-conforming manuscript before peer review.")
+
+
+#: ⭐ THE VENUE'S AUTHOR COUNT, ITEM A4 OF ITS SUBMISSION CHECKLIST: all authors up to 11; more than
+#: 11, the first 9 then `et al.` The list carried FIRST THREE + et al on all twenty-three entries —
+#: a house habit no gate could see, because the style pattern above is satisfied by any author
+#: segment at all. Twelve entries named three of the nine the venue wants named, and nine printed
+#: `et al.` over a list of eleven or fewer that it wants printed whole; only the two three-author
+#: entries were already right. The segments are written from fetch products by
+#: `journal_reference_authors.py` into
+#: `aso/journal-reference-authors.json`, and this binds the printed entry to that artifact.
+AUTHORS = json.load(open(os.path.join(MANUSCRIPTS, "aso", "journal-reference-authors.json"),
+                         encoding="utf-8")) if os.path.exists(
+    os.path.join(MANUSCRIPTS, "aso", "journal-reference-authors.json")) else None
+_AUTHOR_SEGMENT = re.compile(r"^(?P<authors>.+?)\. \(\d{4}\)\. ")
+
+
+def test_every_entry_names_the_authors_the_venue_asks_for():
+    """⛔ AN AUTHOR COUNT IS A STYLE RULE THE STYLE PATTERN CANNOT SEE.
+
+    `test_every_entry_is_in_the_style_the_venue_asks_for` matches `.+?` where the authors go, so
+    three names and thirty pass it identically. This one compares the segment character for
+    character with the list `journal_reference_authors.py` read out of Europe PMC and Crossref and
+    rendered under the venue's 11/9 rule, which is the only way a hand-added entry in the old
+    first-three habit shows up before an editor sees it.
+    """
+    assert AUTHORS is not None, (
+        "aso/journal-reference-authors.json is missing. It is what the author segments are written "
+        "from; rebuild it with `python3 research/manuscripts/journal_reference_authors.py`.")
+    by_pmid, wrong, unfetched = AUTHORS["by_pmid"], [], []
+    for num, body in sorted(_entries().items(), key=lambda kv: int(kv[0])):
+        pmid = re.search(r"PMID:\s*(\d+)", body)
+        seg = _AUTHOR_SEGMENT.match(body)
+        assert seg, f"[{num}] has no `Authors. (YEAR). ` opening"
+        if not pmid or pmid.group(1) not in by_pmid:
+            unfetched.append(num)
+            continue
+        want = by_pmid[pmid.group(1)]["rendered"]
+        if seg.group("authors") != want:
+            wrong.append(f"[{num}] prints {seg.group('authors')!r}\n       expected {want!r}")
+    assert not unfetched, (
+        f"{len(unfetched)} entry/entries have no fetched author list: {unfetched}. Add the PMID's "
+        "fetch product to `journal_reference_authors.py` and rebuild — an author list is a "
+        "bibliographic fact and is never typed from recollection.")
+    assert not wrong, (
+        f"{len(wrong)} author list(s) are not what the venue's rule renders:\n  "
+        + "\n  ".join(wrong)
+        + "\nRun `python3 research/manuscripts/journal_reference_authors.py --apply`. Nucleic Acid "
+          "Therapeutics wants all authors up to 11, and the first 9 then et al. beyond that.")
 
 
 @pytest.mark.parametrize("path", [ARTICLE, REFS])

@@ -82,7 +82,12 @@ PAPERS = {
     #: tables companions and NO supplementary file — the preprint is its extended report.
     "aso-journal": {
         "layout": {"tables_in_column": True, "no_provenance_line": True,
-                   "backmatter_in_flow": True},
+                   "backmatter_in_flow": True,
+                   #: ⭐ This is the paper going to Nucleic Acid Therapeutics, so its SUBMISSION
+                   #: build takes that journal's house format (NAT_SUBMISSION_CSS): double-spaced,
+                   #: ample margins, each section on its own page. The journal-format build is
+                   #: untouched by it — that one is the typeset preview the charge is levied on.
+                   "nat_submission": True},
         #: Nucleic Acid Therapeutics, MEASURED from 14 of its own published articles by
         #: scripts/venue_typeset_geometry.py (research/literature/venue-typeset-geometry.json):
         #: US Letter, two columns of 239pt with a 12pt gutter, 9.8pt body on 10.9pt leading, and a
@@ -101,6 +106,8 @@ PAPERS = {
         "manuscript": "aso/fusion-junction-aso-journal-article.md",
         "tables": "aso/fusion-junction-aso-journal-tables.md",
         "references": "aso/fusion-junction-aso-journal-references.md",
+        #: ⭐ NAT prints bracketed numerals. Build-time only — see `_bracket_citations`.
+        "bracketed_citations": True,
         "stamp_sources": (
             "aso/fusion-junction-aso-journal-article.md",
             "aso/fusion-junction-aso-journal-tables.md",
@@ -616,6 +623,42 @@ def _fold_the_figure_legends_preamble(body, paper):
 
 # --------------------------------------------------------------------------- assembly
 
+#: `.<sup>6,7,8,9,10,11</sup><!--PMID:…-->` — the PUNCTUATION is captured on purpose. A superscript
+#: citation sits AFTER the sentence punctuation and a bracketed numeral goes BEFORE it, so a bare tag
+#: swap would print "…chemotherapy.[3]". 23 of this article's 25 citations sit after a `.` or a `,`.
+_SUP_CITE = re.compile(r"(?P<punct>[.,;:])?<sup>(?P<nums>[\d,\s–-]+)</sup>"
+                       r"(?P<marker>\s*<!--\s*PMID:[^>]*?-->)?")
+
+
+def _bracket_citations(body):
+    """Superscript citations -> Vancouver bracketed numerals, at BUILD time only.
+
+    ⛔ THE MARKDOWN KEEPS ITS SUPERSCRIPTS, AND THAT IS THE POINT. Three guards bind to
+    `<sup>N</sup><!--PMID:…-->` in the source — `test_journal_references_match_the_prose`,
+    `test_journal_article_numbers` and `test_submission_citations` — and every one of them stays
+    green because the source is untouched. Rewriting the manuscript instead would have traded a
+    venue's house style for three checks of whether the numbering is right.
+
+    ⚠ SCOPED PER PAPER, NEVER GLOBAL: the extended report's markdown carries en-dash ranges of its
+    own (`<sup>13–16</sup>`), and the other two papers still want superscripts.
+    """
+    def one(m):
+        ns = [int(x) for x in re.findall(r"\d+", m.group("nums"))]
+        if not ns:
+            return m.group(0)
+        out, i = [], 0
+        while i < len(ns):
+            j = i
+            while j + 1 < len(ns) and ns[j + 1] == ns[j] + 1:
+                j += 1
+            #: a RANGE only at three or more — "[1,2]" is shorter than "[1-2]" and is what the
+            #: venue's own examples print.
+            out.append(f"{ns[i]}-{ns[j]}" if j - i >= 2 else ",".join(str(n) for n in ns[i:j + 1]))
+            i = j + 1
+        return "[" + ",".join(out) + "]" + (m.group("punct") or "") + (m.group("marker") or "")
+    return _SUP_CITE.sub(one, body)
+
+
 def assemble(paper, style="journal"):
     """Return (markdown, prerendered_floats). In manuscript style the float map is empty."""
     body = strip_frontmatter(read(paper["manuscript"]))
@@ -640,6 +683,12 @@ def assemble(paper, style="journal"):
                   if paper.get("references") else None)
     if references is not None and paper.get("drop_pmids_from_printed_references"):
         references = _drop_printed_pmids(references)
+
+    #: ⭐ Nucleic Acid Therapeutics wants bracketed numerals, not superscripts. Applied to the
+    #: assembled BODY so both styles — and `build_submission_docx.py`, which calls this same
+    #: function — inherit it, and the markdown keeps the form its guards read.
+    if paper.get("bracketed_citations"):
+        body = _bracket_citations(body)
 
     if style == "manuscript":
         if tables:
@@ -1123,9 +1172,16 @@ def table_label(number, block):
     #: read from the caption, which is where they are written.
     grid = "\n".join(ln for ln in block.split("\n") if ln.strip().startswith("|"))
     label = f"Table {number}"
-    title = _caption_title(block)
-    if title:
-        label += ". " + title
+    #: ⛔ THE TITLE IS NOT REPEATED HERE, AND THAT IS THE FIX FOR A REPORTED PRODUCTION FAULT
+    #: (external reviewer, 2026-08-25: "Table 1 caption and table are duplicated"). This label rides
+    #: in <thead>, which paged media repeats — so on a table that FITS ON ONE PAGE it renders once,
+    #: directly under the caption it was echoing, and an editor reads two captions. Measured on the
+    #: journal build: both occurrences of "Table 1." landed on page 2, and Table 1 spans no page
+    #: break at all.
+    #: ★ WHAT THE LABEL IS ACTUALLY FOR SURVIVES UNCHANGED. The 2026-08-19 blind screen did not ask
+    #: for the title on continuation pages; it found readers given a prohibition with no cut
+    #: attached, and unmarked rows readable as clearances. That is the criterion, the caveat and the
+    #: marker keys below — all still built, all still repeated. Only the echoed title is gone.
     if re.search(r"[¹²³⁴⁵⁶⁷⁸⁹]", grid):
         label += "  ·  numbered notes are under the caption, on this table's first page"
     if "†" in grid:
@@ -1562,10 +1618,18 @@ def parse_front_matter(body):
     # "## 1. Introduction" — ordinary punctuation, and what the vaccine path uses — failed the build
     # with a message about a missing section. The anchor that matters is "a level-2 heading whose
     # number is 1", not which character follows the digit.
-    start = re.search(r"^##\s+1[.\s]", body, re.M)
+    # ⭐ AND AN IMRaD MANUSCRIPT HAS NO NUMBERED SECTIONS AT ALL (2026-08-25). Nucleic Acid
+    # Therapeutics requires Introduction / Materials and Methods / Results / Discussion, unnumbered,
+    # so `^##\s+1[.\s]` found nothing and the build died claiming the front matter would be
+    # duplicated. The property this anchor actually needs is "where does the front matter END", and
+    # the front matter is a closed set — title block, Abstract, Keywords. So accept EITHER a numbered
+    # first section or the first IMRaD section heading, and keep the failure loud if neither exists.
+    start = (re.search(r"^##\s+1[.\s]", body, re.M)
+             or re.search(r"^##\s+Introduction\s*$", body, re.M))
     if not start:
-        raise SystemExit("could not find '## 1 …' — the body must start at the first numbered "
-                         "section, or the front matter would be duplicated into it")
+        raise SystemExit("could not find '## 1 …' or '## Introduction' — the body must start at the "
+                         "first section after the front matter, or the front matter would be "
+                         "duplicated into it")
     front["body"] = body[start.start():]
     return front
 
@@ -1893,7 +1957,27 @@ li { margin-bottom: 3pt; text-align: justify; }
 """
 
 
-def wrap_manuscript(front_title, body_html, front_block=""):
+#: ⭐ NUCLEIC ACID THERAPEUTICS SUBMISSION FORMAT, AS AN OPT-IN OVERLAY (2026-08-25).
+#:
+#: ⛔⛔ IT WAS FIRST WRITTEN STRAIGHT INTO `MANUSCRIPT_CSS`, WHICH EVERY PAPER'S SUBMISSION BUILD
+#: SHARES. That reformatted the extended report — a DEPOSITED artifact this repository has decided to
+#: leave alone as a historical checkpoint — and the nearly-empty-page guard caught it immediately, on
+#: three pages of a document nobody had asked to change. A venue's house style belongs to the paper
+#: going to that venue, never to the renderer.
+#:
+#: What NAT requires, from its guidelines captured at
+#: research/literature/nat-submission-guidelines-2026-08-23.md: double-spaced throughout, ample
+#: margins on all sides, and each major section beginning on a separate page. None of it applies to
+#: the journal-format build, which is the TYPESET preview the per-page charge is levied on.
+NAT_SUBMISSION_CSS = """
+@page { size: A4; margin: 25mm; }
+@page landscape { size: A4 landscape; margin: 20mm; }
+body { font-size: 12pt; line-height: 2.0; }
+h2 { break-before: page; }
+"""
+
+
+def wrap_manuscript(front_title, body_html, front_block="", paper=None):
     body_html = re.sub(r"(<h2>Tables</h2>)(.*?)(?=<h2>)",
                        lambda m: '<section class="landscape">' + m.group(1) + m.group(2)
                        + "</section>", body_html, count=1, flags=re.S)
@@ -1912,7 +1996,10 @@ def wrap_manuscript(front_title, body_html, front_block=""):
     #: old build carried nothing at all: no date, no version, no build.
     if front_block:
         body_html = re.sub(r"(</h1>)", r"\1" + front_block, body_html, count=1)
-    return page_shell(front_title, MANUSCRIPT_CSS, body_html)
+    css = MANUSCRIPT_CSS
+    if ((paper or {}).get("layout") or {}).get("nat_submission"):
+        css = css + NAT_SUBMISSION_CSS
+    return page_shell(front_title, css, body_html)
 
 
 #: One `<div class="float … landscape-float" id="…">…</div>`, matched by its opening tag and closed
@@ -2706,7 +2793,8 @@ def build(name, paper, style="journal", html_only=False, anonymized=False):
     else:
         page = wrap_manuscript(
             meta["/Title"], markdown_to_html(body, floats),
-            f'<p class="version">{_html.escape(provenance_line(paper, "manuscript"))}</p>')
+            f'<p class="version">{_html.escape(provenance_line(paper, "manuscript"))}</p>',
+            paper=paper)
         out_name = paper["out"].replace(".pdf", "-manuscript.pdf")
 
     if anonymized:

@@ -46,6 +46,19 @@ last_verified: 2026-08-10
 - `mtap-prmt5-fig4-comparator-classes.png` — raster present, vector present
 - `mtap-prmt5-fig5-motif-map.png` — raster present, vector present
 
+**Files to upload, one per portal slot** — not one composed PDF
+
+| file | what it is | why it is on this list |
+|---|---|---|
+| `mtap-prmt5/emc-mtap-prmt5-hypothesis-cover-letter.md` | cover letter | every portal asks for one |
+| `figures/mtap-prmt5-fig1-readings.png` | figure — SUBMISSION FORMAT NOT BUILT | NAT's checklist A8 wants EPS or TIFF; run `python3 research/manuscripts/figures/svg_to_print_formats.py`; this venue's own file requirements are unread |
+| `figures/mtap-prmt5-fig2-locus-genewise.png` | figure — SUBMISSION FORMAT NOT BUILT | NAT's checklist A8 wants EPS or TIFF; run `python3 research/manuscripts/figures/svg_to_print_formats.py`; this venue's own file requirements are unread |
+| `figures/mtap-prmt5-fig3-dependency-qualifier.png` | figure — SUBMISSION FORMAT NOT BUILT | NAT's checklist A8 wants EPS or TIFF; run `python3 research/manuscripts/figures/svg_to_print_formats.py`; this venue's own file requirements are unread |
+| `figures/mtap-prmt5-fig4-comparator-classes.png` | figure — SUBMISSION FORMAT NOT BUILT | NAT's checklist A8 wants EPS or TIFF; run `python3 research/manuscripts/figures/svg_to_print_formats.py`; this venue's own file requirements are unread |
+| `figures/mtap-prmt5-fig5-motif-map.png` | figure — SUBMISSION FORMAT NOT BUILT | NAT's checklist A8 wants EPS or TIFF; run `python3 research/manuscripts/figures/svg_to_print_formats.py`; this venue's own file requirements are unread |
+
+⚠ The portal's own file-designation menu is shown at the upload form and is not readable from here; journals.sagepub.com returns HTTP 403 to every tool in this repository. The one designation the captured guidelines name verbatim is "Supplemental Material - For Review Only", which is why that row alone quotes one.
+
 ## Genes, Chromosomes and Cancer (Wiley)
 
 **Manuscript** `dependency/emc-atr-collaborator-package.md`
@@ -65,6 +78,14 @@ last_verified: 2026-08-10
 ⚠ Limits provenance: search-derived; onlinelibrary.wiley.com serves a bot challenge to CI and to a real headless browser alike.
 
 **Figures to upload** — none; this paper's display items are all tables.
+
+**Files to upload, one per portal slot** — not one composed PDF
+
+| file | what it is | why it is on this list |
+|---|---|---|
+| `dependency/emc-atr-collaborator-package-cover-letter.md` | cover letter | every portal asks for one |
+
+⚠ The portal's own file-designation menu is shown at the upload form and is not readable from here; journals.sagepub.com returns HTTP 403 to every tool in this repository. The one designation the captured guidelines name verbatim is "Supplemental Material - For Review Only", which is why that row alone quotes one.
 
 ## Critical Reviews in Oncology/Hematology (Elsevier)
 
@@ -88,6 +109,15 @@ last_verified: 2026-08-10
 
 - `repurposing-fig1-design.png` — raster present, vector present
 
+**Files to upload, one per portal slot** — not one composed PDF
+
+| file | what it is | why it is on this list |
+|---|---|---|
+| `repurposing/repurposing-hypotheses-cover-letter.md` | cover letter | every portal asks for one |
+| `figures/repurposing-fig1-design.png` | figure — SUBMISSION FORMAT NOT BUILT | NAT's checklist A8 wants EPS or TIFF; run `python3 research/manuscripts/figures/svg_to_print_formats.py`; this venue's own file requirements are unread |
+
+⚠ The portal's own file-designation menu is shown at the upload form and is not readable from here; journals.sagepub.com returns HTTP 403 to every tool in this repository. The one designation the captured guidelines name verbatim is "Supplemental Material - For Review Only", which is why that row alone quotes one.
+
 ## British Journal of Cancer (Springer Nature)
 
 **Manuscript** `surface-targets/emc-surface-target-landscape.md`
@@ -107,6 +137,14 @@ last_verified: 2026-08-10
 ⚠ Limits provenance: nature.com pages DO answer; these were read from the journal's own guide to authors at HTTP 200.
 
 **Figures to upload** — none; this paper's display items are all tables.
+
+**Files to upload, one per portal slot** — not one composed PDF
+
+| file | what it is | why it is on this list |
+|---|---|---|
+| `surface-targets/emc-surface-target-landscape-cover-letter.md` | cover letter | every portal asks for one |
+
+⚠ The portal's own file-designation menu is shown at the upload form and is not readable from here; journals.sagepub.com returns HTTP 403 to every tool in this repository. The one designation the captured guidelines name verbatim is "Supplemental Material - For Review Only", which is why that row alone quotes one.
 
 ## QEIOS (the call, 2026-08-24) — not yet submitted. bioRxiv declined 2026-08-23 (author unaffiliated); Research Square declined 2026-08-24 (content type or screening). Ungated because Qeios publishes no length limits
 
@@ -133,13 +171,30 @@ last_verified: 2026-08-10
 - `aso-gap-length-tradeoff.svg` — raster present, vector present
 - `aso-chance-baseline.svg` — raster present, vector present
 
+**Files to upload, one per portal slot** — not one composed PDF
+
+| file | what it is | why it is on this list |
+|---|---|---|
+| `aso/fusion-junction-aso-research-article-manuscript.pdf` | main document, same content as PDF | for a portal that will not take .docx |
+| `aso/fusion-junction-aso-research-article-figure-legends.docx` | figure legends, separate and double-spaced | NAT's checklist A9; this venue's own file requirements are unread |
+| `figures/submission/aso-junction-space.eps` | figure — vector, CMYK | NAT's checklist A8; one file per figure; this venue's own file requirements are unread |
+| `figures/submission/aso-junction-space.tif` | figure — raster, CMYK, 1200 dpi | NAT's checklist A8; one file per figure; this venue's own file requirements are unread |
+| `figures/submission/aso-multipartner-seam.eps` | figure — vector, CMYK | NAT's checklist A8; one file per figure; this venue's own file requirements are unread |
+| `figures/submission/aso-multipartner-seam.tif` | figure — raster, CMYK, 1200 dpi | NAT's checklist A8; one file per figure; this venue's own file requirements are unread |
+| `figures/submission/aso-gap-length-tradeoff.eps` | figure — vector, CMYK | NAT's checklist A8; one file per figure; this venue's own file requirements are unread |
+| `figures/submission/aso-gap-length-tradeoff.tif` | figure — raster, CMYK, 1200 dpi | NAT's checklist A8; one file per figure; this venue's own file requirements are unread |
+| `figures/submission/aso-chance-baseline.eps` | figure — vector, CMYK | NAT's checklist A8; one file per figure; this venue's own file requirements are unread |
+| `figures/submission/aso-chance-baseline.tif` | figure — raster, CMYK, 1200 dpi | NAT's checklist A8; one file per figure; this venue's own file requirements are unread |
+
+⚠ The portal's own file-designation menu is shown at the upload form and is not readable from here; journals.sagepub.com returns HTTP 403 to every tool in this repository. The one designation the captured guidelines name verbatim is "Supplemental Material - For Review Only", which is why that row alone quotes one.
+
 ## Nucleic Acid Therapeutics (SAGE)
 
 **Manuscript** `aso/fusion-junction-aso-journal-article.md`
 
 | field | value |
 |---|---|
-| Word count, main text | 3684 (limit 4000) |
+| Word count, main text | 3722 (limit 4000) |
 | Abstract | 200 words (limit 200) |
 | Display items | 3 (1 figures, 2 tables) (limit 5) |
 | References | 23 |
@@ -154,6 +209,23 @@ last_verified: 2026-08-10
 **Figures to upload**
 
 - `aso-multipartner-seam.svg` — raster present, vector present
+
+**Files to upload, one per portal slot** — not one composed PDF
+
+| file | what it is | why it is on this list |
+|---|---|---|
+| `aso/fusion-junction-aso-cover-letter.md` | cover letter | every portal asks for one |
+| `aso/fusion-junction-aso-journal-article-title-page.docx` | title page — the identity file | checklist A7; and the identity a blinded manuscript has had removed |
+| `aso/fusion-junction-aso-journal-article-manuscript.docx` | main document, double-spaced Word | checklist A6; a Word file is the copy an editor edits |
+| `aso/fusion-junction-aso-journal-article-manuscript.pdf` | main document, same content as PDF | for a portal that will not take .docx |
+| `aso/fusion-junction-aso-journal-article-anonymized.pdf` | main document with identity removed | the double-anonymized reading of the guidelines; upload this OR the two above, never both |
+| `aso/fusion-junction-aso-journal-article-figure-legends.docx` | figure legends, separate and double-spaced | checklist A9 |
+| `figures/submission/aso-multipartner-seam.eps` | figure — vector, CMYK | checklist A8; one file per figure |
+| `figures/submission/aso-multipartner-seam.tif` | figure — raster, CMYK, 1200 dpi | checklist A8; one file per figure |
+| `aso/fusion-junction-aso-research-article.pdf` | supplemental material, for review only | the one designation the guidelines name verbatim: "Supplemental Material - For Review Only" |
+| `aso/fusion-junction-aso-sequences.csv` | supplemental material, for review only | the one designation the guidelines name verbatim: "Supplemental Material - For Review Only" |
+
+⚠ The portal's own file-designation menu is shown at the upload form and is not readable from here; journals.sagepub.com returns HTTP 403 to every tool in this repository. The one designation the captured guidelines name verbatim is "Supplemental Material - For Review Only", which is why that row alone quotes one.
 
 ## Outstanding for every paper, and only the author can supply these
 

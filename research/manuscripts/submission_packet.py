@@ -244,6 +244,122 @@ def _companion(stem, suffixes):
     return ""
 
 
+def _parts_for(manuscript_rel):
+    """{part name: (path, why)} for the separate submission files this manuscript ships.
+
+    ⚠ ONE FACT, ONE HOME, exactly as `_builder_papers` is. `build_submission_parts.PARTS` decides
+    which papers get a title page and a legends file and what each is called; a packet that
+    answered the same question by guessing a suffix would be a second home for it, and the second
+    home is the one that goes stale the day a suffix changes.
+    """
+    global _PARTS
+    if _PARTS is None:
+        _PARTS = {}
+        try:
+            import importlib.util
+            path = os.path.join(HERE, "build_submission_parts.py")
+            spec = importlib.util.spec_from_file_location("_bsparts_for_packet", path)
+            mod = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(mod)
+            for paper, entry in getattr(mod, "PAPERS_BY_MANUSCRIPT", {}).items():
+                _PARTS[paper] = entry
+        except Exception:  # noqa: BLE001 — the builder is reported by its own gate
+            _PARTS = {}
+    return _PARTS.get(manuscript_rel, {})
+
+
+_PARTS = None
+
+
+def _print_formats():
+    """(per-figure-stem submission files, dpi) as `svg_to_print_formats.py` MEASURED them.
+
+    ⛔ THE MANIFEST IS THE ONLY ADMISSIBLE SOURCE FOR THESE FILENAMES, and a directory scan is not
+    a substitute: the manifest records the sha256 of the figure PDF each deliverable was built
+    from, so it can say a file is STALE, which a scan cannot. When it is absent — ghostscript is
+    not in the regeneration chain, because a fresh sandbox has no ghostscript — the row says the
+    deliverable is unbuilt rather than falling back to the .svg and calling it ready.
+    """
+    m = _load("research/manuscripts/figures/submission/print-formats-manifest.json") or {}
+    return m.get("figures", {}), m.get("dpi")
+
+
+#: What each individual upload IS, in the order a submission form walks through them. The third
+#: element is the requirement's own source, because a checklist that cannot say why a file is on
+#: it is a checklist nobody can prune.
+#: ⛔⛔ NO PORTAL "FILE DESIGNATION" IS NAMED HERE, AND THE OMISSION IS DELIBERATE. ScholarOne's
+#: designation list is per journal and is shown at the upload form; the only one this repository
+#: has READ is `"Supplemental Material - For Review Only"`, quoted verbatim in
+#: research/literature/nat-submission-guidelines-2026-08-23.md. Writing a plausible-looking
+#: designation beside every other row would be four fabricated facts in a file whose whole
+#: history is fabricated facts reaching the portal (see `--check` at the foot of this module).
+def _sourced(reason, nat):
+    """Attribute a requirement to the venue that actually made it.
+
+    ⛔ THE A-NUMBERS ARE NAT'S, AND THE FIRST CUT QUOTED THEM AT QEIOS. Every "why it is on this
+    list" cell in the extended report's manifest read "checklist A8" and "checklist A9" — items
+    from a Nucleic Acid Therapeutics revision list, printed against a preprint server that has
+    never asked for an EPS or a separate legends file. A checklist that misattributes its own
+    requirements is worse than one that omits them, because the depositor cannot tell which rows
+    are binding. The files are still listed: they exist, and a portal that wants one will take it.
+    What changes is that the row says whose requirement it is, and says plainly that this venue's
+    own file requirements have not been read.
+    """
+    if nat or not reason.startswith("checklist "):
+        return reason
+    return (reason.replace("checklist", "NAT's checklist", 1)
+            + "; this venue's own file requirements are unread")
+
+
+def upload_files(row, stem, letter, anon, review_only, figs):
+    """One row per file the submission uploads, rather than one composed PDF (checklist A7)."""
+    out = []
+    nat = row["venue"].startswith("Nucleic Acid Therapeutics")
+    manuscript = row["file"]
+    parts = _parts_for(manuscript)
+    preprint = "preprint" in row["venue"].lower() or "qeios" in row["venue"].lower()
+
+    if letter and not preprint:
+        out.append((letter, "cover letter", "every portal asks for one"))
+    if "title-page" in parts:
+        out.append((parts["title-page"], "title page — the identity file",
+                    "checklist A7; and the identity a blinded manuscript has had removed"))
+
+    docx = manuscript.replace(".md", "-manuscript.docx")
+    if os.path.exists(os.path.join(HERE, docx)):
+        out.append((docx, "main document, double-spaced Word",
+                    "checklist A6; a Word file is the copy an editor edits"))
+    pdf = manuscript.replace(".md", "-manuscript.pdf")
+    if os.path.exists(os.path.join(HERE, pdf)):
+        out.append((pdf, "main document, same content as PDF",
+                    "for a portal that will not take .docx"))
+    if anon:
+        out.append((anon, "main document with identity removed",
+                    "the double-anonymized reading of the guidelines; upload this OR the two "
+                    "above, never both"))
+    if "figure-legends" in parts:
+        out.append((parts["figure-legends"], "figure legends, separate and double-spaced",
+                    "checklist A9"))
+
+    prints, dpi = _print_formats()
+    for f in figs:
+        base = os.path.splitext(f["file"])[0]
+        entry = prints.get(base)
+        if not entry:
+            out.append((f"figures/{f['file']}", "figure — SUBMISSION FORMAT NOT BUILT",
+                        "checklist A8 wants EPS or TIFF; run "
+                        "`python3 research/manuscripts/figures/svg_to_print_formats.py`"))
+            continue
+        for kind in ("eps", "tiff"):
+            rel = "figures/submission/" + entry[kind]["file"]
+            note = f"vector, CMYK" if kind == "eps" else f"raster, CMYK, {dpi} dpi"
+            out.append((rel, f"figure — {note}", "checklist A8; one file per figure"))
+    for f in review_only:
+        out.append((f, "supplemental material, for review only",
+                    'the one designation the guidelines name verbatim: "Supplemental Material - '
+                    'For Review Only"'))
+    return [(path, what, _sourced(why, nat)) for path, what, why in out]
+
 def venue_fee(row):
     """The venue's own fee statement, where its record carries one. Read, never composed here."""
     try:
@@ -382,6 +498,26 @@ def main():
             L.append("")
         else:
             L += ["**Figures to upload** — none; this paper's display items are all tables.", ""]
+
+        # ⛔ THE ENVELOPE IS A LIST OF FILES, NOT A DOCUMENT (checklist A7, 2026-08-25). The row
+        # above this one tells a depositor the paper's counts and the row below told them which
+        # figures exist; between the two sat the assumption that the thing uploaded is "the
+        # manuscript", and the composed PDF is the artefact nearest to hand. A submission built
+        # that way is returned before peer review. This is the actual envelope, file by file.
+        uploads = upload_files(row, stem, letter, anon, review_only, figs)
+        if uploads:
+            L += ["**Files to upload, one per portal slot** — not one composed PDF", "",
+                  "| file | what it is | why it is on this list |", "|---|---|---|"]
+            for path, what, why in uploads:
+                here = os.path.exists(os.path.join(HERE, path))
+                L.append(f"| {'`' + path + '`' if here else '**' + path + '** (NOT BUILT)'} "
+                         f"| {what} | {why} |")
+            L += ["",
+                  "⚠ The portal's own file-designation menu is shown at the upload form and is "
+                  "not readable from here; journals.sagepub.com returns HTTP 403 to every tool in "
+                  "this repository. The one designation the captured guidelines name verbatim is "
+                  "\"Supplemental Material - For Review Only\", which is why that row alone "
+                  "quotes one.", ""]
 
     L += ["## Outstanding for every paper, and only the author can supply these", ""]
     for name, why in AUTHOR_ONLY:
