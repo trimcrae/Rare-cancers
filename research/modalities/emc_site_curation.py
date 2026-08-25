@@ -218,6 +218,22 @@ def build() -> dict:
                                 "which biases it DOWNWARD by an unknown amount. The per-cohort "
                                 "column, not the pooled figure, is the honest object here.",
         },
+        "⚠_these_denominators_DIFFER_from_the_registry_cohorts_AND_BOTH_ARE_RIGHT": {
+            "_why_this_is_written_down": "A later reader will notice that this file says n=59 for "
+                "chiusole2020 while the clinical registry's cohort says 49, and that it says n=171 "
+                "for masunaga2025 while the registry carries 134 + 29 = 163. Neither is an error, "
+                "and without this note somebody will 'fix' one of them.",
+            "chiusole2020": "The registry cohort is keyed on the SURGICAL subset — Table 1's "
+                "'Extension of Surgery (n. 49)'. A site distribution is reported over the whole "
+                "series, 'Primary Location (n. 59)', which is the denominator a site fraction needs.",
+            "masunaga2025": "The registry carries two strata, 'localised at diagnosis, surgically "
+                "treated' (134) and 'metastatic at diagnosis' (29). Table 1's tumour-site column "
+                "runs over the whole cohort of 171 — the 8 localised patients who had no surgery "
+                "are outside the registry's first stratum and inside the paper's site table.",
+            "⛔_the_rule": "An eligibility fraction takes the denominator its own question defines. "
+                "A perfusion service asks about every patient with this disease, not only the ones "
+                "somebody operated on.",
+        },
         "⛔_the_category_boundary": (
             "Masunaga files shoulder (9), groin (8), axilla (3) and buttock (15) under TRUNK. Every "
             "one of those is a primary a perfusion service would argue about rather than refuse "
