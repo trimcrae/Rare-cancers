@@ -133,6 +133,22 @@ reports four false gaps); competing-interests, funding, ethics and AI-use statem
    pick the one remedy — find an institution — that neither venue's stated reason actually calls for
    at Research Square, and would leave the real cause untouched at the next server.
 
+5. **Post the CONDENSED ARTICLE at Qeios** — **SUBMITTED 2026-08-25, 4:18 PM ET, by trimcrae.**
+   Word file uploaded (`fusion-junction-aso-journal-article-manuscript.docx`) with
+   `fusion-junction-aso-sequences.csv` as supplementary data; Qeios accepts Word or LaTeX and states
+   *"Live on Qeios in 24 hours"*.
+   ⛔ **THIS ROW SAYS SUBMITTED, NOT POSTED, AND THE DIFFERENCE IS THE WHOLE LESSON OF ITEM 3.**
+   That entry read "⏳ Awaiting bioRxiv screening" for three days after the rejection, and the
+   manuscript carried a false statement to a journal for the same three days, because nothing here
+   re-reads an external queue. Qeios's own page promises 24 hours; this repository has no way to
+   observe whether that happened. **Whoever next touches this file asks trimcrae for the state
+   rather than inheriting this line as a fact.**
+   ⚠ **AND THE DOI IS NOT KNOWN YET.** The cover letter now carries `[QEIOS DOI]` as a bracket, in
+   the same shape the file's own convention reserves for a fact only the author can supply. ⛔ That
+   bracket is a SENTENCE WAITING TO BECOME FALSE if it is sent unfilled — the exact defect recorded
+   against the `[PREPRINT DOI]` bracket earlier in this document — so it must be filled or the
+   sentence cut before the letter goes anywhere.
+
 
 ## 2b · The preprint venue question — the ORDER is now SETTLED, the SERVER is not
 

@@ -200,9 +200,9 @@ the complete bounds on each claim are deposited at doi:10.5281/zenodo.22061075, 
 manuscript's Data availability statement, and I mention it here so the relationship is on the
 record rather than discovered later: the archive is a data and code deposit rather than a
 manuscript, it is under consideration nowhere, and the manuscript submitted
-here is not published or under consideration elsewhere. This condensed article has not been posted as a
-preprint; should that change before a decision, I will inform the editorial office and supply the
-DOI. I am the sole author, an unaffiliated
+here is not published or under consideration elsewhere. This condensed article was submitted to Qeios as a
+preprint on 2026-08-25; its DOI is `[QEIOS DOI]`, and I supply it here and in the designated field
+because this journal asks to be told about a posting. I am the sole author, an unaffiliated
 independent researcher with no institutional address. Analysis code, the screening pipelines and
 drafting were carried out with substantial AI assistance under my direction, which is disclosed in
 the manuscript; no AI tool is an author, every quantitative statement derived from sequence or from a
