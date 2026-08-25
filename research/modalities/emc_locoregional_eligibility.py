@@ -44,7 +44,14 @@ QUANTITIES = {
     "primary_anatomical_site_distribution": {
         "wanted_by": "RT-LIMB-PERFUSION — isolated limb perfusion is only offerable for an extremity "
                      "primary, so the eligible fraction IS the extremity fraction",
-        "computable": "not from the registry, and it no longer has to be",
+        # ⚠ `computable` IS A CLASSIFIER, NOT A SENTENCE. It was briefly set to prose here
+        # ("not from the registry, and it no longer has to be") and CI caught it against the guard
+        # that pins this field to True / False / "partially" — correctly, because a field a machine
+        # reads is not a place to be eloquent. The nuance belongs in `why`, which is prose by design.
+        # ⭐ AND THE VALUE FLIPS TO True: the question this field answers is whether the endpoint can
+        # HAVE this quantity, not whether the registry happens to carry it. It can, from
+        # emc-site-curation.json. ⚠ *Superseded, retained: False.*
+        "computable": True,
         "why": "⛔ NO COHORT IN THE REGISTRY CARRIES A SITE FIELD, and that is still true. "
                "`overview.commonSites` is a prose list with no counts behind it, and a prose "
                "ordering cannot become a denominator. ⭐ RESOLVED ELSEWHERE 2026-08-25: the site "
@@ -61,7 +68,9 @@ QUANTITIES = {
     "metastatic_site_distribution": {
         "wanted_by": "RT-LUNG-DIRECTED — a lung-directed strategy is offerable only to patients whose "
                      "metastases are lung-confined",
-        "computable": "partially, and the second series does NOT make it poolable",
+        # ⚠ Classifier, not a sentence — see the note on the row above. Still "partially", and the
+        # reason that word survives a second curated series is in `why`.
+        "computable": "partially",
         "why": "⚠ ONE COHORT CARRIES A LUNG-CONFINED READING AND IT IS A PRESENTING STRATUM. The "
                "metastatic-at-diagnosis stratum records 27 lung and 2 peritoneal on n = 29 — those "
                "two rows exhaust the cohort, so 27/29 IS a lung-only fraction there. ⭐ A SECOND "

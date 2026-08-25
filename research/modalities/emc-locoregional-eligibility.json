@@ -14,14 +14,14 @@
   "⛔_what_the_registry_cannot_answer": {
     "primary_anatomical_site_distribution": {
       "wanted_by": "RT-LIMB-PERFUSION — isolated limb perfusion is only offerable for an extremity primary, so the eligible fraction IS the extremity fraction",
-      "computable": "not from the registry, and it no longer has to be",
+      "computable": true,
       "why": "⛔ NO COHORT IN THE REGISTRY CARRIES A SITE FIELD, and that is still true. `overview.commonSites` is a prose list with no counts behind it, and a prose ordering cannot become a denominator. ⭐ RESOLVED ELSEWHERE 2026-08-25: the site tables were transcribed from the primary reports instead, and `emc-site-curation.json` now owns this quantity. ⚠ *Superseded, retained: \"computable: False\"* — which was a statement about the REGISTRY and kept being read as a statement about the literature.",
       "resolved_by": "research/modalities/emc-site-curation.json",
       "what_would_supply_it": "DONE for the two open-access series that print a site table (chiusole2020 n=59, masunaga2025 n=171). The other nine candidate series are not open access, so their site tables stay unreachable at $0 — a paywall, not a missing extraction."
     },
     "metastatic_site_distribution": {
       "wanted_by": "RT-LUNG-DIRECTED — a lung-directed strategy is offerable only to patients whose metastases are lung-confined",
-      "computable": "partially, and the second series does NOT make it poolable",
+      "computable": "partially",
       "why": "⚠ ONE COHORT CARRIES A LUNG-CONFINED READING AND IT IS A PRESENTING STRATUM. The metastatic-at-diagnosis stratum records 27 lung and 2 peritoneal on n = 29 — those two rows exhaust the cohort, so 27/29 IS a lung-only fraction there. ⭐ A SECOND SERIES WAS CURATED 2026-08-25 AND IT CANNOT BE ADDED: chiusole2020's metastatic-site rows are NON-EXCLUSIVE (23 lung + 4 bone + 14 other = 41 over a denominator of 26), so no lung-CONFINED fraction can be read off it, and the paper's own table and its running text disagree by one and two patients. ⛔ So the honest state is UNCHANGED in kind: one presenting cohort, not a pooled distribution.",
       "resolved_by": "research/modalities/emc-site-curation.json (partially)",
       "what_would_supply_it": "a series reporting metastatic sites as MUTUALLY EXCLUSIVE categories, or patient-level data. Neither exists in the reachable open-access set."
