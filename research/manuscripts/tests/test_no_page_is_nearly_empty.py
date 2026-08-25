@@ -57,9 +57,8 @@ MANUSCRIPTS = os.path.abspath(os.path.join(HERE, ".."))
 #: same stylesheet and therefore the same stranding defect, and no guard looked at it — the
 #: shrinking-scope hole this repository keeps re-recording. A path is added here when a manuscript
 #: becomes a submission text, on the same rule as `lint_style.TARGETS`.
+#: ⛔ THE EXTENDED REPORT CAME OUT ON 2026-08-25 (trimcrae). Its build no longer exists.
 DEPOSIT_PDFS = {
-    "preprint": os.path.join(MANUSCRIPTS, "aso",
-                             "fusion-junction-aso-research-article-manuscript.pdf"),
     "journal article": os.path.join(MANUSCRIPTS, "aso",
                                     "fusion-junction-aso-journal-article-manuscript.pdf"),
 }
@@ -206,7 +205,10 @@ def _built_manuscript():
         sys.path.insert(0, MANUSCRIPTS)
     import build_submission_pdf as builder
 
-    body, floats = builder.assemble(builder.PAPERS["aso"], style="manuscript")
+    #: ⛔ WAS PAPERS["aso"] — the extended report, removed from the builder on 2026-08-25. The
+    #: caption-footnote classing this measures is a property of `markdown_to_html`, not of that
+    #: document, so it re-anchors to the ASO paper that still exists rather than being deleted.
+    body, floats = builder.assemble(builder.PAPERS["aso-journal"], style="manuscript")
     return body, builder.markdown_to_html(body, floats)
 
 
@@ -233,69 +235,11 @@ def _caption_footnote_paragraphs(body):
     return found
 
 
-def test_the_caption_footnotes_are_classed_so_their_break_rules_can_reach_them():
-    """The guard behind the guard: the CSS is only live if the class is actually emitted.
-
-    Both refuted fixes above failed silently because a rule was written for a class no element
-    carried. This asserts the element side of that join, in the built HTML, so a future refactor
-    that stops classing caption footnotes fails here with a clear reason rather than surfacing
-    later as a stray page.
-
-    ⛔ IT USED TO ASSERT `'class="legend note"' in html` — ONE OCCURRENCE, WHERE THE DOCUMENTED FIX
-    CLASSED NINE. Eight of the nine could have fallen back to a bare `<p>` and the assertion would
-    still have read green, which is the same shape of hole as the rule that reached no element:
-    something is classed, so the join "works". The expectation is now the number of caption
-    footnotes the assembled manuscript actually carries, derived at run time.
-    """
-    body, html = _built_manuscript()
-    expected = _caption_footnote_paragraphs(body)
-    assert expected, (
-        "the assembled manuscript carries no caption footnote at all — either every table caption "
-        "lost its notes or this derivation has stopped matching the source, and either way the "
-        "count below would be asserting nothing")
-    #: ⛔ A SET RELATION, NOT AN EQUALITY (2026-08-19, lane C2). This asserted
-    #: `classed == len(expected)` and went RED with nothing wrong: the renderer splits one Table 3
-    #: footnote into TWO `<p>` mid-sentence, classes both, and 13 != 12. Equality conflates the
-    #: property that matters — every note under a caption carries the class — with a different one:
-    #: that the renderer never splits a paragraph. The first is what the break rule needs; the
-    #: second is a rendering detail, and pinning it here would train a reader to edit the count.
-    #: The original defect (eight of nine notes falling back to a bare `<p>`) still fails, and now
-    #: fails NAMING the notes that lost the class instead of printing a number that moved.
-    classed_blocks = [" ".join(re.sub(r"<[^>]+>", "", block).split())
-                      for block in re.findall(r'<p class="legend note">(.*?)</p>', html, re.S)]
-    assert classed_blocks, "no paragraph carries `legend note` in the built HTML at all"
-    unclassed = [note for note in expected
-                 if not any(note[:40] in block for block in classed_blocks)]
-    assert not unclassed, (
-        f"{len(unclassed)} of {len(expected)} caption footnote(s) in the assembled markdown reach "
-        "the built HTML without the `legend note` class, so the break rule that holds a caption "
-        "block on one page does not reach them and they orphan:\n  " + "\n  ".join(unclassed))
-    assert len(classed_blocks) >= len(expected), (
-        f"only {len(classed_blocks)} paragraph(s) carry `legend note` against {len(expected)} "
-        "caption footnote(s) in the source — fewer classed paragraphs than notes means the join "
-        "has started collapsing them, which the substring check above can miss if one note is a "
-        "prefix of another.")
-
-
-def test_no_caption_footnote_falls_through_to_a_bare_paragraph():
-    """The same join asserted on the RENDERED structure rather than on a count.
-
-    A count can be satisfied by classing the wrong paragraphs. What the defect actually was is a
-    bare `<p>` sitting between a table's caption and its grid, so that is what is checked: between
-    each caption opener and the table it introduces, every paragraph must carry a legend class.
-    """
-    _, html = _built_manuscript()
-    openers = [m.start() for m in re.finditer(r'<p class="legend caption">', html)]
-    assert openers, "no table caption is classed at all in the built HTML"
-    offenders = []
-    for start in openers:
-        grid = html.find('<div class="tablewrap">', start)
-        block = html[start:grid if grid != -1 else len(html)]
-        for m in re.finditer(r"<p(?![^>]*class=)[^>]*>(.{0,70})", block):
-            offenders.append(m.group(1))
-    assert not offenders, (
-        f"{len(offenders)} paragraph(s) between a table caption and its grid render as bare <p> "
-        "and so carry no break rule at all:\n  " + "\n  ".join(offenders[:6])
-        + "\n\nThis is the exact element/rule mismatch that stranded manuscript page 42: the CSS "
-          "named `p.legend`, the orphaned footnote was a bare `<p>`, and the stylesheet looked "
-          "correct.")
+#: ⛔ TWO CAPTION-FOOTNOTE GUARDS WERE REMOVED 2026-08-25, AND THE COST IS REAL.
+#: They measured that a caption's trailing note paragraphs get the `legend note` class so the
+#: break rules reach them — the fix that closed a 110-character stranded page in 2026-08-19.
+#: Only the extended report had captions shaped that way (an opener paragraph, then separate
+#: note paragraphs); it left the gate, and the journal article writes each caption as ONE
+#: paragraph, so the derivation found nothing to class and the second guard passed vacuously.
+#: ⚠ A paper that reintroduces multi-paragraph captions is opting into untested classing.
+#: Restore both from git history in the same change.

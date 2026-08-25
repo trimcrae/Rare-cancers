@@ -92,7 +92,9 @@ DEFAULT_TARGETS = [
     # and the failure mode of a shortening pass is dropping the qualifier while keeping the claim —
     # which is precisely an R1-R5 defect. The long paper's language has been through seven red-team
     # rounds; the short paper's has been through none.
-    "research/manuscripts/aso/fusion-junction-aso-research-article.md",
+    # ⛔ THE EXTENDED REPORT WAS REMOVED FROM THIS TARGET LIST ON 2026-08-25 (trimcrae:
+    # "Remove any checks requiring it from the gate"). Nothing in the gate reads
+    # fusion-junction-aso-research-article.md any more; the file stays in the tree as history.
     "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
     # ⛔ THE TABLES FILE IS PROSE TOO, ADDED 2026-08-22 (round 14 seat 2). Its captions are spliced
     # into both journal PDFs and carry the two DO NOT ORDER verdicts. Until this line no

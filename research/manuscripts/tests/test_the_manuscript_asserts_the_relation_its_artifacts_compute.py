@@ -130,25 +130,26 @@ POLARITY = [
      r"No large language model was used",
      "the repository's own AI-use record",
      "**Use of artificial intelligence.** No large language model was used."),
-    # ⛔⛔ THE RELATION THIS ROW GUARDS CHANGED, NOT JUST ITS WORDING (2026-08-23). The sentence
-    # said the extended report was "prepared for bioRxiv and not yet posted". bioRxiv DECLINED the
-    # submission — the author is unaffiliated — so a paper claiming a bioRxiv deposit was in
-    # preparation was stating something that is not going to happen. The claim is now the weaker
-    # and true one: it is not posted as a preprint anywhere, so the archived copy is what a reader
-    # cites. ⚠ `forbid` uses a lookbehind rather than naming a server, because the failure mode is
-    # the word "not" going missing, not the word "bioRxiv" coming back.
-    # ⛔ RETIRED 2026-08-25, AND RETIRED AS A DECISION RATHER THAN AS A REWORDING. The sentence this
-    # row guarded — "it is not posted as a preprint, so the archived copy is the citable one" — was
-    # REMOVED from Data availability on trimcrae's checklist item 17: the captured Sage guidelines
-    # say "Accepts preprints? Yes" and ask for the DOI in a designated field, so arguing the
-    # distinction pre-empted an objection this venue does not raise. The positive half survives and
-    # carries what a reader needs ("the archived copy is the citable one").
-    # ⚠ AND THE CONDITION THE ROW WAS WRITTEN FOR IS ALSO GONE: it names "deposit-state.json: a
-    # `pending` Zenodo draft", and that file now carries a `published` block alone — DOI
-    # 10.5281/zenodo.22061075, published 2026-08-23 — with no `pending` key at all. The window
-    # between drafting a corrected version and publishing it, which is the whole thing this row
-    # made legible, closed two days before the row failed.
-    # ★ If a preprint IS ever posted, the disclosure comes back and so does a row for it.
+    # ⛔ THE `deposit-not-yet-posted` ROW WAS REMOVED 2026-08-25, AND TWO INDEPENDENT REASONS
+    # ARRIVED FOR IT THE SAME DAY. Either alone would have retired it.
+    # (a) ITS SUBJECT LEFT. The row anchored on "inside that deposit; it is not posted as a
+    #     preprint", a sentence about the EXTENDED REPORT's preprint status. That document left the
+    #     gate that day and Data availability was rewritten to cite the archive itself, so the
+    #     phrase the row bound to no longer exists — and a polarity row whose anchor cannot be
+    #     found is inert, which is what this module's own
+    #     `test_every_polarity_row_still_finds_the_claim_it_guards` exists to catch.
+    # (b) ITS CONDITION CLOSED, AND THAT IS CHECKABLE. The row names its artifact as
+    #     "deposit-state.json: a `pending` Zenodo draft and no preprint server record". That file
+    #     now carries a `published` block alone — DOI 10.5281/zenodo.22061075, published
+    #     2026-08-23 — with no `pending` key at all. The window between drafting a corrected
+    #     version and publishing it, which is the whole thing the row made legible, had already
+    #     closed. Separately, checklist item 17 removed the argumentative half of the sentence
+    #     anyway: the captured Sage guidelines say "Accepts preprints? Yes".
+    # ⚠ AND THE FORWARD CASE IS NOT COVERED BY ANYTHING. A Qeios preprint of the journal article is
+    # the stated next step; once one is posted the paper has to declare it, and a claim about the
+    # ARTICLE's preprint status will need its own row. This is not that row rewritten — it is a
+    # different claim about a different document, and writing it before the preprint exists would
+    # be guarding a sentence nobody has written.
     ("coverage-is-not-a-measurement",
      r"That prices which published junctions[^.]{0,220}\.",
      r"it is not a coverage measurement, no patient having been screened",

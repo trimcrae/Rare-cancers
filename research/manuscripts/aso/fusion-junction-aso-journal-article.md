@@ -9,8 +9,8 @@ canonical_for:
 purpose: >
   The journal submission for PUB-ASO. It names the reagents to synthesise, the material to test them
   in and the experiment that would falsify the ranking. The full screen, its bounds and its methods
-  are in fusion-junction-aso-research-article.md, archived and citable,
-  which this manuscript cites as its extended report; the numbers live in the artifacts under
+  are in the archived deposit this manuscript cites under Data availability; the numbers live in
+  the artifacts under
   research/modalities/ and are restated here where the argument needs them, each pinned or
   reproducible from those artifacts.
 scope: >
@@ -103,8 +103,8 @@ the panel screen below identifies as the liability.
 ## Materials and Methods
 
 All analyses are computational and use public data; no laboratory work was performed. Full
-parameters, the complete bounds on each claim and the per-design tables are in the extended report
-named under Data availability.
+parameters, the complete bounds on each claim and the per-design tables are in the archived
+deposit named under Data availability.
 
 Canonical transcripts for the five partner genes and for *NR4A3* were obtained from
 Ensembl.<sup>19</sup><!--PMID:39656687--> Junction-spanning 16-mer gapmers were tiled in a 5-6-5
@@ -212,7 +212,7 @@ reagent is in either class, the closest to each being 3.2 and 3.0 kcal/mol weake
 Lengthening the catalytic gap does not remove this liability, for an arithmetic reason: every base
 inside the gap comes from the donor or the acceptor exon, so a longer gap buys margin only by
 conceding parent-paired gap DNA at the design's own seam. Across three geometries the liable count
-does not fall; the extended report gives the series.
+does not fall; the archived deposit gives the series.
 
 Three designs clear every screen applied here, none at a junction any patient is reported to carry,
 which makes them mechanism controls rather than candidates. Selecting within each junction rather
@@ -343,7 +343,8 @@ parent, in the mature transcript or across a splice junction in precursor RNA. B
 before any molecule exists, but not on comparable terms: the mature-transcript screen condemns on a
 ten-base-pair duplex through the gap and the precursor arm on a hit at up to two mismatches with
 the gap fully paired, so neither restates the other. Their counts may not be added either, because a
-design condemned in both is one design. A third compartment is searched only in the extended report: the
+design condemned in both is one design. A third compartment is searched only in the archived
+deposit: the
 patient's own un-rearranged *NR4A3* allele, at a two-mismatch ceiling that bounds its class from
 below. No design this panel selects is condemned by it, but it excludes two registers
 of the *EWSR1* exon 13 to *NR4A3* exon-2 seam above while clearing that reagent — the register hazard
@@ -354,7 +355,7 @@ here<sup>8,9,10,18</sup><!--PMID:33241214,21846246,23052253,36265509--> were all
 already synthesised; no survey of design pipelines was performed, so the screen-before-synthesis
 claim is about this literature as retrieved and not a priority claim. Whether sparing wild-type *NR4A3* is worth a specificity cost is
 itself unsettled, the reported paralogue redundancy and dosage effects pointing in opposite
-directions; the extended report gives that literature and does not resolve it either.
+directions; the archived deposit gives that literature and does not resolve it either.
 
 Three limits bound what any test of these reagents could show. All five screens address
 hybridisation rather than cleavage, and none establishes that a predicted duplex forms or is cut.
@@ -403,10 +404,9 @@ retrieved from PubMed rather than written from model output, and each citation w
 the retrieved record. The author directed all work reported here and is responsible for its content.
 
 **Data availability.** All code, graded artefacts and per-design tables are deposited under
-[doi:10.5281/zenodo.22061075](https://doi.org/10.5281/zenodo.22061075). The extended report,
-carrying every screen's parameters and the complete bounds on each claim, is
-`fusion-junction-aso-research-article.md` inside that deposit, and the archived copy is the
-citable one. An earlier version
+[doi:10.5281/zenodo.22061075](https://doi.org/10.5281/zenodo.22061075). That deposit carries
+every screen's parameters and the complete bounds on each claim, and is the citable record for
+them. An earlier version
 of these analyses placed the acceptor junction incorrectly through a coding-versus-transcript exon
 indexing error and was withdrawn in full; the panels were rebuilt and verified, and the complete
 correction record is released with the archive.

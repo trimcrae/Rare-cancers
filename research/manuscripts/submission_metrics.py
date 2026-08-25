@@ -55,13 +55,39 @@ REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 #: mistakes one of these for a retrieved fact.
 VENUES = {
     "bioRxiv-preprint": {
-        "journal": "QEIOS (the call, 2026-08-24) — not yet submitted. bioRxiv declined 2026-08-23 (author unaffiliated); Research Square declined 2026-08-24 (content type or screening). Ungated because Qeios publishes no length limits",
+        "journal": "Qeios (the call, 2026-08-24; the paper is the 6-page journal article as of 2026-08-25) — not yet submitted. bioRxiv declined 2026-08-23 (author unaffiliated); Research Square declined 2026-08-24 (content type or screening). Ungated because Qeios imposes no template and publishes no length limits",
         "limits": {"main_words": None, "abstract_words": None, "display_items": None,
                    "references": None},
         #: ⛔ THE FLAG THAT SEPARATES "NO LIMIT" FROM "UNREAD". Without it the grader reads four
         #: nulls as ignorance and reports the one venue whose rules are fully known as ungraded.
         "no_limits_by_policy": True,
-        "provenance": ("⭐ THE VENUE IS QEIOS, trimcrae's call of 2026-08-24, AND NOTHING HAS BEEN "
+        "provenance": ("⭐⭐ WHAT QEIOS ACTUALLY REQUIRES, AND IT IS ALMOST NOTHING (trimcrae, "
+                       "2026-08-25, from a web search he ran and pasted; qeios.com is "
+                       "EGRESS-BLOCKED from this sandbox, so it cannot be re-read by any tool "
+                       "here and a person must confirm it at the portal). Verbatim from that "
+                       "reading: Qeios 'does not enforce a rigid, restrictive visual layout or "
+                       "custom template for initial submissions'; file types are 'standard "
+                       "document formats like Word (.docx) or PDF'; the expected content "
+                       "structure is 'Title, Abstract, Introduction, Methodology, Results, "
+                       "Discussion, and References'; submissions pass an automated AI pre-check "
+                       "for formatting suitability, non-scientific text and plagiarism; papers "
+                       "post 'within one business day'; every preprint gets a DOI; review is open "
+                       "and published alongside; authors may upload new versions at any time. "
+                       "★ SO THERE IS NOTHING TO CONFORM TO AND ONE THING TO GET RIGHT: the "
+                       "structure, which this paper already has — its IMRaD restructure was "
+                       "NAT checklist item A1. The file to send is the `preprint` build, single "
+                       "column with ordinary spacing; the `manuscript` build is double-spaced "
+                       "with a page break before every section, which is a journal submission "
+                       "convention Qeios does not ask for and which runs the same text from 10 "
+                       "pages to 23. "
+                       "⛔ THE PAPER IS THE 6-PAGE JOURNAL ARTICLE, NOT THE EXTENDED REPORT "
+                       "(trimcrae, 2026-08-25: 'The extended report is archived now. The 6 page "
+                       "is the manuscript going forward'). ⚠ THIS ROW STILL GRADES THE EXTENDED "
+                       "REPORT, because MANUSCRIPTS maps one paper to one venue and the journal "
+                       "article is mapped to NAT-Article, where its page budget is enforced. One "
+                       "paper with two destinations is a shape this module cannot express, and "
+                       "that is an open structural question rather than a fact to fix in place. "
+                       "⭐ THE VENUE IS QEIOS, trimcrae's call of 2026-08-24, AND NOTHING HAS BEEN "
                        "SUBMITTED — choosing a venue and submitting to it are different acts. "
                        "Two servers have already refused this paper, for different stated reasons: "
                        "bioRxiv on 2026-08-23 because the author is unaffiliated, and Research "
@@ -232,17 +258,9 @@ MANUSCRIPTS = {
     "dependency/emc-atr-collaborator-package.md": "GCC-Research-Article",
     "repurposing/repurposing-hypotheses.md": "CROH-Review",
     "surface-targets/emc-surface-target-landscape.md": "BJC-Article",
-    # ⛔ GRADED AGAINST A VENUE ITS OWN PLANNING DOCUMENT HAD DISQUALIFIED (fixed 2026-08-13). This
-    # row said `CGT-Article` for a day after `fusion-junction-aso-submission-plan.md` §1c eliminated
-    # Cancer Gene Therapy on its read fee schedule, so every run printed an OVER verdict against an
-    # abstract limit no venue in play imposes — a red flag pointing at a decision already made, which
-    # is how a real one gets ignored. The venue is open; bioRxiv is the immediate destination and
-    # sets no limits, so that is what the paper is measured against until a journal is chosen.
-    "aso/fusion-junction-aso-research-article.md": "bioRxiv-preprint",
-    #: ⭐ THE CONDENSED JOURNAL SUBMISSION, ADDED 2026-08-20. Same work, second document:
-    #: the preprint above is the extended report and stays measured against bioRxiv, while
-    #: this row is measured against the journal actually being submitted to. Both rows are
-    #: real and neither supersedes the other.
+    #: ⛔ ONE ASO ROW SINCE 2026-08-25. The extended report was graded here against the preprint
+    #: venue and is no longer a document this repository grades at all; the journal article is the
+    #: ASO paper, and it is measured against the journal it is being submitted to.
     "aso/fusion-junction-aso-journal-article.md": "NAT-Article",
 }
 
@@ -254,10 +272,6 @@ COMPANIONS = {
     "aso/fusion-junction-aso-journal-article.md": [
         "aso/fusion-junction-aso-journal-tables.md",
         "aso/fusion-junction-aso-journal-references.md",
-    ],
-    "aso/fusion-junction-aso-research-article.md": [
-        "aso/fusion-junction-aso-submission-tables.md",
-        "aso/fusion-junction-aso-submission-references.md",
     ],
 }
 

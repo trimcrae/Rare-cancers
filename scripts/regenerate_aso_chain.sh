@@ -257,6 +257,15 @@ PDFSTAMP
 }
 run_step "deposited PDF · journal format"    "python3 $MAN/build_submission_pdf.py" "_pdf_stamps_current"
 run_step "deposited PDF · submission format" "python3 $MAN/build_submission_pdf.py --style manuscript" "_pdf_stamps_current"
+# ⛔ AND THE PREPRINT-SERVER FILE (2026-08-25). Qeios is the 6-page article's preprint destination
+# and imposes no template — .docx or PDF, the ordinary Title/Abstract/Introduction/Methods/Results/
+# Discussion/References structure, nothing else. So what it should receive is the READABLE build:
+# single column, ordinary spacing, no page break before every section. The submission build above
+# is double-spaced with a break at every heading, which is a journal convention that runs the same
+# text from 10 pages to 23 — correct for a reviewer marking it up, wrong for a reader.
+# ⚠ Journal article only: the extended report is archived and is not going to a preprint server
+# (trimcrae, 2026-08-25).
+run_step "deposited PDF · preprint format" "python3 $MAN/build_submission_pdf.py --paper aso-journal --style preprint" "_pdf_stamps_current"
 # ⛔ THE ANONYMIZED UPLOAD IS BUILT EVERY TIME, BECAUSE THE VENUE WILL NOT SAY WHICH IT WANTS.
 # NAT's guidelines state single-anonymized twice and double-anonymized once, on one page, and the
 # journal returns a non-conforming manuscript for amendments BEFORE peer review. Building both
