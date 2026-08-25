@@ -83,6 +83,46 @@ TARGETS = [
 
 IMG_EXT = (".jpg", ".jpeg", ".png", ".gif", ".tif", ".tiff")
 
+REGISTRY = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                        "research", "data", "emc-clinical-registry.json")
+
+
+def registry_ids(source_id: str) -> dict:
+    """The DOI, PMID and PMC id the registry holds for a citation key.
+
+    ⛔⛔ THIS EXISTS BECAUSE A CALLER-TYPED IDENTIFIER IS AN IDENTIFIER FROM RECOLLECTION, AND ON
+    2026-08-25 THREE OF NINE WERE WRONG. A dispatch was composed by reading DOIs off a truncated
+    terminal dump: `10.1097/coc.0000000000000992` for a registry value ending 0988,
+    `10.1016/j.anndiagpath.2016.04.007` for one ending .004, and
+    `10.1016/S1470-2045(19)30276-7` for `(19)30319-5`. CLAUDE.md §7 says never write an identifier
+    from recollection; a rule that has to be remembered at the moment of composing a JSON blob is
+    not a guard, so the guard is here instead.
+
+    ⚠ AND A WRONG DOI DOES NOT FAIL LOUDLY. Unpaywall answers a nonexistent DOI with "no free copy",
+    which is indistinguishable from the true answer for a genuinely paywalled paper — so the error
+    would have been recorded as a reachability FINDING about three real papers.
+
+    A caller may still pass an identifier explicitly; if it CONTRADICTS the registry the target is
+    refused rather than resolved one way or the other.
+    """
+    out = {"doi": None, "pmid": None, "pmcid": None, "found": False}
+    try:
+        with open(REGISTRY, encoding="utf-8") as fh:
+            doc = json.load(fh)
+    except Exception as exc:  # noqa: BLE001
+        out["error"] = f"registry unreadable: {type(exc).__name__}: {exc}"
+        return out
+    cits = doc.get("citations") or (doc.get("registry") or {}).get("citations") or {}
+    rec = cits.get(source_id)
+    if not rec:
+        out["error"] = f"no registry citation for source_id {source_id!r}"
+        return out
+    out["found"] = True
+    for k in ("doi", "pmid", "pmcid"):
+        if rec.get(k):
+            out[k] = str(rec[k])
+    return out
+
 
 def _get(url: str, timeout: int = 90) -> tuple[int, str, bytes]:
     req = urllib.request.Request(url, headers={"User-Agent": UA}) if url.startswith("http") else url
@@ -303,8 +343,29 @@ def main() -> int:
     total = 0
     for tgt in targets:
         sid = tgt["source_id"]
+        reg = registry_ids(sid)
+        conflicts = [k for k in ("doi", "pmid", "pmcid")
+                     if tgt.get(k) and reg.get(k) and str(tgt[k]) != reg[k]]
+        if conflicts:
+            manifest["targets"].append({
+                "source_id": sid, "routes": [], "assets": None, "route_used": None,
+                "⛔_refused": ("caller-supplied identifier contradicts the registry: "
+                              + "; ".join(f"{k}: caller {tgt[k]!r} vs registry {reg[k]!r}"
+                                          for k in conflicts)
+                              + ". Refused rather than resolved -- one of the two is wrong and this "
+                                "script cannot tell which."),
+                "registry_ids": reg})
+            print(f"{sid:32s} REFUSED: identifier conflicts with the registry ({conflicts})")
+            continue
+        if reg.get("found"):
+            for k in ("doi", "pmid", "pmcid"):
+                if reg.get(k) and not tgt.get(k):
+                    tgt = dict(tgt, **{k: reg[k]})
         pmcid = tgt.get("pmcid")
-        rec = {"source_id": sid, "pmcid": pmcid, "routes": [], "assets": None, "route_used": None}
+        rec = {"source_id": sid, "pmcid": pmcid, "routes": [], "assets": None,
+               "route_used": None, "registry_ids": reg,
+               "identifiers_used": {k: tgt.get(k) for k in ("doi", "pmid", "pmcid")},
+               "identifier_source": "registry" if reg.get("found") else "caller"}
         if not pmcid and tgt.get("pmid"):
             resolved = resolve_pmcid(str(tgt["pmid"]))
             rec["pmid"] = tgt["pmid"]
