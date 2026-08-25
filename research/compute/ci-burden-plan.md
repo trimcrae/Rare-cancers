@@ -143,9 +143,34 @@ and reproduce today's behaviour exactly under any doubt. Neither gates the tick,
   ⛔ Its first draft used `cmd; rc=$?`, which under GitHub's `bash -e` aborts before `$?` is read. It would
   have failed *safe* and *silent* — which is how it would have survived. Use `rc=0; cmd || rc=$?`.
 
-**Expected effect: the ~74 runs/hour in §1 collapse toward the crons' nominal rate while the account is
-empty, and restore in full the moment a host is rented.** ⚠ This is a prediction, not a measurement —
-re-read the rates after 24 h and record them here.
+### Proven in CI — run 32910036091, dispatched on this branch
+
+`step1-fanout-autoscale` dispatched with `ref=claude/ci-job-optimization-9l1kac`. **All five dispatcher jobs
+reported `conclusion: skipped`** — `resurrect-supervisor`, `account-reaper`, `cross-lane-staleness-watch`,
+`account-orphan-alarm`, `resurrect-lane-watch` — while `supervision-alarm` still ran, as designed.
+**Five downstream dispatches per tick became zero, on a real runner.**
+
+⛔ **AND THE ALARM HALF IS STRUCTURALLY UNTESTABLE FROM A BRANCH — A FINDING, NOT A FAULT.** In the same run
+`supervision-alarm` still went red, and the cause is one line in its own job:
+
+```yaml
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.fleet_branch || 'main' }}
+```
+
+**That job hard-checks-out `main` and therefore ran `main`'s unpatched `fleet_supervision_alarm.py`.** The
+five job-level `if:` conditions were honoured because GitHub evaluates those from the *dispatched ref's*
+workflow file; the Python did not, because the job fetches its own source from elsewhere. This is the same
+ref-confusion the tick already shouts a `::notice::` about. So the alarm half rests on the local evidence
+above (89 existing tests green, six mutations, real artifact red→green) **and lands only on merge.**
+
+⛔ **NOTHING IN §3 IS IN EFFECT YET. The crons run from `main`; this work is on a feature branch.** Merging is
+trimcrae's call — the session that produced this was scoped to its own branch and must not push to `main`.
+
+**Expected effect once merged: the ~74 runs/hour in §1 collapse toward the crons' nominal rate while the
+account is empty, and restore in full the moment a host is rented.** ⚠ Still a prediction — re-read the
+rates 24 h after the merge and record them here.
 
 ---
 
@@ -182,13 +207,75 @@ Each row states its own evidence gate. **Nothing below is done; §3 is what is d
 | # | action | why now | cost | risk |
 |---|---|---|---|---|
 | 1 | **Re-measure the four rates in §1 after 24 h** and write them into this file | §3's effect is a prediction, and CLAUDE.md §4 forbids leaving it one | $0, one API read | none |
-| 2 | Apply the §5 rule to the remaining dispatchers: `lane-staleness-watch` (1), `account-orphan-alarm` (1), `vast-watchdog` (1), `gpu-ternary-fep-gcp` (1) | same defect, same fix, four more files | $0 | low — same fail-armed pattern |
+| 2 | Apply the §5 rule to the remaining REAL dispatchers: `account-orphan-alarm` (already verdict-gated), `vast-watchdog`, `gpu-ternary-fep-gcp` | same defect, same fix, three more files | $0 | low — same fail-armed pattern |
 | 3 | **`step1-fanout-supervisor.yml` — 13 dispatches, NO cron, NO `fleet_armed` reference.** The largest dispatcher in the repo and the least gated | it is the loop `resurrect-supervisor` starts; §3 holds its *start*, not its *body* | $0 | **medium — read it before touching it**; it owns fleet cadence |
 | 4 | `gpu-ternary-fep-vast` at **35.3 runs/h** against a 1/h cron, 7 dispatches, 18 `fleet_armed` refs | already the most arming-aware file, yet the fastest-firing — the refs gate commits, not dispatches | $0 | medium |
 | 5 | Audit the four `*/15` and one `*/10` crons (`vast-watchdog`, `ternary-vast-watchdog`, `ternary-leg-watchdog`, `fep-monitor-cron`, `gpu-fanout-rep-gcp`) for an arming gate | 5 workflows × 4–6/h is a floor that never drops while idle | $0 | low |
-| 6 | Decide the retention question: **40,000 runs** makes the Actions UI and the API unusable for diagnosis | every reading in §1 needed `run_number` arithmetic because listing is unusable | $0 | **trimcrae's call — deleting run history is irreversible** |
+| 6 | **The tick's step 11 (`congeneric_fanout_vast.py`) is still red** — a SEPARATE cause this change does not touch | §3 stops the red PROPAGATING, it does not make the tick green; a permanently-red lane still violates §5's second rule | $0 to diagnose | low |
+| 7 | Decide the retention question: **40,000 runs** makes the Actions UI and the API unusable for diagnosis | every reading in §1 needed `run_number` arithmetic because listing is unusable | $0 | **trimcrae's call — deleting run history is irreversible** |
 
-⛔ **Row 6 is the only one that is not self-doable** (CLAUDE.md §2: irreversible). Rows 1–5 are $0 and ready.
+⚠ **CORRECTION to the §1 dispatch census, made while scoping row 2.** `lane-staleness-watch` was counted as a
+dispatcher on a `grep` hit. It is **not** one: line 281 is a `print(f"gh workflow run …")` inside a Python
+heredoc — it *recommends* a command to a human, it does not issue one. Its **15.2 runs/hour are entirely
+inbound**, from `step1-fanout-autoscale`'s `cross-lane-staleness-watch` job — which §3 has now gated. So that
+row is expected to fall out with the §3 fix and needs no edit of its own. **A `grep` for `gh workflow run`
+counts strings, not dispatches; read the line before believing the count.**
+
+⛔ **Row 7 is the only one that is not self-doable** (CLAUDE.md §2: irreversible). Rows 1–6 are $0 and ready.
+
+---
+
+## 6b · SECOND PASS — EXECUTED 2026-08-25, on trimcrae's instruction
+
+★ **THE STEER THAT CHANGED THE DESIGN** (trimcrae, 2026-08-25): *"we haven't used vast in a month and don't
+need to be driving things on it at all, let alone every two minutes."*
+
+⭐ **CORROBORATED, AND THE NUMBER IS BETTER THAN THE CLAIM.** The clone was SHALLOW (81 commits), which made a
+first scan meaningless; after `git fetch --deepen=3000` there are **886 account-census commits reachable,
+back to 2026-08-05, and NOT ONE carries a non-zero `n_instances`.** 20 days of continuous zero. The history
+does not reach a full month, so *"a month"* is the operator's reading and *"≥ 20 days"* is the repo's.
+⚠ **A shallow clone silently truncates every `git log` measurement** — check `git rev-parse
+--is-shallow-repository` before quoting one. It nearly cost this file a fabricated figure.
+
+### Done
+
+| what | file | effect |
+|---|---|---|
+| Arming gate on the redundant fan-out dispatch | `vast-watchdog.yml` | its own header calls the dispatch *"redundancy, not a repair"*; it no longer re-dispatches the autoscale tick over an empty account |
+| Cadence cut, `*/15` → hourly | `vast-watchdog`, `ternary-vast-watchdog`, `ternary-leg-watchdog`, `fep-monitor-cron` | 4/h → 1/h each, on **distinct minutes** (8, 14, 26, 32) so they do not thunder together |
+| Cadence cut, `*/20` → hourly | `step1-fanout-autoscale` | 3/h → 1/h (minute 38) |
+| Cadence cut, `*/10` → hourly | `gpu-fanout-rep-gcp` | 6/h → 1/h (minute 44) — and this lane is on a recorded **operator hold**, so it was polling 6×/h to re-read its own pause |
+
+⛔ **CADENCE CUT, NOT DISABLED, AND THAT IS DELIBERATE.** An hourly watchdog is still a watchdog; a disabled
+one is not. The launch lanes were checked and **do NOT dispatch their watchdogs** — the `grep` hits that
+suggested they did are COMMENTS referencing the watchdog, not `gh workflow run` calls. So the cron is the
+only thing that would notice a host, and it keeps firing.
+
+### Refused in this pass — and this one matters
+
+⛔ **DO NOT PUT AN ARMING GATE ON `gpu-ternary-fep-vast`'S SEVEN DISPATCHES.** It is the fastest-firing
+workflow in the repo (35.3 runs/h) and the obvious next target, and gating it would be **wrong**: those
+dispatches are **market gates that exist to BUY** — *"price the legs and self-dispatch the launch the moment
+the board clears."* `fleet_armed` answers *"is there anything to SUPERVISE?"*, and on an empty account it
+says no. Gating a buyer on a supervision predicate would mean the lane could never place a host again.
+★ **The rule in §5 governs supervision fan-out. A market gate is not supervision.** Its 18 existing
+`fleet_armed` references correctly gate *commits*, not dispatches, and should stay that way.
+
+### Row 6 diagnosed — the still-red tick is NOT a bug
+
+`congeneric_fanout_vast.py` exits 2 from exactly one place:
+
+```python
+if price_blocks_every_unit and held_h >= MARKET_HOLD_ESCALATE_H:   # 6 h
+    _lprint("[s1f] ESCALATED — price has been the BINDING constraint for {held_h} h ... trimcrae's call now.")
+```
+
+⭐ **The tick is red because the escalated market hold is doing its job.** All 19 step-1 fan-out units have
+been unplaceable on price for ~19 days, and the alarm says so, in those words: **"trimcrae's call now."**
+⛔ **So this must NOT be "fixed", and silencing it would be the exact failure §5 names.** It is a correct,
+unanswered question, and the answer is a program decision, not a patch: **release the fan-out, or stand the
+lane down.** Given the steer at the top of this section, standing it down is the likely call — but it is
+trimcrae's, and it is now the only Vast item left open.
 
 ---
 

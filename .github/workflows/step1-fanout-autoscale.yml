@@ -36,7 +36,7 @@ name: STEP 1 fan-out — progress check + terminus-gated fan-out
 
 on:
   schedule:
-    - cron: "*/20 * * * *"   # ⚠ THE NOMINAL CADENCE IS FICTION — DO NOT PLAN AGAINST IT, AND DO NOT QUOTE A
+    - cron: "38 * * * *"   # ⚠ THE NOMINAL CADENCE IS FICTION — DO NOT PLAN AGAINST IT, AND DO NOT QUOTE A
                              # REMEMBERED NUMBER HERE. GitHub throttles schedules on busy repos. MEASURED
                              # delivery of THIS workflow on 2026-07-27: 12:52 AM, 4:19 AM, 7:44 AM, 10:05 AM
                              # ET -> gaps of 220, 208, 205 and 141 MINUTES, against a nominal 20. So a
