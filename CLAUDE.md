@@ -68,6 +68,19 @@ silently falling back to writing up closed routes looks identical to progress.
   ⛔ **PLAIN NEVER MEANS WEAKER.** A hedge, a null, an UNKNOWN, a negative and a number keep exactly
   the strength they had. Making a result sound cleaner than its evidence is the one failure this
   rule can cause, and it is worse than the density it replaced.
+- **📞 THE MAIN THREAD IS TRIMCRAE'S CHANNEL — KEEP IT FREE** (trimcrae, 2026-08-25: *"always leave
+  the main thread of the session free for interactions with me… no tasks or shell scripts ever block
+  you seeing my messages"*). He must be able to reach you instantly, so **nothing long-running may
+  occupy the foreground.** A long shell command → `run_in_background`. Multi-step work → **a
+  subagent, and that is standing authorisation to spawn one**. A gate, a suite, a build, a fetch →
+  backgrounded, never awaited in the foreground.
+  ⛔ **NO FOREGROUND WAIT LOOPS.** An `until … sleep` loop, a long blocking command, a poll — each is
+  a window in which his message sits unread. **The test: if he messaged right now, how long until you
+  saw it?** More than a few seconds means that call is in the wrong place.
+  ⚠ **This is the responsiveness half of §6's gate rule and it is the stricter half:** §6 says a
+  running gate must not stop the WORK; this says it must not stop the CONVERSATION either. A turn
+  that ends with the foreground free is the normal shape — you are notified when background work
+  lands.
 - **⏱️ If your final message leaves real compute running, it ENDS with an "In flight:" board.** Real compute
   only (GPU/CI jobs, working subagents) — never your own timers, pollers or schedules. Nothing running →
   "Nothing in flight". Replaces status narration. **Columns and the $/ns buy line: `inflight-reporting`.**
