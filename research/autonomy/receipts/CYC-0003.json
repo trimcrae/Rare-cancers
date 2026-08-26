@@ -1,0 +1,70 @@
+{
+  "_schema": "emc-autonomy-receipt/1",
+  "cycle_id": "CYC-0003",
+  "started_utc": "2026-08-26T20:07:00Z",
+  "finished_utc": "2026-08-26T20:29:30Z",
+  "session_id": "unknown -- fired by the UI-created autonomy Routine, no session_id surfaced to this cycle",
+  "kind": "research",
+  "took": [
+    "AUT-PROP-002 -- the hardening round on PUB-FUSION-PARTNER, publish_bar clause 1. Claimed (owner: CYC-0003) before working."
+  ],
+  "route_advanced": "RT-PARTNER-STRAT",
+  "_route_advanced_why": "Applied corrections for all 4 verified blockers and 5 of 9 P1s the CYC-0002 blind seats found, including a medical-integrity defect (misattributed PMCIDs). This directly changes what the manuscript claims and how it is caveated -- new evidence-handling, not documentation of a closed route.",
+  "what_was_fixed": {
+    "blockers": [
+      "SEAT-B4 (medical-integrity, most severe): 'the review literature's metastasis claim' (Sec 3.3) was attributed to 4 PMCIDs; only PMC7563993 has a bibliographic record in this repo. PMC12376927 and PMC9131214 verified via WebSearch to be single-patient case reports, not review literature; PMC12398172 uncharacterisable from this sandbox. Removed the 3 unverified ids from the generator template and the manuscript, regenerated the artifact, registered as Appendix A11.",
+      "SEAT-B2: Sec 4.8's caveat guarded a retired p=0.0672 absent from the current Sec 3.3; the real headline p=0.0034 was uncaveated. Repointed the caveat, registered as A13.",
+      "SEAT-B3: 'Four independent lines converge' (Sec 5) was contradicted by Sec 4.10 (mechanism shares the TKI trials' consortium). Rewrote to name what's actually load-bearing, registered as A14.",
+      "SEAT-B1: two census-grade exhaustiveness claims had no search-strategy statement. Added Sec 2.3a stating plainly that no systematic multi-database search was run and bounding both claims to what the citation-chained retrieval actually examined."
+    ],
+    "p1s_fixed": [
+      "Generator bug: pooled TAF15 prevalence-arm range printed as 2-9, actual COHORTS data gives 2-10 (Agaram 7, Huang 9, Lenz 2, Paioli 10). Fixed at the source, not the prose.",
+      "Sec 2.5's random-effects-infeasibility range ('two to nineteen patients, zero to ten events') was stale -- described the pre-Huang TKI-only strata; current pooled strata run 3-58 patients / 0-14 events. Corrected, and the verbatim duplicate in Sec 4.2 now points at Sec 2.5 instead of repeating a number (one-fact-one-place).",
+      "Sec 1.1's '<1% of soft-tissue sarcomas' had no committed source anywhere in this repository. Removed rather than backed by a recollected identifier; registered as A12.",
+      "Sec 8's provenance claim ('every count ... cache path and HTTP status ... except Huang's') was false for the Brenca 2019 and Bangerter 2022 cohorts, which carry verified:true with none of those fields. Corrected to state the actual gap."
+    ],
+    "not_fixed_this_cycle": [
+      "Grade/rhabdoid morphology never named as a confounder of the pooled death contrast (Sec 3.3/3.4/4.1a).",
+      "The underpowered 3-way omnibus null (P=.728, 8 TAF15 patients) promoted to language stronger than its power supports.",
+      "Sec 4.7a's single-reader Huang count disclosed as provenance but not framed as an extraction-error risk.",
+      "No automated guard cross-checks this paper's prose against its pooling artifact -- the root cause several of the above blockers survived through. Building it is worth more than any single remaining P1."
+    ]
+  },
+  "verification": {
+    "generator_check": "python3 research/manuscripts/emc_fusion_partner_pooling.py --check -> OK after regeneration",
+    "seat_greps_rerun": "All 4 of CYC-0002's own discriminating greps re-run against the corrected manuscript: search-strategy vocabulary now present (was 0, now 2); '0.0672' appears only inside the new superseded-quote, bounded; 'four independent lines converge' no longer asserted live; the 3 unverified PMCIDs no longer appear outside the Appendix A11 correction row.",
+    "preflight": "./scripts/preflight.sh EXIT=0, run twice -- once before the rebase, once after, on the exact tree pushed. First run also surfaced a pre-existing, unrelated stale archive manifest (verified via git stash to reproduce on the clean tree, not caused by this change); regenerated it (revision stamp + one byte count moved, nothing shrank) and included it in the commit."
+  },
+  "publish_bar_after": {
+    "sha": "e2e1a73917a44f68f378a8ef5551afd2c214caeb",
+    "status": "BLOCKED 3/6",
+    "clauses": {
+      "hardening_converged": "UNVERIFIABLE -- no hardening-state record exists yet; this round fixed the seat's findings but did not re-run a fresh blind seat to confirm convergence",
+      "preflight_full": "UNVERIFIABLE -- PREFLIGHT_FULL=1 not run (not a publication act)",
+      "claim_strength": "OK",
+      "citation_provenance": "OK",
+      "falsifiable_endpoint": "OK",
+      "blind_seat": "UNVERIFIABLE -- the CYC-0002 seat reviewed the prior commit (21bc8578); no seat has reviewed e2e1a73 yet"
+    }
+  },
+  "blocked_by": [],
+  "changed": [
+    "research/manuscripts/emc_fusion_partner_pooling.py -- 2 template fixes (PMCID list, 2-9->2-10)",
+    "research/manuscripts/fusion-partner/emc-fusion-partner-pooling.json -- regenerated from the generator",
+    "research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md -- Sec 1.1, 2.3a (new), 2.5, 3.3, 4.2, 4.8, 5, Appendix A11-A14",
+    "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json -- incidental regeneration, unrelated pre-existing staleness",
+    "research/autonomy/research-ledger.json -- AUT-PROP-002 claimed (owner: CYC-0003)"
+  ],
+  "queued_next": [
+    "Run a fresh blind adversarial seat on PUB-FUSION-PARTNER at e2e1a73 (publish_bar clause 6) -- this is the natural next AUT item and should score highly.",
+    "Record a hardening-state entry once the fresh seat confirms no blockers/P1s remain (publish_bar clause 1).",
+    "Fill Brenca 2019 and Bangerter 2022's missing verification_note/cache_path/http_status fields in the pooling artifact -- flagged in Sec 8 but not fixed this cycle.",
+    "The remaining 4 P1s listed above (grade confounder, omnibus-null language, extraction-error framing).",
+    "Build the prose<->artifact cross-check guard the receipt keeps naming as the root cause -- still not started."
+  ],
+  "cost": {
+    "_points_at": "research/compute/pricing.md",
+    "real_dollars": "none -- no GPU, no metered API. One WebSearch rung-0 lookup (x3) to verify the disputed PMCIDs.",
+    "claude_budget": "one interactive session, no subagents (Task tool unavailable to this scheduled Routine fire)"
+  }
+}
