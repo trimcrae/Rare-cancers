@@ -1,0 +1,195 @@
+{
+  "_what": "THE AUTONOMY LOOP'S HEALTH BOARD, AS A FILE. The seven \u00a75.2 conditions, when each was measured, how long it has been that way, and when this file should be considered dead. Written by research/autonomy/health.py.",
+  "_read_this_when": "you want to know whether the unattended research loop is WORKING \u2014 not whether what it wrote is correct, which every preflight gate already covers (\u00a75.1). A loop can be perfectly correct and advance nothing.",
+  "_owner": "research/manuscripts/program/emc-autonomy-architecture.md#52--loop-health--new-and-it-is-what-never-check-in-actually-requires",
+  "_this_channel_is_PULL_ONLY": "nothing here sends, opens an issue, comments, or fails a run. \u00a77 trigger 4 is the ONE push, and it is the caller's act, not this file's: a condition red past its deadline earns a PushNotification and a line in the Friday digest, nothing else.",
+  "_generated_utc": "2026-08-26T21:05:29Z",
+  "_generated_et": "5:05 PM ET Aug 26, 2026",
+  "_cycle_interval_h": 4.0,
+  "_stale_window_basis": "read from autonomy-state.json `cycle_interval_hours` = 4 h, which is its one home (the governor writes it \u2014 architecture \u00a79.2). Not typed here.",
+  "_stale_after_utc": "2026-08-27T09:05:29Z",
+  "_stale_after_et": "5:05 AM ET Aug 27, 2026",
+  "_stale_after_means": "IF THE CLOCK IS PAST THIS AND THIS FILE HAS NOT CHANGED, NOTHING IS CHECKING THE LOOP and every verdict below is a memory, not a measurement. The deadline is written INTO the artifact because a checker that has stopped cannot report that it stopped \u2014 it needs no process, no API and no clock but yours. 3 missed cycles at 4 h. Restart it: `gh workflow run autonomy-tick.yml --ref main`.",
+  "ok": true,
+  "_ok_means": "no condition is FAILING. \u26d4 IT DOES NOT MEAN EVERY CONDITION WAS MEASURED \u2014 read `fully_measured` and `unmeasured` beside it. `ok: true, fully_measured: false` is the honest shape of a loop nobody can yet grade, and it is NOT a healthy loop.",
+  "fully_measured": false,
+  "n_conditions": 8,
+  "needs_attention": [],
+  "unmeasured": [
+    "gates_green"
+  ],
+  "_unmeasured_means": "\u26d4 A VERDICT THAT COULD NOT BE REACHED \u2014 NOT a condition that is fine. It is listed apart from needs_attention because the fix is different: make the reading possible first. CLAUDE.md \u00a74: an absent reading is not a reading of absence. Anything that grades an unmeasured condition as green has manufactured a green board out of missing data.",
+  "conditions": [
+    {
+      "key": "gates_green",
+      "label": "is `main` green, so a cycle can even commit?",
+      "source": "--gates-verdict (written by the workflow that can read Actions)",
+      "verdict": "NO-GATE-VERDICT",
+      "ok": false,
+      "unmeasured": true,
+      "needs_attention": false,
+      "detail": "no gate verdict was supplied. This checker has no network by design, so it cannot read Actions itself. Settle it: have the tick workflow write {\"ok\": bool, \"red_since_utc\": str|null, \"detail\": str} and pass it with --gates-verdict.",
+      "payload": {},
+      "last_seen_utc": "2026-08-26T21:05:29Z",
+      "last_change_utc": "2026-08-26T21:05:29Z",
+      "bad_since_utc": "2026-08-26T21:05:29Z",
+      "consecutive_bad_runs": 1,
+      "bad_for_h": 0.0,
+      "bad_since_et": "5:05 PM ET Aug 26, 2026"
+    },
+    {
+      "key": "cycle_delivering",
+      "label": "is a fired cycle actually DELIVERING a receipt?",
+      "source": "research/autonomy/receipts/*.json + autonomy-state.json",
+      "verdict": "DELIVERING",
+      "ok": true,
+      "unmeasured": false,
+      "needs_attention": false,
+      "detail": "the last receipt (CYC-0003.json) landed 0.6 h ago, inside the 8.0 h deadline.",
+      "payload": {
+        "receipts_seen": 4,
+        "latest_receipt": "CYC-0003.json",
+        "latest_receipt_et": "4:29 PM ET Aug 26, 2026",
+        "age_h": 0.6,
+        "deadline_h": 8.0
+      },
+      "last_seen_utc": "2026-08-26T21:05:29Z",
+      "last_change_utc": "2026-08-26T21:05:29Z",
+      "bad_since_utc": null,
+      "consecutive_bad_runs": 0,
+      "bad_for_h": null,
+      "bad_since_et": null
+    },
+    {
+      "key": "advancing_live_work",
+      "label": "are cycles moving LIVE routes, or just documenting?",
+      "source": "research/autonomy/receipts/*.json `route_advanced`",
+      "verdict": "ADVANCING",
+      "ok": true,
+      "unmeasured": false,
+      "needs_attention": false,
+      "detail": "2 of the last 3 cycles moved a live route (RT-PARTNER-STRAT, RT-PARTNER-STRAT).",
+      "payload": {
+        "window": [
+          "CYC-0001.json",
+          "CYC-0002.json",
+          "CYC-0003.json"
+        ],
+        "route_advanced": [
+          "none",
+          "RT-PARTNER-STRAT",
+          "RT-PARTNER-STRAT"
+        ],
+        "receipts_seen": 4
+      },
+      "last_seen_utc": "2026-08-26T21:05:29Z",
+      "last_change_utc": "2026-08-26T21:05:29Z",
+      "bad_since_utc": null,
+      "consecutive_bad_runs": 0,
+      "bad_for_h": null,
+      "bad_since_et": null
+    },
+    {
+      "key": "evidence_moving",
+      "label": "is work in flight producing new EVIDENCE, not just heartbeats?",
+      "source": "research/autonomy/research-ledger.json `state`/`last_evidence_utc`",
+      "verdict": "NOTHING-RUNNING",
+      "ok": true,
+      "unmeasured": false,
+      "needs_attention": false,
+      "detail": "the ledger was read and no entry is in state `running`, so no entry can be frozen. Vacuously true, and stated as such: this row says the check ran, not that the loop is busy \u2014 `cycle_delivering` is the row that says that.",
+      "payload": {
+        "entries": 82,
+        "running": 0
+      },
+      "last_seen_utc": "2026-08-26T21:05:29Z",
+      "last_change_utc": "2026-08-26T21:05:29Z",
+      "bad_since_utc": null,
+      "consecutive_bad_runs": 0,
+      "bad_for_h": null,
+      "bad_since_et": null
+    },
+    {
+      "key": "blocks_are_real",
+      "label": "does every BLOCKED row carry the observation that blocked it?",
+      "source": "research/autonomy/research-ledger.json `state`/`blocked_evidence`",
+      "verdict": "NO-BLOCKS",
+      "ok": true,
+      "unmeasured": false,
+      "needs_attention": false,
+      "detail": "the ledger was read and no entry is in state `blocked`.",
+      "payload": {
+        "entries": 82,
+        "blocked": 0
+      },
+      "last_seen_utc": "2026-08-26T21:05:29Z",
+      "last_change_utc": "2026-08-26T21:05:29Z",
+      "bad_since_utc": null,
+      "consecutive_bad_runs": 0,
+      "bad_for_h": null,
+      "bad_since_et": null
+    },
+    {
+      "key": "queue_is_takeable",
+      "label": "is there any work a cycle could actually pick up?",
+      "source": "research/autonomy/research-ledger.json \u2014 unowned, unblocked, retry budget remaining",
+      "verdict": "TAKEABLE",
+      "ok": true,
+      "unmeasured": false,
+      "needs_attention": false,
+      "detail": "78 of 82 entr(ies) are takeable now.",
+      "payload": {
+        "entries": 82,
+        "takeable": 78
+      },
+      "last_seen_utc": "2026-08-26T21:05:29Z",
+      "last_change_utc": "2026-08-26T21:05:29Z",
+      "bad_since_utc": null,
+      "consecutive_bad_runs": 0,
+      "bad_for_h": null,
+      "bad_since_et": null
+    },
+    {
+      "key": "budget_recovering",
+      "label": "is the budget governor RECOVERING, or stuck in backoff?",
+      "source": "research/autonomy/autonomy-state.json `backoff_level`/`backoff_since_utc`",
+      "verdict": "NO-BACKOFF",
+      "ok": true,
+      "unmeasured": false,
+      "needs_attention": false,
+      "detail": "the governor records backoff level 0 \u2014 the loop is running at full cadence and width.",
+      "payload": {
+        "backoff_level": 0
+      },
+      "last_seen_utc": "2026-08-26T21:05:29Z",
+      "last_change_utc": "2026-08-26T21:05:29Z",
+      "bad_since_utc": null,
+      "consecutive_bad_runs": 0,
+      "bad_for_h": null,
+      "bad_since_et": null
+    },
+    {
+      "key": "authority_respected",
+      "label": "did every OUTWARD act have a grant behind it?",
+      "source": "receipts `outward_acts[]` \u00d7 research/autonomy/publication-authority.json",
+      "verdict": "NO-OUTWARD-ACTS",
+      "ok": true,
+      "unmeasured": false,
+      "needs_attention": false,
+      "detail": "the authority file is present and no receipt records an outward act, so nothing went out unauthorised.",
+      "payload": {
+        "acts_seen": 0,
+        "authority_file": "present"
+      },
+      "last_seen_utc": "2026-08-26T21:05:29Z",
+      "last_change_utc": "2026-08-26T21:05:29Z",
+      "bad_since_utc": null,
+      "consecutive_bad_runs": 0,
+      "bad_for_h": null,
+      "bad_since_et": null
+    }
+  ],
+  "_commit_worthy": true,
+  "_commit_worthy_why": "no committed board exists yet",
+  "_commit_worthy_means": "fleet_armed.py's discipline: the caller COMMITS this file only when this is true. A board whose verdicts are unchanged carries no information (measured cost of ignoring that: 1,476 commits in 24 h, 703 of them non-events), and the keep-alive clause makes sure a live checker can never be the reason the board looks dead."
+}

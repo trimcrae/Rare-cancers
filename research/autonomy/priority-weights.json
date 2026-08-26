@@ -89,5 +89,11 @@
   "prerequisite_bonus": {
     "value": 0.5,
     "_why": "An entry carrying `prerequisite_of` inherits its parent's score PLUS this, so it sorts immediately above the thing it unblocks. ⛔ Without it the prerequisite is invisible: CYC-0001 filed a hardening round and a blind seat as the only path to posting the portfolio's top-ranked paper, and both scored null, so the driver would never have taken either and the paper would have stayed blocked while the loop worked down the rest of the list. The bonus is deliberately tiny — a prerequisite is worth exactly what it unblocks, not more."
+  },
+  "claim_lease": {
+    "periods": 2,
+    "_what": "A claim (`owner`) is a LEASE, not a deed. It expires after this many cycle periods and the item returns to the queue.",
+    "_why": "⛔ FOUND LIVE 2026-08-26, AND IT WAS A STALL ALREADY IN PROGRESS. CYC-0003 claimed AUT-PROP-002, finished its cycle, and never released the claim — there was no release step and no timestamp to age it by. merge() faithfully carries `owner` across every re-score, so the claim was PERMANENT: the next driver would see the item owned and skip it, forever, and the queue's top item would silently never be worked. A cycle that dies mid-item produces the identical result, which is the more dangerous version because nothing announces it.",
+    "_unstamped_claims_are_stale_immediately": "An `owner` with no `claimed_utc` cannot be aged, and an un-releasable claim is worse than a re-done item. Fail toward releasing."
   }
 }

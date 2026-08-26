@@ -74,6 +74,7 @@ CONDITION_ORDER = (
     "advancing_live_work",
     "evidence_moving",
     "blocks_are_real",
+    "queue_is_takeable",
     "budget_recovering",
     "gates_green",
     "authority_respected",
@@ -439,6 +440,53 @@ def c_blocks_are_real(entries, ledger_err):
                   payload)
 
 
+def c_queue_is_takeable(entries, ledger_err):
+    """⛔ THE STALL CONDITION. Is there ANY item a cycle could actually pick up right now?
+
+    Every other condition here asks whether the loop is doing its work well. This one asks whether
+    there is any work it CAN do — and a loop with nothing takeable does not crash, does not error and
+    does not go quiet. It fires on schedule, re-scores, finds nothing, writes a receipt saying it did
+    nothing, and repeats. From outside it is indistinguishable from a healthy loop on a slow week.
+
+    A queue goes untakeable four ways, and all four have happened or nearly happened here:
+      - every item CLAIMED by a cycle that died (fixed by the lease in priority.py, guarded here);
+      - every item BLOCKED with evidence, so the penalty demotes them all and none is workable;
+      - every item's retry budget spent;
+      - the ledger emptied or unreadable.
+
+    ⚠ It counts what a cycle would take, not what exists. An 81-entry ledger where all 81 are owned or
+    blocked is an EMPTY queue, and reporting 81 would be the reassuring lie.
+    """
+    key = "queue_is_takeable"
+    label = "is there any work a cycle could actually pick up?"
+    source = "research/autonomy/research-ledger.json — unowned, unblocked, retry budget remaining"
+    if entries is None:
+        return _unmeasured(key, label, source, "LEDGER-UNREADABLE", f"{ledger_err}.")
+    if not entries:
+        return _red(key, label, source, "EMPTY-LEDGER",
+                    "the ledger holds no entries at all, so every cycle from here does nothing. "
+                    "Re-seed it: python3 research/autonomy/priority.py --write.")
+    takeable = [
+        e for e in entries
+        if not e.get("owner")
+        and str(e.get("state") or "queued") in {"queued", "blocked"}
+        and int(e.get("retry_budget") or 0) > 0
+        and e.get("score") is not None
+    ]
+    owned = [e.get("id") for e in entries if e.get("owner")]
+    spent = [e.get("id") for e in entries if int(e.get("retry_budget") or 0) <= 0]
+    payload = {"entries": len(entries), "takeable": len(takeable),
+               "owned": owned or None, "retry_budget_spent": spent or None}
+    if not takeable:
+        return _red(key, label, source, "NOTHING-TAKEABLE",
+                    f"{len(entries)} entr(ies) and NONE is takeable — "
+                    f"{len(owned)} owned, {len(spent)} out of retry budget. Every cycle from here "
+                    "will fire, find nothing, and write a receipt saying so. That is a stall wearing "
+                    "the costume of a quiet week.", payload)
+    return _green(key, label, source, "TAKEABLE",
+                  f"{len(takeable)} of {len(entries)} entr(ies) are takeable now.", payload)
+
+
 def c_budget_recovering(state, state_err, now):
     """Red when `backoff_level` has been > 0 for more than 24 h — §9's stuck-loop row.
 
@@ -687,6 +735,7 @@ def build(*, ledger_path=DEFAULT_LEDGER, state_path=DEFAULT_STATE, receipts_dir=
         c_advancing_live_work(receipts, now),
         c_evidence_moving(entries, ledger_err, interval_h, now),
         c_blocks_are_real(entries, ledger_err),
+        c_queue_is_takeable(entries, ledger_err),
         c_budget_recovering(state, state_err, now),
         c_gates_green(gates, gates_err, now),
         c_authority_respected(receipts, authority, authority_err),

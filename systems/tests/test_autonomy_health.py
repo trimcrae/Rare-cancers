@@ -68,7 +68,14 @@ def _lab(tmp_path, *, entries=None, state="seed", receipts=(), authority=None, g
     """
     root = tmp_path / "autonomy"
     (root / "receipts").mkdir(parents=True)
-    (root / "research-ledger.json").write_text(json.dumps({"entries": list(entries or [])}))
+    # ⭐ THE NEUTRAL LAB CARRIES ONE TAKEABLE ITEM. An EMPTY ledger is not neutral — it is a real,
+    # measured stall (every cycle from then on does nothing), and `queue_is_takeable` reports it as
+    # one. Leaving the default empty would have made a stall the baseline of every test here, so the
+    # empty case gets its own test instead of being smuggled in as scenery.
+    default = [{"id": "AUT-LAB", "serves": {"route": "RT-LAB"}, "state": "queued",
+                "retry_budget": 3, "score": 1.0}]
+    (root / "research-ledger.json").write_text(
+        json.dumps({"entries": list(entries) if entries is not None else default}))
     if state == "seed":
         (root / "autonomy-state.json").write_text(STATE_JSON.read_text())
     elif state is not None:
@@ -118,8 +125,13 @@ def test_all_seven_5_2_conditions_are_present(health, tmp_path):
     assert set(health.CONDITION_ORDER) == {
         "cycle_delivering", "advancing_live_work", "evidence_moving", "blocks_are_real",
         "budget_recovering", "gates_green", "authority_respected",
+        # ⭐ ADDED 2026-08-26, DECLARED in amendments.jsonl. Every other condition asks whether the
+        # loop works WELL; this one asks whether there is work it CAN do. A queue where everything is
+        # owned, blocked or out of retry budget makes a loop that fires, finds nothing, writes a
+        # receipt saying so, and repeats — a stall wearing the costume of a quiet week.
+        "queue_is_takeable",
     }, "the condition set drifted from the architecture §5.2 table — that is a DECLARED change (§10.4)"
-    assert board["n_conditions"] == 7
+    assert board["n_conditions"] == 8
 
 
 def test_every_row_carries_the_alarm_state_idiom(health, tmp_path):
@@ -434,7 +446,7 @@ def test_write_persists_a_board_that_round_trips(health, tmp_path):
             kwargs["health_path"], "--write"]
     assert health.main(argv) == 0
     written = json.loads(pathlib.Path(kwargs["health_path"]).read_text())
-    assert len(written["conditions"]) == 7 and written["_stale_after_means"]
+    assert len(written["conditions"]) == 8 and written["_stale_after_means"]
 
 
 def test_the_board_is_deterministic(health, tmp_path):
@@ -471,8 +483,30 @@ def test_it_runs_against_the_real_repository_without_asserting_a_verdict(health)
     """⚠ SHAPE ONLY, ON PURPOSE. research/autonomy/ is written by the loop, so asserting a verdict here
     would make this suite go red on an unrelated commit — the clock-dependent-test defect recorded in
     fleet_armed.state's docstring. What is worth binding is that the real files still PARSE into a
-    seven-row board."""
+    eight-row board."""
     board = health.build(now=NOW)
-    assert len(board["conditions"]) == 7
+    assert len(board["conditions"]) == 8
     assert isinstance(board["ok"], bool) and isinstance(board["fully_measured"], bool)
     assert health.render(board, NOW).startswith("[loop-health]")
+
+
+def test_an_empty_ledger_is_a_measured_stall_not_a_quiet_week(health, tmp_path):
+    """⛔ ADDED 2026-08-26 with the `queue_is_takeable` condition. A ledger that exists and holds no
+    entries is not 'nothing to report' — it is a loop that will fire on schedule and do nothing,
+    forever, while every other condition stays green. That is the stall this row exists to name."""
+    board = health.build(**_lab(tmp_path, entries=[]))
+    row = [c for c in board["conditions"] if c["key"] == "queue_is_takeable"][0]
+    assert row["needs_attention"] is True and row["unmeasured"] is False
+    assert row["verdict"] == "EMPTY-LEDGER"
+
+
+def test_a_queue_where_everything_is_claimed_is_a_stall(health, tmp_path):
+    """The commoner shape, and the one that actually happened: CYC-0003 left a claim standing and the
+    queue's top item became untakeable. With every item owned there is nothing to pick up, and the
+    loop looks busy while doing nothing."""
+    entries = [{"id": "AUT-1", "state": "queued", "owner": "CYC-DEAD", "retry_budget": 3, "score": 5.0},
+               {"id": "AUT-2", "state": "running", "owner": "CYC-DEAD", "retry_budget": 3, "score": 4.0}]
+    board = health.build(**_lab(tmp_path, entries=entries))
+    row = [c for c in board["conditions"] if c["key"] == "queue_is_takeable"][0]
+    assert row["needs_attention"] is True
+    assert row["verdict"] == "NOTHING-TAKEABLE"

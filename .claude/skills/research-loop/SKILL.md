@@ -38,6 +38,7 @@ Check before anything else. A loop that works through its own alarm is the alarm
 | `backoff_level` is at maximum | `research/autonomy/autonomy-state.json` | Take one FREE item only, or stop. §4. |
 | Preflight is red on `main` and not by your hand | `repo-gates` | Fixing that IS the cycle. Nothing else lands until it is green. |
 | An unresolved escalation to trimcrae older than its deadline | the last receipts | Stop. He is the blocker and another cycle does not help. |
+| ⛔ **Nothing in the queue is takeable** | `health.py`'s `queue_is_takeable` row | **This is a STALL, and it is the one that looks like a quiet week.** Do not fire and write "nothing to do" — that is what a stalled loop does forever. Find out WHY nothing is takeable (all owned? all blocked? retry budgets spent?), fix that, and if you cannot, escalate it as §5's trigger 4. |
 
 ---
 
@@ -51,8 +52,15 @@ Check before anything else. A loop that works through its own alarm is the alarm
 3. **Re-score.** `python3 research/autonomy/priority.py --write`. It is $0 and deterministic —
    never trust a score you inherited.
 4. **Take the top item whose `cost_class` fits the current budget posture.** Free work always fits.
-   Set `owner` to your cycle id and commit that before doing any work: an item with no owner is
-   indistinguishable from an item in progress.
+   Set `owner` to your cycle id **and `claimed_utc` to now**, and commit that before doing any work:
+   an item with no owner is indistinguishable from an item in progress.
+   ⛔ **A CLAIM IS A LEASE, NOT A DEED — STAMP IT.** An unstamped claim cannot be aged, so
+   `priority.py` releases it on the very next re-score and another cycle may take the item out from
+   under you. Worse, before the lease existed, an unstamped claim was IMMORTAL: CYC-0003 claimed an
+   item, finished, and parked the queue's top entry permanently.
+   ⭐ **AND RELEASE IT IN STEP 9** — set `owner` back to `null` whether you finished, failed or gave
+   up. The lease is the backstop for a cycle that DIED; a cycle that lived and did not release is
+   just leaving litter the backstop has to clean.
 5. **⭐ TAKE THE FREE OBSERVATIONS FIRST.** Any `UNKNOWN` or `STALE` field on this item that a
    `git show`, a public Actions read or a `WebSearch` would settle is settled **now**, before you
    write a sentence about it. CLAUDE.md §4 — and `ci-escape-hatches` §0 for which rung to use.
@@ -61,8 +69,8 @@ Check before anything else. A loop that works through its own alarm is the alarm
    `python3 research/autonomy/publish_bar.py --paper <PUB> --sha <sha>` decides — not you.
 8. **Commit.** Preflight must pass, exit code unmasked. **Checkpoint after THIS item, never batch** —
    the whole rate-limit design rests on it.
-9. **Write back what you OBSERVED** onto the entry: new state, `last_evidence_utc`, and for a
-   failure the *diagnostic*. ⛔ CLAUDE.md §4: never a "probably". If you cannot diagnose it, record
+9. **Write back what you OBSERVED** onto the entry: **release your claim (`owner: null`)**, set the
+   new state and `last_evidence_utc`, and for a failure the *diagnostic*. ⛔ CLAUDE.md §4: never a "probably". If you cannot diagnose it, record
    `UNKNOWN` and queue the diagnostic as its own entry.
 10. **Write the receipt** — `research/autonomy/receipts/<cycle-id>.json`: what you took, what
     changed, what it cost, your session id, what is now queued, `blocked_by[]` (each with the

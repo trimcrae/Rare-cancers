@@ -249,10 +249,39 @@ def apply_clamps(entries: list[dict], weights: dict) -> list[dict]:
 
 # Fields the GRAPH owns: regenerated from systems/graph every re-score, and an edit to them here
 # would be overwritten anyway. Everything else on an entry belongs to the SESSION that touched it.
-SESSION_OWNED = ("owner", "attempts", "retry_budget", "blocked_evidence", "blocked_by",
+SESSION_OWNED = ("owner", "claimed_utc", "attempts", "retry_budget", "blocked_evidence", "blocked_by",
                  "prerequisite_of")
 # States a session sets. `queued`/`blocked` are re-derived from the graph; these are not.
 SESSION_STATES = {"running", "done", "abandoned"}
+
+
+def _utcnow():
+    import datetime
+    return datetime.datetime.now(datetime.timezone.utc)
+
+
+def _parse_utc(value):
+    """Lenient ISO-8601 read. An unparseable stamp is treated as ABSENT, which makes the claim stale —
+    the safe direction, because the alternative is an immortal claim."""
+    import datetime
+    if not value:
+        return None
+    try:
+        text = str(value).replace("Z", "+00:00")
+        stamp = datetime.datetime.fromisoformat(text)
+        return stamp if stamp.tzinfo else stamp.replace(tzinfo=datetime.timezone.utc)
+    except Exception:
+        return None
+
+
+def _cycle_interval_hours():
+    """The governor owns this figure; read it rather than restating it."""
+    try:
+        with (HERE / "autonomy-state.json").open() as fh:
+            value = json.load(fh).get("cycle_interval_hours")
+        return float(value) if value else None
+    except Exception:
+        return None
 
 
 def load_existing() -> dict | None:
@@ -376,9 +405,53 @@ def apply_session_penalties(entries: list[dict], weights: dict) -> list[dict]:
     return entries
 
 
+def release_stale_claims(entries: list[dict], weights: dict, interval_h, now=None) -> list[dict]:
+    """A claim is a LEASE. Expire it, or one dead cycle parks an item forever.
+
+    ⛔⛔ THIS IS THE STALL THAT ALMOST SHIPPED, AND IT WAS ALREADY HAPPENING WHEN IT WAS FOUND.
+    `merge()` carries `owner` across every re-score — correctly, so a claim survives step 3 of the next
+    cycle. But nothing ever CLEARED one. CYC-0003 claimed AUT-PROP-002, completed, and left the claim
+    standing; the ledger showed it owned by a cycle that no longer existed. The next driver would read
+    "someone is working on this", skip the queue's top item, and take something lower — silently, every
+    four hours, forever. A cycle KILLED MID-ITEM produces exactly the same state, and that version is
+    worse because nothing announces it.
+
+    ⭐ A LEASE MAKES THE FAILURE SELF-HEALING RATHER THAN MERELY DETECTABLE. An alarm on a stuck claim
+    would still need a human. An expiry needs nobody.
+
+    ⚠ AN OWNER WITH NO `claimed_utc` IS STALE IMMEDIATELY. It cannot be aged, and an un-releasable claim
+    is worse than an item done twice — the work is idempotent, the stall is not. Fail toward releasing.
+    """
+    now = now or _utcnow()
+    periods = weights["claim_lease"]["periods"]
+    hours = (interval_h if interval_h else 4.0) * periods
+    for entry in entries:
+        owner = entry.get("owner")
+        if not owner:
+            continue
+        stamped = _parse_utc(entry.get("claimed_utc"))
+        age_h = None if stamped is None else (now - stamped).total_seconds() / 3600.0
+        if stamped is not None and age_h < hours:
+            continue
+        entry["owner"] = None
+        entry["claimed_utc"] = None
+        if entry.get("state") == "running":
+            entry["state"] = "queued"
+        entry["attempts"] = int(entry.get("attempts") or 0) + 1
+        entry["lease_released"] = (
+            f"claim by {owner} released "
+            + ("(never stamped with claimed_utc, so it could not be aged)"
+               if stamped is None else f"after {age_h:.1f} h, past the {hours:.0f} h lease")
+            + ". A claim is a lease, not a deed — see priority-weights.json claim_lease.")
+    return entries
+
+
 def build_ledger() -> dict:
     weights = load_weights()
-    entries = apply_session_penalties(merge(build_entries(weights), load_existing()), weights)
+    existing = load_existing()
+    interval_h = _cycle_interval_hours()
+    entries = release_stale_claims(merge(build_entries(weights), existing), weights, interval_h)
+    entries = apply_session_penalties(entries, weights)
     entries.sort(key=lambda e: (-(e.get("score") if e.get("score") is not None else -1e9),
                                 str(e.get("serves", {}).get("route") or e["id"])))
     return {

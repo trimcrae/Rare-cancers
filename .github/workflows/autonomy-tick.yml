@@ -66,6 +66,25 @@ jobs:
           # one is how a governed edit gets logged while telling nobody anything.
           python3 research/autonomy/amendment_guard.py --check-log | tee -a "$GITHUB_STEP_SUMMARY"
 
+      - name: Alarm if the loop has been unhealthy for a while
+        # ⛔ THE ONLY PUSH CHANNEL THE LOOP HAS, AND IT RUNS ON THE OTHER CLOCK ON PURPOSE.
+        # health.json is a PULL channel: red in a file nobody opens tells nobody. If the driver
+        # Routine stops firing, the loop emits no receipts, no commits, no errors — indistinguishable
+        # from a quiet week. This repository has already lost six weeks that way once.
+        # A supervisor sharing a clock with what it supervises cannot report that the clock stopped,
+        # which is why this lives in the Actions tick and not in a research cycle.
+        # ⚠ Never fails the job: a mail problem must not take down the publish step below, or a bad
+        # SMTP day would remove the pull channel as well as the push one.
+        env:
+          MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+          MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          MAIL_TO: ${{ vars.MAIL_TO }}
+        run: |
+          python3 research/autonomy/stall_alarm.py --health research/autonomy/health.json \
+            | tee -a "$GITHUB_STEP_SUMMARY"
+
       - name: Publish the board, but only if there is something to say
         if: ${{ github.event_name == 'schedule' || inputs.commit }}
         run: |
