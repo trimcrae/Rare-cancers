@@ -254,6 +254,57 @@ needs ~24 h of the new cadence before it can be quoted. Do not write a number he
 
 ---
 
+## 6a-ter · FOURTH PASS — THE 20-MINUTE PENALTY EVERY SESSION WAS PAYING, AND WHAT IT WAS HIDING
+
+⛔ **THE SYMPTOM WAS NOT OURS AND NOT A MERGE.** A second session merged `main` and sat in the FULL
+modalities suite. Cause, measured: `scripts/selector-validation.json` records the selector+preflight pair a
+`PREFLIGHT_FULL=1` run last validated, and **both hashes were stale** (`affected_tests.py`
+`c361e3b6…` vs actual `a77c6097…`; `preflight.sh` `ccf0df4f…` vs `bf86e942…`). `affected_tests.py` fails
+safe, so it answered **FULL for every session, every run** — all 7,924 modality tests instead of a scoped
+subset. Stale since 2026-08-23/24; none of this session's commits touch those three files.
+
+★★ **AND IT WAS SELF-SEALING, WHICH IS WHY IT SURVIVED.** Only a GREEN `PREFLIGHT_FULL=1` run re-stamps the
+record — and no FULL run could go green, because the ablation gate was failing. CLAUDE.md §6 named the
+shape ("a tripwire clearable only by a rare act is a permanent tripwire") and left the diagnosis open.
+**The CI tax and the manuscript defect were one problem.**
+
+### What the green run cost, and what it bought
+
+`PREFLIGHT_FULL=1` widens `test_the_census_word_covered_survives_ablation` from a 6-sentence sample to ALL
+47 numbered covered sentences. Two survived ablation — **counted as covered, bound by nothing**:
+
+| sentence | perturbation | who noticed |
+|---|---|---|
+| "…an industry working group's **2025** off-target recommendations report…" | `2025 → 2027` | nobody |
+| "A donor joined to the first coding exon — transcript **exon 3** — does yield a chimera." | `3 → 7` | nobody |
+
+⚠ **The second is an exon index in a submission-bound paper whose central warning is that a reagent selected
+for one acceptor is invalid for the other.** The guards the census credited are real guards that open the
+file and never read those numbers — the round-16 defect one level down.
+
+⛔ **BOUND, NOT SILENCED**, per the gate's own instruction (*"Do not lower the coverage floor to match"*) —
+the same call as refusing to quiet the escalated market hold in §6a-bis.
+`test_two_prose_numbers_bind_to_their_sources.py` reads the year from the fetched PubMed record for PMID
+39912803 and the exon rank from `nr4a3_acceptor_numbering.PANEL_ACCEPTOR`. **Neither number is typed.**
+Mutation-tested single-site: prose `2025→2027` RED · prose `3→7` RED · **SOURCE year `→2099` RED** ·
+restored GREEN. The source-side mutation is the one that matters — a guard hard-coding 2025 would pass
+while the record moved out from under the prose.
+
+### Result
+
+    PREFLIGHT OK (FULL: every gate, both suites unscoped)
+    7924 passed, 48 skipped  +  1123 passed, 3 skipped
+
+Record re-stamped; both hashes verified MATCH on `origin/main`. **Scoped selection works again for every
+session**, and the ~20 min every merge was paying is gone.
+
+⚠ **THIS RECURS IF `preflight.sh` OR `affected_tests.py` CHANGES.** That is by design — the gate exists so a
+selector change is FULL-gated. The maintenance rule is in `selector-validation.json`'s own `_how_to_update`:
+change either file → `PREFLIGHT_FULL=1` to green → `record_selector_validation.py` → **commit both in the
+same commit.** Skipping the last step is what put the repo here for three days.
+
+---
+
 ## 6a-bis · THIRD PASS — THE FIRST TWO DID NOT REDUCE THE RATE, AND THE MEASUREMENT SAYS SO
 
 ⛔ **MEASURED 2026-08-26, ~1.5 h after the merge. The honest reading, before any explanation:**
