@@ -236,6 +236,16 @@ carry every rule verbatim, with its evidence. **A tripwire that did not fire is 
 **Four rules that must fire even if you never load a skill**, because each guards an irreversible or expensive
 act you'd commit *before* thinking to consult anything:
 
+- **⛔ `pgrep -f` / `pkill -f` MATCH THE SHELL THAT RUNS THEM — NEVER PATTERN-MATCH YOUR OWN COMMAND**
+  (three times in one session, 2026-08-26). The pattern text sits in the wrapper's own command line, so
+  `pkill -f preflight.sh` kills the shell issuing it and `until ! pgrep -f "bash ./scripts/preflight.sh"`
+  never exits — it matches itself, forever. **Cost, measured: two orphan poll loops trimcrae had to spot in
+  the task list, and one killed gate run.**
+  ⭐ **Wait on an ARTIFACT, not a process:** have the command write a marker (`echo "EXIT=$?" >> log`) and
+  `until grep -q "^EXIT=" log`. To stop a background job use **`TaskStop`**, which knows the job's real id.
+  ⚠ And a poll loop is nearly always the wrong tool anyway — §1: the foreground stays free, and the harness
+  notifies you when background work lands.
+
 - **⛔ NEVER BUILD AN ENVIRONMENT ON A MACHINE WE ARE PAYING FOR — THE STACKS ARE PRE-BAKED.** A new lane's
   first question is **"which baked image?"**, never "what do I install?".
 - **⛔ A ROW THAT PRINTS `⚠ DRIFT` IS A ROW WE DO NOT BUY.** The drift line **is** the buy line — a hard gate,
