@@ -5,29 +5,51 @@
   "_generated_by": "python3 research/autonomy/priority.py --write",
   "_scores_are_not_evidence": "A score orders work; it asserts nothing about the science. Every input is echoed in score_inputs so a reader can check the arithmetic against the graph.",
   "n_by_kind": {
+    "analysis": 1,
     "experiment": 23,
     "fetch": 11,
+    "harden": 1,
     "negative": 32,
     "process_defect": 1,
     "regrade": 7,
-    "write": 4
+    "write": 5
   },
   "n_by_state": {
-    "queued": 78
+    "queued": 81
   },
   "n_clamped": 11,
   "entries": [
     {
+      "serves": {
+        "route": "RT-PARTNER-STRAT",
+        "publication": "PUB-FUSION-PARTNER",
+        "strategy": "ST-REPURPOSING"
+      },
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-26",
+      "score": 195.5,
+      "filed_by": "CYC-0001",
+      "prerequisite_of": "AUT-049",
       "id": "AUT-PROP-002",
       "kind": "harden",
-      "state": "queued",
-      "owner": null,
       "what": "Run a hardening round on PUB-FUSION-PARTNER and record it to research/autonomy/hardening-state/PUB-FUSION-PARTNER.json \u2014 publish_bar clause 1. Load `paper-hardening`; review a PINNED commit.",
+      "_score_basis": "inherited from AUT-049 (+0.5) \u2014 it is the work that unblocks it"
+    },
+    {
       "serves": {
         "route": "RT-PARTNER-STRAT",
         "publication": "PUB-FUSION-PARTNER",
         "strategy": "ST-REPURPOSING"
       },
+      "state": "queued",
+      "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -35,92 +57,17 @@
       "retry_budget": 3,
       "attempts": 0,
       "last_evidence_utc": "2026-08-26",
-      "score": null,
-      "_score_is_null_why": "Derived from a bar clause, not from the graph; taken because its parent entry is blocked on it.",
-      "filed_by": "CYC-0001"
-    },
-    {
+      "score": 195.5,
+      "filed_by": "CYC-0001",
+      "prerequisite_of": "AUT-049",
       "id": "AUT-PROP-003",
       "kind": "analysis",
-      "state": "queued",
-      "owner": null,
-      "what": "Run a BLIND adversarial seat on PUB-FUSION-PARTNER at the posted commit and record it to research/autonomy/review-seats/ \u2014 publish_bar clause 6. The seat must be blind and must review the pinned sha, or it is not independent evidence.",
-      "serves": {
-        "route": "RT-PARTNER-STRAT",
-        "publication": "PUB-FUSION-PARTNER",
-        "strategy": "ST-REPURPOSING"
-      },
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-26",
-      "score": null,
-      "_score_is_null_why": "Derived from a bar clause, not from the graph.",
-      "filed_by": "CYC-0001"
-    },
-    {
-      "id": "AUT-PROP-004",
-      "kind": "write",
-      "state": "queued",
-      "owner": null,
-      "what": "ESCALATE, do not perform: the three paywalled-table requests to corresponding authors named in section 6 of the fusion-partner paper. Email is outward-facing and covered by NO grant \u2014 publication-authority.json `everything_else.standing_grant: false`.",
-      "serves": {
-        "route": "RT-PARTNER-STRAT",
-        "publication": "PUB-FUSION-PARTNER",
-        "strategy": "ST-REPURPOSING"
-      },
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": [
-        "research/autonomy/publication-authority.json"
-      ],
-      "blocked_evidence": "publication-authority.json: outreach was never granted. Only trimcrae sends these.",
-      "retry_budget": 1,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-26",
-      "score": null,
-      "_score_is_null_why": "Blocked on a human grant; not a scored research item.",
-      "filed_by": "CYC-0001"
-    },
-    {
-      "id": "AUT-049",
-      "what": "Post the preprint at research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md, and in the same pass send the three paywalled-table requests named in its section 6 to the corresponding authors.",
-      "serves": {
-        "route": "RT-PARTNER-STRAT",
-        "publication": "PUB-FUSION-PARTNER",
-        "strategy": "ST-REPURPOSING"
-      },
-      "kind": "write",
-      "state": "blocked",
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": [
-        "research/autonomy/publish_bar.py"
-      ],
-      "blocked_evidence": "publish_bar --paper PUB-FUSION-PARTNER --sha a3712543348f on 2026-08-26: BLOCKED 3/6. Clauses 3 (claim ceiling), 4 (identifiers) and 5 (falsifiable endpoint) PASS. Clauses 1, 2 and 6 are UNVERIFIABLE for want of artifacts that do not exist yet: a hardening record, a PREFLIGHT_FULL receipt on the posted commit, and a blind adversarial seat. \u26a0 The email half of this item (three paywalled-table requests to corresponding authors) is NOT covered by any grant and escalates regardless of the bar.",
-      "retry_budget": 3,
-      "attempts": 1,
-      "last_evidence_utc": "2026-08-08",
-      "score": 195.0,
-      "score_inputs": {
-        "live": true,
-        "patient_path": "clinical_adoption",
-        "patient_path_scaled": 0.9,
-        "pursue_now": true,
-        "tier_one": false,
-        "endpoint_reachable": true,
-        "blocker_leverage": 6,
-        "cost_class": "free",
-        "blocked_on_human": false,
-        "fruitless_attempts": 0
-      }
+      "what": "Run a BLIND adversarial seat on PUB-FUSION-PARTNER at the pinned commit and record it to research/autonomy/review-seats/ \u2014 publish_bar clause 6. The seat must be blind and must review the pinned sha, or it is not independent evidence.",
+      "_score_basis": "inherited from AUT-049 (+0.5) \u2014 it is the work that unblocks it"
     },
     {
       "id": "AUT-010",
+      "_derived": true,
       "what": "Publish the assessment with the class-inheritance limit stated inside it, and pair it with the cell-panel ask.",
       "serves": {
         "route": "RT-ATR-ASSESS",
@@ -153,6 +100,7 @@
     },
     {
       "id": "AUT-046",
+      "_derived": true,
       "what": "Post the preprint and put the MTAP stain in front of a group holding EMC archival material.",
       "serves": {
         "route": "RT-MTAP-PRMT5",
@@ -185,6 +133,7 @@
     },
     {
       "id": "AUT-034",
+      "_derived": true,
       "what": "Digitize the Kaplan-Meier curve and numbers-at-risk table of the largest open-access EMC series and admit or refuse it against the quality floor.",
       "serves": {
         "route": "RT-IPD-SURVIVAL",
@@ -217,6 +166,7 @@
     },
     {
       "id": "AUT-036",
+      "_derived": true,
       "what": "Curate primary anatomical site from the open-access pooled series, then search the perfusion literature for myxoid histologies.",
       "serves": {
         "route": "RT-LIMB-PERFUSION",
@@ -249,6 +199,7 @@
     },
     {
       "id": "AUT-037",
+      "_derived": true,
       "what": "Re-curate metastatic site from the open-access primary reports of the pooled series \u2014 the one $0 step that converts this route's denominator into an eligible fraction.",
       "serves": {
         "route": "RT-LUNG-DIRECTED",
@@ -281,6 +232,7 @@
     },
     {
       "id": "AUT-042",
+      "_derived": true,
       "what": "\u26d4 Do NOT re-curate the open-access series for lesion burden -- it was looked for and is not printed. What is left is a judgement call: whether an EMC note saying 'local therapy of metastases is already standard for roughly a quarter of these patients, with no comparator anywhere in the literature' is worth writing as the route's honest endpoint. \u26a0 Superseded, retained: \"Curate metastatic site and lesion burden from the open-access EMC series and size the metastasectomy-eligible fraction.\" The site half is done; the burden half is impossible from print, so the fraction cannot be sized as asked.",
       "serves": {
         "route": "RT-METASTASECTOMY",
@@ -313,6 +265,7 @@
     },
     {
       "id": "AUT-057",
+      "_derived": true,
       "what": "Decide what an ordering-only prognostic statement is worth publishing as. The coefficients are in hand (ART-PROGNOSTIC-COEFFICIENTS) and the missing baseline hazard is not obtainable from any reachable source, so the choice is between reporting the cross-cohort consistency of surgical margin as a short honest note and holding the route until a series prints a reference-group curve with numbers at risk. \u26d4 Do NOT re-attempt the reconstruction path for this route's covariates \u2014 that question is answered.",
       "serves": {
         "route": "RT-RISK-MODEL",
@@ -345,6 +298,7 @@
     },
     {
       "id": "AUT-058",
+      "_derived": true,
       "what": "\u26d4 Do NOT re-run the particle search or re-litigate the contradiction \u2014 both are done and recorded in ART-RT-CONTRADICTION. The finding worth something is the negative one: two series that the field reads as conflicting are statistically consistent, and neither is powered. Whether that is worth writing up is a judgement call about what we publish. \u26a0 Superseded, retained: \"Search the particle registries by histology, which is $0 and is the only input to the reappraisal that does not need per-patient data.\"",
       "serves": {
         "route": "RT-RT-INTENSIFY",
@@ -377,6 +331,7 @@
     },
     {
       "id": "AUT-064",
+      "_derived": true,
       "what": "Decide whether an EMC margin note is worth writing from what is now in hand -- a positive-margin rate with an honest denominator range across two independent cohorts, plus Chiusole's outcome-by-margin contrast. \u26d4 Do NOT re-curate these two papers for treatment setting or unplanned excision: both were measured absent, and the absence is a property of the publications, not of the curation.",
       "serves": {
         "route": "RT-SURGICAL-QUALITY",
@@ -409,6 +364,7 @@
     },
     {
       "id": "AUT-065",
+      "_derived": true,
       "what": "\u26d4 Do NOT wait on RT-IPD-SURVIVAL for this -- it has produced data and the data is the wrong shape, which is now recorded. The honest options are to write the observation up as a short note (a judgement call about what we publish, not a technical one) or to leave the route open against a series that prints a time-to-recurrence curve WITH numbers at risk. \u26a0 Superseded, retained: \"Wait on RT-IPD-SURVIVAL for the recurrence hazard, then build the state-transition model.\"",
       "serves": {
         "route": "RT-SURVEILLANCE",
@@ -441,6 +397,7 @@
     },
     {
       "id": "AUT-013",
+      "_derived": true,
       "what": "Treat as landscape context; the ex-vivo result is banked and needs no further lookup.",
       "serves": {
         "route": "RT-CARFILZOMIB",
@@ -473,6 +430,7 @@
     },
     {
       "id": "AUT-052",
+      "_derived": true,
       "what": "RE-TEST THE BLOCK before doing anything else \u2014 it is recorded without evidence. Blocked on: ['BLK-NO-EMC-DATA']. Original next action: The literature half is CLOSED (research/manuscripts/repurposing/pparg-direction-emc.md). What remains is a PPAR\u03b3 activity readout in EMC, which is blocked by BLK-NO-EMC-DATA \u2014 not by an unrun literature pull.",
       "serves": {
         "route": "RT-PPARG-DOWNSTREAM",
@@ -508,6 +466,7 @@
     },
     {
       "id": "AUT-053",
+      "_derived": true,
       "what": "RE-TEST THE BLOCK before doing anything else \u2014 it is recorded without evidence. Blocked on: ['BLK-NO-EMC-DATA']. Original next action: Include in the collaborator ask: an expression confirm on EMC tissue is small, and the therapeutic already exists.",
       "serves": {
         "route": "RT-PRAME-IMMTAC",
@@ -543,6 +502,7 @@
     },
     {
       "id": "AUT-073",
+      "_derived": true,
       "what": "Publish the eligibility map \u2014 this is the one route in the portfolio whose output could reach a patient without any new science, and its absence finding about the driver gene is a reportable fact about how the registry indexes rare disease.",
       "serves": {
         "route": "RT-TRIAL-REACH",
@@ -575,6 +535,7 @@
     },
     {
       "id": "AUT-041",
+      "_derived": true,
       "what": "Do NOT write the concept paper as framed. Extract dose, fractionation, BED and local-control duration for every reported irradiated EMC metastasis into the findings artifact, and decide from the assembled table whether anything survives that the 2025 review has not already said.",
       "serves": {
         "route": "RT-MDT-LUNG",
@@ -607,6 +568,7 @@
     },
     {
       "id": "AUT-003",
+      "_derived": true,
       "what": "Report it in the kinase paper as a CORRECTED reading of a lead: the screen's dominant signal is a class the board already holds, and the arrays structurally cannot attribute the kinase hit.",
       "serves": {
         "route": "RT-ALK-HIT",
@@ -639,6 +601,7 @@
     },
     {
       "id": "AUT-015",
+      "_derived": true,
       "what": "Establish whether any FET-family fusion protein is a documented chaperone client.",
       "serves": {
         "route": "RT-CHAPERONE",
@@ -671,6 +634,7 @@
     },
     {
       "id": "AUT-021",
+      "_derived": true,
       "what": "Read the queued sarcoma dependency prior for the kinase and its two partner subunits, then report the lead with its wild-type, single-source, non-sarcoma provenance stated plainly.",
       "serves": {
         "route": "RT-DNAPK",
@@ -703,6 +667,7 @@
     },
     {
       "id": "AUT-025",
+      "_derived": true,
       "what": "Keep registered for automatic re-grade when EMC expression data lands.",
       "serves": {
         "route": "RT-FAP-RLT",
@@ -735,6 +700,7 @@
     },
     {
       "id": "AUT-054",
+      "_derived": true,
       "what": "Report it as the kinase paper's strongest lead and its clearest cautionary case: the one kinase reported activated in this disease, where reading the source shows the report cannot carry the weight a decade of citation has put on it.",
       "serves": {
         "route": "RT-RET",
@@ -767,6 +733,7 @@
     },
     {
       "id": "AUT-062",
+      "_derived": true,
       "what": "Read which other kinases phosphorylate the substrate, to size how much of the signal SGK1 could account for.",
       "serves": {
         "route": "RT-SGK1",
@@ -799,6 +766,7 @@
     },
     {
       "id": "AUT-074",
+      "_derived": true,
       "what": "Report it as a closed line: elevated and pan-essential is not an opportunity.",
       "serves": {
         "route": "RT-TXN-CDK",
@@ -831,6 +799,7 @@
     },
     {
       "id": "AUT-044",
+      "_derived": true,
       "what": "Decide the framing and the venue, which is an outward-facing call.",
       "serves": {
         "route": "RT-MODALITY-CENSUS",
@@ -863,6 +832,7 @@
     },
     {
       "id": "AUT-032",
+      "_derived": true,
       "what": "Keep as landscape context, cited and never overstated. It is the comparator, not a contribution.",
       "serves": {
         "route": "RT-ICI-TKI",
@@ -895,6 +865,7 @@
     },
     {
       "id": "AUT-071",
+      "_derived": true,
       "what": "Keep as cited landscape context. Do not overstate a single response.",
       "serves": {
         "route": "RT-TRABECTEDIN",
@@ -926,7 +897,44 @@
       }
     },
     {
+      "id": "AUT-049",
+      "_derived": true,
+      "what": "Post the preprint at research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md, and in the same pass send the three paywalled-table requests named in its section 6 to the corresponding authors.",
+      "serves": {
+        "route": "RT-PARTNER-STRAT",
+        "publication": "PUB-FUSION-PARTNER",
+        "strategy": "ST-REPURPOSING"
+      },
+      "kind": "write",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": [
+        "research/autonomy/publish_bar.py"
+      ],
+      "blocked_evidence": "publish_bar --paper PUB-FUSION-PARTNER --sha cc53a6987a58 2026-08-26: BLOCKED 3/6. Clauses 1, 2, 6 UNVERIFIABLE \u2014 no hardening record, no PREFLIGHT_FULL receipt on the posted commit, no blind seat. AUT-PROP-002/003 produce exactly those.",
+      "retry_budget": 3,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-08",
+      "score": 105.0,
+      "score_inputs": {
+        "live": true,
+        "patient_path": "clinical_adoption",
+        "patient_path_scaled": 0.9,
+        "pursue_now": true,
+        "tier_one": false,
+        "endpoint_reachable": true,
+        "blocker_leverage": 6,
+        "cost_class": "free",
+        "blocked_on_human": false,
+        "fruitless_attempts": 0,
+        "blocked_with_evidence": true
+      }
+    },
+    {
       "id": "AUT-011",
+      "_derived": true,
       "what": "RE-TEST THE BLOCK before doing anything else \u2014 it is recorded without evidence. Blocked on: ['BLK-NO-WET-LAB']. Original next action: Send the ask with the assessment. It is the strongest taker-fit in the portfolio.",
       "serves": {
         "route": "RT-ATR-PANEL",
@@ -962,6 +970,7 @@
     },
     {
       "id": "AUT-007",
+      "_derived": true,
       "what": "RE-TEST THE BLOCK before doing anything else \u2014 it is recorded without evidence. Blocked on: ['BLK-DELIVERY']. Original next action: Publish the complete in-silico arc: a systematic NR4A3-fusion junction design platform spanning all five reported partners, screened and orientation-filtered at all 38 frame-compatible junctions, with delivery stated as three routes of differing requirement rather than one gate. Superseded, retained: 'spanning four partners, screened at three junctions'.",
       "serves": {
         "route": "RT-ASO",
@@ -997,6 +1006,7 @@
     },
     {
       "id": "AUT-061",
+      "_derived": true,
       "what": "Unchanged in substance and sharpened in content: report the negative, now with the specific gap it fills \u2014 the field states its evidence limitations for adjuvant chemotherapy, immunotherapy and metastasectomy, and states none for the ORDER in which agents are given, while recommending one. \u26d4 Whether and where to publish that is a judgement call about what we publish, not a technical one, and it is not settled here.",
       "serves": {
         "route": "RT-SEQUENCING",
@@ -1029,6 +1039,7 @@
     },
     {
       "id": "AUT-008",
+      "_derived": true,
       "what": "RE-TEST THE BLOCK before doing anything else \u2014 it is recorded without evidence. Blocked on: ['BLK-NO-WET-LAB']. Original next action: Send the ask alongside the preprint. The proposal is ready; the missing input is a person.",
       "serves": {
         "route": "RT-ASO-ASK",
@@ -1064,6 +1075,7 @@
     },
     {
       "id": "AUT-045",
+      "_derived": true,
       "what": "RE-TEST THE BLOCK before doing anything else \u2014 it is recorded without evidence. Blocked on: ['BLK-UNSIZED-REQUIREMENT']. Original next action: Write down the selectivity requirement this route would have to meet, with its basis. It is $0 and it is what makes every later grade of this route meaningful.",
       "serves": {
         "route": "RT-MONOVALENT",
@@ -1099,6 +1111,7 @@
     },
     {
       "id": "AUT-060",
+      "_derived": true,
       "what": "Build the two-population model with each median carried separately as its own parameter interval, and the one median that has no dispersion carried as a point with that stated \u2014 then report the four misattributed figures, which stand on their own.",
       "serves": {
         "route": "RT-SCHEDULING",
@@ -1131,6 +1144,7 @@
     },
     {
       "id": "AUT-068",
+      "_derived": true,
       "what": "Re-run the reach enumeration with the staged BCL6 arm and restate the result as named-effector rather than size-class. The staging is done; what is outstanding is the re-run and the document restatement.",
       "serves": {
         "route": "RT-TCIP",
@@ -1163,6 +1177,7 @@
     },
     {
       "id": "AUT-077",
+      "_derived": true,
       "what": "Run the Stage 0 items: proteome-wide novelty, class II regeneration, anchor-position analysis, extended allele panel.",
       "serves": {
         "route": "RT-VACCINE-COMBINATION",
@@ -1195,6 +1210,7 @@
     },
     {
       "id": "AUT-020",
+      "_derived": true,
       "what": "\u26d4 NOTHING. CLOSED 2026-08-23 \u2014 'this is not a paper. Document what we have, merge to main, and drop it.' The record is research/modalities/emc-icdo-contamination.json and the findings note beside it. \u26a0 Do not reopen on the strength of the 32.1% alone: the number was never the problem. Reopen only on evidence that PMID 32856598 did not restrict on topography, which needs a subscription copy of its Methods.",
       "serves": {
         "route": "RT-DIAGNOSTIC-PATHWAY",
@@ -1227,6 +1243,7 @@
     },
     {
       "id": "AUT-051",
+      "_derived": true,
       "what": "The denominator is now understood, which is what this route was waiting for \u2014 and the answer makes the topography restriction MANDATORY for anything computed here. \u26a0 Do not read that as a green light on access: nothing about this route's own cost changed, and the diagnostic query that earned the denominator was answered from published tables rather than from SEER.",
       "serves": {
         "route": "RT-POPULATION-REGISTRY",
@@ -1259,6 +1276,7 @@
     },
     {
       "id": "AUT-043",
+      "_derived": true,
       "what": "Write it \u2014 no scientific blocker. \u26a0 But the FRAMING choice (P1 vs P6) is trimcrae's and is not settled here.",
       "serves": {
         "route": "RT-METHODS-PAPER",
@@ -1291,6 +1309,7 @@
     },
     {
       "id": "AUT-005",
+      "_derived": true,
       "what": "Put an MCL-1/BCL-xL arm in front of the group holding the two EMC models, alongside the PRMT5 ask.",
       "serves": {
         "route": "RT-APOPTOSIS-DEP",
@@ -1323,6 +1342,7 @@
     },
     {
       "id": "AUT-009",
+      "_derived": true,
       "what": "BUILD THE DETECTOR. The corpus-wide sweep was done by hand on 2026-08-07: 1,354 paralogue-pair mentions triaged, 16 symmetric statements of the REQUIREMENT / BRIEF / DESIGN TARGET rewritten to carry the asymmetry (requirement R7 and its graph record, RT-DEGRADER purpose, the degrader design spec, the treatment roadmap, the selectivity architecture, the paper heading and SI safety note, three companion fusion papers, the indication stack, the outreach template and two module docstrings), each retaining its superseded text inline. Symmetric MEASUREMENTS were left alone and are correct. \u26d4 THE VALIDATION STAYS OPEN BECAUSE A HAND SWEEP DECAYS: nothing mechanical detects the next symmetric restatement, so the next $0 step is a narrow checker for the retired design-target phrasings ('NR4A1/2-sparing', 'spare/sparing NR4A1 and NR4A2', 'selective over NR4A1/NR4A2' used as a bar rather than a measurement) that exempts superseded-retained quotations. Two corrections the sweep also forced, both in the SOFT half and both pointing at \u00a72.4: the NR4A2 bound is no longer 'unbounded in both directions' (MGI, 2026-08-03) and the PK/CNS-exclusion lever is closed (HPA 47/51 co-expression), so three documents that still sourced NR4A2 safety from exposure were corrected. Nothing here raises any selectivity claim: every paralogue-selectivity statement in the repository remains an unvalidated prediction.",
       "serves": {
         "route": "RT-ASYMMETRIC",
@@ -1355,6 +1375,7 @@
     },
     {
       "id": "AUT-016",
+      "_derived": true,
       "what": "RE-TEST THE BLOCK before doing anything else \u2014 it is recorded without evidence. Blocked on: ['BLK-REACH-CATEGORICAL']. Original next action: Build a reactivity-weighted accessibility criterion and calibrate it against the known covalent site, then re-run the reach enumeration under it. Report the result as a rank until the criterion passes.",
       "serves": {
         "route": "RT-COVALENT-PROBE",
@@ -1390,6 +1411,7 @@
     },
     {
       "id": "AUT-035",
+      "_derived": true,
       "what": "Regenerate patient-cd4-demo.json and the TAF15 panel at the corrected junction, then re-grade the route on COVERAGE rather than on a defective input.",
       "serves": {
         "route": "RT-JUNCTION-NEOANTIGEN",
@@ -1422,6 +1444,7 @@
     },
     {
       "id": "AUT-012",
+      "_derived": true,
       "what": "Keep registered with the surrogate caveat attached to the negative.",
       "serves": {
         "route": "RT-B7H3",
@@ -1454,6 +1477,7 @@
     },
     {
       "id": "AUT-014",
+      "_derived": true,
       "what": "Keep registered. The antigen search re-runs automatically when EMC expression data lands.",
       "serves": {
         "route": "RT-CART-SURFACE",
@@ -1486,6 +1510,7 @@
     },
     {
       "id": "AUT-063",
+      "_derived": true,
       "what": "RE-TEST THE BLOCK before doing anything else \u2014 it is recorded without evidence. Blocked on: ['BLK-NO-EMC-DATA']. Original next action: Keep on the ask list. Frame it as a cheap decisive negative rather than as a promising lead \u2014 that is the honest framing and the one most likely to get it run.",
       "serves": {
         "route": "RT-SSTR2",
@@ -1521,6 +1546,7 @@
     },
     {
       "id": "AUT-070",
+      "_derived": true,
       "what": "Keep registered for automatic re-grade when EMC expression data lands.",
       "serves": {
         "route": "RT-TCRT-CTA",
@@ -1553,6 +1579,7 @@
     },
     {
       "id": "AUT-072",
+      "_derived": true,
       "what": "RE-TEST THE BLOCK before doing anything else \u2014 it is recorded without evidence. Blocked on: ['BLK-NO-EMC-DATA']. Original next action: Hold the ask until the PPAR\u03b3 direction can be stated. Re-grade automatically when EMC expression data lands.",
       "serves": {
         "route": "RT-TRABECTEDIN-PPARG",
@@ -1588,6 +1615,7 @@
     },
     {
       "id": "AUT-022",
+      "_derived": true,
       "what": "Review the manuscript for external posting to medRxiv. Nothing else in the route is unrun.",
       "serves": {
         "route": "RT-ENDPOINT-CHOICE",
@@ -1620,6 +1648,7 @@
     },
     {
       "id": "AUT-027",
+      "_derived": true,
       "what": "Submit. The free in-silico work on this route is done: catalogue, null calibration, instrument controls, three cohorts, exact permutation tests, the confound audit and the motif scan have all run, and the remaining question (does the fusion BIND any of these genes in EMC) cannot be answered from expression or sequence data at any price. The residual steps are author-only submission furniture \u2014 ORCID, a Zenodo DOI at the submitted commit, and completing the gene-set-resource bibliographic identifiers.",
       "serves": {
         "route": "RT-FUSION-OUTPUT",
@@ -1652,6 +1681,7 @@
     },
     {
       "id": "AUT-048",
+      "_derived": true,
       "what": "Use it more prominently as the argument that the family's chemistry has a use that does not depend on solving paralogue selectivity.",
       "serves": {
         "route": "RT-PANNR4A-EXVIVO",
@@ -1684,6 +1714,7 @@
     },
     {
       "id": "AUT-001",
+      "_derived": true,
       "what": "Nothing. Cite the closure \u2014 it is the clearest example in the register of wild-type pharmacology failing to transfer.",
       "serves": {
         "route": "RT-6MP",
@@ -1716,6 +1747,7 @@
     },
     {
       "id": "AUT-002",
+      "_derived": true,
       "what": "Watch for an induced-complex benchmark reporting inter-chain accuracy on post-training-horizon structures. In-horizon results are memorisation-permitting and move nothing.",
       "serves": {
         "route": "RT-AF3-INTERFACE",
@@ -1748,6 +1780,7 @@
     },
     {
       "id": "AUT-004",
+      "_derived": true,
       "what": "Keep as a registered design option; do not build. Its value is that it names what a second arm would buy, so that a ligand for the EWSR1 half would immediately have a use.",
       "serves": {
         "route": "RT-ANDGATE",
@@ -1780,6 +1813,7 @@
     },
     {
       "id": "AUT-006",
+      "_derived": true,
       "what": "Report it as a closed line in the census paper's negative half.",
       "serves": {
         "route": "RT-ARGININE",
@@ -1812,6 +1846,7 @@
     },
     {
       "id": "AUT-018",
+      "_derived": true,
       "what": "Nothing. Cite the closure.",
       "serves": {
         "route": "RT-DBD",
@@ -1844,6 +1879,7 @@
     },
     {
       "id": "AUT-023",
+      "_derived": true,
       "what": "Nothing. Cite the closure when the idea resurfaces.",
       "serves": {
         "route": "RT-EWSR1-PROTEIN",
@@ -1876,6 +1912,7 @@
     },
     {
       "id": "AUT-024",
+      "_derived": true,
       "what": "Report it as a closed line alongside the other biomarker-selected exclusions.",
       "serves": {
         "route": "RT-EZH2",
@@ -1908,6 +1945,7 @@
     },
     {
       "id": "AUT-026",
+      "_derived": true,
       "what": "Nothing. Cite the closure.",
       "serves": {
         "route": "RT-FET-LC-LIGAND",
@@ -1940,6 +1978,7 @@
     },
     {
       "id": "AUT-028",
+      "_derived": true,
       "what": "Watch for a prospectively validated glue design method. Nothing to build until one exists.",
       "serves": {
         "route": "RT-GLUE",
@@ -1972,6 +2011,7 @@
     },
     {
       "id": "AUT-030",
+      "_derived": true,
       "what": "Run the one $0 Europe PMC query on the HSPA8 promoter to close the last ungraded partner, then report the reach negative in the nuclear-receptor paper.",
       "serves": {
         "route": "RT-HORMONE-PARTNER",
@@ -2004,6 +2044,7 @@
     },
     {
       "id": "AUT-031",
+      "_derived": true,
       "what": "Leave it to the hypoxia memo, which owns the reading and the ruling.",
       "serves": {
         "route": "RT-HYPOXIA-PRODRUG",
@@ -2036,6 +2077,7 @@
     },
     {
       "id": "AUT-033",
+      "_derived": true,
       "what": "Establish whether the fourth public cohort's data type can resolve fibronectin and tenascin isoforms at all.",
       "serves": {
         "route": "RT-IMMUNOCYTOKINE",
@@ -2068,6 +2110,7 @@
     },
     {
       "id": "AUT-038",
+      "_derived": true,
       "what": "Report it in the matrix paper as a route whose capacity proxy is unfavourable and whose premise is unreachable without tissue.",
       "serves": {
         "route": "RT-MATRIX-ADDRESS",
@@ -2100,6 +2143,7 @@
     },
     {
       "id": "AUT-039",
+      "_derived": true,
       "what": "Restate the premise, or report the contradiction as the result.",
       "serves": {
         "route": "RT-MATRIX-SYNTHESIS",
@@ -2132,6 +2176,7 @@
     },
     {
       "id": "AUT-040",
+      "_derived": true,
       "what": "Report the negative; the quiet-genome inference did not survive its own test.",
       "serves": {
         "route": "RT-MDM2",
@@ -2164,6 +2209,7 @@
     },
     {
       "id": "AUT-047",
+      "_derived": true,
       "what": "Check whether the fourth public cohort carries the receptor at all.",
       "serves": {
         "route": "RT-NR2F1",
@@ -2196,6 +2242,7 @@
     },
     {
       "id": "AUT-050",
+      "_derived": true,
       "what": "Report the alt-EJ elevation alongside the negative rather than burying it \u2014 it is the one half of this class's requirement that this disease does appear to meet, and it is concordant across both platforms.",
       "serves": {
         "route": "RT-POLQ",
@@ -2228,6 +2275,7 @@
     },
     {
       "id": "AUT-056",
+      "_derived": true,
       "what": "Keep registered. Do not build while the routes it is dominated by are still blocked.",
       "serves": {
         "route": "RT-RIPTAC",
@@ -2260,6 +2308,7 @@
     },
     {
       "id": "AUT-066",
+      "_derived": true,
       "what": "RE-TEST THE BLOCK before doing anything else \u2014 it is recorded without evidence. Blocked on: ['BLK-NO-EMC-DATA']. Original next action: Keep parked on data with the transfer-prior negative stated as data-bounded, not as a biological finding.",
       "serves": {
         "route": "RT-SYNLETH-DEP",
@@ -2295,6 +2344,7 @@
     },
     {
       "id": "AUT-067",
+      "_derived": true,
       "what": "Keep registered with the premise stated. If an EMC dataset lands, re-read the binding specificity before re-closing.",
       "serves": {
         "route": "RT-SYNPROMOTER",
@@ -2327,6 +2377,7 @@
     },
     {
       "id": "AUT-069",
+      "_derived": true,
       "what": "Re-graded 2026-08-07: the epitopes changed (NMPCVQAQY / QQNMPCVQAQY) and the weak-junction finding holds.",
       "serves": {
         "route": "RT-TCR-IMMTAC",
@@ -2359,6 +2410,7 @@
     },
     {
       "id": "AUT-075",
+      "_derived": true,
       "what": "Keep the categorical inventory as a disclosed-limitation supplement. Do not restate it as a degradation-geometry claim.",
       "serves": {
         "route": "RT-UBIQ-SELECTIVE",
@@ -2391,6 +2443,7 @@
     },
     {
       "id": "AUT-076",
+      "_derived": true,
       "what": "Re-grade on the recomputed coverage. The HLA-coverage output is reusable but its class-I figures moved by ~3\u00d7 and its class-II figures are withheld.",
       "serves": {
         "route": "RT-VACCINE",
@@ -2423,6 +2476,7 @@
     },
     {
       "id": "AUT-019",
+      "_derived": true,
       "what": "RE-TEST THE BLOCK before doing anything else \u2014 it is recorded without evidence. Blocked on: ['BLK-SELECTIVITY-CONTROL-UNAUTHORIZED']. Original next action: Ask for the decision on the binary selectivity control. It is the highest-leverage unrun item in the portfolio and it costs a conversation.",
       "serves": {
         "route": "RT-DEGRADER",
@@ -2458,6 +2512,7 @@
     },
     {
       "id": "AUT-029",
+      "_derived": true,
       "what": "Nothing. Cite the closure when the idea resurfaces.",
       "serves": {
         "route": "RT-HDAC-BET",
@@ -2490,6 +2545,7 @@
     },
     {
       "id": "AUT-017",
+      "_derived": true,
       "what": "Keep registered. Watch vector delivery, not the nuclease.",
       "serves": {
         "route": "RT-CRISPR-CAS13",
@@ -2522,6 +2578,7 @@
     },
     {
       "id": "AUT-055",
+      "_derived": true,
       "what": "Keep registered at low priority.",
       "serves": {
         "route": "RT-RIBOZYME",
@@ -2554,6 +2611,7 @@
     },
     {
       "id": "AUT-059",
+      "_derived": true,
       "what": "Nothing. The scan carries the one observation that would reopen it.",
       "serves": {
         "route": "RT-RXR",
@@ -2585,16 +2643,13 @@
       }
     },
     {
-      "id": "AUT-PROP-001",
-      "kind": "process_defect",
-      "state": "queued",
-      "owner": null,
-      "what": "PROPOSAL (filed, not applied): teach systems_check.check_scan_interop the `venue` trigger_kind, so a venue trigger may be scanned while its consequence is verified in research/autonomy/venue-fit.json rather than in systems/graph/technologies.json. Then re-enable scan_enabled on the three TRG-VENUE-* triggers.",
       "serves": {
         "route": null,
         "publication": null,
         "strategy": null
       },
+      "state": "queued",
+      "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -2603,9 +2658,35 @@
       "attempts": 0,
       "last_evidence_utc": "2026-08-26",
       "score": null,
-      "_score_is_null_why": "Not scored: the scorer ranks RESEARCH against the north star and this is loop maintenance. A process_defect entry is taken by a retrospective cycle.",
       "filed_by": "CYC-0000-BOOTSTRAP",
-      "why_not_applied_now": "\u26d4 THE INVARIANT FIRED ON ITS OWN AUTHOR. [X3] blocked that cycle, and amendment_guard.py refuses a cycle that edits the check blocking it."
+      "prerequisite_of": null,
+      "id": "AUT-PROP-001",
+      "kind": "process_defect",
+      "what": "PROPOSAL (filed, not applied): teach systems_check.check_scan_interop the `venue` trigger_kind, then re-enable scan_enabled on the three TRG-VENUE-* triggers. Not applied by its own cycle: [X3] blocked that cycle and amendment_guard refuses a cycle that edits the check blocking it."
+    },
+    {
+      "serves": {
+        "route": "RT-PARTNER-STRAT",
+        "publication": "PUB-FUSION-PARTNER",
+        "strategy": "ST-REPURPOSING"
+      },
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": [
+        "research/autonomy/publication-authority.json"
+      ],
+      "blocked_evidence": "publication-authority.json: outreach was never granted to anyone. Only trimcrae sends these.",
+      "retry_budget": 1,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-26",
+      "score": null,
+      "filed_by": "CYC-0001",
+      "prerequisite_of": null,
+      "id": "AUT-PROP-004",
+      "kind": "write",
+      "what": "ESCALATE, do not perform: the three paywalled-table requests to corresponding authors named in section 6 of the fusion-partner paper. Email is outward-facing and covered by NO grant."
     }
   ]
 }

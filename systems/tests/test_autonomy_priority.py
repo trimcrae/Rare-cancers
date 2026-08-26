@@ -146,6 +146,7 @@ def test_every_weight_the_scorer_applies_is_declared_in_the_weights_file(priorit
         "cost",
         "blocked_on_human",
         "fruitless_attempts",
+        "blocked_with_evidence",
     }
     assert declared == expected, (
         "the scorer's terms and the weights file have diverged — one of them was edited alone"
@@ -247,3 +248,79 @@ def test_the_merge_is_load_bearing_and_not_decorative(priority):
         "the hand-added entry survived WITHOUT merge() — so merge is not what preserves it and "
         "these tests are blind"
     )
+
+
+# ---------------------------------------------------------------- blocks and prerequisites
+#
+# ⛔ ALL THREE OF THESE WERE LIVE BUGS, found by CYC-0001 running the contract for real. Together
+# they would have made the loop spend every cycle, forever, re-deriving the same block on the same
+# top-ranked paper while the only work that could clear it stayed invisible.
+
+
+def test_an_evidenced_block_drops_out_of_the_queue(priority):
+    """Otherwise the next cycle re-derives the identical block, and the one after that, every four
+    hours. An UNevidenced block is a different animal — its clamp turns it into a free re-test."""
+    ledger = priority.build_ledger()
+    blocked = [e for e in ledger["entries"]
+               if str(e.get("blocked_evidence") or "").strip() and e.get("score") is not None]
+    assert blocked, "fixture is degenerate — no evidenced block to check"
+    top = [e for e in ledger["entries"] if e.get("score") is not None][:3]
+    for entry in blocked:
+        assert entry["id"] not in {t["id"] for t in top}, (
+            f"{entry['id']} carries its own block evidence and is still in the top 3 — the next "
+            "cycle will take it and re-derive the same block"
+        )
+
+
+def test_a_prerequisite_outranks_the_thing_it_unblocks(priority):
+    ledger = priority.build_ledger()
+    by_id = {e["id"]: e for e in ledger["entries"]}
+    prereqs = [e for e in ledger["entries"] if e.get("prerequisite_of")]
+    assert prereqs, "fixture is degenerate — no prerequisite filed"
+    for entry in prereqs:
+        parent = by_id[entry["prerequisite_of"]]
+        assert entry["score"] > parent["score"], (
+            f"{entry['id']} is the only path to {parent['id']} and scores below it — the driver "
+            "would never take it, and the parent would stay blocked indefinitely"
+        )
+
+
+def test_a_prerequisite_inherits_the_parents_value_not_its_penalty(priority):
+    """The prerequisite is worth what the parent is worth ONCE UNBLOCKED. Inheriting the penalised
+    score would bury the fix underneath the problem it fixes."""
+    weights = priority.load_weights()
+    penalty = weights["terms"]["blocked_with_evidence"]["weight"]
+    ledger = priority.build_ledger()
+    by_id = {e["id"]: e for e in ledger["entries"]}
+    for entry in [e for e in ledger["entries"] if e.get("prerequisite_of")]:
+        parent = by_id[entry["prerequisite_of"]]
+        if parent["score_inputs"].get("blocked_with_evidence"):
+            assert entry["score"] > parent["score"] - penalty / 2, (
+                "the prerequisite inherited the parent's PENALISED score"
+            )
+
+
+def test_a_hand_filed_row_never_steals_a_derived_rows_id(priority):
+    """⛔ MEASURED: keying the merge's route map on ANY prior row let AUT-PROP-004 ('escalate the
+    emails') hand its id to the graph's 'post the preprint' row, and the real AUT-PROP-004 vanished.
+    Two rows legitimately serve one route — the work and the thing blocking it — so a route is not
+    an identity."""
+    generated = priority.build_entries()
+    route = generated[0]["serves"]["route"]
+    existing = {"entries": [
+        dict(generated[0], id="AUT-500"),                                    # the derived row
+        {"id": "AUT-PROP-777", "serves": {"route": route}, "kind": "harden",  # a hand-filed row
+         "what": "unblock it", "state": "queued", "filed_by": "CYC-TEST"},
+    ]}
+    merged = priority.merge(priority.build_entries(), existing)
+    derived_row = [e for e in merged if e["serves"].get("route") == route and e.get("_derived")][0]
+    assert derived_row["id"] == "AUT-500", (
+        f"the derived row took id {derived_row['id']} from the hand-filed one"
+    )
+    assert any(e["id"] == "AUT-PROP-777" for e in merged), "the hand-filed row was lost"
+
+
+def test_every_derived_entry_is_marked_as_derived(priority):
+    """`_derived` is what lets merge tell the scorer's rows from a session's. If it stops being
+    written, the id-theft bug above returns silently."""
+    assert all(e.get("_derived") for e in priority.build_entries())

@@ -4,7 +4,6 @@
   "_owner": "research/manuscripts/program/emc-autonomy-architecture.md#32--the-scorer--researchautonomyprioritypy",
   "_objective": "Advance EMC treatment. Every weight below is an answer to 'how much does this field move a patient closer', and nothing else.",
   "_read_this_when": "The queue's top item looks wrong. Do not special-case the item — fix the weight, and say in the commit message which reading of the objective changed.",
-
   "terms": {
     "live": {
       "weight": 100.0,
@@ -50,9 +49,13 @@
       "weight": -8.0,
       "reads": "research-ledger.json entries[].attempts since last_evidence_utc changed",
       "why": "A route that has swallowed attempts without producing evidence is telling you something. Decays its own priority instead of needing a human to notice."
+    },
+    "blocked_with_evidence": {
+      "weight": -90.0,
+      "reads": "research-ledger.json entries[].state == 'blocked' AND a non-empty blocked_evidence, applied AFTER the merge because both are session state rather than graph state",
+      "why": "⛔ FOUND BY CYCLE CYC-0001, WHICH WOULD OTHERWISE HAVE LOOPED FOREVER. The top-scored item was established as blocked, with evidence — and it still scored 195 and still sorted first, so the next cycle would have re-derived the same block, and the one after that, every four hours. An EVIDENCED block is a real reason to stand down until it clears; the unevidenced kind is already handled by its own clamp, which turns it into a free re-test instead. The penalty is large but finite on purpose: the row stays visible and re-scores back to the top the moment the evidence is cleared."
     }
   },
-
   "patient_path_scale": {
     "no_bench_needed": 1.0,
     "clinical_adoption": 0.9,
@@ -61,16 +64,13 @@
     "none": 0.0,
     "_why": "Ordered by what this program can actually cause with no wet lab. 'named_bench' is an ASK of someone else and is discounted, not excluded — the options memo's Axis W1 is about whether that taker is self-interested, and that judgement is a human's."
   },
-
   "cost_class_rank": {
     "free": 0,
     "cheap": 1,
     "expensive": 2,
     "_why": "CLAUDE.md §2's own ladder. A dollar figure is NEVER typed here or in priority.py — research/compute/pricing.md owns every cost, and an entry points at its rung."
   },
-
   "blocker_leverage_cap": 6,
-
   "clamps": {
     "negative_never_outranks_live": {
       "enabled": true,
@@ -81,10 +81,13 @@
       "why": "CLAUDE.md §0: 'blocked' is a claim that needs evidence and it is usually wrong. Such an entry is not filtered out — it is re-emitted as a kind:'fetch' entry that re-tests the block, because most blocked rows wait on a $0 observation."
     }
   },
-
   "_forbidden_inputs": {
     "axis_d": "What we would end up HOLDING if the experiment never happens. It structurally promotes finished work over live leads and is a human tiebreaker only — CLAUDE.md §0. priority.py must never read it, and test_the_scorer_never_reads_axis_d asserts so.",
     "aixiv_rating": "Unauthenticated and trivially forgeable — .claude/skills/aixiv-submission/SKILL.md §0. Never an input to anything.",
     "recency": "How recently a route was touched is not evidence about whether it can produce a result."
+  },
+  "prerequisite_bonus": {
+    "value": 0.5,
+    "_why": "An entry carrying `prerequisite_of` inherits its parent's score PLUS this, so it sorts immediately above the thing it unblocks. ⛔ Without it the prerequisite is invisible: CYC-0001 filed a hardening round and a blind seat as the only path to posting the portfolio's top-ranked paper, and both scored null, so the driver would never have taken either and the paper would have stayed blocked while the loop worked down the rest of the list. The bonus is deliberately tiny — a prerequisite is worth exactly what it unblocks, not more."
   }
 }

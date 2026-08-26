@@ -190,6 +190,7 @@ def build_entries(weights: dict | None = None) -> list[dict]:
         entries.append(
             {
                 "id": f"AUT-{index + 1:03d}",
+                "_derived": True,  # written by the scorer from systems/graph; see merge()
                 "what": (route.get("next") or {}).get("best_next_action")
                 or f"Decide the next action for {route['id']} — the graph records none.",
                 "serves": {
@@ -248,7 +249,8 @@ def apply_clamps(entries: list[dict], weights: dict) -> list[dict]:
 
 # Fields the GRAPH owns: regenerated from systems/graph every re-score, and an edit to them here
 # would be overwritten anyway. Everything else on an entry belongs to the SESSION that touched it.
-SESSION_OWNED = ("owner", "attempts", "retry_budget", "blocked_evidence")
+SESSION_OWNED = ("owner", "attempts", "retry_budget", "blocked_evidence", "blocked_by",
+                 "prerequisite_of")
 # States a session sets. `queued`/`blocked` are re-derived from the graph; these are not.
 SESSION_STATES = {"running", "done", "abandoned"}
 
@@ -285,8 +287,13 @@ def merge(generated: list[dict], existing: dict | None) -> list[dict]:
         return generated
 
     prior = existing["entries"]
+    # ⛔ ONLY DERIVED ROWS MAY DONATE AN ID. Keying this on ANY prior row with a matching route let a
+    # hand-filed entry hand its own id to the graph's row for that route: AUT-PROP-004 ("escalate the
+    # corresponding-author emails") had its id taken over by "post the preprint", and the real
+    # AUT-PROP-004 vanished. Two rows legitimately serve one route — the work and the thing blocking
+    # it — so the route is not an identity.
     by_route = {e["serves"]["route"]: e for e in prior
-                if isinstance(e.get("serves"), dict) and e["serves"].get("route")}
+                if e.get("_derived") and isinstance(e.get("serves"), dict) and e["serves"].get("route")}
     used = set()
     for e in prior:
         try:
@@ -314,16 +321,64 @@ def merge(generated: list[dict], existing: dict | None) -> list[dict]:
         for key, value in old_entry.items():  # forward-compat: never drop a key we do not know
             entry.setdefault(key, value)
 
-    # Entries the graph does not produce — proposals, process_defect rows, anything a session filed.
+    # Entries the graph does not produce — proposals, process_defect rows, prerequisites, anything a
+    # session filed. ⛔ KEY ON ID ALONE. A first attempt also excluded any prior row whose
+    # `serves.route` the graph produces, reasoning that it must be a duplicate; it is not, and that
+    # dropped AUT-PROP-002 and AUT-PROP-003 — the hardening round and the blind seat filed as the
+    # only path to unblocking the portfolio's top-ranked paper — on their very first re-score.
+    # Because ids are now stable per route, a hand-added row can never collide with a derived one,
+    # so id is the whole test. A row whose route later leaves the graph is KEPT rather than deleted:
+    # retiring an entry is a session's decision with a reason, never a silent side effect of a
+    # re-score.
     derived_ids = {e["id"] for e in generated}
-    kept = [e for e in prior if e.get("id") not in derived_ids
-            and not (isinstance(e.get("serves"), dict) and e["serves"].get("route") in by_route
-                     and e["serves"]["route"] in {g["serves"]["route"] for g in generated})]
+    kept = [e for e in prior if e.get("id") not in derived_ids]
     return generated + kept
 
 
+def apply_session_penalties(entries: list[dict], weights: dict) -> list[dict]:
+    """Score adjustments that depend on SESSION state, so they cannot run inside build_entries().
+
+    Two rules, both found by cycle CYC-0001 running for real rather than by reading the code:
+
+    1. ⛔ AN EVIDENCED BLOCK MUST STAND DOWN. The top item was established as blocked, with the
+       evidence recorded — and still scored 195 and still sorted first, so the next cycle would have
+       re-derived the identical block, and the one after that, every four hours forever. (The
+       UNevidenced kind is a different animal and is already handled by its own clamp, which turns it
+       into a free re-test — CLAUDE.md §0.)
+    2. ⭐ A PREREQUISITE INHERITS WHAT IT UNBLOCKS. An entry naming `prerequisite_of` takes its
+       parent's score plus a hair, so it sorts immediately above it. Without this the work that would
+       clear a block is invisible to the driver and the blocked item stays blocked indefinitely.
+    """
+    by_id = {e["id"]: e for e in entries}
+    terms = weights["terms"]  # same binding build_entries uses, so every weight is read one way
+    penalty = terms["blocked_with_evidence"]["weight"]
+    for entry in entries:
+        # ⛔ KEYED ON THE EVIDENCE, NOT ON `state`. The state field is re-derived from the graph
+        # every re-score, so a session writing state="blocked" saw it reverted to "queued" on the
+        # very next run and the penalty never fired — the item stayed at the top of the queue with
+        # its own block recorded underneath it. The recorded observation IS the block.
+        if str(entry.get("blocked_evidence") or "").strip():
+            if entry.get("score") is not None:
+                entry["score"] = round(entry["score"] + penalty, 2)
+                entry["score_inputs"]["blocked_with_evidence"] = True
+
+    bonus = weights["prerequisite_bonus"]["value"]
+    for entry in entries:
+        parent_id = entry.get("prerequisite_of")
+        parent = by_id.get(parent_id) if parent_id else None
+        if parent is None or parent.get("score") is None:
+            continue
+        # Inherit the parent's PRE-penalty value: the prerequisite is worth what the parent is worth
+        # once unblocked, which is the whole reason to do it.
+        base = parent["score"] - (penalty if parent["score_inputs"].get("blocked_with_evidence") else 0)
+        entry["score"] = round(base + bonus, 2)
+        entry["_score_basis"] = f"inherited from {parent_id} (+{bonus}) — it is the work that unblocks it"
+    return entries
+
+
 def build_ledger() -> dict:
-    entries = merge(build_entries(), load_existing())
+    weights = load_weights()
+    entries = apply_session_penalties(merge(build_entries(weights), load_existing()), weights)
     entries.sort(key=lambda e: (-(e.get("score") if e.get("score") is not None else -1e9),
                                 str(e.get("serves", {}).get("route") or e["id"])))
     return {
