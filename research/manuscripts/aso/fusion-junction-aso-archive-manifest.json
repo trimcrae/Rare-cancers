@@ -10,10 +10,10 @@
     "Not a licence statement. The depositor chooses the licence at step 4 below."
   ],
   "deposition_doi": "10.5281/zenodo.22061075",
-  "git_revision": "0c75130d6fa7122d5e5ab7852e6960ed9f870295",
+  "git_revision": "bfbc5dca4829f53ae5fefb23ce181c8fc2af48e9",
   "git_tree_is_clean_apart_from_this_manifest": false,
   "inventory_limited_to_tracked_files": true,
-  "archive_content_digest": "ddb6bbdb3ef57473b0c21c9cb21d33de97d5185e391522738aacd349eb204ac8",
+  "archive_content_digest": "3d7921aa6517766cb838e77825f4972f1b0b2b908683aeaf33a773c36cd059bb",
   "n_files": 483,
   "self_entry": {
     "path": "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
@@ -24,14 +24,14 @@
     "_why_not_counted": "It is excluded from `files`, `n_files`, `total_bytes` and `archive_content_digest` for the same reason, which is also what keeps two runs over an unchanged tree byte-identical — the property this module's header calls the only cheap check a reader has that the file is derived rather than edited.",
     "how_a_reader_checks_it_anyway": "Two ways, neither needing a self-hash. (1) Re-derive it: check out `git_revision` and run `python3 research/manuscripts/aso_archive_manifest.py --check`, which rebuilds the whole file and exits non-zero on any difference. (2) Compare the downloaded copy's `sha256sum` against the value the deposition record states — step 4 below tells the depositor to record it there, which is the one place it can live without being self-referential."
   },
-  "total_bytes": 43206817,
-  "total_mib": 41.205,
+  "total_bytes": 43209494,
+  "total_mib": 41.208,
   "payload_file_types": {
     "_what": "Extension census of the payload, derived from the file list. A preprint or journal uploader that accepts only document, image and container types cannot take most of these one by one; step 3 below builds the single container that sidesteps the question entirely. Check the accepted types on the uploader itself — none is asserted here.",
     "by_extension": {
       ".json": {
         "n_files": 383,
-        "bytes": 35906081
+        "bytes": 35908758
       },
       ".py": {
         "n_files": 68,
@@ -1623,8 +1623,8 @@
     },
     {
       "path": "research/manuscripts/pinned-figures.json",
-      "bytes": 135821,
-      "sha256": "c17de75a7872c805f618ff6031772ee29d9872e37fa4d01b6be4706a467c2d86",
+      "bytes": 138498,
+      "sha256": "16cf7e0c9ee495548871ad0a81292f743e70a9971a7caa4ab67c329c7e7b1b06",
       "serves": "correction_record",
       "also_serves": [],
       "contributes": "The acceptor-seam exon-indexing correction: the grader that banners every affected artifact, the frame audit and regeneration record that show which junctions were re-emitted and which were refused, and the working record and red-team pass that narrate the withdrawal."

@@ -22,7 +22,7 @@
     {
       "id": "AUT-INC-001",
       "kind": "process_defect",
-      "state": "blocked",
+      "state": "done",
       "owner": null,
       "what": "⛔ INCIDENT — A SCHEDULED CI TICK DESTROYED A COMPLETED RESULT, AND `main` IS RED UNTIL IT IS RESOLVED. Commit 3ebf915 ('step1 fan-out autoscale tick', 2026-08-26T19:18:10Z) rewrote research/modalities/step1-fanout-map.json from n_complete=18 / n_computable=18 / 18 results / 15 ranking rows to n_complete=0 / n_computable=19 / results=[] / ranking=[], deleting 2792 lines across 7 files. nr4a3-degrader-paper.md:1426 still quotes 18 edges complete, so lint_consistency's `step1_fanout_edges_complete` pin is RED and every commit is blocked.",
       "serves": {
@@ -35,7 +35,7 @@
       "blocked_by": [
         "research/modalities/step1-fanout-map.json"
       ],
-      "blocked_evidence": "Diagnosed from the artifact and git history, not inferred: `git show 3ebf915^:research/modalities/step1-fanout-map.json` reads n_complete=18, results=18, ranking=15. The post-tick file carries generated_utc=None, results=[] AND ranking=[], and — the discriminator — n_computable moved 18 to 19 with blocked_units emptied. A genuine relaunch would zero the RESULTS but keep the map's measured exclusion, because that exclusion is a property of the map rather than of the run. Losing it says the tick lost its state and wrote zeros instead of failing closed.",
+      "blocked_evidence": "SUPERSEDED — see CORRECTION. The original diagnosis rested on n_computable moving 18→19 with blocked_units emptied, read as the tick forgetting a measured exclusion. The real explanation is simpler: the exclusion was recorded in the terminus evidence, which is regenerated from S3, and there is no longer any S3 data from which to re-derive it.",
       "retry_budget": 1,
       "attempts": 1,
       "last_evidence_utc": "2026-08-26",
@@ -43,7 +43,12 @@
       "filed_by": "CYC-0002",
       "_score_is_null_why": "An incident, not scored research work. Taken because it blocks the trunk, not because it ranks.",
       "why_not_fixed_here": "⛔ TWO CANDIDATE FIXES AND BOTH ARE TRIMCRAE'S CALL. (a) Restore the artifact from 3ebf915^ — recovery of destroyed data, which is what the evidence supports. (b) Edit the paper down to 0 — which would RETRACT A TRUE, EXPENSIVE GPU RESULT to satisfy a linter, and is tempting precisely because it turns the gate green. ⛔ NEVER (b) without him. Attempting (a) was refused twice by the sandbox's guard on overwriting another lane's committed artifact — the correct instinct, and it agrees with CLAUDE.md §6: a failure you did not cause is a SEPARATE task to raise, not to absorb. Nothing is lost either way; the pre-tick state is in git.",
-      "also_worth_fixing": "The tick itself. A job that cannot read its census should fail closed, not publish an empty map over a completed one. Until that changes, the next tick can re-wipe."
+      "also_worth_fixing": "The tick itself. A job that cannot read its census should fail closed, not publish an empty map over a completed one. Until that changes, the next tick can re-wipe.",
+      "CORRECTION": "⛔⛔ MY FIRST DIAGNOSIS WAS WRONG AND IS RETRACTED. I recorded that the autoscale tick 'lost its state and wrote zeros instead of failing closed'. It did not. The tick was working correctly. step1-terminus-evidence.txt is REGENERATED FROM A LIVE S3 READ each run, and it records the read verbatim:\n    6:31 PM ET Aug  6, 2026 — 8510 object(s) under the results prefix\n    3:18 PM ET Aug 26, 2026 —   10 object(s) under the results prefix\nSo the tick read the object store accurately on both dates. n_complete=0 was a TRUE reading of a prefix that is now nearly empty. ⛔ THE REAL EVENT IS THE ONE UNDERNEATH: roughly 8,500 raw result objects disappeared from s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results between 2026-08-06 and 2026-08-26. Lifecycle expiry, a cleanup job or a bucket change — NOT DETERMINED, and it is the open question this entry now carries.",
+      "why_the_restore_is_still_right": "The map holds the COMPUTED results — the ΔΔG values and rankings produced on 2026-08-06 and committed to git. Those are the durable scientific record and they are unaffected by what S3 does afterwards. S3 held the RAW artifacts behind them. Losing the raw artifacts damages RE-DERIVABILITY; it does not retract a computed value that was committed. So the paper's '18 edges complete' remains true, the map should carry those 18 results, and the honest statement is that the lane's raw evidence is gone rather than that the lane never ran.",
+      "what_is_actually_lost": "⚠ REPRODUCIBILITY, and that is a real cost to the degrader paper. §8-style provenance claims that point at S3 keys can no longer be checked by anyone, including us. Whether that is acceptable, and whether the objects can be recovered from a lifecycle-transitioned tier, is trimcrae's call and is NOT answered here.",
+      "lesson": "⭐ I DIAGNOSED A DEGENERATE WRITE WITHOUT READING THE FILE THAT RECORDS THE READ. The discriminating observation — an object count, printed in plain text at the top of step1-terminus-evidence.txt — was one `git show` away and I reached the opposite conclusion without it. CLAUDE.md §4 says find the ONE observation that discriminates; I found a plausible one instead and wrote it into a commit message as fact.",
+      "open_question_for_trimcrae": "Where did ~8,500 S3 objects go between 2026-08-06 and 2026-08-26, and are they recoverable? Until that is answered, the fan-out's raw evidence is unverifiable and every downstream provenance claim pointing at those keys is too."
     },
     {
       "serves": {
