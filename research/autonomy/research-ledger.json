@@ -39,8 +39,9 @@
       "prerequisite_of": "AUT-049",
       "id": "AUT-PROP-002",
       "kind": "harden",
-      "what": "Run a hardening round on PUB-FUSION-PARTNER and record it to research/autonomy/hardening-state/PUB-FUSION-PARTNER.json \u2014 publish_bar clause 1. Load `paper-hardening`; review a PINNED commit.",
-      "_score_basis": "inherited from AUT-049 (+0.5) \u2014 it is the work that unblocks it"
+      "what": "Run a hardening round on PUB-FUSION-PARTNER \u2014 publish_bar clause 1. \u2b50 THE ROUND'S INPUT ALREADY EXISTS: the blind seat from CYC-0002 found three verified BLOCKERS (missing search strategy behind exhaustiveness claims; a \u00a74.8 caveat guarding a retired p=0.0672 while the headline p=0.0034 has none; 'four independent lines' contradicted by \u00a74.10 in the same document) and four P1s. Read the seat record first; a correction REPLACES text and never appends.",
+      "_score_basis": "inherited from AUT-049 (+0.5) \u2014 it is the work that unblocks it",
+      "depends_on_evidence": "research/autonomy/review-seats/PUB-FUSION-PARTNER-21bc8578b11a9ab3f2c08fe3135799769036cdad.json"
     },
     {
       "serves": {
@@ -48,8 +49,8 @@
         "publication": "PUB-FUSION-PARTNER",
         "strategy": "ST-REPURPOSING"
       },
-      "state": "running",
-      "owner": "CYC-0002",
+      "state": "done",
+      "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -63,7 +64,8 @@
       "id": "AUT-PROP-003",
       "kind": "analysis",
       "what": "Run a BLIND adversarial seat on PUB-FUSION-PARTNER at the pinned commit and record it to research/autonomy/review-seats/ \u2014 publish_bar clause 6. The seat must be blind and must review the pinned sha, or it is not independent evidence.",
-      "_score_basis": "inherited from AUT-049 (+0.5) \u2014 it is the work that unblocks it"
+      "_score_basis": "inherited from AUT-049 (+0.5) \u2014 it is the work that unblocks it",
+      "result": "Seat run and recorded: research/autonomy/review-seats/PUB-FUSION-PARTNER-21bc8578b11a9ab3f2c08fe3135799769036cdad.json. VERDICT not_supported \u2014 publish_bar clause 6 now reads FAIL rather than UNVERIFIABLE. Three blockers, each verified independently against the pinned commit before being recorded."
     },
     {
       "id": "AUT-010",

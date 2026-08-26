@@ -1,0 +1,103 @@
+{
+  "_schema": "emc-review-seat/1",
+  "_role": "The blind adversarial seat required by publish_bar.py clause 6. A seat that saw the authoring context is not independent evidence, and a seat that reviewed a different tree is not a review of this one.",
+  "paper": "PUB-FUSION-PARTNER",
+  "document": "research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md",
+  "reviewed_commit": "21bc8578b11a9ab3f2c08fe3135799769036cdad",
+  "blind": true,
+  "_blind_means": "The seat was given the file path and the pinned sha and nothing else — no authorship, no history, no statement of what the programme wants the answer to be. It was instructed to refute by default.",
+  "utc": "2026-08-26T19:10:00Z",
+  "cycle_id": "CYC-0002",
+  "seat": "two blind seats — hostile-referee and arithmetic-provenance",
+  "verdict": "not_supported",
+  "_verdict_note": "⛔ THE SEATS DISAGREED ON THE CENTRAL CLAIM AND AGREED THE PAPER CANNOT POST. That disagreement is why more than one seat is run: the arithmetic lens found the numbers sound, the referee lens found the claims built on them overreaching. clause 6 is FAIL on the not_supported verdict, and would still be blocked by clause 1 regardless. ⭐ Both seats INDEPENDENTLY found the §4.8 stale-caveat blocker without seeing each other's work.",
+  "central_claim": "The NR4A3 5' fusion partner is a candidate — not established — stratification variable in EMC: it tracks disease-specific death across the only two cohorts publishing partner-stratified event counts (7/15 vs 6/58), is not independent of tumour size, and its entire antiangiogenic-response evidence base is 0 events in 3-5 TAF15 patients.",
+  "blockers": [
+    {
+      "id": "SEAT-B1",
+      "where": "§2.3, §2.6, §8, Abstract, §5",
+      "finding": "The paper makes census-grade exhaustiveness claims — 'no source pools the response data at all', 'has ever been reported to respond' — with no search strategy of any kind behind them.",
+      "verified_independently": true,
+      "verification": "grep over the pinned commit: the exhaustiveness phrases are present at lines 50 and 227; a case-insensitive count of 'search strateg|PRISMA|screening|inclusion criteria|query string|databases searched' over the whole document returns ZERO. The claims are unverifiable as written.",
+      "why_it_blocks": "The paper's own falsifier #1 is 'one published TAF15 response'. With no search recorded, a referee cannot check that no such report was missed, and neither can we."
+    },
+    {
+      "id": "SEAT-B2",
+      "where": "§4.8 Limitations",
+      "finding": "A stale caveat guards a p-value the paper no longer contains, leaving the actual headline statistic with no limitation attached.",
+      "verified_independently": true,
+      "verification": "grep over the pinned commit: '0.0672' appears exactly once in the entire document — inside the §4.8 sentence that says 'The 0.0672 in §3.3 in particular must not be read as a near-significant finding'. §3.3 reports p = 0.0034 (line 68 and the table at line 285). The caveat points at a retired analysis.",
+      "why_it_blocks": "The single most quotable number in the paper is uncaveated while the text asserts that it is caveated. That is a committed artifact being wrong now, not merely unguarded."
+    },
+    {
+      "id": "SEAT-B3",
+      "where": "§5 Claims, first bullet",
+      "finding": "'Four independent lines converge' is contradicted inside the same document.",
+      "verified_independently": true,
+      "verification": "line 592 makes the 'four independent lines' claim; §4.10 at line 570 states the mechanism 'shares its consortium with' the trials and is 'context, not corroboration'; line 254 records that a series and a trial site shared a senior investigator. 'Independent' is the load-bearing word and the paper elsewhere says it does not hold.",
+      "why_it_blocks": "Removing the non-independent and the non-evidential lines leaves one — prognosis — and it is the confounded one."
+    },
+    {
+      "id": "SEAT-B4",
+      "where": "§3.3 — the four-PMCID attribution",
+      "finding": "⛔⛔ MEDICAL-INTEGRITY CLASS, AND THE MOST SERIOUS FINDING OF THE DAY. The manuscript attributes 'the review literature's metastasis claim' to four PMCIDs. Only ONE of them (PMC7563993, Stacchiotti 2020, Cancers) has a bibliographic record in this repository. PMC12376927, PMC12398172 and PMC9131214 appear NOWHERE except as characters inside that one prose sentence and its copy in the generator and artifact — no title, no authors, no journal, no fetch record.",
+      "verified_independently": true,
+      "verification": "Searched the artifact for each of the four. PMC7563993 resolves to a full record with title, authors, journal, year, pmid, doi and url. The other three return only the sentence that names them. The seat separately established that PMC12398172 is a retrospective national-registry cohort on RT/chemo and PMC9131214 an intracranial-EMC case report — neither is a review, so the phrase 'the review literature' misdescribes them even if the ids are real.",
+      "why_it_blocks": "⚠ AND lint_citations PASSED, CORRECTLY. CLAUDE.md §4: an anchored identifier is not a verified one — gate 4 checks that an identifier appears in a tracked artifact, which is evidence of a fetch, not of correctness. The ids ARE in a tracked artifact; they are in it because the sentence containing them is. This is the exact gap the rule names, found in the wild for the first time.",
+      "_had_this_posted": "It would have gone out under trimcrae's name and ORCID with three unbacked identifiers supporting a claim about what the literature says."
+    }
+  ],
+  "p1s": [
+    {
+      "where": "§3.3, §3.4, §4.1a",
+      "finding": "Tumour grade / rhabdoid morphology is never named as a confounder of the pooled death contrast, though the cohort supplying 3 of the 7 TAF15 deaths entangles partner with grade at ascertainment. §4.1a lists size, stage, era and treatment; grade is absent."
+    },
+    {
+      "where": "§3.3, §5, Appendix A7",
+      "finding": "An underpowered three-way omnibus null (P = .728, 8 TAF15 patients) is promoted to 'what survives is the negative, and it is stronger than the reversal was'. It cannot support a two-group negative."
+    },
+    {
+      "where": "Abstract, §3.5, Appendix A3",
+      "finding": "The '18.2% vs the field's ~27%' correction changes the denominator without flagging it, and no citation is given for who 'routinely quotes ~27%'."
+    },
+    {
+      "where": "§4.7a, §8",
+      "finding": "The counts carrying the headline p were transcribed once, by one reader, from a PDF, with no second extractor. Disclosed as provenance, never treated as an extraction-error risk — in a paper that itself found an internal inconsistency in a source table."
+    },
+    {
+      "where": "§3.5 vs artifact",
+      "finding": "'every series' TAF15 arm is 2-10 patients' — the artifact's identical sentence says 2-9. The repo's own rule is that a typed number disagreeing with its artifact is the bug."
+    },
+    {
+      "where": "§2.5, §4.2",
+      "finding": "'two to nineteen patients and zero to ten events per stratum' is contradicted by the same artifact (denominators reach 42 and 58, events reach 13, 14, 16). This stale range is the stated justification for refusing random-effects pooling."
+    },
+    {
+      "where": "§8",
+      "finding": "'Every count in §3 is accompanied in the artifact by the verbatim sentence it was read from, with cache path and HTTP status' is false for Brenca 2019 and Bangerter: both carry verified:true with no verification_note, no cache path, no HTTP status."
+    },
+    {
+      "where": "§1.1",
+      "finding": "'under 1% of soft-tissue sarcomas' has no committed source anywhere in the repo — an uncited clinical figure in the opening sentence."
+    },
+    {
+      "where": "whole manuscript",
+      "finding": "⭐ THE ROOT CAUSE OF SEVERAL OF THESE: no guard cross-checks this paper's PROSE against its pooling artifact. --check closes only the generator↔artifact loop, and pinned-figures.json has no entry for this paper. Every stale-number blocker above survived through that gap."
+    }
+  ],
+  "what_the_seat_could_not_break": "The no-clinical-action guard. Across §4.12, §5, the header warning and the endpoint sentence, the seat found no sentence asserting or implying efficacy, selectivity, safety, a therapeutic window or clinical readiness, and no retrospective association written as predictive or causal. It answered the direct question plainly: no clinician would change anything on this, and the manuscript does not claim one would. ⭐ That is the repository's language discipline holding under an adversarial read, which is the first independent evidence it works.",
+  "scope_note": "⚠ Every blocker here is SCOPE OVERREACH or a STALE CROSS-REFERENCE — not a refuted measurement. The seat re-derived the Wilson bounds and stratum sums independently and they check. This programme's history records that six of eight refutations upheld the measurement and killed the inference drawn from it; conflating the two would discard true findings. The arithmetic stands; three claims built on it do not.",
+  "seats": [
+    {
+      "lens": "hostile-referee",
+      "verdict": "not_supported",
+      "basis": "The arithmetic reproduces, and the scoping language is disciplined; but the two boldest sentences rest on exhaustiveness claims with no search strategy behind them."
+    },
+    {
+      "lens": "arithmetic-provenance",
+      "verdict": "supported",
+      "numbers_checked": "~160",
+      "basis": "Recomputed every pooled proportion, Wilson bound and Fisher p from the raw integers independently of the generator; all reproduce, all row sums check. The claim is stated at the strength its counts carry. What could not be verified is PROVENANCE, not arithmetic."
+    }
+  ]
+}

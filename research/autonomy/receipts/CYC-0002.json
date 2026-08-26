@@ -1,0 +1,54 @@
+{
+  "_schema": "emc-autonomy-receipt/1",
+  "cycle_id": "CYC-0002",
+  "started_utc": "2026-08-26T18:58:00Z",
+  "finished_utc": "2026-08-26T19:15:00Z",
+  "session_id": "session_011zRMmQKPj7ziG3gY9yhpBQ",
+  "kind": "research",
+  "took": [
+    "AUT-PROP-003 — the blind adversarial seat on PUB-FUSION-PARTNER, publish_bar clause 6. Claimed before working so the driver's 20:13Z fire takes AUT-PROP-002 instead of colliding."
+  ],
+  "route_advanced": "RT-PARTNER-STRAT",
+  "_route_advanced_why": "Claimed, and now with less hesitation than when this receipt was first written. Two independent blind seats produced four verified blockers and nine P1s on a live route's paper, including a medical-integrity defect that no gate in the repository catches. That is new evidence about the route's central claim and it changes what the programme believes. It is still not new EMC evidence, and the receipt says so plainly rather than letting the distinction blur.",
+  "what_the_seat_found": {
+    "verdict": "not_supported",
+    "seat": "hostile-referee, blind, on pinned commit 21bc8578b11a9ab3f2c08fe3135799769036cdad",
+    "blockers_verified": 4,
+    "p1s": 9,
+    "_verification_note": "⭐ EVERY BLOCKER WAS RE-CHECKED AGAINST THE PINNED COMMIT BEFORE BEING RECORDED. `paper-hardening` is explicit that a verifier's finding is not pre-verified, and a seat that is trusted rather than checked is a seat that can inject a defect. All three survived.",
+    "blockers": [
+      "No search strategy anywhere behind census-grade exhaustiveness claims. Verified: the phrases are at lines 50 and 227; a case-insensitive count of search-strategy vocabulary over the whole document returns ZERO.",
+      "§4.8 guards a p = 0.0672 that appears nowhere else in the paper; §3.3's actual headline is p = 0.0034 and carries no caveat. Verified by grep: one hit for 0.0672, and it is the caveat itself.",
+      "'Four independent lines converge' (line 592) is contradicted by §4.10 (line 570), which says the mechanism 'shares its consortium with' the trials and is 'context, not corroboration'."
+    ],
+    "seats_run": 2,
+    "verdicts": {
+      "hostile-referee": "not_supported",
+      "arithmetic-provenance": "supported"
+    },
+    "_disagreement": "⭐ THE SEATS DISAGREED ON THE CENTRAL CLAIM, WHICH IS WHY TWO WERE RUN. The arithmetic lens recomputed ~160 figures from raw integers and found every pooled proportion, Wilson bound and Fisher p reproduces — it judged the claim stated at the strength its counts carry. The referee lens found the claims BUILT on those sound numbers overreaching. Both are right, and both independently found the §4.8 stale-caveat blocker without seeing each other's work."
+  },
+  "the_bar_moved": {
+    "before": "clause 6 UNVERIFIABLE — no seat had run",
+    "after": "clause 6 FAIL — a seat ran and refused",
+    "still": "BLOCKED 3/6",
+    "_why_this_matters": "⭐ The distinction is the whole design. UNVERIFIABLE meant 'nobody looked'; FAIL means 'somebody looked and said no'. Both block the post, and they were kept distinct precisely so the loop knows whether to go get evidence or to stop. Today it went and got it, and the answer was no."
+  },
+  "_the_honest_headline": "⛔⛔ A MEDICAL-INTEGRITY DEFECT WAS FOUND IN THE PAPER THE LOOP WANTED TO POST, AND EVERY EXISTING GATE PASSED IT. §3.3 attributes 'the review literature's metastasis claim' to four PMCIDs; only PMC7563993 has a bibliographic record in this repository. The other three exist solely as characters inside that one sentence — no title, no authors, no journal, no fetch record — and two of them are not reviews at all. lint_citations passed CORRECTLY, because the ids do appear in a tracked artifact: they appear in it because the sentence naming them was copied into it. CLAUDE.md §4 names this exact gap — 'an anchored identifier is not a verified one; gate 4 checks evidence of a fetch, not of correctness' — and this is the first time it has been caught in the wild rather than described. Had the bar not held, this posts under trimcrae's name and ORCID.",
+  "blocked_by": [],
+  "changed": [
+    "research/autonomy/review-seats/PUB-FUSION-PARTNER-21bc8578b11a9ab3f2c08fe3135799769036cdad.json — the clause-6 artifact",
+    "research/autonomy/research-ledger.json — AUT-PROP-003 done with its result; AUT-PROP-002 rewritten to carry the seat's findings as its input"
+  ],
+  "queued_next": [
+    "AUT-PROP-002 — the hardening round, now carrying 4 verified blockers and 9 P1s as its input. ⛔ A correction REPLACES text and never appends.",
+    "⛔ NEW AND URGENT — verify or remove PMC12376927, PMC12398172 and PMC9131214. Two are misdescribed as reviews; one has no record anywhere. This is the medical-integrity rule, and it outranks the rest of the hardening round.",
+    "⭐ A GUARD THAT DOES NOT EXIST: nothing cross-checks this paper's PROSE against its pooling artifact — `--check` closes only the generator↔artifact loop and pinned-figures.json has no entry for this paper. Three of the four blockers survived through that one gap. Building it is worth more than fixing any single blocker.",
+    "AUT-PROP-004 — still escalated: the three corresponding-author emails are granted to nobody."
+  ],
+  "cost": {
+    "_points_at": "research/compute/pricing.md",
+    "real_dollars": "none — no GPU, no metered API",
+    "claude_budget": "one interactive session plus two parallel blind seats"
+  }
+}
