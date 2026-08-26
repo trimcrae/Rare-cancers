@@ -1,459 +1,51 @@
 [s1f-terminus] bucket s3://sagemaker-us-east-2-646605541856  prefix nr4a3-step1-fanout/results
-[s1f-terminus] read at 6:31 PM ET Aug 6, 2026
+[s1f-terminus] read at 3:18 PM ET Aug 26, 2026
 
-[s1f-terminus] 8510 object(s) under the results prefix
-
-=== PERMANENTLY EXCLUDED — 1 of 19 map edge(s) will never be computed, so the lane's denominator is 18 ===
-  e_zaienne_cmpd19__cw_bio_nmethyl_amide__neutral__neutral
-    why      : no available mapper reaches the provable atom-map floor of 20. LOMAP element_change=False 17; element_change=True 19, but ONLY by mapping the ester methyl CARBON onto an amide HYDROGEN (C->H), which is the degenerate correspondence the floor exists to reject; Kartograf 18. Identical maps at LOMAP budgets t20 and t300 in 0.01 s, so the MCS timeout is MEASURED not to be the mechanism. This is a statement about the MAPPERS, not about any rented host, so no rental can fix it. A complete 22-atom map provably exists (the heavy-atom graphs are isomorphic up to the single O->N substitution), so the block is revisitable: if a mapper ever returns >= 20 for this edge, lift it with FANOUT_UNBLOCK=1.
-    evidence : research/modalities/step1-map-diag.json row zaienne_cmpd19->cw_bio_nmethyl_amide (verdict MAPPER_CANNOT_REACH_FLOOR, measured 2026-07-28 on the production staged components, with the per-mapper unmapped-atom and element-change detail); narrative in research/modalities/step1-fanout-lane.md section 7c
-    recorded : 2026-07-28T11:19:43Z
+[s1f-terminus] 10 object(s) under the results prefix
 
 === RAW ARTIFACT EVIDENCE — every ddg.json key in the object store ===
-      1017 B  12:48 AM ET Jul 29, 2026  s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_cw_ev_5nh2__cw_ms_5acetamido_ester__neutral__neutral/ddg.json
-      1000 B  6:51 AM ET Jul 29, 2026  s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_cw_ev_5oh__cw_ev_5opropargyl__neutral__neutral/ddg.json
-      1037 B  2:42 PM ET Jul 29, 2026  s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_cw_ms_free_acid__cw_bio_primary_amide__neutral_acid__neutral/ddg.json
-      1030 B  4:39 AM ET Jul 28, 2026  s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_zaienne_cmpd19__cw_bio_acylsulfonamide__neutral__neutral/ddg.json
-      1016 B  5:06 AM ET Jul 29, 2026  s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_zaienne_cmpd19__cw_bio_hydroxamic__neutral__neutral/ddg.json
-      1024 B  8:48 PM ET Jul 29, 2026  s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral/ddg.json
-      1012 B  2:50 AM ET Jul 28, 2026  s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_zaienne_cmpd19__cw_bio_tetrazole__neutral__neutral/ddg.json
-      1006 B  4:49 AM ET Jul 28, 2026  s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_zaienne_cmpd19__cw_ev_5alkyne__neutral__neutral/ddg.json
-      1015 B  7:13 AM ET Jul 28, 2026  s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_zaienne_cmpd19__cw_ev_5ch2nh2__neutral__neutral_amine/ddg.json
-      1007 B  8:48 AM ET Jul 27, 2026  s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_zaienne_cmpd19__cw_ev_5cooh__neutral__neutral_acid/ddg.json
-       995 B  2:56 AM ET Jul 28, 2026  s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_zaienne_cmpd19__cw_ev_5nh2__neutral__neutral/ddg.json
-       993 B  12:15 AM ET Jul 29, 2026  s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_zaienne_cmpd19__cw_ev_5oh__neutral__neutral/ddg.json
-      1015 B  10:33 PM ET Jul 27, 2026  s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_zaienne_cmpd19__cw_ev_5opropargyl__neutral__neutral/ddg.json
-      1019 B  1:04 AM ET Jul 28, 2026  s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_zaienne_cmpd19__cw_ev_5pegamine__neutral__neutral_amine/ddg.json
-      1013 B  12:18 AM ET Jul 28, 2026  s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_zaienne_cmpd19__cw_ev_5piperazine__neutral__neutral/ddg.json
-      1030 B  6:35 AM ET Jul 29, 2026  s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_zaienne_cmpd19__cw_ms_5acetamido_ester__neutral__neutral/ddg.json
-      1008 B  3:28 PM ET Jul 28, 2026  s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_zaienne_cmpd19__cw_ms_carbinol__neutral__neutral/ddg.json
-      1018 B  10:53 AM ET Jul 28, 2026  s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid/ddg.json
+  (none) — no unit has written a ddg.json, so reduce -> commit -> upload has never been observed on this lane.
 
 === PER-UNIT CENSUS — furthest committed iteration per (leg, phase), from the spot commit store ===
     smoke ceiling = production@4; production target = warmup@400 + production@2000 per leg
-  e_zaienne_cmpd19__cw_ev_5nh2__neutral__neutral             ddg=YES PRODUCTION         complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
-  e_zaienne_cmpd19__cw_ev_5oh__neutral__neutral              ddg=YES PRODUCTION         complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
-  e_zaienne_cmpd19__cw_ev_5cooh__neutral__neutral_acid       ddg=YES PRODUCTION         complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
-  e_zaienne_cmpd19__cw_ev_5alkyne__neutral__neutral          ddg=YES PRODUCTION         complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
-  e_zaienne_cmpd19__cw_ev_5ch2nh2__neutral__neutral_amine    ddg=YES PRODUCTION         complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
-  e_zaienne_cmpd19__cw_ev_5opropargyl__neutral__neutral      ddg=YES PRODUCTION         complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
-  e_zaienne_cmpd19__cw_ev_5piperazine__neutral__neutral      ddg=YES PRODUCTION         complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
-  e_zaienne_cmpd19__cw_ev_5pegamine__neutral__neutral_amine  ddg=YES PRODUCTION         complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
-  e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral   ddg=YES PRODUCTION         complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
-  e_zaienne_cmpd19__cw_bio_nmethyl_amide__neutral__neutral   ddg=no  EXCLUDED           no commits
-  e_zaienne_cmpd19__cw_bio_tetrazole__neutral__neutral       ddg=YES PRODUCTION         complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
-  e_zaienne_cmpd19__cw_bio_acylsulfonamide__neutral__neutral ddg=YES PRODUCTION         complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
-  e_zaienne_cmpd19__cw_bio_hydroxamic__neutral__neutral      ddg=YES PRODUCTION         complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
-  e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid   ddg=YES PRODUCTION         complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
-  e_zaienne_cmpd19__cw_ms_carbinol__neutral__neutral         ddg=YES PRODUCTION         complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
-  e_zaienne_cmpd19__cw_ms_5acetamido_ester__neutral__neutral ddg=YES PRODUCTION         complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
-  e_cw_ev_5nh2__cw_ms_5acetamido_ester__neutral__neutral     ddg=YES PRODUCTION         complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
-  e_cw_ev_5oh__cw_ev_5opropargyl__neutral__neutral           ddg=YES PRODUCTION         complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
-  e_cw_ms_free_acid__cw_bio_primary_amide__neutral_acid__neu ddg=YES PRODUCTION         complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
+  e_zaienne_cmpd19__cw_ev_5nh2__neutral__neutral             ddg=no  NO-TERMINUS        no commits
+  e_zaienne_cmpd19__cw_ev_5oh__neutral__neutral              ddg=no  NO-TERMINUS        no commits
+  e_zaienne_cmpd19__cw_ev_5cooh__neutral__neutral_acid       ddg=no  NO-TERMINUS        no commits
+  e_zaienne_cmpd19__cw_ev_5alkyne__neutral__neutral          ddg=no  NO-TERMINUS        no commits
+  e_zaienne_cmpd19__cw_ev_5ch2nh2__neutral__neutral_amine    ddg=no  NO-TERMINUS        no commits
+  e_zaienne_cmpd19__cw_ev_5opropargyl__neutral__neutral      ddg=no  NO-TERMINUS        no commits
+  e_zaienne_cmpd19__cw_ev_5piperazine__neutral__neutral      ddg=no  NO-TERMINUS        no commits
+  e_zaienne_cmpd19__cw_ev_5pegamine__neutral__neutral_amine  ddg=no  NO-TERMINUS        no commits
+  e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral   ddg=no  NO-TERMINUS        no commits
+  e_zaienne_cmpd19__cw_bio_nmethyl_amide__neutral__neutral   ddg=no  NO-TERMINUS        no commits
+  e_zaienne_cmpd19__cw_bio_tetrazole__neutral__neutral       ddg=no  NO-TERMINUS        no commits
+  e_zaienne_cmpd19__cw_bio_acylsulfonamide__neutral__neutral ddg=no  NO-TERMINUS        no commits
+  e_zaienne_cmpd19__cw_bio_hydroxamic__neutral__neutral      ddg=no  NO-TERMINUS        no commits
+  e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid   ddg=no  NO-TERMINUS        no commits
+  e_zaienne_cmpd19__cw_ms_carbinol__neutral__neutral         ddg=no  NO-TERMINUS        no commits
+  e_zaienne_cmpd19__cw_ms_5acetamido_ester__neutral__neutral ddg=no  NO-TERMINUS        no commits
+  e_cw_ev_5nh2__cw_ms_5acetamido_ester__neutral__neutral     ddg=no  NO-TERMINUS        no commits
+  e_cw_ev_5oh__cw_ev_5opropargyl__neutral__neutral           ddg=no  NO-TERMINUS        no commits
+  e_cw_ms_free_acid__cw_bio_primary_amide__neutral_acid__neu ddg=no  NO-TERMINUS        no commits
 
 === TERMINUS ===
-  ✅ MET — at least one unit has a ddg.json whose BOTH legs committed real production sampling.
-     e_zaienne_cmpd19__cw_ev_5nh2__neutral__neutral: both legs committed real production sampling: {'complex': 2000, 'solvent': 2000}
-     ddg.json:
-       {
-         "unit_id": "e_zaienne_cmpd19__cw_ev_5nh2__neutral__neutral",
-         "edge_id": "e_zaienne_cmpd19__cw_ev_5nh2",
-         "leg_id": "neutral__neutral",
-         "receptor": "nr4a3",
-         "frame": "nr4a3_design:top_druggable_frame_1",
-         "ligand_a": "zaienne_cmpd19",
-         "ligand_b": "cw_ev_5nh2",
-         "ddg_bind_kcal": 1.064,
-         "ddg_bind_unc_kcal": 0.118,
-         "dg_complex_morph_kcal": -30.33243704945766,
-         "complex_unc_kcal": 0.07563459602401185,
-         "dg_solvent_morph_kcal": -31.39647107864421,
-         "solvent_unc_kcal": 0.09044544421377508,
-         "n_mapped_atoms": 21,
-         "n_windows": 12,
-         "engine": "OpenFE RelativeHybridTopologyProtocol, HREX + MBAR (nr4a3_rbfe.py, MODE=splittest)",
-         "uncertainty_note": "within-run MBAR standard errors, propagated in quadrature. NOT a replicate SD \u2014 a single replicate per edge cannot report reproducibility.",
-         "claim_ceiling": "CONDITIONAL relative binding free energy for a HYPOTHESIZED cmpd19 pose in ONE modeled opened NR4A3 conformer. Not an affinity, not a selectivity claim."
-       }
-     e_zaienne_cmpd19__cw_ev_5oh__neutral__neutral: both legs committed real production sampling: {'complex': 2000, 'solvent': 2000}
-     ddg.json:
-       {
-         "unit_id": "e_zaienne_cmpd19__cw_ev_5oh__neutral__neutral",
-         "edge_id": "e_zaienne_cmpd19__cw_ev_5oh",
-         "leg_id": "neutral__neutral",
-         "receptor": "nr4a3",
-         "frame": "nr4a3_design:top_druggable_frame_1",
-         "ligand_a": "zaienne_cmpd19",
-         "ligand_b": "cw_ev_5oh",
-         "ddg_bind_kcal": 0.474,
-         "ddg_bind_unc_kcal": 0.195,
-         "dg_complex_morph_kcal": -20.700872050459704,
-         "complex_unc_kcal": 0.13648130983575693,
-         "dg_solvent_morph_kcal": -21.175131027520635,
-         "solvent_unc_kcal": 0.1385819230419336,
-         "n_mapped_atoms": 21,
-         "n_windows": 12,
-         "engine": "OpenFE RelativeHybridTopologyProtocol, HREX + MBAR (nr4a3_rbfe.py, MODE=splittest)",
-         "uncertainty_note": "within-run MBAR standard errors, propagated in quadrature. NOT a replicate SD \u2014 a single replicate per edge cannot report reproducibility.",
-         "claim_ceiling": "CONDITIONAL relative binding free energy for a HYPOTHESIZED cmpd19 pose in ONE modeled opened NR4A3 conformer. Not an affinity, not a selectivity claim."
-       }
-     e_zaienne_cmpd19__cw_ev_5cooh__neutral__neutral_acid: both legs committed real production sampling: {'complex': 2000, 'solvent': 2000}
-     ddg.json:
-       {
-         "unit_id": "e_zaienne_cmpd19__cw_ev_5cooh__neutral__neutral_acid",
-         "edge_id": "e_zaienne_cmpd19__cw_ev_5cooh",
-         "leg_id": "neutral__neutral_acid",
-         "receptor": "nr4a3",
-         "frame": "nr4a3_design:top_druggable_frame_1",
-         "ligand_a": "zaienne_cmpd19",
-         "ligand_b": "cw_ev_5cooh",
-         "ddg_bind_kcal": 0.688,
-         "ddg_bind_unc_kcal": 0.197,
-         "dg_complex_morph_kcal": -37.34246311754319,
-         "complex_unc_kcal": 0.1328809571071061,
-         "dg_solvent_morph_kcal": -38.03048774793776,
-         "solvent_unc_kcal": 0.14552597006116563,
-         "n_mapped_atoms": 21,
-         "n_windows": 12,
-         "engine": "OpenFE RelativeHybridTopologyProtocol, HREX + MBAR (nr4a3_rbfe.py, MODE=splittest)",
-         "uncertainty_note": "within-run MBAR standard errors, propagated in quadrature. NOT a replicate SD \u2014 a single replicate per edge cannot report reproducibility.",
-         "claim_ceiling": "CONDITIONAL relative binding free energy for a HYPOTHESIZED cmpd19 pose in ONE modeled opened NR4A3 conformer. Not an affinity, not a selectivity claim."
-       }
-     e_zaienne_cmpd19__cw_ev_5alkyne__neutral__neutral: both legs committed real production sampling: {'complex': 2000, 'solvent': 2000}
-     ddg.json:
-       {
-         "unit_id": "e_zaienne_cmpd19__cw_ev_5alkyne__neutral__neutral",
-         "edge_id": "e_zaienne_cmpd19__cw_ev_5alkyne",
-         "leg_id": "neutral__neutral",
-         "receptor": "nr4a3",
-         "frame": "nr4a3_design:top_druggable_frame_1",
-         "ligand_a": "zaienne_cmpd19",
-         "ligand_b": "cw_ev_5alkyne",
-         "ddg_bind_kcal": -0.363,
-         "ddg_bind_unc_kcal": 0.047,
-         "dg_complex_morph_kcal": -2.7164926331849095,
-         "complex_unc_kcal": 0.03712238440513211,
-         "dg_solvent_morph_kcal": -2.353906121495063,
-         "solvent_unc_kcal": 0.02920026106208822,
-         "n_mapped_atoms": 21,
-         "n_windows": 12,
-         "engine": "OpenFE RelativeHybridTopologyProtocol, HREX + MBAR (nr4a3_rbfe.py, MODE=splittest)",
-         "uncertainty_note": "within-run MBAR standard errors, propagated in quadrature. NOT a replicate SD \u2014 a single replicate per edge cannot report reproducibility.",
-         "claim_ceiling": "CONDITIONAL relative binding free energy for a HYPOTHESIZED cmpd19 pose in ONE modeled opened NR4A3 conformer. Not an affinity, not a selectivity claim."
-       }
-     e_zaienne_cmpd19__cw_ev_5ch2nh2__neutral__neutral_amine: both legs committed real production sampling: {'complex': 2000, 'solvent': 2000}
-     ddg.json:
-       {
-         "unit_id": "e_zaienne_cmpd19__cw_ev_5ch2nh2__neutral__neutral_amine",
-         "edge_id": "e_zaienne_cmpd19__cw_ev_5ch2nh2",
-         "leg_id": "neutral__neutral_amine",
-         "receptor": "nr4a3",
-         "frame": "nr4a3_design:top_druggable_frame_1",
-         "ligand_a": "zaienne_cmpd19",
-         "ligand_b": "cw_ev_5ch2nh2",
-         "ddg_bind_kcal": 1.248,
-         "ddg_bind_unc_kcal": 0.139,
-         "dg_complex_morph_kcal": -3.68122501455289,
-         "complex_unc_kcal": 0.10312000993283305,
-         "dg_solvent_morph_kcal": -4.929623406529687,
-         "solvent_unc_kcal": 0.09357628381404276,
-         "n_mapped_atoms": 21,
-         "n_windows": 12,
-         "engine": "OpenFE RelativeHybridTopologyProtocol, HREX + MBAR (nr4a3_rbfe.py, MODE=splittest)",
-         "uncertainty_note": "within-run MBAR standard errors, propagated in quadrature. NOT a replicate SD \u2014 a single replicate per edge cannot report reproducibility.",
-         "claim_ceiling": "CONDITIONAL relative binding free energy for a HYPOTHESIZED cmpd19 pose in ONE modeled opened NR4A3 conformer. Not an affinity, not a selectivity claim."
-       }
-     e_zaienne_cmpd19__cw_ev_5opropargyl__neutral__neutral: both legs committed real production sampling: {'complex': 2000, 'solvent': 2000}
-     ddg.json:
-       {
-         "unit_id": "e_zaienne_cmpd19__cw_ev_5opropargyl__neutral__neutral",
-         "edge_id": "e_zaienne_cmpd19__cw_ev_5opropargyl",
-         "leg_id": "neutral__neutral",
-         "receptor": "nr4a3",
-         "frame": "nr4a3_design:top_druggable_frame_1",
-         "ligand_a": "zaienne_cmpd19",
-         "ligand_b": "cw_ev_5opropargyl",
-         "ddg_bind_kcal": -1.698,
-         "ddg_bind_unc_kcal": 0.38,
-         "dg_complex_morph_kcal": -9.489843610386245,
-         "complex_unc_kcal": 0.24802867358676944,
-         "dg_solvent_morph_kcal": -7.792060307939942,
-         "solvent_unc_kcal": 0.2877412170320741,
-         "n_mapped_atoms": 21,
-         "n_windows": 12,
-         "engine": "OpenFE RelativeHybridTopologyProtocol, HREX + MBAR (nr4a3_rbfe.py, MODE=splittest)",
-         "uncertainty_note": "within-run MBAR standard errors, propagated in quadrature. NOT a replicate SD \u2014 a single replicate per edge cannot report reproducibility.",
-         "claim_ceiling": "CONDITIONAL relative binding free energy for a HYPOTHESIZED cmpd19 pose in ONE modeled opened NR4A3 conformer. Not an affinity, not a selectivity claim."
-       }
-     e_zaienne_cmpd19__cw_ev_5piperazine__neutral__neutral: both legs committed real production sampling: {'complex': 2000, 'solvent': 2000}
-     ddg.json:
-       {
-         "unit_id": "e_zaienne_cmpd19__cw_ev_5piperazine__neutral__neutral",
-         "edge_id": "e_zaienne_cmpd19__cw_ev_5piperazine",
-         "leg_id": "neutral__neutral",
-         "receptor": "nr4a3",
-         "frame": "nr4a3_design:top_druggable_frame_1",
-         "ligand_a": "zaienne_cmpd19",
-         "ligand_b": "cw_ev_5piperazine",
-         "ddg_bind_kcal": 3.403,
-         "ddg_bind_unc_kcal": 0.649,
-         "dg_complex_morph_kcal": 34.8579103637148,
-         "complex_unc_kcal": 0.45984992689589615,
-         "dg_solvent_morph_kcal": 31.454481689797852,
-         "solvent_unc_kcal": 0.4573875692109218,
-         "n_mapped_atoms": 21,
-         "n_windows": 12,
-         "engine": "OpenFE RelativeHybridTopologyProtocol, HREX + MBAR (nr4a3_rbfe.py, MODE=splittest)",
-         "uncertainty_note": "within-run MBAR standard errors, propagated in quadrature. NOT a replicate SD \u2014 a single replicate per edge cannot report reproducibility.",
-         "claim_ceiling": "CONDITIONAL relative binding free energy for a HYPOTHESIZED cmpd19 pose in ONE modeled opened NR4A3 conformer. Not an affinity, not a selectivity claim."
-       }
-     e_zaienne_cmpd19__cw_ev_5pegamine__neutral__neutral_amine: both legs committed real production sampling: {'complex': 2000, 'solvent': 2000}
-     ddg.json:
-       {
-         "unit_id": "e_zaienne_cmpd19__cw_ev_5pegamine__neutral__neutral_amine",
-         "edge_id": "e_zaienne_cmpd19__cw_ev_5pegamine",
-         "leg_id": "neutral__neutral_amine",
-         "receptor": "nr4a3",
-         "frame": "nr4a3_design:top_druggable_frame_1",
-         "ligand_a": "zaienne_cmpd19",
-         "ligand_b": "cw_ev_5pegamine",
-         "ddg_bind_kcal": -0.646,
-         "ddg_bind_unc_kcal": 1.071,
-         "dg_complex_morph_kcal": 4.183695980192114,
-         "complex_unc_kcal": 0.8153856891180713,
-         "dg_solvent_morph_kcal": 4.829733578121787,
-         "solvent_unc_kcal": 0.6949325951088404,
-         "n_mapped_atoms": 21,
-         "n_windows": 12,
-         "engine": "OpenFE RelativeHybridTopologyProtocol, HREX + MBAR (nr4a3_rbfe.py, MODE=splittest)",
-         "uncertainty_note": "within-run MBAR standard errors, propagated in quadrature. NOT a replicate SD \u2014 a single replicate per edge cannot report reproducibility.",
-         "claim_ceiling": "CONDITIONAL relative binding free energy for a HYPOTHESIZED cmpd19 pose in ONE modeled opened NR4A3 conformer. Not an affinity, not a selectivity claim."
-       }
-     e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral: both legs committed real production sampling: {'complex': 2000, 'solvent': 2000}
-     ddg.json:
-       {
-         "unit_id": "e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral",
-         "edge_id": "e_zaienne_cmpd19__cw_bio_primary_amide",
-         "leg_id": "neutral__neutral",
-         "receptor": "nr4a3",
-         "frame": "nr4a3_design:top_druggable_frame_1",
-         "ligand_a": "zaienne_cmpd19",
-         "ligand_b": "cw_bio_primary_amide",
-         "ddg_bind_kcal": 0.935,
-         "ddg_bind_unc_kcal": 0.5,
-         "dg_complex_morph_kcal": -39.664363688882986,
-         "complex_unc_kcal": 0.33426080141434916,
-         "dg_solvent_morph_kcal": -40.59943865628454,
-         "solvent_unc_kcal": 0.37221513676313034,
-         "n_mapped_atoms": 17,
-         "n_windows": 12,
-         "engine": "OpenFE RelativeHybridTopologyProtocol, HREX + MBAR (nr4a3_rbfe.py, MODE=splittest)",
-         "uncertainty_note": "within-run MBAR standard errors, propagated in quadrature. NOT a replicate SD \u2014 a single replicate per edge cannot report reproducibility.",
-         "claim_ceiling": "CONDITIONAL relative binding free energy for a HYPOTHESIZED cmpd19 pose in ONE modeled opened NR4A3 conformer. Not an affinity, not a selectivity claim."
-       }
-     e_zaienne_cmpd19__cw_bio_tetrazole__neutral__neutral: both legs committed real production sampling: {'complex': 2000, 'solvent': 2000}
-     ddg.json:
-       {
-         "unit_id": "e_zaienne_cmpd19__cw_bio_tetrazole__neutral__neutral",
-         "edge_id": "e_zaienne_cmpd19__cw_bio_tetrazole",
-         "leg_id": "neutral__neutral",
-         "receptor": "nr4a3",
-         "frame": "nr4a3_design:top_druggable_frame_1",
-         "ligand_a": "zaienne_cmpd19",
-         "ligand_b": "cw_bio_tetrazole",
-         "ddg_bind_kcal": -1.215,
-         "ddg_bind_unc_kcal": 0.317,
-         "dg_complex_morph_kcal": 6.163390120512633,
-         "complex_unc_kcal": 0.21401041449464922,
-         "dg_solvent_morph_kcal": 7.378500831825718,
-         "solvent_unc_kcal": 0.23377351306736607,
-         "n_mapped_atoms": 15,
-         "n_windows": 12,
-         "engine": "OpenFE RelativeHybridTopologyProtocol, HREX + MBAR (nr4a3_rbfe.py, MODE=splittest)",
-         "uncertainty_note": "within-run MBAR standard errors, propagated in quadrature. NOT a replicate SD \u2014 a single replicate per edge cannot report reproducibility.",
-         "claim_ceiling": "CONDITIONAL relative binding free energy for a HYPOTHESIZED cmpd19 pose in ONE modeled opened NR4A3 conformer. Not an affinity, not a selectivity claim."
-       }
-     e_zaienne_cmpd19__cw_bio_acylsulfonamide__neutral__neutral: both legs committed real production sampling: {'complex': 2000, 'solvent': 2000}
-     ddg.json:
-       {
-         "unit_id": "e_zaienne_cmpd19__cw_bio_acylsulfonamide__neutral__neutral",
-         "edge_id": "e_zaienne_cmpd19__cw_bio_acylsulfonamide",
-         "leg_id": "neutral__neutral",
-         "receptor": "nr4a3",
-         "frame": "nr4a3_design:top_druggable_frame_1",
-         "ligand_a": "zaienne_cmpd19",
-         "ligand_b": "cw_bio_acylsulfonamide",
-         "ddg_bind_kcal": 0.127,
-         "ddg_bind_unc_kcal": 0.688,
-         "dg_complex_morph_kcal": -214.20371488543603,
-         "complex_unc_kcal": 0.441600520378483,
-         "dg_solvent_morph_kcal": -214.33111372987995,
-         "solvent_unc_kcal": 0.5273144165321559,
-         "n_mapped_atoms": 17,
-         "n_windows": 12,
-         "engine": "OpenFE RelativeHybridTopologyProtocol, HREX + MBAR (nr4a3_rbfe.py, MODE=splittest)",
-         "uncertainty_note": "within-run MBAR standard errors, propagated in quadrature. NOT a replicate SD \u2014 a single replicate per edge cannot report reproducibility.",
-         "claim_ceiling": "CONDITIONAL relative binding free energy for a HYPOTHESIZED cmpd19 pose in ONE modeled opened NR4A3 conformer. Not an affinity, not a selectivity claim."
-       }
-     e_zaienne_cmpd19__cw_bio_hydroxamic__neutral__neutral: both legs committed real production sampling: {'complex': 2000, 'solvent': 2000}
-     ddg.json:
-       {
-         "unit_id": "e_zaienne_cmpd19__cw_bio_hydroxamic__neutral__neutral",
-         "edge_id": "e_zaienne_cmpd19__cw_bio_hydroxamic",
-         "leg_id": "neutral__neutral",
-         "receptor": "nr4a3",
-         "frame": "nr4a3_design:top_druggable_frame_1",
-         "ligand_a": "zaienne_cmpd19",
-         "ligand_b": "cw_bio_hydroxamic",
-         "ddg_bind_kcal": 0.392,
-         "ddg_bind_unc_kcal": 0.285,
-         "dg_complex_morph_kcal": 18.698502013533236,
-         "complex_unc_kcal": 0.21810001590562517,
-         "dg_solvent_morph_kcal": 18.306008899581293,
-         "solvent_unc_kcal": 0.18340981435949516,
-         "n_mapped_atoms": 17,
-         "n_windows": 12,
-         "engine": "OpenFE RelativeHybridTopologyProtocol, HREX + MBAR (nr4a3_rbfe.py, MODE=splittest)",
-         "uncertainty_note": "within-run MBAR standard errors, propagated in quadrature. NOT a replicate SD \u2014 a single replicate per edge cannot report reproducibility.",
-         "claim_ceiling": "CONDITIONAL relative binding free energy for a HYPOTHESIZED cmpd19 pose in ONE modeled opened NR4A3 conformer. Not an affinity, not a selectivity claim."
-       }
-     e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid: both legs committed real production sampling: {'complex': 2000, 'solvent': 2000}
-     ddg.json:
-       {
-         "unit_id": "e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid",
-         "edge_id": "e_zaienne_cmpd19__cw_ms_free_acid",
-         "leg_id": "neutral__neutral_acid",
-         "receptor": "nr4a3",
-         "frame": "nr4a3_design:top_druggable_frame_1",
-         "ligand_a": "zaienne_cmpd19",
-         "ligand_b": "cw_ms_free_acid",
-         "ddg_bind_kcal": 0.136,
-         "ddg_bind_unc_kcal": 0.457,
-         "dg_complex_morph_kcal": -33.13756508352574,
-         "complex_unc_kcal": 0.3690351377387516,
-         "dg_solvent_morph_kcal": -33.2736535536339,
-         "solvent_unc_kcal": 0.26893988814842335,
-         "n_mapped_atoms": 18,
-         "n_windows": 12,
-         "engine": "OpenFE RelativeHybridTopologyProtocol, HREX + MBAR (nr4a3_rbfe.py, MODE=splittest)",
-         "uncertainty_note": "within-run MBAR standard errors, propagated in quadrature. NOT a replicate SD \u2014 a single replicate per edge cannot report reproducibility.",
-         "claim_ceiling": "CONDITIONAL relative binding free energy for a HYPOTHESIZED cmpd19 pose in ONE modeled opened NR4A3 conformer. Not an affinity, not a selectivity claim."
-       }
-     e_zaienne_cmpd19__cw_ms_carbinol__neutral__neutral: both legs committed real production sampling: {'complex': 2000, 'solvent': 2000}
-     ddg.json:
-       {
-         "unit_id": "e_zaienne_cmpd19__cw_ms_carbinol__neutral__neutral",
-         "edge_id": "e_zaienne_cmpd19__cw_ms_carbinol",
-         "leg_id": "neutral__neutral",
-         "receptor": "nr4a3",
-         "frame": "nr4a3_design:top_druggable_frame_1",
-         "ligand_a": "zaienne_cmpd19",
-         "ligand_b": "cw_ms_carbinol",
-         "ddg_bind_kcal": 0.582,
-         "ddg_bind_unc_kcal": 0.602,
-         "dg_complex_morph_kcal": -0.35312408663453204,
-         "complex_unc_kcal": 0.40586029385382644,
-         "dg_solvent_morph_kcal": -0.934842338326183,
-         "solvent_unc_kcal": 0.4442112170484421,
-         "n_mapped_atoms": 17,
-         "n_windows": 12,
-         "engine": "OpenFE RelativeHybridTopologyProtocol, HREX + MBAR (nr4a3_rbfe.py, MODE=splittest)",
-         "uncertainty_note": "within-run MBAR standard errors, propagated in quadrature. NOT a replicate SD \u2014 a single replicate per edge cannot report reproducibility.",
-         "claim_ceiling": "CONDITIONAL relative binding free energy for a HYPOTHESIZED cmpd19 pose in ONE modeled opened NR4A3 conformer. Not an affinity, not a selectivity claim."
-       }
-     e_zaienne_cmpd19__cw_ms_5acetamido_ester__neutral__neutral: both legs committed real production sampling: {'complex': 2000, 'solvent': 2000}
-     ddg.json:
-       {
-         "unit_id": "e_zaienne_cmpd19__cw_ms_5acetamido_ester__neutral__neutral",
-         "edge_id": "e_zaienne_cmpd19__cw_ms_5acetamido_ester",
-         "leg_id": "neutral__neutral",
-         "receptor": "nr4a3",
-         "frame": "nr4a3_design:top_druggable_frame_1",
-         "ligand_a": "zaienne_cmpd19",
-         "ligand_b": "cw_ms_5acetamido_ester",
-         "ddg_bind_kcal": 0.445,
-         "ddg_bind_unc_kcal": 0.572,
-         "dg_complex_morph_kcal": -56.546506655573275,
-         "complex_unc_kcal": 0.380493686657331,
-         "dg_solvent_morph_kcal": -56.99144356601819,
-         "solvent_unc_kcal": 0.42741492795088815,
-         "n_mapped_atoms": 21,
-         "n_windows": 12,
-         "engine": "OpenFE RelativeHybridTopologyProtocol, HREX + MBAR (nr4a3_rbfe.py, MODE=splittest)",
-         "uncertainty_note": "within-run MBAR standard errors, propagated in quadrature. NOT a replicate SD \u2014 a single replicate per edge cannot report reproducibility.",
-         "claim_ceiling": "CONDITIONAL relative binding free energy for a HYPOTHESIZED cmpd19 pose in ONE modeled opened NR4A3 conformer. Not an affinity, not a selectivity claim."
-       }
-     e_cw_ev_5nh2__cw_ms_5acetamido_ester__neutral__neutral: both legs committed real production sampling: {'complex': 2000, 'solvent': 2000}
-     ddg.json:
-       {
-         "unit_id": "e_cw_ev_5nh2__cw_ms_5acetamido_ester__neutral__neutral",
-         "edge_id": "e_cw_ev_5nh2__cw_ms_5acetamido_ester",
-         "leg_id": "neutral__neutral",
-         "receptor": "nr4a3",
-         "frame": "nr4a3_design:top_druggable_frame_1",
-         "ligand_a": "cw_ev_5nh2",
-         "ligand_b": "cw_ms_5acetamido_ester",
-         "ddg_bind_kcal": -1.345,
-         "ddg_bind_unc_kcal": 0.81,
-         "dg_complex_morph_kcal": -26.829477860040225,
-         "complex_unc_kcal": 0.5442075360517605,
-         "dg_solvent_morph_kcal": -25.48407108375638,
-         "solvent_unc_kcal": 0.599759878988202,
-         "n_mapped_atoms": 23,
-         "n_windows": 12,
-         "engine": "OpenFE RelativeHybridTopologyProtocol, HREX + MBAR (nr4a3_rbfe.py, MODE=splittest)",
-         "uncertainty_note": "within-run MBAR standard errors, propagated in quadrature. NOT a replicate SD \u2014 a single replicate per edge cannot report reproducibility.",
-         "claim_ceiling": "CONDITIONAL relative binding free energy for a HYPOTHESIZED cmpd19 pose in ONE modeled opened NR4A3 conformer. Not an affinity, not a selectivity claim."
-       }
-     e_cw_ev_5oh__cw_ev_5opropargyl__neutral__neutral: both legs committed real production sampling: {'complex': 2000, 'solvent': 2000}
-     ddg.json:
-       {
-         "unit_id": "e_cw_ev_5oh__cw_ev_5opropargyl__neutral__neutral",
-         "edge_id": "e_cw_ev_5oh__cw_ev_5opropargyl",
-         "leg_id": "neutral__neutral",
-         "receptor": "nr4a3",
-         "frame": "nr4a3_design:top_druggable_frame_1",
-         "ligand_a": "cw_ev_5oh",
-         "ligand_b": "cw_ev_5opropargyl",
-         "ddg_bind_kcal": -2.928,
-         "ddg_bind_unc_kcal": 0.589,
-         "dg_complex_morph_kcal": 10.66805844667915,
-         "complex_unc_kcal": 0.3518914382076908,
-         "dg_solvent_morph_kcal": 13.595669033712575,
-         "solvent_unc_kcal": 0.47242050269688185,
-         "n_mapped_atoms": 22,
-         "n_windows": 12,
-         "engine": "OpenFE RelativeHybridTopologyProtocol, HREX + MBAR (nr4a3_rbfe.py, MODE=splittest)",
-         "uncertainty_note": "within-run MBAR standard errors, propagated in quadrature. NOT a replicate SD \u2014 a single replicate per edge cannot report reproducibility.",
-         "claim_ceiling": "CONDITIONAL relative binding free energy for a HYPOTHESIZED cmpd19 pose in ONE modeled opened NR4A3 conformer. Not an affinity, not a selectivity claim."
-       }
-     e_cw_ms_free_acid__cw_bio_primary_amide__neutral_acid__neutral: both legs committed real production sampling: {'complex': 2000, 'solvent': 2000}
-     ddg.json:
-       {
-         "unit_id": "e_cw_ms_free_acid__cw_bio_primary_amide__neutral_acid__neutral",
-         "edge_id": "e_cw_ms_free_acid__cw_bio_primary_amide",
-         "leg_id": "neutral_acid__neutral",
-         "receptor": "nr4a3",
-         "frame": "nr4a3_design:top_druggable_frame_1",
-         "ligand_a": "cw_ms_free_acid",
-         "ligand_b": "cw_bio_primary_amide",
-         "ddg_bind_kcal": 2.106,
-         "ddg_bind_unc_kcal": 0.132,
-         "dg_complex_morph_kcal": -5.779224355240758,
-         "complex_unc_kcal": 0.09787065970263985,
-         "dg_solvent_morph_kcal": -7.884769832417646,
-         "solvent_unc_kcal": 0.0885054604801525,
-         "n_mapped_atoms": 17,
-         "n_windows": 12,
-         "engine": "OpenFE RelativeHybridTopologyProtocol, HREX + MBAR (nr4a3_rbfe.py, MODE=splittest)",
-         "uncertainty_note": "within-run MBAR standard errors, propagated in quadrature. NOT a replicate SD \u2014 a single replicate per edge cannot report reproducibility.",
-         "claim_ceiling": "CONDITIONAL relative binding free energy for a HYPOTHESIZED cmpd19 pose in ONE modeled opened NR4A3 conformer. Not an affinity, not a selectivity claim."
-       }
+  ⛔ NOT MET — no ddg.json anywhere under the results prefix. The 18 other computable edges stay held; the shakeout unit is the only thing that may be rented.
 
-=== MARKET SNAPSHOT — what the 18-edge release would cost RIGHT NOW (read-only; rents nothing) ===
-  board depth      : 192 offers visible (baseline ~23), 192 qualifying, 98 priceable, 1 needed
-  floors           : min $0.0533/hr, median $0.312/hr
-  best fleet $/ns  : $0.003084/ns  ·  0.9× basis (basis $0.003412/ns)
-  projected        : $1.41 against a $3.94 ceiling
+=== MARKET SNAPSHOT — what the 19-edge release would cost RIGHT NOW (read-only; rents nothing) ===
+  board depth      : 117 offers visible (baseline ~23), 117 qualifying, 62 priceable, 19 needed
+  floors           : min $0.0013/hr, median $0.2933/hr
+  best fleet $/ns  : $0.006187/ns  ·  1.81× basis (basis $0.003412/ns)
+  projected        : $53.89 against a $74.91 ceiling
   OK — under the $0.006539/ns buy line (≈1.92× basis); a release would clear the price gate.
-    RTX 3090 Ti m140550   $0.0533/hr  $0.00308/ns · 0.90× basis
+    RTX 3090   m147339   $0.0013/hr  $0.00130/ns · 0.38× basis
+    RTX 4090   m12976    $0.0800/hr  $0.00296/ns · 0.87× basis
+    RTX 3090   m145698   $0.0533/hr  $0.00331/ns · 0.97× basis
+    RTX 3090   m19671    $0.0533/hr  $0.00386/ns · 1.13× basis
+    RTX 4090   m140544   $0.1800/hr  $0.00608/ns · 1.78× basis
+    RTX 4090   m51777    $0.1733/hr  $0.00610/ns · 1.79× basis
+    RTX 5090   m49595    $0.2533/hr  $0.00668/ns · 1.96× basis
+    RTX 5090   m58471    $0.2400/hr  $0.00689/ns · 2.02× basis
+    RTX 4090   m28369    $0.2000/hr  $0.00693/ns · 2.03× basis
+    RTX 4090   m28080    $0.2000/hr  $0.00693/ns · 2.03× basis
+    RTX 5090   m49596    $0.2667/hr  $0.00701/ns · 2.05× basis
+    RTX 3090   m89294    $0.1067/hr  $0.00701/ns · 2.05× basis
