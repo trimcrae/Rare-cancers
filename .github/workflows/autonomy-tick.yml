@@ -30,6 +30,9 @@ on:
 
 permissions:
   contents: write
+  # ⭐ Needed only by the gate-verdict step below, which is the one thing in this job that
+  # talks to the API. `health.py` itself stays stdlib-only with no network, by design.
+  actions: read
 
 concurrency:
   # A second tick while one is running measures the same thing twice and races on the commit.
@@ -44,15 +47,35 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Read the trunk's gate verdict — the one condition health.py cannot measure itself
+        # ★ `gates_green` had NEVER been measured before this step existed: every board written by
+        # this loop carried `NO-GATE-VERDICT / unmeasured`, and `--check` counted it in a line
+        # reading "1 UNMEASURED ['gates_green'] — unmeasured is not ok". CLAUDE.md §4: a row reading
+        # UNKNOWN is an unanswered question wearing the costume of a status, and this one costs a
+        # $0 API read from a job that already has a token.
+        # ⛔ FAILS CLOSED and never fails the job: an unreadable API writes NO file, and the row goes
+        # back to `unmeasured` — which is what we would actually know. A guessed green is worse than
+        # the unmeasured it replaces, because `gates_green` is what stops a cycle committing onto a
+        # red trunk.
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          python3 research/autonomy/gates_verdict.py --out /tmp/gates.json \
+            | tee -a "$GITHUB_STEP_SUMMARY"
+
       - name: Grade the loop's health
         id: grade
         run: |
           set -o pipefail
-          python3 research/autonomy/health.py --write | tee /tmp/health.txt
+          # ⚠ `--gates-verdict` points at a file that MAY NOT EXIST — that is the fail-closed path,
+          # not an error. health.py treats an absent verdict as `unmeasured`, never as green.
+          python3 research/autonomy/health.py --write --gates-verdict /tmp/gates.json \
+            | tee /tmp/health.txt
           # ⛔ The exit code is NOT masked, but a red board is not a failed job: red is the SIGNAL this
           # workflow exists to publish, and a failing job would bury it behind a red X nobody reads.
           # `--check` is run separately below purely to surface the verdict in the summary.
-          python3 research/autonomy/health.py --check > /tmp/check.txt 2>&1 || true
+          python3 research/autonomy/health.py --check --gates-verdict /tmp/gates.json \
+            > /tmp/check.txt 2>&1 || true
           {
             echo '## Autonomy loop health'
             echo '```'
@@ -95,7 +118,8 @@ jobs:
           # command's, so `health.py --commit-worthy | tee log && commit` commits unconditionally.
           # That exact shape is why preflight.sh captures each check's status explicitly, and it bit
           # this step once during development.
-          if python3 research/autonomy/health.py --commit-worthy; then
+          if python3 research/autonomy/health.py --commit-worthy \
+               --gates-verdict /tmp/gates.json; then
             bash research/compute/publish_artifacts.sh "${GITHUB_REF_NAME}" \
               "autonomy tick: loop health board" \
               research/autonomy/health.json

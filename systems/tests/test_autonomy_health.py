@@ -510,3 +510,108 @@ def test_a_queue_where_everything_is_claimed_is_a_stall(health, tmp_path):
     row = [c for c in board["conditions"] if c["key"] == "queue_is_takeable"][0]
     assert row["needs_attention"] is True
     assert row["verdict"] == "NOTHING-TAKEABLE"
+
+
+# ─────────────────────────────────────────────── the gate verdict `health.py` cannot measure itself
+#
+# ⛔ `gates_green` was `unmeasured` on EVERY board this loop had ever written, because nothing
+# supplied the verdict `health.py` takes as a file. `research/autonomy/gates_verdict.py` is the
+# caller that reads it, and it lives outside `health.py` so that `health.py` keeps its no-network
+# property — the one that makes it work when everything else has stopped. These guard the DECISION,
+# which is pure; the fetch is one urllib call with nothing to test that a mock would not invent.
+
+
+def _gv():
+    spec = importlib.util.spec_from_file_location(
+        "gates_verdict", REPO / "research" / "autonomy" / "gates_verdict.py")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def _run(conclusion, created, sha="a" * 40):
+    return {"status": "completed", "conclusion": conclusion, "created_at": created,
+            "updated_at": created, "head_sha": sha, "html_url": "https://example/run"}
+
+
+def test_a_green_trunk_reports_green_with_no_red_since():
+    v = _gv().decide([_run("success", "2026-08-26T20:00:00Z")], NOW)
+    assert v["ok"] is True and v["red_since_utc"] is None
+
+
+def test_a_red_trunk_ages_on_the_OLDEST_contiguous_failure():
+    """⛔ THE ONE THAT MATTERS. Every push makes a new run, so dating the redness from the LATEST
+    failure resets the clock on every commit — and a trunk red for three days reports as red for
+    minutes, forever inside `GATES_RED_GRACE_H`. The grace window would then never expire and
+    `gates_green` could never go RED-STUCK, which is the entire point of the condition."""
+    runs = [_run("failure", "2026-08-26T20:00:00Z"),
+            _run("failure", "2026-08-26T14:00:00Z"),
+            _run("failure", "2026-08-24T09:00:00Z"),
+            _run("success", "2026-08-24T08:00:00Z"),
+            _run("failure", "2026-08-20T01:00:00Z")]
+    v = _gv().decide(runs, NOW)
+    assert v["ok"] is False
+    assert v["red_since_utc"] == "2026-08-24T09:00:00Z", (
+        "aged on the wrong run — it must be the oldest failure since the last SUCCESS, not the "
+        "newest failure and not the oldest failure in the window"
+    )
+
+
+def test_an_all_red_window_says_its_age_is_a_lower_bound():
+    """An absent reading is not a reading of absence (CLAUDE.md §4). With no success in the window,
+    the redness may predate it, and a `red_since` presented as exact would understate the outage."""
+    v = _gv().decide([_run("failure", "2026-08-26T20:00:00Z"),
+                      _run("failure", "2026-08-25T20:00:00Z")], NOW)
+    assert v["red_since_utc"] == "2026-08-25T20:00:00Z"
+    assert "LOWER BOUND" in v["detail"]
+
+
+def test_cancelled_and_skipped_are_not_verdicts():
+    """A cancelled run says the trunk was never tested — not that it passed. This repository cancels
+    runs by concurrency group routinely, so reading one as green would report a green trunk from a
+    run that executed no test at all."""
+    gv = _gv()
+    runs = [{"status": "completed", "conclusion": "cancelled", "created_at": "2026-08-26T21:00:00Z"},
+            _run("failure", "2026-08-26T20:00:00Z")]
+    v = gv.decide(runs, NOW)
+    assert v["ok"] is False, "a cancelled run masked the failure beneath it"
+
+
+def test_an_in_progress_run_is_not_a_verdict_either():
+    gv = _gv()
+    runs = [{"status": "in_progress", "conclusion": None, "created_at": "2026-08-26T21:00:00Z"},
+            _run("success", "2026-08-26T20:00:00Z")]
+    assert gv.decide(runs, NOW)["ok"] is True
+
+
+def test_no_graded_run_writes_NO_VERDICT_rather_than_a_guess():
+    """⛔ FAIL CLOSED. `gates_green` is what stops a cycle committing onto a red trunk, so a guessed
+    green is strictly worse than the `unmeasured` it replaces: it sends every cycle into the gate
+    failure the condition exists to spare it."""
+    v = _gv().decide([], NOW)
+    assert "_no_verdict" in v and "ok" not in v
+
+
+def test_the_verdict_shape_is_the_one_health_py_reads():
+    """The two files are coupled only by this dict's keys, and a rename on either side would leave
+    `gates_green` silently unmeasured forever — the exact state this pair was built to end."""
+    health = _import_health()
+    v = _gv().decide([_run("failure", "2026-08-26T20:00:00Z")], NOW)
+    row = health.c_gates_green(v, None, NOW)
+    assert row["key"] == "gates_green"
+    assert row.get("unmeasured") is not True, "health.py could not read the verdict this writes"
+
+
+def test_the_tick_actually_passes_the_verdict_to_every_health_call():
+    """A verdict computed and not passed measures nothing. All three `health.py` invocations in the
+    tick must receive it, or the board, the summary and the commit decision disagree about whether
+    the trunk is green."""
+    tick = (REPO / ".github" / "workflows" / "autonomy-tick.yml").read_text()
+    assert "gates_verdict.py" in tick, "nothing computes the verdict"
+    assert "actions: read" in tick, "the fetch has no permission to read Actions"
+    calls = [ln for ln in tick.splitlines()
+             if "health.py" in ln and "--" in ln and not ln.strip().startswith("#")]
+    assert len(calls) == 3, f"expected 3 health.py invocations, found {len(calls)}: {calls}"
+    for ln in calls:
+        idx = tick.index(ln)
+        assert "--gates-verdict" in tick[idx:idx + 400], f"no --gates-verdict for: {ln.strip()}"
