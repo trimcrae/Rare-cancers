@@ -620,8 +620,19 @@ to make and manage triggers too."*
 |---|---|---|
 | Delete or retime a Routine **it created itself** | ✅ | `delete_trigger` / `update_trigger` — both exercised today on the §2.2 probe, prompt edit included |
 | Change the **UI-created driver's** cron or prompt | ⛔ **No** | ★ **Measured 2026-08-26:** `update_trigger` refuses — *"this routine was created via http_api, not by an agent. Agents can only update routines they created."* |
-| **Disable** the UI-created driver | ✅ | The one exception the server allows: *"a routine's own session may still disable itself (enabled=false only)"*. ⭐ So a loop that detects it is broken **can stop itself**, which is the property that matters most. |
-| Fire a Routine off-schedule | ✅ | `fire_trigger` |
+| **Fire** the UI-created driver off-schedule | ⛔ **No** | ★ **Measured 2026-08-26, after `update_trigger` had already been refused and this row still said ✅:** *"fire_trigger: this routine was created via http_api… Agents can only fire routines they created."* |
+| **Disable** the UI-created driver | ⚠ only from a session THAT ROUTINE ITSELF FIRED | The server's wording is narrow: *"a routine's own session may still disable itself (enabled=false only)"*. So a loop that detects it is broken can stop itself **from inside a cycle**; no other session can reach it. |
+
+⛔⛔ **SO THE HONEST SUMMARY IS SHORTER THAN THIS TABLE WAS TWICE WRITTEN TO SAY: an agent has NO
+control over a UI-created Routine from outside it.** Not the prompt, not the cron, not a manual
+fire. Its own fired sessions may disable it and nothing more. Everything in the ✅ rows above applies
+only to triggers the loop MINTED ITSELF.
+
+⚠ **This row was wrong twice in one afternoon, in the same direction both times** — first claiming
+the loop could rewrite the driver's prompt, then claiming it could fire it. Both were written from
+what the tool descriptions imply rather than from a call, and both were corrected only by trying.
+CLAUDE.md §4 is the rule that keeps being relearned here: **the tool's own refusal is the
+observation; a capability nobody has exercised is UNKNOWN, not available.**
 | Create a trigger that wakes a session **already holding** the repo grant | ✅ | a self-bind / `persistent_session_id` trigger — the fired turn runs *inside* that session, so it inherits the repo and every tool. ✅ **Delivery VERIFIED by probe, 2026-08-26 — §10.2b.** |
 | Create a **fresh-session** Routine that has the repo | ⛔ **No** | §2.2 — agent-minted lineage carries no `sources`. Unchanged. |
 

@@ -152,10 +152,10 @@ change.
 
 - ✅ Delete, retime, rewrite, or fire **a trigger you created yourself**. ✅ Create self-bind triggers
   that wake a session already holding the repo — that is how a rate-limit resume works.
-- ⛔ **You may NOT retime or rewrite the UI-created driver Routine.** Measured 2026-08-26:
-  `update_trigger` refuses anything `created_via: http_api`. You MAY disable it (`enabled=false`) —
-  that exception exists so a loop which detects it is broken can stop itself, and stopping yourself is
-  the right move when the alternative is looping on a fault.
+- ⛔ **You have NO control over the UI-created driver Routine from outside it** — not its prompt, not its cron, not a manual fire (`fire_trigger` refuses it too, measured 2026-08-26). Only a session THAT ROUTINE ITSELF FIRED may act on it, and only to disable it. Both `update_trigger` and
+  `fire_trigger` refuse anything `created_via: http_api`. Disabling from inside a cycle is the one
+  exception, and it exists so a loop which detects it is broken can stop itself — the right move when
+  the alternative is looping on a fault.
   ⭐ **This is why the cycle contract lives HERE and not in the Routine's prompt.** This file you can
   edit; that prompt is frozen at whatever trimcrae last pasted. Improvements to the contract land in
   this file, and the prompt only ever says "read it".
