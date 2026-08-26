@@ -8,6 +8,15 @@ name: Archive SageMaker results into git (reproducibility)
 # REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY. Read-only against S3; only ADDS to git.
 
 on:
+  # ⛔ ADDED 2026-08-26 AFTER THE FAILURE THIS WORKFLOW EXISTS TO PREVENT HAPPENED AGAIN.
+  # This file's own header says "old outputs were lost to S3 lifecycle expiration" — and then it was
+  # left dispatch-only, so it protected nothing unless a human remembered. On 2026-08-26 the step-1
+  # fan-out results prefix went from 8,510 objects to 10 (read verbatim in step1-terminus-evidence.txt
+  # at 6:31 PM ET Aug 6 and 3:18 PM ET Aug 26) and NOTHING had been mirrored: `nr4a3-step1-fanout` was
+  # not even in DEFAULT_PREFIXES. A preventive control nobody runs is not a control.
+  # Weekly, off the hour, because lifecycle windows are days not minutes.
+  schedule:
+    - cron: '29 6 * * 2'
   workflow_dispatch:
     inputs:
       mode:
@@ -35,7 +44,7 @@ permissions:
 
 env:
   # The curated load-bearing set (glob-free prefixes; the driver lists each recursively).
-  DEFAULT_PREFIXES: "nr4a3-denovo,nr4a3-denovo-v2,nr4a3-denovo-affinity,nr4a3-matrix,nr4a3-mmgbsa,nr4a3-metad-r1,nr4a3-metad-r2,nr4a3-metad-r3,nr4a3-abfe,nr4a3-fep,nr4a3-8xtt-benchmark,nr4a3-8xtt-pocketminer,nr4a3-8xtt-redock,nr4a3-8xtt-release,nr4a3-release-druggable,nr4a3-warhead,nr4a3-repurpose,nr4a3-ternary,nr4a3-calibration"
+  DEFAULT_PREFIXES: "nr4a3-denovo,nr4a3-denovo-v2,nr4a3-denovo-affinity,nr4a3-matrix,nr4a3-mmgbsa,nr4a3-metad-r1,nr4a3-metad-r2,nr4a3-metad-r3,nr4a3-abfe,nr4a3-fep,nr4a3-8xtt-benchmark,nr4a3-8xtt-pocketminer,nr4a3-8xtt-redock,nr4a3-8xtt-release,nr4a3-release-druggable,nr4a3-warhead,nr4a3-repurpose,nr4a3-ternary,nr4a3-calibration,nr4a3-step1-fanout,nr4a3-congeneric-rbfe,nrv04-retro-results,nrv04-ffcache,protfep-benchmark,ternary-vast"
 
 jobs:
   archive:
