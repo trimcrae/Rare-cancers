@@ -1,0 +1,79 @@
+{
+  "_schema": "emc-autonomy-receipt/1",
+  "cycle_id": "CYC-0005",
+  "started_utc": "2026-08-26T21:20:00Z",
+  "finished_utc": "2026-08-26T21:50:00Z",
+  "session_id": "66dab3ca-b11c-5d0b-a0d9-9babe135276e (interactive, trimcrae present)",
+  "kind": "research",
+  "took": [
+    "AUT-PROP-002"
+  ],
+  "route_advanced": "RT-PARTNER-STRAT",
+  "_route_advanced_why": "A hardening round on PUB-FUSION-PARTNER that corrected a MEDICAL-INTEGRITY claim the previous round had introduced. Appendix A11 asserted that three cited PMCIDs had no bibliographic record anywhere in this repository -- i.e. it accused the paper of fabricated identifiers. Two of the three do have records. The manuscript now states the misattribution that is real instead of the fabrication that is not.",
+  "what_was_fixed": {
+    "blockers": [
+      {
+        "id": "REG-B1",
+        "where": "Appendix A11, and the same parenthetical in Sec 3.3 and in the artifact's analyses.B_outcome_by_partner.metastasis_reading",
+        "was": "'Only PMC7563993 has a bibliographic record anywhere in this repository. The other three exist solely as characters inside this one sentence and its copies ... PMC12398172 could not be independently characterised from outside this sandbox's egress block.'",
+        "is": "Measured repository-wide 2026-08-26: PMC12398172 is Masunaga 2025 (J Orthop Surg Res, doi 10.1186/s13018-025-06245-6, n=171 Japanese national registry) with a full record at registry.citations.masunaga2025 in research/data/emc-clinical-registry.json and references in 25 tracked files; PMC9131214 is pmid 35665108 (World J Clin Cases 2022, doi 10.12998/wjcc.v10.i13.4301) with a record in research/literature/rt-lung-mets-probe.json; only PMC12376927 is genuinely unbacked here, and web search characterises it as a single-patient buttock-EMC case report. The DEFECT IS MISATTRIBUTION: a national-registry outcome cohort and two case reports cited as 'the review literature'. Removing all three stands; the reason given did not.",
+        "provenance_of_the_error": "It originated in this project's own SEAT-B4 finding (CYC-0002), which searched ONE artifact and generalised the miss to the repository, and was written into the manuscript by CYC-0003 acting on it faithfully. A wrong finding acted on faithfully becomes a wrong claim in the paper -- which is the argument for the regression seat that caught it."
+      },
+      {
+        "id": "REG-B2",
+        "where": "Sec 8, first of the three 'facts a reader should be able to check' bullets",
+        "was": "'the Brenca 2019 and Bangerter 2022 cohort and citation records carry verified: true with no verification_note, cache_path or http_status at all -- a gap different from ... every other cohort's (which carries all three fields).'",
+        "is": "Counted against the committed artifact: of 16 citation records, 11 carry a verification_note and 4 of those name a cache slug and an HTTP status inside that prose; of 15 cohort records, NONE carries verified, verification_note, cache_path or http_status. The field names cache_path and http_status do not occur in the artifact at all. The bullet localised a repository-wide gap to two studies and asserted a per-cohort field set that has never existed.",
+        "provenance_of_the_error": "Also this project's own: an earlier seat this same day corrected the bullet's FIRST wrong version and introduced its second. Both are now retained as superseded in the bullet itself."
+      }
+    ],
+    "p1s": [
+      "Sec 3.3 / Abstract: the Methods sentence no longer asserts complete ascertainment.",
+      "Sec 3.3: 'Exactly two' cohorts -> 'Two ... enter the pool', naming PMID 23058004 as excluded for population overlap, so the sentence stops implying an exhaustive search.",
+      "Sec 3.3: the metastasis attribution now states that the review's verbatim sentence is not held in this repository, so the attribution is by record and not by quotation, and that it rests on n = 1 rather than on a literature.",
+      "DEAD ARTIFACT POINTER in Appendix rows A7 and A11: analyses.B_outcome_by_partner.counter_signal.metastasis_reading does not exist and never has; the key is analyses.B_outcome_by_partner.metastasis_reading. Both rows now point at a key that resolves.",
+      "ARTIFACT/PROSE DISAGREEMENT: Sec 2.3a bounds 'no TAF15 patient has ever been reported to respond' to 'no such report was found in the sources this synthesis examined', and the manuscript carried that bound while the artifact's A_tki_objective_response.verdict still said 'Zero of EVERY TAF15::NR4A3 patient EVER treated ... in a published report'. The bound is now in the generator, and the artifact is regenerated."
+    ]
+  },
+  "verification": {
+    "repository_wide_greps": "grep -rl over the whole tree for each of the four PMCIDs, which is the $0 observation SEAT-B4 did not take: PMC12398172 25 files, PMC7563993 20, PMC9131214 5, PMC12376927 4 (all four of them the false finding and its copies).",
+    "field_census": "Counted verified / verification_note / cache_path / http_status across all 15 cohort records and all 16 citation records of emc-fusion-partner-pooling.json, which is what REG-B2 rests on.",
+    "web_search": "PMC12376927 characterised by WebSearch (rung 0), 2026-08-26.",
+    "generator_regenerated": "python3 research/manuscripts/emc_fusion_partner_pooling.py -- both corrected strings are generator-owned, so prose and artifact cannot drift.",
+    "preflight": "PREFLIGHT_TESTS=1 ./scripts/preflight.sh EXIT=0 on the exact tree committed."
+  },
+  "records_corrected_rather_than_deleted": [
+    "research/autonomy/review-seats/PUB-FUSION-PARTNER-21bc8578b11a9ab3f2c08fe3135799769036cdad.json -> blockers[SEAT-B4] gains _CORRECTED_THIS_FINDING_WAS_PARTLY_WRONG. The finding text is left exactly as the seat wrote it; a seat record is a record of what a seat saw.",
+    "research/autonomy/receipts/CYC-0002.json and CYC-0003.json each gain a _CORRECTION_2026_08_26 block pointing at it."
+  ],
+  "publish_bar_after": {
+    "sha": "recorded in the commit that carries this receipt",
+    "status": "BLOCKED -- and this cycle did not try to clear it",
+    "clauses": {
+      "hardening_converged": "UNVERIFIABLE -- NOT converged and no hardening-state record is written. This round fixed two blockers; convergence needs a fresh seat finding neither blockers nor P1s, and none has run against the corrected text.",
+      "preflight_full": "UNVERIFIABLE -- PREFLIGHT_FULL=1 not run; this is a commit, not a publication.",
+      "claim_strength": "OK",
+      "citation_provenance": "OK",
+      "falsifiable_endpoint": "OK",
+      "blind_seat": "UNVERIFIABLE -- see seats_not_persisted below."
+    }
+  },
+  "seats_not_persisted": {
+    "what_happened": "This cycle ran two fresh blind seats (a hostile referee and a regression seat) against the pinned commit b974d98 and acted on their findings, but their records were never written to research/autonomy/review-seats/ before the session's context was compacted. What survives is this receipt's summary of the findings, which is a REPORT, NOT A RECORD.",
+    "consequence": "publish_bar clause 6 is not satisfied by them and must not be treated as if it were. The seat directory holds exactly one record, for commit 21bc8578, and that commit is now two rounds old.",
+    "process_defect_this_exposes": "A seat's findings reached the manuscript while the seat's record reached nothing. The cycle contract in .claude/skills/research-loop/SKILL.md must require the seat record to be WRITTEN TO DISK as the first act after the seat returns, before any fix is applied -- otherwise the evidence for a change can evaporate while the change survives. Filed as AUT-PROP-006.",
+    "remedy_this_cycle": "Fresh seats run against the commit this receipt is committed in, and their records are written before anything is acted on."
+  },
+  "blocked_by": [],
+  "queued_next": [
+    "Run fresh blind seats (hostile referee + regression) on PUB-FUSION-PARTNER at the commit carrying this receipt, and WRITE THE RECORDS FIRST.",
+    "AUT-PROP-006: make the research-loop cycle contract require a seat record on disk before any fix is applied. This cycle is the evidence.",
+    "Build the prose<->artifact cross-check guard. THREE rounds have now named it as the root cause and none has started it, and this round found two more instances of exactly what it would catch (the dead counter_signal pointer, the unbounded TKI verdict).",
+    "Fill the artifact's per-count provenance fields, or -- the honest alternative REG-B2 surfaces -- stop claiming a per-count fetch record the artifact has never carried and describe what it does carry (a flat cache_slugs_used list plus prose verification_notes on 11 of 16 citations)."
+  ],
+  "cost": {
+    "_points_at": "research/compute/pricing.md",
+    "real_dollars": "none -- no GPU, no metered API. One WebSearch (rung 0).",
+    "claude_budget": "one interactive session; the two seats of this cycle were subagents"
+  }
+}

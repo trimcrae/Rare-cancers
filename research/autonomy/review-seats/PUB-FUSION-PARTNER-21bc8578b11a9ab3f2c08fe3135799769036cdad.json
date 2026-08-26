@@ -44,7 +44,20 @@
       "verified_independently": true,
       "verification": "Searched the artifact for each of the four. PMC7563993 resolves to a full record with title, authors, journal, year, pmid, doi and url. The other three return only the sentence that names them. The seat separately established that PMC12398172 is a retrospective national-registry cohort on RT/chemo and PMC9131214 an intracranial-EMC case report — neither is a review, so the phrase 'the review literature' misdescribes them even if the ids are real.",
       "why_it_blocks": "⚠ AND lint_citations PASSED, CORRECTLY. CLAUDE.md §4: an anchored identifier is not a verified one — gate 4 checks that an identifier appears in a tracked artifact, which is evidence of a fetch, not of correctness. The ids ARE in a tracked artifact; they are in it because the sentence containing them is. This is the exact gap the rule names, found in the wild for the first time.",
-      "_had_this_posted": "It would have gone out under trimcrae's name and ORCID with three unbacked identifiers supporting a claim about what the literature says."
+      "_had_this_posted": "It would have gone out under trimcrae's name and ORCID with three unbacked identifiers supporting a claim about what the literature says.",
+      "_CORRECTED_THIS_FINDING_WAS_PARTLY_WRONG": {
+        "corrected_utc": "2026-08-26T21:45:00Z",
+        "corrected_by": "CYC-0005, after a later blind regression seat on the same paper raised it as a blocker",
+        "what_was_wrong": "The `finding` says PMC12376927, PMC12398172 and PMC9131214 'appear NOWHERE except as characters inside that one prose sentence'. That is false for two of the three, and the seat's own `verification` field records the method that made it false: it searched THE ARTIFACT (emc-fusion-partner-pooling.json) and generalised a miss in one file to the repository.",
+        "measured_repository_wide_2026_08_26": {
+          "PMC12398172": "25 tracked files. Full bibliographic record at registry.citations.masunaga2025 in research/data/emc-clinical-registry.json: Masunaga 2025, 'The role of radiotherapy and chemotherapy in extraskeletal myxoid chondrosarcoma', J Orthop Surg Res, doi 10.1186/s13018-025-06245-6, n=171, verified: true, accessed 2026-06-20.",
+          "PMC9131214": "5 tracked files. Record in research/literature/rt-lung-mets-probe.json: pmid 35665108, 'Primary intracranial extraskeletal myxoid chondrosarcoma: A case report and review of literature', World J Clin Cases 2022, doi 10.12998/wjcc.v10.i13.4301.",
+          "PMC12376927": "4 tracked files, all of them this finding and its copies. GENUINELY unbacked in this repository. Characterised by web search 2026-08-26: 'Diagnosis and Management of Large Extraosseous Myxoid Chondrosarcoma of the Buttocks: A Case Report' - a single-patient case report, 67-year-old man, 40 cm buttock tumour."
+        },
+        "what_survives": "The MISATTRIBUTION is real and is what the blocker should have said: a national-registry outcome cohort and two single-patient case reports were cited as 'the review literature' for a partner-stratified metastasis claim that none of the three makes. Removing all three from the attribution was the right action and is done. The seat's `why_it_blocks` paragraph on lint_citations also survives unchanged - three of the four ARE anchored in tracked artifacts and the gate passed correctly, which is the point it was making.",
+        "what_does_not": "The FABRICATION framing, which is a strictly more serious accusation than the evidence supported, and which propagated into Appendix A11 of the manuscript via CYC-0003 before it was caught. A11 now carries the corrected version with the false text retained as superseded.",
+        "the_lesson_this_record_is_kept_for": "The repository-wide grep that settles this costs nothing and takes seconds. CLAUDE.md s4: a $0 observation is never 'watching'. The seat took the $0 observation on ONE file and reported its scope as the repository. An absent reading is not a reading of absence - including when the absence is your own search's."
+      }
     }
   ],
   "p1s": [

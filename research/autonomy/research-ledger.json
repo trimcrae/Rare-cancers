@@ -5,18 +5,19 @@
   "_generated_by": "python3 research/autonomy/priority.py --write",
   "_scores_are_not_evidence": "A score orders work; it asserts nothing about the science. Every input is echoed in score_inputs so a reader can check the arithmetic against the graph.",
   "n_by_kind": {
+    "harden": 1,
     "analysis": 1,
+    "write": 5,
     "experiment": 23,
     "fetch": 11,
-    "harden": 1,
     "negative": 32,
-    "process_defect": 2,
     "regrade": 7,
-    "write": 5
+    "process_defect": 2,
+    "process": 1
   },
   "n_by_state": {
-    "done": 2,
-    "queued": 80
+    "queued": 81,
+    "done": 2
   },
   "n_clamped": 11,
   "entries": [
@@ -26,8 +27,8 @@
         "publication": "PUB-FUSION-PARTNER",
         "strategy": "ST-REPURPOSING"
       },
-      "state": "running",
-      "owner": "CYC-0005",
+      "state": "queued",
+      "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -40,11 +41,11 @@
       "prerequisite_of": "AUT-049",
       "id": "AUT-PROP-002",
       "kind": "harden",
-      "what": "Run a hardening round on PUB-FUSION-PARTNER — publish_bar clause 1. ⭐ THE ROUND'S INPUT ALREADY EXISTS: the blind seat from CYC-0002 found three verified BLOCKERS (missing search strategy behind exhaustiveness claims; a §4.8 caveat guarding a retired p=0.0672 while the headline p=0.0034 has none; 'four independent lines' contradicted by §4.10 in the same document) and four P1s. Read the seat record first; a correction REPLACES text and never appends.",
+      "what": "Run a hardening round on PUB-FUSION-PARTNER — publish_bar clause 1. ⛔ ROUND 2 (CYC-0005) FIXED TWO BLOCKERS AND DID NOT CONVERGE, and its own two seats' records were never written to disk — see receipts/CYC-0005.json -> seats_not_persisted. ⭐ THE NEXT ROUND'S FIRST ACT IS TO RUN FRESH BLIND SEATS AGAINST THE CURRENT COMMIT AND WRITE THEIR RECORDS BEFORE APPLYING ANYTHING. The only seat record on disk (21bc8578) is two rounds old and one of its own findings has since been corrected as partly wrong. A correction REPLACES text and never appends.",
       "_score_basis": "inherited from AUT-049 (+0.5) — it is the work that unblocks it",
       "depends_on_evidence": "research/autonomy/review-seats/PUB-FUSION-PARTNER-21bc8578b11a9ab3f2c08fe3135799769036cdad.json",
-      "claimed_utc": "2026-08-26T21:24:39Z",
-      "lease_released": "claim by CYC-0003 released (never stamped with claimed_utc, so it could not be aged). A claim is a lease, not a deed — see priority-weights.json claim_lease."
+      "claimed_utc": null,
+      "lease_released": "released by CYC-0005 on finishing its round. Round 2 fixed two blockers (REG-B1 medical-integrity, REG-B2 provenance overclaim) and five P1s; it did NOT converge, so the item is takeable again rather than done."
     },
     {
       "serves": {
@@ -2723,6 +2724,29 @@
       "id": "AUT-PROP-004",
       "kind": "write",
       "what": "ESCALATE, do not perform: the three paywalled-table requests to corresponding authors named in section 6 of the fusion-partner paper. Email is outward-facing and covered by NO grant."
+    },
+    {
+      "id": "AUT-PROP-006",
+      "kind": "process",
+      "serves": {
+        "route": "RT-PARTNER-STRAT",
+        "publication": "PUB-FUSION-PARTNER",
+        "strategy": "ST-REPURPOSING"
+      },
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-26",
+      "score": 60.0,
+      "_score_basis": "hand-filed by CYC-0005. Scored below the live manuscript work (s0: live paths first) and above documentation, because it is the fix for a defect that has already cost this paper one wrong claim.",
+      "filed_by": "CYC-0005",
+      "what": "Make the research-loop cycle contract require a blind seat's record to be WRITTEN TO research/autonomy/review-seats/ as the first act after the seat returns, BEFORE any fix is applied. Evidence: CYC-0005 ran two seats, acted on both, and persisted neither, so the manuscript now carries their fixes while publish_bar clause 6 still has nothing to read. The failure mode is general and it is one-directional: the CHANGE survives a context loss and the EVIDENCE FOR IT does not. Add a step to .claude/skills/research-loop/SKILL.md and a guard that fails a cycle whose receipt names a seat with no matching record on disk.",
+      "depends_on_evidence": "research/autonomy/receipts/CYC-0005.json"
     }
   ]
 }

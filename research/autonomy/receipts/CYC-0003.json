@@ -66,5 +66,11 @@
     "_points_at": "research/compute/pricing.md",
     "real_dollars": "none -- no GPU, no metered API. One WebSearch rung-0 lookup (x3) to verify the disputed PMCIDs.",
     "claude_budget": "one interactive session, no subagents (Task tool unavailable to this scheduled Routine fire)"
+  },
+  "_CORRECTION_2026_08_26": {
+    "applies_to": "what_was_fixed.blockers -> the SEAT-B4 entry",
+    "see": "research/autonomy/review-seats/PUB-FUSION-PARTNER-21bc8578b11a9ab3f2c08fe3135799769036cdad.json -> blockers[SEAT-B4]._CORRECTED_THIS_FINDING_WAS_PARTLY_WRONG",
+    "one_line": "This receipt repeats SEAT-B4's false scope ('only PMC7563993 has a bibliographic record in this repo'; 'PMC12398172 uncharacterisable'). Measured repository-wide 2026-08-26: PMC12398172 is Masunaga 2025 with a full record in emc-clinical-registry.json across 25 files, PMC9131214 has a record in rt-lung-mets-probe.json, and only PMC12376927 is genuinely unbacked. The three removals this cycle made were correct; the reason it gave for them was not.",
+    "what_this_cycle_propagated": "It wrote the false framing into Appendix A11 of the manuscript, where it stood until CYC-0005 corrected it. A wrong finding acted on faithfully becomes a wrong claim in the paper."
   }
 }
