@@ -150,8 +150,15 @@ change.
 
 ## 7 · Triggers you may make, and the one you cannot
 
-- ✅ Delete, retime, rewrite, or fire any Routine. ✅ Create self-bind triggers that wake a session
-  already holding the repo — that is how a rate-limit resume works.
+- ✅ Delete, retime, rewrite, or fire **a trigger you created yourself**. ✅ Create self-bind triggers
+  that wake a session already holding the repo — that is how a rate-limit resume works.
+- ⛔ **You may NOT retime or rewrite the UI-created driver Routine.** Measured 2026-08-26:
+  `update_trigger` refuses anything `created_via: http_api`. You MAY disable it (`enabled=false`) —
+  that exception exists so a loop which detects it is broken can stop itself, and stopping yourself is
+  the right move when the alternative is looping on a fault.
+  ⭐ **This is why the cycle contract lives HERE and not in the Routine's prompt.** This file you can
+  edit; that prompt is frozen at whatever trimcrae last pasted. Improvements to the contract land in
+  this file, and the prompt only ever says "read it".
 - ⛔ **You cannot mint a fresh-session Routine that has the repo.** Agent-minted lineage carries no
   `sources`; it fires, reports SUCCEEDED, and delivers nothing. Only trimcrae can, from the
   claude.ai UI. Architecture §2.2.

@@ -618,8 +618,9 @@ to make and manage triggers too."*
 
 | the loop wants to … | can it | mechanism |
 |---|---|---|
-| Delete a spent or wrong Routine | ✅ | `delete_trigger` — exercised today on the §2.2 probe |
-| Change an existing Routine's cron, prompt or enabled state | ✅ | `update_trigger`. ⚠ **This corrects a repo note** claiming the prompt cannot be edited — it can, and was, mid-probe today. |
+| Delete or retime a Routine **it created itself** | ✅ | `delete_trigger` / `update_trigger` — both exercised today on the §2.2 probe, prompt edit included |
+| Change the **UI-created driver's** cron or prompt | ⛔ **No** | ★ **Measured 2026-08-26:** `update_trigger` refuses — *"this routine was created via http_api, not by an agent. Agents can only update routines they created."* |
+| **Disable** the UI-created driver | ✅ | The one exception the server allows: *"a routine's own session may still disable itself (enabled=false only)"*. ⭐ So a loop that detects it is broken **can stop itself**, which is the property that matters most. |
 | Fire a Routine off-schedule | ✅ | `fire_trigger` |
 | Create a trigger that wakes a session **already holding** the repo grant | ✅ | a self-bind / `persistent_session_id` trigger — the fired turn runs *inside* that session, so it inherits the repo and every tool. ✅ **Delivery VERIFIED by probe, 2026-08-26 — §10.2b.** |
 | Create a **fresh-session** Routine that has the repo | ⛔ **No** | §2.2 — agent-minted lineage carries no `sources`. Unchanged. |
@@ -660,9 +661,26 @@ work, and it would quietly undo §4.1: a session that never ends accumulates con
 it inherits every stale belief from the cycle before. **Fresh context between cycles is a feature that
 was paid for, not an accident of the platform.**
 
-★ **So the honest shape is: one seed, then the loop owns the schedule.** trimcrae's single UI click
-creates the recurring fresh-session driver. **Everything after that** — retiming it, rewriting its
-prompt as the contract improves, retiring it, and scheduling its own follow-ups — **is the loop's.**
+★ **So the honest shape is narrower than "one seed, then the loop owns the schedule", and that
+earlier phrasing was wrong.** ⛔ *Superseded, retained: "Everything after that — retiming it,
+rewriting its prompt as the contract improves, retiring it — is the loop's."* **It is not.** The UI
+Routine is trimcrae's object: the loop may fire it, and may DISABLE it, and may create and manage
+its own self-bind triggers freely — but **retiming or rewriting the driver is a human edit, every
+time.**
+
+⭐ **Which changes where the cycle contract must live, and the design already had this right by
+accident.** Because the driver's prompt cannot be revised by the loop, the prompt must stay a thin
+TRIGGER and the contract must live in `.claude/skills/research-loop/SKILL.md` — a file in the
+repository, which the loop CAN edit. **A contract written into the Routine prompt would be frozen at
+whatever trimcrae last pasted.** So: prompt says "read the skill and follow it"; the skill is where
+improvement lands.
+
+⚠ **And the fired session's tool surface is narrower than an interactive one's** — measured on both
+new Routines: `Bash, Read, Write, Edit, Glob, Grep, WebFetch, WebSearch`, with **no `Skill` and no
+`Task`**. So the prompt must name the skill's PATH as a fallback (`cat
+.claude/skills/research-loop/SKILL.md`), and §4.1's parallel-subagent shape may simply be
+unavailable to a driver cycle. One item per cycle is the default posture anyway, so this costs
+wall-clock, not correctness.
 
 ⛔ **Every trigger the loop creates carries its cycle id in the name**, so an orphan is attributable to
 the cycle that made it. This repository has already paid twice for orphaned pollers trimcrae had to

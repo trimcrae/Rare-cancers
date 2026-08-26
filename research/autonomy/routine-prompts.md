@@ -19,6 +19,13 @@ related: [DOC-EMC-AUTONOMY-ARCHITECTURE, DOC-METHOD-WATCH]
 
 # The two Routines — and why this file exists
 
+★★ **AND THE LOOP CANNOT EDIT THEM — measured 2026-08-26.** `update_trigger` refuses any Routine
+`created_via: http_api`: *"Agents can only update routines they created."* The loop may DISABLE the
+driver (that one exception is allowed, so a broken loop can stop itself) and may fire it, but every
+retime or rewrite is **trimcrae pasting again**. ⭐ **So keep these prompts THIN.** The cycle contract
+belongs in `.claude/skills/research-loop/SKILL.md`, which the loop can edit; a contract pasted into a
+Routine prompt is frozen at whatever was last pasted by hand.
+
 ⛔ **A Routine's prompt lives ONLY inside the Routine.** Delete it and the text is gone. The
 field-scan Routine's prompt was lost exactly that way and had to be recovered from git history. So
 both prompts are archived here, and **this file is updated in the same commit as any change to
@@ -62,9 +69,6 @@ the same schedule. The cron strings below are the canonical form for anything cr
 ```
 Run one cycle of the autonomous EMC research loop.
 
-Load the `research-loop` skill first and follow its ten-step cycle contract exactly. It is the
-procedure; this prompt is only the trigger.
-
 Before anything else, confirm you actually have the repository:
 
     git -C . rev-parse --abbrev-ref HEAD && git pull --rebase -q origin main
@@ -74,7 +78,16 @@ around it, do not try to clone. A Routine without the repo source is the known f
 every Friday for six weeks delivering nothing, and a silent failure here is indistinguishable from
 a quiet week. The fix is a human recreating this Routine with the repo attached.
 
-Then run the cycle. In short, and the skill has the detail:
+Now load the procedure. Try the `research-loop` skill first. ⚠ IF YOU HAVE NO `Skill` TOOL — a
+scheduled Routine's tool surface is narrower than an interactive session's and may not include it —
+then read the file, which is the same text:
+
+    cat .claude/skills/research-loop/SKILL.md
+
+Either way, READ it before acting. It is the ten-step cycle contract; this prompt is only the
+trigger, and it is deliberately thin because you can improve that file and cannot improve this
+prompt. ⛔ Do not run a cycle from the summary below alone.
+
   - refuse to start if the loop is unhealthy (`python3 research/autonomy/health.py --check`)
   - re-score the queue (`python3 research/autonomy/priority.py --write`)
   - take the top item that fits the current budget posture, and claim it before working
@@ -82,8 +95,16 @@ Then run the cycle. In short, and the skill has the detail:
   - do the work, gating with preflight per `repo-gates`
   - if anything goes outward, `research/autonomy/publish_bar.py` decides, not you
   - run `research/autonomy/amendment_guard.py` before committing if you touched a governed path
-  - commit and push to main
-  - WRITE THE RECEIPT — a cycle without one has failed however much it wrote
+  - commit and PUSH TO main
+  - WRITE THE RECEIPT to research/autonomy/receipts/ — a cycle without one has failed however much
+    it wrote, because the health checker reads receipts and never fire records
+
+⚠ PUSH TO `main`, explicitly. This Routine carries an auto-generated outcome branch you did not
+choose; ignore it. CLAUDE.md §7 makes branch drift a data-loss bug — a receipt on a branch nobody
+reads is a cycle that looks delivered and is not.
+
+⚠ You may also have no `Task` tool, so parallel subagents may be unavailable. That is fine: take ONE
+item and do it properly. Do not reshape the work to fit a missing tool.
 
 Escalate only the four things the skill names. Everything else is silent: no status report, no
 "here is what I could do next", no asking which of several self-doable things to start with.
