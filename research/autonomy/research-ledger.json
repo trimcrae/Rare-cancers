@@ -17,6 +17,29 @@
   "n_clamped": 11,
   "entries": [
     {
+      "id": "AUT-PROP-001",
+      "what": "PROPOSAL (filed, not applied): teach systems_check.check_scan_interop the `venue` trigger_kind, so a venue trigger may be scanned while its consequence is verified in research/autonomy/venue-fit.json rather than in systems/graph/technologies.json. Then re-enable scan_enabled on the three TRG-VENUE-* triggers.",
+      "serves": {
+        "route": null,
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-26",
+      "score": null,
+      "_score_is_null_why": "Not scored: the scorer ranks RESEARCH against the north star and this is loop maintenance. A process_defect entry is taken by a retrospective cycle, not by the priority queue \u2014 giving it a score would put loop upkeep in competition with EMC routes, which is the wrong contest.",
+      "filed_by": "CYC-0000-BOOTSTRAP",
+      "why_not_applied_now": "\u26d4 THE INVARIANT FIRED ON ITS OWN AUTHOR. [X3] blocked this cycle, and amendment_guard.py refuses a cycle that edits the check blocking it. The change is probably correct; making it HERE would have been the exact move the guard exists to stop, and a rule that bends for the person who wrote it is not a rule."
+    },
+    {
       "id": "AUT-049",
       "what": "Post the preprint at research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md, and in the same pass send the three paywalled-table requests named in its section 6 to the corresponding authors.",
       "serves": {

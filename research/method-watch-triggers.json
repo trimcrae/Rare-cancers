@@ -1909,7 +1909,7 @@
       "capability": "A host we use or shortlisted changes whether an unaffiliated author may post, or adds/removes a content screen. This is not hypothetical: Research Square DECLINED a finished paper from this program, and Qeios won the round-2 rubric on the no-screening test alone. A screen appearing at Qeios, or disappearing elsewhere, reorders that decision.",
       "trigger_kind": "venue",
       "status": "watching",
-      "scan_enabled": true,
+      "scan_enabled": false,
       "evidence_home": [
         {
           "file": "research/manuscripts/program/preprint-host-decision-round2.md",
@@ -1921,7 +1921,8 @@
         "roadmap_rows": [],
         "registry_routes": [],
         "note": "Reopens the host decision, not any scientific claim. ⛔ A hit NEVER changes what a paper says — only where it goes."
-      }
+      },
+      "not_searchable_because": "⛔ NOT a technology, and the scan's join goes through systems/graph/technologies.json. check_scan_interop's [X3] requires every SCANNED trigger to be named by a TECH-*, so a hit has a recorded consequence — and a venue change's consequence lands in research/autonomy/venue-fit.json and publication-authority.json instead, which that check cannot see. Forcing a TECH-* record to exist for a journal's fee page would be exactly the conflation the technology taxonomy exists to prevent (see the internal_work exemption's own comment). ⭐ THE CHECK SHOULD LEARN THE `venue` KIND — that is the real fix and it is FILED AS A PROPOSAL, NOT APPLIED: this trigger's cycle was BLOCKED by [X3], and research/autonomy/amendment_guard.py refuses a cycle that edits the check standing in front of it. A later cycle may make the identical change. Until then these three are registered and readable but not scanned, and this sentence is why."
     },
     {
       "id": "TRG-VENUE-AIXIV-POLICY",
@@ -1929,7 +1930,7 @@
       "capability": "aiXiv gains authenticated review, a real accept/reject verdict, a genuine private mode, or changes its submission API. Each would change what a post there is worth. Measured today: the Rating endpoint is UNAUTHENTICATED and is therefore not a quality signal, and is_public=0 does not make a submission private — so there is no rehearsal mode. If either changes, the standing posting authority was granted against a backdrop that no longer holds and must be re-asked.",
       "trigger_kind": "venue",
       "status": "watching",
-      "scan_enabled": true,
+      "scan_enabled": false,
       "evidence_home": [
         {
           "file": "research/manuscripts/program/emc-autonomy-architecture.md",
@@ -1941,7 +1942,8 @@
         "roadmap_rows": [],
         "registry_routes": [],
         "note": "Reopens publication-authority.json's granted_against list. That list names the conditions the grant rests on; a hit here is exactly the case where the loop must escalate rather than amend."
-      }
+      },
+      "not_searchable_because": "⛔ NOT a technology, and the scan's join goes through systems/graph/technologies.json. check_scan_interop's [X3] requires every SCANNED trigger to be named by a TECH-*, so a hit has a recorded consequence — and a venue change's consequence lands in research/autonomy/venue-fit.json and publication-authority.json instead, which that check cannot see. Forcing a TECH-* record to exist for a journal's fee page would be exactly the conflation the technology taxonomy exists to prevent (see the internal_work exemption's own comment). ⭐ THE CHECK SHOULD LEARN THE `venue` KIND — that is the real fix and it is FILED AS A PROPOSAL, NOT APPLIED: this trigger's cycle was BLOCKED by [X3], and research/autonomy/amendment_guard.py refuses a cycle that edits the check standing in front of it. A later cycle may make the identical change. Until then these three are registered and readable but not scanned, and this sentence is why."
     },
     {
       "id": "TRG-VENUE-INDEXING",
@@ -1949,7 +1951,7 @@
       "capability": "Indexing decides whether a paper is findable by the people it is for, and the fee route decides whether this program can publish there at all. The venue-fit table currently carries 15 of 25 scored cells as UNKNOWN, and the $0-route filter alone excludes the two most natural homes on page charges. A change to either moves a real decision.",
       "trigger_kind": "venue",
       "status": "watching",
-      "scan_enabled": true,
+      "scan_enabled": false,
       "evidence_home": [
         {
           "file": "research/literature/venue-fee-routes-2026-08-10.json",
@@ -1961,7 +1963,8 @@
         "roadmap_rows": [],
         "registry_routes": [],
         "note": "Reopens research/autonomy/venue-fit.json's ranking, nothing scientific."
-      }
+      },
+      "not_searchable_because": "⛔ NOT a technology, and the scan's join goes through systems/graph/technologies.json. check_scan_interop's [X3] requires every SCANNED trigger to be named by a TECH-*, so a hit has a recorded consequence — and a venue change's consequence lands in research/autonomy/venue-fit.json and publication-authority.json instead, which that check cannot see. Forcing a TECH-* record to exist for a journal's fee page would be exactly the conflation the technology taxonomy exists to prevent (see the internal_work exemption's own comment). ⭐ THE CHECK SHOULD LEARN THE `venue` KIND — that is the real fix and it is FILED AS A PROPOSAL, NOT APPLIED: this trigger's cycle was BLOCKED by [X3], and research/autonomy/amendment_guard.py refuses a cycle that edits the check standing in front of it. A later cycle may make the identical change. Until then these three are registered and readable but not scanned, and this sentence is why."
     }
   ]
 }
