@@ -1533,8 +1533,10 @@ def build() -> dict:
             "intervals and post-hoc Fisher p = {pfp}. ⭐ WHAT SURVIVES IS THE NEGATIVE, AND IT IS "
             "NOW STRONGER THAN THE REVERSAL WAS: the largest series to test metastasis by partner "
             "DIRECTLY reports P = .728 on its own three-way table, so the review literature's "
-            "metastasis claim (PMC12398172, PMC12376927, PMC7563993, PMC9131214, all asserting "
-            "lower metastasis or better metastasis-free survival with EWSR1) is not established by "
+            "metastasis claim (PMC7563993 -- the only one of four previously-cited PMCIDs with a "
+            "bibliographic record in this repository; see Appendix A11 for the other three, which "
+            "were misattributed and have been removed -- asserting lower metastasis or better "
+            "metastasis-free survival with EWSR1) is not established by "
             "either cohort, in either direction. A single-cohort reversal quoted as a finding was "
             "always one cohort from being overturned; a two-cohort null is a reading of the same "
             "evidence that does not depend on which cohort you happened to have."
@@ -1681,7 +1683,7 @@ def build() -> dict:
             "TAF15::NR4A3 is carried by {t}/{n} partner-assigned EMC across four independent "
             "series -- {p}% (95% CI {lo}-{hi}). That is the size of the population any "
             "partner-stratified recommendation would move: large enough for the question to "
-            "matter, small enough to explain why every series' TAF15 arm is 2-9 patients."
+            "matter, small enough to explain why every series' TAF15 arm is 2-10 patients."
         ).format(
             t=taf_n,
             n=tot,

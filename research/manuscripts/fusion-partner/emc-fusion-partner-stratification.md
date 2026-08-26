@@ -89,7 +89,7 @@ partner-stratified form.
 
 ### 1.1 · The disease, the drug class and the variable
 
-EMC is an ultra-rare soft-tissue sarcoma, accounting for under 1 % of soft-tissue sarcomas, and it is
+EMC is an ultra-rare soft-tissue sarcoma, and it is
 molecularly defined: *"EMCs are translocation sarcomas and harbor in > 90% of the cases an NR4A3
 rearrangement"* [12]. The 5′ partner is *EWSR1* in the large majority, *TAF15* in a minority, and *TCF12*,
 *TFG* or an unidentified partner in a small residue [7,8,9,10]. The clinical shape of the disease is the
@@ -186,6 +186,23 @@ trial, so §2.3 holds the smaller cohort out of the headline. Because that singl
 denominator, **both analyses are reported**: the POLICY-conformant primary (trial alone) and a maximal-
 information secondary (both cohorts, valid only if no patient appears in both), with the bounds that follow.
 
+⛔ **2.3a · No systematic search strategy was run, and the two claims in this paper that depend on
+exhaustiveness are bounded by that fact.** The candidate literature was assembled from this repository's
+existing EMC citation set — the review articles already cited here [4,5,15], the reports they cite, and the
+reports that cite them — read against the `literature-cache` branch populated by
+[`.github/workflows/fetch-literature.yml`](../../../.github/workflows/fetch-literature.yml) (§2.6). **No
+database (PubMed, Europe PMC, Embase) was queried with a registered search string across a defined date range,
+no PRISMA-style screening flow was run, and no second reader checked the inclusion decisions.** Two sentences
+in this document are stated more absolutely than that process can support and are qualified here rather than
+softened where they are quoted, because a reader who meets only §3.1 or the Abstract should not have to find
+this paragraph to know the limit: **"no source pools the response data at all"** (Abstract, §1.2) is a
+statement about the reviews and series already in this repository's citation set, not a claim that no such
+pooling exists anywhere in the unindexed literature; and **"no TAF15::NR4A3 patient has ever been reported to
+respond"** (Abstract, §3.1, §5, §8) means *no such report was found in the sources this synthesis examined*,
+which is exactly why §6's falsifier #1 treats a single counter-report as sufficient to overturn it — the paper
+already behaves as if this could be wrong, and this paragraph is why. Caught by a blind adversarial seat,
+2026-08-26.
+
 ### 2.4 · Significance testing, declared as post-hoc
 
 Fisher exact two-sided p-values are reported for each contrast. They are **post-hoc and descriptive only**:
@@ -196,10 +213,15 @@ otherwise, and printing them with their status attached is more honest than with
 ### 2.5 · Methods deliberately not used, and why
 
 - **Random-effects (DerSimonian–Laird) pooling.** This repository owns a random-effects pooler
-  ([`research/meta/meta-analysis.mjs`](../../meta/meta-analysis.mjs)) and it is the wrong instrument here. With
-  two to nineteen patients and zero to ten events per stratum, a between-study variance is not estimable; a τ²
-  from these counts would be an artefact, and quoting a random-effects interval would manufacture precision the
-  data cannot support.
+  ([`research/meta/meta-analysis.mjs`](../../meta/meta-analysis.mjs)) and it is the wrong instrument here. Across
+  the TKI-response and outcome-by-partner strata (§3.1, §3.3) the per-stratum denominator runs from three
+  (TAF15, primary TKI analysis) to fifty-eight (EWSR1, pooled outcome) and the event count from zero (TAF15
+  response, either analysis) to fourteen (EWSR1 distant metastasis); a between-study variance is not estimable
+  at that scale, a τ² from these counts would be an artefact, and quoting a random-effects interval would
+  manufacture precision the data cannot support. ⚠ *Superseded, retained: "two to nineteen patients and zero to
+  ten events per stratum." That range described the TKI-response strata alone, before Huang 2023's counts
+  (§3.3) were pooled on 2026-08-08 and widened the outcome-by-partner denominators past nineteen. Caught by a
+  blind adversarial seat, 2026-08-26.*
 - **I².** Not computed, for the same reason. The honest heterogeneity signal at this scale is the **range of
   per-cohort rates**, printed beside every pooled figure.
 - **Hazard ratios, survival models, Kaplan–Meier.** No individual patient data exist for any cohort here, and
@@ -308,11 +330,12 @@ other way** (8/42 = 19.0 % EWSR1 vs 3/8 = 37.5 % TAF15 for metastasis developing
 the reviews' own direction. Pooled, the gap is 9.2 points with overlapping intervals and post-hoc p = 0.5163.
 ⭐ **What survives is the negative, and it is stronger than the reversal was:** the largest series to test
 metastasis by partner *directly* reports **P = .728** on its own three-way table, so the review literature's
-metastasis claim (PMC12398172, PMC12376927, PMC7563993, PMC9131214, all stating lower metastasis or better
-metastasis-free survival with EWSR1) **is not established by either cohort, in either direction**. A
-single-cohort reversal quoted as a finding was always one cohort away from being overturned; a two-cohort null
-does not depend on which cohort you happen to hold. Paioli 2021, the only cohort treating metastasis as a
-**time-to-event** endpoint, agrees that nothing is established: DMFS p = 0.09.
+metastasis claim (PMC7563993 — the only one of four previously-cited PMCIDs that has a bibliographic record in
+this repository; the other three were misattributed and have been removed, see Appendix A11 — stating lower
+metastasis or better metastasis-free survival with EWSR1) **is not established by either cohort, in either
+direction**. A single-cohort reversal quoted as a finding was always one cohort away from being overturned; a
+two-cohort null does not depend on which cohort you happen to hold. Paioli 2021, the only cohort treating
+metastasis as a **time-to-event** endpoint, agrees that nothing is established: DMFS p = 0.09.
 
 ⚠ **Two estimand caveats, both of which bound the table above.** First, the metastasis row is matched on
 **labels, not on a published definition**: Agaram reports "distant recurrence", Huang partitions metastasis
@@ -488,9 +511,9 @@ of that series' TAF15 tumours were > 10 cm. Nothing here is adjusted for size, s
 **4.2 · This is not a meta-analysis and must not be described as one.** What is done here is **crude
 denominator-weighted pooling of counts from non-overlapping cohorts, with Wilson score intervals**. There is
 **no** random-effects model, **no** between-study variance, **no** I², **no** funnel plot and **no** formal
-heterogeneity test — and that is a deliberate methodological decision recorded in §2.5, not an omission. With
-two to nineteen patients and zero to ten events per stratum, τ² is not estimable and a random-effects interval
-would be an artefact of the estimator rather than a property of the evidence. Consequently the pooled figures
+heterogeneity test — and that is a deliberate methodological decision recorded in §2.5, not an omission. The
+per-stratum patient and event counts that make τ² inestimable are stated once, in §2.5, rather than repeated
+here. Consequently the pooled figures
 here are **weighted descriptive summaries**, not meta-analytic estimates, and they carry none of the inferential
 guarantees a reader may associate with the word "pooled". Where only one cohort contributes — the entire
 TKI-response analysis — the "pool" is a **single-cohort Wilson interval**, stated as such rather than dressed as
@@ -558,9 +581,15 @@ those counts was machine-verified against the Europe PMC core record; the counts
 cannot be until the block lifts. A reader who wants to check them must open the PDF.
 
 **4.8 · The Fisher p-values are post-hoc.** They were not prespecified, are not performed in any source report,
-are not corrected for the several endpoints reported here, and license nothing. The 0.0672 in §3.3 in particular
-must not be read as a near-significant finding; with 23 patients and four events it is a description of a small
-table.
+are not corrected for the several endpoints reported here, and license nothing. **The single most quotable
+number in this document, p = 0.0034 (§3.3, the pooled disease-specific-death contrast), is this section's real
+subject and must not be read as inferential**: it is a post-hoc description of a 7-versus-6-event table across
+two cohorts, not a prespecified test, and §4.1a states its confound. ⚠ *Superseded, retained: "The 0.0672 in
+§3.3 in particular must not be read as a near-significant finding; with 23 patients and four events it is a
+description of a small table." That sentence described Agaram 2014 alone, before Huang 2023's counts were
+pooled on 2026-08-08. The pooled §3.3 analysis no longer contains 0.0672 anywhere — 0.0034 replaced it — and
+this caveat had been left pointing at a number the paper no longer states, leaving the actual headline
+uncaveated. Caught by a blind adversarial seat, 2026-08-26.*
 
 **4.9 · Publication and referral bias run in a direction that favours the hypothesis.** A perfect response
 split is more publishable than a mixed one, and a two-patient report of a striking response is what began this
@@ -589,8 +618,16 @@ record actually support?* — is not the individual question a clinician faces.
 
 **Claims.**
 
-- That four independent lines converge on the *NR4A3* 5′ partner as a **candidate** stratification variable in
-  EMC, and that this is the first time they have been combined under a single stated method.
+- That four literatures bearing on the *NR4A3* 5′ partner have been combined under a single stated method for
+  the first time — **not** that they converge as four *independent* lines. ⚠ *Superseded, retained: "four
+  independent lines converge ... a candidate stratification variable."* That overstated the mechanism and TKI
+  lines' independence from each other (§4.10: they share the Milan/Aviano consortium and, per §3.1, a senior
+  investigator with a trial site) and from the prevalence line (no independent-evidence claim was ever made
+  for it, so it adds nothing to a count of *converging* lines). What remains after removing the non-independent
+  and non-evidential lines is **one** — prognosis (§3.3) — and §3.4 shows it is the confounded one. The
+  *NR4A3* 5′ partner is still a **candidate** stratification variable; it is a candidate on the strength of one
+  crude, confounded prognostic contrast and a directionally consistent but statistically inconclusive treatment
+  signal, not on convergent independent evidence. Caught by a blind adversarial seat, 2026-08-26.
 - That the pooled objective-response evidence is **0 of 3–5 TAF15::NR4A3 patients**, with a 95 % upper bound of
   43.4–56.1 % — **directionally consistent and statistically inconclusive**, a distinction no existing review
   makes.
@@ -775,9 +812,16 @@ series** — see Appendix A9.
 
 Three facts a reader should be able to check without trusting this document:
 
-- **Every count in §3 is accompanied in the artifact by the verbatim sentence or table cell it was read from**,
-  together with the cache path and the HTTP status of the fetch that produced it — except Huang's Table 1,
-  whose different provenance is stated in the artifact rather than blurred into the rest.
+- **Most counts in §3 are accompanied in the artifact by the verbatim sentence or table cell they were read
+  from**, together with the cache path and the HTTP status of the fetch that produced it. ⚠ *Superseded,
+  retained: "Every count in §3 ... except Huang's Table 1, whose different provenance is stated ... rather than
+  blurred into the rest."* That was not true as written: the Brenca 2019 (§3.6) and Bangerter 2022 (§3.7)
+  cohort and citation records carry `verified: true` with no `verification_note`, `cache_path` or `http_status`
+  at all — a gap different from Huang's (which is disclosed) and from every other cohort's (which carries all
+  three fields). Both counts are corroborated by the verbatim quotations already printed in §3.6 and §3.7, so
+  nothing here is unsupported, but the artifact does not yet carry the machine-checkable fetch record this
+  sentence claimed for it. Caught by a blind adversarial seat, 2026-08-26; fixing the artifact's provenance
+  fields is separate, tracked work and is not done in this commit.
 - **The two documents that would resolve the remaining open questions are named, with the specific reason each
   is unreachable** (§6). An absent reading is recorded as an absent reading, never as a reading of absence.
 - **Two items previously filed as unreachable are now filed as resolved**, with what each turned out to be
@@ -837,6 +881,10 @@ text, and are never silently dropped.
 | A8 | Huang 2023 filed as **"paywalled"** — in §6's ask table, in `retrieval_provenance.not_retrievable`, and in `citations.huang2023.verification_note` (*"NO EVENT COUNTS by partner are in the abstract and the full text is paywalled, so this cohort contributes to the PREVALENCE pool and to nothing else"*) | this document §6 and §8, and the artifact | **Wrong on the mechanism, and the mechanism was the whole difference.** The paper is **bronze open access** with a publisher-designated free published-version PDF; what blocked every automated fetch was an **anti-bot 403**, not a subscription (§8). The counts sentence was true of the *abstract* and remains so. A paywall needs an author or an institution; a bot block needs a person with a browser — which is what obtained these counts on 2026-08-08. ⚠ The false label came from reading Europe PMC's `isOpenAccess: N` as a statement about the publisher rather than about Europe PMC's holdings. |
 | A9 | Huang 2023 described as a *"Warmke/Antonescu-type series"* | [`emc-post-degrader-options.md`](../program/emc-post-degrader-options.md), in the FET-partner prevalence paragraph | **It is Huang SC et al., a 15-institution Taiwanese cohort led from Chang Gung Memorial Hospital — not MSKCC and not Warmke.** Verified against the Europe PMC core record for PMID 36948401 (§8). Corrected in that document in the same commit as this row. ⛔ **This is the third attribution error of its kind in two days and the correction must not be applied by pattern**: Warmke LM is a real author with a real and *different* TAF15::NR4A3 paper (PMID 37057757, *Genes Chromosomes Cancer* 2023, doi 10.1002/gcc.23144), cited **correctly** as reference 20 of [`nr4a3-degrader-paper.md`](../degrader/nr4a3-degrader-paper.md), which was checked and deliberately left alone. |
 | A10 | *"the largest **poolable** outcome cohort has 23"* (§4.1); *"Where only one cohort contributes — the entire outcome-by-partner analysis — the pool is a single-cohort Wilson interval"* (§4.2); *"only one cohort publishes event counts"* (§1.2 table); *"The only published EMC cohort that reports outcome EVENT COUNTS by NR4A3 partner"* (artifact, `cohorts[agaram-2014-outcome].pool_note`) | throughout this document and the artifact | All four were true until 2026-08-08 and are true of no version after it: the outcome pool is **two** cohorts and **73** patients. The single-cohort sentence in §4.2 now names the **TKI-response** analysis, which really is one cohort. |
+| A11 | The review literature's metastasis claim (§3.3, and the identical sentence in the artifact's `metastasis_reading`) was attributed to four PMCIDs: PMC12398172, PMC12376927, PMC7563993, PMC9131214 | §3.3 of **this** document and `analyses.B_outcome_by_partner.counter_signal.metastasis_reading` in [`emc-fusion-partner-pooling.json`](./emc-fusion-partner-pooling.json) | ⛔⛔ **MEDICAL-INTEGRITY DEFECT, FOUND BY A BLIND ADVERSARIAL SEAT (2026-08-26).** Only PMC7563993 (Stacchiotti 2020, reference [4], an actual review article) has a bibliographic record anywhere in this repository. The other three exist solely as characters inside this one sentence and its copies — no title, no authors, no journal, no fetch record — and are not reviews: PMC12376927 is a single-patient case report of a buttock EMC (verified by web search 2026-08-26), PMC9131214 is a single-patient case report of intracranial EMC (same verification) whose own title says it includes "a review of literature" but which is not itself the review literature being cited for a partner-stratified claim. PMC12398172 could not be independently characterised from outside this sandbox's egress block. **lint_citations passed throughout, correctly** — the ids appear in a tracked artifact because the sentence naming them was copied into it, which is evidence of a fetch of *this document*, not evidence that the underlying identifiers were ever verified. The claim itself is unaffected: the sentence's point is that the metastasis association **is not established**, and that conclusion rests on the two pooled cohorts' own counts (Agaram 2014, Huang 2023), not on the removed citations. Corrected in the generator and the artifact regenerated in the same commit as this row. |
+| A12 | *"EMC ... accounting for under 1 % of soft-tissue sarcomas"* | §1.1 | No committed source for this specific percentage exists anywhere in this repository — it is an uncited clinical figure in the document's opening sentence. Removed rather than backed by an identifier written from recollection (CLAUDE.md §7's golden rule). The sentence retains "ultra-rare," which needs no citation, and the sourced facts that follow it (the >90% NR4A3-rearrangement statement, ref [12]) are unaffected. Caught by a blind adversarial seat, 2026-08-26. |
+| A13 | *"The 0.0672 in §3.3 in particular must not be read as a near-significant finding"* | §4.8 | The caveat pointed at a number §3.3 no longer states. It described Agaram 2014 alone (23 patients, 4 events); Huang 2023's counts were pooled on 2026-08-08 and §3.3's headline became p = 0.0034, which carried no caveat of its own. §4.8 now names 0.0034 as its subject and registers the retired 0.0672 as superseded rather than silently retargeting the sentence. Caught by a blind adversarial seat, 2026-08-26. |
+| A14 | *"That four independent lines converge on the *NR4A3* 5′ partner as a candidate stratification variable in EMC"* | §5, first claims bullet | Two of the four "lines" are not independent of each other: the mechanism line (Brenca 2019) and the TKI-response line share the Milan/Aviano consortium and, per §3.1, a senior investigator with a trial site (§4.10). The prevalence line was never offered as converging evidence for the partner's clinical relevance. What remains as genuinely load-bearing is the one crude, confounded prognostic contrast (§3.3, §3.4) plus a directionally consistent but statistically inconclusive treatment-response signal (§3.1) — not four converging independent lines. The partner is still a candidate stratification variable; the claimed *route* to that conclusion overstated its evidentiary independence. Caught by a blind adversarial seat, 2026-08-26. |
 
 ✅ **The registry defect found in passing on 2026-08-07 is FIXED (2026-08-08).**
 [`research/data/emc-clinical-registry.json`](../../data/emc-clinical-registry.json) carried Huang 2023 under the
