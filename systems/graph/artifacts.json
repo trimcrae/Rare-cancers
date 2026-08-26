@@ -408,7 +408,7 @@
     "published_to": [
       "claude/emc-patient-survival-gaps-huphuu"
     ],
-    "note": "⛔ COMPUTES OVER AN EMPTY CURVES TABLE, DELIBERATELY AND VISIBLY. The instrument is validated — the known-answer control recovers a held-out cohort exactly — but no published EMC figure has been digitized into it, and inventing a coordinate would fabricate a clinical datum. `curves_supplied: 0` and the `status` field say so. A test (test_the_curves_table_is_empty_and_the_artifact_says_so) fails the build if a curve is added without digitization provenance."
+    "note": "⭐ CURVES ARE NOW SUPPLIED — one, digitized from a committed figure, and the emptiness this note used to describe is over. `curves_from_digitizer: 1`, `curves_hand_typed: 0`. Admission is gated on provenance rather than on emptiness: `load_digitized_curves()` admits a curve only if it names a committed source image, a recorded reader and a quantity the PAPER printed that the reconstruction never saw, and only if the reconstruction reproduces that quantity. The artifact also carries `printed_patient_level_data` — rows a paper printed as patient-level data, transcribed rather than reconstructed. ⚠ Superseded, retained: \"⛔ COMPUTES OVER AN EMPTY CURVES TABLE, DELIBERATELY AND VISIBLY … `curves_supplied: 0` … A test (test_the_curves_table_is_empty_and_the_artifact_says_so) fails the build if a curve is added without digitization provenance.\" That test still exists and still passes, but it no longer asserts what its name says: emptiness was a complete defence against a fabricated clinical datum only while it held, so the property is now asserted directly by test_every_loaded_curve_carries_its_provenance_and_passed_an_external_check."
   },
   {
     "id": "ART-CARE-DELIVERY-EVIDENCE",
@@ -450,5 +450,13 @@
       "main"
     ],
     "note": "⭐ WHAT IT IS: a bottom-up estimate of contracting the wet-lab experiments this repository names, closing the F1 (cost) filter that what-a-civilian-can-buy.md §4.4 declared unevaluable. That memo asked CROs, none of which publishes a price; academic core facilities are recharge centres and publish rate cards, several with an explicit external-commercial tier. ⛔ TWO CLASSES OF INPUT ARE KEPT APART AND MUST STAY APART: `rate` rows are MEASURED (a named facility's published figure, each carrying its tier and its literature-cache path); `qty` rows are ESTIMATES made by the producer and are the dominant uncertainty, because labour dominates every total. ⚠ IT IS NOT A QUOTE AND NOT AN ELIGIBILITY FINDING — no vendor was contacted, and the EMC cell lines stay institution-gated by policy, which is what actually closes these routes. ⭐ Its `cost_structure` and `labour_sensitivity` blocks exist to answer the automation question against the model rather than by eye, and they keep hourly `hands` apart from bundled cell-engineering service fees because only the first is what a robot displaces. `automation_evidence` records a VENDOR'S CLAIM, labelled as marketing and carrying the counter-evidence from the same vendor."
+  },
+  {
+    "id": "ART-PROGNOSTIC-COEFFICIENTS",
+    "path": "research/modalities/emc-prognostic-coefficients.json",
+    "produced_by": "research/modalities/emc_prognostic_coefficients.py",
+    "workflow": null,
+    "published_to": [],
+    "note": "Fitted Cox coefficients for EMC, TRANSCRIBED from the printed tables of two independent open-access cohorts (Masunaga 2025, n = 134 modelled; Chiusole 2020, n = 59) — 7 models, 45 estimable hazard ratios with 95 % intervals, across four endpoints. ⛔ NO ABSOLUTE RISK IS DERIVABLE: neither paper prints a baseline hazard or anything it can be recovered from, so these coefficients support an ORDERING of patients by risk and nothing else; `absolute_risk_computable` is False and a test fails the build if it is ever flipped. ⛔ NOTHING IS POOLED — POLICY-evidence.md governs proportions and refuses to merge time-anchored figures, and a hazard ratio is a third estimand class for which this module does not invent a method; the anti-pooling guard is structural (no `hr` field anywhere may hold a value neither paper printed) rather than a search for the word. ⚠ Three printed HR = 0 rows are recorded as complete separation, not as measurements. ⚠ Every treatment covariate carries a stated confound by indication with the paper's own printed evidence for it."
   }
 ]

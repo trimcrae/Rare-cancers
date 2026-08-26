@@ -27,7 +27,7 @@ last_verified: 2026-08-06
 that will use it. It IS unreachable from the hierarchy, which is why it is shown rather than
 omitted, and why `[L5]` reports the count.
 
-**19 objects · 15 evidence items · 45 artifacts · 14 pinned claims.**
+**19 objects · 15 evidence items · 46 artifacts · 14 pinned claims.**
 
 ## Objects — the biological and molecular entities the program reasons about
 
@@ -112,6 +112,7 @@ omitted, and why `[L5]` reports the count.
 | **ART-NR4A-PARALOGUE-DYNAMICS** | `research/modalities/nr4a-paralogue-dynamics.json` | `research/modalities/nr4a_paralogue_dynamics.py` | [LANE-13](registers/lanes.md) |
 | **ART-NRV04-RETRO-CRITERIA-AUDIT** | `research/modalities/nrv04-retro-criteria-audit.json` | `research/modalities/nrv04_retro_criteria_audit.py` | [LANE-8](registers/lanes.md) |
 | **ART-NRV04-RETRO-PRESPEND-AUDIT** | `research/modalities/nrv04-retro-prespend-audit.json` | `research/modalities/nrv04_retro_prespend_audit.py` | [LANE-8](registers/lanes.md) |
+| **ART-PROGNOSTIC-COEFFICIENTS** | `research/modalities/emc-prognostic-coefficients.json` | `research/modalities/emc_prognostic_coefficients.py` | [RT-RISK-MODEL](L2-rt-risk-model.md) |
 | **ART-PUBLISHED-WARHEAD-REGISTRY** | `research/modalities/published-warhead-registry.json` | `—` | ⚠ **nothing** |
 | **ART-RET-ACTIVATION-BAR** | `research/modalities/emc-ret-activation-bar.json` | `a Europe PMC retrieval read into JSON by hand from the literature-cache corpus` | [RT-RET](L2-rt-ret.md) |
 | **ART-SELCAL-VERDICT** | `research/modalities/selcal-verdict.json` | `research/modalities/selcal_cofold_validate.py` | [LANE-22](registers/lanes.md) |
