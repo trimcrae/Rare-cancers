@@ -1,175 +1,195 @@
 {
- "_what": "Step 1 of the IPD execution plan: an ADMISSIBILITY scan of the reachable EMC survival series. It asks what the published TEXT reports, and deliberately digitises nothing.",
- "_why": "emc_ipd_survival.py refuses any curve without a numbers-at-risk table (Guyot's hard conditional: without one, the 97.5% bound admits an error factor of exp(1.556)=4.7 on the hazard ratio). Whether these papers carry one decides whether the route has any admissible input at all.",
- "_not_medical_advice": "Nothing here is medical advice, and nothing here asserts efficacy, safety or clinical readiness.",
- "_retrieval": {
-  "route": "workflow_dispatch of .github/workflows/fetch-literature.yml with an inline targets_json manifest of Europe PMC fullTextXML endpoints",
-  "actions_run_id": 31605336241,
-  "branch": "claude/no-wet-lab-cancer-paths-v044ou",
-  "published_to": "origin/literature-cache -> literature/emc-ipd-admissibility-2026-08-12/",
-  "date_et": "2026-08-12"
- },
- "⛔_the_headline_is_a_LIMIT_OF_THE_METHOD_NOT_A_FINDING_ABOUT_THE_PAPERS": "ZERO of the five retrieved papers mentions numbers at risk in its TEXT, and zero prints them in a <table-wrap>. THIS MUST NOT BE REPORTED AS 'no EMC series carries a numbers-at-risk table'. In JATS XML the at-risk row is rendered INSIDE THE FIGURE IMAGE, so a full-text search is structurally incapable of seeing it whether or not it is there. CLAUDE.md s4: an absent reading is not a reading of absence. The question is OPEN and is answered by LOOKING at the figure graphics, which this scan deliberately did not do.",
- "⚠_two_of_seven_were_never_retrieved": "drilon2008 (PMC2779719) and bishop2019 (PMC7771031) both returned HTTP 404 from the Europe PMC fullTextXML endpoint. A PMCID exists for each, so this is a statement about THAT ENDPOINT, not about whether the paper has a full text or a survival figure. Retry via a different route before concluding anything about them.",
- "⭐_what_the_scan_DID_establish": "Four of the five retrieved papers report Kaplan-Meier survival analysis. chiusole2020 alone prints FOUR overall-survival curves stratified by resection extent, sex, primary location and metastatic site -- the richest single candidate found. stacchiotti2013anthracycline mentions no Kaplan-Meier analysis at all and is the one retrieved paper that probably carries no curve.",
- "_next_step": "Inspect the figure graphics for an at-risk row. NOTE the distinction that governs it: asking 'is there a numbers-at-risk row under this axis?' is a BOUNDED YES/NO OBSERVATION and is safe. Reading coordinates off the plotted curve is a hand step whose error nothing in this repository measures, and it remains trimcrae's decision (see the memo s5.3).",
- "papers": [
-  {
-   "source_id": "masunaga2025",
-   "pmcid": "PMC12398172",
-   "http": "200",
-   "retrieved": true,
-   "chars": 121494,
-   "kaplan_meier_mentioned": true,
-   "log_rank": true,
-   "figure_captions": [
-    "Fig. 1 Disease-specific survival rates of patients with and without distant metastases at diagnosis. The shading around the curves represents the 95% confidence interval",
-    "Fig. 2 Local recurrence-free survival rates of patients with and without (neo)adjuvant radiotherapy. The shading around the curves represents the 95% confidence interval",
-    "Fig. 3 Disease-specific survival rates of patients with and without advanced stage chemotherapy in patients with distant metastases at diagnosis. The shading around the curves represents the 95% confi"
-   ],
-   "numbers_at_risk_in_text_or_table": false
+  "_what": "Step 1 of the IPD execution plan: an ADMISSIBILITY scan of the reachable EMC survival series. It asks what the published TEXT reports, and deliberately digitises nothing.",
+  "_why": "emc_ipd_survival.py refuses any curve without a numbers-at-risk table (Guyot's hard conditional: without one, the 97.5% bound admits an error factor of exp(1.556)=4.7 on the hazard ratio). Whether these papers carry one decides whether the route has any admissible input at all.",
+  "_not_medical_advice": "Nothing here is medical advice, and nothing here asserts efficacy, safety or clinical readiness.",
+  "_retrieval": {
+    "route": "workflow_dispatch of .github/workflows/fetch-literature.yml with an inline targets_json manifest of Europe PMC fullTextXML endpoints",
+    "actions_run_id": 31605336241,
+    "branch": "claude/no-wet-lab-cancer-paths-v044ou",
+    "published_to": "origin/literature-cache -> literature/emc-ipd-admissibility-2026-08-12/",
+    "date_et": "2026-08-12"
   },
-  {
-   "source_id": "drilon2008",
-   "pmcid": "PMC2779719",
-   "http": "404",
-   "retrieved": false,
-   "chars": 196,
-   "kaplan_meier_mentioned": null,
-   "log_rank": null,
-   "figure_captions": [],
-   "numbers_at_risk_in_text_or_table": null
-  },
-  {
-   "source_id": "chiusole2020",
-   "pmcid": "PMC7308468",
-   "http": "200",
-   "retrieved": true,
-   "chars": 74333,
-   "kaplan_meier_mentioned": true,
-   "log_rank": true,
-   "figure_captions": [
-    "Figure 1 Overall survival according to extention of primary resection.",
-    "Figure 2 Overall survival according to sex.",
-    "Figure 3 Overall survival according to location of primary tumor (T): central (visceral, trunk, head and neck) or extremities.",
-    "Figure 4 Overall survival according to location of metastases (M) in lung, mixed (lung and other) or other."
-   ],
-   "numbers_at_risk_in_text_or_table": false
-  },
-  {
-   "source_id": "bishop2019",
-   "pmcid": "PMC7771031",
-   "http": "404",
-   "retrieved": false,
-   "chars": 196,
-   "kaplan_meier_mentioned": null,
-   "log_rank": null,
-   "figure_captions": [],
-   "numbers_at_risk_in_text_or_table": null
-  },
-  {
-   "source_id": "martinbroto2020immunosarc1",
-   "pmcid": "PMC7674086",
-   "http": "200",
-   "retrieved": true,
-   "chars": 133531,
-   "kaplan_meier_mentioned": true,
-   "log_rank": true,
-   "figure_captions": [
-    "Figure 1 CONSORT diagram. CONSORT, Consolidated Standards of Reporting Trials; ECOG, Eastern Cooperative Oncology Group; RECIST, Response Evaluation Criteria in Solid Tumors.",
-    "Figure 2 Response to treatment by patient according to RECIST. All evaluable patients (N=60) from phase Ib (n=14) and phase II (n=46) are shown. Tumor diameter was measured in millimeters. The dashed ",
-    "Figure 3 Progression-free survival to treatment by patient, based on RECIST central radiological assessment. Each patient in the efficacy population in phase II is represented as bars (n=49). The vert"
-   ],
-   "numbers_at_risk_in_text_or_table": false
-  },
-  {
-   "source_id": "stacchiotti2013anthracycline",
-   "pmcid": "PMC3879193",
-   "http": "200",
-   "retrieved": true,
-   "chars": 72941,
-   "kaplan_meier_mentioned": false,
-   "log_rank": false,
-   "figure_captions": [
-    "Figure 1 Response to chemotherapy with epirubicin and ifosfamide. CT scan (arterial phase after contrast medium). Thigh primary extraskeletal myxoid chondrosarcoma ( Panel A1 ) with concomitant intra-",
-    "Figure 2 Overall progression free survival (PFS) of patients treated with anthracycline-based chemotherapy . Median PFS 8 months ."
-   ],
-   "numbers_at_risk_in_text_or_table": false
-  },
-  {
-   "source_id": "morioka2016trabectedin",
-   "pmcid": "PMC4946242",
-   "http": "200",
-   "retrieved": true,
-   "chars": 65342,
-   "kaplan_meier_mentioned": true,
-   "log_rank": false,
-   "figure_captions": [
-    "Fig. 1 Kaplan-Meier plot of progression-free survival. Progression-free survival of five patients with EMCS and MCS randomized to the trabectedin group (−) and three patients with MCS randomized to th",
-    "Fig. 2 Clinical course of subject No.2. CT images of target lesions in lung at ( a , b ) enrollment in the study, ( c , d ) 4.0 months after enrollment (27 % decrease in sum of diameters), ( e , f ) 9",
-    "Fig. 3 Clinical course of subject No.3. CT images of target lesion in lung at ( a ) enrollment in the study, ( b ) 11.1 months after enrollment (58 % decrease in sum of diameters), ( c ) 22.5 months a"
-   ],
-   "numbers_at_risk_in_text_or_table": false
-  }
- ],
- "_counts": {
-  "targeted": 7,
-  "retrieved": 5,
-  "http_404": 2,
-  "kaplan_meier_mentioned": 4,
-  "numbers_at_risk_visible_in_text": 0
- },
- "step_1b_figure_route_probe": {
-  "_what": "Step 1b: find a route to the Kaplan-Meier figure graphics, where a numbers-at-risk row lives if it exists, and establish whether the question is answerable from text at all.",
-  "_answer": "IT IS NOT. The chiusole2020 figures are RASTER IMAGES. Settled by a discriminating observation rather than assumed: the PDF text layer carries the figure CAPTIONS (typeset page text) but ZERO plot internals -- no axis tick labels, no '0.0/0.2/.../1.0' survival-axis tokens, no bare numeric rows. So the absence of 'at risk' from both the XML and the PDF text is UNINFORMATIVE in exactly the way s4 warns, and the admissibility question can only be closed by LOOKING at the graphic.",
-  "routes_tried": [
-   {
-    "route": "pmc.ncbi.nlm.nih.gov/articles/<PMCID>/bin/<figure>.jpg",
-    "result": "HTTP 200 but content-type text/html -- a reCAPTCHA interstitial",
-    "⭐_why_it_matters": "The binary guard keys off the DECLARED CONTENT TYPE, not the '.jpg' in the URL, so the captcha was written as text and stayed legible as the refusal it is. Keying off the extension would have saved a captcha page under a figure filename and reported success."
-   },
-   {
-    "route": "europepmc.org/articles/<PMCID>/bin/<figure>.jpg",
-    "result": "RemoteDisconnected -- connection closed without a response"
-   },
-   {
-    "route": "ebi.ac.uk/europepmc/webservices/rest/<PMCID>/supplementaryFiles",
-    "result": "HTTP 200, application/zip",
-    "⛔_found_a_live_bug": "The script recorded chars=80087 -- it ran a ZIP through a UTF-8 text decoder and destroyed it while reporting success. This is what forced the binary branch to be generalised beyond images."
-   },
-   {
-    "route": "ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?id=<PMCID>",
-    "result": "✅ WORKS -- returns licence and package location",
-    "note": "For PMC7308468: licence CC BY, package oa_package/c5/67/PMC7308468.tar.gz. This is the correct programmatic entry point for PMC open-access assets."
-   },
-   {
-    "route": "https://ftp.ncbi.nlm.nih.gov/pub/pmc/oa_package/... and .../oa_pdf/...",
-    "result": "HTTP 404 for every path tried",
-    "⚠": "The oa.fcgi href is an ftp:// URL; naively rewriting the scheme to https on the same host did NOT resolve. A working HTTPS mirror for OA packages was not found in this pass and remains open."
-   },
-   {
-    "route": "publisher direct PDF (frontiersin.org/.../pdf)",
-    "result": "✅ WORKS -- HTTP 200, application/pdf, 33 KB of extracted text"
-   }
+  "⛔_the_headline_is_a_LIMIT_OF_THE_METHOD_NOT_A_FINDING_ABOUT_THE_PAPERS": "ZERO of the five retrieved papers mentions numbers at risk in its TEXT, and zero prints them in a <table-wrap>. THIS MUST NOT BE REPORTED AS 'no EMC series carries a numbers-at-risk table'. In JATS XML the at-risk row is rendered INSIDE THE FIGURE IMAGE, so a full-text search is structurally incapable of seeing it whether or not it is there. CLAUDE.md s4: an absent reading is not a reading of absence. The question is OPEN and is answered by LOOKING at the figure graphics, which this scan deliberately did not do.",
+  "⚠_two_of_seven_were_never_retrieved": "drilon2008 (PMC2779719) and bishop2019 (PMC7771031) both returned HTTP 404 from the Europe PMC fullTextXML endpoint. A PMCID exists for each, so this is a statement about THAT ENDPOINT, not about whether the paper has a full text or a survival figure. Retry via a different route before concluding anything about them.",
+  "⭐_what_the_scan_DID_establish": "Four of the five retrieved papers report Kaplan-Meier survival analysis. chiusole2020 alone prints FOUR overall-survival curves stratified by resection extent, sex, primary location and metastatic site -- the richest single candidate found. stacchiotti2013anthracycline mentions no Kaplan-Meier analysis at all and is the one retrieved paper that probably carries no curve.",
+  "_next_step": "Inspect the figure graphics for an at-risk row. NOTE the distinction that governs it: asking 'is there a numbers-at-risk row under this axis?' is a BOUNDED YES/NO OBSERVATION and is safe. Reading coordinates off the plotted curve is a hand step whose error nothing in this repository measures, and it remains trimcrae's decision (see the memo s5.3).",
+  "papers": [
+    {
+      "source_id": "masunaga2025",
+      "pmcid": "PMC12398172",
+      "http": "200",
+      "retrieved": true,
+      "chars": 121494,
+      "kaplan_meier_mentioned": true,
+      "log_rank": true,
+      "figure_captions": [
+        "Fig. 1 Disease-specific survival rates of patients with and without distant metastases at diagnosis. The shading around the curves represents the 95% confidence interval",
+        "Fig. 2 Local recurrence-free survival rates of patients with and without (neo)adjuvant radiotherapy. The shading around the curves represents the 95% confidence interval",
+        "Fig. 3 Disease-specific survival rates of patients with and without advanced stage chemotherapy in patients with distant metastases at diagnosis. The shading around the curves represents the 95% confi"
+      ],
+      "numbers_at_risk_in_text_or_table": false
+    },
+    {
+      "source_id": "drilon2008",
+      "pmcid": "PMC2779719",
+      "http": "404",
+      "retrieved": false,
+      "chars": 196,
+      "kaplan_meier_mentioned": null,
+      "log_rank": null,
+      "figure_captions": [],
+      "numbers_at_risk_in_text_or_table": null
+    },
+    {
+      "source_id": "chiusole2020",
+      "pmcid": "PMC7308468",
+      "http": "200",
+      "retrieved": true,
+      "chars": 74333,
+      "kaplan_meier_mentioned": true,
+      "log_rank": true,
+      "figure_captions": [
+        "Figure 1 Overall survival according to extention of primary resection.",
+        "Figure 2 Overall survival according to sex.",
+        "Figure 3 Overall survival according to location of primary tumor (T): central (visceral, trunk, head and neck) or extremities.",
+        "Figure 4 Overall survival according to location of metastases (M) in lung, mixed (lung and other) or other."
+      ],
+      "numbers_at_risk_in_text_or_table": false
+    },
+    {
+      "source_id": "bishop2019",
+      "pmcid": "PMC7771031",
+      "http": "404",
+      "retrieved": false,
+      "chars": 196,
+      "kaplan_meier_mentioned": null,
+      "log_rank": null,
+      "figure_captions": [],
+      "numbers_at_risk_in_text_or_table": null
+    },
+    {
+      "source_id": "martinbroto2020immunosarc1",
+      "pmcid": "PMC7674086",
+      "http": "200",
+      "retrieved": true,
+      "chars": 133531,
+      "kaplan_meier_mentioned": true,
+      "log_rank": true,
+      "figure_captions": [
+        "Figure 1 CONSORT diagram. CONSORT, Consolidated Standards of Reporting Trials; ECOG, Eastern Cooperative Oncology Group; RECIST, Response Evaluation Criteria in Solid Tumors.",
+        "Figure 2 Response to treatment by patient according to RECIST. All evaluable patients (N=60) from phase Ib (n=14) and phase II (n=46) are shown. Tumor diameter was measured in millimeters. The dashed ",
+        "Figure 3 Progression-free survival to treatment by patient, based on RECIST central radiological assessment. Each patient in the efficacy population in phase II is represented as bars (n=49). The vert"
+      ],
+      "numbers_at_risk_in_text_or_table": false
+    },
+    {
+      "source_id": "stacchiotti2013anthracycline",
+      "pmcid": "PMC3879193",
+      "http": "200",
+      "retrieved": true,
+      "chars": 72941,
+      "kaplan_meier_mentioned": false,
+      "log_rank": false,
+      "figure_captions": [
+        "Figure 1 Response to chemotherapy with epirubicin and ifosfamide. CT scan (arterial phase after contrast medium). Thigh primary extraskeletal myxoid chondrosarcoma ( Panel A1 ) with concomitant intra-",
+        "Figure 2 Overall progression free survival (PFS) of patients treated with anthracycline-based chemotherapy . Median PFS 8 months ."
+      ],
+      "numbers_at_risk_in_text_or_table": false
+    },
+    {
+      "source_id": "morioka2016trabectedin",
+      "pmcid": "PMC4946242",
+      "http": "200",
+      "retrieved": true,
+      "chars": 65342,
+      "kaplan_meier_mentioned": true,
+      "log_rank": false,
+      "figure_captions": [
+        "Fig. 1 Kaplan-Meier plot of progression-free survival. Progression-free survival of five patients with EMCS and MCS randomized to the trabectedin group (−) and three patients with MCS randomized to th",
+        "Fig. 2 Clinical course of subject No.2. CT images of target lesions in lung at ( a , b ) enrollment in the study, ( c , d ) 4.0 months after enrollment (27 % decrease in sum of diameters), ( e , f ) 9",
+        "Fig. 3 Clinical course of subject No.3. CT images of target lesion in lung at ( a ) enrollment in the study, ( b ) 11.1 months after enrollment (58 % decrease in sum of diameters), ( c ) 22.5 months a"
+      ],
+      "numbers_at_risk_in_text_or_table": false
+    }
   ],
-  "⭐_two_papers_definitively_closed": {
-   "finding": "drilon2008 (PMC2779719) and bishop2019 (PMC7771031) both return error code 'idIsNotOpenAccess' from the OA service. Their earlier HTTP 404 on fullTextXML was NOT an endpoint quirk -- these papers are not open access, and no open route will reach them.",
-   "consequence": "They stay on the candidate list with full_text_reachable resolved to False. Reaching them needs a subscription or an interlibrary route, which is trimcrae's to decide, not a free step."
+  "_counts": {
+    "targeted": 7,
+    "retrieved": 5,
+    "http_404": 2,
+    "kaplan_meier_mentioned": 4,
+    "numbers_at_risk_visible_in_text": 0
   },
-  "⭐_printed_numbers_recovered_from_chiusole2020": {
-   "_what": "Safe transcription from the PDF text layer -- no digitisation. These are exactly what a printed-numbers-only paper (memo s5.3 option 3) would rest on, and they are already in hand.",
-   "median_overall_survival_months": 180,
-   "alive_at_5_years_pct": 75,
-   "deaths": 20,
-   "p_values_by_comparison": {
-    "local_recurrence": 0.54,
-    "sex": 0.409,
-    "primary_location": 0.25,
-    "metastatic_site": 0.137,
-    "one_pfs_comparison": 0.009
-   },
-   "⚠": "Transcribed from the extracted text layer, not read off a figure. Each should be checked against the published table before use in any manuscript."
+  "step_1b_figure_route_probe": {
+    "_what": "Step 1b: find a route to the Kaplan-Meier figure graphics, where a numbers-at-risk row lives if it exists, and establish whether the question is answerable from text at all.",
+    "_answer": "IT IS NOT. The chiusole2020 figures are RASTER IMAGES. Settled by a discriminating observation rather than assumed: the PDF text layer carries the figure CAPTIONS (typeset page text) but ZERO plot internals -- no axis tick labels, no '0.0/0.2/.../1.0' survival-axis tokens, no bare numeric rows. So the absence of 'at risk' from both the XML and the PDF text is UNINFORMATIVE in exactly the way s4 warns, and the admissibility question can only be closed by LOOKING at the graphic.",
+    "routes_tried": [
+      {
+        "route": "pmc.ncbi.nlm.nih.gov/articles/<PMCID>/bin/<figure>.jpg",
+        "result": "HTTP 200 but content-type text/html -- a reCAPTCHA interstitial",
+        "⭐_why_it_matters": "The binary guard keys off the DECLARED CONTENT TYPE, not the '.jpg' in the URL, so the captcha was written as text and stayed legible as the refusal it is. Keying off the extension would have saved a captcha page under a figure filename and reported success."
+      },
+      {
+        "route": "europepmc.org/articles/<PMCID>/bin/<figure>.jpg",
+        "result": "RemoteDisconnected -- connection closed without a response"
+      },
+      {
+        "route": "ebi.ac.uk/europepmc/webservices/rest/<PMCID>/supplementaryFiles",
+        "result": "HTTP 200, application/zip",
+        "⛔_found_a_live_bug": "The script recorded chars=80087 -- it ran a ZIP through a UTF-8 text decoder and destroyed it while reporting success. This is what forced the binary branch to be generalised beyond images."
+      },
+      {
+        "route": "ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?id=<PMCID>",
+        "result": "✅ WORKS -- returns licence and package location",
+        "note": "For PMC7308468: licence CC BY, package oa_package/c5/67/PMC7308468.tar.gz. This is the correct programmatic entry point for PMC open-access assets."
+      },
+      {
+        "route": "https://ftp.ncbi.nlm.nih.gov/pub/pmc/oa_package/... and .../oa_pdf/...",
+        "result": "HTTP 404 for every path tried",
+        "⚠": "The oa.fcgi href is an ftp:// URL; naively rewriting the scheme to https on the same host did NOT resolve. A working HTTPS mirror for OA packages was not found in this pass and remains open."
+      },
+      {
+        "route": "publisher direct PDF (frontiersin.org/.../pdf)",
+        "result": "✅ WORKS -- HTTP 200, application/pdf, 33 KB of extracted text"
+      }
+    ],
+    "⭐_two_papers_definitively_closed": {
+      "finding": "drilon2008 (PMC2779719) and bishop2019 (PMC7771031) both return error code 'idIsNotOpenAccess' from the OA service. Their earlier HTTP 404 on fullTextXML was NOT an endpoint quirk -- these papers are not open access, and no open route will reach them.",
+      "consequence": "They stay on the candidate list with full_text_reachable resolved to False. Reaching them needs a subscription or an interlibrary route, which is trimcrae's to decide, not a free step."
+    },
+    "⭐_printed_numbers_recovered_from_chiusole2020": {
+      "_what": "Safe transcription from the PDF text layer -- no digitisation. These are exactly what a printed-numbers-only paper (memo s5.3 option 3) would rest on, and they are already in hand.",
+      "median_overall_survival_months": 180,
+      "alive_at_5_years_pct": 75,
+      "deaths": 20,
+      "p_values_by_comparison": {
+        "local_recurrence": 0.54,
+        "sex": 0.409,
+        "primary_location": 0.25,
+        "metastatic_site": 0.137,
+        "one_pfs_comparison": 0.009
+      },
+      "⚠": "Transcribed from the extracted text layer, not read off a figure. Each should be checked against the published table before use in any manuscript."
+    },
+    "_next_step": "Look at the four figure graphics and answer one bounded yes/no per curve: is there a numbers-at-risk row beneath the axis? Obtaining them needs a working route to the OA package or the publisher's figure assets; the OA service names the package and the HTTPS mirror for it is still unresolved."
   },
-  "_next_step": "Look at the four figure graphics and answer one bounded yes/no per curve: is there a numbers-at-risk row beneath the axis? Obtaining them needs a working route to the OA package or the publisher's figure assets; the OA service names the package and the HTTPS mirror for it is still unresolved."
- }
+  "⭐_CLOSED_2026-08-25": {
+    "_what": "The open step of this scan -- 'Look at the four figure graphics and answer one bounded yes/no per curve: is there a numbers-at-risk row beneath the axis?' -- has been taken.",
+    "route_that_worked": "europepmc.org/articles/<PMCID>?pdf=render, then poppler at 200 dpi. Neither the OA package nor the HTTPS mirror this scan was blocked on was needed.",
+    "answer": {
+      "masunaga2025": "3 Kaplan-Meier figures, NO numbers-at-risk row",
+      "chiusole2020": "4 Kaplan-Meier figures, NO numbers-at-risk row",
+      "martinbroto2020immunosarc1": "NO Kaplan-Meier figure at all -- its Figure 3 is a swimmer plot. ⚠ This scan counted it among the papers that 'report Kaplan-Meier survival analysis'; it reports one in TEXT and prints no curve.",
+      "stacchiotti2013anthracycline": "1 Kaplan-Meier figure WITH a numbers-at-risk row -- digitized and reconstructed",
+      "morioka2016trabectedin": "1 Kaplan-Meier figure WITH a numbers-at-risk row, and Table 2 prints the patient-level data outright, which makes reconstruction unnecessary"
+    },
+    "⛔_the_binding_finding": "The two largest reachable EMC-specific series print NO numbers-at-risk row, and both figures that do print one are the smallest cohorts in the set. The constraint on this route is what journals print, not what this program can read.",
+    "where_the_evidence_lives": [
+      "research/modalities/emc_ipd_survival.py -> CANDIDATE_SOURCES[].figure_finding",
+      "research/modalities/km-figure-readings.json",
+      "research/modalities/km-swimmer-readings.json",
+      "research/modalities/km-digitization-error.json",
+      "research/literature/emc-km-figure-retrieval-2026-08-25.json"
+    ],
+    "⚠_this_scan_is_not_edited_otherwise": "Everything above this key is the 2026-08-12 record as it was written, including the two statements this closure corrects. A dated scan is evidence of what was known then; rewriting it would destroy that."
+  }
 }

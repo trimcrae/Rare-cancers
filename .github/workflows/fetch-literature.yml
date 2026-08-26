@@ -277,6 +277,40 @@ jobs:
           echo "::warning::ref push failed; the run artifact and the per-target status lines in"
           echo "::warning::this log are the record — do NOT record these sources as unreachable"
 
+      # ── KAPLAN-MEIER FIGURE GRAPHICS (slug starts with 'km-figures') ──────────────────
+      # Added 2026-08-25. research/literature/emc-ipd-admissibility-2026-08-12.json ended with one
+      # open step -- "look at the four figure graphics" -- and no route to the graphics. The route
+      # ladder, and why the previously-unresolved HTTPS mirror was the wrong question, are in
+      # scripts/emc_km_figure_fetch.py's docstring. Output lands in .cache/literature, so the
+      # existing publish step carries it to literature-cache/<slug>/ unchanged.
+      # ⛔ POPPLER IS NOT OPTIONAL FOR THE PDF ARM AND ITS ABSENCE MUST NOT PASS QUIETLY: the
+      # script records `poppler: false` and saves the PDF unrendered, so a run without this step
+      # publishes a PDF nobody can look at while reporting success.
+      - name: Install poppler (PDF page rasteriser)
+        if: ${{ startsWith(inputs.slug, 'km-figures') }}
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils
+
+      # ⛔ ONLY WHEN THE CALLER ASKS, because it costs ~40 s of install for a rung most runs do not
+      # need. `browser` in the knob string turns on the Chromium retry for a PDF Unpaywall has
+      # already graded open access and the publisher has already refused to plain urllib.
+      - name: Install Playwright Chromium (km-figures browser rung)
+        if: ${{ startsWith(inputs.slug, 'km-figures') && contains(inputs.browser_harvest_links, 'browser') }}
+        run: |
+          python3 -m pip install --quiet playwright
+          python3 -m playwright install --with-deps chromium
+
+      - name: Fetch Kaplan-Meier figure graphics
+        if: ${{ startsWith(inputs.slug, 'km-figures') }}
+        env:
+          KM_TARGETS_JSON: ${{ inputs.targets_json }}
+          KM_OUT_DIR: .cache/literature
+          # `browser_harvest_links` is reused as a plain knob string for this mode; setting it to
+          # `no-raster` publishes the PDFs without page PNGs, which is a ~7x smaller corpus and
+          # loses nothing a local `pdftoppm` cannot regenerate at higher resolution.
+          KM_RASTERISE: ${{ contains(inputs.browser_harvest_links, 'no-raster') && '0' || '1' }}
+          KM_BROWSER: ${{ contains(inputs.browser_harvest_links, 'browser') && '1' || '0' }}
+        run: python3 scripts/emc_km_figure_fetch.py
+
       # ⭐ THE PRINTED PAGE COUNT IS A COST, NOT A PREFERENCE (2026-08-20). Nucleic Acid
       # Therapeutics charges $90 per printed page, so a manuscript's page count has to be estimated
       # before submission. A journal publishes its SUBMISSION format and not its TYPESET design, so
@@ -396,7 +430,7 @@ jobs:
         # ⚠ Fixed by INTENT, not by removing the default: a caller supplying a targets corpus
         # is asking for those URLs, so the sweep is suppressed. Callers who want both pass a
         # query explicitly and get both, which is the only case that ever wanted both.
-        if: ${{ inputs.query != '' && inputs.slug != 'lane-probe' && inputs.slug != 'consensus-probe' && inputs.slug != 'rt-probe' && inputs.slug != 'venue-typeset-geometry' && inputs.slug != 'browser-fetch'
+        if: ${{ inputs.query != '' && inputs.slug != 'lane-probe' && inputs.slug != 'consensus-probe' && inputs.slug != 'rt-probe' && inputs.slug != 'venue-typeset-geometry' && inputs.slug != 'browser-fetch' && !startsWith(inputs.slug, 'km-figures')
                 && inputs.targets_file == '' && inputs.targets_json == '' }}
         env:
           QUERY: ${{ inputs.query }}
@@ -422,7 +456,7 @@ jobs:
         # ⚠ Fixed by INTENT, not by removing the default: a caller supplying a targets corpus
         # is asking for those URLs, so the sweep is suppressed. Callers who want both pass a
         # query explicitly and get both, which is the only case that ever wanted both.
-        if: ${{ inputs.query != '' && inputs.slug != 'lane-probe' && inputs.slug != 'consensus-probe' && inputs.slug != 'rt-probe' && inputs.slug != 'venue-typeset-geometry' && inputs.slug != 'browser-fetch'
+        if: ${{ inputs.query != '' && inputs.slug != 'lane-probe' && inputs.slug != 'consensus-probe' && inputs.slug != 'rt-probe' && inputs.slug != 'venue-typeset-geometry' && inputs.slug != 'browser-fetch' && !startsWith(inputs.slug, 'km-figures')
                 && inputs.targets_file == '' && inputs.targets_json == '' }}
         env:
           LIT_EXPECT_PMIDS: ${{ inputs.expect_pmids }}
@@ -436,7 +470,7 @@ jobs:
       # the same contamination the publish step's slug guard below was written to prevent, arriving
       # from the other direction. A query-only run now runs the query path ONLY.
       - name: Fetch literature URLs (generic, runner has unrestricted egress)
-        if: ${{ (inputs.targets_file != '' || inputs.targets_json != '' || inputs.query == '') && inputs.slug != 'lane-probe' && inputs.slug != 'consensus-probe' && inputs.slug != 'rt-probe' && inputs.slug != 'venue-typeset-geometry' && inputs.slug != 'browser-fetch' }}
+        if: ${{ (inputs.targets_file != '' || inputs.targets_json != '' || inputs.query == '') && inputs.slug != 'lane-probe' && inputs.slug != 'consensus-probe' && inputs.slug != 'rt-probe' && inputs.slug != 'venue-typeset-geometry' && inputs.slug != 'browser-fetch' && !startsWith(inputs.slug, 'km-figures') }}
         env:
           LIT_TARGETS_FILE: ${{ inputs.targets_file }}
           LIT_TARGETS_JSON: ${{ inputs.targets_json }}

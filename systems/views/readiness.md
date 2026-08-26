@@ -65,9 +65,9 @@ the other. Where a route cannot reach an output, the missing items are a work li
 | [RT-HDAC-BET](L2-rt-hdac-bet.md) | ST-REPURPOSING | `internal_note` | — |
 | [RT-HORMONE-PARTNER](L2-rt-hormone-partner.md) | ST-REPURPOSING | `internal_note` | nothing at the arithmetic level — the pooled fraction was computed and is a negative |
 | [RT-HYPOXIA-PRODRUG](L2-rt-hypoxia-prodrug.md) | ST-MICROENV | `internal_note` | a third EMC series — the falsifier the owning memo names |
-| [RT-ICI-TKI](L2-rt-ici-tki.md) | ST-IMMUNO | `internal_note` | a larger clinical series |
+| [RT-ICI-TKI](L2-rt-ici-tki.md) | ST-IMMUNO | `internal_note` | a larger clinical series — unchanged. Four patient-level PFS values now exist for this route (km-swimmer-readings.json) and four patients is not a series. |
 | [RT-IMMUNOCYTOKINE](L2-rt-immunocytokine.md) | ST-MICROENV | `internal_note` | an isoform-resolved read, which needs RNA-seq rather than an array — the fourth public cohort is the first candidate that could carry it |
-| [RT-IPD-SURVIVAL](L2-rt-ipd-survival.md) | ST-CARE-DELIVERY | `internal_note` | curves that can actually be reconstructed — only 19 of 340 EMC full texts in the open-access corpus print a Kaplan-Meier curve at all, and how many of those carry a numbers-at-risk |
+| [RT-IPD-SURVIVAL](L2-rt-ipd-survival.md) | ST-CARE-DELIVERY | `internal_note` | ⛔ THE CEILING IS WHAT THE FIGURES PRINT, NOT THE INSTRUMENT. Both instruments now exist and both have controls; the reachable literature supplies one admissible EMC curve.; more cu |
 | [RT-JUNCTION-NEOANTIGEN](L2-rt-junction-neoantigen.md) | ST-IMMUNO | `internal_note` | patient-cd4-demo.json regenerated at the corrected junction — the class-II arm and every CD8∧CD4 figure are withheld until it is; the TAF15::NR4A3 panel regenerated — patient_neoep |
 | [RT-LIMB-PERFUSION](L2-rt-limb-perfusion.md) | ST-LOCOREGIONAL | `internal_note` | primary-site curation from the pooled series' primary reports, which is $0 for the open-access ones; a search of the perfusion literature for myxoid histologies specifically |
 | [RT-LUNG-DIRECTED](L2-rt-lung-directed.md) | ST-LOCOREGIONAL | `internal_note` | metastatic-site and lesion-burden curation from the pooled series' primary reports, which is $0 for the open-access ones and is this route's single highest-value step |
@@ -75,7 +75,7 @@ the other. Where a route cannot reach an output, the missing items are a work li
 | [RT-MATRIX-SYNTHESIS](L2-rt-matrix-synthesis.md) | ST-MICROENV | `internal_note` | a restatement of the premise in a form this reading does not already contradict |
 | [RT-MDM2](L2-rt-mdm2.md) | ST-DEPENDENCY | `internal_note` | a direct TP53 sequence call, which no available EMC dataset supplies |
 | [RT-MDT-LUNG](L2-rt-mdt-lung.md) | ST-LOCOREGIONAL | `internal_note` | a quantitative contribution that a 2025 review has not already made in prose — currently the only candidate is the BED-versus-local-control tabulation, and roughly seven positively |
-| [RT-METASTASECTOMY](L2-rt-metastasectomy.md) | ST-CARE-DELIVERY | `internal_note` | metastatic site and burden, which appear in free text rather than as curated data |
+| [RT-METASTASECTOMY](L2-rt-metastasectomy.md) | ST-CARE-DELIVERY | `internal_note` | per-patient lesion counts, which no reachable publication prints -- the eligible fraction can be BOUNDED by lung-confinement but not SIZED by an oligometastatic criterion; an outco |
 | [RT-MONOVALENT](L2-rt-monovalent.md) | ST-OCCUPANCY | `internal_note` | a functional readout; the occupancy-to-output transfer functions that would turn the stated requirement into a number (MISSING-1, MISSING-2) |
 | [RT-NR2F1](L2-rt-nr2f1.md) | ST-OCCUPANCY | `internal_note` | a platform that carries a probe for the receptor — the two readable array series do not |
 | [RT-POLQ](L2-rt-polq.md) | ST-DEPENDENCY | `internal_note` | nothing at the expression level — the class selects on a lesion this data cannot see, and on what it CAN see the answer is negative |
@@ -84,14 +84,14 @@ the other. Where a route cannot reach an output, the missing items are a work li
 | [RT-RET](L2-rt-ret.md) | ST-REPURPOSING | `internal_note` | the primary paper's full text, which is paywalled and unreachable at $0; a phospho-receptor measurement in EMC tissue, which nobody has published |
 | [RT-RIBOZYME](L2-rt-ribozyme.md) | ST-NUCLEIC-ACID | `internal_note` | a solid-tumour vector; a modern demonstration of trans-splicing ribozymes |
 | [RT-RIPTAC](L2-rt-riptac.md) | ST-PROXIMITY | `internal_note` | paralogue selectivity; a chemistry programme |
-| [RT-RISK-MODEL](L2-rt-risk-model.md) | ST-CARE-DELIVERY | `internal_note` | the reconstructed dataset, and per-arm curves rather than pooled ones |
-| [RT-RT-INTENSIFY](L2-rt-rt-intensify.md) | ST-LOCOREGIONAL | `internal_note` | per-patient dose and modality data, which none of the curated series publishes; a particle-registry search by histology |
+| [RT-RISK-MODEL](L2-rt-risk-model.md) | ST-CARE-DELIVERY | `internal_note` | a baseline hazard, without which the ordering cannot become a risk; patient-level outcomes for any validation at all — discrimination and calibration both need them, and no reachab |
+| [RT-RT-INTENSIFY](L2-rt-rt-intensify.md) | ST-LOCOREGIONAL | `internal_note` | per-patient dose against per-patient outcome, which no reachable series publishes; enough local events anywhere in the reachable literature to power the comparison — 5 and 16 in th |
 | [RT-RXR](L2-rt-rxr.md) | ST-REPURPOSING | `internal_note` | — |
 | [RT-SCHEDULING](L2-rt-scheduling.md) | ST-STRATEGY | `internal_note` | nothing to start — the inputs are committed, and their shape is now known to be four separate medians rather than one pooled value |
 | [RT-SEQUENCING](L2-rt-sequencing.md) | ST-STRATEGY | `internal_note` | nothing at the analysis level — the question was asked and the record answered that it cannot support the claim |
 | [RT-SGK1](L2-rt-sgk1.md) | ST-DEPENDENCY | `internal_note` | a phospho-substrate or activity readout, which is what the substrate signal hints at and abundance cannot deliver |
-| [RT-SURGICAL-QUALITY](L2-rt-surgical-quality.md) | ST-CARE-DELIVERY | `internal_note` | margin status and treatment setting, which no curated cohort here records |
-| [RT-SURVEILLANCE](L2-rt-surveillance.md) | ST-CARE-DELIVERY | `internal_note` | the time-resolved recurrence hazard, which RT-IPD-SURVIVAL would supply |
+| [RT-SURGICAL-QUALITY](L2-rt-surgical-quality.md) | ST-CARE-DELIVERY | `internal_note` | treatment setting, which is unobtainable from the reachable literature rather than merely un-curated -- see remaining_unknowns; the intent of each operation, without which no margi |
+| [RT-SURVEILLANCE](L2-rt-surveillance.md) | ST-CARE-DELIVERY | `internal_note` | a hazard function, which no reachable publication prints and which summary statistics cannot be turned into; resectability at detection, reported by no EMC series; ⚠ Superseded, re |
 | [RT-SYNLETH-DEP](L2-rt-synleth-dep.md) | ST-DEPENDENCY | `internal_note` | EMC-specific functional-genomics data |
 | [RT-SYNPROMOTER](L2-rt-synpromoter.md) | ST-NUCLEIC-ACID | `internal_note` | a direct binding-specificity read in EMC |
 | [RT-TCR-IMMTAC](L2-rt-tcr-immtac.md) | ST-IMMUNO | `internal_note` | a stronger presented epitope, and one not confined to a single allele — both corrected e7::e3 strong binders are HLA-B*15:01 |

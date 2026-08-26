@@ -18,7 +18,7 @@ last_verified: 2026-08-05
 
 # RT-SEQUENCING — Treatment sequencing and line ordering
 
-**Family:** [ST-STRATEGY](L1-st-strategy.md) · **state:** ✓ parked · computed · confidence moderate · verified 2026-08-09
+**Family:** [ST-STRATEGY](L1-st-strategy.md) · **state:** ✓ parked · computed · confidence moderate · verified 2026-08-26
 
 **Grade** (owned by [`research/manuscripts/endpoint/emc-systemic-therapy-pooling.json`](../../research/manuscripts/endpoint/emc-systemic-therapy-pooling.json)): ⛔ THE PUBLISHED RECORD CANNOT SUPPORT A SEQUENCING CLAIM, AND SAYING SO PRECISELY IS THE RESULT (2026-08-09). No randomised evidence exists for any systemic therapy in this disease: all prospective cohorts are single-arm or single-arm within a master protocol, and the one randomised dataset that touches the disease randomised translocation sarcomas as a class with no EMC patient in its control arm. Every pooled denominator is under sixty patients worldwide, ever, and two of the pools rest on single-digit EMC subsets whose intervals span almost the entire range. ⭐ The between-cohort response range runs from zero to a majority, which is why the artifact REFUSES the all-regimen pool rather than reporting it — and that refusal, not an ordering, is what this route can honestly contribute.
 
@@ -53,7 +53,7 @@ The registry curates several agents with disease-specific activity and says noth
 
 - Whether prior-therapy exposure is recorded against outcome in any curated cohort at a resolution that would permit any sequencing statement — it is not, at cohort level.
 - Whether individual-patient data behind these series would support one, which is not this programme's to obtain.
-- Whether the absence of a sequencing evidence base has itself been stated anywhere in the field's literature, which would determine whether this is a finding or a restatement.
+- ⭐ ANSWERED 2026-08-26, AND MORE NARROWLY THAN THE QUESTION ASSUMED. Superseded, retained: "Whether the absence of a sequencing evidence base has itself been stated anywhere in the field's literature, which would determine whether this is a finding or a restatement." Checked against the field's most recent comprehensive EMC review (Remiszewski et al. 2025, PMC12504171, in literature-cache slug emc-radiotherapy-2026-08-26). ⛔ THE SIMPLE VERSION OF THIS FINDING WOULD HAVE BEEN FALSE: that review states evidence limitations repeatedly and carefully — 'the available data to support improved outcomes with perioperative chemotherapy is very limited', 'the current evidence does not support the routine use of neoadjuvant/adjuvant chemotherapy in EMC', 'Without randomised trials, it remains unclear whether immunotherapy can provide a meaningful survival benefit', 'definitive evidence on metastasectomy for EMC is limited', and 'most clinical trials include EMC within broader sarcoma trials, making it difficult to gather disease-specific data'. The field is not unaware of its evidence problem. ⭐ WHAT IS NOT STATED IS THE ORDERING SPECIFICALLY: the string 'sequenc' does not occur in that review at all, and where it does order agents — 'to reduce practice variability, we suggest: observe indolent, asymptomatic metastatic disease; use doxorubicin ± ifosfamide first-line for symptomatic or rapidly progressive disease per STS guidance; favour pazopanib after anthracycline failure' — it attaches no evidence-limitation statement to the ORDER, and derives it by extrapolation from soft-tissue-sarcoma guidance rather than from EMC data. ⇒ This route's negative is a FINDING rather than a restatement, but a narrower one than 'nobody has said the evidence is thin': the gap is that the limitation has never been scoped to SEQUENCING. ⚠ That is not a charge against the review, which is explicit that it is extrapolating and which cites EMC-specific activity where it has it.
 
 ## Required validation
 
@@ -115,7 +115,7 @@ Only individual-patient data could change this, and it is not obtainable here.
 
 ## Best next action
 
-Report the negative in the strategy paper: the sequencing question in this disease has no evidence base, stated with the denominators that make it so.
+Unchanged in substance and sharpened in content: report the negative, now with the specific gap it fills — the field states its evidence limitations for adjuvant chemotherapy, immunotherapy and metastasectomy, and states none for the ORDER in which agents are given, while recommending one. ⛔ Whether and where to publish that is a judgement call about what we publish, not a technical one, and it is not settled here.
 
 *Cost:* $0
 

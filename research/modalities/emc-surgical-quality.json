@@ -1,0 +1,197 @@
+{
+  "_what": "Surgical margin distribution, outcome by margin, and the treatment-setting and unplanned-excision fields, curated from the two reachable open-access EMC series.",
+  "_not_medical_advice": "Nothing here is medical advice, and nothing here asserts efficacy, safety or clinical readiness. Margin status is an association with outcome in retrospective series, not a demonstrated effect of operating differently.",
+  "_generated_by": "research/modalities/emc_surgical_quality.py",
+  "⭐_the_route_question_this_answers": {
+    "route": "RT-SURGICAL-QUALITY",
+    "unknown": "What the positive-margin rate in EMC actually is -- no cohort in the registry carries a margin field, and the one dedicated EMC surgical series reports a single positive margin in 13 patients.",
+    "answer": "Two series print full margin distributions, over 156 and 40 operated patients rather than 13. The positive-margin rate is 25.0 % across all of Masunaga's operated patients, 22.4 % among those localized at diagnosis, 40.9 % among those already metastatic, and 35.0 % in Chiusole where the field was recorded. ⛔ THE RANGE IS THE RESULT: there is no single EMC positive-margin rate, because the denominator choice moves it by more than the width of any of the intervals.",
+    "⚠_still_open": "The route's SECOND unknown -- whether a sarcoma referral centre changes EMC outcomes -- is not advanced and cannot be by these two sources. See treatment_setting."
+  },
+  "series": [
+    {
+      "source_id": "masunaga2025",
+      "setting": "Japanese National Bone and Soft Tissue Tumor Registry -- a national registry, 2002-2022",
+      "registered": 171,
+      "printed_in": "Table 1, 'Surgical margin, n (%)' row, 'Total patients (N = 171)' column",
+      "margin_all_registered": {
+        "R0": 117,
+        "R1": 30,
+        "R2": 9,
+        "no_surgery": 15
+      },
+      "printed_in_nonmetastatic": "Table 1, same row, 'Metastases at diagnosis: No (N = 142)' column",
+      "margin_nonmetastatic": {
+        "R0": 104,
+        "R1": 22,
+        "R2": 8,
+        "no_surgery": 8
+      },
+      "printed_in_metastatic": "Table 1, same row, 'Metastases at diagnosis: Yes (N = 29)' column",
+      "margin_metastatic": {
+        "R0": 13,
+        "R1": 8,
+        "R2": 1,
+        "no_surgery": 7
+      },
+      "margin_definition_printed": "Methods: 'microscopically negative margins were defined as [R0], macroscopically negative but microscopically positive margins as [R1], and macroscopically positive margins as [R2]'. ⭐ THE DEFINITION IS PRINTED, WHICH IS NOT THE NORM -- it is what lets these counts be compared to another series at all, and Chiusole's wording is compatible with it.",
+      "candidate_proxies_for_unplanned_excision": {
+        "previous_surgery_yes": 18,
+        "previous_surgery_no": 153,
+        "excisional_biopsy": 10,
+        "biopsy_none": 19,
+        "is_the_thing": false,
+        "⛔_why_not": "The paper lists 'previous surgery' among the fields extracted from the database and never defines it, while it DOES define R0/R1/R2 in the same sentence -- so the omission is visible rather than assumed. An excisional biopsy is a deliberate diagnostic act. Either could be an unplanned excision and neither is stated to be, so no unplanned-excision rate is computed from them."
+      },
+      "treatment_setting_printed": null,
+      "⛔_setting_absent": "No centre, centre volume or referral status is printed for any patient. A national registry could in principle carry it; this publication does not report it."
+    },
+    {
+      "source_id": "chiusole2020",
+      "setting": "Istituto Oncologico Veneto and Institut Gustave Roussy -- two referral centres, 1980-2018",
+      "registered": 59,
+      "printed_in": "Table 2 'Outcome of surgery', corroborated by the Results sentence 'Data on extension surgery were available for 40 patients: 26 had radical (R0) surgery, 12 patients had surgery with microscopic margin infiltration (R1), and 2 patients had macroscopic presence of tumor (R2)'",
+      "margin_where_available": {
+        "R0": 26,
+        "R1": 12,
+        "R2": 2
+      },
+      "margin_field_available_for": 40,
+      "treated_with_curative_intent": 49,
+      "⚠_informative_missingness": "The margin field is available for 40 patients while 49 were treated with curative intent, so 9 are missing -- 18 % of the curative-intent group. The paper does not say who they are. Missingness in a margin field is not plausibly random: an operation whose margin nobody recorded is more likely to have happened long ago or elsewhere, and this series reaches back to 1980. The rate below therefore has a denominator of 40 and is NOT a rate over the curative-intent cohort.",
+      "outcome_by_margin": {
+        "R0": {
+          "n": 26,
+          "local_recurrence": 2,
+          "metastases": 4
+        },
+        "R1": {
+          "n": 12,
+          "local_recurrence": 5,
+          "metastases": 7
+        },
+        "R2": {
+          "n": 2,
+          "local_recurrence": null,
+          "metastases": null,
+          "⛔_printed_as_NA": "Table 2 prints NA for both outcomes at R2. The text accounts for the two patients individually -- one was metastatic and had no further surgery, the other had no local recurrence after re-excision and radiotherapy -- which is why the table refuses a rate over n = 2 rather than printing 50 %."
+        }
+      },
+      "⚠_table_vs_text_arithmetic": "Table 2 prints the R0 metastasis rate as 15.2 % and the Results text prints the same 4 of 26 as 15.4 %. 4/26 = 15.38 %, so the text is right. The paper's other three cells TRUNCATE rather than round -- 2/26 = 7.69 printed 7.6, 5/12 = 41.67 printed 41.6, 7/12 = 58.33 printed 58.3 -- and truncation of 15.38 gives 15.3, not 15.2. So 15.2 % is anomalous under the paper's own convention and is most likely a typo. RECORDED, NOT RESOLVED: this module transcribes counts and derives its own percentages, so nothing here depends on which printing is right. ⛔ This is the THIRD independent table-vs-text discrepancy found in this source -- emc-site-curation.json records one in its site counts and emc-prognostic-coefficients.json records the univariate/multivariate label -- which is itself worth carrying when weighting it.",
+      "margin_definition_printed": "Results: R0 as 'radical', R1 as 'surgery with microscopic margin infiltration', R2 as 'macroscopic presence of tumor'. Compatible with Masunaga's explicit definition.",
+      "treatment_setting_printed": null,
+      "⛔_setting_absent": "Every patient in this series was treated at one of two sarcoma referral centres, so the exposure the route asks about is held CONSTANT. That is not a missing field; it is a cohort that cannot answer the question by construction, and it would stay unanswerable however completely this paper were curated."
+    }
+  ],
+  "masunaga2025_rates": {
+    "positive_margin_among_all_operated": {
+      "events": 39,
+      "denominator": 156,
+      "proportion": 0.25,
+      "wilson95": [
+        0.1886,
+        0.3234
+      ]
+    },
+    "positive_margin_among_operated_localized_at_diagnosis": {
+      "events": 30,
+      "denominator": 134,
+      "proportion": 0.2239,
+      "wilson95": [
+        0.1616,
+        0.3016
+      ]
+    },
+    "positive_margin_among_operated_metastatic_at_diagnosis": {
+      "events": 9,
+      "denominator": 22,
+      "proportion": 0.4091,
+      "wilson95": [
+        0.2326,
+        0.6127
+      ]
+    },
+    "not_operated_at_all_among_registered": {
+      "events": 15,
+      "denominator": 171,
+      "proportion": 0.0877,
+      "wilson95": [
+        0.0539,
+        0.1397
+      ]
+    },
+    "⭐_the_denominators_are_not_interchangeable": "Patients already metastatic at diagnosis were operated to a positive margin far more often than patients who were not, so a 'positive-margin rate' quoted without its denominator can move by nearly twenty points inside one paper. The metastatic figure rests on 22 operated patients and its interval is correspondingly wide; the direction is what is worth carrying, not the point estimate.",
+    "⚠_this_is_not_a_quality_metric": "A positive margin in a metastatic patient is frequently a deliberate choice -- debulking, symptom control, or an operation whose goal was never clearance. Reading any of these rates as surgical performance requires knowing the INTENT of each operation, which neither paper prints."
+  },
+  "chiusole2020_rates": {
+    "positive_margin_among_those_with_the_field_recorded": {
+      "events": 14,
+      "denominator": 40,
+      "proportion": 0.35,
+      "wilson95": [
+        0.2213,
+        0.5049
+      ]
+    },
+    "⛔_no_rate_over_the_curative_intent_cohort": "The field is recorded for 40 of the 49 treated with curative intent. A rate over 49 would require assuming the 9 missing resemble the 40, which informative missingness makes the least safe assumption available. Not computed.",
+    "local_recurrence_R0": {
+      "events": 2,
+      "denominator": 26,
+      "proportion": 0.0769,
+      "wilson95": [
+        0.0214,
+        0.2414
+      ]
+    },
+    "metastases_R0": {
+      "events": 4,
+      "denominator": 26,
+      "proportion": 0.1538,
+      "wilson95": [
+        0.0615,
+        0.3353
+      ]
+    },
+    "local_recurrence_R1": {
+      "events": 5,
+      "denominator": 12,
+      "proportion": 0.4167,
+      "wilson95": [
+        0.1933,
+        0.6805
+      ]
+    },
+    "metastases_R1": {
+      "events": 7,
+      "denominator": 12,
+      "proportion": 0.5833,
+      "wilson95": [
+        0.3195,
+        0.8067
+      ]
+    },
+    "⭐_the_contrast": "Local recurrence 2 of 26 after R0 against 5 of 12 after R1; metastases 4 of 26 against 7 of 12. Both intervals are wide and both overlap, so this is a DIRECTION from 38 patients, not an effect size. ⛔ AND IT IS CONFOUNDED IN THE OBVIOUS WAY: whatever made a tumour impossible to clear -- size, site, proximity to a neurovascular bundle -- is also a reason it recurs and spreads. The margin is a marker of the tumour as much as of the operation.",
+    "⛔_no_intervals_at_R2": "n = 2, and the paper prints NA rather than a rate. Not computed."
+  },
+  "treatment_setting": {
+    "recorded_in_any_reachable_series": false,
+    "⛔_this_is_a_reading_not_a_gap": "Masunaga prints no centre, centre volume or referral status; Chiusole is entirely referral-centre care with no comparator. One does not report the exposure and the other holds it constant, so neither can answer the referral question and further curation of them will not change that. Recorded so a later session does not spend the effort a second time.",
+    "what_would_answer_it": "A series that reports where each patient was first operated, or a registry linkage carrying centre volume. Neither exists among the reachable open-access EMC literature (emc-km-reachability-census-2026-08-25.json)."
+  },
+  "unplanned_excision": {
+    "recorded_in_any_reachable_series": false,
+    "candidate_proxies": {
+      "previous_surgery_yes": 18,
+      "previous_surgery_no": 153,
+      "excisional_biopsy": 10,
+      "biopsy_none": 19,
+      "is_the_thing": false,
+      "⛔_why_not": "The paper lists 'previous surgery' among the fields extracted from the database and never defines it, while it DOES define R0/R1/R2 in the same sentence -- so the omission is visible rather than assumed. An excisional biopsy is a deliberate diagnostic act. Either could be an unplanned excision and neither is stated to be, so no unplanned-excision rate is computed from them."
+    }
+  },
+  "⛔_nothing_is_pooled": "The two series share neither era (1980-2018 against 2002-2022), setting (two referral centres against a national registry) nor denominator convention (Chiusole's is the 40 with the field recorded, not its 49 treated with curative intent). POLICY-evidence 2.1 requires comparable denominators and 2.3 refuses populations that may overlap. Each rate stands alone with its own Wilson interval and no combined figure is computed.",
+  "counts": {
+    "series": 2,
+    "operated_patients_with_a_margin_recorded": 196
+  }
+}

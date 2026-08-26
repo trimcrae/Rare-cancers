@@ -44,27 +44,45 @@ QUANTITIES = {
     "primary_anatomical_site_distribution": {
         "wanted_by": "RT-LIMB-PERFUSION — isolated limb perfusion is only offerable for an extremity "
                      "primary, so the eligible fraction IS the extremity fraction",
-        "computable": False,
-        "why": "⛔ NO COHORT IN THE REGISTRY CARRIES A SITE FIELD. `overview.commonSites` is a prose "
-               "list ('deep soft tissue of the thigh and lower limb (most common)', limb girdles, "
-               "trunk, less commonly upper limb / head and neck / retroperitoneum) with no counts "
-               "behind it, and a prose ordering cannot become a denominator. This was never entered, "
-               "so it is not an extraction that has not been done.",
-        "what_would_supply_it": "re-curating the pooled series' site tables from their primary "
-                                "reports — $0 for the open-access ones, and the single highest-value "
-                                "curation this endpoint is waiting on",
+        # ⚠ `computable` IS A CLASSIFIER, NOT A SENTENCE. It was briefly set to prose here
+        # ("not from the registry, and it no longer has to be") and CI caught it against the guard
+        # that pins this field to True / False / "partially" — correctly, because a field a machine
+        # reads is not a place to be eloquent. The nuance belongs in `why`, which is prose by design.
+        # ⭐ AND THE VALUE FLIPS TO True: the question this field answers is whether the endpoint can
+        # HAVE this quantity, not whether the registry happens to carry it. It can, from
+        # emc-site-curation.json. ⚠ *Superseded, retained: False.*
+        "computable": True,
+        "why": "⛔ NO COHORT IN THE REGISTRY CARRIES A SITE FIELD, and that is still true. "
+               "`overview.commonSites` is a prose list with no counts behind it, and a prose "
+               "ordering cannot become a denominator. ⭐ RESOLVED ELSEWHERE 2026-08-25: the site "
+               "tables were transcribed from the primary reports instead, and "
+               "`emc-site-curation.json` now owns this quantity. ⚠ *Superseded, retained: "
+               "\"computable: False\"* — which was a statement about the REGISTRY and kept being "
+               "read as a statement about the literature.",
+        "resolved_by": "research/modalities/emc-site-curation.json",
+        "what_would_supply_it": "DONE for the two open-access series that print a site table "
+                                "(chiusole2020 n=59, masunaga2025 n=171). The other nine candidate "
+                                "series are not open access, so their site tables stay unreachable "
+                                "at $0 — a paywall, not a missing extraction.",
     },
     "metastatic_site_distribution": {
         "wanted_by": "RT-LUNG-DIRECTED — a lung-directed strategy is offerable only to patients whose "
                      "metastases are lung-confined",
+        # ⚠ Classifier, not a sentence — see the note on the row above. Still "partially", and the
+        # reason that word survives a second curated series is in `why`.
         "computable": "partially",
-        "why": "⚠ ONE COHORT CARRIES IT AND IT IS IN A NOTE, NOT A FIELD. The metastatic-at-diagnosis "
-               "stratum records '27 lung, 2 peritoneal metastases' in free text on n = 29. That is a "
-               "real and strikingly lung-dominant reading, and it is ONE series' presenting cohort — "
-               "it is not a pooled distribution and must not be quoted as one. No other cohort "
-               "records metastatic site at all.",
-        "what_would_supply_it": "the same re-curation as above; site is reported in several of these "
-                                "series' primary texts",
+        "why": "⚠ ONE COHORT CARRIES A LUNG-CONFINED READING AND IT IS A PRESENTING STRATUM. The "
+               "metastatic-at-diagnosis stratum records 27 lung and 2 peritoneal on n = 29 — those "
+               "two rows exhaust the cohort, so 27/29 IS a lung-only fraction there. ⭐ A SECOND "
+               "SERIES WAS CURATED 2026-08-25 AND IT CANNOT BE ADDED: chiusole2020's metastatic-site "
+               "rows are NON-EXCLUSIVE (23 lung + 4 bone + 14 other = 41 over a denominator of 26), "
+               "so no lung-CONFINED fraction can be read off it, and the paper's own table and its "
+               "running text disagree by one and two patients. ⛔ So the honest state is UNCHANGED "
+               "in kind: one presenting cohort, not a pooled distribution.",
+        "resolved_by": "research/modalities/emc-site-curation.json (partially)",
+        "what_would_supply_it": "a series reporting metastatic sites as MUTUALLY EXCLUSIVE "
+                                "categories, or patient-level data. Neither exists in the reachable "
+                                "open-access set.",
     },
     "burden_and_timing": {
         "wanted_by": "RT-LUNG-DIRECTED — an oligometastatic threshold is a COUNT of lesions, and "

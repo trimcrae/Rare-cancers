@@ -32,6 +32,13 @@
       "why_candidate": "SEER population series reporting overall survival; the largest single denominator available",
       "full_text_reachable": null,
       "figure_checked": false,
+      "reachability_2026_08_25": {
+        "verdict": "free_to_read_but_not_retrieved",
+        "unpaywall_oa_status": "gold",
+        "unpaywall_licence": "cc-by-nc-nd",
+        "note": "⚠ FREE TO READ AND STILL UNREACHABLE BY MACHINE (2026-08-25). Unpaywall grades it open access at the publisher; every route tried, including a real headless Chromium, was answered HTTP 403. A human with a browser can read it; this program cannot fetch it, and the next rung would be defeating bot protection, which this program does not build.",
+        "census": "research/literature/emc-km-reachability-census-2026-08-25.json"
+      },
       "overlap_risk": "none with institutional series",
       "⛔_caveat": "Keyed on ICD-O-3 9231/3, the code RT-DIAGNOSTIC-PATHWAY shows two published SEER analyses read as mutually incompatible diseases. Cohort composition is UNKNOWN and this row must not anchor a pooled estimate until that split is quantified."
     },
@@ -41,7 +48,18 @@
       "endpoint_hint": "os",
       "why_candidate": "retrospective national registry study of radiotherapy and chemotherapy roles; survival endpoint implied by the question",
       "full_text_reachable": "PMC12398172",
-      "figure_checked": false,
+      "figure_checked": true,
+      "figure_finding": {
+        "km_figures": 3,
+        "figures": [
+          "Fig. 1 disease-specific survival by distant metastases at diagnosis",
+          "Fig. 2 local recurrence-free survival by (neo)adjuvant radiotherapy",
+          "Fig. 3 disease-specific survival by advanced-stage chemotherapy"
+        ],
+        "numbers_at_risk_row": false,
+        "style": "two arms, 95% CI shading, p-value in panel, no risk table beneath the axis",
+        "⛔_consequence": "REFUSED by the quality floor. This is the LARGEST reachable EMC series (n=171) and it is unreconstructable for a reporting reason, not a scientific one."
+      },
       "overlap_risk": "none with institutional series"
     },
     {
@@ -51,6 +69,13 @@
       "why_candidate": "the classic long-term prognostic pathology series; prognosis is its stated subject",
       "full_text_reachable": null,
       "figure_checked": false,
+      "reachability_2026_08_25": {
+        "verdict": "closed",
+        "unpaywall_oa_status": "closed",
+        "unpaywall_licence": null,
+        "note": "⛔ NOT OPEN ACCESS anywhere Unpaywall can see (2026-08-25). No free route at $0. That is a statement about ACCESS, never about the paper.",
+        "census": "research/literature/emc-km-reachability-census-2026-08-25.json"
+      },
       "overlap_risk": "may be subsumed by later referral-centre series"
     },
     {
@@ -60,6 +85,13 @@
       "why_candidate": "two-referral-centre retrospective review emphasising outcome",
       "full_text_reachable": "PMC2779719",
       "figure_checked": false,
+      "reachability_2026_08_25": {
+        "verdict": "unresolved",
+        "unpaywall_oa_status": null,
+        "unpaywall_licence": null,
+        "note": "⚠ Its PMC routes answer HTTP 500 and no free-copy lookup has yet been run against its DOI (2026-08-25).",
+        "census": "research/literature/emc-km-reachability-census-2026-08-25.json"
+      },
       "overlap_risk": "shares referral centres with later US series"
     },
     {
@@ -69,6 +101,13 @@
       "why_candidate": "US Sarcoma Collaborative multi-institution database, outcomes reported",
       "full_text_reachable": null,
       "figure_checked": false,
+      "reachability_2026_08_25": {
+        "verdict": "closed",
+        "unpaywall_oa_status": "closed",
+        "unpaywall_licence": null,
+        "note": "⛔ NOT OPEN ACCESS anywhere Unpaywall can see (2026-08-25). No free route at $0. That is a statement about ACCESS, never about the paper.",
+        "census": "research/literature/emc-km-reachability-census-2026-08-25.json"
+      },
       "overlap_risk": "⚠ US institutions overlap drilon2008 and uMich2023"
     },
     {
@@ -77,7 +116,20 @@
       "endpoint_hint": "os",
       "why_candidate": "two-institution retrospective, outcomes in the title",
       "full_text_reachable": "PMC7308468",
-      "figure_checked": false,
+      "figure_checked": true,
+      "figure_finding": {
+        "km_figures": 4,
+        "figures": [
+          "Figure 1 OS by extent of primary resection",
+          "Figure 2 OS by sex",
+          "Figure 3 OS by primary location",
+          "Figure 4 OS by site of metastases"
+        ],
+        "numbers_at_risk_row": false,
+        "style": "two or three arms, censoring ticks drawn on the curve, legend with p-value, no risk table beneath the axis",
+        "⭐_what_IS_printed": "median OS 180 months, 75% alive at 5 years, 63% at 10 years, 20 deaths of 59 -- printed in the text, so a printed-numbers analysis is possible where a reconstruction is not.",
+        "⛔_consequence": "REFUSED by the quality floor."
+      },
       "overlap_risk": "⚠ likely shares Milan/INT patients with the Stacchiotti series"
     },
     {
@@ -87,6 +139,13 @@
       "why_candidate": "multi-institution series of 42 cases",
       "full_text_reachable": null,
       "figure_checked": false,
+      "reachability_2026_08_25": {
+        "verdict": "free_to_read_but_not_retrieved",
+        "unpaywall_oa_status": "bronze",
+        "unpaywall_licence": null,
+        "note": "⚠ FREE TO READ AND STILL UNREACHABLE BY MACHINE (2026-08-25). Unpaywall grades it open access at the publisher; every route tried, including a real headless Chromium, was answered HTTP 403. A human with a browser can read it; this program cannot fetch it, and the next rung would be defeating bot protection, which this program does not build.",
+        "census": "research/literature/emc-km-reachability-census-2026-08-25.json"
+      },
       "overlap_risk": "⚠ may overlap morioka2016 (Japanese trial population)"
     },
     {
@@ -96,6 +155,13 @@
       "why_candidate": "single-institution series explicitly examining prognostic factors",
       "full_text_reachable": null,
       "figure_checked": false,
+      "reachability_2026_08_25": {
+        "verdict": "closed",
+        "unpaywall_oa_status": "closed",
+        "unpaywall_licence": null,
+        "note": "⛔ NOT OPEN ACCESS anywhere Unpaywall can see (2026-08-25). No free route at $0. That is a statement about ACCESS, never about the paper.",
+        "census": "research/literature/emc-km-reachability-census-2026-08-25.json"
+      },
       "overlap_risk": "⚠ US institution, may overlap ussc2022"
     },
     {
@@ -105,6 +171,13 @@
       "why_candidate": "single-institution combined-modality series; local control is the stated endpoint",
       "full_text_reachable": "PMC7771031",
       "figure_checked": false,
+      "reachability_2026_08_25": {
+        "verdict": "unresolved",
+        "unpaywall_oa_status": null,
+        "unpaywall_licence": null,
+        "note": "⚠ Its PMC routes answer HTTP 500 and no free-copy lookup has yet been run against its DOI (2026-08-25).",
+        "census": "research/literature/emc-km-reachability-census-2026-08-25.json"
+      },
       "overlap_risk": "⚠ US institution, may overlap ussc2022"
     },
     {
@@ -114,6 +187,13 @@
       "why_candidate": "single-country clinicopathologic and radiologic series",
       "full_text_reachable": null,
       "figure_checked": false,
+      "reachability_2026_08_25": {
+        "verdict": "closed",
+        "unpaywall_oa_status": "closed",
+        "unpaywall_licence": null,
+        "note": "⛔ NOT OPEN ACCESS anywhere Unpaywall can see (2026-08-25). No free route at $0. That is a statement about ACCESS, never about the paper.",
+        "census": "research/literature/emc-km-reachability-census-2026-08-25.json"
+      },
       "overlap_risk": "none known"
     },
     {
@@ -123,6 +203,13 @@
       "why_candidate": "molecular case series; reports disease-specific survival by fusion partner, the TAF15 prognostic question",
       "full_text_reachable": null,
       "figure_checked": false,
+      "reachability_2026_08_25": {
+        "verdict": "free_to_read_but_not_retrieved",
+        "unpaywall_oa_status": "bronze",
+        "unpaywall_licence": null,
+        "note": "⚠ FREE TO READ AND STILL UNREACHABLE BY MACHINE (2026-08-25). Unpaywall grades it open access at the publisher; every route tried, including a real headless Chromium, was answered HTTP 403. A human with a browser can read it; this program cannot fetch it, and the next rung would be defeating bot protection, which this program does not build.",
+        "census": "research/literature/emc-km-reachability-census-2026-08-25.json"
+      },
       "overlap_risk": "none known",
       "note": "the fusion-partner denominator RT-PARTNER-STRAT depends on -- EWSR1 46/58, TAF15 9/58, TCF12 2/58"
     },
@@ -133,6 +220,13 @@
       "why_candidate": "the only prospective single-arm phase 2 in advanced EMC; PFS is the primary endpoint",
       "full_text_reachable": null,
       "figure_checked": false,
+      "reachability_2026_08_25": {
+        "verdict": "closed",
+        "unpaywall_oa_status": "closed",
+        "unpaywall_licence": null,
+        "note": "⛔ NOT OPEN ACCESS anywhere Unpaywall can see (2026-08-25). No free route at $0. That is a statement about ACCESS, never about the paper.",
+        "census": "research/literature/emc-km-reachability-census-2026-08-25.json"
+      },
       "overlap_risk": "⚠ may share patients with earlier Milan series"
     },
     {
@@ -151,7 +245,18 @@
       "endpoint_hint": "pfs",
       "why_candidate": "single-arm phase Ib/II; EMC may appear only as a subgroup",
       "full_text_reachable": "PMC7674086",
-      "figure_checked": false,
+      "figure_checked": true,
+      "figure_finding": {
+        "km_figures": 0,
+        "figures": [
+          "Figure 1 CONSORT",
+          "Figure 2 waterfall by RECIST",
+          "Figure 3 per-patient PFS swimmer plot, coloured by histology"
+        ],
+        "numbers_at_risk_row": null,
+        "⚠_correction": "emc-ipd-admissibility-2026-08-12.json counted this paper among those that 'report Kaplan-Meier survival analysis'. It reports one in TEXT and prints no KM curve, which a caption scan cannot distinguish.",
+        "⭐_a_different_instrument_applies": "A swimmer plot is per-patient data drawn as pixels: each bar is one patient's PFS, with censoring shown by an arrow. Reading it needs no Guyot recursion because it IS the patient-level data -- but the EMC patients are one colour inside a mixed soft-tissue sarcoma cohort, so the subgroup must be separated by colour before anything can be claimed."
+      },
       "overlap_risk": "⚠ likely the parent trial of immunosarc2emc2025",
       "⚠_caveat": "cohort is advanced soft-tissue sarcoma broadly; an EMC-specific curve may not exist"
     },
@@ -161,7 +266,39 @@
       "endpoint_hint": "pfs",
       "why_candidate": "retrospective centrally-reviewed systemic-therapy series",
       "full_text_reachable": "PMC3879193",
-      "figure_checked": false,
+      "figure_checked": true,
+      "figure_finding": {
+        "km_figures": 1,
+        "figures": [
+          "Figure 2 overall PFS on anthracycline-based chemotherapy"
+        ],
+        "numbers_at_risk_row": true,
+        "risk_table_printed": [
+          [
+            2,
+            10
+          ],
+          [
+            4,
+            7
+          ],
+          [
+            6,
+            5
+          ],
+          [
+            8,
+            1
+          ],
+          [
+            10,
+            0
+          ]
+        ],
+        "⚠_axis_starts_at_2": "The time axis begins at 2, not 0, and the first event lands on the origin -- so the printed '10 at t=2' is a post-event count. See km_digitize.FIGURE_RECIPES for what that does to the recursion.",
+        "digitized": "km-figure-readings.json -> stacchiotti2013_pfs_anthracycline",
+        "⭐": "The reconstruction reproduces the caption's printed median PFS of 8 months, which the reconstruction never saw. That is this program's only check of a READING."
+      },
       "overlap_risk": "⚠ Milan series, overlaps stacchiotti2014sunitinib and chiusole2020"
     },
     {
@@ -171,6 +308,13 @@
       "why_candidate": "retrospective consecutively-treated series, 6 of 10 RECIST partial responses",
       "full_text_reachable": null,
       "figure_checked": false,
+      "reachability_2026_08_25": {
+        "verdict": "closed",
+        "unpaywall_oa_status": "closed",
+        "unpaywall_licence": null,
+        "note": "⛔ NOT OPEN ACCESS anywhere Unpaywall can see (2026-08-25). No free route at $0. That is a statement about ACCESS, never about the paper.",
+        "census": "research/literature/emc-km-reachability-census-2026-08-25.json"
+      },
       "overlap_risk": "⚠ Milan series, overlaps stacchiotti2013anthracycline and stacchiotti2019pazopanib"
     },
     {
@@ -179,17 +323,187 @@
       "endpoint_hint": "pfs",
       "why_candidate": "sub-analysis of a randomised trial; EMC arm is tiny",
       "full_text_reachable": "PMC4946242",
-      "figure_checked": false,
+      "figure_checked": true,
+      "figure_finding": {
+        "km_figures": 1,
+        "figures": [
+          "Fig. 1 Kaplan-Meier plot of progression-free survival, two arms"
+        ],
+        "numbers_at_risk_row": true,
+        "risk_table_printed": {
+          "trabectedin": [
+            [
+              0,
+              5
+            ],
+            [
+              3,
+              5
+            ],
+            [
+              6,
+              5
+            ],
+            [
+              9,
+              3
+            ],
+            [
+              12,
+              3
+            ],
+            [
+              15,
+              1
+            ],
+            [
+              18,
+              1
+            ],
+            [
+              21,
+              1
+            ]
+          ],
+          "best_supportive_care": [
+            [
+              0,
+              3
+            ]
+          ]
+        },
+        "⛔_it_is_not_an_EMC_cohort": "Five patients in the trabectedin arm, of whom the paper's Table 2 identifies TWO as EMCS and three as mesenchymal chondrosarcoma; all three best-supportive-care patients are MCS. A curve over that arm is not an EMC curve.",
+        "⭐_no_reconstruction_needed": "Table 2 prints per-subject PFS, overall survival and censoring flags. Where a paper prints patient-level data, reading it is transcription, and inverting a curve to recover what is already printed adds error for nothing."
+      },
       "overlap_risk": "⚠ may overlap japan2003 institutions",
       "⚠_caveat": "n=5 is below the >=5-per-study inclusion floor used by the reconstructed-IPD exemplar only if that floor is read as strictly greater; adjudicate before admitting"
     }
   ],
-  "curves_supplied": 0,
-  "curves_admissible": 0,
-  "curves_pooled": 0,
-  "quality": [],
+  "printed_patient_level_data": {
+    "_what": "patient-level rows a paper PRINTED, transcribed rather than reconstructed",
+    "⚠_not_pooled": "different treatments and lines; POLICY-evidence.md forbids merging them with each other or with any reconstructed curve",
+    "n_rows": 2,
+    "rows": [
+      {
+        "source_id": "morioka2016trabectedin",
+        "printed_in": "Table 2 'Summary of efficacy', trabectedin group, subject 1",
+        "histology": "EMCS",
+        "population": "extraskeletal myxoid chondrosarcoma, trabectedin arm of a randomised phase 2 study in translocation-related sarcoma",
+        "pfs_months": 13.0,
+        "pfs_censored": false,
+        "os_months": 26.4,
+        "os_censored": false,
+        "best_overall_response": "SD",
+        "verified_against": "the PDF text layer of PMC4946242 page 4, not only a page raster"
+      },
+      {
+        "source_id": "morioka2016trabectedin",
+        "printed_in": "Table 2 'Summary of efficacy', trabectedin group, subject 2",
+        "histology": "EMCS",
+        "population": "extraskeletal myxoid chondrosarcoma, trabectedin arm of a randomised phase 2 study in translocation-related sarcoma",
+        "pfs_months": 7.4,
+        "pfs_censored": false,
+        "os_months": 10.4,
+        "os_censored": false,
+        "best_overall_response": "SD",
+        "verified_against": "the PDF text layer of PMC4946242 page 4, not only a page raster"
+      }
+    ]
+  },
+  "curves_supplied": 1,
+  "curves_hand_typed": 0,
+  "curves_from_digitizer": 1,
+  "curves_admissible": 1,
+  "curves_pooled": 1,
+  "quality": [
+    {
+      "id": "stacchiotti2013_pfs_anthracycline::risk_table_anchored",
+      "admissible": true,
+      "failures": [],
+      "max_abs_km_deviation": 0.0454
+    }
+  ],
   "errors": [],
-  "reconstructions": [],
-  "pooled": null,
-  "status": "NO CURVES DIGITIZED. The instrument is built and its known-answer control passes; no published EMC figure has been read into CURVES yet. Digitizing a figure requires the figure, and inventing a coordinate would fabricate a clinical datum. This field is the honest state, not a placeholder to be filled in with plausible numbers."
+  "reconstructions": [
+    {
+      "id": "stacchiotti2013_pfs_anthracycline::risk_table_anchored",
+      "source_id": "stacchiotti2013anthracycline",
+      "endpoint": "pfs",
+      "population": "NR4A3-confirmed extraskeletal myxoid chondrosarcoma treated with anthracycline-based chemotherapy",
+      "time_unit": "months",
+      "n_reconstructed": 11,
+      "n_events": 9,
+      "n_censored": 2,
+      "n_at_risk_reported_start": 11,
+      "max_abs_km_deviation": 0.0454,
+      "risk_table_intervals": 5,
+      "risk_table_intervals_with_points": 4,
+      "risk_table_overridden": []
+    }
+  ],
+  "pooled": {
+    "n_patients": 11,
+    "n_events": 9,
+    "endpoint": "pfs",
+    "curves_pooled": [
+      "stacchiotti2013_pfs_anthracycline::risk_table_anchored"
+    ],
+    "sources_pooled": [
+      "stacchiotti2013anthracycline"
+    ],
+    "kaplan_meier": [
+      {
+        "time": 2.000883,
+        "n_at_risk": 11,
+        "events": 1,
+        "censored": 0,
+        "survival": 0.909091
+      },
+      {
+        "time": 2.985878,
+        "n_at_risk": 10,
+        "events": 1,
+        "censored": 1,
+        "survival": 0.818182
+      },
+      {
+        "time": 3.986761,
+        "n_at_risk": 8,
+        "events": 1,
+        "censored": 0,
+        "survival": 0.715909
+      },
+      {
+        "time": 4.987643,
+        "n_at_risk": 7,
+        "events": 2,
+        "censored": 0,
+        "survival": 0.511364
+      },
+      {
+        "time": 7.9797,
+        "n_at_risk": 5,
+        "events": 0,
+        "censored": 1,
+        "survival": 0.511364
+      },
+      {
+        "time": 7.984996,
+        "n_at_risk": 4,
+        "events": 3,
+        "censored": 0,
+        "survival": 0.127841
+      },
+      {
+        "time": 9.986761,
+        "n_at_risk": 1,
+        "events": 1,
+        "censored": 0,
+        "survival": 0.0
+      }
+    ],
+    "median_survival": 7.984996,
+    "⛔_this_is_not_a_pool": "ONE curve, from ONE series (stacchiotti2013anthracycline), on endpoint pfs, in the population: NR4A3-confirmed extraskeletal myxoid chondrosarcoma treated with anthracycline-based chemotherapy. Everything in this block is that series' own reconstruction and inherits its every selection effect and its treatment. It is NOT a pooled extraskeletal myxoid chondrosarcoma estimate, and `median_survival` here is not this disease's median survival."
+  },
+  "status": "curves supplied; see quality[] for what was admitted and why"
 }
