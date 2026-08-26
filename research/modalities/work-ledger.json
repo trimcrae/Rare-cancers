@@ -8,12 +8,12 @@
     "never_destructive": "no destroy, reap, condemn or blacklist \u2014 those stay in the lanes' own collect paths. Asserted by AST in tests/test_work_ledger.py.",
     "a_price_hold_is_not_a_stall": "\u00a76 makes a hold a SUCCESS. Held entries get no action, accrue no attempts, and can never decay into `blocked`."
   },
-  "_generated_utc": "2026-08-26T19:19:15Z",
-  "_generated_et": "3:19 PM ET Aug 26, 2026",
+  "_generated_utc": "2026-08-26T19:20:48Z",
+  "_generated_et": "3:20 PM ET Aug 26, 2026",
   "_expected_tick_min": 16.0,
   "_tick_workflow": "lane-staleness-watch.yml",
-  "_stale_after_utc": "2026-08-26T20:07:15Z",
-  "_stale_after_et": "4:07 PM ET Aug 26, 2026",
+  "_stale_after_utc": "2026-08-26T20:08:48Z",
+  "_stale_after_et": "4:08 PM ET Aug 26, 2026",
   "_stale_after_means": "IF THE CLOCK IS PAST THIS AND THIS FILE HAS NOT CHANGED, THE SUPERVISOR CHAIN HAS STOPPED and every item below is unwatched. A supervisor that has stopped cannot report that it stopped, so this deadline is written INTO the artifact: a reader who does nothing but open the file can tell. Restart with `gh workflow run step1-fanout-supervisor.yml --ref main`.",
   "_scanners": [
     {
@@ -1901,7 +1901,7 @@
       "first_seen_utc": "2026-07-30T08:11:17Z",
       "unreadable": null,
       "notes": [
-        "unanswered for 43566 min against a 40 min acknowledgement window measured from today's real gate->rental hand-offs (0.7-22 min)"
+        "unanswered for 43568 min against a 40 min acknowledgement window measured from today's real gate->rental hand-offs (0.7-22 min)"
       ]
     },
     {
@@ -1931,7 +1931,7 @@
       "first_seen_utc": "2026-07-30T08:11:17Z",
       "unreadable": null,
       "notes": [
-        "unanswered for 43556 min against a 40 min acknowledgement window measured from today's real gate->rental hand-offs (0.7-22 min)"
+        "unanswered for 43558 min against a 40 min acknowledgement window measured from today's real gate->rental hand-offs (0.7-22 min)"
       ]
     },
     {
@@ -2406,12 +2406,12 @@
       "owner": "gpu-ternary-fep-vast.yml",
       "owner_note": null,
       "state": "done",
-      "evidence_fingerprint": "FINISHED||ternary-vast-market-hold.json `utc`",
-      "last_evidence_utc": "2026-07-30T06:49:34Z",
-      "last_evidence_et": "2:49 AM ET Jul 30, 2026",
-      "last_evidence_what": "ternary-vast-market-hold.json `utc`",
-      "next_evidence_due_utc": "2026-07-30T07:34:34Z",
-      "next_evidence_due_et": "3:34 AM ET Jul 30, 2026",
+      "evidence_fingerprint": "FINISHED||launch ledger: stage='market-gate' outcome='dispatched'",
+      "last_evidence_utc": "2026-08-26T19:20:17Z",
+      "last_evidence_et": "3:20 PM ET Aug 26, 2026",
+      "last_evidence_what": "launch ledger: stage='market-gate' outcome='dispatched'",
+      "next_evidence_due_utc": "2026-08-26T20:05:17Z",
+      "next_evidence_due_et": "4:05 PM ET Aug 26, 2026",
       "blocked_by": [],
       "attempts": [
         {
@@ -2755,22 +2755,22 @@
     {
       "id": "lane:nrv04-retro",
       "scanner": "lanes",
-      "what": "NR-V04 retrospective Arm E / R1, 18 endpoint-MD legs (Vast) \u2014 FINISHED",
+      "what": "NR-V04 retrospective Arm E / R1, 18 endpoint-MD legs (Vast) \u2014 IDLE-WITHIN-GRACE",
       "owner": "fusion-cpu-extras.yml",
       "owner_note": null,
-      "state": "done",
-      "evidence_fingerprint": "FINISHED|0 outstanding / |the lane's own tick wrote its in-flight-board fragment",
-      "last_evidence_utc": "2026-08-01T01:23:48Z",
-      "last_evidence_et": "9:23 PM ET Jul 31, 2026",
+      "state": "dispatched",
+      "evidence_fingerprint": "IDLE-WITHIN-GRACE|16 outstanding / NO HOST:16|the lane's own tick wrote its in-flight-board fragment",
+      "last_evidence_utc": "2026-08-26T19:18:59Z",
+      "last_evidence_et": "3:18 PM ET Aug 26, 2026",
       "last_evidence_what": "the lane's own tick wrote its in-flight-board fragment",
-      "next_evidence_due_utc": "2026-08-01T02:08:48Z",
-      "next_evidence_due_et": "10:08 PM ET Jul 31, 2026",
+      "next_evidence_due_utc": "2026-08-26T20:03:59Z",
+      "next_evidence_due_et": "4:03 PM ET Aug 26, 2026",
       "blocked_by": [],
       "attempts": [],
       "n_fruitless_attempts": 0,
       "retry_budget": 3,
       "auto_action": null,
-      "auto_action_why_none": "finished",
+      "auto_action_why_none": "evidence is not due until 4:03 PM ET Aug 26, 2026; nothing is overdue, so there is nothing to dispatch",
       "hosts_points_at": null,
       "cost_points_at": null,
       "price_points_at": null,
@@ -2779,7 +2779,7 @@
       "first_seen_utc": "2026-07-31T14:06:08Z",
       "unreadable": null,
       "notes": [
-        "every unit of this lane is landed; silence is the correct state and nothing is billing."
+        "no hosts and 16 unit(s) unfinished, but the last evidence is only 2 min old (grace 45 min) \u2014 a hand-off in progress looks like this."
       ]
     },
     {
@@ -2880,7 +2880,8 @@
     "open": 13,
     "advancing": 18,
     "unreadable": 1,
-    "done": 7
+    "done": 6,
+    "dispatched": 1
   },
   "blocked": [
     "plan:validation-b-full-component-calibration-cube-22-5-6-67-cum-40-module-3",
@@ -2927,17 +2928,17 @@
     "rung:genmatched_null_generative_arm"
   ],
   "_self": {
-    "now_et": "3:19 PM ET Aug 26, 2026",
-    "generated_et": "3:19 PM ET Aug 26, 2026",
-    "stale_after_et": "4:07 PM ET Aug 26, 2026",
+    "now_et": "3:20 PM ET Aug 26, 2026",
+    "generated_et": "3:20 PM ET Aug 26, 2026",
+    "stale_after_et": "4:08 PM ET Aug 26, 2026",
     "age_min": 0.0,
     "verdict": "RUNNING",
     "ok": true,
-    "detail": "last run 0 min ago; this artifact declares itself stale after 4:07 PM ET Aug 26, 2026, so a reader who opens the file can tell it is dead without running anything.",
+    "detail": "last run 0 min ago; this artifact declares itself stale after 4:08 PM ET Aug 26, 2026, so a reader who opens the file can tell it is dead without running anything.",
     "generation_test": {
       "verdict": "FRESH",
       "ok": true,
-      "detail": "the last completed run (2:05 PM ET Aug 26, 2026) refreshed the artifact to 3:19 PM ET Aug 26, 2026, 0 min ago \u2014 the fleet really was measured.",
+      "detail": "the last completed run (3:18 PM ET Aug 26, 2026) refreshed the artifact to 3:20 PM ET Aug 26, 2026, 0 min ago \u2014 the fleet really was measured.",
       "workflow": "lane-staleness-watch.yml",
       "test": "did the last COMPLETED run advance this artifact's `_generated_utc` past its own start \u2014 the throttle-immune question, imported from fleet_supervision_alarm rather than answered a second time here"
     }
