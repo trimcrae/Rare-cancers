@@ -115,8 +115,8 @@ def _receipt(route_advanced="RT-X", hours_ago=1, **extra):
     return doc
 
 
-# ───────────────────────────────────────────────────────────────────────── the seven, and their shape
-def test_all_seven_5_2_conditions_are_present(health, tmp_path):
+# ────────────────────────────────────────────────────────────────────────── the nine, and their shape
+def test_all_5_2_conditions_are_present(health, tmp_path):
     """§5.2's table is the contract. A condition that quietly stops being emitted is a dimension of
     failure nobody is watching any more — and it would look identical to a healthy board."""
     board = health.build(**_lab(tmp_path))
@@ -130,8 +130,15 @@ def test_all_seven_5_2_conditions_are_present(health, tmp_path):
         # owned, blocked or out of retry budget makes a loop that fires, finds nothing, writes a
         # receipt saying so, and repeats — a stall wearing the costume of a quiet week.
         "queue_is_takeable",
+        # ⭐ ADDED 2026-08-26, DECLARED in amendments.jsonl. The session-shape rule had lived only in
+        # `.claude/skills/research-loop/SKILL.md` §3, and a skill binds only when it is loaded —
+        # every one of that skill's load triggers was a Routine firing, so on the interactive path
+        # the rule was UNREACHABLE rather than merely unheeded. `"name":"Skill"` appears 0 times in
+        # the transcript of the session that broke it. Reachability was repaired in CLAUDE.md; this
+        # condition is the enforcement half, because a rule nothing measures decays to a suggestion.
+        "cycles_are_sized",
     }, "the condition set drifted from the architecture §5.2 table — that is a DECLARED change (§10.4)"
-    assert board["n_conditions"] == 8
+    assert board["n_conditions"] == 9
 
 
 def test_every_row_carries_the_alarm_state_idiom(health, tmp_path):
@@ -446,7 +453,8 @@ def test_write_persists_a_board_that_round_trips(health, tmp_path):
             kwargs["health_path"], "--write"]
     assert health.main(argv) == 0
     written = json.loads(pathlib.Path(kwargs["health_path"]).read_text())
-    assert len(written["conditions"]) == 8 and written["_stale_after_means"]
+    assert (len(written["conditions"]) == len(health.CONDITION_ORDER)
+            and written["_stale_after_means"])
 
 
 def test_the_board_is_deterministic(health, tmp_path):
@@ -483,9 +491,9 @@ def test_it_runs_against_the_real_repository_without_asserting_a_verdict(health)
     """⚠ SHAPE ONLY, ON PURPOSE. research/autonomy/ is written by the loop, so asserting a verdict here
     would make this suite go red on an unrelated commit — the clock-dependent-test defect recorded in
     fleet_armed.state's docstring. What is worth binding is that the real files still PARSE into a
-    eight-row board."""
+    board with one row per DECLARED condition."""
     board = health.build(now=NOW)
-    assert len(board["conditions"]) == 8
+    assert len(board["conditions"]) == len(health.CONDITION_ORDER)
     assert isinstance(board["ok"], bool) and isinstance(board["fully_measured"], bool)
     assert health.render(board, NOW).startswith("[loop-health]")
 
@@ -615,3 +623,119 @@ def test_the_tick_actually_passes_the_verdict_to_every_health_call():
     for ln in calls:
         idx = tick.index(ln)
         assert "--gates-verdict" in tick[idx:idx + 400], f"no --gates-verdict for: {ln.strip()}"
+
+
+# ──────────────────────────────────── the session-shape rule, which failed by being UNREACHABLE
+#
+# ⛔⛔ THE FAILURE THIS BLOCK GUARDS IS THE MOST INSTRUCTIVE ONE THE LOOP HAS PRODUCED, BECAUSE THE
+# RULE WAS NEVER WRONG AND WAS NEVER IGNORED — IT WAS NEVER REACHED. `.claude/skills/research-loop/
+# SKILL.md` §3 has always said a full hardening cycle is a SPAWNED session. A skill binds only when
+# it is loaded, and every one of that skill's load triggers was a Routine firing a cycle. On the
+# INTERACTIVE path — a human asking for research work directly — the skill never loaded, so §3 never
+# applied. Measured in the offending session's own transcript: `"name":"Skill"` appears 0 times,
+# while that session ran two full cycles, compacted 23 times and reached 7.6 MB.
+#
+# The repair has two halves and BOTH are guarded here, because either alone regresses:
+#   REACHABILITY  the rule is now also in CLAUDE.md, which loads every session, interactive included.
+#   ENFORCEMENT   `cycles_are_sized` measures it. A rule nothing measures decays to a suggestion —
+#                 the lease and the stall alarm each have a suite behind them and §3 had nothing.
+
+
+def _sess_receipt(cycle_id, session_id):
+    return {"cycle_id": cycle_id, "session_id": session_id}
+
+
+def _state(cap=2):
+    return {"max_cycles_per_session": cap}
+
+
+def test_a_session_over_the_cap_goes_red(health):
+    row = health.c_cycles_are_sized(
+        [_sess_receipt("CYC-1", "sess-A"), _sess_receipt("CYC-2", "sess-A"), _sess_receipt("CYC-3", "sess-A")],
+        _state(2), None)
+    assert row["needs_attention"] is True
+    assert row["verdict"] == "SESSION-OVERLOADED"
+    assert "CYC-3" in row["detail"]
+
+
+def test_a_session_at_the_cap_is_green(health):
+    """The cap is a cap, not a target. Two is allowed on purpose: slack for a cycle that turns out
+    to have a small follow-on. Firing at two would make the row noise, and a noisy row gets muted."""
+    row = health.c_cycles_are_sized(
+        [_sess_receipt("CYC-1", "sess-A"), _sess_receipt("CYC-2", "sess-A")], _state(2), None)
+    assert row["needs_attention"] is False
+
+
+def test_cycles_spread_across_sessions_are_green(health):
+    row = health.c_cycles_are_sized(
+        [_sess_receipt("CYC-1", "sess-A"), _sess_receipt("CYC-2", "sess-B"), _sess_receipt("CYC-3", "sess-C")],
+        _state(2), None)
+    assert row["needs_attention"] is False
+    assert row["payload"]["worst"] == 1
+
+
+def test_an_unstamped_receipt_is_never_counted_as_a_fresh_session(health):
+    """⛔ CLAUDE.md §4: an absent reading is not a reading of absence. If a receipt with no
+    `session_id` counted as its own session, the way to turn this row green would be to stop
+    stamping receipts — a gate whose cheapest defeat is omitting data is worse than no gate."""
+    receipts = [_sess_receipt("CYC-1", "sess-A"), _sess_receipt("CYC-2", "sess-A"),
+                _sess_receipt("CYC-3", None),
+                _sess_receipt("CYC-4", "unknown -- fired by the UI-created Routine, no session_id")]
+    row = health.c_cycles_are_sized(receipts, _state(2), None)
+    assert row["payload"]["unstamped_receipts"] == ["CYC-3", "CYC-4"]
+    assert row["payload"]["sessions"] == {"sess-A": 2}
+
+
+def test_no_stamped_receipt_at_all_is_unmeasured_not_green(health):
+    row = health.c_cycles_are_sized([_sess_receipt("CYC-1", None)], _state(2), None)
+    assert row["unmeasured"] is True
+    assert row["needs_attention"] is False
+
+
+def test_an_unreadable_state_or_absent_cap_is_unmeasured_not_green(health):
+    assert health.c_cycles_are_sized([_sess_receipt("C", "s")], None, "boom")["unmeasured"] is True
+    assert health.c_cycles_are_sized([_sess_receipt("C", "s")], {}, None)["unmeasured"] is True
+    assert health.c_cycles_are_sized([_sess_receipt("C", "s")], {"max_cycles_per_session": 0},
+                                     None)["unmeasured"] is True
+
+
+def test_the_cap_is_read_from_state_and_never_typed_in_the_checker(health):
+    """One fact, one place. A cap hardcoded here could not be raised under backoff, and would
+    disagree with the file the architecture names as its owner."""
+    src = HEALTH_PY.read_text()
+    body = src[src.index("def c_cycles_are_sized"):src.index("def c_budget_recovering")]
+    assert 'state.get("max_cycles_per_session")' in body
+    assert "max_cycles_per_session" in json.loads(STATE_JSON.read_text())
+
+
+def test_the_condition_is_actually_wired_into_the_board(health):
+    """⛔ THE MUTATION THIS BLOCK EXISTS FOR. A condition function that is never called is the exact
+    shape of the failure being fixed: correct, present, and unreachable. Assert it reaches the board
+    a reader actually sees, not merely that the function exists."""
+    assert "cycles_are_sized" in health.CONDITION_ORDER
+    src = HEALTH_PY.read_text()
+    assert "c_cycles_are_sized(receipts, state, state_err)" in src, (
+        "the condition is defined but not assembled into build()'s conditions list — it would never "
+        "appear on a board, which is how §3 failed in the first place"
+    )
+
+
+def test_the_rule_is_reachable_from_a_session_that_loads_no_skill(health):
+    """★ THE OTHER HALF OF THE REPAIR, AND THE HALF THAT ACTUALLY FAILED. Enforcement catches a
+    session AFTER it overran; reachability is what stops it. CLAUDE.md loads every session including
+    interactive ones, so the rule must be stated THERE and not only in a skill that an interactive
+    session never loads."""
+    claude_md = (REPO / "CLAUDE.md").read_text()
+    assert "research-loop" in claude_md, (
+        "CLAUDE.md does not point at the cycle contract at all, so an interactive session has no "
+        "path to §3 — the precise gap measured on 2026-08-26"
+    )
+    assert "SPAWNED SESSION" in claude_md.upper(), (
+        "CLAUDE.md names the skill but not the rule, so a session that does not load the skill still "
+        "never learns that a hardening cycle is a spawn case"
+    )
+    skill = (REPO / ".claude" / "skills" / "research-loop" / "SKILL.md").read_text()
+    desc = skill.split("---")[1]
+    assert "INTERACTIVE" in desc.upper(), (
+        "every load trigger is still a Routine firing; the interactive path remains unreachable"
+    )

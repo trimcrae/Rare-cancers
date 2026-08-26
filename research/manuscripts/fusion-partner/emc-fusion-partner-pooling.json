@@ -1,7 +1,7 @@
 {
   "_schema": "emc-fusion-partner-pooling/1",
   "_generated_by": "research/manuscripts/emc_fusion_partner_pooling.py",
-  "_generated_utc": "2026-08-26T21:41:08Z",
+  "_generated_utc": "2026-08-26T22:16:28Z",
   "_do_not_hand_edit": "Every number in this file is computed by the generator from the counts in its COHORTS table. Change a count in the script and regenerate; never edit a number here (CLAUDE.md rule 1).",
   "title": "Partner-stratified pooled synthesis of published EMC systemic-therapy and outcome data (EWSR1::NR4A3 vs TAF15::NR4A3)",
   "lane": "research/manuscripts/program/emc-unexplored-treatment-lanes.md s3.2",
@@ -11,7 +11,7 @@
     "interval": "Wilson score, 95%",
     "heterogeneity": "range of per-cohort rates; I-squared deliberately not computed",
     "double_counting": "POLICY-evidence.md s2.3 - mutually exclusive strata within a study; smaller cohort held out where populations may overlap",
-    "not_used": "The DerSimonian-Laird random-effects pooler in research/meta/meta-analysis.mjs. With 2-19 patients and 0-10 events per stratum, a between-study variance is not estimable and quoting one would manufacture precision.",
+    "not_used": "The DerSimonian-Laird random-effects pooler in research/meta/meta-analysis.mjs. Across the 10 response and outcome strata this synthesis pools, the per-stratum denominator runs from 3 to 58 and the event count from 0 to 14; a between-study variance is not estimable at that scale, a tau-squared from these counts would be an artefact, and quoting a random-effects interval would manufacture precision the data cannot support. \u26a0 Superseded, retained: '2-19 patients and 0-10 events per stratum' -- true of the TKI-response strata alone, before Huang 2023's counts were pooled on 2026-08-08 and widened the outcome denominators past nineteen. This range is now DERIVED from the analyses on every regeneration (CLAUDE.md rule 1.1) rather than typed, which is what let the old pair stand here after the manuscript retracted it.",
     "significance_testing": "Fisher exact, two-sided, POST-HOC AND DESCRIPTIVE ONLY; no multiplicity correction; no claim rests on it."
   },
   "citations": {
@@ -319,6 +319,24 @@
       "verified": true,
       "registry_id": "remiszewski2025",
       "verification_note": "Already curated in research/data/emc-clinical-registry.json under the same id. Its EMC treatment section states the pazopanib partner split ONLY qualitatively ('better outcomes in patients with the EWSR1::NR4A3 fusion, while TAF15-NR4A3 cases showed a poor response'), which is why it is not the source of any count here."
+    },
+    "suemitsu2025": {
+      "short": "Suemitsu 2025 (MSK)",
+      "type": "journal-article",
+      "title": "Secondary Genetic Alterations in Extraskeletal Myxoid Chondrosarcoma.",
+      "authors": "Suemitsu Y, Chang HY, Saoud C, Dermawan JK, Hameed M, Singer S, Tap WD, Antonescu CR.",
+      "journal": "Genes Chromosomes Cancer",
+      "year": 2025,
+      "pmid": "40828003",
+      "doi": "10.1002/gcc.70076",
+      "url": "https://doi.org/10.1002/gcc.70076",
+      "openAccess": false,
+      "design": "retrospective molecular series, MSK-IMPACT",
+      "n": 18,
+      "population": "18 EMC patients profiled by MSK-IMPACT",
+      "accessed": "2026-08-08",
+      "verified": true,
+      "verification_note": "Europe PMC abstract, HTTP 200, recorded verbatim in this paper's companion research/manuscripts/fusion-partner/partner-event-counts-2026-08-08.md s4 and targeted by lit-targets-partner-events.json. Two sentences bear on this synthesis: 'the most common NR4A3 fusion subtype involved EWSR1 (14/18, 78%), while two cases involved TAF15 gene partner, and one each TCF12 and FUS genes, respectively', and 'no statistically significant correlation was detected between OS and fusion subtypes'. \u26d4 IT WAS IN THE REPOSITORY AND IN NO VERSION OF THIS PAPER UNTIL 2026-08-26, when a blind adversarial seat found it missing from a table the manuscript calls 'the full inclusion table'. The companion had even logged the action item to bring it in."
     }
   },
   "cohorts": [
@@ -569,6 +587,24 @@
       "pool_note": "Pooled with agaram-2014-outcome under POLICY-evidence.md s2.2. The two populations are distinct on every available axis -- MSKCC (New York) versus 15 Taiwanese institutions led from Chang Gung Memorial Hospital, no shared authors, no shared referral network -- which is the same non-overlap argument the prevalence pool already makes for these two series.",
       "estimand_warning": "\u26a0 THE METASTASIS ENDPOINTS OF THE TWO POOLED COHORTS ARE MATCHED ON THEIR LABELS, NOT ON A PUBLISHED DEFINITION. Agaram 2014 reports 'distant recurrence'; Huang 2023 partitions distant metastasis into present-at-presentation and developed-later. This file pools Agaram's distant recurrence with Huang's AFTER-PRESENTATION cell because that is the closer reading of 'recurrence', and reports Huang's ANY-metastasis figure separately and within-cohort only. Neither report states whether patients metastatic at presentation were in its recurrence denominator, so the match is an assumption and is labelled as one; both readings are printed so the conclusion can be checked at either. Death and local recurrence carry no such ambiguity.",
       "follow_up_warning": "Crude during-follow-up proportions with no censoring (POLICY-evidence.md s2.4). This cohort reports outcome only for the 53 of 58 with follow-up available and does not publish per-arm mean follow-up, so the follow-up asymmetry that confounds the Agaram cohort cannot be checked here in either direction."
+    },
+    {
+      "id": "suemitsu-2025-outcome",
+      "endpoint": "outcome_by_partner",
+      "label": "MSK, 18 EMC profiled by MSK-IMPACT (secondary genetic alterations series)",
+      "n_assessable": 18,
+      "sourceId": "suemitsu2025",
+      "provenance": "primary",
+      "pool": false,
+      "contextReason": "population-overlap-unresolved",
+      "context_note": "A FOURTH SERIES TESTING THE PARTNER AGAINST SURVIVAL, AND IT IS NULL: 'no statistically significant correlation was detected between OS and fusion subtypes'. It reports the partner distribution as explicit integers (EWSR1 14/18, TAF15 2, TCF12 1, FUS 1) but publishes no per-partner event counts, and its endpoint is OVERALL survival where this synthesis pools DISEASE-SPECIFIC death, so it could not enter the outcome pool on POLICY-evidence.md s2.1(2) even if overlap were resolved. \u26d4 THE BINDING GROUND IS OVERLAP, AND IT IS UNRESOLVED RATHER THAN EXCLUDED: this is an MSK series and agaram-2014-outcome is MSKCC, so the two may share patients, and agaram-2014 supplies 3 of the 7 pooled TAF15 disease-specific deaths. Nobody has checked. \u2b50 IT IS RECORDED HERE BECAUSE IT CUTS TOWARD THE NULL AND WAS NOT DISCLOSED. An undisclosed exclusion that weakens the paper's own headline is the worst kind, and this one sat in the paper's own companion (partner-event-counts-2026-08-08.md s4, which calls it 'a third independent series failing to establish the partner as a prognostic factor') and in its own fetch-target list, with an action item to bring it in, from 2026-08-08 until a blind seat found it missing on 2026-08-26. \u26a0 AND IT IS NOT EVIDENCE AGAINST THE PARTNER EITHER: 2 TAF15 patients of 18 cannot exclude an effect of the size the pooled contrast reports, so this is a series FAILING TO ESTABLISH the partner, not one refuting it.",
+      "counts": {
+        "EWSR1::NR4A3": 14,
+        "TAF15::NR4A3": 2,
+        "TCF12::NR4A3": 1,
+        "FUS::NR4A3": 1
+      },
+      "_counts_are_context_only": "Recorded because they are the source's own integers and a reader will want them. NOT pooled into partner prevalence either: same unresolved MSKCC overlap, and s2.1(3) -- entry to this series is conditional on having been profiled by MSK-IMPACT."
     },
     {
       "id": "paioli-2021-outcome",
@@ -881,14 +917,15 @@
       "question": "Does the NR4A3 5' fusion partner predict disease-specific death, recurrence or metastasis?",
       "what_changed_2026_08_08": "\u2b50 A MAGNITUDE IS COMPUTABLE FOR THE FIRST TIME. Until 2026-08-08 exactly one cohort (Agaram 2014, 23 partner-assigned patients) published EMC outcome event counts by NR4A3 partner, so the 'pool' was a single-cohort Wilson interval and the file said so. A human read Huang 2023's published PDF and extracted its Table 1, adding 50 partner-assigned patients with follow-up from an independent country and institution set. The outcome pool is now 73 patients across two non-overlapping cohorts. \u26a0 THIS IS THE PROGNOSIS QUESTION AND ONLY THE PROGNOSIS QUESTION -- see `does_not_touch_the_response_question` below.",
       "does_not_touch_the_response_question": "\u26d4 HUANG 2023 CONTAINS NO ANTIANGIOGENIC-TKI RESPONSE DATA AND MOVES ANALYSIS A BY ZERO. It is a pathology series with a survival analysis; the only systemic therapy it reports is chemotherapy, as a prognostic covariate, not as a response endpoint and not by partner. The TREATMENT-RESPONSE half of this page is still what it was: the entire published TAF15::NR4A3 antiangiogenic experience is 3 to 5 patients with ZERO responses, and a zero-event arm yields no magnitude at any denominator. A_tki_objective_response is unchanged, word for word, by this integration. Anyone reading the new prognostic magnitude as if it settled the response question has conflated two different endpoints in two different populations.",
-      "cohorts_identified": 3,
+      "cohorts_identified": 4,
       "cohorts_pooled": 2,
       "pooled_cohorts": [
         "agaram-2014-outcome",
         "huang-2023-outcome"
       ],
       "cohorts_excluded": {
-        "paioli-2021-outcome": "counts-not-reported (POLICY-evidence.md s2.1) -- p-values only"
+        "suemitsu-2025-outcome": "population-overlap-unresolved (POLICY-evidence.md s2.1/s2.3) -- see cohorts[suemitsu-2025-outcome].context_note",
+        "paioli-2021-outcome": "counts-not-reported (POLICY-evidence.md s2.1/s2.3) -- see cohorts[paioli-2021-outcome].context_note"
       },
       "non_overlap_argument": "MSKCC (New York, 26 consecutive cases) versus 15 Taiwanese institutions led from Chang Gung Memorial Hospital (58 FISH-confirmed cases). No shared authors, no shared referral network, different continents. POLICY-evidence.md s2.3 is satisfied on the same grounds the prevalence pool already used for these two series.",
       "disease_specific_death": {

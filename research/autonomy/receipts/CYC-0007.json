@@ -1,0 +1,46 @@
+{
+  "_schema": "emc-autonomy-receipt/1",
+  "cycle_id": "CYC-0007",
+  "started_utc": "2026-08-26T22:50:00Z",
+  "finished_utc": "2026-08-26T23:15:00Z",
+  "session_id": "66dab3ca-b11c-5d0b-a0d9-9babe135276e (interactive, trimcrae present)",
+  "kind": "process",
+  "took": [
+    "session-shape guard — raised by trimcrae directly, not from the ledger"
+  ],
+  "route_advanced": "none",
+  "_route_advanced_why": "Process repair, not research. Recorded as `none` rather than dressed up: CLAUDE.md §0 says a cycle that advances no live route must say so plainly.",
+  "⛔_THIS_RECEIPT_CONVICTS_ITS_OWN_SESSION": "This is the THIRD receipt carrying session_id 66dab3ca, against the cap of 2 this cycle just introduced. `cycles_are_sized` goes RED on the board the moment this lands, naming this session. That is not an oversight and it is not a reason to raise the cap — it is the guard working on the first data it ever sees, and a guard that exempted the session that wrote it would be worth nothing. The correct response is the one the rule prescribes: the next cycle is a SPAWNED SESSION.",
+  "trigger": "trimcrae, 2026-08-26: 'Isn't there supposed to be rules about using subagents and starting new sessions to keep context from inflating? I know I asked for it. But that guard failed based on what I'm seeing in this thread. Please fix that issue.'",
+  "root_cause": {
+    "finding": "THE RULE WAS UNREACHABLE, NOT UNHEEDED — which is a different bug and needs a different fix. It lived only in .claude/skills/research-loop/SKILL.md §3. A skill binds only when it is loaded. Every one of that skill's four load triggers was a Routine firing a cycle, so on the INTERACTIVE path — a human asking for research work directly — the skill never loaded and §3 never applied.",
+    "discriminating_observation": "'\"name\":\"Skill\"' appears 0 times in the offending session's transcript (/root/.claude/projects/-home-user-Rare-cancers/66dab3ca-….jsonl), while that session ran CYC-0005 and CYC-0006 end to end. Had the count been non-zero the diagnosis would have been non-compliance and the fix a stronger rule; it is zero, so the fix is reachability.",
+    "measured_cost": "23 compaction markers and a 7.6 MB transcript in one session; two cycles in this one and three in session_011zRMmQKPj7ziG3gY9yhpBQ.",
+    "second_cause": "Even when loaded, §3 was unenforced prose. None of health.py's conditions measured it, no test in systems/tests/ guarded it, priority.py had no session_id handling. The claim lease and the stall alarm each carry a suite and a workflow; §3 carried nothing. A rule with no gate behind it decays into a suggestion.",
+    "a_violation_of_the_rule_s_own_terms": "§3 also says ⛔ THE DRIVER NEVER WAITS — dispatch, record, end the turn. This session held turns open waiting for both blind seats to land, and said so in as many words. That spends the driver's context on waiting instead of on the verdict, which is the whole reason a seat is a subagent."
+  },
+  "the_fix_has_three_layers_because_one_would_regress": {
+    "1_reachability": "CLAUDE.md — which loads EVERY session, interactive included — gains a §6 tripwire row pointing at research-loop §3, and a fifth always-fires rule stating the spawn case and 'the driver never waits' directly. The skill's description now names the interactive path as a load trigger.",
+    "2_enforcement": "health.py gains a ninth condition, `cycles_are_sized`, reading receipts' session_id against autonomy-state.json's new `max_cycles_per_session` (2). Unstamped receipts are UNMEASURED, never counted as fresh sessions — otherwise the cheapest way to green the row would be to stop stamping receipts.",
+    "3_guards": "Nine tests on the condition plus a reachability test asserting CLAUDE.md carries the rule text and the skill's description names the interactive path. Both halves mutation-tested: un-wiring the condition turns 3 tests red, deleting the rule from CLAUDE.md turns 1 red."
+  },
+  "honest_limit_of_the_fix": "⚠ IT BOUNDS CYCLES, WHICH IS A PROXY FOR CONTEXT AND NOT CONTEXT ITSELF. One enormous single cycle passes this check. Nothing in this repository can read a context window, and receipts already carry session_id, so this is the measurement that EXISTS rather than the one that would be ideal. An imperfect gate that fires beats a perfect one that does not. Stated here rather than discovered by the next seat.",
+  "verification": {
+    "the_condition_fires_on_real_data_immediately": "python3 research/autonomy/health.py --check -> `⛔ cycles_are_sized SESSION-OVERLOADED`, naming session_011zRMmQKPj7ziG3gY9yhpBQ's 3 cycles against the cap of 2. Retroactive proof it would have caught this.",
+    "amendment_log": "5 records under CYC-0007 across the governed paths; amendment_guard --check-log OK. self_serving_check answered NO with the direction argued: every edit makes the loop harder to run unchecked, and the board goes red on the sessions that wrote it.",
+    "preflight": "PREFLIGHT_TESTS=1 ./scripts/preflight.sh EXIT=0 on the exact tree committed."
+  },
+  "also_in_this_commit": "CYC-0006's nine verified blockers from the two blind seats — see receipts/CYC-0006.json. Both landed in one commit because one gate run must see the tree that is committed, and the tree carried both by the time trimcrae raised this.",
+  "blocked_by": [],
+  "queued_next": [
+    "⭐ THE NEXT CYCLE IS A SPAWNED SESSION. This one is over the cap it just introduced and the board says so.",
+    "Round 4 hardening on PUB-FUSION-PARTNER: fresh blind seats, 16 P1s outstanding, not converged.",
+    "A context measurement that is not a proxy, if the harness ever exposes one.",
+    "AUT-PROP-006 (seat record on disk before any fix) is still only a practice, followed by hand twice today. It needs the same three-layer treatment this cycle just gave §3 — the lesson generalises: a rule that lives in one file, reachable from one path, with no gate behind it, is a rule that has not been implemented."
+  ],
+  "cost": {
+    "_points_at": "research/compute/pricing.md",
+    "real_dollars": "none",
+    "claude_budget": "one interactive session, no subagents"
+  }
+}

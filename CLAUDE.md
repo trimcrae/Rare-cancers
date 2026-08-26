@@ -239,6 +239,7 @@ carry every rule verbatim, with its evidence. **A tripwire that did not fire is 
 | ⛔ about to **dispatch CI to answer a question** — *"let me fetch that to be sure"* · a conversational *"what is X / does Y exist / link me"* · escalating because the last rung failed | **`ci-escape-hatches` §0 — `WebSearch` is rung 0 and CI is rung 1. Escalate on the ANSWER'S VALUE, never on the previous rung's failure.** |
 | dispatch a workflow · run a branch's CI without merging · supervise a billing fleet · set up a self-wake poller | **`ci-escape-hatches`** |
 | **rent, relaunch or refuse a host** · launch a fleet · pick a provider · write a job that checkpoints · diagnose a Vast/GCP provisioning, quota or teardown problem · install anything on a machine we pay for | **`gpu-compute`** |
+| ⛔ **take a ledger item** · *"I'll run a cycle"* · *"let me do a hardening round"* · run blind seats · write a receipt — **INCLUDING when trimcrae just asks for it in conversation, which is the path the rule was unreachable from** | **`research-loop` — §3 owns the SESSION SHAPE, and a hardening round is a SPAWNED SESSION, not more work in this one** |
 | your final message **leaves real compute running** · about to print a `$/ns`, cost row or drift flag | **`inflight-reporting`** |
 | **commit or push** (a merge to `main` included — that is the ordinary commit loop) · run preflight · a gate goes red · edit a manuscript or SI · touch `systems/` or the registry · **PUBLISH** — and publishing is the closed list *preprint, submission, release, DOI*, the only four things `PREFLIGHT_FULL=1` is for (the default run is fast gates only; `PREFLIGHT_TESTS=1` adds the manuscripts suite,
 `PREFLIGHT_MODALITIES=1` the modalities one) | **`repo-gates`** |
@@ -255,6 +256,23 @@ act you'd commit *before* thinking to consult anything:
   `until grep -q "^EXIT=" log`. To stop a background job use **`TaskStop`**, which knows the job's real id.
   ⚠ And a poll loop is nearly always the wrong tool anyway — §1: the foreground stays free, and the harness
   notifies you when background work lands.
+
+- **⛔ CONTEXT IS A RESOURCE THAT RUNS OUT SILENTLY, AND THE SESSION SPENDING IT IS THE ONE THAT
+  CANNOT TELL.** A second full cycle in one session is the cap; a third is the bug. **`research-loop`
+  §3 owns the three session shapes** — *this session* for the ordinary case, *parallel subagents* for
+  independent items and for a hardening round's blind seats, and **a SPAWNED SESSION for anything that
+  will not fit one context, which explicitly includes a full hardening cycle.**
+  ⛔ **AND THE DRIVER NEVER WAITS: dispatch, record, END THE TURN.** Holding a turn open until a
+  subagent lands is a cycle a rate limit can kill while it holds uncommitted work — and it spends the
+  driver's context on the search instead of on the verdict, which is the whole reason the seat was a
+  subagent.
+  ⚠ *Measured 2026-08-26, and the failure was TOTAL RATHER THAN PARTIAL: the rule lives in a skill,
+  a skill binds only when loaded, and `"name":"Skill"` appears **0 times** in the transcript of the
+  session that broke it. Every one of that skill's four load triggers is a Routine firing a cycle, so
+  on the interactive path — trimcrae asking for research work directly — the rule was not weak, it was
+  **UNREACHABLE**. One session ran CYC-0005 and CYC-0006 end to end, compacted 23 times and reached a
+  7.6 MB transcript; an earlier one ran three cycles. That is why this row is HERE, in the file that
+  loads every session, and not only in the skill. `health.py`'s `cycles_are_sized` now measures it.*
 
 - **⛔ NEVER BUILD AN ENVIRONMENT ON A MACHINE WE ARE PAYING FOR — THE STACKS ARE PRE-BAKED.** A new lane's
   first question is **"which baked image?"**, never "what do I install?".

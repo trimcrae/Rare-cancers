@@ -56,11 +56,14 @@ the smaller cohort held out wherever overlap could not be excluded. Heterogeneit
 per-cohort rates. A random-effects model was deliberately **not** fitted. Fisher exact p-values are reported as
 post-hoc descriptive statistics and license nothing.
 
-**Results.** **Two** reports give objective response by partner and enter the pool: a sunitinib named-use series
-(PMID 24703573) and the pazopanib phase 2 trial NCT02066285 (PMID 31331701). A third (PMID 23058004) reports
-response by partner and is excluded for population overlap, not for lacking partner data (§3.2). **No TAF15::NR4A3 patient has ever
-been reported to respond to an antiangiogenic TKI** — 0 of 3 to 0 of 5 patients, depending on how the overlap
-between the two reports resolves. The 95 % Wilson upper bound on the TAF15 response rate is **43.4 % to
+**Results.** **Three** reports give objective response by partner and **one enters the primary pool**: the
+pazopanib phase 2 trial NCT02066285 (PMID 31331701). The sunitinib named-use series (PMID 24703573) cannot be
+shown distinct from that trial, so it is held out of the primary analysis for population overlap and enters
+only the secondary analysis that assumes independence; the two-case index report (PMID 23058004) is contained
+in that series and is excluded from both — neither for lacking partner data (§3.2). **No TAF15::NR4A3 patient
+was found to have been reported responding to an antiangiogenic TKI in the sources this synthesis examined**
+(§2.3a — no systematic search was run, so this is not a claim that no such report exists) — 0 of 3 in the
+primary analysis, 0 of 5 if the two reports are independent. The 95 % Wilson upper bound on the TAF15 response rate is **43.4 % to
 56.1 %**, which sits **above** the comparator arm's point estimate in both analyses (37.0 % and 21.1 %).
 Post-hoc Fisher exact two-sided p = 0.155 pooled, 1.0 for the trial alone. **On prognosis the picture is
 different, because two cohorts now publish outcome event counts by partner** (Agaram 2014, PMID 24746215; and
@@ -111,7 +114,7 @@ The claim "the fusion partner matters" is currently supported in four places tha
 | line of evidence | what it reports | what it does not do |
 |---|---|---|
 | **TKI response** | responders are EWSR1, non-responders include every TAF15 patient [1,3,4,5,6] | never states a denominator in the primary text; never pooled |
-| **Outcome by partner** | TAF15 associated with worse disease-specific survival [7,8,9] | two cohorts publish event counts and one publishes p-values only; **neither event-count cohort is adjusted, and both series that adjusted lost the partner to tumour size** |
+| **Outcome by partner** | TAF15 associated with worse disease-specific survival [7,8,9] | **four** series test the partner against outcome and only **two** publish per-partner event counts; of the other two, one publishes p-values only and one is an unresolved-overlap MSK series reporting no OS association by subtype (§3.2). Neither event-count cohort is adjusted; **the one series that ran a multivariable model lost the partner to tumour size, and a second reaches no significance on the partner in an analysis where size does** |
 | **Partner prevalence** | TAF15 in roughly one EMC in five [7,8,9,10] | never pooled across series; the field quotes one cohort |
 | **Mechanism** | an axon-guidance switch separates the two variants [11] | is not a clinical endpoint, and shares a consortium with the trials |
 
@@ -199,7 +202,8 @@ softened where they are quoted, because a reader who meets only §3.1 or the Abs
 this paragraph to know the limit: **"no source pools the response data at all"** (Abstract, §1.2) is a
 statement about the reviews and series already in this repository's citation set, not a claim that no such
 pooling exists anywhere in the unindexed literature; and **"no TAF15::NR4A3 patient has ever been reported to
-respond"** (Abstract, §3.1, §5, §8) means *no such report was found in the sources this synthesis examined*,
+respond"** — which the Abstract and §3.1 now state in that bounded form directly rather than relying on a
+reader reaching this paragraph — means *no such report was found in the sources this synthesis examined*,
 which is exactly why §6's falsifier #1 treats a single counter-report as sufficient to overturn it — the paper
 already behaves as if this could be wrong, and this paragraph is why. Caught by a blind adversarial seat,
 2026-08-26.
@@ -246,9 +250,12 @@ accounting: §8.
 
 ### 3.1 · Objective response to an antiangiogenic TKI, by partner
 
-Across every published EMC report that gives an objective-response outcome by *NR4A3* partner — there are
-**two** that enter the pool, plus one excluded for population overlap (§3.2) — **no TAF15::NR4A3 patient is
-reported to respond to an antiangiogenic TKI in any of them.**
+Across every published EMC report **this synthesis examined** that gives an objective-response outcome by
+*NR4A3* partner — **three**, of which **one enters the primary pool**, one is held out of it for population
+overlap and contributes to the secondary analysis only, and one is contained in that held-out series and
+excluded from both (§3.2) — **no TAF15::NR4A3 patient is reported to respond to an antiangiogenic TKI in any
+of them.** ⚠ *No systematic search was run (§2.3a), so "every published report" here means every report in
+this repository's citation set, not every report that exists.*
 
 | analysis | TAF15 arm | comparator arm | TAF15 95 % upper bound | Fisher (post-hoc) |
 |---|---|---|---|---|
@@ -296,6 +303,8 @@ analyses are reported. **Worst case, the world's entire TAF15 antiangiogenic exp
 | partner prevalence | Klubíčková 2022 congress abstract (n = 11) | **no** | `population-overlap` — same Czech group and institutions as Lenz 2023 |
 | mechanism | Brenca 2019 axon-guidance switch (7 EWSR1 vs 5 TAF15) | **no** | not a clinical endpoint — and same consortium as both trials, so not an independent replication |
 | preclinical | Bangerter 2022 USZ matched pair | **no** | n = 1 per arm; see §3.7 |
+| partner prevalence **and** outcome | Sjögren 2003 (Göteborg, 10 EMCs from nine patients; EWSR1 5, TAF15 3, TCF12 1) | **no** | `outcome-is-the-inclusion-criterion` (POLICY-evidence.md §2.1(3)) — the series was assembled on the basis of the material available for cytogenetic study, so entry is not independent of course. It is barred from the **outcome** pool on a second, independent ground: it publishes per-patient narrative follow-up, not per-partner event counts (§2.1(2)), so any arm would be this repository's extraction rather than the source's integers. ⛔ **The move it would make is named so that not making it is visible:** its three TAF15 patients record **no tumour-related death**, which would pull the pooled TAF15 disease-specific-death arm **down** — i.e. toward the null. |
+| outcome by partner | Suemitsu 2025 (MSK, n = 18, PMID 40828003, doi 10.1002/gcc.70076) | **no** | `population-overlap-unresolved` — an MSK series, and Agaram 2014 is MSKCC; whether the two share patients has not been established, so it cannot be pooled with the cohort supplying half the pooled TAF15 deaths. ⛔ **It is reported here rather than omitted because it also cuts toward the null and an undisclosed exclusion that weakens this paper's own headline is the defect this table exists to prevent.** Verbatim: *"no statistically significant correlation was detected between OS and fusion subtypes"* — with only 2 TAF15 of 18, so it is a third series failing to establish the partner and not evidence against it. Caught by a blind adversarial seat, 2026-08-26; it had been sitting in this paper's own companion [`partner-event-counts-2026-08-08.md`](./partner-event-counts-2026-08-08.md) §4 and in its own fetch-target list, with an action item to bring it in that nobody actioned. |
 
 ### 3.3 · Outcome by partner — a magnitude, and the defeater it arrives with
 
@@ -352,8 +361,15 @@ and Huang publishes no per-arm follow-up at all.
 
 ### 3.4 · The partner is not independent of tumour size
 
-Two series, both larger than any cohort that could be pooled here, tested the partner as a prognostic factor in
-a multivariable model. **Neither found it independent.**
+Two series, both larger than any cohort that could be pooled here, tested the partner as a prognostic factor
+against tumour size. **Neither found the partner to carry the prognosis.** ⚠ *They did not test it the same
+way, and this paper previously said they did.* Huang 2023 reports an explicit **multivariable** model in which
+the partner loses significance — that is the analysis §3.3, §4.1a and §5 mean by "the one series that ran that
+model". For Paioli 2021 this repository holds only what its abstract reports: the partner reaches no
+conventional significance while size does, in an analysis whose adjustment structure **is not stated in any
+record held here**. Its full text is closed (§6), so whether that contrast was adjusted is UNKNOWN rather than
+established, and it is not counted as a second multivariable result. *Superseded, retained: "Two series …
+tested the partner as a prognostic factor in a multivariable model."*
 
 - **Huang 2023** (PMID 36948401, n = 58, Taiwan): TAF15::NR4A3 shortens disease-specific survival on
   univariate analysis and **loses significance on multivariable analysis**. Only size > 10 cm
@@ -361,12 +377,16 @@ a multivariable model. **Neither found it independent.**
   TAF15::NR4A3 is itself associated with size > 10 cm (78 %, P = .025) and with mean size (13.7 vs 7.3 cm,
   P = .024).
 - **Paioli 2021** (PMID 32572850, n = 67, Italian Sarcoma Group): NR4A3-EWS shows only a **trend** for DFS
-  (p = 0.08) and DMFS (p = 0.09), in the same analysis where **size reaches p = 0.004**.
+  (p = 0.08) and DMFS (p = 0.09), in the same analysis where **size reaches p = 0.004**. ⚠ *Whether that
+  analysis was multivariable is not recorded anywhere in this repository — the abstract does not say and the
+  full text is closed. This is the third independent series failing to establish the partner, not a second
+  size-adjusted one.*
 
 Huang 2023's event counts are now pooled in §3.3; Paioli 2021 publishes none and cannot be. That difference
 does not soften the point they share, it sharpens it: **the cohort that supplies most of the pooled prognostic
 magnitude is the same cohort that publishes the analysis saying that magnitude is confounded.** In both series
-the variable carrying the prognosis is **tumour size**, and the partner is associated with size. **The partner
+the variable reaching significance is **tumour size** and the partner is not, and in the one series that
+adjusted, the partner is associated with size. **The partner
 may be a marker for a big tumour rather than for a biology**, and nothing in the published record separates
 those two readings.
 
@@ -818,7 +838,7 @@ Three facts a reader should be able to check without trusting this document:
 - **Some counts in §3 are accompanied in the artifact by the verbatim sentence or table cell they were read
   from, as PROSE inside a citation's `verification_note` — and that is the whole of the machine-readable
   provenance this artifact carries.** Counted 2026-08-26 against the committed artifact: of its 16 citation
-  records, **11 carry a `verification_note` at all**, and **4** of those (`stacchiotti2014`,
+  records, **12 carry a `verification_note` at all**, and **4** of those (`stacchiotti2014`,
   `stacchiotti2019`, `huang2023`, `sjogren2003`) name a cache slug and an HTTP status inside that prose. Of
   its **15 cohort records, none carries `verified`, `verification_note`, `cache_path` or `http_status`**. **No
   record of either kind carries `cache_path` or `http_status` as a field** — those two field names do not
@@ -831,8 +851,9 @@ Three facts a reader should be able to check without trusting this document:
   every other cohort's (which carries all three fields)."* **The second correction localised a repository-wide
   gap to two studies and asserted a per-cohort field set that has never existed**, which is the more
   misleading of the two: it told a reader that checking any other cohort would show them a fetch record.
-  Brenca 2019 and Bangerter 2022 are indeed the citations with no `verification_note` (with
-  `llombartBosch2022` and `klubickova2022`), and every count named here is corroborated by the verbatim
+  Brenca 2019 and Bangerter 2022 are indeed the citations with no `verification_note` — the four that
+  lack one are `brenca2019`, `bangerter2022`, `llombartBosch2022` and `klubickova2022`, which is the
+  count above read from the other side, and every count named here is corroborated by the verbatim
   quotations already printed in §3.6 and §3.7, so **nothing on this page is unsupported** — but the artifact
   does not carry the machine-checkable per-count fetch record either version of this sentence claimed for it.
   Building one is separate, tracked work and is not done in this commit. Caught by blind adversarial seats,
@@ -881,8 +902,8 @@ Three facts a reader should be able to check without trusting this document:
 
 ## Appendix A · Corrections and superseded statements
 
-Per the repository's correction rule, superseded statements are registered here rather than left in the live
-text, and are never silently dropped.
+Per the repository's correction rule, superseded statements are registered rather than left in the live
+text, and are never silently dropped. ⚠ *Registered in **two** places, not one: a row here when the statement was load-bearing, and an inline `⚠ Superseded, retained` note at the sentence itself when the correction is local to it. Several inline notes have no row here — that is the intended shape and not an omission, but this preamble asserted a single register until a blind adversarial seat counted them, 2026-08-26.*
 
 | # | superseded statement | where it was | current statement |
 |---|---|---|---|
@@ -900,6 +921,11 @@ text, and are never silently dropped.
 | A12 | *"EMC ... accounting for under 1 % of soft-tissue sarcomas"* | §1.1 | No committed source for this specific percentage exists anywhere in this repository — it is an uncited clinical figure in the document's opening sentence. Removed rather than backed by an identifier written from recollection (CLAUDE.md §7's golden rule). The sentence retains "ultra-rare," which needs no citation, and the sourced facts that follow it (the >90% NR4A3-rearrangement statement, ref [12]) are unaffected. Caught by a blind adversarial seat, 2026-08-26. |
 | A13 | *"The 0.0672 in §3.3 in particular must not be read as a near-significant finding"* | §4.8 | The caveat pointed at a number §3.3 no longer states. It described Agaram 2014 alone (23 patients, 4 events); Huang 2023's counts were pooled on 2026-08-08 and §3.3's headline became p = 0.0034, which carried no caveat of its own. §4.8 now names 0.0034 as its subject and registers the retired 0.0672 as superseded rather than silently retargeting the sentence. Caught by a blind adversarial seat, 2026-08-26. |
 | A14 | *"That four independent lines converge on the *NR4A3* 5′ partner as a candidate stratification variable in EMC"* | §5, first claims bullet | Two of the four "lines" are not independent of each other: the mechanism line (Brenca 2019) and the TKI-response line share the Milan/Aviano consortium and, per §3.1, a senior investigator with a trial site (§4.10). The prevalence line was never offered as converging evidence for the partner's clinical relevance. What remains as genuinely load-bearing is the one crude, confounded prognostic contrast (§3.3, §3.4) plus a directionally consistent but statistically inconclusive treatment-response signal (§3.1) — not four converging independent lines. The partner is still a candidate stratification variable; the claimed *route* to that conclusion overstated its evidentiary independence. Caught by a blind adversarial seat, 2026-08-26. |
+| A15 | *"**Two** reports give objective response by partner and enter the pool"* (Abstract) and *"there are **two** that enter the pool, plus one excluded for population overlap"* (§3.1) | the Abstract and §3.1 of **this** document | **Three** reports give objective response by partner and **one** enters the primary pool. The artifact has said so throughout — `analyses.A_tki_objective_response` carries `cohorts_identified: 3`, `cohorts_pooled_primary: 1`, and **both** sunitinib reports in `cohorts_excluded` — and §3.2, §2.3 and §4.2 agreed with it; only the Abstract and §3.1 did not. The sunitinib named-use series is held out of the primary analysis for population overlap and enters the secondary analysis alone; the two-case index report is contained in that series and is in neither. No pooled number changes: the primary contrast was always the trial alone (0/3 vs 4/19) and the secondary always both (0/5 vs 10/27). ⛔ **The direction of the error is what makes it a blocker rather than a typo: it overstated how much independent evidence the headline rests on.** Found independently by both blind seats, 2026-08-26. |
+| A16 | *"No TAF15::NR4A3 patient has **ever** been reported to respond to an antiangiogenic TKI"*, stated flat in the Abstract, with its qualifier 140 lines away in §2.3a; and §2.3a's locator list *"(Abstract, §3.1, §5, §8)"* | the Abstract and §2.3a of **this** document | The Abstract and §3.1 now carry the bound **in place**: *no TAF15::NR4A3 patient was found to have been reported responding … in the sources this synthesis examined*, with the §2.3a pointer beside it. ⛔ This was a contradiction **created on 2026-08-26**: that day the artifact's `analyses.A_tki_objective_response.verdict` was edited to say the claim must read *"no such report was found in the sources examined", NEVER "no such patient has ever been reported"* — and the Abstract carrying the forbidden phrasing was left standing. Bounding one copy of a claim and not the other is the same defect as A5 and A11, committed while correcting them. §2.3a's locator list also named §5 and §8, neither of which contains the sentence. Found independently by both blind seats. |
+| A17 | *"**Two series** … tested the partner as a prognostic factor in a multivariable model. **Neither found it independent.**"* (§3.4) and *"both series that adjusted lost the partner to tumour size"* (§1.2) | §1.2, §3.4 and §5 of **this** document | **Only Huang 2023 is recorded anywhere here as having run a multivariable model** — it is the sole cohort carrying `multivariable_result` in [`emc-fusion-partner-pooling.json`](./emc-fusion-partner-pooling.json). For Paioli 2021 this repository holds only its abstract: the partner reaches no conventional significance (DFS p = 0.08, DMFS p = 0.09) while size does (p = 0.004), and **whether that analysis was adjusted is UNKNOWN**, because the full text is closed (§6). The same document already said *"the one series that tested it"* in §3.3, §4.1a and §5, so this was a self-contradiction as well as an over-attribution. The shared conclusion is unaffected and arguably strengthened: Paioli is a **third independent series failing to establish the partner**, which is a wider claim than a second adjusted one. Found independently by both blind seats. |
+| A18 | §2.3's description of §3.2 as *"the full inclusion table"*, with two partner-stratified sources absent from it | §2.3 and §3.2 of **this** document, and — for one of the two — every version of the artifact and the generator | ⛔⛔ **THE MOST SERIOUS FINDING OF THE TWO HARDENING ROUNDS, AND THE ONLY ONE THAT IS SELECTIVE REPORTING RATHER THAN DRIFT: BOTH OMITTED SOURCES CUT TOWARD THE NULL THIS PAPER'S HEADLINE ARGUES AGAINST.** **Sjögren 2003** was in the artifact with counts and excluded on `outcome-is-the-inclusion-criterion`; the artifact handles it scrupulously and names the move in as many words — its three TAF15 patients record no tumour-related death, *"which would pull the pooled TAF15 disease-specific-death arm DOWN"* — and none of that reached the manuscript. **Suemitsu 2025** (MSK, n = 18, PMID 40828003) reports verbatim *"no statistically significant correlation was detected between OS and fusion subtypes"* and appeared **zero** times in the manuscript, the artifact or the generator, while sitting since 2026-08-08 in this paper's own companion [`partner-event-counts-2026-08-08.md`](./partner-event-counts-2026-08-08.md) §4 — which calls it *"a third independent series failing to establish the partner as a prognostic factor"* — and in this paper's own fetch-target list, **with an action item to bring it in that nobody actioned**. Both are now rows of §3.2 with their exclusion grounds, and Suemitsu is a cohort record in the artifact (`suemitsu-2025-outcome`, `population-overlap-unresolved`: it is MSK and Agaram 2014 is MSKCC, and Agaram supplies 3 of the 7 pooled TAF15 deaths). ⚠ **Neither is evidence against the partner** — Suemitsu has 2 TAF15 of 18 and cannot exclude an effect of the pooled contrast's size, and Sjögren publishes no per-partner event counts — but that is a reason to report them at their true weight, never a reason to omit them. No pooled number changes. Found by the blind hostile-referee seat, 2026-08-26. |
+| A19 | *"of its 16 citation records, **11** carry a `verification_note` at all"*, in the same bullet whose own enumeration implies twelve | §8 of **this** document | **12.** The four without one are `brenca2019`, `bangerter2022`, `llombartBosch2022` and `klubickova2022`. ⚠ The count was written on 2026-08-26 as part of correcting that bullet's *previous* wrong version (see the bullet's own retained notes) — a miscount introduced by the fix for a misstatement, which is why the number is now stated with the complement beside it so the two halves check each other. Found independently by both blind seats. |
 
 ✅ **The registry defect found in passing on 2026-08-07 is FIXED (2026-08-08).**
 [`research/data/emc-clinical-registry.json`](../../data/emc-clinical-registry.json) carried Huang 2023 under the

@@ -5,9 +5,17 @@ WHY THIS EXISTS
 ---------------
 `research/manuscripts/program/emc-unexplored-treatment-lanes.md` s3.2 ranks "fusion-variant
 stratification (EWSR1 vs TAF15)" #2 of twelve unexplored lanes and calls it "the cheapest
-paper on the board": four independent lines converge on the NR4A3 5' partner as a
-treatment-relevant biomarker, and **nobody has pooled them**. This file does the pooling,
-and it is the ONE HOME of every number in that synthesis (CLAUDE.md rule 1).
+paper on the board": several lines bear on the NR4A3 5' partner as a treatment-relevant
+biomarker, and **nobody has pooled them**. This file does the pooling, and it is the ONE
+HOME of every number in that synthesis (CLAUDE.md rule 1).
+  ⛔ *Superseded, retained: "four independent lines converge on the NR4A3 5' partner".*
+  Appendix A14 of the manuscript retracted that phrasing -- two of the four are not
+  independent of each other (the mechanism line and the TKI-response line share the
+  Milan/Aviano consortium and a senior investigator with a trial site), and the prevalence
+  line was never offered as converging evidence for clinical relevance. The retraction
+  reached the manuscript on 2026-08-26 and NOT this docstring, where it stood undeclared
+  until a blind seat found it. A retraction that reaches some of its copies is not a
+  retraction -- the same finding this repository recorded as Appendix A5.
 
 METHOD IS NOT A CHOICE HERE. `systems/POLICY-evidence.md` s2 is the repository's binding
 evidence contract for clinical proportions:
@@ -20,8 +28,12 @@ evidence contract for clinical proportions:
   * s1.3 `sourceId` is the document the number was READ IN; a review is
     `provenance: "secondary"` and carries `primaryRef`.
 The manuscript's random-effects (DerSimonian-Laird) pooler in `research/meta/meta-analysis.mjs`
-is the OTHER method in this repo and is deliberately NOT used: every stratum here has 2-19
-patients and 0-10 events, where a between-study variance estimate is not estimable.
+is the OTHER method in this repo and is deliberately NOT used: the per-stratum denominators
+and event counts are far too small for a between-study variance to be estimable. The range
+is DERIVED into `method.not_used` rather than typed here -- see `_stratum_extent()`. The
+typed pair "2-19 patients and 0-10 events" that used to stand in this sentence went stale
+the day Huang 2023's counts were pooled and is retained as superseded in the manuscript's
+s2.5 and in Appendix A.
 
 Fisher's exact p-values are reported as a clearly-labelled **post-hoc descriptive**
 statistic. No published report performed this test; it is not a prespecified analysis and
@@ -600,6 +612,35 @@ CITATIONS = {
             "poor response'), which is why it is not the source of any count here."
         ),
     },
+    "suemitsu2025": {
+        "short": "Suemitsu 2025 (MSK)",
+        "type": "journal-article",
+        "title": "Secondary Genetic Alterations in Extraskeletal Myxoid Chondrosarcoma.",
+        "authors": ("Suemitsu Y, Chang HY, Saoud C, Dermawan JK, Hameed M, Singer S, Tap WD, "
+                    "Antonescu CR."),
+        "journal": "Genes Chromosomes Cancer",
+        "year": 2025,
+        "pmid": "40828003",
+        "doi": "10.1002/gcc.70076",
+        "url": "https://doi.org/10.1002/gcc.70076",
+        "openAccess": False,
+        "design": "retrospective molecular series, MSK-IMPACT",
+        "n": 18,
+        "population": "18 EMC patients profiled by MSK-IMPACT",
+        "accessed": "2026-08-08",
+        "verified": True,
+        "verification_note": (
+            "Europe PMC abstract, HTTP 200, recorded verbatim in this paper's companion "
+            "research/manuscripts/fusion-partner/partner-event-counts-2026-08-08.md s4 and targeted "
+            "by lit-targets-partner-events.json. Two sentences bear on this synthesis: 'the most "
+            "common NR4A3 fusion subtype involved EWSR1 (14/18, 78%), while two cases involved "
+            "TAF15 gene partner, and one each TCF12 and FUS genes, respectively', and 'no "
+            "statistically significant correlation was detected between OS and fusion subtypes'. "
+            "\u26d4 IT WAS IN THE REPOSITORY AND IN NO VERSION OF THIS PAPER UNTIL 2026-08-26, when "
+            "a blind adversarial seat found it missing from a table the manuscript calls 'the full "
+            "inclusion table'. The companion had even logged the action item to bring it in."
+        ),
+    },
 }
 
 
@@ -874,6 +915,43 @@ COHORTS = [
             "cohort reports outcome only for the 53 of 58 with follow-up available and does not "
             "publish per-arm mean follow-up, so the follow-up asymmetry that confounds the Agaram "
             "cohort cannot be checked here in either direction."
+        ),
+    },
+    {
+        "id": "suemitsu-2025-outcome",
+        "endpoint": "outcome_by_partner",
+        "label": "MSK, 18 EMC profiled by MSK-IMPACT (secondary genetic alterations series)",
+        "n_assessable": 18,
+        "sourceId": "suemitsu2025",
+        "provenance": "primary",
+        "pool": False,
+        "contextReason": "population-overlap-unresolved",
+        "context_note": (
+            "A FOURTH SERIES TESTING THE PARTNER AGAINST SURVIVAL, AND IT IS NULL: 'no statistically "
+            "significant correlation was detected between OS and fusion subtypes'. It reports the "
+            "partner distribution as explicit integers (EWSR1 14/18, TAF15 2, TCF12 1, FUS 1) but "
+            "publishes no per-partner event counts, and its endpoint is OVERALL survival where this "
+            "synthesis pools DISEASE-SPECIFIC death, so it could not enter the outcome pool on "
+            "POLICY-evidence.md s2.1(2) even if overlap were resolved. "
+            "\u26d4 THE BINDING GROUND IS OVERLAP, AND IT IS UNRESOLVED RATHER THAN EXCLUDED: this "
+            "is an MSK series and agaram-2014-outcome is MSKCC, so the two may share patients, and "
+            "agaram-2014 supplies 3 of the 7 pooled TAF15 disease-specific deaths. Nobody has "
+            "checked. "
+            "\u2b50 IT IS RECORDED HERE BECAUSE IT CUTS TOWARD THE NULL AND WAS NOT DISCLOSED. An "
+            "undisclosed exclusion that weakens the paper's own headline is the worst kind, and "
+            "this one sat in the paper's own companion (partner-event-counts-2026-08-08.md s4, "
+            "which calls it 'a third independent series failing to establish the partner as a "
+            "prognostic factor') and in its own fetch-target list, with an action item to bring it "
+            "in, from 2026-08-08 until a blind seat found it missing on 2026-08-26. "
+            "\u26a0 AND IT IS NOT EVIDENCE AGAINST THE PARTNER EITHER: 2 TAF15 patients of 18 "
+            "cannot exclude an effect of the size the pooled contrast reports, so this is a series "
+            "FAILING TO ESTABLISH the partner, not one refuting it."
+        ),
+        "counts": {"EWSR1::NR4A3": 14, "TAF15::NR4A3": 2, "TCF12::NR4A3": 1, "FUS::NR4A3": 1},
+        "_counts_are_context_only": (
+            "Recorded because they are the source's own integers and a reader will want them. NOT "
+            "pooled into partner prevalence either: same unresolved MSKCC overlap, and s2.1(3) -- "
+            "entry to this series is conditional on having been profiled by MSK-IMPACT."
         ),
     },
     {
@@ -1211,6 +1289,66 @@ def _self_check(by_id: dict) -> None:
     assert sz["TAF15::NR4A3"]["over_10cm"]["denom"] == hp["TAF15::NR4A3"]
 
 
+def _roster(endpoint: str) -> dict:
+    """Who was identified, who was pooled and who was excluded — DERIVED from COHORTS, not typed.
+
+    ⛔ ADDED 2026-08-26 BECAUSE THE TYPED VERSION SILENTLY UNDERCOUNTED THE MOMENT A COHORT WAS
+    ADDED. `B_outcome_by_partner` carried `cohorts_identified: 3` and an excluded map naming one
+    study; adding `suemitsu-2025-outcome` left both untouched, so the artifact would have asserted
+    that three outcome cohorts exist while holding four — and the manuscript's inclusion table,
+    which is the thing a reader checks selective reporting against, would have disagreed with it.
+    That is the same failure the seat had just found in prose, reappearing one layer down.
+    CLAUDE.md rule 1.1: a total is DERIVED, never typed.
+
+    Excluded entries carry the cohort's own `contextReason` slug, so the reason a study is out is
+    stated once, in the cohort record, and read from there everywhere else.
+    """
+    rows = [c for c in COHORTS if c["endpoint"] == endpoint]
+    pooled = [c["id"] for c in rows if c.get("pool")]
+    return {
+        "cohorts_identified": len(rows),
+        "cohorts_pooled": len(pooled),
+        "pooled_cohorts": pooled,
+        "cohorts_excluded": {
+            c["id"]: "%s (POLICY-evidence.md s2.1/s2.3) -- see cohorts[%s].context_note"
+                     % (c.get("contextReason") or "unstated", c["id"])
+            for c in rows if not c.get("pool")
+        },
+    }
+
+
+def _stratum_extent(*contrasts) -> dict:
+    """The per-stratum denominator and event range, DERIVED from the pooled contrasts themselves.
+
+    ⛔ THIS EXISTS BECAUSE THE TYPED VERSION WENT STALE AND NOBODY NOTICED FOR EIGHTEEN DAYS.
+    `method.not_used` justified refusing a random-effects pooler with "2-19 patients and 0-10 events
+    per stratum". That was true of the TKI-response strata alone; the day Huang 2023's counts were
+    pooled the outcome denominators went past nineteen, and the sentence kept asserting the old pair
+    in the artifact and twice in this file's docstring while the manuscript retracted it in s2.5.
+    CLAUDE.md rule 1.1: a total is DERIVED, never typed — so it is derived, and the class of defect
+    is closed rather than the instance.
+
+    ⚠ TAKES AN EXPLICIT LIST OF CONTRASTS, NOT A RECURSIVE WALK, AND THAT CHOICE IS THE WHOLE
+    CORRECTNESS ARGUMENT. A walk over the analysis blocks was written first and returned 2-58 /
+    0-16, because it also swept the overlap-sensitivity arms, the per-cohort breakdowns and the
+    Huang-only within-cohort readings — none of which is a stratum a random-effects pooler would
+    have been run over. That number would have been derived, reproducible, and about the wrong set;
+    a total that is computed is not thereby the total the sentence claims. The named contrasts below
+    are exactly the strata s2.5 describes, and adding one is a visible edit here rather than a
+    silent widening.
+    """
+    events, denoms = [], []
+    for c in contrasts:
+        for arm in ("taf15_arm", "comparator_arm"):
+            a = c[arm]                    # KeyError on drift, deliberately: fail loud, not silent
+            events.append(int(a["events"]))
+            denoms.append(int(a["denom"]))
+    if not denoms:
+        raise RuntimeError("_stratum_extent was passed no contrasts — the caller moved")
+    return {"denom_lo": min(denoms), "denom_hi": max(denoms),
+            "events_lo": min(events), "events_hi": max(events), "n_strata": len(denoms)}
+
+
 def build() -> dict:
     """Assemble the whole document IN MEMORY. Pure: reads no file and writes none."""
     by_id = {c["id"]: c for c in COHORTS}
@@ -1455,12 +1593,7 @@ def build() -> dict:
             "reading the new prognostic magnitude as if it settled the response question has "
             "conflated two different endpoints in two different populations."
         ),
-        "cohorts_identified": 3,
-        "cohorts_pooled": 2,
-        "pooled_cohorts": ["agaram-2014-outcome", "huang-2023-outcome"],
-        "cohorts_excluded": {
-            "paioli-2021-outcome": "counts-not-reported (POLICY-evidence.md s2.1) -- p-values only",
-        },
+        **_roster("outcome_by_partner"),
         "non_overlap_argument": (
             "MSKCC (New York, 26 consecutive cases) versus 15 Taiwanese institutions led from "
             "Chang Gung Memorial Hospital (58 FISH-confirmed cases). No shared authors, no shared "
@@ -1700,6 +1833,15 @@ def build() -> dict:
         ),
     }
 
+    # The ten strata s2.5 names: both TKI-response contrasts and all three outcome contrasts.
+    _extent = _stratum_extent(
+        analysis_tki["primary_non_overlapping"]["contrast"],
+        analysis_tki["secondary_assume_independent"]["contrast"],
+        analysis_outcome["disease_specific_death"],
+        analysis_outcome["local_recurrence"],
+        analysis_outcome["distant_metastasis_after_presentation"],
+    )
+
     doc = {
         "_schema": "emc-fusion-partner-pooling/1",
         "_generated_by": "research/manuscripts/emc_fusion_partner_pooling.py",
@@ -1719,9 +1861,19 @@ def build() -> dict:
             "double_counting": "POLICY-evidence.md s2.3 - mutually exclusive strata within a study; smaller cohort held out where populations may overlap",
             "not_used": (
                 "The DerSimonian-Laird random-effects pooler in research/meta/meta-analysis.mjs. "
-                "With 2-19 patients and 0-10 events per stratum, a between-study variance is not "
-                "estimable and quoting one would manufacture precision."
-            ),
+                "Across the {n} response and outcome strata this synthesis pools, the per-stratum "
+                "denominator runs from {dlo} to {dhi} and the event count from {elo} to {ehi}; a "
+                "between-study variance is not estimable at that scale, a tau-squared from these "
+                "counts would be an artefact, and quoting a random-effects interval would "
+                "manufacture precision the data cannot support. \u26a0 Superseded, retained: "
+                "'2-19 patients and 0-10 events per stratum' -- true of the TKI-response strata "
+                "alone, before Huang 2023's counts were pooled on 2026-08-08 and widened the "
+                "outcome denominators past nineteen. This range is now DERIVED from the analyses "
+                "on every regeneration (CLAUDE.md rule 1.1) rather than typed, which is what let "
+                "the old pair stand here after the manuscript retracted it."
+            ).format(**{"n": _extent["n_strata"], "dlo": _extent["denom_lo"],
+                        "dhi": _extent["denom_hi"], "elo": _extent["events_lo"],
+                        "ehi": _extent["events_hi"]}),
             "significance_testing": "Fisher exact, two-sided, POST-HOC AND DESCRIPTIVE ONLY; no multiplicity correction; no claim rests on it.",
         },
         "citations": CITATIONS,

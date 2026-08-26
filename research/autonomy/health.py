@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""LOOP HEALTH AS A COMMITTED FILE — the seven conditions of
+"""LOOP HEALTH AS A COMMITTED FILE — the nine conditions of
 `research/manuscripts/program/emc-autonomy-architecture.md` §5.2, in the `alarm-state.json` idiom.
 
 ★★ WHY THIS EXISTS. §5.1 already covers ARTIFACT correctness — every gate in `./scripts/preflight.sh`
@@ -66,7 +66,7 @@ DEFAULT_RECEIPTS = os.path.join(HERE, "receipts")
 DEFAULT_HEALTH = os.path.join(HERE, "health.json")
 DEFAULT_AUTHORITY = os.path.join(HERE, "publication-authority.json")
 
-#: The seven §5.2 conditions, in the order the architecture table lists them. Renaming or dropping one
+#: The NINE §5.2 conditions, in the order the architecture table lists them. Renaming or dropping one
 #: is a "free, but DECLARED" edit under §10.4 — it changes what "doing well" MEANS — so it goes in the
 #: amendment log, never silently.
 CONDITION_ORDER = (
@@ -75,6 +75,7 @@ CONDITION_ORDER = (
     "evidence_moving",
     "blocks_are_real",
     "queue_is_takeable",
+    "cycles_are_sized",
     "budget_recovering",
     "gates_green",
     "authority_respected",
@@ -487,6 +488,83 @@ def c_queue_is_takeable(entries, ledger_err):
                   f"{len(takeable)} of {len(entries)} entr(ies) are takeable now.", payload)
 
 
+def c_cycles_are_sized(receipts, state, state_err):
+    """Red when one session ran more cycles than the cap — the session-shape rule, MEASURED at last.
+
+    ⛔⛔ THIS CONDITION EXISTS BECAUSE THE RULE IT ENFORCES FAILED IN THE WILD ON 2026-08-26, AND IT
+    FAILED IN THE ONE WAY A WRITTEN RULE CAN FAIL COMPLETELY: it was never reached.
+    `.claude/skills/research-loop/SKILL.md` §3 has always said a full hardening cycle is a SPAWNED
+    session rather than more work in the current one. That rule lives in a SKILL, and a skill's rules
+    bind only when the skill is loaded. Measured in the offending session's own transcript:
+    `"name":"Skill"` appears ZERO times. The skill's description lists four load triggers and every
+    one of them is a Routine firing a cycle — so on the INTERACTIVE path, where a human asks for
+    research work directly, the rule was not weak, it was UNREACHABLE. That session ran CYC-0005 and
+    CYC-0006 end to end, compacted 23 times, and reached a 7.6 MB transcript.
+
+    ⭐ THE REPAIR IS TWO-SIDED AND THIS IS ONLY THE SECOND HALF. Reachability was fixed in CLAUDE.md,
+    which loads every session including interactive ones, with a §6 tripwire pointing at the skill.
+    But a rule nothing measures decays back into a suggestion — the lease and the stall alarm each
+    have a suite and a workflow behind them, and §3 had nothing at all. This is that gate.
+
+    ⚠ IT BOUNDS CYCLES, WHICH IS A PROXY FOR CONTEXT AND NOT CONTEXT ITSELF, and the limit is stated
+    rather than hidden: one enormous single cycle passes this check. Nothing in this repository can
+    read a context window, and receipts already carry `session_id`, so this is the measurement that
+    exists rather than the one that would be ideal. An imperfect gate that fires beats a perfect one
+    that does not.
+
+    ⚠ A receipt with no readable `session_id` is UNMEASURED for that receipt, never counted as a
+    fresh session — otherwise the absence of a field would read as evidence of good behaviour, which
+    is CLAUDE.md §4's rule exactly.
+    """
+    key = "cycles_are_sized"
+    label = "is each cycle getting a fresh context, or is one session doing all of them?"
+    source = ("research/autonomy/receipts/*.json `session_id`, against "
+              "autonomy-state.json `max_cycles_per_session`")
+    if not isinstance(state, dict):
+        return _unmeasured(key, label, source, "STATE-UNREADABLE",
+                           f"{state_err or 'autonomy-state.json is unreadable'}, so the cap is "
+                           "unknown and no verdict is possible.")
+    cap = state.get("max_cycles_per_session")
+    if not isinstance(cap, int) or cap < 1:
+        return _unmeasured(key, label, source, "NO-CAP",
+                           f"autonomy-state.json carries `max_cycles_per_session`={cap!r}, not a "
+                           "positive integer, so there is nothing to check against.")
+    if not receipts:
+        return _unmeasured(key, label, source, "NO-RECEIPTS",
+                           "no readable receipt carries a session_id yet.")
+
+    counts, unstamped = {}, []
+    for r in receipts:
+        sid = r.get("session_id")
+        cid = r.get("cycle_id") or "?"
+        # A placeholder sentence is not an id. Anything without a plausible id token is unstamped.
+        if not isinstance(sid, str) or not sid.strip() or sid.strip().lower().startswith("unknown"):
+            unstamped.append(cid)
+            continue
+        counts.setdefault(sid.strip().split()[0], []).append(cid)
+
+    over = {sid: cids for sid, cids in counts.items() if len(cids) > cap}
+    payload = {"cap": cap, "sessions": {k: len(v) for k, v in counts.items()},
+               "unstamped_receipts": unstamped or None,
+               "worst": max((len(v) for v in counts.values()), default=0)}
+    if over:
+        worst = max(over.items(), key=lambda kv: len(kv[1]))
+        return _red(key, label, source, "SESSION-OVERLOADED",
+                    f"session {worst[0][:24]} ran {len(worst[1])} cycles ({', '.join(worst[1])}) "
+                    f"against a cap of {cap}. §3 of the cycle contract: a full hardening cycle is a "
+                    "SPAWNED session, not more work in the current one. Context is the resource that "
+                    "runs out silently — nothing announces it, and the cycle that overruns it is the "
+                    "one that cannot tell.", payload)
+    if not counts:
+        return _unmeasured(key, label, source, "NONE-STAMPED",
+                           f"{len(unstamped)} receipt(s) carry no usable session_id "
+                           f"({', '.join(unstamped[:5])}), so nothing can be counted. An absent "
+                           "stamp is not evidence of a fresh session.", payload)
+    return _green(key, label, source, "SIZED",
+                  f"{len(counts)} session(s), worst carries {payload['worst']} cycle(s) against a "
+                  f"cap of {cap}.", payload)
+
+
 def c_budget_recovering(state, state_err, now):
     """Red when `backoff_level` has been > 0 for more than 24 h — §9's stuck-loop row.
 
@@ -736,6 +814,7 @@ def build(*, ledger_path=DEFAULT_LEDGER, state_path=DEFAULT_STATE, receipts_dir=
         c_evidence_moving(entries, ledger_err, interval_h, now),
         c_blocks_are_real(entries, ledger_err),
         c_queue_is_takeable(entries, ledger_err),
+        c_cycles_are_sized(receipts, state, state_err),
         c_budget_recovering(state, state_err, now),
         c_gates_green(gates, gates_err, now),
         c_authority_respected(receipts, authority, authority_err),
@@ -749,7 +828,7 @@ def build(*, ledger_path=DEFAULT_LEDGER, state_path=DEFAULT_STATE, receipts_dir=
     attention = [c["key"] for c in conditions if c["needs_attention"]]
     unmeasured_keys = [c["key"] for c in conditions if c["unmeasured"]]
     board = {
-        "_what": "THE AUTONOMY LOOP'S HEALTH BOARD, AS A FILE. The seven §5.2 conditions, when each was "
+        "_what": "THE AUTONOMY LOOP'S HEALTH BOARD, AS A FILE. The nine §5.2 conditions, when each was "
                  "measured, how long it has been that way, and when this file should be considered "
                  "dead. Written by research/autonomy/health.py.",
         "_read_this_when": "you want to know whether the unattended research loop is WORKING — not "

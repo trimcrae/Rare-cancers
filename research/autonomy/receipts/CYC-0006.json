@@ -1,0 +1,85 @@
+{
+  "_schema": "emc-autonomy-receipt/1",
+  "cycle_id": "CYC-0006",
+  "started_utc": "2026-08-26T22:00:00Z",
+  "finished_utc": "2026-08-26T22:45:00Z",
+  "session_id": "66dab3ca-b11c-5d0b-a0d9-9babe135276e (interactive, trimcrae present)",
+  "kind": "research",
+  "took": [
+    "AUT-PROP-002"
+  ],
+  "route_advanced": "RT-PARTNER-STRAT",
+  "_route_advanced_why": "Hardening round 3 on PUB-FUSION-PARTNER. Two blind seats on the pinned commit returned nine blockers between them; all nine verified against the repo and fixed. One is selective reporting — two partner-stratified sources absent from a table the paper calls 'the full inclusion table', both cutting toward the null — which changes what the paper discloses, not only how it words it.",
+  "the_practice_this_cycle_was_filed_to_establish": {
+    "AUT-PROP-006": "seat record on disk BEFORE any fix is applied",
+    "what_happened": "Both seat records were written by the seats themselves, committed to main in their own commits (518d41f8, 836b799f), and only then acted on. Neither commit changed a single manuscript byte.",
+    "why_it_matters_here": "CYC-0005 lost two seats' evidence to a context compaction while keeping their fixes. This cycle's evidence would survive the same event."
+  },
+  "what_was_fixed": {
+    "blockers": [
+      {
+        "id": "HR-B4",
+        "severity": "the most serious of the two rounds",
+        "class": "selective reporting, NOT drift",
+        "was": "§2.3 calls §3.2 'the full inclusion table'; two partner-stratified sources were absent from it and BOTH cut toward the null the headline argues against.",
+        "is": "Both are now rows of §3.2 with their exclusion grounds. Sjogren 2003 was in the artifact with counts (`outcome-is-the-inclusion-criterion`) and its three TAF15 patients record no tumour-related death, which the artifact itself says 'would pull the pooled TAF15 disease-specific-death arm DOWN'. Suemitsu 2025 (MSK, n=18, PMID 40828003, 'no statistically significant correlation was detected between OS and fusion subtypes') appeared ZERO times in the manuscript, the artifact or the generator, while sitting since 2026-08-08 in this paper's own companion and its own fetch-target list with an unactioned item to include it. It is now a cohort record, `suemitsu-2025-outcome`, excluded on `population-overlap-unresolved` (MSK vs Agaram 2014's MSKCC, which supplies 3 of the 7 pooled TAF15 deaths).",
+        "no_pooled_number_changes": true
+      },
+      {
+        "id": "HR-B1 / RG-P1",
+        "was": "Abstract and §3.1: 'Two reports ... enter the pool'.",
+        "is": "Three identified, ONE enters the primary pool — which the artifact, §3.2, §2.3 and §4.2 had all said throughout. It overstated how much independent evidence the response claim rests on."
+      },
+      {
+        "id": "HR-B2 / RG-B5",
+        "was": "Abstract: 'has EVER been reported to respond', flat.",
+        "is": "Bounded in place, in the Abstract and §3.1. ⛔ A contradiction CREATED EARLIER THE SAME DAY: the artifact verdict was edited to forbid exactly that phrasing and the Abstract carrying it was left standing. Bounding one copy of a claim and not the other is the defect A5 and A11 record, committed while correcting them."
+      },
+      {
+        "id": "HR-B3 / RG-B1",
+        "was": "§1.2, §3.4, §5: two series ran a size-adjusted multivariable model and neither found the partner independent.",
+        "is": "Only Huang 2023 carries `multivariable_result`. For Paioli 2021 the repository holds the abstract only: the partner reaches no significance while size does, and whether that analysis was adjusted is UNKNOWN. The same document already said 'the one series that tested it' in three places. Paioli is a THIRD series failing to establish the partner — a wider claim than a second adjusted one."
+      },
+      {
+        "id": "RG-B2",
+        "was": "The retracted stratum range '2-19 patients and 0-10 events' still live in the artifact's `method.not_used` and twice in the generator docstring, after §2.5 retracted it.",
+        "is": "DERIVED by `_stratum_extent()` from the ten pooled contrasts on every regeneration: 3-58 patients, 0-14 events, matching §2.5 exactly. ⚠ The first attempt walked the analysis blocks recursively and returned 2-58 / 0-16 — derived, reproducible, and about the wrong set of strata. A total that is computed is not thereby the total the sentence claims; the helper now takes an explicit contrast list."
+      },
+      {
+        "id": "RG-B3",
+        "was": "Appendix A14 retracted 'four independent lines converge' — and it still stood, undeclared, in the generator's module docstring.",
+        "is": "Corrected there with the retraction stated. A retraction that reaches some of its copies is not a retraction (this paper's own A5)."
+      },
+      {
+        "id": "RG-B4",
+        "was": "§8: 'of its 16 citation records, 11 carry a verification_note'.",
+        "is": "12. ⛔ MINE, written hours earlier as part of correcting that bullet's previous wrong version. The count now states its complement beside it so the halves check."
+      }
+    ],
+    "also": [
+      "systems/graph/publications.json typed the pooled TAF15 death interval as 24.8-70.0 where the artifact computes 24.8-69.9, and systems/views/L3-publications.md is generated from it — so the published view has disagreed with the paper since the row was written. Fixed at the graph and both views regenerated.",
+      "`analyses.B_outcome_by_partner`'s `cohorts_identified`/`cohorts_pooled`/`cohorts_excluded` were TYPED and silently undercounted the moment a cohort was added — adding Suemitsu left them asserting three outcome cohorts while holding four. Now DERIVED by `_roster()` from COHORTS. The same failure the seats found in prose, one layer down.",
+      "Appendix A preamble asserted every superseded statement has a row here; a seat counted five inline notes without one. The preamble now describes the two-register shape that is actually in use.",
+      "Appendix A15-A19 register all five manuscript-level corrections above."
+    ]
+  },
+  "verification": {
+    "every_blocker_checked_against_the_repo_before_acting": "The whole point of this cycle's predecessor. Each of the nine was re-derived here — the citation-note census, the cohort roster, the multivariable field, the repo-wide grep for PMID 40828003 (6 files, none of them this paper), the graph interval — before a byte was changed.",
+    "generator_check": "python3 research/manuscripts/emc_fusion_partner_pooling.py --check -> OK",
+    "publish_bar": "BLOCKED 3/6; clause 6 FAIL on the seats' not_supported verdict, which is the gate working, not a defect to route around.",
+    "preflight": "PREFLIGHT_TESTS=1 ./scripts/preflight.sh EXIT=0 on the exact tree committed."
+  },
+  "what_the_seats_could_not_break": "Between them: every Fisher p-value, every Wilson interval, every pool sum, re-derived from the raw integers with their own implementations — zero mismatches — and the generator reproducing the artifact byte-for-byte. No measurement was refuted in either round. Eight of the nine blockers are reporting drift; the ninth is disclosure.",
+  "blocked_by": [],
+  "queued_next": [
+    "Round 4: fresh blind seats on the commit carrying this receipt. NOT converged — nine blockers fixed does not mean none remain, and 16 P1s are recorded and mostly unaddressed.",
+    "The 16 P1s. Highest-value: the per-cohort heterogeneity range §2.5 promises 'beside every pooled figure' and does not print where the spread is widest (53.9 points); confounders beyond tumour size (grade, rhabdoid morphology, treatment) never named; §2.3a bounds two exhaustiveness sentences and a seat found at least four more stated flatly.",
+    "AUT-PROP-006 itself — write the seat-record-first rule into the cycle contract and guard it. This cycle followed it by hand; a practice nobody enforces is a practice that lapses.",
+    "The prose<->artifact cross-check guard. FOUR rounds have now named it as the root cause and none has started it. This round alone found three instances it would have caught mechanically (the dead pointer, the unbounded verdict, the typed roster)."
+  ],
+  "cost": {
+    "_points_at": "research/compute/pricing.md",
+    "real_dollars": "none — no GPU, no metered API",
+    "claude_budget": "one interactive session plus two seat subagents"
+  }
+}

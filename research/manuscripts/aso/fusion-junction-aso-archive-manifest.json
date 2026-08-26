@@ -10,10 +10,10 @@
     "Not a licence statement. The depositor chooses the licence at step 4 below."
   ],
   "deposition_doi": "10.5281/zenodo.22061075",
-  "git_revision": "b974d98310dcfce1b825780e2e5b9b39810a5606",
+  "git_revision": "836b799fbe762000f6cd1f86d288092de22959b2",
   "git_tree_is_clean_apart_from_this_manifest": false,
   "inventory_limited_to_tracked_files": true,
-  "archive_content_digest": "c768bf336941675941483a36b9a87d3d7a663485fd78c09b70e49c8bf3e19e0f",
+  "archive_content_digest": "765e28ef544bcc5a72cf52ab8c0829659ef1bc63613a3cd0e741dcf9f46387de",
   "n_files": 483,
   "self_entry": {
     "path": "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
@@ -24,14 +24,14 @@
     "_why_not_counted": "It is excluded from `files`, `n_files`, `total_bytes` and `archive_content_digest` for the same reason, which is also what keeps two runs over an unchanged tree byte-identical — the property this module's header calls the only cheap check a reader has that the file is derived rather than edited.",
     "how_a_reader_checks_it_anyway": "Two ways, neither needing a self-hash. (1) Re-derive it: check out `git_revision` and run `python3 research/manuscripts/aso_archive_manifest.py --check`, which rebuilds the whole file and exits non-zero on any difference. (2) Compare the downloaded copy's `sha256sum` against the value the deposition record states — step 4 below tells the depositor to record it there, which is the one place it can live without being self-referential."
   },
-  "total_bytes": 43210179,
-  "total_mib": 41.208,
+  "total_bytes": 43214686,
+  "total_mib": 41.213,
   "payload_file_types": {
     "_what": "Extension census of the payload, derived from the file list. A preprint or journal uploader that accepts only document, image and container types cannot take most of these one by one; step 3 below builds the single container that sidesteps the question entirely. Check the accepted types on the uploader itself — none is asserted here.",
     "by_extension": {
       ".json": {
         "n_files": 383,
-        "bytes": 35909443
+        "bytes": 35913950
       },
       ".py": {
         "n_files": 68,
@@ -1583,8 +1583,8 @@
     },
     {
       "path": "research/manuscripts/fusion-partner/emc-fusion-partner-pooling.json",
-      "bytes": 101665,
-      "sha256": "ec4c3a59abe795cc1253f0cb45eb21f09df9a71a1158d3fa0d680700fcd86e7c",
+      "bytes": 106172,
+      "sha256": "dd73f83547f29bc0810f544e6780de1880f06681622776e7e82a60755b0a479a",
       "serves": "retrieval_records",
       "also_serves": [],
       "contributes": "Bibliographic record each numbered reference was rendered from, and the retrieval products those records were harvested out of. No field in the reference list is typed from recollection."
