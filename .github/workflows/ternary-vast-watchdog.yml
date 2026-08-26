@@ -31,7 +31,7 @@ name: Ternary VAST leg watchdog (session-independent)
 
 on:
   schedule:
-    - cron: "*/15 * * * *"    # matched to the recovery granularity: production commits every 40 iterations
+    - cron: "14 * * * *"    # matched to the recovery granularity: production commits every 40 iterations
                               # (~10 min of MD at 4 fs), so 15 min sees at most one missed interval.
   workflow_dispatch:
     inputs:

@@ -61,7 +61,7 @@ on:
     # supervision tick running the whole time. A scheduled tick now runs `autofeed` and may provision;
     # what stops it running away is `gcp_fanout_rep.feed_decision`, which refuses on a live instance
     # (GPUS_ALL_REGIONS = 1), on a unit that already has a ddg.json, and on the no-progress breaker.
-    - cron: "*/10 * * * *"
+    - cron: "44 * * * *"
 
 permissions:
   id-token: write

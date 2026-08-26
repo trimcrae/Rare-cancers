@@ -178,7 +178,8 @@ def fetch_runs(repo: str, workflow: str, per_page: int = 20,
 
 
 def classify(progress: dict | None, runs: list[dict] | None, now: datetime.datetime,
-             stale_min: float, absent_min: float, fetch_error: str | None = None) -> dict:
+             stale_min: float, absent_min: float, fetch_error: str | None = None,
+             armed: dict | None = None) -> dict:
     """Decide WHY supervision is or is not happening. Pure — all I/O is done by the caller, so this is tested."""
     out: dict = {"utc": now.strftime("%Y-%m-%dT%H:%M:%SZ"), "et": _et(now),
                  "stale_min_threshold": stale_min, "absent_min_threshold": absent_min,
@@ -222,6 +223,41 @@ def classify(progress: dict | None, runs: list[dict] | None, now: datetime.datet
     out["last_run_refreshed_artifact"] = refreshed if last_done_t else None
 
     # ── verdict ──
+    # ★★ IS THERE ANYTHING TO SUPERVISE AT ALL? THIS TEST COMES FIRST, AND IT IS THE ONE THIS MODULE WAS
+    # MISSING FOR 19 DAYS (measured 2026-08-25).
+    #
+    # ⛔ THE COLLISION, STATED PLAINLY, BECAUSE BOTH HALVES ARE CORRECT IN ISOLATION. On 2026-08-06
+    # `fleet_armed.py` landed and `publish_artifacts.sh` began SKIPPING the heartbeat commit while the
+    # account holds zero instances — right, and trimcrae asked for it ("Why would we need supervision for
+    # tests that aren't running?"). But `_generated_utc` on that artifact is the ONLY input to the staleness
+    # verdict below, and the autoscale workflow's own comment says so two lines above the change: "a tick
+    # whose artifacts were all absent published no heartbeat at all, and so read as a tick that never ran."
+    # Idle-suppression therefore re-armed the exact landmine that comment was written to disarm.
+    #
+    # ⚠ THE EVIDENCE, NOT THE STORY. The frozen artifact is stamped 2026-08-06T22:31:27Z — the day
+    # idle-suppression landed — and from then to 2026-08-25 this alarm returned FAILING on every tick,
+    # naming a cause that was false ("The tick's CODE is broken"). Measured on 2026-08-25: 30 of the last 30
+    # autoscale runs red, ~11 runs/hour, each one emailing and each one re-dispatching the supervision chain
+    # under `if: always()`. The alarm was not reporting an outage; it WAS the outage.
+    #
+    # ⛔ AND THIS IS NOT A LOOSENED GATE — IT IS THE SAME GATE ASKED A PRIOR QUESTION. `fleet_armed.state()`
+    # is FAIL-ARMED by construction: a census that is missing, unreadable, stale, or short a field returns
+    # ARMED, as does any non-zero instance count. So this branch can only ever be taken on a FRESH
+    # account-level reading of zero hosts — the one state in which "the fleet is unsupervised" is not a
+    # finding about anything. The caller passes None on any doubt, which reproduces today's behaviour
+    # exactly. Nothing that costs money is gated here: the tick has already run and already acted.
+    if armed is not None and armed.get("armed") is False:
+        out["verdict"], out["ok"] = "QUIET-NOTHING-TO-SUPERVISE", True
+        out["armed"] = False
+        out["armed_why"] = armed.get("why")
+        out["armed_evidence"] = armed.get("evidence")
+        out["detail"] = (f"there is nothing to supervise — {armed.get('why')}. A stale progress artifact is "
+                         f"the CORRECT state here, because `publish_artifacts.sh` deliberately withholds the "
+                         f"heartbeat commit while the account is empty; reading that silence as a broken tick "
+                         f"is the one mistake this branch exists to prevent. The moment a host appears the "
+                         f"census flips this to ARMED and every verdict below applies again, unchanged.")
+        return out
+
     if age is None:
         out["verdict"], out["ok"] = "NO-ARTIFACT", False
         out["detail"] = ("the progress artifact is missing or carries no `_generated_utc`, so supervision "
@@ -329,9 +365,20 @@ def main(argv=None) -> int:
     except (OSError, json.JSONDecodeError):
         progress = None
 
+    # ⚠ FAIL-ARMED AT THE BOUNDARY, THE SAME CONTRACT `publish_artifacts.sh` HONOURS. Any exception at all —
+    # module missing, census unreadable, a field absent — leaves `armed` as None, and `classify` then behaves
+    # exactly as it did before this branch existed. Going quiet because a file could not be read is the
+    # fail-quiet direction both this module and `fleet_armed` refuse.
+    armed = None
+    try:
+        import fleet_armed
+        armed = fleet_armed.state(lane="step1-fanout-autoscale")
+    except Exception as e:  # noqa: BLE001 — any failure here must read as ARMED, never as idle
+        print(f"[fleet-alarm] ⚠ arming state unreadable ({e}) — proceeding FAIL-ARMED")
+
     runs, fetch_error = fetch_runs(a.repo, a.workflow)
     v = classify(progress, runs, datetime.datetime.now(datetime.timezone.utc),
-                 a.stale_min, a.absent_min, fetch_error=fetch_error)
+                 a.stale_min, a.absent_min, fetch_error=fetch_error, armed=armed)
     print(render(v))
     if a.json:
         with open(a.json, "w") as f:

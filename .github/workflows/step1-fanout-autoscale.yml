@@ -36,7 +36,7 @@ name: STEP 1 fan-out — progress check + terminus-gated fan-out
 
 on:
   schedule:
-    - cron: "*/20 * * * *"   # ⚠ THE NOMINAL CADENCE IS FICTION — DO NOT PLAN AGAINST IT, AND DO NOT QUOTE A
+    - cron: "38 * * * *"   # ⚠ THE NOMINAL CADENCE IS FICTION — DO NOT PLAN AGAINST IT, AND DO NOT QUOTE A
                              # REMEMBERED NUMBER HERE. GitHub throttles schedules on busy repos. MEASURED
                              # delivery of THIS workflow on 2026-07-27: 12:52 AM, 4:19 AM, 7:44 AM, 10:05 AM
                              # ET -> gaps of 220, 208, 205 and 141 MINUTES, against a nominal 20. So a
@@ -81,6 +81,11 @@ jobs:
   tick:
     runs-on: ubuntu-latest
     timeout-minutes: 25
+    # ⭐⭐ THE ONE OUTPUT THAT DECIDES WHETHER THIS TICK RE-DISPATCHES THE SUPERVISION FLEET.
+    # Read `armed != 'false'` by every dispatcher job below — NOT `== 'true'`, so a missing, empty or
+    # unexpected value re-dispatches exactly as it does today. Fail-armed at the expression level too.
+    outputs:
+      armed: ${{ steps.armed.outputs.armed }}
     env:
       VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -320,6 +325,36 @@ jobs:
         if: ${{ always() }}
         run: python3 research/modalities/inflight_board.py --write
 
+      # ⭐⭐ IS THERE ANYTHING TO SUPERVISE? PUBLISHED AS A JOB OUTPUT SO THE FAN-OUT BELOW CAN ASK.
+      #
+      # ⛔ WHY THIS EXISTS (measured 2026-08-25). Six jobs below carry `needs: tick` + `if: always()`, and
+      # five of them do nothing but DISPATCH another workflow — the staleness watch, the supervisor, the
+      # lane watch, the account reaper, the orphan alarm. `always()` means they fired on every tick
+      # regardless of whether a single GPU existed, and each of those workflows dispatches further. With the
+      # account at ZERO instances that is a self-sustaining chain: measured that day, ~11 autoscale ticks per
+      # hour, 30 of the last 30 red, against ~185 workflow runs/hour repo-wide over an empty fleet.
+      #
+      # ⚠ WHAT IS GATED IS THE RE-DISPATCH, NOT THE TICK AND NOT THE WORK — the same line
+      # `publish_artifacts.sh` already draws. This job has run in full and acted in full before reaching
+      # this step; a reap that needed to happen has happened. Only the fan-out of MORE supervision is held.
+      #
+      # ⚠ AND IT IS FAIL-ARMED THREE TIMES OVER: `fleet_armed.py` itself returns ARMED on any doubt, this
+      # step writes `true` on any exit code that is not exactly 10, and the consumers test `!= 'false'`.
+      # `|| true` keeps a red tick from skipping the step that decides whether to keep supervising.
+      - name: Is there anything to supervise? (publish the arming state for the fan-out below)
+        id: armed
+        if: ${{ always() }}
+        # ⚠ `rc=0; cmd || rc=$?` AND NOT `cmd; rc=$?` — GitHub runs this with `bash -e {0}`, so a bare
+        # non-zero exit aborts the step BEFORE `$?` is ever read, and the output would never be written.
+        # An unwritten output reads as empty, which `!= 'false'` correctly treats as ARMED — so the bug
+        # would have failed safe, and silently, which is how it would have survived.
+        run: |
+          rc=0
+          python3 research/modalities/fleet_armed.py step1-fanout-autoscale || rc=$?
+          if [ "$rc" -eq 10 ]; then armed=false; else armed=true; fi
+          echo "armed=$armed" >> "$GITHUB_OUTPUT"
+          echo "::notice::armed=$armed (fleet_armed exit $rc; 10=idle, anything else=armed)"
+
       - name: Commit the progress readout and any newly-armed watch entries
         if: ${{ always() }}
         env:
@@ -529,7 +564,7 @@ jobs:
   # therefore never turn a failed tick into a purchase.
   cross-lane-staleness-watch:
     needs: tick
-    if: ${{ always() }}
+    if: ${{ always() && needs.tick.outputs.armed != 'false' }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
@@ -583,7 +618,7 @@ jobs:
   # never gains the power to create workflow runs (same reasoning as `cross-lane-staleness-watch` above).
   resurrect-supervisor:
     needs: tick
-    if: ${{ always() }}
+    if: ${{ always() && needs.tick.outputs.armed != 'false' }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
@@ -655,7 +690,7 @@ jobs:
   # COST: $0. It can only dispatch modes that are AST-pinned unable to rent.
   resurrect-lane-watch:
     needs: tick
-    if: ${{ always() }}
+    if: ${{ always() && needs.tick.outputs.armed != 'false' }}
     runs-on: ubuntu-latest
     timeout-minutes: 6
     permissions:
@@ -712,7 +747,7 @@ jobs:
   # property. COST: $0.
   account-orphan-alarm:
     needs: tick
-    if: ${{ always() }}
+    if: ${{ always() && needs.tick.outputs.armed != 'false' }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
@@ -755,7 +790,7 @@ jobs:
   # be left behind. COST: $0, and it only ever reduces spend.
   account-reaper:
     needs: tick
-    if: ${{ always() }}
+    if: ${{ always() && needs.tick.outputs.armed != 'false' }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
