@@ -483,6 +483,57 @@ jobs:
           # The honest objection to chaining is that a chain whose last link fails leaves no supervisor AND
           # no signal. That is answered by VERIFYING the successor exists rather than assuming the dispatch
           # worked, and shouting if it does not.
+          # ⭐⭐ THE CHAIN DOES NOT CONTINUE OVER AN EMPTY ACCOUNT (2026-08-26).
+          #
+          # ⛔ THIS WORKFLOW IS THE ENGINE OF THE REPO'S RUN RATE, AND THE PREMISE ABOVE IS FALSE WHEN IDLE.
+          # The handoff exists because "The fan-out is still billing" — and it has not been. The account has
+          # held ZERO instances on all 886 census readings since 2026-08-05. Meanwhile each iteration of this
+          # loop dispatches TWELVE workflow runs: five of gpu-ternary-fep-vast (reps-diag / market-gate /
+          # triangle-gate / 5aks-gate / collect), plus step1-fanout-autoscale, lane-staleness-watch,
+          # selectivity-control-vast, gpu-fanout-rep-gcp, fusion-cpu-extras — and then a successor of itself.
+          # MEASURED 2026-08-26, ~1.5 h after the first fix landed: gpu-ternary-fep-vast still at 35.4
+          # runs/h (unchanged from 35.3) and lane-staleness-watch at 8.8 runs/h against an HOURLY cron.
+          # Gating step1-fanout-autoscale's fan-out did not touch this, because a supervisor already running
+          # re-dispatches ITSELF and so never dies. This chain is the loop; everything else is its fan-out.
+          #
+          # ⚠ WHAT IS GATED IS THE CONTINUATION, NOT THE TICK. This run has already supervised in full for
+          # its whole window; only the decision to start ANOTHER window is held. Same line every other lane
+          # draws (research/compute/ci-burden-plan.md §5).
+          #
+          # ★ AND THE RE-ARM PATH IS ALREADY IN PLACE, WHICH IS WHY STOPPING IS SAFE. The moment a host
+          # exists, `fleet_armed` flips to ARMED and `step1-fanout-autoscale`'s `resurrect-supervisor` job —
+          # gated on `armed != 'false'` — dispatches this workflow again. Idle stops the chain; a rental
+          # restarts it, with no human in the path.
+          #
+          # ⚠ FAIL-ARMED: `|| rc=$?` under `bash -e`, and ONLY exit 10 (idle) stops the chain. A crash, a
+          # missing module or an unreadable census all hand off exactly as before.
+          # ⛔ THE ARMING READ MUST BE FETCHED FRESH HERE, AND BOTH REASONS ARE GUARD-KILLERS.
+          #   1. THIS JOB HAS NO `actions/checkout` (deliberately — see the header). So a bare
+          #      `python3 research/modalities/fleet_armed.py` is a FILE THAT DOES NOT EXIST: it exits 2,
+          #      fail-armed sends the chain on, and the gate silently never fires. A guard that cannot run
+          #      is not a guard that passed.
+          #   2. EVEN WITH a checkout at job start, this step runs up to SIX HOURS later, and
+          #      `fleet_armed.MAX_CENSUS_AGE_S` is 3 h — the census would be stale by construction, which is
+          #      also FAIL-ARMED. The gate would look wired and never once take effect.
+          # So both files are pulled from `main` at the moment of the decision. Two API reads, no clone, no
+          # credentials beyond the job token. `state()` only shells out to git for CENSUS_LANE, which this
+          # lane is not, so a bare /tmp copy is sufficient.
+          _armed_rc=0
+          mkdir -p /tmp/fa
+          gh api "repos/${GH_REPO}/contents/research/modalities/fleet_armed.py?ref=main" \
+             --jq .content 2>/dev/null | base64 -d > /tmp/fa/fleet_armed.py || _armed_rc=99
+          gh api "repos/${GH_REPO}/contents/research/modalities/ternary-vast-account-census.json?ref=main" \
+             --jq .content 2>/dev/null | base64 -d > /tmp/fa/ternary-vast-account-census.json || _armed_rc=99
+          if [ "${_armed_rc}" -eq 0 ]; then
+            python3 /tmp/fa/fleet_armed.py step1-fanout-supervisor || _armed_rc=$?
+          else
+            echo "::warning::could not fetch the arming state (exit ${_armed_rc}) — handing off as usual"
+          fi
+          if [ "${_armed_rc}" -eq 10 ]; then
+            echo "::notice title=SUPERVISOR CHAIN STOPPED (IDLE)::the account holds zero instances and the census is fresh, so this window is not chaining a successor. Nothing is billing and nothing is unsupervised. step1-fanout-autoscale's resurrect-supervisor job re-dispatches this workflow the moment a host appears."
+            exit 0
+          fi
+
           gh workflow run step1-fanout-supervisor.yml --ref main \
              -f hours="${HOURS}" -f tick_every_min="${EVERY}" \
              -f fleet_branch="${FLEET_BRANCH}" -f release_fanout="${RELEASE_FANOUT}" \

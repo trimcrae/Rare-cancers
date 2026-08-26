@@ -254,6 +254,57 @@ needs ~24 h of the new cadence before it can be quoted. Do not write a number he
 
 ---
 
+## 6a-bis · THIRD PASS — THE FIRST TWO DID NOT REDUCE THE RATE, AND THE MEASUREMENT SAYS SO
+
+⛔ **MEASURED 2026-08-26, ~1.5 h after the merge. The honest reading, before any explanation:**
+
+| workflow | before | after | verdict |
+|---|---:|---:|---|
+| `gpu-ternary-fep-vast` | 35.3/h | **35.4/h** | **UNCHANGED** |
+| `lane-staleness-watch` | 15.2/h | 8.8/h | down ~42 %, still 8.8 against an HOURLY cron |
+
+★★ **THE PER-RUN GATES WERE REAL AND THE RATE STILL DID NOT MOVE. Both facts are true and the second one
+is the one that mattered to the person who asked.** §3 and §6b fixed a genuine 19-day false-alarm loop and
+stopped the email; they did not fix the burden, because the two biggest generators were the row I refused
+(§6b, `gpu-ternary-fep-vast`) and the row I deferred as *"medium — read it before touching it"* (row 3,
+`step1-fanout-supervisor`). Reporting the gates as though they settled the rate was the error.
+
+### The actual engine: `step1-fanout-supervisor.yml`
+
+**No cron. No arming gate. Twelve dispatches per iteration — including a successor of ITSELF.**
+
+    5x gpu-ternary-fep-vast   (reps-diag, market-gate, triangle-gate, 5aks-gate, collect)
+    1x each: step1-fanout-autoscale, lane-staleness-watch, selectivity-control-vast,
+             gpu-fanout-rep-gcp, fusion-cpu-extras
+    2x step1-fanout-supervisor  <- the chain: a 6 h job that dispatches its own successor before it dies
+
+5 dispatches x ~7 iterations/h ≈ the 35.4/h. **This chain IS the loop; every other lane is its fan-out.**
+Gating §3's `resurrect-supervisor` could never stop it, because a supervisor ALREADY RUNNING re-dispatches
+itself and so never dies. That is why the rate did not move.
+
+⚠ **AND ITS PREMISE IS FALSE WHEN IDLE.** The handoff is justified in-file by *"The fan-out is still
+billing."* It has not been billing for 20+ days.
+
+### The fix
+
+The chain no longer continues while `fleet_armed` reports idle. **The continuation is gated, not the tick** —
+the window supervised in full before reaching this point. The re-arm path already exists and is why stopping
+is safe: a host appearing flips ARMED, and `step1-fanout-autoscale`'s `resurrect-supervisor` (gated on
+`armed != 'false'`) dispatches this workflow again, with no human in the path.
+
+⛔ **TWO GUARD-KILLERS CAUGHT BEFORE SHIPPING, BOTH OF WHICH WOULD HAVE LOOKED WIRED AND NEVER FIRED:**
+1. This job has **no `actions/checkout`** — a bare `python3 research/modalities/fleet_armed.py` is a missing
+   file, exits 2, fail-armed, chain continues, gate silently dead.
+2. Even WITH a checkout at job start, the handoff runs up to **6 h** later against a **3 h**
+   `MAX_CENSUS_AGE_S` — stale by construction, also fail-armed.
+So both the module and the census are fetched from `main` **at the moment of the decision**, via two `gh api`
+reads. Verified under `bash -e`: only exit 10 stops the chain; 0 / 2 / 99 all continue.
+
+⚠ **A RUNNING SUPERVISOR DOES NOT PICK THIS UP.** The chain re-dispatches from the workflow file on `main`,
+so the currently-looping instance must be cancelled once for the new gate to take effect.
+
+---
+
 ## 6b · SECOND PASS — EXECUTED 2026-08-25, on trimcrae's instruction
 
 ★ **THE STEER THAT CHANGED THE DESIGN** (trimcrae, 2026-08-25): *"we haven't used vast in a month and don't
