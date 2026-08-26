@@ -32,7 +32,8 @@
   },
   "_trigger_kinds": {
     "external_capability": "something the field has to publish/release. Searchable — this is what the scan is for.",
-    "internal_work": "the roadmap names the reopening condition as work THIS repo would do (a different frame, a different ensemble, a design change). No literature query can detect it; listed so the register is complete and nobody records it as forgotten."
+    "internal_work": "the roadmap names the reopening condition as work THIS repo would do (a different frame, a different ensemble, a design change). No literature query can detect it; listed so the register is complete and nobody records it as forgotten.",
+    "venue": "a change in the AI-PREPRINT or JOURNAL landscape that would make us post somewhere else, or change what posting there is worth. Added 2026-08-26 for the autonomy loop's venue watch (emc-autonomy-architecture.md §8.1). Searchable like an external_capability, but what it reopens is a VENUE decision rather than a scientific route — so a hit changes where a finished paper goes, never what any result means."
   },
   "triggers": [
     {
@@ -1901,6 +1902,66 @@
         "note": "Each of those routes stops at a clinical quantity that these series print. meisKindblom1999 (n=117) and ussc2022 (n=60) are the two largest closed ones and would materially move the site and outcome denominators."
       },
       "on_fire": "Re-run the km-figures retrieval for that source_id, look at its survival figures for a numbers-at-risk row, and record the finding on its CANDIDATE_SOURCES row. ⚠ Check the SITE TABLE too, not only the curve -- the site tables are what moved RT-LIMB-PERFUSION, and they are printed by series whose curves are useless."
+    },
+    {
+      "id": "TRG-VENUE-HOST-SCREENING",
+      "title": "A preprint host's screening or eligibility clause changes",
+      "capability": "A host we use or shortlisted changes whether an unaffiliated author may post, or adds/removes a content screen. This is not hypothetical: Research Square DECLINED a finished paper from this program, and Qeios won the round-2 rubric on the no-screening test alone. A screen appearing at Qeios, or disappearing elsewhere, reorders that decision.",
+      "trigger_kind": "venue",
+      "status": "watching",
+      "scan_enabled": true,
+      "evidence_home": [
+        {
+          "file": "research/manuscripts/program/preprint-host-decision-round2.md",
+          "anchor": "",
+          "row": "the five-test host rubric"
+        }
+      ],
+      "reopens": {
+        "roadmap_rows": [],
+        "registry_routes": [],
+        "note": "Reopens the host decision, not any scientific claim. ⛔ A hit NEVER changes what a paper says — only where it goes."
+      }
+    },
+    {
+      "id": "TRG-VENUE-AIXIV-POLICY",
+      "title": "aiXiv's API, review or visibility policy changes",
+      "capability": "aiXiv gains authenticated review, a real accept/reject verdict, a genuine private mode, or changes its submission API. Each would change what a post there is worth. Measured today: the Rating endpoint is UNAUTHENTICATED and is therefore not a quality signal, and is_public=0 does not make a submission private — so there is no rehearsal mode. If either changes, the standing posting authority was granted against a backdrop that no longer holds and must be re-asked.",
+      "trigger_kind": "venue",
+      "status": "watching",
+      "scan_enabled": true,
+      "evidence_home": [
+        {
+          "file": "research/manuscripts/program/emc-autonomy-architecture.md",
+          "anchor": "",
+          "row": "the publication ladder"
+        }
+      ],
+      "reopens": {
+        "roadmap_rows": [],
+        "registry_routes": [],
+        "note": "Reopens publication-authority.json's granted_against list. That list names the conditions the grant rests on; a hit here is exactly the case where the loop must escalate rather than amend."
+      }
+    },
+    {
+      "id": "TRG-VENUE-INDEXING",
+      "title": "A shortlisted venue gains or loses PubMed / Europe PMC indexing, or changes its fee route",
+      "capability": "Indexing decides whether a paper is findable by the people it is for, and the fee route decides whether this program can publish there at all. The venue-fit table currently carries 15 of 25 scored cells as UNKNOWN, and the $0-route filter alone excludes the two most natural homes on page charges. A change to either moves a real decision.",
+      "trigger_kind": "venue",
+      "status": "watching",
+      "scan_enabled": true,
+      "evidence_home": [
+        {
+          "file": "research/literature/venue-fee-routes-2026-08-10.json",
+          "anchor": "",
+          "row": "verified zero-dollar routes"
+        }
+      ],
+      "reopens": {
+        "roadmap_rows": [],
+        "registry_routes": [],
+        "note": "Reopens research/autonomy/venue-fit.json's ranking, nothing scientific."
+      }
     }
   ]
 }
