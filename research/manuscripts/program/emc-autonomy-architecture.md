@@ -83,7 +83,7 @@ render a row the ledger does not carry.
 | Hands (network, pip, GPU, secrets, PDF, browser) | ✅ live | ~167 Actions workflows; `AIXIV_TOKEN`, `ZENODO_TOKEN`, `MAIL_PASSWORD` already set |
 | Gates (claims, citations, consistency, style, model, registry) | ✅ live | `scripts/preflight.sh` — see `repo-gates` |
 | Compute orchestration + watchdogs + reapers | ✅ live | `work-ledger.json`, `vast-account-reaper.yml`, `fleet-supervision-alarm.yml` |
-| Field/capability watch | ⚠ partial — layer 1 dead since 2026-07-13 | `method-watch.md` layers 1–3 |
+| Field/capability watch | ✅ live — layer 1 repaired 2026-08-24, cadence unconfirmed (§8.2) | `method-watch.md` layers 1–3 |
 | Human channel | ✅ live | weekly Friday newsletter (`method-watch.yml`) |
 | **Research prioritization + cycle contract** | ⛔ **absent — this is the build** | §3, §4 |
 | **Publication authority** | ⛔ **absent — and it is trimcrae's to grant** | §6 |
@@ -596,7 +596,102 @@ autonomy loop does not run its research on it.
 
 ---
 
-## 10 · Build order
+## 10 · Self-improvement, free rein, and the one edit it may not make
+
+**★ GRANTED BY trimcrae, 2026-08-26:** *"It should also have the ability to self-improve if it finds
+issues in its process. And have free rein to edit the repo and merge to main whenever it wants. Ideally
+to make and manage triggers too."*
+
+### 10.1 · The grant, stated plainly
+
+- **Edit anything in this repository, commit, and merge to `main`, unattended.** No approval step. The
+  only gate is `./scripts/preflight.sh`, which CLAUDE.md §6 already establishes as the ordinary commit
+  loop — *"a merge or push to `main` is the commit loop, NOT publication"*. So this grant adds no new
+  ceremony; it removes a permission that was never actually required.
+- **Work on `main` and merge early.** CLAUDE.md §7: branch drift is a data-loss bug, and a long-lived
+  autonomy branch is exactly the shape that loses work.
+- **Manage its own schedule** — §10.2.
+- **Change its own process**, including this file, the weights, the cycle contract and the skill —
+  §10.3, under the one restriction in §10.4.
+
+### 10.2 · What "manage triggers" can and cannot mean — measured, not assumed
+
+| the loop wants to … | can it | mechanism |
+|---|---|---|
+| Delete a spent or wrong Routine | ✅ | `delete_trigger` — exercised today on the §2.2 probe |
+| Change an existing Routine's cron, prompt or enabled state | ✅ | `update_trigger`. ⚠ **This corrects a repo note** claiming the prompt cannot be edited — it can, and was, mid-probe today. |
+| Fire a Routine off-schedule | ✅ | `fire_trigger` |
+| Create a trigger that wakes a session **already holding** the repo grant | ✅ | a self-bind / `persistent_session_id` trigger — the fired turn runs *inside* that session, so it inherits the repo and every tool. ⚠ **Mechanism sound, delivery UNVERIFIED as of this commit** — a probe is in flight and this cell is updated from its result, not from expectation. Several agent-created self-bind triggers in this account carry `SUCCEEDED` run records, but per §2.2 a fire record is not a delivery. |
+| Create a **fresh-session** Routine that has the repo | ⛔ **No** | §2.2 — agent-minted lineage carries no `sources`. Unchanged. |
+
+★ **So the honest shape is: one seed, then the loop owns the schedule.** trimcrae's single UI click
+creates the recurring fresh-session driver. **Everything after that** — retiming it, rewriting its
+prompt as the contract improves, retiring it, and scheduling its own follow-ups — **is the loop's.**
+
+⛔ **Every trigger the loop creates carries its cycle id in the name**, so an orphan is attributable to
+the cycle that made it. This repository has already paid twice for orphaned pollers trimcrae had to
+spot himself (CLAUDE.md §6). **And a retrospective cycle reaps its own orphans** — a trigger whose
+cycle is long finished and whose entry is `done` is deleted, not left firing.
+
+### 10.3 · Where self-improvement comes FROM — receipts, never introspection
+
+⛔ **A loop asked to "reflect on its process" will invent problems, because producing a finding looks
+like working.** This one may only improve on **recorded friction**:
+
+- **Every cycle that hits friction files a `kind: process_defect` entry** — with the evidence, not the
+  impression. A retry that was needed, a gate that failed for an unrelated reason, an entry whose
+  `what` was unactionable, a skill that did not say the thing the cycle needed.
+- **A retrospective cycle** (every Nth, and after any §5.2 condition goes red) reads the last N
+  receipts plus `health.json` and looks for *patterns*: the same failure twice, an entry stuck across
+  cycles, a clamp firing constantly, escalations that turned out not to need him.
+- **Its output is a change with a diff, or nothing.** ⭐ **"Nothing to improve this round" is a valid
+  and expected retrospective** — and a retrospective that always finds something is itself a defect.
+
+⛔ **A process change with no receipt behind it is a redesign, not an improvement.** CLAUDE.md §4: the
+diagnostic comes before the explanation, and *"probably"* is not a cause.
+
+### 10.4 · ⛔⛔ THE ONE THING IT MAY NOT DO — MOVE ITS OWN GOALPOSTS
+
+**Improving the mechanism and making your own success easier are both edits, and only one is honest.**
+★ **The test is a single question, and it is answerable: *does this change make it easier for the loop
+to report success?*** If yes, it is not an improvement, whatever else is true about it.
+
+| class | examples | rule |
+|---|---|---|
+| **Free, unlogged** | fix a bug, add a check, refactor, sharpen a prompt, correct a stale doc, add or retire a ledger entry, retime a Routine | Just do it. This is the bulk of self-improvement and it needs no ceremony. |
+| **Free, but DECLARED** | `priority-weights.json` · the six clauses of §6.1 · `publication-authority.json` · CLAUDE.md, AGENTS.md or this file's rules · any §5.2 health condition · deleting or weakening any test | Allowed unattended — **and appended to the amendment log (§10.5) and carried in the Friday digest.** These are the edits that change what "doing well" MEANS, so they are never silent. |
+| **⛔ Refused** | see the invariant below | Filed as a proposal and escalated (§7 trigger 3), never applied by that cycle. |
+
+⛔⛔ **THE ANTI-GAMING INVARIANT, and it is mechanically checkable:**
+
+> **A bar may not be changed by the cycle that the bar just blocked.**
+
+The receipt records what blocked the cycle; the commit records what the cycle changed. **A cycle that
+does both is the failure mode**, and it is the one that ends with a paper published because the
+standard moved rather than because the work got better. A later cycle, with the blockage no longer in
+front of it, may make the same change — declared, per the table above.
+
+⛔ **Two more, absolute:** never weaken a guard test to make a change pass — mutation-test the guard
+instead (`paper-hardening`); and never edit or remove an entry from the amendment log.
+
+### 10.5 · The amendment log — `research/autonomy/amendments.jsonl`
+
+Append-only. One record per declared change:
+
+```
+{ cycle_id, utc, path, what_changed, why (the receipt or defect entry id),
+  old_value, new_value,
+  self_serving_check   ← "did this cycle's own work get easier?" ANSWERED, not assumed.
+                          An honest "yes, and here is why that is still correct" is fine.
+                          An unanswered field is a red health condition. }
+```
+
+★ **This is the file trimcrae reads to tell improvement from drift**, and it is the reason the grant in
+§10.1 can be as wide as it is: the loop may change anything, and **cannot change anything quietly.**
+
+---
+
+## 11 · Build order
 
 Each phase is independently useful and ends in a committed, checkable artifact. **Phases 1–2 need no
 new permission from anyone.**
@@ -611,13 +706,22 @@ new permission from anyone.**
 | **6 · The publication ladder** | `venue-fit.json`; the §6.1 bar as a checkable script; escalation trigger 1 | A paper is correctly escalated rather than posted |
 | **7 · Authority** ✅ *D1 answered — no longer gated* | The six §6.1 clauses each as a script returning a boolean, then `publication-authority.json` + the AGENTS.md / CLAUDE.md §3 amendment in **one** commit | A paper passing all six posts unattended and notifies; a paper failing any one escalates instead. ⛔ The clauses ship BEFORE the grant — a bar-scoped grant with an ungated bar is the grant with no bar |
 | **8 · The watches** | §8.1's `venue` trigger kind; §8.2's `regrade` entries; layer 1 absorbed into the driver | A parked route's `revival_trigger` is re-tested on schedule and the re-test is visible when it stops |
+| **9 · Self-improvement** | `amendments.jsonl`; the `process_defect` entry kind; the retrospective cycle; the §10.4 anti-gaming check as a **script** that reads a receipt and a diff together; orphan-trigger reaping | A cycle that tries to change a bar which blocked it is refused by the check and files a proposal instead — **proved by a deliberate attempt, not by assertion** |
+
+⭐ **Phase 9's check is the one that must exist before the loop runs unattended for long.** Phases 1–8
+make it work; phase 9 is what keeps it working *on the problem it was pointed at*. Build it early if
+anything slips.
+
+⚠ **And the whole order is now the loop's to revise** (D5/D6). If a cycle finds a better order, it
+changes this table and logs the amendment — this is a plan, not a contract with the future.
 
 ---
 
-## 11 · Open decisions — trimcrae's, and the loop must not infer them
+## 12 · Decisions on record — trimcrae's, and the loop must not infer them
 
-**★ ALL FOUR WERE ANSWERED BY trimcrae ON 2026-08-26.** Recorded here verbatim because each is a
-standing authorisation the loop will act on, and CLAUDE.md §3 requires the grant be traceable to him.
+**★ ALL SEVEN WERE ANSWERED BY trimcrae ON 2026-08-26** — D1–D4 as answers to a question, D5–D7
+unprompted in his own words. Recorded verbatim because each is a standing authorisation the loop will
+act on, and CLAUDE.md §3 requires every grant be traceable to him.
 
 | # | decision | his answer | consequence |
 |---|---|---|---|
@@ -625,6 +729,9 @@ standing authorisation the loop will act on, and CLAUDE.md §3 requires the gran
 | **D2** | Who creates the Routines | **"Yes — give me the prompts"** | Phase 5 delivers pasteable prompts; he creates them once in the UI. |
 | **D3** | Budget the loop may hold | **"Like 80% of the max budget"** | ⭐ Not one of the offered cadences — so the governor targets **measured utilisation**, not a fixed interval. §9.2. |
 | **D4** | Journal escalation timing | **"Immediately"** | Escalation trigger 1 fires on the spot, not into the Friday digest. |
+| **D5** | Self-improvement | **"the ability to self-improve if it finds issues in its process"** | §10.3 — improvement is sourced from recorded friction, never from introspection. |
+| **D6** | Repo and `main` | **"free rein to edit the repo and merge to main whenever it wants"** | §10.1. Adds no ceremony: CLAUDE.md §6 already holds that a merge to `main` is the commit loop, gated by preflight alone. |
+| **D7** | Triggers | **"Ideally to make and manage triggers too"** | §10.2 — granted for everything except minting a fresh-session Routine, which the platform does not permit. One UI seed, then the loop owns the schedule. |
 
 ⚠ **D1 carries a real risk and it is stated rather than smoothed over.** A bar-scoped grant means the
 first paper the loop judges ready is posted under trimcrae's name and ORCID **without him seeing it
@@ -636,7 +743,7 @@ must be put to him again — it was granted against that backdrop, not in genera
 
 ---
 
-## 12 · What this design refuses to do
+## 13 · What this design refuses to do
 
 - **Grant itself an authority.** ⚠ *Amended 2026-08-26 (D1): the loop MAY now post to aiXiv any paper
   clearing §6.1's six clauses, because trimcrae granted that — and the grant is bounded by the backdrop
@@ -649,3 +756,8 @@ must be put to him again — it was granted against that backdrop, not in genera
 - **Say "probably" about a failure.** CLAUDE.md §4 — a cycle that cannot diagnose a failure records
   `UNKNOWN` and queues the diagnostic as its own entry.
 - **Go quiet when it is broken.** Escalation trigger 4.
+- **Change a bar in the cycle that bar just blocked.** §10.4. The wide edit grant of §10.1 is survivable
+  *because* of this one line: the loop may change anything, and may not change it to get past the thing
+  standing in front of it right now.
+- **Change quietly what "doing well" means.** §10.5 — an edit to the weights, the bar, the authority or
+  a health condition that is not in the amendment log is the defect, however good the edit was.
