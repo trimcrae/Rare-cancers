@@ -18,6 +18,20 @@ _backfilled: true
 moment a specific in-silico capability becomes usable. This file is the **watch config +
 trigger table** (what to look for, and what to do when it appears).
 
+> **⭐ 2026-08-26 — CORRECTED: LAYER 1 IS LIVE AGAIN, AND THE BLOCK BELOW IS NOW HISTORY.** A $0
+> `list_triggers` read shows the field-scan Routine is **`trig_01KJhjjkD57Ke9F37SayypKd`**, created
+> **2026-08-24 via the claude.ai UI**, carrying the `sources: [git_repository trimcrae/Rare-cancers]`
+> grant the old one lacked — and it delivered: `research/field-scan-log.md` carries a full dated
+> entry for 2026-08-24. **The repair trimcrae was asked for happened; this file never learned**, and
+> for two days it told every reader that layer 1 was dead. ⚠ **What is still unverified is the
+> CADENCE**: that delivery came from the Routine's creation-time fire, and its first *scheduled* fire
+> is Friday 2026-08-28. Per the rule this file itself states, confirm it by reading the artifact, not
+> the fire record. The block below is retained unchanged as the diagnosis of the OLD Routine
+> (`trig_01X5xHy1cmkLjkATEijZSNJf`), because it is the evidence behind
+> [the autonomy architecture](manuscripts/program/emc-autonomy-architecture.md) §2.2 — which
+> re-tested the same constraint by experiment on 2026-08-26 and found it still holds for any
+> agent-created Routine.
+>
 > **★ 2026-08-24 — LAYER 1'S NON-DELIVERY HAS A NAMED CAUSE NOW, NOT JUST A SYMPTOM.** This file has
 > recorded since 2026-08-03 that the field-scan Routine "has never written an entry" without saying why.
 > The discriminating observation is in the Routine's own stored config (`list_triggers`, $0): the weekly

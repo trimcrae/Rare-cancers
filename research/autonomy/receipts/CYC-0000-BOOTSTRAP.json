@@ -1,0 +1,87 @@
+{
+  "_schema": "emc-autonomy-receipt/1",
+  "_role": "The record one cycle leaves behind. A cycle that cannot write one has failed, however much it wrote — architecture §4.2 step 10. The health checker reads receipts, never fire records, because a fired Routine is not a delivered one.",
+  "cycle_id": "CYC-0000-BOOTSTRAP",
+  "started_utc": "2026-08-26T14:28:22Z",
+  "finished_utc": "2026-08-26T15:47:00Z",
+  "session_id": "session_011zRMmQKPj7ziG3gY9yhpBQ",
+  "kind": "bootstrap",
+  "_kind_note": "Not a research cycle. This is the cycle that BUILT the loop, run by hand as architecture phase 2 requires before the contract is handed to a Routine. It follows the ten-step contract so the contract is exercised at least once by something that can notice if it is wrong.",
+
+  "took": [
+    "Build phases 1, 3-7 and 9 of the autonomy architecture",
+    "Answer trimcrae's design question: does this belong in a skill"
+  ],
+
+  "changed": [
+    "research/autonomy/priority.py, priority-weights.json, research-ledger.json — the ranked queue",
+    "research/autonomy/publish_bar.py, publication-authority.json — the six-clause bar and the grant it gates",
+    "research/autonomy/amendment_guard.py, amendments.jsonl — the anti-gaming invariant and its log",
+    "research/autonomy/routine-prompts.md — the two prompts trimcrae pastes into the UI",
+    ".claude/skills/research-loop/SKILL.md — the cycle contract as a loadable skill",
+    "CLAUDE.md §3 and AGENTS.md — the aiXiv carve-out, declared in amendments.jsonl",
+    "systems/tests/test_autonomy_priority.py, test_autonomy_publish_bar.py — 29 guards"
+  ],
+
+  "route_advanced": "none",
+  "_route_advanced_why": "⭐ HONEST AND DELIBERATE. This cycle advanced the loop's machinery, not an EMC route. Writing a route id here because the cycle felt productive is precisely the inflation that would disable the only alarm pointed at CLAUDE.md §0's failure mode. The instrument is worth more than the credit.",
+
+  "blocked_by": [],
+
+  "observations_taken_free": [
+    {
+      "what": "Do agent-created Routines still get no repo or GitHub tools?",
+      "how": "Fired a one-shot create_trigger probe that tried add_repo, git clone and git push",
+      "result": "No. Ran 4m03s, reported SUCCEEDED, left no branch; session context carried no `sources` and the platform tagged it config:routine-lineage-none. Constraint holds as of 2026-08-26."
+    },
+    {
+      "what": "Does a Routine-fired session inherit its parent's model?",
+      "how": "Read the probe session's external_metadata.last_served_model",
+      "result": "No — it ran on a different model than the parent. The driver Routine must pin its model explicitly."
+    },
+    {
+      "what": "Is the Claude rate limit readable rather than inferable?",
+      "how": "get_session on self",
+      "result": "Yes: status, rateLimitType, resetsAt, isUsingOverage. Rate-limit recovery is a timestamp, not a heuristic."
+    },
+    {
+      "what": "Do agent-created SELF-BIND triggers deliver?",
+      "how": "send_later into this repo-attached session",
+      "result": "Yes — delivered a full working turn with the repo and all tools intact. This is what makes the rate-limit resume path real."
+    },
+    {
+      "what": "Is method-watch layer 1 really dead, as research/method-watch.md says?",
+      "how": "list_triggers, $0",
+      "result": "No. It was recreated from the UI on 2026-08-24 with the repo attached and delivered a dated entry. The doc is stale; correcting it is queued as phase 8."
+    }
+  ],
+
+  "defects_found_in_own_process": [
+    {
+      "id": "PD-001",
+      "what": "publish_bar's fail-closed error path itself raised. `Path.relative_to` throws for a path outside the repo, so a MISSING authority file produced an uncaught exception rather than a refusal.",
+      "evidence": "test_a_missing_authority_file_means_no_authority, first run",
+      "why_it_matters": "An uncaught exception in a permission check is not a refusal — its meaning depends entirely on the caller.",
+      "fixed": true
+    },
+    {
+      "id": "PD-002",
+      "what": "Clause 4 invoked lint_citations.py with a file argument. It accepts none, so argparse exited 2 and the clause FAILED for every paper — for a broken invocation, not a bad paper.",
+      "evidence": "publish_bar.py --paper PUB-ASO on a real commit, before the fix",
+      "why_it_matters": "A clause that can never pass is as dangerous as one that always does: an unreachable bar is what invites someone to loosen it.",
+      "fixed": true
+    }
+  ],
+
+  "queued_next": [
+    "Phase 2 proper: run one RESEARCH cycle end to end on the queue's top item",
+    "Phase 8: the venue trigger kind, regrade entries, and the stale layer-1 pointer in research/method-watch.md",
+    "trimcrae creates the two Routines from the claude.ai UI — research/autonomy/routine-prompts.md"
+  ],
+
+  "cost": {
+    "_points_at": "research/compute/pricing.md",
+    "real_dollars": "none — no GPU, no metered API. Engineering only.",
+    "claude_budget": "one interactive session; per-session usage is readable via list_sessions"
+  }
+}

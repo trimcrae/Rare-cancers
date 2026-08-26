@@ -1,0 +1,46 @@
+{
+  "_schema": "emc-publication-authority/1",
+  "_role": "The machine-readable record of what the autonomy loop may put in public without asking. Read by research/autonomy/publish_bar.py::authority_permits. It is NOT the grant — trimcrae is. This file only records his grant so a script can check it.",
+  "_owner": "research/manuscripts/program/emc-autonomy-architecture.md#63--the-authority-model--researchautonomypublication-authorityjson",
+
+  "_read_this_when": "You are about to post anything, or you are about to edit this file. Editing it is a DECLARED change (architecture §10.4): it goes in amendments.jsonl, and it may not be made by the cycle that this file just blocked.",
+
+  "_this_file_disagreeing_with_claude_md_is_a_bug": "CLAUDE.md §3 and AGENTS.md were amended in the same commit that first set standing_grant to true. If a future reader finds this file permitting what those forbid, THIS file is wrong and the post does not happen.",
+
+  "aixiv": {
+    "standing_grant": true,
+    "granted_by": "trimcrae, 2026-08-26, AskUserQuestion D1, verbatim: 'Broad: any paper meeting the bar'",
+    "granted_against": [
+      "the bar is the six clauses in research/autonomy/publish_bar.py, every one computed from a committed artifact",
+      "aiXiv only — no other venue, ever",
+      "every journal submission still escalates immediately (decision D4)"
+    ],
+    "_re_ask_if": "ANY item in granted_against stops being true. The grant was given against that backdrop, not in general. Widening it is not an amendment the loop may make — it is a new grant, and only trimcrae issues one.",
+
+    "scope": {
+      "papers": "ANY publication endpoint passing all six clauses. Deliberately not a list — see granted_by.",
+      "acts": ["submit", "new_version"],
+      "max_versions_per_paper": 3,
+      "_max_versions_why": "aixiv-submission §3, measured: ELEVEN versions of aixiv.260822.000005 never moved its rating above 6 and it trended DOWN as the paper improved. Iterating prose does not move the number, so an uncapped loop would rediscover that at trimcrae's expense and put ten near-identical versions under his ORCID. Three is enough for a real correction and too few for a rating chase.",
+      "notify_after_each_post": true,
+      "_notify_why": "Not a gate — he does not approve the post, he learns of it. Escalation trigger 1 covers journals; this covers aiXiv."
+    },
+
+    "forbidden_regardless_of_the_bar": [
+      "retitling or reframing a paper to clear a clause or chase a venue's taste — CLAUDE.md §3, the title is what a reader searches",
+      "posting a claim that exceeds its endpoint's recorded claim_ceiling — that is clause 3 and no grant overrides it",
+      "posting a review of our own paper to aiXiv, or any act that would place a fabricated review under trimcrae's name — aixiv-submission §0",
+      "treating an aiXiv Rating as evidence of anything"
+    ]
+  },
+
+  "journal": {
+    "standing_grant": false,
+    "_constant": "Not a parameter. No bar reaches it, no amendment may set it true. A journal submission costs money, is slow to undo, and picks an identifier someone may cite. It escalates to trimcrae immediately (D4) with the venue shortlist and its evidence."
+  },
+
+  "everything_else": {
+    "standing_grant": false,
+    "_covers": "Zenodo publication, a GitHub release, a DOI mint, email to a corresponding author, any outward-facing act not named above. Preparing them needs no permission; performing them does and was not granted."
+  }
+}

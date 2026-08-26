@@ -167,8 +167,16 @@ and it is why `preflight.sh` captures each check's status explicitly instead.
 
 ## Publishing
 
-**Human-in-the-loop, always.** An agent drafts and cites; a named human author reviews and submits. No
-automated preprint or journal posting, no automated outreach, no automated release.
+**Human-in-the-loop for everything except one channel, as of 2026-08-26.** An agent drafts and cites; a
+named human author reviews and submits. No automated journal posting, no automated outreach, no
+automated release.
+
+⭑ **The one exception is aiXiv**, where trimcrae granted a standing bar-scoped authority — see
+CLAUDE.md §3 and [`publication-authority.json`](./research/autonomy/publication-authority.json). It is
+narrow on purpose: a paper posts unattended only if it clears all six clauses of
+[`publish_bar.py`](./research/autonomy/publish_bar.py), and he is notified after each post. ⛔ *Superseded,
+retained: "No automated preprint or journal posting." The journal half is live and unchanged; the
+preprint half now holds only for hosts other than aiXiv.*
 
 ---
 

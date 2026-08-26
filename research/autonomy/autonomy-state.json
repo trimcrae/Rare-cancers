@@ -1,0 +1,22 @@
+{
+  "_schema": "emc-autonomy-state/1",
+  "_role": "The autonomy loop's POSTURE — the only thing a cycle reads before deciding whether to start (architecture §4.2 step 1). Written by the budget governor, read by research/autonomy/health.py. It is state, not a plan: what the loop is currently doing, never what it should do.",
+  "_owner": "research/manuscripts/program/emc-autonomy-architecture.md#92--the-target--trimcraes-about-80-of-the-max-budget-d3",
+  "_why_this_lives_in_git": "§9 property 2: state lives in git, never in context. A killed session loses nothing but its turn — the next fired cycle re-reads this file and the ledger and continues. There is no resume protocol because there is no in-context state worth resuming.",
+  "backoff_level": 0,
+  "_backoff_level_means": "0 = full cadence and width. Raised by a cycle that ended without a receipt, lowered by a clean one (§9 property 3). Two dials hang off it: cycle interval (4 h -> 8 h -> 24 h) and subagent width (5 -> 2 -> 1). At level >= 2 the cycle takes only `fetch` and `regrade` items, which are dispatch-and-exit and consume no Claude budget — the loop keeps making progress on a spent budget instead of stopping.",
+  "backoff_since_utc": null,
+  "_backoff_since_utc_means": "The stamp the governor writes IN THE SAME WRITE that raises `backoff_level`. Null while the level is 0. It exists because §5.2's `budget_recovering` is entirely a DURATION ('backoff > 0 for > 24 h'), and a level with no start time cannot be graded — health.py reports that case as `unmeasured`, never as ok.",
+  "cycle_interval_hours": 4,
+  "subagent_width": 5,
+  "items_per_cycle": 1,
+  "_start_point_means": "§9.2's start point, and it is DELIBERATELY BELOW TARGET: the controller's first job is to measure the ceiling by approaching it, not to find it by hitting it. Dials move in this order of preference — cycle frequency first (it is smooth), then items per cycle, and only then subagent width. Width moves last and moves down faster than it moves up: the 107-agent fan-out that hit the weekly cap (40 completed, 67 errored, synthesis lost) was a WIDTH failure, not a depth one.",
+  "utilisation_target": 0.8,
+  "_utilisation_target_means": "trimcrae, 2026-08-26 (D3): 'about 80% of the max budget', leaving ~20% as his interactive headroom. A target for the CONTROLLER, never a floor for the WORK — an empty queue means an idle loop, not make-work to hit a number.",
+  "utilisation_denominator": null,
+  "_utilisation_denominator_means": "UNKNOWN, and it stays null until a window flip is OBSERVED. `rate_limit_info` returns a verdict (`status`, `rateLimitType`, `resetsAt`, `isUsingOverage`), not a quota, so how much of the window REMAINS is not readable (§9.1). The denominator is therefore CALIBRATED, not assumed: the loop records the consumption at which `status` last flipped away from `allowed`, and THAT observed figure becomes this number. Inventing one would put a fabricated denominator underneath every utilisation reading the controller takes — an absent reading is not a reading of absence (CLAUDE.md §4), and §9.2 is explicit that the loop says UNKNOWN rather than guessing.",
+  "last_cycle_id": null,
+  "last_limit_flip": null,
+  "_last_limit_flip_means": "The last observed flip of `rate_limit_info.status` away from `allowed`: {utc, rate_limit_type, resets_at_utc, is_using_overage, observed_consumption}. It is the calibration event for `utilisation_denominator` above. Null = never observed, which is why the denominator is still UNKNOWN.",
+  "_isUsingOverage_is_not_headroom": "Overage means the work has crossed from the flat-rate subscription into METERED DOLLARS, and CLAUDE.md §5's 'engineering effort is free' stops being true at that moment. A cycle that observes it treats it as a spend event under §7 trigger 2 — it is watched, never celebrated."
+}

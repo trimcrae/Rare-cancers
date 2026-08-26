@@ -121,6 +121,16 @@ free work, curation you can verify, ordering self-doable work, or cheap authoriz
 **This does not pause self-doable no-spend work**: produce the block only when the step is imminent, and keep
 building meanwhile.
 
+- **⭑ AMENDED 2026-08-26 FOR aiXiv ONLY — THE RULE BELOW IS OTHERWISE UNCHANGED AND STILL BINDS.**
+  trimcrae granted a **standing, bar-scoped** authority to post to **aiXiv** without naming the
+  paper: *"Broad: any paper meeting the bar"*. The bar is the six clauses in
+  [`publish_bar.py`](./research/autonomy/publish_bar.py), each computed from a committed artifact and
+  each failing closed; the grant, its edges and the backdrop it was given against live in
+  [`publication-authority.json`](./research/autonomy/publication-authority.json); the reasoning is
+  [the autonomy architecture](./research/manuscripts/program/emc-autonomy-architecture.md) §6.3.
+  ⛔ **The amendment reaches aiXiv and NOTHING else.** A journal submission, a Zenodo publication, a
+  release, a DOI and any outreach still require that he named THAT paper for THAT act. **And a bar
+  clause may never be loosened by the cycle it just blocked** — `amendment_guard.py` refuses that.
 - **⛔⛔ PUBLISH ONLY THE PAPER TRIMCRAE NAMED, AS THE PAPER IT IS. PER PAPER, PER ACT**
   (trimcrae, 2026-08-23, after both halves were broken in one session). Submitting, posting a new
   version, or otherwise putting a manuscript in public under his name and ORCID requires that **he
