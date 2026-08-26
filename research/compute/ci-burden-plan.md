@@ -254,6 +254,138 @@ needs ~24 h of the new cadence before it can be quoted. Do not write a number he
 
 ---
 
+## 6 · CLOSED — THE STEP 1 FAN-OUT IS STOOD DOWN
+
+★ **THE DECISION THE TICK HAD BEEN ASKING FOR SINCE 2026-08-06 IS MADE** (trimcrae, 2026-08-26: Vast has not
+been used in a month and this lane is not to be driven at all). The escalated market hold's own words were
+*"price has been the BINDING constraint … trimcrae's call now."* **The call is: stand it down.**
+
+⛔ **AND A CRON EDIT WOULD NOT HAVE DONE IT.** `gcp_fanout_rep.py` had already learned this and says so:
+*"Disabling the workflow's `schedule:` does NOT pause the lane … a cron edit would leave the lane feeding
+and look like a pause. The hold therefore lives in the DECISION, not in the trigger."*
+`congeneric_fanout_vast.py` had **no** operator hold at all. It does now — ported from that precedent,
+checked FIRST in `mode_launch`, before `market_gate()` is reachable.
+
+| | |
+|---|---|
+| switch | `research/modalities/step1-fanout-OPERATOR-HOLD.json` — a COMMITTED artifact, so the reason travels with it and `git log` says who and when |
+| resume | delete the file and commit. Nothing else. The commit store is continuous, so each unit re-enters at its last COMMITTED checkpoint — **no banked work is lost by holding** |
+| still running | reap, collect, the account census and supervision. ⚠ A paused lane must still tear down a host that somehow appears, or *"paused"* quietly becomes *"billing unwatched"* |
+
+★ **THE RED TICK GOES GREEN, WITHOUT BEING SILENCED.** `market_gate()`'s only call site is inside
+`mode_launch`, *after* the hold returns — so neither escalation path is reachable, `_MARKET_HOLD_ESCALATED`
+stays False, and the tick exits 0 recording a NAMED `operator_hold` decision instead of exit 2. That is the
+difference between answering the question and muting it.
+
+⛔ **FAIL-SAFE, AND THE ASYMMETRY IS THE POINT: doubt about an instruction to STOP may never resolve to
+SPEND.** Mutation-tested — unparseable → HOLDS · a list not an object → HOLDS · empty → HOLDS · **only an
+explicit deletion resumes**. Pinned by `research/modalities/tests/test_step1_operator_hold.py` (7 tests),
+including a structural guard that fails if a future edit ever moves a `market_gate()` call above the hold.
+
+---
+
+## 6a-ter · FOURTH PASS — THE 20-MINUTE PENALTY EVERY SESSION WAS PAYING, AND WHAT IT WAS HIDING
+
+⛔ **THE SYMPTOM WAS NOT OURS AND NOT A MERGE.** A second session merged `main` and sat in the FULL
+modalities suite. Cause, measured: `scripts/selector-validation.json` records the selector+preflight pair a
+`PREFLIGHT_FULL=1` run last validated, and **both hashes were stale** (`affected_tests.py`
+`c361e3b6…` vs actual `a77c6097…`; `preflight.sh` `ccf0df4f…` vs `bf86e942…`). `affected_tests.py` fails
+safe, so it answered **FULL for every session, every run** — all 7,924 modality tests instead of a scoped
+subset. Stale since 2026-08-23/24; none of this session's commits touch those three files.
+
+★★ **AND IT WAS SELF-SEALING, WHICH IS WHY IT SURVIVED.** Only a GREEN `PREFLIGHT_FULL=1` run re-stamps the
+record — and no FULL run could go green, because the ablation gate was failing. CLAUDE.md §6 named the
+shape ("a tripwire clearable only by a rare act is a permanent tripwire") and left the diagnosis open.
+**The CI tax and the manuscript defect were one problem.**
+
+### What the green run cost, and what it bought
+
+`PREFLIGHT_FULL=1` widens `test_the_census_word_covered_survives_ablation` from a 6-sentence sample to ALL
+47 numbered covered sentences. Two survived ablation — **counted as covered, bound by nothing**:
+
+| sentence | perturbation | who noticed |
+|---|---|---|
+| "…an industry working group's **2025** off-target recommendations report…" | `2025 → 2027` | nobody |
+| "A donor joined to the first coding exon — transcript **exon 3** — does yield a chimera." | `3 → 7` | nobody |
+
+⚠ **The second is an exon index in a submission-bound paper whose central warning is that a reagent selected
+for one acceptor is invalid for the other.** The guards the census credited are real guards that open the
+file and never read those numbers — the round-16 defect one level down.
+
+⛔ **BOUND, NOT SILENCED**, per the gate's own instruction (*"Do not lower the coverage floor to match"*) —
+the same call as refusing to quiet the escalated market hold in §6a-bis.
+`test_two_prose_numbers_bind_to_their_sources.py` reads the year from the fetched PubMed record for PMID
+39912803 and the exon rank from `nr4a3_acceptor_numbering.PANEL_ACCEPTOR`. **Neither number is typed.**
+Mutation-tested single-site: prose `2025→2027` RED · prose `3→7` RED · **SOURCE year `→2099` RED** ·
+restored GREEN. The source-side mutation is the one that matters — a guard hard-coding 2025 would pass
+while the record moved out from under the prose.
+
+### Result
+
+    PREFLIGHT OK (FULL: every gate, both suites unscoped)
+    7924 passed, 48 skipped  +  1123 passed, 3 skipped
+
+Record re-stamped; both hashes verified MATCH on `origin/main`. **Scoped selection works again for every
+session**, and the ~20 min every merge was paying is gone.
+
+⚠ **THIS RECURS IF `preflight.sh` OR `affected_tests.py` CHANGES.** That is by design — the gate exists so a
+selector change is FULL-gated. The maintenance rule is in `selector-validation.json`'s own `_how_to_update`:
+change either file → `PREFLIGHT_FULL=1` to green → `record_selector_validation.py` → **commit both in the
+same commit.** Skipping the last step is what put the repo here for three days.
+
+---
+
+## 6a-bis · THIRD PASS — THE FIRST TWO DID NOT REDUCE THE RATE, AND THE MEASUREMENT SAYS SO
+
+⛔ **MEASURED 2026-08-26, ~1.5 h after the merge. The honest reading, before any explanation:**
+
+| workflow | before | after | verdict |
+|---|---:|---:|---|
+| `gpu-ternary-fep-vast` | 35.3/h | **35.4/h** | **UNCHANGED** |
+| `lane-staleness-watch` | 15.2/h | 8.8/h | down ~42 %, still 8.8 against an HOURLY cron |
+
+★★ **THE PER-RUN GATES WERE REAL AND THE RATE STILL DID NOT MOVE. Both facts are true and the second one
+is the one that mattered to the person who asked.** §3 and §6b fixed a genuine 19-day false-alarm loop and
+stopped the email; they did not fix the burden, because the two biggest generators were the row I refused
+(§6b, `gpu-ternary-fep-vast`) and the row I deferred as *"medium — read it before touching it"* (row 3,
+`step1-fanout-supervisor`). Reporting the gates as though they settled the rate was the error.
+
+### The actual engine: `step1-fanout-supervisor.yml`
+
+**No cron. No arming gate. Twelve dispatches per iteration — including a successor of ITSELF.**
+
+    5x gpu-ternary-fep-vast   (reps-diag, market-gate, triangle-gate, 5aks-gate, collect)
+    1x each: step1-fanout-autoscale, lane-staleness-watch, selectivity-control-vast,
+             gpu-fanout-rep-gcp, fusion-cpu-extras
+    2x step1-fanout-supervisor  <- the chain: a 6 h job that dispatches its own successor before it dies
+
+5 dispatches x ~7 iterations/h ≈ the 35.4/h. **This chain IS the loop; every other lane is its fan-out.**
+Gating §3's `resurrect-supervisor` could never stop it, because a supervisor ALREADY RUNNING re-dispatches
+itself and so never dies. That is why the rate did not move.
+
+⚠ **AND ITS PREMISE IS FALSE WHEN IDLE.** The handoff is justified in-file by *"The fan-out is still
+billing."* It has not been billing for 20+ days.
+
+### The fix
+
+The chain no longer continues while `fleet_armed` reports idle. **The continuation is gated, not the tick** —
+the window supervised in full before reaching this point. The re-arm path already exists and is why stopping
+is safe: a host appearing flips ARMED, and `step1-fanout-autoscale`'s `resurrect-supervisor` (gated on
+`armed != 'false'`) dispatches this workflow again, with no human in the path.
+
+⛔ **TWO GUARD-KILLERS CAUGHT BEFORE SHIPPING, BOTH OF WHICH WOULD HAVE LOOKED WIRED AND NEVER FIRED:**
+1. This job has **no `actions/checkout`** — a bare `python3 research/modalities/fleet_armed.py` is a missing
+   file, exits 2, fail-armed, chain continues, gate silently dead.
+2. Even WITH a checkout at job start, the handoff runs up to **6 h** later against a **3 h**
+   `MAX_CENSUS_AGE_S` — stale by construction, also fail-armed.
+So both the module and the census are fetched from `main` **at the moment of the decision**, via two `gh api`
+reads. Verified under `bash -e`: only exit 10 stops the chain; 0 / 2 / 99 all continue.
+
+⚠ **A RUNNING SUPERVISOR DOES NOT PICK THIS UP.** The chain re-dispatches from the workflow file on `main`,
+so the currently-looping instance must be cancelled once for the new gate to take effect.
+
+---
+
 ## 6b · SECOND PASS — EXECUTED 2026-08-25, on trimcrae's instruction
 
 ★ **THE STEER THAT CHANGED THE DESIGN** (trimcrae, 2026-08-25): *"we haven't used vast in a month and don't
