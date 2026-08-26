@@ -1,0 +1,52 @@
+{
+  "_what": "STEP 1 FAN-OUT \u2014 cmpd19 congeneric relative binding free-energy map (RUNG 4, tranche 1)",
+  "_scope": "19 map edges at their charge-conserving microstate leg, on the PRIMARY nr4a3_design druggable frame. Charge-changing microstate legs and the conformer/paralogue frame axis are separate tranches and were NOT run \u2014 see congeneric_fanout.plan().",
+  "_claim_ceiling": "CONDITIONAL relative free energies given a HYPOTHESIZED cmpd19 pose (no solved NR4A3 cocrystal) in ONE modeled opened conformer, single replicate per edge. NOT affinities, NOT a selectivity readout, NOT a sensitivity range. Accuracy is not established here \u2014 it rests on valA_mini + OpenFE's published benchmark for this protocol.",
+  "_charge_provenance": "MEASURED CLEAN, 2026-07-29 ($0, gpu-ternary-fep-vast.yml task=charge-provenance): this lane stages a DOCKED sdf, and s3://\u2026/nr4a3-step1-fanout/stage/ligand/docked_nr4a3.sdf carries 17 records and ZERO `atom.dprop.PartialCharge` tags \u2014 there was never anything here to inherit, so no result on this map is affected. NB this lane persists NO setup cache, so that pose file is the only stored artifact that can answer it: there is no hybrid System to fall back on. Evidence: research/modalities/charge-provenance-forensic.json \u2192 fanout_exposure.",
+  "n_units": 19,
+  "n_complete": 0,
+  "n_computable": 19,
+  "n_blocked": 0,
+  "blocked_units": {},
+  "results": [],
+  "cycle_closure": [
+    {
+      "cycle_id": "cycle_exitvector_aniline",
+      "status": "incomplete",
+      "missing": [
+        "e_zaienne_cmpd19__cw_ev_5nh2",
+        "e_zaienne_cmpd19__cw_ms_5acetamido_ester",
+        "e_cw_ev_5nh2__cw_ms_5acetamido_ester"
+      ],
+      "tol_kcal": 1.0
+    },
+    {
+      "cycle_id": "cycle_exitvector_ether",
+      "status": "incomplete",
+      "missing": [
+        "e_zaienne_cmpd19__cw_ev_5oh",
+        "e_zaienne_cmpd19__cw_ev_5opropargyl",
+        "e_cw_ev_5oh__cw_ev_5opropargyl"
+      ],
+      "tol_kcal": 1.0
+    },
+    {
+      "cycle_id": "cycle_3carbonyl",
+      "status": "incomplete",
+      "missing": [
+        "e_zaienne_cmpd19__cw_ms_free_acid",
+        "e_zaienne_cmpd19__cw_bio_primary_amide",
+        "e_cw_ms_free_acid__cw_bio_primary_amide"
+      ],
+      "tol_kcal": 1.0
+    }
+  ],
+  "cycle_closure_note": "Internal consistency only: a closed cycle does not make the map accurate, but an open one means at least one of its edges is unconverged or mis-mapped and its ddG must not be quoted.",
+  "ranking": [],
+  "ranking_note": "anchor-rooted edges only; more negative = predicted tighter than cmpd19 in this modeled conformer, conditional on the pose hypothesis.",
+  "idle_guard": [],
+  "realised_usd": 0.0,
+  "realised_rentals": [],
+  "plan_usd_whole_tranche": 29.72,
+  "cost_note": "realised = recorded BID $/hr x observed billed hours (Vast charges the bid up to the machine's on-demand price). Plan = vast_cost_model.LADDER_REFERENCE_GPU_H repriced at the best-10-mean $/reference-GPU-hour from vast-ladder-repricing.json."
+}
