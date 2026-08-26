@@ -62,3 +62,29 @@ def _isolate_inflight_board():
         os.environ["INFLIGHT_BOARD_DIR"] = d
         yield
         os.environ.pop("INFLIGHT_BOARD_DIR", None)
+
+
+# =============================================================================================================
+# ⛔⛔ THE VAST ACCOUNT IS STOOD DOWN IN THIS REPOSITORY, AND THAT IS A REAL STATE THESE TESTS MUST CONTROL FOR.
+#
+# `research/modalities/vast-RENTAL-HOLD.json` is committed (2026-08-26), and
+# `gpu_backend.VastBackend.submit` refuses every rental while it exists. That is correct in production and
+# fatal to a unit test whose whole subject is what `submit` DOES once it gets past the gate: eight tests
+# across five files went red on the hold rather than on their own assertions.
+#
+# ⚠ WHY THIS IS A FIXTURE AND NOT AN ENV-VAR BYPASS IN `gpu_backend`. A spending gate with a documented
+# "set this to skip me" switch is not a gate — a workflow could set it once and stand the account back up
+# silently, which is the failure mode the hold exists to prevent. The neutralisation therefore lives HERE,
+# in the test harness, where it cannot reach a runner: production has no conftest.
+#
+# ⚠ AND IT IS SCOPED TO THE MECHANICS, NOT TO THE GATE. `test_vast_account_rental_hold.py` binds the real
+# `vast_rental_hold` at import time (`_real_hold`) so this fixture cannot reach it, and its submit-refusal
+# test re-patches inside the test body. So the hold's OWN behaviour is still measured against the real
+# function; only the lanes' rental mechanics are freed to run.
+@pytest.fixture(autouse=True)
+def _vast_rental_hold_neutralised_for_mechanics(monkeypatch):
+    try:
+        import gpu_backend
+    except Exception:  # noqa: BLE001 — the modalities deps are absent in some sandboxes; nothing to neutralise
+        return
+    monkeypatch.setattr(gpu_backend, "vast_rental_hold", lambda root=None: None, raising=False)

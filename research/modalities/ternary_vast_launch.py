@@ -2728,21 +2728,28 @@ def submit(mode="probe", dry_run=False, timestep_fs=None, warmup_timestep_fs=Non
             # collapsed to one string and the caller had to guess between "the market had nothing under our
             # line" and "the provider 403'd us" — the ambiguity that made a correct refusal and a broken
             # launcher produce identical CI output on 2026-07-27.
-            from gpu_backend import CapacityRefusedAtStart, NoQualifyingOffer
-            market = isinstance(e, NoQualifyingOffer)
+            from gpu_backend import CapacityRefusedAtStart, NoQualifyingOffer, RentalHeldByOperator
+            # ⛔ A STAND-DOWN IS NOT A MARKET VERDICT. `RentalHeldByOperator` subclasses NoQualifyingOffer so
+            # every lane treats it as a correct refusal rather than a fault — but printing it as "NOTHING
+            # AFFORDABLE" would report a price problem for a decision a PERSON made, which is precisely the
+            # ambiguity typing these refusals exists to remove. Checked first, because it is the more
+            # specific type.
+            held = isinstance(e, RentalHeldByOperator)
+            market = isinstance(e, NoQualifyingOffer) and not held
             # ★ AND NAME WHICH KIND OF "market" IT WAS. "NOTHING AFFORDABLE" and "every host we rented
             # refused to start" are both non-faults, but they have opposite remedies — wait for a cheaper
             # board vs. wait for CAPACITY — and printing them with one word is what made the 2026-07-29
             # morning read as a price problem while every board snapshot was 1.04x-1.34x basis.
             refused = isinstance(e, CapacityRefusedAtStart)
             print(f"[launch] {j.name}: "
-                  f"{'HOSTS REFUSED TO START' if refused else 'NOTHING AFFORDABLE' if market else 'SUBMIT FAILED'} "
+                  f"{'STOOD DOWN BY OPERATOR' if held else 'HOSTS REFUSED TO START' if refused else 'NOTHING AFFORDABLE' if market else 'SUBMIT FAILED'} "
                   f"{type(e).__name__}: {e}")
             if refused:
                 used |= {str(r["machine_id"]) for r in getattr(e, "refusals", [])}
                 _record_start_refusals(j.env["UNIT_ID"], getattr(e, "refusals", []))
             failures.append({"unit_id": j.env["UNIT_ID"], "error": f"{type(e).__name__}: {e}"[:400],
-                             "kind": "capacity" if refused else "market" if market else "fault"})
+                             "kind": "operator_hold" if held else "capacity" if refused
+                             else "market" if market else "fault"})
     # WHY THIS LAUNCH CAME UP SHORT, in one word, for the caller's exit code and the ledger. A single FAULT
     # dominates: if any unit died on a provider error we cannot claim the market refused us, because we never
     # got a clean answer from it. Only when every shortfall is "nothing affordable" is this the guard working.

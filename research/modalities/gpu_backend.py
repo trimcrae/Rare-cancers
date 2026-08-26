@@ -74,6 +74,43 @@ class CapacityRefusedAtStart(NoQualifyingOffer):
         self.refusals = list(refusals)
 
 
+#: ★★ THE ACCOUNT-LEVEL VAST STAND-DOWN — ONE DOOR, ONE LOCK.
+#: `VastBackend.submit` is the ONLY place in this repository that creates a Vast rental (`PUT /asks/{id}/`,
+#: Vast's canonical create-instance endpoint). Six lanes call it: ternary, congeneric fan-out, protfep,
+#: nrv04, bioemu and the ternary watchdog. A per-lane hold therefore has to be written six times and is
+#: wrong the moment a seventh lane is added; a hold HERE cannot be routed around.
+#:
+#: ⚠ IT GATES CREATION ONLY. `destroy`, `stop`, `collect` and every reap path are untouched, because a lane
+#: that is stood down must still tear down a host that somehow exists — otherwise "stood down" quietly
+#: becomes "billing unwatched", which is this repository's most expensive recurring failure.
+VAST_RENTAL_HOLD = "vast-RENTAL-HOLD.json"
+
+
+def vast_rental_hold(root=None):
+    """The account-level Vast rental hold, or None. UNREADABLE HOLDS — doubt never resolves to spend."""
+    path = os.path.join(root or os.path.dirname(os.path.abspath(__file__)), VAST_RENTAL_HOLD)
+    if not os.path.exists(path):
+        return None
+    try:
+        with open(path, encoding="utf-8") as fh:
+            doc = json.load(fh)
+    except Exception as e:  # noqa: BLE001
+        return {"reason": f"the hold file exists but could not be parsed ({type(e).__name__}) — HOLDING, "
+                          f"because an unreadable instruction to stop is not permission to spend"}
+    return doc if isinstance(doc, dict) else {"reason": "hold file is not an object — HOLDING"}
+
+
+class RentalHeldByOperator(NoQualifyingOffer):
+    """A person stood the Vast account down. No rental may be created until the hold file is deleted.
+
+    ★ A SUBCLASS OF `NoQualifyingOffer`, FOR THE SAME REASON `CapacityRefusedAtStart` IS. Every caller of
+    `submit` already sorts that type into "a correct refusal, not a fault", so a stood-down account produces
+    a QUIET, non-red lane without touching six call sites. The distinct type is what lets a caller that
+    cares print "stood down" instead of "nothing affordable" — opposite meanings, and the ambiguity between
+    a working guard and a broken launcher is exactly what typing these refusals exists to remove."""
+
+
+
 # How many hosts a single `submit` will try before giving the unit up for this tick. See the retry loop in
 # `VastBackend.submit` for why retrying at all is the fix and why it needs no extra price gate.
 #
@@ -1231,6 +1268,18 @@ class VastBackend(Backend):
         return ["bash", "-c", "poweroff 2>/dev/null; shutdown -h now 2>/dev/null; kill -9 -1 2>/dev/null; true"]
 
     def submit(self, spec: JobSpec) -> Handle:
+        # ⛔ THE OPERATOR HOLD IS CHECKED BEFORE THE BOARD IS EVEN READ. Not after pricing, not after a
+        # qualify pass: a stood-down account must not spend an API call deciding what it is not allowed to
+        # buy, and reading the board first would let a market verdict be reported for a decision that is not
+        # the market's. Creation only — destroy/stop/collect never reach here.
+        _hold = vast_rental_hold()
+        if _hold:
+            raise RentalHeldByOperator(
+                f"⏸ VAST IS STOOD DOWN — no rental may be created until {VAST_RENTAL_HOLD} is deleted. "
+                f"Reason on record: {_hold.get('reason', '(none given)')}"
+                + (f" · paused {_hold['paused_utc']}" if _hold.get("paused_utc") else "")
+                + ". Teardown, collect and reap are unaffected; banked checkpoints are untouched.")
+
         key = os.environ.get("VAST_API_KEY")
         if not key:
             raise RuntimeError("vast backend needs VAST_API_KEY (create a Vast.ai account first).")

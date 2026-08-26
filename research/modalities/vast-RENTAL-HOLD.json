@@ -1,0 +1,14 @@
+{
+  "_what": "The ACCOUNT-LEVEL Vast rental hold. Checked in gpu_backend.VastBackend.submit, the only place in this repository that creates a Vast rental (PUT /asks/{id}/). Every lane goes through it: ternary, congeneric fan-out, protfep, nrv04, bioemu, the ternary watchdog — and any lane added later.",
+  "_how_to_resume": "Delete this file and commit. Nothing else. Every lane's banked checkpoints are untouched and each resumes from its last COMMITTED state.",
+  "_what_keeps_running": "CREATION only is gated. destroy, stop, collect and every reap path are untouched — a stood-down account must still tear down a host that somehow exists, or 'stood down' quietly becomes 'billing unwatched'.",
+  "reason": "Vast has not been used in a month and is not to be driven at all (trimcrae, 2026-08-26). This is the account-level expression of that instruction: rather than repeating a hold in each of six lanes — and missing the seventh — the lock sits on the one door they all rent through.",
+  "paused_utc": "2026-08-26T12:05:00Z",
+  "paused_by": "trimcrae",
+  "recorded_by": "claude, session 011JQZUoWgqxoRTNxuP4iZYq",
+  "state_at_hold": {
+    "vast_account_instances": 0,
+    "zero_instances_since": "2026-08-05 (886 consecutive account-census readings)",
+    "lanes_covered": ["ternary_vast_launch", "congeneric_fanout_vast", "protfep_vast_launch", "nrv04_vast_launch", "nr4a3_bioemu_vast_launch", "ternary_vast_watchdog"]
+  }
+}

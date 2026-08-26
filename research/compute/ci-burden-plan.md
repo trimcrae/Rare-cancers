@@ -165,12 +165,19 @@ workflow file; the Python did not, because the job fetches its own source from e
 ref-confusion the tick already shouts a `::notice::` about. So the alarm half rests on the local evidence
 above (89 existing tests green, six mutations, real artifact red→green) **and lands only on merge.**
 
-⛔ **NOTHING IN §3 IS IN EFFECT YET. The crons run from `main`; this work is on a feature branch.** Merging is
-trimcrae's call — the session that produced this was scoped to its own branch and must not push to `main`.
+⚠ **SUPERSEDED, RETAINED (rule 1.2).** This section once read *"NOTHING IN §3 IS IN EFFECT YET … merging is
+trimcrae's call"*. It was merged on 2026-08-26 on his instruction and is in effect.
 
-**Expected effect once merged: the ~74 runs/hour in §1 collapse toward the crons' nominal rate while the
-account is empty, and restore in full the moment a host is rented.** ⚠ Still a prediction — re-read the
-rates 24 h after the merge and record them here.
+★★ **AND THE PREDICTION IT CARRIED IS NOW A MEASUREMENT.** It read *"expected effect once merged: the ~74
+runs/hour collapse toward the crons' nominal rate"*. Measured over a clean 4.6 h window after the supervisor
+chain died at 06:05:
+
+| workflow | before | after | |
+|---|---:|---:|---|
+| `gpu-ternary-fep-vast` | 35.3/h | **1.95/h** | −94 %, i.e. its hourly cron and nothing else |
+
+⚠ The other three rows of §1 are still on the 24 h re-measure (row 1) — one window is not a day, and the
+number above is the fan-out's, not the whole repo's.
 
 ---
 
@@ -251,6 +258,51 @@ hold, not a defect. What changed is that its red no longer propagates into five 
 
 ⚠ **STILL OUTSTANDING: the RATE re-measurement (row 1).** The gates are proven per-run; the runs/hour figure
 needs ~24 h of the new cadence before it can be quoted. Do not write a number here until then.
+
+---
+
+## 5 · CLOSED — VAST IS STOOD DOWN AT THE ACCOUNT LEVEL
+
+★★ **ONE DOOR, ONE LOCK.** `gpu_backend.VastBackend.submit` is the ONLY place in this repository that creates
+a Vast rental — `PUT /asks/{id}/`, Vast's canonical create-instance endpoint. **Six lanes call it**:
+`ternary_vast_launch`, `congeneric_fanout_vast`, `protfep_vast_launch`, `nrv04_vast_launch`,
+`nr4a3_bioemu_vast_launch`, `ternary_vast_watchdog`.
+
+⛔ **SO THE HOLD BELONGS THERE, NOT IN A LANE.** A per-lane hold has to be written six times and is wrong the
+moment a seventh lane is added. The account-level hold cannot be routed around, and it is the literal
+expression of the instruction (*"we haven't used vast in a month and don't need to be driving things on it
+at all"*) rather than six approximations of it.
+
+| | |
+|---|---|
+| switch | `research/modalities/vast-RENTAL-HOLD.json` — committed, so the reason travels with it |
+| resume | delete the file and commit. Every lane resumes from its last COMMITTED checkpoint |
+| gated | **creation only** |
+| NOT gated | `destroy`, `stop`, `collect`, every reap path |
+
+⛔ **CREATION ONLY, AND THAT IS LOAD-BEARING.** A stood-down account must still tear down a host that somehow
+exists, or *"stood down"* quietly becomes *"billing unwatched"* — the most expensive recurring failure in this
+repository's history. A test fails if the hold is ever consulted outside `submit`.
+
+★ **REFUSED BEFORE THE BOARD IS READ.** A stood-down account must not spend an API call deciding what it is
+not allowed to buy, and reading the board first would let a MARKET verdict be reported for a decision that is
+not the market's. Verified: `submit` raises with `_vast_request` monkeypatched to fail on contact.
+
+★ **AND THE REFUSAL IS TYPED SO NO LANE GOES RED.** `RentalHeldByOperator` subclasses `NoQualifyingOffer`,
+which every `submit` caller already sorts into *"the guard worked"* rather than *"the launcher broke"* — so
+six lanes stand down quietly without six edits. ⚠ But **a stand-down is not a market verdict**: the ternary
+lane's classifier now prints `STOOD DOWN BY OPERATOR` and records `kind: operator_hold`, because labelling it
+`NOTHING AFFORDABLE` would report a price problem for a decision a person made — the exact ambiguity typing
+these refusals exists to remove.
+
+⛔ **FAIL-SAFE: doubt about an instruction to STOP may never resolve to SPEND.** Mutation-tested — unparseable
+→ HOLDS · a list not an object → HOLDS · empty → HOLDS · **only an explicit deletion resumes**. Pinned by
+`tests/test_vast_account_rental_hold.py` (8 tests).
+
+⚠ **THE STEP 1 LANE KEEPS ITS OWN HOLD TOO (§6), AND THAT IS NOT REDUNDANT.** They gate different things: the
+lane hold stops the fan-out *deciding* to place, so the tick reports a named `operator_hold` and stays green;
+the account hold stops any lane *creating* a rental. Either alone would leave a gap — the lane hold does not
+cover the other five lanes, and the account hold would leave the step-1 tick still escalating.
 
 ---
 
