@@ -847,9 +847,14 @@ FIGURE_RECIPES = [
             "⛔ BOTH ARE REPORTED. The anchored one is preferred on three independent "
             "corroborations, and the strongest is INTERNAL TO THE PIXELS rather than external: the "
             "curve's first two steps land at 0.9097 and 0.8188. A cohort of 11 gives 10/11 = 0.9091 "
-            "then 9/11 = 0.8182; a cohort of 10 gives 0.900 then 0.800. The measured off-step "
-            "reading error is about 0.001, so the figure itself discriminates the two and the "
-            "printed table's first row is a post-event count. The registry's independent n = 11 and "
+            "then 9/11 = 0.8182; a cohort of 10 gives 0.900 then 0.800. Against the WORST off-step "
+            "reading error the control measures across every scenario -- 0.0035, not the 0.001 the "
+            "clean render alone achieves -- N=11 misses by 0.0007 and N=10 by 0.0188, so the figure "
+            "itself discriminates the two and the printed table's first row is a post-event count. "
+            "\u26a0 *Superseded, retained: \"The measured off-step reading error is about 0.001.\"* "
+            "That was the BEST case quoted as the measurement, which overstates the discrimination "
+            "by three and a half times. The conclusion survives either number; the number did "
+            "not. The registry's independent n = 11 and "
             "the reproduced median agree with that. The verbatim reading is kept regardless, "
             "because a printed number is never silently overwritten."),
         "external_check": {
