@@ -1,7 +1,1 @@
-[s1f] terminus PROVEN by 18 unit(s) (e_zaienne_cmpd19__cw_ev_5nh2__neutral__neutral) — fan-out released
-[s1f] map_edges=19 computable=18 done=18 blocked=1 (cw_bio_nmethyl_amide) pending=0 live=0 free_slots=19 -> submitting 0
-[s1f] cost of THIS submission (0 units): plan $0.0 (band $0.0-0.0) | whole remaining tranche (0 units): plan $0.0 (band $0.0-0.0)
-[s1f] wave shape: {"n_units": 0, "width": 19, "waves": 0, "wall_clock_h_est": 0.0}
-[s1f] nothing to submit (fleet already at width, or all units done)
-[s1f] PLACEMENT DECISION: nothing_pending — every unit has a ddg.json in S3 or is on the blocked list — there is nothing left for this lane to place
-[s1f]   board looked at anyway: 193 offers, best $0.003084/ns on RTX 3090 Ti m140550. Snapshot refreshed, so a stale timestamp on this file can only mean the TICK did not run.
+[s1f] PLACEMENT DECISION: operator_hold — ⏸ STOOD DOWN BY OPERATOR — this lane will not rent a GPU until step1-fanout-OPERATOR-HOLD.json is deleted. Reason on record: Vast has not been used in a month and this lane is not to be driven at all (trimcrae, 2026-08-26). The escalated market hold had been asking for exactly this decision since 2026-08-06 — 'price has been the BINDING constraint ... trimcrae's call now' — and the call is: stand the lane down. · paused 2026-08-26T11:35:00Z. Banked work is untouched: the commit store is continuous, so a resume re-enters at the last COMMITTED checkpoint and nothing is lost by waiting.
