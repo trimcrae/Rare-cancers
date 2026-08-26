@@ -75,7 +75,7 @@ the other. Where a route cannot reach an output, the missing items are a work li
 | [RT-MATRIX-SYNTHESIS](L2-rt-matrix-synthesis.md) | ST-MICROENV | `internal_note` | a restatement of the premise in a form this reading does not already contradict |
 | [RT-MDM2](L2-rt-mdm2.md) | ST-DEPENDENCY | `internal_note` | a direct TP53 sequence call, which no available EMC dataset supplies |
 | [RT-MDT-LUNG](L2-rt-mdt-lung.md) | ST-LOCOREGIONAL | `internal_note` | a quantitative contribution that a 2025 review has not already made in prose — currently the only candidate is the BED-versus-local-control tabulation, and roughly seven positively |
-| [RT-METASTASECTOMY](L2-rt-metastasectomy.md) | ST-CARE-DELIVERY | `internal_note` | metastatic site and burden, which appear in free text rather than as curated data |
+| [RT-METASTASECTOMY](L2-rt-metastasectomy.md) | ST-CARE-DELIVERY | `internal_note` | per-patient lesion counts, which no reachable publication prints -- the eligible fraction can be BOUNDED by lung-confinement but not SIZED by an oligometastatic criterion; an outco |
 | [RT-MONOVALENT](L2-rt-monovalent.md) | ST-OCCUPANCY | `internal_note` | a functional readout; the occupancy-to-output transfer functions that would turn the stated requirement into a number (MISSING-1, MISSING-2) |
 | [RT-NR2F1](L2-rt-nr2f1.md) | ST-OCCUPANCY | `internal_note` | a platform that carries a probe for the receptor — the two readable array series do not |
 | [RT-POLQ](L2-rt-polq.md) | ST-DEPENDENCY | `internal_note` | nothing at the expression level — the class selects on a lesion this data cannot see, and on what it CAN see the answer is negative |

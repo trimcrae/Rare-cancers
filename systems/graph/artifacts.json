@@ -466,5 +466,13 @@
     "workflow": null,
     "published_to": [],
     "note": "Surgical margin distribution and outcome-by-margin for EMC, transcribed from the two reachable open-access series -- 156 operated patients in Masunaga's Table 1 and 40 in Chiusole's Table 2, against the 13-patient series RT-SURGICAL-QUALITY had been citing. ⛔ THERE IS NO SINGLE POSITIVE-MARGIN RATE and the artifact refuses to elect one: 25.0 % over all operated patients, 22.4 % among those localized at diagnosis, 40.9 % among those already metastatic, 35.0 % in Chiusole where the field was recorded -- the denominator moves the answer by more than any interval's width, and a test fails if that stops being true. ⛔ TREATMENT SETTING IS ABSENT BY READING, NOT BY OMISSION: one source does not report the centre and the other holds it constant, so the route's referral question cannot be advanced by either and re-curating them will not help. ⚠ No unplanned-excision field exists in either; two candidate proxies are carried with `is_the_thing: False` and no rate is derived from them. ⭐ Cross-checked against ART-PROGNOSTIC-COEFFICIENTS: Table 1's margin row minus the non-operated patients must reproduce the Cox tables' 104 and 30, which were transcribed from different pages in a separate pass."
+  },
+  {
+    "id": "ART-SITE-CURATION",
+    "path": "research/modalities/emc-site-curation.json",
+    "produced_by": "research/modalities/emc_site_curation.py",
+    "workflow": null,
+    "published_to": [],
+    "note": "Anatomical site of the primary and of the metastases, transcribed from the printed tables of the two reachable open-access EMC series (n = 171 and n = 59). Computes the eligibility DENOMINATORS three locoregional routes were blocked on. ⛔ THE BINDING UNCERTAINTY IS A DEFINITION, NOT A SAMPLE SIZE: Masunaga files shoulder, groin, axilla and buttock -- 35 of 171 -- under TRUNK, and every one is a primary a perfusion service would argue about rather than refuse, so a strict and an inclusive extremity fraction are both computed and neither is called the answer. The gap between them is wider than the confidence interval on either. ⛔ LESION BURDEN IS MEASURED ABSENT: no series prints per-patient lesion counts, so no oligometastatic threshold fraction can be stated from the reachable literature -- which is what RT-METASTASECTOMY's selection criteria would need. ⭐ Records that local therapy of metastases is ALREADY standard for a substantial minority (8 of 29 metastasectomies in one series; 8 lung metastasectomies and 2 ablations in the other), with no comparator and no outcome attached."
   }
 ]

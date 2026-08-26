@@ -115,4 +115,10 @@ Curate primary anatomical site from the open-access pooled series, then search t
 
 *Cost:* $0
 
+## What this route rests on — drill down
+
+*L4 instruments and L5 objects, evidence and artifacts. Every row here is asserted by this route; the [evidence base](L5-evidence-base.md) shows the same edges from the other end.*
+
+**L5 artifacts:** [ART-SITE-CURATION](L5-evidence-base.md#artifacts--the-files-a-claim-can-be-checked-against)
+
 [← ST-LOCOREGIONAL](L1-st-locoregional.md) · [← L0](L0-ecosystem.md)

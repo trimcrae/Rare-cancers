@@ -18,7 +18,7 @@ last_verified: 2026-08-05
 
 # RT-METASTASECTOMY — Pulmonary metastasectomy as a decision rather than a modality
 
-**Family:** [ST-CARE-DELIVERY](L1-st-care-delivery.md) · **state:** ○ ready · concept · confidence low · verified 2026-08-09
+**Family:** [ST-CARE-DELIVERY](L1-st-care-delivery.md) · **state:** ○ ready · concept · confidence low · verified 2026-08-26
 
 **Grade** (owned by [`systems/graph/routes.json`](../graph/routes.json)): ⭐ THE FINDING IS AN ABSENCE, AND IT IS THE ROUTE'S JUSTIFICATION RATHER THAN AN OBSTACLE TO IT. A 554-record open-access corpus retrieved 2026-08-09 contains ZERO EMC records matching metastasectom*. EMC is indolent, lung-dominant and measured in decades — the profile for which pulmonary metastasectomy is standard sarcoma practice — and nobody has asked the question in this histology. ⚠ 'Not found in an open-access corpus' is not 'does not exist'; a closed-access series could.
 
@@ -51,8 +51,8 @@ The census bundles metastasectomy into MOD-SURGERY and grades the row `in_clinic
 
 ## Remaining unknowns
 
+- What the selection criteria should be -- lesion number, disease-free interval, doubling time. ⛔ LESION BURDEN IS NOW MEASURED ABSENT RATHER THAN UN-CURATED: no reachable series prints per-patient lesion counts (ART-SITE-CURATION), and time to metastasis is printed only as a median in one series (5.9 years) and nowhere per patient. So no oligometastatic threshold fraction can be stated from the open-access literature, and curating it further will not produce one.
 - Whether EMC's lung metastases behave like the sarcoma metastases the metastasectomy evidence base was built on, which no series has assessed.
-- What the selection criteria should be — lesion number, disease-free interval, doubling time — none of which any EMC cohort records.
 - How much of any observed metastasectomy benefit is selection of favourable biology rather than effect of the operation, which is the central criticism of the whole metastasectomy literature and is unresolved in every histology.
 
 ## Required validation
@@ -72,10 +72,12 @@ The census bundles metastasectomy into MOD-SURGERY and grades the row `in_clinic
 
 **`internal_note`**
 
-The route has an argument and a measured absence, and no EMC-specific number of its own.
+The route now has an EMC-specific number where it had none: local therapy of metastases is already given to a substantial minority (8 of 29 in one series; 8 lung metastasectomies and 2 ablations in the other), so its premise is not hypothetical. But those are counts of what was DONE with no comparator and no outcome, and the selection criteria the route exists to inform need a per-patient lesion count that no reachable publication prints. ⚠ Superseded, retained: "The route has an argument and a measured absence, and no EMC-specific number of its own." It has numbers now; what it lacks is a comparator.
 
 **Missing:**
-- metastatic site and burden, which appear in free text rather than as curated data
+- per-patient lesion counts, which no reachable publication prints -- the eligible fraction can be BOUNDED by lung-confinement but not SIZED by an oligometastatic criterion
+- an outcome attached to the metastasectomies that were performed: both series print how many happened and neither prints what followed, so there is no comparator of any kind
+- ⚠ Superseded, retained: "metastatic site and burden, which appear in free text rather than as curated data." Site is curated (ART-SITE-CURATION). Burden is not free text -- it is absent.
 
 ## Where this route ends — the paper
 
@@ -111,8 +113,14 @@ Every input is either committed or free to curate, and the work is $0.
 
 ## Best next action
 
-Curate metastatic site and lesion burden from the open-access EMC series and size the metastasectomy-eligible fraction.
+⛔ Do NOT re-curate the open-access series for lesion burden -- it was looked for and is not printed. What is left is a judgement call: whether an EMC note saying 'local therapy of metastases is already standard for roughly a quarter of these patients, with no comparator anywhere in the literature' is worth writing as the route's honest endpoint. ⚠ Superseded, retained: "Curate metastatic site and lesion burden from the open-access EMC series and size the metastasectomy-eligible fraction." The site half is done; the burden half is impossible from print, so the fraction cannot be sized as asked.
 
 *Cost:* $0
+
+## What this route rests on — drill down
+
+*L4 instruments and L5 objects, evidence and artifacts. Every row here is asserted by this route; the [evidence base](L5-evidence-base.md) shows the same edges from the other end.*
+
+**L5 artifacts:** [ART-SITE-CURATION](L5-evidence-base.md#artifacts--the-files-a-claim-can-be-checked-against)
 
 [← ST-CARE-DELIVERY](L1-st-care-delivery.md) · [← L0](L0-ecosystem.md)
