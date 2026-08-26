@@ -458,5 +458,13 @@
     "workflow": null,
     "published_to": [],
     "note": "Fitted Cox coefficients for EMC, TRANSCRIBED from the printed tables of two independent open-access cohorts (Masunaga 2025, n = 134 modelled; Chiusole 2020, n = 59) — 7 models, 45 estimable hazard ratios with 95 % intervals, across four endpoints. ⛔ NO ABSOLUTE RISK IS DERIVABLE: neither paper prints a baseline hazard or anything it can be recovered from, so these coefficients support an ORDERING of patients by risk and nothing else; `absolute_risk_computable` is False and a test fails the build if it is ever flipped. ⛔ NOTHING IS POOLED — POLICY-evidence.md governs proportions and refuses to merge time-anchored figures, and a hazard ratio is a third estimand class for which this module does not invent a method; the anti-pooling guard is structural (no `hr` field anywhere may hold a value neither paper printed) rather than a search for the word. ⚠ Three printed HR = 0 rows are recorded as complete separation, not as measurements. ⚠ Every treatment covariate carries a stated confound by indication with the paper's own printed evidence for it."
+  },
+  {
+    "id": "ART-SURGICAL-QUALITY",
+    "path": "research/modalities/emc-surgical-quality.json",
+    "produced_by": "research/modalities/emc_surgical_quality.py",
+    "workflow": null,
+    "published_to": [],
+    "note": "Surgical margin distribution and outcome-by-margin for EMC, transcribed from the two reachable open-access series -- 156 operated patients in Masunaga's Table 1 and 40 in Chiusole's Table 2, against the 13-patient series RT-SURGICAL-QUALITY had been citing. ⛔ THERE IS NO SINGLE POSITIVE-MARGIN RATE and the artifact refuses to elect one: 25.0 % over all operated patients, 22.4 % among those localized at diagnosis, 40.9 % among those already metastatic, 35.0 % in Chiusole where the field was recorded -- the denominator moves the answer by more than any interval's width, and a test fails if that stops being true. ⛔ TREATMENT SETTING IS ABSENT BY READING, NOT BY OMISSION: one source does not report the centre and the other holds it constant, so the route's referral question cannot be advanced by either and re-curating them will not help. ⚠ No unplanned-excision field exists in either; two candidate proxies are carried with `is_the_thing: False` and no rate is derived from them. ⭐ Cross-checked against ART-PROGNOSTIC-COEFFICIENTS: Table 1's margin row minus the non-operated patients must reproduce the Cox tables' 104 and 30, which were transcribed from different pages in a separate pass."
   }
 ]

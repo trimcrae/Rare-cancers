@@ -90,7 +90,7 @@ the other. Where a route cannot reach an output, the missing items are a work li
 | [RT-SCHEDULING](L2-rt-scheduling.md) | ST-STRATEGY | `internal_note` | nothing to start — the inputs are committed, and their shape is now known to be four separate medians rather than one pooled value |
 | [RT-SEQUENCING](L2-rt-sequencing.md) | ST-STRATEGY | `internal_note` | nothing at the analysis level — the question was asked and the record answered that it cannot support the claim |
 | [RT-SGK1](L2-rt-sgk1.md) | ST-DEPENDENCY | `internal_note` | a phospho-substrate or activity readout, which is what the substrate signal hints at and abundance cannot deliver |
-| [RT-SURGICAL-QUALITY](L2-rt-surgical-quality.md) | ST-CARE-DELIVERY | `internal_note` | margin status and treatment setting, which no curated cohort here records |
+| [RT-SURGICAL-QUALITY](L2-rt-surgical-quality.md) | ST-CARE-DELIVERY | `internal_note` | treatment setting, which is unobtainable from the reachable literature rather than merely un-curated -- see remaining_unknowns; the intent of each operation, without which no margi |
 | [RT-SURVEILLANCE](L2-rt-surveillance.md) | ST-CARE-DELIVERY | `internal_note` | the time-resolved recurrence hazard, which RT-IPD-SURVIVAL would supply |
 | [RT-SYNLETH-DEP](L2-rt-synleth-dep.md) | ST-DEPENDENCY | `internal_note` | EMC-specific functional-genomics data |
 | [RT-SYNPROMOTER](L2-rt-synpromoter.md) | ST-NUCLEIC-ACID | `internal_note` | a direct binding-specificity read in EMC |

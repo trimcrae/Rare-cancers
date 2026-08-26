@@ -100,7 +100,7 @@ last_verified: 2026-08-09
 - [RT-FAP-RLT](L2-rt-fap-rlt.md) — *Could a fibroblast-activation-protein radioligand reach EMC through its stroma?* — `blocked` / `concept` / confidence `unknown` · last verified `2026-08-05`
 
 **PUB-CARE-DELIVERY** — score 11.5
-- [RT-SURGICAL-QUALITY](L2-rt-surgical-quality.md) — *How much of EMC's survival is decided by whether the first operation cleared the tumour, and by where it was performed?* — `ready` / `concept` / confidence `low` · last verified `2026-08-09`
+- [RT-SURGICAL-QUALITY](L2-rt-surgical-quality.md) — *How much of EMC's survival is decided by whether the first operation cleared the tumour, and by where it was performed?* — `ready` / `concept` / confidence `low` · last verified `2026-08-26`
 - [RT-SURVEILLANCE](L2-rt-surveillance.md) — *Does follow-up in EMC stop before the disease does, and how much resectable recurrence is lost when it does?* — `ready` / `concept` / confidence `low` · last verified `2026-08-09`
 - [RT-METASTASECTOMY](L2-rt-metastasectomy.md) — *In a lung-metastasis-dominant indolent sarcoma, what should decide whether — and how often — metastases are resected?* — `ready` / `concept` / confidence `low` · last verified `2026-08-09`
 - [RT-RISK-MODEL](L2-rt-risk-model.md) — *Can the prognostic factors reported piecemeal across EMC's series be combined into a stratification that would let treatment intensity be matched to risk?* — `ready` / `concept` / confidence `low` · last verified `2026-08-26`
