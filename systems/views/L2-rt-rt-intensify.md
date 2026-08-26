@@ -18,9 +18,9 @@ last_verified: 2026-08-05
 
 # RT-RT-INTENSIFY — Radiotherapy intensification (particle therapy, brachytherapy, radiosensitisation, hyperthermia)
 
-**Family:** [ST-LOCOREGIONAL](L1-st-locoregional.md) · **state:** ✓ blocked · computed · confidence low · verified 2026-08-09
+**Family:** [ST-LOCOREGIONAL](L1-st-locoregional.md) · **state:** ✓ blocked · computed · confidence low · verified 2026-08-26
 
-**Grade** (owned by [`research/modalities/emc-locoregional-eligibility.json`](../../research/modalities/emc-locoregional-eligibility.json)): ◐ THE PROBLEM IS SIZED AND THE DOSE-RESPONSE IS NOT (2026-08-09). Local recurrence across four non-overlapping series is a substantial minority — so the problem this route addresses is real — but the per-cohort rates span a wide range, and one of the pooled series reports LOCOREGIONAL recurrence specifically while the others report recurrence unqualified. ⛔ The pooled recurrence figure is therefore a MIXTURE of endpoints and is the weaker of the two quantities this arithmetic produced. No dose, modality or margin data is curated anywhere, so the radioresistance reappraisal this route proposes cannot be built from the registry.
+**Grade** (owned by [`research/modalities/emc-locoregional-eligibility.json`](../../research/modalities/emc-locoregional-eligibility.json)): ⭐ RE-GRADED 2026-08-26 — THE CONTRADICTION THIS ROUTE IS BUILT ON DOES NOT SURVIVE BEING PUT ON ONE SCALE. Bishop 2019 and Masunaga 2025 were read as disagreeing about whether radiotherapy does anything in EMC. Bishop reports the ADVERSE exposure (surgery alone) at HR 12.7 (1.4-115.3), p = 0.02 for local control; inverted, that is a radiotherapy effect of 0.079 (0.0087-0.71). Masunaga reports the PROTECTIVE exposure at 0.50 (0.11-2.25), p = 0.365. Both protective, intervals overlapping across 0.11-0.71. What separates them is which side of p = 0.05 each landed on, across 5 and 16 local events respectively. ⛔ THAT IS NOT EVIDENCE RADIOTHERAPY WORKS — it is evidence the reachable literature is underpowered and CONSISTENT, and that the route's motivating conflict was an artifact of dichotomising p-values.  ⚠ AND MASUNAGA'S CONFOUNDING RUNS AGAINST RADIOTHERAPY, WHICH MAKES ITS NULL WEAKER STILL: the paper states radiotherapy is given to patients with close margins, and its irradiated arm carried R1/R2 margins at 41.7 % against 18.2 %. Its treated group was at higher baseline risk of the very event measured, so 0.50 understates any protection.  ⭐ THE PARTICLE QUESTION IS ANSWERED. Brachytherapy (Takagawa, HDR interstitial, read directly) and proton beam (Honda, via a review) have each been reported ONCE in this histology; carbon ion appears nowhere in it across a 354-paper open-access corpus including a 2025 comprehensive EMC review. Arms exist; registries of them do not.  ⚠ Superseded, retained: "◐ THE PROBLEM IS SIZED AND THE DOSE-RESPONSE IS NOT (2026-08-09). … No dose, modality or margin data is curated anywhere, so the radioresistance reappraisal this route proposes cannot be built from the registry." The endpoint-mixture caution stands. The rest is corrected: dose and modality ARE published — Bishop a median 50 Gy over 50-65 with arms of 23 preoperative / 10 postoperative / 8 surgery alone, Masunaga 40-50 Gy neoadjuvant and 50-66 Gy adjuvant in 2 Gy fractions — and margin data is curated in ART-SURGICAL-QUALITY. The regression is still unbuildable, but because nobody publishes dose PER PATIENT, which is a much narrower gap than 'no dose data anywhere'.
 
 ## What has to land for this route to move
 
@@ -51,9 +51,10 @@ This repository's own record contains a live contradiction about whether radioth
 
 ## Remaining unknowns
 
-- Whether the recurrence heterogeneity is dose-related at all, which needs per-patient radiotherapy detail that no cohort carries.
-- Whether brachytherapy and particle-therapy arms exist in this histology, which has not been searched in the particle registries.
-- How much of the pooled recurrence figure is margin status rather than radioresistance — one series names margins as its main risk factor and this pooling cannot separate them.
+- Whether the recurrence heterogeneity is dose-related at all, which needs PER-PATIENT dose against PER-PATIENT outcome. Both series publish dose at the arm level and neither publishes it per patient, so the dose-response regression remains unbuildable — for a narrower reason than the route previously recorded.
+- Whether a properly powered test of radiotherapy in EMC is possible at all from published data. The two reachable estimates carry 5 and 16 local events; a difference the size of either point estimate would need far more events than the whole reachable literature contains.
+- ⚠ Superseded, retained: "Whether brachytherapy and particle-therapy arms exist in this histology, which has not been searched in the particle registries." SEARCHED AND ANSWERED at $0: brachytherapy and proton beam each appear once, as case reports; carbon ion appears not at all in this histology across a 354-paper open-access corpus. ⛔ That is a reading of the open-access literature, not of the particle registries themselves, which are not open — carbon-ion treatment of EMC may exist unpublished or paywalled.
+- ⚠ Superseded, retained: "How much of the pooled recurrence figure is margin status rather than radioresistance — one series names margins as its main risk factor and this pooling cannot separate them." SEPARATED: Masunaga's local-recurrence model contains both, and margin is significant (4.76, 1.72-13.15) where radiotherapy is not (0.50, 0.11-2.25); stepwise selection retained margin alone.
 
 ## Required validation
 
@@ -72,11 +73,12 @@ This repository's own record contains a live contradiction about whether radioth
 
 **`internal_note`**
 
-The endpoint mixture and the absent dose data mean the reappraisal's regression has no inputs, even though the problem it addresses is now sized.
+The route now holds a real finding — that its own motivating contradiction is a p-value artifact between two underpowered series whose intervals overlap — and that is an internal note's worth. What it cannot become is a reappraisal of radioresistance, because the dose-response regression has no per-patient inputs and the reachable event counts cannot power the comparison anyway. ⚠ Superseded, retained: "The endpoint mixture and the absent dose data mean the reappraisal's regression has no inputs, even though the problem it addresses is now sized." The dose data is not absent; the per-patient dose data is.
 
 **Missing:**
-- per-patient dose and modality data, which none of the curated series publishes
-- a particle-registry search by histology
+- per-patient dose against per-patient outcome, which no reachable series publishes
+- enough local events anywhere in the reachable literature to power the comparison — 5 and 16 in the two series that have made it
+- ⚠ Superseded, retained: "per-patient dose and modality data, which none of the curated series publishes" and "a particle-registry search by histology". The first is half wrong — dose and modality are published, just not per patient. The second is done.
 
 ## Where this route ends — the paper
 
@@ -111,8 +113,14 @@ The remaining steps are $0 curation and literature search, both self-doable.
 
 ## Best next action
 
-Search the particle registries by histology, which is $0 and is the only input to the reappraisal that does not need per-patient data.
+⛔ Do NOT re-run the particle search or re-litigate the contradiction — both are done and recorded in ART-RT-CONTRADICTION. The finding worth something is the negative one: two series that the field reads as conflicting are statistically consistent, and neither is powered. Whether that is worth writing up is a judgement call about what we publish. ⚠ Superseded, retained: "Search the particle registries by histology, which is $0 and is the only input to the reappraisal that does not need per-patient data."
 
 *Cost:* $0
+
+## What this route rests on — drill down
+
+*L4 instruments and L5 objects, evidence and artifacts. Every row here is asserted by this route; the [evidence base](L5-evidence-base.md) shows the same edges from the other end.*
+
+**L5 artifacts:** [ART-RT-CONTRADICTION](L5-evidence-base.md#artifacts--the-files-a-claim-can-be-checked-against)
 
 [← ST-LOCOREGIONAL](L1-st-locoregional.md) · [← L0](L0-ecosystem.md)

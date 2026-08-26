@@ -85,7 +85,7 @@ the other. Where a route cannot reach an output, the missing items are a work li
 | [RT-RIBOZYME](L2-rt-ribozyme.md) | ST-NUCLEIC-ACID | `internal_note` | a solid-tumour vector; a modern demonstration of trans-splicing ribozymes |
 | [RT-RIPTAC](L2-rt-riptac.md) | ST-PROXIMITY | `internal_note` | paralogue selectivity; a chemistry programme |
 | [RT-RISK-MODEL](L2-rt-risk-model.md) | ST-CARE-DELIVERY | `internal_note` | a baseline hazard, without which the ordering cannot become a risk; patient-level outcomes for any validation at all — discrimination and calibration both need them, and no reachab |
-| [RT-RT-INTENSIFY](L2-rt-rt-intensify.md) | ST-LOCOREGIONAL | `internal_note` | per-patient dose and modality data, which none of the curated series publishes; a particle-registry search by histology |
+| [RT-RT-INTENSIFY](L2-rt-rt-intensify.md) | ST-LOCOREGIONAL | `internal_note` | per-patient dose against per-patient outcome, which no reachable series publishes; enough local events anywhere in the reachable literature to power the comparison — 5 and 16 in th |
 | [RT-RXR](L2-rt-rxr.md) | ST-REPURPOSING | `internal_note` | — |
 | [RT-SCHEDULING](L2-rt-scheduling.md) | ST-STRATEGY | `internal_note` | nothing to start — the inputs are committed, and their shape is now known to be four separate medians rather than one pooled value |
 | [RT-SEQUENCING](L2-rt-sequencing.md) | ST-STRATEGY | `internal_note` | nothing at the analysis level — the question was asked and the record answered that it cannot support the claim |

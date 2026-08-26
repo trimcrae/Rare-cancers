@@ -27,7 +27,7 @@ last_verified: 2026-08-06
 that will use it. It IS unreachable from the hierarchy, which is why it is shown rather than
 omitted, and why `[L5]` reports the count.
 
-**19 objects · 15 evidence items · 49 artifacts · 14 pinned claims.**
+**19 objects · 15 evidence items · 50 artifacts · 14 pinned claims.**
 
 ## Objects — the biological and molecular entities the program reasons about
 
@@ -116,6 +116,7 @@ omitted, and why `[L5]` reports the count.
 | **ART-PUBLISHED-WARHEAD-REGISTRY** | `research/modalities/published-warhead-registry.json` | `—` | ⚠ **nothing** |
 | **ART-RECURRENCE-TIMING** | `research/modalities/emc-recurrence-timing.json` | `research/modalities/emc_recurrence_timing.py` | [RT-SURVEILLANCE](L2-rt-surveillance.md) |
 | **ART-RET-ACTIVATION-BAR** | `research/modalities/emc-ret-activation-bar.json` | `a Europe PMC retrieval read into JSON by hand from the literature-cache corpus` | [RT-RET](L2-rt-ret.md) |
+| **ART-RT-CONTRADICTION** | `research/modalities/emc-radiotherapy-contradiction.json` | `research/modalities/emc_radiotherapy_contradiction.py` | [RT-RT-INTENSIFY](L2-rt-rt-intensify.md) |
 | **ART-SELCAL-VERDICT** | `research/modalities/selcal-verdict.json` | `research/modalities/selcal_cofold_validate.py` | [LANE-22](registers/lanes.md) |
 | **ART-SITE-CURATION** | `research/modalities/emc-site-curation.json` | `research/modalities/emc_site_curation.py` | [RT-LIMB-PERFUSION](L2-rt-limb-perfusion.md), [RT-LUNG-DIRECTED](L2-rt-lung-directed.md), [RT-METASTASECTOMY](L2-rt-metastasectomy.md) |
 | **ART-SURFACE-EXPRESSION** | `research/modalities/emc-surfaceome-scan.json` | `research/modalities/emc_surfaceome_scan.py` | [RT-B7H3](L2-rt-b7h3.md) |
