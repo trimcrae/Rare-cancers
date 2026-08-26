@@ -1,0 +1,90 @@
+{
+  "_schema": "emc-autonomy-priority-weights/1",
+  "_role": "The ONE home of every weight the autonomy scorer applies. research/autonomy/priority.py types no weight; it reads them from here. Changing a research priority means editing this file, and the diff is the record of why the queue moved.",
+  "_owner": "research/manuscripts/program/emc-autonomy-architecture.md#32--the-scorer--researchautonomyprioritypy",
+  "_objective": "Advance EMC treatment. Every weight below is an answer to 'how much does this field move a patient closer', and nothing else.",
+  "_read_this_when": "The queue's top item looks wrong. Do not special-case the item — fix the weight, and say in the commit message which reading of the objective changed.",
+
+  "terms": {
+    "live": {
+      "weight": 100.0,
+      "reads": "systems/graph/publications.json[].outcome_potential == 'live_positive', AND routes.json[].state.work_state != 'dead', AND closure_kind in (open, unset)",
+      "why": "CLAUDE.md §0: pursue routes that could still produce a result. This is the largest single term on purpose."
+    },
+    "patient_path": {
+      "weight": 40.0,
+      "reads": "publications.json[].patient_path, scaled by patient_path_scale below",
+      "why": "The north star is reaching a patient, and the program has no wet lab — so how the endpoint reaches one is the difference between a result and an activity."
+    },
+    "pursue_now": {
+      "weight": 20.0,
+      "reads": "routes.json[].timing.recommendation == 'pursue_now'",
+      "why": "A recorded judgement that waiting does not make this cheaper or better."
+    },
+    "tier_one": {
+      "weight": 15.0,
+      "reads": "routes.json[].grade.value starts with 'Tier 1'",
+      "why": "The options memo's tier, used ONLY as a coarse prior. Its Axis D input is deliberately not read — see _forbidden_inputs."
+    },
+    "endpoint_reachable": {
+      "weight": 15.0,
+      "reads": "routes.json[].readiness.attainable_today in ('preprint', 'journal_submission', 'chemrxiv')",
+      "why": "CLAUDE.md §5: every route's end goal is a paper. A route that can reach one today is nearer the only channel this program has."
+    },
+    "blocker_leverage": {
+      "weight": 4.0,
+      "reads": "count of OTHER routes sharing at least one blocker with this route (capped by blocker_leverage_cap)",
+      "why": "Retiring a widely-inherited blocker moves many routes at once. Per-route weight is small because the count does the work."
+    },
+    "cost": {
+      "weight": -12.0,
+      "reads": "cost_class_rank: free=0, cheap=1, expensive=2 — derived from routes.json[].next.cost, never typed here",
+      "why": "CLAUDE.md §5: cost sequences and right-sizes work; it never skips a decision-relevant run. Hence a penalty small enough that an expensive live route still outranks a free dead one."
+    },
+    "blocked_on_human": {
+      "weight": -25.0,
+      "reads": "routes.json[].state.authorization == 'needs_decision', or next.blocked_on naming a decision only trimcrae can make",
+      "why": "The loop cannot advance it this cycle. Not -inf: it must stay visible enough to be escalated."
+    },
+    "fruitless_attempts": {
+      "weight": -8.0,
+      "reads": "research-ledger.json entries[].attempts since last_evidence_utc changed",
+      "why": "A route that has swallowed attempts without producing evidence is telling you something. Decays its own priority instead of needing a human to notice."
+    }
+  },
+
+  "patient_path_scale": {
+    "no_bench_needed": 1.0,
+    "clinical_adoption": 0.9,
+    "prebuilt_bench": 0.7,
+    "named_bench": 0.4,
+    "none": 0.0,
+    "_why": "Ordered by what this program can actually cause with no wet lab. 'named_bench' is an ASK of someone else and is discounted, not excluded — the options memo's Axis W1 is about whether that taker is self-interested, and that judgement is a human's."
+  },
+
+  "cost_class_rank": {
+    "free": 0,
+    "cheap": 1,
+    "expensive": 2,
+    "_why": "CLAUDE.md §2's own ladder. A dollar figure is NEVER typed here or in priority.py — research/compute/pricing.md owns every cost, and an entry points at its rung."
+  },
+
+  "blocker_leverage_cap": 6,
+
+  "clamps": {
+    "negative_never_outranks_live": {
+      "enabled": true,
+      "why": "CLAUDE.md §0: a negative is a byproduct, never the objective. Weights alone will eventually let a well-graded finished write-up win — the highest-graded route in the portfolio today (RT-METHODS-PAPER, 'Tier 1, rank 1') is exactly that shape. This is a hard clamp applied AFTER scoring, not a weight."
+    },
+    "blocked_without_evidence_becomes_a_check": {
+      "enabled": true,
+      "why": "CLAUDE.md §0: 'blocked' is a claim that needs evidence and it is usually wrong. Such an entry is not filtered out — it is re-emitted as a kind:'fetch' entry that re-tests the block, because most blocked rows wait on a $0 observation."
+    }
+  },
+
+  "_forbidden_inputs": {
+    "axis_d": "What we would end up HOLDING if the experiment never happens. It structurally promotes finished work over live leads and is a human tiebreaker only — CLAUDE.md §0. priority.py must never read it, and test_the_scorer_never_reads_axis_d asserts so.",
+    "aixiv_rating": "Unauthenticated and trivially forgeable — .claude/skills/aixiv-submission/SKILL.md §0. Never an input to anything.",
+    "recency": "How recently a route was touched is not evidence about whether it can produce a result."
+  }
+}
