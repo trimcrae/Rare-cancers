@@ -1,0 +1,151 @@
+{
+  "_what": "Time-to-recurrence statistics for EMC as PRINTED by the two reachable open-access series, set against each series' own follow-up length.",
+  "_not_medical_advice": "Nothing here is medical advice. No surveillance interval, schedule or duration is recommended, and none may be derived from anything in this file.",
+  "_generated_by": "research/modalities/emc_recurrence_timing.py",
+  "⭐_the_finding": {
+    "statement": "In the larger series, the upper quartile of the time from surgery to local recurrence (63.5 months) lies 25.5 months BEYOND that cohort's own median follow-up (38 months). A quarter of the local recurrences it observed happened later than half its patients were watched.",
+    "why_it_is_the_one_worth_carrying": "Both numbers come from one paper, one set of patients and one clock. Era, country, setting and imaging generation are held constant by construction, so none of them can explain it. It is the direct answer to RT-SURVEILLANCE's framing question -- does follow-up stop before the disease does -- and it needs no model.",
+    "⛔_what_it_does_not_say": "It says nothing about whether watching longer would help anyone. Detecting a recurrence sooner moves the date of detection and need not move the date of death; that is lead-time bias and nothing here touches it. It also does not say what fraction of late recurrences were resectable, which no EMC series reports."
+  },
+  "cohorts": [
+    {
+      "source_id": "masunaga2025",
+      "population": "the 134 patients localized at diagnosis who underwent surgery",
+      "n": 134,
+      "median_followup_months": 38,
+      "followup_iqr_months": [
+        23,
+        71
+      ],
+      "followup_anchor": "diagnosis",
+      "followup_printed_in": "Table 1, 'Follow-up period after diagnosis (months), median (IQR)', total column -- ⚠ that row is over all 171, not over the 134",
+      "events": [
+        {
+          "event": "local_recurrence",
+          "count": 16,
+          "printed_percent": 11.9,
+          "anchor": "surgery",
+          "median_months": 15,
+          "iqr_months": [
+            4.5,
+            63.5
+          ],
+          "printed_in": "Results, 'Local recurrence occurred in 16 patients (11.9%), and the median time from surgery to local recurrence was 15 months (IQR, 4.5-63.5)'"
+        },
+        {
+          "event": "distant_metastasis",
+          "count": 39,
+          "printed_percent": 29.1,
+          "anchor": "diagnosis",
+          "median_months": 16,
+          "iqr_months": [
+            10,
+            31
+          ],
+          "printed_in": "Results, 'Distant metastases occurred in 39 patients (29.1%), and the median time from diagnosis to distant metastasis was 16 months (IQR, 10-31 months)'",
+          "⭐_independently_reconcilable": "The same paper's distant-metastasis paragraph splits these 39 by chemotherapy: 38 of the 128 unexposed and 1 of the 6 exposed. 38 + 1 = 39, printed in a different paragraph -- so this count is checkable without the paper."
+        },
+        {
+          "event": "death_from_tumour",
+          "count": 9,
+          "printed_percent": 6.7,
+          "anchor": "diagnosis",
+          "median_months": 36,
+          "iqr_months": [
+            25,
+            69
+          ],
+          "printed_in": "Results, 'Nine patients (6.7%) died due to the tumor, and the median time from diagnosis to death due to the tumor was 36 months (IQR, 25-69 months)'"
+        }
+      ]
+    },
+    {
+      "source_id": "chiusole2020",
+      "population": "the 49 patients treated with curative intent",
+      "n": 49,
+      "median_followup_months": 72,
+      "followup_iqr_months": null,
+      "followup_anchor": "unstated -- the paper says 'a median follow-up time of 72 months' without naming the origin",
+      "followup_printed_in": "Results, 'With a median follow-up time of 72 months, 20 patients have died'",
+      "events": [
+        {
+          "event": "local_recurrence",
+          "count": 14,
+          "printed_percent": 28.6,
+          "anchor": "unstated",
+          "median_months": null,
+          "iqr_months": null,
+          "printed_in": "Results, 'Out of 49 patients treated with curative intent, 28.6% developed local recurrence'",
+          "⛔_no_timing": "The paper prints the proportion and no time-to-event statistic for local recurrence, so this cohort contributes nothing to the timing question for this event."
+        },
+        {
+          "event": "distant_metastasis",
+          "count": 20,
+          "printed_percent": 40.8,
+          "anchor": "diagnosis",
+          "median_months": 70.8,
+          "median_printed_as": "5.9 years",
+          "iqr_months": null,
+          "printed_in": "Results, 'Median time from diagnosis to metastatic disease was 5.9 years with a proportion of 40.8% of patients treated with curative intent developing metastatic disease'",
+          "⚠_count_is_derived_not_printed": "The paper prints 40.8 % and not a count. 40.8 % of 49 is 19.99, so the count is 20 -- recorded because it is unambiguous at this denominator, and flagged because a percentage back-converted to a count is a derivation, not a transcription (POLICY-evidence 2.1 forbids doing this to obtain a POOLING denominator; nothing here is pooled)."
+        }
+      ]
+    }
+  ],
+  "events_beyond_the_observation_window": [
+    {
+      "event": "local_recurrence",
+      "anchor": "surgery",
+      "upper_quartile_months": 63.5,
+      "cohort_median_followup_months": 38,
+      "upper_quartile_exceeds_median_followup": true,
+      "months_beyond": 25.5,
+      "⚠_the_anchors_differ_by_the_time_to_surgery": "The event is measured from surgery and the follow-up from diagnosis, so the comparison is off by the diagnosis-to-surgery interval, which this paper does not print. That interval is short relative to the 25.5-month gap -- weeks to a few months in a series where 73 % of patients were resected -- and it moves the comparison in the CONSERVATIVE direction: counting from diagnosis would place the recurrence even later, not earlier. Stated because it is a real imprecision, not because it threatens the sign."
+    },
+    {
+      "event": "distant_metastasis",
+      "anchor": "diagnosis",
+      "upper_quartile_months": 31,
+      "cohort_median_followup_months": 38,
+      "upper_quartile_exceeds_median_followup": false,
+      "months_beyond": -7,
+      "⚠_the_anchors_differ_by_the_time_to_surgery": null
+    },
+    {
+      "event": "death_from_tumour",
+      "anchor": "diagnosis",
+      "upper_quartile_months": 69,
+      "cohort_median_followup_months": 38,
+      "upper_quartile_exceeds_median_followup": true,
+      "months_beyond": 31,
+      "⚠_the_anchors_differ_by_the_time_to_surgery": null
+    }
+  ],
+  "⛔_an_iqr_that_fits_inside_the_window_is_not_reassurance": "Two of the three Masunaga events put their upper quartile beyond the median follow-up and one -- distant metastasis, IQR 10-31 against 38 months -- does not. THAT ROW MUST NOT BE READ AS 'no censoring problem here'. A truncated sample's quartiles are computed over the events that were OBSERVABLE, so truncation pulls them inward: an IQR fitting neatly inside the observation window is what censoring PRODUCES, not evidence against it. The direction of the inference only runs one way -- an IQR that ESCAPES the window is remarkable, because it means late events survived into a sample biased against them; an IQR that fits tells you nothing either way. ⭐ AND THE DISTANT-METASTASIS ROW IS EXACTLY WHERE THAT MATTERS: its quartiles look early and tight (10-31 months) while the cohort watched twice as long reports the median for the same event, from the same anchor, at about 71 months. A tidy-looking IQR and a four-fold disagreement with a longer-followed series are the same observation seen from two sides.",
+  "cross_cohort_time_to_distant_metastasis": {
+    "masunaga2025": {
+      "median_months": 16,
+      "cumulative_percent": 29.1,
+      "median_followup_months": 38,
+      "n": 134
+    },
+    "chiusole2020": {
+      "median_months": 70.8,
+      "printed_as": "5.9 years",
+      "cumulative_percent": 40.8,
+      "median_followup_months": 72,
+      "n": 49
+    },
+    "same_anchor": true,
+    "ratio_of_medians": 4.42,
+    "⚠_consistent_with_censoring_and_not_established_by_it": "The cohort followed roughly twice as long reports both MORE cumulative metastasis (40.8 % against 29.1 %) and a median time to it about 4.4 times later. Longer observation producing more events and later ones is what censoring predicts, and a cohort with 38 months of median follow-up cannot observe a metastasis at 71 months at all. ⛔ BUT THE TWO COHORTS DIFFER IN ERA (1980-2018 against 2002-2022), COUNTRY AND SETTING, and imaging improved across those windows in a way that moves a time-to-metastasis median DOWN on its own. Two cohorts cannot discriminate follow-up length from era. This is recorded as consistent, never as demonstrated, and it is deliberately not the finding above."
+  },
+  "⛔_no_hazard_and_therefore_no_schedule": "A surveillance interval is chosen from a hazard -- the instantaneous risk of recurrence as a function of time since surgery. What is printed is a median and, once, an IQR: three points on a cumulative distribution. They establish a long right tail and cannot give its shape, and they cannot be differentiated into a hazard. RT-SURVEILLANCE's state-transition model still needs what its next-action says it needs, and this file does not supply it.",
+  "⛔_nothing_is_pooled": "Different eras, settings, populations and -- for local recurrence -- different and partly unstated anchors. POLICY-evidence 2.4 refuses to merge time-anchored figures at all. No combined median, no combined proportion.",
+  "counts": {
+    "cohorts": 2,
+    "events_with_a_printed_median": 4,
+    "events_with_a_printed_iqr": 3,
+    "events_with_no_timing_at_all": 1
+  }
+}

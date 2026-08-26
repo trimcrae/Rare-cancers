@@ -27,7 +27,7 @@ last_verified: 2026-08-06
 that will use it. It IS unreachable from the hierarchy, which is why it is shown rather than
 omitted, and why `[L5]` reports the count.
 
-**19 objects · 15 evidence items · 48 artifacts · 14 pinned claims.**
+**19 objects · 15 evidence items · 49 artifacts · 14 pinned claims.**
 
 ## Objects — the biological and molecular entities the program reasons about
 
@@ -114,6 +114,7 @@ omitted, and why `[L5]` reports the count.
 | **ART-NRV04-RETRO-PRESPEND-AUDIT** | `research/modalities/nrv04-retro-prespend-audit.json` | `research/modalities/nrv04_retro_prespend_audit.py` | [LANE-8](registers/lanes.md) |
 | **ART-PROGNOSTIC-COEFFICIENTS** | `research/modalities/emc-prognostic-coefficients.json` | `research/modalities/emc_prognostic_coefficients.py` | [RT-RISK-MODEL](L2-rt-risk-model.md) |
 | **ART-PUBLISHED-WARHEAD-REGISTRY** | `research/modalities/published-warhead-registry.json` | `—` | ⚠ **nothing** |
+| **ART-RECURRENCE-TIMING** | `research/modalities/emc-recurrence-timing.json` | `research/modalities/emc_recurrence_timing.py` | [RT-SURVEILLANCE](L2-rt-surveillance.md) |
 | **ART-RET-ACTIVATION-BAR** | `research/modalities/emc-ret-activation-bar.json` | `a Europe PMC retrieval read into JSON by hand from the literature-cache corpus` | [RT-RET](L2-rt-ret.md) |
 | **ART-SELCAL-VERDICT** | `research/modalities/selcal-verdict.json` | `research/modalities/selcal_cofold_validate.py` | [LANE-22](registers/lanes.md) |
 | **ART-SITE-CURATION** | `research/modalities/emc-site-curation.json` | `research/modalities/emc_site_curation.py` | [RT-LIMB-PERFUSION](L2-rt-limb-perfusion.md), [RT-LUNG-DIRECTED](L2-rt-lung-directed.md), [RT-METASTASECTOMY](L2-rt-metastasectomy.md) |
