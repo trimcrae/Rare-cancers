@@ -3078,7 +3078,7 @@
       "sunitinib + nivolumab"
     ],
     "grade": {
-      "value": "Landscape comparator — the only approved-drug combination with any reported EMC response",
+      "value": "Landscape comparator — the only approved-drug combination with any reported EMC response ⭐ 2026-08-25 — THE PARENT TRIAL'S EMC PATIENTS ARE NOW READABLE ONE BY ONE. IMMUNOSARC's phase II figure is a swimmer plot rather than a Kaplan-Meier curve, so each bar is one patient: the four extraskeletal myxoid chondrosarcoma patients (Table 1 confirms four) had progression-free survival of 11.6, 15.5, 16.3 and 19.3 months, three of them still progression-free at last assessment, against a whole-cohort median of 5.6 months. Read by `km_digitize.read_swimmer_plot`; FIVE quantities the paper prints and the reader never saw are all reproduced — 49 bars against the caption's n=49, a reconstructed median of 5.553 months against 5.6, four EMC bars against Table 1's four, a 6-month progression-free rate of 0.483 against the printed 48%, and ⭐ **37 events of 49 against the printed '37 of 49 (76%) experienced progression'**, which pins every censoring flag exactly: one misread arrow moves that count by one. Every flag was also confirmed by eye. One home: `research/modalities/km-swimmer-readings.json`. ⛔ CLAIM CEILING, AND IT IS TIGHT: four patients, identified by BAR COLOUR, in a subgroup the trial neither pre-specified nor analysed, with no comparator arm and no adjustment. This is what those four patients' bars show. It is not a response rate, not a comparison against other histologies, and not evidence that the combination works. ⚠ AND THEY MAY NOT BE FOUR NEW PATIENTS: the registry flags immunosarc2emc2025 as possibly an expansion of this same trial, so these four could be inside that cohort's 24. Adjudicate before either count is used as a denominator.",
       "owner": {
         "file": "research/manuscripts/neoantigen/immunotherapy-options-emc.md",
         "anchor": "#2-checkpoint-inhibitor--anti-angiogenic-tki-combination--real-emc-signal-new-lead"
@@ -3130,7 +3130,7 @@
       "status": "delegated",
       "maturity": "concept",
       "confidence": "moderate",
-      "last_verified": "2026-08-05"
+      "last_verified": "2026-08-25"
     },
     "rationale": "Both components are approved for OTHER indications, and one EMC partial responder is reported within a mixed-sarcoma phase-II. This route is the landscape COMPARATOR, not a contribution of this program. ⚠ No efficacy, safety, eligibility or clinical-readiness claim is made for EMC — this repo's own validated clinical registry records checkpoint inhibitors as NOT systematically active in EMC, with only isolated responses.",
     "supporting_evidence": [
@@ -3157,7 +3157,7 @@
       "attainable_today": "internal_note",
       "why_not_higher": "This is clinical evidence synthesis, not computation, and this program's contribution to it is limited. It belongs in the landscape context of a paper rather than as a result of its own. ⚠ 'ready' previously read as ready-as-a-treatment on a nivolumab+sunitinib route; it is ready only as a paragraph of a paper.",
       "missing": [
-        "a larger clinical series"
+        "a larger clinical series — unchanged. Four patient-level PFS values now exist for this route (km-swimmer-readings.json) and four patients is not a series."
       ]
     },
     "timing": {
@@ -7266,7 +7266,7 @@
     "kind": "route",
     "title": "Isolated limb perfusion for extremity disease",
     "grade": {
-      "value": "⚠ NOT GRADEABLE ON ELIGIBILITY — THE ONE NUMBER THIS ROUTE NEEDS IS NOT A CURATED FIELD (2026-08-09). Isolated limb perfusion is offerable only for an extremity primary, so the eligible fraction IS the extremity fraction. ⛔ No cohort in the registry carries a site field: the registry's site information is a prose ordering with no counts behind it, and a prose ordering cannot become a denominator. That is an absent reading, NOT a reading of absence — nothing here says the extremity fraction is low, and the premise remains untested. ⭐ What the arithmetic DID supply is the size of the problem this route addresses: local recurrence runs at a substantial minority across four non-overlapping series, with a wide between-study range the pooled figure hides.",
+      "value": "⚠ NOT GRADEABLE ON ELIGIBILITY — THE ONE NUMBER THIS ROUTE NEEDS IS NOT A CURATED FIELD (2026-08-09). Isolated limb perfusion is offerable only for an extremity primary, so the eligible fraction IS the extremity fraction. ⛔ No cohort in the registry carries a site field: the registry's site information is a prose ordering with no counts behind it, and a prose ordering cannot become a denominator. That is an absent reading, NOT a reading of absence — nothing here says the extremity fraction is low, and the premise remains untested. ⭐ What the arithmetic DID supply is the size of the problem this route addresses: local recurrence runs at a substantial minority across four non-overlapping series, with a wide between-study range the pooled figure hides.\n\n⭐ 2026-08-25 — THE ELIGIBLE FRACTION IS NOW COMPUTED, AND ITS UNCERTAINTY IS A DEFINITION RATHER THAN A SAMPLE SIZE. Isolated limb perfusion is offerable only for an extremity primary, so the eligible fraction IS the extremity fraction, and that quantity was recorded as NOT COMPUTABLE because no registry cohort carries a site field. It was never a literature problem: the site tables are printed in the primary reports, and transcribing the two open-access ones (`emc-site-curation.json`, 230 patients across an Italian two-institution series and a Japanese national registry study) gives **70.4% (64.2-76.0) on a strict limb-only reading and 85.7% (80.5-89.6) once the junctional girdle sites are admitted** — shoulder, groin, axilla and buttock, 35 of 171 patients in one series, every one a primary a perfusion service would argue about rather than refuse. ⛔ THE GAP BETWEEN THE TWO READINGS IS WIDER THAN THE CONFIDENCE INTERVAL ON EITHER, so anyone quoting a single extremity fraction for this disease is quoting a category boundary they did not state. ⚠ Nothing here says perfusion works; it sizes who it could be OFFERED to.",
       "owner": {
         "file": "research/modalities/emc-locoregional-eligibility.json"
       }
@@ -7282,7 +7282,9 @@
     },
     "objects": [],
     "evidence": [],
-    "artifacts": [],
+    "artifacts": [
+      "ART-SITE-CURATION"
+    ],
     "distinct_from": [],
     "strategy": "ST-LOCOREGIONAL",
     "publication": {
@@ -7302,7 +7304,7 @@
       "status": "blocked",
       "maturity": "computed",
       "confidence": "low",
-      "last_verified": "2026-08-09"
+      "last_verified": "2026-08-25"
     },
     "rationale": "A regional technique with an approved agent and an established role in unresectable extremity soft-tissue sarcoma — and this disease's most common primary site is deep soft tissue of the thigh and lower limb, so the anatomical precondition is met more often here than in most sarcomas. It was invisible to every prior search, all of which looked only at molecular modalities.",
     "supporting_evidence": [
@@ -7347,6 +7349,11 @@
     "next": {
       "best_next_action": "Curate primary anatomical site from the open-access pooled series, then search the perfusion literature for myxoid histologies.",
       "cost": "$0"
+    },
+    "best_next_action": {
+      "what": "Decide which junctional sites a perfusion service would actually accept, and state the eligible fraction under that definition rather than under both.",
+      "why": "The quantity is computed and its uncertainty is now entirely a category boundary, which is a clinical judgement rather than a measurement — so it is trimcrae's or a collaborator's to make, not this program's.",
+      "cost": "$0 (a decision)"
     }
   },
   {
@@ -7356,7 +7363,7 @@
     "kind": "route",
     "title": "Lung-directed local therapy (regional perfusion, inhaled delivery, ablation)",
     "grade": {
-      "value": "◐ THE POPULATION EXISTS; THE ELIGIBILITY CRITERION IS NOT CURATED (2026-08-09). ⭐ The route's premise half holds and is now sized: across three non-overlapping series, roughly a third of localised patients develop distant disease, so the population a lung-directed strategy exists for is real and is a substantial minority rather than a rarity. ⛔ But the criterion that decides OFFERABILITY is not computable here. Metastatic SITE is recorded in one series' free-text note and nowhere as a field; lesion BURDEN and time-to-metastasis are absent from every cohort. So the fraction meeting any conventional oligometastatic threshold cannot be stated, and the route must stop describing that as an extraction — the data was never curated, not merely un-extracted.",
+      "value": "◐ THE POPULATION EXISTS; THE ELIGIBILITY CRITERION IS NOT CURATED (2026-08-09). ⭐ The route's premise half holds and is now sized: across three non-overlapping series, roughly a third of localised patients develop distant disease, so the population a lung-directed strategy exists for is real and is a substantial minority rather than a rarity. ⛔ But the criterion that decides OFFERABILITY is not computable here. Metastatic SITE is recorded in one series' free-text note and nowhere as a field; lesion BURDEN and time-to-metastasis are absent from every cohort. So the fraction meeting any conventional oligometastatic threshold cannot be stated, and the route must stop describing that as an extraction — the data was never curated, not merely un-extracted.\n\n⚠ 2026-08-25 — A SECOND SERIES WAS CURATED AND IT DOES NOT MAKE THE METASTATIC-SITE DISTRIBUTION POOLABLE. The primary reports were retrieved and their site tables transcribed (`emc-site-curation.json`). Masunaga's metastatic-at-diagnosis stratum reports 27 lung and 2 peritoneal on n=29 — those rows exhaust the cohort, so 27/29 IS a lung-only fraction for that presenting stratum. ⛔ Chiusole's cannot be added: its rows are NON-EXCLUSIVE (23 lung + 4 bone + 14 other = 41 over a denominator of 26), so no lung-CONFINED fraction is readable from it at all, and its own table and running text disagree by one and by two patients. ⇒ The honest state is unchanged in kind — ONE presenting cohort, not a pooled distribution — and the reason has moved from 'nobody curated it' to 'the second series does not report it in a form that can be pooled'. ⛔ Lesion BURDEN remains absent from every reachable series, so no oligometastatic threshold fraction can be stated, and the other nine candidate series are not open access.",
       "owner": {
         "file": "research/modalities/emc-locoregional-eligibility.json"
       }
@@ -7372,7 +7379,9 @@
     },
     "objects": [],
     "evidence": [],
-    "artifacts": [],
+    "artifacts": [
+      "ART-SITE-CURATION"
+    ],
     "distinct_from": [],
     "strategy": "ST-LOCOREGIONAL",
     "publication": {
@@ -7392,7 +7401,7 @@
       "status": "blocked",
       "maturity": "computed",
       "confidence": "low",
-      "last_verified": "2026-08-09"
+      "last_verified": "2026-08-25"
     },
     "rationale": "The curated record for this disease states both that distant spread is mostly to lung and that removing isolated metastases can give long disease-free intervals — which is already the surgical form of this argument. Regional perfusion, inhaled delivery and percutaneous ablation extend it to patients and lesions surgery cannot reach, and none had ever been considered here.",
     "supporting_evidence": [
@@ -7556,7 +7565,7 @@
     "kind": "route",
     "title": "Radiotherapy intensification (particle therapy, brachytherapy, radiosensitisation, hyperthermia)",
     "grade": {
-      "value": "◐ THE PROBLEM IS SIZED AND THE DOSE-RESPONSE IS NOT (2026-08-09). Local recurrence across four non-overlapping series is a substantial minority — so the problem this route addresses is real — but the per-cohort rates span a wide range, and one of the pooled series reports LOCOREGIONAL recurrence specifically while the others report recurrence unqualified. ⛔ The pooled recurrence figure is therefore a MIXTURE of endpoints and is the weaker of the two quantities this arithmetic produced. No dose, modality or margin data is curated anywhere, so the radioresistance reappraisal this route proposes cannot be built from the registry.",
+      "value": "⭐ RE-GRADED 2026-08-26 — THE CONTRADICTION THIS ROUTE IS BUILT ON DOES NOT SURVIVE BEING PUT ON ONE SCALE. Bishop 2019 and Masunaga 2025 were read as disagreeing about whether radiotherapy does anything in EMC. Bishop reports the ADVERSE exposure (surgery alone) at HR 12.7 (1.4-115.3), p = 0.02 for local control; inverted, that is a radiotherapy effect of 0.079 (0.0087-0.71). Masunaga reports the PROTECTIVE exposure at 0.50 (0.11-2.25), p = 0.365. Both protective, intervals overlapping across 0.11-0.71. What separates them is which side of p = 0.05 each landed on, across 5 and 16 local events respectively. ⛔ THAT IS NOT EVIDENCE RADIOTHERAPY WORKS — it is evidence the reachable literature is underpowered and CONSISTENT, and that the route's motivating conflict was an artifact of dichotomising p-values.\n\n⚠ AND MASUNAGA'S CONFOUNDING RUNS AGAINST RADIOTHERAPY, WHICH MAKES ITS NULL WEAKER STILL: the paper states radiotherapy is given to patients with close margins, and its irradiated arm carried R1/R2 margins at 41.7 % against 18.2 %. Its treated group was at higher baseline risk of the very event measured, so 0.50 understates any protection.\n\n⭐ THE PARTICLE QUESTION IS ANSWERED. Brachytherapy (Takagawa, HDR interstitial, read directly) and proton beam (Honda, via a review) have each been reported ONCE in this histology; carbon ion appears nowhere in it across a 354-paper open-access corpus including a 2025 comprehensive EMC review. Arms exist; registries of them do not.\n\n⚠ Superseded, retained: \"◐ THE PROBLEM IS SIZED AND THE DOSE-RESPONSE IS NOT (2026-08-09). … No dose, modality or margin data is curated anywhere, so the radioresistance reappraisal this route proposes cannot be built from the registry.\" The endpoint-mixture caution stands. The rest is corrected: dose and modality ARE published — Bishop a median 50 Gy over 50-65 with arms of 23 preoperative / 10 postoperative / 8 surgery alone, Masunaga 40-50 Gy neoadjuvant and 50-66 Gy adjuvant in 2 Gy fractions — and margin data is curated in ART-SURGICAL-QUALITY. The regression is still unbuildable, but because nobody publishes dose PER PATIENT, which is a much narrower gap than 'no dose data anywhere'.",
       "owner": {
         "file": "research/modalities/emc-locoregional-eligibility.json"
       }
@@ -7572,7 +7581,9 @@
     },
     "objects": [],
     "evidence": [],
-    "artifacts": [],
+    "artifacts": [
+      "ART-RT-CONTRADICTION"
+    ],
     "distinct_from": [],
     "strategy": "ST-LOCOREGIONAL",
     "publication": {
@@ -7592,7 +7603,7 @@
       "status": "blocked",
       "maturity": "computed",
       "confidence": "low",
-      "last_verified": "2026-08-09"
+      "last_verified": "2026-08-26"
     },
     "rationale": "This repository's own record contains a live contradiction about whether radiotherapy does anything in this disease — two registries and the largest series disagree. Every prior treatment of that question has been about whether to give radiotherapy. No prior sweep considered that the answer might be dose quality, dose geometry or radiosensitisation, and the one striking combination response in the literature is itself a radiotherapy combination that was previously recorded only as a confound.",
     "supporting_evidence": [
@@ -7603,9 +7614,10 @@
       }
     ],
     "remaining_unknowns": [
-      "Whether the recurrence heterogeneity is dose-related at all, which needs per-patient radiotherapy detail that no cohort carries.",
-      "Whether brachytherapy and particle-therapy arms exist in this histology, which has not been searched in the particle registries.",
-      "How much of the pooled recurrence figure is margin status rather than radioresistance — one series names margins as its main risk factor and this pooling cannot separate them."
+      "Whether the recurrence heterogeneity is dose-related at all, which needs PER-PATIENT dose against PER-PATIENT outcome. Both series publish dose at the arm level and neither publishes it per patient, so the dose-response regression remains unbuildable — for a narrower reason than the route previously recorded.",
+      "Whether a properly powered test of radiotherapy in EMC is possible at all from published data. The two reachable estimates carry 5 and 16 local events; a difference the size of either point estimate would need far more events than the whole reachable literature contains.",
+      "⚠ Superseded, retained: \"Whether brachytherapy and particle-therapy arms exist in this histology, which has not been searched in the particle registries.\" SEARCHED AND ANSWERED at $0: brachytherapy and proton beam each appear once, as case reports; carbon ion appears not at all in this histology across a 354-paper open-access corpus. ⛔ That is a reading of the open-access literature, not of the particle registries themselves, which are not open — carbon-ion treatment of EMC may exist unpublished or paywalled.",
+      "⚠ Superseded, retained: \"How much of the pooled recurrence figure is margin status rather than radioresistance — one series names margins as its main risk factor and this pooling cannot separate them.\" SEPARATED: Masunaga's local-recurrence model contains both, and margin is significant (4.76, 1.72-13.15) where radiotherapy is not (0.50, 0.11-2.25); stepwise selection retained margin alone."
     ],
     "required_validation": [
       {
@@ -7624,10 +7636,11 @@
     "readiness": {
       "attainable_today": "internal_note",
       "missing": [
-        "per-patient dose and modality data, which none of the curated series publishes",
-        "a particle-registry search by histology"
+        "per-patient dose against per-patient outcome, which no reachable series publishes",
+        "enough local events anywhere in the reachable literature to power the comparison — 5 and 16 in the two series that have made it",
+        "⚠ Superseded, retained: \"per-patient dose and modality data, which none of the curated series publishes\" and \"a particle-registry search by histology\". The first is half wrong — dose and modality are published, just not per patient. The second is done."
       ],
-      "why_not_higher": "The endpoint mixture and the absent dose data mean the reappraisal's regression has no inputs, even though the problem it addresses is now sized."
+      "why_not_higher": "The route now holds a real finding — that its own motivating contradiction is a p-value artifact between two underpowered series whose intervals overlap — and that is an internal note's worth. What it cannot become is a reappraisal of radioresistance, because the dose-response regression has no per-patient inputs and the reachable event counts cannot power the comparison anyway. ⚠ Superseded, retained: \"The endpoint mixture and the absent dose data mean the reappraisal's regression has no inputs, even though the problem it addresses is now sized.\" The dose data is not absent; the per-patient dose data is."
     },
     "timing": {
       "recommendation": "pursue_now",
@@ -7635,7 +7648,7 @@
       "cost_trend": "flat"
     },
     "next": {
-      "best_next_action": "Search the particle registries by histology, which is $0 and is the only input to the reappraisal that does not need per-patient data.",
+      "best_next_action": "⛔ Do NOT re-run the particle search or re-litigate the contradiction — both are done and recorded in ART-RT-CONTRADICTION. The finding worth something is the negative one: two series that the field reads as conflicting are statistically consistent, and neither is powered. Whether that is worth writing up is a judgement call about what we publish. ⚠ Superseded, retained: \"Search the particle registries by histology, which is $0 and is the only input to the reappraisal that does not need per-patient data.\"",
       "cost": "$0"
     }
   },
@@ -7771,7 +7784,7 @@
       "status": "parked",
       "maturity": "computed",
       "confidence": "moderate",
-      "last_verified": "2026-08-09"
+      "last_verified": "2026-08-26"
     },
     "rationale": "The registry curates several agents with disease-specific activity and says nothing about the order to give them in. In a disease where decisions are years apart, ordering is one of the few variables a clinician actually controls, and no prior sweep treated it as a question at all.",
     "supporting_evidence": [
@@ -7784,7 +7797,7 @@
     "remaining_unknowns": [
       "Whether prior-therapy exposure is recorded against outcome in any curated cohort at a resolution that would permit any sequencing statement — it is not, at cohort level.",
       "Whether individual-patient data behind these series would support one, which is not this programme's to obtain.",
-      "Whether the absence of a sequencing evidence base has itself been stated anywhere in the field's literature, which would determine whether this is a finding or a restatement."
+      "⭐ ANSWERED 2026-08-26, AND MORE NARROWLY THAN THE QUESTION ASSUMED. Superseded, retained: \"Whether the absence of a sequencing evidence base has itself been stated anywhere in the field's literature, which would determine whether this is a finding or a restatement.\" Checked against the field's most recent comprehensive EMC review (Remiszewski et al. 2025, PMC12504171, in literature-cache slug emc-radiotherapy-2026-08-26). ⛔ THE SIMPLE VERSION OF THIS FINDING WOULD HAVE BEEN FALSE: that review states evidence limitations repeatedly and carefully — 'the available data to support improved outcomes with perioperative chemotherapy is very limited', 'the current evidence does not support the routine use of neoadjuvant/adjuvant chemotherapy in EMC', 'Without randomised trials, it remains unclear whether immunotherapy can provide a meaningful survival benefit', 'definitive evidence on metastasectomy for EMC is limited', and 'most clinical trials include EMC within broader sarcoma trials, making it difficult to gather disease-specific data'. The field is not unaware of its evidence problem. ⭐ WHAT IS NOT STATED IS THE ORDERING SPECIFICALLY: the string 'sequenc' does not occur in that review at all, and where it does order agents — 'to reduce practice variability, we suggest: observe indolent, asymptomatic metastatic disease; use doxorubicin ± ifosfamide first-line for symptomatic or rapidly progressive disease per STS guidance; favour pazopanib after anthracycline failure' — it attaches no evidence-limitation statement to the ORDER, and derives it by extrapolation from soft-tissue-sarcoma guidance rather than from EMC data. ⇒ This route's negative is a FINDING rather than a restatement, but a narrower one than 'nobody has said the evidence is thin': the gap is that the limitation has never been scoped to SEQUENCING. ⚠ That is not a charge against the review, which is explicit that it is extrapolating and which cites EMC-specific activity where it has it."
     ],
     "required_validation": [
       {
@@ -7816,7 +7829,7 @@
       ]
     },
     "next": {
-      "best_next_action": "Report the negative in the strategy paper: the sequencing question in this disease has no evidence base, stated with the denominators that make it so.",
+      "best_next_action": "Unchanged in substance and sharpened in content: report the negative, now with the specific gap it fills — the field states its evidence limitations for adjuvant chemotherapy, immunotherapy and metastasectomy, and states none for the ORDER in which agents are given, while recommending one. ⛔ Whether and where to publish that is a judgement call about what we publish, not a technical one, and it is not settled here.",
       "cost": "$0"
     },
     "closure_kind": "instrument_limit",
@@ -7999,7 +8012,7 @@
     "kind": "route",
     "title": "Patient-level survival reconstructed from published Kaplan-Meier curves",
     "grade": {
-      "value": "⭐ THE INSTRUMENT IS BUILT AND ITS KNOWN-ANSWER CONTROL PASSES; ONLY THE CURVES ARE MISSING. research/modalities/emc_ipd_survival.py implements Guyot et al. 2012 and recovers a held-out synthetic cohort EXACTLY — 26 patients, 11 events, 15 censored, identical to truth, survival agreeing within 0.004 except at the tail — and the control is shown to be capable of failing (a three-fold-wrong risk table collapses the recovered cohort to 7). ⛔ THE CONTROL BOUNDS ALGORITHMIC ERROR AND CANNOT FAIL ON A MIS-READ PIXEL: it is fed exact coordinates, whereas a real curve is read off a figure by eye. Digitization error is bounded separately, per curve, by max_abs_km_deviation against the quality floor.\n\n⛔ FEASIBILITY DOWNGRADED THE SAME DAY IT WAS REGISTERED, BY A COUNT THAT SHOULD HAVE BEEN TAKEN FIRST (2026-08-09). Of 340 EMC full texts in the 554-record open-access corpus, only **19 print a Kaplan-Meier curve at all**, and only 2 also mention numbers-at-risk in text — both of those being conference-abstract collections rather than series. The binding constraint is therefore 19, not the size of the literature, and after §2.3 excludes overlapping populations the poolable set is plausibly single digits covering a few hundred patients.\n⚠ THE 2 IS A WEAK PROXY AND MUST NOT BE QUOTED AS THE ANSWER: a numbers-at-risk row is usually rendered INSIDE the figure image, which no text search can see, so it undercounts in exactly the direction that matters. The 19 is NOT a proxy — 'Kaplan-Meier' is named in text whenever a curve is shown — which is why the honest constraint is 19 and the true reconstructable count lies somewhere at or below it. Closed-access series are outside the corpus entirely.\n⭐ Superseded, retained: this route was registered on the premise that 'dozens of EMC series print a Kaplan-Meier curve'. Dozens do not. The instrument and its control are unaffected — what falls is the size of the dataset it can build, and with it everything downstream.",
+      "value": "⭐ THE INSTRUMENT IS BUILT AND ITS KNOWN-ANSWER CONTROL PASSES; ONLY THE CURVES ARE MISSING. research/modalities/emc_ipd_survival.py implements Guyot et al. 2012 and recovers a held-out synthetic cohort EXACTLY — 26 patients, 11 events, 15 censored, identical to truth, survival agreeing within 0.004 except at the tail — and the control is shown to be capable of failing (a three-fold-wrong risk table collapses the recovered cohort to 7). ⛔ THE CONTROL BOUNDS ALGORITHMIC ERROR AND CANNOT FAIL ON A MIS-READ PIXEL: it is fed exact coordinates, whereas a real curve is read off a figure by eye. ⚠ *Superseded, retained: \"Digitization error is bounded separately, per curve, by max_abs_km_deviation against the quality floor.\"* MEASURED 2026-08-25 and it is FALSE: that field compares the reconstruction to the DIGITIZED curve, so a reading error moves both sides together. The same rendered figure read with a calibration wrong by one pixel carries more than twice the true error against a known cohort and a LOWER max_abs_km_deviation than the clean read. Digitization error now has its own instrument and its own bound: research/modalities/km_digitize.py and km-digitization-error.json.\n\n⛔ FEASIBILITY DOWNGRADED THE SAME DAY IT WAS REGISTERED, BY A COUNT THAT SHOULD HAVE BEEN TAKEN FIRST (2026-08-09). Of 340 EMC full texts in the 554-record open-access corpus, only **19 print a Kaplan-Meier curve at all**, and only 2 also mention numbers-at-risk in text — both of those being conference-abstract collections rather than series. The binding constraint is therefore 19, not the size of the literature, and after §2.3 excludes overlapping populations the poolable set is plausibly single digits covering a few hundred patients.\n⚠ THE 2 IS A WEAK PROXY AND MUST NOT BE QUOTED AS THE ANSWER: a numbers-at-risk row is usually rendered INSIDE the figure image, which no text search can see, so it undercounts in exactly the direction that matters. The 19 is NOT a proxy — 'Kaplan-Meier' is named in text whenever a curve is shown — which is why the honest constraint is 19 and the true reconstructable count lies somewhere at or below it. Closed-access series are outside the corpus entirely.\n⭐ Superseded, retained: this route was registered on the premise that 'dozens of EMC series print a Kaplan-Meier curve'. Dozens do not. The instrument and its control are unaffected — what falls is the size of the dataset it can build, and with it everything downstream.\n\n⭐ 2026-08-25 — THE FIGURES WERE LOOKED AT, AND THE ROUTE HAS ITS FIRST RECONSTRUCTED COHORT AND ITS BINDING NEGATIVE IN THE SAME PASS. Article PDFs for all seven candidates with a PMC id were retrieved (five reached, via europepmc.org/articles/<PMCID>?pdf=render), rasterised, and READ. Of the five: masunaga2025 prints three Kaplan-Meier figures and NO numbers-at-risk row; chiusole2020 prints four and NO numbers-at-risk row; martinbroto2020 prints NO Kaplan-Meier curve at all (its Figure 3 is a swimmer plot); stacchiotti2013 and morioka2016 each print one curve WITH a risk row. ⛔ THE TWO LARGEST REACHABLE EMC SERIES (n=171 and n=59) ARE UNRECONSTRUCTABLE FOR A REPORTING REASON, NOT A SCIENTIFIC ONE, and the only two figures that carry a risk row are the two smallest cohorts in the set. ⚠ The 2026-08-09 text-search proxy said 2 of 19 mention numbers-at-risk in text and warned it undercounts; looking at the graphics found the same order of magnitude rather than a hidden reservoir. ✅ stacchiotti2013 Figure 2 has been digitized and reconstructed: 11 patients, 9 events, 2 censored, median PFS 7.98 months against the caption's printed 8 — a quantity the reconstruction never saw, and this program's only check of a READING rather than of arithmetic. ⛔ ONE CURVE IS NOT A POOLED DATASET: n=11, PFS not OS, and the registry flags it as overlapping the Milan series.\n\n⭐ 2026-08-25, SAME PASS — A SWIMMER PLOT TURNED OUT TO CARRY MORE THAN THE CURVES DID. martinbroto2020's Figure 3 draws one bar per patient (n=49) for the 49-patient phase II analysis population of a nivolumab + sunitinib trial, with an arrow marking a patient still progression-free at last assessment. That is patient-level data with NO Kaplan-Meier inversion and NO numbers-at-risk requirement, so a figure this route would otherwise have refused yields more than either curve it accepted. All 49 bars were read; three independent checks the paper itself supplies all pass — 49 bars against the caption's n=49, a reconstructed Kaplan-Meier median of 5.553 months against the caption's 5.6, and 4 extraskeletal myxoid chondrosarcoma bars against Table 1's 4. ⛔ CLAIM CEILING: four patients, identified by BAR COLOUR, in a subgroup the trial neither pre-specified nor analysed. It supports a statement about what those four patients' bars show and nothing about efficacy or about the disease. ⚠ The source figure is CC BY-NC 4.0 against an Apache-2.0 repository, so the image is NOT committed and the reading is not re-runnable from a bare checkout — the recipe names the URL, page and dpi that reproduce it.",
       "owner": {
         "file": "systems/graph/routes.json"
       }
@@ -8037,7 +8050,7 @@
       "status": "ready",
       "maturity": "computed",
       "confidence": "low",
-      "last_verified": "2026-08-09"
+      "last_verified": "2026-08-25"
     },
     "rationale": "This repository's evidence contract states its own limit in s2.5 — 'no censoring/Kaplan-Meier; no risk-adjustment or multivariable control' — and s2.4 refuses to merge time-anchored survival. That is a correct account of the method s2.2 mandates, not a limit of the published record: dozens of EMC series print a Kaplan-Meier curve, and Guyot's algorithm inverts one back into the data that generated it. ⭐ The consequence is concrete rather than general: RT-SCHEDULING is closed `definitional` precisely because no pooled progression-free-survival figure may be built under the contract, and reconstruction is the mechanism that makes such a pool legal.",
     "supporting_evidence": [
@@ -8048,28 +8061,28 @@
       }
     ],
     "remaining_unknowns": [
-      "How many published EMC series print a numbers-at-risk table at all — without one the per-interval censored count is unidentifiable and the curve is refused, and small single-institution series frequently print none.",
-      "How large digitization error is on real figures, which the synthetic control is structurally unable to measure and which max_abs_km_deviation bounds only after a curve has been read.",
-      "Which series overlap in population, since POLICY-evidence.md s2.3 excludes the smaller of any overlapping pair and the SEER analyses certainly overlap each other."
+      "How many published EMC series print a numbers-at-risk table at all — ANSWERED for the reachable candidate set on 2026-08-25 by looking at the graphics: 2 of the 5 reachable papers, and both are the smallest cohorts. It is NOT answered for the closed-access series (drilon2008, bishop2019) or for series with no PMC identifier, which is where the remaining count lives.",
+      "How large digitization error is on real figures — now bounded FROM BELOW by km-digitization-error.json against synthetic renders (worst off-step error 0.0035; worst whole-curve error 0.0636, from a one-pixel calibration slip), and checked per figure against a quantity the paper printed. It is not bounded from ABOVE, and a synthetic render is an easier figure than a journal one.",
+      "Which series overlap in population, since POLICY-evidence.md s2.3 excludes the smaller of any overlapping pair and the SEER analyses certainly overlap each other. UNCHANGED, and it now binds: the one reconstructed curve is from the Milan series, which the registry flags as overlapping chiusole2020 and stacchiotti2014sunitinib.",
+      "⭐ NEW — whether a SWIMMER PLOT can substitute for a Kaplan-Meier curve. martinbroto2020's Figure 3 draws one bar per patient with censoring shown by an arrow, which IS patient-level data and needs no Guyot recursion; the EMC patients are one colour inside a mixed sarcoma cohort, so the question is whether the subgroup can be separated by colour reliably enough to claim it."
     ],
     "required_validation": [
       {
-        "what": "Digitize the curves and numbers-at-risk tables of the open-access EMC series and run them through the built instrument",
+        "what": "Digitize the curves and numbers-at-risk tables of the open-access EMC series and run them through the built instrument — INSTRUMENT BUILT 2026-08-25 (research/modalities/km_digitize.py) and exercised on the one reachable figure that carries a risk row",
         "feasible_today": true,
         "blocked_by": []
       },
       {
-        "what": "Validation against a series whose true patient-level data is published, which would bound digitization error rather than algorithmic error",
-        "feasible_today": false,
-        "blocked_by": [
-          "BLK-NO-CURATED-CLINICAL-DATA"
-        ]
+        "what": "Validation against a series whose true patient-level data is published, which would bound digitization error rather than algorithmic error — PARTLY MET by a different construction: the reconstruction reproduces a median the paper printed and the reconstruction never saw. That checks the reading on ONE summary statistic, not on the whole cohort, and a series printing full patient-level data is still the stronger test",
+        "feasible_today": true,
+        "blocked_by": []
       }
     ],
     "readiness": {
       "attainable_today": "internal_note",
       "missing": [
-        "curves that can actually be reconstructed — only 19 of 340 EMC full texts in the open-access corpus print a Kaplan-Meier curve at all, and how many of those carry a numbers-at-risk table is unmeasured because the table is usually inside the figure image"
+        "⛔ THE CEILING IS WHAT THE FIGURES PRINT, NOT THE INSTRUMENT. Both instruments now exist and both have controls; the reachable literature supplies one admissible EMC curve.",
+        "more curves that can actually be reconstructed — of the five reachable candidates, two print a numbers-at-risk row and one of those is not an EMC cohort, so the reconstructable set reached so far is ONE curve of 11 patients. The binding constraint is what journals print, not what this program can read."
       ],
       "why_not_higher": "⛔ THE CEILING IS 19 CURVES, NOT THE INSTRUMENT. The instrument is validated and its known-answer control passes; what is unknown is whether enough reconstructable curves exist to build a dataset worth publishing. After POLICY-evidence.md §2.3 excludes overlapping populations the poolable set is plausibly single digits. ⚠ Confidence was `moderate` until the count was taken and is now `low` — the grade text carried the downgrade while this field did not, which is the defect CLAUDE.md §4 names: a populated field is not a measured one, and the paper-strength score reads THIS field, not the prose."
     },
@@ -8082,7 +8095,12 @@
       "best_next_action": "Digitize the Kaplan-Meier curve and numbers-at-risk table of the largest open-access EMC series and admit or refuse it against the quality floor.",
       "cost": "$0"
     },
-    "closure_kind": "open"
+    "closure_kind": "open",
+    "best_next_action": {
+      "what": "Transcribe morioka2016's Table 2, which prints per-subject progression-free and overall survival with censoring flags for its two EMCS patients — patient-level data that needs no instrument at all — and then decide whether the two closed-access candidates (drilon2008, bishop2019) are worth an interlibrary route, which is trimcrae's call.",
+      "why": "After 2026-08-25 the Kaplan-Meier route is known to be capped by what journals print, and the yield has come from figures and tables that are NOT Kaplan-Meier curves. The cheapest remaining patient-level data in the reachable literature is a printed table.",
+      "cost": "$0"
+    }
   },
   {
     "id": "RT-SURGICAL-QUALITY",
@@ -8107,7 +8125,9 @@
     },
     "objects": [],
     "evidence": [],
-    "artifacts": [],
+    "artifacts": [
+      "ART-SURGICAL-QUALITY"
+    ],
     "distinct_from": [],
     "strategy": "ST-CARE-DELIVERY",
     "publication": {
@@ -8127,7 +8147,7 @@
       "status": "ready",
       "maturity": "concept",
       "confidence": "low",
-      "last_verified": "2026-08-09"
+      "last_verified": "2026-08-26"
     },
     "rationale": "In soft-tissue sarcoma generally the completeness of the first resection is the largest modifiable survival determinant; in EMC, where nothing systemic has a demonstrated survival benefit, it is close to the only one. The terms this route is made of — R0/R1 margin, unplanned excision, re-excision, referral centre, volume-outcome — appear nowhere in this repository except inside the titles of papers it cites.",
     "supporting_evidence": [
@@ -8138,9 +8158,10 @@
       }
     ],
     "remaining_unknowns": [
-      "What the positive-margin rate in EMC actually is — no cohort in the registry carries a margin field, and the one dedicated EMC surgical series reports a single positive margin in 13 patients.",
-      "Whether treatment at a sarcoma referral centre changes EMC outcomes specifically, which is established for sarcoma broadly and never tested in this histology.",
-      "How much of the SEER surgery association is immortal-time and selection rather than effect, which the reconstructed dataset could bound and the published analyses do not."
+      "Whether treatment at a sarcoma referral centre changes EMC outcomes specifically. ⛔ THIS CANNOT BE ADVANCED BY THE REACHABLE LITERATURE and the reason is now measured rather than assumed: Masunaga reports no centre, centre volume or referral status, and every Chiusole patient was treated at one of two referral centres, so one source omits the exposure and the other holds it constant. It needs a series reporting where each patient was first operated, or a registry linkage carrying centre volume.",
+      "What an unplanned excision rate in EMC is. Neither source carries the field. Masunaga's 'previous surgery' (18 of 171) and 'excisional' biopsy (10 of 171) are the nearest printed things and neither is defined as unplanned -- notably, the same Methods sentence that lists 'previous surgery' undefined DOES define R0/R1/R2, so the omission is visible.",
+      "How much of the SEER surgery association is immortal-time and selection rather than effect, which the reconstructed dataset could bound and the published analyses do not.",
+      "⚠ Superseded, retained: \"What the positive-margin rate in EMC actually is -- no cohort in the registry carries a margin field, and the one dedicated EMC surgical series reports a single positive margin in 13 patients.\" ANSWERED, and the answer is that the question was under-specified: two series print full distributions over 156 and 40 operated patients, and the rate is 22.4 % to 40.9 % depending on which denominator is meant. See ART-SURGICAL-QUALITY."
     ],
     "required_validation": [
       {
@@ -8159,9 +8180,11 @@
     "readiness": {
       "attainable_today": "internal_note",
       "missing": [
-        "margin status and treatment setting, which no curated cohort here records"
+        "treatment setting, which is unobtainable from the reachable literature rather than merely un-curated -- see remaining_unknowns",
+        "the intent of each operation, without which no margin rate can be read as surgical performance: a positive margin in a metastatic patient is frequently a deliberate debulking",
+        "⚠ Superseded, retained: \"margin status and treatment setting, which no curated cohort here records.\" Margin status is now recorded for 196 operated patients across two series."
       ],
-      "why_not_higher": "The association is published and citable; what this route would ADD — an EMC-specific margin and referral analysis — needs fields nobody has extracted."
+      "why_not_higher": "The margin distribution is curated, guarded and cross-checked, and Chiusole prints outcome by margin -- but 38 patients across two arms give a direction, not an effect size, and the association is confounded in the obvious way: whatever made a tumour impossible to clear is also a reason it recurs. The referral half of the route's question cannot be answered from reachable sources at all. ⚠ Superseded, retained: \"The association is published and citable; what this route would ADD -- an EMC-specific margin and referral analysis -- needs fields nobody has extracted.\" Half of that is done: the margin fields are extracted. The referral half needs fields nobody has PUBLISHED, which is a different and harder problem."
     },
     "timing": {
       "recommendation": "pursue_now",
@@ -8169,7 +8192,7 @@
       "cost_trend": "flat"
     },
     "next": {
-      "best_next_action": "Extract margin status, primary site and treatment setting from the open-access EMC series already cited in the registry.",
+      "best_next_action": "Decide whether an EMC margin note is worth writing from what is now in hand -- a positive-margin rate with an honest denominator range across two independent cohorts, plus Chiusole's outcome-by-margin contrast. ⛔ Do NOT re-curate these two papers for treatment setting or unplanned excision: both were measured absent, and the absence is a property of the publications, not of the curation.",
       "cost": "$0"
     },
     "closure_kind": "open"
@@ -8298,7 +8321,9 @@
     },
     "objects": [],
     "evidence": [],
-    "artifacts": [],
+    "artifacts": [
+      "ART-RECURRENCE-TIMING"
+    ],
     "distinct_from": [],
     "strategy": "ST-CARE-DELIVERY",
     "publication": {
@@ -8318,7 +8343,7 @@
       "status": "ready",
       "maturity": "concept",
       "confidence": "low",
-      "last_verified": "2026-08-09"
+      "last_verified": "2026-08-26"
     },
     "rationale": "EMC recurs beyond the windows most surveillance protocols run to. If surveillance ends before the disease does, a resectable recurrence is found unresectable — and unlike almost everything else on this board, the question is a modelling question with committed inputs rather than a bench question. MOD-WATCHFUL-WAITING is graded `in_clinical_use` by the census, which is exactly why no route existed.",
     "supporting_evidence": [
@@ -8329,9 +8354,10 @@
       }
     ],
     "remaining_unknowns": [
-      "The hazard of recurrence as a function of time since resection, which needs the reconstructed dataset rather than the published summary figures.",
+      "The hazard of recurrence as a function of time since resection. ⛔ STILL MISSING, AND PRINT CANNOT SUPPLY IT: what the reachable series publish is a median and, once, an IQR -- three points on a cumulative distribution, which cannot be differentiated into a hazard. The state-transition model needs what the route always said it needed.",
       "What fraction of recurrences are detected while still resectable under current practice, which no EMC series reports.",
-      "Whether any surveillance benefit survives lead-time bias, which an observational design cannot settle and which the model must therefore carry explicitly."
+      "Whether any surveillance benefit survives lead-time bias, which an observational design cannot settle and which the model must therefore carry explicitly. ⚠ Nothing in ART-RECURRENCE-TIMING advances this -- it measures when recurrence happens, never whether finding it sooner helps.",
+      "⚠ Whether the four-fold cross-cohort disagreement on time to distant metastasis (16 months against 5.9 years) is censoring or era. It is consistent with censoring and two cohorts cannot separate that from the 1980-2018 vs 2002-2022 imaging difference. A third series with a stated follow-up would discriminate it; none is reachable."
     ],
     "required_validation": [
       {
@@ -8345,9 +8371,11 @@
     "readiness": {
       "attainable_today": "internal_note",
       "missing": [
-        "the time-resolved recurrence hazard, which RT-IPD-SURVIVAL would supply"
+        "a hazard function, which no reachable publication prints and which summary statistics cannot be turned into",
+        "resectability at detection, reported by no EMC series",
+        "⚠ Superseded, retained: \"the time-resolved recurrence hazard, which RT-IPD-SURVIVAL would supply.\" RT-IPD-SURVIVAL has now produced patient-level data and it does NOT supply this: the reconstructable curves are progression-free and overall survival in advanced disease, not time-to-local-recurrence after resection, and the stratified curves that might carry it print no numbers-at-risk row."
       ],
-      "why_not_higher": "The motivating divergence is published; the model needs a hazard function that only the reconstruction produces."
+      "why_not_higher": "The route's framing question -- does follow-up stop before the disease does -- is now answered with a within-cohort observation that needs no model: a quarter of one series' local recurrences occurred beyond its own median follow-up. That is an internal note's worth of finding. What it cannot become is a surveillance recommendation, because the hazard is unavailable and lead-time bias is untouched. ⚠ Superseded, retained: \"The motivating divergence is published; the model needs a hazard function that only the reconstruction produces.\" The second clause is now known to be false as stated -- the reconstruction does not produce it either, for the reason in `missing`."
     },
     "timing": {
       "recommendation": "pursue_now",
@@ -8355,7 +8383,7 @@
       "cost_trend": "flat"
     },
     "next": {
-      "best_next_action": "Wait on RT-IPD-SURVIVAL for the recurrence hazard, then build the state-transition model — the summary figures alone cannot support one.",
+      "best_next_action": "⛔ Do NOT wait on RT-IPD-SURVIVAL for this -- it has produced data and the data is the wrong shape, which is now recorded. The honest options are to write the observation up as a short note (a judgement call about what we publish, not a technical one) or to leave the route open against a series that prints a time-to-recurrence curve WITH numbers at risk. ⚠ Superseded, retained: \"Wait on RT-IPD-SURVIVAL for the recurrence hazard, then build the state-transition model.\"",
       "cost": "$0"
     },
     "closure_kind": "open"
@@ -8383,7 +8411,9 @@
     },
     "objects": [],
     "evidence": [],
-    "artifacts": [],
+    "artifacts": [
+      "ART-SITE-CURATION"
+    ],
     "distinct_from": [],
     "strategy": "ST-CARE-DELIVERY",
     "publication": {
@@ -8403,7 +8433,7 @@
       "status": "ready",
       "maturity": "concept",
       "confidence": "low",
-      "last_verified": "2026-08-09"
+      "last_verified": "2026-08-26"
     },
     "rationale": "The census bundles metastasectomy into MOD-SURGERY and grades the row `in_clinical_use`, which is how a decision with real open questions — lesion count, disease-free-interval threshold, repeat versus first resection — became invisible as a research object. The portfolio has RT-LUNG-DIRECTED for perfusion, inhaled delivery and ablation, and nothing for resection.",
     "supporting_evidence": [
@@ -8414,8 +8444,8 @@
       }
     ],
     "remaining_unknowns": [
+      "What the selection criteria should be -- lesion number, disease-free interval, doubling time. ⛔ LESION BURDEN IS NOW MEASURED ABSENT RATHER THAN UN-CURATED: no reachable series prints per-patient lesion counts (ART-SITE-CURATION), and time to metastasis is printed only as a median in one series (5.9 years) and nowhere per patient. So no oligometastatic threshold fraction can be stated from the open-access literature, and curating it further will not produce one.",
       "Whether EMC's lung metastases behave like the sarcoma metastases the metastasectomy evidence base was built on, which no series has assessed.",
-      "What the selection criteria should be — lesion number, disease-free interval, doubling time — none of which any EMC cohort records.",
       "How much of any observed metastasectomy benefit is selection of favourable biology rather than effect of the operation, which is the central criticism of the whole metastasectomy literature and is unresolved in every histology."
     ],
     "required_validation": [
@@ -8435,9 +8465,11 @@
     "readiness": {
       "attainable_today": "internal_note",
       "missing": [
-        "metastatic site and burden, which appear in free text rather than as curated data"
+        "per-patient lesion counts, which no reachable publication prints -- the eligible fraction can be BOUNDED by lung-confinement but not SIZED by an oligometastatic criterion",
+        "an outcome attached to the metastasectomies that were performed: both series print how many happened and neither prints what followed, so there is no comparator of any kind",
+        "⚠ Superseded, retained: \"metastatic site and burden, which appear in free text rather than as curated data.\" Site is curated (ART-SITE-CURATION). Burden is not free text -- it is absent."
       ],
-      "why_not_higher": "The route has an argument and a measured absence, and no EMC-specific number of its own."
+      "why_not_higher": "The route now has an EMC-specific number where it had none: local therapy of metastases is already given to a substantial minority (8 of 29 in one series; 8 lung metastasectomies and 2 ablations in the other), so its premise is not hypothetical. But those are counts of what was DONE with no comparator and no outcome, and the selection criteria the route exists to inform need a per-patient lesion count that no reachable publication prints. ⚠ Superseded, retained: \"The route has an argument and a measured absence, and no EMC-specific number of its own.\" It has numbers now; what it lacks is a comparator."
     },
     "timing": {
       "recommendation": "pursue_now",
@@ -8445,7 +8477,7 @@
       "cost_trend": "flat"
     },
     "next": {
-      "best_next_action": "Curate metastatic site and lesion burden from the open-access EMC series and size the metastasectomy-eligible fraction.",
+      "best_next_action": "⛔ Do NOT re-curate the open-access series for lesion burden -- it was looked for and is not printed. What is left is a judgement call: whether an EMC note saying 'local therapy of metastases is already standard for roughly a quarter of these patients, with no comparator anywhere in the literature' is worth writing as the route's honest endpoint. ⚠ Superseded, retained: \"Curate metastatic site and lesion burden from the open-access EMC series and size the metastasectomy-eligible fraction.\" The site half is done; the burden half is impossible from print, so the fraction cannot be sized as asked.",
       "cost": "$0"
     },
     "closure_kind": "open"
@@ -8457,7 +8489,7 @@
     "kind": "route",
     "title": "A prognostic risk model for EMC",
     "grade": {
-      "value": "No validated EMC risk model exists — `nomogram` returns zero files repo-wide and no published EMC series presents one. Size, site, age, rhabdoid features, cellularity and fusion partner are each reported prognostic somewhere, and never together. ⚠ Any model built on a few hundred reconstructed patients will be badly overfit unless it is held to a handful of predictors and reported with an honest optimism correction; a well-calibrated three-variable model is the realistic ceiling here.\n\n⚠ INHERITS THE 2026-08-09 FEASIBILITY DOWNGRADE ON RT-IPD-SURVIVAL: only 19 of 340 EMC full texts print a Kaplan-Meier curve at all, so the reconstructed hazard this route consumes will rest on single-digit poolable curves and a few hundred patients. Whether that supports a decision-relevant model is now the route's first question rather than its last.",
+      "value": "⭐ RE-GRADED 2026-08-26 — THE COEFFICIENTS DO NOT HAVE TO BE ESTIMATED, THEY ARE ALREADY PRINTED. This route was written as though a model had to be FITTED, which made it wait on reconstructed patient-level data. The two largest reachable open-access EMC series each print FITTED COX MODELS with hazard ratios, 95 % intervals and per-level patient counts — 7 models and 45 estimable coefficients across four endpoints, in emc-prognostic-coefficients.json. So the prognostic ORDERING is reachable today at $0.\n\n⛔ WHAT IS STRUCTURALLY UNREACHABLE FROM PRINT IS THE HALF A RISK MODEL IS FOR: neither paper prints a baseline hazard, or a reference-group curve with a numbers-at-risk row that one could be recovered from. Coefficients alone rank patients by risk and can never price any patient's risk — no survival probability, no nomogram, no n-year risk, and no validation, since discrimination and calibration both need patient-level outcomes. A model published from this is an ordering and must say so.\n\n⚠ AND THE TWO COHORTS ARE CONSISTENT RATHER THAN CORROBORATING. 11 of 12 cross-cohort comparisons agree in direction and all 12 pairs of intervals overlap, but 9 of the 12 are between intervals that BOTH include 1, and in NOT ONE does both cohorts' interval exclude 1. Only surgical margin holds its direction across four endpoints and two cohorts while reaching significance in the larger one. The single directional disagreement — sex on local recurrence — is between two null results and is not a contradiction.\n\nNo validated EMC risk model exists — `nomogram` returns zero files repo-wide and no published EMC series presents one. ⚠ Any model FITTED on a few hundred reconstructed patients would be badly overfit unless held to a handful of predictors with an honest optimism correction; a well-calibrated three-variable model is the realistic ceiling for that path.\n\n⚠ Superseded, retained: \"INHERITS THE 2026-08-09 FEASIBILITY DOWNGRADE ON RT-IPD-SURVIVAL: only 19 of 340 EMC full texts print a Kaplan-Meier curve at all, so the reconstructed hazard this route consumes will rest on single-digit poolable curves and a few hundred patients. Whether that supports a decision-relevant model is now the route's first question rather than its last.\" The downgrade is still true OF THE RECONSTRUCTION PATH and is confirmed harder — neither of the two cohorts here prints a numbers-at-risk row under ANY of its 7 stratified curves, so none of them is reconstructable at all. What is superseded is the inference that the route therefore waits: it does not consume the reconstruction for its coefficients.",
       "owner": {
         "file": "systems/graph/routes.json"
       }
@@ -8473,7 +8505,9 @@
     },
     "objects": [],
     "evidence": [],
-    "artifacts": [],
+    "artifacts": [
+      "ART-PROGNOSTIC-COEFFICIENTS"
+    ],
     "distinct_from": [],
     "strategy": "ST-CARE-DELIVERY",
     "publication": {
@@ -8493,7 +8527,7 @@
       "status": "ready",
       "maturity": "concept",
       "confidence": "low",
-      "last_verified": "2026-08-09"
+      "last_verified": "2026-08-26"
     },
     "rationale": "Risk stratification is the mechanism by which every other route in this family becomes actionable — surveillance intensity, margin ambition and metastasectomy selection are all decisions about which patients, not whether. It falls out of the reconstructed dataset rather than needing an input of its own.",
     "supporting_evidence": [
@@ -8504,9 +8538,10 @@
       }
     ],
     "remaining_unknowns": [
-      "Whether enough events exist across all reconstructable series to fit anything beyond two or three predictors without overfitting.",
-      "Whether the covariates are even recoverable — a reconstruction returns times and event indicators, not the covariates that would stratify them, so a stratified model needs per-arm curves rather than one pooled curve.",
-      "Whether fusion partner adds prognostic information over size and stage, which RT-PARTNER-STRAT bears on and which no series has tested jointly."
+      "Whether any reachable EMC publication prints a baseline hazard or a reference-group curve with a numbers-at-risk row — without one, no absolute risk is computable from any number this route holds, and that is now the route's binding constraint rather than sample size.",
+      "Whether the three free-to-read series that no automated route can fetch (emc-km-reachability-census-2026-08-25.json) print further Cox tables; the reachable coefficient set is bounded by retrieval, not by the literature.",
+      "Whether fusion partner adds prognostic information over size and stage, which RT-PARTNER-STRAT bears on and which no series has tested jointly.",
+      "⚠ Superseded, retained: \"Whether the covariates are even recoverable — a reconstruction returns times and event indicators, not the covariates that would stratify them, so a stratified model needs per-arm curves rather than one pooled curve.\" ANSWERED, and by a different instrument than the question assumed: the covariates arrive as printed Cox tables, so they never had to survive a reconstruction. The concern was correct about reconstruction and wrong that reconstruction was the only route to them."
     ],
     "required_validation": [
       {
@@ -8527,9 +8562,11 @@
     "readiness": {
       "attainable_today": "internal_note",
       "missing": [
-        "the reconstructed dataset, and per-arm curves rather than pooled ones"
+        "a baseline hazard, without which the ordering cannot become a risk",
+        "patient-level outcomes for any validation at all — discrimination and calibration both need them, and no reachable publication contains them",
+        "⚠ Superseded, retained: \"the reconstructed dataset, and per-arm curves rather than pooled ones.\" Neither is what the route is missing: the printed Cox tables supply the covariates the reconstruction was wanted for."
       ],
-      "why_not_higher": "⚠ A reconstruction recovers times and events, NOT covariates. Stratification requires the source to have published a curve PER STRATUM, and most have not — which bounds this route more tightly than the others in the family."
+      "why_not_higher": "The coefficients are transcribed, guarded and reproducible, but a prognostic ORDERING with no baseline hazard and no validation is an internal note until it is either validated or published explicitly as an ordering. ⚠ Superseded, retained: \"A reconstruction recovers times and events, NOT covariates. Stratification requires the source to have published a curve PER STRATUM, and most have not — which bounds this route more tightly than the others in the family.\" The first sentence stands. The second was the wrong bound: both reachable cohorts DO publish stratified curves — 7 of them — and not one carries a numbers-at-risk row, so what bounds the reconstruction path is journal reporting practice rather than stratified publishing. The route's actual bound is the missing baseline hazard."
     },
     "timing": {
       "recommendation": "pursue_now",
@@ -8537,7 +8574,7 @@
       "cost_trend": "flat"
     },
     "next": {
-      "best_next_action": "Wait on RT-IPD-SURVIVAL, and while waiting record which published EMC series print stratified curves at all — that census decides whether this route is possible.",
+      "best_next_action": "Decide what an ordering-only prognostic statement is worth publishing as. The coefficients are in hand (ART-PROGNOSTIC-COEFFICIENTS) and the missing baseline hazard is not obtainable from any reachable source, so the choice is between reporting the cross-cohort consistency of surgical margin as a short honest note and holding the route until a series prints a reference-group curve with numbers at risk. ⛔ Do NOT re-attempt the reconstruction path for this route's covariates — that question is answered.",
       "cost": "$0"
     },
     "closure_kind": "open"

@@ -1,0 +1,196 @@
+{
+  "_what": "Whether the two EMC series that disagree about radiotherapy actually disagree, and what modalities beyond external-beam have been reported in this histology.",
+  "_not_medical_advice": "Nothing here is medical advice, and nothing here asserts efficacy, safety, a therapeutic window or clinical readiness. Two retrospective series with overlapping intervals do not establish that a treatment works.",
+  "_generated_by": "research/modalities/emc_radiotherapy_contradiction.py",
+  "⭐_the_headline": "RT-RT-INTENSIFY is built on a 'live contradiction' about whether radiotherapy does anything in EMC. Put on one scale, the two series do not contradict each other: Bishop's surgery-alone HR of 12.7 inverts to a radiotherapy effect of 0.0787 (0.0087-0.7143) and Masunaga's is 0.5 (0.11-2.25) -- both protective, intervals overlapping across 0.11-0.7143. The disagreement is in significance, not direction, between two underpowered studies.",
+  "estimates": [
+    {
+      "source_id": "bishop2019",
+      "pmcid": "PMC7771031",
+      "provenance": "primary",
+      "read_from": "literature-cache: icdo-9231-size-round5/pmc_page_PMC7771031_emc_combined_modality.txt (PMC full text, HTTP 200)",
+      "cohort": "41 consecutive patients with localized EMC, MD Anderson, 1990-2016",
+      "n": 41,
+      "median_followup_months": 94,
+      "followup_range_months": [
+        8,
+        316
+      ],
+      "endpoint": "local control",
+      "exposure_as_printed": "surgery alone (the ADVERSE exposure)",
+      "hr": 12.7,
+      "ci": [
+        1.4,
+        115.3
+      ],
+      "p": 0.02,
+      "analysis": "multivariable",
+      "events": 5,
+      "events_note": "5 patients (12 %) with local relapse at a median 75 months (range 13-176); 4 of the 5 had surgery alone",
+      "printed_in": "Abstract and Results: 'the only significant factor associated with poorer LC was the use of surgery alone (10-year LC 63% vs. 100% for CMT, P = 0.004), which remained the only factor also significant on multivariable analysis (P = 0.02, HR 12.7, 95% CI 1.4-115.3)'",
+      "arms": {
+        "preoperative_RT": 23,
+        "postoperative_RT": 10,
+        "surgery_alone": 8
+      },
+      "dose_gy": {
+        "median": 50,
+        "range": [
+          50,
+          65
+        ],
+        "per_arm": null
+      },
+      "ten_year_local_control_percent": {
+        "surgery_alone": 63,
+        "combined_modality": 100
+      },
+      "⚠_the_univariate_table_could_not_be_parsed_reliably": "The cached copy is an HTML page and its univariate table survives tag-stripping as a run of bare numbers whose column headers cannot be recovered. One reading of it puts tumour size > 5 cm at p = 0.02 for local control, which would sit awkwardly beside the abstract's 'the only significant factor'. ⛔ THAT IS NOT REPORTED AS A DISCREPANCY, because a garbled table is not evidence of one -- it is recorded as a thing to check against a clean copy of the paper, and nothing in this module depends on it."
+    },
+    {
+      "source_id": "masunaga2025",
+      "pmcid": "PMC12398172",
+      "provenance": "primary",
+      "read_from": "emc-prognostic-coefficients.json, transcribed from Table 2 and verified against the article text",
+      "cohort": "134 patients localized at diagnosis who underwent surgery, Japanese National Bone and Soft Tissue Tumor Registry, 2002-2022",
+      "n": 134,
+      "median_followup_months": 38,
+      "followup_range_months": null,
+      "endpoint": "local recurrence-free survival",
+      "exposure_as_printed": "(neo)adjuvant radiotherapy (the PROTECTIVE exposure)",
+      "hr": 0.5,
+      "ci": [
+        0.11,
+        2.25
+      ],
+      "p": 0.365,
+      "analysis": "univariate",
+      "events": 16,
+      "events_note": "16 patients (11.9 %) with local recurrence at a median 15 months (IQR 4.5-63.5). ⚠ Radiotherapy was NOT retained by the stepwise multivariable model, which kept surgical margin alone -- so no adjusted radiotherapy estimate exists in this series.",
+      "printed_in": "Table 2, univariate block, '(Neo)adjuvant radiotherapy / Yes / 24 / 0.50 (0.11-2.25) / 0.365'",
+      "arms": {
+        "neoadjuvant_RT": 4,
+        "adjuvant_RT": 20,
+        "no_perioperative_RT": 110
+      },
+      "dose_gy": {
+        "neoadjuvant": [
+          40,
+          50
+        ],
+        "adjuvant": [
+          50,
+          66
+        ],
+        "fractionation": "2 Gy fractions",
+        "per_arm": "ranges only, not per patient"
+      },
+      "ten_year_local_control_percent": null,
+      "⚠_confounded_against_radiotherapy": "The paper states radiotherapy 'is administered to prevent local recurrence in patients with close surgical margins', and reports 10 of 24 irradiated patients (41.7 %) with R1/R2 margins against 20 of 110 (18.2 %) unirradiated. Margin is this paper's strongest local-recurrence covariate (HR 4.76, 1.72-13.15). The treated arm was therefore at higher baseline risk of local recurrence, so 0.50 is a CONSERVATIVE estimate of any protection -- the bias runs against radiotherapy, not for it."
+    }
+  ],
+  "comparison": {
+    "bishop2019_as_printed": {
+      "exposure": "surgery alone (the ADVERSE exposure)",
+      "hr": 12.7,
+      "ci": [
+        1.4,
+        115.3
+      ],
+      "p": 0.02,
+      "endpoint": "local control",
+      "analysis": "multivariable"
+    },
+    "bishop2019_inverted_to_a_radiotherapy_effect": {
+      "hr": 0.0787,
+      "ci": [
+        0.0087,
+        0.7143
+      ]
+    },
+    "masunaga2025_as_printed": {
+      "exposure": "(neo)adjuvant radiotherapy (the PROTECTIVE exposure)",
+      "hr": 0.5,
+      "ci": [
+        0.11,
+        2.25
+      ],
+      "p": 0.365,
+      "endpoint": "local recurrence-free survival",
+      "analysis": "univariate"
+    },
+    "both_point_estimates_protective": true,
+    "intervals_overlap": true,
+    "overlap_interval": [
+      0.11,
+      0.7143
+    ],
+    "⭐_the_reading": "Two estimates of the same direction whose intervals overlap. What separates them is which side of p = 0.05 each fell on, and neither is well powered -- 5 local relapses in one, 16 in the other, and an interval spanning two orders of magnitude in the one that reached significance. ⛔ THIS DOES NOT SHOW RADIOTHERAPY WORKS. It shows the reachable evidence fails to establish the disagreement the route was built on.",
+    "⛔_what_this_comparison_is_not": [
+      "Not a meta-analysis. No pooled hazard ratio is computed and none should be quoted.",
+      "Not a like-for-like conversion: Bishop's endpoint is 10-year local control and Masunaga's is local recurrence-free survival, over 94 and 38 months of median follow-up respectively.",
+      "Not adjusted-vs-adjusted: Bishop's figure is multivariable and Masunaga's is univariate, because its stepwise model dropped radiotherapy entirely.",
+      "Not a claim the two cohorts are comparable: 80 % of Bishop's patients received radiotherapy against 18 % of Masunaga's, which is a difference in practice large enough that the two are describing different treatment cultures."
+    ]
+  },
+  "modality_case_reports": [
+    {
+      "modality": "high_dose_rate_interstitial_brachytherapy",
+      "source": "Takagawa et al., J Contemp Brachytherapy",
+      "pmcid": "PMC9044308",
+      "doi": "10.5114/jcb.2022.115161",
+      "provenance": "primary",
+      "read_from": "literature-cache: emc-radiotherapy-2026-08-26/PMC9044308.txt",
+      "n": 1,
+      "detail": "Metastatic EMC in an 87-year-old woman; 30 Gy in 2 fractions over 1 day per metastatic site, to inguinal nodes, breast and popliteal fossa. Chosen because the patient could not undergo prolonged external-beam treatment."
+    },
+    {
+      "modality": "proton_beam",
+      "source": "Honda et al., as described by Remiszewski et al. 2025",
+      "pmcid": null,
+      "doi": null,
+      "provenance": "secondary",
+      "read_from": "literature-cache: emc-radiotherapy-2026-08-26/PMC12504171.txt (review)",
+      "n": 1,
+      "detail": "EMC of the pelvis, 11 x 6 x 13 cm, treated instead of wide resection with three-dimensional conformal radiotherapy 36 Gy in 10 fractions followed by proton beam radiotherapy 30.8 Gy in 11 fractions, with intra-arterial cisplatin.",
+      "⛔_not_read_directly": "The primary report has not been retrieved; these figures are as the review states them and must not be quoted as read."
+    },
+    {
+      "modality": "preoperative_external_beam",
+      "source": "Improta et al., as described by Remiszewski et al. 2025",
+      "pmcid": "PMC7731621",
+      "doi": null,
+      "provenance": "secondary",
+      "read_from": "literature-cache: emc-radiotherapy-2026-08-26/PMC12504171.txt (review)",
+      "n": 1,
+      "detail": "Locally recurrent EMC of the shoulder; preoperative radiotherapy 50 Gy in 25 fractions over 5 weeks, with no viable tumour cells at resection.",
+      "⛔_not_read_directly": "Its PMCID is known and the full text was not retrieved for this curation; the figures are the review's."
+    }
+  ],
+  "carbon_ion": {
+    "found_in_this_histology": false,
+    "how_searched": "354 open-access full texts retrieved for a radiotherapy-scoped EMC query (literature-cache: emc-radiotherapy-2026-08-26); 228 mention extraskeletal myxoid chondrosarcoma. The 2025 comprehensive EMC review in that corpus (Remiszewski et al., PMC12504171) contains no occurrence of 'carbon' at all.",
+    "⚠_a_search_summary_suggested_otherwise_and_was_not_used": "A web-search synthesis reported that 'two received carbon ion therapy, one received proton beam therapy' in a large clinical series. Read against the sources, that belongs to EXTRACRANIAL CHONDROSARCOMA generally, not to this histology, and it was not carried into this record. An AI search summary is a lead, never a citation.",
+    "⛔_absence_of_evidence": "This is a reading of the reachable open-access corpus, not of the particle registries themselves, which are not open. Carbon-ion treatment of EMC may exist and be unpublished or published behind a paywall. The honest statement is that it does not appear in what this program can read."
+  },
+  "⛔_case_reports_are_existence_proofs": "Brachytherapy and proton beam have each been reported once in this histology, and a preoperative external-beam complete pathological response once. A case report establishes that a thing was DONE and that someone chose to publish it. It carries no denominator, no comparator and a publication bias toward success, so it can answer 'does an arm exist' and can never answer 'does it work'.",
+  "⛔_the_dose_response_is_still_unbuildable": "Both series publish dose at the ARM level -- Bishop a median of 50 Gy over a 50-65 range, Masunaga 40-50 Gy neoadjuvant and 50-66 Gy adjuvant in 2 Gy fractions. A dose-response regression needs dose PER PATIENT against outcome per patient, and neither publishes that. ⚠ So the route's regression remains unbuildable, but the reason is narrower than its readiness states: dose and modality ARE published, just not per patient.",
+  "provenance_split": {
+    "primary": [
+      "bishop2019",
+      "high_dose_rate_interstitial_brachytherapy",
+      "masunaga2025"
+    ],
+    "secondary": [
+      "preoperative_external_beam",
+      "proton_beam"
+    ],
+    "⛔_rule": "POLICY-evidence 1.3 forbids laundering a citation. A record read only in someone else's review says so and may not be quoted as read."
+  },
+  "counts": {
+    "comparable_estimates": 2,
+    "case_reports": 3,
+    "primary_records": 3,
+    "secondary_records": 2
+  }
+}

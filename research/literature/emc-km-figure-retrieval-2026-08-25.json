@@ -1,0 +1,214 @@
+{
+  "_what": "Retrieval record for the Kaplan-Meier figure graphics of the candidate EMC survival series: which route reached each paper, and which could not be reached at all.",
+  "_why": "emc-ipd-admissibility-2026-08-12.json closed with the figure question open and no route to the graphics, having concluded that the OA package's HTTPS mirror was missing. The route that works was neither that mirror nor the OA service: it is europepmc.org's pdf=render endpoint, which returned a real PDF for five of seven targets on the first attempt.",
+  "_not_medical_advice": "Nothing here is medical advice, and nothing here asserts efficacy, safety or clinical readiness.",
+  "_retrieval": {
+    "route": "workflow_dispatch of .github/workflows/fetch-literature.yml, slug km-figures-2026-08-25",
+    "actions_run_id": 32903796837,
+    "branch": "claude/max-credits-burndown-fianyt",
+    "published_to": "origin/literature-cache -> literature/km-figures-2026-08-25/",
+    "date_et": "2026-08-25",
+    "renderer": "pdftoppm -r 200 -png (poppler), every page, captions used only to LABEL pages"
+  },
+  "⛔_retrieval_is_not_reading": "A retrieved figure is not an admissible curve. What the graphics actually show is recorded per candidate in emc_ipd_survival.CANDIDATE_SOURCES[].figure_finding, and the one curve that was read is in km-figure-readings.json.",
+  "_totals": {
+    "targets": 7,
+    "with_assets": 5,
+    "published_bytes": 36788028,
+    "byte_cap": 62914560
+  },
+  "targets": [
+    {
+      "source_id": "masunaga2025",
+      "pmcid": "PMC12398172",
+      "route_used": "europepmc_pdf_render",
+      "routes_tried": [
+        {
+          "route": "europepmc_pdf_render",
+          "url": "https://europepmc.org/articles/PMC12398172?pdf=render",
+          "http": 200,
+          "content_type": "application/pdf",
+          "bytes": 1763019,
+          "kind": "pdf"
+        }
+      ],
+      "oa_service": {
+        "lookup_url": "https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?id=PMC12398172",
+        "http": 404,
+        "content_type": "text/html; charset=ISO-8859-1",
+        "tgz": null,
+        "pdf": null,
+        "error_code": null,
+        "license": null
+      },
+      "pages_rasterised": 12,
+      "pdf_bytes": 1763019,
+      "⛔": null
+    },
+    {
+      "source_id": "chiusole2020",
+      "pmcid": "PMC7308468",
+      "route_used": "europepmc_pdf_render",
+      "routes_tried": [
+        {
+          "route": "europepmc_pdf_render",
+          "url": "https://europepmc.org/articles/PMC7308468?pdf=render",
+          "http": 200,
+          "content_type": "application/pdf",
+          "bytes": 439160,
+          "kind": "pdf"
+        }
+      ],
+      "oa_service": {
+        "lookup_url": "https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?id=PMC7308468",
+        "http": 404,
+        "content_type": "text/html; charset=ISO-8859-1",
+        "tgz": null,
+        "pdf": null,
+        "error_code": null,
+        "license": null
+      },
+      "pages_rasterised": 7,
+      "pdf_bytes": 439160,
+      "⛔": null
+    },
+    {
+      "source_id": "martinbroto2020immunosarc1",
+      "pmcid": "PMC7674086",
+      "route_used": "europepmc_pdf_render",
+      "routes_tried": [
+        {
+          "route": "europepmc_pdf_render",
+          "url": "https://europepmc.org/articles/PMC7674086?pdf=render",
+          "http": 200,
+          "content_type": "application/pdf",
+          "bytes": 529371,
+          "kind": "pdf"
+        }
+      ],
+      "oa_service": {
+        "lookup_url": "https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?id=PMC7674086",
+        "http": 404,
+        "content_type": "text/html; charset=ISO-8859-1",
+        "tgz": null,
+        "pdf": null,
+        "error_code": null,
+        "license": null
+      },
+      "pages_rasterised": 11,
+      "pdf_bytes": 529371,
+      "⛔": null
+    },
+    {
+      "source_id": "morioka2016trabectedin",
+      "pmcid": "PMC4946242",
+      "route_used": "europepmc_pdf_render",
+      "routes_tried": [
+        {
+          "route": "europepmc_pdf_render",
+          "url": "https://europepmc.org/articles/PMC4946242?pdf=render",
+          "http": 200,
+          "content_type": "application/pdf",
+          "bytes": 811863,
+          "kind": "pdf"
+        }
+      ],
+      "oa_service": {
+        "lookup_url": "https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?id=PMC4946242",
+        "http": 404,
+        "content_type": "text/html; charset=ISO-8859-1",
+        "tgz": null,
+        "pdf": null,
+        "error_code": null,
+        "license": null
+      },
+      "pages_rasterised": 8,
+      "pdf_bytes": 811863,
+      "⛔": null
+    },
+    {
+      "source_id": "stacchiotti2013anthracycline",
+      "pmcid": "PMC3879193",
+      "route_used": "europepmc_pdf_render",
+      "routes_tried": [
+        {
+          "route": "europepmc_pdf_render",
+          "url": "https://europepmc.org/articles/PMC3879193?pdf=render",
+          "http": 200,
+          "content_type": "application/pdf",
+          "bytes": 2609773,
+          "kind": "pdf"
+        }
+      ],
+      "oa_service": {
+        "lookup_url": "https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?id=PMC3879193",
+        "http": 404,
+        "content_type": "text/html; charset=ISO-8859-1",
+        "tgz": null,
+        "pdf": null,
+        "error_code": null,
+        "license": null
+      },
+      "pages_rasterised": 7,
+      "pdf_bytes": 2609773,
+      "⛔": null
+    },
+    {
+      "source_id": "drilon2008",
+      "pmcid": "PMC2779719",
+      "route_used": null,
+      "routes_tried": [
+        {
+          "route": "europepmc_pdf_render",
+          "url": "https://europepmc.org/articles/PMC2779719?pdf=render",
+          "http": 500,
+          "content_type": "application/json;charset=UTF-8",
+          "bytes": 57,
+          "kind": "not-a-figure-source",
+          "head": "{\"error\": \"Failed to retrieve PDF for pmcid: PMC2779719\"}"
+        }
+      ],
+      "oa_service": {
+        "lookup_url": "https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?id=PMC2779719",
+        "http": 404,
+        "content_type": "text/html; charset=ISO-8859-1",
+        "tgz": null,
+        "pdf": null,
+        "error_code": null,
+        "license": null
+      },
+      "pages_rasterised": 0,
+      "pdf_bytes": null,
+      "⛔": "no route returned a figure source. This is a reachability finding about THIS run, not a statement that the paper prints no curve."
+    },
+    {
+      "source_id": "bishop2019",
+      "pmcid": "PMC7771031",
+      "route_used": null,
+      "routes_tried": [
+        {
+          "route": "europepmc_pdf_render",
+          "url": "https://europepmc.org/articles/PMC7771031?pdf=render",
+          "http": 500,
+          "content_type": "application/json;charset=UTF-8",
+          "bytes": 57,
+          "kind": "not-a-figure-source",
+          "head": "{\"error\": \"Failed to retrieve PDF for pmcid: PMC7771031\"}"
+        }
+      ],
+      "oa_service": {
+        "lookup_url": "https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?id=PMC7771031",
+        "http": 404,
+        "content_type": "text/html; charset=ISO-8859-1",
+        "tgz": null,
+        "pdf": null,
+        "error_code": null,
+        "license": null
+      },
+      "pages_rasterised": 0,
+      "pdf_bytes": null,
+      "⛔": "no route returned a figure source. This is a reachability finding about THIS run, not a statement that the paper prints no curve."
+    }
+  ],
+  "⭐_two_papers_remain_unreachable": "drilon2008 (PMC2779719) and bishop2019 (PMC7771031) returned HTTP 500 from pdf=render, consistent with the 2026-08-12 finding that the OA service reports them as not open access. Their figure_checked stays False, and that is a REACHABILITY statement about this program's $0 routes, never a statement about the papers."
+}

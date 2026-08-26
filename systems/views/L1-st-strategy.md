@@ -60,7 +60,7 @@ flowchart LR
 | route | state | maturity | readiness today | ends in | next action |
 |---|---|---|---|---|---|
 | **[RT-SCHEDULING](L2-rt-scheduling.md)**<br/>Adaptive and metronomic scheduling of existing agents | ✓ blocked | computed | `internal_note` | [PUB-STRATEGY-ARCH](L3-publications.md) ◐ *contributing* | Build the two-population model with each median carried separately as its own parameter interval, and the one  |
-| **[RT-SEQUENCING](L2-rt-sequencing.md)**<br/>Treatment sequencing and line ordering | ✓ parked | computed | `internal_note` | [PUB-STRATEGY-ARCH](L3-publications.md) ◐ *contributing* | Report the negative in the strategy paper: the sequencing question in this disease has no evidence base, state |
+| **[RT-SEQUENCING](L2-rt-sequencing.md)**<br/>Treatment sequencing and line ordering | ✓ parked | computed | `internal_note` | [PUB-STRATEGY-ARCH](L3-publications.md) ◐ *contributing* | Unchanged in substance and sharpened in content: report the negative, now with the specific gap it fills — the |
 | **[RT-TRIAL-REACH](L2-rt-trial-reach.md)**<br/>Trial reachability and access pathways | ✓ ready | computed | `internal_note` | [PUB-STRATEGY-ARCH](L3-publications.md) ◐ *contributing* | Publish the eligibility map — this is the one route in the portfolio whose output could reach a patient withou |
 ## Best next action
 

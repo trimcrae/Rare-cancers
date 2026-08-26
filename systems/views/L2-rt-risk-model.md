@@ -18,9 +18,9 @@ last_verified: 2026-08-05
 
 # RT-RISK-MODEL — A prognostic risk model for EMC
 
-**Family:** [ST-CARE-DELIVERY](L1-st-care-delivery.md) · **state:** ○ ready · concept · confidence low · verified 2026-08-09
+**Family:** [ST-CARE-DELIVERY](L1-st-care-delivery.md) · **state:** ○ ready · concept · confidence low · verified 2026-08-26
 
-**Grade** (owned by [`systems/graph/routes.json`](../graph/routes.json)): No validated EMC risk model exists — `nomogram` returns zero files repo-wide and no published EMC series presents one. Size, site, age, rhabdoid features, cellularity and fusion partner are each reported prognostic somewhere, and never together. ⚠ Any model built on a few hundred reconstructed patients will be badly overfit unless it is held to a handful of predictors and reported with an honest optimism correction; a well-calibrated three-variable model is the realistic ceiling here.  ⚠ INHERITS THE 2026-08-09 FEASIBILITY DOWNGRADE ON RT-IPD-SURVIVAL: only 19 of 340 EMC full texts print a Kaplan-Meier curve at all, so the reconstructed hazard this route consumes will rest on single-digit poolable curves and a few hundred patients. Whether that supports a decision-relevant model is now the route's first question rather than its last.
+**Grade** (owned by [`systems/graph/routes.json`](../graph/routes.json)): ⭐ RE-GRADED 2026-08-26 — THE COEFFICIENTS DO NOT HAVE TO BE ESTIMATED, THEY ARE ALREADY PRINTED. This route was written as though a model had to be FITTED, which made it wait on reconstructed patient-level data. The two largest reachable open-access EMC series each print FITTED COX MODELS with hazard ratios, 95 % intervals and per-level patient counts — 7 models and 45 estimable coefficients across four endpoints, in emc-prognostic-coefficients.json. So the prognostic ORDERING is reachable today at $0.  ⛔ WHAT IS STRUCTURALLY UNREACHABLE FROM PRINT IS THE HALF A RISK MODEL IS FOR: neither paper prints a baseline hazard, or a reference-group curve with a numbers-at-risk row that one could be recovered from. Coefficients alone rank patients by risk and can never price any patient's risk — no survival probability, no nomogram, no n-year risk, and no validation, since discrimination and calibration both need patient-level outcomes. A model published from this is an ordering and must say so.  ⚠ AND THE TWO COHORTS ARE CONSISTENT RATHER THAN CORROBORATING. 11 of 12 cross-cohort comparisons agree in direction and all 12 pairs of intervals overlap, but 9 of the 12 are between intervals that BOTH include 1, and in NOT ONE does both cohorts' interval exclude 1. Only surgical margin holds its direction across four endpoints and two cohorts while reaching significance in the larger one. The single directional disagreement — sex on local recurrence — is between two null results and is not a contradiction.  No validated EMC risk model exists — `nomogram` returns zero files repo-wide and no published EMC series presents one. ⚠ Any model FITTED on a few hundred reconstructed patients would be badly overfit unless held to a handful of predictors with an honest optimism correction; a well-calibrated three-variable model is the realistic ceiling for that path.  ⚠ Superseded, retained: "INHERITS THE 2026-08-09 FEASIBILITY DOWNGRADE ON RT-IPD-SURVIVAL: only 19 of 340 EMC full texts print a Kaplan-Meier curve at all, so the reconstructed hazard this route consumes will rest on single-digit poolable curves and a few hundred patients. Whether that supports a decision-relevant model is now the route's first question rather than its last." The downgrade is still true OF THE RECONSTRUCTION PATH and is confirmed harder — neither of the two cohorts here prints a numbers-at-risk row under ANY of its 7 stratified curves, so none of them is reconstructable at all. What is superseded is the inference that the route therefore waits: it does not consume the reconstruction for its coefficients.
 
 ## What has to land for this route to move
 
@@ -51,9 +51,10 @@ Risk stratification is the mechanism by which every other route in this family b
 
 ## Remaining unknowns
 
-- Whether enough events exist across all reconstructable series to fit anything beyond two or three predictors without overfitting.
-- Whether the covariates are even recoverable — a reconstruction returns times and event indicators, not the covariates that would stratify them, so a stratified model needs per-arm curves rather than one pooled curve.
+- Whether any reachable EMC publication prints a baseline hazard or a reference-group curve with a numbers-at-risk row — without one, no absolute risk is computable from any number this route holds, and that is now the route's binding constraint rather than sample size.
+- Whether the three free-to-read series that no automated route can fetch (emc-km-reachability-census-2026-08-25.json) print further Cox tables; the reachable coefficient set is bounded by retrieval, not by the literature.
 - Whether fusion partner adds prognostic information over size and stage, which RT-PARTNER-STRAT bears on and which no series has tested jointly.
+- ⚠ Superseded, retained: "Whether the covariates are even recoverable — a reconstruction returns times and event indicators, not the covariates that would stratify them, so a stratified model needs per-arm curves rather than one pooled curve." ANSWERED, and by a different instrument than the question assumed: the covariates arrive as printed Cox tables, so they never had to survive a reconstruction. The concern was correct about reconstruction and wrong that reconstruction was the only route to them.
 
 ## Required validation
 
@@ -72,10 +73,12 @@ Risk stratification is the mechanism by which every other route in this family b
 
 **`internal_note`**
 
-⚠ A reconstruction recovers times and events, NOT covariates. Stratification requires the source to have published a curve PER STRATUM, and most have not — which bounds this route more tightly than the others in the family.
+The coefficients are transcribed, guarded and reproducible, but a prognostic ORDERING with no baseline hazard and no validation is an internal note until it is either validated or published explicitly as an ordering. ⚠ Superseded, retained: "A reconstruction recovers times and events, NOT covariates. Stratification requires the source to have published a curve PER STRATUM, and most have not — which bounds this route more tightly than the others in the family." The first sentence stands. The second was the wrong bound: both reachable cohorts DO publish stratified curves — 7 of them — and not one carries a numbers-at-risk row, so what bounds the reconstruction path is journal reporting practice rather than stratified publishing. The route's actual bound is the missing baseline hazard.
 
 **Missing:**
-- the reconstructed dataset, and per-arm curves rather than pooled ones
+- a baseline hazard, without which the ordering cannot become a risk
+- patient-level outcomes for any validation at all — discrimination and calibration both need them, and no reachable publication contains them
+- ⚠ Superseded, retained: "the reconstructed dataset, and per-arm curves rather than pooled ones." Neither is what the route is missing: the printed Cox tables supply the covariates the reconstruction was wanted for.
 
 ## Where this route ends — the paper
 
@@ -111,8 +114,14 @@ Every input is either committed or free to curate, and the work is $0.
 
 ## Best next action
 
-Wait on RT-IPD-SURVIVAL, and while waiting record which published EMC series print stratified curves at all — that census decides whether this route is possible.
+Decide what an ordering-only prognostic statement is worth publishing as. The coefficients are in hand (ART-PROGNOSTIC-COEFFICIENTS) and the missing baseline hazard is not obtainable from any reachable source, so the choice is between reporting the cross-cohort consistency of surgical margin as a short honest note and holding the route until a series prints a reference-group curve with numbers at risk. ⛔ Do NOT re-attempt the reconstruction path for this route's covariates — that question is answered.
 
 *Cost:* $0
+
+## What this route rests on — drill down
+
+*L4 instruments and L5 objects, evidence and artifacts. Every row here is asserted by this route; the [evidence base](L5-evidence-base.md) shows the same edges from the other end.*
+
+**L5 artifacts:** [ART-PROGNOSTIC-COEFFICIENTS](L5-evidence-base.md#artifacts--the-files-a-claim-can-be-checked-against)
 
 [← ST-CARE-DELIVERY](L1-st-care-delivery.md) · [← L0](L0-ecosystem.md)

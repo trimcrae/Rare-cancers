@@ -18,9 +18,9 @@ last_verified: 2026-08-05
 
 # RT-LIMB-PERFUSION — Isolated limb perfusion for extremity disease
 
-**Family:** [ST-LOCOREGIONAL](L1-st-locoregional.md) · **state:** ✓ blocked · computed · confidence low · verified 2026-08-09
+**Family:** [ST-LOCOREGIONAL](L1-st-locoregional.md) · **state:** ✓ blocked · computed · confidence low · verified 2026-08-25
 
-**Grade** (owned by [`research/modalities/emc-locoregional-eligibility.json`](../../research/modalities/emc-locoregional-eligibility.json)): ⚠ NOT GRADEABLE ON ELIGIBILITY — THE ONE NUMBER THIS ROUTE NEEDS IS NOT A CURATED FIELD (2026-08-09). Isolated limb perfusion is offerable only for an extremity primary, so the eligible fraction IS the extremity fraction. ⛔ No cohort in the registry carries a site field: the registry's site information is a prose ordering with no counts behind it, and a prose ordering cannot become a denominator. That is an absent reading, NOT a reading of absence — nothing here says the extremity fraction is low, and the premise remains untested. ⭐ What the arithmetic DID supply is the size of the problem this route addresses: local recurrence runs at a substantial minority across four non-overlapping series, with a wide between-study range the pooled figure hides.
+**Grade** (owned by [`research/modalities/emc-locoregional-eligibility.json`](../../research/modalities/emc-locoregional-eligibility.json)): ⚠ NOT GRADEABLE ON ELIGIBILITY — THE ONE NUMBER THIS ROUTE NEEDS IS NOT A CURATED FIELD (2026-08-09). Isolated limb perfusion is offerable only for an extremity primary, so the eligible fraction IS the extremity fraction. ⛔ No cohort in the registry carries a site field: the registry's site information is a prose ordering with no counts behind it, and a prose ordering cannot become a denominator. That is an absent reading, NOT a reading of absence — nothing here says the extremity fraction is low, and the premise remains untested. ⭐ What the arithmetic DID supply is the size of the problem this route addresses: local recurrence runs at a substantial minority across four non-overlapping series, with a wide between-study range the pooled figure hides.  ⭐ 2026-08-25 — THE ELIGIBLE FRACTION IS NOW COMPUTED, AND ITS UNCERTAINTY IS A DEFINITION RATHER THAN A SAMPLE SIZE. Isolated limb perfusion is offerable only for an extremity primary, so the eligible fraction IS the extremity fraction, and that quantity was recorded as NOT COMPUTABLE because no registry cohort carries a site field. It was never a literature problem: the site tables are printed in the primary reports, and transcribing the two open-access ones (`emc-site-curation.json`, 230 patients across an Italian two-institution series and a Japanese national registry study) gives **70.4% (64.2-76.0) on a strict limb-only reading and 85.7% (80.5-89.6) once the junctional girdle sites are admitted** — shoulder, groin, axilla and buttock, 35 of 171 patients in one series, every one a primary a perfusion service would argue about rather than refuse. ⛔ THE GAP BETWEEN THE TWO READINGS IS WIDER THAN THE CONFIDENCE INTERVAL ON EITHER, so anyone quoting a single extremity fraction for this disease is quoting a category boundary they did not state. ⚠ Nothing here says perfusion works; it sizes who it could be OFFERED to.
 
 ## What has to land for this route to move
 
@@ -114,5 +114,11 @@ The remaining steps are $0 curation and literature search, both self-doable.
 Curate primary anatomical site from the open-access pooled series, then search the perfusion literature for myxoid histologies.
 
 *Cost:* $0
+
+## What this route rests on — drill down
+
+*L4 instruments and L5 objects, evidence and artifacts. Every row here is asserted by this route; the [evidence base](L5-evidence-base.md) shows the same edges from the other end.*
+
+**L5 artifacts:** [ART-SITE-CURATION](L5-evidence-base.md#artifacts--the-files-a-claim-can-be-checked-against)
 
 [← ST-LOCOREGIONAL](L1-st-locoregional.md) · [← L0](L0-ecosystem.md)
