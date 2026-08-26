@@ -33,9 +33,23 @@ no repo and no GitHub tools. It fires, reports `SUCCEEDED`, and delivers nothing
 
 | setting | value | why |
 |---|---|---|
-| **Source** | attach `trimcrae/Rare-cancers` | This, and only this, is what grants the fired session the repo and the `mcp__github__*` tools. |
-| **Model** | pin it explicitly | Measured 2026-08-26: a fired session ran on a *different model* than its parent. Unpinned, the research loop can change model with nothing in any artifact to show it. |
-| **New session each fire** | yes | Fresh context per cycle is deliberate — architecture §4.1. |
+| **Repository** | attach `trimcrae/Rare-cancers` | ⛔ **THE ONE THAT DECIDES WHETHER ANY OF THIS WORKS.** It defaults to unset, showing "Default" — and unset is the known failure: no repo, no `mcp__github__*`, dies at the prompt's first line, reports `SUCCEEDED`. |
+| **Model** | pin it explicitly (Opus 5) | Measured 2026-08-26: a fired session ran on a *different model* than its parent. Unpinned, the research loop can change model with nothing in any artifact to show it. |
+| **Connectors** | ⛔ remove every one, including `visualize` | The UI warns, correctly, that a connector's tools — writes included — are used without asking during a run. Neither Routine needs one. |
+| **Notify when the routine finishes** | ⛔ **OFF for the driver, ON (push) for the sweep** | The driver fires ~6×/day and its whole contract is to stay silent unless one of the four escalations fired. A per-run summary would undo that, and six pings a day is the noise that makes the real message invisible. The sweep is the one whose job IS to notify. |
+| **Auto-fix pull requests** | off | The loop commits to `main` directly and opens no PRs, so the setting is moot. |
+
+⚠ **THERE IS NO "new session each fire" SETTING, AND LOOKING FOR ONE WASTES A MINUTE** (trimcrae found
+this while creating them, 2026-08-26). A *scheduled* Routine always starts a fresh session; the
+persistent-session mode exists only for a trigger an agent creates and binds to a named session
+(`persistent_session_id`), which the UI has no way to express. So architecture §4.1's fresh context per
+cycle is the platform's default here, not something to configure. ⛔ *Superseded, retained: this table
+listed "New session each fire: yes" as a setting to choose.*
+
+⚠ **The trigger picker takes friendly times, not cron.** The sweep's daily time maps directly. For the
+driver, use an every-4-hours option if the picker offers one; if it only offers daily, use **"Add
+another trigger"** six times at 12:13 AM / 4:13 AM / 8:13 AM / 12:13 PM / 4:13 PM / 8:13 PM ET, which is
+the same schedule. The cron strings below are the canonical form for anything creating these by API.
 
 ---
 
