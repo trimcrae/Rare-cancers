@@ -246,8 +246,86 @@ def apply_clamps(entries: list[dict], weights: dict) -> list[dict]:
     return entries
 
 
+# Fields the GRAPH owns: regenerated from systems/graph every re-score, and an edit to them here
+# would be overwritten anyway. Everything else on an entry belongs to the SESSION that touched it.
+SESSION_OWNED = ("owner", "attempts", "retry_budget", "blocked_evidence")
+# States a session sets. `queued`/`blocked` are re-derived from the graph; these are not.
+SESSION_STATES = {"running", "done", "abandoned"}
+
+
+def load_existing() -> dict | None:
+    try:
+        with LEDGER_FILE.open() as fh:
+            return json.load(fh)
+    except Exception:
+        return None
+
+
+def merge(generated: list[dict], existing: dict | None) -> list[dict]:
+    """Carry the previous ledger's SESSION state onto the freshly derived entries.
+
+    ⛔⛔ WITHOUT THIS, `--write` IS A DATA-LOSS BUG, AND IT WAS ONE. Found by running the first real
+    cycle by hand on 2026-08-26 (receipt CYC-0001): step 3 of every cycle re-scores with `--write`,
+    which regenerated all 77 entries from the graph and silently destroyed
+
+        - every hand-added entry — though the ledger's own `_role` says a session may add one the
+          graph cannot express, so every filed proposal and process_defect would have evaporated;
+        - `owner`, so step 4's "claim the item before working" was undone by the NEXT cycle's step 3,
+          which is precisely the "work with no owner is indistinguishable from work in progress"
+          failure the whole ledger exists to prevent;
+        - `attempts`, `retry_budget` and `blocked_evidence` — so a route could be retried forever and
+          the scorer's `fruitless_attempts` penalty could never fire.
+
+    ⭐ AND THE IDS WERE POSITIONAL, which is the quieter half. `AUT-{index+1}` over sorted routes
+    means adding ONE route to the graph renumbers everything after it, so `AUT-049` written into a
+    receipt would later name a DIFFERENT route — a silent rewrite of the historical record. Ids are
+    now assigned once per route and persisted here.
+    """
+    if not existing or not isinstance(existing.get("entries"), list):
+        return generated
+
+    prior = existing["entries"]
+    by_route = {e["serves"]["route"]: e for e in prior
+                if isinstance(e.get("serves"), dict) and e["serves"].get("route")}
+    used = set()
+    for e in prior:
+        try:
+            used.add(int(str(e.get("id", "")).rsplit("-", 1)[-1]))
+        except ValueError:
+            pass
+    next_id = max(used) + 1 if used else 1
+
+    for entry in generated:
+        old_entry = by_route.get(entry["serves"]["route"])
+        if old_entry is None:
+            while next_id in used:
+                next_id += 1
+            entry["id"] = f"AUT-{next_id:03d}"
+            used.add(next_id)
+            continue
+        entry["id"] = old_entry["id"]  # stable across graph growth
+        for key in SESSION_OWNED:
+            if old_entry.get(key) not in (None, 0):
+                entry[key] = old_entry[key]
+        if old_entry.get("state") in SESSION_STATES:
+            entry["state"] = old_entry["state"]
+        if str(old_entry.get("last_evidence_utc") or "") > str(entry.get("last_evidence_utc") or ""):
+            entry["last_evidence_utc"] = old_entry["last_evidence_utc"]
+        for key, value in old_entry.items():  # forward-compat: never drop a key we do not know
+            entry.setdefault(key, value)
+
+    # Entries the graph does not produce — proposals, process_defect rows, anything a session filed.
+    derived_ids = {e["id"] for e in generated}
+    kept = [e for e in prior if e.get("id") not in derived_ids
+            and not (isinstance(e.get("serves"), dict) and e["serves"].get("route") in by_route
+                     and e["serves"]["route"] in {g["serves"]["route"] for g in generated})]
+    return generated + kept
+
+
 def build_ledger() -> dict:
-    entries = build_entries()
+    entries = merge(build_entries(), load_existing())
+    entries.sort(key=lambda e: (-(e.get("score") if e.get("score") is not None else -1e9),
+                                str(e.get("serves", {}).get("route") or e["id"])))
     return {
         "_schema": "emc-research-ledger/1",
         "_role": (

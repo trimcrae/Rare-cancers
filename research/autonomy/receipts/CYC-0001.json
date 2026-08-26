@@ -1,0 +1,65 @@
+{
+  "_schema": "emc-autonomy-receipt/1",
+  "cycle_id": "CYC-0001",
+  "started_utc": "2026-08-26T17:56:00Z",
+  "finished_utc": "2026-08-26T18:20:00Z",
+  "session_id": "session_011zRMmQKPj7ziG3gY9yhpBQ",
+  "kind": "research",
+  "_kind_note": "The first REAL cycle, run by hand — architecture phase 2. Run deliberately BEFORE the driver Routine's first fire (20:13Z) so that fire would not be the contract's first-ever execution. That was the right call: the cycle found two data-loss bugs in the ledger, either of which would have corrupted the loop's memory silently.",
+
+  "took": ["AUT-049 — RT-PARTNER-STRAT, the queue's top-scored item (195.0): post the fusion-partner preprint and send three paywalled-table requests"],
+
+  "route_advanced": "none",
+  "_route_advanced_why": "⭐ HONEST, AND IT IS THE SECOND CONSECUTIVE `none`, WHICH IS THE ALARM WORKING. This cycle produced no new EMC evidence. It determined, with evidence, exactly what stands between the top-ranked paper and posting, and it repaired the machinery — real work, but not the route's science. Writing a route id here because the cycle felt productive is exactly the inflation that would disable the only alarm pointed at CLAUDE.md §0's failure mode. A third `none` should trip advancing_live_work, and it should be allowed to.",
+
+  "blocked_by": [
+    {"path": "research/autonomy/publish_bar.py", "what": "clauses 1, 2 and 6 UNVERIFIABLE — no hardening record, no PREFLIGHT_FULL receipt on the posted commit, no blind seat"},
+    {"path": "research/autonomy/publication-authority.json", "what": "the item's email half — outreach to corresponding authors — is covered by no grant"}
+  ],
+
+  "what_the_bar_said": {
+    "paper": "PUB-FUSION-PARTNER",
+    "verdict": "BLOCKED, 3 of 6 clauses",
+    "passing": ["claim strength within the endpoint's ceiling", "every identifier traces to a fetch or the ledger", "the endpoint is a declared falsifiable claim"],
+    "unverifiable": ["hardening converged", "PREFLIGHT_FULL green on the posted commit", "a blind adversarial seat finds the claim supported"],
+    "authority": "granted (aiXiv, bar-scoped) — so the GRANT is not what blocks this; the EVIDENCE is. That is the intended shape.",
+    "_note": "⭐ The bar behaved exactly as designed on a real paper: it did not refuse the paper, it refused the absence of evidence, and it named the three artifacts that would settle it."
+  },
+
+  "defects_found_in_own_process": [
+    {
+      "id": "PD-003",
+      "what": "`priority.py --write` regenerated all 77 entries from the graph and DESTROYED every session-owned field: hand-added entries, `owner`, `attempts`, `retry_budget`, `blocked_evidence`.",
+      "evidence": "Ran step 3 of the contract. AUT-PROP-001 — filed one commit earlier — was gone. Confirmed by diff: 23 deletions.",
+      "why_it_matters": "⛔ THE LEDGER IS THE LOOP'S ONLY MEMORY, AND STEP 3 OF EVERY CYCLE WAS ERASING IT ON A FOUR-HOUR CADENCE. Step 4 says claim an item before working; the next cycle's step 3 unclaimed it. Every filed proposal and process_defect would have evaporated within four hours, and the scorer's fruitless_attempts penalty could never have fired because attempts always read 0.",
+      "fixed": true,
+      "fix": "merge-on-write in priority.py: session-owned fields carried forward, session-set states preserved, unknown keys never dropped, hand-added entries kept. Five tests plus a mutation test that bypasses merge and asserts the preservation actually breaks."
+    },
+    {
+      "id": "PD-004",
+      "what": "Entry ids were positional — `AUT-{index+1}` over sorted routes — so adding ONE route to the graph renumbered every entry after it.",
+      "evidence": "Read at source in priority.py line 192; confirmed AUT-001..003 map to RT-6MP, RT-AF3-INTERFACE, RT-ALK-HIT purely by sort order.",
+      "why_it_matters": "The quieter half, and the worse one. A receipt naming AUT-049 would afterwards name a DIFFERENT route — a silent rewrite of the historical record, undetectable by any gate.",
+      "fixed": true,
+      "fix": "ids are assigned once per route and persisted through the merge; a new route takes the next unused number. Guarded by test_an_entry_id_is_stable_when_the_graph_grows."
+    }
+  ],
+
+  "changed": [
+    "research/autonomy/priority.py — merge-on-write and stable ids",
+    "systems/tests/test_autonomy_priority.py — 6 new guards, one of them a mutation test (14 total)",
+    "research/autonomy/research-ledger.json — AUT-049 written back with its block and the evidence for it; AUT-PROP-002/003/004 filed"
+  ],
+
+  "queued_next": [
+    "AUT-PROP-002 — hardening round on PUB-FUSION-PARTNER (bar clause 1)",
+    "AUT-PROP-003 — blind adversarial seat on the pinned commit (bar clause 6)",
+    "AUT-PROP-004 — ESCALATE the corresponding-author emails; they are granted to nobody"
+  ],
+
+  "cost": {
+    "_points_at": "research/compute/pricing.md",
+    "real_dollars": "none — no GPU, no metered API",
+    "claude_budget": "one interactive session"
+  }
+}

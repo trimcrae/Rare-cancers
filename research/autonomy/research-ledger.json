@@ -8,25 +8,26 @@
     "experiment": 23,
     "fetch": 11,
     "negative": 32,
+    "process_defect": 1,
     "regrade": 7,
     "write": 4
   },
   "n_by_state": {
-    "queued": 77
+    "queued": 78
   },
   "n_clamped": 11,
   "entries": [
     {
-      "id": "AUT-PROP-001",
-      "what": "PROPOSAL (filed, not applied): teach systems_check.check_scan_interop the `venue` trigger_kind, so a venue trigger may be scanned while its consequence is verified in research/autonomy/venue-fit.json rather than in systems/graph/technologies.json. Then re-enable scan_enabled on the three TRG-VENUE-* triggers.",
-      "serves": {
-        "route": null,
-        "publication": null,
-        "strategy": null
-      },
-      "kind": "process_defect",
+      "id": "AUT-PROP-002",
+      "kind": "harden",
       "state": "queued",
       "owner": null,
+      "what": "Run a hardening round on PUB-FUSION-PARTNER and record it to research/autonomy/hardening-state/PUB-FUSION-PARTNER.json \u2014 publish_bar clause 1. Load `paper-hardening`; review a PINNED commit.",
+      "serves": {
+        "route": "RT-PARTNER-STRAT",
+        "publication": "PUB-FUSION-PARTNER",
+        "strategy": "ST-REPURPOSING"
+      },
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -35,9 +36,54 @@
       "attempts": 0,
       "last_evidence_utc": "2026-08-26",
       "score": null,
-      "_score_is_null_why": "Not scored: the scorer ranks RESEARCH against the north star and this is loop maintenance. A process_defect entry is taken by a retrospective cycle, not by the priority queue \u2014 giving it a score would put loop upkeep in competition with EMC routes, which is the wrong contest.",
-      "filed_by": "CYC-0000-BOOTSTRAP",
-      "why_not_applied_now": "\u26d4 THE INVARIANT FIRED ON ITS OWN AUTHOR. [X3] blocked this cycle, and amendment_guard.py refuses a cycle that edits the check blocking it. The change is probably correct; making it HERE would have been the exact move the guard exists to stop, and a rule that bends for the person who wrote it is not a rule."
+      "_score_is_null_why": "Derived from a bar clause, not from the graph; taken because its parent entry is blocked on it.",
+      "filed_by": "CYC-0001"
+    },
+    {
+      "id": "AUT-PROP-003",
+      "kind": "analysis",
+      "state": "queued",
+      "owner": null,
+      "what": "Run a BLIND adversarial seat on PUB-FUSION-PARTNER at the posted commit and record it to research/autonomy/review-seats/ \u2014 publish_bar clause 6. The seat must be blind and must review the pinned sha, or it is not independent evidence.",
+      "serves": {
+        "route": "RT-PARTNER-STRAT",
+        "publication": "PUB-FUSION-PARTNER",
+        "strategy": "ST-REPURPOSING"
+      },
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-26",
+      "score": null,
+      "_score_is_null_why": "Derived from a bar clause, not from the graph.",
+      "filed_by": "CYC-0001"
+    },
+    {
+      "id": "AUT-PROP-004",
+      "kind": "write",
+      "state": "queued",
+      "owner": null,
+      "what": "ESCALATE, do not perform: the three paywalled-table requests to corresponding authors named in section 6 of the fusion-partner paper. Email is outward-facing and covered by NO grant \u2014 publication-authority.json `everything_else.standing_grant: false`.",
+      "serves": {
+        "route": "RT-PARTNER-STRAT",
+        "publication": "PUB-FUSION-PARTNER",
+        "strategy": "ST-REPURPOSING"
+      },
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": [
+        "research/autonomy/publication-authority.json"
+      ],
+      "blocked_evidence": "publication-authority.json: outreach was never granted. Only trimcrae sends these.",
+      "retry_budget": 1,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-26",
+      "score": null,
+      "_score_is_null_why": "Blocked on a human grant; not a scored research item.",
+      "filed_by": "CYC-0001"
     },
     {
       "id": "AUT-049",
@@ -48,14 +94,16 @@
         "strategy": "ST-REPURPOSING"
       },
       "kind": "write",
-      "state": "queued",
+      "state": "blocked",
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
+      "blocked_by": [
+        "research/autonomy/publish_bar.py"
+      ],
+      "blocked_evidence": "publish_bar --paper PUB-FUSION-PARTNER --sha a3712543348f on 2026-08-26: BLOCKED 3/6. Clauses 3 (claim ceiling), 4 (identifiers) and 5 (falsifiable endpoint) PASS. Clauses 1, 2 and 6 are UNVERIFIABLE for want of artifacts that do not exist yet: a hardening record, a PREFLIGHT_FULL receipt on the posted commit, and a blind adversarial seat. \u26a0 The email half of this item (three paywalled-table requests to corresponding authors) is NOT covered by any grant and escalates regardless of the bar.",
       "retry_budget": 3,
-      "attempts": 0,
+      "attempts": 1,
       "last_evidence_utc": "2026-08-08",
       "score": 195.0,
       "score_inputs": {
@@ -2535,6 +2583,29 @@
         "blocked_on_human": false,
         "fruitless_attempts": 0
       }
+    },
+    {
+      "id": "AUT-PROP-001",
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "what": "PROPOSAL (filed, not applied): teach systems_check.check_scan_interop the `venue` trigger_kind, so a venue trigger may be scanned while its consequence is verified in research/autonomy/venue-fit.json rather than in systems/graph/technologies.json. Then re-enable scan_enabled on the three TRG-VENUE-* triggers.",
+      "serves": {
+        "route": null,
+        "publication": null,
+        "strategy": null
+      },
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-26",
+      "score": null,
+      "_score_is_null_why": "Not scored: the scorer ranks RESEARCH against the north star and this is loop maintenance. A process_defect entry is taken by a retrospective cycle.",
+      "filed_by": "CYC-0000-BOOTSTRAP",
+      "why_not_applied_now": "\u26d4 THE INVARIANT FIRED ON ITS OWN AUTHOR. [X3] blocked that cycle, and amendment_guard.py refuses a cycle that edits the check blocking it."
     }
   ]
 }

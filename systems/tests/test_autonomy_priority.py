@@ -162,3 +162,88 @@ def test_the_ranking_is_deterministic(priority):
     first = [e["serves"]["route"] for e in priority.build_entries()]
     second = [e["serves"]["route"] for e in priority.build_entries()]
     assert first == second
+
+
+# ---------------------------------------------------------------- merge-on-write
+#
+# ⛔ THESE GUARD A DATA-LOSS BUG THAT WAS LIVE, not a hypothetical. Found by running the first real
+# cycle by hand (receipt CYC-0001): step 3 of EVERY cycle re-scores with `--write`, which rebuilt all
+# 77 entries from the graph and silently destroyed the hand-added entry, every `owner`, and every
+# `attempts`/`blocked_evidence`. The ledger is the loop's only memory, and `--write` was erasing it
+# on a four-hour cadence.
+
+
+def test_a_hand_added_entry_survives_a_rescore(priority):
+    """The ledger's own `_role` says a session may add an entry the graph cannot express. If a
+    re-score deletes it, every filed proposal and process_defect evaporates within four hours."""
+    existing = {"entries": [
+        {"id": "AUT-PROP-999", "kind": "process_defect", "serves": {"route": None},
+         "what": "a filed proposal", "state": "queued"},
+    ]}
+    merged = priority.merge(priority.build_entries(), existing)
+    assert any(e["id"] == "AUT-PROP-999" for e in merged), (
+        "a hand-filed entry was dropped by the re-score — the loop cannot remember its own findings"
+    )
+
+
+def test_claiming_an_item_survives_the_next_rescore(priority):
+    """Step 4 of the contract says claim the item before working. If step 3 of the NEXT cycle wipes
+    the owner, two cycles take the same item — which is exactly the 'work with no owner is
+    indistinguishable from work in progress' failure the ledger exists to prevent."""
+    generated = priority.build_entries()
+    route = generated[0]["serves"]["route"]
+    existing = {"entries": [dict(generated[0], owner="CYC-TEST", attempts=2, state="running")]}
+    merged = priority.merge(priority.build_entries(), existing)
+    row = [e for e in merged if e["serves"].get("route") == route][0]
+    assert row["owner"] == "CYC-TEST"
+    assert row["attempts"] == 2
+    assert row["state"] == "running", "a session-set state must not be reverted to the derived one"
+
+
+def test_blocked_evidence_is_never_discarded(priority):
+    """`blocked_evidence` is the observation that justified a block. Losing it turns a
+    substantiated block back into the unevidenced kind CLAUDE.md §0 says is usually wrong."""
+    generated = priority.build_entries()
+    route = generated[0]["serves"]["route"]
+    existing = {"entries": [dict(generated[0], blocked_evidence="observed 2026-08-26: 404 at source")]}
+    merged = priority.merge(priority.build_entries(), existing)
+    row = [e for e in merged if e["serves"].get("route") == route][0]
+    assert row["blocked_evidence"] == "observed 2026-08-26: 404 at source"
+
+
+def test_an_entry_id_is_stable_when_the_graph_grows(priority):
+    """⭐ THE QUIETER HALF OF THE BUG. Ids were `AUT-{index+1}` over sorted routes, so adding ONE
+    route renumbered everything after it — and `AUT-049` written into a receipt would afterwards
+    name a different route. That is a silent rewrite of the historical record."""
+    generated = priority.build_entries()
+    target = generated[10]
+    route, original_id = target["serves"]["route"], target["id"]
+    # Simulate a prior ledger in which this route already holds a very different id.
+    existing = {"entries": [dict(target, id="AUT-777")]}
+    merged = priority.merge(priority.build_entries(), existing)
+    row = [e for e in merged if e["serves"].get("route") == route][0]
+    assert row["id"] == "AUT-777", (
+        f"the id was reassigned from AUT-777 to {row['id']} — receipts naming the old id now point "
+        "at whatever route landed in that slot"
+    )
+    assert original_id != "AUT-777", "fixture is degenerate"
+
+
+def test_a_new_route_gets_an_unused_id_rather_than_colliding(priority):
+    generated = priority.build_entries()
+    existing = {"entries": [{"id": "AUT-900", "serves": {"route": None}, "kind": "process_defect"}]}
+    merged = priority.merge(priority.build_entries(), existing)
+    ids = [e["id"] for e in merged]
+    assert len(ids) == len(set(ids)), "id collision after a merge"
+    assert "AUT-900" in ids
+
+
+def test_the_merge_is_load_bearing_and_not_decorative(priority):
+    """Mutation test: bypass merge entirely and the preservation must actually break."""
+    existing = {"entries": [{"id": "AUT-PROP-999", "kind": "process_defect",
+                             "serves": {"route": None}, "state": "queued"}]}
+    unmerged = priority.build_entries()  # what --write did before the fix
+    assert not any(e["id"] == "AUT-PROP-999" for e in unmerged), (
+        "the hand-added entry survived WITHOUT merge() — so merge is not what preserves it and "
+        "these tests are blind"
+    )
