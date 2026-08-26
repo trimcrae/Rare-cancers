@@ -1319,6 +1319,40 @@
     "research/manuscripts/aso/fusion-junction-aso-journal-article.md"
    ],
    "regenerate": "python3 research/modalities/aso_offtarget_duplex_energy.py, then update the figure the manuscript quotes IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
+  },
+  {
+   "id": "fusion_partner_dod_fisher_p",
+   "description": "⛔ THE PAPER'S HEADLINE STATISTIC, AND IT WAS UNBOUND. Found 2026-08-26 by two independent blind seats (research/autonomy/review-seats/): §4.8's Limitations guarded a p = 0.0672 that appears NOWHERE else in the document — the retired Agaram-only value — while the live headline p = 0.0034 carried no caveat at all. Nothing cross-checked this paper's prose against its artifact: pinned-figures had no entry for it, and the generator's --check closes only the generator↔artifact loop. Three of that review's four blockers walked through this one gap.",
+   "artifact": "research/manuscripts/fusion-partner/emc-fusion-partner-pooling.json",
+   "key": "analyses.B_outcome_by_partner.disease_specific_death.fisher_exact_two_sided_p",
+   "context": "Fisher p = 0\\.0034",
+   "must_appear_in": [
+    "research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md"
+   ],
+   "_context_note": "⚠ The regex binds the number to its SURROUNDING PROSE, not to bare digits. A loose `10\\.3` matched inside a DOI on the reference line and produced a false positive on first run — and a guard that cries wolf is a guard someone switches off.",
+   "regenerate": "python3 research/manuscripts/emc_fusion_partner_pooling.py --write, then update every prose quotation of the figure IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
+  },
+  {
+   "id": "fusion_partner_dod_taf15_percent",
+   "description": "The TAF15 arm's disease-specific death proportion, quoted in the abstract, §3.3 and the §3.3 table. A typed value disagreeing with the artifact is the bug, not the artifact.",
+   "artifact": "research/manuscripts/fusion-partner/emc-fusion-partner-pooling.json",
+   "key": "analyses.B_outcome_by_partner.disease_specific_death.taf15_arm.percent",
+   "context": "7/15 = 46\\.7 ?%",
+   "must_appear_in": [
+    "research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md"
+   ],
+   "regenerate": "python3 research/manuscripts/emc_fusion_partner_pooling.py --write"
+  },
+  {
+   "id": "fusion_partner_dod_comparator_percent",
+   "description": "The EWSR1::NR4A3 comparator arm's disease-specific death proportion. Pairs with the TAF15 figure; the gap between them is the paper's central magnitude.",
+   "artifact": "research/manuscripts/fusion-partner/emc-fusion-partner-pooling.json",
+   "key": "analyses.B_outcome_by_partner.disease_specific_death.comparator_arm.percent",
+   "context": "6/58 = 10\\.3 ?%",
+   "must_appear_in": [
+    "research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md"
+   ],
+   "regenerate": "python3 research/manuscripts/emc_fusion_partner_pooling.py --write"
   }
  ],
  "table_completeness": [
