@@ -254,6 +254,36 @@ needs ~24 h of the new cadence before it can be quoted. Do not write a number he
 
 ---
 
+## 6 · CLOSED — THE STEP 1 FAN-OUT IS STOOD DOWN
+
+★ **THE DECISION THE TICK HAD BEEN ASKING FOR SINCE 2026-08-06 IS MADE** (trimcrae, 2026-08-26: Vast has not
+been used in a month and this lane is not to be driven at all). The escalated market hold's own words were
+*"price has been the BINDING constraint … trimcrae's call now."* **The call is: stand it down.**
+
+⛔ **AND A CRON EDIT WOULD NOT HAVE DONE IT.** `gcp_fanout_rep.py` had already learned this and says so:
+*"Disabling the workflow's `schedule:` does NOT pause the lane … a cron edit would leave the lane feeding
+and look like a pause. The hold therefore lives in the DECISION, not in the trigger."*
+`congeneric_fanout_vast.py` had **no** operator hold at all. It does now — ported from that precedent,
+checked FIRST in `mode_launch`, before `market_gate()` is reachable.
+
+| | |
+|---|---|
+| switch | `research/modalities/step1-fanout-OPERATOR-HOLD.json` — a COMMITTED artifact, so the reason travels with it and `git log` says who and when |
+| resume | delete the file and commit. Nothing else. The commit store is continuous, so each unit re-enters at its last COMMITTED checkpoint — **no banked work is lost by holding** |
+| still running | reap, collect, the account census and supervision. ⚠ A paused lane must still tear down a host that somehow appears, or *"paused"* quietly becomes *"billing unwatched"* |
+
+★ **THE RED TICK GOES GREEN, WITHOUT BEING SILENCED.** `market_gate()`'s only call site is inside
+`mode_launch`, *after* the hold returns — so neither escalation path is reachable, `_MARKET_HOLD_ESCALATED`
+stays False, and the tick exits 0 recording a NAMED `operator_hold` decision instead of exit 2. That is the
+difference between answering the question and muting it.
+
+⛔ **FAIL-SAFE, AND THE ASYMMETRY IS THE POINT: doubt about an instruction to STOP may never resolve to
+SPEND.** Mutation-tested — unparseable → HOLDS · a list not an object → HOLDS · empty → HOLDS · **only an
+explicit deletion resumes**. Pinned by `research/modalities/tests/test_step1_operator_hold.py` (7 tests),
+including a structural guard that fails if a future edit ever moves a `market_gate()` call above the hold.
+
+---
+
 ## 6a-ter · FOURTH PASS — THE 20-MINUTE PENALTY EVERY SESSION WAS PAYING, AND WHAT IT WAS HIDING
 
 ⛔ **THE SYMPTOM WAS NOT OURS AND NOT A MERGE.** A second session merged `main` and sat in the FULL

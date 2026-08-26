@@ -1708,6 +1708,8 @@ PLACEMENT_DECISIONS = {
                          "authorisation, so placement CONTINUED. Nothing here loosens a purchase gate — the "
                          "$/ns buy line and the per-launch band ceiling refuse independently and are "
                          "unchanged",
+    "operator_hold":     "a person paused this lane; the hold file names who, when and why. Nothing is "
+                         "rented until it is deleted — and reap, collect and supervision keep running",
     "placement_disabled": "this tick was asked to measure only — no placement was attempted",
     "cost_model_red":    "the unit-list / cost-model tests failed, so nothing may be rented",
     "breaker_hold":      "every remaining unit has failed on `leg_failure_breaker.DEFAULT_THRESHOLD` or "
@@ -2203,9 +2205,56 @@ def _rented_usd_per_ns(handle):
     return upn, cell
 
 
+#: ★★ THE OPERATOR HOLD — the ONE lever that stands this lane down, whoever dispatches it.
+#: Ported from `gcp_fanout_rep.OPERATOR_HOLD`, whose reasoning applies here verbatim and was written after
+#: the GCP lane needed exactly this: **disabling a `schedule:` does NOT pause the lane.**
+#: `step1-fanout-supervisor.yml` dispatches this workflow explicitly on its own tick, so a cron edit leaves
+#: the lane placing and merely LOOKS like a pause. The hold therefore lives in the DECISION, not the trigger.
+#:
+#: ⚠ A COMMITTED ARTIFACT, deliberately, and not a code edit or a workflow-disable, so that (a) the reason
+#: travels with it, (b) `git log` says who paused it and when, and (c) reap, collect and supervision keep
+#: running — a paused lane must still tear down an idle host, or "paused" quietly becomes "billing
+#: unwatched", which is this repository's most expensive recurring failure.
+OPERATOR_HOLD = "step1-fanout-OPERATOR-HOLD.json"
+
+
+def operator_hold(root=None):
+    """The operator hold, or None. An UNREADABLE hold file HOLDS — the safe direction is not buying."""
+    path = os.path.join(root or os.path.dirname(os.path.abspath(__file__)), OPERATOR_HOLD)
+    if not os.path.exists(path):
+        return None
+    try:
+        with open(path, encoding="utf-8") as fh:
+            doc = json.load(fh)
+    except Exception as e:  # noqa: BLE001
+        return {"reason": f"the hold file exists but could not be parsed ({type(e).__name__}) — HOLDING, "
+                          f"because an unreadable instruction to stop is not permission to spend"}
+    return doc if isinstance(doc, dict) else {"reason": "hold file is not an object — HOLDING"}
+
+
 def mode_launch():
     global _MARKET_GUARD_RAN
     bucket, s3 = _require_bucket(), _s3()
+
+    # ⛔ THE OPERATOR HOLD OUTRANKS EVERYTHING BELOW, INCLUDING THE ESCALATED MARKET HOLD. Checked FIRST so a
+    # stood-down lane says "a person paused this, for this reason" rather than reporting whatever it would
+    # have said anyway — in a log the two look identical and mean opposite things. In particular it must
+    # pre-empt `_MARKET_HOLD_ESCALATED`: "price has been the binding constraint for N h — trimcrae's call
+    # now" is a REQUEST FOR A DECISION, and once the decision is made, continuing to ask is the alarm
+    # fatigue this lane already paid for. A held lane is a correct, quiet outcome; it is not a failure.
+    _hold = operator_hold()
+    if _hold:
+        record_no_placement(
+            "operator_hold",
+            f"⏸ STOOD DOWN BY OPERATOR — this lane will not rent a GPU until "
+            f"{OPERATOR_HOLD} is deleted. Reason on record: {_hold.get('reason', '(none given)')}"
+            + (f" · paused {_hold['paused_utc']}" if _hold.get("paused_utc") else "")
+            + ". Banked work is untouched: the commit store is continuous, so a resume re-enters at the last "
+              "COMMITTED checkpoint and nothing is lost by waiting.",
+            s3=s3, bucket=bucket, key=None)
+        _write_launch_readout()
+        return 0
+
     key = os.environ.get("VAST_API_KEY")
     if not key:
         # Recorded before raising, like every other exit: a missing key is a REASON nothing was placed, and
