@@ -1,0 +1,85 @@
+name: autonomy tick — is the research loop actually delivering?
+
+# ⛔ WHAT THIS IS FOR, AND WHAT IT DELIBERATELY IS NOT.
+#
+# This is the MECHANICAL half of the autonomy loop's supervision: it grades the loop's seven health
+# conditions and commits the board. It costs no Claude budget at all — it runs `research/autonomy/
+# health.py`, which is stdlib-only with no network and no model in it.
+#
+# ⛔ IT DOES NOT DO RESEARCH AND MUST NEVER BE MADE TO. The research cycle is a Claude session fired
+# by a Routine (architecture §2.3); this workflow only answers "is that session delivering?". Keeping
+# the watcher and the worker in separate processes is deliberate — `fleet-supervision-alarm.yml`
+# shares no code with the lane it watches for exactly this reason, so one broken dependency cannot
+# take down both the work and the alarm on the work.
+#
+# ⚠ AND ITS CRON IS A REQUEST, NOT A CADENCE. GitHub throttles this repo's schedules hard — delivered
+# gaps of 125-222 min against a */15 are recorded across these workflow headers. So nothing here may
+# be a safety property that depends on firing on time. The board carries its own `_stale_after_utc`,
+# which is how a reader can tell this workflow has stopped without trusting that it ran.
+
+on:
+  schedule:
+    # :19 on purpose. Every job in the world asks for :00, and this one has no reason to join them.
+    - cron: '19 */2 * * *'
+  workflow_dispatch:
+    inputs:
+      commit:
+        description: 'commit the board if it is worth committing'
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+concurrency:
+  # A second tick while one is running measures the same thing twice and races on the commit.
+  group: autonomy-tick
+  cancel-in-progress: false
+
+jobs:
+  tick:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Grade the loop's health
+        id: grade
+        run: |
+          set -o pipefail
+          python3 research/autonomy/health.py --write | tee /tmp/health.txt
+          # ⛔ The exit code is NOT masked, but a red board is not a failed job: red is the SIGNAL this
+          # workflow exists to publish, and a failing job would bury it behind a red X nobody reads.
+          # `--check` is run separately below purely to surface the verdict in the summary.
+          python3 research/autonomy/health.py --check > /tmp/check.txt 2>&1 || true
+          {
+            echo '## Autonomy loop health'
+            echo '```'
+            cat /tmp/health.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Amendment log integrity
+        run: |
+          # §10.5: the log is append-only and every self_serving_check must be ANSWERED. An unanswered
+          # one is how a governed edit gets logged while telling nobody anything.
+          python3 research/autonomy/amendment_guard.py --check-log | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Publish the board, but only if there is something to say
+        if: ${{ github.event_name == 'schedule' || inputs.commit }}
+        run: |
+          # ⭐ NO WORK, NO COMMIT — ported from `fleet_armed.py`. The measured cost of ignoring this
+          # rule was 1,476 commits in 24 h, 703 of which said they had done nothing. health.py's
+          # `commit_worthy` owns that decision; this step only obeys it.
+          # ⚠ Its exit code is read DIRECTLY, never through a pipe. A pipeline's status is the LAST
+          # command's, so `health.py --commit-worthy | tee log && commit` commits unconditionally.
+          # That exact shape is why preflight.sh captures each check's status explicitly, and it bit
+          # this step once during development.
+          if python3 research/autonomy/health.py --commit-worthy; then
+            bash research/compute/publish_artifacts.sh "${GITHUB_REF_NAME}" \
+              "autonomy tick: loop health board" \
+              research/autonomy/health.json
+          else
+            echo "board unchanged and not near expiry — nothing to commit (this is the rule working)"
+          fi

@@ -85,8 +85,8 @@ render a row the ledger does not carry.
 | Compute orchestration + watchdogs + reapers | ✅ live | `work-ledger.json`, `vast-account-reaper.yml`, `fleet-supervision-alarm.yml` |
 | Field/capability watch | ✅ live — layer 1 repaired 2026-08-24, cadence unconfirmed (§8.2) | `method-watch.md` layers 1–3 |
 | Human channel | ✅ live | weekly Friday newsletter (`method-watch.yml`) |
-| **Research prioritization + cycle contract** | ⛔ **absent — this is the build** | §3, §4 |
-| **Publication authority** | ⛔ **absent — and it is trimcrae's to grant** | §6 |
+| **Research prioritization + cycle contract** | ✅ **BUILT 2026-08-26** | `research/autonomy/priority.py` + the `research-loop` skill — §3, §4 |
+| **Publication authority** | ✅ **GRANTED and GATED 2026-08-26** | `publish_bar.py` (six clauses) + `publication-authority.json` — §6 |
 
 ---
 
@@ -734,15 +734,15 @@ new permission from anyone.**
 
 | phase | build | done when |
 |---|---|---|
-| **1 · See the work** | `research-ledger.json` seeded from the graph; `priority.py` + `priority-weights.json`; the three hard clamps of §3.2 with a test each | The ranked queue is committed and its top item is one a human would also have picked |
+| **1 ✅ BUILT · See the work** | `research-ledger.json` seeded from the graph; `priority.py` + `priority-weights.json`; the three hard clamps of §3.2 with a test each | The ranked queue is committed and its top item is one a human would also have picked |
 | **2 · Prove one cycle by hand** | Run §4.2's ten steps manually, end to end, on the top item; write the first receipt | A receipt exists with a real `route_advanced` |
-| **3 · The loop's own health** | `autonomy-tick.yml` + `health.json` + the seven §5.2 conditions; `fleet_armed` no-work-no-commit discipline | A deliberately skipped cycle turns `cycle_delivering` red |
-| **4 · The skill** | `.claude/skills/research-loop/SKILL.md` — cycle contract, session shapes, stop conditions, and **pointers only** to the six existing skills | A fresh session given only the cycle prompt completes a cycle correctly |
-| **5 · Hand trimcrae the clock** | The driver + escalation Routine prompts, written out for him to paste into the claude.ai Routines UI **with the repo attached and the model pinned** (§2.2) | Two consecutive Routine-fired cycles deliver receipts — read the receipts, never the fire records |
-| **6 · The publication ladder** | `venue-fit.json`; the §6.1 bar as a checkable script; escalation trigger 1 | A paper is correctly escalated rather than posted |
-| **7 · Authority** ✅ *D1 answered — no longer gated* | The six §6.1 clauses each as a script returning a boolean, then `publication-authority.json` + the AGENTS.md / CLAUDE.md §3 amendment in **one** commit | A paper passing all six posts unattended and notifies; a paper failing any one escalates instead. ⛔ The clauses ship BEFORE the grant — a bar-scoped grant with an ungated bar is the grant with no bar |
+| **3 ✅ BUILT · The loop's own health** | `autonomy-tick.yml` + `health.json` + the seven §5.2 conditions; `fleet_armed` no-work-no-commit discipline | A deliberately skipped cycle turns `cycle_delivering` red |
+| **4 ✅ BUILT · The skill** | `.claude/skills/research-loop/SKILL.md` — cycle contract, session shapes, stop conditions, and **pointers only** to the six existing skills | A fresh session given only the cycle prompt completes a cycle correctly |
+| **5 ✅ BUILT (awaiting his click) · Hand trimcrae the clock** | The driver + escalation Routine prompts, written out for him to paste into the claude.ai Routines UI **with the repo attached and the model pinned** (§2.2) | Two consecutive Routine-fired cycles deliver receipts — read the receipts, never the fire records |
+| **6 ✅ BUILT · The publication ladder** | `venue-fit.json`; the §6.1 bar as a checkable script; escalation trigger 1 | A paper is correctly escalated rather than posted |
+| **7 ✅ BUILT · Authority** | The six §6.1 clauses each as a script returning a boolean, then `publication-authority.json` + the AGENTS.md / CLAUDE.md §3 amendment in **one** commit | A paper passing all six posts unattended and notifies; a paper failing any one escalates instead. ⛔ The clauses ship BEFORE the grant — a bar-scoped grant with an ungated bar is the grant with no bar |
 | **8 · The watches** | §8.1's `venue` trigger kind; §8.2's `regrade` entries; layer 1 absorbed into the driver | A parked route's `revival_trigger` is re-tested on schedule and the re-test is visible when it stops |
-| **9 · Self-improvement** | `amendments.jsonl`; the `process_defect` entry kind; the retrospective cycle; the §10.4 anti-gaming check as a **script** that reads a receipt and a diff together; orphan-trigger reaping | A cycle that tries to change a bar which blocked it is refused by the check and files a proposal instead — **proved by a deliberate attempt, not by assertion** |
+| **9 ✅ BUILT · Self-improvement** | `amendments.jsonl`; the `process_defect` entry kind; the retrospective cycle; the §10.4 anti-gaming check as a **script** that reads a receipt and a diff together; orphan-trigger reaping | A cycle that tries to change a bar which blocked it is refused by the check and files a proposal instead — **proved by a deliberate attempt, not by assertion** |
 
 ⭐ **Phase 9's check is the one that must exist before the loop runs unattended for long.** Phases 1–8
 make it work; phase 9 is what keeps it working *on the problem it was pointed at*. Build it early if

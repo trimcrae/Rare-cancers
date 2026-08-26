@@ -1,0 +1,115 @@
+{
+  "_schema": "emc-venue-fit-weights/1",
+  "_role": "The ONE home of every weight and every rubric value the journal-fit table applies. research/autonomy/venue_fit.py types no weight and no threshold; it reads them from here. Changing what 'a good cheap journal fit' means is an edit to this file, and the diff is the record of why a shortlist moved.",
+  "_owner": "research/manuscripts/program/emc-autonomy-architecture.md#64--journal-fit--researchautonomyvenue-fitjson",
+  "_objective": "trimcrae's ask, as recorded in §6.4: good CHEAP journal fits for an UNAFFILIATED author with no wet lab and no grant. Every term below is an answer to 'does this venue take THIS paper, from THIS author, for nothing', and nothing else.",
+  "_read_this_when": "A shortlist's top venue looks wrong. Do not special-case the venue — fix the weight or the rubric value here, and say in the commit message which reading of the objective changed.",
+
+  "_rubric_lineage": {
+    "six_criteria": "research/manuscripts/program/emc-autonomy-architecture.md §6.4 names them: verified $0 route, unaffiliated author permitted, scope match to the endpoint's claim, PubMed/Europe PMC indexed, preprint-friendly, page-charge exposure.",
+    "five_tests_it_generalises": "research/manuscripts/program/preprint-host-decision.md (tests 1-4: eligibility, cost, persistence, discovery) and preprint-host-decision-round2.md (test 5: the content screen, which is the one that actually fired when Research Square declined the extended ASO report on 2026-08-24).",
+    "⚠_what_does_NOT_transfer_from_those_memos": "Test 3 (DOI + versions) is a preprint-server property; a journal issues a DOI by construction. Test 5 (content screen) is a preprint-server screening clause and no journal's equivalent has been read at primary source in this repository, so it is NOT a criterion here — inventing one would be exactly the substitution round2 §1 diagnosed.",
+    "⛔_the_memos_are_about_PREPRINT_hosts": "Qeios winning round 2 selected a PREPRINT host for one paper. It says nothing about any journal and is not an input to any score below."
+  },
+
+  "filters": {
+    "verified_zero_dollar_route": {
+      "_role": "⛔ A FILTER, NOT A WEIGHT. §6.4: 'Cheap first is the ask, so the $0-route clause is a filter, not a weight.' A venue without a verified $0 route is not a cheap fit that scores badly — it is not a fit, and no amount of scope match, indexing or preprint-friendliness may buy it a place on a shortlist.",
+      "_why_a_filter_and_not_a_large_penalty": "A penalty is arithmetic and arithmetic can be outvoted. This programme has one researcher, no grant and no institutional agreement, so a four-figure APC or a mandatory per-page charge is not a cost to be traded off against fit — it is the end of the route. research/literature/venue-fee-routes-2026-08-10.json exists because 'hybrid' was found never to mean 'free'.",
+      "passing_values": ["VERIFIED", "VERIFIED_WITH_CAVEAT"],
+      "failing_values": ["NOT_FREE"],
+      "fail_closed_on_unknown": true,
+      "_why_fail_closed": "CLAUDE.md §4: an absent reading is not a reading of absence. A venue whose fee route was never retrieved is an unanswered question, not a free venue. It is held out of the shortlist AND emitted in `needs_a_fetch` rather than dropped, because CLAUDE.md §0 holds that most blocked rows wait on a $0 observation."
+    }
+  },
+
+  "terms": {
+    "unaffiliated_author_permitted": {
+      "weight": 30.0,
+      "_why": "The largest weight on purpose. bioRxiv declined this programme's ASO paper on 2026-08-21 for exactly this and nothing else (preprint-host-decision.md, the decision letter). An institutional-email or institutional-letterhead requirement is a registration gate: it is satisfied or it is not, and no quality of paper argues past it.",
+      "values": {
+        "PERMITTED": 1.0,
+        "CONDITIONAL": 0.4,
+        "NOT_PERMITTED": 0.0,
+        "UNKNOWN": 0.0
+      },
+      "_why_conditional_scores_at_all": "A stated exception — 'unless there is a legitimate reason why the corresponding author cannot provide one' — is a door, not a wall. It is discounted because it puts the author in front of an editor's discretion, which is not a property this table can grade."
+    },
+    "scope_match": {
+      "weight": 25.0,
+      "_why": "A venue that will not read the paper is not a cheap route, it is a desk rejection with a delay attached. Graded LEXICALLY (see scope_match_method) against the endpoint's own recorded claim in systems/graph/publications.json.",
+      "_continuous": true,
+      "_ceiling_note": "Scored 0.0-1.0 by scope_match_method; UNKNOWN when the venue has no aims-and-scope text in the committed corpus."
+    },
+    "indexed_pubmed_or_europepmc": {
+      "weight": 20.0,
+      "_why": "CLAUDE.md §5: the published record is the only channel by which any of this reaches a patient. A venue a sarcoma researcher's literature search cannot surface is a paper nobody reads. This is test 4 of preprint-host-decision.md, carried across unchanged.",
+      "values": {
+        "INDEXED": 1.0,
+        "NOT_INDEXED": 0.0,
+        "UNKNOWN": 0.0
+      }
+    },
+    "preprint_friendly": {
+      "weight": 15.0,
+      "_why": "Every one of this programme's journal-bound papers is also aimed at, or already sitting on, a preprint route. A venue that treats a posted preprint as prior publication forecloses the free open copy that CLAUDE.md §5 calls the actual channel.",
+      "values": {
+        "FRIENDLY": 1.0,
+        "CONDITIONAL": 0.5,
+        "NOT_FRIENDLY": 0.0,
+        "UNKNOWN": 0.0
+      }
+    },
+    "page_charge_exposure": {
+      "weight": -20.0,
+      "_why": "A PENALTY, and it grades what is left AFTER the $0 filter has run: a charge that survives on the free route itself. It is a separate criterion from the filter because some charges are the author's choice (colour figures) and some are not (a mandatory per-page fee). research/literature/venue-typeset-geometry.json exists because a per-page charge makes the printed page count a cost.",
+      "values": {
+        "CHARGES_PER_PAGE": 1.0,
+        "AVOIDABLE_BY_AUTHOR_CHOICE": 0.25,
+        "UNKNOWN": 0.0
+      },
+      "_why_unknown_is_0_and_not_1": "An unretrieved charges page is not evidence of a charge, and it is not evidence of none. It scores neutral and is counted in n_unknown so the reader sees the table was ranked over a hole."
+    }
+  },
+
+  "scope_match_method": {
+    "kind": "lexical_overlap",
+    "_what_it_is": "The set of words of at least min_token_length characters, outside the stopword list, appearing BOTH in the venue's own aims-and-scope text and in the endpoint's recorded what_it_would_claim. Score = min(1.0, n_matched / saturation_at).",
+    "⛔_what_it_is_NOT": "Not a judgement that the venue would accept the paper, and not a reading of the journal's taste. It is a checkable count of shared subject words, emitted WITH the matched words so a human can see the whole of what the number was made from. A high overlap is a reason to look; it is not a finding.",
+    "min_token_length": 6,
+    "saturation_at": 8,
+    "stopwords": [
+      "about", "across", "against", "already", "although", "another", "because", "before",
+      "between", "cannot", "carries", "ctually", "either", "enough", "estimate", "further",
+      "general", "however", "including", "instead", "itself", "journal", "journals", "little",
+      "making", "merely", "myself", "nothing", "othing", "papers", "problem", "publish",
+      "published", "publishes", "publishing", "rather", "really", "reports", "research",
+      "researchers", "results", "should", "something", "stated", "states", "studies", "study",
+      "themselves", "therefore", "though", "through", "toward", "together", "whether", "which",
+      "while", "within", "without", "would", "article", "articles", "author", "authors",
+      "original", "review", "reviews", "topics", "include", "includes", "included", "several",
+      "various", "latest", "readers", "content", "coverage", "essential", "resource"
+    ],
+    "_why_a_stopword_list_at_all": "Without one, 'research', 'articles' and 'publishes' match every venue against every claim and the term measures nothing. The list is deliberately generic — it removes publishing furniture, never subject matter."
+  },
+
+  "unknown_policy": {
+    "score_contribution": 0.0,
+    "_why": "⛔ CLAUDE.md §7 and §4. A fact the committed data does not carry is emitted as UNKNOWN with evidence: null and contributes nothing — never a guess, never a default, never a value recalled from what a model knows about journals. An honest UNKNOWN costs nothing; an invented APC or scope claim would go into a submission decision.",
+    "report_fields": ["n_unknown", "evidence_coverage"],
+    "warn_below_coverage": 0.5,
+    "_why_warn": "A candidate ranked mostly on holes must SAY it was ranked mostly on holes, at the point of use, or the rank reads as a finding. §6.4: escalation carries the top three WITH THEIR EVIDENCE, never a recommendation alone."
+  },
+
+  "escalation": {
+    "carry_top_n": 3,
+    "_why": "research/manuscripts/program/emc-autonomy-architecture.md §6.4, verbatim: 'Escalation carries the top three with their evidence, never a recommendation alone.' §6.2: a journal submission ALWAYS escalates — this table never selects a venue and never authorises a submission (CLAUDE.md §3)."
+  },
+
+  "_forbidden_as_weight": {
+    "zero_dollar_route": "It is a filter. If it ever appears in `terms` it has become tradeable against scope or indexing, which is the exact failure §6.4 legislates against. systems/tests/test_autonomy_venue_fit.py asserts it is absent from terms.",
+    "impact_factor": "Not in the committed venue data at primary source for most candidates, not a property of fit, and not a reason a patient is reached. Never an input.",
+    "aixiv_rating": "Unauthenticated and trivially forgeable — .claude/skills/aixiv-submission/SKILL.md §0. Never an input to anything.",
+    "publisher_prestige": "A judgement, not a reading. This table emits only what a committed file says."
+  }
+}
