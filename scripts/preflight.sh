@@ -34,7 +34,13 @@
 #
 # Usage:  ./scripts/preflight.sh                      # the commit loop: the ten fast gates
 #         PREFLIGHT_TESTS=1 ./scripts/preflight.sh    # + the manuscripts suite (~4 min)
-#         PREFLIGHT_MODALITIES=1 PREFLIGHT_TESTS=1 …    # + the modalities suite too (~8 min more)
+#         PREFLIGHT_MODALITIES=1 ./scripts/preflight.sh  # + the modalities suite (~8 min), ALONE
+#   ⚠ Superseded, retained: "PREFLIGHT_MODALITIES=1 PREFLIGHT_TESTS=1 …  # + the modalities suite
+#     too (~8 min more)". That spelling was the ONLY place in the repository that described the two
+#     flags as needing each other, and it matched the code — which is how the coupling survived: the
+#     modalities stage was nested inside the PREFLIGHT_TESTS block, so the modalities flag was an
+#     AND and did nothing on its own. Fixed 2026-08-26; the two flags are independent and either
+#     may be given alone. Evidence and the reasoning: the note beside the outer gate.
 #   ⚠ Superseded, retained: "+ both suites, modalities scoped to the change". PREFLIGHT_TESTS no
 #     longer implies modalities — see the note beside RUN_MODALITIES — and "scoped to the change"
 #     had not been true for days: the selector was answering FULL on every run.
@@ -463,11 +469,29 @@ for g in "research/manuscripts/submission_tables.py|submission tables|--check" \
 done
 [ -n "$gen_fail" ] && echo "   ⛔ a stale generated file ships a claim its own artifacts no longer support:$gen_fail"
 
-if [ "$RUN_TESTS" = "1" ]; then
-  # ⚠ ONLY THE MODALITIES STAGE IS GATED HERE. The first cut put `RUN_MODALITIES` on the OUTER
-  # block and silently took the manuscripts suite out with it — measured immediately: a run that
-  # printed PREFLIGHT OK having executed neither suite. The manuscripts guards are the ones a
-  # manuscript edit can actually break, so they stay in `PREFLIGHT_TESTS`.
+if [ "$RUN_TESTS" = "1" ] || [ "$RUN_MODALITIES" = "1" ]; then
+  # ⚠ EACH STAGE IS GATED ON ITS OWN FLAG, AND THIS OUTER TEST IS AN `OR` FOR THAT REASON.
+  # ⛔ MEASURED 2026-08-26 — `PREFLIGHT_MODALITIES=1` WAS INERT ON ITS OWN, FOR A FULL DAY.
+  # This outer condition read `[ "$RUN_TESTS" = "1" ]` alone while the modalities stage sat nested
+  # inside it, so the modalities flag was an AND with `PREFLIGHT_TESTS` rather than a flag. A run
+  # with `PREFLIGHT_MODALITIES=1` and nothing else was byte-identical in structure to a run with no
+  # flag at all: zero modality tests executed, and the verdict line printed
+  # `PREFLIGHT_MODALITIES=1 for the modalities suite` — offering, as the remedy, the flag that was
+  # already set. `PREFLIGHT_FULL=1` sets BOTH, which is why publication was never affected and why
+  # nothing caught this.
+  # ⚠ THE DOCS AND THE CODE DISAGREED AND THE DOCS WERE THE MAJORITY: CLAUDE.md §6
+  # ("`PREFLIGHT_MODALITIES=1` the modalities one"), the note beside RUN_MODALITIES below
+  # ("`PREFLIGHT_MODALITIES=1` runs it"), and this script's own verdict line all describe one
+  # independent flag; only the usage header's `PREFLIGHT_MODALITIES=1 PREFLIGHT_TESTS=1` example
+  # matched the code, and that example is the fossil of the coupling 2026-08-25 removed when it
+  # took modalities OUT of `PREFLIGHT_TESTS`. Requiring TESTS to reach MODALITIES is that same
+  # coupling in the other direction, so the code is what was wrong.
+  # ⚠ Superseded, retained: "ONLY THE MODALITIES STAGE IS GATED HERE. The first cut put
+  # `RUN_MODALITIES` on the OUTER block and silently took the manuscripts suite out with it —
+  # measured immediately: a run that printed PREFLIGHT OK having executed neither suite." That
+  # incident was real and its lesson stands — the manuscripts suite must not ride on the modalities
+  # flag — but the fix over-corrected into an AND. The property actually wanted is that each stage
+  # answers to its own flag and neither can silence the other, which is what is now written.
 if [ "$RUN_MODALITIES" = "1" ]; then
   # ⭐ CHANGE-SCOPED BY DEFAULT, FULL ON DEMAND (trimcrae, 2026-08-12: the suite was the bottleneck,
   # and "only the ones affected by the changes" plus "not on every push, manually before
@@ -656,6 +680,11 @@ if [ "$RUN_MODALITIES" = "1" ]; then
   rm -f "$out"
 fi   # end of the modalities stage
 
+if [ "$RUN_TESTS" = "1" ]; then
+  # ⚠ EXPLICIT, because the outer block above is now an OR. Under `PREFLIGHT_MODALITIES=1` alone
+  # this stage must NOT run — that is the 2026-08-12 incident's lesson kept intact — and under
+  # `PREFLIGHT_TESTS=1` alone it must, which is what it always did.
+
   # ⛔ GATE 9: THE MANUSCRIPT TESTS, WHICH THIS SCRIPT DID NOT RUN UNTIL 2026-08-12.
   #
   # CI has run `research/manuscripts/tests` since 2026-08-03 and preflight never did, so a session
@@ -689,7 +718,9 @@ fi   # end of the modalities stage
     echo "   OK"
   fi
   rm -f "$mout"
-fi
+fi   # end of the manuscripts stage
+
+fi   # end of the "either large suite was asked for" block
 
 # ⛔⛔ THE SELECTOR'S OWN TESTS RAN NOWHERE (2026-08-22, round 14 seat 4). This script cites
 # scripts/tests/test_affected_tests.py as the evidence for the selector's safety contract -- "the
@@ -729,7 +760,21 @@ elif [ "$RUN_TESTS" = "1" ]; then
   # working tree held an edit to preflight.sh, which is ALWAYS_FULL). The gate heading above already
   # states which mode ran and is derived from the selector; a summary line must not re-assert it
   # from an assumption. One fact, one place.
-  echo; echo "PREFLIGHT OK (fast gates + tests -- see the modalities heading above for its scope)"
+  if [ "$RUN_MODALITIES" = "1" ]; then
+    echo; echo "PREFLIGHT OK (fast gates + manuscripts + modalities -- see the modalities heading"
+    echo "             above for its scope)"
+  else
+    echo; echo "PREFLIGHT OK (fast gates + the manuscripts suite; the MODALITIES suite did NOT run."
+    echo "             PREFLIGHT_MODALITIES=1 adds it. CI runs both on push.)"
+  fi
+elif [ "$RUN_MODALITIES" = "1" ]; then
+  # ⛔ THIS BRANCH DID NOT EXIST UNTIL 2026-08-26, AND ITS ABSENCE WAS HALF THE INERT-FLAG DEFECT.
+  # `PREFLIGHT_MODALITIES=1` alone fell through to the `else` below, which prints "NEITHER large
+  # suite ran here" and then offers `PREFLIGHT_MODALITIES=1` as the remedy -- advice to set the flag
+  # that was already set. Now that the flag actually runs the suite, the verdict has to be able to
+  # say so without claiming the manuscripts suite ran too.
+  echo; echo "PREFLIGHT OK (fast gates + the modalities suite -- see its heading above for scope."
+  echo "             The MANUSCRIPTS suite did NOT run; PREFLIGHT_TESTS=1 adds it.)"
 else
   # ⚠ "no test ran here" WAS WRONG THE MOMENT THIS BRANCH REBASED, AND IT IS THE FAILURE THIS BLOCK
   # EXISTS TO PREVENT. `main` added gate 13 -- the selector's own contract -- and runs it OUTSIDE
