@@ -621,8 +621,44 @@ to make and manage triggers too."*
 | Delete a spent or wrong Routine | ✅ | `delete_trigger` — exercised today on the §2.2 probe |
 | Change an existing Routine's cron, prompt or enabled state | ✅ | `update_trigger`. ⚠ **This corrects a repo note** claiming the prompt cannot be edited — it can, and was, mid-probe today. |
 | Fire a Routine off-schedule | ✅ | `fire_trigger` |
-| Create a trigger that wakes a session **already holding** the repo grant | ✅ | a self-bind / `persistent_session_id` trigger — the fired turn runs *inside* that session, so it inherits the repo and every tool. ⚠ **Mechanism sound, delivery UNVERIFIED as of this commit** — a probe is in flight and this cell is updated from its result, not from expectation. Several agent-created self-bind triggers in this account carry `SUCCEEDED` run records, but per §2.2 a fire record is not a delivery. |
+| Create a trigger that wakes a session **already holding** the repo grant | ✅ | a self-bind / `persistent_session_id` trigger — the fired turn runs *inside* that session, so it inherits the repo and every tool. ✅ **Delivery VERIFIED by probe, 2026-08-26 — §10.2b.** |
 | Create a **fresh-session** Routine that has the repo | ⛔ **No** | §2.2 — agent-minted lineage carries no `sources`. Unchanged. |
+
+### 10.2b · The self-bind probe — the second half of the trigger result
+
+⭐ **The two trigger experiments of 2026-08-26 are a matched pair, and the contrast IS the finding.**
+Both were agent-minted. One delivered nothing; the other delivered everything. The difference is not
+permission — it is **whether the fired turn lands in a session that already holds the grant.**
+
+| | fresh-session Routine (§2.2) | self-bind trigger (this probe) |
+|---|---|---|
+| created by | `create_trigger`, agent | `send_later`, agent |
+| where the turn lands | a **new** session, minted with no lineage | **this** session, already repo-attached |
+| repo present | ⛔ no `sources` at all | ✅ `git rev-parse` returned the working branch, and the session's own commits were on disk |
+| tools | ⛔ no `mcp__github__*` | ✅ full tool surface, unchanged |
+| outcome | ran 4 m 03 s, `SUCCEEDED`, **left no artifact** | **fired 15:20:53Z and delivered a real working turn**, carrying its full prompt |
+
+⛔ **And note what "SUCCEEDED" was worth in each case** — it was returned by *both*. In the first it
+described four minutes of nothing. **The status field is not the deliverable in either direction**;
+§2.2's rule stands and this probe is the second measurement behind it.
+
+⭐⭐ **THIS IS WHAT MAKES §9.1'S RATE-LIMIT RECOVERY REAL RATHER THAN A HOPE.** The design says a cycle
+that hits a limit reads `resetsAt` and schedules its own resumption just past it. **That scheduling act
+is exactly this probe**, and it is now measured working. So the recovery path is fully specified with
+nothing left to assume: *read the limit → read the reset timestamp → self-bind a wake past it → the
+turn lands back in a session that still has the repo → continue from the committed ledger.*
+
+★ **Which fixes the division of labour between the two clocks:**
+
+- **Self-bind triggers = WITHIN a cycle's life** — resume after a rate limit, re-check a CI run that is
+  still going, follow up on a dispatch. The loop creates these itself, freely (D7).
+- **The UI Routine = BETWEEN cycles** — the recurring fresh session that starts each cycle with clean
+  context (§4.1). Only trimcrae can create it, once.
+
+⛔ **Do not collapse the two by keeping one long-lived hub session alive as the scheduler.** It would
+work, and it would quietly undo §4.1: a session that never ends accumulates context until it dies, and
+it inherits every stale belief from the cycle before. **Fresh context between cycles is a feature that
+was paid for, not an accident of the platform.**
 
 ★ **So the honest shape is: one seed, then the loop owns the schedule.** trimcrae's single UI click
 creates the recurring fresh-session driver. **Everything after that** — retiming it, rewriting its
