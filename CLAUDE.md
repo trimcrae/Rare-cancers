@@ -72,7 +72,18 @@ silently falling back to writing up closed routes looks identical to progress.
   the main thread of the session free for interactions with me… no tasks or shell scripts ever block
   you seeing my messages"*). He must be able to reach you instantly, so **nothing long-running may
   occupy the foreground.** A long shell command → `run_in_background`. Multi-step work → **a
-  subagent, and that is standing authorisation to spawn one**. A gate, a suite, a build, a fetch →
+  subagent, and that is standing authorisation to spawn one — UP TO `subagent_width` OF THEM AT
+  ONCE, WHICH YOU READ FROM [`autonomy-state.json`](./research/autonomy/autonomy-state.json)
+  RATHER THAN REMEMBER** (5 at `backoff_level` 0, falling 5 → 2 → 1 as the level rises).
+  ⛔ **The unit is CONCURRENT agents, and the cap is the dial the architecture records as having
+  failed catastrophically:** a 107-agent fan-out hit the account weekly limit — **40 completed,
+  67 errored, the synthesis lost**, findings recovered by hand from `journal.jsonl`. Width moves
+  last and moves down faster than it moves up.
+  ⚠ *Added 2026-08-26 because the number governed nothing: `grep -rn subagent_width` over the
+  whole repository returned TWO hits — the JSON defining it and one test asserting it equals 5.
+  No code read it and no receipt recorded a dispatch, so compliance was luck. `health.py`'s
+  `fanout_is_governed` now measures it, and a receipt that records no `subagents` block leaves
+  that row UNMEASURED rather than green.* A gate, a suite, a build, a fetch →
   backgrounded, never awaited in the foreground.
   ⛔ **NO FOREGROUND WAIT LOOPS.** An `until … sleep` loop, a long blocking command, a poll — each is
   a window in which his message sits unread. **The test: if he messaged right now, how long until you

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""LOOP HEALTH AS A COMMITTED FILE — the nine conditions of
+"""LOOP HEALTH AS A COMMITTED FILE — the ten conditions of
 `research/manuscripts/program/emc-autonomy-architecture.md` §5.2, in the `alarm-state.json` idiom.
 
 ★★ WHY THIS EXISTS. §5.1 already covers ARTIFACT correctness — every gate in `./scripts/preflight.sh`
@@ -66,7 +66,7 @@ DEFAULT_RECEIPTS = os.path.join(HERE, "receipts")
 DEFAULT_HEALTH = os.path.join(HERE, "health.json")
 DEFAULT_AUTHORITY = os.path.join(HERE, "publication-authority.json")
 
-#: The NINE §5.2 conditions, in the order the architecture table lists them. Renaming or dropping one
+#: The TEN §5.2 conditions, in the order the architecture table lists them. Renaming or dropping one
 #: is a "free, but DECLARED" edit under §10.4 — it changes what "doing well" MEANS — so it goes in the
 #: amendment log, never silently.
 CONDITION_ORDER = (
@@ -76,6 +76,7 @@ CONDITION_ORDER = (
     "blocks_are_real",
     "queue_is_takeable",
     "cycles_are_sized",
+    "fanout_is_governed",
     "budget_recovering",
     "gates_green",
     "authority_respected",
@@ -565,6 +566,81 @@ def c_cycles_are_sized(receipts, state, state_err):
                   f"cap of {cap}.", payload)
 
 
+def c_fanout_is_governed(receipts, state, state_err):
+    """Red when a cycle dispatched more concurrent subagents than `subagent_width` allows.
+
+    ⛔⛔ THIS DIAL WAS WIRED TO NOTHING, AND IT IS THE ONE THE ARCHITECTURE CALLS THE MOST IMPORTANT.
+    Measured 2026-08-26: `grep -rn subagent_width` over the whole repository returned TWO hits — the
+    JSON that defines it, and one test asserting its value is 5. No code read it, no cycle consulted
+    it, and no receipt recorded what was actually dispatched. §9 records why that matters: a
+    **107-agent fan-out hit the account weekly usage limit — 40 completed, 67 errored, and the
+    synthesis step failed**, so the tool's returned result was a truncation artifact and the findings
+    had to be recovered by hand from journal.jsonl. The architecture's own words: *width is the more
+    important dial — the incident above was a WIDTH failure, not a depth one.*
+
+    ⭐ AND IT WAS WORSE THAN THE SESSION-SHAPE RULE THIS REPOSITORY FIXED AN HOUR EARLIER. That rule
+    at least existed as prose in a skill; this was a NUMBER IN A STATE FILE CONNECTED TO NO CODE PATH
+    AT ALL — the purest form of a governed value that governs nothing.
+
+    ⛔ THE UNIT HAD NEVER BEEN WRITTEN DOWN EITHER, WHICH IS WHY THIS WAS UNENFORCEABLE RATHER THAN
+    MERELY UNENFORCED. A cap of "5" says nothing until you say five of what. It is CONCURRENT
+    subagents — see autonomy-state.json's `_subagent_width_means`, which now carries the reasoning and
+    the limit of what this dial does NOT govern (serial total).
+
+    ⚠ THIS IS A RETROSPECTIVE GATE AND SAYS SO. Nothing here can intercept a dispatch; a health
+    condition reads committed files after the fact. Its job is to make an overrun VISIBLE and
+    attributable, exactly as `cycles_are_sized` does. The prevention half lives in CLAUDE.md, at the
+    line that grants standing authorisation to spawn — which is where the number has to be readable,
+    because that is the moment the decision is made.
+
+    ⚠ A receipt with no `subagents` block is UNMEASURED, never green. Otherwise the cheapest way to a
+    clean board is to stop recording dispatches, and a gate whose easiest defeat is omitting data is
+    a gate that measures compliance with itself (CLAUDE.md §4).
+    """
+    key = "fanout_is_governed"
+    label = "did any cycle fan out wider than the governed cap?"
+    source = "receipts' `subagents.max_concurrent`, against autonomy-state.json `subagent_width`"
+    if not isinstance(state, dict):
+        return _unmeasured(key, label, source, "STATE-UNREADABLE",
+                           f"{state_err or 'autonomy-state.json is unreadable'}, so the cap is "
+                           "unknown and no verdict is possible.")
+    cap = state.get("subagent_width")
+    if not isinstance(cap, int) or cap < 1:
+        return _unmeasured(key, label, source, "NO-CAP",
+                           f"`subagent_width`={cap!r} is not a positive integer, so there is nothing "
+                           "to check against.")
+
+    measured, unrecorded = [], []
+    for r in receipts or []:
+        cid = r.get("cycle_id") or "?"
+        block = r.get("subagents")
+        width = block.get("max_concurrent") if isinstance(block, dict) else None
+        if not isinstance(width, int) or width < 0:
+            unrecorded.append(cid)
+        else:
+            measured.append((cid, width))
+
+    payload = {"cap": cap, "measured": dict(measured) or None,
+               "receipts_not_recording_dispatch": unrecorded or None,
+               "worst": max((w for _, w in measured), default=None)}
+    over = [(c, w) for c, w in measured if w > cap]
+    if over:
+        c, w = max(over, key=lambda cw: cw[1])
+        return _red(key, label, source, "FANOUT-OVER-CAP",
+                    f"{c} dispatched {w} concurrent subagents against a cap of {cap}. Width is the "
+                    "dial §9 records as having failed catastrophically: a 107-agent fan-out lost 67 "
+                    "agents and its synthesis to the weekly limit. Lower it, or move `backoff_level` "
+                    "— never widen the cap to fit what was already spent.", payload)
+    if not measured:
+        return _unmeasured(key, label, source, "DISPATCH-NOT-RECORDED",
+                           f"{len(unrecorded)} receipt(s) record no `subagents` block "
+                           f"({', '.join(unrecorded[:5])}), so what was dispatched is unknown. An "
+                           "absent record is not a record of restraint.", payload)
+    return _green(key, label, source, "WITHIN-CAP",
+                  f"{len(measured)} cycle(s) recorded a fan-out; the widest was "
+                  f"{payload['worst']} against a cap of {cap}.", payload)
+
+
 def c_budget_recovering(state, state_err, now):
     """Red when `backoff_level` has been > 0 for more than 24 h — §9's stuck-loop row.
 
@@ -815,6 +891,7 @@ def build(*, ledger_path=DEFAULT_LEDGER, state_path=DEFAULT_STATE, receipts_dir=
         c_blocks_are_real(entries, ledger_err),
         c_queue_is_takeable(entries, ledger_err),
         c_cycles_are_sized(receipts, state, state_err),
+        c_fanout_is_governed(receipts, state, state_err),
         c_budget_recovering(state, state_err, now),
         c_gates_green(gates, gates_err, now),
         c_authority_respected(receipts, authority, authority_err),
@@ -828,7 +905,7 @@ def build(*, ledger_path=DEFAULT_LEDGER, state_path=DEFAULT_STATE, receipts_dir=
     attention = [c["key"] for c in conditions if c["needs_attention"]]
     unmeasured_keys = [c["key"] for c in conditions if c["unmeasured"]]
     board = {
-        "_what": "THE AUTONOMY LOOP'S HEALTH BOARD, AS A FILE. The nine §5.2 conditions, when each was "
+        "_what": "THE AUTONOMY LOOP'S HEALTH BOARD, AS A FILE. The ten §5.2 conditions, when each was "
                  "measured, how long it has been that way, and when this file should be considered "
                  "dead. Written by research/autonomy/health.py.",
         "_read_this_when": "you want to know whether the unattended research loop is WORKING — not "

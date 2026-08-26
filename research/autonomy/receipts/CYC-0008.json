@@ -1,0 +1,70 @@
+{
+  "_schema": "emc-autonomy-receipt/1",
+  "cycle_id": "CYC-0008",
+  "started_utc": "2026-08-26T23:40:00Z",
+  "finished_utc": "2026-08-27T00:15:00Z",
+  "session_id": "66dab3ca-b11c-5d0b-a0d9-9babe135276e (interactive, trimcrae present)",
+  "kind": "process",
+  "took": [
+    "hardening non-convergence — raised by trimcrae",
+    "subagent width governance — raised by trimcrae"
+  ],
+  "route_advanced": "none",
+  "_route_advanced_why": "Process repair. CLAUDE.md §0: say so plainly rather than dressing it up.",
+  "subagents": {
+    "max_concurrent": 2,
+    "total": 2,
+    "cap_at_the_time": 5,
+    "what": [
+      "re-scope claim_coverage.py from a document LIST to a PREDICATE, and produce the first census of the fusion-partner manuscript",
+      "build the prose-vs-artifact numbers guard that manuscript has never had"
+    ],
+    "_within_cap_but_not_by_checking": "⛔ THE HONEST RECORD: 2 against a cap of 5 is compliant, and I did not READ the cap before either dispatch. trimcrae asked whether we were following our own rule; the numeric answer was yes and the procedural answer was no. Compliance by luck is what this cycle's fix removes."
+  },
+  "trigger": [
+    "trimcrae: 'If you can't get a paper to not have blockers, your options are 1.) Admit it's not a publishable paper 2.) change your review strategy. More broadly, this is a case where you need to be self improving the process. If you noticed that, you should be empowered to make changes instead of giving up.'",
+    "trimcrae: 'Are we following our own rules about the optimal number of parallel subagents right now? If not, let's build that enforcement better.'"
+  ],
+  "finding_1_the_paper_was_never_instrumented": {
+    "what_i_did_wrong_first": "I reported '16 open P1s, not converging' as a status and stopped. .claude/skills/paper-hardening/SKILL.md §8a had already diagnosed this exact situation — 'when the blocker count stops falling you are sampling surfaces, not fixing a paper ... CHANGE THE INSTRUMENT, NOT THE ITERATION COUNT' — and I had not loaded the skill. Same failure as CYC-0007, one cycle later: the answer existed and was not reached.",
+    "measured": {
+      "blocker_trend_over_four_rounds": "3 -> 2 -> 9 (RISING, which §8a names as the signal)",
+      "test_modules_naming_fusion_junction_aso": 94,
+      "test_modules_naming_fusion_partner": 2,
+      "claim_coverage_documents": "3, all of them the ASO submission; the fusion-partner manuscript is not in the set at all, so its coverage has never been measured even to say it is zero"
+    },
+    "root_cause": "The entire hardening instrument set is scoped to a LIST of three documents, and that list holds one paper's submission. §8b.2 measured this class over 33 mutations: every PREDICATE-scoped fix held; 6 of 11 LIST-scoped fixes regressed at a sibling the fix did not name, and in 3 of those 6 the missed sibling was named in the fix's own comment. The fusion-partner paper is the sibling this instrument set regressed at. With no instruments reading it, blind seats are its only readers — which is §8a's sampling mode, and it cannot converge by iteration.",
+    "the_answer_to_the_two_options_offered": "Neither 'it is unpublishable' nor 'run more rounds'. Option 2 as trimcrae framed it — change the review strategy — but the change is structural rather than more seats: point the instruments at the paper. Four of CYC-0006's nine blockers were mechanically catchable and would have been preflight failures rather than next-round findings.",
+    "dispatched": "two subagents, above — each commits its own work.",
+    "⛔_not_doing": "A fifth review round until those land. Running one against an unchanged instrument set is the treadmill §8a describes."
+  },
+  "finding_2_the_width_dial_governed_nothing": {
+    "measured": "grep -rn subagent_width over the whole repository: TWO hits. autonomy-state.json, which defines it, and one test asserting its value is 5. No code read it. Zero of seven receipts recorded a subagent dispatch in any structured field.",
+    "why_it_is_worse_than_the_rule_fixed_in_CYC_0007": "That rule at least existed as prose in a skill that could be loaded. This was a NUMBER IN A STATE FILE CONNECTED TO NO CODE PATH — a governed value that governs nothing, which is the purest form of the defect.",
+    "and_the_unit_was_never_defined": "A cap of '5' says nothing until you say five of what, so this was UNENFORCEABLE rather than merely unenforced. Resolved to CONCURRENT subagents, which is the reading both the architecture ('parallel width') and the cycle contract ('launch them in ONE message so they run concurrently') support, and written into autonomy-state.json.",
+    "what_the_dial_still_does_not_govern": "⚠ The SERIAL TOTAL. A cycle running 5, waiting, then 5 more, twenty times over, never exceeds the cap and can still exhaust a weekly budget. No number is invented for it — that would be a remembered figure standing in for a measurement. The measurement that would settle it is `utilisation_denominator`, still null until a window flip is OBSERVED.",
+    "the_stakes_this_dial_carries": "Architecture §9: a 107-agent fan-out hit the account weekly usage limit — 40 completed, 67 errored, the synthesis step failed and its result was a truncation artifact; the resumed run reached 102 and died on a container restart, and the findings were recovered by hand from journal.jsonl. 'Width is the more important dial — the incident above was a WIDTH failure, not a depth one.'"
+  },
+  "the_fix": {
+    "reachability": "CLAUDE.md §1 — at the exact line granting standing authorisation to spawn, which is where the decision is made — now names the cap, its unit, its backoff ladder and the incident behind it, and says to READ it rather than remember it.",
+    "enforcement": "health.py gains a tenth condition, `fanout_is_governed`, reading receipts' `subagents.max_concurrent` against `subagent_width`. A receipt with no `subagents` block leaves the row UNMEASURED, never green — otherwise the cheapest route to a clean board is to stop recording dispatches.",
+    "honest_limit": "⚠ RETROSPECTIVE, and it says so in its own docstring. Nothing here can intercept a dispatch; a health condition reads committed files after the fact. It makes an overrun visible and attributable. Prevention lives in CLAUDE.md."
+  },
+  "the_generalisable_lesson_now_three_for_three": "⭐ THREE RULES IN ONE SESSION HAVE FAILED THE SAME WAY, AND THE PATTERN IS WORTH MORE THAN ANY OF THEM: the session-shape rule (in a skill nothing loaded), the seat-record rule (a practice followed by hand), and now the width cap (a number nothing read). In every case the rule was CORRECT, WRITTEN DOWN, and REACHABLE FROM EXACTLY ONE PATH WITH NO GATE BEHIND IT. ⛔ A RULE THAT LIVES IN ONE FILE, REACHABLE FROM ONE PATH, WITH NOTHING MEASURING IT, HAS NOT BEEN IMPLEMENTED — IT HAS BEEN WRITTEN DOWN. The three-layer shape (reachability in the file that always loads, a measurement that can go red, guards that are mutation-tested) is now the standard this repository applies to a rule, and AUT-PROP-006 is the next one owed it.",
+  "verification": {
+    "condition_reports_honestly_on_first_run": "DISPATCH-NOT-RECORDED / unmeasured before the receipts carried the field — the correct answer, not a green built from missing data.",
+    "preflight": "PREFLIGHT_TESTS=1 ./scripts/preflight.sh EXIT=0 on the exact tree committed."
+  },
+  "blocked_by": [],
+  "queued_next": [
+    "⭐ STILL OVER THE SESSION CAP. This is the fourth receipt under one session_id against a cap of 2, and cycles_are_sized names it. The next cycle is a SPAWNED SESSION.",
+    "Give AUT-PROP-006 (seat record on disk before any fix) the same three layers.",
+    "Round 5 on PUB-FUSION-PARTNER, but ONLY after the two dispatched instruments land — and its seat design should start from the coverage census's uncovered list, per §8a, not from a fresh lens.",
+    "Govern the serial subagent total, once utilisation_denominator has an observed value to derive it from. Until then it is honestly ungoverned and named as such."
+  ],
+  "cost": {
+    "_points_at": "research/compute/pricing.md",
+    "real_dollars": "none",
+    "claude_budget": "one interactive session; 2 concurrent subagents against a cap of 5"
+  }
+}

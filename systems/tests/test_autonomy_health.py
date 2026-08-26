@@ -137,8 +137,13 @@ def test_all_5_2_conditions_are_present(health, tmp_path):
         # the transcript of the session that broke it. Reachability was repaired in CLAUDE.md; this
         # condition is the enforcement half, because a rule nothing measures decays to a suggestion.
         "cycles_are_sized",
+        # ⭐ ADDED 2026-08-26, DECLARED in amendments.jsonl. `subagent_width` had been a number in a
+        # state file connected to NO code path — `grep -rn subagent_width` returned two hits, the JSON
+        # defining it and one test asserting it equals 5 — while architecture §9 records it as the dial
+        # that failed catastrophically (a 107-agent fan-out: 40 completed, 67 errored, synthesis lost).
+        "fanout_is_governed",
     }, "the condition set drifted from the architecture §5.2 table — that is a DECLARED change (§10.4)"
-    assert board["n_conditions"] == 9
+    assert board["n_conditions"] == len(health.CONDITION_ORDER)
 
 
 def test_every_row_carries_the_alarm_state_idiom(health, tmp_path):
@@ -738,4 +743,109 @@ def test_the_rule_is_reachable_from_a_session_that_loads_no_skill(health):
     desc = skill.split("---")[1]
     assert "INTERACTIVE" in desc.upper(), (
         "every load trigger is still a Routine firing; the interactive path remains unreachable"
+    )
+
+
+# ──────────────────────────────────────────── the width cap, which governed nothing until it was read
+#
+# ⛔⛔ THIS DIAL WAS WORSE INSTRUMENTED THAN THE SESSION-SHAPE RULE ABOVE, AND IT CARRIES MORE RISK.
+# `grep -rn subagent_width` over the whole repository returned TWO hits on 2026-08-26: the JSON that
+# defines it, and one test asserting its value is 5. Nothing read it; no receipt recorded a dispatch.
+# The session-shape rule was at least prose in a loadable skill — this was a NUMBER IN A STATE FILE
+# CONNECTED TO NO CODE PATH, which is the purest form of a governed value that governs nothing.
+#
+# Architecture §9 on what it guards: a 107-agent fan-out hit the account weekly usage limit — 40
+# completed, 67 errored, the synthesis step failed and returned a truncation artifact, the resumed run
+# reached 102 and died on a container restart, and the findings were recovered by hand from
+# journal.jsonl. "Width is the more important dial — the incident above was a WIDTH failure."
+
+
+def _fan(cycle_id, width):
+    return {"cycle_id": cycle_id, "session_id": "s", "subagents": {"max_concurrent": width}}
+
+
+def test_a_fanout_over_the_cap_goes_red(health):
+    row = health.c_fanout_is_governed([_fan("CYC-1", 9)], {"subagent_width": 5}, None)
+    assert row["needs_attention"] is True
+    assert row["verdict"] == "FANOUT-OVER-CAP"
+    assert "never widen the cap" in row["detail"], (
+        "the remedy text must not teach raising the cap to fit what was already spent — §8b.1e: a "
+        "guard whose printed remedy is the wrong fix teaches the wrong fix"
+    )
+
+
+def test_a_fanout_at_the_cap_is_green(health):
+    assert health.c_fanout_is_governed(
+        [_fan("CYC-1", 5)], {"subagent_width": 5}, None)["needs_attention"] is False
+
+
+def test_a_receipt_recording_no_dispatch_is_UNMEASURED_not_green(health):
+    """⛔ THE DEFEAT THIS CLOSES. If a receipt with no `subagents` block counted as compliant, the
+    cheapest route to a clean board would be to stop recording dispatches — a gate whose easiest
+    defeat is omitting data measures only its own compliance. CLAUDE.md §4: an absent reading is not
+    a reading of absence."""
+    row = health.c_fanout_is_governed([{"cycle_id": "CYC-1", "session_id": "s"}],
+                                      {"subagent_width": 5}, None)
+    assert row["unmeasured"] is True
+    assert row["needs_attention"] is False
+    assert row["payload"]["receipts_not_recording_dispatch"] == ["CYC-1"]
+
+
+def test_one_unrecorded_receipt_does_not_hide_a_recorded_overrun(health):
+    """§8b.1a: a checker that reports state(group) and then reasons about a member has a defect. A
+    mix of recorded and unrecorded receipts must still convict the recorded overrun."""
+    row = health.c_fanout_is_governed(
+        [{"cycle_id": "CYC-1", "session_id": "s"}, _fan("CYC-2", 40)],
+        {"subagent_width": 5}, None)
+    assert row["verdict"] == "FANOUT-OVER-CAP" and "CYC-2" in row["detail"]
+
+
+def test_an_unreadable_state_or_absent_cap_is_unmeasured_not_green(health):
+    assert health.c_fanout_is_governed([_fan("C", 1)], None, "boom")["unmeasured"] is True
+    assert health.c_fanout_is_governed([_fan("C", 1)], {}, None)["unmeasured"] is True
+
+
+def test_the_cap_is_read_from_state_and_never_typed_in_the_checker(health):
+    """One fact, one place — and specifically so the backoff ladder (5 → 2 → 1) actually moves it. A
+    hardcoded 5 here would keep the gate at full width while the governor was throttling."""
+    src = HEALTH_PY.read_text()
+    body = src[src.index("def c_fanout_is_governed"):src.index("def c_budget_recovering")]
+    assert 'state.get("subagent_width")' in body
+    assert "subagent_width" in json.loads(STATE_JSON.read_text())
+
+
+def test_the_unit_of_the_cap_is_written_down(health):
+    """⛔ IT WAS UNENFORCEABLE, NOT MERELY UNENFORCED, UNTIL THIS EXISTED. A cap of '5' says nothing
+    until you say five of what — concurrent agents, or a serial total, or agents per item. Two
+    readings of one number is how a gate and its subject quietly disagree."""
+    state = json.loads(STATE_JSON.read_text())
+    means = state.get("_subagent_width_means", "")
+    assert "CONCURRENT" in means.upper(), "the unit is still undefined"
+    assert "SERIAL" in means.upper() or "serially" in means, (
+        "the dial's LIMIT must be stated too — a serial total is not governed by a concurrency cap, "
+        "and leaving that unsaid lets the row read as broader assurance than it is"
+    )
+
+
+def test_the_condition_is_wired_into_the_board(health):
+    assert "fanout_is_governed" in health.CONDITION_ORDER
+    assert "c_fanout_is_governed(receipts, state, state_err)" in HEALTH_PY.read_text(), (
+        "defined but not assembled into build() — it would never reach a board, which is the exact "
+        "shape of the defect being fixed"
+    )
+
+
+def test_the_cap_is_readable_at_the_moment_the_spawn_is_authorised(health):
+    """★ THE PREVENTION HALF. This condition is retrospective by construction — it reads committed
+    receipts. What stops an overrun is the number being legible at the line that grants standing
+    authorisation to spawn, in the file that loads every session."""
+    claude_md = (REPO / "CLAUDE.md").read_text()
+    assert "subagent_width" in claude_md, (
+        "CLAUDE.md authorises spawning subagents and never names the cap, so a session that reads "
+        "only CLAUDE.md is authorised without a limit — the gap measured 2026-08-26"
+    )
+    i = claude_md.index("standing authorisation to spawn")
+    assert "subagent_width" in claude_md[i:i + 600], (
+        "the cap is named somewhere in CLAUDE.md but not AT the authorisation, which is the moment "
+        "the decision is made"
     )

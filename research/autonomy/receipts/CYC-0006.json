@@ -81,5 +81,15 @@
     "_points_at": "research/compute/pricing.md",
     "real_dollars": "none — no GPU, no metered API",
     "claude_budget": "one interactive session plus two seat subagents"
+  },
+  "subagents": {
+    "max_concurrent": 2,
+    "total": 2,
+    "cap_at_the_time": 5,
+    "what": [
+      "blind seat: hostile-referee, pinned 34264bb",
+      "blind seat: prose-artifact regression, pinned 34264bb"
+    ],
+    "_recorded_retroactively": "Added 2026-08-26 when `fanout_is_governed` was built. The dispatch happened as recorded; the FIELD did not exist at the time, because nothing read subagent_width and no receipt schema asked for it."
   }
 }
