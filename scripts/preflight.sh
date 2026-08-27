@@ -50,6 +50,20 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
+# ⛔ AUT-PD-026, 2026-08-27: A FRESH GIT WORKTREE NEVER GETS THE SessionStart HOOK, SO
+# dev-setup.sh NEVER RUNS THERE, AND THIS SCRIPT SILENTLY FALLS BACK TO AN INCOMPLETE
+# INTERPRETER. Two independent seats hit the identical signature (50 failed, ~8046 of 8113
+# collected) from the same cause: the 2026-08-27 worktree-in/branch-out contract puts every
+# seat in exactly the environment the hook cannot reach. `_dep_hint()` below only prints a
+# message after the damage is done -- a seat has to notice the hint, read it correctly, and
+# run the command itself, which is precisely the class of failure CLAUDE.md §4 exists for
+# ("an absent reading is not a reading of absence"). `--if-needed` is built to be cheap and
+# idempotent (an import check, exit 0 immediately if already satisfied), so running it
+# unconditionally here costs ~nothing on a healthy box and fixes the worktree case outright.
+if [ -x ./scripts/dev-setup.sh ]; then
+  ./scripts/dev-setup.sh --if-needed
+fi
+
 # Known-failing-in-sandbox count. Raise ONLY with a recorded reason; lowering it is always safe.
 #
 # ⛔ RAISED 14 -> 48 ON 2026-08-05, AND THE RAISE IS A CORRECTION RATHER THAN A CONCESSION. The 14 was
