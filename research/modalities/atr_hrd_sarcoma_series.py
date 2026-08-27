@@ -1270,17 +1270,70 @@ def main(argv=None):
         print("processed_matrix ->", (res.get("processed_matrix") or {}).get("state"))
         return 0
 
+    # ⭐ AND THE SAME QUESTION ASKED OF EVERY OTHER RECORD THAT CLAIMS TO KNOW WHAT IS IN THIS SLOT.
+    # The two SERIES MISMATCH checks below compare the artifact and its cache against this module's
+    # constant, which is the incident of 2026-08-07 and the door it came through. They say nothing
+    # about the records the CLAIMS are made in: the systems map's entry for this path, and §8 of
+    # `emc-atr-vulnerability-assessment.md`, which declares this module as its producer. Measured
+    # 2026-08-27 on a copy: re-pointing that section to GSE28866 left `--check` green, the whole
+    # modalities suite green (13/13) and the default preflight byte-identical to its control run.
+    # `single_slot_identity` binds those too, over a REGISTRY, so the next single-slot artifact is
+    # covered by an entry rather than by another hand-written check in another module.
+    rc = 0
+    if HERE not in sys.path:
+        sys.path.insert(0, HERE)
+    import single_slot_identity as _ssi                                        # noqa: E402
+    _me = os.path.abspath(__file__)
+    _slot = next((s for s in _ssi.SLOTS
+                  if os.path.abspath(os.path.join(_ssi.REPO, s["producer"])) == _me), None)
+    if _slot is None:
+        # ⛔ FAIL CLOSED. An unregistered slot is an UNMEASURED one, and this module is the exact
+        # shape the registry exists for; silently skipping would restore the blind spot.
+        print(f"IDENTITY UNCHECKED — no slot in single_slot_identity.SLOTS names "
+              f"{os.path.basename(__file__)} as its producer, so nothing binds this fixed output "
+              f"path to {SERIES}", file=sys.stderr)
+        rc = 1
+    else:
+        _fails = _ssi.check_slot(_slot)
+        if _fails:
+            print(f"IDENTITY UNBOUND — {_slot['id']} does not hold {SERIES}", file=sys.stderr)
+            for _f in _fails:
+                print(f"    {_f}", file=sys.stderr)
+            rc = 1
+        else:
+            print(f"OK — the slot is bound to {SERIES} (artifact, caches, systems map, "
+                  f"{len(_slot.get('declared_by', []))} declaring document(s))")
+
     if not os.path.exists(INPUTS):
         print(f"no inputs cache at {INPUTS} — run --fetch in CI first", file=sys.stderr)
         return 2
     with open(INPUTS) as f:
         inp = json.load(f)
     fresh = derive(inp, _load_quant())
+    # ⛔⛔ AND THE SAME QUESTION ASKED OF THE CACHE, BECAUSE THE COMMITTED-ARTIFACT CHECK BELOW HAS
+    # A DOOR IT CANNOT COVER (measured 2026-08-27, on a copy). The `if not os.path.exists(ART)`
+    # branch a few lines down WRITES `fresh` into the slot and returns 0, and it runs BEFORE
+    # anything reads the committed artifact -- so with the artifact absent and the inputs cache
+    # holding GSE28866, `--check` wrote a GSE28866 artifact into GSE299349's fixed path and exited
+    # 0. That is this module's whole defect class, arriving through the one entrance the guard did
+    # not watch.
+    # ⚠ IT ALSO GIVES THE CACHE-ONLY SWAP ITS RIGHT NAME. `derive()` reads `series` from the cache
+    # (`inp.get("series", SERIES)`), so a cache swapped alone was previously reported as DRIFT --
+    # whose remedy is "regenerate", which would regenerate the artifact FROM the wrong cache. The
+    # remedy for an identity failure is to re-fetch the DECLARED series, and a reader sent to the
+    # wrong one loses the incident twice.
+    if fresh.get("series") != SERIES:
+        print(f"SERIES MISMATCH — the inputs cache at {os.path.basename(INPUTS)} derives "
+              f"series={fresh.get('series')!r}, but this module's SERIES constant is {SERIES!r}. "
+              f"The cache this artifact is re-derived FROM is for another series, so every "
+              f"re-derivation from it writes another series into this fixed path. Re-fetch the "
+              f"declared series: python3 {os.path.basename(__file__)} --fetch", file=sys.stderr)
+        return 1
     if not os.path.exists(ART):
         with open(ART, "w") as f:
             json.dump(fresh, f, indent=1, sort_keys=True)
         print("artifact written from the cache")
-        return 0
+        return rc
     with open(ART) as f:
         committed = json.load(f)
     # ⛔⛔ AUT-PROP-009, THE HALF THE DERIVE-REPRODUCES CHECK CANNOT SEE. The 2026-08-07 incident
@@ -1304,7 +1357,7 @@ def main(argv=None):
     b = json.dumps(committed, indent=1, sort_keys=True)
     if a == b:
         print("OK — the artifact re-derives byte-identically from the committed inputs cache")
-        return 0
+        return rc
     print("DRIFT — the derive half no longer reproduces the committed artifact", file=sys.stderr)
     for k in sorted(set(fresh) | set(committed)):
         if json.dumps(fresh.get(k), sort_keys=True) != json.dumps(committed.get(k), sort_keys=True):

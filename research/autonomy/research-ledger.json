@@ -5,7 +5,7 @@
   "_generated_by": "python3 research/autonomy/priority.py --write",
   "_scores_are_not_evidence": "A score orders work; it asserts nothing about the science. Every input is echoed in score_inputs so a reader can check the arithmetic against the graph.",
   "n_by_kind": {
-    "process_defect": 19,
+    "process_defect": 22,
     "harden": 11,
     "fix": 9,
     "build": 1,
@@ -21,9 +21,9 @@
   },
   "n_by_state": {
     "done": 28,
-    "queued": 103,
+    "queued": 105,
     "superseded": 1,
-    "in_progress": 2
+    "in_progress": 3
   },
   "n_clamped": 11,
   "entries": [
@@ -939,7 +939,7 @@
       "last_evidence_utc": "2026-08-27",
       "filed_by": "CYC-0016",
       "score": 170.0,
-      "what": "✅ DONE 2026-08-27 (CYC-0025). atr_hrd_sarcoma_series.py's main() now compares the committed artifact's own `series` field against the module's SERIES constant BEFORE the derive-reproduces comparison, failing with a named SERIES MISMATCH diagnostic even when fresh == committed -- closing the exact gap the incident exploited (a restore that swaps the inputs cache and the artifact together, both self-consistently wrong, so the derive-reproduces check alone stays green). New regression test test_check_would_have_caught_the_incident_the_drift_check_missed faithfully reproduces the incident's shape (derive() on mutated inputs genuinely equals the mutated committed fixture, not a hand-patched approximation) and is mutation-tested: reverting the fix makes it fail with rc==0, a genuine silent pass. A static assertion of the same invariant already existed (test_the_declared_series_is_the_one_the_committed_artifact_holds) but only ran when the test suite ran; this closes the module's own --check path directly."
+      "what": "✅ DONE 2026-08-27 (CYC-0025). atr_hrd_sarcoma_series.py's main() now compares the committed artifact's own `series` field against the module's SERIES constant BEFORE the derive-reproduces comparison, failing with a named SERIES MISMATCH diagnostic even when fresh == committed -- closing the exact gap the incident exploited (a restore that swaps the inputs cache and the artifact together, both self-consistently wrong, so the derive-reproduces check alone stays green). New regression test test_check_would_have_caught_the_incident_the_drift_check_missed faithfully reproduces the incident's shape (derive() on mutated inputs genuinely equals the mutated committed fixture, not a hand-patched approximation) and is mutation-tested: reverting the fix makes it fail with rc==0, a genuine silent pass. A static assertion of the same invariant already existed (test_the_declared_series_is_the_one_the_committed_artifact_holds) but only ran when the test suite ran; this closes the module's own --check path directly.\n\n⚠ CORRECTION 2026-08-27, appended not edited (CLAUDE.md §1.2), AND IT CHANGES WHAT THE FIX HAD TO BE. This entry says an unrelated restore commit (4a7030e, 2026-08-26) swept in a stale snapshot of the toolchain; CYC-0025's commit message inherits that account. ⛔ IT IS WRONG, and I verified it myself with git rather than taking the reviewing seat's word: `git show --name-only 4a7030e` touches THREE files — research-ledger.json, the ASO archive manifest and step1-fanout-map.json — and NOT the ATR artifact or either cache. The actual clobber was **325258cb8** (2026-08-07), whose own subject line is 'GEO series GSE28866: sample-level characterisation (CI)' and whose entire diff is exactly the three ATR files. It was a direct `mode=gse-series series=GSE28866` dispatch writing the slot it was told to write — not a restore. ⭐ THE DISTINCTION IS NOT BOOKKEEPING: a restore-caused clobber argues for guarding restores, and a dispatch-caused one argues for binding the artifact's IDENTITY, which is what the single-slot registry does and what a 17-line series comparison inside one `main()` does not. The wrong cause would have justified the smaller fix. ⚠ AND HOW LONG THE SLOT WAS WRONG IS NOT PROVEN: this clone is shallow (118 commits), so '2026-08-07 to 2026-08-27' is the interval between the two commits that are readable here, not a demonstrated continuous state.\n\n✅ REVIEWED AND COMPLETED 2026-08-27. A second seat, already holding the problem, was redirected from building to REVIEWING what CYC-0025 landed — and its verdict was that the landed fix is CORRECT BUT NOT COMPLETE: **4 of 8 mutations passed silently on it.** ⛔ THE THREE THAT MATTER. (1) A LIVE HOLE: when the artifact is ABSENT, `--check` writes a fresh artifact and returns 0 BEFORE the series comparison runs, so a deleted artifact plus a wrong-series cache left the slot holding GSE28866 with a green exit. (2) It never looked at the CITING MANUSCRIPTS at all — proven by re-pointing §8 of emc-atr-vulnerability-assessment.md to the wrong accession on a copy: `--check` rc=0, modalities tests 13/13 pass, and the default preflight log byte-identical to its control. That is the original defect's own shape and it was still undetectable. (3) NOTHING RAN IT before a mistake could be shared: `--check` was in no preflight gate, and the one workflow calling it swallows the exit code by design (`|| echo \"non-blocking, but READ IT\"`). ⭐ LANDED: the FULL patch, not the minimal one — `research/modalities/single_slot_identity.py`, a REGISTRY that binds the producer constant (read by `ast`), the artifact, each cache, a member-set binding for caches with no identity field, the systems-map entry, and every manuscript declaring a `**Producer:**` block for the slot — plus 17 tests and two rows in preflight gate 11, which is the default commit loop. 8/8 mutations caught against the landed fix's 4/8. The minimal 32-line alternative reached 5/8 and was declined: the manuscript-binding half is precisely what would have caught the original incident. ⚠ IT DELIBERATELY DOES NOT police every file mentioning the artifact — 26 lines repo-wide name it alongside another GSE accession and all 26 are legitimate (the ledger, two receipts, a review seat recording this incident verbatim, a precedent citation, a provenance note) — and it does not verify the artifact's PAYLOAD is about the declared series."
     },
     {
       "id": "AUT-PROP-013",
@@ -4063,6 +4063,84 @@
       "score": 170.0,
       "_score_basis": "a manuscript citing a retracted review, found by a guard on its first run",
       "depends_on_evidence": "PubMed record for PMID 40646688 read 2026-08-27; lint_citation_types advisory",
+      "closes_clause": null
+    },
+    {
+      "id": "AUT-PD-026",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0023-6be7fd5a",
+      "what": "✅ CLOSED 2026-08-27 — THE REPORTED BLOCKER WAS NOT LIVE, AND THE REAL FINDING IS THE ONE THAT NEARLY GOT FILED INSTEAD. ⛔ WHAT WAS REPORTED: the AUT-PROP-009 review seat measured `PREFLIGHT_MODALITIES=1` as unusable here — `50 failed, 7933 passed`, exactly 50 on an unpatched origin/main checkout too, the first tracing to `ModuleNotFoundError: No module named 'pymbar'` at nr4a3_abfe.py:69 — and correctly REFUSED to add them to sandbox-failure-baseline.txt, which would have converted a missing dependency into a permanent amnesty. That refusal was right and is worth keeping. ⛔ WHAT IS ACTUALLY TRUE: I checked before acting rather than filing the report. `pymbar 4.0.3` imports in BOTH interpreters — the tool venv at /root/.local/share/uv/tools/pytest/bin/python AND system python3 — and the ABFE tests the failure named now run `168 passed, 2 skipped`. There is no live blocker. ⭐ THE ENVIRONMENT WAS REPAIRED BETWEEN THE SEAT'S READING AND MINE: `dev-setup.sh` already carries `pymbar` in TEST_DEPS and its own header records this EXACT incident on 2026-08-24 — 'the tool venv had pymbar' while python3 lacked it, a publication gate red on ModuleNotFoundError at nr4a3_abfe.py:69, the same line. A `SessionStart` hook now runs `dev-setup.sh --if-needed`, which is presumably what closed it. ⭐⭐ SO THE TRANSFERABLE FINDING IS ABOUT SEATS, NOT ABOUT pymbar: A SUBAGENT'S ENVIRONMENT READING IS A DATED OBSERVATION AND CAN BE STALE BY THE TIME ITS REPORT IS READ — a seat runs for 40-55 minutes, a SessionStart hook or a sibling's install can move the ground under it, and its report arrives asserting the present tense. This one would have entered the ledger as a live blocker on a whole preflight tier, and the next session would have inherited it as a fact. ⚠ THE RULE THAT CAUGHT IT is CLAUDE.md §4 pointed at our own sandbox rather than at AI capability: take the live reading, it costs nothing. Two `python -c 'import pymbar'` calls and one scoped pytest run were the whole cost. ⛔ AND THE GENERAL FORM IS WORTH THE ENTRY EVEN THOUGH THE INSTANCE IS EMPTY: a seat's environment claims should be re-measured by the driver before they are filed, the same way its factual claims are — the ATR causal account was checked with `git show` and HELD; this one was checked and did NOT.",
+      "score": 95.0,
+      "_score_basis": "a seat's stale environment reading nearly entered the ledger as a live blocker on a whole gate tier",
+      "depends_on_evidence": "pymbar 4.0.3 imports in both interpreters; research/modalities/tests -k abfe -> 168 passed, 2 skipped; scripts/dev-setup.sh:112-114 records the 2026-08-24 instance",
+      "closes_clause": null
+    },
+    {
+      "id": "AUT-PD-027",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0023-6be7fd5a",
+      "what": "⛔ THE SCRATCHPAD IS SHARED ACROSS SEATS AND FILENAMES COLLIDE — ONE SEAT'S EVIDENCE WAS DESTROYED MID-RUN. Measured 2026-08-27: the AUT-PROP-009 review seat's `scratchpad/preflight.log` was TRUNCATED TO 8 LINES by another agent's run at 20:38 while it was still writing. ⭐ THE SEAT HANDLED IT CORRECTLY AND THAT IS WHY WE KNOW: it refused to report that run's result at all and re-ran under a uniquely-named log. A less careful seat reports the truncated log's tail as the verdict, and a preflight that was killed mid-write is indistinguishable from one that passed — the exact ambiguity CLAUDE.md §6 records as the reason preflight now writes an explicit exit marker. ⛔ THE HAZARD IS GENERAL, NOT ABOUT ONE FILENAME: every seat is told to write to the same scratchpad directory, and `preflight.log`, `mutations.txt` and `patch.diff` are the names everyone reaches for. ⭐ FIX: give each seat a namespaced subdirectory it is told to use, and say so in the seat prompt template rather than hoping — a convention agreed in prose between two writers is not agreed at all (AUT-PD-017, filed today for exactly this shape one level down).",
+      "score": 120.0,
+      "_score_basis": "a seat's own evidence was silently destroyed by a sibling; a truncated log reads like a pass",
+      "depends_on_evidence": "the AUT-PROP-009 review seat's report: scratchpad/preflight.log truncated to 8 lines at 20:38",
+      "closes_clause": null
+    },
+    {
+      "id": "AUT-PD-028",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0023-6be7fd5a",
+      "what": "⛔ TWO SESSIONS BOTH REGENERATE THE ASO ARCHIVE MANIFEST AND COLLIDE ON EVERY PUSH — THREE TIMES IN TEN MINUTES on 2026-08-27. Each merge brings in a manifest stamped against the OTHER session's tree; AUT-PD-016's guard then correctly REFUSES one whose `git_tree_is_clean_apart_from_this_manifest` is false; and the resolution is always identical — never hand-merge a generated file, regenerate it on the settled tree. ⭐ THAT RESOLUTION IS RIGHT AND IT DOES NOT CONVERGE WHILE TWO WRITERS KEEP PRODUCING IT: every regeneration is itself a commit, which is another push another session must merge, which restamps the flag. ⚠ THE GUARD IS NOT THE PROBLEM AND MUST NOT BE LOOSENED — it caught a real instance today, a manifest whose hash list was taken while tracked files were uncommitted and so may describe a file that is not what got committed. ⭐ THE CANDIDATE FIX IS ONE WRITER: have CI regenerate the manifest on the trunk after a push, the way the submission parts are already rebuilt on a runner, so no interactive session ever needs to. Check what `.github/workflows/aso-submission-parts.yml` already does before building anything — half of this may exist.",
+      "score": 115.0,
+      "_score_basis": "a generated artifact with two writers thrashes, and each resolution is another commit to merge",
+      "depends_on_evidence": "three regenerations in ten minutes; the merged manifest refused for clean_flag=false",
       "closes_clause": null
     }
   ]

@@ -479,6 +479,24 @@ gen_fail=""
 # would then go unwatched. `--check-archive` compares everything except the two repository-state
 # fields, so it still fails when the inventory, the hashes or the promises move, and no longer
 # fails because a commit happened. The strict `--check` remains the pre-deposit check.
+# ⭐ ROW ADDED 2026-08-27 (AUT-PROP-009 review), AND IT IS WHAT MAKES THE GUARD A GUARD. CYC-0025
+# put a SERIES MISMATCH check inside `atr_hrd_sarcoma_series.py --check` -- it is correct, and
+# verified on this reviewer's copy against the real bytes of 325258cb8, the commit that caused the
+# incident. But NOTHING RAN IT: `--check` appears nowhere in this script, and the only workflow that
+# calls it (`emc-expression-datasets.yml`, gse-series mode) does so as
+# `... --check || echo "--check reported drift; non-blocking, but READ IT"`, which swallows the exit
+# code by design. The invariant on the real committed artifact was therefore still enforced only by
+# `test_the_declared_series_is_the_one_the_committed_artifact_holds` in the modalities suite --
+# opt-in locally behind PREFLIGHT_MODALITIES=1, and in CI on push, i.e. AFTER the commit that ships
+# the wrong artifact. This row is the one that fires before the mistake is shared, and it costs
+# 0.4 s (measured).
+# ⭐ THE SECOND ROW IS THE GENERAL HALF. A re-derive check and an artifact-vs-constant check are
+# both scoped to ONE module; `single_slot_identity.py --check` walks a REGISTRY of fixed-path
+# artifacts and binds each to the identity its producer declares, its caches were fetched for, the
+# systems map records, and the manuscripts that declare it as their producer are writing about.
+# ⚠ ITS FAILURE IS NOT STALENESS AND THE ROW'S GENERIC REMEDY BELOW IS WRONG FOR IT, exactly as it
+# is for the archive manifest; the module prints its own remedy, which AUT-PD-016 is why a reader
+# now sees.
 for g in "research/manuscripts/submission_tables.py|submission tables|--check" \
          "research/manuscripts/submission_citations.py|submission references|--check" \
          "research/manuscripts/submission_metrics.py|submission metrics|--check" \
@@ -488,7 +506,9 @@ for g in "research/manuscripts/submission_tables.py|submission tables|--check" \
          "research/manuscripts/submission_packet.py|submission packet|--check" \
          "research/manuscripts/vaccine_path_tables.py|vaccine-path manuscript tables|--check" \
          "research/manuscripts/aso_archive_manifest.py|archive manifest|--check-archive" \
-         "research/modalities/emc_condensate_report.py|condensate CALVADOS findings|--check"; do
+         "research/modalities/emc_condensate_report.py|condensate CALVADOS findings|--check" \
+         "research/modalities/atr_hrd_sarcoma_series.py|ATR HRD sarcoma series|--check" \
+         "research/modalities/single_slot_identity.py|single-slot artifact identity|--check"; do
   gen="${g%%|*}"; rest="${g#*|}"; label="${rest%%|*}"; mode="${rest##*|}"
   # ⛔ THE GENERATOR'S OWN FAILURE TEXT REACHES THE READER AS OF AUT-PD-016 (2026-08-27). This line
   # was `python3 "$gen" "$mode" >/dev/null 2>&1`, so every producer's diagnosis was discarded and
