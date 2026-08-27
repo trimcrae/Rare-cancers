@@ -39,7 +39,7 @@
         "note": "⚠ FREE TO READ AND STILL UNREACHABLE BY MACHINE (2026-08-25). Unpaywall grades it open access at the publisher; every route tried, including a real headless Chromium, was answered HTTP 403. A human with a browser can read it; this program cannot fetch it, and the next rung would be defeating bot protection, which this program does not build.",
         "census": "research/literature/emc-km-reachability-census-2026-08-25.json"
       },
-      "overlap_risk": "none with institutional series",
+      "reachability_2026_08_27": "UNCHANGED after two new rungs. Unpaywall and OpenAlex agree the only PDF location is ScienceDirect, which answered 403 to plain HTTP and to a real headless Chromium; the second location both indexes hold is a DOAJ landing page with no file. THE LARGEST OPEN-ACCESS EMC SERIES IS READABLE BY A HUMAN IN A BROWSER AND NOT BY THIS PROGRAM, so its figures remain UNSEEN -- the risk-row question is unasked here, not answered. research/literature/emc-km-admissibility-2026-08-27.json",
       "⛔_caveat": "Keyed on ICD-O-3 9231/3, the code RT-DIAGNOSTIC-PATHWAY shows two published SEER analyses read as mutually incompatible diseases. Cohort composition is UNKNOWN and this row must not anchor a pooled estimate until that split is quantified."
     },
     {
@@ -58,6 +58,7 @@
         ],
         "numbers_at_risk_row": false,
         "style": "two arms, 95% CI shading, p-value in panel, no risk table beneath the axis",
+        "risk_row_measured_2026_08_27": "absent (all three figures, km_risk_row_detect.py, pixel arm on the publisher's own embedded rasters)",
         "⛔_consequence": "REFUSED by the quality floor. This is the LARGEST reachable EMC series (n=171) and it is unreconstructable for a reporting reason, not a scientific one."
       },
       "overlap_risk": "none with institutional series"
@@ -130,6 +131,7 @@
         "⭐_what_IS_printed": "median OS 180 months, 75% alive at 5 years, 63% at 10 years, 20 deaths of 59 -- printed in the text, so a printed-numbers analysis is possible where a reconstruction is not.",
         "⛔_consequence": "REFUSED by the quality floor."
       },
+      "risk_row_measured_2026_08_27": "absent (all four figures). ⚠ Read from the PAGE RASTER rather than the publisher's own image: this paper stores its curves as JPEG, which km_risk_row_detect's stdlib decoder declines, so the weaker input was used and the artifact labels it `source: page_raster`.",
       "overlap_risk": "⚠ likely shares Milan/INT patients with the Stacchiotti series"
     },
     {
@@ -257,6 +259,7 @@
         "⚠_correction": "emc-ipd-admissibility-2026-08-12.json counted this paper among those that 'report Kaplan-Meier survival analysis'. It reports one in TEXT and prints no KM curve, which a caption scan cannot distinguish.",
         "⭐_a_different_instrument_applies": "A swimmer plot is per-patient data drawn as pixels: each bar is one patient's PFS, with censoring shown by an arrow. Reading it needs no Guyot recursion because it IS the patient-level data -- but the EMC patients are one colour inside a mixed soft-tissue sarcoma cohort, so the subgroup must be separated by colour before anything can be claimed."
       },
+      "risk_row_measured_2026_08_27": "absent -- and it means less here than elsewhere, because what the instrument read is the SWIMMER PLOT, whose caption names a survival endpoint. A swimmer plot needs no risk table; km-swimmer-readings.json is what reads it.",
       "overlap_risk": "⚠ likely the parent trial of immunosarc2emc2025",
       "⚠_caveat": "cohort is advanced soft-tissue sarcoma broadly; an EMC-specific curve may not exist"
     },
@@ -299,6 +302,7 @@
         "digitized": "km-figure-readings.json -> stacchiotti2013_pfs_anthracycline",
         "⭐": "The reconstruction reproduces the caption's printed median PFS of 8 months, which the reconstruction never saw. That is this program's only check of a READING."
       },
+      "risk_row_measured_2026_08_27": "present -- five marks under the axis, aligned with all five tick labels. One of the two KNOWN POSITIVES that show the detector can answer something other than `absent`.",
       "overlap_risk": "⚠ Milan series, overlaps stacchiotti2014sunitinib and chiusole2020"
     },
     {
@@ -375,6 +379,7 @@
         "⛔_it_is_not_an_EMC_cohort": "Five patients in the trabectedin arm, of whom the paper's Table 2 identifies TWO as EMCS and three as mesenchymal chondrosarcoma; all three best-supportive-care patients are MCS. A curve over that arm is not an EMC curve.",
         "⭐_no_reconstruction_needed": "Table 2 prints per-subject PFS, overall survival and censoring flags. Where a paper prints patient-level data, reading it is transcription, and inverting a curve to recover what is already printed adds error for nothing."
       },
+      "risk_row_measured_2026_08_27": "present, and READ: the text arm recovered the trabectedin row 5,5,5,3,3,1,1,1 from the figure's own text layer, which is the same table `risk_table_printed` above holds from an eye reading two days earlier. Two readings, two methods, same eight numbers.",
       "overlap_risk": "⚠ may overlap japan2003 institutions",
       "⚠_caveat": "n=5 is below the >=5-per-study inclusion floor used by the reconstructed-IPD exemplar only if that floor is read as strictly greater; adjudicate before admitting"
     }

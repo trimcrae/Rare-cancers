@@ -1,0 +1,804 @@
+{
+  "_what": "Admit or refuse, per candidate EMC survival series, against the numbers-at-risk condition POLICY-evidence.md §2.7(a) makes mandatory.",
+  "_generated_by": "scripts/emc_km_admissibility.py",
+  "_not_medical_advice": "Nothing here is medical advice, and nothing here asserts efficacy, safety or clinical readiness.",
+  "⛔_a_refusal_is_about_reporting": "Every `refused_no_risk_row` row is a statement about what a journal printed beneath an axis. It is not a criticism of the study, it does not bear on the study's conclusions, and it says nothing about the patients in it.",
+  "⛔_a_figure_that_is_not_a_kaplan_meier_curve_is_refused_here_by_construction": "The rule reads figures whose caption names a survival endpoint. martinbroto2020's Figure 3 is a SWIMMER PLOT captioned 'Progression-free survival ...': it prints no numbers-at-risk row because it needs none, and it is read by a different instrument entirely (research/modalities/km-swimmer-readings.json). A refusal here is a refusal to invert that figure with Guyot's algorithm, never a claim that it carries nothing.",
+  "⛔_the_patient_totals_are_series_denominators_not_emc_patients": "A denominator is the whole arm the figure describes. morioka2016's admitted curve covers a five-patient trabectedin arm of which the paper's Table 2 identifies two as EMC, so summing denominators overstates the EMC patients available. Composition is recorded per row in research/modalities/emc_ipd_survival.py:CANDIDATE_SOURCES.",
+  "⛔_admitted_is_not_pooled": "§2.1 and §2.3 decide what may be combined; an admitted curve still has to clear non-overlap, and the overlap risks are recorded in research/modalities/emc_ipd_survival.py:CANDIDATE_SOURCES.",
+  "reads_from": {
+    "registry": "research/data/emc-clinical-registry.json",
+    "figure_readings": "research/modalities/km-risk-row-detection.json",
+    "retrieval_rounds": [
+      {
+        "slug": "km-figures-2026-08-25",
+        "path_in_literature_cache": "literature/km-figures-2026-08-25/_km_figure_manifest.json",
+        "cache_commit": "454df71144f677b1e84ed58f7a6c6951a4190f66",
+        "actions_run_id": "32903796837"
+      },
+      {
+        "slug": "km-figures-round5-2026-08-27",
+        "path_in_literature_cache": "literature/km-figures-round5-2026-08-27/_km_figure_manifest.json",
+        "cache_commit": "454df71144f677b1e84ed58f7a6c6951a4190f66",
+        "actions_run_id": "33108005085"
+      }
+    ]
+  },
+  "totals": {
+    "candidates": 16,
+    "figures_read_whose_caption_names_a_survival_endpoint": 10,
+    "patients_in_series_whose_figures_were_read": 314,
+    "patients_in_admitted_series": 16,
+    "by_verdict": {
+      "admitted": 2,
+      "refused_no_risk_row": 3,
+      "unreachable": 11
+    }
+  },
+  "by_verdict": {
+    "unreachable": [
+      "seer270_2022",
+      "meisKindblom1999",
+      "drilon2008",
+      "ussc2022",
+      "huang2023",
+      "uMich2023",
+      "japan2003",
+      "bishop2019",
+      "china2016",
+      "stacchiotti2019pazopanib",
+      "stacchiotti2014sunitinib"
+    ],
+    "refused_no_risk_row": [
+      "masunaga2025",
+      "martinbroto2020immunosarc1",
+      "chiusole2020"
+    ],
+    "admitted": [
+      "stacchiotti2013anthracycline",
+      "morioka2016trabectedin"
+    ]
+  },
+  "series": [
+    {
+      "source_id": "seer270_2022",
+      "n": 270,
+      "identifiers": {
+        "pmid": "35144048",
+        "doi": "10.1016/j.ctarc.2022.100530"
+      },
+      "study_period": [
+        2004,
+        2015
+      ],
+      "verdict": "unreachable",
+      "why": "no free route returned the article today, so its figures have not been LOOKED at: the risk-row question is unasked, not answered no",
+      "figures": null,
+      "pdf_sha256": null,
+      "retrieval": {
+        "round": "km-figures-round5-2026-08-27",
+        "route_used": null,
+        "routes": [
+          {
+            "route": "caller_pdf_url",
+            "http": 403,
+            "bytes": 2000,
+            "content_type": "text/html; charset=UTF-8",
+            "browser_http": 403
+          }
+        ],
+        "unpaywall": {
+          "is_oa": true,
+          "oa_status": "gold",
+          "n_oa_locations": 2
+        },
+        "oa_locations": [
+          {
+            "url_for_pdf": "https://www.sciencedirect.com/science/article/pii/S2468294222000211/pdf",
+            "url": "https://www.sciencedirect.com/science/article/pii/S2468294222000211/pdf",
+            "host_type": "publisher",
+            "version": "publishedVersion",
+            "repository_institution": null
+          },
+          {
+            "url_for_pdf": null,
+            "url": "https://doaj.org/article/90d8691fbbb84cf897ca1c7b378f0042",
+            "host_type": "repository",
+            "version": "submittedVersion",
+            "repository_institution": null
+          }
+        ],
+        "openalex_locations": [
+          {
+            "pdf_url": "https://www.sciencedirect.com/science/article/pii/S2468294222000211/pdf",
+            "landing_page_url": "https://doi.org/10.1016/j.ctarc.2022.100530",
+            "source": "Cancer Treatment and Research Communications",
+            "type": "journal",
+            "version": "publishedVersion",
+            "license": "cc-by-nc-nd"
+          },
+          {
+            "pdf_url": null,
+            "landing_page_url": "https://doaj.org/article/90d8691fbbb84cf897ca1c7b378f0042",
+            "source": "DOAJ (DOAJ: Directory of Open Access Journals)",
+            "type": "repository",
+            "version": "submittedVersion",
+            "license": "cc-by-sa"
+          }
+        ]
+      }
+    },
+    {
+      "source_id": "masunaga2025",
+      "n": 171,
+      "identifiers": {
+        "pmcid": "PMC12398172",
+        "doi": "10.1186/s13018-025-06245-6"
+      },
+      "study_period": [
+        2002,
+        2022
+      ],
+      "verdict": "refused_no_risk_row",
+      "why": "every survival figure read prints NO numbers-at-risk row, so the per-interval censored count is unidentifiable: §2.7(a) refuses it rather than admitting it with a caveat",
+      "figures": [
+        {
+          "page": 5,
+          "caption": "Fig. 1  Disease-specific survival rates of patients with and without distant metastases at diagnosis. The shading around the curve",
+          "arm": "pixel",
+          "source": "embedded",
+          "verdict": "absent"
+        },
+        {
+          "page": 7,
+          "caption": "Fig. 2  Local recurrence-free survival rates of patients with and without (neo)adjuvant radiotherapy. The shading around the curve",
+          "arm": "pixel",
+          "source": "embedded",
+          "verdict": "absent"
+        },
+        {
+          "page": 10,
+          "caption": "Fig. 3  Disease-specific survival rates of patients with and without advanced stage chemotherapy in patients with distant metastas",
+          "arm": "pixel",
+          "source": "embedded",
+          "verdict": "absent"
+        }
+      ],
+      "pdf_sha256": "4ae16c8e3b901398a2c881007d64d74ce94176f997f2b3d069ac17c2de00461a",
+      "retrieval": {
+        "round": "km-figures-2026-08-25",
+        "route_used": "europepmc_pdf_render",
+        "routes": [
+          {
+            "route": "europepmc_pdf_render",
+            "http": 200,
+            "bytes": 1763019,
+            "content_type": "application/pdf"
+          }
+        ],
+        "unpaywall": {
+          "is_oa": null,
+          "oa_status": null,
+          "n_oa_locations": null
+        },
+        "oa_locations": [],
+        "openalex_locations": []
+      }
+    },
+    {
+      "source_id": "meisKindblom1999",
+      "n": 117,
+      "identifiers": {
+        "pmid": "10366145",
+        "doi": "10.1097/00000478-199906000-00002"
+      },
+      "study_period": null,
+      "verdict": "unreachable",
+      "why": "no free route returned the article today, so its figures have not been LOOKED at: the risk-row question is unasked, not answered no",
+      "figures": null,
+      "pdf_sha256": null,
+      "retrieval": {
+        "round": "km-figures-round5-2026-08-27",
+        "route_used": null,
+        "routes": [],
+        "unpaywall": {
+          "is_oa": false,
+          "oa_status": "closed",
+          "n_oa_locations": 0
+        },
+        "oa_locations": [],
+        "openalex_locations": []
+      }
+    },
+    {
+      "source_id": "drilon2008",
+      "n": 87,
+      "identifiers": {
+        "pmid": "18951519",
+        "pmcid": "PMC2779719",
+        "doi": "10.1002/cncr.23978"
+      },
+      "study_period": [
+        1975,
+        2008
+      ],
+      "verdict": "unreachable",
+      "why": "no free route returned the article today, so its figures have not been LOOKED at: the risk-row question is unasked, not answered no",
+      "figures": null,
+      "pdf_sha256": null,
+      "retrieval": {
+        "round": "km-figures-round5-2026-08-27",
+        "route_used": null,
+        "routes": [
+          {
+            "route": "europepmc_pdf_render",
+            "http": 500,
+            "bytes": 57,
+            "content_type": "application/json;charset=UTF-8",
+            "browser_http": 500
+          },
+          {
+            "route": "pmc_direct_pdf",
+            "http": 200,
+            "bytes": 1817,
+            "content_type": "text/html; charset=utf-8",
+            "browser_http": 200
+          },
+          {
+            "route": "pmc_legacy_pdf",
+            "http": 200,
+            "bytes": 1817,
+            "content_type": "text/html; charset=utf-8",
+            "browser_http": 200
+          },
+          {
+            "route": "caller_pdf_url",
+            "http": 403,
+            "bytes": 2000,
+            "content_type": "text/html; charset=UTF-8",
+            "browser_http": 403
+          }
+        ],
+        "unpaywall": {
+          "is_oa": true,
+          "oa_status": "bronze",
+          "n_oa_locations": 2
+        },
+        "oa_locations": [
+          {
+            "url_for_pdf": "https://onlinelibrary.wiley.com/doi/pdfdirect/10.1002/cncr.23978",
+            "url": "https://onlinelibrary.wiley.com/doi/pdfdirect/10.1002/cncr.23978",
+            "host_type": "publisher",
+            "version": "publishedVersion",
+            "repository_institution": null
+          },
+          {
+            "url_for_pdf": null,
+            "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/2779719",
+            "host_type": "repository",
+            "version": "submittedVersion",
+            "repository_institution": "National Institutes of Health"
+          }
+        ],
+        "openalex_locations": [
+          {
+            "pdf_url": "https://onlinelibrary.wiley.com/doi/pdfdirect/10.1002/cncr.23978",
+            "landing_page_url": "https://doi.org/10.1002/cncr.23978",
+            "source": "Cancer",
+            "type": "journal",
+            "version": "publishedVersion",
+            "license": null
+          },
+          {
+            "pdf_url": null,
+            "landing_page_url": "https://www.ncbi.nlm.nih.gov/pmc/articles/2779719",
+            "source": "PubMed Central",
+            "type": "repository",
+            "version": "submittedVersion",
+            "license": null
+          }
+        ]
+      }
+    },
+    {
+      "source_id": "martinbroto2020immunosarc1",
+      "n": 68,
+      "identifiers": {
+        "pmid": "33203665",
+        "pmcid": "PMC7674086",
+        "doi": "10.1136/jitc-2020-001561"
+      },
+      "study_period": [
+        2017,
+        2019
+      ],
+      "verdict": "refused_no_risk_row",
+      "why": "every survival figure read prints NO numbers-at-risk row, so the per-interval censored count is unidentifiable: §2.7(a) refuses it rather than admitting it with a caveat",
+      "figures": [
+        {
+          "page": 6,
+          "caption": "Figure 3  Progression- free survival to treatment by patient,",
+          "arm": "pixel",
+          "source": "embedded",
+          "verdict": "absent"
+        }
+      ],
+      "pdf_sha256": "2869688dba5426516415a388457213e6c6fa87f46a58ee3cb7b432fe0635f40f",
+      "retrieval": {
+        "round": "km-figures-2026-08-25",
+        "route_used": "europepmc_pdf_render",
+        "routes": [
+          {
+            "route": "europepmc_pdf_render",
+            "http": 200,
+            "bytes": 529371,
+            "content_type": "application/pdf"
+          }
+        ],
+        "unpaywall": {
+          "is_oa": null,
+          "oa_status": null,
+          "n_oa_locations": null
+        },
+        "oa_locations": [],
+        "openalex_locations": []
+      }
+    },
+    {
+      "source_id": "ussc2022",
+      "n": 60,
+      "identifiers": {
+        "pmid": "35962783",
+        "doi": "10.1002/jso.27062"
+      },
+      "study_period": [
+        2000,
+        2016
+      ],
+      "verdict": "unreachable",
+      "why": "no free route returned the article today, so its figures have not been LOOKED at: the risk-row question is unasked, not answered no",
+      "figures": null,
+      "pdf_sha256": null,
+      "retrieval": {
+        "round": "km-figures-round5-2026-08-27",
+        "route_used": null,
+        "routes": [],
+        "unpaywall": {
+          "is_oa": false,
+          "oa_status": "closed",
+          "n_oa_locations": 0
+        },
+        "oa_locations": [],
+        "openalex_locations": []
+      }
+    },
+    {
+      "source_id": "chiusole2020",
+      "n": 59,
+      "identifiers": {
+        "pmid": "32612944",
+        "pmcid": "PMC7308468",
+        "doi": "10.3389/fonc.2020.00828"
+      },
+      "study_period": [
+        1980,
+        2018
+      ],
+      "verdict": "refused_no_risk_row",
+      "why": "every survival figure read prints NO numbers-at-risk row, so the per-interval censored count is unidentifiable: §2.7(a) refuses it rather than admitting it with a caveat",
+      "figures": [
+        {
+          "page": 4,
+          "caption": "FIGURE 1 | Overall survival according to extention of primary resection.",
+          "arm": "pixel",
+          "source": "page_raster",
+          "verdict": "absent"
+        },
+        {
+          "page": 4,
+          "caption": "FIGURE 2 | Overall survival according to sex.",
+          "arm": "pixel",
+          "source": "page_raster",
+          "verdict": "absent"
+        },
+        {
+          "page": 5,
+          "caption": "FIGURE 3 | Overall survival according to location of primary tumor (T): central",
+          "arm": "pixel",
+          "source": "page_raster",
+          "verdict": "absent"
+        },
+        {
+          "page": 5,
+          "caption": "FIGURE 4 | Overall survival according to location of metastases (M) in lung,",
+          "arm": "pixel",
+          "source": "page_raster",
+          "verdict": "absent"
+        }
+      ],
+      "pdf_sha256": "6f0b024ddaa9c65700ea46f2c89c3120f8ecb1c10ef3a6ee820dc91dc7e0a788",
+      "retrieval": {
+        "round": "km-figures-2026-08-25",
+        "route_used": "europepmc_pdf_render",
+        "routes": [
+          {
+            "route": "europepmc_pdf_render",
+            "http": 200,
+            "bytes": 439160,
+            "content_type": "application/pdf"
+          }
+        ],
+        "unpaywall": {
+          "is_oa": null,
+          "oa_status": null,
+          "n_oa_locations": null
+        },
+        "oa_locations": [],
+        "openalex_locations": []
+      }
+    },
+    {
+      "source_id": "huang2023",
+      "n": 58,
+      "identifiers": {
+        "pmid": "36948401",
+        "doi": "10.1016/j.modpat.2023.100161"
+      },
+      "study_period": null,
+      "verdict": "unreachable",
+      "why": "no free route returned the article today, so its figures have not been LOOKED at: the risk-row question is unasked, not answered no",
+      "figures": null,
+      "pdf_sha256": null,
+      "retrieval": {
+        "round": "km-figures-round5-2026-08-27",
+        "route_used": null,
+        "routes": [
+          {
+            "route": "caller_pdf_url",
+            "http": 403,
+            "bytes": 2000,
+            "content_type": "text/html; charset=UTF-8",
+            "browser_http": 403
+          }
+        ],
+        "unpaywall": {
+          "is_oa": true,
+          "oa_status": "bronze",
+          "n_oa_locations": 1
+        },
+        "oa_locations": [
+          {
+            "url_for_pdf": "http://www.modernpathology.org/article/S0893395223000662/pdf",
+            "url": "http://www.modernpathology.org/article/S0893395223000662/pdf",
+            "host_type": "publisher",
+            "version": "publishedVersion",
+            "repository_institution": null
+          }
+        ],
+        "openalex_locations": [
+          {
+            "pdf_url": "http://www.modernpathology.org/article/S0893395223000662/pdf",
+            "landing_page_url": "https://doi.org/10.1016/j.modpat.2023.100161",
+            "source": "Modern Pathology",
+            "type": "journal",
+            "version": "publishedVersion",
+            "license": null
+          }
+        ]
+      }
+    },
+    {
+      "source_id": "uMich2023",
+      "n": 44,
+      "identifiers": {
+        "pmid": "36825763",
+        "doi": "10.1097/coc.0000000000000988"
+      },
+      "study_period": [
+        1998,
+        2021
+      ],
+      "verdict": "unreachable",
+      "why": "no free route returned the article today, so its figures have not been LOOKED at: the risk-row question is unasked, not answered no",
+      "figures": null,
+      "pdf_sha256": null,
+      "retrieval": {
+        "round": "km-figures-round5-2026-08-27",
+        "route_used": null,
+        "routes": [],
+        "unpaywall": {
+          "is_oa": false,
+          "oa_status": "closed",
+          "n_oa_locations": 0
+        },
+        "oa_locations": [],
+        "openalex_locations": []
+      }
+    },
+    {
+      "source_id": "japan2003",
+      "n": 42,
+      "identifiers": {
+        "pmid": "12599237",
+        "doi": "10.1002/cncr.11162"
+      },
+      "study_period": null,
+      "verdict": "unreachable",
+      "why": "no free route returned the article today, so its figures have not been LOOKED at: the risk-row question is unasked, not answered no",
+      "figures": null,
+      "pdf_sha256": null,
+      "retrieval": {
+        "round": "km-figures-round5-2026-08-27",
+        "route_used": null,
+        "routes": [
+          {
+            "route": "caller_pdf_url",
+            "http": 403,
+            "bytes": 2000,
+            "content_type": "text/html; charset=UTF-8",
+            "browser_http": 403
+          }
+        ],
+        "unpaywall": {
+          "is_oa": true,
+          "oa_status": "bronze",
+          "n_oa_locations": 1
+        },
+        "oa_locations": [
+          {
+            "url_for_pdf": "https://onlinelibrary.wiley.com/doi/pdfdirect/10.1002/cncr.11162",
+            "url": "https://onlinelibrary.wiley.com/doi/pdfdirect/10.1002/cncr.11162",
+            "host_type": "publisher",
+            "version": "publishedVersion",
+            "repository_institution": null
+          }
+        ],
+        "openalex_locations": [
+          {
+            "pdf_url": "https://onlinelibrary.wiley.com/doi/pdfdirect/10.1002/cncr.11162",
+            "landing_page_url": "https://doi.org/10.1002/cncr.11162",
+            "source": "Cancer",
+            "type": "journal",
+            "version": "publishedVersion",
+            "license": null
+          }
+        ]
+      }
+    },
+    {
+      "source_id": "bishop2019",
+      "n": 41,
+      "identifiers": {
+        "pmid": "31436747",
+        "pmcid": "PMC7771031",
+        "doi": "10.1097/coc.0000000000000590"
+      },
+      "study_period": [
+        1990,
+        2016
+      ],
+      "verdict": "unreachable",
+      "why": "no free route returned the article today, so its figures have not been LOOKED at: the risk-row question is unasked, not answered no",
+      "figures": null,
+      "pdf_sha256": null,
+      "retrieval": {
+        "round": "km-figures-round5-2026-08-27",
+        "route_used": null,
+        "routes": [
+          {
+            "route": "europepmc_pdf_render",
+            "http": 500,
+            "bytes": 57,
+            "content_type": "application/json;charset=UTF-8",
+            "browser_http": 500
+          },
+          {
+            "route": "pmc_direct_pdf",
+            "http": 200,
+            "bytes": 1817,
+            "content_type": "text/html; charset=utf-8",
+            "browser_http": 200
+          },
+          {
+            "route": "pmc_legacy_pdf",
+            "http": 200,
+            "bytes": 1816,
+            "content_type": "text/html; charset=utf-8",
+            "browser_http": 200
+          },
+          {
+            "route": "caller_pdf_url",
+            "http": 200,
+            "bytes": 168147,
+            "content_type": "text/html; charset=utf-8",
+            "browser_http": 200
+          }
+        ],
+        "unpaywall": {
+          "is_oa": true,
+          "oa_status": "green",
+          "n_oa_locations": 1
+        },
+        "oa_locations": [
+          {
+            "url_for_pdf": null,
+            "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/7771031",
+            "host_type": "repository",
+            "version": "submittedVersion",
+            "repository_institution": "National Institutes of Health"
+          }
+        ],
+        "openalex_locations": [
+          {
+            "pdf_url": null,
+            "landing_page_url": "https://www.ncbi.nlm.nih.gov/pmc/articles/7771031",
+            "source": "PubMed Central",
+            "type": "repository",
+            "version": "submittedVersion",
+            "license": null
+          }
+        ]
+      }
+    },
+    {
+      "source_id": "china2016",
+      "n": 40,
+      "identifiers": {
+        "pmid": "27402218",
+        "doi": "10.1016/j.anndiagpath.2016.04.004"
+      },
+      "study_period": null,
+      "verdict": "unreachable",
+      "why": "no free route returned the article today, so its figures have not been LOOKED at: the risk-row question is unasked, not answered no",
+      "figures": null,
+      "pdf_sha256": null,
+      "retrieval": {
+        "round": "km-figures-round5-2026-08-27",
+        "route_used": null,
+        "routes": [],
+        "unpaywall": {
+          "is_oa": false,
+          "oa_status": "closed",
+          "n_oa_locations": 0
+        },
+        "oa_locations": [],
+        "openalex_locations": []
+      }
+    },
+    {
+      "source_id": "stacchiotti2019pazopanib",
+      "n": 26,
+      "identifiers": {
+        "pmid": "31331701",
+        "doi": "10.1016/S1470-2045(19)30319-5"
+      },
+      "study_period": [
+        2014,
+        2017
+      ],
+      "verdict": "unreachable",
+      "why": "no free route returned the article today, so its figures have not been LOOKED at: the risk-row question is unasked, not answered no",
+      "figures": null,
+      "pdf_sha256": null,
+      "retrieval": {
+        "round": "km-figures-round5-2026-08-27",
+        "route_used": null,
+        "routes": [],
+        "unpaywall": {
+          "is_oa": false,
+          "oa_status": "closed",
+          "n_oa_locations": 0
+        },
+        "oa_locations": [],
+        "openalex_locations": []
+      }
+    },
+    {
+      "source_id": "stacchiotti2013anthracycline",
+      "n": 11,
+      "identifiers": {
+        "pmid": "24345066",
+        "pmcid": "PMC3879193",
+        "doi": "10.1186/2045-3329-3-16"
+      },
+      "study_period": null,
+      "verdict": "admitted",
+      "why": "at least one survival figure prints a numbers-at-risk row; admissible under POLICY-evidence.md §2.7(a), which is a statement about REPORTING and not about the cohort",
+      "figures": [
+        {
+          "page": 5,
+          "caption": "Figure 2 Overall progression free survival (PFS) of patients",
+          "arm": "pixel",
+          "source": "embedded",
+          "verdict": "present"
+        }
+      ],
+      "pdf_sha256": "1df76e6b01167c7737a34bd4ab93659b3d2a7b38797fad4783667e24f7ab774a",
+      "retrieval": {
+        "round": "km-figures-2026-08-25",
+        "route_used": "europepmc_pdf_render",
+        "routes": [
+          {
+            "route": "europepmc_pdf_render",
+            "http": 200,
+            "bytes": 2609773,
+            "content_type": "application/pdf"
+          }
+        ],
+        "unpaywall": {
+          "is_oa": null,
+          "oa_status": null,
+          "n_oa_locations": null
+        },
+        "oa_locations": [],
+        "openalex_locations": []
+      }
+    },
+    {
+      "source_id": "stacchiotti2014sunitinib",
+      "n": 10,
+      "identifiers": {
+        "pmid": "24703573",
+        "doi": "10.1016/j.ejca.2014.03.013"
+      },
+      "study_period": null,
+      "verdict": "unreachable",
+      "why": "no free route returned the article today, so its figures have not been LOOKED at: the risk-row question is unasked, not answered no",
+      "figures": null,
+      "pdf_sha256": null,
+      "retrieval": {
+        "round": "km-figures-round5-2026-08-27",
+        "route_used": null,
+        "routes": [],
+        "unpaywall": {
+          "is_oa": false,
+          "oa_status": "closed",
+          "n_oa_locations": 0
+        },
+        "oa_locations": [],
+        "openalex_locations": []
+      }
+    },
+    {
+      "source_id": "morioka2016trabectedin",
+      "n": 5,
+      "identifiers": {
+        "pmid": "27418251",
+        "pmcid": "PMC4946242",
+        "doi": "10.1186/s12885-016-2511-y"
+      },
+      "study_period": null,
+      "verdict": "admitted",
+      "why": "at least one survival figure prints a numbers-at-risk row; admissible under POLICY-evidence.md §2.7(a), which is a statement about REPORTING and not about the cohort",
+      "figures": [
+        {
+          "page": 4,
+          "caption": "Fig. 1 Kaplan-Meier plot of progression-free survival. Progression-free survival of five patients with EMCS and MCS",
+          "arm": "text",
+          "source": "embedded",
+          "verdict": "present"
+        }
+      ],
+      "pdf_sha256": "03574d05d823ecaa4a460f772fb1fd8eec1028fd74da7a180ab2431b8402f292",
+      "retrieval": {
+        "round": "km-figures-2026-08-25",
+        "route_used": "europepmc_pdf_render",
+        "routes": [
+          {
+            "route": "europepmc_pdf_render",
+            "http": 200,
+            "bytes": 811863,
+            "content_type": "application/pdf"
+          }
+        ],
+        "unpaywall": {
+          "is_oa": null,
+          "oa_status": null,
+          "n_oa_locations": null
+        },
+        "oa_locations": [],
+        "openalex_locations": []
+      }
+    }
+  ]
+}

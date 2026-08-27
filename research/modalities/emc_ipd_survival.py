@@ -217,6 +217,16 @@ CURVE_SCHEMA = {
 # can be reached print NO numbers-at-risk row, and the only two figures that do print one are the
 # two smallest cohorts in the set. Full census: `emc-km-figure-census.json`.
 #
+# ⭐ AND ON 2026-08-27 EVERY ONE OF THOSE READINGS WAS RE-TAKEN BY AN INSTRUMENT, because an eye
+# reading recorded in a JSON field is unfalsifiable: nothing in the repository could disagree with
+# it. `research/modalities/km_risk_row_detect.py` measures the band structure beneath each figure's
+# axis and answers present / absent / undetermined; `risk_row_measured_2026_08_27` below carries its
+# verdict per row and `research/modalities/km-risk-row-detection.json` carries the measurement.
+# ⛔ THE TWO READINGS AGREE ON ALL NINE KAPLAN-MEIER FIGURES, which is what makes the negative worth
+# something -- and the instrument is shown capable of the other answer, because it fires on both
+# figures that DO print a risk row. Admit-or-refuse per series, largest first:
+# `research/literature/emc-km-admissibility-2026-08-27.json`.
+#
 # Rows still reading `figure_checked: False` are the ones whose full text this program cannot
 # reach at $0. That is a REACHABILITY statement, never a statement about the paper.
 #
@@ -229,7 +239,15 @@ CANDIDATE_SOURCES: list[dict] = [
     {"source_id": "seer270_2022", "n": 270, "endpoint_hint": "os",
      "why_candidate": "SEER population series reporting overall survival; the largest single denominator available",
      "full_text_reachable": None, "figure_checked": False,
-     "reachability_2026_08_25": {"verdict": "free_to_read_but_not_retrieved", "unpaywall_oa_status": "gold", "unpaywall_licence": "cc-by-nc-nd", "note": "\u26a0 FREE TO READ AND STILL UNREACHABLE BY MACHINE (2026-08-25). Unpaywall grades it open access at the publisher; every route tried, including a real headless Chromium, was answered HTTP 403. A human with a browser can read it; this program cannot fetch it, and the next rung would be defeating bot protection, which this program does not build.", "census": "research/literature/emc-km-reachability-census-2026-08-25.json"}, "overlap_risk": "none with institutional series",
+     "reachability_2026_08_25": {"verdict": "free_to_read_but_not_retrieved", "unpaywall_oa_status": "gold", "unpaywall_licence": "cc-by-nc-nd", "note": "\u26a0 FREE TO READ AND STILL UNREACHABLE BY MACHINE (2026-08-25). Unpaywall grades it open access at the publisher; every route tried, including a real headless Chromium, was answered HTTP 403. A human with a browser can read it; this program cannot fetch it, and the next rung would be defeating bot protection, which this program does not build.", "census": "research/literature/emc-km-reachability-census-2026-08-25.json"},
+     "reachability_2026_08_27": "UNCHANGED after two new rungs. Unpaywall and OpenAlex agree the "
+                                "only PDF location is ScienceDirect, which answered 403 to plain "
+                                "HTTP and to a real headless Chromium; the second location both "
+                                "indexes hold is a DOAJ landing page with no file. THE LARGEST "
+                                "OPEN-ACCESS EMC SERIES IS READABLE BY A HUMAN IN A BROWSER AND "
+                                "NOT BY THIS PROGRAM, so its figures remain UNSEEN -- the "
+                                "risk-row question is unasked here, not answered. "
+                                "research/literature/emc-km-admissibility-2026-08-27.json",
      "⛔_caveat": "Keyed on ICD-O-3 9231/3, the code RT-DIAGNOSTIC-PATHWAY shows two published SEER analyses read as mutually incompatible diseases. Cohort composition is UNKNOWN and this row must not anchor a pooled estimate until that split is quantified."},
     {"source_id": "masunaga2025", "n": 171, "endpoint_hint": "os",
      "why_candidate": "retrospective national registry study of radiotherapy and chemotherapy roles; survival endpoint implied by the question",
@@ -242,6 +260,8 @@ CANDIDATE_SOURCES: list[dict] = [
                     "Fig. 3 disease-specific survival by advanced-stage chemotherapy"],
         "numbers_at_risk_row": False,
         "style": "two arms, 95% CI shading, p-value in panel, no risk table beneath the axis",
+        "risk_row_measured_2026_08_27": "absent (all three figures, km_risk_row_detect.py, "
+                                        "pixel arm on the publisher's own embedded rasters)",
         "⛔_consequence": "REFUSED by the quality floor. This is the LARGEST reachable EMC series "
                           "(n=171) and it is unreconstructable for a reporting reason, not a "
                           "scientific one."},
@@ -274,6 +294,11 @@ CANDIDATE_SOURCES: list[dict] = [
                               "20 deaths of 59 -- printed in the text, so a printed-numbers "
                               "analysis is possible where a reconstruction is not.",
         "⛔_consequence": "REFUSED by the quality floor."},
+        "risk_row_measured_2026_08_27": "absent (all four figures). ⚠ Read from the PAGE RASTER "
+                                        "rather than the publisher's own image: this paper stores "
+                                        "its curves as JPEG, which km_risk_row_detect's stdlib "
+                                        "decoder declines, so the weaker input was used and the "
+                                        "artifact labels it `source: page_raster`.",
      "overlap_risk": "⚠ likely shares Milan/INT patients with the Stacchiotti series"},
     {"source_id": "japan2003", "n": 42, "endpoint_hint": "os",
      "why_candidate": "multi-institution series of 42 cases",
@@ -325,6 +350,10 @@ CANDIDATE_SOURCES: list[dict] = [
                                              "patients are one colour inside a mixed soft-tissue "
                                              "sarcoma cohort, so the subgroup must be separated by "
                                              "colour before anything can be claimed."},
+     "risk_row_measured_2026_08_27": "absent -- and it means less here than elsewhere, because "
+                                     "what the instrument read is the SWIMMER PLOT, whose caption "
+                                     "names a survival endpoint. A swimmer plot needs no risk "
+                                     "table; km-swimmer-readings.json is what reads it.",
      "overlap_risk": "⚠ likely the parent trial of immunosarc2emc2025",
      "⚠_caveat": "cohort is advanced soft-tissue sarcoma broadly; an EMC-specific curve may not exist"},
     {"source_id": "stacchiotti2013anthracycline", "n": 11, "endpoint_hint": "pfs",
@@ -342,6 +371,9 @@ CANDIDATE_SOURCES: list[dict] = [
         "digitized": "km-figure-readings.json -> stacchiotti2013_pfs_anthracycline",
         "⭐": "The reconstruction reproduces the caption's printed median PFS of 8 months, which "
               "the reconstruction never saw. That is this program's only check of a READING."},
+     "risk_row_measured_2026_08_27": "present -- five marks under the axis, aligned with all five "
+                                     "tick labels. One of the two KNOWN POSITIVES that show the "
+                                     "detector can answer something other than `absent`.",
      "overlap_risk": "⚠ Milan series, overlaps stacchiotti2014sunitinib and chiusole2020"},
     {"source_id": "stacchiotti2014sunitinib", "n": 10, "endpoint_hint": "pfs",
      "why_candidate": "retrospective consecutively-treated series, 6 of 10 RECIST partial responses",
@@ -367,6 +399,11 @@ CANDIDATE_SOURCES: list[dict] = [
                                        "censoring flags. Where a paper prints patient-level data, "
                                        "reading it is transcription, and inverting a curve to "
                                        "recover what is already printed adds error for nothing."},
+     "risk_row_measured_2026_08_27": "present, and READ: the text arm recovered the trabectedin "
+                                     "row 5,5,5,3,3,1,1,1 from the figure's own text layer, which "
+                                     "is the same table `risk_table_printed` above holds from an "
+                                     "eye reading two days earlier. Two readings, two methods, "
+                                     "same eight numbers.",
      "overlap_risk": "⚠ may overlap japan2003 institutions",
      "⚠_caveat": "n=5 is below the >=5-per-study inclusion floor used by the reconstructed-IPD exemplar only if that floor is read as strictly greater; adjudicate before admitting"},
 ]
