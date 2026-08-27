@@ -250,10 +250,50 @@ _preflight_reached_first_check=1
 # regression in any of them forever.
 if python3 -c "import pytest" >/dev/null 2>&1; then
   PYTEST="python3 -m pytest"
+  PYTEST_BRANCH="python3 -m pytest (sees the repository's dependencies)"
 elif command -v pytest >/dev/null 2>&1; then
   PYTEST="pytest"
+  PYTEST_BRANCH="the bare \`pytest\` console script — ⛔ A UV TOOL IN ITS OWN ISOLATED VENV"
 else
   PYTEST="python3 -m pytest"
+  PYTEST_BRANCH="python3 -m pytest, with NO importable pytest — the run will fail loudly"
+fi
+
+# ⛔⛔ SAY WHICH INTERPRETER THIS RUN CHOSE, IN THE FIRST TEN LINES, NOT THE THOUSANDTH.
+# Measured 2026-08-27 (AUT-PD-026): two seats independently got `50 failed, 7901 passed` and
+# `50 failed, 7933 passed` with `No module named 'pymbar'`, and the only signal that the
+# environment was degraded was one `MISSING PACKAGE` line buried inside a gate, a thousand lines
+# down. One seat nearly filed it as a live blocker on a whole tier; both faced the temptation to
+# add 50 healthy guards to sandbox-failure-baseline.txt and both refused, which is the only reason
+# it stayed a fixable defect.
+# ⚠ THE SECOND BRANCH IS THE TRAP THIS FILE ALREADY DOCUMENTS at 2026-08-15: a uv tool runs in its
+# OWN venv, so `import yaml` fails inside the tests while `python3 -c "import yaml"` succeeds in
+# the shell one line earlier. That day it invented 36 failures. A gate that invents failures is as
+# broken as one that hides them, and this line is what makes the difference visible before anyone
+# spends an afternoon on ghosts.
+# ⛔ NOT AN `== ... ==` HEADING, AND THAT IS NOT COSMETIC. `systems_check`'s
+# `_preflight_gates()` enumerates gates by splitting on exactly that pattern, and four documents
+# hard-code the resulting ordinals -- so writing this banner in the gate style silently made the
+# script "run 16 gates" and turned [P1] red on its first execution. A diagnostic line is not a gate.
+echo "-- interpreter --"
+echo "   pytest: $PYTEST_BRANCH"
+# ⚠ `import importlib.util`, NOT `import importlib`. The submodule is not imported by the parent,
+# so the bare form raises AttributeError, the probe exits non-zero with EMPTY stdout, and the
+# branch below reports "MISSING: unknown" on a perfectly healthy environment. That is exactly what
+# this block was written to prevent, and it did it to itself on its first run.
+if ! _dep_probe="$(python3 -c "
+import importlib.util, sys
+missing = [m for m in ('pytest','numpy','scipy','pymbar','yaml','pdfminer','pypdf')
+           if importlib.util.find_spec(m) is None]
+print(' '.join(missing))
+sys.exit(1 if missing else 0)
+" 2>/dev/null)"; then
+  echo "   ⛔ MISSING, and this run's failures are SUSPECT until traced: ${_dep_probe:-probe itself failed}"
+  echo "      Run ./scripts/dev-setup.sh --if-needed BEFORE believing any failure below."
+  echo "      ⛔ Do NOT add these to research/modalities/tests/sandbox-failure-baseline.txt —"
+  echo "         that grants a permanent amnesty to guards that are healthy."
+else
+  echo "   OK   every probed package imports"
 fi
 
 # ⛔ THE GATE WAS SINGLE-THREADED ON A FOUR-CORE BOX, AND THAT COST 16 MINUTES A RUN.
