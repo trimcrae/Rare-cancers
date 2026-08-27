@@ -131,13 +131,26 @@ started deliberately so that this cycle gets a clean context.
 
 WHY YOU EXIST: {reason or "the previous session reached its cycle cap (research-loop §3)."}
 
-Confirm you have the repository before anything else:
+Confirm you have the repository AND that you are actually on the trunk, before anything else:
 
-    git -C . rev-parse --abbrev-ref HEAD && git pull --rebase -q origin main
+    git -C . fetch -q origin main && git -C . checkout -q -B main origin/main && \
+      git -C . rev-parse --short HEAD && git -C . status -sb | head -1
 
 ⛔ IF THAT FAILS, SAY SO LOUDLY AS THE FIRST LINE OF YOUR FINAL MESSAGE AND STOP. Do not improvise
 around it and do not clone. A session without the repo is the failure that ran every Friday for six
 weeks delivering nothing.
+
+⛔⛔ AND CHECK THE SHA AGAINST `git log origin/main -1` BEFORE YOU BELIEVE IT — a session can hold
+the repository and still be reading a tree from days ago, which looks EXACTLY like a healthy start.
+⚠ Measured 2026-08-27 (CYC-0019), and the command that caused it was the one this generator used to
+print: `git pull --rebase -q origin main`. A fired session can begin on a DETACHED HEAD, where that
+pull rebases HEAD and leaves the `main` branch where it was; checking out `main` afterwards then
+lands on a stale commit and the pull reports success throughout. CYC-0019 spent its first six tool
+calls 33 commits behind — its health check read `advancing_live_work` NOT-ADVANCING off three
+receipts that were not the last three, its re-score produced a ledger in which the queue's top item
+DID NOT EXIST, and the eight most recent receipts were absent from disk. It was caught only by
+grepping for an item this prompt had named and finding nothing. `checkout -B main origin/main`
+above is unconditional and cannot fail that way.
 
 Then load the cycle contract and follow it — do not work from this prompt alone:
 
